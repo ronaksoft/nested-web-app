@@ -25,7 +25,7 @@
               ,'-webkit-transform': 'scale(' + ratio +',' + ratio + ')'
               ,'display' : 'block'
             });
-            elem.parent().height(elem[0].getBoundingClientRect().height + 'px')
+            elem.height(elem[0].getBoundingClientRect().height + 'px')
 
           }
 

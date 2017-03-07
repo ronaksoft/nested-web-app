@@ -8,9 +8,11 @@
   /** @ngInject */
   function EditProfileController($rootScope, $scope, $stateParams, $state, $q, $uibModal, $timeout, $log, $window,
                                  toastr, moment,
-                                 NST_STORE_UPLOAD_TYPE, NST_DEFAULT, NST_NAVBAR_CONTROL_TYPE, NstPicture, NST_PATTERN,
-                                 NstSvcAuth, NstSvcStore, NstSvcUserFactory, NstUtility, NstSvcTranslation, NstSvcI18n, NstSvcPlaceFactory) {
+                                 NST_STORE_UPLOAD_TYPE, NST_USER_FACTORY_EVENT, NST_NAVBAR_CONTROL_TYPE, NstPicture, NST_PATTERN,
+                                 NstSvcAuth, NstSvcStore, NstSvcUserFactory, NstUtility, NstSvcTranslation, NstSvcI18n, NstFactoryEventData) {
     var vm = this;
+
+    vm.user = NstSvcAuth.user;
 
     vm.updateName = updateName;
     vm.updateGender = updateGender;
@@ -36,7 +38,6 @@
       vm.loadProgress = true;
       NstSvcUserFactory.get(NstSvcAuth.user.id, true).then(function (user) {
         vm.model = user;
-        console.log(vm.model);
       }).catch(function (error) {
         toastr.error('An error has occured while retrieving user profile')
       }).finally(function () {
@@ -51,6 +52,10 @@
 
       vm.updateProgress = true;
       NstSvcUserFactory.update(params).then(function () {
+        NstSvcUserFactory.get(vm.user.id,true).then(function (user) {
+          NstSvcUserFactory.dispatchEvent(new CustomEvent(NST_USER_FACTORY_EVENT.PROFILE_UPDATED, new NstFactoryEventData(user)));
+        });
+
         deferred.resolve();
       }).catch(function (error) {
         toastr.error(NstSvcTranslation.get("Sorry, an error has occurred while updating your profile."));
@@ -94,7 +99,7 @@
       if (!isValid) {
         return;
       }
-      
+
       return update({
         'email' : value
       }).then(function () {
@@ -129,5 +134,70 @@
 
       return selected ? selected.title : vm.genders[0].title;
     }
+    /*****************************
+     *** Controller Properties ***
+     *****************************/
+    vm.removeImage = removePicture;
+    vm.setImage = setImage;
+    var imageLoadTimeout = null;
+
+
+    /*****************************
+     ***** Controller Methods ****
+     *****************************/
+
+    function setImage(event) {
+
+      vm.uploadedFile = event.currentTarget.files[0];
+
+
+      $uibModal.open({
+        animation: false,
+        size: 'no-miss crop',
+        templateUrl: 'app/settings/profile/crop/change-pic.modal.html',
+        controller: 'CropController',
+        resolve: {
+          argv: {
+            file: vm.uploadedFile
+          }
+        },
+        controllerAs: 'ctlCrop'
+      }).result.then(function (croppedFile) {
+        vm.uploadedFile = croppedFile;
+        var reader = new FileReader();
+        reader.onload = function (event) {
+          imageLoadTimeout = $timeout(function () {
+            vm.picture = event.target.result;
+            var request = NstSvcStore.uploadWithProgress(vm.uploadedFile, function (event) {}, NST_STORE_UPLOAD_TYPE.PROFILE_PICTURE);
+
+            request.finished().then(function (response) {
+              return NstSvcUserFactory.updatePicture(response.data.universal_id, vm.user.id);
+            }).then(function (res) {
+              NstSvcUserFactory.get(vm.user.id,true).then(function (user) {
+                vm.model = user;
+              })
+            });
+
+
+          });
+        };
+        reader.readAsDataURL(croppedFile);
+      }).catch(function() {
+        event.target.value = '';
+      });
+
+
+    }
+
+
+    function removePicture() {
+      var deferred = $q.defer();
+
+      NstSvcUserFactory.removePicture().then(deferred.resolve).catch(deferred.reject);
+
+      return deferred.promise;
+    }
+
+
   }
 })();

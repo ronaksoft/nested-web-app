@@ -16,12 +16,12 @@
 
 .nst-container {
   background-color: $color-bg-nested;
-  transition-property: width,margin-left;
+  transition-property: opacity;
   transition-duration: $animation-dur;
   display: inline-flex;
   flex-direction: column;
   position: relative;
-  width: 100%;
+  //width: 100%;
   //overflow-y: auto;
   //  overflow-y: initial;
   scroll-behavior: smooth;

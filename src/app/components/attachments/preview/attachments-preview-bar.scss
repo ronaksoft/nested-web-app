@@ -99,6 +99,9 @@ nst-attachments-preview-bar {
       margin: 0 4px;
       vertical-align: middle;
       flex-shrink: 0;
+      a {
+        max-width: 400px;
+      }
       &.uploading {
         opacity: .5;
       }
