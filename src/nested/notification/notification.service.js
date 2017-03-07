@@ -4,42 +4,53 @@ angular
   .service('NstSvcNotification', NstSvcNotification);
 /** @ngInject */
 function NstSvcNotification($q, $window, _, $state,
-                            NST_PERMISSION_NOTIFICATION, NST_NOTIFICATION_TYPE,
-                            NstObservableObject, NstSvcLogger, NstModel, NstSvcTranslation, NstSvcAuth,
+                            NST_NOTIFICATION_FACTORY_EVENT, NST_NOTIFICATION_TYPE, NST_AUTH_EVENT, NST_EVENT_ACTION,
+                            NstObservableObject, NstSvcLogger, NstModel, NstSvcTranslation, NstSvcAuth, NstFactoryEventData,
                             NstUtility) {
+
+
+  var config = {
+    apiKey: "AIzaSyCkoYUKPeOpBjpQVLVg7sbRdyb0_Qk_cK4",
+    authDomain: "nested-me.firebaseapp.com",
+    databaseURL: "https://nested-me.firebaseio.com",
+    storageBucket: "nested-me.appspot.com",
+    messagingSenderId: "993735378969"
+
+  };
 
 
   function MyNotification() {
     this.stack = {};
     this.options = {};
     NstModel.call(this);
+
+    NstSvcAuth.addEventListener(NST_AUTH_EVENT.UNAUTHORIZE, function () {
+      this.options = {};
+      this.stack = {};
+    })
+
   }
 
 
   MyNotification.prototype = new NstObservableObject();
   MyNotification.prototype.constructor = MyNotification;
 
-
+//FIX Here
   MyNotification.prototype.requestPermission = function () {
+    var service = this;
     if (!("Notification" in $window)) {
       NstSvcLogger.info(" Notification | This browser does not support desktop notification");
       return;
     }
 
-    var service = this;
     this.permission = $window.Notification.permission;
 
-    function startNotification(result) {
-      service.push('Nested Now on your desktop!', null, {body: 'Stay connected to what happen in your Nested.'});
-    }
+    firebase.initializeApp(config);
 
-    // if (NST_PERMISSION_NOTIFICATION.GRANTED !== this.permission){
-    //   $window.Notification.requestPermission(startNotification)
-    // }else{
-      this.configFCM();
-      //register web worker
-      // this.registerServiceWorker();
-    // }
+    this.configFCM();
+    NstSvcAuth.addEventListener(NST_AUTH_EVENT.AUTHORIZE, function () {
+      service.configFCM();
+    })
 
   };
 
@@ -57,36 +68,49 @@ function NstSvcNotification($q, $window, _, $state,
 
 
   MyNotification.prototype.configFCM = function () {
-    var config = {
-      apiKey: "AIzaSyCkoYUKPeOpBjpQVLVg7sbRdyb0_Qk_cK4",
-      authDomain: "nested-me.firebaseapp.com",
-      databaseURL: "https://nested-me.firebaseio.com",
-      storageBucket: "nested-me.appspot.com",
-      messagingSenderId: "993735378969"
 
-    };
-
-
-    firebase.initializeApp(config);
-
+    var dt = "";
     var messaging = firebase.messaging();
+
+
     messaging.requestPermission()
       .then(function () {
         NstSvcLogger.debug("Notification | has permission!");
         return messaging.getToken();
       })
       .then(function (token) {
+        dt = token;
         NstSvcLogger.debug("Notification | ", token);
         NstSvcAuth.setDeviceToken(token);
       }).catch(function (err) {
       NstSvcLogger.debug("Notification | Error get token:", err);
-      });
+    });
+
+    messaging.onTokenRefresh(function () {
+      messaging.getToken()
+        .then(function (refreshedToken) {
+          dt = refreshedToken;
+          NstSvcLogger.debug("Notification Token Refreshed | ", refreshedToken);
+          NstSvcAuth.setDeviceToken(refreshedToken);
+        })
+        .catch(function (err) {
+          NstSvcLogger.debug("Notification Unable to retrieve refreshed token | ", err);
+        });
+    });
+
+
+    this.registerBroadcastReceiver();
 
     messaging.onMessage(function (payload) {
       NstSvcLogger.debug("Notification  | ", payload);
     });
 
+    NstSvcAuth.addEventListener(NST_AUTH_EVENT.UNAUTHORIZE, function () {
+      messaging.deleteToken(dt)
+    })
+
   };
+
 
   MyNotification.prototype.push = function (title, callback, options) {
     if (!("Notification" in $window)) {
@@ -149,6 +173,58 @@ function NstSvcNotification($q, $window, _, $state,
       notif.close();
       notifObject.defer.resolve();
     }
+  };
+
+  MyNotification.prototype.registerBroadcastReceiver = function () {
+    var service = this;
+    navigator.serviceWorker.onmessage = function (event) {
+
+      var data = event.data;
+      if (data.command == "broadcastOnNotificationClick") {
+        var body = JSON.parse(data.message);
+
+        if (body.payload.type === "n") {
+          var subject = parseInt(body.payload.subject);
+          switch (subject) {
+            case NST_NOTIFICATION_TYPE.COMMENT:
+            case NST_NOTIFICATION_TYPE.MENTION:
+              service.broadcastOpenPost(body.payload.post_id, body.payload.notification_id);
+              break;
+            case NST_NOTIFICATION_TYPE.PLACE_SETTINGS_CHANGED:
+            case NST_NOTIFICATION_TYPE.DEMOTED:
+            case NST_NOTIFICATION_TYPE.PROMOTED:
+              service.broadcastOpenPlace(body.payload.place_id, body.payload.notification_id);
+              break;
+            case NST_NOTIFICATION_TYPE.INVITE:
+              break;
+          }
+        }
+        if (body.payload.type === "a") {
+          var action = parseInt(body.payload.action);
+          switch (action) {
+            case NST_EVENT_ACTION.POST_ADD:
+              service.broadcastOpenPost(body.payload.post_id, body.payload.notification_id);
+          }
+        }
+      }
+    };
+  };
+
+  MyNotification.prototype.broadcastOpenPost = function (postId, notificationId) {
+    console.log("Broadcastedage55", postId);
+    this.dispatchEvent(new CustomEvent(NST_NOTIFICATION_FACTORY_EVENT.EXTERNAL_PUSH_ACTION, new NstFactoryEventData({
+      action: NST_NOTIFICATION_FACTORY_EVENT.OPEN_POST_VIEW,
+      postId: postId,
+      notificationId: notificationId
+    })))
+  };
+
+  MyNotification.prototype.broadcastOpenPlace = function (placeId, notificationId) {
+    this.dispatchEvent(new CustomEvent(NST_NOTIFICATION_FACTORY_EVENT.EXTERNAL_PUSH_ACTION, new NstFactoryEventData({
+      action: NST_NOTIFICATION_FACTORY_EVENT.OPEN_PLACE,
+      placeId: placeId,
+      notificationId: notificationId
+    })));
   };
 
 

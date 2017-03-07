@@ -129,16 +129,16 @@
           return showInvitationModal(notification);
         case NST_NOTIFICATION_TYPE.COMMENT:
           closePopover();
-          return viewPost(notification.post);
+          return viewPost(notification.post.id);
         case NST_NOTIFICATION_TYPE.MENTION:
           closePopover();
-          return viewPost(notification.mention.post);
+          return viewPost(notification.mention.post.id);
         case NST_NOTIFICATION_TYPE.YOU_JOINED:
         case NST_NOTIFICATION_TYPE.PROMOTED:
         case NST_NOTIFICATION_TYPE.DEMOTED:
         case NST_NOTIFICATION_TYPE.PLACE_SETTINGS_CHANGED:
           closePopover();
-          $state.go('app.place-messages',{placeId : notification.place.id});
+          openPlace(notification.place.id);
 
       }
     }
@@ -151,9 +151,14 @@
     }
 
 
-    function viewPost(post) {
-      $state.go('app.message', {postId: post.id}, {notify: false});
+    function viewPost(postId) {
+      $state.go('app.message', {postId: postId}, {notify: false});
     }
+
+    function openPlace(placeId) {
+      $state.go('app.place-messages',{placeId : placeId});
+    }
+
 
   }
 

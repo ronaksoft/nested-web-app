@@ -207,7 +207,7 @@
           universal_id: uid
         }).then(function () {
           factory.get(userId, true).then(function (user) {
-            factory.dispatchEvent(new CustomEvent(NST_USER_FACTORY_EVENT.PICTURE_UPDATED, new NstFactoryEventData(user)));
+            factory.dispatchEvent(new CustomEvent(NST_USER_FACTORY_EVENT.PROFILE_UPDATED, new NstFactoryEventData(user)));
             deferred.resolve(uid);
           }).catch(deferred.reject);
         }).catch(function (error) {

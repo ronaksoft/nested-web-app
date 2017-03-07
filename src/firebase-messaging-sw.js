@@ -20,11 +20,7 @@ messaging.setBackgroundMessageHandler(function (payload) {
   var options = {
     body: payload.data.msg,
     vibrate: [200, 100, 200, 100, 200, 100, 200],
-    image: '/images/nested-log-256.png',
-    icon: '/images/nested-log-256.png',
-    onclick: function () {
-      window.focus();
-    },
+    icon: '/assets/images/nested-logo-256.png',
     payload: payload.data,
     tag: Date.now()
   };
@@ -42,18 +38,26 @@ self.addEventListener("notificationclick", function (event) {
 
   //To open the app after click notification
   event.waitUntil(
-    clients.matchAll()
+    clients.matchAll({includeUncontrolled: true, type: 'window'})
       .then(function (clientList) {
+
+        if (!notifs[event.notification.tag]) return;
 
         var targetUrl = '/';
         if (notifs[event.notification.tag].payload.post_id) {
           targetUrl = '/#/message/' + notifs[event.notification.tag].payload.post_id;
         }
 
+
         for (var i = 0; i < clientList.length; i++) {
           var client = clientList[i];
           if ("focus" in client) {
-            return client.focus();
+            client.focus();
+            client.postMessage({
+              "command": "broadcastOnNotificationClick",
+              "message": JSON.stringify(notifs[event.notification.tag])
+            });
+            return;
           }
         }
 
@@ -65,4 +69,3 @@ self.addEventListener("notificationclick", function (event) {
       })
   );
 });
-
