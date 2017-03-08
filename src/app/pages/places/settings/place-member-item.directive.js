@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   angular
@@ -6,16 +6,17 @@
     .directive('nstPlaceMemberItem', function (moment) {
       return {
         restrict: 'EA',
-        templateUrl : 'app/pages/places/settings/place-member-item.html',
-        controller : 'PlaceMemberItemController',
-        controllerAs : 'memberCtrl',
-        bindToController : true,
+        templateUrl: 'app/pages/places/settings/place-member-item.html',
+        controller: 'PlaceMemberItemController',
+        controllerAs: 'memberCtrl',
+        bindToController: true,
         scope: {
-          place : '=',
-          hasControlAccess : '=',
-          hasRemoveAccess : '=',
-          member : '=',
-          role : '='
+          place: '=',
+          hasControlAccess: '=',
+          hasRemoveAccess: '=',
+          member: '=',
+          role: '=',
+          onSelect: '='
         },
         link: function (scope, element, attrs) {
 

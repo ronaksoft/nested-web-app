@@ -4,9 +4,16 @@
 
   <div class="_difh settings-tab">
     <div class="shadow"></div>
-    <a class="_df _fw _jcc _aic" ng-click="selectedView = 0;" ng-class="{'active' : selectedView == 0}">Settings</a>
-    <a class="_df _fw _jcc _aic" ng-click="selectedView = 1;" ng-class="{'active' : selectedView == 1}">Members(12)</a>
+    <a class="_df _fw _jcc _aic" ng-click="selectedView = 0;" ng-class="{'active' : selectedView == 0}">
+      <translate>Settings</translate>
+    </a>
+    <a class="_df _fw _jcc _aic" ng-click="selectedView = 1;" ng-class="{'active' : selectedView == 1}" >
+      <translate>
+        Members ({{ctrl.place.counters.creators + ctrl.place.counters.key_holders}})
+      </translate>
+    </a>
   </div>
-  <place-main-settings place="ctrl.place" place-type="sub-personal" ng-if="selectedView == 0"></place-main-settings>
-  <place-member-settings place="ctrl.place" ng-if="selectedView == 1"></place-member-settings>
+
+  <place-main-settings place="ctrl.place" place-type="private" ng-show="selectedView == 0"></place-main-settings>
+  <place-member-settings ng-if="ctrl.place" place="ctrl.place" accesses="ctrl.accesses" ng-show="selectedView == 1"></place-member-settings>
 </div>
