@@ -53,9 +53,8 @@
       vm.placeId = $stateParams.placeId;
       vm.user = NstSvcAuth.user;
 
-      if (vm.user.id === vm.placeId) {
-        vm.isPersonalPlace = true;
-      }
+
+
 
 
       if (vm.user.id === vm.placeId.split('.')[0]) {
@@ -64,8 +63,8 @@
 
       loadPlace(vm.placeId).then(function (result) {
         vm.place = result.place;
-        console.log(vm.place);
         vm.accesses = result.accesses;
+        vm.placeType = getPlaceType(vm.place);
 
       }).catch(function (error) {
         NstSvcLogger.error(error);
@@ -90,6 +89,28 @@
         }
       });
     })();
+
+    function getPlaceType(place) {
+      if (NstUtility.place.isGrand(place.id)) {
+
+        return NST_PLACE_TYPE.GRAND;
+      } else if (place.privacy.locked) {
+
+        return NST_PLACE_TYPE.PRIVATE;
+      } else if (!place.privacy.locked) {
+
+        return NST_PLACE_TYPE.COMMON;
+      } else if (place.id === NstSvcAuth.user.id) {
+
+        return NST_PLACE_TYPE.PERSONAL;
+      } else if (NstUtility.place.getGrandId(place.id) === NstSvcAuth.user.id) {
+
+        return NST_PLACE_TYPE.SUB_PERSONAL;
+      } else {
+
+        throw Error("Could not figure out place type");
+      }
+    }
 
     function loadPlace(id) {
       var deferred = $q.defer(),

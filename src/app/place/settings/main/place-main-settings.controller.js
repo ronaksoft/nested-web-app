@@ -9,8 +9,6 @@
   function PlaceMainSettingsController($q, NST_PLACE_POLICY_OPTION) {
     var vm = this;
 
-    console.log("PLACE PLACE", vm.place);
-
     vm.setAddPostPolicy = setAddPostPolicy;
     vm.updateName = updateName;
     vm.updateDescription = updateDescription;
@@ -69,8 +67,11 @@
     }
 
     function updateSearchPrivacy(value) {
+      var deferred = $q.defer();
 
-      return $q.resolve();
+      NstSvcPlaceFactory.update({ 'privacy.search' : value }).then(deferred.resolve).catch(deferred.reject);
+      
+      return deferred.promise;
     }
   }
 })();
