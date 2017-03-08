@@ -180,6 +180,7 @@
       vm.places = mapPlaces(places).filter(function (obj) {
         return obj.id.split('.').length === 1;
       });
+
       fillPlacesNotifCountObject(vm.places);
       getGrandPlaceUnreadCounts();
       fixUrls();
@@ -535,7 +536,7 @@
       if (event.detail.hasPicture()) {
         vm.user.avatar = place.avatar = event.detail.picture.getUrl("x64");
       } else {
-        vm.user.avatar = place.avatar = '';
+        vm.user.avatar = place.avatar = '/assets/icons/absents_place.svg';
       }
     });
 

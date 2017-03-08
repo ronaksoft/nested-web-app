@@ -19,8 +19,8 @@
 
     FileFactory.prototype.get = get;
     FileFactory.prototype.parseFile = parseFile;
-    FileFactory.prototype.getDownloadToken = getDownloadToken;
     FileFactory.prototype.getOne = getOne;
+    FileFactory.prototype.getDownloadToken = getDownloadToken;
 
     var factory = new FileFactory();
 
@@ -68,52 +68,12 @@
       return file;
     }
 
-    function getDownloadToken(fileId,placeId, postId) {
-
-      var deferred = $q.defer();
-
-      var token = getValidStoredToken(fileId);
-
-      if (token) {
-        deferred.resolve(token);
-      } else {
-        NstSvcServer.request('file/get_download_token', {
-          universal_id : fileId,
-          place_id: placeId,
-          post_id: postId
-        }).then(function(data) {
-          storeToken(fileId, data.token);
-          deferred.resolve(createToken(data.token));
-        }).catch(function(error) {
-          var query = new NstFactoryQuery(fileId);
-          var factoryError = new NstFactoryError(query, error.message, error.code);
-
-          deferred.reject(factoryError);
-        });
-      }
-
-      return deferred.promise;
-    }
-
-    function getValidStoredToken(id) {
-      var rawToken = NstSvcFileTokenStorage.get(id);
-      if (rawToken) {
-        var token = createToken(rawToken);
-        if (!token.isExpired()) {
-          return token;
-        }
-      }
-
-      return null;
-    }
-
-    function storeToken(id, rawToken) {
-      NstSvcFileTokenStorage.remove(id);
-      NstSvcFileTokenStorage.set(id, rawToken);
+    function getOne(id) {
+      return NstSvcFileStorage.get(id);
     }
 
     function createToken(rawToken) {
-      var expTs = rawToken.split('-').pop();
+      var expTs = _.last(_.split(rawToken, "-"));
       if (!expTs) {
         expTs = Date.now() + Number(NST_CONFIG.STORE.TOKEN_EXPMS);
       }
@@ -121,8 +81,44 @@
       return new NstStoreToken(rawToken, new Date(Number(expTs)));
     }
 
-    function getOne(id) {
-      return NstSvcFileStorage.get(id);
+    function getDownloadToken(attachmentId) {
+      var defer = $q.defer();
+      var tokenKey = generateTokenKey(attachmentId);
+
+      var token = NstSvcDownloadTokenStorage.get(tokenKey);
+      if (!token || token.isExpired()) { // then if the token exists then remove it and get a new token
+        NstSvcDownloadTokenStorage.remove(tokenKey);
+        requestNewDownloadToken(attachmentId).then(function (newToken) {
+          NstSvcDownloadTokenStorage.set(tokenKey, newToken);
+          defer.resolve(newToken);
+        }).catch(defer.reject);
+      } else { // current token is still valid and resolve it
+        defer.resolve(token);
+      }
+
+      return defer.promise;
+    }
+
+    function requestNewDownloadToken(attachmentId) {
+      var defer = $q.defer();
+
+      NstSvcServer.request('file/get_download_token', {
+        universal_id: attachmentId
+      }).then(function(data) {
+        var token = createToken(data.token);
+        defer.resolve(token);
+      }).catch(function(error) {
+        var query = new NstFactoryQuery(attachmentId);
+        var factoryError = new NstFactoryError(query, error.message, error.code);
+
+        defer.reject(factoryError);
+      });
+
+      return defer.promise;
+    }
+
+    function generateTokenKey(universalId) {
+      return universalId;
     }
   }
 })();

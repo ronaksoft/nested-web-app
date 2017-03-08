@@ -225,12 +225,7 @@
 
         comment.id = data._id;
         comment.postId = postId;
-        comment.sender = new NstTinyUser({
-          id: data.sender._id,
-          firstName: data.sender.fname,
-          lastName: data.sender.lname,
-          picture: new NstPicture(data.sender.picture)
-        });
+        comment.sender = NstSvcUserFactory.parseTinyUser(data.sender);
 
         comment.body = data.text;
         comment.date = new Date(data['timestamp']);

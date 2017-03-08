@@ -16,7 +16,6 @@
     /*****************************
      *** Controller Properties ***
      *****************************/
-    vm.tab = 'settings';
     vm.onMemberSelect = onSelect;
     var onSelectTimeout = null;
     vm.reciveLevel = vm.memberLevel = vm.createLevel = vm.threeExampleLevel = 'l1';

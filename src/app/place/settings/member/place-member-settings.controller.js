@@ -3,10 +3,10 @@
 
   angular
     .module('ronak.nested.web.place')
-    .controller('PostReceiveController', PlaceController);
+    .controller('PlaceMemberSettingsController', PlaceMemberSettingsController);
 
   /** @ngInject */
-  function PlaceController() {
+  function PlaceMemberSettingsController() {
     var vm = this;
 
   }

@@ -137,31 +137,6 @@
        *****   Places Routes    ****
        *****************************/
 
-      .state('app.place-settings', {
-        url: '/places/:placeId/settings',
-        params: {
-          placeId: NST_DEFAULT.STATE_PARAM
-        },
-        options : {
-          group : 'settings'
-        },
-        onEnter: ['$rootScope', '$stateParams', '$state', '$uibModal', function($rootScope, $stateParams, $state, $uibModal) {
-          var modal = $uibModal.open({
-            animation: false,
-            size: 'lg-white',
-            templateUrl: 'app/place/settings/place-settings.html',
-            controller: 'PlaceSettingsController',
-            controllerAs: 'ctlSettings'
-          }).result.catch(function() {
-            $rootScope.goToLastState(true, {
-              state : $state.get('app.place-messages'),
-              params : { placeId : $stateParams.placeId },
-              default : true
-            });
-          });
-        }],
-        onExit: function($uibModalStack) { }
-      })
       .state('app.place-create', {
         url: '/places/:placeId/create',
         params: {

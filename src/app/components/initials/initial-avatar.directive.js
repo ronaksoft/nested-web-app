@@ -10,16 +10,29 @@
           picture : '@'
         },
         link: function ($scope, $element) {
-          if ($scope.picture) {
-            $element.initial({
-              name: $scope.initialAvatar,
-              src: $scope.picture
-            });
-          } else {
-            $element.initial({
-              name: $scope.initialAvatar,
-            });
+
+          initialize();
+          var watcher = $scope.$watchGroup(["initialAvatar", "picture"], function (newValues, oldValues) {
+            initialize();
+          });
+
+          function initialize() {
+            if ($scope.picture) {
+              $element.initial({
+                name: $scope.initialAvatar,
+                src: $scope.picture
+              });
+            } else {
+              $element.initial({
+                name: $scope.initialAvatar,
+                src:'',
+              });
+            }
           }
+
+          $scope.$on('$destroy', function () {
+            watcher();
+          });
         }
       };
     });
