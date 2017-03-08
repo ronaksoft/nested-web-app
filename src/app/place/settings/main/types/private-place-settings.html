@@ -30,25 +30,25 @@
 
   <p>Who can share posts with this Place?</p>
   <place-policy-option levels="sharePostPolicyOptions"
-                       level="ctrl.place.policy.add_post"
+                       level="ctrl.getAddPostPrivacyLevel(ctrl.place)"
                        level-changed="ctrl.setAddPostPolicy"
                        searchable="ctrl.place.privacy.search"
-                       searchable-changed="ctrl.updateSearchPrivacy"
+                       searchable-changed="ctrl.setSearchPrivacy"
                        place-name="ctrl.place.name"
                        grand-place-name="ctrl.place.grandParentId">
   </place-policy-option>
 
   <p>Who can add members?</p>
   <place-policy-option levels="addMemberPolicyOptions"
-                       level="ctrl.place.policy.add_member"
+                       level="ctrl.getAddMemberPrivacyLevel(ctrl.place)"
                        level-changed="ctrl.setAddMemberPolicy"
                        place-name="ctrl.place.name">
   </place-policy-option>
 
   <p>Who can create subplace?</p>
   <place-policy-option levels="addPlacePolicyOptions"
-                       level="ctrl.place.policy.add_place"
-                       level-changed="ctrl.setPlacePolicy"
+                       level="ctrl.getAddPlacePrivacyLevel(ctrl.place)"
+                       level-changed="ctrl.setAddPlacePolicy"
                        place-name="ctrl.place.name">
   </place-policy-option>
 </div>

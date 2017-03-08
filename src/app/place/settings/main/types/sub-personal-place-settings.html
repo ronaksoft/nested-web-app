@@ -28,10 +28,10 @@
 
   <p>Who can share posts with this Place?</p>
   <place-policy-option levels="sharePostPolicyOptions"
-                       level="ctrl.place.policy.add_post"
+                       level="ctrl.getAddPostPrivacyLevel(ctrl.place)"
                        level-changed="ctrl.setAddPostPolicy"
                        searchable="ctrl.place.privacy.search"
-                       searchable-changed="ctrl.updateSearchPrivacy"
+                       searchable-changed="ctrl.setSearchPrivacy"
                        place-name="ctrl.place.name"
                        grand-place-name="ctrl.place.grandParentId">
   </place-policy-option>
