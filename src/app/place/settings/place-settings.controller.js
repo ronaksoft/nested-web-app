@@ -79,6 +79,7 @@
 
       loadPlace(vm.placeId).then(function (result) {
         vm.place = result.place;
+        console.log(vm.place);
         vm.accesses = result.accesses;
 
         vm.teammatesLoadProgress = true;

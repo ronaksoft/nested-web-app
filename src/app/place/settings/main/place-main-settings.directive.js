@@ -3,7 +3,7 @@
 
   angular
     .module('ronak.nested.web.place')
-    .directive('placeMainSettings', function() {
+    .directive('placeMainSettings', function(NST_PLACE_POLICY_OPTION) {
       var templates = {
         'grand' : 'grand-place-settings.html',
         'sub-personal': 'sub-personal-place-settings.html',
@@ -29,7 +29,9 @@
             throw Error('place-type is invalid, select between : ' + _.join(_.keys(templates), ","));
           }
 
-          scope.template = 'app/place/settings/main/' + templates[attrs.placeType];
+          scope.NST_PLACE_POLICY_OPTION = NST_PLACE_POLICY_OPTION;
+
+          scope.template = 'app/place/settings/main/types/' + templates[attrs.placeType];
         }
       };
     });

@@ -1,4 +1,6 @@
-<div class="settings-body">
+<div class="settings-body"
+  ng-init="sharePostPolicyOptions = [NST_PLACE_POLICY_OPTION.MANAGERS, NST_PLACE_POLICY_OPTION.EVERYONE];">
+
   <div class="form-group" ng-class="{ 'has-error' : ctrl.placeName.$invalid}">
     <label class="input-lab"><translate>Place name</translate></label>
     <label class="error-message" ng-if="ctrl.placeName.$invalid"><translate>Place name is required</translate></label>
@@ -6,27 +8,31 @@
       <div class="_df _fw">
         <input name="placeName" class="form-control" type="text" ng-model="ctrl.place.name" tabindex="2" />
       </div>
-      <svg class="_24svg _df _fn edit-icon" data-change-modal="ctrl.place.name">
+      <svg class="_24svg _df _fn edit-icon" open-custom-modal="app/place/settings/main/modals/place-change-name-modal.html">
       <use xlink:href="/assets/icons/nst-icn24.svg#edit"></use>
     </svg>
     </div>
   </div>
+
   <div class="form-group">
     <label class="input-lab"><translate>Place Description</translate></label>
     <div class="field">
       <div class="_df _fw">
         <input name="PlaceDes" class="form-control" type="text" ng-model="ctrl.place.description" tabindex="2" />
       </div>
-      <svg class="_24svg _df _fn edit-icon" data-change-modal="ctrl.place.description">
+      <svg class="_24svg _df _fn edit-icon" open-custom-modal="app/place/settings/main/modals/place-change-description-modal.html">
       <use xlink:href="/assets/icons/nst-icn24.svg#edit"></use>
     </svg>
     </div>
   </div>
+
   <p>Who can share posts with this Place?</p>
-  <recieve-from level="ctrl.reciveLevel" env="'full'"></recieve-from>
-  <recieve-from level="ctrl.threeExampleLevel" env="'three'"></recieve-from>
-  <p>Who can add members?</p>
-  <recieve-from level="ctrl.memberLevel" env="'semi'"></recieve-from>
-  <p>Who can create subplace?</p>
-  <recieve-from level="ctrl.createLevel" env="'semi'"></recieve-from>
+  <place-policy-option levels="sharePostPolicyOptions"
+                       level="ctrl.place.policy.add_post"
+                       level-changed="ctrl.setAddPostPolicy"
+                       searchable="ctrl.place.privacy.search"
+                       searchable-changed="ctrl.updateSearchPrivacy"
+                       place-name="ctrl.place.name"
+                       grand-place-name="ctrl.place.grandParentId">
+  </place-policy-option>
 </div>

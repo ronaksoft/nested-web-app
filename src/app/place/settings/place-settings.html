@@ -7,6 +7,6 @@
     <a class="_df _fw _jcc _aic" ng-click="selectedView = 0;" ng-class="{'active' : selectedView == 0}">Settings</a>
     <a class="_df _fw _jcc _aic" ng-click="selectedView = 1;" ng-class="{'active' : selectedView == 1}">Members(12)</a>
   </div>
-  <place-main-settings place="ctrl.place" place-type="private" ng-if="selectedView == 0"></place-main-settings>
+  <place-main-settings place="ctrl.place" place-type="sub-personal" ng-if="selectedView == 0"></place-main-settings>
   <place-member-settings place="ctrl.place" ng-if="selectedView == 1"></place-member-settings>
 </div>
