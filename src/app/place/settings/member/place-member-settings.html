@@ -1,47 +1,68 @@
 <ul class="settings-body">
-  <div class="member-head _df _fw">
-    <div class="selected-user _fw _df" ng-show="ctrl.selectedMates.length > 0">
+  <div class="member-head _df _fw" ng-if="ctrl.hasControlAccess">
+    <div class="selected-user _fw _df" ng-show="ctrl.SelectedMembersCount > 0">
       <div>
-        <translate>{{ctrl.selectedMates.length}}</translate>
-        <a><translate>selected</translate></a>
+        <translate>{{ctrl.SelectedMembersCount}}</translate>
+        <a>
+          <translate>selected</translate>
+        </a>
       </div>
-      <div>
+      <div ng-click="ctrl.promote()">
         <svg class="_24svg">
           <use xlink:href="/assets/icons/nst-icn24.svg#crown"></use>
         </svg>
-        <a><translate>Promote(3)</translate></a>
+        <a>
+          <translate>Promote({{ctrl.selectedKeyHoldersCount }})</translate>
+        </a>
       </div>
-      <div>
+      <div ng-click="ctrl.demote()">
         <svg class="_24svg">
           <use xlink:href="/assets/icons/nst-icn24.svg#person"></use>
         </svg>
-        <a><translate>Demote(1)</translate></a>
+        <a>
+          <translate>Demote({{ctrl.selectedCreatorsCount }})</translate>
+        </a>
       </div>
-      <div class="force">
+      <div ng-click="ctrl.remove()" class="force">
         <svg class="_24svg">
           <use xlink:href="/assets/icons/nst-icn24.svg#bin"></use>
         </svg>
-        <a><translate>Remove(4)</translate></a>
+        <a>
+          <translate>Remove ({{ctrl.SelectedMembersCount}})</translate>
+        </a>
       </div>
     </div>
-    <div class="unselected-user _fw _df" ng-hide="ctrl.selectedMates.length > 0">
+    <div class="unselected-user _fw _df" ng-hide="ctrl.SelectedMembersCount > 0">
       <div></div>
       <div></div>
-      <div class="top-add" data-ng-click="ctrl.addMember()"><translate>Add Member</translate>
+      <div class="top-add" data-ng-click="ctrl.addMember()">
+        <translate>Add Member</translate>
         <svg class="_16svg">
           <use xlink:href="/assets/icons/nst-icn16.svg#cross"></use>
         </svg>
       </div>
     </div>
   </div>
-  <li nst-place-member-item data-ng-if="ctrl.accesses.hasSeeMembersAccess"
-                         data-ng-repeat="member in ctrl.teammates"
-                         member="member" place="ctrl.place" mid="{{member.id}}" class="user-item"
-                         has-remove-access="ctrl.accesses.hasRemoveAccess"
-                         has-control-access="ctrl.accesses.hasControlAccess" on-remove="ctrl.removeMember"
-                         role="member.state"></li>
-  <div class="_fw _tac margin-b-15"  data-ng-if="ctrl.accesses.hasSeeMembersAccess">
-    <a class="load-more nst-mood-cheerful" href ng-if="ctrl.hasMoreTeammates && !ctrl.teammatesLoadProgress" ng-click="ctrl.loadMoreTeammates();"><translate>Load more...</translate></a>
+  <li nst-place-member-item
+      on-select="ctrl.onMemberSelect"
+      ng-repeat="member in ctrl.teammates"
+      member="member"
+      place="ctrl.place"
+      mid="{{member.id}}"
+      ng-class="{'j-selected' : ctrl.memberIsSelected(member)}"
+      class="user-item"
+      has-remove-access="ctrl.hasRemoveAccess"
+      has-control-access="ctrl.hasControlAccess"
+      on-remove="ctrl.removeMember"
+      role="member.state"></li>
+  <li data-ng-if="!ctrl.hasSeeMembersAccess">
+    <translate>You has not access to see members of this place!</translate>
+  </li>
+  <div class="_fw _tac margin-b-15" data-ng-if="ctrl.hasSeeMembersAccess">
+    <a class="load-more nst-mood-cheerful" href ng-if="ctrl.hasMoreTeammates && !ctrl.teammatesLoadProgress"
+       ng-click="ctrl.loadMoreTeammates();">
+      <translate>Load more...</translate>
+    </a>
     <span class="nst-mood-cheerful" ng-if="ctrl.teammatesLoadProgress" translate-inner>Loading...</span>
   </div>
   <div class="select-box2 _difh"

@@ -16,17 +16,14 @@
     /*****************************
      *** Controller Properties ***
      *****************************/
-    vm.onMemberSelect = onSelect;
-    var onSelectTimeout = null;
+
     vm.reciveLevel = vm.memberLevel = vm.createLevel = vm.threeExampleLevel = 'l1';
-    vm.memberOptions = {
-      'creators': NstSvcTranslation.get("Manager(s) only"),
-      'everyone': NstSvcTranslation.get("All Members")
-    };
+
     vm.options = {
       notification: null,
       bookmark: null
     };
+
     vm.accesses = {
       hasRemoveAccess: null,
       hasAddPlaceAccess: null,
@@ -34,20 +31,9 @@
       hasAddMembersAccess: null,
       hasSeeMembersAccess: null
     };
-    vm.teammates = [];
-    var defaultTeammatesLimit = 16;
-    vm.teammatesSettings = {
-      skip: 0,
-      limit: defaultTeammatesLimit,
-      creatorsCount: 0,
-      keyHoldersCount: 0,
-      pendingsCount: 0
-    };
 
     vm.placeLoadProgress = false;
-    vm.teammatesLoadProgress = false;
 
-    vm.addMember = addMember;
     vm.loadImage = loadImage;
     vm.setReceivingEveryone = setReceivingEveryone;
     vm.setReceivingMembers = setReceivingMembers;
@@ -56,7 +42,6 @@
     vm.updateAddMemberPolicy = updateAddMemberPolicy;
     vm.updateAddPostPolicy = updateAddPostPolicy;
     vm.updateSearchPrivacy = updateSearchPrivacy;
-    vm.loadMoreTeammates = loadMoreTeammates;
     vm.updateName = updateName;
     vm.updateDescription = updateDescription;
 
@@ -81,40 +66,21 @@
         vm.place = result.place;
         vm.accesses = result.accesses;
 
-        vm.teammatesLoadProgress = true;
-        return loadTeammates(vm.placeId,
-          vm.accesses.hasSeeMembersAccess && vm.placeId !== NstSvcAuth.user.id,
-          vm.accesses.hasControlAccess && vm.placeId !== NstSvcAuth.user.id);
-      }).then(function (teammates) {
-        vm.hasMoreTeammates = teammates.length === defaultTeammatesLimit;
-        vm.teammates = teammates;
-
-
       }).catch(function (error) {
         NstSvcLogger.error(error);
       }).finally(function () {
-        vm.teammatesLoadProgress = false;
       });
 
-      $scope.$on('member-promoted', function (event, data) {
-        if (data.member.role === NST_PLACE_MEMBER_TYPE.KEY_HOLDER) {
-          data.member.role = NST_PLACE_MEMBER_TYPE.CREATOR;
-        }
-      });
-      $scope.$on('member-demoted', function (event, data) {
-        if (data.member.role === NST_PLACE_MEMBER_TYPE.CREATOR) {
-          data.member.role = NST_PLACE_MEMBER_TYPE.KEY_HOLDER;
-        }
-      });
+
       $rootScope.$on('member-removed', function (event, data) {
         switch (data.member.role) {
           case NST_PLACE_MEMBER_TYPE.CREATOR:
+            vm.place.counters.creators--;
+            break;
           case NST_PLACE_MEMBER_TYPE.KEY_HOLDER:
+            vm.place.counters.key_holders--;
+            break;
           case 'pending_' + NST_PLACE_MEMBER_TYPE.KEY_HOLDER:
-            var memberIndex = _.findIndex(vm.teammates, {id: data.member.id});
-            if (memberIndex > -1) {
-              vm.teammates.splice(memberIndex, 1);
-            }
             break;
           default:
             NstSvcLogger.error(NstUtility.string.format('Can not remove the member, Because her role is "{0}" which was not expected!', data.previousRole));
@@ -122,7 +88,6 @@
 
         }
       });
-
     })();
 
     function loadPlace(id) {
@@ -134,8 +99,10 @@
 
       vm.placeLoadProgress = true;
       NstSvcPlaceFactory.get(id).then(function (place) {
+        console.log("placeLog", place);
 
         result.place = place;
+
         NstSvcLogger.info(NstUtility.string.format('Place {0} was found.', result.place.id));
 
         result.accesses.hasRemoveAccess = place.hasAccess(NST_PLACE_ACCESS.REMOVE_PLACE);
@@ -154,224 +121,6 @@
       }).catch(deferred.reject);
 
       return deferred.promise;
-    }
-
-    function getCreators(placeId, limit, skip, hasAccess) {
-      var deferred = $q.defer();
-      if (hasAccess && vm.teammatesSettings.creatorsCount < vm.place.counters.creators) {
-
-        NstSvcPlaceFactory.getCreators(placeId, limit, skip).then(function (result) {
-
-          var creatorItems = _.map(result.creators, function (item) {
-            return new NstVmMemberItem(item, 'creator');
-          });
-
-          deferred.resolve({
-            creators : creatorItems,
-            total : result.total
-          });
-        }).catch(deferred.reject);
-
-      } else {
-        deferred.resolve({
-          creators : []
-        });
-      }
-
-      return deferred.promise;
-    }
-
-    function getKeyholders(placeId, limit, skip, hasAccess) {
-      var deferred = $q.defer();
-
-      if (limit > 0 && hasAccess && vm.teammatesSettings.keyHoldersCount < vm.place.counters.key_holders) {
-        NstSvcPlaceFactory.getKeyholders(placeId, limit, skip).then(function (result) {
-          var keyHolderItems = _.map(result.keyHolders, function (item) {
-            return new NstVmMemberItem(item, 'key_holder');
-          });
-
-          deferred.resolve({
-            keyHolders : keyHolderItems,
-            total : result.total
-          });
-        }).catch(deferred.reject);
-      } else {
-        deferred.resolve({
-          keyHolders : []
-        });
-      }
-
-      return deferred.promise;
-    }
-
-    function getPendings(placeId, limit, skip, access) {
-      var deferred = $q.defer();
-      if (limit > 0 && access) {
-        NstSvcInvitationFactory.getPlacePendingInvitations(placeId, limit, skip).then(function (invitations) {
-          var pendings = _.map(invitations, function (item) {
-            return new NstVmMemberItem(item, 'pending_key_holder');
-          });
-
-          deferred.resolve(pendings);
-        }).catch(deferred.reject);
-      } else {
-        deferred.resolve([]);
-      }
-
-      return deferred.promise;
-    }
-
-    function loadTeammates(placeId, accessToSeeMembers, accessToSeePendings) {
-      var deferred = $q.defer();
-
-      var teammates = [];
-      var pageCounts = {
-        creators: 0,
-        keyHolders: 0,
-        pendings: 0
-      };
-      vm.teammatesSettings.limit = defaultTeammatesLimit;
-      vm.teammatesSettings.skip = vm.teammatesSettings.creatorsCount;
-
-      getCreators(placeId, vm.teammatesSettings.limit, vm.teammatesSettings.skip, accessToSeeMembers).then(function (result) {
-        pageCounts.creators = result.creators.length;
-        vm.teammatesSettings.limit = defaultTeammatesLimit - pageCounts.creators;
-        vm.teammatesSettings.creatorsCount += result.creators.length;
-        vm.teammatesSettings.skip = vm.teammatesSettings.keyHoldersCount;
-        teammates.push.apply(teammates, result.creators);
-
-        return getKeyholders(placeId, vm.teammatesSettings.limit, vm.teammatesSettings.skip, accessToSeeMembers);
-      }).then(function (result) {
-
-        pageCounts.keyHolders = result.keyHolders.length;
-        vm.teammatesSettings.limit = defaultTeammatesLimit - pageCounts.keyHolders - pageCounts.creators;
-        vm.teammatesSettings.keyHoldersCount += result.keyHolders.length;
-        vm.teammatesSettings.skip = vm.teammatesSettings.pendingsCount;
-
-        teammates.push.apply(teammates, result.keyHolders);
-        return getPendings(placeId, vm.teammatesSettings.limit, vm.teammatesSettings.skip, accessToSeePendings);
-      }).then(function (pendings) {
-        vm.teammatesSettings.pendingsCount += pendings.length;
-        pageCounts.pendings = pendings.length;
-
-        teammates.push.apply(teammates, pendings);
-
-        deferred.resolve(teammates);
-      }).catch(deferred.reject);
-
-      return deferred.promise;
-    }
-
-    function loadMoreTeammates() {
-      vm.teammatesLoadProgress = true;
-      return loadTeammates(vm.placeId, vm.accesses.hasSeeMembersAccess, vm.accesses.hasControlAccess).then(function (teammates) {
-        vm.teammates.push.apply(vm.teammates, teammates);
-        vm.hasMoreTeammates = teammates.length === defaultTeammatesLimit;
-      }).catch(function (error) {
-        NstSvcLogger.error(error);
-      }).finally(function () {
-        vm.teammatesLoadProgress = false;
-      });
-    }
-
-    function onSelect(uIds, el) {
-      if (onSelectTimeout) {
-        $timeout.cancel(onSelectTimeout);
-      }
-
-      onSelectTimeout = $timeout(function () {
-        vm.selectedMates = _.filter(vm.teammates, function (member) {
-          return _.includes(uIds, member.id);
-        });
-        //TODO you need this number and array for some actions ...
-      },10);
-    }
-
-    function showAddModal(role) {
-
-      var modal = $uibModal.open({
-        animation: false,
-        templateUrl: 'app/pages/places/settings/place-add-member.html',
-        controller: 'PlaceAddMemberController',
-        controllerAs: 'addMemberCtrl',
-        size: 'sm',
-        resolve: {
-          chosenRole: function () {
-            return role;
-          },
-          currentPlace: function () {
-            return vm.place;
-          }
-        }
-      });
-
-      modal.result.then(function (selectedUsers) {
-
-        var successRes = [];
-        var failedRes = [];
-
-        $q.all(_.map(selectedUsers, function (user) {
-
-
-          return $q(function (resolve, reject) {
-            var command = vm.isGrandPlace ? 'inviteUser' : 'addUser';
-            NstSvcPlaceFactory[command](vm.place, role, user).then(function (invitationId) {
-              successRes.push(user.id);
-              NstSvcLogger.info(NstUtility.string.format('User "{0}" has been invited to Place "{1}" successfully.', user.id, vm.place.id));
-
-              resolve({
-                user: user,
-                role: role,
-                invitationId: vm.isGrandPlace ? invitationId : -1,
-              });
-            }).catch(function (error) {
-              failedRes.push(user.id);
-
-              // FIXME: Why cannot catch the error!
-              if (error.getCode() === NST_SRV_ERROR.DUPLICATE) {
-                NstSvcLogger.warn(NstUtility.string.format('User "{0}" has been previously invited to Place "{1}".', user.id, vm.place.id));
-                resolve({
-                  user: user,
-                  role: role,
-                  invitationId: null,
-                  duplicate: true
-                });
-              } else {
-                reject(error);
-              }
-            });
-          });
-
-        })).then(function (values) {
-          _.forEach(values, function (result) {
-            if (!result.duplicate) {
-              if (result.role === NST_PLACE_MEMBER_TYPE.KEY_HOLDER) {
-                var rolePrefix = vm.isGrandPlace ? 'pending_' : '';
-                vm.teammates.push(new NstVmMemberItem(result.user, rolePrefix + result.role));
-              }
-            }
-
-            if (successRes.length > 0) {
-              toastr.success(NstUtility.string.format(NstSvcTranslation.get('{0} user has been {1} to Place "{2}" successfully.'), successRes.length, vm.isGrandPlace ? 'invited' : 'added', vm.place.id));
-            }
-            if (failedRes > 0) {
-              if (vm.isGrandPlace) {
-                toastr.error(NstUtility.string.format(NstSvcTranslation.get('{0} User(s) has not been invited to Place {1}.'), failedRes.length, vm.place.id));
-              } else {
-                toastr.error(NstUtility.string.format(NstSvcTranslation.get('{0} User(s) has not been added to Place {1}.'), failedRes.length, user.id, vm.place.id) + " " + failedRes.join(','));
-              }
-            }
-
-
-          });
-        }).catch(function (error) {
-          NstSvcLogger.error(error);
-        });
-      });
-    }
-
-    function addMember() {
-      showAddModal(NST_PLACE_MEMBER_TYPE.KEY_HOLDER);
     }
 
     function update(model) {
@@ -433,7 +182,7 @@
         };
 
         reader.readAsDataURL(vm.logoFile);
-      }).catch(function() {
+      }).catch(function () {
         event.target.value = '';
       });
 
@@ -444,10 +193,6 @@
       vm.logoUploadedRatio = Number(event.loaded / event.total).toFixed(4);
 
       NstSvcLogger.error(NstUtility.string.format('Upload progress : {0}%', vm.logoUploadedRatio));
-    }
-
-    function hasAnyTeammate() {
-      return vm.teammates && vm.teammates.length > 0;
     }
 
     function setReceivingOff() {
