@@ -1,4 +1,6 @@
-<div class="settings-body">
+<div class="settings-body"
+  ng-init="sharePostPolicyOptions = [NST_PLACE_POLICY_OPTION.MANAGERS, NST_PLACE_POLICY_OPTION.MEMBERS];
+           addMemberPolicyOptions = [NST_PLACE_POLICY_OPTION.MANAGERS, NST_PLACE_POLICY_OPTION.MEMBERS];">
 
   <div class="form-group" ng-class="{ 'has-error' : ctrl.placeName.$invalid}">
     <label class="input-lab"><translate>Place name</translate></label>
@@ -24,12 +26,19 @@
     </svg>
     </div>
   </div>
-  
-  <p>Who can share posts with this Place?</p>
 
-  <place-property-switch level="{{ctrl.place.policy.add_post}}" level-changed="ctrl.updatePolicy('add_post')" searchable="{{ctrl.place.privacy.search}}" update-searchable="ctrl.updatePrivacy('search')" env="'three'"></place-property-switch>
+  <p>Who can share posts with this Place?</p>
+  <place-policy-option levels="sharePostPolicyOptions"
+                       level="ctrl.place.policy.add_post"
+                       level-changed="ctrl.setAddPostPolicy"
+                       place-name="ctrl.place.name">
+  </place-policy-option>
+
   <p>Who can add members?</p>
-  <place-property-switch level="{{ctrl.place.policy.add_member}}" level-changed="ctrl.updatePolicy('add_member')" env="'semi'"></place-property-switch>
-  <p>Who can create subplace?</p>
-  <place-property-switch level="{{ctrl.place.policy.add_place}}" level-changed="ctrl.updatePolicy('add_place')" env="'semi'"></place-property-switch>
+  <place-policy-option levels="addMemberPolicyOptions"
+                       level="ctrl.place.policy.add_member"
+                       level-changed="ctrl.setAddMemberPolicy"
+                       place-name="ctrl.place.name">
+  </place-policy-option>
+
 </div>

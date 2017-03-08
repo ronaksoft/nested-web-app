@@ -6,12 +6,13 @@
     .controller('PlaceMainSettingsController', PlaceMainSettingsController);
 
   /** @ngInject */
-  function PlaceMainSettingsController() {
+  function PlaceMainSettingsController($q, NST_PLACE_POLICY_OPTION) {
     var vm = this;
 
     vm.setAddPostPolicy = setAddPostPolicy;
     vm.updateName = updateName;
     vm.updateDescription = updateDescription;
+    vm.updateSearchPrivacy = updateSearchPrivacy;
 
     function update(params) {
       var deferred = $q.defer();
@@ -42,23 +43,35 @@
     }
 
     function setAddPostPolicy(value) {
+      var deferred = $q.defer();
+
+      deferred.resolve();
       switch (value) {
-        case 'managers':
+        case NST_PLACE_POLICY_OPTION.MANAGERS:
+          break;
+        case NST_PLACE_POLICY_OPTION.MEMBERS:
 
           break;
-        case 'members':
+        case NST_PLACE_POLICY_OPTION.TEAMMATES:
 
           break;
-        case 'grand-members':
+        case NST_PLACE_POLICY_OPTION.EVERYONE:
 
-          break;
-        case 'everyone':
-          
           break;
         default:
           throw Error("Policy is not valid.")
         break;
       }
+
+      return deferred.promise;
+    }
+
+    function updateSearchPrivacy(value) {
+      var deferred = $q.defer();
+
+      NstSvcPlaceFactory.update({ 'privacy.search' : value }).then(deferred.resolve).catch(deferred.reject);
+      
+      return deferred.promise;
     }
   }
 })();
