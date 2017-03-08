@@ -23,8 +23,8 @@
     function change(isValid) {
       vm.submitted = true;
       if (isValid) {
-        if (vm.model.newPassword.length < 6 || vm.model.newPassword.length > 24) {
-          toastr.error(NstSvcTranslation.get('Your new password must be between 6 and 26 characters.'));
+        if (vm.model.newPassword.length < 6) {
+          toastr.error(NstSvcTranslation.get('Your new password must be between 6 characters.'));
           return;
         }
         NstSvcUserFactory.changePassword(vm.model.oldPassword, vm.model.newPassword).then(function(result) {
