@@ -81,16 +81,12 @@
       NstTinyUser.call(this);
 
       if (data) {
-        this.fill(data);
+        
       }
     }
 
     User.prototype = new NstTinyUser();
     User.prototype.constructor = User;
-
-    User.prototype.getFullName = function () {
-      return this.firstName + " " + this.lastName;
-    }
 
     return User;
   }

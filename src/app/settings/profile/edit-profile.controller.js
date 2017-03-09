@@ -193,7 +193,15 @@
     function removePicture() {
       var deferred = $q.defer();
 
-      NstSvcUserFactory.removePicture().then(deferred.resolve).catch(deferred.reject);
+      NstSvcUserFactory.removePicture().then(function (result) {
+        vm.model.clearPicture();
+        NstSvcUserFactory.dispatchEvent(new CustomEvent(NST_USER_FACTORY_EVENT.PROFILE_UPDATED, new NstFactoryEventData(vm.model)));
+        NstSvcUserFactory.dispatchEvent(new CustomEvent(NST_USER_FACTORY_EVENT.PICTURE_UPDATED, new NstFactoryEventData(vm.model)));
+
+        deferred.resolve();
+      }).catch(function (error) {
+        deferred.reject();
+      });
 
       return deferred.promise;
     }

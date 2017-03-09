@@ -75,7 +75,10 @@
         function setValue(year, month, day) {
           var newValue = createDate(year, month, day);
 
-          scope.value = NstUtility.string.format("{0}-{1}-{2}", newValue.year(), newValue.month() + 1, newValue.date());
+          scope.value = NstUtility.string.format("{0}-{1}-{2}",
+            _.padStart(newValue.year(), 4, "0"),
+            _.padStart(newValue.month() + 1, 2, "0"),
+            _.padStart(newValue.date(), 2, "0"));
         }
 
         scope.$on('$destroy', function () {

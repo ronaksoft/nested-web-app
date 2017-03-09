@@ -214,7 +214,7 @@
           invitee = NstSvcUserFactory.parseTinyUser(data.invitee);
           NstSvcUserFactory.set(invitee);
         } else if (data.invitee_id) {
-          invitee.setId(data.invitee_id);
+          invitee.id = data.invitee_id;
         }
 
         var inviter = null;
@@ -222,7 +222,7 @@
           inviter = NstSvcUserFactory.parseTinyUser(data.inviter);
           NstSvcUserFactory.set(inviter);
         } else if (data.inviter_id) {
-          inviter.setId(data.inviter_id);
+          inviter.id = data.inviter_id;
         }
 
         var place = null;
@@ -233,10 +233,10 @@
           place.setId(data.place_id);
         }
 
-        if (invitee.getId() && inviter.getId() && place.getId()) {
+        if (invitee.id && inviter.id && place.getId()) {
           $q.all([
-            NstSvcUserFactory.getTiny(invitee.getId()),
-            NstSvcUserFactory.getTiny(inviter.getId()),
+            NstSvcUserFactory.getTiny(invitee.id),
+            NstSvcUserFactory.getTiny(inviter.id),
             NstSvcPlaceFactory.getTiny(place.getId())
           ]).then(function (values) {
             invitation.setInvitee(values[0]);
