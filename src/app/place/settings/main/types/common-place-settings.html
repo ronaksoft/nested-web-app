@@ -7,7 +7,7 @@
     <label class="error-message" ng-if="ctrl.placeName.$invalid"><translate>Place name is required</translate></label>
     <div class="field">
       <div class="_df _fw">
-        <input name="placeName" class="form-control" type="text" ng-model="ctrl.place.name" tabindex="2" />
+        <input name="placeName" class="form-control" type="text" ng-model="ctrl.place.name" tabindex="1" />
       </div>
       <svg class="_24svg _df _fn edit-icon" open-custom-modal="app/place/settings/main/modals/place-change-name-modal.html">
       <use xlink:href="/assets/icons/nst-icn24.svg#edit"></use>
@@ -19,7 +19,7 @@
     <label class="input-lab"><translate>Place Description</translate></label>
     <div class="field">
       <div class="_df _fw">
-        <input name="PlaceDes" class="form-control" type="text" ng-model="ctrl.place.description" tabindex="2" />
+        <input name="PlaceDes" class="form-control" type="text" ng-model="" tabindex="2" />
       </div>
       <svg class="_24svg _df _fn edit-icon" open-custom-modal="app/place/settings/main/modals/place-change-description-modal.html">
       <use xlink:href="/assets/icons/nst-icn24.svg#edit"></use>
@@ -27,16 +27,16 @@
     </div>
   </div>
 
-  <p>Who can share posts with this Place?</p>
+  <p><translate>Who can share posts with this Place?</translate></p>
   <place-policy-option levels="sharePostPolicyOptions"
-                       level="ctrl.place.policy.add_post"
+                       level="ctrl.addPostLevel"
                        level-changed="ctrl.setAddPostPolicy"
                        place-name="ctrl.place.name">
   </place-policy-option>
 
-  <p>Who can add members?</p>
+  <p><translate>Who can add members?</translate></p>
   <place-policy-option levels="addMemberPolicyOptions"
-                       level="ctrl.place.policy.add_member"
+                       level="ctrl.addMemberLevel"
                        level-changed="ctrl.setAddMemberPolicy"
                        place-name="ctrl.place.name">
   </place-policy-option>

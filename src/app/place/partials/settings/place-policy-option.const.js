@@ -4,9 +4,9 @@
   angular
     .module('ronak.nested.web.common')
     .constant('NST_PLACE_POLICY_OPTION', {
-      MANAGERS: 'creators',
-      MEMBERS: 'key_holders',
-      TEAMMATES: 'teammates',
-      EVERYONE: 'everyone'
+      MANAGERS: 0,
+      MEMBERS: 1,
+      TEAMMATES: 2,
+      EVERYONE: 3
     });
 })();
