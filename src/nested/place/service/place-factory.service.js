@@ -339,7 +339,7 @@
       };
 
       var params = {
-        'place_id': model.parentId ? model.parentId + '.' + model.id : model.id,
+        'place_id': model.id,
         'place_name': model.name,
         'privacy.email': model.privacy.email,
         'privacy.locked': model.privacy.locked,

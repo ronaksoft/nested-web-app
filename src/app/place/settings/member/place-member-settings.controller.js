@@ -206,6 +206,12 @@
           },
           currentPlace: function () {
             return vm.place;
+          },
+          mode: function () {
+            return false
+          },
+          isForGrandPlace: function () {
+            return undefined
           }
         }
       });

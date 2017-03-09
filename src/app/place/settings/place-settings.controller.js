@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function PlaceSettingsController($scope, $stateParams, $q, $uibModal, $state, toastr, $rootScope, $timeout,
-                                   NST_SRV_ERROR, NST_STORE_UPLOAD_TYPE, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_PLACE_FACTORY_EVENT, NST_DEFAULT, NST_PLACE_TYPE, NST_PLACE_POLICY_OPTION,
+                                   NST_PLACE_POLICY_OPTION, NST_STORE_UPLOAD_TYPE, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_PLACE_FACTORY_EVENT, NST_PLACE_TYPE,
                                    NstSvcStore, NstSvcAuth, NstSvcPlaceFactory, NstUtility, NstSvcInvitationFactory, NstSvcLogger,
                                    NstPlaceOneCreatorLeftError, NstPlaceCreatorOfParentError, NstSvcTranslation,
                                    NstVmMemberItem) {
@@ -89,13 +89,7 @@
     })();
 
     function getPlaceType(place) {
-      if (place.id === NstSvcAuth.user.id) {
-
-        return NST_PLACE_TYPE.PERSONAL;
-      } else if (NstUtility.place.getGrandId(place.id) === NstSvcAuth.user.id) {
-
-        return NST_PLACE_TYPE.SUB_PERSONAL;
-      } else if (NstUtility.place.isGrand(place.id)) {
+      if (NstUtility.place.isGrand(place.id)) {
 
         return NST_PLACE_TYPE.GRAND;
       } else if (place.privacy.locked) {
@@ -104,6 +98,12 @@
       } else if (!place.privacy.locked) {
 
         return NST_PLACE_TYPE.COMMON;
+      } else if (place.id === NstSvcAuth.user.id) {
+
+        return NST_PLACE_TYPE.PERSONAL;
+      } else if (NstUtility.place.getGrandId(place.id) === NstSvcAuth.user.id) {
+
+        return NST_PLACE_TYPE.SUB_PERSONAL;
       } else {
 
         throw Error("Could not figure out place type");
@@ -119,7 +119,6 @@
 
       vm.placeLoadProgress = true;
       NstSvcPlaceFactory.get(id).then(function (place) {
-        console.log("placeLog", place);
 
         result.place = place;
 
@@ -271,6 +270,16 @@
       vm.isClosedPlace = place.privacy.locked;
       vm.isOpenPlace = !place.privacy.locked;
       vm.isGrandPlace = place.grandParentId === place.id;
+    }
+
+    function updateName(value) {
+      vm.place.name = value;
+      update({'place_name': vm.place.name});
+    }
+
+    function updateDescription(value) {
+      vm.place.description = value;
+      update({'place_desc': vm.place.description});
     }
 
     function setGrandPlace(place) {

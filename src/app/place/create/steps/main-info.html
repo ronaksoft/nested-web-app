@@ -1,0 +1,57 @@
+<form ng-submit="ctrl.step = 2" name="placeForm" novalidate>
+  <h2 class="_df">
+    <svg class="_32svg _r45" ng-click="$dismiss()">
+      <use xlink:href="/assets/icons/nst-icn32.svg#cross"></use>
+    </svg>
+    <translate ng-if="!ctrl.hasParentPlace">Create a Grand Place<span>Step 1/2</span></translate>
+    <translate ng-if="ctrl.isOpenPlace">Create a Common Place<span>Step 1/2</span></translate>
+    <translate ng-if="ctrl.hasParentPlace && ctrl.isClosedPlace">Create a Private Place<span>Step 1/2</span></translate>
+  </h2>
+  <div class="_fw _jcc _df">
+    <label for="logo" class="pic">
+      <img ng-src="{{ ctrl.logoUrl || '/assets/icons/ph_photo.png'}}"/>
+    </label>
+    <input id="logo" type="file" name="logo" accept="image/*"
+           onchange="angular.element(this).scope().ctrl.loadImage(event)"/>
+  </div>
+  <div class="form-group" ng-class="{ 'has-error' : placeForm.placeName.$invalid && ctrl.submitted}">
+    <label class="input-lab" ng-if="placeForm.placeName.$valid || !ctrl.submitted">
+      <translate>Place name</translate>
+    </label>
+    <label class="error-message" ng-if="placeForm.placeName.$error.required && ctrl.submitted">
+      <translate>Place name is required</translate>
+    </label>
+    <input name="placeName" class="form-control" type="text" ng-model="ctrl.place.name"
+           ng-change="ctrl.setId(ctrl.place.name);" placeholder="Marketing Development" required/>
+  </div>
+
+  <label class="input-lab" for="PlaceID">
+    <translate>Place ID</translate>
+  </label>
+  <div class="placeID ng-class:{'not-val' : !ctrl.placeIdIsFullAvailable}">
+    <div class="field">
+      <div id="PlaceID" tabindex="2">
+        <span ng-if="ctrl.hasParentPlace">{{ctrl.place.parentId}}.</span>
+        {{ctrl.place.id.length > 0 ? ctrl.place.id.replace(ctrl.place.parentId + '.' ,'') : 'marketing-development'}}
+        <div ng-if="ctrl.placeIdChecking" class="nst-loading nst-loading-size-16 _dib"></div>
+      </div>
+      <svg class="_24svg _df _fn edit-icon" open-custom-modal="app/place/create/modals/place-change-id-modal.html">
+        <use xlink:href="/assets/icons/nst-icn24.svg#edit"></use>
+      </svg>
+    </div>
+    <aside>
+      <translate>The Place will be identified by this unique address. You <b>can't</b> change the Place ID after
+        creating the Place, so choose wisely!
+      </translate>
+    </aside>
+  </div>
+
+  <label class="input-lab input-form" for="PlaceDes">
+    <translate>Place Description <span>Optional</span></translate>
+  </label>
+  <input id="PlaceDes" type="text">
+  <button class="submit" type="submit" ng-disabled="!ctrl.placeIdIsFullAvailable || !placeForm.placeName.$valid">
+    <translate>Next</translate>
+  </button>
+  <!--<button class="submit" type="submit" id="submit-place"><translate>Create a Place</translate></button>-->
+</form>
