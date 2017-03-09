@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function PlaceMainSettingsController($q, toastr,
-    NstSvcPlaceFactory, NstSvcTranslation,
+    NstSvcPlaceFactory, NstSvcTranslation, NstSvcLogger,
     NST_PLACE_POLICY_OPTION, NST_PLACE_POLICY) {
     var vm = this;
 
@@ -18,9 +18,12 @@
     vm.setAddMemberPolicy = setAddMemberPolicy;
     vm.setAddPlacePolicy = setAddPlacePolicy;
 
-    vm.getAddPostPrivacyLevel = getAddPostPrivacyLevel;
-    vm.getAddPlacePrivacyLevel = getAddPlacePrivacyLevel;
-    vm.getAddMemberPrivacyLevel = getAddMemberPrivacyLevel;
+    (function () {
+      vm.addPostLevel = getAddPostPrivacyLevel(vm.place);
+      vm.addPlaceLevel = getAddPlacePrivacyLevel(vm.place);
+      vm.addMemberLevel = getAddMemberPrivacyLevel(vm.place);
+
+    })();
 
     function update(params) {
       var deferred = $q.defer();
@@ -67,13 +70,12 @@
               'privacy.receptive': 'internal',
               'policy.add_post': 'everyone'
             });
-        case NST_PLACE_POLICY_OPTION.EXTERNAL:
+        case NST_PLACE_POLICY_OPTION.EVERYONE:
             return update({
               'privacy.receptive': 'external',
-              'policy.add_post': 'creators'
+              'policy.add_post': 'everyone'
             });
         default:
-        console.log('oops');
           return $q.reject(Error("Policy add_post is not valid : " + value));
       }
     }
@@ -84,7 +86,7 @@
 
     function setAddMemberPolicy(value) {
       var newValue = null;
-      
+
       switch (value) {
         case NST_PLACE_POLICY_OPTION.MANAGERS:
           newValue = "creators";
@@ -126,7 +128,8 @@
       } else if (place.privacy.receptive === 'external' && place.policy.add_post === 'everyone') {
         return NST_PLACE_POLICY_OPTION.EVERYONE;
       } else {
-        throw Error('Place add_post privacy is not supported');
+        NstSvcLogger.error('The place receptive privacy and add_post policy combination is not expected!');
+        return NST_PLACE_POLICY_OPTION.MANAGERS;
       }
     }
 
@@ -137,7 +140,8 @@
         case NST_PLACE_POLICY.EVERYONE:
           return NST_PLACE_POLICY_OPTION.MEMBERS;
         default:
-          throw Error('Place add_member privacy is not supported');
+          NstSvcLogger.error('The place add_member policy is not expected!');
+          return NST_PLACE_POLICY_OPTION.MANAGERS;
       }
     }
 
@@ -148,7 +152,8 @@
         case NST_PLACE_POLICY.EVERYONE:
           return NST_PLACE_POLICY_OPTION.MEMBERS;
         default:
-          throw Error('Place add_place privacy is not supported');
+          NstSvcLogger.error('The place add_place policy is not expected!');
+          return NST_PLACE_POLICY_OPTION.MANAGERS;
       }
     }
   }
