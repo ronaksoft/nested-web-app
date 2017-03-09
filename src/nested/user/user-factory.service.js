@@ -109,16 +109,16 @@
 
     UserFactory.prototype.set = function (user) {
       if (user instanceof NstUser) {
-        if (this.has(user.getId())) {
-          NstSvcUserStorage.merge(user.getId(), user);
+        if (this.has(user.id)) {
+          NstSvcUserStorage.merge(user.id, user);
         } else {
-          NstSvcUserStorage.set(user.getId(), user);
+          NstSvcUserStorage.set(user.id, user);
         }
       } else if (user instanceof NstTinyUser) {
-        if (this.hasTiny(user.getId())) {
-          NstSvcTinyUserStorage.merge(user.getId(), user);
+        if (this.hasTiny(user.id)) {
+          NstSvcTinyUserStorage.merge(user.id, user);
         } else {
-          NstSvcTinyUserStorage.set(user.getId(), user);
+          NstSvcTinyUserStorage.set(user.id, user);
         }
       }
 
@@ -146,31 +146,6 @@
         deferred.resolve();
       }).catch(function (error) {
         deferred.reject(new NstFactoryError(null, error.getMessage(), error.getCode(), error));
-      });
-
-      return deferred.promise;
-    }
-
-    UserFactory.prototype.updateProfile = function (user) {
-      var deferred = $q.defer();
-      var factory = this;
-
-      var params = {
-        fname: user.getFirstName(),
-        lname: user.getLastName(),
-        dob: user.getDateOfBirth().valueOf(),
-        gender: user.getGender(),
-        searchable: user.getSearchable()
-      };
-
-      var query = new NstFactoryQuery(user.getId(), params);
-
-      NstSvcServer.request('account/update', params).then(function () {
-        NstSvcUserStorage.set(user.id, user);
-        factory.dispatchEvent(new CustomEvent(NST_USER_FACTORY_EVENT.PROFILE_UPDATED, new NstFactoryEventData(user)));
-        deferred.resolve(user);
-      }).catch(function (error) {
-        deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
       });
 
       return deferred.promise;
@@ -247,12 +222,13 @@
 
       var user = new NstTinyUser();
 
-      user.setId(data._id);
-      user.setFirstName(data.fname ? data.fname : data.name ? data.name : data._id);
-      user.setLastName(data.lname || '');
+      user.id = data._id;
+      user.firstName = data.fname ? data.fname : data.name ? data.name : data._id;
+      user.lastName = data.lname || '';
+      user.fullName = user.getFullName();
 
       if (data.picture && data.picture.org) {
-        user.setPicture(new NstPicture(data.picture));
+        user.picture = new NstPicture(data.picture);
       }
 
       this.set(user);
@@ -267,18 +243,21 @@
         return user;
       }
 
-      user.setNew(false);
-      user.setId(userData._id);
-      user.setFirstName(userData.fname ? userData.fname : userData.name ? userData.name : userData._id);
-      user.setLastName(userData.lname || '');
-      user.setPhone(userData.phone);
-      user.setCountry(userData.country);
-      user.setDateOfBirth(userData.dob);
-      user.setGender(userData.gender);
+      user.id = userData._id;
+      user.firstName = userData.fname ? userData.fname : userData.name ? userData.name : userData._id;
+      user.lastName = userData.lname || '';
+      user.fullName = user.getFullName();
+      user.phone = userData.phone;
+      user.country = userData.country;
+      user.dateOfBirth = userData.dob;
+      user.gender = userData.gender;
+      user.gender = userData.gender;
+      user.email = userData.email;
+      user.searchable = userData.searchable;
 
       if (_.isObject(userData.counters)) {
-        user.setTotalNotificationsCount(userData.counters.total_mentions);
-        user.setUnreadNotificationsCount(userData.counters.unread_mentions);
+        user.totalNotificationsCount = userData.counters.total_mentions;
+        user.unreadNotificationsCount = userData.counters.unread_mentions;
       }
 
       if (userData.picture && userData.picture.org) {
@@ -290,11 +269,11 @@
 
     UserFactory.prototype.toUserData = function (user) {
       var userData = {
-        _id: user.getId(),
-        fname: user.getFirstName(),
-        lname: user.getLastName(),
-        phone: user.getPhone(),
-        country: user.getCountry()
+        _id: user.id,
+        fname: user.firstName,
+        lname: user.lastName,
+        phone: user.phone,
+        country: user.country
       };
 
       if (user.hasPicture()) {
@@ -308,10 +287,6 @@
       }
 
       return userData;
-    };
-
-    UserFactory.prototype.createUserModel = function (model) {
-      return new NstUser(model);
     };
 
     UserFactory.prototype.search = function (settings, area) {

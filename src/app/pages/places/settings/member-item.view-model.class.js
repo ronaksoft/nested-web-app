@@ -30,7 +30,7 @@
 
       if (model instanceof NstUser || model instanceof NstTinyUser) {
 
-        this.id = model.getId();
+        this.id = model.id;
         this.name = model.getFullName();
         if (model.hasPicture()) {
           this.avatar = model.picture.getUrl("x64");
@@ -38,7 +38,7 @@
         }
       } else if (model instanceof NstInvitation) {
 
-        this.id = model.invitee.getId();
+        this.id = model.invitee.id;
         this.name = model.invitee.getFullName();
         this.InvitationId = model.id;
 

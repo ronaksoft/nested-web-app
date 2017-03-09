@@ -1,0 +1,34 @@
+<div class="settings-body"
+  ng-init="sharePostPolicyOptions = [NST_PLACE_POLICY_OPTION.MANAGERS, NST_PLACE_POLICY_OPTION.EVERYONE];">
+
+  <div class="form-group" ng-class="{ 'has-error' : ctrl.placeName.$invalid}">
+    <label class="input-lab"><translate>Place name</translate></label>
+    <label class="error-message" ng-if="ctrl.placeName.$invalid"><translate>Place name is required</translate></label>
+    <div class="field">
+      <div class="_df _fw">{{ctrl.place.name}}</div>
+      <svg class="_24svg _df _fn edit-icon" open-custom-modal="app/place/settings/main/modals/place-change-name-modal.html">
+      <use xlink:href="/assets/icons/nst-icn24.svg#edit"></use>
+    </svg>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="input-lab"><translate>Place Description</translate></label>
+    <div class="field">
+      <div class="_df _fw">{{ctrl.place.description}}</div>
+      <svg class="_24svg _df _fn edit-icon" open-custom-modal="app/place/settings/main/modals/place-change-description-modal.html">
+      <use xlink:href="/assets/icons/nst-icn24.svg#edit"></use>
+    </svg>
+    </div>
+  </div>
+
+  <p><translate>Who can share posts with this Place?</translate></p>
+  <place-policy-option levels="sharePostPolicyOptions"
+                       level="ctrl.addPostLevel"
+                       level-changed="ctrl.setAddPostPolicy"
+                       searchable="ctrl.place.privacy.search"
+                       searchable-changed="ctrl.setSearchPrivacy"
+                       place-name="ctrl.place.name"
+                       grand-place-name="ctrl.place.grandParentId">
+  </place-policy-option>
+</div>

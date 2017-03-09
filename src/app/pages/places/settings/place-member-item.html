@@ -1,12 +1,12 @@
 <div class="chk-box">
-  <div class="chk-ico"></div>
+  <div ng-if="!memberCtrl.isCurrent" class="chk-ico" ng-click="memberCtrl.onSelect(memberCtrl.member)"></div>
 </div>
 <div class="logo">
   <img initials="memberCtrl.member.name" data-url="memberCtrl.member.avatar" data-width="48" data-height="48"
        data-radius="24" class="account-initials-48" data-word-count="2" data-font-size="16"/>
 </div>
 <div class="name">
-  <p ng-class="{ 'nst-mood-pending': memberCtrl.member.role === 'pending_key_holder'}">{{memberCtrl.member.name}}</p>
+  <p ng-class="{ 'nst-mood-pending': memberCtrl.member.role === 'pending_key_holder'}">{{memberCtrl.member.name}} <i ng-if="memberCtrl.isCurrent" translate-inner>(me)</i></p>
   <span ng-class="{ 'nst-mood-pending': memberCtrl.member.role === 'pending_key_holder'}">@{{memberCtrl.member.id}}</span>
 </div>
 <div class="role">
