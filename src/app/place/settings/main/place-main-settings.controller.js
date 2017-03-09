@@ -41,15 +41,25 @@
       return deferred.promise;
     }
 
-    function updateName(value) {
+    function updateName(isValid, value, $close, $dismiss) {
+      if (!isValid) {
+        return;
+      }
+
       return update({ 'place_name' : value }).then(function () {
         vm.place.name = value;
+        $close();
       });
     }
 
-    function updateDescription(value) {
+    function updateDescription(isValid, value, $close, $dismiss) {
+      if (!isValid) {
+        return;
+      }
+      
       return update({ 'place_desc' : value }).then(function () {
         vm.place.description = value;
+        $close();
       });
     }
 
