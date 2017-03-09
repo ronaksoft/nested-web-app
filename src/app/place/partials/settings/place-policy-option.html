@@ -1,23 +1,23 @@
 <div class="_difh _fw _aic recive-opt _asc {{ getLevelClass(level) }}" ng-class="{'member-option' : two ,'sub-place' : three }">
-  <svg ng-click="level = NST_PLACE_POLICY_OPTION.MANAGERS; switchLevel(level);">
+  <svg ng-click="switchLevel(NST_PLACE_POLICY_OPTION.MANAGERS, level);">
     <use xlink:href="/assets/icons/nst-icn24.svg#member"></use>
   </svg>
   <hr class="margin" ng-hide="!hasOption(NST_PLACE_POLICY_OPTION.MEMBERS);">
   <hr ng-hide="!hasOption(NST_PLACE_POLICY_OPTION.MEMBERS);">
   <hr class="margin" ng-hide="!hasOption(NST_PLACE_POLICY_OPTION.MEMBERS);">
-  <svg ng-click="level = NST_PLACE_POLICY_OPTION.MEMBERS; switchLevel(level);" ng-hide="!hasOption(NST_PLACE_POLICY_OPTION.MEMBERS);">
+  <svg ng-click="switchLevel(NST_PLACE_POLICY_OPTION.MEMBERS, level);" ng-hide="!hasOption(NST_PLACE_POLICY_OPTION.MEMBERS);">
     <use xlink:href="/assets/icons/nst-icn24.svg#manager-member"></use>
   </svg>
   <hr class="margin" ng-hide="!hasOption(NST_PLACE_POLICY_OPTION.TEAMMATES)">
   <hr ng-hide="!hasOption(NST_PLACE_POLICY_OPTION.TEAMMATES)">
   <hr class="margin" ng-hide="!hasOption(NST_PLACE_POLICY_OPTION.TEAMMATES)">
-  <svg ng-click="level = NST_PLACE_POLICY_OPTION.TEAMMATES; switchLevel(level);" ng-hide="!hasOption(NST_PLACE_POLICY_OPTION.TEAMMATES)">
+  <svg ng-click="switchLevel(NST_PLACE_POLICY_OPTION.TEAMMATES, level);" ng-hide="!hasOption(NST_PLACE_POLICY_OPTION.TEAMMATES)">
     <use xlink:href="/assets/icons/nst-icn24.svg#team"></use>
   </svg>
   <hr class="margin" ng-hide="!hasOption(NST_PLACE_POLICY_OPTION.EVERYONE)">
   <hr ng-hide="!hasOption(NST_PLACE_POLICY_OPTION.EVERYONE)">
   <hr class="margin" ng-hide="!hasOption(NST_PLACE_POLICY_OPTION.EVERYONE)">
-  <svg ng-click="level = NST_PLACE_POLICY_OPTION.EVERYONE; switchLevel(level);" ng-hide="!hasOption(NST_PLACE_POLICY_OPTION.EVERYONE)">
+  <svg ng-click="switchLevel(NST_PLACE_POLICY_OPTION.EVERYONE, level);" ng-hide="!hasOption(NST_PLACE_POLICY_OPTION.EVERYONE)">
     <use xlink:href="/assets/icons/nst-icn24.svg#earth"></use>
   </svg>
   <div class="active-border"></div>

@@ -3,10 +3,10 @@
     <div class="_difh modal-head">
       <p class="_df _fw"><translate>Edit Place description</translate></p>
     </div>
-      <form name="editNameForm" ng-submit="submitted = true; ctrl.updateName(editNameForm.$valid, description, $close, $dismiss);" ng-init="description = ctrl.place.description; submitted = false;" novalidate autocomplete="off">
-        <div class="form-group" ng-class="{ 'has-error' : editNameForm.description.$invalid && submitted}">
-          <label class="input-lab" ng-if="!editNameForm.description.$error.required || !submitted"><translate>description</translate></label>
-          <textarea class="_df _fw form-control" name="description" type="text" ng-model="description" tabindex="1" translate-attrs="placeholder" focus-me></textarea>
+      <form name="editDescriptionForm" ng-submit="submitted = true; ctrl.updateDescription(editDescriptionForm.$valid, description, $close, $dismiss);" ng-init="description = ctrl.place.description; submitted = false;" novalidate autocomplete="off">
+        <div class="form-group" ng-class="{ 'has-error' : editDescriptionForm.description.$invalid && submitted}">
+          <label class="input-lab" ng-if="!editDescriptionForm.description.$error.required || !submitted"><translate>description</translate></label>
+          <textarea class="_df _fw form-control" name="description" ng-model="description" maxlength="512" tabindex="1" translate-attrs="placeholder" focus-me></textarea>
         </div>
         <div class="_df _fw mdl-ft">
           <div class="butn-white" ng-click="$dismiss('discard')" translate-attrs="value" tabindex="4"><translate>Discard</translate></div>
