@@ -8,7 +8,7 @@
   </h3>
 
 
-  <div class="_jcc _difv _asc" ng-if="ctrl.getPlaceType(ctrl.createdPlace) === NST_PLACE_TYPE.GRAND">
+  <div class="place-info-box" ng-if="ctrl.getPlaceType(ctrl.createdPlace) === NST_PLACE_TYPE.GRAND">
     <svg class="_48svg _df _asc _scl2">
       <use xlink:href="/assets/icons/nst-icn16.svg#places"></use>
     </svg>
@@ -21,7 +21,7 @@
     </p>
   </div>
 
-  <div class="_jcc _difv _asc" ng-if="ctrl.getPlaceType(ctrl.createdPlace) === NST_PLACE_TYPE.COMMON">
+  <div class="place-info-box" ng-if="ctrl.getPlaceType(ctrl.createdPlace) === NST_PLACE_TYPE.COMMON">
     <svg class="_48svg _df _asc _scl2">
       <use xlink:href="/assets/icons/nst-icn16.svg#places"></use>
     </svg>
@@ -33,7 +33,7 @@
     </p>
   </div>
 
-  <div class="_jcc _difv _asc" ng-if="ctrl.getPlaceType(ctrl.createdPlace) === NST_PLACE_TYPE.PRIVATE">
+  <div class="place-info-box" ng-if="ctrl.getPlaceType(ctrl.createdPlace) === NST_PLACE_TYPE.PRIVATE">
     <svg class="_48svg _df _asc _scl2">
       <use xlink:href="/assets/icons/nst-icn24.svg#brick-wall"></use>
     </svg>
@@ -42,14 +42,14 @@
   </div>
 
 
-  <div class="_jcc _difv _asc" ng-if="ctrl.getPlaceType(ctrl.createdPlace) === NST_PLACE_TYPE.SUB_PERSONAL">
+  <div class="place-info-box" ng-if="ctrl.getPlaceType(ctrl.createdPlace) === NST_PLACE_TYPE.SUB_PERSONAL">
     <svg class="_48svg _df _asc _scl2">
       <use xlink:href="/assets/icons/nst-icn24.svg#brick-wall"></use>
     </svg>
     <span><tasnslate>Private Place</tasnslate></span>
   </div>
 
-  <div class="_jcc _difv _asc" ng-if="ctrl.postPolicy === NST_PLACE_POLICY_OPTION.MANAGERS">
+  <div class="place-info-box" ng-if="ctrl.postPolicy === NST_PLACE_POLICY_OPTION.MANAGERS">
     <svg class="_48svg _df _asc _scl2">
       <use xlink:href="/assets/icons/nst-icn24.svg#manager"></use>
     </svg>
@@ -61,7 +61,7 @@
     </p>
   </div>
 
-  <div class="_jcc _difv _asc" ng-if="ctrl.postPolicy === NST_PLACE_POLICY_OPTION.MEMBERS">
+  <div class="place-info-box" ng-if="ctrl.postPolicy === NST_PLACE_POLICY_OPTION.MEMBERS">
     <svg class="_48svg _df _asc _scl2">
       <use xlink:href="/assets/icons/nst-icn24.svg#manager-member"></use>
     </svg>
@@ -73,7 +73,7 @@
     </p>
   </div>
 
-  <div class="_jcc _difv _asc" ng-if="ctrl.postPolicy === NST_PLACE_POLICY_OPTION.TEAMMATES">
+  <div class="place-info-box" ng-if="ctrl.postPolicy === NST_PLACE_POLICY_OPTION.TEAMMATES">
     <svg class="_48svg _df _asc _scl2">
       <use xlink:href="/assets/icons/nst-icn24.svg#team"></use>
     </svg>
@@ -85,7 +85,7 @@
     </p>
   </div>
 
-  <div class="_jcc _difv _asc" ng-if="ctrl.postPolicy === NST_PLACE_POLICY_OPTION.EVERYONE">
+  <div class="place-info-box" ng-if="ctrl.postPolicy === NST_PLACE_POLICY_OPTION.EVERYONE">
     <svg class="_48svg _df _asc _scl2">
       <use xlink:href="/assets/icons/nst-icn24.svg#earth"></use>
     </svg>
@@ -96,14 +96,14 @@
   </div>
 
 
-  <div class="_jcc _difv _asc" ng-if="ctrl.place.privacy.search">
+  <div class="place-info-box" ng-if="ctrl.place.privacy.search">
     <svg class="_24svg _df _asc">
       <use xlink:href="/assets/icons/nst-icn20.svg#search"></use>
     </svg>
     <p class="cr8">This place is shown on other users search results. </p>
   </div>
 
-  <div class="_jcc _difv _asc" ng-if="!ctrl.place.privacy.search">
+  <div class="place-info-box" ng-if="!ctrl.place.privacy.search">
     <svg class="_24svg _df _asc">
       <use xlink:href="/assets/icons/nst-icn20.svg#search"></use>
     </svg>
