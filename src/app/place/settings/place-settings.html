@@ -14,6 +14,6 @@
     </a>
   </div>
 
-  <place-main-settings ng-if="ctrl.placeType" place="ctrl.place" place-type="{{ctrl.placeType}}" ng-show="selectedView == 0"></place-main-settings>
+  <place-main-settings ng-if="ctrl.placeType" place="ctrl.place" place-type="{{::ctrl.placeType}}" has-control-access="ctrl.accesses.hasControlAccess" ng-show="selectedView == 0"></place-main-settings>
   <place-member-settings ng-if="ctrl.place" place="ctrl.place" accesses="ctrl.accesses" ng-show="selectedView == 1"></place-member-settings>
 </div>

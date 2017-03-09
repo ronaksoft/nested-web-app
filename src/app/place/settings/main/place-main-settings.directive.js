@@ -18,7 +18,8 @@
         controllerAs: 'ctrl',
         bindToController: true,
         scope: {
-          place: '='
+          place: '=',
+          hasControlAccess: '='
         },
         link: function(scope, element, attrs) {
           if (!attrs.placeType) {
