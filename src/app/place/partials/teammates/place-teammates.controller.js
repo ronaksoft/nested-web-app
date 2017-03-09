@@ -108,11 +108,17 @@
         controllerAs: 'addMemberCtrl',
         size: 'sm',
         resolve: {
-          chosenRole: function() {
+          chosenRole: function () {
             return role;
           },
-          currentPlace: function() {
+          currentPlace: function () {
             return vm.place;
+          },
+          mode: function () {
+            return false
+          },
+          isForGrandPlace: function () {
+            return undefined
           }
         }
       });

@@ -211,7 +211,6 @@ function NstSvcNotification($q, $window, _, $state,
   };
 
   MyNotification.prototype.broadcastOpenPost = function (postId, notificationId) {
-    console.log("Broadcastedage55", postId);
     this.dispatchEvent(new CustomEvent(NST_NOTIFICATION_FACTORY_EVENT.EXTERNAL_PUSH_ACTION, new NstFactoryEventData({
       action: NST_NOTIFICATION_FACTORY_EVENT.OPEN_POST_VIEW,
       postId: postId,

@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   angular
@@ -10,7 +10,7 @@
                                     NST_USER_SEARCH_AREA,
                                     NstSvcUserFactory, NstSvcTranslation,
                                     NST_PLACE_MEMBER_TYPE,
-                                    chosenRole, currentPlace) {
+                                    chosenRole, currentPlace, mode, isForGrandPlace) {
     var vm = this;
     var defaultSearchResultCount = 9;
 
@@ -24,11 +24,18 @@
     search();
 
 
-    if (currentPlace.id.split('.').length > 1){
-      vm.isGrandPlace = false;
-    }else{
+    if (isForGrandPlace === true) {
       vm.isGrandPlace = true;
+    } else if (isForGrandPlace === false) {
+      vm.isGrandPlace = false;
+    } else {
+      if (currentPlace.id.split('.').length > 1) {
+        vm.isGrandPlace = false;
+      } else {
+        vm.isGrandPlace = true;
+      }
     }
+
 
     if (vm.isGrandPlace) {
       vm.searchPlaceholder = NstSvcTranslation.get("Name, email or phone number...");
@@ -37,15 +44,19 @@
     }
 
     function search(query) {
+
       var settings = {
-        query : query || vm.query,
-        role : chosenRole,
-        placeId : currentPlace.id,
-        limit : calculateSearchLimit()
+        query: query || vm.query,
+        role: chosenRole,
+        placeId: currentPlace.id,
+        limit: calculateSearchLimit()
       };
 
+      if (mode === 'offline-mode' && isForGrandPlace) {
+        delete  settings.placeId;
+      }
 
-      NstSvcUserFactory.search(settings, vm.isGrandPlace ?  NST_USER_SEARCH_AREA.INVITE :  NST_USER_SEARCH_AREA.ADD)
+      NstSvcUserFactory.search(settings, (vm.isGrandPlace || isForGrandPlace) ? NST_USER_SEARCH_AREA.INVITE : NST_USER_SEARCH_AREA.ADD)
         .then(function (users) {
           vm.users = _.differenceBy(users, vm.selectedUsers, 'id');
           vm.query = query;
@@ -64,8 +75,8 @@
     }
 
     function checkUserLimitPlace() {
-      var previusUsers = currentPlace.counters.creators + currentPlace.counters.key_holders;
-      vm.limit = 255 - previusUsers;
+      var previousUsers = mode === 'offline-mode' ? 0 : currentPlace.counters.creators + currentPlace.counters.key_holders;
+      vm.limit = 255 - previousUsers;
     }
   }
 })();
