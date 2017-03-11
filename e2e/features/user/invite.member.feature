@@ -1,78 +1,35 @@
-#Feature: User: login
-#  As a user of Nested
-#  I should be able to create a new place
+#Feature: checking invitation,add and remove member flow
 #
-#  Scenario: Login user with invalid username
+#      #TODO waiting for ehsan to fix searchable option issue
 #
-#    Given I go to the page "/login"
-#    When I wait 5s
-#    Given I fill "Username" with "test1"
-#    When I wait 2s
-#    Given I fill "Password" with "111111"
-#    When I wait 2s
-#    Given I Press "Sign in"
-#    When I wait 5s
-#    Then should the title of the place be "All Places"
+#    Scenario: kayvan signs in
+#      Given I go to the page "/login"
+#      When Wait to loading hide
+#      Given I fill "Username" with "kayvan"
+#      Given I fill "Password" with "1234"
+#      Given I Press "Sign in"
+#      Then current tab must be "Feed"
 #
-#  Scenario: Create a place from sidebar
+#    Scenario: kayvan goes to "hardware" place
+#      When I wait 10s
+#      Given I Click on "hardware" place in sidebar
+#      Then should the title of the place be "hardware"
 #
-#    Given I Click on plus of "create" in sidebar
-#    When I wait 5s
-#    Given I Click id "close-create-place"
-#    When I wait 5s
-#    Given I Click on plus of "create" in sidebar
-#    When I wait 5s
-#    Given I fill "Marketing Development" with "test-create-place14"
-#    When I wait 5s
-#    Given I Click id "PlaceID"
-#    When I wait 5s
-#    Given I clear input by id "change-place-id"
-#    When I wait 5s
-#    Given I fill id "change-place-id" with "create14"
-#    When I wait 5s
-#    Given I Click id "change-save"
-#    When I wait 5s
-#    Given I Click label by for "notification"
-#    When I wait 5s
-#    Given I Click label by for "favo"
-#    When I wait 5s
-#    When I wait 5s
-#    Given I Click Option by value "everyone"
-#    When I wait 5s
-#    Given I Click id "submit-place"
-#    When I wait 5s
-#    Given I Click id "close-setting-place"
-#    When I wait 5s
-#    Then should the title of the place be "test-create-place14"
+#    Scenario: invites ewyer
+#      When Wait for hiding of all loadings
+#      Given I Click by ngClick "ctlTeammates.addMember()"
+#      When Wait to see invite-modal
+#      Given I fill recipient with "ewyer"
+#      When I wait 2s
+#      Given I press enter
+#      Given I Click by ngClick "addMemberCtrl.add();"
+#      Then invite modal must hide
+#
+#    Scenario: add him to "first"
 #
 #
-#  Scenario: invite member
-#    Given I Click on "create14" place
-#    When I wait 5s
-#    Given I Click id "navbar-popover"
-#    When I wait 5s
-#    Given I Click Link by Partial Text "Invite Members"
-#    When I wait 5s
-#    Given I fill "Name, email or phone number  ..." with "shayestehn"
-#    When I wait 5s
-#    Given I press enter
-#    When I wait 5s
-#    Given I Click id "invite"
-#    Then should the title of the place be "test-create-place14"
-#
-#
-#  Scenario: Delete grand place
-#    Given I Click on "create14" place
-#    When I wait 5s
-#    Given I Click id "navbar-popover"
-#    When I wait 5s
-#    Given I Click Link by Partial Text "Delete"
-#    When I wait 5s
-#    Given I Click Link by Partial Text "Delete Place"
-#    When I wait 5s
-#    Given I fill "Place Name" with "create14"
-#    When I wait 5s
-#    Given I Click Link by Partial Text "DELETE"
-#    When I wait 5s
-#    Then should the title of the place be "All Places"
-#
+#    Scenario: kayvan signs out
+#      Given I Click on profile pop-over
+#      Given I Click on href "signout"
+#      When I wait 5s
+#      Then Must see object with id "panel-signin"

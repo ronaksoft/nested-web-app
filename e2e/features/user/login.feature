@@ -9,7 +9,7 @@
 #    Given I fill "Password" with "1234"
 #    Given I Press "Sign in"
 #    Then current tab must be "Feed"
-#
+
 #  Scenario:
 #    Given I Click on profile pop-over
 #    Given I Click on href "signout"
