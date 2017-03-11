@@ -10,7 +10,7 @@
     $timeout, $uibModal, $uibModalInstance, toastr,
     NST_PLACE_POLICY_OPTION, NST_STORE_UPLOAD_TYPE, NST_PLACE_ACCESS, NST_SRV_ERROR,
     NST_PLACE_MEMBER_TYPE, NST_PLACE_FACTORY_EVENT, NST_PLACE_TYPE, NST_DEFAULT,
-    NstSvcStore, NstSvcAuth, NstSvcPlaceFactory, NstUtility, NstSvcLogger, NstSvcTranslation,
+    NstSvcStore, NstSvcAuth, NstSvcPlaceFactory, NstUtility, NstSvcLogger, NstSvcTranslation, NstSvcModal,
     NstPicture, NstPlaceOneCreatorLeftError, NstPlaceCreatorOfParentError) {
     var vm = this;
     $scope.NST_PLACE_POLICY_OPTION = NST_PLACE_POLICY_OPTION;
@@ -33,8 +33,8 @@
     vm.placeLoadProgress = false;
 
 
-    vm.loadImage = loadImage;
-    // vm.removeImage = removeImage;
+    vm.setPicture = setPicture;
+    vm.removePicture = removePicture;
     vm.leave = confirmToLeave;
     vm.remove = confirmToRemove;
 
@@ -151,14 +151,14 @@
       return deferred.promise;
     }
 
-    function loadImage(event) {
+    function setPicture(event) {
       var file = event.currentTarget.files[0];
 
 
       $uibModal.open({
         animation: false,
         size: 'no-miss crop',
-        templateUrl: 'app/account/crop/change-pic.modal.html',
+        templateUrl: 'app/settings/profile/crop/change-pic.modal.html',
         controller: 'CropController',
         resolve: {
           argv: {
@@ -285,6 +285,15 @@
       });
     }
 
+    function removePicture() {
+      NstSvcModal.confirm(NstSvcTranslation.get("Confirm"), NstSvcTranslation.get("Please make sure before removing the place picture.")).then(function(confirmed) {
+        NstSvcPlaceFactory.updatePicture(vm.place.id, "").then(function (result) {
+          vm.place.picture = null;
+        }).catch(function (error) {
+          toastr.error(NstSvcTranslation.get("An error occured while removing the place picture"));
+        });
+      });
+    }
 
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.BOOKMARK_ADD, function (e) {
       if (e.detail.id === vm.placeId) vm.options.bookmark = true;
