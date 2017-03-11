@@ -3,9 +3,11 @@
     <a class="_df _fw">
       <translate>Notifications</translate>
     </a>
-    <svg class="_df _fn" ng-click="ctlNotifications.markAllSeen()">
-      <use xlink:href="/assets/icons/nst-icn24.svg#list-check"></use>
-    </svg>
+    <div class="_40svg _df _fn _aic _jcc" ng-click="ctlNotifications.markAllSeen()">
+      <svg ng-click="ctlNotifications.markAllSeen()">
+        <use xlink:href="/assets/icons/nst-icn24.svg#list-check"></use>
+      </svg>
+    </div>
   </div>
   <div class="_fw _jcc _df margin-top-10" ng-if="ctlNotifications.loadingAfter">
     <div class="nst-loading nst-loading-size-4 _fl"></div>

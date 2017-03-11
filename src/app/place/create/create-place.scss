@@ -11,6 +11,12 @@
   >div {
     max-width: 100%;
   }
+  .place-info-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 32px 0;
+  }
   #PlaceID {
     color: $color-sense-wire;
     @extend .nst-font-large;
