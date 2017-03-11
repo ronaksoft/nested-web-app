@@ -375,7 +375,7 @@
           return new NstVmPlace(place);
         });
 
-        if (!_.some(vm.search.results, { id : query })) {
+        if (_.indexOf(query, " ") === -1 && !_.some(vm.search.results, { id : query })) {
           var initPlace = NstSvcPlaceFactory.parseTinyPlace({
             _id: query,
             name: query,
