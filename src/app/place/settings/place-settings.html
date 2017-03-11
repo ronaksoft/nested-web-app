@@ -9,7 +9,11 @@
         <use xlink:href="/assets/icons/nst-icn24.svg#cross"></use>
       </svg>
       <h3 class="_df _fw"><translate>Place Settings</translate></h3>
-
+      <svg class="_24svg _df _fn" data-popover-class="white-pop popover-white-nst-activity-places"
+           data-popover-append-to-body="true" uib-popover-template="'app/place/partials/settings/place-setting-more-option.html'"
+           data-popover-placement="auto bottom-right">
+        <use xlink:href="/assets/icons/nst-icn24.svg#more"></use>
+      </svg>
     </div>
     <div class="logo-holder">
       <img ng-if="!ctrl.pictureUrl" ng-src="{{ctrl.place | picture:'x128'}}" height="100%" alt="{{ctrl.place.name}}">
