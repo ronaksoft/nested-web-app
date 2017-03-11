@@ -542,9 +542,29 @@ input[type="checkbox"].inpsw[disabled]:checked + label + label  {
     @extend .nst-font-medium;
     line-height: 17px;
   }
-  .green-radio:checked + label {
-    background-position: 0 -64px;
+.green-radio:checked + label {
+  background-position: 0 -64px;
+}
+.green-radio {
+  display: none;
+}
+
+.inline-date-picker {
+  display: flex;
+  input {
+    display: flex;
+    flex: 1;
+    width: 100%;
   }
-  .green-radio {
-    display: none;
+  select {
+    height: 40px;
+    display: flex;
+    flex: 1;
+    padding: 0 16px;
   }
+  .devider {
+    display: flex;
+    width: 16px;
+    flex: none;
+  }
+}
