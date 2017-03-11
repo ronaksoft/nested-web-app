@@ -1,8 +1,8 @@
 #create-place {
   max-width: 480px;
+  min-height: 100vh;
   width: 100%;
   display: flex;
-  min-height: 100%;
   padding: 0 32px;
   margin-left: auto;
   margin-right: auto;
@@ -195,7 +195,7 @@
     position: absolute;
     bottom: -18px;
     z-index: 4;
-    transition: left $animation-dur ease-in-out;
+    transition: left,right $animation-dur ease-in-out;
     border-left: 1px solid #EBEBEB;
     border-top: 1px solid #EBEBEB;
   }
@@ -213,6 +213,62 @@
     left: calc(100% - 30px);
   }
 }
+body[dir="rtl"] {
+  .recive-opt {
+    &.l1 .recive-arrow {
+      left: auto;
+      right: 20px;
+    }
+    &.l2 .recive-arrow {
+      left: auto;
+      right: calc(25% + 32px);
+    }
+    &.l3 .recive-arrow {
+      left: auto;
+      right: calc(75% - 48px);
+    }
+    &.l4 .recive-arrow {
+      left: auto;
+      right: calc(100% - 30px);
+    }
+  }
+  .member-option {
+    left: auto;
+    right: 50%;
+    transform: translateX(50%);
+    &.l2 .active-border {
+      width: 100%;
+    }
+    &.l2 .recive-arrow {
+      right: calc(100% - 30px);
+      left: 0
+    }
+  }
+
+  .sub-place {
+    left: auto;
+    right: 50%;
+    transform: translateX(50%);
+    &.l2 .active-border {
+      width: calc(50% + 20px);
+    }
+    &.l2 .recive-arrow {
+      left: auto;
+      right: calc(50% - 10px);
+    }
+    &.l3 .active-border {
+      width: 100%;
+    }
+    &.l3 .recive-arrow {
+      right: calc(100% - 30px);
+      left: auto;
+    }
+  }
+  .disable {
+    right: 50%;
+    transform: translateX(50%);
+  }
+}
 .recive-det {
   margin-top: 12px;
   width: 100%;
@@ -226,6 +282,9 @@
   }
   p {
     font-size: 13px;
+    margin: 0;
+  }
+  >div {
     margin: 24px 0 0 0;
   }
 }
