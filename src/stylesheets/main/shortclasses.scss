@@ -84,6 +84,11 @@
 }
 ._scl2 {
   transform: scale(2,2) translateY(-5px);
+  transform-origin: center center;
+}
+._scl4 {
+  transform: scale(4,4) translateY(-5px);
+  transform-origin: center center;
 }
 ._hf{
   min-width: 50%;
