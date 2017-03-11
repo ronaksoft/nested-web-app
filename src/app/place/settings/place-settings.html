@@ -15,8 +15,8 @@
         <use xlink:href="/assets/icons/nst-icn24.svg#more"></use>
       </svg>
     </div>
-    <input id="logo" type="file" name="logo" accept="image/*" onchange="angular.element(this).scope().ctrl.setImage(event)">
-    <label for="logo" class="logo-holder">
+    <input id="placeLogo" type="file" name="logo" accept="image/*" onchange="angular.element(this).scope().ctrl.setPicture(event)">
+    <label for="placeLogo" class="logo-holder">
       <img ng-if="!ctrl.pictureUrl" ng-src="{{ctrl.place | picture:'x128'}}" height="100%" alt="{{ctrl.place.name}}">
       <img ng-if="ctrl.pictureUrl" ng-src="{{ctrl.pictureUrl}}" height="100%" alt="{{ctrl.place.name}}">
       <i>

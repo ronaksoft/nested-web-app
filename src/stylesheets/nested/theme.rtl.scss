@@ -428,6 +428,25 @@ body[dir="rtl"] {
   .panel-profile-setting {
     float: right;
   }
+  .recive-opt .active-border {
+    left: auto;
+    right: 0;
+  }
+  .user-item .name {
+    padding-left: 0;
+    padding-right: 8px;
+  }
+  .place-head {
+    margin-right: -32px;
+  }
+  #place-settings .settings-tab {
+    margin-left: 0;
+    margin-right: -32px;
+  }
+
+  #place-settings .user-item {
+    margin-right: -32px;
+  }
 }
 body[dir="ltr"] {
   .post-card-comments p.RTL-text {

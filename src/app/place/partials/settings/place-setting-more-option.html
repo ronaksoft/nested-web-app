@@ -1,11 +1,11 @@
-<a class="_df list-items _aic">
+<label class="_df list-items _aic" for="placeLogo" ng-if="ctrl.accesses.hasControlAccess" ng-click="$('#placeLogo').click();">
   <translate>Change Place Picture</translate>
-</a>
-<a class="_df list-items _aic">
+</label>
+<a class="_df list-items _aic" ng-if="ctrl.accesses.hasControlAccess" ng-click="ctrl.removePicture();">
   <translate>Remove Place Picture</translate>
 </a>
-<hr>
-<a class="_df red list-items _aic">
+<hr ng-if="ctrl.accesses.hasControlAccess">
+<a class="_df red list-items _aic" ng-if="(ctrl.place.counters.creators + ctrl.place.counters.key_holders) > 1" ng-click="ctrl.leave()">
   <div>
     <svg class="_16svg">
       <use xlink:href="/assets/icons/nst-icn16.svg#exit"></use>
@@ -13,7 +13,7 @@
   </div>
   <translate>Leave Place</translate>
 </a>
-<a class="_df red list-items _aic">
+<a class="_df red list-items _aic" ng-if="ctrl.accesses.hasControlAccess" ng-click="ctrl.remove()">
   <div>
     <svg class="_16svg">
       <use xlink:href="/assets/icons/nst-icn16.svg#bin"></use>
