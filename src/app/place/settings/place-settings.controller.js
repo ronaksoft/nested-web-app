@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function PlaceSettingsController($scope, $stateParams, $q, $uibModal, $state, toastr, $rootScope, $timeout, $uibModalInstance,
-                                   NST_PLACE_POLICY_OPTION, NST_STORE_UPLOAD_TYPE, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_PLACE_FACTORY_EVENT, NST_PLACE_TYPE,
+                                   NST_PLACE_POLICY_OPTION, NST_STORE_UPLOAD_TYPE, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_PLACE_FACTORY_EVENT, NST_PLACE_TYPE, NST_DEFAULT, NST_SRV_ERROR,
                                    NstSvcStore, NstSvcAuth, NstSvcPlaceFactory, NstUtility, NstSvcInvitationFactory, NstSvcLogger,
                                    NstPlaceOneCreatorLeftError, NstPlaceCreatorOfParentError, NstSvcTranslation,
                                    NstVmMemberItem) {
@@ -25,7 +25,8 @@
       hasAddPlaceAccess: null,
       hasControlAccess: null,
       hasAddMembersAccess: null,
-      hasSeeMembersAccess: null
+      hasSeeMembersAccess: null,
+      hasReadAccess: null
     };
     vm.tempPictureUrl = null;
 
@@ -38,13 +39,43 @@
       vm.placeId = $stateParams.placeId;
       vm.user = NstSvcAuth.user;
 
+      // do not allow user to view her personal place settings
+      // and redirect her to Profile Settings page instead
+      if (vm.placeId === vm.user.id) {
+        $timeout(function () {
+          $uibModalInstance.close();
+          $state.go('app.settings.profile');
+          toastr.info(NstSvcTranslation.get("You can modify your profile settings here"));
+        }, 1);
+        return;
+      }
+
       loadPlace(vm.placeId).then(function(result) {
-        vm.place = result.place;
-        vm.accesses = result.accesses;
-        vm.placeType = getPlaceType(vm.place);
+        if (result.accesses.hasReadAccess) {
+          vm.place = result.place;
+          vm.accesses = result.accesses;
+          vm.placeType = getPlaceType(vm.place);
+        } else {
+          $timeout(function () {
+            $uibModalInstance.close();
+            $state.go(NST_DEFAULT.STATE);
+            toastr.error(NstUtility.string.format(NstSvcTranslation.get("Either <b>{0}</b> doesn't exist, or you don't have the permit to enter the Place."), result.place.id));
+          }, 1);
+        }
 
       }).catch(function(error) {
-        NstSvcLogger.error(error);
+        switch (error.code) {
+          case NST_SRV_ERROR.UNAVAILABLE:
+            $timeout(function () {
+              $uibModalInstance.close();
+              $state.go(NST_DEFAULT.STATE);
+              toastr.error(NstUtility.string.format(NstSvcTranslation.get("Either <b>{0}</b> doesn't exist, or you don't have the permit to enter the Place."), vm.placeId));
+            }, 1);
+            break;
+          default:
+            toastr.error(NstSvcTranslation.get("An error has occured while loading the place settings."));
+            break;
+        }
       });
 
 
@@ -63,6 +94,7 @@
         }
       });
     })();
+
 
     function getPlaceType(place) {
       if (NstUtility.place.isGrand(place.id)) {
@@ -103,6 +135,7 @@
         result.accesses.hasControlAccess = place.hasAccess(NST_PLACE_ACCESS.CONTROL);
         result.accesses.hasAddMembersAccess = place.hasAccess(NST_PLACE_ACCESS.ADD_MEMBERS);
         result.accesses.hasSeeMembersAccess = place.hasAccess(NST_PLACE_ACCESS.SEE_MEMBERS);
+        result.accesses.hasReadAccess = place.hasAccess(NST_PLACE_ACCESS.READ);
 
         vm.placeLoadProgress = false;
 

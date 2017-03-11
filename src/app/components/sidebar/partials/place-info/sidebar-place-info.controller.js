@@ -124,7 +124,9 @@
         if (place)
           vm.placesNotifCountObject[place.id] = place.unreadPosts || 0;
       });
-      vm.placesNotifCountObject[vm.grandPlace.id] = 0;
+      if (vm.grandPlace) {
+        vm.placesNotifCountObject[vm.grandPlace.id] = 0;
+      }
     }
 
     function getPlaceUnreadCounts() {
