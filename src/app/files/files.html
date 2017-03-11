@@ -31,7 +31,7 @@
     </section>
     <div class="file-list">
       <div class="file-list-header">
-        <div class="files-srch _df {{ctlFiles.keyword.length > 0 ? 'srch' : ''}}">
+        <div class="files-srch _df {{ctlFiles.keyword.length > 0 ? 'srch' : ''}}" ng-if="ctlFiles.selectedFiles.length  == 0">
           <svg class="_16svg" ng-click="ctlFiles.searchFunc()">
             <use xlink:href="/assets/icons/nst-icn16.svg#search"></use>
             <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
@@ -82,6 +82,9 @@
     </div>
     <div class="text-center margin-top-10 nst-mood-storm" ng-if="ctlFiles.files.length == 0 && !ctlFiles.filesLoadProgress">
       <translate>There are no files here yet...</translate>
+    </div>
+    <div ng-click="ctlFiles.loadMore()" class="text-center margin-top-10 nst-mood-storm" ng-if="ctlFiles.files.length > 0 && !ctlFiles.filesLoadProgress && ctlFiles.hasNextPage">
+      <translate>Load more ...</translate>
     </div>
     <div class="_difh nst-mood-cheerful no-gutter nst-margin-24" ng-if="ctlFiles.filesLoadProgress">
       <div class="col-xs-6">

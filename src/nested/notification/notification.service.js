@@ -68,7 +68,9 @@ function NstSvcNotification($q, $window, _, $state,
 
 
   MyNotification.prototype.configFCM = function () {
-
+    if (!("Notification" in $window)) {
+      return;
+    }
     var dt = "";
     var messaging = firebase.messaging();
 
@@ -176,6 +178,9 @@ function NstSvcNotification($q, $window, _, $state,
   };
 
   MyNotification.prototype.registerBroadcastReceiver = function () {
+    if (!("serviceWorker" in navigator)) {
+      return;
+    }
     var service = this;
     navigator.serviceWorker.onmessage = function (event) {
 
