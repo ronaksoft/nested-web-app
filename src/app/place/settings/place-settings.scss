@@ -171,86 +171,6 @@
     }
 
   }
-  .user-item {
-    height: 72px;
-    width: calc(100% + 64px);
-    margin-left: -32px;
-    transition: all $animation-dur;
-    display: inline-flex;
-    flex-direction: row;
-    align-items: center;
-    padding-left: 16px;
-    padding-right: 16px;
-    &.j-selected {
-      background-color: rgba(20, 215, 105,.10);
-      .chk-box {
-        .chk-ico {
-          background: url('../assets/icons/controls.svg') right -16px no-repeat;
-        }
-      }
-    }
-    &:hover {
-      background-color: rgba(20, 215, 105,.05);
-      .user-more-opt {
-        fill: $color-solid;
-      }
-    }
-    .chk-box {
-      width: 40px;
-      display: flex;
-      justify-content: center;
-      flex: none;
-      .chk-ico {
-        display: flex;
-        background: url('../assets/icons/controls.svg') right 0 no-repeat;
-        height: 16px;
-        width: 16px;
-      }
-    }
-    .logo {
-      display: flex;
-      flex: none;
-      @include avatar(48px,48px,500px)
-    }
-    .name {
-      display: inline-flex;
-      flex-direction: column;
-      flex: 1;
-      padding-left: 8px;
-      p {
-        @extend .nst-font-large;
-        color: $color-solid;
-        margin: 0;
-        font-weight: 400;
-      }
-      span {
-        color: #00B45A;
-        @extend .nst-font-medium;
-        font-weight: 400;
-      }
-    }
-    .role {
-      display: flex;
-      align-items: center;
-      flex: none;
-      color:$color-wind;
-    }
-    .user-more-opt {
-      min-width: 24px;
-      fill: $color-wind;
-      margin-left: 8px;
-    }
-    .invited {
-      .name {
-        p {
-          color: $color-bg-pending;
-        }
-      }
-      .role {
-        color:$color-bg-pending;
-      }
-    }
-  }
   .option-row {
     display: inline-flex;
     flex-direction: row;
@@ -280,5 +200,10 @@
     input[type="checkbox"]:checked + label {
       background-position: 0 -16px;
     }
+  }
+  .user-item {
+    width: calc(100% + 64px);
+    margin-left: -32px;
+    padding: 0 16px;
   }
 }

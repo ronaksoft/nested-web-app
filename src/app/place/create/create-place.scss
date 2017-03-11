@@ -11,6 +11,13 @@
   >div {
     max-width: 100%;
   }
+  .place-info-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 32px;
+    padding: 32px;
+  }
   #PlaceID {
     color: $color-sense-wire;
     @extend .nst-font-large;
@@ -215,11 +222,11 @@
   margin-bottom: 30px;
   padding: 16px 12px;
   h4 {
-    margin: 0 0 24px 0
+    margin: 0;
   }
   p {
     font-size: 13px;
-    margin: 0;
+    margin: 24px 0 0 0;
   }
 }
 .step3,.step4 {
@@ -247,6 +254,11 @@
     color: $color-solid;
     text-align: center;
     margin: 4px 0;
+    padding-top: 16px;
+  }
+  .butn-white span {
+    padding: 0;
+    margin: 0;
   }
   a {
     margin-top: 16px;
@@ -283,7 +295,11 @@
     left: calc(100% - 30px);
   }
 }
-
+.disable {
+  width: 48px;
+  left: 50%;
+  transform: translateX(-50%);
+}
 p.cr8 {
   color: $color-black04;
   align-self: center;

@@ -153,7 +153,7 @@
             size: 'lg-white',
             templateUrl: 'app/place/create/place-create.html',
             controller: 'PlaceCreateController',
-            controllerAs: 'ctlCreate'
+            controllerAs: 'ctrl'
 
           }).result.catch(function() {
             $rootScope.goToLastState(true);

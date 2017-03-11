@@ -1,0 +1,94 @@
+<form ng-submit="ctrl.save(placeForm.$valid);" name="placeForm" novalidate class="_fw"
+      ng-init="
+      sharePostPolicyOptionsForGrand = [NST_PLACE_POLICY_OPTION.MANAGERS, NST_PLACE_POLICY_OPTION.MEMBERS, NST_PLACE_POLICY_OPTION.EVERYONE];
+      sharePostPolicyOptionsForPrivate = [NST_PLACE_POLICY_OPTION.MANAGERS, NST_PLACE_POLICY_OPTION.MEMBERS, NST_PLACE_POLICY_OPTION.TEAMMATES, NST_PLACE_POLICY_OPTION.EVERYONE];
+      sharePostPolicyOptionsForCommon = [NST_PLACE_POLICY_OPTION.MANAGERS, NST_PLACE_POLICY_OPTION.MEMBERS];
+      sharePostPolicyOptionsForPersonal = [NST_PLACE_POLICY_OPTION.ONLY_ME, NST_PLACE_POLICY_OPTION.EVERYONE];
+      addMemberPolicyOptions = [NST_PLACE_POLICY_OPTION.MANAGERS, NST_PLACE_POLICY_OPTION.MEMBERS];
+      addPlacePolicyOptions = [NST_PLACE_POLICY_OPTION.MANAGERS, NST_PLACE_POLICY_OPTION.MEMBERS];">
+
+  <h2 class="_df">
+    <svg class="_32svg _r90" ng-click="ctrl.step = 1">
+      <use xlink:href="/assets/icons/nst-icn32.svg#arrow"></use>
+    </svg>
+    <translate ng-if="!ctrl.hasParentPlace">Create a Grand Place<span>Step 2/2</span></translate>
+    <translate ng-if="ctrl.isOpenPlace">Create a Common Place<span>Step 2/2</span></translate>
+    <!--<translate ng-if="ctrl.isClosedPlace">Create a Private Place<span>Step 1/2</span></translate>-->
+  </h2>
+  <p>Who can share posts with this Place?</p>
+
+  <place-policy-option
+    ng-if="ctrl.isGrandPlace"
+    levels="sharePostPolicyOptionsForGrand"
+    level="ctrl.addPostLevel"
+    level-changed="ctrl.setAddPostPolicy"
+    searchable="ctrl.place.privacy.search"
+    searchable-changed="ctrl.updateSearchPrivacy"
+    place-name="ctrl.place.name"
+    grand-place-name="ctrl.place.grandParentId">
+  </place-policy-option>
+
+
+  <place-policy-option
+    ng-if="ctrl.isOpenPlace"
+    levels="sharePostPolicyOptionsForCommon"
+    level="ctrl.addPostLevel"
+    level-changed="ctrl.setAddPostPolicy"
+    searchable="ctrl.place.privacy.search"
+    searchable-changed="ctrl.updateSearchPrivacy"
+    place-name="ctrl.place.name"
+    grand-place-name="ctrl.place.grandParentId">
+  </place-policy-option>
+
+  <place-policy-option
+    ng-if="ctrl.isClosedPlace && !ctrl.isPersonalPlace"
+    levels="sharePostPolicyOptionsForPrivate"
+    level="ctrl.addPostLevel"
+    level-changed="ctrl.setAddPostPolicy"
+    searchable="ctrl.place.privacy.search"
+    searchable-changed="ctrl.updateSearchPrivacy"
+    place-name="ctrl.place.name"
+    grand-place-name="ctrl.place.grandParentId">
+  </place-policy-option>
+
+  <place-policy-option
+    ng-if="ctrl.isPersonalPlace"
+    levels="sharePostPolicyOptionsForPersonal"
+    level="ctrl.addPostLevel"
+    level-changed="ctrl.setAddPostPolicy"
+    searchable="ctrl.place.privacy.search"
+    searchable-changed="ctrl.updateSearchPrivacy"
+    place-name="ctrl.place.name"
+    grand-place-name="ctrl.place.grandParentId">
+  </place-policy-option>
+
+  <p ng-if="!ctrl.isPersonalPlace">Members ({{ctrl.teammates.length}})</p>
+
+  <div class="select-box2 _difh"
+       ng-if="!ctrl.isPersonalPlace"
+       ng-click="ctrl.showAddOrInviteMember()">
+    <div class="add">
+      <svg>
+        <use xlink:href="/assets/icons/nst-icn20.svg#cross"></use>
+      </svg>
+    </div>
+    <h4>
+      <translate ng-if="ctrl.isGrandPlace">Invite Members</translate>
+      <translate ng-if="!ctrl.isGrandPlace">Add Members</translate>
+    </h4>
+  </div>
+  <nst-place-member-item class="user-item"
+                         ng-if="!ctrl.isPersonalPlace"
+                         data-ng-repeat="member in ctrl.teammates"
+                         member="member"
+                         mode="create"
+                         has-remove-access="true"
+                         has-control-access="true"
+                         role="member.state"></nst-place-member-item>
+
+
+  <button class="submit" type="button" ng-click="ctrl.save()">
+    <translate>Create Place</translate>
+  </button>
+  <!--<button class="submit" type="submit" id="submit-place"><translate>Create a Place</translate></button>-->
+</form>

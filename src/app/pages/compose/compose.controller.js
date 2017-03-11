@@ -19,6 +19,7 @@
     var discardCanceler = null;
     vm.makeChangeForWatchers = 0;
     vm.clear = clear;
+    vm.searchRecipients = _.debounce(searchRecipients, 400);
 
     if (vm.mode == 'quick') {
       vm.quickMode = true;
@@ -362,39 +363,34 @@
       }
     };
 
-    vm.search.fn = function (query) {
-      var initPlace = NstSvcPlaceFactory.parseTinyPlace({
-        _id: query,
-        name: query
-      });
-      // if (query.length)
-      //   vm.search.results = [new NstVmPlace(initPlace)];
+    vm.search.fn = function (query, foo, bar) {
+      vm.search.results = [];
+      vm.searchRecipients(query);
+    };
+
+    function searchRecipients(query) {
       return NstSvcPlaceFactory.searchForCompose(query).then(function (places) {
-        vm.search.results = [];
-        places.map(function (place) {
-          if (place && vm.model.recipients.filter(function (obj) {
-              return (obj.id === place.id);
-            }).length === 0) {
-            if (place.id === query) {
-              initPlace = new NstVmPlace(place);
-            } else {
-              vm.search.results.push(new NstVmPlace(place));
-            }
-          }
+
+        vm.search.results = _.map(places, function (place) {
+          return new NstVmPlace(place);
         });
-        if (initPlace.id) {
-          if (initPlace.id.indexOf('@') > -1) {
-            initPlace.isEmail = true;
-            initPlace.isEmailValid = NST_PATTERN.EMAIL.test(initPlace.id)
-          }
+
+        if (_.indexOf(query, " ") === -1 && !_.some(vm.search.results, { id : query })) {
+          var initPlace = NstSvcPlaceFactory.parseTinyPlace({
+            _id: query,
+            name: query,
+            isEmail: query.indexOf('@') > -1,
+            isEmailValid: NST_PATTERN.EMAIL.test(query)
+          });
           vm.search.results.push(initPlace);
         }
       }).catch(function () {
         vm.search.results = [];
         if (initPlace.id)
-          vm.search.results.push(initPlace);
+        vm.search.results.push(initPlace);
       });
-    };
+
+    }
 
 
     vm.search.tagger = function (text) {

@@ -19,7 +19,7 @@
           onSelect: '='
         },
         link: function (scope, element, attrs) {
-
+          scope.mode = attrs.mode;
         }
       };
     });

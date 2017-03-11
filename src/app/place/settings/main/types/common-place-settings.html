@@ -6,10 +6,8 @@
     <label class="input-lab"><translate>Place name</translate></label>
     <label class="error-message" ng-if="ctrl.placeName.$invalid"><translate>Place name is required</translate></label>
     <div class="field">
-      <div class="_df _fw">
-        <input name="placeName" class="form-control" type="text" ng-model="ctrl.place.name" tabindex="1" />
-      </div>
-      <svg class="_24svg _df _fn edit-icon" open-custom-modal="app/place/settings/main/modals/place-change-name-modal.html">
+      <div class="_df _fw">{{ctrl.place.name}}</div>
+      <svg class="_24svg _df _fn edit-icon" open-custom-modal="app/place/settings/main/modals/place-change-name-modal.html" ng-if="ctrl.hasControlAccess">
       <use xlink:href="/assets/icons/nst-icn24.svg#edit"></use>
     </svg>
     </div>
@@ -18,12 +16,10 @@
   <div class="form-group">
     <label class="input-lab"><translate>Place Description</translate></label>
     <div class="field">
-      <div class="_df _fw">
-        <input name="PlaceDes" class="form-control" type="text" ng-model="" tabindex="2" />
-      </div>
-      <svg class="_24svg _df _fn edit-icon" open-custom-modal="app/place/settings/main/modals/place-change-description-modal.html">
-      <use xlink:href="/assets/icons/nst-icn24.svg#edit"></use>
-    </svg>
+      <div class="_df _fw">{{ctrl.place.description}}</div>
+      <svg class="_24svg _df _fn edit-icon" open-custom-modal="app/place/settings/main/modals/place-change-description-modal.html" ng-if="ctrl.hasControlAccess">
+        <use xlink:href="/assets/icons/nst-icn24.svg#edit"></use>
+      </svg>
     </div>
   </div>
 

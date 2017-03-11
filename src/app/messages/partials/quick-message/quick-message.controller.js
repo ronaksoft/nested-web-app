@@ -120,7 +120,6 @@
       var elementFirstChild = angular.element(element.firstChild);
 
       vm.model.subject = elementFirstChild.text() || element.text();
-      console.log(element,element.firstChild,element.children()[0]);
       elementFirstChild.remove();
 
 

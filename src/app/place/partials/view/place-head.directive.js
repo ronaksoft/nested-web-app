@@ -11,6 +11,7 @@
       scope: {
         pict : '@',
         name : '=',
+        place: '=',
         id : '@',
         private: '@',
         env : '=',
