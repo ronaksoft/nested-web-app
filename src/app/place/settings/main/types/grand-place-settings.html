@@ -31,20 +31,23 @@
                        searchable="ctrl.place.privacy.search"
                        searchable-changed="ctrl.setSearchPrivacy"
                        place-name="ctrl.place.name"
-                       grand-place-name="ctrl.place.grandParentId">
+                       grand-place-name="ctrl.place.grandParentId"
+                       readonly="!ctrl.hasControlAccess">
   </place-policy-option>
 
   <p><translate>Who can add members?</translate></p>
   <place-policy-option levels="addMemberPolicyOptions"
                        level="ctrl.addMemberLevel"
                        level-changed="ctrl.setAddMemberPolicy"
-                       place-name="ctrl.place.name">
+                       place-name="ctrl.place.name"
+                       readonly="!ctrl.hasControlAccess">
   </place-policy-option>
 
   <p><translate>Who can create subplace?</translate></p>
   <place-policy-option levels="addPlacePolicyOptions"
                        level="ctrl.addPlaceLevel"
                        level-changed="ctrl.setAddPlacePolicy"
-                       place-name="ctrl.place.name">
+                       place-name="ctrl.place.name"
+                       readonly="!ctrl.hasControlAccess">
   </place-policy-option>
 </div>

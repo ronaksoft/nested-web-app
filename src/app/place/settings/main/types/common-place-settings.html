@@ -27,14 +27,16 @@
   <place-policy-option levels="sharePostPolicyOptions"
                        level="ctrl.addPostLevel"
                        level-changed="ctrl.setAddPostPolicy"
-                       place-name="ctrl.place.name">
+                       place-name="ctrl.place.name"
+                       readonly="!ctrl.hasControlAccess">
   </place-policy-option>
 
   <p><translate>Who can add members?</translate></p>
   <place-policy-option levels="addMemberPolicyOptions"
                        level="ctrl.addMemberLevel"
                        level-changed="ctrl.setAddMemberPolicy"
-                       place-name="ctrl.place.name">
+                       place-name="ctrl.place.name"
+                       readonly="!ctrl.hasControlAccess">
   </place-policy-option>
 
 </div>

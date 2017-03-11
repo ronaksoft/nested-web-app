@@ -13,7 +13,9 @@
       params: {
         placeId: NST_DEFAULT.STATE_PARAM
       },
-      onEnter: ['$rootScope', '$stateParams', '$state', '$uibModal', function($rootScope, $stateParams, $state, $uibModal) {
+      onEnter: ['$rootScope', '$stateParams', '$state', '$uibModal', '$uibModalStack', function($rootScope, $stateParams, $state, $uibModal, $uibModalStack) {
+        $uibModalStack.dismissAll();
+
         var modal = $uibModal.open({
           animation: false,
           size: 'lg-white',
