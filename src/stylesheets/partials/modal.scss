@@ -140,6 +140,9 @@ body.modal-open {
       font-size: 16px;
     }
   }
+  textarea {
+    resize: vertical;
+  }
 }
 
 .modal-detail {
