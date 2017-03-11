@@ -1,0 +1,31 @@
+<div class="_difh _fw _aic recive-opt _asc disable l1">
+  <svg>
+    <use ng-if="level == NST_PLACE_POLICY_OPTION.MANAGERS" xlink:href="/assets/icons/nst-icn24.svg#member"></use>
+    <use ng-if="level == NST_PLACE_POLICY_OPTION.MEMBERS" xlink:href="/assets/icons/nst-icn24.svg#manager-member"></use>
+    <use ng-if="level == NST_PLACE_POLICY_OPTION.TEAMMATES" xlink:href="/assets/icons/nst-icn24.svg#team"></use>
+    <use ng-if="level == NST_PLACE_POLICY_OPTION.EVERYONE" xlink:href="/assets/icons/nst-icn24.svg#earth"></use>
+  </svg>
+  <div class="active-border"></div>
+  <div class="recive-arrow"></div>
+</div>
+<div class="_fw recive-det">
+  <h4 class="_fw _tac" ng-if="level == NST_PLACE_POLICY_OPTION.MANAGERS"><translate>{{placeName}} Managers</translate></h4>
+  <h4 class="_fw _tac" ng-if="level == NST_PLACE_POLICY_OPTION.MEMBERS"><translate>{{placeName}} Managers and Members</translate></h4>
+  <h4 class="_fw _tac" ng-if="level == NST_PLACE_POLICY_OPTION.TEAMMATES"><translate>{{grandPlaceName}} Members</translate></h4>
+  <h4 class="_fw _tac" ng-if="level == NST_PLACE_POLICY_OPTION.EVERYONE"><translate>Everyone</translate></h4>
+  <div class="_difh _fw _aic" ng-if="level == NST_PLACE_POLICY_OPTION.TEAMMATES || level == NST_PLACE_POLICY_OPTION.EVERYONE">
+    <p class="_df _fw"><translate>Show in their search results?</translate></p>
+    <div class="_df _fn">
+      <div class="place-switch">
+        <input type="checkbox" name="checkbox_id" id="Searchable" data-ng-model="searchable" disabled>
+        <label for="Searchable">
+          <b><translate>Yes</translate></b>
+          <div class="circle" switch-drag="Searchhable"></div>
+        </label>
+        <label for="Searchable">
+          <b><translate>No</translate></b>
+        </label>
+      </div>
+    </div>
+  </div>
+</div>

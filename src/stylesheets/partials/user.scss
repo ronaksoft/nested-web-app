@@ -69,14 +69,11 @@
 
 .user-item {
   height: 72px;
-  width: calc(100% + 64px);
-  margin-left: -32px;
+  width: 100%;
   transition: all $animation-dur;
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  padding-left: 16px;
-  padding-right: 16px;
   &.j-selected {
     background-color: rgba(20, 215, 105,.10);
     .chk-box {
@@ -113,6 +110,7 @@
     flex-direction: column;
     flex: 1;
     padding-left: 8px;
+    overflow: hidden;
     p {
       @extend .nst-font-large;
       color: $color-solid;
