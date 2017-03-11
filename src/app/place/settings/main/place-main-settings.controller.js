@@ -8,7 +8,7 @@
   /** @ngInject */
   function PlaceMainSettingsController($q, toastr,
     NstSvcPlaceFactory, NstSvcTranslation, NstSvcLogger,
-    NST_PLACE_POLICY_OPTION, NST_PLACE_POLICY) {
+    NST_PLACE_POLICY_OPTION, NST_PLACE_POLICY, NST_PLACE_POLICY_RECEPTIVE) {
     var vm = this;
 
     vm.setAddPostPolicy = setAddPostPolicy;
@@ -56,7 +56,7 @@
       if (!isValid) {
         return;
       }
-      
+
       return update({ 'place_desc' : value }).then(function () {
         vm.place.description = value;
         $close();
@@ -67,23 +67,23 @@
       switch (value) {
         case NST_PLACE_POLICY_OPTION.MANAGERS:
             return update({
-              'privacy.receptive': 'off',
-              'policy.add_post': 'creators'
+              'privacy.receptive': NST_PLACE_POLICY_RECEPTIVE.OFF,
+              'policy.add_post': NST_PLACE_POLICY.CREATORS
             });
         case NST_PLACE_POLICY_OPTION.MEMBERS:
             return update({
-              'privacy.receptive': 'off',
-              'policy.add_post': 'everyone'
+              'privacy.receptive': NST_PLACE_POLICY_RECEPTIVE.OFF,
+              'policy.add_post': NST_PLACE_POLICY.EVERYONE
             });
         case NST_PLACE_POLICY_OPTION.TEAMMATES:
             return update({
-              'privacy.receptive': 'internal',
-              'policy.add_post': 'everyone'
+              'privacy.receptive': NST_PLACE_POLICY_RECEPTIVE.INTERNAL,
+              'policy.add_post': NST_PLACE_POLICY.EVERYONE
             });
         case NST_PLACE_POLICY_OPTION.EVERYONE:
             return update({
-              'privacy.receptive': 'external',
-              'policy.add_post': 'everyone'
+              'privacy.receptive': NST_PLACE_POLICY_RECEPTIVE.EXTERNAL,
+              'policy.add_post': NST_PLACE_POLICY.EVERYONE
             });
         default:
           return $q.reject(Error("Policy add_post is not valid : " + value));
@@ -99,10 +99,10 @@
 
       switch (value) {
         case NST_PLACE_POLICY_OPTION.MANAGERS:
-          newValue = "creators";
+          newValue = NST_PLACE_POLICY.CREATORS;
           break;
         case NST_PLACE_POLICY_OPTION.MEMBERS:
-          newValue = "key_holders";
+          newValue = NST_PLACE_POLICY.EVERYONE;
           break;
         default:
         return $q.reject(Error("Policy add_member is not valid : " + value));
@@ -116,10 +116,10 @@
 
       switch (value) {
         case NST_PLACE_POLICY_OPTION.MANAGERS:
-          newValue = "creators";
+          newValue = NST_PLACE_POLICY.CREATORS;
           break;
         case NST_PLACE_POLICY_OPTION.MEMBERS:
-          newValue = "key_holders";
+          newValue = NST_PLACE_POLICY.EVERYONE;
           break;
         default:
         return $q.reject(Error("Policy add_place is not valid : " + value));
@@ -129,13 +129,13 @@
     }
 
     function getAddPostPrivacyLevel(place) {
-      if (place.privacy.receptive === 'off' && place.policy.add_post === 'creators') {
+      if (place.privacy.receptive === NST_PLACE_POLICY_RECEPTIVE.OFF && place.policy.add_post === NST_PLACE_POLICY.CREATORS) {
         return NST_PLACE_POLICY_OPTION.MANAGERS;
-      } else if (place.privacy.receptive === 'off' && place.policy.add_post === 'everyone') {
+      } else if (place.privacy.receptive === NST_PLACE_POLICY_RECEPTIVE.OFF && place.policy.add_post === NST_PLACE_POLICY.EVERYONE) {
         return NST_PLACE_POLICY_OPTION.MEMBERS;
-      } else if (place.privacy.receptive === 'internal' && place.policy.add_post === 'everyone') {
+      } else if (place.privacy.receptive === NST_PLACE_POLICY_RECEPTIVE.INTERNAL && place.policy.add_post === NST_PLACE_POLICY.EVERYONE) {
         return NST_PLACE_POLICY_OPTION.TEAMMATES;
-      } else if (place.privacy.receptive === 'external' && place.policy.add_post === 'everyone') {
+      } else if (place.privacy.receptive === NST_PLACE_POLICY_RECEPTIVE.EXTERNAL && place.policy.add_post === NST_PLACE_POLICY.EVERYONE) {
         return NST_PLACE_POLICY_OPTION.EVERYONE;
       } else {
         NstSvcLogger.error('The place receptive privacy and add_post policy combination is not expected!');
