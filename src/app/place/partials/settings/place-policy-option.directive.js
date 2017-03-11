@@ -31,7 +31,7 @@
         scope.hasOption = hasOption;
         scope.getLevelClass = getLevelClass;
         scope.switchLevel = switchLevel;
-        scope.readonly = true;
+        scope.readonly = false;
         scope.one = _.size(scope.levels) == 1 || scope.readonly;
         scope.two = _.size(scope.levels) == 2;
         scope.three = _.size(scope.levels) == 3;

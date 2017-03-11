@@ -110,6 +110,7 @@
     flex-direction: column;
     flex: 1;
     padding-left: 8px;
+    overflow: hidden;
     p {
       @extend .nst-font-large;
       color: $color-solid;
