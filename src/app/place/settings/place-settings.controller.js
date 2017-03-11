@@ -6,7 +6,7 @@
     .controller('PlaceSettingsController', PlaceSettingsController);
 
   /** @ngInject */
-  function PlaceSettingsController($scope, $stateParams, $q, $uibModal, $state, toastr, $rootScope, $timeout,
+  function PlaceSettingsController($scope, $stateParams, $q, $uibModal, $state, toastr, $rootScope, $timeout, $uibModalInstance,
                                    NST_PLACE_POLICY_OPTION, NST_STORE_UPLOAD_TYPE, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_PLACE_FACTORY_EVENT, NST_PLACE_TYPE,
                                    NstSvcStore, NstSvcAuth, NstSvcPlaceFactory, NstUtility, NstSvcInvitationFactory, NstSvcLogger,
                                    NstPlaceOneCreatorLeftError, NstPlaceCreatorOfParentError, NstSvcTranslation,
@@ -33,7 +33,6 @@
     vm.placeLoadProgress = false;
     vm.loadImage = loadImage;
     vm.removeImage = removeImage;
-    vm.onClose = onClose;
 
     (function() {
       vm.placeId = $stateParams.placeId;
@@ -173,10 +172,6 @@
 
     function removeImage() {
 
-    }
-
-    function onClose() {
-      
     }
 
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.BOOKMARK_ADD, function (e) {
