@@ -418,6 +418,7 @@ input[type="checkbox"].inpsw[disabled]:checked + label + label  {
   flex-direction: row;
   position: relative;
   cursor: grab;
+  z-index: 2;
   // OFF
   input + label,
   input + label + label{
