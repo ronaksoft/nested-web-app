@@ -1,12 +1,11 @@
 <div id="place-settings" ng-init="selectedView = 0">
-  <!-- <place-head env="settings" place="ctrl.place" closeClicked="ctrl.onClose" picture-url="ctrl.tempPictureUrl"></place-head> -->
   <div class="place-head setting-head">
     <div class="place-filter">
       <img ng-if="!ctrl.pictureUrl" ng-src="{{ctrl.place | picture:'x128'}}" alt="{{ctrl.place.name}}">
       <img ng-if="ctrl.pictureUrl" ng-src="{{ctrl.pictureUrl}}" alt="{{ctrl.place.name}}">
     </div>
-    <div ng-if="settings" class="setting-headline _aic" bg-check="{{ctrl.pictureUrl ? ctrl.pictureUrl : (ctrl.place | picture:'x128')}}">
-      <svg class="_24svg _df _r45 _fn" ng-click="closeClicked()">
+    <div class="setting-headline _aic" bg-check="{{ctrl.pictureUrl ? ctrl.pictureUrl : (ctrl.place | picture:'x128')}}">
+      <svg class="_24svg _df _r45 _fn" ng-click="$dismiss();">
         <use xlink:href="/assets/icons/nst-icn24.svg#cross"></use>
       </svg>
       <h3 class="_df _fw"><translate>Place Settings</translate></h3>
@@ -15,7 +14,7 @@
     <div class="logo-holder">
       <img ng-if="!ctrl.pictureUrl" ng-src="{{ctrl.place | picture:'x128'}}" height="100%" alt="{{ctrl.place.name}}">
       <img ng-if="ctrl.pictureUrl" ng-src="{{ctrl.pictureUrl}}" height="100%" alt="{{ctrl.place.name}}">
-      <i ng-if="settings">
+      <i>
         <svg class="_16svg _df" ng-if="true">
           <use xlink:href="/assets/icons/nst-icn16.svg#window"></use>
         </svg>
@@ -23,7 +22,7 @@
           <use xlink:href="/assets/icons/nst-icn16.svg#brick-wall"></use>
         </svg>
       </i>
-      <span ng-if="settings">{{ctrl.place.id}}</span>
+      <span>{{ctrl.place.id}}</span>
       <a ng-if="ctrl.place.privacy.locked"><translate>Private Place</translate></a>
       <a ng-if="!ctrl.place.privacy.locked"><translate>Common Place</translate></a>
     </div>
