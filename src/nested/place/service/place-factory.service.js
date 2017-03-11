@@ -5,7 +5,7 @@
     .module('ronak.nested.web.place')
     .service('NstSvcPlaceFactory', NstSvcPlaceFactory);
 
-  function NstSvcPlaceFactory($q,_, $rootScope,
+  function NstSvcPlaceFactory($q, _, $rootScope,
                               NST_SRV_ERROR, NST_PLACE_ACCESS, NST_EVENT_ACTION, NST_PLACE_FACTORY_EVENT, NST_USER_FACTORY_EVENT,
                               NstSvcServer, NstSvcPlaceStorage, NstSvcTinyPlaceStorage, NstSvcMyPlaceIdStorage, NstSvcUserFactory, NstSvcPlaceRoleStorage, NstSvcPlaceAccessStorage, NstSvcLogger,
                               NstBaseFactory, NstFactoryQuery, NstFactoryError, NstUtility, NstTinyPlace, NstPlace, NstFactoryEventData, NstSvcPlaceMap, NstPicture,
@@ -75,7 +75,7 @@
 
 
       NstSvcUserFactory.addEventListener(NST_USER_FACTORY_EVENT.PROFILE_UPDATED, function (event) {
-        factory.get(event.detail.id,true);
+        factory.get(event.detail.id, true);
       });
 
       NstSvcServer.addEventListener(NST_EVENT_ACTION.PLACE_PRIVACY, function (event) {
@@ -130,7 +130,7 @@
      *
      * @returns {Promise}
      */
-    PlaceFactory.prototype.get = function (id,force) {
+    PlaceFactory.prototype.get = function (id, force) {
       var factory = this;
 
       return factory.sentinel.watch(function () {
@@ -198,7 +198,7 @@
         service.getTiny(id).then(function (place) {
           resolve(place);
         }).catch(function (error) {
-          resolve({ id : id });
+          resolve({id: id});
         });
       });
     };
@@ -217,8 +217,8 @@
           if (placeIds) {
             resolveMap(placeIds).then(resolve);
           } else {
-            NstSvcServer.request('account/get_all_places',{
-              with_children : true
+            NstSvcServer.request('account/get_all_places', {
+              with_children: true
             }).then(function (data) {
               var placeIds = data.places.map(createMap);
               NstSvcMyPlaceIdStorage.set('tiny', placeIds);
@@ -430,7 +430,7 @@
             universal_id: uid
           }).then(function (response) {
 
-            factory.getTiny(id).then(function (place) {
+            factory.get(id, true).then(function (place) {
               factory.dispatchEvent(new CustomEvent(
                 NST_PLACE_FACTORY_EVENT.PICTURE_CHANGE, {
                   detail: {
@@ -652,7 +652,7 @@
           member_id: query.data.userId,
           role: query.data.role
         }).then(function () {
-          place.counters.key_holders ++;
+          place.counters.key_holders++;
           factory.set(place);
           $rootScope.$emit('member-added', {
             placeId: place.id,
@@ -741,7 +741,7 @@
           NstSvcPlaceStorage.remove(query.id);
           NstSvcTinyPlaceStorage.remove(query.id);
           factory.dispatchEvent(new CustomEvent(NST_PLACE_FACTORY_EVENT.REMOVE, new NstFactoryEventData(placeId)));
-          factory.get(placeId,true).then(function () {
+          factory.get(placeId, true).then(function () {
             deferred.resolve();
           });
         }).catch(function (error) {
@@ -778,8 +778,8 @@
         });
 
         deferred.resolve({
-          creators : creators,
-          total : data.total
+          creators: creators,
+          total: data.total
         });
       }).catch(function (error) {
         deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
@@ -805,8 +805,8 @@
         });
 
         deferred.resolve({
-          keyHolders : keyHolders,
-          total : data.total
+          keyHolders: keyHolders,
+          total: data.total
         });
       }).catch(function (error) {
         deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
@@ -1239,7 +1239,7 @@
         });
 
         return deferred.promise;
-      }, "getPlacesUnreadPostsCount" + separatedIds , subs);
+      }, "getPlacesUnreadPostsCount" + separatedIds, subs);
     };
 
     PlaceFactory.prototype.flush = function () {
@@ -1365,8 +1365,8 @@
           place_id: id
         }).then(function () {
           deferred.resolve(true);
-        }).catch(function(reason){
-          if (reason === NST_SRV_ERROR.UNAVAILABLE){
+        }).catch(function (reason) {
+          if (reason === NST_SRV_ERROR.UNAVAILABLE) {
             deferred.resolve(true);
           } else {
             deferred.reject(reason)
