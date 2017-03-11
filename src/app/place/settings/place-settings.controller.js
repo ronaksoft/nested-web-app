@@ -6,11 +6,12 @@
     .controller('PlaceSettingsController', PlaceSettingsController);
 
   /** @ngInject */
-  function PlaceSettingsController($scope, $stateParams, $q, $uibModal, $state, toastr, $rootScope, $timeout, $uibModalInstance,
-                                   NST_PLACE_POLICY_OPTION, NST_STORE_UPLOAD_TYPE, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_PLACE_FACTORY_EVENT, NST_PLACE_TYPE, NST_DEFAULT, NST_SRV_ERROR,
-                                   NstSvcStore, NstSvcAuth, NstSvcPlaceFactory, NstUtility, NstSvcInvitationFactory, NstSvcLogger,
-                                   NstPlaceOneCreatorLeftError, NstPlaceCreatorOfParentError, NstSvcTranslation,
-                                   NstVmMemberItem) {
+  function PlaceSettingsController($scope, $stateParams, $q, $state, $rootScope,
+    $timeout, $uibModalInstance, toastr,
+    NST_PLACE_POLICY_OPTION, NST_STORE_UPLOAD_TYPE, NST_PLACE_ACCESS, NST_SRV_ERROR,
+    NST_PLACE_MEMBER_TYPE, NST_PLACE_FACTORY_EVENT, NST_PLACE_TYPE, NST_DEFAULT,
+    NstSvcStore, NstSvcAuth, NstSvcPlaceFactory, NstUtility, NstSvcLogger, NstSvcTranslation,
+    NstPicture) {
     var vm = this;
     $scope.NST_PLACE_POLICY_OPTION = NST_PLACE_POLICY_OPTION;
     $scope.NST_PLACE_TYPE = NST_PLACE_TYPE;
@@ -56,6 +57,7 @@
           vm.accesses = result.accesses;
           vm.placeType = getPlaceType(vm.place);
         } else {
+          // The place was found but the user does not have READ access
           $timeout(function () {
             $uibModalInstance.close();
             $state.go(NST_DEFAULT.STATE);
@@ -65,6 +67,8 @@
 
       }).catch(function(error) {
         switch (error.code) {
+          // The place does not exist and the user must be navigated through
+          // the app default state
           case NST_SRV_ERROR.UNAVAILABLE:
             $timeout(function () {
               $uibModalInstance.close();
