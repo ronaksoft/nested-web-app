@@ -1,4 +1,4 @@
-<div class="chk-box" ng-if="memberCtrl.mode =! 'settings'"> {{}}
+<div class="chk-box" ng-if="mode == 'settings'">
   <div ng-if="!memberCtrl.isCurrent" class="chk-ico" ng-click="memberCtrl.onSelect(memberCtrl.member)"></div>
 </div>
 <div class="logo">
@@ -33,3 +33,4 @@
     </svg>
   </div>
 </div>
+

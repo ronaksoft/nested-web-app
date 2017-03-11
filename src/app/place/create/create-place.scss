@@ -295,7 +295,11 @@
     left: calc(100% - 30px);
   }
 }
-
+.disable {
+  width: 48px;
+  left: 50%;
+  transform: translateX(-50%);
+}
 p.cr8 {
   color: $color-black04;
   align-self: center;
