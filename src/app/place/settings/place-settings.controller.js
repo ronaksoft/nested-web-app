@@ -7,11 +7,11 @@
 
   /** @ngInject */
   function PlaceSettingsController($scope, $stateParams, $q, $state, $rootScope,
-    $timeout, $uibModalInstance, toastr,
+    $timeout, $uibModal, $uibModalInstance, toastr,
     NST_PLACE_POLICY_OPTION, NST_STORE_UPLOAD_TYPE, NST_PLACE_ACCESS, NST_SRV_ERROR,
     NST_PLACE_MEMBER_TYPE, NST_PLACE_FACTORY_EVENT, NST_PLACE_TYPE, NST_DEFAULT,
     NstSvcStore, NstSvcAuth, NstSvcPlaceFactory, NstUtility, NstSvcLogger, NstSvcTranslation,
-    NstPicture) {
+    NstPicture, NstPlaceOneCreatorLeftError, NstPlaceCreatorOfParentError) {
     var vm = this;
     $scope.NST_PLACE_POLICY_OPTION = NST_PLACE_POLICY_OPTION;
     $scope.NST_PLACE_TYPE = NST_PLACE_TYPE;
@@ -30,11 +30,13 @@
       hasReadAccess: null
     };
     vm.tempPictureUrl = null;
-
-
     vm.placeLoadProgress = false;
+
+
     vm.loadImage = loadImage;
-    vm.removeImage = removeImage;
+    // vm.removeImage = removeImage;
+    vm.leave = confirmToLeave;
+    vm.remove = confirmToRemove;
 
     (function() {
       vm.placeId = $stateParams.placeId;
@@ -178,7 +180,6 @@
           var request = NstSvcStore.uploadWithProgress(vm.logoFile, logoUploadProgress, NST_STORE_UPLOAD_TYPE.PLACE_PICTURE);
 
           request.getPromise().then(function (result) {
-            console.log('upload result', result);
 
             NstSvcPlaceFactory.updatePicture(vm.place.id, result.data.universal_id).then(function (result) {
               NstSvcLogger.info(NstUtility.string.format('Place {0} picture updated successfully.', vm.place.id));
@@ -207,9 +208,83 @@
       NstSvcLogger.error(NstUtility.string.format('Upload progress : {0}%', vm.logoUploadedRatio));
     }
 
-    function removeImage() {
+    function confirmToLeave() {
+      $uibModal.open({
+        animation: false,
+        templateUrl: 'app/pages/places/settings/place-leave-confirm.html',
+        size: 'sm',
+        controller : 'PlaceLeaveConfirmController',
+        controllerAs : 'leaveCtrl',
+        resolve : {
+          selectedPlace: function () {
+            return vm.place.name;
+          }
+        }
+      }).result.then(function() {
+        leave();
+      });
+    }
+
+    function leave() {
+      NstSvcPlaceFactory.leave(vm.placeId).then(function(result) {
+        $timeout(function () {
+          $uibModalInstance.close();
+          if (_.indexOf(vm.place.id, '.') > -1) {
+            $state.go('app.place-messages', { placeId : vm.place.grandParentId });
+          } else {
+            $state.go(NST_DEFAULT.STATE);
+          }
+        }, 1);
+
+      }).catch(function(error) {
+        if (error instanceof NstPlaceOneCreatorLeftError){
+          toastr.error(NstSvcTranslation.get('You are the only one left!'));
+        } else if (error instanceof NstPlaceCreatorOfParentError) {
+          toastr.error(NstUtility.string.format(NstSvcTranslation.get('You are not allowed to leave the Place because you are the creator of its highest-ranking Place ({0}).'), vm.place.parent.name));
+        }
+        NstSvcLogger.error(error);
+      });
 
     }
+
+    function confirmToRemove() {
+      $uibModal.open({
+        animation: false,
+        templateUrl: 'app/pages/places/settings/place-delete.html',
+        controller: 'PlaceRemoveConfirmController',
+        controllerAs: 'removeCtrl',
+        size: 'sm',
+        resolve: {
+          selectedPlace: function() {
+            return vm.place;
+          }
+        }
+      }).result.then(function(confirmResult) {
+        remove();
+      });
+    }
+
+    function remove() {
+      NstSvcPlaceFactory.remove(vm.place.id).then(function(removeResult) {
+        toastr.success(NstUtility.string.format(NstSvcTranslation.get("Place {0} was removed successfully."), vm.place.name));
+        $timeout(function () {
+          $uibModalInstance.close();
+          if (_.indexOf(vm.place.id, '.') > -1) {
+            $state.go('app.place-messages', { placeId : vm.place.grandParentId });
+          } else {
+            $state.go(NST_DEFAULT.STATE);
+          }
+        }, 1);
+
+      }).catch(function(error) {
+        if (error.code === 1 && error.message[0] === "remove_children_first") {
+          toastr.warning(NstSvcTranslation.get("You have to delete all the sub-Places within, before removing this Place."));
+        } else {
+          toastr.error(NstSvcTranslation.get("An error has occurred in removing this Place."));
+        }
+      });
+    }
+
 
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.BOOKMARK_ADD, function (e) {
       if (e.detail.id === vm.placeId) vm.options.bookmark = true;
