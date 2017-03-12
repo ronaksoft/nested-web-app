@@ -15,7 +15,7 @@
 
     function Auth(userData) {
       var service = this;
-      var user = NstSvcUserFactory.parseUser(userData);
+      var user = userData;
 
       this.user = user;
       this.state = NST_AUTH_STATE.UNAUTHORIZED;
