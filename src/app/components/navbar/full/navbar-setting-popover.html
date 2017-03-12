@@ -60,7 +60,8 @@
 </a>
 <hr ng-if="!ctlFullNavbar.isPersonal()">
 <a class="_df red list-items _aic"
-   ng-if="!ctlFullNavbar.isPersonal() && !ctlFullNavbar.isSubPersonal() && (!ctlFullNavbar.allowedToRemovePlace || (ctlFullNavbar.allowedToRemovePlace && ctlFullNavbar.place.counters.creators > 1))"
+   ng-if="!ctlFullNavbar.isPersonal() && !ctlFullNavbar.isSubPersonal() &&
+   (!ctlFullNavbar.allowedToRemovePlace || (ctlFullNavbar.allowedToRemovePlace && ctlFullNavbar.place.counters.creators > 1))"
    ng-click="ctlFullNavbar.confirmToLeave()">
   <div>
     <svg class="_16svg">

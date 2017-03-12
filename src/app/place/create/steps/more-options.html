@@ -19,19 +19,19 @@
     grand-place-name="ctrl.place.grandParentId">
   </place-policy-option>
 
-
-  <p>Who can create sub-place?</p>
-  <place-policy-option
-    levels="addMemberPolicyOptions"
-    level="ctrl.addPlaceLevel"
-    level-changed="ctrl.updateAddPlacePolicy"
-    place-name="ctrl.place.name"
-    grand-place-name="ctrl.place.grandParentId">
-  </place-policy-option>
-
+  <div ng-if="ctrl.createdPlace.privacy.locked">
+    <p>Who can create sub-place?</p>
+    <place-policy-option
+      levels="addMemberPolicyOptions"
+      level="ctrl.addPlaceLevel"
+      level-changed="ctrl.updateAddPlacePolicy"
+      place-name="ctrl.place.name"
+      grand-place-name="ctrl.place.grandParentId">
+    </place-policy-option>
+  </div>
 
   <div class="butn-white _fw _df"
-   ng-click="ctrl.uploadCreatedPlaceMoreOption($dismiss);">
+       ng-click="ctrl.uploadCreatedPlaceMoreOption($dismiss);">
     <translate>Done</translate>
   </div>
 
