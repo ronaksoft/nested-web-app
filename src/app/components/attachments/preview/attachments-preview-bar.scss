@@ -141,7 +141,7 @@ nst-attachments-preview-bar {
       max-width: 400px;
       width: 100%;
       height: 100%;
-      background-position: center center;
+      background-position: center center!important;
       float: left;
       object-fit: cover;
       border: 1px solid $color-border;

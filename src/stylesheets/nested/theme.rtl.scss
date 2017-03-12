@@ -113,7 +113,7 @@ body[dir="rtl"] {
     left: auto;
   }
   #add-view .butn-green{
-    left: 20px;
+    left: 0;
     right: auto;
   }
   .content-plus {
@@ -446,6 +446,9 @@ body[dir="rtl"] {
 
   #place-settings .user-item {
     margin-right: -32px;
+  }
+  .choices-row {
+    float: right;
   }
 }
 body[dir="ltr"] {

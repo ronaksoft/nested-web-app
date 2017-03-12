@@ -2,7 +2,7 @@
   <div class="place-filter">
     <img ng-src="{{place | picture:'x128'}}" alt="">
   </div>
-  <div ng-if="settings" class="setting-headline _aic" bg-check="{{pict}}">
+  <div ng-if="settings" class="setting-headline _aic" bg-check="{{place | picture:'x128'}}">
     <svg class="_24svg _df _r45 _fn" ng-click="dissmiss()">
       <use xlink:href="/assets/icons/nst-icn24.svg#cross"></use>
     </svg>
@@ -10,7 +10,7 @@
 
   </div>
   <div class="logo-holder">
-    <img  ng-src="{{place | picture:'x128'}}" height="100%" alt="">
+    <img ng-src="{{place | picture:'x128'}}" height="100%" alt="">
     <i ng-if="settings">
       <svg class="_16svg _df" ng-if="true">
         <use xlink:href="/assets/icons/nst-icn16.svg#window"></use>
