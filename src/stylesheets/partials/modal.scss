@@ -502,6 +502,7 @@ body.modal-open {
       margin: 10px 0 8px 0;
       border-bottom: 1px solid $color-black004;
       align-items: center;
+      direction: ltr;
       input {
         box-shadow: none;
         border: none;
