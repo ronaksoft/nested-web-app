@@ -447,7 +447,7 @@ body[dir="rtl"] {
   #place-settings .user-item {
     margin-right: -32px;
   }
-  .ui-select-choices-row {
+  #add-view .ui-select-choices-row {
     float: right;
   }
   nst-navbar .place-info h3 svg {
@@ -456,6 +456,9 @@ body[dir="rtl"] {
   .mention-wrp ul li {
     direction: rtl;
     text-align: right;
+  }
+  .place-head.setting-head h3 {
+    margin: 0 16px 0 0;
   }
 }
 body[dir="ltr"] {

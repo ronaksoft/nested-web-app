@@ -304,7 +304,7 @@ nst-attachments-preview-bar {
     display: inline-table;
     //flex-direction: row;
     img {
-      //object-fit: contain;
+      object-fit: cover;
       float: left;
       min-width: 80px;
       min-height: 96px;
