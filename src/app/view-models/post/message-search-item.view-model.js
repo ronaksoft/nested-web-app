@@ -50,7 +50,8 @@
 
       if (post instanceof NstPost) {
         this.id = post.id;
-        this.sender = mapSender(post.sender);
+        this.sender = post.sender ?  mapSender(post.sender) :  mapSender(post.emailSender);
+        this.recipients = post.recipients;
         this.subject = post.subject;
         this.body = post.body;
         this.isExternal = !post.internal;
@@ -62,6 +63,9 @@
         this.isForwarded = !!post.forwardFromId;
         this.commentsCount = post.counters.comments > -1 ? post.counters.comments : 0;
         this.isRead = post.isRead;
+        this.bookmarked = post.bookmarked;
+        this.isReplyed = !!post.replyToId;
+        this.isForwarded = !!post.forwardFromId;
       }
     }
 
@@ -74,18 +78,20 @@
       }
 
       return {
-        name: sender.fullName,
+        name: sender.fullName || sender.id,
         username: sender.id,
-        avatar: sender.picture ? sender.getPicture().getUrl('x64') : null
+        avatar: sender.hasPicture() ? sender.picture.getUrl('x64') : null,
+        avatar128: sender.hasPicture() ? sender.picture.getUrl('x128') : null
       };
     }
 
     // TODO: Use NstVmPlace instead
     function mapPlace(place) {
+
       return {
         id: place.id,
         name: place.name,
-        picture: place.picture ? place.getPicture().getUrl('x64') : null
+        picture: place.hasPicture() ? place.picture.getUrl('x64') : null
       };
     }
   }
