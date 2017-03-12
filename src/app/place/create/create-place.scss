@@ -16,7 +16,7 @@
     flex-direction: column;
     justify-content: center;
     margin-top: 32px;
-    padding: 32px;
+    padding: 32px 0;
   }
   #PlaceID {
     color: $color-sense-wire;
@@ -24,10 +24,22 @@
     font-weight: 400;
     min-height: 28px;
     width: 100%;
-    padding-bottom: 12px;
+    //padding-bottom: 12px;
     display: flex;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    span {
+      white-space: nowrap;
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
     &.not-set {
       color: $color-black004;
+    }
+    div {
+      margin: 0 8px;
     }
   }
   form .placeID {
@@ -44,6 +56,10 @@
   p.cr8 {
     font-size: 14px;
     font-weight: 400;
+    span {
+      color: $color-gale;
+      font-size: 14px;
+    }
   }
   .recive-det {
     p {
@@ -292,6 +308,7 @@ body[dir="rtl"] {
   form {
     flex-direction: column;
     min-height: 100%;
+    padding-bottom: 80px;
     > svg._48svg {
       margin-top: 64px;
       width: 24px;
@@ -313,7 +330,6 @@ body[dir="rtl"] {
     color: $color-solid;
     text-align: center;
     margin: 4px 0;
-    padding-top: 16px;
   }
   .butn-white span {
     padding: 0;

@@ -29,6 +29,13 @@
         }
         NstSvcUserFactory.changePassword(vm.model.oldPassword, vm.model.newPassword).then(function(result) {
           toastr.success(NstSvcTranslation.get('You have changed your password successfully.'));
+          vm.model = {
+            oldPassword: '',
+            newPassword: '',
+            newPasswordConfirm: ''
+          };
+          vm.submitted = false;
+
         }).catch(function(error) {
           if (error.code === NST_SRV_ERROR.INVALID) {
             var message = _.first(error.message);

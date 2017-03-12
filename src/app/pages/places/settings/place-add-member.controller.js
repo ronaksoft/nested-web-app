@@ -20,6 +20,7 @@
     vm.search = _.debounce(search, 512);
     vm.add = add;
     vm.query = '';
+
     checkUserLimitPlace();
     search();
 
@@ -46,8 +47,9 @@
     function search(query) {
 
       var settings = {
-        query: query || vm.query,
-        role: chosenRole,
+        query: query,
+        // role is no longer supported
+        // role: chosenRole,
         placeId: currentPlace.id,
         limit: calculateSearchLimit()
       };

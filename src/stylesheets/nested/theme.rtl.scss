@@ -113,7 +113,7 @@ body[dir="rtl"] {
     left: auto;
   }
   #add-view .butn-green{
-    left: 20px;
+    left: 0;
     right: auto;
   }
   .content-plus {
@@ -446,6 +446,23 @@ body[dir="rtl"] {
 
   #place-settings .user-item {
     margin-right: -32px;
+  }
+  #add-view .ui-select-choices-row {
+    float: right;
+  }
+  nst-navbar .place-info h3 svg {
+    margin: 0 0 0 4px;
+  }
+  .mention-wrp ul li {
+    direction: rtl;
+    text-align: right;
+  }
+  .place-head.setting-head h3 {
+    margin: 0 16px 0 0;
+  }
+  .modal-lg-white .modal-content h2 span {
+    margin-left: 0;
+    margin-right: 16px;
   }
 }
 body[dir="ltr"] {

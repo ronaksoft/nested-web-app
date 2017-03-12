@@ -12,7 +12,6 @@
       'ui.router',
       'ui.bootstrap',
       'toastr',
-      'xeditable',
       'lodash',
       'momentjs',
       'cfp.hotkeys',
