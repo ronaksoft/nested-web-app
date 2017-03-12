@@ -11,14 +11,14 @@
     <svg class="_32svg _r90 mirror" ng-click="ctrl.step = 1">
       <use xlink:href="/assets/icons/nst-icn32.svg#arrow"></use>
     </svg>
-    <translate ng-if="!ctrl.hasParentPlace">Create a Grand Place<span>Step 2/2</span></translate>
+    <translate ng-if="ctrl.isCreateGrandPlaceMode">Create a Grand Place<span>Step 2/2</span></translate>
     <translate ng-if="ctrl.isOpenPlace">Create a Common Place<span>Step 2/2</span></translate>
-    <!--<translate ng-if="ctrl.isClosedPlace">Create a Private Place<span>Step 1/2</span></translate>-->
+    <translate ng-if="ctrl.isClosedPlace">Create a Private Place<span>Step 1/2</span></translate>
   </h2>
   <p>Who can share posts with this Place?</p>
 
   <place-policy-option
-    ng-if="ctrl.isGrandPlace"
+    ng-if="ctrl.isCreateGrandPlaceMode"
     levels="sharePostPolicyOptionsForGrand"
     level="ctrl.addPostLevel"
     level-changed="ctrl.setAddPostPolicy"
@@ -41,7 +41,7 @@
   </place-policy-option>
 
   <place-policy-option
-    ng-if="ctrl.isClosedPlace && !ctrl.isPersonalPlace"
+    ng-if="ctrl.isClosedPlace && !ctrl.isPersonalPlace && !ctrl.isCreateGrandPlaceMode"
     levels="sharePostPolicyOptionsForPrivate"
     level="ctrl.addPostLevel"
     level-changed="ctrl.setAddPostPolicy"

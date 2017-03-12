@@ -106,6 +106,9 @@
       if (NstUtility.place.isGrand(place.id)) {
 
         return NST_PLACE_TYPE.GRAND;
+      } else if (NstUtility.place.getGrandId(place.id) === NstSvcAuth.user.id) {
+
+        return NST_PLACE_TYPE.SUB_PERSONAL;
       } else if (place.privacy.locked) {
 
         return NST_PLACE_TYPE.PRIVATE;
@@ -115,9 +118,7 @@
       } else if (place.id === NstSvcAuth.user.id) {
 
         return NST_PLACE_TYPE.PERSONAL;
-      } else if (NstUtility.place.getGrandId(place.id) === NstSvcAuth.user.id) {
 
-        return NST_PLACE_TYPE.SUB_PERSONAL;
       } else {
 
         throw Error("Could not figure out place type");

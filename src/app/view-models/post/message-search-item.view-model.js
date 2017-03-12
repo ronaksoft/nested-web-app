@@ -76,7 +76,7 @@
       return {
         name: sender.fullName,
         username: sender.id,
-        avatar: sender.picture ? sender.getPicture().getUrl('x64') : null
+        avatar: sender.picture ? sender.picture.getUrl('x64') : null
       };
     }
 
@@ -85,8 +85,9 @@
       return {
         id: place.id,
         name: place.name,
-        picture: place.picture ? place.getPicture().getUrl('x64') : null
+        picture: place.picture ? place.picture.getUrl('x64') : null
       };
     }
+
   }
 })();
