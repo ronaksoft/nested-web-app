@@ -41,7 +41,7 @@
     <a class="_df _fw _jcc _aic" ng-click="selectedView = 0;" ng-class="{'active' : selectedView == 0}">
       <translate>Settings</translate>
     </a>
-    <a class="_df _fw _jcc _aic" ng-click="selectedView = 1;" ng-class="{'active' : selectedView == 1}" >
+    <a class="_df _fw _jcc _aic" ng-click="selectedView = 1;" ng-class="{'active' : selectedView == 1}" ng-hide="ctrl.placeType == 'sub-personal'">
       <translate>Members ({{ctrl.place.counters.creators + ctrl.place.counters.key_holders}})</translate>
     </a>
   </div>
