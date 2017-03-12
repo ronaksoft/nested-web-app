@@ -33,7 +33,7 @@
       <div id="PlaceID" tabindex="2">
         <span ng-if="ctrl.hasParentPlace">{{ctrl.place.parentId}}.</span>
         {{ctrl.place.id.length > 0 ? ctrl.place.id.replace(ctrl.place.parentId + '.' ,'') : 'marketing-development'}}
-        <div ng-if="ctrl.placeIdChecking" class="nst-loading nst-loading-size-16 _dib"></div>
+        <div ng-show="ctrl.placeIdChecking" class="nst-loading nst-loading-size-16 _dib"></div>
       </div>
       <svg class="_24svg _df _fn edit-icon" open-custom-modal="app/place/create/modals/place-change-id-modal.html">
         <use xlink:href="/assets/icons/nst-icn24.svg#edit"></use>

@@ -460,6 +460,10 @@ body[dir="rtl"] {
   .place-head.setting-head h3 {
     margin: 0 16px 0 0;
   }
+  .modal-lg-white .modal-content h2 span {
+    margin-left: 0;
+    margin-right: 16px;
+  }
 }
 body[dir="ltr"] {
   .post-card-comments p.RTL-text {

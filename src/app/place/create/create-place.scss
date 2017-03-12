@@ -38,6 +38,9 @@
     &.not-set {
       color: $color-black004;
     }
+    div {
+      margin: 0 8px;
+    }
   }
   form .placeID {
     //background-color: $color-calm;
