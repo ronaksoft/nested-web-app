@@ -232,7 +232,7 @@
         return;
       }
 
-      var senderIsCurrentUser = NstSvcAuth.getUser().getId() == e.detail.comment.sender.id;
+      var senderIsCurrentUser = NstSvcAuth.user.id == e.detail.comment.sender.id;
       if (senderIsCurrentUser) {
         if (!_.includes(newCommentIds, e.detail.id)) {
           newCommentIds.push(e.detail.id);

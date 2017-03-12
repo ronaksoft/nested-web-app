@@ -8,24 +8,18 @@
         scope: {
           selector: "@",
           selectAttr: "@",
-          onSelect: "=",
-          mood: '@'
+          onSelect: "="
         },
         link: function (scope, element, attrs) {
           var seletableElement = $(element);
           if (!seletableElement) {
             return;
           }
-
           var selectedArray = [];
-
-          var mouseMode = attrs.mood == 'settings' ? 'toggle' : 'standard';
-
           seletableElement.selectonic({
             multi: true,
-            mouseMode: mouseMode,
+            mouseMode: "standard",
             keyboard: true,
-            selectionBlur: true,
             textSelection: true,
             keyboardMode: "select",
             select: function (event, ui) {
@@ -48,16 +42,21 @@
             }
           });
 
-          //Event listen on document click ?! expensive
-          // $(document).click(function (event) {
-          //   if (seletableElement.selectonic() && seletableElement.selectonic("getSelected").length > 0) {
-          //     if (!(event.target.closest("section.content") || event.target.closest(".content-plus"))) {
-          //       seletableElement.selectonic("unselect");
-          //     }
-          //   }
-          // })
+
+          var clickOutsideHandler = function (event) {
+            if (seletableElement.selectonic() && seletableElement.selectonic("getSelected").length > 0) {
+              if (!(event.target.closest("section.content") || event.target.closest(".content-plus"))) {
+                seletableElement.selectonic("unselect");
+              }
+            }
+          };
+
+          $(document).click(clickOutsideHandler);
+
+          scope.$on('$destroy', function () {
+            $(document).unbind('click', clickOutsideHandler);
+          });
         }
       }
     })
-
 })();
