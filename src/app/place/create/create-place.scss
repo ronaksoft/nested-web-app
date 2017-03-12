@@ -16,7 +16,7 @@
     flex-direction: column;
     justify-content: center;
     margin-top: 32px;
-    padding: 32px;
+    padding: 32px 0;
   }
   #PlaceID {
     color: $color-sense-wire;
@@ -305,6 +305,7 @@ body[dir="rtl"] {
   form {
     flex-direction: column;
     min-height: 100%;
+    padding-bottom: 80px;
     > svg._48svg {
       margin-top: 64px;
       width: 24px;
@@ -326,7 +327,6 @@ body[dir="rtl"] {
     color: $color-solid;
     text-align: center;
     margin: 4px 0;
-    padding-top: 16px;
   }
   .butn-white span {
     padding: 0;
