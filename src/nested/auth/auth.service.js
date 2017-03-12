@@ -113,7 +113,7 @@
         });
         service.setState(NST_AUTH_STATE.AUTHORIZED);
 
-        service.dispatchEvent(new CustomEvent(NST_AUTH_EVENT.AUTHORIZE, {detail: {user: service.getUser()}}));
+        service.dispatchEvent(new CustomEvent(NST_AUTH_EVENT.AUTHORIZE, {detail: {user: data.account}}));
         deferred.resolve(service.getUser());
       }).catch(deferred.reject);
 
