@@ -3,7 +3,7 @@
     <img ng-if="!pict" ng-src="{{place | picture:'x128'}}" alt="">
     <img ng-if="pict" ng-src="{{pict}}" height="100%" alt="">
   </div>
-  <div ng-if="settings" class="setting-headline _aic" bg-check="{{pict}}">
+  <div ng-if="settings" class="setting-headline _aic" bg-check="{{place | picture:'x128'}}">
     <svg class="_24svg _df _r45 _fn" ng-click="dissmiss()">
       <use xlink:href="/assets/icons/nst-icn24.svg#cross"></use>
     </svg>

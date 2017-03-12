@@ -16,7 +16,7 @@
     </div>
     <input id="placeLogo" type="file" name="logo" accept="image/*" onchange="angular.element(this).scope().ctrl.setPicture(event)">
     <label for="placeLogo" class="logo-holder">
-      <img ng-src="{{ctrl.place | picture:'x128'}}" height="100%" alt="{{ctrl.place.name}}">
+      <img class="cursor-pointer" ng-src="{{ctrl.place | picture:'x128'}}" height="100%" alt="{{ctrl.place.name}}">
       <i>
         <svg class="_16svg _df" ng-if="ctrl.placeType === NST_PLACE_TYPE.PRIVATE || ctrl.placeType === NST_PLACE_TYPE.SUB_PERSONAL">
           <use xlink:href="/assets/icons/nst-icn16.svg#brick-wall"></use>
@@ -43,7 +43,7 @@
     <a class="_df _fw _jcc _aic" ng-click="selectedView = 0;" ng-class="{'active' : selectedView == 0}">
       <translate>Settings</translate>
     </a>
-    <a class="_df _fw _jcc _aic" ng-click="selectedView = 1;" ng-class="{'active' : selectedView == 1}" >
+    <a class="_df _fw _jcc _aic" ng-click="selectedView = 1;" ng-class="{'active' : selectedView == 1}" ng-hide="ctrl.placeType == 'sub-personal'">
       <translate>Members ({{ctrl.place.counters.creators + ctrl.place.counters.key_holders}})</translate>
     </a>
   </div>

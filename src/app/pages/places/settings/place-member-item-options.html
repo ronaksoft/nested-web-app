@@ -14,7 +14,7 @@
   </div>
   <span class="_dib nst-mood-simple _vat"><translate>Demote</translate></span>
 </a>
-<hr ng-if="!ctlFullNavbar.isPersonal()">
+<hr ng-if="memberCtrl.member.role == 'key_holder' || memberCtrl.member.role == 'creator'">
 <a ng-if="memberCtrl.hasRemoveAccess" ng-click="memberCtrl.remove();" class="_df list-items _aic red">
   <div>
     <svg class="_16svg">
