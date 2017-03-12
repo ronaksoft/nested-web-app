@@ -94,5 +94,6 @@
         picture: place.hasPicture() ? place.picture.getUrl('x64') : null
       };
     }
+
   }
 })();
