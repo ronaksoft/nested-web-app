@@ -36,7 +36,8 @@
       <div></div>
       <div></div>
       <div class="top-add" data-ng-click="ctrl.addMember()">
-        <translate>Add Member</translate>
+        <translate ng-if="ctrl.isGrandPlace">Invite Member</translate>
+        <translate ng-if="!ctrl.isGrandPlace">Add Member</translate>
         <svg class="_16svg">
           <use xlink:href="/assets/icons/nst-icn16.svg#cross"></use>
         </svg>

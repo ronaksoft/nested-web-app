@@ -8,7 +8,7 @@
     <translate ng-if="ctrl.hasParentPlace && ctrl.isClosedPlace">Create a Private Place<span>Step 1/2</span></translate>
   </h2>
   <div class="_fw _jcc _df">
-    <label for="logo" class="pic">
+    <label for="logo" class="pic cursor-pointer">
       <img ng-src="{{ ctrl.logoUrl || '/assets/icons/ph_photo.png'}}"/>
     </label>
     <input id="logo" type="file" name="logo" accept="image/*"
@@ -33,7 +33,7 @@
       <div id="PlaceID" tabindex="2">
         <span ng-if="ctrl.hasParentPlace">{{ctrl.place.parentId}}.</span>
         {{ctrl.place.id.length > 0 ? ctrl.place.id.replace(ctrl.place.parentId + '.' ,'') : 'marketing-development'}}
-        <div ng-if="ctrl.placeIdChecking" class="nst-loading nst-loading-size-16 _dib"></div>
+        <div ng-show="ctrl.placeIdChecking" class="nst-loading nst-loading-size-16 _dib"></div>
       </div>
       <svg class="_24svg _df _fn edit-icon" open-custom-modal="app/place/create/modals/place-change-id-modal.html">
         <use xlink:href="/assets/icons/nst-icn24.svg#edit"></use>
@@ -49,7 +49,7 @@
   <label class="input-lab input-form" for="PlaceDes">
     <translate>Place Description <span>Optional</span></translate>
   </label>
-  <input id="PlaceDes" type="text">
+  <input id="PlaceDes" ng-model="ctrl.place.description" type="text">
   <button class="submit" type="submit" ng-disabled="!ctrl.placeIdIsFullAvailable || !placeForm.placeName.$valid">
     <translate>Next</translate>
   </button>

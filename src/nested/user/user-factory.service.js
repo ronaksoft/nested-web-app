@@ -11,7 +11,7 @@
                              NST_USER_FACTORY_EVENT,
                              NstBaseFactory, NstFactoryQuery, NstFactoryError, NstTinyUser, NstUser, NstPicture, NstFactoryEventData) {
     function UserFactory() {
-      this.currentUser = NstSvcAuthStorage.get(NST_AUTH_STORAGE_KEY.USER);
+      this.currentUser = this.parseUser(NstSvcAuthStorage.get(NST_AUTH_STORAGE_KEY.USER));
     }
 
     UserFactory.prototype = new NstBaseFactory();
@@ -47,7 +47,7 @@
             resolve(user);
           } else {
             NstSvcServer.request('account/get', {
-              'account_id' : query.id
+              'account_id': query.id
             }).then(function (userData) {
               var user = factory.parseUser(userData);
               NstSvcUserStorage.set(query.id, user);
@@ -102,7 +102,7 @@
         service.getTiny(id).then(function (place) {
           resolve(place);
         }).catch(function (error) {
-          resolve({ id : id });
+          resolve({id: id});
         });
       });
     };
@@ -130,11 +130,11 @@
 
       var deferred = $q.defer();
       var propertiesMap = {
-        "firstName" : "fname",
-        "lastName" : "lname",
-        "dateOfBirth" : "dob",
-        "gender" : "gender",
-        "searchable" : "searchable"
+        "firstName": "fname",
+        "lastName": "lname",
+        "dateOfBirth": "dob",
+        "gender": "gender",
+        "searchable": "searchable"
       };
 
       var keyValues = _.mapKeys(params, function (value, key) {
@@ -149,7 +149,7 @@
       });
 
       return deferred.promise;
-    }
+    };
 
     UserFactory.prototype.changePassword = function (oldPassword, newPassword) {
 
@@ -182,6 +182,7 @@
           universal_id: uid
         }).then(function () {
           factory.get(userId, true).then(function (user) {
+            factory.currentUser = user;
             factory.dispatchEvent(new CustomEvent(NST_USER_FACTORY_EVENT.PROFILE_UPDATED, new NstFactoryEventData(user)));
             deferred.resolve(uid);
           }).catch(deferred.reject);
@@ -191,7 +192,7 @@
 
         return deferred.promise;
       }, "updatePicture");
-    }
+    };
 
     UserFactory.prototype.removePicture = function () {
       var factory = this;
@@ -251,7 +252,6 @@
       user.country = userData.country;
       user.dateOfBirth = userData.dob;
       user.gender = userData.gender;
-      user.gender = userData.gender;
       user.email = userData.email;
       user.searchable = userData.searchable;
 
@@ -260,8 +260,9 @@
         user.unreadNotificationsCount = userData.counters.unread_mentions;
       }
 
-      if (userData.picture && userData.picture.org) {
-        user.picture = new NstPicture(userData.picture);
+
+      if (user.picture && user.picture.org) {
+        user.picture = new NstPicture(user.picture);
       }
 
       return user;

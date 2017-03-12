@@ -1,12 +1,14 @@
-(function() {
+(function () {
   'use strict';
 
   angular
     .module('ronak.nested.web.message')
     .controller('QuickMessageController', QuickMessageController);
 
-  function QuickMessageController($q, $log, $scope, toastr, $state, $rootScope, $uibModal,NstPicture ,
-                                  NstSvcAuth, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcAttachmentFactory, NstSvcFileType, NstLocalResource, NST_FILE_TYPE, NstSvcAttachmentMap, NstSvcStore, NST_ATTACHMENT_STATUS, NstSvcPostMap, NstSvcTranslation) {
+  function QuickMessageController($q, $log, $scope, toastr, $state, $rootScope, $uibModal,
+                                  NST_FILE_TYPE, NST_ATTACHMENT_STATUS,
+                                  NstPicture, NstSvcFileType, NstSvcAuth, NstLocalResource, NstSvcAttachmentMap, NstSvcPostMap, NstSvcTranslation,
+                                  NstSvcUserFactory, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcAttachmentFactory, NstSvcStore) {
     var vm = this;
     vm.text = '';
     vm.mode = 'quick';
@@ -38,7 +40,7 @@
       }
     };
 
-    vm.user = NstSvcAuth.user;
+    vm.user = NstSvcUserFactory.currentUser;
 
     /*****************************
      ***** Controller Methods ****
@@ -83,7 +85,7 @@
       return vm.model.ready;
     };
 
-    vm.writeMsg = function(e) {
+    vm.writeMsg = function (e) {
       vm.model.isModified();
 
       if (!e.currentTarget.firstChild) return;
@@ -96,13 +98,13 @@
 
 
       //console.log(vm.model.subject.length);
-      if(e.which == '13' && vm.model.subject.length == 0){
+      if (e.which == '13' && vm.model.subject.length == 0) {
 
       }
 
       function analyseInIt() {
         // no Enter or return at first char
-        if ((angular.element(e.currentTarget.firstChild).text().charCodeAt(0) == 10 || angular.element(e.currentTarget.firstChild).html() == '<br>' || angular.element(e.currentTarget.firstChild).html() == '') && e.currentTarget.children.length > 1 ){
+        if ((angular.element(e.currentTarget.firstChild).text().charCodeAt(0) == 10 || angular.element(e.currentTarget.firstChild).html() == '<br>' || angular.element(e.currentTarget.firstChild).html() == '') && e.currentTarget.children.length > 1) {
           angular.element(e.currentTarget.firstChild).remove();
           return analyseInIt()
         }
@@ -123,12 +125,12 @@
       elementFirstChild.remove();
 
 
-      if ( element.children().length == 0 || ( element.children().length == 1 && element.children()[0].length == 0) || vm.model.body.length == 0) {
+      if (element.children().length == 0 || ( element.children().length == 1 && element.children()[0].length == 0) || vm.model.body.length == 0) {
 
         vm.model.body = vm.model.subject;
         vm.model.subject = "";
 
-      }else {
+      } else {
 
         var str = element[0].innerHTML;
         findBreak(str);
@@ -138,17 +140,28 @@
 
       function applyMove() {
         var tween2 = new TimelineLite()
-          .add(TweenLite.to($('nst-quick-message')[0], 1, {css:{opacity:'.3',transform: 'scale(0.9,0.9)'}, ease:Power4.easeOut}));
+          .add(TweenLite.to($('nst-quick-message')[0], 1, {
+            css: {opacity: '.3', transform: 'scale(0.9,0.9)'},
+            ease: Power4.easeOut
+          }));
         tween2
       }
+
       function declineMove() {
         var tween1 = new TimelineLite()
-          .add(TweenLite.to($('nst-quick-message')[0], .2, {css:{opacity:'1',transform: 'scale(1,1)'}, ease:Power4.easeOut}));
+          .add(TweenLite.to($('nst-quick-message')[0], .2, {
+            css: {opacity: '1', transform: 'scale(1,1)'},
+            ease: Power4.easeOut
+          }));
         tween1
       }
+
       function reverseMove() {
         var tween2 = new TimelineLite()
-          .add(TweenLite.to($('nst-quick-message')[0], .2, {css:{opacity:'1',transform: 'scale(1,1)'}, ease:Power4.easeOut}));
+          .add(TweenLite.to($('nst-quick-message')[0], .2, {
+            css: {opacity: '1', transform: 'scale(1,1)'},
+            ease: Power4.easeOut
+          }));
         tween2;
         angular.element(vm.textarea).html('');
         vm.model.subject = '';
@@ -159,7 +172,7 @@
       }
 
       function findBreak(str) {
-        if(isFirefox){
+        if (isFirefox) {
           str = str.replace(/<br>/, "");
           vm.model.body = str;
         } else {
@@ -203,9 +216,11 @@
             post.setBody(vm.model.body);
             post.setContentType('text/plain');
             post.setAttachments(vm.model.attachments);
-            post.setPlaces([NstSvcPlaceFactory.parseTinyPlace({ _id: vm.placeId })]);
+            post.setPlaces([NstSvcPlaceFactory.parseTinyPlace({_id: vm.placeId})]);
 
-            NstSvcPostFactory.send(post).then(deferred.resolve).catch(function (error) { deferred.reject([error]); });
+            NstSvcPostFactory.send(post).then(deferred.resolve).catch(function (error) {
+              deferred.reject([error]);
+            });
           } else {
             deferred.reject(vm.model.errors);
           }
@@ -216,12 +231,12 @@
         vm.model.saving = false;
         vm.model.saved = true;
 
-        NstSvcPostFactory.get(response.post.id).then(function(res){
+        NstSvcPostFactory.get(response.post.id).then(function (res) {
           var msg = NstSvcPostMap.toMessage(res);
           vm.addMessage(msg);
         });
 
-        if(response.noPermitPlaces.length > 0){
+        if (response.noPermitPlaces.length > 0) {
           var text = NstUtility.string.format(NstSvcTranslation.get('Your message has not been successfully sent to {0}'), response.noPermitPlaces.join(','));
           toastr.warning(text, NstSvcTranslation.get('Message didn\'t send'));
         }
@@ -234,9 +249,13 @@
       }).catch(function (errors) {
         vm.model.saving = false;
         toastr.error(errors.filter(
-          function (v) { return !!v.message; }
+          function (v) {
+            return !!v.message;
+          }
         ).map(
-          function (v, i) { return String(Number(i) + 1) + '. ' + v.message; }
+          function (v, i) {
+            return String(Number(i) + 1) + '. ' + v.message;
+          }
         ).join("<br/>"), 'Compose Error');
 
         $log.debug('Compose | Error Occurred: ', errors);
@@ -253,7 +272,7 @@
      *****************************/
 
     vm.addMessage = function (msg) {
-      $rootScope.$emit('post-quick',msg);
+      $rootScope.$emit('post-quick', msg);
     };
 
     vm.model.check = function () {
@@ -294,7 +313,8 @@
     vm.attachments.fileSelected = function (event) {
       var files = event.currentTarget.files;
       for (var i = 0; i < files.length; i++) {
-        vm.attachments.attach(files[i]).then(function (request) {});
+        vm.attachments.attach(files[i]).then(function (request) {
+        });
       }
       event.currentTarget.value = "";
     };
@@ -328,10 +348,10 @@
         // Load and Show Thumbnail
         if (NST_FILE_TYPE.IMAGE == type) {
           attachment.setPicture(new NstPicture({
-            original : uri,
-            preview : uri,
-            x32 : uri,
-            x64 : uri,
+            original: uri,
+            preview: uri,
+            x32: uri,
+            x64: uri,
             x128: uri
           }));
         }
@@ -396,7 +416,7 @@
 
     vm.attachments.detach = function (vmAttachment) {
       var id = vmAttachment.id;
-      var attachment = _.find(vm.model.attachments, { id: id });
+      var attachment = _.find(vm.model.attachments, {id: id});
       $log.debug('Compose | Attachment Delete: ', id, attachment);
 
       if (attachment && attachment.length !== 0) {
@@ -409,11 +429,15 @@
             break;
         }
 
-        vm.model.attachments = vm.model.attachments.filter(function (v) { return id != v.id; });
-        vm.attachments.viewModels = vm.attachments.viewModels.filter(function (v) { return id != v.id; });
+        vm.model.attachments = vm.model.attachments.filter(function (v) {
+          return id != v.id;
+        });
+        vm.attachments.viewModels = vm.attachments.viewModels.filter(function (v) {
+          return id != v.id;
+        });
         vm.attachments.size.uploaded -= vmAttachment.uploadedSize;
         vm.attachments.size.total -= attachment.getSize();
-      }else{
+      } else {
         vm.model.attachments = [];
       }
       vm.model.isModified();
@@ -444,9 +468,9 @@
 
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams, cancel) {
 
-      if(angular.element(vm.textarea).text().length > 1) {
+      if (angular.element(vm.textarea).text().length > 1) {
         vm.resolveSet = true;
-      }else {
+      } else {
         vm.resolveSet = false;
         return
       }
@@ -455,16 +479,14 @@
         event.preventDefault();
       }
 
-      if(angular.element(vm.textarea).text().length > 1){
+      if (angular.element(vm.textarea).text().length > 1) {
         $rootScope.modals['leave-confirm'] = $uibModal.open({
           animation: false,
           templateUrl: 'app/modals/leave-confirm/main.html',
           controller: 'LeaveConfirmController',
           controllerAs: 'ctlLeaveConfirm',
           size: 'sm',
-          resolve: {
-
-          }
+          resolve: {}
         });
         $rootScope.modals['leave-confirm'].result.then(function () {
           vm.resolveSet = false;
@@ -476,7 +498,6 @@
       }
 
     });
-
 
 
   }
