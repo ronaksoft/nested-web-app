@@ -6,7 +6,7 @@
     .controller('PlaceCreateController', PlaceCreateController);
 
   /** @ngInject */
-  function PlaceCreateController($scope, $q, $stateParams, $state, toastr, $rootScope,
+  function PlaceCreateController($scope, $q, $stateParams, $state, toastr, $rootScope, $uibModalStack,
                                  NST_DEFAULT, NST_SRV_ERROR, NST_PLACE_ADD_TYPES, NST_PLACE_MEMBER_TYPE, NST_PLACE_POLICY_OPTION,
                                  NST_PLACE_TYPE, NST_PLACE_ACCESS,
                                  NST_STORE_UPLOAD_TYPE,
@@ -572,10 +572,12 @@
       return deferred.promise;
     };
 
-    function uploadCreatedPlaceMoreOption($dismiss) {
+    function uploadCreatedPlaceMoreOption() {
       if (!vm.addMemberPolicy && !vm.addPlacePolicy) {
-        $state.go('app.place-messages', {placeId: vm.place.id});
-        $dismiss();
+        $uibModalStack.dismissAll();
+        setTimeout(function () {
+          $state.go('app.place-messages', {placeId: vm.createdPlace.id});
+        },200);
         return;
       }
 
@@ -584,8 +586,10 @@
 
       update({'policy.add_place': addPlace, 'policy.add_member': addMember}).then(function () {
         toastr.success(NstSvcTranslation.get('Your settings saved.'));
-        $state.go('app.place-messages', {placeId: vm.place.id});
-        $dismiss();
+        $uibModalStack.dismissAll();
+        setTimeout(function () {
+          $state.go('app.place-messages', {placeId: vm.createdPlace.id});
+        },200);
       })
     }
 
