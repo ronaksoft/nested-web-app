@@ -450,6 +450,9 @@ body[dir="rtl"] {
   .ui-select-choices-row {
     float: right;
   }
+  nst-navbar .place-info h3 svg {
+    margin: 0 0 0 4px;
+  }
 }
 body[dir="ltr"] {
   .post-card-comments p.RTL-text {
