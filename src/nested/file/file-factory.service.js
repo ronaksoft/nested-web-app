@@ -87,9 +87,9 @@
 
       var token = NstSvcDownloadTokenStorage.get(tokenKey);
       if (!token || token.isExpired()) { // then if the token exists then remove it and get a new token
-        NstSvcDownloadTokenStorage.remove(tokenKey);
+        // NstSvcDownloadTokenStorage.remove(tokenKey);
         requestNewDownloadToken(attachmentId).then(function (newToken) {
-          NstSvcDownloadTokenStorage.set(tokenKey, newToken);
+          // NstSvcDownloadTokenStorage.set(tokenKey, newToken);
           defer.resolve(newToken);
         }).catch(defer.reject);
       } else { // current token is still valid and resolve it
