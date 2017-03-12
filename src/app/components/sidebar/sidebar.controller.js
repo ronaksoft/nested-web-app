@@ -13,7 +13,7 @@
                              NstSvcAuth, NstSvcServer, NstSvcLogger, NstSvcNotification, NstSvcTranslation,
                              NstSvcPostFactory, NstSvcPlaceFactory, NstSvcInvitationFactory, NstUtility, NstSvcUserFactory, NstSvcSidebar, NstSvcNotificationFactory,
                              NstSvcNotificationSync, NstSvcSync,
-                             NstVmUser, NstVmPlace, NstVmInvitation) {
+                             NstVmPlace, NstVmInvitation) {
     var vm = this;
 
     /*****************************
@@ -170,7 +170,7 @@
     }
 
     getUser().then(function (user) {
-      vm.user = mapUser(user);
+      vm.user = user;
     }).catch(function () {
       throw 'SIDEBAR | user can not parse'
     });
@@ -402,9 +402,6 @@
      *****     Map Methods    ****
      *****************************/
 
-    function mapUser(userModel) {
-      return new NstVmUser(userModel);
-    }
 
     function mapPlace(placeModel, depth) {
       return new NstVmPlace(placeModel, depth);
@@ -528,10 +525,7 @@
     });
 
     NstSvcUserFactory.addEventListener(NST_USER_FACTORY_EVENT.PROFILE_UPDATED, function (event) {
-      vm.user = mapUser(event.detail);
-    });
-
-    NstSvcUserFactory.addEventListener(NST_USER_FACTORY_EVENT.PICTURE_UPDATED, function (event) {
+      vm.user = event.detail;
       var place = _.find(vm.places, {id: NstSvcAuth.user.id});
       if (event.detail.hasPicture()) {
         vm.user.avatar = place.avatar = event.detail.picture.getUrl("x64");
@@ -539,7 +533,6 @@
         vm.user.avatar = place.avatar = '/assets/icons/absents_place.svg';
       }
     });
-
 
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.UPDATE, function (event) {
       NstSvcPlaceFactory.updatePlaceInTree(vm.places, mapPlace(event.detail.place));
