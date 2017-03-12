@@ -10,7 +10,7 @@
                                  NST_DEFAULT, NST_SRV_ERROR, NST_PLACE_ADD_TYPES, NST_PLACE_MEMBER_TYPE, NST_PLACE_POLICY_OPTION,
                                  NST_PLACE_TYPE, NST_PLACE_ACCESS,
                                  NST_STORE_UPLOAD_TYPE,
-                                 NstSvcAuth, NstSvcPlaceFactory, NstSvcStore, NstVmMemberItem,
+                                 NstSvcAuth, NstSvcPlaceFactory, NstSvcStore, NstVmMemberItem, NstSvcUserFactory,
                                  NstUtility, $uibModal, $uibModalInstance, NstSvcLogger, NstSvcTranslation) {
 
     $scope.NST_PLACE_POLICY_OPTION = NST_PLACE_POLICY_OPTION;
@@ -117,7 +117,7 @@
       vm.addPlaceLevel = NST_PLACE_POLICY_OPTION.MANAGERS;
       vm.addMemberLevel = NST_PLACE_POLICY_OPTION.MANAGERS;
 
-      vm.teammates.push(new NstVmMemberItem(NstSvcAuth.user, NST_PLACE_MEMBER_TYPE.KEY_HOLDER));
+      vm.teammates.push(new NstVmMemberItem(NstSvcUserFactory.currentUser, NST_PLACE_MEMBER_TYPE.KEY_HOLDER));
 
       $rootScope.$on('member-removed', function (event, data) {
         NstUtility.collection.dropById(vm.teammates, data.member.id);
@@ -574,6 +574,7 @@
 
     function uploadCreatedPlaceMoreOption($dismiss) {
       if (!vm.addMemberPolicy && !vm.addPlacePolicy) {
+        $state.go('app.place-messages', {placeId: vm.place.id});
         $dismiss();
         return;
       }
@@ -581,8 +582,9 @@
       var addMember = getAddMemberPolicy(vm.addMemberPolicy);
       var addPlace = getAddPlacePolicy(vm.addPlacePolicy);
 
-      update({ 'policy.add_place' : addPlace ,'policy.add_member' : addMember }).then(function () {
-        toastr.error(NstSvcTranslation.get('Your settings saved.'));
+      update({'policy.add_place': addPlace, 'policy.add_member': addMember}).then(function () {
+        toastr.success(NstSvcTranslation.get('Your settings saved.'));
+        $state.go('app.place-messages', {placeId: vm.place.id});
         $dismiss();
       })
     }

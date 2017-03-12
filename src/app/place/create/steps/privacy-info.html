@@ -13,7 +13,7 @@
     </svg>
     <translate ng-if="ctrl.isCreateGrandPlaceMode">Create a Grand Place<span>Step 2/2</span></translate>
     <translate ng-if="ctrl.isOpenPlace">Create a Common Place<span>Step 2/2</span></translate>
-    <translate ng-if="ctrl.isClosedPlace">Create a Private Place<span>Step 1/2</span></translate>
+    <translate ng-if="ctrl.isClosedPlace && !ctrl.isCreateGrandPlaceMode">Create a Private Place<span>Step 1/2</span></translate>
   </h2>
   <p>Who can share posts with this Place?</p>
 
@@ -73,8 +73,8 @@
       </svg>
     </div>
     <h4>
-      <translate ng-if="ctrl.isGrandPlace">Invite Members</translate>
-      <translate ng-if="!ctrl.isGrandPlace">Add Members</translate>
+      <translate ng-if="ctrl.isCreateGrandPlaceMode">Invite Members</translate>
+      <translate ng-if="!ctrl.isCreateGrandPlaceMode">Add Members</translate>
     </h4>
   </div>
   <nst-place-member-item class="user-item"

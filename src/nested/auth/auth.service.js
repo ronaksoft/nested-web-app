@@ -6,7 +6,7 @@
     .service('NstSvcAuth', NstSvcAuth);
 
   /** @ngInject */
-  function NstSvcAuth($cookies, $q, $log,
+  function NstSvcAuth($cookies, $q, $log, $rootScope,
                       NstSvcServer, NstSvcUserFactory, NstSvcAuthStorage, NstSvcPlaceFactory, NstSvcLogger, NstSvcUserStorage, NstSvcI18n,
                       NST_SRV_EVENT, NST_SRV_RESPONSE_STATUS, NST_SRV_ERROR, NST_UNREGISTER_REASON, NST_AUTH_EVENT, NST_AUTH_STATE, NST_AUTH_STORAGE_KEY, NST_OBJECT_EVENT,
                       NstObservableObject) {
@@ -15,7 +15,7 @@
 
     function Auth(userData) {
       var service = this;
-      var user = NstSvcUserFactory.parseUser(userData);
+      var user = userData;
 
       this.user = user;
       this.state = NST_AUTH_STATE.UNAUTHORIZED;
@@ -113,7 +113,7 @@
         });
         service.setState(NST_AUTH_STATE.AUTHORIZED);
 
-        service.dispatchEvent(new CustomEvent(NST_AUTH_EVENT.AUTHORIZE, {detail: {user: service.getUser()}}));
+        service.dispatchEvent(new CustomEvent(NST_AUTH_EVENT.AUTHORIZE, {detail: {user: data.account}}));
         deferred.resolve(service.getUser());
       }).catch(deferred.reject);
 
@@ -313,6 +313,8 @@
     Auth.prototype.logout = function () {
       NstSvcPlaceFactory.flush();
       NstSvcI18n.clearSavedLocale();
+      $rootScope.$emit('unseen-activity-clear');
+
       return this.unregister(NST_UNREGISTER_REASON.LOGOUT);
     };
 

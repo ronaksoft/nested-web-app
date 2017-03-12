@@ -1,10 +1,9 @@
 <div id="place-settings" ng-init="selectedView = 0">
   <div class="place-head setting-head">
     <div class="place-filter">
-      <img ng-if="!ctrl.pictureUrl" ng-src="{{ctrl.place | picture:'x128'}}" alt="{{ctrl.place.name}}">
-      <img ng-if="ctrl.pictureUrl" ng-src="{{ctrl.pictureUrl}}" alt="{{ctrl.place.name}}">
+      <img ng-src="{{ctrl.place | picture:'x128'}}" alt="{{ctrl.place.name}}">
     </div>
-    <div class="setting-headline _aic" bg-check="{{ctrl.pictureUrl ? ctrl.pictureUrl : (ctrl.place | picture:'x128')}}">
+    <div class="setting-headline _aic" bg-check="{{ctrl.place | picture:'x128'}}">
       <svg class="_24svg _df _r45 _fn" ng-click="$dismiss();">
         <use xlink:href="/assets/icons/nst-icn24.svg#cross"></use>
       </svg>
@@ -17,19 +16,27 @@
     </div>
     <input id="placeLogo" type="file" name="logo" accept="image/*" onchange="angular.element(this).scope().ctrl.setPicture(event)">
     <label for="placeLogo" class="logo-holder">
+<<<<<<< HEAD
       <img class="cursor-pointer" ng-if="!ctrl.pictureUrl" ng-src="{{ctrl.place | picture:'x128'}}" height="100%" alt="{{ctrl.place.name}}">
       <img class="cursor-pointer" ng-if="ctrl.pictureUrl" ng-src="{{ctrl.pictureUrl}}" height="100%" alt="{{ctrl.place.name}}">
+=======
+      <img ng-src="{{ctrl.place | picture:'x128'}}" height="100%" alt="{{ctrl.place.name}}">
+>>>>>>> 0042b30e43b9b65a152ef4d3517a6592124466ea
       <i>
-        <svg class="_16svg _df" ng-if="true">
-          <use xlink:href="/assets/icons/nst-icn16.svg#window"></use>
-        </svg>
-        <svg class="_16svg _df" ng-if="false">
+        <svg class="_16svg _df" ng-if="ctrl.placeType === NST_PLACE_TYPE.PRIVATE || ctrl.placeType === NST_PLACE_TYPE.SUB_PERSONAL">
           <use xlink:href="/assets/icons/nst-icn16.svg#brick-wall"></use>
+        </svg>
+        <svg class="_16svg _df" ng-if="ctrl.placeType === NST_PLACE_TYPE.GRAND">
+          <use xlink:href="/assets/icons/nst-icn16.svg#places"></use>
+        </svg>
+        <svg class="_16svg _df" ng-if="ctrl.placeType === NST_PLACE_TYPE.COMMON">
+          <use xlink:href="/assets/icons/nst-icn16.svg#window"></use>
         </svg>
       </i>
       <span>{{ctrl.place.id}}</span>
-      <a ng-if="ctrl.place.privacy.locked"><translate>Private Place</translate></a>
-      <a ng-if="!ctrl.place.privacy.locked"><translate>Common Place</translate></a>
+      <a ng-if="ctrl.placeType == NST_PLACE_TYPE.PRIVATE || ctrl.placeType == NST_PLACE_TYPE.SUB_PERSONAL"><translate>Private Place</translate></a>
+      <a ng-if="ctrl.placeType == NST_PLACE_TYPE.COMMON"><translate>Common Place</translate></a>
+      <a ng-if="ctrl.placeType == NST_PLACE_TYPE.GRAND"><translate>Grand Place</translate></a>
     </label>
 
   </div>

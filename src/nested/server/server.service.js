@@ -6,7 +6,7 @@
     .service('NstSvcServer', NstSvcServer);
 
   /** @ngInject */
-  function NstSvcServer(_, $q, $timeout,
+  function NstSvcServer(_, $q, $timeout, $cookies,
                         NST_CONFIG, NST_AUTH_COMMAND, NST_REQ_STATUS, NST_RES_STATUS,
                         NST_SRV_MESSAGE_TYPE, NST_SRV_PUSH_CMD, NST_SRV_RESPONSE_STATUS, NST_SRV_ERROR,
                         NST_SRV_EVENT, NST_SRV_MESSAGE,
@@ -23,7 +23,7 @@
       this.configs = angular.extend(this.defaultConfigs, configs);
 
       this.sesKey = '';
-      this.sesSecret = '';
+      this.sesSecret =  $cookies.get('nss')  || '';
 
       this.initialized = false;
       this.authorized = false;
@@ -77,7 +77,7 @@
             break;
 
           case NST_SRV_MESSAGE_TYPE.PUSH:
-            switch (message.cmd ){
+            switch (message.cmd) {
               case NST_SRV_PUSH_CMD.SYNC_ACTIVITY:
                 this.dispatchEvent(new CustomEvent(NST_SRV_PUSH_CMD.SYNC_ACTIVITY, {detail: message.data}));
                 break;
@@ -316,14 +316,12 @@
 
     Server.prototype.send = function (request) {
       NstSvcLogger.debug2('WS | Sending', request.getData());
-
       if (this.isAuthorized()) {
         var data = request.getData();
         data['cmd'] = request.method;
         data['_sk'] = this.getSessionKey();
         data['_ss'] = this.getSessionSecret();
-        data['ci']= '';
-        data['ci']= 13;
+
         data.data = angular.extend(data.data, this.configs.meta);
         request.setData(data);
       }
