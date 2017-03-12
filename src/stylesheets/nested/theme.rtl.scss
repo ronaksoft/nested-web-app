@@ -453,6 +453,10 @@ body[dir="rtl"] {
   nst-navbar .place-info h3 svg {
     margin: 0 0 0 4px;
   }
+  .mention-wrp ul li {
+    direction: rtl;
+    text-align: right;
+  }
 }
 body[dir="ltr"] {
   .post-card-comments p.RTL-text {
