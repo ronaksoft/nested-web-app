@@ -486,6 +486,7 @@ nst-navbar {
       .cp-illu {
         width: 308px;
         display: flex;
+        flex: none;
       }
     }
   }
@@ -696,6 +697,7 @@ nst-navbar {
         }
       }
       .user-avatar-40{
+        box-shadow: 0 4px 16px $color-wind;
         width: 40px;
         height: 40px;
         position: absolute;

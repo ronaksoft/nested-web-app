@@ -41,44 +41,6 @@
           <div class="cp-illu"></div>
         </div>
       </div>
-      <div class="bot-nav" ng-if="ctlFullNavbar.isFeed || ctlFullNavbar.isSentMode || ctlFullNavbar.isBookmarkMode">
-        <div class="navigation">
-          <nav>
-            <a ng-click="ctlFullNavbar.rollUpward('message')" class="menu-links-butn _df li-hover home-svg">
-              <svg class="icon-filter _df">
-                <use xlink:href="/assets/icons/nst-icn24.svg#home"></use>
-              </svg>
-            </a>
-            <vr></vr>
-            <a ng-href="{{ctlFullNavbar.getMessagesUrl()}}" ng-click="ctlFullNavbar.rollUpward('message')" class="menu-links-butn _df li-hover" active-group="message">
-              <svg class="icon-filter _df">
-                <use xlink:href="/assets/icons/nst-icn24.svg#home"></use>
-              </svg>
-              <translate>Feed</translate>
-            </a>
-            <a ui-sref="app.messages-bookmarked()" ng-click="ctlFullNavbar.rollUpward('message')" class="menu-links-butn _df li-hover" active-group="bookmarked">
-              <svg class="icon-filter _df">
-                <use xlink:href="/assets/icons/nst-icn24.svg#bookmark"></use>
-              </svg>
-              <translate>Bookmarked</translate>
-            </a>
-            <!-- TODO set url in other ways -->
-            <a ng-href="/#/messages/sent" ng-click="ctlFullNavbar.rollUpward('message')" class="menu-links-butn _df li-hover" active-group="sent">
-              <svg class="icon-filter _df">
-                <use xlink:href="/assets/icons/nst-icn24.svg#sent-message"></use>
-              </svg>
-              <translate>Shared by me</translate>
-            </a>
-          </nav>
-          <div class="search">
-            <input type="text" nst-mention class="form-control" place-id="{{ctlFullNavbar.placeId}}"
-                   ng-keyup="ctlFullNavbar.search(ctlFullNavbar.searchQuery, $event);" ng-model="ctlFullNavbar.searchQuery"
-                   search-placeholder-setter has-place="ctlFullNavbar.hasPlace()" place-name="ctlFullNavbar.title"/>
-            <i class="icon cursor-pointer icon-search-rotated"></i>
-          </div>
-          <div class="cp-illu"></div>
-        </div>
-      </div>
     </div>
   </div>
 </div>
