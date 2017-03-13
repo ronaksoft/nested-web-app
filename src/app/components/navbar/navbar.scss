@@ -761,11 +761,12 @@ body.scrolled {
   width: auto!important;
   h2 {
     margin: 0;
+    line-height: 28px;
     span{
       font-size: 24px;
       font-weight: 400;
     }
-    b span  {
+    b span{
       font-weight: 600;
     }
   }
