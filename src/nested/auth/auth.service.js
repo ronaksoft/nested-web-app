@@ -17,7 +17,6 @@
       var service = this;
 
       this.user = user;
-      console.log("this.user", this.user);
       this.state = NST_AUTH_STATE.UNAUTHORIZED;
       this.lastSessionKey = null;
       this.lastSessionSecret = null;
@@ -73,7 +72,6 @@
 
     Auth.prototype.authorize = function (data) {
 
-      console.log("data", data);
       var service = this;
       var deferred = $q.defer();
       NstSvcLogger.debug2('Auth | Authorization', data);

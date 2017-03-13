@@ -17,8 +17,6 @@
           });
 
           function initialize(name, picture) {
-            console.log("name", name);
-            console.log("picture", picture);
             
             if (picture && picture.length > 0) {
               $element.initial({

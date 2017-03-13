@@ -296,8 +296,6 @@
         limit: settings.limit
       };
 
-      console.log(settings, area)
-
       if (area === NST_USER_SEARCH_AREA.ADD) {
         if (!settings.placeId) {
           throw "Define place id for search in users";
