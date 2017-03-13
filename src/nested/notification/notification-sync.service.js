@@ -15,7 +15,7 @@
     .service('NstSvcNotificationSync', NstSvcNotificationSync);
 
   /** @ngInject */
-  function NstSvcNotificationSync(_,
+  function NstSvcNotificationSync(_, $rootScope,
                                   NST_SRV_PUSH_CMD,
                                   NstSvcNotificationFactory, NstObservableObject,
                                   NstSvcServer, NstSvcLogger, NstSvcNotification) {
@@ -33,7 +33,7 @@
       NstSvcServer.addEventListener(NST_SRV_PUSH_CMD.SYNC_NOTIFICATION, function (event) {
         //FIXME
         self.dispatchEvent(new CustomEvent(
-          event.detail.type,{}
+          event.detail.type, {}
         ));
         dispatchNotificationPushEvents.apply(self, [event]);
       });
@@ -97,6 +97,8 @@
           // }
 
           NstSvcLogger.debug2('Sync Notification Service | Dispatch ', notif.type, notif);
+
+          $rootScope.$emit(notif.type, notif);
 
           self.dispatchEvent(new CustomEvent(
             notif.type,
