@@ -260,15 +260,15 @@
         user.unreadNotificationsCount = userData.counters.unread_mentions;
       }
 
-
-      if (user.picture && user.picture.org) {
-        user.picture = new NstPicture(user.picture);
+      if (userData.picture && userData.picture.org) {
+        user.picture = new NstPicture(userData.picture);
       }
 
       return user;
     };
 
     UserFactory.prototype.toUserData = function (user) {
+      return user;
       var userData = {
         _id: user.id,
         fname: user.firstName,
@@ -277,7 +277,7 @@
         country: user.country
       };
 
-      if (user.hasPicture()) {
+      if (user.picture) {
         userData.picture = {
           org: user.picture.original,
           x32: user.picture.x32,

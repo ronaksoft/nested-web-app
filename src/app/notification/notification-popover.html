@@ -18,7 +18,7 @@
   </div>
   <ul nst-scrollbar suppress-scroll-x="true">
     <li class="_tac" ng-if="ctlNotifications.notifications.length == 0 && !ctlNotifications.loadingBefore"><translate>No Notifications</translate></li>
-    <li ng-repeat="notif in ctlNotifications.notifications track by $index"
+    <li ng-repeat="notif in ctlNotifications.notifications track by notif.id"
         ng-click="ctlNotifications.onClickMention(notif, $event);">
 
       <div ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.MENTION"
