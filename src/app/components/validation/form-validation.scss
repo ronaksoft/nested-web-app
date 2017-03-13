@@ -2,9 +2,15 @@
   .error-message, label {
     color: $color-force-wire !important;
   }
-  input, input:focus {
+  input, input:focus, {
     border: 2px solid $color-force-wire !important;
     box-shadow: none !important;
     color: $color-force-wire !important;
+  }
+  select, select:focus {
+    border: 2px solid $color-force-wire !important;
+    box-shadow: none !important;
+    color: $color-breeze !important;
+    font-weight: 200
   }
 }

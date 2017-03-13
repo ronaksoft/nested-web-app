@@ -13,19 +13,19 @@
 
           initialize();
           var watcher = $scope.$watchGroup(["initialAvatar", "picture"], function (newValues, oldValues) {
-            initialize();
+            initialize(newValues[0], newValues[1]);
           });
 
-          function initialize() {
-            if ($scope.picture) {
+          function initialize(name, picture) {
+            
+            if (picture && picture.length > 0) {
               $element.initial({
-                name: $scope.initialAvatar,
-                src: $scope.picture
+                name: name,
+                src: picture
               });
             } else {
               $element.initial({
-                name: $scope.initialAvatar,
-                src:'',
+                name: name
               });
             }
           }

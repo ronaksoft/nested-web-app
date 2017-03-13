@@ -12,7 +12,7 @@
                                  NstSvcAuth, NstSvcStore, NstSvcUserFactory, NstUtility, NstSvcTranslation, NstSvcI18n, NstFactoryEventData) {
     var vm = this;
 
-    vm.user = NstSvcUserFactory.currentUser;
+    vm.model = NstSvcUserFactory.currentUser;
 
     vm.updateName = updateName;
     vm.updateGender = updateGender;
@@ -36,7 +36,7 @@
 
     (function () {
       vm.loadProgress = true;
-      NstSvcUserFactory.get(vm.user.id, true).then(function (user) {
+      NstSvcUserFactory.get(vm.model.id, true).then(function (user) {
         vm.model = user;
       }).catch(function (error) {
         toastr.error('An error has occured while retrieving user profile')
@@ -52,7 +52,7 @@
 
       vm.updateProgress = true;
       NstSvcUserFactory.update(params).then(function () {
-        NstSvcUserFactory.get(vm.user.id,true).then(function (user) {
+        NstSvcUserFactory.get(vm.model.id,true).then(function (user) {
           NstSvcUserFactory.dispatchEvent(new CustomEvent(NST_USER_FACTORY_EVENT.PROFILE_UPDATED, new NstFactoryEventData(user)));
         });
 
@@ -171,9 +171,9 @@
             var request = NstSvcStore.uploadWithProgress(vm.uploadedFile, function (event) {}, NST_STORE_UPLOAD_TYPE.PROFILE_PICTURE);
 
             request.finished().then(function (response) {
-              return NstSvcUserFactory.updatePicture(response.data.universal_id, vm.user.id);
+              return NstSvcUserFactory.updatePicture(response.data.universal_id, vm.model.id);
             }).then(function (res) {
-              NstSvcUserFactory.get(vm.user.id,true).then(function (user) {
+              NstSvcUserFactory.get(vm.model.id,true).then(function (user) {
                 vm.model = user;
               })
             });

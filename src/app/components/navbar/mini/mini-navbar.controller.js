@@ -201,10 +201,10 @@
     function getUser() {
       return $q(function (res) {
         if (NstSvcAuth.isAuthorized()) {
-          res(NstSvcAuth.getUser());
+          res(NstSvcAuth.user);
         } else {
           NstSvcAuth.addEventListener(NST_AUTH_EVENT.AUTHORIZE, function () {
-            res(NstSvcAuth.getUser());
+            res(NstSvcAuth.user);
           });
         }
 
