@@ -14,7 +14,7 @@
         <use xlink:href="/assets/icons/nst-icn24.svg#more"></use>
       </svg>
     </div>
-    <input id="placeLogo" type="file" name="logo" accept="image/*" onchange="angular.element(this).scope().ctrl.setPicture(event)">
+    <input ng-if="ctrl.accesses.hasControlAccess" id="placeLogo" type="file" name="logo" accept="image/*" onchange="angular.element(this).scope().ctrl.setPicture(event)">
     <label for="placeLogo" class="logo-holder">
       <img class="cursor-pointer" ng-src="{{ctrl.place | picture:'x128'}}" height="100%" alt="{{ctrl.place.name}}">
       <i>
@@ -35,8 +35,6 @@
     </label>
 
   </div>
-
-
 
   <div class="_difh settings-tab">
     <div class="shadow"></div>

@@ -163,7 +163,6 @@
     function setPicture(event) {
       var file = event.currentTarget.files[0];
 
-
       $uibModal.open({
         animation: false,
         size: 'no-miss crop',
