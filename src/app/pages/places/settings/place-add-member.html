@@ -27,55 +27,14 @@
             </div>
           </ui-select-choices>
         </ui-select>
-        <div class="butn-green" data-ng-if="addMemberCtrl.isGrandPlace" data-ng-click="addMemberCtrl.add();" id="invite"><translate>Invite</translate></div>
-        <div class="butn-green" data-ng-if="!addMemberCtrl.isGrandPlace" data-ng-click="addMemberCtrl.add();" id="add"><translate>Add</translate></div>
+        <button class="butn-green" data-ng-if="addMemberCtrl.isGrandPlace" data-ng-click="addMemberCtrl.add();" id="invite" ng-disabled="addMemberCtrl.selectedUsers.length == 0"><translate>Invite</translate></button>
+        <button class="butn-green" data-ng-if="!addMemberCtrl.isGrandPlace" data-ng-click="addMemberCtrl.add();" id="add" ng-disabled="addMemberCtrl.selectedUsers.length == 0"><translate>Add</translate></button>
       </div>
     <div class="modal-body">
       <p data-ng-if="addMemberCtrl.users < 1 && !addMemberCtrl.isTeammateMode" class="_fw"><ranslate>Import Contacts:</ranslate></p>
       <p data-ng-if="addMemberCtrl.users < 1 && addMemberCtrl.isTeammateMode" class="_fw"><translate>You can add multiple Members simultaneously</translate></p>
       <div class="_fw suggests">
-        <!--<a class="_difh item add" data-ng-if="addMemberCtrl.users < 1">-->
-          <!--<div class="item-logo">-->
-            <!--<img src="/assets/icons/teammates.svg">-->
-          <!--</div>-->
-          <!--<div class="_difv det">-->
-            <!--<p>Add all Teammates</p>-->
-            <!--<span><strong>Ronak Software Group</strong>18 teammates</span>-->
-          <!--</div>-->
-        <!--</a>-->
-        <!--<div class="devider" data-ng-if="addMemberCtrl.users < 1"></div>-->
-        <!--<a class="_difh item add" data-ng-if="addMemberCtrl.users < 1">-->
-          <!--<div>-->
-            <!--<div class="item-logo">-->
-              <!--<img src="/assets/icons/parent-members.svg">-->
-            <!--</div>-->
-          <!--</div>-->
-          <!--<div class="_difv det">-->
-            <!--<p>Add all Parent Place Members</p>-->
-            <!--<span><strong>Design</strong> m3 members</span>-->
-          <!--</div>-->
-        <!--</a>-->
-        <!--<a class="_difh item invite" data-ng-if="addMemberCtrl.users < 1">-->
-          <!--<div class="item-logo">-->
-            <!--<img src="/assets/icons/gmail.png">-->
-          <!--</div>-->
-          <!--<div class="_difv det">-->
-            <!--<p>Google</p>-->
-            <!--<span>Import contacts from a Google account.</span>-->
-          <!--</div>-->
-        <!--</a>-->
         <div class="devider" data-ng-if="addMemberCtrl.users < 1"></div>
-        <!--<a class="_difh item invite" data-ng-if="addMemberCtrl.users < 1">-->
-          <!--<div>-->
-            <!--<div class="item-logo">-->
-              <!--<img src="/assets/icons/gmail.png">-->
-            <!--</div>-->
-          <!--</div>-->
-          <!--<div class="_difv det">-->
-            <!--<p>Google</p>-->
-            <!--<span>Import contacts from a Google account.</span>-->
-          <!--</div>-->
-        <!--</a>-->
       </div>
     </div>
       <div data-ng-if="!addMemberCtrl.isGrandPlace" class="nst-modal-footer _df _fw">

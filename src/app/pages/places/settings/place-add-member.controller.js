@@ -61,6 +61,18 @@
       NstSvcUserFactory.search(settings, (vm.isGrandPlace || isForGrandPlace) ? NST_USER_SEARCH_AREA.INVITE : NST_USER_SEARCH_AREA.ADD)
         .then(function (users) {
           vm.users = _.differenceBy(users, vm.selectedUsers, 'id');
+          if (_.isString(query)
+            && _.size(query) >= 4
+            && _.indexOf(query, " ") === -1
+            && !_.some(vm.users, { id : query })) {
+
+            var initProfile = NstSvcUserFactory.parseTinyUser({
+              _id: settings.query,
+              fname: settings.query,
+            });
+            vm.users.push(initProfile);
+
+          }
           vm.query = query;
         })
         .catch(function (error) {

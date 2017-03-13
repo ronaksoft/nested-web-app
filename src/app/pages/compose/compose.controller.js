@@ -363,7 +363,7 @@
       }
     };
 
-    vm.search.fn = function (query, foo, bar) {
+    vm.search.fn = function (query) {
       vm.search.results = [];
       vm.searchRecipients(query);
     };
