@@ -20,7 +20,7 @@
             <div class="selected-innter " ng-class="{'isEmail' : $item.isEmail,'error' : !$item.isEmailValid}">
               <span class="place-img" ng-if="!$item.isEmail">
                 <img ng-if="$item.avatar" ng-src="{{::$item.avatar }}"/>
-                <!-- <img ng-if="$item.data" ng-src="{{$item.data | picture }}"/> -->
+                <img ng-if="$item.data" ng-src="{{$item.data | picture }}"/>
               </span>
               <span class="place-img" ng-if="$item.isEmail && !$item.isEmailValid">
                   <svg>
