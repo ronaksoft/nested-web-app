@@ -6,12 +6,12 @@
     .service('NstSvcUserFactory', NstSvcUserFactory);
 
   function NstSvcUserFactory($q, md5, _,
-                             NstSvcServer, NstSvcTinyUserStorage, NstSvcUserStorage, NstSvcAuthStorage,
+                             NstSvcServer, NstSvcTinyUserStorage, NstSvcUserStorage, NstSvcCurrentUserStorage,
                              NST_USER_SEARCH_AREA, NST_AUTH_STORAGE_KEY,
                              NST_USER_FACTORY_EVENT,
                              NstBaseFactory, NstFactoryQuery, NstFactoryError, NstTinyUser, NstUser, NstPicture, NstFactoryEventData) {
     function UserFactory() {
-      this.currentUser = this.parseUser(NstSvcAuthStorage.get(NST_AUTH_STORAGE_KEY.USER));
+      this.currentUser = NstSvcCurrentUserStorage.get(NST_AUTH_STORAGE_KEY.USER);
     }
 
     UserFactory.prototype = new NstBaseFactory();
@@ -143,6 +143,7 @@
 
       NstSvcServer.request('account/update', keyValues).then(function () {
         service.currentUser = _.assign(service.currentUser, params);
+        NstSvcCurrentUserStorage.set(NST_AUTH_STORAGE_KEY.USER, service.currentUser);
         deferred.resolve();
       }).catch(function (error) {
         deferred.reject(new NstFactoryError(null, error.getMessage(), error.getCode(), error));
@@ -183,6 +184,7 @@
         }).then(function () {
           factory.get(userId, true).then(function (user) {
             factory.currentUser = user;
+            NstSvcCurrentUserStorage.set(NST_AUTH_STORAGE_KEY.USER, user);
             factory.dispatchEvent(new CustomEvent(NST_USER_FACTORY_EVENT.PROFILE_UPDATED, new NstFactoryEventData(user)));
             deferred.resolve(uid);
           }).catch(deferred.reject);
@@ -202,7 +204,12 @@
         var deferred = $q.defer();
 
         NstSvcServer.request('account/remove_picture').then(function () {
-          factory.dispatchEvent(new CustomEvent(NST_USER_FACTORY_EVENT.PICTURE_REMOVED, new NstFactoryEventData()));
+
+          return factory.get(factory.currentUser.id, true);
+        }).then(function (user) {
+          factory.dispatchEvent(new CustomEvent(NST_USER_FACTORY_EVENT.PICTURE_REMOVED, new NstFactoryEventData(user)));
+          factory.currentUser = user;
+          NstSvcCurrentUserStorage.set(NST_AUTH_STORAGE_KEY.USER, user);
           deferred.resolve();
         }).catch(function (error) {
           deferred.reject(new NstFactoryError(new NstFactoryQuery(), error.getMessage(), error.getCode(), error));
@@ -265,29 +272,6 @@
       }
 
       return user;
-    };
-
-    UserFactory.prototype.toUserData = function (user) {
-      return user;
-      var userData = {
-        _id: user.id,
-        fname: user.firstName,
-        lname: user.lastName,
-        phone: user.phone,
-        country: user.country
-      };
-
-      if (user.picture) {
-        userData.picture = {
-          org: user.picture.original,
-          x32: user.picture.x32,
-          x64: user.picture.x64,
-          x128: user.picture.x128,
-          pre: user.picture.preview
-        };
-      }
-
-      return userData;
     };
 
     UserFactory.prototype.search = function (settings, area) {

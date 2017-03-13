@@ -12,7 +12,7 @@
                                  NstSvcAuth, NstSvcStore, NstSvcUserFactory, NstUtility, NstSvcTranslation, NstSvcI18n, NstFactoryEventData) {
     var vm = this;
 
-    vm.user = NstSvcUserFactory.currentUser;
+    vm.model = NstSvcUserFactory.currentUser;
 
     vm.updateName = updateName;
     vm.updateGender = updateGender;
@@ -36,7 +36,7 @@
 
     (function () {
       vm.loadProgress = true;
-      NstSvcUserFactory.get(vm.user.id, true).then(function (user) {
+      NstSvcUserFactory.get(vm.model.id, true).then(function (user) {
         vm.model = user;
       }).catch(function (error) {
         toastr.error('An error has occured while retrieving user profile')

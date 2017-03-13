@@ -7,24 +7,24 @@
 
   /** @ngInject */
   function NstSvcAuth($cookies, $q, $log, $rootScope,
-                      NstSvcServer, NstSvcUserFactory, NstSvcAuthStorage, NstSvcPlaceFactory, NstSvcLogger, NstSvcUserStorage, NstSvcI18n,
+                      NstSvcServer, NstSvcUserFactory, NstSvcPlaceFactory, NstSvcLogger, NstSvcUserStorage, NstSvcI18n, NstSvcCurrentUserStorage,
                       NST_SRV_EVENT, NST_SRV_RESPONSE_STATUS, NST_SRV_ERROR, NST_UNREGISTER_REASON, NST_AUTH_EVENT, NST_AUTH_STATE, NST_AUTH_STORAGE_KEY, NST_OBJECT_EVENT,
                       NstObservableObject) {
 
     var USER_STATUS_STORAGE_NAME = 'nested.user_status';
 
-    function Auth(userData) {
+    function Auth(user) {
       var service = this;
-      var user = userData;
 
       this.user = user;
+      console.log("this.user", this.user);
       this.state = NST_AUTH_STATE.UNAUTHORIZED;
       this.lastSessionKey = null;
       this.lastSessionSecret = null;
       this.lastDeviceId = null;
       this.lastDeviceToken = null;
       this.lastOs = getBrowser();
-      this.remember = NstSvcAuthStorage.get(NST_AUTH_STORAGE_KEY.REMEMBER) || false;
+      this.remember = NstSvcCurrentUserStorage.get(NST_AUTH_STORAGE_KEY.REMEMBER) || false;
 
       NstObservableObject.call(this);
 
@@ -48,7 +48,7 @@
       this.addEventListener(NST_OBJECT_EVENT.CHANGE, function (event) {
         switch (event.detail.name) {
           case 'remember':
-            NstSvcAuthStorage.set(NST_AUTH_STORAGE_KEY.REMEMBER, event.detail.newValue);
+            NstSvcCurrentUserStorage.set(NST_AUTH_STORAGE_KEY.REMEMBER, event.detail.newValue);
             break;
         }
       });
@@ -72,6 +72,8 @@
     Auth.prototype.constructor = Auth;
 
     Auth.prototype.authorize = function (data) {
+
+      console.log("data", data);
       var service = this;
       var deferred = $q.defer();
       NstSvcLogger.debug2('Auth | Authorization', data);
@@ -113,7 +115,7 @@
         });
         service.setState(NST_AUTH_STATE.AUTHORIZED);
 
-        service.dispatchEvent(new CustomEvent(NST_AUTH_EVENT.AUTHORIZE, {detail: {user: data.account}}));
+        service.dispatchEvent(new CustomEvent(NST_AUTH_EVENT.AUTHORIZE, {detail: {user: service.user }}));
         deferred.resolve(service.getUser());
       }).catch(deferred.reject);
 
@@ -187,7 +189,7 @@
           break;
 
         default:
-          NstSvcAuthStorage.cache.flush();
+          NstSvcCurrentUserStorage.cache.flush();
           NstSvcUserStorage.cache.flush();
           localStorage.clear();
 
@@ -380,10 +382,10 @@
     var service = new Auth(NstSvcUserFactory.currentUser);
 
     service.addEventListener(NST_AUTH_EVENT.AUTHORIZE, function (event) {
-      NstSvcAuthStorage.set(NST_AUTH_STORAGE_KEY.USER, NstSvcUserFactory.toUserData(event.detail.user));
+      NstSvcCurrentUserStorage.set(NST_AUTH_STORAGE_KEY.USER, event.detail.user);
     });
     service.addEventListener(NST_AUTH_EVENT.UNAUTHORIZE, function () {
-      NstSvcAuthStorage.remove(NST_AUTH_STORAGE_KEY.USER);
+      NstSvcCurrentUserStorage.remove(NST_AUTH_STORAGE_KEY.USER);
     });
 
     return service;

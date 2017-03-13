@@ -6,19 +6,14 @@
     .controller('SettingsController', SettingsController);
 
   /** @ngInject */
-  function SettingsController(NST_USER_FACTORY_EVENT, NstSvcAuth, NstVmUser , NstSvcUserFactory) {
+  function SettingsController(NST_USER_FACTORY_EVENT, NstSvcUserFactory) {
     var vm = this;
 
-    vm.user = NstSvcAuth.user;
+    vm.user = NstSvcUserFactory.currentUser;
 
     NstSvcUserFactory.addEventListener(NST_USER_FACTORY_EVENT.PROFILE_UPDATED, function (event) {
       vm.user = event.detail;
     });
-
-
-    // function mapUser(userModel) {
-    //   return new NstVmUser(userModel);
-    // }
 
   }
 })();
