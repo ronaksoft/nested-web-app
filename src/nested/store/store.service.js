@@ -214,7 +214,7 @@
           cmd: type,
           _sk: NstSvcServer.getSessionKey(),
           data: {
-            token: token.getString(),
+            token: token.toString(),
             fn: 'attachment'
           }
         }));
