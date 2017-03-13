@@ -208,6 +208,7 @@
         return deferred.promise;
       }).then(function (token) {
         var formData = new FormData();
+
         formData.append('request', JSON.stringify({
           type: 'q',
           cmd: type,

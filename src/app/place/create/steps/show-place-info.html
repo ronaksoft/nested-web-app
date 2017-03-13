@@ -15,8 +15,7 @@
     <span><tasnslate>Grand Place</tasnslate></span>
     <p class="cr8">
       <translate>
-        ”{{ctrl.createdPlace.name}}” offers a lobby for your communications and is the
-        land-in Place that the newly invited Members arrive upon entrance.
+        Share posts and files, invite people, create sub-Place and more...
       </translate>
     </p>
   </div>
@@ -28,8 +27,8 @@
     <span><tasnslate>Comman Place</tasnslate></span>
     <p class="cr8">
       <translate>
-    <p>Its mean all ”{{ctrl.grandPlace.name}}” members can access to posts within this place.</p>
-    </translate>
+        All ”{{ctrl.grandPlace.name}}” Members can view and comment on the posts of this Place.
+      </translate>
     </p>
   </div>
 
@@ -38,7 +37,7 @@
       <use xlink:href="/assets/icons/nst-icn24.svg#brick-wall"></use>
     </svg>
     <span><tasnslate>Private Place</tasnslate></span>
-    <p class="cr8">Its mean just ”{{ctrl.createdPlace.name}}” members can access to posts within this place.</p>
+    <p class="cr8">Only ”{{ctrl.createdPlace.name}}” Members can view the contents of this Place.</p>
   </div>
 
 
@@ -47,17 +46,29 @@
       <use xlink:href="/assets/icons/nst-icn24.svg#brick-wall"></use>
     </svg>
     <span><tasnslate>Private Place</tasnslate></span>
+    <p class="cr8">Only I can view the contents of this Place.</p>
   </div>
 
-  <div class="place-info-box" ng-if="ctrl.postPolicy === NST_PLACE_POLICY_OPTION.MANAGERS">
+  <div class="place-info-box" ng-if="ctrl.postPolicy === NST_PLACE_POLICY_OPTION.MANAGERS && !(ctrl.getPlaceType(ctrl.createdPlace) === NST_PLACE_TYPE.SUB_PERSONAL)">
     <svg class="_24svg _df _asc _scl2">
       <use xlink:href="/assets/icons/nst-icn24.svg#manager"></use>
     </svg>
     <span>
-      <translate>All place managers can share posts with this place.</translate>
+      <translate>Only Managers can share posts in this Place.</translate>
     </span>
     <p class="cr8">
-      <translate>All lace managers shared posts with this place.</translate>
+      <translate>Only Managers can share posts in this Place, but all Members can view and comment on posts.</translate>
+    </p>
+  </div>
+  <div class="place-info-box" ng-if="ctrl.postPolicy === NST_PLACE_POLICY_OPTION.MANAGERS && ctrl.getPlaceType(ctrl.createdPlace) === NST_PLACE_TYPE.SUB_PERSONAL">
+    <svg class="_24svg _df _asc _scl2">
+      <use xlink:href="/assets/icons/nst-icn24.svg#manager"></use>
+    </svg>
+    <span>
+      <translate>Only Me</translate>
+    </span>
+    <p class="cr8">
+      <translate>Only I can share posts and files in this Place.</translate>
     </p>
   </div>
 
@@ -66,10 +77,10 @@
       <use xlink:href="/assets/icons/nst-icn24.svg#manager-member"></use>
     </svg>
     <span>
-      <translate>All place members can share posts with this place.</translate>
+      <translate>Managers and Members can share posts in this Place.</translate>
     </span>
     <p class="cr8">
-      <translate>All lace members shared posts with this place.</translate>
+      <translate>Managers and Members can share, view and comment on posts.</translate>
     </p>
   </div>
 
@@ -78,10 +89,10 @@
       <use xlink:href="/assets/icons/nst-icn24.svg#team"></use>
     </svg>
     <span>
-      <translate>All grand place members can share posts with this place.</translate>
+      <translate>All ”{{ctrl.createdPlace.name}}” members can share posts with this Place.</translate>
     </span>
     <p class="cr8">
-      <translate>All grand place members shared posts with this place.</translate>
+      <translate>”{{ctrl.grandPlace.name}}” Members can share posts with this Place, but only ”{{ctrl.grandPlace.name}}” Members can view its contents.</translate>
     </p>
   </div>
 
@@ -89,9 +100,9 @@
     <svg class="_24svg _df _asc _scl2">
       <use xlink:href="/assets/icons/nst-icn24.svg#earth"></use>
     </svg>
-    <span><translate>Everyone can share posts with this place.</translate></span>
+    <span><translate>Everyone can share posts with this Place.</translate></span>
     <p class="cr8">
-      <translate>Everyone can shared posts with this place. Emails received as post.</translate>
+      <translate>Plus, this Place can receive emails.</translate>
     </p>
   </div>
 
@@ -100,14 +111,16 @@
     <svg class="_24svg _df _asc">
       <use xlink:href="/assets/icons/nst-icn20.svg#search"></use>
     </svg>
-    <p class="cr8">This place is shown on other users search results. </p>
+    <p class="cr8">This Place will be shown in everyone’s Search results when sharing posts.
+      (They can’t see your Place contents)</p>
   </div>
-
-  <div class="place-info-box" ng-if="!ctrl.place.privacy.search">
+  <div class="place-info-box"
+       ng-if="!ctrl.place.privacy.search &&
+       !(ctrl.getPlaceType(ctrl.createdPlace) === NST_PLACE_TYPE.COMMON || ctrl.postPolicy === NST_PLACE_POLICY_OPTION.MEMBERS || ctrl.postPolicy === NST_PLACE_POLICY_OPTION.MANAGERS)">
     <svg class="_24svg _df _asc">
       <use xlink:href="/assets/icons/nst-icn20.svg#search"></use>
     </svg>
-    <p class="cr8">This place does not shown on other users search results. </p>
+    <p class="cr8">Your Place won’t appear on anyone’s Search results when sharing posts. To do so, they must know the Place ID.</p>
   </div>
 
 

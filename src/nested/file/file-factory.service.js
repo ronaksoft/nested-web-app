@@ -6,7 +6,7 @@
 
   /** @ngInject */
   function NstSvcFileFactory($q, _,
-    NstSvcAuth, NstSvcServer, NST_CONFIG, NstSvcDownloadTokenStorage, NstSvcFileStorage, NstSvcFileTokenStorage,
+    NstSvcAuth, NstSvcServer, NST_CONFIG, NstSvcDownloadTokenStorage, NstSvcFileStorage,
     NstBaseFactory, NstPicture, NstAttachment, NstFactoryError, NstFactoryQuery, NstStoreToken,
     NST_FILE_TYPE) {
 
@@ -73,30 +73,24 @@
     }
 
     function createToken(rawToken) {
-      var expTs = _.last(_.split(rawToken, "-"));
-      if (!expTs) {
-        expTs = Date.now() + Number(NST_CONFIG.STORE.TOKEN_EXPMS);
-      }
-
-      return new NstStoreToken(rawToken, new Date(Number(expTs)));
+      return new NstStoreToken(rawToken);
     }
 
     function getDownloadToken(attachmentId) {
-      var defer = $q.defer();
+      var deferred = $q.defer();
       var tokenKey = generateTokenKey(attachmentId);
-
       var token = NstSvcDownloadTokenStorage.get(tokenKey);
-      if (!token || token.isExpired()) { // then if the token exists then remove it and get a new token
-        // NstSvcDownloadTokenStorage.remove(tokenKey);
+      if (token && !token.isExpired()) {
+        deferred.resolve(token);
+      } else {
+        NstSvcDownloadTokenStorage.remove(tokenKey);
         requestNewDownloadToken(attachmentId).then(function (newToken) {
-          // NstSvcDownloadTokenStorage.set(tokenKey, newToken);
-          defer.resolve(newToken);
-        }).catch(defer.reject);
-      } else { // current token is still valid and resolve it
-        defer.resolve(token);
+          NstSvcDownloadTokenStorage.set(tokenKey, newToken);
+          deferred.resolve(newToken);
+        }).catch(deferred.reject);
       }
 
-      return defer.promise;
+      return deferred.promise;
     }
 
     function requestNewDownloadToken(attachmentId) {
@@ -105,8 +99,7 @@
       NstSvcServer.request('file/get_download_token', {
         universal_id: attachmentId
       }).then(function(data) {
-        var token = createToken(data.token);
-        defer.resolve(token);
+        defer.resolve(createToken(data.token));
       }).catch(function(error) {
         var query = new NstFactoryQuery(attachmentId);
         var factoryError = new NstFactoryError(query, error.message, error.code);
