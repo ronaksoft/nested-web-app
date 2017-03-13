@@ -6,7 +6,7 @@
       addMemberPolicyOptions = [NST_PLACE_POLICY_OPTION.MANAGERS, NST_PLACE_POLICY_OPTION.MEMBERS];
       addPlacePolicyOptions = [NST_PLACE_POLICY_OPTION.MANAGERS, NST_PLACE_POLICY_OPTION.MEMBERS];">
   <place-head env="'create'" dissmiss="$dismiss"
-              pict="{{ ctrl.logoUrl || '/assets/icons/ph_photo.png'}}"></place-head>
+              pict="{{ ctrl.logoUrl || '/assets/icons/absents_place.svg'}}"></place-head>
 
   <h3>"{{ ctrl.createdPlace.name }}"</h3>
 
@@ -19,20 +19,19 @@
     grand-place-name="ctrl.place.grandParentId">
   </place-policy-option>
 
-
-  <p>Who can create sub-place?</p>
-  <place-policy-option
-    levels="addMemberPolicyOptions"
-    level="ctrl.addPlaceLevel"
-    level-changed="ctrl.updateAddPlacePolicy"
-    place-name="ctrl.place.name"
-    grand-place-name="ctrl.place.grandParentId">
-  </place-policy-option>
-
+  <div ng-if="ctrl.createdPlace.privacy.locked">
+    <p>Who can create sub-place?</p>
+    <place-policy-option
+      levels="addMemberPolicyOptions"
+      level="ctrl.addPlaceLevel"
+      level-changed="ctrl.updateAddPlacePolicy"
+      place-name="ctrl.place.name"
+      grand-place-name="ctrl.place.grandParentId">
+    </place-policy-option>
+  </div>
 
   <div class="butn-white _fw _df"
-   ng-click="ctrl.uploadCreatedPlaceMoreOption($dismiss);"
-  >
+       ng-click="ctrl.uploadCreatedPlaceMoreOption($dismiss);">
     <translate>Done</translate>
   </div>
 
