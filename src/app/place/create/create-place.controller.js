@@ -22,6 +22,7 @@
 
     vm.hasParentPlace = null;
     vm.step = 1;
+    vm.postPolicy = 0;
     vm.loadImage = loadImage;
     vm.reciveLevel = 'l1';
     vm.memberLevel = 'l1';
@@ -72,7 +73,6 @@
     vm.updateAddMemberPolicy = updateAddMemberPolicy;
     vm.updateAddPlacePolicy = updateAddPlacePolicy;
     vm.uploadCreatedPlaceMoreOption = uploadCreatedPlaceMoreOption;
-
     (function () {
       vm.isPersonalPlace = $stateParams.placeId.split('.')[0] === NstSvcAuth.user.id;
 
