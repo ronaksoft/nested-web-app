@@ -20,30 +20,6 @@
     //TODO handle win resize event
     function affixElement() {
       obj.check($window.pageYOffset);
-
-
-      if( $window.pageYOffset < 1200 ) {
-        $rootScope.staticNav = true
-      } else  {
-        $rootScope.staticNav = false
-      }
-
-      // if (
-      //   $window.pageYOffset + MobTopOff > $element.parent().offset().top &&
-      //   $window.pageYOffset < $element.parent().children().first().height() + $element.parent().offset().top - 50
-      // ) {
-      //   $element.css('position', 'fixed');
-      //   $element.css('top', 24 + MobTopOff + 'px');
-      //   if (!isRTL) $element.css('left', $element.parent().offset().left + 'px');
-      //   if (isRTL && !isMobile) $element.css('right', $element.parent().offset().left - 20 + 'px');
-      //   if (isRTL && isMobile) $element.css('right', $element.parent().offset().left + 'px');
-      // } else {
-      //   $element.css('position', '');
-      //   $element.css('top', '');
-      //   $element.css('left', '');
-      //   $element.css('right', '');
-      // }
-
     }
 
     obj.add = function (el) {

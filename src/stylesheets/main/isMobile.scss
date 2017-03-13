@@ -7,10 +7,13 @@ body.isMobile {
     width: 100%;
     overflow-x: hidden;
     min-width: initial;
-    max-width: 620px;
   }
   .nst-navbar .content {
     overflow: visible;
+  }
+  nst-navbar .content {
+    max-width: 680px;
+    padding: 0 24px;
   }
   .menu-links-butn {
     font-size: $font-size-large;
