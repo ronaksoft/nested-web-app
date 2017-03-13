@@ -22,7 +22,7 @@
     isUnread();
     isConversation();
     isSearch();
-    vm.user = NstSvcAuth.getUser();
+    vm.user = NstSvcAuth.user;
     vm.hasPlace = hasPlace;
     vm.getPlaceId = getPlaceId;
     vm.getMessagesUrl = getMessagesUrl;
