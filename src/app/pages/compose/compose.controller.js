@@ -371,9 +371,9 @@
     function searchRecipients(query) {
       return NstSvcPlaceFactory.searchForCompose(query).then(function (places) {
 
-        vm.search.results = _.map(places, function (place) {
+        vm.search.results = _.chain(places).uniqBy('id').map(function (place) {
           return new NstVmPlace(place);
-        });
+        }).value();
 
         if (_.isString(query)
           && _.size(query) >= 4
