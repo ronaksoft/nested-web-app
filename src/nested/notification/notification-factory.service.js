@@ -29,6 +29,10 @@
         });
       });
 
+      NstSvcAuth.addEventListener(NST_AUTH_EVENT.UNAUTHORIZE, function () {
+        that.loadedNotifications = [];
+      });
+
     }
 
     NotificationFactory.prototype = new NstBaseFactory();
@@ -403,7 +407,5 @@
 
       return defer.promise;
     }
-
-
   }
 })();
