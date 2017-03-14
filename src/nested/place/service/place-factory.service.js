@@ -9,7 +9,7 @@
                               NST_SRV_ERROR, NST_PLACE_ACCESS, NST_EVENT_ACTION, NST_PLACE_FACTORY_EVENT, NST_USER_FACTORY_EVENT,
                               NstSvcServer, NstSvcPlaceStorage, NstSvcTinyPlaceStorage, NstSvcMyPlaceIdStorage, NstSvcUserFactory, NstSvcPlaceRoleStorage, NstSvcPlaceAccessStorage, NstSvcLogger,
                               NstBaseFactory, NstFactoryQuery, NstFactoryError, NstUtility, NstTinyPlace, NstPlace, NstFactoryEventData, NstSvcPlaceMap, NstPicture,
-                              NstPlaceCreatorOfParentError, NstPlaceOneCreatorLeftError) {
+                              NstPlaceCreatorOfParentError, NstPlaceOneCreatorLeftError, NstManagerOfSubPlaceError) {
     function PlaceFactory() {
       var factory = this;
 
@@ -750,6 +750,10 @@
               deferred.reject(new NstPlaceOneCreatorLeftError(error));
             } else if (error.previous.items[0] === 'parent_creator') {
               deferred.reject(new NstPlaceCreatorOfParentError(error));
+            } else if (error.previous.items[0] === "cannot_leave_some_subplaces") {
+              deferred.reject(new NstManagerOfSubPlaceError(error));
+            } else {
+              deferred.reject(error);
             }
 
           } else {

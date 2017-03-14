@@ -363,7 +363,7 @@
       }
     };
 
-    vm.search.fn = function (query, foo, bar) {
+    vm.search.fn = function (query) {
       vm.search.results = [];
       vm.searchRecipients(query);
     };
@@ -371,17 +371,20 @@
     function searchRecipients(query) {
       return NstSvcPlaceFactory.searchForCompose(query).then(function (places) {
 
-        vm.search.results = _.map(places, function (place) {
+        vm.search.results = _.chain(places).uniqBy('id').map(function (place) {
           return new NstVmPlace(place);
-        });
+        }).value();
 
-        if (_.indexOf(query, " ") === -1 && !_.some(vm.search.results, { id : query })) {
+        if (_.isString(query)
+          && _.size(query) >= 4
+          && _.indexOf(query, " ") === -1
+          && !_.some(vm.search.results, { id : query })) {
           var initPlace = NstSvcPlaceFactory.parseTinyPlace({
             _id: query,
-            name: query,
-            isEmail: query.indexOf('@') > -1,
-            isEmailValid: NST_PATTERN.EMAIL.test(query)
+            name: query
           });
+          initPlace.isEmail = query.indexOf('@') > -1;
+          initPlace.isEmailValid = NST_PATTERN.EMAIL.test(query);
           vm.search.results.push(initPlace);
         }
       }).catch(function () {

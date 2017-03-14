@@ -17,7 +17,7 @@
       link: function (scope ,element, attrs) {
         scope.validationEnabled = _.has(attrs, "validationEnabled");
         var momentValue = moment(scope.value, "YYYY-MM-DD");
-        if (momentValue.isValid()) {
+        if (scope.value && momentValue.isValid()) {
           scope.year = getYear(momentValue);
           scope.month = getMonth(momentValue);
           scope.day = getDay(momentValue);

@@ -7,9 +7,13 @@
 
   /** @ngInject */
   function NstSvcAuth($cookies, $q, $log, $rootScope,
-                      NstSvcServer, NstSvcUserFactory, NstSvcPlaceFactory, NstSvcLogger, NstSvcUserStorage, NstSvcI18n, NstSvcCurrentUserStorage,
-                      NST_SRV_EVENT, NST_SRV_RESPONSE_STATUS, NST_SRV_ERROR, NST_UNREGISTER_REASON, NST_AUTH_EVENT, NST_AUTH_STATE, NST_AUTH_STORAGE_KEY, NST_OBJECT_EVENT,
-                      NstObservableObject) {
+    NstSvcServer, NstSvcUserFactory, NstSvcPlaceFactory, NstSvcLogger,  NstSvcI18n,
+    NstSvcUserStorage, NstSvcCurrentUserStorage, NstSvcFileStorage, NstSvcInvitationStorage,
+    NstSvcMyPlaceIdStorage, NstSvcPlaceRoleStorage, NstSvcPlaceStorage, NstSvcTinyPlaceStorage,
+    NstSvcPostStorage, NstSvcUploadTokenStorage, NstSvcTinyUserStorage,
+    NST_SRV_EVENT, NST_SRV_RESPONSE_STATUS, NST_SRV_ERROR, NST_UNREGISTER_REASON,
+    NST_AUTH_EVENT, NST_AUTH_STATE, NST_AUTH_STORAGE_KEY, NST_OBJECT_EVENT,
+    NstObservableObject) {
 
     var USER_STATUS_STORAGE_NAME = 'nested.user_status';
 
@@ -100,6 +104,7 @@
 
       NstSvcUserFactory.get(this.getUser().id).then(function (user) {
         service.setUser(user);
+        NstSvcUserFactory.currentUser = user;
 
         var CookieDate = new Date;
         CookieDate.setFullYear(CookieDate.getFullYear() + 1);
@@ -188,7 +193,20 @@
 
         default:
           NstSvcCurrentUserStorage.cache.flush();
+          NstSvcFileStorage.cache.flush();
+          NstSvcInvitationStorage.cache.flush();
+          NstSvcMyPlaceIdStorage.cache.flush();
+          NstSvcPlaceRoleStorage.cache.flush();
+          NstSvcPlaceStorage.cache.flush();
+          NstSvcTinyPlaceStorage.cache.flush();
+          NstSvcPostStorage.cache.flush();
+          NstSvcUploadTokenStorage.cache.flush();
+          NstSvcTinyUserStorage.cache.flush();
           NstSvcUserStorage.cache.flush();
+
+          service.user = null;
+          NstSvcUserFactory.currentUser = null;
+
           localStorage.clear();
 
           if (localStorage.getItem(USER_STATUS_STORAGE_NAME) !== NST_AUTH_STATE.UNAUTHORIZED)

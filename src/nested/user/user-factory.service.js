@@ -33,9 +33,6 @@
      * @returns {Promise}
      */
     UserFactory.prototype.get = function (id, force) {
-      if (!id) {
-        throw Error('Id is not provided');
-      }
       var factory = this;
 
       return factory.sentinel.watch(function () {
