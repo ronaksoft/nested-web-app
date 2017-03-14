@@ -25,7 +25,7 @@
 
 
     vm.genders = [
-      {key: '', title: ''},
+      {key: 'x', title: ''},
       {key: 'm', title: NstSvcTranslation.get("Male")},
       {key: 'f', title: NstSvcTranslation.get("Female")},
       {key: 'o', title: NstSvcTranslation.get("Other")}

@@ -53,7 +53,8 @@
     <div class="form-group _difv _fw">
       <label class="input-lab _fw"><translate>Date of Birth</translate></label>
       <div class="field _difh _fw">
-        <div class="_df _fw" dir="ltr">{{ctrl.model.dateOfBirth || 'Not specified'}}</div>
+        <div ng-if="ctrl.model.dateOfBirth" class="_df _fw" dir="ltr">{{ctrl.model.dateOfBirth}}</div>
+        <i ng-if="!ctrl.model.dateOfBirth" class="_df _fw" dir="ltr"><translate class="nst-mood-breez">Not specified</translate></i>
         <svg class="_24svg _df _fn edit-icon" open-custom-modal="app/settings/profile/modals/profile-change-dob.html">
           <use xlink:href="/assets/icons/nst-icn24.svg#edit"></use>
         </svg>
@@ -62,8 +63,10 @@
     <div class="form-group _difv _fw">
       <label class="input-lab _fw"><translate>Gender</translate></label>
       <div class="field _difh _fw">
-        <div ng-if="ctrl.model.gender" class="_df _fw">{{ctrl.getGender()}}</div>
-        <i ng-if="!ctrl.model.gender" class="_df _fw">Not specified</i>
+        <div ng-if="ctrl.model.gender && ctrl.model.gender != 'x'" class="_df _fw">{{ctrl.getGender()}}</div>
+        <i class="_df _fw" ng-if="!ctrl.model.gender || ctrl.model.gender == 'x'">
+          <translate class="nst-mood-breez">Not specified</translate>
+        </i>
         <svg class="_24svg _df _fn edit-icon" open-custom-modal="app/settings/profile/modals/profile-select-gender.html">
           <use xlink:href="/assets/icons/nst-icn24.svg#edit"></use>
         </svg>
