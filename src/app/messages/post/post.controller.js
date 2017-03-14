@@ -9,10 +9,11 @@
   function PostController($q, $scope, $rootScope, $stateParams, $state, $uibModalInstance,
                           _, toastr,
                           NST_POST_EVENT,
-                          NstSvcAuth, NstSvcPostFactory, NstSvcPostMap, NstSvcPlaceFactory, NstUtility, NstSvcLogger,NstSvcPostInteraction, NstSvcTranslation, NstSvcSync,
+                          NstSvcAuth, NstSvcPostFactory, NstSvcPostMap, NstSvcPlaceFactory, NstUtility, NstSvcLogger, NstSvcPostInteraction, NstSvcTranslation, NstSvcSync,
                           selectedPostId) {
     var vm = this;
     var defaultLimit = 8;
+
 
     /*****************************
      *** Controller Properties ***
@@ -20,6 +21,7 @@
 
     vm.hasRemoveAccess = null;
     vm.placesWithRemoveAccess = [];
+    vm.chainStack = [];
     vm.post = null;
     vm.postId = selectedPostId || $stateParams.postId;
     vm.loadProgress = false;
@@ -29,9 +31,12 @@
      *****************************/
 
     vm.loadMore = loadMore;
+    vm.backToChain = backToChain;
 
     (function () {
+      vm.expandProgress = true;
       load(vm.postId).then(function (done) {
+        vm.expandProgress = false;
         // TODO: uncomment and fix
         vm.syncId = NstSvcSync.openChannel(_.head(vm.post.allPlaces).id);
 
@@ -56,6 +61,13 @@
 
       $scope.$on('post-view-target-changed', function (event, data) {
         vm.postId = data.postId;
+
+        var indexOfPost = _.findIndex(vm.messages, function (msg) {
+          return msg.id === vm.postId;
+        });
+
+        vm.messages.splice(indexOfPost + 1);
+
         load(data.postId);
       });
     })();
@@ -67,24 +79,35 @@
 
     function loadChainMessages(postId, limit) {
       var max = limit + 1;
-      vm.loadProgress = true;
+      vm.loadProgressId = true;
       return $q(function (resolve, reject) {
-        NstSvcPostFactory.getChainMessages(postId, max).then(function(messages) {
+        NstSvcPostFactory.getChainMessages(postId, max).then(function (messages) {
           vm.hasOlder = _.size(messages) >= limit;
           var items = _.chain(messages).take(limit).sortBy('date').map(function (message) {
             return mapMessage(message);
           }).value();
           resolve(items);
         }).catch(reject).finally(function () {
-            vm.loadProgress = false;
+          vm.loadProgress = false;
         });
       });
     }
 
+    function backToChain() {
+      load(vm.chainStack[vm.chainStack.length - 2]);
+      vm.chainStack.splice(vm.chainStack.length - 2, 2);
+    }
+
     function load(postId) {
+      vm.expandProgressId = postId;
       return $q.all([loadChainMessages(postId, defaultLimit), NstSvcPostFactory.get(postId)]).then(function (resolvedSet) {
+        vm.expandProgressId = null;
+        vm.extendedId = postId;
+        vm.postId = postId;
+        vm.chainStack.push(postId);
         vm.messages = resolvedSet[0];
         vm.post = _.last(resolvedSet[0]);
+
         vm.post.body = resolvedSet[1].body;
         vm.post.trusted = Object.keys(resolvedSet[1].resources).length > 0 ? $stateParams.trusted : true;
         vm.post.resources = resolvedSet[1].resources;
@@ -95,7 +118,7 @@
 
         // TODO: Optimize (get accessses instead of a place object which has more cost)
         checkHasManagerAccess(_.map(vm.post.allPlaces, 'id'));
-        vm.messages.splice(vm.messages.length - 1 ,1 ,vm.post);
+        vm.messages.splice(vm.messages.length - 1, 1, vm.post);
       });
     }
 
