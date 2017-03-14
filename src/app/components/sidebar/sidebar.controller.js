@@ -92,6 +92,7 @@
                 vmPlace = mapPlace(invitation.getPlace());
                 // TODO: Highlight Newly Added Place
                 vm.places.push(vmPlace);
+                mapPlacesUrl(vm.places);
               }
               if (openOtherInvitations) {
                 var checkDisplayInvitationModal = true;

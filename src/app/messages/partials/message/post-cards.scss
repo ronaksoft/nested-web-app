@@ -684,3 +684,11 @@ h3 {
 .isNotRF {
   margin-top: 24px;
 }
+.post-back {
+  line-height: 24px;
+  padding-bottom: 8px;
+  fill: $color-gale;
+  spam {
+    color: $color-gale;
+  }
+}

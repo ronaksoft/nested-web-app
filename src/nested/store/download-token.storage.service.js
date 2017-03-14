@@ -5,7 +5,7 @@
     .service('NstSvcDownloadTokenStorage', NstSvcDownloadTokenStorage);
 
   /** @ngInject */
-  function NstSvcDownloadTokenStorage($log, NST_STORAGE_TYPE, NstStorage) {
+  function NstSvcDownloadTokenStorage($log, NST_STORAGE_TYPE, NstStorage, NstStoreToken) {
     function DownloadTokenStorage(memory) {
       NstStorage.call(this, memory, 'download_token');
     }
@@ -13,21 +13,18 @@
     DownloadTokenStorage.prototype = new NstStorage();
     DownloadTokenStorage.prototype.constructor = DownloadTokenStorage;
 
-    DownloadTokenStorage.prototype.isValidObject = function (object) {
-      var q = {
-        string: object.string
-      };
-      for (var k in q) {
-        if (undefined == q[k]) {
-          $log.debug('Unable to store DownloadToken because ', '`' + k + '`', 'was undefined:', object);
+    DownloadTokenStorage.prototype.serialize = function (token) {
+      return token.toString();
+    }
 
-          return false;
-        }
+    DownloadTokenStorage.prototype.deserialize = function (token) {
+      if (_.isString(token) && _.size(token) > 0) {
+        return new NstStoreToken(token);
       }
 
-      return true;
-    };
+      return null;
+    }
 
-    return new DownloadTokenStorage(NST_STORAGE_TYPE.MEMORY);
+    return new DownloadTokenStorage(NST_STORAGE_TYPE.LOCAL);
   }
 })();

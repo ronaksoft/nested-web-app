@@ -18,10 +18,11 @@
       this.date = null;
       this.attachments = [];
       this.comments = [];
-      this.isReplyed  = null;
+      this.isReplyed = null;
       this.isForwarded = null;
       this.commentsCount = 0;
       this.isRead = null;
+      this.ellipsis = null;
 
       this.getFirstPlace = function () {
         return _.first(this.getOtherPlaces());
@@ -32,7 +33,7 @@
       }
 
       this.getOtherPlaces = function () {
-        return _.reject(this.allPlaces, { id : NstSvcAuth.user.id });
+        return _.reject(this.allPlaces, {id: NstSvcAuth.user.id});
       }
 
       this.getAllPlacesCount = function () {
@@ -50,7 +51,7 @@
 
       if (post instanceof NstPost) {
         this.id = post.id;
-        this.sender = post.sender ?  mapSender(post.sender) :  mapSender(post.emailSender);
+        this.sender = post.sender ? mapSender(post.sender) : mapSender(post.emailSender);
         this.recipients = post.recipients;
         this.subject = post.subject;
         this.body = post.body;
@@ -64,6 +65,7 @@
         this.commentsCount = post.counters.comments > -1 ? post.counters.comments : 0;
         this.isRead = post.isRead;
         this.bookmarked = post.bookmarked;
+        this.ellipsis = post.ellipsis;
         this.isReplyed = !!post.replyToId;
         this.isForwarded = !!post.forwardFromId;
       }

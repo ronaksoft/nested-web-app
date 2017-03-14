@@ -4,10 +4,6 @@
   **********************************************************
 */
 #PostView {
-  clear: both;
-  overflow-y: auto;
-  overflow-y: initial;
-  overflow-x: hidden;
   //border: 1px solid $color-breeze;
   //border-radius: $border-radius-large;
   background-color: #FAFAFA;
@@ -277,6 +273,11 @@
   z-index: 500;
   div,#Logo {
     margin: 0 24px;
+  }
+  .closebut {
+    margin: 0;
+    width: 56px;
+    height: 100%;
   }
   vr {
     height: 48px;

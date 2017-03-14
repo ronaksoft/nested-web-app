@@ -17,6 +17,7 @@
         limit: 8,
         date: null
       },
+      chaingStack = [],
       newCommentIds = [],
       unreadCommentIds = [],
       focusOnSentTimeout = null,
@@ -123,8 +124,9 @@
     function expand() {
       vm.expandProgress = true;
       NstSvcPostFactory.get(vm.post.id).then(function (post) {
+        vm.expandProgress = false;
         vm.orginalPost = post;
-        vm.body = $sce.trustAsHtml(post.body);
+        vm.body = post.body;
         vm.resources = post.resources;
         vm.isExpanded = true;
         if (!post.isRead) {
@@ -173,10 +175,11 @@
 
     function showTrustedBody() {
       if (vm.orginalPost) {
-        vm.body = $sce.trustAsHtml(vm.orginalPost.getTrustedBody());
+        vm.post.body =  vm.orginalPost.getTrustedBody();
       }else{
-        vm.body = $sce.trustAsHtml(vm.post.getTrustedBody());
+        vm.post.body =  vm.post.getTrustedBody();
       }
+
       vm.post.trusted = true;
     }
 
@@ -252,6 +255,7 @@
 
       vm.hasOlderComments = (vm.post.commentsCount && vm.post.comments) ? vm.post.commentsCount > vm.post.comments.length : false;
       vm.body = $sce.trustAsHtml(vm.post.body);
+      vm.orginalPost = vm.post;
       if (vm.post.trusted){
         showTrustedBody();
       }
@@ -276,8 +280,6 @@
       setTimeout(function () {
         $(".post-body a").attr("target", "_blank");
       }, 1000);
-
-
     })();
 
     $scope.$on('$destroy', function () {

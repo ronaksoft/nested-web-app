@@ -33,7 +33,7 @@
           </ui-select-match>
           <ui-select-choices refresh="ctlCompose.search.fn($select.search)"
                              refresh-delay="0"
-                             repeat="place as place in (ctlCompose.search.results | filter: $select.search ) track by place.id">
+                             repeat="place as place in (ctlCompose.search.results | filter: $select.search ) track by $index">
             <img class="account-initials-32" ng-src="{{::place.avatar}}"/>
             <span class="" data-ng-bind-html="place.name | highlight: $select.search"></span>
             <br/>
