@@ -104,6 +104,7 @@
 
       NstSvcUserFactory.get(this.getUser().id).then(function (user) {
         service.setUser(user);
+        NstSvcUserFactory.currentUser = user;
 
         var CookieDate = new Date;
         CookieDate.setFullYear(CookieDate.getFullYear() + 1);
@@ -202,6 +203,9 @@
           NstSvcUploadTokenStorage.cache.flush();
           NstSvcTinyUserStorage.cache.flush();
           NstSvcUserStorage.cache.flush();
+
+          service.user = null;
+          NstSvcUserFactory.currentUser = null;
 
           localStorage.clear();
 
