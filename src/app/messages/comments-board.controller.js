@@ -42,6 +42,7 @@
         }
       });
       pageEventKeys.push(key);
+      vm.user = NstSvcAuth.user;
     })();
 
     function findLastComment(comments) {
@@ -115,7 +116,7 @@
     }
 
     function allowToRemoveComment(comment) {
-      return vm.hasCommentRemoveAccess || (comment.sender.id === NstSvcAuth.user.id &&
+      return vm.hasCommentRemoveAccess || (comment.sender.id === vm.user.id &&
         (Date.now() - comment.date) < 24 * 60 * 60 * 1e3);
 
     }

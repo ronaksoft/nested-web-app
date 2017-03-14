@@ -11,7 +11,7 @@
     NST_PLACE_POLICY_OPTION, NST_STORE_UPLOAD_TYPE, NST_PLACE_ACCESS, NST_SRV_ERROR,
     NST_PLACE_MEMBER_TYPE, NST_PLACE_FACTORY_EVENT, NST_PLACE_TYPE, NST_DEFAULT,
     NstSvcStore, NstSvcAuth, NstSvcPlaceFactory, NstUtility, NstSvcLogger, NstSvcTranslation, NstSvcModal,
-    NstPicture, NstPlaceOneCreatorLeftError, NstPlaceCreatorOfParentError, NstEntityTracker) {
+    NstPicture, NstPlaceOneCreatorLeftError, NstPlaceCreatorOfParentError, NstManagerOfSubPlaceError, NstEntityTracker) {
     var vm = this;
     $scope.NST_PLACE_POLICY_OPTION = NST_PLACE_POLICY_OPTION;
     $scope.NST_PLACE_TYPE = NST_PLACE_TYPE;
@@ -249,8 +249,11 @@
           toastr.error(NstSvcTranslation.get('You are the only one left!'));
         } else if (error instanceof NstPlaceCreatorOfParentError) {
           toastr.error(NstUtility.string.format(NstSvcTranslation.get('You are not allowed to leave the Place because you are the creator of its highest-ranking Place ({0}).'), vm.place.parent.name));
+        } else if (error instanceof NstManagerOfSubPlaceError) {
+          toastr.error(NstSvcTranslation.get('You can not leave here, because you are the manager of one of its sub-places.'));
+        } else {
+          toastr.error(NstSvcTranslation.get("An error has happened before leaving this place"));
         }
-        NstSvcLogger.error(error);
       });
 
     }
