@@ -72,8 +72,8 @@
 
     <span mail-resizer ng-if="!ctlPostCard.isExpanded" ng-bind-html="ctlPostCard.post.body"></span>
 
-    <span mail-resizer ng-if="ctlPostCard.isExpanded && !ctlPostCard.post.trusted " ng-bind-html="ctlPostCard.post.body"></span>
-    <span mail-resizer ng-if="ctlPostCard.isExpanded && ctlPostCard.post.trusted" ng-bind-html="ctlPostCard.post.body"></span>
+    <span mail-resizer ng-if="ctlPostCard.isExpanded && !ctlPostCard.post.trusted " ng-bind-html="ctlPostCard.body"></span>
+    <span mail-resizer ng-if="ctlPostCard.isExpanded && ctlPostCard.post.trusted" ng-bind-html="ctlPostCard.body"></span>
 
   </section>
 

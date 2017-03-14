@@ -236,11 +236,8 @@
       }
 
       var deferred = $q.defer();
-      var activity = new NstActivity();
 
-      activity.id = data._id;
-      activity.type = data.action;
-      activity.date = new Date(data.timestamp);
+
 
       var postPromise = NstSvcPostFactory.get(data.post_id);
       var commentPromise = NstSvcCommentFactory.getComment(data.comment_id, data.post_id);
@@ -248,10 +245,13 @@
       var actorPromise = NstSvcUserFactory.getTiny(data.actor_id);
 
       $q.all([postPromise, commentPromise, actorPromise]).then(function (resultSet) {
+        var activity = new NstActivity();
+        activity.id = data._id;
+        activity.type = data.action;
+        activity.date = new Date(data.timestamp);
         activity.post = resultSet[0];
         activity.comment = resultSet[1];
         activity.actor = resultSet[2];
-
         deferred.resolve(activity);
       }).catch(function (error) {
         deferred.resolve(null);
@@ -390,6 +390,7 @@
         }).then(function (response) {
 
           var activities = _.map(response.activities, parseActivityIntelligently);
+
           $q.all(activities).then(function (values) {
             deferred.resolve(values.filter(function (obj) {
               return obj !== null;

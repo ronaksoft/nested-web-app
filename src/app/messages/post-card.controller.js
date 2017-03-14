@@ -175,9 +175,9 @@
 
     function showTrustedBody() {
       if (vm.orginalPost) {
-        vm.post.body =  vm.orginalPost.getTrustedBody();
+        vm.body =  vm.orginalPost.getTrustedBody();
       }else{
-        vm.post.body =  vm.post.getTrustedBody();
+        vm.body =  vm.post.getTrustedBody();
       }
 
       vm.post.trusted = true;
