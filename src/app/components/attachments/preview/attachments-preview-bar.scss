@@ -310,6 +310,7 @@ nst-attachments-preview-bar {
       min-height: 96px;
       max-height: 1024px;
       max-width: calc(100% - 96px);
+      border: 1px solid $color-border;
     }
     div {
       float: left;
@@ -334,6 +335,8 @@ nst-attachments-preview-bar {
     display: flex;
     max-height: 1024px;
     overflow-y: hidden;
-
+    img {
+      border: 1px solid $color-border;
+    }
   }
 }
