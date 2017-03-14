@@ -27,7 +27,7 @@
     <span><tasnslate>Comman Place</tasnslate></span>
     <p class="cr8">
       <translate>
-        All ”{{ctrl.grandPlace.name}}” Members can view and comment on the posts of this Place.
+        Managers and Members of ”{{ctrl.createdPlace.name}}” can share posts and All ”{{ctrl.grandPlace.name}}” Members can view and comment on the posts of this Place.
       </translate>
     </p>
   </div>
@@ -72,7 +72,7 @@
     </p>
   </div>
 
-  <div class="place-info-box" ng-if="ctrl.postPolicy === NST_PLACE_POLICY_OPTION.MEMBERS">
+  <div class="place-info-box" ng-if="ctrl.postPolicy === NST_PLACE_POLICY_OPTION.MEMBERS && !(ctrl.getPlaceType(ctrl.createdPlace) === NST_PLACE_TYPE.COMMON)">
     <svg class="_24svg _df _asc _scl2">
       <use xlink:href="/assets/icons/nst-icn24.svg#manager-member"></use>
     </svg>
