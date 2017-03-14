@@ -233,17 +233,16 @@ input[type="checkbox"]:checked + label.setting {
     top: 56px!important;
     bottom: 0;
     right: 8px!important;
-    left: 8px!important;
     width: auto;
     min-width: 0;
-    max-width: none;
-    max-height: none;
+    max-width: 380px;
+    //max-height: none;
     .popover-inner {
-      max-height: none;
+      //max-height: none;
       .mention-wrp {
         max-height: 100%;
         ul {
-          max-height: calc(100vh - 108px);
+          //max-height: calc(100vh - 108px);
         }
       }
     }
