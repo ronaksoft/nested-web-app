@@ -71,8 +71,6 @@
           vm.place.counters.creators --;
         } else if (vm.member.role === 'key_holder') {
           vm.place.counters.key_holders --;
-        } else {
-          NstSvcLogger.error("The removed member role is not specified or is not what we expected.")
         }
 
         NstSvcPlaceFactory.set(place);

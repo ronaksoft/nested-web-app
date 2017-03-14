@@ -17,20 +17,30 @@
      */
     function Token(string) {
       this.string = string;
-      this.expiration = null;
-
+      var expireTimeValue = getExpireTimeValue(string);
+      this.expiration = _.isNumber(expireTimeValue) ? expireTimeValue : getTomorrowTimeValue();
     }
 
     Token.prototype = {};
     Token.prototype.constructor = Token;
 
     Token.prototype.isExpired = function () {
-      return true;
+      return Date.now() >= this.expiration;
     };
 
     Token.prototype.toString = function () {
-      return this.getString() || '';
+      return this.string;
     };
+
+    function getExpireTimeValue(raw) {
+      return Number(_.last(_.split(raw, "-")));
+    }
+
+    function getTomorrowTimeValue() {
+      var now = new Date();
+
+      return new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1).getTime();
+    }
 
     return Token;
   }

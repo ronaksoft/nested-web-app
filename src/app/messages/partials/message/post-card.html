@@ -61,17 +61,19 @@
   <section ng-if="(!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
   <div class="_bggray nst-mood-lively _fw" ng-if="!ctlPostCard.post.trusted && ctlPostCard.isExpanded">
     <translate>This post contains blocked images.</translate>
-    <a class="nst-mood-hurricane" ng-click="ctlPostCard.showTrustedBody(); _track('post card','show trusted body');"><translate>Show Images</translate></a>
+    <a class="nst-mood-hurricane" ng-click="ctlPostCard.showTrustedBody(); _track('post card','show trusted body');">
+      <translate>Show Images</translate>
+    </a>
   </div>
   </section>
   <section class="post-body _wrb {{ctlPostCard.post.contentType == 'text/plain' ? 'pre' : ''}}"
-           ng-if="ctlPostCard.post.body.length > 0 && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)"
+           ng-if="!ctlPostCard.loading && ctlPostCard.post.body.length > 0 && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)"
            auto-dir="ctlPostCard.post.body">
 
-    <span mail-resizer ng-if="!ctlPostCard.isExpanded" ng-bind-html="ctlPostCard.body"></span>
+    <span mail-resizer ng-if="!ctlPostCard.isExpanded" ng-bind-html="ctlPostCard.post.body"></span>
 
-    <span mail-resizer ng-if="ctlPostCard.isExpanded && !ctlPostCard.post.trusted " ng-bind-html="ctlPostCard.body"></span>
-    <span mail-resizer ng-if="ctlPostCard.isExpanded && ctlPostCard.post.trusted" ng-bind-html="ctlPostCard.body"></span>
+    <span mail-resizer ng-if="ctlPostCard.isExpanded && !ctlPostCard.post.trusted " ng-bind-html="ctlPostCard.post.body"></span>
+    <span mail-resizer ng-if="ctlPostCard.isExpanded && ctlPostCard.post.trusted" ng-bind-html="ctlPostCard.post.body"></span>
 
   </section>
 
@@ -82,14 +84,14 @@
     <!--</a>-->
   <!--</section>-->
 
-  <!--<div class="_difh nst-mood-cheerful no-gutter" ng-if="ctlPostCard.expandProgress">-->
-    <!--<div class="col-xs-6">-->
-      <!--<div class="nst-loading nst-loading-size-16  _fr"></div>-->
-    <!--</div>-->
-    <!--<div class="col-xs-6 nst-marginbtm-4">-->
-      <!--<translate>Loading...</translate>-->
-    <!--</div>-->
-  <!--</div>-->
+  <div class="_difh nst-mood-cheerful no-gutter" ng-if="ctlPostCard.loading">
+    <div class="col-xs-6">
+      <div class="nst-loading nst-loading-size-16  _fr"></div>
+    </div>
+    <div class="col-xs-6 nst-marginbtm-4">
+      <translate>Loading...</translate>
+    </div>
+  </div>
 
   <section data-ng-if="ctlPostCard.post.hasAnyAttachment() && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)" class="attachments-card">
     <nst-attachments-view class="_fw" post-id="ctlPostCard.post.id" attachments="ctlPostCard.post.attachments"></nst-attachments-view>
@@ -242,7 +244,7 @@
   <svg class="_16svg nst-icn-gry" ng-if="!ctlPostCard.expandProgress && ctlPostCard.post.isRead && !ctlPostCard.isExpanded && ctlPostCard.post.ellipsis" ng-click="ctlPostCard.expand();  _track('post card', 'show more : add-on');">
     <use xlink:href="/assets/icons/nst-icn16.svg#message"></use>
   </svg>
-  <svg class="_16svg nst-icn-gry" ng-if="(!ctlPostCard.expandProgress && ctlPostCard.post.isRead && ctlPostCard.isExpanded) || (!ctlPostCard.post.ellipsis && ctlPostCard.post.isRead )" ng-click="ctlPostCard.collapse($event);  _track('post card', 'show less : add-on');">
+  <svg class="_16svg nst-icn-gry" ng-if="((!ctlPostCard.expandProgress && ctlPostCard.isExpanded) || !ctlPostCard.post.ellipsis ) && ctlPostCard.post.isRead" ng-click="ctlPostCard.collapse($event);  _track('post card', 'show less : add-on');">
     <use xlink:href="/assets/icons/nst-icn16.svg#open-message"></use>
   </svg>
   <div class="_16svg" ng-show="ctlPostCard.expandProgress && ctlPostCard.post.ellipsis">

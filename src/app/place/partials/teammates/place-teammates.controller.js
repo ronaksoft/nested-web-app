@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   angular
@@ -7,15 +7,15 @@
 
   /** @ngInject */
   function placeTeammatesController($scope, $q, $stateParams, $uibModal, toastr, _, $rootScope,
-    NstSvcPlaceFactory, NstUtility,NstSvcAuth, NstSvcPlaceAccess, NstSvcTranslation, NstSvcWait,
-    NstVmMemberItem, NST_SRV_ERROR, NST_PLACE_FACTORY_EVENT, NstEntityTracker,
-    NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NstSvcLogger) {
+                                    NstSvcPlaceFactory, NstUtility, NstSvcAuth, NstSvcUserFactory, NstSvcTranslation, NstSvcWait,
+                                    NstVmMemberItem, NST_SRV_ERROR, NST_NOTIFICATION_TYPE, NstEntityTracker,
+                                    NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NstSvcLogger) {
     var vm = this;
     // to keep track of added users
     var removedMembersTracker = new NstEntityTracker(),
-        addedMembersTracker = new NstEntityTracker(),
-        eventReferences = [],
-        addMemberListenerKey = null;
+      addedMembersTracker = new NstEntityTracker(),
+      eventReferences = [],
+      addMemberListenerKey = null;
 
     vm.hasAddMembersAccess = false;
     vm.hasSeeMembersAccess = false;
@@ -24,12 +24,32 @@
 
     vm.placeId = $stateParams.placeId;
     vm.teammatesSettings = {
-      skip : 0,
-      limit : 24,
-      creatorsCount : 0,
-      keyHoldersCount : 0,
-      pendingsCount : 0
+      skip: 0,
+      limit: 24,
+      creatorsCount: 0,
+      keyHoldersCount: 0,
+      pendingsCount: 0
     };
+
+    eventReferences.push($rootScope.$on(NST_NOTIFICATION_TYPE.INVITE_RESPOND, function (event, data) {
+      if (vm.placeId === data.invitation.place.id) {
+        NstSvcPlaceFactory.get(vm.placeId, true).then(function (place) {
+          vm.place = place;
+        }).catch(function (error) {
+        });
+
+        if (vm.teammates.length < vm.teammatesSettings.limit) {
+          NstSvcUserFactory.get(data.invitation.invitee.id)
+            .then(function (user) {
+              vm.teammates.push(new NstVmMemberItem(user, NST_PLACE_MEMBER_TYPE.KEY_HOLDER))
+            })
+            .catch(function (error) {
+            });
+
+          addedMembersTracker.track(data.invitation.invitee.id);
+        }
+      }
+    }));
 
     eventReferences.push($rootScope.$on('member-removed', function (event, data) {
       if (vm.placeId === data.placeId) {
@@ -82,7 +102,7 @@
       vm.loading = true;
 
       NstSvcWait.all(['main-done'], function () {
-        NstSvcPlaceFactory.get(vm.placeId).then(function(place) {
+        NstSvcPlaceFactory.get(vm.placeId).then(function (place) {
           if (place) {
             vm.place = place;
 
@@ -91,9 +111,9 @@
 
             load();
           }
-        }).catch(function(error) {
+        }).catch(function (error) {
           NstSvcLogger.error(error);
-        }).finally(function() {
+        }).finally(function () {
           vm.loading = false;
         });
       });
@@ -123,14 +143,14 @@
         }
       });
 
-      modal.result.then(function(selectedUsers) {
+      modal.result.then(function (selectedUsers) {
 
         var successRes = [];
         var failedRes = [];
 
-        $q.all(_.map(selectedUsers, function(user) {
+        $q.all(_.map(selectedUsers, function (user) {
 
-          return $q(function(resolve, reject) {
+          return $q(function (resolve, reject) {
             if (vm.placeId.split('.').length === 1) {
               NstSvcPlaceFactory.inviteUser(vm.place, role, user).then(function (invitationId) {
                 successRes.push(user.id);
@@ -155,7 +175,7 @@
                   reject(error);
                 }
               });
-            }else{
+            } else {
               NstSvcPlaceFactory.addUser(vm.place, role, user).then(function (addId) {
 
                 successRes.push(user.id);
@@ -184,8 +204,8 @@
             }
           });
 
-        })).then(function(values) {
-          _.forEach(values, function(result) {
+        })).then(function (values) {
+          _.forEach(values, function (result) {
             if (!result.duplicate) {
               if (result.role === NST_PLACE_MEMBER_TYPE.KEY_HOLDER) {
                 if (vm.placeId.split('.').length > 1)
@@ -205,7 +225,7 @@
             }
           }
 
-        }).catch(function(error) {
+        }).catch(function (error) {
           NstSvcLogger.error(error);
         });
       });
@@ -219,11 +239,11 @@
       var deferred = $q.defer();
 
       var teammates = [];
-      getCreators(placeId, vm.teammatesSettings.limit, vm.teammatesSettings.skip, hasSeeMembersAccess).then(function(creators) {
+      getCreators(placeId, vm.teammatesSettings.limit, vm.teammatesSettings.skip, hasSeeMembersAccess).then(function (creators) {
         teammates.push.apply(teammates, creators);
 
         return getKeyholders(placeId, vm.teammatesSettings.limit, vm.teammatesSettings.skip, hasSeeMembersAccess);
-      }).then(function(keyHolders) {
+      }).then(function (keyHolders) {
 
         teammates.push.apply(teammates, keyHolders);
 
@@ -238,7 +258,7 @@
       if (vm.hasSeeMembersAccess) {
         vm.loading = true;
 
-        loadTeammates(vm.placeId, vm.hasSeeMembersAccess).then(function(teammates) {
+        loadTeammates(vm.placeId, vm.hasSeeMembersAccess).then(function (teammates) {
           vm.teammates = teammates;
         }).finally(function () {
           vm.loading = false;
@@ -253,8 +273,8 @@
 
       if (hasAccess && vm.teammatesSettings.creatorsCount < vm.place.counters.creators) {
 
-        NstSvcPlaceFactory.getCreators(placeId, limit, skip).then(function(data) {
-          var creatorItems = _.map(data.creators, function(item) {
+        NstSvcPlaceFactory.getCreators(placeId, limit, skip).then(function (data) {
+          var creatorItems = _.map(data.creators, function (item) {
             return new NstVmMemberItem(item, 'creator');
           });
 
@@ -272,8 +292,8 @@
       var deferred = $q.defer();
 
       if (limit > 0 && hasAccess && vm.teammatesSettings.keyHoldersCount < vm.place.counters.key_holders) {
-        NstSvcPlaceFactory.getKeyholders(placeId, limit, skip).then(function(data) {
-          var keyHolderItems = _.map(data.keyHolders, function(item) {
+        NstSvcPlaceFactory.getKeyholders(placeId, limit, skip).then(function (data) {
+          var keyHolderItems = _.map(data.keyHolders, function (item) {
             return new NstVmMemberItem(item, 'key_holder');
           });
 
@@ -287,12 +307,12 @@
     }
 
 
-    $scope.$on('$destroy', function() {
+    $scope.$on('$destroy', function () {
       if (addMemberListenerKey) {
         NstSvcPlaceFactory.removeEventListener(addMemberListenerKey);
       }
 
-      _.forEach(eventReferences, function(cenceler) {
+      _.forEach(eventReferences, function (cenceler) {
         if (_.isFunction(cenceler)) {
           cenceler();
         }

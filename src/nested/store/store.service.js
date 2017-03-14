@@ -119,7 +119,7 @@
           cmd: type,
           _sk: NstSvcServer.getSessionKey(),
           data: {
-            token: token.getString(),
+            token: token.string,
             fn: 'attachment'
           }
         }));
@@ -214,7 +214,7 @@
           cmd: type,
           _sk: NstSvcServer.getSessionKey(),
           data: {
-            token: token.getString(),
+            token: token.string,
             fn: 'attachment'
           }
         }));
