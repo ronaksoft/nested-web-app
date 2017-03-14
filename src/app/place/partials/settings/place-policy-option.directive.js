@@ -38,7 +38,7 @@
         scope.three = _.size(scope.levels) == 3;
         scope.four = _.size(scope.levels) == 4;
 
-        var templateUrl = scope.readonly
+        var templateUrl = scope.one
           ? 'app/place/partials/settings/place-policy-option-readonly.html'
           : 'app/place/partials/settings/place-policy-option.html';
 
