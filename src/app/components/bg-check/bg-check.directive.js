@@ -3,7 +3,7 @@
 
   angular
     .module('ronak.nested.web.components')
-    .directive('bgCheck', function($log) {
+    .directive('bgCheck', function(NstSvcLogger) {
       return {
         restrict: 'A',
         link: function(scope, element, $attrs) {
@@ -23,7 +23,7 @@
               var reader = new FileReader();
               reader.onloadend = function() {
                 getImageBrightness(reader.result,function(brightness) {
-                  $log.debug('place pic brightness' , brightness);
+                  NstSvcLogger.debug('place pic brightness' , brightness);
                   if (brightness < 130) {
                     $(element).addClass('dark')
                   } else {
