@@ -5,10 +5,10 @@
     .service('NstSvcActivityMap', NstSvcActivityMap);
 
   /** @ngInject */
-  function NstSvcActivityMap(NstSvcAttachmentMap, moment, NstSvcStore) {
+  function NstSvcActivityMap(NstSvcAttachmentMap, moment, _) {
 
     var service = {
-      toActivityItems: toActivityItems,
+      toActivityItems: toActivityItems
     };
 
     return service;
