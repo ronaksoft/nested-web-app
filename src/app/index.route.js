@@ -166,17 +166,6 @@
        *****  Activity Routes   ****
        *****************************/
 
-      // .state('app.activity', {
-      //   url: '/activity',
-      //   templateUrl: 'app/activity/activity.html',
-      //   controller: 'ActivityController',
-      //   controllerAs: 'ctlActivity',
-      //   options : {
-      //     primary : true,
-      //     group : 'activity',
-      //     feed : true
-      //   }
-      // })
       .state('app.activity-favorites', {
         url: '/activity/favorites',
         templateUrl: 'app/activity/activity.html',
