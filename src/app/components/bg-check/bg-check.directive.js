@@ -34,7 +34,10 @@
               };
               reader.readAsDataURL(xhr.response);
             };
+
             xhr.open('GET', Url);
+            xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+            xhr.setRequestHeader('Access-Control-Allow-Origin', location.host);
             xhr.send();
           }
           function getImageBrightness(imageSrc,callback) {
@@ -75,8 +78,6 @@
               callback(brightness);
             }
           }
-
-
         }
       }
     });
