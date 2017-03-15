@@ -121,7 +121,8 @@
         if (event) {
           event.preventDefault();
         }
-        $state.go('public.signin-back', {back: angular.toJson({name: state.name, params: stateParams})});
+
+        $state.go('public.signin-back', { back: $window.encodeURIComponent($state.href(state.name, stateParams)) });
       }
     }
 
