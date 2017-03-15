@@ -70,7 +70,7 @@
            ng-if="!ctlPostCard.loading && ctlPostCard.post.body.length > 0 && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)"
            auto-dir="ctlPostCard.post.body">
 
-    <span mail-resizer ng-if="!ctlPostCard.isExpanded" ng-bind-html="ctlPostCard.post.body"></span>
+    <span ng-if="!ctlPostCard.isExpanded" ng-bind-html="ctlPostCard.post.body"></span>
 
     <span mail-resizer ng-if="ctlPostCard.isExpanded && !ctlPostCard.post.trusted " ng-bind-html="ctlPostCard.body"></span>
     <span mail-resizer ng-if="ctlPostCard.isExpanded && ctlPostCard.post.trusted" ng-bind-html="ctlPostCard.body"></span>
