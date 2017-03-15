@@ -5,7 +5,7 @@
     .service('NstSvcFileType', NstSvcFileType);
 
   /** @ngInject */
-  function NstSvcFileType(NST_FILE_TYPE) {
+  function NstSvcFileType(_, NST_FILE_TYPE) {
     var fileGroups = {};
 
     fileGroups[NST_FILE_TYPE.ARCHIVE] = [
@@ -20,7 +20,7 @@
       'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
       'application/vnd.ms-powerpoint',
       'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-      'application/vnd.openxmlformats-officedocument.presentationml.slideshow',
+      'application/vnd.openxmlformats-officedocument.presentationml.slideshow'
     ];
 
     fileGroups[NST_FILE_TYPE.IMAGE] = [
