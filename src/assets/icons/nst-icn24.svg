@@ -14,7 +14,7 @@
       <stop offset="1"/>
     </linearGradient>
   </defs>
-  <title>nst</title>
+  <title>WebIconExporter</title>
   <g id="icn24">
     <g id="bell-ringed">
       <rect width="24" height="24" style="fill: none"/>
@@ -245,6 +245,10 @@
     <g id="places">
       <rect id="space-46" data-name="space" width="24" height="24" style="fill: none"/>
       <path d="M19,21H5a2,2,0,0,1-2-2V5A2,2,0,0,1,5,3H19a2,2,0,0,1,2,2V19A2,2,0,0,1,19,21ZM5.42,15a5.66,5.66,0,0,1,4.3,2A3,3,0,0,0,12,18h0a3,3,0,0,0,2.28-1,5.66,5.66,0,0,1,4.3-2H19V5H5V15Z"/>
+    </g>
+    <g id="nonsearch">
+      <rect id="space-47" data-name="space" width="24" height="24" style="fill: none"/>
+      <path d="M10,16.5A6.5,6.5,0,1,1,16.5,10,6.51,6.51,0,0,1,10,16.5Zm0-11A4.5,4.5,0,1,0,14.5,10,4.5,4.5,0,0,0,10,5.5ZM19.41,21,21,19.41,16.58,15,15,16.58ZM10.7,10l1.77,1.77-.7.7L10,10.7,8.23,12.47l-.7-.7L9.3,10,7.53,8.23l.7-.7L10,9.3l1.77-1.77.7.7Z"/>
     </g>
   </g>
 </svg>
