@@ -77,7 +77,7 @@
       NstSvcServer.request('attachment/remove', {
         post_id: postId,
         attachment_id: attachmentId
-      }).then(function(response) {
+      }).then(function() {
         defer.resolve(attachmentId);
       }).catch(function(error) {
         var query = new NstFactoryQuery(attachmentId, { postId: postId });

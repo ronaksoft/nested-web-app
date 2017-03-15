@@ -23,6 +23,7 @@
       "AJAX": {
         "URL": "https://cyrus.nested.me:444"
       }
-    }
+    },
+    "GOOGLE_ANALYTICS_TOKEN": "UA-80877772-5"
   }
 }

@@ -5,7 +5,7 @@
     .module('ronak.nested.web.models')
     .factory('NstTinyUser', NstTinyUser);
 
-  function NstTinyUser() {
+  function NstTinyUser(_) {
     /**
      * Creates an instance of NstTinyUser. Do not use this directly, use NstSvcUserFactory.getTiny(data) instead
      *

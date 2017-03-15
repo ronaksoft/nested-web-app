@@ -197,8 +197,7 @@
           NstSvcServer.request('post/remove_comment', {
             post_id: postId,
             comment_id: query.id
-          }).then(function(data) {
-            // post.removeComment(comment);
+          }).then(function() {
             deferred.resolve(comment);
           }).catch(function(error) {
             deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));

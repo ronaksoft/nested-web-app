@@ -5,7 +5,7 @@
     .service('NstSvcCurrentUserStorage', NstSvcCurrentUserStorage);
 
   /** @ngInject */
-  function NstSvcCurrentUserStorage(NST_STORAGE_TYPE, NstStorage, NstPicture, NstTinyUser) {
+  function NstSvcCurrentUserStorage(_, NST_STORAGE_TYPE, NstStorage, NstPicture, NstTinyUser) {
     function CurrentUserStorage(memory) {
       NstStorage.call(this, memory, 'current-user');
     }
@@ -56,7 +56,7 @@
         tinyUser.picture.x64 = userObject.picture.x64;
         tinyUser.picture.x32 = userObject.picture.x32;
       }
-      
+
       return tinyUser;
     }
 
