@@ -36,7 +36,11 @@
      ***** Controller Methods ****
      *****************************/
 
-    vm.auth = function () {
+    vm.auth = function (isValid) {
+      if (!isValid) {
+        return;
+      }
+
       vm.progress = true;
       vm.message.fill = false;
 
@@ -46,22 +50,19 @@
       };
 
       NstSvcAuth.login(credentials, vm.remember).then(function () {
-        return $q(function (res) {
-          var state = {
-            name: NST_DEFAULT.STATE
-          };
+        var state = {
+          name: NST_DEFAULT.STATE
+        };
 
-          if ($stateParams.back) {
-            var desState = angular.fromJson($window.decodeURIComponent($stateParams.back));
-            if (desState.name && $state.get(desState.name)) {
-              state.name = desState.name;
-              state.params = desState.params || undefined;
-            }
+        if ($stateParams.back) {
+          var desState = angular.fromJson($window.decodeURIComponent($stateParams.back));
+          if (desState.name && $state.get(desState.name)) {
+            state.name = desState.name;
+            state.params = desState.params || undefined;
           }
+        }
 
-          res();
-          $state.go(state.name, state.params);
-        });
+        $state.go(state.name, state.params);
       }).catch(function (error) {
         vm.password = '';
         vm.progress = false;
