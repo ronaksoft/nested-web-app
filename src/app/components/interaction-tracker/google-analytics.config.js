@@ -2,9 +2,8 @@
 
   var app = angular.module('ronak.nested.web');
 
-  app.config(['AnalyticsProvider', function (AnalyticsProvider) {
-
-     AnalyticsProvider.setAccount('UA-92612481-1');
+  app.config(['AnalyticsProvider', 'NST_CONFIG', function (AnalyticsProvider, NST_CONFIG) {
+     AnalyticsProvider.setAccount(NST_CONFIG.GOOGLE_ANALYTICS_TOKEN);
   }]).run(['Analytics', function(Analytics) {
 
   }]);
