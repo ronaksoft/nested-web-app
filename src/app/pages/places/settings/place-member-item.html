@@ -26,8 +26,8 @@
       <use xlink:href="/assets/icons/nst-icn24.svg#hourglass"></use>
     </svg>
   </div>
-  <div class="cursor-pointer _df user-more-opt" ng-click="$event.stopPropagation()" popover-class="white-pop" data-popover-placement="auto bottom-right"  uib-popover-template="'app/pages/places/settings/place-member-item-options.html'"
-       popover-append-to-body="false" popover-trigger="focus">
+  <div class="cursor-pointer _df user-more-opt" popover-class="white-pop" data-popover-placement="auto bottom-right"  uib-popover-template="'app/pages/places/settings/place-member-item-options.html'"
+       popover-append-to-body="false">
     <svg class="_24svg" ng-if="(memberCtrl.hasRemoveAccess || memberCtrl.hasControlAccess) && !(memberCtrl.member.role === 'creator' && memberCtrl.place.counters.creators === 1) && !memberCtrl.isCurrent">
       <use xlink:href="/assets/icons/nst-icn24.svg#more"></use>
     </svg>

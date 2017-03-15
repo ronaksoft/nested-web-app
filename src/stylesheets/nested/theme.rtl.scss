@@ -443,7 +443,28 @@ body[dir="rtl"] {
     margin-left: 0;
     margin-right: -32px;
   }
-
+  .place-head.setting-head .logo-holder {
+    left: auto;
+    right: 32px;
+  }
+  .place-head .logo-holder > span {
+    right: 104px;
+    left: auto;
+  }
+  .place-head .logo-holder > a {
+    left: auto;
+    right: 104px;
+  }
+  .place-head.setting-head .logo-holder i {
+    right: auto;
+    left: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 9px;
+  }
+  .place-head.setting-head .logo-holder i svg {
+    left: auto;
+    right: 6px;
+  }
   #place-settings .user-item {
     margin-right: -32px;
   }
