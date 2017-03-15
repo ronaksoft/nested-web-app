@@ -29,7 +29,7 @@
     <translate>Place ID</translate>
   </label>
   <div class="placeID ng-class:{'not-val' : !ctrl.placeIdIsFullAvailable}">
-    <div class="field">
+    <div class="field" dir="ltr">
       <div id="PlaceID" tabindex="2">
         <span ng-if="ctrl.hasParentPlace">{{ctrl.place.parentId}}.</span>
         {{ctrl.place.id.length > 0 ? ctrl.place.id.replace(ctrl.place.parentId + '.' ,'') : 'marketing-development'}}
