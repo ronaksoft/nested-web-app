@@ -18,7 +18,7 @@
   function NstSvcNotificationSync(_, $rootScope,
                                   NST_SRV_PUSH_CMD,
                                   NstSvcNotificationFactory, NstObservableObject,
-                                  NstSvcServer, NstSvcLogger, NstSvcNotification) {
+                                  NstSvcServer, NstSvcLogger) {
 
 
     function SyncService() {
