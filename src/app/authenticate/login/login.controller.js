@@ -6,7 +6,7 @@
     .controller('LoginController', LoginController);
 
   /** @ngInject */
-  function LoginController($q, $window, $rootScope, $state, $stateParams, md5,
+  function LoginController($q, $window, $rootScope, $state, $stateParams, md5, $location,
                            NST_DEFAULT, NST_SRV_ERROR,
                            NstSvcAuth) {
     var vm = this;
@@ -36,7 +36,11 @@
      ***** Controller Methods ****
      *****************************/
 
-    vm.auth = function () {
+    vm.auth = function (isValid) {
+      if (!isValid) {
+        return;
+      }
+
       vm.progress = true;
       vm.message.fill = false;
 
@@ -45,23 +49,14 @@
         password: md5.createHash(vm.password)
       };
 
-      NstSvcAuth.login(credentials, vm.remember).then(function () {
-        return $q(function (res) {
-          var state = {
-            name: NST_DEFAULT.STATE
-          };
+      NstSvcAuth.login(credentials, vm.remember).then(function (result) {
+        if ($stateParams.back) {
+          var url = $window.decodeURIComponent($stateParams.back);
+          $location.url(_.trimStart(url,"#"));
+        } else {
+          $state.go(NST_DEFAULT.STATE);
+        }
 
-          if ($stateParams.back) {
-            var desState = angular.fromJson($window.decodeURIComponent($stateParams.back));
-            if (desState.name && $state.get(desState.name)) {
-              state.name = desState.name;
-              state.params = desState.params || undefined;
-            }
-          }
-
-          res();
-          $state.go(state.name, state.params);
-        });
       }).catch(function (error) {
         vm.password = '';
         vm.progress = false;
