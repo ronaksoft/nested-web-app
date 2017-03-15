@@ -35,12 +35,6 @@
           if (NST_RES_STATUS.UNKNOWN != response.getStatus()) {
             this.setStatus(NST_REQ_STATUS.RESPONDED);
           }
-
-          if (NST_RES_STATUS.SUCCESS == response.getStatus()) {
-            deferred.resolve(response);
-          } else {
-            deferred.reject(response);
-          }
         }
       };
     }
@@ -54,7 +48,7 @@
       var options = this.settings;
       options.params = data || this.data;
 
-      $http.get(this.route, options).success(function (data, status, header, config) {
+      $http.get(this.route, options).success(function (data, status) {
         me.setStatus(NST_RES_STATUS.SUCCESS);
         deferred.resolve(data.data);
       }).error(function (error) {
@@ -257,7 +251,7 @@
       request.finish(response || new NstResponse());
     };
 
-    HTTP.createCORSRequest = function (method) {
+    HTTP.createCORSRequest = function () {
       var xhr = new XMLHttpRequest();
       if ("withCredentials" in xhr) {
         // XHR for Chrome/Firefox/Opera/Safari.
