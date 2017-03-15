@@ -439,5 +439,22 @@
       return member.isPending() ? NstSvcInvitationFactory.revoke(member.InvitationId) : NstSvcPlaceFactory.removeMember(vm.place.id, member.id);
     }
 
+
+    $rootScope.$on('member-removed', function (event, data) {
+      NstUtility.collection.dropById(vm.teammates, data.member.id);
+    });
+    $rootScope.$on('member-demoted', function (event, data) {
+      var member = vm.teammates.filter(function (m) {
+        return m.id === data.member.id
+      });
+      if (member[0]) member[0].role = NST_PLACE_MEMBER_TYPE.KEY_HOLDER;
+    });
+    $rootScope.$on('member-promoted', function (event, data) {
+      var member = vm.teammates.filter(function (m) {
+        return m.id === data.member.id
+      });
+      if (member[0]) member[0].role = NST_PLACE_MEMBER_TYPE.CREATOR;
+    });
+
   }
 })();
