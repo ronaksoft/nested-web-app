@@ -75,13 +75,14 @@ body.modal-open {
   height: auto;
   max-width: 100%;
   .butn-green {
-    padding: 0 16px;
     margin: 0;
     position: relative;
     //right: 20px;
-    width: auto;
-    line-height: 32px;
+    width: 104px;
     height: 32px;
+    span {
+      //line-height: 32px;
+    }
   }
   input.ui-select-search {
     margin-bottom: 6px;
