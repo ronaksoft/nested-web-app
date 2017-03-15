@@ -5,6 +5,7 @@
     .module('ronak.nested.web.models')
     .constant('NST_PLACE_POLICY', {
       CREATORS : 'creators',
-      EVERYONE : 'everyone'
+      EVERYONE : 'everyone',
+      NO_ONE : 'noone'
     })
 })();

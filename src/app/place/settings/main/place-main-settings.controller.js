@@ -158,6 +158,7 @@
     function getAddPlacePrivacyLevel(place) {
       switch (place.policy.add_place) {
         case NST_PLACE_POLICY.CREATORS:
+        case NST_PLACE_POLICY.NO_ONE:
           return NST_PLACE_POLICY_OPTION.MANAGERS;
         case NST_PLACE_POLICY.EVERYONE:
           return NST_PLACE_POLICY_OPTION.MEMBERS;
