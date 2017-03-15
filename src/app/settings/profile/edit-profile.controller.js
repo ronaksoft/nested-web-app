@@ -9,7 +9,7 @@
   function EditProfileController($rootScope, $scope, $stateParams, $state, $q, $uibModal, $timeout, $log, $window,
                                  toastr, moment,
                                  NST_STORE_UPLOAD_TYPE, NST_USER_FACTORY_EVENT, NST_NAVBAR_CONTROL_TYPE, NstPicture, NST_PATTERN,
-                                 NstSvcAuth, NstSvcStore, NstSvcUserFactory, NstUtility, NstSvcTranslation, NstSvcI18n, NstFactoryEventData) {
+                                 NstSvcAuth, NstSvcStore, NstSvcUserFactory, NstUtility, NstSvcTranslation, NstSvcI18n, NstFactoryEventData, NstSvcModal) {
     var vm = this;
 
     vm.model = NstSvcUserFactory.currentUser;
@@ -137,7 +137,7 @@
     /*****************************
      *** Controller Properties ***
      *****************************/
-    vm.removeImage = removePicture;
+    vm.removeImage = confirmRemovePicture;
     vm.setImage = setImage;
     var imageLoadTimeout = null;
 
@@ -186,6 +186,16 @@
         event.target.value = '';
       });
 
+
+    }
+
+    function confirmRemovePicture() {
+      NstSvcModal.confirm(NstSvcTranslation.get("Removing profile picture"),
+        NstSvcTranslation.get("Please make sure before removing the picture of your profile")).then(function (result) {
+        if (result) {
+          removePicture();
+        }
+      });
 
     }
 
