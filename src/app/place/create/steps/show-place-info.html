@@ -49,7 +49,10 @@
     <p class="cr8">Only I can view the contents of this Place.</p>
   </div>
 
-  <div class="place-info-box" ng-if="ctrl.postPolicy === NST_PLACE_POLICY_OPTION.MANAGERS && !(ctrl.getPlaceType(ctrl.createdPlace) === NST_PLACE_TYPE.SUB_PERSONAL)">
+  <div class="place-info-box"
+       ng-if="ctrl.postPolicy === NST_PLACE_POLICY_OPTION.MANAGERS &&
+              (ctrl.getPlaceType(ctrl.createdPlace) !== NST_PLACE_TYPE.SUB_PERSONAL) &&
+              (ctrl.getPlaceType(ctrl.createdPlace) !== NST_PLACE_TYPE.COMMON)">
     <svg class="_24svg _df _asc _scl2">
       <use xlink:href="/assets/icons/nst-icn24.svg#manager"></use>
     </svg>
