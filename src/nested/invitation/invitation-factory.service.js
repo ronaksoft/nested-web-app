@@ -142,7 +142,7 @@
           NstSvcServer.request('account/respond_invite', {
             invite_id: id,
             response: 'accept'
-          }).then(function (response) {
+          }).then(function () {
             // TODO: parse the response and return an object
             NstSvcPlaceFactory.get(invitation.place.id, true).then(function () {
               defer.resolve(invitation);
@@ -174,7 +174,7 @@
           NstSvcServer.request('account/respond_invite', {
             invite_id: id,
             response: 'ignore'
-          }).then(function (response) {
+          }).then(function () {
             // TODO: parse the response and return an object
             defer.resolve(invitation);
             factory.dispatchEvent(new CustomEvent(
@@ -259,7 +259,7 @@
 
       NstSvcServer.request('place/remove_invite', {
         invite_id: invitationId
-      }).then(function (result) {
+      }).then(function () {
         defer.resolve(true);
       }).catch(function (error) {
         defer.reject(error);

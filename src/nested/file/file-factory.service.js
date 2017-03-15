@@ -7,8 +7,7 @@
   /** @ngInject */
   function NstSvcFileFactory($q, _,
     NstSvcAuth, NstSvcServer, NST_CONFIG, NstSvcDownloadTokenStorage, NstSvcFileStorage,
-    NstBaseFactory, NstPicture, NstAttachment, NstFactoryError, NstFactoryQuery, NstStoreToken,
-    NST_FILE_TYPE) {
+    NstBaseFactory, NstPicture, NstAttachment, NstFactoryError, NstFactoryQuery, NstStoreToken) {
 
     function FileFactory() {
       NstBaseFactory.call(this);
@@ -49,7 +48,7 @@
 
         return deferred.promise;
       }, 'get', placeId);
-    };
+    }
 
     function parseFile(data) {
       var file = new NstAttachment();

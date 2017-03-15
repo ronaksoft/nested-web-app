@@ -6,7 +6,7 @@
     .controller('SidebarPlaceInfoController', SidebarPlaceInfoController);
 
   /** @ngInject */
-  function SidebarPlaceInfoController($q, $scope, $state, $stateParams, $window,
+  function SidebarPlaceInfoController($q, $scope, $state, $stateParams, $window, _,
                                       NstSvcLogger,
                                       NstSvcPostFactory, NstSvcPlaceFactory, NstSvcPlaceMap, NstUtility, NstSvcSync,
                                       NST_POST_FACTORY_EVENT, NST_PLACE_FACTORY_EVENT, NST_DEFAULT, NstVmPlace, NstSvcServer, NST_SRV_EVENT, NST_EVENT_ACTION) {
@@ -71,24 +71,6 @@
       }
     });
 
-    function findGrandPlaceId(placeId) {
-      return _.first(_.split(placeId, "."));
-    }
-
-    function stateParamIsProvided(parameter) {
-      return !!parameter && parameter !== NST_DEFAULT.STATE_PARAM;
-    }
-
-    function getSubplaceInfo(grandPlaceId) {
-      var deferred = $q.defer();
-
-      NstSvcPlaceFactory.get(grandPlaceId).then(function (place) {
-        deferred.resolve(new NstVmPlace(place))
-      }).catch(deferred.reject);
-
-      return deferred.promise;
-
-    }
 
     function getGrandPlaceChildren(grandPlaceId) {
       var deferred = $q.defer();
@@ -175,13 +157,13 @@
      *****  Event Listeners   ****
      *****************************/
 
-    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.SUB_ADD, function (event) {
+    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.SUB_ADD, function () {
       //TODO:: change children without Initializing()
       // NstSvcPlaceFactory.addPlaceToTree(vm.children, mapPlace(event.detail.place));
       Initializing();
     });
 
-    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.UPDATE, function (event) {
+    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.UPDATE, function () {
       //TODO:: change children without Initializing()
       // NstSvcPlaceFactory.updatePlaceInTree(vm.children, mapPlace(event.detail.place));
 
@@ -189,12 +171,12 @@
     });
 
 
-    NstSvcSync.addEventListener(NST_EVENT_ACTION.POST_ADD, function (e) {
+    NstSvcSync.addEventListener(NST_EVENT_ACTION.POST_ADD, function () {
       getPlaceUnreadCounts();
     });
 
 
-    NstSvcPostFactory.addEventListener(NST_POST_FACTORY_EVENT.READ, function (e) {
+    NstSvcPostFactory.addEventListener(NST_POST_FACTORY_EVENT.READ, function () {
       getPlaceUnreadCounts();
     });
 
@@ -207,7 +189,7 @@
     });
 
 
-    NstSvcPostFactory.addEventListener(NST_POST_FACTORY_EVENT.READ, function (e) {
+    NstSvcPostFactory.addEventListener(NST_POST_FACTORY_EVENT.READ, function () {
       getPlaceUnreadCounts();
     });
 

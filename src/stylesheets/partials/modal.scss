@@ -153,6 +153,7 @@ body.modal-open {
   a{
     font-weight: bold;
     color: $color-solid;
+    user-select: all;
   }
   .small{
     font-weight: 100;

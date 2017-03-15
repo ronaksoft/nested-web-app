@@ -5,7 +5,7 @@
     .module('ronak.nested.web.components.attachment')
     .controller('AttachmentViewController', AttachmentViewController);
 
-  function AttachmentViewController($q, $timeout, $sce, $stateParams,
+  function AttachmentViewController($q, $timeout, $sce, $stateParams, _,
                                     hotkeys, toastr,
                                     NST_FILE_TYPE, NST_STORE_ROUTE,
                                     NstVmFileViewerItem,
@@ -86,9 +86,9 @@
       if (vm.attachments.collection.length > 0 && next < vm.attachments.collection.length) {
         goTo(next);
       } else {
-        goTo(0)
+        goTo(0);
       }
-    };
+    }
 
     function goPrevious() {
       var currentIndex = _.findIndex(vm.attachments.collection, {id: vm.attachments.current.id});
@@ -98,7 +98,7 @@
       } else {
         goTo(vm.attachments.collection.length - 1)
       }
-    };
+    }
 
     function goTo(index) {
       vm.attachments.current = vm.attachments.collection[index];
@@ -110,7 +110,7 @@
           vm.attachments.current.viewUrl = $sce.trustAsResourceUrl('//docs.google.com/viewer?embedded=true&url=' +
             encodeURI(NstSvcStore.resolveUrl(NST_STORE_ROUTE.DOWNLOAD, vm.attachments.current.id, token)));
 
-        }).catch(function (error) {
+        }).catch(function () {
           toastr.error('Sorry, An error has occured while trying to load the file');
         });
       } else if (vm.attachments.current.extension === 'gif'){
@@ -150,7 +150,7 @@
       vm.filesLoadProgress = true;
       NstSvcFileFactory.get(ids).then(function (files) {
         deferred.resolve(files);
-      }).catch(function (error) {
+      }).catch(function () {
         toastr.error(NstSvcTranslation.get('Sorry, an error occurred in viewing the files.'));
       }).finally(function () {
         vm.filesLoadProgress = false;
@@ -165,7 +165,7 @@
       vm.fileLoadProgress = true;
       NstSvcFileFactory.get([id]).then(function (files) {
         deferred.resolve(files[0]);
-      }).catch(function (error) {
+      }).catch(function () {
         toastr.error(NstSvcTranslation.get('Sorry, an error occurred in viewing the files.'));
       }).finally(function () {
         vm.fileLoadProgress = false;
@@ -185,7 +185,7 @@
         item.viewUrl = NstSvcStore.resolveUrl(NST_STORE_ROUTE.VIEW, item.id, token);
 
         location.href = item.downloadUrl;
-      }).catch(function (error) {
+      }).catch(function () {
         toastr.error('Sorry, An error has occured while trying to load the file');
       });
     }
@@ -201,7 +201,7 @@
         item.viewUrl = NstSvcStore.resolveUrl(NST_STORE_ROUTE.VIEW, item.id, token);
 
         window.open(item.viewUrl, '_target');
-      }).catch(function (error) {
+      }).catch(function () {
         toastr.error('Sorry, An error has occured while trying to load the file');
       });
     }

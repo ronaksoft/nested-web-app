@@ -25,7 +25,7 @@
             })(k);
 
           this['get' + uCamelCase] = this['get' + uCamelCase] || (function (name) {
-              return function (value) {
+              return function () {
                 return this[name];
               };
             })(k);

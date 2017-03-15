@@ -12,21 +12,6 @@
                              NST_MESSAGES_SORT_OPTION, NST_SRV_EVENT, NST_CONFIG, NST_POST_FACTORY_EVENT) {
 
     function PostFactory() {
-
-      var factory = this;
-
-
-      // NstSvcServer.addEventListener(NST_EVENT_ACTION.POST_REMOVE, function(event) {
-      //   var tlData = event.detail;
-      //
-      //   var postId = tlData.post_id;
-      //   factory.dispatchEvent(new CustomEvent(
-      //     NST_POST_FACTORY_EVENT.REMOVE,
-      //     new NstFactoryEventData(postId)
-      //   ));
-      //
-      // });
-
     }
 
     PostFactory.prototype = new NstBaseFactory();
@@ -129,8 +114,8 @@
         defer.resolve(null);
       } else {
         NstSvcServer.request('post/mark_as_read', {
-          post_id: ids,
-        }).then(function (data) {
+          post_id: ids
+        }).then(function () {
 
           factory.dispatchEvent(new CustomEvent(
             NST_POST_FACTORY_EVENT.READ,
@@ -222,7 +207,7 @@
         NstSvcServer.request('post/remove', {
           post_id: query.id,
           place_id: query.data.placeId
-        }).then(function (data) { //remove the object from storage and return the id
+        }).then(function () { //remove the object from storage and return the id
           var post = NstSvcPostStorage.get(query.id);
           NstUtility.collection.dropById(post.places, query.data.placeId);
           if (post.places.length === 0) { //the last place was removed
@@ -247,7 +232,7 @@
 
             NstSvcServer.request('post/wipe', {
               post_id: id
-            }).then(function (data) {
+            }).then(function () {
               NstSvcPostStorage.remove(id);
               deferred.resolve(true);
             }).catch(function (error) {
@@ -271,7 +256,7 @@
 
       return $q(function (resolve, reject) {
         NstSvcServer.request('post/pin', {
-          post_id: query.id,
+          post_id: query.id
         }).then(function () { //remove the object from storage and return the id
           var post = NstSvcPostStorage.get(query.id);
           post.setBookmarked(true);
@@ -383,7 +368,7 @@
 
       var resources = {};
       var imgRegex = new RegExp('<img(.*?)src=[\'|"](.*?)[\'|"](.*?)>','g');
-      var body = data.body.replace(imgRegex,function (m, p1, p2, p3, string) {
+      var body = data.body.replace(imgRegex,function (m, p1, p2, p3) {
         if (p2.indexOf(NST_CONFIG.STORE.URL) === 0) return m;
         var hash = md5.createHash(p2);
         resources[hash] = p2;
@@ -432,24 +417,19 @@
       message.setEllipsis(data.ellipsis);
       message.setBookmarked(data.pinned);
 
-      // TODO: Fix parsing recipients
-      if (data.post_recipients) {
-        for (var k in data.post_recipients) {
-        }
-      }
-
       if (data.last_update) {
         message.setUpdatedDate(new Date(data.last_update));
       } else {
         message.setUpdatedDate(message.getDate());
       }
 
+      var sender = null;
       if (data.sender) {
-        var sender = NstSvcUserFactory.parseTinyUser(data.sender);
+        sender = NstSvcUserFactory.parseTinyUser(data.sender);
         NstSvcUserFactory.set(sender);
         message.setSender(sender);
       } else if (data.email_sender) {
-        var sender = NstSvcUserFactory.parseTinyUser(data.email_sender);
+        sender = NstSvcUserFactory.parseTinyUser(data.email_sender);
         NstSvcUserFactory.set(sender);
         message.setEmailSender(sender);
       }
@@ -638,7 +618,7 @@
     }
 
 
-    function getUnreadMessages(setting, places, subs) {
+    function getUnreadMessages(setting, places) {
 
       if (!_.isArray(places))
         throw "Places must be an Array.";
@@ -696,7 +676,7 @@
       NstSvcServer.request('search/posts', {
         keywords: queryString,
         limit: limit || 8,
-        skip: skip || 0,
+        skip: skip || 0
       }).then(function (result) {
         var postPromises = _.map(result.posts, parseMessage);
         $q.all(postPromises).then(defer.resolve).catch(defer.reject);
@@ -720,7 +700,7 @@
         account_id: accountId,
         keywords: queryString,
         limit: limit || 8,
-        skip: skip || 0,
+        skip: skip || 0
       }).then(function (result) {
         var postPromises = _.map(result.posts, parseMessage);
         $q.all(postPromises).then(defer.resolve).catch(defer.reject);

@@ -6,7 +6,7 @@
     .factory('NstLoggerHttp', NstLoggerHttp);
 
   /** @ngInject */
-  function NstLoggerHttp(NstHttp, NstLoggerBasic) {
+  function NstLoggerHttp(_, NstHttp, NstLoggerBasic) {
     function LoggerHttp(options) {
       var defOptions = {
         METHOD: "POST",

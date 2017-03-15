@@ -9,11 +9,9 @@
     /**
      * Creates an instance of NstUser. Do not use this directly, use NstSvcUserFactory.get(data) instead
      *
-     * @param {string|Object} data  User Info
-     *
      * @constructor
      */
-    function User(data) {
+    function User() {
       /**
        * User's Email Address
        *
@@ -79,10 +77,6 @@
       this.unreadNotificationsCount = undefined;
 
       NstTinyUser.call(this);
-
-      if (data) {
-        
-      }
     }
 
     User.prototype = new NstTinyUser();

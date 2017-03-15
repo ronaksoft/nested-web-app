@@ -22,6 +22,7 @@
       "AJAX": {
         "URL": "http://cyrus.nested.ronaksoftware.com:8080"
       }
-    }
+    },
+    "GOOGLE_ANALYTICS_TOKEN": "UA-92612481-1"
   }
 }
