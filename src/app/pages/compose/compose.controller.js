@@ -904,7 +904,7 @@
                 if (place) {
                   deferred.resolve(place);
                 } else {
-                  getPlace(post.getSender().getId()).then(function (place) {
+                  getPlace(post.getSender().id).then(function (place) {
                     deferred.resolve(place);
                   });
                 }
