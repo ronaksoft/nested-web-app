@@ -13,7 +13,7 @@
       var that = this;
       that.count = 0;
 
-      NstSvcAuth.addEventListener(NST_AUTH_EVENT.AUTHORIZE, function (event) {
+      NstSvcAuth.addEventListener(NST_AUTH_EVENT.AUTHORIZE, function () {
         if (NstSvcAuth.user.unreadNotificationCount) {
           that.dispatchEvent(new CustomEvent(NST_NOTIFICATION_FACTORY_EVENT.UPDATE, new NstFactoryEventData(NstSvcAuth.user.unreadNotificationCount)));
         } else {
@@ -23,7 +23,7 @@
         }
       });
 
-      NstSvcServer.addEventListener(NST_SRV_PUSH_CMD.SYNC_NOTIFICATION, function (event) {
+      NstSvcServer.addEventListener(NST_SRV_PUSH_CMD.SYNC_NOTIFICATION, function () {
         that.getNotificationsCount().then(function (count) {
           that.dispatchEvent(new CustomEvent(NST_NOTIFICATION_FACTORY_EVENT.UPDATE, new NstFactoryEventData(count)));
         });
@@ -73,11 +73,11 @@
               case NST_NOTIFICATION_TYPE.INVITE:
                 if (notif.invite_id !== undefined)
                   return parseInvitation(notif);
-
+                break;
               case NST_NOTIFICATION_TYPE.INVITE_RESPOND:
                 if (notif.invite_id !== undefined)
                   return parseInvitationResponse(notif);
-
+                break;
               case NST_NOTIFICATION_TYPE.COMMENT:
                 return parseComment(notif);
 
@@ -346,7 +346,7 @@
             adder: values[1],
             type: data.type
           });
-        }).catch(function (error) {
+        }).catch(function () {
         deferred.resolve({id: data._id, data: null});
       });
 
