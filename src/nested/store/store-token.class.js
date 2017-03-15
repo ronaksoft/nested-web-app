@@ -6,7 +6,7 @@
     .factory('NstStoreToken', NstStoreToken);
 
   /** @ngInject */
-  function NstStoreToken() {
+  function NstStoreToken(_) {
     /**
      * Creates an instance of NstStoreToken
      *

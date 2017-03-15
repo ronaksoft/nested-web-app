@@ -6,7 +6,7 @@
     .service('NstSvcPingPong', NstSvcPingPong);
 
   /** @ngInject */
-  function NstSvcPingPong($timeout, $interval,
+  function NstSvcPingPong($timeout, $interval, _,
                           NST_SRV_EVENT, NST_SRV_PING_PONG,
                           NstSvcLogger,
                           NstObservableObject) {
@@ -106,7 +106,7 @@
 
     PingPong.prototype.checkStatus = function (force) {
       if ((this.pingStack.length >= NST_SRV_PING_PONG.MAX_FAILED_PING) || force) {
-        console.log("disconnect")
+        NstSvcLogger.debug("disconnected");
         this.pingPongStatus= false;
         callDisconnected.bind(this)();
         return false;

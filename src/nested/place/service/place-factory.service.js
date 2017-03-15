@@ -65,8 +65,7 @@
         factory.dispatchEvent(new CustomEvent(
           NST_PLACE_FACTORY_EVENT.UPDATE, {
             detail: {
-              id: tlData.child_id,
-              parentPlace: parentPlace
+              id: tlData.child_id
             }
           }
         ));
@@ -194,10 +193,10 @@
 
     PlaceFactory.prototype.getTinySafe = function (id) {
       var service = this;
-      return $q(function (resolve, reject) {
+      return $q(function (resolve) {
         service.getTiny(id).then(function (place) {
           resolve(place);
-        }).catch(function (error) {
+        }).catch(function () {
           resolve({id: id});
         });
       });
