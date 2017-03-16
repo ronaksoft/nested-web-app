@@ -45,6 +45,7 @@
       "Date of Birth": "Date of birth",
       "Date of birth": "Date of Birth",
       "Demote Members": "Demote Member",
+      "Demote({{ctrl.selectedCreatorsCount }})": "Demote ({{ctrl.selectedCreatorsCount }})",
       "Doe": "Smith",
       "Edit Name": " Edit name",
       "Edit date of birth": "Edit Date of Birth",
@@ -90,6 +91,7 @@
       "Please make sure before removing the place picture.": "Are you sure you want to remove the Place picture?",
       "Plus, this Place can receive emails.": "This Place can also receive emails.",
       "Profile Settings": "Profile settings",
+      "Promote({{ctrl.selectedKeyHoldersCount }})": "Promote ({{ctrl.selectedKeyHoldersCount }})",
       "Re-enter New password": "Re-enter new password",
       "Received Date": "Date Received",
       "Recent Messages": "Recent Posts",
@@ -178,6 +180,9 @@
       "{0} user/s has been {1} to Place \"{2}\" successfully.": "{0} user(s) have been {1} to \"{2}\" successfully.",
       "{0} user/s has not been added to Place {1}.": "{0} user(s) have not been added to Place {1}.",
       "{0} user/s has not been invited to Place {1}.": "{0} user(s) have not been invited to Place {1}.",
-      "{{ctlMessages.unreadCount | localize}} Unseen": "{{ctlMessages.unreadCount | localize}} unseen"
+      "{{ctlMessages.unreadCount | localize}} Unseen": "{{ctlMessages.unreadCount | localize}} unseen",
+      "{{grandPlaceName}} Members": "<b>”{{grandPlaceName}}”</b> Members",
+      "{{placeName}} Managers": "<b>”{{placeName}}”</b> Managers",
+      "{{placeName}} Managers and Members": "<b>”{{placeName}}”</b> Managers and Members"
     });
 })();
