@@ -5,7 +5,8 @@
     .service('NstSvcDownloadTokenStorage', NstSvcDownloadTokenStorage);
 
   /** @ngInject */
-  function NstSvcDownloadTokenStorage($log, NST_STORAGE_TYPE, NstStorage, NstStoreToken) {
+  function NstSvcDownloadTokenStorage($log, _,
+    NST_STORAGE_TYPE, NstStorage, NstStoreToken) {
     function DownloadTokenStorage(memory) {
       NstStorage.call(this, memory, 'download_token');
     }

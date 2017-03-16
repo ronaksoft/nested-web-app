@@ -95,10 +95,10 @@
 
     UserFactory.prototype.getTinySafe = function (id) {
       var service = this;
-      return $q(function (resolve, reject) {
+      return $q(function (resolve) {
         service.getTiny(id).then(function (place) {
           resolve(place);
-        }).catch(function (error) {
+        }).catch(function () {
           resolve({id: id});
         });
       });

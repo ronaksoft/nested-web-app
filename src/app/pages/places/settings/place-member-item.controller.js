@@ -18,13 +18,6 @@
 
     function promote() {
 
-      if (!vm.member.isPending || !vm.place){
-        $scope.$emit('member-promoted', {
-          member : vm.member
-        });
-        return;
-      }
-
       NstSvcPlaceFactory.promoteMember(vm.place.id, vm.member.id).then(function (result) {
         vm.place.counters.creators++;
         $scope.$emit('member-promoted', {

@@ -5,7 +5,7 @@
     .module('ronak.nested.web.common')
     .factory('NstBaseFactory', NstBaseFactory);
 
-  function NstBaseFactory(NstObservableObject, $q, NstSvcLogger) {
+  function NstBaseFactory(_, NstObservableObject, $q) {
     function BaseFactory() {
 
 

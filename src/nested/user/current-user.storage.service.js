@@ -5,7 +5,7 @@
     .service('NstSvcCurrentUserStorage', NstSvcCurrentUserStorage);
 
   /** @ngInject */
-  function NstSvcCurrentUserStorage(NST_STORAGE_TYPE, NstStorage, NstPicture, NstTinyUser) {
+  function NstSvcCurrentUserStorage(_, NST_STORAGE_TYPE, NstStorage, NstPicture, NstTinyUser) {
     function CurrentUserStorage(memory) {
       NstStorage.call(this, memory, 'current-user');
     }
@@ -48,15 +48,13 @@
       tinyUser.firstName = userObject.firstName;
       tinyUser.lastName = userObject.lastName;
       tinyUser.fullName = tinyUser.getFullName();
-
-      if (userObject.picture && userObject.preview) {
-        tinyUser.picture = new NstPicture({
-          original: userObject.picture.original,
-          preview: userObject.picture.preview,
-          x128: userObject.picture.x128,
-          x64: userObject.picture.x64,
-          x32: userObject.picture.x32
-        });
+      if (userObject.picture && userObject.picture.preview) {
+        tinyUser.picture = new NstPicture();
+        tinyUser.picture.original = userObject.picture.original;
+        tinyUser.picture.preview = userObject.picture.preview;
+        tinyUser.picture.x128 = userObject.picture.x128;
+        tinyUser.picture.x64 = userObject.picture.x64;
+        tinyUser.picture.x32 = userObject.picture.x32;
       }
 
       return tinyUser;

@@ -355,7 +355,7 @@
           items : []
         };
 
-        if (activity.type = NST_EVENT_ACTION.POST_ADD){
+        if (activity.type == NST_EVENT_ACTION.POST_ADD){
           if(activityBelongsToPlace(activity)){
             vm.activities.unshift(today);
           }

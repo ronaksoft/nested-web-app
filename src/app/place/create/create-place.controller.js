@@ -90,13 +90,21 @@
         vm.place.parentId = null;
       }
       vm.isCreateGrandPlaceMode = !vm.hasParentPlace;
-      setReceivingEveryone();
+
+
+      vm.addPostLevel = NST_PLACE_POLICY_OPTION.MANAGERS;
+      vm.addPlaceLevel = NST_PLACE_POLICY_OPTION.MANAGERS;
+      vm.addMemberLevel = NST_PLACE_POLICY_OPTION.MANAGERS;
+
 
       if ($stateParams.isOpenPlace) {
         vm.isOpenPlace = true;
         vm.isClosedPlace = false;
+        vm.addPostLevel = NST_PLACE_POLICY_OPTION.MEMBERS;
+        setReceivingMembers();
         setPlaceOpen();
       } else {
+        setReceivingEveryone();
         vm.isOpenPlace = false;
         vm.isClosedPlace = true;
       }
@@ -113,9 +121,6 @@
       }
 
 
-      vm.addPostLevel = NST_PLACE_POLICY_OPTION.MANAGERS;
-      vm.addPlaceLevel = NST_PLACE_POLICY_OPTION.MANAGERS;
-      vm.addMemberLevel = NST_PLACE_POLICY_OPTION.MANAGERS;
 
       vm.teammates.push(new NstVmMemberItem(NstSvcUserFactory.currentUser, NST_PLACE_MEMBER_TYPE.KEY_HOLDER));
 

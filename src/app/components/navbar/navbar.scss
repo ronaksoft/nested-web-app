@@ -486,7 +486,7 @@ nst-navbar {
       .cp-illu {
         width: 308px;
         display: flex;
-        //flex: none;
+        flex: none;
       }
     }
   }
@@ -637,6 +637,8 @@ nst-navbar {
       }
       .bot-nav {
         height: 42px;
+        overflow: hidden;
+
       }
     }
     .menu-links-butn {
@@ -649,6 +651,7 @@ nst-navbar {
     .content {
       .bot-nav {
         height: 100%;
+        overflow: hidden;
       }
     }
   }

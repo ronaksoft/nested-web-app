@@ -16,7 +16,8 @@
           hasRemoveAccess: '=',
           member: '=',
           role: '=',
-          onSelect: '='
+          onSelect: '=',
+          disablePromotion: '='
         },
         link: function (scope, element, attrs) {
           scope.mode = attrs.mode;

@@ -75,13 +75,14 @@ body.modal-open {
   height: auto;
   max-width: 100%;
   .butn-green {
-    padding: 0 16px;
     margin: 0;
     position: relative;
     //right: 20px;
-    width: auto;
-    line-height: 32px;
+    width: 104px;
     height: 32px;
+    span {
+      //line-height: 32px;
+    }
   }
   input.ui-select-search {
     margin-bottom: 6px;
@@ -152,6 +153,7 @@ body.modal-open {
   a{
     font-weight: bold;
     color: $color-solid;
+    user-select: all;
   }
   .small{
     font-weight: 100;
@@ -503,7 +505,6 @@ body.modal-open {
       margin: 10px 0 8px 0;
       border-bottom: 1px solid $color-black004;
       align-items: center;
-      direction: ltr;
       input {
         box-shadow: none;
         border: none;

@@ -5,7 +5,9 @@
     .service('NstSvcConnectionMonitor', NstSvcConnectionMonitor);
 
   /**@Inject */
-  function NstSvcConnectionMonitor($timeout, NstSvcLogger, NstUtility, NstSvcWS, NstSvcPingPong, NST_WEBSOCKET_STATE) {
+  function NstSvcConnectionMonitor($timeout, _,
+    NstSvcLogger, NstUtility, NstSvcWS, NstSvcPingPong,
+    NST_WEBSOCKET_STATE) {
 
     var defaultRetryStartTime = 0;
 
