@@ -1,0 +1,63 @@
+<div class="nst-content second-view" id="content-wrapper">
+  <section class="content">
+    <div class="panel-profile-menu">
+      <h5><translate>Account Settings</translate></h5>
+      <a ui-sref-active="active" ui-sref="app.settings.profile">
+        <svg class="_16svg">
+          <use xlink:href="/assets/icons/nst-icn16.svg#person"></use>
+        </svg>
+        <translate>Profile</translate>
+      </a>
+      <a ui-sref-active="active" ui-sref="app.settings.password">
+        <svg class="_16svg">
+          <use xlink:href="/assets/icons/nst-icn16.svg#lock"></use>
+        </svg>
+        <translate>Password</translate>
+      </a>
+      <!-- <a ui-sref-active="active" ui-sref="app.settings.sessions">
+        <svg class="_16svg">
+          <use xlink:href="/assets/icons/nst-icn16.svg#device-phone"></use>
+        </svg>
+        <translate>Sessions</translate>
+      </a> -->
+      <h5><translate>WebApp Prefrences</translate></h5>
+      <!-- <a ui-sref-active="active" ui-sref="app.settings.notification">
+        <svg class="_16svg">
+          <use xlink:href="/assets/icons/nst-icn16.svg#bell"></use>
+        </svg>
+        <translate>Desktop Notification</translate>
+      </a> -->
+      <a ui-sref-active="active" ui-sref="app.settings.language">
+        <svg class="_16svg">
+          <use xlink:href="/assets/icons/nst-icn16.svg#earth"></use>
+        </svg>
+        <translate>Language</translate>
+      </a>
+
+    </div>
+    <div class="panel-profile-setting" ui-view>
+    </div>
+  </section>
+</div>
+<div class="post-navbar">
+  <div class="nst-content second-view">
+    <div class="content">
+      <div class="_40svg _df _fn _asc cursor-pointer" id="Logo" ui-sref="app.messages-favorites()">
+      </div>
+      <div class="_df _fw"></div>
+      <div class="_df _fn profile-popover _fh _aic">
+        <div class="user-avatar-32">
+          <img initial-avatar="{{ctrl.user.fullName}}" picture="{{ctrl.user | avatar}}" data-width="32" data-height="32" data-radius="16" class="account-initials-32" data-word-count="2" data-font-size="12"/>
+        </div>
+        {{ctrl.user.fullName}}
+
+        <svg class="_16svg" data-uib-popover-template="'app/settings/profile/profile-popover.html'"
+             data-popover-placement="bottom auto"
+             data-popover-class="pop-white pop-profile edit-pop-profile"
+             data-popover-append-to-body="true">
+          <use xlink:href="/assets/icons/nst-icn16.svg#arrow"></use>
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>

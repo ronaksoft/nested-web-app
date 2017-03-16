@@ -5,8 +5,9 @@
     .module('ronak.nested.web.components.attachment')
     .controller('AttachmentsViewController', AttachmentsViewController);
 
-  function AttachmentsViewController($uibModal, NstSvcPostFactory, NstVmFileViewerItem) {
+  function AttachmentsViewController($scope, $uibModal, NstSvcPostFactory, NstVmFileViewerItem) {
     var vm = this;
+    var eventReferences = [];
 
     /*****************************
      *** Controller Properties ***
@@ -15,16 +16,14 @@
     /*****************************
      ***** Controller Methods ****
      *****************************/
+
      function mapToFileViewerItem(model) {
        return new NstVmFileViewerItem(model);
      }
 
     vm.open = function (vmAttachment, vmAttachments) {
 
-      if(vm.postId)
-        NstSvcPostFactory.read([vm.postId]).then(function (result) {
-        }).catch(function (err) {
-        });
+      eventReferences.push($scope.$emit('post-attachment-viewed', { postId : vm.postId }));
 
       var modal = $uibModal.open({
         animation: false,
@@ -51,28 +50,13 @@
       return modal.result;
     };
 
-    /*****************************
-     *****  Controller Logic  ****
-     *****************************/
+    $scope.$on('$destroy', function () {
+      _.forEach(eventReferences, function (cenceler) {
+        if (_.isFunction(cenceler)) {
+          cenceler();
+        }
+      });
+    });
 
-    /*****************************
-     *****   Request Methods  ****
-     *****************************/
-
-    /*****************************
-     *****     Map Methods    ****
-     *****************************/
-
-    /*****************************
-     *****    Push Methods    ****
-     *****************************/
-
-    /*****************************
-     *****  Event Listeners   ****
-     *****************************/
-
-    /*****************************
-     *****   Other Methods    ****
-     *****************************/
   }
 })();

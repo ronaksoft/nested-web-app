@@ -8,9 +8,12 @@
   /** @ngInject */
   function MiniNavbarController($q, $state, $stateParams, $uibModal, $scope,
                                 NST_AUTH_EVENT, NST_DEFAULT,
-                                NstSvcLoader, NstSvcAuth, NstSvcPlaceFactory, NstSvcInvitationFactory,
+                                NstSvcAuth, NstSvcPlaceFactory, NstSvcInvitationFactory,
                                 NstVmUser, NstVmPlace, NstVmInvitation) {
     var vm = this;
+    vm.mentionOpen = false;
+
+
     // $scope.$watch('place', function (newValue, oldValue) {
     //   // if (oldValue !== newValue) {
     //   //   vm.place = newValue;
@@ -42,6 +45,10 @@
       }
 
       return seq;
+    };
+    vm.compose = function ($event) {
+      $event.preventDefault();
+      $state.go('app.compose', {}, {notify: false});
     };
 
     vm.invitation.accept = function (id) {
@@ -93,7 +100,7 @@
 
     vm.getPlacePicture = function () {
       if (vm.hasPlace()){
-        return $scope.place.picture.thumbnails.x64.url.view;
+        return $scope.place.picture.thumbnails.x128.url.view;
       } else {
         return '';
       }
@@ -119,7 +126,7 @@
      *****************************/
 
     function getUnfilteredState() {
-      var state = 'app.messages';
+      var state = 'app.messages-favorites';
       switch ($state.current.name) {
         case 'app.activity':
         case 'app.activity-favorites':
@@ -192,24 +199,24 @@
      *****************************/
 
     function getUser() {
-      return NstSvcLoader.inject($q(function (res) {
+      return $q(function (res) {
         if (NstSvcAuth.isAuthorized()) {
-          res(NstSvcAuth.getUser());
+          res(NstSvcAuth.user);
         } else {
           NstSvcAuth.addEventListener(NST_AUTH_EVENT.AUTHORIZE, function () {
-            res(NstSvcAuth.getUser());
+            res(NstSvcAuth.user);
           });
         }
 
-      }));
+      });
     }
 
     function getMyPlaces() {
-      return NstSvcLoader.inject(NstSvcPlaceFactory.getMyTinyPlaces());
+      return NstSvcPlaceFactory.getMyTinyPlaces();
     }
 
     function getInvitations() {
-      return NstSvcLoader.inject(NstSvcInvitationFactory.getAll());
+      return NstSvcInvitationFactory.getAll();
     }
 
     /*****************************
@@ -274,7 +281,8 @@
         subplaceAdd: $state.href(getPlaceAddState(), {placeId: vm.stateParams.placeId || NST_DEFAULT.STATE_PARAM})
       };
 
-      mapPlacesUrl(vm.places);
+      if (vm.places)
+        mapPlacesUrl(vm.places);
     }
 
     function mapPlacesUrl(places) {

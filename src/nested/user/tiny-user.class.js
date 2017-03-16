@@ -5,7 +5,7 @@
     .module('ronak.nested.web.models')
     .factory('NstTinyUser', NstTinyUser);
 
-  function NstTinyUser(NST_OBJECT_EVENT, NstModel, NstStoreResource, NstPicture) {
+  function NstTinyUser(_) {
     /**
      * Creates an instance of NstTinyUser. Do not use this directly, use NstSvcUserFactory.getTiny(data) instead
      *
@@ -47,62 +47,35 @@
        *
        * @type {undefined|NstPicture}
        */
-      this.picture = new NstPicture();
-
-      NstModel.call(this);
-
-      this.addEventListener(NST_OBJECT_EVENT.CHANGE, function (event) {
-        switch (event.detail.name) {
-          case 'firstName':
-          case 'lastName':
-            this.setFullName(this.getFirstName() + ' ' + this.getLastName());
-            break;
-        }
-      });
+      this.picture = undefined;
 
       if (data) {
-        this.fill(data);
+        this.id = data.id;
+        this.firstName = data.firstName;
+        this.lastName = data.lastName;
+        this.fullName = _.isFunction(data, "getFullName")
+          ? data.data.getFullName()
+          : this.firstName + " " + this.lastName;
+        this.picture = data.picture;
       }
     }
 
-    TinyUser.prototype = new NstModel();
+    TinyUser.prototype = {};
     TinyUser.prototype.constructor = TinyUser;
 
-    TinyUser.prototype.setFname = function (fname) {
-      return this.setFirstName(fname);
-    };
+    TinyUser.prototype.hasPicture = function () {
+      return this.picture && this.picture.preview;
+    }
 
-    TinyUser.prototype.setLname = function (lname) {
-      return this.setLastName(lname);
-    };
+    TinyUser.prototype.clearPicture = function () {
+      this.picture = null;
+    }
 
-    TinyUser.prototype.setPicture = function (picture) {
-      var oldValue = this.picture;
+    TinyUser.prototype.getFullName = function () {
+      return this.firstName + " " + this.lastName;
+    }
 
-      if (picture instanceof NstPicture) {
-        this.picture = picture;
-      } else if (angular.isObject(picture)) {
-        this.picture.setId(picture.org);
-        var pictureClone = angular.copy(picture);
-        delete pictureClone.org;
 
-        for (var size in pictureClone) {
-          this.picture.setThumbnail(size, new NstStoreResource(pictureClone[size]));
-        }
-      } else {
-        return;
-      }
-
-      var event = new CustomEvent(NST_OBJECT_EVENT.CHANGE, {
-        detail: {
-          name: 'picture',
-          newValue: this.picture,
-          oldValue: oldValue,
-          target: this
-        }
-      });
-      this.dispatchEvent(event);
-    };
 
     return TinyUser;
   }

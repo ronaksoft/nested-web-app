@@ -1,4 +1,4 @@
-@media screen and (max-width: $screen-sm) {
+body.isMobile {
   #PostView {
     .post-nav-top{
       flex-direction: column-reverse;
@@ -69,7 +69,7 @@
     }
   }
 }
-@media screen and (min-width: $screen-sm) {
+body.isDesktop {
   #PostView {
     .post-nav-top{
       flex-direction: row;

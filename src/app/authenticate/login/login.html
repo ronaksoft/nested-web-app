@@ -3,34 +3,35 @@
     <div id="panel-signin" class="panel">
       <div class="panel-heading">
         <div class="row nst-vb">
-          <p class="nst-font-xlarge _hf">Sign in</p>
-          <p class="text-right nst-mood-calm nst-font-small" style="width: 60%">or <a ui-sref="public.register">Create an account</a></p>
+          <p class="nst-font-xlarge _hf"><translate>Sign in</translate></p>
+          <p class="text-right nst-mood-calm nst-font-small" style="width: 60%"><translate>or</translate> <a ui-sref="public.register"><translate>Create an account</translate></a></p>
         </div>
       </div>
       <div  class="panel-body">
-        <form accept-charset="UTF-8" role="form" data-ng-submit="ctlLogin.auth()">
+        <form accept-charset="UTF-8" name="loginForm" data-ng-submit="submitted = true; ctlLogin.auth(loginForm.$valid)" novalidate>
           <fieldset>
-            <div class="form-group">
+            <div class="form-group" ng-class="{ 'has-error' : loginForm.username.$error.required && submitted}">
               <input type="text" class="form-control" placeholder="Username" name="username"
-                     data-ng-model="ctlLogin.username"/>
+                     data-ng-model="ctlLogin.username" translate-attrs="placeholder" required/>
             </div>
 
-            <div class="form-group has-feedback" data-ng-model="show">
-              <input class="form-control ng-pristine ng-untouched ng-valid" data-ng-model="ctlLogin.password" placeholder="Password" name="password" data-ng-init="show = true" type="{{show ? 'password' : 'text'}}"/>
+            <div class="form-group has-feedback" ng-class="{ 'has-error' : loginForm.password.$error.required && submitted }" data-ng-model="show">
+              <input class="form-control" data-ng-model="ctlLogin.password" placeholder="Password" translate-attrs="placeholder" name="password" data-ng-init="show = true" type="{{show ? 'password' : 'text'}}" required/>
               <i class="nst-ico-eye-slash form-control-feedback {{show ? 'nst-ico-eye-slash' : 'nst-ico-eye'}}" data-ng-click="show = !show"></i>
             </div>
 
             <div class="form-group">
-              <input data-ng-disabled="ctlLogin.progress" class="butn-green butn-lg butn-login" value="Sign in" type="submit"/>
+              <input ng-if="!ctlLogin.progress" class="butn-green butn-lg butn-login" value="Sign in" type="submit" translate-attrs="value"/>
+              <input ng-if="ctlLogin.progress" class="butn-green butn-lg butn-login" value="Wait..." type="button" translate-attrs="value" disabled/>
             </div>
 
             <div class="row nst-vb">
               <div class="text-left _hf">
                 <input type="checkbox" id="remember" name="remember" value="remember"
                        data-ng-model="ctlLogin.remember"/>
-                <label for="remember">Stay signed in</label>
+                <label for="remember"><translate>Stay signed in</translate></label>
               </div>
-              <a class="_hf text-right nst-mood-cheerful " href="#/recover">Forgot Password?</a>
+              <a class="_hf text-right nst-mood-cheerful " ui-sref="public.recover-password"><translate>Forgot Password?</translate></a>
             </div>
           </fieldset>
         </form>

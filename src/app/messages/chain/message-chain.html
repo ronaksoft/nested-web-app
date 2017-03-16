@@ -1,15 +1,15 @@
 <nst-navbar data-ng-model="navbar"
             place-id="{{::ctlChain.currentPlace.id}}"
             nav-title="{{ctlChain.currentPlace.id?ctlChain.currentPlace.name: ctlChain.navTitle}}"
-            nav-picture-url="{{ctlChain.currentPlace.id ? ctlChain.currentPlace.picture.thumbnails.x64.url.view : '' }}"
+            nav-picture-url="{{ctlChain.currentPlace.id ? ctlChain.currentPlace.picture.thumbnails.x128.url.view : '' }}"
             nav-picture-class="{{ !ctlChain.currentPlace.id? ctlChain.navIconClass : '' }}"
-            ready-to-show="ctlChain.currentPlaceLoaded" page="ctlApp.page"></nst-navbar>
+            ready-to-show="ctlChain.currentPlaceLoaded"></nst-navbar>
 
 <div class="nst-content _tr" id="content-wrapper">
   <section class="content nst-marginbtm-28">
     <div class="navbarillu"></div>
     <div class="filter-bar _fw" ng-mouseleave="popoverSortShow = false;popoverSetShow = false">
-      <div ng-mouseenter="popoverSetShow = true;popoverSortShow = false"  class="iconsblock popover-white-nst-setting" uib-popover-template="'app/messages/partials/popovers/setting_popover.html'" data-popover-placement="bottom-center" popover-trigger="outsideClick" popover-is-open="popoverSetShow" ng-init="ctl = ctlChain">
+      <div ng-mouseenter="popoverSetShow = true;popoverSortShow = false"  class="iconsblock" data-popover-class="white-pop popover-white-nst-setting" uib-popover-template="'app/messages/partials/popovers/setting_popover.html'" data-popover-placement="bottom-center" popover-trigger="outsideClick" popover-is-open="popoverSetShow" ng-init="ctl = ctlChain">
         <div class="icon icon-viewicon- "></div>
       </div>
     </div>

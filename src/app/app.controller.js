@@ -7,15 +7,20 @@
 
   /** @ngInject */
   function AppController($q, $scope, $window, $rootScope, $timeout, $state, $stateParams, $uibModalStack, $interval, $log, $injector,
-                         hotkeys,
-                         NST_CONFIG, NST_UNREGISTER_REASON, NST_PUBLIC_STATE, NST_DEFAULT, NST_PAGE, NST_SRV_ERROR, NST_AUTH_EVENT, NST_SRV_EVENT, NST_PLACE_ACCESS,
-                         NstSvcServer, NstSvcAuth, NstFactoryError, NstSvcLogger, NstSvcModal,
+                         hotkeys, deviceDetector, NstSvcInteractionTracker,
+                         NST_DEFAULT, NST_AUTH_EVENT, NST_SRV_EVENT, NST_NOTIFICATION_FACTORY_EVENT,
+                         NstSvcServer, NstSvcAuth, NstSvcLogger, NstSvcI18n, NstSvcNotification, NstSvcNotificationFactory,
                          NstObject) {
     var vm = this;
 
     vm.loginView = true;
+    $rootScope.cardCtrls = [];
+    $rootScope.staticNav = true;
     vm.showLoadingScreen = true;
-
+    $rootScope.topNavOpen = false;
+    $rootScope._direction = NstSvcI18n.getLocale()._direction || "ltr";
+    $rootScope.deviceDetector = deviceDetector;
+    $rootScope._track = trackBehaviour;
 
 
     NstSvcServer.addEventListener(NST_SRV_EVENT.DISCONNECT, function (msg) {
@@ -23,6 +28,7 @@
     });
     NstSvcServer.addEventListener(NST_SRV_EVENT.CONNECT, function (msg) {
       vm.disconnected = false;
+      vm.showLoadingScreen = false;
     });
     NstSvcServer.addEventListener(NST_SRV_EVENT.UNINITIALIZE, function (msg) {
       vm.disconnected = true;
@@ -30,274 +36,94 @@
     NstSvcServer.addEventListener(NST_SRV_EVENT.INITIALIZE, function () {
       // Hide and remove initial loading
       // this is placed here to make sure the WS has been connected
-      $timeout(function () {
-        vm.showLoadingScreen = false;
-      }, 2000);
-
-
       vm.disconnected = false;
 
+    });
+
+    $scope.$on('show-loading', function () {
+      vm.showLoadingScreen = true;
+    });
+    $scope.$on('collapse-sidebar', function () {
+      vm.viewSettings.sidebar.collapsed = !vm.viewSettings.sidebar.collapsed
+    });
+
+    $scope.$watch(function () {
+      return vm.viewSettings.sidebar.collapsed
+    }, function () {
+      var tooltip = $('body').find('.tooltip');
+      if (tooltip.is(":visible")) {
+        tooltip.first().hide()
+      } else {
+        tooltip.first().show()
+
+      }
     });
 
 
     // calls $digest every 1 sec to update elapsed times.
     $interval(function () {
-      NstSvcLogger.info('AppController calls $digest to update passed times every 1 min.');
+      NstSvcLogger.debug('AppController calls $digest to update passed times every 1 min.');
     }, 60 * 1000);
-
-
-    /*****************************
-     *****   Manage Ui View   ****
-     *****************************/
-
-
-    // NstSvcAuth.addEventListener(NST_AUTH_EVENT.UNAUTHORIZE, function (event) {
-    //   var reason = event.detail.reason;
-    //   if (NST_UNREGISTER_REASON.DISCONNECT !== reason) {
-    //     getValidState($state.current, $state.params);
-    //   }
-    // });
-
-    // NstSvcAuth.addEventListener(NST_AUTH_EVENT.AUTHORIZE, function (event) {
-    //   getValidState($state.current, $state.params);
-    // });
-
-
-    /*****************************
-     ********* Hotkeys ***********
-     *****************************/
-
-    hotkeys.add({
-      combo: 'c',
-      description: 'compose state',
-      callback: function () {
-        $state.go('app.place-compose');
-      }
-    });
-    /*****************************
-     *** Controller Properties ***
-     *****************************/
 
     vm.viewSettings = {
       sidebar: {collapsed: true},
       navbar: {collapsed: false}
     };
 
-    vm.page = getActivePages($state.current, $state.params);
-
-    /*****************************
-     ***** Controller Methods ****
-     *****************************/
-
     $rootScope.navView = false;
-
-
-
-    /*****************************
-     *****  Controller Logic  ****
-     *****************************/
-
-    (function () {
-      if ($state.current.name === "") {
-        return;
-      }
-      var validState = getValidState($state.current, $stateParams);
-      if ($state.current.name != validState.name) {
-        $state.go(validState.name, validState.params);
-      }
-    })();
-
-    /*****************************
-     *****    State Methods   ****
-     *****************************/
-
-    function getValidState(toState, toParams) {
-      var toPublicState = NST_PUBLIC_STATE.indexOf(toState.name) > -1;
-
-
-      if (NstSvcAuth.isInAuthorization()) {
-        if (toPublicState) {
-          vm.loginView = true;
-          return {
-            name: NST_DEFAULT.STATE,
-            params: {}
-          };
-        }
-      } else if (!toPublicState) {
-        vm.loginView = false;
-        if (toState.name) {
-          return {
-            name: 'public.signin-back',
-            params: {
-              back: $window.encodeURIComponent(angular.toJson({
-                name: toState.name,
-                params: toParams
-              }))
-            }
-          };
-        } else {
-
-          vm.loginView = true;
-          return {
-            name: 'signin',
-            params: {}
-          };
-        }
-      }
-
-      return {
-        name: toState.name,
-        params: toParams
-      };
-    }
-
-    function getActivePages(state, params, previousState, previousParams) {
-
-      if(params && params.placeId){
-        vm.viewSettings.sidebar.collapsed = false;
-      }else {
-        vm.viewSettings.sidebar.collapsed = true;
-      }
-
-      var pages = Object.keys(NST_PAGE);
-      var page = {
-        state: {
-          current: {
-            name: state.name,
-            params: params,
-            url: $state.href(state.name, params)
-          },
-          previous: {
-            name: state.name,
-            params: params,
-            url: $state.href(state.name, params)
-          }
-        }
-      };
-
-      if (previousState) {
-        page.state.previous = {
-          name: previousState.name,
-          params: previousParams,
-          url: $state.href(previousState.name, previousParams)
-        };
-      }
-
-      for (var k in pages) {
-        var isActive = NST_PAGE[pages[k]].indexOf(state.name) > -1;
-        if (previousState) {
-          var wasActive = NST_PAGE[pages[k]].indexOf(page.state.previous.name) > -1;
-
-          if (wasActive) {
-            page.state.previous.group = pages[k];
-          }
-        }
-
-        page['is' + capitalCase(pages[k])] = isActive;
-        if (isActive) {
-          page.state.current.group = pages[k];
-        }
-      }
-
-      return page;
-    }
-
-    function capitalCase(name) {
-      return _.join(_.map(_.split(name, '_'), _.capitalize),'');
-    }
-
-    /*****************************
-     *****  Event Listeners   ****
-     *****************************/
 
     NstSvcAuth.addEventListener(NST_AUTH_EVENT.AUTHORIZE_FAIL, function () {
 
-      if (-1 == NST_PAGE.SIGNIN.indexOf($state.current.name)) {
-        var validState = getValidState($state.current, $state.params);
-        $state.go(validState.name, validState.params);
-      }
-
-    });
-
-    $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
-      $uibModalStack.dismissAll();
-      var validState = getValidState(toState, toParams);
-      if (toState.name != validState.name) {
-        $rootScope.$broadcast('$stateChangeError');
-        event.preventDefault();
-        $state.go(validState.name, validState.params);
-      }
-    });
-
-    if ($injector.has('NstSvcPlaceFactory')){
-      var NstSvcPlaceFactory = $injector.get('NstSvcPlaceFactory');
-      $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-        if (toParams.placeId && NST_DEFAULT.STATE_PARAM != toParams.placeId) {
-
-          NstSvcPlaceFactory.get(toParams.placeId).then(function (place) {
-            return NstSvcPlaceFactory.hasAccess(toParams.placeId, NST_PLACE_ACCESS.READ).then(function (has) {
-              return $q(function (res, rej) {
-                if (!has) {
-                  rej(new NstFactoryError(null, "", NST_SRV_ERROR.ACCESS_DENIED));
-                }
-              });
-            });
-          }).catch(function (error) {
-            if (error.getCode() === NST_SRV_ERROR.UNAVAILABLE) {
-              NstSvcModal.error('Does not exist!', 'We are sorry, but the place you are looking for can not be found!').catch(function () {
-                // This handles dismissed modal
-                return $q(function (res) {
-                  res(false);
-                });
-              }).then(function () {
-                if (fromState.name) {
-                  $state.go(fromState.name, fromParams);
-                } else {
-                  $state.go(NST_DEFAULT.STATE);
-                }
-              });
-            } else if (error.getCode() === NST_SRV_ERROR.ACCESS_DENIED) {
-              NstSvcModal.error('Access denied', 'You don\'t have access permissions for this Place.').catch(function () {
-                // This handles dismissed modal
-                return $q(function (res) {
-                  res(false);
-                });
-              }).then(function () {
-                if (fromState.name) {
-                  $state.go(fromState.name, fromParams);
-                } else {
-                  $state.go(NST_DEFAULT.STATE);
-                }
-              });
-            }
-          });
-        }
-      });
-    }
-
-    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-      // console.log('changed');
-      // keepState(toState, toParams);
-      // console.log('changed', $rootScope.stateHistory);
-      vm.page = getActivePages(toState, toParams, fromState, fromParams);
-      //FIXMS:: check public pages in getValidState function
-      if (NST_PAGE.SIGNIN.concat(NST_PAGE.REGISTER.concat(NST_PAGE.RECOVER)).indexOf(toState.name) > -1) {
-        vm.loginView = true;
-      }else{
-        vm.loginView = false;
-      }
-    });
-
-    function keepState(state, params) {
-      // clear all tracked states if the route is primary
-      // if (state.options && state.options.primary) {
-      //   $rootScope.stateHistory.length = 0;
+      // if (-1 == NST_PAGE.SIGNIN.indexOf($state.current.name)) {
+      //   var validState = getValidState($state.current, $state.params);
+      //   $state.go(validState.name, validState.params);
       // }
 
-      $rootScope.stateHistory.push({
-        state : state,
-        params : params
-      });
+    });
+
+
+    var NstSvcPlaceFactory = null;
+    if ($injector.has('NstSvcPlaceFactory')) {
+      NstSvcPlaceFactory = $injector.get('NstSvcPlaceFactory');
+    }
+
+
+    toggleSidebar($state.current, $state.params);
+
+    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+      toggleSidebar(toState, toParams);
+    });
+
+    function toggleSidebar(state, params) {
+      if (state.options && state.options && state.options.fullscreen) {
+        vm.viewSettings.sidebar.hidden = true;
+      } else if (params && params.placeId) {
+        vm.viewSettings.sidebar.hidden = false;
+        vm.viewSettings.sidebar.collapsed = false;
+      } else {
+        vm.viewSettings.sidebar.hidden = false;
+        vm.viewSettings.sidebar.collapsed = true;
+      }
+    }
+
+    checkToBeAuthenticated($state.current, $stateParams);
+    $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
+      checkToBeAuthenticated(toState, toParams, event);
+      scrollTopBody();
+    });
+
+    function scrollTopBody() {
+      $window.scrollTo(0, 0);
+    }
+
+    function checkToBeAuthenticated(state, stateParams, event) {
+      if (!NstSvcAuth.isInAuthorization() && _.startsWith(state.name, "app.")) {
+        if (event) {
+          event.preventDefault();
+        }
+
+        $state.go('public.signin-back', { back: $window.encodeURIComponent($state.href(state.name, stateParams)) });
+      }
     }
 
     function restoreLastState() {
@@ -313,23 +139,75 @@
 
       // return the default state if could not find any primary route
       return {
-        default : true,
-        state : $state.get(NST_DEFAULT.STATE),
-        params : {}
+        default: true,
+        state: $state.get(NST_DEFAULT.STATE),
+        params: {}
       };
     }
 
     $rootScope.goToLastState = function (disableNotify, defaultState) {
       var previous = defaultState || restoreLastState();
 
-      if (disableNotify && !previous.default){
-        $state.go(previous.state.name, previous.params, {notify : false});
+      if (disableNotify && !previous.default) {
+        $state.go(previous.state.name, previous.params, {notify: false});
       } else {
         $state.go(previous.state.name, previous.params);
       }
 
+    };
+
+
+    NstSvcAuth.addEventListener(NST_AUTH_EVENT.AUTHORIZE_FAIL, function () {
+      $state.go('public.signin');
+    });
+
+    //Handle all mailto links
+    $(window).on('click', function (event) {
+      if (!$(event.target).is('a[href^="mailto"]')) {
+        return;
+      }
+
+      var addr = $(event.target).attr('href').substr(7);
+      //TODO:: check domain base on config
+      if (
+        addr.split('@')[1] &&
+        (addr.split('@')[1] === 'nested.me' || addr.split('@')[1] === 'nested.ronaksoftware.com')) {
+        addr = addr.split('@')[0];
+      }
+
+      $state.go('app.place-compose', {placeId: addr}, {notify: false});
+      // Both are needed to avoid triggering other event handlers
+      event.stopPropagation();
+      event.preventDefault();
+    });
+
+    function trackBehaviour(category, behaviour, value) {
+      NstSvcInteractionTracker.trackEvent(category, behaviour, value);
     }
 
+    // Listen to notification behavior
+
+    function viewPost(postId) {
+      $state.go('app.message', {postId: postId}, {notify: false});
+    }
+
+    function openPlace(placeId) {
+      $state.go('app.place-messages', {placeId: placeId});
+    }
+
+
+    //Receive and handle new external push notification after user click on desktop notification
+    NstSvcNotification.addEventListener(NST_NOTIFICATION_FACTORY_EVENT.EXTERNAL_PUSH_ACTION, function (event) {
+      switch (event.detail.action) {
+        case NST_NOTIFICATION_FACTORY_EVENT.OPEN_PLACE:
+          openPlace(event.detail.placeId);
+          break;
+        case NST_NOTIFICATION_FACTORY_EVENT.OPEN_POST_VIEW:
+          viewPost(event.detail.postId);
+          break;
+      }
+      NstSvcNotificationFactory.markAsSeen(event.detail.notificationId)
+    })
 
 
   }

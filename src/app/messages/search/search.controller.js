@@ -6,7 +6,7 @@
     .controller('SearchController', SearchController);
 
   /** @ngInject */
-  function SearchController($rootScope, $log, $stateParams, $state, $timeout,
+  function SearchController($rootScope, $log, $stateParams, $state,
                             NST_DEFAULT, NstSvcPostFactory, NstSvcPostMap, NstSvcServer, NstSvcAuth,
                             NstSearchQuery) {
     var vm = this;
@@ -24,17 +24,6 @@
       comments: false,
     };
 
-
-    vm.suggestedItems = [{
-      type : 'user',
-      name : 'Foo',
-      id : 'foo'
-    },
-    {
-      type : 'account',
-      name : 'Bar',
-      id : 'bar'
-    }];
 
     vm.search = search;
     vm.loadMore = loadMore;
@@ -56,19 +45,16 @@
      * @param  {Event} event keypress event handler
      * @return {bool}        true if the pressed key is Enter
      */
-    function sendKeyIsPressed(event) {
-      return 13 === event.keyCode && !(event.shiftKey || event.ctrlKey);
+    function sendKeyIsPressed(e) {
+      return 13 === e.keyCode && !(e.shiftKey || e.ctrlKey);
     }
 
     function searchOnEnterKeyPressed(e, queryString) {
 
-      var element = angular.element(event.target);
-      if (!queryString || !sendKeyIsPressed(event) || element.attr("mention") === "true") {
+      var element = angular.element(e.target);
+      if (!queryString || !sendKeyIsPressed(e) || element.attr("mention") === "true") {
         return;
       }
-      // if (!sendKeyIsPressed(e) || !queryString) {
-      //   return;
-      // }
 
       search(queryString);
     }
@@ -101,7 +87,7 @@
         });
 
         vm.noResult = vm.messages.length === 0;
-        vm.reachedTheEnd = olderMessages.length > 0 && olderMessages.length < limit;
+        vm.reachedTheEnd = olderMessages.length < limit;
 
         vm.loading = false;
 
@@ -113,6 +99,10 @@
     }
 
     function loadMore() {
+      if (vm.reachedTheEnd) {
+        return;
+      }
+      
       skip = vm.messages.length;
       searchMessages(vm.queryString);
     }
@@ -125,13 +115,13 @@
       }
     }
 
-    $(window).scroll(function (event) {
-      var element = event.currentTarget;
-      if (element.pageYOffset + element.innerHeight === $('body').height()) {
-        $log.debug("load more");
-        vm.loadMore();
-      }
-    });
+    // $(window).scroll(function (e) {
+    //   var element = e.currentTarget;
+    //   if (element.pageYOffset + element.innerHeight === $('body').height()) {
+    //     $log.debug("load more");
+    //     vm.loadMore();
+    //   }
+    // });
   }
 
 })();

@@ -12,7 +12,8 @@
       restrict: 'E',
       templateUrl: 'app/components/country-select/country-select.html',
       scope: {
-        selectedCountryCode: '='
+        selectedCountryCode: '=',
+        autoLocate: '='
       },
       link: function($scope, $element, $attrs) {
         $scope.countries = _.map(NST_COUNTRIES_ATLAS, function(country) {
@@ -49,7 +50,8 @@
           setSelectedCountryById($attrs.initialCountry);
         }
 
-        if (_.has($attrs, 'autoLocate')) {
+        
+        if ($scope.autoLocate) {
           geoIpLookup(function(id) {
             setSelectedCountryById(id);
           });

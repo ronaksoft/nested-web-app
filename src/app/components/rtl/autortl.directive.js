@@ -5,7 +5,7 @@
     .module('ronak.nested.web.components.text')
     .directive('autoDir', autoDirDetector);
 
-  function autoDirDetector() {
+  function autoDirDetector($parse) {
     return {
       restrict: 'A',
       link: function (scope ,element, attrs) {
@@ -80,34 +80,10 @@
         }
         function direction(str) {
           if (!str || !_.isString(str)) {
-            return element.attr("dir","ltr");
+            return
           }
 
-          function findFw(str) {
-            str = str.replace(/Fwd: /i, "");
-            if (str.search("Fwd:") > -1) {
-              return findFw(str)
-            }
-            if (str.search("Re:") > -1){
-              return findRe(str)
-            }
-            decideRtl(str)
-          }
-
-          function findRe(str) {
-            str = str.replace(/Re: /i, "");
-            if (str.search("Re:") > -1) {
-              return findRe(str);
-            }
-            decideRtl(str)
-          }
-          if (str.search("Fwd:") > -1){
-            findFw(str);
-          }else if(str.search("Re:") > -1) {
-            findRe(str);
-          }else {
-            decideRtl(str);
-          }
+          decideRtl(str);
 
           function decideRtl(str) {
             var emojiRanges = [
@@ -121,15 +97,21 @@
             str = str.trim();
             str = str.substring(0, 1);
             if (persianRex.rtl.test(str)) {
-              return element.attr("dir","rtl");
+              element.addClass('RTL-text');
+              return element.css("direction", "rtl");
+            } else {
+              element.addClass('LTR-text');
+              return element.css("direction", "ltr");
             }
           }
         }
 
-        scope.$watch(function(){
-          return attrs.autoDir;
-        },function () {
-          direction(attrs.autoDir);
+        scope.$watch(function () {
+          return $parse(attrs.autoDir)(scope);
+        }, function (newVal) {
+          var dom = new DOMParser;
+          var parse = dom.parseFromString(newVal,'text/html');
+          direction(parse.body.textContent);
         });
 
 

@@ -3,7 +3,7 @@
 
   angular
     .module('ronak.nested.web.components.date')
-    .filter('date', function(moment) {
+    .filter('date', function(moment, NstUtility, NstSvcTranslation) {
 
       return function(date, format) {
         if (!moment.isMoment(date)) {
@@ -21,7 +21,8 @@
 
             var yesterday = moment().startOf('day').subtract(1, 'days');
             if (date.isSameOrAfter(yesterday)) { // yesterday
-              return date.format('[Yesterday ]HH:mm');
+              var yesterday = NstSvcTranslation.get("Yesterday");
+              return NstUtility.string.format("{0} {1}", yesterday, date.format('HH:mm'));
             }
 
             var year = moment().startOf('year');

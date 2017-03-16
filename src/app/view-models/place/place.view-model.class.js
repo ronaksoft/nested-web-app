@@ -5,7 +5,7 @@
     .module('ronak.nested.web.common')
     .factory('NstVmPlace', NstVmPlace);
   // TODO: Why a view-model injects $state!!??
-  function NstVmPlace($state, NstTinyPlace, NstPlace) {
+  function NstVmPlace($state, NstTinyPlace, NstPlace, NST_STORE_ROUTE) {
     /**
      * Creates an instance of NstVmPlace
      *
@@ -14,6 +14,7 @@
      * @constructor
      */
     function VmPlace(placeModel, depth) {
+      
       this.id = '';
       this.name = '';
       this.url = '';
@@ -29,7 +30,7 @@
         this.id = placeModel.getId();
         this.name = placeModel.getName();
         this.url = $state.href(getPlaceFilteredState(), { placeId: placeModel.getId() });
-        this.avatar = placeModel.getPicture().getId() ? placeModel.getPicture().getThumbnail(32).getUrl().view : '/assets/icons/absents_place.svg';
+        this.avatar = placeModel.hasPicture() ? placeModel.picture.getUrl("x64") : '/assets/icons/absents_place.svg';
         this.unreadPosts = placeModel.getUnreadPosts();
         this.totalPosts = placeModel.getTotalPosts();
         this.teammatesCount = placeModel.getTeammatesCount();

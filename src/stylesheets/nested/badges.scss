@@ -9,13 +9,13 @@ a.normal-badge {
   align-items: center;
   display: flex;
   color: $color-hurricane;
-  padding: 0px 8px 0 8px;
+  padding: 0 8px 0 8px;
   font-size: $font-size-xsmall;
   margin: 0 8px;
   white-space: nowrap;
   height: 16px;
   line-height: 16px;
-  white-space: nowrap;
+  transition: all $animation-dur;
   &:hover {
     background-color: $color-hurricane;
     color: $color-white;
@@ -32,10 +32,18 @@ a.normal-badge {
   border-radius: 9px;
   color: $color-solid;
   font-size: $font-size-small;
+  line-height: 22px;
   white-space: nowrap;
   padding: 0 8px;
   height: 20px;
   flex: none;
+}
+.ui-select-match-item:hover {
+  background: $color-sense-50;
+}
+.ui-select-match-item.btn-primary {
+  background-color: $color-sense-wire;
+  color: $color-white;
 }
 
 .large-badge {
@@ -57,12 +65,12 @@ a.normal-badge {
 }
 
 #new-post {
-  position: absolute;
+  position: fixed;
   z-index: 555;
   right: auto;
   left: 50%;
   transform: translateX(-50%);
-  top: $navbar-height + 40px;
+  top: 180px;
   width: 162px;
   height: 32px;
   background-color: $color-force-wire;
@@ -102,9 +110,10 @@ a.normal-badge {
   line-height: 16px;
   flex : none;
   color: $color-hurricane;
-  padding: 0px 8px 2px 8px;
+  padding: 0 8px 2px 8px;
   font-size: $font-size-xsmall;
   align-self: center;
+  transition: all $animation-dur;
   &:hover {
     color: $color-white;
     background-color: $color-hurricane;

@@ -3,7 +3,7 @@
 
   angular.module('ronak.nested.web.models').factory('NstTinyPost', NstTinyPost);
 
-  function NstTinyPost($q, _, NST_ATTACHMENT_STATUS, NstModel, NstAttachment) {
+  function NstTinyPost(_, NstModel) {
 
     TinyPost.prototype = new NstModel();
     TinyPost.prototype.constructor = TinyPost;
@@ -33,6 +33,10 @@
       if (model && model.id) {
         this.fill(model);
       }
+    }
+
+    TinyPost.prototype.hasSubject = function () {
+      return _.isString(this.subject) && this.subject.length > 0;
     }
 
     return TinyPost;

@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   angular
@@ -6,15 +6,10 @@
     .controller('LogoutController', LogoutController);
 
   /** @ngInject */
-  function LogoutController($state, NstSvcAuth, NST_CONFIG) {
+  function LogoutController($state, NstSvcAuth) {
     if (NstSvcAuth.isAuthorized()) {
-      NstSvcAuth.logout().then(function () {
-        $state.go('public.signin');
-        //location.href = NST_CONFIG.SIGN_OUT_TARGET;
-      });
-    } else {
-      $state.go('public.signin');
-      //location.href = NST_CONFIG.SIGN_OUT_TARGET;
+      NstSvcAuth.logout();
     }
+    $state.go('public.signin');
   }
 })();

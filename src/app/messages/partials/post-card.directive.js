@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   angular
@@ -9,16 +9,24 @@
   function PostItem(NST_EVENT_ACTION) {
     return {
       restrict: 'E',
-      scope:{},
-      link: function(scope, elem, attrs) {},
+      scope: {},
+      link: function (scope, elem, attrs) {
+      },
       templateUrl: 'app/messages/partials/message/post-card.html',
       controller: 'PostCardController',
       controllerAs: 'ctlPostCard',
       bindToController: {
         post: '=post',
+        mood: '@mood',
         viewSetting: '=settings',
         thisPlace: '=postinplace',
-        hideComments: '=hideComments'
+        hasRemoveAccess: '=hasRemoveAccess',
+        hasControlAccess: '=',
+        isRibbon: '=',
+        addOn: '=',
+        loading: '=',
+        commentBoard: '=',
+        ribbonEnabled: '='
       }
     };
   }

@@ -11,7 +11,7 @@ input[type="password"] {
 }
 input {
   outline: none;
-  transition: all $animation-dur ease;
+  //transition: all $animation-dur ease;
   box-shadow: none;
   &:focus:not(:hover) {
     box-shadow: none;
@@ -22,7 +22,7 @@ input {
 }
 
 input:placeholder-shown{
-  color: $color-grey
+  //color: $color-grey
 }
 
 
@@ -34,7 +34,9 @@ input[type="submit"] {
 input[type="checkbox"] {
   max-width: 1px;
 }
-
+.ui-select-search {
+  //width: auto!important;
+}
 .input {
   border: none;
   background-color: $color-white;
@@ -74,7 +76,11 @@ a .ui-select-choises-row-inner {
   width: 100%;
   border: none;
   box-shadow: none;
+  > div {
+    max-width: 100%;
+  }
   .ui-select-match {
+    max-width: 100%;
     .close {
       padding-top: 4px;
       color: $color-solid;
@@ -123,6 +129,7 @@ input.number {
   display: flex;
   flex: 1;
   height: 34px;
+  direction: ltr!important;
   padding-left: 16px;
   @extend .nst-font-large;
   font-weight: 500;
@@ -145,4 +152,8 @@ i.sep{
     top: 4px;
     font-style: normal;
     color: $color-border;
+}
+.form-group.has-error input.number, .form-group.has-error input.number:focus ,
+.form-group.has-error input.pre-number, .form-group.has-error input.pre-number:focus {
+  border: 2px solid transparent!important;
 }

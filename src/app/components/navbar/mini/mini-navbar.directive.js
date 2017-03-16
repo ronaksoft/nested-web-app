@@ -10,7 +10,7 @@
     return {
       restrict: 'E',
       templateUrl: 'app/components/navbar/mini/mini-navbar.html',
-      controller: 'MiniNavbarController',
+      controller: 'SidebarController',
       controllerAs: 'ctlMiniNavbar',
       bindToController: true
     };

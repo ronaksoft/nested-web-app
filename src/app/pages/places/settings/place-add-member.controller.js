@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   angular
@@ -8,43 +8,72 @@
   /** @ngInject */
   function PlaceAddMemberController($scope, $log,
                                     NST_USER_SEARCH_AREA,
-                                    NstSvcUserFactory,
+                                    NstSvcUserFactory, NstSvcTranslation,
                                     NST_PLACE_MEMBER_TYPE,
-                                    chosenRole, currentPlace) {
+                                    chosenRole, currentPlace, mode, isForGrandPlace) {
     var vm = this;
     var defaultSearchResultCount = 9;
 
     vm.isTeammateMode = true;
-
-
-    if (currentPlace.id.split('.').length > 1){
-      vm.isGrandPlace = false;
-    }else{
-      vm.isGrandPlace = true;
-    }
-
-
     vm.selectedUsers = [];
     vm.users = [];
     vm.search = _.debounce(search, 512);
     vm.add = add;
+    vm.query = '';
+
+    checkUserLimitPlace();
+    search();
+
+
+    if (isForGrandPlace === true) {
+      vm.isGrandPlace = true;
+    } else if (isForGrandPlace === false) {
+      vm.isGrandPlace = false;
+    } else {
+      if (currentPlace.id.split('.').length > 1) {
+        vm.isGrandPlace = false;
+      } else {
+        vm.isGrandPlace = true;
+      }
+    }
+
+
+    if (vm.isGrandPlace) {
+      vm.searchPlaceholder = NstSvcTranslation.get("Name, email or phone number...");
+    } else {
+      vm.searchPlaceholder = NstSvcTranslation.get("Name or ID...");
+    }
 
     function search(query) {
+
       var settings = {
-        query : query,
-        role : chosenRole,
-        placeId : currentPlace.id,
-        limit : calculateSearchLimit()
+        query: query,
+        // role is no longer supported
+        // role: chosenRole,
+        placeId: currentPlace.id,
+        limit: calculateSearchLimit()
       };
 
-      if(!query){
-        vm.users = [];
-        return;
+      if (mode === 'offline-mode' && isForGrandPlace) {
+        delete  settings.placeId;
       }
 
-      NstSvcUserFactory.search(settings, vm.isGrandPlace ?  NST_USER_SEARCH_AREA.INVITE :  NST_USER_SEARCH_AREA.ADD)
+      NstSvcUserFactory.search(settings, (vm.isGrandPlace || isForGrandPlace) ? NST_USER_SEARCH_AREA.INVITE : NST_USER_SEARCH_AREA.ADD)
         .then(function (users) {
           vm.users = _.differenceBy(users, vm.selectedUsers, 'id');
+          if (_.isString(query)
+            && _.size(query) >= 4
+            && _.indexOf(query, " ") === -1
+            && !_.some(vm.users, { id : query })) {
+
+            var initProfile = NstSvcUserFactory.parseTinyUser({
+              _id: settings.query,
+              fname: settings.query,
+            });
+            vm.users.push(initProfile);
+
+          }
+          vm.query = query;
         })
         .catch(function (error) {
           $log.debug(error);
@@ -57,6 +86,11 @@
 
     function calculateSearchLimit() {
       return defaultSearchResultCount + vm.selectedUsers.length;
+    }
+
+    function checkUserLimitPlace() {
+      var previousUsers = mode === 'offline-mode' ? 0 : currentPlace.counters.creators + currentPlace.counters.key_holders;
+      vm.limit = 255 - previousUsers;
     }
   }
 })();

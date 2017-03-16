@@ -6,14 +6,14 @@
     .controller('ModalConfirmController', ModalConfirmController);
 
   /** @ngInject */
-  function ModalConfirmController($scope, title, message, buttons) {
+  function ModalConfirmController($scope, title, message, buttons, NstSvcTranslation) {
     var vm = this;
 
-    vm.title = title || "Confirm";
-    vm.message = message || "Please make sure before doing this action.";
+    vm.title = title || NstSvcTranslation.get("Confirm");
+    vm.message = message || NstSvcTranslation.get("Please make sure before doing this action.");
     vm.buttons = {
-      yes : buttons.yes || "I'm sure",
-      no : buttons.no || "Cancel"
+      yes : buttons.yes || NstSvcTranslation.get("I'm sure"),
+      no : buttons.no || NstSvcTranslation.get("Cancel")
     };
   }
 })();

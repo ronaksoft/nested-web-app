@@ -1,0 +1,33 @@
+/**
+  *********************************
+  *     List items  *
+  *********************************
+*/
+
+.list-items {
+  height: 30px;
+  padding: 5px 10px;
+  width: 100%;
+  //color: $color-storm;
+  color: $color-solid;
+  fill: $color-solid;
+  transition: background-color $animation-dur;
+  span {color: $color-solid;fill: $color-solid}
+  span,label,a {
+    transition-duration: $animation-dur;
+    transition-property: background-color,color;
+  }
+  &:hover{
+    background-color: $color-sense-5;
+    border-bottom-left-radius: 5px;
+  }
+  &.active{
+    background-color: $color-sense-5;
+    border-bottom-left-radius: 5px;
+  }
+  &.red ,
+  &.red span{
+    color: $color-force;
+    fill: $color-force;
+  }
+}

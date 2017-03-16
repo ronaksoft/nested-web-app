@@ -5,10 +5,11 @@
     .service('NstSvcPlaceMap', NstSvcPlaceMap);
 
   /** @ngInject */
-  function NstSvcPlaceMap() {
+  function NstSvcPlaceMap(_, NstVmPlaceBadge) {
 
     var service = {
-      toTree: toTree
+      toTree: toTree,
+      toBadge : toPlaceBadge
     };
 
     return service;
@@ -19,12 +20,12 @@
 
       var setSuperUserLevel = function (subPlace) {
         var id = subPlace.id;
-        subPlace.children = [];
 
+        subPlace.children = [];
         for (var i = parentsStack.length - 1; i > -1; i--) {
-          if (id.indexOf(parentsStack[i]) === 0) {
+          if (id.indexOf(parentsStack[i]+ '.') === 0) {
             subPlace.level = i + 1;
-            subPlace.parent = parentsStack[i]
+            subPlace.parent = parentsStack[i];
             return subPlace;
           } else {
             parentsStack = _.dropRight(parentsStack)
@@ -52,11 +53,9 @@
           if (places[i].level === 0) {
             tree.unshift(places[i]);
           } else {
-
             places.filter(function (place) {
               return place.id === places[i].parent;
             })[0].children.unshift(places[i]);
-
           }
           _.drop(places);
         }
@@ -64,15 +63,16 @@
       };
 
 
-      var sorteedPlaces = _.sortBy(places, ['id']);
+      var sortedPlaces = _.sortBy(places, ['id']);
 
-      _.forEach(sorteedPlaces, setLevel);
-
-      return breedPlaces(sorteedPlaces);
+      _.forEach(sortedPlaces, setLevel);
+      return breedPlaces(sortedPlaces);
 
     }
 
-
+    function toPlaceBadge(model) {
+      return new NstVmPlaceBadge(model, "x64");
+    }
   }
 
 })();

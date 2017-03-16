@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Nested - signout</title>
+</head>
+<body>
+
+</body>
+<script>
+  localStorage.clear();
+  document.cookie = "user=;expires=Thu, 01 Jan 1970 00:00:00 GMT;domain=nested.me";
+
+  var cookies = document.cookie.split(';');
+  for (var i = 0; cookies.length > i; i++) {
+    if (cookies[i]) {
+      var cookie = cookies[i].split('=');
+      document.cookie = cookie[0].trim() + '=';
+    }
+  }
+  localStorage.setItem('nested.user_status', 'unauthorized');
+
+  var params = location.search.replace('?', '').split('&');
+
+  if(params.length === 0) location.href = '/';
+
+  var ref = params.filter(function (q) {
+    return q.indexOf('ref=') === 0;
+  });
+
+
+  if (ref.length == 1) {
+    location.href = ref[0].replace('ref=', '//');
+  } else {
+    location.href = '/';
+  }
+
+</script>
+</html>

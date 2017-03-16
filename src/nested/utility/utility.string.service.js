@@ -6,7 +6,7 @@
     .service('NstUtilString', NstUtilString);
 
   /** @ngInject */
-  function NstUtilString() {
+  function NstUtilString(_) {
     function StringUtility() {
 
     }

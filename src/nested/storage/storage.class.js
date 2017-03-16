@@ -23,9 +23,9 @@
     function Storage(type, id, timeout) {
       var storage = this;
       this.cache = {
-        set: function (key, value) {},
-        get: function (key) {},
-        remove: function (key) {},
+        set: function () {},
+        get: function () {},
+        remove: function () {},
         flush: function () {}
       };
 
@@ -208,18 +208,18 @@
       return result;
     };
 
-    Storage.prototype.isValidObject = function (object) {
+    Storage.prototype.isValidObject = function () {
       return true;
     };
 
     Storage.prototype.serialize = function (obj) {
       return JSON.stringify(obj);
-    }
+    };
 
     Storage.prototype.deserialize = function (content) {
       var obj = null;
       try {
-        var obj = JSON.parse(content);
+        obj = JSON.parse(content);
       } catch (error) {
         if (error instanceof SyntaxError) {
           $log.debug('An error occured in parsing JSON', error);

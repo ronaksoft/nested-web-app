@@ -30,15 +30,22 @@
 
       if (model instanceof NstUser || model instanceof NstTinyUser) {
 
-        this.id = model.getId();
+        this.id = model.id;
         this.name = model.getFullName();
-        this.avatar = model.getPicture().getThumbnail(32).getUrl().view;
+        if (model.hasPicture()) {
+          this.avatar = model.picture.getUrl("x64");
+          this.avatar128 = model.picture.getUrl("x128");
+        }
       } else if (model instanceof NstInvitation) {
 
-        this.id = model.invitee.getId();
+        this.id = model.invitee.id;
         this.name = model.invitee.getFullName();
-        this.avatar = model.invitee.getPicture().getThumbnail(32).getUrl().view;
         this.InvitationId = model.id;
+
+        if (model.invitee.hasPicture()) {
+          this.avatar = model.invitee.picture.getUrl("x64");
+          this.avatar128 = model.invitee.picture.getUrl("x128");
+        }
       }
     }
 

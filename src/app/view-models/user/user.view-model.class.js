@@ -13,15 +13,21 @@
      *
      * @constructor
      */
-    function VmUser(userModel) {
+    function VmUser(userModel, thumbnailSize) {
+
       this.id = '';
       this.name = '';
       this.avatar = '';
 
       if (userModel instanceof NstTinyUser || userModel instanceof NstUser) {
-        this.id = userModel.getId();
+        this.id = userModel.id;
         this.name = userModel.getFullName();
-        this.avatar = userModel.picture.id ? userModel.picture.thumbnails.x32.url.view : '/assets/icons/absents_place.svg';
+        if (userModel.hasPicture()) {
+          var size = thumbnailSize || "x32";
+          this.avatar = userModel.hasPicture() ? userModel.picture.getUrl(size) : '';
+        }
+      } else {
+        throw Error("Could not create a NstVmUser from an unsupported type.");
       }
     }
 

@@ -1,17 +1,21 @@
-[contenteditable] p:empty {
-  padding-top: 20px;
-}
-[contenteditable]:empty:before{
-  content: attr(placeholder);
+.empty div[contenteditable]:before{
+  content: 'Write some thing';
   display: block;
-  color: $color-wind;
+  color: rgba(0,0,0,0.4);
   position: absolute;
   //width: 100%;
   //height: 100%;
-  font-size: 18px;
+  font-size: 14px;
   font-weight: 300;
   -moz-user-select: text;
   -khtml-user-select: text;
   -webkit-user-select: text;
   -o-user-select: text;
+  transition: opacity $animation-dur;
+}
+[contenteditable]:focus,
+[contenteditable]:active {
+ &:before {
+   opacity: 0!important;
+ }
 }

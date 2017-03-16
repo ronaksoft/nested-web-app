@@ -1,0 +1,165 @@
+/**
+  **********************************************************
+  *     Nested Classes - Page Specific - Events  *
+  **********************************************************
+ */
+.eventsbody {
+  min-height: 100%;
+  nst-attachments-preview-bar ul.thumbnail-bar {
+    position: relative;
+  }
+}
+
+.actdate {
+  min-height: 25px;
+  p {
+    padding: 0 8px;
+  }
+  width: 100%;
+}
+
+.actcon {
+  border-bottom: 1px solid $color-breeze;
+  padding: 6px 5px;
+  //min-width:400px;
+  width: 100%;
+  max-width: calc(100% - 200px);
+  float: left;
+  display: inline-flex;
+  animation: app-tr .5s ease-out;
+  & > *{
+    animation: off-right .1s ease-out;
+  }
+}
+
+.actdes {
+  cursor: default;
+  min-width: 200px;
+  max-width: 200px;
+  float: left;
+  position: relative;
+  padding-top: 1px;
+}
+.placeactsico {
+  margin-top: 8px;
+  border-radius: 50%;
+}
+#EventList {
+  width: 100%;
+  height: auto;
+  flex: none;
+  .evrow {
+    position: relative;
+    display: flex;
+    margin: 0; // Horizontal Margin makes horizontal scrollbar appear!
+    padding: 0 5px;
+    width: 100%;
+    transition: all $animation-dur;
+    &:hover{
+      background-color: #E7FBF0;
+    }
+    &.hot {
+      background-color: $hot-bg-color;
+      overflow-y: hidden;
+      &.ng-enter {
+        animation: activity-item-hot 0.64s ease-in-out forwards;
+      }
+    }
+    &.seen {
+      background: inherit;
+      animation: activity-item-normal 0.64s 3s ease-out backwards;
+    }
+  }
+  .ico {
+    display: block;
+    float: left;
+    width: 16px;
+    padding-left: 8px;
+    vertical-align: top;
+  }
+  .sender {
+    display: inline-flex;
+    width: calc(100% - 40px);
+    vertical-align: top;
+    margin-top: 5px;
+    font-size: small;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: keep-all;
+    white-space: nowrap;
+    > div:first-child {
+      margin-left: 2px;
+      margin-right: 4px;
+    }
+    span {
+      line-height: 24px;
+      vertical-align: baseline;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+  .msg {
+    width: 100%;
+    overflow: hidden;
+    flex-direction: column;
+    padding-left: 10px;
+    position: relative;
+    .subject {
+      display: flex;
+      font-weight: bold;
+      line-height: 24px;
+      .nst-mood-simple {
+        font-size: $font-size-small;
+        font-weight: 400;
+      }
+    }
+    a {
+      color: $color-sense-wire;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      &:visited {
+        color: $color-sense-wire;
+      }
+    }
+    .bod {
+      color: gray;
+      position: relative;
+    }
+    .nst-mood-simple {
+      white-space: nowrap
+    }
+  }
+  .places {
+    display: flex;
+    flex:none;
+    max-width: 100%;
+    margin-left: 3px;
+    height: 16px;
+    font-size: $font-size-xsmall;
+    justify-content: flex-start;
+    align-items: center;
+    position: relative;
+    top: 4px;
+    padding: 0 5px;
+  }
+  .time {
+    vertical-align: baseline;
+    float: left;
+    min-width: 50px;
+    width: 50px;
+    display: flex;
+    justify-content: center;
+    color: $color-solid-60;
+    flex: none;
+    margin-top: 4px;
+    span {
+      font-size: $font-size-xsmall;
+    }
+  }
+}
+
+.post {
+  color: $color-solid!important;
+  font-weight: 550;
+}

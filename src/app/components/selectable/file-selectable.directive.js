@@ -15,9 +15,7 @@
           if (!seletableElement) {
             return;
           }
-
           var selectedArray = [];
-
           seletableElement.selectonic({
             multi: true,
             mouseMode: "standard",
@@ -43,8 +41,22 @@
               }
             }
           });
+
+
+          var clickOutsideHandler = function (event) {
+            if (seletableElement.selectonic() && seletableElement.selectonic("getSelected").length > 0) {
+              if (!(event.target.closest("section.content") || event.target.closest(".content-plus"))) {
+                seletableElement.selectonic("unselect");
+              }
+            }
+          };
+
+          $(document).click(clickOutsideHandler);
+
+          scope.$on('$destroy', function () {
+            $(document).unbind('click', clickOutsideHandler);
+          });
         }
       }
     })
-
 })();

@@ -5,7 +5,7 @@
     .module('ronak.nested.web.models')
     .factory('NstPost', NstPost);
 
-  function NstPost($q, _, NST_ATTACHMENT_STATUS, NstTinyPost, NstAttachment) {
+  function NstPost(_, NST_ATTACHMENT_STATUS, NstTinyPost, NstAttachment) {
     Post.prototype = new NstTinyPost();
     Post.prototype.constructor = Post;
 
@@ -24,6 +24,8 @@
        */
       this.sender = null;
 
+      this.emailSender = null;
+
       this.date = null;
       this.updatedDate = null;
 
@@ -41,8 +43,6 @@
        */
       this.recipients = [];
 
-      this.spam = 0;
-      this.monitored = false;
       this.internal = false;
 
       // TODO: Use ReplyToId instead
@@ -54,6 +54,8 @@
       this.forwardFrom = null;
       this.forwardFromId = null;
 
+      this.resources = {};
+
       this.counters = {
         attaches: -1,
         comments: -1,
@@ -64,9 +66,15 @@
 
       // The user is allowed to retract the post (remove from all places)
       // TODO: add this in all parse functions
-      this.wipeAccess = false;
+      this.wipeAccess = null;
 
       this.isRead = null;
+
+      this.trusted = false;
+
+      this.ellipsis = null;
+
+      this.bookmarked = null;
 
       NstTinyPost.call(this, model);
 
@@ -147,7 +155,6 @@
       _.forEach(newComments, function(comment) {
         this.addComment(comment);
       }.bind(this));
-
       return this;
     };
 
@@ -160,6 +167,19 @@
     Post.prototype.addToCommentsCount = function (count) {
       this.counters.comments += count || 0;
     }
+
+
+    Post.prototype.getTrustedBody = function () {
+      var imgRegex = new RegExp('<img(.*?)source=[\'|"](.*?)[\'|"](.*?)>','g');
+      var resources = this.resources;
+      this.trusted = true;
+      var body = this.body.replace(imgRegex,function (m, p1, p2, p3) {
+        var src = resources[p2];
+        return "<img" +  p1 + "src='" + src + "' " + p3 +">"
+      });
+      return body;
+
+    };
 
     return Post;
   }

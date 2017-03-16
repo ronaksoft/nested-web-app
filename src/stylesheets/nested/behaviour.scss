@@ -6,6 +6,13 @@
     top: $navbar-height - 40px;
   }
 }
+
+.maincontainer.sideNotiny {
+  .sidebar-wrapper {
+    width: $sidebar-width!important;
+  }
+}
+
 .maincontainer.sidetiny {
   .sidebar{
     width: $sidebar-width-tiny;

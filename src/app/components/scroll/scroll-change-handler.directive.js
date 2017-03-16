@@ -14,6 +14,7 @@
         reachedBottom: '=',
         reachedTop: '=',
         changed: '=',
+        disabled: '='
       },
       bindToController: true,
       controllerAs: 'ctlChange',
@@ -21,17 +22,17 @@
         var vm = this;
         var key = vm.handlerKey || 'body-scroll-change';
         var deregister = $scope.$on(key, function(data) {
-          if (_.isFunction(vm.changed)) {
+          if (_.isFunction(vm.changed) && !vm.disabled) {
             vm.changed(data.event);
           }
 
-          if (_.isFunction(vm.reachedBottom)) {
+          if (_.isFunction(vm.reachedBottom) && !vm.disabled) {
             if (document.body.offsetHeight- (window.innerHeight + window.scrollY)  <= 500) {
               vm.reachedBottom(data.event);
             }
           }
 
-          if (_.isFunction(vm.reachedTop)) {
+          if (_.isFunction(vm.reachedTop) && !vm.disabled) {
             if ($(window).scrollTop() === 0) {
               vm.reachedTop(data.event);
             }

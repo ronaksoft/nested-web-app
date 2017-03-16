@@ -9,7 +9,7 @@
   function MessageChainController($rootScope, $scope, $q, $stateParams, $log, $state,
     moment,
     NST_DEFAULT, NST_MESSAGES_VIEW_SETTING,
-    NstSvcPostFactory, NstSvcLoader, NstUtility, NstSvcAuth, NstSvcPlaceFactory,
+    NstSvcPostFactory, NstUtility, NstSvcAuth, NstSvcPlaceFactory,
     NstSvcPostMap, NstSvcMessagesSettingStorage) {
     var vm = this;
 

@@ -17,11 +17,6 @@
 #  Scenario: Create a place from sidebar 1
 #
 #    Given I Click on plus of "create" in sidebar
-#    When I Wait till line loader hide
-#    When I wait 5s
-#    Given I Click id "close-create-place"
-#    When I wait 5s
-#    Given I Click on plus of "create" in sidebar
 #    When I wait 5s
 #    Given I fill "Marketing Development" with "test-create-place14"
 #    When I wait 5s
@@ -32,6 +27,8 @@
 #    Given I fill id "change-place-id" with "create14"
 #    When I wait 5s
 #    Given I Click id "change-save"
+#    When I wait 5s
+#    Given I Click by ngClick "ctlCreate.setReceivingOff();"
 #    When I wait 5s
 #    Given I Click label by for "notification"
 #    When I wait 5s
@@ -45,8 +42,8 @@
 #    Given I Click id "close-setting-place"
 #    When I wait 5s
 #    Then should the title of the place be "test-create-place14"
-
-#  Scenario: Setting page 2
+#
+#  Scenario: Setting page: state 1
 #    Given I Click on "create14" place
 #    When I wait 5s
 #    Given I Click id "navbar-popover"
@@ -57,5 +54,73 @@
 #    When I wait 5s
 #    Given I Click id "place-name"
 #    When I wait 5s
-
-
+#    Given I Press button by ngClick "$form.$cancel()"
+#    When I wait 5s
+#    Given I Click id "place-name"
+#    When I wait 5s
+#    Given I clear input by ngModel "$data"
+#    When I wait 5s
+#    Given I clear input by ngModel "$data"
+#    When I wait 5s
+#    Given I fill input by ngModel "$data" with "test12"
+#    When I wait 5s
+#    Given I Press button "submit"
+#    When I wait 5s
+#    Given I Click text by tooltip "Place description"
+#    When I wait 5s
+#    Given I fill input by ngModel "$data" with "اینجا یک مکان شخصی است"
+#    When I wait 5s
+#    Given I Press button "submit"
+#    When I wait 5s
+#    Given I Click text by tooltip "Place description"
+#    When I wait 5s
+#    Given I clear input by ngModel "$data"
+#    When I wait 5s
+#    Given I fill input by ngModel "$data" with "اینجا یک مکان شخصی است"
+#    When I wait 5s
+#    Given I Press button by ngClick "$form.$cancel()"
+#    When I wait 5s
+#    Given I Click by ngClick "ctlSettings.setReceivingOff();"
+#    When I wait 5s
+#    Given I Click Option by value "creators"
+#    When I wait 5s
+#    Given I Click by dataNgModel "ctlSettings.place.policy.add_place"
+#    When I wait 5s
+#    Given I Click id "member-sub-place-access"
+#    When I wait 5s
+#    Given I Click by dataNgModel "ctlSettings.place.policy.add_member"
+#    When I wait 5s
+#    Given I Click id "member-invite-access"
+#    When I wait 5s
+#    Given I Click by dataNgClick "ctlSettings.addMember()"
+#    When I wait 5s
+#    Given I fill "Name, email or phone number  ..." with "shayestehn"
+#    When I wait 5s
+#    Given I press enter
+#    When I wait 5s
+#    Given I Click id "invite"
+#    When I wait 5s
+#    Given I Click icon by ngIf "memberCtrl.hasRemoveAccess || memberCtrl.hasControlAccess"
+#    When I wait 5s
+#    Given I Click list by ngClick "memberCtrl.remove();"
+#    When I wait 5s
+#    When I wait 5s
+#    Given I Click by ngClick "$dismiss()"
+#    When I wait 5s
+#    Then should the title of the place be "test12"
+#
+#  Scenario: Delete created Place
+#    When I wait 5s
+#    Given I Click id "navbar-popover"
+#    When I wait 5s
+#    Given I Click Link by Partial Text "Leave and Delete"
+#    When I wait 5s
+#    Given I Click Link by Partial Text "Delete Place"
+#    When I wait 5s
+#    Given I fill "Place ID" with "create14"
+#    When I wait 5s
+#    Given I Click Link by Partial Text "DELETE"
+#    When I wait 5s
+#    Then should the title of the place be "All Places"
+#
+#

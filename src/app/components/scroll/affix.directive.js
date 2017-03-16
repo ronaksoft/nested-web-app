@@ -6,17 +6,34 @@
     .directive('affixer', onScroll);
 
   /** @ngInject */
-  function onScroll($window) {
+  function onScroll($window,$rootScope,$timeout) {
     return {
       restrict: 'A',
       link: function ($scope, $element, $attrs) {
+
         var win = angular.element($window);
         var topOffset = 0;
         var afterContent = 0;
         var applierTrigger = false;
+
         var containerLeft = $('body').offset().left || 0;
+
+        var isRTL = $rootScope._direction;
+
+
+        $timeout(function () {
+          applier();
+        },3000);
+
+        win.on("resize", function () {
+          applier();
+        });
+
         function applier() {
           removeFix();
+
+          var membrsH = 0;
+          if ($element.parent().children().first().is("#members")) membrsH = parseInt($element.parent().children().first().height()) + 38;
 
           var top = $element.offset().top || 0;
           var offLeft = $element.offset().left || 0;
@@ -25,20 +42,21 @@
           var width = $element.outerWidth();
           var dontSetWidth = $attrs.dontSetWidth || false;
 
-          var isChrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
-          var isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+          var actualWidth = Math.min(width, win.outerWidth());
+
+          var fixed = false;
 
 
           if (!!$attrs.offsetTop ) {
-            topOffset = $attrs.offsetTop;
+            topOffset = parseInt($attrs.offsetTop) + membrsH;
           }
 
           if (!!$attrs.parent && $($attrs.parent).offset() ) {
-            containerLeft = $($attrs.parent).offset().left;
+            containerLeft = $($attrs.parent)[0].offsetLeft;
           }
 
           if (!!$attrs.top ) {
-            top = top + parseInt($attrs.top);
+            top = parseInt($attrs.top);
           }
 
           if (!!$attrs.afterContent ) {
@@ -48,10 +66,20 @@
           if (!!$attrs.fixedTop ) {
             top = parseInt($attrs.top);
           }
+          if (!!$attrs.clearRight ) {
+            var clearRight = true;
+          }
 
-          //for create a fixed element we need a left parameter so we get it from hisself
+          affixElement();
+
+          //for create a fixed element we need a left parameter so we read it from itself
           function findLeftOffset () {
-            offLeft = parseInt(containerLeft) + parseInt(afterContent);
+            if (isRTL == 'rtl') {
+              offLeft = parseInt(containerLeft)  +  $($attrs.parent).width()  - parseInt(afterContent) - width;
+            } else {
+              offLeft = parseInt(containerLeft) + parseInt(afterContent) + 272;
+            }
+
             // if (isChrome || isFirefox) {
             //   offLeft = parseInt($(container).offset().left) + parseInt(afterContent) - parseInt($('.sidebar').offset().left);
             // }else if (!(isChrome || isFirefox )){
@@ -62,18 +90,19 @@
             $element.css('position', '');
             $element.css('top', '');
             $element.css('left', '');
+            $element.css('right', '');
             $element.css('width', '');
             $element.css('height', '');
           }
 
-          var fixed = false;
 
           function affixElement() {
             if ($window.pageYOffset > topOffset && !fixed) {
               $element.css('position', 'fixed');
-              $element.css('top', parseInt(top) - parseInt(topOffset) + 'px');
-              $element.css('left', offLeft + 'px');
-              if(!dontSetWidth) $element.css('width', width + 'px');
+              $element.css('top', parseInt(top) + 'px');
+              if (isRTL == 'ltr')$element.css('left', offLeft + 'px');
+              if (isRTL == 'rtl')$element.css('left', offLeft + 'px');
+              if(!dontSetWidth) $element.css('width', actualWidth + 'px');
               $element.css('height', height + 'px');
               fixed = true;
             } else if ($window.pageYOffset < topOffset && fixed) {
@@ -82,8 +111,6 @@
             }
           }
 
-          affixElement();
-
           function firstFixes() {
             if (!!$attrs.firstImp ) {
               $element.css('position', 'fixed');
@@ -91,6 +118,9 @@
               $element.css('left', offLeft + 'px');
               $element.css('width', width + 'px');
               $element.css('height', height + 'px');
+              if(clearRight) {
+                $element.css('right', 'auto');
+              }
               return win.unbind('scroll', affixElement);
             }
           }
@@ -101,29 +131,25 @@
           firstFixes();
 
         }
-        applier();
+
+        // $scope.$watch(function () {
+        //
+        //   //bugfix for left of undiefiend on log out
+        //   if (!$('.content') || !$(".content").offset() || !$(".content").offset().left){
+        //       return false;
+        //   }else{
+        //       return $('.content').offset().left
+        //   }
+        // },function (newVal,oldVal) {
+        //   if(newVal)
+        //     applier();
+        // });
 
         //keep track user and change parameters
-        $scope.$on('$routeChangeStart', function() {
-          applier();
-        });
+        // $scope.$on('$routeChangeStart', function() {
+        //   applier();
+        // });
 
-        win.on("resize", function () {
-          applier();
-        });
-
-        $scope.$watch(function () {
-
-          //bugfix for left of undiefiend on log out
-          if (!$('.content') || !$(".content").offset() || !$(".content").offset().left){
-              return false;
-          }else{
-              return $('.content').offset().left
-          }
-        },function (newVal,oldVal) {
-          if(newVal)
-            applier();
-        });
       }
     };
   }

@@ -16,8 +16,7 @@
     TinyPlaceStorage.prototype.isValidObject = function (object) {
       var q = {
         id: object.id,
-        name: object.name,
-        picture: object.picture
+        name: object.name
       };
       for (var k in q) {
         if (undefined == q[k]) {

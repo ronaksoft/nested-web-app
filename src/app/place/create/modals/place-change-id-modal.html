@@ -1,0 +1,29 @@
+<div id="change-view">
+  <div class="_difv _fw">
+    <div class="_difh modal-head">
+      <p class="_df _fw">
+        <translate>Set Place Id</translate>
+      </p>
+    </div>
+    <form name="editIdForm"
+          ng-submit="submitted = true; ctrl.changeId(editIdForm.$valid, placeId, $close, $dismiss);"
+          ng-init="placeId = ctrl.place.id.replace(ctrl.place.parentId + '.',''); submitted = false;" novalidate autocomplete="off">
+      <div class="form-group" ng-class="{ 'has-error' : editIdForm.placeId.$invalid && submitted || !ctrl.placeIdIsFullAvailable}">
+        <label class="input-lab" ng-if="!editIdForm.placeId.$error.required || !submitted">
+          <translate>Place Id</translate>
+        </label>
+        <label class="input-lab" ng-if="editIdForm.placeId.$error.required && submitted">
+          <translate>Place Id is required</translate>
+        </label>
+        <input class="_df _fw form-control" name="name" type="text" ng-model="placeId" tabindex="1" required focus-me/>
+      </div>
+      <div class="_df _fw mdl-ft">
+        <div class="butn-white" ng-click="$dismiss('discard')" translate-attrs="value" tabindex="4">
+          <translate>Discard</translate>
+        </div>
+        <input type="submit" class="butn-green" id="change-save" ng-disabled="ctrl.updateProgress" value="Save"
+               translate-attrs="value" tabindex="3"></input>
+      </div>
+    </form>
+  </div>
+</div>

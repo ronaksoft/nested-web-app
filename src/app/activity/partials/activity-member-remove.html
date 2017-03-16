@@ -1,0 +1,22 @@
+<div class="actdes">
+  <div class="ico">
+    <div class="ei-member-leave"></div>
+  </div>
+  <div class="sender" data-ng-include="'app/activity/partials/activity-common-actor.html'" data-ng-init="actor = act.actor"></div>
+</div>
+<div class="actcon">
+  <div class="msg">
+    <div class="subject">
+      <span data-ng-if="act.member.id == act.actor.id && currentPlaceId" class="nst-mood-simple"><translate>left here</translate></span>
+      <span data-ng-if="act.member.id == act.actor.id && !currentPlaceId" class="nst-mood-simple"><translate>left <a class="place" ui-sref="app.place-activity({placeId : act.place.id})">{{act.place.name}}</a></translate></span>
+      <span data-ng-if="act.member.id != act.actor.id && currentPlaceId" class="nst-mood-simple">
+        <translate>removed {{::act.member.fullName}} from here</translate>
+      </span>
+      <span data-ng-if="act.member.id != act.actor.id && !currentPlaceId" class="nst-mood-simple">
+        <translate>removed {{::act.member.fullName}} from <a class="place" ui-sref="app.place-activity({placeId : act.place.id})">{{act.place.name}}</a></translate>
+      </span>
+    </div>
+  </div>
+  <div class="places"></div>
+  <div class="time no-animation" data-ng-include="'app/activity/partials/activity-common-date.html'"></div>
+</div>

@@ -9,9 +9,9 @@
   function FullNavbarController($scope, $rootScope, $uibModal, $state, $q,
     toastr, NstUtility,
     NstSvcAuth, NstSvcLogger,
-    NstSearchQuery, NstSvcPlaceFactory,
+    NstSearchQuery, NstSvcPlaceFactory, NstSvcTranslation,
     NST_DEFAULT, NST_PLACE_FACTORY_EVENT, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_SRV_ERROR,
-    NstPlaceOneCreatorLeftError, NstPlaceCreatorOfParentError) {
+    NstPlaceOneCreatorLeftError, NstPlaceCreatorOfParentError, NstManagerOfSubPlaceError) {
     var vm = this;
     /*****************************
      *** Controller Properties ***
@@ -19,7 +19,10 @@
 
     isBookMark();
     isSent();
-    vm.user = NstSvcAuth.getUser();
+    isUnread();
+    isConversation();
+    isSearch();
+    vm.user = NstSvcAuth.user;
     vm.hasPlace = hasPlace;
     vm.getPlaceId = getPlaceId;
     vm.getMessagesUrl = getMessagesUrl;
@@ -37,13 +40,41 @@
     vm.openSettingsModal = openSettingsModal;
     vm.confirmToRemove = confirmToRemove;
     vm.isPersonal = isPersonal;
-
+    vm.isSubPersonal = isSubPersonal;
     vm.confirmToLeave = confirmToLeave;
+    vm.isFeed = $state.current.options.feed;
+    vm.isFavPlaces = $state.current.options.favoritePlace;
+    vm.searchKeyPressed = searchKeyPressed;
 
+    function isUnread() {
+      if ($state.current.name == 'app.place-messages-unread' ||
+        $state.current.name == 'app.place-messages-unread-sorted') {
+        return vm.isUnreadMode = true;
+      }
+    return vm.isUnreadMode = false;
+    }
 
-    function openCreateSubplaceModal ($event) {
+    function isConversation() {
+      if ($state.current.name == 'app.conversation' ||
+        $state.current.name == 'app.conversation-keyword' ) {
+        return vm.isConvMode = true;
+      }
+    return vm.isConvMode = false;
+    }
+    function isSearch() {
+      if ($state.current.name == 'app.search') {
+        return vm.isSearchMode = true;
+      }
+    return vm.isSearchMode = false;
+    }
+
+    function openCreateSubplaceModal ($event,style) {
+      if ( style == 'open') {
+        $state.go('app.place-create', { placeId : getPlaceId(),isOpenPlace: true } , { notify : false });
+      } else {
+        $state.go('app.place-create', { placeId : getPlaceId(),isClosePlace: true } , { notify : false });
+      }
       $event.preventDefault();
-      $state.go('app.place-create', { placeId : getPlaceId() } , { notify : false });
     };
 
     function openAddMemberModal($event) {
@@ -63,6 +94,12 @@
             },
             currentPlace: function() {
               return vm.place;
+            },
+            mode: function () {
+              return false
+            },
+            isForGrandPlace: function () {
+              return undefined
             }
           }
         });
@@ -74,8 +111,8 @@
               if (vm.isGrandPlace) {
 
                 NstSvcPlaceFactory.inviteUser(vm.place, role, user).then(function (invitationId) {
-                  toastr.success(NstUtility.string.format('User "{0}" was invited to Place "{1}" successfully.', user.id, vm.place.id));
-                  NstSvcLogger.info(NstUtility.string.format('User "{0}" was invited to Place "{1}" successfully.', user.id, vm.place.id));
+                  toastr.success(NstUtility.string.format(NstSvcTranslation.get('User {0} was invited to Place {1} successfully.'), user.id, vm.place.id));
+                  NstSvcLogger.info(NstUtility.string.format('User {0} was invited to Place {1} successfully.', user.id, vm.place.id));
                   resolve({
                     user: user,
                     role: role,
@@ -84,8 +121,8 @@
                 }).catch(function (error) {
                   // FIXME: Why cannot catch the error!
                   if (error.getCode() === NST_SRV_ERROR.DUPLICATE) {
-                    toastr.warning(NstUtility.string.format('User "{0}" was previously invited to Place "{1}".', user.id, vm.place.id));
-                    NstSvcLogger.info(NstUtility.string.format('User "{0}" was previously invited to Place "{1}".', user.id, vm.place.id));
+                    toastr.warning(NstUtility.string.format(NstSvcTranslation.get('User {0} has been previously invited to Place {1}.'), user.id, vm.place.id));
+                    NstSvcLogger.info(NstUtility.string.format('User {0} has been previously invited to Place {1}.', user.id, vm.place.id));
                     resolve({
                       user: user,
                       role: role,
@@ -99,8 +136,8 @@
 
               }else{
                 NstSvcPlaceFactory.addUser(vm.place, role, user).then(function(invitationId) {
-                  toastr.success(NstUtility.string.format('User "{0}" was added to Place "{1}" successfully.', user.id, vm.place.id));
-                  NstSvcLogger.info(NstUtility.string.format('User "{0}" was added to Place "{1}" successfully.', user.id, vm.place.id));
+                  toastr.success(NstUtility.string.format(NstSvcTranslation.get('User {0} was added to Place {1} successfully.'), user.id, vm.place.id));
+                  NstSvcLogger.info(NstUtility.string.format(NstSvcTranslation.get('User {0} was added to Place {1} successfully.'), user.id, vm.place.id));
 
                   resolve({
                     user: user,
@@ -110,8 +147,8 @@
                 }).catch(function(error) {
                   // FIXME: Why cannot catch the error!
                   if (error.getCode() === NST_SRV_ERROR.DUPLICATE) {
-                    toastr.warning(NstUtility.string.format('User "{0}" was previously added to Place "{1}".', user.id, vm.place.id));
-                    NstSvcLogger.info(NstUtility.string.format('User "{0}" was previously added to Place "{1}".', user.id, vm.place.id));
+                    toastr.warning(NstUtility.string.format(NstSvcTranslation.get('User {0} has been previously added to Place {1}.'), user.id, vm.place.id));
+                    NstSvcLogger.info(NstUtility.string.format('User {0} has been previously added to Place {1}.', user.id, vm.place.id));
                     resolve({
                       user: user,
                       role: role,
@@ -164,7 +201,7 @@
       if (hasPlace()) {
         return $state.href('app.place-messages', {placeId: vm.getPlaceId()});
       } else {
-        return $state.href('app.messages');
+        return $state.href('app.messages-favorites');
       }
     }
 
@@ -260,10 +297,11 @@
     $scope.$watch(
       function () {
         return vm.placeId
-      },function () {
+      },
+      function () {
         if (vm.placeId) {
           vm.isGrandPlace = vm.placeId.split('.').length === 1;
-          NstSvcPlaceFactory.getBookmarkedPlaces()
+          NstSvcPlaceFactory.getFavoritesPlaces()
             .then(function (bookmaks) {
               if (bookmaks.indexOf(vm.placeId) >= 0) vm.isBookmarked = true;
             });
@@ -278,32 +316,27 @@
           if(vm.hasPlace && !vm.place) {
             NstSvcPlaceFactory.get(vm.placeId).then(function (place) {
               vm.place = place;
+
+              vm.allowedToAddMember = place.hasAccess(NST_PLACE_ACCESS.ADD_MEMBERS);
+              vm.allowedToAddPlace = place.hasAccess(NST_PLACE_ACCESS.ADD_PLACE);
+              vm.allowedToRemovePlace = place.hasAccess(NST_PLACE_ACCESS.REMOVE_PLACE);
             });
           }
+
           if(vm.hasPlace) {
             NstSvcPlaceFactory.get(vm.placeId.split('.')[0]).then(function (place) {
               vm.grandPlace = place;
             });
           }
-
-          $q.all([
-            NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.ADD_MEMBERS),
-            NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.ADD_PLACE),
-            NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.REMOVE_PLACE)]).then(function (resultSet) {
-              vm.allowedToAddMember = resultSet[0];
-              vm.allowedToAddPlace = resultSet[1];
-              vm.allowedToRemovePlace = resultSet[2];
-            }).catch(function (error) {
-              NstSvcLogger.error(error);
-            });
         }
       }
     );
 
-    $scope.$watch('topNavOpen',function (newValue,oldValue) {
-      $rootScope.topNavOpen = newValue;
-    });
-
+    function searchKeyPressed($event, text) {
+      if (vm.searchOnKeypress) {
+        vm.searchOnKeypress($event, text);
+      }
+    }
 
     function confirmToLeave() {
       $uibModal.open({
@@ -323,19 +356,29 @@
     }
 
     function isPersonal() {
-      return NstSvcAuth.user.id !== vm.getPlaceId()
+      return NstSvcAuth.user.id == vm.getPlaceId()
+    }
+    function isSubPersonal() {
+      return NstSvcAuth.user.id == vm.getPlaceId().split('.')[0];
     }
 
     function leave() {
-      NstSvcPlaceFactory.removeMember(vm.getPlaceId(), NstSvcAuth.user.id, true).then(function(result) {
-        $state.go(NST_DEFAULT.STATE);
+      NstSvcPlaceFactory.leave(vm.getPlaceId()).then(function(result) {
+        if (_.indexOf(vm.place.id, '.') > -1) {
+          $state.go('app.place-messages', { placeId : vm.place.grandParentId });
+        } else {
+          $state.go(NST_DEFAULT.STATE);
+        }
       }).catch(function(error) {
         if (error instanceof NstPlaceOneCreatorLeftError){
-          toastr.error('You are the only one left!');
+          toastr.error(NstSvcTranslation.get('You are the only one left!'));
         } else if (error instanceof NstPlaceCreatorOfParentError) {
-          toastr.error(NstUtility.string.format('You are not allowed to leave here, because you are the creator of the top-level place ({0}).', vm.place.parent.name));
+          toastr.error(NstUtility.string.format(NstSvcTranslation.get('You are not allowed to leave the Place because you are the creator of its highest-ranking Place ({0}).'), vm.place.parent.name));
+        } else if (error instanceof NstManagerOfSubPlaceError) {
+          toastr.error(NstSvcTranslation.get('You can not leave here, because you are the manager of one of its sub-places.'));
+        } else {
+          toastr.error(NstSvcTranslation.get("An error has happened before leaving this place"));
         }
-        NstSvcLogger.error(error);
       });
 
     }
@@ -375,17 +418,17 @@
 
     function remove() {
       NstSvcPlaceFactory.remove(vm.place.id).then(function(removeResult) {
-        toastr.success(NstUtility.string.format("Place {0} was removed successfully.", vm.place.name));
-        if (vm.place.parentId) {
-          $state.go('app.place-messages', { placeId : vm.place.parentId });
+        toastr.success(NstUtility.string.format(NstSvcTranslation.get("Place {0} was removed successfully."), vm.place.name));
+        if (_.indexOf(vm.place.id, '.') > -1) {
+          $state.go('app.place-messages', { placeId : vm.place.grandParentId });
         } else {
           $state.go(NST_DEFAULT.STATE);
         }
       }).catch(function(error) {
-        if (error.code === 1 && error.message[0] === "place has child") {
-          toastr.warning("You have to remove all children before removing the place.");
+        if (error.code === 1 && error.message[0] === "remove_children_first") {
+          toastr.warning(NstSvcTranslation.get("You have to delete all the sub-Places within, before removing this Place."));
         } else {
-          toastr.error(NstUtility.string.format("An error happened while removing the place.", vm.place.name));
+          toastr.error(NstSvcTranslation.get("An error has occurred in removing this Place."));
         }
       });
     }

@@ -14,7 +14,8 @@
       bindToController : true,
       link: link,
       scope: {
-        grandPlace : '='
+        grandPlace : '=',
+        unreadMode : '='
       }
     };
 

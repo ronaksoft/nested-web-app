@@ -5,7 +5,7 @@
   angular
     .module('ronak.nested.web.main')
     .constant('NST_DEFAULT', {
-      STATE: 'app.messages',
+      STATE: 'app.messages-favorites',
       STATE_PARAM: '_'
     })
     .constant('NST_PUBLIC_STATE', [

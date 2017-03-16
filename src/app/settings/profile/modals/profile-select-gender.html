@@ -1,0 +1,18 @@
+<div id="change-view">
+  <div class="_difv _fw">
+    <div class="_difh modal-head">
+      <p class="_df _fw"><translate>Select Gender</translate></p>
+    </div>
+    <form name ="editGenderForm" ng-submit="submitted = true; ctrl.updateGender(editGenderForm.$valid, gender, $close, $dismiss);" novalidate autocomplete="off" ng-init="gender = ctrl.model.gender; submitted = false;">
+      <div class="form-group" ng-class="{ 'has-error' : editGenderForm.gender.$invalid && submitted}">
+        <label class="input-lab" ng-if="editGenderForm.gender.$valid || !submitted"><translate>Gender</translate></label>
+        <label class="input-lab" ng-if="editGenderForm.gender.$invalid && submitted"><translate>Gender is required</translate></label>
+        <select name="gender" ng-model="gender" ng-options="item.key as item.title for item in ctrl.genders" class="form-control" required></select>
+      </div>
+      <div class="_df _fw mdl-ft">
+        <div class="butn-white" ng-click="$dismiss('discard')"><translate>Discard</translate></div>
+        <input type="submit" class="butn-green" id="change-save" ng-disabled="ctrl.updateProgress" value="Save" translate-attrs="value"></input>
+      </div>
+    </form>
+  </div>
+</div>

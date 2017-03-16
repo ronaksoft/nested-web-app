@@ -1,0 +1,34 @@
+ <div>
+  <div class="user-avatar-bg">
+    <div class="blur-image" ng-if="avatar.length > 2">
+      <div style="background-image: url('{{avatar}}')"></div>
+    </div>
+    <div class="blur-image" ng-if="!avatar">
+      <img initials="name" data-url="avatar" data-width="208"
+           data-height="208"
+           data-radius="0" class="_df" data-word-count="0" data-font-size="1"/>
+    </div>
+    <div class="user-avatar-72">
+      <img initials="name" data-url="avatar" data-width="72"
+           data-height="72"
+           data-radius="40" class="account-initials-72 _df" data-word-count="2" data-font-size="16"/>
+    </div>
+  </div>
+  <div class="user-data">
+    <h4>{{name}}</h4>
+    <span ng-if="!isEmail">@{{username}}</span>
+    <div class="_fw">
+      <a class="butn-white" ui-sref="app.conversation({userId:username})">
+        <svg class="_24svg _df">
+          <use xlink:href="/assets/icons/nst-icn24.svg#message-baloon"></use>
+        </svg>
+      </a>
+      <div class="butn-green"  ng-click="messageUser($event)">
+        <svg class="_32svg umsg">
+          <use xlink:href="/assets/icons/nst-icn32.svg#compose"></use>
+        </svg><translate>Compose</translate>
+      </div>
+    </div>
+  </div>
+
+</div>

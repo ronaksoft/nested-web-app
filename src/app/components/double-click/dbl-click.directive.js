@@ -13,7 +13,7 @@
 
         $timeout(function() {
             x();
-        })
+        });
         function x() {
             var timer;
             if ($attrs.dblClick == 'true') {
@@ -23,13 +23,13 @@
                     timer = $timeout(function() {
                         $location.url($attrs.href.substring(1));
                     }, 200)
-                }); 
+                });
                 $element.dblclick(function(event) {
                     $timeout.cancel(timer);
-                }); 
+                });
             }
         }
-    
+
       }
     };
   }

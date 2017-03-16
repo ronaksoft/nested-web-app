@@ -44,7 +44,7 @@
         size : 'sm',
         resolve : {
           title : function () {
-            return title || 'Error';
+            return title || 'Confirm';
           },
           message : function () {
             return message;

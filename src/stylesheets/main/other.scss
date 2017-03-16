@@ -1,0 +1,28 @@
+a {
+  color: $color-sense-wire;
+}
+.a {
+  color: $color-sense;
+  text-decoration: none;
+}
+.a-hover:hover {
+  color: $color-sense;
+}
+
+.hovercolor:hover {
+  background-color: $color-sense-5;
+}
+
+.spansetting {
+  height: 30px;
+  padding: 5px 10px;
+}
+
+hr {
+  margin-top: .7em;
+  margin-bottom: .7em;
+  width: 100%;
+}
+.first-child {
+  margin-top: 20px;
+}

@@ -25,18 +25,24 @@
 ._difc { display: inline-flex;align-items: center}
 ._jcc { justify-content: center}
 ._aic { align-items: center;}
-
+._asc { align-self: center}
 ._jce { justify-content: flex-end; }
 ._di { display: inline; }
 ._dt { display: table; table-layout: fixed; }
 ._dtr { display: table-row; }
 ._dtc { display: table-cell; vertical-align: middle; }
 ._fn {flex: none}
-
+.nmarg {
+  margin: 0;
+}
+.prewrp {
+  white-space: pre-wrap;
+}
 ._pa { position: absolute;}
 ._pr { position: relative;}
 ._pf { position: fixed;}
 ._oh { overflow: hidden; }
+._opz { opacity: 0; }
 ._oph { opacity: .5; }
 ._tofe {
   white-space: nowrap;
@@ -65,6 +71,9 @@
   word-wrap: break-word;
   word-break: break-word;
 }
+._nwrp {
+  white-space: nowrap;
+}
 ._txe {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -73,13 +82,57 @@
     @extend ._txe
   }
 }
-
+._scl2 {
+  transform: scale(2,2) translateY(-5px);
+  transform-origin: center center;
+}
+._scl4 {
+  transform: scale(4,4) translateY(-5px);
+  transform-origin: center center;
+}
 ._hf{
   min-width: 50%;
 }
 
+._r45 {
+  transform: rotateZ(45deg);
+  transform-origin: 50% 50%;
+}
+._r90 {
+  transform: rotateZ(90deg);
+  transform-origin: 50% 50%;
+}
+._16svg {
+  width: 16px;
+  height: 16px;
+}
+._20svg {
+  width: 20px;
+  height: 20px;
+}
+._24svg {
+  width: 24px;
+  height: 24px;
+}
+._32svg {
+  width: 32px;
+  height: 32px;
+}
+._40svg {
+  width: 40px;
+  height: 40px;
+}
+._48svg {
+  width: 48px;
+  height: 48px;
+}
+
 hr.nomargin {
   margin-bottom: 0;
+}
+
+._postcard-w {
+  width: 588px;
 }
 
 .visibility-hidden {visibility: hidden;}
@@ -92,7 +145,15 @@ hr.nomargin {
 .fill-b {
   fill: black!important;
 }
-
+.crown {
+  fill: #FFD732!important;
+}
+.pendfill {
+  fill: $color-bg-pending!important;
+}
+.cm-color {
+  fill: #FFDD33!important;
+}
 .nst-font-10 {
   font-size: $font-size-xxsmall;
 }
@@ -146,6 +207,10 @@ hr.nomargin {
   color: $color-force-wire;
 }
 
+.nst-icn-gry {
+  fill: $color-black16;
+}
+
 .nst-mood-hurricane {
   color: $color-hurricane;
 }
@@ -178,6 +243,10 @@ hr.nomargin {
 }
 .force {
   color: $color-force-wire;
+  fill: $color-force-wire;
+  svg {
+    fill: $color-force-wire;
+  }
 }
 .fade-in {
   animation: fadein $animation-dur;
@@ -202,4 +271,7 @@ hr.nomargin {
 }
 .f6 {
   flex: 6;
+}
+.fill-sense-wire {
+  fill: $color-sense-wire;
 }

@@ -9,11 +9,9 @@
     /**
      * Creates an instance of NstUser. Do not use this directly, use NstSvcUserFactory.get(data) instead
      *
-     * @param {string|Object} data  User Info
-     *
      * @constructor
      */
-    function User(data) {
+    function User() {
       /**
        * User's Email Address
        *
@@ -62,25 +60,23 @@
        */
       this.gender = undefined;
 
+      this.searchable = undefined;
+
 
       /**
        * Number of times the user was mentioned
        * @type {undefined|Number}
        */
-      this.totalMentionsCount = undefined;
+      this.totalNotificationsCount = undefined;
 
 
       /**
        * Number of unread mentions
        * @type {undefined|Number}
        */
-      this.unreadMentionsCount = undefined;
+      this.unreadNotificationsCount = undefined;
 
       NstTinyUser.call(this);
-
-      if (data) {
-        this.fill(data);
-      }
     }
 
     User.prototype = new NstTinyUser();

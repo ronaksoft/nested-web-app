@@ -16,7 +16,7 @@ describe('NstUtilCollection', function() {
       }];
 
       var id = 'x';
-      result = NstUtilCollection.dropById(collection, id);
+      var result = NstUtilCollection.dropById(collection, id);
       expect(result).to.have.lengthOf(3);
     });
   });

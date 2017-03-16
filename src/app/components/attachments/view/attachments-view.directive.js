@@ -15,6 +15,7 @@
         postId: '='
       },
       scope: {
+        postId : '=',
         attachments: '=',
         previewMode: '='
       }

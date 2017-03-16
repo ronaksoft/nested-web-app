@@ -14,7 +14,6 @@
       controllerAs: 'ctlFullNavbar',
       bindToController: true,
       scope: {
-        controls: '=',
         page: '=',
         showPlaceId : '=',
         pictureUrl : '@navPictureUrl',
@@ -22,39 +21,12 @@
         title : '@navTitle',
         placeId : '@',
         readyToShow : '=',
-        placeDescription : '@'
+        placeDescription: '@',
+        account: '=',
+        query: '=',
+        searchOnKeypress : '='
       },
       link: function ($scope, $element, $attrs) {
-        // create a scene
-        var controller = new ScrollMagic.Controller({
-          container: "body",
-          globalSceneOptions: {
-            triggerHook: "onLeave"
-          }
-        });
-        var tween,tween2,tween3,tween4;
-        tween = tween2 = tween3 = tween4 = new TimelineLite();
-
-        // create tween
-        // if (element) tween = new TimelineLite()
-        //   .add(TweenLite.to($(element), 1, {css:{height:'88px'}, ease:Linear.easeNone, force3D:true}));
-
-
-        if ($element.children().find( "h3" ).length > 0) { tween2 = new TimelineLite()
-          .add(TweenLite.to($element.children().find( "h3" )[0], 1, {css:{color:'transparent',fill:'transparent',stroke:'transparent'}, ease:Power4.easeOut}));
-
-        }
-
-        // if ($("#content-plus").children().length > 0) {tween3 = new TimelineLite()
-        //   .add(TweenLite.to($("#content-plus"), 1, {css:{transform:'translateY(98px)'}, ease:Linear.easeNone}));}
-        //
-        // if ($("#new-post").length > 0) {tween4 = new TimelineLite()
-        //   .add(TweenLite.to($("#new-post"), 1, {css:{top:'128px'}, ease:Linear.easeNone}));}
-
-        // build scene
-        var scene = new ScrollMagic.Scene({duration: 60, offset: 1})
-          .setTween([tween2])
-          .addTo(controller);
       }
     };
   }

@@ -26,10 +26,6 @@ module.exports = function () {
     return browser.wait(EC.invisibilityOf(element(By.css('.loading-container'))), 50000);
   });
 
-  this.When(/^I Wait till line loader hide$/, function () {
-    element(By.css('div[style="width: 0%;"]'));
-    return;
-  });
 
   this.When(/^Wait for Upload to be finished$/, function () {
     browser.ignoreSynchronization = true;
@@ -58,6 +54,11 @@ module.exports = function () {
     input.sendKeys(value);
   });
 
+  this.Given(/^I fill input by ngModel "([^"]*)" with "([^"]*)"$/, function (filling, value) {
+    var fillInput1 = element(By.css('input[ng-model="' + filling + '"]'));
+    fillInput1.sendKeys(value);
+  });
+
   this.Given(/^I fill textarea by "([^"]*)" with "([^"]*)"$/, function (placeholder, value) {
     var textarea = element(By.css('textarea[placeholder="' + placeholder + '"]'));
     textarea.sendKeys(value);
@@ -68,6 +69,17 @@ module.exports = function () {
     enter.perform();
   });
 
+  this.Given(/^I press tab$/, function () {
+    var tab = browser.actions().sendKeys(protractor.Key.TAB);
+    tab.perform();
+  });
+
+  this.Given(/^I type Hello$/, function () {
+
+    var Hello = browser.actions().sendKeys(protractor.Key.H);
+    Hello.perform();
+  });
+
   this.Given(/^I fill id "([^"]*)" with "([^"]*)"$/, function (id,value) {
     var input = element(By.css('#'+ id));
     input.sendKeys(value);
@@ -76,6 +88,16 @@ module.exports = function () {
   this.Given(/^I Press "([^"]*)"$/, function (value) {
     var button = element(By.css('input[value="' + value + '"]'));
     button.click();
+  });
+
+  this.Given(/^I Press button "([^"]*)"$/, function (type) {
+    var button1 = element(By.css('button[type="' + type + '"]'));
+    button1.click();
+  });
+
+  this.Given(/^I Press button by ngClick "([^"]*)"$/, function (ngClick){
+    var ClickButton = element(By.css('button[ng-click="' + ngClick + '"]'));
+    ClickButton.click();
   });
 
   this.Given(/^I Click id "([^"]*)"$/, function (id) {
@@ -94,18 +116,18 @@ module.exports = function () {
   });
 
   this.Given(/^I Click on "([^"]*)" in sidebar$/, function (destination) {
-    var pS = element(By.css('a[href="#/messages/'+ destination +'"]'));
-    pS.click();
+    var pS1 = element(By.css('a[href="#/messages/'+ destination +'"]'));
+    pS1.click();
   });
 
   this.Given(/^I Click on plus of "([^"]*)" in sidebar$/, function (destination) {
-    var pS = element(By.css('a[href="#/places/_/'+ destination +'"]'));
-    pS.click();
+    var pS2 = element(By.css('a[href="#/places/_/'+ destination +'"]'));
+    pS2.click();
   });
 
   this.Given(/^I Click on "([^"]*)" place$/, function (destination) {
-    var pS = element(By.css('a[href="#/places/'+ destination +'/messages"]'));
-    pS.click();
+    var pS3 = element(By.css('a[href="#/places/'+ destination +'/messages"]'));
+    pS3.click();
   });
 
   this.Given(/^I Click on sidebar by id "([^"]*)"$/, function (sidebarId) {
@@ -115,6 +137,11 @@ module.exports = function () {
 
   this.Given(/^I Click Option by Label "([^"]*)"$/, function (label) {
     var option = element(By.css('option[label="' + label + '"]'));
+    option.click();
+  });
+
+  this.Given(/^I Click Option by value "([^"]*)"$/, function (value) {
+    var option = element(By.css('option[value="' + value + '"]'));
     option.click();
   });
 
@@ -133,6 +160,52 @@ module.exports = function () {
     clearInput.clear();
   });
 
+  this.Given(/^I clear input by ngModel "([^"]*)"$/, function (ngModel) {
+    var clearInput1 = element(By.css('input[ng-model="' + ngModel + '"]'));
+    clearInput1.clear();
+  });
+
+  this.Given(/^I Click by ngClick "([^"]*)"$/, function (ngClick){
+    var ClickableElement = element(By.css('div[ng-click="' + ngClick + '"]'));
+    ClickableElement.click();
+  });
+
+  this.Given(/^I Click on switchDrag "([^"]*)" on navbar$/, function (switchDrag){
+    var SwitchElement = element(By.css('div[switch-drag="' + switchDrag + '"]'));
+    SwitchElement.click();
+  });
+
+  this.Given(/^I Click list by ngClick "([^"]*)"$/, function (ngClick){
+    var list = element(By.css('li[ng-click="' + ngClick + '"]'));
+    list.click();
+  });
+
+  this.Given(/^I Click by dataNgClick "([^"]*)"$/, function (dataNgClick){
+    var box = element(By.css('div[data-ng-click="' + dataNgClick + '"]'));
+    box.click();
+  });
+
+  this.Given(/^I Invite by dataNgClick "([^"]*)"$/, function (dataNgClick){
+    var invite = element(By.css('div[data-ng-click="' + dataNgClick + '"]'));
+    invite.click();
+  });
+
+
+  this.Given(/^I Click icon by ngIf "([^"]*)"$/, function (ngIf){
+    var menu = element(By.css('svg[ng-if="' + ngIf + '"]'));
+    menu.click();
+  });
+
+  this.Given(/^I Click by ngModel "([^"]*)"$/, function (ngModel){
+    var select = element(By.css('select[ng-model="' + ngModel + '"]'));
+    select.click();
+  });
+
+  this.Given(/^I Click by dataNgModel "([^"]*)"$/, function (dataNgModel){
+    var select = element(By.css('select[data-ng-model="' + dataNgModel + '"]'));
+    select.click();
+  });
+
   this.Given(/^I clear input by name "([^"]*)"$/, function (clearing) {
     var clearInput = element(By.css('input[name="' + clearing + '"]'));
     clearInput.clear();
@@ -141,6 +214,26 @@ module.exports = function () {
   this.Given(/^I fill input by name "([^"]*)" with "([^"]*)"$/, function (name, value) {
     var input = element(By.css('input[name="' + name + '"]'));
     input.sendKeys(value);
+  });
+
+  this.Given(/^I Click input by value "([^"]*)"$/, function (value) {
+    var input = element(By.css('input[value="' + value + '"]'));
+    input.click();
+  });
+
+  this.Given(/^I Click icon by tooltip "([^"]*)"$/, function (text) {
+    var icon = element(By.css('a[data-uib-tooltip="' + text + '"]'));
+    icon.click();
+  });
+
+  this.Given(/^I Click text by tooltip "([^"]*)"$/, function (text) {
+    var text = element(By.css('p[data-uib-tooltip="' + text + '"]'));
+    text.click();
+  });
+
+  this.Given(/^I move mouse on hidden popover "([^"]*)"$/, function (dataPopover) {
+    var popover = element(By.css('div[data-popover-is-open="' + dataPopover + '"]'));
+    popover.mouseEnter().perform();
   });
 
   this.Then(/^should the title of the page be "([^"]*)"$/, function (expectedPageTitle) {
@@ -204,6 +297,24 @@ module.exports = function () {
     browser.ignoreSynchronization = true;
     var EC = protractor.ExpectedConditions;
     return browser.wait(EC.visibilityOf(element(By.css('.toast-success'))), 50000);
+  });
+
+  this.When(/^Wait to see error-msg$/, function () {
+    browser.ignoreSynchronization = true;
+    var EC = protractor.ExpectedConditions;
+    return browser.wait(EC.visibilityOf(element(By.css('.toast-error'))), 50000);
+  });
+
+  this.When(/^Wait to see warn-msg$/, function () {
+    browser.ignoreSynchronization = true;
+    var EC = protractor.ExpectedConditions;
+    return browser.wait(EC.visibilityOf(element(By.css('.toast-warning'))), 50000);
+  });
+
+  this.When(/^Wait to see leave-modal$/, function () {
+    browser.ignoreSynchronization = true;
+    var EC = protractor.ExpectedConditions;
+    return browser.wait(EC.visibilityOf(element(By.css('#delete-view'))), 50000);
   });
 
   this.Then(/^should see "([^"]*)"$/, function (text) {

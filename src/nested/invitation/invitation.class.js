@@ -9,6 +9,7 @@
       this.inviter = null;
       this.place = null;
       this.role = null;
+      this.state = null;
 
       NstModel.call(this);
 

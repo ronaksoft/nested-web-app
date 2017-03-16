@@ -405,8 +405,9 @@ input[type="checkbox"] {
 // Feedback icon (requires .glyphicon classes)
 .form-control-feedback {
   position: absolute;
-  top: 4px;
+  bottom: 0;
   right: 0;
+  top:auto!important;
   z-index: 2; // Ensure icon is above input groups
   display: block;
   width: $input-height-base;

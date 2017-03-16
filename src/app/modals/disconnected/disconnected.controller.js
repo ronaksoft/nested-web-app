@@ -6,12 +6,13 @@
     .controller('DisconnectedController', DisconnectedController);
 
   /** @ngInject */
-  function DisconnectedController($q, $state, $rootScope, NstSvcAuth) {
+  function DisconnectedController($state, $rootScope) {
     var vm = this;
 
     vm.signout = function () {
       $rootScope.modals['disconnected'].close();
-      $state.go('public.signout');
+      $state.go('app.signout');
     };
+
   }
 })();

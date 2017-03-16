@@ -1,0 +1,11 @@
+version: '2'
+services:
+  dev:
+    restart: always
+    image: registry.ronaksoftware.com/nested/web-app:0.0.1-dev
+    working_dir: /usr/src/app-dev
+    volumes:
+      - ".:/usr/src/app-dev"
+    ports:
+      - "3000:3000"
+    command: bin/run.dev.sh
