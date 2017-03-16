@@ -87,8 +87,7 @@
         });
 
         vm.noResult = vm.messages.length === 0;
-        // vm.reachedTheEnd = olderMessages.length > 0 && olderMessages.length < limit;
-        vm.reachedTheEnd = olderMessages.length == 0 && !(vm.messages.length === 0);
+        vm.reachedTheEnd = olderMessages.length < limit;
 
         vm.loading = false;
 
@@ -100,6 +99,10 @@
     }
 
     function loadMore() {
+      if (vm.reachedTheEnd) {
+        return;
+      }
+      
       skip = vm.messages.length;
       searchMessages(vm.queryString);
     }
@@ -112,13 +115,13 @@
       }
     }
 
-    $(window).scroll(function (e) {
-      var element = e.currentTarget;
-      if (element.pageYOffset + element.innerHeight === $('body').height()) {
-        $log.debug("load more");
-        vm.loadMore();
-      }
-    });
+    // $(window).scroll(function (e) {
+    //   var element = e.currentTarget;
+    //   if (element.pageYOffset + element.innerHeight === $('body').height()) {
+    //     $log.debug("load more");
+    //     vm.loadMore();
+    //   }
+    // });
   }
 
 })();
