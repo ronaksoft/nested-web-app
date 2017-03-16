@@ -446,6 +446,10 @@
 
 
     vm.attachments.attach = function (file) {
+      if (file.size > NST_CONFIG.UPLOAD_SIZE_LIMIT) {
+        toastr.error(NstSvcTranslation.get("Maximum upload size is 100 MB"));
+        return;
+      }
       var deferred = $q.defer();
       var readyPromises = [];
 
