@@ -98,13 +98,19 @@
       vm.chainStack.splice(vm.chainStack.length - 2, 2);
     }
 
+    function pushToChainStack(id) {
+      if (!_.includes(vm.chainStack, id))
+        vm.chainStack.push(id);
+
+    }
+
     function load(postId) {
       vm.expandProgressId = postId;
       return $q.all([loadChainMessages(postId, defaultLimit), NstSvcPostFactory.get(postId)]).then(function (resolvedSet) {
         vm.expandProgressId = null;
         vm.extendedId = postId;
         vm.postId = postId;
-        vm.chainStack.push(postId);
+        pushToChainStack(postId);
         vm.messages = resolvedSet[0];
         vm.post = _.last(resolvedSet[0]);
 
