@@ -125,7 +125,6 @@
         date: this.latestActivityTimestamp,
         placeId: event.detail.place_id
       }).then(function (data) {
-
         var nearActTime = self.latestActivityTimestamp;
 
         // filter received activities with latest time

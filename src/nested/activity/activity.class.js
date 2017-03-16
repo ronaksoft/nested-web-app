@@ -20,7 +20,6 @@
       this.member = null;
       this.memberType = null;
 
-      return this;
     }
 
     Activity.prototype = {};

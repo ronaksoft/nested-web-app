@@ -552,10 +552,14 @@ input[type="checkbox"].inpsw[disabled]:checked + label + label  {
 
 .inline-date-picker {
   display: flex;
-  input {
-    display: flex;
+  div {
     flex: 1;
     width: 100%;
+    display: flex;
+  }
+  input {
+    display: flex;
+    padding: 0 16px!important;
   }
   select {
     height: 40px;

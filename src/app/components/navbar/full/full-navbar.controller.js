@@ -11,7 +11,7 @@
     NstSvcAuth, NstSvcLogger,
     NstSearchQuery, NstSvcPlaceFactory, NstSvcTranslation,
     NST_DEFAULT, NST_PLACE_FACTORY_EVENT, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_SRV_ERROR,
-    NstPlaceOneCreatorLeftError, NstPlaceCreatorOfParentError) {
+    NstPlaceOneCreatorLeftError, NstPlaceCreatorOfParentError, NstManagerOfSubPlaceError) {
     var vm = this;
     /*****************************
      *** Controller Properties ***
@@ -374,8 +374,11 @@
           toastr.error(NstSvcTranslation.get('You are the only one left!'));
         } else if (error instanceof NstPlaceCreatorOfParentError) {
           toastr.error(NstUtility.string.format(NstSvcTranslation.get('You are not allowed to leave the Place because you are the creator of its highest-ranking Place ({0}).'), vm.place.parent.name));
+        } else if (error instanceof NstManagerOfSubPlaceError) {
+          toastr.error(NstSvcTranslation.get('You can not leave here, because you are the manager of one of its sub-places.'));
+        } else {
+          toastr.error(NstSvcTranslation.get("An error has happened before leaving this place"));
         }
-        NstSvcLogger.error(error);
       });
 
     }

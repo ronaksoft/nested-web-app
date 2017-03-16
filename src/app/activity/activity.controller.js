@@ -15,6 +15,8 @@
 
     var vm = this;
     var activityFilterGroups = {};
+    var eventListeners = [];
+    var reconnectEvent;
 
     vm.activities = [];
     vm.currentPlace = null;
@@ -306,13 +308,13 @@
 
 
 
-    _.map(NST_EVENT_ACTION,function (val) {
+    eventListeners = _.map(NST_EVENT_ACTION,function (val) {
       NstSvcSync.addEventListener(val, function (e) {
         addNewActivity(e.detail);
       });
     });
 
-    NstSvcServer.addEventListener(NST_SRV_EVENT.RECONNECT, function () {
+    reconnectEvent = NstSvcServer.addEventListener(NST_SRV_EVENT.RECONNECT, function () {
       loadAfter(getRecentActivityTime());
     });
 
@@ -384,6 +386,10 @@
 
     $scope.$on('$destroy', function () {
       NstSvcSync.closeChannel(vm.syncId);
+      _.forEach(eventListeners, function (eventId) {
+        NstSvcSync.removeEventListener(eventId);
+      });
+      NstSvcSync.removeEventListener(reconnectEvent);
     });
 
   }

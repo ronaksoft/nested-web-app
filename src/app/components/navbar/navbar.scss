@@ -58,7 +58,7 @@
   bottom: 0;
   top: $topnav-height;
   height: calc(100vh - 56px);
-  background-color: $color-breeze-50;
+  background-color: #e8ece9;
   padding: 8px 0;
   overflow: auto;
   &.ng-inter {
@@ -486,7 +486,7 @@ nst-navbar {
       .cp-illu {
         width: 308px;
         display: flex;
-        flex: none;
+        //flex: none;
       }
     }
   }
@@ -761,11 +761,12 @@ body.scrolled {
   width: auto!important;
   h2 {
     margin: 0;
+    line-height: 28px;
     span{
       font-size: 24px;
       font-weight: 400;
     }
-    b span  {
+    b span{
       font-weight: 600;
     }
   }

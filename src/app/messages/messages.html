@@ -43,7 +43,7 @@
 
     </div>
     <div class="post-area">
-      <div id="new-post"  ng-show="ctlMessages.hasNewMessages" affixer parent=".content" after-content="340" offset-top="0" top="134" first-imp="true">
+      <div id="new-post"  ng-show="ctlMessages.hasNewMessages" parent=".content" after-content="0" offset-top="0" top="134" first-imp="true">
         <i ng-click="ctlMessages.dismissNewMessage(); _track('posts', 'dismiss new posts');">x</i>
         <a ng-click="ctlMessages.showNewMessages(); _track('posts', 'show new posts');" ng-if="ctlMessages.hotMessageStorage.length > 1">{{ctlMessages.hotMessageStorage.length}}&nbsp;<translate>New message</translate></a>
         <a ng-click="ctlMessages.showNewMessages(); _track('posts', 'show new posts');" ng-if="ctlMessages.hotMessageStorage.length < 2"><translate>One New Message</translate></a>
