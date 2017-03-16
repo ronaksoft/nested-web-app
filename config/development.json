@@ -23,6 +23,7 @@
         "URL": "http://cyrus.nested.ronaksoftware.com:8080"
       }
     },
-    "GOOGLE_ANALYTICS_TOKEN": "UA-92612481-1"
+    "GOOGLE_ANALYTICS_TOKEN": "UA-92612481-1",
+    "UPLOAD_SIZE_LIMIT": 104857600
   }
 }
