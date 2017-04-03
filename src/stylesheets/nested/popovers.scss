@@ -73,7 +73,8 @@
   position: absolute;
   //z-index: 35;
   padding: 0;
-  width: 320px;
+  width: 276px!important;
+  max-width: calc(100vw - 131px)!important;
   label {
     margin: 0;
   }
