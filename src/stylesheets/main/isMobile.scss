@@ -29,6 +29,10 @@ body.isMobile {
   .close-modal {
     position: absolute;
   }
+
+  .compose-btns {
+    min-height: 72px
+  }
   //.modal-mlg {
   //  margin: 16px;
   //  height: calc(100% - 32px);
@@ -99,7 +103,7 @@ body.isMobile {
     }
     .modal-bo {
       margin-top: 48px;
-      height: calc(100% - 96px);
+      height: calc(100% - 145px);
       max-height: calc(100vh - 144px)!important;
     }
   }
