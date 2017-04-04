@@ -6,7 +6,7 @@
     .factory('NstPicture', NstPicture);
 
   /** @ngInject */
-  function NstPicture(NstObject, NstSvcStore) {
+  function NstPicture(NstSvcStore) {
     function Picture(data) {
       this.original = null;
       this.preview = null;
@@ -21,11 +21,9 @@
         this.x64 = data.x64;
         this.x32 = data.x32;
       }
-
-      NstObject.call(this);
     }
 
-    Picture.prototype = new NstObject();
+    Picture.prototype = {};
     Picture.prototype.constructor = Picture;
 
     Picture.prototype.getUrl = function (size) {
