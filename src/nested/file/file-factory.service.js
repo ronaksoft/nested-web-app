@@ -52,16 +52,16 @@
 
     function parseFile(data) {
       var file = new NstAttachment();
-      file.setId(data._id);
-      file.setFilename(data.filename);
-      file.setSize(data.size);
-      file.setMimetype(data.mimetype);
-      file.setUploadTime(data.upload_time);
-      file.setWidth(data.width);
-      file.setHeight(data.height);
+      file.id = data._id;
+      file.filename = data.filename;
+      file.size = data.size;
+      file.mimetype = data.mimetype;
+      file.uploadTime = data.upload_time;
+      file.width = data.width;
+      file.height = data.height;
 
       if (data.thumbs && data.thumbs.pre) {
-        file.setPicture(new NstPicture(data.thumbs));
+        file.picture = new NstPicture(data.thumbs);
       }
 
       return file;

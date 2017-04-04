@@ -106,7 +106,7 @@
      */
     Post.prototype.addAttachment = function(attachment) {
       attachment = attachment instanceof NstAttachment ? attachment : new NstAttachment(attachment, this);
-      attachment.setPost(this);
+      attachment.post = this;
       this.attachments.push(attachment);
 
       // this.attachmentPreview = this.attachmentPreview || !!attachment.thumbs.x128.uid;
