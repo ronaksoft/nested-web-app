@@ -3,8 +3,8 @@
 #  Scenario: sign-in and goes to bokkmarks with no bookmarked message
 #    Given I go to the page "/login"
 #    When Wait to loading hide
-#    Given I fill "Username" with "kayvan"
-#    Given I fill "Password" with "1234"
+#    Given I fill "Username" with "jerry"
+#    Given I fill "Password" with "111111"
 #    Given I Press "Sign in"
 #    When current tab is "Feed"
 #    Given I switch to "bookmarks" tab
@@ -12,10 +12,11 @@
 #    Then must see no posts
 #    When I wait 2s
 #
-#  Scenario: kayvan goes to activitytest place and bookmark a post
+#  Scenario: kayvan goes to bookmark-test place and bookmark a post
 #    Given I switch to "feed" tab
 #    When current tab is "Feed"
-#    Given I Click on "activitytest" place in sidebar
+#    Given I Click on "bookmark-test" place in sidebar
+#    When should the title of the place be "bookmark-test"
 #    When I wait 5s
 #    When Wait for hiding of all loadings
 #    When current tab is "Posts"

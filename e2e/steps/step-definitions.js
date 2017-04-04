@@ -231,8 +231,8 @@ module.exports = function () {
     select.click();
   });
 
-  this.Given(/^I Click by dataNgModel "([^"]*)"$/, function (dataNgModel){
-    var select = element(By.css('select[data-ng-model="' + dataNgModel + '"]'));
+  this.Given(/^I Click input by dataNgModel "([^"]*)"$/, function (dataNgModel){
+    var select = element(By.css('input[data-ng-model="' + dataNgModel + '"]'));
     select.click();
   });
 
@@ -273,8 +273,8 @@ module.exports = function () {
   });
 
 
-  this.Then(/^should the title of the place be "([^"]*)"$/, function (expectedPlaceTitle) {
-    element(By.css('a[class="ng-binding"]')).getText().then(function (title) {
+  this.When(/^should the title of the place be "([^"]*)"$/, function (expectedPlaceTitle) {
+    element(By.css('cite[fit-text]')).getText().then(function (title) {
       assert.equal(title.trim(), expectedPlaceTitle, ' title is "' + title + '" but should be "' + expectedPlaceTitle);
     });
   });
@@ -360,6 +360,14 @@ module.exports = function () {
     browser.ignoreSynchronization = true;
     var EC = protractor.ExpectedConditions;
     return browser.wait(EC.visibilityOf(element(By.css('.toast-warning'))), 50000);
+  });
+
+  this.When(/^should see "([^"]*)" warning message$/, function (expectedWarning) {
+    return element(By.css(".toast-warning")).getText().then(function (noExpect) {
+      return assert.equal(noExpect.trim(), expectedWarning, ' error is "' + noExpect + '" but should be "' + expectedWarning);
+    }).catch(function () {
+      return assert.ok(false, 'Can not find message!')
+    });
   });
 //---------------------------------------------------------------------------//
 
@@ -477,8 +485,8 @@ module.exports = function () {
     browser.actions().keyDown(protractor.Key.CONTROL).sendKeys('t').perform();
   });
 
-  this.Given(/^close current tab$/, function () {
-    browser.actions().keyDown(protractor.Key.CONTROL).sendKeys('w').perform();
+  this.Given(/^I write "([^"]*)"$/, function (key) {
+    browser.actions().sendKeys(key).perform();
   });
 
   this.Given(/^I press tab$/, function () {
