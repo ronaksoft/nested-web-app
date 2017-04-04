@@ -73,7 +73,8 @@
   position: absolute;
   //z-index: 35;
   padding: 0;
-  width: 320px;
+  width: 276px!important;
+  max-width: calc(100vw - 131px)!important;
   label {
     margin: 0;
   }
@@ -233,9 +234,9 @@ input[type="checkbox"]:checked + label.setting {
     top: 56px!important;
     bottom: 0;
     right: 8px!important;
-    width: auto;
+    width: 380px;
     min-width: 0;
-    max-width: 380px;
+    max-width: calc(100vw - 69px);
     //max-height: none;
     .popover-inner {
       //max-height: none;
