@@ -6,6 +6,14 @@
   </div>
   <span><translate>Full view</translate></span>
 </a>
+<a class="_df list-items _aic _fw" ng-click="ctlPostCard.replyAll($event); ctlPostCard.markAsRead(); _track('post card', 'reply all : toolbar');" ui-sref="app.compose-reply-all({ postId: ctlPostCard.post.id })">
+  <div class="_aic _df">
+    <svg class="_16svg mirror">
+      <use xlink:href="/assets/icons/nst-icn16.svg#reply"></use>
+    </svg>
+  </div>
+  <span><translate>Reply</translate></span>
+</a>
 <a class="_df list-items _aic _fw" ng-click="ctlPostCard.replyToSender($event);" ui-sref="app.compose-reply-sender({ postId: ctlPostCard.post.id })">
   <div class="_aic _df">
     <svg class="_16svg mirror">
@@ -13,6 +21,14 @@
     </svg>
   </div>
   <span><translate>Reply to sender</translate></span>
+</a>
+<a class="_df list-items _aic _fw" ui-sref="app.compose-forward({ postId: ctlPostCard.post.id })" ng-click="ctlPostCard.forward($event); ctlPostCard.markAsRead(); _track('post card', 'forward : toolbar');">
+  <div class="_aic _df">
+    <svg class="_16svg mirror">
+      <use xlink:href="/assets/icons/nst-icn16.svg#forward"></use>
+    </svg>
+  </div>
+  <span><translate>Forward</translate></span>
 </a>
 <!--<a class="_df list-items _aic _fw">-->
 <!--<div class="_aic _df">-->
@@ -25,7 +41,7 @@
 <div class="line-popover"></div>
 <a class="_df list-items _aic _fw">
   <div class="_aic _df">
-    <svg class="_r45 _16svg">
+    <svg class="_16svg">
       <use xlink:href="/assets/icons/nst-icn16.svg#places"></use>
     </svg>
   </div>
@@ -33,7 +49,7 @@
 </a>
 <a class="_df list-items _aic _fw">
   <div class="_aic _df">
-    <svg class="_r45 _16svg">
+    <svg class="_16svg">
       <use xlink:href="/assets/icons/nst-icn16.svg#places"></use>
     </svg>
   </div>
@@ -42,7 +58,7 @@
 <div ng-if="ctlPostCard.hasRemoveAccess || ctlPostCard.post.wipeAccess || true" class="line-popover"></div>
 <a ng-if="ctlPostCard.hasRemoveAccess" ng-click="$event.stopPropagation(); ctlPostCard.remove();" class="_df list-items _aic _fw red">
   <div class="_aic _df">
-    <svg class="_16svg">
+    <svg class=" _16svg">
       <use xlink:href="/assets/icons/nst-icn16.svg#cross"></use>
     </svg>
   </div>
