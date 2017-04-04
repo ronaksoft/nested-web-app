@@ -215,6 +215,12 @@
           },
           fileIds: function () {
             return null;
+          },
+          currentPlaceId: function () {
+            return vm.currentPlaceId;
+          },
+          currentPostId: function () {
+            return null;
           }
         }
       });
