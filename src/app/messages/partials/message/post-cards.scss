@@ -415,6 +415,9 @@ post-card {
   }
 }
 
+.post-card-place-avatar {
+  @include avatar(48px,32px,10%);
+}
 h3 {
   font-weight: 100;
 }

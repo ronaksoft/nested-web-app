@@ -31,3 +31,20 @@
     fill: $color-force;
   }
 }
+
+.remove-from-places {
+  height: 48px;
+  padding: 5px 4px;
+  width: 100%;
+  color: $color-solid;
+  transition: background-color $animation-dur;
+  span {color: $color-solid;fill: $color-solid}
+  span,label,a {
+    transition-duration: $animation-dur;
+    transition-property: background-color,color;
+  }
+  &:hover{
+    background-color: $color-sense-5;
+    border-bottom-left-radius: 5px;
+  }
+}

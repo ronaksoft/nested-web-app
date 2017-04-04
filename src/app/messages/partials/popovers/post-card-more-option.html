@@ -22,10 +22,27 @@
 <!--</div>-->
 <!--<span><translate>Print</translate></span>-->
 <!--</a>-->
-<div ng-if="ctlPostCard.hasRemoveAccess || ctlPostCard.post.wipeAccess" class="line-popover"></div>
-<a ng-if="ctlPostCard.hasRemoveAccess" ng-click="$event.stopPropagation(); ctlPostCard.remove();" class="_df list-items _aic _fw red">
+<div class="line-popover"></div>
+<a class="_df list-items _aic _fw">
   <div class="_aic _df">
     <svg class="_r45 _16svg">
+      <use xlink:href="/assets/icons/nst-icn16.svg#places"></use>
+    </svg>
+  </div>
+  <span><translate>Attach a Place</translate></span>
+</a>
+<a class="_df list-items _aic _fw">
+  <div class="_aic _df">
+    <svg class="_r45 _16svg">
+      <use xlink:href="/assets/icons/nst-icn16.svg#places"></use>
+    </svg>
+  </div>
+  <span><translate>Replace</translate></span>
+</a>
+<div ng-if="ctlPostCard.hasRemoveAccess || ctlPostCard.post.wipeAccess || true" class="line-popover"></div>
+<a ng-if="ctlPostCard.hasRemoveAccess" ng-click="$event.stopPropagation(); ctlPostCard.remove();" class="_df list-items _aic _fw red">
+  <div class="_aic _df">
+    <svg class="_16svg">
       <use xlink:href="/assets/icons/nst-icn16.svg#cross"></use>
     </svg>
   </div>
@@ -38,4 +55,18 @@
     </svg>
   </div>
   <span><translate>Retract</translate></span>
+  <a class="_df list-items _aic _fw red cursor-pointer" popover-class="white-pop popover-white-nst-activity-places" data-popover-placement="right-center auto"
+     data-uib-popover-template="'app/messages/partials/popovers/remove-from.html'" data-popover-append-to-body="true" translate-attrs="data-uib-popover">
+    <div class="_aic _df">
+      <svg class="_r45 _16svg">
+        <use xlink:href="/assets/icons/nst-icn16.svg#cross"></use>
+      </svg>
+    </div>
+    <span class="_df _fw"><translate>Remove from</translate></span>
+    <div class="_aic _df">
+      <svg class="_r-90 _16svg">
+        <use xlink:href="/assets/icons/nst-icn16.svg#arrow"></use>
+      </svg>
+    </div>
+  </a>
 </a>

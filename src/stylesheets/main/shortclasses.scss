@@ -102,6 +102,10 @@
   transform: rotateZ(90deg);
   transform-origin: 50% 50%;
 }
+._r-90 {
+  transform: rotateZ(-90deg);
+  transform-origin: 50% 50%;
+}
 ._16svg {
   width: 16px;
   height: 16px;
