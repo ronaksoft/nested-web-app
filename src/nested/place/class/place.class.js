@@ -6,7 +6,7 @@
     .factory('NstPlace', NstPlace);
 
   /** @ngInject */
-  function NstPlace(NST_OBJECT_EVENT, NstTinyPlace, NstPlacePrivacy, NstPlacePolicy, NstPicture) {
+  function NstPlace(NST_OBJECT_EVENT, NstTinyPlace, NstPicture) {
     /**
      * Creates an instance of NstPlace. Do not use this directly, use NstSvcPlaceFactory.get(data) instead
      *
@@ -26,9 +26,9 @@
       /**
        * Place's privacy
        *
-       * @type {NstPlacePrivacy}
+       * @type {Object}
        */
-      this.privacy = new NstPlacePrivacy();
+      this.privacy = null;
 
       /**
        * Picture's policy
@@ -41,9 +41,9 @@
       /**
        * Place's policy
        *
-       * @type {NstPlacePolicy}
+       * @type {Object}
        */
-      this.policy = new NstPlacePolicy();
+      this.policy = null;
 
       /**
        * Place's users
@@ -101,32 +101,6 @@
       }
 
       return result;
-    };
-
-    Place.prototype.setPrivacy = function (data) {
-      var oldValue = this.privacy;
-      for (var k in data) {
-        this.privacy.set(k, data[k]);
-      }
-
-      var event = new CustomEvent(NST_OBJECT_EVENT.CHANGE, {
-        detail: {
-          name: 'privacy',
-          newValue: this.privacy,
-          oldValue: oldValue,
-          target: this
-        }
-      });
-      this.dispatchEvent(event);
-
-      return this;
-    };
-
-    Place.prototype.setPolicy = function (data) {
-      for (var k in data) {
-        this.policy.set(k, data[k]);
-      }
-      return this;
     };
 
     Place.prototype.getTeammatesCount = function () {
