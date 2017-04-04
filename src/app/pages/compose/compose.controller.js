@@ -199,9 +199,11 @@
           if (confirm && !vm.finish) {
             event.preventDefault();
 
-            NstSvcModal.confirm(NstSvcTranslation.get("Confirm"), NstSvcTranslation.get("By discarding this message, you will lose your draft. Are you sure you want to discard?")).then(function () {
-              vm.finish = true;
-              $state.go(toState.name, toParams);
+            NstSvcModal.confirm(NstSvcTranslation.get("Confirm"), NstSvcTranslation.get("By discarding this message, you will lose your draft. Are you sure you want to discard?")).then(function (result) {
+              if (result) {
+                vm.finish = true;
+                $state.go(toState.name, toParams);
+              }
             });
           }
         }));
