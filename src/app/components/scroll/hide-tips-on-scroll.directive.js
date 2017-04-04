@@ -6,12 +6,14 @@
     .directive('scrollDispatch', hideTips);
 
   /** @ngInject */
-  function hideTips() {
+  function hideTips(SvcCardCtrlAffix) {
     return {
       link: function ($scope, $element) {
 
         var scrollPos = 0,scrollOff = 220;
         $(window).scroll(function(e){
+
+          SvcCardCtrlAffix.check(e.currentTarget.pageYOffset);
 
           //hide tips
           dissappear($element.find('.tooltip'));
