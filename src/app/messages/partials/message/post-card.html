@@ -98,6 +98,7 @@
   </section>
 
   <section class="post-places" ng-if="(!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
+    <translate class="places-label">shared with:</translate>
     <span data-ng-repeat="place in ctlPostCard.post.allPlaces"
           class="ng-class:{'del-access' :  ctlPostCard.hasDeleteAccess(place)}">
         <a ui-sref="app.place-messages({ placeId : place.id })">

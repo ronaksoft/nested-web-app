@@ -301,6 +301,12 @@ post-card {
   .post-places {
     margin: 8px 0;
     flex-wrap: wrap;
+    .places-label {
+      font-size: 14px;
+      line-height: 24px;
+      margin-right: 16px  ;
+      color: $color-breeze;
+    }
     a {
       display: inline;
       flex: none;
