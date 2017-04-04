@@ -14,15 +14,9 @@
     var MobTopOff = isMobile ? 56 : 0;
     var winH = win.height();
 
-    // win.bind('scroll', affixElement);
     $(window).resize(function() {
       obj.change();
     });
-
-    //TODO handle win resize event
-    function affixElement() {
-      obj.check($window.pageYOffset);
-    }
 
     obj.add = function (el) {
       $rootScope.cardCtrls.push(el)
