@@ -275,7 +275,7 @@
 
     // initializing
     (function () {
-
+      vm.currentUserIsSender = NstSvcAuth.user.id == vm.post.sender.username;
       vm.hasOlderComments = (vm.post.commentsCount && vm.post.comments) ? vm.post.commentsCount > vm.post.comments.length : false;
       vm.body = $sce.trustAsHtml(vm.post.body);
       vm.orginalPost = vm.post;
