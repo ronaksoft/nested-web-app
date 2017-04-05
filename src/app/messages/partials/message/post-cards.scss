@@ -4,6 +4,7 @@ post-card {
   flex-direction: column;
   align-items: center;
   position: relative;
+  z-index: 600;
   &:last-child {
     .post-card-wire {
       display: none
@@ -301,6 +302,12 @@ post-card {
   .post-places {
     margin: 8px 0;
     flex-wrap: wrap;
+    .places-label {
+      font-size: 14px;
+      line-height: 24px;
+      margin-right: 16px  ;
+      color: $color-breeze;
+    }
     a {
       display: inline;
       flex: none;
@@ -415,6 +422,9 @@ post-card {
   }
 }
 
+.post-card-place-avatar {
+  @include avatar(48px,32px,10%);
+}
 h3 {
   font-weight: 100;
 }

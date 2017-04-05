@@ -1,4 +1,4 @@
-<div class="post-card _fw ng-class:{'forward-card': ctlPostCard.post.isForwarded ,'reply-card': ctlPostCard.post.isReplyed, 'unread' : !ctlPostCard.post.isRead, 'ribbon' : ctlPostCard.isRibbon }" ng-if="!ctlPostCard.post.forbidden">
+<div style="z-index: 555" class="post-card _fw ng-class:{'forward-card': ctlPostCard.post.isForwarded ,'reply-card': ctlPostCard.post.isReplyed, 'unread' : !ctlPostCard.post.isRead, 'ribbon' : ctlPostCard.isRibbon }" ng-if="!ctlPostCard.post.forbidden">
   <section class="collapse-view" ng-if="ctlPostCard.isRibbon && ctlPostCard.ribbonEnabled" ng-click="ctlPostCard.switchToPostCard();">
     <div class="user-avatar-24" user-detail user="{{::ctlPostCard.post.sender}}">
       <img initials="ctlPostCard.post.sender.name" data-url="ctlPostCard.post.sender.avatar" data-width="24"
@@ -98,6 +98,7 @@
   </section>
 
   <section class="post-places" ng-if="(!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
+    <translate class="places-label" ng-if="ctlPostCard.post.allPlaces.length > 0">shared with:</translate>
     <span data-ng-repeat="place in ctlPostCard.post.allPlaces"
           class="ng-class:{'del-access' :  ctlPostCard.hasDeleteAccess(place)}">
         <a ui-sref="app.place-messages({ placeId : place.id })">

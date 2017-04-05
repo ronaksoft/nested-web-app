@@ -22,7 +22,6 @@
               }, 300)
             }
           }
-          //console.log(selfscr['context'].clientHeight,selfscr[0].offsetHeight,selfscr[0].offsetTop,scrollTop);
         });
 
       }
