@@ -27,7 +27,7 @@
 #    When Wait to see leave-modal
 #    Given I Click by ngClick "$close(true);"
 #    Then current tab must be "Feed"
-
+#
 #  Scenario: ok - compose with one recipient
 #    Given I Click by ngClick "ctlSidebar.compose($event);"
 #    When Wait to see compose-modal

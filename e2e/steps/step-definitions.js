@@ -46,12 +46,6 @@ module.exports = function () {
   });
 
 
-  this.Then(/^invite modal must hide$/, function () {
-    browser.ignoreSynchronization = true;
-    var EC = protractor.ExpectedConditions;
-    return browser.wait(EC.invisibilityOf(element(By.css('#add-view'))), 50000);
-  });
-
   this.When(/^Wait for Upload to be finished$/, function () {
     browser.ignoreSynchronization = true;
     var EC = protractor.ExpectedConditions;
@@ -369,7 +363,7 @@ module.exports = function () {
       return assert.ok(false, 'Can not find message!')
     });
   });
-//---------------------------------------------------------------------------//
+//----------------------------------------------- modals --------------------------------------------------------------------//
 
 
 
@@ -390,6 +384,11 @@ module.exports = function () {
     var EC = protractor.ExpectedConditions;
     return browser.wait(EC.visibilityOf(element(By.css('.modal-bo'))), 50000);
   });
+                  //------create place-------//
+
+
+//-------------------------------------- registration and recover-password ----------------------------------------------------//
+
 
   this.When(/^Wait to see first step$/, function () {
     browser.ignoreSynchronization = true;
@@ -408,6 +407,8 @@ module.exports = function () {
     var EC = protractor.ExpectedConditions;
     return browser.wait(EC.visibilityOf(element(By.css('input[value="Reset"]'))), 50000);
   });
+
+//----------------------------------------------------------------------------------------------------------------------------//
 
   this.When(/^should see "([^"]*)"$/, function (text) {
     element(by.css('.col-xs-9 nst-font-xlarge')).getText().then(function (title) {
