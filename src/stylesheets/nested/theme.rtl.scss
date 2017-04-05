@@ -320,6 +320,9 @@ body[dir="rtl"] {
     &._r90 {
       transform: scaleX(-1) rotateZ(90deg);
     }
+    &._r-90 {
+      transform: rotateZ(90deg);
+    }
   }
   .quick-message-wrp .quick-message-inner .quick-sender > div {
     left: auto;

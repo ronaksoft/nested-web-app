@@ -607,8 +607,7 @@ body.modal-open {
     h2 {
       margin: 0;
       span {
-        font-weight: 600;
-        font-size: 21px;
+        font-size: 19px;
         padding: 0 8px;
       }
     }
@@ -629,13 +628,19 @@ body.modal-open {
 }
 
 div.modal .attach-place {
-  width: 400px;
+  width: 480px;
+  max-width: 100%;
   .post-places >div{
     flex-wrap: wrap;
   }
+  .ui-select-container > div {
+    width: 100%;
+  }
   .modal-body {
     input {
-      padding: 0;
+      padding: 8px 0;
+      height: auto;
+      border-bottom: 1px solid $color-breeze;
     }
     ::-webkit-input-placeholder {
       color:    $color-storm;

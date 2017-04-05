@@ -82,9 +82,15 @@
     flex-direction: row;
     div {
       flex: none;
-      margin-right: 8px;
       display: flex;
       align-items: center;
+      &:last-of-type {
+        margin-left: 8px;
+      }
+      &:first-of-type {
+        margin-left: 0;
+        margin-right: 8px;
+      }
     }
   }
 }

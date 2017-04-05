@@ -322,8 +322,14 @@ body[dir="rtl"] {
     right: auto;
   }
   .white-pop .popover-content a div, .white-pop .popover-content label div {
-    margin-right: 0;
-    margin-left: 8px;
+    &:last-of-type {
+      margin-left: 0;
+      margin-right: 8px;
+    }
+    &:first-of-type {
+      margin-right: 0;
+      margin-left: 8px;
+    }
   }
   .popover-userdetail .user-data div .butn-white, .popover-userdetail .user-data div .butn-white-nav {
     margin: 0 0 0 4px;
