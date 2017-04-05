@@ -39,6 +39,8 @@
     PostFactory.prototype.unBookmarkPost = unBookmarkPost;
     PostFactory.prototype.getChainMessages = getChainMessages;
     PostFactory.prototype.conversation = conversation;
+    PostFactory.prototype.movePlace = movePlace;
+    PostFactory.prototype.attachPlace = attachPlace;
 
     var factory = new PostFactory();
     return factory;
@@ -617,7 +619,6 @@
       return defer.promise;
     }
 
-
     function getUnreadMessages(setting, places) {
 
       if (!_.isArray(places))
@@ -730,6 +731,29 @@
       }).catch(function (error) {
         deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
       });
+
+      return deferred.promise;
+    }
+
+    function attachPlace(postId, placeId) {
+      var deferred = $q.defer();
+
+      NstSvcServer.request('post/attach_place', {
+        post_id : postId,
+        place_id : placeId
+      }).then(deferred.resolve).catch(deferred.reject);
+
+      return deferred.promise;
+    }
+
+    function movePlace(postId, oldPlaceId, newPlaceId) {
+      var deferred = $q.defer();
+
+      NstSvcServer.request('post/replace', {
+        post_id : postId,
+        old_place_id : oldPlaceId,
+        new_place_id : newPlaceId
+      }).then(deferred.resolve).catch(deferred.reject);
 
       return deferred.promise;
     }
