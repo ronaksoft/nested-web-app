@@ -818,8 +818,8 @@
               for (var k in vm.model.attachments) {
                 vm.model.attachments[k].status = NST_ATTACHMENT_STATUS.ATTACHED;
                 vm.attachments.viewModels.push(NstSvcAttachmentMap.toEditableAttachmentItem(vm.model.attachments[k]));
-                vm.attachments.size.total += vm.model.attachments[k].getSize();
-                vm.attachments.size.uploaded += vm.model.attachments[k].getSize();
+                vm.attachments.size.total += vm.model.attachments[k].size;
+                vm.attachments.size.uploaded += vm.model.attachments[k].size;
               }
               vm.model.forwardedFrom = post;
             });
@@ -898,7 +898,7 @@
               var place = undefined;
               if (post.internal) {
                 for (var k in postPlaces) {
-                  if (post.getSender().getId() == postPlaces[k].getId()) {
+                  if (post.sender.id == postPlaces[k].id) {
                     place = postPlaces[k];
                     break;
                   }
