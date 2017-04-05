@@ -45,14 +45,14 @@
       } else {
         model = {
           id : id,
-          name: NstSvcFileType.removeSuffix(attachment.getFilename()),
+          name: NstSvcFileType.removeSuffix(attachment.filename),
           isUploaded: isAttached,
-          uploadedSize: isAttached ? attachment.getSize() : 0,
+          uploadedSize: isAttached ? attachment.size : 0,
           uploadedRatio: isAttached ? 1 : 0,
-          size: attachment.getSize(),
+          size: attachment.size,
           url: attachment.hasThumbnail() ? attachment.picture.preview : null,
-          type: NstSvcFileType.getType(attachment.getMimetype()),
-          extension: formatExtension(NstSvcFileType.getSuffix(attachment.getFilename())),
+          type: NstSvcFileType.getType(attachment.mimetype),
+          extension: formatExtension(NstSvcFileType.getSuffix(attachment.filename)),
           thumbnail: attachment.hasThumbnail() ? attachment.picture.x128.indexOf('data:') == 0  ? attachment.picture.x128 : attachment.picture.getUrl('x128') : null,
           hasThumbnail: attachment.hasThumbnail()
         };

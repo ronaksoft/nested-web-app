@@ -199,9 +199,11 @@
           if (confirm && !vm.finish) {
             event.preventDefault();
 
-            NstSvcModal.confirm(NstSvcTranslation.get("Confirm"), NstSvcTranslation.get("By discarding this message, you will lose your draft. Are you sure you want to discard?")).then(function () {
-              vm.finish = true;
-              $state.go(toState.name, toParams);
+            NstSvcModal.confirm(NstSvcTranslation.get("Confirm"), NstSvcTranslation.get("By discarding this message, you will lose your draft. Are you sure you want to discard?")).then(function (result) {
+              if (result) {
+                vm.finish = true;
+                $state.go(toState.name, toParams);
+              }
             });
           }
         }));
@@ -457,13 +459,13 @@
 
       // Create Attachment Model
       var attachment = NstSvcAttachmentFactory.createAttachmentModel();
-      attachment.setSize(file.size);
-      attachment.setFilename(file.name);
-      attachment.setMimetype(file.type);
+      attachment.size = file.size;
+      attachment.filename = file.name;
+      attachment.mimetype  = file.type;
       // Add Attachment to Model
       vm.attachments.size.total += file.size;
       vm.model.attachments.push(attachment);
-      var type = NstSvcFileType.getType(attachment.getMimetype());
+      var type = NstSvcFileType.getType(attachment.mimetype);
 
       // Read Attachment
       var reader = new FileReader();
@@ -475,13 +477,13 @@
 
         // Load and Show Thumbnail
         if (NST_FILE_TYPE.IMAGE == type) {
-          attachment.setPicture(new NstPicture({
+          attachment.picture = new NstPicture({
             original: uri,
             preview: uri,
             x32: uri,
             x64: uri,
             x128: uri
-          }));
+          });
         }
 
         qRead.resolve(uri);
@@ -493,7 +495,7 @@
 
         // Upload Attachment
         var vmAttachment = NstSvcAttachmentMap.toEditableAttachmentItem(attachment);
-        attachment.setId(vmAttachment.id);
+        attachment.id = vmAttachment.id;
 
         var request = NstSvcStore.uploadWithProgress(file, function (event) {
           if (event.lengthComputable) {
@@ -502,7 +504,7 @@
           }
         });
 
-        vm.attachments.requests[attachment.getId()] = request;
+        vm.attachments.requests[attachment.id] = request;
 
         request.sent().then(function () {
           attachment.status = NST_ATTACHMENT_STATUS.UPLOADING;
@@ -511,18 +513,18 @@
 
         request.finished().then(function () {
           // vm.attachments.size.total -= attachment.getSize();
-          delete vm.attachments.requests[attachment.getId()];
+          delete vm.attachments.requests[attachment.id];
         });
 
         request.getPromise().then(function (response) {
           var deferred = $q.defer();
 
-          attachment.setId(response.data.universal_id);
+          attachment.id = response.data.universal_id;
           attachment.status = NST_ATTACHMENT_STATUS.ATTACHED;
 
-          vmAttachment.id = attachment.getId();
+          vmAttachment.id = attachment.id;
           vmAttachment.isUploaded = true;
-          vmAttachment.uploadedSize = attachment.getSize();
+          vmAttachment.uploadedSize = attachment.size;
           vmAttachment.uploadedRatio = 1;
 
           deferred.resolve(attachment);
@@ -550,7 +552,7 @@
       if (attachment && attachment.length !== 0) {
         switch (attachment.status) {
           case NST_ATTACHMENT_STATUS.UPLOADING:
-            var request = vm.attachments.requests[attachment.getId()];
+            var request = vm.attachments.requests[attachment.id];
             if (request) {
               NstSvcStore.cancelUpload(request);
             }
@@ -558,7 +560,7 @@
         }
 
         vm.attachments.size.uploaded -= vmAttachment.uploadedSize;
-        vm.attachments.size.total -= attachment.getSize();
+        vm.attachments.size.total -= attachment.size;
         NstUtility.collection.dropById(vm.model.attachments, id);
         NstUtility.collection.dropById(vm.attachments.viewModels, id);
       }
@@ -816,8 +818,8 @@
               for (var k in vm.model.attachments) {
                 vm.model.attachments[k].status = NST_ATTACHMENT_STATUS.ATTACHED;
                 vm.attachments.viewModels.push(NstSvcAttachmentMap.toEditableAttachmentItem(vm.model.attachments[k]));
-                vm.attachments.size.total += vm.model.attachments[k].getSize();
-                vm.attachments.size.uploaded += vm.model.attachments[k].getSize();
+                vm.attachments.size.total += vm.model.attachments[k].size;
+                vm.attachments.size.uploaded += vm.model.attachments[k].size;
               }
               vm.model.forwardedFrom = post;
             });
@@ -896,7 +898,7 @@
               var place = undefined;
               if (post.internal) {
                 for (var k in postPlaces) {
-                  if (post.getSender().getId() == postPlaces[k].getId()) {
+                  if (post.sender.id == postPlaces[k].id) {
                     place = postPlaces[k];
                     break;
                   }

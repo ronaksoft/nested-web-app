@@ -6,7 +6,7 @@
     .factory('NstMention', NstMention);
 
   /** @ngInject */
-  function NstMention(NstModel) {
+  function NstMention() {
     function Mention(data) {
       this.id = null;
 
@@ -27,15 +27,9 @@
       this.date = null;
 
       this.seen = null;
-
-      NstModel.call(this);
-
-      if (data) {
-        this.fill(data);
-      }
     }
 
-    Mention.prototype = new NstModel();
+    Mention.prototype = {};
     Mention.prototype.constructor = Mention;
 
     return Mention;

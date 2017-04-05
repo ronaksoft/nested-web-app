@@ -11,7 +11,7 @@
        *****************************/
 
       vm.urls = {
-        place: $state.href(getPlaceState(), { placeId: argv.invitation.getPlace().getId() })
+        place: $state.href(getPlaceState(), { placeId: argv.invitation.place.id })
       };
       vm.invitation = mapInvitation(argv.invitation);
       vm.NST_INVITATION_FACTORY_STATE = NST_INVITATION_FACTORY_STATE;

@@ -81,8 +81,9 @@
           vm.activities.pop();
         }
         activity.isHot = true;
-
-        if (activity.type == NST_EVENT_ACTION.POST_ADD){
+        // TODO: Sometimes a comment leakes! I've added || activity.type == NST_EVENT_ACTION.COMMENT_ADD
+        // to prevent the leakage. But I'm not sure!
+        if (activity.type == NST_EVENT_ACTION.POST_ADD || activity.type == NST_EVENT_ACTION.COMMENT_ADD) {
           if(activityBelongsToPlace(activity)){
             vm.activities.unshift(activity);
           }
