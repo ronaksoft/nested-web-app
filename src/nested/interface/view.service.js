@@ -12,15 +12,11 @@
     var isMobile = deviceDetector.isMobile() || deviceDetector.isTablet();
     var isRTL = $rootScope._direction == 'rtl';
     var MobTopOff = isMobile ? 56 : 0;
+    var winH = win.height();
 
-    win.bind('scroll', affixElement);
-
-    win.bind('resize', obj.change);
-
-    //TODO handle win resize event
-    function affixElement() {
-      obj.check($window.pageYOffset);
-    }
+    $(window).resize(function() {
+      obj.change();
+    });
 
     obj.add = function (el) {
       $rootScope.cardCtrls.push(el)
@@ -44,8 +40,6 @@
       },1000);
 
     };
-
-    var winH = win.height();
 
     obj.check = function (Ypos) {
       $rootScope.cardCtrls.forEach(function (e) {
