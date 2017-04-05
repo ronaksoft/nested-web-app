@@ -488,6 +488,10 @@ body[dir="rtl"] {
     margin-left: 0;
     margin-right: 16px;
   }
+  .post-places .places-label {
+    margin-right: 0;
+    margin-left: 16px;
+  }
 }
 body[dir="ltr"] {
   .post-card-comments p.RTL-text {
