@@ -22,12 +22,12 @@
       this.state = null;
 
       if (invitationModel instanceof NstInvitation) {
-        this.id = invitationModel.getId();
-        this.state = invitationModel.getState();
-        this.place = new NstVmPlace(invitationModel.getPlace());
-        this.inviter = new NstVmUser(invitationModel.getInviter());
-        this.invitee = new NstVmUser(invitationModel.getInvitee());
-        this.role = NST_INVITATION_USER_ROLE[invitationModel.getRole()];
+        this.id = invitationModel.id;
+        this.state = invitationModel.state;
+        this.place = new NstVmPlace(invitationModel.place);
+        this.inviter = new NstVmUser(invitationModel.inviter);
+        this.invitee = new NstVmUser(invitationModel.invitee);
+        this.role = NST_INVITATION_USER_ROLE[invitationModel.role];
       } else {
         throw Error("Could not create a VmInvitation from an unsupported type.");
       }

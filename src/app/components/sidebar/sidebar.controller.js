@@ -86,10 +86,10 @@
 
           if (result) { // Accept the Invitation
             return vm.invitation.accept(id).then(function (invitation) {
-              var vmPlace = _.find(vm.places, {id: invitation.getPlace().getId()});
+              var vmPlace = _.find(vm.places, { id: invitation.place.id });
 
               if (!vmPlace) {
-                vmPlace = mapPlace(invitation.getPlace());
+                vmPlace = mapPlace(invitation.place);
                 // TODO: Highlight Newly Added Place
                 vm.places.push(vmPlace);
                 mapPlacesUrl(vm.places);
@@ -504,7 +504,7 @@
       var invitation = event.detail.invitation;
 
       for (var k in vm.invitations) {
-        if (invitation.getId() == vm.invitations[k].id) {
+        if (invitation.id == vm.invitations[k].id) {
           vm.invitations.splice(k, 1);
           return;
         }

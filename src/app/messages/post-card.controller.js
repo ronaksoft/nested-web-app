@@ -181,7 +181,15 @@
         size: 'sm',
         templateUrl: 'app/messages/partials/modals/attach-place.html',
         controller: 'AttachPlaceController',
-        controllerAs: 'ctrl'
+        controllerAs: 'ctrl',
+        resolve: {
+          postId: function () {
+            return vm.post.id;
+          },
+          postPlaces: function () {
+            return vm.post.allPlaces;
+          }
+        }
       }).result.catch(function() {
 
         //TODO add res to places
@@ -267,7 +275,7 @@
 
     // initializing
     (function () {
-
+      vm.currentUserIsSender = NstSvcAuth.user.id == vm.post.sender.username;
       vm.hasOlderComments = (vm.post.commentsCount && vm.post.comments) ? vm.post.commentsCount > vm.post.comments.length : false;
       vm.body = $sce.trustAsHtml(vm.post.body);
       vm.orginalPost = vm.post;

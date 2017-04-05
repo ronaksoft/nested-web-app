@@ -43,6 +43,12 @@
           },
           fileIds : function () {
             return null;
+          },
+          currentPlaceId: function () {
+            return null;
+          },
+          currentPostId: function () {
+            return vm.postId;
           }
         }
       });

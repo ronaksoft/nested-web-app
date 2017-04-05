@@ -62,7 +62,7 @@
               if (values[k] instanceof NstInvitation) {
                 var invitation = values[k];
 
-                NstSvcInvitationStorage.set(invitation.getId(), invitation);
+                NstSvcInvitationStorage.set(invitation.id, invitation);
                 invitations.push(invitation);
               }
             }
@@ -204,10 +204,10 @@
       if (!data) {
         defer.resolve(invitation);
       } else {
-        invitation.setId(data._id);
-        invitation.setRole(data.role);
+        invitation.id = data._id;
+        invitation.role = data.role;
 
-        invitation.setState(data.state || NST_INVITATION_FACTORY_STATE.PENDING);
+        invitation.state = data.state || NST_INVITATION_FACTORY_STATE.PENDING;
 
         var invitee = null;
         if (angular.isObject(data.invitee)) {
@@ -239,9 +239,9 @@
             NstSvcUserFactory.getTiny(inviter.id),
             NstSvcPlaceFactory.getTiny(place.getId())
           ]).then(function (values) {
-            invitation.setInvitee(values[0]);
-            invitation.setInviter(values[1]);
-            invitation.setPlace(values[2]);
+            invitation.invitee = values[0];
+            invitation.inviter = values[1];
+            invitation.place = values[2];
             defer.resolve(invitation);
           }).catch(function (error) {
             defer.reject(new NstFactoryError(new NstFactoryQuery(), error.getMessage(), error.getCode(), error));

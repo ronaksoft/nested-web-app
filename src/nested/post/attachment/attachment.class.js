@@ -4,8 +4,8 @@
   angular.module('ronak.nested.web.models')
   .factory('NstAttachment', NstAttachment);
 
-  function NstAttachment(NstModel) {
-    Attachment.prototype = new NstModel();
+  function NstAttachment() {
+    Attachment.prototype = {};
     Attachment.prototype.constructor = Attachment;
 
     function Attachment(data) {
@@ -27,12 +27,6 @@
       this.height = null;
 
       this.post = null;
-
-      NstModel.call(this);
-
-      if (data) {
-        this.fill(data);
-      }
     }
 
     Attachment.prototype.hasThumbnail = function (size) {
