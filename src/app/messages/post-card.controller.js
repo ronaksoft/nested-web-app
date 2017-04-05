@@ -181,7 +181,15 @@
         size: 'sm',
         templateUrl: 'app/messages/partials/modals/attach-place.html',
         controller: 'AttachPlaceController',
-        controllerAs: 'ctrl'
+        controllerAs: 'ctrl',
+        resolve: {
+          postId: function () {
+            return vm.post.id;
+          },
+          postPlaces: function () {
+            return vm.post.allPlaces;
+          }
+        }
       }).result.catch(function() {
 
         //TODO add res to places

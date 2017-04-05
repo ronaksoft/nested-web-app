@@ -299,40 +299,6 @@ post-card {
     padding-right: 8px;
     //top: 12px;
   }
-  .post-places {
-    margin: 8px 0;
-    flex-wrap: wrap;
-    .places-label {
-      font-size: 14px;
-      line-height: 24px;
-      margin-right: 16px  ;
-      color: $color-breeze;
-    }
-    a {
-      display: inline;
-      flex: none;
-      align-items: center;
-      margin-right: 0px;
-      line-height: 24px;
-      white-space: nowrap;
-      padding-left: 4px;
-    }
-    svg {
-      opacity: 0;
-      margin: -4px 4px -3px -4px;
-      fill: $color-force;
-    }
-    .del-access {
-      border-radius: 4px;
-      &:hover {
-        font-size: 14px;
-        box-shadow: 0 0 28px -4px rgba(0, 0, 0, 0.75);
-        svg {
-          opacity: 1;
-        }
-      }
-    }
-  }
   .post-footer {
     height: 40px;
     align-items: center;
@@ -410,6 +376,40 @@ post-card {
   }
   &.ribbon {
     margin-bottom: -3px;
+  }
+}
+.post-places {
+  margin: 8px 0;
+  flex-wrap: wrap;
+  .places-label {
+    font-size: 14px;
+    line-height: 24px;
+    margin-right: 16px  ;
+    color: $color-breeze;
+  }
+  a {
+    display: inline;
+    flex: none;
+    align-items: center;
+    margin-right: 0px;
+    line-height: 24px;
+    white-space: nowrap;
+    padding-left: 4px;
+  }
+  svg {
+    opacity: 0;
+    margin: -4px 4px -3px -4px;
+    fill: $color-force;
+  }
+  .del-access {
+    border-radius: 4px;
+    &:hover {
+      font-size: 14px;
+      box-shadow: 0 0 28px -4px rgba(0, 0, 0, 0.75);
+      svg {
+        opacity: 1;
+      }
+    }
   }
 }
 
@@ -702,3 +702,4 @@ h3 {
     color: $color-gale;
   }
 }
+

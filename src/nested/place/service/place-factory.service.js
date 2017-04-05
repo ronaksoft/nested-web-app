@@ -584,14 +584,15 @@
       }, "setBookmarkOption", id);
     }
 
-    PlaceFactory.prototype.searchForCompose = function (keyword) {
+    PlaceFactory.prototype.searchForCompose = function (keyword, limit) {
       var factory = this;
       return factory.sentinel.watch(function () {
         var deferred = $q.defer();
         var query = new NstFactoryQuery(keyword);
 
         NstSvcServer.request('search/places_for_compose', {
-          keyword: keyword
+          keyword: keyword,
+          limit : limit || 10
         }).then(function (response) {
           var places = [];
           for (var k in response.places) {
