@@ -752,6 +752,7 @@
           result.allAttached = _.size(_.difference(data.attached, placeIds)) === 0 && _.size(data.not_attached) === 0;
           result.noneAttached = _.size(data.attached) === 0 && _.size(data.not_attached) > 0;
           result.notAttachedPlaces = data.not_attached;
+          result.attachedPlaces = data.attached;
           deferred.resolve(result);
 
         }).catch(deferred.reject);

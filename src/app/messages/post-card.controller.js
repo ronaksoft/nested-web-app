@@ -185,9 +185,12 @@
             return vm.post.allPlaces;
           }
         }
-      }).result.catch(function() {
-
-        //TODO add res to places
+      }).result.then(function(attachedPlaces) {
+        _.forEach(attachedPlaces, function (place) {
+          if (!_.some(vm.post.allPlaces, { id : place.id })) {
+            vm.post.allPlaces.push(place);
+          }
+        })
       });
     }
 

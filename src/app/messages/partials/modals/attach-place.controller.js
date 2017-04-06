@@ -35,14 +35,18 @@
       NstSvcPostFactory.attachPlaces(postId, placeIds).then(function (result) {
         if (result.allAttached) {
           toastr.success(NstSvcTranslation.get("All places have been attached successfully."));
-          $uibModalInstance.close();
         } else if (result.noneAttached) {
           toastr.error(NstSvcTranslation.get("You can not attach any of those places!"));
         } else {
           toastr.warning(NstUtility.string.format(
             NstSvcTranslation.get("We had trouble attaching places {0}, but the other places have been attached."),
             NstUtility.string.format("<b>{0}</b>", _.join(result.notAttachedPlaces, NstSvcTranslation.get("</b>, <b>")))));
-          $uibModalInstance.close();
+        }
+
+        if (!result.noneAttached) {
+          $uibModalInstance.close(_.filter(places, function (place) {
+            return _.includes(result.attachedPlaces, place.id);
+          }));
         }
       }).catch(function (result) {
         toastr.error(NstSvcTranslation.get("An error occured while attaching a place to the post"));
@@ -82,4 +86,4 @@
     }
   }
 
-})(); 
+})();
