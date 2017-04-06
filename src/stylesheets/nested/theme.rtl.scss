@@ -320,6 +320,9 @@ body[dir="rtl"] {
     &._r90 {
       transform: scaleX(-1) rotateZ(90deg);
     }
+    &._r-90 {
+      transform: rotateZ(90deg);
+    }
   }
   .quick-message-wrp .quick-message-inner .quick-sender > div {
     left: auto;
@@ -484,6 +487,10 @@ body[dir="rtl"] {
   .modal-lg-white .modal-content h2 span {
     margin-left: 0;
     margin-right: 16px;
+  }
+  .post-places .places-label {
+    margin-right: 0;
+    margin-left: 16px;
   }
 }
 body[dir="ltr"] {

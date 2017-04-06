@@ -42,6 +42,7 @@
     vm.unreadCommentsCount = 0;
     vm.loadNewComments = loadNewComments;
     vm.attachPlace = attachPlace;
+    vm.move = move;
 
     if (vm.mood == 'chain') {
       vm.chainView = true;
@@ -182,6 +183,25 @@
           },
           postPlaces: function () {
             return vm.post.allPlaces;
+          }
+        }
+      }).result.catch(function() {
+
+        //TODO add res to places
+      });
+    }
+
+    function move(placeID) {
+      $uibModal.open({
+        animation: false,
+        backdropClass : 'comdrop',
+        size: 'sm',
+        templateUrl: 'app/messages/partials/modals/move.html',
+        controller: 'MovePlaceController',
+        controllerAs: 'ctrl',
+        resolve: {
+          placeId: function () {
+            return placeID;
           }
         }
       }).result.catch(function() {
