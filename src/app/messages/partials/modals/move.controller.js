@@ -15,9 +15,11 @@
     vm.search = _.debounce(_.partial(search, selectedPlace, SEARCH_PLACE_LIMIT), 256);
     vm.replace = _.partial(replace, postId, vm.selectedPlace);
     vm.setTargetPlace = setTargetPlace;
+    vm.getMoveButtonLabel = getMoveButtonLabel;
     vm.resultTargets = [];
     vm.searchProgress = false;
     vm.replaceProgress = false;
+    vm.targetPlace = null;
 
     (function () {
       search(selectedPlace, SEARCH_PLACE_LIMIT);
@@ -57,6 +59,9 @@
       vm.targetPlace = place;
     }
 
+    function getMoveButtonLabel(name) {
+      return NstUtility.string.format(NstSvcTranslation.get("Move to {0}"), name);
+    }
   }
 
 })();

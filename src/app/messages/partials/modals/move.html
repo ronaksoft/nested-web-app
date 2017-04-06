@@ -31,21 +31,21 @@
           <translate>
             Another Place
           </translate>
-          <img ng-src="{{::ctrl.targetPlace | picture}}">
-          <p>{{::ctrl.targetPlace.name}}</p>
+          <img ng-src="{{ctrl.targetPlace | picture}}">
+          <p>{{ctrl.targetPlace.name}}</p>
           <span>
-            {{::ctrl.targetPlace.id}}
+            {{ctrl.targetPlace.id}}
           </span>
         </div>
       </div>
 
       <div class="move-to-list">
         <input type="text" placeholder="find place" translate-attrs="placeholder" ng-change="ctrl.search(ctrl.searchKeyword)" ng-model="ctrl.searchKeyword">
-        <a ng-click="ctrl.setTargetPlace(place)">
-          <img src="" alt="">
+        <a ng-click="ctrl.setTargetPlace(place)" ng-repeat="place in ctrl.resultTargets">
+          <img ng-src="{{place | picture : 'x64'}}" alt="{{::place.name}}">
           <div>
-            <p></p>
-            <span></span>
+            <p>{{::place.name}}</p>
+            <span>{{::place.id}}</span>
           </div>
         </a>
       </div>
@@ -53,8 +53,8 @@
     </div>
 
     <div class="modal-footer">
-      <input ng-if="ctrl.selectedTargets.length == 0" type="button" class="butn-green _fw _df" value="Move to ..." translate-attrs="value" disabled/>
-      <input ng-if="ctrl.selectedTargets.length > 0" type="submit" class="butn-green _fw _df" value="move to place.name" translate-attrs="value"/>
+      <input ng-if="!ctrl.targetPlace" type="button" class="butn-green _fw _df" value="Move to ..." translate-attrs="value" disabled/>
+      <input ng-if="ctrl.targetPlace" type="submit" class="butn-green _fw _df" ng-value="ctrl.getMoveButtonLabel(ctrl.targetPlace.name)"/>
     </div>
   </form>
 </div>
