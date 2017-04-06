@@ -109,6 +109,11 @@ module.exports = function () {
     ClickButton.click();
   });
 
+  this.Given(/^I Press Next$/, function (){
+    var nextButton = element(By.css('button[class="submit"'));
+    nextButton.click();
+  });
+
 //--------------------- post pin and unpin -----------------//
 
   this.Given(/^I pin a post$/, function () {
@@ -218,6 +223,11 @@ module.exports = function () {
   this.Given(/^I Click icon by ngIf "([^"]*)"$/, function (ngIf){
     var menu = element(By.css('svg[ng-if="' + ngIf + '"]'));
     menu.click();
+  });
+
+  this.Given(/^I Click icon by class "([^"]*)"$/, function (ngIf){
+    var svgWithClass = element(By.css('svg[class="' + ngIf + '"]'));
+    svgWithClass.click();
   });
 
   this.Given(/^I Click by ngModel "([^"]*)"$/, function (ngModel){
@@ -386,6 +396,12 @@ module.exports = function () {
   });
                   //------create place-------//
 
+  this.When(/^Wait to see create place step "([^"]*)"$/, function (expectedStep) {
+    browser.ignoreSynchronization = true;
+    var EC = protractor.ExpectedConditions;
+    return browser.wait(EC.visibilityOf(element(By.css('div[ng-if="ctrl.step == ' + expectedStep + '"]'))), 50000);
+  });
+
 
 //-------------------------------------- registration and recover-password ----------------------------------------------------//
 
@@ -419,6 +435,11 @@ module.exports = function () {
   this.When(/^Wait see object with id "([^"]*)"$/, function (objectId) {
     var EC = protractor.ExpectedConditions;
     return browser.wait(EC.visibilityOf(element(By.css('#' + objectId))), 50000);
+  });
+
+  this.When(/^Wait see object with class "([^"]*)"$/, function (objectClass) {
+    var EC = protractor.ExpectedConditions;
+    return browser.wait(EC.visibilityOf(element(By.css('.' + objectClass))), 50000);
   });
 
   this.Then(/^Must see object with id "([^"]*)"$/, function (tObjectId) {
