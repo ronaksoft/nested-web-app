@@ -24,7 +24,6 @@
       pageEventReferences = [];
 
     vm.remove = remove;
-    vm.hasDeleteAccess = hasDeleteAccess;
     vm.retract = retract;
     vm.expand = expand;
     vm.collapse = collapse;
@@ -116,11 +115,6 @@
         vm.retractProgress = false;
       });
     }
-
-    function hasDeleteAccess(place) {
-      return _.includes(vm.post.placesWithRemoveAccess, place.id);
-    }
-
 
     function expand() {
       vm.expandProgress = true;
@@ -298,6 +292,9 @@
         }
       }));
 
+      vm.placesWithRemoveAccess = _.filter(vm.post.allPlaces, function (place) {
+        return place.hasAccess(NST_PLACE_ACCESS.REMOVE_POST);
+      });
 
       //FIXME:: fix this item
       setTimeout(function () {

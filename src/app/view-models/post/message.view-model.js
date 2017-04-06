@@ -5,7 +5,7 @@
     .module('ronak.nested.web.common')
     .factory('NstVmMessage', NstVmMessage);
 
-  function NstVmMessage($filter, moment, NstPost, NstSvcAttachmentMap, NstSvcAuth, NstUtility, NST_PLACE_ACCESS) {
+  function NstVmMessage($filter, moment, NstPost, NstSvcAttachmentMap, NstSvcAuth, NstUtility) {
 
     function VmMessage(post, firstPlaceId, myPlaceIds) {
       var that = this;
@@ -67,7 +67,7 @@
         this.isReplyed = !!post.replyToId;
         this.isForwarded = !!post.forwardFromId;
         this.commentsCount = post.counters.comments > -1 ? post.counters.comments : 0;
-        this.allPlaces = _.map(post.places, mapPlace);
+        this.allPlaces = post.places;
         this.isRead = post.isRead;
         if (post.wipeAccess !== null && post.wipeAccess !== undefined) {
           this.wipeAccess = post.wipeAccess;
@@ -116,17 +116,5 @@
         avatar128: sender.hasPicture() ? sender.picture.getUrl("x128") : ''
       };
     }
-
-    // TODO: Use NstVmPlace instead
-    function mapPlace(place) {
-      return {
-        id: place.id,
-        name: place.name,
-        picture: place.hasPicture() ? place.picture.getUrl("x128") : '/assets/icons/absents_place.svg',
-        hasDeleteAccess: _.includes(place.accesses, NST_PLACE_ACCESS.REMOVE_POST),
-        hasControlAccess: _.includes(place.accesses, NST_PLACE_ACCESS.CONTROL)
-      };
-    }
-
   }
 })();
