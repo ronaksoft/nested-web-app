@@ -44,7 +44,7 @@
               element
                 .atwho({
                   at: "@",
-                  searchKey: "name",
+                  searchKey: "searchField",
                   maxLen: 10,
                   startWithSpace: true,
                   limit: 5,
@@ -81,7 +81,8 @@
                           items.push({
                             id: obj.id,
                             name: obj.name,
-                            avatar: obj.avatar == "" ? avatarElement[0].currentSrc : obj.avatar
+                            avatar: obj.avatar == "" ? avatarElement[0].currentSrc : obj.avatar,
+                            searchField : [obj.id, obj.name].join(' ')
                           })
                         });
                         callback(items);
@@ -95,7 +96,7 @@
               element
                 .atwho({
                   at: "#",
-                  searchKey: "name",
+                  searchKey: "searchField",
                   maxLen: 10,
                   startWithSpace: true,
                   limit: 5,
@@ -118,7 +119,8 @@
                           items.push({
                             id: obj.id,
                             name: obj.name,
-                            avatar: obj.avatar
+                            avatar: obj.avatar,
+                            searchField : [obj.id, obj.name].join(' ')
                           })
                         });
 

@@ -2,25 +2,28 @@
 #  As a user of Nested
 #  I should be able to recover my password
 #
-#  Scenario: recover password
-#    Given I go to the page "/recover"
-#    When I wait 10s
-#    Given I fill input by name "phone_number" with "9308429812"
+#  Scenario: register step 1
+#    Given I go to the page "#/signin"
+#    When Wait to loading hide
+#    When Wait see object with id "panel-signin"
+#    Given I Click on href "recover/password"
+#    When Wait see object with id "panel-register"
+#    When Wait to see first step
+#    Given I fill input by name "phone_number" with "123456789"
+#    When I wait 2s
 #    Given I Press "Next"
-#    When I wait 10s
-#    Then should the title be "Phone verification"
+#    When I wait 2s
+#    Then Must see second step
 #
-#  Scenario:
-#    When I wait 10s
-#    When I wait 10s
-#    When I wait 5s
+#  Scenario: register step 2
+#    When I wait 2s
+#    Given I fill input by name "verification_code" with "123456"
 #    Given I Press "Verify"
-#    When I wait 10s
-#    Then should the title1 be "Reset password"
+#    Then Must see third step of recovering password
 #
 #  Scenario:
 #    When I wait 5s
-#    Given I fill "Enter new password" with "111111"
+#    Given I fill "Enter a new password" with "111111"
 #    Given I fill "Confirm new password" with "111111"
 #    When I wait 2s
 #    Given I Press "Reset"
