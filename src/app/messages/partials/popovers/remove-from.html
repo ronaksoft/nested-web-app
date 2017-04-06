@@ -1,8 +1,8 @@
-<a class="_df remove-from-places _aic _fw" data-ng-repeat="place in ctlPostCard.placesWithRemoveAccess" ng-click="ctlPostCard.remove(place.id)">
+<a class="_df remove-from-places _aic _fw" data-ng-repeat="place in ctlPostCard.getPlacesWithRemoveAccess()" ng-click="ctlPostCard.remove(place.id)">
   <div class="_aic _df">
     <div class="post-card-place-avatar">
       <img class="" ng-src="{{place | picture : 'x64'}}"/>
     </div>
   </div>
-  <span>{{::place.name}}</span>
+  <span>{{place.name}}</span>
 </a>

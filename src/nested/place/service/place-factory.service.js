@@ -1219,6 +1219,31 @@
       }, "getGrandPlaceChildren", grandPlaceId);
     };
 
+    PlaceFactory.prototype.getAccess = function (placeId) {
+      var id = null;
+      if (_.isArray(placeId)) {
+        id = _.join(placeId, ",");
+      } else {
+        id = placeId;
+      }
+      return this.sentinel.watch(function () {
+        var deferred = $q.defer();
+
+        NstSvcServer.request('place/get_access', {
+          place_id: id
+        }).then(function (data) {
+          deferred.resolve(_.map(data.places, function (place) {
+            return {
+              id : place._id,
+              accesses : place.access
+            };
+          }));
+        }).catch(deferred.reject);
+
+        return deferred.promise;
+      }, id);
+    }
+
     /**
      * Get unread posts count of places
      *
