@@ -191,7 +191,7 @@
       });
     }
 
-    function move(placeID) {
+    function move(selectedPlace) {
       $uibModal.open({
         animation: false,
         backdropClass : 'comdrop',
@@ -200,8 +200,11 @@
         controller: 'MovePlaceController',
         controllerAs: 'ctrl',
         resolve: {
-          placeId: function () {
-            return placeID;
+          postId: function () {
+            return vm.post.id;
+          },
+          selectedPlace: function () {
+            return selectedPlace;
           }
         }
       }).result.catch(function() {
