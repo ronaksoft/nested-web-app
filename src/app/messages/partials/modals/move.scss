@@ -22,9 +22,7 @@
       transition: left ease-in-out $animation-dur;
       fill: $color-breeze;
       background-color: $color-white;
-      &.ready {
-        left: 50%;
-      }
+      animation: replace-wire $animation-dur ease-in-out .3s forwards;
       &.set {
         left: calc(100% - 16px);
       }
@@ -70,7 +68,7 @@
     height: 26px;
     text-align: center;
     border: none;
-    margin-top: 16px;
+    margin: 16px 0;
     border-bottom: 1px solid $color-breeze-50;
     &:focus {
       border: none;

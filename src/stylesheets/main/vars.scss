@@ -158,6 +158,14 @@ $sidebar-place-move: $sidebar-delay - $sidebar-scroll-move;
     width: $sidebar-width;
   }
 }
+@keyframes replace-wire {
+  from {
+    left: 0;
+  }
+  to {
+    left: 50%;
+  }
+}
 @keyframes appearenceOp {
   from {opacity: 0;}
   to {opacity: .5;}
