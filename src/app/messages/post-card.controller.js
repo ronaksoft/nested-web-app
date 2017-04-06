@@ -315,6 +315,9 @@
       vm.placesWithRemoveAccess = _.filter(vm.post.allPlaces, function (place) {
         return place.hasAccess(NST_PLACE_ACCESS.REMOVE_POST);
       });
+      vm.placesWithControlAccess = _.filter(vm.post.allPlaces, function (place) {
+        return place.hasAccess(NST_PLACE_ACCESS.CONTROL);
+      });
 
       //FIXME:: fix this item
       setTimeout(function () {
