@@ -86,23 +86,24 @@
        border-radius: 4px;
        display: flex;
        flex: none;
-       div {
-         padding-left: 24px;
-         flex-direction: column;
-         width: 100%;
-         display: flex;
-         p {
-           @extend ._txe;
-           font-size: 16px;
-           width: 100%;
-         }
-         span {
-           @extend ._txe;
-           font-size: 14px;
-           color: $color-gale;
-           width: 100%;
-         }
-       }
      }
+    div {
+      padding-left: 24px;
+      flex-direction: column;
+      width: calc(100% - 48px);
+      display: flex;
+      p,p span{
+        color: black;
+        @extend ._txe;
+        font-size: 16px;
+        width: 100%;
+      }
+      span {
+        @extend ._txe;
+        font-size: 14px;
+        color: $color-gale;
+        width: 100%;
+      }
+    }
   }
 }
