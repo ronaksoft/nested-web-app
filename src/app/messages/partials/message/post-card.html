@@ -99,14 +99,10 @@
 
   <section class="post-places" ng-if="(!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
     <translate class="places-label" ng-if="ctlPostCard.post.allPlaces.length > 0">shared with:</translate>
-    <span data-ng-repeat="place in ctlPostCard.post.allPlaces"
-          class="ng-class:{'del-access' :  ctlPostCard.hasDeleteAccess(place)}">
+    <span data-ng-repeat="place in ctlPostCard.post.allPlaces">
         <a ui-sref="app.place-messages({ placeId : place.id })">
           #{{::place.name}}
         </a>
-        <svg class="_16svg red" ng-click="ctlPostCard.remove(place.id);$event.stopPropagation();">
-          <use xlink:href="/assets/icons/nst-icn16.svg#bin"></use>
-        </svg>
     </span>
     <a ng-if="ctlPostCard.post.recipients.length > 0"
        data-ng-repeat="recipient in ctlPostCard.post.recipients">{{::recipient.id}}

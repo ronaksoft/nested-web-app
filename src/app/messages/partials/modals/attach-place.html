@@ -17,11 +17,6 @@
             <img ng-if="$item.hasPicture()" ng-src="{{$item | picture}}"/>
             <img ng-if="!$item.hasPicture()" src="/assets/icons/absents_place.svg"/>
           </span>
-          <!-- <span class="place-img">
-            <svg>
-              <use xlink:href="/assets/icons/nst-icn16.svg#exclamation-mark"></use>
-            </svg>
-          </span> -->
           <span class="place-name">{{$item.name}}</span>
         </div>
 
@@ -47,7 +42,7 @@
   </div>
 
   <div class="modal-footer">
-    <input ng-if="ctrl.selectedTargets.length == 0" type="button" class="butn-green _fw _df" value="Attach Place" translate-attrs="value" disabled/>
+    <input ng-if="ctrl.selectedTargets.length == 0" type="button" class="butn-green _fw _df" value="Enter a Place Name or Address" translate-attrs="value" disabled/>
     <input ng-if="ctrl.selectedTargets.length == 1" type="submit" class="butn-green _fw _df" value="Attach the Place" translate-attrs="value"/>
     <input ng-if="ctrl.selectedTargets.length > 1" type="submit" class="butn-green _fw _df" ng-value="ctrl.getAttachButtonLabel(ctrl.selectedTargets.length)" translate-attrs="value"/>
   </div>
