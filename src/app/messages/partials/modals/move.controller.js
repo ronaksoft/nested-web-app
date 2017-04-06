@@ -12,23 +12,33 @@
     var vm = this;
     var SEARCH_PLACE_LIMIT = 3;
     vm.selectedPlace = selectedPlace;
-    vm.search = _.partial(search, selectedPlace, SEARCH_PLACE_LIMIT);
+    vm.search = _.debounce(_.partial(search, selectedPlace, SEARCH_PLACE_LIMIT), 256);
     vm.replace = _.partial(replace, postId, vm.selectedPlace);
     vm.setTargetPlace = setTargetPlace;
     vm.resultTargets = [];
     vm.searchProgress = false;
     vm.replaceProgress = false;
 
+    (function () {
+      search(selectedPlace, SEARCH_PLACE_LIMIT);
+    })();
+
     function search(selectedPlace, limit, keyword) {
       vm.searchPlaceProgress = true;
 
-      NstSvcPlaceFactory.searchPlacesWithCreatorRole(keyword, limit).then(function (places) {
-        vm.resultTargets = _.chain(places).uniqBy('id').reject({ id : selectedPlace.id }).value();
+      NstSvcPlaceFactory.getPlacesWithCreatorFilter().then(function (places) {
+        vm.resultTargets = _.chain(places).filter(function (place) {
+          return searchCompare(place.name, keyword);
+        }).uniqBy('id').reject({ id : selectedPlace.id }).take(limit).value();
       }).catch(function (error) {
         vm.resultTargets = [];
       }).finally(function () {
         vm.searchPlaceProgress = false;
       });
+    }
+
+    function searchCompare(first, second) {
+      return _.startsWith(_.lowerCase(first), _.lowerCase(second));
     }
 
     function replace(postId, selectedPlace, targetPlace) {
