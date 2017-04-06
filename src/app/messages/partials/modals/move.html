@@ -1,4 +1,4 @@
-<div class="attach-place nst-modal">
+<div class="move-place nst-modal">
   <form ng-submit="">
     <div class="modal-head">
       <div class="_df close-mdl" ng-click="$dismiss()">
@@ -13,18 +13,41 @@
 
       <div class="move-head">
         <div class="move-from">
-
+          <translate>
+            Currenct Place
+          </translate>
+          <img ng-src="{{::ctrl.selectedPlace | picture}}">
+          <p>{{::ctrl.selectedPlace.name}}</p>
+          <span>
+            {{::ctrl.selectedPlace.id}}
+          </span>
         </div>
         <div class="wire">
-
+          <svg class="_16svg ready">
+            <use xlink:href="/assets/icons/nst-icn16.svg#message"></use>
+          </svg>
         </div>
-        <div class="move-from">
-
+        <div class="move-to">
+          <translate>
+            Another Place
+          </translate>
+          <img ng-src="{{::ctrl.selectedPlace | picture}}">
+          <p>{{::ctrl.selectedPlace.name}}</p>
+          <span>
+            {{::ctrl.selectedPlace.id}}
+          </span>
         </div>
       </div>
 
       <div class="move-to-list">
-
+        <input type="text" placeholder="find place">
+        <a>
+          <img src="" alt="">
+          <div>
+            <p></p>
+            <span></span>
+          </div>
+        </a>
       </div>
 
     </div>

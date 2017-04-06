@@ -1,7 +1,105 @@
+.move-place {
+  width: 480px;
+}
 .move-head {
-  height: 104px;
+  min-height: 104px;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  .wire {
+    width: 160px;
+    height: 1px;
+    background-color: $color-breeze;
+    display: flex;
+    flex: none;
+    margin-bottom: 64px;
+    position: relative;
+    svg {
+      position: absolute;
+      transform: translate(-50%,-50%);
+      left: 0;
+      transition: left ease-in-out $animation-dur;
+      fill: $color-breeze;
+      background-color: $color-white;
+      &.ready {
+        left: 50%;
+      }
+      &.set {
+        left: calc(100% - 16px);
+      }
+    }
+  }
+  .move-from,.move-to {
+    width: 88px;
+    min-height: 88px;
+    display: flex;
+    align-items: center;
+    overflow-x: hidden;
+    flex: none;
+    flex-direction: column;
+    img {
+      width: 32px;
+      border-radius: 3px;
+      height: 32px;
+      margin: 8px 0;
+    }
+    p {
+      width: 100%;
+      display: block;
+      color: black;
+      font-size: 14px;
+      text-align: center;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin: 0;
+    }
+    span {
+      font-size: 12px;
+      color:$color-gale;
+      @extend ._txe;
+    }
+  }
+}
+.move-to-list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  input {
+    width: 100%;
+    height: 26px;
+    text-align: center;
+    border: none;
+    margin-top: 16px;
+    border-bottom: 1px solid $color-breeze-50;
+    &:focus {
+      border: none;
+      border-bottom: 1px solid $color-breeze-50;
+    }
+  }
+  a {
+    margin: 12px 0;
+    width: 100%;
+    display: flex;
+    height: 48px;
+     img {
+       width: 48px;
+       height: 48px;
+       border-radius: 4px;
+       div {
+         padding-left: 24px;
+         flex-direction: column;
+         width: 100%;
+         p {
+           @extend ._txe;
+           font-size: 16px;
+         }
+         span {
+           @extend ._txe;
+           font-size: 14px;
+           color: $color-gale;
+         }
+       }
+     }
+  }
 }
