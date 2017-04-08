@@ -22,12 +22,12 @@
         <a class="nst-mood-pending" ui-sref="app.place-messages-unread({placeId: ctlMessages.currentPlace.id})" ng-if="ctlMessages.unreadCount > 0" ng-click="_track('posts', 'view unread')">&nbsp;(<translate class="nst-mood-pending">{{ctlMessages.unreadCount | localize}} Unseen</translate>)</a>
       </p>
       <p class="_df _fw" ng-if="!ctlMessages.currentPlace.counters.posts"></p>
-      <!--<p class="_df _fn mark-read disable">-->
-        <!--<translate>Mark all as Seen</translate>-->
-        <!--<svg class="_16svg _df">-->
-          <!--<use xlink:href="/assets/icons/nst-icn16.svg#eye-open"></use>-->
-        <!--</svg>-->
-      <!--</p>-->
+      <div class="_df _fn mark-read " ng-if="ctlMessages.unreadCount > 0" ng-click="ctlMessages.markAllAsRead()">
+        <translate>Mark all as Seen</translate>
+        <svg class="_16svg _df">
+          <use xlink:href="/assets/icons/nst-icn16.svg#eye-open"></use>
+        </svg>
+      </div>
       <div ng-show="!ctlMessages.isSentMode && !ctlMessages.isbookmarkedsMode" ng-mouseenter="popoverSortShow = true;popoverSetShow = false" class="iconsblock _fn"
            data-popover-class="white-pop popover-white-nst-sort" uib-popover-template="'app/messages/partials/popovers/sort_popover.html'"
            data-popover-placement="bottom-center" data-popover-is-open="popoverSortShow" id="test-filter-sort">
@@ -38,8 +38,23 @@
         </svg>
       </div>
     </div>
+    <div class="filter-bar" ng-if="ctlMessages.isUnreadMode">
+      <p class="_df _fw" ng-if="ctlMessages.unreadCount == 1">
+        <translate>one Unseen</translate>
+      </p>
+      <p class="_df _fw" ng-if="ctlMessages.unreadCount > 1">
+        <translate>{{ctlMessages.unreadCount | localize}} Unseen</translate>
+      </p>
 
-    <div class="tool-bar"  ng-if="ctlMessages.isbookmarkedsMode || ctlMessages.isSentMode || ctlMessages.isUnreadMode">
+      <div class="_df _fn mark-read " ng-if="ctlMessages.unreadCount > 0" ng-click="ctlMessages.markAllAsRead()">
+        <translate>Mark all as Seen</translate>
+        <svg class="_16svg _df">
+          <use xlink:href="/assets/icons/nst-icn16.svg#eye-open"></use>
+        </svg>
+      </div>
+
+    </div>
+    <div class="tool-bar"  ng-if="ctlMessages.isbookmarkedsMode || ctlMessages.isSentMode ">
 
     </div>
     <div class="post-area">

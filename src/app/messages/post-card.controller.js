@@ -7,7 +7,7 @@
 
   function PostCardController($state, $log, $timeout, $rootScope, $scope, $filter, $window, $sce, $uibModal, $stateParams,
                               _, moment, toastr,
-                              NST_POST_EVENT, NST_EVENT_ACTION, NST_POST_FACTORY_EVENT, NST_PLACE_ACCESS, SvcCardCtrlAffix,
+                              NST_POST_EVENT, NST_EVENT_ACTION, NST_POST_FACTORY_EVENT, NST_PLACE_ACCESS, NST_PLACE_FACTORY_EVENT, SvcCardCtrlAffix,
                               NstSvcSync, NstSvcCommentFactory, NstSvcPostFactory, NstSvcPlaceFactory, NstSvcAuth, NstUtility, NstSvcPostInteraction, NstSvcTranslation) {
     var vm = this;
 
@@ -131,7 +131,7 @@
           markAsRead();
         }
 
-        if (vm.post.trusted || Object.keys(post.resources).length == 0){
+        if (vm.post.trusted || Object.keys(post.resources).length == 0) {
           showTrustedBody();
         }
 
@@ -150,8 +150,8 @@
         var elParentH = el.parents('post-card').height();
         var postCardOffTOp = elParent.offsetTop;
         var scrollOnCollapseCase = document.documentElement.clientHeight < elParentH;
-        var postCollaspeTimeout = scrollOnCollapseCase ? 300 : 0 ;
-        if(scrollOnCollapseCase) {
+        var postCollaspeTimeout = scrollOnCollapseCase ? 300 : 0;
+        if (scrollOnCollapseCase) {
           $('html, body').animate({
             scrollTop: postCardOffTOp
           }, 300, 'swing', function () {
@@ -174,7 +174,7 @@
     function attachPlace() {
       $uibModal.open({
         animation: false,
-        backdropClass : 'comdrop',
+        backdropClass: 'comdrop',
         size: 'sm',
         templateUrl: 'app/messages/partials/modals/attach-place.html',
         controller: 'AttachPlaceController',
@@ -187,16 +187,16 @@
             return vm.post.allPlaces;
           }
         }
-      }).result.then(function(attachedPlaces) {
+      }).result.then(function (attachedPlaces) {
         _.forEach(attachedPlaces, function (place) {
-          if (!_.some(vm.post.allPlaces, { id : place.id })) {
+          if (!_.some(vm.post.allPlaces, {id: place.id})) {
             vm.post.allPlaces.push(place);
           }
         });
 
         NstSvcPlaceFactory.getAccess(_.map(attachedPlaces, 'id')).then(function (accesses) {
           _.forEach(accesses, function (item) {
-            var postPlace = _.find(vm.post.allPlaces, { id : item.id });
+            var postPlace = _.find(vm.post.allPlaces, {id: item.id});
             if (postPlace) {
               postPlace.accesses = item.accesses;
             }
@@ -209,7 +209,7 @@
     function move(selectedPlace) {
       $uibModal.open({
         animation: false,
-        backdropClass : 'comdrop',
+        backdropClass: 'comdrop',
         size: 'sm',
         templateUrl: 'app/messages/partials/modals/move.html',
         controller: 'MovePlaceController',
@@ -225,9 +225,9 @@
             return vm.post.allPlaces;
           }
         }
-      }).result.then(function(result) {
+      }).result.then(function (result) {
         if ($stateParams.placeId === result.fromPlace.id) {
-          $scope.$emit('post-moved-current-place', { postId : vm.post.id });
+          $scope.$emit('post-moved-current-place', {postId: vm.post.id});
         }
 
         NstUtility.collection.replaceById(vm.post.allPlaces, result.fromPlace.id, result.toPlace);
@@ -236,9 +236,9 @@
 
     function showTrustedBody() {
       if (vm.orginalPost) {
-        vm.body =  vm.orginalPost.getTrustedBody();
-      }else{
-        vm.body =  vm.post.getTrustedBody();
+        vm.body = vm.orginalPost.getTrustedBody();
+      } else {
+        vm.body = vm.post.getTrustedBody();
       }
 
       vm.post.trusted = true;
@@ -311,13 +311,18 @@
     });
 
 
+    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.READ_ALL_POST, function (e) {
+      vm.post.isRead = true;
+    });
+
+
     // initializing
     (function () {
       vm.currentUserIsSender = NstSvcAuth.user.id == vm.post.sender.username;
       vm.hasOlderComments = (vm.post.commentsCount && vm.post.comments) ? vm.post.commentsCount > vm.post.comments.length : false;
       vm.body = $sce.trustAsHtml(vm.post.body);
       vm.orginalPost = vm.post;
-      if (vm.post.trusted){
+      if (vm.post.trusted) {
         showTrustedBody();
       }
 

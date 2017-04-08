@@ -565,6 +565,12 @@
       getGrandPlaceUnreadCounts();
     });
 
+
+    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.READ_ALL_POST, function (e) {
+      getGrandPlaceUnreadCounts();
+    });
+
+
     NstSvcNotificationFactory.addEventListener(NST_NOTIFICATION_FACTORY_EVENT.UPDATE, function (event) {
       vm.notificationsCount = event.detail;
     });
