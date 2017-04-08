@@ -61,9 +61,6 @@
     vm.setPlaceOpen = setPlaceOpen;
     vm.setPlaceClosed = setPlaceClosed;
     vm.setId = setId;
-    vm.setReceivingOff = setReceivingOff;
-    vm.setReceivingMembers = setReceivingMembers;
-    vm.setReceivingEveryone = setReceivingEveryone;
     vm.save = save;
     vm.changeId = changeId;
     vm.showAddOrInviteMember = showAddOrInviteMember;
@@ -100,11 +97,11 @@
       if ($stateParams.isOpenPlace) {
         vm.isOpenPlace = true;
         vm.isClosedPlace = false;
-        vm.addPostLevel = NST_PLACE_POLICY_OPTION.MEMBERS;
-        setReceivingMembers();
+        vm.addPostLevel = NST_PLACE_POLICY_OPTION.MANAGERS;
+        vm.place.privacy.privacy = false;
         setPlaceOpen();
       } else {
-        setReceivingEveryone();
+        vm.place.privacy.privacy = true;
         vm.isOpenPlace = false;
         vm.isClosedPlace = true;
       }
@@ -228,27 +225,6 @@
       vm.place.privacy.locked = true;
       vm.isClosedPlace = true;
       vm.isOpenPlace = false;
-    }
-
-    function setReceivingOff() {
-      vm.receivingMode = 'off';
-
-      vm.place.privacy.receptive = false;
-      vm.place.privacy.search = false;
-    }
-
-    function setReceivingMembers() {
-      vm.receivingMode = 'members';
-
-      vm.place.privacy.receptive = 'internal';
-      vm.place.policy.addPost = 'everyone';
-    }
-
-    function setReceivingEveryone() {
-      vm.receivingMode = 'everyone';
-
-      vm.place.privacy.receptive = 'external';
-      vm.place.policy.addPost = 'everyone';
     }
 
     function setPolicyAddMember(value) {
