@@ -68,7 +68,8 @@
 
         NstSvcPlaceFactory.set(place);
         $scope.$emit('member-removed', {
-          member : vm.member
+          member : vm.member,
+          placeId: vm.place.id
         });
 
       }).catch(function (error) {

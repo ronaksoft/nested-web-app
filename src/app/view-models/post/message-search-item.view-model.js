@@ -57,7 +57,7 @@
         this.body = post.body;
         this.isExternal = !post.internal;
         this.contentType = post.contentType;
-        this.allPlaces = _.map(post.places, mapPlace);
+        this.allPlaces = post.places;
         this.date = post.date;
         this.attachments = _.map(post.attachments, NstSvcAttachmentMap.toAttachmentItem);
         this.isReplyed = !!post.replyToId;
@@ -84,16 +84,6 @@
         username: sender.id,
         avatar: sender.hasPicture() ? sender.picture.getUrl('x64') : null,
         avatar128: sender.hasPicture() ? sender.picture.getUrl('x128') : null
-      };
-    }
-
-    // TODO: Use NstVmPlace instead
-    function mapPlace(place) {
-
-      return {
-        id: place.id,
-        name: place.name,
-        picture: place.hasPicture() ? place.picture.getUrl('x64') : null
       };
     }
 

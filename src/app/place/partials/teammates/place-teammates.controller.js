@@ -52,19 +52,13 @@
     }));
 
     eventReferences.push($rootScope.$on('member-removed', function (event, data) {
-      if (vm.placeId === data.placeId) {
 
+      if (vm.placeId === data.placeId) {
         if (removedMembersTracker.isTracked(data.member.id)) {
           return;
         }
 
         NstUtility.collection.dropById(vm.teammates, data.member.id);
-        NstSvcPlaceFactory.get(vm.place.id).then(function (place) {
-          vm.place = place;
-        }).catch(function (error) {
-          toastr.error(NstSvcTranslation.get("An error has occured"));
-        });
-
         removedMembersTracker.track(data.member.id);
       }
     }));

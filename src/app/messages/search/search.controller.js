@@ -87,7 +87,7 @@
         });
 
         vm.noResult = vm.messages.length === 0;
-        vm.reachedTheEnd = olderMessages.length < limit;
+        vm.reachedTheEnd = vm.messages.length > 0 && posts.length < limit;
 
         vm.loading = false;
 
@@ -102,7 +102,7 @@
       if (vm.reachedTheEnd) {
         return;
       }
-      
+
       skip = vm.messages.length;
       searchMessages(vm.queryString);
     }

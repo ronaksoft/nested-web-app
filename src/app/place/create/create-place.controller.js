@@ -16,7 +16,7 @@
     $scope.NST_PLACE_POLICY_OPTION = NST_PLACE_POLICY_OPTION;
     $scope.NST_PLACE_TYPE = NST_PLACE_TYPE;
     var vm = this;
-
+    var eventReferences = [];
 
     var placeIdRegex = /^[A-Za-z][A-Za-z0-9-]*$/;
 
@@ -61,9 +61,6 @@
     vm.setPlaceOpen = setPlaceOpen;
     vm.setPlaceClosed = setPlaceClosed;
     vm.setId = setId;
-    vm.setReceivingOff = setReceivingOff;
-    vm.setReceivingMembers = setReceivingMembers;
-    vm.setReceivingEveryone = setReceivingEveryone;
     vm.save = save;
     vm.changeId = changeId;
     vm.showAddOrInviteMember = showAddOrInviteMember;
@@ -100,11 +97,11 @@
       if ($stateParams.isOpenPlace) {
         vm.isOpenPlace = true;
         vm.isClosedPlace = false;
-        vm.addPostLevel = NST_PLACE_POLICY_OPTION.MEMBERS;
-        setReceivingMembers();
+        vm.addPostLevel = NST_PLACE_POLICY_OPTION.MANAGERS;
+        vm.place.privacy.privacy = false;
         setPlaceOpen();
       } else {
-        setReceivingEveryone();
+        vm.place.privacy.privacy = true;
         vm.isOpenPlace = false;
         vm.isClosedPlace = true;
       }
@@ -123,21 +120,21 @@
 
       vm.teammates.push(new NstVmMemberItem(NstSvcUserFactory.currentUser, NST_PLACE_MEMBER_TYPE.KEY_HOLDER));
 
-      $rootScope.$on('member-removed', function (event, data) {
+      eventReferences.push($rootScope.$on('member-removed', function (event, data) {
         NstUtility.collection.dropById(vm.teammates, data.member.id);
-      });
-      $rootScope.$on('member-demoted', function (event, data) {
+      }));
+      eventReferences.push($rootScope.$on('member-demoted', function (event, data) {
         var member = vm.teammates.filter(function (m) {
           return m.id === data.member.id
         });
         if (member[0]) member[0].role = NST_PLACE_MEMBER_TYPE.KEY_HOLDER;
-      });
-      $rootScope.$on('member-promoted', function (event, data) {
+      }));
+      eventReferences.push($rootScope.$on('member-promoted', function (event, data) {
         var member = vm.teammates.filter(function (m) {
           return m.id === data.member.id
         });
         if (member[0]) member[0].role = NST_PLACE_MEMBER_TYPE.CREATOR;
-      });
+      }));
 
     })();
 
@@ -228,27 +225,6 @@
       vm.place.privacy.locked = true;
       vm.isClosedPlace = true;
       vm.isOpenPlace = false;
-    }
-
-    function setReceivingOff() {
-      vm.receivingMode = 'off';
-
-      vm.place.privacy.receptive = false;
-      vm.place.privacy.search = false;
-    }
-
-    function setReceivingMembers() {
-      vm.receivingMode = 'members';
-
-      vm.place.privacy.receptive = 'internal';
-      vm.place.policy.addPost = 'everyone';
-    }
-
-    function setReceivingEveryone() {
-      vm.receivingMode = 'everyone';
-
-      vm.place.privacy.receptive = 'external';
-      vm.place.policy.addPost = 'everyone';
     }
 
     function setPolicyAddMember(value) {
@@ -648,6 +624,13 @@
       return newValue;
     }
 
+    $scope.$on('$destroy', function () {
+      _.forEach(eventReferences, function (cenceler) {
+        if (_.isFunction(cenceler)) {
+          cenceler();
+        }
+      });
+    });
+
   }
-})
-();
+})();

@@ -230,8 +230,16 @@
 
       });
 
-      $scope.$on('post-moved-current-place', function (event, data) {
-        NstUtility.collection.dropById(vm.messages, data.postId);
+      $scope.$on('post-moved', function (event, data) {
+        // there are tow conditions that a moved post should be removed from messages list
+        // 1. The moved place is the one that you see its messages list (DONE)
+        // 2. You moved a place to another one and none of the post new places
+        //    are not marked to be shown in feeds page
+        // TODO: Implement the second condition
+        if ($stateParams.placeId === data.fromPlace) {
+          NstUtility.collection.dropById(vm.messages, data.postId);
+          return;
+        }
       });
 
       setNavbarProperties();
@@ -565,6 +573,12 @@
         return vm.isConvMode = true;
       }
       return vm.isConvMode = false;
+    }
+
+    function isFeed() {
+      return _.includes([
+        'app.'
+      ])
     }
 
     function fillPlaceIds(container, list) {
