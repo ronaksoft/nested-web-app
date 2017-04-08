@@ -6,7 +6,7 @@
     .controller('SidebarPlaceInfoController', SidebarPlaceInfoController);
 
   /** @ngInject */
-  function SidebarPlaceInfoController($q, $scope, $state, $stateParams, $window, _,
+  function SidebarPlaceInfoController($rootScope, $q, $scope, $state, $stateParams, $window, _,
                                       NstSvcLogger,
                                       NstSvcPostFactory, NstSvcPlaceFactory, NstSvcPlaceMap, NstUtility, NstSvcSync,
                                       NST_POST_FACTORY_EVENT, NST_PLACE_FACTORY_EVENT, NST_DEFAULT, NstVmPlace, NstSvcServer, NST_SRV_EVENT, NST_EVENT_ACTION) {
@@ -210,10 +210,12 @@
       clearPlace(event.detail);
     });
 
-    $window.onfocus = function () {
+
+
+    $rootScope.$on('reload-counters',function () {
       NstSvcLogger.debug('Retrieving the sub-place unreads count right after focus.');
       getPlaceUnreadCounts();
-    };
+    });
 
   }
 })();

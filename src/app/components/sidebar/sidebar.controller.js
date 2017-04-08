@@ -627,12 +627,11 @@
 
     });
 
-    $window.onfocus =function () {
+    $rootScope.$on('reload-counters',function () {
       NstSvcLogger.debug('Retrieving mentions count right after focus.');
       getNotificationsCount();
       NstSvcLogger.debug('Retrieving the grand place unreads count right after focus.');
       getGrandPlaceUnreadCounts();
-    };
-
+    });
   }
 })();
