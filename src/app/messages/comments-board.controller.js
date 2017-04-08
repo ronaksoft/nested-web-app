@@ -5,7 +5,7 @@
     .module('ronak.nested.web.message')
     .controller('CommentsBoardController', CommentsBoardController);
 
-  function CommentsBoardController($timeout, $scope, $q,
+  function CommentsBoardController($timeout, $scope, $q, $state,
                                    NstSvcAuth, NstSvcCommentFactory, NstUtility, NstSvcTranslation,
                                    moment, toastr, _) {
     var vm = this;
@@ -41,6 +41,12 @@
           loadRecentComments();
         }
       });
+
+      if($state.current.name === 'app.message'){
+        vm.comments = [];
+        loadMoreComments();
+      }
+
       pageEventKeys.push(key);
       vm.user = NstSvcAuth.user;
     })();

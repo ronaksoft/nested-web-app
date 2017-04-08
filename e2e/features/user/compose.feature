@@ -27,7 +27,7 @@
 #    When Wait to see leave-modal
 #    Given I Click by ngClick "$close(true);"
 #    Then current tab must be "Feed"
-
+#
 #  Scenario: ok - compose with one recipient
 #    Given I Click by ngClick "ctlSidebar.compose($event);"
 #    When Wait to see compose-modal
@@ -61,3 +61,9 @@
 #    When I wait 2s
 #    When should see "Your message was sent, but accounting,accounting.first did not receive that" warning message
 #    Then current tab must be "Feed"
+#
+#  Scenario:
+#    Given I Click on profile pop-over
+#    Given I Click on href "signout"
+#    When I wait 5s
+#    Then Must see object with id "panel-signin"
