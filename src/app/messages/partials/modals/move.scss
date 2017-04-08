@@ -58,11 +58,12 @@
       overflow: hidden;
       text-overflow: ellipsis;
       margin: 0;
-      max-height: 36px;
+      height: 36px;
       @extend ._wrb;
     }
     span {
       font-size: 12px;
+      height: 17px;
       color:$color-gale;
       @extend ._txe;
     }
