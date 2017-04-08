@@ -304,6 +304,9 @@ input[type="checkbox"]:checked + label.setting {
   }
 }
 
+.post-card-moreopt {
+  z-index: 222;
+}
 body[dir="rtl"] {
   .popover-white-nst-msg {
     left: -1px!important;
