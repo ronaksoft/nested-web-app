@@ -20,6 +20,10 @@
     vm.searchProgress = false;
     vm.replaceProgress = false;
     vm.targetPlace = null;
+    vm.ready = false;
+    $timeout(function () {
+      vm.ready = true
+    }, 500);
 
     (function () {
       search(postPlaces, selectedPlace, 3, "");
