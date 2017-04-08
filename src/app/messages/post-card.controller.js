@@ -5,7 +5,7 @@
     .module('ronak.nested.web.message')
     .controller('PostCardController', PostCardController)
 
-  function PostCardController($state, $log, $timeout, $rootScope, $scope, $filter, $window, $sce, $uibModal, $stateParams,
+  function PostCardController($state, $log, $timeout, $rootScope, $scope, $filter, $window, $sce, $uibModal,
                               _, moment, toastr,
                               NST_POST_EVENT, NST_EVENT_ACTION, NST_POST_FACTORY_EVENT, NST_PLACE_ACCESS, NST_PLACE_FACTORY_EVENT, SvcCardCtrlAffix,
                               NstSvcSync, NstSvcCommentFactory, NstSvcPostFactory, NstSvcPlaceFactory, NstSvcAuth, NstUtility, NstSvcPostInteraction, NstSvcTranslation) {
@@ -225,10 +225,12 @@
             return vm.post.allPlaces;
           }
         }
-      }).result.then(function (result) {
-        if ($stateParams.placeId === result.fromPlace.id) {
-          $scope.$emit('post-moved-current-place', {postId: vm.post.id});
-        }
+      }).result.then(function(result) {
+        $scope.$emit('post-moved', {
+          postId: vm.post.id,
+          toPlace: result.toPlace,
+          fromPlace: result.fromPlace
+        });
 
         NstUtility.collection.replaceById(vm.post.allPlaces, result.fromPlace.id, result.toPlace);
       });

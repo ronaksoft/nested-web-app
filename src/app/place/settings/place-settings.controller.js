@@ -85,29 +85,6 @@
             break;
         }
       });
-
-
-      eventReferences.push($rootScope.$on('member-removed', function(event, data) {
-        if (removedMembersTracker.isTracked(data.member.id)) {
-          return;
-        }
-
-        switch (data.member.role) {
-          case NST_PLACE_MEMBER_TYPE.CREATOR:
-            vm.place.counters.creators--;
-            removedMembersTracker.track(data.member.id);
-            break;
-          case NST_PLACE_MEMBER_TYPE.KEY_HOLDER:
-            vm.place.counters.key_holders--;
-            removedMembersTracker.track(data.member.id);
-            break;
-          default:
-            NstSvcLogger.error(NstUtility.string.format('Can not remove the member, Because her role is "{0}" which was not expected!', data.previousRole));
-            break;
-        }
-
-      }));
-
     })();
 
 
@@ -323,15 +300,7 @@
     });
 
     $scope.$on('$destroy', function () {
-
-      _.forEach(eventReferences, function (cenceler) {
-        if (_.isFunction(cenceler)) {
-          cenceler();
-        }
-      });
-
       _.forEach(timeoutReferences, $timeout.cancel);
-
     });
 
   }
