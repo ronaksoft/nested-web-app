@@ -1242,7 +1242,56 @@
 
         return deferred.promise;
       }, id);
+    };
+
+
+
+
+    /**
+     * Mark all place's posts as read
+     *
+     * @param  {string}      placeId  a place id
+     *
+     * @returns {Promise}      boolean result
+     */
+    PlaceFactory.prototype.markAllPostAsRead = function(placeId) {
+
+      var factory = this;
+      var defer = $q.defer();
+
+      var query = new NstFactoryQuery(placeId);
+
+      if (!placeId) {
+        throw "place id is not define!";
+      } else {
+        placeId = placeId;
+      }
+
+
+      if (!query.id) {
+        defer.resolve(null);
+      } else {
+        NstSvcServer.request('place/mark_all_read', {
+          place_id: placeId
+        }).then(function () {
+
+          factory.dispatchEvent(new CustomEvent(
+            NST_PLACE_FACTORY_EVENT.READ_ALL_POST,
+            new NstFactoryEventData(placeId)
+          ));
+
+          defer.resolve(true);
+
+        }).catch(function (error) {
+          defer.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+        });
+
+      }
+
+      return defer.promise;
     }
+
+
 
     /**
      * Get unread posts count of places

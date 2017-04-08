@@ -180,6 +180,10 @@
       getPlaceUnreadCounts();
     });
 
+    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.READ_ALL_POST, function () {
+      getPlaceUnreadCounts();
+    });
+
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.BOOKMARK_ADD, function (e) {
       vm.placesFavoritesObject[e.detail.id] = true;
     });
@@ -190,6 +194,10 @@
 
 
     NstSvcPostFactory.addEventListener(NST_POST_FACTORY_EVENT.READ, function () {
+      getPlaceUnreadCounts();
+    });
+
+    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.READ_ALL_POST, function () {
       getPlaceUnreadCounts();
     });
 

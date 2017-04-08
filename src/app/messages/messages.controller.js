@@ -8,7 +8,7 @@
   /** @ngInject */
   function MessagesController($rootScope, $q, $stateParams, $log, $state, $window, $scope,
                               moment,
-                              NST_MESSAGES_SORT_OPTION, NST_MESSAGES_VIEW_SETTING, NST_DEFAULT, NST_SRV_EVENT, NST_EVENT_ACTION, NST_POST_FACTORY_EVENT, NST_PLACE_ACCESS,
+                              NST_MESSAGES_SORT_OPTION, NST_MESSAGES_VIEW_SETTING, NST_DEFAULT, NST_PLACE_FACTORY_EVENT, NST_EVENT_ACTION, NST_POST_FACTORY_EVENT, NST_PLACE_ACCESS,
                               NstSvcPostFactory, NstSvcPlaceFactory, NstSvcServer, NstUtility, NstSvcAuth, NstSvcSync, NstSvcWait,
                               NstSvcMessagesSettingStorage, NstSvcTranslation, NstSvcInteractionTracker,
                               NstSvcPostMap, NstSvcPlaceAccess, NstSvcModal) {
@@ -43,6 +43,7 @@
     vm.loadMessageError = false;
     // Reveals hot message when user wants to show new messages
     vm.revealHotMessage = false;
+    vm.markAllAsRead = markAllAsRead;
     vm.showNewMessages = showNewMessages;
     vm.dismissNewMessage = dismissNewMessage;
 
@@ -126,6 +127,10 @@
       }
 
       NstSvcPostFactory.addEventListener(NST_POST_FACTORY_EVENT.READ, function (e) {
+        getUnreadsCount();
+      });
+
+      NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.READ_ALL_POST, function (e) {
         getUnreadsCount();
       });
 
@@ -394,7 +399,6 @@
       });
     }
 
-
     function loadRemovePostAccess() {
       vm.placeRemoveAccess = vm.currentPlace.hasAccess(NST_PLACE_ACCESS.REMOVE_POST);
       return $q.resolve(vm.placeRemoveAccess);
@@ -600,6 +604,14 @@
       }).catch(defer.reject);
 
       return defer.promise;
+    }
+
+
+    function markAllAsRead() {
+      NstSvcPlaceFactory.markAllPostAsRead($stateParams.placeId)
+        .then(function (result) {
+
+        });
     }
 
     function getQuickMessageAccess() {
