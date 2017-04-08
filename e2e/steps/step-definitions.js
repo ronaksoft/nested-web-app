@@ -46,12 +46,6 @@ module.exports = function () {
   });
 
 
-  this.Then(/^invite modal must hide$/, function () {
-    browser.ignoreSynchronization = true;
-    var EC = protractor.ExpectedConditions;
-    return browser.wait(EC.invisibilityOf(element(By.css('#add-view'))), 50000);
-  });
-
   this.When(/^Wait for Upload to be finished$/, function () {
     browser.ignoreSynchronization = true;
     var EC = protractor.ExpectedConditions;
@@ -113,6 +107,11 @@ module.exports = function () {
   this.Given(/^I Press button by ngClick "([^"]*)"$/, function (ngClick){
     var ClickButton = element(By.css('button[ng-click="' + ngClick + '"]'));
     ClickButton.click();
+  });
+
+  this.Given(/^I Press Next$/, function (){
+    var nextButton = element(By.css('button[class="submit"'));
+    nextButton.click();
   });
 
 //--------------------- post pin and unpin -----------------//
@@ -224,6 +223,11 @@ module.exports = function () {
   this.Given(/^I Click icon by ngIf "([^"]*)"$/, function (ngIf){
     var menu = element(By.css('svg[ng-if="' + ngIf + '"]'));
     menu.click();
+  });
+
+  this.Given(/^I Click icon by class "([^"]*)"$/, function (ngIf){
+    var svgWithClass = element(By.css('svg[class="' + ngIf + '"]'));
+    svgWithClass.click();
   });
 
   this.Given(/^I Click by ngModel "([^"]*)"$/, function (ngModel){
@@ -369,7 +373,7 @@ module.exports = function () {
       return assert.ok(false, 'Can not find message!')
     });
   });
-//---------------------------------------------------------------------------//
+//----------------------------------------------- modals --------------------------------------------------------------------//
 
 
 
@@ -390,6 +394,17 @@ module.exports = function () {
     var EC = protractor.ExpectedConditions;
     return browser.wait(EC.visibilityOf(element(By.css('.modal-bo'))), 50000);
   });
+                  //------create place-------//
+
+  this.When(/^Wait to see create place step "([^"]*)"$/, function (expectedStep) {
+    browser.ignoreSynchronization = true;
+    var EC = protractor.ExpectedConditions;
+    return browser.wait(EC.visibilityOf(element(By.css('div[ng-if="ctrl.step == ' + expectedStep + '"]'))), 50000);
+  });
+
+
+//-------------------------------------- registration and recover-password ----------------------------------------------------//
+
 
   this.When(/^Wait to see first step$/, function () {
     browser.ignoreSynchronization = true;
@@ -409,6 +424,8 @@ module.exports = function () {
     return browser.wait(EC.visibilityOf(element(By.css('input[value="Reset"]'))), 50000);
   });
 
+//----------------------------------------------------------------------------------------------------------------------------//
+
   this.When(/^should see "([^"]*)"$/, function (text) {
     element(by.css('.col-xs-9 nst-font-xlarge')).getText().then(function (title) {
       assert.equal(title.trim(), text, ' title is "' + title + '" but should be "' + text);
@@ -418,6 +435,11 @@ module.exports = function () {
   this.When(/^Wait see object with id "([^"]*)"$/, function (objectId) {
     var EC = protractor.ExpectedConditions;
     return browser.wait(EC.visibilityOf(element(By.css('#' + objectId))), 50000);
+  });
+
+  this.When(/^Wait see object with class "([^"]*)"$/, function (objectClass) {
+    var EC = protractor.ExpectedConditions;
+    return browser.wait(EC.visibilityOf(element(By.css('.' + objectClass))), 50000);
   });
 
   this.Then(/^Must see object with id "([^"]*)"$/, function (tObjectId) {
