@@ -8,6 +8,7 @@
   function AttachPlaceController($timeout, $scope, $q, $uibModalInstance,
     moment, toastr, _,
     NstSvcPostFactory, NstSvcPlaceFactory, NstSvcTranslation, NstUtility,
+    NstTinyPlace,
     postId, postPlaces) {
 
     var vm = this;
@@ -39,7 +40,7 @@
           toastr.error(NstSvcTranslation.get("You can not attach any of those places!"));
         } else {
           toastr.warning(NstUtility.string.format(
-            NstSvcTranslation.get("We had trouble attaching places {0}, but the other places have been attached."),
+            NstSvcTranslation.get("We had trouble attaching place(s) {0}, but the others have been attached."),
             NstUtility.string.format("<b>{0}</b>", _.join(result.notAttachedPlaces, NstSvcTranslation.get("</b>, <b>")))));
         }
 
@@ -51,7 +52,7 @@
       }).catch(function (result) {
         toastr.error(NstSvcTranslation.get("An error occured while attaching a place to the post"));
       }).finally(function () {
-        vm.attachProgress = true;
+        vm.attachProgress = false;
       });
     }
 
@@ -59,7 +60,7 @@
       vm.searchPlaceProgress = true;
 
       NstSvcPlaceFactory.searchForCompose(keyword, limit).then(function (places) {
-        vm.resultTargets = _.chain(places).differenceBy(postPlaces, 'id').uniqBy('id').value();
+        vm.resultTargets = _.chain(places).differenceBy(postPlaces, 'id').uniqBy('id').take(10).value();
         if (_.isString(keyword)
           && _.size(keyword) >= 4
           && _.indexOf(keyword, " ") === -1

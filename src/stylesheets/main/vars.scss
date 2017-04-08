@@ -166,6 +166,14 @@ $sidebar-place-move: $sidebar-delay - $sidebar-scroll-move;
     left: 50%;
   }
 }
+@keyframes replace-wire-full {
+  from {
+    left: 50%;
+  }
+  to {
+    left: calc(100% - 12px);
+  }
+}
 @keyframes appearenceOp {
   from {opacity: 0;}
   to {opacity: .5;}
