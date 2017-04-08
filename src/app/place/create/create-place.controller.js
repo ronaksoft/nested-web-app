@@ -16,7 +16,7 @@
     $scope.NST_PLACE_POLICY_OPTION = NST_PLACE_POLICY_OPTION;
     $scope.NST_PLACE_TYPE = NST_PLACE_TYPE;
     var vm = this;
-
+    var eventReferences = [];
 
     var placeIdRegex = /^[A-Za-z][A-Za-z0-9-]*$/;
 
@@ -123,21 +123,21 @@
 
       vm.teammates.push(new NstVmMemberItem(NstSvcUserFactory.currentUser, NST_PLACE_MEMBER_TYPE.KEY_HOLDER));
 
-      $rootScope.$on('member-removed', function (event, data) {
+      eventReferences.push($rootScope.$on('member-removed', function (event, data) {
         NstUtility.collection.dropById(vm.teammates, data.member.id);
-      });
-      $rootScope.$on('member-demoted', function (event, data) {
+      }));
+      eventReferences.push($rootScope.$on('member-demoted', function (event, data) {
         var member = vm.teammates.filter(function (m) {
           return m.id === data.member.id
         });
         if (member[0]) member[0].role = NST_PLACE_MEMBER_TYPE.KEY_HOLDER;
-      });
-      $rootScope.$on('member-promoted', function (event, data) {
+      }));
+      eventReferences.push($rootScope.$on('member-promoted', function (event, data) {
         var member = vm.teammates.filter(function (m) {
           return m.id === data.member.id
         });
         if (member[0]) member[0].role = NST_PLACE_MEMBER_TYPE.CREATOR;
-      });
+      }));
 
     })();
 
@@ -648,6 +648,13 @@
       return newValue;
     }
 
+    $scope.$on('$destroy', function () {
+      _.forEach(eventReferences, function (cenceler) {
+        if (_.isFunction(cenceler)) {
+          cenceler();
+        }
+      });
+    });
+
   }
-})
-();
+})();
