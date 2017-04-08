@@ -8,7 +8,7 @@
   function PostCardController($state, $log, $timeout, $rootScope, $scope, $filter, $window, $sce, $uibModal,
                               _, moment, toastr,
                               NST_POST_EVENT, NST_EVENT_ACTION, NST_POST_FACTORY_EVENT, NST_PLACE_ACCESS, SvcCardCtrlAffix,
-                              NstSvcSync, NstSvcCommentFactory, NstSvcPostFactory, NstSvcAuth, NstUtility, NstSvcPostInteraction, NstSvcTranslation) {
+                              NstSvcSync, NstSvcCommentFactory, NstSvcPostFactory, NstSvcPlaceFactory, NstSvcAuth, NstUtility, NstSvcPostInteraction, NstSvcTranslation) {
     var vm = this;
 
     var commentBoardMin = 3,
@@ -43,6 +43,8 @@
     vm.loadNewComments = loadNewComments;
     vm.attachPlace = attachPlace;
     vm.move = move;
+    vm.getPlacesWithRemoveAccess = getPlacesWithRemoveAccess;
+    vm.getPlacesWithControlAccess = getPlacesWithControlAccess;
 
     if (vm.mood == 'chain') {
       vm.chainView = true;
@@ -190,7 +192,17 @@
           if (!_.some(vm.post.allPlaces, { id : place.id })) {
             vm.post.allPlaces.push(place);
           }
-        })
+        });
+
+        NstSvcPlaceFactory.getAccess(_.map(attachedPlaces, 'id')).then(function (accesses) {
+          _.forEach(accesses, function (item) {
+            var postPlace = _.find(vm.post.allPlaces, { id : item.id });
+            if (postPlace) {
+              postPlace.accesses = item.accesses;
+            }
+          });
+        });
+
       });
     }
 
@@ -318,12 +330,8 @@
         }
       }));
 
-      vm.placesWithRemoveAccess = _.filter(vm.post.allPlaces, function (place) {
-        return place.hasAccess(NST_PLACE_ACCESS.REMOVE_POST);
-      });
-      vm.placesWithControlAccess = _.filter(vm.post.allPlaces, function (place) {
-        return place.hasAccess(NST_PLACE_ACCESS.CONTROL);
-      });
+      vm.placesWithRemoveAccess = getPlacesWithRemoveAccess();
+      vm.placesWithControlAccess = getPlacesWithControlAccess();
 
       //FIXME:: fix this item
       setTimeout(function () {
@@ -353,6 +361,18 @@
       if (!vm.post.isRead) {
         markAsRead();
       }
+    }
+
+    function getPlacesWithRemoveAccess() {
+      return _.filter(vm.post.allPlaces, function (place) {
+        return place.hasAccess(NST_PLACE_ACCESS.REMOVE_POST);
+      });
+    }
+
+    function getPlacesWithControlAccess() {
+      return _.filter(vm.post.allPlaces, function (place) {
+        return place.hasAccess(NST_PLACE_ACCESS.CONTROL);
+      });
     }
   }
 
