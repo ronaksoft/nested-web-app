@@ -1,0 +1,55 @@
+<div class="attach-place nst-modal">
+  <form ng-submit="ctrl.attachPlaces(ctrl.selectedTargets);">
+  <div class="modal-head">
+    <div class="_df close-mdl" ng-click="$dismiss()">
+      <svg class="_24svg">
+        <use xlink:href="/assets/icons/nst-icn24.svg#xcross"></use>
+      </svg>
+    </div>
+    <h2 class="_df _fw"><translate>Attach a Place</translate></h2>
+  </div>
+
+  <div class="modal-body">
+    <ui-select minimum-input-length="4" multiple limit="10" class="_df _fw" data-ng-model="ctrl.selectedTargets">
+      <ui-select-match placeholder="Enter a Place name or a Nested address..." translate-attrs="placeholder">
+        <div class="selected-innter">
+          <span class="place-img">
+            <img ng-if="$item.hasPicture()" ng-src="{{$item | picture}}"/>
+            <img ng-if="!$item.hasPicture()" src="/assets/icons/absents_place.svg"/>
+          </span>
+          <!-- <span class="place-img">
+            <svg>
+              <use xlink:href="/assets/icons/nst-icn16.svg#exclamation-mark"></use>
+            </svg>
+          </span> -->
+          <span class="place-name">{{$item.name}}</span>
+        </div>
+
+      </ui-select-match>
+      <ui-select-choices refresh="ctrl.searchPlace($select.search)" refresh-delay="0" repeat="place as place in (ctrl.resultTargets | filter: $select.search ) track by $index">
+        <img class="account-initials-32" ng-src="{{place | picture: 'x64'}}" />
+        <span class="" data-ng-bind-html="place.name | highlight: $select.search"></span>
+        <br/>
+        <span class="nst-font-10 _vat margin-l-50">{{::place.id}}</span>
+      </ui-select-choices>
+    </ui-select>
+
+    <div class="_difv _fw post-places">
+      <p class="_fw places-label">
+        <translate>You already shared this post with following Places:</translate>
+      </p>
+      <div class="_df _fw">
+        <a class="_df" data-ng-repeat="place in ctrl.postPlaces">
+          #{{::place.name}}
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <input ng-if="ctrl.selectedTargets.length == 0" type="button" class="butn-green _fw _df" value="Attach Place" translate-attrs="value" disabled/>
+    <input ng-if="ctrl.selectedTargets.length == 1" type="submit" class="butn-green _fw _df" value="Attach the Place" translate-attrs="value"/>
+    <input ng-if="ctrl.selectedTargets.length > 1" type="submit" class="butn-green _fw _df" ng-value="ctrl.getAttachButtonLabel(ctrl.selectedTargets.length)" translate-attrs="value"/>
+  </div>
+  </form>
+</div>

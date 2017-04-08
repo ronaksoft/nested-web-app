@@ -29,6 +29,8 @@
   color: $color-white;
   text-align: center;
   transition: all $animation-dur;
+  justify-content: center;
+  align-items: center;
   @include user-select(none);
   a,span {
     //margin: 4px 0;

@@ -5,7 +5,7 @@
     .module('ronak.nested.web.message')
     .controller('PostCardController', PostCardController)
 
-  function PostCardController($state, $log, $timeout, $rootScope, $scope, $filter, $window, $sce,
+  function PostCardController($state, $log, $timeout, $rootScope, $scope, $filter, $window, $sce, $uibModal,
                               _, moment, toastr,
                               NST_POST_EVENT, NST_EVENT_ACTION, NST_POST_FACTORY_EVENT, NST_PLACE_ACCESS, SvcCardCtrlAffix,
                               NstSvcSync, NstSvcCommentFactory, NstSvcPostFactory, NstSvcAuth, NstUtility, NstSvcPostInteraction, NstSvcTranslation) {
@@ -42,6 +42,8 @@
     vm.setBookmark = setBookmark;
     vm.unreadCommentsCount = 0;
     vm.loadNewComments = loadNewComments;
+    vm.attachPlace = attachPlace;
+    vm.move = move;
 
     if (vm.mood == 'chain') {
       vm.chainView = true;
@@ -173,6 +175,47 @@
 
     }
 
+    function attachPlace() {
+      $uibModal.open({
+        animation: false,
+        backdropClass : 'comdrop',
+        size: 'sm',
+        templateUrl: 'app/messages/partials/modals/attach-place.html',
+        controller: 'AttachPlaceController',
+        controllerAs: 'ctrl',
+        resolve: {
+          postId: function () {
+            return vm.post.id;
+          },
+          postPlaces: function () {
+            return vm.post.allPlaces;
+          }
+        }
+      }).result.catch(function() {
+
+        //TODO add res to places
+      });
+    }
+
+    function move(placeID) {
+      $uibModal.open({
+        animation: false,
+        backdropClass : 'comdrop',
+        size: 'sm',
+        templateUrl: 'app/messages/partials/modals/move.html',
+        controller: 'MovePlaceController',
+        controllerAs: 'ctrl',
+        resolve: {
+          placeId: function () {
+            return placeID;
+          }
+        }
+      }).result.catch(function() {
+
+        //TODO add res to places
+      });
+    }
+
     function showTrustedBody() {
       if (vm.orginalPost) {
         vm.body =  vm.orginalPost.getTrustedBody();
@@ -252,7 +295,7 @@
 
     // initializing
     (function () {
-
+      vm.currentUserIsSender = NstSvcAuth.user.id == vm.post.sender.username;
       vm.hasOlderComments = (vm.post.commentsCount && vm.post.comments) ? vm.post.commentsCount > vm.post.comments.length : false;
       vm.body = $sce.trustAsHtml(vm.post.body);
       vm.orginalPost = vm.post;

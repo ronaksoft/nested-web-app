@@ -4,6 +4,7 @@ post-card {
   flex-direction: column;
   align-items: center;
   position: relative;
+  //z-index: 600;
   &:last-child {
     .post-card-wire {
       display: none
@@ -116,7 +117,7 @@ post-card {
   position: relative;
   box-shadow: 0 5px 12px 2px rgba(0, 0, 0, 0.1);
   //box-shadow: 0 10px 6px -6px rgba(119,123,121,.4);
-  z-index: 11;
+  //z-index: 11;
   background-color: $color-white;
   overflow: visible;
   transition: all $animation-dur;
@@ -298,40 +299,6 @@ post-card {
     padding-right: 8px;
     //top: 12px;
   }
-  .post-places {
-    margin: 8px 0;
-    flex-wrap: wrap;
-    .places-label {
-      font-size: 14px;
-      line-height: 24px;
-      margin-right: 16px  ;
-      color: $color-breeze;
-    }
-    a {
-      display: inline;
-      flex: none;
-      align-items: center;
-      margin-right: 0px;
-      line-height: 24px;
-      white-space: nowrap;
-      padding-left: 4px;
-    }
-    svg {
-      opacity: 0;
-      margin: -4px 4px -3px -4px;
-      fill: $color-force;
-    }
-    .del-access {
-      border-radius: 4px;
-      &:hover {
-        font-size: 14px;
-        box-shadow: 0 0 28px -4px rgba(0, 0, 0, 0.75);
-        svg {
-          opacity: 1;
-        }
-      }
-    }
-  }
   .post-footer {
     height: 40px;
     align-items: center;
@@ -411,6 +378,40 @@ post-card {
     margin-bottom: -3px;
   }
 }
+.post-places {
+  margin: 8px 0;
+  flex-wrap: wrap;
+  .places-label {
+    font-size: 14px;
+    line-height: 24px;
+    margin-right: 16px  ;
+    color: $color-breeze;
+  }
+  a {
+    display: inline;
+    flex: none;
+    align-items: center;
+    margin-right: 0px;
+    line-height: 24px;
+    white-space: nowrap;
+    padding-left: 4px;
+  }
+  svg {
+    opacity: 0;
+    margin: -4px 4px -3px -4px;
+    fill: $color-force;
+  }
+  .del-access {
+    border-radius: 4px;
+    &:hover {
+      font-size: 14px;
+      box-shadow: 0 0 28px -4px rgba(0, 0, 0, 0.75);
+      svg {
+        opacity: 1;
+      }
+    }
+  }
+}
 
 .more-place-row {
   padding: 4px 8px;
@@ -458,7 +459,7 @@ h3 {
   background-color: #F5F5F5;
   border: solid 1px $color-border;
   border-top-width: 0;
-  z-index: 10;
+  z-index: -1;
   border-radius: 0 0 4px 4px;
   //overflow: hidden;
   > *:first-child {
@@ -701,3 +702,4 @@ h3 {
     color: $color-gale;
   }
 }
+

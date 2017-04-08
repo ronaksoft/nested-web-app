@@ -39,6 +39,8 @@
     PostFactory.prototype.unBookmarkPost = unBookmarkPost;
     PostFactory.prototype.getChainMessages = getChainMessages;
     PostFactory.prototype.conversation = conversation;
+    PostFactory.prototype.movePlace = movePlace;
+    PostFactory.prototype.attachPlaces = attachPlaces;
 
     var factory = new PostFactory();
     return factory;
@@ -617,7 +619,6 @@
       return defer.promise;
     }
 
-
     function getUnreadMessages(setting, places) {
 
       if (!_.isArray(places))
@@ -732,6 +733,48 @@
       });
 
       return deferred.promise;
+    }
+
+    function attachPlaces(postId, placeIds) {
+      return factory.sentinel.watch(function () {
+        var deferred = $q.defer();
+
+        NstSvcServer.request('post/attach_place', {
+          post_id : postId,
+          place_id : _.join(placeIds, ",")
+        }).then(function (data) {
+          var result = {
+            allAttached : false,
+            noneAttached : false,
+            notAttachedPlaces : []
+          };
+
+          result.allAttached = _.size(_.difference(data.attached, placeIds)) === 0 && _.size(data.not_attached) === 0;
+          result.noneAttached = _.size(data.attached) === 0 && _.size(data.not_attached) > 0;
+          result.notAttachedPlaces = data.not_attached;
+          deferred.resolve(result);
+
+        }).catch(deferred.reject);
+
+        return deferred.promise;
+      }, "attachPlaces", postId);
+    }
+
+    function movePlace(postId, oldPlaceId, newPlaceId) {
+      var watchKey = NstUtility.string.format("{0}-{1}-{2}", postId, oldPlaceId, newPlaceId);
+
+      return factory.sentinel.watch(function () {
+        var deferred = $q.defer();
+
+        NstSvcServer.request('post/replace', {
+          post_id : postId,
+          old_place_id : oldPlaceId,
+          new_place_id : newPlaceId
+        }).then(deferred.resolve).catch(deferred.reject);
+
+        return deferred.promise;
+      }, "movePlace", watchKey);
+
     }
   }
 })();
