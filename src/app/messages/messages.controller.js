@@ -225,6 +225,10 @@
 
       });
 
+      $scope.$on('post-moved-current-place', function (event, data) {
+        NstUtility.collection.dropById(vm.messages, data.postId);
+      });
+
       setNavbarProperties();
 
     })();
