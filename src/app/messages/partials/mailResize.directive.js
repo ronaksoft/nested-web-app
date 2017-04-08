@@ -15,7 +15,7 @@
           var stndSize = elem.parents('post-card').width() - 32 || 600;
           var cardWidth = elem.width();
 
-          if( cardWidth > stndSize ){
+          if( cardWidth > stndSize && cardWidth < 800){
             var ratio  = stndSize/cardWidth;
 
             var fontRatio = 100 / ratio;

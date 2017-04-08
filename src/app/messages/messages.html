@@ -38,7 +38,7 @@
         </svg>
       </div>
     </div>
-    <div class="filter-bar" ng-if="ctlMessages.isUnreadMode">
+    <div class="filter-bar" ng-if="ctlMessages.isUnreadMode && ctlMessages.unreadCount > 0">
       <p class="_df _fw" ng-if="ctlMessages.unreadCount == 1">
         <translate>one Unseen</translate>
       </p>
@@ -54,7 +54,7 @@
       </p>
 
     </div>
-    <div class="tool-bar"  ng-if="ctlMessages.isbookmarkedsMode || ctlMessages.isSentMode ">
+    <div class="tool-bar"  ng-if="ctlMessages.isbookmarkedsMode || ctlMessages.isSentMode || (ctlMessages.isUnreadMode && ctlMessages.unreadCount == 0) ">
 
     </div>
     <div class="post-area">
