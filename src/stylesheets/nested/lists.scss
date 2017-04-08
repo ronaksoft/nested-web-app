@@ -41,7 +41,7 @@
   width: 100%;
   color: $color-solid;
   transition: background-color $animation-dur;
-  span {color: $color-solid;fill: $color-solid}
+  span {color: $color-solid;fill: $color-solid;padding-right: 16px;}
   span,label,a {
     transition-duration: $animation-dur;
     transition-property: background-color,color;

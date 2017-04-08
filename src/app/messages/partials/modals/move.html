@@ -1,5 +1,5 @@
-<div class="attach-place nst-modal">
-  <form ng-submit="">
+<div class="move-place nst-modal">
+  <form ng-submit="ctrl.replace(ctrl.targetPlace);">
     <div class="modal-head">
       <div class="_df close-mdl" ng-click="$dismiss()">
         <svg class="_24svg">
@@ -11,12 +11,51 @@
 
     <div class="modal-body">
 
+      <div class="move-head">
+        <div class="move-from">
+          <translate>
+            Currenct Place
+          </translate>
+          <img ng-src="{{::ctrl.selectedPlace | picture}}">
+          <p>{{::ctrl.selectedPlace.name}}</p>
+          <span>
+            {{::ctrl.selectedPlace.id}}
+          </span>
+        </div>
+        <div class="wire">
+          <svg class="_16svg">
+            <use xlink:href="/assets/icons/nst-icn16.svg#message"></use>
+          </svg>
+        </div>
+        <div class="move-to">
+          <translate>
+            Another Place
+          </translate>
+          <img ng-src="{{ctrl.targetPlace | picture}}">
+          <p>{{ctrl.targetPlace.name}}</p>
+          <span>
+            {{ctrl.targetPlace.id}}
+          </span>
+        </div>
+      </div>
+
+      <div class="move-to-list">
+        <input type="text" placeholder="find place" translate-attrs="placeholder" ng-change="ctrl.search(ctrl.searchKeyword)" ng-model="ctrl.searchKeyword">
+        <a ng-if="ctrl.resultTargets.length > 0" ng-click="ctrl.setTargetPlace(place)" ng-repeat="place in ctrl.resultTargets">
+          <img ng-src="{{place | picture : 'x64'}}" alt="{{::place.name}}">
+          <div>
+            <p>{{::place.name}}</p>
+            <span>{{::place.id}}</span>
+          </div>
+        </a>
+        <span ng-if="ctrl.resultTargets.length == 0">No results!</span>
+      </div>
 
     </div>
 
     <div class="modal-footer">
-      <input ng-if="ctrl.selectedTargets.length == 0" type="button" class="butn-green _fw _df" value="Move to ..." translate-attrs="value" disabled/>
-      <input ng-if="ctrl.selectedTargets.length > 0" type="submit" class="butn-green _fw _df" value="move to place.name" translate-attrs="value"/>
+      <input ng-if="!ctrl.targetPlace" type="button" class="butn-green _fw _df" value="Move to ..." translate-attrs="value" disabled/>
+      <input ng-if="ctrl.targetPlace" type="submit" class="butn-green _fw _df" ng-value="ctrl.getMoveButtonLabel(ctrl.targetPlace.name)"/>
     </div>
   </form>
 </div>

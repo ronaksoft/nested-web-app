@@ -5,11 +5,10 @@
     .service('NstSvcPostMap', NstSvcPostMap);
 
   /** @ngInject */
-  function NstSvcPostMap(NstVmMessage, NstVmMessageSearchItem, NstVmPost) {
+  function NstSvcPostMap(NstVmMessage, NstVmMessageSearchItem) {
 
     var service = {
       toMessage: toMessage,
-      toPost: toPost,
       toSearchMessageItem : toSearchMessageItem
     };
 
@@ -21,10 +20,6 @@
 
     function toMessage(post, firstPlaceId, myPlaceIds) {
       return new NstVmMessage(post, firstPlaceId, myPlaceIds);
-    }
-
-    function toPost(post) {
-      return new NstVmPost(post);
     }
 
     function toSearchMessageItem(post) {

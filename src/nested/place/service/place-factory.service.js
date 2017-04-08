@@ -1219,6 +1219,31 @@
       }, "getGrandPlaceChildren", grandPlaceId);
     };
 
+    PlaceFactory.prototype.getAccess = function (placeId) {
+      var id = null;
+      if (_.isArray(placeId)) {
+        id = _.join(placeId, ",");
+      } else {
+        id = placeId;
+      }
+      return this.sentinel.watch(function () {
+        var deferred = $q.defer();
+
+        NstSvcServer.request('place/get_access', {
+          place_id: id
+        }).then(function (data) {
+          deferred.resolve(_.map(data.places, function (place) {
+            return {
+              id : place._id,
+              accesses : place.access
+            };
+          }));
+        }).catch(deferred.reject);
+
+        return deferred.promise;
+      }, id);
+    }
+
     /**
      * Get unread posts count of places
      *
@@ -1255,6 +1280,23 @@
 
     PlaceFactory.prototype.isIdAvailable = isIdAvailable;
 
+    PlaceFactory.prototype.getPlacesWithCreatorFilter = function () {
+      var factory = this;
+      return this.sentinel.watch(function () {
+        var deferred = $q.defer();
+
+        NstSvcServer.request('account/get_all_places', {
+          with_children: true,
+          filter : 'creator'
+        }).then(function (data) {
+          deferred.resolve(_.map(data.places, factory.parseTinyPlace));
+        }).catch(function (error) {
+          reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+        });
+
+        return deferred.promise;
+      }, "getPlacesWithCreatorFilter");
+    }
     /**
      * addPlace - Finds parent of a place and puts the place in its children
      *

@@ -1,0 +1,120 @@
+.move-place {
+  width: 480px;
+  padding: 10px 4px;
+  .modal-footer {
+    input {
+      width: 100%!important;
+      height: 32px;
+    }
+  }
+}
+.move-head {
+  min-height: 104px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  .wire {
+    width: 160px;
+    height: 1px;
+    background-color: $color-breeze;
+    display: flex;
+    flex: none;
+    margin-bottom: 36px;
+    position: relative;
+    svg {
+      position: absolute;
+      transform: translate(-50%,-50%);
+      left: 0;
+      transition: left ease-in-out $animation-dur;
+      fill: $color-breeze;
+      background-color: $color-white;
+      animation: replace-wire $animation-dur ease-in-out .3s forwards;
+      &.set {
+        left: calc(100% - 16px);
+      }
+    }
+  }
+  .move-from,.move-to {
+    width: 88px;
+    min-height: 88px;
+    display: flex;
+    align-items: center;
+    overflow-x: hidden;
+    flex: none;
+    flex-direction: column;
+    img {
+      width: 32px;
+      border-radius: 3px;
+      height: 32px;
+      margin: 8px 0;
+    }
+    p {
+      width: 100%;
+      display: block;
+      color: black;
+      font-size: 14px;
+      text-align: center;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin: 0;
+      height: 36px;
+      @extend ._wrb;
+    }
+    span {
+      font-size: 12px;
+      height: 17px;
+      color:$color-gale;
+      @extend ._txe;
+    }
+  }
+}
+.move-to-list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 280px;
+  input {
+    width: 100%;
+    height: 32px;
+    text-align: center;
+    border: none;
+    margin: 16px 0;
+    border-bottom: 1px solid $color-breeze-50;
+    &:focus {
+      border: none;
+      border-bottom: 1px solid $color-breeze-50;
+    }
+  }
+  a {
+    margin: 12px 0;
+    width: 100%;
+    display: flex;
+    height: 48px;
+     img {
+       width: 48px;
+       height: 48px;
+       border-radius: 4px;
+       display: flex;
+       flex: none;
+     }
+    div {
+      padding-left: 24px;
+      flex-direction: column;
+      width: calc(100% - 48px);
+      display: flex;
+      p,p span{
+        color: black;
+        @extend ._txe;
+        font-size: 16px;
+        width: 100%;
+      }
+      span {
+        @extend ._txe;
+        font-size: 14px;
+        color: $color-gale;
+        width: 100%;
+      }
+    }
+  }
+}

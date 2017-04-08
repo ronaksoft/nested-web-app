@@ -5,10 +5,10 @@
     .module('ronak.nested.web.message')
     .controller('PostCardController', PostCardController)
 
-  function PostCardController($state, $log, $timeout, $rootScope, $scope, $filter, $window, $sce, $uibModal,
+  function PostCardController($state, $log, $timeout, $rootScope, $scope, $filter, $window, $sce, $uibModal, $stateParams,
                               _, moment, toastr,
                               NST_POST_EVENT, NST_EVENT_ACTION, NST_POST_FACTORY_EVENT, NST_PLACE_ACCESS, SvcCardCtrlAffix,
-                              NstSvcSync, NstSvcCommentFactory, NstSvcPostFactory, NstSvcAuth, NstUtility, NstSvcPostInteraction, NstSvcTranslation) {
+                              NstSvcSync, NstSvcCommentFactory, NstSvcPostFactory, NstSvcPlaceFactory, NstSvcAuth, NstUtility, NstSvcPostInteraction, NstSvcTranslation) {
     var vm = this;
 
     var commentBoardMin = 3,
@@ -24,7 +24,6 @@
       pageEventReferences = [];
 
     vm.remove = remove;
-    vm.hasDeleteAccess = hasDeleteAccess;
     vm.retract = retract;
     vm.expand = expand;
     vm.collapse = collapse;
@@ -44,6 +43,8 @@
     vm.loadNewComments = loadNewComments;
     vm.attachPlace = attachPlace;
     vm.move = move;
+    vm.getPlacesWithRemoveAccess = getPlacesWithRemoveAccess;
+    vm.getPlacesWithControlAccess = getPlacesWithControlAccess;
 
     if (vm.mood == 'chain') {
       vm.chainView = true;
@@ -118,11 +119,6 @@
       });
     }
 
-    function hasDeleteAccess(place) {
-      return _.includes(vm.post.placesWithRemoveAccess, place.id);
-    }
-
-
     function expand() {
       vm.expandProgress = true;
       NstSvcPostFactory.get(vm.post.id).then(function (post) {
@@ -191,13 +187,26 @@
             return vm.post.allPlaces;
           }
         }
-      }).result.catch(function() {
+      }).result.then(function(attachedPlaces) {
+        _.forEach(attachedPlaces, function (place) {
+          if (!_.some(vm.post.allPlaces, { id : place.id })) {
+            vm.post.allPlaces.push(place);
+          }
+        });
 
-        //TODO add res to places
+        NstSvcPlaceFactory.getAccess(_.map(attachedPlaces, 'id')).then(function (accesses) {
+          _.forEach(accesses, function (item) {
+            var postPlace = _.find(vm.post.allPlaces, { id : item.id });
+            if (postPlace) {
+              postPlace.accesses = item.accesses;
+            }
+          });
+        });
+
       });
     }
 
-    function move(placeID) {
+    function move(selectedPlace) {
       $uibModal.open({
         animation: false,
         backdropClass : 'comdrop',
@@ -206,13 +215,22 @@
         controller: 'MovePlaceController',
         controllerAs: 'ctrl',
         resolve: {
-          placeId: function () {
-            return placeID;
+          postId: function () {
+            return vm.post.id;
+          },
+          selectedPlace: function () {
+            return selectedPlace;
+          },
+          postPlaces: function () {
+            return vm.post.allPlaces;
           }
         }
-      }).result.catch(function() {
+      }).result.then(function(result) {
+        if ($stateParams.placeId === result.fromPlace.id) {
+          $scope.$emit('post-moved-current-place', { postId : vm.post.id });
+        }
 
-        //TODO add res to places
+        NstUtility.collection.replaceById(vm.post.allPlaces, result.fromPlace.id, result.toPlace);
       });
     }
 
@@ -318,6 +336,8 @@
         }
       }));
 
+      vm.placesWithRemoveAccess = getPlacesWithRemoveAccess();
+      vm.placesWithControlAccess = getPlacesWithControlAccess();
 
       //FIXME:: fix this item
       setTimeout(function () {
@@ -347,6 +367,18 @@
       if (!vm.post.isRead) {
         markAsRead();
       }
+    }
+
+    function getPlacesWithRemoveAccess() {
+      return _.filter(vm.post.allPlaces, function (place) {
+        return place.hasAccess(NST_PLACE_ACCESS.REMOVE_POST);
+      });
+    }
+
+    function getPlacesWithControlAccess() {
+      return _.filter(vm.post.allPlaces, function (place) {
+        return place.hasAccess(NST_PLACE_ACCESS.CONTROL);
+      });
     }
   }
 

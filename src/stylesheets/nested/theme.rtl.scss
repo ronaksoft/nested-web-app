@@ -488,6 +488,10 @@ body[dir="rtl"] {
     margin-left: 0;
     margin-right: 16px;
   }
+  .remove-from-places span {
+    padding-right: 0;
+    padding-left: 16px;
+  }
   .post-places .places-label {
     margin-right: 0;
     margin-left: 16px;
