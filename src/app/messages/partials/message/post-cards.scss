@@ -547,10 +547,22 @@ h3 {
   height: 32px;
   align-items: center;
   a {
-    margin-left: 32px;
+    display: flex;
     color: $color-sense-wire;
     &:hover {
       color: $color-solid;
+      fill: $color-sense-wire;
+
+    }
+  }
+  a:first-of-type {
+    width: 48px;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    svg {
+      fill: rgba(0,0,0,.24);
     }
   }
 }
