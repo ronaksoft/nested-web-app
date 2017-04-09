@@ -39,7 +39,7 @@
 <!--</div>-->
 <!--<span><translate>Print</translate></span>-->
 <!--</a>-->
-<div class="line-popover"></div>
+<div class="line-popover" ng-if="ctlPostCard.currentUserIsSender || ctlPostCard.placesWithRemoveAccess.length > 0 || ctlPostCard.post.wipeAccess || ctlPostCard.hasPlacesWithControlAccess()"></div>
 <a class="_df list-items _aic _fw" ng-click="ctlPostCard.attachPlace();" ng-if="ctlPostCard.currentUserIsSender">
   <div class="_aic _df">
     <svg class="_16svg">
@@ -49,7 +49,7 @@
   <span><translate>Attach a Place</translate></span>
 </a>
 <a class="_df list-items _aic _fw cursor-pointer" popover-class="white-pop" data-popover-placement="{{$root._direction == 'ltr' ? 'right-center auto' : 'left-center auto'}}"
-   data-uib-popover-template="'app/messages/partials/popovers/move-to.html'" data-popover-append-to-body="false" translate-attrs="data-uib-popover">
+   data-uib-popover-template="'app/messages/partials/popovers/move-to.html'" data-popover-append-to-body="false" translate-attrs="data-uib-popover" ng-if="ctlPostCard.hasPlacesWithControlAccess()">
   <div class="_aic _df">
     <svg class="_16svg">
       <use xlink:href="/assets/icons/nst-icn16.svg#places"></use>
