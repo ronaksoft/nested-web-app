@@ -18,8 +18,6 @@
       var parentsStack = [];
 
       var setSuperUserLevel = function (subPlace) {
-        console.log("subPlace", subPlace);
-
         var id = subPlace.id;
 
         subPlace.children = [];

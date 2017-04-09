@@ -971,8 +971,6 @@
     PlaceFactory.prototype.parsePlace = function (placeData) {
       var place = new NstPlace();
 
-      console.log("place data", placeData);
-
       place.id = placeData._id;
       place.unreadPosts = placeData.unread_posts;
       place.name = placeData.name;
@@ -1106,7 +1104,6 @@
           return NstSvcServer.request('account/get_favorite_places', {});
         }).then(function (data) {
           starredPlaces = data.places;
-          console.log("places", places);
           deferred.resolve(_.map(places, function (place) {
             var model = factory.parseTinyPlace(place);
             model.isStarred = _.includes(starredPlaces, model.id);

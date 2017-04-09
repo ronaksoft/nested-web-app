@@ -35,8 +35,6 @@
         this.unreadPosts = placeModel.unreadPosts;
         this.totalPosts = placeModel.counters ? placeModel.counters.posts : null;
         this.teammatesCount = placeModel.counters ? placeModel.counters.creators + placeModel.counters.key_holders : null;
-      } else {
-        console.log("woops placeModel", placeModel);
       }
     }
     // TODO: It should not be here!!!

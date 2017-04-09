@@ -76,8 +76,6 @@
       var deferred = $q.defer();
       NstSvcPlaceFactory.getGrandPlaceChildren(grandPlaceId).then(function (places) {
 
-        console.log("yaya",  places);
-
         var placesList = _.map(places, function (place) {
           var model = new NstVmPlace(place);
           model.isStarred = place.isStarred;
