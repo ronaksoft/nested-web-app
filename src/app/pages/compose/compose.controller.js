@@ -411,7 +411,7 @@
           name: text,
           data: NstSvcPlaceFactory.getTiny(text).then(function (place) {
             // $timeout(function () {
-            tag.name = place.getName();
+            tag.name = place.name;
             tag.data = place;
             // });
           }).catch(function () {
@@ -840,8 +840,8 @@
               for (var k in places) {
                 var place = places[k];
                 vm.model.recipients.push(new NstVmSelectTag({
-                  id: place.getId(),
-                  name: place.getName(),
+                  id: place.id,
+                  name: place.name,
                   data: place
                 }));
               }
@@ -920,8 +920,8 @@
 
                   vm.place = place;
                   vm.model.recipients.push(new NstVmSelectTag({
-                    id: place.getId(),
-                    name: place.getName(),
+                    id: place.id,
+                    name: place.name,
                     data: place
                   }));
 
@@ -963,8 +963,8 @@
       } else {
         getPlace(placeId).then(function (place) {
           var tag = new NstVmSelectTag({
-            id: place.getId(),
-            name: place.getName(),
+            id: place.id,
+            name: place.name,
             data: place
           });
 

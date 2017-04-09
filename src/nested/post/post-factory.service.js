@@ -159,7 +159,7 @@
 
       params.targets = post.getPlaces().map(
         function (place) {
-          return place.getId();
+          return place.id;
         }
       ).concat(post.getRecipients().map(
         function (recipient) {
