@@ -5,7 +5,7 @@
     .module('ronak.nested.web.common')
     .factory('NstVmInvitation', NstVmInvitation);
 
-  function NstVmInvitation(NST_INVITATION_USER_ROLE, NstInvitation, NstVmPlace, NstVmUser) {
+  function NstVmInvitation(NST_INVITATION_USER_ROLE, NstInvitation, NstVmUser) {
     /**
      * Creates an instance of NstVmInvitation
      *
@@ -24,7 +24,7 @@
       if (invitationModel instanceof NstInvitation) {
         this.id = invitationModel.id;
         this.state = invitationModel.state;
-        this.place = new NstVmPlace(invitationModel.place);
+        this.place = invitationModel.place;
         this.inviter = new NstVmUser(invitationModel.inviter);
         this.invitee = new NstVmUser(invitationModel.invitee);
         this.role = NST_INVITATION_USER_ROLE[invitationModel.role];
