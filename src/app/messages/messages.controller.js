@@ -236,7 +236,7 @@
         // 2. You moved a place to another one and none of the post new places
         //    are not marked to be shown in feeds page
         // TODO: Implement the second condition
-        if ($stateParams.placeId === data.fromPlace) {
+        if ($stateParams.placeId === data.fromPlace.id) {
           NstUtility.collection.dropById(vm.messages, data.postId);
           return;
         }
