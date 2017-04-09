@@ -6,29 +6,18 @@
     .factory('NstVmSelectTag', NstVmSelectTag);
 
   function NstVmSelectTag() {
-    /**
-     * Creates an instance of NstVmSelectTag
-     *
-     * @param {{ id: {String}, name: {String}, isTag: {Boolean}, data: {*} }} data Tag Data
-     *
-     * @constructor
-     */
+
     function VmSelectTag(data) {
-      this.id = '';
-      this.name = '';
-      this.data = {};
+      this.id = data.id || null;
+      this.name = data.name || null;
+      if (_.isFunction(data.hasPicture) && data.hasPicture()) {
+        this.picture = data.picture.getUrl('x32');
+      } else {
+        this.picture = '/assets/icons/absents_place.svg';
+      }
       this.isTag = false;
       this.isEmail = false;
-      this.isEmailValid = false;
-
-      if (data) {
-        this.isTag = data.isTag || true;
-        this.id = data.id;
-        this.name = data.name;
-        this.data = data.data;
-        this.isEmail = data.isEmail;
-        this.isEmailValid = data.isEmailValid;
-      }
+      this.isValid = true;
     }
 
     return VmSelectTag;

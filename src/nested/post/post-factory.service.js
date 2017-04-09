@@ -163,7 +163,7 @@
         }
       ).concat(post.getRecipients().map(
         function (recipient) {
-          return recipient.getId();
+          return recipient.id;
         }
       )).join(',');
 
