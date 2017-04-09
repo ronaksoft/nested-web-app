@@ -45,6 +45,7 @@
     vm.move = move;
     vm.getPlacesWithRemoveAccess = getPlacesWithRemoveAccess;
     vm.getPlacesWithControlAccess = getPlacesWithControlAccess;
+    vm.hasPlacesWithControlAccess = hasPlacesWithControlAccess;
 
     if (vm.mood == 'chain') {
       vm.chainView = true;
@@ -384,6 +385,12 @@
 
     function getPlacesWithControlAccess() {
       return _.filter(vm.post.allPlaces, function (place) {
+        return place.hasAccess(NST_PLACE_ACCESS.CONTROL);
+      });
+    }
+
+    function hasPlacesWithControlAccess() {
+      return _.some(vm.post.allPlaces, function (place) {
         return place.hasAccess(NST_PLACE_ACCESS.CONTROL);
       });
     }
