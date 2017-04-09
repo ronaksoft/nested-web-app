@@ -19,8 +19,8 @@
         <svg>
           <use xlink:href="/assets/icons/nst-icn24.svg#arrow-up"></use>
         </svg>
-        <svg>
-          <use xlink:href="/assets/icons/nst-icn24.svg#circle"></use>
+        <svg ng-class="{'visibility-hidden': NavbarSubCtrl.hasNotUnreadPostInChildren(place.id)}">
+          <use xlink:href="/assets/icons/nst-icn24.svg#unread-circle"></use>
         </svg>
         <svg>
           <use xlink:href="/assets/icons/nst-icn24.svg#arrow-down"></use>
