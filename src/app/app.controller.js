@@ -108,6 +108,7 @@
 
     checkToBeAuthenticated($state.current, $stateParams);
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
+      $rootScope.$broadcast('reload-counters');
       checkToBeAuthenticated(toState, toParams, event);
       scrollTopBody();
     });
@@ -209,6 +210,9 @@
       NstSvcNotificationFactory.markAsSeen(event.detail.notificationId)
     })
 
+    $window.onfocus = function () {
+      $rootScope.$broadcast('reload-counters');
+    };
 
   }
 })();

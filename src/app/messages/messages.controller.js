@@ -638,9 +638,9 @@
       });
     });
 
-    $window.onfocus = function () {
+    $rootScope.$on('reload-counters',function () {
       getUnreadsCount();
-    };
+    });
 
   }
 
