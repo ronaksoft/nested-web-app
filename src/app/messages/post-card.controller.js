@@ -23,7 +23,7 @@
       focusOnSentTimeout = null,
       pageEventReferences = [];
 
-    vm.remove = remove;
+    vm.remove = _.partial(remove, vm.post);
     vm.retract = retract;
     vm.expand = expand;
     vm.collapse = collapse;
@@ -101,16 +101,42 @@
       }
     }
 
-    function remove(placeId) {
-      var targetPlaceId = placeId || vm.thisPlace;
-      NstSvcPostInteraction.remove(vm.post, _.filter(vm.post.allPlaces, {id: targetPlaceId})).then(function (place) {
-        if (place) {
-          vm.post.dropPlace(place.id);
-          toastr.success(NstUtility.string.format(NstSvcTranslation.get("The post has been removed from Place {0}."), place.name));
+    function remove(post, place) {
+      confirmforRemove(post, place).then(function (agree) {
+        if (!agree) {
+          return;
         }
-      }).catch(function (error) {
-        toastr.error(NstSvcTranslation.get("An error has occurred in trying to remove this message from the selected Place."));
+
+        NstSvcPostFactory.remove(post.id, place.id).then(function() {
+          NstUtility.collection.dropById(post.allPlaces, place.id);
+          toastr.success(NstUtility.string.format(NstSvcTranslation.get("The post has been removed from Place {0}."), place.name));
+          $rootScope.$broadcast('post-removed', {
+            postId: post.id,
+            placeId: place.id
+          });
+        }).catch(function (error) {
+          toastr.error(NstSvcTranslation.get("An error has occurred in trying to remove this message from the selected Place."));
+        });
       });
+    }
+
+    function confirmforRemove(post, place) {
+      return $uibModal.open({
+        animation: false,
+        backdropClass: 'comdrop',
+        size: 'sm',
+        templateUrl: 'app/messages/partials/modals/remove-from-confirm.html',
+        controller: 'RemoveFromConfirmController',
+        controllerAs: 'ctrl',
+        resolve: {
+          post: function () {
+            return post;
+          },
+          place: function () {
+            return place;
+          }
+        }
+      }).result;
     }
 
     function retract() {
