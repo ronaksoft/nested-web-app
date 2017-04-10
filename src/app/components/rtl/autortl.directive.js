@@ -86,9 +86,7 @@
           decideRtl(str);
 
           function decideRtl(str) {
-            console.log(str);
-            if(str.length == 0 || str == undefined) {
-              console.log(element,1)
+            if(str.length == 0 || str == "undefined") {
               if($rootScope._direction == 'rtl') {
                 element.addClass('RTL-text');
                 return element.css("direction", "rtl");
