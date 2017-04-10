@@ -29,7 +29,7 @@
       position: absolute;
       transform: translate(-50%,-50%);
       left: 0;
-      transition: left ease-in-out $animation-dur;
+      transition: left,right ease-in-out $animation-dur;
       fill: $color-breeze;
       background-color: $color-white;
       //animation: replace-wire $animation-dur ease-in-out .3s forwards;
