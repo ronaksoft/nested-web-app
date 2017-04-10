@@ -44,7 +44,7 @@
       </div>
       <section class="_difc _fw _fn">
         <input class="compose-input _fw" name="subject" ng-focus="ctlCompose.focusBox()" ng-blur="ctlCompose.blurBox()" ng-keydown="ctlCompose.subjectKeyDown($event)" placeholder="Add a subject line..."
-               data-ng-model="ctlCompose.model.subject" auto-dir="ctlCompose.model.subject" translate-attrs="placeholder" autocomplete="off">
+               data-ng-model="ctlCompose.model.subject" auto-dir="ctlCompose.model.subject" translate-attrs="placeholder" auto-fill>
       </section>
 
       <section class="nst-compose-message ng-class:{'focussed' : ctlCompose.focus || ctlCompose.attachments.viewModels.length > 0,'empty' : ctlCompose.model.body.length == 0}" id="editor-txt">
