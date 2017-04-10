@@ -504,6 +504,24 @@ body[dir="rtl"] {
       margin-left: 0;
     }
   }
+  .move-head .wire {
+    svg {
+      left: auto;
+      right: 0;
+    }
+    svg.ready {
+      left: auto;
+      right: 50%;
+    }
+    svg.set {
+      right: calc(100% - 28px);
+      left: auto;
+    }
+  }
+  .move-to-list a div {
+    padding-left: 0;
+    padding-right: 24px;
+  }
 }
 body[dir="ltr"] {
   .post-card-comments p.RTL-text {
