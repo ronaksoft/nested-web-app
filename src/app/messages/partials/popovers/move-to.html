@@ -1,8 +1,11 @@
 <a class="_df remove-from-places _aic _fw" data-ng-repeat="place in ctlPostCard.getPlacesWithControlAccess()" ng-click="ctlPostCard.move(place)">
   <div class="_aic _df">
     <div class="post-card-place-avatar">
-      <img class="" ng-src="{{place | picture}}"/>
+      <img class="" ng-src="{{place | picture : 'x64'}}"/>
     </div>
   </div>
-  <span>{{place.name}}</span>
+  <div class="_df _fh text-wrap">
+    <p class="_txe  place-name">{{place.name}}</p>
+    <span class="_txe _fw">@{{place.id}}</span>
+  </div>
 </a>

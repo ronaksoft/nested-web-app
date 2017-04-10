@@ -37,17 +37,17 @@
 
 .remove-from-places {
   height: 48px;
-  padding: 5px 4px;
-  width: 100%;
-  color: $color-solid;
-  transition: background-color $animation-dur;
-  span {color: $color-solid;fill: $color-solid;padding-right: 16px;}
-  span,label,a {
-    transition-duration: $animation-dur;
-    transition-property: background-color,color;
-  }
-  &:hover{
-    background-color: $color-sense-5;
-    border-bottom-left-radius: 5px;
+  padding: 5px 10px;
+  margin-right: 4px;
+  .text-wrap {
+    flex:1;
+    flex-direction: column;
+    align-items:flex-start !important;
+    margin:6px 0 0 0 !important;
+    width: calc(100% - 48px);
+    .place-name {
+      margin: 0;
+      padding: 0;
+    }
   }
 }

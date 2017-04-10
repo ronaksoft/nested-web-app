@@ -1,0 +1,22 @@
+<div id="delete-view">
+  <div class="_difv _fw">
+    <div class="_difh modal-head">
+      <p class="_df _fw"><b translate-inner>Remove Post</b></p>
+      <div class="_df" ng-click="$dismiss()"><img src="../assets/icons/close.svg"></div>
+    </div>
+    <div class="_difv _fw">
+      <div class="modal-detail">
+        <p translate-inner>Your post will be removed from {{ctrl.place.name}} Place.</p>
+        <p ng-if="ctrl.post.allPlaces.length > 1" class="nst-mood-wind"><i translate-inner>The post will be remain accessible from {{ctrl.post.allPlaces.length - 1}} places.</i></p>
+      </div>
+      <div class="modal-buttons">
+        <div class="butn-white _jcc _df" ng-click="$close(false);">
+          <a class="_df"><b translate-inner>Cancel</b></a>
+        </div>
+        <div class="butn-red _jcc _df" ng-click="$close(true);">
+          <a class="_df"><b translate-inner>Remove</b></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
