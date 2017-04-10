@@ -5,7 +5,7 @@
     .module('ronak.nested.web.components.text')
     .directive('autoDir', autoDirDetector);
 
-  function autoDirDetector($parse) {
+  function autoDirDetector($parse,$rootScope) {
     return {
       restrict: 'A',
       link: function (scope ,element, attrs) {
@@ -86,6 +86,17 @@
           decideRtl(str);
 
           function decideRtl(str) {
+            console.log(str);
+            if(str.length == 0 || str == undefined) {
+              console.log(element,1)
+              if($rootScope._direction == 'rtl') {
+                element.addClass('RTL-text');
+                return element.css("direction", "rtl");
+              } else {
+                element.addClass('LTR-text');
+                return element.css("direction", "ltr");
+              }
+            }
             var emojiRanges = [
               '\ud83c[\udf00-\udfff]', // U+1F300 to U+1F3FF
               '\ud83d[\udc00-\ude4f]', // U+1F400 to U+1F64F
