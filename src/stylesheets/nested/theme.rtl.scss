@@ -496,6 +496,14 @@ body[dir="rtl"] {
     margin-right: 0;
     margin-left: 16px;
   }
+  .filter-bar .mark-read {
+    margin-right: 0;
+    margin-left: 28px;
+    svg {
+      margin-right: 4px;
+      margin-left: 0;
+    }
+  }
 }
 body[dir="ltr"] {
   .post-card-comments p.RTL-text {
