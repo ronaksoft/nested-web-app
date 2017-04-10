@@ -9,7 +9,7 @@
   function MessagesController($rootScope, $q, $stateParams, $log, $state, $window, $scope,
                               moment,
                               NST_MESSAGES_SORT_OPTION, NST_MESSAGES_VIEW_SETTING, NST_DEFAULT, NST_PLACE_FACTORY_EVENT, NST_EVENT_ACTION, NST_POST_FACTORY_EVENT, NST_PLACE_ACCESS,
-                              NstSvcPostFactory, NstSvcPlaceFactory, NstSvcServer, NstUtility, NstSvcAuth, NstSvcSync, NstSvcWait,
+                              NstSvcPostFactory, NstSvcPlaceFactory, NstSvcServer, NstUtility, NstSvcAuth, NstSvcSync, NstSvcWait, NstVmFile,
                               NstSvcMessagesSettingStorage, NstSvcTranslation, NstSvcInteractionTracker,
                               NstSvcPlaceAccess, NstSvcModal) {
 
@@ -357,6 +357,9 @@
           for (var i = 0; i < messages.length; i++) {
             var hasData = lastMessageVersion.filter(function (obj) {
               return (obj.id === messages[i].id);
+            });
+            messages[i].attachments = _.map(messages[i].attachments, function (item) {
+              return new NstVmFile(item);
             });
 
             if (hasData.length === 0) {
