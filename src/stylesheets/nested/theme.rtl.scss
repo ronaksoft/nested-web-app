@@ -514,8 +514,14 @@ body[dir="rtl"] {
       right: 50%;
     }
     svg.set {
-      right: calc(100% - 28px);
+      right: calc(100% - 32px);
       left: auto;
+    }
+    .triangle {
+      right: auto;
+      left: -8px;
+      border-width: 4px 8px 4px 0;
+      border-color: transparent $color-breeze transparent transparent;
     }
   }
   .move-to-list a div {
