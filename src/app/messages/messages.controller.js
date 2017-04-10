@@ -11,7 +11,7 @@
                               NST_MESSAGES_SORT_OPTION, NST_MESSAGES_VIEW_SETTING, NST_DEFAULT, NST_PLACE_FACTORY_EVENT, NST_EVENT_ACTION, NST_POST_FACTORY_EVENT, NST_PLACE_ACCESS,
                               NstSvcPostFactory, NstSvcPlaceFactory, NstSvcServer, NstUtility, NstSvcAuth, NstSvcSync, NstSvcWait,
                               NstSvcMessagesSettingStorage, NstSvcTranslation, NstSvcInteractionTracker,
-                              NstSvcPostMap, NstSvcPlaceAccess, NstSvcModal) {
+                              NstSvcPlaceAccess, NstSvcModal) {
 
     var vm = this;
 
@@ -178,7 +178,7 @@
       NstSvcSync.addEventListener(NST_EVENT_ACTION.POST_ADD, function (e) {
         if (postMustBeShown(e.detail.post)) {
           // The current user is the sender
-          vm.messages.unshift(mapMessage(e.detail.post));
+          vm.messages.unshift(e.detail.post);
 
         } else if (mustBeAddedToHotPosts(e.detail.post)) {
           // someone else sent the post
@@ -361,15 +361,15 @@
 
             if (hasData.length === 0) {
               if (after) {
-                vm.messages.unshift(mapMessage(messages[i]));
+                vm.messages.unshift(messages[i]);
               } else {
-                vm.messages.push(mapMessage(messages[i]));
+                vm.messages.push(messages[i]);
               }
 
             }
           }
         }
-
+        console.log("vm.messages", vm.messages);
         vm.tryAgainToLoadMore = false;
         vm.loading = false;
         defer.resolve(vm.messages);
@@ -440,15 +440,6 @@
       }
 
       return lastDate.getTime();
-    }
-
-    function mapMessage(post) {
-      var firstId = vm.currentPlaceId ? vm.currentPlaceId : NstSvcAuth.user.id;
-      return NstSvcPostMap.toMessage(post, firstId, vm.myPlaceIds);
-    }
-
-    function mapMessages(messages) {
-      return _.map(messages, mapMessage);
     }
 
     function toggleContentPreview() {

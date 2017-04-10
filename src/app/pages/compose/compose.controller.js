@@ -9,8 +9,9 @@
   function ComposeController($q, $rootScope, $state, $stateParams, $scope, $log, $timeout, $uibModalStack, $window,
                              _, toastr,
                              NST_SRV_ERROR, NST_PATTERN, NST_CONFIG, NST_DEFAULT, NST_ATTACHMENT_STATUS, NST_FILE_TYPE, SvcCardCtrlAffix,
-                             NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcStore, NstSvcFileType, NstSvcAttachmentMap, NstSvcSidebar, NstUtility, NstSvcTranslation, NstSvcModal, NstSvcPostDraft, NstSvcUserFactory,
-                             NstTinyPlace, NstVmPlace, NstVmSelectTag, NstRecipient, NstLocalResource, NstSvcPostMap, NstPicture, NstPostDraft, NstTinyUser, NstVmUser) {
+                             NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcStore, NstSvcFileType, NstSvcAttachmentMap, NstSvcSidebar,
+                             NstUtility, NstSvcTranslation, NstSvcModal, NstSvcPostDraft, NstSvcUserFactory,
+                             NstTinyPlace, NstVmPlace, NstVmSelectTag, NstRecipient, NstLocalResource, NstPicture, NstPostDraft, NstTinyUser, NstVmUser, NstPost) {
     var vm = this;
     vm.quickMode = false;
     vm.focus = false;
@@ -587,14 +588,16 @@
             vm.focus = false;
             vm.model.saving = true;
 
-            var post = NstSvcPostFactory.createPostModel();
-            post.setSubject(vm.model.subject);
-            post.setBody(vm.model.body);
-            post.setContentType('text/html');
-            post.setAttachments(vm.model.attachments);
-            vm.model.forwardedFrom && post.setForwardFrom(vm.model.forwardedFrom);
-            vm.model.replyTo && post.setReplyTo(vm.model.replyTo);
-            post.setRecipients(vm.model.recipients);
+            var post = new NstPost();
+            post.subject = vm.model.subject;
+            post.body = vm.model.body;
+            post.contentType = 'text/html';
+            post.attachments = vm.model.attachments;
+            post.forwardFrom = vm.model.forwardedFrom;
+            post.replyTo = vm.model.replyTo;
+            post.recipients = vm.model.recipients;
+            post.places = [];
+
             NstSvcPostFactory.send(post).then(function (response) {
               deferred.resolve(response);
             }).catch(function (error) {
@@ -615,8 +618,7 @@
         if (response.noPermitPlaces.length === 0) {
           toastr.success(NstSvcTranslation.get('Your message has been successfully sent.'));
           NstSvcPostFactory.get(response.post.id).then(function (res) {
-            var msg = NstSvcPostMap.toMessage(res);
-            $rootScope.$emit('post-quick', msg);
+            $rootScope.$emit('post-quick', res);
           });
           $uibModalStack.dismissAll();
           if (vm.quickMode) {
@@ -630,8 +632,7 @@
         } else {
           toastr.warning(NstUtility.string.format(NstSvcTranslation.get('Your message was sent, but {0} did not received that!'), response.noPermitPlaces.join(',')));
           NstSvcPostFactory.get(response.post.id).then(function (res) {
-            var msg = NstSvcPostMap.toMessage(res);
-            $rootScope.$emit('post-quick', msg);
+            $rootScope.$emit('post-quick', res);
           });
           $uibModalStack.dismissAll();
           if (vm.quickMode) {
@@ -703,9 +704,9 @@
             $state.go('app.compose');
           } else {
             getPost($stateParams.postId).then(function (post) {
-              vm.model.subject = post.getSubject();
+              vm.model.subject = post.subject;
               vm.model.body = post.getTrustedBody();
-              vm.model.attachments = post.getAttachments();
+              vm.model.attachments = post.attachments;
               for (var k in vm.model.attachments) {
                 vm.model.attachments[k].status = NST_ATTACHMENT_STATUS.ATTACHED;
                 vm.attachments.viewModels.push(NstSvcAttachmentMap.toEditableAttachmentItem(vm.model.attachments[k]));
@@ -726,8 +727,8 @@
             getPost($stateParams.postId).then(function (post) {
               vm.model.replyTo = post;
               vm.model.replyTo.body = post.getTrustedBody();
-              vm.model.subject = post.getSubject();
-              var places = post.getPlaces();
+              vm.model.subject = post.subject;
+              var places = post.places;
               for (var k in places) {
                 var place = places[k];
                 vm.model.recipients.push(new NstVmSelectTag(place));

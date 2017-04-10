@@ -79,8 +79,8 @@
 
 
     function markAsRead() {
-      if (!vm.post.isRead) {
-        vm.post.isRead = true;
+      if (!vm.post.read) {
+        vm.post.read = true;
         NstSvcPostFactory.read([vm.post.id]).then(function () {
         }).catch(function (err) {
           $log.debug('MARK AS READ :' + err);
@@ -154,11 +154,11 @@
         vm.body = post.body;
         vm.resources = post.resources;
         vm.isExpanded = true;
-        if (!post.isRead) {
+        if (!post.read) {
           markAsRead();
         }
 
-        if (vm.post.trusted || Object.keys(post.resources).length == 0) {
+        if (vm.trusted || Object.keys(post.resources).length == 0) {
           showTrustedBody();
         }
 
@@ -270,7 +270,7 @@
         vm.body = vm.post.getTrustedBody();
       }
 
-      vm.post.trusted = true;
+      vm.trusted = true;
     }
 
     function loadNewComments($event) {
@@ -341,17 +341,22 @@
 
 
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.READ_ALL_POST, function (e) {
-      vm.post.isRead = true;
+      vm.post.read = true;
     });
 
 
     // initializing
     (function () {
       vm.currentUserIsSender = NstSvcAuth.user.id == vm.post.sender.username;
+      vm.isForwarded = !!vm.post.forwardFromId;
+      vm.isReplyed = !!vm.post.replyToId;
+
+      console.log("vm.post", vm.post);
+
       vm.hasOlderComments = (vm.post.commentsCount && vm.post.comments) ? vm.post.commentsCount > vm.post.comments.length : false;
       vm.body = $sce.trustAsHtml(vm.post.body);
       vm.orginalPost = vm.post;
-      if (vm.post.trusted) {
+      if (vm.trusted) {
         showTrustedBody();
       }
 
@@ -365,7 +370,7 @@
         }
       }));
       pageEventReferences.push($scope.$on('post-attachment-viewed', function (event, data) {
-        if (vm.post.id === data.postId && !vm.post.isRead) {
+        if (vm.post.id === data.postId && !vm.post.read) {
           markAsRead();
         }
       }));
@@ -398,7 +403,7 @@
     }
 
     function onAddComment() {
-      if (!vm.post.isRead) {
+      if (!vm.post.read) {
         markAsRead();
       }
     }

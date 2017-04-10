@@ -9,16 +9,14 @@
     Comment.prototype.constructor = Comment;
 
     function Comment(model) {
-      this.id = null;
-      this.body = null;
-      this.date = null;
-      this.senderId = null;
-      this.sender = null;
-      this.postId = null;
-      this.post = null;
-      this.attach = null;
-      this.contentType = "text/plain";
-      this.removed = false;
+      this.id = undefined;
+      this.body = undefined;
+      this.timestamp = undefined;
+      this.senderId = undefined;
+      this.sender = undefined;
+      this.removedById = undefined;
+      this.removedBy = undefined;
+      this.removed = undefined;
     }
 
     return Comment;

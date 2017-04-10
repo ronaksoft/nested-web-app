@@ -16,10 +16,10 @@
       },
       templateUrl: 'app/messages/partials/message/comment.html',
       controller: 'CommentsBoardController',
-      controllerAs: 'ctlComments',
+      controllerAs: 'ctrl',
       bindToController: {
-        comments: '=comments',
-        limit: '=limit',
+        comments: '=',
+        limit: '=',
         postId: '=',
         totalCommentsCount : '=',
         onCommentSent : '=',

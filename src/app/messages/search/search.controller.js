@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function SearchController($rootScope, $log, $stateParams, $state,
-                            NST_DEFAULT, NstSvcPostFactory, NstSvcPostMap, NstSvcServer, NstSvcAuth,
+                            NST_DEFAULT, NstSvcPostFactory, NstSvcServer, NstSvcAuth,
                             NstSearchQuery) {
     var vm = this;
     var limit = 8;
@@ -79,8 +79,7 @@
 
       NstSvcPostFactory.search(queryString, limit, skip).then(function (posts) {
 
-        var olderMessages = _.map(posts, NstSvcPostMap.toSearchMessageItem);
-        _.forEach(olderMessages, function (message) {
+        _.forEach(posts, function (message) {
           if (!_.some(vm.messages, { id : message.id })){
             vm.messages.push(message);
           }

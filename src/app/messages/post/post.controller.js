@@ -9,7 +9,7 @@
   function PostController($q, $scope, $rootScope, $stateParams, $state, $uibModalInstance,
                           _, toastr,
                           NST_POST_EVENT,
-                          NstSvcAuth, NstSvcPostFactory, NstSvcPostMap, NstSvcPlaceFactory, NstUtility, NstSvcLogger, NstSvcPostInteraction, NstSvcTranslation, NstSvcSync,
+                          NstSvcAuth, NstSvcPostFactory, NstSvcPlaceFactory, NstUtility, NstSvcLogger, NstSvcPostInteraction, NstSvcTranslation, NstSvcSync,
                           selectedPostId) {
     var vm = this;
     var defaultLimit = 8;
@@ -40,7 +40,7 @@
         // TODO: uncomment and fix
         vm.syncId = NstSvcSync.openChannel(_.head(vm.post.allPlaces).id);
 
-        return vm.post.isRead ? $q.resolve(true) : markPostAsRead(vm.postId);
+        return vm.post.read ? $q.resolve(true) : markPostAsRead(vm.postId);
       }).then(function (result) {
         NstSvcPostFactory.dispatchEvent(new CustomEvent(NST_POST_EVENT.VIEWED, {
           detail: {
@@ -71,11 +71,6 @@
         load(data.postId);
       });
     })();
-
-    function mapMessage(post) {
-      var firstId = vm.placeId ? vm.placeId : NstSvcAuth.user.id;
-      return NstSvcPostMap.toMessage(post, firstId, vm.myPlaceIds);
-    }
 
     function loadChainMessages(postId, limit) {
       var max = limit + 1;
@@ -146,9 +141,9 @@
     function markPostAsRead(id) {
       vm.markAsReadProgress = true;
       NstSvcPostInteraction.markAsRead(id).then(function () {
-        vm.post.isRead = true;
+        vm.post.read = true;
       }).catch(function () {
-        vm.post.isRead = false;
+        vm.post.read = false;
       }).finally(function () {
         vm.markAsReadProgress = false;
       });
