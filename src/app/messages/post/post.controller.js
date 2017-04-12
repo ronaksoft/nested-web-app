@@ -38,7 +38,7 @@
       load(vm.postId).then(function (done) {
         vm.expandProgress = false;
         // TODO: uncomment and fix
-        vm.syncId = NstSvcSync.openChannel(_.head(vm.post.allPlaces).id);
+        vm.syncId = NstSvcSync.openChannel(_.head(vm.post.places).id);
 
         return vm.post.read ? $q.resolve(true) : markPostAsRead(vm.postId);
       }).then(function (result) {
@@ -118,7 +118,7 @@
         vm.hasRemoveAccess = _.size(vm.placesWithRemoveAccess) > 0;
 
         // TODO: Optimize (get accessses instead of a place object which has more cost)
-        checkHasManagerAccess(_.map(vm.post.allPlaces, 'id'));
+        checkHasManagerAccess(_.map(vm.post.places, 'id'));
         vm.messages.splice(vm.messages.length - 1, 1, vm.post);
       });
     }

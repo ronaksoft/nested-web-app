@@ -108,7 +108,7 @@
         }
 
         NstSvcPostFactory.remove(post.id, place.id).then(function() {
-          NstUtility.collection.dropById(post.allPlaces, place.id);
+          NstUtility.collection.dropById(post.places, place.id);
           toastr.success(NstUtility.string.format(NstSvcTranslation.get("The post has been removed from Place {0}."), place.name));
           $rootScope.$broadcast('post-removed', {
             postId: post.id,
@@ -211,19 +211,19 @@
             return vm.post.id;
           },
           postPlaces: function () {
-            return vm.post.allPlaces;
+            return vm.post.places;
           }
         }
       }).result.then(function (attachedPlaces) {
         _.forEach(attachedPlaces, function (place) {
-          if (!_.some(vm.post.allPlaces, {id: place.id})) {
-            vm.post.allPlaces.push(place);
+          if (!_.some(vm.post.places, {id: place.id})) {
+            vm.post.places.push(place);
           }
         });
 
         NstSvcPlaceFactory.getAccess(_.map(attachedPlaces, 'id')).then(function (accesses) {
           _.forEach(accesses, function (item) {
-            var postPlace = _.find(vm.post.allPlaces, {id: item.id});
+            var postPlace = _.find(vm.post.places, {id: item.id});
             if (postPlace) {
               postPlace.accesses = item.accesses;
             }
@@ -249,7 +249,7 @@
             return selectedPlace;
           },
           postPlaces: function () {
-            return vm.post.allPlaces;
+            return vm.post.places;
           }
         }
       }).result.then(function(result) {
@@ -259,7 +259,7 @@
           fromPlace: result.fromPlace
         });
 
-        NstUtility.collection.replaceById(vm.post.allPlaces, result.fromPlace.id, result.toPlace);
+        NstUtility.collection.replaceById(vm.post.places, result.fromPlace.id, result.toPlace);
       });
     }
 
@@ -409,19 +409,19 @@
     }
 
     function getPlacesWithRemoveAccess() {
-      return _.filter(vm.post.allPlaces, function (place) {
+      return _.filter(vm.post.places, function (place) {
         return place.hasAccess(NST_PLACE_ACCESS.REMOVE_POST);
       });
     }
 
     function getPlacesWithControlAccess() {
-      return _.filter(vm.post.allPlaces, function (place) {
+      return _.filter(vm.post.places, function (place) {
         return place.hasAccess(NST_PLACE_ACCESS.CONTROL);
       });
     }
 
     function hasPlacesWithControlAccess() {
-      return _.some(vm.post.allPlaces, function (place) {
+      return _.some(vm.post.places, function (place) {
         return place.hasAccess(NST_PLACE_ACCESS.CONTROL);
       });
     }

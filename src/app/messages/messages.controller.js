@@ -214,10 +214,10 @@
 
           if (data.placeId) { // remove the post from the place
             // remove the place from the post's places
-            NstUtility.collection.dropById(message.allPlaces, data.placeId);
+            NstUtility.collection.dropById(message.places, data.placeId);
 
             // remove the post if the user has not access to see it any more
-            var places = NstSvcPlaceFactory.filterPlacesByReadPostAccess(message.allPlaces);
+            var places = NstSvcPlaceFactory.filterPlacesByReadPostAccess(message.places);
             if ((_.isArray(places) && places.length === 0) || (vm.currentPlaceId && data.placeId == vm.currentPlaceId)) {
               NstUtility.collection.dropById(vm.messages, data.postId);
               return;
@@ -409,7 +409,7 @@
 
 
     // $rootScope.$on('post-quick', function (event, data) {
-    //   // if (_.find(data.allPlaces, {id: vm.currentPlaceId}) || !vm.currentPlaceId) {
+    //   // if (_.find(data.places, {id: vm.currentPlaceId}) || !vm.currentPlaceId) {
     //     loadMessages(true, true);
     //   // }
     // });
