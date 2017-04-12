@@ -27,7 +27,7 @@
       "An error occured while tying to show the post full body.": "An error has occurred while displaying the entire post. ",
       "Are you sure to demote {0} of members?": "Are you sure you want to demote <b>{0}</b> members?",
       "Are you sure to demote {0}?": "Are you sure you want to demote <b>“{0}”</b>?",
-      "Are you sure to promote {0} of members?": "Are you sure you want to promote <b> fdfgd {0}</b> members?",
+      "Are you sure to promote {0} of members?": "Are you sure you want to promote <b>{0}</b> members?",
       "Are you sure to promote {0}?": "Are you sure you want to promote <b>“{0}”</b>?",
       "Are you sure to remove {0} of members?": "Are you sure you want to remove <b>{0}</b> members?",
       "Are you sure to remove {0}?": "Are you sure you want to remove <b>“{0}”</b>?",
