@@ -59,7 +59,7 @@
     </h3>
   </section>
   <section ng-if="(!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
-  <div class="_bggray nst-mood-lively _fw" ng-if="!ctlPostCard.trusted && ctlPostCard.isExpanded">
+  <div class="_bggray nst-mood-lively _fw" ng-if="!ctlPostCard.post.trusted && ctlPostCard.isExpanded">
     <translate>This post contains blocked images.</translate>
     <a class="nst-mood-hurricane" ng-click="ctlPostCard.showTrustedBody(); _track('post card','show trusted body');">
       <translate>Show Images</translate>
@@ -72,8 +72,8 @@
 
     <span ng-if="!ctlPostCard.isExpanded" ng-bind-html="ctlPostCard.post.body |trustAsHtml"></span>
 
-    <span mail-resizer ng-if="ctlPostCard.isExpanded && !ctlPostCard.trusted " ng-bind-html="ctlPostCard.body | trustAsHtml"></span>
-    <span mail-resizer ng-if="ctlPostCard.isExpanded && ctlPostCard.trusted" ng-bind-html="ctlPostCard.body | trustAsHtml"></span>
+    <span mail-resizer ng-if="ctlPostCard.isExpanded && !ctlPostCard.post.trusted " ng-bind-html="ctlPostCard.body | trustAsHtml"></span>
+    <span mail-resizer ng-if="ctlPostCard.isExpanded && ctlPostCard.post.trusted" ng-bind-html="ctlPostCard.body | trustAsHtml"></span>
 
   </section>
 

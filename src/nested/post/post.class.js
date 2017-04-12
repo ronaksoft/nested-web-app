@@ -32,7 +32,7 @@
       this.comments = undefined;
       this.ellipsis = undefined;
       this.resources = undefined;
-
+      this.trusted = undefined;
     }
 
     Post.prototype.getTrustedBody = function () {
