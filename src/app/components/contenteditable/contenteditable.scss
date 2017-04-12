@@ -1,6 +1,7 @@
 .empty div[contenteditable]:before{
   content: 'Write some thing';
   display: block;
+  pointer-events: none;
   color: rgba(0,0,0,0.4);
   position: absolute;
   //width: 100%;
@@ -16,6 +17,7 @@
 [contenteditable]:focus,
 [contenteditable]:active {
  &:before {
+   pointer-events: none;
    opacity: 0!important;
  }
 }
