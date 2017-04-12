@@ -38,6 +38,7 @@
       load(vm.postId).then(function (done) {
         vm.expandProgress = false;
         // TODO: uncomment and fix
+        console.log("vm.post.places", vm.post);
         vm.syncId = NstSvcSync.openChannel(_.head(vm.post.places).id);
 
         return vm.post.read ? $q.resolve(true) : markPostAsRead(vm.postId);
@@ -79,7 +80,11 @@
         NstSvcPostFactory.getChainMessages(postId, max).then(function (messages) {
           vm.hasOlder = _.size(messages) >= limit;
           var items = _.chain(messages).take(limit).sortBy('date').map(function (message) {
-            return mapMessage(message);
+            message.attachments = _.map(message.attachments, function (attachment) {
+              return new NstVmFile(attachment);
+            });
+
+            return message;
           }).value();
           resolve(items);
         }).catch(reject).finally(function () {

@@ -91,11 +91,11 @@
     function setBookmark(setBookmark) {
       vm.post.bookmarked = setBookmark;
       if (setBookmark) {
-        NstSvcPostFactory.bookmarkPost(vm.post.id).catch(function () {
+        NstSvcPostFactory.pin(vm.post.id).catch(function () {
           vm.post.bookmarked = !setBookmark;
         });
       } else {
-        NstSvcPostFactory.unBookmarkPost(vm.post.id).catch(function () {
+        NstSvcPostFactory.unpin(vm.post.id).catch(function () {
           vm.post.bookmarked = !setBookmark;
         });
       }

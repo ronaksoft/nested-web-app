@@ -33,8 +33,8 @@
     PostFactory.prototype.parsePost = parsePost;
     PostFactory.prototype.getMessage = getMessage;
     PostFactory.prototype.search = search;
-    PostFactory.prototype.bookmarkPost = bookmarkPost;
-    PostFactory.prototype.unBookmarkPost = unBookmarkPost;
+    PostFactory.prototype.pin = pin;
+    PostFactory.prototype.unpin = unpin;
     PostFactory.prototype.getChainMessages = getChainMessages;
     PostFactory.prototype.conversation = conversation;
     PostFactory.prototype.movePlace = movePlace;
@@ -249,7 +249,7 @@
       }, "retract", id);
     }
 
-    function bookmarkPost(id) {
+    function pin(id) {
       var query = new NstFactoryQuery(id, {
         id: id
       });
@@ -259,7 +259,7 @@
           post_id: query.id
         }).then(function () { //remove the object from storage and return the id
           var post = NstSvcPostStorage.get(query.id);
-          post.setBookmarked(true);
+          post.pinned = true;
           NstSvcPostStorage.set(query.id, post);
 
           factory.dispatchEvent(new CustomEvent(
@@ -274,7 +274,7 @@
       });
     }
 
-    function unBookmarkPost(id) {
+    function unpin(id) {
       var query = new NstFactoryQuery(id, {
         id: id
       });
@@ -284,7 +284,7 @@
           post_id: query.id
         }).then(function () { //remove the object from storage and return the id
           var post = NstSvcPostStorage.get(query.id);
-          post.setBookmarked(false);
+          post.pinned = false;
           NstSvcPostStorage.set(query.id, post);
 
           factory.dispatchEvent(new CustomEvent(
