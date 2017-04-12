@@ -15,6 +15,7 @@
           countryCode : '=',
           onCompleted : '@',
           checkPhoneAvailable : '@',
+          checkPhoneRegistered : '@',
           instantSubmit : '='
         },
       };
