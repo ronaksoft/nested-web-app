@@ -341,7 +341,7 @@
       if (members.length < 1) {
         return;
       }
-      
+
       if (members.length > 1) {
         message = NstUtility.string.format(NstSvcTranslation.get('Are you sure to promote {0} of members?'), members.length);
       } else {
@@ -413,16 +413,16 @@
     function remove() {
       var members = getSelectedMembers();
       var message = null;
-      if (members.length < 1) {
-        return;
-      } else if (members.length === 1) {
+      if (members.length === 1) {
         message = NstUtility.string.format(NstSvcTranslation.get('Are you sure to remove {0}?'), members[0].name);
-      } else {
+      } else if (members.length > 1) {
         message = NstUtility.string.format(NstSvcTranslation.get('Are you sure to remove {0} of members?'), members.length);
+      } else {
+        return;
       }
       NstSvcModal.confirm(
         NstSvcTranslation.get('Remove Member'),
-        NstUtility.string.format(NstSvcTranslation.get('Are you sure to remove {0} of members?'), vm.SelectedMembersCount),
+        message,
         {
           yes: NstSvcTranslation.get("Confirm"),
           no: NstSvcTranslation.get("Cancel")
