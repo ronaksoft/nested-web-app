@@ -336,16 +336,26 @@
     }
 
     function promote() {
+      var members = getSelectedKeyHolders();
+      var message = null;
+      if (members.length < 1) {
+        return;
+      }
+      
+      if (members.length > 1) {
+        message = NstUtility.string.format(NstSvcTranslation.get('Are you sure to promote {0} of members?'), members.length);
+      } else {
+        message = NstUtility.string.format(NstSvcTranslation.get('Are you sure to promote {0}?'), members[0].name);
+      }
       NstSvcModal.confirm(
         NstSvcTranslation.get('Promote Members'),
-        NstUtility.string.format(NstSvcTranslation.get('Are you sure to promote {0} of members?'), vm.selectedKeyHoldersCount),
+        message,
         {
           yes: NstSvcTranslation.get("Confirm"),
           no: NstSvcTranslation.get("Cancel")
         }
       ).then(function (result) {
         if (result) {
-          var members = getSelectedKeyHolders();
           _.forEach(members, function (member) {
             NstSvcPlaceFactory.promoteMember(vm.place.id, member.id).then(function (result) {
               var mem = vm.teammates.filter(function (m) {
@@ -363,16 +373,27 @@
     }
 
     function demote() {
+      var members = getSelectedCreators();
+      var message = null;
+      if (members.length < 1) {
+        return;
+      }
+
+      if (members.length > 1) {
+        message = NstUtility.string.format(NstSvcTranslation.get('Are you sure to demote {0} of members?'), members.length);
+      } else {
+        message = NstUtility.string.format(NstSvcTranslation.get('Are you sure to demote {0}?'), members[0].name);
+      }
+
       NstSvcModal.confirm(
         NstSvcTranslation.get('Demote Members'),
-        NstUtility.string.format(NstSvcTranslation.get('Are you sure to demote {0} of members?'), vm.selectedCreatorsCount),
+        message,
         {
           yes: NstSvcTranslation.get("Confirm"),
           no: NstSvcTranslation.get("Cancel")
         }
       ).then(function (result) {
         if (result) {
-          var members = getSelectedCreators();
           _.forEach(members, function (member) {
             NstSvcPlaceFactory.demoteMember(vm.place.id, member.id).then(function (result) {
               var mem = vm.teammates.filter(function (m) {
@@ -390,7 +411,15 @@
     }
 
     function remove() {
-
+      var members = getSelectedMembers();
+      var message = null;
+      if (members.length < 1) {
+        return;
+      } else if (members.length === 1) {
+        message = NstUtility.string.format(NstSvcTranslation.get('Are you sure to remove {0}?'), members[0].name);
+      } else {
+        message = NstUtility.string.format(NstSvcTranslation.get('Are you sure to remove {0} of members?'), members.length);
+      }
       NstSvcModal.confirm(
         NstSvcTranslation.get('Remove Member'),
         NstUtility.string.format(NstSvcTranslation.get('Are you sure to remove {0} of members?'), vm.SelectedMembersCount),
@@ -400,7 +429,6 @@
         }
       ).then(function (result) {
         if (result) {
-          var members = getSelectedMembers();
           _.forEach(members, function (member) {
             removeMember(member).then(function (result) {
               return NstSvcPlaceFactory.get(vm.place.id);
