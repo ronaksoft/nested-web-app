@@ -24,6 +24,7 @@
       pageEventReferences = [];
 
     vm.remove = _.partial(remove, vm.post);
+    vm.toggleRemoveFrom = toggleRemoveFrom;
     vm.retract = retract;
     vm.expand = expand;
     vm.collapse = collapse;
@@ -43,6 +44,8 @@
     vm.loadNewComments = loadNewComments;
     vm.attachPlace = attachPlace;
     vm.move = move;
+    vm.toggleMoveTo = toggleMoveTo;
+
     vm.getPlacesWithRemoveAccess = getPlacesWithRemoveAccess;
     vm.getPlacesWithControlAccess = getPlacesWithControlAccess;
     vm.hasPlacesWithControlAccess = hasPlacesWithControlAccess;
@@ -118,6 +121,10 @@
           toastr.error(NstSvcTranslation.get("An error has occurred in trying to remove this message from the selected Place."));
         });
       });
+    }
+
+    function toggleRemoveFrom(show) {
+      vm.showRemoveFrom = show;
     }
 
     function confirmforRemove(post, place) {
@@ -261,6 +268,10 @@
 
         NstUtility.collection.replaceById(vm.post.allPlaces, result.fromPlace.id, result.toPlace);
       });
+    }
+
+    function toggleMoveTo(show) {
+      vm.showMoveTo = show;
     }
 
     function showTrustedBody() {
