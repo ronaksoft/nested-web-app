@@ -421,12 +421,12 @@
       if (!fists) {
         return moment().format('x');
       }
-      var lastDate = NST_MESSAGES_SORT_OPTION.LATEST_ACTIVITY == vm.messagesSetting.sort ? fists.updatedDate : fists.date;
+      var lastDate = NST_MESSAGES_SORT_OPTION.LATEST_ACTIVITY == vm.messagesSetting.sort ? fists.lastUpdate : fists.timestamp;
       if (moment.isMoment(lastDate)) {
         return lastDate.format('x');
       }
 
-      return lastDate.getTime();
+      return lastDate;
     }
 
 
@@ -437,12 +437,12 @@
       if (!last) {
         return moment().format('x');
       }
-      var lastDate = !isSent() && NST_MESSAGES_SORT_OPTION.LATEST_ACTIVITY == vm.messagesSetting.sort ? last.updatedDate : last.date;
+      var lastDate = !isSent() && NST_MESSAGES_SORT_OPTION.LATEST_ACTIVITY == vm.messagesSetting.sort ? last.lastUpdate : last.timestamp;
       if (moment.isMoment(lastDate)) {
         return lastDate.format('x');
       }
 
-      return lastDate.getTime();
+      return lastDate;
     }
 
     function toggleContentPreview() {
