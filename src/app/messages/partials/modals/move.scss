@@ -29,7 +29,7 @@
       position: absolute;
       transform: translate(-50%,-50%);
       left: 0;
-      transition: left ease-in-out $animation-dur;
+      transition: left,right ease-in-out $animation-dur;
       fill: $color-breeze;
       background-color: $color-white;
       //animation: replace-wire $animation-dur ease-in-out .3s forwards;
@@ -37,8 +37,18 @@
         left: 50%;
       }
       &.set {
-        left: 100%;
+        left: calc(100% - 15px);
       }
+    }
+    .triangle {
+      position: absolute;
+      right: -8px;
+      top: -3px;
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 4px 0 4px 8px;
+      border-color: transparent transparent transparent $color-breeze;
     }
   }
   .move-from,.move-to {

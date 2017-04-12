@@ -496,6 +496,38 @@ body[dir="rtl"] {
     margin-right: 0;
     margin-left: 16px;
   }
+  .filter-bar .mark-read {
+    margin-right: 0;
+    margin-left: 28px;
+    svg {
+      margin-right: 4px;
+      margin-left: 0;
+    }
+  }
+  .move-head .wire {
+    svg {
+      left: auto;
+      right: 0;
+    }
+    svg.ready {
+      left: auto;
+      right: 50%;
+    }
+    svg.set {
+      right: calc(100% - 32px);
+      left: auto;
+    }
+    .triangle {
+      right: auto;
+      left: -8px;
+      border-width: 4px 8px 4px 0;
+      border-color: transparent $color-breeze transparent transparent;
+    }
+  }
+  .move-to-list a div {
+    padding-left: 0;
+    padding-right: 24px;
+  }
 }
 body[dir="ltr"] {
   .post-card-comments p.RTL-text {
