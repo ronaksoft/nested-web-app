@@ -8,7 +8,7 @@
   /** @ngInject */
   function PostController($q, $scope, $rootScope, $stateParams, $state, $uibModalInstance,
                           _, toastr,
-                          NST_POST_EVENT,
+                          NST_POST_EVENT, NstVmFile,
                           NstSvcAuth, NstSvcPostFactory, NstSvcPlaceFactory, NstUtility, NstSvcLogger, NstSvcPostInteraction, NstSvcTranslation, NstSvcSync,
                           selectedPostId) {
     var vm = this;
