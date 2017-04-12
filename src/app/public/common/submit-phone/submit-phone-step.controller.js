@@ -130,17 +130,45 @@
       vm.phoneAvailableStatus = 'available';
       if (vm.phoneIsValid) {
         vm.phoneAvailableStatus = 'checking';
-        phoneAvailable(getPhoneNumber()).then(function (available) {
+        checkPhone(getPhoneNumber()).then(function (ok) {
+          deferred.resolve(ok);
+        }).catch(deferred.reject);
+      } else {
+        deferred.resolve(false);
+      }
+
+
+      return deferred.promise;
+    }
+
+    function checkPhone(phone) {
+      var deferred = $q.defer();
+
+      if (vm.checkPhoneAvailable) {
+
+        phoneAvailable(phone).then(function (available) {
           vm.phoneAvailableStatus = available ? 'available' : 'used';
           deferred.resolve(vm.phoneAvailableStatus === 'available');
         }).catch(function (error) {
           vm.phoneAvailableStatus = 'error';
           deferred.resolve(false);
         });
-      } else {
-        deferred.resolve(false);
-      }
 
+      } else if (vm.checkPhoneRegistered) {
+
+        phoneRegistered(phone).then(function (registered) {
+          vm.phoneAvailableStatus = registered ? 'registered' : 'notfound';
+          deferred.resolve(vm.phoneAvailableStatus === 'registered');
+        }).catch(function (error) {
+          vm.phoneAvailableStatus = 'error';
+          deferred.resolve(false);
+        });
+
+      } else {
+
+        deferred.resolve(true);
+
+      }
 
       return deferred.promise;
     }
@@ -166,23 +194,39 @@
     function phoneAvailable(phone) {
       var deferred = $q.defer();
 
-      if (!vm.checkPhoneAvailable) {
-        deferred.resolve(true);
-      } else {
-        new NstHttp('',
-          {
-            cmd: 'auth/phone_available',
-            data: {
-              'phone': phone
-            }
-          }).post().then(function (data) {
-          if (data.status === 'ok') {
-            deferred.resolve(true);
-          } else {
-            deferred.resolve(false);
+      new NstHttp('',
+        {
+          cmd: 'auth/phone_available',
+          data: {
+            'phone': phone
           }
-        }).catch(deferred.reject);
-      }
+        }).post().then(function (data) {
+        if (data.status === 'ok') {
+          deferred.resolve(true);
+        } else {
+          deferred.resolve(false);
+        }
+      }).catch(deferred.reject);
+
+      return deferred.promise;
+    }
+
+    function phoneRegistered(phone) {
+      var deferred = $q.defer();
+
+      new NstHttp('',
+        {
+          cmd: 'auth/phone_available',
+          data: {
+            'phone': phone
+          }
+        }).post().then(function (data) {
+        if (data.status === 'ok') {
+          deferred.resolve(false);
+        } else {
+          deferred.resolve(true);
+        }
+      }).catch(deferred.reject);
 
       return deferred.promise;
     }
