@@ -10,7 +10,7 @@
   </section>
   <section class="post-head _difh" ng-if="(!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
     <div class="_difc">
-      <a ng-click="ctlPostCard.viewFull($event);ctlPostCard.markAsRead(); _track('post card','open post view : click forward icon');" ng-if="ctlPostCard.post.isForwarded" class="icon">
+      <a ng-click="ctlPostCard.viewFull($event);ctlPostCard.markAsRead(); _track('post card','open post view : click forward icon');" ng-if="ctlPostCard.isForwarded" class="icon">
         <div class="fwed">
           <svg class="svg-hover">
             <use xlink:href="/assets/icons/nst-icn20.svg#forwarded"></use>

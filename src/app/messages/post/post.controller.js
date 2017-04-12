@@ -38,7 +38,6 @@
       load(vm.postId).then(function (done) {
         vm.expandProgress = false;
         // TODO: uncomment and fix
-        console.log("vm.post.places", vm.post);
         vm.syncId = NstSvcSync.openChannel(_.head(vm.post.places).id);
 
         return vm.post.read ? $q.resolve(true) : markPostAsRead(vm.postId);
@@ -158,7 +157,7 @@
       $rootScope.$broadcast('post-modal-closed', {
         postId: vm.post.id,
         comments: _.takeRight(vm.post.comments, 3),
-        totalCommentsCount: vm.post.commentsCount,
+        totalCommentsCount: vm.post.counters.comments,
         // removedCommentsCount: removedCommentsCount
       });
     });

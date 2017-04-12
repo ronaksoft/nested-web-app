@@ -278,7 +278,7 @@
       var reference = $scope.$broadcast('post-load-new-comments', {postId: vm.post.id});
       pageEventReferences.push(reference);
 
-      vm.post.commentsCount += vm.unreadCommentsCount;
+      vm.post.counters.comments += vm.unreadCommentsCount;
       vm.unreadCommentsCount = 0;
     }
 
@@ -289,7 +289,7 @@
      */
     NstSvcPostFactory.addEventListener(NST_POST_EVENT.VIEWED, function (e) {
       if (e.detail.postId === vm.post.id) {
-        vm.post.commentsCount += vm.unreadCommentsCount;
+        vm.post.counters.comments += vm.unreadCommentsCount;
         vm.unreadCommentsCount = 0;
       }
     });
@@ -309,12 +309,12 @@
     $rootScope.$on('post-modal-closed', function (event, data) {
       if (data.postId === vm.post.id) {
         event.preventDefault();
-        vm.post.commentsCount = data.totalCommentsCount;
+        vm.post.counters.comments = data.totalCommentsCount;
 
-        vm.post.commentsCount += vm.unreadCommentsCount;
+        vm.post.counters.comments += vm.unreadCommentsCount;
         vm.unreadCommentsCount = 0;
 
-        //   vm.post.commentsCount -= data.removedCommentsCount || 0;
+        //   vm.post.counters.comments -= data.removedCommentsCount || 0;
         vm.post.comments = data.comments;
       }
     });
@@ -329,7 +329,7 @@
       if (senderIsCurrentUser) {
         if (!_.includes(newCommentIds, e.detail.id)) {
           newCommentIds.push(e.detail.id);
-          vm.post.commentsCount++;
+          vm.post.counters.comments++;
         }
       } else {
         if (!_.includes(unreadCommentIds, e.detail.id)) {
@@ -351,9 +351,7 @@
       vm.isForwarded = !!vm.post.forwardFromId;
       vm.isReplyed = !!vm.post.replyToId;
 
-      console.log("vm.post", vm.post);
-
-      vm.hasOlderComments = (vm.post.commentsCount && vm.post.comments) ? vm.post.commentsCount > vm.post.comments.length : false;
+      vm.hasOlderComments = (vm.post.counters.comments && vm.post.comments) ? vm.post.counters.comments > vm.post.comments.length : false;
       vm.body = $sce.trustAsHtml(vm.post.body);
       vm.orginalPost = vm.post;
       if (vm.trusted) {
@@ -366,7 +364,7 @@
 
       pageEventReferences.push($scope.$on('comment-removed', function (event, data) {
         if (vm.post.id === data.postId) {
-          vm.post.commentsCount--;
+          vm.post.counters.comments--;
         }
       }));
       pageEventReferences.push($scope.$on('post-attachment-viewed', function (event, data) {

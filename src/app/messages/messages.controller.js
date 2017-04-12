@@ -145,7 +145,7 @@
         }
 
         // The message was sent to the current place
-        if (post.belongsToPlace(vm.currentPlaceId)) {
+        if (_.some(post.places, { id : vm.currentPlaceId })) {
           return true;
         }
 
@@ -163,7 +163,7 @@
         }
 
         // The message was sent to the current place
-        if (post.belongsToPlace(vm.currentPlaceId)) {
+        if (_.some(post.places, { id : vm.currentPlaceId })) {
           return true;
         }
 
@@ -372,7 +372,6 @@
             }
           }
         }
-        console.log("vm.messages", vm.messages);
         vm.tryAgainToLoadMore = false;
         vm.loading = false;
         defer.resolve(vm.messages);
