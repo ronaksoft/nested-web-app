@@ -1,6 +1,7 @@
 {
   "NST_CONFIG": {
-    "APP_ID": "web-stg-ir-{{BUILD}}",
+    "APP_CLIENT_ID": "WEBAPP_STAGING",
+    "APP_VERSION" : "3.5.1",
     "LOG": {
       "LEVEL": 3,
       "GATEWAY": {
