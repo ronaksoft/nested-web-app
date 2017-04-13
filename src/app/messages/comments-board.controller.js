@@ -56,10 +56,10 @@
     }
 
     function getLastCommentDate(comments) {
-      var oldest = findLastComment(comments);
       var date = null;
-      if (oldest) {
-        date = oldest.date;
+      vm.lastComment = vm.lastComment || findLastComment(vm.comments);
+      if (vm.lastComment) {
+        date = vm.lastComment.date;
       } else {
         date = new Date(new Date().getTime() - (24 * 60 * 60 * 1000));
       }
@@ -91,6 +91,7 @@
 
       getRecentComments(vm.postId, settings).then(function (result) {
         var newComments = reorderComments(result.comments);
+        vm.lastComment = findLastComment();
         vm.comments = vm.comments.concat(newComments);
         vm.commentBoardLimit = 30;
       }).catch(function (error) {
