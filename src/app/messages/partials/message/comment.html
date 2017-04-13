@@ -1,10 +1,10 @@
 <div class="_df _fw comments-load" ng-if="ctrl.canShowOlderComments() || ctrl.commentBoardNeedsRolling()">
   <a href="javascript:void(0);" ng-click="ctrl.limitCommentBoard(); _track('post card', 'roll up comments');">
-    <svg class="_16svg" ng-show="ctrl.commentBoardNeedsRolling()">
+    <svg class="_16svg flip-vertical" ng-show="ctrl.commentBoardNeedsRolling()">
       <use xlink:href="/assets/icons/nst-icn16.svg#arrow"></use>
     </svg>
   </a>
-  <a ng-if="ctrl.canShowOlderComments()" href="javascript:void(0);" ng-click="ctrl.showOlderComments(); _track('post card', 'show older comments');"><translate>View older comments...</translate></a>
+  <a ng-if="ctrl.canShowOlderComments()" href="javascript:void(0);" ng-click="ctrl.showOlderComments(); _track('post card', 'show older comments');"><translate>Show more comments...</translate></a>
 </div>
 <div ng-repeat="comment in ctrl.comments | limitTo : ctrl.commentBoardLimit * -1  | orderBy:'date'">
   <div class="post-card-comments _difh _fw _wrb">

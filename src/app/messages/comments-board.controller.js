@@ -224,7 +224,7 @@
     }
 
     function commentBoardNeedsRolling() {
-      return vm.commentBoardIsRolled === false;
+      return vm.commentBoardIsRolled === false && vm.comments.length > 3;
     }
 
     function loadMoreComments() {

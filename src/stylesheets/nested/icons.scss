@@ -518,3 +518,15 @@
   fill: $color-black16;
   cursor: pointer;
 }
+svg.flip-vertical {
+  -moz-transform: scale(-1, -1);
+    -o-transform: scale(-1, -1);
+    -webkit-transform: scale(-1, -1);
+    transform: scale(-1, -1);
+}
+.triangle {
+  //width: 8px;
+  //height: 4px;
+  //background: url("../assets/icons/otr-tri.svg") no-repeat;
+  //background-size: contain;
+}
