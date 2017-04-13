@@ -1,6 +1,6 @@
 <div class="post-card _fw ng-class:{'forward-card': ctlPostCard.forwardFromId ,'reply-card': ctlPostCard.isReplyed, 'unread' : !ctlPostCard.post.read, 'ribbon' : ctlPostCard.isRibbon }">
   <section class="collapse-view" ng-if="ctlPostCard.isRibbon && ctlPostCard.ribbonEnabled" ng-click="ctlPostCard.switchToPostCard();">
-    <div class="user-avatar-24" user-detail user="{{::ctlPostCard.post.sender}}">
+    <div class="user-avatar-24" user-detail="ctlPostCard.post.sender">
       <img initial-avatar="{{ctlPostCard.post.sender.fullName}}" picture="{{ctlPostCard.post.sender | avatar}}" data-width="24"
            data-height="24"
            data-radius="30" class="account-initials-24 _df" data-word-count="2" data-font-size="12"/>
@@ -28,14 +28,14 @@
       </a>
     </div>
     <div class="img _df">
-      <div class="user-avatar-38" user-detail user="{{::ctlPostCard.post.sender}}">
+      <div class="user-avatar-38" user-detail="ctlPostCard.post.sender">
         <img initial-avatar="{{ctlPostCard.post.sender.fullName}}" picture="{{ctlPostCard.post.sender | avatar : 'x64'}}" data-width="38"
              data-height="38"
              data-radius="30" class="account-initials-38 _df" data-word-count="2" data-font-size="16"/>
       </div>
     </div>
     <div class="_fw _difc">
-      <h4 class="_df _fn" user-detail user="{{::ctlPostCard.post.sender}}">{{::ctlPostCard.post.sender.fullName}}</h4>
+      <h4 class="_df _fn" user-detail="ctlPostCard.post.sender">{{::ctlPostCard.post.sender.fullName}}</h4>
       <div class="_df _fw">
       </div>
       <a class="_df _fn post-card-time" ng-click="ctlPostCard.viewFull($event); ctlPostCard.markAsRead(); _track('post card','open post view : click date');" data-uib-tooltip="{{::ctlPostCard.post.timestamp | date : 'full'}}"
