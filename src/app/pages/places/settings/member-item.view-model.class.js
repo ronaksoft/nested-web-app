@@ -6,47 +6,33 @@
     .factory('NstVmMemberItem', NstVmMemberItem);
 
   function NstVmMemberItem(NstUser, NstTinyUser, NstInvitation) {
-    /**
-     * Creates an instance of NstVmMemberItem
-     *
-     * @param {NstTinyUser|NstUser} model The MemberItem Model
-     *
-     * @constructor
-     */
     function VmMemberItem(model, role) {
       this.id = null;
-      this.name = null;
-      this.avatar = null;
-      this.role = null;
+      this.fullName = null;
+      this.picture = null;
+      this.hasPicture = null;
+      this.role = role;
       this.InvitationId = null;
+
+      if (model instanceof NstUser || model instanceof NstTinyUser) {
+
+        this.id = model.id;
+        this.fullName = model.getFullName();
+        this.picture = model.picture;
+        this.hasPicture = model.hasPicture;
+      } else if (model instanceof NstInvitation) {
+
+        this.InvitationId = model.id;
+        this.id = model.invitee.id;
+        this.fullName = model.invitee.getFullName();
+        this.picture = model.invitee.picture;
+        this.hasPicture = model.invitee.hasPicture;
+      }
 
       this.isPending = function () {
         return !!this.InvitationId;
       }
 
-      if (role) {
-        this.role = role;
-      }
-
-      if (model instanceof NstUser || model instanceof NstTinyUser) {
-
-        this.id = model.id;
-        this.name = model.getFullName();
-        if (model.hasPicture()) {
-          this.avatar = model.picture.getUrl("x64");
-          this.avatar128 = model.picture.getUrl("x128");
-        }
-      } else if (model instanceof NstInvitation) {
-
-        this.id = model.invitee.id;
-        this.name = model.invitee.getFullName();
-        this.InvitationId = model.id;
-
-        if (model.invitee.hasPicture()) {
-          this.avatar = model.invitee.picture.getUrl("x64");
-          this.avatar128 = model.invitee.picture.getUrl("x128");
-        }
-      }
     }
 
     return VmMemberItem;
