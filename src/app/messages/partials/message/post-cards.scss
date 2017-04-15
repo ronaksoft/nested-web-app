@@ -237,6 +237,12 @@ post-card {
       margin-left: 0;
       transform-origin: 0 0;
       //max-width: 100%;
+      a {
+        color: $color-sense-wire;
+        &:hover {
+          color: $color-sense;
+        }
+      }
     }
 
   }
@@ -487,7 +493,7 @@ h3 {
     line-break: strict;
     white-space: nowrap;
     //height: 100%;
-    color: $color-hurricane;
+    //color: $color-hurricane;
     padding: 0;
     margin: 0;
     max-width: 100%;
@@ -495,18 +501,24 @@ h3 {
     text-overflow: ellipsis;
     float: left;
   }
-  p,p span,p span a {
+  p,p span {
     font-size: $font-size-small;
     font-weight: 400;
-    color: $color-hurricane;
+    color: $color-comment;
     //height: 100%;
     position: relative;
+  }
+  p span a {
+    color: $color-sense-wire;
+    &:hover {
+      color: $color-sense;
+    }
   }
   span {
     //padding-top: 4px;
     font-size: $font-size-small;
     font-weight: 300;
-    color: $color-wind;
+    //color: $color-wind;
     margin: 0 4px;
     padding-top: 4px;
   }
