@@ -47,6 +47,8 @@
         loadMoreComments();
       }
 
+      vm.lastComment = findLastComment(vm.comments);
+
       pageEventKeys.push(key);
       vm.user = NstSvcAuth.user;
     })();
@@ -56,10 +58,10 @@
     }
 
     function getLastCommentDate(comments) {
-      var oldest = findLastComment(comments);
       var date = null;
-      if (oldest) {
-        date = oldest.date;
+      vm.lastComment = vm.lastComment || findLastComment(vm.comments);
+      if (vm.lastComment) {
+        date = vm.lastComment.date;
       } else {
         date = new Date(new Date().getTime() - (24 * 60 * 60 * 1000));
       }
@@ -92,6 +94,7 @@
       getRecentComments(vm.postId, settings).then(function (result) {
         var newComments = reorderComments(result.comments);
         vm.comments = vm.comments.concat(newComments);
+        vm.lastComment = findLastComment(vm.comments);
         vm.commentBoardLimit = 30;
       }).catch(function (error) {
         NstSvcLogger.error(error);
@@ -238,6 +241,7 @@
         vm.hasOlderComments = comments.length >= commentsSettings.limit;
         var orderedItems = reorderComments(comments);
         vm.comments.unshift.apply(vm.comments, orderedItems);
+        vm.lastComment = findLastComment(vm.comments);
 
         clearCommentBoardLimit();
       }).catch(function(error) {
