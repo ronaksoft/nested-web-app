@@ -213,11 +213,12 @@ body.modal-open {
     background-color: $color-white;
     width: 632px;
     min-height: 480px;
-    max-height: calc(100vh - 160px);
+    max-height: calc(90vh - 160px);
     overflow: hidden;
     border-radius: 4px;
     >div {
       min-height: 480px;
+      max-height: calc(90vh - 160px);
     }
     .ui-select-multiple.ui-select-bootstrap input.ui-select-search ,
     .ui-select-multiple.ui-select-bootstrap {
@@ -226,7 +227,7 @@ body.modal-open {
   }
   .compose-wrp {
     width: 100%;
-    height: 100%;
+    min-height: 100%;
     position: relative;
 
   }
@@ -245,7 +246,7 @@ body.modal-open {
     margin: 48px 0;
     padding: 0 16px;
     height: calc(100% - 96px);
-    max-height: calc(100vh - 255px);
+    max-height: calc(90vh - 255px);
     //overflow-y: scroll;
     //overflow-x: hidden;
     >p {
