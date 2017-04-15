@@ -237,6 +237,12 @@ post-card {
       margin-left: 0;
       transform-origin: 0 0;
       //max-width: 100%;
+      a {
+        color: $color-sense-wire;
+        &:hover {
+          color: $color-sense;
+        }
+      }
     }
 
   }
@@ -495,12 +501,18 @@ h3 {
     text-overflow: ellipsis;
     float: left;
   }
-  p,p span,p span a {
+  p,p span {
     font-size: $font-size-small;
     font-weight: 400;
     color: $color-comment;
     //height: 100%;
     position: relative;
+  }
+  p span a {
+    color: $color-sense-wire;
+    &:hover {
+      color: $color-sense;
+    }
   }
   span {
     //padding-top: 4px;
