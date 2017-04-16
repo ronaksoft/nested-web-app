@@ -679,9 +679,17 @@ nst-navbar {
     .top-nav {
       display: flex;
       align-items: center;
+      h2{
+        width: 100%;
+        overflow: hidden;
+        span {
+          white-space: nowrap;
+        }
+      }
     }
     .conv-logos {
       display: flex;
+      flex: none;
       flex-direction: row;
       align-items: center;
       width: 56px;
@@ -713,6 +721,10 @@ nst-navbar {
       height: 80px;
       align-items: center;
       display: flex;
+      b {
+        white-space: nowrap;
+        overflow: hidden;
+      }
     }
     .bot-nav {
       height: 80px;
