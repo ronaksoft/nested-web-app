@@ -22,10 +22,13 @@
           if ($numWords > maxChars ) {
             scope.$parent.forceTooltip = true;
 
-            if(domainLength < 28){
+            if(domainLength < 28 && atSignIndex > -1){
               str = str.substr(0, maxChars - domainLength - 7) + '...' + str.substr(atSignIndex - 4, str.length);
-            } else {
+            } else if(domainLength > 27 && atSignIndex > -1) {
               str = str.substr(0, (maxChars / 2) - 4) + '...' + str.substr(atSignIndex - 4, maxChars / 4) + '...' + str.substr($numWords - (maxChars / 4), $numWords);
+            } else {
+              str = str.substr(0, maxChars - 10) + '...' + str.substr(maxChars - 7, $numWords);
+
             }
 
             $element.text(str);
