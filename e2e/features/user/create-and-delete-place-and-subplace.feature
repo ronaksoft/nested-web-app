@@ -8,6 +8,8 @@
 #    Given I Press "Sign in"
 #    Then current tab must be "Feed"
 
+ #TODO delete place is not working
+
 #  Scenario: jerry create a place
 #    Given I Click by ngClick "ctlSidebar.openCreatePlaceModal($event);"
 #    When Wait see object with id "create-place"
