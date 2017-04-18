@@ -144,7 +144,7 @@ module.exports = function () {
   });
 
   this.Given(/^I Click on href "([^"]*)"$/, function (destination) {
-    var pS = element(By.css('a[href="#/'+ destination +'"]'));
+    var pS = element(By.css('*[href="#/'+ destination +'"]'));
     pS.click();
   });
 
@@ -194,8 +194,18 @@ module.exports = function () {
     ClickableElement.click();
   });
 
+  this.Given(/^I Click by ngModel "([^"]*)"$/, function (ngModel){
+    var ClickableElement = element(By.css('*[ng-model="' + ngModel + '"]'));
+    ClickableElement.click();
+  });
+
   this.Given(/^I Click on profile pop-over$/, function () {
     var profilePop = element(By.css('div[ng-click="ctlSidebar.profileOpen =! ctlSidebar.profileOpen;ctlSidebar.mentionOpen = false;$event.preventDefault();$event.stopPropagation()"]'));
+    profilePop.click();
+  });
+
+  this.Given(/^I Click Triple-dot$/, function () {
+    var profilePop = element(By.css('use[xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/nst-icn24.svg#more"]'));
     profilePop.click();
   });
 
@@ -225,15 +235,11 @@ module.exports = function () {
     menu.click();
   });
 
-  this.Given(/^I Click icon by class "([^"]*)"$/, function (ngIf){
-    var svgWithClass = element(By.css('svg[class="' + ngIf + '"]'));
+  this.Given(/^I Click icon by class "([^"]*)"$/, function (svgClass){
+    var svgWithClass = element(By.css('svg[class="' + svgClass + '"]'));
     svgWithClass.click();
   });
 
-  this.Given(/^I Click by ngModel "([^"]*)"$/, function (ngModel){
-    var select = element(By.css('select[ng-model="' + ngModel + '"]'));
-    select.click();
-  });
 
   this.Given(/^I Click input by dataNgModel "([^"]*)"$/, function (dataNgModel){
     var select = element(By.css('input[data-ng-model="' + dataNgModel + '"]'));
@@ -448,6 +454,8 @@ module.exports = function () {
   });
 
 
+
+
 //------------url selectors----------------//
 
   this.Then(/^Url Should Contains$/, function (urlc) {
@@ -521,7 +529,20 @@ module.exports = function () {
     enter.perform();
   });
 
-//------------------- specific for notification -------------------------------//
+//------------------- specific for profile -------------------------------//
+
+  this.Given(/^I Click edit-icon by open-custom-modal "([^"]*)"$/, function (customModal) {
+    var icon = element(By.css('svg[open-custom-modal="' + customModal + '"]'));
+    icon.click();
+  });
+
+
+
+
+
+//------------------- specific for -------------------------------//
+
+//------------------- specific for -------------------------------//
 
 
 };
