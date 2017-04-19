@@ -155,7 +155,7 @@
         enableTabKeyTools: true,
         tabSpaces: 4,
         startupFocus: false,
-        extraPlugins: 'sharedspace,font,language,bidi,justify,colorbutton,autogrow,divarea,autolink',
+        extraPlugins: 'sharedspace,font,language,bidi,justify,colorbutton,autogrow,divarea,autolink,autodirection',
         autoGrow_minHeight: 230,
         sharedSpaces: {
           top: 'editor-btn',
