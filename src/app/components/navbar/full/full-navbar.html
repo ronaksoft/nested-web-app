@@ -55,7 +55,7 @@
     </div>
     <div class="content _pr conv-nav" ng-if="ctlFullNavbar.isConvMode">
       <div class="top-nav">
-        <svg class="_24svg _r90 mirror" onclick="window.history.back();">
+        <svg class="_24svg _r90 mirror _fn" onclick="window.history.back();">
           <use xlink:href="/assets/icons/nst-icn24.svg#arrow-down"></use>
         </svg>
         <div class="conv-logos">
@@ -69,7 +69,8 @@
         <h2 class="_df">
           <translate>Conversation with:</translate>
           &nbsp;
-          <b>{{ctlFullNavbar.account.fullName}}</b>
+          <b ellipsis-mail="ctlFullNavbar.account.fullName" data-uib-tooltip="{{ctlFullNavbar.account.fullName}}"
+             data-tooltip-enable="{{forceTooltip ? true : false}}" data-tooltip-placement="bottom-center">{{ctlFullNavbar.account.fullName}}</b>
         </h2>
 
 
