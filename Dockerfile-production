@@ -6,6 +6,8 @@ WORKDIR /usr/src/app
 RUN npm install -g http-server
 EXPOSE 80
 
+COPY ./bin/nested-reconfig.js /bin/nested-reconfig.js
+CMD node /bin/nested-reconfig.js && http-server -p 80
 
 # Install app dependencies
 COPY ./dist/production /usr/src/app/
