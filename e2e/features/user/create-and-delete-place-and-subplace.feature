@@ -41,11 +41,12 @@
 #  Scenario: jerry delete the created place
 #    When I wait 5s
 #    Given I Click on "test-create-place-id" place in sidebar
-#    When I wait 10s
+#    When I wait 2s
 #    When Wait for hiding of all loadings
 #    When should the title of the place be "test create place name"
 #    Given I Click Triple-dot
-#    When Wait see object with class "popover-content"
+#    When I wait 2s
+#    Given I Click id "comments"
 #    When I wait 2s
 #    Given I Click by ngClick "ctlFullNavbar.confirmToRemove()"
 #    When I wait 5s
@@ -60,7 +61,7 @@
 #    When Wait to see success-msg
 #    When I wait 1s
 #    Then current tab must be "Feed"
-#
+
 #  Scenario:
 #    Given I Click on profile pop-over
 #    Given I Click on href "signout"

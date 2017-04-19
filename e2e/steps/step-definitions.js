@@ -205,7 +205,7 @@ module.exports = function () {
   });
 
   this.Given(/^I Click Triple-dot$/, function () {
-    var profilePop = element(By.css('use[xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/nst-icn24.svg#more"]'));
+    var profilePop = element.all(By.deepCss('#place-more-option'));
     profilePop.click();
   });
 
@@ -350,6 +350,11 @@ module.exports = function () {
 
 
   this.Then(/^must see the bookmarked post/, function () {
+    var EC = protractor.ExpectedConditions;
+    return browser.wait(EC.visibilityOf(element(By.css('.post-card'))), 50000);
+  });
+
+  this.Then(/^must see the created post/, function () {
     var EC = protractor.ExpectedConditions;
     return browser.wait(EC.visibilityOf(element(By.css('.post-card'))), 50000);
   });
@@ -507,6 +512,21 @@ module.exports = function () {
     element(by.css('input[type="file"]')).sendKeys(absolutePath);
   });
 
+  this.Given(/^I Attach pdf-document$/, function () {
+    var path = require('path');
+    var process = require('process');
+    var fileToUpload = './e2e/assets/document.pdf',
+      absolutePath = path.resolve(process.cwd(), fileToUpload);
+    element(by.css('input[type="file"]')).sendKeys(absolutePath);
+  });
+
+  this.Given(/^I Attach xlsx-document$/, function () {
+    var path = require('path');
+    var process = require('process');
+    var fileToUpload = './e2e/assets/document.xlsx',
+      absolutePath = path.resolve(process.cwd(), fileToUpload);
+    element(by.css('input[type="file"]')).sendKeys(absolutePath);
+  });
 
 
 //------------------- combinated keys -----------------------------------------//
