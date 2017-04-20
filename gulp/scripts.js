@@ -29,6 +29,9 @@ function buildScripts() {
     gulp.dest(path.join(conf.paths.tmp, '/serve/config'))
   );
 
+  gulp.src(['bower_components/web-ckeditor-direction-plugin/src/**/*'])
+  .pipe(gulp.dest('bower_components/ckeditor/plugins/'));
+
   return gulp.src([
     path.join(conf.paths.src, '/app/**/*.js'),
     path.join(conf.paths.src, '/nested/**/*.js'),
