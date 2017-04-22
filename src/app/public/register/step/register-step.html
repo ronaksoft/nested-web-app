@@ -34,7 +34,7 @@
     <i class="cursor-pointer nst-ico-eye-slash form-control-feedback {{ctrl.showPassword ? 'nst-ico-eye-slash' : 'nst-ico-eye'}}" ng-click="ctrl.showPassword = !ctrl.showPassword"></i>
   </div>
 
-  <div class="_dt register-name-table">
+  <div class="_dt register-name-table form-group">
     <div class="_dtc register-name-cell-left form-group" ng-class="{ 'has-error' : registrationForm.nested_firstname.$invalid && (registrationForm.nested_firstname.$touched || ctrl.submitted)}">
       <label ng-if="!registrationForm.nested_firstname.$error.required || !(registrationForm.nested_firstname.$touched || ctrl.submitted)"><translate>First name</translate></label>
       <label ng-if="registrationForm.nested_firstname.$error.required && (registrationForm.nested_firstname.$touched || ctrl.submitted)"><translate>First name is required</translate></label>
