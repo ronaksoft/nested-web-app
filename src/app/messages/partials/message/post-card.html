@@ -180,12 +180,16 @@
 </section>
 
 <div class="chain-forward" ng-if="ctlPostCard.chainView && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
-  <a ng-click="ctlPostCard.replyAll($event);ctlPostCard.markAsRead(); _track('post card', 'reply : add-on');" ui-sref="app.compose-reply-all({ postId: ctlPostCard.post.id })">
+  <a ng-click="ctlPostCard.replyAll($event);ctlPostCard.markAsRead(); _track('post card', 'reply : add-on');" ui-sref="app.compose-reply-all({ postId: ctlPostCard.post.id })"
+     data-uib-tooltip-template="'reply-to-all-uib-tooltip.html'"
+     data-tooltip-append-to-body="true" data-tooltip-placement="auto top" >
     <svg class="mirror">
       <use xlink:href="/assets/icons/nst-icn24.svg#reply"></use>
     </svg>
   </a>
-  <a ui-sref="app.compose-forward({ postId: ctlPostCard.post.id })" ng-click="ctlPostCard.forward($event);ctlPostCard.markAsRead(); _track('post card', 'forward : add-on');">
+  <a ui-sref="app.compose-forward({ postId: ctlPostCard.post.id })" ng-click="ctlPostCard.forward($event);ctlPostCard.markAsRead(); _track('post card', 'forward : add-on');"
+     data-uib-tooltip-template="'forward-uib-tooltip.html'"
+     data-tooltip-append-to-body="true" data-tooltip-placement="auto top">
     <svg>
       <use xlink:href="/assets/icons/nst-icn24.svg#forward"></use>
     </svg>
@@ -195,8 +199,9 @@
       <use xlink:href="/assets/icons/nst-icn24.svg#expand"></use>
     </svg>
   </a>
-  <a ng-if="ctlPostCard.addOn" popover-class="white-pop popover-white-nst-activity-places" data-popover-placement="bottom-left auto" ng-click=" _track('post card', 'more options');"
-     data-uib-popover-template="'app/messages/partials/popovers/post-card-more-option.html'" data-popover-append-to-body="true" translate-attrs="data-uib-popover">
+  <a data-uib-tooltip-template="'more-uib-tooltip.html'" data-tooltip-append-to-body="true" data-tooltip-placement="auto top"
+     ng-if="ctlPostCard.addOn" popover-class="white-pop popover-white-nst-activity-places" data-popover-placement="bottom-left auto" ng-click=" _track('post card', 'more options');"
+     data-uib-popover-template="'app/messages/partials/popovers/post-card-more-option.html'" data-popover-append-to-body="true" translate-attrs="data-uib-tooltip,data-uib-popover">
     <svg class="_r90">
       <use xlink:href="/assets/icons/nst-icn20.svg#more"></use>
     </svg>

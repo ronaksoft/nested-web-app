@@ -289,7 +289,8 @@ body.modal-open {
     max-height: 100vh;
     .modal-bo {
       margin-top: 48px;
-      height: calc(100% - 96px);
+      min-height: calc(100% - 96px);
+      height: calc(100vh - 96px);
       max-height: calc(100vh - 96px);
     }
     #compose-full {
@@ -302,7 +303,10 @@ body.modal-open {
     }
   }
 }
-
+.fullCompose .modal .modal-compose .modal-content > div {
+  min-height: 100vh;
+  max-height: 100vh;
+}
 @media screen and ( max-height: 700px ){
   .modal .modal-compose {
     height: 100%;
