@@ -182,6 +182,9 @@ hr.nomargin {
 .nst-font-xlarge {
   font-size: $font-size-xlarge;
 }
+.nst-font-xxlarge {
+  font-size: $font-size-xxlarge;
+}
 
 .nst-mood-simple {
   color: $color-solid-60;
@@ -201,6 +204,10 @@ hr.nomargin {
 
 .nst-mood-storm {
   color: $color-storm;
+}
+
+.nst-mood-gale {
+  color: $color-gale;
 }
 
 .nst-mood-wind {
