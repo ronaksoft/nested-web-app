@@ -13,7 +13,7 @@
       <use xlink:href="/assets/icons/nst-icn16.svg#reply"></use>
     </svg>
   </div>
-  <span><translate>Reply all</translate></span>
+  <span><translate>Reply</translate></span>
 </a>
 <a class="_df list-items _aic _fw" ng-click="ctlPostCard.replyToSender($event);" ui-sref="app.compose-reply-sender({ postId: ctlPostCard.post.id })">
   <div class="_aic _df">
@@ -48,6 +48,24 @@
   </div>
   <span><translate>Attach a Place</translate></span>
 </a>
+<a class="_df list-items _aic _fw" ng-click="ctlPostCard.seenBy();" ng-if="ctlPostCard.currentUserIsSender">
+  <div class="_aic _df">
+    <svg class="_16svg">
+      <use xlink:href="/assets/icons/nst-icn16.svg#eye-open"></use>
+    </svg>
+  </div>
+  <span><translate>Seen by...</translate></span>
+</a>
+
+<a ng-if="ctlPostCard.post.wipeAccess" ng-click="$event.stopPropagation(); ctlPostCard.retract();" class="_df list-items _aic _fw red">
+  <div class="_aic _df">
+    <svg class="_r45 _16svg">
+      <use xlink:href="/assets/icons/nst-icn16.svg#cross"></use>
+    </svg>
+  </div>
+  <span><translate>Retract</translate></span>
+</a>
+<div class="line-popover" ng-if="ctlPostCard.currentUserIsSender"></div>
 <a class="_df list-items _aic _fw cursor-pointer" popover-class="white-pop" data-popover-placement="{{$root._direction == 'ltr' ? 'right-center auto' : 'left-center auto'}}"
    data-uib-popover-template="'app/messages/partials/popovers/move-to.html'" data-popover-append-to-body="false" translate-attrs="data-uib-popover" ng-if="ctlPostCard.hasPlacesWithControlAccess()">
   <div class="_aic _df">
@@ -61,14 +79,6 @@
       <use xlink:href="/assets/icons/nst-icn16.svg#arrow"></use>
     </svg>
   </div>
-</a>
-<a ng-if="ctlPostCard.post.wipeAccess" ng-click="$event.stopPropagation(); ctlPostCard.retract();" class="_df list-items _aic _fw red">
-  <div class="_aic _df">
-    <svg class="_r45 _16svg">
-      <use xlink:href="/assets/icons/nst-icn16.svg#cross"></use>
-    </svg>
-  </div>
-  <span><translate>Retract</translate></span>
 </a>
 <a class="_df list-items _aic _fw red cursor-pointer" popover-class="white-pop"  data-popover-placement="{{$root._direction == 'ltr' ? 'right-center auto' : 'left-center auto'}}"
    data-uib-popover-template="'app/messages/partials/popovers/remove-from.html'" data-popover-append-to-body="true"

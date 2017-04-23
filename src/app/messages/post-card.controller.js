@@ -42,6 +42,7 @@
     vm.unreadCommentsCount = 0;
     vm.loadNewComments = loadNewComments;
     vm.attachPlace = attachPlace;
+    vm.seenBy = seenBy;
     vm.move = move;
     vm.getPlacesWithRemoveAccess = getPlacesWithRemoveAccess;
     vm.getPlacesWithControlAccess = getPlacesWithControlAccess;
@@ -231,6 +232,22 @@
         });
 
       });
+    }
+
+    function seenBy() {
+      $uibModal.open({
+        animation: false,
+        backdropClass: 'comdrop',
+        size: 'sm',
+        templateUrl: 'app/messages/partials/modals/seen-by.html',
+        controller: 'SeenByController',
+        controllerAs: 'ctrl',
+        resolve: {
+          postId: function () {
+            return vm.post.id;
+          }
+        }
+      }).result.then(function () {});
     }
 
     function move(selectedPlace) {
