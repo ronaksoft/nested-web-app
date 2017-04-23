@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function conversationController(_, $log, $stateParams, $state, $scope,
-                            NST_DEFAULT, NstSvcPostFactory, NstSvcUserFactory, NstSvcPostMap, NstSvcServer, NstSvcAuth,
+                            NST_DEFAULT, NstSvcPostFactory, NstSvcUserFactory, NstSvcServer, NstSvcAuth,
                             NstSearchQuery) {
     var vm = this;
     var limit = 8;
@@ -81,8 +81,7 @@
 
       NstSvcPostFactory.conversation($stateParams.userId, queryString, limit, skip).then(function (posts) {
 
-        var olderMessages = _.map(posts, NstSvcPostMap.toSearchMessageItem);
-        _.forEach(olderMessages, function (message) {
+        _.forEach(posts, function (message) {
           if (!_.some(vm.messages, { id : message.id })){
             vm.messages.push(message);
           }

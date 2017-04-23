@@ -14,7 +14,7 @@
      * @constructor
      */
     function VmPlace(placeModel, depth) {
-      
+
       this.id = '';
       this.name = '';
       this.url = '';
@@ -27,21 +27,14 @@
       this.isStarred = false;
 
       if (placeModel instanceof NstTinyPlace || placeModel instanceof NstPlace) {
-        this.id = placeModel.getId();
-        this.name = placeModel.getName();
-        this.url = $state.href(getPlaceFilteredState(), { placeId: placeModel.getId() });
-        this.avatar = placeModel.hasPicture() ? placeModel.picture.getUrl("x64") : '/assets/icons/absents_place.svg';
-        this.unreadPosts = placeModel.getUnreadPosts();
-        this.totalPosts = placeModel.getTotalPosts();
-        this.teammatesCount = placeModel.getTeammatesCount();
 
-        if (placeModel instanceof NstPlace) {
-          for (var k in placeModel.getChildren()) {
-            if ('length' !== k) {
-              this.children.push(new VmPlace(placeModel.getChildren()[k], this.depth + 1));
-            }
-          }
-        }
+        this.id = placeModel.id;
+        this.name = placeModel.name;
+        this.url = $state.href(getPlaceFilteredState(), { placeId: placeModel.id });
+        this.avatar = placeModel.hasPicture() ? placeModel.picture.getUrl("x64") : '/assets/icons/absents_place.svg';
+        this.unreadPosts = placeModel.unreadPosts;
+        this.totalPosts = placeModel.counters ? placeModel.counters.posts : null;
+        this.teammatesCount = placeModel.counters ? placeModel.counters.creators + placeModel.counters.key_holders : null;
       }
     }
     // TODO: It should not be here!!!

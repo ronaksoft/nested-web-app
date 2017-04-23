@@ -79,8 +79,8 @@
 
 
     function markAsRead() {
-      if (!vm.post.isRead) {
-        vm.post.isRead = true;
+      if (!vm.post.read) {
+        vm.post.read = true;
         NstSvcPostFactory.read([vm.post.id]).then(function () {
         }).catch(function (err) {
           $log.debug('MARK AS READ :' + err);
@@ -91,11 +91,11 @@
     function setBookmark(setBookmark) {
       vm.post.bookmarked = setBookmark;
       if (setBookmark) {
-        NstSvcPostFactory.bookmarkPost(vm.post.id).catch(function () {
+        NstSvcPostFactory.pin(vm.post.id).catch(function () {
           vm.post.bookmarked = !setBookmark;
         });
       } else {
-        NstSvcPostFactory.unBookmarkPost(vm.post.id).catch(function () {
+        NstSvcPostFactory.unpin(vm.post.id).catch(function () {
           vm.post.bookmarked = !setBookmark;
         });
       }
@@ -108,7 +108,7 @@
         }
 
         NstSvcPostFactory.remove(post.id, place.id).then(function() {
-          NstUtility.collection.dropById(post.allPlaces, place.id);
+          NstUtility.collection.dropById(post.places, place.id);
           toastr.success(NstUtility.string.format(NstSvcTranslation.get("The post has been removed from Place {0}."), place.name));
           $rootScope.$broadcast('post-removed', {
             postId: post.id,
@@ -154,11 +154,11 @@
         vm.body = post.body;
         vm.resources = post.resources;
         vm.isExpanded = true;
-        if (!post.isRead) {
+        if (!post.read) {
           markAsRead();
         }
 
-        if (vm.post.trusted || Object.keys(post.resources).length == 0) {
+        if (vm.trusted || Object.keys(post.resources).length == 0) {
           showTrustedBody();
         }
 
@@ -211,19 +211,19 @@
             return vm.post.id;
           },
           postPlaces: function () {
-            return vm.post.allPlaces;
+            return vm.post.places;
           }
         }
       }).result.then(function (attachedPlaces) {
         _.forEach(attachedPlaces, function (place) {
-          if (!_.some(vm.post.allPlaces, {id: place.id})) {
-            vm.post.allPlaces.push(place);
+          if (!_.some(vm.post.places, {id: place.id})) {
+            vm.post.places.push(place);
           }
         });
 
         NstSvcPlaceFactory.getAccess(_.map(attachedPlaces, 'id')).then(function (accesses) {
           _.forEach(accesses, function (item) {
-            var postPlace = _.find(vm.post.allPlaces, {id: item.id});
+            var postPlace = _.find(vm.post.places, {id: item.id});
             if (postPlace) {
               postPlace.accesses = item.accesses;
             }
@@ -249,7 +249,7 @@
             return selectedPlace;
           },
           postPlaces: function () {
-            return vm.post.allPlaces;
+            return vm.post.places;
           }
         }
       }).result.then(function(result) {
@@ -259,7 +259,7 @@
           fromPlace: result.fromPlace
         });
 
-        NstUtility.collection.replaceById(vm.post.allPlaces, result.fromPlace.id, result.toPlace);
+        NstUtility.collection.replaceById(vm.post.places, result.fromPlace.id, result.toPlace);
       });
     }
 
@@ -270,7 +270,7 @@
         vm.body = vm.post.getTrustedBody();
       }
 
-      vm.post.trusted = true;
+      vm.trusted = true;
     }
 
     function loadNewComments($event) {
@@ -278,7 +278,7 @@
       var reference = $scope.$broadcast('post-load-new-comments', {postId: vm.post.id});
       pageEventReferences.push(reference);
 
-      vm.post.commentsCount += vm.unreadCommentsCount;
+      vm.post.counters.comments += vm.unreadCommentsCount;
       vm.unreadCommentsCount = 0;
     }
 
@@ -289,7 +289,7 @@
      */
     NstSvcPostFactory.addEventListener(NST_POST_EVENT.VIEWED, function (e) {
       if (e.detail.postId === vm.post.id) {
-        vm.post.commentsCount += vm.unreadCommentsCount;
+        vm.post.counters.comments += vm.unreadCommentsCount;
         vm.unreadCommentsCount = 0;
       }
     });
@@ -309,12 +309,12 @@
     $rootScope.$on('post-modal-closed', function (event, data) {
       if (data.postId === vm.post.id) {
         event.preventDefault();
-        vm.post.commentsCount = data.totalCommentsCount;
+        vm.post.counters.comments = data.totalCommentsCount;
 
-        vm.post.commentsCount += vm.unreadCommentsCount;
+        vm.post.counters.comments += vm.unreadCommentsCount;
         vm.unreadCommentsCount = 0;
 
-        //   vm.post.commentsCount -= data.removedCommentsCount || 0;
+        //   vm.post.counters.comments -= data.removedCommentsCount || 0;
         vm.post.comments = data.comments;
       }
     });
@@ -329,7 +329,7 @@
       if (senderIsCurrentUser) {
         if (!_.includes(newCommentIds, e.detail.id)) {
           newCommentIds.push(e.detail.id);
-          vm.post.commentsCount++;
+          vm.post.counters.comments++;
         }
       } else {
         if (!_.includes(unreadCommentIds, e.detail.id)) {
@@ -341,17 +341,20 @@
 
 
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.READ_ALL_POST, function (e) {
-      vm.post.isRead = true;
+      vm.post.read = true;
     });
 
 
     // initializing
     (function () {
       vm.currentUserIsSender = NstSvcAuth.user.id == vm.post.sender.username;
-      vm.hasOlderComments = (vm.post.commentsCount && vm.post.comments) ? vm.post.commentsCount > vm.post.comments.length : false;
+      vm.isForwarded = !!vm.post.forwardFromId;
+      vm.isReplyed = !!vm.post.replyToId;
+
+      vm.hasOlderComments = (vm.post.counters.comments && vm.post.comments) ? vm.post.counters.comments > vm.post.comments.length : false;
       vm.body = $sce.trustAsHtml(vm.post.body);
       vm.orginalPost = vm.post;
-      if (vm.post.trusted) {
+      if (vm.trusted) {
         showTrustedBody();
       }
 
@@ -361,11 +364,11 @@
 
       pageEventReferences.push($scope.$on('comment-removed', function (event, data) {
         if (vm.post.id === data.postId) {
-          vm.post.commentsCount--;
+          vm.post.counters.comments--;
         }
       }));
       pageEventReferences.push($scope.$on('post-attachment-viewed', function (event, data) {
-        if (vm.post.id === data.postId && !vm.post.isRead) {
+        if (vm.post.id === data.postId && !vm.post.read) {
           markAsRead();
         }
       }));
@@ -398,25 +401,25 @@
     }
 
     function onAddComment() {
-      if (!vm.post.isRead) {
+      if (!vm.post.read) {
         markAsRead();
       }
     }
 
     function getPlacesWithRemoveAccess() {
-      return _.filter(vm.post.allPlaces, function (place) {
+      return _.filter(vm.post.places, function (place) {
         return place.hasAccess(NST_PLACE_ACCESS.REMOVE_POST);
       });
     }
 
     function getPlacesWithControlAccess() {
-      return _.filter(vm.post.allPlaces, function (place) {
+      return _.filter(vm.post.places, function (place) {
         return place.hasAccess(NST_PLACE_ACCESS.CONTROL);
       });
     }
 
     function hasPlacesWithControlAccess() {
-      return _.some(vm.post.allPlaces, function (place) {
+      return _.some(vm.post.places, function (place) {
         return place.hasAccess(NST_PLACE_ACCESS.CONTROL);
       });
     }
