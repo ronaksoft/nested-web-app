@@ -1,6 +1,7 @@
 node_modules/
 bower_components/
 coverage/
+.vscode/
 .sass-cache/
 .idea/
 .tmp/
