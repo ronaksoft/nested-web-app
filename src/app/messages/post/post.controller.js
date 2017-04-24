@@ -8,8 +8,8 @@
   /** @ngInject */
   function PostController($q, $scope, $rootScope, $stateParams, $state, $uibModalInstance,
                           _, toastr,
-                          NST_POST_EVENT,
-                          NstSvcAuth, NstSvcPostFactory, NstSvcPostMap, NstSvcPlaceFactory, NstUtility, NstSvcLogger, NstSvcPostInteraction, NstSvcTranslation, NstSvcSync,
+                          NST_POST_EVENT, NstVmFile,
+                          NstSvcAuth, NstSvcPostFactory, NstSvcPlaceFactory, NstUtility, NstSvcLogger, NstSvcPostInteraction, NstSvcTranslation, NstSvcSync,
                           selectedPostId) {
     var vm = this;
     var defaultLimit = 8;
@@ -38,9 +38,9 @@
       load(vm.postId).then(function (done) {
         vm.expandProgress = false;
         // TODO: uncomment and fix
-        vm.syncId = NstSvcSync.openChannel(_.head(vm.post.allPlaces).id);
+        vm.syncId = NstSvcSync.openChannel(_.head(vm.post.places).id);
 
-        return vm.post.isRead ? $q.resolve(true) : markPostAsRead(vm.postId);
+        return vm.post.read ? $q.resolve(true) : markPostAsRead(vm.postId);
       }).then(function (result) {
         NstSvcPostFactory.dispatchEvent(new CustomEvent(NST_POST_EVENT.VIEWED, {
           detail: {
@@ -72,11 +72,6 @@
       });
     })();
 
-    function mapMessage(post) {
-      var firstId = vm.placeId ? vm.placeId : NstSvcAuth.user.id;
-      return NstSvcPostMap.toMessage(post, firstId, vm.myPlaceIds);
-    }
-
     function loadChainMessages(postId, limit) {
       var max = limit + 1;
       vm.loadProgressId = true;
@@ -84,7 +79,11 @@
         NstSvcPostFactory.getChainMessages(postId, max).then(function (messages) {
           vm.hasOlder = _.size(messages) >= limit;
           var items = _.chain(messages).take(limit).sortBy('date').map(function (message) {
-            return mapMessage(message);
+            message.attachments = _.map(message.attachments, function (attachment) {
+              return new NstVmFile(attachment);
+            });
+
+            return message;
           }).value();
           resolve(items);
         }).catch(reject).finally(function () {
@@ -123,7 +122,7 @@
         vm.hasRemoveAccess = _.size(vm.placesWithRemoveAccess) > 0;
 
         // TODO: Optimize (get accessses instead of a place object which has more cost)
-        checkHasManagerAccess(_.map(vm.post.allPlaces, 'id'));
+        checkHasManagerAccess(_.map(vm.post.places, 'id'));
         vm.messages.splice(vm.messages.length - 1, 1, vm.post);
       });
     }
@@ -146,9 +145,9 @@
     function markPostAsRead(id) {
       vm.markAsReadProgress = true;
       NstSvcPostInteraction.markAsRead(id).then(function () {
-        vm.post.isRead = true;
+        vm.post.read = true;
       }).catch(function () {
-        vm.post.isRead = false;
+        vm.post.read = false;
       }).finally(function () {
         vm.markAsReadProgress = false;
       });
@@ -158,7 +157,7 @@
       $rootScope.$broadcast('post-modal-closed', {
         postId: vm.post.id,
         comments: _.takeRight(vm.post.comments, 3),
-        totalCommentsCount: vm.post.commentsCount,
+        totalCommentsCount: vm.post.counters.comments,
         // removedCommentsCount: removedCommentsCount
       });
     });

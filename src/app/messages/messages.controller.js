@@ -9,9 +9,9 @@
   function MessagesController($rootScope, $q, $stateParams, $log, $state, $window, $scope,
                               moment,
                               NST_MESSAGES_SORT_OPTION, NST_MESSAGES_VIEW_SETTING, NST_DEFAULT, NST_PLACE_FACTORY_EVENT, NST_EVENT_ACTION, NST_POST_FACTORY_EVENT, NST_PLACE_ACCESS,
-                              NstSvcPostFactory, NstSvcPlaceFactory, NstSvcServer, NstUtility, NstSvcAuth, NstSvcSync, NstSvcWait,
+                              NstSvcPostFactory, NstSvcPlaceFactory, NstSvcServer, NstUtility, NstSvcAuth, NstSvcSync, NstSvcWait, NstVmFile,
                               NstSvcMessagesSettingStorage, NstSvcTranslation, NstSvcInteractionTracker,
-                              NstSvcPostMap, NstSvcPlaceAccess, NstSvcModal) {
+                              NstSvcPlaceAccess, NstSvcModal) {
 
     var vm = this;
 
@@ -145,7 +145,7 @@
         }
 
         // The message was sent to the current place
-        if (post.belongsToPlace(vm.currentPlaceId)) {
+        if (_.some(post.places, { id : vm.currentPlaceId })) {
           return true;
         }
 
@@ -163,7 +163,7 @@
         }
 
         // The message was sent to the current place
-        if (post.belongsToPlace(vm.currentPlaceId)) {
+        if (_.some(post.places, { id : vm.currentPlaceId })) {
           return true;
         }
 
@@ -178,7 +178,7 @@
       NstSvcSync.addEventListener(NST_EVENT_ACTION.POST_ADD, function (e) {
         if (postMustBeShown(e.detail.post)) {
           // The current user is the sender
-          vm.messages.unshift(mapMessage(e.detail.post));
+          vm.messages.unshift(e.detail.post);
 
         } else if (mustBeAddedToHotPosts(e.detail.post)) {
           // someone else sent the post
@@ -214,10 +214,10 @@
 
           if (data.placeId) { // remove the post from the place
             // remove the place from the post's places
-            NstUtility.collection.dropById(message.allPlaces, data.placeId);
+            NstUtility.collection.dropById(message.places, data.placeId);
 
             // remove the post if the user has not access to see it any more
-            var places = NstSvcPlaceFactory.filterPlacesByReadPostAccess(message.allPlaces);
+            var places = NstSvcPlaceFactory.filterPlacesByReadPostAccess(message.places);
             if ((_.isArray(places) && places.length === 0) || (vm.currentPlaceId && data.placeId == vm.currentPlaceId)) {
               NstUtility.collection.dropById(vm.messages, data.postId);
               return;
@@ -358,18 +358,20 @@
             var hasData = lastMessageVersion.filter(function (obj) {
               return (obj.id === messages[i].id);
             });
+            messages[i].attachments = _.map(messages[i].attachments, function (item) {
+              return new NstVmFile(item);
+            });
 
             if (hasData.length === 0) {
               if (after) {
-                vm.messages.unshift(mapMessage(messages[i]));
+                vm.messages.unshift(messages[i]);
               } else {
-                vm.messages.push(mapMessage(messages[i]));
+                vm.messages.push(messages[i]);
               }
 
             }
           }
         }
-
         vm.tryAgainToLoadMore = false;
         vm.loading = false;
         defer.resolve(vm.messages);
@@ -406,7 +408,7 @@
 
 
     // $rootScope.$on('post-quick', function (event, data) {
-    //   // if (_.find(data.allPlaces, {id: vm.currentPlaceId}) || !vm.currentPlaceId) {
+    //   // if (_.find(data.places, {id: vm.currentPlaceId}) || !vm.currentPlaceId) {
     //     loadMessages(true, true);
     //   // }
     // });
@@ -418,12 +420,12 @@
       if (!fists) {
         return moment().format('x');
       }
-      var lastDate = NST_MESSAGES_SORT_OPTION.LATEST_ACTIVITY == vm.messagesSetting.sort ? fists.updatedDate : fists.date;
+      var lastDate = NST_MESSAGES_SORT_OPTION.LATEST_ACTIVITY == vm.messagesSetting.sort ? fists.lastUpdate : fists.timestamp;
       if (moment.isMoment(lastDate)) {
         return lastDate.format('x');
       }
 
-      return lastDate.getTime();
+      return lastDate;
     }
 
 
@@ -434,21 +436,12 @@
       if (!last) {
         return moment().format('x');
       }
-      var lastDate = !isSent() && NST_MESSAGES_SORT_OPTION.LATEST_ACTIVITY == vm.messagesSetting.sort ? last.updatedDate : last.date;
+      var lastDate = !isSent() && NST_MESSAGES_SORT_OPTION.LATEST_ACTIVITY == vm.messagesSetting.sort ? last.lastUpdate : last.timestamp;
       if (moment.isMoment(lastDate)) {
         return lastDate.format('x');
       }
 
-      return lastDate.getTime();
-    }
-
-    function mapMessage(post) {
-      var firstId = vm.currentPlaceId ? vm.currentPlaceId : NstSvcAuth.user.id;
-      return NstSvcPostMap.toMessage(post, firstId, vm.myPlaceIds);
-    }
-
-    function mapMessages(messages) {
-      return _.map(messages, mapMessage);
+      return lastDate;
     }
 
     function toggleContentPreview() {

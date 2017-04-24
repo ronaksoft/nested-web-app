@@ -8,7 +8,7 @@
   /** @ngInject */
   function LoginController($q, $window, $rootScope, $state, $stateParams, md5, $location,
                            NST_DEFAULT, NST_SRV_ERROR,
-                           NstSvcAuth) {
+                           NstSvcAuth, NstSvcTranslation) {
     var vm = this;
 
     /*****************************
@@ -66,11 +66,11 @@
 
         switch (error.getCode()) {
           case NST_SRV_ERROR.INVALID:
-            vm.message.text = 'Invalid Username or Password';
+            vm.message.text = NstSvcTranslation.get('Invalid Username or Password');
             break;
 
           default:
-            vm.message.text = 'An error occurred in login. Please try again later';
+            vm.message.text = NstSvcTranslation.get('An error occurred in login. Please try again later');
             break;
         }
 
