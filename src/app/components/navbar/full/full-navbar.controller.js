@@ -36,6 +36,7 @@
     vm.toggleBookmark = toggleBookmark;
     vm.toggleNotification = toggleNotification;
     vm.openCreateSubplaceModal = openCreateSubplaceModal;
+    vm.openContact = openContact;
     vm.openAddMemberModal = openAddMemberModal;
     vm.openSettingsModal = openSettingsModal;
     vm.confirmToRemove = confirmToRemove;
@@ -68,12 +69,19 @@
     return vm.isSearchMode = false;
     }
 
-    function openCreateSubplaceModal ($event,style) {
+    function openCreateSubplaceModal($event,style) {
+            console.log('aaaaaa')
       if ( style == 'open') {
         $state.go('app.place-create', { placeId : getPlaceId(),isOpenPlace: true } , { notify : false });
       } else {
         $state.go('app.place-create', { placeId : getPlaceId(),isClosePlace: true } , { notify : false });
       }
+      $event.preventDefault();
+    };
+
+    function openContact($event,style) {
+      console.log('aaaaaa')
+        $state.go('app.contact', { userId : 'robzizo' } , { notify : false });
       $event.preventDefault();
     };
 

@@ -1,0 +1,29 @@
+#single-contact {
+  .inf {
+      margin-top: 8px;
+      margin-bottom: 16px;
+      padding: 0 32px;
+      h4 {
+          font-size: 13px;
+          line-height: 16px;
+          color: $color-gale;
+          margin: 0;
+      }
+      h5 {
+          font-size: 18px;
+          line-height: 24px;
+          border-bottom: 1px solid $color-border;
+          padding: 4px 0 8px 0;
+      }
+      .mu-places {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 8px;
+          .placerow {
+              width: 50%;
+              padding: 8px 0;
+          }
+      }
+  }  
+}

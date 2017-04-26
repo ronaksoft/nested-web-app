@@ -1,13 +1,13 @@
-<div class="place-head ng-class:{'setting-head' : settings}">
+<div class="place-head ng-class:{'setting-head' : settings,'contact-head' : contact}">
   <div class="place-filter">
     <img ng-if="!pict" ng-src="{{place | picture:'x128'}}" alt="">
     <img ng-if="pict" ng-src="{{pict}}" height="100%" alt="">
   </div>
-  <div ng-if="settings" class="setting-headline _aic" bg-check="{{place | picture:'x128'}}">
+  <div ng-if="settings || contact" class="setting-headline _aic" bg-check="{{place | picture:'x128'}}">
     <svg class="_24svg _df _r45 _fn" ng-click="dissmiss()">
       <use xlink:href="/assets/icons/nst-icn24.svg#cross"></use>
     </svg>
-    <h3 class="_df _fw">Place Settings</h3>
+    <h3 ng-if="!contact" class="_df _fw">Place Settings</h3>
 
   </div>
   <div class="logo-holder">
@@ -24,6 +24,25 @@
     <span ng-if="settings">{{id}}</span>
     <a ng-if="settings && private">Private Place</a>
     <a ng-if="settings && !private">Common Place</a>
+  </div>
+
+  <div class="contact-actions" ng-if="contact">
+    <div>
+      <svg class="_24svg _df" ng-if="true">
+        <use xlink:href="/assets/icons/nst-icn24.svg#star-wire"></use>
+      </svg>
+    </div>
+    <div>
+      <svg class="_24svg _df" ng-if="true">
+        <use xlink:href="/assets/icons/nst-icn24.svg#message-baloon"></use>
+      </svg>
+    </div>
+    <div>
+      <svg class="_24svg _df" ng-if="true">
+        <use xlink:href="/assets/icons/nst-icn24.svg#star-wire"></use>
+      </svg>
+    </div>
+
   </div>
 
 </div>

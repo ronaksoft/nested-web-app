@@ -3,9 +3,9 @@
 
   angular
     .module('ronak.nested.web.message')
-    .controller('SeenByController', SeenByController);
+    .controller('contactController', contactController);
 
-  function SeenByController($timeout, $scope, $q, $uibModalInstance,
+  function contactController($timeout, $scope, $q, $uibModalInstance,
     toastr, _) {
     var vm = this;
     

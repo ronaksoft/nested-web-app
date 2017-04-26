@@ -1,12 +1,4 @@
 #place-settings {
-  max-width: 480px;
-  background-color: $color-white;
-  width: 100%;
-  padding: 0 32px;
-  min-height: 100vh;
-  margin: 0 auto;
-  position: relative;
-  flex-direction: column;
   .settings-tab {
     height: 48px;
     width: calc(100% + 64px);

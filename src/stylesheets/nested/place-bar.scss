@@ -22,3 +22,16 @@
 
   }
 }
+
+.placerow {
+  img {
+    width: 32px;
+    height: 32px;
+  }
+  span {
+      font-size: 14px;
+      line-height: 20px;
+      color: $color-solid;
+      padding-left: 8px;
+    }
+}
