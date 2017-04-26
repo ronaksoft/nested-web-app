@@ -40,7 +40,7 @@
 #    When I wait 2s
 #    When Wait to see success-msg
 #    Then current tab must be "Feed"
-#
+
 #
 #  Scenario: this scenario is about sharing a post with two or more places that user have and don't have permission to share with them.
 #
