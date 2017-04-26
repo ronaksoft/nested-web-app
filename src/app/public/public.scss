@@ -1,0 +1,58 @@
+
+.footer-panel {
+  position: absolute;
+  display: flex;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 36px;
+  background-color: $color-white;
+  padding: 0 16px;
+  box-shadow: 0 0 8px $color-breeze-50;
+  li {
+    line-height: 36px;
+    font-size: 12px;
+    color: $color-gale;
+  }
+  li:first-of-type a {
+    width: 16px;
+    height: 16px;
+    background: url("/assets/icons/Nested_LogoSolid.svg");
+    background-size: contain;
+    margin-top: 8px;
+    opacity: .4;
+  }
+  select {
+    background: transparent;
+    border-color: transparent;
+    padding: 0 40px 0 24px;
+    z-index: 2;
+    color: #999999;
+    height: 36px;
+  }
+  .flg {
+    left: auto;
+    right: 8px;
+    bottom: 7px;
+  }
+  .tri {
+    position: absolute;
+    left: 0;
+    bottom: 18px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 6px 6px 0 6px;
+    border-color: $color-gale transparent transparent transparent;
+  }
+}
+
+@media screen and (max-width: 500px){
+  .footer-panel {
+    flex-direction: column;
+    height: 72px;
+    select {
+      width: 100%;
+    }
+  }
+}

@@ -5,15 +5,11 @@
  */
 
 #panel-register{
-  width: 358px;
   padding: 24px 16px 16px 16px;
   line-height: 1.25;
   font-size: $font-size-xsmall;
   font-family: $font-family-eng-reg;
   align-self: center;
-  input {
-    height: 34px;
-  }
   .btn-default-focus {
     box-shadow: none;
     outline: none;
@@ -186,6 +182,7 @@
 
 .agreement-text {
   padding-left: 2px;
+  font-size: 13px;
 }
 
 #panel-register .agreement-text a {
@@ -325,6 +322,9 @@ text-align: right;
   margin-right: 16px;
 }
 .register-step {
+  .form-group {
+    margin-bottom: 8px;
+  }
   &.ng-enter {
     /* transition on enter for .5s */
     transition: 0.5s;

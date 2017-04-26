@@ -85,8 +85,11 @@
         <!-- <span ng-if="ctlMessages.isbookmarkedsMode">
           <translate>You haven't favorited any Places yet...</translate>
         </span> -->
-        <span ng-if="!ctlMessages.isbookmarkedsMode">
+        <span ng-if="!ctlMessages.isbookmarkedsMode && ctlMessages.isSubPersonal()">
           <translate>You don't have any messages.</translate>
+        </span>
+        <span ng-if="!ctlMessages.isbookmarkedsMode && !ctlMessages.isSubPersonal()">
+          <translate>This Place don't have any messages.</translate>
         </span>
         <p class="nst-mood-storm text-center" ng-if="ctlMessages.isbookmarkedsMode && ctlMessages.messages.length == 0 ">
       <translate><b>You haven't bookmarked anything yet!</b><br>There's a bookmark icon on the upper-right corner of each post.<br>Click on it to save the post to be viewed later.</translate>
@@ -110,6 +113,10 @@
     <div class="nst-marginbtm-32"></div>
   </section>
   <div class="content-plus illu">
+    <div ng-if="!ctlMessages.currentPlaceId && !ctlMessages.isbookmarkedsMode && !ctlMessages.isSentMode && !ctlMessages.isUnreadMode">
+      <div class="name"><translate>Recently Visited Places</translate></div>
+      <recent-visited-places></recent-visited-places>
+    </div>
     <div id="members" nst-scrollbar suppress-scroll-x="true"
          ng-if="ctlMessages.hasSeeMembersAccess && !ctlMessages.isSubPersonal() && !ctlMessages.isbookmarkedsMode && !ctlMessages.isSentMode && !ctlMessages.isUnreadMode && ctlMessages.currentPlaceId">
       <nst-place-teammates-sidebar grand-place="ctlMessages.currentPlaceId" place-id="ctlMessages.currentPlaceId"></nst-place-teammates-sidebar>

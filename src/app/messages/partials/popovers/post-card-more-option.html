@@ -46,6 +46,7 @@
 <!--</a>-->
 <div class="line-popover"
      ng-if="ctlPostCard.currentUserIsSender || ctlPostCard.placesWithRemoveAccess.length > 0 || ctlPostCard.post.wipeAccess || ctlPostCard.hasPlacesWithControlAccess()"></div>
+
 <a class="_df list-items _aic _fw" ng-click="ctlPostCard.attachPlace();" ng-if="ctlPostCard.currentUserIsSender">
   <div class="_aic _df">
     <svg class="_16svg">
@@ -54,6 +55,31 @@
   </div>
   <span><translate>Attach a Place</translate></span>
 </a>
+
+
+<a class="_df list-items _aic _fw" ng-click="ctlPostCard.seenBy();" ng-if="ctlPostCard.currentUserIsSender">
+  <div class="_aic _df">
+    <svg class="_16svg">
+      <use xlink:href="/assets/icons/nst-icn16.svg#eye-open"></use>
+    </svg>
+  </div>
+  <span><translate>Seen by...</translate></span>
+</a>
+
+<a ng-if="ctlPostCard.post.wipeAccess"
+   ng-click="$event.stopPropagation(); ctlPostCard.retract();"
+   class="_df list-items _aic _fw red">
+  <div class="_aic _df">
+    <svg class="_r45 _16svg">
+      <use xlink:href="/assets/icons/nst-icn16.svg#cross"></use>
+    </svg>
+  </div>
+  <span><translate>Retract</translate></span>
+</a>
+
+<div class="line-popover" ng-if="ctlPostCard.currentUserIsSender"></div>
+
+
 <a class="_df list-items _aic _fw cursor-pointer"
    ng-if="ctlPostCard.hasPlacesWithControlAccess()"
    popover-class="white-pop"
@@ -64,6 +90,7 @@
    data-popover-is-open="ctlPostCard.showMoveTo"
    ng-mouseover="ctlPostCard.toggleMoveTo(true)"
    ng-mouseleave="ctlPostCard.toggleMoveTo(false)">
+
   <div class="_aic _df">
     <svg class="_16svg">
       <use xlink:href="/assets/icons/nst-icn16.svg#places"></use>
@@ -76,15 +103,7 @@
     </svg>
   </div>
 </a>
-<a ng-if="ctlPostCard.post.wipeAccess" ng-click="$event.stopPropagation(); ctlPostCard.retract();"
-   class="_df list-items _aic _fw red">
-  <div class="_aic _df">
-    <svg class="_r45 _16svg">
-      <use xlink:href="/assets/icons/nst-icn16.svg#cross"></use>
-    </svg>
-  </div>
-  <span><translate>Retract</translate></span>
-</a>
+
 <a class="_df list-items _aic _fw red cursor-pointer"
    ng-if="ctlPostCard.placesWithRemoveAccess.length > 0"
    popover-class="white-pop"
@@ -95,6 +114,7 @@
    data-popover-is-open="ctlPostCard.showRemoveFrom"
    ng-mouseover="ctlPostCard.toggleRemoveFrom(true)"
    ng-mouseleave="ctlPostCard.toggleRemoveFrom(false)">
+
   <div class="_aic _df">
     <svg class="_r45 _16svg">
       <use xlink:href="/assets/icons/nst-icn16.svg#cross"></use>

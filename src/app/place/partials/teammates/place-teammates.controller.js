@@ -25,7 +25,7 @@
     vm.placeId = $stateParams.placeId;
     vm.teammatesSettings = {
       skip: 0,
-      limit: 24,
+      limit: 20,
       creatorsCount: 0,
       keyHoldersCount: 0,
       pendingsCount: 0
@@ -236,7 +236,7 @@
       getCreators(placeId, vm.teammatesSettings.limit, vm.teammatesSettings.skip, hasSeeMembersAccess).then(function (creators) {
         teammates.push.apply(teammates, creators);
 
-        return getKeyholders(placeId, vm.teammatesSettings.limit, vm.teammatesSettings.skip, hasSeeMembersAccess);
+        return getKeyholders(placeId, vm.teammatesSettings.limit - creators.length, vm.teammatesSettings.skip, hasSeeMembersAccess);
       }).then(function (keyHolders) {
 
         teammates.push.apply(teammates, keyHolders);

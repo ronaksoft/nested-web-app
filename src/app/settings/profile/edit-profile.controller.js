@@ -19,7 +19,6 @@
     vm.updateSearchable = updateSearchable;
     vm.updateDateOfBirth = updateDateOfBirth;
     vm.updateEmail = updateEmail;
-    vm.updateSearchable = updateSearchable;
     vm.getGender = getGender;
     vm.emailPattern = NST_PATTERN.EMAIL;
 
@@ -128,6 +127,11 @@
         vm.model.searchable = value;
       });
     }
+    $scope.$watch(function () {
+      return vm.model.searchable
+    }, function (n) {
+      return updateSearchable(n);
+    });
 
     function getGender() {
       var selected = _.find(vm.genders, { key : vm.model.gender });
