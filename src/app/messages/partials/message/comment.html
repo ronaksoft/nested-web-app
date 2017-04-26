@@ -1,27 +1,27 @@
-<div class="_df _fw comments-load" ng-if="ctlComments.canShowOlderComments() || ctlComments.commentBoardNeedsRolling()">
-  <a href="javascript:void(0);" ng-click="ctlComments.limitCommentBoard(); _track('post card', 'roll up comments');">
-    <svg class="_16svg flip-vertical" ng-show="ctlComments.commentBoardNeedsRolling()">
+<div class="_df _fw comments-load" ng-if="ctrl.canShowOlderComments() || ctrl.commentBoardNeedsRolling()">
+  <a href="javascript:void(0);" ng-click="ctrl.limitCommentBoard(); _track('post card', 'roll up comments');">
+    <svg class="_16svg flip-vertical" ng-show="ctrl.commentBoardNeedsRolling()">
       <use xlink:href="/assets/icons/nst-icn16.svg#arrow"></use>
     </svg>
   </a>
-  <a ng-if="ctlComments.canShowOlderComments()" href="javascript:void(0);" ng-click="ctlComments.showOlderComments(); _track('post card', 'show older comments');"><translate>Show more comments...</translate></a>
+  <a ng-if="ctrl.canShowOlderComments()" href="javascript:void(0);" ng-click="ctrl.showOlderComments(); _track('post card', 'show older comments');"><translate>Show more comments...</translate></a>
 </div>
-<div ng-repeat="comment in ctlComments.comments | limitTo : ctlComments.commentBoardLimit * -1  | orderBy:'date'">
+<div ng-repeat="comment in ctrl.comments | limitTo : ctrl.commentBoardLimit * -1  | orderBy:'date'">
   <div class="post-card-comments _difh _fw _wrb">
-    <div class="user-avatar-24" user-detail user="{{comment.sender}}">
+    <div class="user-avatar-24" user-detail="comment.sender">
       <img initial-avatar="{{::comment.sender.fullName}}" picture="{{comment.sender | avatar}}" data-width="24" data-height="24" data-radius="13" class="account-initials-24 _df" data-word-count="2" data-font-size="8"/>
     </div>
     <div class="text _df _fw">
       <p class="_fw" auto-dir="comment.body">
-        <strong user-detail user="{{comment.sender}}">{{comment.sender.fullName}}:&nbsp;</strong>
+        <strong user-detail="comment.sender">{{comment.sender.fullName}}:&nbsp;</strong>
         <span ng-if="!comment.removedById" ng-bind-html="comment.body | link"></span>
         <i ng-if="comment.removedById">
-          <translate>removed by <a class="comment-removed-by" href user-detail user="{{comment.removedBy}}">{{::comment.removedBy.fullName}}</a></translate>
+          <translate>removed by <a class="comment-removed-by" href user-detail="comment.removedBy">{{::comment.removedBy.fullName}}</a></translate>
         </i>
       </p>
     </div>
-    <span class="_df _fn">{{comment.date | passed}}</span>
-    <div class="delete-comment" data-ng-if="ctlComments.allowToRemoveComment(comment)" ng-click="ctlComments.removeComment(comment);  _track('post card', 'remove comment');" >
+    <span class="_df _fn">{{comment.timestamp | passed}}</span>
+    <div class="delete-comment" data-ng-if="ctrl.allowToRemoveComment(comment)" ng-click="ctrl.removeComment(comment);  _track('post card', 'remove comment');" >
       <svg class="_16svg">
         <use xlink:href="/assets/icons/nst-icn16.svg#bin"></use>
       </svg>
@@ -29,7 +29,7 @@
   </div>
 </div>
 <div class="post-card-comment-input _df">
-  <input type="text" nst-mention post-id="{{ctlComments.postId}}" data-ng-model="ctlComments.post.newComment"  auto-dir="ctlComments.post.newComment"
-         class="_fw" placeholder="write your comment..." ng-keyup="ctlComments.sendComment($event)"
-         ng-disabled="ctlComments.isSendingComment" max-length="1024"  translate-attrs="placeholder"/>
+  <input type="text" nst-mention post-id="{{ctrl.postId}}" data-ng-model="ctrl.post.newComment"  auto-dir="ctrl.post.newComment"
+         class="_fw" placeholder="write your comment..." ng-keyup="ctrl.sendComment($event)"
+         ng-disabled="ctrl.isSendingComment" max-length="1024"  translate-attrs="placeholder"/>
 </div>

@@ -7,50 +7,23 @@
       return {
         template: function(element) {
           var tag = element[0].nodeName;
-          return '<' + tag +' ng-transclude ng-mouseenter="openOverEnable()" ng-mouseleave="openOverdisable()" data-popover-is-open="openOver()" data-popover-enable="available()" data-popover-class="white-pop popover-userdetail" uib-popover-template="\'app/components/user/user-detail.html\'" data-popover-append-to-body="true" data-popover-placement="top-center auto" ng-click="$event.stopPropagation()"></' + tag +'>';
+          return '<' + tag +' ng-transclude ng-mouseenter="openOverEnable()" ng-mouseleave="openOverdisable()" data-popover-is-open="openOver()" data-popover-enable="isAvailable" data-popover-class="white-pop popover-userdetail" uib-popover-template="\'app/components/user/user-detail.html\'" data-popover-append-to-body="true" data-popover-placement="top-center auto" ng-click="$event.stopPropagation()"></' + tag +'>';
         },
         restrict: 'EA',
         replace: true,
         transclude: true,
-        scope: {},
-        //controller: 'UserDetailCtrl',
-        //controllerAs: 'ctlUserDetail',
-        // bindToController: {
-        //   user: '@'
-        // },
+        scope: {
+          user: '=userDetail'
+        },
         link: function ($scope, $element, $attrs) {
-          $scope.available = function () {
-
-            return true
-          };
-          var vm = this;
-          $scope.user = JSON.parse($attrs.user);
-          $scope.avatar = $scope.user.avatar128 || ($scope.user.picture && $scope.user.picture.x128 ? NstSvcStore.getViewUrl($scope.user.picture.x128) : '');
-          $scope.username = $scope.user.username || $scope.user.id;
-          $scope.name = $scope.user.name || $scope.user.firstName;
-
-
-          $scope.isEmail = NST_PATTERN.EMAIL.test($scope.username);
-
-
-
-
-
+          $scope.isEmail = NST_PATTERN.EMAIL.test($scope.user.id);
+          $scope.isAvailable = NstSvcAuth.user.id !== $scope.user.id;
 
           $scope.openOver = function () {
             return false
           };
 
-          if(NstSvcAuth.user.id == $scope.username) {
-            $scope.available = function () {
-
-              return false
-            };
-            return $scope.available;
-          }
-
           $element.addClass('on-avatar');
-
 
           $scope.openOverEnable = function () {
 
@@ -101,10 +74,6 @@
 
           };
 
-          $scope.getUserName = function () {
-            return $scope.username
-          };
-
           $scope.deletePopovers = function () {
             //close previous popover
             if($('.popover-userdetail').length > 1){
@@ -129,7 +98,7 @@
 
           $scope.searchUser = function () {
             $scope.deletePopoversAll();
-            var query =  '@' + $scope.username;
+            var query =  '@' + $scope.user.id;
             var searchQury = new NstSearchQuery(query);
             $state.go('app.search', { search : NstSearchQuery.encode(searchQury.toString()) });
           };
@@ -137,7 +106,7 @@
           $scope.messageUser = function ($event) {
             $scope.deletePopoversAll();
             $event.preventDefault();
-            $state.go('app.place-compose', {placeId: $scope.username}, {notify : false});
+            $state.go('app.place-compose', {placeId: $scope.user.id}, {notify : false});
           }
 
         }

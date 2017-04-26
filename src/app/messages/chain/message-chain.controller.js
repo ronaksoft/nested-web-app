@@ -10,7 +10,7 @@
     moment,
     NST_DEFAULT, NST_MESSAGES_VIEW_SETTING,
     NstSvcPostFactory, NstUtility, NstSvcAuth, NstSvcPlaceFactory,
-    NstSvcPostMap, NstSvcMessagesSettingStorage) {
+    NstSvcMessagesSettingStorage) {
     var vm = this;
 
     var defaultViewSetting = {
@@ -92,11 +92,6 @@
         vm.viewSetting = _.defaults(setting, defaultViewSetting);
         resolve(vm.viewSetting);
       });
-    }
-
-    function mapMessage(post) {
-      var firstId = vm.currentPlaceId ? vm.currentPlaceId : NstSvcAuth.user.id;
-      return NstSvcPostMap.toMessage(post, firstId, vm.myPlaceIds);
     }
 
     function mapMessages(messages) {

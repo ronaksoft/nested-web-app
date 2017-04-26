@@ -5,7 +5,7 @@
     .module('ronak.nested.web.common')
     .factory('NstVmFileViewerItem', NstVmFileViewerItem);
 
-  function NstVmFileViewerItem(NstAttachment, NstVmFile, moment, _) {
+  function NstVmFileViewerItem(NstAttachment, NstVmFile, NstSvcFileType, moment, _) {
     function VmFileViewerItem(model) {
 
       this.id = null;

@@ -5,7 +5,7 @@
     .directive('nstMention', function ($rootScope, $timeout,
                                        NST_USER_SEARCH_AREA,
                                        NstSvcUserFactory, NstSvcPlaceFactory,
-                                       NstVmUser, NstVmPlace) {
+                                       NstVmUser) {
       return {
         restrict: 'A',
         link: function (scope, element, attrs) {

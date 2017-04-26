@@ -20,7 +20,7 @@
         mood: '@mood',
         viewSetting: '=settings',
         thisPlace: '=postinplace',
-        hasRemoveAccess: '=hasRemoveAccess',
+        hasRemoveAccess: '=',
         hasControlAccess: '=',
         isRibbon: '=',
         addOn: '=',
