@@ -7,8 +7,8 @@
 
   /** @ngInject */
   function SearchController($rootScope, $log, $stateParams, $state,
-                            NST_DEFAULT, NstSvcPostFactory, NstSvcPostMap, NstSvcServer, NstSvcAuth,
-                            NstSearchQuery) {
+                            NST_DEFAULT, NstSvcPostFactory, NstSvcServer, NstSvcAuth,
+                            NstSearchQuery, NstVmFile) {
     var vm = this;
     var limit = 8;
     var skip = 0;
@@ -79,9 +79,13 @@
 
       NstSvcPostFactory.search(queryString, limit, skip).then(function (posts) {
 
-        var olderMessages = _.map(posts, NstSvcPostMap.toSearchMessageItem);
-        _.forEach(olderMessages, function (message) {
+        _.forEach(posts, function (message) {
           if (!_.some(vm.messages, { id : message.id })){
+
+            var item = message.attachments = _.map(message.attachments, function (attachment) {
+              return new NstVmFile(attachment);
+            });
+
             vm.messages.push(message);
           }
         });

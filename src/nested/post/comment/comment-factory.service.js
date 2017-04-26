@@ -250,23 +250,27 @@
     }
 
     function parseMessageComment(data) {
-      var defer = $q.defer();
-      var comment = createCommentModel();
-      if (data && data._id && data.sender_id) {
+      var defer = $q.defer(),
+          comment = new NstComment(),
+          promises = [];
 
-        comment.id = data._id;
-        comment.body = data.text;
-        comment.date = new Date(data.timestamp);
-        comment.removed = data._removed;
+      comment.id = data._id;
+      comment.body = data.text;
+      comment.timestamp = data.timestamp;
+      comment.removed = data._removed;
+      comment.removedById = data.removed_by;
 
-        NstSvcUserFactory.get(data.sender_id).then(function(sender) {
-          comment.sender = sender;
-          defer.resolve(comment);
-        }).catch(defer.reject);
-
-      } else {
-        defer.resolve(comment);
+      promises.push(NstSvcUserFactory.get(data.sender_id));
+      if (comment.removed) {
+        promises.push(NstSvcUserFactory.get(data.removed_by));
       }
+
+      $q.all(promises).then(function(results) {
+        comment.sender = results[0];
+        comment.removedBy = results[1];
+
+        defer.resolve(comment);
+      }).catch(defer.reject);
 
       return defer.promise;
     }

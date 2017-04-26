@@ -233,11 +233,11 @@
           place.setId(data.place_id);
         }
 
-        if (invitee.id && inviter.id && place.getId()) {
+        if (invitee.id && inviter.id && place.id) {
           $q.all([
             NstSvcUserFactory.getTiny(invitee.id),
             NstSvcUserFactory.getTiny(inviter.id),
-            NstSvcPlaceFactory.getTiny(place.getId())
+            NstSvcPlaceFactory.getTiny(place.id)
           ]).then(function (values) {
             invitation.invitee = values[0];
             invitation.inviter = values[1];
