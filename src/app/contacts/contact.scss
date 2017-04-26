@@ -27,3 +27,46 @@
       }
   }  
 }
+
+#contacts-list {
+    padding-top: 36px;
+    h2 {
+        margin: 0 0 36px 0;
+    }
+    input {
+        margin-bottom: 24px;
+        height: 32px;
+        font-size: 13px;
+        padding-left: 32px
+    }
+    h6 {
+        background-color: #EBEBEB;
+        line-height: 24px;
+        color: $color-solid;
+        padding: 0 8px;
+        border-radius: 4px;
+        margin: 0 0 8px 0;
+    }
+    .userrow {
+        height: 72px;
+        align-items: center;
+    }
+    .alphabet {
+        position: absolute;
+        right: 8px;
+        top: 160px;
+        margin: 0;
+        padding: 0;
+        flex-direction: column;
+        list-style: none;
+        font-size: 9px;
+        line-height: 16px;
+        font-weight: bold;
+        li {
+            color: $color-gale;
+        }
+        li.active {
+            color: $color-solid;
+        }
+    }
+}

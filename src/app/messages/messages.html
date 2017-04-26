@@ -21,7 +21,7 @@
         <translate>{{ctlMessages.currentPlace.counters.posts | localize}} posts</translate>
         <a class="nst-mood-pending" ui-sref="app.place-messages-unread({placeId: ctlMessages.currentPlace.id})" ng-if="ctlMessages.unreadCount > 0" ng-click="_track('posts', 'view unread')">&nbsp;(<translate class="nst-mood-pending">{{ctlMessages.unreadCount | localize}} Unseen</translate>)</a>
       </p>
-      <p class="_df _fw" ng-if="!ctlMessages.currentPlace.counters.posts"></p>
+      <p class="_df _fw" ng-if="!ctlMessages.currentPlace.counters.posts || ctlMessages.currentPlace.counters.posts < 1"></p>
       <p class="_df _fn mark-read _aic" ng-if="ctlMessages.unreadCount" ng-click="ctlMessages.markAllAsRead()">
         <translate>Mark all as Seen</translate>
         <svg class="_16svg _df">

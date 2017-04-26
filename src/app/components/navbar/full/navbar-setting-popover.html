@@ -67,6 +67,15 @@
   </div>
   <span><translate>contact</translate></span>
 </a>
+<a class="_df list-items _aic" 
+   ng-click="ctlFullNavbar.openContacts($event,'close')">
+  <div>
+    <svg class="_20svg">
+      <use xlink:href="/assets/icons/nst-icn20.svg#closedplace"></use>
+    </svg>
+  </div>
+  <span><translate>contacts</translate></span>
+</a>
 <hr ng-if="!ctlFullNavbar.isPersonal()">
 <a class="_df red list-items _aic"
    ng-if="!ctlFullNavbar.isPersonal() && !ctlFullNavbar.isSubPersonal() &&
