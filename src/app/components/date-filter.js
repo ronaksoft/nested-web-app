@@ -31,8 +31,12 @@
             }
 
             return date.format("MMM DD YYYY"); // last year and older
+          case 'medium':
+            return date.format("YYYY/MM/DD h:mm A");
+
           case 'long':
             return date.format("MMM DD YYYY, HH:mm");
+
           case 'full':
             return date.format("dddd, MMMM DD YYYY, HH:mm");
           default:

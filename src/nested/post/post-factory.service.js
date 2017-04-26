@@ -39,6 +39,7 @@
     PostFactory.prototype.conversation = conversation;
     PostFactory.prototype.movePlace = movePlace;
     PostFactory.prototype.attachPlaces = attachPlaces;
+    PostFactory.prototype.whoRead = whoRead;
 
     var factory = new PostFactory();
     return factory;
@@ -332,12 +333,12 @@
 
 
       var resources = {};
-      var imgRegex = new RegExp('<img(.*?)src=[\'|"](.*?)[\'|"](.*?)>','g');
-      var body = data.body.replace(imgRegex,function (m, p1, p2, p3) {
+      var imgRegex = new RegExp('<img(.*?)src=[\'|"](.*?)[\'|"](.*?)>', 'g');
+      var body = data.body.replace(imgRegex, function (m, p1, p2, p3) {
         if (p2.indexOf(NST_CONFIG.STORE.URL) === 0) return m;
         var hash = md5.createHash(p2);
         resources[hash] = p2;
-        return "<img" +  p1 + "source='" + hash + "' " + p3 +"/>"
+        return "<img" + p1 + "source='" + hash + "' " + p3 + "/>"
       });
 
       post.body = body;
@@ -625,13 +626,13 @@
         var deferred = $q.defer();
 
         NstSvcServer.request('post/attach_place', {
-          post_id : postId,
-          place_id : _.join(placeIds, ",")
+          post_id: postId,
+          place_id: _.join(placeIds, ",")
         }).then(function (data) {
           var result = {
-            allAttached : false,
-            noneAttached : false,
-            notAttachedPlaces : []
+            allAttached: false,
+            noneAttached: false,
+            notAttachedPlaces: []
           };
 
           result.allAttached = _.size(_.difference(data.attached, placeIds)) === 0 && _.size(data.not_attached) === 0;
@@ -653,14 +654,41 @@
         var deferred = $q.defer();
 
         NstSvcServer.request('post/replace', {
-          post_id : postId,
-          old_place_id : oldPlaceId,
-          new_place_id : newPlaceId
+          post_id: postId,
+          old_place_id: oldPlaceId,
+          new_place_id: newPlaceId
         }).then(deferred.resolve).catch(deferred.reject);
 
         return deferred.promise;
       }, "movePlace", watchKey);
 
     }
+
+
+    function whoRead(postId, skip, limit) {
+      return factory.sentinel.watch(function () {
+        var deferred = $q.defer();
+
+        NstSvcServer.request('post/who_read', {
+          post_id: postId,
+          skip: skip,
+          limit: limit
+        }).then(function (data) {
+          var readers = [];
+          _.map(data.post_reads, function (reader) {
+            readers.push({
+              user: NstSvcUserFactory.parseTinyUser(reader.account),
+              timestamp : reader.read_on,
+              placeId: reader.placeId
+            })
+          });
+          deferred.resolve(readers);
+        }).catch(deferred.reject);
+
+        return deferred.promise;
+      }, "movePlace", 'who-read-' + postId);
+
+    }
   }
-})();
+})
+();
