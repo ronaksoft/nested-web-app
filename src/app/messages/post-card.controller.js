@@ -299,7 +299,7 @@
         vm.body = vm.post.getTrustedBody();
       }
 
-      vm.trusted = true;
+      vm.post.trusted = true;
     }
 
     function loadNewComments($event) {
@@ -376,7 +376,7 @@
 
     // initializing
     (function () {
-      vm.currentUserIsSender = NstSvcAuth.user.id == vm.post.sender.username;
+      vm.currentUserIsSender = NstSvcAuth.user.id == vm.post.sender.id;
       vm.isForwarded = !!vm.post.forwardFromId;
       vm.isReplyed = !!vm.post.replyToId;
 
