@@ -460,8 +460,8 @@ $modal-sm:                    300px !default;
 //##
 
 $panel-bg:                    #fff !default;
-$panel-body-padding:          15px !default;
-$panel-heading-padding:       10px 15px !default;
+$panel-body-padding:          20px 0 0 0 !default;
+$panel-heading-padding:       5px 0 10px 0 !default;
 $panel-footer-padding:        $panel-heading-padding !default;
 $panel-border-radius:         $border-radius-base !default;
 

@@ -1,13 +1,5 @@
 <form novalidate name="registrationForm" ng-submit="ctrl.register(registrationForm.$valid);ga('send', 'event', { eventCategory: 'register', eventAction: 'register', eventLabel: 'register'});" class="use-ng-animate register-step" autocomplete="off">
-  <div class="nst-vb no-gutter2 nst-marginbtm-16">
-    <p class="col-lg-9 col-sm-9 col-md-9 col-xs-9 nst-font-xlarge testing-registration-step3">
-      <translate>Create a profile</translate>
-    </p>
-    <a href="#" class="col-xs-3 text-right">
-      <img src="assets/icons/Nested_Logo.svg" width="32" height="32">
-    </a>
-  </div>
-  <div class="form-group" ng-class="{ 'has-error' : (registrationForm.nested_username.$invalid || ctrl.usernameErrors.length > 0) && registrationForm.nested_username.$touched }">
+  <div class="form-group nst-marginbtm-8" ng-class="{ 'has-error' : (registrationForm.nested_username.$invalid || ctrl.usernameErrors.length > 0) && registrationForm.nested_username.$touched }">
     <label ng-if="!registrationForm.nested_username.$error.required && ctrl.usernameErrors.length == 0 || !registrationForm.nested_username.$touched"><translate>Choose your username:</translate>&nbsp;</label>
     <div ng-if="ctrl.usernameValidationStatus == 'checking' && ctrl.usernameErrors.length == 0 && !registrationForm.nested_username.$invalid" class="nst-mood-storm" style="display: inline">
       <translate>checking...</translate>
@@ -34,7 +26,7 @@
     <i class="cursor-pointer nst-ico-eye-slash form-control-feedback {{ctrl.showPassword ? 'nst-ico-eye-slash' : 'nst-ico-eye'}}" ng-click="ctrl.showPassword = !ctrl.showPassword"></i>
   </div>
 
-  <div class="_dt register-name-table">
+  <div class="_dt register-name-table form-group">
     <div class="_dtc register-name-cell-left form-group" ng-class="{ 'has-error' : registrationForm.nested_firstname.$invalid && (registrationForm.nested_firstname.$touched || ctrl.submitted)}">
       <label ng-if="!registrationForm.nested_firstname.$error.required || !(registrationForm.nested_firstname.$touched || ctrl.submitted)"><translate>First name</translate></label>
       <label ng-if="registrationForm.nested_firstname.$error.required && (registrationForm.nested_firstname.$touched || ctrl.submitted)"><translate>First name is required</translate></label>
@@ -52,7 +44,7 @@
     <input class="form-control" name="nested_email" type="text" ng-model="ctrl.email" tabindex="5" ng-pattern="ctrl.emailPattern" maxlength="254" placeholder="john.doe@comapny.com" translate-attrs="placeholder" />
   </div>
 
-  <div class="_db nst-marginbtm-16 agreement-text ">
+  <div class="_db agreement-text">
     <translate>By proceeding to create a Nested account, you are agreeing to our <a href="https://help.nested.me/terms/index.html" class="nst-mood-cheerful">Terms and Conditions</a>.</translate>
   </div>
   <input class="btn-sense _fw butn-green butn-lg butn-login" type="submit" ng-if="ctrl.registerProgress" value="Submitting..." translate-attrs="value" disabled="disabled" />

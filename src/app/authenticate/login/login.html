@@ -1,11 +1,22 @@
 <div class="_fhw">
   <div class="nst-vc">
+    <div id="Logo"></div>
+    <a class="_fw visibility-hidden">
+      <svg class="_24svg _r90 mirror">
+        <use xlink:href="/assets/icons/nst-icn24.svg#arrow-down"></use>
+      </svg>
+      Change phone number</a>
     <div id="panel-signin" class="panel">
       <div class="panel-heading">
-        <div class="row nst-vb">
-          <p class="nst-font-xlarge _hf"><translate>Sign in</translate></p>
-          <p class="text-right nst-mood-calm nst-font-small" style="width: 60%"><translate>or</translate> <a ui-sref="public.register"><translate>Create an account</translate></a></p>
-        </div>
+        <p class="nst-font-xxlarge _df _fw nmarg">
+          <translate>Sign in</translate>
+        </p>
+
+        <p class="nst-mood-calm nst-font-medium _df _fn nmarg">
+          <translate>or</translate>
+          <a class="nst-mood-cheerful" ui-sref="public.register">&nbsp;<translate>Create an account</translate></a>
+        </p>
+
       </div>
       <div  class="panel-body">
         <form accept-charset="UTF-8" name="loginForm" data-ng-submit="submitted = true; ctlLogin.auth(loginForm.$valid)" novalidate>
@@ -22,7 +33,7 @@
 
             <div class="form-group">
               <input ng-if="!ctlLogin.progress" class="butn-green butn-lg butn-login" value="Sign in" type="submit" translate-attrs="value"/>
-              <input ng-if="ctlLogin.progress" class="butn-green butn-lg butn-login" value="Wait..." type="button" translate-attrs="value" disabled/>
+              <input ng-if="ctlLogin.progress" class="butn-green butn-lg butn-login" value="Wait..." type="submit" translate-attrs="value" disabled/>
             </div>
 
             <div class="row nst-vb">
@@ -36,8 +47,10 @@
           </fieldset>
         </form>
 
-        <div data-ng-if="ctlLogin.message.fill" class="{{ctlLogin.message.class}} _fw _tac testing_err" data-ng-bind="ctlLogin.message.text"></div>
       </div>
     </div>
+    <p class="response warn">
+      <a class="{{ctlLogin.message.class}} testing_err" data-ng-if="ctlLogin.message.fill" data-ng-bind="ctlLogin.message.text"></a>
+    </p>
   </div>
 </div>

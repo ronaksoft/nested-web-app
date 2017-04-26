@@ -96,14 +96,19 @@ body.isMobile {
     }
   }
   .modal .modal-compose {
+    max-height: 90vh;
     .modal-content {
       top: 0;
       max-height: 100%;
       height: 100%;
+    > div {
+      height: 90vh;
+      max-height: 90vh;
+    }
     }
     .modal-bo {
       margin-top: 48px;
-      height: calc(100% - 145px);
+      height: calc(90vh - 145px);
       max-height: calc(100vh - 144px)!important;
     }
   }
@@ -127,3 +132,4 @@ body.isMobile {
     }
   }
 }
+
