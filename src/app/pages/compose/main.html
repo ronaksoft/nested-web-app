@@ -17,11 +17,11 @@
                    id="input-compose-to"
                    data-ng-model="ctlCompose.model.recipients">
           <ui-select-match placeholder="{{::ctlCompose.inputPlaceHolderLabel}}">
-            <div class="selected-innter " ng-class="{'isEmail' : $item.isEmail,'error' : !$item.isEmailValid}">
+            <div class="selected-innter " ng-class="{'isEmail' : $item.isEmail,'error' : !$item.isValid}">
               <span class="place-img" ng-if="!$item.isEmail">
                 <img ng-src="{{::$item.picture}}"/>
               </span>
-              <span class="place-img" ng-if="$item.isEmail && !$item.isEmailValid">
+              <span class="place-img" ng-if="$item.isEmail && !$item.isValid">
                   <svg>
                     <use xlink:href="/assets/icons/nst-icn16.svg#exclamation-mark"></use>
                   </svg>

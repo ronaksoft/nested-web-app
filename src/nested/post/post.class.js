@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   angular
@@ -33,15 +33,16 @@
       this.ellipsis = undefined;
       this.resources = undefined;
       this.trusted = undefined;
+      this.bodyIsTrivial = true;
     }
 
     Post.prototype.getTrustedBody = function () {
-      var imgRegex = new RegExp('<img(.*?)source=[\'|"](.*?)[\'|"](.*?)>','g');
+      var imgRegex = new RegExp('<img(.*?)source=[\'|"](.*?)[\'|"](.*?)>', 'g');
       var resources = this.resources;
       this.trusted = true;
-      var body = this.body.replace(imgRegex,function (m, p1, p2, p3) {
+      var body = this.body.replace(imgRegex, function (m, p1, p2, p3) {
         var src = resources[p2];
-        return "<img" +  p1 + "src='" + src + "' " + p3 +">"
+        return "<img" + p1 + "src='" + src + "' " + p3 + ">"
       });
       return body;
 

@@ -92,14 +92,14 @@
     }
 
     function setBookmark(setBookmark) {
-      vm.post.bookmarked = setBookmark;
+      vm.post.pinned = setBookmark;
       if (setBookmark) {
         NstSvcPostFactory.pin(vm.post.id).catch(function () {
-          vm.post.bookmarked = !setBookmark;
+          vm.post.pinned = !setBookmark;
         });
       } else {
         NstSvcPostFactory.unpin(vm.post.id).catch(function () {
-          vm.post.bookmarked = !setBookmark;
+          vm.post.pinned = !setBookmark;
         });
       }
     }
@@ -110,7 +110,7 @@
           return;
         }
 
-        NstSvcPostFactory.remove(post.id, place.id).then(function() {
+        NstSvcPostFactory.remove(post.id, place.id).then(function () {
           NstUtility.collection.dropById(post.places, place.id);
           toastr.success(NstUtility.string.format(NstSvcTranslation.get("The post has been removed from Place {0}."), place.name));
           $rootScope.$broadcast('post-removed', {
@@ -155,9 +155,10 @@
 
     function expand() {
       vm.expandProgress = true;
-      NstSvcPostFactory.get(vm.post.id).then(function (post) {
+      NstSvcPostFactory.get(vm.post.id, true).then(function (post) {
         vm.expandProgress = false;
         vm.orginalPost = post;
+        console.log(post.body)
         vm.body = post.body;
         vm.resources = post.resources;
         vm.isExpanded = true;
@@ -259,7 +260,7 @@
             return vm.post.places;
           }
         }
-      }).result.then(function(result) {
+      }).result.then(function (result) {
         $scope.$emit('post-moved', {
           postId: vm.post.id,
           toPlace: result.toPlace,
@@ -307,13 +308,13 @@
 
     NstSvcPostFactory.addEventListener(NST_POST_FACTORY_EVENT.BOOKMARKED, function (e) {
       if (e.detail === vm.post.id) {
-        vm.post.bookmarked = true;
+        vm.post.pinned = true;
       }
     });
 
     NstSvcPostFactory.addEventListener(NST_POST_FACTORY_EVENT.UNBOOKMARKED, function (e) {
       if (e.detail === vm.post.id) {
-        vm.post.bookmarked = false;
+        vm.post.pinned = false;
       }
     });
 
@@ -363,7 +364,7 @@
       vm.isReplyed = !!vm.post.replyToId;
 
       vm.hasOlderComments = (vm.post.counters.comments && vm.post.comments) ? vm.post.counters.comments > vm.post.comments.length : false;
-      vm.body = $sce.trustAsHtml(vm.post.body);
+      vm.body = vm.post.body;
       vm.orginalPost = vm.post;
       if (vm.trusted) {
         showTrustedBody();

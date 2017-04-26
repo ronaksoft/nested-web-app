@@ -71,6 +71,7 @@
             mark_read: markAsRead ? markAsRead : false
           }).then(function (data) {
             var post = parsePost(data);
+            post.bodyIsTrivial = false;
             NstSvcPostStorage.set(post.id, post);
             defer.resolve(post);
           }).catch(function (error) {
@@ -259,8 +260,11 @@
           post_id: query.id
         }).then(function () { //remove the object from storage and return the id
           var post = NstSvcPostStorage.get(query.id);
-          post.pinned = true;
-          NstSvcPostStorage.set(query.id, post);
+
+          if (post) {
+            post.pinned = true;
+            NstSvcPostStorage.set(query.id, post);
+          }
 
           factory.dispatchEvent(new CustomEvent(
             NST_POST_FACTORY_EVENT.BOOKMARKED,
@@ -284,8 +288,11 @@
           post_id: query.id
         }).then(function () { //remove the object from storage and return the id
           var post = NstSvcPostStorage.get(query.id);
-          post.pinned = false;
-          NstSvcPostStorage.set(query.id, post);
+
+          if (post) {
+            post.pinned = false;
+            NstSvcPostStorage.set(query.id, post);
+          }
 
           factory.dispatchEvent(new CustomEvent(
             NST_POST_FACTORY_EVENT.UNBOOKMARKED,

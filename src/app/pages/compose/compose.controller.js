@@ -306,19 +306,20 @@
       }).catch(deferred.reject);
 
       $q.all(_.map(draft.recipients, function (recipientId) {
-        if (recipientId.indexOf('@') > -1) {
+        if (NST_PATTERN.EMAIL.test(recipientId)) {
           return NstSvcUserFactory.getTinySafe(recipientId);
-        } else {
+        } else if (NST_PATTERN.SUB_PLACE_ID.test(recipientId)) {
           return NstSvcPlaceFactory.getTinySafe(recipientId);
+        } else {
+          $q.resolve(null);
         }
       })).then(function (recipients) {
-        vm.model.recipients = _.map(recipients, function (recipient) {
-          var tag = new NstVmSelectTag(recipient);
-          if (tag.id.indexOf('@') > -1) {
-            tag.isEmail = true;
-            tag.isValid = NST_PATTERN.EMAIL.test(tag.id);
-          }
-        });
+        vm.model.recipients = _.chain(recipients)
+          .filter(function (recipient) {
+            return recipient != null
+          }).map(recipients, function (recipient) {
+            return new NstVmSelectTag(recipient);
+          }).value();
         deferred.resolve(draft);
       }).catch(deferred.reject);
 
@@ -362,19 +363,18 @@
         if (_.isString(query)
           && _.size(query) >= 4
           && _.indexOf(query, " ") === -1
-          && !_.some(vm.search.results, { id : query })) {
+          && (NST_PATTERN.EMAIL.test(query) || NST_PATTERN.GRAND_PLACE_ID.test(query))
+          && !_.some(vm.search.results, {id: query})) {
           var initPlace = new NstVmSelectTag({
             id: query,
             name: query
           });
-          initPlace.isEmail = query.indexOf('@') > -1;
-          initPlace.isValid = NST_PATTERN.EMAIL.test(query);
           vm.search.results.push(initPlace);
         }
       }).catch(function () {
         vm.search.results = [];
         if (initPlace.id)
-        vm.search.results.push(initPlace);
+          vm.search.results.push(initPlace);
       });
 
     }
@@ -403,7 +403,7 @@
       var attachment = NstSvcAttachmentFactory.createAttachmentModel();
       attachment.size = file.size;
       attachment.filename = file.name;
-      attachment.mimetype  = file.type;
+      attachment.mimetype = file.type;
       // Add Attachment to Model
       vm.attachments.size.total += file.size;
       vm.model.attachments.push(attachment);
@@ -683,8 +683,6 @@
                 id: $stateParams.placeId,
                 name: $stateParams.placeId
               });
-              tag.isEmail = true;
-              tag.isValid = true;
 
               vm.model.recipients.push(tag);
             } else {
@@ -725,6 +723,7 @@
             $state.go('app.compose');
           } else {
             getPost($stateParams.postId).then(function (post) {
+              console.log(post)
               vm.model.replyTo = post;
               vm.model.replyTo.body = post.getTrustedBody();
               vm.model.subject = post.subject;
@@ -737,23 +736,11 @@
               var recipients = post.recipients;
               for (var j in recipients) {
                 var tag = new NstVmSelectTag(recipients[j]);
-                tag.isEmail = true;
-                tag.isValid = true;
                 vm.model.recipients.push(tag);
               }
 
-
-              var email = post.getEmailSender();
-              if (email) {
-                var tag = new NstVmSelectTag({
-                  id: email.id,
-                  name: email.name || email.id,
-                });
-
-                tag.isEmail = true;
-                tag.isValid = true;
-
-                vm.model.recipients.push(tag);
+              if (!_.some(_.concat(post.recipients, post.places), {id: post.sender.id})) {
+                vm.model.recipients.push(new NstVmSelectTag(post.sender));
               }
 
             });
@@ -762,6 +749,7 @@
         break;
 
       case 'app.compose-reply-sender':
+
         if ($stateParams.postId) {
           if (NST_DEFAULT.STATE_PARAM == $stateParams.postId) {
             $state.go('app.compose');
@@ -769,10 +757,10 @@
             getPost($stateParams.postId).then(function (post) {
               vm.model.replyTo = post;
               vm.model.replyTo.body = post.getTrustedBody();
-              vm.model.subject = post.getSubject();
+              vm.model.subject = post.subject;
 
               // TODO: First search in post places to find a match then try to get from factory
-              var postPlaces = post.getPlaces();
+              var postPlaces = post.place;
               var place = undefined;
               if (post.internal) {
                 for (var k in postPlaces) {
@@ -788,7 +776,7 @@
                 if (place) {
                   deferred.resolve(place);
                 } else {
-                  getPlace(post.getSender().id).then(function (place) {
+                  getPlace(post.sender.id).then(function (place) {
                     deferred.resolve(place);
                   });
                 }
@@ -804,15 +792,13 @@
                   return deferred.promise;
                 });
               } else {
-                var email = post.getEmailSender();
+                var email = post.sender;
 
                 var tag = new NstVmSelectTag({
                   id: email.id,
                   name: email.name || email.id
                 });
 
-                tag.isEmail = true;
-                tag.isValid = true;
                 vm.model.recipients.push(tag);
               }
             })
@@ -824,7 +810,7 @@
     function addRecipients(placeId) {
       var deferred = $q.defer();
 
-      if (_.some(vm.model.recipients, { id : placeId })) {
+      if (_.some(vm.model.recipients, {id: placeId})) {
         deferred.resolve();
         return;
       }
