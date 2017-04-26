@@ -31,10 +31,13 @@
 
         $timeout(function () {
           if (!checkbox.prop("disabled")) {
+            console.log('sssss',Draggable)
             Draggable.create($element, {
               type:"x",
               bounds:{minX:minX, maxX: maxX},
+              throwProps:true,
               onDrag : function (e) {
+
                 // if dragged towards right
                 if (isRTL) {
                   if ( Draggable.get($element).x < midX ) {
@@ -51,44 +54,26 @@
                 }
 
               },
-              onDragEnd:function() {
-                $element.css({transform: ''});
-                if (typeof scope.model === 'function'){
-                  if(isRTL) {
+              onRelease:function() {
+                if(isRTL) {
                     if (Draggable.get($element).x > midX) {
-                      scope.model(true);
+                      scope.model = false;
                     } else {
-                      scope.model(false);
+                      scope.model = true;
                     }
                   } else {
                     if (Draggable.get($element).x < midX) {
-                      scope.model(true);
+                      scope.model = false;
                     } else {
-                      scope.model(false);
+                      scope.model = true;
                     }
                   }
-
-                }else{
-                  if(isRTL) {
-                    if (Draggable.get($element).x > midX) {
-                      scope.model = true;
-                    } else {
-                      scope.model = false;
-                    }
-                  } else {
-                    if (Draggable.get($element).x < midX) {
-                      scope.model = true;
-                    } else {
-                      scope.model = false;
-                    }
-                  }
-                }
+                  $element.css({transform: ''});
               }
             });
-            $element.css({transform: ''});
           }
 
-        },2000);
+        },1000);
 
 
       }

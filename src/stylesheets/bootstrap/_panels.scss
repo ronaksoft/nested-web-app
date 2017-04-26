@@ -5,17 +5,30 @@
 
 // Base class
 .panel {
-  margin: auto;
+  //margin: auto;
   box-shadow: 0 0 16px 0 rgba(71, 97, 82, 0.15);
   border-radius: 8px;
   border: 1px solid $color-breeze;
-  padding: 25px 10px;
-  width: 358px;
+  padding: 16px;
+  width: 360px;
   background-color: $panel-bg;
   //@include box-shadow(0 1px 1px rgba(0,0,0,.05));
   a {
     text-decoration: none;
     font-size: $font-size-small;
+  }
+  input[type="submit"] {
+    line-height: 38px;
+    padding: 0;
+    margin: 16px 0 0 0;
+  }
+  input[type="text"], input[type="password"],#verification_code {
+    font-size: 14px;
+    margin: 8px 0;
+    display: inline;
+  }
+  .form-group {
+    margin: 0;
   }
 }
 
@@ -27,10 +40,12 @@
 
 // Optional heading
 .panel-heading {
-  padding: $panel-heading-padding;
+  //padding: $panel-heading-padding;
   border-bottom: 1px solid transparent;
+  display: flex;
+  height: 48px;
+  align-items: center;
   @include border-top-radius(($panel-border-radius - 1));
-
   > .dropdown .dropdown-toggle {
     color: inherit;
   }

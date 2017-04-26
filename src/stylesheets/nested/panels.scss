@@ -1,5 +1,4 @@
 .panel {
-
 }
 #panel-reset {
   background-color: $color-white;
@@ -85,7 +84,7 @@
     background: url('../assets/icons/controls.svg') no-repeat;
     height: 16px;
     min-width: 17px;
-    padding: 0 0 0 17px;
+    padding: 0 0 0 21px;
     font-size: $font-size-small;
     color: $color-solid;
   }
@@ -97,6 +96,10 @@
 .border-number {
     border: 1px solid $color-border;
     border-radius: 4px;
+  input {
+    margin: 0!important;
+    height: 40px;
+  }
   }
   .has-error {
     .border-number {
@@ -106,11 +109,36 @@
       color: $color-force;
   }
 }
-#panel-register .panel-body {
-  padding: 0;
-}
 #panel-register {
   p.nst-font-xlarge {
     white-space: nowrap;
+  }
+  p {
+    line-height: 24px;
+  }
+  label {
+    font-size: 13px;
+    color: $color-gale;
+    margin: 0;
+  }
+  country-select {
+    margin-bottom: 16px;
+    margin-top: 6px;
+  }
+}
+.response.warn {
+  line-height: 24px;
+  height: 24px;
+  margin: 16px 0 0 0;
+  max-width: 320px;
+  width: 90%;
+  a {
+    background-color: rgba(255,83,83,0.16);
+    color: $color-force-wire;
+    width: 100%;
+    display: block;
+    padding: 0 8px;
+    border-radius: 4px;
+    font-size: 14px;
   }
 }
