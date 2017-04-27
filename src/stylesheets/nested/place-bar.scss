@@ -22,3 +22,52 @@
 
   }
 }
+
+.placerow {
+  img {
+    width: 32px;
+    height: 32px;
+  }
+  span {
+      font-size: 14px;
+      line-height: 20px;
+      color: $color-solid;
+      padding-left: 8px;
+    }
+}
+
+.userrow {
+  display: flex;
+  > * {
+    display: flex;
+  }
+  img {
+    @include avatar(48px,48px,1010px);
+  }
+  span:last-child {
+      font-size: 14px;
+      line-height: 20px;
+      color: $color-gale;
+      padding-left: 8px;
+    }
+    span:first-child {
+      font-size: 16px;
+      line-height: 22px;
+      color: $color-solid;
+      padding-left: 8px;
+      margin-top: 4px;
+    }
+    
+    .status {
+      width: 10px;
+      height: 10px;
+      border-radius: 100%;
+      background-color: #D6D6D6;
+      &.online {
+        background-color: $color-sense
+      }
+      &.idle {
+        background-color: $color-shine
+      }
+    }
+}

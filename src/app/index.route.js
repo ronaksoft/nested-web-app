@@ -17,6 +17,46 @@
       })
 
       /*****************************
+       *****   contacts Routes   ****
+       *****************************/
+
+      .state('app.contacts', {
+        url: '/contacts',
+        onEnter: ['$rootScope', '$stateParams', '$state', '$uibModal', function($rootScope, $stateParams, $state, $uibModal) {
+          $uibModal.open({
+            animation: false,
+            size: 'lg-white',
+            templateUrl: 'app/contacts/contacts-list/contacts.html',
+            controller: 'contactsController',
+            controllerAs: 'ctrl'
+          }).result.catch(function() {
+            $rootScope.goToLastState(true);
+          });
+        }],
+        onExit: function($uibModalStack, $state) { }
+      })
+
+      .state('app.contact', {
+        url: '/contacts/:userId',
+        params: {
+          userId: ''
+        },
+        onEnter: ['$rootScope', '$stateParams', '$state', '$uibModal', function($rootScope, $stateParams, $state, $uibModal) {
+          $uibModal.open({
+            animation: false,
+            size: 'lg-white',
+            templateUrl: 'app/contacts/contact/contact-modal.html',
+            controller: 'contactController',
+            controllerAs: 'ctrl'
+          }).result.catch(function() {
+            $rootScope.goToLastState(true);
+          });
+        }],
+        onExit: function($uibModalStack, $state) { }
+      })
+      
+
+      /*****************************
        *****   Compose Routes   ****
        *****************************/
 
