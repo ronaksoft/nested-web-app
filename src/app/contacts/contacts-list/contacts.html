@@ -11,7 +11,7 @@
         </svg>
         <input type="" name="" value="" placeholder="find in contacts">
     </div>
-    <div id="scroller" nst-scrollbar>
+    <div id="scroller" nst-scrollbar  scroll-spy="" data-target="#navPills" data-scroll-offset="80" class="scrollspy-example span9">
         <section id="fav">
             <h6>Favorites</h6>
             <p> 
@@ -323,7 +323,7 @@
         
     </div>
     
-    <ul class="alphabet" id="navPills" class="nav nav-pills nav-stacked">
+    <ul class="alphabet nav" id="navPills">
         <li class="active"><a href="#fav" ng-click="$event.preventDefault();" scroll-to="fav">*</a></li>
         <li><a href="#A" ng-click="$event.preventDefault();" scroll-to="A">A</a></li>
         <li><a href="#B" ng-click="$event.preventDefault();" scroll-to="B">B</a></li>
