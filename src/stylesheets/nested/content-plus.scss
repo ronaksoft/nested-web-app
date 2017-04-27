@@ -219,3 +219,13 @@
     }
   }
 }
+
+.visited-places {
+  max-height: 150px;
+  li {
+    display: flex
+  }
+  .placerow {
+    padding: 8px 12px 10px 12px;
+  }
+}

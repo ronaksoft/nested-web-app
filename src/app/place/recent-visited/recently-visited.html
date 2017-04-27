@@ -1,15 +1,11 @@
-<ul class="_bgwhite" nst-scrollbar suppress-scroll-x="true">
+<ul class="_bgwhite visited-places" nst-scrollbar suppress-scroll-x="true">
   <!--<li data-ng-repeat="place in ctrl.places">-->
   <li>
-    <a class="_df remove-from-places _aic _fw">
-      <div class="_aic _df">
-        <div class="post-card-place-avatar">
-          <img class="" ng-src="{{place | picture : 'x64'}}"/>
-        </div>
-      </div>
-      <div class="_df _fh text-wrap">
+    <a class="_df placerow _aic _fw">
+      <img class="" ng-src="{{place | picture : 'x64'}}"/>
+      <div class="_df text-wrap">
         <!--<p class="_txe place-name">{{place.name}}</p>-->
-        <p class="_txe place-name">Ali</p>
+        <span class="_txe">Ali</span>
       </div>
     </a>
   </li>
