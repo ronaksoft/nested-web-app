@@ -46,6 +46,7 @@
     vm.markAllAsRead = markAllAsRead;
     vm.showNewMessages = showNewMessages;
     vm.dismissNewMessage = dismissNewMessage;
+    vm.openContacts = openContacts;
 
     vm.messagesSetting = {
       limit: DEFAULT_MESSAGES_COUNT,
@@ -274,6 +275,11 @@
       }
 
     }
+
+    function openContacts($event) {
+      $state.go('app.contacts', {} , { notify : false });
+      $event.preventDefault();
+    };
 
     function getMessages() {
       vm.messagesSetting.skip = null;

@@ -21,7 +21,7 @@
         <translate>{{ctlMessages.currentPlace.counters.posts | localize}} posts</translate>
         <a class="nst-mood-pending" ui-sref="app.place-messages-unread({placeId: ctlMessages.currentPlace.id})" ng-if="ctlMessages.unreadCount > 0" ng-click="_track('posts', 'view unread')">&nbsp;(<translate class="nst-mood-pending">{{ctlMessages.unreadCount | localize}} Unseen</translate>)</a>
       </p>
-      <p class="_df _fw" ng-if="!ctlMessages.currentPlace.counters.posts"></p>
+      <p class="_df _fw" ng-if="!ctlMessages.currentPlace.counters.posts || ctlMessages.currentPlace.counters.posts < 1"></p>
       <p class="_df _fn mark-read _aic" ng-if="ctlMessages.unreadCount" ng-click="ctlMessages.markAllAsRead()">
         <translate>Mark all as Seen</translate>
         <svg class="_16svg _df">
@@ -116,6 +116,16 @@
     <div ng-if="!ctlMessages.currentPlaceId && !ctlMessages.isbookmarkedsMode && !ctlMessages.isSentMode && !ctlMessages.isUnreadMode">
       <div class="name"><translate>Recently Visited Places</translate></div>
       <recent-visited-places></recent-visited-places>
+    </div>
+    <div ng-if="!ctlMessages.currentPlaceId && !ctlMessages.isbookmarkedsMode && !ctlMessages.isSentMode && !ctlMessages.isUnreadMode"
+    affixer parent=".content-plus" after-content="0" offset-top="114" top="80" fixed-top="true">
+      <div class="name">
+        <translate>Contacts</translate>
+        <svg class="_16svg _df" ng-click="ctlMessages.openContacts($event)">
+          <use xlink:href="/assets/icons/nst-icn16.svg#expand"></use>
+        </svg>
+      </div>
+      <fav-contacts></fav-contacts>
     </div>
     <div id="members" nst-scrollbar suppress-scroll-x="true"
          ng-if="ctlMessages.hasSeeMembersAccess && !ctlMessages.isSubPersonal() && !ctlMessages.isbookmarkedsMode && !ctlMessages.isSentMode && !ctlMessages.isUnreadMode && ctlMessages.currentPlaceId">
