@@ -679,7 +679,7 @@
             readers.push({
               user: NstSvcUserFactory.parseTinyUser(reader.account),
               timestamp : reader.read_on,
-              placeId: reader.placeId
+              placeId: reader.place_id
             })
           });
           deferred.resolve(readers);

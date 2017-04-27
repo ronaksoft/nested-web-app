@@ -6,11 +6,10 @@
       </svg>
     </div>
     <h2 class="_df _fw">
-      <translate>Seen by 12 Users</translate>
+      <translate>Seen by:</translate>
     </h2>
   </div>
-  <div class="modal-body" nst-scrollbar>
-
+  <div class="modal-body" nst-scrollbar on-reach-bottom="ctrl.loadWhoSeen">
     <div class="_difh user-wrapper" ng-repeat="reader in ctrl.readers">
       <img initial-avatar="{{reader.user.fullName}}" picture="{{reader.user | avatar : 'x64'}}"
            data-width="48"
@@ -21,66 +20,5 @@
         <span>{{ reader.timestamp | date : 'medium' }}</span>
       </div>
     </div>
-    <div class="_difh user-wrapper" ng-repeat="reader in ctrl.readers">
-      <img initial-avatar="{{reader.user.fullName}}" picture="{{reader.user | avatar : 'x64'}}"
-           data-width="48"
-           data-height="48"
-           data-radius="48" class="account-initials-48" data-word-count="2" data-font-size="16"/>
-      <div class="_difv">
-        <p>{{reader.user.fullName}}</p>
-        <span>{{ reader.timestamp | date : 'medium' }}</span>
-      </div>
-    </div>
-    <div class="_difh user-wrapper" ng-repeat="reader in ctrl.readers">
-      <img initial-avatar="{{reader.user.fullName}}" picture="{{reader.user | avatar : 'x64'}}"
-           data-width="48"
-           data-height="48"
-           data-radius="48" class="account-initials-48" data-word-count="2" data-font-size="16"/>
-      <div class="_difv">
-        <p>{{reader.user.fullName}}</p>
-        <span>{{ reader.timestamp | date : 'medium' }}</span>
-      </div>
-    </div>
-    <div class="_difh user-wrapper" ng-repeat="reader in ctrl.readers">
-      <img initial-avatar="{{reader.user.fullName}}" picture="{{reader.user | avatar : 'x64'}}"
-           data-width="48"
-           data-height="48"
-           data-radius="48" class="account-initials-48" data-word-count="2" data-font-size="16"/>
-      <div class="_difv">
-        <p>{{reader.user.fullName}}</p>
-        <span>{{ reader.timestamp | date : 'medium' }}</span>
-      </div>
-    </div>
-    <div class="_difh user-wrapper" ng-repeat="reader in ctrl.readers">
-      <img initial-avatar="{{reader.user.fullName}}" picture="{{reader.user | avatar : 'x64'}}"
-           data-width="48"
-           data-height="48"
-           data-radius="48" class="account-initials-48" data-word-count="2" data-font-size="16"/>
-      <div class="_difv">
-        <p>{{reader.user.fullName}}</p>
-        <span>{{ reader.timestamp | date : 'medium' }}</span>
-      </div>
-    </div>
-    <div class="_difh user-wrapper" ng-repeat="reader in ctrl.readers">
-      <img initial-avatar="{{reader.user.fullName}}" picture="{{reader.user | avatar : 'x64'}}"
-           data-width="48"
-           data-height="48"
-           data-radius="48" class="account-initials-48" data-word-count="2" data-font-size="16"/>
-      <div class="_difv">
-        <p>{{reader.user.fullName}}</p>
-        <span>{{ reader.timestamp | date : 'medium' }}</span>
-      </div>
-    </div>
-    <div class="_difh user-wrapper" ng-repeat="reader in ctrl.readers">
-      <img initial-avatar="{{reader.user.fullName}}" picture="{{reader.user | avatar : 'x64'}}"
-           data-width="48"
-           data-height="48"
-           data-radius="48" class="account-initials-48" data-word-count="2" data-font-size="16"/>
-      <div class="_difv">
-        <p>{{reader.user.fullName}}</p>
-        <span>{{ reader.timestamp | date : 'medium' }}</span>
-      </div>
-    </div>
-
   </div>
 </div>
