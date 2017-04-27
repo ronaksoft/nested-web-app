@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
   angular
     .module('ronak.nested.web.comment')
@@ -6,18 +6,20 @@
 
   /** @ngInject */
   function NstSvcCommentFactory($q,
-    _,
-    NST_COMMENT_EVENT,
-    NstSvcServer, NstSvcUserFactory, NstPicture, NstUtility,
-    NstFactoryError, NstFactoryQuery, NstComment, NstTinyUser, NstBaseFactory) {
+                                _,
+                                NST_COMMENT_EVENT,
+                                NstSvcServer, NstCollector, NstSvcUserFactory, NstPicture, NstUtility,
+                                NstFactoryError, NstFactoryQuery, NstComment, NstTinyUser, NstBaseFactory) {
 
     function CommentFactory() {
+      this.collector = new NstCollector('post', this.getManyComment);
     }
 
     CommentFactory.prototype = new NstBaseFactory();
     CommentFactory.prototype.constructor = CommentFactory;
 
     CommentFactory.prototype.getComment = getComment;
+    CommentFactory.prototype.getManyComment = getManyComment;
     CommentFactory.prototype.addComment = addComment;
     CommentFactory.prototype.removeComment = removeComment;
     CommentFactory.prototype.retrieveComments = retrieveComments;
@@ -34,31 +36,74 @@
      *********************/
 
     function getComment(commentId, postId) {
-      return factory.sentinel.watch(function() {
+      var self = this;
+      return factory.sentinel.watch(function () {
         var deferred = $q.defer();
         if (!commentId) {
-          deferred.reject(new Error('commentId is not provided'))
-        } else if (!postId) {
-          deferred.reject(new Error('postId is not provided'))
+          deferred.reject(new Error('commentIds is not provided'))
         } else {
+
           var query = new NstFactoryQuery(commentId, {
-            postId: postId
+            commentId: commentId
           });
 
-          NstSvcServer.request('post/get_comment', {
-            comment_id: query.id,
-            post_id: query.data.postId
-          }).then(function(data) {
-            return parseComment(data);
-          }).then(function(comment) {
-            deferred.resolve(comment);
-          }).catch(function(error) {
+          self.collector.add(commentId)
+            .then(function (data) {
+              return parseComment(data);
+            })
+            .then(function (comment) {
+              deferred.resolve(comment);
+            })
+            .catch(function (error) {
+              deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+            });
+
+          // var query = new NstFactoryQuery(commentId, {
+          //   postId: postId
+          // });
+          // NstSvcServer.request('post/get_comment', {
+          //   comment_id: query.id,
+          //   post_id: query.data.postId
+          // }).then(function (data) {
+          //   return parseComment(data);
+          // }).then(function (comment) {
+          //   deferred.resolve(comment);
+          // }).catch(function (error) {
+          //   deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+          // });
+
+        }
+
+        return deferred.promise;
+      }, "getComment", commentId);
+    }
+
+
+    function getManyComment(commentIds) {
+      return factory.sentinel.watch(function () {
+        var deferred = $q.defer();
+        if (!commentIds) {
+          deferred.reject(new Error('commentIds is not provided'))
+        } else {
+          var query = new NstFactoryQuery(commentIds.join(','), {
+            comment_id: commentIds.join(',')
+          });
+
+          NstSvcServer.request('post/get_many_comments', {
+            comment_id: commentIds.join(','),
+          }).then(function (data) {
+            deferred.resolve({
+              idKey: '_id',
+              resolves: data.comments,
+              rejects: data.no_access
+            });
+          }).catch(function (error) {
             deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
           });
         }
 
         return deferred.promise;
-      }, "getComment", commentId);
+      }, "getManyComment", commentIds.join(','));
     }
 
     /**
@@ -70,7 +115,7 @@
      * @returns {Promise}             the comment
      */
     function addComment(postId, content) {
-      return factory.sentinel.watch(function() {
+      return factory.sentinel.watch(function () {
         var deferred = $q.defer();
 
         if (!postId) {
@@ -79,10 +124,10 @@
           NstSvcServer.request('post/add_comment', {
             post_id: postId,
             txt: content
-          }).then(function(data) {
+          }).then(function (data) {
             var commentId = data.comment_id;
             return getComment(commentId, postId);
-          }).then(function(comment) {
+          }).then(function (comment) {
             deferred.resolve(comment);
 
             factory.dispatchEvent(new CustomEvent(
@@ -111,7 +156,7 @@
      * @returns {Promise}            the comments list
      */
     function retrieveComments(postId, settings) {
-      return factory.sentinel.watch(function() {
+      return factory.sentinel.watch(function () {
         var deferred = $q.defer();
         if (!postId) {
           deferred.reject(new Error('post is not provided'));
@@ -125,15 +170,15 @@
             post_id: query.id,
             before: settings.date,
             limit: settings.limit
-          }).then(function(data) {
-            var allCommnets = _.map(data.comments, function(comment) {
+          }).then(function (data) {
+            var allCommnets = _.map(data.comments, function (comment) {
               return parseComment(comment, postId);
             });
 
-            $q.all(allCommnets).then(function(commentItems) {
+            $q.all(allCommnets).then(function (commentItems) {
               deferred.resolve(commentItems);
             });
-          }).catch(function(error) {
+          }).catch(function (error) {
             deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
           });
         }
@@ -143,7 +188,7 @@
     }
 
     function getCommentsAfter(postId, settings) {
-      return factory.sentinel.watch(function() {
+      return factory.sentinel.watch(function () {
         var deferred = $q.defer();
         if (!postId) {
           deferred.reject(new Error('post is not provided'));
@@ -157,15 +202,15 @@
             post_id: query.id,
             after: settings.date,
             limit: settings.limit
-          }).then(function(data) {
-            var allCommnets = _.map(data.comments, function(comment) {
+          }).then(function (data) {
+            var allCommnets = _.map(data.comments, function (comment) {
               return parseComment(comment, postId);
             });
 
-            $q.all(allCommnets).then(function(commentItems) {
+            $q.all(allCommnets).then(function (commentItems) {
               deferred.resolve(commentItems);
             });
-          }).catch(function(error) {
+          }).catch(function (error) {
             deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
           });
         }
@@ -183,7 +228,7 @@
      * @return {Promise}        the removed comment
      */
     function removeComment(postId, comment) {
-      return factory.sentinel.watch(function() {
+      return factory.sentinel.watch(function () {
         var deferred = $q.defer();
 
         if (!postId) {
@@ -197,9 +242,9 @@
           NstSvcServer.request('post/remove_comment', {
             post_id: postId,
             comment_id: query.id
-          }).then(function() {
+          }).then(function () {
             deferred.resolve(comment);
-          }).catch(function(error) {
+          }).catch(function (error) {
             deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
           });
         }
@@ -251,8 +296,8 @@
 
     function parseMessageComment(data) {
       var defer = $q.defer(),
-          comment = new NstComment(),
-          promises = [];
+        comment = new NstComment(),
+        promises = [];
 
       comment.id = data._id;
       comment.body = data.text;
@@ -265,7 +310,7 @@
         promises.push(NstSvcUserFactory.get(data.removed_by));
       }
 
-      $q.all(promises).then(function(results) {
+      $q.all(promises).then(function (results) {
         comment.sender = results[0];
         comment.removedBy = results[1];
 
