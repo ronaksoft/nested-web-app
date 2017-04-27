@@ -23,8 +23,8 @@
       this.configs = angular.extend(this.defaultConfigs, configs);
 
       this.sesKey = '';
-      this.sesSecret =  $cookies.get('nss')  || '';
-
+      this.sesSecret = $cookies.get('nss') || '';
+      this.clientIdHash = null;
       this.initialized = false;
       this.authorized = false;
       this.queue = {};
@@ -361,7 +361,8 @@
       requestTimeout: NST_CONFIG.WEBSOCKET.TIMEOUT,
       maxRetries: NST_CONFIG.WEBSOCKET.REQUEST_MAX_RETRY_TIMES,
       meta: {
-        app_id: NST_CONFIG.APP_ID
+        '_cver': NST_CONFIG.APP_VERSION,
+        '_cid': NST_CONFIG.APP_CLIENT_ID
       }
     });
   }

@@ -5,11 +5,10 @@
     .service('NstSvcPlaceMap', NstSvcPlaceMap);
 
   /** @ngInject */
-  function NstSvcPlaceMap(_, NstVmPlaceBadge) {
+  function NstSvcPlaceMap(_) {
 
     var service = {
       toTree: toTree,
-      toBadge : toPlaceBadge
     };
 
     return service;
@@ -68,10 +67,6 @@
       _.forEach(sortedPlaces, setLevel);
       return breedPlaces(sortedPlaces);
 
-    }
-
-    function toPlaceBadge(model) {
-      return new NstVmPlaceBadge(model, "x64");
     }
   }
 

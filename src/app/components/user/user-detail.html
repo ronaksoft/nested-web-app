@@ -1,24 +1,24 @@
  <div>
   <div class="user-avatar-bg">
-    <div class="blur-image" ng-if="avatar.length > 2">
-      <div style="background-image: url('{{avatar}}')"></div>
+    <div class="blur-image" ng-if="user.hasPicture()">
+      <div style="background-image: url('{{user | avatar : 'x128'}}')"></div>
     </div>
-    <div class="blur-image" ng-if="!avatar">
-      <img initials="name" data-url="avatar" data-width="208"
+    <div class="blur-image" ng-if="!user.hasPicture()">
+      <img initial-avatar="{{user.fullName}}" picture="{{user | avatar : 'x128'}}" data-width="208"
            data-height="208"
            data-radius="0" class="_df" data-word-count="0" data-font-size="1"/>
     </div>
     <div class="user-avatar-72">
-      <img initials="name" data-url="avatar" data-width="72"
+      <img initial-avatar="{{user.fullName}}" picture="{{user | avatar : 'x128'}}" data-width="72"
            data-height="72"
            data-radius="40" class="account-initials-72 _df" data-word-count="2" data-font-size="16"/>
     </div>
   </div>
   <div class="user-data">
-    <h4>{{name}}</h4>
-    <span ng-if="!isEmail">@{{username}}</span>
+    <h4>{{::user.fullName}}</h4>
+    <span><span ng-if="!isEmail">@</span>{{::user.id}}</span>
     <div class="_fw">
-      <a class="butn-white" ui-sref="app.conversation({userId:username})">
+      <a class="butn-white" ui-sref="app.conversation({userId:user.id})">
         <svg class="_24svg _df">
           <use xlink:href="/assets/icons/nst-icn24.svg#message-baloon"></use>
         </svg>

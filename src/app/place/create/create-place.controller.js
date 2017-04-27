@@ -304,7 +304,6 @@
     function save(isValid) {
       vm.submitted = true;
 
-
       if (vm.hasParentPlace) {
         hasAccessToAdd(vm.place.parentId).then(function (result) {
           createPlace(vm.place);
@@ -492,6 +491,7 @@
     }
 
     function setAddPostPolicy(value) {
+
       vm.postPolicy = value;
       switch (value) {
         case NST_PLACE_POLICY_OPTION.MANAGERS:
@@ -500,15 +500,15 @@
           break;
         case NST_PLACE_POLICY_OPTION.MEMBERS:
           vm.place.privacy.receptive = 'off';
-          vm.place.policy.add_post = 'everyone';
+          vm.place.policy.addPost = 'everyone';
           break;
         case NST_PLACE_POLICY_OPTION.TEAMMATES:
           vm.place.privacy.receptive = 'internal';
-          vm.place.policy.add_post = 'everyone';
+          vm.place.policy.addPost = 'everyone';
           break;
         case NST_PLACE_POLICY_OPTION.EVERYONE:
           vm.place.privacy.receptive = 'external';
-          vm.place.policy.add_post = 'everyone';
+          vm.place.policy.addPost = 'everyone';
           break;
         default:
           return $q.reject(Error("Policy add_post is not valid : " + value));

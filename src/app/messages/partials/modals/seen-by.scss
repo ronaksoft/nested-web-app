@@ -1,0 +1,30 @@
+.seen-by {
+    width: 480px;
+    max-height: 100vh;
+    .modal-body {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    .user-wrapper {
+        width: 50%;
+        margin-bottom: 32px
+    }
+}
+.user-wrapper {
+    img {
+        @include avatar(48px,48px,1010px);
+    }
+    div {
+        padding-left: 8px;
+        p {
+            color: black;
+            font-size: 16px;
+            margin: 0
+        }
+        padding-left: 8px;
+        span {
+            color: $color-storm;
+            font-size: 12px
+        }
+    }
+}

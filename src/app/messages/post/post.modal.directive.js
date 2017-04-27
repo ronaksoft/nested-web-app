@@ -22,7 +22,7 @@
       function link(scope,$element) {
         scope.openPostModal = function (vmPost) {
           if (scope.post){
-            scope.post.isRead = true;
+            scope.post.read = true;
           }
           $state.go('app.message', { postId : vmPost.id, model : vmPost }, { notify : false});
         };

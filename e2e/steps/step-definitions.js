@@ -144,7 +144,7 @@ module.exports = function () {
   });
 
   this.Given(/^I Click on href "([^"]*)"$/, function (destination) {
-    var pS = element(By.css('a[href="#/'+ destination +'"]'));
+    var pS = element(By.css('*[href="#/'+ destination +'"]'));
     pS.click();
   });
 
@@ -194,8 +194,18 @@ module.exports = function () {
     ClickableElement.click();
   });
 
+  this.Given(/^I Click by ngModel "([^"]*)"$/, function (ngModel){
+    var ClickableElement = element(By.css('*[ng-model="' + ngModel + '"]'));
+    ClickableElement.click();
+  });
+
   this.Given(/^I Click on profile pop-over$/, function () {
     var profilePop = element(By.css('div[ng-click="ctlSidebar.profileOpen =! ctlSidebar.profileOpen;ctlSidebar.mentionOpen = false;$event.preventDefault();$event.stopPropagation()"]'));
+    profilePop.click();
+  });
+
+  this.Given(/^I Click Triple-dot$/, function () {
+    var profilePop = element.all(By.deepCss('#place-more-option'));
     profilePop.click();
   });
 
@@ -225,15 +235,11 @@ module.exports = function () {
     menu.click();
   });
 
-  this.Given(/^I Click icon by class "([^"]*)"$/, function (ngIf){
-    var svgWithClass = element(By.css('svg[class="' + ngIf + '"]'));
+  this.Given(/^I Click icon by class "([^"]*)"$/, function (svgClass){
+    var svgWithClass = element(By.css('svg[class="' + svgClass + '"]'));
     svgWithClass.click();
   });
 
-  this.Given(/^I Click by ngModel "([^"]*)"$/, function (ngModel){
-    var select = element(By.css('select[ng-model="' + ngModel + '"]'));
-    select.click();
-  });
 
   this.Given(/^I Click input by dataNgModel "([^"]*)"$/, function (dataNgModel){
     var select = element(By.css('input[data-ng-model="' + dataNgModel + '"]'));
@@ -348,6 +354,11 @@ module.exports = function () {
     return browser.wait(EC.visibilityOf(element(By.css('.post-card'))), 50000);
   });
 
+  this.Then(/^must see the created post/, function () {
+    var EC = protractor.ExpectedConditions;
+    return browser.wait(EC.visibilityOf(element(By.css('.post-card'))), 50000);
+  });
+
   this.When(/^Wait to see success-msg$/, function () {
     browser.ignoreSynchronization = true;
     var EC = protractor.ExpectedConditions;
@@ -448,6 +459,8 @@ module.exports = function () {
   });
 
 
+
+
 //------------url selectors----------------//
 
   this.Then(/^Url Should Contains$/, function (urlc) {
@@ -499,6 +512,21 @@ module.exports = function () {
     element(by.css('input[type="file"]')).sendKeys(absolutePath);
   });
 
+  this.Given(/^I Attach pdf-document$/, function () {
+    var path = require('path');
+    var process = require('process');
+    var fileToUpload = './e2e/assets/document.pdf',
+      absolutePath = path.resolve(process.cwd(), fileToUpload);
+    element(by.css('input[type="file"]')).sendKeys(absolutePath);
+  });
+
+  this.Given(/^I Attach xlsx-document$/, function () {
+    var path = require('path');
+    var process = require('process');
+    var fileToUpload = './e2e/assets/document.xlsx',
+      absolutePath = path.resolve(process.cwd(), fileToUpload);
+    element(by.css('input[type="file"]')).sendKeys(absolutePath);
+  });
 
 
 //------------------- combinated keys -----------------------------------------//
@@ -521,7 +549,20 @@ module.exports = function () {
     enter.perform();
   });
 
-//------------------- specific for notification -------------------------------//
+//------------------- specific for profile -------------------------------//
+
+  this.Given(/^I Click edit-icon by open-custom-modal "([^"]*)"$/, function (customModal) {
+    var icon = element(By.css('svg[open-custom-modal="' + customModal + '"]'));
+    icon.click();
+  });
+
+
+
+
+
+//------------------- specific for -------------------------------//
+
+//------------------- specific for -------------------------------//
 
 
 };

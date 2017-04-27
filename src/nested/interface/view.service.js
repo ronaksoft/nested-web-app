@@ -25,7 +25,7 @@
     obj.change = function () {
       var buff = $rootScope.cardCtrls;
       $rootScope.cardCtrls = [];
-
+      if(!buff) return;
       $timeout(function () {
         for( var i=0; i<buff.length;i++) {
           var el = {

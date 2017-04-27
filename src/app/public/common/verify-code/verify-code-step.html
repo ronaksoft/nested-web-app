@@ -1,31 +1,27 @@
 <form name="phoneVerifyForm" ng-submit="ctrl.verify(phoneVerifyForm.$valid);ga('send', 'event', { eventCategory: 'register', eventAction: 'verify-phone', eventLabel: 'verify'});" novalidate class="use-ng-animate register-step">
-  <div class="nst-vb no-gutter2 nst-marginbtm-16">
-    <p class="col-xs-9 nst-font-xlarge testing-registration-step2">
-      <translate>Phone verification</translate>
-    </p>
-  </div>
-  <div class="text-center nst-font-medium nst-marginbtm-52">
-    <translate>We've sent a verification code via SMS to</translate>
-  </div>
-  <div class="nst-mood-cheerful text-center nst-font-medium nst-margin-20">
-    +{{ctrl.countryCode}}{{ctrl.phone}}
-  </div>
-  <div class="text-center nst-font-medium nst-margin-20">
-    <a href ng-click="ctrl.previousStep()">
-      <translate>That's not me!</translate>
-    </a>
-  </div>
-  <div class="nst-mood-storm nst-font-medium nst-margin-8">
+  <p class="text-center nst-font-medium nst-marginbtm-24">
+    <translate>We've sent a verification code via SMS to</translate><br>
+    <a class="nst-mood-cheerful text-center nst-font-medium">
+      +{{ctrl.countryCode}}{{ctrl.phone}}
+    </a><br>
+  <translate>Check your phone and enter the code below</translate>
+
+  </p>
+
+  <!--<div class="text-center nst-font-medium nst-margin-20">-->
+    <!--<a href ng-click="ctrl.previousStep()">-->
+      <!--<translate>That's not me!</translate>-->
+    <!--</a>-->
+  <!--</div>-->
+  <label for="verification_code">
     <translate>6-digit verification code</translate>
-  </div>
+  </label>
   <p class="nst-mood-lively" data-ng-if="ctrl.verificationWrongCode">
     <translate>You've entered a wrong code</translate>
   </p>
 
-  <div class="nst-marginbtm-16">
-    <div class="form-group">
-      <input id="verification_code" maxlength="6" minlength="6" name="verification_code" class="form-control" ng-model="ctrl.verificationCode" required focus-me="ctrl.ready"/>
-    </div>
+  <div class="form-group">
+    <input id="verification_code" maxlength="6" minlength="6" name="verification_code" class="form-control" ng-model="ctrl.verificationCode" required focus-me="ctrl.ready"/>
   </div>
 
   <div class="_difh nst-marginbtm-16 text-center">

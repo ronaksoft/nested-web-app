@@ -24,7 +24,6 @@
     PostFactory.prototype.send = send;
     PostFactory.prototype.remove = remove;
     PostFactory.prototype.retract = retract;
-    PostFactory.prototype.createPostModel = createPostModel;
     PostFactory.prototype.getSentMessages = getSentMessages;
     PostFactory.prototype.getBookmarkedMessages = getBookmarkedMessages;
     PostFactory.prototype.getMessages = getMessages;
@@ -32,15 +31,15 @@
     PostFactory.prototype.getFavoriteMessages = getFavoriteMessages;
     PostFactory.prototype.getUnreadMessages = getUnreadMessages;
     PostFactory.prototype.parsePost = parsePost;
-    PostFactory.prototype.parseMessage = parseMessage;
     PostFactory.prototype.getMessage = getMessage;
     PostFactory.prototype.search = search;
-    PostFactory.prototype.bookmarkPost = bookmarkPost;
-    PostFactory.prototype.unBookmarkPost = unBookmarkPost;
+    PostFactory.prototype.pin = pin;
+    PostFactory.prototype.unpin = unpin;
     PostFactory.prototype.getChainMessages = getChainMessages;
     PostFactory.prototype.conversation = conversation;
     PostFactory.prototype.movePlace = movePlace;
     PostFactory.prototype.attachPlaces = attachPlaces;
+    PostFactory.prototype.whoRead = whoRead;
 
     var factory = new PostFactory();
     return factory;
@@ -73,6 +72,7 @@
             mark_read: markAsRead ? markAsRead : false
           }).then(function (data) {
             var post = parsePost(data);
+            post.bodyIsTrivial = false;
             NstSvcPostStorage.set(post.id, post);
             defer.resolve(post);
           }).catch(function (error) {
@@ -152,31 +152,31 @@
 
       var params = {
         targets: '',
-        content_type: post.getContentType(),
-        subject: post.getSubject(),
-        body: post.getBody()
+        content_type: post.contentType,
+        subject: post.subject,
+        body: post.body
       };
 
-      params.targets = post.getPlaces().map(
+      params.targets = post.places.map(
         function (place) {
-          return place.getId();
+          return place.id;
         }
-      ).concat(post.getRecipients().map(
+      ).concat(post.recipients.map(
         function (recipient) {
-          return recipient.getId();
+          return recipient.id;
         }
       )).join(',');
 
-      if (post.getReplyTo()) {
-        params.reply_to = post.getReplyTo().getId();
+      if (post.replyTo) {
+        params.reply_to = post.replyTo.id;
       }
 
-      if (post.getForwardFrom()) {
-        params.forward_from = post.getForwardFrom().getId();
+      if (post.forwardFrom) {
+        params.forward_from = post.forwardFrom.id;
       }
 
-      if (post.getAttachments()) {
-        params.attaches = post.getAttachments().map(
+      if (post.attachments) {
+        params.attaches = post.attachments.map(
           function (attachment) {
             return attachment.id;
           }
@@ -184,7 +184,7 @@
       }
 
       NstSvcServer.request('post/add', params).then(function (response) {
-        post.setId(response.post_id);
+        post.id = response.post_id;
 
         deferred.resolve({post: post, noPermitPlaces: response.no_permit_places}, response.no_permit_places);
       }).catch(deferred.reject);
@@ -251,7 +251,7 @@
       }, "retract", id);
     }
 
-    function bookmarkPost(id) {
+    function pin(id) {
       var query = new NstFactoryQuery(id, {
         id: id
       });
@@ -261,8 +261,11 @@
           post_id: query.id
         }).then(function () { //remove the object from storage and return the id
           var post = NstSvcPostStorage.get(query.id);
-          post.setBookmarked(true);
-          NstSvcPostStorage.set(query.id, post);
+
+          if (post) {
+            post.pinned = true;
+            NstSvcPostStorage.set(query.id, post);
+          }
 
           factory.dispatchEvent(new CustomEvent(
             NST_POST_FACTORY_EVENT.BOOKMARKED,
@@ -276,7 +279,7 @@
       });
     }
 
-    function unBookmarkPost(id) {
+    function unpin(id) {
       var query = new NstFactoryQuery(id, {
         id: id
       });
@@ -286,8 +289,11 @@
           post_id: query.id
         }).then(function () { //remove the object from storage and return the id
           var post = NstSvcPostStorage.get(query.id);
-          post.setBookmarked(false);
-          NstSvcPostStorage.set(query.id, post);
+
+          if (post) {
+            post.pinned = false;
+            NstSvcPostStorage.set(query.id, post);
+          }
 
           factory.dispatchEvent(new CustomEvent(
             NST_POST_FACTORY_EVENT.UNBOOKMARKED,
@@ -301,172 +307,52 @@
       });
     }
 
-    function createPostModel(model) {
-      return new NstPost(model);
-    }
-
     function parsePost(data) {
-      var defer = $q.defer();
-      var post = createPostModel();
+      var deferred = $q.defer();
 
-      if (!data) {
-        defer.reject(Error("The post data is not provided"))
-        return defer.promise;
-      }
+      var post = new NstPost();
 
-      if (!data._id) {
-        defer.reject(Error("The post data does not contain _id property"))
-        return defer.promise;
-      }
-
-      post.setId(data._id);
-      post.setSubject(data.subject);
-      post.setContentType(data.content_type);
-
-      post.setIsRead(data.post_read);
-
-      post.setBookmarked(data.pinned);
-
-      post.setInternal(data.internal);
-
-      post.setDate(new Date(data.timestamp));
-      post.setUpdatedDate(new Date(data.last_update));
-
-      post.setCounters(data.counters || post.counters);
-
-      if (data.internal) {
-        post.setSender(NstSvcUserFactory.parseTinyUser(data.sender));
-      } else {
-        post.setEmailSender(NstSvcUserFactory.parseTinyUser(data.email_sender));
-      }
-
-
-      var places = _.map(data.post_places, function (place) {
-        return NstSvcPlaceFactory.parseTinyPlace(place);
-      });
-      post.setPlaces(places);
-
-      var attachments = _.map(data.post_attachments, function (attachment) {
-        if (data._id)
-          return NstSvcAttachmentFactory.parseAttachment(attachment);
-      });
-      post.setAttachments(attachments);
-
-
-      if (data.post_recipients) {
-        for (var k in data.post_recipients) {
-          post.recipients.push(new NstRecipient({
-            id: data.post_recipients[k],
-            name: data.post_recipients[k],
-            email: data.post_recipients[k]
-          }));
-        }
-      }
-
-      post.setReplyToId(data.reply_to);
-      post.setForwardFromId(data.forward_from);
-      post.setWipeAccess(data.wipe_access);
+      post.id = data._id;
+      post.contentType = data.content_type;
+      post.counters = data.counters;
+      post.forwardFromId = data.forward_from;
+      post.internal = data.internal;
+      post.lastUpdate = data.last_update;
+      post.pinned = data.pinned;
+      post.attachments = _.map(data.post_attachments, NstSvcAttachmentFactory.parseAttachment);
+      post.places = _.map(data.post_places, NstSvcPlaceFactory.parseTinyPlace);
+      post.read = data.post_read;
+      post.recipients = data.post_recipients;
+      post.replyToId = data.reply_to;
+      post.sender = NstSvcUserFactory.parseTinyUser(data.internal ? data.sender : data.email_sender);
+      post.subject = data.subject;
+      post.timestamp = data.timestamp;
+      post.type = data.type;
+      post.wipeAccess = data.wipeAccess;
+      post.ellipsis = data.ellipsis;
 
 
       var resources = {};
-      var imgRegex = new RegExp('<img(.*?)src=[\'|"](.*?)[\'|"](.*?)>','g');
-      var body = data.body.replace(imgRegex,function (m, p1, p2, p3) {
+      var imgRegex = new RegExp('<img(.*?)src=[\'|"](.*?)[\'|"](.*?)>', 'g');
+      var body = data.body.replace(imgRegex, function (m, p1, p2, p3) {
         if (p2.indexOf(NST_CONFIG.STORE.URL) === 0) return m;
         var hash = md5.createHash(p2);
         resources[hash] = p2;
-        return "<img" +  p1 + "source='" + hash + "' " + p3 +"/>"
+        return "<img" + p1 + "source='" + hash + "' " + p3 + "/>"
       });
 
+      post.body = body;
+      post.resources = resources;
 
-      post.setResources(resources);
+      var recentCommentPromises = _.map(data.recent_comments, NstSvcCommentFactory.parseMessageComment);
 
-      post.setBody(body);
+      $q.all(recentCommentPromises).then(function (results) {
+        post.comments = results;
 
-      return post;
-    }
+        deferred.resolve(post);
+      }).catch(deferred.reject);
 
-    function parseMessage(data) {
-      if (!_.isObject(data)) {
-        throw Error("Could not create a NstPost model with invalid data");
-      }
-
-      if (!data._id) {
-        throw Error("Could not create a NstPost model without _id");
-      }
-      var defer = $q.defer(),
-        promises = [],
-        message = new NstPost();
-
-      message.setId(data._id);
-      message.setSubject(data.subject);
-      // A message body is trivial
-      message.setBodyIsTrivial(true);
-      message.setBody(data.body);
-      message.setContentType(data.content_type);
-      message.setCounters(data.counters || message.counters);
-      message.setInternal(data.internal);
-      message.setDate(new Date(data.timestamp));
-      message.setIsRead(_.isUndefined(data.post_read) ? true : data.post_read);
-      message.setReplyToId(data.reply_to || null);
-      message.setForwardFromId(data.forward_from || null);
-      var recipients = _.map(data.post_recipients, function (item) {
-        return new NstRecipient({
-          id: item,
-          email: item
-        });
-      });
-      message.setRecipients(recipients);
-      message.setEllipsis(data.ellipsis);
-      message.setBookmarked(data.pinned);
-
-      if (data.last_update) {
-        message.setUpdatedDate(new Date(data.last_update));
-      } else {
-        message.setUpdatedDate(message.getDate());
-      }
-
-      var sender = null;
-      if (data.sender) {
-        sender = NstSvcUserFactory.parseTinyUser(data.sender);
-        NstSvcUserFactory.set(sender);
-        message.setSender(sender);
-      } else if (data.email_sender) {
-        sender = NstSvcUserFactory.parseTinyUser(data.email_sender);
-        NstSvcUserFactory.set(sender);
-        message.setEmailSender(sender);
-      }
-
-      var places = _.map(data.post_places, function (data) {
-        return NstSvcPlaceFactory.parseTinyPlace(data);
-      });
-      message.setPlaces(places);
-
-      var attachments = _.map(data.post_attachments, function (data) {
-        if (data._id)
-          return NstSvcAttachmentFactory.parseAttachment(data);
-      });
-      message.setAttachments(attachments);
-
-      var commentPromises = _.map(data.recent_comments, function (comment) {
-        return NstSvcCommentFactory.parseMessageComment(comment)
-      });
-
-      var allComments = $q.all(commentPromises).then(function (comments) {
-        var validComments = _.filter(comments, function (comment) {
-          return comment.id && comment.sender.id;
-        });
-        message.setComments(validComments);
-      });
-
-      promises.push(allComments);
-
-
-      $q.all(promises).then(function () {
-        defer.resolve(message);
-      }).catch(defer.reject);
-
-
-      return defer.promise;
+      return deferred.promise;
     }
 
     function getMessages(setting) {
@@ -482,7 +368,7 @@
       }
 
       NstSvcServer.request('account/get_posts', options).then(function (data) {
-        var messagePromises = _.map(data.posts, parseMessage);
+        var messagePromises = _.map(data.posts, parsePost);
         $q.all(messagePromises).then(function (messages) {
           _.forEach(messages, function (item) {
             NstSvcPostStorage.set(item.id, item);
@@ -510,7 +396,7 @@
       }
 
       NstSvcServer.request('account/get_pinned_posts', options).then(function (data) {
-        var messagePromises = _.map(data.posts, parseMessage);
+        var messagePromises = _.map(data.posts, parsePost);
         $q.all(messagePromises).then(function (messages) {
           _.forEach(messages, function (item) {
             NstSvcPostStorage.set(item.id, item);
@@ -538,7 +424,7 @@
       }
 
       NstSvcServer.request('account/get_sent_posts', options).then(function (data) {
-        var messagePromises = _.map(data.posts, parseMessage);
+        var messagePromises = _.map(data.posts, parsePost);
         $q.all(messagePromises).then(function (messages) {
           _.forEach(messages, function (item) {
             NstSvcPostStorage.set(item.id, item);
@@ -572,7 +458,7 @@
       }
 
       NstSvcServer.request('place/get_posts', options).then(function (data) {
-        var messagePromises = _.map(data.posts, parseMessage);
+        var messagePromises = _.map(data.posts, parsePost);
         $q.all(messagePromises).then(function (messages) {
           _.forEach(messages, function (item) {
             NstSvcPostStorage.set(item.id, item);
@@ -604,7 +490,7 @@
       }
 
       NstSvcServer.request('account/get_favorite_posts', options).then(function (data) {
-        var messagePromises = _.map(data.posts, parseMessage);
+        var messagePromises = _.map(data.posts, parsePost);
         $q.all(messagePromises).then(function (messages) {
           _.forEach(messages, function (item) {
             NstSvcPostStorage.set(item.id, item);
@@ -637,7 +523,7 @@
       }
 
       NstSvcServer.request('place/get_unread_posts', options).then(function (data) {
-        var messagePromises = _.map(data.posts, parseMessage);
+        var messagePromises = _.map(data.posts, parsePost);
         $q.all(messagePromises).then(function (messages) {
           _.forEach(messages, function (item) {
             NstSvcPostStorage.set(item.id, item);
@@ -679,7 +565,7 @@
         limit: limit || 8,
         skip: skip || 0
       }).then(function (result) {
-        var postPromises = _.map(result.posts, parseMessage);
+        var postPromises = _.map(result.posts, parsePost);
         $q.all(postPromises).then(defer.resolve).catch(defer.reject);
       }).catch(function (error) {
         defer.reject(new NstFactoryError(query, '', error.getCode(), error));
@@ -703,7 +589,7 @@
         limit: limit || 8,
         skip: skip || 0
       }).then(function (result) {
-        var postPromises = _.map(result.posts, parseMessage);
+        var postPromises = _.map(result.posts, parsePost);
         $q.all(postPromises).then(defer.resolve).catch(defer.reject);
       }).catch(function (error) {
         defer.reject(new NstFactoryError(query, '', error.getCode(), error));
@@ -721,7 +607,7 @@
         limit: limit || 8
       }).then(function (data) {
         var messagePromises = _.map(data.posts, function (post) {
-          return parseMessage(post);
+          return parsePost(post);
         });
         $q.all(messagePromises).then(function (messages) {
           deferred.resolve(messages);
@@ -740,13 +626,13 @@
         var deferred = $q.defer();
 
         NstSvcServer.request('post/attach_place', {
-          post_id : postId,
-          place_id : _.join(placeIds, ",")
+          post_id: postId,
+          place_id: _.join(placeIds, ",")
         }).then(function (data) {
           var result = {
-            allAttached : false,
-            noneAttached : false,
-            notAttachedPlaces : []
+            allAttached: false,
+            noneAttached: false,
+            notAttachedPlaces: []
           };
 
           result.allAttached = _.size(_.difference(data.attached, placeIds)) === 0 && _.size(data.not_attached) === 0;
@@ -768,14 +654,41 @@
         var deferred = $q.defer();
 
         NstSvcServer.request('post/replace', {
-          post_id : postId,
-          old_place_id : oldPlaceId,
-          new_place_id : newPlaceId
+          post_id: postId,
+          old_place_id: oldPlaceId,
+          new_place_id: newPlaceId
         }).then(deferred.resolve).catch(deferred.reject);
 
         return deferred.promise;
       }, "movePlace", watchKey);
 
     }
+
+
+    function whoRead(postId, skip, limit) {
+      return factory.sentinel.watch(function () {
+        var deferred = $q.defer();
+
+        NstSvcServer.request('post/who_read', {
+          post_id: postId,
+          skip: skip,
+          limit: limit
+        }).then(function (data) {
+          var readers = [];
+          _.map(data.post_reads, function (reader) {
+            readers.push({
+              user: NstSvcUserFactory.parseTinyUser(reader.account),
+              timestamp : reader.read_on,
+              placeId: reader.place_id
+            })
+          });
+          deferred.resolve(readers);
+        }).catch(deferred.reject);
+
+        return deferred.promise;
+      }, "movePlace", 'who-read-' + postId);
+
+    }
   }
-})();
+})
+();

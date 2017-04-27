@@ -7,7 +7,7 @@
 
   function QuickMessageController($q, $log, $scope, toastr, $state, $rootScope, $uibModal,
                                   NST_FILE_TYPE, NST_ATTACHMENT_STATUS,
-                                  NstPicture, NstSvcFileType, NstSvcAuth, NstLocalResource, NstSvcAttachmentMap, NstSvcPostMap, NstSvcTranslation,
+                                  NstPicture, NstSvcFileType, NstSvcAuth, NstLocalResource, NstSvcAttachmentMap, NstSvcTranslation,
                                   NstSvcUserFactory, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcAttachmentFactory, NstSvcStore) {
     var vm = this;
     vm.text = '';
@@ -211,12 +211,12 @@
           if (vm.model.check()) {
             vm.model.saving = true;
 
-            var post = NstSvcPostFactory.createPostModel();
-            post.setSubject(vm.model.subject);
-            post.setBody(vm.model.body);
-            post.setContentType('text/plain');
-            post.setAttachments(vm.model.attachments);
-            post.setPlaces([NstSvcPlaceFactory.parseTinyPlace({_id: vm.placeId})]);
+            var post = new NstPost();
+            post.subject = vm.model.subject;
+            post.body = vm.model.body;
+            post.contentType = 'text/plain';
+            post.attachments = vm.model.attachments;
+            post.places = [NstSvcPlaceFactory.parseTinyPlace({_id: vm.placeId})];
 
             NstSvcPostFactory.send(post).then(deferred.resolve).catch(function (error) {
               deferred.reject([error]);
@@ -232,8 +232,7 @@
         vm.model.saved = true;
 
         NstSvcPostFactory.get(response.post.id).then(function (res) {
-          var msg = NstSvcPostMap.toMessage(res);
-          vm.addMessage(msg);
+          vm.addMessage(res);
         });
 
         if (response.noPermitPlaces.length > 0) {
