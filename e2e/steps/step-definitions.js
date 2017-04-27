@@ -230,8 +230,8 @@ module.exports = function () {
   });
 
 
-  this.Given(/^I Click icon by ngIf "([^"]*)"$/, function (ngIf){
-    var menu = element(By.css('svg[ng-if="' + ngIf + '"]'));
+  this.Given(/^I Click by ngIf "([^"]*)"$/, function (ngIf){
+    var menu = element(By.css('*[ng-if="' + ngIf + '"]'));
     menu.click();
   });
 
@@ -313,6 +313,12 @@ module.exports = function () {
     });
   });
 
+  this.When(/^should the body of the compose be "([^"]*)"$/, function (expectedBody) {
+    element(By.css(".cke_wysiwyg_div .cke_reset .cke_enable_context_menu .cke_editable .cke_editable_themed .cke_contents_ltr .cke_show_borders")).getText().then(function (title) {
+      assert.equal(title.trim(), expectedBody, ' title is "' + title + '" but should be "' + expectedBody);
+    });
+  });
+
 
 //---------------------------tabs sesion-----------------------//
 
@@ -384,6 +390,22 @@ module.exports = function () {
       return assert.ok(false, 'Can not find message!')
     });
   });
+
+
+  this.When(/^should see "([^"]*)" place name$/, function (expectedWarning) {
+    return element(By.deepCss('span[class="place-name ng-binding"]')).getText().then(function (noExpect) {
+      return assert.equal(noExpect.trim(), expectedWarning, ' error is "' + noExpect + '" but should be "' + expectedWarning);
+    }).catch(function () {
+      return assert.ok(false, 'Can not find message!')
+    });
+  });
+
+  this.When(/^Wait to see subject "([^"]*)"$/, function (composeSubject) {
+    var EC = protractor.ExpectedConditions;
+    return browser.wait(EC.textToBePresentInElementValue($('#compose-subject'),composeSubject), 50000);
+  });
+
+
 //----------------------------------------------- modals --------------------------------------------------------------------//
 
 
@@ -526,6 +548,32 @@ module.exports = function () {
     var fileToUpload = './e2e/assets/document.xlsx',
       absolutePath = path.resolve(process.cwd(), fileToUpload);
     element(by.css('input[type="file"]')).sendKeys(absolutePath);
+  });
+
+        //------------- file expectation --------------//
+
+  this.When(/^Wait to see image$/, function () {
+    browser.ignoreSynchronization = true;
+    var EC = protractor.ExpectedConditions;
+    return browser.wait(EC.visibilityOf(element(By.css('img[]'))), 50000);
+  });
+
+  this.When(/^Wait to see pdf$/, function () {
+    browser.ignoreSynchronization = true;
+    var EC = protractor.ExpectedConditions;
+    return browser.wait(EC.visibilityOf(element(By.css('.attach-thumbnail-pdf'))), 50000);
+  });
+
+  this.When(/^Wait to see document$/, function () {
+    browser.ignoreSynchronization = true;
+    var EC = protractor.ExpectedConditions;
+    return browser.wait(EC.visibilityOf(element(By.css('.attach-thumbnail-document'))), 50000);
+  });
+
+  this.When(/^Wait to see music$/, function () {
+    browser.ignoreSynchronization = true;
+    var EC = protractor.ExpectedConditions;
+    return browser.wait(EC.visibilityOf(element(By.css('.attach-thumbnail-audio'))), 50000);
   });
 
 
