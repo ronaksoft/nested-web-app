@@ -36,8 +36,6 @@
     vm.toggleBookmark = toggleBookmark;
     vm.toggleNotification = toggleNotification;
     vm.openCreateSubplaceModal = openCreateSubplaceModal;
-    vm.openContact = openContact;
-    vm.openContacts = openContacts;
     vm.openAddMemberModal = openAddMemberModal;
     vm.openSettingsModal = openSettingsModal;
     vm.confirmToRemove = confirmToRemove;
@@ -80,15 +78,7 @@
       $event.preventDefault();
     };
 
-    function openContact($event,style) {
-        $state.go('app.contact', { userId : 'robzizo' } , { notify : false });
-      $event.preventDefault();
-    };
 
-    function openContacts($event,style) {
-        $state.go('app.contacts', {} , { notify : false });
-      $event.preventDefault();
-    };
 
     function openAddMemberModal($event) {
       $event.preventDefault();

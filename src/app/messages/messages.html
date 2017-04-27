@@ -117,6 +117,15 @@
       <div class="name"><translate>Recently Visited Places</translate></div>
       <recent-visited-places></recent-visited-places>
     </div>
+    <div ng-if="!ctlMessages.currentPlaceId && !ctlMessages.isbookmarkedsMode && !ctlMessages.isSentMode && !ctlMessages.isUnreadMode">
+      <div class="name">
+        <translate>Contacts</translate>
+        <svg class="_16svg _df" ng-click="ctlMessages.openContacts($event)">
+          <use xlink:href="/assets/icons/nst-icn16.svg#expand"></use>
+        </svg>
+      </div>
+      <fav-contacts></fav-contacts>
+    </div>
     <div id="members" nst-scrollbar suppress-scroll-x="true"
          ng-if="ctlMessages.hasSeeMembersAccess && !ctlMessages.isSubPersonal() && !ctlMessages.isbookmarkedsMode && !ctlMessages.isSentMode && !ctlMessages.isUnreadMode && ctlMessages.currentPlaceId">
       <nst-place-teammates-sidebar grand-place="ctlMessages.currentPlaceId" place-id="ctlMessages.currentPlaceId"></nst-place-teammates-sidebar>

@@ -110,12 +110,19 @@
     }
   }
   .name {
-    color: $color-hurricane;
+    color: #999999;
     font-size: $font-size-xsmall;
     line-height: 15px;
     font-weight: 400;
     margin-bottom: 12px;
     padding: 0 8px;
+    position: relative;
+    svg {
+      position: absolute;
+      right: 12px;
+      top: 0;
+      fill: #999999;
+    }
   }
   .teammates {
     //border-top: 1px solid $color-breeze;
@@ -191,4 +198,24 @@
   //transform: translateY($navbar-height + 10px);
   //Left: 50%;
   will-change: transform;
+}
+
+.fav-contacts {
+  padding: 0 12px;
+  max-height: 280px;
+  li {
+    display: flex
+  }
+  .userrow {
+    height: 40px;
+    img {
+      width: 24px;
+      height: 24px
+    }
+    span:first-child {
+      font-size: 13px;
+      line-height: 18px;
+      padding-left: 12px;
+    }
+  }
 }

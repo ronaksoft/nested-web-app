@@ -30,6 +30,7 @@
 
 #contacts-list {
     padding-top: 36px;
+    height: 100%;
     h2 {
         margin: 0 0 36px 0;
     }
@@ -42,7 +43,9 @@
         margin-bottom: 24px;
         height: 32px;
         font-size: 13px;
-        padding-left: 32px
+        padding-left: 32px;
+        border-radius: 4px;
+        border: 1px solid $color-border;
     }
     h6 {
         background-color: #EBEBEB;
