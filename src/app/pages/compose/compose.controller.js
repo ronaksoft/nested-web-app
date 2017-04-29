@@ -360,17 +360,13 @@
           return new NstVmSelectTag(place);
         }).value();
 
-        if (_.isString(query)
-          && _.size(query) >= 4
-          && _.indexOf(query, " ") === -1
-          && (NST_PATTERN.EMAIL.test(query) || NST_PATTERN.GRAND_PLACE_ID.test(query))
-          && !_.some(vm.search.results, {id: query})) {
           var initPlace = new NstVmSelectTag({
             id: query,
             name: query
           });
-          vm.search.results.push(initPlace);
-        }
+          if (initPlace.isValid)
+            vm.search.results.push(initPlace);
+
       }).catch(function () {
         vm.search.results = [];
         if (initPlace.id)
