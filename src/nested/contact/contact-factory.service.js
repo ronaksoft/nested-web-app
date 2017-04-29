@@ -12,6 +12,7 @@
     ContactFactory.prototype = new NstBaseFactory();
     ContactFactory.prototype.constructor = ContactFactory;
 
+    ContactFactory.prototype.get = get;
     ContactFactory.prototype.add = add;
     ContactFactory.prototype.addFavorite = addFavorite;
     ContactFactory.prototype.removeFavorite = removeFavorite;
@@ -22,6 +23,21 @@
 
     var factory = new ContactFactory();
     return factory;
+
+    function get(id) {
+
+      return factory.sentinel.watch(function () {
+        var deferred = $q.defer();
+
+        NstSvcServer.request('contact/get', {
+          contact_id: id
+        }).then(function (data) {
+          deferred.resolve(parse(data));
+        }).catch(deferred.reject);
+
+        return deferred.promise;
+      }, "get");
+    }
 
     function add(contact) {
 

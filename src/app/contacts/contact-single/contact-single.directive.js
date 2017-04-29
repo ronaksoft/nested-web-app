@@ -12,6 +12,10 @@
       templateUrl: 'app/contacts/contact-single/contact-single.html',
       controller: 'ContactSingleController',
       controllerAs: 'ctrl',
+      scope: {
+        contactId: '='
+      },
+      bindToController: true,
       link: function (scope, element, attrs) {
       }
     };

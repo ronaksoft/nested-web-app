@@ -13,6 +13,7 @@
       if ($stateParams.contactId && $stateParams.contactId.length > 0) {
         vm.mode = 'single';
         vm.contact = $stateParams.contact;
+        vm.contactId = $stateParams.contactId;
       } else {
         vm.mode = 'list';
       }
