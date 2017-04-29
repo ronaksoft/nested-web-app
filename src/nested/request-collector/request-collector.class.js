@@ -22,7 +22,7 @@
      *
      * @type {number}
      */
-    var intervalTime = 2000,
+    var intervalTime = 200,
 
       /**
        * Maximum number of stack batch to call main function (fn)
@@ -137,6 +137,7 @@
                 promise.reject();
               });
             });
+
           }).catch(function (error) {
           _.each(Object.keys(batchItem), function (id) {
             _.each(batchItem[id], function (promise) {
