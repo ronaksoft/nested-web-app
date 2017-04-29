@@ -216,7 +216,6 @@
       }, "removePicture");
     }
 
-
     UserFactory.prototype.getRecentlyVisitedPlace = function () {
 
       var deferred = $q.defer();

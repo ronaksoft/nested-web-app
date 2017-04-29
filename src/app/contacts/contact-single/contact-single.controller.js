@@ -15,6 +15,11 @@
 
     (function () {
       loadContact(vm.contactId);
+      add("sinaa");
+      add("ehsan");
+      add("user-1");
+      add("user-2");
+      add("user-3");
     })();
 
     function loadContact(id) {
@@ -34,7 +39,7 @@
     function add(id) {
       vm.addProgress = true;
       NstSvcContactFactory.add(id).then(function () {
-        vm.contact.isAdded = true;
+        // vm.contact.isAdded = true;
       }).catch(function (error) {
         toastr.error(NstSvcTranslation.get("An error has occured while adding the user in your contacts list."));
       });

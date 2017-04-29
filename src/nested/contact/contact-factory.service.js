@@ -5,7 +5,9 @@
     .service('NstSvcContactFactory', NstSvcContactFactory);
 
   /** @ngInject */
-  function NstSvcContactFactory($q, _, NstSvcServer, NstBaseFactory) {
+  function NstSvcContactFactory($q, _,
+    NstSvcServer, NstBaseFactory, NstSvcUserFactory,
+    NstTinyUser) {
 
     function ContactFactory() {}
 
@@ -39,17 +41,19 @@
       }, "get");
     }
 
-    function add(contact) {
+    function add(id) {
 
       return factory.sentinel.watch(function () {
         var deferred = $q.defer();
 
-        NstSvcServer.request('contact/add', contact).then(function (data) {
+        NstSvcServer.request('contact/add', {
+          contact_id: id
+        }).then(function (data) {
           deferred.resolve(data);
         }).catch(deferred.reject);
 
         return deferred.promise;
-      }, "add");
+      }, "add" + id);
     }
 
     function addFavorite(id) {
@@ -103,6 +107,47 @@
         var deferred = $q.defer();
 
         NstSvcServer.request('contact/get_all', {}).then(function (data) {
+          data.contacts.push({
+            "_id": "st",
+            "fname": "سروش",
+            "lname": "ترک زاده"
+          });
+          data.contacts.push({
+            "_id": "ali",
+            "fname": "علی",
+            "lname": "محمودی"
+          });
+          data.contacts.push({
+            "_id": "kamal",
+            "fname": "kamal",
+            "lname": "aliabadi"
+          });
+          data.contacts.push({
+            "_id": "jef",
+            "fname": "جعفر",
+            "lname": "صحراییان"
+          });
+          data.contacts.push({
+            "_id": "shayesteh",
+            "fname": "Shayesteh",
+            "lname": "Naemabadi"
+          });
+          data.contacts.push({
+            "_id": "poyan",
+            "fname": "Pouyan",
+            "lname": "Heyratpour"
+          });
+          data.contacts.push({
+            "_id": "123456",
+            "fname": "123456",
+            "lname": ""
+          });
+          data.contacts.push({
+            "_id": "sinaaaaa",
+            "fname": "Sina",
+            "lname": "Hosseini"
+          });
+
           deferred.resolve(_.map(data.contacts, parse));
         }).catch(deferred.reject);
 
@@ -124,7 +169,7 @@
     }
 
     function parse(data) {
-      return data;
+      return NstSvcUserFactory.parseTinyUser(data);
     }
 
   }
