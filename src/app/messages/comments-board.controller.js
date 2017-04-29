@@ -54,14 +54,14 @@
     })();
 
     function findLastComment(comments) {
-      return _.last(_.orderBy(comments, 'date'));
+      return _.last(_.orderBy(comments, 'timestamp'));
     }
 
     function getLastCommentDate(comments) {
       var date = null;
       vm.lastComment = vm.lastComment || findLastComment(vm.comments);
       if (vm.lastComment) {
-        date = vm.lastComment.date;
+        date = vm.lastComment.timestamp;
       } else {
         date = new Date(new Date().getTime() - (24 * 60 * 60 * 1000));
       }
@@ -104,7 +104,7 @@
     function reorderComments(comments) {
       return _.chain(comments).filter(function (comment) {
         return !comment.removedById && !_.some(vm.comments, { id : comment.id });
-      }).orderBy('date', 'asc').value();
+      }).orderBy('timestamp', 'asc').value();
     }
 
 
@@ -204,12 +204,12 @@
     }
 
     function findOlder() {
-      return _.first(_.orderBy(vm.comments, 'date'));
+      return _.first(_.orderBy(vm.comments, 'timestamp'));
     }
 
     function getOlderDate() {
       var oldest = findOlder();
-      var date = oldest ? oldest.date : Date.now();
+      var date = oldest ? oldest.timestamp : Date.now();
 
       return NstUtility.date.toUnix(moment(date).subtract(1, 'ms'));
     }
