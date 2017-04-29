@@ -117,9 +117,9 @@
           post_id: query.id,
         }).then(function (dataObj) {
           defer.resolve({
-            idKey : '_id',
-            resolves : dataObj.posts,
-            rejects : dataObj.no_access
+            idKey: '_id',
+            resolves: dataObj.posts,
+            rejects: dataObj.no_access
           });
         }).catch(function (error) {
           defer.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
@@ -256,13 +256,19 @@
           place_id: query.data.placeId
         }).then(function () { //remove the object from storage and return the id
           var post = NstSvcPostStorage.get(query.id);
-          NstUtility.collection.dropById(post.places, query.data.placeId);
-          if (post.places.length === 0) { //the last place was removed
-            NstSvcPostStorage.remove(query.id);
-          } else {
-            NstSvcPostStorage.set(query.id, post);
+
+          if (post) {
+            NstUtility.collection.dropById(post.places, query.data.placeId);
+            if (post.places.length === 0) { //the last place was removed
+              NstSvcPostStorage.remove(query.id);
+            } else {
+              NstSvcPostStorage.set(query.id, post);
+            }
+            resolve(post);
           }
-          resolve(post);
+
+          resolve(null)
+
         }).catch(function (error) {
           reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
         });
