@@ -68,7 +68,8 @@
     return vm.isSearchMode = false;
     }
 
-    function openCreateSubplaceModal ($event,style) {
+    function openCreateSubplaceModal($event,style) {
+            console.log('aaaaaa')
       if ( style == 'open') {
         $state.go('app.place-create', { placeId : getPlaceId(),isOpenPlace: true } , { notify : false });
       } else {
@@ -76,6 +77,8 @@
       }
       $event.preventDefault();
     };
+
+
 
     function openAddMemberModal($event) {
       $event.preventDefault();

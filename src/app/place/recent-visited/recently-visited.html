@@ -1,13 +1,19 @@
-<ul class="_bgwhite" nst-scrollbar suppress-scroll-x="true">
-  <li data-ng-repeat="place in ctrl.places">
-    <a class="_df remove-from-places _aic _fw">
-      <div class="_aic _df">
-        <div class="post-card-place-avatar">
-          <img class="" ng-src="{{place | picture : 'x64'}}"/>
-        </div>
+<ul class="_bgwhite visited-places" nst-scrollbar suppress-scroll-x="true">
+  <li>
+    <div class="_fw _jcc _df margin-top-10" ng-if="ctrl.loading">
+      <div class="nst-loading nst-loading-size-4 _fl"></div>
+      <span>&nbsp;</span>
+      <div class="nst-font-xsmall _fr nst-marginbtm-4">
+        <translate>Loading...</translate>
       </div>
-      <div class="_df _fh text-wrap">
-        <p class="_txe place-name">{{place.name}}</p>
+    </div>
+  </li>
+  <li data-ng-repeat="place in ctrl.places">
+    <a class="_df placerow _aic _fw"  ui-sref="app.place-messages({placeId:place.id})">
+      <img class="" ng-src="{{place | picture : 'x64'}}"/>
+      <div class="_df text-wrap">
+        <!--<p class="_txe place-name">{{place.name}}</p>-->
+        <span class="_txe">{{place.name}}</span>
       </div>
     </a>
   </li>
