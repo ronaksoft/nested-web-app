@@ -271,7 +271,8 @@
         comment.sender = NstSvcUserFactory.parseTinyUser(data.sender);
 
         comment.body = data.text;
-        comment.date = new Date(data['timestamp']);
+        comment.timestamp = data.timestamp;
+
         comment.removedById = data.removed_by;
 
         if (comment.removedById) {
