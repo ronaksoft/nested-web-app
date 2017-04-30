@@ -118,7 +118,7 @@
       <recent-visited-places></recent-visited-places>
     </div>
     <div ng-if="!ctlMessages.currentPlaceId && !ctlMessages.isbookmarkedsMode && !ctlMessages.isSentMode && !ctlMessages.isUnreadMode"
-    affixer parent=".content-plus" after-content="0" offset-top="114" top="80" fixed-top="true">
+    affixer parent=".content-plus" after-content="0" top="80" fixed-top="true">
       <div class="name">
         <translate>Contacts</translate>
         <svg class="_16svg _df" ng-click="ctlMessages.openContacts($event)">
@@ -132,7 +132,7 @@
       <nst-place-teammates-sidebar grand-place="ctlMessages.currentPlaceId" place-id="ctlMessages.currentPlaceId"></nst-place-teammates-sidebar>
     </div>
     <div id="cp1" nst-scrollbar suppress-scroll-x="true" ng-show="!ctlMessages.isbookmarkedsMode && !ctlMessages.isSentMode && !ctlMessages.isUnreadMode && ctlMessages.currentPlaceId"
-         affixer parent=".content-plus" after-content="0" offset-top="86" top="48" fixed-top="true">
+         affixer parent=".content-plus" after-content="0" top="48" fixed-top="true">
       <!--FIXME:: use only one of place/place-id -->
       <nst-recent-activity place="ctlMessages.currentPlaceId" place-id="ctlMessages.currentPlaceId"  count="16"/>
     </div>
