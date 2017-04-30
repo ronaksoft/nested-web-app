@@ -25,7 +25,7 @@
               padding: 8px 0;
           }
       }
-  }  
+  }
 }
 
 #contacts-list {
@@ -72,6 +72,7 @@
         font-weight: bold;
         li a{
             color: $color-gale;
+            text-transform: uppercase;
         }
         li.active a{
             color: $color-solid;

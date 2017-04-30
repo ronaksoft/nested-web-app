@@ -1,0 +1,43 @@
+<div id="contacts-list">
+    <h2 class="_df">
+        <svg class="_24svg _asc" ng-click="$dismiss()">
+            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/nst-icn24.svg#xcross"></use>
+        </svg>
+        <span>Contacts</span>
+    </h2>
+    <div class="_pr _fw">
+        <svg class="_16svg _asc _pa srch">
+            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/nst-icn16.svg#search"></use>
+        </svg>
+        <input type="text" ng-model="ctrl.keyword" ng-change="ctrl.search(ctrl.keyword);" placeholder="find in contacts">
+    </div>
+    <div id="scroller" nst-scrollbar  scroll-spy="" data-target="#navPills" data-scroll-offset="80" class="scrollspy-example span9">
+        <section id="fav" ng-if="!(ctrl.keyword && ctrl.keyword.length > 0)">
+            <h6>Favorites</h6>
+            <div class="userrow" ng-repeat="contact in ctrl.favorites" ng-click="ctrl.view(contact)">
+                <img initial-avatar="{{contact.fullName}}" picture="{{contact | avatar : 'x64'}}" data-width="48" data-height="48"
+                   data-radius="48" class="account-initials-64" data-word-count="2" data-font-size="18"/>
+                <div class="_difv">
+                    <span>{{contact.fullName}}</span>
+                    <span>{{contact.id}}</span>
+                </div>
+            </div>
+        </section>
+        <section ng-repeat="group in ctrl.contacts" id="{{::group.key}}">
+            <h6 class="text-uppercase">{{::group.key}}</h6>
+            <div class="userrow" ng-repeat="contact in group.items" ng-click="ctrl.view(contact)">
+                <img initial-avatar="{{contact.fullName}}" picture="{{contact | avatar : 'x64'}}" data-width="48" data-height="48"
+                   data-radius="48" class="account-initials-64" data-word-count="2" data-font-size="18"/>
+                <div class="_difv">
+                    <span>{{contact.fullName}}</span>
+                    <span>{{contact.id}}</span>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <ul class="alphabet nav" id="navPills">
+        <li class="active"><a href="#fav" ng-click="$event.preventDefault();" scroll-to="fav">*</a></li>
+        <li ng-repeat="group in ctrl.contacts"><a href="#{{::group.key}}" ng-click="$event.preventDefault();" scroll-to="{{::group.key}}">{{::group.key}}</a></li>
+    </ul>
+</div>

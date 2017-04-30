@@ -1,14 +1,12 @@
 <ul class="_bgwhite fav-contacts" nst-scrollbar suppress-scroll-x="true">
-  <!--<li data-ng-repeat="place in ctrl.places">-->
-  <li>
-    <a class="_df userrow _aic _fw" ng-click="ctrl.openContact($event,'robzizo')">
-    <img class="" ng-src="{{place | picture : 'x64'}}"/>
+  <li data-ng-repeat="contact in ctrl.contacts">
+    <a class="_df userrow _aic _fw" ui-sref="app.contact({ contactId: contact.id })" ng-click="ctrl.openContact($event, contact)">
+    <img class="" ng-src="{{contact | avatar : 'x32'}}"/>
       <div class="_df text-wrap _fw">
-        <!--<p class="_txe place-name">{{place.name}}</p>-->
-        <span class="_txe">Ali</span>
+        <span class="_txe">{{contact.fullName}}</span>
       </div>
-      <div class="status">
-      </div>
+      <!-- <div class="status">
+      </div> -->
     </a>
   </li>
 </ul>

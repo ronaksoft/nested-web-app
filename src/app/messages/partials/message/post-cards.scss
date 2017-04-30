@@ -155,15 +155,18 @@ post-card {
     fill: black;
   }
   .post-head {
-    height: 50px;
+    height: 64px;
     align-items: center;
     flex: none;
     padding-left: 0;
     position: relative;
+    >div:first-child {
+      min-width: 16px;
+      padding: 0 2px 0 6px;
+    }
     .icon {
       fill: black;
       position: relative;
-      left: 5px;
       svg {
         width: 16px;
         height: 16px;
@@ -175,7 +178,6 @@ post-card {
     .img {
       width: 42px;
       justify-content: flex-start;
-      margin-left: 10px;
       margin-right: 4px;
       & + div {
         max-width: calc(100% - 56px);
@@ -218,15 +220,15 @@ post-card {
   }
 
   .post-body {
-    font-size: 13px;
+    font-size: 14px;
     color: #808080;
     //word-spacing: .3em;
     font-weight: 400;
     margin: 0 0 16px 0;
-    line-height: 142%;
+    line-height: 20px;
     overflow-x: auto;
     overflow-y: hidden;
-    padding: 0 16px;
+    padding: 0 24px;
     ul {
       margin-left: 8px;
     }
@@ -256,13 +258,13 @@ post-card {
   hr {
     width: calc(100% - 48px);
     border-color: $color-calm;
-    margin: 12px auto 0 auto;
+    margin: 0 auto;
   }
   .post-subject {
     h3 {
       margin: 0 0 8px 0;
       font-size: 18px;
-      line-height: 29px;
+      line-height: 22px;
       //word-break: break-all;
       font-weight: bold;
       width: 100%;
@@ -362,6 +364,9 @@ post-card {
             fill: $color-reply;
           }
           background-color: rgba(30, 220, 150, .1);
+        }
+        &.more {
+          margin: 0
         }
         &.more:hover {
           background-color: rgba(0, 0, 0, .1);
@@ -472,7 +477,7 @@ h3 {
   z-index: 0;
   border-radius: 0 0 4px 4px;
   //overflow: hidden;
-  > *:first-child {
+  comments-board > .ng-scope:first-child {
     margin-top: 8px;
   }
 }
@@ -695,7 +700,7 @@ h3 {
   .chain {
     display: block;
     background-color: $color-reply;
-    opacity: .08;
+    opacity: .16;
   }
   &:hover {
     .chain {

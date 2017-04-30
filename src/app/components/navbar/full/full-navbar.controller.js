@@ -45,6 +45,7 @@
     vm.isFeed = $state.current.options.feed;
     vm.isFavPlaces = $state.current.options.favoritePlace;
     vm.searchKeyPressed = searchKeyPressed;
+    vm.goBack = goBack;
 
     function isUnread() {
       if ($state.current.name == 'app.place-messages-unread' ||
@@ -434,6 +435,10 @@
           toastr.error(NstSvcTranslation.get("An error has occurred in removing this Place."));
         }
       });
+    }
+
+    function goBack() {
+      $rootScope.goToLastState();
     }
 
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.BOOKMARK_ADD, function (e) {

@@ -1,0 +1,63 @@
+<div id="single-contact">
+    <div class="place-head contact-head">
+      <div class="place-filter">
+        <img ng-src="{{ctrl.contact | picture}}" alt="{{::ctrl.contact.fullName}}">
+      </div>
+      <div class="setting-headline _aic">
+        <svg class="_24svg _df _r45 _fn" ng-click="ctrl.close();">
+          <use xlink:href="/assets/icons/nst-icn24.svg#cross"></use>
+        </svg>
+      </div>
+      <div class="logo-holder">
+        <img ng-src="{{ctrl.contact | picture:'x128'}}" height="100%" alt="{{::ctrl.contact.fullName}}">
+      </div>
+
+      <div class="contact-actions">
+        <div ng-click="ctrl.toggleFavorite()" ng-if="ctrl.contact.isContact">
+          <svg class="_24svg _df fill-gale">
+            <use ng-if="!ctrl.contact.isFavorite" xlink:href="/assets/icons/nst-icn24.svg#star-wire"></use>
+            <!-- TODO : Change icon-->
+            <use ng-if="ctrl.contact.isFavorite" xlink:href="/assets/icons/nst-icn24.svg#star"></use>
+          </svg>
+        </div>
+        <div ng-if="!ctrl.contact.isContact" ng-click="ctrl.add()">
+          <svg class="_24svg _df fill-gale" ng-if="true">
+            <!-- TODO : Change icon-->
+            <use xlink:href="/assets/icons/nst-icn24.svg#cross"></use>
+          </svg>
+        </div>
+        <div ng-click="ctrl.viewConversation();">
+          <svg class="_24svg _df fill-gale" ng-if="true">
+            <use xlink:href="/assets/icons/nst-icn24.svg#message-baloon"></use>
+          </svg>
+        </div>
+        <div ng-click="ctrl.sendMessage();">
+          <svg class="_24svg _df fill-sense-wire" ng-if="true">
+            <use xlink:href="/assets/icons/nst-icn24.svg#compose"></use>
+          </svg>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="inf">
+        <h4>Full Name</h4>
+        <h5>{{::ctrl.contact.fullName}}</h5>
+    </div>
+
+    <div class="inf">
+        <h4>User ID</h4>
+        <h5>{{::ctrl.contact.id}}</h5>
+    </div>
+
+    <div class="inf">
+        <h4>Mutual Places ({{ctrl.mutualPlaces.length || 0}})</h4>
+        <div class="mu-places">
+            <a class="placerow" ng-repeat="place in ctrl.mutualPlaces">
+                <img ng-src="{{ place | picture : 'x64'}}" alt="{{::place.name}}">
+                <span>{{::place.name}}</span>
+            </a>
+        </div>
+    </div>
+</div>

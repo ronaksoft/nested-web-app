@@ -1,6 +1,9 @@
 .seen-by {
     width: 480px;
     max-height: 100vh;
+    .modal-head {
+        height: 72px;
+    }
     .modal-body {
         flex-direction: row;
         flex-wrap: wrap;
@@ -21,7 +24,6 @@
             font-size: 16px;
             margin: 0
         }
-        padding-left: 8px;
         span {
             color: $color-storm;
             font-size: 12px
