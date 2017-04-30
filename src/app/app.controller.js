@@ -132,7 +132,7 @@
       // restore to find a primary route
       while ($rootScope.stateHistory.length > 0) {
         last = $rootScope.stateHistory.pop();
-        if (last.state.options && last.state.options.primary) {
+        if (last.state.options && last.state.options.primary && last.state.name !== $state.current.name) {
           $rootScope.stateHistory.push(last);
           return last;
         }
