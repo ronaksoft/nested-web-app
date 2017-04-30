@@ -39,7 +39,7 @@
             return contactHasKeyword(contact, keyword);
           });
 
-        vm.favorites = orderItems(_.filter(filteredItems, 'isFavorite'));
+        vm.favorites = orderItems(_.filter(filteredItems, { 'isFavorite' : true }));
         vm.contacts = _.chain(filteredItems)
           .groupBy(function (contact) {
             var orderFactor = getOrderFactor(contact);

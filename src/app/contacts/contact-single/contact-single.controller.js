@@ -38,7 +38,7 @@
     function add(id) {
       vm.addProgress = true;
       NstSvcContactFactory.add(id).then(function () {
-        vm.contact.isAdded = true;
+        vm.contact.isContact = true;
       }).catch(function (error) {
         toastr.error(NstSvcTranslation.get("An error has occured while adding the user in your contacts list."));
       });
@@ -47,7 +47,7 @@
     function remove(id) {
       vm.removeProgress = true;
       NstSvcContactFactory.remove(id).then(function () {
-        vm.contact.isAdded = false;
+        vm.contact.isContact = false;
       }).catch(function (error) {
         toastr.error(NstSvcTranslation.get("An error has occured while removing the user from your contacts list."));
       }).finally(function () {
@@ -55,7 +55,7 @@
       });
     }
 
-    function favorite(id) {
+    function addFavorite(id) {
       vm.favoriteProgress = true;
       NstSvcContactFactory.addFavorite(id).then(function () {
         vm.contact.isFavorite = true;
@@ -91,13 +91,13 @@
         return $q.resolve(vm.contact);
       }
 
-      // try to find the contact between all contacts
-      var allContacts = NstSvcContactFactory.getAll();
-      var contact = _.find(allContacts, { id : id });
-
-      if (contact && contact.id) {
-        return $q.resolve(contact);
-      }
+      // // try to find the contact between all contacts
+      // var allContacts = NstSvcContactFactory.getAll();
+      // var contact = _.find(allContacts, { id : id });
+      //
+      // if (contact && contact.id) {
+      //   return $q.resolve(contact);
+      // }
 
       // request a contact
       return NstSvcContactFactory.get(id);

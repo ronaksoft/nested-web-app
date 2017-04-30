@@ -7,7 +7,7 @@
   /** @ngInject */
   function NstSvcContactFactory($q, _,
     NstSvcServer, NstBaseFactory, NstSvcUserFactory, NstSvcContactStorage,
-    NstTinyUser) {
+    NstContact, NstPicture) {
 
     function ContactFactory() {}
 
@@ -142,7 +142,30 @@
     }
 
     function parse(data) {
-      return NstSvcUserFactory.parseTinyUser(data);
+      if (!_.isObject(data)) {
+        throw Error("Could not create a contact model with an invalid data");
+      }
+
+      if (!data._id) {
+        throw Error("Could not parse contact data without _id");
+      }
+
+      var contact = new NstContact();
+
+      contact.id = data._id;
+      contact.firstName = data.fname || '';
+      contact.lastName = data.lname || '';
+      contact.fullName = contact.getFullName();
+
+      if (data.picture && data.picture.org) {
+        contact.picture = new NstPicture(data.picture);
+      }
+
+      contact.isFavorite = data.is_favorite;
+      contact.isContact = data.is_contact;
+      contact.isMutual = data.is_mutual;
+
+      return contact;
     }
 
   }
