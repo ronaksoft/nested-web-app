@@ -59,11 +59,11 @@
           <use xlink:href="/assets/icons/nst-icn24.svg#arrow-down"></use>
         </svg>
         <div class="conv-logos">
-          <div class="user-avatar-32">
-            <img initial-avatar="{{ctlFullNavbar.user.fullName}}" picture="{{ctlFullNavbar.user | avatar:'x64'}}" data-width="32" data-height="32" data-radius="30" data-word-count="2" data-font-size="12" ng-if="ctlFullNavbar.user"/>
+          <div class="place-avatar-32">
+            <img initial-avatar="{{ctlFullNavbar.user.fullName}}" picture="{{ctlFullNavbar.user | avatar:'x64'}}" data-width="32" data-height="32" data-radius="4" data-word-count="2" data-font-size="12" ng-if="ctlFullNavbar.user"/>
           </div>
-          <div class="user-avatar-40">
-            <img initial-avatar="{{ctlFullNavbar.account.fullName}}" picture="{{ctlFullNavbar.account | avatar:'x64'}}" data-width="40" data-height="40" data-radius="30" data-word-count="2" data-font-size="12" ng-if="ctlFullNavbar.account"/>
+          <div class="place-avatar-40">
+            <img initial-avatar="{{ctlFullNavbar.account.fullName}}" picture="{{ctlFullNavbar.account | avatar:'x64'}}" data-width="40" data-height="40" data-radius="4" data-word-count="2" data-font-size="12" ng-if="ctlFullNavbar.account"/>
           </div>
         </div>
         <h2 class="_df">
@@ -98,12 +98,12 @@
       <div class="bot-nav">
         <div class="navigation">
           <nav>
-            <a class="menu-links-butn _df li-hover home-svg">
+            <!--<a class="menu-links-butn _df li-hover home-svg">
               <svg class="icon-filter _df">
                 <use xlink:href="/assets/icons/nst-icn24.svg#home"></use>
               </svg>
             </a>
-            <vr></vr>
+            <vr></vr>-->
             <a ui-sref="app.messages-favorites()" ng-click="ctlFullNavbar.rollUpward('message'); _track('navbar', 'view feed')" class="menu-links-butn _df li-hover" active-group="message">
               <svg class="icon-filter _df">
                 <use xlink:href="/assets/icons/nst-icn24.svg#messages"></use>
