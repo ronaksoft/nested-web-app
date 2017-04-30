@@ -1,7 +1,7 @@
 .content-plus {
   display: inline-flex;
   flex-direction: column;
-  width: 276px;
+  width: 256px;
   z-index: 10;
   top: 0;
   max-height: 600px;
@@ -17,7 +17,7 @@
   & > div {
     display: inline-flex;
     flex-direction: column;
-    width: 276px;
+    width: 256px;
     flex: none;
     overflow-y: auto;
     margin-top: 24px;
