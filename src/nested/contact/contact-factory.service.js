@@ -6,7 +6,7 @@
 
   /** @ngInject */
   function NstSvcContactFactory($q, _,
-    NstSvcServer, NstBaseFactory, NstSvcUserFactory,
+    NstSvcServer, NstBaseFactory, NstSvcUserFactory, NstSvcContactStorage,
     NstTinyUser) {
 
     function ContactFactory() {}
@@ -106,49 +106,22 @@
       return factory.sentinel.watch(function () {
         var deferred = $q.defer();
 
-        NstSvcServer.request('contact/get_all', {}).then(function (data) {
-          data.contacts.push({
-            "_id": "st",
-            "fname": "سروش",
-            "lname": "ترک زاده"
-          });
-          data.contacts.push({
-            "_id": "ali",
-            "fname": "علی",
-            "lname": "محمودی"
-          });
-          data.contacts.push({
-            "_id": "kamal",
-            "fname": "kamal",
-            "lname": "aliabadi"
-          });
-          data.contacts.push({
-            "_id": "jef",
-            "fname": "جعفر",
-            "lname": "صحراییان"
-          });
-          data.contacts.push({
-            "_id": "shayesteh",
-            "fname": "Shayesteh",
-            "lname": "Naemabadi"
-          });
-          data.contacts.push({
-            "_id": "poyan",
-            "fname": "Pouyan",
-            "lname": "Heyratpour"
-          });
-          data.contacts.push({
-            "_id": "123456",
-            "fname": "123456",
-            "lname": ""
-          });
-          data.contacts.push({
-            "_id": "sinaaaaa",
-            "fname": "Sina",
-            "lname": "Hosseini"
-          });
+        var hash = NstSvcContactStorage.get("hash");
 
-          deferred.resolve(_.map(data.contacts, parse));
+        NstSvcServer.request('contact/get_all', {
+          hash: hash || ""
+        }).then(function (data) {
+          if (data.hash) {
+            NstSvcContactStorage.set("hash", data.hash);
+          }
+
+          if (_.isArray(data.contacts) && data.contacts.length > 0) {
+            NstSvcContactStorage.set("list", data.contacts);
+          }
+
+          var contacts = data.contacts || NstSvcContactStorage.get("list");
+          deferred.resolve(_.map(contacts, parse));
+
         }).catch(deferred.reject);
 
         return deferred.promise;

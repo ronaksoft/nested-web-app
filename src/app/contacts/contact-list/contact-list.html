@@ -17,7 +17,7 @@
         </section>
         <section ng-repeat="group in ctrl.contacts" id="{{::group.key}}">
             <h6 class="text-uppercase">{{::group.key}}</h6>
-            <div class="userrow" ng-repeat="contact in group.items">
+            <div class="userrow" ng-repeat="contact in group.items" ng-click="ctrl.view(contact)">
                 <img initial-avatar="{{contact.fullName}}" picture="{{contact | avatar : 'x64'}}" data-width="48" data-height="48"
                    data-radius="48" class="account-initials-64" data-word-count="2" data-font-size="18"/>
                 <div class="_difv">

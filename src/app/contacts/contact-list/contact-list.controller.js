@@ -6,11 +6,12 @@
     .controller('ContactListController', ContactListController);
 
   /** @ngInject */
-  function ContactListController(toastr, $q,
+  function ContactListController(toastr, $q, $scope,
     NstSvcContactFactory, NstSvcTranslation) {
     var vm = this;
 
-    vm.search = _.debounce(search, 768);
+    vm.search = _.debounce(search, 512);
+    vm.view = view;
 
     (function () {
       search(null);
@@ -35,27 +36,23 @@
     function search(keyword) {
       get().then(function (contacts) {
         var filteredItems = _.filter(contacts, function (contact) {
-            var fullName = _.toLower(contact.fullName),
-                id = _.toLower(contact.id),
-                word = _.toLower(keyword);
-
-            return _.includes(fullName, word) || _.includes(id, word);
+            return contactHasKeyword(contact, keyword);
           });
 
         vm.favorites = orderItems(_.filter(filteredItems, 'isFavorite'));
         vm.contacts = _.chain(filteredItems)
           .groupBy(function (contact) {
-            var orderFactor = getContactOrderFactor(contact);
+            var orderFactor = getOrderFactor(contact);
+            var firstChar = getFirstChar(orderFactor);
 
-            if (orderFactor && orderFactor.length > 0) {
-              var value = _.chain(orderFactor).head().toLower().value();
+            if (firstChar && firstChar.length === 1) {
 
-              if (!_.isNaN(_.toNumber(value))) { // is a number
+              if (isNumber(firstChar)) {
 
                 return "#";
               }
 
-              return value;
+              return firstChar;
             }
 
             return "?";
@@ -75,12 +72,32 @@
 
     function orderItems(items) {
       return _.orderBy(items, [function (item) {
-        return getContactOrderFactor(item);
+        return getOrderFactor(item);
       }], ['asc'])
     }
 
-    function getContactOrderFactor(contact) {
+    function getOrderFactor(contact) {
       return contact.lastName || contact.firstName;
+    }
+
+    function contactHasKeyword(contact, keyword) {
+      var fullName = _.toLower(contact.fullName),
+          id = _.toLower(contact.id),
+          word = _.toLower(keyword);
+
+      return _.includes(fullName, word) || _.includes(id, word);
+    }
+
+    function getFirstChar(word) {
+      return _.chain(word).head().toLower().value();
+    }
+
+    function isNumber(character) {
+      return !_.isNaN(_.toNumber(character));
+    }
+
+    function view(contact) {
+      $scope.$emit('view-contact', contact);
     }
   }
 })();
