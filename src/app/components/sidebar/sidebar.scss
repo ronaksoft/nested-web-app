@@ -331,6 +331,9 @@
   margin-left: 3px;
   cursor: pointer;
 }
+.sidebar-wrapper .detailed.isSelected.home-item:after {
+    display: none
+}
 .side-menu-item:active {
 }
 .sidebar > .side-place {
