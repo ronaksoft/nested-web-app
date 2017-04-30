@@ -36,7 +36,6 @@
      *********************/
 
     function getComment(commentId, postId) {
-      var self = this;
       return factory.sentinel.watch(function () {
         var deferred = $q.defer();
         if (!commentId) {
@@ -47,7 +46,7 @@
             commentId: commentId
           });
 
-          self.collector.add(commentId)
+          factory.collector.add(commentId)
             .then(function (data) {
               return parseComment(data);
             })
@@ -272,7 +271,8 @@
         comment.sender = NstSvcUserFactory.parseTinyUser(data.sender);
 
         comment.body = data.text;
-        comment.date = new Date(data['timestamp']);
+        comment.timestamp = data.timestamp;
+
         comment.removedById = data.removed_by;
 
         if (comment.removedById) {

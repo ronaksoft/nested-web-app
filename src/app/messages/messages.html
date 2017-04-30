@@ -78,7 +78,7 @@
     <div class="nst-margin-24"
          ng-if="ctlMessages.reachedTheEnd || ctlMessages.noMessages || ctlMessages.loadMessageError">
       <p class="text-center nst-mood-storm"
-         ng-if="!ctlMessages.noMessages && ctlMessages.reachedTheEnd && ctlMessages.messages.length !== 0 ">
+         ng-if="!ctlMessages.noMessages && ctlMessages.reachedTheEnd">
          <translate>No more messages here!</translate>
       </p>
       <p class="text-center nst-mood-storm" ng-if="ctlMessages.noMessages && !ctlMessages.isUnreadMode">
@@ -113,7 +113,7 @@
     <div class="nst-marginbtm-32"></div>
   </section>
   <div class="content-plus illu">
-    <div ng-if="!ctlMessages.currentPlaceId && !ctlMessages.isbookmarkedsMode && !ctlMessages.isSentMode && !ctlMessages.isUnreadMode">
+    <div>
       <div class="name"><translate>Recently Visited Places</translate></div>
       <recent-visited-places></recent-visited-places>
     </div>

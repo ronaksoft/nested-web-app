@@ -18,7 +18,7 @@
       </div>
     </div>
     <div class="_fw _jcc _df margin-top-10" ng-if="!ctrl.loading && ctrl.readers.length === 0">
-      <trasnlate>No one seen this post!</trasnlate>
+      <trasnlate>No one has seen the post!</trasnlate>
     </div>
     <div class="_difh user-wrapper" ng-repeat="reader in ctrl.readers">
       <img initial-avatar="{{reader.user.fullName}}" picture="{{reader.user | avatar : 'x64'}}"
