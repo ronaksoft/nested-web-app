@@ -32,10 +32,14 @@
         function applier() {
           removeFix();
 
-          var membrsH = 0;
-          if ($element.parent().children().first().is("#members")) membrsH = parseInt($element.parent().children().first().height()) + 38;
+          // var membrsH = 0;
+          // if ($element.parent().children().first().is("#members")) membrsH = parseInt($element.parent().children().first().height()) + 38;
+
 
           var top = $element.offset().top || 0;
+
+          topOffset = $element.offset().top - parseInt($attrs.top) - 24;
+
           var offLeft = $element.offset().left || 0;
 
           var height = $element.outerHeight();
@@ -46,19 +50,11 @@
 
           var fixed = false;
 
-
-          if (!!$attrs.offsetTop ) {
-            topOffset = parseInt($attrs.offsetTop) + membrsH;
-          }
-
           if (!!$attrs.parent && $($attrs.parent).offset() ) {
             containerLeft = $($attrs.parent)[0].offsetLeft;
           }
 
-          if (!!$attrs.top ) {
-            top = parseInt($attrs.top);
-          }
-
+          
           if (!!$attrs.afterContent ) {
             afterContent = $attrs.afterContent;
           }
@@ -70,7 +66,7 @@
             var clearRight = true;
           }
 
-          affixElement();
+          // affixElement();
 
           //for create a fixed element we need a left parameter so we read it from itself
           function findLeftOffset () {
@@ -97,7 +93,7 @@
 
 
           function affixElement() {
-            if ($window.pageYOffset > topOffset && !fixed) {
+            if (!fixed && $window.pageYOffset > topOffset) {
               $element.css('position', 'fixed');
               $element.css('top', parseInt(top) + 'px');
               if (isRTL == 'ltr')$element.css('left', offLeft + 'px');
@@ -105,7 +101,7 @@
               if(!dontSetWidth) $element.css('width', actualWidth + 'px');
               $element.css('height', height + 'px');
               fixed = true;
-            } else if ($window.pageYOffset < topOffset && fixed) {
+            } else if (fixed && $window.pageYOffset < topOffset ) {
               removeFix();
               fixed = false;
             }

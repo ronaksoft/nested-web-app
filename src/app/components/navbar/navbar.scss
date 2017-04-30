@@ -414,8 +414,8 @@ nst-navbar {
   .content {
     flex-direction: column;
     position: relative;
-    width: 680px + 276px + 16px;
-    max-width: 100%;
+    width: 100%;
+    max-width: 720px + 256px + 16px;
     min-width: 460px;
     .top-nav {
       width: 100%;
@@ -423,6 +423,7 @@ nst-navbar {
       height: 92px;
       position: relative;
       padding-top: 16px;
+      padding-left: 16px;
     }
     .bot-nav {
       width: 100%;
@@ -439,7 +440,6 @@ nst-navbar {
         flex-direction: row;
         //right: 0;
         width: 100%;
-        padding-left: 8px;
         height: 100%;
         svg {
           width: 24px;
@@ -461,7 +461,7 @@ nst-navbar {
             background-color: $color-white;
             border-radius: 4px;
             width: 128px;
-            height: 30px;
+            height: 32px;
             padding: 2px 20px 2px 8px;
             transition: width $animation-dur;
             &:focus {
@@ -475,8 +475,8 @@ nst-navbar {
             right: 4px;
             background-color: $color-white;
             background-size: cover;
-            width: 16px;
-            height: 16px;
+            width: 24px;
+            height: 24px;
             top: 50%;
             transform: translateY(-50%);
           }
@@ -641,12 +641,13 @@ nst-navbar {
 
       }
     }
-    .menu-links-butn {
+    
+  }
+  .menu-links-butn {
       span {
         margin-left: 8px;
       }
     }
-  }
   .nst-navbar-f.nfeed {
     .content {
       .bot-nav {
@@ -662,6 +663,7 @@ nst-navbar {
     align-items: center;
     h2 {
       margin: 0;
+      
     }
   }
   .srch-nav {
@@ -678,10 +680,14 @@ nst-navbar {
     height: 160px;
     .top-nav {
       display: flex;
+      padding-left: 4px;
       align-items: center;
       h2{
         width: 100%;
         overflow: hidden;
+        b {
+          font-weight: 400
+        }
         span {
           white-space: nowrap;
         }
@@ -694,23 +700,21 @@ nst-navbar {
       align-items: center;
       width: 56px;
       height: 56px;
-      margin: 0 8px;
+      margin: 0 12px;
       position: relative;
-      .user-avatar-32{
-        width: 32px;
-        height: 32px;
-        position: absolute;
+      .place-avatar-32{
         top: 0;
         left: 0;
         z-index: 1;
+        @include avatar(32px,32px,4px);
+        position: absolute;
         &:after {
           left: 0;
         }
       }
-      .user-avatar-40{
+      .place-avatar-40{
         box-shadow: 0 4px 16px $color-wind;
-        width: 40px;
-        height: 40px;
+        @include avatar(40px,40px,4px);
         position: absolute;
         bottom: 0;
         right: 0;
@@ -730,6 +734,9 @@ nst-navbar {
       height: 80px;
       align-items: center;
       display: flex;
+      input {
+        margin-left: 36px;
+      }
     }
 
   }
@@ -840,7 +847,7 @@ body.scrolled {
   justify-content: center;
   font-size: 18px;
   font-weight: 500;
-  margin: 0 20px;
+  margin-left: 24px;
   //transition: color $animation-dur;
   span {
     //transition: color $animation-dur;
@@ -848,10 +855,9 @@ body.scrolled {
   svg {
     //transition: fill $animation-dur;
     fill: $color-breeze;
-    display: none;
   }
   &:first-of-type {
-    margin: 0 8px;
+    // margin: 0 8px;
     svg { display: flex;}
   }
   &:hover {

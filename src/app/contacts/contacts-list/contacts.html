@@ -11,7 +11,8 @@
         </svg>
         <input type="" name="" value="" placeholder="find in contacts">
     </div>
-    <div id="scroller" nst-scrollbar  scroll-spy="" data-target="#navPills" data-scroll-offset="80" class="scrollspy-example span9">
+    <div id="scroller" dir="ltr" nst-scrollbar  scroll-spy="" data-target="#navPills" data-scroll-offset="80" class="scrollspy-example span9">
+        <div dir="{{_direction}}">
         <section id="fav">
             <h6>Favorites</h6>
             <p> 
@@ -320,6 +321,7 @@
                 <br>
             </p>
         </section>
+        </div>
         
     </div>
     
