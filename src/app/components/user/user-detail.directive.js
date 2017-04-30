@@ -7,7 +7,7 @@
       return {
         template: function(element) {
           var tag = element[0].nodeName;
-          return '<' + tag +' ng-transclude ng-mouseenter="openOverEnable()" ng-mouseleave="openOverdisable()" data-popover-is-open="openOver()" data-popover-enable="isAvailable" data-popover-class="white-pop popover-userdetail" uib-popover-template="\'app/components/user/user-detail.html\'" data-popover-append-to-body="true" data-popover-placement="top-center auto" ng-click="$event.stopPropagation()"></' + tag +'>';
+          return '<' + tag +' ng-transclude ng-mouseenter="openOverEnable()" ng-mouseleave="openOverdisable()" data-popover-is-open="openOver()" data-popover-enable="isAvailable" data-popover-class="white-pop popover-userdetail" uib-popover-template="\'app/components/user/user-detail.html\'" data-popover-append-to-body="true" data-popover-placement="top-center auto" ng-click="viewContact()"></' + tag +'>';
         },
         restrict: 'EA',
         replace: true,
@@ -109,6 +109,15 @@
             $state.go('app.place-compose', {placeId: $scope.user.id}, {notify : false});
           }
 
+          $scope.viewContact = function () {
+            if ($scope.isAvailable) {
+              $timeout.cancel($scope.timer);
+              $timeout.cancel($scope.timer2);
+              $timeout.cancel($scope.timer3);
+              $scope.deletePopoversAll();
+              $state.go('app.contacts', { contactId: $scope.user.id }, { notify: false });
+            }
+          }
         }
       }
     });

@@ -24,6 +24,10 @@
       vm.contactId = data.id;
     }));
 
+    eventReferences.push($scope.$on('view-contact-list', function(event, data) {
+      vm.mode = 'list';
+    }));
+
     eventReferences.push($scope.$on('close-modal', function(event, data) {
       $uibModalInstance.dismiss();
     }));

@@ -13,7 +13,8 @@
       controller: 'ContactSingleController',
       controllerAs: 'ctrl',
       scope: {
-        contactId: '='
+        contactId: '=',
+        contact: '='
       },
       bindToController: true,
       link: function (scope, element, attrs) {

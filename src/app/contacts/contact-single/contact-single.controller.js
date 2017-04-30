@@ -6,7 +6,7 @@
     .controller('ContactSingleController', ContactSingleController);
 
   /** @ngInject */
-  function ContactSingleController($q, $state, toastr, $scope, $uibModalStack,
+  function ContactSingleController($q, $state, toastr, $scope, $uibModalStack, $rootScope, $stateParams,
     NstSvcTranslation, NstSvcContactFactory, NstSvcPlaceFactory) {
     var vm = this;
 
@@ -15,7 +15,7 @@
     vm.remove = _.partial(remove, vm.contactId);
     vm.viewConversation = _.partial(viewConversation, vm.contactId);
     vm.sendMessage = _.partial(sendMessage, vm.contactId);
-    vm.close = close;
+    vm.close = back;
 
     (function () {
       loadContact(vm.contactId);
@@ -59,6 +59,7 @@
       vm.favoriteProgress = true;
       NstSvcContactFactory.addFavorite(id).then(function () {
         vm.contact.isFavorite = true;
+        $rootScope.$broadcast('contact-favorite-add', vm.contact);
       }).catch(function (error) {
         toastr.error(NstSvcTranslation.get("An error has occured while adding the user in your favorite contact list."));
       }).finally(function () {
@@ -68,8 +69,9 @@
 
     function removeFavorite(id) {
       vm.removeFavoriteProgress = true;
-      NstSvcContactFactory.addFavorite(id).then(function () {
+      NstSvcContactFactory.removeFavorite(id).then(function () {
         vm.contact.isFavorite = false;
+        $rootScope.$broadcast('contact-favorite-remove', vm.contact);
       }).catch(function (error) {
         toastr.error(NstSvcTranslation.get("An error has occured while adding the user in your favorite contact list."));
       }).finally(function () {
@@ -86,6 +88,7 @@
     }
 
     function getContact(id) {
+      console.log("vm.contact", vm.contact);
       // find if the contact exists in vm
       if (vm.contact && vm.contact.id === id) {
         return $q.resolve(vm.contact);
@@ -130,6 +133,14 @@
       currentModal.key.dismiss();
 
       return deferred.promise;
+    }
+
+    function back() {
+      if ($stateParams.contactId) {
+        close();
+      } else {
+        $scope.$emit('view-contact-list');
+      }
     }
 
   }

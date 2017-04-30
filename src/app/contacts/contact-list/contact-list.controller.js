@@ -38,8 +38,13 @@
         var filteredItems = _.filter(contacts, function (contact) {
             return contactHasKeyword(contact, keyword);
           });
+        
+        if (keyword && keyword.length > 0) {
+          vm.favorites = [];
+        } else {
+          vm.favorites = orderItems(_.filter(filteredItems, { 'isFavorite' : true }));
+        }
 
-        vm.favorites = orderItems(_.filter(filteredItems, { 'isFavorite' : true }));
         vm.contacts = _.chain(filteredItems)
           .groupBy(function (contact) {
             var orderFactor = getOrderFactor(contact);
