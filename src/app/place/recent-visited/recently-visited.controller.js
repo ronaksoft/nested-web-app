@@ -6,8 +6,19 @@
     .controller('RecentVisitedController', RecentVisitedController);
 
   /** @ngInject */
-  function RecentVisitedController($scope, $q, $stateParams, $uibModal, toastr, _, $rootScope) {
+  function RecentVisitedController($scope,
+                                   NstSvcUserFactory) {
     var vm = this;
+    vm.places = [];
+    vm.loading = true;
+
+    (function () {
+      NstSvcUserFactory.getRecentlyVisitedPlace()
+        .then(function (places) {
+          vm.places = places;
+          vm.loading = false;
+        })
+    })();
 
 
   }
