@@ -3,9 +3,17 @@
       <div class="place-filter">
         <img ng-src="{{ctrl.contact | picture}}" alt="{{::ctrl.contact.fullName}}">
       </div>
-      <div class="setting-headline _aic">
+      <div class="setting-headline _aic" bg-check="{{ctrl.contact | picture:'x128'}}">
         <svg class="_24svg _df _r45 _fn" ng-click="ctrl.close();">
           <use xlink:href="/assets/icons/nst-icn24.svg#cross"></use>
+        </svg>
+        <div class="_df _fw">
+
+        </div>
+        <svg class="_24svg _df _fn" data-popover-class="white-pop popover-white-nst-activity-places"
+           data-popover-append-to-body="true" uib-popover-template="''"
+           data-popover-placement="auto bottom-right">
+          <use xlink:href="/assets/icons/nst-icn24.svg#more"></use>
         </svg>
       </div>
       <div class="logo-holder">
