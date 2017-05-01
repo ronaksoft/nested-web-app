@@ -628,9 +628,9 @@
           }
 
         } else if (response.post.places.length === response.noPermitPlaces.length) {
-          toastr.error(NstUtility.string.format(NstSvcTranslation.get('Your message has not been successfully sent to {0}'), response.noPermitPlaces.join(',')));
+          toastr.error(NstUtility.string.format(NstSvcTranslation.get('Your message has not been successfully sent to {0}'), response.noPermitPlaces.join(', ')));
         } else {
-          toastr.warning(NstUtility.string.format(NstSvcTranslation.get('Your message was sent, but {0} did not received that!'), response.noPermitPlaces.join(',')));
+          toastr.warning(NstUtility.string.format(NstSvcTranslation.get('Your message was sent, but {0} did not received that!'), response.noPermitPlaces.join(', ')));
           NstSvcPostFactory.get(response.post.id).then(function (res) {
             $rootScope.$emit('post-quick', res);
           });

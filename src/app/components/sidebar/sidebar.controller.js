@@ -528,10 +528,12 @@
     NstSvcUserFactory.addEventListener(NST_USER_FACTORY_EVENT.PROFILE_UPDATED, function (event) {
       vm.user = event.detail;
       var place = _.find(vm.places, {id: NstSvcAuth.user.id});
-      if (event.detail.hasPicture()) {
-        vm.user.avatar = place.avatar = event.detail.picture.getUrl("x64");
-      } else {
-        vm.user.avatar = place.avatar = '/assets/icons/absents_place.svg';
+      if (place && place.id) {
+        if (event.detail.hasPicture()) {
+          vm.user.avatar = place.avatar = event.detail.picture.getUrl("x64");
+        } else {
+          vm.user.avatar = place.avatar = '/assets/icons/absents_place.svg';
+        }
       }
     });
 

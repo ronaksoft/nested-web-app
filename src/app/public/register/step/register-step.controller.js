@@ -150,7 +150,7 @@
         return $q.resolve(vm.usernameErrors);
       }
 
-      if (_.size(username) < 4) {
+      if (_.size(username) < 5) {
         vm.usernameErrors.push(NstSvcTranslation.get('The username is too short'));
       }
 
