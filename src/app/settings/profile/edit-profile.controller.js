@@ -127,11 +127,6 @@
         vm.model.searchable = value;
       });
     }
-    $scope.$watch(function () {
-      return vm.model.searchable
-    }, function (n) {
-      return updateSearchable(n);
-    });
 
     function getGender() {
       var selected = _.find(vm.genders, { key : vm.model.gender });
@@ -210,7 +205,6 @@
       NstSvcUserFactory.removePicture().then(function (result) {
         vm.model.clearPicture();
         NstSvcUserFactory.dispatchEvent(new CustomEvent(NST_USER_FACTORY_EVENT.PROFILE_UPDATED, new NstFactoryEventData(vm.model)));
-        NstSvcUserFactory.dispatchEvent(new CustomEvent(NST_USER_FACTORY_EVENT.PICTURE_UPDATED, new NstFactoryEventData(vm.model)));
 
         deferred.resolve();
       }).catch(function (error) {
