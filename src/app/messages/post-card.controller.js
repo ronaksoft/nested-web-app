@@ -159,7 +159,6 @@
       NstSvcPostFactory.get(vm.post.id, true).then(function (post) {
         vm.expandProgress = false;
         vm.orginalPost = post;
-        console.log(post.body)
         vm.body = post.body;
         vm.resources = post.resources;
         vm.isExpanded = true;
@@ -299,7 +298,7 @@
         vm.body = vm.post.getTrustedBody();
       }
 
-      vm.post.trusted = true;
+      vm.trusted = true;
     }
 
     function loadNewComments($event) {
