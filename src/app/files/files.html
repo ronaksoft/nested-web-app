@@ -30,7 +30,7 @@
       </div>
       <div class="_df _fw"></div>
     </div>
-    
+
     <div class="file-list">
       <div class="file-list-header">
         <div class="files-srch _df {{ctlFiles.keyword.length > 0 ? 'srch' : ''}}" ng-if="ctlFiles.selectedFiles.length  == 0">
@@ -77,7 +77,7 @@
               </a>
             </div>
             <div class="item-size">{{item.size | bytes}} </div>
-            <div class="item-date">{{item.date | date : 'long' }}</div>
+            <div class="item-date">{{item.date | passed : 'long' }}</div>
           </div>
         </li>
       </ul>
