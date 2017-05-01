@@ -44,7 +44,8 @@
 
       <a class="_df _fn post-card-time" ng-click="ctlPostCard.viewFull($event); ctlPostCard.markAsRead(); _track('post card','open post view : click date');" data-uib-tooltip="{{::ctlPostCard.post.timestamp | date : 'full'}}"
             data-tooltip-append-to-body="true" data-tooltip-placement="auto left">
-        {{::ctlPostCard.post.timestamp | date : 'short'}}
+        <span ng-if="!ctlPostCard.chainView">{{::ctlPostCard.post.timestamp | passed }}</span>
+        <span ng-if="ctlPostCard.chainView">{{::ctlPostCard.post.timestamp | date : 'full' }}</span>
       </a>
     </div>
     <div class="pin-post ng-class:{'pinned' : ctlPostCard.post.pinned}" ng-click="ctlPostCard.markAsRead();ctlPostCard.setBookmark(!ctlPostCard.post.pinned); _track('post card',ctlPostCard.post.pinned ? 'bookmark remove' : 'bookmark add');">

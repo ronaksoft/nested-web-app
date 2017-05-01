@@ -24,8 +24,10 @@
 }
 
 .placerow {
+  overflow: hidden;
   img {
     width: 32px;
+    display: inline-block;
     height: 32px;
   }
   span {
@@ -33,11 +35,22 @@
       line-height: 20px;
       color: $color-solid;
       padding-left: 8px;
+      white-space: nowrap;
+      display: inline-block;
+      width: calc(100% - 37px);
+      vertical-align: middle;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 }
 
 .userrow {
   display: flex;
+  &:hover {
+        background-color: $color-sense-5;
+        cursor: pointer;
+        transition: .2s;
+  }
   > * {
     display: flex;
   }

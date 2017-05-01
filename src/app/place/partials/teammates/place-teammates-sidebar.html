@@ -2,15 +2,19 @@
   <div class="name"><translate>{{ctlTeammates.place.counters.creators + ctlTeammates.place.counters.key_holders | localize }} Members</translate></div>
   <div class="recent-container _fw _df _fn _bgwhite">
     <div class="avatars" ng-if="!ctlTeammates.loading">
-      <div class="user-avatar-28" ng-repeat="teammate in ctlTeammates.teammates | limitTo : ctlTeammates.limit track by $index" user-detail="teammate">
-        <img initial-avatar="{{teammate.fullName}}" picture="{{teammate | avatar : 'x32'}}" data-width="28" data-height="28"
-             data-radius="40" class="account-initials-28 _df" data-word-count="2" data-font-size="14"/>
+      <div class="_difh" ng-repeat="teammate in ctlTeammates.teammates | limitTo : ctlTeammates.limit track by $index">
+        <div class="user-avatar-32" user-detail="teammate">
+        <img initial-avatar="{{teammate.fullName}}" picture="{{teammate | avatar : 'x32'}}" data-width="32" data-height="32"
+             data-radius="40" class="account-initials-32 _df" data-word-count="2" data-font-size="14"/>
         <i ng-if="teammate.role == 'creator'">
           <svg class="_16svg">
             <use xlink:href="/assets/icons/nst-icn16.svg#crown"></use>
           </svg>
         </i>
+        </div>
+        <div class="devid"></div>
       </div>
+      
       <script type="text/ng-template" id="add-member-uib-tooltip.html">
         <translate ng-if="!ctlTeammates.isGrand">add</translate>
         <translate ng-if="ctlTeammates.isGrand">invite</translate>

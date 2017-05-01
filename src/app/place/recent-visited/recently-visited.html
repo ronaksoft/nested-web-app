@@ -11,7 +11,7 @@
   <li data-ng-repeat="place in ctrl.places">
     <a class="_df placerow _aic _fw"  ui-sref="app.place-messages({placeId:place.id})">
       <img class="" ng-src="{{place | picture : 'x64'}}"/>
-      <div class="_df text-wrap">
+      <div class="_df text-wrap _fw">
         <!--<p class="_txe place-name">{{place.name}}</p>-->
         <span class="_txe">{{place.name}}</span>
       </div>

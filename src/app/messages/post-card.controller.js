@@ -74,7 +74,7 @@
       markAsRead();
       $event.preventDefault();
       if ($state.current.name !== 'app.message') {
-        $state.go('app.message', {postId: vm.post.id, trusted: true}, {notify: false});
+        $state.go('app.message', {postId: vm.post.id, trusted: vm.post.trusted}, {notify: false});
       } else {
         var reference = $scope.$emit('post-view-target-changed', {postId: vm.post.id});
         pageEventReferences.push(reference);
@@ -166,7 +166,7 @@
           markAsRead();
         }
 
-        if (vm.trusted || Object.keys(post.resources).length == 0) {
+        if (vm.post.trusted || Object.keys(post.resources).length == 0) {
           showTrustedBody();
         }
 
@@ -382,7 +382,7 @@
       vm.hasOlderComments = (vm.post.counters.comments && vm.post.comments) ? vm.post.counters.comments > vm.post.comments.length : false;
       vm.body = vm.post.body;
       vm.orginalPost = vm.post;
-      if (vm.trusted) {
+      if (vm.post.trusted) {
         showTrustedBody();
       }
 
