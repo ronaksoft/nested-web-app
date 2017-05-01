@@ -15,7 +15,6 @@
         var topOffset = 0;
         var afterContent = 0;
         var applierTrigger = false;
-
         var containerLeft = $('body').offset().left || 0;
 
         var isRTL = $rootScope._direction;
@@ -99,7 +98,7 @@
               if (isRTL == 'ltr')$element.css('left', offLeft + 'px');
               if (isRTL == 'rtl')$element.css('left', offLeft + 'px');
               if(!dontSetWidth) $element.css('width', actualWidth + 'px');
-              $element.css('height', height + 'px');
+              // $element.css('height', height + 'px');
               fixed = true;
             } else if (fixed && $window.pageYOffset < topOffset ) {
               removeFix();
