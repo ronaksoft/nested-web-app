@@ -22,6 +22,7 @@
       link: function (scope,ele,att) {
 
         scope.settings = scope.env == 'settings';
+        scope.contact = scope.env == 'contact';
 
       }
     };

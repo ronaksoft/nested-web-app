@@ -15,20 +15,16 @@ body.isDesktop {
     width: 100%;
     animation: appearence $animation-dur;
   }
-  .menu-links-butn {
-    min-width: 90px;
-  }
-  .nst-navbar.nfeed {
-    .menu-links-butn {
-      min-width: 90px;
-      svg { display: flex;}
-    }
-  }
-  .nst-navbar-f.nfeed {
-    .menu-links-butn {
-      svg { display: flex;}
-    }
-  }
+  // .nst-navbar.nfeed {
+  //   .menu-links-butn {
+  //     svg { display: flex;}
+  //   }
+  // }
+  // .nst-navbar-f.nfeed {
+  //   .menu-links-butn {
+  //     svg { display: flex;}
+  //   }
+  // }
   .navbarillu {
     display: none;
   }

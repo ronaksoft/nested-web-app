@@ -11,26 +11,29 @@
 
 .filter-bar {
   border-bottom: 1px solid $color-border;
-  height: 42px;
+  height: 32px;
   display: inline-flex;
   flex-direction: row;
   align-items: center;
   flex: none;
   position: relative;
-  margin: 16px 24px;
+  margin: 24px 24px 16px 24px;
   align-self: flex-end;
   width: calc(100% - 48px);
   span {
     color: $color-black04;
     font-size: 11px;
     white-space: nowrap;
-    line-height: 46px;
+    line-height: 32px;
   }
   a span {
     color: $color-solid
   }
   p {
     margin: 0;
+    span{
+      font-size: 12px
+    }
     a {
       white-space: nowrap;
       font-size: 12px;

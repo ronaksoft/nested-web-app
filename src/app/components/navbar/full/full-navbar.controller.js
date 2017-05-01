@@ -45,6 +45,7 @@
     vm.isFeed = $state.current.options.feed;
     vm.isFavPlaces = $state.current.options.favoritePlace;
     vm.searchKeyPressed = searchKeyPressed;
+    vm.goBack = goBack;
 
     function isUnread() {
       if ($state.current.name == 'app.place-messages-unread' ||
@@ -68,7 +69,8 @@
     return vm.isSearchMode = false;
     }
 
-    function openCreateSubplaceModal ($event,style) {
+    function openCreateSubplaceModal($event,style) {
+            console.log('aaaaaa')
       if ( style == 'open') {
         $state.go('app.place-create', { placeId : getPlaceId(),isOpenPlace: true } , { notify : false });
       } else {
@@ -76,6 +78,8 @@
       }
       $event.preventDefault();
     };
+
+
 
     function openAddMemberModal($event) {
       $event.preventDefault();
@@ -431,6 +435,10 @@
           toastr.error(NstSvcTranslation.get("An error has occurred in removing this Place."));
         }
       });
+    }
+
+    function goBack() {
+      $rootScope.goToLastState();
     }
 
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.BOOKMARK_ADD, function (e) {

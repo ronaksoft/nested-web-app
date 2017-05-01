@@ -244,7 +244,7 @@
   align-self: flex-end;
 }
 
-.compose {
+#compose .compose {
   z-index: 7;
   display: flex;
   cursor: pointer;
@@ -265,22 +265,23 @@
 }
 
 #compose {
-  //border: 1px solid $color-sense-wire;
-  line-height: 30px ;
-  color: $color-white;
-  display: flex;
-  font-size: $font-size-large;
-  font-weight: $font-wight-semibold;
-  justify-content: center;
-  width: 174px;
-  height: 40px;
-  align-items: center;
-  border-radius: 41px;
-  .icon-side {
-    margin: 0 6px 0 0;
-  }
+  // //border: 1px solid $color-sense-wire;
+  // line-height: 30px ;
+  // color: $color-white;
+  // display: flex;
+  // font-size: $font-size-large;
+  // font-weight: $font-wight-semibold;
+  // justify-content: center;
+  // width: 174px;
+  // height: 40px;
+  // align-items: center;
+  // border-radius: 41px;
+  // .icon-side {
+  //   margin: 0 6px 0 0;
+  // }
 }
-.compose:hover,.compose.isSelected{
+#compose:hover .compose,
+#compose.isSelected .compose{
   color: $color-white;
   box-shadow: inset 0 -1px 1px rgba(0,0,0,.5), /*bottom internal shadow*/
   inset 0 1px 1px rgba(255,255,255,.5); /*top internal highlight*/
@@ -304,6 +305,9 @@
   align-items: center;
   width: 100%;
   height: 48px;
+  &.active {
+    
+  }
   //flex: 0 1 auto;
   a{
     display: inline-flex!important;
@@ -326,6 +330,9 @@
   font-weight: 200;
   margin-left: 3px;
   cursor: pointer;
+}
+.sidebar-wrapper .detailed.isSelected.home-item:after {
+    display: none
 }
 .side-menu-item:active {
 }

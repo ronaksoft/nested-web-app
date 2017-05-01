@@ -138,9 +138,8 @@ body[dir="rtl"] {
       right: auto;
     }
   }
-  .post-card .post-head .icon {
-    left: auto ;
-    right: 5px;
+  .post-card .post-head > div:first-child {
+    padding: 0 6px 0 2px;
   }
   .nst-navbar .nav-access {
     right: auto;
@@ -176,7 +175,7 @@ body[dir="rtl"] {
     margin-left: auto;
     margin-right: 40px;
   }
-  nst-navbar .nst-navbar.nfeed .menu-links-butn span {
+  nst-navbar .menu-links-butn span {
     margin-left: 0;
     margin-right: 8px;
   }
@@ -225,6 +224,10 @@ body[dir="rtl"] {
   .post-card .post-head .pin-post {
     left: 4px;
     right: auto;
+  }
+  .user-wrapper img {
+    margin-left: 8px;
+    margin-right: 0;
   }
   nst-attachments-editable-bar ul.thumbnail-bar .attach-thumbnail .detail, nst-attachments-preview-bar ul.thumbnail-bar .attach-thumbnail .detail {
     padding-right: 0;
@@ -527,6 +530,38 @@ body[dir="rtl"] {
   .move-to-list a div {
     padding-left: 0;
     padding-right: 24px;
+  }
+  .content-plus .name svg {
+    left: 12px;
+    right: auto;
+  }
+  .place-head.contact-head .logo-holder {
+    left: 0;
+    right: 24px;
+  }
+  .place-head.contact-head .contact-actions {
+    right: auto;
+    left: 40px;
+  }
+  .userrow span:last-child ,
+  .userrow span:first-child {
+    padding-left: 0;
+    padding-right: 8px;
+  }
+  #contacts-list .alphabet {
+    right: auto;
+    left: 8px;
+  }
+  #contacts-list .srch {
+    left: auto;
+    right: 8px;
+  }
+  #contacts-list input {
+    padding-right: 32px;
+  }
+  .placerow span {
+    padding-right: 8px;
+    padding-left: 0;
   }
 }
 body[dir="ltr"] {

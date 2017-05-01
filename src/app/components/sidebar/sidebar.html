@@ -22,7 +22,7 @@
       <script type="text/ng-template" id="compose-uib-tooltip.html">
         <translate>Compose</translate>
       </script>
-      <a class="detailed" id="compoese"
+      <a class="detailed side-menu-item" id="compose"
          data-uib-tooltip-template="'compose-uib-tooltip.html'"
          data-tooltip-enable="{{!ctlApp.viewSettings.sidebar.collapsed ? true : false}}"
          data-tooltip-placement="right auto" data-tooltip-append-to-body="true"
@@ -42,7 +42,7 @@
         <script type="text/ng-template" id="feed-uib-tooltip.html">
           <translate>Home</translate>
         </script>
-        <a ui-sref="app.messages-favorites()" class="side-menu-item detailed"
+        <a ui-sref="app.messages-favorites()" class="side-menu-item detailed {{ !ctlSidebar.selectedGrandPlace ? 'isSelected' : ''}} home-item"
            data-uib-tooltip-template="'feed-uib-tooltip.html'"
            data-tooltip-enable="{{!ctlApp.viewSettings.sidebar.collapsed ? true : false}}"
            data-tooltip-append-to-body="true" data-tooltip-placement="right auto">

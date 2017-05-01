@@ -7,11 +7,12 @@
   /** @ngInject */
   function NstSvcPostFactory($q, $log,
                              _, md5,
-                             NstSvcPostStorage, NstSvcAuth, NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory, NstSvcStore, NstSvcCommentFactory, NstFactoryEventData, NstUtility,
+                             NstSvcPostStorage, NstCollector, NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory, NstSvcStore, NstSvcCommentFactory, NstFactoryEventData, NstUtility,
                              NstFactoryError, NstFactoryQuery, NstPost, NstBaseFactory, NstRecipient,
                              NST_MESSAGES_SORT_OPTION, NST_SRV_EVENT, NST_CONFIG, NST_POST_FACTORY_EVENT) {
 
     function PostFactory() {
+      this.collector = new NstCollector('post', this.getMany);
     }
 
     PostFactory.prototype = new NstBaseFactory();
@@ -19,6 +20,7 @@
 
     PostFactory.prototype.has = has;
     PostFactory.prototype.get = get;
+    PostFactory.prototype.getMany = getMany;
     PostFactory.prototype.read = read;
     PostFactory.prototype.set = set;
     PostFactory.prototype.send = send;
@@ -67,18 +69,61 @@
         if (post && !post.bodyIsTrivial) {
           defer.resolve(post);
         } else {
-          NstSvcServer.request('post/get', {
-            post_id: query.id,
-            mark_read: markAsRead ? markAsRead : false
-          }).then(function (data) {
-            var post = parsePost(data);
-            post.bodyIsTrivial = false;
-            NstSvcPostStorage.set(post.id, post);
-            defer.resolve(post);
-          }).catch(function (error) {
-            defer.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
-          });
+
+          if (markAsRead) {
+
+            NstSvcServer.request('post/get', {
+              post_id: query.id,
+              mark_read: markAsRead ? markAsRead : false
+            }).then(function (data) {
+              var post = parsePost(data);
+              post.bodyIsTrivial = false;
+              NstSvcPostStorage.set(post.id, post);
+              defer.resolve(post);
+            }).catch(function (error) {
+              defer.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+            });
+
+          } else {
+
+            this.collector.add(id)
+              .then(function (data) {
+                var post = parsePost(data);
+                post.bodyIsTrivial = false;
+                NstSvcPostStorage.set(post.id, post);
+                defer.resolve(post);
+              }).catch(function (error) {
+              defer.reject(error);
+            });
+
+          }
         }
+      }
+
+      return defer.promise;
+    }
+
+
+    function getMany(ids) {
+
+      var defer = $q.defer();
+
+      var query = new NstFactoryQuery(ids.join(','));
+
+      if (!query.id) {
+        defer.resolve(null);
+      } else {
+        NstSvcServer.request('post/get_many', {
+          post_id: query.id,
+        }).then(function (dataObj) {
+          defer.resolve({
+            idKey: '_id',
+            resolves: dataObj.posts,
+            rejects: dataObj.no_access
+          });
+        }).catch(function (error) {
+          defer.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+        });
       }
 
       return defer.promise;
@@ -211,13 +256,19 @@
           place_id: query.data.placeId
         }).then(function () { //remove the object from storage and return the id
           var post = NstSvcPostStorage.get(query.id);
-          NstUtility.collection.dropById(post.places, query.data.placeId);
-          if (post.places.length === 0) { //the last place was removed
-            NstSvcPostStorage.remove(query.id);
-          } else {
-            NstSvcPostStorage.set(query.id, post);
+
+          if (post) {
+            NstUtility.collection.dropById(post.places, query.data.placeId);
+            if (post.places.length === 0) { //the last place was removed
+              NstSvcPostStorage.remove(query.id);
+            } else {
+              NstSvcPostStorage.set(query.id, post);
+            }
+            resolve(post);
           }
-          resolve(post);
+
+          resolve(null)
+
         }).catch(function (error) {
           reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
         });
@@ -678,8 +729,8 @@
           _.map(data.post_reads, function (reader) {
             readers.push({
               user: NstSvcUserFactory.parseTinyUser(reader.account),
-              timestamp : reader.read_on,
-              placeId: reader.placeId
+              timestamp: reader.read_on,
+              placeId: reader.place_id
             })
           });
           deferred.resolve(readers);

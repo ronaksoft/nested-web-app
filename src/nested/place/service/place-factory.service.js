@@ -1142,8 +1142,20 @@
       }, id);
     };
 
+    PlaceFactory.prototype.getMutualPlaces = function (accountId) {
+      var factory = this;
+      return this.sentinel.watch(function () {
+        var deferred = $q.defer();
 
+        NstSvcServer.request('place/get_mutual_places', {
+          account_id: accountId
+        }).then(function (data) {
+          deferred.resolve(_.map(data.places, factory.parseTinyPlace));
+        }).catch(deferred.reject);
 
+        return deferred.promise;
+      }, "getMutualPlaces_" + accountId);
+    }
 
     /**
      * Mark all place's posts as read

@@ -6,7 +6,7 @@
     .service('NstSvcUserFactory', NstSvcUserFactory);
 
   function NstSvcUserFactory($q, md5, _,
-                             NstSvcServer, NstSvcTinyUserStorage, NstSvcUserStorage, NstSvcCurrentUserStorage,
+                             NstSvcServer, NstSvcTinyUserStorage, NstSvcUserStorage, NstSvcCurrentUserStorage, NstPlace,
                              NST_USER_SEARCH_AREA, NST_AUTH_STORAGE_KEY,
                              NST_USER_FACTORY_EVENT,
                              NstBaseFactory, NstFactoryQuery, NstFactoryError, NstTinyUser, NstUser, NstPicture, NstFactoryEventData) {
@@ -214,6 +214,38 @@
 
         return deferred.promise;
       }, "removePicture");
+    }
+
+    UserFactory.prototype.getRecentlyVisitedPlace = function () {
+
+      var deferred = $q.defer();
+
+      function parsePlace (placeData) {
+        var place = new NstPlace();
+
+        place.id = placeData._id;
+        place.unreadPosts = placeData.unread_posts;
+        place.name = placeData.name;
+        place.description = placeData.description;
+        place.picture = new NstPicture(placeData.picture);
+        place.grandParentId = placeData.grand_parent_id;
+        place.privacy = placeData.privacy;
+        place.policy = placeData.policy;
+        place.counters = placeData.counters;
+        place.accesses = placeData.access;
+
+        return place;
+      };
+
+
+      NstSvcServer.request('account/GET_RECENTLY_VISITED_PLACES', {}).then(function (data) {
+        var places = _.map(data.places, parsePlace);
+        deferred.resolve(places);
+      }).catch(function (error) {
+        deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+      });
+
+      return deferred.promise;
     }
 
     UserFactory.prototype.parseTinyUser = function (data) {

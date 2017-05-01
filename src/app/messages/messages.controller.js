@@ -46,6 +46,7 @@
     vm.markAllAsRead = markAllAsRead;
     vm.showNewMessages = showNewMessages;
     vm.dismissNewMessage = dismissNewMessage;
+    vm.openContacts = openContacts;
 
     vm.messagesSetting = {
       limit: DEFAULT_MESSAGES_COUNT,
@@ -145,7 +146,7 @@
         }
 
         // The message was sent to the current place
-        if (_.some(post.places, { id : vm.currentPlaceId })) {
+        if (_.some(post.places, {id: vm.currentPlaceId})) {
           return true;
         }
 
@@ -163,7 +164,7 @@
         }
 
         // The message was sent to the current place
-        if (_.some(post.places, { id : vm.currentPlaceId })) {
+        if (_.some(post.places, {id: vm.currentPlaceId})) {
           return true;
         }
 
@@ -206,11 +207,17 @@
       });
 
       $rootScope.$on('post-removed', function (event, data) {
+
         var message = _.find(vm.messages, {
           id: data.postId
         });
 
         if (message) {
+
+          if (vm.messages.length === 1) {
+            loadMessages(true);
+            getUnreadsCount();
+          }
 
           if (data.placeId) { // remove the post from the place
             // remove the place from the post's places
@@ -228,6 +235,11 @@
           }
         }
 
+
+
+
+
+
       });
 
       $scope.$on('post-moved', function (event, data) {
@@ -236,7 +248,15 @@
         // 2. You moved a place to another one and none of the post new places
         //    are not marked to be shown in feeds page
         // TODO: Implement the second condition
+
         if ($stateParams.placeId === data.fromPlace.id) {
+
+          if (vm.messages.length === 1) {
+            loadMessages(true);
+            getUnreadsCount();
+          }
+
+
           NstUtility.collection.dropById(vm.messages, data.postId);
           return;
         }
@@ -274,6 +294,11 @@
       }
 
     }
+
+    function openContacts($event) {
+      $state.go('app.contacts', {}, {notify: false});
+      $event.preventDefault();
+    };
 
     function getMessages() {
       vm.messagesSetting.skip = null;
@@ -631,7 +656,7 @@
       });
     });
 
-    $rootScope.$on('reload-counters',function () {
+    $rootScope.$on('reload-counters', function () {
       getUnreadsCount();
     });
 

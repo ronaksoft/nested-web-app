@@ -14,7 +14,7 @@
         templateUrl : 'app/app-layout.html',
         controller : 'AppController',
         controllerAs : 'ctlApp'
-      })
+      })      
 
       /*****************************
        *****   Compose Routes   ****
