@@ -200,13 +200,13 @@
 }
 
 .fav-contacts {
-  padding: 0 12px;
   max-height: 280px;
   li {
     display: flex
   }
   .userrow {
     height: 40px;
+    padding: 0 12px;
     img {
       width: 24px;
       height: 24px
