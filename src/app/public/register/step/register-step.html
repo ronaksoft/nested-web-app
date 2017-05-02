@@ -1,5 +1,5 @@
 <form novalidate name="registrationForm" ng-submit="ctrl.register(registrationForm.$valid);ga('send', 'event', { eventCategory: 'register', eventAction: 'register', eventLabel: 'register'});" class="use-ng-animate register-step" autocomplete="off">
-  <p>Hooray :) Please continue to complete your account information.</p>
+  <p translate-inner>Hooray :) Please continue to complete your account information.</p>
   <div class="form-group nst-marginbtm-8" ng-class="{ 'has-error' : (registrationForm.nested_username.$invalid || ctrl.usernameErrors.length > 0) && registrationForm.nested_username.$touched }">
     <label ng-if="!registrationForm.nested_username.$error.required && ctrl.usernameErrors.length == 0 || !registrationForm.nested_username.$touched"><translate>Choose your username:</translate>&nbsp;</label>
     <div ng-if="ctrl.usernameValidationStatus == 'checking' && ctrl.usernameErrors.length == 0 && !registrationForm.nested_username.$invalid" class="nst-mood-storm" style="display: inline">
