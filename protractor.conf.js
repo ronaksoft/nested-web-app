@@ -14,10 +14,16 @@ exports.config = {
 
   // Capabilities to be passed to the webdriver instance.
   capabilities: {
-    'browserName': 'chrome'
+    'browserName': 'chrome',
+    chromeOptions: {
+      args: [
+        '--start-maximized'
+      ]
+    }
   },
 
-  baseUrl: 'http://localhost:3000/#',
+  // baseUrl: 'http://185.161.112.226//#',
+  baseUrl: 'http://192.168.1.3//#',
 
   // Spec patterns are relative to the current working directory when
   // protractor is called.

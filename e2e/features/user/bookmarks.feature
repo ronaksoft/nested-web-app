@@ -4,7 +4,7 @@
 #    Given I go to the page "/login"
 #    When Wait to loading hide
 #    Given I fill "Username" with "jerry"
-#    Given I fill "Password" with "111111"
+#    Given I fill "Password" with "123456"
 #    Given I Press "Sign in"
 #    When current tab is "Feed"
 #    Given I switch to "bookmarks" tab
@@ -16,7 +16,7 @@
 #    Given I switch to "feed" tab
 #    When current tab is "Feed"
 #    Given I Click on "bookmark-test" place in sidebar
-#    When should the title of the place be "bookmark-test"
+#    When should the title of the place be "bookmark test"
 #    When I wait 5s
 #    When Wait for hiding of all loadings
 #    When current tab is "Posts"

@@ -6,7 +6,7 @@
 #    Given I go to the page "/login"
 #    When Wait to loading hide
 #    Given I fill "Username" with "jerry"
-#    Given I fill "Password" with "111111"
+#    Given I fill "Password" with "123456"
 #    Given I Press "Sign in"
 #    Then current tab must be "Feed"
 #
@@ -14,8 +14,8 @@
 #    Given I Click by ngClick "ctlSidebar.compose($event);"
 #    When Wait to see compose-modal
 #    When I wait 2s
-#    Given I Attach dog-png
-#    Given I Attach cat-png
+##    Given I Attach dog-png
+##    Given I Attach cat-png
 #    When I wait 2s
 #    Given I fill input by name "subject" with "testing-compose"
 #    When I wait 5s
@@ -31,7 +31,7 @@
 #  Scenario: ok - compose with one recipient
 #    Given I Click by ngClick "ctlSidebar.compose($event);"
 #    When Wait to see compose-modal
-#    Given I fill "Enter a Place or a Nested address..." with "hborgeson"
+#    Given I fill "Enter a Place or a Nested address..." with "chikano"
 #    When I wait 5s
 #    Given I press enter
 #    When I wait 2s
@@ -40,26 +40,26 @@
 #    When I wait 2s
 #    When Wait to see success-msg
 #    Then current tab must be "Feed"
-
+#
 #
 #  Scenario: this scenario is about sharing a post with two or more places that user have and don't have permission to share with them.
 #
 #    Given I Click by ngClick "ctlSidebar.compose($event);"
 #    When Wait to see compose-modal
 #    When I wait 5s
-#    Given I fill recipient with "hborgeson"
+#    Given I fill recipient with "chikano"
 #    When I wait 2s
 #    Given I press enter
-#    Given I fill recipient with "accounting"
+#    Given I fill recipient with "test-place-2"
 #    When I wait 2s
 #    Given I press enter
-#    Given I fill recipient with "accounting.first"
+#    Given I fill recipient with "test-place-2.second"
 #    When I wait 2s
 #    Given I press enter
 #    Given I fill input by name "subject" with "testing-compose"
 #    Given I Click by ngClick "ctlCompose.send()"
 #    When I wait 2s
-#    When should see "Your message was sent, but accounting,accounting.first did not receive that" warning message
+#    When should see "Your message was sent, but test-place-2,test-place-2.second did not receive that" warning message
 #    Then current tab must be "Feed"
 #
 #  Scenario:
