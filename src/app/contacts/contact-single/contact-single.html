@@ -50,17 +50,17 @@
     </div>
 
     <div class="inf">
-        <h4>Full Name</h4>
+        <h4><translate>Full Name</translate></h4>
         <h5>{{::ctrl.contact.fullName}}</h5>
     </div>
 
     <div class="inf">
-        <h4>User ID</h4>
+        <h4><translate>User ID</translate></h4>
         <h5>{{::ctrl.contact.id}}</h5>
     </div>
 
     <div class="inf">
-        <h4>Mutual Places ({{ctrl.mutualPlaces.length || 0}})</h4>
+        <h4><translate>Mutual Places ({{ctrl.mutualPlaces.length || 0}})</translate></h4>
         <div class="mu-places">
             <a class="placerow" ng-repeat="place in ctrl.mutualPlaces" ui-sref="app.place-messages({ placeId: place.id })" ng-click="ctrl.goToPlace($event, place);">
                 <img ng-src="{{ place | picture : 'x64'}}" alt="{{::place.name}}">
