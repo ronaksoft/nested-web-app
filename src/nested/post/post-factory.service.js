@@ -379,7 +379,7 @@
       post.subject = data.subject;
       post.timestamp = data.timestamp;
       post.type = data.type;
-      post.wipeAccess = data.wipeAccess;
+      post.wipeAccess = data.wipe_access;
       post.ellipsis = data.ellipsis;
 
 
