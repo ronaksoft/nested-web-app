@@ -8,11 +8,11 @@
   /** @ngInject */
   function PublicController($scope, NstSvcI18n) {
     var vm = this;
-    vm.currentLocale = NstSvcI18n.currentLocale;
+    vm.currentLocale = NstSvcI18n.selectedLocale;
     vm.setLocale = setLocale;
 
     function setLocale(locale) {
-      if (NstSvcI18n.currentLocale === locale) {
+      if (NstSvcI18n.selectedLocale === locale) {
         return;
       }
 

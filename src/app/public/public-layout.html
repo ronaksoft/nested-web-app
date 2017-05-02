@@ -5,13 +5,13 @@
     <li>
       <a href=""></a>
     </li>
-    <li><a href="https://nested.me/" target="_blank">About  ؟نستدان؟ </a></li>
-    <li><a href="https://help.nested.me/nested_privacy_policy/" target="_blank">Privacy</a></li>
-    <li><a href="https://help.nested.me/terms/index.html" target="_blank">Terms</a></li>
-    <li><a href="https://help.nested.me/" target="_blank">Help</a></li>
+    <li><a href="https://nested.me/" target="_blank"><translate>About  ؟نستدان؟ </translate></a></li>
+    <li><a href="https://help.nested.me/nested_privacy_policy/" target="_blank"><translate>Privacy</translate></a></li>
+    <li><a href="https://help.nested.me/terms/index.html" target="_blank"><translate>Terms</translate></a></li>
+    <li><a href="https://help.nested.me/" target="_blank"><translate>Help</translate></a></li>
   </ul>
   <div class="_df _fn _pr">
-    <select class="_df _fn" name="lang" id="lang">
+    <select class="_df _fn" name="lang" id="lang" ng-model="ctlPublic.currentLocale" ng-change="ctlPublic.setLocale(ctlPublic.currentLocale)">
       <option value="en-US">English (United States)</option>
       <option value="fa-IR">Farsi (فارسی)</option>
     </select>

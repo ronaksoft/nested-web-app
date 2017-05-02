@@ -8,7 +8,7 @@
   /** @ngInject */
   function conversationController(_, $log, $stateParams, $state, $scope,
                             NST_DEFAULT, NstSvcPostFactory, NstSvcUserFactory, NstSvcServer, NstSvcAuth,
-                            NstSearchQuery) {
+                            NstVmFile, NstSearchQuery) {
     var vm = this;
     var limit = 8;
     var skip = 0;
@@ -80,9 +80,11 @@
       vm.reachedTheEnd = false;
 
       NstSvcPostFactory.conversation($stateParams.userId, queryString, limit, skip).then(function (posts) {
-
         _.forEach(posts, function (message) {
           if (!_.some(vm.messages, { id : message.id })){
+            message.attachments = _.map(message.attachments, function (item) {
+              return new NstVmFile(item);
+            });
             vm.messages.push(message);
           }
         });

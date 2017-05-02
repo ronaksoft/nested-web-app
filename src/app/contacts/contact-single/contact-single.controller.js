@@ -45,9 +45,15 @@
     }
 
     function remove(id) {
+      if (!vm.contact.isContact) {
+        return;
+      }
+
       vm.removeProgress = true;
       NstSvcContactFactory.remove(id).then(function () {
         vm.contact.isContact = false;
+        vm.contact.isFavorite = false;
+        $rootScope.$broadcast('contact-favorite-remove', vm.contact);
       }).catch(function (error) {
         toastr.error(NstSvcTranslation.get("An error has occured while removing the user from your contacts list."));
       }).finally(function () {

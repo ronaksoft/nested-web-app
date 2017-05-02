@@ -74,7 +74,7 @@
       markAsRead();
       $event.preventDefault();
       if ($state.current.name !== 'app.message') {
-        $state.go('app.message', {postId: vm.post.id, trusted: true}, {notify: false});
+        $state.go('app.message', {postId: vm.post.id, trusted: vm.post.trusted}, {notify: false});
       } else {
         var reference = $scope.$emit('post-view-target-changed', {postId: vm.post.id});
         pageEventReferences.push(reference);
@@ -159,7 +159,6 @@
       NstSvcPostFactory.get(vm.post.id, true).then(function (post) {
         vm.expandProgress = false;
         vm.orginalPost = post;
-        console.log(post.body)
         vm.body = post.body;
         vm.resources = post.resources;
         vm.isExpanded = true;
@@ -167,7 +166,7 @@
           markAsRead();
         }
 
-        if (vm.trusted || Object.keys(post.resources).length == 0) {
+        if (vm.post.trusted || Object.keys(post.resources).length == 0) {
           showTrustedBody();
         }
 
@@ -299,7 +298,7 @@
         vm.body = vm.post.getTrustedBody();
       }
 
-      vm.post.trusted = true;
+      vm.trusted = true;
     }
 
     function loadNewComments($event) {
@@ -383,7 +382,7 @@
       vm.hasOlderComments = (vm.post.counters.comments && vm.post.comments) ? vm.post.counters.comments > vm.post.comments.length : false;
       vm.body = vm.post.body;
       vm.orginalPost = vm.post;
-      if (vm.trusted) {
+      if (vm.post.trusted) {
         showTrustedBody();
       }
 

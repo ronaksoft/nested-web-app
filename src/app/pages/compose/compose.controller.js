@@ -148,30 +148,35 @@
     } else {
       $scope.editorOptions = {
         language: lang,
-        allowedContent: allowedContent,
-        // allowedContent: true,
+        // allowedContent: allowedContent,
+        allowedContent: true,
         contentsLangDirection: isRTL,
         contentsCss: 'body {overflow:visible;}',
         height: 230,
         enableTabKeyTools: true,
         tabSpaces: 4,
         startupFocus: false,
-        extraPlugins: 'sharedspace,font,language,bidi,justify,colorbutton,autogrow,divarea,autolink,autodirection',
+        extraPlugins: 'sharedspace,font,language,bidi,justifygroup,colorbutton,autogrow,divarea,autolink,autodirection',
         autoGrow_minHeight: 230,
+        fillEmptyBlocks: false,
+        enterMode: CKEDITOR.ENTER_BR,
+        justifyClasses : [ 'AlignLeft', 'AlignCenter', 'AlignRight', 'AlignJustify' ],
         sharedSpaces: {
           top: 'editor-btn',
           bottom: 'editor-txt'
         },
         toolbar: [
-          ["Link", "FontSize"],
-          ["Bold", "Italic", "Underline", "source"],
-          ["JustifyRight", "TextColor", "BidiLtr", "BidiRtl"]
+          ["Link", "FontSize", 'Font'],
+          ["Bold", "Italic", "Underline"],
+          ["justifygroup", "-" , "TextColor", "BackColor", "BidiLtr", "BidiRtl"]
         ],
         fontSize_sizes: 'Small/12px;Normal/14px;Large/18px;',
+        font_names: 'Sans Serif/Sans Serif; Serif/Serif',
+        colorButton_enableAutomatic : false,
         colorButton_colors: 'CF5D4E,454545,FFF,CCC,DDD,CCEAEE,66AB16',
         // Remove the redundant buttons from toolbar groups defined above.
         //removeButtons: 'Strike,Subscript,Superscript,Anchor,Specialchar',
-        removePlugins: 'resize,elementspath,wysiwygarea,contextmenu,magicline,tabletools'
+        removePlugins: 'resize,elementspath,contextmenu,magicline,tabletools,Link:Target'
       };
 
     }
@@ -360,17 +365,13 @@
           return new NstVmSelectTag(place);
         }).value();
 
-        if (_.isString(query)
-          && _.size(query) >= 4
-          && _.indexOf(query, " ") === -1
-          && (NST_PATTERN.EMAIL.test(query) || NST_PATTERN.GRAND_PLACE_ID.test(query))
-          && !_.some(vm.search.results, {id: query})) {
-          var initPlace = new NstVmSelectTag({
-            id: query,
-            name: query
-          });
+        var initPlace = new NstVmSelectTag({
+          id: query,
+          name: query
+        });
+        if (initPlace.id)
           vm.search.results.push(initPlace);
-        }
+
       }).catch(function () {
         vm.search.results = [];
         if (initPlace.id)
@@ -628,9 +629,9 @@
           }
 
         } else if (response.post.places.length === response.noPermitPlaces.length) {
-          toastr.error(NstUtility.string.format(NstSvcTranslation.get('Your message has not been successfully sent to {0}'), response.noPermitPlaces.join(',')));
+          toastr.error(NstUtility.string.format(NstSvcTranslation.get('Your message has not been successfully sent to {0}'), response.noPermitPlaces.join(', ')));
         } else {
-          toastr.warning(NstUtility.string.format(NstSvcTranslation.get('Your message was sent, but {0} did not received that!'), response.noPermitPlaces.join(',')));
+          toastr.warning(NstUtility.string.format(NstSvcTranslation.get('Your message was sent, but {0} did not received that!'), response.noPermitPlaces.join(', ')));
           NstSvcPostFactory.get(response.post.id).then(function (res) {
             $rootScope.$emit('post-quick', res);
           });

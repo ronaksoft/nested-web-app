@@ -10,7 +10,7 @@
     NstSvcServer, NstSvcUserFactory, NstSvcPlaceFactory, NstSvcLogger,  NstSvcI18n,
     NstSvcUserStorage, NstSvcCurrentUserStorage, NstSvcFileStorage, NstSvcInvitationStorage,
     NstSvcMyPlaceIdStorage, NstSvcPlaceRoleStorage, NstSvcPlaceStorage, NstSvcTinyPlaceStorage,
-    NstSvcPostStorage, NstSvcUploadTokenStorage, NstSvcTinyUserStorage,
+    NstSvcPostStorage, NstSvcUploadTokenStorage, NstSvcTinyUserStorage, NstSvcContactStorage,
     NST_SRV_EVENT, NST_SRV_RESPONSE_STATUS, NST_SRV_ERROR, NST_UNREGISTER_REASON,
     NST_AUTH_EVENT, NST_AUTH_STATE, NST_AUTH_STORAGE_KEY, NST_OBJECT_EVENT,
     NstObservableObject) {
@@ -203,6 +203,7 @@
           NstSvcUploadTokenStorage.cache.flush();
           NstSvcTinyUserStorage.cache.flush();
           NstSvcUserStorage.cache.flush();
+          NstSvcContactStorage.cache.flush();
 
           service.user = null;
           NstSvcUserFactory.currentUser = null;
