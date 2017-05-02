@@ -25,10 +25,6 @@
         var maxX = isRTL ? -4 : 52;
         var midX = isRTL ? -32 : 32;
 
-
-
-
-
         $timeout(function () {
           if (!checkbox.prop("disabled")) {
             Draggable.create($element, {
