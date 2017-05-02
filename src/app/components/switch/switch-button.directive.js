@@ -31,7 +31,6 @@
 
         $timeout(function () {
           if (!checkbox.prop("disabled")) {
-            console.log('sssss',Draggable)
             Draggable.create($element, {
               type:"x",
               bounds:{minX:minX, maxX: maxX},
@@ -71,13 +70,12 @@
                   $element.css({transform: ''});
               }
             });
+            $element.css({transform: ''});
           }
-
         },1000);
 
-
       }
-    }
+    };
   }
 
 })();
