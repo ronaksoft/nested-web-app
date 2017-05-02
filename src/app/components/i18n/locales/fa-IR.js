@@ -217,6 +217,7 @@
     "Move from": "جابه‌جایی از",
     "Move to ...": "جابه‌جایی به...",
     "Move to {0}": "جابه‌جایی به {0}",
+    "Mutual Places ({{ctrl.mutualPlaces.length || 0 | localize}})": "Placeهای مشترک ({{ctrl.mutualPlaces.length || 0 | localize}})",
     "Name": "نام",
     "Name is required": "درج نام ضروری است",
     "Name or ID...": "نام یا شناسه ",
