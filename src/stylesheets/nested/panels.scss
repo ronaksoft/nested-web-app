@@ -120,6 +120,9 @@
     font-size: 13px;
     color: $color-gale;
     margin: 0;
+    span {
+      font-weight: bold;
+    }
   }
   country-select {
     margin-bottom: 16px;
@@ -140,5 +143,11 @@
     padding: 0 8px;
     border-radius: 4px;
     font-size: 14px;
+  }
+}
+form[name="phoneVerifyForm"] {
+  .butn-white {
+    width: 154px;
+    height: 34px;
   }
 }
