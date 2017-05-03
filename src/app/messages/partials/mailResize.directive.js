@@ -17,7 +17,7 @@
           var stndSize = elem.parents('post-card').width() - 48 || 600;
           var cardWidth = elem.width();
 
-          if (cardWidth => stndSize && cardWidth < 900) {
+          if (cardWidth >= stndSize && cardWidth < 900) {
             var ratio = stndSize / cardWidth;
 
 
