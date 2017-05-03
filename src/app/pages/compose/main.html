@@ -34,9 +34,10 @@
                              refresh-delay="0"
                              repeat="place as place in (ctlCompose.search.results | filter: $select.search ) track by $index">
             <img class="account-initials-32" ng-src="{{::place.picture}}"/>
-            <span class="" data-ng-bind-html="place.name | highlight: $select.search"></span>
-            <br/>
-            <span class="nst-font-10 _vat margin-l-50">{{::place.id}}</span>
+            <div class="_difv _fw">
+              <span class="" data-ng-bind-html="place.name | highlight: $select.search"></span>
+              <span class="nst-font-10 _vat">{{::place.id}}</span>
+            </div>
           </ui-select-choices>
         </ui-select>
       </div>

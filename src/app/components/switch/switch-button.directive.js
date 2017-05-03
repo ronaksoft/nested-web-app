@@ -25,13 +25,8 @@
         var maxX = isRTL ? -4 : 52;
         var midX = isRTL ? -32 : 32;
 
-
-
-
-
         $timeout(function () {
           if (!checkbox.prop("disabled")) {
-            console.log('sssss',Draggable)
             Draggable.create($element, {
               type:"x",
               bounds:{minX:minX, maxX: maxX},
@@ -71,13 +66,12 @@
                   $element.css({transform: ''});
               }
             });
+            $element.css({transform: ''});
           }
-
         },1000);
 
-
       }
-    }
+    };
   }
 
 })();

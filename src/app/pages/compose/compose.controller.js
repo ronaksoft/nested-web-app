@@ -639,6 +639,9 @@
           if (vm.quickMode) {
             clear();
           } else {
+            if ($('body').hasClass('fullCompose')) {
+              vm.fullCompose()
+            }
             discardDraft();
           }
 
@@ -926,6 +929,9 @@
     $scope.$on('$destroy', function () {
       NstSvcSidebar.removeOnItemClick();
 
+      if ($('body').hasClass('fullCompose')) {
+        vm.fullCompose()
+      }
       _.forEach(eventReferences, function (cenceler) {
         if (_.isFunction(cenceler)) {
           cenceler();
