@@ -20,7 +20,7 @@
         </i>
       </p>
     </div>
-    <span class="_df _fn" data-uib-tooltip="{{::comment.timestamp | date : 'full'}}" data-tooltip-append-to-body="true" data-tooltip-placement="auto right">{{comment.timestamp | passed}}</span>
+    <span class="_df _fn" data-uib-tooltip="{{::comment.timestamp | date : 'full' | localize}}" data-tooltip-append-to-body="true" data-tooltip-placement="top auto">{{comment.timestamp | passed | localize}}</span>
     <div class="delete-comment" data-ng-if="ctrl.allowToRemoveComment(comment)" ng-click="ctrl.removeComment(comment);  _track('post card', 'remove comment');" >
       <svg class="_16svg">
         <use xlink:href="/assets/icons/nst-icn16.svg#bin"></use>

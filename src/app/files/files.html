@@ -77,7 +77,7 @@
               </a>
             </div>
             <div class="item-size">{{item.size | bytes}} </div>
-            <div class="item-date">{{item.date | passed : 'long' }}</div>
+            <div class="item-date">{{item.date | passed | localize }}</div>
           </div>
         </li>
       </ul>
