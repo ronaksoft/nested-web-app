@@ -173,15 +173,11 @@
 
         return $q(function (resolve, reject) {
           var place = NstSvcPlaceStorage.get(query.id) || NstSvcTinyPlaceStorage.get(query.id);
-          if (place) {
-            if (!(place instanceof NstTinyPlace)) {
-              place = new NstTinyPlace(place);
-            }
 
+          if (place) {
             resolve(place);
           } else {
             factory.get(query.id).then(function (place) {
-              place = new NstTinyPlace(place);
               NstSvcTinyPlaceStorage.set(query.id, place);
               resolve(place);
             }).catch(reject);
