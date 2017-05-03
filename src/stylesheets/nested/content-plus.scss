@@ -42,6 +42,7 @@
         display: inline-flex;
         flex-direction: column;
         width: 100%;
+        max-width: calc(100% - 32px);
         border-bottom: 1px solid $color-breeze;
         span {
           color: $color-wind;
