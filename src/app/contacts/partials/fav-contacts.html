@@ -1,7 +1,13 @@
 <ul class="_bgwhite fav-contacts" nst-scrollbar suppress-scroll-x="true">
-  <li data-ng-repeat="contact in ctrl.contacts">
-    <a class="_df userrow _aic _fw" ui-sref="app.contact({ contactId: contact.id })" ng-click="ctrl.openContact($event, contact)">
-    <img class="" ng-src="{{contact | avatar : 'x32'}}"/>
+  <li ng-if=" ctrl.contacts.length === 0">
+    <div class="_jcc _df _fw nst-margin-12">
+      <translate>No Favorite Contact!!</translate>
+    </div>
+  </li>
+  <li ng-repeat="contact in ctrl.contacts">
+    <a class="_df userrow _aic _fw" ui-sref="app.contact({ contactId: contact.id })"
+       ng-click="ctrl.openContact($event, contact)">
+      <img class="" ng-src="{{contact | avatar : 'x32'}}"/>
       <div class="_df text-wrap _fw">
         <span class="_txe">{{contact.fullName}}</span>
       </div>
