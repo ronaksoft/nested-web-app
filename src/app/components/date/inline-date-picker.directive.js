@@ -14,7 +14,6 @@
         value : '=selectedValue',
       },
       link: function (scope ,element, attrs) {
-        console.log("moment", moment());
         scope.validationEnabled = _.has(attrs, "validationEnabled");
         var momentValue = moment(scope.value, "YYYY-MM-DD");
         if (scope.value && momentValue.isValid()) {
