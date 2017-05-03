@@ -11,7 +11,8 @@
         </svg>
         <input type="text" ng-model="ctrl.keyword" ng-change="ctrl.search(ctrl.keyword);" placeholder="find in contacts" translate-attrs="placeholder">
     </div>
-    <div id="scroller" nst-scrollbar  scroll-spy="" data-target="#navPills" data-scroll-offset="80" class="scrollspy-example span9">
+    <div id="scroller" dir="ltr" nst-scrollbar  scroll-spy="" data-target="#navPills" data-scroll-offset="80" class="scrollspy-example span9">
+        <div dir="{{_direction}}">
         <section id="fav" ng-if="!(ctrl.keyword && ctrl.keyword.length > 0)">
             <h6><translate>Favorites</translate></h6>
             <div class="userrow" ng-repeat="contact in ctrl.favorites" ng-click="ctrl.view(contact)">
@@ -34,6 +35,7 @@
                 </div>
             </div>
         </section>
+        </div>
     </div>
 
     <ul class="alphabet nav" id="navPills">
