@@ -8,7 +8,7 @@
   function NstSvcPostFactory($q, $log,
                              _, md5,
                              NstSvcPostStorage, NstCollector, NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory, NstSvcStore, NstSvcCommentFactory, NstFactoryEventData, NstUtility,
-                             NstFactoryError, NstFactoryQuery, NstPost, NstBaseFactory, NstRecipient,
+                             NstFactoryError, NstFactoryQuery, NstPost, NstBaseFactory,
                              NST_MESSAGES_SORT_OPTION, NST_SRV_EVENT, NST_CONFIG, NST_POST_FACTORY_EVENT) {
 
     function PostFactory() {
@@ -379,7 +379,7 @@
       post.subject = data.subject;
       post.timestamp = data.timestamp;
       post.type = data.type;
-      post.wipeAccess = data.wipeAccess;
+      post.wipeAccess = data.wipe_access;
       post.ellipsis = data.ellipsis;
 
 

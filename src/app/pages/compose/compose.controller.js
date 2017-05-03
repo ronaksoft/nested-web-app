@@ -11,7 +11,7 @@
                              NST_SRV_ERROR, NST_PATTERN, NST_CONFIG, NST_DEFAULT, NST_ATTACHMENT_STATUS, NST_FILE_TYPE, SvcCardCtrlAffix,
                              NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcStore, NstSvcFileType, NstSvcAttachmentMap, NstSvcSidebar,
                              NstUtility, NstSvcTranslation, NstSvcModal, NstSvcPostDraft, NstSvcUserFactory,
-                             NstTinyPlace, NstVmPlace, NstVmSelectTag, NstRecipient, NstLocalResource, NstPicture, NstPostDraft, NstTinyUser, NstVmUser, NstPost) {
+                             NstTinyPlace, NstVmPlace, NstVmSelectTag, NstLocalResource, NstPicture, NstPostDraft, NstTinyUser, NstVmUser, NstPost) {
     var vm = this;
     vm.quickMode = false;
     vm.focus = false;
@@ -639,6 +639,9 @@
           if (vm.quickMode) {
             clear();
           } else {
+            if ($('body').hasClass('fullCompose')) {
+              vm.fullCompose()
+            }
             discardDraft();
           }
 
@@ -926,6 +929,9 @@
     $scope.$on('$destroy', function () {
       NstSvcSidebar.removeOnItemClick();
 
+      if ($('body').hasClass('fullCompose')) {
+        vm.fullCompose()
+      }
       _.forEach(eventReferences, function (cenceler) {
         if (_.isFunction(cenceler)) {
           cenceler();

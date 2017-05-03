@@ -23,11 +23,7 @@
           controller: 'PlaceSettingsController',
           controllerAs: 'ctrl'
         }).result.catch(function() {
-          $rootScope.goToLastState(true, {
-            state : $state.get('app.place-messages'),
-            params : { placeId : $stateParams.placeId },
-            default : true
-          });
+          $rootScope.goToLastState(true);
         });
       }],
       onExit: function($uibModalStack) { }

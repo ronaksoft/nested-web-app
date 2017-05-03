@@ -12,7 +12,7 @@
         </div>
         <svg class="_24svg _df _fn" ng-if="ctrl.contact.isContact" data-popover-class="white-pop popover-white-nst-activity-places"
            data-popover-append-to-body="true" uib-popover-template="'app/contacts/contact-single/contact-single-more-options.html'"
-           data-popover-placement="auto bottom-right">
+           data-popover-placement="auto bottom-right" ng-click>
           <use xlink:href="/assets/icons/nst-icn24.svg#more"></use>
         </svg>
       </div>
@@ -50,19 +50,19 @@
     </div>
 
     <div class="inf">
-        <h4>Full Name</h4>
+        <h4><translate>Full Name</translate></h4>
         <h5>{{::ctrl.contact.fullName}}</h5>
     </div>
 
     <div class="inf">
-        <h4>User ID</h4>
+        <h4><translate>User ID</translate></h4>
         <h5>{{::ctrl.contact.id}}</h5>
     </div>
 
     <div class="inf">
-        <h4>Mutual Places ({{ctrl.mutualPlaces.length || 0}})</h4>
+        <h4><translate>Mutual Places ({{ctrl.mutualPlaces.length || 0 | localize}})</translate></h4>
         <div class="mu-places">
-            <a class="placerow" ng-repeat="place in ctrl.mutualPlaces">
+            <a class="placerow" ng-repeat="place in ctrl.mutualPlaces" ui-sref="app.place-messages({ placeId: place.id })" ng-click="ctrl.goToPlace($event, place);">
                 <img ng-src="{{ place | picture : 'x64'}}" alt="{{::place.name}}">
                 <span>{{::place.name}}</span>
             </a>
