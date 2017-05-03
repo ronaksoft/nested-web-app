@@ -27,6 +27,18 @@
   </div>
   <span><translate>Place Settings</translate></span>
 </a>
+<a
+  class="_df list-items _aic"
+  ng-sref="app.place-activity({ placeId : ctlFullNavbar.getPlaceId() })"
+  ng-click="_track('navbar', 'view activity');"
+  ng-if="!ctlFullNavbar.isBookmarkMode && !ctlFullNavbar.isSentMode && !ctlFullNavbar.isFeed">
+  <div>
+    <svg class="_16svg">
+      <use xlink:href="/assets/icons/nst-icn16.svg#log"></use>
+    </svg>
+  </div>
+  <translate>Place Activities</translate>
+</a>
 <a class="_df list-items _aic" ng-click="ctlFullNavbar.openAddMemberModal($event);"
    ng-if="ctlFullNavbar.allowedToAddMember && !ctlFullNavbar.isSubPersonal()">
   <div>

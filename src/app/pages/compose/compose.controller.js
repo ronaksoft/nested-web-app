@@ -156,7 +156,7 @@
         enableTabKeyTools: true,
         tabSpaces: 4,
         startupFocus: false,
-        extraPlugins: 'sharedspace,font,language,bidi,justifygroup,colorbutton,autogrow,divarea,autolink,autodirection',
+        extraPlugins: 'sharedspace,font,language,bidi,colorbutton,autogrow,divarea,autolink,autodirection',
         autoGrow_minHeight: 230,
         fillEmptyBlocks: false,
         enterMode: CKEDITOR.ENTER_BR,
@@ -176,7 +176,7 @@
         colorButton_colors: 'CF5D4E,454545,FFF,CCC,DDD,CCEAEE,66AB16',
         // Remove the redundant buttons from toolbar groups defined above.
         //removeButtons: 'Strike,Subscript,Superscript,Anchor,Specialchar',
-        removePlugins: 'resize,elementspath,contextmenu,magicline,tabletools,Link:Target'
+        removePlugins: 'resize,elementspath,magicline,Link:Target'
       };
 
     }
