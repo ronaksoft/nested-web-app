@@ -1,4 +1,4 @@
-<div class="post-card _fw ng-class:{'forward-card': ctlPostCard.forwardFromId ,'reply-card': ctlPostCard.isReplyed, 'unread' : !ctlPostCard.post.read, 'ribbon' : ctlPostCard.isRibbon }">
+<div class="post-card _fw ng-class:{'forward-card': ctlPostCard.isForwarded ,'reply-card': ctlPostCard.isReplyed, 'unread' : !ctlPostCard.post.read, 'ribbon' : ctlPostCard.isRibbon }">
   <section class="collapse-view" ng-if="ctlPostCard.isRibbon && ctlPostCard.ribbonEnabled" ng-click="ctlPostCard.switchToPostCard();">
     <div class="user-avatar-24" user-detail="ctlPostCard.post.sender">
       <img initial-avatar="{{ctlPostCard.post.sender.fullName}}" picture="{{ctlPostCard.post.sender | avatar}}" data-width="24"
@@ -11,7 +11,6 @@
   </section>
   <section class="post-head _difh" ng-if="(!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
     <div class="_difc">
-
       <a ng-click="ctlPostCard.viewFull($event);ctlPostCard.markAsRead(); _track('post card','open post view : click forward icon');" ng-if="ctlPostCard.isForwarded" class="icon">
         <div class="fwed">
           <svg class="svg-hover">
