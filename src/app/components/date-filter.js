@@ -11,6 +11,8 @@
         }
 
         switch (format) {
+          case 'short':
+            return date.format(NstSvcTranslation.get("YYYY-MM-DD"));
           case 'full':
           default:
             return date.format(NstSvcTranslation.get("dddd, MMMM DD YYYY, HH:mm"));

@@ -53,7 +53,7 @@
     <div class="form-group _difv _fw">
       <label class="input-lab _fw"><translate>Date of Birth</translate></label>
       <div class="field _difh _fw">
-        <div ng-if="ctrl.model.dateOfBirth" class="_df _fw" dir="ltr">{{ctrl.model.dateOfBirth}}</div>
+        <div ng-if="ctrl.model.dateOfBirth" class="_df _fw" dir="ltr">{{ctrl.model.dateOfBirth | date : 'short'}}</div>
         <i ng-if="!ctrl.model.dateOfBirth" class="_df _fw" dir="ltr"><translate class="nst-mood-breez">Not specified</translate></i>
         <svg class="_24svg _df _fn edit-icon" open-custom-modal="app/settings/profile/modals/profile-change-dob.html">
           <use xlink:href="/assets/icons/nst-icn24.svg#edit"></use>

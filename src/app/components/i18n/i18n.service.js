@@ -8,7 +8,6 @@
   /** @ngInject */
   function NstSvcI18n(_, NstSvcI18nStorage, moment, $location) {
     function I18n() {
-      // this.selectedCalendar = "jalali";
       this.locales = {};
 
       var languages = {

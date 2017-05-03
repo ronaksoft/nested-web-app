@@ -6,7 +6,6 @@
     .directive('inlineDatePicker', inlineDatePicker);
 
   function inlineDatePicker(moment, NstSvcI18n, NstUtility, NstSvcTranslation) {
-    var JALALI_CALENDAR = "jalali";
     return {
       restrict: 'E',
       replace : true,
@@ -15,6 +14,7 @@
         value : '=selectedValue',
       },
       link: function (scope ,element, attrs) {
+        console.log("moment", moment());
         scope.validationEnabled = _.has(attrs, "validationEnabled");
         var momentValue = moment(scope.value, "YYYY-MM-DD");
         if (scope.value && momentValue.isValid()) {
@@ -140,7 +140,7 @@
     }
 
     function getMonths() {
-      var months = isJalali() ? moment.jMonths() : moment.months();
+      var months = moment.months();
       return _.map(months, function (month, index) {
         return {
           name : month,
@@ -201,7 +201,7 @@
     }
 
     function isJalali() {
-      return NstSvcI18n.selectedCalendar === JALALI_CALENDAR;
+      return NstSvcI18n.selectedLocale === "fa-IR";
     }
   }
 })();
