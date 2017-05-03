@@ -1,5 +1,5 @@
 <form novalidate name="registrationForm" ng-submit="ctrl.register(registrationForm.$valid);ga('send', 'event', { eventCategory: 'register', eventAction: 'register', eventLabel: 'register'});" class="use-ng-animate register-step" autocomplete="off">
-  <p class="nst-mood-gale">Hooray :) Please continue to complete your account information.</p>
+  <p class="nst-mood-gale" translate-inner>Hooray :) Please continue to complete your account information.</p>
   <div class="form-group nst-marginbtm-8" ng-class="{ 'has-error' : (registrationForm.nested_username.$invalid || ctrl.usernameErrors.length > 0) && registrationForm.nested_username.$touched }">
     <div class="_difh _fw _aic">
       <label class="_df _fn" ng-if="!registrationForm.nested_username.$error.required && ctrl.usernameErrors.length == 0 || !registrationForm.nested_username.$touched"><translate>Choose your username:</translate>&nbsp;</label>
@@ -16,7 +16,7 @@
         <translate>unavailable</translate>
       </b>
     </div>
-    
+
     <input id="uid" aria-invalid="false" class="form-control" name="nested_username" type="text" ng-model="ctrl.username" tabindex="1" placeholder="john-doe" translate-attrs="placeholder" ng-change="ctrl.validateUsername(ctrl.username, registrationForm.nested_username.$touched);"
         ng-blur="ctrl.validateUsername(ctrl.username, !registrationForm.nested_username.$touched);" required autofocus autocomplete="off" maxlength="64" ng-model-options='{ debounce: 512 }' />
 

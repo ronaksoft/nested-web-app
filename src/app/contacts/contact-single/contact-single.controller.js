@@ -16,6 +16,7 @@
     vm.viewConversation = _.partial(viewConversation, vm.contactId);
     vm.sendMessage = _.partial(sendMessage, vm.contactId);
     vm.close = back;
+    vm.goToPlace = goToPlace;
 
     (function () {
       loadContact(vm.contactId);
@@ -149,5 +150,11 @@
       }
     }
 
+    function goToPlace($event, place) {
+      $event.preventDefault();
+      close().then(function () {
+        $state.go('app.place-messages', { placeId: place.id });
+      });
+    }
   }
 })();

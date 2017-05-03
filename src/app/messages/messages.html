@@ -90,7 +90,7 @@
         <span ng-if="!ctlMessages.isbookmarkedsMode && ctlMessages.isSubPersonal()">
           <translate>You don't have any messages.</translate>
         </span>
-        <span ng-if="!ctlMessages.isbookmarkedsMode && !ctlMessages.isSubPersonal()">
+        <span ng-if="!ctlMessages.isbookmarkedsMode && !ctlMessages.isSubPersonal() && !ctlMessages.isSentMode">
           <translate>This Place don't have any messages.</translate>
         </span>
         <p class="nst-mood-storm text-center" ng-if="ctlMessages.isbookmarkedsMode && ctlMessages.messages.length == 0 ">
@@ -99,6 +99,9 @@
       </p>
       <p class="text-center nst-mood-storm" ng-if="ctlMessages.noMessages && ctlMessages.isUnreadMode">
         <translate>You don't have any unread messages.</translate>
+      </p>
+      <p class="text-center nst-mood-storm" ng-if="ctlMessages.isSentMode">
+        <translate>Yo did not shared anything yet.</translate>
       </p>
       <p class="text-center nst-mood-storm" ng-if="ctlMessages.loadMessageError">An error has occurred. Please
         <a href="javascript:void(0);" class="nst-mood-cheerful" data-ng-click="ctlMessages.loadMore(true); _track('posts', 'try to load more');">

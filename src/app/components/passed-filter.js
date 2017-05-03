@@ -25,8 +25,8 @@
           return date.format(NstSvcTranslation.get('[Yesterday] HH:mm'));
         }
 
-        var thisMonth = moment().startOf('month');
-        if (date.isSameOrAfter(thisMonth)) {
+        var thisYear = moment().startOf('year');
+        if (date.isSameOrAfter(thisYear)) {
           return date.format(NstSvcTranslation.get('MMM DD'));
         }
 

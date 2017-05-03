@@ -12,6 +12,7 @@
       templateUrl: 'app/contacts/contact-list/contact-list.html',
       controller: 'ContactListController',
       controllerAs: 'ctrl',
+      replace: true,
       link: function (scope, element, attrs) {
 
       }

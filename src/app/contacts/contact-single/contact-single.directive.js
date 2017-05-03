@@ -10,6 +10,7 @@
     return {
       restrict: 'EA',
       templateUrl: 'app/contacts/contact-single/contact-single.html',
+      replace: true,
       controller: 'ContactSingleController',
       controllerAs: 'ctrl',
       scope: {
