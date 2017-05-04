@@ -74,19 +74,21 @@
 }
 
 .nst-vc {
-  height: 100%;
+  min-height: 100%;
   display: flex;
   align-items: center;
   flex-direction: column;
   justify-content: center;
   background-color: #F5F5F5;
-  padding: 72px 0;
+  // padding: 72px 0;
   #Logo {
     margin: 0 0 12px 0;
+    flex: none;
     width: 60px;
     height: 60px;
   }
   > a {
+    flex: none;
     line-height: 24px;
     display: flex;
     height: 24px;
