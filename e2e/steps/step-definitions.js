@@ -153,8 +153,11 @@ module.exports = function () {
   });
 
   this.Given(/^I Click Triple-dot$/, function () {
-    var profilePop = element.all(By.deepCss('#place-more-option'));
-    profilePop.click();
+    var EC = protractor.ExpectedConditions;
+    var Triple = element(by.deepCss('#navbar-popover'));
+    browser.wait(EC.elementToBeClickable(Triple), 5000);
+    Triple.click();
+
   });
 
   this.Given(/^I Click by ngIf "([^"]*)"$/, function (ngIf){
