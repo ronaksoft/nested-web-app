@@ -123,6 +123,9 @@ body[dir="rtl"] {
   select {
     background : url('../assets/icons/inputform.svg') no-repeat 2% -124px, linear-gradient(to bottom, #FFFFFF, whitesmoke 100%);
   }
+  .footer-panel select {
+    background : transparent;
+  }
   .post-card .post-head {
     padding-right: 0;
     padding-left: 24px;
@@ -356,6 +359,14 @@ body[dir="rtl"] {
   #panel-register input[type="checkbox"] + label {
     background-position: 100% 0;
     padding: 0 17px 0 0;
+  }
+  .register-name-cell-left {
+    padding-right: 0;
+    padding-left: 8px;
+  }
+  .register-name-cell-right {
+    padding-left: 0;
+    padding-right: 8px;
   }
   .has-feedback .form-control {
     padding-left: 42px;
