@@ -74,7 +74,7 @@
       markAsRead();
       $event.preventDefault();
       if ($state.current.name !== 'app.message') {
-        $state.go('app.message', {postId: vm.post.id, trusted: vm.post.trusted}, {notify: false});
+        $state.go('app.message', {postId: vm.post.id, trusted: vm.trusted}, {notify: false});
       } else {
         var reference = $scope.$emit('post-view-target-changed', {postId: vm.post.id});
         pageEventReferences.push(reference);

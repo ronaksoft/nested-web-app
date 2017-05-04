@@ -11,26 +11,30 @@
       restrict: 'A',
       link: function (scope, elem, attrs) {
         elem.css({'display': 'table'});
+        elem.css({'width': '100%'});
 
         $timeout(function () {
-          var stndSize = elem.parents('post-card').width() - 32 || 600;
+          var stndSize = elem.parents('post-card').width() - 48 || 600;
           var cardWidth = elem.width();
 
-          if (cardWidth > stndSize && cardWidth > 900) {
+          if (cardWidth => stndSize && cardWidth < 900) {
             var ratio = stndSize / cardWidth;
 
 
             angular.forEach(angular.element('*', elem), function (element) {
 
+              if (angular.element(element).text() !== angular.element(element).html()){
+                return;
+              }
+
               var fontSize = parseInt(angular.element(element).css('font-size'));
-              var newFontSize = fontSize * (1 / ratio) * 0.75;
+              var newFontSize = fontSize * (1 / ratio) * 1;
 
               var attr = angular.element(element).attr('fz');
               if (typeof attr !== typeof undefined && attr !== false) {
                 return;
               }
 
-              if (angular.element(element).attr('alt') === "Digikala") alert(3)
 
               angular.element(element).attr('fz', fontSize);
 

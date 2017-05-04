@@ -1,6 +1,6 @@
 <form class="inline-date-picker" name="dateForm" novalidate>
   <div class="form-group" ng-class="{ 'has-error' : dateForm.inlineYear.$invalid && validationEnabled }">
-    <input class="_fw" type="text" name="inlineYear" ng-model="year" placeholder="Year" translate-attrs="placeholder" maxlength="4" range="1900-2017" allow-only-number change-up-down-press required>
+    <input class="_fw" type="text" name="inlineYear" ng-model="year" placeholder="Year" translate-attrs="placeholder" maxlength="4" minlength="4" allow-only-number change-up-down-press required>
   </div>
   <div class="devider"></div>
   <div class="form-group" ng-class="{ 'has-error' : dateForm.inlineMonth.$invalid && validationEnabled }">

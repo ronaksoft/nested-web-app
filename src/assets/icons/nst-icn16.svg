@@ -274,4 +274,8 @@
     <rect id="space-53" data-name="space" width="16" height="16" style="fill: none"/>
     <path d="M13,6H12V5A4,4,0,0,0,4,5V6H3A1,1,0,0,0,2,7v6a2,2,0,0,0,2,2h8a2,2,0,0,0,2-2V7A1,1,0,0,0,13,6ZM6,5a2,2,0,0,1,4,0V6H6Zm3,8H7V9H9Z"/>
   </g>
+  <g id="log">
+    <rect id="space-54" data-name="space" width="16" height="16" style="fill: none"/>
+    <path d="M14,16l-2-2-2,2L8,14,6,16,4,14,2,16V1L4,3,6,1,8,3l2-2,2,2,2-2ZM12,6H4V5h8Zm0,3H4V8h8Zm0,3H4V11h8Z" style="fill-rule: evenodd"/>
+  </g>
 </svg>

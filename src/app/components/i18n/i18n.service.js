@@ -8,7 +8,6 @@
   /** @ngInject */
   function NstSvcI18n(_, NstSvcI18nStorage, moment, $location) {
     function I18n() {
-      // this.selectedCalendar = "jalali";
       this.locales = {};
 
       var languages = {
@@ -26,7 +25,12 @@
         NstSvcI18nStorage.set('locale', routedLocale)
       }
       this.selectedLocale = NstSvcI18nStorage.get('locale') || routedLocale || defaultLocale;
-      moment.locale(this.selectedLocale);
+      if (this.selectedLocale === "fa-IR") {
+        moment.loadPersian();
+        moment.locale('fa', {months: 'فروردین_اردیبهشت_خرداد_تیر_مرداد_شهریور_مهر_آبان_آذر_دی_بهمن_اسفند'.split('_')});
+      } else {
+        moment.locale(this.selectedLocale);
+      }
     }
 
     I18n.prototype.addLocale = function (key, dictionary) {

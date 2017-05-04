@@ -1,4 +1,4 @@
-<div class="post-card _fw ng-class:{'forward-card': ctlPostCard.forwardFromId ,'reply-card': ctlPostCard.isReplyed, 'unread' : !ctlPostCard.post.read, 'ribbon' : ctlPostCard.isRibbon }">
+<div class="post-card _fw ng-class:{'forward-card': ctlPostCard.isForwarded ,'reply-card': ctlPostCard.isReplyed, 'unread' : !ctlPostCard.post.read, 'ribbon' : ctlPostCard.isRibbon }">
   <section class="collapse-view" ng-if="ctlPostCard.isRibbon && ctlPostCard.ribbonEnabled" ng-click="ctlPostCard.switchToPostCard();">
     <div class="user-avatar-24" user-detail="ctlPostCard.post.sender">
       <img initial-avatar="{{ctlPostCard.post.sender.fullName}}" picture="{{ctlPostCard.post.sender | avatar}}" data-width="24"
@@ -11,7 +11,6 @@
   </section>
   <section class="post-head _difh" ng-if="(!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
     <div class="_difc">
-
       <a ng-click="ctlPostCard.viewFull($event);ctlPostCard.markAsRead(); _track('post card','open post view : click forward icon');" ng-if="ctlPostCard.isForwarded" class="icon">
         <div class="fwed">
           <svg class="svg-hover">
@@ -42,10 +41,10 @@
       <div class="_df _fw">
       </div>
 
-      <a class="_df _fn post-card-time" ng-click="ctlPostCard.viewFull($event); ctlPostCard.markAsRead(); _track('post card','open post view : click date');" data-uib-tooltip="{{::ctlPostCard.post.timestamp | date : 'full'}}"
+      <a class="_df _fn post-card-time" ng-click="ctlPostCard.viewFull($event); ctlPostCard.markAsRead(); _track('post card','open post view : click date');" data-uib-tooltip="{{::ctlPostCard.post.timestamp | date : 'full' | localize}}"
             data-tooltip-append-to-body="true" data-tooltip-placement="auto left">
-        <span ng-if="!ctlPostCard.chainView">{{::ctlPostCard.post.timestamp | passed }}</span>
-        <span ng-if="ctlPostCard.chainView">{{::ctlPostCard.post.timestamp | date : 'full' }}</span>
+        <span ng-if="!ctlPostCard.chainView">{{::ctlPostCard.post.timestamp | passed | localize }}</span>
+        <span ng-if="ctlPostCard.chainView">{{::ctlPostCard.post.timestamp | date : 'full' | localize}}</span>
       </a>
     </div>
     <div class="pin-post ng-class:{'pinned' : ctlPostCard.post.pinned}" ng-click="ctlPostCard.markAsRead();ctlPostCard.setBookmark(!ctlPostCard.post.pinned); _track('post card',ctlPostCard.post.pinned ? 'bookmark remove' : 'bookmark add');">
@@ -132,15 +131,7 @@
 
   <section class="post-footer _difh"
            ng-if="(!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled) && !ctlPostCard.chainView">
-    <script type="text/ng-template" id="more-uib-tooltip.html">
-      <translate>More options</translate>
-    </script>
-    <script type="text/ng-template" id="reply-to-all-uib-tooltip.html">
-      <translate>Reply</translate>
-    </script>
-    <script type="text/ng-template" id="forward-uib-tooltip.html">
-      <translate>Forward</translate>
-    </script>
+    
     <a class="_df _fn comments-count" ng-if="ctlPostCard.unreadCommentsCount == 0 ">
       <svg class="_16svg">
         <use xlink:href="/assets/icons/nst-icn16.svg#comment"></use>
@@ -295,3 +286,12 @@
 </div>
 
 <div class="post-card-wire" ng-if="!ctlPostCard.chainView"></div>
+<script type="text/ng-template" id="more-uib-tooltip.html">
+  <translate>More options</translate>
+</script>
+<script type="text/ng-template" id="reply-to-all-uib-tooltip.html">
+  <translate>Reply</translate>
+</script>
+<script type="text/ng-template" id="forward-uib-tooltip.html">
+  <translate>Forward</translate>
+</script>
