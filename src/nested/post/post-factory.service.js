@@ -276,11 +276,12 @@
     }
 
     function retract(id) {
+      var factory = this;
       return factory.sentinel.watch(function () {
         var deferred = $q.defer();
         var query = new NstFactoryQuery(id);
 
-        get(query.id).then(function (post) {
+        factory.get(query.id).then(function (post) {
           if (post.wipeAccess) {
 
             NstSvcServer.request('post/wipe', {
