@@ -141,6 +141,13 @@
       flex: none;
       flex-wrap: wrap;
       width: calc(100% - 16px);
+      ._difh:first-of-type + div + div + div + div + div ,
+      ._difh:first-of-type + div + div + div + div + div + div + div + div + div + div + div,
+      ._difh:last-of-type {
+        .devid {
+          display: none;
+        }
+      }
       div.user-avatar-32 {
         margin: 2px;
         width: 32px;

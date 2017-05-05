@@ -339,7 +339,9 @@ body[dir="rtl"] {
   }
 }
 
-.nav-pop .popover-content{
+.nav-pop {
+  width: 276px!important;
+  .popover-content{
   .list-items {
     padding-left: 8px;
     padding-right: 8px;
@@ -351,5 +353,6 @@ body[dir="rtl"] {
       margin-left: 0;
       margin-right: 8px;
     }
+  }
   }
 }
