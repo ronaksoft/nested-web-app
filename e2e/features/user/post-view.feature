@@ -33,7 +33,7 @@
 #    When Wait for Upload to be finished
 #    Given I Click by ngClick "ctlCompose.send()"
 #    When Wait to see success-msg
-#    Then must see the created post
+#    Then must see at least one post
 #
 ##  Scenario: reply and foreward
 ##    Given I Click by ngClick "ctlPostCard.viewFull($event); ctlPostCard.markAsRead(); _track('post card','open post view : click date');"

@@ -132,7 +132,7 @@ module.exports = function () {
 
 
   this.Given(/^I Click Option by Label "([^"]*)"$/, function (label) {
-    var option = element(By.css('option[label="' + label + '"]'));
+    var option = element(By.css('*[label="' + label + '"]'));
     option.click();
   });
 
@@ -266,7 +266,7 @@ module.exports = function () {
   });
 
 
-  this.Then(/^must see the created post/, function () {
+  this.Then(/^must see at least one post/, function () {
     var EC = protractor.ExpectedConditions;
     return browser.wait(EC.visibilityOf(element(By.css('.post-card'))), 50000);
   });

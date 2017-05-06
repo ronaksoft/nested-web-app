@@ -1,4 +1,4 @@
-#Feature: Create and Delete a place or subplace
+#Feature: Create a place or subplace
 #
 #  Scenario: Login user with true info
 #    Given I go to the page "/login"

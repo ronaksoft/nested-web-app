@@ -3,8 +3,8 @@
 #  Scenario: Login user with true info
 #    Given I go to the page "/login"
 #    When Wait to loading hide
-#    Given I fill "Username" with "jerry"
-#    Given I fill "Password" with "123456"
+#    Given I fill "Username" with "user-8"
+#    Given I fill "Password" with "111111"
 #    Given I Press "Sign in"
 #    Then current tab must be "Feed"
 #
@@ -13,9 +13,9 @@
 #    When Wait see object with class "popover-content"
 #    Given I Click on href "settings/profile"
 #    When Wait see object with class "panel-profile-menu"
-##    Given I Attach dog-png
-##    When Wait see object with id "change-pic"
-##    Given I Press "Done"
+#    Given I Attach dog-png
+#    When Wait see object with id "change-pic"
+#    Given I Press "Done"
 #    Given I Click edit-icon by open-custom-modal "app/settings/profile/modals/profile-change-name.html"
 #    When Wait see object with id "change-view"
 #    Given I clear input by name "firstName"
@@ -67,7 +67,7 @@
 #    Then Must see object with id "panel-signin"
 #
 #  Scenario: user login with changed password
-#    Given I fill "Username" with "jerry"
+#    Given I fill "Username" with "user-8"
 #    Given I fill "Password" with "111111"
 #    Given I Press "Sign in"
 #    Then current tab must be "Feed"
