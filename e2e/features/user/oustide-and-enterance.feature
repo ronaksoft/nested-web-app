@@ -3,7 +3,7 @@
 #          and entrance (sign-in and sign-out)
 #          functionality
 #
-#  #TODO errors must be added
+#  TODO errors must be added
 #
 #  Scenario: Registration step 1
 #    Given I go to the page "/register"
@@ -21,7 +21,7 @@
 #    Given I fill input by name "verification_code" with "123456"
 #    Given I Press "Verify"
 #    Then Wait see object with id "uid"
-#
+
 #  Scenario: Registration step 3
 #    Given I fill id "uid" with "kayvan-test3"
 #    Given I fill input by name "nested_password" with "123456"
@@ -32,7 +32,7 @@
 #    Given I Press "Finish"
 #    When I wait 5s
 #    Then Must see object with id "panel-signin"
-#
+
 #  Scenario: recover-pass step 1
 #    Given I Click on href "recover/password"
 #    When Wait see object with id "panel-register"

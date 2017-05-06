@@ -110,6 +110,10 @@ module.exports = function () {
     radiob.click();
   });
 
+  this.Given(/^I Click class "([^"]*)"$/, function (iclass) {
+    var radiob = element(By.css('.' + iclass));
+    radiob.click();
+  });
 
   this.Given(/^I Click on href "([^"]*)"$/, function (destination) {
     var pS = element(By.css('*[href="#/'+ destination +'"]'));
@@ -285,13 +289,6 @@ module.exports = function () {
     return browser.wait(EC.visibilityOf(element(By.css('.toast-warning'))), 50000);
   });
 
-  this.When(/^should see "([^"]*)" warning message$/, function (expectedWarning) {
-    return element(By.css(".toast-warning")).getText().then(function (noExpect) {
-      return assert.equal(noExpect.trim(), expectedWarning, ' error is "' + noExpect + '" but should be "' + expectedWarning);
-    }).catch(function () {
-      return assert.ok(false, 'Can not find message!')
-    });
-  });
 
   this.When(/^should see "([^"]*)" place name$/, function (expectedWarning) {
     return element(By.deepCss('span[class="place-name ng-binding"]')).getText().then(function (noExpect) {
@@ -493,7 +490,26 @@ module.exports = function () {
   });
 //-----------------------------------------------------------------------------
 
+  this.Then(/^the text of this class "([^"]*)" must be "([^"]*)"$/, function (style,expectedText) {
+    element(By.css('*[class="' + style + '"]')).$$('span').getText().then(function (availableText) {
+      assert.equal(availableText, expectedText, ' text is "' + availableText + '" but should be "' + expectedText);
+    })
+  });
+
+  this.Given(/^click first contact$/, function () {
+    var firstContact = element(by.repeater('contact in ctrl.contacts').row(0).column('a'));
+    firstContact.click();
+  });
+
+  this.When(/^the text of this class "([^"]*)" is "([^"]*)"$/, function (style,expectedText) {
+    element(By.css('*[class="' + style + '"]')).$$('span').getText().then(function (availableText) {
+      assert.equal(availableText, expectedText, ' text is "' + availableText + '" but should be "' + expectedText);
+    })
+  });
+
+
+
+//--------------------------------------------------------------------------------
 
 
 };
-

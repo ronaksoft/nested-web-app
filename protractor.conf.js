@@ -1,48 +1,50 @@
-'use strict';
+  'use strict';
 
-var paths = require('./.yo-rc.json')['generator-gulp-angular'].props.paths;
+  var paths = require('./.yo-rc.json')['generator-gulp-angular'].props.paths;
 
-// An example configuration file.
-exports.config = {
-  // The address of a running selenium server.
-  //seleniumAddress: 'http://localhost:4444/wd/hub',
-  //seleniumServerJar: deprecated, this should be set on node_modules/protractor/config.json
 
-  framework: 'custom',
-  // path relative to the current config file
-  frameworkPath: require.resolve('protractor-cucumber-framework'),
+  // An example configuration file.
+  exports.config = {
+    // The address of a running selenium server.
+    //seleniumAddress: 'http://localhost:4444/wd/hub',
+    //seleniumServerJar: deprecated, this should be set on node_modules/protractor/config.json
 
-  // Capabilities to be passed to the webdriver instance.
-  capabilities: {
-    'browserName': 'chrome',
-    chromeOptions: {
-      args: [
-        '--start-maximized'
-      ]
+    framework: 'custom',
+    // path relative to the current config file
+    frameworkPath: require.resolve('protractor-cucumber-framework'),
+
+    // Capabilities to be passed to the webdriver instance.
+    capabilities: {
+      'browserName': 'chrome',
+      chromeOptions: {
+        args: [
+          '--start-maximized'
+        ]
+      }
+    },
+
+    // baseUrl: 'http://185.161.112.226//#',
+    // baseUrl: 'http://192.168.1.3//#',
+    baseUrl: 'http://localhost:3000//#',
+
+    // Spec patterns are relative to the current working directory when
+    // protractor is called.
+    specs: ['../e2e/features/**/*.feature'],
+
+    // Options to be passed to Jasmine-node.
+    jasmineNodeOpts: {
+      showColors: true,
+      defaultTimeoutInterval: 30000
+    },
+
+    allScriptsTimeout: 500000, //This is the overall Timeout
+    getPageTimeout: 500000, //This is the Page timeout
+
+    cucumberOpts: {
+      require: ['./e2e/steps/**/*.js'],
+      tags: false,
+      format: 'pretty',
+      profile: false,
+      'no-source': true
     }
-  },
-
-  // baseUrl: 'http://185.161.112.226//#',
-  baseUrl: 'http://192.168.1.3//#',
-
-  // Spec patterns are relative to the current working directory when
-  // protractor is called.
-  specs: ['../e2e/features/**/*.feature'],
-
-  // Options to be passed to Jasmine-node.
-  jasmineNodeOpts: {
-    showColors: true,
-    defaultTimeoutInterval: 30000
-  },
-
-  allScriptsTimeout: 500000, //This is the overall Timeout
-  getPageTimeout: 500000, //This is the Page timeout
-
-  cucumberOpts: {
-    require: ['./e2e/steps/**/*.js'],
-    tags: false,
-    format: 'pretty',
-    profile: false,
-    'no-source': true
-  }
-};
+  };
