@@ -4,7 +4,7 @@
     .module('ronak.nested.web.components.mention')
     .directive('nstMention', function ($rootScope, $timeout,
                                        NST_USER_SEARCH_AREA,
-                                       NstSvcUserFactory, NstSvcPlaceFactory,
+                                       NstSvcUserFactory, NstSvcPlaceFactory, NstVmPlace,
                                        NstVmUser) {
       return {
         restrict: 'A',
