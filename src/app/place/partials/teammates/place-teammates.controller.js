@@ -25,7 +25,7 @@
     vm.placeId = $stateParams.placeId;
     vm.teammatesSettings = {
       skip: 0,
-      limit: 20,
+      limit: 18,
       creatorsCount: 0,
       keyHoldersCount: 0,
       pendingsCount: 0

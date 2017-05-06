@@ -176,7 +176,7 @@
         colorButton_colors: 'CF5D4E,454545,FFF,CCC,DDD,CCEAEE,66AB16',
         // Remove the redundant buttons from toolbar groups defined above.
         //removeButtons: 'Strike,Subscript,Superscript,Anchor,Specialchar',
-        removePlugins: 'resize,elementspath,magicline,Link:Target'
+        removePlugins: 'resize,elementspath,contextmenu,magicline,tabletools,Link:Target'
       };
 
     }
@@ -311,20 +311,17 @@
       }).catch(deferred.reject);
 
       $q.all(_.map(draft.recipients, function (recipientId) {
+
         if (NST_PATTERN.EMAIL.test(recipientId)) {
           return NstSvcUserFactory.getTinySafe(recipientId);
-        } else if (NST_PATTERN.SUB_PLACE_ID.test(recipientId)) {
-          return NstSvcPlaceFactory.getTinySafe(recipientId);
         } else {
-          $q.resolve(null);
+          return NstSvcPlaceFactory.getTinySafe(recipientId);
         }
       })).then(function (recipients) {
-        vm.model.recipients = _.chain(recipients)
-          .filter(function (recipient) {
-            return recipient != null
-          }).map(recipients, function (recipient) {
+
+        vm.model.recipients = recipients.map(function (recipient) {
             return new NstVmSelectTag(recipient);
-          }).value();
+          });
         deferred.resolve(draft);
       }).catch(deferred.reject);
 
