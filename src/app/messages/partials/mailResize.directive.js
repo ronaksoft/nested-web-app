@@ -50,9 +50,11 @@
               , '-moz-transform': 'scale(' + ratio + ',' + ratio + ')'
               , '-o-transform': 'scale(' + ratio + ',' + ratio + ')'
               , '-webkit-transform': 'scale(' + ratio + ',' + ratio + ')'
-              , 'display': 'block'
             });
             elem.height(elem[0].getBoundingClientRect().height + 'px');
+            elem.css({
+              'display': 'block'
+            });
 
           }
 

@@ -1,5 +1,5 @@
 <!-- <div ui-view> -->
-<div ui-view class="nst-mood-sense-5 _fh _fw ng-animate-disabled ng-class:{'_oh _fhv': topNavOpen}"></div>
+<div ui-view class="_fh _fw ng-animate-disabled ng-class:{'_oh _fhv': topNavOpen}"></div>
 <div class="footer-panel">
   <ul class="_df _fw list-inline">
     <li>
@@ -15,7 +15,7 @@
       <option value="en-US">English (United States)</option>
       <option value="fa-IR">Farsi (فارسی)</option>
     </select>
-    <div class="flg us"></div>
+    <div class="flg {{ctlPublic.currentLocale == 'fa-IR' ? 'ir' : 'us' }}"></div>
     <div class="tri"></div>
   </div>
 </div>
