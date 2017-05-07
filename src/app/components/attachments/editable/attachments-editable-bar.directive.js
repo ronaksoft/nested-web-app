@@ -137,7 +137,6 @@
         elem.src = scope.items[i].thumbnail;
         scope.items[i].width = elem.width;
         scope.items[i].height = elem.height;
-        console.log(elem);
         var ratio = elem.width/elem.height;
         scope.items[i].widthResized = 96 * ratio
       }
