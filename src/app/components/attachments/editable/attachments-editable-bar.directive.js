@@ -130,30 +130,21 @@
 
         
         function checkImageRatio() {
-          console.log(3,scope.items,scope.items[0]);
-          for (var i = 0; i<scope.items.length; i++){
-            var elem = document.createElement("img");
-            elem.src = scope.items[i].thumbnail;
-            scope.items[i].width = elem.width;
-            scope.items[i].height = elem.height;
-            console.log(elem);
-            var ratio = elem.width/elem.height;
-            scope.items[i].widthResized = 96 * ratio
-          }
-          $timeout(function() {
-            for (var i = 0; i<scope.items.length; i++){
-            var elem = document.createElement("img");
-            elem.src = scope.items[i].thumbnail;
-            scope.items[i].width = elem.width;
-            scope.items[i].height = elem.height;
-            console.log(elem);
-            var ratio = elem.width/elem.height;
-            scope.items[i].widthResized = 96 * ratio
-          }
-          },1000)
 
-          
+          for (var i = 0; i<scope.items.length; i++){
+
+              var elem = document.createElement("img");
+              elem.src = scope.items[i].thumbnail;
+
+            $timeout(function() {
+              scope.items[i].width = elem.width;
+              scope.items[i].height = elem.height;
+              var ratio = elem.width/elem.height;
+              scope.items[i].widthResized = 96 * ratio
+            },1000)
         }
+          
+      }
       
 
     function findNext(numb) {
