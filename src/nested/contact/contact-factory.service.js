@@ -115,8 +115,8 @@
             NstSvcContactStorage.set("hash", data.hash);
           }
 
-          if (_.isArray(data.contacts) && data.contacts.length > 0) {
-            NstSvcContactStorage.set("list", data.contacts);
+          if (data.hash !== hash) {
+            NstSvcContactStorage.set("list", data.contacts || []);
           }
 
           var contacts = data.contacts || NstSvcContactStorage.get("list");
