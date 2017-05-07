@@ -21,7 +21,7 @@
 
       var defaultLocale = "en-US";
       var routedLocale = languages[findLanguage("lang")];
-      if (!NstSvcI18nStorage.get('locale') && routedLocale) {
+      if (routedLocale) {
         NstSvcI18nStorage.set('locale', routedLocale)
       }
       this.selectedLocale = NstSvcI18nStorage.get('locale') || routedLocale || defaultLocale;
