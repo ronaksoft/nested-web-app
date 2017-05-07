@@ -3,7 +3,7 @@
 
   angular
     .module('ronak.nested.web.components')
-    .directive('userDetail', function($timeout,$state,NstSearchQuery,NstSvcAuth,NST_PATTERN, NstSvcStore) {
+    .directive('userDetail', function($timeout,$state,NstSearchQuery,NstSvcAuth,NST_PATTERN) {
       return {
         template: function(element) {
           var tag = element[0].nodeName;
@@ -17,7 +17,7 @@
         },
         link: function ($scope, $element, $attrs) {
           $scope.isEmail = NST_PATTERN.EMAIL.test($scope.user.id);
-          $scope.isAvailable = NstSvcAuth.user.id !== $scope.user.id;
+          $scope.isAvailable = NstSvcAuth.user.id !== $scope.user.id ;
 
           $scope.openOver = function () {
             return false
@@ -110,7 +110,7 @@
           }
 
           $scope.viewContact = function () {
-            if ($scope.isAvailable) {
+            if ($scope.isAvailable && !NST_PATTERN.EMAIL.test($scope.user.id)) {
               $timeout.cancel($scope.timer);
               $timeout.cancel($scope.timer2);
               $timeout.cancel($scope.timer3);
