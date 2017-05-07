@@ -16,6 +16,7 @@
         mode: '='
       },
       link: function (scope, ele, attributes) {
+        console.log(1)
         scope.overFlowLeft = scope.overFlowRight = false;
         scope.internalMode = NST_ATTACHMENTS_EDITABLE_BAR_MODE.AUTO;
         scope.scrollWrp = ele.children().next();
@@ -30,6 +31,7 @@
         scope.$watch(function () {
           return scope.items.length;
         },function () {
+          console.log(2)
           checkImageRatio(scope.items);
           $timeout(function () {
             checkScroll(scope.scrollWrp[0]);
@@ -128,15 +130,29 @@
 
         
         function checkImageRatio() {
-
+          console.log(3,scope.items,scope.items[0]);
           for (var i = 0; i<scope.items.length; i++){
             var elem = document.createElement("img");
             elem.src = scope.items[i].thumbnail;
             scope.items[i].width = elem.width;
             scope.items[i].height = elem.height;
+            console.log(elem);
             var ratio = elem.width/elem.height;
             scope.items[i].widthResized = 96 * ratio
           }
+          $timeout(function() {
+            for (var i = 0; i<scope.items.length; i++){
+            var elem = document.createElement("img");
+            elem.src = scope.items[i].thumbnail;
+            scope.items[i].width = elem.width;
+            scope.items[i].height = elem.height;
+            console.log(elem);
+            var ratio = elem.width/elem.height;
+            scope.items[i].widthResized = 96 * ratio
+          }
+          },1000)
+
+          
         }
       
 
