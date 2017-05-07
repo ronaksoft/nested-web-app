@@ -20,8 +20,8 @@
         scope.internalMode = NST_ATTACHMENTS_EDITABLE_BAR_MODE.AUTO;
         scope.scrollWrp = ele.children().next();
         var pwTimeout, interval;
-        var moves = [];
-        scope.scrollDis = 70;
+        var borderLeftArray=[],borderRightArray=[];
+        scope.scrollDis = 140;
 
         if (modeIsValid(attributes.mode)) {
           scope.internalMode = attributes.mode;
@@ -47,20 +47,7 @@
             checkScroll(scope.scrollWrp[0]);
           });
 
-          rightArrow.mousedown(function () {
-            scrollPower('right');
-          });
-          rightArrow.mouseup(function () {
-            stopScrollPower();
-          });
-
-          leftArrow.mousedown(function () {
-            scrollPower('left');
-          });
-          leftArrow.mouseup(function () {
-            stopScrollPower();
-          });
-
+          checkImageRatio();
         }, 1000);
 
         if (scope.internalMode === NST_ATTACHMENTS_EDITABLE_BAR_MODE.AUTO) {
@@ -87,85 +74,59 @@
         };
 
         scope.goLeft = function () {
-          var k = makeid();
-          var count = {};
-          count[k] = 0;
-          scrollLeft(count[k]);
+          var el = scope.scrollWrp[0];
+          var i = 0;
+
+          var scrollDis = findBefore(el.scrollLeft);
+          var inter = $interval(function () {
+            if (i < scrollDis) {
+              el.scrollLeft -= 4;
+            } else {
+              $interval.cancel(inter);
+            }
+            i = i + 4;
+          }, 1);
         };
 
         scope.goRight = function () {
-          var k = makeid();
-          var count = {};
-          count[k] = 0;
-          scrollRight(count, k);
+          var el = scope.scrollWrp[0];
+          var i = 0;
+          var scrollDis = findNext(el.scrollLeft + el.clientWidth);
+          var inter = $interval(function () {
+            if (i < scrollDis + 16) {
+              el.scrollLeft += 4;
+            } else {
+              $interval.cancel(inter);
+            }
+            i = i + 4;
+          }, 1);
         };
 
-        function scrollLeft(count) {
-          var el = scope.scrollWrp[0];
-          var i = $interval(function () {
-            count++;
-            if (count < scope.scrollDis) {
-              el.scrollLeft -= 2;
-            } else {
-              $interval.cancel(i);
-            }
-          }, 1);
-          moves.push(i);
-        }
 
-        function scrollRight(count, k) {
-          var el = scope.scrollWrp[0];
-          var i = $interval(function () {
-            count[k]++;
-            if (count[k] < scope.scrollDis) {
-              el.scrollLeft += 2;
-            } else {
-              $interval.cancel(i);
-            }
-          }, 1);
-          moves.push(i);
-
-        }
-
-        function scrollPower(dir) {
-          pwTimeout = $timeout(function () {
-            if (dir == 'right') {
-              interval = $interval(function () {
-                scope.goRight()
-              }, 100);
-            }
-            else {
-              interval = $interval(scope.goLeft, 100);
-            }
-          }, 50)
-        }
-
-        function stopScrollPower() {
-          $timeout.cancel(pwTimeout);
-          $interval.cancel(interval);
-
-          for (var i = 0; i < moves.length; i++) {
-            $interval.cancel(moves[i]);
-          }
-          moves = []
-        }
 
         function checkScroll(el) {
           if (el.clientWidth < el.scrollWidth && el.scrollLeft == 0) {
             scope.overFlowRight = true;
             scope.overFlowLeft = false;
-            return stopScrollPower()
           } else if (el.clientWidth + el.scrollLeft >= el.scrollWidth && el.clientWidth < el.scrollWidth) {
             scope.overFlowRight = false;
             scope.overFlowLeft = true;
-            return stopScrollPower()
           } else if (el.clientWidth < el.scrollWidth) {
             scope.overFlowRight = true;
             scope.overFlowLeft = true;
-            return 'atMiddle'
           }
-          checkImageRatio();
+          var childs = $(el).children();
+
+          if(borderLeftArray.length == 0) {
+            for(var i=0; i < childs.length; i++){
+              borderLeftArray.push(childs[i].offsetLeft - 16);
+              borderRightArray.push(childs[i].offsetLeft + childs[i].offsetWidth - 16)
+            }
+
+          }
         }
+
+        
         function checkImageRatio() {
 
           for (var i = 0; i<scope.items.length; i++){
@@ -177,21 +138,23 @@
             scope.items[i].widthResized = 96 * ratio
           }
         }
-      }
-    };
+      
 
+    function findNext(numb) {
+        return borderRightArray.filter(function (i) {
+            return i > numb
+        })[0] - numb
+      }
+      function findBefore(numb) {
+          var filter =  borderLeftArray.filter(function (i) {
+              return i < numb
+        });
+        return numb - filter[filter.length - 1]
+      }
+    }
+  };
     function modeIsValid(mode) {
       return _.values(NST_ATTACHMENTS_EDITABLE_BAR_MODE).indexOf(mode) > -1;
-    }
-
-    function makeid() {
-      var text = "";
-      var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-      for (var i = 0; i < 5; i++)
-        text += possible.charAt(Math.floor(Math.random() * possible.length));
-
-      return text;
     }
   }
 })();
