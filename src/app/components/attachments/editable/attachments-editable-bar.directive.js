@@ -30,7 +30,10 @@
         scope.$watch(function () {
           return scope.items.length;
         },function () {
-          checkImageRatio(scope.items);
+          $timeout(function() {
+            checkImageRatio(scope.items);
+          },300);
+          
           $timeout(function () {
             checkScroll(scope.scrollWrp[0]);
           },1000);
@@ -127,17 +130,18 @@
         }
 
         
-        function checkImageRatio() {
-
-          for (var i = 0; i<scope.items.length; i++){
-            var elem = document.createElement("img");
-            elem.src = scope.items[i].thumbnail;
-            scope.items[i].width = elem.width;
-            scope.items[i].height = elem.height;
-            var ratio = elem.width/elem.height;
-            scope.items[i].widthResized = 96 * ratio
-          }
-        }
+    function checkImageRatio() {
+    
+      for (var i = 0; i<scope.items.length; i++){
+        var elem = document.createElement("img");
+        elem.src = scope.items[i].thumbnail;
+        scope.items[i].width = elem.width;
+        scope.items[i].height = elem.height;
+        var ratio = elem.width/elem.height;
+        scope.items[i].widthResized = 96 * ratio
+      }
+      
+    }
       
 
     function findNext(numb) {
