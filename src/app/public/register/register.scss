@@ -320,6 +320,11 @@ text-align: right;
 }
 .lftbtn {
   margin-right: 16px;
+  margin-left: 0;
+}
+.rghbtn {
+  margin-left: 16px;
+  margin-right: 0;
 }
 .register-step {
   .form-group {

@@ -8,7 +8,7 @@
   /** @ngInject */
   function AppController($q, $scope, $window, $rootScope, $timeout, $state, $stateParams, $uibModalStack, $interval, $log, $injector,
                          hotkeys, deviceDetector, NstSvcInteractionTracker,
-                         NST_DEFAULT, NST_AUTH_EVENT, NST_SRV_EVENT, NST_NOTIFICATION_FACTORY_EVENT,
+                         NST_DEFAULT, NST_AUTH_EVENT, NST_SRV_EVENT, NST_NOTIFICATION_FACTORY_EVENT, NST_CONFIG,
                          NstSvcServer, NstSvcAuth, NstSvcLogger, NstSvcI18n, NstSvcNotification, NstSvcNotificationFactory,
                          NstObject) {
     var vm = this;
@@ -172,7 +172,7 @@
       //TODO:: check domain base on config
       if (
         addr.split('@')[1] &&
-        (addr.split('@')[1] === 'nested.me' || addr.split('@')[1] === 'nested.ronaksoftware.com')) {
+        (addr.split('@')[1] === NST_CONFIG.DOMAIN )) {
         addr = addr.split('@')[0];
       }
 

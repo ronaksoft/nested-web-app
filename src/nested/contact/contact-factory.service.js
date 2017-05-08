@@ -115,11 +115,11 @@
             NstSvcContactStorage.set("hash", data.hash);
           }
 
-          if (data.hash !== hash) {
+          if (data.hash && data.hash !== hash) {
             NstSvcContactStorage.set("list", data.contacts || []);
           }
 
-          var contacts = data.contacts || NstSvcContactStorage.get("list");
+          var contacts = NstSvcContactStorage.get("list");
           deferred.resolve(_.map(contacts, parse));
 
         }).catch(deferred.reject);
