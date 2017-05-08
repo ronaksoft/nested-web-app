@@ -236,7 +236,7 @@
       getCreators(placeId, vm.teammatesSettings.limit, vm.teammatesSettings.skip, hasSeeMembersAccess).then(function (creators) {
         teammates.push.apply(teammates, creators);
 
-        return getKeyholders(placeId, vm.teammatesSettings.limit - creators.length, vm.teammatesSettings.skip, hasSeeMembersAccess);
+        return getKeyholders(placeId, vm.teammatesSettings.limit - creators.length - ( vm.hasAddMembersAccess ? 1 : 0 ) , vm.teammatesSettings.skip, hasSeeMembersAccess);
       }).then(function (keyHolders) {
 
         teammates.push.apply(teammates, keyHolders);
