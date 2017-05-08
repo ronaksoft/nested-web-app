@@ -149,7 +149,7 @@
 }
 form[name="phoneVerifyForm"] {
   .butn-white {
-    width: 154px;
+    width: calc(50% - 16px);
     height: 34px;
     display: inline-block;
   }
