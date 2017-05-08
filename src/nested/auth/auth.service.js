@@ -7,13 +7,13 @@
 
   /** @ngInject */
   function NstSvcAuth($cookies, $q, $log, $rootScope,
-    NstSvcServer, NstSvcUserFactory, NstSvcPlaceFactory, NstSvcLogger,  NstSvcI18n,
-    NstSvcUserStorage, NstSvcCurrentUserStorage, NstSvcFileStorage, NstSvcInvitationStorage,
-    NstSvcMyPlaceIdStorage, NstSvcPlaceRoleStorage, NstSvcPlaceStorage, NstSvcTinyPlaceStorage,
-    NstSvcPostStorage, NstSvcUploadTokenStorage, NstSvcTinyUserStorage, NstSvcContactStorage,
-    NST_SRV_EVENT, NST_SRV_RESPONSE_STATUS, NST_SRV_ERROR, NST_UNREGISTER_REASON,
-    NST_AUTH_EVENT, NST_AUTH_STATE, NST_AUTH_STORAGE_KEY, NST_OBJECT_EVENT,
-    NstObservableObject) {
+                      NstSvcServer, NstSvcUserFactory, NstSvcPlaceFactory, NstSvcLogger, NstSvcI18n,
+                      NstSvcUserStorage, NstSvcCurrentUserStorage, NstSvcFileStorage, NstSvcInvitationStorage,
+                      NstSvcMyPlaceIdStorage, NstSvcPlaceRoleStorage, NstSvcPlaceStorage, NstSvcTinyPlaceStorage,
+                      NstSvcPostStorage, NstSvcUploadTokenStorage, NstSvcTinyUserStorage, NstSvcContactStorage,
+                      NST_SRV_EVENT, NST_SRV_RESPONSE_STATUS, NST_SRV_ERROR, NST_UNREGISTER_REASON, NST_CONFIG,
+                      NST_AUTH_EVENT, NST_AUTH_STATE, NST_AUTH_STORAGE_KEY, NST_OBJECT_EVENT,
+                      NstObservableObject) {
 
     var USER_STATUS_STORAGE_NAME = 'nested.user_status';
 
@@ -113,12 +113,12 @@
           name: user.fullName,
           avatar: user.picture ? user.picture.getUrl('x64') : ""
         }), {
-          domain: 'nested.me', //FIXME:: set domain form location
+          domain: NST_CONFIG.DOMAIN, //FIXME:: set domain form location
           expires: CookieDate.toGMTString()
         });
         service.setState(NST_AUTH_STATE.AUTHORIZED);
 
-        service.dispatchEvent(new CustomEvent(NST_AUTH_EVENT.AUTHORIZE, {detail: {user: service.user }}));
+        service.dispatchEvent(new CustomEvent(NST_AUTH_EVENT.AUTHORIZE, {detail: {user: service.user}}));
         deferred.resolve(service.getUser());
       }).catch(deferred.reject);
 
@@ -378,7 +378,7 @@
       }
       M = M[2] ? [M[1], M[2]] : [navigator.appName, navigator.appVersion, '-?'];
       if ((tem = ua.match(/version\/(\d+)/i)) != null) M.splice(1, 1, tem[1]);
-      return  "android"//M[0].toLowerCase();
+      return "android"//M[0].toLowerCase();
     }
 
     function generateDeviceId() {
