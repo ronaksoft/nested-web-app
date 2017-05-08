@@ -147,7 +147,7 @@
     vertical-align: baseline;
     float: left;
     min-width: 50px;
-    width: 50px;
+    min-width: 50px;
     display: flex;
     justify-content: center;
     color: $color-solid-60;
