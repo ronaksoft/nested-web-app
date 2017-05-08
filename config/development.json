@@ -1,9 +1,9 @@
 {
   "NST_CONFIG": {
-    "APP_CLIENT_ID": "WEB_APP",
-    "APP_VERSION" : "3.5.1",
+    "APP_CLIENT_ID": "WEBAPP_DEVELOPMENT",
+    "APP_VERSION" : "3.5.2",
     "LOG": {
-      "LEVEL": 1,
+      "LEVEL": 3,
       "GATEWAY": {
         "TYPE": "console",
         "OPTIONS": {}
@@ -11,20 +11,20 @@
     },
     "SIGN_OUT_TARGET": "https://nested.me",
     "WEBSOCKET": {
-      "URL": "wss://cyrus.nested.me:443",
+      "URL": "ws://cyrus.ronaksoftware.com:81",
       "TIMEOUT": 60000,
       "REQUEST_MAX_RETRY_TIMES": 16
     },
     "STORE": {
-      "URL": "https://xerxes.nested.me",
+      "URL": "http://xerxes.ronaksoftware.com:82",
       "TOKEN_EXPMS": 3550000
     },
     "REGISTER": {
       "AJAX": {
-        "URL": "https://cyrus.nested.me:444"
+        "URL": "http://cyrus.ronaksoftware.com:83"
       }
     },
-    "GOOGLE_ANALYTICS_TOKEN": "UA-80877772-5",
+    "GOOGLE_ANALYTICS_TOKEN": "UA-92612481-1",
     "UPLOAD_SIZE_LIMIT": 104857600
   }
 }
