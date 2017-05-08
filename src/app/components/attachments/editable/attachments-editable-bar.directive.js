@@ -31,7 +31,7 @@
           return scope.items.length;
         },function () {
           $timeout(function() {
-            checkImageRatio(scope.items);
+            checkImageRatio();
           },300);
           
           $timeout(function () {
