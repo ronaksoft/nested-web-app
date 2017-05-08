@@ -7,7 +7,27 @@ RUN npm install -g http-server
 EXPOSE 80
 
 COPY ./bin/nested-reconfig.js /bin/nested-reconfig.js
-CMD node /bin/nested-reconfig.js && http-server -p 80
+CMD node /bin/nested-reconfig.js && \
+    sleep 1 && \
+    if [ -n "${NST_ADDR_PORT}" ]; then \
+        echo ""; \
+    else \
+        export NST_ADDR_PORT=80; \
+    fi && \
+    if  [[ -n "${NST_TLS_KEY_FILE}" && -n "${NST_TLS_CERT_FILE}" ]] ; then \
+         if  [[ -f $NST_TLS_CERT_FILE && -f $NST_TLS_KEY_FILE ]]; then \
+            echo "Webapp started over SSL" ; \
+            http-server -p $NST_ADDR_PORT --ssl --cert $NST_TLS_CERT_FILE --key $NST_TLS_KEY_FILE; \
+         else \
+            echo "Webapp started without SSL" ; \
+            http-server -p $NST_ADDR_PORT;\
+         fi ;\
+    else \
+         echo "Webapp started without SSL" ; \
+         http-server -p $NST_ADDR_PORT;\
+    fi
+
+
 
 # Install app dependencies
 COPY ./dist/production /usr/src/app/

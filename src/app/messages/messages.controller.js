@@ -179,6 +179,9 @@
       NstSvcSync.addEventListener(NST_EVENT_ACTION.POST_ADD, function (e) {
         if (postMustBeShown(e.detail.post)) {
           // The current user is the sender
+          e.detail.post.attachments = _.map(e.detail.post.attachments, function (item) {
+            return new NstVmFile(item);
+          });
           vm.messages.unshift(e.detail.post);
 
         } else if (mustBeAddedToHotPosts(e.detail.post)) {
