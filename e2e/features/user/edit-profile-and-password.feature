@@ -121,10 +121,11 @@
 #    Given I Click id "Logo"
 #    Then current tab must be "Feed"
 #
-#  Scenario: User Signs out
+#  Scenario: sign out
 #    Given I Click on profile pop-over
 #    Given I Click on href "signout"
-#    When I wait 1s
+#    When Wait to loading hide
+#    Given I Click on profile pop-over
+#    Given I Click on href "signout"
+#    When I wait 5s
 #    Then Must see object with id "panel-signin"
-#
-#

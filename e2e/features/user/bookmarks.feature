@@ -4,7 +4,7 @@
 #    Given I go to the page "/login"
 #    When Wait to loading hide
 #    Given I fill "Username" with "jerry"
-#    Given I fill "Password" with "123456"
+#    Given I fill "Password" with "111111"
 #    Given I Press "Sign in"
 #    When current tab is "Feed"
 #    Given I switch to "bookmarks" tab
@@ -15,8 +15,8 @@
 #  Scenario: kayvan goes to bookmark-test place and bookmark a post
 #    Given I switch to "feed" tab
 #    When current tab is "Feed"
-#    Given I Click on "bookmark-test" place in sidebar
-#    When should the title of the place be "bookmark test"
+#    Given I Click on "test-bookmark" place in sidebar
+#    When should the title of the place be "test bookmark"
 #    When I wait 5s
 #    When Wait for hiding of all loadings
 #    When current tab is "Posts"
@@ -36,7 +36,10 @@
 #    When I wait 2s
 #    Then must see no posts
 #
-#  Scenario:
+#  Scenario: sign out
+#    Given I Click on profile pop-over
+#    Given I Click on href "signout"
+#    When Wait to loading hide
 #    Given I Click on profile pop-over
 #    Given I Click on href "signout"
 #    When I wait 5s

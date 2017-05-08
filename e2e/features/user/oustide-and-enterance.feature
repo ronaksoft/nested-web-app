@@ -67,7 +67,10 @@
 #    Given I Press "Sign in"
 #    Then current tab must be "Feed"
 #
-#  Scenario: sign-out
+#  Scenario: sign out
+#    Given I Click on profile pop-over
+#    Given I Click on href "signout"
+#    When Wait to loading hide
 #    Given I Click on profile pop-over
 #    Given I Click on href "signout"
 #    When I wait 5s

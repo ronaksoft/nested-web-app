@@ -4,7 +4,7 @@
 #  Scenario: user logs in
 #    Given I go to the page "/login"
 #    When Wait to loading hide
-#    Given I fill "Username" with "user-8"
+#    Given I fill "Username" with "jerry"
 #    Given I fill "Password" with "111111"
 #    Given I Press "Sign in"
 #    When I wait 2s
@@ -39,12 +39,11 @@
 #    When current tab is "Feed"
 #    Then must see no posts
 #
-#  Scenario:
+#  Scenario: sign out
+#    Given I Click on profile pop-over
+#    Given I Click on href "signout"
+#    When Wait to loading hide
 #    Given I Click on profile pop-over
 #    Given I Click on href "signout"
 #    When I wait 5s
 #    Then Must see object with id "panel-signin"
-#
-#
-#
-#

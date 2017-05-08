@@ -3,7 +3,7 @@
 #  Scenario: Login user with true info
 #    Given I go to the page "/login"
 #    When Wait to loading hide
-#    Given I fill "Username" with "user-8"
+#    Given I fill "Username" with "jerry"
 #    Given I fill "Password" with "111111"
 #    Given I Press "Sign in"
 #    When I wait 2s
@@ -27,19 +27,14 @@
 #
 #  Scenario: user add and favorite contact
 #    Given I Click by ngClick "ctlMessages.openContacts($event)"
-#    When I wait 2s
 #    When Wait see object with id "contacts-list"
-#    When I wait 2s
-#    When the text of this class "_difv" is "محمود چمنی,user-7"
-#    When I wait 2s
+#    When the text of this class "_difv" is "tommy hard,tommy"
 #    Given I Click by ngClick "ctrl.view(contact)"
-#    When I wait 2s
 #    When Wait see object with id "single-contact"
 #    Given I Click by ngClick "ctrl.toggleFavorite()"
 #    Given I Click by ngClick "ctrl.close();"
 #    Given I Click by ngClick "$dismiss()"
-#    Then current tab must be "Feed"
-#    When the text of this class "_df text-wrap _fw contact-item" is "محمود چمنی"
+#    When the text of this class "_df text-wrap _fw contact-item" is "tommy hard"
 #    Then current tab must be "Feed"
 #
 #  Scenario: remove contact
@@ -54,8 +49,11 @@
 #    When I wait 2s
 #    Then the text of this class "_jcc _df _fw nst-margin-12" must be "No Favorite Contact!!"
 #
-#  Scenario:
-#    Given I Click on profile pop-over
-#    Given I Click on href "signout"
-#    When I wait 5s
-#    Then Must see object with id "panel-signin"
+#   Scenario: sign out
+#     Given I Click on profile pop-over
+#     Given I Click on href "signout"
+#     When Wait to loading hide
+#     Given I Click on profile pop-over
+#     Given I Click on href "signout"
+#     When I wait 5s
+#     Then Must see object with id "panel-signin"

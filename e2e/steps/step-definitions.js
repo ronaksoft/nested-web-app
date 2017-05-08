@@ -4,43 +4,36 @@ var assert = require('assert'),
 module.exports = function () {
 
   this.When(/^I wait 10s$/, function () {
-    browser.ignoreSynchronization = true;
     return browser.sleep(10000);
     });
 
   this.When(/^I wait 5s$/, function () {
-    browser.ignoreSynchronization = true;
     return browser.sleep(5000);
 
   });
 
   this.When(/^I wait 2s$/, function () {
-    browser.ignoreSynchronization = true;
     return browser.sleep(2000);
 
   });
 
   this.When(/^I wait 1s$/, function () {
-    browser.ignoreSynchronization = true;
     return browser.sleep(1000);
 
   });
 
   this.When(/^Wait to loading hide$/, function () {
-    browser.ignoreSynchronization = true;
     var EC = protractor.ExpectedConditions;
     return browser.wait(EC.invisibilityOf(element(By.css('.loading-container'))), 50000);
   });
 
   this.When(/^Wait for hiding of all loadings$/, function () {
-    browser.ignoreSynchronization = true;
     var EC = protractor.ExpectedConditions;
     return browser.wait(EC.invisibilityOf(element(By.css('.nst-loading'))), 50000);
   });
 
 
   this.When(/^Wait for Upload to be finished$/, function () {
-    browser.ignoreSynchronization = true;
     var EC = protractor.ExpectedConditions;
     return browser.wait(EC.invisibilityOf(element(By.css('div[progressbar-mode="circle"]'))), 50000);
   });
@@ -120,10 +113,6 @@ module.exports = function () {
     pS.click();
   });
 
-  this.Given(/^I Click on "([^"]*)" in sidebar$/, function (destination) {
-    var pS1 = element(By.css('*[href="#/messages/'+ destination +'"]'));
-    pS1.click();
-  });
 
   this.Given(/^I Click on "([^"]*)" place in sidebar$/, function (destination) {
     var pS3 = element(By.css('a[href="#/places/'+ destination +'/messages"]'));
@@ -200,12 +189,6 @@ module.exports = function () {
     });
   });
 
-  this.Then(/^should the panel title be "([^"]*)"$/, function (expectedTitle) {
-    element(by.css('.col-xs-9')).getText().then(function (title) {
-      assert.equal(title.trim(), expectedTitle, ' title is "' + title + '" but should be "' + expectedTitle);
-    });
-  });
-
   this.Then(/^should see "([^"]*)" error message$/, function (expectedError) {
     return element(By.css(".testing_err")).getText().then(function (error) {
       return assert.equal(error.trim(), expectedError, ' error is "' + error + '" but should be "' + expectedError);
@@ -231,7 +214,6 @@ module.exports = function () {
   });
 
   this.Then(/^current tab must be "([^"]*)"$/, function (expectedTab) {
-    browser.ignoreSynchronization = true;
     var EC = protractor.ExpectedConditions;
     return browser.wait(EC.visibilityOf(element(By.css('.active'))), 50000).then(function () {
         element(By.css('.active')).getText().then(function (currentTab) {
@@ -241,7 +223,6 @@ module.exports = function () {
   });
 
   this.When(/^current tab is "([^"]*)"$/, function (expectedTab) {
-    browser.ignoreSynchronization = true;
     var EC = protractor.ExpectedConditions;
     return browser.wait(EC.visibilityOf(element(By.css('.active'))), 50000).then(function () {
       element(By.css('.active')).getText().then(function (currentTab) {
@@ -272,21 +253,26 @@ module.exports = function () {
   });
 
   this.When(/^Wait to see success-msg$/, function () {
-    browser.ignoreSynchronization = true;
     var EC = protractor.ExpectedConditions;
     return browser.wait(EC.visibilityOf(element(By.css('.toast-success'))), 50000);
   });
 
   this.Then(/^Wait to see error-msg$/, function () {
-    browser.ignoreSynchronization = true;
     var EC = protractor.ExpectedConditions;
     return browser.wait(EC.visibilityOf(element(By.css('.toast-error'))), 50000);
   });
 
   this.When(/^Wait to see warn-msg$/, function () {
-    browser.ignoreSynchronization = true;
     var EC = protractor.ExpectedConditions;
     return browser.wait(EC.visibilityOf(element(By.css('.toast-warning'))), 50000);
+  });
+
+  this.When(/^should see "([^"]*)" warning message$/, function (expectedWarning) {
+    return element(By.css(".toast-warning")).getText().then(function (noExpect) {
+      return assert.equal(noExpect.trim(), expectedWarning, ' error is "' + noExpect + '" but should be "' + expectedWarning);
+    }).catch(function () {
+      return assert.ok(false, 'Can not find message!')
+    });
   });
 
 
@@ -305,7 +291,6 @@ module.exports = function () {
   });
 
   this.When(/^Wait to see leave-modal$/, function () {
-    browser.ignoreSynchronization = true;
     var EC = protractor.ExpectedConditions;
     return browser.wait(EC.visibilityOf(element(By.css('#delete-view'))), 50000);
   });
@@ -313,38 +298,32 @@ module.exports = function () {
 
 
   this.When(/^Wait to see invite-modal$/, function () {
-    browser.ignoreSynchronization = true;
     var EC = protractor.ExpectedConditions;
     return browser.wait(EC.visibilityOf(element(By.css('#add-view'))), 50000);
   });
 
   this.When(/^Wait to see compose-modal$/, function () {
-    browser.ignoreSynchronization = true;
     var EC = protractor.ExpectedConditions;
     return browser.wait(EC.visibilityOf(element(By.css('.modal-bo'))), 50000);
   });
 
   this.When(/^Wait to see create place step "([^"]*)"$/, function (expectedStep) {
-    browser.ignoreSynchronization = true;
     var EC = protractor.ExpectedConditions;
     return browser.wait(EC.visibilityOf(element(By.css('div[ng-if="ctrl.step == ' + expectedStep + '"]'))), 50000);
   });
 
   this.When(/^Wait to see first step$/, function () {
-    browser.ignoreSynchronization = true;
     var EC = protractor.ExpectedConditions;
     return browser.wait(EC.visibilityOf(element(By.css('.register-step'))), 50000);
   });
 
 
   this.Then(/^Must see second step$/, function () {
-    browser.ignoreSynchronization = true;
     var EC = protractor.ExpectedConditions;
     return browser.wait(EC.visibilityOf(element(By.css('.nst-mood-cheerful'))), 50000);
   });
 
   this.Then(/^Must see third step of recovering password$/, function () {
-    browser.ignoreSynchronization = true;
     var EC = protractor.ExpectedConditions;
     return browser.wait(EC.visibilityOf(element(By.css('input[value="Reset"]'))), 50000);
   });
@@ -371,7 +350,6 @@ module.exports = function () {
   });
 
   this.Then(/^Url Should Contains$/, function (urlc) {
-    browser.ignoreSynchronization = true;
     var EC = protractor.ExpectedConditions;
     return browser.wait(EC.urlContains('messages'), 50000);
     urlc(null, 'pending');
@@ -434,25 +412,21 @@ module.exports = function () {
   });
 
   this.When(/^Wait to see image$/, function () {
-    browser.ignoreSynchronization = true;
     var EC = protractor.ExpectedConditions;
     return browser.wait(EC.visibilityOf(element(By.css('img[]'))), 50000);
   });
 
   this.When(/^Wait to see pdf$/, function () {
-    browser.ignoreSynchronization = true;
     var EC = protractor.ExpectedConditions;
     return browser.wait(EC.visibilityOf(element(By.css('.attach-thumbnail-pdf'))), 50000);
   });
 
   this.When(/^Wait to see document$/, function () {
-    browser.ignoreSynchronization = true;
     var EC = protractor.ExpectedConditions;
     return browser.wait(EC.visibilityOf(element(By.css('.attach-thumbnail-document'))), 50000);
   });
 
   this.When(/^Wait to see music$/, function () {
-    browser.ignoreSynchronization = true;
     var EC = protractor.ExpectedConditions;
     return browser.wait(EC.visibilityOf(element(By.css('.attach-thumbnail-audio'))), 50000);
   });

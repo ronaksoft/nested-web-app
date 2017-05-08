@@ -52,9 +52,11 @@
 #    Then current tab must be "Posts"
 #
 #
-#  Scenario:
+#  Scenario: sign out
+#    Given I Click on profile pop-over
+#    Given I Click on href "signout"
+#    When Wait to loading hide
 #    Given I Click on profile pop-over
 #    Given I Click on href "signout"
 #    When I wait 5s
 #    Then Must see object with id "panel-signin"
-#
