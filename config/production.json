@@ -2,6 +2,7 @@
   "NST_CONFIG": {
     "APP_CLIENT_ID": "WEB_APP",
     "APP_VERSION" : "3.5.2",
+    "DOMAIN" : "_DOMAIN_",
     "LOG": {
       "LEVEL": 1,
       "GATEWAY": {
@@ -25,6 +26,6 @@
       }
     },
     "GOOGLE_ANALYTICS_TOKEN": "UA-80877772-5",
-    "UPLOAD_SIZE_LIMIT": 209715200
+    "UPLOAD_SIZE_LIMIT": 104857600
   }
 }

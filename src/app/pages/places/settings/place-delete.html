@@ -11,7 +11,7 @@
         <div data-ng-if="!removeCtrl.place.picture.thumbnails.x128.url.download" class="account-initials-64 _dib">{{removeCtrl.place.name | initials:2}}</div>
         <div class="_dib">
           <h4>{{removeCtrl.place.name || 'empty'}}</h4>
-          <h5 class="nst-mood-storm">{{removeCtrl.place.id + '@nested.me'}}</h5>
+          <h5 class="nst-mood-storm">{{removeCtrl.place.id + '@' removeCtrl.domain}}</h5>
         </div>
       </div>
       <p ng-if="!nextStep" class="_df nst-mood-storm modal-detail"><translate>By deleting place, you are agreeing to erase all Place data permanently. Are you sure you want to do this?</translate></p>

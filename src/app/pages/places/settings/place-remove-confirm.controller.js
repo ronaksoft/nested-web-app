@@ -6,9 +6,10 @@
     .controller('PlaceRemoveConfirmController', PlaceRemoveConfirmController);
 
   /** @ngInject */
-  function PlaceRemoveConfirmController(selectedPlace, $uibModalInstance) {
+  function PlaceRemoveConfirmController(selectedPlace, $uibModalInstance, NST_CONFIG) {
     var vm = this;
     vm.place = selectedPlace;
+    vm.domain = NST_CONFIG.DOMAIN;
 
     vm.validateInput = function () {
       return vm.placeIdInput === vm.place.id;
