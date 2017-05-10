@@ -192,8 +192,9 @@
       var retryablePromise = NstSvcTry.do(function () {
 
         var reqId = service.genQueueId(action, data);
+
         var rawData = {
-          _cver: parseInt(NST_CONFIG.APP_VERSION.replace('.','')),
+          _cver: parseInt(NST_CONFIG.APP_VERSION.split('.').join('')),
           _cid: getClientId(),
           cmd: action,
           type: 'q',
