@@ -72,6 +72,14 @@
            ng-init="notification = notif">
       </div>
 
+      <a ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.NEW_SESSION"
+           ui-sref="app.settings.sessions"
+           class="item-inner ng-class:{'seen' : notif.isSeen}"
+           target="_blank"
+           ng-include="'/app/notification/partials/new-session.html'"
+           ng-init="notification = notif">
+      </a>
+
     </li>
 
     <li class="more-mentions" ng-click="ctlNotifications.loadMore()" ng-if="!ctlNotifications.reached">

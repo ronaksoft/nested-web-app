@@ -158,3 +158,20 @@ i.sep{
 .form-group.has-error input.pre-number, .form-group.has-error input.pre-number:focus {
   border: 2px solid transparent!important;
 }
+
+
+input::-moz-placeholder {
+  text-overflow: ellipsis!important;
+  white-space: nowrap;
+  overflow: hidden;
+}
+input:-moz-placeholder { 
+    text-overflow: ellipsis!important;
+    white-space: nowrap;
+    overflow: hidden;
+}
+input::-webkit-input-placeholder {
+    text-overflow: ellipsis!important;
+    white-space: nowrap;
+    overflow: hidden;
+}

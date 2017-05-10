@@ -36,6 +36,7 @@
           
           $timeout(function () {
             checkScroll(scope.scrollWrp[0]);
+            checkArrays(scope.scrollWrp[0]);
           },1000);
         });
 
@@ -45,6 +46,7 @@
           var rightArrow = ele.children().next().next();
 
           checkScroll(scope.scrollWrp[0]);
+          checkArrays(scope.scrollWrp[0]);
 
           scope.scrollWrp.scroll(function () {
             checkScroll(scope.scrollWrp[0]);
@@ -95,11 +97,11 @@
           var el = scope.scrollWrp[0];
           var i = 0;
           var scrollDis = findNext(el.scrollLeft + el.clientWidth);
-          var inter = $interval(function () {
+          var inter3 = $interval(function () {
             if (i < scrollDis + 16) {
               el.scrollLeft += 4;
             } else {
-              $interval.cancel(inter);
+              $interval.cancel(inter3);
             }
             i = i + 4;
           }, 1);
@@ -118,15 +120,23 @@
             scope.overFlowRight = true;
             scope.overFlowLeft = true;
           }
+          
+
+          
+        }
+        function checkArrays(el) {
           var childs = $(el).children();
 
-          if(borderLeftArray.length == 0) {
-            for(var i=0; i < childs.length; i++){
-              borderLeftArray.push(childs[i].offsetLeft - 16);
-              borderRightArray.push(childs[i].offsetLeft + childs[i].offsetWidth - 16)
-            }
-
+          var borderLeftArrayTemp = [];
+          var borderRightArrayTemp = [];
+          for(var i=0; i < childs.length; i++){
+              borderLeftArrayTemp.push(childs[i].offsetLeft - 16);
+              borderRightArrayTemp.push(childs[i].offsetLeft + childs[i].offsetWidth - 16)
           }
+
+          //using temp to prevent bug in counting duration
+          borderLeftArray = borderLeftArrayTemp;
+          borderRightArray = borderRightArrayTemp;
         }
 
         
