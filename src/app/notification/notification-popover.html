@@ -73,7 +73,7 @@
       </div>
 
       <a ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.NEW_SESSION"
-           ui-sref="app.settings.profile"
+           ui-sref="app.settings.sessions"
            class="item-inner ng-class:{'seen' : notif.isSeen}"
            target="_blank"
            ng-include="'/app/notification/partials/new-session.html'"
