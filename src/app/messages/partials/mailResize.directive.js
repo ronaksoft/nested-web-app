@@ -19,6 +19,7 @@
           var cardWidth = elem.width();
 
           if (cardWidth >= stndSize && cardWidth < 900) {
+            console.log('111')
             var ratio = stndSize / cardWidth;
 
 
