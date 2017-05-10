@@ -120,6 +120,11 @@
 
     function onClickMention(notification, $event) {
 
+
+      //TODO : preventDefault is what i didnt wont so ...
+      if( notification.type == NST_NOTIFICATION_TYPE.NEW_SESSION ){
+                  return null
+      }
       $event.preventDefault();
       markAsSeen(notification);
 
@@ -138,7 +143,9 @@
         case NST_NOTIFICATION_TYPE.DEMOTED:
         case NST_NOTIFICATION_TYPE.PLACE_SETTINGS_CHANGED:
           closePopover();
-          openPlace(notification.place.id);
+          return openPlace(notification.place.id);
+
+        
 
       }
     }

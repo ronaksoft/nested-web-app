@@ -13,6 +13,7 @@
         elem.css({'display': 'table'});
         elem.css({'width': '100%'});
 
+        //TODO: remove Time out and start after loading all contents ( img s )
         $timeout(function () {
           var stndSize = elem.parents('post-card').width() - 48 || 600;
           var cardWidth = elem.width();
