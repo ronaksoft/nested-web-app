@@ -90,3 +90,10 @@ vr {
   width: 1px;
   background-color: $color-border;
 }
+
+//Remove bug in safari for justify aligned texts
+@media not all and (min-resolution:.001dpcm) { 
+    .post-card .post-body p { 
+         text-align: initial!important; 
+    }
+}
