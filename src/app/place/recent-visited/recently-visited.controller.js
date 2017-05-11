@@ -16,6 +16,7 @@
       NstSvcUserFactory.getRecentlyVisitedPlace()
         .then(function (places) {
           vm.places = places;
+          vm.places.splice(0,1);
           vm.loading = false;
         })
     })();

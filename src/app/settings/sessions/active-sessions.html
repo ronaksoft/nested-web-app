@@ -2,21 +2,44 @@
   <svg class="_16svg">
     <use xlink:href="/assets/icons/nst-icn16.svg#device-phone"></use>
   </svg>
-  <translate>Sessions</translate>
+  <translate>Active Sessions</translate>
 </div>
+
+<div class="recent-container _fw _df _jcc _fn" data-ng-if="ctrl.loading">
+  <div class="nst-mood-cheerful no-gutter nst-margin-24">
+    <div class="_fw">
+      <div class="nst-loading nst-loading-size-4 _fl"></div>
+      <span>&nbsp;</span>
+      <div class="nst-font-xsmall _fr nst-marginbtm-4">
+        <translate>Loading...</translate>
+      </div>
+    </div>
+  </div>
+</div>
+
 <ul class="sessions">
-    <li>
-        <div class="_difv _fw">
-            <p>Nested web</p>
-            <span class="nst-mood-gale">Safari, macOS<br>185.161.112.226 - IR</span>
-        </div>
-        <div class="_difv _fn _pr">
-            <!--<translate class="nst-mood-gale">Yesterday</translate>-->
-            <translate class="current-session nst-mood-cheerful">Current Session</translate>
-            <a class="force cursor-pointer _df _aic"><translate>Terminate Session</translate>
-              <svg class="_16svg">
-                <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
-            </svg></a>
-        </div>
-    </li>
+  <li ng-repeat="session in ctrl.sessions">
+    <div class="_difv _fw">
+      <p ng-if="session.device || session.platform ">
+        <span>{{ session.device }}</span> <span>{{ session.platform }}</span> <span>{{ session.version }}</span>
+      </p>
+      <p ng-if="!session.device && !session.platform ">
+        <translate>Unknown</translate>
+      </p>
+      <span class="nst-mood-gale" ng-if="session.browser">{{ session.browser }}, {{session.os}}<br>{{session.ip}}</span>
+      <span class="nst-mood-gale" ng-if="!session.browser">{{ session.sk }}</span>
+    </div>
+    <div class="_difv _fn _pr text-right">
+      <translate class="nst-mood-gale">{{session.date | passed | localize}}</translate>
+      <translate class="current-session nst-mood-cheerful" ng-if="session.isCurrent">Current Session</translate>
+      <span>
+        <a ng-click="ctrl.terminate(session.sk)" ng-if="!session.isCurrent" class="force cursor-pointer _df _aic">
+          <translate>Terminate Session</translate>
+          <svg class="_16svg">
+            <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
+          </svg>
+        </a>
+      </span>
+    </div>
+  </li>
 </ul>

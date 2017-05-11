@@ -724,7 +724,6 @@
             $state.go('app.compose');
           } else {
             getPost($stateParams.postId).then(function (post) {
-              console.log(post)
               vm.model.replyTo = post;
               vm.model.replyTo.body = post.getTrustedBody();
               vm.model.subject = post.subject;
