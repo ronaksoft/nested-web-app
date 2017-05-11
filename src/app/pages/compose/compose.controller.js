@@ -727,6 +727,7 @@
               vm.model.replyTo = post;
               vm.model.replyTo.body = post.getTrustedBody();
               vm.model.subject = post.subject;
+
               var places = post.places;
               for (var k in places) {
                 var place = places[k];
@@ -735,7 +736,12 @@
 
               var recipients = post.recipients;
               for (var j in recipients) {
-                var tag = new NstVmSelectTag(recipients[j]);
+                var tag = new NstVmSelectTag({
+                  id: recipients[j],
+                  name: recipients[j]
+                });
+
+
                 vm.model.recipients.push(tag);
               }
 
