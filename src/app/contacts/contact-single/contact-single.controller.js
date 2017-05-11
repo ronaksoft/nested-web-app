@@ -95,7 +95,6 @@
     }
 
     function getContact(id) {
-      console.log("vm.contact", vm.contact);
       // find if the contact exists in vm
       if (vm.contact && vm.contact.id === id) {
         return $q.resolve(vm.contact);

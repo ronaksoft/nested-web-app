@@ -120,25 +120,29 @@
 
     function onClickMention(notification, $event) {
 
-      $event.preventDefault();
+
       markAsSeen(notification);
+      closePopover();
 
       switch (notification.type) {
         case NST_NOTIFICATION_TYPE.INVITE :
-          closePopover();
+          $event.preventDefault();
           return showInvitationModal(notification);
         case NST_NOTIFICATION_TYPE.COMMENT:
-          closePopover();
+          $event.preventDefault();
           return viewPost(notification.post.id);
         case NST_NOTIFICATION_TYPE.MENTION:
-          closePopover();
+          $event.preventDefault();
           return viewPost(notification.mention.post.id);
         case NST_NOTIFICATION_TYPE.YOU_JOINED:
         case NST_NOTIFICATION_TYPE.PROMOTED:
         case NST_NOTIFICATION_TYPE.DEMOTED:
         case NST_NOTIFICATION_TYPE.PLACE_SETTINGS_CHANGED:
-          closePopover();
-          openPlace(notification.place.id);
+          $event.preventDefault();
+          return openPlace(notification.place.id);
+        case NST_NOTIFICATION_TYPE.NEW_SESSION:
+          return;
+
 
       }
     }

@@ -10,7 +10,7 @@
             <span>
               Nested &copy; 2017
               <br>
-              v 3.5.2
+              v {{ctlSidebar.APP_VERSION}}
             </span>
           </script>
           <div id="Logo-type-white"
@@ -124,7 +124,7 @@
         </div>
       </a>
       <script type="text/ng-template" id="profile-uib-tooltip.html">
-        <translate>Edit profile</translate>
+        <translate>More</translate>
       </script>
       <a class="detailed"
          data-uib-popover-template="'app/settings/profile/profile-popover.html'"
@@ -138,10 +138,10 @@
          data-tooltip-placement="right auto" data-tooltip-append-to-body="true">
         <div ng-click="ctlSidebar.profileOpen =! ctlSidebar.profileOpen;ctlSidebar.mentionOpen = false;$event.preventDefault();$event.stopPropagation()">
           <svg>
-            <use xlink:href="/assets/icons/nst-icn24.svg#gear"></use>
+            <use xlink:href="/assets/icons/nst-icn24.svg#more"></use>
           </svg>
         </div>
-        <translate ng-click="ctlSidebar.profileOpen =! ctlSidebar.profileOpen;ctlSidebar.mentionOpen = false;$event.preventDefault();$event.stopPropagation()">Profile</translate>
+        <translate ng-click="ctlSidebar.profileOpen =! ctlSidebar.profileOpen;ctlSidebar.mentionOpen = false;$event.preventDefault();$event.stopPropagation()">More</translate>
       </a>
       <script type="text/ng-template" id="logout-uib-tooltip.html">
         <translate>Log out</translate>

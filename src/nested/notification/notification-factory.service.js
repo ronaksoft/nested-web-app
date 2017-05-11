@@ -90,6 +90,9 @@
 
               case NST_NOTIFICATION_TYPE.PLACE_SETTINGS_CHANGED:
                 return parsePlaceSettingsChanged(notif);
+
+              case NST_NOTIFICATION_TYPE.NEW_SESSION:
+                return parseNewSession(notif);
             }
           });
           $q.all(notificationPromises)
@@ -406,6 +409,29 @@
 
 
       return defer.promise;
+    }
+
+    function parseNewSession(data) {
+      var deferred = $q.defer();
+
+
+
+      var actorPromise = NstSvcUserFactory.get(data.account_id);
+
+      $q.all([actorPromise]).then(function (values) {
+        deferred.resolve(
+          {
+            id: data._id,
+            isSeen: data.read,
+            date: new Date(data.timestamp),
+            actor: values[0],
+            type: data.type
+          });
+      }).catch(function () {
+        deferred.resolve({id: data._id, data: null});
+      });
+
+      return deferred.promise;
     }
   }
 })();

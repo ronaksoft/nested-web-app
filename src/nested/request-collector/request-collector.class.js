@@ -132,18 +132,18 @@
               });
             });
 
-            _.each(response.rejects, function (item) {
-              _.each(batchItem[item[response.idKey]], function (promise) {
-                promise.reject();
+            _.each(response.rejects, function (id) {
+              _.each(batchItem[id], function (promise) {
+                promise.reject("error");
               });
             });
 
           }).catch(function (error) {
-          _.each(Object.keys(batchItem), function (id) {
-            _.each(batchItem[id], function (promise) {
-              promise.reject(error);
+            _.each(Object.keys(batchItem), function (id) {
+              _.each(batchItem[id], function (promise) {
+                promise.reject(error);
+              });
             });
-          });
         });
 
       } else {

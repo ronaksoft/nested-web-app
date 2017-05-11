@@ -75,7 +75,7 @@
            ng-if="!ctlPostCard.loading && ctlPostCard.post.body.length > 0 && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)"
            auto-dir="ctlPostCard.post.body">
 
-    <div ng-if="!ctlPostCard.isExpanded">
+    <div ng-if="!ctlPostCard.isExpanded" class="_fw">
       <span ng-bind-html="ctlPostCard.post.body |trustAsHtml"></span>
       <a ng-click="ctlPostCard.expand(); _track('post card', 'show more');"
          ng-if="(!ctlPostCard.expandProgress && ctlPostCard.post.ellipsis && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled) && !ctlPostCard.addOn) && !ctlPostCard.isExpanded"
@@ -84,19 +84,21 @@
         <translate>Show more...</translate>
       </a>
     </div>
-    <div ng-if="ctlPostCard.isExpanded">
+    <div ng-if="ctlPostCard.isExpanded" class="_fw">
 
       <div mail-resizer ng-if="ctlPostCard.isExpanded && !ctlPostCard.post.trusted "
            ng-bind-html="ctlPostCard.body | trustAsHtml"></div>
       <div mail-resizer ng-if="ctlPostCard.isExpanded && ctlPostCard.post.trusted"
            ng-bind-html="ctlPostCard.body | trustAsHtml"></div>
-      <div
-        ng-if="(!ctlPostCard.expandProgress && ctlPostCard.post.ellipsis && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled) && !ctlPostCard.addOn) && ctlPostCard.isExpanded">
-        <a ng-click="ctlPostCard.collapse($event); _track('post card', 'show less');"
-           class="show-more"><span>-</span>
-          <translate>Show less</translate>
-        </a>
-      </div>
+    </div>
+  </section>
+  <section ng-if="ctlPostCard.isExpanded">
+    <div
+      ng-if="(!ctlPostCard.expandProgress && ctlPostCard.post.ellipsis && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled) && !ctlPostCard.addOn) && ctlPostCard.isExpanded">
+      <a ng-click="ctlPostCard.collapse($event); _track('post card', 'show less');"
+         class="show-more"><span>-</span>
+        <translate>Show less</translate>
+      </a>
     </div>
   </section>
 
@@ -131,7 +133,7 @@
 
   <section class="post-footer _difh"
            ng-if="(!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled) && !ctlPostCard.chainView">
-    
+
     <a class="_df _fn comments-count" ng-if="ctlPostCard.unreadCommentsCount == 0 ">
       <svg class="_16svg">
         <use xlink:href="/assets/icons/nst-icn16.svg#comment"></use>

@@ -73,6 +73,40 @@
   border-radius: 4px;
   margin-top: 76px;
   padding: 0 16px;
+  .sessions {
+    height: auto;
+    list-style: none;
+    li {
+      display: flex;
+      padding-top: 24px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid $color-border;
+      cursor: default;
+      p {
+        font-weight: 600;
+      }
+      a.force {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        transition: opacity $animation-dur;
+        flex: none;
+        white-space: nowrap;
+        opacity: 0;
+        span {
+          margin-bottom: -3px;
+        }
+        &:hover {
+          color: $color-force-wire;
+        }
+      }
+      &:hover {
+        a.force {
+          opacity: 1; 
+        }
+      }
+    }
+  }
   .profile-section {
     height: 48px;
     display: flex;

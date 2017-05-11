@@ -1,13 +1,14 @@
 const fs = require('fs');
 
 const config = {
-    sslDir: '/ronak/',
-    workingDir: process.cwd(),
-    scriptDir: process.cwd() + '/scripts/',
-    tmpDir: process.cwd() + '/nestedConfig/',
-    public_cert: process.env['WEBAPP_PUBLIC_KEY'],
-    private_cert: process.env['WEBAPP_PRIVATE_KEY'],
-    http_port: process.env['NST_ADDR_PORT'],
+    SSL_DIR: '/ronak/',
+    WORKING_DIR: process.cwd(),
+    SCRIPT_DIR: process.cwd() + '/scripts/',
+    TMP_DIR: process.cwd() + '/nestedConfig/',
+    PUBLIC_CERT: process.env['WEBAPP_PUBLIC_KEY'],
+    PRIVATE_CERT: process.env['WEBAPP_PRIVATE_KEY'],
+    HTTP_PORT: process.env['NST_ADDR_PORT'],
+    DOMAIN: process.env['NST_DOMAIN'],
 };
 
 const defaultConfig = {
@@ -15,6 +16,7 @@ const defaultConfig = {
     HTTP_CYRUS: "https://cyrus.nested.me:444",
     XERXES: "https://xerxes.nested.me",
     GOOGLE_ANALYTICS_TOKEN: "UA-80877772-5",
+    DOMAIN: "_DOMAIN_",
     UPLOAD_SIZE_LIMIT: 104857600
 };
 
@@ -23,12 +25,13 @@ const newConfig = {
     HTTP_CYRUS: process.env['NST_HTTP_CYRUS_URL'] || defaultConfig.HTTP_CYRUS,
     XERXES: process.env['NST_XERXES_URL'] || defaultConfig.XERXES,
     GOOGLE_ANALYTICS_TOKEN: process.env['NST_GOOGLE_ANALYTICS_TOKEN'] || '-',
-    UPLOAD_SIZE_LIMIT: process.env['NST_UPLOAD_SIZE_LIMIT'] || defaultConfig.UPLOAD_SIZE_LIMIT
+    UPLOAD_SIZE_LIMIT: process.env['NST_UPLOAD_SIZE_LIMIT'] || defaultConfig.UPLOAD_SIZE_LIMIT,
+    DOMAIN: process.env['NST_DOMAIN'] || "nested.me",
 };
 
 function isConfigApplyed() {
-    if (!fs.existsSync(config.tmpDir)) {
-        fs.mkdirSync(config.tmpDir);
+    if (!fs.existsSync(config.TMP_DIR)) {
+        fs.mkdirSync(config.TMP_DIR);
         return false
     }
     return true;
@@ -55,7 +58,7 @@ function copyDefaultFiles(files) {
     return new Promise((rs, rj) => {
         let promises = [];
         files.forEach(function (file) {
-            promises.push(copyFile(config.scriptDir + file, config.tmpDir + file))
+            promises.push(copyFile(config.SCRIPT_DIR + file, config.TMP_DIR + file))
         });
         Promise.all(promises)
             .then(() => {
@@ -69,7 +72,7 @@ function copyDefaultFiles(files) {
 }
 
 function getListOfScripts() {
-    let files = fs.readdirSync(config.scriptDir);
+    let files = fs.readdirSync(config.SCRIPT_DIR);
     return files.filter(function (file) {
         return file.substr(-3) === '.js';
     })
@@ -77,21 +80,22 @@ function getListOfScripts() {
 
 function replaceConfigAndStore(file) {
     return new Promise((res) => {
-        let content = fs.readFileSync(config.tmpDir + file);
+        let content = fs.readFileSync(config.TMP_DIR + file);
         let newContent = content.toString().replace(defaultConfig.WS_CYRUS, newConfig.WS_CYRUS)
             .replace(defaultConfig.HTTP_CYRUS, newConfig.HTTP_CYRUS)
             .replace(new RegExp(defaultConfig.XERXES, 'ig'), newConfig.XERXES)
             .replace(new RegExp(defaultConfig.GOOGLE_ANALYTICS_TOKEN, 'ig'), newConfig.GOOGLE_ANALYTICS_TOKEN)
             .replace(defaultConfig.UPLOAD_SIZE_LIMIT, newConfig.UPLOAD_SIZE_LIMIT)
+            .replace(defaultConfig.DOMAIN, newConfig.DOMAIN)
 
-        fs.writeFileSync(config.scriptDir + file, newContent);
+        fs.writeFileSync(config.SCRIPT_DIR + file, newContent);
         res();
     })
 }
 
 
 // main starter
-if (!config.http_port) {
+if (!config.HTTP_PORT) {
     process.env['NST_ADDR_PORT'] = 80;
 }
 
