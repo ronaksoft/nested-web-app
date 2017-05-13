@@ -229,14 +229,23 @@
           return $q(function (resolve, reject) {
             var command = vm.isGrandPlace ? 'inviteUser' : 'addUser';
             NstSvcPlaceFactory[command](vm.place, role, user).then(function (invitationId) {
-              successRes.push(user.id);
-              NstSvcLogger.info(NstUtility.string.format('User "{0}" has been invited to Place "{1}" successfully.', user.id, vm.place.id));
+              if(invitationId == undefined) {
+                  failedRes.push(user.id);
+                  resolve({
+                    user: user,
+                    role: role,
+                    invitationId: invitationId,
+                    duplicate: true
 
-              resolve({
-                user: user,
-                role: role,
-                invitationId: vm.isGrandPlace ? invitationId : -1,
-              });
+                  });
+                }else {
+                  successRes.push(user.id);
+                  resolve({
+                    user: user,
+                    role: role,
+                    invitationId: null,
+                  });
+                }
             }).catch(function (error) {
               failedRes.push(user.id);
 
@@ -267,7 +276,7 @@
             if (successRes.length > 0) {
               toastr.success(NstUtility.string.format(NstSvcTranslation.get('{0} user has been {1} to Place "{2}" successfully.'), successRes.length, vm.isGrandPlace ? 'invited' : 'added', vm.place.id));
             }
-            if (failedRes > 0) {
+            if (failedRes.length > 0) {
               if (vm.isGrandPlace) {
                 toastr.error(NstUtility.string.format(NstSvcTranslation.get('{0} User(s) has not been invited to Place {1}.'), failedRes.length, vm.place.id));
               } else {
