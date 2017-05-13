@@ -414,8 +414,6 @@
     function parseNewSession(data) {
       var deferred = $q.defer();
 
-
-
       var actorPromise = NstSvcUserFactory.get(data.account_id);
 
       $q.all([actorPromise]).then(function (values) {
@@ -425,7 +423,8 @@
             isSeen: data.read,
             date: new Date(data.timestamp),
             actor: values[0],
-            type: data.type
+            type: data.type,
+            from : data._cid.split("_").join(" ")
           });
       }).catch(function () {
         deferred.resolve({id: data._id, data: null});

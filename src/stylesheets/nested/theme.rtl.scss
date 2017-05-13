@@ -585,6 +585,16 @@ body[dir="rtl"] {
   nst-navbar .content .bot-nav .navigation .search input {
     padding: 2px 8px 2px 20px;
   }
+  .panel-profile-setting {
+    .sessions {
+      li {
+        a.force {
+          right: auto;
+          left : 0;
+        }
+      }
+    }
+  }
 }
 body[dir="ltr"] {
   .post-card-comments p.RTL-text {

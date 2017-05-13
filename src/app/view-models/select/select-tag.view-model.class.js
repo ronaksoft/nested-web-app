@@ -34,10 +34,11 @@
 
         }
 
-      } else {
+      } else if (this.isEmail) {
         this.isValid = true;
+      } else {
+        this.isValid = false;
       }
-
 
     }
 
