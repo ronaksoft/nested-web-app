@@ -2,7 +2,7 @@
       ng-init="
       sharePostPolicyOptionsForGrand = [NST_PLACE_POLICY_OPTION.MANAGERS, NST_PLACE_POLICY_OPTION.MEMBERS, NST_PLACE_POLICY_OPTION.EVERYONE];
       sharePostPolicyOptionsForPrivate = [NST_PLACE_POLICY_OPTION.MANAGERS, NST_PLACE_POLICY_OPTION.MEMBERS, NST_PLACE_POLICY_OPTION.TEAMMATES, NST_PLACE_POLICY_OPTION.EVERYONE];
-      sharePostPolicyOptionsForCommon = [NST_PLACE_POLICY_OPTION.MEMBERS];
+      sharePostPolicyOptionsForCommon = [NST_PLACE_POLICY_OPTION.TEAMMATES];
       sharePostPolicyOptionsForPersonal = [NST_PLACE_POLICY_OPTION.ONLY_ME, NST_PLACE_POLICY_OPTION.EVERYONE];
       addMemberPolicyOptions = [NST_PLACE_POLICY_OPTION.MANAGERS, NST_PLACE_POLICY_OPTION.MEMBERS];
       addPlacePolicyOptions = [NST_PLACE_POLICY_OPTION.MANAGERS, NST_PLACE_POLICY_OPTION.MEMBERS];">
@@ -27,7 +27,7 @@
     place-name="ctrl.place.name"
     grand-place-name="ctrl.place.grandParentId">
   </place-policy-option>
-
+  
   <place-policy-option
     ng-if="ctrl.isOpenPlace"
     levels="sharePostPolicyOptionsForCommon"

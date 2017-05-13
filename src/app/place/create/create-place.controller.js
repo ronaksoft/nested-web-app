@@ -97,7 +97,7 @@
       if ($stateParams.isOpenPlace) {
         vm.isOpenPlace = true;
         vm.isClosedPlace = false;
-        vm.addPostLevel = NST_PLACE_POLICY_OPTION.MANAGERS;
+        vm.addPostLevel = NST_PLACE_POLICY_OPTION.TEAMMATES;
         vm.place.privacy.privacy = false;
         setPlaceOpen();
       } else {

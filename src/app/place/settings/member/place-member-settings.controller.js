@@ -413,8 +413,9 @@
     function remove() {
       var members = getSelectedMembers();
       var message = null;
+      console.log(members)
       if (members.length === 1) {
-        message = NstUtility.string.format(NstSvcTranslation.get('Are you sure to remove {0}?'), members[0].name);
+        message = NstUtility.string.format(NstSvcTranslation.get('Are you sure to remove {0}?'), members[0].fullName);
       } else if (members.length > 1) {
         message = NstUtility.string.format(NstSvcTranslation.get('Are you sure to remove {0} of members?'), members.length);
       } else {

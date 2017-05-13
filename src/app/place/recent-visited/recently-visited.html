@@ -1,20 +1,23 @@
-<ul class="_bgwhite visited-places" nst-scrollbar suppress-scroll-x="true">
-  <li>
-    <div class="_fw _jcc _df margin-top-10" ng-if="ctrl.loading">
-      <div class="nst-loading nst-loading-size-4 _fl"></div>
-      <span>&nbsp;</span>
-      <div class="nst-font-xsmall _fr nst-marginbtm-4">
-        <translate>Loading...</translate>
+<div class="_bgwhite visited-places" dir="ltr" nst-scrollbar suppress-scroll-x="true">
+  <ul dir="{{$root._direction}}">
+    <li>
+      <div class="_fw _jcc _df margin-top-10" ng-if="ctrl.loading">
+        <div class="nst-loading nst-loading-size-4 _fl"></div>
+        <span>&nbsp;</span>
+        <div class="nst-font-xsmall _fr nst-marginbtm-4">
+          <translate>Loading...</translate>
+        </div>
       </div>
-    </div>
-  </li>
-  <li data-ng-repeat="place in ctrl.places">
-    <a class="_df placerow _aic _fw"  ui-sref="app.place-messages({placeId:place.id})">
-      <img class="" ng-src="{{place | picture : 'x64'}}"/>
-      <div class="_df text-wrap _fw">
-        <!--<p class="_txe place-name">{{place.name}}</p>-->
-        <span class="_txe">{{place.name}}</span>
-      </div>
-    </a>
-  </li>
-</ul>
+    </li>
+    <li data-ng-repeat="place in ctrl.places">
+      <a class="_df placerow _aic _fw"  ui-sref="app.place-messages({placeId:place.id})">
+        <img class="" ng-src="{{place | picture : 'x64'}}"/>
+        <div class="_df text-wrap _fw">
+          <!--<p class="_txe place-name">{{place.name}}</p>-->
+          <span class="_txe">{{place.name}}</span>
+        </div>
+      </a>
+    </li>
+  </ul>
+
+</div>

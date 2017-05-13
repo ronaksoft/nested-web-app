@@ -11,7 +11,7 @@
 <div class="_fw recive-det">
   <h4 class="_fw _tac" ng-if="level == NST_PLACE_POLICY_OPTION.MANAGERS"><translate>{{placeName}} Managers</translate></h4>
   <h4 class="_fw _tac" ng-if="level == NST_PLACE_POLICY_OPTION.MEMBERS"><translate>{{placeName}} Managers and Members</translate></h4>
-  <h4 class="_fw _tac" ng-if="level == NST_PLACE_POLICY_OPTION.TEAMMATES"><translate>{{grandPlaceName}} Members</translate></h4>
+  <h4 class="_fw _tac" ng-if="level == NST_PLACE_POLICY_OPTION.TEAMMATES"><translate>{{grandPlaceName || placeName}} Members</translate></h4>
   <h4 class="_fw _tac" ng-if="level == NST_PLACE_POLICY_OPTION.EVERYONE"><translate>Everyone</translate></h4>
   <div class="_difh _fw _aic" ng-if="level == NST_PLACE_POLICY_OPTION.TEAMMATES || level == NST_PLACE_POLICY_OPTION.EVERYONE">
     <p class="_df _fw"><translate>Show in their search results?</translate></p>

@@ -160,7 +160,7 @@
         autoGrow_minHeight: 230,
         fillEmptyBlocks: false,
         enterMode: CKEDITOR.ENTER_BR,
-        justifyClasses : [ 'AlignLeft', 'AlignCenter', 'AlignRight', 'AlignJustify' ],
+        justifyClasses: ['AlignLeft', 'AlignCenter', 'AlignRight', 'AlignJustify'],
         sharedSpaces: {
           top: 'editor-btn',
           bottom: 'editor-txt'
@@ -168,11 +168,11 @@
         toolbar: [
           ["Link", "FontSize", 'Font'],
           ["Bold", "Italic", "Underline"],
-          ["justifygroup", "-" , "TextColor", "BackColor", "BidiLtr", "BidiRtl"]
+          ["justifygroup", "-", "TextColor", "BackColor", "BidiLtr", "BidiRtl"]
         ],
         fontSize_sizes: 'Small/12px;Normal/14px;Large/18px;',
         font_names: 'Sans Serif/Sans Serif; Serif/Serif',
-        colorButton_enableAutomatic : false,
+        colorButton_enableAutomatic: false,
         colorButton_colors: 'CF5D4E,454545,FFF,CCC,DDD,CCEAEE,66AB16',
         // Remove the redundant buttons from toolbar groups defined above.
         //removeButtons: 'Strike,Subscript,Superscript,Anchor,Specialchar',
@@ -320,8 +320,8 @@
       })).then(function (recipients) {
 
         vm.model.recipients = recipients.map(function (recipient) {
-            return new NstVmSelectTag(recipient);
-          });
+          return new NstVmSelectTag(recipient);
+        });
         deferred.resolve(draft);
       }).catch(deferred.reject);
 
@@ -356,18 +356,28 @@
     };
 
     function searchRecipients(query) {
-      return NstSvcPlaceFactory.searchForCompose(query).then(function (places) {
+      return NstSvcPlaceFactory.searchForCompose(query).then(function (results) {
 
-        vm.search.results = _.chain(places).uniqBy('id').map(function (place) {
+        vm.search.results = _.chain(results.places).uniqBy('id').map(function (place) {
           return new NstVmSelectTag(place);
         }).value();
+
+        _.forEach(results.recipients, function (recipient) {
+          var initRecipient = new NstVmSelectTag({
+            id: recipient,
+            name: recipient
+          });
+          vm.search.results.push(initRecipient);
+        });
 
         var initPlace = new NstVmSelectTag({
           id: query,
           name: query
         });
-        if (initPlace.id)
+
+        if (initPlace.isValid) {
           vm.search.results.push(initPlace);
+        }
 
       }).catch(function () {
         vm.search.results = [];
