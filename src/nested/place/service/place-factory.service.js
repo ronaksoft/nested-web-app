@@ -588,7 +588,7 @@
 
         NstSvcServer.request('search/places_for_compose', {
           keyword: keyword,
-          limit : limit || 10
+          limit: limit || 10
         }).then(function (response) {
           var places = [];
           for (var k in response.places) {
@@ -597,7 +597,10 @@
             places.push(place);
           }
 
-          deferred.resolve(places);
+          deferred.resolve({
+            places: places,
+            recipients: response.recipients
+          });
         }).catch(function (error) {
           deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
         });
@@ -1128,8 +1131,8 @@
         }).then(function (data) {
           deferred.resolve(_.map(data.places, function (place) {
             return {
-              id : place._id,
-              accesses : place.access
+              id: place._id,
+              accesses: place.access
             };
           }));
         }).catch(deferred.reject);
@@ -1160,7 +1163,7 @@
      *
      * @returns {Promise}      boolean result
      */
-    PlaceFactory.prototype.markAllPostAsRead = function(placeId) {
+    PlaceFactory.prototype.markAllPostAsRead = function (placeId) {
 
       var factory = this;
       var defer = $q.defer();
@@ -1196,7 +1199,6 @@
 
       return defer.promise;
     }
-
 
 
     /**
@@ -1242,7 +1244,7 @@
 
         NstSvcServer.request('account/get_all_places', {
           with_children: true,
-          filter : 'creator'
+          filter: 'creator'
         }).then(function (data) {
           deferred.resolve(_.map(data.places, factory.parseTinyPlace));
         }).catch(function (error) {
