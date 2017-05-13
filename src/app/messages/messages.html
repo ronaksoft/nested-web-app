@@ -90,8 +90,11 @@
         <span ng-if="!ctlMessages.isbookmarkedsMode && ctlMessages.isSubPersonal()">
           <translate>You don't have any messages.</translate>
         </span>
-        <span ng-if="!ctlMessages.isbookmarkedsMode && !ctlMessages.isSubPersonal() && !ctlMessages.isSentMode">
+        <span ng-if="!ctlMessages.isbookmarkedsMode && !ctlMessages.isSubPersonal() && !ctlMessages.isSentMode && ctlMessages.currentPlace.id">
           <translate>This Place don't have any messages.</translate>
+        </span>
+        <span ng-if="!ctlMessages.isbookmarkedsMode && !ctlMessages.isSubPersonal() && !ctlMessages.isSentMode && !ctlMessages.currentPlace.id">
+          <translate>You have no message in your feed</translate>
         </span>
         <p class="nst-mood-storm text-center" ng-if="ctlMessages.isbookmarkedsMode && ctlMessages.messages.length == 0 ">
       <translate><b>You haven't bookmarked anything yet!</b><br>There's a bookmark icon on the upper-right corner of each post.<br>Click on it to save the post to be viewed later.</translate>
