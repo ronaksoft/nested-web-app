@@ -19,10 +19,26 @@
 
         var isRTL = $rootScope._direction;
 
+        var i = 0;
+        var defTop = $element.offset().top;
 
-        $timeout(function () {
-          applier();
-        },3000);
+        function checkLoop() {
+          var tempTop = $element.offset().top;
+          if (defTop == tempTop) {
+
+          }else {
+            applier();
+          }
+          setTimeout(function() {
+            if (i < 3) {
+              checkLoop();
+            }
+            i++;
+          }, 3000);
+        };
+
+        checkLoop();
+
 
         win.on("resize", function () {
           applier();
