@@ -143,17 +143,29 @@
         var failedRes = [];
 
         $q.all(_.map(selectedUsers, function (user) {
-
+          console.log(user);
           return $q(function (resolve, reject) {
             if (vm.placeId.split('.').length === 1) {
               NstSvcPlaceFactory.inviteUser(vm.place, role, user).then(function (invitationId) {
-                successRes.push(user.id);
+                
+                if(invitationId == undefined) {
+                  failedRes.push(user.id);
+                  resolve({
+                    user: user,
+                    role: role,
+                    invitationId: invitationId,
+                    duplicate: true
 
-                resolve({
-                  user: user,
-                  role: role,
-                  invitationId: invitationId
-                });
+                  });
+                }else {
+                  successRes.push(user.id);
+                  resolve({
+                    user: user,
+                    role: role,
+                    invitationId: null,
+                  });
+                }
+                
               }).catch(function (error) {
 
                 failedRes.push(user.id);
@@ -171,6 +183,7 @@
               });
             } else {
               NstSvcPlaceFactory.addUser(vm.place, role, user).then(function (addId) {
+                console.log('sucsess',user.id)
 
                 successRes.push(user.id);
 
@@ -200,6 +213,7 @@
 
         })).then(function (values) {
           _.forEach(values, function (result) {
+            console.log(values)
             if (!result.duplicate) {
               if (result.role === NST_PLACE_MEMBER_TYPE.KEY_HOLDER) {
                 if (vm.placeId.split('.').length > 1)
@@ -211,7 +225,7 @@
           if (successRes.length > 0) {
             toastr.success(NstUtility.string.format(NstSvcTranslation.get('{0} user/s has been {1} to Place "{2}" successfully.'), successRes.length, vm.placeId.split('.').length === 1 ? 'invited' : 'added', vm.place.id));
           }
-          if (failedRes > 0) {
+          if (failedRes.length > 0) {
             if (vm.placeId.split('.').length === 1) {
               toastr.error(NstUtility.string.format(NstSvcTranslation.get('{0} user/s has not been invited to Place {1}.'), failedRes.length, vm.place.id));
             } else {
