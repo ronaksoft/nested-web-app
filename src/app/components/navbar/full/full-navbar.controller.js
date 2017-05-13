@@ -455,5 +455,20 @@
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.NOTIFICATION_OFF, function (e) {
       if (e.detail.id === vm.placeId) vm.notificationStatus= false;
     });
+    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.UPDATE, function (event) {
+      if (vm.place && vm.place.id == event.detail.id || vm.place.id == event.detail.place.id ) {
+      NstSvcPlaceFactory.get(event.detail.place.id).then(function (place) {
+        vm.place = place;
+        });
+
+      }
+    });
+
+    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.PICTURE_CHANGE, function (event) {
+      NstSvcPlaceFactory.get(event.detail.place.id).then(function (place) {
+        vm.place = place;
+      });
+    });
+
   }
 })();

@@ -37,13 +37,11 @@
           vm.submitted = false;
 
         }).catch(function(error) {
+            console.log(error);
           if (error.code === NST_SRV_ERROR.INVALID) {
-            var message = _.first(error.message);
-            if (message === 'old_pass') {
-              toastr.error(NstSvcTranslation.get('The old password you have entered is incorrect'));
-            } else {
-              toastr.error(NstSvcTranslation.get('An error has occured while trying to chaing your password'));
-            }
+              return toastr.error(NstSvcTranslation.get('The old password you have entered is incorrect'));
+          } else {
+              return toastr.error(NstSvcTranslation.get('An error has occured while trying to chaing your password'));
           }
 
         });

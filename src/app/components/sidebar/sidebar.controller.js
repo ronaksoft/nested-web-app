@@ -538,6 +538,7 @@
       }
     });
 
+
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.UPDATE, function (event) {
       NstSvcPlaceFactory.updatePlaceInTree(vm.places, mapPlace(event.detail.place));
       var place = mapPlace(event.detail.place);
