@@ -47,6 +47,11 @@
     vm.move = move;
     vm.toggleMoveTo = toggleMoveTo;
 
+    vm.senderIsCurrentUser = function(id){
+       return NstSvcAuth.user.id == id;
+    }
+      ;
+
     vm.getPlacesWithRemoveAccess = getPlacesWithRemoveAccess;
     vm.getPlacesWithControlAccess = getPlacesWithControlAccess;
     vm.hasPlacesWithControlAccess = hasPlacesWithControlAccess;
