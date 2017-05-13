@@ -29,3 +29,24 @@ body.isDesktop {
     display: none;
   }
 }
+
+
+@media screen and ( max-width: 1280px ){
+  nst-navbar .menu-links-butn {
+    span {
+      max-width: 0;
+      overflow: hidden;
+      white-space: nowrap;
+      transition: max-width $animation-dur;
+    }
+    &:hover {
+      span {
+        max-width: 200px;
+      }
+    }
+    
+  }
+  nst-navbar .content .bot-nav .navigation {
+    min-width: 480px;
+  }
+}
