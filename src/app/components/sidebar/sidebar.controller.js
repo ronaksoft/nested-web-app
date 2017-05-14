@@ -482,6 +482,7 @@
             vm.totalUnreadPosts = totalUnread;
             $rootScope.$emit('unseen-activity-notify', totalUnread);
           });
+          $rootScope.$emit('init-controls-sidebar');
     }
 
 
@@ -499,6 +500,7 @@
 
     NstSvcInvitationFactory.addEventListener(NST_INVITATION_FACTORY_EVENT.ADD, function (event) {
       pushInvitation(event.detail.invitation);
+      $rootScope.$emit('init-controls-sidebar');
     });
 
     NstSvcInvitationFactory.addEventListener(NST_INVITATION_FACTORY_EVENT.ACCEPT, function (event) {
@@ -510,6 +512,7 @@
           return;
         }
       }
+      $rootScope.$emit('init-controls-sidebar');
     });
 
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.ROOT_ADD, function (event) {
@@ -519,7 +522,7 @@
       }
       vm.places.push(place);
       vm.placesNotifCountObject[place.id] = 0;
-
+      $rootScope.$emit('init-controls-sidebar');
     });
 
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.SUB_ADD, function (event) {
@@ -553,6 +556,7 @@
 
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.REMOVE, function (event) {
       NstSvcPlaceFactory.removePlaceFromTree(vm.places, event.detail);
+      $rootScope.$emit('init-controls-sidebar');
     });
 
 

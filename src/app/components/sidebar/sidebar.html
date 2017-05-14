@@ -61,6 +61,11 @@
         <svg class="_16svg">
           <use xlink:href="/assets/icons/nst-icn16.svg#arrow"></use>
         </svg>
+        <div class="unreadPlace" ng-show="ctlSidebar.overFlowTopUnread">
+          <svg>
+            <use xlink:href="/assets/icons/nst-icn24.svg#unread-circle"></use>
+          </svg>
+        </div>
       </div>
       <div class="places _ltr" nst-scrollbar suppress-scroll-x="true" sidebar-scroll>
         <ul class="side-place" data-ng-if="ctlSidebar.invitations.length > 0 " dir="{{_direction}}">
@@ -103,6 +108,11 @@
       <svg class="_16svg">
         <use xlink:href="/assets/icons/nst-icn16.svg#arrow"></use>
       </svg>
+      <div class="unreadPlace" ng-show="ctlSidebar.overFlowBottomUnread">
+          <svg>
+            <use xlink:href="/assets/icons/nst-icn24.svg#unread-circle"></use>
+          </svg>
+        </div>
     </div>
     </div>
     <div class="side-access">
