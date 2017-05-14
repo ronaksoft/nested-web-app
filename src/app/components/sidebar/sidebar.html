@@ -57,8 +57,12 @@
       </div>
     </div>
     <div class="side-place-wrapper _fw">
-      <div class="shadow-top"></div>
-      <div class="places _ltr" nst-scrollbar suppress-scroll-x="true">
+      <div class="shadow-top ng-class:{'vis' : ctlSidebar.overFlowTop}" ng-click="ctlSidebar.scrollTop()">
+        <svg class="_16svg">
+          <use xlink:href="/assets/icons/nst-icn16.svg#arrow"></use>
+        </svg>
+      </div>
+      <div class="places _ltr" nst-scrollbar suppress-scroll-x="true" sidebar-scroll>
         <ul class="side-place" data-ng-if="ctlSidebar.invitations.length > 0 " dir="{{_direction}}">
           <li class="side-place-item" ng-repeat="invitaion in ctlSidebar.invitations">
             <a href="javascript:void(0);" ng-click="ctlSidebar.invitation.showModal(invitaion.id)"
@@ -77,8 +81,7 @@
         <ul class="side-place" dir="{{_direction}}">
           <li class="side-place-item" ng-repeat="place in ctlSidebar.places"
               data-ng-include="'app/components/sidebar/place.html'" onload="place = place"></li>
-
-      </ul>
+        </ul>
       <script type="text/ng-template" id="create-uib-tooltip.html">
         <translate>Create a new Place</translate>
       </script>
@@ -96,7 +99,11 @@
         <translate>Create a new Place</translate>
       </a>
     </div>
-    <div class="shadow-bot"></div>
+    <div class="shadow-bot ng-class:{'vis' : ctlSidebar.overFlowBottom}" ng-click="ctlSidebar.scrollBottom()">
+      <svg class="_16svg">
+        <use xlink:href="/assets/icons/nst-icn16.svg#arrow"></use>
+      </svg>
+    </div>
     </div>
     <div class="side-access">
       <script type="text/ng-template" id="mention-uib-tooltip.html">
