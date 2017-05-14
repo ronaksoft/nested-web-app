@@ -116,7 +116,9 @@
             });
           };
 
-          $rootScope.$on('init-controls-sidebar',insertItems);
+          $rootScope.$on('init-controls-sidebar',function(){
+              insertItems();
+          });
 
       }
     };
