@@ -354,10 +354,12 @@
   .places{
     position: relative;
     overflow: auto;
-    z-index: 3;
     width: 100%;
     justify-content: flex-start;
     padding: 16px 0;
+    .ps-scrollbar-y-rail {
+      z-index: 5
+    }
   }
   .shadow-top ,
   .shadow-bot {
