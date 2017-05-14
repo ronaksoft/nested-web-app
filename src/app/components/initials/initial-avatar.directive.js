@@ -27,7 +27,7 @@
               abbr = 'U';
             }
 
-            var c = abbr; 
+            var c = abbr.toUpperCase(); 
             var colors = ["#F44336", "#E91E63", "#9C27B0", "#673AB7", "#3F51B5", "#2196F3", "#03A9F4", "#00BCD4", "#009688", "#4CAF50", "#8BC34A", "#CDDC39", "#FFEB3B", "#FF9800", "#FF5722", "#607D8B"];
             var settings = {
               // Default settings
@@ -35,7 +35,7 @@
               textColor: '#ffffff',
               height: $scope.height || $element[0].height,
               width: $scope.width || $element[0].width,
-              fontSize: 13,
+              fontSize: $attrs.fontSize || 13,
               fontWeight: 400,
               fontFamily: 'HelveticaNeue-Light,Helvetica Neue Light,Helvetica Neue,Helvetica, Arial,Lucida Grande, sans-serif',
               radius: $attrs.radius || 0
