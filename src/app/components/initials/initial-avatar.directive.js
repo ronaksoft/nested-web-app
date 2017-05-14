@@ -22,7 +22,7 @@
           function initialize(id, name, picture) {
             var abbr,finalColor;
             if( name ) {
-              abbr = name.split(' ').map(function(item){return item[0]}).join('');
+              abbr = name.split(' ').slice(0, 2).map(function(item){return item[0]}).join('');
             } else {
               abbr = 'U';
             }
