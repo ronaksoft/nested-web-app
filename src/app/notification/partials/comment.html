@@ -1,8 +1,8 @@
 <div class="mention">
   <div class="_fn">
     <div class="user-avatar-32">
-      <img ng-if="notification.comment.sender" initial-avatar="{{::notification.comment.sender.fullName}}"
-           picture="{{::notification.comment.sender | avatar}}"
+      <img ng-if="notification.comment.sender" initial-avatar="{{::notification.comment.sender.id}}"
+           picture="{{::notification.comment.sender | avatar}}" name="{{::notification.comment.sender.fullName}}"
            data-width="32" data-height="32" data-radius="32" class="account-initials-32" data-word-count="2"
            data-font-size="12"/>
     </div>
@@ -11,7 +11,7 @@
     <div class="_difv f1">
       <div class="_difh _fn">
         <div class="top-user-avatar-24" ng-if="notification.users.length > 1" ng-repeat="user in notification.users">
-          <img initial-avatar="{{::user.fullName}}"
+          <img initial-avatar="{{::user.id}}" name="{{::user.fullName}}"
                picture="{{::user | avatar}}"
                data-width="24" data-height="24" data-radius="24" class="account-initials-24" data-word-count="2"
                data-font-size="12"/>

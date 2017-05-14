@@ -21,7 +21,7 @@
       <trasnlate>No one has seen the post!</trasnlate>
     </div>
     <div class="_difh user-wrapper" ng-repeat="reader in ctrl.readers">
-      <img initial-avatar="{{reader.user.fullName}}" picture="{{reader.user | avatar : 'x64'}}"
+      <img initial-avatar="{{reader.user.id}}" name="{{reader.user.fullName}}" picture="{{reader.user | avatar : 'x64'}}"
            data-width="48"
            data-height="48"
            data-radius="48" class="account-initials-48" data-word-count="2" data-font-size="16"/>
