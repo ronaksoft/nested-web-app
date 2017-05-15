@@ -95,7 +95,9 @@
 
       vm.loading = true;
 
-      NstSvcWait.all(['main-done'], function () {
+
+      // fixme :: check Waiting
+      // NstSvcWait.all(['main-done'], function () {
         NstSvcPlaceFactory.get(vm.placeId).then(function (place) {
           if (place) {
             vm.place = place;
@@ -110,7 +112,7 @@
         }).finally(function () {
           vm.loading = false;
         });
-      });
+      // });
     }
 
     function showAddModal(role) {
@@ -146,14 +148,14 @@
           console.log(user);
           return $q(function (resolve, reject) {
             if (vm.placeId.split('.').length === 1) {
-              NstSvcPlaceFactory.inviteUser(vm.place, role, user).then(function (invitationId) {
-                
-                if(invitationId == undefined) {
+              NstSvcPlaceFactory.inviteUser(vm.place, role, user).then(function (invalidIds) {
+
+                if(invalidIds[0]) {
                   failedRes.push(user.id);
                   resolve({
                     user: user,
                     role: role,
-                    invitationId: invitationId,
+                    invitationId: null,
                     duplicate: true
 
                   });
@@ -165,7 +167,7 @@
                     invitationId: null,
                   });
                 }
-                
+
               }).catch(function (error) {
 
                 failedRes.push(user.id);
@@ -193,6 +195,7 @@
                   invitationId: addId
                 });
               }).catch(function (error) {
+                console.log(1111111111,error)
                 // FIXME: Why cannot catch the error!
                 if (error.getCode() === NST_SRV_ERROR.DUPLICATE) {
 
@@ -213,7 +216,6 @@
 
         })).then(function (values) {
           _.forEach(values, function (result) {
-            console.log(values)
             if (!result.duplicate) {
               if (result.role === NST_PLACE_MEMBER_TYPE.KEY_HOLDER) {
                 if (vm.placeId.split('.').length > 1)
