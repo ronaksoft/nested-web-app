@@ -376,7 +376,8 @@
         }
 
         if (messages.length < vm.messagesSetting.limit && !after) {
-          $log.debug('Messages | Reached the end because of less results: ', messages, after);
+          // fixme : user NstLog
+          // $log.debug('Messages | Reached the end because of less results: ', messages, after);
           vm.reachedTheEnd = true;
         }
 
