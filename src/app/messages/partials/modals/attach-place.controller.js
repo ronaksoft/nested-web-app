@@ -59,8 +59,9 @@
     function searchPlace(postPlaces, limit, keyword) {
       vm.searchPlaceProgress = true;
 
-      NstSvcPlaceFactory.searchForCompose(keyword, limit).then(function (places) {
-        vm.resultTargets = _.chain(places).differenceBy(postPlaces, 'id').uniqBy('id').take(10).value();
+      NstSvcPlaceFactory.searchForCompose(keyword, limit).then(function (result) {
+        vm.resultTargets = _.chain(result.places).differenceBy(postPlaces, 'id').uniqBy('id').take(10).value();
+
         if (_.isString(keyword)
           && _.size(keyword) >= 4
           && _.indexOf(keyword, " ") === -1
