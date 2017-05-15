@@ -101,7 +101,7 @@
                     $interval.cancel(inter);
                 }
                 i += 2;
-            });
+            },1);
           };
           scope.ctlSidebar.scrollBottom = function(){
             var scrollDis = $element[0].clientHeight - 80;
@@ -113,7 +113,7 @@
                 $interval.cancel(inter);
                 }
                 i += 2;
-            });
+            },1);
           };
 
           $rootScope.$on('init-controls-sidebar',function(){
