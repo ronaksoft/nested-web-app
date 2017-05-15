@@ -10,7 +10,7 @@
         newString = newString.replace(/href=['|"](.*?)['|"]/g, function (match, p1) {
           return ""
         });
-        var linked = $filter('linky')(newString);
+        var linked = $filter('linky')(newString, '_blank');
         var dom = new DOMParser();
         var parser = dom.parseFromString(linked,'text/html');
         return parser.body.innerHTML;

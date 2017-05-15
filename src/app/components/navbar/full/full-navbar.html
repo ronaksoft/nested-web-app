@@ -54,10 +54,10 @@
         </svg>
         <div class="conv-logos">
           <div class="place-avatar-32">
-            <img initial-avatar="{{ctlFullNavbar.user.fullName}}" picture="{{ctlFullNavbar.user | avatar:'x64'}}" data-width="32" data-height="32" data-radius="4" data-word-count="2" data-font-size="12" ng-if="ctlFullNavbar.user"/>
+            <img initial-avatar="{{ctlFullNavbar.user.id}}" name="{{ctlFullNavbar.user.fullName}}" picture="{{ctlFullNavbar.user | avatar:'x64'}}" data-width="32" data-height="32" data-radius="4" data-word-count="2" data-font-size="12" ng-if="ctlFullNavbar.user"/>
           </div>
           <div class="place-avatar-40">
-            <img initial-avatar="{{ctlFullNavbar.account.fullName}}" picture="{{ctlFullNavbar.account | avatar:'x64'}}" data-width="40" data-height="40" data-radius="4" data-word-count="2" data-font-size="12" ng-if="ctlFullNavbar.account"/>
+            <img initial-avatar="{{ctlFullNavbar.account.id}}" name="{{ctlFullNavbar.account.fullName}}" picture="{{ctlFullNavbar.account | avatar:'x64'}}" data-width="40" data-height="40" data-radius="4" data-word-count="2" data-font-size="12" ng-if="ctlFullNavbar.account"/>
           </div>
         </div>
         <h2 class="_df">
@@ -84,7 +84,7 @@
         <svg class="_24svg _r90 _df _fn mirror" ng-click="ctlFullNavbar.goBack()">
           <use xlink:href="/assets/icons/nst-icn24.svg#arrow-down"></use>
         </svg>
-        <input type="text" placeholder="Search..." class="_df _fw" ng-model="ctlFullNavbar.query" translate-attrs="placeholder" ng-keyup="ctlFullNavbar.searchKeyPressed($event, ctlFullNavbar.query)">
+        <input type="text" nst-mention placeholder="Search..." class="_df _fw" ng-model="ctlFullNavbar.query" translate-attrs="placeholder" ng-keyup="ctlFullNavbar.searchKeyPressed($event, ctlFullNavbar.query)">
         <div class="cp-illu _fn"></div>
       </div>
     </div>
