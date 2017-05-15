@@ -1,7 +1,7 @@
 {
   "NST_CONFIG": {
     "APP_CLIENT_ID": "WEBAPP_STAGING",
-    "APP_VERSION" : "3.5.3",
+    "APP_VERSION" : "3.5.3.2",
     "DOMAIN" : "_DOMAIN_",
     "LOG": {
       "LEVEL": 3,
