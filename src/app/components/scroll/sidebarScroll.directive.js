@@ -78,6 +78,13 @@
           }
 
           function insertItems() {
+              console.log('rearrane items');
+              if(scope.ctlSidebar.invitations) {
+                for( var i = 0; i < scope.ctlSidebar.invitations.length; i++) {
+                  placesArray.push(0);
+                }
+              }
+              
               for( var i = 0; i < scope.ctlSidebar.places.length; i++) {
                   if ( scope.ctlSidebar.places[i].unreadPosts > 0 ) {
                       placesArray.push(1);
