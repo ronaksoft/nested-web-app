@@ -115,8 +115,13 @@
     function dispatchActivityPushEvents(event) {
       var self = this;
 
+      NstSvcLogger.debug4('Sync Service | New activity is recieved :', event);
+      NstSvcLogger.debug4('Sync Service | Is this activity important in this state ( page ) ?!');
+
       // check open event's place_id has channel
       if (!hasOpenChannel.apply(this, [event.detail.place_id]) && event.detail.action !== NST_EVENT_ACTION.POST_ADD) return;
+
+      NstSvcLogger.debug4('Sync Service | This activity will take an action in this state');
 
       NstSvcLogger.debug2('Sync Service | Get activity for channel :', event.detail.place_id);
 
@@ -126,7 +131,7 @@
         placeId: event.detail.place_id
       }).then(function (data) {
         var nearActTime = self.latestActivityTimestamp;
-
+        NstSvcLogger.debug2('Sync Service | Activities of this channel :', data);
         // filter received activities with latest time
         var newActs = _.filter(data, function (act) {
 

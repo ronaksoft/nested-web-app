@@ -8,10 +8,14 @@
   /** @ngInject */
   function ComposeController($q, $rootScope, $state, $stateParams, $scope, $log, $timeout, $uibModalStack, $window,
                              _, toastr,
-                             NST_SRV_ERROR, NST_PATTERN, NST_CONFIG, NST_DEFAULT, NST_ATTACHMENT_STATUS, NST_FILE_TYPE, SvcCardCtrlAffix,
-                             NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcStore, NstSvcFileType, NstSvcAttachmentMap, NstSvcSidebar,
-                             NstUtility, NstSvcTranslation, NstSvcModal, NstSvcPostDraft, NstSvcUserFactory,
-                             NstTinyPlace, NstVmPlace, NstVmSelectTag, NstLocalResource, NstPicture, NstPostDraft, NstTinyUser, NstVmUser, NstPost) {
+                             NST_SRV_ERROR, NST_PATTERN, NST_CONFIG, NST_DEFAULT, NST_ATTACHMENT_STATUS,
+                             NST_FILE_TYPE, SvcCardCtrlAffix,
+                             NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcStore,
+                             NstSvcFileType, NstSvcAttachmentMap, NstSvcSidebar,
+                             NstUtility, NstSvcTranslation, NstSvcModal, NstSvcPostDraft,
+                             NstSvcUserFactory, NstSvcLogger,
+                             NstTinyPlace, NstVmPlace, NstVmSelectTag, NstLocalResource, NstPicture,
+                             NstPostDraft, NstTinyUser, NstVmUser, NstPost) {
     var vm = this;
     vm.quickMode = false;
     vm.focus = false;
@@ -27,6 +31,7 @@
     }
 
     function changeAffixes() {
+      $log.debug4('Compose | Rearrange the the items in affixer post service :');
       SvcCardCtrlAffix.change();
     }
 
@@ -35,10 +40,6 @@
     /*****************************
      *** Controller Properties ***
      *****************************/
-
-    $timeout(function () {
-      $rootScope.navView = false
-    });
 
     vm.model = {
       recipients: [],
@@ -75,11 +76,14 @@
     });
 
     vm.focusBox = function () {
+      $log.debug4('Compose | Compose Box is focused');
       vm.focus = true;
     };
 
     vm.blurBox = function () {
+      $log.debug4('Compose | Is subject or body filled to stop collapsing quick message ?!');
       if (vm.model.subject.length == 0 && vm.model.attachments.length == 0 && vm.model.body.length == 0 && !vm.mouseIn) {
+        $log.debug4('Compose | Compose box is blured');
         vm.focus = false;
       }
     };
@@ -198,7 +202,8 @@
       vm.inputPlaceHolderLabel = NstSvcTranslation.get("Enter a Place name or a Nested address...");
 
       if (vm.quickMode) {
-
+        $log.debug4('Compose | compose is in quick mode');
+        $log.debug4('Compose | insert place id as recipient in quick post');
         addRecipients($stateParams.placeId);
         eventReferences.push($scope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
           var confirm = _.size(_.trim(vm.model.subject)) > 0 || _.size(_.trim(vm.model.body)) || _.size(vm.model.attachments) > 0;
@@ -215,13 +220,13 @@
         }));
 
       } else {
-
+        $log.debug4('Compose | compose is in modal');
         eventReferences.push($scope.$on('modal.closing', function (event) {
           if (shouldSaveDraft() && !vm.finish) {
             event.preventDefault();
 
             if ($state.current.options && $state.current.options.supportDraft) {
-
+              $log.debug4('Compose | show discard modal');
               NstSvcModal.confirm(
                 NstSvcTranslation.get("Confirm"),
                 NstSvcTranslation.get("By discarding this message, you will lose your draft. Are you sure you want to discard?"),
@@ -231,8 +236,10 @@
                 }
               ).then(function (confirmed) {
                 if (confirmed) {
+                  $log.debug4('Compose | cancel on discard modal');
                   discardDraft();
                 } else {
+                  $log.debug4('Compose | confirm on discard modal');
                   saveDraft();
                 }
 
@@ -257,6 +264,7 @@
     })();
 
     function saveDraft() {
+      $log.debug4('Compose | Saving post model as draft');
       var draft = new NstPostDraft();
       draft.subject = vm.model.subject;
       draft.body = vm.model.body;
@@ -266,10 +274,12 @@
     }
 
     function discardDraft() {
+      $log.debug4('Compose | discarding draft');
       NstSvcPostDraft.discard();
     }
 
     function shouldSaveDraft() {
+      $log.debug4('Compose | is this model need to be save in draft ?!');
       return _.size(_.trim(vm.model.subject)) > 0 ||
         _.size(_.trim(vm.model.body)) ||
         _.size(vm.model.attachments) > 0 ||
@@ -281,16 +291,19 @@
      *****************************/
 
     function openDraft() {
+      $log.debug4('Compose | check for Loading draft ?!');
       if (!NstSvcPostDraft.has()) {
+        $log.debug4('Compose | No draft exists');
         return;
       }
-
+      $log.debug4('Compose | check options for loading draft');
       if ($state.current.options && $state.current.options.supportDraft) {
         loadDraft();
       }
     }
 
     function loadDraft() {
+      $log.debug4('Compose | loading draft');
       var deferred = $q.defer();
 
       var draft = NstSvcPostDraft.get();
@@ -332,9 +345,11 @@
 
 
     vm.subjectKeyDown = function (e) {
+      NstSvcLogger.debug4('Compose | User types in subject');
       vm.mouseIn = true;
       vm.changeAffixesDebounce();
       if (e.which == 13) {
+        NstSvcLogger.debug4('Compose | User pressed Enter on subject and focus will goes on the compose body');
         e.preventDefault();
         $window.CKEDITOR.instances.composeEditor.focus();
       }
@@ -342,8 +357,9 @@
 
 
     vm.editorKeyDown = function (e) {
+      NstSvcLogger.debug4('Compose | User types in compose body');
       if (e.which == 8) {
-
+        NstSvcLogger.debug4('Compose | User pressed back on compose body and focus will goes on the subject');
         if (vm.quickMode) {
           $('.quick-message-wrp [name="subject"]').focus();
         }
@@ -356,8 +372,9 @@
     };
 
     function searchRecipients(query) {
+      $log.debug4('Compose | Search recipients with query : ', query);
       return NstSvcPlaceFactory.searchForCompose(query).then(function (results) {
-
+        $log.debug4('Compose | Searched recipients for binding them in html', results);
         vm.search.results = _.chain(results.places).uniqBy('id').map(function (place) {
           return new NstVmSelectTag(place);
         }).value();
@@ -380,6 +397,7 @@
         }
 
       }).catch(function () {
+        $log.debug4('Compose | not recipients found');
         vm.search.results = [];
         if (initPlace.id)
           vm.search.results.push(initPlace);
@@ -388,6 +406,7 @@
     }
 
     vm.attachments.fileSelected = function (event) {
+      $log.debug4('Compose | some files added into compose');
       var files = event.currentTarget.files;
       for (var i = 0; i < files.length; i++) {
         vm.attachments.attach(files[i]).then(function (request) {
@@ -398,6 +417,7 @@
 
 
     vm.attachments.attach = function (file) {
+      $log.debug4('Compose | Is this file higher than maximum upload size ?!');
       if (file.size > NST_CONFIG.UPLOAD_SIZE_LIMIT) {
         toastr.error(NstSvcTranslation.get("Maximum upload size is 100 MB"));
         return;
@@ -447,6 +467,8 @@
         var vmAttachment = NstSvcAttachmentMap.toEditableAttachmentItem(attachment);
         attachment.id = vmAttachment.id;
 
+        $log.debug4('Compose | start uploading file',file);
+
         var request = NstSvcStore.uploadWithProgress(file, function (event) {
           if (event.lengthComputable) {
             vmAttachment.uploadedSize = event.loaded;
@@ -459,11 +481,13 @@
         request.sent().then(function () {
           attachment.status = NST_ATTACHMENT_STATUS.UPLOADING;
           vm.attachments.viewModels.push(vmAttachment);
+          $log.debug4('Compose | request uploading file is sent');
         });
 
         request.finished().then(function () {
           // vm.attachments.size.total -= attachment.getSize();
           delete vm.attachments.requests[attachment.id];
+          $log.debug4('Compose | uploading file is done');
         });
 
         request.getPromise().then(function (response) {
@@ -502,6 +526,7 @@
       if (attachment && attachment.length !== 0) {
         switch (attachment.status) {
           case NST_ATTACHMENT_STATUS.UPLOADING:
+            $log.debug('Compose | Removing a file while is uploading : ', attachment);
             var request = vm.attachments.requests[attachment.id];
             if (request) {
               NstSvcStore.cancelUpload(request);
@@ -509,6 +534,7 @@
             break;
         }
 
+        $log.debug('Compose | recalculating the total file size and uploaded size : ', attachment);
         vm.attachments.size.uploaded -= vmAttachment.uploadedSize;
         vm.attachments.size.total -= attachment.size;
         NstUtility.collection.dropById(vm.model.attachments, id);
@@ -575,6 +601,7 @@
     };
 
     vm.fullCompose = function () {
+      $log.debug4('Compose | Toggle full compose mode');
       $('body').toggleClass('fullCompose');
       if ($('body').hasClass('fullCompose')) {
         vm.makeChangeForWatchers++;
@@ -582,17 +609,21 @@
     };
 
     vm.send = function () {
+      $log.debug4('Compose | Start sending compose');
       return (function () {
         var deferred = $q.defer();
 
         if (vm.model.saving) {
+          $log.debug4('Compose | Stop resending compose');
           // Already is being sent process error
           deferred.reject([{
             name: 'saving',
             message: 'Already is being sent'
           }]);
         } else {
+          $log.debug4('Compose | Compose model is valid ?!');
           if (vm.model.check()) {
+            $log.debug4('Compose | Compose model is valid');
             vm.focus = false;
             vm.model.saving = true;
 
@@ -606,24 +637,32 @@
             post.recipients = vm.model.recipients;
             post.places = [];
 
+            $log.debug4('Compose | Post the post to the server :', post);
+
             NstSvcPostFactory.send(post).then(function (response) {
+
+              $log.debug4('Compose | Sent post succesfully');
               deferred.resolve(response);
             }).catch(function (error) {
+              $log.debug4('Compose | Didnt send post succesfully');
               deferred.reject([error]);
             });
           } else {
+            $log.debug4('Compose | Compose model is not valid');
             deferred.reject(vm.model.errors);
           }
         }
 
         return deferred.promise;
       })().then(function (response) {
+        $log.debug4('Compose | Change some flags back to the normal mode after sending Post');
         vm.model.saving = false;
         vm.model.saved = true;
         vm.finish = true;
 
         // All target places have received the message
         if (response.noPermitPlaces.length === 0) {
+          $log.debug4('Compose | Post Sent succefully to all places');
           toastr.success(NstSvcTranslation.get('Your message has been successfully sent.'));
           NstSvcPostFactory.get(response.post.id).then(function (res) {
             $rootScope.$emit('post-quick', res);
@@ -636,12 +675,16 @@
           }
 
         } else if (response.post.places.length === response.noPermitPlaces.length) {
+          $log.debug4('Compose | Checking no permited places and warn to the user via toastr');
           toastr.error(NstUtility.string.format(NstSvcTranslation.get('Your message has not been successfully sent to {0}'), response.noPermitPlaces.join(', ')));
         } else {
+          $log.debug4('Compose | Checking no permited places and warn to the user via toastr');
           toastr.warning(NstUtility.string.format(NstSvcTranslation.get('Your message was sent, but {0} did not received that!'), response.noPermitPlaces.join(', ')));
           NstSvcPostFactory.get(response.post.id).then(function (res) {
             $rootScope.$emit('post-quick', res);
           });
+
+          $log.debug4('Compose | Change states and models back to the normal mode after sending Post');
           $uibModalStack.dismissAll();
           if (vm.quickMode) {
             clear();
@@ -658,6 +701,7 @@
           res(response);
         });
       }).catch(function (errors) {
+        $log.debug4('Compose | Unsent Post Reasons :', errors);
         vm.model.saving = false;
         toastr.error(errors.filter(
           function (v) {
@@ -832,6 +876,7 @@
       }
 
       getPlace(placeId).then(function (place) {
+        $log.debug4('Compose | nested place added as recipients :', place);
         vm.model.recipients.push(new NstVmSelectTag(place));
         deferred.resolve();
       }).catch(deferred.reject);
@@ -848,6 +893,7 @@
      *****************************/
 
     function getPlace(id) {
+      $log.debug4('Compose | Get place :', id);
       return NstSvcPlaceFactory.get(id).catch(function (error) {
         var deferred = $q.defer();
 
@@ -868,6 +914,7 @@
     }
 
     function getPost(id) {
+      $log.debug4('Compose | Get post', id);
       return NstSvcPostFactory.get(id, true);
     }
 
@@ -901,6 +948,7 @@
     };
 
     function onPlaceSelected(place) {
+      $log.debug4('Compose | add a place from suggests as recipient :');
       // addRecipients(placeId);
       if (!_.some(vm.model.recipients, {id: place.id})) {
         vm.model.recipients.push(new NstVmSelectTag({
@@ -913,6 +961,7 @@
 
 
     function clear() {
+      $log.debug4('Compose | Clear compose model data :');
       vm.attachments.viewModels = [];
       vm.model.attachments = [];
       vm.model.attachfiles = {};
@@ -926,6 +975,7 @@
     }
 
     vm.dodrop = function (event) {
+      $log.debug4('Compose | dropped some files :');
       event.preventDefault();
       event.stopPropagation();
       var dt = event.dataTransfer;
@@ -939,8 +989,10 @@
 
 
     $scope.$on('$destroy', function () {
+      $log.debug4('Compose | Compose id destroyed :');
       NstSvcSidebar.removeOnItemClick();
 
+      $log.debug4('Compose | Compose to normal mode ( if it is full mode ) :');
       if ($('body').hasClass('fullCompose')) {
         vm.fullCompose()
       }
