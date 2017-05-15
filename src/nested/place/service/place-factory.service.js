@@ -684,7 +684,7 @@
           member_id: query.data.userId,
           role: query.data.role
         }).then(function (result) {
-          deferred.resolve(result.invite_id);
+          deferred.resolve(result.invalid_ids);
         }).catch(function (error) {
           deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
         });
