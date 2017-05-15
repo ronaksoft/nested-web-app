@@ -124,7 +124,7 @@
   background: $color-white;
   border-color: $color-breeze;
   position: absolute;
-  top: 8px !important;
+  top: 2px !important;
   left: auto !important;
   right: 0;
   z-index: 37;
@@ -142,9 +142,9 @@
   background: $color-white;
   border-color: $color-breeze;
   position: absolute;
-  top: 7px !important;
+  top: 3px !important;
   left: auto !important;
-  right: 0;
+  right: -2px;
   z-index: 36;
   width: 210px;
   .popover-content span {

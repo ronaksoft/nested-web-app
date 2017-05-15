@@ -25,10 +25,10 @@
             function checkScroll(el) {
 
                 // Toggle Buttons
-                if (el.clientHeight < el.scrollHeight && el.scrollTop <= 16) {
+                if (el.clientHeight < el.scrollHeight && el.scrollTop <= 28) {
                     scope.ctlSidebar.overFlowBottom = true;
                     scope.ctlSidebar.overFlowTop = false;
-                } else if (el.clientHeight < el.scrollHeight && el.clientHeight + el.scrollTop >= el.scrollHeight - 16) {
+                } else if (el.clientHeight < el.scrollHeight && el.clientHeight + el.scrollTop >= el.scrollHeight - 28) {
                     scope.ctlSidebar.overFlowBottom = false;
                     scope.ctlSidebar.overFlowTop = true;
                 } else if (el.clientHeight < el.scrollHeight) {
