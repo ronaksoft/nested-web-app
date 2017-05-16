@@ -143,7 +143,6 @@
         var failedRes = [];
 
         $q.all(_.map(selectedUsers, function (user) {
-          console.log(user);
           return $q(function (resolve, reject) {
             if (vm.placeId.split('.').length === 1) {
               NstSvcPlaceFactory.inviteUser(vm.place, role, user).then(function (invitationId) {
@@ -183,15 +182,24 @@
               });
             } else {
               NstSvcPlaceFactory.addUser(vm.place, role, user).then(function (addId) {
-                console.log('sucsess',user.id)
+                var duplicate = false;
 
-                successRes.push(user.id);
+                for (var i = 0; i < vm.teammates.length; i++) {
+                  if ( vm.teammates[i].id == addId.id ) duplicate = true;
+                }
 
-                resolve({
-                  user: user,
-                  role: role,
-                  invitationId: addId
-                });
+                if(duplicate) {
+                    failedRes.push(user.id);
+                    resolve({
+                      duplicate: true
+                    });
+                  } else {
+                    successRes.push(user.id);
+                    resolve({
+                      invitationId: addId
+                    });
+                  }
+
               }).catch(function (error) {
                 // FIXME: Why cannot catch the error!
                 if (error.getCode() === NST_SRV_ERROR.DUPLICATE) {
