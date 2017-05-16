@@ -102,11 +102,11 @@
             var i = 0;
             var inter = $interval(function () {
                 if (i < scrollDis) {
-                    $element[0].scrollTop -= 2;
+                    $element[0].scrollTop -= 4;
                 } else {
                     $interval.cancel(inter);
                 }
-                i += 2;
+                i += 4;
             },1);
           };
           scope.ctlSidebar.scrollBottom = function(){
@@ -114,11 +114,11 @@
             var i = 0
             var inter = $interval(function () {
                 if (i < scrollDis) {
-                    $element[0].scrollTop += 2;
+                    $element[0].scrollTop += 4;
                 } else {
                 $interval.cancel(inter);
                 }
-                i += 2;
+                i += 4;
             },1);
           };
 
