@@ -2,7 +2,7 @@
   'use strict';
   angular
     .module('ronak.nested.web.components.mention')
-    .directive('nstMention', function ($rootScope, $timeout,
+    .directive('nstMention', function (_, $rootScope, $timeout,
                                        NST_USER_SEARCH_AREA,
                                        NstSvcUserFactory, NstSvcPlaceFactory, NstVmPlace,
                                        NstVmUser) {
@@ -66,8 +66,9 @@
                         searchSettings.placeId = attrs.placeId;
                       }
                       NstSvcUserFactory.search(searchSettings, attrs.postId ? NST_USER_SEARCH_AREA.MENTION : NST_USER_SEARCH_AREA.ACCOUNTS).then(function (users) {
+                        var uniqueUsers = _.unionBy(users, 'id');
                         var items = [];
-                        _.map(users, function (item) {
+                        _.map(uniqueUsers, function (item) {
                           var obj = new NstVmUser(item);
 
                           if (obj.avatar === "") {
@@ -82,7 +83,7 @@
                             id: obj.id,
                             name: obj.name,
                             avatar: obj.avatar == "" ? avatarElement[0].currentSrc : obj.avatar,
-                            searchField : [obj.id, obj.name].join(' ')
+                            searchField: [obj.id, obj.name].join(' ')
                           })
                         });
                         callback(items);
@@ -112,15 +113,16 @@
                         limit: 5,
                       };
                       NstSvcPlaceFactory.search(query).then(function (places) {
+                        var uniquePlaces = _.unionBy(places, 'id');
                         var items = [];
-                        _.map(places, function (item) {
-                          var obj = new NstVmPlace(item);
+                        _.map(uniquePlaces, function (item) {
+                          var obj = new NstVmUser(item);
 
                           items.push({
                             id: obj.id,
                             name: obj.name,
                             avatar: obj.avatar,
-                            searchField : [obj.id, obj.name].join(' ')
+                            searchField: [obj.id, obj.name].join(' ')
                           })
                         });
 

@@ -381,6 +381,11 @@
 
       }).catch(function () {
         vm.search.results = [];
+        var initPlace = new NstVmSelectTag({
+          id: query,
+          name: query
+        });
+
         if (initPlace.id)
           vm.search.results.push(initPlace);
       });
