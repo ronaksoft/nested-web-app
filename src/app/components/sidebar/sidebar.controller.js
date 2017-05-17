@@ -8,7 +8,7 @@
   /** @ngInject */
   function SidebarController($q, $scope, $state, $stateParams, $uibModal, $window, $rootScope,
                              _,
-                             NST_DEFAULT, NST_AUTH_EVENT, NST_INVITATION_FACTORY_EVENT, NST_PLACE_FACTORY_EVENT,NST_CONFIG ,
+                             NST_DEFAULT, NST_AUTH_EVENT, NST_INVITATION_FACTORY_EVENT, NST_PLACE_FACTORY_EVENT, NST_CONFIG,
                              NST_EVENT_ACTION, NST_USER_FACTORY_EVENT, NST_POST_FACTORY_EVENT, NST_NOTIFICATION_FACTORY_EVENT, NST_SRV_EVENT, NST_NOTIFICATION_TYPE,
                              NstSvcAuth, NstSvcServer, NstSvcLogger, NstSvcNotification, NstSvcTranslation,
                              NstSvcPostFactory, NstSvcPlaceFactory, NstSvcInvitationFactory, NstUtility, NstSvcUserFactory, NstSvcSidebar, NstSvcNotificationFactory,
@@ -87,7 +87,7 @@
 
           if (result) { // Accept the Invitation
             return vm.invitation.accept(id).then(function (invitation) {
-              var vmPlace = _.find(vm.places, { id: invitation.place.id });
+              var vmPlace = _.find(vm.places, {id: invitation.place.id});
 
               if (!vmPlace) {
                 vmPlace = mapPlace(invitation.place);
@@ -471,7 +471,7 @@
 
     function getGrandPlaceUnreadCounts() {
       var placeIds = _.keys(vm.placesNotifCountObject);
-      if (placeIds.length > 0)
+      if (placeIds.length > 0) {
         NstSvcPlaceFactory.getPlacesUnreadPostsCount(placeIds, true)
           .then(function (places) {
             var totalUnread = 0;
@@ -480,9 +480,12 @@
               totalUnread += obj.count;
             });
             vm.totalUnreadPosts = totalUnread;
+            vm.insertItems();
             $rootScope.$emit('unseen-activity-notify', totalUnread);
+            $rootScope.$broadcast('init-controls-sidebar');
           });
-          $rootScope.$emit('init-controls-sidebar');
+
+      }
     }
 
 
@@ -635,7 +638,7 @@
 
     });
 
-    $rootScope.$on('reload-counters',function () {
+    $rootScope.$on('reload-counters', function () {
       NstSvcLogger.debug('Retrieving mentions count right after focus.');
       getNotificationsCount();
       NstSvcLogger.debug('Retrieving the grand place unreads count right after focus.');

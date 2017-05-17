@@ -6,7 +6,7 @@
     .directive('sidebarScroll', onScroll);
 
   /** @ngInject */
-  function onScroll($window,$rootScope,$timeout,$interval) {
+  function onScroll(_, $rootScope, $timeout, $interval) {
     return {
       restrict: 'A',
       link: function (scope, $element, $attrs) {
@@ -77,25 +77,28 @@
             checkScroll($element[0]);
           }
 
-          function insertItems() {
-              if(scope.ctlSidebar.invitations) {
-                for( var i = 0; i < scope.ctlSidebar.invitations.length; i++) {
-                  placesArray.push(0);
-                }
-              }
-              
-              for( var i = 0; i < scope.ctlSidebar.places.length; i++) {
-                  if ( scope.ctlSidebar.places[i].unreadPosts > 0 ) {
-                      placesArray.push(1);
-                  } else {
-                      placesArray.push(0);
-                  }
-              }
+        function insertItems() {
+          placesArray = [];
+
+          if (scope.ctlSidebar.invitations) {
+            for (var i = 0; i < scope.ctlSidebar.invitations.length; i++) {
+              placesArray.push(0);
+            }
           }
-          
-          $element.scroll(function () {
-            checkScroll($element[0]);
-          });
+
+          for (var i = 0; i < scope.ctlSidebar.places.length; i++) {
+            if (scope.ctlSidebar.placesNotifCountObject[scope.ctlSidebar.places[i].id]) {
+              placesArray.push(1);
+            } else {
+              placesArray.push(0);
+            }
+          }
+          checkScroll($element[0]);
+        }
+
+        $element.scroll(function () {
+          checkScroll($element[0]);
+        });
 
           scope.ctlSidebar.scrollTop = function(){
             var scrollDis = $element[0].clientHeight - 80;
@@ -122,9 +125,7 @@
             },1);
           };
 
-          $rootScope.$on('init-controls-sidebar',function(){
-              insertItems();
-          });
+        scope.ctlSidebar.insertItems = insertItems;
 
       }
     };

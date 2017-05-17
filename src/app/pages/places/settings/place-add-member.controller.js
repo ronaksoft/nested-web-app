@@ -90,7 +90,9 @@
 
     function checkUserLimitPlace() {
       var previousUsers = mode === 'offline-mode' ? 0 : currentPlace.counters.creators + currentPlace.counters.key_holders;
-      vm.limit = 255 - previousUsers;
+
+      // fixme :: read limit from config
+      vm.limit = 10000 - previousUsers;
     }
   }
 })();

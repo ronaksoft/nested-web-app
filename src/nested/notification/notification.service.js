@@ -72,45 +72,50 @@ function NstSvcNotification($q, $window, _, $state,
       return;
     }
     var dt = "";
-    var messaging = firebase.messaging();
+    try {
+      var messaging = firebase.messaging();
 
 
-    messaging.requestPermission()
-      .then(function () {
-        NstSvcLogger.debug("Notification | has permission!");
-        return messaging.getToken();
-      })
-      .then(function (token) {
-        dt = token;
-        NstSvcLogger.debug("Notification | ", token);
-        NstSvcAuth.setDeviceToken(token);
-      }).catch(function (err) {
-      NstSvcLogger.debug("Notification | Error get token:", err);
-    });
-
-    messaging.onTokenRefresh(function () {
-      messaging.getToken()
-        .then(function (refreshedToken) {
-          dt = refreshedToken;
-          NstSvcLogger.debug("Notification Token Refreshed | ", refreshedToken);
-          NstSvcAuth.setDeviceToken(refreshedToken);
+      messaging.requestPermission()
+        .then(function () {
+          NstSvcLogger.debug("Notification | has permission!");
+          return messaging.getToken();
         })
-        .catch(function (err) {
-          NstSvcLogger.debug("Notification Unable to retrieve refreshed token | ", err);
-        });
-    });
+        .then(function (token) {
+          dt = token;
+          NstSvcLogger.debug("Notification | ", token);
+          NstSvcAuth.setDeviceToken(token);
+        }).catch(function (err) {
+        NstSvcLogger.debug("Notification | Error get token:", err);
+      });
+
+      messaging.onTokenRefresh(function () {
+        messaging.getToken()
+          .then(function (refreshedToken) {
+            dt = refreshedToken;
+            NstSvcLogger.debug("Notification Token Refreshed | ", refreshedToken);
+            NstSvcAuth.setDeviceToken(refreshedToken);
+          })
+          .catch(function (err) {
+            NstSvcLogger.debug("Notification Unable to retrieve refreshed token | ", err);
+          });
+      });
 
 
-    this.registerBroadcastReceiver();
+      this.registerBroadcastReceiver();
 
-    messaging.onMessage(function (payload) {
-      NstSvcLogger.debug("Notification  | ", payload);
-    });
+      messaging.onMessage(function (payload) {
+        NstSvcLogger.debug("Notification  | ", payload);
+      });
 
-    NstSvcAuth.addEventListener(NST_AUTH_EVENT.UNAUTHORIZE, function () {
-      messaging.deleteToken(dt)
-    })
-
+      NstSvcAuth.addEventListener(NST_AUTH_EVENT.UNAUTHORIZE, function () {
+        messaging.deleteToken(dt)
+        this.options = {};
+        this.stack = {};
+      })
+    }catch (error){
+      NstSvcLogger.error('Notification : Error in register fmc' , error);
+    }
   };
 
 
