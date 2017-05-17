@@ -124,6 +124,8 @@
         // TODO: Optimize (get accessses instead of a place object which has more cost)
         checkHasManagerAccess(_.map(vm.post.places, 'id'));
         vm.messages.splice(vm.messages.length - 1, 1, vm.post);
+      }).catch(function (error) {
+        toastr.error(NstSvcTranslation.get('An error occured while tying to show the post full body.'));
       });
     }
 
