@@ -671,6 +671,9 @@
           if (vm.quickMode) {
             clear();
           } else {
+            if ($('body').hasClass('fullCompose')) {
+              vm.fullCompose()
+            }
             discardDraft();
           }
 
