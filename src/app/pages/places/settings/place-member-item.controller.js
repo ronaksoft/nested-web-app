@@ -20,6 +20,7 @@
 
       NstSvcPlaceFactory.promoteMember(vm.place.id, vm.member.id).then(function (result) {
         vm.place.counters.creators++;
+        vm.place.counters.key_holders--;
         $scope.$emit('member-promoted', {
           member : vm.member
         });
@@ -38,7 +39,8 @@
       }
 
       NstSvcPlaceFactory.demoteMember(vm.place.id, vm.member.id).then(function (result) {
-        --vm.place.counters.creators;
+        vm.place.counters.key_holders++;
+        vm.place.counters.creators--;
         $scope.$emit('member-demoted', {
           member : vm.member
         });

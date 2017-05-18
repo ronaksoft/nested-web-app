@@ -78,6 +78,22 @@
       }
     }));
 
+
+    eventReferences.push($rootScope.$on('member-demoted', function (event, data) {
+      var member = vm.teammates.filter(function (m) {
+        return m.id === data.member.id
+      });
+      if (member[0]) member[0].role = NST_PLACE_MEMBER_TYPE.KEY_HOLDER;
+    }));
+
+    eventReferences.push($rootScope.$on('member-promoted', function (event, data) {
+      var member = vm.teammates.filter(function (m) {
+        return m.id === data.member.id
+      });
+      if (member[0]) member[0].role = NST_PLACE_MEMBER_TYPE.CREATOR;
+    }));
+
+
     initialize();
 
     /*****************************
@@ -98,20 +114,20 @@
 
       // fixme :: check Waiting
       // NstSvcWait.all(['main-done'], function () {
-        NstSvcPlaceFactory.get(vm.placeId).then(function (place) {
-          if (place) {
-            vm.place = place;
+      NstSvcPlaceFactory.get(vm.placeId).then(function (place) {
+        if (place) {
+          vm.place = place;
 
-            vm.hasAddMembersAccess = place.hasAccess(NST_PLACE_ACCESS.ADD_MEMBERS);
-            vm.hasSeeMembersAccess = place.hasAccess(NST_PLACE_ACCESS.SEE_MEMBERS);
+          vm.hasAddMembersAccess = place.hasAccess(NST_PLACE_ACCESS.ADD_MEMBERS);
+          vm.hasSeeMembersAccess = place.hasAccess(NST_PLACE_ACCESS.SEE_MEMBERS);
 
-            load();
-          }
-        }).catch(function (error) {
-          NstSvcLogger.error(error);
-        }).finally(function () {
-          vm.loading = false;
-        });
+          load();
+        }
+      }).catch(function (error) {
+        NstSvcLogger.error(error);
+      }).finally(function () {
+        vm.loading = false;
+      });
       // });
     }
 
@@ -150,7 +166,7 @@
             if (vm.placeId.split('.').length === 1) {
               NstSvcPlaceFactory.inviteUser(vm.place, role, user).then(function (invalidIds) {
 
-                if(invalidIds[0]) {
+                if (invalidIds[0]) {
                   failedRes.push(user.id);
                   resolve({
                     user: user,
@@ -159,7 +175,7 @@
                     duplicate: true
 
                   });
-                }else {
+                } else {
                   successRes.push(user.id);
                   resolve({
                     user: user,
@@ -185,7 +201,7 @@
               });
             } else {
               NstSvcPlaceFactory.addUser(vm.place, role, user).then(function (addId) {
-                console.log('sucsess',user.id)
+                console.log('sucsess', user.id)
 
                 successRes.push(user.id);
 
@@ -195,7 +211,7 @@
                   invitationId: addId
                 });
               }).catch(function (error) {
-                console.log(1111111111,error)
+
                 // FIXME: Why cannot catch the error!
                 if (error.getCode() === NST_SRV_ERROR.DUPLICATE) {
 
@@ -252,7 +268,7 @@
       getCreators(placeId, vm.teammatesSettings.limit, vm.teammatesSettings.skip, hasSeeMembersAccess).then(function (creators) {
         teammates.push.apply(teammates, creators);
 
-        return getKeyholders(placeId, vm.teammatesSettings.limit - creators.length - ( vm.hasAddMembersAccess ? 1 : 0 ) , vm.teammatesSettings.skip, hasSeeMembersAccess);
+        return getKeyholders(placeId, vm.teammatesSettings.limit - creators.length - ( vm.hasAddMembersAccess ? 1 : 0 ), vm.teammatesSettings.skip, hasSeeMembersAccess);
       }).then(function (keyHolders) {
 
         teammates.push.apply(teammates, keyHolders);
