@@ -202,7 +202,8 @@
   <comments-board comments="ctlPostCard.post.comments" limit="ctlPostCard.commentBoardLimit" post-id="ctlPostCard.post.id" total-comments-count="ctlPostCard.post.counters.comments" on-comment-sent="ctlPostCard.onAddComment" has-comment-remove-access="ctlPostCard.hasRemoveAccess"></comments-board>
 </section>
 
-<div class="chain-forward" ng-if="ctlPostCard.chainView && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
+<div class="chain-forward" ng-if="ctlPostCard.chainView && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)"
+ affixer-post-view="{{ctlPostCard.addOn}}" observe="yes" after-content="697" top="64" container=".modal" fixed-top="true">
 
   <a ng-click="ctlPostCard.replyAll($event);ctlPostCard.markAsRead(); _track('post card', 'reply : add-on');"
      ui-sref="app.compose-reply-all({ postId: ctlPostCard.post.id })"
@@ -239,7 +240,9 @@
     </svg>
   </a>
 </div>
-<div class="chain-stats" ng-if="ctlPostCard.chainView">
+
+<div class="chain-stats" ng-if="ctlPostCard.chainView" observe="yes" affixer-post-view="{{ctlPostCard.addOn}}"
+  parent-mode='true' after-content="697" top="64" container=".modal" fixed-top="true">
   <div ng-if="!ctlPostCard.addOn">
     <div class="circ ng-class:{'blue' : ctlPostCard.post.isReplyed, 'green' : ctlPostCard.post.isForwarded}"></div>
   </div>
@@ -271,6 +274,7 @@
   </div>
 
 </div>
+
 <div class="card-control" affix-post ng-if="!ctlPostCard.chainView">
 
   <svg class="_16svg" ng-click="ctlPostCard.markAsRead();ctlPostCard.expand();" ng-if="!ctlPostCard.expandProgress && !ctlPostCard.post.read">
