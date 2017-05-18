@@ -92,9 +92,10 @@
                 post.bodyIsTrivial = false;
                 NstSvcPostStorage.set(post.id, post);
                 defer.resolve(post);
-              }).catch(function (error) {
-              defer.reject(error);
-            });
+              })
+              .catch(function (error) {
+                defer.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+              });
 
           }
         }

@@ -11,13 +11,19 @@
         </div>
         <a ng-if="ctlPost.hasOlder" ng-click="ctlPost.loadMore();">load older chain</a>
       </div>
-      <div class="_fw _jcc _df _fh _aic _difh nst-mood-cheerful no-gutter ng-scope"  ng-if="ctlPost.expandProgress">
+      <div class="_fw _jcc _df _fh _aic _difh nst-mood-cheerful no-gutter ng-scope" ng-if="ctlPost.expandProgress">
         <div class="col-xs-6">
           <div class="nst-loading nst-loading-size-16  _fr"></div>
         </div>
         <div class="col-xs-6 nst-marginbtm-4">
           <translate>Loading...</translate>
         </div>
+      </div>
+
+      <div ng-if="!ctlPost.expandProgress && !ctlPost.messages" class="nst-margin-24">
+        <p class="text-center nst-mood-storm">
+          <translate>No messages found!</translate>
+        </p>
       </div>
       <div class="_fw">
         <a ng-if="ctlPost.chainStack.length > 1" class="_df post-back" ng-click="ctlPost.backToChain()">
