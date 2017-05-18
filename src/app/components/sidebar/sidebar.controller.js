@@ -191,6 +191,7 @@
         vm.selectedGrandPlace = _.find(vm.places, function (place) {
           return place.id === $stateParams.placeId.split('.')[0];
         });
+
       }
 
     }).catch(function (error) {
@@ -548,8 +549,8 @@
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.UPDATE, function (event) {
       NstSvcPlaceFactory.updatePlaceInTree(vm.places, mapPlace(event.detail.place));
       var place = mapPlace(event.detail.place);
-      if (place.id === $stateParams.placeId) {
-        vm.selectedGrandPlace = mapPlace(event.detail.place);
+      if ($stateParams.placeId && place.id === $stateParams.placeId.split('.')[0]) {
+        vm.selectedGrandPlace = place;
       }
     });
 

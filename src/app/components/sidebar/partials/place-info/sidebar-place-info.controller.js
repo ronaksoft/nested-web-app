@@ -30,8 +30,10 @@
       vm.loading = true;
       vm.children = [];
 
+
+
       if (vm.grandPlace) {
-        var grandPlaceId = vm.grandPlace.id;
+        var grandPlaceId = $stateParams.placeId.split('.')[0];
 
         NstSvcPlaceFactory.getFavoritesPlaces()
           .then(function (list) {
