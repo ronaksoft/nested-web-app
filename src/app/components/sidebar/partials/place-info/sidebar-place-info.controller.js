@@ -32,7 +32,7 @@
 
 
 
-      if (vm.grandPlace) {
+      if (vm.grandPlace && $stateParams.placeId) {
         var grandPlaceId = $stateParams.placeId.split('.')[0];
 
         NstSvcPlaceFactory.getFavoritesPlaces()

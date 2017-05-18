@@ -119,7 +119,7 @@
 
 
         vm.post.placesWithRemoveAccess = _.map(NstSvcPlaceFactory.filterPlacesByRemovePostAccess(resolvedSet[1].places), 'id');
-        vm.hasRemoveAccess = _.size(vm.placesWithRemoveAccess) > 0;
+        vm.hasRemoveAccess = _.size(vm.post.placesWithRemoveAccess) > 0;
 
         // TODO: Optimize (get accessses instead of a place object which has more cost)
         checkHasManagerAccess(_.map(vm.post.places, 'id'));
