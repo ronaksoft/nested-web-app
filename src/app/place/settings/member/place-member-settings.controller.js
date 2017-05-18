@@ -229,23 +229,23 @@
           return $q(function (resolve, reject) {
             var command = vm.isGrandPlace ? 'inviteUser' : 'addUser';
             NstSvcPlaceFactory[command](vm.place, role, user).then(function (invitationId) {
-              if(invitationId == undefined) {
-                  failedRes.push(user.id);
-                  resolve({
-                    user: user,
-                    role: role,
-                    invitationId: invitationId,
-                    duplicate: true
+              if (invitationId == undefined) {
+                failedRes.push(user.id);
+                resolve({
+                  user: user,
+                  role: role,
+                  invitationId: invitationId,
+                  duplicate: true
 
-                  });
-                }else {
-                  successRes.push(user.id);
-                  resolve({
-                    user: user,
-                    role: role,
-                    invitationId: null,
-                  });
-                }
+                });
+              } else {
+                successRes.push(user.id);
+                resolve({
+                  user: user,
+                  role: role,
+                  invitationId: null,
+                });
+              }
             }).catch(function (error) {
               failedRes.push(user.id);
 
@@ -419,10 +419,15 @@
       });
     }
 
-    function remove() {
-      var members = getSelectedMembers();
+    function remove(userId) {
+      var members;
+      if (userId) {
+        members = [userId]
+      } else {
+        members = getSelectedMembers();
+      }
       var message = null;
-      console.log(members)
+
       if (members.length === 1) {
         message = NstUtility.string.format(NstSvcTranslation.get('Are you sure to remove {0}?'), members[0].fullName);
       } else if (members.length > 1) {
