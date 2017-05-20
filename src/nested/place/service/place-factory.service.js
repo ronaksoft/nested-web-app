@@ -667,15 +667,22 @@
 
     };
 
-    PlaceFactory.prototype.inviteUser = function (place, role, user) {
+    PlaceFactory.prototype.inviteUser = function (place, role, users) {
 
-      var id = place.id + '-' + user.id + '-' + role;
+      var userIds;
+      if (_.isArray(users)) {
+        userIds = _.map(users, 'id');
+      } else {
+        userIds = [users.id];
+      }
+
+      var id = place.id + '-' + userIds.join('-') + '-' + role;
 
       return this.sentinel.watch(function () {
         var deferred = $q.defer();
         var query = new NstFactoryQuery(id, {
           placeId: place.id,
-          userId: user.id,
+          userId: userIds.join(','),
           role: role
         });
 

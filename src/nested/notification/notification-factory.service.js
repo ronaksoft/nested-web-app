@@ -358,16 +358,13 @@
     }
 
     function parseComment(notif) {
-      
       var defer = $q.defer();
       var commentProm = NstSvcCommentFactory.getComment(notif.comment_id, notif.post_id);
       var postProm = NstSvcPostFactory.get(notif.post_id);
 
       if (notif.data && notif.data.others) {
         var countOfMappeedUsers = 1;
-        var otherUsers = _.uniqBy(notif.data.others);
-        otherUsers = _.remove(otherUsers, notif.actor_id);
-        var users = $q.all(_.map(otherUsers, function (user) {
+        var users = $q.all(_.map(notif.data.others.splice(1, 4), function (user) {
           countOfMappeedUsers++;
           return NstSvcUserFactory.getTiny(user)
         }));
@@ -427,7 +424,7 @@
             date: new Date(data.timestamp),
             actor: values[0],
             type: data.type,
-            from: data._cid.split("_").join(" ")
+            from : data._cid.split("_").join(" ")
           });
       }).catch(function () {
         deferred.resolve({id: data._id, data: null});

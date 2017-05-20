@@ -62,6 +62,7 @@
       }
     return vm.isConvMode = false;
     }
+
     function isSearch() {
       if ($state.current.name == 'app.search') {
         return vm.isSearchMode = true;
@@ -77,8 +78,6 @@
       }
       $event.preventDefault();
     };
-
-
 
     function openAddMemberModal($event) {
       $event.preventDefault();
@@ -199,7 +198,6 @@
       return !!vm.placeId;
     }
 
-
     function getMessagesUrl() {
       if (hasPlace()) {
         return $state.href('app.place-messages', {placeId: vm.getPlaceId()});
@@ -223,6 +221,7 @@
         return $state.href('app.activity');
       }
     }
+
     function getSettingsUrl() {
       if (hasPlace()) {
         return $state.href('app.place-settings', { placeId : vm.getPlaceId() });
@@ -230,11 +229,13 @@
         return '';
       }
     }
+
     function rollUpward(group) {
       if (group === $state.current.options.group) {
         vm.rollToTop = true;
       }
     }
+
     function isBookMark() {
       if ($state.current.name == 'app.messages-favorites' ||
         $state.current.name == 'app.messages-favorites-sorted'){
@@ -455,14 +456,15 @@
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.NOTIFICATION_OFF, function (e) {
       if (e.detail.id === vm.placeId) vm.notificationStatus= false;
     });
-
-
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.UPDATE, function (event) {
-      if( event.detail.id === vm.place.id ) {
-        vm.place = event.detail.place;
-      }
+      if (getPlaceId() == event.detail.place.id ) {
+      NstSvcPlaceFactory.get(event.detail.place.id).then(function (place) {
+        vm.place = place;
+        });
 
+      }
     });
+
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.PICTURE_CHANGE, function (event) {
       NstSvcPlaceFactory.get(event.detail.place.id).then(function (place) {
         vm.place = place;
