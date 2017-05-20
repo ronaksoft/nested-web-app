@@ -44,7 +44,6 @@
           var top = $element[0].offsetTop + $element.parent()[0].offsetTop + 58 || 0;
 
           topOffset = top - parseInt($attrs.top);
-console.log($element,$element.offset().left,$element.outerWidth(),$element.parent().offset().left)
           var offLeft = $element.offset().left || 0;
 
           // if($attrs.parentMode) offLeft = $element.parent().offset().left;

@@ -20,7 +20,7 @@ post-card {
     position: absolute;
     top: 8px;
     right: 0;
-    transform: translateX(100%);
+    transform: translate3d(100%,0,0);
     border-radius: 0 4px 4px 0;
     background-color: #F0F0F0;
     border: 1px solid rgba(0, 0, 0, .04);
@@ -47,7 +47,7 @@ post-card {
     position: absolute;
     top: 0;
     left: 0;
-    transform: translateX(-100%);
+    transform: translate3d(-100%,0,0);
     border-radius: 0 4px 4px 0;
     border-left: 1px solid $color-border;
     flex-direction: column;
@@ -59,7 +59,7 @@ post-card {
       display: inline-flex;
       justify-content: flex-start;
       align-items: center;
-      transform: translateX(-100%);
+      transform: translate3d(-100%,0,0);
       > * {
         direction: ltr;
         display: inline-table;
@@ -69,13 +69,13 @@ post-card {
       white-space: nowrap;
     }
     svg {
-      transform: translateX(50%);
+      transform: translate3d(50%,0,0);
       width: 16px;
       height: 16px;
       flex: none;
     }
     .circ {
-      transform: translateX(50%);
+      transform: translate3d(50%,0,0);
       display: flex;
       width: 12px;
       height: 12px;
@@ -91,7 +91,7 @@ post-card {
       }
     }
     .squ {
-      transform: translateX(50%);
+      transform: translate3d(50%,0,0);
       width: 12px;
       height: 12px;
       background-color: #DBDBDB;
@@ -104,7 +104,7 @@ post-card {
     width: 24px;
     left: 0;
     top: 24px;
-    transform: translateX(-100%);
+    transform: translate3d(-100%,0,0);
     display: flex;
     align-items: center;
     flex-direction: column;
