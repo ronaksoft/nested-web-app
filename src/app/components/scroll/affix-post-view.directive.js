@@ -44,10 +44,10 @@
           var top = $element[0].offsetTop + $element.parent()[0].offsetTop + 58 || 0;
 
           topOffset = top - parseInt($attrs.top);
+console.log($element,$element.offset().left,$element.outerWidth(),$element.parent().offset().left)
+          var offLeft = $element.offset().left || 0;
 
-          var offLeft = $element.offset().left - $element.outerWidth() || 0;
-
-          if($attrs.parentMode) offLeft = $element.parent().offset().left;
+          // if($attrs.parentMode) offLeft = $element.parent().offset().left;
 
           var height = $element.outerHeight();
           var width = $element.outerWidth();
@@ -89,6 +89,7 @@
             $element.css('right', '');
             $element.css('width', '');
             $element.css('height', '');
+            $element.css('transform', '');
           }
 
 
@@ -100,6 +101,7 @@
               if (isRTL == 'rtl')$element.css('left', offLeft + 'px');
               if(!dontSetWidth) $element.css('width', actualWidth + 'px');
               $element.css('height', height + 'px');
+              $element.css('transform', 'none');
               fixed = true;
             } else if (fixed && container[0].scrollTop < topOffset ) {
               removeFix();
