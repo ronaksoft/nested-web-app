@@ -11,7 +11,8 @@
     .state('app.place-settings', {
       url: '/places/:placeId/settings',
       params: {
-        placeId: NST_DEFAULT.STATE_PARAM
+        placeId: NST_DEFAULT.STATE_PARAM,
+        tab : 'info'
       },
       onEnter: ['$rootScope', '$stateParams', '$state', '$uibModal', '$uibModalStack', function($rootScope, $stateParams, $state, $uibModal, $uibModalStack) {
         $uibModalStack.dismissAll();

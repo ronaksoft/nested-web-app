@@ -42,7 +42,9 @@
 
     (function() {
       vm.placeId = $stateParams.placeId;
+      vm.tab = $stateParams.tab || 'info';
       vm.user = NstSvcAuth.user;
+      $scope.selectedView = vm.tab === 'members' ? 1 : 0;
 
       // do not allow user to view her personal place settings
       // and redirect her to Profile Settings page instead
