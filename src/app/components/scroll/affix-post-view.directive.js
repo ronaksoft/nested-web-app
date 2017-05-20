@@ -28,7 +28,7 @@
           $scope.$watch(function(){
             return $scope.$parent.$parent.$parent.affixObserver;
           },function(){
-            return $timeout(function(){applier(),1000});
+            return $timeout(function(){applier()},500);
           });
         }
 
