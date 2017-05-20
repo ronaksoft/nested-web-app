@@ -99,7 +99,7 @@
   transform-origin: 50% 50%;
 }
 ._r90 {
-  transform: rotateZ(90deg);
+  transform: rotateZ(90deg) rotateX(0) rotateY(0);
   transform-origin: 50% 50%;
 }
 ._r-90 {
