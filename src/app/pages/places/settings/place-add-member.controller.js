@@ -66,11 +66,13 @@
             && _.indexOf(query, " ") === -1
             && !_.some(vm.users, { id : query })) {
 
-            var initProfile = NstSvcUserFactory.parseTinyUser({
-              _id: settings.query,
-              fname: settings.query,
-            });
-            vm.users.push(initProfile);
+            if (vm.isGrandPlace || isForGrandPlace) {
+              var initProfile = NstSvcUserFactory.parseTinyUser({
+                _id: settings.query,
+                fname: settings.query,
+              });
+              vm.users.push(initProfile);
+            }
 
           }
           vm.query = query;

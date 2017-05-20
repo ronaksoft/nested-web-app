@@ -116,7 +116,7 @@
                         var uniquePlaces = _.unionBy(places, 'id');
                         var items = [];
                         _.map(uniquePlaces, function (item) {
-                          var obj = new NstVmUser(item);
+                          var obj = new NstVmPlace(item);
 
                           items.push({
                             id: obj.id,

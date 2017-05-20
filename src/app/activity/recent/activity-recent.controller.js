@@ -6,7 +6,7 @@
     .controller('RecentActivityController', RecentActivityController);
 
   /** @ngInject */
-  function RecentActivityController($q, _, $scope,
+  function RecentActivityController($q, _, $scope, $stateParams,
     NstSvcActivityFactory, NstSvcActivityMap, NstSvcServer, NstSvcLogger, NstSvcWait,
     NstSvcPlaceFactory, NST_ACTIVITY_FACTORY_EVENT, NST_PLACE_ACCESS, NstSvcSync, NST_SRV_EVENT, NST_EVENT_ACTION) {
     var vm = this;
@@ -17,14 +17,15 @@
     };
     vm.settings = {
       limit: vm.count || 10,
-      placeId: null
+      placeId: $stateParams.placeId,
     };
 
     (function () {
+      //
+      // if (vm.placeId || vm.place) {
+      //   vm.settings.placeId = vm.placeId || (vm.place ? vm.place.id : null);
+      // }
 
-      if (vm.placeId || vm.place) {
-        vm.settings.placeId = vm.placeId || (vm.place ? vm.place.id : null);
-      }
 
       if (vm.settings.placeId) {
 
@@ -94,13 +95,11 @@
     }
 
     function activityBelongsToPlace(activity) {
-      if (!vm.placeId) {
-        return true;
-      } else if (activity.place) {
-        return activity.place.id === vm.placeId;
+      if (activity.place) {
+        return activity.place.id === vm.settings.placeId;
       } else if (activity.post) {
         return _.some(activity.post.places, function (place) {
-          return place.id === vm.placeId;
+          return place.id === vm.settings.placeId;
         });
       }
 
