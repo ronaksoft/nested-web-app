@@ -6,7 +6,7 @@
     .controller('placeTeammatesController', placeTeammatesController);
 
   /** @ngInject */
-  function placeTeammatesController($scope, $q, $stateParams, $uibModal, toastr, _, $rootScope,
+  function placeTeammatesController($scope, $q, $state, $stateParams, $uibModal, toastr, _, $rootScope,
                                     NstSvcPlaceFactory, NstUtility, NstSvcAuth, NstSvcUserFactory, NstSvcTranslation, NstSvcWait,
                                     NstVmMemberItem, NST_SRV_ERROR, NST_NOTIFICATION_TYPE, NstEntityTracker,
                                     NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NstSvcLogger) {
@@ -19,6 +19,7 @@
 
     vm.hasAddMembersAccess = false;
     vm.hasSeeMembersAccess = false;
+    vm.openMemberModal = openMemberModal;
     vm.loading = false;
     vm.teammates = [];
 
@@ -129,6 +130,10 @@
         vm.loading = false;
       });
       // });
+    }
+
+    function openMemberModal() {
+      $state.go('app.place-settings', { placeId : vm.placeId, tab : 'members' }, { notify : false });
     }
 
     function showAddModal(role) {
@@ -318,7 +323,7 @@
 
       } else {
         deferred.resolve([]);
-      }
+      } 
 
       return deferred.promise;
     }
