@@ -75,7 +75,7 @@
            ng-if="!ctlPostCard.loading && ctlPostCard.post.body.length > 0 && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)"
            auto-dir="ctlPostCard.post.body">
 
-    <div ng-if="!ctlPostCard.isExpanded" class="_fw">
+    <div ng-if="!ctlPostCard.isExpanded && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)" class="_fw">
       <span ng-bind-html="ctlPostCard.post.body |trustAsHtml"></span>
       <a ng-click="ctlPostCard.expand(); _track('post card', 'show more');"
          ng-if="(!ctlPostCard.expandProgress && ctlPostCard.post.ellipsis && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled) && !ctlPostCard.addOn) && !ctlPostCard.isExpanded"
@@ -84,7 +84,7 @@
         <translate>Show more...</translate>
       </a>
     </div>
-    <div ng-if="ctlPostCard.isExpanded" class="_fw">
+    <div ng-if="ctlPostCard.isExpanded && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)" class="_fw">
 
       <div mail-resizer ng-if="ctlPostCard.isExpanded && !ctlPostCard.post.trusted "
            ng-bind-html="ctlPostCard.body | trustAsHtml"></div>
@@ -92,7 +92,7 @@
            ng-bind-html="ctlPostCard.body | trustAsHtml"></div>
     </div>
   </section>
-  <section ng-if="ctlPostCard.isExpanded">
+  <section ng-if="ctlPostCard.isExpanded && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
     <div
       ng-if="(!ctlPostCard.expandProgress && ctlPostCard.post.ellipsis && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled) && !ctlPostCard.addOn) && ctlPostCard.isExpanded">
       <a ng-click="ctlPostCard.collapse($event); _track('post card', 'show less');"
