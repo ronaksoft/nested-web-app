@@ -176,7 +176,7 @@
         if (vm.post.trusted || Object.keys(post.resources).length == 0) {
           showTrustedBody();
         }
-
+        ++$scope.$parent.$parent.affixObserver;
         SvcCardCtrlAffix.change();
       }).catch(function (error) {
         toastr.error(NstSvcTranslation.get('An error occured while tying to show the post full body.'));
