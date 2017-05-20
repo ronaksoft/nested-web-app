@@ -373,11 +373,14 @@
     left: 0;
     opacity: 0;
     transition: opacity $animation-dur;
+    animation: modal-dialog2 .01s ease $animation-dur forwards ;
+    // animation: modal-dialog 2s ease 3s reverse forwards ;
     svg {
       fill: $color-white;
     }
     &.vis {
-      transform: scaleY(1);
+      // transform: scaleY(1);
+      animation: modal-dialog .01s ease 0s forwards ;
       opacity: 1
     }
   }
@@ -385,7 +388,7 @@
     top:0; 
     background: linear-gradient(to top, rgba(20,20,20,.8), #141414);
     background: -webkit-linear-gradient(bottom, rgba(20,20,20,0.8) 0%,#141414 100%);
-    transform: scaleY(0);    
+    transform-origin: top;
     svg {
       transform: rotateZ(180deg)
     }
@@ -394,7 +397,7 @@
     bottom:0;
     background: linear-gradient(to bottom, rgba(20,20,20,.8), #141414);
     background: -webkit-linear-gradient(top, rgba(20,20,20,0.8) 0%,#141414 100%);
-    transform: scaleY(0);    
+    transform-origin: bottom;   
   }
   a{
     text-decoration: none;

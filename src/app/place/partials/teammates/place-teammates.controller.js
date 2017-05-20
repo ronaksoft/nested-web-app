@@ -201,15 +201,24 @@
               });
             } else {
               NstSvcPlaceFactory.addUser(vm.place, role, user).then(function (addId) {
-                console.log('sucsess', user.id)
+                var duplicate = false;
 
-                successRes.push(user.id);
+                for (var i = 0; i < vm.teammates.length; i++) {
+                  if ( vm.teammates[i].id == addId.id ) duplicate = true;
+                }
 
-                resolve({
-                  user: user,
-                  role: role,
-                  invitationId: addId
-                });
+                if(duplicate) {
+                    failedRes.push(user.id);
+                    resolve({
+                      duplicate: true
+                    });
+                  } else {
+                    successRes.push(user.id);
+                    resolve({
+                      invitationId: addId
+                    });
+                  }
+
               }).catch(function (error) {
 
                 // FIXME: Why cannot catch the error!

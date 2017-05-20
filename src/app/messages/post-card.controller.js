@@ -41,6 +41,8 @@
     vm.viewFull = viewFull;
     vm.setBookmark = setBookmark;
     vm.unreadCommentsCount = 0;
+
+    $scope.$parent.$parent.affixObserver = 1;
     vm.loadNewComments = loadNewComments;
     vm.attachPlace = attachPlace;
     vm.seenBy = seenBy;
@@ -426,11 +428,11 @@
         }
       });
     });
-
     function switchToPostCard() {
       // tells the parent scope to open me
       var reference = $scope.$emit('post-chain-expand-me', {postId: vm.post.id});
       pageEventReferences.push(reference);
+      ++$scope.$parent.$parent.affixObserver;
     }
 
     function onAddComment() {

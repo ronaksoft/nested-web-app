@@ -98,6 +98,14 @@
       return this.log.apply(this, args);
     };
 
+    Logger.prototype.debug4 = function () {
+      var args = Array.prototype.slice.call(arguments);
+      args.unshift(4);
+      args.unshift(NST_LOG_TYPE.DEBUG);
+
+      return this.log.apply(this, args);
+    };
+
     return new Logger(NST_CONFIG.LOG);
   }
 })();
