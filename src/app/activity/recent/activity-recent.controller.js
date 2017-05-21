@@ -6,12 +6,13 @@
     .controller('RecentActivityController', RecentActivityController);
 
   /** @ngInject */
-  function RecentActivityController($q, _, $scope,
+  function RecentActivityController($q, _, $scope, $state, $stateParams,
     NstSvcActivityFactory, NstSvcActivityMap, NstSvcServer, NstSvcLogger, NstSvcWait,
     NstSvcPlaceFactory, NST_ACTIVITY_FACTORY_EVENT, NST_PLACE_ACCESS, NstSvcSync, NST_SRV_EVENT, NST_EVENT_ACTION) {
     var vm = this;
     var eventListeners = [];
     vm.activities = [];
+    vm.openActivity = openActivity;
     vm.status = {
       loadInProgress: true
     };
@@ -19,6 +20,8 @@
       limit: vm.count || 10,
       placeId: null
     };
+
+    vm.placeId = $stateParams.placeId;
 
     (function () {
 
@@ -57,7 +60,9 @@
       });
     });
 
-
+    function openActivity() {
+      $state.go('app.place-activity', { placeId : $stateParams.placeId });
+    }
     function getRecentActivity(settings) {
 
       var defer = $q.defer();
