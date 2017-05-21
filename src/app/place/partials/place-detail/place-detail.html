@@ -1,0 +1,17 @@
+ <div>
+  <div class="user-avatar-bg">
+    <div class="blur-image">
+      <div style="background-image: url('{{place | picture : 'x128'}}')"></div>
+    </div>
+    <div class="place-avatar-72">
+      <img initial-avatar="{{place.id}}" name="{{place.name}}" picture="{{place | picture : 'x128'}}" data-width="72"
+           data-height="72"
+           data-radius="6" class="_df" data-word-count="2" data-font-size="16"/>
+    </div>
+  </div>
+  <div class="user-data">
+    <h4>{{::place.name}}</h4>
+    <span><span ng-if="!isEmail">#</span>{{::place.id}}</span>
+  </div>
+
+</div>

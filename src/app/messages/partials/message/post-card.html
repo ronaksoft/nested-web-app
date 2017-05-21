@@ -120,7 +120,7 @@
   <section class="post-places" ng-if="(!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
     <translate class="places-label" ng-if="ctlPostCard.post.places.length > 0">shared with:</translate>
     <span data-ng-repeat="place in ctlPostCard.post.places" dir="ltr">
-        <a ui-sref="app.place-messages({ placeId : place.id })">
+        <a ui-sref="app.place-messages({ placeId : place.id })" place-detail="place.id">
           #{{::place.name}}
         </a>
     </span>
