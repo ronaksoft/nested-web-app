@@ -23,6 +23,9 @@
             $scope.place = place;
           });
 
+          // All subplaces of person shoould not available
+          $scope.isAvailable = true ;
+
           $scope.openOver = function () {
             return false
           };
