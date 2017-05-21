@@ -18,16 +18,16 @@
     };
     vm.settings = {
       limit: vm.count || 10,
-      placeId: null
+      placeId: $stateParams.placeId,
     };
 
-    vm.placeId = $stateParams.placeId;
 
     (function () {
+      //
+      // if (vm.placeId || vm.place) {
+      //   vm.settings.placeId = vm.placeId || (vm.place ? vm.place.id : null);
+      // }
 
-      if (vm.placeId || vm.place) {
-        vm.settings.placeId = vm.placeId || (vm.place ? vm.place.id : null);
-      }
 
       if (vm.settings.placeId) {
 
@@ -61,7 +61,7 @@
     });
 
     function openActivity() {
-      $state.go('app.place-activity', { placeId : $stateParams.placeId });
+      $state.go('app.place-activity', { placeId : vm.settings.placeId });
     }
     function getRecentActivity(settings) {
 
@@ -99,13 +99,11 @@
     }
 
     function activityBelongsToPlace(activity) {
-      if (!vm.placeId) {
-        return true;
-      } else if (activity.place) {
-        return activity.place.id === vm.placeId;
+      if (activity.place) {
+        return activity.place.id === vm.settings.placeId;
       } else if (activity.post) {
         return _.some(activity.post.places, function (place) {
-          return place.id === vm.placeId;
+          return place.id === vm.settings.placeId;
         });
       }
 
