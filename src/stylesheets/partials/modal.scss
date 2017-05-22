@@ -498,7 +498,8 @@ body.modal-open {
       background-color: $color-white;
       max-width: 480px;
       min-height: 100vh;
-      margin: 0 auto;
+      left: 50%;
+      transform: translate3d(-50%,0,0);
       position: relative;
       padding: 0 32px;   
       width: 100%;
