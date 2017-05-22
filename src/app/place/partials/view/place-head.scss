@@ -2,10 +2,15 @@
   height: 128px;
   justify-content: center;
   display: flex;
-  width: calc(100% + 64px);
-  margin-left: -32px;
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translate3d(-50%,0,0);
+  max-width: 480px;
+  width: 100%;
   margin-bottom: 80px;
+  background-color: $color-white;
+  z-index: 12;
   .logo-holder {
     display: flex;
     transform: translateY(50%);
@@ -167,4 +172,18 @@
       }
     }
   }
+}
+.place-head-holder {
+  height: 188px;
+  width: 100%;
+}
+.place-head-holder-2 {
+  position: fixed;
+  z-index: 11;
+  width: 480px;
+  height: 64px;
+  background-color: $color-white;
+  left: 50%;
+  transform: translate3d(-50%,0,0);
+  top: 128px;
 }

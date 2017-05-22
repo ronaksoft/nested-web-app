@@ -351,7 +351,7 @@
       if (e.which == 13) {
         NstSvcLogger.debug4('Compose | User pressed Enter on subject and focus will goes on the compose body');
         e.preventDefault();
-        $window.CKEDITOR.instances.composeEditor.focus();
+        $window.CKEDITOR.instances[Object.keys(CKEDITOR.instances)[0]].focus();
       }
     };
 

@@ -18,6 +18,7 @@
           //hide tips
           dissappear($element.find('.tooltip'));
           dissappear($element.find('.popover-userdetail'));
+          dissappear($element.find('.popover-placedetail'));
 
           if(e.currentTarget.pageYOffset > scrollOff && e.currentTarget.pageYOffset < scrollPos){
             $('body').addClass('scrolled')
