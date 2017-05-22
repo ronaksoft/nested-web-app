@@ -31,7 +31,7 @@
       vm.children = [];
 
 
-      if (vm.grandPlace && $stateParams.placeId) {
+      if ($stateParams.placeId) {
         var grandPlaceId = $stateParams.placeId.split('.')[0];
 
         NstSvcPlaceFactory.getFavoritesPlaces()
@@ -59,9 +59,9 @@
       vm.currentPlaceId = $stateParams.placeId;
     });
 
+    Initializing();
 
     $scope.$watch(function () {
-      console.log('$stateParams.placeId', vm.grandPlace);
       if ($stateParams.placeId) {
         return $stateParams.placeId.split('.')[0];
       } else {
