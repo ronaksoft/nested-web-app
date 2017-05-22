@@ -16,12 +16,21 @@
           placeId: '=placeDetail'
         },
         link: function ($scope, $element, $attrs) {
-          $scope.isEmail = NST_PATTERN.EMAIL.test($scope.placeId);
+          console.log($scope, $element, $attrs);
+          var dd = $scope.placeId;
+          
+          // $scope.isEmail = NST_PATTERN.EMAIL.test($scope.placeId);
 
-          NstSvcPlaceFactory.get($scope.placeId)
-          .then(function (place) {
-            $scope.place = place;
-          });
+
+          (function(){
+                      console.log(dd);
+
+            NstSvcPlaceFactory.get(dd)
+              .then(function (place) {
+                console.log('place',place);
+                $scope.place = place;
+              });
+          })();
 
           // All subplaces of person shoould not available
           $scope.isAvailable = true ;
@@ -30,7 +39,7 @@
             return false
           };
 
-          $element.addClass('on-avatar');
+
 
           $scope.openOverEnable = function () {
 
@@ -104,12 +113,11 @@
           };
 
           $scope.viewContact = function () {
-            if ($scope.isAvailable && !NST_PATTERN.EMAIL.test($scope.user.id)) {
+            if ($scope.isAvailable) {
               $timeout.cancel($scope.timer);
               $timeout.cancel($scope.timer2);
               $timeout.cancel($scope.timer3);
               $scope.deletePopoversAll();
-              $state.go('app.contacts', { contactId: $scope.user.id }, { notify: false });
             }
           }
         }
