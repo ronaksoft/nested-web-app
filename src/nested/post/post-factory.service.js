@@ -94,7 +94,12 @@
                 defer.resolve(post);
               })
               .catch(function (error) {
-                defer.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+                console.log(error);
+                if (error) {
+                  defer.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+                } else {
+                  defer.reject();
+                }
               });
 
           }
