@@ -16,18 +16,12 @@
           placeId: '=placeDetail'
         },
         link: function ($scope, $element, $attrs) {
-          console.log($scope, $element, $attrs);
           var dd = $scope.placeId;
-          
+
           // $scope.isEmail = NST_PATTERN.EMAIL.test($scope.placeId);
-
-
           (function(){
-                      console.log(dd);
-
             NstSvcPlaceFactory.get(dd)
               .then(function (place) {
-                console.log('place',place);
                 $scope.place = place;
               });
           })();
