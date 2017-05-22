@@ -15,7 +15,7 @@
     <use xlink:href="/assets/icons/nst-icn16.svg#favedplace"></use>
   </svg>
   <a dbl-click="{{place.children.length > 0}}" href="{{place.href}}" ng-dblclick="place.collapse =! place.collapse"
-     ng-class="{ isSelected : ctlPlaceInfo.currentPlaceId == place.id }" place-detail="place.id">
+     ng-class="{ isSelected : ctlPlaceInfo.currentPlaceId == place.id }">
       <span class="_txe _dib">{{ place.name }}</span>
       <b class="_df _fn" ng-if="ctlPlaceInfo.placesNotifCountObject[place.id] > 0">&nbsp;{{ctlPlaceInfo.placesNotifCountObject[place.id] | localize}}</b>
     </a>
