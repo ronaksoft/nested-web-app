@@ -298,11 +298,9 @@ body[dir="rtl"] {
     padding-right: 0;
     padding-left: 16px;
   }
-  .post-card .post-places a {
+  .post-places > span {
     margin-right: 0;
     margin-left: 16px;
-    padding-left: 0;
-    padding-right: 4px;
   }
   nst-attachments-preview-bar ul.badge-bar a.attach-badge-default {
     .badge-name {

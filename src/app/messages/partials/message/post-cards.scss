@@ -396,10 +396,25 @@ post-card {
   margin: 8px 0;
   flex-wrap: wrap;
   .places-label {
-    font-size: 14px;
-    line-height: 24px;
+    font-size: 11px;
+    line-height: 32px;
     margin-right: 16px  ;
-    color: $color-breeze;
+    color: $color-solid;
+    &:hover {
+      box-shadow: none;
+    }
+  }
+  > span {
+    background-color: white;
+    border-radius: 4px;
+    line-height: 32px;
+    margin-right: 16px;
+    &:hover {
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.24);
+      a {
+        color: $color-solid;
+      }
+    }
   }
   a {
     display: inline;
@@ -408,18 +423,19 @@ post-card {
     line-height: 24px;
     white-space: nowrap;
     padding-left: 4px;
-    margin-right: 12px;
+    padding-right: 4px;
   }
   svg {
+    display: none;
     opacity: 0;
     margin: -4px 4px -3px -4px;
     fill: $color-force;
   }
   .del-access {
-    border-radius: 4px;
+    svg {
+      display: block;
+    }
     &:hover {
-      font-size: 14px;
-      box-shadow: 0 0 28px -4px rgba(0, 0, 0, 0.75);
       svg {
         opacity: 1;
       }
