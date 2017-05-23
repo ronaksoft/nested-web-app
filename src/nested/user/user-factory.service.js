@@ -47,6 +47,7 @@
               'account_id': query.id
             }).then(function (userData) {
               var user = factory.parseUser(userData);
+              console.log(user);
               NstSvcUserStorage.set(query.id, user);
               resolve(user);
             }).catch(function (error) {
@@ -285,6 +286,7 @@
       user.lastName = userData.lname || '';
       user.fullName = user.getFullName();
       user.phone = userData.phone;
+      user.limits = userData.limits;
       user.country = userData.country;
       user.dateOfBirth = userData.dob;
       user.gender = userData.gender;

@@ -504,6 +504,12 @@ body[dir="rtl"] {
     margin-left: 0;
     margin-right: 16px;
   }
+  .modal-lg-white .modal-content>div {
+    right: 50%;
+    margin-right: -240px;
+    left: 0;
+    margin-left: 0;
+  }
   .remove-from-places span {
     padding-right: 0;
     padding-left: 16px;
