@@ -151,17 +151,14 @@
       }
     }
 
-    function openCreatePlaceModal($event) {
-      $event.preventDefault();
-      if( createGrandPlaceLimit > 0 ) {
+    function openCreatePlaceModal() {
+      if( vm.createGrandPlaceLimit > 0 ) {
         $state.go('app.place-create', {}, {notify: false});
       } else {
         $uibModal.open({
           animation: false,
           size: 'sm',
-          templateUrl: 'app/components/sidebar/invitation/decide-modal.html',
-          controller: 'InvitationController',
-          controllerAs: 'ctrlInvitation'
+          templateUrl: 'app/place/create/modals/create-place-no-access.html'
         });
       }
     }
