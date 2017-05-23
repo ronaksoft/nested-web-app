@@ -127,7 +127,7 @@ post-card {
   .icon .reed,
   .icon .fwed {
     svg {
-      fill: #a6b9af;
+      fill: $color-breeze;
     }
   }
   &:hover {
@@ -397,10 +397,10 @@ post-card {
   margin: 8px 0;
   flex-wrap: wrap;
   .places-label {
-    font-size: 11px;
+    font-size: 14px;
     line-height: 32px;
-    margin-right: 16px  ;
-    color: $color-solid;
+    margin-right: 16px;
+    color: $color-breeze;
     &:hover {
       box-shadow: none;
     }

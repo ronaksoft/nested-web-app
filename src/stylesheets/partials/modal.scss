@@ -336,7 +336,8 @@ body.modal-open {
 }
 @media screen and ( max-height: 400px ){
   .modal-lg-white .modal-content > div {
-    margin-left: 0; 
+    margin-left: 0;
+    left: 0
   }
   .modal .modal-compose {
     height: 100%;
