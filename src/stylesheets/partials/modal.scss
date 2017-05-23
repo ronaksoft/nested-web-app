@@ -502,7 +502,7 @@ body.modal-open {
       max-width: 480px;
       min-height: 100vh;
       left: 50vw;
-      transform: translate3d(-50%,0,0);
+      margin-left: -240px;
       position: relative;
       padding: 0 32px;
       width: 100%;
