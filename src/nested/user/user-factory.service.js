@@ -47,7 +47,6 @@
               'account_id': query.id
             }).then(function (userData) {
               var user = factory.parseUser(userData);
-              console.log(user);
               NstSvcUserStorage.set(query.id, user);
               resolve(user);
             }).catch(function (error) {

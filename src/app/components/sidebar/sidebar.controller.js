@@ -6,7 +6,7 @@
     .controller('SidebarController', SidebarController);
 
   /** @ngInject */
-  function SidebarController($q, $scope, $state, $stateParams, $uibModal, $window, $rootScope,
+  function SidebarController($q, $scope, $state, $stateParams, $uibModal, $window, $rootScope, $timeout,
                              _,
                              NST_DEFAULT, NST_AUTH_EVENT, NST_INVITATION_FACTORY_EVENT, NST_PLACE_FACTORY_EVENT, NST_CONFIG,
                              NST_EVENT_ACTION, NST_USER_FACTORY_EVENT, NST_POST_FACTORY_EVENT, NST_NOTIFICATION_FACTORY_EVENT, NST_SRV_EVENT, NST_NOTIFICATION_TYPE,
@@ -27,8 +27,10 @@
     vm.onPlaceClick = onPlaceClick;
     vm.togglePlace = togglePlace;
     vm.isOpen = false;
+    vm.createGrandPlaceLimit = 0;
     vm.mentionOpen = vm.profileOpen = false;
     vm.openCreatePlaceModal = openCreatePlaceModal;
+    vm.mapLimits = mapLimits;
 
     /*****************************
      ***** Controller Methods ****
@@ -53,6 +55,7 @@
     };
 
     vm.isUnread();
+    mapLimits();
 
     vm.invitation.accept = function (id) {
       return NstSvcInvitationFactory.accept(id);
@@ -406,6 +409,12 @@
      *****************************/
 
 
+    function mapLimits() {
+      NstSvcUserFactory.get(vm.user.id,true).then(function(person){
+        vm.createGrandPlaceLimit = person.limits.grand_places;
+      });
+    }
+
     function mapPlace(placeModel, depth) {
       return new NstVmPlace(placeModel, depth);
     }
@@ -526,6 +535,7 @@
       }
       vm.places.push(place);
       vm.placesNotifCountObject[place.id] = 0;
+      vm.mapLimits();
       $rootScope.$emit('init-controls-sidebar');
     });
 
@@ -561,6 +571,7 @@
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.REMOVE, function (event) {
       NstSvcPlaceFactory.removePlaceFromTree(vm.places, event.detail);
       $rootScope.$emit('init-controls-sidebar');
+      vm.mapLimits();
     });
 
 
