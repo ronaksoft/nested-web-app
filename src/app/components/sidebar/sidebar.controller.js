@@ -153,7 +153,17 @@
 
     function openCreatePlaceModal($event) {
       $event.preventDefault();
-      $state.go('app.place-create', {}, {notify: false});
+      if( createGrandPlaceLimit > 0 ) {
+        $state.go('app.place-create', {}, {notify: false});
+      } else {
+        $uibModal.open({
+          animation: false,
+          size: 'sm',
+          templateUrl: 'app/components/sidebar/invitation/decide-modal.html',
+          controller: 'InvitationController',
+          controllerAs: 'ctrlInvitation'
+        });
+      }
     }
 
     $scope.$on('close-mention', function () {
