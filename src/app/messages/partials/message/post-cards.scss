@@ -164,6 +164,26 @@ post-card {
       min-width: 16px;
       padding: 0 2px 0 6px;
     }
+    .select-card {
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      opacity: 0;
+      background-color: $color-white;
+      transition: opacity 0.15s;
+      &.selected {
+        opacity: 1;
+      }
+      label {
+        width: 16px;
+        height: 16px;
+      }
+    }
     .icon {
       fill: black;
       position: relative;
@@ -179,10 +199,16 @@ post-card {
       width: 42px;
       justify-content: flex-start;
       margin-right: 4px;
+      position: relative;
       & + div {
         max-width: calc(100% - 56px);
         h4 {
           max-width: calc(100% - 64px);
+        }
+      }
+      &:hover {
+        .select-card {
+          opacity: 1
         }
       }
     }

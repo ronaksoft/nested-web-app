@@ -24,6 +24,20 @@
           </a>
       </p>
       <p class="_df _fw" ng-if="!ctlMessages.currentPlace.counters.posts || ctlMessages.currentPlace.counters.posts < 1"></p>
+      <p class="_df _fn selected-cards-action" ng-if="ctlMessages.selectedPlaces.length > 0 ">
+        <a class="_difh _aic force cursor-pointer" ng-click="ctlMessages.removeMulti($event);">
+          <svg class="_16svg _df">
+            <use xlink:href="/assets/icons/nst-icn16.svg#bin"></use>
+          </svg>
+          <translate class="force">Remove ({{ctlMessages.selectedPlaces.length}})</translate>
+        </a>
+        <a class="_difh _aic cursor-pointer" ng-click="ctlMessages.moveMulti();">
+          <svg class="_16svg">
+            <use xlink:href="/assets/icons/nst-icn16.svg#places"></use>
+          </svg>
+          <translate>Move ({{ctlMessages.selectedPlaces.length}})</translate>
+        </a>
+      </p>
       <p class="_df _fn mark-read _aic" ng-if="ctlMessages.unreadCount" ng-click="ctlMessages.markAllAsRead()">
         <translate>Mark all as Seen</translate>
         <svg class="_16svg _df">

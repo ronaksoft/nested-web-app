@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function MessagesController($rootScope, $q, $stateParams, $log, $state, $window, $scope,
-                              moment,
+                              moment, toastr,
                               NST_MESSAGES_SORT_OPTION, NST_MESSAGES_VIEW_SETTING, NST_DEFAULT, NST_PLACE_FACTORY_EVENT, NST_EVENT_ACTION, NST_POST_FACTORY_EVENT, NST_PLACE_ACCESS,
                               NstSvcPostFactory, NstSvcPlaceFactory, NstSvcServer, NstUtility, NstSvcAuth, NstSvcSync, NstSvcWait, NstVmFile,
                               NstSvcMessagesSettingStorage, NstSvcTranslation, NstSvcInteractionTracker,
@@ -34,6 +34,7 @@
     vm.hasNewMessages = false;
     vm.myPlaceIds = [];
     vm.loadMoreCounter = 0;
+    vm.selectedPlaces = [];
 
     vm.loadMore = loadMore;
     vm.tryAgainToLoadMore = false;
@@ -47,6 +48,7 @@
     vm.showNewMessages = showNewMessages;
     vm.dismissNewMessage = dismissNewMessage;
     vm.openContacts = openContacts;
+    vm.removeMulti = removeMulti;
 
     vm.messagesSetting = {
       limit: DEFAULT_MESSAGES_COUNT,
@@ -280,6 +282,16 @@
           });
       });
     }
+    $scope.$on('post-select',function(event, data) {
+      if ( data.isChecked ) {
+        vm.selectedPlaces.push(data.postId);
+      } else {
+        var index = vm.selectedPlaces.indexOf(data.postId);
+        vm.selectedPlaces.splice(index, 1);
+      }
+      $scope.$broadcast('selected-length-change',{selectedPlaces : vm.selectedPlaces.length});
+    });
+
 
     function setNavbarProperties() {
       vm.navTitle = 'Feed';
@@ -302,6 +314,28 @@
       $state.go('app.contacts', {}, {notify: false});
       $event.preventDefault();
     };
+
+    function removeMulti($event) {
+      $event.preventDefault();
+      for (var i = 0; i < vm.selectedPlaces.length; i++) {
+        NstSvcPostFactory.get(vm.selectedPlaces[i]).then(function (post) {
+          NstSvcPostFactory.remove(post.id, vm.currentPlaceId).then(function () {
+            NstUtility.collection.dropById(post.places, vm.currentPlaceId);
+            // toastr.success(NstUtility.string.format(NstSvcTranslation.get("The post has been removed from this Place.")));
+            $rootScope.$broadcast('post-removed', {
+              postId: post.id,
+              placeId: vm.currentPlaceId
+            });
+          }).catch(function (error) {
+            toastr.error(NstSvcTranslation.get("An error has occurred in trying to remove this message from the selected Place."));
+          });
+        });        
+      }
+    };
+
+    function moveMulti($event) {
+      $event.preventDefault();
+    }
 
     function getMessages() {
       vm.messagesSetting.skip = null;
