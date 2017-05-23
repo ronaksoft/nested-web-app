@@ -31,8 +31,7 @@
       vm.children = [];
 
 
-
-      if (vm.grandPlace && $stateParams.placeId) {
+      if ($stateParams.placeId) {
         var grandPlaceId = $stateParams.placeId.split('.')[0];
 
         NstSvcPlaceFactory.getFavoritesPlaces()
@@ -60,15 +59,16 @@
       vm.currentPlaceId = $stateParams.placeId;
     });
 
+    Initializing();
 
     $scope.$watch(function () {
-      if (vm.grandPlace) {
-        return vm.grandPlace.id;
+      if ($stateParams.placeId) {
+        return $stateParams.placeId.split('.')[0];
       } else {
         return false
       }
     }, function () {
-      if (vm.grandPlace) {
+      if ($stateParams.placeId) {
         Initializing();
       }
     });
@@ -213,8 +213,7 @@
     });
 
 
-
-    $rootScope.$on('reload-counters',function () {
+    $rootScope.$on('reload-counters', function () {
       NstSvcLogger.debug('Retrieving the sub-place unreads count right after focus.');
       getPlaceUnreadCounts();
     });

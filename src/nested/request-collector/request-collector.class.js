@@ -15,7 +15,7 @@
     .factory('NstCollector', NstCollector);
 
   /** @ngInject */
-  function NstCollector(_, $q) {
+  function NstCollector(_, $q, NstServerError) {
 
     /**
      * Interval time of each period
@@ -134,16 +134,16 @@
 
             _.each(response.rejects, function (id) {
               _.each(batchItem[id], function (promise) {
-                promise.reject("error");
+                promise.reject(new NstServerError(batchItem[id], "access denied", 1));
               });
             });
 
           }).catch(function (error) {
-            _.each(Object.keys(batchItem), function (id) {
-              _.each(batchItem[id], function (promise) {
-                promise.reject(error);
-              });
+          _.each(Object.keys(batchItem), function (id) {
+            _.each(batchItem[id], function (promise) {
+              promise.reject(error);
             });
+          });
         });
 
       } else {
