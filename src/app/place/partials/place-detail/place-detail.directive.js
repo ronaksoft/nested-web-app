@@ -54,7 +54,7 @@
 
             //hovering on popover
             $timeout(function () {
-              var $element2 = $('.popover-userdetail');
+              var $element2 = $('.popover-placedetail');
 
               //timer2 = leaving timer on popover out
               $element2.mouseleave(function () {

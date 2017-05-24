@@ -10,7 +10,7 @@
   width: 100%;
   margin-bottom: 80px;
   background-color: $color-white;
-  z-index: 12;
+  z-index: 112;
   .logo-holder {
     display: flex;
     transform: translateY(50%);
@@ -179,7 +179,7 @@
 }
 .place-head-holder-2 {
   position: fixed;
-  z-index: 11;
+  z-index: 111;
   width: 480px;
   height: 64px;
   background-color: $color-white;

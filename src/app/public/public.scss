@@ -48,6 +48,10 @@
 }
 
 @media screen and (max-width: 500px){
+  .modal-lg-white .modal-content > div {
+    margin-left: 0;
+    left: 0
+  }
   .footer-panel {
     flex-direction: column;
     height: 72px;

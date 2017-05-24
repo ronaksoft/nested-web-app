@@ -285,6 +285,7 @@
       user.lastName = userData.lname || '';
       user.fullName = user.getFullName();
       user.phone = userData.phone;
+      user.limits = userData.limits;
       user.country = userData.country;
       user.dateOfBirth = userData.dob;
       user.gender = userData.gender;
