@@ -3,7 +3,7 @@
 
   angular
     .module('ronak.nested.web.components.scroll')
-    .directive('affixer', onScroll);
+    .directive('affixerFilter', onScroll);
 
   /** @ngInject */
   function onScroll($window,$rootScope,$timeout) {
@@ -19,25 +19,10 @@
         var isRTL = $rootScope._direction;
 
         var i = 0;
-        var defTop = $element.offset().top;
 
-        function checkLoop() {
-          var tempTop = $element.offset().top;
-          if (defTop == tempTop) {
-
-          }else {
-            applier();
-          }
-          setTimeout(function() {
-            if (i < 3) {
-              checkLoop();
-            }
-            i++;
-          }, 3000);
-        };
-
-        checkLoop();
         applier();
+        // $element.clone().appendTo('#content-wrapper');
+        // console.log(clone);
 
 
         win.on("resize", function () {
@@ -55,7 +40,7 @@
 
           topOffset = $element.offset().top - parseInt($attrs.top) - 24;
 
-          var offLeft = $element.offset().left || 0;
+          var offLeft = $element.offset().left - 24 || 0;
 
           var height = $element.outerHeight();
           var width = $element.outerWidth();
@@ -88,7 +73,7 @@
             if (isRTL == 'rtl') {
               offLeft = parseInt(containerLeft)  +  $($attrs.parent).width()  - parseInt(afterContent) - width;
             } else {
-              offLeft = parseInt(containerLeft) + parseInt(afterContent) + 272;
+              // offLeft = parseInt(containerLeft) + parseInt(afterContent) + 272;
             }
 
             // if (isChrome || isFirefox) {
@@ -113,7 +98,6 @@
               $element.css('top', parseInt(top) + 'px');
               if (isRTL == 'ltr')$element.css('left', offLeft + 'px');
               if (isRTL == 'rtl')$element.css('left', offLeft + 'px');
-              if(!dontSetWidth) $element.css('width', actualWidth + 'px');
               // $element.css('height', height + 'px');
               fixed = true;
             } else if (fixed && $window.pageYOffset < topOffset ) {

@@ -138,15 +138,29 @@
      */
     function sendComment(e) {
 
-      var element = angular.element(e.target);
+
+      var element = e.target;
+
+      var resize = function() {
+        e.target.style.height = '';
+        e.target.style.height = e.target.scrollHeight + "px";
+      };
+
+      $timeout(resize, 0);
+
+      var body = extractCommentBody(e);
+      if (body.length === 0) {
+        e.target.style.height = '';
+      }
+
       if (!sendKeyIsPressed(e) || element.attr("mention") === "true") {
         return;
       }
 
-      var body = extractCommentBody(e);
       if (body.length === 0) {
         return;
       }
+
 
       vm.isSendingComment = true;
 
