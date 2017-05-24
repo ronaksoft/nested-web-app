@@ -291,6 +291,7 @@
       user.gender = userData.gender;
       user.email = userData.email;
       user.searchable = userData.searchable;
+      user.privacy = userData.privacy;
 
       if (_.isObject(userData.counters)) {
         user.totalNotificationsCount = userData.counters.total_mentions;
