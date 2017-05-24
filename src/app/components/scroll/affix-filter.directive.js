@@ -3,7 +3,7 @@
 
   angular
     .module('ronak.nested.web.components.scroll')
-    .directive('affixer', onScroll);
+    .directive('affixerFilter', onScroll);
 
   /** @ngInject */
   function onScroll($window,$rootScope,$timeout) {
@@ -19,25 +19,10 @@
         var isRTL = $rootScope._direction;
 
         var i = 0;
-        var defTop = $element.offset().top;
 
-        function checkLoop() {
-          var tempTop = $element.offset().top;
-          if (defTop == tempTop) {
-
-          }else {
-            applier();
-          }
-          setTimeout(function() {
-            if (i < 3) {
-              checkLoop();
-            }
-            i++;
-          }, 3000);
-        };
-
-        checkLoop();
         applier();
+        // $element.clone().appendTo('#content-wrapper');
+        // console.log(clone);
 
 
         win.on("resize", function () {

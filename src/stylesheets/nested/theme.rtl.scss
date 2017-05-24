@@ -214,8 +214,11 @@ body[dir="rtl"] {
     right: auto;
     right: 56px;
   }
-  .post-card-comments .delete-comment {
-    transform: translateX(-12px);
+  .post-card-comments {
+     padding: 8px 0 0px 16px;
+    .delete-comment {
+      transform: translateX(-20px);
+    }
   }
   .post-card-comments strong{
     float: right;
@@ -426,7 +429,7 @@ body[dir="rtl"] {
   .empty div[contenteditable]:before{
     content: 'اینجا متن را بنویسید...';
   }
-  .post-card-comments p.LTR-text {
+  .post-card-comments p {
     strong {
       direction: rtl;
     }
@@ -434,7 +437,29 @@ body[dir="rtl"] {
       float: right;
       padding: 0;
     }
+    .time {
+      float: left;
+      margin-left: 0;
+      margin-right: 4px
+    }
   }
+  .post-card-comments p.LTR-text {
+    span {
+      padding: 0;
+    }
+  }
+  // .post-card-comments p.RTL-text {
+  //   strong {
+  //     direction: rtl;
+  //   }
+  //   span {
+  //     float: right;
+  //     padding: 0;
+  //   }
+  //   .time {
+  //     float: left
+  //   }
+  // }
   .flg {
     left: auto;
     right: 10px;
@@ -608,6 +633,9 @@ body[dir="ltr"] {
     span {
       float: left;
       padding: 0;
+    }
+    .time {
+      float: right;
     }
   }
 }
