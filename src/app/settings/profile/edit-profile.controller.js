@@ -37,6 +37,8 @@
       vm.loadProgress = true;
       NstSvcUserFactory.get(vm.model.id, true).then(function (user) {
         vm.model = user;
+        vm.canEditProfile = user.privacy.change_profile;
+        vm.canChangePicture = user.privacy.change_picture;
       }).catch(function (error) {
         toastr.error('An error has occured while retrieving user profile')
       }).finally(function () {
@@ -146,7 +148,6 @@
      *****************************/
 
     function setImage(event) {
-
       vm.uploadedFile = event.currentTarget.files[0];
 
 
