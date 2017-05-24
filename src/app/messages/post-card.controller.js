@@ -285,7 +285,8 @@
           },
           postPlaces: function () {
             return vm.post.places;
-          }
+          },
+          multi : false
         }
       }).result.then(function (result) {
         $scope.$emit('post-moved', {
@@ -365,7 +366,7 @@
     });
 
     $scope.$on('selected-length-change',function(e,v){
-      if ( v.selectedPlaces > 0) {
+      if ( v.selectedPosts > 0) {
         vm.isCheckedForce = true;
       } else {
         vm.isCheckedForce = false;

@@ -53,11 +53,11 @@
 
     function replace(postId, selectedPlace, targetPlace) {
       vm.replaceProgress = true;
-      var postsC = postId.length;
-      var successC = 0;
-      var failedC = 0;
 
       if ( multi ) {
+        var postsC = postId.length;
+        var successC = 0;
+        var failedC = 0;
         for (var i = 0; i < postsC; i++) {
           NstSvcPostFactory.movePlace(postId[i], selectedPlace.id, targetPlace.id).then(function (result) {
             ++successC;
@@ -67,32 +67,34 @@
             vm.replaceProgress = false;
           });
         }
+        var inter = $interval(function () {
+          if (postsC === successC + failedC) {
+            $interval.cancel(inter);
+            if ( postsC === successC ) {
+              toastr.success(NstUtility.string.format(NstSvcTranslation.get("The posts has been successfully moved from <b>{0}</b> to <b>{1}</b>."), selectedPlace.name, targetPlace.name));
+            } else {
+              toastr.warning(NstUtility.string.format(NstSvcTranslation.get("The {0} posts moved successfully and {1} did not move to <b>{4}</b>."), successC, failedC, targetPlace.name));
+            }
+            $uibModalInstance.close({
+              fromPlace: selectedPlace,
+              toPlace: targetPlace
+            });
+          }
+        }, 100);
       } else {
       
         NstSvcPostFactory.movePlace(postId, selectedPlace.id, targetPlace.id).then(function (result) {
-          ++successC;
+          toastr.success(NstUtility.string.format(NstSvcTranslation.get("The post has been successfully moved from <b>{0}</b> to <b>{1}</b>."), selectedPlace.name, targetPlace.name));
         }).catch(function (error) {
-          ++failedC;
+          toastr.error(NstUtility.string.format(NstSvcTranslation.get("An error occured while trying to move from <b>{0}</b> to <b>{1}</b>"), selectedPlace.name, targetPlace.name));
         }).finally(function () {
           vm.replaceProgress = false;
         })
+        $uibModalInstance.close({
+          fromPlace: selectedPlace,
+          toPlace: targetPlace
+        });
       }
-
-      var inter = $interval(function () {
-        
-        if (postsC === successC + failedC) {
-          $interval.cancel(inter);
-          if ( postsC === successC ) {
-            toastr.success(NstUtility.string.format(NstSvcTranslation.get("The posts has been successfully moved from <b>{0}</b> to <b>{1}</b>."), selectedPlace.name, targetPlace.name));
-          } else {
-              toastr.error(NstUtility.string.format(NstSvcTranslation.get("An error occured while trying to move from <b>{0}</b> to <b>{1}</b>"), selectedPlace.name, targetPlace.name));
-          }
-          $uibModalInstance.close({
-            fromPlace: selectedPlace,
-            toPlace: targetPlace
-          });
-        }
-      }, 100);
 
       
     }

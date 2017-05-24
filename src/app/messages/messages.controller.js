@@ -289,7 +289,7 @@
         vm.selectedPosts.push(data.postId);
       } else {
         var index = vm.selectedPosts.indexOf(data.postId);
-        vm.selectedPosts.splice(index, 1);
+        if (index > -1) vm.selectedPosts.splice(index, 1);
       }
       $scope.$broadcast('selected-length-change',{selectedPosts : vm.selectedPosts.length});
     });
