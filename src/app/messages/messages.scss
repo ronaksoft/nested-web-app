@@ -20,6 +20,8 @@
   margin: 24px 24px 16px 24px;
   align-self: flex-end;
   width: calc(100% - 48px);
+  z-index: 60;
+  background-color: $color-bg-nested;
   span {
     color: $color-black04;
     font-size: 11px;

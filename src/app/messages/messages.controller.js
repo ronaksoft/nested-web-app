@@ -6,7 +6,7 @@
     .controller('MessagesController', MessagesController);
 
   /** @ngInject */
-  function MessagesController($rootScope, $q, $stateParams, $log, $state, $window, $scope,
+  function MessagesController($rootScope, $q, $stateParams, $log, $state, $window, $scope, $uibModal,
                               moment, toastr,
                               NST_MESSAGES_SORT_OPTION, NST_MESSAGES_VIEW_SETTING, NST_DEFAULT, NST_PLACE_FACTORY_EVENT, NST_EVENT_ACTION, NST_POST_FACTORY_EVENT, NST_PLACE_ACCESS,
                               NstSvcPostFactory, NstSvcPlaceFactory, NstSvcServer, NstUtility, NstSvcAuth, NstSvcSync, NstSvcWait, NstVmFile,
@@ -34,7 +34,7 @@
     vm.hasNewMessages = false;
     vm.myPlaceIds = [];
     vm.loadMoreCounter = 0;
-    vm.selectedPlaces = [];
+    vm.selectedPosts = [];
 
     vm.loadMore = loadMore;
     vm.tryAgainToLoadMore = false;
@@ -49,6 +49,7 @@
     vm.dismissNewMessage = dismissNewMessage;
     vm.openContacts = openContacts;
     vm.removeMulti = removeMulti;
+    vm.moveMulti = moveMulti;
 
     vm.messagesSetting = {
       limit: DEFAULT_MESSAGES_COUNT,
@@ -282,14 +283,15 @@
           });
       });
     }
+
     $scope.$on('post-select',function(event, data) {
       if ( data.isChecked ) {
-        vm.selectedPlaces.push(data.postId);
+        vm.selectedPosts.push(data.postId);
       } else {
-        var index = vm.selectedPlaces.indexOf(data.postId);
-        vm.selectedPlaces.splice(index, 1);
+        var index = vm.selectedPosts.indexOf(data.postId);
+        vm.selectedPosts.splice(index, 1);
       }
-      $scope.$broadcast('selected-length-change',{selectedPlaces : vm.selectedPlaces.length});
+      $scope.$broadcast('selected-length-change',{selectedPosts : vm.selectedPosts.length});
     });
 
 
@@ -315,26 +317,83 @@
       $event.preventDefault();
     };
 
+    function confirmforRemoveMulti(posts, place) {
+      return $uibModal.open({
+        animation: false,
+        backdropClass: 'comdrop',
+        size: 'sm',
+        templateUrl: 'app/messages/partials/modals/remove-multi-from-confirm.html',
+        controller: 'RemoveFromConfirmController',
+        controllerAs: 'ctrl',
+        resolve: {
+          post: function () {
+            return posts;
+          },
+          place: function () {
+            return place;
+          }
+        }
+      }).result;
+    }
     function removeMulti($event) {
       $event.preventDefault();
-      for (var i = 0; i < vm.selectedPlaces.length; i++) {
-        NstSvcPostFactory.get(vm.selectedPlaces[i]).then(function (post) {
-          NstSvcPostFactory.remove(post.id, vm.currentPlaceId).then(function () {
-            NstUtility.collection.dropById(post.places, vm.currentPlaceId);
-            // toastr.success(NstUtility.string.format(NstSvcTranslation.get("The post has been removed from this Place.")));
-            $rootScope.$broadcast('post-removed', {
-              postId: post.id,
-              placeId: vm.currentPlaceId
+      confirmforRemoveMulti(vm.selectedPosts.length, vm.currentPlace).then(function (agree) {
+        if (!agree) {
+          return;
+        }
+        for (var i = 0; i < vm.selectedPosts.length; i++) {
+          NstSvcPostFactory.get(vm.selectedPosts[i]).then(function (post) {
+            NstSvcPostFactory.remove(post.id, vm.currentPlaceId).then(function () {
+              NstUtility.collection.dropById(post.places, vm.currentPlaceId);
+              // toastr.success(NstUtility.string.format(NstSvcTranslation.get("The post has been removed from this Place.")));
+              $rootScope.$broadcast('post-removed', {
+                postId: post.id,
+                placeId: vm.currentPlaceId
+              });
+              vm.selectedPosts.splice(0,1);
+            }).catch(function (error) {
+              toastr.error(NstSvcTranslation.get("An error has occurred in trying to remove this message from the selected Place."));
             });
-          }).catch(function (error) {
-            toastr.error(NstSvcTranslation.get("An error has occurred in trying to remove this message from the selected Place."));
-          });
-        });        
-      }
-    };
+          });        
+        }
+
+      });
+    }
 
     function moveMulti($event) {
       $event.preventDefault();
+      $uibModal.open({
+        animation: false,
+        backdropClass: 'comdrop',
+        size: 'sm',
+        templateUrl: 'app/messages/partials/modals/move.html',
+        controller: 'MovePlaceController',
+        controllerAs: 'ctrl',
+        resolve: {
+          postId: function () {
+            return vm.selectedPosts;
+          },
+          selectedPlace: function () {
+            return vm.currentPlace;
+          },
+          postPlaces: function () {
+            return [];
+          },
+          multi: true
+        }
+      }).result.then(function (result) {
+        for ( var i = 0; i < vm.selectedPosts.length; i++) {
+          $scope.$emit('post-moved', {
+            postId: vm.selectedPosts[i],
+            toPlace: result.toPlace,
+            fromPlace: result.fromPlace
+          });
+
+          // TODO  :
+          // NstUtility.collection.replaceById(vm.post.places, result.fromPlace.id, result.toPlace);
+        }
+        
+      });
     }
 
     function getMessages() {

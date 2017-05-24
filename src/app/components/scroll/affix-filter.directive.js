@@ -40,7 +40,7 @@
 
           topOffset = $element.offset().top - parseInt($attrs.top) - 24;
 
-          var offLeft = $element.offset().left || 0;
+          var offLeft = $element.offset().left - 24 || 0;
 
           var height = $element.outerHeight();
           var width = $element.outerWidth();
@@ -73,7 +73,7 @@
             if (isRTL == 'rtl') {
               offLeft = parseInt(containerLeft)  +  $($attrs.parent).width()  - parseInt(afterContent) - width;
             } else {
-              offLeft = parseInt(containerLeft) + parseInt(afterContent) + 272;
+              // offLeft = parseInt(containerLeft) + parseInt(afterContent) + 272;
             }
 
             // if (isChrome || isFirefox) {
@@ -98,7 +98,7 @@
               $element.css('top', parseInt(top) + 'px');
               if (isRTL == 'ltr')$element.css('left', offLeft + 'px');
               if (isRTL == 'rtl')$element.css('left', offLeft + 'px');
-              if(!dontSetWidth) $element.css('width', actualWidth + 'px');
+              $element.css('width', actualWidth + 'px');
               // $element.css('height', height + 'px');
               fixed = true;
             } else if (fixed && $window.pageYOffset < topOffset ) {
