@@ -29,7 +29,7 @@
   </div>
 </div>
 <div class="post-card-comment-input _df">
-  <input type="text" nst-mention post-id="{{ctrl.postId}}" data-ng-model="ctrl.post.newComment"  auto-dir="ctrl.post.newComment"
-         class="_fw" placeholder="write your comment..." ng-keyup="ctrl.sendComment($event)"
+  <textarea type="text" nst-mention post-id="{{ctrl.postId}}" data-ng-model="ctrl.post.newComment"  auto-dir="ctrl.post.newComment"
+         class="_fw" placeholder="write your comment..." ng-keydown="ctrl.sendComment($event)"
          ng-disabled="ctrl.isSendingComment" max-length="1024"  translate-attrs="placeholder"/>
 </div>

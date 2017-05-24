@@ -17,9 +17,10 @@
   align-items: center;
   flex: none;
   position: relative;
-  margin: 24px 24px 16px 24px;
+  margin: 24px 0 16px 0;
+  padding: 0 24px;
   align-self: flex-end;
-  width: calc(100% - 48px);
+  width: 100%;
   z-index: 60;
   background-color: $color-bg-nested;
   span {
