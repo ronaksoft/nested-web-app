@@ -22,7 +22,7 @@
     vm.targetPlace = null;
     vm.ready = false;
     $timeout(function () {
-      vm.ready = true
+      vm.ready = true;
     }, 500);
 
     (function () {
@@ -56,26 +56,28 @@
 
       if ( multi ) {
         var postsC = postId.length;
-        var successC = 0;
-        var failedC = 0;
+        var successC = [];
+        var failedC = [];
         for (var i = 0; i < postsC; i++) {
           NstSvcPostFactory.movePlace(postId[i], selectedPlace.id, targetPlace.id).then(function (result) {
-            ++successC;
+            successC.push(result.postId);
           }).catch(function (error) {
-            ++failedC;
+            failedC.push('');
           }).finally(function () {
             vm.replaceProgress = false;
           });
         }
         var inter = $interval(function () {
-          if (postsC === successC + failedC) {
+          if (postsC === successC.length + failedC.length) {
             $interval.cancel(inter);
-            if ( postsC === successC ) {
+            if ( postsC === successC.length ) {
               toastr.success(NstUtility.string.format(NstSvcTranslation.get("The posts has been successfully moved from <b>{0}</b> to <b>{1}</b>."), selectedPlace.name, targetPlace.name));
             } else {
-              toastr.warning(NstUtility.string.format(NstSvcTranslation.get("The {0} posts moved successfully and {1} did not move to <b>{4}</b>."), successC, failedC, targetPlace.name));
+              toastr.warning(NstUtility.string.format(NstSvcTranslation.get("The {0} posts moved successfully and {1} did not move to <b>{2}</b>."), successC.length, failedC.length, targetPlace.name));
             }
             $uibModalInstance.close({
+              success : successC,
+              failed : failedC,
               fromPlace: selectedPlace,
               toPlace: targetPlace
             });

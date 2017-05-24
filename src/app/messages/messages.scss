@@ -10,19 +10,39 @@
 }
 
 .filter-bar {
-  border-bottom: 1px solid $color-border;
-  height: 32px;
+  height: 80px;
   display: inline-flex;
   flex-direction: row;
   align-items: center;
   flex: none;
   position: relative;
-  margin: 24px 0 16px 0;
-  padding: 0 24px;
+  padding: 24px 0 16px 0;
   align-self: flex-end;
   width: 100%;
-  z-index: 60;
-  background-color: $color-bg-nested;
+  .filter-bar-inner {
+    background-color: $color-bg-nested;
+    z-index: 60;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    max-width: 720px;
+    position: fixed;
+    height: 32px;
+    left: 50%;
+    transform: translate3d(-50%,0,0);
+    width: calc(100% - 556px);
+    padding: 0 24px;
+     hr {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      border-color: $color-border;
+      left: 24px;
+      width: calc(100% - 48px);
+      margin: 0;
+    }
+  }
   span {
     color: $color-black04;
     font-size: 11px;

@@ -351,6 +351,7 @@
                 placeId: vm.currentPlaceId
               });
               vm.selectedPosts.splice(0,1);
+              $scope.$broadcast('selected-length-change',{selectedPosts : vm.selectedPosts.length});
             }).catch(function (error) {
               toastr.error(NstSvcTranslation.get("An error has occurred in trying to remove this message from the selected Place."));
             });
@@ -382,17 +383,22 @@
           multi: true
         }
       }).result.then(function (result) {
-        for ( var i = 0; i < vm.selectedPosts.length; i++) {
+        // vm.selectedPosts = [];
+        // $scope.$broadcast('selected-length-change',{selectedPosts : vm.selectedPosts.length});
+        for ( var i = 0; i < result.success.length; i++) {
           $scope.$emit('post-moved', {
-            postId: vm.selectedPosts[i],
+            postId: result.success[i],
             toPlace: result.toPlace,
             fromPlace: result.fromPlace
           });
 
+          var index = vm.selectedPosts.indexOf(result.success[i]);
+          vm.selectedPosts.splice(index, 1);
+
           // TODO  :
           // NstUtility.collection.replaceById(vm.post.places, result.fromPlace.id, result.toPlace);
         }
-        
+        $scope.$broadcast('selected-length-change',{selectedPosts : vm.selectedPosts.length});
       });
     }
 
