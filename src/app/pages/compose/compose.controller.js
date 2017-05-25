@@ -11,7 +11,7 @@
                              NST_SRV_ERROR, NST_PATTERN, NST_CONFIG, NST_DEFAULT, NST_ATTACHMENT_STATUS,
                              NST_FILE_TYPE, SvcCardCtrlAffix,
                              NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcStore,
-                             NstSvcFileType, NstSvcAttachmentMap, NstSvcSidebar,
+                             NstSvcFileType, NstSvcAttachmentMap, NstSvcSidebar, NstSvcSystemConstants,
                              NstUtility, NstSvcTranslation, NstSvcModal, NstSvcPostDraft,
                              NstSvcUserFactory, NstSvcLogger,
                              NstTinyPlace, NstVmPlace, NstVmSelectTag, NstLocalResource, NstPicture,
@@ -22,6 +22,7 @@
     vm.mouseIn = false;
     var eventReferences = [];
     var discardCanceler = null;
+    var systemConstants = {};
     vm.makeChangeForWatchers = 0;
     vm.clear = clear;
     vm.searchRecipients = _.debounce(searchRecipients, 400);
@@ -260,7 +261,9 @@
       }
 
       openDraft();
-
+      NstSvcSystemConstants.get().then(function (result) {
+        systemConstants = result;
+      });
     })();
 
     function saveDraft() {
@@ -422,6 +425,14 @@
 
 
     vm.attachments.attach = function (file) {
+      NstSvcLogger.debug4('Compose | Check if the attached files are more than the limit size');
+      NstSvcLogger.debug4('Compose | Max allowed attachements is: ', systemConstants.post_max_attachments);
+      var filesCount = _.size(vm.model.attachments);
+      NstSvcLogger.debug4('Compose | The number of currently attached files is: ', filesCount);
+      if (systemConstants && systemConstants.post_max_attachments <= filesCount) {
+        toastr.error(NstUtility.string.format(NstSvcTranslation.get("You are not allowed to attach more than {0} files. Please contact Nested administrator."), systemConstants.post_max_attachments));
+        return;
+      }
       NstSvcLogger.debug4('Compose | Is this file higher than maximum upload size ?!');
       if (file.size > NST_CONFIG.UPLOAD_SIZE_LIMIT) {
         toastr.error(NstSvcTranslation.get("Maximum upload size is 100 MB"));
