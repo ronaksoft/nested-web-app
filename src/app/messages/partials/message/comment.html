@@ -15,7 +15,7 @@
       <p class="_fw" auto-dir="comment.body">
             <span class="_df _fn time" data-uib-tooltip="{{::comment.timestamp | date : 'full' | localize}}" data-tooltip-append-to-body="true" data-tooltip-placement="top auto">{{comment.timestamp | passed | localize}}</span>
         <strong class="_fl" user-detail="comment.sender">{{comment.sender.fullName}}:&nbsp;</strong>
-        <span class="_fl" ng-if="!comment.removedById" ng-bind-html="comment.body | link"></span>
+        <span class="_fl" ng-if="!comment.removedById" ng-bind-html="comment.body | link | plainToHtml"></span>
         <i ng-if="comment.removedById">
           <translate>removed by <a class="comment-removed-by" href user-detail="comment.removedBy">{{::comment.removedBy.fullName}}</a></translate>
         </i>
