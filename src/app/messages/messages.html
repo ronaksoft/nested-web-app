@@ -22,6 +22,7 @@
           </p>
           <p class="_df _fw" ng-if="ctlMessages.currentPlace.counters.posts > 1">
             <translate>{{ctlMessages.currentPlace.counters.posts | localize}} posts</translate>
+            <b ng-if="ctlMessages.selectedPosts.length > 0">&nbsp;({{ctlMessages.selectedPosts.length}})</b>
             <a class="nst-mood-pending" ui-sref="app.place-messages-unread({placeId: ctlMessages.currentPlace.id})" ng-if="ctlMessages.unreadCount > 0" ng-click="_track('posts', 'view unread')">
               <span class="nst-mood-pending">&nbsp;(</span><translate class="nst-mood-pending">{{ctlMessages.unreadCount | localize}} Unseen</translate><span class="nst-mood-pending">)</span>
               </a>
@@ -32,13 +33,13 @@
               <svg class="_16svg _df">
                 <use xlink:href="/assets/icons/nst-icn16.svg#bin"></use>
               </svg>
-              <translate class="force">Remove ({{ctlMessages.selectedPosts.length}})</translate>
+              <translate class="force">Remove</translate>
             </a>
             <a class="_difh _aic cursor-pointer" ng-click="ctlMessages.moveMulti($event);">
               <svg class="_16svg">
                 <use xlink:href="/assets/icons/nst-icn16.svg#places"></use>
               </svg>
-              <translate>Move ({{ctlMessages.selectedPosts.length}})</translate>
+              <translate>Move</translate>
             </a>
           </p>
           <p class="_df _fn mark-read _aic" ng-if="ctlMessages.unreadCount" ng-click="ctlMessages.markAllAsRead()">
@@ -47,8 +48,9 @@
               <use xlink:href="/assets/icons/nst-icn16.svg#eye-open"></use>
             </svg>
           </p>
-          <div ng-show="!ctlMessages.isSentMode && !ctlMessages.isbookmarkedsMode" ng-mouseenter="popoverSortShow = true;popoverSetShow = false" class="iconsblock _fn"
-              data-popover-class="white-pop popover-white-nst-sort" uib-popover-template="'app/messages/partials/popovers/sort_popover.html'"
+          <div ng-show="!ctlMessages.isSentMode && !ctlMessages.isbookmarkedsMode && ctlMessages.selectedPosts.length == 0"
+              ng-mouseenter="popoverSortShow = true;popoverSetShow = false" class="iconsblock _fn"
+              data-popover-class="white-pop popover-white-nst-sort"uib-popover-template="'app/messages/partials/popovers/sort_popover.html'"
               data-popover-placement="bottom-center" data-popover-is-open="popoverSortShow" id="test-filter-sort">
             <span class="_df" ng-if="ctlMessages.messagesSetting.sort == 'latest-messages'"><translate>Recent Messages</translate></span>
             <span class="_df" ng-if="ctlMessages.messagesSetting.sort != 'latest-messages'"><translate>Latest Activity</translate></span>
