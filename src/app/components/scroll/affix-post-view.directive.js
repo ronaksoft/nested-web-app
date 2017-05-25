@@ -17,6 +17,7 @@
         var applierTrigger = false;
         var container = $attrs.container ? $($attrs.container) : win;
         var containerLeft = $('body').offset().left || 0;
+        var rightAuto = $attrs.rtlRightAuto || false;
 
         var isRTL = $rootScope._direction;
 
@@ -93,11 +94,12 @@
 
 
           function affixElement() {
+            console.log($element,offLeft)
             if (!fixed && container[0].scrollTop > topOffset) {
               $element.css('position', 'fixed');
               $element.css('top', parseInt(top) + 'px');
-              if (isRTL == 'ltr')$element.css('left', offLeft + 'px');
-              if (isRTL == 'rtl')$element.css('left', offLeft + 'px');
+              $element.css('left', offLeft + 'px');
+              if (rightAuto) $element.css('right', 'auto');
               if(!dontSetWidth) $element.css('width', actualWidth + 'px');
               $element.css('height', height + 'px');
               $element.css('transform', 'none');
