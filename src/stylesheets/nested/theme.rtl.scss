@@ -135,6 +135,10 @@ body[dir="rtl"] {
     padding-right: 16px;
     direction: rtl;
   }
+  .nst-navbar {
+    left: 0;
+    right: auto
+  }
   .nst-navbar .place-info .navigation .search {
     i {
       left: 4px;
