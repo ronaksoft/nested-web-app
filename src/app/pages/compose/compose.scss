@@ -145,7 +145,20 @@
    padding: 0;
    max-height: 250px;
  }
-
+.place-initials-32 {
+  width: 32px;
+  height: 32px;
+  line-height: 31px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: normal;
+  background-color: #b2b2b2;
+  vertical-align: top;
+  border-radius: 6px;
+  margin-right: 8px;
+  flex: none;
+  justify-content: center;
+}
 .cke_reset {
   width: 100%!important;
   border: none!important;
