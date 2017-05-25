@@ -148,6 +148,28 @@ body[dir="rtl"] {
   .post-card .post-head > div:first-child {
     padding: 0 6px 0 2px;
   }
+  post-card .chain-stats {
+    left: auto;
+    right: 0;
+    transform: translate3d(100%, 0, 0);
+    border-left: none;
+    border-right: 1px solid gainsboro;
+    > div {
+      direction: ltr;
+      transform: translate3d(100%, 0, 0);
+    }
+    svg, .squ {
+      transform: translate3d(-50%, 0, 0);
+    }
+  }
+  post-card .chain-forward {
+    right: auto;
+    left: 0;
+    transform: translate3d(-100%, 0, 0);
+    border-left-width: 1px;
+    border-right-width: 0;
+    border-radius: 4px 0 0 4px;
+  }
   .nst-navbar .nav-access {
     right: auto;
     left: 0;
