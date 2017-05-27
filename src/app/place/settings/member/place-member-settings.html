@@ -7,7 +7,7 @@
           <translate>selected</translate>
         </a>
       </div>
-      <div ng-click="ctrl.promote()">
+      <div ng-click="ctrl.promote()" ng-class="{'disabled' : ctrl.selectedKeyHoldersCount == 0}">
         <svg class="_24svg">
           <use xlink:href="/assets/icons/nst-icn24.svg#crown"></use>
         </svg>
@@ -15,7 +15,7 @@
           <translate>Promote({{ctrl.selectedKeyHoldersCount }})</translate>
         </a>
       </div>
-      <div ng-click="ctrl.demote()">
+      <div ng-click="ctrl.demote()" ng-class="{'disabled' : ctrl.selectedCreatorsCount == 0}">
         <svg class="_24svg">
           <use xlink:href="/assets/icons/nst-icn24.svg#person"></use>
         </svg>
@@ -23,7 +23,7 @@
           <translate>Demote({{ctrl.selectedCreatorsCount }})</translate>
         </a>
       </div>
-      <div ng-click="ctrl.remove()" class="force">
+      <div ng-click="ctrl.remove()" class="force ng-class:{'disabled' : ctrl.SelectedMembersCount == 0}">
         <svg class="_24svg">
           <use xlink:href="/assets/icons/nst-icn24.svg#bin"></use>
         </svg>
