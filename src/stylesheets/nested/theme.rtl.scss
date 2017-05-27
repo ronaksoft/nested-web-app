@@ -108,6 +108,13 @@ body[dir="rtl"] {
     padding-left: 0;
     padding-right: 8px;
   }
+  .ui-select-multiple.ui-select-bootstrap .ui-select-match-item div.selected-innter .place-img {
+    border-radius: 0 4px 4px 0;
+  }
+  .account-initials-40 {
+    margin-right: 0;
+    margin-left: 8px;
+  }
   .dropdown-menu {
     right: 0;
     left: auto;
