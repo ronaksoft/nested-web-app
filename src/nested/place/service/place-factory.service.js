@@ -634,70 +634,64 @@
       }, "search", keyword);
     };
 
-    PlaceFactory.prototype.addUser = function (place, role, user) {
+    PlaceFactory.prototype.addUser = function (place, users) {
       var factory = this;
-      var id = place.id + '-' + user.id + '-' + role;
+      var userIds = _.isArray(users)
+      ? _.join(_.map(users, 'id'),',')
+      : users;
 
       return this.sentinel.watch(function () {
         var deferred = $q.defer();
-        var query = new NstFactoryQuery(id, {
-          placeId: place.id,
-          userId: user.id,
-          role: role
-        });
 
         NstSvcServer.request('place/add_member', {
-          place_id: query.data.placeId,
-          member_id: query.data.userId,
-          role: query.data.role
-        }).then(function () {
-          place.counters.key_holders++;
-          factory.set(place);
-          $rootScope.$emit('member-added', {
-            placeId: place.id,
-            member: user
+          place_id: place.id,
+          member_id: userIds
+        }).then(function (result) {
+          var notAddedIds = result.invalid_ids || [];
+          var addedUsers = _.reject(users, function (user) {
+            return _.includes(notAddedIds, user.id);
           });
-          deferred.resolve(user);
+          deferred.resolve({
+            addedUsers: addedUsers,
+            rejectedUsers: _.differenceBy(users, addedUsers, 'id')
+          });
         }).catch(function (error) {
           deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
         });
 
         return deferred.promise;
-      }, "addUser", id);
+      }, "addUser", place.id + '-' + userIds);
 
     };
 
-    PlaceFactory.prototype.inviteUser = function (place, role, users) {
-
-      var userIds;
-      if (_.isArray(users)) {
-        userIds = _.map(users, 'id');
-      } else {
-        userIds = [users.id];
-      }
-
-      var id = place.id + '-' + userIds.join('-') + '-' + role;
+    PlaceFactory.prototype.inviteUser = function (place, users) {
+      var factory = this;
+      var userIds = _.isArray(users)
+        ? _.join(_.map(users, 'id'),',')
+        : users;
 
       return this.sentinel.watch(function () {
         var deferred = $q.defer();
-        var query = new NstFactoryQuery(id, {
-          placeId: place.id,
-          userId: userIds.join(','),
-          role: role
-        });
 
         NstSvcServer.request('place/invite_member', {
-          place_id: query.data.placeId,
-          member_id: query.data.userId,
-          role: query.data.role
+          place_id: place.id,
+          member_id: userIds
         }).then(function (result) {
-          deferred.resolve(result.invalid_ids);
+          console.log('invite result', result);
+          var notAddedIds = result.invalid_ids || [];
+          var addedUsers = _.reject(users, function (user) {
+            return _.includes(notAddedIds, user.id);
+          });
+          deferred.resolve({
+            addedUsers: addedUsers,
+            rejectedUsers: _.differenceBy(users, addedUsers, 'id')
+          });
         }).catch(function (error) {
           deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
         });
 
         return deferred.promise;
-      }, "inviteUser", id);
+      }, "inviteUser", place.id + '-' + userIds);
     }
 
     PlaceFactory.prototype.removeMember = function (placeId, memberId) {

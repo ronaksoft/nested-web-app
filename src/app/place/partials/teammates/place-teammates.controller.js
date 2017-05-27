@@ -65,12 +65,14 @@
     }));
 
     eventReferences.push($rootScope.$on('member-added', function (event, data) {
+      console.log('yessss', event, data);
       if (vm.placeId === data.placeId) {
+        console.log('place', place);
         if (addedMembersTracker.isTracked(data.member.id)) {
           return;
         }
 
-        NstSvcPlaceFactory.get(vm.place.id).then(function (place) {
+        NstSvcPlaceFactory.get(vm.place.id, true).then(function (place) {
           vm.place = place;
         }).catch(function (error) {
           toastr.error(NstSvcTranslation.get("An error has occured"));
