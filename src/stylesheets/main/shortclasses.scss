@@ -294,3 +294,14 @@ hr.nomargin {
 .fill-gale {
   fill:  $color-gale
 }
+.highlight-sense {
+  &:hover{
+    background-color: $color-sense-5;
+    border-bottom-left-radius: 5px;
+  }
+}
+.highlight-red {
+  &:hover{
+    background-color: rgba(255,100,100,.04);
+  }
+}

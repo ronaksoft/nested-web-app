@@ -139,7 +139,7 @@
     function sendComment(e) {
 
 
-      var element = e.target;
+      var element = angular.element(e.target);
 
       var resize = function() {
         e.target.style.height = '';
@@ -148,14 +148,10 @@
 
       $timeout(resize, 0);
 
-      var body = extractCommentBody(e);
-      if (body.length === 0) {
-        e.target.style.height = '';
-      }
-
       if (!sendKeyIsPressed(e) || element.attr("mention") === "true") {
         return;
       }
+      var body = extractCommentBody(e);
 
       if (body.length === 0) {
         return;
@@ -165,6 +161,7 @@
       vm.isSendingComment = true;
 
       NstSvcCommentFactory.addComment(vm.postId, body).then(function(comment) {
+
         if (!_.some(vm.comments, {
             id: comment.id
           })) {
@@ -182,6 +179,7 @@
           e.currentTarget.focus();
         }, 10);
         vm.onCommentSent(comment);
+        $timeout(resize, 0);
       }).catch(function(error) {
         toastr.error(NstSvcTranslation.get('Sorry, an error has occured in sending your comment'));
       });

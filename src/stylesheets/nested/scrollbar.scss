@@ -33,3 +33,15 @@
   background-color: transparent!important;}
 .ps-container:hover > .ps-scrollbar-y-rail:hover > .ps-scrollbar-y {
   background-color: #999;}
+
+
+.visible-scrollbar {
+  .ps-container > .ps-scrollbar-y-rail {
+    opacity: .6;
+    height: 100px;
+    display: block;
+    .ps-scrollbar-y {
+      min-height: 32px;
+    }
+  }
+}
