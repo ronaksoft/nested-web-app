@@ -35,6 +35,10 @@
              data-height="38"
              data-radius="30" class="account-initials-38 _df" data-word-count="2" data-font-size="16"/>
       </div>
+      <div class="select-card ng-class:{'selected' : ctlPostCard.isChecked || ctlPostCard.isCheckedForce}" ng-if="ctlPostCard.isPlaceFilter && ctlPostCard.placesWithControlAccess.length > 0">
+        <input class="_fr" type="checkbox" id="select{{ctlPostCard.post.id}}" name="select" ng-model="ctlPostCard.isChecked" ng-checked="ctlPostCard.isChecked"/>
+        <label class="_fw _df _asc setting" for="select{{ctlPostCard.post.id}}"></label>
+      </div>
     </div>
     <div class="_fw _difc">
       <h4 class="_df _fn" user-detail="ctlPostCard.post.sender">{{::ctlPostCard.post.sender.fullName}}</h4>
@@ -245,7 +249,7 @@
 </div>
 
 <div class="chain-stats" ng-if="ctlPostCard.chainView" observe="yes" affixer-post-view="{{ctlPostCard.addOn}}"
-  parent-mode='true' after-content="697" top="64" container=".modal" fixed-top="true">
+  parent-mode='true' after-content="697" top="64" container=".modal" fixed-top="true" rtl-right-auto="true">
   <div ng-if="!ctlPostCard.addOn">
     <div class="circ ng-class:{'blue' : ctlPostCard.post.isReplyed, 'green' : ctlPostCard.post.isForwarded}"></div>
   </div>

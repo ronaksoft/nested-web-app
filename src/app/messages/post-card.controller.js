@@ -41,7 +41,11 @@
     vm.viewFull = viewFull;
     vm.setBookmark = setBookmark;
     vm.unreadCommentsCount = 0;
+    vm.isChecked = false;
+    vm.isCheckedForce = false;
+    vm.isPlaceFilter = false;
 
+    isPlaceFeed();
     $scope.$parent.$parent.affixObserver = 1;
     vm.loadNewComments = loadNewComments;
     vm.attachPlace = attachPlace;
@@ -281,7 +285,8 @@
           },
           postPlaces: function () {
             return vm.post.places;
-          }
+          },
+          multi : false
         }
       }).result.then(function (result) {
         $scope.$emit('post-moved', {
@@ -351,6 +356,20 @@
 
         //   vm.post.counters.comments -= data.removedCommentsCount || 0;
         vm.post.comments = data.comments;
+      }
+    });
+
+    $scope.$watch(function(){
+      return vm.isChecked;
+    },function(){
+      $scope.$emit('post-select',{postId: vm.post.id,isChecked : vm.isChecked});
+    });
+
+    $scope.$on('selected-length-change',function(e,v){
+      if ( v.selectedPosts > 0) {
+        vm.isCheckedForce = true;
+      } else {
+        vm.isCheckedForce = false;
       }
     });
 
@@ -439,6 +458,14 @@
       if (!vm.post.read) {
         markAsRead();
       }
+    }
+
+    function isPlaceFeed() {
+      if ($state.current.name == 'app.place-messages' ||
+        $state.current.name == 'app.place-messages-sorted') {
+        return vm.isPlaceFilter = true;
+      }
+      return vm.isPlaceFilter = false;
     }
 
     function getPlacesWithRemoveAccess() {

@@ -94,7 +94,6 @@
                 defer.resolve(post);
               })
               .catch(function (error) {
-                console.log(error);
                 if (error) {
                   defer.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
                 } else {
@@ -715,7 +714,9 @@
           post_id: postId,
           old_place_id: oldPlaceId,
           new_place_id: newPlaceId
-        }).then(deferred.resolve).catch(deferred.reject);
+        }).then(function(result){
+          deferred.resolve({postId : postId})
+        }).catch(deferred.reject);
 
         return deferred.promise;
       }, "movePlace", watchKey);

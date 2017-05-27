@@ -47,12 +47,16 @@
     border-bottom: 1px solid $color-black008;
     margin-bottom: 12px;
     .selected-user {
+      .disabled {
+        opacity: .4;  
+      }
       >div {
         flex: 1;
         justify-content: center;
         align-items: center;
         flex-direction: column;
         display: flex;
+        transition: opacity $animation-dur;
         >span {
           font-size: 24px;
           color: $color-solid;

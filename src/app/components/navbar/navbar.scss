@@ -632,6 +632,7 @@ nst-navbar {
   }
   .nst-navbar.nfeed {
     height: 134px!important;
+    width: calc(100% - 272px);
     .content {
       .top-nav {
       }
@@ -744,7 +745,9 @@ nst-navbar {
 
 .nst-navbar {
   height: $navbar-height;
-  position: absolute;
+  position: fixed;
+  top: 0;
+  right: 0;
   top: 0;
 }
 .nst-navbar-f {

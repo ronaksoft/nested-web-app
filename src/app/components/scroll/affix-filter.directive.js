@@ -3,35 +3,26 @@
 
   angular
     .module('ronak.nested.web.components.scroll')
-    .directive('affixerPostView', onScroll);
+    .directive('affixerFilter', onScroll);
 
   /** @ngInject */
   function onScroll($window,$rootScope,$timeout) {
     return {
       restrict: 'A',
       link: function ($scope, $element, $attrs) {
-
         var win = angular.element($window);
         var topOffset = 0;
         var afterContent = 0;
         var applierTrigger = false;
-        var container = $attrs.container ? $($attrs.container) : win;
         var containerLeft = $('body').offset().left || 0;
-        var rightAuto = $attrs.rtlRightAuto || false;
 
         var isRTL = $rootScope._direction;
 
         var i = 0;
-        var defTop = $element.offset().top;
 
         applier();
-        if( $attrs.observe ) {
-          $scope.$watch(function(){
-            return $scope.$parent.$parent.$parent.affixObserver;
-          },function(){
-            return $timeout(function(){applier()},500);
-          });
-        }
+        // $element.clone().appendTo('#content-wrapper');
+        // console.log(clone);
 
 
         win.on("resize", function () {
@@ -39,15 +30,17 @@
         });
 
         function applier() {
-
-          if ($attrs.affixerPostView === 'false' || $attrs.affixerPostView === false) return;
           removeFix();
-          var top = $element[0].offsetTop + $element.parent()[0].offsetTop + 58 || 0;
 
-          topOffset = top - parseInt($attrs.top);
-          var offLeft = $element.offset().left || 0;
+          // var membrsH = 0;
+          // if ($element.parent().children().first().is("#members")) membrsH = parseInt($element.parent().children().first().height()) + 38;
 
-          // if($attrs.parentMode) offLeft = $element.parent().offset().left;
+
+          var top = $element.offset().top || 0;
+
+          topOffset = $element.offset().top - parseInt($attrs.top) - 24;
+
+          var offLeft = $element.offset().left - 24 || 0;
 
           var height = $element.outerHeight();
           var width = $element.outerWidth();
@@ -74,14 +67,21 @@
           }
 
           // affixElement();
-          
+
+          //for create a fixed element we need a left parameter so we read it from itself
+          function findLeftOffset () {
+            if (isRTL == 'rtl') {
+              offLeft = parseInt(containerLeft)  +  $($attrs.parent).width()  - parseInt(afterContent) - width;
+            } else {
+              // offLeft = parseInt(containerLeft) + parseInt(afterContent) + 272;
+            }
 
             // if (isChrome || isFirefox) {
             //   offLeft = parseInt($(container).offset().left) + parseInt(afterContent) - parseInt($('.sidebar').offset().left);
             // }else if (!(isChrome || isFirefox )){
             //   offLeft = parseInt($(container).offset().left) + parseInt(afterContent);
             // }
-          
+          }
           function removeFix() {
             $element.css('position', '');
             $element.css('top', '');
@@ -89,22 +89,18 @@
             $element.css('right', '');
             $element.css('width', '');
             $element.css('height', '');
-            $element.css('transform', '');
           }
 
 
           function affixElement() {
-            console.log($element,offLeft)
-            if (!fixed && container[0].scrollTop > topOffset) {
+            if (!fixed && $window.pageYOffset > topOffset) {
               $element.css('position', 'fixed');
               $element.css('top', parseInt(top) + 'px');
-              $element.css('left', offLeft + 'px');
-              if (rightAuto) $element.css('right', 'auto');
-              if(!dontSetWidth) $element.css('width', actualWidth + 'px');
-              $element.css('height', height + 'px');
-              $element.css('transform', 'none');
+              if (isRTL == 'ltr')$element.css('left', offLeft + 'px');
+              if (isRTL == 'rtl')$element.css('left', offLeft + 'px');
+              // $element.css('height', height + 'px');
               fixed = true;
-            } else if (fixed && container[0].scrollTop < topOffset ) {
+            } else if (fixed && $window.pageYOffset < topOffset ) {
               removeFix();
               fixed = false;
             }
@@ -120,15 +116,34 @@
               if(clearRight) {
                 $element.css('right', 'auto');
               }
-              return container.unbind('scroll', affixElement);
+              return win.unbind('scroll', affixElement);
             }
           }
 
 
-          container.bind('scroll', affixElement);
+          findLeftOffset();
+          win.bind('scroll', affixElement);
           firstFixes();
 
         }
+
+        // $scope.$watch(function () {
+        //
+        //   //bugfix for left of undiefiend on log out
+        //   if (!$('.content') || !$(".content").offset() || !$(".content").offset().left){
+        //       return false;
+        //   }else{
+        //       return $('.content').offset().left
+        //   }
+        // },function (newVal,oldVal) {
+        //   if(newVal)
+        //     applier();
+        // });
+
+        //keep track user and change parameters
+        // $scope.$on('$routeChangeStart', function() {
+        //   applier();
+        // });
 
       }
     };

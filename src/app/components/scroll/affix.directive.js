@@ -10,7 +10,6 @@
     return {
       restrict: 'A',
       link: function ($scope, $element, $attrs) {
-
         var win = angular.element($window);
         var topOffset = 0;
         var afterContent = 0;
@@ -38,6 +37,7 @@
         };
 
         checkLoop();
+        applier();
 
 
         win.on("resize", function () {
