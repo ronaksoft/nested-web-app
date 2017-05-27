@@ -144,7 +144,8 @@ nst-attachments-preview-bar {
       background-position: center center!important;
       float: left;
       object-fit: cover;
-      border: 1px solid $color-border;
+      border-radius: 2px;
+      // border: 1px solid $color-border;
     }
     .attach-thumbnail {
       height: 108px;
