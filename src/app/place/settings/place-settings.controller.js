@@ -16,6 +16,7 @@
     $scope.NST_PLACE_POLICY_OPTION = NST_PLACE_POLICY_OPTION;
     $scope.NST_PLACE_TYPE = NST_PLACE_TYPE;
     var removedMembersTracker = new NstEntityTracker(10);
+    var addedMembersTracker = new NstEntityTracker(10);
     var eventReferences = [];
     var timeoutReferences = [];
 
@@ -87,6 +88,28 @@
             break;
         }
       });
+
+      eventReferences.push($rootScope.$on('member-removed', function (event, data) {
+        if (vm.place.id === data.place.id) {
+          if (removedMembersTracker.isTracked(data.member.id)) {
+            return;
+          }
+          vm.place = data.place;
+          removedMembersTracker.track(data.member.id);
+        }
+      }));
+
+      eventReferences.push($rootScope.$on('member-added', function (event, data) {
+        if (vm.placeId === data.place.id) {
+          if (addedMembersTracker.isTracked(data.member.id)) {
+            return;
+          }
+
+          vm.place = data.place;
+          addedMembersTracker.track(data.member.id);
+        }
+      }));
+
     })();
 
 

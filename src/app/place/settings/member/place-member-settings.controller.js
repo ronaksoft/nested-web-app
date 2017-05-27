@@ -229,9 +229,16 @@
 
     function addUsers(place, users) {
       NstSvcPlaceFactory.addUser(place, users).then(function (result) {
+        // show the users that were added successfully
+        vm.teammates.push.apply(vm.teammates, _.map(result.addedUsers, function (member) {
+          return new NstVmMemberItem(member, NST_PLACE_MEMBER_TYPE.KEY_HOLDER);
+        }));
         // dispatch the required events
-        var dispatcher = _.partial(dispatchUserAdded, place);
-        _.forEach(result.addedUsers, dispatcher);
+        NstSvcPlaceFactory.get(place.id, true).then(function (newPlace) {
+          var dispatcher = _.partial(dispatchUserAdded, newPlace);
+          _.forEach(result.addedUsers, dispatcher);
+        });
+
 
         // notify the user about the result of adding
         if (_.size(result.rejectedUsers) === 0
@@ -266,7 +273,7 @@
       eventReferences.push($rootScope.$emit(
         'member-added',
         {
-          placeId: place.id,
+          place: place,
           member: user
         }
       ));
@@ -274,7 +281,11 @@
 
     function inviteUsers(place, users) {
       NstSvcPlaceFactory.inviteUser(place, users).then(function (result) {
-        // TODO: dispatch the required events
+        // show the users that were invited successfully
+        var role = 'pending_' + NST_PLACE_MEMBER_TYPE.KEY_HOLDER;
+        vm.teammates.push.apply(vm.teammates, _.map(result.addedUsers, function (member) {
+          return new NstVmMemberItem(member, role);
+        }));
 
         // notify the user about the result of adding
         if (_.size(result.rejectedUsers) === 0
@@ -459,8 +470,8 @@
         if (result) {
           _.forEach(members, function (member) {
             removeMember(member).then(function (result) {
-              return NstSvcPlaceFactory.get(vm.place.id);
-            }).then(function (place) {
+              return NstSvcPlaceFactory.get(vm.place.id, true);
+            }).then(function (newPlace) {
 
               vm.teammates = _.remove(vm.teammates, function (m) {
                 return m.id !== member.id;
@@ -472,10 +483,10 @@
               selectedKeyHoldersCalculator();
 
               if (!member.isPending()) {
-                NstSvcPlaceFactory.set(place);
+                NstSvcPlaceFactory.set(newPlace);
                 $scope.$emit('member-removed', {
                   member: member,
-                  placeId: vm.place.id
+                  place: newPlace
                 });
               }
 

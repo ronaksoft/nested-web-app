@@ -54,29 +54,24 @@
 
     eventReferences.push($rootScope.$on('member-removed', function (event, data) {
 
-      if (vm.placeId === data.placeId) {
+      if (vm.placeId === data.place.id) {
         if (removedMembersTracker.isTracked(data.member.id)) {
           return;
         }
-
-        NstUtility.collection.dropById(vm.teammates, data.member.id);
+        vm.place = data.place;
+        load();
         removedMembersTracker.track(data.member.id);
       }
     }));
 
     eventReferences.push($rootScope.$on('member-added', function (event, data) {
-      console.log('yessss', event, data);
-      if (vm.placeId === data.placeId) {
-        console.log('place', place);
+      if (vm.placeId === data.place.id) {
         if (addedMembersTracker.isTracked(data.member.id)) {
           return;
         }
 
-        NstSvcPlaceFactory.get(vm.place.id, true).then(function (place) {
-          vm.place = place;
-        }).catch(function (error) {
-          toastr.error(NstSvcTranslation.get("An error has occured"));
-        });
+        vm.place = data.place;
+        load();
         addedMembersTracker.track(data.member.id);
       }
     }));
@@ -163,114 +158,98 @@
       });
 
       modal.result.then(function (selectedUsers) {
-
-        var successRes = [];
-        var failedRes = [];
-
-        $q.all(_.map(selectedUsers, function (user) {
-          console.log(user);
-          return $q(function (resolve, reject) {
-            if (vm.placeId.split('.').length === 1) {
-              NstSvcPlaceFactory.inviteUser(vm.place, role, user).then(function (invalidIds) {
-
-                if (invalidIds[0]) {
-                  failedRes.push(user.id);
-                  resolve({
-                    user: user,
-                    role: role,
-                    invitationId: null,
-                    duplicate: true
-
-                  });
-                } else {
-                  successRes.push(user.id);
-                  resolve({
-                    user: user,
-                    role: role,
-                    invitationId: null,
-                  });
-                }
-
-              }).catch(function (error) {
-
-                failedRes.push(user.id);
-                // FIXME: Why cannot catch the error!
-                if (error.getCode() === NST_SRV_ERROR.DUPLICATE) {
-                  resolve({
-                    user: user,
-                    role: role,
-                    invitationId: null,
-                    duplicate: true
-                  });
-                } else {
-                  reject(error);
-                }
-              });
-            } else {
-              NstSvcPlaceFactory.addUser(vm.place, role, user).then(function (addId) {
-                var duplicate = false;
-
-                for (var i = 0; i < vm.teammates.length; i++) {
-                  if ( vm.teammates[i].id == addId.id ) duplicate = true;
-                }
-
-                if(duplicate) {
-                    failedRes.push(user.id);
-                    resolve({
-                      duplicate: true
-                    });
-                  } else {
-                    successRes.push(user.id);
-                    resolve({
-                      invitationId: addId
-                    });
-                  }
-
-              }).catch(function (error) {
-
-                // FIXME: Why cannot catch the error!
-                if (error.getCode() === NST_SRV_ERROR.DUPLICATE) {
-
-                  failedRes.push(user.id);
-
-                  resolve({
-                    user: user,
-                    role: role,
-                    invitationId: null,
-                    duplicate: true
-                  });
-                } else {
-                  reject(error);
-                }
-              });
-            }
-          });
-
-        })).then(function (values) {
-          _.forEach(values, function (result) {
-            if (!result.duplicate) {
-              if (result.role === NST_PLACE_MEMBER_TYPE.KEY_HOLDER) {
-                if (vm.placeId.split('.').length > 1)
-                  vm.teammates.push(new NstVmMemberItem(result.user, result.role));
-              }
-            }
-          });
-
-          if (successRes.length > 0) {
-            toastr.success(NstUtility.string.format(NstSvcTranslation.get('{0} user/s has been {1} to Place "{2}" successfully.'), successRes.length, vm.placeId.split('.').length === 1 ? 'invited' : 'added', vm.place.id));
-          }
-          if (failedRes.length > 0) {
-            if (vm.placeId.split('.').length === 1) {
-              toastr.error(NstUtility.string.format(NstSvcTranslation.get('{0} user/s has not been invited to Place {1}.'), failedRes.length, vm.place.id));
-            } else {
-              toastr.error(NstUtility.string.format(NstSvcTranslation.get('{0} user/s has not been added to Place {1}.'), failedRes.length, user.id, vm.place.id) + " " + failedRes.join(','));
-            }
-          }
-
-        }).catch(function (error) {
-          NstSvcLogger.error(error);
-        });
+        if (NstUtility.place.isGrand(vm.place.id)) {
+          invite(vm.place, selectedUsers);
+        } else {
+          add(vm.place, selectedUsers);
+        }
       });
+    }
+
+
+
+    function add(place, users) {
+      NstSvcPlaceFactory.addUser(place, users).then(function (result) {
+        // show the users that were added successfully
+        vm.teammates.push.apply(vm.teammates, _.map(result.addedUsers, function (member) {
+          return new NstVmMemberItem(member, NST_PLACE_MEMBER_TYPE.KEY_HOLDER);
+        }));
+        // dispatch the required events
+        NstSvcPlaceFactory.get(place.id, true).then(function (newPlace) {
+          vm.place = newPlace;
+          var dispatcher = _.partial(dispatchUserAdded, newPlace);
+          _.forEach(result.addedUsers, dispatcher);
+        });
+
+
+        // notify the user about the result of adding
+        if (_.size(result.rejectedUsers) === 0
+          && _.size(result.addedUsers) > 0) {
+          toastr.success(NstUtility.string.format(NstSvcTranslation.get('All selected users have been added to place {0} successfully.'), place.name));
+        } else {
+
+          // there are users that we were not able to add them
+          if (_.size(result.rejectedUsers) > 0) {
+            var names = _(result.rejectedUsers).map(function (user) {
+              return NstUtility.string.format('{0} (@{1})', user.fullName, user.id);
+            }).join('<br/>');
+            var message = NstSvcTranslation.get('We are not able to add these users to the place:');
+            toastr.warning(message + '<br/>' + names);
+          }
+
+          //there are some users that were added successfully
+          if (_.size(result.addedUsers) > 0) {
+            var names = _(result.addedUsers).map(function (user) {
+              return NstUtility.string.format('{0} (@{1})', user.fullName, user.id);
+            }).join('<br/>');
+            var message = NstSvcTranslation.get('These users have been added:');
+            toastr.success(message + '<br/>' + names);
+          }
+        }
+      }).catch(function (error) {
+        toastr.warning(NstSvcTranslation.get('An error has occured while adding the user(s) to the place!'));
+      });
+    }
+
+    function invite(place, users) {
+      NstSvcPlaceFactory.inviteUser(place, users).then(function (result) {
+        // notify the user about the result of adding
+        if (_.size(result.rejectedUsers) === 0
+          && _.size(result.addedUsers) > 0) {
+          toastr.success(NstUtility.string.format(NstSvcTranslation.get('All selected users have been invited to place {0} successfully.'), place.name));
+        } else {
+
+          // there are users that we were not able to invite them
+          if (_.size(result.rejectedUsers) > 0) {
+            var names = _(result.rejectedUsers).map(function (user) {
+              return NstUtility.string.format('{0} (@{1})', user.fullName, user.id);
+            }).join('<br/>');
+            var message = NstSvcTranslation.get('We are not able to invite these users to the place:');
+            toastr.warning(message + '<br/>' + names);
+          }
+
+          //there are some users that were invited successfully
+          if (_.size(result.addedUsers) > 0) {
+            var names = _(result.addedUsers).map(function (user) {
+              return NstUtility.string.format('{0} (@{1})', user.fullName, user.id);
+            }).join('<br/>');
+            var message = NstSvcTranslation.get('These users have been invited:');
+            toastr.success(message + '<br/>' + names);
+          }
+        }
+      }).catch(function (error) {
+        toastr.warning(NstSvcTranslation.get('An error has occured while inviting the user(s) to the place!'));
+      });
+    }
+
+    function dispatchUserAdded(place, user) {
+      eventReferences.push($rootScope.$emit(
+        'member-added',
+        {
+          place: place,
+          member: user
+        }
+      ));
     }
 
     function addMember() {
