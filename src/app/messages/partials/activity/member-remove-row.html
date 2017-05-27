@@ -20,12 +20,10 @@
   </div>
   <div class="_df">
     <p data-ng-if="!(act.member.id == act.actor.id)" class="nst-mood-simple">
-        <translate ng-if="currentPlaceId">removed @{{::act.member.id}} from here</translate>
-        <translate ng-if="!currentPlaceId">removed @{{::act.member.id}} from {{::act.place.name}}</translate>
+        <translate ng-if="currentPlaceId">removed @{{::act.member.id}}.</translate>
     </p>
     <p data-ng-if="act.member.id == act.actor.id" class="nst-mood-simple">
-      <translate ng-if="currentPlaceId">left here</translate>
-      <translate ng-if="!currentPlaceId">left {{::act.place.name}}</translate>
+      <translate ng-if="currentPlaceId">left.</translate>
     </p>
   </div>
 </div>
