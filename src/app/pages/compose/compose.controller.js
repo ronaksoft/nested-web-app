@@ -19,11 +19,13 @@
     var vm = this;
     vm.quickMode = false;
     vm.focus = false;
+    vm.collapse = false;
     vm.mouseIn = false;
     var eventReferences = [];
     var discardCanceler = null;
     vm.makeChangeForWatchers = 0;
     vm.clear = clear;
+    vm.scroll = scroll;
     vm.searchRecipients = _.debounce(searchRecipients, 400);
 
     if (vm.mode == 'quick') {
@@ -78,6 +80,7 @@
     vm.focusBox = function () {
       NstSvcLogger.debug4('Compose | Compose Box is focused');
       vm.focus = true;
+      vm.collapse = true;
     };
 
     vm.blurBox = function () {
@@ -895,6 +898,54 @@
     /*****************************
      *****    State Methods   ****
      *****************************/
+
+
+    vm.emitItemsAnalytics = function(){
+      $scope.$broadcast('compose-add-item',{active : vm.collapse});
+    }
+
+    var changeDirection = function (dir, align) {
+      this.selection.save();
+      var elements = this.selection.blocks();
+      for (var i = 0; i < elements.length; i++) {
+        var element = elements[i];
+        if (element != this.$el.get(0)) {
+        $(element)
+          .css('direction', dir)
+          .css('text-align', align);
+        }
+      }
+
+      this.selection.restore();
+    }
+
+    $.FroalaEditor.DefineIcon('rightToLeft', {NAME: 'long-arrow-left'});
+    $.FroalaEditor.RegisterCommand('rightToLeft', {
+      title: 'RTL',
+      focus: true,
+      undo: true,
+      refreshAfterCallback: true,
+      callback: function () {
+        changeDirection.apply(this, ['rtl', 'right']);
+      }
+    })
+
+    $.FroalaEditor.DefineIcon('leftToRight', {NAME: 'long-arrow-right'});
+    $.FroalaEditor.RegisterCommand('leftToRight', {
+      title: 'LTR',
+      focus: true,
+      undo: true,
+      refreshAfterCallback: true,
+      callback: function () {
+        changeDirection.apply(this, ['ltr', 'left']);
+      }
+    })
+    
+    vm.froalaOpts = {
+      toolbarContainer: '#editor-btn',
+      charCounterCount: false,
+      toolbarButtons: ['fontSize', 'fontFamily', '|', 'bold', 'italic', 'underline', '|', 'paragraphFormat', 'align', 'insertLink', 'rightToLeft', 'leftToRight']
+    }
 
     /*****************************
      *****    Fetch Methods   ****

@@ -17,6 +17,7 @@
       'cfp.hotkeys',
       'ngImgCrop',
       'ngAnimate',
+      'froala',
       'angular-google-analytics'
     ]);
 })();

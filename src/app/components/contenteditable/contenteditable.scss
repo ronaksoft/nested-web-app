@@ -1,5 +1,5 @@
 .empty div[contenteditable]:before{
-  content: 'Write some thing';
+  // content: 'Write some thing';
   display: block;
   pointer-events: none;
   color: rgba(0,0,0,0.4);

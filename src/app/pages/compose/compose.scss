@@ -37,11 +37,43 @@
 
 }
 #compose-full {
+  margin: 0 16px;
   use:last-child {
     display: none;
   }
 }
-
+.ui-select-bootstrap {
+  .ui-select-choices-row.active > a{
+    background-color: rgba(20,215,105,.08);
+    color: rgba(50,61,71,.72);
+  }
+  .ui-select-choices-row>a:hover,
+  .ui-select-choices-row>a:focus {
+    background-color: rgba(20,215,105,.08);
+    color: rgba(50,61,71,.72);
+  }
+  .ui-select-choices-row>a {
+    color: rgba(50,61,71,.72);
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    overflow: hidden;
+    span {
+      font-size: 14px
+    }
+    .nst-font-10 {
+      font-size: 10px;
+      color: rgba(50,61,71,.4);
+      span {
+        font-size: 10px;
+      }
+    }
+  }
+  .ui-select-highlight {
+    background-color: transparent;
+    color: rgba(50,61,71,1);
+  }
+}
 /**
   **********************************************************
   *     Nested Classes - Page Specific - Compose *
@@ -55,10 +87,13 @@
 
 .compose-input {
   //margin-top: 20px;
-  height: 60px;
+  height: 26px;
   border: none;
-  font-size: $font-size-xlarge;
-  line-height: 42px;
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 22px;
+  margin-bottom: 8px;
+  color: $color-solid;
   &::-webkit-input-placeholder {
     line-height: 42px;
   }
@@ -72,12 +107,14 @@
 
 .compose-wrp .address-input {
   width: 100%;
-  min-height: 40px;
+  height: 100%;
   border: none;
   padding-left: 8px;
   align-items: center;
+  border-radius: 0;
   display: flex;
-  border-bottom: 1px solid $color-border;
+  transition: height $animation-dur;
+  min-height: 32px;
 }
 
 .nst-attach-upload {
@@ -101,8 +138,11 @@
 .nst-attach {
   flex: none;
   height: 108px;
-  width: calc(100% - 40px);
+  width: 100%;
   align-self: center;
+  position: absolute;
+  left: 0;
+  bottom: 48px;
 }
 
 .compose-message-input {
@@ -118,7 +158,7 @@
   width: 100%;
   flex-grow: 1;
   >div ,>div>div {
-    display: flex;
+    // display: flex;
     height: auto;
   }
   p {
@@ -134,8 +174,11 @@
 
 .input-select-match {
   flex: none;
-  min-height: 42px;
+  min-height: 32px;
+  max-height: 300px;
   margin-bottom: 24px;
+  border-bottom: 1px solid $color-border;
+  transition: max-height $animation-dur;
 }
 .sto {
   padding: 0 16px;
@@ -144,6 +187,14 @@
 #input-compose-to  .ui-select-choices {
    padding: 0;
    max-height: 250px;
+   width: calc(100% - 32px);
+   left: 16px;
+   border: 1px solid $color-breeze;
+   box-shadow: 0 8px 16px $color-breeze;
+   border-radius: 0;
+   top: calc(100% + 2px);
+   padding: 8px 0;
+   border-top: none;
  }
 .place-initials-32 {
   width: 32px;
@@ -157,7 +208,24 @@
   border-radius: 6px;
   margin-right: 8px;
   flex: none;
+  position: relative;
   justify-content: center;
+  overflow: hidden;
+  img {
+    width: 32px;
+    height: 32px;
+  }
+  &::after {
+    left: 0;
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .1);
+    pointer-events: none;
+    content: "";
+    top: 0;
+  }
 }
 .cke_reset {
   width: 100%!important;
@@ -220,4 +288,48 @@ body.isMobile {
   .modal-ft {
     flex-direction: column;
   }
+}
+.modal-bo.scrolled {
+  .input-select-match {
+    overflow: hidden;
+    max-height: 32px;
+  }
+  .address-input {
+    align-items: flex-start
+  }
+  #more-reci {
+    display: inline-flex
+  }
+}
+#more-reci {
+  display: none;
+  width: 32px;
+  height: 30px;
+  line-height: 30px;
+  justify-content: center;
+  border: 1px solid #D6D6D6;
+  border-radius: 4px;
+  color: $color-solid;
+  vertical-align: bottom;
+  background: #ebebeb; /* Old browsers */
+  background: -moz-linear-gradient(top, #ebebeb 0%, #d6d6d6 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, #ebebeb 0%,#d6d6d6 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, #ebebeb 0%,#d6d6d6 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ebebeb', endColorstr='#d6d6d6',GradientType=1 ); /* IE6-9 */
+}
+
+.compose-wrp .fr-box {
+  width: 100%;
+  height: 100%;
+  .fr-element {
+    padding: 0
+  }
+}
+.compose-wrp .fr-box.fr-basic .fr-element {
+  padding: 0
+}
+.editor-btn-wrp .fr-toolbar.fr-top {
+  box-shadow: none;
+  border: none;
+  background-color: rgba(50,61,71,.08)
 }
