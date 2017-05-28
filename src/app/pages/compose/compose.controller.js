@@ -944,7 +944,9 @@
     vm.froalaOpts = {
       toolbarContainer: '#editor-btn',
       charCounterCount: false,
-      toolbarButtons: ['fontSize', 'fontFamily', '|', 'bold', 'italic', 'underline', '|', 'paragraphFormat', 'align', 'insertLink', 'rightToLeft', 'leftToRight']
+      tabSpaces: 4,
+      fontSize : ['8', '10', '14', '18', '22'],
+      toolbarButtons: ['fontSize', '|', 'bold', 'italic', 'underline', '|', 'align', 'rightToLeft', 'leftToRight']
     }
 
     /*****************************
