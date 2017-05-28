@@ -19,7 +19,7 @@
     /*****************************
      *** Controller Properties ***
      *****************************/
-    vm.APP_VERSION = NST_CONFIG.APP_VERSION
+    vm.APP_VERSION = NST_CONFIG.APP_VERSION;
     vm.user = NstSvcUserFactory.currentUser;
     vm.stateParams = $stateParams;
     vm.invitation = {};
@@ -32,6 +32,9 @@
     vm.openCreatePlaceModal = openCreatePlaceModal;
     vm.mapLimits = mapLimits;
 
+
+    //fixme:: read from config
+    vm.admin_area = location.hostname + ':8080';
     /*****************************
      ***** Controller Methods ****
      *****************************/
