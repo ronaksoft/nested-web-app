@@ -162,6 +162,10 @@
       }
 
       function mustBeAddedToHotPosts(post) {
+        if (post.read) {
+          return false;
+        }
+
         if (post.sender.id === NstSvcAuth.user.id) {
           return false;
         }
@@ -297,7 +301,6 @@
       $scope.$broadcast('selected-length-change',{selectedPosts : vm.selectedPosts.length});
     });
 
-
     function setNavbarProperties() {
       vm.navTitle = 'Feed';
       vm.navIconClass = 'all-places';
@@ -338,6 +341,7 @@
         }
       }).result;
     }
+
     function removeMulti($event) {
       $event.preventDefault();
       confirmforRemoveMulti(vm.selectedPosts.length, vm.currentPlace).then(function (agree) {
@@ -358,7 +362,7 @@
             }).catch(function (error) {
               toastr.error(NstSvcTranslation.get("An error has occurred in trying to remove this message from the selected Place."));
             });
-          });        
+          });
         }
 
       });
@@ -543,13 +547,6 @@
       return $q.resolve(vm.placeRemoveAccess);
     }
 
-
-    // $rootScope.$on('post-quick', function (event, data) {
-    //   // if (_.find(data.places, {id: vm.currentPlaceId}) || !vm.currentPlaceId) {
-    //     loadMessages(true, true);
-    //   // }
-    // });
-
     function getFirstMessageTime() {
 
       var fists = _.first(vm.messages);
@@ -564,7 +561,6 @@
 
       return lastDate;
     }
-
 
     function getLastMessageTime() {
 
@@ -736,7 +732,6 @@
       return defer.promise;
     }
 
-
     function markAllAsRead() {
       NstSvcPlaceFactory.markAllPostAsRead($stateParams.placeId)
         .then(function (result) {
@@ -756,7 +751,6 @@
 
       return $q.resolve(vm.quickMessageAccess);
     }
-
 
     $scope.$on('$destroy', function () {
       NstSvcSync.closeChannel(vm.syncId);
