@@ -15,12 +15,12 @@
       <p class="_fw" auto-dir="comment.body">
             <span class="_df _fn time" data-uib-tooltip="{{::comment.timestamp | date : 'full' | localize}}" data-tooltip-append-to-body="true" data-tooltip-placement="top auto">{{comment.timestamp | passed | localize}}</span>
         <strong class="_fl" user-detail="comment.sender">{{comment.sender.fullName}}:&nbsp;</strong>
-        <span is-two-line class="_fl" ng-if="!comment.removedById" ng-bind-html="comment.body | link | plainToHtml"></span>
+        <span is-two-line class="_fl" ng-if="!comment.removedById" ng-bind-html="comment.body | plainToHtml | link"></span>
         <i ng-if="comment.removedById">
           <translate>removed by <a class="comment-removed-by" href user-detail="comment.removedBy">{{::comment.removedBy.fullName}}</a></translate>
         </i>
       </p>
-    </div>  
+    </div>
     <div class="delete-comment" data-ng-if="ctrl.allowToRemoveComment(comment)" ng-click="ctrl.removeComment(comment);  _track('post card', 'remove comment');" >
       <svg class="_16svg">
         <use xlink:href="/assets/icons/nst-icn16.svg#bin"></use>
