@@ -127,7 +127,7 @@
         <a ui-sref="app.place-messages({ placeId : place.id })" place-detail="place.id" dir="ltr">
           #{{::place.name}}
         </a>
-        <svg class="_16svg red" ng-click="ctlPostCard.remove(place.id);$event.stopPropagation();">
+        <svg class="_16svg red" ng-click="ctlPostCard.remove(place);$event.stopPropagation();">
           <use xlink:href="/assets/icons/nst-icn16.svg#bin"></use>
         </svg>
     </span>
