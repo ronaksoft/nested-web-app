@@ -93,8 +93,7 @@
     function markAsRead() {
       if (!vm.post.read) {
         vm.post.read = true;
-        NstSvcPostFactory.read([vm.post.id]).then(function () {
-        }).catch(function (err) {
+        NstSvcPostFactory.read([vm.post.id]).catch(function (err) {
           $log.debug('MARK AS READ :' + err);
         });
       }
