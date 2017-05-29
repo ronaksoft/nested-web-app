@@ -42,6 +42,7 @@
     PostFactory.prototype.movePlace = movePlace;
     PostFactory.prototype.attachPlaces = attachPlaces;
     PostFactory.prototype.whoRead = whoRead;
+    PostFactory.prototype.getCounters = getCounters;
 
     var factory = new PostFactory();
     return factory;
@@ -723,7 +724,6 @@
 
     }
 
-
     function whoRead(postId, skip, limit) {
       return factory.sentinel.watch(function () {
         var deferred = $q.defer();
@@ -747,6 +747,18 @@
         return deferred.promise;
       }, "movePlace", 'who-read-' + postId);
 
+    }
+
+    function getCounters(postId) {
+      return this.sentinel.watch(function () {
+        return $q(function (resolve, reject) {
+          NstSvcServer.request('post/get_counters', {
+            post_id: postId,
+          }).then(function (data) {
+            resolve(data.counters);
+          }).catch(reject);
+        });
+      },'getCounters' + postId);
     }
   }
 })

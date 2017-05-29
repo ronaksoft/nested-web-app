@@ -13,6 +13,7 @@
                           selectedPostId) {
     var vm = this;
     var defaultLimit = 8;
+    var eventReferences = [];
 
 
     /*****************************
@@ -53,13 +54,13 @@
       });
 
       // listens to post-robbons to switch them to post-card mode
-      $scope.$on('post-chain-expand-me', function (event, data) {
+      eventReferences.push($scope.$on('post-chain-expand-me', function (event, data) {
         if (data.postId) {
           vm.extendedId = data.postId;
         }
-      });
+      }));
 
-      $scope.$on('post-view-target-changed', function (event, data) {
+      eventReferences.push($scope.$on('post-view-target-changed', function (event, data) {
         vm.postId = data.postId;
 
         var indexOfPost = _.findIndex(vm.messages, function (msg) {
@@ -69,7 +70,7 @@
         vm.messages.splice(indexOfPost + 1);
 
         load(data.postId);
-      });
+      }));
     })();
 
     function loadChainMessages(postId, limit) {
@@ -156,16 +157,19 @@
     }
 
     $uibModalInstance.result.finally(function () {
-      $rootScope.$broadcast('post-modal-closed', {
+      eventReferences.push($rootScope.$broadcast('post-modal-closed', {
         postId: vm.post.id,
-        comments: _.takeRight(vm.post.comments, 3),
-        totalCommentsCount: vm.post.counters.comments,
-        // removedCommentsCount: removedCommentsCount
-      });
+        comments: _.takeRight(vm.post.comments, 3)
+      }));
     });
 
     $scope.$on('$destroy', function () {
       NstSvcSync.closeChannel(vm.syncId);
+      _.forEach(eventReferences, function (cenceler) {
+        if (_.isFunction(cenceler)) {
+          cenceler();
+        }
+      });
     });
 
     function checkHasManagerAccess(placeIds) {
@@ -176,6 +180,6 @@
         vm.hasPlaceWithControlAccess = _.size(placesWithControlAccess) > 0;
       });
     }
-
   }
+
 })();
