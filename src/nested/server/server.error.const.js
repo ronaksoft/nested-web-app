@@ -10,6 +10,7 @@
     INCOMPLETE: 4,
     DUPLICATE: 5,
     LIMIT_REACHED: 6,
-    TIMEOUT: 1000
+    SESSION_EXPIRE: 8,
+    TIMEOUT: 1000,
   });
 })();
