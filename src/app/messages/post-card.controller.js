@@ -61,6 +61,7 @@
     vm.getPlacesWithRemoveAccess = getPlacesWithRemoveAccess;
     vm.getPlacesWithControlAccess = getPlacesWithControlAccess;
     vm.hasPlacesWithControlAccess = hasPlacesWithControlAccess;
+    vm.hasDeleteAccess = hasDeleteAccess;
 
     if (vm.mood == 'chain') {
       vm.chainView = true;
@@ -322,6 +323,9 @@
       vm.unreadCommentsCount = 0;
     }
 
+    function hasDeleteAccess(place) {
+      return place.hasAccess(NST_PLACE_ACCESS.REMOVE_POST);
+    }
     /**
      * anonymous function - Reset newCommentsCount when the post has been seen
      *
