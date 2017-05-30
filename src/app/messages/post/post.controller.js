@@ -20,8 +20,6 @@
      *** Controller Properties ***
      *****************************/
 
-    vm.hasRemoveAccess = null;
-    vm.placesWithRemoveAccess = [];
     vm.chainStack = [];
     vm.post = null;
     vm.postId = selectedPostId || $stateParams.postId;
@@ -118,12 +116,6 @@
         vm.post.trusted = Object.keys(resolvedSet[1].resources).length > 0 ? $stateParams.trusted : true;
         vm.post.resources = resolvedSet[1].resources;
 
-
-        vm.post.placesWithRemoveAccess = _.map(NstSvcPlaceFactory.filterPlacesByRemovePostAccess(resolvedSet[1].places), 'id');
-        vm.hasRemoveAccess = _.size(vm.post.placesWithRemoveAccess) > 0;
-
-        // TODO: Optimize (get accessses instead of a place object which has more cost)
-        checkHasManagerAccess(_.map(vm.post.places, 'id'));
         vm.messages.splice(vm.messages.length - 1, 1, vm.post);
       }).catch(function (error) {
         toastr.error(NstSvcTranslation.get('An error occured while tying to show the post full body.'));
@@ -171,15 +163,6 @@
         }
       });
     });
-
-    function checkHasManagerAccess(placeIds) {
-      $q.all(_.map(placeIds, function (placeId) {
-        return NstSvcPlaceFactory.get(placeId);
-      })).then(function (places) {
-        var placesWithControlAccess = NstSvcPlaceFactory.filterPlacesByControlAccess(places);
-        vm.hasPlaceWithControlAccess = _.size(placesWithControlAccess) > 0;
-      });
-    }
   }
 
 })();
