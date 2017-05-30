@@ -223,6 +223,7 @@ body.modal-open {
     .ui-select-multiple.ui-select-bootstrap input.ui-select-search ,
     .ui-select-multiple.ui-select-bootstrap {
       padding: 0;
+      // height: 29px;
     }
   }
   .compose-wrp {
@@ -300,6 +301,8 @@ body.modal-open {
     left: 0;
     bottom: 48px;
     padding: 0 16px;
+    align-items: center;
+    display: flex;
   }
 
   & + div{

@@ -13,7 +13,7 @@
     <div class="modal-bo _difv _fw ng-class:{'scrolled' : ctlCompose.collapse}">
       <p class="_df _fn" ng-if="!ctlCompose.quickMode"><b><translate>Share With</translate></b></p>
       <div ng-if="!ctlCompose.quickMode" class="_df _fw input-select-match">
-        <ui-select minimum-input-length="4" multiple limit="10"  class="address-input _dib" autofocus focus-on="focus-rec" compose-scroll
+        <ui-select minimum-input-length="4" multiple limit="10"  class="address-input _dib" autofocus focus-on="focus-rec" focus-checker
                    id="input-compose-to" on-select="ctlCompose.emitItemsAnalytics()" on-remove="ctlCompose.emitItemsAnalytics()"
                    data-ng-model="ctlCompose.model.recipients">
           <ui-select-match placeholder="{{::ctlCompose.inputPlaceHolderLabel}}" compose-match-item class="match-items">
@@ -64,6 +64,8 @@
       </div>
       <div class="attach _df">
         <input id="attach" type="file" multiple onchange="angular.element(this).scope().ctlCompose.attachments.fileSelected(event)"/>
+        <input id="attach-img" accept="image/*" type="file" multiple onchange="angular.element(this).scope().ctlCompose.attachments.fileSelected(event)"/>
+        <input id="attach-video" accept="video/*" type="file" multiple onchange="angular.element(this).scope().ctlCompose.attachments.fileSelected(event)"/>
       </div>
       <div class="nst-attach-con _fh" ng-if="showUploadProgress">
         <div class="progress">
@@ -75,12 +77,32 @@
     </div>
     <div class="modal-ft _fw _aic ng-class:{'focussed' : ctlCompose.focus}">
       <div class="compose-btns">
-        <label class="_df _fn" for="attach">
+        <label class="_df _fn" class="cursor-pointer margin-r_5 icon _df"
+           popover-class="white-pop post-card-moreopt"
+           data-popover-placement="{{$root._direction == 'ltr' ? 'left auto' : 'right auto'}}"
+           data-uib-popover-template="'app/pages/compose/partials/files-modal.html'"
+           data-popover-append-to-body="false" translate-attrs="data-uib-tooltip">
           <svg class="_24svg _asc">
             <use xlink:href="/assets/icons/nst-icn24.svg#attach"></use>
           </svg>
         </label>
+        <label class="_df _fn" for="attach-img">
+          <svg class="_24svg _asc">
+            <use xlink:href="/assets/icons/nst-icn24.svg#window"></use>
+          </svg>
+        </label>
+        <label class="_df _fn" for="attach-video">
+          <svg class="_24svg _asc">
+            <use xlink:href="/assets/icons/nst-icn24.svg#places"></use>
+          </svg>
+        </label>
+        <svg class="_24svg _asc">
+          <use xlink:href="/assets/icons/nst-icn24.svg#person"></use>
+        </svg>
         <div class="_df f1"></div>
+        <svg class="_24svg _asc">
+          <use xlink:href="/assets/icons/nst-icn24.svg#gear"></use>
+        </svg>
       </div>
       <div class="quick-btns">
         <input type="button" ng-click="ctlCompose.clear()" class="butn-white" value="Discard" ng-if="ctlCompose.quickMode" translate-attrs="value">
