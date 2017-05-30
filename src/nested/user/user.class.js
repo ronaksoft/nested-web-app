@@ -62,6 +62,8 @@
 
       this.searchable = undefined;
 
+      this.admin = undefined;
+
 
       /**
        * Number of times the user was mentioned

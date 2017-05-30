@@ -220,7 +220,7 @@
 
       var deferred = $q.defer();
 
-      function parsePlace (placeData) {
+      function parsePlace(placeData) {
         var place = new NstPlace();
 
         place.id = placeData._id;
@@ -279,7 +279,7 @@
       if (!angular.isObject(userData)) {
         return user;
       }
-
+      user.admin = userData.admin ? true : false;
       user.id = userData._id;
       user.firstName = userData.fname ? userData.fname : userData.name ? userData.name : userData._id;
       user.lastName = userData.lname || '';

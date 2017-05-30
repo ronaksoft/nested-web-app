@@ -6,8 +6,8 @@
     .service('NstSvcServer', NstSvcServer);
 
   /** @ngInject */
-  function NstSvcServer(_, $q, $timeout, $cookies,
-                        NST_CONFIG, NST_AUTH_COMMAND, NST_REQ_STATUS, NST_RES_STATUS,
+  function NstSvcServer(_, $q, $timeout, $cookies, $rootScope,
+                        NST_CONFIG, NST_AUTH_COMMAND, NST_REQ_STATUS, NST_RES_STATUS, NST_AUTH_EVENT,
                         NST_SRV_MESSAGE_TYPE, NST_SRV_PUSH_CMD, NST_SRV_RESPONSE_STATUS, NST_SRV_ERROR,
                         NST_SRV_EVENT, NST_SRV_MESSAGE,
                         NstSvcRandomize, NstSvcLogger, NstSvcTry, NstSvcConnectionMonitor,
@@ -221,6 +221,11 @@
       }).catch(function (response) {
         NstSvcLogger.debug2('WS | Response: ', response);
         // TODO: retry here by creating a new request
+
+        if (response.data.code === NST_SRV_ERROR.SESSION_EXPIRE) {
+          $rootScope.$broadcast(NST_AUTH_EVENT.AUTHORIZE_FAIL, {detail: {reason: 7}});
+        }
+
         return $q.reject(new NstServerError(
           new NstServerQuery(action, data),
           response.getData().items,

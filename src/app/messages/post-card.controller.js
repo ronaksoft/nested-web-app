@@ -29,17 +29,23 @@
     vm.expand = expand;
     vm.collapse = collapse;
     vm.showTrustedBody = showTrustedBody;
-    vm.body = null;
     vm.markAsRead = markAsRead;
-    vm.chainView = false;
     vm.switchToPostCard = switchToPostCard;
     vm.onAddComment = onAddComment;
-    vm.expandProgress = false;
     vm.replyAll = replyAll;
     vm.forward = forward;
     vm.replyToSender = replyToSender;
     vm.viewFull = viewFull;
     vm.setBookmark = setBookmark;
+    vm.loadNewComments = loadNewComments;
+    vm.attachPlace = attachPlace;
+    vm.seenBy = seenBy;
+    vm.move = move;
+    vm.toggleMoveTo = toggleMoveTo;
+
+    vm.expandProgress = false;
+    vm.body = null;
+    vm.chainView = false;
     vm.unreadCommentsCount = 0;
     vm.isChecked = false;
     vm.isCheckedForce = false;
@@ -47,20 +53,11 @@
 
     isPlaceFeed();
     $scope.$parent.$parent.affixObserver = 1;
-    vm.loadNewComments = loadNewComments;
-    vm.attachPlace = attachPlace;
-    vm.seenBy = seenBy;
-    vm.move = move;
-    vm.toggleMoveTo = toggleMoveTo;
-
-    vm.senderIsCurrentUser = function(id){
-       return NstSvcAuth.user.id == id;
-    }
-      ;
 
     vm.getPlacesWithRemoveAccess = getPlacesWithRemoveAccess;
     vm.getPlacesWithControlAccess = getPlacesWithControlAccess;
     vm.hasPlacesWithControlAccess = hasPlacesWithControlAccess;
+    vm.hasDeleteAccess = hasDeleteAccess;
 
     if (vm.mood == 'chain') {
       vm.chainView = true;
@@ -96,8 +93,7 @@
     function markAsRead() {
       if (!vm.post.read) {
         vm.post.read = true;
-        NstSvcPostFactory.read([vm.post.id]).then(function () {
-        }).catch(function (err) {
+        NstSvcPostFactory.read([vm.post.id]).catch(function (err) {
           $log.debug('MARK AS READ :' + err);
         });
       }
@@ -315,21 +311,18 @@
 
     function loadNewComments($event) {
       $event.preventDefault();
-      var reference = $scope.$broadcast('post-load-new-comments', {postId: vm.post.id});
-      pageEventReferences.push(reference);
-
-      vm.post.counters.comments += vm.unreadCommentsCount;
+      pageEventReferences.push($scope.$broadcast('post-load-new-comments', { postId: vm.post.id }));
+      reloadCounters();
       vm.unreadCommentsCount = 0;
     }
 
-    /**
-     * anonymous function - Reset newCommentsCount when the post has been seen
-     *
-     * @param  {CustomEvent} e The event
-     */
+    function hasDeleteAccess(place) {
+      return place.hasAccess(NST_PLACE_ACCESS.REMOVE_POST);
+    }
+
     NstSvcPostFactory.addEventListener(NST_POST_EVENT.VIEWED, function (e) {
       if (e.detail.postId === vm.post.id) {
-        vm.post.counters.comments += vm.unreadCommentsCount;
+        reloadCounters();
         vm.unreadCommentsCount = 0;
       }
     });
@@ -346,18 +339,22 @@
       }
     });
 
-    $rootScope.$on('post-modal-closed', function (event, data) {
+    pageEventReferences.push($rootScope.$on('post-modal-closed', function (event, data) {
       if (data.postId === vm.post.id) {
         event.preventDefault();
-        vm.post.counters.comments = data.totalCommentsCount;
-
-        vm.post.counters.comments += vm.unreadCommentsCount;
+        // replace last 3 comments and reset new comments counter
         vm.unreadCommentsCount = 0;
-
-        //   vm.post.counters.comments -= data.removedCommentsCount || 0;
         vm.post.comments = data.comments;
+        // update the post counters
+        reloadCounters();
       }
-    });
+    }));
+
+    function reloadCounters() {
+      NstSvcPostFactory.getCounters(vm.post.id).then(function (counters) {
+        vm.post.counters = counters;
+      });
+    }
 
     $scope.$watch(function(){
       return vm.isChecked;

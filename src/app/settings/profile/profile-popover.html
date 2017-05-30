@@ -25,6 +25,9 @@
 <a class="_df list-items _aic" target="_blank" ng-click="ctlSidebar.closeProfile()" href="https://nested.me/feedback/index.html">
   <translate>Send a feedback</translate>
 </a>
+<a ng-if="ctlSidebar.user.admin" class="_df list-items _aic" target="_blank" href="//{{ctlSidebar.admin_area}}">
+  <translate>Admin area</translate>
+</a>
 <hr class="line-popover">
 <a class="_df red-item list-items _aic red-item" href="#/signout" ng-click="_track('sidebar', 'sign out')">
   <div class="_df">

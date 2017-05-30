@@ -72,15 +72,6 @@
 
     $rootScope.navView = false;
 
-    NstSvcAuth.addEventListener(NST_AUTH_EVENT.AUTHORIZE_FAIL, function () {
-
-      // if (-1 == NST_PAGE.SIGNIN.indexOf($state.current.name)) {
-      //   var validState = getValidState($state.current, $state.params);
-      //   $state.go(validState.name, validState.params);
-      // }
-
-    });
-
 
     var NstSvcPlaceFactory = null;
     if ($injector.has('NstSvcPlaceFactory')) {
@@ -123,7 +114,7 @@
           event.preventDefault();
         }
 
-        $state.go('public.signin-back', { back: $window.encodeURIComponent($state.href(state.name, stateParams)) });
+        $state.go('public.signin-back', {back: $window.encodeURIComponent($state.href(state.name, stateParams))});
       }
     }
 
@@ -156,6 +147,10 @@
       }
 
     };
+
+    $rootScope.$on(NST_AUTH_EVENT.AUTHORIZE_FAIL, function () {
+      location.reload();
+    });
 
 
     NstSvcAuth.addEventListener(NST_AUTH_EVENT.AUTHORIZE_FAIL, function () {
