@@ -1,11 +1,11 @@
-(function() {
+(function () {
   'use strict';
   angular
     .module('ronak.nested.web.file')
     .service('NstSvcAttachmentFactory', NstSvcAttachmentFactory);
 
   /** @ngInject */
-  function NstSvcAttachmentFactory($q, $log, _,
+  function NstSvcAttachmentFactory($q, _,
                                    NstSvcServer, NstSvcDownloadTokenStorage, NstSvcFileStorage,
                                    NstAttachment, NstPicture, NstStoreToken, NstFactoryError, NstFactoryQuery) {
 
@@ -16,24 +16,29 @@
       parseAttachment: parseAttachment,
       load: load,
       remove: remove,
-      createAttachmentModel : createAttachmentModel,
-      getOne : getOne
+      createAttachmentModel: createAttachmentModel,
+      getOne: getOne
     };
 
     return service;
 
 
     function parseAttachment(data) {
-      if (!data._id) {
-        throw (new Error("Could not create a NstAttachment model without _id"));
-      }
+      try {
+        if (!data._id) {
+          throw (new Error("Could not create a NstAttachment model without _id"));
+        }
 
-      if (!data.mimetype) {
-        throw (new Error("Could not create a NstAttachment model without mimetype"));
-      }
+        if (!data.mimetype) {
+          throw (new Error("Could not create a NstAttachment model without mimetype"));
+        }
 
-      if (!data.filename) {
-        throw (new Error("Could not create a NstAttachment model without filename"));
+        if (!data.filename) {
+          throw (new Error("Could not create a NstAttachment model without filename"));
+        }
+      } catch (err) {
+        console.log(err);
+        return err;
       }
 
       var attachment = new NstAttachment();
@@ -60,10 +65,10 @@
 
       NstSvcServer.request('file/get', {
         universal_ids: _.join(ids, ',')
-      }).then(function(response) {
+      }).then(function (response) {
         var promises = _.map(response.info, parseAttachment);
         $q.all(promises).then(defer.resolve).catch(defer.reject);
-      }).catch(function(error) {
+      }).catch(function (error) {
         var query = new NstFactoryQuery(ids);
         defer.reject(new NstFactoryError(query, error.message, error.code));
       });
@@ -77,10 +82,10 @@
       NstSvcServer.request('attachment/remove', {
         post_id: postId,
         attachment_id: attachmentId
-      }).then(function() {
+      }).then(function () {
         defer.resolve(attachmentId);
-      }).catch(function(error) {
-        var query = new NstFactoryQuery(attachmentId, { postId: postId });
+      }).catch(function (error) {
+        var query = new NstFactoryQuery(attachmentId, {postId: postId});
         var factoryError = new NstFactoryError(query, error.message, error.code);
 
         defer.reject(factoryError);
@@ -98,9 +103,9 @@
 
       NstSvcServer.request('file/get', {
         universal_id: id
-      }).then(function(file) {
+      }).then(function (file) {
         deferred.resolve(parseAttachment(file));
-      }).catch(function(error) {
+      }).catch(function (error) {
         var query = new NstFactoryQuery(id);
         deferred.reject(new NstFactoryError(query, error.message, error.code));
       });
