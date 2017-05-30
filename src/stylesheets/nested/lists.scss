@@ -25,12 +25,12 @@
     background-color: $color-sense-5;
     border-bottom-left-radius: 5px;
   }
-  &.red ,
-  &.red span{
+  &.red-item ,
+  &.red-item span{
     color: $color-force;
     fill: $color-force;
   }
-  &.red:hover,
+  &.red-item:hover,
   &.force:hover {
     background-color: rgba(255,100,100,.04);
   }

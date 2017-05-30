@@ -68,7 +68,7 @@
 
 <a ng-if="ctlPostCard.post.wipeAccess && ctlPostCard.post.recipients.length == 0"
    ng-click="$event.stopPropagation(); ctlPostCard.retract();"
-   class="_df list-items _aic _fw red">
+   class="_df list-items _aic _fw red-item">
   <div class="_aic _df">
     <svg class="_16svg">
       <use xlink:href="/assets/icons/nst-icn16.svg#retract"></use>
@@ -103,7 +103,7 @@
     </svg>
   </div>
 </a>
-<a class="_df list-items _aic _fw red cursor-pointer"
+<a class="_df list-items _aic _fw red-item cursor-pointer"
    ng-if="ctlPostCard.placesWithRemoveAccess.length > 0 && ! ( ctlPostCard.post.wipeAccess && ctlPostCard.post.places.length == 1 && ctlPostCard.post.recipients.length == 0 )"
    popover-class="white-pop"
    data-popover-placement="{{$root._direction == 'ltr' ? 'right-center auto' : 'left-center auto'}}"
