@@ -220,8 +220,8 @@
           $cookies.remove('nss');
           $cookies.remove('nsk');
           $cookies.remove('user');
+          NstSvcServer.unauthorize();
           NstSvcServer.request('session/close').then(function () {
-            NstSvcServer.unauthorize();
           }).catch(qUnauth.reject);
           qUnauth.resolve(reason);
           break;
