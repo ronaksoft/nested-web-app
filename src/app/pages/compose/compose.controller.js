@@ -625,6 +625,8 @@
       if ($('body').hasClass('fullCompose')) {
         vm.makeChangeForWatchers++;
       }
+      NstSvcLogger.debug4('Compose | is recipient items suitable for this frame ?!');
+      vm.emitItemsAnalytics();
     };
 
     vm.send = function () {

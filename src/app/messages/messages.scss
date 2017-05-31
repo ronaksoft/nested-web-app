@@ -31,7 +31,8 @@
     margin-bottom: 16px;
     left: 50%;
     transform: translate3d(-50%,0,0);
-    width: calc(100% - 556px);
+    width: calc(100% - 544px);
+    min-width: 480px;
     top: 80px;
     .toolbar {
       width: 100%;

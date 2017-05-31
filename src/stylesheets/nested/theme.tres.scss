@@ -109,6 +109,10 @@
   //  right:0;
   //  left: auto!important;
   //}
+  .content .filter-bar .filter-bar-inner {
+    left: 272px;
+    transform: none;
+  }
 }
 @media screen and (max-width: $screen-lg) and (min-width: $screen-md){
   .maincontainer.sidetiny{
