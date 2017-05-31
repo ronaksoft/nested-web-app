@@ -222,9 +222,11 @@
         NstSvcLogger.debug2('WS | Response: ', response);
         // TODO: retry here by creating a new request
 
-        if (response.data.code === NST_SRV_ERROR.SESSION_EXPIRE) {
+        if (response.data.err_code === NST_SRV_ERROR.SESSION_EXPIRE) {
           $rootScope.$broadcast(NST_AUTH_EVENT.AUTHORIZE_FAIL, {detail: {reason: 7}});
         }
+
+
 
         return $q.reject(new NstServerError(
           new NstServerQuery(action, data),
@@ -349,6 +351,8 @@
     };
 
     Server.prototype.unauthorize = function () {
+      this.setSesKey('');
+      this.setSesKey('');
       if (this.authorized) {
         // Currently just called on auth service logout
         // When stream is closed it will became unauthorized automatically

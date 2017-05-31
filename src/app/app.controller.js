@@ -149,7 +149,9 @@
     };
 
     $rootScope.$on(NST_AUTH_EVENT.AUTHORIZE_FAIL, function () {
-      location.reload();
+      if($state.current.name.indexOf('app.') === 0)
+        $state.go('app.signout');
+
     });
 
 

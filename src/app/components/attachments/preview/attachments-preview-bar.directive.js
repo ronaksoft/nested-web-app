@@ -135,9 +135,11 @@
           }
 
           getToken(item.id).then(function (token) {
+            scope.$emit('post-attachment-viewed', {
+              postId: scope.postId
+            });
             item.downloadUrl = NstSvcStore.resolveUrl(NST_STORE_ROUTE.DOWNLOAD, item.id, token);
             item.viewUrl = NstSvcStore.resolveUrl(NST_STORE_ROUTE.VIEW, item.id, token);
-
             location.href = item.downloadUrl;
           }).catch(function (error) {
             toastr.error('Sorry, An error has occured while trying to load the file');

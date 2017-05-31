@@ -64,14 +64,15 @@
 
         if (!vm.member.isPending || !vm.place){
           $scope.$emit('member-removed', {
-            member : vm.member
+            member : vm.member,
+            place: vm.place
           });
           return;
         }
 
         removeMember().then(function (result) {
           return NstSvcPlaceFactory.get(vm.place.id);
-        }).then(function (place) {
+        }).then(function (newPlace) {
           if (result) {
             if (vm.member.role === 'creator') {
               vm.place.counters.creators--;
@@ -79,10 +80,10 @@
               vm.place.counters.key_holders--;
             }
 
-            NstSvcPlaceFactory.set(place);
+            NstSvcPlaceFactory.set(newPlace);
             $scope.$emit('member-removed', {
               member: vm.member,
-              placeId: vm.place.id
+              place: newPlace
             });
           }
 
