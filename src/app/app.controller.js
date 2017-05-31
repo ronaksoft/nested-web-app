@@ -148,6 +148,13 @@
 
     };
 
+    $rootScope.$on(NST_AUTH_EVENT.CHANGE_PASSWORD, function () {
+      if($state.current.name.indexOf('public.change-password') === -1 &&
+        $state.current.name.indexOf('app.signout') === -1)
+        $state.go('public.change-password');
+
+    });
+
     $rootScope.$on(NST_AUTH_EVENT.AUTHORIZE_FAIL, function () {
       if($state.current.name.indexOf('app.') === 0)
         $state.go('app.signout');

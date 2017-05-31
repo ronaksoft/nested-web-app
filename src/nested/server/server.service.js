@@ -223,9 +223,13 @@
         // TODO: retry here by creating a new request
 
         if (response.data.err_code === NST_SRV_ERROR.SESSION_EXPIRE) {
-          $rootScope.$broadcast(NST_AUTH_EVENT.AUTHORIZE_FAIL, {detail: {reason: 7}});
+          $rootScope.$broadcast(NST_AUTH_EVENT.AUTHORIZE_FAIL, {detail: {reason: NST_SRV_ERROR.SESSION_EXPIRE}});
         }
 
+        if (response.data.err_code === NST_SRV_ERROR.ACCESS_DENIED &&
+          response.data.items && response.data.items[0] === 'password_change') {
+          $rootScope.$broadcast(NST_AUTH_EVENT.CHANGE_PASSWORD, {detail: {reason: NST_SRV_ERROR.ACCESS_DENIED}});
+        }
 
 
         return $q.reject(new NstServerError(

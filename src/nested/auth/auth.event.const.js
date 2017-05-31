@@ -6,6 +6,7 @@
     .constant('NST_AUTH_EVENT', {
       UNAUTHORIZE: 'unauthorize',
       AUTHORIZE: 'authorize',
-      AUTHORIZE_FAIL: 'authorize-fail'
+      AUTHORIZE_FAIL: 'authorize-fail',
+      CHANGE_PASSWORD: 'change_password',
     });
 })();
