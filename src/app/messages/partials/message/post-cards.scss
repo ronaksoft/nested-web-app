@@ -212,7 +212,7 @@ post-card {
         }
       }
     }
-    span,.post-card-time {
+    .post-card-time {
       font-size: $font-size-xsmall;
       cursor: pointer!important;
       @include text-hover()
@@ -460,7 +460,7 @@ post-card {
   }
   .del-access {
     svg {
-      display: block;
+      display: inline-block;
     }
     &:hover {
       svg {

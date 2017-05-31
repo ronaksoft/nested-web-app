@@ -23,8 +23,12 @@
             return false
           };
 
-          $element.addClass('on-avatar');
-
+          if ( $scope.isAvailable ) {
+            $element.addClass('on-avatar');
+          } else {
+            $element.addClass('on-self-avatar');
+          }
+            
           $scope.openOverEnable = function () {
 
             $scope.deletePopovers();
