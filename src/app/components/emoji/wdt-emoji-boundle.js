@@ -21,6 +21,11 @@
   wdtEmojiBundle.defaults = {
     pickerColors : ['green', 'pink', 'yellow', 'blue', 'gray'],
     textMode     : true,
+    recent : [
+        {"has_img_apple":true,"has_img_google":false,"has_img_twitter":true,"has_img_emojione":true,"has_img_facebook":true,"has_img_messenger":true,"name":"REGIONAL INDICATOR SYMBOL LETTERS UM","short_name":"😁","short_names":[""],"sort_order":1},
+        {"has_img_apple":true,"has_img_google":false,"has_img_twitter":true,"has_img_emojione":true,"has_img_facebook":true,"has_img_messenger":true,"name":"REGIONAL INDICATOR SYMBOL LETTERS UM","short_name":"😎","short_names":[""],"sort_order":2},
+        {"has_img_apple":true,"has_img_google":false,"has_img_twitter":true,"has_img_emojione":true,"has_img_facebook":true,"has_img_messenger":true,"name":"REGIONAL INDICATOR SYMBOL LETTERS UM","short_name":"😄","short_names":[],"sort_order":3}
+      ],
     disabledCategories: ['Skin Tones'],
     sectionOrders: {
       'Recent'  : 10,
@@ -284,13 +289,69 @@
   wdtEmojiBundle.fillPickerPopup = function () {
 
     var self = this;
+    // An item added to recent items
+    if ( hasClass(this.popup, 'recentUpdate') ) {
+          var sectionsContainer = this.popup.querySelector('.wdt-emoji-sections');
+          var reecentContainer = $(sectionsContainer).children().first();
+          reecentContainer.empty();
+          // while ($(sectionsContainer).children().first().hasChildNodes()) {
+          //     $(sectionsContainer).children().first().removeChild($(sectionsContainer).lastChild);
+          // }
+          var emojiLists = wdtEmojiBundle.defaults.recent.slice(0);
+          var emojiList = emojiLists.reverse();
+          var title = 'Recent';
+          if (emojiList.length) {
+            var emojiSection = document.createElement('div'),
+              emojiTitle = document.createElement('h3'),
+              emojiListDiv = document.createElement('div');
 
-    if (hasClass(this.popup, 'ready'))
+            emojiTitle.innerHTML = title;
+            emojiTitle.dataset.emojiGroup = title;
+            emojiListDiv.dataset.emojiGroup = title;
+
+            addClass(emojiListDiv, 'wdt-emoji-list');
+            addClass(emojiSection, 'wdt-emoji-section');
+
+            for (i = 0; i < emojiList.length; i++) {
+              var em = emojiLists[i];
+
+              if (em.has_img_apple || em.has_img_emojione || em.has_img_google || em.has_img_twitter || em.has_img_facebook || em.has_img_messenger) {
+                var emojiLink = document.createElement('a');
+
+                addClass(emojiLink, 'wdt-emoji');
+                addClass(emojiLink, wdtEmojiBundle.getRandomPickerColor());
+
+                emojiLink.dataset.hasImgApple = em.has_img_apple;
+                emojiLink.dataset.hasImgEmojione = em.has_img_emojione;
+                emojiLink.dataset.hasImgGoogle = em.has_img_google;
+                emojiLink.dataset.hasImgTwitter = em.has_img_twitter;
+                emojiLink.dataset.hasImgFacebook = em.has_img_facebook;
+                emojiLink.dataset.hasImgMessenger = em.has_img_messenger;
+                emojiLink.dataset.wdtEmojiName = em.name;
+                if (emojiLink.dataset.wdtEmojiShortnames) emojiLink.dataset.wdtEmojiShortnames = em.short_names.join(': :');
+                emojiLink.dataset.wdtEmojiShortname = em.short_name;
+                emojiLink.dataset.wdtEmojiOrder = em.sort_order;
+
+                emojiLink.innerHTML = self.emoji.replace_colons(em.short_name);
+
+                emojiListDiv.appendChild(emojiLink);
+              }
+            }
+
+            emojiSection.appendChild(emojiTitle);
+            emojiSection.appendChild(emojiListDiv);
+            sectionsContainer.prepend(emojiSection);
+          }
+
+    }
+
+    if (hasClass(this.popup, 'ready')) {
       return false;
+    }
 
     // @todo - [needim] - Support for recent and custom emoji list
     var sectionsContainer = this.popup.querySelector('.wdt-emoji-sections'),
-      sections = {'Recent': [], 'Custom': []},
+      sections = {'Recent': wdtEmojiBundle.defaults.recent, 'Custom': []},
       sortedSections = [];
 
     for (var category in wdtEmojiBundle.defaults.emojiData) {
@@ -307,7 +368,6 @@
     var sortedSectionsArray = Object.keys(sections).sort(function (a, b) {
       return wdtEmojiBundle.defaults.sectionOrders[a] < wdtEmojiBundle.defaults.sectionOrders[b] ? 1 : -1;
     });
-
     for (var i = 0; i < sortedSectionsArray.length; i++) {
       sortedSections[sortedSectionsArray[i]] = sections[sortedSectionsArray[i]];
     }
@@ -344,7 +404,7 @@
               emojiLink.dataset.hasImgFacebook = em.has_img_facebook;
               emojiLink.dataset.hasImgMessenger = em.has_img_messenger;
               emojiLink.dataset.wdtEmojiName = em.name;
-              emojiLink.dataset.wdtEmojiShortnames = 'aa' + em.short_names.join(': :');
+              if (emojiLink.dataset.wdtEmojiShortnames) emojiLink.dataset.wdtEmojiShortnames = em.short_names.join(': :');
               emojiLink.dataset.wdtEmojiShortname = em.short_name;
               emojiLink.dataset.wdtEmojiOrder = em.sort_order;
 
@@ -372,6 +432,25 @@
    */
   wdtEmojiBundle.getRandomPickerColor = function () {
     return wdtEmojiBundle.defaults.pickerColors[Math.floor(Math.random() * wdtEmojiBundle.defaults.pickerColors.length)]
+  };
+  
+  /**
+   * update recent items list
+   * @param emoji
+   */
+  wdtEmojiBundle.setRecent = function (emoji) {
+    for (var i = 0; i < wdtEmojiBundle.defaults.recent.length; i++) {
+      if ( wdtEmojiBundle.defaults.recent[i].short_name === emoji.short_name ) {
+        wdtEmojiBundle.defaults.recent.splice(i,1);
+      }
+    }
+    wdtEmojiBundle.defaults.recent.push(emoji);
+    if (!hasClass(this.popup, 'recentUpdate'))  addClass(this.popup, 'recentUpdate');
+    
+    if ( wdtEmojiBundle.defaults.recent.length > 20 ) {
+      wdtEmojiBundle.defaults.recent.splice(20,1);
+    }
+    
   };
 
   /**
@@ -423,6 +502,19 @@
 
     live('click', '.wdt-emoji-list a.wdt-emoji', function (event) {
       var selection = getSelection(wdtEmojiBundle.input);
+      var objNeeded = {
+          has_img_apple : this.dataset.hasImgApple == 'true',
+          has_img_emojione : this.dataset.hasImgEmojione == 'true',
+          has_img_facebook : this.dataset.hasImgFacebook == 'true',
+          has_img_google : this.dataset.hasImgGoogle == 'true',
+          has_img_messenger : this.dataset.hasImgMessenger == 'true',
+          has_img_twitter : this.dataset.hasImgTwitter == 'true',
+          name : this.dataset.wdtEmojiName,
+          sort_order : parseInt(this.dataset.wdtEmojiOrder),
+          short_name : this.dataset.wdtEmojiShortname,
+          short_names : this.dataset.wdtEmojiShortnames,
+      }
+      wdtEmojiBundle.setRecent(objNeeded);
 
       // bind input
       replaceText(wdtEmojiBundle.input, selection, wdtEmojiBundle.render(this.dataset.wdtEmojiShortname));
@@ -713,7 +805,6 @@
 
     function check() {
       var scrollTop = wdtEmojiBundle.scrollerMain.scrollTop;
-      console.log(scrollTop);
 
       if (hasClass(el, 'sticky') && scrollTop < elTop) {
 
