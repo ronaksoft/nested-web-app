@@ -1,8 +1,10 @@
 {
   "NST_CONFIG": {
     "APP_CLIENT_ID": "WEBAPP_STAGING",
-    "APP_VERSION" : "3.5.3.2",
+    "APP_VERSION" : "3.5.3.5",
     "DOMAIN" : "_DOMAIN_",
+    "ADMIN_DOMAIN" : "webapp.ronaksoftware.com",
+    "ADMIN_PORT" : "8080",
     "LOG": {
       "LEVEL": 3,
       "GATEWAY": {
