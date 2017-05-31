@@ -6,7 +6,7 @@
     .controller('RecentVisitedController', RecentVisitedController);
 
   /** @ngInject */
-  function RecentVisitedController($scope,
+  function RecentVisitedController($scope, $stateParams,
                                    NstSvcUserFactory) {
     var vm = this;
     vm.places = [];
@@ -15,9 +15,15 @@
     (function () {
       NstSvcUserFactory.getRecentlyVisitedPlace()
         .then(function (places) {
-          vm.places = places;
-          vm.places.splice(0,1);
+
+          var latest = _.head(places);
+          if (latest && latest.id === $stateParams.placeId) {
+            vm.places = _.drop(places, 1);
+          } else {
+            vm.places = places;
+          }
           vm.loading = false;
+
         })
     })();
 
