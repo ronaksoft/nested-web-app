@@ -514,7 +514,7 @@
           short_name : this.dataset.wdtEmojiShortname,
           short_names : this.dataset.wdtEmojiShortnames,
       }
-      wdtEmojiBundle.setRecent(objNeeded);
+      if( event.target && angular.element(event.target).parent().attr('data-emoji-group') != "Recent" ) wdtEmojiBundle.setRecent(objNeeded);
 
       // bind input
       replaceText(wdtEmojiBundle.input, selection, wdtEmojiBundle.render(this.dataset.wdtEmojiShortname));

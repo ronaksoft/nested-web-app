@@ -958,7 +958,6 @@
       toolbarContainer: '#editor-btn',
       charCounterCount: false,
       tabSpaces: 4,
-      // pluginsEnabled: ['Word Paste'],
       fontSize : ['8', '10', '14', '18', '22'],
       toolbarButtons: ['fontSize', '|', 'bold', 'italic', 'underline', '|', 'align', 'rightToLeft', 'leftToRight']
     }
