@@ -146,7 +146,7 @@
           var el = self.elements[i];
 
           if (el.getAttribute('contenteditable')) {
-            el.dataset.rangeIndex = i;
+            el.dataset.rangeIndex = i + 500;
             wdtEmojiBundle.addRangeStore(el);
           }
 
@@ -593,7 +593,6 @@
 
     live('click', '.wdt-emoji-list a.wdt-emoji', function (event) {
       var selection = getSelection(wdtEmojiBundle.input);
-      console.log(selection);
       var recentObj = {
           has_img_apple : this.dataset.hasImgApple == 'true',
           has_img_emojione : this.dataset.hasImgEmojione == 'true',
@@ -862,8 +861,8 @@
     return caretOffset;
   }
   wdtEmojiBundle.addRangeStore = function (el) {
-    // console.log(this.dataset,el);
     el.addEventListener('focus', function () {
+      // console.log(this.dataset.rangeIndex, window.getSelection().getRangeAt(0));
       var s = window.getSelection();
       if (!wdtEmojiBundle.ranges[this.dataset.rangeIndex]) {
         wdtEmojiBundle.ranges[this.dataset.rangeIndex] = new Range();
@@ -875,8 +874,17 @@
 
     addListenerMulti(el, 'mouseup keyup', function () {
       // console.log(doGetCaretPosition(el));
-      // console.log(this.dataset.rangeIndex, window.getSelection().getRangeAt(0));
-      wdtEmojiBundle.ranges[this.dataset.rangeIndex] = window.getSelection().getRangeAt(0);
+      var carP = doGetCaretPosition(el);
+      var range = window.getSelection().getRangeAt(0);
+      var obj = {};
+      for (var k in range ){
+        // console.log(k,range[k]);
+        obj[k] = range[k];
+      }
+      obj.startOffset = carP;
+      obj.endOffset = carP;
+      
+      wdtEmojiBundle.ranges[this.dataset.rangeIndex] = obj;
     });
 
     addListenerMulti(el, 'mousedown click', function (e) {
@@ -1067,46 +1075,54 @@
   var replaceText = function (el, selection, emo) {
     emo = emo + ' '; //append a space
 
-    var text = $(el).text();
-    var html = $(el).html();
-    var ti = 0;
-    var hi = 0;
-    var temp = ''
+    if (selection.contenteditable){
+      var text = $(el).text();
+      var html = $(el).html();
+      var ti = 0;
+      var hi = 0;
+      var temp = ''
 
-    console.log(selection.start);
 
-    for (ti; ti < text.length ; ti){
-      
-      if ( text[ti] === html[hi] ) {
-        temp += text[ti];
-        ++ti;
-        if ( ti === selection.start ){
-          temp += emo
+      for (ti; ti < text.length ; ti){
+        
+        if ( text[ti] === html[hi] ) {
+          temp += text[ti];
+          ++ti;
+          if ( ti === selection.start ){
+            temp += emo
+          }
+          hi++;
+        } else {
+          temp += html[hi];
+          hi++;
         }
-        hi++;
+      }
+
+      var aftarContent = html.length - hi;
+      if (aftarContent > 0) {
+
+        for ( var i = 0; i < aftarContent; i++) {
+          temp += html[hi];
+          hi++;
+        }
+
+      }
+      el.innerHTML = temp;
+      el.focus()
+    } else {
+      var val = el.value || el.innerHTML || '';
+      var textBefore = val.substring(0, selection.start);
+      textBefore = textBefore.replace(/:\S*$/, '');;
+      // el.value = textBefore + emo + val.substring(selection.end, selection.len);
+      if (selection.contenteditable) {
+        $(el).text(textBefore + emo + val.substring(selection.end, selection.len));
       } else {
-        temp += html[hi];
-        hi++;
+        el.value = textBefore + emo + val.substring(selection.end, selection.len);
       }
+      // @todo - [needim] - check browser compatibilities
+      el.selectionStart = el.selectionEnd = (textBefore.length + emo.length);
+      el.focus();
     }
-
-    var aftarContent = html.length - hi;
-    if (aftarContent > 0) {
-
-      for ( var i = 0; i < aftarContent; i++) {
-        temp += html[hi];
-        hi++;
-      }
-
-    }
-    el.innerHTML = temp;
-    el.focus()
-
-    // if (selection.contenteditable){
-    //   var val = $(el).text();
-    // } else {
-    //   var val = el.value || el.innerHTML || '';
-    // }
 
     // if (selection.ce) { // if contenteditable
     //   el.focus();
