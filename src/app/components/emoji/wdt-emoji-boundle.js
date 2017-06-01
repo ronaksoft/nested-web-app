@@ -867,10 +867,8 @@
       var s = window.getSelection();
       if (!wdtEmojiBundle.ranges[this.dataset.rangeIndex]) {
         wdtEmojiBundle.ranges[this.dataset.rangeIndex] = new Range();
-        console.log(1)
       } else if (s.rangeCount > 0) {
         s.removeAllRanges();
-        console.log(2)
         s.addRange(wdtEmojiBundle.ranges[this.dataset.rangeIndex]);
       }
     });
@@ -1067,30 +1065,65 @@
    * @param emo
    */
   var replaceText = function (el, selection, emo) {
-    if (selection.contenteditable){
-      var val = $(el).text();
-    } else {
-      var val = el.value || el.innerHTML || '';
-    }
-    
     emo = emo + ' '; //append a space
 
-    if (selection.ce) { // if contenteditable
-      el.focus();
-      document.execCommand('insertText', false, emo);
-    } else {
-      var textBefore = val.substring(0, selection.start);
-      textBefore = textBefore.replace(/:\S*$/, '');;
-      // el.value = textBefore + emo + val.substring(selection.end, selection.len);
-      if (selection.contenteditable) {
-        $(el).text(textBefore + emo + val.substring(selection.end, selection.len));
+    var text = $(el).text();
+    var html = $(el).html();
+    var ti = 0;
+    var hi = 0;
+    var temp = ''
+
+    console.log(selection.start);
+
+    for (ti; ti < text.length ; ti){
+      
+      if ( text[ti] === html[hi] ) {
+        temp += text[ti];
+        ++ti;
+        if ( ti === selection.start ){
+          temp += emo
+        }
+        hi++;
       } else {
-        el.value = textBefore + emo + val.substring(selection.end, selection.len);
+        temp += html[hi];
+        hi++;
       }
-      // @todo - [needim] - check browser compatibilities
-      el.selectionStart = el.selectionEnd = (textBefore.length + emo.length);
-      el.focus();
     }
+
+    var aftarContent = html.length - hi;
+    if (aftarContent > 0) {
+
+      for ( var i = 0; i < aftarContent; i++) {
+        temp += html[hi];
+        hi++;
+      }
+
+    }
+    el.innerHTML = temp;
+    el.focus()
+
+    // if (selection.contenteditable){
+    //   var val = $(el).text();
+    // } else {
+    //   var val = el.value || el.innerHTML || '';
+    // }
+
+    // if (selection.ce) { // if contenteditable
+    //   el.focus();
+    //   document.execCommand('insertText', false, emo);
+    // } else {
+    //   var textBefore = val.substring(0, selection.start);
+    //   textBefore = textBefore.replace(/:\S*$/, '');;
+    //   // el.value = textBefore + emo + val.substring(selection.end, selection.len);
+    //   if (selection.contenteditable) {
+    //     $(el).text(textBefore + emo + val.substring(selection.end, selection.len));
+    //   } else {
+    //     el.value = textBefore + emo + val.substring(selection.end, selection.len);
+    //   }
+    //   // @todo - [needim] - check browser compatibilities
+    //   el.selectionStart = el.selectionEnd = (textBefore.length + emo.length);
+    //   el.focus();
+    // }
   }; 
 
   /**
