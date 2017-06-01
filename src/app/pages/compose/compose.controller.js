@@ -28,6 +28,7 @@
     vm.clear = clear;
     vm.scroll = scroll;
     vm.searchRecipients = _.debounce(searchRecipients, 400);
+    vm.emojiTarget = 'title';
 
     if (vm.mode == 'quick') {
       vm.quickMode = true;
@@ -79,6 +80,7 @@
     });
 
     vm.focusBox = function () {
+      vm.emojiTarget = 'title';
       NstSvcLogger.debug4('Compose | Compose Box is focused');
       vm.focus = true;
       vm.collapse = true;
@@ -959,7 +961,11 @@
       charCounterCount: false,
       tabSpaces: 4,
       fontSize : ['8', '10', '14', '18', '22'],
-      toolbarButtons: ['fontSize', '|', 'bold', 'italic', 'underline', '|', 'align', 'rightToLeft', 'leftToRight']
+      toolbarButtons: ['fontSize', '|', 'bold', 'italic', 'underline', '|', 'align', 'rightToLeft', 'leftToRight'],
+      events : {
+        'froalaEditor.focus' : function(e, editor) {vm.emojiTarget = 'body';vm.focus = true},
+        'froalaEditor.blur' : function(e, editor) {}
+      }
     }
 
     /*****************************

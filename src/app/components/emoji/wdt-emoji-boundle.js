@@ -56,7 +56,7 @@
   /**
    * Init the bundle with selector, YAY!
    */
-  wdtEmojiBundle.init = function (selector) {
+  wdtEmojiBundle.init = function (selector,element) {
 
     var self = this;
 
@@ -76,7 +76,6 @@
     self.emoji.img_sets['messenger']['sheet'] = this.defaults.emojiSheets.messenger;
 
     self.selector = selector;
-    self.elements = document.querySelectorAll(selector);
 
     self.popup = document.querySelector('.wdt-emoji-popup');
     self.scroller = self.popup.querySelector('.wdt-emoji-scroll-wrapper');
@@ -131,17 +130,28 @@
     // a trick for contenteditable blur range clear
     self.ranges = {};
 
-    if (this.elements.length) {
-      for (var i = 0; i < self.elements.length; i++) {
+    if (element) {
+      var textArea = document.querySelectorAll(selector)[0];
+      if (textArea.getAttribute('contenteditable')) {
+        textArea.dataset.rangeIndex = 0;
+        wdtEmojiBundle.addRangeStore(textArea);
+      }
+      self.replacePicker(element);
 
-        var el = self.elements[i];
+    } else {
+      self.elements = document.querySelectorAll(selector);
+      if (this.elements.length) {
+        for (var i = 0; i < self.elements.length; i++) {
 
-        if (el.getAttribute('contenteditable')) {
-          el.dataset.rangeIndex = i;
-          wdtEmojiBundle.addRangeStore(el);
+          var el = self.elements[i];
+
+          if (el.getAttribute('contenteditable')) {
+            el.dataset.rangeIndex = i;
+            wdtEmojiBundle.addRangeStore(el);
+          }
+
+          self.addPicker(self.elements[i]);
         }
-
-        self.addPicker(self.elements[i]);
       }
     }
 
@@ -169,6 +179,16 @@
         parent.addEventListener('keyup', wdtEmojiBundle.onKeyup)
       }
       addClass(element, 'wdt-emoji-picker-ready');
+    }
+  };
+
+  wdtEmojiBundle.replacePicker = function (element) {
+    var self = this;
+    if (!element.classList.contains('wdt-emoji-picker-ready')) {
+      element.classList.add('wdt-emoji-picker');
+      element.addEventListener('click', wdtEmojiBundle.openMultiPicker);
+      // element.addEventListener('keyup', wdtEmojiBundle.onKeyup);
+      element.classList.add('wdt-emoji-picker-ready');
     }
   };
 
@@ -232,8 +252,11 @@
       var popupRect = wdtEmojiBundle.popup.getBoundingClientRect();
 
       var pos = {
-        left: (elRect.left - popupRect.width) + elRect.width,
-        top : elRect.top + Math.abs(bodyRect.top) + elRect.height
+        left: $(el).offset().left - ( popupRect.width / 2 ),
+        top : $(el).offset().top + bodyRect.top + popupRect.height >= $(window).height() ?
+        $(el).offset().top - popupRect.height - 8 : elRect.top + Math.abs(bodyRect.top) + elRect.height
+        // left: (elRect.left - popupRect.width) + elRect.width,
+        // top : elRect.top + Math.abs(bodyRect.top) + elRect.height
       };
 
       pos.left = pos.left < 0 ? 0 : pos.left;
@@ -278,6 +301,74 @@
 
     addClass(this, 'wdt-emoji-picker-open');
     this.innerHTML = wdtEmojiBundle.emoji.replace_colons(':sunglasses:');
+  };
+  wdtEmojiBundle.openMultiPicker = function (ev) {
+    var self = this;
+    var selector;
+    if (this.classList.contains('subj') ) {
+       selector = '.wdt-emoji-bundle-enabled'
+    } else {
+      selector = '.fr-element'
+    }
+    wdtEmojiBundle.input = $('.compose-wrp')[0].querySelector(selector);
+
+    // @todo - [needim] - popup must be visible in viewport calculate carefully
+    function findBestAvailablePosition(el) {
+
+      var height = 0;
+
+      var bodyRect = document.body.getBoundingClientRect();
+      var bodyScrolled = bodyRect.top < 0
+      var elRect = el.getBoundingClientRect();
+      var popupRect = wdtEmojiBundle.popup.getBoundingClientRect();
+
+      var pos = {
+          left: $(el).offset().left - ( popupRect.width / 2 ),
+          top : $(el).offset().top + bodyRect.top + popupRect.height >= $(window).height() ? $(el).offset().top - popupRect.height - 8 : elRect.top + Math.abs(bodyRect.top) + elRect.height
+        };
+
+      pos.left = pos.left < 0 ? 0 : pos.left;
+
+      pos.left += 'px';
+      pos.top += 'px';
+
+      if (bodyRect.width < 415) { // mobile specific @todo - [needim] - better mobile detection needed
+        addClass(wdtEmojiBundle.popup, 'wdt-emoji-mobile');
+
+        return {
+          left    : '0px',
+          bottom  : '0px',
+          top     : 'auto',
+          width   : '100%',
+          position: 'fixed'
+        }
+      }
+
+      return pos;
+    }
+
+    css(wdtEmojiBundle.popup, findBestAvailablePosition(ev.target));
+
+    // On window resized
+    window.addEventListener('resize', function(new_event){
+      css(wdtEmojiBundle.popup, findBestAvailablePosition(ev.target));
+    });
+
+    wdtEmojiBundle.popup.classList.add('open');
+
+    // fill with emoji
+    wdtEmojiBundle.fillPickerPopup();
+
+    if (this.classList.contains('wdt-emoji-picker-open')) {
+      wdtEmojiBundle.closePicker(this);
+      wdtEmojiBundle.popup.classList.remove('open');
+      return false;
+    }
+
+    wdtEmojiBundle.closePickers();
+    // addClass(this, 'wdt-emoji-picker-open');
+    this.classList.add('wdt-emoji-picker-open');
+    // this.innerHTML = wdtEmojiBundle.emoji.replace_colons(':sunglasses:');
   };
 
   /**
@@ -457,7 +548,7 @@
    * Close the bundle popup
    */
   wdtEmojiBundle.close = function () {
-    removeClass(wdtEmojiBundle.popup, 'open');
+    wdtEmojiBundle.popup.classList.remove('open');
     wdtEmojiBundle.closePickers();
   };
 
@@ -479,8 +570,8 @@
    * @param element
    */
   wdtEmojiBundle.closePicker = function (element) {
-    removeClass(element, 'wdt-emoji-picker-open');
-    element.innerHTML = this.emoji.replace_colons(':smile:');
+    element.classList.remove('wdt-emoji-picker-open');
+    // element.innerHTML = this.emoji.replace_colons(':smile:');
     var parent = findParent(element, 'wdt-emoji-picker-parent');
     if (wdtEmojiBundle.searchInput) {
       wdtEmojiBundle.searchInput.value = "";
@@ -502,7 +593,8 @@
 
     live('click', '.wdt-emoji-list a.wdt-emoji', function (event) {
       var selection = getSelection(wdtEmojiBundle.input);
-      var objNeeded = {
+      console.log(selection);
+      var recentObj = {
           has_img_apple : this.dataset.hasImgApple == 'true',
           has_img_emojione : this.dataset.hasImgEmojione == 'true',
           has_img_facebook : this.dataset.hasImgFacebook == 'true',
@@ -514,7 +606,9 @@
           short_name : this.dataset.wdtEmojiShortname,
           short_names : this.dataset.wdtEmojiShortnames,
       }
-      if( event.target && angular.element(event.target).parent().attr('data-emoji-group') != "Recent" ) wdtEmojiBundle.setRecent(objNeeded);
+
+      // do not reorder the recent emojies
+      if( event.target && angular.element(event.target).parent().attr('data-emoji-group') != "Recent" ) wdtEmojiBundle.setRecent(recentObj);
 
       // bind input
       replaceText(wdtEmojiBundle.input, selection, wdtEmojiBundle.render(this.dataset.wdtEmojiShortname));
@@ -744,18 +838,46 @@
    * A trick for contenteditable range clear on blur
    * @param el
    */
+  function doGetCaretPosition (element) {
+    var caretOffset = 0;
+    var doc = element.ownerDocument || element.document;
+    var win = doc.defaultView || doc.parentWindow;
+    var sel;
+    if (typeof win.getSelection != "undefined") {
+      sel = win.getSelection();
+      if (sel.rangeCount > 0) {
+        var range = win.getSelection().getRangeAt(0);
+        var preCaretRange = range.cloneRange();
+        preCaretRange.selectNodeContents(element);
+        preCaretRange.setEnd(range.endContainer, range.endOffset);
+        caretOffset = preCaretRange.toString().length;
+      }
+    } else if ((sel = doc.selection) && sel.type != "Control") {
+      var textRange = sel.createRange();
+      var preCaretTextRange = doc.body.createTextRange();
+      preCaretTextRange.moveToElementText(element);
+      preCaretTextRange.setEndPoint("EndToEnd", textRange);
+      caretOffset = preCaretTextRange.text.length;
+    }
+    return caretOffset;
+  }
   wdtEmojiBundle.addRangeStore = function (el) {
+    // console.log(this.dataset,el);
     el.addEventListener('focus', function () {
       var s = window.getSelection();
       if (!wdtEmojiBundle.ranges[this.dataset.rangeIndex]) {
         wdtEmojiBundle.ranges[this.dataset.rangeIndex] = new Range();
+        console.log(1)
       } else if (s.rangeCount > 0) {
         s.removeAllRanges();
+        console.log(2)
         s.addRange(wdtEmojiBundle.ranges[this.dataset.rangeIndex]);
       }
     });
 
     addListenerMulti(el, 'mouseup keyup', function () {
+      // console.log(doGetCaretPosition(el));
+      // console.log(this.dataset.rangeIndex, window.getSelection().getRangeAt(0));
       wdtEmojiBundle.ranges[this.dataset.rangeIndex] = window.getSelection().getRangeAt(0);
     });
 
@@ -883,11 +1005,22 @@
   var getSelection = function (el) {
     var result = {};
 
-    if (el.getAttribute('contenteditable')) {
+
+    if (el && el.getAttribute('contenteditable')) {
+      var range = wdtEmojiBundle.ranges[parseInt(el.dataset.rangeIndex)];
+      // return {
+      //   el: el,
+      //   ce: true
+      // }
+      var val = $(el)[0].textContent;
       return {
-        el: el,
-        ce: true
-      }
+        "el"   : el,
+        "start": range.startOffset,
+        "end"  : range.endOffset,
+        "len"  : val.length,
+        "sel"  : val.substring(range.startOffset, range.endOffset),
+        "contenteditable" : true
+      };
     }
 
     if (window.getSelection) {
@@ -904,8 +1037,7 @@
         "len"  : len,
         "sel"  : sel
       };
-    }
-    else if (document.selection) { // ie
+    } else if (document.selection) { // ie
       var range = document.selection.createRange(),
         value = el.value || el.innerHTML,
         stored_range = range.duplicate();
@@ -935,7 +1067,12 @@
    * @param emo
    */
   var replaceText = function (el, selection, emo) {
-    var val = el.value || el.innerHTML || '';
+    if (selection.contenteditable){
+      var val = $(el).text();
+    } else {
+      var val = el.value || el.innerHTML || '';
+    }
+    
     emo = emo + ' '; //append a space
 
     if (selection.ce) { // if contenteditable
@@ -943,9 +1080,13 @@
       document.execCommand('insertText', false, emo);
     } else {
       var textBefore = val.substring(0, selection.start);
-      textBefore = textBefore.replace(/:\S*$/, '')
-      el.value = textBefore + emo + val.substring(selection.end, selection.len);
-
+      textBefore = textBefore.replace(/:\S*$/, '');;
+      // el.value = textBefore + emo + val.substring(selection.end, selection.len);
+      if (selection.contenteditable) {
+        $(el).text(textBefore + emo + val.substring(selection.end, selection.len));
+      } else {
+        el.value = textBefore + emo + val.substring(selection.end, selection.len);
+      }
       // @todo - [needim] - check browser compatibilities
       el.selectionStart = el.selectionEnd = (textBefore.length + emo.length);
       el.focus();

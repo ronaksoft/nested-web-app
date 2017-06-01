@@ -3,7 +3,7 @@
 
   angular
     .module('ronak.nested.web.components')
-    .directive('emojiInit', function ($timeout, _, progressBar, NST_PROGRESSBAR_MODE) {
+    .directive('emojiInit', function ($timeout, _, NST_PROGRESSBAR_MODE) {
       return {
         restrict: 'A',
         link: function (scope, element) {
@@ -12,9 +12,5 @@
           
         }
       };
-
-      function modeIsValid(mode) {
-        return _.values(NST_PROGRESSBAR_MODE).indexOf(mode) > -1;
-      }
     });
 })();

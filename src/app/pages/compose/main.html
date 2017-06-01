@@ -41,14 +41,14 @@
           </ui-select-choices>
         </ui-select>
       </div>
-      <div nst-scrollbar suppress-scroll-x="true" suppress-scroll-y="{{ctlCompose.quickMode}}" go-upward="ctlCompose.makeChangeForWatchers">
+      <div nst-scrollbar suppress-scroll-x="true" suppress-scroll-y="{{ctlCompose.quickMode}}" go-upward="ctlCompose.makeChangeForWatchers" class="wdt-emoji-picker-parent">
         <section class="_difc _fw _fn">
-          <input id="compose-subject" class="compose-input _fw" name="subject" value="{{ctlCompose.model.subject}}" ng-focus="ctlCompose.focusBox()" ng-blur="ctlCompose.blurBox()" ng-keydown="ctlCompose.subjectKeyDown($event)" placeholder="Add a title"
+          <input id="compose-subject" class="compose-input _fw wdt-emoji-bundle-enabled" name="subject" value="{{ctlCompose.model.subject}}" ng-focus="ctlCompose.focusBox()" ng-blur="ctlCompose.blurBox()" ng-keydown="ctlCompose.subjectKeyDown($event)" placeholder="Add a title"
                 data-ng-model="ctlCompose.model.subject" auto-dir="ctlCompose.model.subject" translate-attrs="placeholder" autocomplete="off">
         </section>
 
         <section class="nst-compose-message ng-class:{'focussed' : ctlCompose.focus || ctlCompose.attachments.viewModels.length > 0,'empty' : ctlCompose.model.body.length == 0}" id="editor-txt">
-          <textarea froala="ctlCompose.froalaOpts" ng-model="ctlCompose.model.body" ng-blur="ctlCompose.blurBox()" ng-focus="ctlCompose.focusBox()"></textarea>
+          <textarea froala="ctlCompose.froalaOpts" ng-model="ctlCompose.model.body" ng-blur="ctlCompose.blurBox()"></textarea>
           <!--<textarea  ckeditor="editorOptions" ng-model="ctlCompose.model.body" ng-blur="ctlCompose.blurBox()"></textarea>-->
         </section>
       </div>
@@ -96,7 +96,10 @@
             <use xlink:href="/assets/icons/nst-icn24.svg#places"></use>
           </svg>
         </label>
-        <svg class="_24svg _asc">
+        <svg class="_24svg _asc subj" compose-emoji-subj ng-if="ctlCompose.emojiTarget == 'title';">
+          <use xlink:href="/assets/icons/nst-icn24.svg#person"></use>
+        </svg>
+        <svg class="_24svg _asc body" compose-emoji-body ng-if="ctlCompose.emojiTarget != 'title';">
           <use xlink:href="/assets/icons/nst-icn24.svg#person"></use>
         </svg>
         <div class="_df f1"></div>
