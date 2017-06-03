@@ -12,8 +12,8 @@
                                      NST_SRV_ERROR, NST_NAVBAR_CONTROL_TYPE, NstSvcTranslation) {
     var vm = this;
     vm.signout = signout;
-    vm.user = NstSvcUserFactory.currentUser;
     vm.ready = true;
+    vm.user = NstSvcUserFactory.currentUser;
     vm.model = {
       oldPassword: '',
       newPassword: '',
@@ -21,6 +21,10 @@
     };
 
     vm.change = change;
+
+    if (!vm.user){
+      signout();
+    }
 
     function change(isValid) {
       vm.submitted = true;
