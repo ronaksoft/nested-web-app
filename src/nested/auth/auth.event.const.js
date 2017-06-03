@@ -8,5 +8,6 @@
       AUTHORIZE: 'authorize',
       AUTHORIZE_FAIL: 'authorize-fail',
       CHANGE_PASSWORD: 'change_password',
+      SESSION_EXPIRE: 'session_expire'
     });
 })();

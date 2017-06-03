@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   angular
@@ -52,7 +52,7 @@
       NstSvcAuth.login(credentials, vm.remember).then(function (result) {
         if ($stateParams.back) {
           var url = $window.decodeURIComponent($stateParams.back);
-          $location.url(_.trimStart(url,"#"));
+          $location.url(_.trimStart(url, "#"));
         } else {
           $state.go(NST_DEFAULT.STATE);
         }
@@ -64,14 +64,18 @@
         vm.message.fill = true;
         vm.message.class = 'nst-error-msg';
 
-        switch (error.getCode()) {
-          case NST_SRV_ERROR.INVALID:
-            vm.message.text = NstSvcTranslation.get('Invalid Username or Password');
-            break;
+        if (error.getCode) {
+          switch (error.getCode()) {
+            case NST_SRV_ERROR.INVALID:
+              vm.message.text = NstSvcTranslation.get('Invalid Username or Password');
+              break;
 
-          default:
-            vm.message.text = NstSvcTranslation.get('An error occurred in login. Please try again later');
-            break;
+            default:
+              vm.message.text = NstSvcTranslation.get('An error occurred in login. Please try again later');
+              break;
+          }
+        } else {
+          vm.message.text = NstSvcTranslation.get('An error occurred in login. Please try again later');
         }
 
 
