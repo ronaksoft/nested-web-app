@@ -220,9 +220,11 @@
           $cookies.remove('nss');
           $cookies.remove('nsk');
           $cookies.remove('user');
-          NstSvcServer.unauthorize();
           NstSvcServer.request('session/close').then(function () {
-          }).catch(qUnauth.reject);
+            NstSvcServer.unauthorize();
+          }).catch(function () {
+            NstSvcServer.unauthorize();
+          });
           qUnauth.resolve(reason);
           break;
       }
@@ -241,15 +243,40 @@
       var deferred = $q.defer();
       this.setRemember(remember);
 
-      this.register(credentials.username, credentials.password).then(function (response) {
-        localStorage.setItem(USER_STATUS_STORAGE_NAME, NST_AUTH_STATE.AUTHORIZED);
-        service.authorize(response).then(deferred.resolve);
-      }).catch(function (error) {
-        service.unregister(NST_UNREGISTER_REASON.AUTH_FAIL).then(function () {
-          deferred.reject(error);
-          // service.dispatchEvent(new CustomEvent(NST_AUTH_EVENT.AUTHORIZE_FAIL, {detail: {reason: error}}));
-        });
-      });
+      if (credentials.username.indexOf('@') > 1) {
+        NstSvcServer.reinit(credentials.username.split('@')[1])
+          .then(function () {
+            service.register(credentials.username.split('@')[0], credentials.password).then(function (response) {
+              localStorage.setItem(USER_STATUS_STORAGE_NAME, NST_AUTH_STATE.AUTHORIZED);
+              service.authorize(response).then(deferred.resolve);
+            }).catch(function (error) {
+              service.unregister(NST_UNREGISTER_REASON.AUTH_FAIL).then(function () {
+                deferred.reject(error);
+                // service.dispatchEvent(new CustomEvent(NST_AUTH_EVENT.AUTHORIZE_FAIL, {detail: {reason: error}}));
+              });
+            });
+          })
+          .catch(function (error) {
+            deferred.reject(error);
+          });
+
+      } else {
+        NstSvcServer.reinit()
+          .then(function () {
+            service.register(credentials.username, credentials.password).then(function (response) {
+              localStorage.setItem(USER_STATUS_STORAGE_NAME, NST_AUTH_STATE.AUTHORIZED);
+              service.authorize(response).then(deferred.resolve);
+            }).catch(function (error) {
+              service.unregister(NST_UNREGISTER_REASON.AUTH_FAIL).then(function () {
+                deferred.reject(error);
+                // service.dispatchEvent(new CustomEvent(NST_AUTH_EVENT.AUTHORIZE_FAIL, {detail: {reason: error}}));
+              });
+            });
+          })
+          .catch(function (error) {
+            deferred.reject(error);
+          });
+      }
 
       return deferred.promise;
     };
@@ -381,7 +408,7 @@
         }).then(function () {
           resolve();
         }).catch(function (error) {
-          reject(new NstFactoryError({_sk : sk}, error.getMessage(), error.getCode(), error));
+          reject(new NstFactoryError({_sk: sk}, error.getMessage(), error.getCode(), error));
         });
       });
 

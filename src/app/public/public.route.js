@@ -31,6 +31,12 @@
         controllerAs: 'ctrl',
         templateUrl: 'app/public/recover-username/recover-username.html'
       })
+      .state('app.change-password', {
+        url: '/user/change-password',
+        controller: 'ForceChangePasswordController',
+        controllerAs: 'ctrl',
+        templateUrl: 'app/public/change-password/change-password.html'
+      })
       .state('public.register-with-phone', {
         url: '/register/phone/:phone',
         params: {

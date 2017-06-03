@@ -13,16 +13,23 @@
                          NstObject) {
     var vm = this;
 
-    vm.loginView = true;
+    vm.showLoadingScreen = true;
+    vm.viewSettings = {
+      sidebar: {collapsed: true},
+      navbar: {collapsed: false}
+    };
+
+    $rootScope.navView = false;
     $rootScope.cardCtrls = [];
     $rootScope.staticNav = true;
-    vm.showLoadingScreen = true;
     $rootScope.topNavOpen = false;
     $rootScope._direction = NstSvcI18n.getLocale()._direction || "ltr";
     $rootScope.deviceDetector = deviceDetector;
     $rootScope._track = trackBehaviour;
 
 
+
+    /** APPLICATION EVENT LISTENERS **/
     NstSvcServer.addEventListener(NST_SRV_EVENT.DISCONNECT, function (msg) {
       vm.disconnected = true;
     });
@@ -40,6 +47,12 @@
 
     });
 
+
+    /** ANGULAR EVENT LISTENERS **/
+    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+      toggleSidebar(toState, toParams);
+    });
+
     $scope.$on('show-loading', function () {
       vm.showLoadingScreen = true;
     });
@@ -47,6 +60,9 @@
       vm.viewSettings.sidebar.collapsed = !vm.viewSettings.sidebar.collapsed
     });
 
+
+
+    /** APPLICATION WATCHER **/
     $scope.$watch(function () {
       return vm.viewSettings.sidebar.collapsed
     }, function () {
@@ -60,30 +76,11 @@
     });
 
 
+    /** APPLICATION UI HELPER **/
     // calls $digest every 1 sec to update elapsed times.
     $interval(function () {
       NstSvcLogger.debug('AppController calls $digest to update passed times every 1 min.');
     }, 60 * 1000);
-
-    vm.viewSettings = {
-      sidebar: {collapsed: true},
-      navbar: {collapsed: false}
-    };
-
-    $rootScope.navView = false;
-
-
-    var NstSvcPlaceFactory = null;
-    if ($injector.has('NstSvcPlaceFactory')) {
-      NstSvcPlaceFactory = $injector.get('NstSvcPlaceFactory');
-    }
-
-
-    toggleSidebar($state.current, $state.params);
-
-    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-      toggleSidebar(toState, toParams);
-    });
 
     function toggleSidebar(state, params) {
       if (state.options && state.options && state.options.fullscreen) {
@@ -97,16 +94,14 @@
       }
     }
 
-    checkToBeAuthenticated($state.current, $stateParams);
-    $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
-      $rootScope.$broadcast('reload-counters');
-      checkToBeAuthenticated(toState, toParams, event);
-      scrollTopBody();
-    });
 
-    function scrollTopBody() {
-      $window.scrollTo(0, 0);
-    }
+
+
+    toggleSidebar($state.current, $state.params);
+
+
+
+    /** CHANGE ROUTE HELPER **/
 
     function checkToBeAuthenticated(state, stateParams, event) {
       if (!NstSvcAuth.isInAuthorization() && _.startsWith(state.name, "app.")) {
@@ -117,6 +112,11 @@
         $state.go('public.signin-back', {back: $window.encodeURIComponent($state.href(state.name, stateParams))});
       }
     }
+
+    function scrollTopBody() {
+      $window.scrollTo(0, 0);
+    }
+
 
     function restoreLastState() {
       var last = null;
@@ -137,6 +137,14 @@
       };
     }
 
+
+    checkToBeAuthenticated($state.current, $stateParams);
+    $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
+      $rootScope.$broadcast('reload-counters');
+      checkToBeAuthenticated(toState, toParams, event);
+      scrollTopBody();
+    });
+
     $rootScope.goToLastState = function (disableNotify, defaultState) {
       var previous = defaultState || restoreLastState();
 
@@ -148,10 +156,14 @@
 
     };
 
-    $rootScope.$on(NST_AUTH_EVENT.AUTHORIZE_FAIL, function () {
-      if($state.current.name.indexOf('app.') === 0)
-        $state.go('app.signout');
+    $rootScope.$on(NST_AUTH_EVENT.CHANGE_PASSWORD, function () {
+      if($state.current.name.indexOf('public.change-password') === -1)
+        $state.go('public.change-password');
 
+    });
+
+    $rootScope.$on(NST_AUTH_EVENT.SESSION_EXPIRE, function () {
+        location.href = '/signout.html';
     });
 
 
