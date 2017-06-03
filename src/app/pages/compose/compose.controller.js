@@ -956,25 +956,13 @@
       }
     })
 
-    $.FroalaEditor.DefineIcon('insertHTML', {NAME: 'plus'});
-    $.FroalaEditor.RegisterCommand('insertHTML', {
-      title: 'Insert HTML',
-      focus: true,
-      undo: true,
-      refreshAfterCallback: true,
-      callback: function () {
-        this.html.insert('Some Custom HTML.');
-        this.undo.saveStep();
-      }
-    });
-
     
     vm.froalaOpts = {
       toolbarContainer: '#editor-btn',
       charCounterCount: false,
       tabSpaces: 4,
       fontSize : ['8', '10', '14', '18', '22'],
-      toolbarButtons: ['fontSize', '|', 'bold', 'italic', 'underline', '|', 'align', 'rightToLeft', 'leftToRight', 'insertHTML'],
+      toolbarButtons: ['fontSize', '|', 'bold', 'italic', 'underline', '|', 'align', 'rightToLeft', 'leftToRight'],
       events : {
         'froalaEditor.focus' : function(e, editor) {vm.emojiTarget = 'body';vm.focus = true},
         'froalaEditor.blur' : function(e, editor) {}

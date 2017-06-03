@@ -593,7 +593,6 @@
 
     live('click', '.wdt-emoji-list a.wdt-emoji', function (event) {
       var selection = getSelection(wdtEmojiBundle.input);
-      console.log('selection', selection)
       var recentObj = {
           has_img_apple : this.dataset.hasImgApple == 'true',
           has_img_emojione : this.dataset.hasImgEmojione == 'true',
@@ -865,14 +864,11 @@
       // console.log(this.dataset.rangeIndex, window.getSelection().getRangeAt(0));
       var s = window.getSelection();
       if (!wdtEmojiBundle.ranges[this.dataset.rangeIndex]) {
-        console.log('1');
         wdtEmojiBundle.ranges[this.dataset.rangeIndex] = new Range();
       } else if (s.rangeCount > 0) {
-        console.log('2');
         s.removeAllRanges();
         wdtEmojiBundle.ranges[this.dataset.rangeIndex] = new Range();
         s.addRange(wdtEmojiBundle.ranges[this.dataset.rangeIndex]);
-        console.log(s, wdtEmojiBundle.ranges[this.dataset.rangeIndex]);
       }
     });
 
@@ -1139,7 +1135,7 @@
         }
         
       }
-      console.log(focusIndex, nodeCaret)
+      // console.log(focusIndex, nodeCaret)
 
 
       if ( !text.length ) {
@@ -1210,7 +1206,7 @@
       var aftarContent = html.length - hi;
       if (aftarContent > 0) {
         for ( var i = 0; i < aftarContent; i++) {
-          console.log('m',html[hi]);
+          // console.log('m',html[hi]);
           temp += html[hi];
           hi++;
         }
