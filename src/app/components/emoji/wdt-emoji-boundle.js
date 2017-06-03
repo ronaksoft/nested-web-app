@@ -608,7 +608,6 @@
 
       // do not reorder the recent emojies
       if( event.target && angular.element(event.target).parent().attr('data-emoji-group') != "Recent" ) wdtEmojiBundle.setRecent(recentObj);
-
       // bind input
       replaceText(wdtEmojiBundle.input, selection, wdtEmojiBundle.render(this.dataset.wdtEmojiShortname));
       // Show in 
@@ -868,6 +867,7 @@
         wdtEmojiBundle.ranges[this.dataset.rangeIndex] = new Range();
       } else if (s.rangeCount > 0) {
         s.removeAllRanges();
+        wdtEmojiBundle.ranges[this.dataset.rangeIndex] = new Range();
         s.addRange(wdtEmojiBundle.ranges[this.dataset.rangeIndex]);
       }
     });
@@ -1013,6 +1013,7 @@
 
 
     if (el && el.getAttribute('contenteditable')) {
+      console.log(el.dataset.rangeIndex,el);
       var range = wdtEmojiBundle.ranges[parseInt(el.dataset.rangeIndex)];
       // return {
       //   el: el,
@@ -1043,7 +1044,8 @@
         "len"  : len,
         "sel"  : sel
       };
-    } else if (document.selection) { // ie
+    } else if (document.selection) {
+       // ie should remove this piece
       var range = document.selection.createRange(),
         value = el.value || el.innerHTML,
         stored_range = range.duplicate();
@@ -1073,7 +1075,23 @@
    * @param emo
    */
   var replaceText = function (el, selection, emo) {
+    console.log($(el),$(el).text(), $(el)[0].textContent, selection);
+    var text = $(el)[0].value;
     emo = emo + ' '; //append a space
+
+    if( !text && $(el)[0].textContent.length == 0 ) {
+      console.log('no text',text);
+      el.value = emo;
+      return el.focus();
+    }
+
+    if (!selection) {
+      selection = {};
+      console.log('not selection')
+      selection.start = $(el).text().length;
+      selection.end = $(el).text().length;
+      selection.len = $(el).text().length;
+    }
 
     if (selection.contenteditable){
       var text = $(el).text();
@@ -1082,17 +1100,25 @@
       var hi = 0;
       var temp = ''
 
+      if ( !text.length ) {
+        el.innerHTML = '<p>' + emo + '</p>';
+        el.focus();
+        return ;
+      }
 
       for (ti; ti < text.length ; ti){
         
         if ( text[ti] === html[hi] ) {
+          console.log('t',text[ti]);
           temp += text[ti];
           ++ti;
           if ( ti === selection.start ){
+            console.log('e',emo)
             temp += emo
           }
           hi++;
         } else {
+          console.log('h',html[hi]);
           temp += html[hi];
           hi++;
         }
@@ -1102,6 +1128,7 @@
       if (aftarContent > 0) {
 
         for ( var i = 0; i < aftarContent; i++) {
+          console.log('m',html[hi]);
           temp += html[hi];
           hi++;
         }
@@ -1114,11 +1141,7 @@
       var textBefore = val.substring(0, selection.start);
       textBefore = textBefore.replace(/:\S*$/, '');;
       // el.value = textBefore + emo + val.substring(selection.end, selection.len);
-      if (selection.contenteditable) {
-        $(el).text(textBefore + emo + val.substring(selection.end, selection.len));
-      } else {
-        el.value = textBefore + emo + val.substring(selection.end, selection.len);
-      }
+      el.value = textBefore + emo + val.substring(selection.end, selection.len);
       // @todo - [needim] - check browser compatibilities
       el.selectionStart = el.selectionEnd = (textBefore.length + emo.length);
       el.focus();
