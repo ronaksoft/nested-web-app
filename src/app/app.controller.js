@@ -162,10 +162,8 @@
 
     });
 
-    $rootScope.$on(NST_AUTH_EVENT.AUTHORIZE_FAIL, function () {
-      if($state.current.name.indexOf('app.') === 0)
-        $state.go('app.signout');
-
+    $rootScope.$on(NST_AUTH_EVENT.SESSION_EXPIRE, function () {
+        location.href = '/signout.html';
     });
 
 
