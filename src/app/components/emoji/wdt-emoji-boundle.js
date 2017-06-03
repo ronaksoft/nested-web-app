@@ -876,6 +876,7 @@
       // console.log(doGetCaretPosition(el));
       var carP = doGetCaretPosition(el);
       var range = window.getSelection().getRangeAt(0);
+      // console.log(range, range.startContainer, range.startContainer.nodeType);
       var obj = {};
       for (var k in range ){
         // console.log(k,range[k]);
@@ -1075,7 +1076,7 @@
    * @param emo
    */
   var replaceText = function (el, selection, emo) {
-    console.log($(el), $(el).text(), $(el)[0].value, $(el)[0].textContent, selection);
+    // console.log($(el), $(el).text(), $(el)[0].value, $(el)[0].textContent, selection);
     var text = $(el)[0].value;
     emo = emo + ' '; //append a space
 
@@ -1098,6 +1099,7 @@
     }
 
     if (selection.contenteditable){
+
       var text = $(el).text();
       var html = $(el).html();
       var ti = 0;
@@ -1105,11 +1107,11 @@
       var temp = '';
       var overalIterates = 0
 
-      // if ( !text.length ) {
-      //   el.innerHTML = '<p>' + emo + '</p>';
-      //   el.focus();
-      //   return ;
-      // }
+      if ( !text.length ) {
+        el.innerHTML = '<p>' + emo + '</p>';
+        el.focus();
+        return ;
+      }
 
 
 
