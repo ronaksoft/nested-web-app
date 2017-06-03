@@ -162,6 +162,12 @@
     // display: flex;
     height: auto;
   }
+  a[href="https://www.froala.com/wysiwyg-editor?k=u"] {
+    display: none!important;
+  }
+  div[style="position: absolute; bottom: 0px; left: 0px; z-index: 9999;"] {
+    display: none;
+  }
   p {
     padding: 0;
   }

@@ -1075,13 +1075,17 @@
    * @param emo
    */
   var replaceText = function (el, selection, emo) {
-    console.log($(el),$(el).text(), $(el)[0].textContent, selection);
+    console.log($(el), $(el).text(), $(el)[0].value, $(el)[0].textContent, selection);
     var text = $(el)[0].value;
     emo = emo + ' '; //append a space
 
     if( !text && $(el)[0].textContent.length == 0 ) {
       console.log('no text',text);
-      el.value = emo;
+      if (selection.contenteditable){ 
+        el.innerHTML = '<p>' + emo + '</p>';
+      } else {
+        el.value = emo;
+      }      
       return el.focus();
     }
 
@@ -1098,7 +1102,8 @@
       var html = $(el).html();
       var ti = 0;
       var hi = 0;
-      var temp = ''
+      var temp = '';
+      var overalIterates = 0
 
       if ( !text.length ) {
         el.innerHTML = '<p>' + emo + '</p>';
@@ -1107,7 +1112,13 @@
       }
 
       for (ti; ti < text.length ; ti){
-        
+        overalIterates++;
+
+        // To prevent the call stack and browser error !
+        if ( overalIterates > text.length + html.length ) {
+          console.log('overalIterates',overalIterates);
+          return ti = text.length;
+        }
         if ( text[ti] === html[hi] ) {
           console.log('t',text[ti]);
           temp += text[ti];
