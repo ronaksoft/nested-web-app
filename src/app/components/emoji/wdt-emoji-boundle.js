@@ -593,6 +593,7 @@
 
     live('click', '.wdt-emoji-list a.wdt-emoji', function (event) {
       var selection = getSelection(wdtEmojiBundle.input);
+      console.log('selection', selection)
       var recentObj = {
           has_img_apple : this.dataset.hasImgApple == 'true',
           has_img_emojione : this.dataset.hasImgEmojione == 'true',
@@ -864,11 +865,14 @@
       // console.log(this.dataset.rangeIndex, window.getSelection().getRangeAt(0));
       var s = window.getSelection();
       if (!wdtEmojiBundle.ranges[this.dataset.rangeIndex]) {
+        console.log('1');
         wdtEmojiBundle.ranges[this.dataset.rangeIndex] = new Range();
       } else if (s.rangeCount > 0) {
+        console.log('2');
         s.removeAllRanges();
         wdtEmojiBundle.ranges[this.dataset.rangeIndex] = new Range();
         s.addRange(wdtEmojiBundle.ranges[this.dataset.rangeIndex]);
+        console.log(s, wdtEmojiBundle.ranges[this.dataset.rangeIndex]);
       }
     });
 
@@ -879,7 +883,6 @@
       // console.log(range, range.startContainer, range.startContainer.nodeType);
       var obj = {};
       for (var k in range ){
-        // console.log(k,range[k]);
         obj[k] = range[k];
       }
       obj.startOffset = carP;
@@ -1014,7 +1017,7 @@
 
 
     if (el && el.getAttribute('contenteditable')) {
-      console.log(el.dataset.rangeIndex,el);
+      // console.log(el.dataset.rangeIndex,el);
       var range = wdtEmojiBundle.ranges[parseInt(el.dataset.rangeIndex)];
       // return {
       //   el: el,
@@ -1023,8 +1026,8 @@
       var val = $(el)[0].textContent;
       return {
         "el"   : el,
-        "start": range.startOffset,
-        "end"  : range.endOffset,
+        "start": range ? range.startOffset : 0,
+        "end"  : range ? range.endOffset : 0,
         "len"  : val.length,
         "sel"  : val.substring(range.startOffset, range.endOffset),
         "contenteditable" : true
@@ -1080,9 +1083,9 @@
     var text = $(el)[0].value;
     emo = emo + ' '; //append a space
 
+    // WHEN THE inputs are empty we dont need to sanitize text so :
     if( !text && $(el)[0].textContent.length == 0 ) {
-      console.log('no text',text);
-      if (selection.contenteditable){ 
+      if ( selection.contenteditable ){ 
         el.innerHTML = '<p>' + emo + '</p>';
       } else {
         el.value = emo;
@@ -1114,6 +1117,7 @@
       for (var i = 0; i < $(el).children().length; i++) {
         var t = $(el).children()[i].innerText;
         t = t.replace(/\r\n/g, '').replace(/[\r\n]/g, '');
+        // console.log(t);
         // console.log(t.length)
         if (iterateFlag && t.length === 0 ) {
           // console.log('iterateFlag && t.length === 0');
@@ -1188,10 +1192,6 @@
       el.focus();
       // sel.collapse($(el).children()[0], 2);
       var textNode = el.childNodes[focusIndex].lastChild || el.childNodes[focusIndex].firstChild;
-      console.log(el.childNodes[focusIndex])
-      console.log(el.childNodes[focusIndex].firstChild)
-      console.log(el.childNodes[focusIndex].lastChild)
-      console.log(el.childNodes[focusIndex].firstChild.firstChild)
       var caret = 10; // insert caret after the 10th character say
       var range = document.createRange();
       range.setStart(textNode, nodeCaret + 3);
@@ -1199,6 +1199,7 @@
       var sel = window.getSelection();
       sel.removeAllRanges();
       sel.addRange(range);
+      wdtEmojiBundle.ranges[el.dataset.rangeIndex] = range;
 
       // var s = window.getSelection();
       // s.removeAllRanges();
