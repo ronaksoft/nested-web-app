@@ -1105,7 +1105,38 @@
       var ti = 0;
       var hi = 0;
       var temp = '';
-      var overalIterates = 0
+      var overalIterates = 0;
+
+      var nodeCaret = selection.start;
+      var focusIndex = 0;
+      var iterateFlag = true;
+
+      for (var i = 0; i < $(el).children().length; i++) {
+        var t = $(el).children()[i].innerText;
+        t = t.replace(/\r\n/g, '').replace(/[\r\n]/g, '');
+        // console.log(t.length)
+        if (iterateFlag && t.length === 0 ) {
+          // console.log('iterateFlag && t.length === 0');
+          focusIndex++;
+        } else if ( iterateFlag && ( nodeCaret - t.length ) > 0) {
+          // console.log('iterateFlag && ( nodeCaret - t.length ) > 0')
+          nodeCaret  = nodeCaret - t.length;
+          focusIndex++;
+        } else if ( iterateFlag && nodeCaret - t < t.length) {
+          // console.log('iterateFlag && nodeCaret - t < t.length')
+          focusIndex++;
+          iterateFlag = false;
+        } else if ( iterateFlag && ( nodeCaret - t.length ) < 0) {
+          // console.log('( nodeCaret - t.length ) < 0');
+          iterateFlag = false;
+        } else if ( iterateFlag && ( nodeCaret - t.length ) < 1) {
+          // console.log('( nodeCaret - t.length ) < 1');
+          iterateFlag = false;
+        }
+        
+      }
+      console.log(focusIndex, nodeCaret)
+
 
       if ( !text.length ) {
         el.innerHTML = '<p>' + emo + '</p>';
@@ -1124,12 +1155,12 @@
           return ti = text.length;
         }
         if ( text[ti] === html[hi] ) {
-          console.log('t',text[ti],html[hi]);
+          // console.log('t',text[ti],html[hi]);
           temp += text[ti];
           ++ti;
 
           if ( ti === selection.start ){
-            console.log('e',emo)
+            // console.log('e',emo)
             temp += emo
           }
           // if ( selection.start == text.length ) {
@@ -1138,7 +1169,7 @@
           // }
           hi++;
         } else {
-          console.log('h',html[hi]);
+          // console.log('h',html[hi]);
           temp += html[hi];
           hi++;
         }
@@ -1147,7 +1178,7 @@
       var aftarContent = html.length - hi;
       if (aftarContent > 0) {
         for ( var i = 0; i < aftarContent; i++) {
-          console.log('m',html[hi]);
+          // console.log('m',html[hi]);
           temp += html[hi];
           hi++;
         }
@@ -1155,8 +1186,23 @@
 
       el.innerHTML = temp;
       el.focus();
-      sel = window.getSelection();
-      sel.collapse(el.firstChild, 0);
+      // sel.collapse($(el).children()[0], 2);
+      var textNode = el.childNodes[focusIndex].lastChild || el.childNodes[focusIndex].firstChild;
+      console.log(el.childNodes[focusIndex])
+      console.log(el.childNodes[focusIndex].firstChild)
+      console.log(el.childNodes[focusIndex].lastChild)
+      console.log(el.childNodes[focusIndex].firstChild.firstChild)
+      var caret = 10; // insert caret after the 10th character say
+      var range = document.createRange();
+      range.setStart(textNode, nodeCaret + 3);
+      range.setEnd(textNode, nodeCaret + 3);
+      var sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+
+      // var s = window.getSelection();
+      // s.removeAllRanges();
+      // s.addRange(r);
     } else {
       var val = el.value || el.innerHTML || '';
       var textBefore = val.substring(0, selection.start);
