@@ -1220,14 +1220,21 @@
       el.focus();
       // sel.collapse($(el).children()[0], 2);
       var textNode = el.childNodes[focusIndex].lastChild || el.childNodes[focusIndex].firstChild;
-      var caret = 10; // insert caret after the 10th character say
       var range = document.createRange();
       range.setStart(textNode, nodeCaret + 3);
       range.setEnd(textNode, nodeCaret + 3);
       var sel = window.getSelection();
       sel.removeAllRanges();
       sel.addRange(range);
-      wdtEmojiBundle.ranges[el.dataset.rangeIndex] = range;
+      
+      var obj = {};
+      for (var k in range ){
+        obj[k] = range[k];
+      }
+      obj.startOffset = selection.start + 3;
+      obj.endOffset = selection.start + 3;
+      
+      wdtEmojiBundle.ranges[el.dataset.rangeIndex] = obj;
 
       // var s = window.getSelection();
       // s.removeAllRanges();
