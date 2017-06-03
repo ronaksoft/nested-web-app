@@ -1105,11 +1105,13 @@
       var temp = '';
       var overalIterates = 0
 
-      if ( !text.length ) {
-        el.innerHTML = '<p>' + emo + '</p>';
-        el.focus();
-        return ;
-      }
+      // if ( !text.length ) {
+      //   el.innerHTML = '<p>' + emo + '</p>';
+      //   el.focus();
+      //   return ;
+      // }
+
+
 
       for (ti; ti < text.length ; ti){
         overalIterates++;
@@ -1120,13 +1122,18 @@
           return ti = text.length;
         }
         if ( text[ti] === html[hi] ) {
-          console.log('t',text[ti]);
+          console.log('t',text[ti],html[hi]);
           temp += text[ti];
           ++ti;
+
           if ( ti === selection.start ){
             console.log('e',emo)
             temp += emo
           }
+          // if ( selection.start == text.length ) {
+          //   ++ti;
+          //   console.log('here')
+          // }
           hi++;
         } else {
           console.log('h',html[hi]);
@@ -1137,16 +1144,17 @@
 
       var aftarContent = html.length - hi;
       if (aftarContent > 0) {
-
         for ( var i = 0; i < aftarContent; i++) {
           console.log('m',html[hi]);
           temp += html[hi];
           hi++;
         }
-
       }
+
       el.innerHTML = temp;
-      el.focus()
+      el.focus();
+      sel = window.getSelection();
+      sel.collapse(el.firstChild, 0);
     } else {
       var val = el.value || el.innerHTML || '';
       var textBefore = val.substring(0, selection.start);
