@@ -1149,13 +1149,38 @@
       }
 
 
+      // for (hi; hi < html.length ; hi){
+      //   overalIterates++;
+
+      //   // To prevent the call stack and browser error !
+      //   if ( overalIterates > text.length + html.length ) {
+      //     console.log('overalIterates',overalIterates);
+      //     return hi = html.length;
+      //   }
+      //   if ( text[ti] === html[hi] ) {
+      //     // console.log('t',text[ti],html[hi]);
+      //     temp += html[hi];
+
+      //     if ( ti === selection.start ){
+      //       temp += emo
+      //     }
+      //     ++hi;
+      //     ++ti;
+
+      //   } else {
+      //     // console.log('h',html[hi]);
+      //     temp += html[hi];
+      //     hi++;
+      //   }
+      // }
+
 
       for (ti; ti < text.length ; ti){
         overalIterates++;
 
         // To prevent the call stack and browser error !
         if ( overalIterates > text.length + html.length ) {
-          console.log('overalIterates',overalIterates);
+          // console.log('overalIterates',overalIterates);
           return ti = text.length;
         }
         if ( text[ti] === html[hi] ) {
@@ -1172,6 +1197,9 @@
           //   console.log('here')
           // }
           hi++;
+        } else if ( text[ti] === ' ' && html[hi] === '&' && html[hi + 1] === 'n' && html[hi + 2] === 'b' && html[hi + 3] === 's' && html[hi + 4] === 'p' && html[hi + 5] === ';') {
+          hi = hi + 6;
+          ti++;
         } else {
           // console.log('h',html[hi]);
           temp += html[hi];
@@ -1182,7 +1210,7 @@
       var aftarContent = html.length - hi;
       if (aftarContent > 0) {
         for ( var i = 0; i < aftarContent; i++) {
-          // console.log('m',html[hi]);
+          console.log('m',html[hi]);
           temp += html[hi];
           hi++;
         }
