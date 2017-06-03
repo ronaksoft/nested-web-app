@@ -546,7 +546,7 @@
     }
 
     function loadConfigFromRemote(domainName) {
-      var ajax = new NstHttp(location.protocol + "//" + location.host + '1' + '/getConfig/' + domainName);
+      var ajax = new NstHttp(location.protocol + "//" + location.host + '/getConfig/' + domainName);
       return ajax.get();
     }
 
