@@ -449,45 +449,19 @@
     }
 
     function addOrInviteMembers(place) {
+      if (vm.isCreateGrandPlaceMode) {
+        return inviteUsers(vm.place, vm.teammates);
+      } else {
+        return addUsers(vm.place, vm.teammates);
+      }
+    }
 
-      var successRes = [];
-      var failedRes = [];
+    function inviteUsers(place, users) {
+      return NstSvcPlaceFactory.inviteUser(place, users);
+    }
 
-      return $q.all(_.map(vm.teammates, function (user) {
-        return $q(function (resolve, reject) {
-          var command = vm.isCreateGrandPlaceMode ? 'inviteUser' : 'addUser';
-          NstSvcPlaceFactory[command](place, user.role, user).then(function (invitationId) {
-            successRes.push(user.id);
-            NstSvcLogger.info(NstUtility.string.format('User "{0}" has been invited to Place "{1}" successfully.', user.id, place.id));
-
-            resolve({
-              user: user,
-              role: user.role,
-              invitationId: vm.isCreateGrandPlaceMode ? invitationId : -1,
-            });
-          }).catch(function (error) {
-            failedRes.push(user.id);
-
-            // FIXME: Why cannot catch the error!
-            if (error.getCode() === NST_SRV_ERROR.DUPLICATE) {
-              NstSvcLogger.warn(NstUtility.string.format('User "{0}" has been previously invited to Place "{1}".', user.id, place.id));
-              resolve({
-                user: user,
-                role: user.role,
-                invitationId: null,
-                duplicate: true
-              });
-            } else {
-              reject(error);
-            }
-          });
-        });
-
-      }))
-        .catch(function (error) {
-          NstSvcLogger.error(error);
-        });
-
+    function addUsers(place, users) {
+      return NstSvcPlaceFactory.addUser(place, users);
     }
 
     function setAddPostPolicy(value) {
