@@ -874,15 +874,17 @@
 
     addListenerMulti(el, 'mouseup keyup', function () {
       // console.log(doGetCaretPosition(el));
-      var carP = doGetCaretPosition(el);
       var range = window.getSelection().getRangeAt(0);
       // console.log(range, range.startContainer, range.startContainer.nodeType);
+      console.log(el,range,range.startContainer,range.commonAncestorContainer,range.commonAncestorContainer.parentNode);
       var obj = {};
       for (var k in range ){
         obj[k] = range[k];
       }
-      obj.startOffset = carP;
-      obj.endOffset = carP;
+      // obj.startOffset = carP;
+      // obj.endOffset = carP;
+      obj.element = range.startContainer;
+      console.log(obj)
       
       wdtEmojiBundle.ranges[this.dataset.rangeIndex] = obj;
     });
@@ -1015,6 +1017,7 @@
     if (el && el.getAttribute('contenteditable')) {
       // console.log(el.dataset.rangeIndex,el);
       var range = wdtEmojiBundle.ranges[parseInt(el.dataset.rangeIndex)];
+      console.log(range);
       // return {
       //   el: el,
       //   ce: true
@@ -1022,6 +1025,7 @@
       var val = $(el)[0].textContent;
       return {
         "el"   : el,
+        "element"   : range.element,
         "start": range ? range.startOffset : 0,
         "end"  : range ? range.endOffset : 0,
         "len"  : val.length,
@@ -1105,64 +1109,103 @@
       var hi = 0;
       var temp = '';
       var overalIterates = 0;
+      console.log(selection);
 
       var nodeCaret = selection.start;
       var focusIndex = 0;
       var iterateFlag = true;
-
+      var myElement
+      var findEl = false;
+      // loop on text paragraphs 
+      // return : the focus element and the offset number
       for (var i = 0; i < $(el).children().length; i++) {
-        var t = $(el).children()[i].innerText;
-        t = t.replace(/\r\n/g, '').replace(/[\r\n]/g, '');
-        // console.log(t);
-        // console.log(t.length)
-        if (iterateFlag && t.length === 0 ) {
-          // console.log('iterateFlag && t.length === 0');
-          focusIndex++;
-        } else if ( iterateFlag && ( nodeCaret - t.length ) > 0) {
-          // console.log('iterateFlag && ( nodeCaret - t.length ) > 0')
-          nodeCaret  = nodeCaret - t.length;
-          focusIndex++;
-        } else if ( iterateFlag && nodeCaret - t < t.length) {
-          // console.log('iterateFlag && nodeCaret - t < t.length')
-          focusIndex++;
-          iterateFlag = false;
-        } else if ( iterateFlag && ( nodeCaret - t.length ) < 0) {
-          // console.log('( nodeCaret - t.length ) < 0');
-          iterateFlag = false;
-        } else if ( iterateFlag && ( nodeCaret - t.length ) < 1) {
-          // console.log('( nodeCaret - t.length ) < 1');
-          iterateFlag = false;
+        console.log('fint element');
+        if ( selection.element === $(el).children()[i] && !findEl) {
+          myElement = $(el).children()[i];
+          findEl = true;
         }
+        for (var j = 0; j < $(el).children()[i].children().length; j++) {
+          if ( selection.element === $(el).children()[i].children()[j] && !findEl ) {
+            myElement = $(el).children()[i].children()[j];
+            findEl = true;
+          }
+        }
+
+        // // the length of new lines wasnt calculated on parameters so we remove them here
+        // var t = $(el).children()[i].innerText;
+        // t = t.replace(/\r\n/g, '').replace(/[\r\n]/g, '');
+        // // console.log(t);
+        // // console.log(t.length)
+        // if (iterateFlag && t.length === 0 ) {
+        //   // console.log('iterateFlag && t.length === 0');
+        //   focusIndex++;
+        // } else if ( iterateFlag && ( nodeCaret - t.length ) > 0) {
+        //   // console.log('iterateFlag && ( nodeCaret - t.length ) > 0')
+        //   nodeCaret  = nodeCaret - t.length;
+        //   focusIndex++;
+        // } else if ( iterateFlag && nodeCaret - t < t.length) {
+        //   // console.log('iterateFlag && nodeCaret - t < t.length')
+        //   focusIndex++;
+        //   iterateFlag = false;
+        // } else if ( iterateFlag && ( nodeCaret - t.length ) < 0) {
+        //   // console.log('( nodeCaret - t.length ) < 0');
+        //   iterateFlag = false;
+        // } else if ( iterateFlag && ( nodeCaret - t.length ) < 1) {
+        //   // console.log('( nodeCaret - t.length ) < 1');
+        //   iterateFlag = false;
+        // }
         
       }
-      // console.log(focusIndex, nodeCaret)
-
-
+      console.log(selection,selection.element,$(selection.element),myElement);
+      var nVal = $(selection.element).text().toString();
+      nVal = nVal.slice(0, selection.start) + emo + nVal.slice(selection.start, nVal.length);
+      console.log($(selection.element),nVal);
+      // selection.element.innerHTML = '';
+      // if no text is in body dont go any more on function body
+      // $(selection.element).text(nVal);
+      $(myElement).html(nVal);
       if ( !text.length ) {
         el.innerHTML = '<p>' + emo + '</p>';
         el.focus();
         return ;
       }
 
-
-      // for (hi; hi < html.length ; hi){
+      // @var is Emoji would set ?!
+      // var emoSet = true;
+      // for (ti; ti < text.length ; ti){
       //   overalIterates++;
 
       //   // To prevent the call stack and browser error !
       //   if ( overalIterates > text.length + html.length ) {
-      //     console.log('overalIterates',overalIterates);
-      //     return hi = html.length;
+      //     // console.log('overalIterates',overalIterates);
+      //     return ti = text.length;
       //   }
+      //   // console.log(html[hi],text[ti], ti, hi,selection.start)
       //   if ( text[ti] === html[hi] ) {
-      //     // console.log('t',text[ti],html[hi]);
-      //     temp += html[hi];
-
-      //     if ( ti === selection.start ){
-      //       temp += emo
+          
+      //     if ( ti === selection.start && emoSet ){
+      //       // console.log('e',emo)
+      //       temp += emo;
+      //       emoSet = false;
       //     }
-      //     ++hi;
+      //     // console.log('t',text[ti],html[hi]);
+      //     temp += text[ti];
       //     ++ti;
-
+          
+      //     if ( ti === selection.start && emoSet && !text[ti + 1]){
+      //       // console.log('e',emo)
+      //       temp += emo;
+      //       emoSet = false;
+      //     }
+          
+      //     // if ( selection.start == text.length ) {
+      //     //   ++ti;
+      //     //   console.log('here')
+      //     // }
+      //     hi++;
+      //   } else if ( text[ti] === ' ' && html[hi] === '&' && html[hi + 1] === 'n' && html[hi + 2] === 'b' && html[hi + 3] === 's' && html[hi + 4] === 'p' && html[hi + 5] === ';') {
+      //     hi = hi + 6;
+      //     ti++;
       //   } else {
       //     // console.log('h',html[hi]);
       //     temp += html[hi];
@@ -1170,67 +1213,66 @@
       //   }
       // }
 
+      // // continiue on rest html chars ...
+      // var aftarContent = html.length - hi;
+      // if (aftarContent > 0) {
+      //   for ( var i = 0; i < aftarContent; i++) {
+      //     // console.log('m',html[hi]);
+      //     temp += html[hi];
+      //     hi++;
+      //   }
+      // }
 
-      for (ti; ti < text.length ; ti){
-        overalIterates++;
-
-        // To prevent the call stack and browser error !
-        if ( overalIterates > text.length + html.length ) {
-          // console.log('overalIterates',overalIterates);
-          return ti = text.length;
-        }
-        if ( text[ti] === html[hi] ) {
-          // console.log('t',text[ti],html[hi]);
-          temp += text[ti];
-          ++ti;
-
-          if ( ti === selection.start ){
-            // console.log('e',emo)
-            temp += emo
-          }
-          // if ( selection.start == text.length ) {
-          //   ++ti;
-          //   console.log('here')
-          // }
-          hi++;
-        } else if ( text[ti] === ' ' && html[hi] === '&' && html[hi + 1] === 'n' && html[hi + 2] === 'b' && html[hi + 3] === 's' && html[hi + 4] === 'p' && html[hi + 5] === ';') {
-          hi = hi + 6;
-          ti++;
-        } else {
-          // console.log('h',html[hi]);
-          temp += html[hi];
-          hi++;
-        }
-      }
-
-      var aftarContent = html.length - hi;
-      if (aftarContent > 0) {
-        for ( var i = 0; i < aftarContent; i++) {
-          // console.log('m',html[hi]);
-          temp += html[hi];
-          hi++;
-        }
-      }
-
-      el.innerHTML = temp;
+      // el.innerHTML = temp;
       el.focus();
       // sel.collapse($(el).children()[0], 2);
-      var textNode = el.childNodes[focusIndex].lastChild || el.childNodes[focusIndex].firstChild;
+
+      //difference when adding emoji on end of paragraph
+      // nodeCaret = selection.start  < $(el).text().length ? nodeCaret + 3 : $(el).text().length + 1;
+
+      // var innerNode = 0, continiueOnLoop = true,
+      //     lastInnerNode = el.childNodes[focusIndex].childNodes.length - 1;
+      // el.childNodes[focusIndex].childNodes.forEach(function(element) {
+      //   var innerLen = element.innerText ? element.innerText.length : element.length;
+      //   if ( lastInnerNode === innerNode && continiueOnLoop && nodeCaret - innerLen == 1) {
+      //     console.log('here')
+      //     // nodeCaret = nodeCaret - 2;
+      //   }
+      //   if ( continiueOnLoop && nodeCaret - innerLen > 0 ){
+      //     nodeCaret = nodeCaret - innerLen;
+      //     innerNode++;
+      //   } else {
+      //     continiueOnLoop = false;
+      //   }
+      //   console.log(element, innerLen, innerNode, nodeCaret, lastInnerNode);
+      // }, this);
+
+      // var textNode = el.childNodes[focusIndex].childNodes[innerNode]
       var range = document.createRange();
-      range.setStart(textNode, nodeCaret + 3);
-      range.setEnd(textNode, nodeCaret + 3);
+      // console.log(range, textNode.length > nodeCaret);
+      console.log(selection.element, selection.element, selection.start)
+      range.setStart(selection.element, selection.start);
+      range.setEnd(selection.element, selection.end);
+      // if ( textNode.length >= nodeCaret ) {
+      //   range.setStart(textNode, nodeCaret);
+      //   range.setEnd(textNode, nodeCaret);
+      // } else {
+      //   range.setStart(el.childNodes[focusIndex], 0);
+      //   range.setEnd(el.childNodes[focusIndex], 0);
+      // }
+
       var sel = window.getSelection();
       sel.removeAllRanges();
       sel.addRange(range);
       
-      var obj = {};
-      for (var k in range ){
-        obj[k] = range[k];
-      }
-      obj.startOffset = selection.start + 3;
-      obj.endOffset = selection.start + 3;
+      // var obj = {};
+      // for (var k in range ){
+      //   obj[k] = range[k];
+      // }
+      // obj.startOffset = selection.start  < $(el).text().length ? selection.start + 3 : selection.start + 1;
+      // obj.endOffset = selection.start  < $(el).text().length ? selection.start + 3 : selection.start + 1;
       
-      wdtEmojiBundle.ranges[el.dataset.rangeIndex] = obj;
+      // wdtEmojiBundle.ranges[el.dataset.rangeIndex] = obj;
 
       // var s = window.getSelection();
       // s.removeAllRanges();

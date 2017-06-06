@@ -34,7 +34,7 @@
 
 
     //fixme:: read from config
-    vm.admin_area = location.hostname + ':8080';
+    vm.admin_area = NST_CONFIG.ADMIN_DOMAIN + (NST_CONFIG.ADMIN_PORT ? ':' + NST_CONFIG.ADMIN_PORT : '');
     /*****************************
      ***** Controller Methods ****
      *****************************/
