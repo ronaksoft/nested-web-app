@@ -140,6 +140,7 @@
 
     checkToBeAuthenticated($state.current, $stateParams);
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
+      $('.wdt-emoji-popup.open').removeClass('open');
       $rootScope.$broadcast('reload-counters');
       checkToBeAuthenticated(toState, toParams, event);
       scrollTopBody();

@@ -278,4 +278,12 @@
     <rect id="space-54" data-name="space" width="16" height="16" style="fill: none"/>
     <path d="M14,16l-2-2-2,2L8,14,6,16,4,14,2,16V1L4,3,6,1,8,3l2-2,2,2,2-2ZM12,6H4V5h8Zm0,3H4V8h8Zm0,3H4V11h8Z" style="fill-rule: evenodd"/>
   </g>
+  <g id="tag">
+    <rect id="space" width="16" height="16" style="fill: none"/>
+    <path d="M7.41,1.59l-6,6a2,2,0,0,0,0,2.83l4.17,4.17a2,2,0,0,0,2.83,0l6-6A2,2,0,0,0,15,7.17V3a2,2,0,0,0-2-2H8.83A2,2,0,0,0,7.41,1.59ZM11,7a2,2,0,1,1,2-2A2,2,0,0,1,11,7Z" style="fill: #ff339d"/>
+  </g>
+  <g id="tag-wire">
+    <rect id="space-2" data-name="space" width="16" height="16" style="fill: none"/>
+    <path d="M13,2a1,1,0,0,1,1,1V7.17a1,1,0,0,1-.29.71l-6,6a1,1,0,0,1-1.41,0L2.12,9.71a1,1,0,0,1,0-1.41l6-6A1,1,0,0,1,8.83,2H13m0-1H8.83a2,2,0,0,0-1.41.59l-6,6a2,2,0,0,0,0,2.83l4.17,4.17a2,2,0,0,0,2.83,0l6-6A2,2,0,0,0,15,7.17V3a2,2,0,0,0-2-2ZM11,4a1,1,0,1,1-1,1,1,1,0,0,1,1-1m0-1a2,2,0,1,0,2,2,2,2,0,0,0-2-2Z" style="fill: #ff339d"/>
+  </g>
 </svg>

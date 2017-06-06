@@ -29,6 +29,7 @@
     vm.scroll = scroll;
     vm.searchRecipients = _.debounce(searchRecipients, 400);
     vm.emojiTarget = 'title';
+    vm.haveComment = true;
 
     if (vm.mode == 'quick') {
       vm.quickMode = true;
@@ -1068,8 +1069,9 @@
 
     };
 
-
+    $('.wdt-emoji-popup.open').removeClass('open');
     $scope.$on('$destroy', function () {
+      $('.wdt-emoji-popup.open').removeClass('open');
       NstSvcLogger.debug4('Compose | Compose id destroyed :');
       NstSvcSidebar.removeOnItemClick();
 

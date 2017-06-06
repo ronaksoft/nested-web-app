@@ -19,6 +19,7 @@
           dissappear($element.find('.tooltip'));
           dissappear($element.find('.popover-userdetail'));
           dissappear($element.find('.popover-placedetail'));
+          $('.wdt-emoji-popup.open').removeClass('open');
 
           if(e.currentTarget.pageYOffset > scrollOff && e.currentTarget.pageYOffset < scrollPos){
             $('body').addClass('scrolled')

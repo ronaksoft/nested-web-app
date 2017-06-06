@@ -67,6 +67,7 @@ nst-attachments-preview-bar {
         &.del {
           background-color: $color-force;
           border-color: $color-force-wire;
+          z-index: 2;
         }
       }
       &:hover {
@@ -116,21 +117,27 @@ nst-attachments-preview-bar {
       }
     }
     .uploadprogress {
-      height: 48px;
-      min-width: 48px;
+      height: 4px;
+      // width: calc( 100% - 24px );
       justify-content: center;
       align-items: center;
       position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+      bottom: 14px;
+      left: 12px;
+      right: 28px;
+      border-radius: 8px;
+      overflow: hidden;
       & > div {
         position: absolute;
         display: flex;
-        width: 48px;
-        height: 48px;
+        width: 100%;
+        height: 4px;
         top: 0;
         right: 0;
+        background-color: $color-breeze-50;
+        svg {
+          stroke: $color-breeze-50;
+        }
       }
     }
     .attach-thumbnail-img {
