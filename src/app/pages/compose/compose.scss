@@ -276,6 +276,21 @@
     fill: $color-solid;
   }
 }
+.compose-opt {
+  right: -8px!important;
+  top: -12px!important;
+  left: auto!important;
+  border: none;
+  box-shadow: 0 0 16px $color-wind;
+  border-radius: 4px;
+  width: 226px;
+  label {
+    margin: 0;
+  }
+  .list-items {
+    padding: 5px 8px;
+  }
+}
 .quick-btns {
   display: inline-flex;
   flex-direction: row;

@@ -29,6 +29,7 @@
     vm.scroll = scroll;
     vm.searchRecipients = _.debounce(searchRecipients, 400);
     vm.emojiTarget = 'title';
+    vm.haveComment = true;
 
     if (vm.mode == 'quick') {
       vm.quickMode = true;
