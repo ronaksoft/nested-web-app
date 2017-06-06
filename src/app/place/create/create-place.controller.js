@@ -449,11 +449,18 @@
     }
 
     function addOrInviteMembers(place) {
-      if (vm.isCreateGrandPlaceMode) {
-        return inviteUsers(vm.place, vm.teammates);
-      } else {
-        return addUsers(vm.place, vm.teammates);
+      var currentUserId = NstSvcAuth.user.id;
+      var hasAnyOtherTeammate = _.some(vm.teammates, function (user) {
+        return user.id !== currentUserId
+      });
+
+      if (hasAnyOtherTeammate) {
+        return vm.isCreateGrandPlaceMode
+          ? inviteUsers(vm.place, vm.teammates)
+          : addUsers(vm.place, vm.teammates);
       }
+
+      return $q.resolve();
     }
 
     function inviteUsers(place, users) {
