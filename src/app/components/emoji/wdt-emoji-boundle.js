@@ -860,23 +860,23 @@
     return caretOffset;
   }
   wdtEmojiBundle.addRangeStore = function (el) {
-    el.addEventListener('focus', function () {
-      // console.log(this.dataset.rangeIndex, window.getSelection().getRangeAt(0));
-      var s = window.getSelection();
-      if (!wdtEmojiBundle.ranges[this.dataset.rangeIndex]) {
-        wdtEmojiBundle.ranges[this.dataset.rangeIndex] = new Range();
-      } else if (s.rangeCount > 0) {
-        s.removeAllRanges();
-        wdtEmojiBundle.ranges[this.dataset.rangeIndex] = new Range();
-        s.addRange(wdtEmojiBundle.ranges[this.dataset.rangeIndex]);
-      }
-    });
+    // el.addEventListener('focus', function () {
+    //   // console.log(this.dataset.rangeIndex, window.getSelection().getRangeAt(0));
+    //   var s = window.getSelection();
+    //   if (!wdtEmojiBundle.ranges[this.dataset.rangeIndex]) {
+    //     wdtEmojiBundle.ranges[this.dataset.rangeIndex] = new Range();
+    //   } else if (s.rangeCount > 0) {
+    //     s.removeAllRanges();
+    //     wdtEmojiBundle.ranges[this.dataset.rangeIndex] = new Range();
+    //     s.addRange(wdtEmojiBundle.ranges[this.dataset.rangeIndex]);
+    //   }
+    // });
 
-    addListenerMulti(el, 'mouseup keyup', function () {
+    addListenerMulti(el, 'mouseup keyup focus', function () {
       // console.log(doGetCaretPosition(el));
       var range = window.getSelection().getRangeAt(0);
       // console.log(range, range.startContainer, range.startContainer.nodeType);
-      console.log(el,range,range.startContainer,range.commonAncestorContainer,range.commonAncestorContainer.parentNode);
+      // console.log(el,range,range.startContainer,range.commonAncestorContainer,range.commonAncestorContainer.parentNode);
       var obj = {};
       for (var k in range ){
         obj[k] = range[k];
@@ -884,7 +884,6 @@
       // obj.startOffset = carP;
       // obj.endOffset = carP;
       obj.element = range.startContainer;
-      console.log(obj)
       
       wdtEmojiBundle.ranges[this.dataset.rangeIndex] = obj;
     });
@@ -897,13 +896,13 @@
           e.cancelBubble = true;
         }
 
-        if (e.preventDefault) {
-          e.preventDefault();
-        } else {
-          e.returnValue = false;
-        }
+        // if (e.preventDefault) {
+        //   e.preventDefault();
+        // } else {
+        //   e.returnValue = false;
+        // }
 
-        this.focus();
+        // this.focus();
       }
     });
   };
@@ -1109,7 +1108,7 @@
       var hi = 0;
       var temp = '';
       var overalIterates = 0;
-      console.log(selection);
+      // console.log(selection);
 
       var nodeCaret = selection.start;
       var focusIndex = 0;
@@ -1119,17 +1118,16 @@
       // loop on text paragraphs 
       // return : the focus element and the offset number
       for (var i = 0; i < $(el).children().length; i++) {
-        console.log('fint element');
         if ( selection.element === $(el).children()[i] && !findEl) {
           myElement = $(el).children()[i];
           findEl = true;
         }
-        for (var j = 0; j < $(el).children()[i].children().length; j++) {
-          if ( selection.element === $(el).children()[i].children()[j] && !findEl ) {
-            myElement = $(el).children()[i].children()[j];
-            findEl = true;
-          }
-        }
+        // for (var j = 0; j < $(el).children()[i].children().length; j++) {
+        //   if ( selection.element === $(el).children()[i].children()[j] && !findEl ) {
+        //     myElement = $(el).children()[i].children()[j];
+        //     findEl = true;
+        //   }
+        // }
 
         // // the length of new lines wasnt calculated on parameters so we remove them here
         // var t = $(el).children()[i].innerText;
@@ -1156,14 +1154,21 @@
         // }
         
       }
-      console.log(selection,selection.element,$(selection.element),myElement);
+      // console.log(selection,selection.element,$(selection.element),myElement);
       var nVal = $(selection.element).text().toString();
       nVal = nVal.slice(0, selection.start) + emo + nVal.slice(selection.start, nVal.length);
-      console.log($(selection.element),nVal);
+      console.log($(selection.element),$(selection.element).parent(),nVal);
       // selection.element.innerHTML = '';
       // if no text is in body dont go any more on function body
       // $(selection.element).text(nVal);
-      $(myElement).html(nVal);
+      if ( $(selection.element)[0].nodeType == 3) {
+        console.log('here')
+        $(selection.element)[0].textContent = nVal;
+      } else {
+        console.log('there')
+        $(selection.element).text(nVal);
+      }
+      // $(selection.element).parent().text(nVal);
       if ( !text.length ) {
         el.innerHTML = '<p>' + emo + '</p>';
         el.focus();
@@ -1224,7 +1229,7 @@
       // }
 
       // el.innerHTML = temp;
-      el.focus();
+      // el.focus();
       // sel.collapse($(el).children()[0], 2);
 
       //difference when adding emoji on end of paragraph
@@ -1251,8 +1256,8 @@
       var range = document.createRange();
       // console.log(range, textNode.length > nodeCaret);
       console.log(selection.element, selection.element, selection.start)
-      range.setStart(selection.element, selection.start);
-      range.setEnd(selection.element, selection.end);
+      range.setStart(selection.element, selection.start + 3);
+      range.setEnd(selection.element, selection.end + 3);
       // if ( textNode.length >= nodeCaret ) {
       //   range.setStart(textNode, nodeCaret);
       //   range.setEnd(textNode, nodeCaret);
