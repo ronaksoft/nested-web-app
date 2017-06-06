@@ -64,8 +64,8 @@
       </div>
       <div class="attach _df">
         <input id="attach" type="file" multiple onchange="angular.element(this).scope().ctlCompose.attachments.fileSelected(event)"/>
-        <input id="attach-img" accept="image/*" type="file" multiple onchange="angular.element(this).scope().ctlCompose.attachments.fileSelected(event)"/>
-        <input id="attach-video" accept="video/*" type="file" multiple onchange="angular.element(this).scope().ctlCompose.attachments.fileSelected(event)"/>
+        <input id="attach-img" accept="image/*,video/*" type="file" multiple onchange="angular.element(this).scope().ctlCompose.attachments.fileSelected(event)"/>
+        <!--<input id="attach-video" accept="video/*" type="file" multiple onchange="angular.element(this).scope().ctlCompose.attachments.fileSelected(event)"/>-->
       </div>
       <div class="nst-attach-con _fh" ng-if="showUploadProgress">
         <div class="progress">
@@ -77,7 +77,7 @@
     </div>
     <div class="modal-ft _fw _aic ng-class:{'focussed' : ctlCompose.focus}">
       <div class="compose-btns">
-        <label class="_df _fn" class="cursor-pointer margin-r_5 icon _df"
+        <label class="_df _fn cursor-pointer" class="cursor-pointer margin-r_5 icon _df"
            popover-class="white-pop post-card-moreopt"
            data-popover-placement="{{$root._direction == 'ltr' ? 'left auto' : 'right auto'}}"
            data-uib-popover-template="'app/pages/compose/partials/files-modal.html'"
@@ -86,25 +86,28 @@
             <use xlink:href="/assets/icons/nst-icn24.svg#attach"></use>
           </svg>
         </label>
-        <label class="_df _fn" for="attach-img">
+        <label class="_df _fn cursor-pointer" for="attach-img">
           <svg class="_24svg _asc">
-            <use xlink:href="/assets/icons/nst-icn24.svg#window"></use>
+            <use xlink:href="/assets/icons/nst-icn24.svg#camera-wire"></use>
           </svg>
         </label>
-        <label class="_df _fn" for="attach-video">
-          <svg class="_24svg _asc">
-            <use xlink:href="/assets/icons/nst-icn24.svg#places"></use>
-          </svg>
         </label>
-        <svg class="_24svg _asc subj" compose-emoji-subj ng-if="ctlCompose.emojiTarget == 'title';">
-          <use xlink:href="/assets/icons/nst-icn24.svg#person"></use>
+        <div class="emoji">
+          <svg class="_24svg _asc">
+            <use xlink:href="/assets/icons/nst-icn24.svg#small-face-wire"></use>
+          </svg>
+          <div class="subj" compose-emoji-subj ng-if="ctlCompose.emojiTarget == 'title';"></div>
+          <div class="body" compose-emoji-body ng-if="ctlCompose.emojiTarget != 'title';"></div>
+        </div>
+        <!--<svg class="_24svg _asc subj" compose-emoji-subj ng-if="ctlCompose.emojiTarget == 'title';">
+          <use xlink:href="/assets/icons/nst-icn24.svg#small-face-wire"></use>
         </svg>
         <svg class="_24svg _asc body" compose-emoji-body ng-if="ctlCompose.emojiTarget != 'title';">
-          <use xlink:href="/assets/icons/nst-icn24.svg#person"></use>
-        </svg>
+          <use xlink:href="/assets/icons/nst-icn24.svg#small-face-wire"></use>
+        </svg>-->
         <div class="_df f1"></div>
-        <svg class="_24svg _asc">
-          <use xlink:href="/assets/icons/nst-icn24.svg#gear"></use>
+        <svg class="_16svg _asc">
+          <use xlink:href="/assets/icons/nst-icn16.svg#gear"></use>
         </svg>
       </div>
       <div class="quick-btns">

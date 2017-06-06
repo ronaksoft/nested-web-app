@@ -836,29 +836,6 @@
    * A trick for contenteditable range clear on blur
    * @param el
    */
-  function doGetCaretPosition (element) {
-    var caretOffset = 0;
-    var doc = element.ownerDocument || element.document;
-    var win = doc.defaultView || doc.parentWindow;
-    var sel;
-    if (typeof win.getSelection != "undefined") {
-      sel = win.getSelection();
-      if (sel.rangeCount > 0) {
-        var range = win.getSelection().getRangeAt(0);
-        var preCaretRange = range.cloneRange();
-        preCaretRange.selectNodeContents(element);
-        preCaretRange.setEnd(range.endContainer, range.endOffset);
-        caretOffset = preCaretRange.toString().length;
-      }
-    } else if ((sel = doc.selection) && sel.type != "Control") {
-      var textRange = sel.createRange();
-      var preCaretTextRange = doc.body.createTextRange();
-      preCaretTextRange.moveToElementText(element);
-      preCaretTextRange.setEndPoint("EndToEnd", textRange);
-      caretOffset = preCaretTextRange.text.length;
-    }
-    return caretOffset;
-  }
   wdtEmojiBundle.addRangeStore = function (el) {
     // el.addEventListener('focus', function () {
     //   // console.log(this.dataset.rangeIndex, window.getSelection().getRangeAt(0));
@@ -874,7 +851,7 @@
 
     addListenerMulti(el, 'mouseup keyup focus', function () {
       // console.log(doGetCaretPosition(el));
-      var range = window.getSelection().getRangeAt(0);
+      var range = window.getSelection().getRangeAt(0) || new Range;
       // console.log(range, range.startContainer, range.startContainer.nodeType);
       // console.log(el,range,range.startContainer,range.commonAncestorContainer,range.commonAncestorContainer.parentNode);
       var obj = {};
@@ -1170,6 +1147,7 @@
       }
       // $(selection.element).parent().text(nVal);
       if ( !text.length ) {
+        console.log('no text found')
         el.innerHTML = '<p>' + emo + '</p>';
         el.focus();
         return ;
