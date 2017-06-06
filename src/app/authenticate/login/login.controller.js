@@ -64,20 +64,13 @@
         vm.message.fill = true;
         vm.message.class = 'nst-error-msg';
 
-        if (error.getCode) {
-          switch (error.getCode()) {
-            case NST_SRV_ERROR.INVALID:
-              vm.message.text = NstSvcTranslation.get('Invalid Username or Password');
-              break;
-
-            default:
-              vm.message.text = NstSvcTranslation.get('An error occurred in login. Please try again later');
-              break;
-          }
+        if (error.code === NST_SRV_ERROR.INVALID) {
+          vm.message.text = NstSvcTranslation.get('Invalid Username or Password');
+        } else if (error.code === NST_SRV_ERROR.ACCESS_DENIED && error.message[0] === 'disabled') {
+          vm.message.text = NstSvcTranslation.get('Your account has been disabled! Contact Nested administrator to get more information.');
         } else {
           vm.message.text = NstSvcTranslation.get('An error occurred in login. Please try again later');
         }
-
 
       });
     };
