@@ -1069,8 +1069,9 @@
 
     };
 
-
+    $('.wdt-emoji-popup.open').removeClass('open');
     $scope.$on('$destroy', function () {
+      $('.wdt-emoji-popup.open').removeClass('open');
       NstSvcLogger.debug4('Compose | Compose id destroyed :');
       NstSvcSidebar.removeOnItemClick();
 
