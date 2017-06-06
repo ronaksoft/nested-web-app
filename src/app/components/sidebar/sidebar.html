@@ -183,8 +183,8 @@
         <!--</div>-->
       <!--</div>-->
     </div>
-    <div nst-scrollbar suppress-scroll-x="true" class="places">
-      <div class="places-list">
+    <div nst-scrollbar dir="ltr" suppress-scroll-x="true" class="places">
+      <div class="places-list" dir="{{$root._direction}}">
         <nst-sidebar-place-info grand-place="ctlSidebar.selectedGrandPlace" unread-mode="ctlSidebar.isUnreadMode"></nst-sidebar-place-info>
       </div>
     </div>
