@@ -436,6 +436,7 @@ post-card {
     border-radius: 4px;
     line-height: 32px;
     margin-right: 16px;
+    margin-bottom: 6px;
     &:hover {
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.24);
       a {
@@ -451,6 +452,19 @@ post-card {
     white-space: nowrap;
     padding-left: 4px;
     padding-right: 4px;
+  }
+  > a {
+    flex: none;
+    align-items: center;
+    line-height: 32px;
+    white-space: nowrap;
+    margin-right: 16px;
+    margin-bottom: 6px;
+    background-color: white;
+    &:hover {
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.24);
+      color: $color-solid;
+    }
   }
   svg {
     display: none;
