@@ -277,7 +277,6 @@
     function load() {
 
       if (vm.hasSeeMembersAccess) {
-        vm.loading = true;
 
         loadTeammates(vm.placeId, vm.hasSeeMembersAccess).then(function (teammates) {
           vm.teammates = teammates;
