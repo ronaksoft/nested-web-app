@@ -25,7 +25,7 @@
       <div class="field _difh _fw">
         <div class="_df _fw">{{ctrl.model.getFullName()}}</div>
         <svg ng-if="ctrl.canEditProfile" class="_24svg _df _fn edit-icon" open-custom-modal="app/settings/profile/modals/profile-change-name.html">
-          <use xlink:href="/assets/icons/nst-icn24.svg#edit"></use>
+          <use xlink:href="/assets/icons/nst-icn24.svg#pencil"></use>
         </svg>
       </div>
     </div>
@@ -47,7 +47,7 @@
         <div ng-if="ctrl.model.email" class="_df _fw" dir="ltr">{{ctrl.model.email}}</div>
         <i ng-if="!ctrl.model.email" class="_df _fw"><translate class="nst-mood-breez">Not specified</translate></i>
         <svg ng-if="ctrl.canEditProfile" class="_24svg _df _fn edit-icon" open-custom-modal="app/settings/profile/modals/profile-change-email.html">
-          <use xlink:href="/assets/icons/nst-icn24.svg#edit"></use>
+          <use xlink:href="/assets/icons/nst-icn24.svg#pencil"></use>
         </svg>
       </div>
     </div>
@@ -57,7 +57,7 @@
         <div ng-if="ctrl.model.dateOfBirth" class="_df _fw" dir="ltr">{{ctrl.model.dateOfBirth | date : 'short'}}</div>
         <i ng-if="!ctrl.model.dateOfBirth" class="_df _fw" dir="ltr"><translate class="nst-mood-breez">Not specified</translate></i>
         <svg ng-if="ctrl.canEditProfile" class="_24svg _df _fn edit-icon" open-custom-modal="app/settings/profile/modals/profile-change-dob.html">
-          <use xlink:href="/assets/icons/nst-icn24.svg#edit"></use>
+          <use xlink:href="/assets/icons/nst-icn24.svg#pencil"></use>
         </svg>
       </div>
     </div>
@@ -69,7 +69,7 @@
           <translate class="nst-mood-breez">Not specified</translate>
         </i>
         <svg ng-if="ctrl.canEditProfile" class="_24svg _df _fn edit-icon" open-custom-modal="app/settings/profile/modals/profile-select-gender.html">
-          <use xlink:href="/assets/icons/nst-icn24.svg#edit"></use>
+          <use xlink:href="/assets/icons/nst-icn24.svg#pencil"></use>
         </svg>
       </div>
     </div>

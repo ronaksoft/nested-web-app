@@ -17,9 +17,18 @@ body[data-wdt-emoji-bundle='apple'] .wdt-emoji[data-has-img-apple='false'] {
 .wdt-emoji-picker {
   position: absolute;
   right: 12px;
-  top: 12px;
-  width: 24px;
-  height: 24px;
+  top: 15px;
+  width: 16px;
+  height: 16px;
+  svg {
+    fill: $color-wind;
+    transition: fill $animation-dur
+  }
+  &:hover {
+    svg {
+      fill: $color-solid;
+    }
+  }
 }
 
 .wdt-emoji-picker:hover {

@@ -856,23 +856,23 @@ body.scrolled {
     //transition: color $animation-dur;
   }
   svg {
-    //transition: fill $animation-dur;
-    fill: $color-breeze;
+    fill: $color-solid;
+    opacity: .16;
   }
   &:first-of-type {
     // margin: 0 8px;
     svg { display: flex;}
   }
   &:hover {
-    color: $color-solid;
     svg {
-      fill: $color-solid;
+        opacity: 1;
     }
   }
   &.active {
     border-bottom: 3px solid $color-sense;
     color: $color-sense-wire;
     svg {
+      opacity: 1;
       fill: $color-sense-wire;
     }
     &:hover {

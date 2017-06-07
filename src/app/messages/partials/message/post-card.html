@@ -205,7 +205,7 @@
 </div>
 
 
-<section class="post-card-comment" data-ng-if="!ctlPostCard.hideComments && ctlPostCard.commentBoard">
+<section class="post-card-comment" data-ng-if="!ctlPostCard.hideComments && !ctlPostCard.post.noComment">
   <comments-board comments="ctlPostCard.post.comments" limit="ctlPostCard.commentBoardLimit" post-id="ctlPostCard.post.id" total-comments-count="ctlPostCard.post.counters.comments" on-comment-sent="ctlPostCard.onAddComment" has-comment-remove-access="ctlPostCard.hasRemoveAccess"></comments-board>
 </section>
 
@@ -284,7 +284,7 @@
 
 <div class="card-control" affix-post ng-if="!ctlPostCard.chainView">
 
-  <svg class="_16svg" ng-click="ctlPostCard.markAsRead();ctlPostCard.expand();" ng-if="!ctlPostCard.expandProgress && !ctlPostCard.post.read">
+  <svg class="_16svg pendfill" ng-click="ctlPostCard.markAsRead();ctlPostCard.expand();" ng-if="!ctlPostCard.expandProgress && !ctlPostCard.post.read">
     <use xlink:href="/assets/icons/nst-icn16.svg#unread-message"></use>
   </svg>
   <svg class="_16svg nst-icn-gry" ng-if="!ctlPostCard.expandProgress && ctlPostCard.post.read && !ctlPostCard.isExpanded && ctlPostCard.post.ellipsis" ng-click="ctlPostCard.expand();  _track('post card', 'show more : add-on');">
