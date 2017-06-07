@@ -130,6 +130,7 @@
     }
 
     function openMemberModal() {
+      console.log('here');
       $state.go('app.place-settings', { placeId : vm.placeId, tab : 'members' }, { notify : false });
     }
 

@@ -1,5 +1,5 @@
 <div class="teammates">
-  <div class="name" ng-click="tctlTeammates.openMemberModal()"><translate>{{ctlTeammates.place.counters.creators + ctlTeammates.place.counters.key_holders | localize }} Members</translate></div>
+  <div class="name" ng-click="ctlTeammates.openMemberModal()"><translate>{{ctlTeammates.place.counters.creators + ctlTeammates.place.counters.key_holders | localize }} Members</translate></div>
   <div class="recent-container _fw _df _fn _bgwhite">
     <div class="avatars" ng-if="!ctlTeammates.loading">
       <div class="_difh" ng-repeat="teammate in ctlTeammates.teammates | limitTo : ctlTeammates.limit track by $index">
