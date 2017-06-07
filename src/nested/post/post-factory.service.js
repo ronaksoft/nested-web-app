@@ -205,7 +205,8 @@
         targets: '',
         content_type: post.contentType,
         subject: post.subject,
-        body: post.body
+        body: post.body,
+        no_comment : post.noComment
       };
 
       params.targets = post.places.map(
@@ -388,6 +389,7 @@
       post.type = data.type;
       post.wipeAccess = data.wipe_access;
       post.ellipsis = data.ellipsis;
+      post.noComment = data.no_comment;
 
 
       var resources = {};

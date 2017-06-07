@@ -412,6 +412,7 @@
       if (vm.addOn) {
         vm.isExpanded = true;
       }
+      console.log(vm.post)
 
       pageEventReferences.push($scope.$on('comment-removed', function (event, data) {
         if (vm.post.id === data.postId) {

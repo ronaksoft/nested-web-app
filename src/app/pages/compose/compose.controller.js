@@ -58,7 +58,8 @@
       modified: false,
       ready: false,
       saving: false,
-      saved: false
+      saved: false,
+      noComment: false
     };
 
     vm.search = {
@@ -659,6 +660,7 @@
             post.forwardFrom = vm.model.forwardedFrom;
             post.replyTo = vm.model.replyTo;
             post.recipients = vm.model.recipients;
+            post.noComment = vm.model.noComment;
             post.places = [];
 
             NstSvcLogger.debug4('Compose | Post the post to the server :', post);
