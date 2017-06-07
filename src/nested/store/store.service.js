@@ -42,7 +42,7 @@
 
       var pattern = NST_STORE_ROUTE_PATTERN[routeKey];
       var replace = {
-        BASE_URL: this.url,
+        BASE_URL: NST_CONFIG.STORE.URL,
         SESSION_KEY: NstSvcServer.getSessionKey(),
         UNIVERSAL_ID: universalId,
         TOKEN: token.string || ''
@@ -63,7 +63,7 @@
       }
 
       var viewUrl = NST_STORE_ROUTE_PATTERN.VIEW
-        .replace("{{BASE_URL}}", this.url)
+        .replace("{{BASE_URL}}", NST_CONFIG.STORE.URL)
         .replace("{{SESSION_KEY}}", NstSvcServer.getSessionKey())
         .replace("{{UNIVERSAL_ID}}", universalId)
         .replace("{{TOKEN}}", "");
@@ -128,7 +128,7 @@
 
         var ajax = $http({
           method: 'POST',
-          url: service.getUrl() + "/upload",
+          url: NST_CONFIG.STORE.URL + "/upload",
           data: formData,
           headers: {
             'Content-Type': undefined
@@ -166,7 +166,7 @@
       return request;
     };
 
-    Store.prototype.uploadWithProgress = function (file, onProgress, type, sessionKey) {
+    Store.prototype.uploadWithProgress = function (file, onProgress, type) {
       type = type || NST_STORE_UPLOAD_TYPE.FILE;
 
       var service = this;
@@ -209,7 +209,17 @@
       }).then(function (token) {
         var formData = new FormData();
 
-        formData.append('file', file);
+        formData.append('request', JSON.stringify({
+          type: 'q',
+          cmd: type,
+          _sk: NstSvcServer.getSessionKey(),
+          data: {
+            token: token.string,
+            fn: 'attachment'
+          }
+        }));
+
+        formData.append('attachment', file);
 
         var deferred = $q.defer();
 
@@ -217,7 +227,7 @@
 
         if (xhr) {
           var url = '{storeUrl}/upload/{type}/{sk}/{token}'
-            .replace('{storeUrl}', service.getUrl())
+            .replace('{storeUrl}', NST_CONFIG.STORE.URL)
             .replace('{type}', type)
             .replace('{sk}', sessionKey)
             .replace('{token}', token.string);
