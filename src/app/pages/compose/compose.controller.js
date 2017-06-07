@@ -8,7 +8,7 @@
   /** @ngInject */
   function ComposeController($q, $rootScope, $state, $stateParams, $scope, $log, $timeout, $uibModalStack, $window,
                              _, toastr,
-                             NST_SRV_ERROR, NST_PATTERN, NST_CONFIG, NST_DEFAULT, NST_ATTACHMENT_STATUS,
+                             NST_SRV_ERROR, NST_PATTERN, NST_CONFIG, NST_DEFAULT, NST_ATTACHMENT_STATUS, NST_STORE_UPLOAD_TYPE,
                              NST_FILE_TYPE, SvcCardCtrlAffix,
                              NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcStore,
                              NstSvcFileType, NstSvcAttachmentMap, NstSvcSidebar, NstSvcSystemConstants,
@@ -419,11 +419,30 @@
 
     }
 
+    function getStoreType(file) {
+      var group = NstSvcFileType.getType(file.type);
+
+      if (group === NST_FILE_TYPE.IMAGE) {
+        return NST_STORE_UPLOAD_TYPE.IMAGE;
+      } else if (group === NST_FILE_TYPE.VIDEO) {
+        return NST_STORE_UPLOAD_TYPE.VIDEO;
+      } else if (group === NST_FILE_TYPE.AUDIO) {
+        return NST_STORE_UPLOAD_TYPE.AUDIO;
+      } else {
+        return NST_STORE_UPLOAD_TYPE.FILE;
+      }
+    }
+
     vm.attachments.fileSelected = function (event, group) {
       NstSvcLogger.debug4('Compose | some files added into compose');
       var files = event.currentTarget.files;
+      var type = NST_STORE_UPLOAD_TYPE.File;
+      if (group === 'media') {
+        type = getStoreType(files[0]);
+      }
+
       for (var i = 0; i < files.length; i++) {
-        vm.attachments.attach(files[i], group).then(function (request) {
+        vm.attachments.attach(files[i], type).then(function (request) {
         });
       }
       event.currentTarget.value = "";

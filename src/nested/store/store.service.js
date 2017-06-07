@@ -167,7 +167,6 @@
     };
 
     Store.prototype.uploadWithProgress = function (file, onProgress, type, sessionKey) {
-      console.log('uploadWithProgress');
       type = type || NST_STORE_UPLOAD_TYPE.FILE;
 
       var service = this;
@@ -222,7 +221,6 @@
             .replace('{type}', type)
             .replace('{sk}', sessionKey)
             .replace('{token}', token.string);
-          console.log('url', url);
 
           xhr.open('POST', url, true);
 

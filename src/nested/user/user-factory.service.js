@@ -242,7 +242,7 @@
         var places = _.map(data.places, parsePlace);
         deferred.resolve(places);
       }).catch(function (error) {
-        deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+        deferred.reject(error);
       });
 
       return deferred.promise;
