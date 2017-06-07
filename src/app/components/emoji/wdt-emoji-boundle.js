@@ -851,7 +851,13 @@
 
     addListenerMulti(el, 'mouseup keyup focus', function () {
       // console.log(doGetCaretPosition(el));
-      var range = window.getSelection().getRangeAt(0) || new Range;
+      var range
+      if (el.textContent) {
+        range = window.getSelection().getRangeAt(0) || new Range;
+      } else {
+        range = new Range;
+      }
+      
       // console.log(range, range.startContainer, range.startContainer.nodeType);
       // console.log(el,range,range.startContainer,range.commonAncestorContainer,range.commonAncestorContainer.parentNode);
       var obj = {};
