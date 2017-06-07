@@ -474,8 +474,19 @@ body[dir="rtl"] {
     right: auto;
     left: 0;
   }
-  .empty div[contenteditable]:before{
-    content: 'اینجا متن را بنویسید...';
+  .modal .modal-compose .modal-head {
+    padding-left: 0;
+    padding-right: 16px;
+  }
+  .compose-btns > * {
+    margin: 0 0 0 8px;
+  }
+  .compose-opt {
+    right: auto !important;
+    left: -8px !important;
+  }
+  #wdt-emoji-menu-header {
+    padding: 4px 7px 0 0;
   }
   .post-card-comments p {
     strong {
