@@ -567,7 +567,7 @@
       var last = _.last(vm.messages);
 
       if (!last) {
-        return moment().format('x');
+        return null;
       }
       var lastDate = !isSent() && NST_MESSAGES_SORT_OPTION.LATEST_ACTIVITY == vm.messagesSetting.sort ? last.lastUpdate : last.timestamp;
       if (moment.isMoment(lastDate)) {

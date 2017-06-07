@@ -449,45 +449,26 @@
     }
 
     function addOrInviteMembers(place) {
+      var currentUserId = NstSvcAuth.user.id;
+      var hasAnyOtherTeammate = _.some(vm.teammates, function (user) {
+        return user.id !== currentUserId
+      });
 
-      var successRes = [];
-      var failedRes = [];
+      if (hasAnyOtherTeammate) {
+        return vm.isCreateGrandPlaceMode
+          ? inviteUsers(vm.place, vm.teammates)
+          : addUsers(vm.place, vm.teammates);
+      }
 
-      return $q.all(_.map(vm.teammates, function (user) {
-        return $q(function (resolve, reject) {
-          var command = vm.isCreateGrandPlaceMode ? 'inviteUser' : 'addUser';
-          NstSvcPlaceFactory[command](place, user.role, user).then(function (invitationId) {
-            successRes.push(user.id);
-            NstSvcLogger.info(NstUtility.string.format('User "{0}" has been invited to Place "{1}" successfully.', user.id, place.id));
+      return $q.resolve();
+    }
 
-            resolve({
-              user: user,
-              role: user.role,
-              invitationId: vm.isCreateGrandPlaceMode ? invitationId : -1,
-            });
-          }).catch(function (error) {
-            failedRes.push(user.id);
+    function inviteUsers(place, users) {
+      return NstSvcPlaceFactory.inviteUser(place, users);
+    }
 
-            // FIXME: Why cannot catch the error!
-            if (error.getCode() === NST_SRV_ERROR.DUPLICATE) {
-              NstSvcLogger.warn(NstUtility.string.format('User "{0}" has been previously invited to Place "{1}".', user.id, place.id));
-              resolve({
-                user: user,
-                role: user.role,
-                invitationId: null,
-                duplicate: true
-              });
-            } else {
-              reject(error);
-            }
-          });
-        });
-
-      }))
-        .catch(function (error) {
-          NstSvcLogger.error(error);
-        });
-
+    function addUsers(place, users) {
+      return NstSvcPlaceFactory.addUser(place, users);
     }
 
     function setAddPostPolicy(value) {
