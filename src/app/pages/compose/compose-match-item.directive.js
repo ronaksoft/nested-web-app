@@ -17,7 +17,7 @@
       },
       link: function (scope, ele) {
         $timeout(getSizes,0);
-        var containerW,itemsW = 0,overflowed = false,lastIndex = 0;
+        var containerW, itemsW = 0, overflowed = false, lastIndex = 0;
 
         // $interval(function(){
         //   console.log(ele.children().length);

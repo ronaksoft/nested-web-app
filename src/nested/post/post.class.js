@@ -34,6 +34,7 @@
       this.resources = undefined;
       this.trusted = undefined;
       this.bodyIsTrivial = true;
+      this.noComment = false;
     }
 
     Post.prototype.getTrustedBody = function () {

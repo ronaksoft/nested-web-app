@@ -8,12 +8,12 @@
   /** @ngInject */
   function ComposeController($q, $rootScope, $state, $stateParams, $scope, $log, $timeout, $uibModalStack, $window,
                              _, toastr,
-                             NST_SRV_ERROR, NST_PATTERN, NST_CONFIG, NST_DEFAULT, NST_ATTACHMENT_STATUS,
+                             NST_SRV_ERROR, NST_PATTERN, NST_CONFIG, NST_DEFAULT, NST_ATTACHMENT_STATUS, NST_STORE_UPLOAD_TYPE,
                              NST_FILE_TYPE, SvcCardCtrlAffix,
                              NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcStore,
                              NstSvcFileType, NstSvcAttachmentMap, NstSvcSidebar, NstSvcSystemConstants,
                              NstUtility, NstSvcTranslation, NstSvcModal, NstSvcPostDraft,
-                             NstSvcUserFactory, NstSvcLogger,
+                             NstSvcUserFactory, NstSvcLogger, NstSvcAuth,
                              NstTinyPlace, NstVmPlace, NstVmSelectTag, NstLocalResource, NstPicture,
                              NstPostDraft, NstTinyUser, NstVmUser, NstPost) {
     var vm = this;
@@ -58,7 +58,8 @@
       modified: false,
       ready: false,
       saving: false,
-      saved: false
+      saved: false,
+      noComment: false
     };
 
     vm.search = {
@@ -419,18 +420,37 @@
 
     }
 
-    vm.attachments.fileSelected = function (event) {
+    function getStoreType(file) {
+      var group = NstSvcFileType.getType(file.type);
+
+      if (group === NST_FILE_TYPE.IMAGE) {
+        return NST_STORE_UPLOAD_TYPE.IMAGE;
+      } else if (group === NST_FILE_TYPE.VIDEO) {
+        return NST_STORE_UPLOAD_TYPE.VIDEO;
+      } else if (group === NST_FILE_TYPE.AUDIO) {
+        return NST_STORE_UPLOAD_TYPE.AUDIO;
+      } else {
+        return NST_STORE_UPLOAD_TYPE.FILE;
+      }
+    }
+
+    vm.attachments.fileSelected = function (event, group) {
       NstSvcLogger.debug4('Compose | some files added into compose');
       var files = event.currentTarget.files;
+      var type = NST_STORE_UPLOAD_TYPE.File;
+      if (group === 'media') {
+        type = getStoreType(files[0]);
+      }
+
       for (var i = 0; i < files.length; i++) {
-        vm.attachments.attach(files[i]).then(function (request) {
+        vm.attachments.attach(files[i], type).then(function (request) {
         });
       }
       event.currentTarget.value = "";
     };
 
 
-    vm.attachments.attach = function (file) {
+    vm.attachments.attach = function (file, group) {
       NstSvcLogger.debug4('Compose | Check if the attached files are more than the limit size');
       NstSvcLogger.debug4('Compose | Max allowed attachements is: ', systemConstants.post_max_attachments);
       var filesCount = _.size(vm.model.attachments);
@@ -496,7 +516,7 @@
             vmAttachment.uploadedSize = event.loaded;
             vmAttachment.uploadedRatio = Number(event.loaded / event.total).toFixed(4);
           }
-        });
+        }, group, NstSvcAuth.lastSessionKey);
 
         vm.attachments.requests[attachment.id] = request;
 
@@ -659,6 +679,7 @@
             post.forwardFrom = vm.model.forwardedFrom;
             post.replyTo = vm.model.replyTo;
             post.recipients = vm.model.recipients;
+            post.noComment = vm.model.noComment;
             post.places = [];
 
             NstSvcLogger.debug4('Compose | Post the post to the server :', post);
@@ -957,15 +978,19 @@
       }
     })
 
-    
     vm.froalaOpts = {
       toolbarContainer: '#editor-btn',
       charCounterCount: false,
       tabSpaces: 4,
+      pluginsEnabled: ['colors', 'fontSize', 'fontFamily', 'link', 'url', 'wordPaste'],
       fontSize : ['8', '10', '14', '18', '22'],
       toolbarButtons: ['fontSize', '|', 'bold', 'italic', 'underline', '|', 'align', 'rightToLeft', 'leftToRight'],
       events : {
-        'froalaEditor.focus' : function(e, editor) {vm.emojiTarget = 'body';vm.focus = true},
+        'froalaEditor.focus' : function(e, editor) {
+          vm.emojiTarget = 'body';
+          vm.focus = true;
+          vm.collapse = true;
+        },
         'froalaEditor.blur' : function(e, editor) {}
       }
     }

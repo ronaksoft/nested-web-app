@@ -168,7 +168,7 @@
       var p = document.createElement('div');
       addClass(p, 'wdt-emoji-picker');
 
-      p.innerHTML = '<svg class="_24svg _asc"><use  xlink:href="/assets/icons/nst-icn24.svg#small-face-wire"></use></svg>';
+      p.innerHTML = '<svg class="_16svg _asc"><use  xlink:href="/assets/icons/nst-icn16.svg#small-face-wire"></use></svg>';
 
       p.addEventListener('click', wdtEmojiBundle.openPicker);
 

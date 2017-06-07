@@ -59,7 +59,7 @@
     vm.hasPlacesWithControlAccess = hasPlacesWithControlAccess;
     vm.hasDeleteAccess = hasDeleteAccess;
 
-    if (vm.mood == 'chain') {
+    if (vm.mood === 'chain') {
       vm.chainView = true;
     }
 
@@ -310,7 +310,7 @@
     }
 
     function loadNewComments($event) {
-      $event.preventDefault();
+      if ($event) $event.preventDefault();
       pageEventReferences.push($scope.$broadcast('post-load-new-comments', { postId: vm.post.id }));
       reloadCounters();
       vm.unreadCommentsCount = 0;
@@ -378,6 +378,7 @@
 
       var senderIsCurrentUser = NstSvcAuth.user.id == e.detail.comment.sender.id;
       if (senderIsCurrentUser) {
+        loadNewComments();
         if (!_.includes(newCommentIds, e.detail.id)) {
           newCommentIds.push(e.detail.id);
           vm.post.counters.comments++;

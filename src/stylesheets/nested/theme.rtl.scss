@@ -215,6 +215,17 @@ body[dir="rtl"] {
     margin-left: auto;
     margin-right: 40px;
   }
+  .post-card-comment-input textarea {
+    padding: 5px 8px 5px 28px;
+  }
+  post-card {
+    .wdt-emoji-picker {
+      left: 15px;
+      right: auto;
+      width: 16px;
+      height: 16px;
+    }
+  }
   nst-navbar .menu-links-butn span {
     margin-left: 0;
     margin-right: 8px;
@@ -463,8 +474,19 @@ body[dir="rtl"] {
     right: auto;
     left: 0;
   }
-  .empty div[contenteditable]:before{
-    content: 'اینجا متن را بنویسید...';
+  .modal .modal-compose .modal-head {
+    padding-left: 0;
+    padding-right: 16px;
+  }
+  .compose-btns > * {
+    margin: 0 0 0 8px;
+  }
+  .compose-opt {
+    right: auto !important;
+    left: -8px !important;
+  }
+  #wdt-emoji-menu-header {
+    padding: 4px 7px 0 0;
   }
   .post-card-comments p {
     strong {

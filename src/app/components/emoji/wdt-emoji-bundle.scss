@@ -17,9 +17,18 @@ body[data-wdt-emoji-bundle='apple'] .wdt-emoji[data-has-img-apple='false'] {
 .wdt-emoji-picker {
   position: absolute;
   right: 12px;
-  top: 12px;
-  width: 24px;
-  height: 24px;
+  top: 15px;
+  width: 16px;
+  height: 16px;
+  svg {
+    fill: $color-wind;
+    transition: fill $animation-dur
+  }
+  &:hover {
+    svg {
+      fill: $color-solid;
+    }
+  }
 }
 
 .wdt-emoji-picker:hover {
@@ -99,7 +108,9 @@ body[data-wdt-emoji-bundle='apple'] .wdt-emoji[data-has-img-apple='false'] {
   color: #9e9ea6;
   border-bottom: 3px solid #e7543d;
 }
-
+.wdt-emoji-list{
+  direction: ltr;
+}
 #wdt-emoji-search,
 #wdt-emoji-search:focus {
   font-size: 13px;
@@ -441,7 +452,7 @@ and (orientation: portrait) {
   .wdt-emoji-scroll-wrapper {
     height: 170px;
   }
-
+  
   .wdt-emoji-popup {
     height: 206px;
 

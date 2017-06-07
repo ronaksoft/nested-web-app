@@ -13,7 +13,7 @@
         function resizer() {
           if ($element.height() > 17) {
             $element.width('100%');
-            $element.css({'display' : 'flex','justify-content' : 'flex-start'});
+            $element.css({'justify-content' : 'flex-start'});
           }
         }
 

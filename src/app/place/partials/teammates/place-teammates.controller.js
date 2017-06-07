@@ -130,6 +130,7 @@
     }
 
     function openMemberModal() {
+      console.log('here');
       $state.go('app.place-settings', { placeId : vm.placeId, tab : 'members' }, { notify : false });
     }
 
@@ -277,7 +278,6 @@
     function load() {
 
       if (vm.hasSeeMembersAccess) {
-        vm.loading = true;
 
         loadTeammates(vm.placeId, vm.hasSeeMembersAccess).then(function (teammates) {
           vm.teammates = teammates;

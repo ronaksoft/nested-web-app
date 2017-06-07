@@ -637,8 +637,8 @@
     PlaceFactory.prototype.addUser = function (place, users) {
       var factory = this;
       var userIds = _.isArray(users)
-      ? _.join(_.map(users, 'id'),',')
-      : users;
+        ? _.join(_.map(users, 'id'), ',')
+        : users;
 
       return this.sentinel.watch(function () {
         var deferred = $q.defer();
@@ -665,33 +665,30 @@
     };
 
     PlaceFactory.prototype.inviteUser = function (place, users) {
-      var factory = this;
+      var deferred = $q.defer();
       var userIds = _.isArray(users)
-        ? _.join(_.map(users, 'id'),',')
+        ? _.join(_.map(users, 'id'), ',')
         : users;
 
-      return this.sentinel.watch(function () {
-        var deferred = $q.defer();
-
-        NstSvcServer.request('place/invite_member', {
-          place_id: place.id,
-          member_id: userIds
-        }).then(function (result) {
-          console.log('invite result', result);
-          var notAddedIds = result.invalid_ids || [];
-          var addedUsers = _.reject(users, function (user) {
-            return _.includes(notAddedIds, user.id);
-          });
-          deferred.resolve({
-            addedUsers: addedUsers,
-            rejectedUsers: _.differenceBy(users, addedUsers, 'id')
-          });
-        }).catch(function (error) {
-          deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+      NstSvcServer.request('place/invite_member', {
+        place_id: place.id,
+        member_id: userIds
+      }).then(function (result) {
+        console.log('invite result', result);
+        var notAddedIds = result.invalid_ids || [];
+        var addedUsers = _.reject(users, function (user) {
+          return _.includes(notAddedIds, user.id);
         });
+        deferred.resolve({
+          addedUsers: addedUsers,
+          rejectedUsers: _.differenceBy(users, addedUsers, 'id')
+        });
+      }).catch(function (error) {
+        deferred.reject(new NstFactoryError(userIds, error.getMessage(), error.getCode(), error));
+      });
 
-        return deferred.promise;
-      }, "inviteUser", place.id + '-' + userIds);
+      return deferred.promise;
+
     }
 
     PlaceFactory.prototype.removeMember = function (placeId, memberId) {

@@ -296,19 +296,19 @@
   flex-direction: row;
   flex: none;
 }
-body.isMobile .modal .modal-compose{
-  .modal-ft {
-    display: inline-flex;
-    flex-direction: column;
-    height: 100px;
-    >div {
-      width: 100%;
-    }
-    .quick-btns {
-      justify-content: flex-end;
-    }
-  }
-}
+// body.isMobile .modal .modal-compose{
+//   .modal-ft {
+//     display: inline-flex;
+//     flex-direction: column;
+//     height: 100px;
+//     >div {
+//       width: 100%;
+//     }
+//     .quick-btns {
+//       justify-content: flex-end;
+//     }
+//   }
+// }
 body.isMobile .quick-message-wrp .quick-message-inner .quick-message .modal-ft {
   .modal-ft {
     display: inline-flex;
@@ -392,4 +392,8 @@ body.isMobile {
 }
 .fr-toolbar .fr-command.fr-btn span, .fr-popup .fr-command.fr-btn span {
     min-width: 24px;
+}
+.compose-scrl-wrp {
+  max-height: calc( 90vh - 300px);
+  min-height: 250px;
 }

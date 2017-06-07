@@ -29,10 +29,10 @@
         </div>
 		<div class="wdt-emoji-scroll-wrapper">
             <input id="wdt-emoji-search" type="text" placeholder="Search">
-            <div id="wdt-emoji-menu-items" class="_fh" nst-scrollbar suppress-scroll-x="true">
-                <h3 id="wdt-emoji-search-result-title">Search Results</h3>
-                <div class="wdt-emoji-sections"></div>
-                <div id="wdt-emoji-no-result">No emoji found</div>
+            <div id="wdt-emoji-menu-items" dir="ltr" class="_fh" nst-scrollbar suppress-scroll-x="true">
+                <h3 dir="{{$root._direction}}" id="wdt-emoji-search-result-title"><translate>Search Results</translate></h3>
+                <div dir="{{$root._direction}}" class="wdt-emoji-sections"></div>
+                <div id="wdt-emoji-no-result"><translate>No emoji found</translate></div>
             </div>
         </div>
 	</div>
