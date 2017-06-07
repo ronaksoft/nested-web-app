@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   angular
@@ -35,7 +35,9 @@
       if (!token) {
         throw Error("Token is not provided.");
       }
-      var routeKey = Object.keys(NST_STORE_ROUTE).filter(function (k) { return route == NST_STORE_ROUTE[k]; }).pop();
+      var routeKey = Object.keys(NST_STORE_ROUTE).filter(function (k) {
+        return route == NST_STORE_ROUTE[k];
+      }).pop();
       if (!(routeKey && universalId)) {
         return undefined;
       }
@@ -71,7 +73,7 @@
       return _.trimEnd(viewUrl, '/');
     }
 
-    Store.prototype.upload = function(file, type) {
+    Store.prototype.upload = function (file, type) {
       type = type || NST_STORE_UPLOAD_TYPE.FILE;
 
       var service = this;
@@ -102,7 +104,7 @@
 
       var reqId = generateReqId('upload/' + type, file.name);
       request.setStatus(NST_REQ_STATUS.QUEUED);
-      request.setData(angular.extend(request.getData(), { reqId: reqId }));
+      request.setData(angular.extend(request.getData(), {reqId: reqId}));
 
       getUploadToken().catch(function (error) {
         var deferred = $q.defer();
@@ -166,7 +168,7 @@
       return request;
     };
 
-    Store.prototype.uploadWithProgress = function (file, onProgress, type) {
+    Store.prototype.uploadWithProgress = function (file, onProgress, type, sessionKey) {
       type = type || NST_STORE_UPLOAD_TYPE.FILE;
 
       var service = this;
@@ -197,7 +199,7 @@
 
       var reqId = generateReqId('upload/' + type, file.name);
       request.setStatus(NST_REQ_STATUS.QUEUED);
-      request.setData(angular.extend(request.getData(), { reqId: reqId }));
+      request.setData(angular.extend(request.getData(), {reqId: reqId}));
 
       getUploadToken().catch(function (error) {
         var deferred = $q.defer();
@@ -321,11 +323,11 @@
     function requestNewUploadToken(storageKey) {
       var deferred = $q.defer();
 
-      NstSvcServer.request('file/get_upload_token').then(function(data) {
+      NstSvcServer.request('file/get_upload_token').then(function (data) {
         var token = createToken(data.token);
         NstSvcDownloadTokenStorage.set(storageKey, token);
         deferred.resolve(token);
-      }).catch(function(error) {
+      }).catch(function (error) {
         // TODO: Reject with StoreError(StoreQuery) Object
         deferred.reject(error);
       });
