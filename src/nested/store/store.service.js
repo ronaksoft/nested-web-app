@@ -166,7 +166,8 @@
       return request;
     };
 
-    Store.prototype.uploadWithProgress = function (file, onProgress, type) {
+    Store.prototype.uploadWithProgress = function (file, onProgress, type, sessionKey) {
+      console.log('uploadWithProgress');
       type = type || NST_STORE_UPLOAD_TYPE.FILE;
 
       var service = this;
@@ -209,24 +210,21 @@
       }).then(function (token) {
         var formData = new FormData();
 
-        formData.append('request', JSON.stringify({
-          type: 'q',
-          cmd: type,
-          _sk: NstSvcServer.getSessionKey(),
-          data: {
-            token: token.string,
-            fn: 'attachment'
-          }
-        }));
-
-        formData.append('attachment', file);
+        formData.append('file', file);
 
         var deferred = $q.defer();
 
         var xhr = NstHttp.createCORSRequest('POST');
 
         if (xhr) {
-          xhr.open('POST', service.getUrl() + "/upload", true);
+          var url = '{storeUrl}/upload/{type}/{sk}/{token}'
+            .replace('{storeUrl}', service.getUrl())
+            .replace('{type}', type)
+            .replace('{sk}', sessionKey)
+            .replace('{token}', token.string);
+          console.log('url', url);
+
+          xhr.open('POST', url, true);
 
           xhr.setRequestHeader("Cache-Control", "no-cache");
           xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");

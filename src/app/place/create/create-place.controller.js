@@ -423,7 +423,7 @@
 
     function uploadPlacePicture() {
       var deferred = $q.defer();
-      var request = NstSvcStore.uploadWithProgress(vm.logoFile, logoUploadProgress, NST_STORE_UPLOAD_TYPE.PLACE_PICTURE);
+      var request = NstSvcStore.uploadWithProgress(vm.logoFile, logoUploadProgress, NST_STORE_UPLOAD_TYPE.PLACE_PIC, NstSvcAuth.lastSessionKey);
 
       request.getPromise().then(function (result) {
 

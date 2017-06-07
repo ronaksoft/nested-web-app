@@ -187,7 +187,7 @@
           vm.logoUrl = readEvent.target.result;
 
           // upload the picture
-          var request = NstSvcStore.uploadWithProgress(vm.logoFile, logoUploadProgress, NST_STORE_UPLOAD_TYPE.PLACE_PICTURE);
+          var request = NstSvcStore.uploadWithProgress(vm.logoFile, logoUploadProgress, NST_STORE_UPLOAD_TYPE.PLACE_PIC, NstSvcAuth.lastSessionKey);
 
           request.getPromise().then(function (result) {
 

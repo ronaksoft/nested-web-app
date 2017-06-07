@@ -4,8 +4,12 @@
   angular
     .module('ronak.nested.web.file')
     .constant('NST_STORE_UPLOAD_TYPE', {
-      FILE: 'upload/file',
-      PLACE_PICTURE: 'upload/place_pic',
-      PROFILE_PICTURE: 'upload/profile_pic'
+      GIF: 'UPLOAD/GIF',
+      FILE: 'UPLOAD/FILE',
+      AUDIO: 'UPLOAD/AUDIO',
+      IMAGE: 'UPLOAD/IMAGE',
+      VIDEO: 'UPLOAD/VIDEO',
+      PLACE_PIC: 'UPLOAD/PLACE_PIC',
+      PROFILE_PIC: 'UPLOAD/PROFILE_PIC'
     });
 })();

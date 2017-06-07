@@ -13,7 +13,7 @@
                              NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcStore,
                              NstSvcFileType, NstSvcAttachmentMap, NstSvcSidebar, NstSvcSystemConstants,
                              NstUtility, NstSvcTranslation, NstSvcModal, NstSvcPostDraft,
-                             NstSvcUserFactory, NstSvcLogger,
+                             NstSvcUserFactory, NstSvcLogger, NstSvcAuth,
                              NstTinyPlace, NstVmPlace, NstVmSelectTag, NstLocalResource, NstPicture,
                              NstPostDraft, NstTinyUser, NstVmUser, NstPost) {
     var vm = this;
@@ -418,18 +418,18 @@
 
     }
 
-    vm.attachments.fileSelected = function (event) {
+    vm.attachments.fileSelected = function (event, group) {
       NstSvcLogger.debug4('Compose | some files added into compose');
       var files = event.currentTarget.files;
       for (var i = 0; i < files.length; i++) {
-        vm.attachments.attach(files[i]).then(function (request) {
+        vm.attachments.attach(files[i], group).then(function (request) {
         });
       }
       event.currentTarget.value = "";
     };
 
 
-    vm.attachments.attach = function (file) {
+    vm.attachments.attach = function (file, group) {
       NstSvcLogger.debug4('Compose | Check if the attached files are more than the limit size');
       NstSvcLogger.debug4('Compose | Max allowed attachements is: ', systemConstants.post_max_attachments);
       var filesCount = _.size(vm.model.attachments);
@@ -495,7 +495,7 @@
             vmAttachment.uploadedSize = event.loaded;
             vmAttachment.uploadedRatio = Number(event.loaded / event.total).toFixed(4);
           }
-        });
+        }, group, NstSvcAuth.lastSessionKey);
 
         vm.attachments.requests[attachment.id] = request;
 
@@ -956,7 +956,6 @@
       }
     })
 
-    
     vm.froalaOpts = {
       toolbarContainer: '#editor-btn',
       charCounterCount: false,
