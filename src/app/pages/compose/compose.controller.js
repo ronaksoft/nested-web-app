@@ -982,6 +982,7 @@
       toolbarContainer: '#editor-btn',
       charCounterCount: false,
       tabSpaces: 4,
+      pluginsEnabled: ['colors', 'fontSize', 'fontFamily', 'link', 'url', 'wordPaste'],
       fontSize : ['8', '10', '14', '18', '22'],
       toolbarButtons: ['fontSize', '|', 'bold', 'italic', 'underline', '|', 'align', 'rightToLeft', 'leftToRight'],
       events : {
