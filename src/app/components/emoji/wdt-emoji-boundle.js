@@ -168,7 +168,7 @@
       var p = document.createElement('div');
       addClass(p, 'wdt-emoji-picker');
 
-      p.innerHTML = self.emoji.replace_colons(':smile:');
+      p.innerHTML = '<svg class="_16svg _asc"><use  xlink:href="/assets/icons/nst-icn16.svg#small-face-wire"></use></svg>';
 
       p.addEventListener('click', wdtEmojiBundle.openPicker);
 
@@ -300,7 +300,7 @@
     wdtEmojiBundle.closePickers();
 
     addClass(this, 'wdt-emoji-picker-open');
-    this.innerHTML = wdtEmojiBundle.emoji.replace_colons(':sunglasses:');
+    // this.innerHTML = wdtEmojiBundle.emoji.replace_colons(':sunglasses:');
   };
   wdtEmojiBundle.openMultiPicker = function (ev) {
     var self = this;
@@ -836,53 +836,31 @@
    * A trick for contenteditable range clear on blur
    * @param el
    */
-  function doGetCaretPosition (element) {
-    var caretOffset = 0;
-    var doc = element.ownerDocument || element.document;
-    var win = doc.defaultView || doc.parentWindow;
-    var sel;
-    if (typeof win.getSelection != "undefined") {
-      sel = win.getSelection();
-      if (sel.rangeCount > 0) {
-        var range = win.getSelection().getRangeAt(0);
-        var preCaretRange = range.cloneRange();
-        preCaretRange.selectNodeContents(element);
-        preCaretRange.setEnd(range.endContainer, range.endOffset);
-        caretOffset = preCaretRange.toString().length;
-      }
-    } else if ((sel = doc.selection) && sel.type != "Control") {
-      var textRange = sel.createRange();
-      var preCaretTextRange = doc.body.createTextRange();
-      preCaretTextRange.moveToElementText(element);
-      preCaretTextRange.setEndPoint("EndToEnd", textRange);
-      caretOffset = preCaretTextRange.text.length;
-    }
-    return caretOffset;
-  }
   wdtEmojiBundle.addRangeStore = function (el) {
-    el.addEventListener('focus', function () {
-      // console.log(this.dataset.rangeIndex, window.getSelection().getRangeAt(0));
-      var s = window.getSelection();
-      if (!wdtEmojiBundle.ranges[this.dataset.rangeIndex]) {
-        wdtEmojiBundle.ranges[this.dataset.rangeIndex] = new Range();
-      } else if (s.rangeCount > 0) {
-        s.removeAllRanges();
-        wdtEmojiBundle.ranges[this.dataset.rangeIndex] = new Range();
-        s.addRange(wdtEmojiBundle.ranges[this.dataset.rangeIndex]);
-      }
-    });
+    // el.addEventListener('focus', function () {
+    //   // console.log(this.dataset.rangeIndex, window.getSelection().getRangeAt(0));
+    //   var s = window.getSelection();
+    //   if (!wdtEmojiBundle.ranges[this.dataset.rangeIndex]) {
+    //     wdtEmojiBundle.ranges[this.dataset.rangeIndex] = new Range();
+    //   } else if (s.rangeCount > 0) {
+    //     s.removeAllRanges();
+    //     wdtEmojiBundle.ranges[this.dataset.rangeIndex] = new Range();
+    //     s.addRange(wdtEmojiBundle.ranges[this.dataset.rangeIndex]);
+    //   }
+    // });
 
-    addListenerMulti(el, 'mouseup keyup', function () {
+    addListenerMulti(el, 'mouseup keyup focus', function () {
       // console.log(doGetCaretPosition(el));
-      var carP = doGetCaretPosition(el);
-      var range = window.getSelection().getRangeAt(0);
+      var range = window.getSelection().getRangeAt(0) || new Range;
       // console.log(range, range.startContainer, range.startContainer.nodeType);
+      // console.log(el,range,range.startContainer,range.commonAncestorContainer,range.commonAncestorContainer.parentNode);
       var obj = {};
       for (var k in range ){
         obj[k] = range[k];
       }
-      obj.startOffset = carP;
-      obj.endOffset = carP;
+      // obj.startOffset = carP;
+      // obj.endOffset = carP;
+      obj.element = range.startContainer;
       
       wdtEmojiBundle.ranges[this.dataset.rangeIndex] = obj;
     });
@@ -895,13 +873,13 @@
           e.cancelBubble = true;
         }
 
-        if (e.preventDefault) {
-          e.preventDefault();
-        } else {
-          e.returnValue = false;
-        }
+        // if (e.preventDefault) {
+        //   e.preventDefault();
+        // } else {
+        //   e.returnValue = false;
+        // }
 
-        this.focus();
+        // this.focus();
       }
     });
   };
@@ -1022,10 +1000,11 @@
       var val = $(el)[0].textContent;
       return {
         "el"   : el,
+        "element"   : range ? range.element : el.childNodes[0],
         "start": range ? range.startOffset : 0,
         "end"  : range ? range.endOffset : 0,
         "len"  : val.length,
-        "sel"  : val.substring(range.startOffset, range.endOffset),
+        "sel"  : '',
         "contenteditable" : true
       };
     }
@@ -1101,140 +1080,34 @@
 
       var text = $(el).text();
       var html = $(el).html();
-      var ti = 0;
-      var hi = 0;
-      var temp = '';
-      var overalIterates = 0;
+      // console.log(selection);
 
-      var nodeCaret = selection.start;
-      var focusIndex = 0;
-      var iterateFlag = true;
+      
+      // console.log(selection,selection.element,$(selection.element),myElement);
+      var nVal = $(selection.element).text().toString();
+      nVal = nVal.slice(0, selection.start) + emo + nVal.slice(selection.start, nVal.length);
 
-      for (var i = 0; i < $(el).children().length; i++) {
-        var t = $(el).children()[i].innerText;
-        t = t.replace(/\r\n/g, '').replace(/[\r\n]/g, '');
-        // console.log(t);
-        // console.log(t.length)
-        if (iterateFlag && t.length === 0 ) {
-          // console.log('iterateFlag && t.length === 0');
-          focusIndex++;
-        } else if ( iterateFlag && ( nodeCaret - t.length ) > 0) {
-          // console.log('iterateFlag && ( nodeCaret - t.length ) > 0')
-          nodeCaret  = nodeCaret - t.length;
-          focusIndex++;
-        } else if ( iterateFlag && nodeCaret - t < t.length) {
-          // console.log('iterateFlag && nodeCaret - t < t.length')
-          focusIndex++;
-          iterateFlag = false;
-        } else if ( iterateFlag && ( nodeCaret - t.length ) < 0) {
-          // console.log('( nodeCaret - t.length ) < 0');
-          iterateFlag = false;
-        } else if ( iterateFlag && ( nodeCaret - t.length ) < 1) {
-          // console.log('( nodeCaret - t.length ) < 1');
-          iterateFlag = false;
-        }
-        
+      if ( $(selection.element)[0].nodeType == 3) {
+        $(selection.element)[0].textContent = nVal;
+      } else {
+        $(selection.element).text(nVal);
       }
-      // console.log(focusIndex, nodeCaret)
-
-
+      // $(selection.element).parent().text(nVal);
       if ( !text.length ) {
         el.innerHTML = '<p>' + emo + '</p>';
         el.focus();
         return ;
       }
-
-
-      // for (hi; hi < html.length ; hi){
-      //   overalIterates++;
-
-      //   // To prevent the call stack and browser error !
-      //   if ( overalIterates > text.length + html.length ) {
-      //     console.log('overalIterates',overalIterates);
-      //     return hi = html.length;
-      //   }
-      //   if ( text[ti] === html[hi] ) {
-      //     // console.log('t',text[ti],html[hi]);
-      //     temp += html[hi];
-
-      //     if ( ti === selection.start ){
-      //       temp += emo
-      //     }
-      //     ++hi;
-      //     ++ti;
-
-      //   } else {
-      //     // console.log('h',html[hi]);
-      //     temp += html[hi];
-      //     hi++;
-      //   }
-      // }
-
-
-      for (ti; ti < text.length ; ti){
-        overalIterates++;
-
-        // To prevent the call stack and browser error !
-        if ( overalIterates > text.length + html.length ) {
-          // console.log('overalIterates',overalIterates);
-          return ti = text.length;
-        }
-        if ( text[ti] === html[hi] ) {
-          // console.log('t',text[ti],html[hi]);
-          temp += text[ti];
-          ++ti;
-
-          if ( ti === selection.start ){
-            // console.log('e',emo)
-            temp += emo
-          }
-          // if ( selection.start == text.length ) {
-          //   ++ti;
-          //   console.log('here')
-          // }
-          hi++;
-        } else if ( text[ti] === ' ' && html[hi] === '&' && html[hi + 1] === 'n' && html[hi + 2] === 'b' && html[hi + 3] === 's' && html[hi + 4] === 'p' && html[hi + 5] === ';') {
-          hi = hi + 6;
-          ti++;
-        } else {
-          // console.log('h',html[hi]);
-          temp += html[hi];
-          hi++;
-        }
-      }
-
-      var aftarContent = html.length - hi;
-      if (aftarContent > 0) {
-        for ( var i = 0; i < aftarContent; i++) {
-          // console.log('m',html[hi]);
-          temp += html[hi];
-          hi++;
-        }
-      }
-
-      el.innerHTML = temp;
-      el.focus();
-      // sel.collapse($(el).children()[0], 2);
-      var textNode = el.childNodes[focusIndex].lastChild || el.childNodes[focusIndex].firstChild;
       var range = document.createRange();
-      range.setStart(textNode, nodeCaret + 3);
-      range.setEnd(textNode, nodeCaret + 3);
+      // console.log(range, textNode.length > nodeCaret);
+      // console.log(selection.element, selection.element, selection.start, selection.element.textContent.length)
+      var addOffset = selection.element.textContent.length === 3 ? 1 : 3 ;
+      range.setStart(selection.element, selection.start + addOffset);
+      range.setEnd(selection.element, selection.end + addOffset);
+
       var sel = window.getSelection();
       sel.removeAllRanges();
       sel.addRange(range);
-      
-      var obj = {};
-      for (var k in range ){
-        obj[k] = range[k];
-      }
-      obj.startOffset = selection.start + 3;
-      obj.endOffset = selection.start + 3;
-      
-      wdtEmojiBundle.ranges[el.dataset.rangeIndex] = obj;
-
-      // var s = window.getSelection();
-      // s.removeAllRanges();
-      // s.addRange(r);
     } else {
       var val = el.value || el.innerHTML || '';
       var textBefore = val.substring(0, selection.start);

@@ -59,7 +59,7 @@
     vm.hasPlacesWithControlAccess = hasPlacesWithControlAccess;
     vm.hasDeleteAccess = hasDeleteAccess;
 
-    if (vm.mood == 'chain') {
+    if (vm.mood === 'chain') {
       vm.chainView = true;
     }
 

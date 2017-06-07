@@ -29,6 +29,7 @@
     vm.scroll = scroll;
     vm.searchRecipients = _.debounce(searchRecipients, 400);
     vm.emojiTarget = 'title';
+    vm.haveComment = true;
 
     if (vm.mode == 'quick') {
       vm.quickMode = true;
@@ -963,7 +964,11 @@
       fontSize : ['8', '10', '14', '18', '22'],
       toolbarButtons: ['fontSize', '|', 'bold', 'italic', 'underline', '|', 'align', 'rightToLeft', 'leftToRight'],
       events : {
-        'froalaEditor.focus' : function(e, editor) {vm.emojiTarget = 'body';vm.focus = true},
+        'froalaEditor.focus' : function(e, editor) {
+          vm.emojiTarget = 'body';
+          vm.focus = true;
+          vm.collapse = true;
+        },
         'froalaEditor.blur' : function(e, editor) {}
       }
     }
@@ -1067,8 +1072,9 @@
 
     };
 
-
+    $('.wdt-emoji-popup.open').removeClass('open');
     $scope.$on('$destroy', function () {
+      $('.wdt-emoji-popup.open').removeClass('open');
       NstSvcLogger.debug4('Compose | Compose id destroyed :');
       NstSvcSidebar.removeOnItemClick();
 

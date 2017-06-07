@@ -231,10 +231,16 @@ body.modal-open {
     min-height: 480px;
     height: 100%;
     position: relative;
+    .fr-box.fr-basic .fr-element {
+      min-height: 100px;
+    }
     &.attached {
       .modal-bo {
         margin: 48px 0 204px 0;
         max-height: calc(90vh - 412px);
+      }
+      .compose-scrl-wrp {
+        min-height: 145px;
       }
       .editor-btn-wrp {
         bottom: 156px;
@@ -286,9 +292,31 @@ body.modal-open {
     bottom: 0;
     width: 100%;
     svg {
+      // width: 24px;
+      // height: 24px;
+      position: static;
+      fill: $color-hurricane;
+    }
+    svg:hover {
+      fill: $color-solid;
+    }
+    ._24svg {
       width: 24px;
       height: 24px;
-      position: static;
+      position: relative;
+    }
+    .emoji {
+      position: relative;
+      width: 24px;
+      height: 24px;
+      div {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        right: auto;
+      }
     }
     .butn-green {
       width: 80px;

@@ -217,18 +217,18 @@
 
     }
     .uploadprogress {
-      height: 20px;
-      min-width: 20px;
+      height: 4px;
+      min-width: 100%;
       justify-content: center;
       align-items: center;
-      & > div {
-        position: absolute;
-        display: flex;
-        width: 20px;
-        height: 20px;
-        top: 0;
-        right: 0;
-      }
+      // & > div {
+      //   position: absolute;
+      //   display: flex;
+      //   width: 20px;
+      //   height: 20px;
+      //   top: 0;
+      //   right: 0;
+      // }
     }
     .attach-thumbnail {
       height: 32px;
