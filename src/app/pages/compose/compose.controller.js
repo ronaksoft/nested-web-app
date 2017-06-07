@@ -509,7 +509,7 @@
         var vmAttachment = NstSvcAttachmentMap.toEditableAttachmentItem(attachment);
         attachment.id = vmAttachment.id;
 
-        NstSvcLogger.debug4('Compose | start uploading file',file);
+        NstSvcLogger.debug4('Compose | start uploading file', file);
 
         var request = NstSvcStore.uploadWithProgress(file, function (event) {
           if (event.lengthComputable) {
@@ -937,8 +937,8 @@
      *****************************/
 
 
-    vm.emitItemsAnalytics = function(){
-      $scope.$broadcast('compose-add-item',{active : vm.collapse});
+    vm.emitItemsAnalytics = function () {
+      $scope.$broadcast('compose-add-item', {active: vm.collapse});
     }
 
     var changeDirection = function (dir, align) {
@@ -947,9 +947,9 @@
       for (var i = 0; i < elements.length; i++) {
         var element = elements[i];
         if (element != this.$el.get(0)) {
-        $(element)
-          .css('direction', dir)
-          .css('text-align', align);
+          $(element)
+            .css('direction', dir)
+            .css('text-align', align);
         }
       }
 
@@ -982,16 +982,17 @@
       toolbarContainer: '#editor-btn',
       charCounterCount: false,
       tabSpaces: 4,
-      pluginsEnabled: ['colors', 'fontSize', 'fontFamily', 'link', 'url', 'wordPaste'],
-      fontSize : ['8', '10', '14', '18', '22'],
-      toolbarButtons: ['fontSize', '|', 'bold', 'italic', 'underline', '|', 'align', 'rightToLeft', 'leftToRight'],
-      events : {
-        'froalaEditor.focus' : function(e, editor) {
+      pluginsEnabled: ['colors', 'fontSize', 'fontFamily', 'link', 'url', 'wordPaste', 'lists', 'align', 'codeBeautifier'],
+      fontSize: ['8', '10', '14', '18', '22'],
+      toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'fontSize', '|', 'color', 'align', 'formatOL', 'formatUL', 'insertLink', '|','rightToLeft', 'leftToRight'],
+      events: {
+        'froalaEditor.focus': function (e, editor) {
           vm.emojiTarget = 'body';
           vm.focus = true;
           vm.collapse = true;
         },
-        'froalaEditor.blur' : function(e, editor) {}
+        'froalaEditor.blur': function (e, editor) {
+        }
       }
     }
 
