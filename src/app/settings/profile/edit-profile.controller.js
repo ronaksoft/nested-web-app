@@ -168,7 +168,7 @@
         reader.onload = function (event) {
           imageLoadTimeout = $timeout(function () {
             vm.picture = event.target.result;
-            var request = NstSvcStore.uploadWithProgress(vm.uploadedFile, function (event) {}, NST_STORE_UPLOAD_TYPE.PROFILE_PICTURE);
+            var request = NstSvcStore.uploadWithProgress(vm.uploadedFile, function (event) {}, NST_STORE_UPLOAD_TYPE.PROFILE_PIC, NstSvcAuth.lastSessionKey);
 
             request.finished().then(function (response) {
               return NstSvcUserFactory.updatePicture(response.data.universal_id, vm.model.id);
