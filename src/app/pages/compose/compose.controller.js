@@ -965,7 +965,11 @@
       fontSize : ['8', '10', '14', '18', '22'],
       toolbarButtons: ['fontSize', '|', 'bold', 'italic', 'underline', '|', 'align', 'rightToLeft', 'leftToRight'],
       events : {
-        'froalaEditor.focus' : function(e, editor) {vm.emojiTarget = 'body';vm.focus = true},
+        'froalaEditor.focus' : function(e, editor) {
+          vm.emojiTarget = 'body';
+          vm.focus = true;
+          vm.collapse = true;
+        },
         'froalaEditor.blur' : function(e, editor) {}
       }
     }

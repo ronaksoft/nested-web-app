@@ -393,3 +393,7 @@ body.isMobile {
 .fr-toolbar .fr-command.fr-btn span, .fr-popup .fr-command.fr-btn span {
     min-width: 24px;
 }
+.compose-scrl-wrp {
+  max-height: calc( 90vh - 300px);
+  min-height: 250px;
+}

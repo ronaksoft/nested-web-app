@@ -231,10 +231,16 @@ body.modal-open {
     min-height: 480px;
     height: 100%;
     position: relative;
+    .fr-box.fr-basic .fr-element {
+      min-height: 100px;
+    }
     &.attached {
       .modal-bo {
         margin: 48px 0 204px 0;
         max-height: calc(90vh - 412px);
+      }
+      .compose-scrl-wrp {
+        min-height: 145px;
       }
       .editor-btn-wrp {
         bottom: 156px;
