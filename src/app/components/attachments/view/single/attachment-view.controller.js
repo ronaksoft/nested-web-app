@@ -33,6 +33,7 @@
     vm.goTo = goTo;
     vm.download = download;
     vm.openInNewWindow = openInNewWindow;
+    vm.trustSrc = trustSrc;
 
     (function () {
 
@@ -79,6 +80,10 @@
         goPrevious();
       }
     });
+
+    function trustSrc(src) {
+      return $sce.trustAsResourceUrl(src);
+    }
 
     function goNext() {
       var currentIndex = _.findIndex(vm.attachments.collection, {id: vm.attachments.current.id});

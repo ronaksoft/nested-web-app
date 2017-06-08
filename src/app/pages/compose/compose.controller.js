@@ -488,7 +488,7 @@
         var resource = new NstLocalResource(uri);
 
         // Load and Show Thumbnail
-        if (NST_FILE_TYPE.IMAGE == type) {
+        if (NST_FILE_TYPE.IMAGE == type || NST_FILE_TYPE.GIF == type) {
           attachment.picture = new NstPicture({
             original: uri,
             preview: uri,

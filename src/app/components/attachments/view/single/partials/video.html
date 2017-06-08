@@ -6,10 +6,16 @@
 </div>
 
 <div ng-if="!attachment.isDownloaded" class="nst-preview-pic-mode">
-  <img ng-if="attachment.hasThumbnail" class="_oph" ng-src="{{attachment.thumbnail}}" />
-  <div ng-if="!attachment.hasThumbnail" class="att-exp-application-large-">
-    <div class="_tac _fw _dibp title-att color-doc nst-font-large upper-case">{{attachment.extension}}</div>
-  </div>
+
+  <video width="400" controls ng-if="attachment.viewUrl">
+    <source src="{{trustSrc(attachment.viewUrl)}}" type="video/mp4">
+    Your browser does not support HTML5 video.
+  </video>
+
+  <!--<img ng-if="attachment.hasThumbnail" class="_oph" ng-src="{{attachment.thumbnail}}" />-->
+  <!--<div ng-if="!attachment.hasThumbnail" class="att-exp-application-large-">-->
+    <!--<div class="_tac _fw _dibp title-att color-doc nst-font-large upper-case">{{attachment.extension}}</div>-->
+  <!--</div>-->
   <div class="downloadprogress">
     <div ng-progressbar="{{attachment.downloadedRatio}}" progressbar-mode="circle"></div>
   </div>
