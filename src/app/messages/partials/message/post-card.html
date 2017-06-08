@@ -125,7 +125,7 @@
     <translate class="places-label" ng-if="ctlPostCard.post.places.length > 0">shared with:</translate>
     <span data-ng-repeat="place in ctlPostCard.post.places" class="ng-class:{'del-access' :  ctlPostCard.hasDeleteAccess(place)}">
         <a ui-sref="app.place-messages({ placeId : place.id })" place-detail="place.id" dir="ltr">
-          #{{::place.name}}
+          {{::place.name}}
         </a>
         <svg class="_16svg red-item" ng-click="ctlPostCard.remove(place);$event.stopPropagation();">
           <use xlink:href="/assets/icons/nst-icn16.svg#bin"></use>
