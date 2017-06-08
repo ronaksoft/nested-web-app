@@ -468,7 +468,8 @@
 
             emojiSection.appendChild(emojiTitle);
             emojiSection.appendChild(emojiListDiv);
-            sectionsContainer.prepend(emojiSection);
+            console.log(sectionsContainer);
+            $(sectionsContainer).prepend(emojiSection);
           }
 
     }
