@@ -223,7 +223,7 @@
             .replace('{token}', token.string);
 
           // xhr.open('POST', url, true);
-          xhr.open('POST', NST_CONFIG.STORE.URL + "/upload", true);
+          xhr.open('POST', url, true);
 
           xhr.setRequestHeader("Cache-Control", "no-cache");
           xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
