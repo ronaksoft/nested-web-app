@@ -935,8 +935,8 @@
      *****************************/
 
 
-    vm.emitItemsAnalytics = function () {
-      $scope.$broadcast('compose-add-item', {active: vm.collapse});
+    vm.emitItemsAnalytics = function(){
+      $scope.$broadcast('compose-add-item',{active : vm.collapse});
     }
 
     var changeDirection = function (dir, align) {
@@ -945,9 +945,9 @@
       for (var i = 0; i < elements.length; i++) {
         var element = elements[i];
         if (element != this.$el.get(0)) {
-          $(element)
-            .css('direction', dir)
-            .css('text-align', align);
+        $(element)
+          .css('direction', dir)
+          .css('text-align', align);
         }
       }
 
@@ -977,7 +977,7 @@
     })
 
     vm.froalaOpts = {
-      toolbarContainer: '#editor-btn',
+      toolbarContainer: vm.quickMode ? '#editor-btn-quick' :'#editor-btn',
       charCounterCount: false,
       tabSpaces: 4,
       pluginsEnabled: ['colors', 'fontSize', 'fontFamily', 'link', 'url', 'wordPaste', 'lists', 'align', 'codeBeautifier'],

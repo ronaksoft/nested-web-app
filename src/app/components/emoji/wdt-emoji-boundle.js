@@ -17,7 +17,7 @@
   }
 })(this, function (EmojiConvertor) {
   var wdtEmojiBundle = {};
-
+  wdtEmojiBundle.fadeOut = [];
   wdtEmojiBundle.defaults = {
     pickerColors : ['green', 'pink', 'yellow', 'blue', 'gray'],
     textMode     : true,
@@ -250,11 +250,12 @@
       var bodyRect = document.body.getBoundingClientRect();
       var elRect = el.getBoundingClientRect();
       var popupRect = wdtEmojiBundle.popup.getBoundingClientRect();
-
+      var suitLeft = $(el).offset().left - ( popupRect.width / 2 );
+      var suitTop = $(el).offset().top + bodyRect.top + popupRect.height >= $(window).height() ?
+        $(el).offset().top - popupRect.height - 8 : elRect.top + Math.abs(bodyRect.top) + elRect.height;
       var pos = {
-        left: $(el).offset().left - ( popupRect.width / 2 ),
-        top : $(el).offset().top + bodyRect.top + popupRect.height >= $(window).height() ?
-        $(el).offset().top - popupRect.height - 8 : elRect.top + Math.abs(bodyRect.top) + elRect.height
+        left: suitLeft,
+        top : suitTop
         // left: (elRect.left - popupRect.width) + elRect.width,
         // top : elRect.top + Math.abs(bodyRect.top) + elRect.height
       };
@@ -263,6 +264,23 @@
 
       pos.left += 'px';
       pos.top += 'px';
+
+      setTimeout(function(){
+        document.addEventListener("click", fadeOut);
+        wdtEmojiBundle.fadeOut.push(fadeOut);
+      },100)
+       function fadeOut (event) {
+        if ( event.pageX > suitLeft && event.pageY > suitTop && event.pageY < popupRect.height + suitTop && event.pageX < popupRect.width + suitLeft ) {
+        } else {
+          for ( var i = 0; i < wdtEmojiBundle.fadeOut.length; i++ ) {
+            document.removeEventListener("click", wdtEmojiBundle.fadeOut[i]);
+          }
+          wdtEmojiBundle.fadeOut = []
+          
+          wdtEmojiBundle.close();
+        }
+        
+      }
 
       if (bodyRect.width < 415) { // mobile specific @todo - [needim] - better mobile detection needed
         addClass(wdtEmojiBundle.popup, 'wdt-emoji-mobile');
@@ -279,24 +297,22 @@
       return pos;
     }
 
-    css(wdtEmojiBundle.popup, findBestAvailablePosition(ev.target));
-
     // On window resized
     window.addEventListener('resize', function(new_event){
       css(wdtEmojiBundle.popup, findBestAvailablePosition(ev.target));
     });
 
-    addClass(wdtEmojiBundle.popup, 'open');
-
     // fill with emoji
     wdtEmojiBundle.fillPickerPopup();
-
+    
     if (hasClass(this, 'wdt-emoji-picker-open')) {
       wdtEmojiBundle.closePicker(this);
       removeClass(wdtEmojiBundle.popup, 'open');
       return false;
+    } else {
+      css(wdtEmojiBundle.popup, findBestAvailablePosition(ev.target));
     }
-
+    addClass(wdtEmojiBundle.popup, 'open');
     wdtEmojiBundle.closePickers();
 
     addClass(this, 'wdt-emoji-picker-open');
@@ -321,16 +337,34 @@
       var bodyScrolled = bodyRect.top < 0
       var elRect = el.getBoundingClientRect();
       var popupRect = wdtEmojiBundle.popup.getBoundingClientRect();
-
+      var suitLeft = $(el).offset().left - ( popupRect.width / 2 );
+      var suitTop = $(el).offset().top + bodyRect.top + popupRect.height >= $(window).height() ?
+        $(el).offset().top - popupRect.height - 8 : elRect.top + Math.abs(bodyRect.top) + elRect.height;
       var pos = {
-          left: $(el).offset().left - ( popupRect.width / 2 ),
-          top : $(el).offset().top + bodyRect.top + popupRect.height >= $(window).height() ? $(el).offset().top - popupRect.height - 8 : elRect.top + Math.abs(bodyRect.top) + elRect.height
-        };
+        left: suitLeft,
+        top : suitTop
+      };
 
       pos.left = pos.left < 0 ? 0 : pos.left;
 
       pos.left += 'px';
       pos.top += 'px';
+      setTimeout(function(){
+        document.addEventListener("click", fadeOut);
+        wdtEmojiBundle.fadeOut.push(fadeOut);
+      },100)
+       function fadeOut (event) {
+        if ( event.pageX > suitLeft && event.pageY > suitTop && event.pageY < popupRect.height + suitTop && event.pageX < popupRect.width + suitLeft ) {
+        } else {
+          for ( var i = 0; i < wdtEmojiBundle.fadeOut.length; i++ ) {
+            document.removeEventListener("click", wdtEmojiBundle.fadeOut[i]);
+          }
+          wdtEmojiBundle.fadeOut = []
+          
+          wdtEmojiBundle.close();
+        }
+        
+      }
 
       if (bodyRect.width < 415) { // mobile specific @todo - [needim] - better mobile detection needed
         addClass(wdtEmojiBundle.popup, 'wdt-emoji-mobile');
@@ -388,7 +422,10 @@
           // while ($(sectionsContainer).children().first().hasChildNodes()) {
           //     $(sectionsContainer).children().first().removeChild($(sectionsContainer).lastChild);
           // }
+
+          //Clone obj to stop treating ref
           var emojiLists = wdtEmojiBundle.defaults.recent.slice(0);
+          // UI needs
           var emojiList = emojiLists.reverse();
           var title = 'Recent';
           if (emojiList.length) {
@@ -431,7 +468,7 @@
 
             emojiSection.appendChild(emojiTitle);
             emojiSection.appendChild(emojiListDiv);
-            sectionsContainer.prepend(emojiSection);
+            $(sectionsContainer).prepend(emojiSection);
           }
 
     }
@@ -462,7 +499,7 @@
     for (var i = 0; i < sortedSectionsArray.length; i++) {
       sortedSections[sortedSectionsArray[i]] = sections[sortedSectionsArray[i]];
     }
-
+    var iterate = 0
     for (var title in sortedSections) {
       if (sortedSections.hasOwnProperty(title)) {
         var emojiList = sortedSections[title];
@@ -504,10 +541,10 @@
               emojiListDiv.appendChild(emojiLink);
             }
           }
-
           emojiSection.appendChild(emojiTitle);
           emojiSection.appendChild(emojiListDiv);
           sectionsContainer.appendChild(emojiSection);
+          iterate++;
         }
       }
     }
@@ -548,7 +585,7 @@
    * Close the bundle popup
    */
   wdtEmojiBundle.close = function () {
-    wdtEmojiBundle.popup.classList.remove('open');
+    if ( wdtEmojiBundle.popup ) wdtEmojiBundle.popup.classList.remove('open');
     wdtEmojiBundle.closePickers();
   };
 
@@ -617,6 +654,9 @@
       ce.initEvent('input', true, true);
       wdtEmojiBundle.input.dispatchEvent(ce);
       wdtEmojiBundle.close();
+      for ( var i = 0; i < wdtEmojiBundle.fadeOut.length; i++ ) {
+        document.removeEventListener("click", wdtEmojiBundle.fadeOut[i]);
+      }
       fire('afterSelect', {el: wdtEmojiBundle.input, event: event, emoji: ':' + this.dataset.wdtEmojiShortname + ':'});
 
       return false;
@@ -852,7 +892,7 @@
     addListenerMulti(el, 'mouseup keyup focus', function () {
       // console.log(doGetCaretPosition(el));
       var range
-      if (el.textContent) {
+      if (el.textContent.length > 0) {
         range = window.getSelection().getRangeAt(0) || new Range;
       } else {
         range = new Range;

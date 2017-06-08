@@ -1,4 +1,4 @@
-(function () {
+(function() {
   'use strict';
 
   angular
@@ -211,17 +211,7 @@
       }).then(function (token) {
         var formData = new FormData();
 
-        formData.append('request', JSON.stringify({
-          type: 'q',
-          cmd: type,
-          _sk: NstSvcServer.getSessionKey(),
-          data: {
-            token: token.string,
-            fn: 'attachment'
-          }
-        }));
-
-        formData.append('attachment', file);
+        formData.append('file', file);
 
         var deferred = $q.defer();
 
@@ -229,11 +219,12 @@
 
         if (xhr) {
           var url = '{storeUrl}/upload/{type}/{sk}/{token}'
-            .replace('{storeUrl}', NST_CONFIG.STORE.URL)
+            .replace('{storeUrl}',  NST_CONFIG.STORE.URL)
             .replace('{type}', type)
             .replace('{sk}', sessionKey)
             .replace('{token}', token.string);
 
+          // xhr.open('POST', url, true);
           xhr.open('POST', url, true);
 
           xhr.setRequestHeader("Cache-Control", "no-cache");

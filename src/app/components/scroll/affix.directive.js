@@ -23,7 +23,7 @@
 
         function checkLoop() {
           var tempTop = $element.offset().top;
-          if (defTop == tempTop) {
+          if (defTop === tempTop) {
 
           }else {
             applier();
@@ -138,6 +138,7 @@
 
 
           findLeftOffset();
+          affixElement();
           win.bind('scroll', affixElement);
           firstFixes();
 

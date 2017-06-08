@@ -113,6 +113,9 @@
     left: 272px;
     transform: none;
   }
+  html, body {
+    overflow-x: auto!important;
+  }
 }
 @media screen and (max-width: $screen-lg) and (min-width: $screen-md){
   .maincontainer.sidetiny{
