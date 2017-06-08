@@ -977,7 +977,7 @@
     })
 
     vm.froalaOpts = {
-      toolbarContainer: '#editor-btn',
+      toolbarContainer: vm.quickMode ? '#editor-btn-quick' :'#editor-btn',
       charCounterCount: false,
       tabSpaces: 4,
       pluginsEnabled: ['colors', 'fontSize', 'fontFamily', 'link', 'url', 'wordPaste'],
