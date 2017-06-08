@@ -31,5 +31,5 @@
 <div class="post-card-comment-input _df">
   <textarea type="text" nst-mention post-id="{{ctrl.postId}}" data-ng-model="ctrl.post.newComment"  auto-dir="ctrl.post.newComment"
          class="_fw wdt-emoji-bundle-enabled" placeholder="write your comment..." ng-keydown="ctrl.sendComment($event)"
-         ng-disabled="ctrl.isSendingComment" max-length="1024"  translate-attrs="placeholder" emoji-init/>
+         ng-disabled="ctrl.isSendingComment" max-length="1024"  translate-attrs="placeholder" emoji-init='.wdt-emoji-bundle-enabled'/>
 </div>

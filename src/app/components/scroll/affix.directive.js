@@ -22,7 +22,6 @@
         var defTop = $element.offset().top;
 
         function checkLoop() {
-          console.log('checkLoop');
           var tempTop = $element.offset().top;
           if (defTop === tempTop) {
 

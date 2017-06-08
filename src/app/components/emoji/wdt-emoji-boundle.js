@@ -468,7 +468,6 @@
 
             emojiSection.appendChild(emojiTitle);
             emojiSection.appendChild(emojiListDiv);
-            console.log(sectionsContainer);
             $(sectionsContainer).prepend(emojiSection);
           }
 
@@ -586,7 +585,7 @@
    * Close the bundle popup
    */
   wdtEmojiBundle.close = function () {
-    wdtEmojiBundle.popup.classList.remove('open');
+    if ( wdtEmojiBundle.popup ) wdtEmojiBundle.popup.classList.remove('open');
     wdtEmojiBundle.closePickers();
   };
 
@@ -893,7 +892,7 @@
     addListenerMulti(el, 'mouseup keyup focus', function () {
       // console.log(doGetCaretPosition(el));
       var range
-      if (el.textContent) {
+      if (el.textContent.length > 0) {
         range = window.getSelection().getRangeAt(0) || new Range;
       } else {
         range = new Range;

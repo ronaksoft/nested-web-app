@@ -989,7 +989,7 @@
           vm.focus = true;
           vm.collapse = true;
         },
-        'froalaEditor.blur' : function(e, editor) {}
+        'froalaEditor.blur' : function(e, editor) {vm.blurBox();}
       }
     }
 

@@ -43,8 +43,8 @@
       </div>
       <div nst-scrollbar dir="ltr" suppress-scroll-x="true" suppress-scroll-y="{{ctlCompose.quickMode}}" go-upward="ctlCompose.makeChangeForWatchers" class="wdt-emoji-picker-parent compose-scrl-wrp">
         <section class="_difc _fw _fn" dir="{{$root._direction}}">
-          <input id="compose-subject" class="compose-input _fw wdt-emoji-bundle-enabled" name="subject" value="{{ctlCompose.model.subject}}" ng-focus="ctlCompose.focusBox()" ng-blur="ctlCompose.blurBox()" ng-keydown="ctlCompose.subjectKeyDown($event)" placeholder="Add a title"
-                data-ng-model="ctlCompose.model.subject" auto-dir="ctlCompose.model.subject" translate-attrs="placeholder" autocomplete="off">
+          <input id="compose-subject" class="compose-input _fw wdt-emoji-bundle-enabled" name="subject" value="{{ctlCompose.model.subject}}" ng-focus="ctlCompose.focusBox()" ng-blur="ctlCompose.blurBox()" ng-keydown="ctlCompose.subjectKeyDown($event)"
+          placeholder="Add a title" data-ng-model="ctlCompose.model.subject" auto-dir="ctlCompose.model.subject" translate-attrs="placeholder" autocomplete="off">
         </section>
 
         <section dir="{{$root._direction}}" class="nst-compose-message ng-class:{'focussed' : ctlCompose.focus || ctlCompose.attachments.viewModels.length > 0,'empty' : ctlCompose.model.body.length == 0}" id="editor-txt">
@@ -53,7 +53,7 @@
         </section>
       </div>
     </div>
-    <div class="editor-btn-wrp" id="editor-btn"></div>
+    <div class="editor-btn-wrp ng-class:{'foccused' : ctlCompose.focus || ctlCompose.attachments.viewModels.length > 0,'empty' : ctlCompose.model.body.length == 0}" id="editor-btn"></div>
     <form name="attachmentForm">
       <input type="hidden" name="attLength" data-ng-model="ctlCompose.model.attachments.length"/>
     </form>
@@ -96,12 +96,12 @@
           </svg>
         </label>
         </label>
-        <div class="emoji">
+        <div class="emoji _df _pr">
           <svg class="_24svg _asc">
             <use xlink:href="/assets/icons/nst-icn24.svg#small-face-wire"></use>
           </svg>
-          <div class="subj" compose-emoji-subj ng-if="ctlCompose.emojiTarget == 'title';"></div>
-          <div class="body" compose-emoji-body ng-if="ctlCompose.emojiTarget != 'title';"></div>
+          <div class="subj" emoji-init=".compose-input" compose-emoji="true" ng-show="ctlCompose.emojiTarget == 'title';"></div>
+          <div class="body" emoji-init=".fr-element" compose-emoji="true" ng-show="ctlCompose.emojiTarget != 'title';"></div>
         </div>
         <!--<svg class="_24svg _asc subj" compose-emoji-subj ng-if="ctlCompose.emojiTarget == 'title';">
           <use xlink:href="/assets/icons/nst-icn24.svg#small-face-wire"></use>
