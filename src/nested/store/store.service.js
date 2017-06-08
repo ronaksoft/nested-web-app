@@ -217,7 +217,7 @@
 
         if (xhr) {
           var url = '{storeUrl}/upload/{type}/{sk}/{token}'
-            .replace('{storeUrl}', service.getUrl())
+            .replace('{storeUrl}',  NST_CONFIG.STORE.URL)
             .replace('{type}', type)
             .replace('{sk}', sessionKey)
             .replace('{token}', token.string);
