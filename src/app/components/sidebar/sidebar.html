@@ -67,7 +67,7 @@
           </svg>
         </div>
       </div>
-      <div class="places _ltr" dir="ltr" nst-scrollbar suppress-scroll-x="true" sidebar-scroll>
+      <div class="places _ltr" dir="ltr" nst-scrollbar suppress-scroll-x="true" sidebar-scroll >
         <ul class="side-place" data-ng-if="ctlSidebar.invitations.length > 0 " dir="{{_direction}}">
           <li class="side-place-item" ng-repeat="invitaion in ctlSidebar.invitations">
             <a href="javascript:void(0);" ng-click="ctlSidebar.invitation.showModal(invitaion.id)"
@@ -83,9 +83,10 @@
             </a>
           </li>
         </ul>
-        <ul class="side-place" dir="{{_direction}}">
-          <li class="side-place-item" ng-repeat="place in ctlSidebar.places"
+        <ul class="side-place" dir="{{_direction}}" data-as-sortable="ctlSidebar.setOrder" data-ng-model="ctlSidebar.places">
+          <li class="side-place-item" ng-repeat="place in ctlSidebar.places" data-as-sortable-item
               data-ng-include="'app/components/sidebar/place.html'" onload="place = place"></li>
+
         </ul>
         <script type="text/ng-template" id="create-uib-tooltip.html">
           <translate>Create a new Place</translate>
