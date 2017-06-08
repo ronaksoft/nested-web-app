@@ -256,6 +256,7 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.multiMap', 'ui.bootstrap.sta
       function removeModalWindow(modalInstance, elementToReceiveFocus) {
         var modalWindow = openedWindows.get(modalInstance).value;
         var appendToElement = modalWindow.appendTo;
+        $('html').removeClass('_oh');
 
         //clean up the stack
         openedWindows.remove(modalInstance);
@@ -453,6 +454,7 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.multiMap', 'ui.bootstrap.sta
               appendToElement.css({paddingRight: scrollbarPadding.right + 'px'});
             }
           }
+           $('html').addClass('_oh');
         }
 
         var content;
