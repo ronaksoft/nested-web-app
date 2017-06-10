@@ -423,6 +423,10 @@
     function getStoreType(file) {
       var group = NstSvcFileType.getType(file.type);
 
+      if (NstSvcFileType.getSuffix(file.name) === 'gif') {
+        return NST_STORE_UPLOAD_TYPE.GIF;
+      }
+
       if (group === NST_FILE_TYPE.IMAGE) {
         return NST_STORE_UPLOAD_TYPE.IMAGE;
       } else if (group === NST_FILE_TYPE.VIDEO) {

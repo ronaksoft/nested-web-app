@@ -65,7 +65,7 @@
       </div>
       <div class="attach _df">
         <input id="attach" type="file" multiple onchange="angular.element(this).scope().ctlCompose.attachments.fileSelected(event, 'file')"/>
-        <input id="attach-img" accept="image/*,video/*" type="file" multiple onchange="angular.element(this).scope().ctlCompose.attachments.fileSelected(event, 'media')"/>
+        <input id="attach-img" accept="image/*,video/*,audio/*" type="file" multiple onchange="angular.element(this).scope().ctlCompose.attachments.fileSelected(event, 'media')"/>
       </div>
       <div class="nst-attach-con _fh" ng-if="showUploadProgress">
         <div class="progress">

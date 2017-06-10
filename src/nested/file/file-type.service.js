@@ -44,7 +44,7 @@
     fileGroups[NST_FILE_TYPE.AUDIO] = [
       'audio/mpeg',
       'audio/aac',
-      'audio/mp4',
+      'audio/mp3',
       'audio/wma',
       'audio/wav',
       'audio/webm',
