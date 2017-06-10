@@ -99,11 +99,18 @@
       }
       .editor-btn-wrp {
         max-height : 0;
-        transition: max-height 0.3s;
+        transition: opacity,max-height 0.3s;
         overflow: hidden;
+        opacity: 0;
         &.foccused {
           max-height : 2500px;
           overflow: visible;
+        }
+        &.showBar {
+          opacity: 1;
+        }
+        .fr-toolbar.fr-top {
+          display: inline-block;
         }
       }
       .nst-attach {
