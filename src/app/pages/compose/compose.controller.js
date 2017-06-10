@@ -534,7 +534,7 @@
 
         request.getPromise().then(function (response) {
           var deferred = $q.defer();
-          attachment.id = response.data[0].universal_id;
+          attachment.id = response.data.universal_id;
           attachment.status = NST_ATTACHMENT_STATUS.ATTACHED;
           vmAttachment.id = attachment.id;
           vmAttachment.isUploaded = true;
