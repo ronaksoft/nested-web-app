@@ -30,6 +30,8 @@
         this.date = moment(model.uploadTime);
         this.hasPreview = model.hasPreview();
         this.preview = model.hasPreview() ? model.picture.getUrl("preview") : '';
+        this.width = model.width || 108;
+        this.height = model.height || 108;
 
       } else if (model instanceof NstVmFile) {
         this.id = model.id;
@@ -40,6 +42,8 @@
         this.date = model.date;
         this.preview = model.preview;
         this.hasPreview = model.hasPreview;
+        this.width = model.width || 108;
+        this.height = model.height || 108;
 
       } else  {
         throw Error('Could not create a view-model from an unsupported type');
