@@ -135,7 +135,7 @@
         return NST_PLACE_POLICY_OPTION.MEMBERS;
       } else if (place.privacy.receptive === NST_PLACE_POLICY_RECEPTIVE.INTERNAL && place.policy.add_post === NST_PLACE_POLICY.EVERYONE) {
         return NST_PLACE_POLICY_OPTION.TEAMMATES;
-      } else if (place.privacy.receptive === NST_PLACE_POLICY_RECEPTIVE.EXTERNAL && place.policy.add_post === NST_PLACE_POLICY.EVERYONE) {
+      } else if (place.privacy.receptive === NST_PLACE_POLICY_RECEPTIVE.EXTERNAL) {
         return NST_PLACE_POLICY_OPTION.EVERYONE;
       } else {
         NstSvcLogger.error('The place receptive privacy and add_post policy combination is not expected!');
@@ -149,6 +149,8 @@
           return NST_PLACE_POLICY_OPTION.MANAGERS;
         case NST_PLACE_POLICY.EVERYONE:
           return NST_PLACE_POLICY_OPTION.MEMBERS;
+        case NST_PLACE_POLICY.NO_ONE:
+          return null;
         default:
           NstSvcLogger.error('The place add_member policy is not expected!');
           return NST_PLACE_POLICY_OPTION.MANAGERS;
