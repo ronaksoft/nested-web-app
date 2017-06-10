@@ -8,7 +8,8 @@
   function PostCardController($state, $log, $timeout, $rootScope, $scope, $filter, $window, $sce, $uibModal,
                               _, moment, toastr,
                               NST_POST_EVENT, NST_EVENT_ACTION, NST_POST_FACTORY_EVENT, NST_PLACE_ACCESS, NST_PLACE_FACTORY_EVENT, SvcCardCtrlAffix,
-                              NstSvcSync, NstSvcCommentFactory, NstSvcPostFactory, NstSvcPlaceFactory, NstSvcAuth, NstUtility, NstSvcPostInteraction, NstSvcTranslation) {
+                              NstSvcSync, NstSvcCommentFactory, NstSvcPostFactory, NstSvcPlaceFactory,
+                              NstSvcAuth, NstUtility, NstSvcPostInteraction, NstSvcTranslation, NstSvcLogger) {
     var vm = this;
 
     var commentBoardMin = 3,
@@ -432,6 +433,17 @@
       setTimeout(function () {
         $(".post-body a").attr("target", "_blank");
       }, 1000);
+
+      // sometimes the post attachments does not have id and we did not find the problem
+      // so we are trying to get the post and replace it with the previous corrupted post
+      if (_.some(vm.post.attachments, function (attachment) {
+        return !attachment.id;
+      })) {
+        NstSvcLogger.error('Found that the post model has an attachment with empty id!');
+        NstSvcPostFactory.get(vm.post.id).then(function (post) {
+          vm.post = post;
+        });
+      }
     })();
 
     $scope.$on('$destroy', function () {
