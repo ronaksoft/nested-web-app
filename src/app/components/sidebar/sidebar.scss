@@ -103,7 +103,7 @@
       transition-duration: $animation-dur;
       transition-timing-function: ease;
       background:black;
-      background: $color-solid;
+      // background: $color-solid;
     }
     &.isSelected {
       &:after {
