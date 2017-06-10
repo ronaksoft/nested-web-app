@@ -39,7 +39,6 @@
         });
 
         function applier() {
-
           if ($attrs.affixerPostView === 'false' || $attrs.affixerPostView === false) return;
           removeFix();
           var top = $element[0].offsetTop + $element.parent()[0].offsetTop + 58 || 0;
