@@ -216,15 +216,16 @@
 
             fixUrls();
 
+            if ($stateParams.placeId) {
+              vm.selectedGrandPlace = _.find(vm.places, function (place) {
+                return place.id === $stateParams.placeId.split('.')[0];
+              });
+
+            }
+
           });
 
 
-        if ($stateParams.placeId) {
-          vm.selectedGrandPlace = _.find(vm.places, function (place) {
-            return place.id === $stateParams.placeId.split('.')[0];
-          });
-
-        }
 
       }).catch(function (error) {
         throw 'SIDEBAR | places can not init'

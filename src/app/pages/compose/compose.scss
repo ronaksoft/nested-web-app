@@ -396,6 +396,11 @@ body.isMobile {
 .compose-scrl-wrp {
   max-height: calc( 90vh - 300px);
   min-height: 250px;
+
+  ul, ol {
+    margin: 0 24px;
+  }
+
 }
 .modal-ft {
     .emoji {

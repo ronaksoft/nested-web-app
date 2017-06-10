@@ -31,11 +31,14 @@
     fileGroups[NST_FILE_TYPE.IMAGE] = [
       'image/bmp',
       'image/jpeg',
-      'image/gif',
       'image/ief',
       'image/png',
       'image/vnd.dwg',
       'image/svg+xml'
+    ];
+
+    fileGroups[NST_FILE_TYPE.GIF] = [
+      'image/gif'
     ];
 
     fileGroups[NST_FILE_TYPE.AUDIO] = [

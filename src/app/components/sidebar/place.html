@@ -1,4 +1,4 @@
-<div data-as-sortable-item-handle>
+
   <a href="{{place.href}}" class="side-place-item-inner detailed" nst-sidebar-toggle-agent
      toggle-agent-switch="ctlSidebar.isInDetailMode"
      ng-class="{ isSelected : ctlSidebar.selectedGrandPlace.id == place.id }"
@@ -6,12 +6,14 @@
      data-tooltip-enable="{{!ctlApp.viewSettings.sidebar.collapsed || forceTooltip ? true : false}}"
      data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
     <div ng-if="place.avatar" class="side-place-item-image">
+      <div data-as-sortable-item-handle>
       <div class="unreadPlace" ng-if="ctlSidebar.placesNotifCountObject[place.id] > 0">
         <svg class="pendfill">
           <use xlink:href="/assets/icons/nst-icn24.svg#unread-circle"></use>
         </svg>
       </div>
       <img class="" ng-src="{{place.avatar}}"/>
+      </div>
     </div>
     <div>
       <p href="{{place.href}}" ng-click="ctlSidebar.onPlaceClick($event,place);" class="_fw" data-ellipsis>
@@ -19,4 +21,4 @@
       </p>
     </div>
   </a>
-</div>
+

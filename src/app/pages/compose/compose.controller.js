@@ -488,7 +488,7 @@
         var resource = new NstLocalResource(uri);
 
         // Load and Show Thumbnail
-        if (NST_FILE_TYPE.IMAGE == type) {
+        if (NST_FILE_TYPE.IMAGE == type || NST_FILE_TYPE.GIF == type) {
           attachment.picture = new NstPicture({
             original: uri,
             preview: uri,
@@ -509,7 +509,7 @@
         var vmAttachment = NstSvcAttachmentMap.toEditableAttachmentItem(attachment);
         attachment.id = vmAttachment.id;
 
-        NstSvcLogger.debug4('Compose | start uploading file',file);
+        NstSvcLogger.debug4('Compose | start uploading file', file);
 
         var request = NstSvcStore.uploadWithProgress(file, function (event) {
           if (event.lengthComputable) {
@@ -980,16 +980,17 @@
       toolbarContainer: vm.quickMode ? '#editor-btn-quick' :'#editor-btn',
       charCounterCount: false,
       tabSpaces: 4,
-      pluginsEnabled: ['colors', 'fontSize', 'fontFamily', 'link', 'url', 'wordPaste'],
-      fontSize : ['8', '10', '14', '18', '22'],
-      toolbarButtons: ['fontSize', '|', 'bold', 'italic', 'underline', '|', 'align', 'rightToLeft', 'leftToRight'],
-      events : {
-        'froalaEditor.focus' : function(e, editor) {
+      pluginsEnabled: ['colors', 'fontSize', 'fontFamily', 'link', 'url', 'wordPaste', 'lists', 'align', 'codeBeautifier'],
+      fontSize: ['8', '10', '14', '18', '22'],
+      toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'fontSize', '|', 'color', 'align', 'formatOL', 'formatUL', 'insertLink', '|','rightToLeft', 'leftToRight'],
+      events: {
+        'froalaEditor.focus': function (e, editor) {
           vm.emojiTarget = 'body';
           vm.focus = true;
           vm.collapse = true;
         },
-        'froalaEditor.blur' : function(e, editor) {vm.blurBox();}
+        'froalaEditor.blur': function (e, editor) {
+        }
       }
     }
 

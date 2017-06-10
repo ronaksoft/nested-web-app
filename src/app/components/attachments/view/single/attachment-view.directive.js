@@ -5,7 +5,7 @@
     .module('ronak.nested.web.components.attachment')
     .directive('nstAttachmentView', AttachmentView);
 
-  function AttachmentView(NST_FILE_TYPE) {
+  function AttachmentView(NST_FILE_TYPE, $sce) {
     return {
       restrict: 'E',
       scope: {
@@ -24,10 +24,16 @@
 
     function update(scope) {
       var type = scope.attachment.type;
+
+      scope.trustSrc = function (src) {
+        return $sce.trustAsResourceUrl(src);
+      }
+
       scope.tplUrl = 'app/components/attachments/view/single/partials/default.html';
 
       switch (type){
         case NST_FILE_TYPE.IMAGE:
+        case NST_FILE_TYPE.GIF:
           scope.tplUrl = 'app/components/attachments/view/single/partials/image.html';
           break;
 
