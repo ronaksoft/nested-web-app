@@ -1,13 +1,17 @@
-<div class="_df _fw comments-load" ng-if="ctrl.canShowOlderComments() || ctrl.commentBoardNeedsRolling()">
+<div class="_df _fw comments-load" ng-if="ctrl.canShowOlderComments() || ctrl.commentBoardNeedsRolling() || ctrl.showRemoved">
   <a href="javascript:void(0);" ng-click="ctrl.limitCommentBoard(); _track('post card', 'roll up comments');">
     <svg class="_16svg flip-vertical" ng-show="ctrl.commentBoardNeedsRolling()">
       <use xlink:href="/assets/icons/nst-icn16.svg#arrow"></use>
     </svg>
   </a>
   <a ng-if="ctrl.canShowOlderComments()" href="javascript:void(0);" ng-click="ctrl.showOlderComments(); _track('post card', 'show older comments');"><translate>Show more comments...</translate></a>
+  <!-- TODO: Fix Show removed comments and Hide removed comments buttons position -->
+  &nbsp;
+  <a ng-if="ctrl.hasAnyRemoved && !ctrl.showRemoved" href="javascript:void(0);" ng-click="ctrl.showRemoved = true; _track('post card', 'show removed comments');">Show removed comments</a>
+  <a ng-if="ctrl.hasAnyRemoved && ctrl.showRemoved" href="javascript:void(0);" ng-click="ctrl.showRemoved = false; _track('post card', 'hide removed comments');">Hide removed comments</a>
 </div>
 <div ng-repeat="comment in ctrl.comments | limitTo : ctrl.commentBoardLimit * -1  | orderBy:'timestamp'">
-  <div class="post-card-comments _difh _fw _wrb">
+  <div class="post-card-comments _difh _fw _wrb" ng-if="!comment.removedById || (ctrl.showRemoved && comment.removedById)" ng-class="{ 'removed-comment' : comment.removedById }">
     <div class="user-avatar-24" user-detail="comment.sender">
       <img initial-avatar="{{::comment.sender.id}}" name="{{::comment.sender.fullName}}" picture="{{comment.sender | avatar}}" data-width="24" data-height="24" data-radius="13" class="account-initials-24 _df" data-word-count="2" data-font-size="8"/>
     </div>
@@ -15,9 +19,9 @@
       <p class="_fw" auto-dir="comment.body">
             <span class="_df _fn time" data-uib-tooltip="{{::comment.timestamp | date : 'full' | localize}}" data-tooltip-append-to-body="true" data-tooltip-placement="top auto">{{comment.timestamp | passed | localize}}</span>
         <strong class="_fl" user-detail="comment.sender">{{comment.sender.fullName}}:&nbsp;</strong>
-        <span is-two-line class="_fl" ng-if="!comment.removedById" ng-bind-html="comment.body | link | plainToHtml "></span>
+        <span is-two-line class="_fl" ng-bind-html="comment.body | link | plainToHtml "></span>
         <i ng-if="comment.removedById">
-          <translate>removed by <a class="comment-removed-by" href user-detail="comment.removedBy">{{::comment.removedBy.fullName}}</a></translate>
+          (<translate>removed by <a class="comment-removed-by" href user-detail="comment.removedBy">{{::comment.removedBy.fullName}}</a></translate>)
         </i>
       </p>
     </div>
