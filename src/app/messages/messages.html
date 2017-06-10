@@ -12,9 +12,8 @@
   <scroll-change-handler reached-bottom="ctlMessages.loadMore" disabled="ctlMessages.reachedTheEnd"></scroll-change-handler>
   <section class="content nst-marginbtm-28">
     <div class="navbarillu"></div>
-    <div class="filter-bar" ng-mouseleave="popoverSortShow = false;popoverSetShow = false"
-    ng-if="!ctlMessages.isbookmarkedsMode && !ctlMessages.isSentMode && !ctlMessages.isUnreadMode">
-      <div class="filter-bar-inner ng-class:{'nfeed' : ctlMessages.currentPlace }" affixer-filters parent=".content-plus" after-content="0" top="56" fixed-top="true">
+    <div class="filter-bar" ng-mouseleave="popoverSortShow = false;popoverSetShow = false" ng-if="!ctlMessages.isbookmarkedsMode && !ctlMessages.isSentMode && !(ctlMessages.isUnreadMode && ctlMessages.unreadCount == 0) ">
+      <div ng-if="!ctlMessages.isbookmarkedsMode && !ctlMessages.isSentMode && !ctlMessages.isUnreadMode" class="filter-bar-inner ng-class:{'nfeed' : ctlMessages.currentPlace }" affixer-filters parent=".content-plus" after-content="0" top="56" fixed-top="true">
         <div class="toolbar">
           <p class="_df _fw" ng-if="ctlMessages.currentPlace.counters.posts == 1">
             <translate>One post</translate>
@@ -61,22 +60,24 @@
           <hr>
         </div>
       </div>
-    </div>
-    <div class="filter-bar" ng-if="ctlMessages.isUnreadMode && ctlMessages.unreadCount > 0">
-      <p class="_df _fw" ng-if="ctlMessages.unreadCount == 1">
-        <translate>one Unseen</translate>
-      </p>
-      <p class="_df _fw" ng-if="ctlMessages.unreadCount > 1">
-        <translate>{{ctlMessages.unreadCount | localize}} Unseen</translate>
-      </p>
+      <div ng-if="ctlMessages.isUnreadMode && ctlMessages.unreadCount > 0" class="filter-bar-inner" affixer-filters parent=".content-plus" after-content="0" top="56" fixed-top="true">
+        <div class="toolbar">
+          <p class="_df _fw" ng-if="ctlMessages.unreadCount == 1">
+            <translate>one Unseen</translate>
+          </p>
+          <p class="_df _fw" ng-if="ctlMessages.unreadCount > 1">
+            <translate>{{ctlMessages.unreadCount | localize}} Unseen</translate>
+          </p>
 
-      <p class="_df _fn mark-read _aic" ng-click="ctlMessages.markAllAsRead()">
-        <translate>Mark all as Seen</translate>
-        <svg class="_16svg _df">
-          <use xlink:href="/assets/icons/nst-icn16.svg#eye-open"></use>
-        </svg>
-      </p>
-
+          <p class="_df _fn mark-read _aic" ng-click="ctlMessages.markAllAsRead()">
+            <translate>Mark all as Seen</translate>
+            <svg class="_16svg _df">
+              <use xlink:href="/assets/icons/nst-icn16.svg#eye-open"></use>
+            </svg>
+          </p>
+          <hr>
+        </div>
+      </div>
     </div>
     <div class="tool-bar"  ng-if="ctlMessages.isbookmarkedsMode || ctlMessages.isSentMode || (ctlMessages.isUnreadMode && ctlMessages.unreadCount == 0) ">
 

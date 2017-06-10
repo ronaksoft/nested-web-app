@@ -44,7 +44,7 @@
       <div nst-scrollbar dir="ltr" suppress-scroll-x="true" suppress-scroll-y="{{ctlCompose.quickMode}}" go-upward="ctlCompose.makeChangeForWatchers" class="wdt-emoji-picker-parent compose-scrl-wrp">
         <section class="_difc _fw _fn" dir="{{$root._direction}}">
           <input id="compose-subject" class="compose-input _fw wdt-emoji-bundle-enabled" name="subject" value="{{ctlCompose.model.subject}}" ng-focus="ctlCompose.focusBox()" ng-blur="ctlCompose.blurBox()" ng-keydown="ctlCompose.subjectKeyDown($event)"
-          placeholder="Add a title" data-ng-model="ctlCompose.model.subject" auto-dir="ctlCompose.model.subject" translate-attrs="placeholder" autocomplete="off">
+          placeholder="{{ ctlCompose.focus || ctlCompose.attachments.viewModels.length > 0 || !ctlCompose.quickMode ? 'Add a title' : 'Write your message or drag files here…'}}" data-ng-model="ctlCompose.model.subject" auto-dir="ctlCompose.model.subject" translate-attrs="placeholder" autocomplete="off">
         </section>
 
         <section dir="{{$root._direction}}" class="nst-compose-message ng-class:{'focussed' : ctlCompose.focus || ctlCompose.attachments.viewModels.length > 0,'empty' : ctlCompose.model.body.length == 0}" id="editor-txt">
@@ -53,8 +53,8 @@
         </section>
       </div>
     </div>
-    <div class="editor-btn-wrp ng-class:{'foccused' : ctlCompose.focus || ctlCompose.attachments.viewModels.length > 0, 'empty' : ctlCompose.model.body.length == 0}" id="editor-btn-quick"></div>
-    <div class="editor-btn-wrp ng-class:{'foccused' : ctlCompose.focus || ctlCompose.attachments.viewModels.length > 0, 'empty' : ctlCompose.model.body.length == 0}" id="editor-btn"></div>
+    <div class="editor-btn-wrp ng-class:{'foccused' : ctlCompose.focus || ctlCompose.attachments.viewModels.length > 0, 'empty' : ctlCompose.model.body.length == 0, 'showBar' :ctlCompose.focusBody}" id="editor-btn-quick"></div>
+    <div class="editor-btn-wrp ng-class:{'foccused' : ctlCompose.focus || ctlCompose.attachments.viewModels.length > 0, 'empty' : ctlCompose.model.body.length == 0, 'showBar' :ctlCompose.focusBody}" id="editor-btn"></div>
     <form name="attachmentForm">
       <input type="hidden" name="attLength" data-ng-model="ctlCompose.model.attachments.length"/>
     </form>
@@ -65,7 +65,7 @@
       </div>
       <div class="attach _df">
         <input id="attach" type="file" multiple onchange="angular.element(this).scope().ctlCompose.attachments.fileSelected(event, 'file')"/>
-        <input id="attach-img" accept="image/*,video/*" type="file" multiple onchange="angular.element(this).scope().ctlCompose.attachments.fileSelected(event, 'media')"/>
+        <input id="attach-img" accept="image/*,video/*,audio/*" type="file" multiple onchange="angular.element(this).scope().ctlCompose.attachments.fileSelected(event, 'media')"/>
       </div>
       <div class="nst-attach-con _fh" ng-if="showUploadProgress">
         <div class="progress">

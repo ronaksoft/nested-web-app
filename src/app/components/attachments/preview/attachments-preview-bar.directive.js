@@ -49,8 +49,18 @@
 
           var imgOneRatio = scope.items[0].ratio;
 
-          scope.width = scope.items[0].width < scope.cardWidth ? scope.items[0].width : scope.cardWidth;
-          scope.height = scope.width / imgOneRatio;
+          if (scope.items[0].width) {
+            scope.width = scope.items[0].width < scope.cardWidth ? scope.items[0].width : scope.cardWidth;
+          } else {
+            scope.width = 108;
+          }
+
+          if (scope.items[0].height) {
+            scope.height = scope.width / imgOneRatio;
+          } else {
+            scope.height = 108;
+          }
+
 
           scope.wrpWidth = wrpWidth;
 
@@ -75,8 +85,8 @@
 
 
           var wrpWidth = ele.parent().parent().width() - scope.flexDiv;
-          var imgOneRatio = scope.items[0].ratio;
-          var imgTwoRatio = scope.items[1].ratio;
+          var imgOneRatio = scope.items[0].ratio || 1;
+          var imgTwoRatio = scope.items[1].ratio || 1;
           var ratio = imgOneRatio / imgTwoRatio;
           scope.scaleOne = (ratio / (1 + ratio)) * 100;
           scope.scaleTwo = 100 - scope.scaleOne;

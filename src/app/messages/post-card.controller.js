@@ -195,10 +195,12 @@
         var scrollOnCollapseCase = document.documentElement.clientHeight < elParentH;
         var postCollaspeTimeout = scrollOnCollapseCase ? 300 : 0;
         if (scrollOnCollapseCase) {
+          $timeout(function(){
+            SvcCardCtrlAffix.change();
+          },300)
           $('html, body').animate({
             scrollTop: postCardOffTOp
           }, 300, 'swing', function () {
-            SvcCardCtrlAffix.change();
           });
         }
         $timeout(function () {
