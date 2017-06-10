@@ -534,7 +534,7 @@
 
         request.getPromise().then(function (response) {
           var deferred = $q.defer();
-          attachment.id = response.data[0].universal_id;
+          attachment.id = response.data.universal_id;
           attachment.status = NST_ATTACHMENT_STATUS.ATTACHED;
           vmAttachment.id = attachment.id;
           vmAttachment.isUploaded = true;
@@ -545,11 +545,8 @@
 
           return deferred.promise;
         }).catch(function (error) {
-          $log.debug('Compose | Attach Upload Error: ', error);
-
+          toastr.error(NstSvcTranslation.get('An error has occured in uploading the file!'));
           deferred.reject(error);
-        }).then(function () {
-          deferred.resolve(request);
         });
 
         return deferred.promise;
