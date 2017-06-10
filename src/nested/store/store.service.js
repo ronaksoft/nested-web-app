@@ -263,7 +263,8 @@
                   break;
               }
             } else {
-              // TODO: Catch here
+              request.setStatus(NST_REQ_STATUS.CANCELLED);
+              deferred.reject(new NstResponse(NST_RES_STATUS.FAILURE, event));
             }
           };
 

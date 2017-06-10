@@ -545,11 +545,8 @@
 
           return deferred.promise;
         }).catch(function (error) {
-          $log.debug('Compose | Attach Upload Error: ', error);
-
+          toastr.error(NstSvcTranslation.get('An error has occured in uploading the file!'));
           deferred.reject(error);
-        }).then(function () {
-          deferred.resolve(request);
         });
 
         return deferred.promise;
