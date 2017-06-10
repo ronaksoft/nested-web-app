@@ -21,11 +21,7 @@
   wdtEmojiBundle.defaults = {
     pickerColors : ['green', 'pink', 'yellow', 'blue', 'gray'],
     textMode     : true,
-    recent : [
-        {"has_img_apple":true,"has_img_google":false,"has_img_twitter":true,"has_img_emojione":true,"has_img_facebook":true,"has_img_messenger":true,"name":"REGIONAL INDICATOR SYMBOL LETTERS UM","short_name":"😁","short_names":[""],"sort_order":1},
-        {"has_img_apple":true,"has_img_google":false,"has_img_twitter":true,"has_img_emojione":true,"has_img_facebook":true,"has_img_messenger":true,"name":"REGIONAL INDICATOR SYMBOL LETTERS UM","short_name":"😎","short_names":[""],"sort_order":2},
-        {"has_img_apple":true,"has_img_google":false,"has_img_twitter":true,"has_img_emojione":true,"has_img_facebook":true,"has_img_messenger":true,"name":"REGIONAL INDICATOR SYMBOL LETTERS UM","short_name":"😄","short_names":[],"sort_order":3}
-      ],
+    recent : [],
     disabledCategories: ['Skin Tones'],
     sectionOrders: {
       'Recent'  : 10,
@@ -56,7 +52,7 @@
   /**
    * Init the bundle with selector, YAY!
    */
-  wdtEmojiBundle.init = function (selector,element) {
+  wdtEmojiBundle.init = function (selector,element,recentItems,callback) {
 
     var self = this;
 
@@ -76,6 +72,8 @@
     self.emoji.img_sets['messenger']['sheet'] = this.defaults.emojiSheets.messenger;
 
     self.selector = selector;
+    wdtEmojiBundle.callback = callback;
+    wdtEmojiBundle.defaults.recent = recentItems ? recentItems : [];
 
     self.popup = document.querySelector('.wdt-emoji-popup');
     self.scroller = self.popup.querySelector('.wdt-emoji-scroll-wrapper');
@@ -426,7 +424,7 @@
           //Clone obj to stop treating ref
           var emojiLists = wdtEmojiBundle.defaults.recent.slice(0);
           // UI needs
-          var emojiList = emojiLists.reverse();
+          var emojiList = emojiLists;
           var title = 'Recent';
           if (emojiList.length) {
             var emojiSection = document.createElement('div'),
@@ -572,13 +570,13 @@
         wdtEmojiBundle.defaults.recent.splice(i,1);
       }
     }
-    wdtEmojiBundle.defaults.recent.push(emoji);
+    wdtEmojiBundle.defaults.recent.unshift(emoji);
     if (!hasClass(this.popup, 'recentUpdate'))  addClass(this.popup, 'recentUpdate');
     
     if ( wdtEmojiBundle.defaults.recent.length > 20 ) {
       wdtEmojiBundle.defaults.recent.splice(20,1);
     }
-    
+    wdtEmojiBundle.callback(wdtEmojiBundle.defaults.recent);
   };
 
   /**
