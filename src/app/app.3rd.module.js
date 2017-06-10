@@ -18,6 +18,7 @@
       'ngImgCrop',
       'ngAnimate',
       'froala',
-      'angular-google-analytics'
+      'angular-google-analytics',
+      'as.sortable'
     ]);
 })();
