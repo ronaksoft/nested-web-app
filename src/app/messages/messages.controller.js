@@ -6,11 +6,11 @@
     .controller('MessagesController', MessagesController);
 
   /** @ngInject */
-  function MessagesController($rootScope, $q, $stateParams, $log, $state, $window, $scope, $uibModal,
+  function MessagesController($rootScope, $q, $stateParams, $log, $state, $window, $scope, $uibModal, $timeout,
                               moment, toastr,
                               NST_MESSAGES_SORT_OPTION, NST_MESSAGES_VIEW_SETTING, NST_DEFAULT, NST_PLACE_FACTORY_EVENT, NST_EVENT_ACTION, NST_POST_FACTORY_EVENT, NST_PLACE_ACCESS,
                               NstSvcPostFactory, NstSvcPlaceFactory, NstSvcServer, NstUtility, NstSvcAuth, NstSvcSync, NstSvcWait, NstVmFile,
-                              NstSvcMessagesSettingStorage, NstSvcTranslation, NstSvcInteractionTracker,
+                              NstSvcMessagesSettingStorage, NstSvcTranslation, NstSvcInteractionTracker, SvcCardCtrlAffix,
                               NstSvcPlaceAccess, NstSvcModal) {
 
     var vm = this;
@@ -92,6 +92,10 @@
       getUnreadsCount();
 
       if (vm.currentPlaceId) {
+        $timeout(function(){
+          if ( "app.place-messages" === $state.current.name )
+          SvcCardCtrlAffix.measurement(134);
+        },1000);
         NstSvcPlaceAccess.getIfhasAccessToRead(vm.currentPlaceId).then(function (place) {
           if (place) {
             vm.currentPlace = place;
@@ -754,7 +758,7 @@
 
     $scope.$on('$destroy', function () {
       NstSvcSync.closeChannel(vm.syncId);
-
+      SvcCardCtrlAffix.measurement(80);
       _.forEach(eventReferences, function (cenceler) {
         if (_.isFunction(cenceler)) {
           cenceler();

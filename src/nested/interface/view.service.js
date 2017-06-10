@@ -13,6 +13,7 @@
     var isRTL = $rootScope._direction == 'rtl';
     var MobTopOff = isMobile ? 56 : 0;
     var winH = win.height();
+    var navH = 80;
 
     $(window).resize(function() {
       obj.change();
@@ -20,6 +21,11 @@
 
     obj.add = function (el) {
       $rootScope.cardCtrls.push(el)
+    };
+
+    obj.measurement = function (v) {
+      navH = v;
+      console.log(v);
     };
 
     obj.change = function () {
@@ -44,20 +50,20 @@
     obj.check = function (Ypos) {
       $rootScope.cardCtrls.forEach(function (e) {
 
-        if (!e.fixed && e.cardH > winH && Ypos + MobTopOff > e.topOff - 64 && Ypos < e.cardH + e.topOff - 120) {
+        if (!e.fixed && e.cardH > winH && Ypos + MobTopOff > e.topOff - (48 + navH ) && Ypos < e.cardH + e.topOff - ( 104 + navH )) {
           e.fixed = true;
           e.el.css('position', 'fixed');
-          e.el.css('top', 88 + MobTopOff + 'px');
+          e.el.css('top', 72 + navH + MobTopOff + 'px');
           if (!isRTL) e.el.css('left', e.leftOff + 'px');
           if (isRTL && !isMobile) e.el.css('right', e.leftOff - 20 + 'px');
           if (isRTL && isMobile) e.el.css('right', e.leftOff + 'px');
-        } else if (Ypos + MobTopOff < e.topOff - 64 && e.fixed) {
+        } else if (Ypos + MobTopOff < e.topOff - (48 + navH ) && e.fixed) {
           e.fixed = false;
           e.el.css('position', '');
           e.el.css('top', '');
           e.el.css('left', '');
           e.el.css('right', '');
-        } else if(Ypos > e.cardH + e.topOff - 120 && e.fixed ) {
+        } else if(Ypos > e.cardH + e.topOff - ( 104 + navH ) && e.fixed ) {
           e.fixed = false;
           e.el.css('position', 'absolute');
           e.el.css('top', e.cardH - 32 + 'px');

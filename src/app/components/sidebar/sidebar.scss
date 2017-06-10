@@ -58,7 +58,8 @@
     &:hover, &.isSelected {
       transition-duration: $animation-dur;
       transition-timing-function: ease;
-      background:$color-solid;
+      background:black;
+      // background: $color-solid;
     }
     &.isSelected {
       &:after {

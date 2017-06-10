@@ -1105,14 +1105,14 @@
     emo = emo + ' '; //append a space
 
     // WHEN THE inputs are empty we dont need to sanitize text so :
-    if( !text && $(el)[0].textContent.length == 0 ) {
-      if ( selection.contenteditable ){ 
-        el.innerHTML = '<p>' + emo + '</p>';
-      } else {
-        el.value = emo;
-      }      
-      return el.focus();
-    }
+    // if( !text && $(el)[0].textContent.length == 0 ) {
+    //   if ( selection.contenteditable ){ 
+    //     el.innerHTML = '<p>' + emo + '</p>';
+    //   } else {
+    //     el.value = emo;
+    //   }      
+    //   return el.focus();
+    // }
 
     if (!selection) {
       selection = {};
