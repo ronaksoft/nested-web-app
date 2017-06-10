@@ -170,13 +170,15 @@ body[data-wdt-emoji-bundle='apple'] .wdt-emoji[data-has-img-apple='false'] {
 }
 
 .wdt-emoji {
-  line-height: 1rem;
+  line-height: 2rem;
+  font-size: 2rem;
+  min-width: 32px;
   color: $color-solid;
   position: relative;
 
   display: inline-block;
 
-  margin-right: 2.5px !important;
+  margin-right: 4px !important;
   margin-bottom: 1px;
   padding: 6px;
 
