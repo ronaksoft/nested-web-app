@@ -30,6 +30,7 @@
     vm.searchRecipients = _.debounce(searchRecipients, 400);
     vm.emojiTarget = 'title';
     vm.haveComment = true;
+    vm.focusBody = false;
 
     if (vm.mode == 'quick') {
       vm.quickMode = true;
@@ -982,11 +983,13 @@
       toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'fontSize', '|', 'color', 'align', 'formatOL', 'formatUL', 'insertLink', '|','rightToLeft', 'leftToRight'],
       events: {
         'froalaEditor.focus': function (e, editor) {
+          vm.focusBody = true;
           vm.emojiTarget = 'body';
           vm.focus = true;
           vm.collapse = true;
         },
         'froalaEditor.blur': function (e, editor) {
+          vm.focusBody = false;
         }
       }
     }

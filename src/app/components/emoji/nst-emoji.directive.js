@@ -23,7 +23,6 @@
             }).join('|');
             NstSvcKeyFactory.set(NST_KEY.GENERAL_SETTING_RECENT_EMOJI, sts)
             .then(function (result) {
-              console.log(result);
             });
           }
             

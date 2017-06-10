@@ -372,7 +372,12 @@ body.isMobile {
   border: none;
   background-color: rgba(50,61,71,.08)
 }
-
+.editor-btn-wrp {
+  opacity: 0;
+  &.showBar {
+    opacity: 1;
+  }
+}
 .fr-toolbar .fr-command.fr-btn, .fr-popup .fr-command.fr-btn {
   height: 32px;
 }
