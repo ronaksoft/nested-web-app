@@ -27,12 +27,14 @@
     vm.hasOlderComments = null;
     vm.commentBoardIsRolled = null;
     vm.isSendingComment = false;
+    vm.hasAnyRemoved = false;
     vm.commentBoardLimit = commentBoardMin;
     vm.showOlderComments = showOlderComments;
     vm.limitCommentBoard = limitCommentBoard;
     vm.canShowOlderComments = canShowOlderComments;
     vm.commentBoardNeedsRolling = commentBoardNeedsRolling;
     vm.unreadCommentsCount = 0;
+    vm.showRemoved = false;
 
     (function () {
       vm.hasOlderComments = vm.totalCommentsCount > vm.comments.length;
@@ -48,6 +50,7 @@
       }
 
       vm.lastComment = findLastComment(vm.comments);
+      vm.hasAnyRemoved = _.some(vm.comments, 'removedById');
 
       pageEventKeys.push(key);
       vm.user = NstSvcAuth.user;
@@ -96,6 +99,7 @@
         var newComments = reorderComments(result.comments);
         vm.comments = vm.comments.concat(newComments);
         vm.lastComment = findLastComment(vm.comments);
+        vm.hasAnyRemoved = _.some(vm.comments, 'removedById');
         vm.commentBoardLimit = 30;
       }).catch(function (error) {
         NstSvcLogger.error(error);
@@ -104,7 +108,7 @@
 
     function reorderComments(comments) {
       return _.chain(comments).filter(function (comment) {
-        return !comment.removedById && !_.some(vm.comments, { id : comment.id });
+        return !_.some(vm.comments, { id : comment.id });
       }).orderBy('timestamp', 'asc').value();
     }
 
@@ -208,12 +212,14 @@
     function limitCommentBoard() {
       vm.commentBoardLimit = commentBoardMin;
       vm.commentBoardIsRolled = true;
-      vm.hasOlderComments = vm.totalCommentsCount > vm.comments.length;;
+      vm.hasOlderComments = vm.totalCommentsCount > vm.comments.length;
+      vm.hasAnyRemoved = _.some(_.takeRight(vm.comments, commentBoardMin), 'removedById');
     }
 
     function clearCommentBoardLimit() {
       vm.commentBoardLimit = commentBoardMax;
       vm.commentBoardIsRolled = false;
+      vm.hasAnyRemoved = _.some(_.takeRight(vm.comments, commentBoardMax), 'removedById');
     }
 
     function findOlder() {
@@ -254,6 +260,7 @@
         vm.hasOlderComments = comments.length >= commentsSettings.limit;
         var orderedItems = reorderComments(comments);
         vm.comments.unshift.apply(vm.comments, orderedItems);
+        vm.hasAnyRemoved = _.some(vm.comments, 'removedById');
         vm.lastComment = findLastComment(vm.comments);
 
         clearCommentBoardLimit();
