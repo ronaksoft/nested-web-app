@@ -5,7 +5,7 @@
   </videogular>
 </div>
 
-<div ng-if="!attachment.isDownloaded" class="nst-preview-pic-mode">
+<div ng-if="!attachment.isDownloaded" class="nst-preview-vid-mode">
 
   <video ng-if="attachment.viewUrl" width="{{attachment.width}}" height="{{attachment.height}}" controls>
     <source src="{{trustSrc(attachment.viewUrl)}}" type="video/mp4">
