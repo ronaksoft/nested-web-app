@@ -36,8 +36,11 @@
           scope.tplUrl = 'app/components/attachments/view/single/partials/image.html';
           break;
 
-        case NST_FILE_TYPE.VIDEO:
         case NST_FILE_TYPE.GIF:
+          scope.tplUrl = 'app/components/attachments/view/single/partials/gif.html';
+          break;
+
+        case NST_FILE_TYPE.VIDEO:
           scope.tplUrl = 'app/components/attachments/view/single/partials/video.html';
           break;
 

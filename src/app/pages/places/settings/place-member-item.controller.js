@@ -62,6 +62,8 @@
         }
       ).then(function (result) {
 
+        if (!result) return;
+
         if (!vm.member.isPending || !vm.place){
           $scope.$emit('member-removed', {
             member : vm.member,

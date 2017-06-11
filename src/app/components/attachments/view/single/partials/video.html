@@ -6,11 +6,8 @@
 </div>
 
 <div ng-if="!attachment.isDownloaded" class="nst-preview-pic-mode">
-  <video ng-if="attachment.viewUrl && attachment.type == 'gif'" width="{{attachment.width}}" height="{{attachment.height}}" autoplay loop>
-    <source src="{{trustSrc(attachment.viewUrl)}}" type="video/mp4">
-    Your browser does not support HTML5 video.
-  </video>
-  <video ng-if="attachment.viewUrl && attachment.type != 'gif'" width="{{attachment.width}}" height="{{attachment.height}}" controls>
+
+  <video ng-if="attachment.viewUrl" width="{{attachment.width}}" height="{{attachment.height}}" controls>
     <source src="{{trustSrc(attachment.viewUrl)}}" type="video/mp4">
     Your browser does not support HTML5 video.
   </video>
