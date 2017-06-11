@@ -374,8 +374,10 @@ body.isMobile {
 }
 .editor-btn-wrp {
   opacity: 0;
+  visibility: hidden;
   &.showBar {
     opacity: 1;
+    visibility: visible
   }
 }
 .fr-toolbar .fr-command.fr-btn, .fr-popup .fr-command.fr-btn {
