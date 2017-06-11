@@ -992,7 +992,7 @@
         },
         'froalaEditor.keyup': function (e, editor, je) {
           var el = editor.selection.element();
-          if ( el ) el.scrollIntoView({block: "end", behavior: "smooth"});
+          if ( el && je.which === 13 && !vm.quickMode ) el.scrollIntoView({block: "start", behavior: "smooth"});
         }
       }
     }
