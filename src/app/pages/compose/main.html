@@ -42,7 +42,7 @@
         </ui-select>
       </div>
       <div nst-scrollbar dir="ltr" suppress-scroll-x="true" suppress-scroll-y="{{ctlCompose.quickMode}}" go-upward="ctlCompose.makeChangeForWatchers" class="wdt-emoji-picker-parent compose-scrl-wrp">
-        <section class="_difc _fw _fn" dir="{{$root._direction}}">
+        <section class="_difc _fw _fn" dir="{{$root._direction}}" compose-height>
           <input id="compose-subject" class="compose-input _fw wdt-emoji-bundle-enabled" name="subject" value="{{ctlCompose.model.subject}}" ng-focus="ctlCompose.focusBox()" ng-blur="ctlCompose.blurBox()" ng-keydown="ctlCompose.subjectKeyDown($event)"
           placeholder="{{ ctlCompose.focus || ctlCompose.attachments.viewModels.length > 0 || !ctlCompose.quickMode ? 'Add a title' : 'Write your message or drag files here…'}}" data-ng-model="ctlCompose.model.subject" auto-dir="ctlCompose.model.subject" translate-attrs="placeholder" autocomplete="off">
         </section>
