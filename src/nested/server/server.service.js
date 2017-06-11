@@ -22,8 +22,10 @@
         maxRetries: 16,
         meta: {},
         WEBSOCKET_URL: NST_CONFIG.WEBSOCKET.URL,
-        REGISTER_URL: NST_CONFIG.STORE.URL,
+        REGISTER_URL: NST_CONFIG.REGISTER.AJAX.URL,
         STORE_URL: NST_CONFIG.STORE.URL,
+        ADMIN_DOMAIN: NST_CONFIG.ADMIN_DOMAIN,
+        ADMIN_PORT: NST_CONFIG.ADMIN_PORT,
         DOMAIN: NST_CONFIG.DOMAIN,
       };
 
@@ -42,8 +44,11 @@
 
 
       this.init = function (webSocketUrl) {
-        if (server.stream){
+        if (server.stream) {
           server.stream.close();
+        }
+        if (!webSocketUrl){
+          server.revertConfigs();
         }
         server.stream = NstSvcConnectionMonitor.start(webSocketUrl ? webSocketUrl : url);
         server.stream.maxTimeout = server.configs.streamTimeout;
@@ -203,14 +208,26 @@
 
       loadConfigFromRemote(domainName ? domainName : NST_CONFIG.DOMAIN)
         .then(function (remoteConfig) {
+
           NST_CONFIG.WEBSOCKET.URL = remoteConfig.cyrus.ws[0];
           NST_CONFIG.REGISTER.URL = remoteConfig.cyrus.http[0];
           NST_CONFIG.STORE.URL = remoteConfig.xerxes.http[0];
+
           server.init(NST_CONFIG.WEBSOCKET.URL);
+
+          if (remoteConfig.admin) {
+            var addr = remoteConfig.admin.http[0].split(':');
+            NST_CONFIG.ADMIN_DOMAIN = [addr[0], addr[1]].join(':');
+            NST_CONFIG.ADMIN_PORT = addr[2];
+          }
+
+
         })
         .catch(function () {
+          server.revertConfigs();
           server.init();
         });
+
     }
 
     Server.prototype = new NstObservableObject();
@@ -226,6 +243,7 @@
         server.remoteMode = true;
       } else {
         domainName = server.defaultConfigs.DOMAIN;
+        server.revertConfigs()
         server.remoteDomain = domain;
         server.remoteMode = true;
       }
@@ -447,6 +465,15 @@
       return this.getSesSecret();
     };
 
+    Server.prototype.revertConfigs = function () {
+
+      NST_CONFIG.WEBSOCKET.URL = this.defaultConfigs.WEBSOCKET_URL;
+      NST_CONFIG.STORE.URL = this.defaultConfigs.STORE_URL;
+      NST_CONFIG.REGISTER.AJAX.URL = this.defaultConfigs.REGISTER_URL;
+      NST_CONFIG.ADMIN_DOMAIN = this.defaultConfigs.ADMIN_DOMAIN;
+      NST_CONFIG.ADMIN_PORT = this.defaultConfigs.ADMIN_PORT;
+      NST_CONFIG.DOMAIN = this.defaultConfigs.DOMAIN;
+    };
 
     function getClientId() {
 
@@ -546,6 +573,7 @@
     }
 
     function loadConfigFromRemote(domainName) {
+      NST_CONFIG.DOMAIN = domainName;
       var ajax = new NstHttp(location.protocol + "//" + location.host + '/getConfig/' + domainName);
       return ajax.get();
     }

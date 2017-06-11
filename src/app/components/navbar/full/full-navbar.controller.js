@@ -10,7 +10,7 @@
                                 toastr, NstUtility,
                                 NstSvcAuth, NstSvcLogger,
                                 NstSearchQuery, NstSvcPlaceFactory, NstSvcTranslation,
-                                NST_CONFIG, NST_DEFAULT, NST_PLACE_FACTORY_EVENT, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_SRV_ERROR,
+                                NST_CONFIG, NST_DEFAULT, NST_PLACE_FACTORY_EVENT, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE,
                                 NstPlaceOneCreatorLeftError, NstPlaceCreatorOfParentError, NstManagerOfSubPlaceError) {
     var vm = this;
     /*****************************
@@ -46,7 +46,6 @@
     vm.isFavPlaces = $state.current.options.favoritePlace;
     vm.searchKeyPressed = searchKeyPressed;
     vm.goBack = goBack;
-    vm.domain = NST_CONFIG.DOMAIN;
     function isUnread() {
       if ($state.current.name == 'app.place-messages-unread' ||
         $state.current.name == 'app.place-messages-unread-sorted') {
@@ -311,6 +310,7 @@
       },
       function () {
         if (vm.placeId) {
+          vm.domain = NST_CONFIG.DOMAIN;
           vm.isGrandPlace = vm.placeId.split('.').length === 1;
           NstSvcPlaceFactory.getFavoritesPlaces()
             .then(function (bookmaks) {
