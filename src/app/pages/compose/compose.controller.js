@@ -989,6 +989,10 @@
         },
         'froalaEditor.blur': function (e, editor) {
           vm.focusBody = false;
+        },
+        'froalaEditor.keyup': function (e, editor, je) {
+          var el = editor.selection.element();
+          if ( el ) el.scrollIntoView({block: "end", behavior: "smooth"});
         }
       }
     }
