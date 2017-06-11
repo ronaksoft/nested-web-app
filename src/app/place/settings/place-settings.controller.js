@@ -164,7 +164,22 @@
 
     function setPicture(event) {
       var file = event.currentTarget.files[0];
+      if ($rootScope.deviceDetector.browser === 'safari' ) {
+        var request = NstSvcStore.uploadWithProgress(file, logoUploadProgress, NST_STORE_UPLOAD_TYPE.PLACE_PIC, NstSvcAuth.lastSessionKey);
 
+          request.getPromise().then(function (result) {
+
+            NstSvcPlaceFactory.updatePicture(vm.place.id, result.data.universal_id).then(function (result) {
+              NstSvcLogger.info(NstUtility.string.format('Place {0} picture updated successfully.', vm.place.id));
+              toastr.success(NstSvcTranslation.get("The Place photo has been set successfully."));
+            }).catch(function (error) {
+              NstSvcLogger.error(error);
+              toastr.error(NstSvcTranslation.get("An error has occurred in updating the Place photo."));
+            });
+
+            vm.place.picture = new NstPicture(result.data.thumbs);
+          });
+      } else {
       $uibModal.open({
         animation: false,
         size: 'no-miss crop',
@@ -208,6 +223,7 @@
       }).catch(function () {
         event.target.value = '';
       });
+      }
 
     }
 

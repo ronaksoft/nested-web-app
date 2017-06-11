@@ -149,44 +149,53 @@
 
     function setImage(event) {
       vm.uploadedFile = event.currentTarget.files[0];
+      if ($rootScope.deviceDetector.browser === 'safari' ) {
+        var request = NstSvcStore.uploadWithProgress(vm.uploadedFile, function (event) {}, NST_STORE_UPLOAD_TYPE.PROFILE_PIC, NstSvcAuth.lastSessionKey);
+
+        request.finished().then(function (response) {
+          return NstSvcUserFactory.updatePicture(response.data.universal_id, vm.model.id);
+        }).then(function (res) {
+          NstSvcUserFactory.get(vm.model.id,true).then(function (user) {
+            vm.model = user;
+          })
+        });
+      } else {
+        $uibModal.open({
+          animation: false,
+          size: 'no-miss crop',
+          templateUrl: 'app/settings/profile/crop/change-pic.modal.html',
+          controller: 'CropController',
+          resolve: {
+            argv: {
+              file: vm.uploadedFile
+            }
+          },
+          controllerAs: 'ctlCrop'
+        }).result.then(function (croppedFile) {
+          vm.uploadedFile = croppedFile;
+          var reader = new FileReader();
+          reader.onload = function (event) {
+            imageLoadTimeout = $timeout(function () {
+              vm.picture = event.target.result;
+              var request = NstSvcStore.uploadWithProgress(vm.uploadedFile, function (event) {}, NST_STORE_UPLOAD_TYPE.PROFILE_PIC, NstSvcAuth.lastSessionKey);
+
+              request.finished().then(function (response) {
+                return NstSvcUserFactory.updatePicture(response.data.universal_id, vm.model.id);
+              }).then(function (res) {
+                NstSvcUserFactory.get(vm.model.id,true).then(function (user) {
+                  vm.model = user;
+                })
+              });
 
 
-      $uibModal.open({
-        animation: false,
-        size: 'no-miss crop',
-        templateUrl: 'app/settings/profile/crop/change-pic.modal.html',
-        controller: 'CropController',
-        resolve: {
-          argv: {
-            file: vm.uploadedFile
-          }
-        },
-        controllerAs: 'ctlCrop'
-      }).result.then(function (croppedFile) {
-        vm.uploadedFile = croppedFile;
-        var reader = new FileReader();
-        reader.onload = function (event) {
-          imageLoadTimeout = $timeout(function () {
-            vm.picture = event.target.result;
-            var request = NstSvcStore.uploadWithProgress(vm.uploadedFile, function (event) {}, NST_STORE_UPLOAD_TYPE.PROFILE_PIC, NstSvcAuth.lastSessionKey);
-
-            request.finished().then(function (response) {
-              return NstSvcUserFactory.updatePicture(response.data.universal_id, vm.model.id);
-            }).then(function (res) {
-              NstSvcUserFactory.get(vm.model.id,true).then(function (user) {
-                vm.model = user;
-              })
             });
+          };
+          reader.readAsDataURL(croppedFile);
+        }).catch(function() {
+          event.target.value = '';
+        });
 
-
-          });
-        };
-        reader.readAsDataURL(croppedFile);
-      }).catch(function() {
-        event.target.value = '';
-      });
-
-
+      }
     }
 
     function confirmRemovePicture() {
