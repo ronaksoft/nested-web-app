@@ -23,7 +23,7 @@ http.createServer(function (req, res) {
   console.log(`SERVICE DISCOVERY :: discovering ${domainName}`);
 
   dns.resolveTxt(`_nested.${domainName}`, (err, records) => {
-    console.log(err,records)
+    console.log(err, records)
     try {
       let services = JSON.stringify({
         data: parseTxt(records),
@@ -44,7 +44,7 @@ http.createServer(function (req, res) {
       res.end(
         JSON.stringify({
           status: 'err',
-          error : error
+          error: error
         })
       );
     }
@@ -70,6 +70,14 @@ function parseTxt(txt) {
         let protocol = item[CONFIG.PROTOCOL_INDEX];
         let port = item[CONFIG.PORT_INDEX];
         let host = item.splice(CONFIG.HOST_INDEX).join(':');
+
+        if (!port) {
+          if (protocol === 'wss' || protocol == 'https') {
+            port = 443;
+          } else {
+            port = 80;
+          }
+        }
 
         let protocoleType = protocol.indexOf('ws') === 0 ? 'ws' : 'http';
 
