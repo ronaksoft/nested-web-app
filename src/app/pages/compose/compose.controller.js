@@ -846,11 +846,6 @@
 
                 vm.model.recipients.push(tag);
               }
-
-              if (!_.some(_.concat(post.recipients, post.places), {id: post.sender.id})) {
-                vm.model.recipients.push(new NstVmSelectTag(post.sender));
-              }
-
             });
           }
         }
