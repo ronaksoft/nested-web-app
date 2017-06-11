@@ -1,17 +1,18 @@
-(function() {
+(function () {
   'use strict';
 
   angular
     .module('ronak.nested.web.user')
-    .controller('InvitationController', function ($state, $scope, $uibModalInstance, NstVmInvitation, argv, NST_INVITATION_FACTORY_STATE){
+    .controller('InvitationController', function ($state, $scope, $uibModalInstance, NstVmInvitation, argv,
+                                                  NST_CONFIG, NST_INVITATION_FACTORY_STATE) {
       var vm = this;
 
       /*****************************
        *** Controller Properties ***
        *****************************/
-
+      vm.domain = NST_CONFIG.DOMAIN;
       vm.urls = {
-        place: $state.href(getPlaceState(), { placeId: argv.invitation.place.id })
+        place: $state.href(getPlaceState(), {placeId: argv.invitation.place.id})
       };
       vm.invitation = mapInvitation(argv.invitation);
       vm.NST_INVITATION_FACTORY_STATE = NST_INVITATION_FACTORY_STATE;
