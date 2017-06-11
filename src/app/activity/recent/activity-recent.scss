@@ -2,6 +2,11 @@
   .recent-container {
     list-style: none;
     background-color: $color-white;
+    li:last-child {
+      .colomn {
+        border: none;
+      }
+    }
     .recent-item.hot {
       overflow-y: hidden;
     }
