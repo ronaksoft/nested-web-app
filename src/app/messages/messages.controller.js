@@ -352,6 +352,7 @@
         if (!agree) {
           return;
         }
+        var get = true;
         for (var i = 0; i < vm.selectedPosts.length; i++) {
           NstSvcPostFactory.get(vm.selectedPosts[i]).then(function (post) {
             NstSvcPostFactory.remove(post.id, vm.currentPlaceId).then(function () {
@@ -362,7 +363,16 @@
                 placeId: vm.currentPlaceId
               });
               vm.selectedPosts.splice(0,1);
+
+              // TODO increase decrease on other ways
+              --vm.currentPlace.counters.posts;
               $scope.$broadcast('selected-length-change',{selectedPosts : vm.selectedPosts.length});
+
+              if ( i === vm.selectedPosts.length - 1 ){
+                NstSvcPlaceFactory.get(vm.currentPlaceId,true).then(function(p){
+                  vm.currentPlace.counters.posts = p.counters.posts;
+                });
+              }
             }).catch(function (error) {
               toastr.error(NstSvcTranslation.get("An error has occurred in trying to remove this message from the selected Place."));
             });
@@ -412,10 +422,14 @@
           var index = vm.selectedPosts.indexOf(result.success[i]);
           vm.selectedPosts.splice(index, 1);
 
+          --vm.currentPlace.counters.posts;
           // what is this ?  and TODO : optimise for multi   :
           // NstUtility.collection.replaceById(vm.post.places, result.fromPlace.id, result.toPlace);
         }
         $scope.$broadcast('selected-length-change',{selectedPosts : vm.selectedPosts.length});
+        NstSvcPlaceFactory.get(vm.currentPlaceId,true).then(function(p){
+          vm.currentPlace.counters.posts = p.counters.posts;
+        });
       });
     }
 
