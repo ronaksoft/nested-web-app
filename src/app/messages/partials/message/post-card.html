@@ -285,7 +285,7 @@
 <div class="card-control" affix-post ng-if="!ctlPostCard.chainView">
 
   <svg class="_16svg pendfill" ng-click="ctlPostCard.markAsRead();ctlPostCard.expand();" ng-if="!ctlPostCard.expandProgress && !ctlPostCard.post.read">
-    <use xlink:href="/assets/icons/nst-icn16.svg#unread-message"></use>
+    <use xlink:href="/assets/icons/nst-icn16.svg#circle"></use>
   </svg>
   <svg class="_16svg nst-icn-gry" ng-if="!ctlPostCard.expandProgress && ctlPostCard.post.read && !ctlPostCard.isExpanded && ctlPostCard.post.ellipsis" ng-click="ctlPostCard.expand();  _track('post card', 'show more : add-on');">
     <use xlink:href="/assets/icons/nst-icn16.svg#message"></use>
