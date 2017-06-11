@@ -7,8 +7,8 @@
   <a ng-if="ctrl.canShowOlderComments()" href="javascript:void(0);" ng-click="ctrl.showOlderComments(); _track('post card', 'show older comments');"><translate>Show more comments...</translate></a>
   <!-- TODO: Fix Show removed comments and Hide removed comments buttons position -->
   &nbsp;
-  <a ng-if="ctrl.hasAnyRemoved && !ctrl.showRemoved" href="javascript:void(0);" ng-click="ctrl.showRemoved = true; _track('post card', 'show removed comments');">Show removed comments</a>
-  <a ng-if="ctrl.hasAnyRemoved && ctrl.showRemoved" href="javascript:void(0);" ng-click="ctrl.showRemoved = false; _track('post card', 'hide removed comments');">Hide removed comments</a>
+  <!--<a ng-if="ctrl.hasAnyRemoved && !ctrl.showRemoved" href="javascript:void(0);" ng-click="ctrl.showRemoved = true; _track('post card', 'show removed comments');">Show removed comments</a>-->
+  <!--<a ng-if="ctrl.hasAnyRemoved && ctrl.showRemoved" href="javascript:void(0);" ng-click="ctrl.showRemoved = false; _track('post card', 'hide removed comments');">Hide removed comments</a>-->
 </div>
 <div ng-repeat="comment in ctrl.comments | limitTo : ctrl.commentBoardLimit * -1  | orderBy:'timestamp'">
   <div class="post-card-comments _difh _fw _wrb" ng-if="!comment.removedById || (ctrl.showRemoved && comment.removedById)" ng-class="{ 'removed-comment' : comment.removedById }">

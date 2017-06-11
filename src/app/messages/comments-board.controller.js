@@ -130,9 +130,8 @@
     }
 
     function allowToRemoveComment(comment) {
-      return vm.hasCommentRemoveAccess || (comment.sender.id === vm.user.id &&
-        (Date.now() - comment.timestamp) < 24 * 60 * 60 * 1e3);
-
+      return vm.hasCommentRemoveAccess ||
+        (comment.sender.id === vm.user.id && ((Date.now() - comment.timestamp) < 24 * 60 * 60 * 1e3));
     }
 
     /**
