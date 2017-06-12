@@ -984,10 +984,18 @@
       toolbarContainer: vm.quickMode ? '#editor-btn-quick' : '#editor-btn',
       charCounterCount: false,
       tabSpaces: 4,
+      placeholderText: 'Type something...',
+      spellcheck : false,
       pluginsEnabled: ['colors', 'fontSize', 'fontFamily', 'link', 'url', 'wordPaste', 'lists', 'align', 'codeBeautifier'],
       fontSize: ['8', '10', '14', '18', '22'],
       toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'fontSize', '|', 'color', 'align', 'formatOL', 'formatUL', 'insertLink', '|', 'rightToLeft', 'leftToRight'],
       events: {
+        'froalaEditor.initialized': function (e, editor) {
+          $(editor.$el).attr('autocomplete', 'off');
+          $(editor.$el).attr('spellcheck', 'off');
+          $(editor.$el).attr('autocorrect', 'off');
+          $(editor.$el).attr('autocapitalize', 'off');
+        },
         'froalaEditor.focus': function (e, editor) {
           vm.focusBody = true;
           vm.emojiTarget = 'body';
