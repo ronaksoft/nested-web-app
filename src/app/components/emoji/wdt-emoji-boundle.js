@@ -409,66 +409,81 @@
    *
    * @returns void | boolean | mixed
    */
+  wdtEmojiBundle.fillRecent = function () {
+
+    var self = this;
+    // An item added to recent items
+    var sectionsContainer = this.popup.querySelector('.wdt-emoji-sections');
+
+      var reecentContainer = $(sectionsContainer).children().first();
+      reecentContainer.empty();
+      // while ($(sectionsContainer).children().first().hasChildNodes()) {
+      //     $(sectionsContainer).children().first().removeChild($(sectionsContainer).lastChild);
+      // }
+
+      //Clone obj to stop treating ref
+      var emojiLists = wdtEmojiBundle.defaults.recent.slice(0);
+      // UI needs
+      var emojiList = emojiLists;
+      var title = 'Recent';
+      if (emojiList.length) {
+        var emojiSection = document.createElement('div'),
+          emojiTitle = document.createElement('h3'),
+          emojiListDiv = document.createElement('div');
+
+        emojiTitle.innerHTML = title;
+        emojiTitle.dataset.emojiGroup = title;
+        emojiListDiv.dataset.emojiGroup = title;
+
+        addClass(emojiListDiv, 'wdt-emoji-list');
+        addClass(emojiSection, 'wdt-emoji-section');
+
+        for (i = 0; i < emojiList.length; i++) {
+          var em = emojiLists[i];
+
+          if (em.has_img_apple || em.has_img_emojione || em.has_img_google || em.has_img_twitter || em.has_img_facebook || em.has_img_messenger) {
+            var emojiLink = document.createElement('a');
+
+            addClass(emojiLink, 'wdt-emoji');
+            addClass(emojiLink, wdtEmojiBundle.getRandomPickerColor());
+
+            emojiLink.dataset.hasImgApple = em.has_img_apple;
+            emojiLink.dataset.hasImgEmojione = em.has_img_emojione;
+            emojiLink.dataset.hasImgGoogle = em.has_img_google;
+            emojiLink.dataset.hasImgTwitter = em.has_img_twitter;
+            emojiLink.dataset.hasImgFacebook = em.has_img_facebook;
+            emojiLink.dataset.hasImgMessenger = em.has_img_messenger;
+            emojiLink.dataset.wdtEmojiName = em.name;
+            if (emojiLink.dataset.wdtEmojiShortnames) emojiLink.dataset.wdtEmojiShortnames = em.short_names.join(': :');
+            emojiLink.dataset.wdtEmojiShortname = em.short_name;
+            emojiLink.dataset.wdtEmojiOrder = em.sort_order;
+
+            emojiLink.innerHTML = self.emoji.replace_colons(em.short_name);
+
+            emojiListDiv.appendChild(emojiLink);
+          }
+        }
+
+        emojiSection.appendChild(emojiTitle);
+        emojiSection.appendChild(emojiListDiv);
+        $(sectionsContainer).prepend(emojiSection);
+      }
+
+
+  };
+
+  /**
+   *
+   * Main function to fill picker popup with emoji
+   *
+   * @returns void | boolean | mixed
+   */
   wdtEmojiBundle.fillPickerPopup = function () {
 
     var self = this;
     // An item added to recent items
     if ( hasClass(this.popup, 'recentUpdate') ) {
-          var sectionsContainer = this.popup.querySelector('.wdt-emoji-sections');
-          var reecentContainer = $(sectionsContainer).children().first();
-          reecentContainer.empty();
-          // while ($(sectionsContainer).children().first().hasChildNodes()) {
-          //     $(sectionsContainer).children().first().removeChild($(sectionsContainer).lastChild);
-          // }
-
-          //Clone obj to stop treating ref
-          var emojiLists = wdtEmojiBundle.defaults.recent.slice(0);
-          // UI needs
-          var emojiList = emojiLists;
-          var title = 'Recent';
-          if (emojiList.length) {
-            var emojiSection = document.createElement('div'),
-              emojiTitle = document.createElement('h3'),
-              emojiListDiv = document.createElement('div');
-
-            emojiTitle.innerHTML = title;
-            emojiTitle.dataset.emojiGroup = title;
-            emojiListDiv.dataset.emojiGroup = title;
-
-            addClass(emojiListDiv, 'wdt-emoji-list');
-            addClass(emojiSection, 'wdt-emoji-section');
-
-            for (i = 0; i < emojiList.length; i++) {
-              var em = emojiLists[i];
-
-              if (em.has_img_apple || em.has_img_emojione || em.has_img_google || em.has_img_twitter || em.has_img_facebook || em.has_img_messenger) {
-                var emojiLink = document.createElement('a');
-
-                addClass(emojiLink, 'wdt-emoji');
-                addClass(emojiLink, wdtEmojiBundle.getRandomPickerColor());
-
-                emojiLink.dataset.hasImgApple = em.has_img_apple;
-                emojiLink.dataset.hasImgEmojione = em.has_img_emojione;
-                emojiLink.dataset.hasImgGoogle = em.has_img_google;
-                emojiLink.dataset.hasImgTwitter = em.has_img_twitter;
-                emojiLink.dataset.hasImgFacebook = em.has_img_facebook;
-                emojiLink.dataset.hasImgMessenger = em.has_img_messenger;
-                emojiLink.dataset.wdtEmojiName = em.name;
-                if (emojiLink.dataset.wdtEmojiShortnames) emojiLink.dataset.wdtEmojiShortnames = em.short_names.join(': :');
-                emojiLink.dataset.wdtEmojiShortname = em.short_name;
-                emojiLink.dataset.wdtEmojiOrder = em.sort_order;
-
-                emojiLink.innerHTML = self.emoji.replace_colons(em.short_name);
-
-                emojiListDiv.appendChild(emojiLink);
-              }
-            }
-
-            emojiSection.appendChild(emojiTitle);
-            emojiSection.appendChild(emojiListDiv);
-            $(sectionsContainer).prepend(emojiSection);
-          }
-
+      wdtEmojiBundle.fillRecent();
     }
 
     if (hasClass(this.popup, 'ready')) {
@@ -645,16 +660,17 @@
       if( event.target && angular.element(event.target).parent().attr('data-emoji-group') != "Recent" ) wdtEmojiBundle.setRecent(recentObj);
       // bind input
       replaceText(wdtEmojiBundle.input, selection, wdtEmojiBundle.render(this.dataset.wdtEmojiShortname));
-      // Show in
+      wdtEmojiBundle.fillRecent();
+      // Show in 
       fire('select', {el: wdtEmojiBundle.input, event: event, emoji: this.dataset.wdtEmojiShortname});
 
       var ce = document.createEvent('Event');
       ce.initEvent('input', true, true);
       wdtEmojiBundle.input.dispatchEvent(ce);
-      wdtEmojiBundle.close();
-      for ( var i = 0; i < wdtEmojiBundle.fadeOut.length; i++ ) {
-        document.removeEventListener("click", wdtEmojiBundle.fadeOut[i]);
-      }
+      // wdtEmojiBundle.close();
+      // for ( var i = 0; i < wdtEmojiBundle.fadeOut.length; i++ ) {
+      //   document.removeEventListener("click", wdtEmojiBundle.fadeOut[i]);
+      // }
       fire('afterSelect', {el: wdtEmojiBundle.input, event: event, emoji: ':' + this.dataset.wdtEmojiShortname + ':'});
 
       return false;

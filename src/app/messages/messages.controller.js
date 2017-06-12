@@ -430,6 +430,7 @@
         NstSvcPlaceFactory.get(vm.currentPlaceId,true).then(function(p){
           vm.currentPlace.counters.posts = p.counters.posts;
         });
+        NstSvcPlaceFactory.get(result.toPlace,true);
       });
     }
 

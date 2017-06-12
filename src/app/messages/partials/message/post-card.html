@@ -221,7 +221,7 @@
 </div>
 
 
-<section class="post-card-comment" data-ng-if="!ctlPostCard.hideComments && !ctlPostCard.post.noComment">
+<section class="post-card-comment" data-ng-if="!ctlPostCard.hideComments && !ctlPostCard.post.noComment && ctlPostCard.commentBoard">
   <comments-board comments="ctlPostCard.post.comments"
                   limit="ctlPostCard.commentBoardLimit"
                   post-id="ctlPostCard.post.id"

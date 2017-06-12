@@ -180,49 +180,49 @@
             vm.place.picture = new NstPicture(result.data.thumbs);
           });
       } else {
-      $uibModal.open({
-        animation: false,
-        size: 'no-miss crop',
-        templateUrl: 'app/settings/profile/crop/change-pic.modal.html',
-        controller: 'CropController',
-        resolve: {
-          argv: {
-            file: file,
-            type: 'square'
-          }
-        },
-        controllerAs: 'ctlCrop'
-      }).result.then(function (croppedFile) {
-        vm.logoFile = croppedFile;
-        vm.logoUrl = '';
+        $uibModal.open({
+          animation: false,
+          size: 'no-miss crop',
+          templateUrl: 'app/settings/profile/crop/change-pic.modal.html',
+          controller: 'CropController',
+          resolve: {
+            argv: {
+              file: file,
+              type: 'square'
+            }
+          },
+          controllerAs: 'ctlCrop'
+        }).result.then(function (croppedFile) {
+          vm.logoFile = croppedFile;
+          vm.logoUrl = '';
 
-        var reader = new FileReader();
-        reader.onload = function (readEvent) {
-          NstSvcLogger.info('The picture is loaded locally and going to be sent to server.');
-          vm.logoUrl = readEvent.target.result;
+          var reader = new FileReader();
+          reader.onload = function (readEvent) {
+            NstSvcLogger.info('The picture is loaded locally and going to be sent to server.');
+            vm.logoUrl = readEvent.target.result;
 
-          // upload the picture
-          var request = NstSvcStore.uploadWithProgress(vm.logoFile, logoUploadProgress, NST_STORE_UPLOAD_TYPE.PLACE_PIC, NstSvcAuth.lastSessionKey);
+            // upload the picture
+            var request = NstSvcStore.uploadWithProgress(vm.logoFile, logoUploadProgress, NST_STORE_UPLOAD_TYPE.PLACE_PIC, NstSvcAuth.lastSessionKey);
 
-          request.getPromise().then(function (result) {
+            request.getPromise().then(function (result) {
 
-            NstSvcPlaceFactory.updatePicture(vm.place.id, result.data.universal_id).then(function (result) {
-              NstSvcLogger.info(NstUtility.string.format('Place {0} picture updated successfully.', vm.place.id));
-              toastr.success(NstSvcTranslation.get("The Place photo has been set successfully."));
-            }).catch(function (error) {
-              NstSvcLogger.error(error);
-              toastr.error(NstSvcTranslation.get("An error has occurred in updating the Place photo."));
+              NstSvcPlaceFactory.updatePicture(vm.place.id, result.data.universal_id).then(function (result) {
+                NstSvcLogger.info(NstUtility.string.format('Place {0} picture updated successfully.', vm.place.id));
+                toastr.success(NstSvcTranslation.get("The Place photo has been set successfully."));
+              }).catch(function (error) {
+                NstSvcLogger.error(error);
+                toastr.error(NstSvcTranslation.get("An error has occurred in updating the Place photo."));
+              });
+
+              vm.place.picture = new NstPicture(result.data.thumbs);
+              // vm.tempPictureUrl = null;
             });
+          };
 
-            vm.place.picture = new NstPicture(result.data.thumbs);
-            // vm.tempPictureUrl = null;
-          });
-        };
-
-        reader.readAsDataURL(vm.logoFile);
-      }).catch(function () {
-        event.target.value = '';
-      });
+          reader.readAsDataURL(vm.logoFile);
+        }).catch(function () {
+          event.target.value = '';
+        });
       }
 
     }

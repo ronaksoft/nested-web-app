@@ -20,6 +20,9 @@
           dissappear($element.find('.popover-userdetail'));
           dissappear($element.find('.popover-placedetail'));
           wdtEmojiBundle.close();
+          for ( var i = 0; i < wdtEmojiBundle.fadeOut.length; i++ ) {
+            document.removeEventListener("click", wdtEmojiBundle.fadeOut[i]);
+          }
 
           if(e.currentTarget.pageYOffset > scrollOff && e.currentTarget.pageYOffset < scrollPos){
             $('body').addClass('scrolled')
