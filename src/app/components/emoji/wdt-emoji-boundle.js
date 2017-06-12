@@ -274,10 +274,10 @@
             document.removeEventListener("click", wdtEmojiBundle.fadeOut[i]);
           }
           wdtEmojiBundle.fadeOut = []
-          
+
           wdtEmojiBundle.close();
         }
-        
+
       }
 
       if (bodyRect.width < 415) { // mobile specific @todo - [needim] - better mobile detection needed
@@ -302,7 +302,7 @@
 
     // fill with emoji
     wdtEmojiBundle.fillPickerPopup();
-    
+
     if (hasClass(this, 'wdt-emoji-picker-open')) {
       wdtEmojiBundle.closePicker(this);
       removeClass(wdtEmojiBundle.popup, 'open');
@@ -358,10 +358,10 @@
             document.removeEventListener("click", wdtEmojiBundle.fadeOut[i]);
           }
           wdtEmojiBundle.fadeOut = []
-          
+
           wdtEmojiBundle.close();
         }
-        
+
       }
 
       if (bodyRect.width < 415) { // mobile specific @todo - [needim] - better mobile detection needed
@@ -559,7 +559,7 @@
   wdtEmojiBundle.getRandomPickerColor = function () {
     return wdtEmojiBundle.defaults.pickerColors[Math.floor(Math.random() * wdtEmojiBundle.defaults.pickerColors.length)]
   };
-  
+
   /**
    * update recent items list
    * @param emoji
@@ -572,7 +572,7 @@
     }
     wdtEmojiBundle.defaults.recent.unshift(emoji);
     if (!hasClass(this.popup, 'recentUpdate'))  addClass(this.popup, 'recentUpdate');
-    
+
     if ( wdtEmojiBundle.defaults.recent.length > 20 ) {
       wdtEmojiBundle.defaults.recent.splice(20,1);
     }
@@ -645,7 +645,7 @@
       if( event.target && angular.element(event.target).parent().attr('data-emoji-group') != "Recent" ) wdtEmojiBundle.setRecent(recentObj);
       // bind input
       replaceText(wdtEmojiBundle.input, selection, wdtEmojiBundle.render(this.dataset.wdtEmojiShortname));
-      // Show in 
+      // Show in
       fire('select', {el: wdtEmojiBundle.input, event: event, emoji: this.dataset.wdtEmojiShortname});
 
       var ce = document.createEvent('Event');
@@ -895,7 +895,7 @@
       } else {
         range = new Range;
       }
-      
+
       // console.log(range, range.startContainer, range.startContainer.nodeType);
       // console.log(el,range,range.startContainer,range.commonAncestorContainer,range.commonAncestorContainer.parentNode);
       var obj = {};
@@ -905,7 +905,7 @@
       // obj.startOffset = carP;
       // obj.endOffset = carP;
       obj.element = range.startContainer;
-      
+
       wdtEmojiBundle.ranges[this.dataset.rangeIndex] = obj;
     });
 
@@ -1104,11 +1104,11 @@
 
     // WHEN THE inputs are empty we dont need to sanitize text so :
     // if( !text && $(el)[0].textContent.length == 0 ) {
-    //   if ( selection.contenteditable ){ 
+    //   if ( selection.contenteditable ){
     //     el.innerHTML = '<p>' + emo + '</p>';
     //   } else {
     //     el.value = emo;
-    //   }      
+    //   }
     //   return el.focus();
     // }
 
@@ -1126,7 +1126,7 @@
       var html = $(el).html();
       // console.log(selection);
 
-      
+
       // console.log(selection,selection.element,$(selection.element),myElement);
       var nVal = $(selection.element).text().toString();
       nVal = nVal.slice(0, selection.start) + emo + nVal.slice(selection.start, nVal.length);
@@ -1152,11 +1152,13 @@
       var sel = window.getSelection();
       sel.removeAllRanges();
       sel.addRange(range);
-    } else {
-      var val = el.value || el.innerHTML || '';
+    }
+    else {
+      var val = el.value || '';
       var textBefore = val.substring(0, selection.start);
       textBefore = textBefore.replace(/:\S*$/, '');;
       // el.value = textBefore + emo + val.substring(selection.end, selection.len);
+      console.log(textBefore , emo , val, selection.end, selection.len,val.substring(selection.end, selection.len));
       el.value = textBefore + emo + val.substring(selection.end, selection.len);
       // @todo - [needim] - check browser compatibilities
       el.selectionStart = el.selectionEnd = (textBefore.length + emo.length);
@@ -1179,7 +1181,7 @@
     //   el.selectionStart = el.selectionEnd = (textBefore.length + emo.length);
     //   el.focus();
     // }
-  }; 
+  };
 
   /**
    * Fire custom events
