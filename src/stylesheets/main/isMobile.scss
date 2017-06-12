@@ -66,6 +66,7 @@ body.isMobile {
   .nst-navbar-f,.nst-navbar-fff {
     top: 56px;
     left: 0;
+    width: 100%!important;
     .menu-links-butn {
       span { display: none;}
     }
@@ -122,6 +123,12 @@ body.isMobile {
   vr + a.menu-links-butn + a ,
   vr + a.menu-links-butn + a + a {
     margin: 0 8px;
+  }
+  .content .filter-bar .filter-bar-inner {
+    left: 0;
+    top: 136px;
+    width: 100%;
+    min-width: 0;
   }
   &[dir="rtl"] {
     .nst-container {
