@@ -27,7 +27,7 @@
               </a>
           </p>
           <p class="_df _fw" ng-if="!ctlMessages.currentPlace.counters.posts || ctlMessages.currentPlace.counters.posts < 1"></p>
-          <p class="_df _fn selected-cards-action" ng-if="ctlMessages.selectedPosts.length > 0 ">
+          <p class="_df _fn selected-cards-action" ng-if="ctlMessages.isPlaceFilter && ctlMessages.selectedPosts.length > 0 ">
             <a class="_difh _aic force cursor-pointer" ng-click="ctlMessages.removeMulti($event);">
               <svg class="_16svg _df">
                 <use xlink:href="/assets/icons/nst-icn16.svg#bin"></use>
@@ -39,6 +39,20 @@
                 <use xlink:href="/assets/icons/nst-icn16.svg#places"></use>
               </svg>
               <translate>Move</translate>
+            </a>
+          </p>
+          <p class="_df _fn selected-cards-action" ng-if="!ctlMessages.isPlaceFilter && ctlMessages.selectedPosts.length > 0 ">
+            <a class="_difh _aic cursor-pointer" ng-click="ctlMessages.readMulti($event);">
+              <svg class="_16svg _df pendfill">
+                <use xlink:href="/assets/icons/nst-icn16.svg#circle"></use>
+              </svg>
+              <translate class="nst-mood-pending">Mark as read</translate>
+            </a>
+            <a class="_difh _aic cursor-pointer" ng-click="ctlMessages.markMulti($event);">
+              <svg class="_16svg">
+                <use xlink:href="/assets/icons/nst-icn16.svg#bookmark-sign"></use>
+              </svg>
+              <translate>bookmark</translate>
             </a>
           </p>
           <p class="_df _fn mark-read _aic" ng-if="ctlMessages.unreadCount" ng-click="ctlMessages.markAllAsRead()">

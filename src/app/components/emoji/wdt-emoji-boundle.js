@@ -588,8 +588,8 @@
     wdtEmojiBundle.defaults.recent.unshift(emoji);
     if (!hasClass(this.popup, 'recentUpdate'))  addClass(this.popup, 'recentUpdate');
 
-    if ( wdtEmojiBundle.defaults.recent.length > 20 ) {
-      wdtEmojiBundle.defaults.recent.splice(20,1);
+    if ( wdtEmojiBundle.defaults.recent.length > 16 ) {
+      wdtEmojiBundle.defaults.recent.splice(16,1);
     }
     wdtEmojiBundle.callback(wdtEmojiBundle.defaults.recent);
   };
@@ -1174,7 +1174,6 @@
       var textBefore = val.substring(0, selection.start);
       textBefore = textBefore.replace(/:\S*$/, '');;
       // el.value = textBefore + emo + val.substring(selection.end, selection.len);
-      console.log(textBefore , emo , val, selection.end, selection.len,val.substring(selection.end, selection.len));
       el.value = textBefore + emo + val.substring(selection.end, selection.len);
       // @todo - [needim] - check browser compatibilities
       el.selectionStart = el.selectionEnd = (textBefore.length + emo.length);

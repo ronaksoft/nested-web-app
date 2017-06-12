@@ -50,6 +50,9 @@
     vm.openContacts = openContacts;
     vm.removeMulti = removeMulti;
     vm.moveMulti = moveMulti;
+    vm.markMulti = markMulti;
+    vm.readMulti = readMulti;
+    isPlaceFeed();
 
     vm.messagesSetting = {
       limit: DEFAULT_MESSAGES_COUNT,
@@ -302,7 +305,7 @@
         var index = vm.selectedPosts.indexOf(data.postId);
         if (index > -1) vm.selectedPosts.splice(index, 1);
       }
-      $scope.$broadcast('selected-length-change',{selectedPosts : vm.selectedPosts.length});
+      $scope.$broadcast('selected-length-change',{selectedPosts : vm.selectedPosts});
     });
 
     function setNavbarProperties() {
@@ -320,6 +323,13 @@
         vm.navIconClass = 'sent';
       }
 
+    }
+    function isPlaceFeed() {
+      if ($state.current.name == 'app.place-messages' ||
+        $state.current.name == 'app.place-messages-sorted') {
+        return vm.isPlaceFilter = true;
+      }
+      return vm.isPlaceFilter = false;
     }
 
     function openContacts($event) {
@@ -366,7 +376,7 @@
 
               // TODO increase decrease on other ways
               --vm.currentPlace.counters.posts;
-              $scope.$broadcast('selected-length-change',{selectedPosts : vm.selectedPosts.length});
+              $scope.$broadcast('selected-length-change',{selectedPosts : vm.selectedPosts});
 
               if ( i === vm.selectedPosts.length - 1 ){
                 NstSvcPlaceFactory.get(vm.currentPlaceId,true).then(function(p){
@@ -426,12 +436,35 @@
           // what is this ?  and TODO : optimise for multi   :
           // NstUtility.collection.replaceById(vm.post.places, result.fromPlace.id, result.toPlace);
         }
-        $scope.$broadcast('selected-length-change',{selectedPosts : vm.selectedPosts.length});
+        $scope.$broadcast('selected-length-change',{selectedPosts : vm.selectedPosts});
         NstSvcPlaceFactory.get(vm.currentPlaceId,true).then(function(p){
           vm.currentPlace.counters.posts = p.counters.posts;
         });
         NstSvcPlaceFactory.get(result.toPlace,true);
       });
+    }
+
+    function markMulti($event) {
+      $event.preventDefault();
+      for (var i = 0; i < vm.selectedPosts.length; i++) {
+        NstSvcPostFactory.pin(vm.selectedPosts[i]);
+      }
+      vm.selectedPosts = [];
+      $scope.$broadcast('selected-length-change',{selectedPosts : vm.selectedPosts});
+    }
+
+    function readMulti($event) {
+      $event.preventDefault();
+      for (var i = 0; i < vm.selectedPosts.length; i++) {
+          NstSvcPostFactory.read(vm.selectedPosts[i]).then(function (){
+        }).catch(function (err) {
+          $log.debug('MARK AS READ :' + err);
+        });
+      }
+
+      // FIXME : this block after all responses
+      vm.selectedPosts = [];
+      $scope.$broadcast('selected-length-change',{selectedPosts : vm.selectedPosts});
     }
 
     function getMessages() {

@@ -366,12 +366,22 @@
       $scope.$emit('post-select',{postId: vm.post.id,isChecked : vm.isChecked});
     });
 
-    $scope.$on('selected-length-change',function(e,v){
-      if ( v.selectedPosts > 0) {
+    $scope.$on('selected-length-change',function(e, v){
+      if ( v.selectedPosts.length > 0) {
         vm.isCheckedForce = true;
       } else {
         vm.isCheckedForce = false;
+        vm.isChecked = false;
       }
+      
+      // for ( var i = 0; i < v.selectedPosts; i++ ) {
+      //     var index = v.selectedPostsArray.indexOf(vm.placeId);
+      //     if ( index > -1 ) {
+
+      //     } else {
+      //       vm.isChecked = false;
+      //     }
+      // }
     });
 
     NstSvcSync.addEventListener(NST_EVENT_ACTION.COMMENT_ADD, function (e) {
