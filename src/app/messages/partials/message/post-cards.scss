@@ -132,9 +132,9 @@ post-card {
   }
   &:hover {
     //box-shadow: 0 8px 16px rgba(0,0,0,0.2)
-    .icon .more svg {
-      fill: black;
-    }
+    // .icon .more svg {
+    //   fill: black;
+    // }
     .icon .fwed{
       svg {
         fill: $color-forward;
@@ -391,6 +391,12 @@ post-card {
             fill: $color-reply;
           }
           background-color: rgba(30, 220, 150, .1);
+        }
+        &.more:hover {
+          svg {
+            fill: $color-solid;
+          }
+          // background-color: rgba(30, 220, 150, .1);
         }
         &.more {
           margin: 0
