@@ -978,7 +978,8 @@
         changeDirection.apply(this, ['ltr', 'left']);
       }
     })
-
+    vm.cmdPress = false;
+    vm.cmdVPress = false;
     vm.froalaOpts = {
       toolbarContainer: vm.quickMode ? '#editor-btn-quick' : '#editor-btn',
       charCounterCount: false,
@@ -996,9 +997,25 @@
         'froalaEditor.blur': function (e, editor) {
           vm.focusBody = false;
         },
-        'froalaEditor.keyup': function (e, editor, je) {
+        'froalaEditor.keydown': function (e, editor, je) {
+          if ( vm.quickMode ) return
           var el = editor.selection.element();
-          if (el && je.which === 13 && !vm.quickMode) el.scrollIntoView({block: "start", behavior: "smooth"});
+          if (el && je.which === 91) {
+            vm.cmdPress = true;
+          }
+          if (el && je.which === 86 && vm.cmdPress) {
+            vm.cmdVPress = true;
+            el.scrollIntoView({block: "end", behavior: "smooth"});
+          }
+        },
+        'froalaEditor.keyup': function (e, editor, je) {
+          if ( vm.quickMode ) return
+          var el = editor.selection.element();
+          if (el && (je.which === 13 || vm.cmdVPress)) {
+            el.scrollIntoView({block: "end", behavior: "smooth"});
+          }
+          vm.cmdPress = false;
+          vm.cmdVPress = false;
         }
       }
     }
