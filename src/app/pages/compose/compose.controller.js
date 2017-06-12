@@ -31,6 +31,7 @@
     vm.emojiTarget = 'title';
     vm.haveComment = true;
     vm.focusBody = false;
+    vm.targetLimit;
 
     if (vm.mode == 'quick') {
       vm.quickMode = true;
@@ -271,7 +272,11 @@
       openDraft();
       NstSvcSystemConstants.get().then(function (result) {
         systemConstants = result;
-      });
+        vm.targetLimit = systemConstants.post_max_targets || 10;
+      })
+        .catch(function () {
+          vm.targetLimit = 10;
+        });
     })();
 
     function saveDraft() {
@@ -911,6 +916,7 @@
     }
 
     function addRecipients(placeId) {
+
       var deferred = $q.defer();
 
       if (_.some(vm.model.recipients, {id: placeId})) {
@@ -932,8 +938,8 @@
      *****************************/
 
 
-    vm.emitItemsAnalytics = function(){
-      $scope.$broadcast('compose-add-item',{active : vm.collapse});
+    vm.emitItemsAnalytics = function () {
+      $scope.$broadcast('compose-add-item', {active: vm.collapse});
     }
 
     var changeDirection = function (dir, align) {
@@ -942,9 +948,9 @@
       for (var i = 0; i < elements.length; i++) {
         var element = elements[i];
         if (element != this.$el.get(0)) {
-        $(element)
-          .css('direction', dir)
-          .css('text-align', align);
+          $(element)
+            .css('direction', dir)
+            .css('text-align', align);
         }
       }
 
@@ -974,12 +980,12 @@
     })
 
     vm.froalaOpts = {
-      toolbarContainer: vm.quickMode ? '#editor-btn-quick' :'#editor-btn',
+      toolbarContainer: vm.quickMode ? '#editor-btn-quick' : '#editor-btn',
       charCounterCount: false,
       tabSpaces: 4,
       pluginsEnabled: ['colors', 'fontSize', 'fontFamily', 'link', 'url', 'wordPaste', 'lists', 'align', 'codeBeautifier'],
       fontSize: ['8', '10', '14', '18', '22'],
-      toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'fontSize', '|', 'color', 'align', 'formatOL', 'formatUL', 'insertLink', '|','rightToLeft', 'leftToRight'],
+      toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'fontSize', '|', 'color', 'align', 'formatOL', 'formatUL', 'insertLink', '|', 'rightToLeft', 'leftToRight'],
       events: {
         'froalaEditor.focus': function (e, editor) {
           vm.focusBody = true;
@@ -992,7 +998,7 @@
         },
         'froalaEditor.keyup': function (e, editor, je) {
           var el = editor.selection.element();
-          if ( el && je.which === 13 && !vm.quickMode ) el.scrollIntoView({block: "start", behavior: "smooth"});
+          if (el && je.which === 13 && !vm.quickMode) el.scrollIntoView({block: "start", behavior: "smooth"});
         }
       }
     }
@@ -1058,6 +1064,8 @@
 
     function onPlaceSelected(place) {
       NstSvcLogger.debug4('Compose | add a place from suggests as recipient :');
+
+
       // addRecipients(placeId);
       if (!_.some(vm.model.recipients, {id: place.id})) {
         vm.model.recipients.push(new NstVmSelectTag({
