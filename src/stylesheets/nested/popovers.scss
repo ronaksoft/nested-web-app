@@ -188,6 +188,7 @@ label.setting  {
   font-size: $font-size-small;
   background-size: 24px 192px;
   background-position: center -64px;
+  background-repeat: no-repeat;
 }
 
 input[type="checkbox"]:disabled + label.setting {

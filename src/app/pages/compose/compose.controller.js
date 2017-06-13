@@ -88,6 +88,7 @@
       NstSvcLogger.debug4('Compose | Compose Box is focused');
       vm.focus = true;
       vm.collapse = true;
+      vm.firstUp = true;
     };
 
     vm.blurBox = function () {
@@ -194,10 +195,6 @@
       };
 
     }
-
-    // setTimeout(function () {
-    //   vm.editor = $("textarea").controller('ckeditor').instance;
-    // },1000);
 
     (function () {
       if ($stateParams.attachments && $stateParams.attachments.length > 0) {
