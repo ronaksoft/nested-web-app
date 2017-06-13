@@ -13,7 +13,7 @@
     var vm = this;
     vm.signout = signout;
     vm.ready = true;
-    vm.user = NstSvcUserFactory.currentUser;
+    vm.user = NstSvcAuth.user;
     vm.model = {
       oldPassword: '',
       newPassword: '',

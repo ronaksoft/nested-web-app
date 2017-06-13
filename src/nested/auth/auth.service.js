@@ -171,7 +171,6 @@
       // TODO: Not sure about using UserFactory like this!
       NstSvcUserFactory.get(this.getUser().id).then(function (user) {
         service.setUser(user);
-        NstSvcUserFactory.currentUser = user;
 
         service.setUserCookie(user, remember);
 
@@ -260,7 +259,6 @@
           NstSvcContactStorage.cache.flush();
 
           service.user = null;
-          NstSvcUserFactory.currentUser = null;
 
           localStorage.clear();
 
@@ -289,8 +287,10 @@
     };
 
     Auth.prototype.setState = function (state, reason) {
-      this.state = state;
-      localStorage.setItem(USER_STATUS_STORAGE_NAME, state);
+      if (this.state !== state) {
+        this.state = state;
+        localStorage.setItem(USER_STATUS_STORAGE_NAME, state);
+      }
     }
 
     Auth.prototype.login = function (credentials, remember) {
@@ -329,8 +329,8 @@
       localStorage.setItem(NST_AUTH_STORAGE_KEY.REMEMBER, value);
     }
 
-    Auth.prototype.getRemember = function (value) {
-      return localStorage.getItem(NST_AUTH_STORAGE_KEY.REMEMBER, value) === 'true';
+    Auth.prototype.getRemember = function () {
+      return localStorage.getItem(NST_AUTH_STORAGE_KEY.REMEMBER) === 'true';
     }
 
     Auth.prototype.reconnect = function () {
@@ -421,6 +421,7 @@
 
     Auth.prototype.setUser = function (user) {
       this.user = user
+      NstSvcCurrentUserStorage.set(NST_AUTH_STORAGE_KEY.USER, user);
     };
 
     /**
@@ -496,7 +497,7 @@
       return "web_" + Date.now() + "-" + guid() + "-" + guid();
     }
 
-    var service = new Auth(NstSvcUserFactory.currentUser);
+    var service = new Auth(NstSvcCurrentUserStorage.get(NST_AUTH_STORAGE_KEY.USER));
 
     service.addEventListener(NST_AUTH_EVENT.AUTHORIZE, function (event) {
       NstSvcCurrentUserStorage.set(NST_AUTH_STORAGE_KEY.USER, event.detail.user);
