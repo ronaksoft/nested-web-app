@@ -167,6 +167,7 @@
       this.setUser(NstSvcUserFactory.parseUser(data.account));
       NstSvcUserFactory.set(this.getUser());
 
+      // TODO: Not sure about using UserFactory like this!
       NstSvcUserFactory.get(this.getUser().id).then(function (user) {
         service.setUser(user);
         NstSvcUserFactory.currentUser = user;
@@ -235,14 +236,9 @@
           break;
 
         case NST_UNREGISTER_REASON.AUTH_FAIL:
-          this.setLastSessionKey(null);
-          this.setLastSessionSecret(null);
-          $cookies.remove('ndid');
-          $cookies.remove('ndt');
-          $cookies.remove('nos');
-          $cookies.remove('nss');
-          $cookies.remove('nsk');
-          $cookies.remove('user');
+          this.setLastUserKeys(null, null);
+          this.removeAppCookies();
+          this.removeUserCookie();
           qUnauth.resolve(reason);
           break;
 
@@ -265,17 +261,12 @@
 
           localStorage.clear();
 
-          if (localStorage.getItem(USER_STATUS_STORAGE_NAME) !== NST_AUTH_STATE.UNAUTHORIZED)
-            localStorage.setItem(USER_STATUS_STORAGE_NAME, NST_AUTH_STATE.UNAUTHORIZED);
+          this.setState(NST_AUTH_STATE.UNAUTHORIZED);
 
-          this.setLastSessionKey(null);
-          this.setLastSessionSecret(null);
-          $cookies.remove('ndid');
-          $cookies.remove('ndt');
-          $cookies.remove('nos');
-          $cookies.remove('nss');
-          $cookies.remove('nsk');
-          $cookies.remove('user');
+          this.setLastUserKeys(null, null);
+          this.removeAppCookies();
+          this.removeUserCookie();
+
           NstSvcServer.request('session/close').then(function () {
             NstSvcServer.unauthorize();
           }).catch(function () {
@@ -294,6 +285,11 @@
       return deferred.promise;
     };
 
+    Auth.prototype.setState = function (state, reason) {
+      this.state = state;
+      localStorage.setItem(USER_STATUS_STORAGE_NAME, state);
+    }
+
     Auth.prototype.login = function (credentials, remember) {
       var service = this;
       var deferred = $q.defer();
@@ -303,7 +299,7 @@
         NstSvcServer.reinit(credentials.username.split('@')[1])
           .then(function () {
             service.register(credentials.username.split('@')[0], credentials.password).then(function (response) {
-              localStorage.setItem(USER_STATUS_STORAGE_NAME, NST_AUTH_STATE.AUTHORIZED);
+              service.setState(NST_AUTH_STATE.AUTHORIZED);
               service.authorize(response).then(deferred.resolve);
             }).catch(function (error) {
               service.unregister(NST_UNREGISTER_REASON.AUTH_FAIL).then(function () {
@@ -320,7 +316,7 @@
         NstSvcServer.reinit()
           .then(function () {
             service.register(credentials.username, credentials.password).then(function (response) {
-              localStorage.setItem(USER_STATUS_STORAGE_NAME, NST_AUTH_STATE.AUTHORIZED);
+              service.setState(NST_AUTH_STATE.AUTHORIZED);
               service.authorize(response).then(deferred.resolve);
             }).catch(function (error) {
               service.unregister(NST_UNREGISTER_REASON.AUTH_FAIL).then(function () {
@@ -369,8 +365,7 @@
         this.recall(this.getLastSessionKey(), this.getLastSessionSecret()).then(function (response) {
           service.user = NstSvcUserFactory.parseUser(response.account);
 
-          if (localStorage.getItem(USER_STATUS_STORAGE_NAME) !== NST_AUTH_STATE.AUTHORIZED)
-            localStorage.setItem(USER_STATUS_STORAGE_NAME, NST_AUTH_STATE.AUTHORIZED);
+          service.setState(NST_AUTH_STATE.AUTHORIZED);
 
           service.authorize(response).then(deferred.resolve);
         }).catch(function (error) {
