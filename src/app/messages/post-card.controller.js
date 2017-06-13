@@ -127,6 +127,7 @@
             postId: post.id,
             placeId: place.id
           });
+          vm.isChecked = false;
         }).catch(function (error) {
           toastr.error(NstSvcTranslation.get("An error has occurred in trying to remove this message from the selected Place."));
         });
@@ -160,6 +161,7 @@
       vm.retractProgress = true;
       NstSvcPostInteraction.retract(vm.post).finally(function () {
         vm.retractProgress = false;
+        vm.isChecked = false;
       });
     }
 
@@ -294,7 +296,7 @@
           toPlace: result.toPlace,
           fromPlace: result.fromPlace
         });
-
+        vm.isChecked = false;
         NstUtility.collection.replaceById(vm.post.places, result.fromPlace.id, result.toPlace);
       });
     }
