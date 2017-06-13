@@ -22,6 +22,17 @@
       padding: 8px 12px 2px 12px;
       display: inline-flex;
       flex-direction: column;
+      .anim-q {
+        max-height: 0;
+        // transition: max-height 3s;
+        // transition-delay: 3s;
+        animation: 1s ease-out forwards remove-max-height-rev;
+        &.focused {
+          // max-height: none;
+          // transition: max-height 3s;
+          animation: 1s ease-in forwards remove-max-height;
+        }
+      }
       .compose-input {
         height: 42px;
         color: $color-solid;
@@ -58,32 +69,32 @@
         //  align-items: center;
         //  height: 100%;
         //}
-        &:focus + div + div,&:active + div+  div{
-          max-height: 500px!important;
-          .quick-icons {
-            opacity: 1!important;
-          }
-        }
+        // &:focus + div + div,&:active + div+  div{
+        //   max-height: 500px!important;
+        //   .quick-icons {
+        //     opacity: 1!important;
+        //   }
+        // }
       }
       //[contenteditable]:not(:empty){
       //  & + div >.quick-icons {
       //    opacity: 1;
       //  }
       //}
-      div[contenteditable] + div + div {
-        right: 10px;
-        bottom: 0;
-        max-height: 0;
-        .quick-icons {
-          opacity: 0;
-        }
-      }
+      // div[contenteditable] + div + div {
+      //   right: 10px;
+      //   bottom: 0;
+      //   max-height: 0;
+      //   .quick-icons {
+      //     opacity: 0;
+      //   }
+      // }
       textarea {
         border: none
       }
 
       .quick-controls.modified  {
-        max-height: 500px !important;
+        // max-height: 500px !important;
         .quick-icons {
           opacity: 1;
         }
@@ -98,12 +109,12 @@
         max-height: none;
       }
       .editor-btn-wrp {
-        max-height : 0;
-        transition: opacity,max-height 0.3s;
+        // max-height : 0;
+        // transition: opacity,max-height 0.3s;
         overflow: hidden;
         opacity: 0;
         &.foccused {
-          max-height : 2500px;
+          // max-height : 2500px;
           overflow: visible;
         }
         &.showBar {
@@ -123,8 +134,8 @@
         width: 100%;
         flex-direction: row;
         display: inline-flex;
-        max-height: 500px;
-        transition: max-height .3s ease-in;
+        // max-height: 500px;
+        // transition: max-height .3s ease-in;
         position: relative;
         overflow: hidden;
         justify-content: flex-end;
@@ -161,10 +172,10 @@
       .nst-compose-message,.modal-ft {
         overflow: hidden;
         display: flex;
-        max-height: 0;
-        transition: max-height $animation-dur;
+        // max-height: 0;
+        // transition: max-height $animation-dur;
         &.focussed {
-          max-height: 2500px;
+          // max-height: 2500px;
           overflow: visible;
         }
       }
