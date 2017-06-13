@@ -372,32 +372,20 @@
           service.authorize(response).then(deferred.resolve);
         }).catch(function (error) {
           $log.debug('Auth | Recall Error: ', error);
-          switch (error.getCode()) {
-            case NST_SRV_ERROR.DUPLICATE:
-              service.authorize({
-                status: NST_SRV_RESPONSE_STATUS.SUCCESS,
-                info: service.getUser(),
-                _sk: {
-                  $oid: service.getLastSessionKey()
-                },
-                _ss: service.getLastSessionSecret()
-              }).then(deferred.resolve).catch(deferred.reject);
-              break;
 
+          switch (error.getCode()) {
             case NST_SRV_ERROR.ACCESS_DENIED:
             case NST_SRV_ERROR.INVALID:
             case NST_SRV_ERROR.UNAUTHORIZED:
               service.unregister(NST_UNREGISTER_REASON.AUTH_FAIL).then(function () {
-                deferred.reject(error);
                 service.dispatchEvent(new CustomEvent(NST_AUTH_EVENT.AUTHORIZE_FAIL, {detail: {reason: error}}));
+                deferred.reject(error);
               }).catch(deferred.reject);
               break;
-
             default:
-              // Try to reconnect
-              // service.reconnect().then(deferred.resolve).catch(deferred.reject);
               break;
           }
+
         });
       } else {
         deferred.reject({
