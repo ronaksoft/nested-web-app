@@ -186,29 +186,29 @@ label.setting  {
   min-width: 17px;
   padding: 0 17px 0 0!important;
   font-size: $font-size-small;
-  background-size: 24px 192px;
-  background-position: center -64px;
+  background-size: 16px 192px;
+  background-position: right -64px;
   background-repeat: no-repeat;
 }
 
 input[type="checkbox"]:disabled + label.setting {
-  background-position: center -48;
+  background-position: right -48;
 }
 
 input[type="checkbox"]:hover + label.setting {
-  background-position: center -80px;
+  background-position: right -80px;
 }
 
 input[type="checkbox"]:checked + label.setting {
-  background-position: center -16px;
+  background-position: right -16px;
 }
 
 input[type="checkbox"]:checked:disabled + label.setting {
-  background-position: center 0;
+  background-position: right 0;
 }
 
 input[type="checkbox"]:checked:hover + label.setting {
-  background-position: center -32px;
+  background-position: right -32px;
 }
 
 .popup-panel {
