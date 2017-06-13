@@ -31,7 +31,7 @@
 
     (function () {
       if (NstSvcAuth.isInAuthorization()) {
-        goDefaultState();
+        goToDefaultState();
       }
     })();
 
@@ -56,7 +56,7 @@
         if (hasBackUrl()) {
           goToBackUrl();
         } else {
-          goDefaultState();
+          goToDefaultState();
         }
 
       }).catch(function (error) {
@@ -91,7 +91,7 @@
       return !!$stateParams.back;
     }
 
-    function goDefaultState() {
+    function goToDefaultState() {
       $state.go(NST_DEFAULT.STATE);
     }
 
