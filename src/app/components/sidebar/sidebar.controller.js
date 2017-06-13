@@ -32,9 +32,6 @@
       vm.openCreatePlaceModal = openCreatePlaceModal;
       vm.mapLimits = mapLimits;
 
-
-      //fixme:: read from config
-      vm.admin_area = NST_CONFIG.ADMIN_DOMAIN + (NST_CONFIG.ADMIN_PORT ? ':' + NST_CONFIG.ADMIN_PORT : '');
       /*****************************
        ***** Controller Methods ****
        *****************************/
@@ -256,6 +253,9 @@
 
 
       $rootScope.$on('$stateChangeSuccess', function () {
+
+        vm.admin_area = NST_CONFIG.ADMIN_DOMAIN + (NST_CONFIG.ADMIN_PORT ? ':' + NST_CONFIG.ADMIN_PORT : '');
+
         if ($stateParams.placeId) {
           if (vm.selectedGrandPlace && $stateParams.placeId.split('.')[0] !== vm.selectedGrandPlace.id) {
             vm.selectedGrandPlace = _.find(vm.places, function (place) {
