@@ -988,10 +988,7 @@
       toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'fontSize', '|', 'color', 'align', 'formatOL', 'formatUL', 'insertLink', '|', 'rightToLeft', 'leftToRight'],
       events: {
         'froalaEditor.initialized': function (e, editor) {
-          $(editor.$el).attr('autocomplete', 'off');
-          $(editor.$el).attr('spellcheck', 'off');
-          $(editor.$el).attr('autocorrect', 'off');
-          $(editor.$el).attr('autocapitalize', 'off');
+          $(editor.$el).attr('spellcheck', 'false');
         },
         'froalaEditor.focus': function (e, editor) {
           vm.focusBody = true;
