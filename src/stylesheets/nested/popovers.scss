@@ -181,15 +181,33 @@
 
 label.setting  {
   display: inline-block;
-  background: url('../assets/icons/controls.svg') right 0 no-repeat;
+  background-image: url('../assets/icons/radiobuttons-checkbox.svg');
   height: 16px;
   min-width: 17px;
   padding: 0 17px 0 0!important;
   font-size: $font-size-small;
+  background-size: 24px 192px;
+  background-position: center -64px;
+}
+
+input[type="checkbox"]:disabled + label.setting {
+  background-position: center -48;
+}
+
+input[type="checkbox"]:hover + label.setting {
+  background-position: center -80px;
 }
 
 input[type="checkbox"]:checked + label.setting {
-  background: url('../assets/icons/controls.svg') right  -16px no-repeat
+  background-position: center -16px;
+}
+
+input[type="checkbox"]:checked:disabled + label.setting {
+  background-position: center 0;
+}
+
+input[type="checkbox"]:checked:hover + label.setting {
+  background-position: center -32px;
 }
 
 .popup-panel {

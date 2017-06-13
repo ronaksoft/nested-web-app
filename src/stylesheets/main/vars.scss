@@ -314,3 +314,13 @@ $sidebar-place-move: $sidebar-delay - $sidebar-scroll-move;
   100% { opacity: 1;
     max-height: 2500px;}
 }
+@keyframes remove-max-height {
+  0% { max-height: 0;}
+  90% { max-height: 500px;}
+  100% { max-height: none;}
+}
+@keyframes remove-max-height-rev {
+  0% { max-height: none;}
+  10% { max-height: 500px;}
+  100% { max-height: 0;}
+}
