@@ -157,7 +157,6 @@
 
       this.setLastUserKeys(data._ss, data._sk);
 
-      this.removeAppCookies();
       this.setAppCookies({
         'nss': this.lastSessionSecret,
         'nsk': this.lastSessionKey,
@@ -174,7 +173,6 @@
         service.setUser(user);
         NstSvcUserFactory.currentUser = user;
 
-        service.removeUserCookie();
         service.setUserCookie(user, remember);
 
         service.setState(NST_AUTH_STATE.AUTHORIZED);
@@ -383,6 +381,7 @@
               }).catch(deferred.reject);
               break;
             default:
+              // TODO: Decide what to do here!!??
               break;
           }
 
