@@ -293,42 +293,33 @@
     Auth.prototype.login = function (credentials, remember) {
       var service = this;
       var deferred = $q.defer();
+      var domain = null;
+      var id = null;
+
       this.setRemember(remember);
 
-      if (credentials.username.indexOf('@') > 1) {
-        NstSvcServer.reinit(credentials.username.split('@')[1])
-          .then(function () {
-            service.register(credentials.username.split('@')[0], credentials.password).then(function (response) {
-              service.setState(NST_AUTH_STATE.AUTHORIZED);
-              service.authorize(response).then(deferred.resolve);
-            }).catch(function (error) {
-              service.unregister(NST_UNREGISTER_REASON.AUTH_FAIL).then(function () {
-                deferred.reject(error);
-                // service.dispatchEvent(new CustomEvent(NST_AUTH_EVENT.AUTHORIZE_FAIL, {detail: {reason: error}}));
-              });
-            });
-          })
-          .catch(function (error) {
-            deferred.reject(error);
-          });
 
+      if (credentials.username.indexOf('@') > 1){
+        id = credentials.username.split('@')[0]
+        domain = credentials.username.split('@')[1];
       } else {
-        NstSvcServer.reinit()
+        id = credentials.username;
+      }
+
+        NstSvcServer.reinit(domain)
           .then(function () {
-            service.register(credentials.username, credentials.password).then(function (response) {
+            service.register(id, credentials.password).then(function (response) {
               service.setState(NST_AUTH_STATE.AUTHORIZED);
               service.authorize(response).then(deferred.resolve);
             }).catch(function (error) {
               service.unregister(NST_UNREGISTER_REASON.AUTH_FAIL).then(function () {
                 deferred.reject(error);
-                // service.dispatchEvent(new CustomEvent(NST_AUTH_EVENT.AUTHORIZE_FAIL, {detail: {reason: error}}));
               });
             });
           })
           .catch(function (error) {
             deferred.reject(error);
           });
-      }
 
       return deferred.promise;
     };
