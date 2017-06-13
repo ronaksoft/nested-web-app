@@ -26,7 +26,6 @@
       this.lastSessionSecret = null;
       this.lastDeviceId = null;
       this.lastDeviceToken = null;
-      this.remember = NstSvcCurrentUserStorage.get(NST_AUTH_STORAGE_KEY.REMEMBER) || false;
 
       NstObservableObject.call(this);
 
@@ -46,15 +45,6 @@
           service.unregister(NST_UNREGISTER_REASON.DISCONNECT);
         }
       });
-
-      this.addEventListener(NST_OBJECT_EVENT.CHANGE, function (event) {
-        switch (event.detail.name) {
-          case 'remember':
-            NstSvcCurrentUserStorage.set(NST_AUTH_STORAGE_KEY.REMEMBER, event.detail.newValue);
-            break;
-        }
-      });
-
 
       //Config local storage events
       if (window.addEventListener)
@@ -91,17 +81,22 @@
      *                 string keyed properties and sets a cookie
      *                 using the property name and value
      *
-     * @param  {Object} cookies An object that contains all app cookies.
+     * @param  {Object}   cookies     An object that contains all app cookies.
+     * @param  {boolean}  remember    Make cookies persistant if you set remember = true,
+     *                                  else they will be stored as session variables
+     *                                  that expires when you close the browser.
      */
-    Auth.prototype.setAppCookies = function(cookies) {
-      var expires = new Date();
-      expires.setFullYear(expires.getFullYear() + 1);
-      var cookieOptions = {
-        'expires': expires
-      };
+    Auth.prototype.setAppCookies = function(cookies, remember) {
+      var cookieOptions = {};
+      var persist = remember || this.getRemember();
+      if (persist) {
+        var expires = new Date();
+        expires.setFullYear(expires.getFullYear() + 1);
+        cookieOptions['expires'] = expires;
+      }
 
       _.forIn(cookies, function (value, key) {
-        $cookies.put(key, value);
+        $cookies.put(key, value, cookieOptions);
       });
     }
 
@@ -109,17 +104,23 @@
     /**
      * Auth.prototype.setUserCookie - Set the authorized user cookie
      *
-     * @param  {NstTinyUser} user Authorize user
-     * @return {Promise<NstTinyUser>}     A promise that resolves with the authenticated user
+     * @param  {NstTinyUser} user       Authorize user
+     * @param  {boolean}     remember   Make cookies persistant if you set remember to true,
+     *                                  else they will be stored as session variables
+     *                                  that expires when you close the browser.
      */
-    Auth.prototype.setUserCookie = function(user) {
-      var expires = new Date();
-      expires.setFullYear(expires.getFullYear() + 1);
+    Auth.prototype.setUserCookie = function(user, remember) {
       // FIXME:: set domain form location
       var cookieOptions = {
-        'expires': expires.toGMTString(),
-        'domain': NST_CONFIG.DOMAIN,
+        'domain': NST_CONFIG.DOMAIN
       };
+
+      var persist = remember || this.getRemember();
+      if (persist) {
+        var expires = new Date();
+        expires.setFullYear(expires.getFullYear() + 1);
+        cookieOptions['expires'] = expires;
+      }
 
       $cookies.put('user', JSON.stringify({
         id: user.id,
@@ -148,7 +149,7 @@
       $cookies.remove('nos');
     }
 
-    Auth.prototype.authorize = function (data) {
+    Auth.prototype.authorize = function (data, remember) {
 
       var service = this;
       var deferred = $q.defer();
@@ -156,13 +157,14 @@
 
       this.setLastUserKeys(data._ss, data._sk);
 
+      this.removeAppCookies();
       this.setAppCookies({
         'nss': this.lastSessionSecret,
         'nsk': this.lastSessionKey,
         'ndid': this.lastDeviceId,
         'ndt': this.lastDeviceToken,
         'nos': 'android'
-      });
+      }, remember);
 
       this.setUser(NstSvcUserFactory.parseUser(data.account));
       NstSvcUserFactory.set(this.getUser());
@@ -171,7 +173,10 @@
       NstSvcUserFactory.get(this.getUser().id).then(function (user) {
         service.setUser(user);
         NstSvcUserFactory.currentUser = user;
-        service.setUserCookie(user);
+
+        service.removeUserCookie();
+        service.setUserCookie(user, remember);
+
         service.setState(NST_AUTH_STATE.AUTHORIZED);
         service.dispatchEvent(new CustomEvent(NST_AUTH_EVENT.AUTHORIZE, {detail: {user: user}}));
 
@@ -291,13 +296,10 @@
     }
 
     Auth.prototype.login = function (credentials, remember) {
-      var service = this;
-      var deferred = $q.defer();
-      var domain = null;
-      var id = null;
-
-      this.setRemember(remember);
-
+      var service = this,
+          deferred = $q.defer(),
+          domain = null,
+          id = null;
 
       if (credentials.username.indexOf('@') > 1){
         id = credentials.username.split('@')[0]
@@ -310,6 +312,7 @@
           .then(function () {
             service.register(id, credentials.password).then(function (response) {
               service.setState(NST_AUTH_STATE.AUTHORIZED);
+              service.setRemember(remember);
               service.authorize(response).then(deferred.resolve);
             }).catch(function (error) {
               service.unregister(NST_UNREGISTER_REASON.AUTH_FAIL).then(function () {
@@ -323,6 +326,14 @@
 
       return deferred.promise;
     };
+
+    Auth.prototype.setRemember = function (value) {
+      localStorage.setItem(NST_AUTH_STORAGE_KEY.REMEMBER, value);
+    }
+
+    Auth.prototype.getRemember = function (value) {
+      return localStorage.getItem(NST_AUTH_STORAGE_KEY.REMEMBER, value) === 'true';
+    }
 
     Auth.prototype.reconnect = function () {
       var service = this;
