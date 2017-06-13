@@ -73,30 +73,96 @@
     Auth.prototype = new NstObservableObject();
     Auth.prototype.constructor = Auth;
 
+
+    /**
+     * setLastUserKeys - Set sk (session key) and ss (session secret) of last authorized user
+     *
+     * @param  {String} ss session secret
+     * @param  {String} sk session key
+     */
+    Auth.prototype.setLastUserKeys = function(ss, sk) {
+      this.lastSessionKey = sk;
+      this.lastSessionSecret = ss;
+    }
+
+
+    /**
+     * setAppCookies - Set the application cookies. Iterates over the enumerable
+     *                 string keyed properties and sets a cookie
+     *                 using the property name and value
+     *
+     * @param  {Object} cookies An object that contains all app cookies.
+     */
+    Auth.prototype.setAppCookies = function(cookies) {
+      var expires = new Date();
+      expires.setFullYear(expires.getFullYear() + 1);
+      var cookieOptions = {
+        'expires': expires
+      };
+
+      _.forIn(cookies, function (value, key) {
+        $cookies.put(key, value);
+      });
+    }
+
+
+    /**
+     * Auth.prototype.setUserCookie - Set the authorized user cookie
+     *
+     * @param  {NstTinyUser} user Authorize user
+     * @return {Promise<NstTinyUser>}     A promise that resolves with the authenticated user
+     */
+    Auth.prototype.setUserCookie = function(user) {
+      var expires = new Date();
+      expires.setFullYear(expires.getFullYear() + 1);
+      // FIXME:: set domain form location
+      var cookieOptions = {
+        'expires': expires.toGMTString(),
+        'domain': NST_CONFIG.DOMAIN,
+      };
+
+      $cookies.put('user', JSON.stringify({
+        id: user.id,
+        name: user.fullName,
+        avatar: user.picture ? user.picture.getUrl('x64') : ''
+      }), cookieOptions);
+    }
+
+
+    /**
+     * Auth.prototype.removeUserCookie - Remove the authenticated user cookie
+     */
+    Auth.prototype.removeUserCookie = function() {
+      $cookies.remove('user');
+    }
+
+
+    /**
+     * Auth.prototype.removeAppCookies - Remove all the app cookies
+     */
+    Auth.prototype.removeAppCookies = function() {
+      $cookies.remove('nss');
+      $cookies.remove('nsk');
+      $cookies.remove('ndid');
+      $cookies.remove('ndt');
+      $cookies.remove('nos');
+    }
+
     Auth.prototype.authorize = function (data) {
 
       var service = this;
       var deferred = $q.defer();
       NstSvcLogger.debug2('Auth | Authorization', data);
 
-      var options = {};
-      var expires = new Date();
-      // if (this.remember) {
-      expires.setFullYear(expires.getFullYear() + 1);
-      // }
-      options['expires'] = expires;
+      this.setLastUserKeys(data._ss, data._sk);
 
-      this.setLastSessionKey(data._sk);
-      this.setLastSessionSecret(data._ss);
-      // this.setLastDeviceId(data._ss);
-
-      // this.setLastSessionSecret(data._ss);
-
-      $cookies.put('nsk', this.lastSessionKey, options);
-      $cookies.put('nss', this.lastSessionSecret, options);
-      $cookies.put('nos', 'android', options);
-      $cookies.put('ndid', this.lastDeviceId, options);
-      $cookies.put('ndt', this.lastDeviceToken, options);
+      this.setAppCookies({
+        'nss': this.lastSessionSecret,
+        'nsk': this.lastSessionKey,
+        'ndid': this.lastDeviceId,
+        'ndt': this.lastDeviceToken,
+        'nos': 'android'
+      });
 
       this.setUser(NstSvcUserFactory.parseUser(data.account));
       NstSvcUserFactory.set(this.getUser());
@@ -104,20 +170,10 @@
       NstSvcUserFactory.get(this.getUser().id).then(function (user) {
         service.setUser(user);
         NstSvcUserFactory.currentUser = user;
-
-        var CookieDate = new Date;
-        CookieDate.setFullYear(CookieDate.getFullYear() + 1);
-        $cookies.put('user', JSON.stringify({
-          id: user.id,
-          name: user.fullName,
-          avatar: user.picture ? user.picture.getUrl('x64') : ""
-        }), {
-          domain: NST_CONFIG.DOMAIN, //FIXME:: set domain form location
-          expires: CookieDate.toGMTString()
-        });
+        service.setUserCookie(user);
         service.setState(NST_AUTH_STATE.AUTHORIZED);
+        service.dispatchEvent(new CustomEvent(NST_AUTH_EVENT.AUTHORIZE, {detail: {user: user}}));
 
-        service.dispatchEvent(new CustomEvent(NST_AUTH_EVENT.AUTHORIZE, {detail: {user: service.user}}));
         deferred.resolve(service.getUser());
       }).catch(deferred.reject);
 
