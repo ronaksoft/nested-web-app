@@ -6,7 +6,7 @@
     .controller('LoginController', LoginController);
 
   /** @ngInject */
-  function LoginController($q, $window, $rootScope, $state, $stateParams, md5, $location,
+  function LoginController($window, $state, $stateParams, md5, $location,
                            NST_DEFAULT, NST_SRV_ERROR,
                            NstSvcAuth, NstSvcTranslation) {
     var vm = this;
@@ -25,10 +25,13 @@
     };
     vm.progress = false;
 
+    /*****************************
+     ***** Initialization ****
+     *****************************/
+
     (function () {
       if (NstSvcAuth.isInAuthorization()) {
-        $state.go(NST_DEFAULT.STATE);
-        return;
+        goDefaultState();
       }
     })();
 
@@ -45,21 +48,19 @@
       vm.message.fill = false;
 
       var credentials = {
-        username: vm.username.toLowerCase(),
-        password: md5.createHash(vm.password)
+        username: _.toLower(vm.username),
+        password: encrypt(vm.password)
       };
 
       NstSvcAuth.login(credentials, vm.remember).then(function (result) {
-        if ($stateParams.back) {
-          var url = $window.decodeURIComponent($stateParams.back);
-          $location.url(_.trimStart(url, "#"));
+        if (hasBackUrl()) {
+          goToBackUrl();
         } else {
-          $state.go(NST_DEFAULT.STATE);
+          goDefaultState();
         }
 
       }).catch(function (error) {
         vm.password = '';
-        vm.progress = false;
 
         vm.message.fill = true;
         vm.message.class = 'nst-error-msg';
@@ -72,7 +73,30 @@
           vm.message.text = NstSvcTranslation.get('An error occurred in login. Please try again later');
         }
 
+      }).finally(function () {
+        vm.progress = false;
       });
     };
+
+    /*****************************
+     ***** Internal Methods ****
+     *****************************/
+
+    function goToBackUrl() {
+      var url = $window.decodeURIComponent($stateParams.back);
+      $location.url(_.trimStart(url, "#"));
+    }
+
+    function hasBackUrl() {
+      return !!$stateParams.back;
+    }
+
+    function goDefaultState() {
+      $state.go(NST_DEFAULT.STATE);
+    }
+
+    function encrypt(text) {
+      return md5.createHash(text);
+    }
   }
 })();
