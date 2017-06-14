@@ -31,7 +31,7 @@
         controllerAs: 'ctrl',
         templateUrl: 'app/public/recover-username/recover-username.html'
       })
-      .state('app.change-password', {
+      .state('public.change-password', {
         url: '/user/change-password',
         controller: 'ForceChangePasswordController',
         controllerAs: 'ctrl',
