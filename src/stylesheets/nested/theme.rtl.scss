@@ -53,7 +53,7 @@ body[dir="rtl"] {
   }
   .nst-container {
     margin-left: 0!important;
-    margin-right: 272px;
+    margin-right: $sidebar-width;
   }
   .tick {
     margin-right: 0;
@@ -209,7 +209,7 @@ body[dir="rtl"] {
   }
   .nst-navbar-f,.nst-navbar-fff {
     left: 0;
-    right: 272px;
+    right: $sidebar-width;
   }
   .post-card-comments.sticky .text {
     margin-left: auto;

@@ -375,3 +375,26 @@ body[dir="rtl"] {
   }
   }
 }
+.recent-place-pop {
+  border-radius: 4px;
+  .visited-places {
+    max-height: 216px;
+    padding: 8px 0;
+    li {
+      display: flex;
+      &:hover {
+        background-color: $color-sense-5;
+        cursor: pointer;
+        transition: .2s;
+      }
+      span {
+        color: $color-new-hurricane;
+        font-size: 13px;
+        font-style: italic;
+      }
+    }
+    .placerow {
+      padding: 8px 12px 8px 12px;
+    }
+  }
+}

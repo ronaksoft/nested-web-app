@@ -124,11 +124,19 @@ body.isMobile {
   vr + a.menu-links-butn + a + a {
     margin: 0 8px;
   }
-  .content .filter-bar .filter-bar-inner {
+  nst-navbar .nst-navbar.nfeed {
+    width: 100%;
     left: 0;
+  }
+  .content .filter-bar .filter-bar-inner {
+    left: 50%;
     top: 136px;
     width: 100%;
     min-width: 0;
+    transform: translateX(-50%);
+    &.nfeed {
+      top: 190px;
+    }
   }
   &[dir="rtl"] {
     .nst-container {

@@ -5,8 +5,8 @@ body.isDesktop {
     height: calc(100% - 160px);
   }
   .nst-container{
-    margin-left: 272px;
-    width: calc(100% - 272px);
+    margin-left: $sidebar-width;
+    width: calc(100% - 240px);
   }
   .noSide
   .nst-container{
