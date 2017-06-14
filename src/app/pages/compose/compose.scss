@@ -366,7 +366,8 @@ body.isMobile {
     margin: 0;
   }
   .fr-element {
-    padding: 0
+    padding: 0;
+    overflow: visible;
   }
 }
 .compose-wrp .fr-box.fr-basic .fr-element {

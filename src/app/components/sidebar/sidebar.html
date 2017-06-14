@@ -6,7 +6,7 @@
           <div id="Logo-white"></div>
         </div>
         <div ui-sref="app.messages-favorites()">
-          <script type="text/ng-template" id="nested-uib-tooltip.html">
+          <!--<script type="text/ng-template" id="nested-uib-tooltip.html">
             <span>
               Nested &copy; 2017
               <br>
@@ -16,7 +16,7 @@
           <div id="Logo-type-white"
                data-uib-tooltip-template="'nested-uib-tooltip.html'"
                data-tooltip-placement="right auto" data-tooltip-append-to-body="true"
-          ></div>
+          ></div>-->
         </div>
       </a>
       <script type="text/ng-template" id="compose-uib-tooltip.html">
@@ -42,17 +42,38 @@
         <script type="text/ng-template" id="feed-uib-tooltip.html">
           <translate>Home</translate>
         </script>
-        <a ui-sref="app.messages-favorites()" class="side-menu-item detailed {{ !ctlSidebar.selectedGrandPlace ? 'isSelected' : ''}} home-item"
+        <a ui-sref="app.messages-favorites()" class="side-menu-item detailed"
            data-uib-tooltip-template="'feed-uib-tooltip.html'"
            data-tooltip-enable="{{!ctlApp.viewSettings.sidebar.collapsed ? true : false}}"
            data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
           <span>
             <svg>
-              <use xlink:href="/assets/icons/nst-icn24.svg#home"></use>
+              <use xlink:href="/assets/icons/nst-icn16.svg#messages"></use>
             </svg>
           </span>
-          <translate>Home</translate>
+          <translate>Feed</translate>
         </a>
+        <a ui-sref="app.messages-bookmarked()" class="side-menu-item detailed"
+           data-uib-tooltip-template="'feed-uib-tooltip.html'"
+           data-tooltip-enable="{{!ctlApp.viewSettings.sidebar.collapsed ? true : false}}"
+           data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
+          <span>
+            <svg>
+              <use xlink:href="/assets/icons/nst-icn16.svg#messages"></use>
+            </svg>
+          </span>
+          <translate>Bookmarked Posts</translate>
+        </a>
+        <a ui-sref="app.messages-sent()" class="side-menu-item detailed"
+           data-uib-tooltip-template="'feed-uib-tooltip.html'"
+           data-tooltip-enable="{{!ctlApp.viewSettings.sidebar.collapsed ? true : false}}"
+           data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
+          <span>
+            <svg>
+              <use xlink:href="/assets/icons/nst-icn16.svg#messages"></use>
+            </svg>
+          </span>
+          <translate>Shared by me</translate>
         </a>
       </div>
     </div>

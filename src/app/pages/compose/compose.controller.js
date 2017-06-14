@@ -990,6 +990,9 @@
         'froalaEditor.initialized': function (e, editor) {
           $(editor.$el).attr('spellcheck', 'false');
         },
+        'popups.setContainer': function (e, editor) {
+          // $(editor.$el).attr('spellcheck', 'false');
+        },
         'froalaEditor.focus': function (e, editor) {
           vm.focusBody = true;
           vm.emojiTarget = 'body';
@@ -1003,17 +1006,21 @@
           if ( vm.quickMode ) return
           var el = editor.selection.element();
           if (el && je.which === 91) {
+            // console.log('cmdPress');
             vm.cmdPress = true;
           }
           if (el && je.which === 86 && vm.cmdPress) {
             vm.cmdVPress = true;
+            // console.log('cmdVPress');
             el.scrollIntoView({block: "end", behavior: "smooth"});
           }
         },
         'froalaEditor.keyup': function (e, editor, je) {
           if ( vm.quickMode ) return
+          console.log(editor.popups);
           var el = editor.selection.element();
           if (el && (je.which === 13 || vm.cmdVPress)) {
+            // console.log('cmdVPress up');
             el.scrollIntoView({block: "end", behavior: "smooth"});
           }
           vm.cmdPress = false;

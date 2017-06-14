@@ -89,7 +89,7 @@
       width: $sidebar-width - $sidebar-width-tiny;
       white-space: nowrap;
       justify-content: flex-start;
-      @extend .nst-font-medium;
+      font-size: 13px;
       font-weight: 400;
       align-items: center;
       display: flex;
@@ -134,7 +134,7 @@
   .side-menu-item.detailed {
     > *:last-child {
       line-height: 19px;
-      @extend .nst-font-large;
+      @extend .nst-font-medium;
       font-weight: 700;
     }
   }
@@ -145,13 +145,13 @@
   .side-place-invite-item-inner.detailed,
   .create-place.detailed,
   .side-place-item-inner.detailed{
-    color: rgba(255,255,255,.5);
+    color: rgba(255,255,255,.4);
     svg {
-      fill: rgba(255,255,255,.5);
+      fill: rgba(255,255,255,.4);
       transition: all $animation-dur;
     }
     a, span {
-      color: rgba(255,255,255,.5);
+      color: rgba(255,255,255,.4);
     }
     &:hover,&.isSelected {
       color: rgba(255,255,255,1);
@@ -178,7 +178,8 @@
   }
   .unreadPlace {
     position: absolute;
-    left: -12px;
+    height: 24px;
+    left: -2px;
     font-size: 24px;
     top: 50%;
     transform: translateY(-50%);
@@ -231,7 +232,7 @@
 }
 .nested-logo {
   z-index: 7;
-  height: 85px;
+  height: 72px;
   width: 100%;
   display: flex;
   align-items: center;
@@ -305,7 +306,7 @@
   display: flex;
   align-items: center;
   width: 100%;
-  height: 48px;
+  height: 32px;
   &.active {
     
   }
@@ -317,8 +318,8 @@
     justify-content: center;
   }
   svg {
-    width: 24px;
-    height: 24px;
+    width: 16px;
+    height: 16px;
     display: flex;
     fill: white;
   }
@@ -327,7 +328,7 @@
 .side-menu-item .item{
   display: flex;
   color: $color-solid;
-  font-size: $font-size-large;
+  font-size: $font-size-medium;
   font-weight: 200;
   margin-left: 3px;
   cursor: pointer;
@@ -426,7 +427,7 @@
   //width: calc(100% - 10px);
 }
 .sidebar ul li .side-place-item-inner{
-  min-height: 64px;
+  min-height: 48px;
 }
 
 .invitation-name {
@@ -527,7 +528,7 @@
 }
 
 .side-place-item-image {
-  @include avatar(72px,40px,10%);
+  @include avatar(64px,24px,12.5%);
 }
 .side-place-name a {
   margin-left: 4px;
