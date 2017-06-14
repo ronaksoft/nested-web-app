@@ -318,6 +318,9 @@
   };
   wdtEmojiBundle.openMultiPicker = function (ev) {
     var self = this;
+    if (this.classList.contains('wdt-emoji-picker-open')) {
+      return false;
+    }
     var selector;
     if (this.classList.contains('subj') ) {
        selector = '.wdt-emoji-bundle-enabled'
@@ -390,12 +393,7 @@
 
     // fill with emoji
     wdtEmojiBundle.fillPickerPopup();
-
-    if (this.classList.contains('wdt-emoji-picker-open')) {
-      wdtEmojiBundle.closePicker(this);
-      wdtEmojiBundle.popup.classList.remove('open');
-      return false;
-    }
+    
 
     wdtEmojiBundle.closePickers();
     // addClass(this, 'wdt-emoji-picker-open');
@@ -1116,7 +1114,7 @@
   var replaceText = function (el, selection, emo) {
     // console.log($(el), $(el).text(), $(el)[0].value, $(el)[0].textContent, selection);
     var text = $(el)[0].value;
-    emo = emo + ' '; //append a space
+    // emo = emo + ' '; //append a space
 
     // WHEN THE inputs are empty we dont need to sanitize text so :
     // if( !text && $(el)[0].textContent.length == 0 ) {
@@ -1161,7 +1159,7 @@
       var range = document.createRange();
       // console.log(range, textNode.length > nodeCaret);
       // console.log(selection.element, selection.element, selection.start, selection.element.textContent.length)
-      var addOffset = selection.element.textContent.length === 3 ? 1 : 3 ;
+      var addOffset = selection.element.textContent.length === 2 ? 1 : 2 ;
       range.setStart(selection.element, selection.start + addOffset);
       range.setEnd(selection.element, selection.end + addOffset);
 
