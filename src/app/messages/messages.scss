@@ -29,7 +29,7 @@
     padding: 24px 24px 0 24px;
     height: 64px;
     margin-bottom: 16px;
-    left: 50vw;
+    left: calc(50vw - 16px);
     transform: translate3d(-50%,0,0);
     width: calc(100vw - 544px);
     min-width: 480px;
