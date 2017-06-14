@@ -52,7 +52,9 @@
       else if (window.attachEvent)
         attachEvent('onstorage', storage_event, false);
       function storage_event(e) {
-        if (e.key === USER_STATUS_STORAGE_NAME) {
+        if (e.key === USER_STATUS_STORAGE_NAME
+          && e.newValue !== e.oldValue
+          && (e.newValue === NST_AUTH_STATE.AUTHORIZED || e.newValue === NST_AUTH_STATE.UNAUTHORIZED)) {
           location.reload();
         }
       }
@@ -287,10 +289,13 @@
     };
 
     Auth.prototype.setState = function (state, reason) {
-      if (this.state !== state) {
-        this.state = state;
-        localStorage.setItem(USER_STATUS_STORAGE_NAME, state);
-      }
+      if (this.state === state) return;
+
+      this.state = state;
+
+      if(this.state === NST_AUTH_STATE.AUTHORIZING) return;
+
+      localStorage.setItem(USER_STATUS_STORAGE_NAME, state);
     }
 
     Auth.prototype.login = function (credentials, remember) {
