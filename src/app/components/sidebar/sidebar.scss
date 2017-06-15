@@ -1079,3 +1079,16 @@ ul ul > li:last-child > .place-item-inner{
 
   }
 }
+.oddH {
+  .notif {
+    width: 16px;
+    height: 16px;
+    background-color: $color-force;
+    font-size: 13px;
+    font-weight: bold;
+    padding: 0;
+    justify-content: center;
+    right: 16px;
+    top: 0;
+  }
+}
