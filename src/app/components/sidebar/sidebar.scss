@@ -245,23 +245,28 @@
   align-self: flex-end;
 }
 
-#compose .compose {
-  z-index: 7;
-  display: flex;
-  cursor: pointer;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-  justify-content: center;
-  align-items: center;
-  //min-width: 208px;
-  height: 48px;
-  width: 48px;
-  border-radius: 40px;
-  svg {
-    width: 32px;
-    height: 32px;
+#compose {
+  .compose {
+    z-index: 7;
     display: flex;
+    cursor: pointer;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    //min-width: 208px;
+    height: 48px;
+    width: 48px;
+    border-radius: 40px;
+    svg {
+      width: 32px;
+      height: 32px;
+      display: flex;
+    }
+  }
+  span {
+    transition : color .5s ease-out
   }
 }
 
@@ -274,6 +279,7 @@
   transition-duration: $animation-dur;
   transition-property: all;
   transition-timing-function: ease;
+  transition : background-color 0.3s ease-in, box-shadow .4s ease
 }
 .side-menu {
   //height: 180px;

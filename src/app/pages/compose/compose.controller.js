@@ -357,7 +357,9 @@
     NstSvcSidebar.setOnItemClick(onPlaceSelected);
 
 
-    vm.subjectKeyDown = function (e) {
+    vm.subjectKeyDown = _.debounce(subjectKeyDown,100)
+
+    function subjectKeyDown(e) {
       NstSvcLogger.debug4('Compose | User types in subject');
       vm.mouseIn = true;
       vm.changeAffixesDebounce();

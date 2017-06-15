@@ -382,6 +382,8 @@ body[dir="rtl"] {
   top: -220px!important;
   bottom: 117px;
   left: 8px!important;
+  max-height: 216px;
+  overflow: hidden;
   .visited-places {
     max-height: 216px;
     padding: 8px 0;

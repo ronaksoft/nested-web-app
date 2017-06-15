@@ -38,6 +38,18 @@
       .compose-input {
         height: 42px;
         color: $color-solid;
+        &::-webkit-input-placeholder {
+          line-height: 30px;
+          font-size: 18px;
+        }
+        &::-moz-placeholder {
+          line-height: 42px;
+          font-size: 18px;
+        }
+        &:-ms-input-placeholder {
+          line-height: 30px;
+          font-size: 18px;
+        }
       }
       input + .wdt-emoji-picker {
         display: none;
