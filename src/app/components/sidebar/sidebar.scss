@@ -265,24 +265,8 @@
   }
 }
 
-#compose {
-  // //border: 1px solid $color-sense-wire;
-  // line-height: 30px ;
-  // color: $color-white;
-  // display: flex;
-  // font-size: $font-size-large;
-  // font-weight: $font-wight-semibold;
-  // justify-content: center;
-  // width: 174px;
-  // height: 40px;
-  // align-items: center;
-  // border-radius: 41px;
-  // .icon-side {
-  //   margin: 0 6px 0 0;
-  // }
-}
-#compose:hover .compose,
-#compose.isSelected .compose{
+#compose:hover,
+#compose.isSelected {
   color: $color-white;
   box-shadow: inset 0 -1px 1px rgba(0,0,0,.5), /*bottom internal shadow*/
   inset 0 1px 1px rgba(255,255,255,.5); /*top internal highlight*/
@@ -604,6 +588,7 @@
   width: 100%;
   flex: none;
   z-index: 2;
+  margin: 8px 0;
   //background-color: #e7ece9;
   //height: 180px;
   //padding-left: 15px;

@@ -377,6 +377,11 @@ body[dir="rtl"] {
 }
 .recent-place-pop {
   border-radius: 4px;
+  min-width: 224px;
+  width: 224px;
+  top: -220px!important;
+  bottom: 117px;
+  left: 8px!important;
   .visited-places {
     max-height: 216px;
     padding: 8px 0;

@@ -1159,7 +1159,7 @@
       var range = document.createRange();
       // console.log(range, textNode.length > nodeCaret);
       // console.log(selection.element, selection.element, selection.start, selection.element.textContent.length)
-      var addOffset = selection.element.textContent.length === 2 ? 1 : 2 ;
+      var addOffset = selection.element.textContent.length === 2 ? 0 : 2 ;
       range.setStart(selection.element, selection.start + addOffset);
       range.setEnd(selection.element, selection.end + addOffset);
 
