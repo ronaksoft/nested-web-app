@@ -132,69 +132,6 @@
       ';u[class,id,style]{*};' +
       'ul[class,dir,id,style]{*};';
 
-    if (vm.quickMode) {
-      $scope.editorOptions = {
-        language: lang,
-        contentsLangDirection: isRTL,
-        allowedContent: allowedContent,
-        // allowedContent: true,
-        contentsCss: 'body {overflow:visible;}',
-        enableTabKeyTools: true,
-        tabSpaces: 4,
-        startupFocus: false,
-        extraPlugins: 'sharedspace,font,language,bidi,justify,colorbutton,autogrow,divarea',
-        autoGrow_minHeight: 230,
-        sharedSpaces: {
-          top: 'editor-btn',
-          bottom: 'editor-txt'
-        },
-        toolbar: [
-          ["Link", "FontSize"],
-          ["Bold"],
-          ["JustifyRight", "BidiLtr", "BidiRtl"]
-        ],
-        fontSize_sizes: 'Small/12px;Normal/14px;Large/18px;',
-        colorButton_colors: 'CF5D4E,454545,FFF,CCC,DDD,CCEAEE,66AB16',
-        // Remove the redundant buttons from toolbar groups defined above.
-        //removeButtons: 'Strike,Subscript,Superscript,Anchor,Specialchar',
-        removePlugins: 'resize,elementspath,contextmenu,magicline,tabletools'
-      };
-
-    } else {
-      $scope.editorOptions = {
-        language: lang,
-        // allowedContent: allowedContent,
-        allowedContent: true,
-        contentsLangDirection: isRTL,
-        contentsCss: 'body {overflow:visible;}',
-        height: 230,
-        enableTabKeyTools: true,
-        tabSpaces: 4,
-        startupFocus: false,
-        extraPlugins: 'sharedspace,font,language,bidi,colorbutton,autogrow,divarea,autolink,autodirection',
-        autoGrow_minHeight: 230,
-        fillEmptyBlocks: false,
-        enterMode: CKEDITOR.ENTER_BR,
-        justifyClasses: ['AlignLeft', 'AlignCenter', 'AlignRight', 'AlignJustify'],
-        sharedSpaces: {
-          top: 'editor-btn',
-          bottom: 'editor-txt'
-        },
-        toolbar: [
-          ["Link", "FontSize", 'Font'],
-          ["Bold", "Italic", "Underline"],
-          ["justifygroup", "-", "TextColor", "BackColor", "BidiLtr", "BidiRtl"]
-        ],
-        fontSize_sizes: 'Small/12px;Normal/14px;Large/18px;',
-        font_names: 'Sans Serif/Sans Serif; Serif/Serif',
-        colorButton_enableAutomatic: false,
-        colorButton_colors: 'CF5D4E,454545,FFF,CCC,DDD,CCEAEE,66AB16',
-        // Remove the redundant buttons from toolbar groups defined above.
-        //removeButtons: 'Strike,Subscript,Superscript,Anchor,Specialchar',
-        removePlugins: 'resize,elementspath,contextmenu,magicline,tabletools,Link:Target'
-      };
-
-    }
 
     (function () {
       if ($stateParams.attachments && $stateParams.attachments.length > 0) {
