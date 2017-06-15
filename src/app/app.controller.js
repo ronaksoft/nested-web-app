@@ -105,8 +105,8 @@
     });
 
     $rootScope.$on(NST_AUTH_EVENT.CHANGE_PASSWORD, function () {
-      if($state.current.name.indexOf('public.recover-password') === -1)
-      $state.go('public.recover-password');
+      if($state.current.name.indexOf('public.change-password') === -1)
+      $state.go('public.change-password');
 
     });
 
