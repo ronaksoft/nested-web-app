@@ -28,6 +28,11 @@
          data-tooltip-placement="right auto" data-tooltip-append-to-body="true"
          ng-click="ctlSidebar.compose($event);">
         <div>
+          <div class="unreadPlace" ng-if="ctlSidebar.hasDraft">
+            <svg class="pendfill">
+              <use xlink:href="/assets/icons/nst-icn24.svg#unread-circle"></use>
+            </svg>
+          </div>
           <div class="compose">
             <svg>
               <use xlink:href="/assets/icons/nst-icn32.svg#compose"></use>

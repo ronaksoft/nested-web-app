@@ -284,11 +284,13 @@
       draft.attachments = _.map(vm.model.attachments, 'id');
       draft.recipients = _.map(vm.model.recipients, 'id');
       NstSvcPostDraft.save(draft);
+      $rootScope.$broadcast('draft-change');
     }
 
     function discardDraft() {
       NstSvcLogger.debug4('Compose | discarding draft');
       NstSvcPostDraft.discard();
+      $rootScope.$broadcast('draft-change');
     }
 
     function shouldSaveDraft() {

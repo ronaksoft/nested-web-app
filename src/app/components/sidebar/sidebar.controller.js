@@ -12,7 +12,7 @@
                                NST_EVENT_ACTION, NST_USER_FACTORY_EVENT, NST_POST_FACTORY_EVENT, NST_NOTIFICATION_FACTORY_EVENT, NST_SRV_EVENT, NST_NOTIFICATION_TYPE,
                                NstSvcAuth, NstSvcServer, NstSvcLogger, NstSvcNotification, NstSvcTranslation,
                                NstSvcPostFactory, NstSvcPlaceFactory, NstSvcInvitationFactory, NstUtility, NstSvcUserFactory, NstSvcSidebar, NstSvcNotificationFactory,
-                               NstSvcNotificationSync, NstSvcSync, NstSvcKeyFactory,
+                               NstSvcNotificationSync, NstSvcSync, NstSvcKeyFactory, NstSvcPostDraft,
                                NstVmPlace, NstVmInvitation) {
       var vm = this;
 
@@ -31,6 +31,7 @@
       vm.mentionOpen = vm.profileOpen = false;
       vm.openCreatePlaceModal = openCreatePlaceModal;
       vm.mapLimits = mapLimits;
+      vm.hasDraft = NstSvcPostDraft.has();
 
       /*****************************
        ***** Controller Methods ****
@@ -728,6 +729,10 @@
         getNotificationsCount();
         NstSvcLogger.debug('Retrieving the grand place unreads count right after focus.');
         getGrandPlaceUnreadCounts();
+      });
+
+      $scope.$on('draft-change', function () {
+        vm.hasDraft = NstSvcPostDraft.has();
       });
     }
   })();
