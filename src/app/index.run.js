@@ -10,9 +10,9 @@
                     NST_CONFIG, NST_UNREGISTER_REASON, NST_AUTH_EVENT, NST_LOCALE_EN_US, NST_LOCALE_FA_IR,
                     NstSvcAuth, NstSvcI18n) {
     window.nestedLogs = [];
-    window.onerror = function(messageOrEvent, source, lineno, colno, error) {
-
-    }
+    // window.onerror = function(messageOrEvent, source, lineno, colno, error) {
+    //
+    // }
 
     $rootScope.modals = {};
 
