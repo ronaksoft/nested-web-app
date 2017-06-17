@@ -17,9 +17,6 @@
     vm.usernameValidationStatus = 'none';
     var eventReferences = [];
 
-    (function() {
-    })();
-
     function nextStep(credentials) {
       eventReferences.push($scope.$emit(vm.onCompleted, { credentials : credentials }));
     }
