@@ -61,19 +61,6 @@
       background: $sidebar-bg-hover-color;
       // background: $color-solid;
     }
-    &.isSelected {
-      &:after {
-        content: "";
-        position: absolute;
-        height: 20px;
-        width: 20px;
-        top: 50%;
-        transform: translateY(-50%);
-        right: -10px;
-        background: url("../assets/icons/otr-tri.svg") no-repeat;
-        //transform: rotate(-90deg);
-      }
-    }
     > * {
       flex: none;
     }
@@ -453,6 +440,19 @@
   flex: none;
   flex-direction: row;
   cursor: pointer;
+  &.isSelected {
+    &:after {
+      content: "";
+      position: absolute;
+      height: 20px;
+      width: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      right: -10px;
+      background: url("../assets/icons/otr-tri.svg") no-repeat;
+      //transform: rotate(-90deg);
+    }
+  }
 }
 .side-place-invite-item-inner {
   display: inline-flex;
