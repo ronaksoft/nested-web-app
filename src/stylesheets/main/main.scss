@@ -42,9 +42,9 @@ body {
     &:focus {
     outline: none;
   }
-  &:visited, &:link ,&:active, &:hover {
-    text-decoration: none !important;
-  }
+  // &:visited, &:link ,&:active, &:hover {
+  //   text-decoration: none;
+  // }
 }
 
 //::selection {
