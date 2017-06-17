@@ -58,13 +58,13 @@
     };
 
     function validateAndSend(phoneNumber) {
-      var alreadyRegisteredMessage = NstSvcTranslation.get("We've found an account already registered with your phone number. If you've forgotten your password, try to recover it or contact us for help.");
       validatePhone().then(function (available) {
         if (available) {
           sendPhoneNumber(phoneNumber).then(function (result) {
             nextStep(result.verificationId, phoneNumber);
           }).catch(function (error) {
             if (error === 'phone_number_exists') {
+              var alreadyRegisteredMessage = NstSvcTranslation.get("We've found an account already registered with your phone number. If you've forgotten your password, try to recover it or contact us for help.");
               toastr.error(alreadyRegisteredMessage);
             } else {
               toastr.error(NstSvcTranslation.get("Sorry, an unknown error has occurred."));

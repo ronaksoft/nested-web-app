@@ -26,7 +26,6 @@
       this.lastSessionSecret = null;
       this.lastDeviceId = null;
       this.lastDeviceToken = null;
-      this.remember = NstSvcCurrentUserStorage.get(NST_AUTH_STORAGE_KEY.REMEMBER) || false;
 
       NstObservableObject.call(this);
 
@@ -47,22 +46,15 @@
         }
       });
 
-      this.addEventListener(NST_OBJECT_EVENT.CHANGE, function (event) {
-        switch (event.detail.name) {
-          case 'remember':
-            NstSvcCurrentUserStorage.set(NST_AUTH_STORAGE_KEY.REMEMBER, event.detail.newValue);
-            break;
-        }
-      });
-
-
       //Config local storage events
       if (window.addEventListener)
         addEventListener('storage', storage_event, false);
       else if (window.attachEvent)
         attachEvent('onstorage', storage_event, false);
       function storage_event(e) {
-        if (e.key === USER_STATUS_STORAGE_NAME) {
+        if (e.key === USER_STATUS_STORAGE_NAME
+          && e.newValue !== e.oldValue
+          && (e.newValue === NST_AUTH_STATE.AUTHORIZED || e.newValue === NST_AUTH_STATE.UNAUTHORIZED)) {
           location.reload();
         }
       }
@@ -73,51 +65,120 @@
     Auth.prototype = new NstObservableObject();
     Auth.prototype.constructor = Auth;
 
-    Auth.prototype.authorize = function (data) {
+
+    /**
+     * setLastUserKeys - Set sk (session key) and ss (session secret) of last authorized user
+     *
+     * @param  {String} ss session secret
+     * @param  {String} sk session key
+     */
+    Auth.prototype.setLastUserKeys = function(ss, sk) {
+      this.lastSessionKey = sk;
+      this.lastSessionSecret = ss;
+    }
+
+
+    /**
+     * setAppCookies - Set the application cookies. Iterates over the enumerable
+     *                 string keyed properties and sets a cookie
+     *                 using the property name and value
+     *
+     * @param  {Object}   cookies     An object that contains all app cookies.
+     * @param  {boolean}  remember    Make cookies persistant if you set remember = true,
+     *                                  else they will be stored as session variables
+     *                                  that expires when you close the browser.
+     */
+    Auth.prototype.setAppCookies = function(cookies, remember) {
+      var cookieOptions = {};
+      var persist = remember || this.getRemember();
+      if (persist) {
+        var expires = new Date();
+        expires.setFullYear(expires.getFullYear() + 1);
+        cookieOptions['expires'] = expires;
+      }
+
+      _.forIn(cookies, function (value, key) {
+        $cookies.put(key, value, cookieOptions);
+      });
+    }
+
+
+    /**
+     * Auth.prototype.setUserCookie - Set the authorized user cookie
+     *
+     * @param  {NstTinyUser} user       Authorize user
+     * @param  {boolean}     remember   Make cookies persistant if you set remember to true,
+     *                                  else they will be stored as session variables
+     *                                  that expires when you close the browser.
+     */
+    Auth.prototype.setUserCookie = function(user, remember) {
+      // FIXME:: set domain form location
+      var cookieOptions = {
+        'domain': NST_CONFIG.DOMAIN
+      };
+
+      var persist = remember || this.getRemember();
+      if (persist) {
+        var expires = new Date();
+        expires.setFullYear(expires.getFullYear() + 1);
+        cookieOptions['expires'] = expires;
+      }
+
+      $cookies.put('user', JSON.stringify({
+        id: user.id,
+        name: user.fullName,
+        avatar: user.picture ? user.picture.getUrl('x64') : ''
+      }), cookieOptions);
+    }
+
+
+    /**
+     * Auth.prototype.removeUserCookie - Remove the authenticated user cookie
+     */
+    Auth.prototype.removeUserCookie = function() {
+      $cookies.remove('user');
+    }
+
+
+    /**
+     * Auth.prototype.removeAppCookies - Remove all the app cookies
+     */
+    Auth.prototype.removeAppCookies = function() {
+      $cookies.remove('nss');
+      $cookies.remove('nsk');
+      $cookies.remove('ndid');
+      $cookies.remove('ndt');
+      $cookies.remove('nos');
+    }
+
+    Auth.prototype.authorize = function (data, remember) {
 
       var service = this;
       var deferred = $q.defer();
       NstSvcLogger.debug2('Auth | Authorization', data);
 
-      var options = {};
-      var expires = new Date();
-      // if (this.remember) {
-      expires.setFullYear(expires.getFullYear() + 1);
-      // }
-      options['expires'] = expires;
+      this.setLastUserKeys(data._ss, data._sk);
 
-      this.setLastSessionKey(data._sk);
-      this.setLastSessionSecret(data._ss);
-      // this.setLastDeviceId(data._ss);
-
-      // this.setLastSessionSecret(data._ss);
-
-      $cookies.put('nsk', this.lastSessionKey, options);
-      $cookies.put('nss', this.lastSessionSecret, options);
-      $cookies.put('nos', 'android', options);
-      $cookies.put('ndid', this.lastDeviceId, options);
-      $cookies.put('ndt', this.lastDeviceToken, options);
+      this.setAppCookies({
+        'nss': this.lastSessionSecret,
+        'nsk': this.lastSessionKey,
+        'ndid': this.lastDeviceId,
+        'ndt': this.lastDeviceToken,
+        'nos': 'android'
+      }, remember);
 
       this.setUser(NstSvcUserFactory.parseUser(data.account));
       NstSvcUserFactory.set(this.getUser());
 
+      // TODO: Not sure about using UserFactory like this!
       NstSvcUserFactory.get(this.getUser().id).then(function (user) {
         service.setUser(user);
-        NstSvcUserFactory.currentUser = user;
 
-        var CookieDate = new Date;
-        CookieDate.setFullYear(CookieDate.getFullYear() + 1);
-        $cookies.put('user', JSON.stringify({
-          id: user.id,
-          name: user.fullName,
-          avatar: user.picture ? user.picture.getUrl('x64') : ""
-        }), {
-          domain: NST_CONFIG.DOMAIN, //FIXME:: set domain form location
-          expires: CookieDate.toGMTString()
-        });
+        service.setUserCookie(user, remember);
+
         service.setState(NST_AUTH_STATE.AUTHORIZED);
+        service.dispatchEvent(new CustomEvent(NST_AUTH_EVENT.AUTHORIZE, {detail: {user: user}}));
 
-        service.dispatchEvent(new CustomEvent(NST_AUTH_EVENT.AUTHORIZE, {detail: {user: service.user}}));
         deferred.resolve(service.getUser());
       }).catch(deferred.reject);
 
@@ -179,14 +240,9 @@
           break;
 
         case NST_UNREGISTER_REASON.AUTH_FAIL:
-          this.setLastSessionKey(null);
-          this.setLastSessionSecret(null);
-          $cookies.remove('ndid');
-          $cookies.remove('ndt');
-          $cookies.remove('nos');
-          $cookies.remove('nss');
-          $cookies.remove('nsk');
-          $cookies.remove('user');
+          this.setLastUserKeys(null, null);
+          this.removeAppCookies();
+          this.removeUserCookie();
           qUnauth.resolve(reason);
           break;
 
@@ -205,21 +261,15 @@
           NstSvcContactStorage.cache.flush();
 
           service.user = null;
-          NstSvcUserFactory.currentUser = null;
 
           localStorage.clear();
 
-          if (localStorage.getItem(USER_STATUS_STORAGE_NAME) !== NST_AUTH_STATE.UNAUTHORIZED)
-            localStorage.setItem(USER_STATUS_STORAGE_NAME, NST_AUTH_STATE.UNAUTHORIZED);
+          this.setState(NST_AUTH_STATE.UNAUTHORIZED);
 
-          this.setLastSessionKey(null);
-          this.setLastSessionSecret(null);
-          $cookies.remove('ndid');
-          $cookies.remove('ndt');
-          $cookies.remove('nos');
-          $cookies.remove('nss');
-          $cookies.remove('nsk');
-          $cookies.remove('user');
+          this.setLastUserKeys(null, null);
+          this.removeAppCookies();
+          this.removeUserCookie();
+
           NstSvcServer.request('session/close').then(function () {
             NstSvcServer.unauthorize();
           }).catch(function () {
@@ -238,48 +288,55 @@
       return deferred.promise;
     };
 
+    Auth.prototype.setState = function (state, reason) {
+      if (this.state === state) return;
+
+      this.state = state;
+
+      if(this.state === NST_AUTH_STATE.AUTHORIZING) return;
+
+      localStorage.setItem(USER_STATUS_STORAGE_NAME, state);
+    }
+
     Auth.prototype.login = function (credentials, remember) {
-      var service = this;
-      var deferred = $q.defer();
-      this.setRemember(remember);
+      var service = this,
+          deferred = $q.defer(),
+          domain = null,
+          id = null;
 
-      if (credentials.username.indexOf('@') > 1) {
-        NstSvcServer.reinit(credentials.username.split('@')[1])
-          .then(function () {
-            service.register(credentials.username.split('@')[0], credentials.password).then(function (response) {
-              localStorage.setItem(USER_STATUS_STORAGE_NAME, NST_AUTH_STATE.AUTHORIZED);
-              service.authorize(response).then(deferred.resolve);
-            }).catch(function (error) {
-              service.unregister(NST_UNREGISTER_REASON.AUTH_FAIL).then(function () {
-                deferred.reject(error);
-                // service.dispatchEvent(new CustomEvent(NST_AUTH_EVENT.AUTHORIZE_FAIL, {detail: {reason: error}}));
-              });
-            });
-          })
-          .catch(function (error) {
-            deferred.reject(error);
-          });
-
+      if (credentials.username.indexOf('@') > 1){
+        id = credentials.username.split('@')[0]
+        domain = credentials.username.split('@')[1];
       } else {
-        NstSvcServer.reinit()
+        id = credentials.username;
+      }
+
+        NstSvcServer.reinit(domain)
           .then(function () {
-            service.register(credentials.username, credentials.password).then(function (response) {
-              localStorage.setItem(USER_STATUS_STORAGE_NAME, NST_AUTH_STATE.AUTHORIZED);
+            service.register(id, credentials.password).then(function (response) {
+              service.setState(NST_AUTH_STATE.AUTHORIZED);
+              service.setRemember(remember);
               service.authorize(response).then(deferred.resolve);
             }).catch(function (error) {
               service.unregister(NST_UNREGISTER_REASON.AUTH_FAIL).then(function () {
                 deferred.reject(error);
-                // service.dispatchEvent(new CustomEvent(NST_AUTH_EVENT.AUTHORIZE_FAIL, {detail: {reason: error}}));
               });
             });
           })
           .catch(function (error) {
             deferred.reject(error);
           });
-      }
 
       return deferred.promise;
     };
+
+    Auth.prototype.setRemember = function (value) {
+      localStorage.setItem(NST_AUTH_STORAGE_KEY.REMEMBER, value);
+    }
+
+    Auth.prototype.getRemember = function () {
+      return localStorage.getItem(NST_AUTH_STORAGE_KEY.REMEMBER) === 'true';
+    }
 
     Auth.prototype.reconnect = function () {
       var service = this;
@@ -313,38 +370,26 @@
         this.recall(this.getLastSessionKey(), this.getLastSessionSecret()).then(function (response) {
           service.user = NstSvcUserFactory.parseUser(response.account);
 
-          if (localStorage.getItem(USER_STATUS_STORAGE_NAME) !== NST_AUTH_STATE.AUTHORIZED)
-            localStorage.setItem(USER_STATUS_STORAGE_NAME, NST_AUTH_STATE.AUTHORIZED);
+          service.setState(NST_AUTH_STATE.AUTHORIZED);
 
           service.authorize(response).then(deferred.resolve);
         }).catch(function (error) {
           $log.debug('Auth | Recall Error: ', error);
-          switch (error.getCode()) {
-            case NST_SRV_ERROR.DUPLICATE:
-              service.authorize({
-                status: NST_SRV_RESPONSE_STATUS.SUCCESS,
-                info: service.getUser(),
-                _sk: {
-                  $oid: service.getLastSessionKey()
-                },
-                _ss: service.getLastSessionSecret()
-              }).then(deferred.resolve).catch(deferred.reject);
-              break;
 
+          switch (error.getCode()) {
             case NST_SRV_ERROR.ACCESS_DENIED:
             case NST_SRV_ERROR.INVALID:
             case NST_SRV_ERROR.UNAUTHORIZED:
               service.unregister(NST_UNREGISTER_REASON.AUTH_FAIL).then(function () {
-                deferred.reject(error);
                 service.dispatchEvent(new CustomEvent(NST_AUTH_EVENT.AUTHORIZE_FAIL, {detail: {reason: error}}));
+                deferred.reject(error);
               }).catch(deferred.reject);
               break;
-
             default:
-              // Try to reconnect
-              // service.reconnect().then(deferred.resolve).catch(deferred.reject);
+              // TODO: Decide what to do here!!??
               break;
           }
+
         });
       } else {
         deferred.reject({
@@ -381,6 +426,7 @@
 
     Auth.prototype.setUser = function (user) {
       this.user = user
+      NstSvcCurrentUserStorage.set(NST_AUTH_STORAGE_KEY.USER, user);
     };
 
     /**
@@ -456,7 +502,7 @@
       return "web_" + Date.now() + "-" + guid() + "-" + guid();
     }
 
-    var service = new Auth(NstSvcUserFactory.currentUser);
+    var service = new Auth(NstSvcCurrentUserStorage.get(NST_AUTH_STORAGE_KEY.USER));
 
     service.addEventListener(NST_AUTH_EVENT.AUTHORIZE, function (event) {
       NstSvcCurrentUserStorage.set(NST_AUTH_STORAGE_KEY.USER, event.detail.user);

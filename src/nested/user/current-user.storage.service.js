@@ -7,7 +7,7 @@
   /** @ngInject */
   function NstSvcCurrentUserStorage(_, NST_STORAGE_TYPE, NstStorage, NstPicture, NstTinyUser) {
     function CurrentUserStorage(memory) {
-      NstStorage.call(this, memory, 'current-user');
+      NstStorage.call(this, memory, 'current');
     }
 
     CurrentUserStorage.prototype = new NstStorage();
