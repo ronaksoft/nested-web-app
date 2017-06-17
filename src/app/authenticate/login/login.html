@@ -22,7 +22,7 @@
         <form accept-charset="UTF-8" name="loginForm" data-ng-submit="submitted = true; ctlLogin.auth(loginForm.$valid)" novalidate>
           <fieldset>
             <div class="form-group" ng-class="{ 'has-error' : loginForm.username.$error.required && submitted}">
-              <input type="text" class="form-control" placeholder="Username" name="username"
+              <input type="text" class="form-control" placeholder="Username" name="username" auto-dir="ctlLogin.username"
                      data-ng-model="ctlLogin.username" translate-attrs="placeholder" required/>
             </div>
 

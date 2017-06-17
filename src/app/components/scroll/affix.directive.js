@@ -88,7 +88,7 @@
             if (isRTL == 'rtl') {
               offLeft = parseInt(containerLeft)  +  $($attrs.parent).width()  - parseInt(afterContent) - width;
             } else {
-              offLeft = parseInt(containerLeft) + parseInt(afterContent) + 272;
+              offLeft = parseInt(containerLeft) + parseInt(afterContent) + 240;
             }
 
             // if (isChrome || isFirefox) {

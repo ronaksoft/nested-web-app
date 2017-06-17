@@ -95,7 +95,7 @@
     function markAsRead() {
       if (!vm.post.read) {
         vm.post.read = true;
-        NstSvcPostFactory.read([vm.post.id]).catch(function (err) {
+        NstSvcPostFactory.read(vm.post.id).catch(function (err) {
           $log.debug('MARK AS READ :' + err);
         });
       }
@@ -127,6 +127,7 @@
             postId: post.id,
             placeId: place.id
           });
+          vm.isChecked = false;
         }).catch(function (error) {
           toastr.error(NstSvcTranslation.get("An error has occurred in trying to remove this message from the selected Place."));
         });
@@ -160,6 +161,7 @@
       vm.retractProgress = true;
       NstSvcPostInteraction.retract(vm.post).finally(function () {
         vm.retractProgress = false;
+        vm.isChecked = false;
       });
     }
 
@@ -294,7 +296,7 @@
           toPlace: result.toPlace,
           fromPlace: result.fromPlace
         });
-
+        vm.isChecked = false;
         NstUtility.collection.replaceById(vm.post.places, result.fromPlace.id, result.toPlace);
       });
     }
@@ -366,12 +368,22 @@
       $scope.$emit('post-select',{postId: vm.post.id,isChecked : vm.isChecked});
     });
 
-    $scope.$on('selected-length-change',function(e,v){
-      if ( v.selectedPosts > 0) {
+    $scope.$on('selected-length-change',function(e, v){
+      if ( v.selectedPosts.length > 0) {
         vm.isCheckedForce = true;
       } else {
         vm.isCheckedForce = false;
+        vm.isChecked = false;
       }
+
+      // for ( var i = 0; i < v.selectedPosts; i++ ) {
+      //     var index = v.selectedPostsArray.indexOf(vm.placeId);
+      //     if ( index > -1 ) {
+
+      //     } else {
+      //       vm.isChecked = false;
+      //     }
+      // }
     });
 
     NstSvcSync.addEventListener(NST_EVENT_ACTION.COMMENT_ADD, function (e) {

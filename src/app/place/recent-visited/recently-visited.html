@@ -1,5 +1,5 @@
 <div class="_bgwhite visited-places" dir="ltr" nst-scrollbar suppress-scroll-x="true">
-  <ul dir="{{$root._direction}}">
+  <ul dir="{{$root._direction}}" ng-controller="RecentVisitedController as ctrl">
     <li>
       <div class="_fw _jcc _df margin-top-10" ng-if="ctrl.loading">
         <div class="nst-loading nst-loading-size-4 _fl"></div>
@@ -11,12 +11,12 @@
     </li>
     <li data-ng-repeat="place in ctrl.places">
       <a class="_df placerow _aic _fw"  ui-sref="app.place-messages({placeId:place.id})">
-        <div class="place-initials-32">
-          <img class="" ng-src="{{place | picture : 'x64'}}"/>
-        </div>
-        <div class="_df text-wrap _fw">
+        <div class="_df _fw">
           <!--<p class="_txe place-name">{{place.name}}</p>-->
           <span class="_txe">{{place.name}}</span>
+        </div>
+        <div class="place-initials-24">
+          <img class="" ng-src="{{place | picture : 'x32'}}"/>
         </div>
       </a>
     </li>

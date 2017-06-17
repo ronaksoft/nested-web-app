@@ -149,27 +149,24 @@
       var defer = $q.defer();
 
       var query = new NstFactoryQuery(id);
-      var ids;
+
 
       if (!id) {
         throw "Post id is not define!";
-      } else {
-        ids = id;
       }
-      if (_.isArray(id) && id.length === 0) {
-        throw "Post id is not define!";
-      } else {
-        ids = id.join(",")
-      }
-
 
       if (!query.id) {
         defer.resolve(null);
       } else {
         NstSvcServer.request('post/mark_as_read', {
-          post_id: ids
+          post_id: id
         }).then(function () {
+          var post = NstSvcPostStorage.get(query.id);
 
+          if (post) {
+            post.read = true;
+            NstSvcPostStorage.set(query.id, post);
+          }
           factory.dispatchEvent(new CustomEvent(
             NST_POST_FACTORY_EVENT.READ,
             new NstFactoryEventData(id)

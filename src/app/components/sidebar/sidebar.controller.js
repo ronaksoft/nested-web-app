@@ -8,11 +8,11 @@
     /** @ngInject */
     function SidebarController($q, $scope, $state, $stateParams, $uibModal, $window, $rootScope, $timeout,
                                _,
-                               NST_DEFAULT, NST_AUTH_EVENT, NST_INVITATION_FACTORY_EVENT, NST_PLACE_FACTORY_EVENT, NST_CONFIG,NST_KEY,
+                               NST_DEFAULT, NST_AUTH_EVENT, NST_INVITATION_FACTORY_EVENT, NST_PLACE_FACTORY_EVENT, NST_CONFIG,NST_KEY, deviceDetector,
                                NST_EVENT_ACTION, NST_USER_FACTORY_EVENT, NST_POST_FACTORY_EVENT, NST_NOTIFICATION_FACTORY_EVENT, NST_SRV_EVENT, NST_NOTIFICATION_TYPE,
                                NstSvcAuth, NstSvcServer, NstSvcLogger, NstSvcNotification, NstSvcTranslation,
                                NstSvcPostFactory, NstSvcPlaceFactory, NstSvcInvitationFactory, NstUtility, NstSvcUserFactory, NstSvcSidebar, NstSvcNotificationFactory,
-                               NstSvcNotificationSync, NstSvcSync, NstSvcKeyFactory,
+                               NstSvcNotificationSync, NstSvcSync, NstSvcKeyFactory, NstSvcPostDraft,
                                NstVmPlace, NstVmInvitation) {
       var vm = this;
 
@@ -31,10 +31,10 @@
       vm.mentionOpen = vm.profileOpen = false;
       vm.openCreatePlaceModal = openCreatePlaceModal;
       vm.mapLimits = mapLimits;
+      vm.hasDraft = NstSvcPostDraft.has();
 
-
-      //fixme:: read from config
       vm.admin_area = NST_CONFIG.ADMIN_DOMAIN + (NST_CONFIG.ADMIN_PORT ? ':' + NST_CONFIG.ADMIN_PORT : '');
+
       /*****************************
        ***** Controller Methods ****
        *****************************/
@@ -256,6 +256,7 @@
 
 
       $rootScope.$on('$stateChangeSuccess', function () {
+
         if ($stateParams.placeId) {
           if (vm.selectedGrandPlace && $stateParams.placeId.split('.')[0] !== vm.selectedGrandPlace.id) {
             vm.selectedGrandPlace = _.find(vm.places, function (place) {
@@ -563,7 +564,7 @@
                 totalUnread += obj.count;
               });
               vm.totalUnreadPosts = totalUnread;
-              vm.insertItems();
+              if ( deviceDetector.isDesktop() ) vm.insertItems();
               $rootScope.$emit('unseen-activity-notify', totalUnread);
               $rootScope.$broadcast('init-controls-sidebar');
             });
@@ -745,6 +746,10 @@
         getNotificationsCount();
         NstSvcLogger.debug('Retrieving the grand place unreads count right after focus.');
         getGrandPlaceUnreadCounts();
+      });
+
+      $scope.$on('draft-change', function () {
+        vm.hasDraft = NstSvcPostDraft.has();
       });
     }
   })();

@@ -53,14 +53,11 @@ body[data-wdt-emoji-bundle='apple'] .wdt-emoji[data-has-img-apple='false'] {
   left: 0;
   z-index: 1200;
   visibility: hidden;
-
   width: 304px;
   max-width: 100%;
   height: 378px;
   max-height: 100%;
-
   transition: opacity 50ms ease, bottom 1s ease-out;
-
   opacity: 0;
   border: 1px solid #D6D6D6;
   border-radius: 8px;
@@ -68,6 +65,23 @@ body[data-wdt-emoji-bundle='apple'] .wdt-emoji[data-has-img-apple='false'] {
   box-shadow: 0 8px 16px rgba(0,0,0,.32);
   background-color: white;
   // background-color: #fff;
+  // &.notSupport {
+  //   font-family: 'emoji';
+  // }
+}
+.notSupportEmo {
+  .wdt-emoji-picker-parent {
+    display: none;
+  }
+  .wdt-emoji-picker {
+    display: none;
+  }
+  .post-card-comment-input textarea {
+    padding: 5px 8px;
+  }
+  .modal-ft .emoji {
+    display: none;
+  }
 }
 
 .wdt-emoji-popup.open {

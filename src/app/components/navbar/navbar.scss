@@ -632,7 +632,7 @@ nst-navbar {
   }
   .nst-navbar.nfeed {
     height: 134px!important;
-    width: calc(100vw - 272px);
+    width: calc(100vw - 240px);
     .content {
       .top-nav {
       }
@@ -747,14 +747,14 @@ nst-navbar {
   height: $navbar-height;
   position: fixed;
   top: 0;
-  left: 272px;
+  left: $sidebar-width;
 }
 .nst-navbar-f {
   height: 48px;
   position: fixed;
   top: 0;
   right: 0;
-  left: 272px;
+  left: $sidebar-width;
   width: auto!important;
   transition: transform $animation-dur;
   transform: translateY(-100%) translateZ(0);
@@ -780,8 +780,8 @@ body.scrolled {
 .nst-navbar-fff {
   position: fixed;
   top: 0;
-  left: 272px;
-  width: calc(100vw - 272px)!important;
+  left: $sidebar-width;
+  width: calc(100vw - 240px)!important;
   h2 {
     margin: 0;
     line-height: 28px;

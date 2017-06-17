@@ -90,18 +90,23 @@
   height: 26px;
   border: none;
   font-size: 18px;
+  padding: 0;
   font-weight: bold;
   line-height: 22px;
   margin-bottom: 8px;
+  flex: none;
   color: $color-solid;
   &::-webkit-input-placeholder {
     line-height: 22px;
+    font-size: 18px;
   }
   &::-moz-placeholder {
     line-height: 22px;
+    font-size: 18px;
   }
   &:-ms-input-placeholder {
-    line-height: 22px;
+    line-height: 30px;
+    font-size: 18px;
   }
 }
 
@@ -235,6 +240,37 @@
     top: 0;
   }
 }
+.place-initials-24 {
+  width: 24px;
+  height: 24px;
+  line-height: 23px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: normal;
+  background-color: #b2b2b2;
+  vertical-align: top;
+  border-radius: 3px;
+  margin-right: 8px;
+  flex: none;
+  position: relative;
+  justify-content: center;
+  overflow: hidden;
+  img {
+    width: 24px;
+    height: 24px;
+  }
+  &::after {
+    left: 0;
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    border-radius: 3px;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .1);
+    pointer-events: none;
+    content: "";
+    top: 0;
+  }
+}
 .cke_reset {
   width: 100%!important;
   border: none!important;
@@ -326,6 +362,9 @@ body.isMobile {
     overflow: hidden;
     max-height: 33px;
   }
+  #input-compose-to .ui-select-choices {
+    display: none;
+  }
   .address-input {
     align-items: flex-start
   }
@@ -335,12 +374,14 @@ body.isMobile {
 }
 #more-reci {
   display: none;
+  animation: 1s ease-in forwards more-reci;
   width: 32px;
   height: 30px;
   line-height: 30px;
   justify-content: center;
   border: 1px solid #D6D6D6;
   border-radius: 4px;
+  transform-origin: center center;
   color: $color-solid;
   vertical-align: bottom;
   background: #ebebeb; /* Old browsers */
@@ -357,8 +398,12 @@ body.isMobile {
 .compose-wrp .fr-box {
   width: 100%;
   height: 100%;
+  p {
+    margin: 0;
+  }
   .fr-element {
-    padding: 0
+    padding: 0;
+    overflow: visible;
   }
 }
 .compose-wrp .fr-box.fr-basic .fr-element {
@@ -367,7 +412,7 @@ body.isMobile {
 .compose-wrp .fr-box.fr-basic .fr-wrapper {
   background: transparent
 }
-.editor-btn-wrp .fr-toolbar.fr-top {
+.editor-btn-wrp .fr-toolbar.fr-bottom {
   box-shadow: none;
   border: none;
   background-color: rgba(50,61,71,.08)

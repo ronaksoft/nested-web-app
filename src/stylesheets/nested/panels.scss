@@ -120,11 +120,15 @@
   }
   label {
     font-size: 13px;
+    white-space: nowrap;
     color: $color-gale;
     margin: 0;
     span {
       font-weight: bold;
     }
+  }
+  ul {
+    list-style: none;
   }
   country-select {
     margin-bottom: 16px;

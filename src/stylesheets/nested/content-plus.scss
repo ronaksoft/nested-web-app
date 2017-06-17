@@ -92,7 +92,6 @@
           //font-weight: 400;
           span {
             color: #808080;
-            font-style: italic;
             white-space: normal;
             font-size: $font-size-xsmall;
             @extend ._wrb;
@@ -238,17 +237,4 @@
   }
 }
 
-.visited-places {
-  max-height: 150px;
-  li {
-    display: flex;
-    &:hover {
-        background-color: $color-sense-5;
-        cursor: pointer;
-        transition: .2s;
-      }
-  }
-  .placerow {
-    padding: 8px 12px 10px 12px;
-  }
-}
+
