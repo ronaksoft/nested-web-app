@@ -88,6 +88,7 @@
       NstSvcLogger.debug4('Compose | Compose Box is focused');
       vm.focus = true;
       vm.collapse = true;
+      vm.firstUp = true;
     };
 
     vm.blurBox = function () {
@@ -131,73 +132,6 @@
       ';u[class,id,style]{*};' +
       'ul[class,dir,id,style]{*};';
 
-    if (vm.quickMode) {
-      $scope.editorOptions = {
-        language: lang,
-        contentsLangDirection: isRTL,
-        allowedContent: allowedContent,
-        // allowedContent: true,
-        contentsCss: 'body {overflow:visible;}',
-        enableTabKeyTools: true,
-        tabSpaces: 4,
-        startupFocus: false,
-        extraPlugins: 'sharedspace,font,language,bidi,justify,colorbutton,autogrow,divarea',
-        autoGrow_minHeight: 230,
-        sharedSpaces: {
-          top: 'editor-btn',
-          bottom: 'editor-txt'
-        },
-        toolbar: [
-          ["Link", "FontSize"],
-          ["Bold"],
-          ["JustifyRight", "BidiLtr", "BidiRtl"]
-        ],
-        fontSize_sizes: 'Small/12px;Normal/14px;Large/18px;',
-        colorButton_colors: 'CF5D4E,454545,FFF,CCC,DDD,CCEAEE,66AB16',
-        // Remove the redundant buttons from toolbar groups defined above.
-        //removeButtons: 'Strike,Subscript,Superscript,Anchor,Specialchar',
-        removePlugins: 'resize,elementspath,contextmenu,magicline,tabletools'
-      };
-
-    } else {
-      $scope.editorOptions = {
-        language: lang,
-        // allowedContent: allowedContent,
-        allowedContent: true,
-        contentsLangDirection: isRTL,
-        contentsCss: 'body {overflow:visible;}',
-        height: 230,
-        enableTabKeyTools: true,
-        tabSpaces: 4,
-        startupFocus: false,
-        extraPlugins: 'sharedspace,font,language,bidi,colorbutton,autogrow,divarea,autolink,autodirection',
-        autoGrow_minHeight: 230,
-        fillEmptyBlocks: false,
-        enterMode: CKEDITOR.ENTER_BR,
-        justifyClasses: ['AlignLeft', 'AlignCenter', 'AlignRight', 'AlignJustify'],
-        sharedSpaces: {
-          top: 'editor-btn',
-          bottom: 'editor-txt'
-        },
-        toolbar: [
-          ["Link", "FontSize", 'Font'],
-          ["Bold", "Italic", "Underline"],
-          ["justifygroup", "-", "TextColor", "BackColor", "BidiLtr", "BidiRtl"]
-        ],
-        fontSize_sizes: 'Small/12px;Normal/14px;Large/18px;',
-        font_names: 'Sans Serif/Sans Serif; Serif/Serif',
-        colorButton_enableAutomatic: false,
-        colorButton_colors: 'CF5D4E,454545,FFF,CCC,DDD,CCEAEE,66AB16',
-        // Remove the redundant buttons from toolbar groups defined above.
-        //removeButtons: 'Strike,Subscript,Superscript,Anchor,Specialchar',
-        removePlugins: 'resize,elementspath,contextmenu,magicline,tabletools,Link:Target'
-      };
-
-    }
-
-    // setTimeout(function () {
-    //   vm.editor = $("textarea").controller('ckeditor').instance;
-    // },1000);
 
     (function () {
       if ($stateParams.attachments && $stateParams.attachments.length > 0) {
@@ -287,11 +221,13 @@
       draft.attachments = _.map(vm.model.attachments, 'id');
       draft.recipients = _.map(vm.model.recipients, 'id');
       NstSvcPostDraft.save(draft);
+      $rootScope.$broadcast('draft-change');
     }
 
     function discardDraft() {
       NstSvcLogger.debug4('Compose | discarding draft');
       NstSvcPostDraft.discard();
+      $rootScope.$broadcast('draft-change');
     }
 
     function shouldSaveDraft() {
@@ -360,7 +296,9 @@
     NstSvcSidebar.setOnItemClick(onPlaceSelected);
 
 
-    vm.subjectKeyDown = function (e) {
+    vm.subjectKeyDown = _.debounce(subjectKeyDown,100)
+
+    function subjectKeyDown(e) {
       NstSvcLogger.debug4('Compose | User types in subject');
       vm.mouseIn = true;
       vm.changeAffixesDebounce();
@@ -978,15 +916,25 @@
         changeDirection.apply(this, ['ltr', 'left']);
       }
     })
-
+    vm.cmdPress = false;
+    vm.cmdVPress = false;
     vm.froalaOpts = {
       toolbarContainer: vm.quickMode ? '#editor-btn-quick' : '#editor-btn',
       charCounterCount: false,
       tabSpaces: 4,
+      toolbarBottom : true,
+      placeholderText: 'Type something...',
+      spellcheck : false,
       pluginsEnabled: ['colors', 'fontSize', 'fontFamily', 'link', 'url', 'wordPaste', 'lists', 'align', 'codeBeautifier'],
       fontSize: ['8', '10', '14', '18', '22'],
       toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'fontSize', '|', 'color', 'align', 'formatOL', 'formatUL', 'insertLink', '|', 'rightToLeft', 'leftToRight'],
       events: {
+        'froalaEditor.initialized': function (e, editor) {
+          $(editor.$el).attr('spellcheck', 'false');
+        },
+        'popups.setContainer': function (e, editor) {
+          // $(editor.$el).attr('spellcheck', 'false');
+        },
         'froalaEditor.focus': function (e, editor) {
           vm.focusBody = true;
           vm.emojiTarget = 'body';
@@ -996,9 +944,25 @@
         'froalaEditor.blur': function (e, editor) {
           vm.focusBody = false;
         },
-        'froalaEditor.keyup': function (e, editor, je) {
+        'froalaEditor.keydown': function (e, editor, je) {
+          if ( vm.quickMode ) return
           var el = editor.selection.element();
-          if (el && je.which === 13 && !vm.quickMode) el.scrollIntoView({block: "start", behavior: "smooth"});
+          if (el && je.which === 91) {
+            vm.cmdPress = true;
+          }
+          if (el && je.which === 86 && vm.cmdPress) {
+            vm.cmdVPress = true;
+            el.scrollIntoView({block: "end", behavior: "smooth"});
+          }
+        },
+        'froalaEditor.keyup': function (e, editor, je) {
+          if ( vm.quickMode ) return
+          var el = editor.selection.element();
+          if (el && (je.which === 13 || vm.cmdVPress)) {
+            el.scrollIntoView({block: "end", behavior: "smooth"});
+          }
+          vm.cmdPress = false;
+          vm.cmdVPress = false;
         }
       }
     }

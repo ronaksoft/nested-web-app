@@ -181,15 +181,34 @@
 
 label.setting  {
   display: inline-block;
-  background: url('../assets/icons/controls.svg') right 0 no-repeat;
+  background-image: url('../assets/icons/radiobuttons-checkbox.svg');
   height: 16px;
   min-width: 17px;
   padding: 0 17px 0 0!important;
   font-size: $font-size-small;
+  background-size: 16px 192px;
+  background-position: right -64px;
+  background-repeat: no-repeat;
+}
+
+input[type="checkbox"]:disabled + label.setting {
+  background-position: right -48;
+}
+
+input[type="checkbox"]:hover + label.setting {
+  background-position: right -80px;
 }
 
 input[type="checkbox"]:checked + label.setting {
-  background: url('../assets/icons/controls.svg') right  -16px no-repeat
+  background-position: right -16px;
+}
+
+input[type="checkbox"]:checked:disabled + label.setting {
+  background-position: right 0;
+}
+
+input[type="checkbox"]:checked:hover + label.setting {
+  background-position: right -32px;
 }
 
 .popup-panel {
@@ -354,5 +373,35 @@ body[dir="rtl"] {
       margin-right: 8px;
     }
   }
+  }
+}
+.recent-place-pop {
+  border-radius: 4px;
+  min-width: 224px;
+  width: 224px;
+  top: -220px!important;
+  bottom: 117px;
+  left: 8px!important;
+  max-height: 216px;
+  overflow: hidden;
+  .visited-places {
+    max-height: 216px;
+    padding: 8px 0;
+    li {
+      display: flex;
+      &:hover {
+        background-color: $color-sense-5;
+        cursor: pointer;
+        transition: .2s;
+      }
+      span {
+        color: $color-new-hurricane;
+        font-size: 13px;
+        font-style: italic;
+      }
+    }
+    .placerow {
+      padding: 8px 12px 8px 12px;
+    }
   }
 }

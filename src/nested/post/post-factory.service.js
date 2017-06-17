@@ -156,12 +156,6 @@
       } else {
         ids = id;
       }
-      if (_.isArray(id) && id.length === 0) {
-        throw "Post id is not define!";
-      } else {
-        ids = id.join(",")
-      }
-
 
       if (!query.id) {
         defer.resolve(null);
@@ -169,7 +163,12 @@
         NstSvcServer.request('post/mark_as_read', {
           post_id: ids
         }).then(function () {
+          var post = NstSvcPostStorage.get(query.id);
 
+          if (post) {
+            post.read = true;
+            NstSvcPostStorage.set(query.id, post);
+          }
           factory.dispatchEvent(new CustomEvent(
             NST_POST_FACTORY_EVENT.READ,
             new NstFactoryEventData(id)

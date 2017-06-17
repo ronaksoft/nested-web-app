@@ -26,8 +26,8 @@
   //  overflow-y: initial;
   scroll-behavior: smooth;
   z-index: 1;
-  margin-left: 272px;
-  width: calc(100% - 272px);
+  margin-left: $sidebar-width;
+  width: calc(100% - 240px);
   min-height: 100vh;
 }
 .nst-content.second-view {
@@ -56,7 +56,7 @@
 
 .content {
   max-width: 720px;
-  width: calc(100% - 272px);
+  width: calc(100% - 240px);
   display: inline-flex;
   flex: none;
   flex-direction: column;

@@ -25,8 +25,17 @@
         </i>
       </p>
     </div>
-    <div class="delete-comment" data-ng-if="ctrl.allowToRemoveComment(comment)" ng-click="ctrl.removeComment(comment);  _track('post card', 'remove comment');" >
-      <svg class="_16svg">
+    <script type="text/ng-template" id="remove-cm-tooltip.html">
+      <translate>Remove</translate>
+    </script>
+    <script type="text/ng-template" id="hide-cm-tooltip.html">
+      <translate>Hide</translate>
+    </script>
+    <div class="delete-comment" data-ng-if="ctrl.allowToRemoveComment(comment)"
+         ng-click="ctrl.removeComment(comment);  _track('post card', 'remove comment');" >
+      <svg class="_16svg" data-tooltip-append-to-body="true"
+         data-uib-tooltip-template="ctrl.hasCommentRemoveAccess ? 'hide-cm-tooltip.html' : 'remove-cm-tooltip.html'"
+         data-tooltip-placement="right auto">
         <use xlink:href="/assets/icons/nst-icn16.svg#bin"></use>
       </svg>
     </div>

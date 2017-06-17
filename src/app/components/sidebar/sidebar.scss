@@ -58,15 +58,15 @@
     &:hover, &.isSelected {
       transition-duration: $animation-dur;
       transition-timing-function: ease;
-      background:black;
+      background: $sidebar-bg-hover-color;
       // background: $color-solid;
     }
     &.isSelected {
       &:after {
         content: "";
         position: absolute;
-        height: 16px;
-        width: 16px;
+        height: 20px;
+        width: 20px;
         top: 50%;
         transform: translateY(-50%);
         right: -8px;
@@ -89,7 +89,7 @@
       width: $sidebar-width - $sidebar-width-tiny;
       white-space: nowrap;
       justify-content: flex-start;
-      @extend .nst-font-medium;
+      font-size: 13px;
       font-weight: 400;
       align-items: center;
       display: flex;
@@ -134,8 +134,7 @@
   .side-menu-item.detailed {
     > *:last-child {
       line-height: 19px;
-      @extend .nst-font-large;
-      font-weight: 700;
+      @extend .nst-font-medium;
     }
   }
 
@@ -145,13 +144,13 @@
   .side-place-invite-item-inner.detailed,
   .create-place.detailed,
   .side-place-item-inner.detailed{
-    color: rgba(255,255,255,.5);
+    color: rgba(255,255,255,.4);
     svg {
-      fill: rgba(255,255,255,.5);
+      fill: rgba(255,255,255,.4);
       transition: all $animation-dur;
     }
     a, span {
-      color: rgba(255,255,255,.5);
+      color: rgba(255,255,255,.4);
     }
     &:hover,&.isSelected {
       color: rgba(255,255,255,1);
@@ -178,7 +177,8 @@
   }
   .unreadPlace {
     position: absolute;
-    left: -12px;
+    height: 24px;
+    left: -2px;
     font-size: 24px;
     top: 50%;
     transform: translateY(-50%);
@@ -216,7 +216,7 @@
   background: -webkit-linear-gradient(left, rgba(0,0,0,0) 0%,rgba(0,0,0,.4) 100%);
 }
 .side-top {
-  z-index: 15;
+  z-index: 2;
   display: inline-flex;
   flex-direction: column;
   flex: none;
@@ -224,14 +224,14 @@
   //background: linear-gradient(to bottom, rgb(255,255,255), $color-calm);
   width: 100%;
   transition: $animation-dur;
-  border-bottom: 1px solid rgba(255,255,255,.05);
+  border-bottom : 1px solid rgba(255,255,255,.04);
   a {
     overflow-x: hidden;
   }
 }
 .nested-logo {
   z-index: 7;
-  height: 85px;
+  height: 72px;
   width: 100%;
   display: flex;
   align-items: center;
@@ -245,44 +245,33 @@
   align-self: flex-end;
 }
 
-#compose .compose {
-  z-index: 7;
-  display: flex;
-  cursor: pointer;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-  justify-content: center;
-  align-items: center;
-  //min-width: 208px;
-  height: 48px;
-  width: 48px;
-  border-radius: 40px;
-  svg {
-    width: 32px;
-    height: 32px;
+#compose {
+  .compose {
+    z-index: 7;
     display: flex;
+    cursor: pointer;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    //min-width: 208px;
+    height: 48px;
+    width: 48px;
+    border-radius: 40px;
+    svg {
+      width: 32px;
+      height: 32px;
+      display: flex;
+    }
+  }
+  span {
+    transition : color .5s ease-out
   }
 }
 
-#compose {
-  // //border: 1px solid $color-sense-wire;
-  // line-height: 30px ;
-  // color: $color-white;
-  // display: flex;
-  // font-size: $font-size-large;
-  // font-weight: $font-wight-semibold;
-  // justify-content: center;
-  // width: 174px;
-  // height: 40px;
-  // align-items: center;
-  // border-radius: 41px;
-  // .icon-side {
-  //   margin: 0 6px 0 0;
-  // }
-}
-#compose:hover .compose,
-#compose.isSelected .compose{
+#compose:hover,
+#compose.isSelected {
   color: $color-white;
   box-shadow: inset 0 -1px 1px rgba(0,0,0,.5), /*bottom internal shadow*/
   inset 0 1px 1px rgba(255,255,255,.5); /*top internal highlight*/
@@ -290,6 +279,7 @@
   transition-duration: $animation-dur;
   transition-property: all;
   transition-timing-function: ease;
+  transition : background-color 0.3s ease-in, box-shadow .4s ease
 }
 .side-menu {
   //height: 180px;
@@ -299,7 +289,10 @@
   flex: none;
   flex-direction: column;
   justify-content: center;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid $color-breeze;
+  .side-menu-item {
+    height: 32px;
+  }
 }
 .side-menu-item {
   display: flex;
@@ -317,8 +310,8 @@
     justify-content: center;
   }
   svg {
-    width: 24px;
-    height: 24px;
+    width: 16px;
+    height: 16px;
     display: flex;
     fill: white;
   }
@@ -327,7 +320,7 @@
 .side-menu-item .item{
   display: flex;
   color: $color-solid;
-  font-size: $font-size-large;
+  font-size: $font-size-medium;
   font-weight: 200;
   margin-left: 3px;
   cursor: pointer;
@@ -351,6 +344,7 @@
   display: flex;
   justify-content: center;
   width: 100%;
+  border-bottom : 1px solid rgba(255,255,255,.04);
   //transform: scaleX($sidebar-width-tiny/$sidebar-width);
   .places{
     position: relative;
@@ -358,6 +352,7 @@
     width: 100%;
     justify-content: flex-start;
     padding: 16px 0;
+    border-bottom: 1px solid $color-breeze;
     .ps-scrollbar-y-rail {
       z-index: 5
     }
@@ -387,17 +382,17 @@
   }
   .shadow-top {
     top:0; 
-    background: linear-gradient(to top, rgba(20,20,20,.8), #141414);
-    background: -webkit-linear-gradient(bottom, rgba(20,20,20,0.8) 0%,#141414 100%);
+    background: linear-gradient(to top, rgba(35,38,41,.8), #232629);
+    background: -webkit-linear-gradient(bottom, rgba(35,38,41,0.8) 0%,#232629 100%);
     transform-origin: top;
     svg {
       transform: rotateZ(180deg)
     }
   }
   .shadow-bot {
-    bottom:0;
-    background: linear-gradient(to bottom, rgba(20,20,20,.8), #141414);
-    background: -webkit-linear-gradient(top, rgba(20,20,20,0.8) 0%,#141414 100%);
+    bottom: 1px;
+    background: linear-gradient(to bottom, rgba(35,38,41,.8), #232629);
+    background: -webkit-linear-gradient(top, rgba(35,38,41,0.8) 0%,#232629 100%);
     transform-origin: bottom;   
   }
   a{
@@ -426,7 +421,7 @@
   //width: calc(100% - 10px);
 }
 .sidebar ul li .side-place-item-inner{
-  min-height: 64px;
+  min-height: 48px;
 }
 
 .invitation-name {
@@ -527,7 +522,7 @@
 }
 
 .side-place-item-image {
-  @include avatar(72px,40px,10%);
+  @include avatar(64px,24px,12.5%);
 }
 .side-place-name a {
   margin-left: 4px;
@@ -565,7 +560,7 @@
 }
 
 .create-place {
-  height: 64px;
+  height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -580,8 +575,8 @@
     text-align: center;
   }
   svg {
-    width: 40px;
-    height: 40px;
+    width: 24px;
+    height: 24px;
     fill: $color-white;
   }
   #addIcon use:first-child {
@@ -599,6 +594,7 @@
   width: 100%;
   flex: none;
   z-index: 2;
+  margin: 8px 0;
   //background-color: #e7ece9;
   //height: 180px;
   //padding-left: 15px;
@@ -609,25 +605,29 @@
   > a {
     align-items: center;
     justify-content: center;
-    height: 40px;
+    height: 32px;
     overflow-x: hidden;
     svg {
       fill: $color-white;
-      width: 24px;
-      height: 24px;
     }
     & > img {
       //margin-left: 22px;
       transition: $animation-dur;
     }
-    &:first-of-type {
-      height: 48px;
+    &.oddH {
+      height: 40px;
     }
   }
 
   svg#mentions {
     width: 32px;
     height: 32px;
+  }
+  hr {
+    height: 0;
+    margin: 7px 0;
+    border-top: 1px solid $color-breeze;
+    border-bottom : 1px solid rgba(255,255,255,.04);
   }
 }
 .side-access span{
@@ -817,7 +817,7 @@ ul ul > li:last-child > .place-item-inner{
   }
   .side-profile-block{
     width: 100%;
-    height: 167px;
+    height: 136px;
     overflow: hidden;
     position: relative;
     flex: none;
@@ -1030,8 +1030,9 @@ ul ul > li:last-child > .place-item-inner{
           max-width: 100% ;
         }
         b {
-          color: $color-hurricane;
+          color: $color-bg-pending;
           font-weight: 700;
+          opacity: .72;
         }
       }
       a:hover,a.isSelected {
@@ -1039,7 +1040,8 @@ ul ul > li:last-child > .place-item-inner{
         border-radius: 3px;
         color: $color-solid;
         b {
-          color: $color-solid;
+          color: $color-bg-pending;
+          opacity: .72;
         }
       }
       i {
@@ -1075,5 +1077,18 @@ ul ul > li:last-child > .place-item-inner{
       }
     }
 
+  }
+}
+.oddH {
+  .notif {
+    width: 16px;
+    height: 16px;
+    background-color: $color-force;
+    font-size: 13px;
+    font-weight: bold;
+    padding: 0;
+    justify-content: center;
+    right: 16px;
+    top: 0;
   }
 }
