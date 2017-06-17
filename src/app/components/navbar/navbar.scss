@@ -466,8 +466,9 @@ nst-navbar {
       }
     }
     .cp-illu {
-      width: 308px;
+      width: 272px;
       display: flex;
+      float: left;
       flex: none;
     }
     .search {
@@ -553,7 +554,7 @@ nst-navbar {
     position: relative;
     flex-direction: column;
     height: 100%;
-    width: calc(100% - 572px);
+    width: calc(100% - 556px);
     min-width: 272px;
     float: left;
     > * {

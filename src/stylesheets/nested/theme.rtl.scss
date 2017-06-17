@@ -207,6 +207,10 @@ body[dir="rtl"] {
     left: 0;
     right: -2px;
   }
+  .recent-place-pop {
+    left: auto!important;
+    right: 8px!important;
+  }
   .nst-navbar-f,.nst-navbar-fff {
     left: 0;
     right: $sidebar-width;
@@ -233,7 +237,12 @@ body[dir="rtl"] {
   nst-navbar .place-logo {
     float: right;
   }
-
+  nst-navbar .content .search {
+    float: right
+  }
+  nst-navbar .content .cp-illu {
+    float: right
+  }
   .ui-select-multiple.ui-select-bootstrap .ui-select-match-item div.selected-innter .place-name {
     padding: 0 4px 0 28px;
     margin-right: -3px;
@@ -682,7 +691,7 @@ body[dir="rtl"] {
     padding-right: 8px;
     padding-left: 0;
   }
-  nst-navbar .content .bot-nav .navigation .search i {
+  nst-navbar .content .search svg {
     right: auto;
     left: 4px;
   }
