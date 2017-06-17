@@ -40,7 +40,7 @@
       }
     };
 
-    vm.user = NstSvcUserFactory.currentUser;
+    vm.user = NstSvcAuth.user;
 
     /*****************************
      ***** Controller Methods ****

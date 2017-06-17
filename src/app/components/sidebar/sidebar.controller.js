@@ -20,7 +20,7 @@
        *** Controller Properties ***
        *****************************/
       vm.APP_VERSION = NST_CONFIG.APP_VERSION;
-      vm.user = NstSvcUserFactory.currentUser;
+      vm.user = NstSvcAuth.user;
       vm.stateParams = $stateParams;
       vm.invitation = {};
       vm.places = [];
@@ -618,17 +618,34 @@
       });
 
       NstSvcUserFactory.addEventListener(NST_USER_FACTORY_EVENT.PROFILE_UPDATED, function (event) {
-        vm.user = event.detail;
-        var place = _.find(vm.places, {id: NstSvcAuth.user.id});
-        if (place && place.id) {
-          if (event.detail.hasPicture()) {
-            vm.user.avatar = place.avatar = event.detail.picture.getUrl("x64");
-          } else {
-            vm.user.avatar = place.avatar = '/assets/icons/absents_place.svg';
-          }
-        }
+        updateUser(event.detail);
       });
 
+      NstSvcUserFactory.addEventListener(NST_USER_FACTORY_EVENT.PICTURE_UPDATED, function (event) {
+        updateUser(event.detail);
+      });
+
+      NstSvcUserFactory.addEventListener(NST_USER_FACTORY_EVENT.PICTURE_REMOVED, function (event) {
+        updateUser(event.detail);
+      });
+
+      function updatePersonalPlace(user) {
+          var place = _.find(vm.places, {id: user.id});
+          if (place && place.id) {
+            if (user.hasPicture()) {
+              vm.user.avatar = place.avatar = user.picture.getUrl("x64");
+            } else {
+              vm.user.avatar = place.avatar = '/assets/icons/absents_place.svg';
+            }
+
+            place.name = user.getFullName();
+          }
+      }
+
+      function updateUser(user) {
+        vm.user = user;
+        updatePersonalPlace(user);
+      }
 
       NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.UPDATE, function (event) {
         NstSvcPlaceFactory.updatePlaceInTree(vm.places, mapPlace(event.detail.place));

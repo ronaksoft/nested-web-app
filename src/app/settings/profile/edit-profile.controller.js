@@ -12,7 +12,7 @@
                                  NstSvcAuth, NstSvcStore, NstSvcUserFactory, NstUtility, NstSvcTranslation, NstSvcI18n, NstFactoryEventData, NstSvcModal) {
     var vm = this;
 
-    vm.model = NstSvcUserFactory.currentUser;
+    vm.model = NstSvcAuth.user;
 
     vm.updateName = updateName;
     vm.updateGender = updateGender;
@@ -52,11 +52,8 @@
       var deferred = $q.defer();
 
       vm.updateProgress = true;
-      NstSvcUserFactory.update(params).then(function () {
-        NstSvcUserFactory.get(vm.model.id,true).then(function (user) {
-          NstSvcUserFactory.dispatchEvent(new CustomEvent(NST_USER_FACTORY_EVENT.PROFILE_UPDATED, new NstFactoryEventData(user)));
-        });
-
+      NstSvcUserFactory.update(vm.model.id, params).then(function (user) {
+        NstSvcAuth.setUser(user);
         deferred.resolve();
       }).catch(function (error) {
         toastr.error(NstSvcTranslation.get("Sorry, an error has occurred while updating your profile."));
@@ -153,11 +150,10 @@
         var request = NstSvcStore.uploadWithProgress(vm.uploadedFile, function (event) {}, NST_STORE_UPLOAD_TYPE.PROFILE_PIC, NstSvcAuth.lastSessionKey);
 
         request.finished().then(function (response) {
-          return NstSvcUserFactory.updatePicture(response.data.universal_id, vm.model.id);
-        }).then(function (res) {
-          NstSvcUserFactory.get(vm.model.id,true).then(function (user) {
-            vm.model = user;
-          })
+          return NstSvcUserFactory.updatePicture(vm.model.id, response.data.universal_id);
+        }).then(function (user) {
+          vm.model = user;
+          NstSvcAuth.setUser(user);
         });
       } else {
         $uibModal.open({
@@ -180,11 +176,10 @@
               var request = NstSvcStore.uploadWithProgress(vm.uploadedFile, function (event) {}, NST_STORE_UPLOAD_TYPE.PROFILE_PIC, NstSvcAuth.lastSessionKey);
 
               request.finished().then(function (response) {
-                return NstSvcUserFactory.updatePicture(response.data.universal_id, vm.model.id);
-              }).then(function (res) {
-                NstSvcUserFactory.get(vm.model.id,true).then(function (user) {
-                  vm.model = user;
-                })
+                return NstSvcUserFactory.updatePicture(vm.model.id, response.data.universal_id);
+              }).then(function (user) {
+                vm.model = user;
+                NstSvcAuth.setUser(user);
               });
 
 
@@ -211,11 +206,9 @@
 
     function removePicture() {
       var deferred = $q.defer();
-
-      NstSvcUserFactory.removePicture().then(function (result) {
-        vm.model.clearPicture();
-        NstSvcUserFactory.dispatchEvent(new CustomEvent(NST_USER_FACTORY_EVENT.PROFILE_UPDATED, new NstFactoryEventData(vm.model)));
-
+      NstSvcUserFactory.removePicture(vm.model.id).then(function (user) {
+        vm.model = user;
+        NstSvcAuth.setUser(user);
         deferred.resolve();
       }).catch(function (error) {
         deferred.reject();
