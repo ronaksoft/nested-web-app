@@ -5,40 +5,10 @@
      data-ng-include="'app/components/navbar/full/navbar-static.html'">
 
 </div>
-<!--<div class="nst-navbar-f _tr nfeed" ng-if="!ctlFullNavbar.isUnreadMode && !ctlFullNavbar.isSearchMode && !ctlFullNavbar.isConvMode && !ctlFullNavbar.isFeed && !ctlFullNavbar.isSentMode && !ctlFullNavbar.isBookmarkMode">
-  <div class="bg"></div>
-  <div class="nst-content _tr">
-    <div class="content _pr">
-      <div class="bot-nav" ng-if="ctlFullNavbar.hasPlace()">
-        <div class="navigation" ng-if="!ctlFullNavbar.controls">
-          <nav>
-            <a ng-href="{{ctlFullNavbar.getMessagesUrl()}}" ng-click="ctlFullNavbar.rollUpward('message'); _track('navbar', 'view posts');" class="menu-links-butn _df li-hover" active-group="message">
-              <svg class="icon-filter _df">
-                <use xlink:href="/assets/icons/nst-icn24.svg#messages"></use>
-              </svg>
-              <translate>Messages</translate>
-            </a>
-            <a ng-href="{{ctlFullNavbar.getFilesUrl()}}" ng-click="ctlFullNavbar.rollUpward('files'); _track('navbar', 'view files');" ng-if="!ctlFullNavbar.isBookmarkMode && ctlFullNavbar.hasPlace()" class="menu-links-butn _df li-hover" active-group="file">
-              <svg class="icon-filter _df">
-                <use xlink:href="/assets/icons/nst-icn24.svg#file"></use>
-              </svg>
-              <translate>Files</translate>
-            </a>
-
-          </nav>
-          <div class="search">
-            <input type="text" nst-mention class="form-control" place-id="{{ctlFullNavbar.placeId}}"
-                   ng-keyup="ctlFullNavbar.search(ctlFullNavbar.searchQuery, $event);" ng-model="ctlFullNavbar.searchQuery"
-                   search-placeholder-setter has-place="ctlFullNavbar.hasPlace()" place-name="ctlFullNavbar.title"/>
-            <i class="icon cursor-pointer icon-search-rotated"></i>
-          </div>
-          <div class="cp-illu"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>-->
-<div class="nst-navbar-fff _tr" ng-if="ctlFullNavbar.isUnreadMode || ctlFullNavbar.isConvMode || ctlFullNavbar.isSearchMode || ctlFullNavbar.isFeed || ctlFullNavbar.isSentMode || ctlFullNavbar.isBookmarkMode">
+<div ng-if="ctlFullNavbar.isUnreadMode || ctlFullNavbar.isConvMode ||
+            ctlFullNavbar.isSearchMode || ctlFullNavbar.isFeed ||
+            ctlFullNavbar.isSentMode || ctlFullNavbar.isBookmarkMode"
+            class="nst-navbar-fff _tr">
   <div class="bg">
     <div></div>
   </div>
@@ -93,13 +63,10 @@
     <div class="content _pr" ng-if="ctlFullNavbar.isFeed || ctlFullNavbar.isSentMode || ctlFullNavbar.isBookmarkMode">
       <div class="bot-nav">
         <div class="navigation">
-          <nav>
-            <!--<a class="menu-links-butn _df li-hover home-svg">
-              <svg class="icon-filter _df">
-                <use xlink:href="/assets/icons/nst-icn24.svg#home"></use>
-              </svg>
-            </a>
-            <vr></vr>-->
+          <h2 class="_df _fw" ng-if="ctlFullNavbar.isFeed"><translate>Feed</translate></h2>
+          <h2 class="_df _fw" ng-if="ctlFullNavbar.isSentMode"><translate>Shared by me</translate></h2>
+          <h2 class="_df _fw" ng-if="ctlFullNavbar.isBookmarkMode"><translate>Bookmarks</translate></h2>
+          <!--<nav>
             <a ui-sref="app.messages-favorites()" ng-click="ctlFullNavbar.rollUpward('message'); _track('navbar', 'view feed')" class="menu-links-butn _df li-hover" active-group="message">
               <svg class="icon-filter _df">
                 <use xlink:href="/assets/icons/nst-icn24.svg#messages"></use>
@@ -112,19 +79,20 @@
               </svg>
               <translate>Bookmarks</translate>
             </a>
-            <!-- TODO set url in other ways -->
             <a ui-sref="app.messages-sent()" ng-click="ctlFullNavbar.rollUpward('message');  _track('navbar', 'view sent');" class="menu-links-butn _df li-hover" active-group="sent">
               <svg class="icon-filter _df">
                 <use xlink:href="/assets/icons/nst-icn24.svg#sent-message"></use>
               </svg>
               <translate>Shared by me</translate>
             </a>
-          </nav>
+          </nav>-->
           <div class="search">
             <input type="text" nst-mention class="form-control" place-id="{{ctlFullNavbar.placeId}}"
                    ng-keyup="ctlFullNavbar.search(ctlFullNavbar.searchQuery, $event);" ng-model="ctlFullNavbar.searchQuery"
                    search-placeholder-setter has-place="ctlFullNavbar.hasPlace()" place-name="ctlFullNavbar.title"/>
-            <i class="icon cursor-pointer icon-search-rotated"></i>
+            <svg class="_24svg mirror _fn">
+              <use xlink:href="/assets/icons/nst-icn24.svg#search"></use>
+            </svg>
           </div>
         </div>
         <div class="cp-illu"></div>
