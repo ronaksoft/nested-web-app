@@ -53,7 +53,7 @@
     function markAsRead(postId) {
       var deferred = $q.defer();
 
-      NstSvcPostFactory.read([postId]).then(function(result) {
+      NstSvcPostFactory.read(postId).then(function(result) {
         $rootScope.$broadcast('post-read', {
           postId: postId,
         });

@@ -95,7 +95,7 @@
     function markAsRead() {
       if (!vm.post.read) {
         vm.post.read = true;
-        NstSvcPostFactory.read([vm.post.id]).catch(function (err) {
+        NstSvcPostFactory.read(vm.post.id).catch(function (err) {
           $log.debug('MARK AS READ :' + err);
         });
       }
@@ -375,7 +375,7 @@
         vm.isCheckedForce = false;
         vm.isChecked = false;
       }
-      
+
       // for ( var i = 0; i < v.selectedPosts; i++ ) {
       //     var index = v.selectedPostsArray.indexOf(vm.placeId);
       //     if ( index > -1 ) {
