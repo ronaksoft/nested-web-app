@@ -21,6 +21,6 @@
   <div class="_difv">
     <p auto-dir="act.post.subject" ng-if="act.post.subject.length > 0"><mark data-ng-bind-html="act.post.subject"></mark></p>
     <p auto-dir="act.post.body" ng-if="act.post.subject.length == 0"><mark data-ng-bind-html="act.post.body | truncate | removeHTMLTags"></mark></p>
-    <p auto-dir="act.post.body" ng-if="act.post.subject.length == 0 && act.post.body == 0"><mark><translate>Shared</translate> {{act.post.counters.attaches > 1 ? act.post.counters.attaches : 'one'}} <translate>{{act.post.counters.attaches > 1 ? 'attachments' : 'attachment'}}</translate>.</mark></p>
+    <p auto-dir="act.post.body" ng-if="act.post.subject.length == 0 && act.post.body == 0"><mark><translate>Shared {{act.post.counters.attaches > 1 ? act.post.counters.attaches : 'one'}} {{act.post.counters.attaches > 1 ? 'attachments' : 'attachment'}}.</translate></mark></p>
   </div>
 </div>
