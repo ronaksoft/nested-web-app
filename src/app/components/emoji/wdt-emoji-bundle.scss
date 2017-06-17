@@ -69,6 +69,11 @@ body[data-wdt-emoji-bundle='apple'] .wdt-emoji[data-has-img-apple='false'] {
     font-family: 'emoji';
   }
 }
+.font-emoji {
+  .wdt-emoji-picker-parent {
+    font-family: 'emoji';
+  }
+}
 
 .wdt-emoji-popup.open {
   visibility: visible;

@@ -118,7 +118,7 @@
       }
 
 
-      vm.teammates.push(new NstVmMemberItem(NstSvcUserFactory.currentUser, NST_PLACE_MEMBER_TYPE.KEY_HOLDER));
+      vm.teammates.push(new NstVmMemberItem(NstSvcAuth.user, NST_PLACE_MEMBER_TYPE.KEY_HOLDER));
 
       eventReferences.push($rootScope.$on('member-removed', function (event, data) {
         NstUtility.collection.dropById(vm.teammates, data.member.id);
