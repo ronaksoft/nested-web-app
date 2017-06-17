@@ -360,6 +360,9 @@ body.isMobile {
     overflow: hidden;
     max-height: 33px;
   }
+  #input-compose-to .ui-select-choices {
+    display: none;
+  }
   .address-input {
     align-items: flex-start
   }

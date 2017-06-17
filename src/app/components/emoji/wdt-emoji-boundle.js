@@ -239,8 +239,8 @@
   wdtEmojiBundle.openPicker = function (ev) {
     var self = this;
     var parent = findParent(ev.target, 'wdt-emoji-picker-parent');
-
-    wdtEmojiBundle.input = parent.querySelector(wdtEmojiBundle.selector);
+    //TODO use wdtEmojiBundle.selector except '.wdt-emoji-bundle-enabled'
+    wdtEmojiBundle.input = parent.querySelector('.wdt-emoji-bundle-enabled');
 
     // @todo - [needim] - popup must be visible in viewport calculate carefully
     function findBestAvailablePosition(el) {
@@ -1046,7 +1046,10 @@
    */
   var getSelection = function (el) {
     var result = {};
-
+    // Sometimes it happens : handle selection when u dont have el !
+    if ( !el ) {
+      return
+    }
 
     if (el && el.getAttribute('contenteditable')) {
       // console.log(el.dataset.rangeIndex,el);
@@ -1137,12 +1140,18 @@
     if (selection.contenteditable){
 
       var text = $(el).text();
-      var html = $(el).html();
-      // console.log(selection);
+
+      // Prevent to do much on empty boxes .
+      if ( !text.length ) {
+        el.innerHTML = '<p>' + emo + '</p>';
+        el.focus();
+        return ;
+      }
 
 
-      // console.log(selection,selection.element,$(selection.element),myElement);
-      var nVal = $(selection.element).text().toString();
+      var html = $(el).html(),
+          nVal = $(selection.element).text().toString();
+
       nVal = nVal.slice(0, selection.start) + emo + nVal.slice(selection.start, nVal.length);
 
       if ( $(selection.element)[0].nodeType == 3) {
@@ -1150,17 +1159,8 @@
       } else {
         $(selection.element).text(nVal);
       }
-      // $(selection.element).parent().text(nVal);
-      if ( !text.length ) {
-        el.innerHTML = '<p>' + emo + '</p>';
-        el.focus();
-        return ;
-      }
+      
       var range = document.createRange();
-      // console.log(range, textNode.length > nodeCaret);
-      // console.log(selection.element, selection.element, selection.start, selection.element.textContent.length)
-      // var addOffset = selection.element.textContent.length === 2 ? 2 : 2 ;
-      console.log(emo.length)
       range.setStart(selection.element, selection.start + emo.length);
       range.setEnd(selection.element, selection.end + emo.length);
 
@@ -1172,29 +1172,11 @@
       var val = el.value || '';
       var textBefore = val.substring(0, selection.start);
       textBefore = textBefore.replace(/:\S*$/, '');;
-      // el.value = textBefore + emo + val.substring(selection.end, selection.len);
       el.value = textBefore + emo + val.substring(selection.end, selection.len);
       // @todo - [needim] - check browser compatibilities
       el.selectionStart = el.selectionEnd = (textBefore.length + emo.length);
       el.focus();
     }
-
-    // if (selection.ce) { // if contenteditable
-    //   el.focus();
-    //   document.execCommand('insertText', false, emo);
-    // } else {
-    //   var textBefore = val.substring(0, selection.start);
-    //   textBefore = textBefore.replace(/:\S*$/, '');;
-    //   // el.value = textBefore + emo + val.substring(selection.end, selection.len);
-    //   if (selection.contenteditable) {
-    //     $(el).text(textBefore + emo + val.substring(selection.end, selection.len));
-    //   } else {
-    //     el.value = textBefore + emo + val.substring(selection.end, selection.len);
-    //   }
-    //   // @todo - [needim] - check browser compatibilities
-    //   el.selectionStart = el.selectionEnd = (textBefore.length + emo.length);
-    //   el.focus();
-    // }
   };
 
   /**
