@@ -60,7 +60,7 @@
        */
       this.gender = undefined;
 
-      this.searchable = undefined;
+      this.privacy = undefined;
 
       this.admin = undefined;
 

@@ -121,9 +121,9 @@
 
     function updateSearchable(value) {
       return update({
-        'searchable' : value
+        'searchable' : !!value
       }).then(function () {
-        vm.model.searchable = value;
+        vm.model.privacy.searchable = !!value;
       });
     }
 
