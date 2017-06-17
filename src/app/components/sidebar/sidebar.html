@@ -2,21 +2,19 @@
   <div class="sidebar-wrapper">
     <div class="side-top">
       <a class="nested-logo detailed" ui-sref="app.messages-favorites()">
-        <div>
+        <div data-uib-tooltip-template="'nested-uib-tooltip.html'"
+               data-tooltip-placement="right auto" data-tooltip-append-to-body="true">
           <div id="Logo-white"></div>
         </div>
         <div ui-sref="app.messages-favorites()">
-          <!--<script type="text/ng-template" id="nested-uib-tooltip.html">
+          <script type="text/ng-template" id="nested-uib-tooltip.html">
             <span>
               Nested &copy; 2017
               <br>
               v {{ctlSidebar.APP_VERSION}}
             </span>
           </script>
-          <div id="Logo-type-white"
-               data-uib-tooltip-template="'nested-uib-tooltip.html'"
-               data-tooltip-placement="right auto" data-tooltip-append-to-body="true"
-          ></div>-->
+          <!--<div id="Logo-type-white"></div>-->
         </div>
       </a>
       <script type="text/ng-template" id="compose-uib-tooltip.html">
@@ -45,7 +43,7 @@
       </a>
       <div class="side-menu">
         <script type="text/ng-template" id="feed-uib-tooltip.html">
-          <translate>Home</translate>
+          <translate>Feed</translate>
         </script>
         <a ui-sref="app.messages-favorites()" class="side-menu-item detailed"
            data-uib-tooltip-template="'feed-uib-tooltip.html'"
@@ -58,8 +56,11 @@
           </span>
           <translate>Feed</translate>
         </a>
+        <script type="text/ng-template" id="bookmark-uib-tooltip.html">
+          <translate>Bookmarked Posts</translate>
+        </script>
         <a ui-sref="app.messages-bookmarked()" class="side-menu-item detailed"
-           data-uib-tooltip-template="'feed-uib-tooltip.html'"
+           data-uib-tooltip-template="'bookmark-uib-tooltip.html'"
            data-tooltip-enable="{{!ctlApp.viewSettings.sidebar.collapsed ? true : false}}"
            data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
           <span>
@@ -69,8 +70,11 @@
           </span>
           <translate>Bookmarked Posts</translate>
         </a>
+        <script type="text/ng-template" id="sent-uib-tooltip.html">
+          <translate>Shared by me</translate>
+        </script>
         <a ui-sref="app.messages-sent()" class="side-menu-item detailed"
-           data-uib-tooltip-template="'feed-uib-tooltip.html'"
+           data-uib-tooltip-template="'sent-uib-tooltip.html'"
            data-tooltip-enable="{{!ctlApp.viewSettings.sidebar.collapsed ? true : false}}"
            data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
           <span>
