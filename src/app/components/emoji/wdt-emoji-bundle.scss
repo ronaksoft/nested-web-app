@@ -65,13 +65,22 @@ body[data-wdt-emoji-bundle='apple'] .wdt-emoji[data-has-img-apple='false'] {
   box-shadow: 0 8px 16px rgba(0,0,0,.32);
   background-color: white;
   // background-color: #fff;
-  &.notSupport {
-    font-family: 'emoji';
-  }
+  // &.notSupport {
+  //   font-family: 'emoji';
+  // }
 }
-.font-emoji {
+.notSupportEmo {
   .wdt-emoji-picker-parent {
-    font-family: 'emoji';
+    display: none;
+  }
+  .wdt-emoji-picker {
+    display: none;
+  }
+  .post-card-comment-input textarea {
+    padding: 5px 8px;
+  }
+  .modal-ft .emoji {
+    display: none;
   }
 }
 
