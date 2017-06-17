@@ -64,7 +64,7 @@
            data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
           <span>
             <svg>
-              <use xlink:href="/assets/icons/nst-icn16.svg#messages"></use>
+              <use xlink:href="/assets/icons/nst-icn16.svg#bookmarked-message"></use>
             </svg>
           </span>
           <translate>Bookmarked Posts</translate>
@@ -75,7 +75,7 @@
            data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
           <span>
             <svg>
-              <use xlink:href="/assets/icons/nst-icn16.svg#messages"></use>
+              <use xlink:href="/assets/icons/nst-icn16.svg#sent-message"></use>
             </svg>
           </span>
           <translate>Shared by me</translate>
@@ -122,9 +122,12 @@
           data-tooltip-enable="{{!ctlApp.viewSettings.sidebar.collapsed ? true : false}}"
           data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
           <span>
-            <svg id="addIcon" morph-svg first-id="sq40dashed" second-id="sq40">
+            <!--<svg id="addIcon" morph-svg first-id="sq40dashed" second-id="sq40">
               <use xlink:href="/assets/icons/nst-add40.svg#sq40"></use>
               <use xlink:href="/assets/icons/nst-add40.svg#sq40dashed"></use>
+            </svg>-->
+            <svg class="_24svg">
+              <use xlink:href="/assets/icons/nst-icn24.svg#cross"></use>
             </svg>
           </span>
           <translate>Create a new Place</translate>
@@ -157,7 +160,7 @@
          data-tooltip-placement="right auto">
         <div>
           <svg class="_16svg">
-            <use xlink:href="/assets/icons/nst-icn16.svg#bell"></use>
+            <use xlink:href="/assets/icons/nst-icn16.svg#square-clock"></use>
           </svg>
         </div>
         <div ng-click="_track('sidebar', 'view notifications');">
