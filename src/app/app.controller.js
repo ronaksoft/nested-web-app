@@ -25,6 +25,9 @@
     $rootScope.topNavOpen = false;
     $rootScope._direction = NstSvcI18n.getLocale()._direction || "ltr";
     $rootScope.deviceDetector = deviceDetector;
+    if ( deviceDetector.os_version === 'windows-xp' || deviceDetector.os_version === 'windows-7' || deviceDetector.os_version === 'windows-8-1' || deviceDetector.os_version === 'windows-8') {
+      $('.wdt-emoji-popup').addClass('notSupport');
+    }
     $rootScope._track = trackBehaviour;
 
 

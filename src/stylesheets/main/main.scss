@@ -10,6 +10,7 @@
 @include font-face(YekanBakh,"../assets/fonts/YekanBakh/YekanBakhNestedWeb-Light", 300, null, eot ttf woff woff2);
 @include font-face(YekanBakh,"../assets/fonts/YekanBakh/YekanBakhNestedWeb-Regular", 400, null, eot ttf woff woff2);
 @include font-face(YekanBakh,"../assets/fonts/YekanBakh/YekanBakhNestedWeb-Bold", bold, null, eot ttf woff woff2);
+@include font-face(emoji,"../assets/fonts/emoji/OpenSansEmoji", 300, null, ttf);
 
 
 /**
@@ -35,7 +36,6 @@ body {
   box-sizing: border-box;
   // overflow-y: scroll;
 }
-
 
 * {
   box-sizing: inherit;

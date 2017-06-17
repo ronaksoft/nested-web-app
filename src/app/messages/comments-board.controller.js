@@ -139,17 +139,22 @@
      *
      * @param  {Event}  e   keypress event handler
      */
+    var resizeTextare = _.debounce(resize, 100);
+    function resize(el) {
+      el.style.height = '';
+      el.style.height = el.scrollHeight + "px";
+    };
+    /**
+     * send - add the comment to the list of the post comments
+     *
+     * @param  {Event}  e   keypress event handler
+     */
     function sendComment(e) {
 
 
       var element = angular.element(e.target);
 
-      var resize = function() {
-        e.target.style.height = '';
-        e.target.style.height = e.target.scrollHeight + "px";
-      };
-
-      $timeout(resize, 0);
+      resizeTextare(e.target);
 
       if (!sendKeyIsPressed(e) || element.attr("mention") === "true") {
         return;
