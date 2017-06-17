@@ -52,7 +52,7 @@
               , '-o-transform': 'scale(' + ratio + ',' + ratio + ')'
               , '-webkit-transform': 'scale(' + ratio + ',' + ratio + ')'
             });
-            elem.height(elem[0].getBoundingClientRect().height + 'px');
+            if (ratio != 1 ) elem.height(elem[0].getBoundingClientRect().height + 'px');
             elem.css({
               'display': 'block'
             });

@@ -30,8 +30,7 @@
       || deviceDetector.os_version === 'windows-8-1'
       || deviceDetector.os_version === 'windows-8'
       || deviceDetector.os === 'linux' ) {
-        $('.wdt-emoji-popup').addClass('notSupport');
-        $('body').addClass('font-emoji ');
+        $('.wdt-emoji-popup').addClass('notSupportEmo');
     }
     $rootScope._track = trackBehaviour;
     $rootScope.goToLastState = function (disableNotify, defaultState) {

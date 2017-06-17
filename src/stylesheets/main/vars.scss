@@ -42,7 +42,6 @@ $hot-bg-color: cornsilk;
 
 $color-gale: rgba(0,0,0,.4);
 // $color-modal-bg: rgba(153,153,153,.72);
-$color-modal-bg: $color-new-hurricane;
 
 //Deprecate soon
 $color-black004: $color-calm;
@@ -53,6 +52,7 @@ $color-comment : #444444;
 
 
 $color-new-hurricane : rgba(50, 61, 71, .72);
+$color-modal-bg: $color-new-hurricane;
 
 $font-size-xxsmall: 10px;
 $font-size-xsmall: 11px;
