@@ -31,7 +31,7 @@
 
     (function () {
       if (NstSvcAuth.isInAuthorization()) {
-        goToDefaultState();
+        $state.go(NST_DEFAULT.STATE);
       }
     })();
 
@@ -49,14 +49,14 @@
 
       var credentials = {
         username: _.toLower(vm.username),
-        password: encrypt(vm.password)
+        password: md5.createHash(vm.password)
       };
 
       NstSvcAuth.login(credentials, vm.remember).then(function (result) {
-        if (hasBackUrl()) {
+        if ($stateParams.back) {
           goToBackUrl();
         } else {
-          goToDefaultState();
+          $state.go(NST_DEFAULT.STATE);
         }
 
       }).catch(function (error) {
@@ -85,18 +85,6 @@
     function goToBackUrl() {
       var url = $window.decodeURIComponent($stateParams.back);
       $location.url(_.trimStart(url, "#"));
-    }
-
-    function hasBackUrl() {
-      return !!$stateParams.back;
-    }
-
-    function goToDefaultState() {
-      $state.go(NST_DEFAULT.STATE);
-    }
-
-    function encrypt(text) {
-      return md5.createHash(text);
     }
   }
 })();
