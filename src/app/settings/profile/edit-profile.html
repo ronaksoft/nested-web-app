@@ -78,7 +78,7 @@
       <div class="field _difh _fw">
         <div class="_df _fw srchp"><translate>Having your Search turned on, anyone can reach you, even without knowing your ID.</translate></div>
         <div class="place-switch _fn">
-          <input type="checkbox" name="checkbox_id" id="Searchable" data-ng-model="ctrl.model.searchable" ng-change="ctrl.updateSearchable(ctrl.model.searchable)" ng-disabled="!ctrl.canEditProfile">
+          <input type="checkbox" name="checkbox_id" id="Searchable" data-ng-model="ctrl.model.privacy.searchable" ng-change="ctrl.updateSearchable(ctrl.model.privacy.searchable)" ng-disabled="!ctrl.canEditProfile">
           <label for="Searchable">
             <b><translate>Yes</translate></b>
             <div class="circle" switch-drag="ctrl.model.searchable"></div>

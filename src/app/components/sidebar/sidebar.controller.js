@@ -35,6 +35,8 @@
       vm.mapLimits = mapLimits;
       vm.hasDraft = NstSvcPostDraft.has();
 
+      vm.admin_area = NST_CONFIG.ADMIN_DOMAIN + (NST_CONFIG.ADMIN_PORT ? ':' + NST_CONFIG.ADMIN_PORT : '');
+
       /*****************************
        ***** Controller Methods ****
        *****************************/

@@ -149,19 +149,17 @@
       var defer = $q.defer();
 
       var query = new NstFactoryQuery(id);
-      var ids;
+
 
       if (!id) {
         throw "Post id is not define!";
-      } else {
-        ids = id;
       }
 
       if (!query.id) {
         defer.resolve(null);
       } else {
         NstSvcServer.request('post/mark_as_read', {
-          post_id: ids
+          post_id: id
         }).then(function () {
           var post = NstSvcPostStorage.get(query.id);
 
