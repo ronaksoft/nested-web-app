@@ -41,7 +41,8 @@ $color-hover-comment: #DAF2E4;
 $hot-bg-color: cornsilk;
 
 $color-gale: rgba(0,0,0,.4);
-$color-modal-bg: rgba(153,153,153,.72);
+// $color-modal-bg: rgba(153,153,153,.72);
+$color-modal-bg: $color-new-hurricane;
 
 //Deprecate soon
 $color-black004: $color-calm;
