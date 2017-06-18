@@ -695,6 +695,10 @@ body[dir="rtl"] {
     right: auto;
     left: 4px;
   }
+  nst-navbar .content .top-nav {
+    padding-left: 0;
+    padding-right: 16px;
+}
   nst-navbar .content .bot-nav .navigation .search input {
     padding: 2px 8px 2px 20px;
   }

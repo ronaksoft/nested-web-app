@@ -475,6 +475,7 @@ nst-navbar {
       flex: none;
       float: left;
       align-items: center;
+      margin: 0 24px;
       display: flex;
       position: relative;
       input {
@@ -554,7 +555,7 @@ nst-navbar {
     position: relative;
     flex-direction: column;
     height: 100%;
-    width: calc(100% - 556px);
+    width: calc(100% - 584px);
     min-width: 272px;
     float: left;
     > * {
