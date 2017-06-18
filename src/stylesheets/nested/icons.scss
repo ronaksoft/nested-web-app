@@ -20,7 +20,7 @@
 }
 .svg-hover {
   transition: all .2s;
-  fill: $color-wind;
+  fill: $color-wind-new;
   use:first-child{
     display: flex;
   }
@@ -29,7 +29,7 @@
   }
   //&:hover,
   &.morphed{
-    fill: $color-sense ;
+    fill: $color-sense-wire ;
     use:first-child{
       display: none;
     }
