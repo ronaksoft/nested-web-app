@@ -49,38 +49,31 @@
             // Toggle badge visibility
             if ( scope.ctlSidebar.overFlowTop ) {
                 var scrolledIndex = Math.floor((st - 16) / ih),
-                    UnreadCountsT = 0;
+                    UnreadCountsT = 0,
+                    i = 0;
 
-                for (var i = 0;i <= scrolledIndex; i++){
+                for (i; i <= scrolledIndex; i++){
                     if ( placesArray[i] === 1 ) {
                         ++UnreadCountsT;
                     }
                 }
-                if ( UnreadCountsT > 0){
-                    scope.ctlSidebar.overFlowTopUnread = true;
-                } else {
-                    scope.ctlSidebar.overFlowTopUnread = false;
-                }
+                
+                scope.ctlSidebar.overFlowTopUnread = UnreadCountsT > 0;
             }
 
             if ( scope.ctlSidebar.overFlowBottom ) {
-                var notScrolled = sh - ch - st;
+                var notScrolled = sh - ch - st,
+                    notScrolledIndex = Math.floor((notScrolled - 16 - ih) / ih), // Remove last item ( create place )
+                    UnreadCountsB = 0,
+                    j = 0;
 
-                // 16 : padding
-                var notScrolledIndex = Math.floor((notScrolled - 16 - ih) / ih), // Remove last item ( create place )
-                    UnreadCountsB = 0;
-
-                for (var j = 0;j <= notScrolledIndex; j++){
+                for (j; j <= notScrolledIndex; j++){
                     if ( placesArray[placesArray.length - j - 1] === 1 ) {
                         ++UnreadCountsB;
                     }
                 }
 
-                if ( UnreadCountsB > 0){
-                    scope.ctlSidebar.overFlowBottomUnread = true;
-                } else {
-                    scope.ctlSidebar.overFlowBottomUnread = false;
-                }
+                scope.ctlSidebar.overFlowBottomUnread = UnreadCountsB > 0;
             }
         }
           
