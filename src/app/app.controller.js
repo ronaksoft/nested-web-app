@@ -27,10 +27,10 @@
     $rootScope.deviceDetector = deviceDetector;
     if ( deviceDetector.os_version === 'windows-xp'
       || deviceDetector.os_version === 'windows-7'
-      || deviceDetector.os_version === 'windows-8-1'
       || deviceDetector.os_version === 'windows-8'
       || deviceDetector.os === 'linux' ) {
-        $('.wdt-emoji-popup').addClass('notSupportEmo');
+        // $('.wdt-emoji-popup').addClass('notSupport');
+        $('body').addClass('notSupportEmo');
     }
     $rootScope._track = trackBehaviour;
     $rootScope.goToLastState = function (disableNotify, defaultState) {

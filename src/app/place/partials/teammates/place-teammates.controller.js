@@ -130,7 +130,6 @@
     }
 
     function openMemberModal() {
-      console.log('here');
       $state.go('app.place-settings', { placeId : vm.placeId, tab : 'members' }, { notify : false });
     }
 
@@ -166,8 +165,6 @@
         }
       });
     }
-
-
 
     function add(place, users) {
       NstSvcPlaceFactory.addUser(place, users).then(function (result) {
@@ -282,6 +279,7 @@
         loadTeammates(vm.placeId, vm.hasSeeMembersAccess).then(function (teammates) {
           vm.teammates = teammates;
         }).finally(function () {
+          readyAffix();
           vm.loading = false;
         });
       } else {
@@ -307,6 +305,10 @@
       }
 
       return deferred.promise;
+    }
+
+    function readyAffix() {
+      $rootScope.$emit('affixCheck');
     }
 
     function getKeyholders(placeId, limit, skip, hasAccess) {
