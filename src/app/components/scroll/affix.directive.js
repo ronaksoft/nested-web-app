@@ -42,9 +42,7 @@
         $timeout(function(){applier();},10);
 
 
-        win.on("resize", function () {
-          applier();
-        });
+ 
 
         function applier() {
           removeFix();
@@ -134,15 +132,21 @@
               if(clearRight) {
                 $element.css('right', 'auto');
               }
-              return win.unbind('scroll', affixElement);
             }
           }
 
+          function resizeE() {
+            win.off('resize', resizeE);
+            win.unbind('scroll', affixElement);
+            applier();
+          }
 
           findLeftOffset();
           affixElement();
           win.bind('scroll', affixElement);
           firstFixes();
+
+          win.on("resize", resizeE);
 
         }
 
