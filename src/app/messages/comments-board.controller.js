@@ -187,7 +187,7 @@
           e.currentTarget.focus();
         }, 10);
         vm.onCommentSent(comment);
-        $timeout(resize, 0);
+        resizeTextare(e.target);
       }).catch(function(error) {
         toastr.error(NstSvcTranslation.get('Sorry, an error has occured in sending your comment'));
       });
