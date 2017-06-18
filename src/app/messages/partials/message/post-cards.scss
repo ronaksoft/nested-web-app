@@ -255,7 +255,7 @@ post-card {
     overflow-x: auto;
     overflow-y: hidden;
     padding: 0 24px;
-    ul {
+    ul,ol {
       margin: 0 16px;
     }
     >div > [mail-resizer] {
