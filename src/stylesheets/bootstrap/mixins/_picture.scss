@@ -1,0 +1,20 @@
+// place pictures border
+
+@mixin picture($avatarWidth,$avatarRad) {
+  width: $avatarWidth;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  flex: none;
+  border-radius: $avatarRad;
+  height: $avatarWidth;
+  background-color: $color-white;
+  box-shadow: 0 4px 8px $color-breeze;
+  img {
+    width: $avatarWidth - 6;
+    height: $avatarWidth - 6;
+    margin: 3px!important;
+    border-radius: $avatarRad;
+    display: flex;
+  }
+}

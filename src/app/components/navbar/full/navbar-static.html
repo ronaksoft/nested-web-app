@@ -4,20 +4,22 @@
     <div class="top-nav" ng-if="ctlFullNavbar.hasPlace()">
       <div class="place-logo">
         <img ng-src="{{ctlFullNavbar.place | picture:'x128'}}"/>
+        <i>
+          <svg class="_16svg" ng-show="ctlFullNavbar.hasPlace() && ctlFullNavbar.isGrandPlace">
+            <use xlink:href="/assets/icons/nst-icn16.svg#places"></use>
+          </svg>
+          <svg class="_16svg" ng-show="ctlFullNavbar.hasPlace() && !ctlFullNavbar.isGrandPlace && !ctlFullNavbar.place.privacy.locked">
+            <use xlink:href="/assets/icons/nst-icn16.svg#window"></use>
+          </svg>
+          <svg class="_16svg" ng-show="ctlFullNavbar.hasPlace() && !ctlFullNavbar.isGrandPlace && ctlFullNavbar.place.privacy.locked">
+            <use xlink:href="/assets/icons/nst-icn16.svg#brick-wall"></use>
+          </svg>
+        </i>
       </div>
       <div class="place-info _difv" >
         <!--<div id="filler" affixers first-imp="true" parent=".content" after-content="72"></div>-->
         <cite fit-text>{{ctlFullNavbar.title}}</cite>
         <h3 id="place-address">
-          <svg ng-show="ctlFullNavbar.hasPlace() && ctlFullNavbar.isGrandPlace">
-            <use xlink:href="/assets/icons/nst-icn16.svg#places"></use>
-          </svg>
-          <svg ng-show="ctlFullNavbar.hasPlace() && !ctlFullNavbar.isGrandPlace && !ctlFullNavbar.place.privacy.locked">
-            <use xlink:href="/assets/icons/nst-icn16.svg#window"></use>
-          </svg>
-          <svg ng-show="ctlFullNavbar.hasPlace() && !ctlFullNavbar.isGrandPlace && ctlFullNavbar.place.privacy.locked">
-            <use xlink:href="/assets/icons/nst-icn16.svg#brick-wall"></use>
-          </svg>
           <svg ng-show="ctlFullNavbar.hasPlace() && ctlFullNavbar.place.privacy.receptive == 'off' &&  ctlFullNavbar.place.policy.add_post == 'creators'">
             <use xlink:href="/assets/icons/nst-icn16.svg#manager"></use>
           </svg>
@@ -35,7 +37,15 @@
         <!--<p class="nst-mood-storm margin-t-5">{{ctlFullNavbar.placeDescription | truncate}}</p>-->
 
       </div>
-
+      <div class="search">
+        <input type="text" nst-mention class="form-control" place-id="{{ctlFullNavbar.placeId}}"
+                ng-keyup="ctlFullNavbar.search(ctlFullNavbar.searchQuery, $event);" ng-model="ctlFullNavbar.searchQuery"
+                search-placeholder-setter has-place="ctlFullNavbar.hasPlace()" place-name="ctlFullNavbar.title"/>
+        <svg class="_24svg mirror _fn">
+          <use xlink:href="/assets/icons/nst-icn24.svg#search"></use>
+        </svg>
+      </div>
+      <div class="cp-illu _fl"></div>
     </div>
     <div class="bot-nav">
       <div class="navigation">
@@ -53,12 +63,7 @@
             <translate>Files</translate>
           </a>
         </nav>
-        <div class="search">
-          <input type="text" nst-mention class="form-control" place-id="{{ctlFullNavbar.placeId}}"
-                 ng-keyup="ctlFullNavbar.search(ctlFullNavbar.searchQuery, $event);" ng-model="ctlFullNavbar.searchQuery"
-                 search-placeholder-setter has-place="ctlFullNavbar.hasPlace()" place-name="ctlFullNavbar.title"/>
-          <i class="icon cursor-pointer icon-search-rotated"></i>
-        </div>
+        
         <div class="cp-illu"></div>
       </div>
     </div>
