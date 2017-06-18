@@ -25,6 +25,7 @@
             initControlls();
         },500);
 
+        //TODO : reduce the cyclomatic complexity !
         function checkScroll() {
             var el = $element[0],
                 ch = el.clientHeight,
@@ -45,19 +46,16 @@
                 scope.ctlSidebar.overFlowBottom = true;
                 scope.ctlSidebar.overFlowTop = true;
             }
-
             // Toggle badge visibility
             if ( scope.ctlSidebar.overFlowTop ) {
                 var scrolledIndex = Math.floor((st - 16) / ih),
                     UnreadCountsT = 0,
                     i = 0;
-
                 for (i; i <= scrolledIndex; i++){
                     if ( placesArray[i] === 1 ) {
                         ++UnreadCountsT;
                     }
                 }
-                
                 scope.ctlSidebar.overFlowTopUnread = UnreadCountsT > 0;
             }
 
