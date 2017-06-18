@@ -26,15 +26,19 @@
         },500);
 
         function checkScroll() {
-            var el = $element[0];
+            var el = $element[0],
+                ch = el.clientHeight,
+                sh = el.scrollHeight,
+                st = el.scrollTop,
+                ih = 48;
             // Toggle Buttons
-            if (el.clientHeight >= el.scrollHeight) {
+            if ( ch >= sh ) {
                 scope.ctlSidebar.overFlowBottom = false;
                 scope.ctlSidebar.overFlowTop = false;
-            } else if (el.scrollTop <= 28) {
+            } else if ( st <= 28 ) {
                 scope.ctlSidebar.overFlowBottom = true;
                 scope.ctlSidebar.overFlowTop = false;
-            } else if (el.clientHeight + el.scrollTop >= el.scrollHeight - 28) {
+            } else if ( ch + st >= sh - 28 ) {
                 scope.ctlSidebar.overFlowBottom = false;
                 scope.ctlSidebar.overFlowTop = true;
             } else {
@@ -44,8 +48,8 @@
 
             // Toggle badge visibility
             if ( scope.ctlSidebar.overFlowTop ) {
-                var scrolledIndex = Math.floor((el.scrollTop - 16) / 64);
-                var UnreadCountsT = 0;
+                var scrolledIndex = Math.floor((st - 16) / ih),
+                    UnreadCountsT = 0;
 
                 for (var i = 0;i <= scrolledIndex; i++){
                     if ( placesArray[i] === 1 ) {
@@ -60,9 +64,11 @@
             }
 
             if ( scope.ctlSidebar.overFlowBottom ) {
-                var notScrolled = el.scrollHeight - el.clientHeight - el.scrollTop;
-                var notScrolledIndex = Math.floor((notScrolled - 16 - 64) / 64);
-                var UnreadCountsB = 0;
+                var notScrolled = sh - ch - st;
+
+                // 16 : padding
+                var notScrolledIndex = Math.floor((notScrolled - 16 - ih) / ih), // Remove last item ( create place )
+                    UnreadCountsB = 0;
 
                 for (var j = 0;j <= notScrolledIndex; j++){
                     if ( placesArray[placesArray.length - j - 1] === 1 ) {
