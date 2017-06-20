@@ -205,10 +205,6 @@
         }
       });
 
-      NstSvcPostFactory.addEventListener(NST_POST_FACTORY_EVENT.REMOVE, function (e) {
-        //TODO:: Handel me
-      });
-
 
       eventReferences.push($rootScope.$on('post-unbookmarked', function (e, data) {
         if ($state.current.name === 'app.messages-bookmarked' ||
