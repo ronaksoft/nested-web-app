@@ -660,11 +660,11 @@
         NstSvcPlaceFactory.updatePlaceInTree(vm.places, mapPlace(data.place));
       }));
 
-      NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.REMOVE, function (event) {
-        NstSvcPlaceFactory.removePlaceFromTree(vm.places, event.detail);
+      eventReferences.push($rootScope.$on('place-removed', function (e, data) {
+        NstSvcPlaceFactory.removePlaceFromTree(vm.places, data.placeId);
         $rootScope.$emit('init-controls-sidebar');
         vm.mapLimits();
-      });
+      }));
 
 
       NstSvcSync.addEventListener(NST_EVENT_ACTION.POST_ADD, function (e) {

@@ -197,9 +197,9 @@
       getPlaceUnreadCounts();
     });
 
-    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.REMOVE, function (event) {
-      clearPlace(event.detail);
-    });
+    eventReferences.push($rootScope.$on('place-removed', function (e, data) {
+      clearPlace(data.placeId);
+    }));
 
 
     $rootScope.$on('reload-counters', function () {
