@@ -20,6 +20,7 @@
 
     isBookMark();
     isSent();
+    isFeed();
     isUnread();
     isConversation();
     isSearch();
@@ -43,7 +44,6 @@
     vm.isPersonal = isPersonal;
     vm.isSubPersonal = isSubPersonal;
     vm.confirmToLeave = confirmToLeave;
-    vm.isFeed = $state.current.options.feed;
     vm.isFavPlaces = $state.current.options.favoritePlace;
     vm.searchKeyPressed = searchKeyPressed;
     vm.goBack = goBack;
@@ -243,9 +243,18 @@
       }
     }
 
-    function isBookMark() {
+    function isFeed() {
       if ($state.current.name == 'app.messages-favorites' ||
         $state.current.name == 'app.messages-favorites-sorted') {
+        vm.isFeed = true;
+        return true;
+      }
+      return false;
+    }
+
+    function isBookMark() {
+      if ($state.current.name == 'app.messages-bookmarked' ||
+        $state.current.name == 'app.messages-bookmarked-sort') {
         vm.isBookmarkMode = true;
         return true;
       }

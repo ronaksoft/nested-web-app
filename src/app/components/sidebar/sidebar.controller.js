@@ -17,6 +17,9 @@
       var vm = this;
       var eventReferences = [];
 
+      isBookMark();
+      isSent();
+      isFeed();
       /*****************************
        *** Controller Properties ***
        *****************************/
@@ -257,6 +260,13 @@
 
 
       $rootScope.$on('$stateChangeSuccess', function () {
+        vm.isBookmarkMode = false;
+        vm.isFeed = false;
+        vm.isSentMode = false;
+        isBookMark();
+        isSent();
+        isFeed();
+        vm.admin_area = NST_CONFIG.ADMIN_DOMAIN + (NST_CONFIG.ADMIN_PORT ? ':' + NST_CONFIG.ADMIN_PORT : '');
 
         if ($stateParams.placeId) {
           if (vm.selectedGrandPlace && $stateParams.placeId.split('.')[0] !== vm.selectedGrandPlace.id) {
@@ -758,5 +768,33 @@
           }
         });
       });
+
+      function isFeed() {
+        if ($state.current.name == 'app.messages-favorites' ||
+          $state.current.name == 'app.messages-favorites-sorted') {
+          vm.isFeed = true;
+          return true;
+        }
+        return false;
+      }
+
+      function isBookMark() {
+        if ($state.current.name == 'app.messages-bookmarked' ||
+          $state.current.name == 'app.messages-bookmarked-sort') {
+          vm.isBookmarkMode = true;
+          return true;
+        }
+        return false;
+      }
+
+      function isSent() {
+        if ($state.current.name == 'app.messages-sent' ||
+          $state.current.name == 'app.messages-sent-sorted') {
+          vm.isSentMode = true;
+          return true;
+        }
+        return false;
+      }
+
     }
   })();

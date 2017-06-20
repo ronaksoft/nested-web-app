@@ -104,35 +104,6 @@
     var isRTL = $rootScope._direction;
     var lang = isRTL == 'rtl' ? 'fa' : 'en';
 
-    var allowedContent =
-      'a[class,href,id,style,target]{*};' +
-      'b[class,id,style]{*};' +
-      'br[class,id,style]{*};' +
-      'div[align,class,dir,id,style]{*};' +
-      'font[class,color,face,id,size,style]{*};' +
-      'h1[align,class,dir,id,style]{*};' +
-      'h2[align,class,dir,id,style]{*};' +
-      'h3[align,class,dir,id,style]{*};' +
-      'h4[align,class,dir,id,style]{*};' +
-      'h5[align,class,dir,id,style]{*};' +
-      'h6[align,class,dir,id,style]{*};' +
-      'head[dir,lang,style]{*};' +
-      'hr[align,size,width,style]{*};' +
-      'img[align,border,class,height,hspace,id,src,style,usemap,vspace,width]{*};' +
-      'label[class,id,style]{*};' +
-      'li[class,dir,id,style,type]{*};' +
-      'ol[class,dir,id,style,type]{*};' +
-      'p[align,class,dir,id,style]{*};' +
-      'span[class,id,style]{*};' +
-      'strong[class,id,style]{*};' +
-      'table[align,bgcolor,border,cellpadding,cellspacing,class,dir,frame,id,rules,style,width]{*};' +
-      'td[abbr,align,bgcolor,class,colspan,dir,height,id,lang,rowspan,scope,style,valign,width]{*};' +
-      'th[abbr,align,bgcolor,class,colspan,dir,height,id,lang,rowspan,scope,style,valign,width]{*};' +
-      'tr[align,bgcolor,class,dir,id,style,valign]{*}' +
-      ';u[class,id,style]{*};' +
-      'ul[class,dir,id,style]{*};';
-
-
     (function () {
       if ($stateParams.attachments && $stateParams.attachments.length > 0) {
         vm.model.attachments = _.map($stateParams.attachments, function (item) {

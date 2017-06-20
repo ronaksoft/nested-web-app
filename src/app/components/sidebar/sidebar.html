@@ -45,8 +45,8 @@
         <script type="text/ng-template" id="feed-uib-tooltip.html">
           <translate>Feed</translate>
         </script>
-        <a ui-sref="app.messages-favorites()" class="side-menu-item detailed"
-           data-uib-tooltip-template="'feed-uib-tooltip.html'"
+        <a ui-sref="app.messages-favorites()" class="side-menu-item detailed ng-class:{'isSelected' : ctlSidebar.isFeed}"
+           data-uib-tooltip-template="'feed-uib-tooltip.html'" active-group="message"
            data-tooltip-enable="{{!ctlApp.viewSettings.sidebar.collapsed ? true : false}}"
            data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
           <span>
@@ -59,8 +59,8 @@
         <script type="text/ng-template" id="bookmark-uib-tooltip.html">
           <translate>Bookmarked Posts</translate>
         </script>
-        <a ui-sref="app.messages-bookmarked()" class="side-menu-item detailed"
-           data-uib-tooltip-template="'bookmark-uib-tooltip.html'"
+        <a ui-sref="app.messages-bookmarked()" class="side-menu-item detailed ng-class:{'isSelected' : ctlSidebar.isBookmarkMode}"
+           data-uib-tooltip-template="'bookmark-uib-tooltip.html'" active-group="bookmarked"
            data-tooltip-enable="{{!ctlApp.viewSettings.sidebar.collapsed ? true : false}}"
            data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
           <span>
@@ -73,8 +73,8 @@
         <script type="text/ng-template" id="sent-uib-tooltip.html">
           <translate>Shared by me</translate>
         </script>
-        <a ui-sref="app.messages-sent()" class="side-menu-item detailed"
-           data-uib-tooltip-template="'sent-uib-tooltip.html'"
+        <a ui-sref="app.messages-sent()" class="side-menu-item detailed ng-class:{'isSelected' : ctlSidebar.isSentMode}"
+           data-uib-tooltip-template="'sent-uib-tooltip.html'" active-group="sent"
            data-tooltip-enable="{{!ctlApp.viewSettings.sidebar.collapsed ? true : false}}"
            data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
           <span>

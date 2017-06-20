@@ -10,34 +10,36 @@
     return {
       restrict: 'A',
       link: function ($scope, $element, $attrs) {
-        var win = angular.element($window);
-        var topOffset = 0;
-        var afterContent = 0;
-        var applierTrigger = false;
-        var containerLeft = $('body').offset().left || 0;
+        var win = angular.element($window),
+            topOffset = 0,
+            afterContent = 0,
+            applierTrigger = false,
+            containerLeft = $('body').offset().left || 0,
+            isRTL = $rootScope._direction,
+            i = 0,
+            defTop = $element.offset().top;
 
-        var isRTL = $rootScope._direction;
+        $rootScope.$on('affixCheck',function(){
+          $timeout(function(){applier();},10);
+        });
 
-        var i = 0;
-        var defTop = $element.offset().top;
+        // function checkLoop() {
+        //   var tempTop = $element.offset().top;
+        //   if (defTop === tempTop) {
 
-        function checkLoop() {
-          var tempTop = $element.offset().top;
-          if (defTop === tempTop) {
+        //   }else {
+        //     applier();
+        //   }
+        //   setTimeout(function() {
+        //     if (i < 3) {
+        //       checkLoop();
+        //     }
+        //     i++;
+        //   }, 3000);
+        // };
 
-          }else {
-            applier();
-          }
-          setTimeout(function() {
-            if (i < 3) {
-              checkLoop();
-            }
-            i++;
-          }, 3000);
-        };
-
-        checkLoop();
-        applier();
+        // applier();
+        $timeout(function(){applier();},10);
 
 
         win.on("resize", function () {

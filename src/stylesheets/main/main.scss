@@ -43,8 +43,11 @@ body {
     outline: none;
   }
   &:visited, &:link ,&:active, &:hover {
-    text-decoration: none !important;
+    text-decoration: none;
   }
+}
+u:hover {
+  text-decoration: underline;
 }
 
 //::selection {
