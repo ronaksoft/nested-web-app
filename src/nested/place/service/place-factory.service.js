@@ -552,12 +552,11 @@
       }, "getFavoritesPlaces");
     };
 
-    PlaceFactory.prototype.setBookmarkOption = function (id, bookmarkId, value) {
+    PlaceFactory.prototype.setBookmarkOption = function (id, value) {
       var factory = this;
 
       return factory.sentinel.watch(function () {
-        var requestCommad;
-        value ? requestCommad = 'place/add_favorite' : requestCommad = 'place/remove_favorite'
+        var requestCommad = value ? 'place/add_favorite' : 'place/remove_favorite';
 
         var deferred = $q.defer();
         var query = new NstFactoryQuery(id);
@@ -565,12 +564,7 @@
         NstSvcServer.request(requestCommad, {
           place_id: id
         }).then(function () {
-          factory.dispatchEvent(new CustomEvent(
-            value ? NST_PLACE_FACTORY_EVENT.BOOKMARK_ADD : NST_PLACE_FACTORY_EVENT.BOOKMARK_REMOVE,
-            new NstFactoryEventData({
-              id: id
-            })
-          ));
+          $rootScope.$broadcast('place-bookmark', { placeId: id, bookmark: value});
           deferred.resolve(true);
         }).catch(function (error) {
           deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));

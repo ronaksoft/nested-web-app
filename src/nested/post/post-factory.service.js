@@ -9,7 +9,7 @@
                              _, md5,
                              NstSvcPostStorage, NstCollector, NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory, NstSvcStore, NstSvcCommentFactory, NstFactoryEventData, NstUtility,
                              NstFactoryError, NstFactoryQuery, NstPost, NstBaseFactory,
-                             NST_MESSAGES_SORT_OPTION, NST_SRV_EVENT, NST_CONFIG, NST_POST_FACTORY_EVENT) {
+                             NST_MESSAGES_SORT_OPTION, NST_SRV_EVENT, NST_CONFIG) {
 
     function PostFactory() {
       this.collector = new NstCollector('post', this.getMany);

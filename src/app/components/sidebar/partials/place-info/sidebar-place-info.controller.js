@@ -9,7 +9,7 @@
   function SidebarPlaceInfoController($rootScope, $q, $scope, $state, $stateParams, $window, _,
                                       NstSvcLogger,
                                       NstSvcPostFactory, NstSvcPlaceFactory, NstSvcPlaceMap, NstUtility, NstSvcSync,
-                                      NST_POST_FACTORY_EVENT, NST_PLACE_FACTORY_EVENT, NST_DEFAULT, NstVmPlace, NstSvcServer, NST_SRV_EVENT, NST_EVENT_ACTION) {
+                                      NST_PLACE_FACTORY_EVENT, NST_DEFAULT, NstVmPlace, NstSvcServer, NST_SRV_EVENT, NST_EVENT_ACTION) {
     var vm = this;
     var eventReferences = [];
 
@@ -188,13 +188,9 @@
       getPlaceUnreadCounts();
     });
 
-    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.BOOKMARK_ADD, function (e) {
-      vm.placesFavoritesObject[e.detail.id] = true;
-    });
-
-    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.BOOKMARK_REMOVE, function (e) {
-      vm.placesFavoritesObject[e.detail.id] = false;
-    });
+    eventReferences.push($rootScope.$on('place-bookmark', function (e, data) {
+      vm.placesFavoritesObject[data.placeId] = data.bookmak;
+    }));
 
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.READ_ALL_POST, function () {
       getPlaceUnreadCounts();

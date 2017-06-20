@@ -13,6 +13,7 @@
                                 NST_CONFIG, NST_DEFAULT, NST_PLACE_FACTORY_EVENT, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE,
                                 NstPlaceOneCreatorLeftError, NstPlaceCreatorOfParentError, NstManagerOfSubPlaceError) {
     var vm = this;
+    var eventReferences = [];
     /*****************************
      *** Controller Properties ***
      *****************************/
@@ -262,7 +263,7 @@
 
     function toggleBookmark() {
       vm.isBookmarked = !vm.isBookmarked;
-      NstSvcPlaceFactory.setBookmarkOption(vm.placeId, '_starred', vm.isBookmarked).then(function (result) {
+      NstSvcPlaceFactory.setBookmarkOption(vm.placeId, vm.isBookmarked).then(function (result) {
 
       }).catch(function (error) {
         vm.isBookmarked = !vm.isBookmarked;
@@ -448,13 +449,9 @@
       $rootScope.goToLastState();
     }
 
-    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.BOOKMARK_ADD, function (e) {
-      if (e.detail.id === vm.placeId) vm.isBookmarked = true;
-    });
-
-    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.BOOKMARK_REMOVE, function (e) {
-      if (e.detail.id === vm.placeId) vm.isBookmarked = false;
-    });
+    eventReferences.push($rootScope.$on('place-bookmark', function (e, data) {
+      if (data.placeId === vm.placeId) vm.isBookmarked = data.bookmark;
+    }));
 
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.NOTIFICATION_ON, function (e) {
       if (e.detail.id === vm.placeId) vm.notificationStatus = true;
@@ -475,6 +472,14 @@
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.PICTURE_CHANGE, function (event) {
       NstSvcPlaceFactory.get(event.detail.place.id).then(function (place) {
         vm.place = place;
+      });
+    });
+
+    $scope.$on('$destroy', function () {
+      _.forEach(eventReferences, function (cenceler) {
+        if (_.isFunction(cenceler)) {
+          cenceler();
+        }
       });
     });
 

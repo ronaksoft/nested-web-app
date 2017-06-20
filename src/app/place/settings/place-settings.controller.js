@@ -324,13 +324,9 @@
       });
     }
 
-    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.BOOKMARK_ADD, function (e) {
-      if (e.detail.id === vm.placeId) vm.options.bookmark = true;
-    });
-
-    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.BOOKMARK_REMOVE, function (e) {
-      if (e.detail.id === vm.placeId) vm.options.bookmark = false;
-    });
+    eventReferences.push($rootScope.$on('place-bookmark', function (e, data) {
+      if (data.placeId === vm.placeId) vm.options.bookmark = data.bookmark;
+    }));
 
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.NOTIFICATION_ON, function (e) {
       if (e.detail.id === vm.placeId) vm.options.notification = true;
@@ -342,6 +338,12 @@
 
     $scope.$on('$destroy', function () {
       _.forEach(timeoutReferences, $timeout.cancel);
+
+      _.forEach(eventReferences, function (cenceler) {
+        if (_.isFunction(cenceler)) {
+          cenceler();
+        }
+      });
     });
 
   }
