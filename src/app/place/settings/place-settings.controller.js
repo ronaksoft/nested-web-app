@@ -328,13 +328,12 @@
       if (data.placeId === vm.placeId) vm.options.bookmark = data.bookmark;
     }));
 
-    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.NOTIFICATION_ON, function (e) {
-      if (e.detail.id === vm.placeId) vm.options.notification = true;
-    });
+    eventReferences.push($rootScope.$on('place-notification', function (e, data) {
+      // TODO: Remove me
+      console.log('place-notification', data);
 
-    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.NOTIFICATION_OFF, function (e) {
-      if (e.detail.id === vm.placeId) vm.options.notification = false;
-    });
+      if (data.placeId === vm.placeId) vm.options.notification = data.notification;
+    }));
 
     $scope.$on('$destroy', function () {
       _.forEach(timeoutReferences, $timeout.cancel);

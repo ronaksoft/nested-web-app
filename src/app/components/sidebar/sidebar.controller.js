@@ -656,9 +656,9 @@
         }
       }));
 
-      NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.PICTURE_CHANGE, function (event) {
-        NstSvcPlaceFactory.updatePlaceInTree(vm.places, mapPlace(event.detail.place));
-      });
+      eventReferences.push($rootScope.$on('place-picture-changed', function (e, data) {
+        NstSvcPlaceFactory.updatePlaceInTree(vm.places, mapPlace(data.place));
+      }));
 
       NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.REMOVE, function (event) {
         NstSvcPlaceFactory.removePlaceFromTree(vm.places, event.detail);

@@ -453,13 +453,11 @@
       if (data.placeId === vm.placeId) vm.isBookmarked = data.bookmark;
     }));
 
-    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.NOTIFICATION_ON, function (e) {
-      if (e.detail.id === vm.placeId) vm.notificationStatus = true;
-    });
-
-    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.NOTIFICATION_OFF, function (e) {
-      if (e.detail.id === vm.placeId) vm.notificationStatus = false;
-    });
+    eventReferences.push($rootScope.$on('place-notification', function (e, data) {
+      // TODO: Remove me
+      console.log('place-notification', data);
+      if (data.placeId === vm.placeId) vm.notificationStatus = data.notification;
+    }));
 
     eventReferences.push($rootScope.$on('place-updated', function (e, data) {
       if (getPlaceId() === data.placeId) {
@@ -469,11 +467,11 @@
       }
     }));
 
-    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.PICTURE_CHANGE, function (event) {
-      NstSvcPlaceFactory.get(event.detail.place.id).then(function (place) {
-        vm.place = place;
+    eventReferences.push($rootScope.$on('place-picture-changed', function (e, data) {
+      NstSvcPlaceFactory.get(data.placeId).then(function (place) {
+        vm.place = data.place;
       });
-    });
+    }));
 
     $scope.$on('$destroy', function () {
       _.forEach(eventReferences, function (cenceler) {

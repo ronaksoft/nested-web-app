@@ -89,14 +89,7 @@
       NstSvcServer.addEventListener(NST_EVENT_ACTION.PLACE_PICTURE, function (event) {
         var tlData = event.detail;
         factory.getTiny(tlData.place_id).then(function (place) {
-          factory.dispatchEvent(new CustomEvent(
-            NST_PLACE_FACTORY_EVENT.PICTURE_CHANGE, {
-              detail: {
-                id: place.id,
-                place: place
-              }
-            }
-          ));
+          $rootScope.$broadcast('place-picture-changed', { placeId: place.id, place: place });
         });
       });
 
@@ -412,14 +405,7 @@
           }).then(function (response) {
 
             factory.get(id, true).then(function (place) {
-              factory.dispatchEvent(new CustomEvent(
-                NST_PLACE_FACTORY_EVENT.PICTURE_CHANGE, {
-                  detail: {
-                    id: place.id,
-                    place: place
-                  }
-                }
-              ));
+              $rootScope.$broadcast('place-picture-changed', { placeId: place.id, place: place });
             });
 
             deferred.resolve(response);
@@ -502,12 +488,7 @@
           place_id: id,
           state: !!value
         }).then(function () {
-          factory.dispatchEvent(new CustomEvent(
-            value ? NST_PLACE_FACTORY_EVENT.NOTIFICATION_ON : NST_PLACE_FACTORY_EVENT.NOTIFICATION_OFF,
-            new NstFactoryEventData({
-              id: id
-            })
-          ));
+          $rootScope.$broadcast('place-notification', { placeId: id, notification: value });
           deferred.resolve(true);
         }).catch(function (error) {
           deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
