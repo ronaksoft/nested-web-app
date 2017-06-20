@@ -210,18 +210,18 @@
       });
 
 
-      NstSvcPostFactory.addEventListener(NST_POST_FACTORY_EVENT.UNBOOKMARKED, function (e) {
+      eventReferences.push($rootScope.$on('post-unbookmarked', function (e, data) {
         if ($state.current.name === 'app.messages-bookmarked' ||
           $state.current.name === 'app.messages-bookmarked-sorted') {
           var message = _.find(vm.messages, {
-            id: e.detail
+            id: data.postId
           });
 
           if (message) {
             NstUtility.collection.dropById(vm.messages, message.id);
           }
         }
-      });
+      }));
 
       $rootScope.$on('post-removed', function (event, data) {
 

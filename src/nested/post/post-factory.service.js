@@ -319,11 +319,7 @@
             post.pinned = true;
             NstSvcPostStorage.set(query.id, post);
           }
-
-          factory.dispatchEvent(new CustomEvent(
-            NST_POST_FACTORY_EVENT.BOOKMARKED,
-            new NstFactoryEventData(id)
-          ));
+          $rootScope.$broadcast('post-bookmarked', { postId: id });
 
           resolve(post);
         }).catch(function (error) {
@@ -348,10 +344,7 @@
             NstSvcPostStorage.set(query.id, post);
           }
 
-          factory.dispatchEvent(new CustomEvent(
-            NST_POST_FACTORY_EVENT.UNBOOKMARKED,
-            new NstFactoryEventData(id)
-          ));
+          $rootScope.$broadcast('post-unbookmarked', { postId: id });
 
           resolve(post);
         }).catch(function (error) {
