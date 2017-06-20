@@ -15,6 +15,7 @@
                                NstSvcNotificationSync, NstSvcSync, NstSvcKeyFactory, NstSvcPostDraft,
                                NstVmPlace, NstVmInvitation) {
       var vm = this;
+      var eventReferences = [];
 
       /*****************************
        *** Controller Properties ***
@@ -675,9 +676,9 @@
       });
 
 
-      NstSvcPostFactory.addEventListener(NST_POST_FACTORY_EVENT.READ, function (e) {
+      eventReferences.push($rootScope.$on('post-read', function (event, data) {
         getGrandPlaceUnreadCounts();
-      });
+      }));
 
 
       NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.READ_ALL_POST, function (e) {
@@ -750,6 +751,14 @@
 
       $scope.$on('draft-change', function () {
         vm.hasDraft = NstSvcPostDraft.has();
+      });
+
+      $scope.$on('$destroy', function () {
+        _.forEach(eventReferences, function (cenceler) {
+          if (_.isFunction(cenceler)) {
+            cenceler();
+          }
+        });
       });
     }
   })();

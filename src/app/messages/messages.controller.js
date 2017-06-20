@@ -137,9 +137,9 @@
           });
       }
 
-      NstSvcPostFactory.addEventListener(NST_POST_FACTORY_EVENT.READ, function (e) {
+      eventReferences.push($rootScope.$on('post-read', function (event, data) {
         getUnreadsCount();
-      });
+      }));
 
       NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.READ_ALL_POST, function (e) {
         getUnreadsCount();

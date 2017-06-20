@@ -5,7 +5,7 @@
     .service('NstSvcPostFactory', NstSvcPostFactory);
 
   /** @ngInject */
-  function NstSvcPostFactory($q, $log,
+  function NstSvcPostFactory($q, $log, $rootScope,
                              _, md5,
                              NstSvcPostStorage, NstCollector, NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory, NstSvcStore, NstSvcCommentFactory, NstFactoryEventData, NstUtility,
                              NstFactoryError, NstFactoryQuery, NstPost, NstBaseFactory,
@@ -167,10 +167,7 @@
             post.read = true;
             NstSvcPostStorage.set(query.id, post);
           }
-          factory.dispatchEvent(new CustomEvent(
-            NST_POST_FACTORY_EVENT.READ,
-            new NstFactoryEventData(id)
-          ));
+          $rootScope.$broadcast('post-read', { postId: id });
 
           defer.resolve(true);
 
