@@ -603,20 +603,20 @@
         $rootScope.$emit('init-controls-sidebar');
       });
 
-      NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.ROOT_ADD, function (event) {
-        var place = mapPlace(event.detail.place);
+      eventReferences.push($rootScope.$on('place-root-added', function (e, data) {
+        var place = mapPlace(data.place);
         if (place.id === $stateParams.placeId) {
-          vm.selectedGrandPlace = mapPlace(event.detail.place);
+          vm.selectedGrandPlace = place;
         }
         vm.places.push(place);
         vm.placesNotifCountObject[place.id] = 0;
         vm.mapLimits();
         $rootScope.$emit('init-controls-sidebar');
-      });
+      }));
 
-      NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.SUB_ADD, function (event) {
-        NstSvcPlaceFactory.addPlaceToTree(vm.places, mapPlace(event.detail.place));
-      });
+      eventReferences.push($rootScope.$on('place-sub-added', function (e, data) {
+        NstSvcPlaceFactory.addPlaceToTree(vm.places, mapPlace(data.place));
+      }));
 
       NstSvcUserFactory.addEventListener(NST_USER_FACTORY_EVENT.PROFILE_UPDATED, function (event) {
         updateUser(event.detail);

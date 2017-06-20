@@ -161,11 +161,11 @@
      *****  Event Listeners   ****
      *****************************/
 
-    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.SUB_ADD, function () {
+    eventReferences.push($rootScope.$on('place-sub-added', function (e, data) {
       //TODO:: change children without Initializing()
       // NstSvcPlaceFactory.addPlaceToTree(vm.children, mapPlace(event.detail.place));
       Initializing();
-    });
+    }));
 
     eventReferences.push($rootScope.$on('place-updated', function (e, data) {
       //TODO:: change children without Initializing()

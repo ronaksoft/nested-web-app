@@ -31,18 +31,8 @@
             ));
           });
         } else if (isSubPlace) {
-          $q.all([factory.getTiny(tlData.place_id), factory.getTiny(tlData.child_id)]).then(function (resolvedSet) {
-            var parentPlace = resolvedSet[0];
-            var place = resolvedSet[1];
-            factory.dispatchEvent(new CustomEvent(
-              NST_PLACE_FACTORY_EVENT.SUB_ADD, {
-                detail: {
-                  id: place.id,
-                  place: place,
-                  parentPlace: parentPlace
-                }
-              }
-            ));
+          factory.getTiny(tlData.child_id).then(function (place) {
+            $rootScope.$broadcast('place-sub-added', { placeId: place.id, place: place });
           });
         }
       });
@@ -338,19 +328,9 @@
         factory.get(data._id).then(function (place) {
 
           if (NstUtility.place.hasParent(place.id)) {
-            factory.dispatchEvent(new CustomEvent(NST_PLACE_FACTORY_EVENT.SUB_ADD, {
-              detail: {
-                id: place.id,
-                place: place
-              }
-            }));
+            $rootScope.$broadcast('place-sub-added', { placeId: place.id, place: place });
           } else {
-            factory.dispatchEvent(new CustomEvent(NST_PLACE_FACTORY_EVENT.ROOT_ADD, {
-              detail: {
-                id: place.id,
-                place: place
-              }
-            }));
+            $rootScope.$broadcast('place-root-added', { placeId: place.id, place: place });
           }
 
           deferred.resolve(place);

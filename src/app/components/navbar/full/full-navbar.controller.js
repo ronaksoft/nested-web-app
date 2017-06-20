@@ -454,8 +454,6 @@
     }));
 
     eventReferences.push($rootScope.$on('place-notification', function (e, data) {
-      // TODO: Remove me
-      console.log('place-notification', data);
       if (data.placeId === vm.placeId) vm.notificationStatus = data.notification;
     }));
 
