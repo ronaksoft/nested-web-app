@@ -6,7 +6,7 @@
     .service('NstSvcPlaceFactory', NstSvcPlaceFactory);
 
   function NstSvcPlaceFactory($q, _, $rootScope,
-                              NST_SRV_ERROR, NST_PLACE_ACCESS, NST_EVENT_ACTION, NST_PLACE_FACTORY_EVENT, NST_USER_FACTORY_EVENT,
+                              NST_SRV_ERROR, NST_PLACE_ACCESS, NST_EVENT_ACTION, NST_USER_FACTORY_EVENT,
                               NstSvcServer, NstSvcPlaceStorage, NstSvcTinyPlaceStorage, NstSvcMyPlaceIdStorage, NstSvcUserFactory, NstSvcPlaceRoleStorage, NstSvcPlaceAccessStorage, NstSvcLogger,
                               NstBaseFactory, NstFactoryQuery, NstFactoryError, NstUtility, NstTinyPlace, NstPlace, NstFactoryEventData, NstSvcPlaceMap, NstPicture,
                               NstPlaceCreatorOfParentError, NstPlaceOneCreatorLeftError, NstManagerOfSubPlaceError) {

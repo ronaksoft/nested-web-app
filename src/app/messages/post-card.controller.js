@@ -7,7 +7,7 @@
 
   function PostCardController($state, $log, $timeout, $rootScope, $scope, $filter, $window, $sce, $uibModal,
                               _, moment, toastr,
-                              NST_EVENT_ACTION, NST_PLACE_ACCESS, NST_PLACE_FACTORY_EVENT, SvcCardCtrlAffix,
+                              NST_EVENT_ACTION, NST_PLACE_ACCESS, SvcCardCtrlAffix,
                               NstSvcSync, NstVmFile, NstSvcPostFactory, NstSvcPlaceFactory,
                               NstSvcAuth, NstUtility, NstSvcPostInteraction, NstSvcTranslation, NstSvcLogger) {
     var vm = this;

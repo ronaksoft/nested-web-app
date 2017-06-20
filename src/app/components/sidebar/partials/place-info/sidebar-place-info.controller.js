@@ -9,7 +9,7 @@
   function SidebarPlaceInfoController($rootScope, $q, $scope, $state, $stateParams, $window, _,
                                       NstSvcLogger,
                                       NstSvcPostFactory, NstSvcPlaceFactory, NstSvcPlaceMap, NstUtility, NstSvcSync,
-                                      NST_PLACE_FACTORY_EVENT, NST_DEFAULT, NstVmPlace, NstSvcServer, NST_SRV_EVENT, NST_EVENT_ACTION) {
+                                      NST_DEFAULT, NstVmPlace, NstSvcServer, NST_SRV_EVENT, NST_EVENT_ACTION) {
     var vm = this;
     var eventReferences = [];
 

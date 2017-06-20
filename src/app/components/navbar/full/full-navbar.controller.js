@@ -10,7 +10,7 @@
                                 toastr, NstUtility,
                                 NstSvcAuth, NstSvcLogger,
                                 NstSearchQuery, NstSvcPlaceFactory, NstSvcTranslation,
-                                NST_CONFIG, NST_DEFAULT, NST_PLACE_FACTORY_EVENT, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE,
+                                NST_CONFIG, NST_DEFAULT, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE,
                                 NstPlaceOneCreatorLeftError, NstPlaceCreatorOfParentError, NstManagerOfSubPlaceError) {
     var vm = this;
     var eventReferences = [];

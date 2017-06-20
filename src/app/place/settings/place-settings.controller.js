@@ -9,7 +9,7 @@
   function PlaceSettingsController($scope, $stateParams, $q, $state, $rootScope,
     $timeout, $uibModal, $uibModalInstance, toastr,
     NST_PLACE_POLICY_OPTION, NST_STORE_UPLOAD_TYPE, NST_PLACE_ACCESS, NST_SRV_ERROR,
-    NST_PLACE_MEMBER_TYPE, NST_PLACE_FACTORY_EVENT, NST_PLACE_TYPE, NST_DEFAULT,
+    NST_PLACE_MEMBER_TYPE, NST_PLACE_TYPE, NST_DEFAULT,
     NstSvcStore, NstSvcAuth, NstSvcPlaceFactory, NstUtility, NstSvcLogger, NstSvcTranslation, NstSvcModal,
     NstPicture, NstPlaceOneCreatorLeftError, NstPlaceCreatorOfParentError, NstManagerOfSubPlaceError, NstEntityTracker) {
     var vm = this;
