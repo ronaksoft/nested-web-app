@@ -408,9 +408,9 @@
     });
 
 
-    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.READ_ALL_POST, function (e) {
+    eventReferences.push($rootScope.$on('post-read-all', function (e, data) {
       vm.post.read = true;
-    });
+    }));
 
 
     // initializing

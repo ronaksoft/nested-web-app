@@ -460,14 +460,14 @@
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.NOTIFICATION_OFF, function (e) {
       if (e.detail.id === vm.placeId) vm.notificationStatus = false;
     });
-    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.UPDATE, function (event) {
-      if (getPlaceId() == event.detail.place.id) {
-        NstSvcPlaceFactory.get(event.detail.place.id).then(function (place) {
+
+    eventReferences.push($rootScope.$on('place-updated', function (e, data) {
+      if (getPlaceId() === data.placeId) {
+        NstSvcPlaceFactory.get(data.placeId).then(function (place) {
           vm.place = place;
         });
-
       }
-    });
+    }));
 
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.PICTURE_CHANGE, function (event) {
       NstSvcPlaceFactory.get(event.detail.place.id).then(function (place) {

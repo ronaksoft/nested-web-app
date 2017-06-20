@@ -61,14 +61,7 @@
           ));
         });
 
-
-        factory.dispatchEvent(new CustomEvent(
-          NST_PLACE_FACTORY_EVENT.UPDATE, {
-            detail: {
-              id: tlData.child_id
-            }
-          }
-        ));
+        $rootScope.$broadcast('place-updated', { placeId: tlData.child_id });
 
       });
 
@@ -390,15 +383,8 @@
         NstSvcTinyPlaceStorage.remove(placeId);
 
         factory.getTiny(placeId).then(function (place) {
+          $rootScope.$broadcast('place-updated', { placeId: placeId, place: place });
           deferred.resolve(place);
-          factory.dispatchEvent(new CustomEvent(
-            NST_PLACE_FACTORY_EVENT.UPDATE, {
-              detail: {
-                id: place.id,
-                place: place
-              }
-            }
-          ));
         });
 
       }).catch(deferred.reject);

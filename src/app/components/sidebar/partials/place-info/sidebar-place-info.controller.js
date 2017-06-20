@@ -167,12 +167,12 @@
       Initializing();
     });
 
-    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.UPDATE, function () {
+    eventReferences.push($rootScope.$on('place-updated', function (e, data) {
       //TODO:: change children without Initializing()
       // NstSvcPlaceFactory.updatePlaceInTree(vm.children, mapPlace(event.detail.place));
 
       Initializing();
-    });
+    }));
 
 
     NstSvcSync.addEventListener(NST_EVENT_ACTION.POST_ADD, function () {
@@ -184,17 +184,13 @@
       getPlaceUnreadCounts();
     }));
 
-    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.READ_ALL_POST, function () {
+    eventReferences.push($rootScope.$on('post-read-all', function (e, data) {
       getPlaceUnreadCounts();
-    });
+    }));
 
     eventReferences.push($rootScope.$on('place-bookmark', function (e, data) {
       vm.placesFavoritesObject[data.placeId] = data.bookmak;
     }));
-
-    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.READ_ALL_POST, function () {
-      getPlaceUnreadCounts();
-    });
 
     NstSvcServer.addEventListener(NST_SRV_EVENT.RECONNECT, function () {
       NstSvcLogger.debug('Retrieving sub-places count right after reconnecting.');

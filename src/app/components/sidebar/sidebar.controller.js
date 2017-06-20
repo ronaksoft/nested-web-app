@@ -648,13 +648,13 @@
         updatePersonalPlace(user);
       }
 
-      NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.UPDATE, function (event) {
-        NstSvcPlaceFactory.updatePlaceInTree(vm.places, mapPlace(event.detail.place));
-        var place = mapPlace(event.detail.place);
+      eventReferences.push($rootScope.$on('place-updated', function (e, data) {
+        NstSvcPlaceFactory.updatePlaceInTree(vm.places, mapPlace(data.place));
+        var place = mapPlace(data.place);
         if ($stateParams.placeId && place.id === $stateParams.placeId.split('.')[0]) {
           vm.selectedGrandPlace = place;
         }
-      });
+      }));
 
       NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.PICTURE_CHANGE, function (event) {
         NstSvcPlaceFactory.updatePlaceInTree(vm.places, mapPlace(event.detail.place));
@@ -680,11 +680,9 @@
         getGrandPlaceUnreadCounts();
       }));
 
-
-      NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.READ_ALL_POST, function (e) {
+      eventReferences.push($rootScope.$on('post-read-all', function (e, data) {
         getGrandPlaceUnreadCounts();
-      });
-
+      }));
 
       NstSvcNotificationFactory.addEventListener(NST_NOTIFICATION_FACTORY_EVENT.UPDATE, function (event) {
         vm.notificationsCount = event.detail;
