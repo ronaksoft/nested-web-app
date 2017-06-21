@@ -14,6 +14,8 @@
       this.type = null;
       this.size = null;
       this.date = null;
+      this.thumbnail = null;
+      this.hasThumbnail = null;
       this.preview = null;
       this.hasPreview = null;
       this.viewUrl = null;
@@ -28,6 +30,8 @@
         this.type = NstSvcFileType.getType(model.mimetype);
         this.size = model.size;
         this.date = moment(model.uploadTime);
+        // this.hasThumbnail = model.hasThumbnail();
+        // this.thumbnail = model.thumbnail() ? model.picture.getUrl("x128") : '';
         this.hasPreview = model.hasPreview();
         this.preview = model.hasPreview() ? model.picture.getUrl("preview") : '';
         this.width = model.width || 108;
@@ -40,6 +44,7 @@
         this.type = model.type;
         this.size = model.size;
         this.date = model.date;
+        this.thumbnail = model.thumbnail;
         this.preview = model.preview;
         this.hasPreview = model.hasPreview;
         this.width = model.width || 108;

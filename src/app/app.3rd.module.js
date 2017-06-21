@@ -19,6 +19,7 @@
       'ngAnimate',
       'froala',
       'angular-google-analytics',
-      'as.sortable'
+      'as.sortable',
+      'vjs.video'
     ]);
 })();

@@ -5,7 +5,7 @@
     .module('ronak.nested.web.components.attachment')
     .controller('AttachmentViewController', AttachmentViewController);
 
-  function AttachmentViewController($q, $timeout, $sce, $stateParams, _,
+  function AttachmentViewController($q, $scope, $timeout, $sce, $stateParams, _,
                                     hotkeys, toastr,
                                     NST_FILE_TYPE, NST_STORE_ROUTE,
                                     NstVmFileViewerItem,
@@ -34,6 +34,10 @@
     vm.download = download;
     vm.openInNewWindow = openInNewWindow;
     vm.trustSrc = trustSrc;
+    vm.showBar = showBar;
+    vm.barOpen = false;
+    $('body').removeClass('attachs-bar-active');
+    vm.getIndex = getIndex;
 
     (function () {
 
@@ -85,6 +89,11 @@
       return $sce.trustAsResourceUrl(src);
     }
 
+    function getIndex(item) {
+      var i = vm.attachments.collection.indexOf(item);
+      goTo(i);
+    }
+
     function goNext() {
       var currentIndex = _.findIndex(vm.attachments.collection, {id: vm.attachments.current.id});
       var next = currentIndex + 1;
@@ -104,8 +113,18 @@
         goTo(vm.attachments.collection.length - 1)
       }
     }
+    function showBar() {
+      $('body').toggleClass('attachs-bar-active');
+      vm.barOpen =! vm.barOpen;
+    }
 
     function goTo(index) {
+      if ( vm.attachments.current ) {
+        vm.attachments.current.loaded = vm.attachments.current === vm.attachments.collection[index];
+      } else {
+        vm.attachments.current = vm.attachments.collection[index];
+        vm.attachments.current.loaded = false;
+      }
       vm.attachments.current = vm.attachments.collection[index];
       if (vm.attachments.current.type === NST_FILE_TYPE.PDF ||
         vm.attachments.current.type === NST_FILE_TYPE.DOCUMENT) {

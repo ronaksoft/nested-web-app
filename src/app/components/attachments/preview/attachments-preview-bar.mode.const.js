@@ -8,6 +8,6 @@
       BADGE: 'badge',
       THUMBNAIL: 'thumbnail',
       THUMBNAIL_ONLY_IMAGE: 'onlyimg',
-      THUMBNAIL_TWO_IMAGE: 'twoimg'
+      THUMBNAIL_TWO_IMAGE: 'twoimg',
     });
 })();

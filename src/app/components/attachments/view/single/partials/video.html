@@ -1,22 +1,14 @@
-<div class="nst-preview-pic-mode" ng-if="attachment.isDownloaded">
-  <videogular class="">
-    <vg-media ng-src="{{attachment.url}}" vg-native-controls="true" vg-preload="none"></vg-media>
-    <vg-buffering></vg-buffering>
-  </videogular>
-</div>
-
-<div ng-if="!attachment.isDownloaded" class="nst-preview-vid-mode">
-
-  <video ng-if="attachment.viewUrl" width="{{attachment.width}}" height="{{attachment.height}}" controls>
-    <source src="{{trustSrc(attachment.viewUrl)}}" type="video/mp4">
-    Your browser does not support HTML5 video.
+<div class="attachment-vid-show" style="width:{{attachment.newW + 'px'}};height:{{attachment.newH + 'px'}};transform:scale({{scaleVal}},{{scaleVal}})">
+<!--
+  <video ng-if="attachment.viewUrl" id="my-video" class="video-js" controls preload="auto" width="{{attachment.width}}" height="{{attachment.height}}"
+  poster="MY_VIDEO_POSTER.jpg" data-setup="{}">
+    <source ng-src="{{trustSrc(attachment.viewUrl)}}" type='video/mp4' vjs-video>
+    <p class="vjs-no-js">
+      To view this video please enable JavaScript, and consider upgrading to a web browser that
+      <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+    </p>
+  </video>-->
+  <video class="video-js vjs-default-skin" controls preload="auto" width="{{attachment.newW}}" height="{{attachment.newH}}"
+        vjs-video vjs-media="mediaToggle" vjs-setup="options">
   </video>
-
-  <!--<img ng-if="attachment.hasThumbnail" class="_oph" ng-src="{{attachment.thumbnail}}" />-->
-  <!--<div ng-if="!attachment.hasThumbnail" class="att-exp-application-large-">-->
-    <!--<div class="_tac _fw _dibp title-att color-doc nst-font-large upper-case">{{attachment.extension}}</div>-->
-  <!--</div>-->
-  <div class="downloadprogress" ng-if="!attachment.type == 'gif'">
-    <div ng-progressbar="{{attachment.downloadedRatio}}" progressbar-mode="circle"></div>
-  </div>
 </div>

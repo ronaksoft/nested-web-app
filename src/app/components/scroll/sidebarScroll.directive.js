@@ -47,32 +47,28 @@
                 scope.ctlSidebar.overFlowTop = true;
             }
             // Toggle badge visibility
-            if ( scope.ctlSidebar.overFlowTop ) {
-                var scrolledIndex = Math.floor((st - 16) / ih),
-                    UnreadCountsT = 0,
-                    i = 0;
-                for (i; i <= scrolledIndex; i++){
-                    if ( placesArray[i] === 1 ) {
-                        ++UnreadCountsT;
-                    }
+            var scrolledIndex = Math.floor((st - 16) / ih),
+                UnreadCountsT = 0,
+                i = 0;
+            for (i; i <= scrolledIndex; i++){
+                if ( placesArray[i] === 1 ) {
+                    ++UnreadCountsT;
                 }
-                scope.ctlSidebar.overFlowTopUnread = UnreadCountsT > 0;
+            }
+            scope.ctlSidebar.overFlowTopUnread = UnreadCountsT > 0;
+
+            var notScrolled = sh - ch - st,
+                notScrolledIndex = Math.floor((notScrolled - 16 - ih) / ih), // Remove last item ( create place )
+                UnreadCountsB = 0,
+                j = 0;
+
+            for (j; j <= notScrolledIndex; j++){
+                if ( placesArray[placesArray.length - j - 1] === 1 ) {
+                    ++UnreadCountsB;
+                }
             }
 
-            if ( scope.ctlSidebar.overFlowBottom ) {
-                var notScrolled = sh - ch - st,
-                    notScrolledIndex = Math.floor((notScrolled - 16 - ih) / ih), // Remove last item ( create place )
-                    UnreadCountsB = 0,
-                    j = 0;
-
-                for (j; j <= notScrolledIndex; j++){
-                    if ( placesArray[placesArray.length - j - 1] === 1 ) {
-                        ++UnreadCountsB;
-                    }
-                }
-
-                scope.ctlSidebar.overFlowBottomUnread = UnreadCountsB > 0;
-            }
+            scope.ctlSidebar.overFlowBottomUnread = UnreadCountsB > 0;
         }
           
         function initControlls() {

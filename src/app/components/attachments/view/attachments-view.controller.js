@@ -30,7 +30,8 @@
         templateUrl: 'app/components/attachments/view/single/main.html',
         controller: 'AttachmentViewController',
         controllerAs: 'ctlAttachmentView',
-        size: 'mlg',
+        backdropClass : 'attachmdrop',
+        size: 'full',
         resolve: {
           fileViewerItem : function () {
             return mapToFileViewerItem(vmAttachment);

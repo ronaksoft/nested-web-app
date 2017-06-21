@@ -93,6 +93,10 @@
   &.comdrop {
     background-color: $color-modal-bg;
   }
+  &.attachmdrop {
+    animation: appearence .38s cubic-bezier(0.1,0.8,0.6,1) forwards normal;
+    background-color: $color-attachment-drop-bg;
+  }
   // Fade for backdrop
   //&.fade { @include opacity(0); }
   //&.in { @include opacity($modal-backdrop-opacity); }
