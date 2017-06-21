@@ -11,7 +11,7 @@
                               NST_MESSAGES_SORT_OPTION, NST_MESSAGES_VIEW_SETTING, NST_DEFAULT, NST_PLACE_FACTORY_EVENT, NST_EVENT_ACTION, NST_POST_FACTORY_EVENT, NST_PLACE_ACCESS,
                               NstSvcPostFactory, NstSvcPlaceFactory, NstSvcServer, NstUtility, NstSvcAuth, NstSvcSync, NstSvcWait, NstVmFile,
                               NstSvcMessagesSettingStorage, NstSvcTranslation, NstSvcInteractionTracker, SvcCardCtrlAffix,
-                              NstSvcPlaceAccess, NstSvcModal) {
+                              NstSvcPlaceAccess, NstSvcModal, NstSvcDate) {
 
     var vm = this;
 
@@ -604,7 +604,7 @@
       var fists = _.first(vm.messages);
 
       if (!fists) {
-        return moment().format('x');
+        return moment(NstSvcDate.now()).format('x');
       }
       var lastDate = NST_MESSAGES_SORT_OPTION.LATEST_ACTIVITY == vm.messagesSetting.sort ? fists.lastUpdate : fists.timestamp;
       if (moment.isMoment(lastDate)) {

@@ -8,8 +8,8 @@
   /** @ngInject */
   function EditProfileController($rootScope, $scope, $stateParams, $state, $q, $uibModal, $timeout, $log, $window,
                                  toastr, moment,
-                                 NST_STORE_UPLOAD_TYPE, NST_USER_FACTORY_EVENT, NST_NAVBAR_CONTROL_TYPE, NstPicture, NST_PATTERN,
-                                 NstSvcAuth, NstSvcStore, NstSvcUserFactory, NstUtility, NstSvcTranslation, NstSvcI18n, NstFactoryEventData, NstSvcModal) {
+                                 NST_STORE_UPLOAD_TYPE, NST_USER_FACTORY_EVENT, NST_NAVBAR_CONTROL_TYPE, NST_PATTERN,
+                                 NstSvcAuth, NstSvcStore, NstSvcUserFactory, NstUtility, NstSvcTranslation, NstSvcDate, NstFactoryEventData, NstSvcModal) {
     var vm = this;
 
     vm.model = NstSvcAuth.user;
@@ -30,8 +30,8 @@
       {key: 'o', title: NstSvcTranslation.get("Other")}
     ];
 
-    vm.minDateOfBirth = moment().subtract(100, "year").format("YYYY-MM-DD");
-    vm.maxDateOfBirth = moment().format("YYYY-MM-DD");
+    vm.minDateOfBirth = moment(NstSvcDate.now()).subtract(100, "year").format("YYYY-MM-DD");
+    vm.maxDateOfBirth = moment(NstSvcDate.now()).format("YYYY-MM-DD");
 
     (function () {
       vm.loadProgress = true;
@@ -71,8 +71,8 @@
       }
 
       return update({
-        'firstName' : firstName,
-        'lastName' : lastName
+        'firstName': firstName,
+        'lastName': lastName
       }).then(function () {
         vm.model.firstName = firstName;
         vm.model.lastName = lastName;
@@ -86,7 +86,7 @@
       }
 
       return update({
-        'dateOfBirth' : value
+        'dateOfBirth': value
       }).then(function () {
         vm.model.dateOfBirth = value;
         $close();
@@ -99,7 +99,7 @@
       }
 
       return update({
-        'email' : value
+        'email': value
       }).then(function () {
         vm.model.email = value;
         $close();
@@ -112,7 +112,7 @@
       }
 
       return update({
-        'gender' : value
+        'gender': value
       }).then(function () {
         vm.model.gender = value;
         $close();
@@ -121,17 +121,18 @@
 
     function updateSearchable(value) {
       return update({
-        'searchable' : !!value
+        'searchable': !!value
       }).then(function () {
         vm.model.privacy.searchable = !!value;
       });
     }
 
     function getGender() {
-      var selected = _.find(vm.genders, { key : vm.model.gender });
+      var selected = _.find(vm.genders, {key: vm.model.gender});
 
       return selected ? selected.title : vm.genders[0].title;
     }
+
     /*****************************
      *** Controller Properties ***
      *****************************/
@@ -146,8 +147,9 @@
 
     function setImage(event) {
       vm.uploadedFile = event.currentTarget.files[0];
-      if ($rootScope.deviceDetector.browser === 'safari' ) {
-        var request = NstSvcStore.uploadWithProgress(vm.uploadedFile, function (event) {}, NST_STORE_UPLOAD_TYPE.PROFILE_PIC, NstSvcAuth.lastSessionKey);
+      if ($rootScope.deviceDetector.browser === 'safari') {
+        var request = NstSvcStore.uploadWithProgress(vm.uploadedFile, function (event) {
+        }, NST_STORE_UPLOAD_TYPE.PROFILE_PIC, NstSvcAuth.lastSessionKey);
 
         request.finished().then(function (response) {
           return NstSvcUserFactory.updatePicture(vm.model.id, response.data.universal_id);
@@ -173,7 +175,8 @@
           reader.onload = function (event) {
             imageLoadTimeout = $timeout(function () {
               vm.picture = event.target.result;
-              var request = NstSvcStore.uploadWithProgress(vm.uploadedFile, function (event) {}, NST_STORE_UPLOAD_TYPE.PROFILE_PIC, NstSvcAuth.lastSessionKey);
+              var request = NstSvcStore.uploadWithProgress(vm.uploadedFile, function (event) {
+              }, NST_STORE_UPLOAD_TYPE.PROFILE_PIC, NstSvcAuth.lastSessionKey);
 
               request.finished().then(function (response) {
                 return NstSvcUserFactory.updatePicture(vm.model.id, response.data.universal_id);
@@ -186,7 +189,7 @@
             });
           };
           reader.readAsDataURL(croppedFile);
-        }).catch(function() {
+        }).catch(function () {
           event.target.value = '';
         });
 

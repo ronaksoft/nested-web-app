@@ -5,7 +5,7 @@
     .module('ronak.nested.web.components.date')
     .directive('inlineDatePicker', inlineDatePicker);
 
-  function inlineDatePicker(moment, NstSvcI18n, NstUtility, NstSvcTranslation) {
+  function inlineDatePicker(moment, NstSvcI18n, NstUtility, NstSvcDate) {
     return {
       restrict: 'E',
       replace : true,
@@ -26,8 +26,8 @@
           scope.day = null;
         }
 
-        scope.min = parseDate(attrs.min, moment().subtract(100, 'years'));
-        scope.max = parseDate(attrs.max, moment());
+        scope.min = parseDate(attrs.min, moment(NstSvcDate.now()).subtract(100, 'years'));
+        scope.max = parseDate(attrs.max, moment(NstSvcDate.now()));
 
         scope.months = createMonthsList(scope.year, scope.min, scope.max);
         scope.days = createDaysList(scope.year, scope.month, scope.min, scope.max);

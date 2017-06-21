@@ -2,10 +2,11 @@
 angular
   .module('ronak.nested.web.components.notification')
   .service('NstSvcNotification', NstSvcNotification);
+
 /** @ngInject */
 function NstSvcNotification($q, $window, _, $state,
                             NST_NOTIFICATION_FACTORY_EVENT, NST_NOTIFICATION_TYPE, NST_AUTH_EVENT, NST_EVENT_ACTION,
-                            NstObservableObject, NstSvcLogger, NstModel, NstSvcTranslation, NstSvcAuth, NstFactoryEventData,
+                            NstObservableObject, NstSvcLogger, NstModel, NstSvcTranslation, NstSvcAuth, NstFactoryEventData, NstSvcDate,
                             NstUtility) {
 
 
@@ -113,8 +114,8 @@ function NstSvcNotification($q, $window, _, $state,
         this.options = {};
         this.stack = {};
       })
-    }catch (error){
-      NstSvcLogger.error('Notification : Error in register fmc' , error);
+    } catch (error) {
+      NstSvcLogger.error('Notification : Error in register fmc', error);
     }
   };
 
@@ -127,7 +128,7 @@ function NstSvcNotification($q, $window, _, $state,
 
     var opt = _.extend(this.options, options);
     if (!opt.tag)
-      opt.tag = 'n_' + Date.now();
+      opt.tag = 'n_' + NstSvcDate.now();
 
     opt.icon = '/assets/images/nested-logo-256.png';
     var defer = $q.defer();
@@ -154,7 +155,7 @@ function NstSvcNotification($q, $window, _, $state,
 
     var opt = _.extend(this.options, options);
     if (!opt.tag)
-      opt.tag = 'n_' + Date.now();
+      opt.tag = 'n_' + NstSvcDate.now();
 
     opt.icon = opt.icon || '/assets/images/nested-logo-256.png';
 

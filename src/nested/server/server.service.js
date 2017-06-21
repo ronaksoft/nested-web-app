@@ -11,7 +11,7 @@
                         NST_SRV_MESSAGE_TYPE, NST_SRV_PUSH_CMD, NST_SRV_RESPONSE_STATUS, NST_SRV_ERROR,
                         NST_SRV_EVENT, NST_SRV_MESSAGE,
                         NstSvcRandomize, NstSvcLogger, NstSvcTry, NstSvcConnectionMonitor, NstHttp,
-                        NstObservableObject, NstServerError, NstServerQuery, NstRequest, NstResponse) {
+                        NstObservableObject, NstServerError, NstServerQuery, NstRequest, NstResponse, NstSvcDate) {
 
     var NST_SERVER_DOMAIN = 'nested.server.domain';
 
@@ -213,7 +213,6 @@
           NST_CONFIG.REGISTER.URL = remoteConfig.cyrus.http[0];
           NST_CONFIG.STORE.URL = remoteConfig.xerxes.http[0];
 
-          server.init(NST_CONFIG.WEBSOCKET.URL);
 
           if (remoteConfig.admin) {
             var addr = remoteConfig.admin.http[0].split(':');
@@ -221,6 +220,7 @@
             NST_CONFIG.ADMIN_PORT = addr[2];
           }
 
+          server.init(NST_CONFIG.WEBSOCKET.URL);
 
         })
         .catch(function () {
@@ -512,7 +512,7 @@
           s4() + '-' + s4() + s4() + s4();
       }
 
-      return "web_" + Date.now() + "-" + guid() + "-" + guid();
+      return "web_" + NstSvcDate.now() + "-" + guid() + "-" + guid();
     }
 
     function getDeviceName() {

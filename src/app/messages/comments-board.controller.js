@@ -6,7 +6,7 @@
     .controller('CommentsBoardController', CommentsBoardController);
 
   function CommentsBoardController($timeout, $scope, $q, $state,
-                                   NstSvcAuth, NstSvcCommentFactory, NstUtility, NstSvcTranslation,
+                                   NstSvcAuth,NstSvcDate, NstSvcCommentFactory, NstUtility, NstSvcTranslation,
                                    moment, toastr, _) {
     var vm = this;
 
@@ -131,7 +131,7 @@
 
     function allowToRemoveComment(comment) {
       return vm.hasCommentRemoveAccess ||
-        (comment.sender.id === vm.user.id && ((Date.now() - comment.timestamp) < 24 * 60 * 60 * 1e3));
+        (comment.sender.id === vm.user.id && ((NstSvcDate.now() - comment.timestamp) < 24 * 60 * 60 * 1e3));
     }
 
     /**
@@ -232,7 +232,7 @@
 
     function getOlderDate() {
       var oldest = findOlder();
-      var date = oldest ? oldest.timestamp : Date.now();
+      var date = oldest ? oldest.timestamp : NstSvcDate.now();
 
       return NstUtility.date.toUnix(moment(date).subtract(1, 'ms'));
     }

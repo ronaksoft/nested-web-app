@@ -8,7 +8,7 @@
   /** @ngInject */
   function NstSvcPingPong($timeout, $interval, _,
                           NST_SRV_EVENT, NST_SRV_PING_PONG,
-                          NstSvcLogger,
+                          NstSvcLogger, NstSvcDate,
                           NstObservableObject) {
 
     function PingPong(stream) {
@@ -23,19 +23,19 @@
       this.pongStack = [];
       this.pingPongInterval = {};
       this.pingPongStatus = false;
-      this.lastPing = Date.now();
-      this.lastObserve = Date.now();
+      this.lastPing = NstSvcDate.now();
+      this.lastObserve = NstSvcDate.now();
 
       NstObservableObject.call(this);
 
       $interval(function () {
 
-        if (Date.now() - service.lastObserve > NST_SRV_PING_PONG.INTERVAL_TIME) {
+        if (NstSvcDate.now() - service.lastObserve > NST_SRV_PING_PONG.INTERVAL_TIME) {
           NstSvcLogger.debug2("WS PINGPONG | timeout ");
           service.setPingPongStatus(false);
           service.checkStatus(true);
         }
-        service.lastObserve = Date.now();
+        service.lastObserve = NstSvcDate.now();
 
       }, 2000);
 
@@ -51,12 +51,12 @@
       this.setPingPongStatus(true);
       var service = this;
 
-      service.lastPing = Date.now();
+      service.lastPing = NstSvcDate.now();
 
       var interval = $interval(function () {
-        service.lastPing = Date.now();
-        NstSvcLogger.debug2('WS | PING:', Date.now());
-        var time = Date.now();
+        service.lastPing = NstSvcDate.now();
+        NstSvcLogger.debug2('WS | PING:', NstSvcDate.now());
+        var time = NstSvcDate.now();
         service.stream.send(NST_SRV_PING_PONG.COMMAND + '/' + time);
         service.pingStack.push({
           cmd: NST_SRV_PING_PONG.COMMAND + '/' + time,
@@ -89,10 +89,10 @@
       this.pongStack.push({
         cmd: pong,
         pingTime: pong.split("/")[1],
-        pongTime: Date.now()
+        pongTime: NstSvcDate.now()
       });
 
-      NstSvcLogger.debug2("WS PINGPONG | delay : " + (Date.now() - parseInt(pong.split("/")[1])));
+      NstSvcLogger.debug2("WS PINGPONG | delay : " + (NstSvcDate.now() - parseInt(pong.split("/")[1])));
 
       callConected.bind(this)();
       if (!this.pingPongStatus) {
@@ -107,7 +107,7 @@
     PingPong.prototype.checkStatus = function (force) {
       if ((this.pingStack.length >= NST_SRV_PING_PONG.MAX_FAILED_PING) || force) {
         NstSvcLogger.debug("disconnected");
-        this.pingPongStatus= false;
+        this.pingPongStatus = false;
         callDisconnected.bind(this)();
         return false;
       }
