@@ -8,7 +8,7 @@
   /** @ngInject */
   function MessagesController($rootScope, $q, $stateParams, $log, $state, $window, $scope, $uibModal, $timeout,
                               moment, toastr,
-                              NST_MESSAGES_SORT_OPTION, NST_MESSAGES_VIEW_SETTING, NST_DEFAULT, NST_EVENT_ACTION, NST_PLACE_ACCESS,
+                              NST_MESSAGES_SORT_OPTION, NST_MESSAGES_VIEW_SETTING, NST_DEFAULT, NST_EVENT_ACTION, NST_PLACE_ACCESS, NST_POST_EVENT,
                               NstSvcPostFactory, NstSvcPlaceFactory, NstSvcServer, NstUtility, NstSvcAuth, NstSvcSync, NstSvcWait, NstVmFile,
                               NstSvcMessagesSettingStorage, NstSvcTranslation, NstSvcInteractionTracker, SvcCardCtrlAffix,
                               NstSvcPlaceAccess, NstSvcModal) {
@@ -137,7 +137,7 @@
           });
       }
 
-      eventReferences.push($rootScope.$on('post-read', function (event, data) {
+      eventReferences.push($rootScope.$on(NST_POST_EVENT.READ, function (event, data) {
         getUnreadsCount();
       }));
 
@@ -206,7 +206,7 @@
       });
 
 
-      eventReferences.push($rootScope.$on('post-unbookmarked', function (e, data) {
+      eventReferences.push($rootScope.$on(NST_POST_EVENT.UNBOOKMARKED, function (e, data) {
         if ($state.current.name === 'app.messages-bookmarked' ||
           $state.current.name === 'app.messages-bookmarked-sorted') {
           var message = _.find(vm.messages, {

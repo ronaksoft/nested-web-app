@@ -9,7 +9,7 @@
   function PlaceSettingsController($scope, $stateParams, $q, $state, $rootScope,
     $timeout, $uibModal, $uibModalInstance, toastr,
     NST_PLACE_POLICY_OPTION, NST_STORE_UPLOAD_TYPE, NST_PLACE_ACCESS, NST_SRV_ERROR,
-    NST_PLACE_MEMBER_TYPE, NST_PLACE_TYPE, NST_DEFAULT,
+    NST_PLACE_MEMBER_TYPE, NST_PLACE_TYPE, NST_DEFAULT, NST_PLACE_EVENT,
     NstSvcStore, NstSvcAuth, NstSvcPlaceFactory, NstUtility, NstSvcLogger, NstSvcTranslation, NstSvcModal,
     NstPicture, NstPlaceOneCreatorLeftError, NstPlaceCreatorOfParentError, NstManagerOfSubPlaceError, NstEntityTracker) {
     var vm = this;
@@ -328,7 +328,7 @@
       if (data.placeId === vm.placeId) vm.options.bookmark = data.bookmark;
     }));
 
-    eventReferences.push($rootScope.$on('place-notification', function (e, data) {
+    eventReferences.push($rootScope.$on(NST_PLACE_EVENT.NOTIFICATION, function (e, data) {
       if (data.placeId === vm.placeId) vm.options.notification = data.notification;
     }));
 

@@ -9,7 +9,7 @@
   function SidebarPlaceInfoController($rootScope, $q, $scope, $state, $stateParams, $window, _,
                                       NstSvcLogger,
                                       NstSvcPostFactory, NstSvcPlaceFactory, NstSvcPlaceMap, NstUtility, NstSvcSync,
-                                      NST_DEFAULT, NstVmPlace, NstSvcServer, NST_SRV_EVENT, NST_EVENT_ACTION) {
+                                      NST_DEFAULT, NstVmPlace, NstSvcServer, NST_SRV_EVENT, NST_EVENT_ACTION, NST_PLACE_EVENT, NST_POST_EVENT) {
     var vm = this;
     var eventReferences = [];
 
@@ -161,13 +161,13 @@
      *****  Event Listeners   ****
      *****************************/
 
-    eventReferences.push($rootScope.$on('place-sub-added', function (e, data) {
+    eventReferences.push($rootScope.$on(NST_PLACE_EVENT.SUB_ADDED, function (e, data) {
       //TODO:: change children without Initializing()
       // NstSvcPlaceFactory.addPlaceToTree(vm.children, mapPlace(event.detail.place));
       Initializing();
     }));
 
-    eventReferences.push($rootScope.$on('place-updated', function (e, data) {
+    eventReferences.push($rootScope.$on(NST_PLACE_EVENT.UPDATED, function (e, data) {
       //TODO:: change children without Initializing()
       // NstSvcPlaceFactory.updatePlaceInTree(vm.children, mapPlace(event.detail.place));
 
@@ -180,7 +180,7 @@
     });
 
 
-    eventReferences.push($rootScope.$on('post-read', function (event, data) {
+    eventReferences.push($rootScope.$on(NST_POST_EVENT.READ, function (event, data) {
       getPlaceUnreadCounts();
     }));
 
@@ -197,7 +197,7 @@
       getPlaceUnreadCounts();
     });
 
-    eventReferences.push($rootScope.$on('place-removed', function (e, data) {
+    eventReferences.push($rootScope.$on(NST_PLACE_EVENT.REMOVED, function (e, data) {
       clearPlace(data.placeId);
     }));
 

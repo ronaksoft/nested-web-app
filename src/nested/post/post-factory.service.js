@@ -9,7 +9,7 @@
                              _, md5,
                              NstSvcPostStorage, NstCollector, NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory, NstSvcStore, NstSvcCommentFactory, NstFactoryEventData, NstUtility,
                              NstFactoryError, NstFactoryQuery, NstPost, NstBaseFactory,
-                             NST_MESSAGES_SORT_OPTION, NST_SRV_EVENT, NST_CONFIG) {
+                             NST_MESSAGES_SORT_OPTION, NST_SRV_EVENT, NST_CONFIG, NST_POST_EVENT) {
 
     function PostFactory() {
       this.collector = new NstCollector('post', this.getMany);
@@ -167,7 +167,7 @@
             post.read = true;
             NstSvcPostStorage.set(query.id, post);
           }
-          $rootScope.$broadcast('post-read', { postId: id });
+          $rootScope.$broadcast(NST_POST_EVENT.READ, { postId: id });
 
           defer.resolve(true);
 
@@ -319,7 +319,7 @@
             post.pinned = true;
             NstSvcPostStorage.set(query.id, post);
           }
-          $rootScope.$broadcast('post-bookmarked', { postId: id });
+          $rootScope.$broadcast(NST_POST_EVENT.BOOKMARKED, { postId: id });
 
           resolve(post);
         }).catch(function (error) {
@@ -344,7 +344,7 @@
             NstSvcPostStorage.set(query.id, post);
           }
 
-          $rootScope.$broadcast('post-unbookmarked', { postId: id });
+          $rootScope.$broadcast(NST_POST_EVENT.UNBOOKMARKED, { postId: id });
 
           resolve(post);
         }).catch(function (error) {

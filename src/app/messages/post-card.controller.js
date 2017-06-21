@@ -7,7 +7,7 @@
 
   function PostCardController($state, $log, $timeout, $rootScope, $scope, $filter, $window, $sce, $uibModal,
                               _, moment, toastr,
-                              NST_EVENT_ACTION, NST_PLACE_ACCESS, SvcCardCtrlAffix,
+                              NST_EVENT_ACTION, NST_PLACE_ACCESS, NST_POST_EVENT, SvcCardCtrlAffix,
                               NstSvcSync, NstVmFile, NstSvcPostFactory, NstSvcPlaceFactory,
                               NstSvcAuth, NstUtility, NstSvcPostInteraction, NstSvcTranslation, NstSvcLogger) {
     var vm = this;
@@ -333,13 +333,13 @@
       vm.unreadCommentsCount = 0;
     }));
 
-    eventReferences.push($rootScope.$on('post-bookmarked', function (e, data) {
+    eventReferences.push($rootScope.$on(NST_POST_EVENT.BOOKMARKED, function (e, data) {
       if (data.postId === vm.post.id) {
         vm.post.pinned = true;
       }
     }));
 
-    eventReferences.push($rootScope.$on('post-unbookmarked', function (e, data) {
+    eventReferences.push($rootScope.$on(NST_POST_EVENT.UNBOOKMARKED, function (e, data) {
       if (data.postId === vm.post.id) {
         vm.post.pinned = false;
       }

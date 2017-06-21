@@ -10,7 +10,7 @@
                                 toastr, NstUtility,
                                 NstSvcAuth, NstSvcLogger,
                                 NstSearchQuery, NstSvcPlaceFactory, NstSvcTranslation,
-                                NST_CONFIG, NST_DEFAULT, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE,
+                                NST_CONFIG, NST_DEFAULT, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_PLACE_EVENT,
                                 NstPlaceOneCreatorLeftError, NstPlaceCreatorOfParentError, NstManagerOfSubPlaceError) {
     var vm = this;
     var eventReferences = [];
@@ -462,11 +462,11 @@
       if (data.placeId === vm.placeId) vm.isBookmarked = data.bookmark;
     }));
 
-    eventReferences.push($rootScope.$on('place-notification', function (e, data) {
+    eventReferences.push($rootScope.$on(NST_PLACE_EVENT.NOTIFICATION, function (e, data) {
       if (data.placeId === vm.placeId) vm.notificationStatus = data.notification;
     }));
 
-    eventReferences.push($rootScope.$on('place-updated', function (e, data) {
+    eventReferences.push($rootScope.$on(NST_PLACE_EVENT.UPDATED, function (e, data) {
       if (getPlaceId() === data.placeId) {
         NstSvcPlaceFactory.get(data.placeId).then(function (place) {
           vm.place = place;
@@ -474,7 +474,7 @@
       }
     }));
 
-    eventReferences.push($rootScope.$on('place-picture-changed', function (e, data) {
+    eventReferences.push($rootScope.$on(NST_PLACE_EVENT.PICTURE_CHANGED, function (e, data) {
       NstSvcPlaceFactory.get(data.placeId).then(function (place) {
         vm.place = data.place;
       });

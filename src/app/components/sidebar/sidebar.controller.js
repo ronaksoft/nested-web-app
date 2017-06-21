@@ -9,7 +9,7 @@
     function SidebarController($q, $scope, $state, $stateParams, $uibModal, $window, $rootScope, $timeout,
                                _,
                                NST_DEFAULT, NST_AUTH_EVENT, NST_INVITATION_FACTORY_EVENT, NST_CONFIG,NST_KEY, deviceDetector,
-                               NST_EVENT_ACTION, NST_USER_FACTORY_EVENT, NST_NOTIFICATION_FACTORY_EVENT, NST_SRV_EVENT, NST_NOTIFICATION_TYPE,
+                               NST_EVENT_ACTION, NST_USER_FACTORY_EVENT, NST_NOTIFICATION_FACTORY_EVENT, NST_SRV_EVENT, NST_NOTIFICATION_TYPE, NST_PLACE_EVENT, NST_POST_EVENT,
                                NstSvcAuth, NstSvcServer, NstSvcLogger, NstSvcNotification, NstSvcTranslation,
                                NstSvcPostFactory, NstSvcPlaceFactory, NstSvcInvitationFactory, NstUtility, NstSvcUserFactory, NstSvcSidebar, NstSvcNotificationFactory,
                                NstSvcNotificationSync, NstSvcSync, NstSvcKeyFactory, NstSvcPostDraft,
@@ -613,7 +613,7 @@
         $rootScope.$emit('init-controls-sidebar');
       });
 
-      eventReferences.push($rootScope.$on('place-root-added', function (e, data) {
+      eventReferences.push($rootScope.$on(NST_PLACE_EVENT.ROOT_ADDED, function (e, data) {
         var place = mapPlace(data.place);
         if (place.id === $stateParams.placeId) {
           vm.selectedGrandPlace = place;
@@ -624,7 +624,7 @@
         $rootScope.$emit('init-controls-sidebar');
       }));
 
-      eventReferences.push($rootScope.$on('place-sub-added', function (e, data) {
+      eventReferences.push($rootScope.$on(NST_PLACE_EVENT.SUB_ADDED, function (e, data) {
         NstSvcPlaceFactory.addPlaceToTree(vm.places, mapPlace(data.place));
       }));
 
@@ -658,7 +658,7 @@
         updatePersonalPlace(user);
       }
 
-      eventReferences.push($rootScope.$on('place-updated', function (e, data) {
+      eventReferences.push($rootScope.$on(NST_PLACE_EVENT.UPDATED, function (e, data) {
         NstSvcPlaceFactory.updatePlaceInTree(vm.places, mapPlace(data.place));
         var place = mapPlace(data.place);
         if ($stateParams.placeId && place.id === $stateParams.placeId.split('.')[0]) {
@@ -666,11 +666,11 @@
         }
       }));
 
-      eventReferences.push($rootScope.$on('place-picture-changed', function (e, data) {
+      eventReferences.push($rootScope.$on(NST_PLACE_EVENT.PICTURE_CHANGED, function (e, data) {
         NstSvcPlaceFactory.updatePlaceInTree(vm.places, mapPlace(data.place));
       }));
 
-      eventReferences.push($rootScope.$on('place-removed', function (e, data) {
+      eventReferences.push($rootScope.$on(NST_PLACE_EVENT.REMOVED, function (e, data) {
         NstSvcPlaceFactory.removePlaceFromTree(vm.places, data.placeId);
         $rootScope.$emit('init-controls-sidebar');
         vm.mapLimits();
@@ -686,7 +686,7 @@
       });
 
 
-      eventReferences.push($rootScope.$on('post-read', function (event, data) {
+      eventReferences.push($rootScope.$on(NST_POST_EVENT.READ, function (event, data) {
         getGrandPlaceUnreadCounts();
       }));
 
