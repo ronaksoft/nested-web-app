@@ -1,0 +1,66 @@
+.vjs-has-started .vjs-control-bar {
+    background-color: $color-hurricane;
+    border-radius: 4px;
+    bottom: 10px;
+    max-width: 640px;
+    height: 32px;
+    width: calc(100% - 20px);
+    left: 50%;
+    transform: translateX(-50%);
+}
+.video-js {
+    .vjs-control {
+        width: 32px;
+    }
+    // .vjs-volume-menu-button-horizontal {
+    //     width: 12em;
+    //     .vjs-menu {
+    //         opacity: 1;
+    //         display: block
+    //     }
+    // }
+    .vjs-play-progress:before {
+        font-size: 12px;
+    }
+    .vjs-load-progress {
+        background-color: rgba(255,255,255,.24);
+        border-radius: 4px;
+    }
+    .vjs-slider {
+        background-color: rgba(255,255,255,.08);
+        height: 2px;
+        border-radius: 4px;
+    }
+    .vjs-control-text {
+        color: rgba(255,255,255,.64);
+    }
+    .vjs-big-play-button {
+        left: 50%;
+        top: 50%;
+        width: 64px;
+        height: 64px;
+        margin: -32px 0 0 -32px;
+        background-color: $color-hurricane;
+        border: none;
+        &::before {
+            line-height: 64px;
+            font-size: 48px;
+        }
+    }
+}
+.vjs-menu-button-popup .vjs-menu .vjs-menu-content {
+    left: -4px;
+    background-color: $color-hurricane;
+    .vjs-slider {
+        background-color: rgba(255, 255, 255, 0.08);
+        height: 5em;
+        border-radius: 4px;
+    }
+}
+.vjs-loading-spinner {
+    border: none;
+    &::before ,
+    &::after {
+        content: none
+    }
+}

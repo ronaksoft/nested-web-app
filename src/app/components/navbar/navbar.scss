@@ -486,9 +486,10 @@ nst-navbar {
         width: 192px;
         height: 40px;
         padding: 2px 20px 2px 8px;
+        color: $color-solid;
+        border-color: $color-breeze-new;
         // transition: width $animation-dur;
         &:focus {
-          border-color: $color-border;
           // width: 189px;
           box-shadow: none;
         }
@@ -866,7 +867,7 @@ body.scrolled {
 }
 
 .menu-links-butn {
-  color: #B8B8B8;
+  color: $color-wind-new;
   line-height: 22px;
   text-align: center;
   cursor: pointer;

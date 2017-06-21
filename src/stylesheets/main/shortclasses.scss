@@ -156,6 +156,12 @@ hr.nomargin {
 .fill-solid {
   fill: $color-solid!important;
 }
+.fill-new-hurricane {
+  fill: $color-new-hurricane;
+  &:hover {
+    fill: $color-solid
+  }
+}
 .crown {
   fill: #FFD732!important;
 }

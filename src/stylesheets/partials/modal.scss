@@ -60,6 +60,22 @@ body.modal-open {
   }
 }
 
+.modal-full.modal-dialog {
+  width: auto;
+  height: auto;
+  display: flex;
+  margin-top: 64px;
+  .modal-dialog,
+  .modal-content {
+    height: auto;
+    width: auto;
+    border: none;
+    background: none;
+    position: static;
+    box-shadow: none;
+  }
+}
+
 .modal-content {
   width: 100%;
   background-color: rgba(0, 0, 0, 0);
