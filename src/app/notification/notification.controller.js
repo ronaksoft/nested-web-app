@@ -6,7 +6,7 @@
     .controller('NotificationsController', NotificationsController);
 
   function NotificationsController(_, $q, $state, $scope, $log,
-                                   NST_NOTIFICATION_TYPE, NST_NOTIFICATION_FACTORY_EVENT,
+                                   NST_NOTIFICATION_TYPE, NST_NOTIFICATION_EVENT,
                                    NstFactoryEventData, NstSvcNotificationFactory, NstSvcInteractionTracker) {
     var vm = this;
     vm.NST_NOTIFICATION_TYPE = NST_NOTIFICATION_TYPE;
@@ -149,9 +149,7 @@
 
 
     function showInvitationModal(notification) {
-      NstSvcNotificationFactory.dispatchEvent(
-        new CustomEvent(NST_NOTIFICATION_FACTORY_EVENT.OPEN_INVITATION_MODAL, new NstFactoryEventData(notification.invitation))
-      )
+      $rootScope.$broadcast(NST_NOTIFICATION_EVENT.OPEN_INVITATION_MODAL, { invitationId: notification.invitation.id });
     }
 
 

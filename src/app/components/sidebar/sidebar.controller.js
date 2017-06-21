@@ -9,7 +9,7 @@
     function SidebarController($q, $scope, $state, $stateParams, $uibModal, $window, $rootScope, $timeout,
                                _,
                                NST_DEFAULT, NST_AUTH_EVENT, NST_INVITATION_EVENT, NST_CONFIG,NST_KEY, deviceDetector,
-                               NST_EVENT_ACTION, NST_USER_EVENT, NST_NOTIFICATION_FACTORY_EVENT, NST_SRV_EVENT, NST_NOTIFICATION_TYPE, NST_PLACE_EVENT, NST_POST_EVENT,
+                               NST_EVENT_ACTION, NST_USER_EVENT, NST_NOTIFICATION_EVENT, NST_SRV_EVENT, NST_NOTIFICATION_TYPE, NST_PLACE_EVENT, NST_POST_EVENT,
                                NstSvcAuth, NstSvcServer, NstSvcLogger, NstSvcNotification, NstSvcTranslation,
                                NstSvcPostFactory, NstSvcPlaceFactory, NstSvcInvitationFactory, NstUtility, NstSvcUserFactory, NstSvcSidebar, NstSvcNotificationFactory,
                                NstSvcNotificationSync, NstSvcSync, NstSvcKeyFactory, NstSvcPostDraft,
@@ -693,18 +693,19 @@
         getGrandPlaceUnreadCounts();
       }));
 
-      NstSvcNotificationFactory.addEventListener(NST_NOTIFICATION_FACTORY_EVENT.UPDATE, function (event) {
-        vm.notificationsCount = event.detail;
-      });
+      eventReferences.push($rootScope.$on(NST_NOTIFICATION_EVENT.UPDATE, function (e, data) {
+        vm.notificationsCount = data.count;
+      }));
 
-      NstSvcNotificationFactory.addEventListener(NST_NOTIFICATION_FACTORY_EVENT.NEW_NOTIFICATION, function (event) {
-        vm.notificationsCount += 1;
-      });
+      // NOTE: Nobody dispaches an event with this key!!
+      // eventReferences.push($rootScope.$on(NST_NOTIFICATION_EVENT.NEW_NOTIFICATION, function (e, data) {
+      //   vm.notificationsCount += 1;
+      // }));
 
 
-      NstSvcNotificationFactory.addEventListener(NST_NOTIFICATION_FACTORY_EVENT.OPEN_INVITATION_MODAL, function (event) {
-        vm.invitation.showModal(event.detail.id)
-      });
+      eventReferences.push($rootScope.$on(NST_NOTIFICATION_EVENT.OPEN_INVITATION_MODAL, function (e, data) {
+        vm.invitation.showModal(data.notificationId);
+      }));
 
       NstSvcNotificationSync.addEventListener(NST_NOTIFICATION_TYPE.INVITE, function (event) {
         getInvitations().then(function (invitations) {

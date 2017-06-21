@@ -8,7 +8,7 @@
   /** @ngInject */
   function AppController($q, $scope, $window, $rootScope, $timeout, $state, $stateParams, $uibModalStack, $interval, $log, $injector,
                          hotkeys, deviceDetector, NstSvcInteractionTracker,
-                         NST_DEFAULT, NST_AUTH_EVENT, NST_SRV_EVENT, NST_NOTIFICATION_FACTORY_EVENT, NST_CONFIG,
+                         NST_DEFAULT, NST_AUTH_EVENT, NST_SRV_EVENT, NST_NOTIFICATION_EVENT, NST_CONFIG,
                          NstSvcServer, NstSvcAuth, NstSvcLogger, NstSvcI18n, NstSvcNotification, NstSvcNotificationFactory,
                          NstObject) {
     var vm = this;
@@ -76,17 +76,17 @@
       $state.go('public.signin');
     }));
 
-    NstSvcNotification.addEventListener(NST_NOTIFICATION_FACTORY_EVENT.EXTERNAL_PUSH_ACTION, function (event) {
-      switch (event.detail.action) {
-        case NST_NOTIFICATION_FACTORY_EVENT.OPEN_PLACE:
-          openPlace(event.detail.placeId);
+    eventReferences.push($rootScope.$on(NST_NOTIFICATION_EVENT.EXTERNAL_PUSH_ACTION, function (e, data) {
+      switch (data.action) {
+        case NST_NOTIFICATION_EVENT.OPEN_PLACE:
+          openPlace(data.placeId);
           break;
-        case NST_NOTIFICATION_FACTORY_EVENT.OPEN_POST_VIEW:
-          viewPost(event.detail.postId);
+        case NST_NOTIFICATION_EVENT.OPEN_POST_VIEW:
+          viewPost(data.postId);
           break;
       }
-      NstSvcNotificationFactory.markAsSeen(event.detail.notificationId)
-    })
+      NstSvcNotificationFactory.markAsSeen(data.notificationId)
+    }));
 
     eventReferences.push($rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
       toggleSidebar(toState, toParams);
