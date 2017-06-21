@@ -46,6 +46,6 @@
     // uiSelectConfig.dropdownPosition = 'down';
 
     // TODO: Disable it in development mode
-    $compileProvider.debugInfoEnabled(false);
+    // $compileProvider.debugInfoEnabled(false);
   }
 })();

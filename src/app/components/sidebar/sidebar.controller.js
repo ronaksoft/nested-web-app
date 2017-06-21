@@ -9,7 +9,7 @@
     function SidebarController($q, $scope, $state, $stateParams, $uibModal, $window, $rootScope, $timeout,
                                _,
                                NST_DEFAULT, NST_AUTH_EVENT, NST_INVITATION_EVENT, NST_CONFIG,NST_KEY, deviceDetector,
-                               NST_EVENT_ACTION, NST_USER_FACTORY_EVENT, NST_NOTIFICATION_FACTORY_EVENT, NST_SRV_EVENT, NST_NOTIFICATION_TYPE, NST_PLACE_EVENT, NST_POST_EVENT,
+                               NST_EVENT_ACTION, NST_USER_EVENT, NST_NOTIFICATION_FACTORY_EVENT, NST_SRV_EVENT, NST_NOTIFICATION_TYPE, NST_PLACE_EVENT, NST_POST_EVENT,
                                NstSvcAuth, NstSvcServer, NstSvcLogger, NstSvcNotification, NstSvcTranslation,
                                NstSvcPostFactory, NstSvcPlaceFactory, NstSvcInvitationFactory, NstUtility, NstSvcUserFactory, NstSvcSidebar, NstSvcNotificationFactory,
                                NstSvcNotificationSync, NstSvcSync, NstSvcKeyFactory, NstSvcPostDraft,
@@ -627,17 +627,17 @@
         NstSvcPlaceFactory.addPlaceToTree(vm.places, mapPlace(data.place));
       }));
 
-      NstSvcUserFactory.addEventListener(NST_USER_FACTORY_EVENT.PROFILE_UPDATED, function (event) {
-        updateUser(event.detail);
-      });
+      eventReferences.push($rootScope.$on(NST_USER_EVENT.PROFILE_UPDATED, function (e, data) {
+        updateUser(data.user);
+      }));
 
-      NstSvcUserFactory.addEventListener(NST_USER_FACTORY_EVENT.PICTURE_UPDATED, function (event) {
-        updateUser(event.detail);
-      });
+      eventReferences.push($rootScope.$on(NST_USER_EVENT.PICTURE_UPDATED, function (e, data) {
+        updateUser(data.user);
+      }));
 
-      NstSvcUserFactory.addEventListener(NST_USER_FACTORY_EVENT.PICTURE_REMOVED, function (event) {
-        updateUser(event.detail);
-      });
+      eventReferences.push($rootScope.$on(NST_USER_EVENT.PICTURE_REMOVED, function (e, data) {
+        updateUser(data.user);
+      }));
 
       function updatePersonalPlace(user) {
           var place = _.find(vm.places, {id: user.id});

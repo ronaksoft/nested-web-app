@@ -5,10 +5,10 @@
     .module('ronak.nested.web.user')
     .service('NstSvcUserFactory', NstSvcUserFactory);
 
-  function NstSvcUserFactory($q, md5, _,
+  function NstSvcUserFactory($q, md5, _, $rootScope,
                              NstSvcServer, NstSvcTinyUserStorage, NstSvcUserStorage, NstPlace,
                              NST_USER_SEARCH_AREA,
-                             NST_USER_FACTORY_EVENT,
+                             NST_USER_EVENT,
                              NstBaseFactory, NstFactoryQuery, NstFactoryError, NstTinyUser, NstUser, NstPicture, NstFactoryEventData) {
     function UserFactory() { }
 
@@ -139,7 +139,7 @@
       NstSvcServer.request('account/update', keyValues).then(function () {
         return service.get(id, true);
       }).then(function (user) {
-        service.dispatchEvent(new CustomEvent(NST_USER_FACTORY_EVENT.PROFILE_UPDATED, new NstFactoryEventData(user)));
+        $rootScope.$broadcast(NST_USER_EVENT.PROFILE_UPDATED, { userId: user.id, user : user});
         deferred.resolve(user);
       }).catch(function (error) {
         deferred.reject(new NstFactoryError(null, error.getMessage(), error.getCode(), error));
@@ -181,7 +181,7 @@
 
           return factory.get(userId, true);
         }).then(function (user) {
-          factory.dispatchEvent(new CustomEvent(NST_USER_FACTORY_EVENT.PICTURE_UPDATED, new NstFactoryEventData(user)));
+          $rootScope.$broadcast(NST_USER_EVENT.PICTURE_UPDATED, { userId: user, user: user });
           deferred.resolve(user);
         }).catch(function (error) {
           deferred.reject(error);
@@ -202,7 +202,7 @@
 
           return factory.get(userId, true);
         }).then(function (user) {
-          factory.dispatchEvent(new CustomEvent(NST_USER_FACTORY_EVENT.PICTURE_REMOVED, new NstFactoryEventData(user)));
+          $rootScope.$broadcast(NST_USER_EVENT.PICTURE_REMOVED, { userId: user.id, user: user });
           deferred.resolve(user);
         }).catch(function (error) {
           deferred.reject(new NstFactoryError(new NstFactoryQuery(), error.getMessage(), error.getCode(), error));

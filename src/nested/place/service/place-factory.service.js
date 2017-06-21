@@ -6,7 +6,7 @@
     .service('NstSvcPlaceFactory', NstSvcPlaceFactory);
 
   function NstSvcPlaceFactory($q, _, $rootScope,
-                              NST_SRV_ERROR, NST_PLACE_ACCESS, NST_EVENT_ACTION, NST_USER_FACTORY_EVENT, NST_PLACE_EVENT,
+                              NST_SRV_ERROR, NST_PLACE_ACCESS, NST_EVENT_ACTION, NST_PLACE_EVENT,
                               NstSvcServer, NstSvcPlaceStorage, NstSvcTinyPlaceStorage, NstSvcMyPlaceIdStorage, NstSvcUserFactory, NstSvcPlaceRoleStorage, NstSvcPlaceAccessStorage, NstSvcLogger,
                               NstBaseFactory, NstFactoryQuery, NstFactoryError, NstUtility, NstTinyPlace, NstPlace, NstFactoryEventData, NstSvcPlaceMap, NstPicture,
                               NstPlaceCreatorOfParentError, NstPlaceOneCreatorLeftError, NstManagerOfSubPlaceError) {
@@ -39,11 +39,6 @@
 
         $rootScope.$broadcast(NST_PLACE_EVENT.UPDATED, { placeId: tlData.child_id });
 
-      });
-
-
-      NstSvcUserFactory.addEventListener(NST_USER_FACTORY_EVENT.PROFILE_UPDATED, function (event) {
-        factory.get(event.detail.id, true);
       });
 
       NstSvcServer.addEventListener(NST_EVENT_ACTION.PLACE_PICTURE, function (event) {
