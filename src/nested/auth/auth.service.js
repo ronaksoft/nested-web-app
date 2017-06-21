@@ -176,7 +176,6 @@
 
         service.setUserCookie(user, remember);
 
-        service.setState(NST_AUTH_STATE.AUTHORIZED);
         service.dispatchEvent(new CustomEvent(NST_AUTH_EVENT.AUTHORIZE, {detail: {user: user}}));
 
         deferred.resolve(service.getUser());
@@ -280,7 +279,6 @@
       }
 
       qUnauth.promise.then(function (response) {
-        service.setState(NST_AUTH_STATE.UNAUTHORIZED);
         service.dispatchEvent(new CustomEvent(NST_AUTH_EVENT.UNAUTHORIZE, {detail: {reason: reason}}));
         deferred.resolve(response);
       }).catch(deferred.reject);
@@ -370,7 +368,7 @@
         this.recall(this.getLastSessionKey(), this.getLastSessionSecret()).then(function (response) {
           service.user = NstSvcUserFactory.parseUser(response.account);
 
-          service.setState(NST_AUTH_STATE.AUTHORIZED);
+          service.state = NST_AUTH_STATE.AUTHORIZED;
 
           service.authorize(response).then(deferred.resolve);
         }).catch(function (error) {
