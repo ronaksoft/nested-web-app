@@ -176,7 +176,7 @@
 
         service.setUserCookie(user, remember);
 
-        service.dispatchEvent(new CustomEvent(NST_AUTH_EVENT.AUTHORIZE, {detail: {user: user}}));
+        $rootScope.$broadcast(NST_AUTH_EVENT.AUTHORIZE, { user: user });
 
         deferred.resolve(service.getUser());
       }).catch(deferred.reject);
@@ -279,7 +279,7 @@
       }
 
       qUnauth.promise.then(function (response) {
-        service.dispatchEvent(new CustomEvent(NST_AUTH_EVENT.UNAUTHORIZE, {detail: {reason: reason}}));
+        $rootScope.$broadcast(NST_AUTH_EVENT.UNAUTHORIZE, { reason: reason });
         deferred.resolve(response);
       }).catch(deferred.reject);
 
@@ -379,7 +379,7 @@
             case NST_SRV_ERROR.INVALID:
             case NST_SRV_ERROR.UNAUTHORIZED:
               service.unregister(NST_UNREGISTER_REASON.AUTH_FAIL).then(function () {
-                service.dispatchEvent(new CustomEvent(NST_AUTH_EVENT.AUTHORIZE_FAIL, {detail: {reason: error}}));
+                $rootScope.$on(NST_AUTH_EVENT.AUTHORIZE_FAIL, { reason: error });
                 deferred.reject(error);
               }).catch(deferred.reject);
               break;
@@ -502,10 +502,10 @@
 
     var service = new Auth(NstSvcCurrentUserStorage.get(NST_AUTH_STORAGE_KEY.USER));
 
-    service.addEventListener(NST_AUTH_EVENT.AUTHORIZE, function (event) {
-      NstSvcCurrentUserStorage.set(NST_AUTH_STORAGE_KEY.USER, event.detail.user);
+    $rootScope.$on(NST_AUTH_EVENT.AUTHORIZE, function (e, data) {
+      NstSvcCurrentUserStorage.set(NST_AUTH_STORAGE_KEY.USER, data.user);
     });
-    service.addEventListener(NST_AUTH_EVENT.UNAUTHORIZE, function () {
+    $rootScope.$on(NST_AUTH_EVENT.UNAUTHORIZE, function (e, data) {
       NstSvcCurrentUserStorage.remove(NST_AUTH_STORAGE_KEY.USER);
     });
 

@@ -5,7 +5,7 @@
     .module('ronak.nested.web.components.notification')
     .service('NstSvcNotificationFactory', NstSvcNotificationFactory);
 
-  function NstSvcNotificationFactory(_, $q,
+  function NstSvcNotificationFactory(_, $q, $rootScope,
                                      NstSvcServer, NstSvcUserFactory, NstSvcPostFactory, NstSvcCommentFactory, NstSvcAuth,
                                      NstBaseFactory, NstMention, NstFactoryEventData, NstSvcInvitationFactory, NstSvcPlaceFactory,
                                      NST_AUTH_EVENT, NST_NOTIFICATION_FACTORY_EVENT, NST_NOTIFICATION_TYPE, NST_SRV_PUSH_CMD) {
@@ -13,7 +13,7 @@
       var that = this;
       that.count = 0;
 
-      NstSvcAuth.addEventListener(NST_AUTH_EVENT.AUTHORIZE, function () {
+      $rootScope.$on(NST_AUTH_EVENT.AUTHORIZE, function (e, data) {
         if (NstSvcAuth.user.unreadNotificationCount) {
           that.dispatchEvent(new CustomEvent(NST_NOTIFICATION_FACTORY_EVENT.UPDATE, new NstFactoryEventData(NstSvcAuth.user.unreadNotificationCount)));
         } else {
@@ -29,7 +29,7 @@
         });
       });
 
-      NstSvcAuth.addEventListener(NST_AUTH_EVENT.UNAUTHORIZE, function () {
+      $rootScope.$on(NST_AUTH_EVENT.UNAUTHORIZE, function (e, data) {
         that.loadedNotifications = [];
       });
 

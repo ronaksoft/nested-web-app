@@ -464,9 +464,9 @@
           if (NstSvcAuth.isAuthorized()) {
             res(NstSvcAuth.user);
           } else {
-            NstSvcAuth.addEventListener(NST_AUTH_EVENT.AUTHORIZE, function () {
+            eventReferences.push($rootScope.$on(NST_AUTH_EVENT.AUTHORIZE, function (e, data) {
               res(NstSvcAuth.user);
-            });
+            }));
           }
         });
       }
