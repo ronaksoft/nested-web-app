@@ -1,3 +1,11 @@
-<div class="att-exp-application-large-">
-  <div class="_tac _fw _dibp title-att color-file nst-font-large upper-case">{{attachment.extension}}</div>
+<div class="attachment-doc-show" ng-hide="attachment.show">
+  <div class="thumb">
+    <div class="attach-thumbnail {{'attach-thumbnail-' + attachment.type}}">
+      <div class="file-name"> <p>{{attachment.name}}</p></div>
+      <div class="detail">
+        <p>{{attachment.extension | uppercase}}</p>
+      </div>
+    </div>
+  </div>
+  <p class="no-preview"><translate>Sorry, preview is not available 😔</translate></p>
 </div>

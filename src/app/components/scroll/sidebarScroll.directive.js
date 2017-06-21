@@ -6,76 +6,74 @@
     .directive('sidebarScroll', onScroll);
 
   /** @ngInject */
-  function onScroll(_, $rootScope, $timeout, $interval) {
+  function onScroll(_, $rootScope, $timeout, $interval, $window) {
     return {
       restrict: 'A',
       link: function (scope, $element, $attrs) {
-          var placesArray = [];
-          var unreadArray = [];
-          scope.ctlSidebar.overFlowBottom = false;
-          scope.ctlSidebar.overFlowBottomUnread = false;
-          scope.ctlSidebar.overFlowTop = false;
-          scope.ctlSidebar.overFlowTopUnread = false;
+        var placesArray = [],
+            unreadArray = [],
+            win = angular.element($window);
+        scope.ctlSidebar.overFlowBottom = false;
+        scope.ctlSidebar.overFlowBottomUnread = false;
+        scope.ctlSidebar.overFlowTop = false;
+        scope.ctlSidebar.overFlowTopUnread = false;
 
-          // Hell handle on promise resolving
-          $timeout(function(){
-              initControlls();
-          },500);
+        win.on("resize", checkScroll);
 
-            function checkScroll(el) {
+        // Hell handle on promise resolving
+        $timeout(function(){
+            initControlls();
+        },500);
 
-                // Toggle Buttons
-                if (el.clientHeight < el.scrollHeight && el.scrollTop <= 28) {
-                    scope.ctlSidebar.overFlowBottom = true;
-                    scope.ctlSidebar.overFlowTop = false;
-                } else if (el.clientHeight < el.scrollHeight && el.clientHeight + el.scrollTop >= el.scrollHeight - 28) {
-                    scope.ctlSidebar.overFlowBottom = false;
-                    scope.ctlSidebar.overFlowTop = true;
-                } else if (el.clientHeight < el.scrollHeight) {
-                    scope.ctlSidebar.overFlowBottom = true;
-                    scope.ctlSidebar.overFlowTop = true;
-                }
-
-                // Toggle badge visibility
-                if ( scope.ctlSidebar.overFlowTop ) {
-                    var scrolledIndex = Math.floor((el.scrollTop - 16) / 64);
-                    var UnreadCountsT = 0;
-
-                    for (var i = 0;i <= scrolledIndex; i++){
-                        if ( placesArray[i] === 1 ) {
-                            ++UnreadCountsT;
-                        }
-                    }
-                    if ( UnreadCountsT > 0){
-                        scope.ctlSidebar.overFlowTopUnread = true;
-                    } else {
-                        scope.ctlSidebar.overFlowTopUnread = false;
-                    }
-                }
-
-                if ( scope.ctlSidebar.overFlowBottom ) {
-                    var notScrolled = el.scrollHeight - el.clientHeight - el.scrollTop;
-                    var notScrolledIndex = Math.floor((notScrolled - 16 - 64) / 64);
-                    var UnreadCountsB = 0;
-
-                    for (var j = 0;j <= notScrolledIndex; j++){
-                        if ( placesArray[placesArray.length - j - 1] === 1 ) {
-                            ++UnreadCountsB;
-                        }
-                    }
-
-                    if ( UnreadCountsB > 0){
-                        scope.ctlSidebar.overFlowBottomUnread = true;
-                    } else {
-                        scope.ctlSidebar.overFlowBottomUnread = false;
-                    }
+        //TODO : reduce the cyclomatic complexity !
+        function checkScroll() {
+            var el = $element[0],
+                ch = el.clientHeight,
+                sh = el.scrollHeight,
+                st = el.scrollTop,
+                ih = 48;
+            // Toggle Buttons
+            if ( ch >= sh ) {
+                scope.ctlSidebar.overFlowBottom = false;
+                scope.ctlSidebar.overFlowTop = false;
+            } else if ( st <= 28 ) {
+                scope.ctlSidebar.overFlowBottom = true;
+                scope.ctlSidebar.overFlowTop = false;
+            } else if ( ch + st >= sh - 28 ) {
+                scope.ctlSidebar.overFlowBottom = false;
+                scope.ctlSidebar.overFlowTop = true;
+            } else {
+                scope.ctlSidebar.overFlowBottom = true;
+                scope.ctlSidebar.overFlowTop = true;
+            }
+            // Toggle badge visibility
+            var scrolledIndex = Math.floor((st - 16) / ih),
+                UnreadCountsT = 0,
+                i = 0;
+            for (i; i <= scrolledIndex; i++){
+                if ( placesArray[i] === 1 ) {
+                    ++UnreadCountsT;
                 }
             }
+            scope.ctlSidebar.overFlowTopUnread = UnreadCountsT > 0;
+
+            var notScrolled = sh - ch - st,
+                notScrolledIndex = Math.floor((notScrolled - 16 - ih) / ih), // Remove last item ( create place )
+                UnreadCountsB = 0,
+                j = 0;
+
+            for (j; j <= notScrolledIndex; j++){
+                if ( placesArray[placesArray.length - j - 1] === 1 ) {
+                    ++UnreadCountsB;
+                }
+            }
+
+            scope.ctlSidebar.overFlowBottomUnread = UnreadCountsB > 0;
+        }
           
-          function initControlls() {
+        function initControlls() {
             insertItems();
-            checkScroll($element[0]);
-          }
+        }
 
         function insertItems() {
           placesArray = [];
@@ -100,7 +98,7 @@
           checkScroll($element[0]);
         });
 
-          scope.ctlSidebar.scrollTop = function(){
+        scope.ctlSidebar.scrollTop = function(){
             var scrollDis = $element[0].clientHeight - 80;
             var i = 0;
             var inter = $interval(function () {
@@ -111,8 +109,9 @@
                 }
                 i += 4;
             },1);
-          };
-          scope.ctlSidebar.scrollBottom = function(){
+        };
+        
+        scope.ctlSidebar.scrollBottom = function(){
             var scrollDis = $element[0].clientHeight - 80;
             var i = 0
             var inter = $interval(function () {
@@ -123,7 +122,7 @@
                 }
                 i += 4;
             },1);
-          };
+        };
 
         scope.ctlSidebar.insertItems = insertItems;
 

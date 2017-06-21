@@ -243,8 +243,9 @@
     }
 
     function isFeed() {
-      if ($state.current.name == 'app.messages-favorites' ||
-        $state.current.name == 'app.messages-favorites-sorted') {
+      if ($state.current.name === 'app.messages-favorites' ||
+          $state.current.name === 'app.messages-sorted' ||
+          $state.current.name === 'app.messages-favorites-sorted') {
         vm.isFeed = true;
         return true;
       }
