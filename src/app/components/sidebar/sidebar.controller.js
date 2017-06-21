@@ -8,7 +8,7 @@
     /** @ngInject */
     function SidebarController($q, $scope, $state, $stateParams, $uibModal, $window, $rootScope, $timeout,
                                _,
-                               NST_DEFAULT, NST_AUTH_EVENT, NST_INVITATION_FACTORY_EVENT, NST_CONFIG,NST_KEY, deviceDetector,
+                               NST_DEFAULT, NST_AUTH_EVENT, NST_INVITATION_EVENT, NST_CONFIG,NST_KEY, deviceDetector,
                                NST_EVENT_ACTION, NST_USER_FACTORY_EVENT, NST_NOTIFICATION_FACTORY_EVENT, NST_SRV_EVENT, NST_NOTIFICATION_TYPE, NST_PLACE_EVENT, NST_POST_EVENT,
                                NstSvcAuth, NstSvcServer, NstSvcLogger, NstSvcNotification, NstSvcTranslation,
                                NstSvcPostFactory, NstSvcPlaceFactory, NstSvcInvitationFactory, NstUtility, NstSvcUserFactory, NstSvcSidebar, NstSvcNotificationFactory,
@@ -596,22 +596,21 @@
        *****  Event Listeners   ****
        *****************************/
 
-      NstSvcInvitationFactory.addEventListener(NST_INVITATION_FACTORY_EVENT.ADD, function (event) {
-        pushInvitation(event.detail.invitation);
+      eventReferences.push($rootScope.$on(NST_INVITATION_EVENT.ADD, function (e, data) {
+        pushInvitation(data.invitation);
         $rootScope.$emit('init-controls-sidebar');
-      });
+      }));
 
-      NstSvcInvitationFactory.addEventListener(NST_INVITATION_FACTORY_EVENT.ACCEPT, function (event) {
-        var invitation = event.detail.invitation;
-
+      eventReferences.push($rootScope.$on(NST_INVITATION_EVENT.ACCEPT, function (e, data) {
         for (var k in vm.invitations) {
-          if (invitation.id == vm.invitations[k].id) {
+          if (data.invitationId === vm.invitations[k].id) {
             vm.invitations.splice(k, 1);
             return;
           }
         }
+
         $rootScope.$emit('init-controls-sidebar');
-      });
+      }));
 
       eventReferences.push($rootScope.$on(NST_PLACE_EVENT.ROOT_ADDED, function (e, data) {
         var place = mapPlace(data.place);
