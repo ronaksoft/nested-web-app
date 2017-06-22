@@ -5,7 +5,7 @@
     .module('ronak.nested.web.components.attachment')
     .directive('nstAttachmentView', AttachmentView);
 
-  function AttachmentView(NST_FILE_TYPE, $sce, $window) {
+  function AttachmentView(NST_FILE_TYPE, $sce, $window, NstSvcKeyFactory, NST_KEY) {
     return {
       restrict: 'E',
       scope: {
@@ -15,7 +15,9 @@
       replace: true,
       link: function (scope) {
         scope.scaleVal = 1;
-        
+        // NstSvcKeyFactory.get(NST_KEY.GENERAL_SETTING_DOCUMENT_PREVIEW).then(function(v) {
+        //   scope.preview = v === "true";
+        // });
         
         scope.$watch('attachment', function () {
           if (scope.attachment && scope.attachment.type) {
@@ -91,6 +93,17 @@
           scope.attachment.newW = newW;
           scope.attachment.newH = newH;
         };
+
+        // scope.docPreview = function () {
+        //   scope.preview = true;
+        // }
+
+        // scope.docAlwaysPreview = function () {
+        //   scope.preview = true;
+        //   NstSvcKeyFactory.set(NST_KEY.GENERAL_SETTING_DOCUMENT_PREVIEW, String(scope.preview))
+        //     .then(function (result) {
+        //   });
+        // }
         
 
         var resizeIt = _.debounce(scope.sizeDetect, 500);
