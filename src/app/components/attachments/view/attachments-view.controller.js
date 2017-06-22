@@ -24,7 +24,7 @@
     vm.open = function (vmAttachment, vmAttachments) {
 
       eventReferences.push($scope.$emit('post-attachment-viewed', { postId : vm.postId }));
-
+      $('body').addClass('attach-modal');
       var modal = $uibModal.open({
         animation: false,
         templateUrl: 'app/components/attachments/view/single/main.html',
@@ -52,6 +52,8 @@
             return vm.postId;
           }
         }
+      }).result.catch(function(){
+        $('body').removeClass('attach-modal');
       });
 
       return modal.result;
