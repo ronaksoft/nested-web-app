@@ -20,157 +20,10 @@
     ActivityFactory.prototype.get = get;
     ActivityFactory.prototype.getAfter = getAfter;
     ActivityFactory.prototype.getRecent = getRecent;
-    ActivityFactory.prototype.parseActivity = parseActivity;
     ActivityFactory.prototype.parseActivityIntelligently = parseActivityIntelligently;
 
     var factory = new ActivityFactory();
     return factory;
-
-    function parseActivity(data) {
-      var defer = $q.defer();
-
-      var activity = new NstActivity();
-      activity.id = data._id;
-      activity.type = data.action;
-      activity.date = new Date(data.timestamp);
-      activity.lastUpdate = new Date(data.last_update);
-      activity.memberType = data.memberType;
-      $q.all([
-        extractActor(data),
-        extractPost(data),
-        extractPlace(data),
-        extractComment(data),
-        extractMember(data)
-      ]).then(function (values) {
-
-        activity.actor = values[0];
-        activity.post = values[1];
-        activity.place = values[2];
-        activity.comment = values[3];
-        activity.member = values[4];
-
-        defer.resolve(activity);
-
-      }).catch(defer.reject);
-
-      return defer.promise;
-
-      function extractActor(data) {
-        var defer = $q.defer();
-
-        if (!data.actor_id) {
-          defer.resolve(null);
-        } else {
-          NstSvcUserFactory.get(data.actor_id)
-            .then(function (user) {
-              defer.resolve(user);
-            });
-        }
-
-        return defer.promise;
-      }
-
-      function extractPost(data) {
-        var defer = $q.defer();
-
-        if (!data.post_id) { // could not find any post inside
-          defer.resolve(null);
-        } else {
-          NstSvcPostFactory.get(data.post_id)
-            .then(function (post) {
-
-              var attachmentPromises = _.map(post.post_attachments, function (attachment) {
-                if (attachment._id)
-                  return NstSvcAttachmentFactory.parseAttachment(attachment);
-              });
-
-              $q.all(attachmentPromises).then(function (values) {
-                var tinyPost = new NstPost({
-                  id: post.getId(),
-                  subject: post.getSubject(),
-                  body: post.getBody(),
-                  senderId: post.actor,
-                  places: post.places,
-                  attachments: values
-                });
-
-                defer.resolve(tinyPost);
-              });
-
-            }).catch(function () {
-            defer.resolve(null);
-          })
-        }
-
-
-        return defer.promise;
-      }
-
-      function extractComment(data) {
-        var defer = $q.defer();
-        if (!data.comment_id) { // could not find any comment inside
-          defer.resolve(null);
-        } else {
-          NstSvcCommentFactory
-            .getComment(data.comment_id, data.post_id)
-            .then(function (comment) {
-              defer.resolve(comment);
-            })
-        }
-
-        return defer.promise;
-      }
-
-      function extractPlace(data) {
-        var defer = $q.defer();
-
-        if (!data.place_id) {
-          defer.resolve(null);
-        } else {
-
-          if (data.child_id) {
-            defer.resolve(new NstTinyPlace({
-              id: angular.isObject(data.child_id) ? data.child_id.$oid : data.child_id,
-              name: data.place_name,
-              picture: data.place_picture ? new NstPicture(data.place_picture.org, data.place_picture) : new NstPicture(),
-              parent: new NstTinyPlace({
-                id: angular.isObject(data.place_id) ? data.place_id.$oid : data.place_id,
-                name: data.parent_name,
-                picture: new NstPicture(),
-              })
-            }));
-
-          } else {
-            defer.resolve(new NstTinyPlace({
-              id: angular.isObject(data.place_id) ? data.place_id.$oid : data.place_id,
-              name: data.place_name,
-              picture: data.place_picture ? new NstPicture(data.place_picture.org, data.place_picture) : new NstPicture()
-            }));
-          }
-
-          // }).catch(defer.reject);
-        }
-
-        return defer.promise;
-      }
-
-      function extractMember(data) {
-        var defer = $q.defer();
-
-        if (!data.member_id) { // could not find a member inside
-          defer.resolve(null); // TODO: decide to fill with an empty object or an empty NstUser
-        } else {
-          defer.resolve({
-            id: data.member_id,
-            fullName: data.member_name || data.invitee_name,
-            type: data.member_type
-          });
-        }
-
-        return defer.promise;
-      }
-
-    }
 
     function parseActivityIntelligently(data) {
       if (!data) {
@@ -183,25 +36,35 @@
 
       switch (data.action) {
         case NST_EVENT_ACTION.MEMBER_REMOVE:
-          return parseMemberRemoveActivity(data);
-        case NST_EVENT_ACTION.MEMBER_INVITE:
-          return parseMemberInviteActivity(data);
+          return parseMemberRemove(data);
         case NST_EVENT_ACTION.MEMBER_JOIN:
-          return parseMemberJoinActivity(data);
+          return parseMemberJoin(data);
+
         case NST_EVENT_ACTION.PLACE_ADD:
-          return parsePlaceAddActivity(data);
-        case NST_EVENT_ACTION.POST_ADD:
-          return parseAddPostActivity(data);
+          return parsePlaceAdd(data);
+
         case NST_EVENT_ACTION.COMMENT_ADD:
-          return parseAddCommentActivity(data);
+          return parseAddComment(data);
+        case NST_EVENT_ACTION.COMMENT_REMOVE:
+          return parseRemoveComment(data);
+
+        case NST_EVENT_ACTION.POST_ADD:
+          return parsePostAdd(data);
+        case NST_EVENT_ACTION.POST_ATTACH_PLACE:
+          return parsePostAttachPlace(data);
+        case NST_EVENT_ACTION.POST_MOVE:
+          return parsePostMove(data);
+        case NST_EVENT_ACTION.POST_REMOVE_PLACE:
+          return parsePostRemovePlace(data);
         default:
-          console.error('The provided activity type is not supported:' + data.action);
+          NstSvcLogger.error('The provided activity type is not supported:' + data.action);
           return null;
-          // throw Error('The provided activity type is not supported.');
       }
     }
 
-    function parseAddPostActivity(data) {
+    function parsePostAdd(data) {
+      // TODO: Remove me
+      console.log('Parsing', 'NST_EVENT_ACTION.POST_ADD', data);
 
       if (data.action !== NST_EVENT_ACTION.POST_ADD) {
         throw Error(NstUtility.string.format('The provided activity is not of {0} type.', NST_EVENT_ACTION.POST_ADD));
@@ -230,7 +93,112 @@
       return deferred.promise;
     }
 
-    function parseAddCommentActivity(data) {
+    function parsePostRemovePlace(data) {
+      // TODO: Remove me
+      console.log('Parsing', 'NST_EVENT_ACTION.POST_REMOVE_PLACE', data);
+
+      if (data.action !== NST_EVENT_ACTION.POST_REMOVE_PLACE) {
+        throw Error(NstUtility.string.format('The provided activity is not of {0} type.', NST_EVENT_ACTION.POST_REMOVE_PLACE));
+      }
+
+      var deferred = $q.defer();
+      var activity = new NstActivity();
+
+      activity.id = data._id;
+      activity.type = data.action;
+      activity.date = new Date(data.timestamp);
+
+      var postPromise = NstSvcPostFactory.get(data.post_id);
+      // TODO: Not required anymore, because the actor and comment sender are the same
+      var actorPromise = NstSvcUserFactory.getTiny(data.actor_id);
+      var placePromise = NstSvcPlaceFactory.getTiny(data.place_id);
+
+      $q.all([postPromise, actorPromise, placePromise]).then(function (resultSet) {
+        activity.post = resultSet[0];
+        activity.actor = resultSet[1];
+        activity.place = resultSet[2];
+
+        deferred.resolve(activity);
+      }).catch(function (error) {
+        deferred.resolve(null);
+        NstSvcLogger.error("Activity Factory GET:" , error)
+      });
+
+      return deferred.promise;
+    }
+
+    function parsePostAttachPlace(data) {
+      // TODO: Remove me
+      console.log('Parsing', 'NST_EVENT_ACTION.POST_ATTACH_PLACE', data);
+
+      if (data.action !== NST_EVENT_ACTION.POST_ATTACH_PLACE) {
+        throw Error(NstUtility.string.format('The provided activity is not of {0} type.', NST_EVENT_ACTION.POST_ATTACH_PLACE));
+      }
+
+      var deferred = $q.defer();
+      var activity = new NstActivity();
+
+      activity.id = data._id;
+      activity.type = data.action;
+      activity.date = new Date(data.timestamp);
+
+      var postPromise = NstSvcPostFactory.get(data.post_id);
+      // TODO: Not required anymore, because the actor and comment sender are the same
+      var actorPromise = NstSvcUserFactory.getTiny(data.actor_id);
+      var placePromise = NstSvcPlaceFactory.getTiny(data.place_id);
+      $q.all([postPromise, actorPromise, placePromise]).then(function (resultSet) {
+        activity.post = resultSet[0];
+        activity.actor = resultSet[1];
+        activity.place = resultSet[2];
+
+        deferred.resolve(activity);
+      }).catch(function (error) {
+        deferred.resolve(null);
+        NstSvcLogger.error("Activity Factory GET:" , error)
+      });
+
+      return deferred.promise;
+    }
+
+    function parsePostMove(data) {
+      // TODO: Remove me
+      console.log('Parsing', 'NST_EVENT_ACTION.POST_MOVE', data);
+
+      if (data.action !== NST_EVENT_ACTION.POST_MOVE) {
+        throw Error(NstUtility.string.format('The provided activity is not of {0} type.', NST_EVENT_ACTION.POST_MOVE));
+      }
+
+      var deferred = $q.defer();
+      var activity = new NstActivity();
+
+      activity.id = data._id;
+      activity.type = data.action;
+      activity.date = new Date(data.timestamp);
+
+      var postPromise = NstSvcPostFactory.get(data.post_id);
+      // TODO: Not required anymore, because the actor and comment sender are the same
+      var actorPromise = NstSvcUserFactory.getTiny(data.actor_id);
+      var oldPlacePromise = NstSvcPlaceFactory.getTiny(data.old_place_id);
+      var newPlacePromise = NstSvcPlaceFactory.getTiny(data.new_place_id);
+      $q.all([postPromise, actorPromise, oldPlacePromise, newPlacePromise]).then(function (resultSet) {
+        activity.post = resultSet[0];
+        activity.actor = resultSet[1];
+        activity.oldPlace = resultSet[2];
+        activity.newPlace = resultSet[3];
+
+        deferred.resolve(activity);
+      }).catch(function (error) {
+        deferred.resolve(null);
+        NstSvcLogger.error("Activity Factory GET:" , error)
+      });
+
+      return deferred.promise;
+    }
+
+    function parseAddComment(data) {
+      // TODO: Remove me
+      console.log('Parsing', 'NST_EVENT_ACTION.COMMENT_ADD', data);
+
       if (data.action !== NST_EVENT_ACTION.COMMENT_ADD) {
         throw Error(NstUtility.string.format('The provided activity is not of {0} type.', NST_EVENT_ACTION.COMMENT_ADD));
       }
@@ -261,7 +229,40 @@
       return deferred.promise;
     }
 
-    function parseMemberRemoveActivity(data) {
+    function parseRemoveComment(data) {
+      // TODO: Remove me
+      console.log('Parsing', 'NST_EVENT_ACTION.COMMENT_REMOVE', data);
+
+      if (data.action !== NST_EVENT_ACTION.COMMENT_REMOVE) {
+        throw Error(NstUtility.string.format('The provided activity is not of {0} type.', NST_EVENT_ACTION.COMMENT_REMOVE));
+      }
+
+      var deferred = $q.defer();
+
+      var commentPromise = NstSvcCommentFactory.getComment(data.comment_id, data.post_id);
+      // TODO: Not required anymore, because the actor and comment sender are the same
+      var actorPromise = NstSvcUserFactory.getTiny(data.actor_id);
+
+      $q.all([commentPromise, actorPromise]).then(function (resultSet) {
+        var activity = new NstActivity();
+        activity.id = data._id;
+        activity.type = data.action;
+        activity.date = new Date(data.timestamp);
+        activity.comment = resultSet[0];
+        activity.actor = resultSet[1];
+        deferred.resolve(activity);
+      }).catch(function (error) {
+        deferred.resolve(null);
+        NstSvcLogger.error("Activity Factory GET:" , error)
+      });
+
+      return deferred.promise;
+    }
+
+    function parseMemberRemove(data) {
+      // TODO: Remove me
+      console.log('Parsing', 'NST_EVENT_ACTION.MEMBER_REMOVE', data);
+
       if (data.action !== NST_EVENT_ACTION.MEMBER_REMOVE) {
         throw Error(NstUtility.string.format('The provided activity is not of {0} type.', NST_EVENT_ACTION.MEMBER_REMOVE));
       }
@@ -291,7 +292,10 @@
       return deferred.promise;
     }
 
-    function parseMemberJoinActivity(data) {
+    function parseMemberJoin(data) {
+      // TODO: Remove me
+      console.log('Parsing', 'NST_EVENT_ACTION.MEMBER_JOIN', data);
+
       if (data.action !== NST_EVENT_ACTION.MEMBER_JOIN) {
         throw Error(NstUtility.string.format('The provided activity is not of {0} type.', NST_EVENT_ACTION.MEMBER_JOIN));
       }
@@ -319,36 +323,10 @@
       return deferred.promise;
     }
 
-    function parseMemberInviteActivity(data) {
-      if (data.action !== NST_EVENT_ACTION.MEMBER_INVITE) {
-        throw Error(NstUtility.string.format('The provided activity is not of {0} type.', NST_EVENT_ACTION.MEMBER_INVITE));
-      }
+    function parsePlaceAdd(data) {
+      // TODO: Remove me
+      console.log('Parsing', 'NST_EVENT_ACTION.PLACE_ADD', data);
 
-      var deferred = $q.defer();
-      var activity = new NstActivity();
-
-      activity.id = data._id;
-      activity.type = data.action;
-      activity.date = new Date(data.timestamp);
-
-      var actorPromise = NstSvcUserFactory.getTiny(data.actor_id);
-      var inviteePromise = NstSvcUserFactory.getTiny(data.member_id);
-      var placePromise = NstSvcPlaceFactory.getTiny(data.place_id);
-
-      $q.all([actorPromise, inviteePromise, placePromise]).then(function (resultSet) {
-        activity.actor = resultSet[0];
-        activity.member = resultSet[1];
-        activity.place = resultSet[2];
-        deferred.resolve(activity);
-      }).catch(function (error) {
-        deferred.resolve(null);
-        NstSvcLogger.error("Activity Factory GET:" , data, error)
-      });
-
-      return deferred.promise;
-    }
-
-    function parsePlaceAddActivity(data) {
       if (data.action !== NST_EVENT_ACTION.PLACE_ADD) {
         throw Error(NstUtility.string.format('The provided activity is not of {0} type.', NST_EVENT_ACTION.PLACE_ADD));
       }

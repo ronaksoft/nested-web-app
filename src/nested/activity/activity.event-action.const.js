@@ -4,27 +4,21 @@
   angular
     .module('ronak.nested.web.activity')
     .constant('NST_EVENT_ACTION', {
-      MEMBER_ADD: 1,
+      // MEMBER
       MEMBER_REMOVE: 2,
-      MEMBER_INVITE: 4,
       MEMBER_JOIN: 8,
-
+      // PLACE
       PLACE_ADD: 16,
-      PLACE_REMOVE: 32,
-      PLACE_PRIVACY: 64,
-      PLACE_PICTURE: 128,
-
+      // POST
       POST_ADD: 256,
-      POST_REMOVE: 512,
-      POST_UPDATE: 1024,
-
+      POST_COPY: 257,
+      POST_RETRACT: 258,
+      POST_UPDATE: 259,
+      POST_ATTACH_PLACE: 260,
+      POST_REMOVE_PLACE: 261,
+      POST_MOVE: 262,
+      // COMMENT
       COMMENT_ADD: 2048,
-      COMMENT_REMOVE: 3840,
-
-      MENTION_ADD : 2049,
-
-      ACCOUNT_REGISTER: 4096,
-      ACCOUNT_LOGIN: 8192,
-      ACCOUNT_PICTURE: 16384
+      COMMENT_REMOVE: 2049
     });
 })();
