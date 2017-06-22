@@ -75,7 +75,7 @@
       filter: 'ALL',
       keyword: '',
       skip: 0,
-      limit: 12
+      limit: 40
     };
 
     vm.settings = {};
@@ -183,12 +183,6 @@
       });
 
       return deferred.promise;
-    }
-
-    function mapFiles(files) {
-      return _.map(files, function (file) {
-        return new NstAttachment(file);
-      });
     }
 
     function preview(file) {
