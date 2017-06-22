@@ -453,7 +453,9 @@ body.isMobile {
   ul, ol {
     margin: 0 24px;
   }
-
+  .wdt-emoji-picker {
+    display: none;
+  }
 }
 .modal-ft {
     .emoji {

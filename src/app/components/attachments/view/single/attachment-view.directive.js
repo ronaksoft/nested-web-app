@@ -70,12 +70,12 @@
         };
 
 
-        scope.sizeDetect = function(){
+        scope.sizeDetect = function(aw,ah){
           var a = scope.attachment,
               ww = window.innerWidth,
               wh = window.innerHeight - 64, // Navbar Height : 64
-              ratio = a.width / a.height,
-              pw = a.width <= 1024 ? a.width : 1024, // Preview width TODO : 1024 from configs
+              ratio = aw / ah,
+              pw = aw <= 1024 ? aw : 1024, // Preview width TODO : 1024 from configs
               ph = pw * ( 1 / ratio );
           var newW,newH;
           if ( (wh < ph && wh * ratio > ww) || ( ww < pw && ww * (1 / ratio) < wh ) ) {
@@ -115,16 +115,17 @@
 
       switch (type){
         case NST_FILE_TYPE.IMAGE:
-          scope.sizeDetect();
+          scope.sizeDetect(scope.attachment.width,scope.attachment.height);
           scope.tplUrl = 'app/components/attachments/view/single/partials/image.html';
           break;
 
         case NST_FILE_TYPE.GIF:
+          scope.sizeDetect(scope.attachment.videoWidth ? scope.attachment.videoWidth : scope.attachment.width,scope.attachment.videoHeight ? scope.attachment.videoHeight : scope.attachment.height);
           scope.tplUrl = 'app/components/attachments/view/single/partials/gif.html';
           break;
 
         case NST_FILE_TYPE.VIDEO:
-          scope.sizeDetect();
+          scope.sizeDetect(scope.attachment.width,scope.attachment.height);
           scope.videoConfig();
           scope.tplUrl = 'app/components/attachments/view/single/partials/video.html';
           break;

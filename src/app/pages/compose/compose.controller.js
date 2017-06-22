@@ -905,6 +905,7 @@
       events: {
         'froalaEditor.initialized': function (e, editor) {
           $(editor.$el).attr('spellcheck', 'false');
+          console.log('initial');
         },
         'popups.setContainer': function (e, editor) {
           // $(editor.$el).attr('spellcheck', 'false');
