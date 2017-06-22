@@ -8,7 +8,7 @@
   /** @ngInject */
   function MessagesController($rootScope, $q, $stateParams, $log, $state, $window, $scope, $uibModal, $timeout,
                               moment, toastr,
-                              NST_MESSAGES_SORT_OPTION, NST_MESSAGES_VIEW_SETTING, NST_DEFAULT, NST_PLACE_FACTORY_EVENT, NST_EVENT_ACTION, NST_POST_FACTORY_EVENT, NST_PLACE_ACCESS,
+                              NST_MESSAGES_SORT_OPTION, NST_MESSAGES_VIEW_SETTING, NST_DEFAULT, NST_EVENT_ACTION, NST_PLACE_ACCESS, NST_POST_EVENT,
                               NstSvcPostFactory, NstSvcPlaceFactory, NstSvcServer, NstUtility, NstSvcAuth, NstSvcSync, NstSvcWait, NstVmFile,
                               NstSvcMessagesSettingStorage, NstSvcTranslation, NstSvcInteractionTracker, SvcCardCtrlAffix,
                               NstSvcPlaceAccess, NstSvcModal, NstSvcDate) {
@@ -137,13 +137,13 @@
           });
       }
 
-      NstSvcPostFactory.addEventListener(NST_POST_FACTORY_EVENT.READ, function (e) {
+      eventReferences.push($rootScope.$on(NST_POST_EVENT.READ, function (event, data) {
         getUnreadsCount();
-      });
+      }));
 
-      NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.READ_ALL_POST, function (e) {
+      eventReferences.push($rootScope.$on('post-read-all', function (e, data) {
         getUnreadsCount();
-      });
+      }));
 
       function postMustBeShown(post) {
         if (post.sender.id !== NstSvcAuth.user.id) {
@@ -190,38 +190,34 @@
         return false;
       }
 
-      NstSvcSync.addEventListener(NST_EVENT_ACTION.POST_ADD, function (e) {
-        if (postMustBeShown(e.detail.post)) {
+      eventReferences.push($rootScope.$on(NST_EVENT_ACTION.POST_ADD, function (e, data) {
+        if (postMustBeShown(data.activity.post)) {
           // The current user is the sender
-          e.detail.post.attachments = _.map(e.detail.post.attachments, function (item) {
+          data.activity.post.attachments = _.map(data.activity.post.attachments, function (item) {
             return new NstVmFile(item);
           });
-          vm.messages.unshift(e.detail.post);
+          vm.messages.unshift(data.activity.post);
 
-        } else if (mustBeAddedToHotPosts(e.detail.post)) {
+        } else if (mustBeAddedToHotPosts(data.activity.post)) {
           // someone else sent the post
-          vm.hotMessageStorage.unshift(e.detail.post);
+          vm.hotMessageStorage.unshift(data.activity.post);
           vm.hasNewMessages = true;
         }
-      });
-
-      NstSvcPostFactory.addEventListener(NST_POST_FACTORY_EVENT.REMOVE, function (e) {
-        //TODO:: Handel me
-      });
+      }));
 
 
-      NstSvcPostFactory.addEventListener(NST_POST_FACTORY_EVENT.UNBOOKMARKED, function (e) {
+      eventReferences.push($rootScope.$on(NST_POST_EVENT.UNBOOKMARKED, function (e, data) {
         if ($state.current.name === 'app.messages-bookmarked' ||
           $state.current.name === 'app.messages-bookmarked-sorted') {
           var message = _.find(vm.messages, {
-            id: e.detail
+            id: data.postId
           });
 
           if (message) {
             NstUtility.collection.dropById(vm.messages, message.id);
           }
         }
-      });
+      }));
 
       $rootScope.$on('post-removed', function (event, data) {
 

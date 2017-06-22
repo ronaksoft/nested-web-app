@@ -367,7 +367,7 @@
 
     function setFavorite(placeId, favorite) {
       if (favorite) {
-        return NstSvcPlaceFactory.setBookmarkOption(placeId, null, true);
+        return NstSvcPlaceFactory.setBookmarkOption(placeId, true);
       } else {
         return $q.resolve(favorite);
       }

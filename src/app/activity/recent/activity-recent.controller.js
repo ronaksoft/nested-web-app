@@ -6,11 +6,11 @@
     .controller('RecentActivityController', RecentActivityController);
 
   /** @ngInject */
-  function RecentActivityController($q, _, $scope, $state, $stateParams,
+  function RecentActivityController($q, _, $rootScope, $scope, $state, $stateParams,
     NstSvcActivityFactory, NstSvcActivityMap, NstSvcServer, NstSvcLogger, NstSvcWait,
     NstSvcPlaceFactory, NST_ACTIVITY_FACTORY_EVENT, NST_PLACE_ACCESS, NstSvcSync, NST_SRV_EVENT, NST_EVENT_ACTION) {
     var vm = this;
-    var eventListeners = [];
+    var eventReferences = [];
     vm.activities = [];
     vm.openActivity = openActivity;
     vm.status = {
@@ -30,35 +30,31 @@
 
 
       if (vm.settings.placeId) {
-
         NstSvcWait.all(['main-done'], function () {
 
           NstSvcPlaceFactory.get(vm.settings.placeId).then(function (place) {
             if (place.hasAccess(NST_PLACE_ACCESS.READ)) {
               getRecentActivity(vm.settings);
+
+              NstSvcServer.addEventListener(NST_SRV_EVENT.RECONNECT, function () {
+                NstSvcLogger.debug('Retrieving recent activities right after reconnecting.');
+                getRecentActivity(vm.settings);
+              });
+
+              _.forEach(NST_EVENT_ACTION, function (action) {
+                eventReferences.push($rootScope.$on(action, function (e, data) {
+                  addNewActivity(data.activity);
+                }));
+              });
+
             }
           });
-
-          NstSvcServer.addEventListener(NST_SRV_EVENT.RECONNECT, function () {
-            NstSvcLogger.debug('Retrieving recent activities right after reconnecting.');
-            getRecentActivity(vm.settings);
-          });
-
         });
-
       }
-
-
     })();
 
 
 
-    eventListeners = _.map(NST_EVENT_ACTION,function (val) {
-
-      return NstSvcSync.addEventListener(val, function (e) {
-        addNewActivity(e.detail);
-      });
-    });
 
     function openActivity() {
       $state.go('app.place-activity', { placeId : vm.settings.placeId });
@@ -111,8 +107,10 @@
     }
 
     $scope.$on('$destroy', function () {
-      _.forEach(eventListeners, function (eventId) {
-        NstSvcSync.removeEventListener(eventId);
+      _.forEach(eventReferences, function (cenceler) {
+        if (_.isFunction(cenceler)) {
+          cenceler();
+        }
       });
     });
 

@@ -6,8 +6,8 @@
     .service('NstSvcInvitationFactory', NstSvcInvitationFactory);
 
   /** @ngInject */
-  function NstSvcInvitationFactory($q, $log, _,
-                                   NST_SRV_ERROR, NST_SRV_EVENT, NST_INVITATION_FACTORY_EVENT, NST_EVENT_ACTION, NST_PLACE_MEMBER_TYPE, NST_STORAGE_TYPE, NST_INVITATION_FACTORY_STATE,
+  function NstSvcInvitationFactory($q, $log, _, $rootScope,
+                                   NST_SRV_ERROR, NST_SRV_EVENT, NST_INVITATION_EVENT, NST_EVENT_ACTION, NST_PLACE_MEMBER_TYPE, NST_STORAGE_TYPE, NST_INVITATION_FACTORY_STATE,
                                    NstSvcInvitationStorage, NstSvcServer, NstSvcUserFactory, NstSvcPlaceFactory, NstSvcNotification,
                                    NstObservableObject, NstFactoryError, NstFactoryQuery, NstInvitation, NstStorage) {
     function InvitationFactory() {
@@ -25,12 +25,10 @@
 
         switch (tlData.action) {
           case NST_EVENT_ACTION.MEMBER_INVITE:
+          console.log('tlevent of invitation');
             factory.get(tlData.invite_id).then(function (invitation) {
               NstSvcNotification.push(tlData.invite_id);
-              factory.dispatchEvent(new CustomEvent(
-                NST_INVITATION_FACTORY_EVENT.ADD,
-                {detail: {id: invitation.getId(), invitation: invitation}}
-              ));
+              $rootScope.$broadcast(NST_INVITATION_EVENT.ADD, { invitationId: invitation.getId(), invitation: invitation });
             });
             break;
         }
@@ -147,11 +145,7 @@
             NstSvcPlaceFactory.get(invitation.place.id, true).then(function () {
               defer.resolve(invitation);
             });
-
-            factory.dispatchEvent(new CustomEvent(
-              NST_INVITATION_FACTORY_EVENT.ACCEPT,
-              {detail: {id: id, invitation: invitation}}
-            ));
+            $rootScope.$broadcast(NST_INVITATION_EVENT.ACCEPT, { invitationId: id, invitation: invitation });
           }).catch(function (error) {
             defer.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
           });
@@ -175,12 +169,8 @@
             invite_id: id,
             response: 'ignore'
           }).then(function () {
-            // TODO: parse the response and return an object
+            $rootScope.$broadcast(NST_INVITATION_EVENT.DECLINE, { invitationId: id, invitation: invitation });
             defer.resolve(invitation);
-            factory.dispatchEvent(new CustomEvent(
-              NST_INVITATION_FACTORY_EVENT.DECLINE,
-              {detail: {id: id, invitation: invitation}}
-            ));
           }).catch(function (error) {
             defer.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
           });

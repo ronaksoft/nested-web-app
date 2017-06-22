@@ -5,11 +5,11 @@
     .service('NstSvcPostFactory', NstSvcPostFactory);
 
   /** @ngInject */
-  function NstSvcPostFactory($q, $log,
+  function NstSvcPostFactory($q, $log, $rootScope,
                              _, md5,
                              NstSvcPostStorage, NstCollector, NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory, NstSvcStore, NstSvcCommentFactory, NstFactoryEventData, NstUtility,
                              NstFactoryError, NstFactoryQuery, NstPost, NstBaseFactory,
-                             NST_MESSAGES_SORT_OPTION, NST_SRV_EVENT, NST_CONFIG, NST_POST_FACTORY_EVENT) {
+                             NST_MESSAGES_SORT_OPTION, NST_SRV_EVENT, NST_CONFIG, NST_POST_EVENT) {
 
     function PostFactory() {
       this.collector = new NstCollector('post', this.getMany);
@@ -167,10 +167,7 @@
             post.read = true;
             NstSvcPostStorage.set(query.id, post);
           }
-          factory.dispatchEvent(new CustomEvent(
-            NST_POST_FACTORY_EVENT.READ,
-            new NstFactoryEventData(id)
-          ));
+          $rootScope.$broadcast(NST_POST_EVENT.READ, { postId: id });
 
           defer.resolve(true);
 
@@ -322,11 +319,7 @@
             post.pinned = true;
             NstSvcPostStorage.set(query.id, post);
           }
-
-          factory.dispatchEvent(new CustomEvent(
-            NST_POST_FACTORY_EVENT.BOOKMARKED,
-            new NstFactoryEventData(id)
-          ));
+          $rootScope.$broadcast(NST_POST_EVENT.BOOKMARKED, { postId: id });
 
           resolve(post);
         }).catch(function (error) {
@@ -351,10 +344,7 @@
             NstSvcPostStorage.set(query.id, post);
           }
 
-          factory.dispatchEvent(new CustomEvent(
-            NST_POST_FACTORY_EVENT.UNBOOKMARKED,
-            new NstFactoryEventData(id)
-          ));
+          $rootScope.$broadcast(NST_POST_EVENT.UNBOOKMARKED, { postId: id });
 
           resolve(post);
         }).catch(function (error) {

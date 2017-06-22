@@ -4,9 +4,9 @@ angular
   .service('NstSvcNotification', NstSvcNotification);
 
 /** @ngInject */
-function NstSvcNotification($q, $window, _, $state,
-                            NST_NOTIFICATION_FACTORY_EVENT, NST_NOTIFICATION_TYPE, NST_AUTH_EVENT, NST_EVENT_ACTION,
-                            NstObservableObject, NstSvcLogger, NstModel, NstSvcTranslation, NstSvcAuth, NstFactoryEventData, NstSvcDate,
+function NstSvcNotification($q, $window, _, $state, $rootScope,
+                            NST_NOTIFICATION_TYPE, NST_AUTH_EVENT, NST_EVENT_ACTION,
+                            NstObservableObject, NstSvcLogger, NstModel, NstSvcTranslation, NstSvcAuth, NstFactoryEventData,
                             NstUtility) {
 
 
@@ -24,12 +24,6 @@ function NstSvcNotification($q, $window, _, $state,
     this.stack = {};
     this.options = {};
     NstModel.call(this);
-
-    NstSvcAuth.addEventListener(NST_AUTH_EVENT.UNAUTHORIZE, function () {
-      this.options = {};
-      this.stack = {};
-    })
-
   }
 
 
@@ -49,9 +43,9 @@ function NstSvcNotification($q, $window, _, $state,
     firebase.initializeApp(config);
 
     this.configFCM();
-    NstSvcAuth.addEventListener(NST_AUTH_EVENT.AUTHORIZE, function () {
+    $rootScope.$on(NST_AUTH_EVENT.AUTHORIZE, function (e, data) {
       service.configFCM();
-    })
+    });
 
   };
 
@@ -69,6 +63,7 @@ function NstSvcNotification($q, $window, _, $state,
 
 
   MyNotification.prototype.configFCM = function () {
+    var that = this;
     if (!("Notification" in $window)) {
       return;
     }
@@ -108,14 +103,14 @@ function NstSvcNotification($q, $window, _, $state,
       messaging.onMessage(function (payload) {
         NstSvcLogger.debug("Notification  | ", payload);
       });
-
-      NstSvcAuth.addEventListener(NST_AUTH_EVENT.UNAUTHORIZE, function () {
+      // TODO: Move this to costructor. Because every method call adds a new listener
+      $rootScope.$on(NST_AUTH_EVENT.UNAUTHORIZE, function (e, data) {
         messaging.deleteToken(dt)
-        this.options = {};
-        this.stack = {};
-      })
-    } catch (error) {
-      NstSvcLogger.error('Notification : Error in register fmc', error);
+        that.options = {};
+        that.stack = {};
+      });
+    }catch (error){
+      NstSvcLogger.error('Notification : Error in register fmc' , error);
     }
   };
 
@@ -222,19 +217,19 @@ function NstSvcNotification($q, $window, _, $state,
   };
 
   MyNotification.prototype.broadcastOpenPost = function (postId, notificationId) {
-    this.dispatchEvent(new CustomEvent(NST_NOTIFICATION_FACTORY_EVENT.EXTERNAL_PUSH_ACTION, new NstFactoryEventData({
-      action: NST_NOTIFICATION_FACTORY_EVENT.OPEN_POST_VIEW,
+    $rootScope.$broadcast(NST_NOTIFICATION_EVENT.EXTERNAL_PUSH_ACTION, {
+      action: NST_NOTIFICATION_EVENT.OPEN_POST_VIEW,
       postId: postId,
       notificationId: notificationId
-    })))
+    });
   };
 
   MyNotification.prototype.broadcastOpenPlace = function (placeId, notificationId) {
-    this.dispatchEvent(new CustomEvent(NST_NOTIFICATION_FACTORY_EVENT.EXTERNAL_PUSH_ACTION, new NstFactoryEventData({
-      action: NST_NOTIFICATION_FACTORY_EVENT.OPEN_PLACE,
+    $rootScope.$broadcast(NST_NOTIFICATION_EVENT.EXTERNAL_PUSH_ACTION, {
+      action: NST_NOTIFICATION_EVENT.OPEN_PLACE,
       placeId: placeId,
       notificationId: notificationId
-    })));
+    });
   };
 
 

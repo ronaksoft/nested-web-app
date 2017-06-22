@@ -9,7 +9,7 @@
   function PlaceSettingsController($scope, $stateParams, $q, $state, $rootScope,
     $timeout, $uibModal, $uibModalInstance, toastr,
     NST_PLACE_POLICY_OPTION, NST_STORE_UPLOAD_TYPE, NST_PLACE_ACCESS, NST_SRV_ERROR,
-    NST_PLACE_MEMBER_TYPE, NST_PLACE_FACTORY_EVENT, NST_PLACE_TYPE, NST_DEFAULT,
+    NST_PLACE_MEMBER_TYPE, NST_PLACE_TYPE, NST_DEFAULT, NST_PLACE_EVENT,
     NstSvcStore, NstSvcAuth, NstSvcPlaceFactory, NstUtility, NstSvcLogger, NstSvcTranslation, NstSvcModal,
     NstPicture, NstPlaceOneCreatorLeftError, NstPlaceCreatorOfParentError, NstManagerOfSubPlaceError, NstEntityTracker) {
     var vm = this;
@@ -324,24 +324,22 @@
       });
     }
 
-    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.BOOKMARK_ADD, function (e) {
-      if (e.detail.id === vm.placeId) vm.options.bookmark = true;
-    });
+    eventReferences.push($rootScope.$on('place-bookmark', function (e, data) {
+      if (data.placeId === vm.placeId) vm.options.bookmark = data.bookmark;
+    }));
 
-    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.BOOKMARK_REMOVE, function (e) {
-      if (e.detail.id === vm.placeId) vm.options.bookmark = false;
-    });
-
-    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.NOTIFICATION_ON, function (e) {
-      if (e.detail.id === vm.placeId) vm.options.notification = true;
-    });
-
-    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.NOTIFICATION_OFF, function (e) {
-      if (e.detail.id === vm.placeId) vm.options.notification = false;
-    });
+    eventReferences.push($rootScope.$on(NST_PLACE_EVENT.NOTIFICATION, function (e, data) {
+      if (data.placeId === vm.placeId) vm.options.notification = data.notification;
+    }));
 
     $scope.$on('$destroy', function () {
       _.forEach(timeoutReferences, $timeout.cancel);
+
+      _.forEach(eventReferences, function (cenceler) {
+        if (_.isFunction(cenceler)) {
+          cenceler();
+        }
+      });
     });
 
   }

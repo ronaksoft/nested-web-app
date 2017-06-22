@@ -6,11 +6,12 @@
     .controller('MiniNavbarController', MiniNavbarController);
 
   /** @ngInject */
-  function MiniNavbarController($q, $state, $stateParams, $uibModal, $scope,
+  function MiniNavbarController($q, $state, $stateParams, $uibModal, $rootScope, $scope,
                                 NST_AUTH_EVENT, NST_DEFAULT,
                                 NstSvcAuth, NstSvcPlaceFactory, NstSvcInvitationFactory,
                                 NstVmUser, NstVmPlace, NstVmInvitation) {
     var vm = this;
+    var eventReferences = [];
     vm.mentionOpen = false;
 
 
@@ -203,9 +204,9 @@
         if (NstSvcAuth.isAuthorized()) {
           res(NstSvcAuth.user);
         } else {
-          NstSvcAuth.addEventListener(NST_AUTH_EVENT.AUTHORIZE, function () {
+          eventReferences.push($rootScope.$on(NST_AUTH_EVENT.AUTHORIZE, function (e, data) {
             res(NstSvcAuth.user);
-          });
+          }));
         }
 
       });
@@ -320,5 +321,14 @@
     /*****************************
      *****    Other Methods   ****
      *****************************/
+
+     $scope.$on('$destroy', function () {
+       _.forEach(eventReferences, function (cenceler) {
+         if (_.isFunction(cenceler)) {
+           cenceler();
+         }
+       });
+     });
+
   }
 })();
