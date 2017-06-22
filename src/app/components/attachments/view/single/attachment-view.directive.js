@@ -25,6 +25,7 @@
           }
         });
 
+
         scope.$watch('sideBarOpen', function () {
           scope.resize();
         });
@@ -41,23 +42,31 @@
         };
 
         scope.$on('vjsVideoReady', function (e, data) {
-            $('.vjs-loading-spinner').empty().html('<div class="loading" ng-hide="attachment.show" ng-if="preview">' + 
-            '<div class="animation"><div class="circle one"></div></div>' + 
+          $('.vjs-loading-spinner').empty().html('<div class="loading" ng-hide="attachment.show" ng-if="preview">' +
+            '<div class="animation"><div class="circle one"></div></div>' +
             '<div class="animation"><div class="circle two"></div></div>' +
             '<div class="animation"><div class="circle three"></div></div>' +
             '<div class="animation"><div class="circle four"></div></div>' +
             '<div class="animation"><div class="circle five"></div></div></div>');
         });
 
+        scope.$watch(function () {
+          return scope.attachment.viewUrl
+        }, function () {
+          setTimeout(function () {
+            update(scope);
+          }, 0);
+        });
+
         scope.videoConfig = function () {
           scope.mediaToggle = {
-              sources: [
-                  {
-                      src: scope.attachment.viewUrl,
-                      type: 'video/mp4'
-                  }
-              ],
-              poster: scope.attachment.preview
+            sources: [
+              {
+                src: scope.attachment.viewUrl,
+                type: 'video/mp4'
+              }
+            ],
+            poster: scope.attachment.preview
           };
           scope.options = {
             width: scope.attachment.newW,
@@ -107,15 +116,15 @@
         
 
         var resizeIt = _.debounce(scope.sizeDetect, 500);
-        angular.element($window).on('resize',resizeIt);
-        scope.$on('$destroy', function() {
-           angular.element($window).off('resize',resizeIt);
+        angular.element($window).on('resize', resizeIt);
+        scope.$on('$destroy', function () {
+          angular.element($window).off('resize', resizeIt);
         });
       },
       template: '<div class="nst-preview-pic-mode" data-ng-include="tplUrl" data-ng-init="attachment = attachment"></div>'
     };
 
-    
+
 
     function update(scope) {
       var type = scope.attachment.type;
@@ -126,7 +135,7 @@
 
       scope.tplUrl = 'app/components/attachments/view/single/partials/default.html';
 
-      switch (type){
+      switch (type) {
         case NST_FILE_TYPE.IMAGE:
           scope.sizeDetect(scope.attachment.width,scope.attachment.height);
           scope.tplUrl = 'app/components/attachments/view/single/partials/image.html';
