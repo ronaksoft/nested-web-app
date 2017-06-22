@@ -101,6 +101,11 @@
   //&.fade { @include opacity(0); }
   //&.in { @include opacity($modal-backdrop-opacity); }
 }
+.attach-modal {
+  .modal-backdrop {
+    background-color: $color-attachment-drop-bg;
+  }
+}
 
 // Modal header
 // Top section of the modal w/ title and dismiss

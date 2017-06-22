@@ -235,7 +235,7 @@ span.filename {
   overflow: hidden;
   position: relative;
   box-shadow: 0 16px 32px $color-attachment-shadow;
-  div:first-child {
+  div:first-of-type {
     filter: blur(20px);
     overflow: hidden;
     background-size: 100% 100%;
@@ -339,6 +339,7 @@ span.filename {
   }
   p.no-preview {
     margin: 48px 0 0 0;
+    text-align: center;
   }
   & + iframe {
     width: calc( 100vw - 128px)!important;
@@ -413,9 +414,6 @@ span.filename {
       color: $color-white;
       &.active {
         opacity: 1;
-      }
-      &:hover {
-        background-color: $color-solid;
       }
     }
     img {
