@@ -6,9 +6,9 @@
     .run(runBlock);
 
   /** @ngInject */
-  function runBlock($rootScope, $uibModal, $timeout, $interval, $state,
-                    NST_CONFIG, NST_UNREGISTER_REASON, NST_AUTH_EVENT, NST_LOCALE_EN_US, NST_LOCALE_FA_IR,
-                    NstSvcAuth, NstSvcI18n) {
+  function runBlock($rootScope,
+                    NST_LOCALE_EN_US, NST_LOCALE_FA_IR,
+                    NstSvcI18n) {
     window.nestedLogs = [];
     // window.onerror = function(messageOrEvent, source, lineno, colno, error) {
     //
@@ -30,6 +30,7 @@
       });
 
     });
+
 
   }
 })();

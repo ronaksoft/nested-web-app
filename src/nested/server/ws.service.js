@@ -1,11 +1,11 @@
-(function() {
+(function () {
   'use strict';
   angular
     .module('ronak.nested.web.data')
     .factory('NstSvcWS', NstSvcWS);
 
   /**@Inject */
-  function NstSvcWS(_, NstSvcLogger, NstUtility, NST_WEBSOCKET_STATE, moment) {
+  function NstSvcWS(_, NstSvcLogger, NstUtility, NST_WEBSOCKET_STATE, moment, NstSvcDate) {
 
     function WS(url, protocol) {
 
@@ -46,7 +46,7 @@
 
     WS.prototype.send = function (data) {
       if (this.getState() === 1) {
-        this.lastSendTime = Date.now();
+        this.lastSendTime = NstSvcDate.now();
         this.socket.send(data);
       }
     };
@@ -70,12 +70,12 @@
         NstSvcLogger.debug("Trying to drop the open connection before reconnecting.");
         this.close();
       }
-      var lastClose = this.lastCloseTime ? moment().diff(moment(this.lastCloseTime), "seconds") : "unknown";
+      var lastClose = this.lastCloseTime ? moment(NstSvcDate.now()).diff(moment(this.lastCloseTime), "seconds") : "unknown";
       NstSvcLogger.debug(NstUtility.string.format("Setting to establish a new connection to {0} after {1} sec.", this.url, lastClose));
       this.initialize(this.url, this.protocol);
     };
 
-    WS.prototype.initialize = function(url, protocol) {
+    WS.prototype.initialize = function (url, protocol) {
       var that = this;
 
 
@@ -83,7 +83,7 @@
       NstSvcLogger.debug(NstUtility.string.format("Establishing a new connection to {0}", url));
 
       this.socket.onopen = function (event) {
-        that.openTime = Date.now();
+        that.openTime = NstSvcDate.now();
         NstSvcLogger.debug("The connection has been established successfully.");
         _.forEach(that.onOpenQueue, function (action) {
           action(event);
@@ -91,8 +91,8 @@
       };
 
       this.socket.onclose = function (event) {
-        that.lastCloseTime = Date.now();
-        var lastReceive = that.lastReceiveTime ? moment().diff(moment(that.lastReceiveTime), "seconds") : "unknown";
+        that.lastCloseTime = NstSvcDate.now();
+        var lastReceive = that.lastReceiveTime ? moment(NstSvcDate.now()).diff(moment(that.lastReceiveTime), "seconds") : "unknown";
         NstSvcLogger.debug(NstUtility.string.format("The connection has been closed (code : {0}, last receive : {1} sec).", event.code, lastReceive));
         _.forEach(that.onCloseQueue, function (action) {
           action(event);
@@ -107,7 +107,7 @@
       };
 
       this.socket.onmessage = function (event) {
-        that.lastReceiveTime = Date.now();
+        that.lastReceiveTime = NstSvcDate.now();
         _.forEach(that.onMessageQueue, function (action) {
           action(event);
         });

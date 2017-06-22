@@ -2,6 +2,7 @@
 angular
   .module('ronak.nested.web.components.notification')
   .service('NstSvcNotification', NstSvcNotification);
+
 /** @ngInject */
 function NstSvcNotification($q, $window, _, $state, $rootScope,
                             NST_NOTIFICATION_TYPE, NST_AUTH_EVENT, NST_EVENT_ACTION,
@@ -122,7 +123,7 @@ function NstSvcNotification($q, $window, _, $state, $rootScope,
 
     var opt = _.extend(this.options, options);
     if (!opt.tag)
-      opt.tag = 'n_' + Date.now();
+      opt.tag = 'n_' + NstSvcDate.now();
 
     opt.icon = '/assets/images/nested-logo-256.png';
     var defer = $q.defer();
@@ -149,7 +150,7 @@ function NstSvcNotification($q, $window, _, $state, $rootScope,
 
     var opt = _.extend(this.options, options);
     if (!opt.tag)
-      opt.tag = 'n_' + Date.now();
+      opt.tag = 'n_' + NstSvcDate.now();
 
     opt.icon = opt.icon || '/assets/images/nested-logo-256.png';
 

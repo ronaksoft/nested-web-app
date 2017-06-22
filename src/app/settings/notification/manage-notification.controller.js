@@ -8,6 +8,6 @@
   /** @ngInject */
   function ManageNotificationController(moment) {
     var vm = this;
-    // vm.birthDate = new moment();
+    // vm.birthDate = new moment(NstSvcDate.now());
   }
 })();

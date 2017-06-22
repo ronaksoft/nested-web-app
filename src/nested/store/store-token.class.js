@@ -6,7 +6,7 @@
     .factory('NstStoreToken', NstStoreToken);
 
   /** @ngInject */
-  function NstStoreToken(_) {
+  function NstStoreToken(_, NstSvcDate) {
     /**
      * Creates an instance of NstStoreToken
      *
@@ -25,7 +25,7 @@
     Token.prototype.constructor = Token;
 
     Token.prototype.isExpired = function () {
-      return Date.now() >= this.expiration;
+      return NstSvcDate.now() >= this.expiration;
     };
 
     Token.prototype.toString = function () {

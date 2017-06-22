@@ -9,3 +9,5 @@ dist/
 *.iml
 npm-debug.log
 .DS_Store
+docs/
+doc/

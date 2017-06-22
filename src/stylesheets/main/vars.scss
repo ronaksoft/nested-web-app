@@ -53,7 +53,14 @@ $color-comment : #444444;
 
 $color-new-hurricane : rgba(50, 61, 71, .72);
 $color-solid-64 : rgba(50, 61, 71, .64);
+$color-gale-new : rgba(50, 61, 71, .4);
+$color-breeze-new : rgba(50, 61, 71, .16);
+$color-wind-new : rgba(50, 61, 71, .32);
 $color-modal-bg: $color-new-hurricane;
+$color-attachment-drop-bg : rgba(20,20,20,.92);
+$color-attachment-shadow : rgba(20,20,20,.64);
+$color-hurri-white : rgba(255,255,255,.72);
+$color-gale-white : rgba(255,255,255,.4);
 
 $font-size-xxsmall: 10px;
 $font-size-xsmall: 11px;
@@ -307,10 +314,10 @@ $sidebar-place-move: $sidebar-delay - $sidebar-scroll-move;
   }
 }
 
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
+// @keyframes spin {
+//   0% { transform: rotate(0deg); }
+//   100% { transform: rotate(360deg); }
+// }
 @keyframes down-slip {
   0% { max-height: 0;}
   100% { opacity: 1;

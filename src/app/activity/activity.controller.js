@@ -265,7 +265,7 @@
 
     function setLastActivityDate(activities) {
       var last = _.last(activities);
-      var lastDate = !!last ? last.date : moment();
+      var lastDate = !!last ? last.date : moment(NstSvcDate.now());
 
       vm.activitySettings.date = NstUtility.date.toUnix(lastDate);
     }
@@ -320,7 +320,7 @@
     });
 
     function getRecentActivityTime() {
-      var date = moment().subtract(10, 'minute');
+      var date = moment(NstSvcDate.now()).subtract(10, 'minute');
 
       if (vm.activities.length > 0) {
         var latestActivity = _.head(vm.activities[0].items);

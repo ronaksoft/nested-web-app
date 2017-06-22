@@ -51,10 +51,10 @@
       'audio/ogg'
     ];
     fileGroups[NST_FILE_TYPE.VIDEO] = [
+      'video/x-matroska',
       'video/mp4',
       'video/3gp',
       'video/ogg',
-      'application/octet-stream',
       'video/quicktime',
       'video/webm'
     ];

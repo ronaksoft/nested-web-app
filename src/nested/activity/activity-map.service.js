@@ -5,7 +5,7 @@
     .service('NstSvcActivityMap', NstSvcActivityMap);
 
   /** @ngInject */
-  function NstSvcActivityMap(NstSvcAttachmentMap, moment, _) {
+  function NstSvcActivityMap(NstSvcAttachmentMap, moment, _ ,NstSvcDate) {
 
     var service = {
       toActivityItems: toActivityItems
@@ -24,12 +24,12 @@
       return _.chain(acts).groupBy(function (activity) {
         var date = moment(activity.date.valueOf());
 
-        var thisMonthStart = moment().startOf('month');
+        var thisMonthStart = moment(NstSvcDate.now()).startOf('month');
         if (date.isSameOrAfter(thisMonthStart)) {
           return date.clone().startOf('day').unix();
         }
 
-        var thisYearStart =  moment().startOf('year');
+        var thisYearStart =  moment(NstSvcDate.now()).startOf('year');
         if (date.isSameOrAfter(thisYearStart)) {
           return date.clone().startOf('month').unix();
         }

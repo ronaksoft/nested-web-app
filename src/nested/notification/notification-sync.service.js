@@ -17,7 +17,7 @@
   /** @ngInject */
   function NstSvcNotificationSync(_, $rootScope,
                                   NST_SRV_PUSH_CMD,
-                                  NstSvcNotificationFactory, NstObservableObject,
+                                  NstSvcNotificationFactory, NstObservableObject, NstSvcDate,
                                   NstSvcServer, NstSvcLogger) {
 
 
@@ -25,7 +25,7 @@
 
 
       this.recivedNotifStack = [];
-      this.latestNotifTimestamp = Date.now();
+      this.latestNotifTimestamp = NstSvcDate.now();
 
       NstObservableObject.call(this);
 

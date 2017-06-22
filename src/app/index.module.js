@@ -1,5 +1,9 @@
 (function () {
   'use strict';
+  /**
+   * @namespace ronak.nested.web
+   */
+
 
   angular
     .module('ronak.nested.web', [

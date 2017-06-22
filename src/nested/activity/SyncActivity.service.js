@@ -19,7 +19,7 @@
   /** @ngInject */
   function NstSvcSync(_, $rootScope,
                       NST_SRV_PUSH_CMD, NST_EVENT_ACTION,
-                      NstFactoryEventData, NstObservableObject, NstServerError,
+                      NstFactoryEventData, NstObservableObject, NstServerError,NstSvcDate,
                       NstSvcServer, NstSvcActivityFactory, NstSvcLogger) {
 
     var OPEN_ALL_CHANNEL = '_all_';
@@ -28,7 +28,7 @@
 
       this.openChannelsStack = [];
       this.recivedActivityStack = [];
-      this.latestActivityTimestamp = Date.now();
+      this.latestActivityTimestamp = NstSvcDate.now();
 
       NstObservableObject.call(this);
 

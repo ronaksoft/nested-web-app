@@ -3,22 +3,22 @@
 
   angular
     .module('ronak.nested.web.components.date')
-    .filter('activityGroupDate', function(moment, NstSvcTranslation) {
+    .filter('activityGroupDate', function(moment, NstSvcTranslation, NstSvcDate) {
 
       return function(date) {
 
         var foo = moment.unix(date);
-        var todayStart = moment().startOf('day');
+        var todayStart = moment(NstSvcDate.now()).startOf('day');
         if (foo.isSameOrAfter(todayStart)) {
           return NstSvcTranslation.get("Today");
         }
 
-        var thisMonthStart = moment().startOf('month');
+        var thisMonthStart = moment(NstSvcDate.now()).startOf('month');
         if (foo.isSameOrAfter(thisMonthStart)) {
           return foo.clone().startOf('day').format("DD MMM");
         }
 
-        var thisYearStart =  moment().startOf('year');
+        var thisYearStart =  moment(NstSvcDate.now()).startOf('year');
         if (foo.isSameOrAfter(thisYearStart)) {
           return foo.clone().startOf('month').format("MMM YYYY");
         }
