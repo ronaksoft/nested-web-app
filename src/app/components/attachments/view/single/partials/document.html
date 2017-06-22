@@ -1,5 +1,5 @@
 
-<div class="attachment-doc-show" ng-hide="attachment.show">
+<div class="attachment-doc-show" ng-hide="attachment.show" ng-show="!previewSetting.document">
   <div class="thumb">
     <div class="attach-thumbnail {{'attach-thumbnail-' + attachment.type}}">
       <div class="file-name"> <p>{{attachment.name}}</p></div>
@@ -10,16 +10,16 @@
   </div>
   <p><translate>We can preview this kind of files by sending them to Google. Do you want to continue?</translate></p>
   <div class="butns">
-    <!--<div class="lftbtn"><translate>Always Preview</translate></div>-->
-    <div class="rghbtn" ng-click="preview = true"><b><translate>Preview</translate></b></div>
+    <div class="lftbtn" ng-click="docAlwaysPreview()"><translate>Always Preview</translate></div>
+    <div class="rghbtn" ng-click="docPreview()"><b><translate>Preview</translate></b></div>
   </div>
 </div>
-<iframe loading-docs show="attachment.show" ng-if="preview"
+<iframe loading-docs show="attachment.show" ng-if="previewSetting.document"
   ng-show="attachment.show"
   ng-src="{{attachment.viewUrl}}" frameborder='0'>This is an embedded <a target='_blank'  href='https://office.com'>Microsoft
   Office</a> document, powered by <a target='_blank' href='https://office.com/webapps'>Office Online</a>.
 </iframe>
-<div class="loading" ng-hide="attachment.show" ng-if="preview">
+<div class="loading" ng-hide="attachment.show" ng-if="previewSetting.document">
   <div class="animation"><div class="circle one"></div></div>
   <div class="animation"><div class="circle two"></div></div>
   <div class="animation"><div class="circle three"></div></div>

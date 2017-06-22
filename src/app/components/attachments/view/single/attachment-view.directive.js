@@ -15,10 +15,7 @@
       replace: true,
       link: function (scope) {
         scope.scaleVal = 1;
-        // NstSvcKeyFactory.get(NST_KEY.GENERAL_SETTING_DOCUMENT_PREVIEW).then(function(v) {
-        //   scope.preview = v === "true";
-        // });
-        
+
         scope.$watch('attachment', function () {
           if (scope.attachment && scope.attachment.type) {
             update(scope);
@@ -80,6 +77,20 @@
           };
         };
 
+        scope.documentConfig = function () {
+          NstSvcKeyFactory.get(NST_KEY.GENERAL_SETTING_DOCUMENT_PREVIEW).then(function(v) {
+            if ( v.length > 0 ) {
+              scope.previewSetting = JSON.parse(v);
+            } else {
+              scope.previewSetting = {
+                document : false,
+                pdf : false
+              };
+            }
+          });
+        
+        };
+
 
         scope.sizeDetect = function(aw,ah){
           var a = scope.attachment,
@@ -103,16 +114,16 @@
           scope.attachment.newH = newH;
         };
 
-        // scope.docPreview = function () {
-        //   scope.preview = true;
-        // }
+        scope.docPreview = function () {
+          scope.previewSetting[scope.attachment.type] = true;
+        }
 
-        // scope.docAlwaysPreview = function () {
-        //   scope.preview = true;
-        //   NstSvcKeyFactory.set(NST_KEY.GENERAL_SETTING_DOCUMENT_PREVIEW, String(scope.preview))
-        //     .then(function (result) {
-        //   });
-        // }
+        scope.docAlwaysPreview = function () {
+          scope.previewSetting[scope.attachment.type] = true;
+          NstSvcKeyFactory.set(NST_KEY.GENERAL_SETTING_DOCUMENT_PREVIEW, JSON.stringify(scope.previewSetting))
+            .then(function (result) {
+          });
+        }
         
 
         var resizeIt = _.debounce(scope.sizeDetect, 500);
@@ -161,10 +172,12 @@
           break;
 
         case NST_FILE_TYPE.DOCUMENT:
+          scope.documentConfig();
           scope.tplUrl = 'app/components/attachments/view/single/partials/document.html';
           break;
 
         case NST_FILE_TYPE.PDF:
+          scope.documentConfig();
           scope.tplUrl = 'app/components/attachments/view/single/partials/pdf.html';
           break;
         default:
