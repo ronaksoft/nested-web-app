@@ -20,7 +20,13 @@
 
       this.mimetype = null;
 
-      this.upload_time = null;
+      this.uploadTime = null;
+
+      this.uploadType = null;
+
+      this.type = null;
+
+      this.extension = null;
 
       this.width = null;
 

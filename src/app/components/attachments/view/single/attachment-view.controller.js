@@ -8,7 +8,7 @@
   function AttachmentViewController($q, $scope, $timeout, $sce, $state, $stateParams, _,
                                     hotkeys, toastr,
                                     NST_FILE_TYPE, NST_STORE_ROUTE,
-                                    NstVmFileViewerItem, NstVmFile,
+                                    NstVmFile,
                                     NstSvcFileFactory, NstSvcStore, NstSvcTranslation,
                                     fileId, fileViewerItem, fileIds, fileViewerItems, currentPlaceId, currentPostId) {
     var vm = this;
@@ -49,7 +49,7 @@
 
           loadFile(selectedItemId).then(function (file) {
 
-            vm.attachments.collection = _.concat(mapToFileViewerItem(file), fileViewerItems);
+            vm.attachments.collection = _.concat(file, fileViewerItems);
             goTo(0)
           });
 
@@ -65,7 +65,7 @@
         }
 
         loadAllFiles(fileIds).then(function (files) {
-          vm.attachments.collection = mapToFileViewerItems(files);
+          vm.attachments.collection = files;
           goTo(_.findIndex(fileViewerItems, {id: selectedItemId}));
         });
       }
@@ -166,14 +166,6 @@
       });
 
       return deferred.promise;
-    }
-
-    function mapToFileViewerItem(file) {
-      return new NstVmFileViewerItem(file);
-    }
-
-    function mapToFileViewerItems(files) {
-      return _.map(files, mapToFileViewerItem);
     }
 
     function loadAllFiles(ids) {

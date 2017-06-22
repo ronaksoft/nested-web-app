@@ -1,5 +1,5 @@
 <!--<div ng-if="!attachment.isDownloaded && attachment.extension === 'mp4'" class="nst-preview-pic-mode">-->
-  
+
 
   <!--<img ng-if="attachment.hasThumbnail" class="_oph" ng-src="{{attachment.thumbnail}}" />-->
   <!--<div ng-if="!attachment.hasThumbnail" class="att-exp-application-large-">-->
@@ -7,7 +7,6 @@
   <!--</div>-->
 <!--</div>-->
 <div ng-if="attachment.viewUrl" class="attachment-image-show ng-class:{'loaded' : attachment.loaded}" style="width:{{attachment.newW + 'px'}};height:{{attachment.newH + 'px'}};transform:scale({{scaleVal}},{{scaleVal}})">
-  <!--<img ng-if="attachment.preview" class="tumb" />-->
   <video width="{{attachment.newW}}" height="{{attachment.newH}}" autoplay loop preview-on-load>
     <source src="{{trustSrc(attachment.viewUrl)}}" type="video/mp4">
     Your browser does not support HTML5 video.

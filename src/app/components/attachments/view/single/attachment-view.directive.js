@@ -78,7 +78,7 @@
         };
 
         scope.documentConfig = function () {
-          NstSvcKeyFactory.get(NST_KEY.GENERAL_SETTING_DOCUMENT_PREVIEW).then(function(v) {
+          NstSvcKeyFactory.get(NST_KEY.WEBAPP_SETTING_DOCUMENT_PREVIEW).then(function(v) {
             if ( v.length > 0 ) {
               scope.previewSetting = JSON.parse(v);
             } else {
@@ -88,7 +88,7 @@
               };
             }
           });
-        
+
         };
 
 
@@ -120,11 +120,11 @@
 
         scope.docAlwaysPreview = function () {
           scope.previewSetting[scope.attachment.type] = true;
-          NstSvcKeyFactory.set(NST_KEY.GENERAL_SETTING_DOCUMENT_PREVIEW, JSON.stringify(scope.previewSetting))
+          NstSvcKeyFactory.set(NST_KEY.WEBAPP_SETTING_DOCUMENT_PREVIEW, JSON.stringify(scope.previewSetting))
             .then(function (result) {
           });
         }
-        
+
 
         var resizeIt = _.debounce(scope.sizeDetect, 500);
         angular.element($window).on('resize', resizeIt);
@@ -146,42 +146,48 @@
 
       scope.tplUrl = 'app/components/attachments/view/single/partials/default.html';
 
-      switch (type) {
-        case NST_FILE_TYPE.IMAGE:
-          scope.sizeDetect(scope.attachment.width,scope.attachment.height);
-          scope.tplUrl = 'app/components/attachments/view/single/partials/image.html';
-          break;
+      if (scope.attachment.uploadType === 'FILE'){
+        scope.tplUrl = 'app/components/attachments/view/single/partials/default.html';
 
-        case NST_FILE_TYPE.GIF:
-          scope.sizeDetect(scope.attachment.videoWidth ? scope.attachment.videoWidth : scope.attachment.width,scope.attachment.videoHeight ? scope.attachment.videoHeight : scope.attachment.height);
-          scope.tplUrl = 'app/components/attachments/view/single/partials/gif.html';
-          break;
+      }else {
 
-        case NST_FILE_TYPE.VIDEO:
-          scope.sizeDetect(scope.attachment.width,scope.attachment.height);
-          scope.videoConfig();
-          scope.tplUrl = 'app/components/attachments/view/single/partials/video.html';
-          break;
+        switch (type) {
+          case NST_FILE_TYPE.IMAGE:
+            scope.sizeDetect(scope.attachment.width, scope.attachment.height);
+            scope.tplUrl = 'app/components/attachments/view/single/partials/image.html';
+            break;
 
-        case NST_FILE_TYPE.AUDIO:
-          scope.tplUrl = 'app/components/attachments/view/single/partials/audio.html';
-          break;
+          case NST_FILE_TYPE.GIF:
+            scope.sizeDetect(scope.attachment.videoWidth ? scope.attachment.videoWidth : scope.attachment.width, scope.attachment.videoHeight ? scope.attachment.videoHeight : scope.attachment.height);
+            scope.tplUrl = 'app/components/attachments/view/single/partials/gif.html';
+            break;
 
-        case NST_FILE_TYPE.ARCHIVE:
-          scope.tplUrl = 'app/components/attachments/view/single/partials/archive.html';
-          break;
+          case NST_FILE_TYPE.VIDEO:
+            scope.sizeDetect(scope.attachment.width, scope.attachment.height);
+            scope.videoConfig();
+            scope.tplUrl = 'app/components/attachments/view/single/partials/video.html';
+            break;
 
-        case NST_FILE_TYPE.DOCUMENT:
-          scope.documentConfig();
-          scope.tplUrl = 'app/components/attachments/view/single/partials/document.html';
-          break;
+          case NST_FILE_TYPE.AUDIO:
+            scope.tplUrl = 'app/components/attachments/view/single/partials/audio.html';
+            break;
 
-        case NST_FILE_TYPE.PDF:
-          scope.documentConfig();
-          scope.tplUrl = 'app/components/attachments/view/single/partials/pdf.html';
-          break;
-        default:
-          scope.tplUrl = 'app/components/attachments/view/single/partials/default.html';
+          case NST_FILE_TYPE.ARCHIVE:
+            scope.tplUrl = 'app/components/attachments/view/single/partials/archive.html';
+            break;
+
+          case NST_FILE_TYPE.DOCUMENT:
+            scope.documentConfig();
+            scope.tplUrl = 'app/components/attachments/view/single/partials/document.html';
+            break;
+
+          case NST_FILE_TYPE.PDF:
+            scope.documentConfig();
+            scope.tplUrl = 'app/components/attachments/view/single/partials/pdf.html';
+            break;
+          default:
+            scope.tplUrl = 'app/components/attachments/view/single/partials/default.html';
+        }
       }
     }
   }

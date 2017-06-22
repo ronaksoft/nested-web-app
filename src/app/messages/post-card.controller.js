@@ -458,9 +458,7 @@
         NstSvcLogger.error('Found that the post model has an attachment with empty id!');
         vm.post.attachments = [];
         NstSvcPostFactory.get(vm.post.id, true).then(function (post) {
-          vm.post.attachments = _.map(post.attachments, function (item) {
-            return new NstVmFile(item);
-          });
+          vm.post.attachments = post.attachments;
         });
       }
     })();

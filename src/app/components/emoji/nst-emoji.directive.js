@@ -7,7 +7,7 @@
       return {
         restrict: 'A',
         link: function (scope, element , attrs) {
-          NstSvcKeyFactory.get(NST_KEY.GENERAL_SETTING_RECENT_EMOJI).then(function (recentItems) {
+          NstSvcKeyFactory.get(NST_KEY.WEBAPP_SETTING_RECENT_EMOJI).then(function (recentItems) {
             var recent = recentItems ? recentItems.split('|').map(function (item) {
               return JSON.parse(item);
             }) : [{"has_img_apple":true,"has_img_google":false,"has_img_twitter":true,"has_img_emojione":true,"has_img_facebook":true,"has_img_messenger":true,"name":"REGIONAL INDICATOR SYMBOL LETTERS UM","short_name":"🇺🇸","short_names":["united","states","um","america","flag","nation","country","banner"],"sort_order":257}];
@@ -21,11 +21,11 @@
             var sts = recentEmojies.map(function(em){
               return JSON.stringify(em);
             }).join('|');
-            NstSvcKeyFactory.set(NST_KEY.GENERAL_SETTING_RECENT_EMOJI, sts)
+            NstSvcKeyFactory.set(NST_KEY.WEBAPP_SETTING_RECENT_EMOJI, sts)
             .then(function (result) {
             });
           }
-            
+
         }
       };
     });
