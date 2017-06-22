@@ -5,10 +5,10 @@
     .module('ronak.nested.web.components.attachment')
     .controller('AttachmentViewController', AttachmentViewController);
 
-  function AttachmentViewController($q, $scope, $timeout, $sce, $stateParams, _,
+  function AttachmentViewController($q, $scope, $timeout, $sce, $state, $stateParams, _,
                                     hotkeys, toastr,
                                     NST_FILE_TYPE, NST_STORE_ROUTE,
-                                    NstVmFileViewerItem,
+                                    NstVmFileViewerItem, NstVmFile,
                                     NstSvcFileFactory, NstSvcStore, NstSvcTranslation,
                                     fileId, fileViewerItem, fileIds, fileViewerItems, currentPlaceId, currentPostId) {
     var vm = this;
@@ -35,6 +35,7 @@
     vm.openInNewWindow = openInNewWindow;
     vm.trustSrc = trustSrc;
     vm.showBar = showBar;
+    vm.compose = composeWithAttachments;
     vm.barOpen = false;
     $('body').removeClass('attachs-bar-active');
     vm.getIndex = getIndex;
@@ -84,6 +85,13 @@
         goPrevious();
       }
     });
+
+    function composeWithAttachments() {
+
+      // FIXME Get vm file ?!
+      $state.go('app.compose', { attachments: [new NstVmFile(vm.attachments.current)] }, { notify: false });
+    }
+
 
     function trustSrc(src) {
       return $sce.trustAsResourceUrl(src);

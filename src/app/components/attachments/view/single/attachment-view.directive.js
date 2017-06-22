@@ -5,7 +5,7 @@
     .module('ronak.nested.web.components.attachment')
     .directive('nstAttachmentView', AttachmentView);
 
-  function AttachmentView(NST_FILE_TYPE, $sce, $window) {
+  function AttachmentView(NST_FILE_TYPE, $sce, $window, NstSvcKeyFactory, NST_KEY) {
     return {
       restrict: 'E',
       scope: {
@@ -15,6 +15,13 @@
       replace: true,
       link: function (scope) {
         scope.scaleVal = 1;
+
+        scope.$watch('attachment', function () {
+          if (scope.attachment && scope.attachment.type) {
+            update(scope);
+          }
+        });
+
 
         scope.$watch('sideBarOpen', function () {
           scope.resize();
@@ -70,6 +77,20 @@
           };
         };
 
+        scope.documentConfig = function () {
+          NstSvcKeyFactory.get(NST_KEY.GENERAL_SETTING_DOCUMENT_PREVIEW).then(function(v) {
+            if ( v.length > 0 ) {
+              scope.previewSetting = JSON.parse(v);
+            } else {
+              scope.previewSetting = {
+                document : false,
+                pdf : false
+              };
+            }
+          });
+        
+        };
+
 
         scope.sizeDetect = function(aw,ah){
           var a = scope.attachment,
@@ -93,6 +114,17 @@
           scope.attachment.newH = newH;
         };
 
+        scope.docPreview = function () {
+          scope.previewSetting[scope.attachment.type] = true;
+        }
+
+        scope.docAlwaysPreview = function () {
+          scope.previewSetting[scope.attachment.type] = true;
+          NstSvcKeyFactory.set(NST_KEY.GENERAL_SETTING_DOCUMENT_PREVIEW, JSON.stringify(scope.previewSetting))
+            .then(function (result) {
+          });
+        }
+        
 
         var resizeIt = _.debounce(scope.sizeDetect, 500);
         angular.element($window).on('resize', resizeIt);
@@ -140,10 +172,12 @@
           break;
 
         case NST_FILE_TYPE.DOCUMENT:
+          scope.documentConfig();
           scope.tplUrl = 'app/components/attachments/view/single/partials/document.html';
           break;
 
         case NST_FILE_TYPE.PDF:
+          scope.documentConfig();
           scope.tplUrl = 'app/components/attachments/view/single/partials/pdf.html';
           break;
         default:

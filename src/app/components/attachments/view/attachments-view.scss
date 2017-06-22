@@ -275,7 +275,7 @@ span.filename {
 
   &.loaded {
     div {
-      // opacity: 0;
+      opacity: 0;
     }
     img.prev {
       opacity: 1;
@@ -406,6 +406,7 @@ span.filename {
   }
   ul {
     list-style: none;
+    max-height: calc(100% - 64px);
     li {
       height: 56px;
       opacity: .4;
