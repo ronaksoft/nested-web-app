@@ -353,7 +353,7 @@
       }
     }
 
-    vm.attachments.fileSelected = function (event, group) {
+    var onFileSelect = _.curry(function (group, event) {
       NstSvcLogger.debug4('Compose | some files added into compose');
       var files = event.currentTarget.files;
       var type = NST_STORE_UPLOAD_TYPE.File;
@@ -366,7 +366,10 @@
         });
       }
       event.currentTarget.value = "";
-    };
+    });
+
+    vm.attachments.fileSelected = onFileSelect('file');
+    vm.attachments.mediaSelected = onFileSelect('media');
 
 
     vm.attachments.attach = function (file, group) {

@@ -2,9 +2,9 @@
   'use strict';
   angular
     .module('ronak.nested.web.user')
-    .constant('NST_INVITATION_FACTORY_EVENT', {
-      ADD: 'add',
-      ACCEPT: 'accept',
-      DECLINE: 'decline'
+    .constant('NST_INVITATION_EVENT', {
+      ADD: 'invitation-add',
+      ACCEPT: 'invitation-accept',
+      DECLINE: 'invitation-decline'
     });
 })();

@@ -17,7 +17,7 @@
     .service('NstSvcSync', NstSvcSync);
 
   /** @ngInject */
-  function NstSvcSync(_,
+  function NstSvcSync(_, $rootScope,
                       NST_SRV_PUSH_CMD, NST_EVENT_ACTION,
                       NstFactoryEventData, NstObservableObject, NstServerError,NstSvcDate,
                       NstSvcServer, NstSvcActivityFactory, NstSvcLogger) {
@@ -154,11 +154,7 @@
           //   self.recivedActivityStack.push(act.id);
 
             NstSvcLogger.debug2('Sync Service | Dispatch ', act.type, act);
-
-            self.dispatchEvent(new CustomEvent(
-              act.type,
-              new NstFactoryEventData(act)
-            ));
+            $rootScope.$broadcast(act.type, { activity: act });
 
           // }
         });

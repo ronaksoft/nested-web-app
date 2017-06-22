@@ -12,7 +12,7 @@
       <img ng-src="{{ ctrl.logoUrl || '/assets/icons/ph_photo.png'}}"/>
     </label>
     <input id="logo" type="file" name="logo" accept="image/*"
-           onchange="angular.element(this).scope().ctrl.loadImage(event)"/>
+           on-file-change="ctrl.loadImage"/>
   </div>
   <div class="form-group" ng-class="{ 'has-error' : placeForm.placeName.$invalid && ctrl.submitted}">
     <label class="input-lab" ng-if="placeForm.placeName.$valid || !ctrl.submitted">

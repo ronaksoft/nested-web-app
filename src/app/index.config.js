@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function config($logProvider, $locationProvider,  toastrConfig, localStorageServiceProvider,
-                  $animateProvider, $sceDelegateProvider) {
+                  $animateProvider, $sceDelegateProvider, $compileProvider) {
 
 
     localStorageServiceProvider
@@ -44,5 +44,8 @@
     //Config ui-select-choices
     // force to open in down
     // uiSelectConfig.dropdownPosition = 'down';
+
+    // TODO: Disable it in development mode
+    $compileProvider.debugInfoEnabled(false);
   }
 })();

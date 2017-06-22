@@ -8,10 +8,11 @@
   /** @ngInject */
   function AppController($q, $scope, $window, $rootScope, $timeout, $state, $stateParams, $uibModalStack, $interval, $log, $injector,
                          hotkeys, deviceDetector, NstSvcInteractionTracker,
-                         NST_DEFAULT, NST_AUTH_EVENT, NST_SRV_EVENT, NST_NOTIFICATION_FACTORY_EVENT, NST_CONFIG,
+                         NST_DEFAULT, NST_AUTH_EVENT, NST_SRV_EVENT, NST_NOTIFICATION_EVENT, NST_CONFIG,
                          NstSvcServer, NstSvcAuth, NstSvcLogger, NstSvcI18n, NstSvcNotification, NstSvcNotificationFactory,
                          NstObject) {
     var vm = this;
+    var eventReferences = [];
 
     vm.showLoadingScreen = true;
     vm.viewSettings = {
@@ -71,35 +72,35 @@
 
     });
 
-    NstSvcAuth.addEventListener(NST_AUTH_EVENT.AUTHORIZE_FAIL, function () {
+    eventReferences.push($rootScope.$on(NST_AUTH_EVENT.AUTHORIZE_FAIL, function (e, data) {
       $state.go('public.signin');
-    });
+    }));
 
-    NstSvcNotification.addEventListener(NST_NOTIFICATION_FACTORY_EVENT.EXTERNAL_PUSH_ACTION, function (event) {
-      switch (event.detail.action) {
-        case NST_NOTIFICATION_FACTORY_EVENT.OPEN_PLACE:
-          openPlace(event.detail.placeId);
+    eventReferences.push($rootScope.$on(NST_NOTIFICATION_EVENT.EXTERNAL_PUSH_ACTION, function (e, data) {
+      switch (data.action) {
+        case NST_NOTIFICATION_EVENT.OPEN_PLACE:
+          openPlace(data.placeId);
           break;
-        case NST_NOTIFICATION_FACTORY_EVENT.OPEN_POST_VIEW:
-          viewPost(event.detail.postId);
+        case NST_NOTIFICATION_EVENT.OPEN_POST_VIEW:
+          viewPost(data.postId);
           break;
       }
-      NstSvcNotificationFactory.markAsSeen(event.detail.notificationId)
-    })
+      NstSvcNotificationFactory.markAsSeen(data.notificationId)
+    }));
 
-    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+    eventReferences.push($rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
       toggleSidebar(toState, toParams);
-    });
+    }));
 
-    $scope.$on('show-loading', function () {
+    eventReferences.push($scope.$on('show-loading', function () {
       vm.showLoadingScreen = true;
-    });
+    }));
 
-    $scope.$on('collapse-sidebar', function () {
+    eventReferences.push($scope.$on('collapse-sidebar', function () {
       vm.viewSettings.sidebar.collapsed = !vm.viewSettings.sidebar.collapsed
-    });
+    }));
 
-    $scope.$watch(function () {
+    eventReferences.push($scope.$watch(function () {
       return vm.viewSettings.sidebar.collapsed
     }, function () {
       var tooltip = $('body').find('.tooltip');
@@ -109,24 +110,24 @@
         tooltip.first().show()
 
       }
-    });
+    }));
 
-    $rootScope.$on(NST_AUTH_EVENT.CHANGE_PASSWORD, function () {
+    eventReferences.push($rootScope.$on(NST_AUTH_EVENT.CHANGE_PASSWORD, function () {
       if($state.current.name.indexOf('public.change-password') === -1)
       $state.go('public.change-password');
 
-    });
+    }));
 
-    $rootScope.$on(NST_AUTH_EVENT.SESSION_EXPIRE, function () {
+    eventReferences.push($rootScope.$on(NST_AUTH_EVENT.SESSION_EXPIRE, function () {
       location.href = '/signout.html';
-    });
+    }));
 
-    $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
+    eventReferences.push($rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
       $('.wdt-emoji-popup.open').removeClass('open');
       $rootScope.$broadcast('reload-counters');
       checkToBeAuthenticated(toState, toParams, event);
       scrollTopBody();
-    });
+    }));
 
     function toggleSidebar(state, params) {
       if (state.options && state.options && state.options.fullscreen) {
@@ -207,6 +208,14 @@
     $window.onfocus = function () {
       $rootScope.$broadcast('reload-counters');
     };
+
+    $scope.$on('$destroy', function () {
+      _.forEach(eventReferences, function (cenceler) {
+        if (_.isFunction(cenceler)) {
+          cenceler();
+        }
+      });
+    });
 
   }
 })();

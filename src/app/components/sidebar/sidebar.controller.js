@@ -8,13 +8,15 @@
     /** @ngInject */
     function SidebarController($q, $scope, $state, $stateParams, $uibModal, $window, $rootScope, $timeout,
                                _,
-                               NST_DEFAULT, NST_AUTH_EVENT, NST_INVITATION_FACTORY_EVENT, NST_PLACE_FACTORY_EVENT, NST_CONFIG,NST_KEY, deviceDetector,
-                               NST_EVENT_ACTION, NST_USER_FACTORY_EVENT, NST_POST_FACTORY_EVENT, NST_NOTIFICATION_FACTORY_EVENT, NST_SRV_EVENT, NST_NOTIFICATION_TYPE,
+                               NST_DEFAULT, NST_AUTH_EVENT, NST_INVITATION_EVENT, NST_CONFIG,NST_KEY, deviceDetector,
+                               NST_EVENT_ACTION, NST_USER_EVENT, NST_NOTIFICATION_EVENT, NST_SRV_EVENT, NST_NOTIFICATION_TYPE, NST_PLACE_EVENT, NST_POST_EVENT,
                                NstSvcAuth, NstSvcServer, NstSvcLogger, NstSvcNotification, NstSvcTranslation,
                                NstSvcPostFactory, NstSvcPlaceFactory, NstSvcInvitationFactory, NstUtility, NstSvcUserFactory, NstSvcSidebar, NstSvcNotificationFactory,
                                NstSvcNotificationSync, NstSvcSync, NstSvcKeyFactory, NstSvcPostDraft,
                                NstVmPlace, NstVmInvitation) {
       var vm = this;
+      var eventReferences = [];
+
       isBookMark();
       isSent();
       isFeed();
@@ -462,9 +464,9 @@
           if (NstSvcAuth.isAuthorized()) {
             res(NstSvcAuth.user);
           } else {
-            NstSvcAuth.addEventListener(NST_AUTH_EVENT.AUTHORIZE, function () {
+            eventReferences.push($rootScope.$on(NST_AUTH_EVENT.AUTHORIZE, function (e, data) {
               res(NstSvcAuth.user);
-            });
+            }));
           }
         });
       }
@@ -594,49 +596,48 @@
        *****  Event Listeners   ****
        *****************************/
 
-      NstSvcInvitationFactory.addEventListener(NST_INVITATION_FACTORY_EVENT.ADD, function (event) {
-        pushInvitation(event.detail.invitation);
+      eventReferences.push($rootScope.$on(NST_INVITATION_EVENT.ADD, function (e, data) {
+        pushInvitation(data.invitation);
         $rootScope.$emit('init-controls-sidebar');
-      });
+      }));
 
-      NstSvcInvitationFactory.addEventListener(NST_INVITATION_FACTORY_EVENT.ACCEPT, function (event) {
-        var invitation = event.detail.invitation;
-
+      eventReferences.push($rootScope.$on(NST_INVITATION_EVENT.ACCEPT, function (e, data) {
         for (var k in vm.invitations) {
-          if (invitation.id == vm.invitations[k].id) {
+          if (data.invitationId === vm.invitations[k].id) {
             vm.invitations.splice(k, 1);
             return;
           }
         }
-        $rootScope.$emit('init-controls-sidebar');
-      });
 
-      NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.ROOT_ADD, function (event) {
-        var place = mapPlace(event.detail.place);
+        $rootScope.$emit('init-controls-sidebar');
+      }));
+
+      eventReferences.push($rootScope.$on(NST_PLACE_EVENT.ROOT_ADDED, function (e, data) {
+        var place = mapPlace(data.place);
         if (place.id === $stateParams.placeId) {
-          vm.selectedGrandPlace = mapPlace(event.detail.place);
+          vm.selectedGrandPlace = place;
         }
         vm.places.push(place);
         vm.placesNotifCountObject[place.id] = 0;
         vm.mapLimits();
         $rootScope.$emit('init-controls-sidebar');
-      });
+      }));
 
-      NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.SUB_ADD, function (event) {
-        NstSvcPlaceFactory.addPlaceToTree(vm.places, mapPlace(event.detail.place));
-      });
+      eventReferences.push($rootScope.$on(NST_PLACE_EVENT.SUB_ADDED, function (e, data) {
+        NstSvcPlaceFactory.addPlaceToTree(vm.places, mapPlace(data.place));
+      }));
 
-      NstSvcUserFactory.addEventListener(NST_USER_FACTORY_EVENT.PROFILE_UPDATED, function (event) {
-        updateUser(event.detail);
-      });
+      eventReferences.push($rootScope.$on(NST_USER_EVENT.PROFILE_UPDATED, function (e, data) {
+        updateUser(data.user);
+      }));
 
-      NstSvcUserFactory.addEventListener(NST_USER_FACTORY_EVENT.PICTURE_UPDATED, function (event) {
-        updateUser(event.detail);
-      });
+      eventReferences.push($rootScope.$on(NST_USER_EVENT.PICTURE_UPDATED, function (e, data) {
+        updateUser(data.user);
+      }));
 
-      NstSvcUserFactory.addEventListener(NST_USER_FACTORY_EVENT.PICTURE_REMOVED, function (event) {
-        updateUser(event.detail);
-      });
+      eventReferences.push($rootScope.$on(NST_USER_EVENT.PICTURE_REMOVED, function (e, data) {
+        updateUser(data.user);
+      }));
 
       function updatePersonalPlace(user) {
           var place = _.find(vm.places, {id: user.id});
@@ -656,58 +657,57 @@
         updatePersonalPlace(user);
       }
 
-      NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.UPDATE, function (event) {
-        NstSvcPlaceFactory.updatePlaceInTree(vm.places, mapPlace(event.detail.place));
-        var place = mapPlace(event.detail.place);
+      eventReferences.push($rootScope.$on(NST_PLACE_EVENT.UPDATED, function (e, data) {
+        NstSvcPlaceFactory.updatePlaceInTree(vm.places, mapPlace(data.place));
+        var place = mapPlace(data.place);
         if ($stateParams.placeId && place.id === $stateParams.placeId.split('.')[0]) {
           vm.selectedGrandPlace = place;
         }
-      });
+      }));
 
-      NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.PICTURE_CHANGE, function (event) {
-        NstSvcPlaceFactory.updatePlaceInTree(vm.places, mapPlace(event.detail.place));
-      });
+      eventReferences.push($rootScope.$on(NST_PLACE_EVENT.PICTURE_CHANGED, function (e, data) {
+        NstSvcPlaceFactory.updatePlaceInTree(vm.places, mapPlace(data.place));
+      }));
 
-      NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.REMOVE, function (event) {
-        NstSvcPlaceFactory.removePlaceFromTree(vm.places, event.detail);
+      eventReferences.push($rootScope.$on(NST_PLACE_EVENT.REMOVED, function (e, data) {
+        NstSvcPlaceFactory.removePlaceFromTree(vm.places, data.placeId);
         $rootScope.$emit('init-controls-sidebar');
         vm.mapLimits();
-      });
+      }));
 
 
-      NstSvcSync.addEventListener(NST_EVENT_ACTION.POST_ADD, function (e) {
+      eventReferences.push($rootScope.$on(NST_EVENT_ACTION.POST_ADD, function (e, data) {
         getGrandPlaceUnreadCounts();
-      });
+      }));
 
-      NstSvcSync.addEventListener(NST_EVENT_ACTION.POST_REMOVE, function (e) {
+      eventReferences.push($rootScope.$on(NST_EVENT_ACTION.POST_REMOVE, function (e, data) {
         getGrandPlaceUnreadCounts();
-      });
+      }));
 
 
-      NstSvcPostFactory.addEventListener(NST_POST_FACTORY_EVENT.READ, function (e) {
+      eventReferences.push($rootScope.$on(NST_POST_EVENT.READ, function (event, data) {
         getGrandPlaceUnreadCounts();
-      });
+      }));
 
-
-      NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.READ_ALL_POST, function (e) {
+      eventReferences.push($rootScope.$on('post-read-all', function (e, data) {
         getGrandPlaceUnreadCounts();
-      });
+      }));
+
+      eventReferences.push($rootScope.$on(NST_NOTIFICATION_EVENT.UPDATE, function (e, data) {
+        vm.notificationsCount = data.count;
+      }));
+
+      // NOTE: Nobody dispaches an event with this key!!
+      // eventReferences.push($rootScope.$on(NST_NOTIFICATION_EVENT.NEW_NOTIFICATION, function (e, data) {
+      //   vm.notificationsCount += 1;
+      // }));
 
 
-      NstSvcNotificationFactory.addEventListener(NST_NOTIFICATION_FACTORY_EVENT.UPDATE, function (event) {
-        vm.notificationsCount = event.detail;
-      });
+      eventReferences.push($rootScope.$on(NST_NOTIFICATION_EVENT.OPEN_INVITATION_MODAL, function (e, data) {
+        vm.invitation.showModal(data.notificationId);
+      }));
 
-      NstSvcNotificationFactory.addEventListener(NST_NOTIFICATION_FACTORY_EVENT.NEW_NOTIFICATION, function (event) {
-        vm.notificationsCount += 1;
-      });
-
-
-      NstSvcNotificationFactory.addEventListener(NST_NOTIFICATION_FACTORY_EVENT.OPEN_INVITATION_MODAL, function (event) {
-        vm.invitation.showModal(event.detail.id)
-      });
-
-      NstSvcNotificationSync.addEventListener(NST_NOTIFICATION_TYPE.INVITE, function (event) {
+      eventReferences.push($rootScope.$on(NST_NOTIFICATION_TYPE.INVITE, function (e, data) {
         getInvitations().then(function (invitations) {
           //FIXME:: Check last invitation
 
@@ -735,7 +735,7 @@
         }).catch(function (error) {
           throw 'SIDEBAR | invitation push can not init'
         });
-      });
+      }));
 
 
       NstSvcServer.addEventListener(NST_SRV_EVENT.RECONNECT, function () {
@@ -760,6 +760,15 @@
       $scope.$on('draft-change', function () {
         vm.hasDraft = NstSvcPostDraft.has();
       });
+
+      $scope.$on('$destroy', function () {
+        _.forEach(eventReferences, function (cenceler) {
+          if (_.isFunction(cenceler)) {
+            cenceler();
+          }
+        });
+      });
+
       function isFeed() {
         if ($state.current.name == 'app.messages-favorites' ||
           $state.current.name == 'app.messages-favorites-sorted') {
@@ -786,5 +795,6 @@
         }
         return false;
       }
+
     }
   })();

@@ -128,17 +128,6 @@
             return getComment(commentId, postId);
           }).then(function (comment) {
             deferred.resolve(comment);
-
-            factory.dispatchEvent(new CustomEvent(
-              NST_COMMENT_EVENT.ADD, {
-                detail: {
-                  id: comment.id,
-                  postId: postId,
-                  comment: comment,
-                  internal: true
-                }
-              }
-            ));
           }).catch(deferred.reject);
         }
 

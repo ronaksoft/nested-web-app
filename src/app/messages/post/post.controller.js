@@ -8,7 +8,7 @@
   /** @ngInject */
   function PostController($q, $scope, $rootScope, $stateParams, $state, $uibModalInstance,
                           _, toastr,
-                          NST_POST_EVENT, NstVmFile,
+                          NstVmFile,
                           NstSvcAuth, NstSvcPostFactory, NstSvcPlaceFactory, NstUtility, NstSvcLogger, NstSvcPostInteraction, NstSvcTranslation, NstSvcSync,
                           selectedPostId) {
     var vm = this;
@@ -41,12 +41,7 @@
 
         return vm.post.read ? $q.resolve(true) : markPostAsRead(vm.postId);
       }).then(function (result) {
-        NstSvcPostFactory.dispatchEvent(new CustomEvent(NST_POST_EVENT.VIEWED, {
-          detail: {
-            postId: vm.post.id,
-            comments: vm.comments
-          }
-        }));
+        $rootScope.$broadcast('post-viewed', { postId: vm.post.id });
       }).catch(function (error) {
         NstSvcLogger.error(error);
       });

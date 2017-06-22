@@ -7,7 +7,7 @@
 
   function PostCardController($state, $log, $timeout, $rootScope, $scope, $filter, $window, $sce, $uibModal,
                               _, moment, toastr,
-                              NST_POST_EVENT, NST_EVENT_ACTION, NST_POST_FACTORY_EVENT, NST_PLACE_ACCESS, NST_PLACE_FACTORY_EVENT, SvcCardCtrlAffix,
+                              NST_EVENT_ACTION, NST_PLACE_ACCESS, NST_POST_EVENT, SvcCardCtrlAffix,
                               NstSvcSync, NstVmFile, NstSvcPostFactory, NstSvcPlaceFactory,
                               NstSvcAuth, NstUtility, NstSvcPostInteraction, NstSvcTranslation, NstSvcLogger) {
     var vm = this;
@@ -22,7 +22,7 @@
       newCommentIds = [],
       unreadCommentIds = [],
       focusOnSentTimeout = null,
-      pageEventReferences = [];
+      eventReferences = [];
 
     vm.remove = _.partial(remove, vm.post);
     vm.toggleRemoveFrom = toggleRemoveFrom;
@@ -87,7 +87,7 @@
         $state.go('app.message', {postId: vm.post.id, trusted: vm.trusted}, {notify: false});
       } else {
         var reference = $scope.$emit('post-view-target-changed', {postId: vm.post.id});
-        pageEventReferences.push(reference);
+        eventReferences.push(reference);
       }
     }
 
@@ -317,7 +317,7 @@
 
     function loadNewComments($event) {
       if ($event) $event.preventDefault();
-      pageEventReferences.push($scope.$broadcast('post-load-new-comments', { postId: vm.post.id }));
+      eventReferences.push($scope.$broadcast('post-load-new-comments', { postId: vm.post.id }));
       reloadCounters();
       vm.unreadCommentsCount = 0;
     }
@@ -326,26 +326,26 @@
       return place.hasAccess(NST_PLACE_ACCESS.REMOVE_POST);
     }
 
-    NstSvcPostFactory.addEventListener(NST_POST_EVENT.VIEWED, function (e) {
-      if (e.detail.postId === vm.post.id) {
-        reloadCounters();
-        vm.unreadCommentsCount = 0;
-      }
-    });
+    eventReferences.push($rootScope.$on('post-viewed', function (e, data) {
+      if (data.postId !== vm.post.id) return;
 
-    NstSvcPostFactory.addEventListener(NST_POST_FACTORY_EVENT.BOOKMARKED, function (e) {
-      if (e.detail === vm.post.id) {
+      reloadCounters();
+      vm.unreadCommentsCount = 0;
+    }));
+
+    eventReferences.push($rootScope.$on(NST_POST_EVENT.BOOKMARKED, function (e, data) {
+      if (data.postId === vm.post.id) {
         vm.post.pinned = true;
       }
-    });
+    }));
 
-    NstSvcPostFactory.addEventListener(NST_POST_FACTORY_EVENT.UNBOOKMARKED, function (e) {
-      if (e.detail === vm.post.id) {
+    eventReferences.push($rootScope.$on(NST_POST_EVENT.UNBOOKMARKED, function (e, data) {
+      if (data.postId === vm.post.id) {
         vm.post.pinned = false;
       }
-    });
+    }));
 
-    pageEventReferences.push($rootScope.$on('post-modal-closed', function (event, data) {
+    eventReferences.push($rootScope.$on('post-modal-closed', function (event, data) {
       if (data.postId === vm.post.id) {
         event.preventDefault();
         // replace last 3 comments and reset new comments counter
@@ -386,31 +386,31 @@
       // }
     });
 
-    NstSvcSync.addEventListener(NST_EVENT_ACTION.COMMENT_ADD, function (e) {
+    eventReferences.push($rootScope.$on(NST_EVENT_ACTION.COMMENT_ADD, function (e, data) {
 
-      if (vm.post.id !== e.detail.post.id) {
+      if (vm.post.id !== data.activity.post.id) {
         return;
       }
 
-      var senderIsCurrentUser = NstSvcAuth.user.id == e.detail.comment.sender.id;
+      var senderIsCurrentUser = NstSvcAuth.user.id == data.activity.comment.sender.id;
       if (senderIsCurrentUser) {
         loadNewComments();
-        if (!_.includes(newCommentIds, e.detail.id)) {
-          newCommentIds.push(e.detail.id);
+        if (!_.includes(newCommentIds, data.activity.id)) {
+          newCommentIds.push(data.activity.id);
           vm.post.counters.comments++;
         }
       } else {
-        if (!_.includes(unreadCommentIds, e.detail.id)) {
+        if (!_.includes(unreadCommentIds, data.activity.id)) {
           vm.unreadCommentsCount++;
-          unreadCommentIds.push(e.detail.id);
+          unreadCommentIds.push(data.activity.id);
         }
       }
-    });
+    }));
 
 
-    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.READ_ALL_POST, function (e) {
+    eventReferences.push($rootScope.$on('post-read-all', function (e, data) {
       vm.post.read = true;
-    });
+    }));
 
 
     // initializing
@@ -430,12 +430,12 @@
         vm.isExpanded = true;
       }
 
-      pageEventReferences.push($scope.$on('comment-removed', function (event, data) {
+      eventReferences.push($scope.$on('comment-removed', function (event, data) {
         if (vm.post.id === data.postId) {
           vm.post.counters.comments--;
         }
       }));
-      pageEventReferences.push($scope.$on('post-attachment-viewed', function (event, data) {
+      eventReferences.push($scope.$on('post-attachment-viewed', function (event, data) {
         if (vm.post.id === data.postId && !vm.post.read) {
           markAsRead();
         }
@@ -470,7 +470,7 @@
         $timeout.cancel(focusOnSentTimeout);
       }
 
-      _.forEach(pageEventReferences, function (cenceler) {
+      _.forEach(eventReferences, function (cenceler) {
         if (_.isFunction(cenceler)) {
           cenceler();
         }
@@ -479,7 +479,7 @@
     function switchToPostCard() {
       // tells the parent scope to open me
       var reference = $scope.$emit('post-chain-expand-me', {postId: vm.post.id});
-      pageEventReferences.push(reference);
+      eventReferences.push(reference);
       ++$scope.$parent.$parent.affixObserver;
     }
 
