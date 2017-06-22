@@ -77,7 +77,7 @@
               </a>
             </div>
             <div class="item-size">{{item.size | bytes}} </div>
-            <div class="item-date"><span data-uib-tooltip="{{item.date | date : 'full' | localize}}" data-tooltip-append-to-body="true" data-tooltip-placement="top auto">{{item.date | passed | localize }}</span></div>
+            <div class="item-date"><span data-uib-tooltip="{{item.date | date : 'full' | localize}}" data-tooltip-append-to-body="true" data-tooltip-placement="top auto">{{item.uploadTime | passed | localize }}</span></div>
           </div>
         </li>
       </ul>
