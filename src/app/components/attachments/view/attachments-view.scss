@@ -406,6 +406,7 @@ span.filename {
   }
   ul {
     list-style: none;
+    max-height: calc(100% - 64px);
     li {
       height: 56px;
       opacity: .4;

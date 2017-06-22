@@ -60,7 +60,7 @@
 </div>
 <div class="attachs-bar" data-ng-if="ctlAttachmentView.attachments.collection.length > 1">
   <h3><translate>Attachments</translate></h3>
-  <ul>
+  <ul dir="ltr" nst-scrollbar>
     <li ng-repeat="item in ctlAttachmentView.attachments.collection" ng-click="ctlAttachmentView.getIndex(item)"
     class="ng-class:{'active' : ctlAttachmentView.attachments.current.id === item.id}">
       <div ng-hide="item.thumbnail.length" class="attachment-tiny-thumb tiny-thumb-type-{{item.type}}">
