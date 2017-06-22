@@ -175,9 +175,9 @@
     }));
 
 
-    NstSvcSync.addEventListener(NST_EVENT_ACTION.POST_ADD, function () {
+    eventReferences.push($rootScope.$on(NST_EVENT_ACTION.POST_ADD, function (e, data) {
       getPlaceUnreadCounts();
-    });
+    }));
 
 
     eventReferences.push($rootScope.$on(NST_POST_EVENT.READ, function (event, data) {

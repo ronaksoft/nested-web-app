@@ -386,26 +386,26 @@
       // }
     });
 
-    NstSvcSync.addEventListener(NST_EVENT_ACTION.COMMENT_ADD, function (e) {
+    eventReferences.push($rootScope.$on(NST_EVENT_ACTION.COMMENT_ADD, function (e, data) {
 
-      if (vm.post.id !== e.detail.post.id) {
+      if (vm.post.id !== data.activity.post.id) {
         return;
       }
 
-      var senderIsCurrentUser = NstSvcAuth.user.id == e.detail.comment.sender.id;
+      var senderIsCurrentUser = NstSvcAuth.user.id == data.activity.comment.sender.id;
       if (senderIsCurrentUser) {
         loadNewComments();
-        if (!_.includes(newCommentIds, e.detail.id)) {
-          newCommentIds.push(e.detail.id);
+        if (!_.includes(newCommentIds, data.activity.id)) {
+          newCommentIds.push(data.activity.id);
           vm.post.counters.comments++;
         }
       } else {
-        if (!_.includes(unreadCommentIds, e.detail.id)) {
+        if (!_.includes(unreadCommentIds, data.activity.id)) {
           vm.unreadCommentsCount++;
-          unreadCommentIds.push(e.detail.id);
+          unreadCommentIds.push(data.activity.id);
         }
       }
-    });
+    }));
 
 
     eventReferences.push($rootScope.$on('post-read-all', function (e, data) {

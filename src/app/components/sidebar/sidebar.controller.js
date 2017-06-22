@@ -676,13 +676,13 @@
       }));
 
 
-      NstSvcSync.addEventListener(NST_EVENT_ACTION.POST_ADD, function (e) {
+      eventReferences.push($rootScope.$on(NST_EVENT_ACTION.POST_ADD, function (e, data) {
         getGrandPlaceUnreadCounts();
-      });
+      }));
 
-      NstSvcSync.addEventListener(NST_EVENT_ACTION.POST_REMOVE, function (e) {
+      eventReferences.push($rootScope.$on(NST_EVENT_ACTION.POST_REMOVE, function (e, data) {
         getGrandPlaceUnreadCounts();
-      });
+      }));
 
 
       eventReferences.push($rootScope.$on(NST_POST_EVENT.READ, function (event, data) {
@@ -707,7 +707,7 @@
         vm.invitation.showModal(data.notificationId);
       }));
 
-      NstSvcNotificationSync.addEventListener(NST_NOTIFICATION_TYPE.INVITE, function (event) {
+      eventReferences.push($rootScope.$on(NST_NOTIFICATION_TYPE.INVITE, function (e, data) {
         getInvitations().then(function (invitations) {
           //FIXME:: Check last invitation
 
@@ -735,7 +735,7 @@
         }).catch(function (error) {
           throw 'SIDEBAR | invitation push can not init'
         });
-      });
+      }));
 
 
       NstSvcServer.addEventListener(NST_SRV_EVENT.RECONNECT, function () {

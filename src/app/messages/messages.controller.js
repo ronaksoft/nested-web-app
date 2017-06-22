@@ -190,20 +190,20 @@
         return false;
       }
 
-      NstSvcSync.addEventListener(NST_EVENT_ACTION.POST_ADD, function (e) {
-        if (postMustBeShown(e.detail.post)) {
+      eventReferences.push($rootScope.$on(NST_EVENT_ACTION.POST_ADD, function (e, data) {
+        if (postMustBeShown(data.activity.post)) {
           // The current user is the sender
-          e.detail.post.attachments = _.map(e.detail.post.attachments, function (item) {
+          data.activity.post.attachments = _.map(data.activity.post.attachments, function (item) {
             return new NstVmFile(item);
           });
-          vm.messages.unshift(e.detail.post);
+          vm.messages.unshift(data.activity.post);
 
-        } else if (mustBeAddedToHotPosts(e.detail.post)) {
+        } else if (mustBeAddedToHotPosts(data.activity.post)) {
           // someone else sent the post
-          vm.hotMessageStorage.unshift(e.detail.post);
+          vm.hotMessageStorage.unshift(data.activity.post);
           vm.hasNewMessages = true;
         }
-      });
+      }));
 
 
       eventReferences.push($rootScope.$on(NST_POST_EVENT.UNBOOKMARKED, function (e, data) {
