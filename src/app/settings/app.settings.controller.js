@@ -6,22 +6,30 @@
     .controller('SettingsController', SettingsController);
 
   /** @ngInject */
-  function SettingsController(NST_USER_FACTORY_EVENT, NstSvcUserFactory, NstSvcAuth) {
+  function SettingsController($rootScope, $scope, NST_USER_EVENT, NstSvcUserFactory, NstSvcAuth) {
     var vm = this;
+    var eventReferences = [];
 
     vm.user = NstSvcAuth.user;
 
-    NstSvcUserFactory.addEventListener(NST_USER_FACTORY_EVENT.PROFILE_UPDATED, function (event) {
-      vm.user = event.detail;
-    });
+    eventReferences.push($rootScope.$on(NST_USER_EVENT.PROFILE_UPDATED, function (e, data) {
+      vm.user = data.user;
+    }));
 
-    NstSvcUserFactory.addEventListener(NST_USER_FACTORY_EVENT.PICTURE_UPDATED, function (event) {
-      vm.user = event.detail;
-    });
+    eventReferences.push($rootScope.$on(NST_USER_EVENT.PICTURE_UPDATED, function (e, data) {
+      vm.user = data.user;
+    }));
 
-    NstSvcUserFactory.addEventListener(NST_USER_FACTORY_EVENT.PICTURE_REMOVED, function (event) {
-      vm.user = event.detail;
-    });
+    eventReferences.push($rootScope.$on(NST_USER_EVENT.PICTURE_REMOVED, function (e, data) {
+      vm.user = data.user;
+    }));
 
+    $scope.$on('$destroy', function () {
+      _.forEach(eventReferences, function (cenceler) {
+        if (_.isFunction(cenceler)) {
+          cenceler();
+        }
+      });
+    });
   }
 })();

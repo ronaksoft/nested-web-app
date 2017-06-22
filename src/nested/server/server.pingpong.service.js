@@ -27,7 +27,7 @@
       this.lastObserve = NstSvcDate.now();
 
       NstObservableObject.call(this);
-
+      // I do not know how this help?
       $interval(function () {
 
         if (NstSvcDate.now() - service.lastObserve > NST_SRV_PING_PONG.INTERVAL_TIME) {

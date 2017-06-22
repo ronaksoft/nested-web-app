@@ -4,10 +4,10 @@
   angular
     .module('ronak.nested.web.user')
     .constant('NST_AUTH_EVENT', {
-      UNAUTHORIZE: 'unauthorize',
-      AUTHORIZE: 'authorize',
-      AUTHORIZE_FAIL: 'authorize-fail',
-      CHANGE_PASSWORD: 'change_password',
-      SESSION_EXPIRE: 'session_expire'
+      UNAUTHORIZE: 'auth-unauthorize',
+      AUTHORIZE: 'auth-authorize',
+      AUTHORIZE_FAIL: 'auth-authorize-fail',
+      CHANGE_PASSWORD: 'auth-change-password',
+      SESSION_EXPIRE: 'auth-session-expire'
     });
 })();

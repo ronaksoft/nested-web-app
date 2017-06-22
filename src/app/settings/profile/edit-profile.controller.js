@@ -8,8 +8,8 @@
   /** @ngInject */
   function EditProfileController($rootScope, $scope, $stateParams, $state, $q, $uibModal, $timeout, $log, $window,
                                  toastr, moment,
-                                 NST_STORE_UPLOAD_TYPE, NST_USER_FACTORY_EVENT, NST_NAVBAR_CONTROL_TYPE, NST_PATTERN,
-                                 NstSvcAuth, NstSvcStore, NstSvcUserFactory, NstUtility, NstSvcTranslation, NstSvcDate, NstFactoryEventData, NstSvcModal) {
+                                 NstSvcAuth, NstSvcStore, NstSvcUserFactory, NstUtility, NstSvcTranslation, NstSvcDate, NstFactoryEventData, NstSvcModal,
+                                 NST_STORE_UPLOAD_TYPE, NST_NAVBAR_CONTROL_TYPE, NST_PATTERN) {
     var vm = this;
 
     vm.model = NstSvcAuth.user;

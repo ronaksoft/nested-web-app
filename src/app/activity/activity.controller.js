@@ -6,7 +6,7 @@
     .controller('ActivityController', ActivityController);
 
   /** @ngInject */
-  function ActivityController($q, $stateParams, $log, $state,$scope,
+  function ActivityController($q, $stateParams, $log, $state, $scope, $rootScope,
     _, moment,
     NST_SRV_EVENT, NST_EVENT_ACTION, NST_ACTIVITY_FILTER, NST_DEFAULT,
     NstSvcActivityMap, NstSvcModal,
@@ -15,7 +15,8 @@
 
     var vm = this;
     var activityFilterGroups = {};
-    var eventListeners = [];
+    var eventListeners = [],
+        eventReferences = [];
     var reconnectEvent;
 
     vm.activities = [];
@@ -308,10 +309,10 @@
 
 
 
-    eventListeners = _.map(NST_EVENT_ACTION,function (val) {
-      NstSvcSync.addEventListener(val, function (e) {
-        addNewActivity(e.detail);
-      });
+    _.forEach(NST_EVENT_ACTION, function (action) {
+      eventReferences.push($rootScope.$on(action, function (e, data) {
+        addNewActivity(data.activity);
+      }));
     });
 
     reconnectEvent = NstSvcServer.addEventListener(NST_SRV_EVENT.RECONNECT, function () {
@@ -386,10 +387,12 @@
 
     $scope.$on('$destroy', function () {
       NstSvcSync.closeChannel(vm.syncId);
-      _.forEach(eventListeners, function (eventId) {
-        NstSvcSync.removeEventListener(eventId);
+
+      _.forEach(eventReferences, function (cenceler) {
+        if (_.isFunction(cenceler)) {
+          cenceler();
+        }
       });
-      NstSvcSync.removeEventListener(reconnectEvent);
     });
 
   }

@@ -6,7 +6,7 @@
 
   /** @ngInject */
   function NstSvcPostInteraction($q, $uibModal, $rootScope,
-    toastr,
+    toastr, NST_POST_EVENT,
     NstUtility, NstSvcModal, NstSvcPostFactory, NstSvcTranslation) {
 
     var RETRACT_CONFIRM_TITLE = NstSvcTranslation.get("Confirm"),
@@ -54,7 +54,7 @@
       var deferred = $q.defer();
 
       NstSvcPostFactory.read(postId).then(function(result) {
-        $rootScope.$broadcast('post-read', {
+        $rootScope.$broadcast(NST_POST_EVENT.READ, {
           postId: postId,
         });
 

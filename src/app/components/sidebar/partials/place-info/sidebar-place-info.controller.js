@@ -9,8 +9,10 @@
   function SidebarPlaceInfoController($rootScope, $q, $scope, $state, $stateParams, $window, _,
                                       NstSvcLogger,
                                       NstSvcPostFactory, NstSvcPlaceFactory, NstSvcPlaceMap, NstUtility, NstSvcSync,
-                                      NST_POST_FACTORY_EVENT, NST_PLACE_FACTORY_EVENT, NST_DEFAULT, NstVmPlace, NstSvcServer, NST_SRV_EVENT, NST_EVENT_ACTION) {
+                                      NST_DEFAULT, NstVmPlace, NstSvcServer, NST_SRV_EVENT, NST_EVENT_ACTION, NST_PLACE_EVENT, NST_POST_EVENT) {
     var vm = this;
+    var eventReferences = [];
+
     vm.loading = false;
     vm.currentPlaceId = $stateParams.placeId;
     vm.hasNotUnreadPostInChildren = hasNotUnreadPostInChildren;
@@ -159,58 +161,58 @@
      *****  Event Listeners   ****
      *****************************/
 
-    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.SUB_ADD, function () {
+    eventReferences.push($rootScope.$on(NST_PLACE_EVENT.SUB_ADDED, function (e, data) {
       //TODO:: change children without Initializing()
       // NstSvcPlaceFactory.addPlaceToTree(vm.children, mapPlace(event.detail.place));
       Initializing();
-    });
+    }));
 
-    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.UPDATE, function () {
+    eventReferences.push($rootScope.$on(NST_PLACE_EVENT.UPDATED, function (e, data) {
       //TODO:: change children without Initializing()
       // NstSvcPlaceFactory.updatePlaceInTree(vm.children, mapPlace(event.detail.place));
 
       Initializing();
-    });
+    }));
 
 
-    NstSvcSync.addEventListener(NST_EVENT_ACTION.POST_ADD, function () {
+    eventReferences.push($rootScope.$on(NST_EVENT_ACTION.POST_ADD, function (e, data) {
       getPlaceUnreadCounts();
-    });
+    }));
 
 
-    NstSvcPostFactory.addEventListener(NST_POST_FACTORY_EVENT.READ, function () {
+    eventReferences.push($rootScope.$on(NST_POST_EVENT.READ, function (event, data) {
       getPlaceUnreadCounts();
-    });
+    }));
 
-    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.READ_ALL_POST, function () {
+    eventReferences.push($rootScope.$on('post-read-all', function (e, data) {
       getPlaceUnreadCounts();
-    });
+    }));
 
-    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.BOOKMARK_ADD, function (e) {
-      vm.placesFavoritesObject[e.detail.id] = true;
-    });
-
-    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.BOOKMARK_REMOVE, function (e) {
-      vm.placesFavoritesObject[e.detail.id] = false;
-    });
-
-    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.READ_ALL_POST, function () {
-      getPlaceUnreadCounts();
-    });
+    eventReferences.push($rootScope.$on('place-bookmark', function (e, data) {
+      vm.placesFavoritesObject[data.placeId] = data.bookmak;
+    }));
 
     NstSvcServer.addEventListener(NST_SRV_EVENT.RECONNECT, function () {
       NstSvcLogger.debug('Retrieving sub-places count right after reconnecting.');
       getPlaceUnreadCounts();
     });
 
-    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.REMOVE, function (event) {
-      clearPlace(event.detail);
-    });
+    eventReferences.push($rootScope.$on(NST_PLACE_EVENT.REMOVED, function (e, data) {
+      clearPlace(data.placeId);
+    }));
 
 
     $rootScope.$on('reload-counters', function () {
       NstSvcLogger.debug('Retrieving the sub-place unreads count right after focus.');
       getPlaceUnreadCounts();
+    });
+
+    $scope.$on('$destroy', function () {
+      _.forEach(eventReferences, function (cenceler) {
+        if (_.isFunction(cenceler)) {
+          cenceler();
+        }
+      });
     });
 
   }
