@@ -63,9 +63,6 @@
     }
 
     function parsePostAdd(data) {
-      // TODO: Remove me
-      console.log('Parsing', 'NST_EVENT_ACTION.POST_ADD', data);
-
       if (data.action !== NST_EVENT_ACTION.POST_ADD) {
         throw Error(NstUtility.string.format('The provided activity is not of {0} type.', NST_EVENT_ACTION.POST_ADD));
       }
@@ -78,11 +75,8 @@
       activity.date = new Date(data.timestamp);
 
       var postPromise = NstSvcPostFactory.get(data.post_id);
-      // TODO: Not required anymore, because the actor and comment sender are the same
-      var actorPromise = NstSvcUserFactory.getTiny(data.actor_id);
-      $q.all([postPromise, actorPromise]).then(function (resultSet) {
+      $q.all([postPromise]).then(function (resultSet) {
         activity.post = resultSet[0];
-        activity.actor = resultSet[1];
 
         deferred.resolve(activity);
       }).catch(function (error) {
@@ -94,9 +88,6 @@
     }
 
     function parsePostRemovePlace(data) {
-      // TODO: Remove me
-      console.log('Parsing', 'NST_EVENT_ACTION.POST_REMOVE_PLACE', data);
-
       if (data.action !== NST_EVENT_ACTION.POST_REMOVE_PLACE) {
         throw Error(NstUtility.string.format('The provided activity is not of {0} type.', NST_EVENT_ACTION.POST_REMOVE_PLACE));
       }
@@ -128,9 +119,6 @@
     }
 
     function parsePostAttachPlace(data) {
-      // TODO: Remove me
-      console.log('Parsing', 'NST_EVENT_ACTION.POST_ATTACH_PLACE', data);
-
       if (data.action !== NST_EVENT_ACTION.POST_ATTACH_PLACE) {
         throw Error(NstUtility.string.format('The provided activity is not of {0} type.', NST_EVENT_ACTION.POST_ATTACH_PLACE));
       }
@@ -161,9 +149,6 @@
     }
 
     function parsePostMove(data) {
-      // TODO: Remove me
-      console.log('Parsing', 'NST_EVENT_ACTION.POST_MOVE', data);
-
       if (data.action !== NST_EVENT_ACTION.POST_MOVE) {
         throw Error(NstUtility.string.format('The provided activity is not of {0} type.', NST_EVENT_ACTION.POST_MOVE));
       }
@@ -176,15 +161,12 @@
       activity.date = new Date(data.timestamp);
 
       var postPromise = NstSvcPostFactory.get(data.post_id);
-      // TODO: Not required anymore, because the actor and comment sender are the same
-      var actorPromise = NstSvcUserFactory.getTiny(data.actor_id);
       var oldPlacePromise = NstSvcPlaceFactory.getTiny(data.old_place_id);
       var newPlacePromise = NstSvcPlaceFactory.getTiny(data.new_place_id);
       $q.all([postPromise, actorPromise, oldPlacePromise, newPlacePromise]).then(function (resultSet) {
         activity.post = resultSet[0];
-        activity.actor = resultSet[1];
-        activity.oldPlace = resultSet[2];
-        activity.newPlace = resultSet[3];
+        activity.oldPlace = resultSet[1];
+        activity.newPlace = resultSet[2];
 
         deferred.resolve(activity);
       }).catch(function (error) {
@@ -196,9 +178,6 @@
     }
 
     function parseAddComment(data) {
-      // TODO: Remove me
-      console.log('Parsing', 'NST_EVENT_ACTION.COMMENT_ADD', data);
-
       if (data.action !== NST_EVENT_ACTION.COMMENT_ADD) {
         throw Error(NstUtility.string.format('The provided activity is not of {0} type.', NST_EVENT_ACTION.COMMENT_ADD));
       }
@@ -209,17 +188,14 @@
 
       var postPromise = NstSvcPostFactory.get(data.post_id);
       var commentPromise = NstSvcCommentFactory.getComment(data.comment_id, data.post_id);
-      // TODO: Not required anymore, because the actor and comment sender are the same
-      var actorPromise = NstSvcUserFactory.getTiny(data.actor_id);
 
-      $q.all([postPromise, commentPromise, actorPromise]).then(function (resultSet) {
+      $q.all([postPromise, commentPromise]).then(function (resultSet) {
         var activity = new NstActivity();
         activity.id = data._id;
         activity.type = data.action;
         activity.date = new Date(data.timestamp);
         activity.post = resultSet[0];
         activity.comment = resultSet[1];
-        activity.actor = resultSet[2];
         deferred.resolve(activity);
       }).catch(function (error) {
         deferred.resolve(null);
@@ -230,9 +206,6 @@
     }
 
     function parseRemoveComment(data) {
-      // TODO: Remove me
-      console.log('Parsing', 'NST_EVENT_ACTION.COMMENT_REMOVE', data);
-
       if (data.action !== NST_EVENT_ACTION.COMMENT_REMOVE) {
         throw Error(NstUtility.string.format('The provided activity is not of {0} type.', NST_EVENT_ACTION.COMMENT_REMOVE));
       }
@@ -260,9 +233,6 @@
     }
 
     function parseMemberRemove(data) {
-      // TODO: Remove me
-      console.log('Parsing', 'NST_EVENT_ACTION.MEMBER_REMOVE', data);
-
       if (data.action !== NST_EVENT_ACTION.MEMBER_REMOVE) {
         throw Error(NstUtility.string.format('The provided activity is not of {0} type.', NST_EVENT_ACTION.MEMBER_REMOVE));
       }
@@ -293,9 +263,6 @@
     }
 
     function parseMemberJoin(data) {
-      // TODO: Remove me
-      console.log('Parsing', 'NST_EVENT_ACTION.MEMBER_JOIN', data);
-
       if (data.action !== NST_EVENT_ACTION.MEMBER_JOIN) {
         throw Error(NstUtility.string.format('The provided activity is not of {0} type.', NST_EVENT_ACTION.MEMBER_JOIN));
       }
@@ -324,9 +291,6 @@
     }
 
     function parsePlaceAdd(data) {
-      // TODO: Remove me
-      console.log('Parsing', 'NST_EVENT_ACTION.PLACE_ADD', data);
-
       if (data.action !== NST_EVENT_ACTION.PLACE_ADD) {
         throw Error(NstUtility.string.format('The provided activity is not of {0} type.', NST_EVENT_ACTION.PLACE_ADD));
       }
