@@ -1,4 +1,5 @@
-<div ng-if="attachment.viewUrl && mediaToggle.sources[0].src" class="attachment-vid-show" style="width:{{attachment.newW + 'px'}};height:{{attachment.newH + 'px'}};transform:scale({{scaleVal}},{{scaleVal}})">
+<div ng-if="attachment.viewUrl && mediaToggle.sources[0].src" class="attachment-vid-show"
+     style="width:{{attachment.newW + 'px'}};height:{{attachment.newH + 'px'}};transform:scale({{scaleVal}},{{scaleVal}})">
 <!--
   <video ng-if="attachment.viewUrl" id="my-video" class="video-js" controls preload="auto" width="{{attachment.width}}" height="{{attachment.height}}"
   poster="MY_VIDEO_POSTER.jpg" data-setup="{}">
@@ -11,4 +12,11 @@
   <video class="video-js vjs-default-skin" controls preload="auto" width="{{attachment.newW}}" height="{{attachment.newH}}"
         vjs-video vjs-media="mediaToggle" vjs-setup="options">
   </video>
+</div>
+<div class="loading white" ng-if="!mediaToggle.sources[0].src"  >
+  <div class="animation"><div class="circle one"></div></div>
+  <div class="animation"><div class="circle two"></div></div>
+  <div class="animation"><div class="circle three"></div></div>
+  <div class="animation"><div class="circle four"></div></div>
+  <div class="animation"><div class="circle five"></div></div>
 </div>

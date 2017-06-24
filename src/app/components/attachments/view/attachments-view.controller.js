@@ -5,7 +5,7 @@
     .module('ronak.nested.web.components.attachment')
     .controller('AttachmentsViewController', AttachmentsViewController);
 
-  function AttachmentsViewController($scope, $uibModal, NstSvcPostFactory, NstVmFileViewerItem) {
+  function AttachmentsViewController($scope, $uibModal) {
     var vm = this;
     var eventReferences = [];
 
@@ -16,10 +16,6 @@
     /*****************************
      ***** Controller Methods ****
      *****************************/
-
-     function mapToFileViewerItem(model) {
-       return new NstVmFileViewerItem(model);
-     }
 
     vm.open = function (vmAttachment, vmAttachments) {
 
@@ -34,10 +30,10 @@
         size: 'full',
         resolve: {
           fileViewerItem : function () {
-            return mapToFileViewerItem(vmAttachment);
+            return vmAttachment;
           },
           fileViewerItems : function () {
-            return _.map(vmAttachments, mapToFileViewerItem);
+            return vmAttachments;
           },
           fileId : function () {
             return null;

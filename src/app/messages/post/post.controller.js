@@ -73,10 +73,7 @@
         NstSvcPostFactory.getChainMessages(postId, max).then(function (messages) {
           vm.hasOlder = _.size(messages) >= limit;
           var items = _.chain(messages).take(limit).sortBy('timestamp').map(function (message) {
-            message.attachments = _.map(message.attachments, function (attachment) {
-              return new NstVmFile(attachment);
-            });
-
+            message.attachments = message.attachments;
             return message;
           }).value();
           resolve(items);

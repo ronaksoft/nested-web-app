@@ -6,7 +6,7 @@
 
   /** @ngInject */
   function NstSvcFileFactory($q, _,
-    NstSvcAuth, NstSvcServer, NST_CONFIG, NstSvcDownloadTokenStorage, NstSvcFileStorage,
+    NstSvcAuth, NstSvcServer, NstSvcFileType, NstSvcDownloadTokenStorage, NstSvcFileStorage,
     NstBaseFactory, NstPicture, NstAttachment, NstFactoryError, NstFactoryQuery, NstStoreToken) {
 
     function FileFactory() {
@@ -57,12 +57,18 @@
       file.size = data.size;
       file.mimetype = data.mimetype;
       file.uploadTime = data.upload_time;
+      file.uploadType = data.upload_type;
       file.width = data.width;
       file.height = data.height;
+      file.type = NstSvcFileType.getType(data.mimetype);
+      file.extension = NstSvcFileType.getSuffix(data.filename);
 
       if (data.thumbs && data.thumbs.pre) {
         file.picture = new NstPicture(data.thumbs);
+        file.thumbnail = file.hasThumbnail("") ? file.picture.getUrl("x128") : '';
+        console.log('file', file, data);
       }
+
 
       return file;
     }
@@ -79,6 +85,7 @@
       var deferred = $q.defer();
       var tokenKey = generateTokenKey(attachmentId);
       var token = NstSvcDownloadTokenStorage.get(tokenKey);
+      console.log('token', token);
       if (token && !token.isExpired()) {
         deferred.resolve(token);
       } else {

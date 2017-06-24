@@ -13,15 +13,16 @@
       this.type = null;
       this.size = null;
       this.date = null;
-      this.hasThumbnail = null;
       this.thumbnail = null;
+      this.hasThumbnail = null;
       this.hasPreview = null;
       this.preview = null;
       this.extension = null;
       this.mimetype = null;
+      this.uploadType = null;
 
       if (model instanceof NstAttachment) {
-        
+
         this.id = model.id;
         this.size = model.size;
         this.name = model.filename;
@@ -33,6 +34,7 @@
         this.hasPreview = model.hasPreview();
         this.preview = model.hasPreview() ? model.picture.getUrl("preview") : '';
         this.mimetype = model.mimetype;
+        this.uploadType = model.upload_type;
         this.width = model.width;
         this.height = model.height;
         if (this.width && this.height){
