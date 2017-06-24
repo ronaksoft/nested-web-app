@@ -58,7 +58,7 @@
     &:hover, &.isSelected {
       transition-duration: $animation-dur;
       transition-timing-function: ease;
-      background: $sidebar-bg-hover-color;
+      // background: $sidebar-bg-hover-color;
       // background: $color-solid;
     }
     > * {
@@ -286,8 +286,10 @@
   align-items: center;
   width: 100%;
   height: 48px;
-  &.active {
-    
+  &.isSelected {
+    > *:last-child {
+      font-weight: bold
+    }
   }
   //flex: 0 1 auto;
   a{
@@ -440,7 +442,22 @@
   flex: none;
   flex-direction: row;
   cursor: pointer;
+  >div:first-child {
+    opacity: .72;
+    transition: opacity $animation-dur;
+  }
+  &:hover {
+    >div:first-child {
+      opacity: 1;
+    }
+  }
   &.isSelected {
+     >div:first-child {
+      opacity: 1;
+    }
+     >*:last-child p{
+      font-weight: bold;
+    }
     &:after {
       content: "";
       position: absolute;
