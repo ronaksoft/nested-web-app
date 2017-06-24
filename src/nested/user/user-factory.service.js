@@ -350,6 +350,16 @@
       return defer.promise;
     };
 
+    UserFactory.prototype.changePhone = function (phone, verificationId, password) {
+      return this.sentinel.watch(function () {
+        return NstSvcServer.request('account/change_phone', {
+          phone: phone,
+          vid: verificationId,
+          pass: password
+        });
+      }, 'changePhone');
+
+    }
     return new UserFactory();
   }
 })();

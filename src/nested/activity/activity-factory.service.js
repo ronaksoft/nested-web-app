@@ -163,7 +163,7 @@
       var postPromise = NstSvcPostFactory.get(data.post_id);
       var oldPlacePromise = NstSvcPlaceFactory.getTiny(data.old_place_id);
       var newPlacePromise = NstSvcPlaceFactory.getTiny(data.new_place_id);
-      $q.all([postPromise, actorPromise, oldPlacePromise, newPlacePromise]).then(function (resultSet) {
+      $q.all([postPromise, oldPlacePromise, newPlacePromise]).then(function (resultSet) {
         activity.post = resultSet[0];
         activity.oldPlace = resultSet[1];
         activity.newPlace = resultSet[2];
