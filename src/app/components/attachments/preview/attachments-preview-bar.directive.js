@@ -39,7 +39,7 @@
           scope.internalMode = scope.badge ? NST_ATTACHMENTS_PREVIEW_BAR_MODE.BADGE : NST_ATTACHMENTS_PREVIEW_BAR_MODE.THUMBNAIL;
         }
 
-        if (scope.items.length == 1 &&
+        if (!scope.badge  && scope.items.length == 1 &&
           (scope.items[0].type === NST_FILE_TYPE.IMAGE || scope.items[0].type === NST_FILE_TYPE.GIF) &&
           scope.items[0].hasPreview) {
           scope.internalMode = NST_ATTACHMENTS_PREVIEW_BAR_MODE.THUMBNAIL_ONLY_IMAGE;
@@ -47,7 +47,7 @@
           var wrpWidth = ele.parent().parent().width();
 
 
-          var imgOneRatio = scope.items[0].ratio;
+          var imgOneRatio = scope.items[0].width / scope.items[0].height;
 
           if (scope.items[0].width) {
             scope.width = scope.items[0].width < scope.cardWidth ? scope.items[0].width : scope.cardWidth;
@@ -75,7 +75,8 @@
           scope.wrpHeight = scope.height > 1024 ? 1024 : scope.height;
         }
 
-        if (scope.items.length == 2 &&
+
+        if (!scope.badge && scope.items.length == 2 &&
           (scope.items[0].type === NST_FILE_TYPE.IMAGE || scope.items[0].type === NST_FILE_TYPE.GIF) &&
           (scope.items[1].type === NST_FILE_TYPE.IMAGE || scope.items[1].type === NST_FILE_TYPE.GIF) &&
           scope.items[0].hasPreview &&
@@ -85,8 +86,8 @@
 
 
           var wrpWidth = ele.parent().parent().width() - scope.flexDiv;
-          var imgOneRatio = scope.items[0].ratio || 1;
-          var imgTwoRatio = scope.items[1].ratio || 1;
+          var imgOneRatio = scope.items[0].width / scope.items[0].height || 1;
+          var imgTwoRatio = scope.items[1].width / scope.items[1].height || 1;
           var ratio = imgOneRatio / imgTwoRatio;
           scope.scaleOne = (ratio / (1 + ratio)) * 100;
           scope.scaleTwo = 100 - scope.scaleOne;
@@ -169,8 +170,6 @@
 
           return deferred.promise;
         }
-
-        var count = {};
 
         scope.goLeft = function () {
           // var k = makeid();

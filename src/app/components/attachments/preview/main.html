@@ -6,10 +6,13 @@
 <ul ng-if="internalMode == 'thumbnail'" class="thumbnail-bar">
   <li ng-repeat="item in items">
     <a href="javascript:void(0);" ng-click="onClick(item);$event.stopPropagation()">
-      <img ng-if="(item.type === NST_FILE_TYPE.IMAGE  || item.type === NST_FILE_TYPE.GIF) && !(item.extension == 'svg') " class="attach-thumbnail-img" alt=""
-           style="background: url({{item.thumbnail}});background-size: cover; height: 96px;position: relative;top: 4px; width: {{ (item.ratio * 96) }}px"/>
-      <div ng-if="(item.type !== NST_FILE_TYPE.IMAGE && item.type !== NST_FILE_TYPE.GIF ) || item.extension == 'svg'" class="attach-thumbnail {{'attach-thumbnail-' + item.type}}">
-        <div class="file-name"> <p>{{item.name}}</p></div>
+      <img
+        ng-if="(item.type === NST_FILE_TYPE.IMAGE  || item.type === NST_FILE_TYPE.GIF) && !(item.extension == 'svg') "
+        class="attach-thumbnail-img" alt=""
+        style="background: url({{item.thumbnail}});background-size: cover; height: 96px;position: relative;top: 4px; width: {{ (item.width / item.height * 96) }}px"/>
+      <div ng-if="(item.type !== NST_FILE_TYPE.IMAGE && item.type !== NST_FILE_TYPE.GIF ) || item.extension == 'svg'"
+           class="attach-thumbnail {{'attach-thumbnail-' + item.type}}">
+        <div class="file-name"><p>{{item.filename}}</p></div>
         <div class="detail">
           <p>{{item.extension | uppercase}}</p>
           <span class="attsize">{{item.size | bytes:2}}</span>
@@ -27,29 +30,34 @@
 <ul ng-if="internalMode == 'badge'" class="badge-bar">
   <li ng-repeat="item in items | orderBy:['order', 'name']">
     <a href="javascript:void(0);" ng-click="onClick(item)" class="attach-badge-default {{'attach-badge-' + item.type}}">
-      <div class="badge-extension">{{item.extension ? item.extension : item.filename.split('.')[item.filename.split('.').length -1 ] | uppercase}}</div>
+      <div class="badge-extension">{{item.extension ? item.extension :
+        item.filename.split('.')[item.filename.split('.').length -1 ] | uppercase}}
+      </div>
       <div class="badge-name">{{item.filename ? item.filename : '&nbsp'}}</div>
     </a>
 
   </li>
 </ul>
 <div ng-if="internalMode == 'onlyimg'" class="only-img">
-  <div class="_df _jcc" style="width: {{wrpWidth}}px; height: {{wrpHeight}}px; overflow: hidden" ng-click="onClick(items[0]);$event.stopPropagation()">
+  <div class="_df _jcc" style="width: {{wrpWidth}}px; height: {{wrpHeight}}px; overflow: hidden"
+       ng-click="onClick(items[0]);$event.stopPropagation()">
     <img style="
     object-fit: cover;
     height: {{height}}px;
-    width: {{width}}px" ng-src="{{items[0].preview}}"/>
+    width: {{width}}px" ng-src="{{items[0].picture.getUrl('preview')}}"/>
   </div>
-  <div class="download-img"  ng-click="download(items[0])">
+  <div class="download-img" ng-click="download(items[0])">
     <svg class="_16svg">
       <use xlink:href="/assets/icons/nst-icn16.svg#downloads"></use>
     </svg>
   </div>
 </div>
 <div ng-if="internalMode == 'twoimg'" class="two-img _fw ng-class:{'deform' : deform}">
-  <img style="width: calc({{scaleOne}}% - 8px);height: {{constHeight}}px;object-fit: cover" ng-src="{{items[0].preview}}" ng-click="onClick(items[0]);$event.stopPropagation()"/>
+  <img style="width: calc({{scaleOne}}% - 8px);height: {{constHeight}}px;object-fit: cover"
+       ng-src="{{items[0].picture.getUrl('preview')}}" ng-click="onClick(items[0]);$event.stopPropagation()"/>
 
-  <a class="download-img" style="left: calc({{scaleOne}}% - 40px);right:auto;transform: translateX(-50%);" ng-click="download(items[0])">
+  <a class="download-img" style="left: calc({{scaleOne}}% - 40px);right:auto;transform: translateX(-50%);"
+     ng-click="download(items[0])">
     <svg class="_16svg">
       <use xlink:href="/assets/icons/nst-icn16.svg#downloads"></use>
     </svg>
@@ -57,7 +65,8 @@
 
   <div style="width: {{flexDiv}}px"></div>
 
-  <img style="width: calc({{scaleTwo}}% - 8px);height: {{constHeight}}px;object-fit: cover" ng-src="{{items[1].preview}}" ng-click="onClick(items[1]);$event.stopPropagation()"/>
+  <img style="width: calc({{scaleTwo}}% - 8px);height: {{constHeight}}px;object-fit: cover"
+       ng-src="{{items[1].picture.getUrl('preview')}}" ng-click="onClick(items[1]);$event.stopPropagation()"/>
 
   <a class="download-img" style="left: auto;right:8px;" ng-click="download(items[1])">
     <svg class="_16svg">

@@ -193,9 +193,7 @@
       eventReferences.push($rootScope.$on(NST_EVENT_ACTION.POST_ADD, function (e, data) {
         if (postMustBeShown(data.activity.post)) {
           // The current user is the sender
-          data.activity.post.attachments = _.map(data.activity.post.attachments, function (item) {
-            return new NstVmFile(item);
-          });
+          data.activity.post.attachments = data.activity.post.attachments;
           vm.messages.unshift(data.activity.post);
 
         } else if (mustBeAddedToHotPosts(data.activity.post)) {
@@ -547,9 +545,7 @@
             var hasData = lastMessageVersion.filter(function (obj) {
               return (obj.id === messages[i].id);
             });
-            messages[i].attachments = _.map(messages[i].attachments, function (item) {
-              return new NstVmFile(item);
-            });
+            messages[i].attachments = messages[i].attachments;
 
             if (hasData.length === 0) {
               if (after) {

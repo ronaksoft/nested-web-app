@@ -5,7 +5,7 @@
     .module('ronak.nested.web.components.attachment')
     .directive('nstAttachmentView', AttachmentView);
 
-  function AttachmentView(NST_FILE_TYPE, $sce, $window) {
+  function AttachmentView(NST_FILE_TYPE, $sce, $window, NstSvcKeyFactory, NST_KEY) {
     return {
       restrict: 'E',
       scope: {
@@ -15,13 +15,13 @@
       replace: true,
       link: function (scope) {
         scope.scaleVal = 1;
-        
-        
+
         scope.$watch('attachment', function () {
           if (scope.attachment && scope.attachment.type) {
             update(scope);
           }
         });
+
 
         scope.$watch('sideBarOpen', function () {
           scope.resize();
@@ -39,23 +39,31 @@
         };
 
         scope.$on('vjsVideoReady', function (e, data) {
-            $('.vjs-loading-spinner').empty().html('<div class="loading" ng-hide="attachment.show" ng-if="preview">' + 
-            '<div class="animation"><div class="circle one"></div></div>' + 
+          $('.vjs-loading-spinner').empty().html('<div class="loading" ng-hide="attachment.show" ng-if="preview">' +
+            '<div class="animation"><div class="circle one"></div></div>' +
             '<div class="animation"><div class="circle two"></div></div>' +
             '<div class="animation"><div class="circle three"></div></div>' +
             '<div class="animation"><div class="circle four"></div></div>' +
             '<div class="animation"><div class="circle five"></div></div></div>');
         });
 
+        scope.$watch(function () {
+          return scope.attachment.viewUrl
+        }, function () {
+          setTimeout(function () {
+            update(scope);
+          }, 0);
+        });
+
         scope.videoConfig = function () {
           scope.mediaToggle = {
-              sources: [
-                  {
-                      src: scope.attachment.viewUrl,
-                      type: 'video/mp4'
-                  }
-              ],
-              poster: scope.attachment.preview
+            sources: [
+              {
+                src: scope.attachment.viewUrl,
+                type: 'video/mp4'
+              }
+            ],
+            poster: scope.attachment.preview
           };
           scope.options = {
             width: scope.attachment.newW,
@@ -69,13 +77,27 @@
           };
         };
 
+        scope.documentConfig = function () {
+          NstSvcKeyFactory.get(NST_KEY.WEBAPP_SETTING_DOCUMENT_PREVIEW).then(function(v) {
+            if ( v.length > 0 ) {
+              scope.previewSetting = JSON.parse(v);
+            } else {
+              scope.previewSetting = {
+                document : false,
+                pdf : false
+              };
+            }
+          });
 
-        scope.sizeDetect = function(){
+        };
+
+
+        scope.sizeDetect = function(aw,ah){
           var a = scope.attachment,
               ww = window.innerWidth,
               wh = window.innerHeight - 64, // Navbar Height : 64
-              ratio = a.width / a.height,
-              pw = a.width <= 1024 ? a.width : 1024, // Preview width TODO : 1024 from configs
+              ratio = aw / ah,
+              pw = aw <= 1024 ? aw : 1024, // Preview width TODO : 1024 from configs
               ph = pw * ( 1 / ratio );
           var newW,newH;
           if ( (wh < ph && wh * ratio > ww) || ( ww < pw && ww * (1 / ratio) < wh ) ) {
@@ -91,18 +113,29 @@
           scope.attachment.newW = newW;
           scope.attachment.newH = newH;
         };
-        
+
+        scope.docPreview = function () {
+          scope.previewSetting[scope.attachment.type] = true;
+        }
+
+        scope.docAlwaysPreview = function () {
+          scope.previewSetting[scope.attachment.type] = true;
+          NstSvcKeyFactory.set(NST_KEY.WEBAPP_SETTING_DOCUMENT_PREVIEW, JSON.stringify(scope.previewSetting))
+            .then(function (result) {
+          });
+        }
+
 
         var resizeIt = _.debounce(scope.sizeDetect, 500);
-        angular.element($window).on('resize',resizeIt);
-        scope.$on('$destroy', function() {
-           angular.element($window).off('resize',resizeIt);
+        angular.element($window).on('resize', resizeIt);
+        scope.$on('$destroy', function () {
+          angular.element($window).off('resize', resizeIt);
         });
       },
       template: '<div class="nst-preview-pic-mode" data-ng-include="tplUrl" data-ng-init="attachment = attachment"></div>'
     };
 
-    
+
 
     function update(scope) {
       var type = scope.attachment.type;
@@ -113,39 +146,48 @@
 
       scope.tplUrl = 'app/components/attachments/view/single/partials/default.html';
 
-      switch (type){
-        case NST_FILE_TYPE.IMAGE:
-          scope.sizeDetect();
-          scope.tplUrl = 'app/components/attachments/view/single/partials/image.html';
-          break;
+      if (scope.attachment.uploadType === 'FILE'){
+        scope.tplUrl = 'app/components/attachments/view/single/partials/default.html';
 
-        case NST_FILE_TYPE.GIF:
-          scope.tplUrl = 'app/components/attachments/view/single/partials/gif.html';
-          break;
+      }else {
 
-        case NST_FILE_TYPE.VIDEO:
-          scope.sizeDetect();
-          scope.videoConfig();
-          scope.tplUrl = 'app/components/attachments/view/single/partials/video.html';
-          break;
+        switch (type) {
+          case NST_FILE_TYPE.IMAGE:
+            scope.sizeDetect(scope.attachment.width, scope.attachment.height);
+            scope.tplUrl = 'app/components/attachments/view/single/partials/image.html';
+            break;
 
-        case NST_FILE_TYPE.AUDIO:
-          scope.tplUrl = 'app/components/attachments/view/single/partials/audio.html';
-          break;
+          case NST_FILE_TYPE.GIF:
+            scope.sizeDetect(scope.attachment.videoWidth ? scope.attachment.videoWidth : scope.attachment.width, scope.attachment.videoHeight ? scope.attachment.videoHeight : scope.attachment.height);
+            scope.tplUrl = 'app/components/attachments/view/single/partials/gif.html';
+            break;
 
-        case NST_FILE_TYPE.ARCHIVE:
-          scope.tplUrl = 'app/components/attachments/view/single/partials/archive.html';
-          break;
+          case NST_FILE_TYPE.VIDEO:
+            scope.sizeDetect(scope.attachment.width, scope.attachment.height);
+            scope.videoConfig();
+            scope.tplUrl = 'app/components/attachments/view/single/partials/video.html';
+            break;
 
-        case NST_FILE_TYPE.DOCUMENT:
-          scope.tplUrl = 'app/components/attachments/view/single/partials/document.html';
-          break;
+          case NST_FILE_TYPE.AUDIO:
+            scope.tplUrl = 'app/components/attachments/view/single/partials/audio.html';
+            break;
 
-        case NST_FILE_TYPE.PDF:
-          scope.tplUrl = 'app/components/attachments/view/single/partials/pdf.html';
-          break;
-        default:
-          scope.tplUrl = 'app/components/attachments/view/single/partials/default.html';
+          case NST_FILE_TYPE.ARCHIVE:
+            scope.tplUrl = 'app/components/attachments/view/single/partials/archive.html';
+            break;
+
+          case NST_FILE_TYPE.DOCUMENT:
+            scope.documentConfig();
+            scope.tplUrl = 'app/components/attachments/view/single/partials/document.html';
+            break;
+
+          case NST_FILE_TYPE.PDF:
+            scope.documentConfig();
+            scope.tplUrl = 'app/components/attachments/view/single/partials/pdf.html';
+            break;
+          default:
+            scope.tplUrl = 'app/components/attachments/view/single/partials/default.html';
+        }
       }
     }
   }

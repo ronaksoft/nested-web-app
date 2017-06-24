@@ -8,8 +8,9 @@
   /** @ngInject */
   function FilesController($stateParams, toastr, $uibModal, $state, $timeout, $q, $scope,
                            NST_PLACE_ACCESS,
-                           NstSvcFileFactory, NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPlaceAccess, NstSvcModal, NstSvcTranslation, NstSvcAuth, NstSvcWait, NstSvcInteractionTracker,
-                           NstVmFile, NstVmFileViewerItem,
+                           NstSvcFileFactory, NstSvcPlaceAccess, NstSvcModal,
+                           NstSvcTranslation, NstSvcAuth, NstSvcWait, NstSvcInteractionTracker,
+                           NstAttachment,
                            NST_DEFAULT) {
     var vm = this;
     var onSelectTimeout = null;
@@ -20,7 +21,7 @@
 
     vm.searchFunc = function () {
 
-      if(vm.keyword.length > 0) {
+      if (vm.keyword.length > 0) {
         vm.keyword = '';
         search(vm.keyword);
       } else {
@@ -74,7 +75,7 @@
       filter: 'ALL',
       keyword: '',
       skip: 0,
-      limit: 12
+      limit: 40
     };
 
     vm.settings = {};
@@ -141,8 +142,8 @@
       var value = _.toLower($stateParams.filter);
 
       return _.find(vm.fileTypes, function (fileType) {
-          return _.toLower(fileType.label) === value;
-        }) || vm.fileTypes[0];
+        return _.toLower(fileType.label) === value;
+      }) || vm.fileTypes[0];
     }
 
     function getSearchParameter() {
@@ -164,8 +165,7 @@
         vm.settings.filter,
         vm.settings.keyword,
         vm.settings.skip,
-        vm.settings.limit).then(function (files) {
-        var fileItems = mapFiles(files);
+        vm.settings.limit).then(function (fileItems) {
         var newFileItems = _.differenceBy(fileItems, vm.files, 'id');
 
         vm.hasNextPage = fileItems.length === vm.settings.limit;
@@ -185,16 +185,6 @@
       return deferred.promise;
     }
 
-    function mapFiles(files) {
-      return _.map(files, function (file) {
-        return new NstVmFile(file);
-      });
-    }
-
-    function mapToFileViewerItem(fileViewModel) {
-      return new NstVmFileViewerItem(fileViewModel);
-    }
-
     function preview(file) {
 
       $uibModal.open({
@@ -202,13 +192,14 @@
         templateUrl: 'app/components/attachments/view/single/main.html',
         controller: 'AttachmentViewController',
         controllerAs: 'ctlAttachmentView',
-        size: 'mlg',
+        backdropClass: 'attachmdrop',
+        size: 'full',
         resolve: {
           fileViewerItem: function () {
-            return mapToFileViewerItem(file);
+            return file;
           },
           fileViewerItems: function () {
-            return _.map(vm.files, mapToFileViewerItem);
+            return vm.files;
           },
           fileId: function () {
             return null;
@@ -229,7 +220,7 @@
 
     function loadMore() {
       if (vm.hasNextPage) {
-        vm.loadMoreCounter ++;
+        vm.loadMoreCounter++;
         NstSvcInteractionTracker.trackEvent('files', 'load more', vm.loadMoreCounter);
         load();
       }
@@ -251,7 +242,7 @@
     };
 
     function composeWithAttachments() {
-      $state.go('app.compose', { attachments: vm.selectedFiles }, { notify: false });
+      $state.go('app.compose', {attachments: vm.selectedFiles}, {notify: false});
     }
 
     $scope.$on('$destroy', function () {

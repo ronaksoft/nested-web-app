@@ -1,12 +1,22 @@
-<div class="attachment-image-show ng-class:{'loaded' : attachment.loaded}" style="width:{{attachment.newW + 'px'}};height:{{attachment.newH + 'px'}};transform:scale({{scaleVal}},{{scaleVal}})">
-  <!--<img ng-if="attachment.preview" class="tumb" />-->
+<div class="attachment-image-show ng-class:{'loaded' : attachment.loaded}"
+     style="width:{{attachment.newW + 'px'}};height:{{attachment.newH + 'px'}};transform:scale({{scaleVal}},{{scaleVal}})">
   <div style="background-image:url('{{attachment.thumbnail}}');"></div>
-  <img ng-src="{{attachment.preview}}" class="prev" preview-on-load />
+  <img ng-src="{{attachment.viewUrl}}" class="prev" preview-on-load/>
 </div>
-<div class="loading white" ng-if="!attachment.loaded" >
-  <div class="animation"><div class="circle one"></div></div>
-  <div class="animation"><div class="circle two"></div></div>
-  <div class="animation"><div class="circle three"></div></div>
-  <div class="animation"><div class="circle four"></div></div>
-  <div class="animation"><div class="circle five"></div></div>
+<div class="loading white" ng-if="!attachment.loaded">
+  <div class="animation">
+    <div class="circle one"></div>
+  </div>
+  <div class="animation">
+    <div class="circle two"></div>
+  </div>
+  <div class="animation">
+    <div class="circle three"></div>
+  </div>
+  <div class="animation">
+    <div class="circle four"></div>
+  </div>
+  <div class="animation">
+    <div class="circle five"></div>
+  </div>
 </div>

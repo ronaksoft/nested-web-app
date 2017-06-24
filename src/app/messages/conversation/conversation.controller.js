@@ -82,9 +82,7 @@
       NstSvcPostFactory.conversation($stateParams.userId, queryString, limit, skip).then(function (posts) {
         _.forEach(posts, function (message) {
           if (!_.some(vm.messages, { id : message.id })){
-            message.attachments = _.map(message.attachments, function (item) {
-              return new NstVmFile(item);
-            });
+            message.attachments = message.attachments;
             vm.messages.push(message);
           }
         });

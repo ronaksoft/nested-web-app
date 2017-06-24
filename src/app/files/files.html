@@ -63,7 +63,7 @@
           <div class="files-types-images">
             <a href ng-click="ctlFiles.preview(item);">
               <div class="img-container" ng-if="item.thumbnail">
-              <img ng-if="item.thumbnail" ng-src="{{item.thumbnail}}" alt="{{::item.name}}" class="file-thumbnail"/>
+              <img ng-if="item.thumbnail" ng-src="{{item.thumbnail}}" alt="{{::item.filename}}" class="file-thumbnail"/>
               </div>
               <div ng-if="!item.thumbnail" class="file-badge {{'file-badge-' + item.type }}">
                 {{::item.extension}}
@@ -73,11 +73,11 @@
           <div class="file-list-item">
             <div class="item-name">
               <a href ng-click="ctlFiles.preview(item);">
-                {{::item.name}}
+                {{::item.filename}}
               </a>
             </div>
             <div class="item-size">{{item.size | bytes}} </div>
-            <div class="item-date"><span data-uib-tooltip="{{item.date | date : 'full' | localize}}" data-tooltip-append-to-body="true" data-tooltip-placement="top auto">{{item.date | passed | localize }}</span></div>
+            <div class="item-date"><span data-uib-tooltip="{{item.date | date : 'full' | localize}}" data-tooltip-append-to-body="true" data-tooltip-placement="top auto">{{item.uploadTime | passed | localize }}</span></div>
           </div>
         </li>
       </ul>

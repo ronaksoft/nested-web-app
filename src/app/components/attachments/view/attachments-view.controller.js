@@ -5,7 +5,7 @@
     .module('ronak.nested.web.components.attachment')
     .controller('AttachmentsViewController', AttachmentsViewController);
 
-  function AttachmentsViewController($scope, $uibModal, NstSvcPostFactory, NstVmFileViewerItem) {
+  function AttachmentsViewController($scope, $uibModal) {
     var vm = this;
     var eventReferences = [];
 
@@ -17,14 +17,10 @@
      ***** Controller Methods ****
      *****************************/
 
-     function mapToFileViewerItem(model) {
-       return new NstVmFileViewerItem(model);
-     }
-
     vm.open = function (vmAttachment, vmAttachments) {
 
       eventReferences.push($scope.$emit('post-attachment-viewed', { postId : vm.postId }));
-
+      $('body').addClass('attach-modal');
       var modal = $uibModal.open({
         animation: false,
         templateUrl: 'app/components/attachments/view/single/main.html',
@@ -34,10 +30,10 @@
         size: 'full',
         resolve: {
           fileViewerItem : function () {
-            return mapToFileViewerItem(vmAttachment);
+            return vmAttachment;
           },
           fileViewerItems : function () {
-            return _.map(vmAttachments, mapToFileViewerItem);
+            return vmAttachments;
           },
           fileId : function () {
             return null;
@@ -52,6 +48,8 @@
             return vm.postId;
           }
         }
+      }).result.catch(function(){
+        $('body').removeClass('attach-modal');
       });
 
       return modal.result;

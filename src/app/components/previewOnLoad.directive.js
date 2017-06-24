@@ -12,7 +12,7 @@
           $scope.$parent.attachment.loadedProgress = 0;
           var jelement = $($element);
           // var jthumb = $attrs.thumbnailId ? $($attrs.thumbnailId) : null;
-          jelement.on("load", function(event, foo) {
+          jelement.on($element[0].nodeName === 'VIDEO' ? 'loadeddata' : 'load', function(event, foo) {
             $timeout(function(){
               $scope.$parent.attachment.loaded = true;
               // $element.parent().addClass('loaded');

@@ -1,22 +1,22 @@
-<div ng-if="!attachment.isDownloaded && attachment.extension === 'mp4'" class="nst-preview-pic-mode">
-  <video width="{{attachment.width}}" height="{{attachment.height}}" autoplay loop>
-    <source src="{{trustSrc(attachment.viewUrl)}}" type="video/mp4">
-    Your browser does not support HTML5 video.
-  </video>
+<!--<div ng-if="!attachment.isDownloaded && attachment.extension === 'mp4'" class="nst-preview-pic-mode">-->
+
 
   <!--<img ng-if="attachment.hasThumbnail" class="_oph" ng-src="{{attachment.thumbnail}}" />-->
   <!--<div ng-if="!attachment.hasThumbnail" class="att-exp-application-large-">-->
     <!--<div class="_tac _fw _dibp title-att color-doc nst-font-large upper-case">{{attachment.extension}}</div>-->
   <!--</div>-->
-  <div class="downloadprogress" ng-if="!attachment.type == 'gif'">
-    <div ng-progressbar="{{attachment.downloadedRatio}}" progressbar-mode="circle"></div>
-  </div>
+<!--</div>-->
+<div ng-if="attachment.viewUrl" class="attachment-image-show ng-class:{'loaded' : attachment.loaded}" style="width:{{attachment.newW + 'px'}};height:{{attachment.newH + 'px'}};transform:scale({{scaleVal}},{{scaleVal}})">
+  <video width="{{attachment.newW}}" height="{{attachment.newH}}" autoplay loop preview-on-load>
+    <source src="{{trustSrc(attachment.viewUrl)}}" type="video/mp4">
+    Your browser does not support HTML5 video.
+  </video>
+  <div class="prev" style="background-image:url('{{attachment.preview}}');" ng-hide="attachment.loaded"></div>
 </div>
-
-<div id="preview-thumb" ng-if="attachment.preview && attachment.extension === 'gif'" ng-show="!loaded">
-  <div class="col-xs-6">
-    <div class="nst-loading nst-loading-size-16  _fr"></div>
-  </div>
-  <div class="col-xs-6 nst-marginbtm-4"><translate>Loading...</translate></div>
+<div class="loading white" ng-if="!attachment.loaded" >
+  <div class="animation"><div class="circle one"></div></div>
+  <div class="animation"><div class="circle two"></div></div>
+  <div class="animation"><div class="circle three"></div></div>
+  <div class="animation"><div class="circle four"></div></div>
+  <div class="animation"><div class="circle five"></div></div>
 </div>
-<img ng-if="attachment.preview  && attachment.extension === 'gif'" ng-src="{{attachment.preview}}" preview-on-load thumbnail-id="preview-thumb"/>

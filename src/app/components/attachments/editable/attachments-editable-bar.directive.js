@@ -141,12 +141,11 @@
 
         
     function checkImageRatio() {
-    
       for (var i = 0; i<scope.items.length; i++){
         var elem = document.createElement("img");
         elem.src = scope.items[i].thumbnail;
-        scope.items[i].width = elem.width;
-        scope.items[i].height = elem.height;
+        scope.items[i].width = elem.width ? elem.width : 80;
+        scope.items[i].height = elem.height ? elem.height : 80;
         var ratio = elem.width/elem.height;
         scope.items[i].widthResized = 96 * ratio
       }
