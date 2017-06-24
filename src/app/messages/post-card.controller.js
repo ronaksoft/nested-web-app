@@ -129,7 +129,6 @@
           });
           vm.isChecked = false;
           $scope.$emit('post-select',{postId: vm.post.id,isChecked : vm.isChecked});
-          reloadCounters();
         }).catch(function (error) {
           toastr.error(NstSvcTranslation.get("An error has occurred in trying to remove this message from the selected Place."));
         });
@@ -165,7 +164,6 @@
         vm.retractProgress = false;
         vm.isChecked = false;
         $scope.$emit('post-select',{postId: vm.post.id,isChecked : vm.isChecked});
-        reloadCounters();
       });
     }
 
@@ -302,7 +300,6 @@
         });
         vm.isChecked = false;
         $scope.$emit('post-select',{postId: vm.post.id,isChecked : vm.isChecked});
-        reloadCounters();
         NstUtility.collection.replaceById(vm.post.places, result.fromPlace.id, result.toPlace);
       });
     }
