@@ -146,8 +146,8 @@
         elem.src = scope.items[i].thumbnail;
         scope.items[i].width = elem.width ? elem.width : 80;
         scope.items[i].height = elem.height ? elem.height : 80;
-        var ratio = elem.width/elem.height;
-        scope.items[i].widthResized = 96 * ratio
+        var ratio = scope.items[i].width / scope.items[i].height;
+        scope.items[i].widthResized = 96 * ratio;
       }
       
     }
