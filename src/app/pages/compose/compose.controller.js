@@ -893,6 +893,7 @@
     vm.cmdPress = false;
     vm.cmdVPress = false;
     vm.froalaOpts = {
+      enter: $.FroalaEditor.ENTER_DIV,
       toolbarContainer: vm.quickMode ? '#editor-btn-quick' : '#editor-btn',
       charCounterCount: false,
       tabSpaces: 4,
@@ -940,7 +941,7 @@
           vm.cmdVPress = false;
         }
       }
-    }
+    };
 
     /*****************************
      *****    Fetch Methods   ****
