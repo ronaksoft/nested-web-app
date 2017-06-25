@@ -5,13 +5,22 @@
 </i>
 <ul ng-if="internalMode == 'thumbnail'" class="thumbnail-bar">
   <li ng-repeat="item in items">
-    <a href="javascript:void(0);" ng-click="onClick(item);$event.stopPropagation()">
-      <img
-        ng-if="item.uploadType != 'FILE' && (item.type === 'image' || item.type === 'gif' || item.type === 'video')"
-        class="attach-thumbnail-img" alt=""
+    <a href="javascript:void(0);" ng-click="onClick(item);$event.stopPropagation()" ng-if="item.type === 'image' || item.type === 'gif' || ( item.type === 'video' && item.uploadType !== 'FILE' )">
+      <img class="attach-thumbnail-img" alt=""
         style="background: url({{item.thumbnail}});background-size: cover; height: 96px;position: relative;top: 4px; width: {{ (item.width / item.height * 96) }}px"/>
-      <div ng-if="item.uploadType === 'FILE' && item.type !== 'image' && item.type !== 'gif' && item.type !== 'video'"
-           class="attach-thumbnail {{'attach-thumbnail-' + item.type}}">
+        <span class="playbtn" ng-if="item.type === 'gif'">
+          <svg class="_24svg">
+            <use xlink:href="/assets/icons/nst-icn24.svg#infinity"></use>
+          </svg>
+        </span>
+        <span class="playbtn" ng-if="item.type === 'video'">
+          <svg class="_24svg">
+            <use xlink:href="/assets/icons/nst-icn24.svg#play"></use>
+          </svg>
+        </span>
+    </a>
+    <a href="javascript:void(0);" ng-click="onClick(item);$event.stopPropagation()" ng-if="item.type !== 'image' && item.type !== 'gif' && item.uploadType === 'FILE'">
+      <div class="attach-thumbnail {{'attach-thumbnail-' + item.type}}">
         <div class="file-name"><p>{{item.filename}}</p></div>
         <div class="detail">
           <p>{{item.extension | uppercase}}</p>
@@ -46,6 +55,16 @@
     height: {{height}}px;
     width: {{width}}px" ng-src="{{items[0].picture.getUrl('preview')}}"/>
   </div>
+  <span class="playbtn _scl2" ng-if="items[0].type === 'video'">
+    <svg class="_24svg">
+      <use xlink:href="/assets/icons/nst-icn24.svg#play"></use>
+    </svg>
+  </span>
+  <span class="playbtn _scl2" ng-if="items[0].type === 'gif'">
+    <svg class="_24svg">
+      <use xlink:href="/assets/icons/nst-icn24.svg#infinity"></use>
+    </svg>
+  </span>
   <div class="download-img" ng-click="download(items[0])">
     <svg class="_16svg">
       <use xlink:href="/assets/icons/nst-icn16.svg#downloads"></use>
