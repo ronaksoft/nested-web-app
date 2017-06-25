@@ -49,18 +49,18 @@
 </ul>
 <div ng-if="internalMode == 'onlyimg'" class="only-img">
   <div class="_df _jcc" style="width: {{wrpWidth}}px; height: {{wrpHeight}}px; overflow: hidden"
-       ng-click="onClick(items[0]);$event.stopPropagation()">
+       ng-click="onClick(items[0]);">
     <img style="
     object-fit: cover;
     height: {{height}}px;
     width: {{width}}px" ng-src="{{items[0].picture.getUrl('preview')}}"/>
   </div>
-  <span class="playbtn _scl2" ng-if="items[0].type === 'video'">
+  <span class="playbtn _scl2" ng-if="items[0].type === 'video'" ng-click="onClick(items[0]);">
     <svg class="_24svg">
       <use xlink:href="/assets/icons/nst-icn24.svg#play"></use>
     </svg>
   </span>
-  <span class="playbtn _scl2" ng-if="items[0].type === 'gif'">
+  <span class="playbtn _scl2" ng-if="items[0].type === 'gif'" ng-click="onClick(items[0]);">
     <svg class="_24svg">
       <use xlink:href="/assets/icons/nst-icn24.svg#infinity"></use>
     </svg>
@@ -83,7 +83,7 @@
     </svg>
   </a>
 
-  <span class="playbtn _scl2" style="left: {{scaleOne / 2}}%;right:auto;" ng-click="onClick(items[0])">
+  <span class="playbtn _scl2" ng-if="items[0].type === 'video' || items[0].type === 'gif'" style="left: {{scaleOne / 2}}%;right:auto;" ng-click="onClick(items[0])">
     <svg class="_24svg" ng-if="items[0].type === 'video'">
       <use xlink:href="/assets/icons/nst-icn24.svg#play"></use>
     </svg>
@@ -103,7 +103,7 @@
     </svg>
   </a>
 
-  <span class="playbtn _scl2 oddCase" style="right: {{scaleTwo / 2}}%;left:auto;" ng-click="onClick(items[1])">
+  <span class="playbtn _scl2 oddCase" ng-if="items[0].type === 'video' || items[0].type === 'gif'" style="right: {{scaleTwo / 2}}%;left:auto;" ng-click="onClick(items[1])">
     <svg class="_24svg" ng-if="items[1].type === 'video'">
       <use xlink:href="/assets/icons/nst-icn24.svg#play"></use>
     </svg>
