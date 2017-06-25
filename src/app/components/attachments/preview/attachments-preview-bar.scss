@@ -115,6 +115,11 @@ nst-attachments-preview-bar {
           right: 24px;
         }
       }
+      &:hover {
+        .playbtn {
+          background-color: black;
+        }
+      }
     }
     .uploadprogress {
       height: 4px;
@@ -292,8 +297,13 @@ nst-attachments-preview-bar {
     .download-img {
       opacity: 0
     }
-    &:hover .download-img{
-      opacity: 1
+    &:hover {
+      .download-img{
+        opacity: 1
+      }
+      .playbtn {
+        background-color: black;
+      }
     }
   }
 }
@@ -393,4 +403,24 @@ nst-attachments-preview-bar {
 }
 .attach-thumbnail-video {
   background: url('../assets/icons/bg_attachment_other.svg') no-repeat;
+}
+.playbtn {
+  position: absolute;
+  left: 50%;
+  width: 32px;
+  height: 32px;
+  top: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: translate(-50%,-50%);
+  background-color: $color-hurricane;
+  border-radius: 50%;
+  margin-left: -6px;
+  svg {
+    fill: $color-white;
+  }
+  &.oddCase {
+    transform: translate(50%,-50%);
+  }
 }

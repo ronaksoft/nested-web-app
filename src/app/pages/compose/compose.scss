@@ -421,6 +421,7 @@ body.isMobile {
 .editor-btn-wrp {
   opacity: 0;
   visibility: hidden;
+  margin-bottom: 8px;
   &.showBar {
     opacity: 1;
     visibility: visible

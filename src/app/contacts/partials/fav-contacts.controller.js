@@ -9,7 +9,7 @@
   function FavoriteContacts(_, $state, $rootScope, $scope,
     NstSvcContactFactory, NstUtility) {
     var vm = this,
-        MAX_ITEMS_COUNT = 8,
+        MAX_ITEMS_COUNT = 30,
         eventReferences = [];
 
     vm.openContact = openContact;

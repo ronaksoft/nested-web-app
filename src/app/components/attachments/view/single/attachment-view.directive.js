@@ -1,4 +1,4 @@
-(function () {
+(function() {
   'use strict';
 
   angular
@@ -49,7 +49,6 @@
         });
 
         scope.$watch('attachment', function (n,o) {
-          console.log(n,o)
           setTimeout(function () {
             update(scope);
           }, 0);
