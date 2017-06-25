@@ -6,7 +6,7 @@
     .factory('NstStoreToken', NstStoreToken);
 
   /** @ngInject */
-  function NstStoreToken(_, NstSvcDate) {
+  function NstStoreToken(_, NstSvcDate, NstSvcServer) {
     /**
      * Creates an instance of NstStoreToken
      *
@@ -17,6 +17,7 @@
      */
     function Token(string) {
       this.string = string;
+      this.sk = NstSvcServer.getSessionKey();
       var expireTimeValue = getExpireTimeValue(string);
       this.expiration = _.isNumber(expireTimeValue) ? expireTimeValue : getTomorrowTimeValue();
     }
@@ -25,7 +26,7 @@
     Token.prototype.constructor = Token;
 
     Token.prototype.isExpired = function () {
-      return NstSvcDate.now() >= this.expiration;
+      return this.sk !== NstSvcServer.getSessionKey() || NstSvcDate.now() >= this.expiration;
     };
 
     Token.prototype.toString = function () {
