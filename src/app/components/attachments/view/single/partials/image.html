@@ -1,7 +1,7 @@
-<div class="attachment-image-show ng-class:{'loaded' : attachment.loaded}"
+<div class="attachment-image-show loaded"
      style="width:{{attachment.newW + 'px'}};height:{{attachment.newH + 'px'}};transform:scale({{scaleVal}},{{scaleVal}})">
   <div style="background-image:url('{{attachment.thumbnail}}');"></div>
-  <img ng-src="{{attachment.viewUrl}}" class="prev" preview-on-load/>
+  <img ng-src="{{attachment.preview}}" class="prev" preview-on-load/>
 </div>
 <div class="loading white" ng-if="!attachment.loaded">
   <div class="animation">

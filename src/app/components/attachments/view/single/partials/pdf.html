@@ -1,4 +1,4 @@
-<div class="attachment-doc-show" ng-hide="attachment.show" ng-show="!previewSetting.pdf">
+<div class="attachment-doc-show" ng-hide="attachment.show" ng-show="!previewSetting.pdf && !fetchPreviewSetting">
   <div class="thumb">
     <div class="attach-thumbnail {{'attach-thumbnail-' + attachment.type}}">
       <div class="file-name"> <p>{{attachment.name}}</p></div>
@@ -18,7 +18,7 @@
   ng-src="{{attachment.viewUrl}}" frameborder='0'>This is an embedded <a target='_blank'  href='https://office.com'>Microsoft
   Office</a> document, powered by <a target='_blank' href='https://office.com/webapps'>Office Online</a>.
 </iframe>
-<div class="loading" ng-hide="attachment.show" ng-if="previewSetting.pdf">
+<div class="loading" ng-hide="attachment.show" ng-if="previewSetting.pdf && !fetchPreviewSetting">
   <div class="animation"><div class="circle one"></div></div>
   <div class="animation"><div class="circle two"></div></div>
   <div class="animation"><div class="circle three"></div></div>
