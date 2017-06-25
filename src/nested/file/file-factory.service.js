@@ -1,14 +1,22 @@
-(function() {
+(function () {
   'use strict';
+
+  /**
+   * @function NstSvcFileFactory
+   * @memberOf ronak.nested.web.file
+   * @description This service (factory) used for get files and manage download tokens.
+   */
   angular
     .module('ronak.nested.web.file')
     .service('NstSvcFileFactory', NstSvcFileFactory);
 
   /** @ngInject */
   function NstSvcFileFactory($q, _,
-    NstSvcAuth, NstSvcServer, NstSvcFileType, NstSvcDownloadTokenStorage, NstSvcFileStorage,
-    NstBaseFactory, NstPicture, NstAttachment, NstFactoryError, NstFactoryQuery, NstStoreToken) {
-
+                             NstSvcServer, NstSvcFileType, NstSvcDownloadTokenStorage, NstSvcFileStorage,
+                             NstBaseFactory, NstPicture, NstAttachment, NstFactoryError, NstFactoryQuery, NstStoreToken) {
+    /**
+     * @constructor
+     */
     function FileFactory() {
       NstBaseFactory.call(this);
     }
@@ -16,17 +24,21 @@
     FileFactory.prototype = new NstBaseFactory();
     FileFactory.prototype.constructor = FileFactory;
 
-    FileFactory.prototype.get = get;
-    FileFactory.prototype.parseFile = parseFile;
-    FileFactory.prototype.getOne = getOne;
-    FileFactory.prototype.getDownloadToken = getDownloadToken;
 
-    var factory = new FileFactory();
-
-    return factory;
-
-    function get(placeId, filter, keyword, skip, limit) {
-      return factory.sentinel.watch(function() {
+    /**
+     * Get files list.
+     * @public
+     *
+     * @param placeId
+     * @param filter
+     * @param keyword
+     * @param skip
+     * @param limit
+     * @returns {*|promise} Array of NstAttachment objects
+     */
+    FileFactory.prototype.get = function (placeId, filter, keyword, skip, limit) {
+      var that = this;
+      return factory.sentinel.watch(function () {
         var deferred = $q.defer();
 
         NstSvcServer.request('place/get_files', {
@@ -35,14 +47,14 @@
           filename: keyword || '',
           skip: skip || 0,
           limit: limit || 16
-        }).then(function(data) {
+        }).then(function (data) {
           var files = _.map(data.files, function (item) {
-            var file = parseFile(item);
+            var file = that.parseFile(item);
             NstSvcFileStorage.set(file.id, file);
             return file;
           });
           deferred.resolve(files);
-        }).catch(function(error) {
+        }).catch(function (error) {
           deferred.reject(error);
         });
 
@@ -50,7 +62,16 @@
       }, 'get', placeId);
     }
 
-    function parseFile(data) {
+
+    /**
+     * Parse server file object
+     * @public
+     *
+     * @param data
+     *
+     * @returns {NstAttachment}
+     */
+    FileFactory.prototype.parseFile = function (data) {
       var file = new NstAttachment();
       file.id = data._id;
       file.filename = data.filename;
@@ -66,26 +87,50 @@
       if (data.thumbs && data.thumbs.pre) {
         file.picture = new NstPicture(data.thumbs);
         file.thumbnail = file.hasThumbnail("") ? file.picture.getUrl("x128") : '';
-        console.log('file', file, data);
       }
 
 
       return file;
     }
 
-    function getOne(id) {
+
+    /**
+     * Get single file by Id
+     *
+     * @description return file from file storage
+     *
+     * @param id
+     */
+    FileFactory.prototype.getOne = function (id) {
       return NstSvcFileStorage.get(id);
     }
 
+
+    /**
+     * create an token object
+     * @private
+     *
+     * @param {string} rawToken
+     * @returns {NstStoreToken}
+     */
     function createToken(rawToken) {
       return new NstStoreToken(rawToken);
     }
 
-    function getDownloadToken(attachmentId, placeId, postId) {
+
+    /**
+     * Get download token from server for file(attachment)
+     * @description try to get download token from server and store in NstTokenStorage
+     *
+     * @param attachmentId
+     * @param placeId
+     * @param postId
+     * @returns {promise}
+     */
+    FileFactory.prototype.getDownloadToken = function (attachmentId, placeId, postId) {
       var deferred = $q.defer();
       var tokenKey = generateTokenKey(attachmentId);
       var token = NstSvcDownloadTokenStorage.get(tokenKey);
-      console.log('token', token);
       if (token && !token.isExpired()) {
         deferred.resolve(token);
       } else {
@@ -99,6 +144,15 @@
       return deferred.promise;
     }
 
+    /**
+     * Make server request to get download token
+     * @private
+     *
+     * @param attachmentId
+     * @param placeId
+     * @param postId
+     * @returns {promise}
+     */
     function requestNewDownloadToken(attachmentId, placeId, postId) {
       var defer = $q.defer();
 
@@ -114,9 +168,9 @@
         requestData.post_id = postId;
       }
 
-      NstSvcServer.request('file/get_download_token', requestData).then(function(data) {
+      NstSvcServer.request('file/get_download_token', requestData).then(function (data) {
         defer.resolve(createToken(data.token));
-      }).catch(function(error) {
+      }).catch(function (error) {
         var query = new NstFactoryQuery(attachmentId);
         var factoryError = new NstFactoryError(query, error.message, error.code);
 
@@ -126,8 +180,18 @@
       return defer.promise;
     }
 
+    /**
+     * generate an string to identify token object
+     * @private
+     *
+     * @param universalId
+     * @returns {*}
+     */
     function generateTokenKey(universalId) {
       return universalId;
     }
+
+    var factory = new FileFactory();
+    return factory;
   }
 })();
