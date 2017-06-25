@@ -20,6 +20,7 @@
     vm.updateDateOfBirth = updateDateOfBirth;
     vm.updateEmail = updateEmail;
     vm.getGender = getGender;
+    vm.changePhone = changePhone;
     vm.emailPattern = NST_PATTERN.EMAIL;
 
 
@@ -131,6 +132,19 @@
       var selected = _.find(vm.genders, {key: vm.model.gender});
 
       return selected ? selected.title : vm.genders[0].title;
+    }
+
+    function changePhone() {
+      $uibModal.open({
+        animation: false,
+        size: 'sm',
+        templateUrl: 'app/settings/profile/modals/change-phone/profile-change-phone.html',
+        controller: 'ChangePhoneController',
+        bindToController: true,
+        controllerAs: 'ctrl'
+      }).result.then(function (phoneNumber) {
+        vm.model.phone = phoneNumber;
+      });
     }
 
     /*****************************
