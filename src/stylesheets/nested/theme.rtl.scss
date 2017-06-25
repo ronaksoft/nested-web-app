@@ -412,24 +412,27 @@ body[dir="rtl"] {
   .text-right {
     text-align: left;
   }
+  .post-card .post-head .select-card label {
+    
+  }
   input[type="checkbox"]:checked + label.setting,
   input[type="checkbox"]:checked + label.setting {
-    background-position: 0 -16px;
+    background-position-x: 0;
     padding: 0 0 0 17px!important;
   }
   input[type="checkbox"] + label.setting,
   input[type="checkbox"] + label.setting {
-    background-position: 0 0;
+    background-position-x: 0;
     padding: 0 0 0 17px!important;
   }
   #panel-signin input[type="checkbox"]:checked + label,
   #panel-register input[type="checkbox"]:checked + label {
-    background-position: 100% -16px;
+    // background-position: 100% -16px;
     padding: 0 17px 0 0;
   }
   #panel-signin input[type="checkbox"] + label,
   #panel-register input[type="checkbox"] + label {
-    background-position: 100% 0;
+    // background-position: 100% 0;
     padding: 0 17px 0 0;
   }
   .register-name-cell-left {
