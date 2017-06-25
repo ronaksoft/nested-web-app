@@ -16,7 +16,8 @@
           user: '=userDetail'
         },
         link: function ($scope, $element, $attrs) {
-          $scope.isEmail = NST_PATTERN.EMAIL.test($scope.user.id);
+          $scope.user = $scope.user ? $scope.user : {};
+          $scope.isEmail = NST_PATTERN.EMAIL.test( $scope.user.id);
           $scope.isAvailable = NstSvcAuth.user.id !== $scope.user.id ;
 
           $scope.openOver = function () {

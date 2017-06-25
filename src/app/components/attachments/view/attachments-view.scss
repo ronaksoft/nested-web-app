@@ -267,6 +267,8 @@ span.filename {
     max-height: 100%;
     object-fit: cover;
     transition: opacity .2s;
+    // Transparent Bg image :
+    background-color: $color-white;
   }
   img.prev {
     opacity: 0;

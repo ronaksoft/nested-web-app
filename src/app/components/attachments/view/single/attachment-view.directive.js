@@ -51,9 +51,9 @@
         scope.$watch(function () {
           return scope.attachment.viewUrl
         }, function (n) {
-          setTimeout(function () {
+          // setTimeout(function () {
             update(scope);
-          }, 0);
+          // }, 0);
         });
 
         scope.videoConfig = function () {
@@ -169,10 +169,10 @@
 
       scope.tplUrl = 'app/components/attachments/view/single/partials/default.html';
 
-      if (scope.attachment.uploadType === 'FILE' && scope.attachment.type !== NST_FILE_TYPE.AUDIO){
+      if (scope.attachment.uploadType === 'FILE' && scope.attachment.type !== NST_FILE_TYPE.AUDIO && scope.attachment.type !== NST_FILE_TYPE.IMAGE){
         scope.tplUrl = 'app/components/attachments/view/single/partials/default.html';
 
-      }else {
+      } else {
         switch (type) {
           case NST_FILE_TYPE.IMAGE:
             scope.sizeDetect(scope.attachment.width, scope.attachment.height);

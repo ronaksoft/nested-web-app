@@ -38,10 +38,9 @@
         if (scope.internalMode === NST_ATTACHMENTS_PREVIEW_BAR_MODE.AUTO) {
           scope.internalMode = scope.badge ? NST_ATTACHMENTS_PREVIEW_BAR_MODE.BADGE : NST_ATTACHMENTS_PREVIEW_BAR_MODE.THUMBNAIL;
         }
-
-        if (!scope.badge  && scope.items.length == 1 &&
-          (scope.items[0].type === NST_FILE_TYPE.IMAGE || scope.items[0].type === NST_FILE_TYPE.GIF) &&
-          scope.items[0].hasPreview) {
+        if (!scope.badge  && scope.items.length === 1 &&
+          (scope.items[0].type === NST_FILE_TYPE.IMAGE || scope.items[0].type === NST_FILE_TYPE.GIF ||
+          scope.items[0].uploadType === 'VIDEO' ) && scope.items[0].hasPreview()) {
           scope.internalMode = NST_ATTACHMENTS_PREVIEW_BAR_MODE.THUMBNAIL_ONLY_IMAGE;
 
           var wrpWidth = ele.parent().parent().width();
@@ -76,11 +75,12 @@
         }
 
 
-        if (!scope.badge && scope.items.length == 2 &&
-          (scope.items[0].type === NST_FILE_TYPE.IMAGE || scope.items[0].type === NST_FILE_TYPE.GIF) &&
-          (scope.items[1].type === NST_FILE_TYPE.IMAGE || scope.items[1].type === NST_FILE_TYPE.GIF) &&
-          scope.items[0].hasPreview &&
-          scope.items[1].hasPreview) {
+        if (!scope.badge && scope.items.length === 2 &&
+          (scope.items[0].type === NST_FILE_TYPE.IMAGE || scope.items[0].type === NST_FILE_TYPE.GIF ||
+          (scope.items[0].type === NST_FILE_TYPE.VIDEO && scope.items[0].uploadType === 'VIDEO') ) &&
+          (scope.items[1].type === NST_FILE_TYPE.IMAGE || scope.items[1].type === NST_FILE_TYPE.GIF ||
+          (scope.items[0].type === NST_FILE_TYPE.VIDEO && scope.items[0].uploadType === 'VIDEO') ) &&
+          scope.items[0].hasPreview && scope.items[1].hasPreview ) {
           scope.internalMode = NST_ATTACHMENTS_PREVIEW_BAR_MODE.THUMBNAIL_TWO_IMAGE;
           scope.deform = false;
 
