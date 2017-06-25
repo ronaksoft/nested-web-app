@@ -1,11 +1,20 @@
-<div class="attachment-doc-show">
-  <div class="thumb">
-    <div class="attach-thumbnail {{'attach-thumbnail-' + attachment.type}}">
-      <div class="file-name"> <p>{{attachment.name}}</p></div>
-      <div class="detail">
-        <p>{{attachment.extension | uppercase}}</p>
-      </div>
-    </div>
-  </div>
-  <p class="no-preview _tac"><translate>Sorry, preview is not available 😔</translate></p>
+<div ng-if="attachment.viewUrl && mediaToggle.sources[0].src" class="attachment-aud-show">
+<!--
+  <video ng-if="attachment.viewUrl" id="my-video" class="video-js" controls preload="auto" width="{{attachment.width}}" height="{{attachment.height}}"
+  poster="MY_VIDEO_POSTER.jpg" data-setup="{}">
+    <source ng-src="{{trustSrc(attachment.viewUrl)}}" type='video/mp4' vjs-video>
+    <p class="vjs-no-js">
+      To view this video please enable JavaScript, and consider upgrading to a web browser that
+      <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+    </p>
+  </video>-->
+  <audio class="video-js vjs-default-skin" controls preload="auto" vjs-video vjs-media="mediaToggle" vjs-setup="options">
+  </audio>
+</div>
+<div class="loading white"  ng-if="!mediaToggle.sources[0].src">
+  <div class="animation"><div class="circle one"></div></div>
+  <div class="animation"><div class="circle two"></div></div>
+  <div class="animation"><div class="circle three"></div></div>
+  <div class="animation"><div class="circle four"></div></div>
+  <div class="animation"><div class="circle five"></div></div>
 </div>

@@ -16,11 +16,12 @@
       link: function (scope) {
         scope.scaleVal = 1;
 
-        scope.$watch('attachment', function () {
-          if (scope.attachment && scope.attachment.type) {
-            update(scope);
-          }
-        });
+        // scope.$watch('attachment.viewUrl', function () {
+        //   console.log(scope.attachment.viewUrl);
+        //   if (scope.attachment && scope.attachment.type) {
+        //     update(scope);
+        //   }
+        // });
 
 
         scope.$watch('sideBarOpen', function () {
@@ -49,7 +50,7 @@
 
         scope.$watch(function () {
           return scope.attachment.viewUrl
-        }, function () {
+        }, function (n) {
           setTimeout(function () {
             update(scope);
           }, 0);
@@ -68,6 +69,28 @@
           scope.options = {
             width: scope.attachment.newW,
             height: scope.attachment.newH,
+            controlBar: {
+              volumeMenuButton: {
+                inline: false,
+                vertical: true
+              }
+            }
+          };
+        };
+
+        scope.audioConfig = function () {
+          scope.mediaToggle = {
+            sources: [
+              {
+                src: scope.attachment.viewUrl,
+                type: 'audio/mp3'
+              }
+            ],
+            poster: scope.attachment.thumbnail
+          };
+          scope.options = {
+            width: 800,
+            height: scope.attachment.thumbnail ? 800 : 200,
             controlBar: {
               volumeMenuButton: {
                 inline: false,
@@ -146,11 +169,10 @@
 
       scope.tplUrl = 'app/components/attachments/view/single/partials/default.html';
 
-      if (scope.attachment.uploadType === 'FILE'){
+      if (scope.attachment.uploadType === 'FILE' && scope.attachment.type !== NST_FILE_TYPE.AUDIO){
         scope.tplUrl = 'app/components/attachments/view/single/partials/default.html';
 
       }else {
-
         switch (type) {
           case NST_FILE_TYPE.IMAGE:
             scope.sizeDetect(scope.attachment.width, scope.attachment.height);
@@ -169,6 +191,7 @@
             break;
 
           case NST_FILE_TYPE.AUDIO:
+            scope.audioConfig();
             scope.tplUrl = 'app/components/attachments/view/single/partials/audio.html';
             break;
 

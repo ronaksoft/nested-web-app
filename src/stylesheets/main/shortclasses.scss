@@ -2,6 +2,7 @@
 ._fr {float: right;}
 ._cf {clear: both;}
 ._fw { width: 100%; }
+._fwi { width: 100%!important; }
 ._fh { height: 100%; }
 ._fhv { height: 100vh; }
 ._fmh { min-height: 100%; }
@@ -186,6 +187,7 @@ hr.nomargin {
 }
 .nst-font-medium {
   font-size: $font-size-medium;
+  line-height: 24px
 }
 
 .nst-font-large {

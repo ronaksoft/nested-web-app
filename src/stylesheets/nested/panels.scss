@@ -115,9 +115,6 @@
   p.nst-font-xlarge {
     white-space: nowrap;
   }
-  p {
-    line-height: 24px;
-  }
   label {
     font-size: 13px;
     white-space: nowrap;
@@ -126,6 +123,9 @@
     span {
       font-weight: bold;
     }
+  }
+  p {
+    line-height: 24px;
   }
   ul {
     list-style: none;
@@ -158,3 +158,12 @@ form[name="phoneVerifyForm"] {
     display: inline-block;
   }
 }
+label.typical-label {
+    font-size: 13px;
+    white-space: nowrap;
+    color: $color-gale;
+    margin: 0;
+    span {
+      font-weight: bold;
+    }
+  }

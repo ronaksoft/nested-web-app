@@ -4,7 +4,7 @@ body[dir="rtl"] {
     right: 0;
     .sidebar-wrapper .detailed.isSelected:after {
       right: auto;
-      left: -8px;
+      left: -10px;
       transform: translateY(-50%) rotateZ(180deg);
     }
     .sidebar-plus-wrapper {
@@ -54,6 +54,15 @@ body[dir="rtl"] {
   .nst-container {
     margin-left: 0!important;
     margin-right: $sidebar-width;
+  }
+  .disconnect-message {
+    right: auto;
+    left: 0;
+  }
+  nst-attachments-editable-bar ul.thumbnail-bar .uploadprogress, nst-attachments-preview-bar ul.thumbnail-bar .uploadprogress {
+    right: 12px;
+    left: 28px;
+    transform: rotateZ(180deg);
   }
   .tick {
     margin-right: 0;

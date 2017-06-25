@@ -13,7 +13,7 @@
       <!--<translate>That's not me!</translate>-->
     <!--</a>-->
   <!--</div>-->
-  <label for="verification_code">
+  <label class="typical-label" for="verification_code">
     <translate>6-digit verification code</translate>
   </label>
   <p class="nst-mood-lively" data-ng-if="ctrl.verificationWrongCode">
@@ -30,7 +30,7 @@
   </div>
 
   <div class="text-center">
-    <input type="submit" value="Verifing..." ng-if="ctrl.verificationProgress" ng-disabled="phoneVerifyForm.verification_code.$invalid" class="butn-green butn-lg butn-login nstbtn" translate-attrs="value">
-    <input type="submit" value="Verify" ng-if="!ctrl.verificationProgress" ng-disabled="phoneVerifyForm.verification_code.$invalid" class="butn-green butn-lg butn-login nstbtn" translate-attrs="value">
+    <input type="submit" value="Verifing..." ng-if="ctrl.verificationProgress" ng-disabled="phoneVerifyForm.verification_code.$invalid" class="butn-green butn-lg butn-login nstbtn _fwi" translate-attrs="value">
+    <input type="submit" value="Verify" ng-if="!ctrl.verificationProgress" ng-disabled="phoneVerifyForm.verification_code.$invalid" class="butn-green butn-lg butn-login nstbtn _fwi" translate-attrs="value">
   </div>
 </form>

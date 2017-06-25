@@ -128,6 +128,7 @@
             placeId: place.id
           });
           vm.isChecked = false;
+          $scope.$emit('post-select',{postId: vm.post.id,isChecked : vm.isChecked});
         }).catch(function (error) {
           toastr.error(NstSvcTranslation.get("An error has occurred in trying to remove this message from the selected Place."));
         });
@@ -162,6 +163,7 @@
       NstSvcPostInteraction.retract(vm.post).finally(function () {
         vm.retractProgress = false;
         vm.isChecked = false;
+        $scope.$emit('post-select',{postId: vm.post.id,isChecked : vm.isChecked});
       });
     }
 
@@ -297,6 +299,7 @@
           fromPlace: result.fromPlace
         });
         vm.isChecked = false;
+        $scope.$emit('post-select',{postId: vm.post.id,isChecked : vm.isChecked});
         NstUtility.collection.replaceById(vm.post.places, result.fromPlace.id, result.toPlace);
       });
     }
@@ -488,8 +491,9 @@
     }
 
     function isPlaceFeed() {
-      if ($state.current.name == 'app.place-messages' ||
-        $state.current.name == 'app.place-messages-sorted') {
+      if ($state.current.name === 'app.messages-favorites' ||
+          $state.current.name === 'app.messages-sorted' ||
+          $state.current.name === 'app.messages-favorites-sorted') {
         return vm.isPlaceFilter = true;
       }
       return vm.isPlaceFilter = false;
