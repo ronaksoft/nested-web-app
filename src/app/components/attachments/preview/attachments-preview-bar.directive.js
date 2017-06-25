@@ -40,8 +40,7 @@
         }
         if (!scope.badge  && scope.items.length === 1 &&
           (scope.items[0].type === NST_FILE_TYPE.IMAGE || scope.items[0].type === NST_FILE_TYPE.GIF ||
-          (scope.items[0].type === NST_FILE_TYPE.VIDEO && scope.items[0].uploadType === 'VIDEO') ) &&
-          scope.items[0].hasPreview()) {
+          scope.items[0].uploadType === 'VIDEO' ) && scope.items[0].hasPreview()) {
           scope.internalMode = NST_ATTACHMENTS_PREVIEW_BAR_MODE.THUMBNAIL_ONLY_IMAGE;
 
           var wrpWidth = ele.parent().parent().width();

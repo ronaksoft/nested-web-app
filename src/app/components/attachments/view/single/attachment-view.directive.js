@@ -51,9 +51,9 @@
         scope.$watch(function () {
           return scope.attachment.viewUrl
         }, function (n) {
-          setTimeout(function () {
+          // setTimeout(function () {
             update(scope);
-          }, 0);
+          // }, 0);
         });
 
         scope.videoConfig = function () {
