@@ -218,7 +218,7 @@
 }
 
 .fav-contacts {
-  max-height: 280px;
+  max-height: calc(100vh - 300px);
   li {
     display: flex
   }
