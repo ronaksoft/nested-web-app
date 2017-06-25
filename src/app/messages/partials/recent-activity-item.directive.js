@@ -18,7 +18,6 @@
         currentPlaceId: '='
       },
       link: function(scope) {
-        console.log(scope.place,scope.activity)
         // scope.activity.parseData = '';
         // if ( scope.activity.post ) {
         //   if ( scope.activity.post.subject.length > 0 ) {
