@@ -39,12 +39,18 @@
         top: 50%;
         width: 64px;
         height: 64px;
+        border-radius: 32px;
         margin: -32px 0 0 -32px;
         background-color: $color-hurricane;
         border: none;
         &::before {
             line-height: 64px;
             font-size: 48px;
+        }
+    }
+    &:hover {
+        .vjs-big-play-button {
+            background: black;
         }
     }
 }
