@@ -33,7 +33,7 @@
                 st = el.scrollTop,
                 ih = 48;
             // Toggle Buttons
-            if ( ch >= sh ) {
+            if ( ch > sh - 8 ) {
                 scope.ctlSidebar.overFlowBottom = false;
                 scope.ctlSidebar.overFlowTop = false;
             } else if ( st <= 28 ) {
