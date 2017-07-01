@@ -112,8 +112,9 @@
         </svg>
       </div>
       <div class="quick-btns">
-        <input type="button" ng-click="ctlCompose.clear()" class="butn-white" value="Discard" ng-if="ctlCompose.quickMode" translate-attrs="value">
-        <input type="button" ng-click="ctlCompose.send()" class="butn-green" value="Share" translate-attrs="value">
+        <input type="button" ng-click="ctlCompose.clear()" class="butn-white" ng-if="ctlCompose.pending" value="Discard" ng-if="ctlCompose.quickMode" translate-attrs="value">
+        <input type="button" ng-click="ctlCompose.send()" class="butn-green" ng-if="!ctlCompose.pending" value="Share" translate-attrs="value">
+        <input type="button" class="butn-green" ng-if="ctlCompose.pending" disabled value="Sending..." translate-attrs="value">
       </div>
 
     </div>
