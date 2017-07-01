@@ -451,6 +451,7 @@ body[dir="rtl"] {
   #panel-register input[type="checkbox"] + label {
     // background-position: 100% 0;
     padding: 0 17px 0 0;
+    background-position-x: right;
   }
   .register-name-cell-left {
     padding-right: 0;
