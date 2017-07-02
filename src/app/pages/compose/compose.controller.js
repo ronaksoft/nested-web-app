@@ -27,7 +27,7 @@
     vm.makeChangeForWatchers = 0;
     vm.clear = clear;
     vm.scroll = scroll;
-    vm.searchRecipients = searchRecipients;
+    vm.searchRecipients = _.debounce(searchRecipients, 400);
     vm.emojiTarget = 'title';
     vm.haveComment = true;
     vm.focusBody = false;
@@ -292,24 +292,14 @@
     };
 
     vm.search.fn = function (query) {
-      // vm.search.results = [];
-      vm.query = query;
-      _.debounce(vm.searchRecipients,400);
+      vm.search.results = [];
+      addItemToSearch(query);
+      vm.searchRecipients(query);
     };
 
-    function searchRecipients() {
-      var query = vm.query;
-
+    function searchRecipients(query) {
       NstSvcLogger.debug4('Compose | Search recipients with query : ', query);
 
-      var initPlace = new NstVmSelectTag({
-        id: query,
-        name: query
-      });
-
-      if (initPlace.isValid) {
-        vm.search.results.push(initPlace);
-      }
 
 
       return NstSvcPlaceFactory.searchForCompose(query).then(function (results) {
@@ -326,27 +316,35 @@
           vm.search.results.push(initRecipient);
         });
 
-        var initPlace = new NstVmSelectTag({
-          id: query,
-          name: query
-        });
+        addItemToSearch(query);
 
-        if (initPlace.isValid) {
-          vm.search.results.push(initPlace);
-        }
+
 
       }).catch(function () {
         NstSvcLogger.debug4('Compose | not recipients found');
-        vm.search.results = [];
-        var initPlace = new NstVmSelectTag({
-          id: query,
-          name: query
-        });
-
-        if (initPlace.id)
-          vm.search.results.push(initPlace);
       });
 
+
+    }
+
+    function addItemToSearch(query) {
+      if (!query) return;
+
+      var initPlace = new NstVmSelectTag({
+        id: query,
+        name: query
+      });
+
+      var hasInSearch = vm.search.results.filter(function (item) {
+        return item.id === initPlace.id;
+      });
+
+      var hasInRecipients = vm.model.recipients.filter(function (item) {
+        return item.id === initPlace.id;
+      });
+
+      if (hasInSearch.length === 0 && hasInRecipients.length === 0)
+        vm.search.results.unshift(initPlace);
 
     }
 
