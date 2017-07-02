@@ -6,8 +6,14 @@
        data-ng-init="actor = act.actor"></div>
 </div>
 <div class="actcon">
-  <div class="msg" nst-post-modal post="act.post">
-    <i>POST ATTACH PLACE</i>
+  <div class="msg" nst-post-modal post="act.post" auto-dir="act.post.subject" ng-if="act.post.subject.length > 0">
+    <translate>attach a post:</translate><mark data-ng-bind-html="act.post.subject"></mark> 
+  </div>
+  <div class="msg" nst-post-modal post="act.post" auto-dir="act.post.body" ng-if="act.post.subject.length == 0 && act.post.body.length > 0">
+    <translate>attach a post:</translate><mark data-ng-bind-html="act.post.body | truncate | removeHTMLTags"></mark>
+  </div>
+  <div class="msg" nst-post-modal post="act.post" auto-dir="act.post.body" ng-if="act.post.subject.length == 0 && act.post.body == 0">
+    <translate>attach a post with {{act.post.counters.attaches > 1 ? act.post.counters.attaches : 'one'}} {{act.post.counters.attaches > 1 ? 'attachments' : 'attachment'}}.</translate>
   </div>
   <div class="time no-animation" data-ng-include="'app/activity/partials/activity-common-date.html'"></div>
 </div>

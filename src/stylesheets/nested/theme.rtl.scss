@@ -1,4 +1,21 @@
 body[dir="rtl"] {
+  .attachs-bar {
+    right: auto;
+    left: 0;
+    transform: translateX(-100%);
+  }
+  &.attachs-bar-active {
+    .control-bar {
+      right: 0;
+      left: 240px;
+    }
+    .attachs-bar {
+      transform: translateX(0);
+    }
+    .nst-preview-pic-mode {
+      transform: translate3d(120px, 0, 0)
+    }
+  }
   .sidebar {
     left: auto;
     right: 0;
@@ -434,6 +451,7 @@ body[dir="rtl"] {
   #panel-register input[type="checkbox"] + label {
     // background-position: 100% 0;
     padding: 0 17px 0 0;
+    background-position-x: right;
   }
   .register-name-cell-left {
     padding-right: 0;

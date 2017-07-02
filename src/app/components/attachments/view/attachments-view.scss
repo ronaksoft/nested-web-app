@@ -12,7 +12,10 @@
 .filedetails {
   width: 100%;
   padding: 0 36px;
-  // max-width: calc(100% - 300px);
+  max-width: calc(100% - 188px);
+  &.multi {
+    max-width: calc(100% - 288px);
+  }
 }
 .attachments-list {
   position: absolute;
@@ -196,7 +199,7 @@ span.filename {
   background-color: black;
   box-shadow: 0 16px 32px $color-attachment-shadow;
   color: $color-hurri-white;
-  transition: right $animation-dur ease-in;
+  transition: right $animation-dur ease-in,left $animation-dur ease-in;
   svg {
     fill: rgba(255,255,255,.72);
   }

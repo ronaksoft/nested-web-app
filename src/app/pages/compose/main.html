@@ -35,8 +35,9 @@
             <div class="place-initials-32">
               <img ng-src="{{::place.picture}}"/>
             </div>
-            <span class="_fw _df" data-ng-bind-html="place.name | highlight: $select.search"></span>
-            <span class="nst-font-10 _vat _df" data-ng-bind-html="place.id | highlight: $select.search"></span>
+            <span class="_fn _df" auto-dir="place.name" data-ng-bind-html="place.name | highlight: $select.search"></span>
+            <span class="_fw _df" ></span>
+            <span class="nst-font-10 _vat _df" dir="ltr" data-ng-bind-html="place.id | highlight: $select.search"></span>
           </ui-select-choices>
         </ui-select>
       </div>
