@@ -5,7 +5,7 @@
     .module('ronak.nested.web.message')
     .controller('PostCardController', PostCardController)
 
-  function PostCardController($state, $log, $timeout, $rootScope, $scope, $filter, $window, $sce, $uibModal,
+  function PostCardController($state, $log, $timeout, $stateParams, $rootScope, $scope, $filter, $window, $sce, $uibModal,
                               _, moment, toastr,
                               NST_EVENT_ACTION, NST_PLACE_ACCESS, NST_POST_EVENT, SvcCardCtrlAffix,
                               NstSvcSync, NstVmFile, NstSvcPostFactory, NstSvcPlaceFactory,
@@ -50,7 +50,7 @@
     vm.unreadCommentsCount = 0;
     vm.isChecked = false;
     vm.isCheckedForce = false;
-    vm.isPlaceFilter = false;
+    // vm.isPlaceFilter = false;
 
     isPlaceFeed();
     $scope.$parent.$parent.affixObserver = 1;
@@ -428,7 +428,11 @@
       if (vm.post.trusted) {
         showTrustedBody();
       }
-
+      if ($stateParams.placeId) {
+        vm.currentPlace = _.filter(vm.post.places, function (place) {
+          return place.id === $stateParams.placeId;
+        })[0];
+      }
       if (vm.addOn) {
         vm.isExpanded = true;
       }
