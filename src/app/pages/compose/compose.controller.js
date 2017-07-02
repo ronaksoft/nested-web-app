@@ -27,7 +27,7 @@
     vm.makeChangeForWatchers = 0;
     vm.clear = clear;
     vm.scroll = scroll;
-    vm.searchRecipients = _.debounce(searchRecipients, 400);
+    vm.searchRecipients = searchRecipients;
     vm.emojiTarget = 'title';
     vm.haveComment = true;
     vm.focusBody = false;
@@ -292,12 +292,26 @@
     };
 
     vm.search.fn = function (query) {
-      vm.search.results = [];
-      vm.searchRecipients(query);
+      // vm.search.results = [];
+      vm.query = query;
+      _.debounce(vm.searchRecipients,400);
     };
 
-    function searchRecipients(query) {
+    function searchRecipients() {
+      var query = vm.query;
+
       NstSvcLogger.debug4('Compose | Search recipients with query : ', query);
+
+      var initPlace = new NstVmSelectTag({
+        id: query,
+        name: query
+      });
+
+      if (initPlace.isValid) {
+        vm.search.results.push(initPlace);
+      }
+
+
       return NstSvcPlaceFactory.searchForCompose(query).then(function (results) {
         NstSvcLogger.debug4('Compose | Searched recipients for binding them in html', results);
         vm.search.results = _.chain(results.places).uniqBy('id').map(function (place) {
@@ -332,6 +346,7 @@
         if (initPlace.id)
           vm.search.results.push(initPlace);
       });
+
 
     }
 

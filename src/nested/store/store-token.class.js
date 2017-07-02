@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   angular
@@ -15,9 +15,15 @@
      *
      * @constructor
      */
-    function Token(string) {
+    function Token(string, sk) {
       this.string = string;
-      this.sk = NstSvcServer.getSessionKey();
+
+      if (sk) {
+        this.sk = sk;
+      } else {
+        this.sk = NstSvcServer.getSessionKey();
+      }
+
       var expireTimeValue = getExpireTimeValue(string);
       this.expiration = _.isNumber(expireTimeValue) ? expireTimeValue : getTomorrowTimeValue();
     }

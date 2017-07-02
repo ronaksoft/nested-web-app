@@ -114,7 +114,7 @@
      * @returns {NstStoreToken}
      */
     function createToken(rawToken) {
-      return new NstStoreToken(rawToken);
+      return new NstStoreToken(rawToken, NstSvcServer.getSessionKey());
     }
 
 
@@ -130,13 +130,16 @@
     FileFactory.prototype.getDownloadToken = function (attachmentId, placeId, postId) {
       var deferred = $q.defer();
       var tokenKey = generateTokenKey(attachmentId);
-      var token = NstSvcDownloadTokenStorage.get(tokenKey);
-      if (token && !token.isExpired()) {
-        deferred.resolve(token);
+      var tokenObj = NstSvcDownloadTokenStorage.get(tokenKey);
+      if (tokenObj && !tokenObj.isExpired()) {
+        deferred.resolve(tokenObj);
       } else {
         NstSvcDownloadTokenStorage.remove(tokenKey);
         requestNewDownloadToken(attachmentId, placeId, postId).then(function (newToken) {
-          NstSvcDownloadTokenStorage.set(tokenKey, newToken);
+          NstSvcDownloadTokenStorage.set(tokenKey, {
+            token: newToken.toString(),
+            sk: NstSvcServer.getSessionKey()
+          });
           deferred.resolve(newToken);
         }).catch(deferred.reject);
       }
