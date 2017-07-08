@@ -757,7 +757,7 @@
         return $q(function (resolve, reject) {
           NstSvcServer.request('post/set_notification', {
             post_id: postId,
-            stete: state
+            state: state
           }).then(function (data) {
             resolve(data);
           }).catch(reject);
