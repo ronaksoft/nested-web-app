@@ -15,12 +15,13 @@
     DownloadTokenStorage.prototype.constructor = DownloadTokenStorage;
 
     DownloadTokenStorage.prototype.serialize = function (token) {
-      return token.toString();
+      return JSON.stringify(token);
     }
 
     DownloadTokenStorage.prototype.deserialize = function (token) {
-      if (_.isString(token) && _.size(token) > 0) {
-        return new NstStoreToken(token);
+      if (_.isString(token) && _.size(token) > 0 && token[0] == '{') {
+        var tokenObj = JSON.parse(token);
+        return new NstStoreToken(tokenObj.token, tokenObj.sk);
       }
 
       return null;

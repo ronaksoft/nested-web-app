@@ -27,7 +27,7 @@
     vm.makeChangeForWatchers = 0;
     vm.clear = clear;
     vm.scroll = scroll;
-    vm.searchRecipients = _.debounce(searchRecipients, 400);
+    vm.searchRecipients = searchRecipients;
     vm.emojiTarget = 'title';
     vm.haveComment = true;
     vm.focusBody = false;
@@ -267,7 +267,7 @@
     NstSvcSidebar.setOnItemClick(onPlaceSelected);
 
 
-    vm.subjectKeyDown = _.debounce(subjectKeyDown,100)
+    vm.subjectKeyDown = _.debounce(subjectKeyDown, 100)
 
     function subjectKeyDown(e) {
       NstSvcLogger.debug4('Compose | User types in subject');
@@ -292,12 +292,26 @@
     };
 
     vm.search.fn = function (query) {
-      vm.search.results = [];
-      vm.searchRecipients(query);
+      // vm.search.results = [];
+      vm.query = query;
+      _.debounce(vm.searchRecipients,400);
     };
 
-    function searchRecipients(query) {
+    function searchRecipients() {
+      var query = vm.query;
+
       NstSvcLogger.debug4('Compose | Search recipients with query : ', query);
+
+      var initPlace = new NstVmSelectTag({
+        id: query,
+        name: query
+      });
+
+      if (initPlace.isValid) {
+        vm.search.results.push(initPlace);
+      }
+
+
       return NstSvcPlaceFactory.searchForCompose(query).then(function (results) {
         NstSvcLogger.debug4('Compose | Searched recipients for binding them in html', results);
         vm.search.results = _.chain(results.places).uniqBy('id').map(function (place) {
@@ -332,6 +346,7 @@
         if (initPlace.id)
           vm.search.results.push(initPlace);
       });
+
 
     }
 
@@ -570,6 +585,12 @@
     };
 
     vm.send = function () {
+      if (vm.pending) {
+        return;
+      }
+
+      vm.pending = true;
+
       NstSvcLogger.debug4('Compose | Start sending compose');
       return (function () {
         var deferred = $q.defer();
@@ -617,6 +638,7 @@
 
         return deferred.promise;
       })().then(function (response) {
+        vm.pending = false;
         NstSvcLogger.debug4('Compose | Change some flags back to the normal mode after sending Post');
         vm.model.saving = false;
         vm.model.saved = true;
@@ -666,6 +688,7 @@
           res(response);
         });
       }).catch(function (errors) {
+        vm.pending = false;
         NstSvcLogger.debug4('Compose | Unsent Post Reasons :', errors);
         vm.model.saving = false;
         toastr.error(errors.filter(
@@ -897,9 +920,9 @@
       toolbarContainer: vm.quickMode ? '#editor-btn-quick' : '#editor-btn',
       charCounterCount: false,
       tabSpaces: 4,
-      toolbarBottom : true,
+      toolbarBottom: true,
       placeholderText: 'Type something...',
-      spellcheck : false,
+      spellcheck: false,
       pluginsEnabled: ['colors', 'fontSize', 'fontFamily', 'link', 'url', 'wordPaste', 'lists', 'align', 'codeBeautifier'],
       fontSize: ['8', '10', '14', '18', '22'],
       toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'fontSize', '|', 'color', 'align', 'formatOL', 'formatUL', 'insertLink', '|', 'rightToLeft', 'leftToRight'],
@@ -921,7 +944,7 @@
           vm.focusBody = false;
         },
         'froalaEditor.keydown': function (e, editor, je) {
-          if ( vm.quickMode ) return
+          if (vm.quickMode) return
           var el = editor.selection.element();
           if (el && je.which === 91) {
             vm.cmdPress = true;
@@ -932,7 +955,7 @@
           }
         },
         'froalaEditor.keyup': function (e, editor, je) {
-          if ( vm.quickMode ) return
+          if (vm.quickMode) return
           var el = editor.selection.element();
           if (el && (je.which === 13 || vm.cmdVPress)) {
             el.scrollIntoView({block: "end", behavior: "smooth"});

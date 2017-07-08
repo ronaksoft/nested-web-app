@@ -18,26 +18,14 @@
       this.stream = stream;
       this.onConnectedHandler = null;
       this.onDisconnectedHandler = null;
-
       this.pingStack = [];
       this.pongStack = [];
-      this.pingPongInterval = {};
+      this.pingPongInterval = null;
       this.pingPongStatus = false;
       this.lastPing = NstSvcDate.now();
       this.lastObserve = NstSvcDate.now();
 
       NstObservableObject.call(this);
-      // I do not know how this help?
-      $interval(function () {
-
-        if (NstSvcDate.now() - service.lastObserve > NST_SRV_PING_PONG.INTERVAL_TIME) {
-          NstSvcLogger.debug2("WS PINGPONG | timeout ");
-          service.setPingPongStatus(false);
-          service.checkStatus(true);
-        }
-        service.lastObserve = NstSvcDate.now();
-
-      }, 2000);
 
     }
 
@@ -52,7 +40,8 @@
       var service = this;
 
       service.lastPing = NstSvcDate.now();
-
+      this.pingStack = [];
+      this.pongStack = [];
       var interval = $interval(function () {
         service.lastPing = NstSvcDate.now();
         NstSvcLogger.debug2('WS | PING:', NstSvcDate.now());
@@ -81,6 +70,8 @@
 
 
     PingPong.prototype.stop = function () {
+      $interval.cancel(this.pingPongInterval);
+      this.pingPongInterval = null;
 
     };
 
@@ -101,6 +92,7 @@
 
       this.setPingPongStatus(true);
       this.pingStack = [];
+      this.pongStack = [];
       this.checkStatus();
     };
 

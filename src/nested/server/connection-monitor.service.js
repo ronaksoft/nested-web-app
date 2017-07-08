@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
   angular
     .module('ronak.nested.web.data')
@@ -6,8 +6,8 @@
 
   /**@Inject */
   function NstSvcConnectionMonitor($timeout, _,
-    NstSvcLogger, NstUtility, NstSvcWS, NstSvcPingPong,
-    NST_WEBSOCKET_STATE) {
+                                   NstSvcLogger, NstUtility, NstSvcWS, NstSvcPingPong,
+                                   NST_WEBSOCKET_STATE) {
 
     var defaultRetryStartTime = 0;
 
@@ -50,7 +50,12 @@
         }
 
         prepareToConnect.bind(that)();
+
       });
+
+      if (this.pingPong){
+        this.pingPong.stop();
+      }
 
       // Create a PingPong service to keep the connection alive
       this.pingPong = new NstSvcPingPong(this.ws);
@@ -59,7 +64,6 @@
 
       this.pingPong.onDisconnected(function () {
         if (that.isConnected) {
-
           that.isConnected = false;
           if (_.isFunction(that.onBreakHandler)) {
             that.onBreakHandler(event);
@@ -112,7 +116,7 @@
 
       if (_.isFunction(that.onReconnecting)) {
         that.onReconnecting({
-          time : that.nextRetryTime
+          time: that.nextRetryTime
         });
       }
       that.nextRetryTime = getNextRetryTime(that.nextRetryTime);

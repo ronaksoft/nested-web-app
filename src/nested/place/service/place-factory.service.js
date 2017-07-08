@@ -269,7 +269,7 @@
       var params = {
         'place_id': model.id,
         'place_name': model.name,
-        'privacy.email': model.privacy.email,
+        'place_description': model.description,
         'privacy.locked': model.privacy.locked,
         'privacy.receptive': model.privacy.receptive,
         'privacy.search': model.privacy.search,
