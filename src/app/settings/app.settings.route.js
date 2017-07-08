@@ -55,6 +55,16 @@
         fullscreen : true
       }
     })
+    .state('app.settings.webapp',{
+      url: '/webapp',
+      templateUrl: 'app/settings/webapp/webapp-settings.html',
+      controller: 'webappSettingsController',
+      controllerAs: 'ctrl',
+      options : {
+        group : 'settings',
+        fullscreen : true
+      }
+    })
     .state('app.settings.language',{
       url: '/language',
       templateUrl: 'app/settings/language/select-language.html',

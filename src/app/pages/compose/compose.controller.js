@@ -697,7 +697,7 @@
           function (v, i) {
             return String(Number(i) + 1) + '. ' + v.message;
           }
-        ).join("<br/>"), 'Compose Error');
+        ).join("<br/>"));
 
         $log.debug('Compose | Error Occurred: ', errors);
 

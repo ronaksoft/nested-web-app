@@ -29,7 +29,7 @@
         var interval, pwTimeout;
         var moves = [];
         var borderLeftArray=[],borderRightArray=[];
-
+    
         if (modeIsValid(scope.mode)) {
           scope.internalMode = scope.mode;
         }

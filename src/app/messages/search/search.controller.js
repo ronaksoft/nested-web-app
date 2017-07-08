@@ -81,11 +81,6 @@
 
         _.forEach(posts, function (message) {
           if (!_.some(vm.messages, { id : message.id })){
-
-            var item = message.attachments = _.map(message.attachments, function (attachment) {
-              return new NstVmFile(attachment);
-            });
-
             vm.messages.push(message);
           }
         });

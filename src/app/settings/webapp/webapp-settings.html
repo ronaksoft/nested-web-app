@@ -1,0 +1,39 @@
+<div class="profile-section">
+  <svg class="_16svg">
+    <use xlink:href="/assets/icons/nst-icn16.svg#gear"></use>
+  </svg>
+  <translate>Webapp settings</translate>
+</div>
+
+<div class="webapp-setting">
+    <div class="form-group _difv _fw">
+      <label class="input-lab _fw"><b><translate>Attachments</translate></b></label>
+      <div class="field _difh _fw">
+        <div class="_df _fw srchp"><translate>Always preview on DOC files</translate></div>
+        <div class="place-switch _fn">
+          <input type="checkbox" name="document" id="document" data-ng-model="ctrl.previewSetting.document" ng-change="ctrl.updatePreviewSettings()">
+          <label for="document">
+            <b><translate>Yes</translate></b>
+            <div class="circle" switch-drag="ctrl.previewSetting.document"></div>
+          </label>
+          <label for="Searchable">
+            <b><translate>No</translate></b>
+          </label>
+        </div>
+      </div>
+      <div class="field _difh _fw">
+        <div class="_df _fw srchp"><translate>Always preview on PDF files</translate></div>
+        <div class="place-switch _fn">
+          <input type="checkbox" name="pdf" id="pdf" data-ng-model="ctrl.previewSetting.pdf" ng-change="ctrl.updatePreviewSettings()">
+          <label for="pdf">
+            <b><translate>Yes</translate></b>
+            <div class="circle" switch-drag="ctrl.previewSetting.pdf"></div>
+          </label>
+          <label for="Searchable">
+            <b><translate>No</translate></b>
+          </label>
+        </div>
+      </div>
+    </div>
+
+</div>

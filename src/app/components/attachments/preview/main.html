@@ -7,7 +7,7 @@
   <li ng-repeat="item in items">
     <a href="javascript:void(0);" ng-click="onClick(item);$event.stopPropagation()" ng-if="item.type === 'image' || item.type === 'gif' || ( item.type === 'video' && item.uploadType !== 'FILE' )">
       <img class="attach-thumbnail-img" alt=""
-        style="background: url({{item.thumbnail}});background-size: cover; height: 96px;position: relative;top: 4px; width: {{ (item.width / item.height * 96) }}px"/>
+        style="background: url({{item.picture.getUrl('preview')}});background-size: cover; height: 96px;position: relative;top: 4px; width: {{ (item.width / item.height * 96) }}px"/>
         <span class="playbtn" ng-if="item.type === 'gif'">
           <svg class="_24svg">
             <use xlink:href="/assets/icons/nst-icn24.svg#infinity"></use>
@@ -53,7 +53,7 @@
     <img style="
     object-fit: cover;
     height: {{height}}px;
-    width: {{width}}px" ng-src="{{items[0].picture.getUrl('preview') ? items[0].picture.getUrl('preview') : items[0].preview}}"/>
+    width: {{width}}px" ng-src="{{items[0].picture.getUrl('preview')}}"/>
   </div>
   <span class="playbtn _scl2" ng-if="items[0].type === 'video'" ng-click="onClick(items[0]);">
     <svg class="_24svg">
@@ -74,7 +74,7 @@
 <div ng-if="internalMode == 'twoimg'" class="two-img _fw ng-class:{'deform' : deform}">
   
   <img style="width: calc({{scaleOne}}% - 8px);height: {{constHeight}}px;object-fit: cover"
-       ng-src="{{items[0].picture.getUrl('preview') ? items[0].picture.getUrl('preview') : items[0].preview}}" ng-click="onClick(items[0]);$event.stopPropagation()"/>
+       ng-src="{{items[0].picture.getUrl('preview')}}" ng-click="onClick(items[0]);$event.stopPropagation()"/>
 
   <a class="download-img" style="left: calc({{scaleOne}}% - 40px);right:auto;transform: translateX(-50%);"
      ng-click="download(items[0])">
@@ -95,7 +95,7 @@
   <div style="width: {{flexDiv}}px"></div>
 
   <img style="width: calc({{scaleTwo}}% - 8px);height: {{constHeight}}px;object-fit: cover"
-       ng-src="{{items[1].picture.getUrl('preview') ? items[1].picture.getUrl('preview') : items[1].preview}}" ng-click="onClick(items[1]);$event.stopPropagation()"/>
+       ng-src="{{items[1].picture.getUrl('preview')}}" ng-click="onClick(items[1]);$event.stopPropagation()"/>
 
   <a class="download-img" style="left: auto;right:8px;" ng-click="download(items[1])">
     <svg class="_16svg">
