@@ -7,6 +7,15 @@
   </div>
   <span><translate>Full view</translate></span>
 </a>
+<a class="list-items _difh" ng-click="ctlPostCard.toggleRecieveNotification()">
+  <div>
+    <svg class="_16svg _df _fn">
+      <use xlink:href="/assets/icons/nst-icn16.svg#bell"></use>
+    </svg>
+  </div>
+  <input class="_fr" type="checkbox" id="comments" name="comments" ng-checked="ctlPostCard.isRecieveNotification"/>
+  <label class="_fw setting _asc" for="comments"><translate>Recieve notifications</translate></label>
+</a>
 <div class="line-popover" ng-if="!ctlPostCard.chainView"></div>
 <a class="_df list-items _aic _fw"
    ng-click="ctlPostCard.replyAll($event); ctlPostCard.markAsRead(); _track('post card', 'reply all : toolbar');"

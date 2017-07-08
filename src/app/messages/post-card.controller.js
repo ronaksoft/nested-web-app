@@ -40,8 +40,10 @@
     vm.setBookmark = setBookmark;
     vm.loadNewComments = loadNewComments;
     vm.attachPlace = attachPlace;
+    vm.toggleRecieveNotification = toggleRecieveNotification;
     vm.seenBy = seenBy;
     vm.move = move;
+    vm.isRecieveNotification = false;
     vm.toggleMoveTo = toggleMoveTo;
 
     vm.expandProgress = false;
@@ -89,6 +91,11 @@
         var reference = $scope.$emit('post-view-target-changed', {postId: vm.post.id});
         eventReferences.push(reference);
       }
+    }
+
+    function toggleRecieveNotification() {
+      markAsRead();
+      vm.isRecieveNotification =! vm.isRecieveNotification;
     }
 
 
