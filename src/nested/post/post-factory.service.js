@@ -43,6 +43,7 @@
     PostFactory.prototype.attachPlaces = attachPlaces;
     PostFactory.prototype.whoRead = whoRead;
     PostFactory.prototype.getCounters = getCounters;
+    PostFactory.prototype.setNotification = setNotification;
 
     var factory = new PostFactory();
     return factory;
@@ -377,6 +378,7 @@
       post.wipeAccess = data.wipe_access;
       post.ellipsis = data.ellipsis;
       post.noComment = data.no_comment;
+      post.watched = data.watched;
 
 
       var resources = {};
@@ -748,6 +750,19 @@
           }).catch(reject);
         });
       },'getCounters' + postId);
+    }
+
+    function setNotification(postId, state) {
+      return this.sentinel.watch(function () {
+        return $q(function (resolve, reject) {
+          NstSvcServer.request('post/set_notification', {
+            post_id: postId,
+            stete: state
+          }).then(function (data) {
+            resolve(data);
+          }).catch(reject);
+        });
+      });
     }
   }
 })

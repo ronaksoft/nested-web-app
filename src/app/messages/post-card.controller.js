@@ -43,7 +43,7 @@
     vm.toggleRecieveNotification = toggleRecieveNotification;
     vm.seenBy = seenBy;
     vm.move = move;
-    vm.isRecieveNotification = false;
+    vm.watched = false;
     vm.toggleMoveTo = toggleMoveTo;
 
     vm.expandProgress = false;
@@ -94,8 +94,8 @@
     }
 
     function toggleRecieveNotification() {
-      markAsRead();
-      vm.isRecieveNotification =! vm.isRecieveNotification;
+      vm.watched =! vm.watched;
+      NstSvcPostFactory.setNotification(vm.post.id, vm.watched);
     }
 
 
@@ -428,6 +428,7 @@
       vm.currentUserIsSender = NstSvcAuth.user.id == vm.post.sender.id;
       vm.isForwarded = !!vm.post.forwardFromId;
       vm.isReplyed = !!vm.post.replyToId;
+      vm.watched = vm.post.watched;
 
       vm.hasOlderComments = (vm.post.counters.comments && vm.post.comments) ? vm.post.counters.comments > vm.post.comments.length : false;
       vm.body = vm.post.body;
