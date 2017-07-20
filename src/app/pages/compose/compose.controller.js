@@ -291,15 +291,9 @@
       }
     };
 
-    vm.search.fn = function (query) {
-      // vm.search.results = [];
-      vm.query = query;
-      _.debounce(vm.searchRecipients,400);
-    };
+    vm.search.fn = _.debounce(vm.searchRecipients, 320);
 
-    function searchRecipients() {
-      var query = vm.query;
-
+    function searchRecipients(query) {
       NstSvcLogger.debug4('Compose | Search recipients with query : ', query);
 
       var initPlace = new NstVmSelectTag({
@@ -319,21 +313,24 @@
         }).value();
 
         _.forEach(results.recipients, function (recipient) {
-          var initRecipient = new NstVmSelectTag({
+          var tag = new NstVmSelectTag({
             id: recipient,
             name: recipient
           });
-          vm.search.results.push(initRecipient);
+          vm.search.results.push(tag);
         });
 
-        var initPlace = new NstVmSelectTag({
-          id: query,
-          name: query
-        });
+        if (!_.some(vm.search.results, { 'id': query })) {
+          var initPlace = new NstVmSelectTag({
+            id: query,
+            name: query
+          });
 
-        if (initPlace.isValid) {
-          vm.search.results.push(initPlace);
+          if (initPlace.isValid) {
+            vm.search.results.push(initPlace);
+          }
         }
+
 
       }).catch(function () {
         NstSvcLogger.debug4('Compose | not recipients found');
