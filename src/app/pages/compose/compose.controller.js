@@ -27,7 +27,7 @@
     vm.makeChangeForWatchers = 0;
     vm.clear = clear;
     vm.scroll = scroll;
-    vm.searchRecipients = _.debounce(searchRecipients, 400);
+    vm.searchRecipients = searchRecipients;
     vm.emojiTarget = 'title';
     vm.haveComment = true;
     vm.focusBody = false;
@@ -291,15 +291,19 @@
       }
     };
 
-    vm.search.fn = function (query) {
-      vm.search.results = [];
-      addItemToSearch(query);
-      vm.searchRecipients(query);
-    };
+    vm.search.fn = _.debounce(vm.searchRecipients, 320);
 
     function searchRecipients(query) {
       NstSvcLogger.debug4('Compose | Search recipients with query : ', query);
 
+      var initPlace = new NstVmSelectTag({
+        id: query,
+        name: query
+      });
+
+      if (initPlace.isValid) {
+        vm.search.results.push(initPlace);
+      }
 
 
       return NstSvcPlaceFactory.searchForCompose(query).then(function (results) {
@@ -309,30 +313,35 @@
         }).value();
 
         _.forEach(results.recipients, function (recipient) {
-          var initRecipient = new NstVmSelectTag({
+          var tag = new NstVmSelectTag({
             id: recipient,
             name: recipient
           });
-          vm.search.results.push(initRecipient);
+          vm.search.results.push(tag);
         });
 
-        addItemToSearch(query);
+        if (!_.some(vm.search.results, { 'id': query })) {
+          var initPlace = new NstVmSelectTag({
+            id: query,
+            name: query
+          });
 
+          if (initPlace.isValid) {
+            vm.search.results.push(initPlace);
+          }
+        }
 
 
       }).catch(function () {
         NstSvcLogger.debug4('Compose | not recipients found');
-      });
+        vm.search.results = [];
+        var initPlace = new NstVmSelectTag({
+          id: query,
+          name: query
+        });
 
-
-    }
-
-    function addItemToSearch(query) {
-      if (!query) return;
-
-      var initPlace = new NstVmSelectTag({
-        id: query,
-        name: query
+        if (initPlace.id)
+          vm.search.results.push(initPlace);
       });
 
       var hasInSearch = vm.search.results.filter(function (item) {

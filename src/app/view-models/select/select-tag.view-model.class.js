@@ -20,7 +20,7 @@
 
       if (this.id && !this.isEmail) {
         if (this.id.split('.').length === 1) {
-          this.isValid = NST_PATTERN.GRAND_PLACE_ID.test(this.id);
+          this.isValid = NST_PATTERN.COMPOSE_TARGET_ID.test(this.id);
         } else {
           var result = true;
           _.each(this.id.split('.'), function (part, index) {
