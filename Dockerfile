@@ -32,4 +32,4 @@ CMD node /bin/dns-discovery.js & node /bin/nested-reconfig.js && \
 
 
 # Install app dependencies
-COPY ./dist/production /usr/src/app/
+COPY ./build/desktop /usr/src/app/

@@ -1,19 +1,43 @@
 image: node
 
 stages:
-  - build_desktop
+  - build
   #- build_mobile
-  #- deploy
+  - deploy
 
-before_script:
-  - npm install -g webpack
-  - npm install -g local-web-server
-
-build_desktop:
-  stage: build_desktop
+build:desktop:
+  stage: build
   script:
     - cp -r . /var/lib/desktop
     - cd /var/lib/desktop
-    - npm install gulp
+    - npm install -g gulp
     - npm install
     - gulp build --mode=production
+    - mkdir -p $CI_PROJECT_DIR/build/desktop
+    - cp -r ./dist/production $CI_PROJECT_DIR/build/desktop
+  artifacts:
+    untracked: true
+    expire_in: 1 hour
+
+
+#build.mobile:
+#  stage: build
+#  script:
+#    - cp -r . /var/lib/desktop
+#    - cd /var/lib/desktop
+#    - npm install gulp
+#    - npm install
+#    - gulp build --mode=production
+
+deploy:production:
+  stage: deploy
+  only:
+    - master
+  services:
+    - docker:dind
+  variables:
+    IMAGE_TAG:  "test"
+  script:
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
+    - docker build --pull -t $CI_REGISTRY_IMAGE:$IMAGE_TAG .
+    - docker push $CI_REGISTRY_IMAGE:$IMAGE_TAG
