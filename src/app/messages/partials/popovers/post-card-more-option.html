@@ -1,3 +1,12 @@
+<div class="_df list-items _aic _fw" ng-click="ctlPostCard.toggleRecieveNotification()">
+  <div>
+    <svg class="_16svg _df _fn">
+      <use xlink:href="/assets/icons/nst-icn16.svg#bell"></use>
+    </svg>
+  </div>
+  <span class="_fw setting _asc" ng-if="!ctlPostCard.watched">	&nbsp;<translate>Turn On Notifications</translate></span>
+  <span class="_fw setting _asc" ng-if="ctlPostCard.watched">	&nbsp;<translate>Turn Off Notifications</translate></span>
+</div>
 <a class="_df list-items _aic _fw" ui-sref="app.message({ postId : ctlPostCard.post.id })"
    ng-click="ctlPostCard.viewFull($event)" ng-if="!ctlPostCard.chainView">
   <div class="_aic _df">
@@ -6,15 +15,6 @@
     </svg>
   </div>
   <span><translate>Full view</translate></span>
-</a>
-<a class="list-items _difh" ng-click="ctlPostCard.toggleRecieveNotification()">
-  <div>
-    <svg class="_16svg _df _fn">
-      <use xlink:href="/assets/icons/nst-icn16.svg#bell"></use>
-    </svg>
-  </div>
-  <input class="_fr" type="checkbox" id="comments" name="comments" ng-checked="ctlPostCard.watched"/>
-  <label class="_fw setting _asc" for="comments"><translate>Recieve notifications</translate></label>
 </a>
 <div class="line-popover" ng-if="!ctlPostCard.chainView"></div>
 <a class="_df list-items _aic _fw"
