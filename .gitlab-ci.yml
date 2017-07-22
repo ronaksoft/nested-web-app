@@ -16,9 +16,3 @@ build_desktop:
     - cp -r . /var/lib/desktop
     - cd /var/lib/desktop
     - gulp build --mode=production
-
-build_mobile:
-  stage: build_mobile
-
-deploy:
-  stage: deploy
