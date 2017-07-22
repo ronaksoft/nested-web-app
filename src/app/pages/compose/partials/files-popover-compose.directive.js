@@ -10,7 +10,8 @@
         controllerAs : 'ctrl',
         bindToController : true,
         scope: {
-          uploadfiles : '='
+          uploadfiles : '=',
+          attach : '='
         },
         link: function (scope, element, attrs) {
 

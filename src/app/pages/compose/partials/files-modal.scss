@@ -28,6 +28,11 @@
         }
     }
     ul {
+        max-height: 353px;
+        overflow: auto;
+        &.haveSelectedItem {
+            max-height: 406px;
+        }
         li {
             display: flex;
             width: 100%;
@@ -36,17 +41,23 @@
             padding-left: 16px;
             .checkbox {
                 width: 16px;
+                height: 16px;
                 display: flex;
                 border: 1px solid $color-solid-24;
                 border-radius: 8px;
+                flex: none;
                 svg {
                     opacity: 0;
+                    fill: $color-white!important;
                 }
-                &.checked {
+            }
+            &.checked {
+                background-color: rgba(20,215,105,.16);
+                .checkbox{
                     border: 1px solid $color-sense-wire;
                     background-color: $color-sense-wire;
                     svg {
-                        opacity: 1
+                        opacity: 1;
                     }
                 }
             }
@@ -59,9 +70,14 @@
                 width: 48px;
                 height: 48px;
                 margin: 0 16px;
+                border-radius: 2px;
             }
             span {
                 border-bottom: 1px solid $color-breeze-5-new;
+                height: 100%;
+                line-height: 64px;
+                max-width: calc(100% - 92px);
+                width: 100%;
             }
         }
     }

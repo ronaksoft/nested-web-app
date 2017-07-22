@@ -27,10 +27,12 @@
     vm.makeChangeForWatchers = 0;
     vm.clear = clear;
     vm.scroll = scroll;
+    vm.addUploadedAttachs = addUploadedAttachs;
     vm.searchRecipients = searchRecipients;
     vm.emojiTarget = 'title';
     vm.haveComment = true;
     vm.focusBody = false;
+    vm.filesPopver = false;
     vm.targetLimit;
 
     if (vm.mode == 'quick') {
@@ -106,13 +108,7 @@
 
     (function () {
       if ($stateParams.attachments && $stateParams.attachments.length > 0) {
-        vm.model.attachments = _.map($stateParams.attachments, function (item) {
-          item.status = NST_ATTACHMENT_STATUS.ATTACHED;
-          return item;
-        });
-        vm.attachments.viewModels = _.map($stateParams.attachments, NstSvcAttachmentMap.toEditableAttachmentItem);
-        vm.attachments.size.total += _.sum(_.map($stateParams.attachments, 'size'));
-        vm.attachments.size.uploaded += _.sum(_.map($stateParams.attachments, 'size'));
+        vm.addUploadedAttachs($stateParams.attachments);
       }
       vm.inputPlaceHolderLabel = NstSvcTranslation.get("Enter a Place name or a Nested address...");
 
@@ -183,6 +179,17 @@
           vm.targetLimit = 10;
         });
     })();
+
+    function addUploadedAttachs(attachments) {
+      vm.model.attachments = vm.model.attachments.concat(_.map(attachments, function (item) {
+        item.status = NST_ATTACHMENT_STATUS.ATTACHED;
+        return item;
+      }));
+      vm.attachments.viewModels = vm.attachments.viewModels.concat(_.map(attachments, NstSvcAttachmentMap.toEditableAttachmentItem));
+      console.log(vm.model.attachments, vm.attachments.viewModels);
+      vm.attachments.size.total += _.sum(_.map(attachments, 'size'));
+      vm.attachments.size.uploaded += _.sum(_.map(attachments, 'size'));
+    }
 
     function saveDraft() {
       NstSvcLogger.debug4('Compose | Saving post model as draft');

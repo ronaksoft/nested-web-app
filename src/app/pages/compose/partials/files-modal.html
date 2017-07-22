@@ -1,11 +1,10 @@
-<div class="_difv" files-popover-compose>
+<div class="_difv" ng-controller="filesPopoverComposeController as ctrl">
     <div class="files-modal-head">
         <span>Recent Files</span>
     </div>
-    <ul>
-        <li ng-repeat="item in ctlAttachmentView.attachments.collection" ng-click="ctlAttachmentView.getIndex(item)"
-        class="ng-class:{'active' : ctlAttachmentView.attachments.current.id === item.id}">
-            <div class="checkbox">
+    <ul class="ng-class:{'haveSelectedItem' : ctrl.selectedFiles.length > 0}">
+        <li ng-repeat="item in ctrl.files" ng-click="ctrl.add(item)" class="ng-class:{'checked' : item.isSelected}">
+            <div class="checkbox ng-class:{'checked' : item.isSelected}">
                 <svg class="_16svg _asc">
                     <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
                 </svg>
@@ -17,11 +16,11 @@
             <span>{{item.filename}}</span>
         </li>
     </ul>
-    <div class="files-modal-footer select">
-        <a>Upload from Computer</a>
+    <div class="files-modal-footer select" ng-if="ctrl.selectedFiles.length === 0">
+        <label for="attach">Upload from Computer</label>
         <a>Choose from Places Files</a>
     </div>
-    <div class="files-modal-footer attach" ng-if="false">
-        <div class="butn-green _fw">Attach</div>
+    <div class="files-modal-footer attach" ng-if="ctrl.selectedFiles.length > 0">
+        <div class="butn-green _fw" ng-click="ctrl.addToCompose();ctrl.closePopover()">Attach</div>
     </div>
 </div>

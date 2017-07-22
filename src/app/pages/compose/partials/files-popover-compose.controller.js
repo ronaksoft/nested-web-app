@@ -6,131 +6,44 @@
     .controller('filesPopoverComposeController', filesPopoverComposeController);
 
   /** @ngInject */
-  function filesPopoverComposeController($stateParams, toastr, $uibModal, $state, $timeout, $q, $scope,
-                           NST_PLACE_ACCESS,
+  function filesPopoverComposeController($stateParams, toastr, $uibModal, $state, $timeout, $q, $scope, _,
+                           NST_PLACE_ACCESS, NST_ATTACHMENT_STATUS, NstSvcAttachmentMap,
                            NstSvcFileFactory, NstSvcPlaceAccess, NstSvcModal,
                            NstSvcTranslation, NstSvcAuth, NstSvcWait, NstSvcInteractionTracker,
-                           NstAttachment,
-                           NST_DEFAULT) {
+                           NstAttachment) {
     var vm = this;
     var onSelectTimeout = null;
     var eventReferences = [];
-    vm.searchTrigg = 0;
     vm.loadMoreCounter = 0;
     vm.keyword = '';
-
-    vm.searchFunc = function () {
-
-      if (vm.keyword.length > 0) {
-        vm.keyword = '';
-        search(vm.keyword);
-      } else {
-        ++vm.searchTrigg;
-      }
-
-    };
-
-    vm.fileTypes = [
-      {
-        id: 'ALL',
-        label: NstSvcTranslation.get('all')
-      },
-      {
-        id: 'DOC',
-        label: NstSvcTranslation.get('documents')
-      },
-      {
-        id: 'IMG',
-        label: NstSvcTranslation.get('images')
-      },
-      {
-        id: 'AUD',
-        label: NstSvcTranslation.get('audios')
-      },
-      {
-        id: 'VID',
-        label: NstSvcTranslation.get('videos')
-      },
-      {
-        id: 'OTH',
-        label: NstSvcTranslation.get('others')
-      }
-    ];
-
-    vm.search = _.debounce(search, 512);
-    vm.filter = filter;
-    vm.loadMore = loadMore;
-    vm.onSelect = onSelect;
-    vm.compose = composeWithAttachments;
-    vm.isSubPersonal = isSubPersonal;
-
+    vm.attachments = [];
     vm.selectedFiles = [];
     vm.files = [];
+    vm.loadMoreCounter = 0;
+
+    vm.add = add;
+    vm.loadMore = loadMore;
+    vm.addToCompose = addToCompose;
+    vm.closePopover = closePopover;
+
     vm.hasPreviousPage = false;
     vm.hasNextPage = false;
     vm.currentPlaceId = null;
 
-    var defaultSettings = {
-      filter: 'ALL', 
-      keyword: '',
+    vm.settings = {
       skip: 0,
-      limit: 40
+      limit: 16
     };
+    load();
 
-    vm.settings = {};
 
-    (function () {
-      vm.currentPlaceId = $stateParams.placeId;
-      vm.selectedFileType = getSelectedFilter();
-      vm.settings = {
-        filter: vm.selectedFileType.id,
-        search: getSearchParameter() || defaultSettings.search,
-        skip: defaultSettings.skip,
-        limit: defaultSettings.limit
-      };
-
-      if (!$stateParams.placeId || $stateParams.placeId === NST_DEFAULT.STATE_PARAM) {
-        throw Error('Could not find Place Id.');
+    function add(item) {
+      item.isSelected = !item.isSelected;
+      if ( item.isSelected ) {
+        vm.selectedFiles.push(item);
+      } else {
+        vm.selectedFiles.splice(vm.selectedFiles.indexOf(item), 1);
       }
-
-      vm.currentPlaceId = $stateParams.placeId;
-    })();
-
-    function isSubPersonal() {
-      if (vm.currentPlaceId)
-        return NstSvcAuth.user.id === vm.currentPlaceId.split('.')[0];
-    }
-
-    function search(keyword) {
-      vm.settings.keyword = keyword;
-      vm.settings.skip = 0;
-      vm.files = [];
-
-      load();
-    }
-
-    function filter(filter) {
-      vm.selectedFileType = filter;
-      vm.settings.filter = filter.id;
-      vm.files = [];
-      load();
-    }
-
-    function getSelectedFilter() {
-      var value = _.toLower($stateParams.filter);
-
-      return _.find(vm.fileTypes, function (fileType) {
-        return _.toLower(fileType.label) === value;
-      }) || vm.fileTypes[0];
-    }
-
-    function getSearchParameter() {
-      var value = $stateParams.search;
-      if (!value || value === NST_DEFAULT.STATE_PARAM) {
-        return null;
-      }
-
-      return decodeURIComponent(value);
     }
 
     function load() {
@@ -139,13 +52,9 @@
 
       var deferred = $q.defer();
 
-      NstSvcFileFactory.get(vm.currentPlaceId,
-        vm.settings.filter,
-        vm.settings.keyword,
-        vm.settings.skip,
+      NstSvcFileFactory.recentFiles(vm.settings.skip,
         vm.settings.limit).then(function (fileItems) {
         var newFileItems = _.differenceBy(fileItems, vm.files, 'id');
-
         vm.hasNextPage = fileItems.length === vm.settings.limit;
         vm.settings.skip += newFileItems.length;
 
@@ -171,23 +80,12 @@
       }
     }
 
-    function onSelect(fileIds, el) {
-      if (onSelectTimeout) {
-        $timeout.cancel(onSelectTimeout);
-      }
+    function addToCompose() {
+      $scope.$parent.$parent.ctlCompose.addUploadedAttachs(vm.selectedFiles);
+    }
 
-      onSelectTimeout = $timeout(function () {
-        vm.selectedFiles = _.filter(vm.files, function (file) {
-          return _.includes(fileIds, file.id);
-        });
-
-        var sizes = _.map(vm.selectedFiles, 'size');
-        vm.totalSelectedFileSize = _.sum(sizes);
-      });
-    };
-
-    function composeWithAttachments() {
-      $state.go('app.compose', {attachments: vm.selectedFiles}, {notify: false});
+    function closePopover() {
+      $scope.$parent.$parent.ctlCompose.filesPopver = false;
     }
 
     $scope.$on('$destroy', function () {
