@@ -11,7 +11,6 @@ image: node
 build:desktop:
   stage: build
   script:
-    - print env
     - cp -r . /var/lib/desktop
     - cd /var/lib/desktop
     - npm install -g gulp bower
