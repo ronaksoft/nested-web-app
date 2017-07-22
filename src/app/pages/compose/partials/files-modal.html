@@ -1,0 +1,27 @@
+<div class="_difv" files-popover-compose>
+    <div class="files-modal-head">
+        <span>Recent Files</span>
+    </div>
+    <ul>
+        <li ng-repeat="item in ctlAttachmentView.attachments.collection" ng-click="ctlAttachmentView.getIndex(item)"
+        class="ng-class:{'active' : ctlAttachmentView.attachments.current.id === item.id}">
+            <div class="checkbox">
+                <svg class="_16svg _asc">
+                    <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
+                </svg>
+            </div>
+            <div ng-hide="item.thumbnail.length" class="attachment-tiny-thumb tiny-thumb-type-{{item.type}}">
+                {{item.extension | uppercase}}
+            </div>
+            <img ng-show="item.thumbnail.length" src="{{item.thumbnail}}" alt="">
+            <span>{{item.filename}}</span>
+        </li>
+    </ul>
+    <div class="files-modal-footer select">
+        <a>Upload from Computer</a>
+        <a>Choose from Places Files</a>
+    </div>
+    <div class="files-modal-footer attach" ng-if="false">
+        <div class="butn-green _fw">Attach</div>
+    </div>
+</div>
