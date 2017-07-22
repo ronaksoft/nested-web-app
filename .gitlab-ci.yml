@@ -1,20 +1,24 @@
-image: node
-
 stages:
   - build
   #- build_mobile
   - deploy
+
+variables:
+  BUILD_DIR: $CI_PROJECT_DIR/build/desktop
+
+image: node
 
 build:desktop:
   stage: build
   script:
     - cp -r . /var/lib/desktop
     - cd /var/lib/desktop
-    - npm install -g gulp
+    - npm install -g gulp bower
     - npm install
+    - bower install
     - gulp build --mode=production
-    - mkdir -p $CI_PROJECT_DIR/build/desktop
-    - cp -r ./dist/production $CI_PROJECT_DIR/build/desktop
+    - mkdir -p $BUILD_DIR
+    - cp -r ./dist/production $BUILD_DIR
   artifacts:
     untracked: true
     expire_in: 1 hour
