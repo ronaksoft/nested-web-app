@@ -9,7 +9,7 @@
   function PlaceCreateController($scope, $q, $stateParams, $state, toastr, $rootScope, $uibModalStack,
                                  NST_DEFAULT, NST_SRV_ERROR, NST_PLACE_ADD_TYPES, NST_PLACE_MEMBER_TYPE, NST_PLACE_POLICY_OPTION,
                                  NST_PLACE_TYPE, NST_PLACE_ACCESS,
-                                 NST_STORE_UPLOAD_TYPE,
+                                 NST_STORE_UPLOAD_TYPE, NST_PLACE_POLICY_RECEPTIVE,
                                  NstSvcAuth, NstSvcPlaceFactory, NstSvcStore, NstVmMemberItem, NstSvcUserFactory,
                                  NstUtility, $uibModal, $uibModalInstance, NstSvcLogger, NstSvcTranslation) {
 
@@ -49,6 +49,7 @@
         addMember: vm.memberOptions[0].key,
         addPlace: vm.memberOptions[0].key,
       },
+      description: null,
       favorite: true,
       notification: true,
       fillMembers: 'none'
@@ -97,8 +98,9 @@
       if ($stateParams.isOpenPlace) {
         vm.isOpenPlace = true;
         vm.isClosedPlace = false;
-        vm.addPostLevel = NST_PLACE_POLICY_OPTION.TEAMMATES;
+        vm.addPostLevel = NST_PLACE_POLICY_OPTION.MEMBERS;
         vm.place.privacy.privacy = false;
+        vm.place.privacy.receptive = NST_PLACE_POLICY_RECEPTIVE.INTERNAL;
         setPlaceOpen();
       } else {
         vm.place.privacy.privacy = true;
@@ -501,7 +503,7 @@
       if (place.id === NstSvcAuth.user.id) {
 
         return NST_PLACE_TYPE.PERSONAL;
-      }else if (NstUtility.place.isGrand(place.id)) {
+      } else if (NstUtility.place.isGrand(place.id)) {
 
         return NST_PLACE_TYPE.GRAND;
       } else if (NstUtility.place.getGrandId(place.id) === NstSvcAuth.user.id) {

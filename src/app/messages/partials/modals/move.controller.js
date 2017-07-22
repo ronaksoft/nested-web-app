@@ -48,7 +48,9 @@
     }
 
     function searchCriteria(keyword, place) {
-      return _.startsWith(_.lowerCase(place.name), _.lowerCase(keyword));
+      keyword = _.lowerCase(keyword);
+      var placeName = _.lowerCase(place.name);
+      return _.includes(placeName, keyword) || _.includes(place.id, keyword);
     }
 
     function replace(postId, selectedPlace, targetPlace) {
@@ -84,7 +86,7 @@
           }
         }, 100);
       } else {
-      
+
         NstSvcPostFactory.movePlace(postId, selectedPlace.id, targetPlace.id).then(function (result) {
           toastr.success(NstUtility.string.format(NstSvcTranslation.get("The post has been successfully moved from <b>{0}</b> to <b>{1}</b>."), selectedPlace.name, targetPlace.name));
         }).catch(function (error) {
@@ -98,7 +100,7 @@
         });
       }
 
-      
+
     }
 
     function setTargetPlace(place) {
