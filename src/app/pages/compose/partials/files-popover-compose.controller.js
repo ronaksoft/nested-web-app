@@ -25,6 +25,7 @@
     vm.loadMore = loadMore;
     vm.addToCompose = addToCompose;
     vm.closePopover = closePopover;
+    vm.unSelectFiles = unSelectFiles;
 
     vm.hasPreviousPage = false;
     vm.hasNextPage = false;
@@ -82,6 +83,10 @@
 
     function addToCompose() {
       $scope.$parent.$parent.ctlCompose.addUploadedAttachs(vm.selectedFiles);
+    }
+
+    function unSelectFiles() {
+      vm.selectedFiles = [];
     }
 
     function closePopover() {
