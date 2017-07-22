@@ -19,6 +19,10 @@ build:desktop:
     - gulp build --mode=production
     - mkdir -p $BUILD_DIR
     - cp -r ./dist/production $BUILD_DIR
+    - cp -r ./src ./$BUILD_DIR
+    - find $BUILD_DIR -type f -not -name \*.html -exec rm -rf {} \;
+    - find . -type d -empty -delete
+
   artifacts:
     untracked: true
     expire_in: 1 hour
