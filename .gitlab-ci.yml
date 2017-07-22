@@ -6,7 +6,6 @@ stages:
   #- deploy
 
 before_script:
-  - npm install -g gulp
   - npm install -g webpack
   - npm install -g local-web-server
 
@@ -15,4 +14,6 @@ build_desktop:
   script:
     - cp -r . /var/lib/desktop
     - cd /var/lib/desktop
+    - npm install gulp
+    - npm install
     - gulp build --mode=production
