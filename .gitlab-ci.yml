@@ -5,7 +5,7 @@ stages:
   #- build_mobile
   #- deploy
 
-before_scrip:
+before_script:
   - npm install -g gulp
   - npm install -g webpack
   - npm install -g local-web-server
