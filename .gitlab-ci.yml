@@ -1,0 +1,24 @@
+image: node
+
+stages:
+  - build_desktop
+  #- build_mobile
+  #- deploy
+
+brfore_scrip:
+  - npm install -g gulp
+  - npm install -g webpack
+  - npm install -g local-web-server
+
+build_desktop:
+  stage: build_desktop
+  script:
+    - cp -r . /var/lib/desktop
+    - cd /var/lib/desktop
+    - gulp build --mode=production
+
+build_mobile:
+  stage: build_mobile
+
+deploy:
+  stage: deploy
