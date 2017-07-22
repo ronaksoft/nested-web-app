@@ -344,16 +344,6 @@
           vm.search.results.push(initPlace);
       });
 
-      var hasInSearch = vm.search.results.filter(function (item) {
-        return item.id === initPlace.id;
-      });
-
-      var hasInRecipients = vm.model.recipients.filter(function (item) {
-        return item.id === initPlace.id;
-      });
-
-      if (hasInSearch.length === 0 && hasInRecipients.length === 0)
-        vm.search.results.unshift(initPlace);
 
     }
 
