@@ -35,7 +35,6 @@ build.mobile:
     - mkdir -p /var/lib/mobile
     - cp -r ./web-mobile-app/* /var/lib/mobile
     - cd /var/lib/mobile
-    - git checkout develop
     - npm install
     - npm run build:prod
   artifacts:
