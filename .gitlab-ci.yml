@@ -36,7 +36,6 @@ build.mobile:
     - git clone http://gitlab-ci-token:$CI_BUILD_TOKEN@git.ronaksoftware.com/nested/web-mobile-app.git .
     - npm install -g yarn
     - npm install
-    - yarn install
     - npm run build:prod
   artifacts:
     untracked: true
