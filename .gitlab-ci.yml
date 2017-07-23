@@ -7,35 +7,39 @@ variables:
   BUILD_DIR: $CI_PROJECT_DIR/build/desktop
 
 image: node
-
-build:desktop:
-  stage: build
-  script:
-    - cp -r . /var/lib/desktop
-    - cd /var/lib/desktop
-    - npm install -g gulp bower
-    - npm install
-    - bower install
-    - gulp build --mode=production
-    - mkdir -p $BUILD_DIR
-    - cp -r ./dist/production $BUILD_DIR
-    - cp -r ./src ./$BUILD_DIR
-    - find $BUILD_DIR -type f -not -name \*.html -exec rm -rf {} \;
-    - find . -type d -empty -delete
-
-  artifacts:
-    untracked: true
-    expire_in: 1 hour
-
-
-#build.mobile:
+#
+#build:desktop:
 #  stage: build
 #  script:
 #    - cp -r . /var/lib/desktop
 #    - cd /var/lib/desktop
-#    - npm install gulp
+#    - npm install -g gulp bower
 #    - npm install
+#    - bower install
 #    - gulp build --mode=production
+#    - mkdir -p $BUILD_DIR
+#    - cp -r ./dist/production $BUILD_DIR
+#    - cp -r ./src ./$BUILD_DIR
+#    - find $BUILD_DIR -type f -not -name \*.html -exec rm -rf {} \;
+#    - find . -type d -empty -delete
+#
+#  artifacts:
+#    untracked: true
+#    expire_in: 1 hour
+
+
+build.mobile:
+  stage: build
+  script:
+    - git clone http://gitlab-ci-token:$CI_BUILD_TOKEN@git.ronaksoftware.com/nested/web-mobile-app.git
+    - mkdir -p /var/lib/mobile
+    - cp -r ./web-app /var/lib/mobile
+    - cd /var/lib/mobile
+    - npm install
+    - npm build:prod
+  artifacts:
+    untracked: true
+    expire_in: 1 hour
 
 deploy:production:
   stage: deploy
