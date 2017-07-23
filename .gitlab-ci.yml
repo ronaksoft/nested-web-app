@@ -31,10 +31,9 @@ image: node
 build.mobile:
   stage: build
   script:
-    - git clone http://gitlab-ci-token:$CI_BUILD_TOKEN@git.ronaksoftware.com/nested/web-mobile-app.git
     - mkdir -p /var/lib/mobile
-    - cp -r ./web-mobile-app /var/lib/mobile
     - cd /var/lib/mobile
+    - git clone http://gitlab-ci-token:$CI_BUILD_TOKEN@git.ronaksoftware.com/nested/web-mobile-app.git .
     - npm install -g yarn
     - npm install
     - yarn install
