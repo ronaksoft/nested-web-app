@@ -4,31 +4,34 @@ stages:
   - deploy
 
 variables:
-  BUILD_DIR: $CI_PROJECT_DIR/build/desktop
+  BUILD_DIR: $CI_PROJECT_DIR/build
 
 image: node
-#
-#build:desktop:
-#  stage: build
-#  script:
-#    - cp -r . /var/lib/desktop
-#    - cd /var/lib/desktop
-#    - npm install -g gulp bower
-#    - npm install
-#    - bower install
-#    - gulp build --mode=production
-#    - mkdir -p $BUILD_DIR
-#    - cp -r ./dist/production $BUILD_DIR
-#    - cp -r ./src ./$BUILD_DIR
-#    - find $BUILD_DIR -type f -not -name \*.html -exec rm -rf {} \;
-#    - find . -type d -empty -delete
-#
-#  artifacts:
-#    untracked: true
-#    expire_in: 1 hour
+
+build:desktop:
+  stage: build
+  script:
+    - cp -r . /var/lib/desktop
+    - cd /var/lib/desktop
+    - npm install -g gulp bower
+    - npm install
+    - bower install
+    - gulp build --mode=production
+    - mkdir -p $BUILD_DIR/desktop
+    - cp -r ./dist/production/* $BUILD_DIR/desktop
+    - cp .local-web-server.json $BUILD_DIR/desktop
+    - mkdir -p $BUILD_DIR/bin
+    - cp -r ./bin/* $BUILD_DIR/bin
+    - find . -type f -not -name \*.html -exec rm -rf {} \;
+    - find . -type d -empty -delete
+    - cp -r ./src ./$BUILD_DIR/desktop
+
+  artifacts:
+    untracked: true
+    expire_in: 1 hour
 
 
-build.mobile:
+build:mobile:
   stage: build
   script:
     - mkdir -p /var/lib/mobile
@@ -37,6 +40,10 @@ build.mobile:
     - npm install -g yarn
     - npm install
     - npm run build:prod
+    - mkdir -p $BUILD_DIR/mobile
+    - cp ./package.json $BUILD_DIR/mobile
+    - cp -r ./node_modules $BUILD_DIR/mobile
+    - cp -r ./build $BUILD_DIR/build
   artifacts:
     untracked: true
     expire_in: 1 hour
@@ -53,3 +60,6 @@ deploy:production:
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
     - docker build --pull -t $CI_REGISTRY_IMAGE:$IMAGE_TAG .
     - docker push $CI_REGISTRY_IMAGE:$IMAGE_TAG
+ dependencies:
+  - build:mobile
+  - build:desktop

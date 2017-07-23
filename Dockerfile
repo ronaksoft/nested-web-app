@@ -6,10 +6,14 @@ WORKDIR /usr/src/app
 RUN npm install -g local-web-server
 EXPOSE 80
 
-COPY ./bin/nested-reconfig.js /bin/nested-reconfig.js
-COPY ./bin/dns-discovery.js /bin/dns-discovery.js
+COPY ./build/bin/nested-reconfig.js /bin/nested-reconfig.js
+COPY ./build/bin/dns-discovery.js /bin/dns-discovery.js
 CMD node /bin/dns-discovery.js & node /bin/nested-reconfig.js && \
     sleep 1 && \
+    cd ./mobile \
+    echo "Starting Mobile App" ; \
+    node ./build/server.js && \
+    cd ./../desktop \
     if [ -n "${NST_ADDR_PORT}" ]; then \
         echo ""; \
     else \
@@ -27,9 +31,10 @@ CMD node /bin/dns-discovery.js & node /bin/nested-reconfig.js && \
     else \
          echo "Webapp started without SSL" ; \
          ws -p 80;\
-    fi
+    fi \
 
 
 
 # Install app dependencies
-COPY ./build/desktop /usr/src/app/
+COPY ./build/desktop /usr/src/app/desktop
+COPY ./build/mobile /usr/src/app/mobile
