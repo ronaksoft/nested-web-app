@@ -10,10 +10,10 @@ COPY ./build/bin/nested-reconfig.js /bin/nested-reconfig.js
 COPY ./build/bin/dns-discovery.js /bin/dns-discovery.js
 CMD node /bin/dns-discovery.js & node /bin/nested-reconfig.js && \
     sleep 1 && \
-    cd ./mobile \
+    cd ./mobile ; \
     echo "Starting Mobile App" ; \
     node ./build/server.js && \
-    cd ./../desktop \
+    cd ./../desktop ; \
     if [ -n "${NST_ADDR_PORT}" ]; then \
         echo ""; \
     else \
