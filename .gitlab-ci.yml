@@ -48,6 +48,7 @@ build:mobile:
     expire_in: 1 hour
 
 deploy:production:
+  image: gitlab/dind
   stage: deploy
   only:
     - master
