@@ -42,6 +42,7 @@ build:mobile:
     - mkdir -p $BUILD_DIR/mobile
     - cp ./package.json $BUILD_DIR/mobile
     - cp -r ./node_modules $BUILD_DIR/mobile
+    - cp -r ./src $BUILD_DIR/mobile
     - cp -r ./build $BUILD_DIR/build
   artifacts:
     untracked: true
