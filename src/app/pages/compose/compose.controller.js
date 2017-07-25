@@ -186,7 +186,7 @@
         return item;
       }));
       vm.attachments.viewModels = vm.attachments.viewModels.concat(_.map(attachments, NstSvcAttachmentMap.toEditableAttachmentItem));
-      console.log(vm.model.attachments, vm.attachments.viewModels);
+      // console.log(vm.model.attachments, vm.attachments.viewModels);
       vm.attachments.size.total += _.sum(_.map(attachments, 'size'));
       vm.attachments.size.uploaded += _.sum(_.map(attachments, 'size'));
     }
@@ -926,16 +926,11 @@
       tabSpaces: 4,
       toolbarBottom: true,
       placeholderText: 'Type something...',
-      spellcheck: false,
       pluginsEnabled: ['colors', 'fontSize', 'fontFamily', 'link', 'url', 'wordPaste', 'lists', 'align', 'codeBeautifier'],
       fontSize: ['8', '10', '14', '18', '22'],
       toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'fontSize', '|', 'color', 'align', 'formatOL', 'formatUL', 'insertLink', '|', 'rightToLeft', 'leftToRight'],
       events: {
         'froalaEditor.initialized': function (e, editor) {
-          $(editor.$el).attr('spellcheck', 'false');
-          console.log('initial');
-        },
-        'popups.setContainer': function (e, editor) {
           // $(editor.$el).attr('spellcheck', 'false');
         },
         'froalaEditor.focus': function (e, editor) {
