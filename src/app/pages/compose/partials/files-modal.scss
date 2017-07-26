@@ -163,6 +163,14 @@
         flex: none;
         justify-content: flex-end;
         align-items: center;
+        padding: 0 8px;
+        input {
+            width: 80px;
+            height: 32px;
+            &.butn-green {
+                width: 80px;
+            }
+        }
     }
     ul {
         display: flex;
@@ -179,6 +187,8 @@
             flex-direction: column;
             overflow: hidden;
             position: relative;
+            border: 1px solid transparent;
+            border-radius: 4px;
             p {
                 justify-content: center;
                 text-align: center;
@@ -195,6 +205,9 @@
                 padding-top: 24px;
                 p {
                     font-weight: bold;
+                }
+                &.disabledItem {
+                    opacity: .4;
                 }
             }
             &.file {
@@ -241,10 +254,31 @@
                     opacity: .72;
                 }
             }
-            .select-handle {
+            .checkbox {
+                width: 16px;
+                height: 16px;
                 position: absolute;
                 top: 8px;
                 right: 8px;
+                display: flex;
+                border: 1px solid $color-solid-24;
+                border-radius: 8px;
+                flex: none;
+                svg {
+                    opacity: 0;
+                    fill: $color-white!important;
+                }
+            }
+            &.checked {
+                background-color: rgba(20,215,105,.16);
+                border-color: rgba(20,215,105,.24);
+                .checkbox{
+                    border: 1px solid $color-sense-wire;
+                    background-color: $color-sense-wire;
+                    svg {
+                        opacity: 1;
+                    }
+                }
             }
         }
     }

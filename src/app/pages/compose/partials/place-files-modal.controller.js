@@ -8,7 +8,7 @@
   /** @ngInject */
   function placeFilesModalController($stateParams, toastr, $uibModal, $state, $timeout, $q, $scope, _,
                            NST_PLACE_ACCESS, NST_ATTACHMENT_STATUS, NstSvcAttachmentMap, NstSvcPlaceFactory,
-                           NstSvcFileFactory, NstSvcPlaceAccess, NstSvcModal,
+                           NstSvcFileFactory, NstSvcPlaceAccess, NstSvcModal, uploadfiles,
                            NstSvcTranslation, NstSvcAuth, NstSvcWait, NstSvcInteractionTracker) {
     var vm = this;
     var onSelectTimeout = null;
@@ -29,6 +29,8 @@
     vm.unSelectFiles = unSelectFiles;
     vm.getSubPlace = getSubPlace;
     vm.attachClick = attachClick;
+    vm.selectToggle = selectToggle;
+    vm.placeClick = placeClick;
 
     vm.hasPreviousPage = false;
     vm.hasNextPage = false;
@@ -40,18 +42,7 @@
     };
     load();
 
-
-    function add(item) {
-      item.isSelected = !item.isSelected;
-      if ( item.isSelected ) {
-        vm.selectedFiles.push(item);
-      } else {
-        vm.selectedFiles.splice(vm.selectedFiles.indexOf(item), 1);
-      }
-    }
-
     function load() {
-      console.log(111111);
       // vm.filesLoadProgress = true;
       vm.loadFilesError = false;
       vm.getSubPlace();
@@ -80,22 +71,48 @@
       }
     }
 
+    function placeClick(placeId) {
+      if (vm.selectedFiles.length === 0 ) {
+        getSubPlace(placeId);
+      }
+    }
+
     function attachClick(attachment) {
-      console.log(attachment);
+      if (vm.selectedFiles.length === 0 || (vm.selectedFiles.length === 1 && vm.selectedFiles[0].id === attachment.id && !vm.selectedFiles[0].selected ) ) {
+        openAttachment(attachment);
+      } else {
+        selectToggle(null, attachment);
+      }
+    }
+
+    function selectToggle(e, attachment) {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      /**
+       * maybe the property not defined
+       */
+      if (attachment.selected) {
+        attachment.selected = false;
+        vm.selectedFiles = _.remove(vm.selectedFiles, function(item){
+          return item.id !== attachment.id;
+        });
+      } else {
+        attachment.selected = true;
+        vm.selectedFiles.push(attachment);
+      }
     }
 
     function getFiles(placeId) {
       var deferred = $q.defer();
-      console.log(placeId);
       NstSvcFileFactory.get(placeId, null, '', vm.settings.skip, vm.settings.limit).then(function (fileItems) {
-        console.log(fileItems);
         var newFileItems = _.differenceBy(fileItems, vm.files, 'id');
         vm.hasNextPage = fileItems.length === vm.settings.limit;
         vm.settings.skip += newFileItems.length;
 
         vm.files.push.apply(vm.files, newFileItems);
         // vm.loadFilesError = false;
-        console.log(vm.files);
         deferred.resolve();
       }).catch(function (error) {
         toastr.error(NstSvcTranslation.get('An error has occurred while retrieving files.'));
@@ -109,15 +126,53 @@
     }
 
     function addToCompose() {
-      $scope.$parent.$parent.ctlCompose.addUploadedAttachs(vm.selectedFiles);
+      uploadfiles(vm.selectedFiles);
+      vm.closePopover();
+      // $scope.$parent.$parent.ctlCompose.addUploadedAttachs(vm.selectedFiles);
     }
 
     function unSelectFiles() {
       vm.selectedFiles = [];
     }
 
+    function openAttachment(attachment){
+      $('body').addClass('attach-modal');
+      var modal = $uibModal.open({
+        animation: false,
+        templateUrl: 'app/components/attachments/view/single/main.html',
+        controller: 'AttachmentViewController',
+        controllerAs: 'ctlAttachmentView',
+        backdropClass : 'attachmdrop',
+        size: 'full',
+        resolve: {
+          fileViewerItem : function () {
+            return attachment;
+          },
+          fileViewerItems : function () {
+            return vm.files;
+          },
+          fileId : function () {
+            return null;
+          },
+          fileIds : function () {
+            return null;
+          },
+          currentPlaceId: function () {
+            return null;
+          },
+          currentPostId: function () {
+            return null;
+          }
+        }
+      }).result.catch(function(){
+        $('body').removeClass('attach-modal');
+      });
+
+      return modal.result;
+    }
+
     function closePopover() {
-      $scope.$parent.$parent.ctlCompose.filesPopver = false;
+      $scope.$dismiss();
     }
 
     $scope.$on('$destroy', function () {

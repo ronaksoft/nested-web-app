@@ -38,7 +38,6 @@
     };
     load();
 
-
     function add(item) {
       item.isSelected = !item.isSelected;
       if ( item.isSelected ) {

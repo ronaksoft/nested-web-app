@@ -9,7 +9,7 @@
     </div>
     <div class="modal-b">
         <ul>
-            <li class="place" ng-repeat="place in ctrl.places" ng-click="ctrl.getSubPlace(place.id)">
+            <li class="place ng-class:{'disabledItem' : ctrl.selectedFiles.length > 0}" ng-repeat="place in ctrl.places" ng-click="ctrl.placeClick(place.id)">
                 <div class="place-logo">
                     <img ng-src="{{place | picture:'x64'}}"/>
                     <i>
@@ -28,7 +28,7 @@
                     {{place.name}}
                 </p>
             </li>
-            <li class="file" ng-repeat="file in ctrl.files" ng-click="ctrl.attachClick(file)">
+            <li ng-repeat="file in ctrl.files" ng-click="ctrl.attachClick(file)" class="file ng-class:{'checked' : file.selected}">
                 <div class="pre-thumb" ng-if="file.thumbnail">
                     <img src="{{file.thumbnail}}"/>
                 </div>
@@ -40,12 +40,16 @@
                 <p>
                     {{file.filename.substring(0, 24)}}
                 </p>
-                <div class="select-handle"></div>
+                <div class="checkbox" ng-click="ctrl.selectToggle($event, file)">
+                    <svg class="_16svg">
+                        <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
+                    </svg>
+                </div>
             </li>
         </ul>
     </div>
     <div class="modal-f">
-        <input type="button" value="Discard" class="butn-white">
-        <input type="button" value="Attach" class="butn-green">
+        <input type="button" ng-disabled="{{ctrl.selectedFiles.length > 0}}" ng-click="ctrl.closePopover()"  value="Discard" class="butn-white">
+        <input type="button" ng-disabled="{{ctrl.selectedFiles.length > 0}}" ng-click="ctrl.addToCompose()" value="Attach" class="butn-green">
     </div>
 </div>
