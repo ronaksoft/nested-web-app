@@ -3,14 +3,13 @@
 
   angular
     .module('ronak.nested.web.components')
-    .controller('filesPopoverComposeController', filesPopoverComposeController);
+    .controller('placeFilesModalController', placeFilesModalController);
 
   /** @ngInject */
-  function filesPopoverComposeController($stateParams, toastr, $uibModal, $state, $timeout, $q, $scope, _,
-                           NST_PLACE_ACCESS, NST_ATTACHMENT_STATUS, NstSvcAttachmentMap,
+  function placeFilesModalController($stateParams, toastr, $uibModal, $state, $timeout, $q, $scope, _,
+                           NST_PLACE_ACCESS, NST_ATTACHMENT_STATUS, NstSvcAttachmentMap, NstSvcPlaceFactory,
                            NstSvcFileFactory, NstSvcPlaceAccess, NstSvcModal,
-                           NstSvcTranslation, NstSvcAuth, NstSvcWait, NstSvcInteractionTracker,
-                           NstAttachment) {
+                           NstSvcTranslation, NstSvcAuth, NstSvcWait, NstSvcInteractionTracker) {
     var vm = this;
     var onSelectTimeout = null;
     var eventReferences = [];
@@ -18,15 +17,18 @@
     vm.keyword = '';
     vm.attachments = [];
     vm.selectedFiles = [];
+    vm.places = [];
+    vm.breadcrumb = ['Places', 'placeName1', 'placeName1'];
     vm.files = [];
     vm.loadMoreCounter = 0;
-    vm.placeFiles = placeFiles;
 
     vm.add = add;
     vm.loadMore = loadMore;
     vm.addToCompose = addToCompose;
     vm.closePopover = closePopover;
     vm.unSelectFiles = unSelectFiles;
+    vm.getSubPlace = getSubPlace;
+    vm.attachClick = attachClick;
 
     vm.hasPreviousPage = false;
     vm.hasNextPage = false;
@@ -49,29 +51,11 @@
     }
 
     function load() {
-      vm.filesLoadProgress = true;
+      console.log(111111);
+      // vm.filesLoadProgress = true;
       vm.loadFilesError = false;
-
-      var deferred = $q.defer();
-
-      NstSvcFileFactory.recentFiles(vm.settings.skip,
-        vm.settings.limit).then(function (fileItems) {
-        var newFileItems = _.differenceBy(fileItems, vm.files, 'id');
-        vm.hasNextPage = fileItems.length === vm.settings.limit;
-        vm.settings.skip += newFileItems.length;
-
-        vm.files.push.apply(vm.files, newFileItems);
-        vm.loadFilesError = false;
-        deferred.resolve();
-      }).catch(function (error) {
-        toastr.error(NstSvcTranslation.get('An error has occurred while retrieving files.'));
-        vm.loadFilesError = true;
-        deferred.reject();
-      }).finally(function () {
-        vm.filesLoadProgress = false;
-      });
-
-      return deferred.promise;
+      vm.getSubPlace();
+      
     }
 
     function loadMore() {
@@ -82,28 +66,54 @@
       }
     }
 
+    function getSubPlace(placeId) {
+      vm.settings.skip = 0;
+      if ( placeId ) {
+        // NstSvcPlaceFactory.getChildrens(placeId).then(function (places){
+        //   vm.places = places;
+        // });
+        getFiles(placeId) ;
+      } else {
+        NstSvcPlaceFactory.getGrandPlaces().then(function (places){
+          vm.places = places;
+        });
+      }
+    }
+
+    function attachClick(attachment) {
+      console.log(attachment);
+    }
+
+    function getFiles(placeId) {
+      var deferred = $q.defer();
+      console.log(placeId);
+      NstSvcFileFactory.get(placeId, null, '', vm.settings.skip, vm.settings.limit).then(function (fileItems) {
+        console.log(fileItems);
+        var newFileItems = _.differenceBy(fileItems, vm.files, 'id');
+        vm.hasNextPage = fileItems.length === vm.settings.limit;
+        vm.settings.skip += newFileItems.length;
+
+        vm.files.push.apply(vm.files, newFileItems);
+        // vm.loadFilesError = false;
+        console.log(vm.files);
+        deferred.resolve();
+      }).catch(function (error) {
+        toastr.error(NstSvcTranslation.get('An error has occurred while retrieving files.'));
+        vm.loadFilesError = true;
+        deferred.reject();
+      }).finally(function () {
+        // vm.filesLoadProgress = false;
+      });
+
+      return deferred.promise;
+    }
+
     function addToCompose() {
       $scope.$parent.$parent.ctlCompose.addUploadedAttachs(vm.selectedFiles);
     }
 
     function unSelectFiles() {
       vm.selectedFiles = [];
-    }
-
-    function placeFiles() {
-      $uibModal.open({
-        animation: false,
-        backdropClass: 'comdrop',
-        size: 'sm',
-        templateUrl: 'app/pages/compose/partials/place-files-modal.html',
-        controller: 'placeFilesModalController',
-        controllerAs: 'ctrl',
-        resolve: {
-          uploadfiles: function () {
-            return $scope.$parent.$parent.ctlCompose.addUploadedAttachs;
-          }
-        }
-      });
     }
 
     function closePopover() {

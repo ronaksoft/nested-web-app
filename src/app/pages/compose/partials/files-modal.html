@@ -22,7 +22,7 @@
     </ul>
     <div class="files-modal-footer select" ng-if="ctrl.selectedFiles.length === 0">
         <label for="attach">Upload from Computer</label>
-        <a>Choose from Places Files</a>
+        <a ng-click="ctrl.placeFiles();">Choose from Places Files</a>
     </div>
     <div class="files-modal-footer attach" ng-if="ctrl.selectedFiles.length > 0">
         <div class="butn-green _fw" ng-click="ctrl.addToCompose();ctrl.closePopover()">Attach</div>

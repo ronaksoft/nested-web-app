@@ -1,0 +1,51 @@
+<div class="place-files-modal">
+    <div class="modal-h">
+        <div ng-repeat="breadcrumb in ctrl.breadcrumb track by $index">
+            <svg class="_16svg">
+                <use xlink:href="/assets/icons/nst-icn16.svg#arrow"></use>
+            </svg>
+            {{breadcrumb}}
+        </div>
+    </div>
+    <div class="modal-b">
+        <ul>
+            <li class="place" ng-repeat="place in ctrl.places" ng-click="ctrl.getSubPlace(place.id)">
+                <div class="place-logo">
+                    <img ng-src="{{place | picture:'x64'}}"/>
+                    <i>
+                        <svg class="_16svg" ng-show="ctrl.isGrandPlace">
+                            <use xlink:href="/assets/icons/nst-icn16.svg#places"></use>
+                        </svg>
+                        <svg class="_16svg" ng-show="!ctrl.isGrandPlace && !place.privacy.locked">
+                            <use xlink:href="/assets/icons/nst-icn16.svg#window"></use>
+                        </svg>
+                        <svg class="_16svg" ng-show="!ctrl.isGrandPlace && place.privacy.locked">
+                            <use xlink:href="/assets/icons/nst-icn16.svg#brick-wall"></use>
+                        </svg>
+                    </i>
+                </div>
+                <p>
+                    {{place.name}}
+                </p>
+            </li>
+            <li class="file" ng-repeat="file in ctrl.files" ng-click="ctrl.attachClick(file)">
+                <div class="pre-thumb" ng-if="file.thumbnail">
+                    <img src="{{file.thumbnail}}"/>
+                </div>
+                <div class="file-thumb {{file.type}}" ng-if="!file.thumbnail">
+                    <span>
+                        {{file.extension}}
+                    </span>
+                </div>
+                <p>
+                    {{file.filename.substring(0, 24)}}
+                </p>
+                <div class="select-handle"></div>
+            </li>
+        </ul>
+    </div>
+    <div class="modal-f">
+        <input type="button" value="Discard" class="butn-white">
+        <input type="button" value="Attach" class="butn-green">
+    </div>
+</div>
