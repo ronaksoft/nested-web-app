@@ -243,11 +243,26 @@
                         font-weight: bold;
                         line-height: 28px;
                         justify-content: center;
-                        &.pdf {
-                            color: $color-pdf;
-                            border-color: $color-pdf;
-                            box-shadow: 0 2px 4px rgba(205, 40, 40, .32);
-                        }
+                    }
+                    &.pdf span{
+                        color: $color-pdf;
+                        border-color: $color-pdf;
+                        box-shadow: 0 2px 4px rgba(205, 40, 40, .32);
+                    }
+                    &.archive span{
+                        border: 1px solid #502D96;
+                        color: #502D96;
+                        box-shadow: 0 2px 4px rgba(80, 45, 150, .32);
+                    }
+                    &.document span{
+                        border: 1px solid #2878CD;
+                        color: #2878CD;
+                        box-shadow: 0 2px 4px rgba(40,120,205, .32);
+                    }
+                    &.audio span{
+                        border: 1px solid #28CD96;
+                        color: #28CD96;
+                        box-shadow: 0 2px 4px rgba(32,162,119,.32);
                     }
                 }
                 p {

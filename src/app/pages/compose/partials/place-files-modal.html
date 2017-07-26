@@ -1,15 +1,15 @@
 <div class="place-files-modal">
     <div class="modal-h">
-        <div ng-repeat="breadcrumb in ctrl.breadcrumb track by $index">
+        <div ng-repeat="breadcrumb in ctrl.breadcrumb track by $index" ng-click="ctrl.breadcrumbClic(breadcrumb)">
             <svg class="_16svg">
                 <use xlink:href="/assets/icons/nst-icn16.svg#arrow"></use>
             </svg>
-            {{breadcrumb}}
+            {{breadcrumb.id}}
         </div>
     </div>
     <div class="modal-b">
         <ul>
-            <li class="place ng-class:{'disabledItem' : ctrl.selectedFiles.length > 0}" ng-repeat="place in ctrl.places" ng-click="ctrl.placeClick(place.id)">
+            <li class="place ng-class:{'disabledItem' : ctrl.selectedFiles.length > 0}" ng-repeat="place in ctrl.places" ng-click="ctrl.placeClick(place.id, place.name)">
                 <div class="place-logo">
                     <img ng-src="{{place | picture:'x64'}}"/>
                     <i>
@@ -49,7 +49,7 @@
         </ul>
     </div>
     <div class="modal-f">
-        <input type="button" ng-disabled="{{ctrl.selectedFiles.length > 0}}" ng-click="ctrl.closePopover()"  value="Discard" class="butn-white">
-        <input type="button" ng-disabled="{{ctrl.selectedFiles.length > 0}}" ng-click="ctrl.addToCompose()" value="Attach" class="butn-green">
+        <input type="button" ng-disabled="{{ctrl.selectedFiles.length === 0}}" ng-click="ctrl.closePopover()"  value="Discard" class="butn-white">
+        <input type="button" ng-disabled="{{ctrl.selectedFiles.length === 0}}" ng-click="ctrl.addToCompose()" value="Attach" class="butn-green">
     </div>
 </div>

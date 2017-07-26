@@ -18,14 +18,17 @@
     vm.attachments = [];
     vm.selectedFiles = [];
     vm.places = [];
-    vm.breadcrumb = ['Places', 'placeName1', 'placeName1'];
+    vm.breadcrumb = [{
+      id: 'Places',
+      name: 'Places'
+    }];
     vm.files = [];
     vm.loadMoreCounter = 0;
 
-    vm.add = add;
     vm.loadMore = loadMore;
     vm.addToCompose = addToCompose;
     vm.closePopover = closePopover;
+    vm.breadcrumbClic = breadcrumbClic;
     vm.unSelectFiles = unSelectFiles;
     vm.getSubPlace = getSubPlace;
     vm.attachClick = attachClick;
@@ -59,6 +62,7 @@
 
     function getSubPlace(placeId) {
       vm.settings.skip = 0;
+      vm.files = [];
       if ( placeId ) {
         // NstSvcPlaceFactory.getChildrens(placeId).then(function (places){
         //   vm.places = places;
@@ -71,10 +75,22 @@
       }
     }
 
-    function placeClick(placeId) {
+    function placeClick(placeId, placeName) {
       if (vm.selectedFiles.length === 0 ) {
         getSubPlace(placeId);
+        vm.breadcrumb.push({
+          id: placeId,
+          name: placeName
+        });
       }
+    }
+
+    function unSelectFiles() {
+      vm.selectedFiles = [];
+    }
+
+    function breadcrumbClic(breadcrumb) {
+      placeClick(breadcrumb.id, breadcrumb.name);
     }
 
     function attachClick(attachment) {
@@ -105,6 +121,7 @@
     }
 
     function getFiles(placeId) {
+      console.log(placeId);
       var deferred = $q.defer();
       NstSvcFileFactory.get(placeId, null, '', vm.settings.skip, vm.settings.limit).then(function (fileItems) {
         var newFileItems = _.differenceBy(fileItems, vm.files, 'id');
@@ -128,11 +145,6 @@
     function addToCompose() {
       uploadfiles(vm.selectedFiles);
       vm.closePopover();
-      // $scope.$parent.$parent.ctlCompose.addUploadedAttachs(vm.selectedFiles);
-    }
-
-    function unSelectFiles() {
-      vm.selectedFiles = [];
     }
 
     function openAttachment(attachment){
