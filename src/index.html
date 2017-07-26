@@ -9,7 +9,30 @@
     })('gODOe1HLEBFZOTGHW==')
   } catch (e) {
   }</script>
-  <script>
+  <script id="regexD">
+    !function (e, n, r) {
+      "use strict";
+
+      function t(e, n) {
+        return ("string" == typeof n || n instanceof String) && (n = new RegExp(n)), n instanceof RegExp ? n.test(e) : n && Array.isArray(n.and) ? n.and.every(function (n) {
+          return t(e, n)
+        }) : n && Array.isArray(n.or) ? n.or.some(function (n) {
+          return t(e, n)
+        }) : n && n.not ? !t(e, n.not) : !1
+      }
+
+      function o(e, n) {
+        return ("string" == typeof n || n instanceof String) && (n = new RegExp(n)), n instanceof RegExp ? n.exec(e) : n && Array.isArray(n) ? n.reduce(function (n, r) {
+          return n ? n : o(e, r)
+        }, null) : null
+      }
+
+      r && r.module("reTree", []).factory("reTree", [function () {
+        return {test: t, exec: o}
+      }]), n && (n.reTree = {test: t, exec: o}), e && (e.exports = {test: t, exec: o})
+    }("undefined" == typeof module ? null : module, "undefined" == typeof window ? null : window, "undefined" == typeof angular ? null : angular);
+  </script>
+  <script id="mobileD">
     var DEVICES_RE = {
       ANDROID: {and: [/\bAndroid\b/, {not: /Windows Phone/}]},
       I_PAD: /\biPad\b/,
@@ -21,21 +44,25 @@
       WINDOWS_PHONE: {or: [/\bIEMobile\b/, /\bWindows Phone\b/]},
       PS4: /\bMozilla\/5.0 \(PlayStation 4\b/,
       CHROMECAST: /\bCrKey\b/,
-      APPLE_TV:/^iTunes-AppleTV\/4.1$/,
-      GOOGLE_TV:/\bGoogleTV\b/,
+      APPLE_TV: /^iTunes-AppleTV\/4.1$/,
+      GOOGLE_TV: /\bGoogleTV\b/,
       VITA: /\bMozilla\/5.0 \(Play(S|s)tation Vita\b/
     };
     var ua = navigator.userAgent;
     var resault = [];
     var url = window.location.href;
-    url = url.toLowerCase().replace('index.html','')
-    for ( var k in DEVICES_RE ) {
+    url = url.toLowerCase().replace('index.html', '')
+    for (var k in DEVICES_RE) {
       var test = reTree.test(ua, DEVICES_RE[k]);
       resault.push(test);
     }
-    if ( resault.indexOf(true) > -1 ) {
-      location.href = '/m'+ window.location.pathname;
+    if (resault.indexOf(true) > -1) {
+      location.href = '/m' + window.location.pathname;
     }
+    t = document.getElementById('regexD');
+    t.parentNode.removeChild(t);
+    t = document.getElementById('mobileD');
+    t.parentNode.removeChild(t);
   </script>
   <meta charset="utf-8">
   <title>nested</title>

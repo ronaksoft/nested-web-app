@@ -36,6 +36,7 @@ build:mobile:
     - mkdir -p /var/lib/mobile
     - cd /var/lib/mobile
     - git clone http://gitlab-ci-token:$CI_BUILD_TOKEN@git.ronaksoftware.com/nested/web-mobile-app.git .
+    - git checkout master
     - npm install -g yarn
     - npm install
     - npm run build:prod

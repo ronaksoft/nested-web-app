@@ -3,7 +3,7 @@ FROM node:8.2.1-alpine
 # Create app directory
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
-RUN npm install -g local-web-server
+RUN npm install -g local-web-server@1.2.8
 EXPOSE 80
 
 COPY ./bin/nested-reconfig.js /bin/nested-reconfig.js

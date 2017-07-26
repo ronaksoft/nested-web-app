@@ -20,13 +20,13 @@ fi
 if  [[ -n "${NST_TLS_KEY_FILE}" && -n "${NST_TLS_CERT_FILE}" ]] ; then
      if  [[ -f $NST_TLS_CERT_FILE && -f $NST_TLS_KEY_FILE ]]; then
         echo "Webapp started over SSL" ;
-        ws -p 80 -s redirect-to-safe-mode.html &
-        ws -p 443 --cert $NST_TLS_CERT_FILE --key $NST_TLS_KEY_FILE;
+        ws -p 80 -s redirect-to-safe-mode.html -c ./.local-web-server.json &
+        ws -p 443 --cert $NST_TLS_CERT_FILE --key $NST_TLS_KEY_FILE -c ./.local-web-server.json;
      else
         echo "Webapp started without SSL" ;
-        ws -p 80;
+        ws -p 80 -c ./.local-web-server.json;
      fi ;
 else
      echo "Webapp started without SSL" ;
-     ws -p 80;
+     ws -p 80 -c ./.local-web-server.json;
 fi
