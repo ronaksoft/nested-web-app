@@ -1,12 +1,12 @@
 <div class="_difv" ng-controller="filesPopoverComposeController as ctrl">
     <div class="files-modal-head">
-        <span ng-if="ctrl.selectedFiles.length === 0">Recent Files</span>
+        <translate ng-if="ctrl.selectedFiles.length === 0">Recent Files</translate>
         <svg class="_16svg" ng-if="ctrl.selectedFiles.length > 0" ng-click="ctrl.unSelectFiles()">
             <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
         </svg>
-        <span ng-if="ctrl.selectedFiles.length > 0">{{ctrl.selectedFiles.length}} File selected</span>
+        <span ng-if="ctrl.selectedFiles.length > 0">{{ctrl.selectedFiles.length}} <translate>File selected</translate></span>
     </div>
-    <ul class="ng-class:{'haveSelectedItem' : ctrl.selectedFiles.length > 0}">
+    <ul modal-scroll class="ng-class:{'haveSelectedItem' : ctrl.selectedFiles.length > 0}">
         <li ng-repeat="item in ctrl.files" ng-click="ctrl.add(item)" class="ng-class:{'checked' : item.isSelected}">
             <div class="checkbox ng-class:{'checked' : item.isSelected}">
                 <svg class="_16svg _asc">
@@ -21,10 +21,10 @@
         </li>
     </ul>
     <div class="files-modal-footer select" ng-if="ctrl.selectedFiles.length === 0">
-        <label for="attach">Upload from Computer</label>
-        <a ng-click="ctrl.placeFiles();">Choose from Places Files</a>
+        <label for="attach"><translate>Upload from Computer</translate></label>
+        <a ng-click="ctrl.placeFiles();"><translate>Choose from Places Files</translate></a>
     </div>
     <div class="files-modal-footer attach" ng-if="ctrl.selectedFiles.length > 0">
-        <div class="butn-green _fw" ng-click="ctrl.addToCompose();ctrl.closePopover()">Attach</div>
+        <div class="butn-green _fw" ng-click="ctrl.addToCompose();ctrl.closePopover()"><translate>Attach</translate></div>
     </div>
 </div>
