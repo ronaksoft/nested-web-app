@@ -23,8 +23,9 @@ build:desktop:
     - cp .local-web-server.json $BUILD_DIR/desktop
     - mkdir -p $BUILD_DIR/bin
     - cp -r ./bin/* $BUILD_DIR/bin
-    - find . -type f -not -name \*.html -exec rm -rf {} \;
+    - find . -type f -not -name src\*.html -exec rm -rf {} \;
     - find . -type d -empty -delete
+    - rm ./src/index.html
     - cp -r ./src/* $BUILD_DIR/desktop
 
   artifacts:
