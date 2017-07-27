@@ -74,6 +74,8 @@
                 display: block;
                 line-height: 24px;
                 text-align: center;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
             img {
                 width: 48px;
