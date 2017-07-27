@@ -196,7 +196,7 @@
       var lengthNew = vm.attachments.viewModels.length;
       var duplicates = lengthNew - lengthOld - attachments.length;
       if (duplicates < 0 ) {
-        toastr.warning(NstUtility.string.format(NstSvcTranslation.get('{0} was added before'), duplicates * -1));
+        toastr.warning(NstUtility.string.format(NstSvcTranslation.get('{0} item/s has been added before!'), duplicates * -1));
       }
       // console.log(vm.model.attachments, vm.attachments.viewModels);
       vm.attachments.size.total += _.sum(_.map(attachments, 'size'));
