@@ -37,6 +37,7 @@
     vm.placeClick = placeClick;
 
     vm.isLoading = false;
+    vm.isLoadingMore = false;
     vm.hasPreviousPage = false;
     vm.hasNextPage = false;
     vm.currentPlaceId = null;
@@ -58,7 +59,7 @@
       if (vm.hasNextPage && !vm.isLoading) {
         vm.loadMoreCounter++;
         // NstSvcInteractionTracker.trackEvent('files', 'load more', vm.loadMoreCounter);
-        vm.isLoading = true;
+        vm.isLoadingMore = true;
         getFiles(placeId ? placeId : vm.breadcrumb[vm.breadcrumb.length - 1].id);
       }
     }
@@ -159,6 +160,7 @@
         deferred.reject();
       }).finally(function () {
         vm.isLoading = false;
+        vm.isLoadingMore = false;
       });
 
       return deferred.promise;

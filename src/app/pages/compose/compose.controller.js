@@ -185,10 +185,19 @@
         item.status = NST_ATTACHMENT_STATUS.ATTACHED;
         return item;
       }));
+      var lengthOld = vm.attachments.viewModels.length;
       vm.attachments.viewModels = vm.attachments.viewModels.concat(
         _.map(attachments, function (item) {
           return NstSvcAttachmentMap.toEditableAttachmentItem(item);
         }));
+      vm.attachments.viewModels = _.uniqBy(vm.attachments.viewModels, function(o) {
+        return o.id;
+      });
+      var lengthNew = vm.attachments.viewModels.length;
+      var duplicates = lengthNew - lengthOld - attachments.length;
+      if (duplicates < 0 ) {
+        toastr.warning(NstUtility.string.format(NstSvcTranslation.get('{0} was added before'), duplicates * -1));
+      }
       // console.log(vm.model.attachments, vm.attachments.viewModels);
       vm.attachments.size.total += _.sum(_.map(attachments, 'size'));
       vm.attachments.size.uploaded += _.sum(_.map(attachments, 'size'));
