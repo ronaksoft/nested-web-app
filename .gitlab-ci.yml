@@ -9,6 +9,8 @@ image: node
 
 build:desktop:
   stage: build
+  only:
+      - master
   script:
     - cp -r . /var/lib/desktop
     - cd /var/lib/desktop
@@ -23,7 +25,7 @@ build:desktop:
     - cp -r ./bin/* $BUILD_DIR/bin
     - find . -type f -not -name \*.html -exec rm -rf {} \;
     - find . -type d -empty -delete
-    - cp -r ./src $BUILD_DIR/desktop
+    - cp -r ./src/* $BUILD_DIR/desktop
 
   artifacts:
     untracked: true
@@ -32,6 +34,8 @@ build:desktop:
 
 build:mobile:
   stage: build
+  only:
+      - master
   script:
     - mkdir -p /var/lib/mobile
     - cd /var/lib/mobile
