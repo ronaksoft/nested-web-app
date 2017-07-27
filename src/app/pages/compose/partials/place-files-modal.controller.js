@@ -20,7 +20,7 @@
     vm.places = [];
     vm.breadcrumb = [{
       id: '',
-      name: 'Places',
+      name: NstSvcTranslation.get('Places'),
       visible: true
     }];
     vm.files = [];
@@ -29,7 +29,7 @@
     vm.loadMore = loadMore;
     vm.addToCompose = addToCompose;
     vm.closePopover = closePopover;
-    vm.breadcrumbClic = breadcrumbClic;
+    vm.breadcrumbClick = breadcrumbClick;
     vm.unSelectFiles = unSelectFiles;
     vm.getSubPlace = getSubPlace;
     vm.attachClick = attachClick;
@@ -59,7 +59,7 @@
         vm.loadMoreCounter++;
         // NstSvcInteractionTracker.trackEvent('files', 'load more', vm.loadMoreCounter);
         vm.isLoading = true;
-        getFiles(placeId);
+        getFiles(placeId ? placeId : vm.breadcrumb[vm.breadcrumb.length - 1].id);
       }
     }
 
@@ -67,6 +67,7 @@
       vm.isLoading = true;
       vm.settings.skip = 0;
       vm.files = [];
+      vm.places = [];
       if ( placeId && placeId.length > 0 ) {
         NstSvcPlaceFactory.getGrandPlaceChildren(placeId).then(function (places){
           vm.places = _.sortBy(places, [function(o) { return o.id; }]);
@@ -111,7 +112,7 @@
       vm.selectedFiles = [];
     }
 
-    function breadcrumbClic(breadcrumb) {
+    function breadcrumbClick(breadcrumb) {
       placeClick(breadcrumb.id, breadcrumb.name);
     }
 

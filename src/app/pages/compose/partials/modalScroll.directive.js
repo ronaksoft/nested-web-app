@@ -11,7 +11,7 @@
       link: function (scope, ele) {
         var interval = $interval(function(){
             if ( ele[0].scrollTop + ele[0].clientHeight > ele[0].scrollHeight * 0.8 ) {
-                scope.ctrl.loadMore(scope.ctrl.breadcrumb[scope.ctrl.breadcrumb.length - 1].id);
+                scope.ctrl.loadMore();
             }
         },1000);
         

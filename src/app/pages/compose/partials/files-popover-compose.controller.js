@@ -76,7 +76,7 @@
     function loadMore() {
       if (vm.hasNextPage) {
         vm.loadMoreCounter++;
-        NstSvcInteractionTracker.trackEvent('files', 'load more', vm.loadMoreCounter);
+        // NstSvcInteractionTracker.trackEvent('files', 'load more', vm.loadMoreCounter);
         load();
       }
     }

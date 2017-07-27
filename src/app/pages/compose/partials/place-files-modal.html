@@ -1,6 +1,6 @@
 <div class="place-files-modal">
     <div class="modal-h">
-        <div ng-repeat="breadcrumb in ctrl.breadcrumb track by $index" ng-click="ctrl.breadcrumbClic(breadcrumb)" ng-if="ctrl.selectedFiles.length === 0 && breadcrumb.visible">
+        <div ng-repeat="breadcrumb in ctrl.breadcrumb track by $index" ng-click="ctrl.breadcrumbClick(breadcrumb)" ng-if="ctrl.selectedFiles.length === 0 && breadcrumb.visible">
             <svg class="_16svg">
                 <use xlink:href="/assets/icons/nst-icn16.svg#arrow"></use>
             </svg>
@@ -10,11 +10,11 @@
             <svg class="_16svg" ng-click="ctrl.unSelectFiles();">
                 <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
             </svg>
-            {{ctrl.selectedFiles.length}} File Selected
+            {{ctrl.selectedFiles.length}} <translate>File Selected</translate>
         </div>
     </div>
     <div class="modal-b">
-        <ul modal-scroll>
+        <ul modal-scroll ng-if="!ctrl.isLoading">
             <li class="place ng-class:{'disabledItem' : ctrl.selectedFiles.length > 0}" ng-repeat="place in ctrl.places" ng-click="ctrl.placeClick(place.id, place.name)">
                 <div class="place-logo">
                     <img ng-src="{{place | picture:'x64'}}"/>
@@ -52,7 +52,7 @@
                     </svg>
                 </div>
             </li>
-            <div ng-if="ctrl.places.length === 0 && ctrl.files.length === 0"> No File or place</div>
+            <div ng-if="ctrl.places.length === 0 && ctrl.files.length === 0"><translate>No File or place</translate></div>
         </ul>
         <div class="loading" ng-if="ctrl.isLoading">
             <div class="animation"><div class="circle one"></div></div>
