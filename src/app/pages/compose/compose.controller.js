@@ -185,7 +185,10 @@
         item.status = NST_ATTACHMENT_STATUS.ATTACHED;
         return item;
       }));
-      vm.attachments.viewModels = vm.attachments.viewModels.concat(_.map(attachments, NstSvcAttachmentMap.toEditableAttachmentItem));
+      vm.attachments.viewModels = vm.attachments.viewModels.concat(
+        _.map(attachments, function (item) {
+          return NstSvcAttachmentMap.toEditableAttachmentItem(item);
+        }));
       // console.log(vm.model.attachments, vm.attachments.viewModels);
       vm.attachments.size.total += _.sum(_.map(attachments, 'size'));
       vm.attachments.size.uploaded += _.sum(_.map(attachments, 'size'));
@@ -327,7 +330,7 @@
           vm.search.results.push(tag);
         });
 
-        if (!_.some(vm.search.results, { 'id': query })) {
+        if (!_.some(vm.search.results, {'id': query})) {
           var initPlace = new NstVmSelectTag({
             id: query,
             name: query
