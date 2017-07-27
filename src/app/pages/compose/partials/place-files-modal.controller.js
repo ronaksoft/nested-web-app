@@ -19,8 +19,9 @@
     vm.selectedFiles = [];
     vm.places = [];
     vm.breadcrumb = [{
-      id: 'Places',
-      name: 'Places'
+      id: '',
+      name: 'Places',
+      visible: true
     }];
     vm.files = [];
     vm.loadMoreCounter = 0;
@@ -35,6 +36,7 @@
     vm.selectToggle = selectToggle;
     vm.placeClick = placeClick;
 
+    vm.isLoading = false;
     vm.hasPreviousPage = false;
     vm.hasNextPage = false;
     vm.currentPlaceId = null;
@@ -52,40 +54,60 @@
       
     }
 
-    function loadMore() {
-      if (vm.hasNextPage) {
+    function loadMore(placeId) {
+      if (vm.hasNextPage && !vm.isLoading) {
         vm.loadMoreCounter++;
-        NstSvcInteractionTracker.trackEvent('files', 'load more', vm.loadMoreCounter);
-        load();
+        // NstSvcInteractionTracker.trackEvent('files', 'load more', vm.loadMoreCounter);
+        vm.isLoading = true;
+        getFiles(placeId);
       }
     }
 
     function getSubPlace(placeId) {
+      vm.isLoading = true;
       vm.settings.skip = 0;
       vm.files = [];
-      if ( placeId ) {
-        // NstSvcPlaceFactory.getChildrens(placeId).then(function (places){
-        //   vm.places = places;
-        // });
+      if ( placeId && placeId.length > 0 ) {
+        NstSvcPlaceFactory.getGrandPlaceChildren(placeId).then(function (places){
+          vm.places = _.sortBy(places, [function(o) { return o.id; }]);
+        });
         getFiles(placeId) ;
       } else {
         NstSvcPlaceFactory.getGrandPlaces().then(function (places){
           vm.places = places;
+          vm.isLoading = false;
         });
       }
+    }
+
+    function getGrandPlaces() {
+      NstSvcPlaceFactory.getGrandPlaces().then(function (places){
+        vm.places = places;
+      });
     }
 
     function placeClick(placeId, placeName) {
-      if (vm.selectedFiles.length === 0 ) {
-        getSubPlace(placeId);
+      if ( vm.selectedFiles.length > 0 ) {return;}
+      getSubPlace(placeId);
+      var item = _.find(vm.breadcrumb, function(o){
+        return o.id === placeId
+      });
+      if (item) {
+        vm.breadcrumb = _.dropRight(vm.breadcrumb, vm.breadcrumb.length - vm.breadcrumb.indexOf(item) - 1);
+      } else {
         vm.breadcrumb.push({
           id: placeId,
-          name: placeName
+          name: placeName,
+          visible: true
         });
       }
+      appearBreadcrumb();
     }
 
     function unSelectFiles() {
+      vm.selectedFiles.forEach(function(o){
+        o.selected = false;
+      });
       vm.selectedFiles = [];
     }
 
@@ -121,7 +143,6 @@
     }
 
     function getFiles(placeId) {
-      console.log(placeId);
       var deferred = $q.defer();
       NstSvcFileFactory.get(placeId, null, '', vm.settings.skip, vm.settings.limit).then(function (fileItems) {
         var newFileItems = _.differenceBy(fileItems, vm.files, 'id');
@@ -136,7 +157,7 @@
         vm.loadFilesError = true;
         deferred.reject();
       }).finally(function () {
-        // vm.filesLoadProgress = false;
+        vm.isLoading = false;
       });
 
       return deferred.promise;
@@ -145,6 +166,16 @@
     function addToCompose() {
       uploadfiles(vm.selectedFiles);
       vm.closePopover();
+    }
+
+    function appearBreadcrumb() {
+      vm.breadcrumb.forEach(function(o){
+        o.visible = false;
+
+      });
+      vm.breadcrumb[0].visible = true;
+      if ( vm.breadcrumb[vm.breadcrumb.length - 2]) {vm.breadcrumb[vm.breadcrumb.length - 2].visible = true;}
+      if ( vm.breadcrumb[vm.breadcrumb.length - 1]) {vm.breadcrumb[vm.breadcrumb.length - 1].visible = true;}
     }
 
     function openAttachment(attachment){

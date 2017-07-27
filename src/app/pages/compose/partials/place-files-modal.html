@@ -1,14 +1,20 @@
 <div class="place-files-modal">
     <div class="modal-h">
-        <div ng-repeat="breadcrumb in ctrl.breadcrumb track by $index" ng-click="ctrl.breadcrumbClic(breadcrumb)">
+        <div ng-repeat="breadcrumb in ctrl.breadcrumb track by $index" ng-click="ctrl.breadcrumbClic(breadcrumb)" ng-if="ctrl.selectedFiles.length === 0 && breadcrumb.visible">
             <svg class="_16svg">
                 <use xlink:href="/assets/icons/nst-icn16.svg#arrow"></use>
             </svg>
-            {{breadcrumb.id}}
+            {{breadcrumb.name}}
+        </div>
+        <div class="selected-files-head" ng-if="ctrl.selectedFiles.length > 0">
+            <svg class="_16svg" ng-click="ctrl.unSelectFiles();">
+                <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
+            </svg>
+            {{ctrl.selectedFiles.length}} File Selected
         </div>
     </div>
     <div class="modal-b">
-        <ul>
+        <ul modal-scroll>
             <li class="place ng-class:{'disabledItem' : ctrl.selectedFiles.length > 0}" ng-repeat="place in ctrl.places" ng-click="ctrl.placeClick(place.id, place.name)">
                 <div class="place-logo">
                     <img ng-src="{{place | picture:'x64'}}"/>
@@ -46,10 +52,19 @@
                     </svg>
                 </div>
             </li>
+            <div ng-if="ctrl.places.length === 0 && ctrl.files.length === 0"> No File or place</div>
         </ul>
+        <div class="loading" ng-if="ctrl.isLoading">
+            <div class="animation"><div class="circle one"></div></div>
+            <div class="animation"><div class="circle two"></div></div>
+            <div class="animation"><div class="circle three"></div></div>
+            <div class="animation"><div class="circle four"></div></div>
+            <div class="animation"><div class="circle five"></div></div>
+        </div>
     </div>
     <div class="modal-f">
-        <input type="button" ng-disabled="{{ctrl.selectedFiles.length === 0}}" ng-click="ctrl.closePopover()"  value="Discard" class="butn-white">
-        <input type="button" ng-disabled="{{ctrl.selectedFiles.length === 0}}" ng-click="ctrl.addToCompose()" value="Attach" class="butn-green">
+        <input type="button" ng-click="ctrl.closePopover()"  value="Discard" class="butn-white">
+        <input type="button" ng-if="ctrl.selectedFiles.length> 0" ng-click="ctrl.addToCompose()" value="Attach" class="butn-green">
+        <input ng-if="ctrl.selectedFiles.length === 0" type="button" disabled value="Attach" class="butn-green">
     </div>
 </div>

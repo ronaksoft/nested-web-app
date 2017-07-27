@@ -128,26 +128,44 @@
         height: 64px;
         width: 100%;
         display: flex;
+        line-height: 24px;
         align-items: center;
         flex: none;
         padding: 0 24px;
         box-shadow: 0 0 8px rgba(0,0,0,.08);
         >div:first-of-type {
             opacity: .72;
-            font-weight: regular;
+            font-weight: 400;
             svg:first-of-type {
                 display: none;
             }
         }
         > div {
             font-size: 18px;
-            line-height: bold;
+            font-weight: bold;
             color: $color-solid;
         }
         svg {
             transform: rotateZ(-90deg);
             opacity: .72;
             margin: 0 8px;
+        }
+        .selected-files-head {
+            &:first-of-type {
+                opacity: .72;
+                font-weight: 400;
+                svg:first-of-type {
+                    display: inline-flex;
+                    flex: none;
+                }
+            }
+            svg {
+                margin: 0 16px 0 0;
+                border-radius: 16px;
+                background-color: $color-new-hurricane;
+                transform: none;
+                fill: $color-white;
+            }
         }
     }
     .modal-b {
