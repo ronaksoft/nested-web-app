@@ -29,7 +29,7 @@
     vm.loadMore = loadMore;
     vm.addToCompose = addToCompose;
     vm.closePopover = closePopover;
-    vm.breadcrumbClic = breadcrumbClic;
+    vm.breadcrumbClick = breadcrumbClick;
     vm.unSelectFiles = unSelectFiles;
     vm.getSubPlace = getSubPlace;
     vm.attachClick = attachClick;
@@ -112,7 +112,7 @@
       vm.selectedFiles = [];
     }
 
-    function breadcrumbClic(breadcrumb) {
+    function breadcrumbClick(breadcrumb) {
       placeClick(breadcrumb.id, breadcrumb.name);
     }
 
