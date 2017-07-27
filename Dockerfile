@@ -1,8 +1,8 @@
 FROM node:8.2.1-alpine
 
 # Create app directory
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
+RUN mkdir -p /ronak/nested
+WORKDIR /ronak/nested
 RUN npm install -g local-web-server@1.2.8
 EXPOSE 80
 
@@ -12,5 +12,5 @@ COPY ./run.sh .
 CMD  /bin/sh run.sh
 
 # Install app dependencies
-COPY ./build/desktop /usr/src/app/desktop
-COPY ./build/mobile /usr/src/app/mobile
+COPY ./build/desktop /ronak/nested/desktop
+COPY ./build/mobile /ronak/nested/mobile

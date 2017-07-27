@@ -83,11 +83,6 @@ gulp.task('fonts', function () {
     .pipe(gulp.dest(path.join(conf.paths.relDist, '/assets/fonts/')));
 });
 
-gulp.task('ckeditor', function () {
-  return gulp.src(['bower_components/ckeditor/**/*.*'])
-  .pipe(gulp.dest(conf.paths.relDist + '/scripts/ckeditor/'));
-});
-
 gulp.task('other', function () {
   var fileFilter = $.filter(function (file) {
     return file.stat.isFile();
