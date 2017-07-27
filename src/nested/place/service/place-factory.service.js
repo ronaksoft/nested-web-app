@@ -128,6 +128,36 @@
 
     }
 
+    /**
+     * Retrieves a place by id and store in the related cache storage
+     *
+     * @param {String} id
+     *
+     * @returns {Promise}
+     */
+    PlaceFactory.prototype.getChildrens = function (id) {
+      var factory = this;
+
+      return factory.sentinel.watch(function () {
+        var query = new NstFactoryQuery(id);
+
+        return $q(function (resolve, reject) {
+          var place = NstSvcPlaceStorage.get(query.id) || NstSvcTinyPlaceStorage.get(query.id);
+
+          if (place) {
+            console.log(place);
+            resolve(place);
+          } else {
+            factory.get(query.id).then(function (place) {
+              NstSvcTinyPlaceStorage.set(query.id, place);
+              resolve(place);
+            }).catch(reject);
+          }
+        });
+      }, "getTiny", id);
+
+    }
+
     PlaceFactory.prototype.getTinySafe = function (id) {
       var service = this;
       return $q(function (resolve) {

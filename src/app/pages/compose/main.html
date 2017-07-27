@@ -76,16 +76,13 @@
     </div>
     <div class="modal-ft _fw anim-q _aic ng-class:{'focused' : ctlCompose.focus, 'notfirst' : ctlCompose.firstUp}">
       <div class="compose-btns _pr">
-        <!--<label class="_df _fn cursor-pointer" class="cursor-pointer margin-r_5 icon _df"
-           popover-class="white-pop post-card-moreopt"
-           data-popover-placement="{{$root._direction == 'ltr' ? 'left auto' : 'right auto'}}"
+        <label class="_df _fn cursor-pointer" class="cursor-pointer margin-r_5 icon _df"
+           popover-class="white-pop files-modal"
+           ng-click="ctlCompose.filesPopver = true"
+           data-popover-is-open="ctlCompose.filesPopver"
+           data-popover-placement="top-center auto"
            data-uib-popover-template="'app/pages/compose/partials/files-modal.html'"
            data-popover-append-to-body="false" translate-attrs="data-uib-tooltip">
-          <svg class="_24svg _asc">
-            <use xlink:href="/assets/icons/nst-icn24.svg#attach"></use>
-          </svg>
-        </label>-->
-        <label class="_df _fn cursor-pointer" for="attach" class="cursor-pointer margin-r_5 icon _df">
           <svg class="_24svg _asc">
             <use xlink:href="/assets/icons/nst-icn24.svg#attach"></use>
           </svg>
@@ -94,7 +91,6 @@
           <svg class="_24svg _asc">
             <use xlink:href="/assets/icons/nst-icn24.svg#camera-wire"></use>
           </svg>
-        </label>
         </label>
         <div class="emoji _df _pr">
           <svg class="_24svg _asc">

@@ -6,7 +6,7 @@
     .controller('indexController', AppController);
 
   /** @ngInject */
-  function AppController($window, $rootScope, NstSvcI18n, NstSvcNotification) {
+  function AppController($window, $rootScope, NstSvcI18n, NstSvcNotification, _) {
     var vm = this;
     vm.removeClass = _.debounce(removeClass, 512);
 
@@ -26,7 +26,7 @@
     $window.addEventListener("drop",function(e){
       e = e || event;
       e.preventDefault();
-      removeClass()
+      removeClass();
     },false);
 
 

@@ -450,7 +450,8 @@ body.isMobile {
 .compose-scrl-wrp {
   max-height: calc( 90vh - 300px);
   min-height: 250px;
-
+  margin: 0 -8px;
+  padding: 0 8px;
   ul, ol {
     margin: 0 24px;
   }
@@ -459,17 +460,17 @@ body.isMobile {
   }
 }
 .modal-ft {
-    .emoji {
-      position: relative;
-      width: 24px;
-      height: 24px;
-      div {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-        right: auto;
-      }
+  .emoji {
+    position: relative;
+    width: 24px;
+    height: 24px;
+    div {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      right: auto;
     }
   }
+}

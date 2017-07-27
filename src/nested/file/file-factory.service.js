@@ -94,6 +94,30 @@
     }
 
 
+    FileFactory.prototype.recentFiles = function (skip, limit) {
+      var that = this;
+      return factory.sentinel.watch(function () {
+        var deferred = $q.defer();
+
+        NstSvcServer.request('file/get_recent_files', {
+          skip: skip || 0,
+          limit: limit || 16
+        }).then(function (data) {
+          var files = _.map(data.files, function (item) {
+            var file = that.parseFile(item);
+            NstSvcFileStorage.set(file.id, file);
+            return file;
+          });
+          deferred.resolve(files);
+        }).catch(function (error) {
+          deferred.reject(error);
+        });
+
+        return deferred.promise;
+      }, 'get');
+    };
+
+
     /**
      * Get single file by Id
      *
