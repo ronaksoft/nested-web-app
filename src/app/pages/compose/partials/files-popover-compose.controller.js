@@ -95,7 +95,11 @@
       $scope.$parent.$parent.ctlCompose.addUploadedAttachs(vm.selectedFiles);
     }
 
-    function unSelectFiles() {
+    function unSelectFiles(e) {
+      e.stopPropagation();
+      vm.selectedFiles.forEach(function(o){
+        o.isSelected = false;
+      })
       vm.selectedFiles = [];
     }
 

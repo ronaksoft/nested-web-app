@@ -1,12 +1,12 @@
 <div class="_difv" ng-controller="filesPopoverComposeController as ctrl">
     <div class="files-modal-head">
         <translate ng-if="ctrl.selectedFiles.length === 0">Recent Files</translate>
-        <svg class="_16svg" ng-if="ctrl.selectedFiles.length > 0" ng-click="ctrl.unSelectFiles()">
+        <svg class="_16svg" ng-if="ctrl.selectedFiles.length > 0" ng-click="ctrl.unSelectFiles($event);">
             <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
         </svg>
         <span ng-if="ctrl.selectedFiles.length > 0">{{ctrl.selectedFiles.length}} <translate>File selected</translate></span>
     </div>
-    <ul modal-scroll class="ng-class:{'haveSelectedItem' : ctrl.selectedFiles.length > 0}">
+    <ul modal-scroll nst-scrollbar class="ng-class:{'haveSelectedItem' : ctrl.selectedFiles.length > 0}">
         <li ng-repeat="item in ctrl.files" ng-click="ctrl.add(item)" class="ng-class:{'checked' : item.isSelected}">
             <div class="checkbox ng-class:{'checked' : item.isSelected}">
                 <svg class="_16svg _asc">

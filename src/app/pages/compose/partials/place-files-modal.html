@@ -14,7 +14,7 @@
         </div>
     </div>
     <div class="modal-b">
-        <ul modal-scroll ng-if="!ctrl.isLoading">
+        <ul modal-scroll nst-scrollbar ng-if="!ctrl.isLoading">
             <li class="place ng-class:{'disabledItem' : ctrl.selectedFiles.length > 0}" ng-repeat="place in ctrl.places" ng-click="ctrl.placeClick(place.id, place.name)">
                 <div class="place-logo">
                     <img ng-src="{{place | picture:'x64'}}"/>
