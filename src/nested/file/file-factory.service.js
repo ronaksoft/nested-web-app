@@ -94,25 +94,33 @@
     }
 
 
-    FileFactory.prototype.recentFiles = function (skip, limit) {
+    FileFactory.prototype.recentFiles = function (skip, limit, callback) {
       var that = this;
       return factory.sentinel.watch(function () {
         var deferred = $q.defer();
-
+        var recentFiles = NstSvcFileStorage.get('recentFiles');
+        if (recentFiles && skip === 0) {
+          deferred.resolve(recentFiles);
+        } 
         NstSvcServer.request('file/get_recent_files', {
-          skip: skip || 0,
-          limit: limit || 16
+            skip: skip || 0,
+            limit: limit || 16
         }).then(function (data) {
           var files = _.map(data.files, function (item) {
             var file = that.parseFile(item);
             NstSvcFileStorage.set(file.id, file);
             return file;
           });
-          deferred.resolve(files);
+          if( skip === 0 ) {
+            NstSvcFileStorage.set('recentFiles',files);
+          }
+          if ((!recentFiles && skip === 0) || skip > 0) {
+            deferred.resolve(files);
+          }
+          callback(files);
         }).catch(function (error) {
           deferred.reject(error);
         });
-
         return deferred.promise;
       }, 'get');
     };
