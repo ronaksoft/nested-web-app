@@ -30,8 +30,8 @@
                         </svg>
                     </i>
                 </div>
-                <p>
-                    {{place.name}}
+                <p class="_wrb">
+                    {{place.name.substring(0, 24)}}{{place.name.length > 24 ? '...' : ''}}
                 </p>
             </li>
             <li ng-repeat="file in ctrl.files" ng-click="ctrl.attachClick(file)" class="file ng-class:{'checked' : file.selected}">
@@ -44,7 +44,7 @@
                     </span>
                 </div>
                 <p>
-                    {{file.filename.substring(0, 24)}}
+                    {{file.filename.substring(0, 24)}}{{file.filename.length > 24 ? '...' : ''}}
                 </p>
                 <div class="checkbox" ng-click="ctrl.selectToggle($event, file)">
                     <svg class="_16svg">

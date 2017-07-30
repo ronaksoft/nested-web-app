@@ -21,8 +21,32 @@
         </li>
     </ul>
     <div class="files-modal-footer select" ng-if="ctrl.selectedFiles.length === 0">
-        <label for="attach"><translate>Upload from Computer</translate></label>
-        <a ng-click="ctrl.placeFiles();"><translate>Choose from Places Files</translate></a>
+        <label for="attach">
+            <svg class="_24svg _asc">
+                <use xlink:href="/assets/icons/nst-icn24.svg#attach"></use>
+            </svg>
+            <translate>Upload Files</translate>
+        </label>
+        <label for="attach-img">
+            <span class="">
+                <svg class="_24svg _asc">
+                    <use xlink:href="/assets/icons/nst-icn24.svg#attach"></use>
+                </svg>
+                <svg class="_24svg _asc">
+                    <use xlink:href="/assets/icons/nst-icn24.svg#attach"></use>
+                </svg>
+                <svg class="_24svg _asc">
+                    <use xlink:href="/assets/icons/nst-icn24.svg#attach"></use>
+                </svg>
+            </span>
+            <translate>Upload Media</translate>
+        </label>
+        <a ng-click="ctrl.placeFiles();ctrl.closePopover()">
+            <svg class="_24svg _asc">
+                <use xlink:href="/assets/icons/nst-icn24.svg#places"></use>
+            </svg>
+            <translate>Choose from Places</translate>
+        </a>
     </div>
     <div class="files-modal-footer attach" ng-if="ctrl.selectedFiles.length > 0">
         <div class="butn-green _fw" ng-click="ctrl.addToCompose();ctrl.closePopover()"><translate>Attach</translate></div>
