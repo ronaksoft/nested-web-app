@@ -5,11 +5,11 @@
     .module('ronak.nested.web.place')
     .service('NstSvcPlaceFactory', NstSvcPlaceFactory);
 
-  function NstSvcPlaceFactory($q, _, $rootScope,
+  function NstSvcPlaceFactory($q, _, $rootScope, $window,
                               NST_SRV_ERROR, NST_PLACE_ACCESS, NST_EVENT_ACTION, NST_PLACE_EVENT,
                               NstSvcServer, NstSvcPlaceStorage, NstSvcTinyPlaceStorage, NstSvcMyPlaceIdStorage, NstSvcUserFactory, NstSvcPlaceRoleStorage, NstSvcPlaceAccessStorage, NstSvcLogger,
                               NstBaseFactory, NstFactoryQuery, NstFactoryError, NstUtility, NstTinyPlace, NstPlace, NstFactoryEventData, NstSvcPlaceMap, NstPicture,
-                              NstPlaceCreatorOfParentError, NstPlaceOneCreatorLeftError, NstManagerOfSubPlaceError) {
+                              NstPlaceCreatorOfParentError, NstPlaceOneCreatorLeftError, NstManagerOfSubPlaceError, NstUtilPlace) {
     function PlaceFactory() {
       var factory = this;
 
@@ -635,6 +635,13 @@
           member_id: query.data.memberId
         }).then(function () {
           NstSvcLogger.debug(NstUtility.string.format('User "{0}" was removed from place "{1}".', memberId, placeId));
+          if (NstUtilPlace.isGrand(placeId)) {
+            factory.getGrandPlaceChildren(placeId).then(function (places) {
+              NstSvcTinyPlaceStorage.set(placeId, places);
+            }).catch(function () {
+              NstSvcLogger.debug('Cant resolve in remove member');
+            });
+          }
           deferred.resolve();
         }).catch(function (error) {
           if (error.getCode() === NST_SRV_ERROR.ACCESS_DENIED) {
