@@ -48,6 +48,11 @@
         });
       });
 
+      NstSvcServer.addEventListener(NST_EVENT_ACTION.MEMBER_JOIN, function (event) {
+        var tlData = event.detail;
+        factory.updateStorageByPlaceId(tlData.place_id);
+      });
+
       NstBaseFactory.call(this);
     }
 
@@ -635,13 +640,7 @@
           member_id: query.data.memberId
         }).then(function () {
           NstSvcLogger.debug(NstUtility.string.format('User "{0}" was removed from place "{1}".', memberId, placeId));
-          if (NstUtilPlace.isGrand(placeId)) {
-            factory.getGrandPlaceChildren(placeId).then(function (places) {
-              NstSvcTinyPlaceStorage.set(placeId, places);
-            }).catch(function () {
-              NstSvcLogger.debug('Cant resolve in remove member');
-            });
-          }
+          factory.updateStorageByPlaceId(placeId);
           deferred.resolve();
         }).catch(function (error) {
           if (error.getCode() === NST_SRV_ERROR.ACCESS_DENIED) {
@@ -1183,6 +1182,26 @@
         return deferred.promise;
       }, "getPlacesWithCreatorFilter");
     }
+
+
+    /**
+     * update place cache if place id belongs to a grand place
+     *
+     * @param  {string} placeId if of the place
+     * @return {void}
+     */
+    PlaceFactory.prototype.updateStorageByPlaceId = function(placeId) {
+      var factory = this;
+      if (NstUtilPlace.isGrand(placeId)) {
+        factory.getGrandPlaceChildren(placeId).then(function (places) {
+          NstSvcTinyPlaceStorage.set(placeId, places);
+        }).catch(function () {
+          NstSvcLogger.debug('Cant resolve in remove member');
+        });
+      }
+    };
+
+
     /**
      * addPlace - Finds parent of a place and puts the place in its children
      *
