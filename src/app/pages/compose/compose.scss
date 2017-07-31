@@ -458,6 +458,8 @@ body.isMobile {
 .fr-toolbar .fr-command.fr-btn.fr-active img,
 .fr-popup .fr-command.fr-btn[aria-pressed="true"] img {
     opacity: 1;
+    background-color: $color-breeze-5-new;
+    border-radius: 2px;
 }
 .fr-toolbar .fr-command.fr-btn.fr-dropdown.fr-selection {
   width: 38px;
