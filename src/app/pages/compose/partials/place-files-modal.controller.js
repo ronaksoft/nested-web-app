@@ -35,6 +35,7 @@
     vm.attachClick = attachClick;
     vm.selectToggle = selectToggle;
     vm.placeClick = placeClick;
+    vm.isGrandPlace = isGrandPlace;
 
     vm.isLoading = false;
     vm.isLoadingMore = false;
@@ -76,6 +77,7 @@
         getFiles(placeId) ;
       } else {
         NstSvcPlaceFactory.getGrandPlaces().then(function (places){
+          console.log(places);
           vm.places = places;
           vm.isLoading = false;
         });
@@ -86,6 +88,10 @@
       NstSvcPlaceFactory.getGrandPlaces().then(function (places){
         vm.places = places;
       });
+    }
+
+    function isGrandPlace(id) {
+      return id.indexOf('.') === -1;
     }
 
     function placeClick(placeId, placeName) {

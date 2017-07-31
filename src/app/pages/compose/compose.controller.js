@@ -33,6 +33,8 @@
     vm.haveComment = true;
     vm.focusBody = false;
     vm.filesPopver = false;
+    vm.cmdPress = false;
+    vm.cmdVPress = false;
     vm.targetLimit;
 
     if (vm.mode == 'quick') {
@@ -908,9 +910,32 @@
       this.selection.restore();
     }
 
-    $.FroalaEditor.DefineIcon('rightToLeft', {NAME: 'long-arrow-left'});
+    // Define a text icon called imageIcon.
+    $.FroalaEditor.DefineIcon('align-justify', {SRC: isRetinaDisplay() ? '/assets/icons/editor/align-justify@2x.png' :'/assets/icons/editor/align-justify.png', ALT: 'align justify', template: 'image'});
+    $.FroalaEditor.DefineIcon('align-center', {SRC: isRetinaDisplay() ? '/assets/icons/editor/align-center@2x.png' : '/assets/icons/editor/align-center.png', ALT: 'align center', template: 'image'});
+    $.FroalaEditor.DefineIcon('align-right', {SRC: isRetinaDisplay() ? '/assets/icons/editor/align-right@2x.png' : '/assets/icons/editor/align-right.png', ALT: 'align right', template: 'image'});
+    $.FroalaEditor.DefineIcon('align-left', {SRC: isRetinaDisplay() ? '/assets/icons/editor/align-left@2x.png' : '/assets/icons/editor/align-left.png', ALT: 'align-left', template: 'image'});
+    $.FroalaEditor.DefineIcon('insertLink', {SRC: isRetinaDisplay() ? '/assets/icons/editor/link@2x.png' : '/assets/icons/editor/link.png', ALT: 'link', template: 'image'});
+    $.FroalaEditor.DefineIcon('eraser', {SRC: isRetinaDisplay() ? '/assets/icons/editor/eraser@2x.png' : '/assets/icons/editor/eraser.png', ALT: 'eraser', template: 'image'});
+    $.FroalaEditor.DefineIcon('formatUL', {SRC: isRetinaDisplay() ? '/assets/icons/editor/list-ul@2x.png' : '/assets/icons/editor/list-ul.png', ALT: 'unordered list', template: 'image'});
+    $.FroalaEditor.DefineIcon('paragraph-rtl', {SRC: isRetinaDisplay() ? '/assets/icons/editor/paragraph-rtl@2x.png' : '/assets/icons/editor/paragraph-rtl.png', ALT: 'rtl', template: 'image'});
+    $.FroalaEditor.DefineIcon('paragraph-ltr', {SRC: isRetinaDisplay() ? '/assets/icons/editor/paragraph-ltr@2x.png' : '/assets/icons/editor/paragraph-ltr.png', ALT: 'ltr', template: 'image'});
+    $.FroalaEditor.DefineIcon('formatOL', {SRC: isRetinaDisplay() ? '/assets/icons/editor/list-ol@2x.png' : '/assets/icons/editor/list-ol.png', ALT: 'order list', template: 'image'});
+    $.FroalaEditor.DefineIcon('strikeThrough', {SRC: isRetinaDisplay() ? '/assets/icons/editor/strikethrough@2x.png' : '/assets/icons/editor/strikethrough.png', ALT: 'strikethrough', template: 'image'});
+    $.FroalaEditor.DefineIcon('bold', {SRC: isRetinaDisplay() ? '/assets/icons/editor/bold@2x.png' : '/assets/icons/editor/bold.png', ALT: 'bold', template: 'image'});
+    $.FroalaEditor.DefineIcon('italic', {SRC: isRetinaDisplay() ? '/assets/icons/editor/italic@2x.png' : '/assets/icons/editor/italic.png', ALT: 'italic', template: 'image'});
+    $.FroalaEditor.DefineIcon('underline', {SRC: isRetinaDisplay() ? '/assets/icons/editor/underline@2x.png' : '/assets/icons/editor/underline.png', ALT: 'underline', template: 'image'});
+    $.FroalaEditor.DefineIcon('fontSize', {SRC: isRetinaDisplay() ? '/assets/icons/editor/fontsize@2x.png' : '/assets/icons/editor/fontsize.png', ALT: 'fontsize', template: 'image'});
+    $.FroalaEditor.DefineIcon('color', {SRC: isRetinaDisplay() ? '/assets/icons/editor/color@2x.png' : '/assets/icons/editor/color.png', ALT: 'color', template: 'image'});
+    
+    // $.FroalaEditor.RegisterCommand('bold', {
+    //   title: 'Bold',
+    //   icon: 'bold'
+    // });
+
     $.FroalaEditor.RegisterCommand('rightToLeft', {
       title: 'RTL',
+      icon: 'paragraph-rtl',
       focus: true,
       undo: true,
       refreshAfterCallback: true,
@@ -919,18 +944,17 @@
       }
     })
 
-    $.FroalaEditor.DefineIcon('leftToRight', {NAME: 'long-arrow-right'});
     $.FroalaEditor.RegisterCommand('leftToRight', {
       title: 'LTR',
+      icon: 'paragraph-ltr',
       focus: true,
       undo: true,
-      refreshAfterCallback: true,
+      // refreshAfterCallback: true,
       callback: function () {
         changeDirection.apply(this, ['ltr', 'left']);
       }
     })
-    vm.cmdPress = false;
-    vm.cmdVPress = false;
+
     vm.froalaOpts = {
       enter: $.FroalaEditor.ENTER_DIV,
       toolbarContainer: vm.quickMode ? '#editor-btn-quick' : '#editor-btn',
@@ -1035,6 +1059,13 @@
         });
       });
     };
+
+    function isRetinaDisplay() {
+        if (window.matchMedia) {
+            var mq = window.matchMedia("only screen and (min--moz-device-pixel-ratio: 1.3), only screen and (-o-min-device-pixel-ratio: 2.6/2), only screen and (-webkit-min-device-pixel-ratio: 1.3), only screen  and (min-device-pixel-ratio: 1.3), only screen and (min-resolution: 1.3dppx)");
+            return (mq && mq.matches || (window.devicePixelRatio > 1)); 
+        }
+    }
 
     function onPlaceSelected(place) {
       NstSvcLogger.debug4('Compose | add a place from suggests as recipient :');
