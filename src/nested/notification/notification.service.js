@@ -42,22 +42,27 @@ function NstSvcNotification($q, $window, _, $state, $rootScope,
 
 
     if (!NST_CONFIG.DISABLE_FCM) {
-      var expScript = document.createElement('script'),
-        s = document.getElementsByTagName('script')[0];
-      expScript.src = 'https://www.gstatic.com/firebasejs/3.6.10/firebase-app.js';
-      s.parentNode.insertBefore(expScript, s);
-      
-      var expScript = document.createElement('script'),
-        s = document.getElementsByTagName('script')[0];
-      expScript.src = 'https://www.gstatic.com/firebasejs/3.6.10/firebase-messaging.js';
-      s.parentNode.insertBefore(expScript, s);
-      
-      firebase.initializeApp(config);
+      (function () {
+        var fcm_app_script = document.createElement('script');
+        fcm_app_script.setAttribute('src', 'http://www.gstatic.com/firebasejs/3.6.10/firebase-app.js');
+        fcm_app_script.async = true
+        document.head.appendChild(fcm_app_script);
 
-      this.configFCM();
-      $rootScope.$on(NST_AUTH_EVENT.AUTHORIZE, function (e, data) {
-        service.configFCM();
-      });
+        var fcm_messaging_script = document.createElement('script');
+        fcm_messaging_script.setAttribute('src', 'https://www.gstatic.com/firebasejs/3.6.10/firebase-messaging.js');
+        fcm_messaging_script.async = true
+
+        fcm_messaging_script.onload = function () {
+          firebase.initializeApp(config);
+          service.configFCM();
+          $rootScope.$on(NST_AUTH_EVENT.AUTHORIZE, function (e, data) {
+            service.configFCM();
+          });
+
+        };
+        document.head.appendChild(fcm_messaging_script);
+      })();
+
     }
 
   };
@@ -93,6 +98,7 @@ function NstSvcNotification($q, $window, _, $state, $rootScope,
         .then(function (token) {
           dt = token;
           NstSvcLogger.debug("Notification | ", token);
+          that.registerServiceWorker();
           NstSvcAuth.setDeviceToken(token);
         }).catch(function (err) {
         NstSvcLogger.debug("Notification | Error get token:", err);
@@ -122,8 +128,8 @@ function NstSvcNotification($q, $window, _, $state, $rootScope,
         that.options = {};
         that.stack = {};
       });
-    }catch (error){
-      NstSvcLogger.error('Notification : Error in register fmc' , error);
+    } catch (error) {
+      NstSvcLogger.error('Notification : Error in register fmc', error);
     }
   };
 

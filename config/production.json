@@ -1,7 +1,7 @@
 {
   "NST_CONFIG": {
     "APP_CLIENT_ID": "WEB_APP",
-    "APP_VERSION" : "3.6.4",
+    "APP_VERSION" : "3.7.0",
     "DOMAIN" : "_DOMAIN_",
     "ADMIN_DOMAIN" : "_ADMIN_DOMAIN_",
     "ADMIN_PORT" : "_ADMIN_PORT_",
