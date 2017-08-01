@@ -49,6 +49,9 @@
     };
     load();
 
+    /**
+     * Initialize data on first mounting
+     */
     function load() {
       // vm.filesLoadProgress = true;
       vm.loadFilesError = false;
@@ -56,6 +59,10 @@
       
     }
 
+    /**
+     * Load more files on modal
+     * @param {string} placeId
+     */
     function loadMore(placeId) {
       if (vm.hasNextPage && !vm.isLoading) {
         vm.loadMoreCounter++;
@@ -65,6 +72,11 @@
       }
     }
 
+    /**
+     * Get subplaces of given placeId
+     * if no place id is passed it returns the grand places
+     * @param {any} placeId
+     */
     function getSubPlace(placeId) {
       vm.isLoading = true;
       vm.settings.skip = 0;
@@ -84,16 +96,21 @@
       }
     }
 
-    function getGrandPlaces() {
-      NstSvcPlaceFactory.getGrandPlaces().then(function (places){
-        vm.places = places;
-      });
-    }
-
+    /**
+     * Checks the given id is grand place
+     * @param {any} id
+     * @returns
+     */
     function isGrandPlace(id) {
       return id.indexOf('.') === -1;
     }
 
+    /**
+     * Triggers on clicking place items
+     * @param {any} placeId
+     * @param {any} placeName
+     * @returns
+     */
     function placeClick(placeId, placeName) {
       if ( vm.selectedFiles.length > 0 ) {return;}
       getSubPlace(placeId);
@@ -112,6 +129,9 @@
       appearBreadcrumb();
     }
 
+    /**
+     * Unselect all files
+     */
     function unSelectFiles() {
       vm.selectedFiles.forEach(function(o){
         o.selected = false;
@@ -119,6 +139,10 @@
       vm.selectedFiles = [];
     }
 
+    /**
+     * Triggers on clicking breadcrumb item
+     * @param {any} breadcrumb
+     */
     function breadcrumbClick(breadcrumb) {
       placeClick(breadcrumb.id, breadcrumb.name);
     }
@@ -131,6 +155,11 @@
       }
     }
 
+    /**
+     * Toggles the selected state of attachment
+     * @param {any} e
+     * @param {any} attachment
+     */
     function selectToggle(e, attachment) {
       if (e) {
         e.preventDefault();
@@ -150,6 +179,11 @@
       }
     }
 
+    /**
+     * get files of given placeID with defined skip and limits
+     * @param {string} placeId
+     * @returns
+     */
     function getFiles(placeId) {
       var deferred = $q.defer();
       NstSvcFileFactory.get(placeId, null, '', vm.settings.skip, vm.settings.limit).then(function (fileItems) {
@@ -177,6 +211,9 @@
       vm.closePopover();
     }
 
+    /**
+     * make appear first , last and before last item place id in breadcrumb
+     */
     function appearBreadcrumb() {
       vm.breadcrumb.forEach(function(o){
         o.visible = false;
@@ -187,6 +224,11 @@
       if ( vm.breadcrumb[vm.breadcrumb.length - 1]) {vm.breadcrumb[vm.breadcrumb.length - 1].visible = true;}
     }
 
+    /**
+     * ‌represents the attachment modal of attachment
+     * @param {any} attachment
+     * @returns
+     */
     function openAttachment(attachment){
       $('body').addClass('attach-modal');
       var modal = $uibModal.open({
@@ -223,6 +265,10 @@
       return modal.result;
     }
 
+    /**
+     * Close the Modal
+     * @ TODO change the name
+     */
     function closePopover() {
       $scope.$dismiss();
     }
