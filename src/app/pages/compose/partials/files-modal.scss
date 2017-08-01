@@ -106,10 +106,11 @@
         display: flex;
         flex-direction: row;
         flex-grow: 1;
+        align-items: center;
         &.select {
             padding: 0 8px;
             > * {
-                height: 104px;
+                height: 112px;
                 width: 33.3%;
                 display: flex;
                 flex-direction: column;
