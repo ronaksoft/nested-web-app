@@ -4,50 +4,36 @@ var assert = require('assert'),
 module.exports = function () {
 
   this.When(/^I wait 10s$/, function () {
-    browser.ignoreSynchronization = true;
     return browser.sleep(10000);
     });
 
   this.When(/^I wait 5s$/, function () {
-    browser.ignoreSynchronization = true;
     return browser.sleep(5000);
 
   });
 
   this.When(/^I wait 2s$/, function () {
-    browser.ignoreSynchronization = true;
     return browser.sleep(2000);
 
   });
 
   this.When(/^I wait 1s$/, function () {
-    browser.ignoreSynchronization = true;
     return browser.sleep(1000);
 
   });
 
-
-  this.Given(/^I Click input by ng-keyup "([^"]*)"$/, function (ngkeyup) {
-    var input = element(By.css('input[ng-keyup="' + ngkeyup + '"]'));
-    input.click();
-  });
-
-
   this.When(/^Wait to loading hide$/, function () {
-    browser.ignoreSynchronization = true;
     var EC = protractor.ExpectedConditions;
     return browser.wait(EC.invisibilityOf(element(By.css('.loading-container'))), 50000);
   });
 
   this.When(/^Wait for hiding of all loadings$/, function () {
-    browser.ignoreSynchronization = true;
     var EC = protractor.ExpectedConditions;
     return browser.wait(EC.invisibilityOf(element(By.css('.nst-loading'))), 50000);
   });
 
 
   this.When(/^Wait for Upload to be finished$/, function () {
-    browser.ignoreSynchronization = true;
     var EC = protractor.ExpectedConditions;
     return browser.wait(EC.invisibilityOf(element(By.css('div[progressbar-mode="circle"]'))), 50000);
   });
@@ -56,16 +42,6 @@ module.exports = function () {
 
   this.Given(/^I go to the page "([^"]*)"$/, function (url) {
     browser.get(browser.baseUrl + url);
-  });
-
-  this.Given(/^Wait to see the "([^"]*)" title$/, function (title) {
-    browser.ignoreSynchronization = true;
-    return browser.wait(function () {
-      return element(By.css('.nst-font-xlarge')).isDisplayed() &&
-        element(By.css('.nst-font-xlarge')).getText().then(function (txt) {
-          return txt.trim() == title.trim();
-        })
-    }, 20000)
   });
 
   this.Given(/^I fill "([^"]*)" with "([^"]*)"$/, function (placeholder, value) {
@@ -83,12 +59,6 @@ module.exports = function () {
     fillInput1.sendKeys(value);
   });
 
-  this.Given(/^I fill textarea by "([^"]*)" with "([^"]*)"$/, function (placeholder, value) {
-    var textarea = element(By.css('textarea[placeholder="' + placeholder + '"]'));
-    textarea.sendKeys(value);
-  });
-
-
   this.Given(/^I fill id "([^"]*)" with "([^"]*)"$/, function (id,value) {
     var input = element(By.css('#'+ id));
     input.sendKeys(value);
@@ -97,11 +67,6 @@ module.exports = function () {
   this.Given(/^I Press "([^"]*)"$/, function (value) {
     var button = element(By.css('input[value="' + value + '"]'));
     button.click();
-  });
-
-  this.Given(/^I Press button "([^"]*)"$/, function (type) {
-    var button1 = element(By.css('button[type="' + type + '"]'));
-    button1.click();
   });
 
   this.Given(/^I Press button by ngClick "([^"]*)"$/, function (ngClick){
@@ -138,9 +103,9 @@ module.exports = function () {
     radiob.click();
   });
 
-  this.Given(/^I Click Dropdown by Placeholder "([^"]*)"$/, function (placeholder) {
-    var dropdown = element(By.css('select[placeholder="' + placeholder + '"]'));
-    dropdown.click();
+  this.Given(/^I Click class "([^"]*)"$/, function (iclass) {
+    var radiob = element(By.css('.' + iclass));
+    radiob.click();
   });
 
   this.Given(/^I Click on href "([^"]*)"$/, function (destination) {
@@ -148,10 +113,6 @@ module.exports = function () {
     pS.click();
   });
 
-  this.Given(/^I Click on "([^"]*)" in sidebar$/, function (destination) {
-    var pS1 = element(By.css('a[href="#/messages/'+ destination +'"]'));
-    pS1.click();
-  });
 
   this.Given(/^I Click on "([^"]*)" place in sidebar$/, function (destination) {
     var pS3 = element(By.css('a[href="#/places/'+ destination +'/messages"]'));
@@ -160,33 +121,13 @@ module.exports = function () {
 
 
   this.Given(/^I Click Option by Label "([^"]*)"$/, function (label) {
-    var option = element(By.css('option[label="' + label + '"]'));
+    var option = element(By.css('*[label="' + label + '"]'));
     option.click();
-  });
-
-  this.Given(/^I Click Option by value "([^"]*)"$/, function (value) {
-    var option = element(By.css('option[value="' + value + '"]'));
-    option.click();
-  });
-
-  this.Given(/^I Click label by for "([^"]*)"$/, function (itsFor) {
-    var checkbox = element(By.css('label[for="' + itsFor + '"]'));
-    checkbox.click();
   });
 
   this.Given(/^I Click Link by Partial Text "([^"]*)"$/, function (partial) {
     var linkText = element(By.partialLinkText(partial));
     linkText.click();
-  });
-
-  this.Given(/^I clear input by id "([^"]*)"$/, function (clearing) {
-    var clearInput = element(By.css('#' + clearing));
-    clearInput.clear();
-  });
-
-  this.Given(/^I clear input by ngModel "([^"]*)"$/, function (ngModel) {
-    var clearInput1 = element(By.css('input[ng-model="' + ngModel + '"]'));
-    clearInput1.clear();
   });
 
   this.Given(/^I Click by ngClick "([^"]*)"$/, function (ngClickA){
@@ -205,33 +146,15 @@ module.exports = function () {
   });
 
   this.Given(/^I Click Triple-dot$/, function () {
-    var profilePop = element.all(By.deepCss('#place-more-option'));
-    profilePop.click();
+    var EC = protractor.ExpectedConditions;
+    var Triple = element(by.deepCss('#navbar-popover'));
+    browser.wait(EC.elementToBeClickable(Triple), 5000);
+    Triple.click();
+
   });
 
-  this.Given(/^I Click on switchDrag "([^"]*)" on navbar$/, function (switchDrag){
-    var SwitchElement = element(By.css('div[switch-drag="' + switchDrag + '"]'));
-    SwitchElement.click();
-  });
-
-  this.Given(/^I Click list by ngClick "([^"]*)"$/, function (ngClick){
-    var list = element(By.css('li[ng-click="' + ngClick + '"]'));
-    list.click();
-  });
-
-  this.Given(/^I Click by dataNgClick "([^"]*)"$/, function (dataNgClick){
-    var box = element(By.css('div[data-ng-click="' + dataNgClick + '"]'));
-    box.click();
-  });
-
-  this.Given(/^I Invite by dataNgClick "([^"]*)"$/, function (dataNgClick){
-    var invite = element(By.css('div[data-ng-click="' + dataNgClick + '"]'));
-    invite.click();
-  });
-
-
-  this.Given(/^I Click icon by ngIf "([^"]*)"$/, function (ngIf){
-    var menu = element(By.css('svg[ng-if="' + ngIf + '"]'));
+  this.Given(/^I Click by ngIf "([^"]*)"$/, function (ngIf){
+    var menu = element(By.css('*[ng-if="' + ngIf + '"]'));
     menu.click();
   });
 
@@ -260,38 +183,9 @@ module.exports = function () {
     var input = element(By.css('input[value="' + value + '"]'));
     input.click();
   });
-
-  this.Given(/^I Click icon by tooltip "([^"]*)"$/, function (text) {
-    var icon = element(By.css('a[data-uib-tooltip="' + text + '"]'));
-    icon.click();
-  });
-
-  this.Given(/^I Click text by tooltip "([^"]*)"$/, function (text) {
-    var text = element(By.css('p[data-uib-tooltip="' + text + '"]'));
-    text.click();
-  });
-
-  this.Given(/^I move mouse on hidden popover "([^"]*)"$/, function (dataPopover) {
-    var popover = element(By.css('div[data-popover-is-open="' + dataPopover + '"]'));
-    popover.mouseEnter().perform();
-  });
-
-  this.Then(/^should the title of the page be "([^"]*)"$/, function (expectedPageTitle) {
-    return browser.getTitle().then(function (title) {
-      assert.equal(title, expectedPageTitle, ' title is "' + title + '" but should be "' + expectedPageTitle);
-    });
-  });
-
-
   this.When(/^should the title of the place be "([^"]*)"$/, function (expectedPlaceTitle) {
     element(By.css('cite[fit-text]')).getText().then(function (title) {
       assert.equal(title.trim(), expectedPlaceTitle, ' title is "' + title + '" but should be "' + expectedPlaceTitle);
-    });
-  });
-
-  this.Then(/^should the panel title be "([^"]*)"$/, function (expectedTitle) {
-    element(by.css('.col-xs-9')).getText().then(function (title) {
-      assert.equal(title.trim(), expectedTitle, ' title is "' + title + '" but should be "' + expectedTitle);
     });
   });
 
@@ -313,11 +207,13 @@ module.exports = function () {
     });
   });
 
-
-//---------------------------tabs sesion-----------------------//
+  this.When(/^should the body of the compose be "([^"]*)"$/, function (expectedBody) {
+    element(By.css(".cke_wysiwyg_div .cke_reset .cke_enable_context_menu .cke_editable .cke_editable_themed .cke_contents_ltr .cke_show_borders")).getText().then(function (title) {
+      assert.equal(title.trim(), expectedBody, ' title is "' + title + '" but should be "' + expectedBody);
+    });
+  });
 
   this.Then(/^current tab must be "([^"]*)"$/, function (expectedTab) {
-    browser.ignoreSynchronization = true;
     var EC = protractor.ExpectedConditions;
     return browser.wait(EC.visibilityOf(element(By.css('.active'))), 50000).then(function () {
         element(By.css('.active')).getText().then(function (currentTab) {
@@ -327,7 +223,6 @@ module.exports = function () {
   });
 
   this.When(/^current tab is "([^"]*)"$/, function (expectedTab) {
-    browser.ignoreSynchronization = true;
     var EC = protractor.ExpectedConditions;
     return browser.wait(EC.visibilityOf(element(By.css('.active'))), 50000).then(function () {
       element(By.css('.active')).getText().then(function (currentTab) {
@@ -341,38 +236,33 @@ module.exports = function () {
     nextTab.click();
   });
 
-//--------------------------- messages -------------------------------------------//
-
   this.Then(/^must see no posts$/, function () {
     var EC = protractor.ExpectedConditions;
     return browser.wait(EC.invisibilityOf(element(By.css('.post-card'))), 50000);
   });
-
 
   this.Then(/^must see the bookmarked post/, function () {
     var EC = protractor.ExpectedConditions;
     return browser.wait(EC.visibilityOf(element(By.css('.post-card'))), 50000);
   });
 
-  this.Then(/^must see the created post/, function () {
+
+  this.Then(/^must see at least one post/, function () {
     var EC = protractor.ExpectedConditions;
     return browser.wait(EC.visibilityOf(element(By.css('.post-card'))), 50000);
   });
 
   this.When(/^Wait to see success-msg$/, function () {
-    browser.ignoreSynchronization = true;
     var EC = protractor.ExpectedConditions;
     return browser.wait(EC.visibilityOf(element(By.css('.toast-success'))), 50000);
   });
 
   this.Then(/^Wait to see error-msg$/, function () {
-    browser.ignoreSynchronization = true;
     var EC = protractor.ExpectedConditions;
     return browser.wait(EC.visibilityOf(element(By.css('.toast-error'))), 50000);
   });
 
   this.When(/^Wait to see warn-msg$/, function () {
-    browser.ignoreSynchronization = true;
     var EC = protractor.ExpectedConditions;
     return browser.wait(EC.visibilityOf(element(By.css('.toast-warning'))), 50000);
   });
@@ -384,58 +274,59 @@ module.exports = function () {
       return assert.ok(false, 'Can not find message!')
     });
   });
-//----------------------------------------------- modals --------------------------------------------------------------------//
 
 
+  this.When(/^should see "([^"]*)" place name$/, function (expectedWarning) {
+    return element(By.deepCss('span[class="place-name ng-binding"]')).getText().then(function (noExpect) {
+      return assert.equal(noExpect.trim(), expectedWarning, ' error is "' + noExpect + '" but should be "' + expectedWarning);
+    }).catch(function () {
+      return assert.ok(false, 'Can not find message!')
+    });
+  });
+
+
+  this.When(/^Wait to see subject "([^"]*)"$/, function (composeSubject) {
+    var EC = protractor.ExpectedConditions;
+    return browser.wait(EC.textToBePresentInElementValue($('#compose-subject'),composeSubject), 50000);
+  });
 
   this.When(/^Wait to see leave-modal$/, function () {
-    browser.ignoreSynchronization = true;
     var EC = protractor.ExpectedConditions;
     return browser.wait(EC.visibilityOf(element(By.css('#delete-view'))), 50000);
   });
 
+
+
   this.When(/^Wait to see invite-modal$/, function () {
-    browser.ignoreSynchronization = true;
     var EC = protractor.ExpectedConditions;
     return browser.wait(EC.visibilityOf(element(By.css('#add-view'))), 50000);
   });
 
   this.When(/^Wait to see compose-modal$/, function () {
-    browser.ignoreSynchronization = true;
     var EC = protractor.ExpectedConditions;
     return browser.wait(EC.visibilityOf(element(By.css('.modal-bo'))), 50000);
   });
-                  //------create place-------//
 
   this.When(/^Wait to see create place step "([^"]*)"$/, function (expectedStep) {
-    browser.ignoreSynchronization = true;
     var EC = protractor.ExpectedConditions;
     return browser.wait(EC.visibilityOf(element(By.css('div[ng-if="ctrl.step == ' + expectedStep + '"]'))), 50000);
   });
 
-
-//-------------------------------------- registration and recover-password ----------------------------------------------------//
-
-
   this.When(/^Wait to see first step$/, function () {
-    browser.ignoreSynchronization = true;
     var EC = protractor.ExpectedConditions;
     return browser.wait(EC.visibilityOf(element(By.css('.register-step'))), 50000);
   });
 
+
   this.Then(/^Must see second step$/, function () {
-    browser.ignoreSynchronization = true;
     var EC = protractor.ExpectedConditions;
     return browser.wait(EC.visibilityOf(element(By.css('.nst-mood-cheerful'))), 50000);
   });
 
   this.Then(/^Must see third step of recovering password$/, function () {
-    browser.ignoreSynchronization = true;
     var EC = protractor.ExpectedConditions;
     return browser.wait(EC.visibilityOf(element(By.css('input[value="Reset"]'))), 50000);
   });
-
-//----------------------------------------------------------------------------------------------------------------------------//
 
   this.When(/^should see "([^"]*)"$/, function (text) {
     element(by.css('.col-xs-9 nst-font-xlarge')).getText().then(function (title) {
@@ -458,19 +349,11 @@ module.exports = function () {
     return browser.wait(EC.visibilityOf(element(By.css('#' + tObjectId))), 50000);
   });
 
-
-
-
-//------------url selectors----------------//
-
   this.Then(/^Url Should Contains$/, function (urlc) {
-    browser.ignoreSynchronization = true;
     var EC = protractor.ExpectedConditions;
     return browser.wait(EC.urlContains('messages'), 50000);
     urlc(null, 'pending');
   });
-
-//---------------------attach files---------------------------------//
 
   this.Given(/^I Attach dog-png$/, function () {
     var path = require('path');
@@ -528,8 +411,25 @@ module.exports = function () {
     element(by.css('input[type="file"]')).sendKeys(absolutePath);
   });
 
+  this.When(/^Wait to see image$/, function () {
+    var EC = protractor.ExpectedConditions;
+    return browser.wait(EC.visibilityOf(element(By.css('img[]'))), 50000);
+  });
 
-//------------------- combinated keys -----------------------------------------//
+  this.When(/^Wait to see pdf$/, function () {
+    var EC = protractor.ExpectedConditions;
+    return browser.wait(EC.visibilityOf(element(By.css('.attach-thumbnail-pdf'))), 50000);
+  });
+
+  this.When(/^Wait to see document$/, function () {
+    var EC = protractor.ExpectedConditions;
+    return browser.wait(EC.visibilityOf(element(By.css('.attach-thumbnail-document'))), 50000);
+  });
+
+  this.When(/^Wait to see music$/, function () {
+    var EC = protractor.ExpectedConditions;
+    return browser.wait(EC.visibilityOf(element(By.css('.attach-thumbnail-audio'))), 50000);
+  });
 
   this.Given(/^new tab$/, function () {
     browser.actions().keyDown(protractor.Key.CONTROL).sendKeys('t').perform();
@@ -549,21 +449,41 @@ module.exports = function () {
     enter.perform();
   });
 
-//------------------- specific for profile -------------------------------//
-
   this.Given(/^I Click edit-icon by open-custom-modal "([^"]*)"$/, function (customModal) {
     var icon = element(By.css('svg[open-custom-modal="' + customModal + '"]'));
     icon.click();
   });
 
+//-----------------------------------------------------------------------------
+// TODO : important, use this for notification counter in title
+
+  this.Then(/^should the title of the page be "([^"]*)"$/, function (expectedPageTitle) {
+    return browser.getTitle().then(function (title) {
+      assert.equal(title, expectedPageTitle, ' title is "' + title + '" but should be "' + expectedPageTitle);
+    });
+  });
+//-----------------------------------------------------------------------------
+
+  this.Then(/^the text of this class "([^"]*)" must be "([^"]*)"$/, function (style,expectedText) {
+    element(By.css('*[class="' + style + '"]')).$$('span').getText().then(function (availableText) {
+      assert.equal(availableText, expectedText, ' text is "' + availableText + '" but should be "' + expectedText);
+    })
+  });
+
+  this.Given(/^click first contact$/, function () {
+    var firstContact = element(by.repeater('contact in ctrl.contacts').row(0).column('a'));
+    firstContact.click();
+  });
+
+  this.When(/^the text of this class "([^"]*)" is "([^"]*)"$/, function (style,expectedText) {
+    element(By.css('*[class="' + style + '"]')).$$('span').getText().then(function (availableText) {
+      assert.equal(availableText, expectedText, ' text is "' + availableText + '" but should be "' + expectedText);
+    })
+  });
 
 
 
-
-//------------------- specific for -------------------------------//
-
-//------------------- specific for -------------------------------//
+//--------------------------------------------------------------------------------
 
 
 };
-
