@@ -447,6 +447,27 @@ body.isMobile {
 .fr-toolbar .fr-command.fr-btn span, .fr-popup .fr-command.fr-btn span {
     min-width: 24px;
 }
+.fr-toolbar .fr-command.fr-btn img, .fr-popup .fr-command.fr-btn img {
+    margin: auto;
+    width: 24px;
+    height: 24px;
+    display: block;
+    opacity: .72;
+}
+.fr-toolbar .fr-command.fr-btn[aria-pressed="true"] img,
+.fr-toolbar .fr-command.fr-btn.fr-active img,
+.fr-popup .fr-command.fr-btn[aria-pressed="true"] img {
+    opacity: 1;
+    background-color: $color-breeze-5-new;
+    border-radius: 2px;
+}
+.fr-toolbar .fr-command.fr-btn.fr-dropdown.fr-selection {
+  width: 38px;
+}
+.fr-command.fr-btn + .fr-dropdown-menu .fr-dropdown-wrapper .fr-dropdown-content ul.fr-dropdown-list li img {
+  width: 24px;
+  height: 24px;
+}
 .compose-scrl-wrp {
   max-height: calc( 90vh - 300px);
   min-height: 250px;

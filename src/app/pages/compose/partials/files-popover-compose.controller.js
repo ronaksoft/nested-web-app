@@ -52,13 +52,11 @@
       vm.loadFilesError = false;
 
       var deferred = $q.defer();
-
       NstSvcFileFactory.recentFiles(vm.settings.skip,
-        vm.settings.limit).then(function (fileItems) {
+        vm.settings.limit,callback).then(function (fileItems) {
         var newFileItems = _.differenceBy(fileItems, vm.files, 'id');
         vm.hasNextPage = fileItems.length === vm.settings.limit;
         vm.settings.skip += newFileItems.length;
-
         vm.files.push.apply(vm.files, newFileItems);
         vm.loadFilesError = false;
         deferred.resolve();
@@ -69,6 +67,18 @@
       }).finally(function () {
         vm.filesLoadProgress = false;
       });
+
+      function callback(fileItems){
+        if ( vm.settings.skip === 0 ) {
+          setTimeout(function(){
+            var newFileItems = _.differenceBy(fileItems, vm.files, 'id');
+            if (newFileItems.length > 0) {
+              vm.files.unshift(newFileItems);
+              vm.settings.skip += newFileItems.length;
+            }
+          },1000);
+        }
+      }
 
       return deferred.promise;
     }
@@ -85,7 +95,11 @@
       $scope.$parent.$parent.ctlCompose.addUploadedAttachs(vm.selectedFiles);
     }
 
-    function unSelectFiles() {
+    function unSelectFiles(e) {
+      e.stopPropagation();
+      vm.selectedFiles.forEach(function(o){
+        o.isSelected = false;
+      })
       vm.selectedFiles = [];
     }
 

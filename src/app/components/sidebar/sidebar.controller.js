@@ -6,6 +6,94 @@
       .controller('SidebarController', SidebarController);
 
     /** @ngInject */
+    /**
+     * 
+     * 
+     * @param {any} $q
+     * @param {any} $scope
+     * @param {any} $state
+     * @param {any} $stateParams
+     * @param {any} $uibModal
+     * @param {any} $window
+     * @param {any} $rootScope
+     * @param {any} $timeout
+     * @param {any} _
+     * @param {any} NST_DEFAULT
+     * @param {any} NST_AUTH_EVENT
+     * @param {any} NST_INVITATION_EVENT
+     * @param {any} NST_CONFIG
+     * @param {any} NST_KEY
+     * @param {any} deviceDetector
+     * @param {any} NST_EVENT_ACTION
+     * @param {any} NST_USER_EVENT
+     * @param {any} NST_NOTIFICATION_EVENT
+     * @param {any} NST_SRV_EVENT
+     * @param {any} NST_NOTIFICATION_TYPE
+     * @param {any} NST_PLACE_EVENT
+     * @param {any} NST_POST_EVENT
+     * @param {any} NstSvcAuth
+     * @param {any} NstSvcServer
+     * @param {any} NstSvcLogger
+     * @param {any} NstSvcNotification
+     * @param {any} NstSvcTranslation
+     * @param {any} NstSvcPostFactory
+     * @param {any} NstSvcPlaceFactory
+     * @param {any} NstSvcInvitationFactory
+     * @param {any} NstUtility
+     * @param {any} NstSvcUserFactory
+     * @param {any} NstSvcSidebar
+     * @param {any} NstSvcNotificationFactory
+     * @param {any} NstSvcNotificationSync
+     * @param {any} NstSvcSync
+     * @param {any} NstSvcKeyFactory
+     * @param {any} NstSvcPostDraft
+     * @param {any} NstVmPlace
+     * @param {any} NstVmInvitation
+     */
+    /**
+     * 
+     * 
+     * @param {any} $q
+     * @param {any} $scope
+     * @param {any} $state
+     * @param {any} $stateParams
+     * @param {any} $uibModal
+     * @param {any} $window
+     * @param {any} $rootScope
+     * @param {any} $timeout
+     * @param {any} _
+     * @param {any} NST_DEFAULT
+     * @param {any} NST_AUTH_EVENT
+     * @param {any} NST_INVITATION_EVENT
+     * @param {any} NST_CONFIG
+     * @param {any} NST_KEY
+     * @param {any} deviceDetector
+     * @param {any} NST_EVENT_ACTION
+     * @param {any} NST_USER_EVENT
+     * @param {any} NST_NOTIFICATION_EVENT
+     * @param {any} NST_SRV_EVENT
+     * @param {any} NST_NOTIFICATION_TYPE
+     * @param {any} NST_PLACE_EVENT
+     * @param {any} NST_POST_EVENT
+     * @param {any} NstSvcAuth
+     * @param {any} NstSvcServer
+     * @param {any} NstSvcLogger
+     * @param {any} NstSvcNotification
+     * @param {any} NstSvcTranslation
+     * @param {any} NstSvcPostFactory
+     * @param {any} NstSvcPlaceFactory
+     * @param {any} NstSvcInvitationFactory
+     * @param {any} NstUtility
+     * @param {any} NstSvcUserFactory
+     * @param {any} NstSvcSidebar
+     * @param {any} NstSvcNotificationFactory
+     * @param {any} NstSvcNotificationSync
+     * @param {any} NstSvcSync
+     * @param {any} NstSvcKeyFactory
+     * @param {any} NstSvcPostDraft
+     * @param {any} NstVmPlace
+     * @param {any} NstVmInvitation
+     */
     function SidebarController($q, $scope, $state, $stateParams, $uibModal, $window, $rootScope, $timeout,
                                _,
                                NST_DEFAULT, NST_AUTH_EVENT, NST_INVITATION_EVENT, NST_CONFIG,NST_KEY, deviceDetector,
@@ -43,6 +131,11 @@
        ***** Controller Methods ****
        *****************************/
 
+      /**
+       * Generates an array of numbers with length of given parameter
+       * @param {any} num
+       * @returns
+       */
       vm.range = function (num) {
         var seq = [];
         for (var i = 0; i < num; i++) {
@@ -52,11 +145,19 @@
         return seq;
       };
 
+      /**
+       * @function compose
+       * Opens the compose modal
+       * @param {any} $event
+       */
       vm.compose = function ($event) {
         $event.preventDefault();
         $state.go('app.compose', {}, {notify: false});
       };
 
+      /**
+       * Checks the current state is `unreads` page or not
+       */
       vm.isUnread = function () {
         vm.isUnreadMode = $state.current.name == 'app.place-messages-unread';
       };
@@ -64,14 +165,32 @@
       vm.isUnread();
       mapLimits();
 
+      /**
+       * @function
+       * Accepts the give id invitation
+       * @param {any} id
+       * @returns
+       */
       vm.invitation.accept = function (id) {
         return NstSvcInvitationFactory.accept(id);
       };
 
+      /**
+       * @function
+       * Declines the give id invitation
+       * @param {any} id
+       * @returns
+       */
       vm.invitation.decline = function (id) {
         return NstSvcInvitationFactory.decline(id);
       };
 
+      /**
+       * @function
+       * Represents the invitation prompt modal
+       * @param {any} id
+       * @returns
+       */
       vm.invitation.showModal = function (id, openOtherInvitations) {
         NstSvcInvitationFactory.get(id).then(function (invitation) {
           // Show User the invitation Decide Modal
@@ -146,6 +265,11 @@
         });
       };
 
+      /**
+       * Triggers on clicking place clicking
+       * @param {any} event
+       * @param {any} place
+       */
       function onPlaceClick(event, place) {
         if (NstSvcSidebar.onItemClick) {
           event.preventDefault();

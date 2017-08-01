@@ -47,6 +47,11 @@
     vm.isFavPlaces = $state.current.options.favoritePlace;
     vm.searchKeyPressed = searchKeyPressed;
     vm.goBack = goBack;
+
+    /**
+     * Checks current state is `unreads` page or not
+     * @returns {boolean}
+     */
     function isUnread() {
       if ($state.current.name == 'app.place-messages-unread' ||
         $state.current.name == 'app.place-messages-unread-sorted') {
@@ -55,6 +60,10 @@
       return vm.isUnreadMode = false;
     }
 
+    /**
+     * Checks current state is `conversation` page or not
+     * @returns {boolean}
+     */
     function isConversation() {
       if ($state.current.name == 'app.conversation' ||
         $state.current.name == 'app.conversation-keyword') {
@@ -63,6 +72,10 @@
       return vm.isConvMode = false;
     }
 
+    /**
+     * Checks current state is `search` page or not
+     * @returns {boolean}
+     */
     function isSearch() {
       if ($state.current.name == 'app.search') {
         return vm.isSearchMode = true;
@@ -70,6 +83,11 @@
       return vm.isSearchMode = false;
     }
 
+    /**
+     * Represents the create place modal
+     * @param {event} $event
+     * @param {sting} style - common place or private place
+     */
     function openCreateSubplaceModal($event, style) {
       if (style == 'open') {
         $state.go('app.place-create', {placeId: getPlaceId(), isOpenPlace: true}, {notify: false});
@@ -79,6 +97,10 @@
       $event.preventDefault();
     };
 
+    /**
+     * Represents add member to place modal
+     * @param {any} $event
+     */
     function openAddMemberModal($event) {
       $event.preventDefault();
       NstSvcPlaceFactory.get(vm.getPlaceId()).then(function (place) {
@@ -120,6 +142,12 @@
     }
 
 
+    /**
+     * Add users to place
+     * and handles different errors
+     * @param {object} place
+     * @param {array[object]} users
+     */
     function add(place, users) {
       NstSvcPlaceFactory.addUser(place, users).then(function (result) {
         $rootScope.$emit(
@@ -158,6 +186,12 @@
       });
     }
 
+    /**
+     * Invite members to grand place
+     * and displays the error and successful toastr
+     * @param {object} place
+     * @param {array[object]} users
+     */
     function invite(place, users) {
       NstSvcPlaceFactory.inviteUser(place, users).then(function (result) {
         // notify the user about the result of adding
@@ -189,6 +223,13 @@
       });
     }
 
+    /**
+     * Calls the proper function for adding member for Grand places either children places
+     * @param {object} place
+     * @param {string} role
+     * @param {object} user
+     * @returns
+     */
     function joinUser(place, role, user) {
       if (place.isGrandPlace()) {
         return NstSvcPlaceFactory.inviteUser(place, role, user);
@@ -197,14 +238,27 @@
       }
     }
 
+    /**
+     * return the current place id
+     * @returns string
+     */
     function getPlaceId() {
       return vm.placeId;
     }
 
+    /**
+     * Checks the current navbar is in filtered by a place page or not
+     * @returns
+     */
     function hasPlace() {
       return !!vm.placeId;
     }
 
+    /**
+     * generates the `Posts` page url
+     * @generator
+     * @returns {string}
+     */
     function getMessagesUrl() {
       if (hasPlace()) {
         return $state.href('app.place-messages', {placeId: vm.getPlaceId()});
@@ -213,6 +267,11 @@
       }
     }
 
+    /**
+     * generates the `files` page url
+     * @generator
+     * @returns {string}
+     */
     function getFilesUrl() {
       if (hasPlace()) {
         return $state.href('app.place-files', {placeId: vm.getPlaceId()});
@@ -221,6 +280,11 @@
       }
     }
 
+    /**
+     * generates the `activity` page url
+     * @generator
+     * @returns {string}
+     */
     function getActivityUrl() {
       if (hasPlace()) {
         return $state.href('app.place-activity', {placeId: vm.getPlaceId()});
@@ -229,6 +293,11 @@
       }
     }
 
+    /**
+     * generates the `settings` page url
+     * @generator
+     * @returns {string}
+     */
     function getSettingsUrl() {
       if (hasPlace()) {
         return $state.href('app.place-settings', {placeId: vm.getPlaceId()});
@@ -237,12 +306,21 @@
       }
     }
 
+    /**
+     * @function
+     * Scrolls to top of the page
+     * @returns {string}
+     */
     function rollUpward(group) {
       if (group === $state.current.options.group) {
         vm.rollToTop = true;
       }
     }
 
+    /**
+     * Checks the current state is `Feed` page or not
+     * @returns {boolean}
+     */
     function isFeed() {
       if ($state.current.name === 'app.messages-favorites' ||
           $state.current.name === 'app.messages-sorted' ||
@@ -253,6 +331,10 @@
       return false;
     }
 
+    /**
+     * Checks the current state is `bookmark` page or not
+     * @returns {boolean}
+     */
     function isBookMark() {
       if ($state.current.name == 'app.messages-bookmarked' ||
         $state.current.name == 'app.messages-bookmarked-sort') {
@@ -262,6 +344,10 @@
       return false;
     }
 
+    /**
+     * Checks the current state is `sent` page or not
+     * @returns {boolean}
+     */
     function isSent() {
       if ($state.current.name == 'app.messages-sent' ||
         $state.current.name == 'app.messages-sent-sorted') {
@@ -271,6 +357,10 @@
       return false;
     }
 
+    /**
+     * Toggles the bookmarked property of place
+     * @returns {boolean}
+     */
     function toggleBookmark() {
       vm.isBookmarked = !vm.isBookmarked;
       NstSvcPlaceFactory.setBookmarkOption(vm.placeId, vm.isBookmarked).then(function (result) {
@@ -280,6 +370,10 @@
       });
     }
 
+    /**
+     * Toggles the notification property of place
+     * @returns {boolean}
+     */
     function toggleNotification() {
       vm.notificationStatus = !vm.notificationStatus;
       NstSvcPlaceFactory.setNotificationOption(vm.placeId, vm.notificationStatus).then(function (result) {
@@ -299,6 +393,13 @@
       return 13 === event.keyCode && !(event.shiftKey || event.ctrlKey);
     }
 
+    /**
+     * search the given query.
+     * if hasPlace is true the function gets the results for that place
+     * @param {any} query
+     * @param {any} event
+     * @returns
+     */
     function search(query, event) {
 
       var element = angular.element(event.target);
@@ -353,12 +454,20 @@
       }
     );
 
+    /**
+     * Triggers when in search input any key being pressed
+     * @param {event} $event
+     * @param {string} text
+     */
     function searchKeyPressed($event, text) {
       if (vm.searchOnKeypress) {
         vm.searchOnKeypress($event, text);
       }
     }
 
+    /**
+     * Represents the prompt modal for leaving place action
+     */
     function confirmToLeave() {
       $uibModal.open({
         animation: false,
@@ -376,14 +485,26 @@
       });
     }
 
+    /**
+     * Checks the current place is personal place or not
+     * @returns {boolean}
+     */
     function isPersonal() {
       return NstSvcAuth.user.id == vm.getPlaceId()
     }
 
+    /**
+     * Checks the current place is subplace of personal place or not
+     * @returns {boolean}
+     */
     function isSubPersonal() {
       return NstSvcAuth.user.id == vm.getPlaceId().split('.')[0];
     }
 
+    /**
+     * @function
+     * leave the place with showing results
+     */
     function leave() {
       NstSvcPlaceFactory.leave(vm.getPlaceId()).then(function (result) {
         if (_.indexOf(vm.place.id, '.') > -1) {
@@ -410,6 +531,9 @@
       $state.go('app.place-settings', {placeId: getPlaceId()}, {notify: false});
     }
 
+    /**
+     * Represents the prompt modal for deleting place
+     */
     function confirmToRemove() {
 
       $scope.deleteValidated = false;
@@ -438,6 +562,9 @@
 
     }
 
+    /**
+     * deletes the place also shows the results of the api
+     */
     function remove() {
       NstSvcPlaceFactory.remove(vm.place.id).then(function (removeResult) {
         toastr.success(NstUtility.string.format(NstSvcTranslation.get("Place {0} was removed successfully."), vm.place.name));
@@ -455,6 +582,9 @@
       });
     }
 
+    /**
+     * Redirects to previous page
+     */
     function goBack() {
       $rootScope.goToLastState();
     }

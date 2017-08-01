@@ -256,13 +256,16 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.multiMap', 'ui.bootstrap.sta
       function removeModalWindow(modalInstance, elementToReceiveFocus) {
         var modalWindow = openedWindows.get(modalInstance).value;
         var appendToElement = modalWindow.appendTo;
-        $('html').removeClass('_oh');
+        // $('html').removeClass('_oh');
 
         //clean up the stack
         openedWindows.remove(modalInstance);
         previousTopOpenedModal = openedWindows.top();
         if (previousTopOpenedModal) {
+          console.log('previousTopOpenedModal');
           topModalIndex = parseInt(previousTopOpenedModal.value.modalDomEl.attr('index'), 10);
+        } else {
+          $('html').removeClass('_oh');
         }
 
         removeAfterAnimate(modalWindow.modalDomEl, modalWindow.modalScope, function() {
@@ -281,7 +284,11 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.multiMap', 'ui.bootstrap.sta
           toggleTopWindowClass(true);
         }, modalWindow.closedDeferred);
         checkRemoveBackdrop();
-
+        // setTimeout(function(){
+        //   if(!$('body').hasClass('modal-open')){
+            
+        //   }
+        // },100);
         //move focus to specified element if available, or else to body
         if (elementToReceiveFocus && elementToReceiveFocus.focus) {
           elementToReceiveFocus.focus();
