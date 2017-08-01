@@ -476,101 +476,17 @@
     };
 
     function getClientId() {
+      var cid = null;
+      cid = $cookies.get('cid');
 
-      var device = getDeviceName() ? 'mobile' : 'desktop';
-      var os = getDeviceName() ? getDeviceName() : getOs();
-      var browser = getBrowser();
+      if (!cid) {
+        cid = ['Web', 'desktop', platform.name, platform.os].join('_');
+      }
 
-      return ['web', device, browser, os].join('_');
+      $cookies.put('cid', cid);
+
+      return cid;
     };
-
-    function getBrowser() {
-      var ua = navigator.userAgent, tem,
-        M = ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
-      if (/trident/i.test(M[1])) {
-        tem = /\brv[ :]+(\d+)/g.exec(ua) || [];
-        return 'IE ' + (tem[1] || '');
-      }
-      if (M[1] === 'Chrome') {
-        tem = ua.match(/\b(OPR|Edge)\/(\d+)/);
-        if (tem != null) return tem.slice(1).join(' ').replace('OPR', 'Opera');
-      }
-      M = M[2] ? [M[1], M[2]] : [navigator.appName, navigator.appVersion, '-?'];
-      if ((tem = ua.match(/version\/(\d+)/i)) != null) M.splice(1, 1, tem[1]);
-      return M[0].toLowerCase();
-    }
-
-    function generateDeviceId() {
-      function guid() {
-        function s4() {
-          return Math.floor((1 + Math.random()) * 0x10000)
-            .toString(16)
-            .substring(1);
-        }
-
-        return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-          s4() + '-' + s4() + s4() + s4();
-      }
-
-      return "web_" + NstSvcDate.now() + "-" + guid() + "-" + guid();
-    }
-
-    function getDeviceName() {
-      var deviceName = '';
-
-      var isMobile = {
-        Android: function () {
-          return navigator.userAgent.match(/Android/i);
-        },
-        Datalogic: function () {
-          return navigator.userAgent.match(/DL-AXIS/i);
-        },
-        Bluebird: function () {
-          return navigator.userAgent.match(/EF500/i);
-        },
-        Honeywell: function () {
-          return navigator.userAgent.match(/CT50/i);
-        },
-        Zebra: function () {
-          return navigator.userAgent.match(/TC70|TC55/i);
-        },
-        BlackBerry: function () {
-          return navigator.userAgent.match(/BlackBerry/i);
-        },
-        iOS: function () {
-          return navigator.userAgent.match(/iPhone|iPad|iPod/i);
-        },
-        Windows: function () {
-          return navigator.userAgent.match(/IEMobile/i);
-        },
-        any: function () {
-          return (isMobile.Datalogic() || isMobile.Bluebird() || isMobile.Honeywell() || isMobile.Zebra() || isMobile.BlackBerry() || isMobile.Android() || isMobile.iOS() || isMobile.Windows());
-        }
-      };
-
-      if (isMobile.Datalogic())
-        deviceName = 'Datalogic';
-      else if (isMobile.Bluebird())
-        deviceName = 'Bluebird';
-      else if (isMobile.Honeywell())
-        deviceName = 'Honeywell';
-      else if (isMobile.Zebra())
-        deviceName = 'Zebra';
-      else if (isMobile.BlackBerry())
-        deviceName = 'BlackBerry';
-      else if (isMobile.iOS())
-        deviceName = 'iOS';
-      else if ((deviceName == '') && (isMobile.Android()))
-        deviceName = 'Android';
-      else if ((deviceName == '') && (isMobile.Windows()))
-        deviceName = 'Windows';
-
-      return deviceName;
-    }
-
-    function getOs() {
-      return navigator.platform.split(" ")[0];
-    }
 
     function loadConfigFromRemote(domainName) {
       NST_CONFIG.DOMAIN = domainName;
