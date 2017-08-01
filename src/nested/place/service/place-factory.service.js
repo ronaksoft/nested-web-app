@@ -21,11 +21,11 @@
 
         if (isGrandPlace) {
           factory.getTiny(tlData.place_id).then(function (place) {
-            $rootScope.$broadcast(NST_PLACE_EVENT.ROOT_ADDED, { placeId: place.id, place: place });
+            $rootScope.$broadcast(NST_PLACE_EVENT.ROOT_ADDED, {placeId: place.id, place: place});
           });
         } else if (isSubPlace) {
           factory.getTiny(tlData.child_id).then(function (place) {
-            $rootScope.$broadcast(NST_PLACE_EVENT.SUB_ADDED, { placeId: place.id, place: place });
+            $rootScope.$broadcast(NST_PLACE_EVENT.SUB_ADDED, {placeId: place.id, place: place});
           });
         }
       });
@@ -34,17 +34,17 @@
         var tlData = event.detail;
 
         factory.getTiny(tlData.place_id).then(function (parentPlace) {
-          $rootScope.$broadcast(NST_PLACE_EVENT.REMOVED, { placeId: tlData.child_id });
+          $rootScope.$broadcast(NST_PLACE_EVENT.REMOVED, {placeId: tlData.child_id});
         });
 
-        $rootScope.$broadcast(NST_PLACE_EVENT.UPDATED, { placeId: tlData.child_id });
+        $rootScope.$broadcast(NST_PLACE_EVENT.UPDATED, {placeId: tlData.child_id});
 
       });
 
       NstSvcServer.addEventListener(NST_EVENT_ACTION.PLACE_PICTURE, function (event) {
         var tlData = event.detail;
         factory.getTiny(tlData.place_id).then(function (place) {
-          $rootScope.$broadcast(NST_PLACE_EVENT.PICTURE_CHANGED, { placeId: place.id, place: place });
+          $rootScope.$broadcast(NST_PLACE_EVENT.PICTURE_CHANGED, {placeId: place.id, place: place});
         });
       });
 
@@ -280,7 +280,7 @@
 
       var deferred = $q.defer();
       this.getTiny(id).then(function (place) {
-        $rootScope.$broadcast(NST_PLACE_EVENT.ROOT_ADDED, { placeId: place.id, place: place });
+        $rootScope.$broadcast(NST_PLACE_EVENT.ROOT_ADDED, {placeId: place.id, place: place});
         deferred.resolve(place);
       }).catch(deferred.reject);
 
@@ -320,9 +320,9 @@
         factory.get(data._id).then(function (place) {
 
           if (NstUtility.place.hasParent(place.id)) {
-            $rootScope.$broadcast(NST_PLACE_EVENT.SUB_ADDED, { placeId: place.id, place: place });
+            $rootScope.$broadcast(NST_PLACE_EVENT.SUB_ADDED, {placeId: place.id, place: place});
           } else {
-            $rootScope.$broadcast(NST_PLACE_EVENT.ROOT_ADDED, { placeId: place.id, place: place });
+            $rootScope.$broadcast(NST_PLACE_EVENT.ROOT_ADDED, {placeId: place.id, place: place});
           }
 
           deferred.resolve(place);
@@ -348,7 +348,7 @@
         NstSvcTinyPlaceStorage.remove(placeId);
 
         factory.getTiny(placeId).then(function (place) {
-          $rootScope.$broadcast(NST_PLACE_EVENT.UPDATED, { placeId: placeId, place: place });
+          $rootScope.$broadcast(NST_PLACE_EVENT.UPDATED, {placeId: placeId, place: place});
           deferred.resolve(place);
         });
 
@@ -377,7 +377,7 @@
           }).then(function (response) {
 
             factory.get(id, true).then(function (place) {
-              $rootScope.$broadcast(NST_PLACE_EVENT.PICTURE_CHANGED, { placeId: place.id, place: place });
+              $rootScope.$broadcast(NST_PLACE_EVENT.PICTURE_CHANGED, {placeId: place.id, place: place});
             });
 
             deferred.resolve(response);
@@ -415,7 +415,7 @@
               factory.removePlaceFromTree(myPlaces, id);
               NstSvcMyPlaceIdStorage.set('tiny', myPlaces);
 
-              $rootScope.$broadcast(NST_PLACE_EVENT.REMOVED, { placeId: place.id, place: place });
+              $rootScope.$broadcast(NST_PLACE_EVENT.REMOVED, {placeId: place.id, place: place});
 
               deferred.resolve(place);
             }).catch(function (error) {
@@ -460,7 +460,7 @@
           place_id: id,
           state: !!value
         }).then(function () {
-          $rootScope.$broadcast(NST_PLACE_EVENT.NOTIFICATION, { placeId: id, notification: value });
+          $rootScope.$broadcast(NST_PLACE_EVENT.NOTIFICATION, {placeId: id, notification: value});
           deferred.resolve(true);
         }).catch(function (error) {
           deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
@@ -503,7 +503,7 @@
         NstSvcServer.request(requestCommad, {
           place_id: id
         }).then(function () {
-          $rootScope.$broadcast('place-bookmark', { placeId: id, bookmark: value});
+          $rootScope.$broadcast('place-bookmark', {placeId: id, bookmark: value});
           deferred.resolve(true);
         }).catch(function (error) {
           deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
@@ -671,7 +671,7 @@
         }).then(function () {
           NstSvcPlaceStorage.remove(query.id);
           NstSvcTinyPlaceStorage.remove(query.id);
-          $rootScope.$broadcast(NST_PLACE_EVENT.REMOVED, { placeId: placeId });
+          $rootScope.$broadcast(NST_PLACE_EVENT.REMOVED, {placeId: placeId});
           factory.get(placeId, true).then(function () {
             deferred.resolve();
           });
@@ -1116,7 +1116,7 @@
           place_id: placeId
         }).then(function () {
 
-          $rootScope.$broadcast('post-read-all', { placeId: placeId });
+          $rootScope.$broadcast('post-read-all', {placeId: placeId});
           defer.resolve(true);
 
         }).catch(function (error) {
@@ -1190,11 +1190,13 @@
      * @param  {string} placeId if of the place
      * @return {void}
      */
-    PlaceFactory.prototype.updateStorageByPlaceId = function(placeId) {
+    PlaceFactory.prototype.updateStorageByPlaceId = function (placeId) {
       var factory = this;
       if (NstUtilPlace.isGrand(placeId)) {
         factory.getGrandPlaceChildren(placeId).then(function (places) {
-          NstSvcTinyPlaceStorage.set(placeId, places);
+          _.map(places, function (place) {
+            NstSvcTinyPlaceStorage.set(place.id, place);
+          });
         }).catch(function () {
           NstSvcLogger.debug('Cant resolve in remove member');
         });
