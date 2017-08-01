@@ -5,7 +5,7 @@ angular
 
 /** @ngInject */
 function NstSvcNotification($q, $window, _, $state, $rootScope,
-                            NST_NOTIFICATION_TYPE, NST_AUTH_EVENT, NST_EVENT_ACTION,
+                            NST_NOTIFICATION_TYPE, NST_AUTH_EVENT, NST_EVENT_ACTION, NST_CONFIG,
                             NstObservableObject, NstSvcLogger, NstModel, NstSvcTranslation, NstSvcAuth, NstFactoryEventData,
                             NstUtility) {
 
@@ -40,12 +40,25 @@ function NstSvcNotification($q, $window, _, $state, $rootScope,
 
     this.permission = $window.Notification.permission;
 
-    firebase.initializeApp(config);
 
-    this.configFCM();
-    $rootScope.$on(NST_AUTH_EVENT.AUTHORIZE, function (e, data) {
-      service.configFCM();
-    });
+    if (!NST_CONFIG.DISABLE_FCM) {
+      var expScript = document.createElement('script'),
+        s = document.getElementsByTagName('script')[0];
+      expScript.src = 'https://www.gstatic.com/firebasejs/3.6.10/firebase-app.js';
+      s.parentNode.insertBefore(expScript, s);
+      
+      var expScript = document.createElement('script'),
+        s = document.getElementsByTagName('script')[0];
+      expScript.src = 'https://www.gstatic.com/firebasejs/3.6.10/firebase-messaging.js';
+      s.parentNode.insertBefore(expScript, s);
+      
+      firebase.initializeApp(config);
+
+      this.configFCM();
+      $rootScope.$on(NST_AUTH_EVENT.AUTHORIZE, function (e, data) {
+        service.configFCM();
+      });
+    }
 
   };
 

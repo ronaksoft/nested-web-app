@@ -10,7 +10,8 @@ const config = {
     HTTP_PORT: process.env['NST_ADDR_PORT'],
     DOMAIN: process.env['NST_DOMAIN'],
     ADMIN_DOMAIN: process.env['NST_ADMIN_DOMAIN'],
-    ADMIN_PORT: process.env['NST_ADMIN_PORT']
+    ADMIN_PORT: process.env['NST_ADMIN_PORT'],
+    DISABLE_FCM: process.env['DISABLE_FCM']
 };
 
 const defaultConfig = {
@@ -21,7 +22,8 @@ const defaultConfig = {
     DOMAIN: "_DOMAIN_",
     ADMIN_DOMAIN: "_ADMIN_DOMAIN_",
     ADMIN_PORT: "_ADMIN_PORT_",
-    UPLOAD_SIZE_LIMIT: 104857600
+    UPLOAD_SIZE_LIMIT: 104857600,
+    DISABLE_FCM: "_DISABLE_FCM_"
 };
 
 const newConfig = {
@@ -33,6 +35,7 @@ const newConfig = {
     DOMAIN: process.env['NST_DOMAIN'] || "nested.me",
     ADMIN_DOMAIN: process.env['NST_ADMIN_DOMAIN'] || "admin.nested.me",
     ADMIN_PORT: process.env['NST_ADMIN_PORT'] || "80",
+    DISABLE_FCM: process.env['DISABLE_FCM'] || defaultConfig.DISABLE_FCM
 };
 
 function isConfigApplyed() {
@@ -95,6 +98,7 @@ function replaceConfigAndStore(file) {
             .replace(defaultConfig.DOMAIN, newConfig.DOMAIN)
             .replace(defaultConfig.ADMIN_DOMAIN, newConfig.ADMIN_DOMAIN)
             .replace(defaultConfig.ADMIN_PORT, newConfig.ADMIN_PORT)
+            .replace(defaultConfig.DISABLE_FCM, newConfig.DISABLE_FCM);
 
         fs.writeFileSync(config.SCRIPT_DIR + file, newContent);
         res();
@@ -108,7 +112,7 @@ if (!config.HTTP_PORT) {
 }
 
 if (!isConfigApplyed()) {
-    let files = getListOfScripts();
+    let files = getListOfScripts();docker
     return copyDefaultFiles(files)
         .then(() => {
             let promises = [];
