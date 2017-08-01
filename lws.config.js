@@ -6,7 +6,7 @@ module.exports = {
     },
     {
       "from": "/m/*",
-      "to": "http://localhost:8889/$1"
+      "to": "http://localhost:8889/m/$1"
     }
   ]
 };
