@@ -21,6 +21,7 @@ build:desktop:
     - mkdir -p $BUILD_DIR/desktop
     - cp -r ./dist/production/* $BUILD_DIR/desktop
     - cp .local-web-server.json $BUILD_DIR/desktop
+    - cp ./lws.config.js $BUILD_DIR/desktop
     - mkdir -p $BUILD_DIR/bin
     - cp -r ./bin/* $BUILD_DIR/bin
     - find . -type f -not -name \*.html -exec rm -rf {} \;
