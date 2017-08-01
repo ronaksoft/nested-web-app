@@ -28,7 +28,7 @@
       }
     },
     "GOOGLE_ANALYTICS_TOKEN": "UA-92612481-1",
-    "UPLOAD_SIZE_LIMIT": 209715200
+    "UPLOAD_SIZE_LIMIT": 209715200,
     "DISABLE_FCM" : false
   }
 }
