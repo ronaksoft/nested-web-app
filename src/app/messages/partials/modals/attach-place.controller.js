@@ -25,11 +25,13 @@
       var placeIds = _.map(places, 'id');
 
       if (_.size(placeIds) === 0) {
+        vm.attachProgress = false;
         return;
       }
 
       if (reachedTheLimit(postPlaces, places, limit)) {
         toastr.warning(NstUtility.string.format(NstSvcTranslation.get("A post could not have more than {0} targets, Please remove some."), limit));
+        vm.attachProgress = false;
         return;
       }
 
