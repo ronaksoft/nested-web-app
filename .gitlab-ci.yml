@@ -25,6 +25,7 @@ build:desktop:
     - cp -r ./bin/* $BUILD_DIR/bin
     - find . -type f -not -name \*.html -exec rm -rf {} \;
     - find . -type d -empty -delete
+    - rm -rf ./src/index.html
     - cp -r ./src/* $BUILD_DIR/desktop
 
   artifacts:
