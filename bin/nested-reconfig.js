@@ -112,7 +112,7 @@ if (!config.HTTP_PORT) {
 }
 
 if (!isConfigApplyed()) {
-    let files = getListOfScripts();docker
+    let files = getListOfScripts();
     return copyDefaultFiles(files)
         .then(() => {
             let promises = [];
