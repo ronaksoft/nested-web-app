@@ -6,6 +6,14 @@
     .controller('ActiveSessionsController', ActiveSessionsController);
 
   /** @ngInject */
+  /**
+   * Shows the user active sessions and lets her terminate them
+   * 
+   * @param {any} _ 
+   * @param {any} toastr 
+   * @param {any} NstSvcAuth 
+   * @param {any} NstSvcTranslation 
+   */
   function ActiveSessionsController(_, toastr, NstSvcAuth, NstSvcTranslation) {
     var vm = this;
     vm.sessions = [];
@@ -16,6 +24,10 @@
       getAllSessions();
     })();
 
+    /**
+     * Retrieves a list of all sessions
+     * 
+     */
     function getAllSessions() {
       vm.loading = true;
       NstSvcAuth.getSessions()
@@ -25,6 +37,11 @@
         });
     }
 
+    /**
+     * Terminates a session and removes from the list
+     * 
+     * @param {any} sk 
+     */
     function terminate(sk) {
       NstSvcAuth.terminateSession(sk)
         .then(function () {
