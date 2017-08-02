@@ -405,6 +405,14 @@
     vm.attachments.mediaSelected = onFileSelect('media');
 
 
+    /**
+     * Adds a file as attachments of a post and creates a
+     * thumbnail for view rendering if the type is image.
+     * also considers the limits such as number and size
+     * @param {any} file
+     * @param {any} group
+     * @returns
+     */
     vm.attachments.attach = function (file, group) {
       NstSvcLogger.debug4('Compose | Check if the attached files are more than the limit size');
       NstSvcLogger.debug4('Compose | Max allowed attachements is: ', systemConstants.post_max_attachments);
@@ -510,6 +518,10 @@
       return deferred.promise;
     };
 
+    /**
+     * Detach the attachment of post or stop uploading it
+     * @param {object} vmAttachment
+     */
     vm.attachments.detach = function (vmAttachment) {
       var id = vmAttachment.id;
       var attachment = _.find(vm.model.attachments, {id: id});
@@ -535,6 +547,11 @@
 
     };
 
+    /**
+     * @function
+     * Checks any change is happened on compose or not
+     * @returns {boolean}
+     */
     vm.model.isModified = function () {
       vm.model.modified = (function (model) {
         var modified = false;
@@ -552,6 +569,10 @@
       return vm.model.modified;
     };
 
+    /**
+     * Checks the model be valid for send
+     * @returns
+     */
     vm.model.check = function () {
       vm.model.isModified();
 
