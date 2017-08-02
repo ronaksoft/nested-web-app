@@ -10,7 +10,9 @@
             <svg class="_16svg" ng-click="ctrl.unSelectFiles();">
                 <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
             </svg>
-            {{ctrl.selectedFiles.length}} <translate>File Selected</translate>
+            {{ctrl.selectedFiles.length}}
+            <translate ng-if="ctrl.selectedFiles.length > 1">Files Selected</translate>
+            <translate ng-if="ctrl.selectedFiles.length == 1">File Selected</translate>
         </div>
     </div>
     <div class="modal-b">
