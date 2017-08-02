@@ -262,7 +262,6 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.multiMap', 'ui.bootstrap.sta
         openedWindows.remove(modalInstance);
         previousTopOpenedModal = openedWindows.top();
         if (previousTopOpenedModal) {
-          console.log('previousTopOpenedModal');
           topModalIndex = parseInt(previousTopOpenedModal.value.modalDomEl.attr('index'), 10);
         } else {
           $('html').removeClass('_oh');
