@@ -11,11 +11,6 @@
                            NstSvcFileFactory, NstSvcPlaceAccess, NstSvcModal, uploadfiles,
                            NstSvcTranslation, NstSvcAuth, NstSvcWait, NstSvcInteractionTracker) {
     var vm = this;
-    var onSelectTimeout = null;
-    var eventReferences = [];
-    vm.loadMoreCounter = 0;
-    vm.keyword = '';
-    vm.attachments = [];
     vm.selectedFiles = [];
     vm.places = [];
     vm.breadcrumb = [{
@@ -41,8 +36,10 @@
     vm.isLoadingMore = false;
     vm.hasPreviousPage = false;
     vm.hasNextPage = false;
-    vm.currentPlaceId = null;
 
+    /**
+     * Default params for Api call
+     */
     vm.settings = {
       skip: 0,
       limit: 16
@@ -272,19 +269,5 @@
     function closePopover() {
       $scope.$dismiss();
     }
-
-    $scope.$on('$destroy', function () {
-      if (onSelectTimeout) {
-        $timeout.cancel(onSelectTimeout);
-      }
-
-      _.forEach(eventReferences, function (cenceler) {
-        if (_.isFunction(cenceler)) {
-          cenceler();
-        }
-      });
-
-    });
-
   }
 })();
