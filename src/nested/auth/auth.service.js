@@ -381,6 +381,7 @@
             case NST_SRV_ERROR.ACCESS_DENIED:
             case NST_SRV_ERROR.INVALID:
             case NST_SRV_ERROR.UNAUTHORIZED:
+            case NST_SRV_ERROR.SESSION_EXPIRE:
               service.unregister(NST_UNREGISTER_REASON.AUTH_FAIL).then(function () {
                 $rootScope.$on(NST_AUTH_EVENT.AUTHORIZE_FAIL, { reason: error });
                 deferred.reject(error);
