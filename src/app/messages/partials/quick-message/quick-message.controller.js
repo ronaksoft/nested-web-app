@@ -1,3 +1,12 @@
+/**
+ * @file app/messages/quick-message/quick-message.controller.js
+ * @desc Controller for quick-message directive
+ * @kind {Controller}
+ * Documented by:          robzizo < me@robzizo.ir >
+ * Date of documentation:  2017-08-02
+ * Reviewed by:            -
+ * Date of review:         -
+ */
 (function () {
   'use strict';
 
@@ -46,11 +55,6 @@
      ***** Controller Methods ****
      *****************************/
 
-    /**
-     * @function
-     * Checks any change is happened on compose or not
-     * @returns {boolean}
-     */
     // vm.model.isModified = function () {
     //   vm.model.modified = (function (model) {
     //     var modified = false;

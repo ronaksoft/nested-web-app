@@ -1,3 +1,12 @@
+/**
+ * @file app/pages/compose/compose.controller.js
+ * @desc Controller for compose page
+ * @kind {Controller}
+ * Documented by:          robzizo < me@robzizo.ir >
+ * Date of documentation:  2017-08-02
+ * Reviewed by:            -
+ * Date of review:         -
+ */
 (function () {
   'use strict';
 
