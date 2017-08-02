@@ -35,12 +35,14 @@
     vm.filesPopver = false;
     vm.cmdPress = false;
     vm.cmdVPress = false;
+    vm.isRetinaDisplay = isRetinaDisplay();
     vm.targetLimit;
 
-    if (vm.mode == 'quick') {
-      vm.quickMode = true;
-    }
+    vm.quickMode = vm.mode === 'quick';
 
+    /**
+     * Call this function if some thing changed the position of post cards
+     */
     function changeAffixes() {
       NstSvcLogger.debug4('Compose | Rearrange the the items in affixer post service :');
       SvcCardCtrlAffix.change();
@@ -87,6 +89,10 @@
       return vm.changeAffixesDebounce();
     });
 
+    /**
+     * @function
+     * Triggers on focus event of compose subject inputs
+     */
     vm.focusBox = function () {
       vm.emojiTarget = 'title';
       NstSvcLogger.debug4('Compose | Compose Box is focused');
@@ -95,6 +101,10 @@
       vm.firstUp = true;
     };
 
+    /**
+     * @function
+     * Triggers on blur event of compose inputs
+     */
     vm.blurBox = function () {
       NstSvcLogger.debug4('Compose | Is subject or body filled to stop collapsing quick message ?!');
       if (vm.model.subject.length == 0 && vm.model.attachments.length == 0 && vm.model.body.length == 0 && !vm.mouseIn) {
@@ -109,11 +119,19 @@
     var lang = isRTL == 'rtl' ? 'fa' : 'en';
 
     (function () {
+
+      /**
+       * Add state params attachments to the model 
+       */
       if ($stateParams.attachments && $stateParams.attachments.length > 0) {
         vm.addUploadedAttachs($stateParams.attachments);
       }
       vm.inputPlaceHolderLabel = NstSvcTranslation.get("Enter a Place name or a Nested address...");
 
+      /**
+       * Register an event for handling the draft feature
+       * Add placeId as recipient for `quickMode`
+       */
       if (vm.quickMode) {
         NstSvcLogger.debug4('Compose | compose is in quick mode');
         NstSvcLogger.debug4('Compose | insert place id as recipient in quick post');
@@ -173,6 +191,10 @@
       }
 
       openDraft();
+
+      /**
+       * Determines the limits of sending post
+       */
       NstSvcSystemConstants.get().then(function (result) {
         systemConstants = result;
         vm.targetLimit = systemConstants.post_max_targets || 10;
@@ -182,6 +204,11 @@
         });
     })();
 
+    /**
+     * Adds uploaded attachments ( exists before composing ) into compose attachments
+     * also prevents to add already added items
+     * @param {any} attachments
+     */
     function addUploadedAttachs(attachments) {
       vm.model.attachments = vm.model.attachments.concat(_.map(attachments, function (item) {
         item.status = NST_ATTACHMENT_STATUS.ATTACHED;
@@ -205,6 +232,9 @@
       vm.attachments.size.uploaded += _.sum(_.map(attachments, 'size'));
     }
 
+    /**
+     * Create a draft model and fill it up by compose model
+     */
     function saveDraft() {
       NstSvcLogger.debug4('Compose | Saving post model as draft');
       var draft = new NstPostDraft();
@@ -216,12 +246,18 @@
       $rootScope.$broadcast('draft-change');
     }
 
+    /**
+     * TODO Soroosh
+     */
     function discardDraft() {
       NstSvcLogger.debug4('Compose | discarding draft');
       NstSvcPostDraft.discard();
       $rootScope.$broadcast('draft-change');
     }
 
+    /**
+     * TODO Soroosh
+     */
     function shouldSaveDraft() {
       NstSvcLogger.debug4('Compose | is this model need to be save in draft ?!');
       return _.size(_.trim(vm.model.subject)) > 0 ||
@@ -234,6 +270,10 @@
      ***** Controller Methods ****
      *****************************/
 
+    /**
+     * Checks if the draft exists calls `loadDraft`
+     * @returns
+     */
     function openDraft() {
       NstSvcLogger.debug4('Compose | check for Loading draft ?!');
       if (!NstSvcPostDraft.has()) {
@@ -246,6 +286,10 @@
       }
     }
 
+    /**
+     * Loads draft into compose model
+     * @returns
+     */
     function loadDraft() {
       NstSvcLogger.debug4('Compose | loading draft');
       var deferred = $q.defer();
@@ -287,9 +331,13 @@
 
     NstSvcSidebar.setOnItemClick(onPlaceSelected);
 
-
     vm.subjectKeyDown = _.debounce(subjectKeyDown, 100)
+    vm.search.fn = _.debounce(vm.searchRecipients, 320);
 
+    /**
+     * Triggers when any key pressed in subject input
+     * @param {any} e
+     */
     function subjectKeyDown(e) {
       NstSvcLogger.debug4('Compose | User types in subject');
       vm.mouseIn = true;
@@ -302,6 +350,10 @@
     };
 
 
+    /**
+     * Triggers when any key pressed in editor body
+     * @param {any} e
+     */
     vm.editorKeyDown = function (e) {
       NstSvcLogger.debug4('Compose | User types in compose body');
       if (e.which == 8) {
@@ -312,8 +364,12 @@
       }
     };
 
-    vm.search.fn = _.debounce(vm.searchRecipients, 320);
 
+    /**
+     * Search for recipients by given query and appending them into results array
+     * @param {any} query
+     * @returns
+     */
     function searchRecipients(query) {
       NstSvcLogger.debug4('Compose | Search recipients with query : ', query);
 
@@ -368,6 +424,11 @@
 
     }
 
+    /**
+     * Determine the file type by analysis the extension
+     * @param {any} file
+     * @returns
+     */
     function getStoreType(file) {
       var group = NstSvcFileType.getType(file.type);
 
@@ -613,6 +674,9 @@
       return vm.model.ready;
     };
 
+    /**
+     * resize compose modal to size of screen and vice versa
+     */
     vm.fullCompose = function () {
       NstSvcLogger.debug4('Compose | Toggle full compose mode');
       $('body').toggleClass('fullCompose');
@@ -623,6 +687,11 @@
       vm.emitItemsAnalytics();
     };
 
+    /**
+     * Send the compose model to server after validating it
+     * and prevents sending multiple post
+     * @returns
+     */
     vm.send = function () {
       if (vm.pending) {
         return;
@@ -889,6 +958,11 @@
         break;
     }
 
+    /**
+     * Add a place as recipients of a post
+     * @param {any} placeId
+     * @returns
+     */
     function addRecipients(placeId) {
 
       var deferred = $q.defer();
@@ -912,10 +986,19 @@
      *****************************/
 
 
+    /**
+     * This function handles a ui reaction
+     * and collapse the recipients element
+     */
     vm.emitItemsAnalytics = function () {
       $scope.$broadcast('compose-add-item', {active: vm.collapse});
     }
 
+    /**
+     * Applies the direction ( rtl, ltr ) to the editor elements
+     * @param {any} dir
+     * @param {any} align
+     */
     var changeDirection = function (dir, align) {
       this.selection.save();
       var elements = this.selection.blocks();
@@ -932,22 +1015,22 @@
     }
 
     // Define a text icon called imageIcon.
-    $.FroalaEditor.DefineIcon('align-justify', {SRC: isRetinaDisplay() ? '/assets/icons/editor/align-justify@2x.png' :'/assets/icons/editor/align-justify.png', ALT: 'align justify', template: 'image'});
-    $.FroalaEditor.DefineIcon('align-center', {SRC: isRetinaDisplay() ? '/assets/icons/editor/align-center@2x.png' : '/assets/icons/editor/align-center.png', ALT: 'align center', template: 'image'});
-    $.FroalaEditor.DefineIcon('align-right', {SRC: isRetinaDisplay() ? '/assets/icons/editor/align-right@2x.png' : '/assets/icons/editor/align-right.png', ALT: 'align right', template: 'image'});
-    $.FroalaEditor.DefineIcon('align-left', {SRC: isRetinaDisplay() ? '/assets/icons/editor/align-left@2x.png' : '/assets/icons/editor/align-left.png', ALT: 'align-left', template: 'image'});
-    $.FroalaEditor.DefineIcon('insertLink', {SRC: isRetinaDisplay() ? '/assets/icons/editor/link@2x.png' : '/assets/icons/editor/link.png', ALT: 'link', template: 'image'});
-    $.FroalaEditor.DefineIcon('eraser', {SRC: isRetinaDisplay() ? '/assets/icons/editor/eraser@2x.png' : '/assets/icons/editor/eraser.png', ALT: 'eraser', template: 'image'});
-    $.FroalaEditor.DefineIcon('formatUL', {SRC: isRetinaDisplay() ? '/assets/icons/editor/list-ul@2x.png' : '/assets/icons/editor/list-ul.png', ALT: 'unordered list', template: 'image'});
-    $.FroalaEditor.DefineIcon('paragraph-rtl', {SRC: isRetinaDisplay() ? '/assets/icons/editor/paragraph-rtl@2x.png' : '/assets/icons/editor/paragraph-rtl.png', ALT: 'rtl', template: 'image'});
-    $.FroalaEditor.DefineIcon('paragraph-ltr', {SRC: isRetinaDisplay() ? '/assets/icons/editor/paragraph-ltr@2x.png' : '/assets/icons/editor/paragraph-ltr.png', ALT: 'ltr', template: 'image'});
-    $.FroalaEditor.DefineIcon('formatOL', {SRC: isRetinaDisplay() ? '/assets/icons/editor/list-ol@2x.png' : '/assets/icons/editor/list-ol.png', ALT: 'order list', template: 'image'});
-    $.FroalaEditor.DefineIcon('strikeThrough', {SRC: isRetinaDisplay() ? '/assets/icons/editor/strikethrough@2x.png' : '/assets/icons/editor/strikethrough.png', ALT: 'strikethrough', template: 'image'});
-    $.FroalaEditor.DefineIcon('bold', {SRC: isRetinaDisplay() ? '/assets/icons/editor/bold@2x.png' : '/assets/icons/editor/bold.png', ALT: 'bold', template: 'image'});
-    $.FroalaEditor.DefineIcon('italic', {SRC: isRetinaDisplay() ? '/assets/icons/editor/italic@2x.png' : '/assets/icons/editor/italic.png', ALT: 'italic', template: 'image'});
-    $.FroalaEditor.DefineIcon('underline', {SRC: isRetinaDisplay() ? '/assets/icons/editor/underline@2x.png' : '/assets/icons/editor/underline.png', ALT: 'underline', template: 'image'});
-    $.FroalaEditor.DefineIcon('fontSize', {SRC: isRetinaDisplay() ? '/assets/icons/editor/fontsize@2x.png' : '/assets/icons/editor/fontsize.png', ALT: 'fontsize', template: 'image'});
-    $.FroalaEditor.DefineIcon('color', {SRC: isRetinaDisplay() ? '/assets/icons/editor/color@2x.png' : '/assets/icons/editor/color.png', ALT: 'color', template: 'image'});
+    $.FroalaEditor.DefineIcon('align-justify', {SRC: vm.isRetinaDisplay ? '/assets/icons/editor/align-justify@2x.png' :'/assets/icons/editor/align-justify.png', ALT: 'align justify', template: 'image'});
+    $.FroalaEditor.DefineIcon('align-center', {SRC: vm.isRetinaDisplay ? '/assets/icons/editor/align-center@2x.png' : '/assets/icons/editor/align-center.png', ALT: 'align center', template: 'image'});
+    $.FroalaEditor.DefineIcon('align-right', {SRC: vm.isRetinaDisplay ? '/assets/icons/editor/align-right@2x.png' : '/assets/icons/editor/align-right.png', ALT: 'align right', template: 'image'});
+    $.FroalaEditor.DefineIcon('align-left', {SRC: vm.isRetinaDisplay ? '/assets/icons/editor/align-left@2x.png' : '/assets/icons/editor/align-left.png', ALT: 'align-left', template: 'image'});
+    $.FroalaEditor.DefineIcon('insertLink', {SRC: vm.isRetinaDisplay ? '/assets/icons/editor/link@2x.png' : '/assets/icons/editor/link.png', ALT: 'link', template: 'image'});
+    $.FroalaEditor.DefineIcon('eraser', {SRC: vm.isRetinaDisplay ? '/assets/icons/editor/eraser@2x.png' : '/assets/icons/editor/eraser.png', ALT: 'eraser', template: 'image'});
+    $.FroalaEditor.DefineIcon('formatUL', {SRC: vm.isRetinaDisplay ? '/assets/icons/editor/list-ul@2x.png' : '/assets/icons/editor/list-ul.png', ALT: 'unordered list', template: 'image'});
+    $.FroalaEditor.DefineIcon('paragraph-rtl', {SRC: vm.isRetinaDisplay ? '/assets/icons/editor/paragraph-rtl@2x.png' : '/assets/icons/editor/paragraph-rtl.png', ALT: 'rtl', template: 'image'});
+    $.FroalaEditor.DefineIcon('paragraph-ltr', {SRC: vm.isRetinaDisplay ? '/assets/icons/editor/paragraph-ltr@2x.png' : '/assets/icons/editor/paragraph-ltr.png', ALT: 'ltr', template: 'image'});
+    $.FroalaEditor.DefineIcon('formatOL', {SRC: vm.isRetinaDisplay ? '/assets/icons/editor/list-ol@2x.png' : '/assets/icons/editor/list-ol.png', ALT: 'order list', template: 'image'});
+    $.FroalaEditor.DefineIcon('strikeThrough', {SRC: vm.isRetinaDisplay ? '/assets/icons/editor/strikethrough@2x.png' : '/assets/icons/editor/strikethrough.png', ALT: 'strikethrough', template: 'image'});
+    $.FroalaEditor.DefineIcon('bold', {SRC: vm.isRetinaDisplay ? '/assets/icons/editor/bold@2x.png' : '/assets/icons/editor/bold.png', ALT: 'bold', template: 'image'});
+    $.FroalaEditor.DefineIcon('italic', {SRC: vm.isRetinaDisplay ? '/assets/icons/editor/italic@2x.png' : '/assets/icons/editor/italic.png', ALT: 'italic', template: 'image'});
+    $.FroalaEditor.DefineIcon('underline', {SRC: vm.isRetinaDisplay ? '/assets/icons/editor/underline@2x.png' : '/assets/icons/editor/underline.png', ALT: 'underline', template: 'image'});
+    $.FroalaEditor.DefineIcon('fontSize', {SRC: vm.isRetinaDisplay ? '/assets/icons/editor/fontsize@2x.png' : '/assets/icons/editor/fontsize.png', ALT: 'fontsize', template: 'image'});
+    $.FroalaEditor.DefineIcon('color', {SRC: vm.isRetinaDisplay ? '/assets/icons/editor/color@2x.png' : '/assets/icons/editor/color.png', ALT: 'color', template: 'image'});
     
     // $.FroalaEditor.RegisterCommand('bold', {
     //   title: 'Bold',
@@ -976,6 +1059,9 @@
       }
     })
 
+    /**
+     * Configs for Froala editor
+     */
     vm.froalaOpts = {
       enter: $.FroalaEditor.ENTER_DIV,
       toolbarContainer: vm.quickMode ? '#editor-btn-quick' : '#editor-btn',
@@ -1026,6 +1112,11 @@
      *****    Fetch Methods   ****
      *****************************/
 
+    /**
+     * Get place object
+     * @param {any} id
+     * @returns
+     */
     function getPlace(id) {
       NstSvcLogger.debug4('Compose | Get place :', id);
       return NstSvcPlaceFactory.get(id).catch(function (error) {
@@ -1047,6 +1138,11 @@
       });
     }
 
+    /**
+     * Gets the Post object
+     * @param {any} id
+     * @returns
+     */
     function getPost(id) {
       NstSvcLogger.debug4('Compose | Get post', id);
       return NstSvcPostFactory.get(id, true);
@@ -1060,6 +1156,10 @@
      *****    Other Methods   ****
      *****************************/
 
+    /**
+     * Delete attachment or cancel on uploading files
+     * @param {any} attachment
+     */
     $scope.deleteAttachment = function (attachment) {
       new $q(function (resolve, reject) {
         if (attachment.status === NST_ATTACHMENT_STATUS.UPLOADING) {
@@ -1081,6 +1181,11 @@
       });
     };
 
+    /**
+     * Checks the screen is retina
+     * needed for rendering proper icons
+     * @returns {boolean}
+     */
     function isRetinaDisplay() {
         if (window.matchMedia) {
             var mq = window.matchMedia("only screen and (min--moz-device-pixel-ratio: 1.3), only screen and (-o-min-device-pixel-ratio: 2.6/2), only screen and (-webkit-min-device-pixel-ratio: 1.3), only screen  and (min-device-pixel-ratio: 1.3), only screen and (min-resolution: 1.3dppx)");
@@ -1088,6 +1193,11 @@
         }
     }
 
+    /**
+     * Add selected place as recipients of post
+     * disallow added places
+     * @param {any} place
+     */
     function onPlaceSelected(place) {
       NstSvcLogger.debug4('Compose | add a place from suggests as recipient :');
 
@@ -1103,6 +1213,9 @@
     }
 
 
+    /**
+     * reset The changes of attachment model
+     */
     function clear() {
       NstSvcLogger.debug4('Compose | Clear compose model data :');
       vm.attachments.viewModels = [];
@@ -1117,6 +1230,12 @@
       }, 512);
     }
 
+    /**
+     * @event
+     * Triggers on drop event
+     * this function add file/files into attachments model
+     * @param {any} event
+     */
     vm.dodrop = function (event) {
       NstSvcLogger.debug4('Compose | dropped some files :');
       event.preventDefault();
@@ -1130,7 +1249,7 @@
 
     };
 
-    $('.wdt-emoji-popup.open').removeClass('open');
+    // $('.wdt-emoji-popup.open').removeClass('open');
     $scope.$on('$destroy', function () {
       $('.wdt-emoji-popup.open').removeClass('open');
       NstSvcLogger.debug4('Compose | Compose id destroyed :');
