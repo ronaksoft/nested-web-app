@@ -10,11 +10,13 @@
             <svg class="_16svg" ng-click="ctrl.unSelectFiles();">
                 <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
             </svg>
-            {{ctrl.selectedFiles.length}} <translate>File Selected</translate>
+            {{ctrl.selectedFiles.length}}
+            <translate ng-if="ctrl.selectedFiles.length > 1">Files Selected</translate>
+            <translate ng-if="ctrl.selectedFiles.length == 1">File Selected</translate>
         </div>
     </div>
     <div class="modal-b">
-        <ul modal-scroll nst-scrollbar ng-if="!ctrl.isLoading">
+        <ul modal-scroll nst-scrollbar ng-if="!ctrl.isLoadingPlaces">
             <li class="place ng-class:{'disabledItem' : ctrl.selectedFiles.length > 0}" ng-repeat="place in ctrl.places" ng-click="ctrl.placeClick(place.id, place.name)">
                 <div class="place-logo">
                     <img ng-src="{{place | picture:'x64'}}"/>
@@ -36,7 +38,7 @@
             </li>
             <li ng-repeat="file in ctrl.files" ng-click="ctrl.attachClick(file)" class="file ng-class:{'checked' : file.selected}">
                 <div class="pre-thumb" ng-if="file.thumbnail">
-                    <img src="{{file.thumbnail}}"/>
+                    <img ng-src="{{file.thumbnail}}"/>
                 </div>
                 <div class="file-thumb {{file.type}}" ng-if="!file.thumbnail">
                     <span>
@@ -52,7 +54,7 @@
                     </svg>
                 </div>
             </li>
-            <div ng-if="ctrl.places.length === 0 && ctrl.files.length === 0"><translate>No File or place</translate></div>
+            <div ng-if="ctrl.places.length === 0 && ctrl.files.length === 0 && !ctrl.initialStart && !ctrl.isLoading"><translate>No File or place</translate></div>
         </ul>
         <div class="loading" ng-if="ctrl.isLoading">
             <div class="animation"><div class="circle one"></div></div>

@@ -11,11 +11,6 @@
                            NstSvcFileFactory, NstSvcPlaceAccess, NstSvcModal, uploadfiles,
                            NstSvcTranslation, NstSvcAuth, NstSvcWait, NstSvcInteractionTracker) {
     var vm = this;
-    var onSelectTimeout = null;
-    var eventReferences = [];
-    vm.loadMoreCounter = 0;
-    vm.keyword = '';
-    vm.attachments = [];
     vm.selectedFiles = [];
     vm.places = [];
     vm.breadcrumb = [{
@@ -38,11 +33,14 @@
     vm.isGrandPlace = isGrandPlace;
 
     vm.isLoading = false;
+    vm.isLoadingPlaces = true;
     vm.isLoadingMore = false;
-    vm.hasPreviousPage = false;
     vm.hasNextPage = false;
-    vm.currentPlaceId = null;
+    vm.initialStart = true;
 
+    /**
+     * Default params for Api call
+     */
     vm.settings = {
       skip: 0,
       limit: 16
@@ -64,11 +62,13 @@
      * @param {string} placeId
      */
     function loadMore(placeId) {
-      if (vm.hasNextPage && !vm.isLoading) {
+      if (vm.hasNextPage && !vm.isLoading && vm.settings.skip > 0) {
         vm.loadMoreCounter++;
         // NstSvcInteractionTracker.trackEvent('files', 'load more', vm.loadMoreCounter);
         vm.isLoadingMore = true;
-        getFiles(placeId ? placeId : vm.breadcrumb[vm.breadcrumb.length - 1].id);
+        if ( vm.breadcrumb.length > 1 ) {
+          getFiles(placeId ? placeId : vm.breadcrumb[vm.breadcrumb.length - 1].id);
+        }
       }
     }
 
@@ -79,19 +79,24 @@
      */
     function getSubPlace(placeId) {
       vm.isLoading = true;
+      vm.isLoadingPlaces = true;
       vm.settings.skip = 0;
       vm.files = [];
       vm.places = [];
       if ( placeId && placeId.length > 0 ) {
         NstSvcPlaceFactory.getGrandPlaceChildren(placeId).then(function (places){
           vm.places = _.sortBy(places, [function(o) { return o.id; }]);
+          // vm.places = places;
+          vm.isLoadingPlaces = false;
+          vm.initialStart = false;
+          getFiles(placeId) ;
         });
-        getFiles(placeId) ;
       } else {
         NstSvcPlaceFactory.getGrandPlaces().then(function (places){
-          console.log(places);
           vm.places = places;
+          vm.initialStart = false;
           vm.isLoading = false;
+          vm.isLoadingPlaces = false;
         });
       }
     }
@@ -112,6 +117,7 @@
      * @returns
      */
     function placeClick(placeId, placeName) {
+      vm.initialStart = true;
       if ( vm.selectedFiles.length > 0 ) {return;}
       getSubPlace(placeId);
       var item = _.find(vm.breadcrumb, function(o){
@@ -191,7 +197,9 @@
         vm.hasNextPage = fileItems.length === vm.settings.limit;
         vm.settings.skip += newFileItems.length;
 
-        vm.files.push.apply(vm.files, newFileItems);
+        $timeout(function(){
+          vm.files.push.apply(vm.files, newFileItems);
+        },100)
         // vm.loadFilesError = false;
         deferred.resolve();
       }).catch(function (error) {
@@ -272,19 +280,5 @@
     function closePopover() {
       $scope.$dismiss();
     }
-
-    $scope.$on('$destroy', function () {
-      if (onSelectTimeout) {
-        $timeout.cancel(onSelectTimeout);
-      }
-
-      _.forEach(eventReferences, function (cenceler) {
-        if (_.isFunction(cenceler)) {
-          cenceler();
-        }
-      });
-
-    });
-
   }
 })();
