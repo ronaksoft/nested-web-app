@@ -1,3 +1,12 @@
+/**
+ * @file app/pages/compose/compose-match-item.directive.js
+ * @desc handles a ui treatment for compose recipients
+ * @kind {directive}
+ * Documented by:          robzizo < me@robzizo.ir >
+ * Date of documentation:  2017-08-02
+ * Reviewed by:            -
+ * Date of review:         -
+ */
 (function () {
   'use strict';
 
@@ -30,7 +39,14 @@
         scope.$on('compose-add-item',getSizes);
 
 
+        /**
+         * @function
+         * for ui treatments
+         * this function collapse the recipients box into one line and adds 
+         * an element called `more-reci` at the end of first line
+         */
         function getSizes(){
+          // remove `more-reci` element 
           $('#more-reci').remove();
           itemsW = 0;
           overflowed = false;
