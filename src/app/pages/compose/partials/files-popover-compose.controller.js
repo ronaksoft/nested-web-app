@@ -12,14 +12,9 @@
                            NstSvcTranslation, NstSvcAuth, NstSvcWait, NstSvcInteractionTracker,
                            NstAttachment) {
     var vm = this;
-    var onSelectTimeout = null;
-    var eventReferences = [];
     vm.loadMoreCounter = 0;
-    vm.keyword = '';
-    vm.attachments = [];
     vm.selectedFiles = [];
     vm.files = [];
-    vm.loadMoreCounter = 0;
     vm.placeFiles = placeFiles;
 
     vm.add = add;
@@ -32,12 +27,20 @@
     vm.hasNextPage = false;
     vm.currentPlaceId = null;
 
+    /**
+     * Default params for Api call
+     */
     vm.settings = {
       skip: 0,
       limit: 16
     };
     load();
 
+    /**
+     * @function
+     * Add an item to the Selected files Array
+     * @param {any} item
+     */
     function add(item) {
       item.isSelected = !item.isSelected;
       if ( item.isSelected ) {
@@ -47,11 +50,21 @@
       }
     }
 
+    /**
+     * @function
+     * loads the files of the popover for all pages
+     * @returns {Promise}
+     */
     function load() {
       vm.filesLoadProgress = true;
       vm.loadFilesError = false;
 
       var deferred = $q.defer();
+      /**
+       * we fill up the items with recent files api
+       * Passes the skip, limit and a callback function to
+       * handles the new items which was not in cache
+       */
       NstSvcFileFactory.recentFiles(vm.settings.skip,
         vm.settings.limit,callback).then(function (fileItems) {
         var newFileItems = _.differenceBy(fileItems, vm.files, 'id');
@@ -68,7 +81,16 @@
         vm.filesLoadProgress = false;
       });
 
+      /**
+       * @function
+       * This function brings the server Api items on first load and do
+       * not trigger on vm.skip > limit .
+       * abstracts items from controller files , and adds them on top of
+       * controller files .
+       * @param {Array<object>} fileItems
+       */
       function callback(fileItems){
+        // certainly this function do not call on next pages load request
         if ( vm.settings.skip === 0 ) {
           setTimeout(function(){
             var newFileItems = _.differenceBy(fileItems, vm.files, 'id');
@@ -76,13 +98,17 @@
               vm.files.unshift(newFileItems);
               vm.settings.skip += newFileItems.length;
             }
-          },1000);
+          },100);
         }
       }
 
       return deferred.promise;
     }
 
+    /**
+     * @function
+     * For load more this function be calling
+     */
     function loadMore() {
       if (vm.hasNextPage) {
         vm.loadMoreCounter++;
@@ -91,10 +117,19 @@
       }
     }
 
+    /**
+     * @function
+     * @callback
+     * Adds selected items to the compose ( which is the parent scope of `this` )
+     */
     function addToCompose() {
       $scope.$parent.$parent.ctlCompose.addUploadedAttachs(vm.selectedFiles);
     }
 
+    /**
+     * Unselects all selected files
+     * @param {event} e
+     */
     function unSelectFiles(e) {
       e.stopPropagation();
       vm.selectedFiles.forEach(function(o){
@@ -103,6 +138,10 @@
       vm.selectedFiles = [];
     }
 
+    /**
+     * Opens the placeFiles modal
+     * Pass the `addToCompose` function to the new modal
+     */
     function placeFiles() {
       $uibModal.open({
         animation: false,
@@ -119,22 +158,12 @@
       });
     }
 
+    /**
+     * Calls for closing the popover
+     */
     function closePopover() {
       $scope.$parent.$parent.ctlCompose.filesPopver = false;
     }
-
-    $scope.$on('$destroy', function () {
-      if (onSelectTimeout) {
-        $timeout.cancel(onSelectTimeout);
-      }
-
-      _.forEach(eventReferences, function (cenceler) {
-        if (_.isFunction(cenceler)) {
-          cenceler();
-        }
-      });
-
-    });
 
   }
 })();

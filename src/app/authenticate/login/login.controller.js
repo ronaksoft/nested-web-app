@@ -52,7 +52,7 @@
         password: md5.createHash(vm.password)
       };
 
-      NstSvcAuth.login(credentials, vm.remember).then(function (result) {
+      NstSvcAuth.login(credentials, true).then(function (result) {
         if ($stateParams.back) {
           goToBackUrl();
         } else {

@@ -4,7 +4,10 @@
         <svg class="_16svg" ng-if="ctrl.selectedFiles.length > 0" ng-click="ctrl.unSelectFiles($event);">
             <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
         </svg>
-        <span ng-if="ctrl.selectedFiles.length > 0">{{ctrl.selectedFiles.length}} <translate>File selected</translate></span>
+        <span ng-if="ctrl.selectedFiles.length > 0">{{ctrl.selectedFiles.length}} 
+            <translate ng-if="ctrl.selectedFiles.length > 1">Files Selected</translate>
+            <translate ng-if="ctrl.selectedFiles.length == 1">File Selected</translate>
+        </span>
     </div>
     <ul modal-scroll nst-scrollbar class="ng-class:{'haveSelectedItem' : ctrl.selectedFiles.length > 0}">
         <li ng-repeat="item in ctrl.files" ng-click="ctrl.add(item)" class="ng-class:{'checked' : item.isSelected}">
@@ -16,7 +19,7 @@
             <div ng-hide="item.thumbnail.length" class="attachment-tiny-thumb tiny-thumb-type-{{item.type}}">
                 {{item.extension | uppercase}}
             </div>
-            <img ng-show="item.thumbnail.length" src="{{item.thumbnail}}" alt="">
+            <img ng-show="item.thumbnail.length" ng-src="{{item.thumbnail}}" alt="">
             <span>{{item.filename}}</span>
         </li>
     </ul>
