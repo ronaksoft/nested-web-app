@@ -57,7 +57,8 @@
       resault.push(test);
     }
     if (resault.indexOf(true) > -1) {
-      location.href = '/m/' + window.location.pathname;
+      var newLocation = '/m/' + window.location.pathname;
+      location.href = newLocation.replace('m//','m/');
     }
     t = document.getElementById('regexD');
     t.parentNode.removeChild(t);
