@@ -14,7 +14,7 @@ build:desktop:
   script:
     - cp -r . /var/lib/desktop
     - cd /var/lib/desktop
-    - ls
+    - ls ./build
 #    - npm install -g gulp bower
 #    - npm install
 #    - bower install
