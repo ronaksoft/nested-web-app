@@ -1,3 +1,12 @@
+/**
+ * @file src/app/contacts/contact-single.controller.js
+ * @author Soroush Torkzadeh <sorousht@nested.me>
+ * @description A user contact view
+ * Documented by:          Soroush Torkzadeh <sorousht@nested.me>
+ * Date of documentation:  2017-08-02
+ * Reviewed by:            -
+ * Date of review:         -
+ */
 (function () {
   'use strict';
 
@@ -6,6 +15,20 @@
     .controller('ContactSingleController', ContactSingleController);
 
   /** @ngInject */
+  /**
+   * Displays a contact information and her mutual places with the user
+   * 
+   * @param {any} $q 
+   * @param {any} $state 
+   * @param {any} toastr 
+   * @param {any} $scope 
+   * @param {any} $uibModalStack 
+   * @param {any} $rootScope 
+   * @param {any} $stateParams 
+   * @param {any} NstSvcTranslation 
+   * @param {any} NstSvcContactFactory 
+   * @param {any} NstSvcPlaceFactory 
+   */
   function ContactSingleController($q, $state, toastr, $scope, $uibModalStack, $rootScope, $stateParams,
     NstSvcTranslation, NstSvcContactFactory, NstSvcPlaceFactory) {
     var vm = this;
@@ -22,6 +45,11 @@
       loadContact(vm.contactId);
     })();
 
+    /**
+     * Loads the contact information and retrieves the mutual places 
+     * 
+     * @param {any} id 
+     */
     function loadContact(id) {
       vm.loadProgress = true;
       getContact(id).then(function (contact) {
@@ -36,6 +64,11 @@
       });
     }
 
+    /**
+     * Adds the user with the given Id to the authenticated user contacts
+     * 
+     * @param {any} id 
+     */
     function add(id) {
       vm.addProgress = true;
       NstSvcContactFactory.add(id).then(function () {
@@ -45,6 +78,13 @@
       });
     }
 
+    /**
+     * Removes the user from the authenticated user's contact list and broadcasts `contact-favorite-remove`
+     * to tell contact side-widget the contact is no longer in favorites list
+     * 
+     * @param {any} id 
+     * @returns 
+     */
     function remove(id) {
       if (!vm.contact.isContact) {
         return;
@@ -62,6 +102,11 @@
       });
     }
 
+    /**
+     * Favorites a contact and broadcasts 'contact-favorite-add'.
+     * 
+     * @param {any} id 
+     */
     function addFavorite(id) {
       vm.favoriteProgress = true;
       NstSvcContactFactory.addFavorite(id).then(function () {
@@ -74,6 +119,11 @@
       });
     }
 
+    /**
+     * Removes the given user from favorite contacts and broadcasts `contact-favorite-remove`
+     * 
+     * @param {any} id 
+     */
     function removeFavorite(id) {
       vm.removeFavoriteProgress = true;
       NstSvcContactFactory.removeFavorite(id).then(function () {
@@ -86,6 +136,12 @@
       });
     }
 
+    /**
+     * Favorites/Unfavorites a contact by using `addFavorite` and `removeFavorite`
+     * @see addFavorite
+     * @see removeFavorite
+     * @returns 
+     */
     function toggleFavorite() {
       if (vm.contact.isFavorite) {
         return removeFavorite(vm.contact.id);
@@ -100,30 +156,37 @@
         return $q.resolve(vm.contact);
       }
 
-      // // try to find the contact between all contacts
-      // var allContacts = NstSvcContactFactory.getAll();
-      // var contact = _.find(allContacts, { id : id });
-      //
-      // if (contact && contact.id) {
-      //   return $q.resolve(contact);
-      // }
-
       // request a contact
       return NstSvcContactFactory.get(id);
     }
 
+    /**
+     * Closes the modal and navigates to conversation page
+     * 
+     * @param {any} id 
+     */
     function viewConversation(id) {
       close().then(function () {
         $state.go('app.conversation', { userId: id });
       });
     }
 
+    /**
+     * Closes the modal and navigates to compose page
+     * 
+     * @param {any} id 
+     */
     function sendMessage(id) {
       close().then(function () {
         $state.go('app.place-compose', { placeId: id }, {notify: false});
       });
     }
 
+    /**
+     * Closes the modal and returns a Promise that will be resolved when the modal disappeared
+     * 
+     * @returns 
+     */
     function close() {
       var deferred = $q.defer();
 
@@ -141,6 +204,10 @@
       return deferred.promise;
     }
 
+    /**
+     * Closes the modal or switches to list-view
+     * 
+     */
     function back() {
       if ($stateParams.contactId) {
         close();
@@ -149,6 +216,12 @@
       }
     }
 
+    /**
+     * Closes the modal and Navigates to the place messages page
+     * 
+     * @param {any} $event 
+     * @param {any} place 
+     */
     function goToPlace($event, place) {
       $event.preventDefault();
       close().then(function () {
