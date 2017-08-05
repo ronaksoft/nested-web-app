@@ -24,6 +24,9 @@
 .top-user-avatar-24 {
   @include avatar(24px,24px,1010px);
 }
+.user-avatar-20 {
+  @include avatar(20px,20px,1010px);
+}
 .user-avatar-24 {
   @include avatar(40px,24px,1010px);
 }

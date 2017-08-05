@@ -67,7 +67,6 @@
             .icon {
                 width: 48px;
                 padding: 12px 16px;
-                height: 100%;
             }
             hr {
                 position: absolute;
@@ -112,6 +111,7 @@
                 height: 48px;
                 .icon {
                     padding: 16px 16px 0 16px;
+                    height: 100%;
                 }
                 .label-details {
                     display: flex;
@@ -133,12 +133,15 @@
                     display: flex;
                     flex: none;
                     margin-left: 16px;
-                    width: 88px;
+                    width: 112px;
                     color: $color-new-hurricane;
+                    .user-avatar-20 {
+                        margin-right: 8px;
+                    }
                 }
                 .edit {
-                    margin-left: 24px;
                     padding-right: 16px;
+                    opacity: .4;
                 }
             }
         }
