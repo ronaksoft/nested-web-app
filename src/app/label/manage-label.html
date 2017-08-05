@@ -54,17 +54,31 @@
     </li>
   </ul>
   <h4>Labels</h4>
-  <ul>
+  <ul class="labels">
     <li>
-      <span>Important</span>
+      <div class="icon">
+        <div class="select-card ng-class:{'selected' : ctlPostCard.isChecked || ctlPostCard.isCheckedForce}">
+          <input class="_fr" type="checkbox" id="select{{label.id}}" name="select"
+                ng-model="ctrl.isChecked" ng-checked="ctrl.isChecked"/>
+          <label class="_fw _df _asc setting" for="select{{label.id}}"></label>
+        </div>
+      </div>
+      <div class="label-details">
+        <span>Important</span>
+      </div>
       <div class="usage">
-        <svg class="_24svg _df _fn">
-          <use xlink:href="/assets/icons/nst-icn24.svg#cross"></use>
+        <svg class="_16svg _df _fn">
+          <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
         </svg>
         <span>74</span>
       </div>
       <div class="users">
-        evryone
+        <translate>evryone</translate>
+      </div>
+      <div class="edit">
+        <svg class="_16svg _df _fn">
+          <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
+        </svg>
       </div>
     </li>
   </ul>
