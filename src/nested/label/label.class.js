@@ -14,7 +14,11 @@
 
       this.code = undefined;
 
-      this.isPublic = undefined;
+      this.public = undefined;
+
+      this.counters = {};
+
+      this.topMembers = [];
     }
 
     Label.prototype = {};

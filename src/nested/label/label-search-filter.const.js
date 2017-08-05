@@ -6,7 +6,7 @@
     .constant('NST_LABEL_SEARCH_FILTER', {
       MY_PRIVATES: 'my_privates',
       PRIVATES: 'privates',
-      PUBLICS: 'publics',
+      PUBLICS: 'public',
       ALL: 'all'
     });
 })();

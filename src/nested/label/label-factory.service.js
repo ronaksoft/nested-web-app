@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function NstSvcLabelFactory($q,
-    NstBaseFactory, NstSvcServer,
+    NstBaseFactory, NstSvcServer, NstSvcUserFactory,
     NstLabel,
     NST_LABEL_SEARCH_FILTER) {
 
@@ -24,6 +24,11 @@
         model.id = data._id;
         model.title = data.title;
         model.code = data.code;
+        model.public = data.public;
+        model.topMembers = _.map(data.top_members, function (member) {
+          return NstSvcUserFactory.parseTinyUser(member);
+        });
+        model.counters = data.counters;
       }
 
       return model;
@@ -60,7 +65,7 @@
 
     LabelFactory.prototype.remove = function (id) {
       return this.sentinel.watch(function () {
-        return NstSvcServer.request('label/create', {
+        return NstSvcServer.request('label/remove', {
           label_id: id,
         });
       }, 'remove-' + id);
@@ -74,6 +79,7 @@
           filter: filter || NST_LABEL_SEARCH_FILTER.ALL,
           skip: skip || 0,
           limit: limit || 10,
+          details: true,
         }).then(function (result) {
           return $q.resolve(_.map(result.labels, that.parse));
         });
