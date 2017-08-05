@@ -1,3 +1,12 @@
+/**
+ * @file src/app/public/recover-password/recover-password.controller.js
+ * @author Soroush Torkzadeh <sorousht@nested.me>
+ * @description Performs moving between steps and passing values between two step
+ * Documented by:          Soroush Torkzadeh <sorousht@nested.me>
+ * Date of documentation:  2017-08-05
+ * Reviewed by:            -
+ * Date of review:         -
+ */
 (function() {
   'use strict';
 
@@ -6,6 +15,12 @@
     .controller('RecoverPasswordController', RecoverPasswordController);
 
   /** @ngInject */
+  /**
+   * A component that wraps password recovery steps
+   * 
+   * @param {any} $scope 
+   * @param {any} $state 
+   */
   function RecoverPasswordController($scope, $state) {
     var vm = this;
 
