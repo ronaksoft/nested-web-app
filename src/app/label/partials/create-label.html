@@ -52,7 +52,7 @@
         All users on your company can use this label.
     </div>
     <div class="modal-footer">
-        <input type="button" ng-click="ctrl.closePopover()"  value="Discard" class="butn-white">
+        <input type="button" ng-click="$dismiss()"  value="Discard" class="butn-white">
         <input type="button" ng-if="ctrl.selectedFiles.length> 0" ng-click="ctrl.addToCompose()" value="Create" class="butn-green">
         <input type="button" disabled value="Create" class="butn-green">
     </div>

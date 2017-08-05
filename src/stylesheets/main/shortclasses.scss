@@ -310,6 +310,10 @@ hr.nomargin {
   fill:  $color-gale
 }
 
+.fill-white {
+  fill:  $color-white
+}
+
 .fill-solid-24 {
   fill:  $color-solid-24
 }
@@ -322,10 +326,17 @@ hr.nomargin {
   color: #8895A1;
   fill: #8895A1;
 }
+.color-lbl-bg-A {
+  background-color: #8895A1;
+}
 
 .color-lbl-B {
   color: #60BF70;
   fill: #60BF70;
+}
+
+.color-lbl-bg-B {
+  background-color: #60BF70;
 }
 
 .color-lbl-C {
@@ -333,9 +344,17 @@ hr.nomargin {
   fill: #EBC246;
 }
 
+.color-lbl-bg-C {
+  background-color: #EBC246;
+}
+
 .color-lbl-D {
   color: #F26161;
   fill: #F26161;
+}
+
+.color-lbl-bg-D {
+  background-color: #F26161;
 }
 
 .color-lbl-E {
@@ -343,15 +362,28 @@ hr.nomargin {
   fill: #8669BF;
 }
 
+.color-lbl-bg-E {
+  background-color: #8669BF;
+}
+
 .color-lbl-F {
   color: #508EE6;
   fill: #508EE6;
+}
+
+.color-lbl-bg-F {
+  background-color: #508EE6;
 }
 
 .color-lbl-G {
   color: #6CD9D9;
   fill: #6CD9D9;
 }
+
+.color-lbl-bg-G {
+  background-color: #6CD9D9;
+}
+
 .highlight-sense {
   &:hover{
     background-color: $color-sense-5;
