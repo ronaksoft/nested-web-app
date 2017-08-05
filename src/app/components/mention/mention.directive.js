@@ -17,7 +17,6 @@
             userKey = NST_SEARCH_QUERY_PREFIX.NEW_USER;
             placeKey = NST_SEARCH_QUERY_PREFIX.NEW_PLACE;
             labelKey = NST_SEARCH_QUERY_PREFIX.NEW_LABEL;
-            $window.console.log([userKey, placeKey, labelKey]);
           }
 
           if (attrs.uiTinymce) {

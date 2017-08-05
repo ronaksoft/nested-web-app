@@ -45,7 +45,6 @@
         this.prefixes.user = NST_SEARCH_QUERY_PREFIX.NEW_USER;
         this.prefixes.place = NST_SEARCH_QUERY_PREFIX.NEW_PLACE;
         this.prefixes.label = NST_SEARCH_QUERY_PREFIX.NEW_LABEL;
-        $window.console.log('new method');
       }
 
       var that = this;
@@ -62,15 +61,16 @@
         }
       }.bind(this));
 
-      $window.console.log([this.places, this.users, this.labels, this.otherKeywords]);
-
       NstObject.call(this);
     }
 
     SearchQuery.prototype = new NstObject();
     SearchQuery.prototype.constructor = SearchQuery;
 
-    SearchQuery.prototype.toString = function () {
+    SearchQuery.prototype.toString = function (scape) {
+      if (scape == null) {
+        scape = true;
+      }
       var that = this;
       var items = _.concat(
         _.map(this.places, function (place) {
@@ -84,7 +84,7 @@
         }),
         this.otherKeywords);
 
-      if (this.newMethod) {
+      if (this.newMethod && scape) {
         return NST_SEARCH_QUERY_PREFIX.NEW_METHOD_KEY + ' ' + _.join(items, QUERY_SEPARATOR);
       } else {
         return _.join(items, QUERY_SEPARATOR);
@@ -127,6 +127,19 @@
 
     SearchQuery.encode = function (queryString) {
       return encodeURIComponent(queryString);
+    };
+
+    SearchQuery.prototype.isNewMethod = function () {
+      return this.newMethod;
+    };
+
+    SearchQuery.prototype.getSearchParams = function () {
+      return {
+        places: this.places,
+        users: this.users,
+        labels: this.labels,
+        keywords: this.otherKeywords
+      };
     };
 
     return SearchQuery;
