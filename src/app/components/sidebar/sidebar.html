@@ -175,14 +175,14 @@
       <script type="text/ng-template" id="label-uib-tooltip.html">
         <translate>Manage labels</translate>
       </script>
-      <a class="detailed"
+      <a class="detailed" manage-label
          data-uib-tooltip-template="'label-uib-tooltip.html'"
          data-tooltip-enable="{{!ctlApp.viewSettings.sidebar.collapsed ? true : false}}"
          data-tooltip-placement="right auto" data-tooltip-append-to-body="true"
          ng-click="ctlSidebar.goLabelRoute($event);">
         <div>
-          <svg>
-            <use xlink:href="/assets/icons/nst-icn32.svg#compose"></use>
+          <svg class="_16svg">
+            <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
           </svg>
         </div>
         <div>

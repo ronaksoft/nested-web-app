@@ -2,10 +2,10 @@
   'use strict';
 
   angular
-    .module('ronak.nested.web.message')
-    .controller('manageLabelController', manageLabelController);
+    .module('ronak.nested.web.components')
+    .controller('createLabelController', createLabelController);
 
-  function manageLabelController($timeout, $scope, $q, $uibModalInstance,
+  function createLabelController($timeout, $scope, $q, $uibModalInstance,
     moment, toastr, _,
     NstSvcPostFactory, NstSvcPlaceFactory, NstSvcTranslation, NstUtility,
     NstTinyPlace) {

@@ -8,6 +8,7 @@
         h3 {
             font-size: 20px;
             line-height: 24px;
+            padding: 0 16px;
             font-weight: 400;
             margin: 0;
         }
@@ -63,6 +64,10 @@
             display: flex;
             align-items: center;
             position: relative;
+            .icon {
+                width: 48px;
+                padding: 12px 16px;
+            }
             hr {
                 position: absolute;
                 border-color: $color-breeze-5-new;
@@ -75,10 +80,6 @@
         &.requests {
             li {
                 height: 64px;
-                .icon {
-                    width: 48px;
-                    padding: 12px 16px;
-                }
                 .req-body {
                     padding-top: 8px;
                     display: flex;
@@ -104,6 +105,73 @@
                     }
                 }
             }
+        }
+        &.labels {
+            li {
+                height: 48px;
+                .icon {
+                    padding: 16px 16px 0 16px;
+                    height: 100%;
+                }
+                .label-details {
+                    display: flex;
+                    width: 100%;
+                    font-size: 14px;
+                }
+                .usage {
+                    margin-left: 24px;
+                    display: flex;
+                    flex: none;
+                    svg {
+                        margin-right: 8px;
+                    }
+                    span {
+                        width: 52px;
+                    }
+                }
+                .users {
+                    display: flex;
+                    flex: none;
+                    margin-left: 16px;
+                    width: 112px;
+                    color: $color-new-hurricane;
+                    .user-avatar-20 {
+                        margin-right: 8px;
+                    }
+                }
+                .edit {
+                    padding-right: 16px;
+                    opacity: .4;
+                }
+            }
+        }
+    }
+}
+
+.cr8-label {
+    height: 415px!important;
+    min-height: 415px!important;
+    padding: 24px!important;
+    align-self: center;
+    h4 {
+        font-size: 18px;
+        font-weight: bold;
+        line-height: 24px;
+        margin: 0;
+    }
+    label {
+        margin-top: 24px;
+        color: $color-gale-new;
+        font-weight: bold;
+    }
+    .modal-footer {
+        display: flex;
+        justify-content: flex-end;
+        padding: 0;
+        input {
+            width: 92px;
+            height: 32px!important;
+            margin: 0 0 0 8px!important;
         }
     }
 }
