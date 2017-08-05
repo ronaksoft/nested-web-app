@@ -70,9 +70,9 @@
   </div>
   <span><translate>Create a Closed Place</translate></span>
 </a>
-<hr ng-if="!ctlFullNavbar.isPersonal()">
+<hr ng-if="!ctlFullNavbar.isPersonal() && (ctlFullNavbar.allowedToRemovePlace || ctlFullNavbar.place.privacy.locked)">
 <a class="_df red-item list-items _aic"
-   ng-if="!ctlFullNavbar.isPersonal() && !ctlFullNavbar.isSubPersonal() &&
+   ng-if="!ctlFullNavbar.isPersonal() && !ctlFullNavbar.isSubPersonal() && ctlFullNavbar.place.privacy.locked &&
    (!ctlFullNavbar.allowedToRemovePlace || (ctlFullNavbar.allowedToRemovePlace && ctlFullNavbar.place.counters.creators > 1))"
    ng-click="ctlFullNavbar.confirmToLeave()">
   <div>

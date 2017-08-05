@@ -52,9 +52,15 @@
               , '-o-transform': 'scale(' + ratio + ',' + ratio + ')'
               , '-webkit-transform': 'scale(' + ratio + ',' + ratio + ')'
             });
-            if (ratio != 1 ) elem.height(elem[0].getBoundingClientRect().height + 'px');
+            if (ratio !== 1 ) {
+              elem.height(elem[0].getBoundingClientRect().height + 'px');
+              elem.parents('.post-body').css({
+                'direction': 'inherit'
+              })
+            }
             elem.css({
-              'display': 'block'
+              'display': 'block',
+              'width': stndSize * ( 1 / ratio)
             });
 
           }

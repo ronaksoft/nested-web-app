@@ -136,6 +136,27 @@
 .loading .circle.five {
   background: rgba(20, 215, 105, 0.2);
 }
+.loading.white .circle {
+  background: none repeat scroll 0 0 #ffffff;
+  border-radius: 100% 100% 100% 100%;
+  height: 6px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 6px;
+}
+.loading.white .circle.two {
+  background: rgba(255, 255, 255, 0.8);
+}
+.loading.white .circle.three {
+  background: rgba(255, 255, 255, 0.6);
+}
+.loading.white .circle.four {
+  background: rgba(255, 255, 255, 0.4);
+}
+.loading.white .circle.five {
+  background: rgba(255, 255, 255, 0.2);
+}
 
 /**
   ******************************

@@ -7,7 +7,7 @@
   <li ng-repeat="item in items">
     <a href="javascript:void(0);" ng-click="onClick(item);$event.stopPropagation()" ng-if="item.type === 'image' || item.type === 'gif' || ( item.type === 'video' && item.uploadType !== 'FILE' )">
       <img class="attach-thumbnail-img" alt=""
-        style="background: url({{item.picture.getUrl('preview')}});background-size: cover; height: 96px;position: relative;top: 4px; width: {{ (item.width / item.height * 96) }}px"/>
+        style="background: url({{item.picture.getUrl('x128')}});background-size: cover; height: 96px;position: relative;top: 4px; width: {{ (item.width / item.height * 96) }}px"/>
         <span class="playbtn" ng-if="item.type === 'gif'">
           <svg class="_24svg">
             <use xlink:href="/assets/icons/nst-icn24.svg#infinity"></use>

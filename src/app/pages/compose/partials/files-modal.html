@@ -1,0 +1,57 @@
+<div class="_difv" ng-controller="filesPopoverComposeController as ctrl">
+    <div class="files-modal-head">
+        <translate ng-if="ctrl.selectedFiles.length === 0">Recent Files</translate>
+        <svg class="_16svg" ng-if="ctrl.selectedFiles.length > 0" ng-click="ctrl.unSelectFiles($event);">
+            <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
+        </svg>
+        <span ng-if="ctrl.selectedFiles.length > 0">{{ctrl.selectedFiles.length}} 
+            <translate ng-if="ctrl.selectedFiles.length > 1">Files Selected</translate>
+            <translate ng-if="ctrl.selectedFiles.length == 1">File Selected</translate>
+        </span>
+    </div>
+    <ul modal-scroll nst-scrollbar class="ng-class:{'haveSelectedItem' : ctrl.selectedFiles.length > 0}">
+        <li ng-repeat="item in ctrl.files" ng-click="ctrl.add(item)" class="ng-class:{'checked' : item.isSelected}">
+            <div class="checkbox ng-class:{'checked' : item.isSelected}">
+                <svg class="_16svg _asc">
+                    <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
+                </svg>
+            </div>
+            <div ng-hide="item.thumbnail.length" class="attachment-tiny-thumb tiny-thumb-type-{{item.type}}">
+                {{item.extension | uppercase}}
+            </div>
+            <img ng-show="item.thumbnail.length" ng-src="{{item.thumbnail}}" alt="">
+            <span>{{item.filename}}</span>
+        </li>
+    </ul>
+    <div class="files-modal-footer select" ng-if="ctrl.selectedFiles.length === 0">
+        <label for="attach">
+            <svg class="_24svg _asc">
+                <use xlink:href="/assets/icons/nst-icn24.svg#attach"></use>
+            </svg>
+            <translate>Upload Files</translate>
+        </label>
+        <label for="attach-img">
+            <li class="_df _fn row-icons">
+                <svg class="_20svg _asc">
+                    <use xlink:href="/assets/icons/nst-icn20.svg#photo-wire_1_"></use>
+                </svg>
+                <svg class="_20svg _asc">
+                    <use xlink:href="/assets/icons/nst-icn20.svg#video-wire"></use>
+                </svg>
+                <svg class="_20svg _asc">
+                    <use xlink:href="/assets/icons/nst-icn20.svg#two-eighth-note-wire_1_"></use>
+                </svg>
+            </li>
+            <translate>Upload Media</translate>
+        </label>
+        <a ng-click="ctrl.placeFiles();ctrl.closePopover()">
+            <svg class="_24svg _asc">
+                <use xlink:href="/assets/icons/nst-icn24.svg#places"></use>
+            </svg>
+            <translate>Choose from Places</translate>
+        </a>
+    </div>
+    <div class="files-modal-footer attach" ng-if="ctrl.selectedFiles.length > 0">
+        <div class="butn-green _fw" ng-click="ctrl.addToCompose();ctrl.closePopover()"><translate>Attach</translate></div>
+    </div>
+</div>

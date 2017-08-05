@@ -18,17 +18,6 @@
         currentPlaceId: '='
       },
       link: function(scope) {
-        // scope.activity.parseData = '';
-        // if ( scope.activity.post ) {
-        //   if ( scope.activity.post.subject.length > 0 ) {
-        //     scope.activity.parseData = scope.activity.post.subject;
-        //   } else if ( scope.activity.post.body.length > 0 ) {
-        //     scope.activity.parseData = scope.activity.post.body;
-        //   } else {
-        //     scope.activity.parseData = 'Shared' + ' ' + scope.activity.post.counters.attaches > 1 ? scope.activity.post.counters.attaches : 'one' + scope.activity.post.counters.attaches > 1 ? 'attachments.' : 'attachment.';
-        //   }
-        // }
-        // scope.activity.parseData =
 
         switch (scope.activity.type) {
           case NST_EVENT_ACTION.MEMBER_REMOVE:
