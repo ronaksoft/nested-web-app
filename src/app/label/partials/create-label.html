@@ -3,7 +3,54 @@
     <Label>Label Name</Label>
     <input type="text">
     <Label>Label Color</Label>
-    <input type="text">
+    <!--<input type="text" class="label-color">-->
+    <div class="_pr _fw label-color">
+        <select name="lang" ng-model="ctrl.color" ng-change="ctrl.changeColor(ctrl.locale)">
+            <option selected value="A">- Default -</option>
+            <option value="B">Green</option>
+            <option value="C">Yellow</option>
+            <option value="D">Red</option>
+            <option value="E">Purple</option>
+            <option value="F">Blue</option>
+            <option value="G">Aquamarine</option>
+        </select>
+        <svg class="_16svg mirror _fn color-lbl-{{ctrl.color}}">
+            <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
+        </svg>
+    </div>
+    <Label>Holders</Label>
+    <div class="holders-radio">
+        <input type="radio" ng-model="ctrl.holders" value="specefic" id="specefic" name="selector">
+        <label for="specefic">Specific Users</label>
+        <input type="radio" ng-model="ctrl.holders" value="all" id="all" name="selector">
+        <label for="all">Public</label>
+    </div>
+    <div class="_df _fw input-select-match" ng-if="ctrl.holders !== 'all'">
+        <ui-select minimum-input-length="4" multiple limit="{{ctrl.targetLimit}}"  class="address-input _dib"
+         data-ng-model="ctrl.model.recipients">
+          <ui-select-match placeholder="{{::ctrl.userSelectPlaceHolder}}" compose-match-item class="match-items">
+            <div class="selected-innter">
+              <span class="place-img">
+                <img ng-src="{{$item.picture}}"/>
+              </span>
+              <span class="place-name">{{$item.name}}</span>
+            </div>
+          </ui-select-match>
+          <ui-select-choices refresh="ctrl.search.fn($select.search)"
+                             refresh-delay="0"
+                             repeat="place as place in ctlCompose.search.results track by $index">
+            <div class="place-initials-32">
+              <img ng-src="{{place.picture}}"/>
+            </div>
+            <span class="_fn _df" auto-dir="place.name" data-ng-bind-html="place.name | highlight: $select.search"></span>
+            <span class="_fw _df" ></span>
+            <span class="nst-font-10 _vat _df" dir="ltr" data-ng-bind-html="place.id | highlight: $select.search"></span>
+          </ui-select-choices>
+        </ui-select>
+    </div>
+    <div class="_df _fw holders-all-msg" ng-if="ctrl.holders === 'all'">
+        All users on your company can use this label.
+    </div>
     <div class="modal-footer">
         <input type="button" ng-click="ctrl.closePopover()"  value="Discard" class="butn-white">
         <input type="button" ng-if="ctrl.selectedFiles.length> 0" ng-click="ctrl.addToCompose()" value="Create" class="butn-green">
