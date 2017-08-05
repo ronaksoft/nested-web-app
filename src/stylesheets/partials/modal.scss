@@ -313,13 +313,15 @@ body.modal-open {
     left: 0;
     bottom: 0;
     width: 100%;
-    svg {
+    >svg ,
+    > * >svg {
       // width: 24px;
       // height: 24px;
       position: static;
       fill: $color-hurricane;
     }
-    svg:hover {
+    > svg:hover ,
+    > * > svg:hover {
       fill: $color-solid;
     }
     ._24svg {

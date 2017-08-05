@@ -149,7 +149,7 @@
 }
 
 .cr8-label {
-    height: 415px!important;
+    height: auto!important;
     min-height: 415px!important;
     padding: 24px!important;
     align-self: center;
@@ -159,19 +159,62 @@
         line-height: 24px;
         margin: 0;
     }
-    label {
+    > label {
         margin-top: 24px;
         color: $color-gale-new;
         font-weight: bold;
+    }
+    .label-color {
+        select {
+            padding-left: 40px;
+        }
+        svg {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            margin-top: -8px;
+        }
+    }
+    .holders-radio {
+        display: flex;
+        height: 16px;
+        flex: none;
+        margin: 8px 0;
+        input[type="radio"] {
+            display: none;
+        }
+    }
+    .input-select-match {
+        height: 32px;
+        margin-bottom: 32px;
+        .address-input {
+            padding: 0;
+        }
+        .ui-select-multiple.ui-select-bootstrap input.ui-select-search {
+            height: 32px;
+            padding: 0;
+            margin: 0;
+            font-size: 14px;
+        }
+    }
+    .holders-all-msg {
+        flex: none;
+        height: 33px;
+        box-sizing: content-box;
+        margin-bottom: 32px;
+        line-height: 32px;
+        color: $color-gale-new;
     }
     .modal-footer {
         display: flex;
         justify-content: flex-end;
         padding: 0;
+        border: none;
         input {
-            width: 92px;
+            width: 92px!important;
             height: 32px!important;
             margin: 0 0 0 8px!important;
+            font-weight: bold;
         }
     }
 }
