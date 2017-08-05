@@ -11,22 +11,6 @@
     NstTinyPlace) {
 
     var vm = this;
-
-    /**
-     * @function goLabelRoute
-     * Opens the label manager modal
-     * @param {any} $event
-     */
-    vm.createLabel = function ($event) {
-      $event.preventDefault();
-      $uibModal.open({
-        animation: false,
-        size: 'lg-white',
-        templateUrl: 'app/label/modal/create-label.html',
-        controller: 'manageLabelController',
-        controllerAs: 'ctrl'
-      })
-    };
     
   }
 

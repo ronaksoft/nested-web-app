@@ -147,3 +147,31 @@
         }
     }
 }
+
+.cr8-label {
+    height: 415px!important;
+    min-height: 415px!important;
+    padding: 24px!important;
+    align-self: center;
+    h4 {
+        font-size: 18px;
+        font-weight: bold;
+        line-height: 24px;
+        margin: 0;
+    }
+    label {
+        margin-top: 24px;
+        color: $color-gale-new;
+        font-weight: bold;
+    }
+    .modal-footer {
+        display: flex;
+        justify-content: flex-end;
+        padding: 0;
+        input {
+            width: 92px;
+            height: 32px!important;
+            margin: 0 0 0 8px!important;
+        }
+    }
+}

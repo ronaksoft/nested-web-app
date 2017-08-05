@@ -10,10 +10,15 @@
     return {
       restrict: 'EA',
       link: function($scope, $element, $attrs) {
-        $element.click(function(){
+        /**
+         * @function createLabel
+         * Opens the create label modal
+         * @param {any} $event
+         */
+        $($element).click(function(){
             $uibModal.open({
                 animation: false,
-                size: 'sm',
+                size: 'lg-white multiple',
                 templateUrl: 'app/label/partials/create-label.html',
                 controller: 'createLabelController',
                 controllerAs: 'ctrl'

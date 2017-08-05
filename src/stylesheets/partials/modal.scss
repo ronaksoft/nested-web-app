@@ -595,6 +595,11 @@ body.modal-open {
   //overflow-y: auto;
   margin: 0!important;
   border-radius: 0!important;
+  &.multiple {
+    .modal-content {
+      display: flex;
+    }
+  }
   .modal-content {
     position: relative;
     box-shadow: none;
