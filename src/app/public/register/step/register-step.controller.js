@@ -129,6 +129,12 @@
     }
 
 
+    /**
+     * Checks the username to be available
+     * 
+     * @param {any} username 
+     * @returns 
+     */
     function usernameAvailable(username) {
       var deferred = $q.defer();
       new NstHttp('',
@@ -148,6 +154,13 @@
       return deferred.promise;
     }
 
+    /**
+     * Validates username with precise rules and helps the user to pick her username
+     * 
+     * @param {any} username 
+     * @param {any} check 
+     * @returns 
+     */
     function validateUsername(username, check) {
       if (!check || !username) {
         return $q.resolve(vm.usernameErrors);
