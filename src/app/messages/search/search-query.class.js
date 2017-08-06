@@ -57,7 +57,9 @@
         } else if (_.startsWith(word, that.prefixes.label)) {
           this.labels.push(_.trimStart(word, that.prefixes.label));
         } else {
-          this.otherKeywords.push(word);
+          if (word.length > 0) {
+            this.otherKeywords.push(word);
+          }
         }
       }.bind(this));
 

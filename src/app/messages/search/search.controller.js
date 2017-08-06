@@ -82,28 +82,38 @@
       vm.loadMessageError = false;
       vm.reachedTheEnd = false;
 
+      var searchService = null;
+
       if (vm.newMethod) {
-        // new search method should implemented here
+        searchService = NstSvcPostFactory.newSearch(
+          vm.searchParams.places.join(','),
+          vm.searchParams.users.join(','),
+          vm.searchParams.labels.join(','),
+          vm.searchParams.keywords.join(' '),
+          limit,
+          skip);
       } else {
-        NstSvcPostFactory.search(queryString, limit, skip).then(function (posts) {
-
-          _.forEach(posts, function (message) {
-            if (!_.some(vm.messages, {id: message.id})) {
-              vm.messages.push(message);
-            }
-          });
-
-          vm.noResult = vm.messages.length === 0;
-          vm.reachedTheEnd = vm.messages.length > 0 && posts.length < limit;
-
-          vm.loading = false;
-
-        }).catch(function (error) {
-          $log.debug(error);
-          vm.loadMessageError = true;
-          vm.loading = false;
-        });
+        searchService = NstSvcPostFactory.search(queryString, limit, skip);
       }
+
+      searchService.then(function (posts) {
+
+        _.forEach(posts, function (message) {
+          if (!_.some(vm.messages, {id: message.id})) {
+            vm.messages.push(message);
+          }
+        });
+
+        vm.noResult = vm.messages.length === 0;
+        vm.reachedTheEnd = vm.messages.length > 0 && posts.length < limit;
+
+        vm.loading = false;
+
+      }).catch(function (error) {
+        $log.debug(error);
+        vm.loadMessageError = true;
+        vm.loading = false;
+      });
     }
 
     function loadMore() {
