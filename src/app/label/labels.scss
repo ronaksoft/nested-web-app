@@ -158,11 +158,21 @@
     }
 }
 
-.cr8-label {
+.label-sm-modal {
     height: auto!important;
     min-height: 0px!important;
     padding: 24px!important;
     align-self: center;
+    &.request-modal {
+        h4 {
+            margin-bottom: 24px;
+        }
+        .modal-footer {
+            input {
+                width: auto!important;
+            }
+        }
+    }
     h4 {
         font-size: 18px;
         font-weight: bold;
@@ -182,7 +192,9 @@
         font-weight: bold;
     }
     .label-color {
-        margin-bottom: 24px;
+        &.marginbtm {
+            margin-bottom: 24px;
+        }
         select {
             padding-left: 40px;
         }
@@ -197,7 +209,7 @@
         display: flex;
         height: 16px;
         flex: none;
-        margin: 8px 0;
+        margin: 5px 0 16px;
         input[type="radio"] {
             display: none;
         }
@@ -217,10 +229,10 @@
     }
     .holders-all-msg {
         flex: none;
-        height: 33px;
+        min-height: 33px;
         box-sizing: content-box;
         margin-bottom: 32px;
-        line-height: 32px;
+        line-height: 24px;
         color: $color-gale-new;
     }
     .modal-footer {
@@ -286,6 +298,82 @@
                 }
                 &.force span{
                     color: $color-force
+                }
+            }
+        }
+    }
+    .req-modal-input {
+        position: relative;
+        margin-bottom: 10px;
+        border-radius: 4px;
+        input {
+            margin: 0;
+        }
+        .color-btn {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            margin-top: -8px;
+        }
+        .color-selector {
+            position: absolute;
+            background-color: $color-bg-nested;
+            right: 0;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            padding: 0 12px 0 8px;
+            display: flex;
+            align-items: center;
+            span {
+                display: flex;
+                flex: 1;
+                color: $color-new-hurricane;
+                font-size: 16px;
+            }
+            i {
+                width: 24px;
+                height: 24px;
+                display: flex;
+                margin-left: 8px;
+                align-items: center;
+                justify-content: center;
+                border-radius: 4px;
+                overflow: hidden;
+                &.active {
+                    box-shadow: 0 2px 4px $color-breeze-new;
+                    background-color: $color-white;
+                }
+            }
+        }
+        .label-suggest {
+            position: absolute;
+            left: 8px;
+            right: 8px;
+            background-color: $color-white;
+            top: 40px;
+            list-style: none;
+            padding: 8px 0;
+            border: 1px solid $color-breeze-new;
+            border-radius: 0px 0px 4px 4px;
+            box-shadow: 0 8px 16px $color-breeze-new;
+            li {
+                display: flex;
+                height: 40px;
+                align-items: center;
+                span {
+                    height: 100%;
+                    line-height: 40px;
+                    display: flex;
+                    border-bottom: 1px solid $color-breeze-new;
+                }
+                svg {
+                    margin: 0 12px;
+                }
+                &:last-of-type{
+                    span {
+                        border-bottom-color: transparent;
+                    }
                 }
             }
         }

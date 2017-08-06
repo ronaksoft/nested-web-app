@@ -1,0 +1,48 @@
+<div class="label-sm-modal request-modal">
+    <h4>
+        <translate>Request a Label</translate>
+    </h4>
+    <div class="req-modal-input ng-class:{'_oh' : ctrl.editColor}">
+        <input type="text" ng-model="ctrl.searchQ" placeholder="Enter a label name…" data-ng-keyup="ctrl.inputKeyUpHandler();">
+        <div class="color-btn" ng-click="ctrl.editColor = true">
+            <svg class="_16svg _fn">
+                <use xlink:href="/assets/icons/nst-icn16.svg#gear"></use>
+            </svg>
+        </div>
+        <div class="color-selector" ng-if="ctrl.editColor">
+            <translate>Label color</translate>
+            <i ng-repeat="color in ctrl.colorPalette" ng-click="ctrl.changeColor(color)" ng-class="{'active' : color == ctrl.color}">
+                <svg class="_16svg _fn color-lbl-{{color}}">
+                    <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
+                </svg>
+            </i>
+            <i>
+                <svg class="_16svg _fn" ng-click="ctrl.editColor = false">
+                    <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
+                </svg>
+            </i>
+        </div>
+        <ul class="label-suggest" ng-if="ctrl.searchQ.length > 0 && ctrl.openSuggests">
+            <li ng-repeat="suggest in ctrl.suggests" ng-click="ctrl.suggestClickHandler(suggest);">
+                <svg class="_16svg _fn color-lbl-{{suggest.color}}">
+                    <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
+                </svg>
+                <span class="_fw _df">{{suggest.name}}</span>
+            </li>
+            <li>
+                <svg class="_16svg _fn fill-sense-wire">
+                    <use xlink:href="/assets/icons/nst-icn16.svg#cross"></use>
+                </svg>
+                <translate class="nst-mood-cheerful _fn">Create new label</translate>
+                <span class="nst-mood-cheerful _fw _df">&nbsp;"{{ctrl.searchQ}}"</span>
+            </li>
+        </ul>
+    </div>
+    <p class="holders-all-msg">
+        <translate>You can request an existing label or create a new one. You’ll have access after “Label Manager” approve your request.</translate>
+    </p>
+    <div class="modal-footer">
+        <input type="button" ng-click="$dismiss()" value="Discard" class="butn-white">
+        <input type="button" ng-click="ctrl.addToCompose()" value="Send Request" class="butn-green">
+    </div>
+</div>

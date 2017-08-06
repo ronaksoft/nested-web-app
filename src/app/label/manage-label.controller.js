@@ -11,7 +11,7 @@
     NstTinyPlace) {
 
     var vm = this;
-    vm.labelManager = true;
+    vm.labelManager = false;
     vm.editLabel = editLabel
     
     function editLabel(){
