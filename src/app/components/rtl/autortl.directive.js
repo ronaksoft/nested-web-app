@@ -9,7 +9,6 @@
     return {
       restrict: 'A',
       link: function (scope ,element, attrs) {
-
         //persianRex Lib written by imanmh
         var persianRex = {};
 
@@ -82,7 +81,6 @@
           if (!str || !_.isString(str)) {
             return
           }
-
           decideRtl(str);
 
           function decideRtl(str) {
@@ -123,8 +121,8 @@
           direction(parse.body.textContent);
         });
 
-
-      }
+        }
     };
   }
 })();
+

@@ -1,9 +1,18 @@
+/**
+ * @file app/messages/post-card.controller.js
+ * @author robzizo < me@robzizo.ir >
+ * @description controller for post card directive
+ *              Documented by:          robzizo
+ *              Date of documentation:  2017-07-25
+ *              Reviewed by:            -
+ *              Date of review:         -
+ */
 (function () {
   'use strict';
 
   angular
     .module('ronak.nested.web.message')
-    .controller('PostCardController', PostCardController)
+    .controller('PostCardController', PostCardController);
 
   function PostCardController($state, $log, $timeout, $stateParams, $rootScope, $scope, $filter, $window, $sce, $uibModal,
                               _, moment, toastr,
@@ -14,7 +23,7 @@
 
     var commentBoardMin = 3,
       commentBoardMax = 99,
-      commentsSettings = {
+      commentBoardMin = {
         limit: 8,
         date: null
       },
@@ -25,7 +34,7 @@
       eventReferences = [];
 
     vm.remove = _.partial(remove, vm.post);
-    vm.toggleRemoveFrom = toggleRemoveFrom;
+    // vm.toggleRemoveFrom = toggleRemoveFrom;
     vm.retract = retract;
     vm.expand = expand;
     vm.collapse = collapse;
@@ -65,28 +74,53 @@
     vm.hasDeleteAccess = hasDeleteAccess;
     vm.hasHiddenCommentAccess = hasPlacesWithControlAccess();
 
+    /**
+     * Checks post card is in chains view
+     */
     if (vm.mood === 'chain') {
       vm.chainView = true;
     }
 
+    /**
+     * reaply all places that post have been shared
+     * 
+     * @param {any} $event 
+     */
     function replyAll($event) {
       $event.preventDefault();
       $state.go('app.compose-reply-all', {postId: vm.post.id}, {notify: false});
     }
 
+    /**
+     * forward message, actully it adds post content to the compose with empty recipient
+     * 
+     * @param {any} $event 
+     */
     function forward($event) {
       $event.preventDefault();
       $state.go('app.compose-forward', {postId: vm.post.id}, {notify: false});
     }
 
+    /**
+     * Reply to post sender
+     * 
+     * @param {any} $event 
+     */
     function replyToSender($event) {
       $event.preventDefault();
       $state.go('app.compose-reply-sender', {postId: vm.post.id}, {notify: false});
     }
 
+    /**
+     * opens modal post view
+     * 
+     * @param {any} $event 
+     */
     function viewFull($event) {
-      markAsRead();
       $event.preventDefault();
+      // Mark post as read
+      markAsRead();
+      // helper for opening post view inside another post view
       if ($state.current.name !== 'app.message') {
         $state.go('app.message', {postId: vm.post.id, trusted: vm.post.isTrusted}, {notify: false});
       } else {
@@ -95,12 +129,21 @@
       }
     }
 
+    /**
+     * add/remove user from post watchers list
+     * by adding to watchers list, user gets all notifications of post
+     */
     function toggleRecieveNotification() {
       vm.watched =! vm.watched;
       NstSvcPostFactory.setNotification(vm.post.id, vm.watched);
     }
 
 
+    /**
+     * @function
+     * mark post as read if it wasnt before.
+     * @borrows NstSvcPostFactory
+     */
     function markAsRead() {
       if (!vm.post.read) {
         vm.post.read = true;
@@ -110,6 +153,11 @@
       }
     }
 
+    /**
+     * @function
+     * add/remove post to bookmarked posts of user
+     * @borrows NstSvcPostFactory
+     */
     function setBookmark(setBookmark) {
       vm.post.pinned = setBookmark;
       if (setBookmark) {
@@ -123,6 +171,14 @@
       }
     }
 
+    /**
+     * remove the post from epecified place by place manager
+     * after accepting the warning prompt .
+     * it raises an event to listerens and
+     * also removes the post from selected posts
+     * @param {object} post 
+     * @param {string} place 
+     */
     function remove(post, place) {
       confirmforRemove(post, place).then(function (agree) {
         if (!agree) {
@@ -144,10 +200,17 @@
       });
     }
 
-    function toggleRemoveFrom(show) {
-      vm.showRemoveFrom = show;
-    }
+    // function toggleRemoveFrom(show) {
+    //   vm.showRemoveFrom = show;
+    // }
 
+    /**
+     * warning propt for removing post from place
+     * @param {any} post 
+     * @param {any} place 
+     * @returns  {Promise}
+     * @function {{FunctionName}}{{}}
+     */
     function confirmforRemove(post, place) {
       return $uibModal.open({
         animation: false,
@@ -167,6 +230,11 @@
       }).result;
     }
 
+    /**
+     * @function
+     * retract message for senders with circumated time
+     * also removes the post from selected posts
+     */
     function retract() {
       vm.retractProgress = true;
       NstSvcPostInteraction.retract(vm.post).finally(function () {
@@ -176,6 +244,12 @@
       });
     }
 
+    /**
+     * @function
+     * renders whole contents of post
+     * and mark post as read
+     * also notifies `affixer` service to do appropriate action
+     */
     function expand() {
       vm.expandProgress = true;
       NstSvcPostFactory.get(vm.post.id, true).then(function (post) {
@@ -200,6 +274,12 @@
       });
     }
 
+    /**
+     * replace the post content with summorized version of that
+     * also scrolls the page to the top of the post card on long posts
+     * 
+     * @param {any} e 
+     */
     function collapse(e) {
       if (vm.post.ellipsis) {
         var el = angular.element(e.currentTarget);
@@ -230,6 +310,11 @@
 
     }
 
+    /**
+     * @function
+     * attach a place as recipients of post by a using `attachPlace` modal
+     * and updates the post model
+     */
     function attachPlace() {
       $uibModal.open({
         animation: false,
@@ -265,6 +350,9 @@
       });
     }
 
+    /**
+     * shows the `seenBy` Modal for post sender
+     */
     function seenBy() {
       $uibModal.open({
         animation: false,
@@ -281,6 +369,14 @@
       }).result.then(function () {});
     }
 
+    /**
+     * Move post from a place to another place
+     * by a `MovePlace` modal .
+     * also removes the post from selecterd post
+     * and raise an event for listeners
+     * @param {any} selectedPlace 
+     * @borrows $uibModal
+     */
     function move(selectedPlace) {
       $uibModal.open({
         animation: false,
@@ -313,10 +409,16 @@
       });
     }
 
+    /**
+     * @deprecated
+     */
     function toggleMoveTo(show) {
       vm.showMoveTo = show;
     }
 
+    /**
+     * replace trusted post body with post body
+     */
     function showTrustedBody() {
       if (vm.orginalPost) {
         vm.body = vm.orginalPost.getTrustedBody();
@@ -336,6 +438,11 @@
       });
     }
 
+    /**
+     * Loads new comments that app informed from push notifications
+     * also reloads the post counters
+     * @param {any} $event 
+     */
     function loadNewComments($event) {
       if ($event) $event.preventDefault();
       eventReferences.push($scope.$broadcast('post-load-new-comments', { postId: vm.post.id }));
@@ -343,10 +450,21 @@
       vm.unreadCommentsCount = 0;
     }
 
+    /**
+     * determines the place delete access
+     * needs for remove from action
+     * @param {object} place 
+     * @returns 
+     */
     function hasDeleteAccess(place) {
       return place.hasAccess(NST_PLACE_ACCESS.REMOVE_POST);
     }
 
+    /**
+     * Event handler for post full view event
+     * 1. reaload counters
+     * 2. set unread comments count to zero
+     */
     eventReferences.push($rootScope.$on('post-viewed', function (e, data) {
       if (data.postId !== vm.post.id) return;
 
@@ -354,18 +472,31 @@
       vm.unreadCommentsCount = 0;
     }));
 
+    /**
+     * Event handler for bookmarking post
+     * set the value to the model
+     */
     eventReferences.push($rootScope.$on(NST_POST_EVENT.BOOKMARKED, function (e, data) {
       if (data.postId === vm.post.id) {
         vm.post.pinned = true;
       }
     }));
 
+    /**
+     * Event handler for unbookmarking post
+     * set the value to the model
+     */
     eventReferences.push($rootScope.$on(NST_POST_EVENT.UNBOOKMARKED, function (e, data) {
       if (data.postId === vm.post.id) {
         vm.post.pinned = false;
       }
     }));
 
+    /**
+     * Event handler for closing post full view
+     * updates model due to post view data like comments
+     * and reload counters for ensuring the right counts displaying
+     */
     eventReferences.push($rootScope.$on('post-modal-closed', function (event, data) {
       if (data.postId === vm.post.id) {
         event.preventDefault();
@@ -377,18 +508,29 @@
       }
     }));
 
+    /**
+     * reload all post counter
+     * @borrows NstSvcPostFactory
+     */
     function reloadCounters() {
       NstSvcPostFactory.getCounters(vm.post.id).then(function (counters) {
         vm.post.counters = counters;
       });
     }
 
+    /**
+     * Raise event for select/unselect post
+     * `Messages` page and other posts listens to this
+     */
     $scope.$watch(function(){
       return vm.isChecked;
     },function(){
       $scope.$emit('post-select',{postId: vm.post.id,isChecked : vm.isChecked});
     });
 
+    /**
+     * Listen to the selected posts of app for changing the checkbox display method
+     */
     $scope.$on('selected-length-change',function(e, v){
       if ( v.selectedPosts.length > 0) {
         vm.isCheckedForce = true;
@@ -407,6 +549,11 @@
       // }
     });
 
+    /**
+     * Event handler new comment add push and Checks
+     * the activity is belong to this post for futhur actions or not
+     * (need more document)
+     */
     eventReferences.push($rootScope.$on(NST_EVENT_ACTION.COMMENT_ADD, function (e, data) {
 
       if (vm.post.id !== data.activity.post.id) {
@@ -428,7 +575,10 @@
       }
     }));
 
-
+    /**
+     * Event listener for read all posts
+     * and updates the model
+     */
     eventReferences.push($rootScope.$on('post-read-all', function (e, data) {
       vm.post.read = true;
     }));
@@ -436,48 +586,94 @@
 
     // initializing
     (function () {
+      /**
+       * @var currentUserIsSender
+       * check the post sender is the logged in user
+       */
       vm.currentUserIsSender = NstSvcAuth.user.id == vm.post.sender.id;
+
+      /**
+       * @var isForwarded
+       * check the post is forwrded
+       */
       vm.isForwarded = !!vm.post.forwardFromId;
+
+      /**
+       * @var isReplyed
+       * check the post is replyed
+       */
       vm.isReplyed = !!vm.post.replyToId;
+
+      /**
+       * @var isReplyed
+       * check the user is in post watch list
+       */
       vm.watched = vm.post.watched;
 
+      /**
+       * @var hasOlderComments
+       * determine the post have unloaded comments or not
+       */
       vm.hasOlderComments = (vm.post.counters.comments && vm.post.comments) ? vm.post.counters.comments > vm.post.comments.length : false;
+
       vm.body = vm.post.body;
       vm.orginalPost = vm.post;
-      if (vm.post.isTrusted) {
+
+      /**
+       * checks the post body content is trusted ( displaying images )
+       */
+      if (vm.post.trusted) {
         showTrustedBody();
       }
+
+      /**
+       * Assign and define current place if exists
+       */
       if ($stateParams.placeId) {
         vm.currentPlace = _.filter(vm.post.places, function (place) {
           return place.id === $stateParams.placeId;
         })[0];
       }
+
+      // TODO : ( docuemnt this)
       if (vm.addOn) {
         vm.isExpanded = true;
       }
 
+      /**
+       * Event handler for comment remove event of post
+       * 
+       */
       eventReferences.push($scope.$on('comment-removed', function (event, data) {
         if (vm.post.id === data.postId) {
           vm.post.counters.comments--;
         }
       }));
+
+      /**
+       * Event handler for opening attachment view event to mark it as seen
+       */
       eventReferences.push($scope.$on('post-attachment-viewed', function (event, data) {
         if (vm.post.id === data.postId && !vm.post.read) {
           markAsRead();
         }
       }));
 
+      // assign placesWithRemoveAccess
       vm.placesWithRemoveAccess = getPlacesWithRemoveAccess();
+      // assign placesWithControlAccess
       vm.placesWithControlAccess = getPlacesWithControlAccess();
 
       //FIXME:: fix this item
+      /**
+       * Make targets of post body anchors to `_blank`
+       */
       setTimeout(function () {
         $(".post-body a").attr("target", "_blank");
       }, 1000);
 
       // sometimes the post attachments does not have id and we did not find the problem
       // so we are trying to get the post and replace it with the previous corrupted post
-
       if (_.some(vm.post.attachments, function (attachment) {
         return !attachment.id;
       })) {
@@ -489,6 +685,10 @@
       }
     })();
 
+    /**
+     * clear event registers, timeout anad intervals on
+     * destroying controller
+     */
     $scope.$on('$destroy', function () {
       if (focusOnSentTimeout) {
         $timeout.cancel(focusOnSentTimeout);
@@ -500,6 +700,12 @@
         }
       });
     });
+
+
+    /**
+     * open post chains
+     * (needs more documentation)
+     */
     function switchToPostCard() {
       // tells the parent scope to open me
       var reference = $scope.$emit('post-chain-expand-me', {postId: vm.post.id});
@@ -507,12 +713,19 @@
       ++$scope.$parent.$parent.affixObserver;
     }
 
+    /**
+     * Mark post as read on comment submiting
+     */
     function onAddComment() {
       if (!vm.post.read) {
         markAsRead();
       }
     }
 
+    /**
+     * Place messages route recognizer
+     * @returns 
+     */
     function isPlaceFeed() {
       if ($state.current.name === 'app.messages-favorites' ||
           $state.current.name === 'app.messages-sorted' ||
@@ -522,18 +735,30 @@
       return vm.isPlaceFilter = false;
     }
 
+    /**
+     * All places of post that the user have remove access
+     * @returns {Array}
+     */
     function getPlacesWithRemoveAccess() {
       return _.filter(vm.post.places, function (place) {
         return place.hasAccess(NST_PLACE_ACCESS.REMOVE_POST);
       });
     }
 
+    /**
+     * All places of post that the user have controll access
+     * @returns {Array}
+     */
     function getPlacesWithControlAccess() {
       return _.filter(vm.post.places, function (place) {
         return place.hasAccess(NST_PLACE_ACCESS.CONTROL);
       });
     }
 
+    /**
+     * determines user have controll access in any place of post.
+     * @returns {boolean}
+     */
     function hasPlacesWithControlAccess() {
       return _.some(vm.post.places, function (place) {
         return place.hasAccess(NST_PLACE_ACCESS.CONTROL);

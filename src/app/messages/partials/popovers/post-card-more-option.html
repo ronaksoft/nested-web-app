@@ -1,3 +1,12 @@
+<div class="_df list-items _aic _fw" ng-click="ctlPostCard.toggleRecieveNotification()">
+  <div>
+    <svg class="_16svg _df _fn">
+      <use xlink:href="/assets/icons/nst-icn16.svg#bell"></use>
+    </svg>
+  </div>
+  <span class="_fw setting _asc" ng-if="!ctlPostCard.watched">	&nbsp;<translate>Turn On Notifications</translate></span>
+  <span class="_fw setting _asc" ng-if="ctlPostCard.watched">	&nbsp;<translate>Turn Off Notifications</translate></span>
+</div>
 <a class="_df list-items _aic _fw" ui-sref="app.message({ postId : ctlPostCard.post.id })"
    ng-click="ctlPostCard.viewFull($event)" ng-if="!ctlPostCard.chainView">
   <div class="_aic _df">

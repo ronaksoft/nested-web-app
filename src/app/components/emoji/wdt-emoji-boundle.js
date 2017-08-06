@@ -905,7 +905,13 @@
       // console.log(doGetCaretPosition(el));
       var range
       if (el.textContent.length > 0) {
-        range = window.getSelection().getRangeAt(0) || new Range;
+        try {
+          range = window.getSelection().getRangeAt(0);
+        }
+        catch(err) {
+          range = new Range;
+        }
+        // range = window.getSelection().getRangeAt(0) || new Range;
       } else {
         range = new Range;
       }

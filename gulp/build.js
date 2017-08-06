@@ -83,16 +83,6 @@ gulp.task('fonts', function () {
     .pipe(gulp.dest(path.join(conf.paths.relDist, '/assets/fonts/')));
 });
 
-gulp.task('ckeditor', function () {
-  return gulp.src(['bower_components/ckeditor/**/*.*'])
-  .pipe(gulp.dest(conf.paths.relDist + '/scripts/ckeditor/'));
-});
-
-gulp.task('ckeditor-plugin', function () {
-  return gulp.src(['bower_components/web-ckeditor-direction-plugin/src/**/*'])
-  .pipe(gulp.dest('bower_components/ckeditor/plugins/'));
-});
-
 gulp.task('other', function () {
   var fileFilter = $.filter(function (file) {
     return file.stat.isFile();
@@ -109,5 +99,5 @@ gulp.task('other', function () {
 gulp.task('clean', function () {
   return $.del([path.join(conf.paths.dist, '/*'), path.join(conf.paths.tmp, '/')]);
 });
-// 'ckeditor-plugins'
+
 gulp.task('build', ['git','html', 'fonts', 'other']);
