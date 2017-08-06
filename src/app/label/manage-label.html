@@ -37,15 +37,21 @@
         </p>
       </div>
       <div class="actions">
-        <svg class="_16svg _df _fn fill-solid-24">
-          <use xlink:href="/assets/icons/nst-icn16.svg#gear"></use>
-        </svg>
-        <svg class="_16svg _df _fn force">
-          <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
-        </svg>
-        <svg class="_16svg _df _fn fill-sense-wire">
-          <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
-        </svg>
+        <div ng-click="ctrl.editLabel()">
+          <svg class="_16svg _df _fn fill-solid-24">
+            <use xlink:href="/assets/icons/nst-icn16.svg#gear"></use>
+          </svg>
+        </div>
+        <div>
+          <svg class="_16svg _df _fn force">
+            <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
+          </svg>
+        </div>
+        <div>
+          <svg class="_16svg _df _fn fill-sense-wire">
+            <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
+          </svg>
+        </div>
       </div>
     </li>
   </ul>
@@ -127,7 +133,7 @@
           <img ng-src="" alt="">
         </div>
       </div>
-      <div class="edit">
+      <div class="edit" ng-click="ctrl.editLabel()">
         <svg class="_16svg _df _fn">
           <use xlink:href="/assets/icons/nst-icn16.svg#pencil"></use>
         </svg>

@@ -44,6 +44,7 @@
         display: flex;
         height: 32px;
         align-items: center;
+        cursor: pointer;
         svg {
             fill: $color-gale-new;
             margin-left: 6px;
@@ -99,12 +100,18 @@
                     }
                 }
                 .actions {
+                    > div {
+                        width:  24px;
+                        height: 24px;
+                        margin-left: 16px;
+                        display: flex;
+                        justify-content: center;
+                        transform: translateX(8px);
+                        align-items: center;
+                    }
                     display: flex;
                     flex: none;
                     padding-right: 16px;
-                    svg {
-                        margin-left: 24px;
-                    }
                 }
             }
         }
