@@ -1,4 +1,5 @@
-<a ng-repeat="label in ctlCompose.model.labels" ng-model="isSelected = ctlCompose.isLabelSelected(label.id)" class="label-items _difh {{isSelected ? 'color-lbl-bg-' + label.color : ''}}" ng-click="ctlCompose.toggleLabel(label.id)" ng-class="{'selected': isSelected}">
+<a ng-repeat="label in ctlCompose.model.labels" class="label-items _difh {{isSelected ? 'color-lbl-bg-' + label.color : ''}}" ng-click="ctlCompose.toggleLabel(label.id)" ng-class="{'selected': isSelected}">
+  {{isSelected = ctlCompose.isLabelSelected(label.id); ''}}
   <div ng-if="!isSelected">
     <svg class="_16svg _df _fn mirror color-lbl-{{ label.color }}">
       <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
@@ -11,11 +12,3 @@
   </div>
   <span>{{ label.text }}</span>
 </a>
-<!--<a class="label-items _difh selected color-lbl-bg-D" ng-click="ctlFullNavbar.toggleLabel()">-->
-  <!--<div>-->
-    <svg class="_16svg _df _fn mirror fill-white">
-      <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
-    </svg>
-  <!--</div>-->
-  <!--<span>Android:1.9.0</span>-->
-<!--</a>-->
