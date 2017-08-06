@@ -101,7 +101,7 @@
         </div>
         <div class="_df f1"></div>
         <div class="_pr _df _fn lbl-btn">
-          +3
+          <span ng-if="ctlCompose.model.selectedLabels.length > 0">+{{ ctlCompose.model.selectedLabels.length }}</span>
           <svg class="_16svg _asc" popover-class="white-pop post-card-moreopt compose-lbl"
             data-popover-placement="top-center auto"
             data-uib-popover-template="'app/pages/compose/partials/compose-labels.html'"

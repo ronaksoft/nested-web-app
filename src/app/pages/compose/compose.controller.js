@@ -76,7 +76,24 @@
       ready: false,
       saving: false,
       saved: false,
-      comment: true
+      comment: true,
+      labels: [{
+        id: '1',
+        color: 'A',
+        text: 'Test1',
+        owner: []
+      },{
+        id: '2',
+        color: 'B',
+        text: 'Test2',
+        owner: []
+      },{
+        id: '3',
+        color: 'D',
+        text: 'Test3',
+        owner: []
+      }],
+      selectedLabels: []
     };
 
     vm.search = {
@@ -130,7 +147,7 @@
     (function () {
 
       /**
-       * Add state params attachments to the model 
+       * Add state params attachments to the model
        */
       if ($stateParams.attachments && $stateParams.attachments.length > 0) {
         vm.addUploadedAttachs($stateParams.attachments);
@@ -1040,7 +1057,7 @@
     $.FroalaEditor.DefineIcon('underline', {SRC: vm.isRetinaDisplay ? '/assets/icons/editor/underline@2x.png' : '/assets/icons/editor/underline.png', ALT: 'underline', template: 'image'});
     $.FroalaEditor.DefineIcon('fontSize', {SRC: vm.isRetinaDisplay ? '/assets/icons/editor/fontsize@2x.png' : '/assets/icons/editor/fontsize.png', ALT: 'fontsize', template: 'image'});
     $.FroalaEditor.DefineIcon('color', {SRC: vm.isRetinaDisplay ? '/assets/icons/editor/color@2x.png' : '/assets/icons/editor/color.png', ALT: 'color', template: 'image'});
-    
+
     // $.FroalaEditor.RegisterCommand('bold', {
     //   title: 'Bold',
     //   icon: 'bold'
@@ -1198,7 +1215,7 @@
     function isRetinaDisplay() {
         if (window.matchMedia) {
             var mq = window.matchMedia("only screen and (min--moz-device-pixel-ratio: 1.3), only screen and (-o-min-device-pixel-ratio: 2.6/2), only screen and (-webkit-min-device-pixel-ratio: 1.3), only screen  and (min-device-pixel-ratio: 1.3), only screen and (min-resolution: 1.3dppx)");
-            return (mq && mq.matches || (window.devicePixelRatio > 1)); 
+            return (mq && mq.matches || (window.devicePixelRatio > 1));
         }
     }
 
@@ -1256,6 +1273,28 @@
         });
       }
 
+    };
+
+    /**
+     * Toggles label
+     * @param {string} id
+     */
+    vm.toggleLabel = function (id) {
+      var index = vm.model.selectedLabels.indexOf(id);
+      if (index === -1) {
+        vm.model.selectedLabels.push(id);
+      } else {
+        vm.model.selectedLabels.splice(index, 1);
+      }
+    };
+
+    /**
+     * Checks if label is selected
+     * @param {string} id
+     * @return {boolean}
+     */
+    vm.isLabelSelected = function (id) {
+      return vm.model.selectedLabels.indexOf(id) > -1;
     };
 
     // $('.wdt-emoji-popup.open').removeClass('open');
