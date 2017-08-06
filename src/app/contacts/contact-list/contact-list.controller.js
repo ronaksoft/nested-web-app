@@ -1,3 +1,12 @@
+/**
+ * @file src/app/contacts/partials/fav-contacts.controller.js
+ * @author Soroush Torkzadeh <sorousht@nested.me>
+ * @description Creates a list of contacts that are grouped and sorted. The user can search contacts by name and Id
+ * Documented by:          Soroush Torkzadeh <sorousht@nested.me>
+ * Date of documentation:  2017-08-02
+ * Reviewed by:            -
+ * Date of review:         -
+ */
 (function () {
   'use strict';
 
@@ -6,6 +15,15 @@
     .controller('ContactListController', ContactListController);
 
   /** @ngInject */
+  /**
+   * The user's contacts list
+   * 
+   * @param {any} toastr 
+   * @param {any} $q 
+   * @param {any} $scope 
+   * @param {any} NstSvcContactFactory 
+   * @param {any} NstSvcTranslation 
+   */
   function ContactListController(toastr, $q, $scope,
     NstSvcContactFactory, NstSvcTranslation) {
     var vm = this;
@@ -17,6 +35,11 @@
       search(null);
     })();
 
+    /**
+     * Returns a Promise that resolves a list of all contacts
+     * 
+     * @returns 
+     */
     function get() {
       var deferred = $q.defer();
 
@@ -33,6 +56,12 @@
       return deferred.promise;
     }
 
+    /**
+     * Filters contacts by the given keyword and groups by the starting character of name.
+     * This function also clears favorites list in search mode
+     * 
+     * @param {any} keyword 
+     */
     function search(keyword) {
       get().then(function (contacts) {
         var filteredItems = _.filter(contacts, function (contact) {
@@ -60,6 +89,7 @@
               return firstChar;
             }
 
+            // This is for contacts without name!
             return "?";
           })
           .map(function (value, key) {
@@ -75,6 +105,12 @@
       });
     }
 
+    /**
+     * Orders a list of contact by lastname and firstname
+     * 
+     * @param {any} items 
+     * @returns 
+     */
     function orderItems(items) {
       return _.orderBy(items, [function (item) {
         return getOrderFactor(item);
@@ -85,6 +121,13 @@
       return contact.lastName || contact.firstName;
     }
 
+    /**
+     * Returns true if the keyword does match either name or Id
+     * 
+     * @param {any} contact 
+     * @param {any} keyword 
+     * @returns 
+     */
     function contactHasKeyword(contact, keyword) {
       var fullName = _.toLower(contact.fullName),
           id = _.toLower(contact.id),
@@ -93,10 +136,22 @@
       return _.includes(fullName, word) || _.includes(id, word);
     }
 
+    /**
+     * Returns the first character of the given word
+     * 
+     * @param {any} word 
+     * @returns 
+     */
     function getFirstChar(word) {
       return _.chain(word).head().toLower().value();
     }
 
+    /**
+     * Returns true if the provided string is convertible to Number
+     * 
+     * @param {any} character 
+     * @returns 
+     */
     function isNumber(character) {
       return !_.isNaN(_.toNumber(character));
     }
