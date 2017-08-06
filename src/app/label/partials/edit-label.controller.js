@@ -13,7 +13,7 @@
     var vm = this;
     vm.color = 'D';
     vm.userSelectPlaceHolder = 'Enter username or user-id…';
-    vm.holders = 'all';
+    vm.holdersAll = false;
   }
 
 })();

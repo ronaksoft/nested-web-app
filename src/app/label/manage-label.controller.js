@@ -11,7 +11,14 @@
     NstTinyPlace) {
 
     var vm = this;
-    
+    vm.labelManager = false;
+    // $uibModal.open({
+    //     animation: false,
+    //     size: 'lg-white multiple',
+    //     templateUrl: 'app/label/partials/edit-label.html',
+    //     controller: 'editLabelController',
+    //     controllerAs: 'ctrl'
+    // })
   }
 
 })();

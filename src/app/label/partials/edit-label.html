@@ -31,7 +31,7 @@
             <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
         </svg>
     </div>
-    <h5 class="list-head">
+    <h5 ng-if="!ctrl.holdersAll" class="list-head">
         <translate>Holders</translate>&nbsp;({{ 3 | localize }})
         <p>
             <translate class="nst-mood-cheerful">Add</translate>
@@ -40,7 +40,7 @@
             </svg>
         </p>
     </h5>
-    <ul class="holders">
+    <ul ng-if="!ctrl.holdersAll" class="holders">
         <li>
             <div class="icon">
                 <div class="user-avatar-20">
@@ -54,4 +54,5 @@
             <hr/>
         </li>
     </ul>
+    <p ng-if="ctrl.holdersAll" class="holders-all-msg">All users on your company can use this label.</p>
 </div>
