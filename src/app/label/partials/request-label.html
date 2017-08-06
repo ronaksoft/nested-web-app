@@ -4,7 +4,7 @@
     </h4>
     <div class="req-modal-input ng-class:{'_oh' : ctrl.editColor}">
         <input type="text" ng-model="ctrl.searchQ" placeholder="Enter a label name…" data-ng-keyup="ctrl.inputKeyUpHandler();">
-        <div class="color-btn" ng-click="ctrl.editColor = true">
+        <div class="color-btn" ng-click="ctrl.editColor = true" ng-if="ctrl.searchQ.length > 0">
             <svg class="_16svg _fn">
                 <use xlink:href="/assets/icons/nst-icn16.svg#gear"></use>
             </svg>

@@ -27,7 +27,6 @@
          * @param {any} $event
          */
         function onClickHandler(){
-          console.log('click');
           if ( isManager ){
             $uibModal.open({
                 animation: false,
@@ -47,7 +46,6 @@
           }
         }
         $scope.$on('$destroy', function () {
-          console.log('destroy');
           $element[0].removeEventListener("click", onClickHandler);
         });
       }
