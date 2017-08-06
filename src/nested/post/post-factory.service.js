@@ -44,6 +44,8 @@
     PostFactory.prototype.whoRead = whoRead;
     PostFactory.prototype.getCounters = getCounters;
     PostFactory.prototype.setNotification = setNotification;
+    PostFactory.prototype.addLabel = addLabel;
+    PostFactory.prototype.removeLabel = removeLabel;
 
     var factory = new PostFactory();
     return factory;
@@ -761,6 +763,24 @@
           }).then(function (data) {
             resolve(data);
           }).catch(reject);
+        });
+      });
+    }
+
+    function addLabel(postId, labelId) {
+      return this.sentinel.watch(function () {
+        return NstSvcServer.request('post/add_label', {
+          post_id: postId,
+          label_id: labelId,
+        });
+      });
+    }
+
+    function removeLabel(postId, labelId) {
+      return this.sentinel.watch(function () {
+        return NstSvcServer.request('post/remove_label', {
+          post_id: postId,
+          label_id: labelId,
         });
       });
     }
