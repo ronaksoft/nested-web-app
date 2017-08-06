@@ -3,7 +3,7 @@
 
   angular
     .module('ronak.nested.web.message')
-    .constant('NST_SEARCH_QUERY_PREFIX', {
+    .constant('NST_SEARCH_QUERY_PREFIX_Deprecated', {
       USER: '@',
       PLACE: '#',
       NEW_USER: 'from:',

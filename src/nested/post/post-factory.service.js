@@ -634,8 +634,8 @@
         sender_id: users,
         label_id: labels,
         keyword: keywords,
-        limit: limit,
-        skip: skip
+        limit: limit || 8,
+        skip: skip || 0
       });
 
       return factory.sentinel.watch(function () {
