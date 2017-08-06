@@ -20,7 +20,6 @@ build:desktop:
     - gulp build --mode=production
     - mkdir -p $BUILD_DIR/desktop
     - cp -r ./dist/production/* $BUILD_DIR/desktop
-    - cp .local-web-server.json $BUILD_DIR/desktop
     - cp ./lws.config.js $BUILD_DIR/desktop
     - mkdir -p $BUILD_DIR/bin
     - cp -r ./bin/* $BUILD_DIR/bin
@@ -43,7 +42,6 @@ build:mobile:
     - cd /var/lib/mobile
     - git clone http://gitlab-ci-token:$CI_BUILD_TOKEN@git.ronaksoftware.com/nested/web-mobile-app.git .
     - git checkout master
-    - npm install -g yarn
     - npm install
     - npm run build:prod
     - mkdir -p $BUILD_DIR/mobile
@@ -54,6 +52,7 @@ build:mobile:
   artifacts:
     untracked: true
     expire_in: 1 hour
+
 
 deploy:production:
   image: gitlab/dind

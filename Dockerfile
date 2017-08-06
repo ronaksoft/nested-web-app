@@ -5,6 +5,7 @@ RUN mkdir -p /ronak/nested
 WORKDIR /ronak/nested
 RUN npm install -g local-web-server
 EXPOSE 80
+EXPOSE 443
 
 COPY ./bin/nested-reconfig.js /bin/nested-reconfig.js
 COPY ./bin/dns-discovery.js /bin/dns-discovery.js
