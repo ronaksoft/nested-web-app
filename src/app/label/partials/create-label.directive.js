@@ -15,12 +15,21 @@
          * Opens the create label modal
          * @param {any} $event
          */
+        // $($element).click(function(){
+        //     $uibModal.open({
+        //         animation: false,
+        //         size: 'lg-white multiple',
+        //         templateUrl: 'app/label/partials/create-label.html',
+        //         controller: 'createLabelController',
+        //         controllerAs: 'ctrl'
+        //     })
+        // })
         $($element).click(function(){
             $uibModal.open({
                 animation: false,
                 size: 'lg-white multiple',
-                templateUrl: 'app/label/partials/create-label.html',
-                controller: 'createLabelController',
+                templateUrl: 'app/label/partials/edit-label.html',
+                controller: 'editLabelController',
                 controllerAs: 'ctrl'
             })
         })

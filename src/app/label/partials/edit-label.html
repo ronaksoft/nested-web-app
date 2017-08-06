@@ -1,1 +1,57 @@
-aa
+<div class="cr8-label">
+    <h4>
+        <svg class="_24svg _fn" ng-click="$dismiss();">
+            <use xlink:href="/assets/icons/nst-icn24.svg#xcross"></use>
+        </svg>
+        <translate>Edit Label</translate>
+        <div class="_df _fn modal-more-set" popover-class="white-pop post-card-moreopt"
+            data-popover-placement="bottom-right auto"
+            data-uib-popover-template="'app/label/partials/edit-label-options.html'"
+            data-popover-append-to-body="false">
+            <svg class="_24svg">
+                <use xlink:href="/assets/icons/nst-icn24.svg#more"></use>
+            </svg>
+        </div>
+    </h4>
+    <Label>Label Name</Label>
+    <input type="text">
+    <Label>Label Color</Label>
+    <!--<input type="text" class="label-color">-->
+    <div class="_pr _fw label-color">
+        <select name="lang" ng-model="ctrl.color" ng-change="ctrl.changeColor(ctrl.locale)">
+            <option selected value="A">- Default -</option>
+            <option value="B">Green</option>
+            <option value="C">Yellow</option>
+            <option value="D">Red</option>
+            <option value="E">Purple</option>
+            <option value="F">Blue</option>
+            <option value="G">Aquamarine</option>
+        </select>
+        <svg class="_16svg mirror _fn color-lbl-{{ctrl.color}}">
+            <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
+        </svg>
+    </div>
+    <h5 class="list-head">
+        <translate>Holders</translate>&nbsp;({{ 3 | localize }})
+        <p>
+            <translate class="nst-mood-cheerful">Add</translate>
+            <svg class="_16svg _fn fill-sense-wire">
+                <use xlink:href="/assets/icons/nst-icn16.svg#cross"></use>
+            </svg>
+        </p>
+    </h5>
+    <ul class="holders">
+        <li>
+            <div class="icon">
+                <div class="user-avatar-20">
+                    <img ng-src="" alt="">
+                </div>
+            </div>
+            <span>
+                Regína Adam
+            </span>
+            <p>{{1 | localize}}</p>
+            <hr/>
+        </li>
+    </ul>
+</div>

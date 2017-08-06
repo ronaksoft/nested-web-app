@@ -55,7 +55,7 @@
         padding: 0 6px;
         background-color: $color-breeze-5-new;
         border-radius: 4px;
-        color: $color-solid;    
+        color: $color-solid;
     }
     ul {
         margin: 0 -32px;
@@ -158,6 +158,13 @@
         font-weight: bold;
         line-height: 24px;
         margin: 0;
+        display: flex;
+        align-items: center;
+        color: $color-solid;
+        span {
+            flex: 1;
+            display: flex;
+        }
     }
     > label {
         margin-top: 24px;
@@ -165,6 +172,7 @@
         font-weight: bold;
     }
     .label-color {
+        margin-bottom: 24px;
         select {
             padding-left: 40px;
         }
@@ -215,6 +223,61 @@
             height: 32px!important;
             margin: 0 0 0 8px!important;
             font-weight: bold;
+        }
+    }
+    ul.holders {
+        margin: 0 -24px 0 -16px;
+        list-style: none;
+        li {
+            display: flex;
+            height: 48px;
+            padding-right: 24px;
+            position: relative;
+            .icon {
+                width: 48px;
+                justify-content: center;
+                align-items: center;
+                display: flex;
+                flex: none;
+            }
+            span {
+                align-items: center;
+                display: flex;
+                flex: 1;
+            }
+            p {
+                margin: 0;
+                display: flex;
+                flex: none;
+                align-items: center;
+                color: $color-solid-64;
+            }
+            hr {
+                position: absolute;
+                border-color: $color-breeze-5-new;
+                bottom: 0;
+                right: 0;
+                margin: 0;
+                width: calc(100% - 48px)
+            }
+        }
+    }
+    .modal-more-set {
+        opacity: .4;
+        & + .popover {
+            border-color: transparent;
+            top: 20px!important;
+            left: 240px!important;
+            right: 20px;
+            .list-items {
+                height: 40px;
+                span {
+                    color: $color-new-hurricane;
+                }
+                &.force span{
+                    color: $color-force
+                }
+            }
         }
     }
 }
