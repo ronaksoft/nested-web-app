@@ -2,39 +2,39 @@
     <h4>
         <translate>Request a Label</translate>
     </h4>
-    <div class="req-modal-input ng-class:{'_oh' : ctrl.editColor}">
-        <input type="text" ng-model="ctrl.searchQ" placeholder="Enter a label name…" data-ng-keyup="ctrl.inputKeyUpHandler();">
-        <div class="color-btn" ng-click="ctrl.editColor = true" ng-if="ctrl.searchQ.length > 0">
+    <div class="req-modal-input ng-class:{'_oh' : requestCtrl.editColor}">
+        <input type="text" ng-model="requestCtrl.keyword" placeholder="Enter a label name…" data-ng-keyup="requestCtrl.inputKeyUpHandler();">
+        <div class="color-btn" ng-click="requestCtrl.editCode = true" ng-if="requestCtrl.newLabel">
             <svg class="_16svg _fn">
                 <use xlink:href="/assets/icons/nst-icn16.svg#gear"></use>
             </svg>
         </div>
-        <div class="color-selector" ng-if="ctrl.editColor">
+        <div class="color-selector" ng-if="requestCtrl.editCode">
             <translate>Label color</translate>
-            <i ng-repeat="color in ctrl.colorPalette" ng-click="ctrl.changeColor(color)" ng-class="{'active' : color == ctrl.color}">
-                <svg class="_16svg _fn color-lbl-{{color}}">
+            <i ng-repeat="code in requestCtrl.codes" ng-click="requestCtrl.changeColor(code)" ng-class="{'active' : code == requestCtrl.label.code}">
+                <svg class="_16svg _fn color-lbl-{{code}}">
                     <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
                 </svg>
             </i>
             <i>
-                <svg class="_16svg _fn" ng-click="ctrl.editColor = false">
+                <svg class="_16svg _fn" ng-click="requestCtrl.editCode = false">
                     <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
                 </svg>
             </i>
         </div>
-        <ul class="label-suggest" ng-if="ctrl.searchQ.length > 0 && ctrl.openSuggests">
-            <li ng-repeat="suggest in ctrl.suggests" ng-click="ctrl.suggestClickHandler(suggest);">
-                <svg class="_16svg _fn color-lbl-{{suggest.color}}">
+        <ul class="label-suggest" ng-if="requestCtrl.keyword.length > 0 && requestCtrl.openSuggests">
+            <li ng-repeat="suggest in requestCtrl.suggests" ng-click="requestCtrl.suggestClickHandler(suggest)">
+                <svg class="_16svg _fn color-lbl-{{suggest.code}}">
                     <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
                 </svg>
-                <span class="_fw _df">{{suggest.name}}</span>
+                <span class="_fw _df">{{suggest.title}}</span>
             </li>
-            <li>
+            <li ng-click="requestCtrl.requestNewLabel()">
                 <svg class="_16svg _fn fill-sense-wire">
                     <use xlink:href="/assets/icons/nst-icn16.svg#cross"></use>
                 </svg>
                 <translate class="nst-mood-cheerful _fn">Create new label</translate>
-                <span class="nst-mood-cheerful _fw _df">&nbsp;"{{ctrl.searchQ}}"</span>
+                <span class="nst-mood-cheerful _fw _df">&nbsp;"{{requestCtrl.keyword}}"</span>
             </li>
         </ul>
     </div>
@@ -43,6 +43,6 @@
     </p>
     <div class="modal-footer">
         <input type="button" ng-click="$dismiss()" value="Discard" class="butn-white">
-        <input type="button" ng-click="ctrl.addToCompose()" value="Send Request" class="butn-green">
+        <input type="button" ng-disabled="requestCtrl.isNotValid()" ng-click="requestCtrl.requestLabel()" value="Send Request" class="butn-green">
     </div>
 </div>
