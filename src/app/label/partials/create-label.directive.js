@@ -10,12 +10,24 @@
     return {
       restrict: 'EA',
       link: function($scope, $element, $attrs) {
+        var isManager = $attrs.hasOwnProperty('labelManager') && $attrs.labelManager === 'true';
+        var htmlTxt = '<a>' + (isManager ?
+                        '<translate>New Label</translate>' :
+                        '<translate>Request a Label</translate>') +
+                      '</a>' +
+                      '<svg class="_16svg _df _fn">' +
+                        '<use xlink:href="/assets/icons/nst-icn16.svg#cross"></use>' +
+                      '</svg>';
+        $element.html(htmlTxt);
+        $element[0].addEventListener("click", onClickHandler);
+
         /**
          * @function createLabel
          * Opens the create label modal
          * @param {any} $event
          */
-        $($element).click(function(){
+        function onClickHandler(){
+          if ( isManager ){
             $uibModal.open({
                 animation: false,
                 size: 'lg-white multiple',
@@ -23,7 +35,19 @@
                 controller: 'createLabelController',
                 controllerAs: 'ctrl'
             })
-        })
+          } else {
+            $uibModal.open({
+                animation: false,
+                size: 'lg-white multiple',
+                templateUrl: 'app/label/partials/request-label.html',
+                controller: 'requestLabelController',
+                controllerAs: 'ctrl'
+            })
+          }
+        }
+        $scope.$on('$destroy', function () {
+          $element[0].removeEventListener("click", onClickHandler);
+        });
       }
 
     };

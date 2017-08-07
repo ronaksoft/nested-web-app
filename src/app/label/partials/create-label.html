@@ -1,4 +1,4 @@
-<div class="cr8-label">
+<div class="label-sm-modal">
     <h4>Create a Label</h4>
     <Label>Label Name</Label>
     <input type="text">
@@ -20,12 +20,12 @@
     </div>
     <Label>Holders</Label>
     <div class="holders-radio">
-        <input type="radio" ng-model="ctrl.holders" value="specefic" id="specefic" name="selector">
+        <input type="radio" ng-model="ctrl.holdersAll" value="false" id="specefic" name="selector">
         <label for="specefic">Specific Users</label>
-        <input type="radio" ng-model="ctrl.holders" value="all" id="all" name="selector">
+        <input type="radio" ng-model="ctrl.holders" value="true" id="all" name="selector">
         <label for="all">Public</label>
     </div>
-    <div class="_df _fw input-select-match" ng-if="ctrl.holders !== 'all'">
+    <div class="_df _fw input-select-match" ng-if="!ctrl.holdersAll">
         <ui-select minimum-input-length="4" multiple limit="{{ctrl.targetLimit}}"  class="address-input _dib"
          data-ng-model="ctrl.model.recipients">
           <ui-select-match placeholder="{{::ctrl.userSelectPlaceHolder}}" compose-match-item class="match-items">
@@ -48,7 +48,7 @@
           </ui-select-choices>
         </ui-select>
     </div>
-    <div class="_df _fw holders-all-msg" ng-if="ctrl.holders === 'all'">
+    <div class="_df _fw holders-all-msg" ng-if="ctrl.holdersAll">
         All users on your company can use this label.
     </div>
     <div class="modal-footer">

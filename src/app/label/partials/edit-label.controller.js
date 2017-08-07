@@ -3,9 +3,9 @@
 
   angular
     .module('ronak.nested.web.components')
-    .controller('createLabelController', createLabelController);
+    .controller('editLabelController', editLabelController);
 
-  function createLabelController($timeout, $scope, $q, $uibModalInstance,
+  function editLabelController($timeout, $scope, $q, $uibModalInstance,
     moment, toastr, _,
     NstSvcPostFactory, NstSvcPlaceFactory, NstSvcTranslation, NstUtility,
     NstTinyPlace) {

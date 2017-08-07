@@ -1,6 +1,7 @@
 .manage-label {
     flex-direction: column;
     display: flex;
+    padding: 0 24px!important;
     .labels-headline {
         display: flex;
         margin-top: 40px;
@@ -43,8 +44,10 @@
         display: flex;
         height: 32px;
         align-items: center;
+        cursor: pointer;
         svg {
             fill: $color-gale-new;
+            margin-left: 6px;
         }
     }
     h4 {
@@ -55,10 +58,10 @@
         padding: 0 6px;
         background-color: $color-breeze-5-new;
         border-radius: 4px;
-        color: $color-solid;    
+        color: $color-solid;
     }
     ul {
-        margin: 0 -32px;
+        margin: 0 -24px;
         li {
             width: 100%;
             display: flex;
@@ -97,20 +100,28 @@
                     }
                 }
                 .actions {
+                    > div {
+                        width:  24px;
+                        height: 24px;
+                        margin-left: 16px;
+                        display: flex;
+                        justify-content: center;
+                        transform: translateX(8px);
+                        align-items: center;
+                    }
                     display: flex;
                     flex: none;
                     padding-right: 16px;
-                    svg {
-                        margin-left: 24px;
-                    }
                 }
             }
         }
         &.labels {
             li {
                 height: 48px;
+                padding: 0 16px;
                 .icon {
-                    padding: 16px 16px 0 16px;
+                    padding: 16px 16px 0 0;
+                    width: 32px;
                     height: 100%;
                 }
                 .label-details {
@@ -140,7 +151,6 @@
                     }
                 }
                 .edit {
-                    padding-right: 16px;
                     opacity: .4;
                 }
             }
@@ -148,16 +158,33 @@
     }
 }
 
-.cr8-label {
+.label-sm-modal {
     height: auto!important;
-    min-height: 415px!important;
+    min-height: 0px!important;
     padding: 24px!important;
     align-self: center;
+    &.request-modal {
+        h4 {
+            margin-bottom: 24px;
+        }
+        .modal-footer {
+            input {
+                width: auto!important;
+            }
+        }
+    }
     h4 {
         font-size: 18px;
         font-weight: bold;
         line-height: 24px;
         margin: 0;
+        display: flex;
+        align-items: center;
+        color: $color-solid;
+        span {
+            flex: 1;
+            display: flex;
+        }
     }
     > label {
         margin-top: 24px;
@@ -165,6 +192,9 @@
         font-weight: bold;
     }
     .label-color {
+        &.marginbtm {
+            margin-bottom: 24px;
+        }
         select {
             padding-left: 40px;
         }
@@ -179,7 +209,7 @@
         display: flex;
         height: 16px;
         flex: none;
-        margin: 8px 0;
+        margin: 5px 0 16px;
         input[type="radio"] {
             display: none;
         }
@@ -199,10 +229,10 @@
     }
     .holders-all-msg {
         flex: none;
-        height: 33px;
+        min-height: 33px;
         box-sizing: content-box;
         margin-bottom: 32px;
-        line-height: 32px;
+        line-height: 24px;
         color: $color-gale-new;
     }
     .modal-footer {
@@ -215,6 +245,137 @@
             height: 32px!important;
             margin: 0 0 0 8px!important;
             font-weight: bold;
+        }
+    }
+    ul.holders {
+        margin: 0 -24px 0 -16px;
+        list-style: none;
+        li {
+            display: flex;
+            height: 48px;
+            padding-right: 24px;
+            position: relative;
+            .icon {
+                width: 48px;
+                justify-content: center;
+                align-items: center;
+                display: flex;
+                flex: none;
+            }
+            span {
+                align-items: center;
+                display: flex;
+                flex: 1;
+            }
+            p {
+                margin: 0;
+                display: flex;
+                flex: none;
+                align-items: center;
+                color: $color-solid-64;
+            }
+            hr {
+                position: absolute;
+                border-color: $color-breeze-5-new;
+                bottom: 0;
+                right: 0;
+                margin: 0;
+                width: calc(100% - 48px)
+            }
+        }
+    }
+    .modal-more-set {
+        opacity: .4;
+        & + .popover {
+            border-color: transparent;
+            top: 20px!important;
+            left: 240px!important;
+            right: 20px;
+            .list-items {
+                height: 40px;
+                span {
+                    color: $color-new-hurricane;
+                }
+                &.force span{
+                    color: $color-force
+                }
+            }
+        }
+    }
+    .req-modal-input {
+        position: relative;
+        margin-bottom: 10px;
+        border-radius: 4px;
+        input {
+            margin: 0;
+        }
+        .color-btn {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            margin-top: -8px;
+        }
+        .color-selector {
+            position: absolute;
+            background-color: $color-bg-nested;
+            right: 0;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            padding: 0 12px 0 8px;
+            display: flex;
+            align-items: center;
+            span {
+                display: flex;
+                flex: 1;
+                color: $color-new-hurricane;
+                font-size: 16px;
+            }
+            i {
+                width: 24px;
+                height: 24px;
+                display: flex;
+                margin-left: 8px;
+                align-items: center;
+                justify-content: center;
+                border-radius: 4px;
+                overflow: hidden;
+                &.active {
+                    box-shadow: 0 2px 4px $color-breeze-new;
+                    background-color: $color-white;
+                }
+            }
+        }
+        .label-suggest {
+            position: absolute;
+            left: 8px;
+            right: 8px;
+            background-color: $color-white;
+            top: 40px;
+            list-style: none;
+            padding: 8px 0;
+            border: 1px solid $color-breeze-new;
+            border-radius: 0px 0px 4px 4px;
+            box-shadow: 0 8px 16px $color-breeze-new;
+            li {
+                display: flex;
+                height: 40px;
+                align-items: center;
+                span {
+                    height: 100%;
+                    line-height: 40px;
+                    display: flex;
+                    border-bottom: 1px solid $color-breeze-new;
+                }
+                svg {
+                    margin: 0 12px;
+                }
+                &:last-of-type{
+                    span {
+                        border-bottom-color: transparent;
+                    }
+                }
+            }
         }
     }
 }

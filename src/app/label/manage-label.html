@@ -1,9 +1,12 @@
 <div class="manage-label">
-  <div class="labels-headline _aic" bg-check="{{ctrl.place | picture:'x128'}}">
+  <div class="labels-headline _aic">
     <svg class="_24svg _df _r45 _fn" ng-click="$dismiss();">
       <use xlink:href="/assets/icons/nst-icn24.svg#cross"></use>
     </svg>
-    <h3 class="_df _fw"><translate>Manage Labels</translate></h3>
+    <h3 class="_df _fw">
+      <translate ng-if="ctrl.labelManager">Manage Labels</translate>
+      <translate ng-if="!ctrl.labelManager">My Labels</translate>
+    </h3>
   </div>
   <div class="_df _fw _aic">
     <div class="lbl-search">
@@ -14,17 +17,10 @@
       </i>
       <input type="text" placeholder="Find Labels">
     </div>
-    <div class="lbl-cr8" create-Label>
-      <a href="">
-        <translate>New Label</translate>
-      </a>
-      <svg class="_24svg _df _fn">
-        <use xlink:href="/assets/icons/nst-icn24.svg#cross"></use>
-      </svg>
-    </div>
+    <div class="lbl-cr8" create-Label label-manager="{{ctrl.labelManager}}"></div>
   </div>
-  <h4>Requests</h4>
-  <ul class="requests">
+  <h5 class="list-head">{{ctrl.labelManager ? '' : 'pending '}}Requests</h5>
+  <ul class="requests" ng-if="ctrl.labelManager">
     <li>
       <hr/>
       <div class="icon">
@@ -41,22 +37,49 @@
         </p>
       </div>
       <div class="actions">
-        <svg class="_16svg _df _fn fill-solid-24">
-          <use xlink:href="/assets/icons/nst-icn16.svg#gear"></use>
+        <div ng-click="ctrl.editLabel()">
+          <svg class="_16svg _df _fn fill-solid-24">
+            <use xlink:href="/assets/icons/nst-icn16.svg#gear"></use>
+          </svg>
+        </div>
+        <div>
+          <svg class="_16svg _df _fn force">
+            <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
+          </svg>
+        </div>
+        <div>
+          <svg class="_16svg _df _fn fill-sense-wire">
+            <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
+          </svg>
+        </div>
+      </div>
+    </li>
+  </ul>
+  <ul class="requests pending" ng-if="!ctrl.labelManager">
+    <li>
+      <hr/>
+      <div class="icon">
+        <svg class="_16svg _df _fn color-lbl-F">
+          <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
         </svg>
+      </div>
+      <div class="req-body">
+        <cite>
+          Top Secret
+        </cite>
+      </div>
+      <div class="actions">
         <svg class="_16svg _df _fn force">
           <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
-        </svg>
-        <svg class="_16svg _df _fn fill-sense-wire">
-          <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
         </svg>
       </div>
     </li>
   </ul>
-  <h4>Labels</h4>
+  <h5 class="list-head">Labels</h5>
   <ul class="labels">
     <li>
-      <div class="icon">
+      <hr/>
+      <div class="icon" ng-if="ctrl.labelManager">
         <div class="select-card ng-class:{'selected' : ctlPostCard.isChecked || ctlPostCard.isCheckedForce}">
           <input class="_fr" type="checkbox" id="select{{label.id}}" name="select"
                 ng-model="ctrl.isChecked" ng-checked="ctrl.isChecked"/>
@@ -75,13 +98,14 @@
       <div class="users">
         <translate>everyone</translate>
       </div>
-      <div class="edit">
+      <div class="edit" ng-if="ctrl.labelManager">
         <svg class="_16svg _df _fn">
-          <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
+          <use xlink:href="/assets/icons/nst-icn16.svg#pencil"></use>
         </svg>
       </div>
     </li>
     <li>
+      <hr/>
       <div class="icon">
         <div class="select-card ng-class:{'selected' : ctlPostCard.isChecked || ctlPostCard.isCheckedForce}">
           <input class="_fr" type="checkbox" id="select{{label.id}}" name="select"
@@ -109,7 +133,7 @@
           <img ng-src="" alt="">
         </div>
       </div>
-      <div class="edit">
+      <div class="edit" ng-click="ctrl.editLabel()">
         <svg class="_16svg _df _fn">
           <use xlink:href="/assets/icons/nst-icn16.svg#pencil"></use>
         </svg>
