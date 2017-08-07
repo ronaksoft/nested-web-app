@@ -20,7 +20,11 @@
                 {{item.extension | uppercase}}
             </div>
             <img ng-show="item.thumbnail.length" ng-src="{{item.thumbnail}}" alt="">
-            <span>{{item.filename}}</span>
+            <span>
+                <abbr ng-click="ctrl.openAttachment($event, item)">
+                    {{item.filename}}
+                </abbr>
+            </span>
         </li>
     </ul>
     <div class="files-modal-footer select" ng-if="ctrl.selectedFiles.length === 0">

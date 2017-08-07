@@ -419,12 +419,16 @@ select,option {
 }
 
 .suggests {
-  height: 180px;
+  height: 212px;
   overflow: hidden;
-  display: inline-flex;
+  display: flex;
+  flex: none;
   flex-direction: row;
   flex-wrap: wrap;
-  .item {
+  font-size: 14px;
+  color: $color-gale-new;
+  padding: 0 16px;
+  /*.item {
     width: 48%;
     height: 50px;
     transition: all .3s;
@@ -510,7 +514,7 @@ select,option {
     &:hover {
       background-color: #E8FBF0;
     }
-  }
+  }*/
   .devider {
     width: 4%;
     height: 50px;
