@@ -381,6 +381,7 @@
       post.ellipsis = data.ellipsis;
       post.noComment = data.no_comment;
       post.watched = data.watched;
+      post.isTrusted = data.is_trusted;
 
 
       var resources = {};

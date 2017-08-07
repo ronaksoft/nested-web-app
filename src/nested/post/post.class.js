@@ -35,6 +35,7 @@
       this.trusted = undefined;
       this.bodyIsTrivial = true;
       this.noComment = false;
+      this.isTrusted = true;
     }
 
     Post.prototype.getTrustedBody = function () {
