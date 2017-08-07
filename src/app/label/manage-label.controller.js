@@ -12,7 +12,7 @@
 
     var vm = this;
     vm.keyword = '';
-    vm.labelManager = false;
+    vm.labelManager = true;
     vm.labels = [];
     vm.requestList = [];
     vm.pendingRequestList = [];
