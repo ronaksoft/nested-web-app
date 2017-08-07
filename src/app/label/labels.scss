@@ -393,4 +393,79 @@
             }
         }
     }
+    &.add-label {
+        max-width: 320px!important;
+        margin-left: -160px!important;
+        min-height: 459px!important;
+        max-height: 459px!important;
+        background-color: red;
+        padding: 24px 16px 0 16px!important;
+        h4 {
+            font-size: 20px;
+            line-height: 20px;
+            font-weight: 400;
+            margin-bottom: 24px;
+            svg {
+                margin-right: 8px;
+            }
+            p {
+              font-size: 13px;
+              color: $color-gale;
+              line-height: 16px;
+              margin: 0;
+            }
+        }
+        .label-search {
+            padding: 0 4px;
+            height: 307px;
+            >div:first-child {
+                border-bottom: 1px solid $color-solid;
+                margin-bottom: 24px;
+            }
+            input {
+                padding: 0;
+                border-radius: 0;
+                height: 32px;
+            }
+            input::-moz-placeholder {
+                font-size: 14px;
+                color: $color-solid-24;
+            }
+            input::-webkit-input-placeholder {
+                font-size: 14px;
+                color: $color-solid-24;
+            }
+            .label-items {
+                height: 30px;
+            }
+            .dropdown-menu {
+                box-shadow: none;
+                position: relative;
+                border: none;
+            }
+        }
+        .ui-select-bootstrap .ui-select-choices-row > a {
+            padding: 8px 0;
+            >span {
+                padding:  0 8px;
+            }
+            span {
+                font-size: 13px;
+            }
+        }
+        .load-more-labels {
+            height: 32px;
+            color: $color-new-hurricane;
+            font-size: 13px;
+            line-height: 32px;
+        }
+        .modal-footer {
+            height: 48px;
+            align-items: center;
+            input {
+                width: 100%!important;
+                line-height: 19px
+            }
+        }
+    }
 }

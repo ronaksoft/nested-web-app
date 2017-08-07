@@ -100,12 +100,12 @@
           <div class="body" emoji-init=".fr-element" compose-emoji="true" ng-show="ctlCompose.emojiTarget != 'title';"></div>
         </div>
         <div class="_df f1"></div>
-        <div class="_pr _df _fn lbl-btn">
-          <span ng-if="ctlCompose.model.selectedLabels.length > 0">+{{ ctlCompose.model.selectedLabels.length }}</span>
-          <svg class="_16svg _asc" popover-class="white-pop post-card-moreopt compose-lbl"
+        <div class="_pr _df _fn lbl-btn" add-label>
+          <!--<svg class="_16svg _asc" popover-class="white-pop post-card-moreopt compose-lbl"
             data-popover-placement="top-center auto"
             data-uib-popover-template="'app/pages/compose/partials/compose-labels.html'"
-            data-popover-append-to-body="false">
+            data-popover-append-to-body="false">-->
+          <svg class="_16svg _asc">
             <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
           </svg>
         </div>

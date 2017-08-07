@@ -1,10 +1,11 @@
 <div class="label-sm-modal">
-    <h4><translate>Create a Label</translate></h4>
-    <Label><translate>Label Name</translate></Label>
-    <input type="text" ng-model="ctrl.title">
-    <Label><translate>Label Color</translate></Label>
+    <h4>Create a Label</h4>
+    <Label>Label Name</Label>
+    <input type="text">
+    <Label>Label Color</Label>
+    <!--<input type="text" class="label-color">-->
     <div class="_pr _fw label-color">
-        <select name="lang" ng-model="ctrl.code">
+        <select name="lang" ng-model="ctrl.color" ng-change="ctrl.changeColor(ctrl.locale)">
             <option selected value="A">- Default -</option>
             <option value="B">Green</option>
             <option value="C">Yellow</option>
