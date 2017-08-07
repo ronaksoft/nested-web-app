@@ -11,19 +11,40 @@
     NstTinyPlace, NstSvcUserFactory, NstSvcLabelFactory) {
 
     var vm = this;
-    vm.labelManager = true;
+    vm.keyword = '';
+    vm.labelManager = false;
     vm.labels = [];
     vm.requestList = [];
+    vm.pendingRequestList = [];
     vm.editLabel = editLabel;
     vm.declineRequest = declineRequest;
     vm.acceptRequest = acceptRequest;
+    vm.withdrawRequest = withdrawRequest;
+    vm.searchKeyUp = _.debounce(searchLabel, 512);
     init();
 
     function init() {
-      NstSvcLabelFactory.search().then(function (result) {
+      searchLabel();
+      if (vm.labelManager) {
+        getRequest();
+      } else {
+        getPendingRequest();
+      }
+    }
+
+    function searchLabel() {
+      var searchService;
+      if (vm.keyword.length > 0) {
+        searchService = NstSvcLabelFactory.search(vm.keyword);
+      } else {
+        searchService = NstSvcLabelFactory.search();
+      }
+      searchService.then(function (result) {
         vm.labels = result;
       });
+    }
 
+    function getRequest() {
       NstSvcUserFactory.getTiny('hamidrezakk').then(function (user) {
         vm.requestList.push({
           id: '1',
@@ -41,6 +62,20 @@
             id: '2',
             code: 'B',
             title: 'Label 2'
+          }
+        });
+      });
+    }
+
+    function getPendingRequest() {
+      NstSvcUserFactory.getTiny('hamidrezakk').then(function (user) {
+        vm.pendingRequestList.push({
+          id: '1',
+          user: user,
+          label: {
+            id: '1',
+            code: 'A',
+            title: 'Top Secret'
           }
         });
       });
@@ -66,26 +101,47 @@
     }
 
     function declineRequest(id) {
-      var accountId = _.find(vm.requestList, {id: id});
-      removeRequest(accountId);
-      toastr.success(NstSvcTranslation.get("Request declined successfully."));
-      // NstSvcLabelFactory.addMember(id, accountId).then(function (data) {
-      //
-      // });
+      NstSvcLabelFactory.updateRequest(id, 'accept').then(function (result) {
+        if (result.status === 'ok') {
+          removeRequest(id);
+          toastr.success(NstSvcTranslation.get("Request declined successfully."));
+        }
+      }).catch(function (error) {
+        toastr.error(NstSvcTranslation.get("Something went wrong."));
+      });
     }
 
     function acceptRequest(id) {
-      var accountId = _.find(vm.requestList, {id: id});
-      removeRequest(accountId);
-      toastr.success(NstSvcTranslation.get("Request accepted successfully."));
-      // NstSvcLabelFactory.addMember(id, accountId).then(function (data) {
-      //
-      // });
+      NstSvcLabelFactory.updateRequest(id, 'accept').then(function (result) {
+        if (result.status === 'ok') {
+          removeRequest(id);
+          toastr.success(NstSvcTranslation.get("Request accepted successfully."));
+        }
+      }).catch(function (error) {
+        toastr.error(NstSvcTranslation.get("Something went wrong."));
+      });
     }
 
-    function removeRequest(id) {
-      var index = _.findIndex(vm.requestList, {id: id});
-      vm.requestList.splice(index, 1);
+    function withdrawRequest(id) {
+      NstSvcLabelFactory.updateRequest(id, 'withdraw').then(function (result) {
+        if (result.status === 'ok') {
+          removeRequest(id, true);
+          toastr.success(NstSvcTranslation.get("Your request has been withdrawn successfully."));
+        }
+      }).catch(function (error) {
+        toastr.error(NstSvcTranslation.get("Something went wrong."));
+      });
+    }
+
+    function removeRequest(id, pending) {
+      var index;
+      if (pending) {
+        index = _.findIndex(vm.pendingRequestList, {id: id});
+        vm.pendingRequestList.splice(index, 1);
+      } else {
+        index = _.findIndex(vm.requestList, {id: id});
+        vm.requestList.splice(index, 1);
+      }
     }
 
   }

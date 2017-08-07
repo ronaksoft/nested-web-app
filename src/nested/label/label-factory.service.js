@@ -96,6 +96,15 @@
       }, 'request-' + (id || title));
     };
 
+    LabelFactory.prototype.updateRequest = function (id, status) {
+      return this.sentinel.watch(function () {
+        return NstSvcServer.request('label/request_update', {
+          request_id: id,
+          status: status,
+        });
+      }, 'request-update' + id + status);
+    };
+
     LabelFactory.prototype.addMember = function (labelId, accountId) {
       return this.sentinel.watch(function () {
         return NstSvcServer.request('label/add_member', {

@@ -31,7 +31,7 @@
       var isPublic = (vm.holderType === 'all');
       //TODO: add specific holders
       NstSvcLabelFactory.create(vm.title, vm.code, isPublic).then(function (result) {
-        if (result.status == 'ok') {
+        if (result.status === 'ok') {
           if (isPublic) {
             toastr.success(NstSvcTranslation.get("Label created successfully."));
           } else {
