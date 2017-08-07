@@ -11,10 +11,10 @@
     NstTinyPlace) {
 
     var vm = this;
-    vm.labelManager = false;
+    vm.labelManager = true;
     vm.editLabel = editLabel
     
-    function editLabel(){
+    function editLabel() {
       $uibModal.open({
         animation: false,
         size: 'lg-white multiple',

@@ -28,7 +28,7 @@
     <div class="_df _fw input-select-match" ng-if="!ctrl.holdersAll">
         <ui-select minimum-input-length="4" multiple limit="{{ctrl.targetLimit}}"  class="address-input _dib"
          data-ng-model="ctrl.model.recipients">
-          <ui-select-match placeholder="{{::ctrl.userSelectPlaceHolder}}" compose-match-item class="match-items">
+          <ui-select-match placeholder="{{::ctrl.userSelectPlaceHolder}}" class="match-items">
             <div class="selected-innter">
               <span class="place-img">
                 <img ng-src="{{$item.picture}}"/>

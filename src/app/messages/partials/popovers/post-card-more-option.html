@@ -113,7 +113,8 @@
   </div>
 </a>
 <a class="_df list-items _aic _fw red-item cursor-pointer"
-   ng-if="ctlPostCard.placesWithRemoveAccess.length > 0 && ! ( ctlPostCard.post.wipeAccess && ctlPostCard.post.places.length == 1 && ctlPostCard.post.recipients.length == 0 )"
+   ng-if="ctlPostCard.placesWithRemoveAccess.length > 0 &&
+   !( ctlPostCard.post.wipeAccess && ctlPostCard.post.places.length == 1 && ctlPostCard.post.recipients.length == 0 )"
    popover-class="white-pop"
    data-popover-placement="{{$root._direction == 'ltr' ? 'right-center auto' : 'left-center auto'}}"
    data-uib-popover-template="'app/messages/partials/popovers/remove-from.html'"
