@@ -21,33 +21,33 @@
   </div>
   <h5 class="list-head">{{ctrl.labelManager ? '' : 'pending '}}Requests</h5>
   <ul class="requests" ng-if="ctrl.labelManager">
-    <li>
+    <li ng-repeat="request in ctrl.requestList">
       <hr/>
       <div class="icon">
-        <svg class="_16svg _df _fn color-lbl-F">
+        <svg class="_16svg _df _fn color-lbl-{{request.label.code}}">
           <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
         </svg>
       </div>
       <div class="req-body">
         <cite>
-          Top Secret
+          {{request.label.title}}
         </cite>
         <p>
-          <b>Regina Adam</b> want to reach this.
+          <span user-detail="request.user"><b>{{request.user.fullName}}</b></span> <translate>want to reach this.</translate>
         </p>
       </div>
       <div class="actions">
-        <div ng-click="ctrl.editLabel()">
+        <div ng-click="ctrl.editLabel(request.label)">
           <svg class="_16svg _df _fn fill-solid-24">
             <use xlink:href="/assets/icons/nst-icn16.svg#gear"></use>
           </svg>
         </div>
-        <div>
+        <div ng-click="ctrl.declineRequest(request.id)">
           <svg class="_16svg _df _fn force">
             <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
           </svg>
         </div>
-        <div>
+        <div ng-click="ctrl.acceptRequest(request.id)">
           <svg class="_16svg _df _fn fill-sense-wire">
             <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
           </svg>
@@ -77,64 +77,34 @@
   </ul>
   <h5 class="list-head">Labels</h5>
   <ul class="labels">
-    <li>
+    <li ng-repeat="label in ctrl.labels">
       <hr/>
       <div class="icon" ng-if="ctrl.labelManager">
-        <div class="select-card ng-class:{'selected' : ctlPostCard.isChecked || ctlPostCard.isCheckedForce}">
-          <input class="_fr" type="checkbox" id="select{{label.id}}" name="select"
-                ng-model="ctrl.isChecked" ng-checked="ctrl.isChecked"/>
-          <label class="_fw _df _asc setting" for="select{{label.id}}"></label>
+        <div class="select-card" ng-class="{'selected': label.selected}">
+          <input class="_fr" type="checkbox" id="label-select{{label.id}}" name="select"
+                ng-model="label.selected" ng-checked=""/>
+          <label class="_fw _df _asc setting" for="label-select{{label.id}}"></label>
         </div>
       </div>
       <div class="label-details">
-        <span>Important</span>
+        <span>{{label.title}}</span>
       </div>
       <div class="usage">
-        <svg class="_16svg _df _fn color-lbl-A">
+        <svg class="_16svg _df _fn color-lbl-{{label.code}}">
           <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
         </svg>
-        <span>74</span>
+        <span>{{label.counters.posts}}</span>
       </div>
-      <div class="users">
+      <div ng-if="label.public" class="users">
         <translate>everyone</translate>
       </div>
+      <div ng-if="!label.public" class="users">
+        <div ng-repeat="user in label.topMembers" class="user-avatar-20">
+          <img ng-src="{{user | picture}}" alt="user.fullName" data-uib-tooltip="{{user.fullName}}" data-tooltip-append-to-body="true" data-tooltip-placement="top auto">
+        </div>
+      </div>
       <div class="edit" ng-if="ctrl.labelManager">
-        <svg class="_16svg _df _fn">
-          <use xlink:href="/assets/icons/nst-icn16.svg#pencil"></use>
-        </svg>
-      </div>
-    </li>
-    <li>
-      <hr/>
-      <div class="icon">
-        <div class="select-card ng-class:{'selected' : ctlPostCard.isChecked || ctlPostCard.isCheckedForce}">
-          <input class="_fr" type="checkbox" id="select{{label.id}}" name="select"
-                ng-model="ctrl.isChecked" ng-checked="ctrl.isChecked"/>
-          <label class="_fw _df _asc setting" for="select{{label.id}}"></label>
-        </div>
-      </div>
-      <div class="label-details">
-        <span>Important</span>
-      </div>
-      <div class="usage">
-        <svg class="_16svg _df _fn color-lbl-D">
-          <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
-        </svg>
-        <span>74</span>
-      </div>
-      <div class="users">
-        <div class="user-avatar-20">
-          <img ng-src="" alt="">
-        </div>
-        <div class="user-avatar-20">
-          <img ng-src="" alt="">
-        </div>
-        <div class="user-avatar-20">
-          <img ng-src="" alt="">
-        </div>
-      </div>
-      <div class="edit" ng-click="ctrl.editLabel()">
-        <svg class="_16svg _df _fn">
+        <svg class="_16svg _df _fn" ng-click="ctrl.editLabel(label.id)">
           <use xlink:href="/assets/icons/nst-icn16.svg#pencil"></use>
         </svg>
       </div>
