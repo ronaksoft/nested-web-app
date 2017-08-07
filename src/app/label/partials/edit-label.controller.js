@@ -5,7 +5,7 @@
     .module('ronak.nested.web.components')
     .controller('editLabelController', editLabelController);
 
-  function editLabelController($timeout, $scope, $q, $uibModalInstance,
+  function editLabelController($timeout, $scope, $q, $uibModalInstance, $uibModal,
     moment, toastr, _, NstSvcLabelFactory, NstSvcTranslation, NstUtility, argv) {
 
     var vm = this;
@@ -48,10 +48,6 @@
       return false;
     }
 
-    function addHolder() {
-      console.log('addHolder');
-    }
-
     function removeAllHolders() {
       vm.specificHolders = []
       console.log('removeAllHolders');
@@ -64,6 +60,18 @@
 
     function editLabel() {
 
+    }
+
+    function addHolder(role) {
+
+      var modal = $uibModal.open({
+        animation: false,
+        templateUrl: 'app/label/partials/add-user-label.html',
+        controller: 'addUserLabelController',
+        controllerAs: 'ctrl',
+        size: 'sm'
+      });
+      // modal.result.then();
     }
 
     function removeLabel() {

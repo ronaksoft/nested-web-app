@@ -1,0 +1,41 @@
+<div id="add-view" class="_difv _fw">
+  <h4>
+    <div class="_df" ng-click="$dismiss();">
+      <svg class="_24svg _fn">
+          <use xlink:href="/assets/icons/nst-icn24.svg#xcross"></use>
+      </svg>
+    </div>
+    <translate>Add Holders</translate>
+  </h4>
+  <ui-select multiple class="modal-add-input _df"
+    data-ng-model="ctrl.selectedUsers" limit="{{ctrl.limit}}"
+    autofocus="true" always-show-list on-select="ctrl.search('')">
+    <ui-select-match placeholder="{{::ctrl.searchPlaceholder}}">
+      <div class="selected-innter">
+        <span class="place-img">
+          <img initial-avatar="{{$item.id}}" picture="{{$item | avatar}}"
+                data-width="24" data-height="24" data-radius="2"
+                data-word-count="2" data-font-size="12" name="{{$item.fullName}}"/>
+        </span>
+        <span class="place-name">{{$item.fullName}}</span>
+      </div>
+    </ui-select-match>
+    <ui-select-choices refresh="ctrl.search($select.search)" refresh-delay="0"
+                        repeat="user in (ctrl.users | filter: $select.search) track by user.id" >
+      <img initial-avatar="{{user.id}}" name="{{user.fullName}}" picture="{{user| avatar:'x64'}}" data-width="40" data-height="40" data-radius="24" class="account-initials-40 _df" data-word-count="2" data-font-size="16"/>
+      <div class="_difv">
+        <!--todo:: | highlight: $select.search in persian name-->
+        <span auto-dir="user.fullName"><span class="_df _fw" data-ng-bind-html="user.fullName"></span></span>
+        <small class="_df">@{{user.id}}</small>
+      </div>
+    </ui-select-choices>
+  </ui-select>
+  <div class="modal-body">
+    <div class="_fw suggests">
+      <translate>Suggested:</translate>
+    </div>
+  </div>
+  <div class="m-footer _df _fw">
+    <input type="button" class="butn-green"ng-disabled="ctrl.selectedUsers.length === 0" value="Add" ng-click="ctrl.add();"/>
+  </div>
+</div>
