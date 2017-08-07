@@ -15,11 +15,11 @@
           <use xlink:href="/assets/icons/nst-icn16.svg#search"></use>
         </svg>
       </i>
-      <input type="text" placeholder="Find Labels">
+      <input ng-keyup="ctrl.searchKeyUp()" ng-model="ctrl.keyword" type="text" placeholder="Find Labels">
     </div>
     <div class="lbl-cr8" create-Label label-manager="{{ctrl.labelManager}}"></div>
   </div>
-  <h5 class="list-head">{{ctrl.labelManager ? '' : 'pending '}}Requests</h5>
+  <h5 ng-if="ctrl.requestList.length > 0 || ctrl.pendingRequestList.length > 0" class="list-head">{{ctrl.labelManager ? '' : 'Pending '}}Requests</h5>
   <ul class="requests" ng-if="ctrl.labelManager">
     <li ng-repeat="request in ctrl.requestList">
       <hr/>
@@ -56,19 +56,19 @@
     </li>
   </ul>
   <ul class="requests pending" ng-if="!ctrl.labelManager">
-    <li>
+    <li ng-repeat="request in ctrl.pendingRequestList">
       <hr/>
       <div class="icon">
-        <svg class="_16svg _df _fn color-lbl-F">
+        <svg class="_16svg _df _fn color-lbl-{{request.label.code}}">
           <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
         </svg>
       </div>
       <div class="req-body">
         <cite>
-          Top Secret
+          {{request.label.title}}
         </cite>
       </div>
-      <div class="actions">
+      <div ng-click="ctrl.withdrawRequest(request.id)" class="actions">
         <svg class="_16svg _df _fn force">
           <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
         </svg>

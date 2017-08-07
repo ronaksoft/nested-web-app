@@ -63,7 +63,15 @@
     }
 
     function editLabel() {
-
+      NstSvcLabelFactory.update(vm.id, vm.title, vm.code).then(function (result) {
+        if (result.status === 'ok') {
+          toastr.success(NstSvcTranslation.get("Label modified successfully."));
+        }
+      }).catch(function (error) {
+        toastr.error(NstSvcTranslation.get("Something went wrong."));
+      }).finally(function () {
+        $scope.$dismiss();
+      });
     }
 
     function removeLabel() {
