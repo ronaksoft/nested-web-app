@@ -415,6 +415,14 @@
                 border-radius: 0;
                 height: 32px;
             }
+            input::-moz-placeholder {
+                font-size: 14px;
+                color: $color-solid-24;
+            }
+            input::-webkit-input-placeholder {
+                font-size: 14px;
+                color: $color-solid-24;
+            }
             .label-items {
                 height: 30px;
             }

@@ -12,8 +12,9 @@
 
     var vm = this;
     vm.color = 'D';
-    vm.userSelectPlaceHolder = 'Enter username or user-id…';
+    vm.labelSelectPlaceHolder = 'Select from below or type label name…';
     vm.targetLimit = 8;
+    vm.haveMore = false;
     vm.search = {};
     vm.selectedLabels = [
       {

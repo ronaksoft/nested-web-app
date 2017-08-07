@@ -10,7 +10,7 @@
     </h4>
     <ui-select minimum-input-length="4" multiple limit="{{ctrl.targetLimit}}"  class="label-search _dib"
         data-ng-model="ctrl.selectedLabels">
-        <ui-select-match placeholder="{{::ctrl.userSelectPlaceHolder}}" class="label-items">
+        <ui-select-match placeholder="{{::ctrl.labelSelectPlaceHolder}}" class="label-items">
             <div class="selected-innter color-lbl-bg-{{$item.color}}">
                 <span>{{$item.name}}</span>
             </div>
@@ -24,9 +24,12 @@
             </svg>
             <span class="_vat _df" data-ng-bind-html="label.name | highlight: $select.search"></span>
         </ui-select-choices>
+        <ui-select-no-choice>
+            Dang!  We couldn't find any choices...
+        </ui-select-no-choice>
     </ui-select>
     <div class="load-more-labels">
-        <translate>Show more…</translate>
+        <translate ng-if="ctrl.haveMore">Show more…</translate>
     </div>
     <div class="modal-footer">
         <input type="button" class="butn-green" disabled value="Done" translate-attrs="value">
