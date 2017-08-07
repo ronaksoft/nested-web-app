@@ -8,14 +8,14 @@
             {{ctrl.selectedLabels.length | localize}}/{{10 | localize}}
         </p>
     </h4>
-    <ui-select minimum-input-length="4" multiple limit="{{ctrl.targetLimit}}"  class="label-search _dib"
+    <ui-select minimum-input-length="4" multiple limit="{{ctrl.targetLimit}}" alway-show-list class="label-search _dib"
         data-ng-model="ctrl.selectedLabels">
         <ui-select-match placeholder="{{::ctrl.labelSelectPlaceHolder}}" class="label-items">
             <div class="selected-innter color-lbl-bg-{{$item.color}}">
                 <span>{{$item.name}}</span>
             </div>
         </ui-select-match>
-        {{$select.open = true;""}}
+        <!--{{$select.open = true;""}}-->
         <ui-select-choices refresh="ctrl.search.fn($select.search)"
                             refresh-delay="0"
                             repeat="label as label in ctrl.search.results track by $index">
