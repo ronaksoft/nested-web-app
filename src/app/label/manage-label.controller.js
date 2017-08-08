@@ -97,6 +97,8 @@
             label: label
           }
         }
+      }).result.then(function (result) {
+        console.log(result);
       });
     }
 
