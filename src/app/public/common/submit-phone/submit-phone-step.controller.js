@@ -1,3 +1,14 @@
+/**
+ * @file src/app/public/common/submit-phone/submit-phone-step.controller.js
+ * @author Soroush Torkzadeh <sorousht@nested.me>
+ * @description The user submits her phone number and receives a verification code.
+ * This is reusable component and has been used in register and recover-password components as the first step
+ * Documented by:          Soroush Torkzadeh <sorousht@nested.me>
+ * Date of documentation:  2017-08-05
+ * Reviewed by:            -
+ * Date of review:         -
+ */
+
 (function () {
   'use strict';
 
@@ -6,9 +17,21 @@
     .controller('SubmitPhoneStepController', SubmitPhoneStepController);
 
   /** @ngInject */
+  /**
+   * The component gives you a list of countries and lets you one and submit your phone number.
+   * 
+   * @param {any} $scope 
+   * @param {any} NstHttp 
+   * @param {any} $q 
+   * @param {any} NstSvcTranslation 
+   * @param {any} toastr 
+   */
   function SubmitPhoneStepController($scope, NstHttp, $q, NstSvcTranslation, toastr) {
     var vm = this;
 
+    // This phone number is for test purpose only and you wont receive any verification code or call.
+    // Use "123456" to verify the phone number. You will get a fake success response if you try to register
+    // an account with this phone number.
     var dummyPhone = "123456789";
 
     vm.validatePhone = validatePhone;
@@ -19,6 +42,7 @@
     var autoSubmitReferece = null;
 
     (function () {
+      // If you provide a country code, autolocate feature will be disabled.
       if (vm.countryCode) {
         vm.autoLocateEnabled = false;
       }
@@ -57,6 +81,11 @@
       validateAndSend(getPhoneNumber());
     };
 
+    /**
+     * Validates the given phone number and submits if the validation was successfull. Then navigates to the next step.
+     * 
+     * @param {any} phoneNumber 
+     */
     function validateAndSend(phoneNumber) {
       validatePhone().then(function (available) {
         if (available) {
@@ -76,10 +105,22 @@
       });
     }
 
+    /**
+     * Emits an event that leads to changing the step
+     * 
+     * @param {any} verificationId 
+     * @param {any} phone 
+     */
     function nextStep(verificationId, phone) {
       $scope.$emit(vm.onCompleted, {verificationId: verificationId, phone: phone});
     }
 
+    /**
+     * Sends the phone number
+     * 
+     * @param {any} phone 
+     * @returns 
+     */
     function sendPhoneNumber(phone) {
       var deferred = $q.defer();
       vm.phoneSubmitProgress = true;
@@ -111,6 +152,11 @@
       return deferred.promise;
     }
 
+    /**
+     * Validates the given phone number with the country validation rules
+     * 
+     * @returns 
+     */
     function validatePhone() {
       var deferred = $q.defer();
 
@@ -141,6 +187,12 @@
       return deferred.promise;
     }
 
+    /**
+     * Check the phone to be available or registered depending on the component configuration.
+     * 
+     * @param {any} phone 
+     * @returns 
+     */
     function checkPhone(phone) {
       var deferred = $q.defer();
 
@@ -173,6 +225,13 @@
       return deferred.promise;
     }
 
+    /**
+     * Returns true if the given phone number is a valid one
+     * 
+     * @param {any} countryId 
+     * @param {any} phone 
+     * @returns 
+     */
     function getPhoneIsValid(countryId, phone) {
       if (phone === dummyPhone) {
         return true;
@@ -184,6 +243,11 @@
       }
     }
 
+    /**
+     * Concatinates country code and phone to build a complete phone number
+     * 
+     * @returns 
+     */
     function getPhoneNumber() {
       if (vm.countryCode && vm.phone) {
         return vm.countryCode.toString() + _.trimStart(vm.phone.toString(), "0");
@@ -191,6 +255,12 @@
       return "";
     }
 
+    /**
+     * Checks the phone number to be available for registration. In other words, The phone number should not be taken before
+     * 
+     * @param {any} phone 
+     * @returns 
+     */
     function phoneAvailable(phone) {
       var deferred = $q.defer();
 
@@ -211,6 +281,12 @@
       return deferred.promise;
     }
 
+    /**
+     * Checks the phone number to be exist. In other words, The phone number should be associated with an account
+     * 
+     * @param {any} phone 
+     * @returns 
+     */
     function phoneRegistered(phone) {
       var deferred = $q.defer();
 
@@ -231,6 +307,7 @@
       return deferred.promise;
     }
 
+    // Validates the phone number when the user changes her country.
     $scope.$on('country-select-changed', function (event, data) {
       if (data && data.code) {
         vm.countryCode = data.code;
@@ -246,6 +323,8 @@
       validatePhone();
     });
 
+    // The function is declared but is not used.
+    // TODO: Remove it
     function getParameterByName(name) {
       var url = window.location.href;
       name = name.replace(/[\[\]]/g, "\\$&");

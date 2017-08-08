@@ -10,7 +10,7 @@
   <div class="_difh f1 _fn bottom-border">
     <div class="_difv f1">
       <div class="_difh _fn">
-        <div class="top-user-avatar-24" ng-if="notification.users.length > 1" ng-repeat="user in notification.users">
+        <div class="top-user-avatar-24" ng-if="notification.users.length > 1 && user.id !== notification.comment.sender.id" ng-repeat="user in notification.users">
           <img initial-avatar="{{::user.id}}" name="{{::user.fullName}}"
                picture="{{::user | avatar}}"
                data-width="24" data-height="24" data-radius="24" class="account-initials-24" data-word-count="2"
@@ -22,9 +22,9 @@
       </div>
       <p>
         <span>{{ ::notification.comment.sender.fullName }} </span>
-        <span ng-if="notification.users[0]"><translate>and</translate> {{ ::notification.users[0].fullName }} </span>
-        <span ng-if="notification.users[1]"><translate>and</translate> {{ ::notification.users[1].fullName }} </span>
-        <span ng-if="notification.users[2]"><translate>and</translate> {{ ::notification.users[2].fullName }} </span>
+        <span ng-if="notification.users[0] && notification.users[0].id != notification.comment.sender.id"><translate>and</translate> {{ ::notification.users[0].fullName }} </span>
+        <span ng-if="notification.users[1] && notification.users[1].id != notification.comment.sender.id"><translate>and</translate> {{ ::notification.users[1].fullName }} </span>
+        <span ng-if="notification.users[2] && notification.users[2].id != notification.comment.sender.id"><translate>and</translate> {{ ::notification.users[2].fullName }} </span>
         <small ng-if="notification.users[0]"><translate>commented on your post</translate>.</small>
         <!--{{notification.post.subject}}:<br>-->
       </p>

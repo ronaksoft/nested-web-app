@@ -1,3 +1,12 @@
+/**
+ * @file src/app/activity/recent/activity.controller.js
+ * @author Soroush Torkzadeh <sorousht@nested.me>
+ * @description Activities of a place
+ * Documented by:          Soroush Torkzadeh <sorousht@nested.me>
+ * Date of documentation:  2017-08-07
+ * Reviewed by:            -
+ * Date of review:         -
+ */
 (function () {
   'use strict';
 
