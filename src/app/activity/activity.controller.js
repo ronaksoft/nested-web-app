@@ -1,3 +1,12 @@
+/**
+ * @file src/app/activity/recent/activity.controller.js
+ * @author Soroush Torkzadeh <sorousht@nested.me>
+ * @description Activities of a place
+ * Documented by:          Soroush Torkzadeh <sorousht@nested.me>
+ * Date of documentation:  2017-08-07
+ * Reviewed by:            -
+ * Date of review:         -
+ */
 (function () {
   'use strict';
 
@@ -6,6 +15,33 @@
     .controller('ActivityController', ActivityController);
 
   /** @ngInject */
+  /**
+   * Activities page controller
+   * 
+   * @param {any} $q 
+   * @param {any} $stateParams 
+   * @param {any} $log 
+   * @param {any} $state 
+   * @param {any} $scope 
+   * @param {any} $rootScope 
+   * @param {any} _ 
+   * @param {any} moment 
+   * @param {any} NST_SRV_EVENT 
+   * @param {any} NST_EVENT_ACTION 
+   * @param {any} NST_ACTIVITY_FILTER 
+   * @param {any} NST_DEFAULT 
+   * @param {any} NstSvcActivityMap 
+   * @param {any} NstSvcModal 
+   * @param {any} NstSvcActivitySettingStorage 
+   * @param {any} NstSvcActivityFactory 
+   * @param {any} NstSvcSync 
+   * @param {any} NstSvcInvitationFactory 
+   * @param {any} NstSvcServer 
+   * @param {any} NstUtility 
+   * @param {any} NstSvcPlaceAccess 
+   * @param {any} NstSvcTranslation 
+   * @param {any} NstSvcInteractionTracker 
+   */
   function ActivityController($q, $stateParams, $log, $state, $scope, $rootScope,
     _, moment,
     NST_SRV_EVENT, NST_EVENT_ACTION, NST_ACTIVITY_FILTER, NST_DEFAULT,
@@ -61,6 +97,7 @@
      ******************/
 
     (function () {
+      // Every filter group contains some sort of activities
       activityFilterGroups[NST_ACTIVITY_FILTER.MESSAGES] = [
         NST_EVENT_ACTION.POST_ADD,
         NST_EVENT_ACTION.POST_COPY,
@@ -94,7 +131,7 @@
         vm.activitySettings.placeId = null;
       }
 
-      // first check url to match a filter
+      // First looks for filter in URL. Stores the value, if any filter was provided in URL.
       if (!$stateParams.filter || $stateParams.filter === NST_DEFAULT.STATE_PARAM) {
         vm.activitySettings.filter = NstSvcActivitySettingStorage.get('filter') || NST_ACTIVITY_FILTER.ALL;
       } else {
@@ -106,10 +143,11 @@
         }
       }
 
+      // Reads activitySettings.collapsed from local storage
       vm.expanded = !NstSvcActivitySettingStorage.get('collapsed');
 
       generateUrls();
-
+      // Retrieves a place with the given Id, if the user has required accesses. Then loads the place activities
       NstSvcPlaceAccess.getIfhasAccessToRead($stateParams.placeId).then(function (place) {
         if (place) {
           vm.currentPlace = place;
@@ -133,11 +171,12 @@
      ********************/
 
     function loadMore() {
+      // TODO: loadMoreCounter is not used! remove it and the next tracking line
       vm.loadMoreCounter ++;
       NstSvcInteractionTracker.trackEvent('activities', 'load more', vm.loadMoreCounter);
       loadActivities();
     }
-
+    // TODO: The function is declared but never used
     function acceptInvitation(invitation) {
       NstSvcInvitationFactory.accept(invitation).then(function (result) {
 
@@ -145,7 +184,7 @@
 
       });
     }
-
+    // TODO: The function is declared but never used
     function declineInvitation(invitation) {
       NstSvcInvitationFactory.decline(invitation).then(function (result) {
 
@@ -154,6 +193,11 @@
       });
     }
 
+    /**
+     * Applies the given filter by navigating to the related route
+     * 
+     * @param {any} filter 
+     */
     function applyFilter(filter) {
       if (vm.activitySettings.placeId) {
         $state.go('app.place-activity-filtered', {
@@ -167,11 +211,20 @@
       }
     }
 
+    /**
+     * Toggles expanded/collapsed views
+     * 
+     */
     function toggleViewMode() {
       vm.expanded = !vm.expanded;
       NstSvcActivitySettingStorage.set('collapsed', !vm.expanded);
     }
 
+    /**
+     * Retrieves after a the specified activity timestamp. Then merges them with the old ones.
+     * 
+     * @param {any} date 
+     */
     function loadAfter(date) {
       vm.loading = true;
       vm.tryAgainToLoadMore = false;
@@ -201,6 +254,12 @@
       return NstSvcActivityMap.toActivityItems(activities);
     }
 
+    /**
+     * Loads activities. Sets the last activity date and merges
+     * the recieved items with the old ones.
+     * 
+     * @returns 
+     */
     function loadActivities() {
       if (vm.loading) {
         return false;
@@ -231,6 +290,12 @@
 
     }
 
+    /**
+     * Maps and merge the given activities with the old ones
+     * The method is used for loading more activities
+     * 
+     * @param {any} activities 
+     */
     function mergeWithActivities(activities) {
       var activityGroups = mapActivities(activities);
       _.forEach(activityGroups, function (targetGroup) {
@@ -243,6 +308,11 @@
       });
     }
 
+    /**
+     * Maps and merge the given activities with the old ones
+     * * The method is used for merging recent activities
+     * @param {any} activities 
+     */
     function putInActivities(activities) {
       var activityGroups = mapActivities(activities);
       _.forEachRight(activityGroups, function (targetGroup) {
@@ -259,13 +329,19 @@
       });
     }
 
+    /**
+     * Stores the last activity date to be able to get older items. Also uses the current
+     * moment if the given array is empty.
+     * 
+     * @param {any} activities 
+     */
     function setLastActivityDate(activities) {
       var last = _.last(activities);
       var lastDate = !!last ? last.date : moment(NstSvcDate.now());
 
       vm.activitySettings.date = NstUtility.date.toUnix(lastDate);
     }
-
+    // TODO: The function is declared but never used
     function loadInvitations() {
       return $q(function (resolve, reject) {
         NstSvcInvitationFactory.get().then(function (invitations) {
@@ -277,14 +353,30 @@
       });
     }
 
+    /**
+     * The given filter should be predefined. Returns true if the filter exists in the list.
+     * 
+     * @param {any} value 
+     * @returns 
+     */
     function filterIsValid(value) {
       return _.includes(_.values(NST_ACTIVITY_FILTER), value);
     }
 
+    /**
+     * Checks the given place Id not to be empty and not equals the default value
+     * 
+     * @param {any} value 
+     * @returns 
+     */
     function placeIdParamIsValid(value) {
       return !!$stateParams.placeId && $stateParams.placeId !== NST_DEFAULT.STATE_PARAM;
     }
 
+    /**
+     * Generates different URLs for every filters
+     * 
+     */
     function generateUrls() {
       if (vm.activitySettings.placeId) {
         vm.urls.filters = {
@@ -311,10 +403,16 @@
       }));
     });
 
+    // Request new activities everytime the socket reconnects to server
     reconnectEvent = NstSvcServer.addEventListener(NST_SRV_EVENT.RECONNECT, function () {
       loadAfter(getRecentActivityTime());
     });
 
+    /**
+     * Returns the most recent activity time. This returns 10 min passed time if the activity list is empty
+     * 
+     * @returns 
+     */
     function getRecentActivityTime() {
       var date = moment(NstSvcDate.now()).subtract(10, 'minute');
 
@@ -328,6 +426,12 @@
       return NstUtility.date.toUnix(date);
     }
 
+    /**
+     * Decides whether to show the activity or not based on the page route and activity's place
+     * 
+     * @param {any} activity 
+     * @returns 
+     */
     function activityBelongsToPlace(activity) {
       if (!vm.activitySettings.placeId) {
         return true;
@@ -342,7 +446,13 @@
       return false;
     }
 
+    /**
+     * Inserts the given activity in the right place if the activity must be shown here.
+     * 
+     * @param {any} activity 
+     */
     function addNewActivity(activity) {
+      // The activity must be placed in Today section definitely
       var todayGroupLabel = NstSvcTranslation.get("Today");
 
       var today = _.find(vm.activities, { date : todayGroupLabel });
@@ -373,6 +483,12 @@
       }
     }
 
+    /**
+     * The activity type must be related to the selected filter
+     * 
+     * @param {any} activity 
+     * @returns 
+     */
     function activityPassesFilter(activity) {
       if (vm.activitySettings.filter === NST_ACTIVITY_FILTER.ALL) {
         return true;

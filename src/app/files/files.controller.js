@@ -1,3 +1,13 @@
+/**
+ * @file src/app/files/files.controller.js
+ * @author Soroush Torkzadeh <sorousht@nested.me>
+ * @description A place files
+ * Documented by:          Soroush Torkzadeh <sorousht@nested.me>
+ * Date of documentation:  2017-08-07
+ * Reviewed by:            -
+ * Date of review:         -
+ */
+
 (function () {
   'use strict';
 
@@ -6,6 +16,28 @@
     .controller('FilesController', FilesController);
 
   /** @ngInject */
+  /**
+   * Gives a list of files associated with a Place. The user is allowed to download
+   * and share the files with other posts.
+   * 
+   * @param {any} $stateParams 
+   * @param {any} toastr 
+   * @param {any} $uibModal 
+   * @param {any} $state 
+   * @param {any} $timeout 
+   * @param {any} $q 
+   * @param {any} $scope 
+   * @param {any} NST_PLACE_ACCESS 
+   * @param {any} NstSvcFileFactory 
+   * @param {any} NstSvcPlaceAccess 
+   * @param {any} NstSvcModal 
+   * @param {any} NstSvcTranslation 
+   * @param {any} NstSvcAuth 
+   * @param {any} NstSvcWait 
+   * @param {any} NstSvcInteractionTracker 
+   * @param {any} NstAttachment 
+   * @param {any} NST_DEFAULT 
+   */
   function FilesController($stateParams, toastr, $uibModal, $state, $timeout, $q, $scope,
                            NST_PLACE_ACCESS,
                            NstSvcFileFactory, NstSvcPlaceAccess, NstSvcModal,
@@ -95,7 +127,8 @@
       }
 
       vm.currentPlaceId = $stateParams.placeId;
-
+      // Loads the place, then retrieves the place files. Dispatches 'main-done' to tell the other components
+      // that the main component is done.
       NstSvcPlaceAccess.getIfhasAccessToRead(vm.currentPlaceId).then(function (place) {
         if (place) {
           vm.currentPlace = place;
@@ -118,6 +151,11 @@
 
     })();
 
+    /**
+     * Returns true if the place is a personal or sub-personal one
+     * 
+     * @returns 
+     */
     function isSubPersonal() {
       if (vm.currentPlaceId)
         return NstSvcAuth.user.id == vm.currentPlaceId.split('.')[0];
@@ -131,6 +169,11 @@
       load();
     }
 
+    /**
+     * Retrieves the files with the applied filter
+     * 
+     * @param {any} filter 
+     */
     function filter(filter) {
       vm.selectedFileType = filter;
       vm.settings.filter = filter.id;
@@ -138,6 +181,11 @@
       load();
     }
 
+    /**
+     * Returns the matched predefined filter with the provided key in URL
+     * 
+     * @returns 
+     */
     function getSelectedFilter() {
       var value = _.toLower($stateParams.filter);
 
@@ -146,6 +194,11 @@
       }) || vm.fileTypes[0];
     }
 
+    /**
+     * Returns the value of `search` parameter in URL
+     * 
+     * @returns 
+     */
     function getSearchParameter() {
       var value = $stateParams.search;
       if (!value || value === NST_DEFAULT.STATE_PARAM) {
@@ -155,6 +208,12 @@
       return decodeURIComponent(value);
     }
 
+    /**
+     * Retrieves a list of files by the given limit, skip, keyword and filter
+     * and specifies that there are more files or not
+     * 
+     * @returns 
+     */
     function load() {
       vm.filesLoadProgress = true;
       vm.loadFilesError = false;
@@ -185,6 +244,11 @@
       return deferred.promise;
     }
 
+    /**
+     * Opens the attachment viewer modal
+     * 
+     * @param {any} file 
+     */
     function preview(file) {
 
       $uibModal.open({
@@ -218,6 +282,10 @@
 
     }
 
+    /**
+     * Loads more files 
+     * 
+     */
     function loadMore() {
       if (vm.hasNextPage) {
         vm.loadMoreCounter++;
@@ -226,6 +294,12 @@
       }
     }
 
+    /**
+     * Adds the selected item to selected files list and calculates the total immediately size
+     * 
+     * @param {any} fileIds 
+     * @param {any} el 
+     */
     function onSelect(fileIds, el) {
       if (onSelectTimeout) {
         $timeout.cancel(onSelectTimeout);
@@ -241,6 +315,10 @@
       });
     };
 
+    /**
+     * Opens a compose modal with the selected attachments
+     * 
+     */
     function composeWithAttachments() {
       $state.go('app.compose', {attachments: vm.selectedFiles}, {notify: false});
     }
@@ -250,9 +328,9 @@
         $timeout.cancel(onSelectTimeout);
       }
 
-      _.forEach(eventReferences, function (cenceler) {
-        if (_.isFunction(cenceler)) {
-          cenceler();
+      _.forEach(eventReferences, function (canceler) {
+        if (_.isFunction(canceler)) {
+          canceler();
         }
       });
 

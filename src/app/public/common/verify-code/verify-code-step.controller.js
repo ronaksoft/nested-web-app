@@ -1,3 +1,13 @@
+/**
+ * @file src/app/public/common/verify-code/verify-code-step.controller.js
+ * @author Soroush Torkzadeh <sorousht@nested.me>
+ * @description A message was sent to the user that contains a verification code. She writes the code and verifies
+ * her phone number. Then she is able to proceed the next step e.g. registration or password recovery.
+ * Documented by:          Soroush Torkzadeh <sorousht@nested.me>
+ * Date of documentation:  2017-08-05
+ * Reviewed by:            -
+ * Date of review:         -
+ */
 (function() {
   'use strict';
 
@@ -6,6 +16,22 @@
     .controller('VerifyCodeStepController', VerifyCodeStepController);
 
   /** @ngInject */
+  /**
+   * Gives the user an input to enter her Nested veriufication code
+   * 
+   * @param {any} $scope 
+   * @param {any} $state 
+   * @param {any} $timeout 
+   * @param {any} $stateParams 
+   * @param {any} md5 
+   * @param {any} toastr 
+   * @param {any} NST_DEFAULT 
+   * @param {any} NST_PATTERN 
+   * @param {any} NstSvcAuth 
+   * @param {any} NstHttp 
+   * @param {any} $q 
+   * @param {any} NstSvcTranslation 
+   */
   function VerifyCodeStepController($scope, $state, $timeout, $stateParams, md5, toastr, NST_DEFAULT, NST_PATTERN, NstSvcAuth, NstHttp, $q, NstSvcTranslation) {
     var vm = this;
 
@@ -19,14 +45,29 @@
       vm.ready = true;
     })();
 
+    /**
+     * Emits an event that leads to moving forward
+     * 
+     */
     function nextStep() {
       eventReferences.push($scope.$emit(vm.onCompleted, { verified : true }));
     }
 
+    /**
+     * Emits an event that leads to moving backward
+     * 
+     */
     function previousStep() {
       eventReferences.push($scope.$emit(vm.onPrevious, { phone : vm.phone }));
     }
 
+    /**
+     * Resends a message that contains the verification code
+     * 
+     * @param {any} verificationId 
+     * @param {any} phoneNumber 
+     * @returns 
+     */
     function resendVerificationCode(verificationId, phoneNumber) {
       var deferred = $q.defer();
 
@@ -49,6 +90,10 @@
       return deferred.promise;
     }
 
+    /**
+     * Resends the verification code via SMS and notifies the user
+     * 
+     */
     function resend() {
       resendVerificationCode(vm.verificationId, vm.phone).then(function() {
         toastr.success(NstSvcTranslation.get("Verification code has been sent again."));
@@ -57,6 +102,13 @@
       });
     }
 
+    /**
+     * A machine reads the verification code over the phone by calling the given phone number
+     * 
+     * @param {any} verificationId 
+     * @param {any} phoneNumber 
+     * @returns 
+     */
     function callForVerification(verificationId, phoneNumber) {
       var deferred = $q.defer();
 
@@ -79,6 +131,10 @@
       return deferred.promise;
     }
 
+    /**
+     * Requests for a call
+     * 
+     */
     function callMe() {
       callForVerification(vm.verificationId, vm.phone).then(function() {
         toastr.success(NstSvcTranslation.get("We are calling you now!"));
@@ -87,6 +143,13 @@
       });
     }
 
+    /**
+     * Sends the verification code to Cyrus
+     * 
+     * @param {any} verificationId 
+     * @param {any} code 
+     * @returns 
+     */
     function verifyCode(verificationId, code) {
       var deferred = $q.defer();
       var request = new NstHttp('', {
@@ -112,7 +175,8 @@
 
       return deferred.promise;
     }
-
+    // verifies and moves to the next step if
+    // the phone number has been verified successfully.
     vm.verify = function() {
       verifyCode(vm.verificationId, vm.verificationCode).then(function() {
         nextStep();
