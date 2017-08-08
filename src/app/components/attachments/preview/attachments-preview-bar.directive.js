@@ -5,7 +5,7 @@
     .module('ronak.nested.web.components.attachment')
     .directive('nstAttachmentsPreviewBar', AttachmentsPreviewBar);
 
-  function AttachmentsPreviewBar($timeout, $interval, toastr, $q, $stateParams,
+  function AttachmentsPreviewBar($timeout, $interval, toastr, $q, $stateParams, $rootScope, 
                                  NST_FILE_TYPE, NST_ATTACHMENTS_PREVIEW_BAR_MODE, NST_ATTACHMENTS_PREVIEW_BAR_ORDER, NST_STORE_ROUTE,
                                  NstSvcStore, NstSvcFileFactory) {
     return {
@@ -29,6 +29,7 @@
         var interval, pwTimeout;
         var moves = [];
         var borderLeftArray=[],borderRightArray=[];
+        var audioDOMS = [];
     
         if (modeIsValid(scope.mode)) {
           scope.internalMode = scope.mode;
@@ -205,8 +206,60 @@
           }, 1);
         };
 
-        scope.playAudio = function () {
-          // console.log('aa');
+        function revertPlayFlag(id){
+          
+          var playedOne = scope.items.find(function(item){
+            return item.id === id;
+          });
+          playedOne.isPlay = false
+        }
+
+        scope.$on('play-audio', function (e, d){
+          _.remove(audioDOMS, function(item) {
+            return d.id !== item.className;
+          }).forEach(function (i){
+            i.pause();
+            i.remove();
+            revertPlayFlag(i.className);
+          });
+        });
+
+        scope.playAudio = function (item) {
+          
+          var alreadyPlayed = audioDOMS.find(function (audioDOM) {
+            return audioDOM.className === item.id;
+          })
+          if ( alreadyPlayed ) {
+            alreadyPlayed.pause();
+            alreadyPlayed.remove();
+            item.isPlay = false;
+            _.remove(audioDOMS, function(n) {
+              return n.className === item.id;
+            });
+            return ;
+          }
+          item.isPlay = true;
+          var audio = document.createElement('audio');
+          audio.style.display = "none";
+          audio.className = item.id;
+          audio.autoplay = true;
+
+          getToken(item.id).then(function (token) {
+            audio.src = NstSvcStore.resolveUrl(NST_STORE_ROUTE.VIEW, item.id, token);
+            document.body.appendChild(audio);
+            $rootScope.$broadcast('play-audio', item);
+            audioDOMS.push(audio);
+
+            audio.onended = function(){
+              item.isPlay = false;
+              audio.remove() //Remove when played.
+              _.remove(audioDOMS, function(n) {
+                return n.className === item.id;
+              });
+            };
+          }).catch(function (error) {
+            toastr.error('Sorry, An error has occured while playing the audio');
+          });
         }
 
         // function scrollLeft(count, k) {

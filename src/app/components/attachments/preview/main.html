@@ -35,9 +35,12 @@
           <p>{{item.extension | uppercase}}</p>
           <span class="attsize">{{item.size | bytes:2}}</span>
         </div>
-        <span class="playbtn" ng-click="playAudio(item);">
-          <svg class="_24svg">
+        <span class="playbtn" ng-click="playAudio(item);$event.stopPropagation();">
+          <svg class="_24svg" ng-if="!item.isPlay">
             <use xlink:href="/assets/icons/nst-icn24.svg#play"></use>
+          </svg>
+          <svg class="_24svg" ng-if="item.isPlay">
+            <use xlink:href="/assets/icons/nst-icn24.svg#pause"></use>
           </svg>
         </span>
       </div>
