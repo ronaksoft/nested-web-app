@@ -1,12 +1,12 @@
 <div class="label-sm-modal">
     <h4>Create a Label</h4>
     <Label>Label Name</Label>
-    <input type="text">
+    <input ng-model="createCtrl.title" type="text">
     <Label>Label Color</Label>
     <!--<input type="text" class="label-color">-->
     <div class="_pr _fw label-color">
-        <select name="lang" ng-model="ctrl.color" ng-change="ctrl.changeColor(ctrl.locale)">
-            <option selected value="A">- Default -</option>
+        <select name="lang" ng-model="createCtrl.code">
+            <option value="A">- Default -</option>
             <option value="B">Green</option>
             <option value="C">Yellow</option>
             <option value="D">Red</option>
@@ -14,21 +14,21 @@
             <option value="F">Blue</option>
             <option value="G">Aquamarine</option>
         </select>
-        <svg class="_16svg mirror _fn color-lbl-{{ctrl.code}}">
+        <svg class="_16svg mirror _fn color-lbl-{{createCtrl.code}}">
             <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
         </svg>
     </div>
     <Label><translate>Holders</translate></Label>
     <div class="holders-radio">
-        <input type="radio" ng-model="ctrl.holderType" value="specific" id="create-label-specific" name="selector">
+        <input type="radio" ng-model="createCtrl.holderType" value="specific" id="create-label-specific" name="selector">
         <label for="create-label-specific"><translate>Specific Users</translate></label>
-        <input type="radio" ng-model="ctrl.holderType" value="all" id="create-label-all" name="selector">
+        <input type="radio" ng-model="createCtrl.holderType" value="all" id="create-label-all" name="selector">
         <label for="create-label-all"><translate>Public</translate></label>
     </div>
-    <div class="_df _fw input-select-match" ng-if="ctrl.holderType == 'specific'">
-        <ui-select minimum-input-length="4" multiple limit="{{ctrl.targetLimit}}"  class="address-input _dib"
-         data-ng-model="ctrl.specificHolders">
-          <ui-select-match placeholder="{{::ctrl.userSelectPlaceHolder}}" compose-match-item class="match-items">
+    <div class="_df _fw input-select-match" ng-if="createCtrl.holderType == 'specific'">
+        <ui-select minimum-input-length="4" multiple limit="{{createCtrl.targetLimit}}"  class="address-input _dib"
+         data-ng-model="createCtrl.specificHolders">
+          <ui-select-match placeholder="{{::createCtrl.userSelectPlaceHolder}}" compose-match-item class="match-items">
             <div class="selected-innter">
               <span class="place-img">
                 <img ng-src="{{$item.picture}}"/>
@@ -36,7 +36,7 @@
               <span class="place-name">{{$item.name}}</span>
             </div>
           </ui-select-match>
-          <ui-select-choices refresh="ctrl.search.fn($select.search)"
+          <ui-select-choices refresh="createCtrl.search.fn($select.search)"
                              refresh-delay="0"
                              repeat="place as place in ctlCompose.search.results track by $index">
             <div class="place-initials-32">
@@ -48,11 +48,11 @@
           </ui-select-choices>
         </ui-select>
     </div>
-    <div class="_df _fw holders-all-msg" ng-if="ctrl.holderType == 'all'">
+    <div class="_df _fw holders-all-msg" ng-if="createCtrl.holderType == 'all'">
         <translate>All users on your company can use this label.</translate>
     </div>
     <div class="modal-footer">
         <input type="button" ng-click="$dismiss()"  value="Discard" class="butn-white">
-        <input type="button" ng-disabled="ctrl.isNotValid()" ng-click="ctrl.createLabel()" value="Create" class="butn-green">
+        <input type="button" ng-disabled="createCtrl.isNotValid()" ng-click="createCtrl.createLabel()" value="Create" class="butn-green">
     </div>
 </div>

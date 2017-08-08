@@ -66,9 +66,9 @@
       }).catch(function (error) {
         toastr.error(NstSvcTranslation.get("Something went wrong."));
       }).finally(function () {
-        $scope.$dismiss();
+        // $scope.$dismiss();
+        $uibModalInstance.close(true);
       });
-      //TODO: update label list in previous modal after alerting this label
     }
 
     function addHolder(role) {
@@ -91,9 +91,9 @@
       }).catch(function (error) {
         toastr.error(NstSvcTranslation.get("Something went wrong."));
       }).finally(function () {
-        $scope.$dismiss();
+        $uibModalInstance.close(true);
+        // $scope.$dismiss();
       });
-      //TODO: update label list in previous modal after alerting this label
     }
   }
 
