@@ -63,8 +63,8 @@
           <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
         </svg>
       </div>
-      <div class="req-body">
-        <cite>
+      <div class="req-body">{{ctrl.labelManager ? '' : 'color-lbl-' + request.label.code }}
+        <cite class="{{ctrl.labelManager ? '' : 'color-lbl-' + {{request.label.code}}}}">
           {{request.label.title}}
         </cite>
       </div>
