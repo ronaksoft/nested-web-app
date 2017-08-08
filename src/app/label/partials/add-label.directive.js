@@ -9,6 +9,10 @@
   function addLabel($location, $rootScope, $uibModal) {
     return {
       restrict: 'EA',
+      scope: {
+        afterAddLabel : '=',
+        addedLabels : '=',
+      },
       link: function($scope, $element, $attrs) {
         $element[0].addEventListener("click", onClickHandler);
 
@@ -23,7 +27,15 @@
                 size: 'lg-white multiple',
                 templateUrl: 'app/label/partials/add-label.html',
                 controller: 'addLabelController',
-                controllerAs: 'ctrl'
+                controllerAs: 'ctrl',
+                resolve: {
+                  argv: {
+                    addedLabels: $scope.addedLabels
+                  }
+                }
+            }).result.then(function(items){
+              // console.log(items);
+              $scope.afterAddLabel(items);
             })
         }
         $scope.$on('$destroy', function () {

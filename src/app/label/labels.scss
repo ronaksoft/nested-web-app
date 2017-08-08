@@ -120,6 +120,14 @@
                 }
             }
         }
+        &.requests.pending {
+            li {
+                height: 48px;
+                .req-body {
+                    padding-top: 0;
+                }
+            }
+        }
         &.labels {
             li {
                 height: 48px;

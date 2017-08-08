@@ -204,6 +204,7 @@
         content_type: post.contentType,
         subject: post.subject,
         body: post.body,
+        post_labels: post.labels,
         no_comment : post.noComment
       };
 

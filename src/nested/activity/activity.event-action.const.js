@@ -11,14 +11,17 @@
       PLACE_ADD: 16,
       // POST
       POST_ADD: 256,
-      POST_COPY: 257,
-      POST_RETRACT: 258,
-      POST_UPDATE: 259,
+      // POST_COPY: 257,
+      // POST_RETRACT: 258,
+      // POST_UPDATE: 259,
       POST_ATTACH_PLACE: 260,
       POST_REMOVE_PLACE: 261,
       POST_MOVE: 262,
       // COMMENT
       COMMENT_ADD: 2048,
-      COMMENT_REMOVE: 2049
+      COMMENT_REMOVE: 2049,
+      // LABEL
+      LABEL_ADD: 263,
+      LABEL_REMOVE: 264,
     });
 })();
