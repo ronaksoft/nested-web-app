@@ -48,6 +48,11 @@
         case NST_EVENT_ACTION.COMMENT_REMOVE:
           return parseRemoveComment(data);
 
+        case NST_EVENT_ACTION.LABEL_ADD:
+          return parseAddLabel(data);
+        case NST_EVENT_ACTION.LABEL_REMOVE:
+          return parseRemoveLabel(data);
+
         case NST_EVENT_ACTION.POST_ADD:
           return parsePostAdd(data);
         case NST_EVENT_ACTION.POST_ATTACH_PLACE:
@@ -196,6 +201,51 @@
         activity.date = new Date(data.timestamp);
         activity.post = resultSet[0];
         activity.comment = resultSet[1];
+        deferred.resolve(activity);
+      }).catch(function (error) {
+        deferred.resolve(null);
+        NstSvcLogger.error("Activity Factory GET:" , error)
+      });
+
+      return deferred.promise;
+    }
+
+    function parseAddLabel(data) {
+
+      var deferred = $q.defer();
+      console.log(data);
+      var labelPromise = NstSvcLabelFactory.get(data.place_id);
+      var actorPromise = NstSvcUserFactory.getTiny(data.actor_id);
+
+      $q.all([labelPromise, actorPromise]).then(function (resultSet) {
+        var activity = new NstActivity();
+        activity.id = data._id;
+        activity.type = data.action;
+        activity.date = new Date(data.timestamp);
+        activity.label = resultSet[0];
+        activity.actor = resultSet[1];
+        deferred.resolve(activity);
+      }).catch(function (error) {
+        deferred.resolve(null);
+        NstSvcLogger.error("Activity Factory GET:" , error)
+      });
+
+      return deferred.promise;
+    }
+
+    function parseRemoveLabel(data) {
+
+      var deferred = $q.defer();
+      var labelPromise = NstSvcLabelFactory.get(data.place_id);
+      var actorPromise = NstSvcUserFactory.getTiny(data.actor_id);
+
+      $q.all([labelPromise, actorPromise]).then(function (resultSet) {
+        var activity = new NstActivity();
+        activity.id = data._id;
+        activity.type = data.action;
+        activity.date = new Date(data.timestamp);
+        activity.label = resultSet[0];
+        activity.actor = resultSet[1];
         deferred.resolve(activity);
       }).catch(function (error) {
         deferred.resolve(null);
