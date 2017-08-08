@@ -56,6 +56,7 @@
     vm.toggleMoveTo = toggleMoveTo;
     vm.untrustSender = untrustSender;
     vm.alwaysTrust = alwaysTrust;
+    vm.addLabels = addLabels;
 
     vm.expandProgress = false;
     vm.body = null;
@@ -615,7 +616,7 @@
        * determine the post have unloaded comments or not
        */
       vm.hasOlderComments = (vm.post.counters.comments && vm.post.comments) ? vm.post.counters.comments > vm.post.comments.length : false;
-
+      console.log(vm.post);
       vm.body = vm.post.body;
       vm.orginalPost = vm.post;
 
@@ -701,6 +702,14 @@
       });
     });
 
+    /**
+     * add labels to post
+     * @param {any} items
+     */
+    function addLabels(items){
+      console.log(items);
+      // TODO call server APi
+    }
 
     /**
      * open post chains

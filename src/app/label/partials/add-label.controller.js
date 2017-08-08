@@ -15,28 +15,30 @@
     vm.labelSelectPlaceHolder = 'Select from below or type label name…';
     vm.targetLimit = 8;
     vm.haveMore = false;
+    vm.searchFn = search;
     vm.search = {};
     vm.setting = {
       skip: 0,
       limit: 8,
-      keyword: '',
       filter: 'all',
     }
     vm.selectedLabels = argv.addedLabels.length > 0 ? argv.addedLabels : [];
+    vm.firstItemsLength = vm.selectedLabels.length;
 
     (function (){
-      search();
+      search('');
     })();
 
     vm.submitLabels = function (){
       $uibModalInstance.close(vm.selectedLabels);
     }
 
-    function search(){
-      NstSvcLabelFactory.search(vm.setting.keyword, vm.setting.filter, vm.setting.skip, vm.setting.limit).then(function (items){
+    function search(keyword){
+      NstSvcLabelFactory.search(keyword, vm.setting.filter, vm.setting.skip, vm.setting.limit).then(function (items){
         vm.search.results = items;
       });
     }
+    
   }
 
 })();

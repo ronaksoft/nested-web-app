@@ -8,7 +8,7 @@
             {{ctrl.selectedLabels.length | localize}}/{{10 | localize}}
         </p>
     </h4>
-    <ui-select minimum-input-length="4" multiple limit="{{ctrl.targetLimit}}" alway-show-list class="label-search _dib"
+    <ui-select minimum-input-length="4" multiple limit="{{ctrl.targetLimit}}" always-show-list class="label-search _dib"
         data-ng-model="ctrl.selectedLabels">
         <ui-select-match placeholder="{{::ctrl.labelSelectPlaceHolder}}" class="label-items">
             <div class="selected-innter color-lbl-bg-{{$item.code}}">
@@ -16,7 +16,7 @@
             </div>
         </ui-select-match>
         <!--{{$select.open = true;""}}-->
-        <ui-select-choices refresh="ctrl.search.fn($select.search)"
+        <ui-select-choices refresh="ctrl.searchFn($select.search)"
                             refresh-delay="0"
                             repeat="label as label in ctrl.search.results track by $index">
             <svg class="_16svg mirror _fn color-lbl-{{label.code}}">
@@ -32,6 +32,6 @@
         <translate ng-if="ctrl.haveMore">Show more…</translate>
     </div>
     <div class="modal-footer">
-        <input type="button" class="butn-green" ng-disabled="ctrl.selectedLabels.length === 0" value="Done" ng-click="ctrl.submitLabels();" translate-attrs="value">
+        <input type="button" class="butn-green" ng-disabled="ctrl.selectedLabels.length === ctrl.firstItemsLength" value="Done" ng-click="ctrl.submitLabels();" translate-attrs="value">
     </div>
 </div>

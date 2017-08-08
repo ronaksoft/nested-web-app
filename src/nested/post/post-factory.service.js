@@ -204,7 +204,7 @@
         content_type: post.contentType,
         subject: post.subject,
         body: post.body,
-        post_labels: post.labels,
+        label_id: post.labels,
         no_comment : post.noComment
       };
 
@@ -384,6 +384,7 @@
       post.noComment = data.no_comment;
       post.watched = data.watched;
       post.isTrusted = data.is_trusted;
+      post.labels = data.post_labels;
 
 
       var resources = {};
