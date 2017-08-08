@@ -20,13 +20,13 @@ fi
 if  [[ -n "${NST_TLS_KEY_FILE}" && -n "${NST_TLS_CERT_FILE}" ]] ; then
      if  [[ -f $NST_TLS_CERT_FILE && -f $NST_TLS_KEY_FILE ]]; then
         echo "Webapp started over SSL" ;
-        ws -p 80 -s redirect-to-safe-mode.html -c ./.local-web-server.json &
-        ws -p 443 --cert $NST_TLS_CERT_FILE --key $NST_TLS_KEY_FILE -c ./.local-web-server.json --ciphers="EECDH+AES128:EECDH+3DES:EDH+3DES:!SSLv2:!MD5:!DSS:!aNULL" --secure-protocol="TLSv1_2_method";
+        ws -p 80 -s redirect-to-safe-mode.html -c lws.config.js  -v&
+        ws -p 443 --cert $NST_TLS_CERT_FILE --key $NST_TLS_KEY_FILE -c lws.config.js -v --ciphers="EECDH+AES128:EECDH+3DES:EDH+3DES:!SSLv2:!MD5:!DSS:!aNULL" --secure-protocol="TLSv1_2_method";
      else
         echo "Webapp started without SSL" ;
-        ws -p 80 -c ./.local-web-server.json;
+        ws -p 80 -c lws.config.js -v;
      fi ;
 else
      echo "Webapp started without SSL" ;
-     ws -p 80 -c ./.local-web-server.json;
+     ws -p 80 -c lws.config.js -v;
 fi
