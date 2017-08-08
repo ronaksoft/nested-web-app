@@ -28,6 +28,24 @@
         </div>
       </div>
     </a>
+    <a href="javascript:void(0);" ng-click="onClick(item);$event.stopPropagation()" ng-if="item.type !== 'image' && item.type !== 'gif' && item.uploadType === 'VOICE'">
+      <div class="attach-thumbnail {{'attach-thumbnail-' + item.type}}">
+        <div class="file-name"><p>{{item.filename}}</p></div>
+        <div class="detail">
+          <p>{{item.extension | uppercase}}</p>
+          <span class="attsize">{{item.size | bytes:2}}</span>
+        </div>
+        <span class="playbtn" ng-click="playAudio(item);$event.stopPropagation();">
+          <svg class="_24svg" ng-if="!item.isPlay">
+            <use xlink:href="/assets/icons/nst-icn24.svg#play"></use>
+          </svg>
+          <svg class="_24svg" ng-if="item.isPlay">
+            <use xlink:href="/assets/icons/nst-icn24.svg#pause"></use>
+          </svg>
+        </span>
+      </div>
+      
+    </a>
     <a href="javascript:void(0);" ng-click="download(item);$event.stopPropagation()" class="attdl">
       <svg class="_16svg">
         <use xlink:href="/assets/icons/nst-icn16.svg#downloads"></use>

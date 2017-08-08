@@ -1,0 +1,109 @@
+.manage-label {
+    flex-direction: column;
+    display: flex;
+    .labels-headline {
+        display: flex;
+        margin-top: 40px;
+        margin-bottom: 24px;
+        h3 {
+            font-size: 20px;
+            line-height: 24px;
+            font-weight: 400;
+            margin: 0;
+        }
+    }
+    .lbl-search {
+        display: flex;
+        margin: 16px 0;
+        position: relative;
+        width: 100%;
+        input {
+            height: 32px;
+            margin: 0;
+            padding-left: 32px;
+            border-color: $color-breeze-new;
+            &::focus {
+                border-width: 1px;
+            }
+        }
+        i {
+            position: absolute;
+            top: calc(50% - 8px);
+            left: 8px;
+            opacity: .4;
+        }
+    }
+    .lbl-cr8 {
+        white-space: nowrap;
+        margin-left: 24px;
+        padding: 0 8px;
+        line-height: 24px;
+        color: $color-solid-64;
+        display: flex;
+        height: 32px;
+        align-items: center;
+        svg {
+            fill: $color-gale-new;
+        }
+    }
+    h4 {
+        margin: 8px -8px;
+        line-height: 24px;
+        font-size: 12px;
+        font-weight: bold;
+        padding: 0 6px;
+        background-color: $color-breeze-5-new;
+        border-radius: 4px;
+        color: $color-solid;    
+    }
+    ul {
+        margin: 0 -32px;
+        li {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            position: relative;
+            hr {
+                position: absolute;
+                border-color: $color-breeze-5-new;
+                bottom: 0;
+                right: 0;
+                margin: 0;
+                width: calc(100% - 48px)
+            }
+        }
+        &.requests {
+            li {
+                height: 64px;
+                .icon {
+                    width: 48px;
+                    padding: 12px 16px;
+                }
+                .req-body {
+                    padding-top: 8px;
+                    display: flex;
+                    width: 100%;
+                    flex-direction: column;
+                    cite {
+                        font-size: 16px;
+                        font-weight: bold;
+                        line-height: 19px;
+                        font-style: normal;
+                    }
+                    p {
+                        margin: 4px 0 0 0;
+                        color: $color-new-hurricane;
+                    }
+                }
+                .actions {
+                    display: flex;
+                    flex: none;
+                    padding-right: 16px;
+                    svg {
+                        margin-left: 24px;
+                    }
+                }
+            }
+        }
+    }
+}

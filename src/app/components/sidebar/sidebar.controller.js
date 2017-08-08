@@ -68,6 +68,22 @@
       };
 
       /**
+       * @function goLabelRoute
+       * Opens the label manager modal
+       * @param {any} $event
+       */
+      vm.goLabelRoute = function ($event) {
+        $event.preventDefault();
+        $uibModal.open({
+          animation: false,
+          size: 'lg-white',
+          templateUrl: 'app/label/manage-label.html',
+          controller: 'manageLabelController',
+          controllerAs: 'ctrl'
+        })
+      };
+
+      /**
        * Checks the current state is `unreads` page or not
        */
       vm.isUnread = function () {
