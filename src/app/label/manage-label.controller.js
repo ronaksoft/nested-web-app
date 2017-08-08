@@ -12,11 +12,13 @@
 
     var vm = this;
     vm.keyword = '';
-    vm.labelManager = false;
+    vm.labelManager = true;
     vm.labels = [];
     vm.requestList = [];
     vm.pendingRequestList = [];
     vm.editLabel = editLabel;
+    vm.createLabel = createLabel;
+    vm.requestLabel = requestLabel;
     vm.declineRequest = declineRequest;
     vm.acceptRequest = acceptRequest;
     vm.withdrawRequest = withdrawRequest;
@@ -98,7 +100,33 @@
           }
         }
       }).result.then(function (result) {
-        console.log(result);
+        if (result) {
+          searchLabel();
+        }
+      });
+    }
+
+    function createLabel() {
+      $uibModal.open({
+        animation: false,
+        size: 'lg-white multiple',
+        templateUrl: 'app/label/partials/create-label.html',
+        controller: 'createLabelController',
+        controllerAs: 'createCtrl'
+      }).result.then(function (result) {
+        if (result) {
+          searchLabel();
+        }
+      });
+    }
+
+    function requestLabel() {
+      $uibModal.open({
+        animation: false,
+        size: 'lg-white multiple',
+        templateUrl: 'app/label/partials/request-label.html',
+        controller: 'requestLabelController',
+        controllerAs: 'requestCtrl'
       });
     }
 
@@ -145,7 +173,6 @@
         vm.requestList.splice(index, 1);
       }
     }
-
   }
 
 })();

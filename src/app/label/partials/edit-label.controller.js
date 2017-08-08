@@ -69,7 +69,6 @@
         // $scope.$dismiss();
         $uibModalInstance.close(true);
       });
-      //TODO: update label list in previous modal after alerting this label
     }
 
     function addHolder(role) {
@@ -85,8 +84,6 @@
     }
 
     function removeLabel() {
-      $uibModalInstance.close(true);
-      return;
       NstSvcLabelFactory.remove(vm.id).then(function (result) {
         if (result.status === 'ok') {
           toastr.success(NstSvcTranslation.get("Label removed successfully."));
@@ -97,7 +94,6 @@
         $uibModalInstance.close(true);
         // $scope.$dismiss();
       });
-      //TODO: update label list in previous modal after alerting this label
     }
   }
 

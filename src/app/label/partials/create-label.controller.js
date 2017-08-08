@@ -6,7 +6,7 @@
     .controller('createLabelController', createLabelController);
 
   function createLabelController($timeout, $scope, $q, $uibModalInstance,
-    moment, toastr, _, NstSvcLabelFactory, NstSvcTranslation, NstUtility) {
+    toastr, _, NstSvcLabelFactory, NstSvcTranslation) {
 
     var vm = this;
     vm.code = 'A';
@@ -45,7 +45,8 @@
       }).catch(function (error) {
         toastr.error(NstSvcTranslation.get("Something went wrong."));
       }).finally(function () {
-        $scope.$dismiss();
+        $uibModalInstance.close(true);
+        // $scope.$dismiss();
       });
     }
   }
