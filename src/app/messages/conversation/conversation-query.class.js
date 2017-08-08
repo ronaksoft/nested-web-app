@@ -3,7 +3,7 @@
 
   angular
     .module('ronak.nested.web.message')
-    .factory('NstSearchQuery', NstSearchQuery);
+    .factory('NstSearchQueryDeprecated', NstSearchQuery);
 
   /** @ngInject */
   function NstSearchQuery(NstObject, NST_SEARCH_QUERY_PREFIX) {

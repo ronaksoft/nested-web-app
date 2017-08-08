@@ -35,6 +35,7 @@
     PostFactory.prototype.parsePost = parsePost;
     PostFactory.prototype.getMessage = getMessage;
     PostFactory.prototype.search = search;
+    PostFactory.prototype.newSearch = newSearch;
     PostFactory.prototype.pin = pin;
     PostFactory.prototype.unpin = unpin;
     PostFactory.prototype.getChainMessages = getChainMessages;
@@ -612,18 +613,51 @@
         skip: skip
       });
 
-      NstSvcServer.request('search/posts', {
-        keywords: queryString,
+      return factory.sentinel.watch(function () {
+        NstSvcServer.request('search/posts', {
+          keywords: queryString,
+          limit: limit || 8,
+          skip: skip || 0
+        }).then(function (result) {
+          var postPromises = _.map(result.posts, parsePost);
+          $q.all(postPromises).then(defer.resolve).catch(defer.reject);
+        }).catch(function (error) {
+          defer.reject(new NstFactoryError(query, '', error.getCode(), error));
+        });
+
+        return defer.promise;
+      }, 'searchPost', 'old');
+    }
+
+    function newSearch(places, users, labels, keywords, limit, skip) {
+      var defer = $q.defer();
+      var query = new NstFactoryQuery(null, {
+        advanced: true,
+        place_id: places,
+        sender_id: users,
+        label_id: labels,
+        keyword: keywords,
         limit: limit || 8,
         skip: skip || 0
-      }).then(function (result) {
-        var postPromises = _.map(result.posts, parsePost);
-        $q.all(postPromises).then(defer.resolve).catch(defer.reject);
-      }).catch(function (error) {
-        defer.reject(new NstFactoryError(query, '', error.getCode(), error));
       });
 
-      return defer.promise;
+      return factory.sentinel.watch(function () {
+        NstSvcServer.request('search/posts', {
+          advanced: true,
+          place_id: places,
+          sender_id: users,
+          label_id: labels,
+          keyword: keywords,
+          limit: limit || 8,
+          skip: skip || 0
+        }).then(function (result) {
+          var postPromises = _.map(result.posts, parsePost);
+          $q.all(postPromises).then(defer.resolve).catch(defer.reject);
+        }).catch(function (error) {
+          defer.reject(new NstFactoryError(query, '', error.getCode(), error));
+        });
+        return defer.promise;
+      }, 'searchPost', 'new');
     }
 
     function conversation(accountId, queryString, limit, skip) {
