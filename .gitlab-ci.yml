@@ -81,10 +81,10 @@ deploy:develop:
   services:
     - docker:dind
   variables:
-    IMAGE_TAG: "develop"
+    IMAGE_TAG: "dev"
   script:
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
-    - docker build --pull -t $CI_REGISTRY_IMAGE:IMAGE_TAG .
+    - docker build --pull -t $CI_REGISTRY_IMAGE:$IMAGE_TAG .
     - docker push $CI_REGISTRY_IMAGE:$IMAGE_TAG
   dependencies:
     - build:mobile
