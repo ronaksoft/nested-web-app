@@ -6,9 +6,9 @@
     .controller('addLabelController', addLabelController);
 
   function addLabelController($timeout, $scope, $q, $uibModalInstance,
-    moment, toastr, _,
+    moment, toastr, _, NstSvcLabelFactory,
     NstSvcPostFactory, NstSvcPlaceFactory, NstSvcTranslation, NstUtility,
-    NstTinyPlace) {
+    NstTinyPlace, argv) {
 
     var vm = this;
     vm.color = 'D';
@@ -16,34 +16,27 @@
     vm.targetLimit = 8;
     vm.haveMore = false;
     vm.search = {};
-    vm.selectedLabels = [
-      {
-        color : 'A',
-        name : 'Idea',
-      },
-      {
-        color : 'B',
-        name : 'ID Cards',
-      }
-    ];
-    vm.search.results = [
-      {
-        color : 'A',
-        name : 'Idea',
-      },
-      {
-        color : 'F',
-        name : 'sam',
-      },
-      {
-        color : 'G',
-        name : 'ple',
-      },
-      {
-        color : 'B',
-        name : 'ID Cards',
-      }
-    ];
+    vm.setting = {
+      skip: 0,
+      limit: 8,
+      keyword: '',
+      filter: 'all',
+    }
+    vm.selectedLabels = argv.addedLabels.length > 0 ? argv.addedLabels : [];
+
+    (function (){
+      search();
+    })();
+
+    vm.submitLabels = function (){
+      $uibModalInstance.close(vm.selectedLabels);
+    }
+
+    function search(){
+      NstSvcLabelFactory.search(vm.setting.keyword, vm.setting.filter, vm.setting.skip, vm.setting.limit).then(function (items){
+        vm.search.results = items;
+      });
+    }
   }
 
 })();
