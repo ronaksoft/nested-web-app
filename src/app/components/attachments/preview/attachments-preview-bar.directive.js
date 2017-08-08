@@ -213,7 +213,7 @@
           });
           playedOne.isPlay = false
         }
-
+        
         scope.$on('play-audio', function (e, d){
           _.remove(audioDOMS, function(item) {
             return d.id !== item.className;
@@ -224,6 +224,12 @@
           });
         });
 
+        scope.$on('$destroy', function () {
+          _.forEach(audioDOMS, function (item) {
+            item.pause();
+            item.remove();
+          });
+        });
         scope.playAudio = function (item) {
           
           var alreadyPlayed = audioDOMS.find(function (audioDOM) {
