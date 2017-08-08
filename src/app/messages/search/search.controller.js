@@ -8,11 +8,13 @@
   /** @ngInject */
   function SearchController($rootScope, $log, $stateParams, $state,
                             NST_DEFAULT, NstSvcPostFactory, NstSvcServer, NstSvcAuth,
-                            NstSearchQuery, NstVmFile) {
+                            NstSearchQuery, NstVmFile, $window) {
     var vm = this;
     var limit = 8;
     var skip = 0;
 
+    vm.newMethod = false;
+    vm.searchParams = [];
     vm.reachedTheEnd = false;
     vm.loading = false;
     vm.loadMessageError = false;
@@ -33,9 +35,10 @@
     (function () {
 
       var query = getUriQuery();
-      vm.queryString = query.toString();
-      var searchObj = new NstSearchQuery(vm.queryString);
-      vm.refererPlaceId = searchObj.getDefaultPlaceId();
+      vm.queryString = query.toString(false);
+      vm.refererPlaceId = query.getDefaultPlaceId();
+      vm.newMethod = query.isNewMethod();
+      vm.searchParams = query.getSearchParams();
       searchMessages(vm.queryString);
     })();
 
@@ -55,14 +58,16 @@
       if (!queryString || !sendKeyIsPressed(e) || element.attr("mention") === "true") {
         return;
       }
-
-      search(queryString);
+      var newMethod = (element.attr('mention-new-method') !== undefined);
+      search(queryString, newMethod);
     }
 
-    function search(queryString) {
+    function search(queryString, isNewMethod) {
       vm.messages.length = 0;
-      var query = new NstSearchQuery(queryString);
-      $state.go('app.search', { search : NstSearchQuery.encode(queryString) }).then(function (newState) {
+      var query = new NstSearchQuery(queryString, isNewMethod);
+      vm.newMethod = query.isNewMethod();
+      vm.searchParams = query.getSearchParams();
+      $state.go('app.search', { search : NstSearchQuery.encode(query.toString()) }).then(function (newState) {
         skip = 0;
         searchMessages(query.toString());
       });
@@ -77,10 +82,24 @@
       vm.loadMessageError = false;
       vm.reachedTheEnd = false;
 
-      NstSvcPostFactory.search(queryString, limit, skip).then(function (posts) {
+      var searchService = null;
+
+      if (vm.newMethod) {
+        searchService = NstSvcPostFactory.newSearch(
+          vm.searchParams.places.join(','),
+          vm.searchParams.users.join(','),
+          vm.searchParams.labels.join(','),
+          vm.searchParams.keywords.join(' '),
+          limit,
+          skip);
+      } else {
+        searchService = NstSvcPostFactory.search(queryString, limit, skip);
+      }
+
+      searchService.then(function (posts) {
 
         _.forEach(posts, function (message) {
-          if (!_.some(vm.messages, { id : message.id })){
+          if (!_.some(vm.messages, {id: message.id})) {
             vm.messages.push(message);
           }
         });

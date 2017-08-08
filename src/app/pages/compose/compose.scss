@@ -302,13 +302,14 @@
   display: inline-flex;
   flex-direction: row;
   flex: 1;
-  svg {
+  > svg ,
+  > * > svg {
     fill: $color-new-hurricane;
   }
   > * {
     margin: 0 8px 0 0;
   }
-  label:hover,svg:hover {
+  label:hover,>svg:hover,> * > svg:hover {
     fill: $color-solid;
   }
 }
@@ -325,6 +326,38 @@
   }
   .list-items {
     padding: 5px 8px;
+  }
+}
+.lbl-btn {
+  line-height: 24px;
+  margin-right: 16px;
+  svg {
+    margin-left: 4px;
+  }
+}
+.compose-lbl {
+  border: none;
+  bottom: 24px;
+  top: auto!important;
+  left: auto!important;
+  right: 0px;
+  transform: translateX(50%);
+  box-shadow: 0 0 16px $color-wind;
+  border-radius: 4px;
+  width: 136px;
+  label {
+    margin: 0;
+  }
+  .label-items {
+    height: 32px;
+    margin: 4px 8px;
+    display: flex;
+    border-radius: 4px;
+    padding: 4px;
+    align-items: center;
+    &.selected {
+      color: $color-white
+    }
   }
 }
 .quick-btns {

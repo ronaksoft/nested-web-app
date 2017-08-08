@@ -38,7 +38,7 @@
 
       </div>
       <div class="search">
-        <input type="text" nst-mention class="form-control" place-id="{{ctlFullNavbar.placeId}}"
+        <input type="text" nst-mention mention-new-method mention-enable-label class="form-control" place-id="{{ctlFullNavbar.placeId}}"
                 ng-keyup="ctlFullNavbar.search(ctlFullNavbar.searchQuery, $event);" ng-model="ctlFullNavbar.searchQuery"
                 search-placeholder-setter has-place="ctlFullNavbar.hasPlace()" place-name="ctlFullNavbar.title"/>
         <svg class="_24svg mirror _fn">
@@ -63,7 +63,7 @@
             <translate>Files</translate>
           </a>
         </nav>
-        
+
         <div class="cp-illu"></div>
       </div>
     </div>

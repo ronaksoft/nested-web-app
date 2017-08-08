@@ -1,9 +1,12 @@
 <div class="manage-label">
-  <div class="labels-headline _aic" bg-check="{{ctrl.place | picture:'x128'}}">
+  <div class="labels-headline _aic">
     <svg class="_24svg _df _r45 _fn" ng-click="$dismiss();">
       <use xlink:href="/assets/icons/nst-icn24.svg#cross"></use>
     </svg>
-    <h3 class="_df _fw"><translate>Manage Labels</translate></h3>
+    <h3 class="_df _fw">
+      <translate ng-if="ctrl.labelManager">Manage Labels</translate>
+      <translate ng-if="!ctrl.labelManager">My Labels</translate>
+    </h3>
   </div>
   <div class="_df _fw _aic">
     <div class="lbl-search">
@@ -12,59 +15,109 @@
           <use xlink:href="/assets/icons/nst-icn16.svg#search"></use>
         </svg>
       </i>
-      <input type="text" placeholder="Find Labels">
+      <input ng-keyup="ctrl.searchKeyUp()" ng-model="ctrl.keyword" type="text" placeholder="Find Labels">
     </div>
-    <div class="lbl-cr8">
-      <a href="">
-        <translate>New Label</translate>
-      </a>
-      <svg class="_24svg _df _fn">
-        <use xlink:href="/assets/icons/nst-icn24.svg#cross"></use>
+    <div ng-if="ctrl.labelManager" ng-click="ctrl.createLabel()" class="lbl-cr8" >
+      <a><translate>New Label</translate></a>
+      <svg class="_16svg _df _fn">
+        <use xlink:href="/assets/icons/nst-icn16.svg#cross"></use>' +
+      </svg>
+    </div>
+    <div ng-if="!ctrl.labelManager" ng-click="ctrl.requestLabel()"  class="lbl-cr8" >
+      <a><translate>Request a Label</translate></a>
+      <svg class="_16svg _df _fn">
+        <use xlink:href="/assets/icons/nst-icn16.svg#cross"></use>' +
       </svg>
     </div>
   </div>
-  <h4>Requests</h4>
-  <ul class="requests">
-    <li>
+  <h5 ng-if="ctrl.requestList.length > 0 || ctrl.pendingRequestList.length > 0" class="list-head">{{ctrl.labelManager ? '' : 'Pending '}}Requests</h5>
+  <ul class="requests" ng-if="ctrl.labelManager">
+    <li ng-repeat="request in ctrl.requestList">
       <hr/>
       <div class="icon">
-        <svg class="_16svg _df _fn fill-solid-24">
+        <svg class="_16svg _df _fn color-lbl-{{request.label.code}}">
           <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
         </svg>
       </div>
       <div class="req-body">
         <cite>
-          Top Secret
+          {{request.label.title}}
         </cite>
         <p>
-          <b>Regina Adam</b> want to reach this.
+          <span user-detail="request.user"><b>{{request.user.fullName}}</b></span> <translate>want to reach this.</translate>
         </p>
       </div>
       <div class="actions">
-        <svg class="_16svg _df _fn fill-solid-24">
-          <use xlink:href="/assets/icons/nst-icn16.svg#gear"></use>
+        <div ng-click="ctrl.editLabel(request.label)">
+          <svg class="_16svg _df _fn fill-solid-24">
+            <use xlink:href="/assets/icons/nst-icn16.svg#gear"></use>
+          </svg>
+        </div>
+        <div ng-click="ctrl.declineRequest(request.id)">
+          <svg class="_16svg _df _fn force">
+            <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
+          </svg>
+        </div>
+        <div ng-click="ctrl.acceptRequest(request.id)">
+          <svg class="_16svg _df _fn fill-sense-wire">
+            <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
+          </svg>
+        </div>
+      </div>
+    </li>
+  </ul>
+  <ul class="requests pending" ng-if="!ctrl.labelManager">
+    <li ng-repeat="request in ctrl.pendingRequestList">
+      <hr/>
+      <div class="icon">
+        <svg class="_16svg _df _fn color-lbl-{{request.label.code}}">
+          <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
         </svg>
+      </div>
+      <div class="req-body">
+        <cite class="{{ctrl.labelManager ? '' : 'color-lbl-' + request.label.code}}">
+          {{request.label.title}}
+        </cite>
+      </div>
+      <div ng-click="ctrl.withdrawRequest(request.id)" class="actions">
         <svg class="_16svg _df _fn force">
           <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
-        </svg>
-        <svg class="_16svg _df _fn fill-sense-wire">
-          <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
         </svg>
       </div>
     </li>
   </ul>
-  <h4>Labels</h4>
-  <ul>
-    <li>
-      <span>Important</span>
-      <div class="usage">
-        <svg class="_24svg _df _fn">
-          <use xlink:href="/assets/icons/nst-icn24.svg#cross"></use>
-        </svg>
-        <span>74</span>
+  <h5 class="list-head">Labels</h5>
+  <ul class="labels">
+    <li ng-repeat="label in ctrl.labels">
+      <hr/>
+      <div class="icon" ng-if="ctrl.labelManager">
+        <div class="select-card" ng-class="{'selected': label.selected}">
+          <input class="_fr" type="checkbox" id="label-select{{label.id}}" name="select"
+                ng-model="label.selected" ng-checked=""/>
+          <label class="_fw _df _asc setting" for="label-select{{label.id}}"></label>
+        </div>
       </div>
-      <div class="users">
-        evryone
+      <div class="label-details">
+        <span>{{label.title}}</span>
+      </div>
+      <div class="usage">
+        <svg class="_16svg _df _fn color-lbl-{{label.code}}">
+          <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
+        </svg>
+        <span>{{label.counters.posts}}</span>
+      </div>
+      <div ng-if="label.public" class="users">
+        <translate>everyone</translate>
+      </div>
+      <div ng-if="!label.public" class="users">
+        <div ng-repeat="user in label.topMembers" class="user-avatar-20">
+          <img ng-src="{{user | picture}}" alt="user.fullName" data-uib-tooltip="{{user.fullName}}" data-tooltip-append-to-body="true" data-tooltip-placement="top auto">
+        </div>
+      </div>
+      <div class="edit" ng-if="ctrl.labelManager">
+        <svg class="_16svg _df _fn" ng-click="ctrl.editLabel(label.id)">
+          <use xlink:href="/assets/icons/nst-icn16.svg#pencil"></use>
+        </svg>
       </div>
     </li>
   </ul>

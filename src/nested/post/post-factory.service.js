@@ -35,6 +35,7 @@
     PostFactory.prototype.parsePost = parsePost;
     PostFactory.prototype.getMessage = getMessage;
     PostFactory.prototype.search = search;
+    PostFactory.prototype.newSearch = newSearch;
     PostFactory.prototype.pin = pin;
     PostFactory.prototype.unpin = unpin;
     PostFactory.prototype.getChainMessages = getChainMessages;
@@ -44,6 +45,8 @@
     PostFactory.prototype.whoRead = whoRead;
     PostFactory.prototype.getCounters = getCounters;
     PostFactory.prototype.setNotification = setNotification;
+    PostFactory.prototype.addLabel = addLabel;
+    PostFactory.prototype.removeLabel = removeLabel;
 
     var factory = new PostFactory();
     return factory;
@@ -201,6 +204,7 @@
         content_type: post.contentType,
         subject: post.subject,
         body: post.body,
+        label_id: post.labels,
         no_comment : post.noComment
       };
 
@@ -380,6 +384,7 @@
       post.noComment = data.no_comment;
       post.watched = data.watched;
       post.isTrusted = data.is_trusted;
+      post.labels = data.post_labels;
 
 
       var resources = {};
@@ -610,18 +615,51 @@
         skip: skip
       });
 
-      NstSvcServer.request('search/posts', {
-        keywords: queryString,
+      return factory.sentinel.watch(function () {
+        NstSvcServer.request('search/posts', {
+          keywords: queryString,
+          limit: limit || 8,
+          skip: skip || 0
+        }).then(function (result) {
+          var postPromises = _.map(result.posts, parsePost);
+          $q.all(postPromises).then(defer.resolve).catch(defer.reject);
+        }).catch(function (error) {
+          defer.reject(new NstFactoryError(query, '', error.getCode(), error));
+        });
+
+        return defer.promise;
+      }, 'searchPost', 'old');
+    }
+
+    function newSearch(places, users, labels, keywords, limit, skip) {
+      var defer = $q.defer();
+      var query = new NstFactoryQuery(null, {
+        advanced: true,
+        place_id: places,
+        sender_id: users,
+        label_title: labels,
+        keyword: keywords,
         limit: limit || 8,
         skip: skip || 0
-      }).then(function (result) {
-        var postPromises = _.map(result.posts, parsePost);
-        $q.all(postPromises).then(defer.resolve).catch(defer.reject);
-      }).catch(function (error) {
-        defer.reject(new NstFactoryError(query, '', error.getCode(), error));
       });
 
-      return defer.promise;
+      return factory.sentinel.watch(function () {
+        NstSvcServer.request('search/posts', {
+          advanced: true,
+          place_id: places,
+          sender_id: users,
+          label_id: labels,
+          keyword: keywords,
+          limit: limit || 8,
+          skip: skip || 0
+        }).then(function (result) {
+          var postPromises = _.map(result.posts, parsePost);
+          $q.all(postPromises).then(defer.resolve).catch(defer.reject);
+        }).catch(function (error) {
+          defer.reject(new NstFactoryError(query, '', error.getCode(), error));
+        });
+        return defer.promise;
+      }, 'searchPost', 'new');
     }
 
     function conversation(accountId, queryString, limit, skip) {
@@ -764,6 +802,26 @@
           }).catch(reject);
         });
       });
+    }
+
+    function addLabel(postId, labelId) {
+      var watchKey = NstUtility.string.format("{0}-{1}", postId, labelId);
+      return this.sentinel.watch(function () {
+        return NstSvcServer.request('post/add_label', {
+          post_id: postId,
+          label_id: labelId,
+        });
+      }, "addLabel", watchKey);
+    }
+
+    function removeLabel(postId, labelId) {
+      var watchKey = NstUtility.string.format("{0}-{1}", postId, labelId);
+      return this.sentinel.watch(function () {
+        return NstSvcServer.request('post/remove_label', {
+          post_id: postId,
+          label_id: labelId,
+        });
+      }, "removeLabel", watchKey);
     }
   }
 })

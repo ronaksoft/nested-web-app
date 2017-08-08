@@ -1,0 +1,53 @@
+<div class="_difv">
+  <a ng-click="editCtrl.addHolder()" class="_df list-items _aic _fw">
+    <div class="_aic _df">
+      <svg class="_16svg">
+          <use xlink:href="/assets/icons/nst-icn16.svg#cross"></use>
+      </svg>
+    </div>
+    <div class="_df _fh text-wrap">
+      <translate>Add Holders</translate>
+    </div>
+  </a>
+  <a ng-if="editCtrl.holderType == 'specific'" ng-click="editCtrl.removeAllHolders()" class="_df list-items _aic _fw">
+    <div class="_aic _df">
+      <svg class="_16svg">
+          <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
+      </svg>
+    </div>
+    <div class="_df _fh text-wrap">
+      <translate>Remove all Holders</translate>
+    </div>
+  </a>
+  <hr/>
+  <a ng-if="editCtrl.holderType == 'specific'" ng-click="editCtrl.setHolderType('all')" class="_df list-items _aic _fw">
+    <div class="_aic _df">
+      <svg class="_16svg">
+          <use xlink:href="/assets/icons/nst-icn16.svg#earth"></use>
+      </svg>
+    </div>
+    <div class="_df _fh text-wrap">
+      <translate>Change to Public</translate>
+    </div>
+  </a>
+  <a ng-if="editCtrl.holderType == 'all'" ng-click="editCtrl.setHolderType('specific')" class="_df list-items _aic _fw">
+    <div class="_aic _df">
+      <svg class="_16svg">
+          <use xlink:href="/assets/icons/nst-icn16.svg#lock"></use>
+      </svg>
+    </div>
+    <div class="_df _fh text-wrap">
+      <translate>Change to Private</translate>
+    </div>
+  </a>
+  <a ng-click="editCtrl.removeLabel()"  class="_df list-items force _aic _fw">
+    <div class="_aic _df">
+      <svg class="_16svg">
+          <use xlink:href="/assets/icons/nst-icn16.svg#bin"></use>
+      </svg>
+    </div>
+    <div class="_df _fh text-wrap force">
+      <translate>Remove Label</translate>
+    </div>
+  </a>
+</div>

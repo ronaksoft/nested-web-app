@@ -2,57 +2,67 @@
   'use strict';
   angular
     .module('ronak.nested.web.components.mention')
-    .directive('nstMention', function (_, $rootScope, $timeout,
+    .directive('nstMention', function (_, $rootScope, $timeout, $window,
                                        NST_USER_SEARCH_AREA,
-                                       NstSvcUserFactory, NstSvcPlaceFactory, NstVmPlace,
-                                       NstVmUser) {
+                                       NstSvcUserFactory, NstSvcPlaceFactory, NstSvcLabelFactory, NstVmPlace,
+                                       NstVmUser, NST_SEARCH_QUERY_PREFIX) {
       return {
         restrict: 'A',
-        link: function (scope, element, attrs) {
+        link: function (scope, _element, attrs) {
+          var userKey = NST_SEARCH_QUERY_PREFIX.USER;
+          var placeKey = NST_SEARCH_QUERY_PREFIX.PLACE;
+          var labelKey = NST_SEARCH_QUERY_PREFIX.NEW_LABEL;
+
+          if (attrs.mentionNewMethod !== undefined) {
+            userKey = NST_SEARCH_QUERY_PREFIX.NEW_USER;
+            placeKey = NST_SEARCH_QUERY_PREFIX.NEW_PLACE;
+            labelKey = NST_SEARCH_QUERY_PREFIX.NEW_LABEL;
+          }
 
           if (attrs.uiTinymce) {
             scope.$watch('activeEditorElement', function () {
               appendMention(angular.element(scope.activeEditorElement))
-            })
+            });
           } else {
-            appendMention(element)
+            appendMention(_element)
           }
 
           function appendMention(element) {
 
-            var activeHashtag = attrs.nstMention ? attrs.nstMention.indexOf("#") > -1 ? true : false : true;
-            var activeAtsign = attrs.nstMention ? attrs.nstMention.indexOf("@") > -1 ? true : false : true;
+            var enableAccountMention = attrs.nstMention ? attrs.nstMention.indexOf(userKey) > -1 ? true : false : true;
+            var enablePlaceMention = attrs.nstMention ? attrs.nstMention.indexOf(placeKey) > -1 ? true : false : true;
+            var enableLabelMention = (attrs.mentionEnableLabel !== undefined);
 
-            var tplUrl = "<li data-id='${id}' class='_difv'><img src='${avatar}' class='account-initials-32 mCS_img_loaded _df'>" +
+            var mentionTemplate = "<li data-id='${id}' class='_difv'><img src='${avatar}' class='account-initials-32 mCS_img_loaded _df'>" +
               "<div class='_difv'>" +
               "<span class='_df list-unstyled text-centerteammate-name  nst-mood-solid text-name'>  ${name}</span>" +
               "<span class='_df nst-mood-storm nst-font-small'>${id}</span>" +
               "</div>" +
               "</li>";
 
-            element.on("hidden.atwho", function (event, flag, query) {
+            element.on('hidden.atwho', function (event, flag, query) {
               $timeout(function () {
-                element.attr("mention", false);
+                element.attr('mention', false);
               }, 200);
             });
 
-            element.on("shown.atwho", function (event, flag, query) {
-              element.attr("mention", true);
+            element.on('shown.atwho', function (event, flag, query) {
+              element.attr('mention', true);
             });
 
-            if (activeAtsign)
+            if (enableAccountMention) {
               element
                 .atwho({
-                  at: "@",
-                  searchKey: "searchField",
+                  at: userKey,
+                  searchKey: 'searchField',
                   maxLen: 10,
                   startWithSpace: true,
                   limit: 5,
-                  displayTpl: tplUrl,
+                  displayTpl: mentionTemplate,
                   callbacks: {
                     beforeInsert: function (value, $li) {
                       var elm = angular.element($li);
-                      return '@' + elm.attr('data-id').trim();
+                      return userKey + elm.attr('data-id').trim();
                     },
                     remoteFilter: function (query, callback) {
                       var searchSettings = {
@@ -78,7 +88,6 @@
                             })
                           }
 
-
                           items.push({
                             id: obj.id,
                             name: obj.name,
@@ -92,20 +101,21 @@
                     }
                   }
                 });
+            }
 
-            if (activeHashtag)
+            if (enablePlaceMention) {
               element
                 .atwho({
-                  at: "#",
-                  searchKey: "searchField",
+                  at: placeKey,
+                  searchKey: 'searchField',
                   maxLen: 10,
                   startWithSpace: true,
                   limit: 5,
-                  displayTpl: tplUrl,
+                  displayTpl: mentionTemplate,
                   callbacks: {
                     beforeInsert: function (value, $li) {
                       var elm = angular.element($li);
-                      return '#' + elm.attr('data-id').trim();
+                      return placeKey + elm.attr('data-id').trim();
                     },
                     remoteFilter: function (query, callback) {
                       var searchSettings = {
@@ -117,7 +127,6 @@
                         var items = [];
                         _.map(uniquePlaces, function (item) {
                           var obj = new NstVmPlace(item);
-
                           items.push({
                             id: obj.id,
                             name: obj.name,
@@ -125,23 +134,68 @@
                             searchField: [obj.id, obj.name].join(' ')
                           })
                         });
-
                         callback(items);
                       }).catch(function (error) {
                       });
 
                     }
                   }
-                })
+                });
+            }
+
+            var labelTemplate =
+              "<li data-id='${id}' class='_difv'>" +
+              "<svg class='_24svg mirror _fn label-initials-32 mCS_img_loaded _df color-lbl-${code}'>" +
+              "<use xlink:href='/assets/icons/nst-icn24.svg#tag'></use>" +
+              "</svg>" +
+              "<div class='_difv'>" +
+              "<span class='_df list-unstyled text-centerteammate-name  nst-mood-solid text-name'>  ${name}</span>" +
+              "<span class='_df nst-mood-storm nst-font-small'>${type}</span>" +
+              "</div>" +
+              "</li>";
+
+            if (enableLabelMention) {
+              element
+                .atwho({
+                  at: labelKey,
+                  searchKey: 'searchField',
+                  maxLen: 10,
+                  startWithSpace: true,
+                  limit: 5,
+                  displayTpl: labelTemplate,
+                  callbacks: {
+                    beforeInsert: function (value, $li) {
+                      var elm = angular.element($li);
+                      return labelKey + elm.attr('data-id').trim();
+                    },
+                    remoteFilter: function (query, callback) {
+                      NstSvcLabelFactory.search().then(function (labels) {
+                        var uniqueLabels = _.unionBy(labels, 'id');
+                        var items = [];
+                        _.map(uniqueLabels, function (item) {
+                          items.push({
+                            id: item.title,
+                            type: item.public ? 'everyone' : 'specific users',
+                            name: item.title,
+                            code: item.code,
+                            searchField: [item.id, item.title].join(' ')
+                          })
+                        });
+                        callback(items);
+                      }).catch(function (error) {
+                      });
+                    }
+                  }
+                });
+            }
+
+
+            //remove useless atwho-container tag after change a state
+            $rootScope.$on('$stateChangeSuccess', function () {
+              angular.element(".atwho-container").remove();
+            });
 
           }
-
-
-          //remove useless atwho-container tag after change a state
-          $rootScope.$on('$stateChangeSuccess', function () {
-            angular.element(".atwho-container").remove();
-          });
-
         }
       }
     })

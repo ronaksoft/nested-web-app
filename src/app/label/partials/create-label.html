@@ -1,0 +1,60 @@
+<div class="label-sm-modal">
+    <h4>Create a Label</h4>
+    <Label>Label Name</Label>
+    <input ng-model="createCtrl.title" type="text">
+    <Label>Label Color</Label>
+    <!--<input type="text" class="label-color">-->
+    <div class="_pr _fw label-color">
+        <select name="lang" ng-model="createCtrl.code">
+            <option value="A">- Default -</option>
+            <option value="B">Green</option>
+            <option value="C">Yellow</option>
+            <option value="D">Red</option>
+            <option value="E">Purple</option>
+            <option value="F">Blue</option>
+            <option value="G">Aquamarine</option>
+        </select>
+        <svg class="_16svg mirror _fn color-lbl-{{createCtrl.code}}">
+            <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
+        </svg>
+    </div>
+    <Label><translate>Holders</translate></Label>
+    <div class="holders-radio">
+        <input type="radio" ng-model="createCtrl.holderType" value="specific" id="create-label-specific" name="selector">
+        <label for="create-label-specific"><translate>Specific Users</translate></label>
+        <input type="radio" ng-model="createCtrl.holderType" value="all" id="create-label-all" name="selector">
+        <label for="create-label-all"><translate>Public</translate></label>
+    </div>
+    <div class="_dib _fw input-select-match" ng-if="createCtrl.holderType == 'specific'">
+      <ui-select minimum-input-length="4" multiple class="address-input"
+                 data-ng-model="createCtrl.specificHolders" limit="{{createCtrl.limit}}"
+                 autofocus="true" on-select="addHolderCtrl.search('')">
+        <ui-select-match placeholder="{{::createCtrl.userSelectPlaceHolder}}">
+          <div class="selected-innter">
+            <span class="place-img">
+              <img initial-avatar="{{$item.id}}" picture="{{$item | avatar}}"
+                   data-width="24" data-height="24" data-radius="2"
+                   data-word-count="2" data-font-size="12" name="{{$item.fullName}}"/>
+            </span>
+            <span class="place-name">{{$item.firstName}}</span>
+          </div>
+        </ui-select-match>
+        <ui-select-choices refresh="createCtrl.search($select.search)" refresh-delay="0"
+                           repeat="user in (createCtrl.users | filter: $select.search) track by user.id" >
+            <div class="user-acatar-32">
+                <img initial-avatar="{{user.id}}" name="{{user.fullName}}" picture="{{user| avatar:'x64'}}" data-width="32" data-height="32" data-radius="24" class="account-initials-40 _df" data-word-count="2" data-font-size="16"/>
+            </div>
+            <span class="_fn _df" data-ng-bind-html="user.fullName | highlight: $select.search"></span>
+            <span class="_fw _df" ></span>
+            <span class="nst-font-10 _vat _df" dir="ltr" data-ng-bind-html="user.id | highlight: $select.search"></span>
+        </ui-select-choices>
+      </ui-select>
+    </div>
+    <div class="_df _fw holders-all-msg" ng-if="createCtrl.holderType == 'all'">
+        <translate>All users on your company can use this label.</translate>
+    </div>
+    <div class="modal-footer">
+        <input type="button" ng-click="$dismiss()"  value="Discard" class="butn-white">
+        <input type="button" ng-disabled="createCtrl.isNotValid()" ng-click="createCtrl.createLabel()" value="Create" class="butn-green">
+    </div>
+</div>

@@ -276,6 +276,7 @@
         return user;
       }
       user.admin = userData.admin ? true : false;
+      user.labelEditor = userData.label_editor ? true : false;
       user.id = userData._id;
       user.firstName = userData.fname ? userData.fname : userData.name ? userData.name : userData._id;
       user.lastName = userData.lname || '';
@@ -340,14 +341,15 @@
       }
 
       settings = _.defaults(settings, defaultSettings);
-      NstSvcServer.request('search/accounts' + area, params).then(function (data) {
-        var users = _.map(data.accounts, function (account) {
-          return factory.parseTinyUser(account);
-        });
-        defer.resolve(users);
-      }).catch(defer.reject);
-
-      return defer.promise;
+      return this.sentinel.watch(function () {
+        NstSvcServer.request('search/accounts' + area, params).then(function (data) {
+          var users = _.map(data.accounts, function (account) {
+            return factory.parseTinyUser(account);
+          });
+          defer.resolve(users);
+        }).catch(defer.reject);
+        return defer.promise;
+      }, 'search/accounts' + area + params.keyword);
     };
 
     UserFactory.prototype.changePhone = function (phone, verificationId, password) {
