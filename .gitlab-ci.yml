@@ -11,6 +11,7 @@ build:desktop:
   stage: build
   only:
       - master
+      - develop
   script:
     - cp -r . /var/lib/desktop
     - cd /var/lib/desktop
@@ -37,6 +38,7 @@ build:mobile:
   stage: build
   only:
       - master
+      - develop
   script:
     - mkdir -p /var/lib/mobile
     - cd /var/lib/mobile
@@ -75,15 +77,14 @@ deploy:develop:
   image: gitlab/dind
   stage: deploy
   only:
-    - business
+    - develop
   services:
     - docker:dind
   variables:
     IMAGE_TAG: "develop"
   script:
-    - docker build --pull -t $CI_REGISTRY_IMAGE:IMAGE_TAG .
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
-    - docker tag $CI_REGISTRY_IMAGE:$TAG $CI_REGISTRY_IMAGE:$IMAGE_TAG
+    - docker build --pull -t $CI_REGISTRY_IMAGE:IMAGE_TAG .
     - docker push $CI_REGISTRY_IMAGE:$IMAGE_TAG
   dependencies:
     - build:mobile
@@ -102,8 +103,6 @@ deploy:business:
   script:
     - export TAG=`git describe --abbrev=0 --tags`
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
+    - docker pull $CI_REGISTRY_IMAGE:$TAG
     - docker tag $CI_REGISTRY_IMAGE:$TAG $CI_REGISTRY_IMAGE:$IMAGE_TAG
     - docker push $CI_REGISTRY_IMAGE:$IMAGE_TAG
-  dependencies:
-    - build:mobile
-    - build:desktop
