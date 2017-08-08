@@ -21,7 +21,6 @@ build:desktop:
     - mkdir -p $BUILD_DIR/desktop
     - cp -r ./dist/production/* $BUILD_DIR/desktop
     - cp .local-web-server.json $BUILD_DIR/desktop
-    - cp ./lws.config.js $BUILD_DIR/desktop
     - mkdir -p $BUILD_DIR/bin
     - cp -r ./bin/* $BUILD_DIR/bin
     - find . -type f -not -name \*.html -exec rm -rf {} \;
@@ -62,14 +61,48 @@ deploy:production:
     - master
   services:
     - docker:dind
-  variables:
-    IMAGE_TAG:  "business"
   script:
     - export TAG=`git describe --abbrev=0 --tags`
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
     - docker build --pull -t $CI_REGISTRY_IMAGE:$TAG .
-    - docker tag $CI_REGISTRY_IMAGE:$TAG $CI_REGISTRY_IMAGE:$IMAGE_TAG
     - docker push $CI_REGISTRY_IMAGE:$TAG
+  dependencies:
+    - build:mobile
+    - build:desktop
+
+
+deploy:develop:
+  image: gitlab/dind
+  stage: deploy
+  only:
+    - business
+  services:
+    - docker:dind
+  variables:
+    IMAGE_TAG: "develop"
+  script:
+    - docker build --pull -t $CI_REGISTRY_IMAGE:IMAGE_TAG .
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
+    - docker tag $CI_REGISTRY_IMAGE:$TAG $CI_REGISTRY_IMAGE:$IMAGE_TAG
+    - docker push $CI_REGISTRY_IMAGE:$IMAGE_TAG
+  dependencies:
+    - build:mobile
+    - build:desktop
+
+
+deploy:business:
+  image: gitlab/dind
+  stage: deploy
+  only:
+    - business
+  services:
+    - docker:dind
+  variables:
+    IMAGE_TAG: "business"
+  script:
+    - export TAG=`git describe --abbrev=0 --tags`
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
+    - docker tag $CI_REGISTRY_IMAGE:$TAG $CI_REGISTRY_IMAGE:$IMAGE_TAG
     - docker push $CI_REGISTRY_IMAGE:$IMAGE_TAG
   dependencies:
     - build:mobile
