@@ -635,7 +635,7 @@
         advanced: true,
         place_id: places,
         sender_id: users,
-        label_id: labels,
+        label_title: labels,
         keyword: keywords,
         limit: limit || 8,
         skip: skip || 0

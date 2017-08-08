@@ -5,10 +5,8 @@
     .module('ronak.nested.web.components')
     .controller('manageLabelController', manageLabelController);
 
-  function manageLabelController($timeout, $scope, $q, $uibModalInstance, $uibModal,
-    moment, toastr, _,
-    NstSvcPostFactory, NstSvcPlaceFactory, NstSvcTranslation, NstUtility,
-    NstTinyPlace, NstSvcUserFactory, NstSvcLabelFactory) {
+  function manageLabelController($timeout, $scope, $q, $uibModalInstance, $uibModal
+    , toastr, _, NstSvcTranslation, NstSvcUserFactory, NstSvcLabelFactory) {
 
     var vm = this;
     vm.keyword = '';

@@ -4,7 +4,7 @@
     .module('ronak.nested.web.components.mention')
     .directive('nstMention', function (_, $rootScope, $timeout, $window,
                                        NST_USER_SEARCH_AREA,
-                                       NstSvcUserFactory, NstSvcPlaceFactory, NstVmPlace,
+                                       NstSvcUserFactory, NstSvcPlaceFactory, NstSvcLabelFactory, NstVmPlace,
                                        NstVmUser, NST_SEARCH_QUERY_PREFIX) {
       return {
         restrict: 'A',
@@ -31,7 +31,7 @@
 
             var enableAccountMention = attrs.nstMention ? attrs.nstMention.indexOf(userKey) > -1 ? true : false : true;
             var enablePlaceMention = attrs.nstMention ? attrs.nstMention.indexOf(placeKey) > -1 ? true : false : true;
-            var enableLabelMention = !!attrs.mentionEnableLabel;
+            var enableLabelMention = (attrs.mentionEnableLabel !== undefined);
 
             var mentionTemplate = "<li data-id='${id}' class='_difv'><img src='${avatar}' class='account-initials-32 mCS_img_loaded _df'>" +
               "<div class='_difv'>" +
@@ -143,6 +143,17 @@
                 });
             }
 
+            var labelTemplate =
+              "<li data-id='${id}' class='_difv'>" +
+              "<svg class='_24svg mirror _fn label-initials-32 mCS_img_loaded _df color-lbl-${code}'>" +
+              "<use xlink:href='/assets/icons/nst-icn24.svg#tag'></use>" +
+              "</svg>" +
+              "<div class='_difv'>" +
+              "<span class='_df list-unstyled text-centerteammate-name  nst-mood-solid text-name'>  ${name}</span>" +
+              "<span class='_df nst-mood-storm nst-font-small'>${type}</span>" +
+              "</div>" +
+              "</li>";
+
             if (enableLabelMention) {
               element
                 .atwho({
@@ -151,23 +162,28 @@
                   maxLen: 10,
                   startWithSpace: true,
                   limit: 5,
-                  displayTpl: mentionTemplate,
+                  displayTpl: labelTemplate,
                   callbacks: {
                     beforeInsert: function (value, $li) {
                       var elm = angular.element($li);
                       return labelKey + elm.attr('data-id').trim();
                     },
                     remoteFilter: function (query, callback) {
-                      var items = [];
-
-                      items.push({
-                        id: 1,
-                        name: 'test',
-                        avatar: 'haha',
-                        searchField: 'oh,oh'
+                      NstSvcLabelFactory.search().then(function (labels) {
+                        var uniqueLabels = _.unionBy(labels, 'id');
+                        var items = [];
+                        _.map(uniqueLabels, function (item) {
+                          items.push({
+                            id: item.title,
+                            type: item.public ? 'everyone' : 'specific users',
+                            name: item.title,
+                            code: item.code,
+                            searchField: [item.id, item.title].join(' ')
+                          })
+                        });
+                        callback(items);
+                      }).catch(function (error) {
                       });
-
-                      callback(items);
                     }
                   }
                 });
