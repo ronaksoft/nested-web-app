@@ -205,6 +205,10 @@
           }, 1);
         };
 
+        scope.playAudio = function () {
+          // console.log('aa');
+        }
+
         // function scrollLeft(count, k) {
         //   var el = scope.scrollWrp[0];
         //   var i = $interval(function () {
