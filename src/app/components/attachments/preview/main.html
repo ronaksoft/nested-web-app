@@ -30,9 +30,9 @@
     </a>
     <a href="javascript:void(0);" ng-click="onClick(item);$event.stopPropagation()" ng-if="item.type !== 'image' && item.type !== 'gif' && item.uploadType === 'VOICE'">
       <div class="attach-thumbnail {{'attach-thumbnail-' + item.type}}">
-        <div class="file-name"><p>{{item.filename}}</p></div>
+        <div class="file-name"><p></p></div>
         <div class="detail">
-          <p>{{item.extension | uppercase}}</p>
+          <p>{{'VOC' | uppercase}}</p>
           <span class="attsize">{{item.size | bytes:2}}</span>
         </div>
         <span class="playbtn" ng-click="playAudio(item);$event.stopPropagation();">
@@ -44,7 +44,7 @@
           </svg>
         </span>
       </div>
-      
+
     </a>
     <a href="javascript:void(0);" ng-click="download(item);$event.stopPropagation()" class="attdl">
       <svg class="_16svg">
@@ -90,7 +90,7 @@
   </div>
 </div>
 <div ng-if="internalMode == 'twoimg'" class="two-img _fw ng-class:{'deform' : deform}">
-  
+
   <img style="width: calc({{scaleOne}}% - 8px);height: {{constHeight}}px;object-fit: cover"
        ng-src="{{items[0].picture.getUrl('preview')}}" ng-click="onClick(items[0]);$event.stopPropagation()"/>
 
