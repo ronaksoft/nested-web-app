@@ -360,6 +360,24 @@
       }, 'changePhone');
 
     }
+
+    UserFactory.prototype.trustEmail = function (email) {
+      return this.sentinel.watch(function () {
+        return NstSvcServer.request('account/trust_email', {
+          email_addr: email,
+        });
+      }, 'trustEmail');
+    }
+
+    UserFactory.prototype.untrustEmail = function (email) {
+      return this.sentinel.watch(function () {
+        return NstSvcServer.request('account/untrust_email', {
+          email_addr: email,
+        });
+      }, 'untrustEmail');
+    }
+
+
     return new UserFactory();
   }
 })();
