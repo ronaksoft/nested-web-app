@@ -276,6 +276,7 @@
         return user;
       }
       user.admin = userData.admin ? true : false;
+      user.labelEditor = userData.label_editor ? true : false;
       user.id = userData._id;
       user.firstName = userData.fname ? userData.fname : userData.name ? userData.name : userData._id;
       user.lastName = userData.lname || '';

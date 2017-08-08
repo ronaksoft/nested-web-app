@@ -6,11 +6,11 @@
     .controller('manageLabelController', manageLabelController);
 
   function manageLabelController($timeout, $scope, $q, $uibModalInstance, $uibModal
-    , toastr, _, NstSvcTranslation, NstSvcUserFactory, NstSvcLabelFactory) {
+    , toastr, _, NstSvcTranslation, NstSvcUserFactory, NstSvcLabelFactory, NST_LABEL_SEARCH_FILTER, NstSvcAuth) {
 
     var vm = this;
     vm.keyword = '';
-    vm.labelManager = true;
+    vm.labelManager = NstSvcAuth.user.labelEditor;
     vm.labels = [];
     vm.requestList = [];
     vm.pendingRequestList = [];
@@ -30,14 +30,18 @@
       } else {
         getPendingRequest();
       }
+      NstSvcLabelFactory.getRequest().then(function (result) {
+        console.log(result);
+      });
     }
 
     function searchLabel() {
       var searchService;
+      var filter = (vm.labelManager ? NST_LABEL_SEARCH_FILTER.ALL : NST_LABEL_SEARCH_FILTER.MY_PRIVATES);
       if (vm.keyword.length > 0) {
-        searchService = NstSvcLabelFactory.search(vm.keyword);
+        searchService = NstSvcLabelFactory.search(vm.keyword, filter);
       } else {
-        searchService = NstSvcLabelFactory.search();
+        searchService = NstSvcLabelFactory.search(null, filter);
       }
       searchService.then(function (result) {
         vm.labels = result;
@@ -129,7 +133,7 @@
     }
 
     function declineRequest(id) {
-      NstSvcLabelFactory.updateRequest(id, 'accept').then(function (result) {
+      NstSvcLabelFactory.updateRequest(id, 'reject').then(function (result) {
         removeRequest(id);
         toastr.success(NstSvcTranslation.get("Request declined successfully."));
       }).catch(function (error) {
@@ -147,7 +151,7 @@
     }
 
     function withdrawRequest(id) {
-      NstSvcLabelFactory.updateRequest(id, 'withdraw').then(function (result) {
+      NstSvcLabelFactory.cancelRequest(id).then(function (result) {
         removeRequest(id, true);
         toastr.success(NstSvcTranslation.get("Your request has been withdrawn successfully."));
       }).catch(function (error) {
