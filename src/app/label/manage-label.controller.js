@@ -130,10 +130,8 @@
 
     function declineRequest(id) {
       NstSvcLabelFactory.updateRequest(id, 'accept').then(function (result) {
-        if (result.status === 'ok') {
-          removeRequest(id);
-          toastr.success(NstSvcTranslation.get("Request declined successfully."));
-        }
+        removeRequest(id);
+        toastr.success(NstSvcTranslation.get("Request declined successfully."));
       }).catch(function (error) {
         toastr.error(NstSvcTranslation.get("Something went wrong."));
       });
@@ -141,10 +139,8 @@
 
     function acceptRequest(id) {
       NstSvcLabelFactory.updateRequest(id, 'accept').then(function (result) {
-        if (result.status === 'ok') {
-          removeRequest(id);
-          toastr.success(NstSvcTranslation.get("Request accepted successfully."));
-        }
+        removeRequest(id);
+        toastr.success(NstSvcTranslation.get("Request accepted successfully."));
       }).catch(function (error) {
         toastr.error(NstSvcTranslation.get("Something went wrong."));
       });
@@ -152,10 +148,8 @@
 
     function withdrawRequest(id) {
       NstSvcLabelFactory.updateRequest(id, 'withdraw').then(function (result) {
-        if (result.status === 'ok') {
-          removeRequest(id, true);
-          toastr.success(NstSvcTranslation.get("Your request has been withdrawn successfully."));
-        }
+        removeRequest(id, true);
+        toastr.success(NstSvcTranslation.get("Your request has been withdrawn successfully."));
       }).catch(function (error) {
         toastr.error(NstSvcTranslation.get("Something went wrong."));
       });

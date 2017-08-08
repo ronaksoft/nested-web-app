@@ -26,27 +26,29 @@
         <label for="create-label-all"><translate>Public</translate></label>
     </div>
     <div class="_df _fw input-select-match" ng-if="createCtrl.holderType == 'specific'">
-        <ui-select minimum-input-length="4" multiple limit="{{createCtrl.targetLimit}}"  class="address-input _dib"
-         data-ng-model="createCtrl.specificHolders">
-          <ui-select-match placeholder="{{::createCtrl.userSelectPlaceHolder}}" compose-match-item class="match-items">
-            <div class="selected-innter">
-              <span class="place-img">
-                <img ng-src="{{$item.picture}}"/>
-              </span>
-              <span class="place-name">{{$item.name}}</span>
-            </div>
-          </ui-select-match>
-          <ui-select-choices refresh="createCtrl.search.fn($select.search)"
-                             refresh-delay="0"
-                             repeat="place as place in ctlCompose.search.results track by $index">
-            <div class="place-initials-32">
-              <img ng-src="{{place.picture}}"/>
-            </div>
-            <span class="_fn _df" auto-dir="place.name" data-ng-bind-html="place.name | highlight: $select.search"></span>
-            <span class="_fw _df" ></span>
-            <span class="nst-font-10 _vat _df" dir="ltr" data-ng-bind-html="place.id | highlight: $select.search"></span>
-          </ui-select-choices>
-        </ui-select>
+      <ui-select multiple class="modal-add-input _df"
+                 data-ng-model="createCtrl.specificHolders" limit="{{createCtrl.limit}}"
+                 autofocus="true" always-show-list on-select="addHolderCtrl.search('')">
+        <ui-select-match placeholder="{{::createCtrl.searchPlaceholder}}">
+          <div class="selected-innter">
+            <span class="place-img">
+              <img initial-avatar="{{$item.id}}" picture="{{$item | avatar}}"
+                   data-width="24" data-height="24" data-radius="2"
+                   data-word-count="2" data-font-size="12" name="{{$item.fullName}}"/>
+            </span>
+            <span class="place-name">{{$item.fullName}}</span>
+          </div>
+        </ui-select-match>
+        <ui-select-choices refresh="createCtrl.search($select.search)" refresh-delay="0"
+                           repeat="user in (createCtrl.users | filter: $select.search) track by user.id" >
+          <img initial-avatar="{{user.id}}" name="{{user.fullName}}" picture="{{user| avatar:'x64'}}" data-width="40" data-height="40" data-radius="24" class="account-initials-40 _df" data-word-count="2" data-font-size="16"/>
+          <div class="_difv">
+            <!--todo:: | highlight: $select.search in persian name-->
+            <span auto-dir="user.fullName"><span class="_df _fw" data-ng-bind-html="user.fullName"></span></span>
+            <small class="_df">@{{user.id}}</small>
+          </div>
+        </ui-select-choices>
+      </ui-select>
     </div>
     <div class="_df _fw holders-all-msg" ng-if="createCtrl.holderType == 'all'">
         <translate>All users on your company can use this label.</translate>

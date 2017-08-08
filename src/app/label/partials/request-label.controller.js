@@ -83,11 +83,7 @@
         labelService = NstSvcLabelFactory.request(vm.label.id);
       }
       labelService.then(function (result) {
-        if (result.status === 'ok') {
-          toastr.success(NstSvcTranslation.get("Label created successfully."));
-        } else {
-          toastr.error(NstSvcTranslation.get("Something went wrong."));
-        }
+        toastr.success(NstSvcTranslation.get("Label created successfully."));
       }).catch(function(error) {
         toastr.error(NstSvcTranslation.get("Something went wrong."));
       }).finally(function () {
