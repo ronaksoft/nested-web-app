@@ -1,3 +1,12 @@
+/**
+ * @file src/app/public/register/step/register-step.controller.js
+ * @author Soroush Torkzadeh <sorousht@nested.me>
+ * @description The user creates her account. She must have been verified her phone before performing this action.
+ * Documented by:          Soroush Torkzadeh <sorousht@nested.me>
+ * Date of documentation:  2017-08-05
+ * Reviewed by:            -
+ * Date of review:         -
+ */
 (function () {
   'use strict';
 
@@ -6,6 +15,22 @@
     .controller('RegisterStepController', RegisterStepController);
 
   /** @ngInject */
+  /**
+   * Gives the user a form to fill and create an account
+   * 
+   * @param {any} $scope 
+   * @param {any} $state 
+   * @param {any} $timeout 
+   * @param {any} $stateParams 
+   * @param {any} md5 
+   * @param {any} toastr 
+   * @param {any} NST_DEFAULT 
+   * @param {any} NST_PATTERN 
+   * @param {any} NstSvcAuth 
+   * @param {any} NstHttp 
+   * @param {any} $q 
+   * @param {any} NstSvcTranslation 
+   */
   function RegisterStepController($scope, $state, $timeout, $stateParams, md5, toastr, NST_DEFAULT, NST_PATTERN, NstSvcAuth, NstHttp, $q, NstSvcTranslation) {
     var vm = this;
 
@@ -17,10 +42,20 @@
     vm.usernameValidationStatus = 'none';
     var eventReferences = [];
 
+    /**
+     * Emits an event that leads to a route change
+     * 
+     * @param {any} credentials 
+     */
     function nextStep(credentials) {
       eventReferences.push($scope.$emit(vm.onCompleted, { credentials : credentials }));
     }
 
+    /**
+     * Registers the user account
+     * 
+     * @param {any} formIsValid 
+     */
     vm.register = function(formIsValid) {
 
       vm.submitted = true;
@@ -81,6 +116,11 @@
 
     var timers = [];
 
+    /**
+     * Concatinates country code and phone to form a complete phone number
+     * 
+     * @returns 
+     */
     function getPhoneNumber() {
       if (vm.countryCode && vm.phone) {
         return vm.countryCode.toString() + _.trimStart(vm.phone.toString(), "0");

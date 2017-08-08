@@ -17,7 +17,7 @@
   function PostCardController($state, $log, $timeout, $stateParams, $rootScope, $scope, $filter, $window, $sce, $uibModal,
                               _, moment, toastr,
                               NST_EVENT_ACTION, NST_PLACE_ACCESS, NST_POST_EVENT, SvcCardCtrlAffix,
-                              NstSvcSync, NstVmFile, NstSvcPostFactory, NstSvcPlaceFactory,
+                              NstSvcSync, NstVmFile, NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory,
                               NstSvcAuth, NstUtility, NstSvcPostInteraction, NstSvcTranslation, NstSvcLogger) {
     var vm = this;
 
@@ -54,6 +54,8 @@
     vm.move = move;
     vm.watched = false;
     vm.toggleMoveTo = toggleMoveTo;
+    vm.untrustSender = untrustSender;
+    vm.alwaysTrust = alwaysTrust;
 
     vm.expandProgress = false;
     vm.body = null;
@@ -120,7 +122,7 @@
       markAsRead();
       // helper for opening post view inside another post view
       if ($state.current.name !== 'app.message') {
-        $state.go('app.message', {postId: vm.post.id, trusted: vm.trusted}, {notify: false});
+        $state.go('app.message', {postId: vm.post.id, trusted: vm.post.isTrusted}, {notify: false});
       } else {
         var reference = $scope.$emit('post-view-target-changed', {postId: vm.post.id});
         eventReferences.push(reference);
@@ -260,7 +262,7 @@
           markAsRead();
         }
 
-        if (vm.post.trusted || Object.keys(post.resources).length == 0) {
+        if (vm.post.isTrusted || Object.keys(post.resources).length == 0) {
           showTrustedBody();
         }
         ++$scope.$parent.$parent.affixObserver;
@@ -424,7 +426,16 @@
         vm.body = vm.post.getTrustedBody();
       }
 
-      vm.trusted = true;
+      vm.post.isTrusted = true;
+    }
+
+    function alwaysTrust() {
+      showTrustedBody();
+      NstSvcUserFactory.trustEmail(vm.post.sender.id).then(function() {
+        vm.post.isTrusted = true;
+      }).catch(function () {
+        toastr.error(NstSvcTranslation.get('An error has occured in trusting the sender'));
+      });
     }
 
     /**
@@ -751,6 +762,15 @@
     function hasPlacesWithControlAccess() {
       return _.some(vm.post.places, function (place) {
         return place.hasAccess(NST_PLACE_ACCESS.CONTROL);
+      });
+    }
+
+    function untrustSender() {
+      NstSvcUserFactory.untrustEmail(vm.post.sender.id).then(function () {
+        vm.post.isTrusted = false;
+        toastr.success(NstSvcTranslation.get(NstUtility.string.format('Email address {0} has just been removed from the trusted list.', vm.post.sender.id)));
+      }).catch(function (){
+        toastr.error(NstSvcTranslation.get(NstUtility.string.format('An error occured while removing {0} from the trusted list.', vm.post.sender.id)));
       });
     }
   }
