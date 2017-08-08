@@ -47,7 +47,7 @@
 
     function searchLabel() {
       if (vm.keyword.length > 1) {
-        NstSvcLabelFactory.search(/*vm.keyword, NST_LABEL_SEARCH_FILTER.PRIVATES*/).then(function (result) {
+        NstSvcLabelFactory.search(vm.keyword, NST_LABEL_SEARCH_FILTER.PRIVATES).then(function (result) {
           vm.suggests = result;
         });
       } else {
@@ -83,7 +83,7 @@
         labelService = NstSvcLabelFactory.request(vm.label.id);
       }
       labelService.then(function (result) {
-        toastr.success(NstSvcTranslation.get("Label created successfully."));
+        toastr.success(NstSvcTranslation.get("Your request submited successfully."));
       }).catch(function(error) {
         toastr.error(NstSvcTranslation.get("Something went wrong."));
       }).finally(function () {
