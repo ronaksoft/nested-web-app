@@ -13,21 +13,19 @@
     var vm = this;
     vm.color = 'D';
     vm.labelSelectPlaceHolder = 'Select from below or type label name…';
-    vm.targetLimit = 8;
+    vm.targetLimit = 22;
     vm.haveMore = false;
     vm.searchFn = search;
     vm.search = {};
-    vm.setting = {
-      skip: 0,
-      limit: 8,
-      filter: 'all',
-    }
     vm.selectedLabels = argv.addedLabels.length > 0 ? argv.addedLabels : [];
     vm.firstItemsLength = vm.selectedLabels.length;
+    vm.setting = {
+      skip: 0,
+      limit: 8 + vm.selectedLabels.length,
+      filter: 'all',
+    }
 
-    (function (){
-      search('');
-    })();
+    search('');
 
     vm.submitLabels = function (){
       $uibModalInstance.close(vm.selectedLabels);
@@ -35,7 +33,10 @@
 
     function search(keyword){
       NstSvcLabelFactory.search(keyword, vm.setting.filter, vm.setting.skip, vm.setting.limit).then(function (items){
-        vm.search.results = items;
+        // TODO remove  vm.selectedLabels items from results
+        console.log(items, vm.selectedLabels);
+        var sameItems = _.intersectionBy(items, vm.selectedLabels, 'title');
+        vm.search.results = _.difference(items, sameItems);;
       });
     }
     

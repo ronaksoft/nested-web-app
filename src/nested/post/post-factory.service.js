@@ -805,21 +805,23 @@
     }
 
     function addLabel(postId, labelId) {
+      var watchKey = NstUtility.string.format("{0}-{1}", postId, labelId);
       return this.sentinel.watch(function () {
         return NstSvcServer.request('post/add_label', {
           post_id: postId,
           label_id: labelId,
         });
-      });
+      }, "addLabel", watchKey);
     }
 
     function removeLabel(postId, labelId) {
+      var watchKey = NstUtility.string.format("{0}-{1}", postId, labelId);
       return this.sentinel.watch(function () {
         return NstSvcServer.request('post/remove_label', {
           post_id: postId,
           label_id: labelId,
         });
-      });
+      }, "removeLabel", watchKey);
     }
   }
 })

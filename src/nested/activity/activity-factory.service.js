@@ -9,7 +9,7 @@
                                  _,
                                  NST_ACTIVITY_FILTER, NST_EVENT_ACTION,
                                  NstSvcServer, NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory, NstSvcCommentFactory, NstUtility,
-                                 NstBaseFactory, NstSvcLogger, NstActivity, NstPost, NstTinyPlace, NstPicture) {
+                                 NstBaseFactory, NstSvcLogger, NstActivity, NstPost, NstTinyPlace, NstPicture, NstSvcLabelFactory) {
 
 
     function ActivityFactory() {}

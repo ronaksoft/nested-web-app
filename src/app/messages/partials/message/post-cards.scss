@@ -491,6 +491,8 @@ post-card {
   }
 }
 .post-labels {
+  flex-wrap: wrap;
+  flex: none;
   span {
     line-height: 18px;
     margin-right: 6px;
@@ -500,6 +502,7 @@ post-card {
     margin-bottom: 8px;
     font-size: 12px;
     opacity: .72;
+    white-space: nowrap;
     transition: opacity $animation-dur;
     &:hover {
       opacity: 1;

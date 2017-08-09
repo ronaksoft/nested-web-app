@@ -707,8 +707,18 @@
      * @param {any} items
      */
     function addLabels(items){
-      console.log(items);
-      // TODO call server APi
+      var removeItems = _.difference(vm.post.labels, items);
+      var addItems = _.difference(items, vm.post.labels);
+      addItems.forEach(function(o){
+        var id = o._id || o.id;
+        NstSvcPostFactory.addLabel(vm.post.id, id);
+      });
+      vm.post.labels = items;
+      removeItems.forEach(function(o){
+        var id = o._id || o.id;
+        NstSvcPostFactory.removeLabel(vm.post.id, id);
+      });
+      vm.post.labels = items;
     }
 
     /**
