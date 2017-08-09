@@ -16,7 +16,7 @@
             </div>
         </ui-select-match>
         <!--{{$select.open = true;""}}-->
-        <ui-select-choices refresh="ctrl.searchFn($select.search)"
+        <ui-select-choices refresh="ctrl.searchFn($select.search)" position="down"
                             refresh-delay="0"  nst-scrollbar go-downward="ctrl.goDownward"
                             repeat="label in ctrl.search.results track by $index">
                             {{$select.open = ctrl.search.results.length > 0; ""}}
