@@ -13,7 +13,6 @@
     vm.labelManager = NstSvcAuth.user.labelEditor;
     vm.labels = [];
     vm.requestList = [];
-    vm.pendingRequestList = [];
     vm.editLabel = editLabel;
     vm.createLabel = createLabel;
     vm.requestLabel = requestLabel;
@@ -25,14 +24,7 @@
 
     function init() {
       searchLabel();
-      if (vm.labelManager) {
-        getRequest();
-      } else {
-        getPendingRequest();
-      }
-      NstSvcLabelFactory.getRequest().then(function (result) {
-        console.log(result);
-      });
+      getRequest();
     }
 
     function searchLabel() {
@@ -49,39 +41,8 @@
     }
 
     function getRequest() {
-      NstSvcUserFactory.getTiny('hamidrezakk').then(function (user) {
-        vm.requestList.push({
-          id: '1',
-          user: user,
-          label: {
-            id: '1',
-            code: 'A',
-            title: 'Top Secret'
-          }
-        });
-        vm.requestList.push({
-          id: '2',
-          user: user,
-          label: {
-            id: '2',
-            code: 'B',
-            title: 'Label 2'
-          }
-        });
-      });
-    }
-
-    function getPendingRequest() {
-      NstSvcUserFactory.getTiny('hamidrezakk').then(function (user) {
-        vm.pendingRequestList.push({
-          id: '1',
-          user: user,
-          label: {
-            id: '1',
-            code: 'A',
-            title: 'Top Secret'
-          }
-        });
+      NstSvcLabelFactory.getRequests().then(function (result) {
+        vm.requestList = result;
       });
     }
 
@@ -152,22 +113,17 @@
 
     function withdrawRequest(id) {
       NstSvcLabelFactory.cancelRequest(id).then(function (result) {
-        removeRequest(id, true);
+        removeRequest(id);
         toastr.success(NstSvcTranslation.get("Your request has been withdrawn successfully."));
       }).catch(function (error) {
         toastr.error(NstSvcTranslation.get("Something went wrong."));
       });
     }
 
-    function removeRequest(id, pending) {
+    function removeRequest(id) {
       var index;
-      if (pending) {
-        index = _.findIndex(vm.pendingRequestList, {id: id});
-        vm.pendingRequestList.splice(index, 1);
-      } else {
-        index = _.findIndex(vm.requestList, {id: id});
-        vm.requestList.splice(index, 1);
-      }
+      index = _.findIndex(vm.requestList, {id: id});
+      vm.requestList.splice(index, 1);
     }
   }
 

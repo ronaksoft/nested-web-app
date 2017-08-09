@@ -37,6 +37,9 @@
       } else {
         vm.holderType = 'specific';
         vm.specificHolders = label.topMembers;
+        NstSvcLabelFactory.getMembers(vm.id, 0, 100).then(function (result) {
+          vm.specificHolders = result;
+        });
       }
       vm.code = label.code;
       vm.title = label.title;
@@ -44,7 +47,7 @@
     }
 
     function isNotValid() {
-      if (vm.title.length <= 3) {
+      if (vm.title.length <= 1) {
         return true;
       } else if (vm.holderType === 'specific' && vm.specificHolders.length === 0) {
         return true;
@@ -92,10 +95,14 @@
         callHolderPromises().then(function (result) {
           toastr.success(NstSvcTranslation.get("Label modified successfully."));
         });
-      }).catch(function (error) {
-        toastr.error(NstSvcTranslation.get("Something went wrong."));
-      }).finally(function () {
         $uibModalInstance.close(true);
+      }).catch(function (error) {
+        if (error.code === 5) {
+          toastr.warning(NstSvcTranslation.get("Label already exists!"));
+        } else {
+          toastr.error(NstSvcTranslation.get("Something went wrong."));
+          $uibModalInstance.close(true);
+        }
       });
     }
 
