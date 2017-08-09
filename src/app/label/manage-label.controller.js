@@ -129,16 +129,20 @@
     function removeSelectedLabels() {
       $uibModal.open({
         animation: false,
-        templateUrl: 'app/label/partials/remove-selected-label-prompt.html',
-        controller: 'removeSelectedLabelPromptController',
-        controllerAs: 'removeCtrl',
+        templateUrl: 'app/label/partials/label-confirm-modal.html',
+        controller: 'labelConfirmModalController',
+        controllerAs: 'confirmModal',
         size: 'sm',
         resolve: {
-          argv: {
-            selectedItems: vm.selectedItems
+          modalSetting: {
+            title: NstSvcTranslation.get('Remove selected items'),
+            body: NstSvcTranslation.get('Are you sure you want to remove selected item(s)?'),
+            confirmText: NstSvcTranslation.get('Remove'),
+            confirmColor: 'red',
+            cancelText: NstSvcTranslation.get('Cancel')
           }
         }
-      }).result.then(function (confirmResult) {
+      }).result.then(function () {
         callRemoveLabelPromises().then(function (result) {
           restoreDefault();
           searchLabel();
@@ -157,12 +161,29 @@
     }
 
     function declineRequest(id) {
-      NstSvcLabelFactory.updateRequest(id, 'reject').then(function (result) {
-        removeRequest(id);
-        searchLabel(vm.keyword);
-        toastr.success(NstSvcTranslation.get("Request declined successfully."));
-      }).catch(function (error) {
-        toastr.error(NstSvcTranslation.get("Something went wrong."));
+      $uibModal.open({
+        animation: false,
+        templateUrl: 'app/label/partials/label-confirm-modal.html',
+        controller: 'labelConfirmModalController',
+        controllerAs: 'confirmModal',
+        size: 'sm',
+        resolve: {
+          modalSetting: {
+            title: NstSvcTranslation.get('Decline request!'),
+            body: NstSvcTranslation.get('Are you sure you want to decline this request?'),
+            confirmText: NstSvcTranslation.get('Decline'),
+            confirmColor: 'red',
+            cancelText: NstSvcTranslation.get('Cancel')
+          }
+        }
+      }).result.then(function () {
+        NstSvcLabelFactory.updateRequest(id, 'reject').then(function (result) {
+          removeRequest(id);
+          searchLabel(vm.keyword);
+          toastr.success(NstSvcTranslation.get("Request declined successfully."));
+        }).catch(function (error) {
+          toastr.error(NstSvcTranslation.get("Something went wrong."));
+        });
       });
     }
 
@@ -177,11 +198,28 @@
     }
 
     function withdrawRequest(id) {
-      NstSvcLabelFactory.cancelRequest(id).then(function (result) {
-        removeRequest(id);
-        toastr.success(NstSvcTranslation.get("Your request has been withdrawn successfully."));
-      }).catch(function (error) {
-        toastr.error(NstSvcTranslation.get("Something went wrong."));
+      $uibModal.open({
+        animation: false,
+        templateUrl: 'app/label/partials/label-confirm-modal.html',
+        controller: 'labelConfirmModalController',
+        controllerAs: 'confirmModal',
+        size: 'sm',
+        resolve: {
+          modalSetting: {
+            title: NstSvcTranslation.get('Withdraw request!'),
+            body: NstSvcTranslation.get('Are you sure you want to withdraw?'),
+            confirmText: NstSvcTranslation.get('Withdraw'),
+            confirmColor: 'red',
+            cancelText: NstSvcTranslation.get('Cancel')
+          }
+        }
+      }).result.then(function () {
+        NstSvcLabelFactory.cancelRequest(id).then(function (result) {
+          removeRequest(id);
+          toastr.success(NstSvcTranslation.get("Your request has been withdrawn successfully."));
+        }).catch(function (error) {
+          toastr.error(NstSvcTranslation.get("Something went wrong."));
+        });
       });
     }
 
