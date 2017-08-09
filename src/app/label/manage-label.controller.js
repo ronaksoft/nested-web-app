@@ -24,7 +24,7 @@
 
     function init() {
       searchLabel();
-      getRequest();
+      getRequests();
     }
 
     function searchLabel() {
@@ -40,7 +40,7 @@
       });
     }
 
-    function getRequest() {
+    function getRequests() {
       NstSvcLabelFactory.getRequests().then(function (result) {
         vm.requestList = result;
       });
@@ -64,7 +64,7 @@
         }
       }).result.then(function (result) {
         if (result) {
-          searchLabel();
+          searchLabel(vm.keyword);
         }
       });
     }
@@ -90,12 +90,17 @@
         templateUrl: 'app/label/partials/request-label.html',
         controller: 'requestLabelController',
         controllerAs: 'requestCtrl'
+      }).result.then(function (result) {
+        if (result) {
+          getRequests();
+        }
       });
     }
 
     function declineRequest(id) {
       NstSvcLabelFactory.updateRequest(id, 'reject').then(function (result) {
         removeRequest(id);
+        searchLabel(vm.keyword);
         toastr.success(NstSvcTranslation.get("Request declined successfully."));
       }).catch(function (error) {
         toastr.error(NstSvcTranslation.get("Something went wrong."));
@@ -105,6 +110,7 @@
     function acceptRequest(id) {
       NstSvcLabelFactory.updateRequest(id, 'accept').then(function (result) {
         removeRequest(id);
+        searchLabel(vm.keyword);
         toastr.success(NstSvcTranslation.get("Request accepted successfully."));
       }).catch(function (error) {
         toastr.error(NstSvcTranslation.get("Something went wrong."));

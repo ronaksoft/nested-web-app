@@ -30,7 +30,6 @@
     }
 
     function init(label) {
-      //TODO: all member should be obtained
       vm.id = label.id;
       if (label.public) {
         vm.holderType = 'all';

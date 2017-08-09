@@ -131,7 +131,7 @@
 
     LabelFactory.prototype.updateRequest = function (id, status) {
       return this.sentinel.watch(function () {
-        return NstSvcServer.request('label/request_update', {
+        return NstSvcServer.request('label/update_request', {
           request_id: id,
           status: status,
         });
