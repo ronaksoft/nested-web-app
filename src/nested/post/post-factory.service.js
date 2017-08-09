@@ -608,13 +608,13 @@
     }
 
     function search(queryString, limit, skip) {
-      var defer = $q.defer();
-      var query = new NstFactoryQuery(null, {
+      var params = {
         query: queryString,
-        limit: limit,
-        skip: skip
-      });
-
+        limit: limit || 8,
+        skip: skip || 0
+      };
+      var defer = $q.defer();
+      var query = new NstFactoryQuery(null, params);
       return factory.sentinel.watch(function () {
         NstSvcServer.request('search/posts', {
           keywords: queryString,
@@ -632,8 +632,7 @@
     }
 
     function newSearch(places, users, labels, keywords, limit, skip) {
-      var defer = $q.defer();
-      var query = new NstFactoryQuery(null, {
+      var params = {
         advanced: true,
         place_id: places,
         sender_id: users,
@@ -641,18 +640,11 @@
         keyword: keywords,
         limit: limit || 8,
         skip: skip || 0
-      });
-
+      };
+      var defer = $q.defer();
+      var query = new NstFactoryQuery(null, params);
       return factory.sentinel.watch(function () {
-        NstSvcServer.request('search/posts', {
-          advanced: true,
-          place_id: places,
-          sender_id: users,
-          label_title: labels,
-          keyword: keywords,
-          limit: limit || 8,
-          skip: skip || 0
-        }).then(function (result) {
+        NstSvcServer.request('search/posts', params).then(function (result) {
           var postPromises = _.map(result.posts, parsePost);
           $q.all(postPromises).then(defer.resolve).catch(defer.reject);
         }).catch(function (error) {
