@@ -84,6 +84,7 @@
       }
       labelService.then(function (result) {
         toastr.success(NstSvcTranslation.get("Your request submited successfully."));
+        $uibModalInstance.close(true);
       }).catch(function(error) {
         toastr.error(NstSvcTranslation.get("Something went wrong."));
       }).finally(function () {

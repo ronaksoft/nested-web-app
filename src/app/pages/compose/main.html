@@ -96,6 +96,9 @@
         </div>
         <div class="_df f1"></div>
         <div class="_pr _df _fn lbl-btn" add-label added-labels="ctlCompose.model.labels" after-add-label="ctlCompose.addLabels">
+          <span ng-if="ctlCompose.model.labels.length > 0">
+            +{{ctlCompose.model.labels.length}}
+          </span>
           <svg class="_16svg _asc">
             <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
           </svg>

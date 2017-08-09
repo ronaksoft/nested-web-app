@@ -8,30 +8,28 @@
             {{ctrl.selectedLabels.length | localize}}/{{10 | localize}}
         </p>
     </h4>
-    <ui-select minimum-input-length="4" multiple limit="{{ctrl.targetLimit}}" always-show-list class="label-search _dib"
-        data-ng-model="ctrl.selectedLabels">
+    <ui-select minimum-input-length="4" multiple limit="{{ctrl.targetLimit}}" always-show-list class="label-search _dib" focus-on='SetFocus'
+        data-ng-model="ctrl.selectedLabels" on-select="ctrl.updatedRecipient(true, $item)" on-remove="ctrl.updatedRecipient(false, $item)">
         <ui-select-match placeholder="{{::ctrl.labelSelectPlaceHolder}}" class="label-items">
             <div class="selected-innter color-lbl-bg-{{$item.code}}">
                 <span>{{$item.title}}</span>
             </div>
         </ui-select-match>
         <!--{{$select.open = true;""}}-->
-        <ui-select-choices refresh="ctrl.searchFn($select.search)"
-                            refresh-delay="0"
-                            repeat="label as label in ctrl.search.results track by $index">
+        <ui-select-choices refresh="ctrl.searchFn($select.search)" position="down"
+                            refresh-delay="0"  nst-scrollbar go-downward="ctrl.goDownward"
+                            repeat="label in ctrl.search.results track by $index">
+                            {{$select.open = ctrl.search.results.length > 0; ""}}
             <svg class="_16svg mirror _fn color-lbl-{{label.code}}">
                 <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
             </svg>
             <span class="_vat _df" data-ng-bind-html="label.title | highlight: $select.search"></span>
         </ui-select-choices>
-        <ui-select-no-choice>
-            Dang!  We couldn't find any choices...
-        </ui-select-no-choice>
     </ui-select>
     <div class="load-more-labels">
-        <translate ng-if="ctrl.haveMore">Show more…</translate>
+        <translate ng-if="ctrl.haveMore" ng-click="ctrl.load()">Show more…</translate>
     </div>
     <div class="modal-footer">
-        <input type="button" class="butn-green" ng-disabled="ctrl.selectedLabels.length === ctrl.firstItemsLength" value="Done" ng-click="ctrl.submitLabels();" translate-attrs="value">
+        <input type="button" class="butn-green" ng-disabled="!ctrl.firstTouch" value="Done" ng-click="ctrl.submitLabels();" translate-attrs="value">
     </div>
 </div>
