@@ -50,7 +50,11 @@
             <span>
                 {{user.fullName}}
             </span>
-            <p>{{1 | localize}}</p>
+            <div ng-click="editCtrl.removeHolder(user.id)" class="actions _aic _df">
+              <svg class="_16svg _df _fn force">
+                <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
+              </svg>
+            </div>
             <hr/>
         </li>
     </ul>

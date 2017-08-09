@@ -3,10 +3,10 @@
 
   angular
     .module('ronak.nested.web.place')
-    .controller('LabelRemoveConfirmController', LabelRemoveConfirmController);
+    .controller('removeLabelPromptController', removeLabelPromptController);
 
   /** @ngInject */
-  function LabelRemoveConfirmController(selectedLabel, $uibModalInstance, NST_CONFIG) {
+  function removeLabelPromptController(selectedLabel, $uibModalInstance, NST_CONFIG) {
     var vm = this;
     vm.label = selectedLabel;
 

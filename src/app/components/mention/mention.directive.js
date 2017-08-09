@@ -169,7 +169,7 @@
                       return labelKey + elm.attr('data-id').trim();
                     },
                     remoteFilter: function (query, callback) {
-                      NstSvcLabelFactory.search().then(function (labels) {
+                      NstSvcLabelFactory.search(query).then(function (labels) {
                         var uniqueLabels = _.unionBy(labels, 'id');
                         var items = [];
                         _.map(uniqueLabels, function (item) {
