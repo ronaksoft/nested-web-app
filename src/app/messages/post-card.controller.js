@@ -703,7 +703,7 @@
     });
 
     /**
-     * add labels to post
+     * add / remove labels of post
      * @param {any} items
      */
     function addLabels(items){
@@ -711,14 +711,19 @@
       var addItems = _.difference(items, vm.post.labels);
       addItems.forEach(function(o){
         var id = o._id || o.id;
-        NstSvcPostFactory.addLabel(vm.post.id, id);
+        NstSvcPostFactory.addLabel(vm.post.id, id).then(function() {
+          vm.post.labels.push(o);
+        });
       });
       vm.post.labels = items;
       removeItems.forEach(function(o){
         var id = o._id || o.id;
-        NstSvcPostFactory.removeLabel(vm.post.id, id);
+        NstSvcPostFactory.removeLabel(vm.post.id, id).then(function() {
+          _.remove(vm.post.labels, function(n) {
+            return n.id || n._id === o.id || o._id;
+          });
+        });
       });
-      vm.post.labels = items;
     }
 
     /**
