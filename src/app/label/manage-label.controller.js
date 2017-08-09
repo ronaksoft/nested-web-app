@@ -135,8 +135,8 @@
         size: 'sm',
         resolve: {
           modalSetting: {
-            title: NstSvcTranslation.get('Remove selected items'),
-            body: NstSvcTranslation.get('Are you sure you want to remove selected item(s)?'),
+            title: NstSvcTranslation.get('Remove selected label(s)'),
+            body: NstSvcTranslation.get('Are you sure you want to remove selected label(s)?'),
             confirmText: NstSvcTranslation.get('Remove'),
             confirmColor: 'red',
             cancelText: NstSvcTranslation.get('Cancel')

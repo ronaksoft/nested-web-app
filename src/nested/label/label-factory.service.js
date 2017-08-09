@@ -29,6 +29,7 @@
           return NstSvcUserFactory.parseTinyUser(member);
         });
         model.counters = data.counters;
+        model.locked = data.locked;
       }
 
       return model;
