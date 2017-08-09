@@ -64,6 +64,7 @@
     vm.unreadCommentsCount = 0;
     vm.isChecked = false;
     vm.isCheckedForce = false;
+    vm.postSenderIsCurrentUser = false;
     // vm.isPlaceFilter = false;
 
     isPlaceFeed();
@@ -712,10 +713,10 @@
       addItems.forEach(function(o){
         var id = o._id || o.id;
         NstSvcPostFactory.addLabel(vm.post.id, id).then(function() {
+          console.log(o);
           vm.post.labels.push(o);
         });
       });
-      vm.post.labels = items;
       removeItems.forEach(function(o){
         var id = o._id || o.id;
         NstSvcPostFactory.removeLabel(vm.post.id, id).then(function() {
