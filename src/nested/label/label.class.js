@@ -20,7 +20,7 @@
 
       this.topMembers = [];
 
-      this.locked = undefined;
+      this.isMember = undefined;
     }
 
     Label.prototype = {};
