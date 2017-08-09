@@ -1,4 +1,4 @@
-<div class="manage-label">
+<div class="manage-label" manage-label-scroll>
   <div class="labels-headline _aic">
     <svg class="_24svg _df _r45 _fn" ng-click="$dismiss();">
       <use xlink:href="/assets/icons/nst-icn24.svg#cross"></use>
@@ -80,26 +80,6 @@
       </div>
     </li>
   </ul>
-  <!--<ul class="requests pending" ng-if="!ctrl.labelManager">-->
-    <!--<li ng-repeat="request in ctrl.requestList">-->
-      <!--<hr/>-->
-      <!--<div class="icon">-->
-        <!--<svg class="_16svg _df _fn color-lbl-{{request.label.code}}">-->
-          <!--<use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>-->
-        <!--</svg>-->
-      <!--</div>-->
-      <!--<div class="req-body">-->
-        <!--<cite class="{{ctrl.labelManager ? '' : 'color-lbl-' + request.label.code}}">-->
-          <!--{{request.label.title}}-->
-        <!--</cite>-->
-      <!--</div>-->
-      <!--<div ng-click="ctrl.withdrawRequest(request.id)" class="actions">-->
-        <!--<svg class="_16svg _df _fn force">-->
-          <!--<use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>-->
-        <!--</svg>-->
-      <!--</div>-->
-    <!--</li>-->
-  <!--</ul>-->
   <h5 class="list-head">Labels</h5>
   <ul class="labels">
     <li ng-repeat="label in ctrl.labels">

@@ -12,7 +12,9 @@
     vm.keyword = '';
     vm.labelManager = NstSvcAuth.user.labelEditor;
     vm.labels = [];
+    vm.haveMore = true;
     vm.requestList = [];
+    vm.oldKeyword = ''
     vm.editLabel = editLabel;
     vm.createLabel = createLabel;
     vm.requestLabel = requestLabel;
@@ -20,6 +22,10 @@
     vm.acceptRequest = acceptRequest;
     vm.withdrawRequest = withdrawRequest;
     vm.searchKeyUp = _.debounce(searchLabel, 512);
+    vm.setting = {
+      skip: 0,
+      limit: 16,
+    }
     init();
 
     function init() {
@@ -28,16 +34,29 @@
     }
 
     function searchLabel() {
+      if ( !vm.haveMore ) return;
+      if(vm.oldKeyword !== vm.keyword){
+        restoreDefault();
+      }
       var searchService;
       var filter = (vm.labelManager ? NST_LABEL_SEARCH_FILTER.ALL : NST_LABEL_SEARCH_FILTER.MY_PRIVATES);
       if (vm.keyword.length > 0) {
-        searchService = NstSvcLabelFactory.search(vm.keyword, filter);
+        searchService = NstSvcLabelFactory.search(vm.keyword, filter, vm.setting.skip, vm.setting.limit);
       } else {
-        searchService = NstSvcLabelFactory.search(null, filter);
+        searchService = NstSvcLabelFactory.search(null, filter, vm.setting.skip, vm.setting.limit);
       }
       searchService.then(function (result) {
-        vm.labels = result;
+        vm.labels = vm.labels.concat(result);
+        vm.oldKeyword = vm.keyword;
+        vm.haveMore = result.length === vm.setting.limit;
+        vm.setting.skip += result.length;
       });
+    }
+
+    function restoreDefault() {
+      vm.setting.skip = 0;
+      vm.labels = [];
+      vm.haveMore = true;
     }
 
     function getRequests() {

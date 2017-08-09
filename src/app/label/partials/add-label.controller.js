@@ -40,6 +40,7 @@
 
     function search(keyword){
       if (typeof keyword !== 'string' || vm.loading) return;
+      
       vm.loading = true;
       if ( keyword !== vm.oldKeyword) {
         restoreDefault();
