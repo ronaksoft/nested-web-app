@@ -39,8 +39,10 @@
 
       if (data && data._id) {
         model.id = data._id;
-        model.label = this.parse(data.label);
+        model.label = (data.label ? this.parse(data.label) : null);
         model.user =  NstSvcUserFactory.parseTinyUser(data.user);
+        model.title = data.title;
+        model.code = data.code;
       }
 
       return model;
@@ -105,7 +107,7 @@
           skip: skip || 0,
           limit: limit || 10
         }).then(function (result) {
-          return $q.resolve(result);
+          return $q.resolve(_.map(result.label_requests, that.parseRequest));
         });
       }, 'get-request');
     };
