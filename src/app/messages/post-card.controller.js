@@ -713,18 +713,22 @@
       addItems.forEach(function(o){
         var id = o._id || o.id;
         NstSvcPostFactory.addLabel(vm.post.id, id).then(function() {
-          console.log(o);
-          vm.post.labels.push(o);
+          // console.log(o);
+          // vm.post.labels.push(o);
         });
       });
       removeItems.forEach(function(o){
         var id = o._id || o.id;
         NstSvcPostFactory.removeLabel(vm.post.id, id).then(function() {
-          _.remove(vm.post.labels, function(n) {
-            return n.id || n._id === o.id || o._id;
-          });
+          // _.remove(vm.post.labels, function(n) {
+          //   var id1 =  n.id || n._id;
+          //   var id2 =  o.id || o._id;
+          //   console.log(id1, id2);
+          //   return id1 === id2
+          // });
         });
       });
+      vm.post.labels = items;
     }
 
     /**
