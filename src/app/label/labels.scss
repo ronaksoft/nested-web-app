@@ -171,12 +171,16 @@
                     }
                 }
                 .edit {
-                    opacity: .4;
+                    opacity: 0;
+                    transition: opacity $animation-dur;
                 }
                 &:last-of-type {
                   hr {
                     display: none;
                   }
+                }
+                &:hover .edit {
+                    opacity: 0.4;
                 }
             }
         }

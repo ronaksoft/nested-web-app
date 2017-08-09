@@ -103,7 +103,7 @@
         <svg class="_16svg _df _fn color-lbl-{{label.code}}">
           <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
         </svg>
-        <span>{{label.counters.posts}}</span>
+        <span>{{label.counters.posts | localize}}</span>
       </div>
       <div ng-if="label.public" class="users">
         <translate>everyone</translate>
