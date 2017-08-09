@@ -1,3 +1,12 @@
+/**
+ * @file src/app/place/partials/teammates/place-teammates.controller.js
+ * @author Sina Hosseini <sinaa@nested.me>
+ * @description Provides a list of recently visited places 
+ * Documented by:          Soroush Torkzadeh <sorousht@nested.me>
+ * Date of documentation:  2017-08-09
+ * Reviewed by:            -
+ * Date of review:         -
+ */
 (function () {
   'use strict';
 
@@ -6,6 +15,14 @@
     .controller('RecentVisitedController', RecentVisitedController);
 
   /** @ngInject */
+  /**
+   * Displays a list of recently visited places. It drops the most recent place
+   * and the selected place are the same
+   * 
+   * @param {any} $scope 
+   * @param {any} $stateParams 
+   * @param {any} NstSvcUserFactory 
+   */
   function RecentVisitedController($scope, $stateParams,
                                    NstSvcUserFactory) {
     var vm = this;
