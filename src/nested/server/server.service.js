@@ -10,7 +10,7 @@
                         NST_CONFIG, NST_AUTH_COMMAND, NST_REQ_STATUS, NST_RES_STATUS, NST_AUTH_EVENT,
                         NST_SRV_MESSAGE_TYPE, NST_SRV_PUSH_CMD, NST_SRV_RESPONSE_STATUS, NST_SRV_ERROR,
                         NST_SRV_EVENT, NST_SRV_MESSAGE,
-                        NstSvcRandomize, NstSvcLogger, NstSvcTry, NstSvcConnectionMonitor, NstHttp,
+                        NstSvcRandomize, NstSvcLogger, NstSvcTry, NstSvcConnectionMonitor, NstHttp, NstSvcClient,
                         NstObservableObject, NstServerError, NstServerQuery, NstRequest, NstResponse, NstSvcDate) {
 
     var NST_SERVER_DOMAIN = 'nested.server.domain';
@@ -288,7 +288,7 @@
 
         var rawData = {
           _cver: parseInt(NST_CONFIG.APP_VERSION.split('.').join('')),
-          _cid: getClientId(),
+          _cid: NstSvcClient.getCid(),
           cmd: action,
           type: 'q',
           _reqid: reqId,
@@ -473,19 +473,6 @@
       NST_CONFIG.ADMIN_DOMAIN = this.defaultConfigs.ADMIN_DOMAIN;
       NST_CONFIG.ADMIN_PORT = this.defaultConfigs.ADMIN_PORT;
       NST_CONFIG.DOMAIN = this.defaultConfigs.DOMAIN;
-    };
-
-    function getClientId() {
-      var cid = null;
-      cid = $cookies.get('cid');
-
-      if (!cid) {
-        cid = ['Web', 'desktop', platform.name, platform.os].join('_');
-      }
-
-      $cookies.put('cid', cid);
-
-      return cid;
     };
 
     function loadConfigFromRemote(domainName) {
