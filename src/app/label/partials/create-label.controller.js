@@ -25,7 +25,7 @@
     vm.createLabel = createLabel;
 
     function isNotValid() {
-      if (vm.title.length <= 3) {
+      if (vm.title.length <= 1) {
         return true;
       } else if (vm.holderType === 'specific' && vm.specificHolders.length === 0) {
         return true;
@@ -81,11 +81,14 @@
             toastr.warning(NstSvcTranslation.get("Label created successfully, but no member assigned to it!"));
           });
         }
-      }).catch(function (error) {
-        toastr.error(NstSvcTranslation.get("Something went wrong."));
-      }).finally(function () {
         $uibModalInstance.close(true);
-        // $scope.$dismiss();
+      }).catch(function (error) {
+        if (error.code === 5) {
+          toastr.warning(NstSvcTranslation.get("Label already exists!"));
+        } else {
+          toastr.error(NstSvcTranslation.get("Something went wrong."));
+          $uibModalInstance.close(true);
+        }
       });
     }
   }

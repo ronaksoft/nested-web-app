@@ -13,6 +13,10 @@
       this.label = {};
 
       this.user = {};
+
+      this.code = undefined;
+
+      this.title = undefined;
     }
 
     LabelRequest.prototype = {};

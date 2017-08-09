@@ -93,6 +93,10 @@
                         font-weight: bold;
                         line-height: 19px;
                         font-style: normal;
+                        span {
+                          font-weight: normal;
+                          color: $color-new-hurricane;
+                        }
                     }
                     p {
                         margin: 4px 0 0 0;
@@ -266,6 +270,7 @@
         justify-content: flex-end;
         padding: 0;
         border: none;
+        line-height: 16px;
         input {
             width: 92px!important;
             height: 32px!important;
@@ -413,7 +418,8 @@
         max-width: 320px!important;
         margin-left: -160px!important;
         min-height: 459px!important;
-        max-height: 459px!important;
+        /*max-height: 459px!important;*/
+        max-height: 100%!important;
         background-color: red;
         padding: 24px 16px 0 16px!important;
         h4 {
@@ -433,7 +439,7 @@
         }
         .label-search {
             padding: 0 4px;
-            height: 307px;
+            /*height: 307px;*/
             >div:first-child {
                 border-bottom: 1px solid $color-solid;
                 margin-bottom: 24px;
@@ -458,11 +464,16 @@
                 box-shadow: none;
                 position: relative;
                 border: none;
+                padding: 0;
+                max-height: 256px;
+                height: 256px;
+                display: block!important;
             }
         }
         .ui-select-bootstrap .ui-select-choices-row > a {
             padding: 8px 0;
-            >span {
+            line-height: 16px;
+            >._vat {
                 padding:  0 8px;
             }
             span {
