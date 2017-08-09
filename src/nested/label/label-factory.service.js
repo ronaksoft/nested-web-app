@@ -36,14 +36,23 @@
 
     LabelFactory.prototype.parseRequest = function (data) {
       var model = new NstLabelRequest();
-
       if (data && data._id) {
         model.id = data._id;
-        model.label = this.parse(data.label);
-        model.user =  NstSvcUserFactory.parseTinyUser(data.user);
+        if (data.label) {
+          model.label = data.label;
+        } else {
+          delete model.label;
+        }
+        model.user =  NstSvcUserFactory.parseTinyUser(data.requester);
+        model.title = data.title;
+        model.code = data.code;
       }
 
       return model;
+    };
+
+    LabelFactory.prototype.parseMember = function (data) {
+      return NstSvcUserFactory.parseTinyUser(data)
     };
 
     LabelFactory.prototype.create = function (title, code, isPublic) {
@@ -98,14 +107,14 @@
       }, 'search');
     };
 
-    LabelFactory.prototype.getRequest = function (skip, limit) {
+    LabelFactory.prototype.getRequests = function (skip, limit) {
       var that = this;
       return this.sentinel.watch(function () {
         return NstSvcServer.request('label/get_requests', {
           skip: skip || 0,
           limit: limit || 10
         }).then(function (result) {
-          return $q.resolve(result);
+          return $q.resolve(_.map(result.label_requests, that.parseRequest));
         });
       }, 'get-request');
     };
@@ -122,7 +131,7 @@
 
     LabelFactory.prototype.updateRequest = function (id, status) {
       return this.sentinel.watch(function () {
-        return NstSvcServer.request('label/request_update', {
+        return NstSvcServer.request('label/update_request', {
           request_id: id,
           status: status,
         });
@@ -134,7 +143,20 @@
         return NstSvcServer.request('label/remove_request', {
           request_id: id,
         });
-      }, 'remove_request' + id + status);
+      }, 'remove-request' + id + status);
+    };
+
+    LabelFactory.prototype.getMembers = function (labelId, skip, limit) {
+      var that= this;
+      return this.sentinel.watch(function () {
+        return NstSvcServer.request('label/get_members', {
+          label_id: labelId,
+          skip: skip || 0,
+          limit: limit || 10,
+        }).then(function (result) {
+          return $q.resolve(_.map(result.members, that.parseMember));
+        });
+      }, 'get-member-' + labelId);
     };
 
     LabelFactory.prototype.addMember = function (labelId, accountId) {
@@ -143,7 +165,7 @@
           label_id: labelId,
           account_id: accountId,
         });
-      }, 'addMember-' + labelId + '-' + accountId);
+      }, 'add-member-' + labelId + '-' + accountId);
     };
 
     LabelFactory.prototype.removeMember = function (labelId, accountId) {
@@ -152,7 +174,7 @@
           label_id: labelId,
           account_id: accountId,
         });
-      }, 'removeMember-' + labelId + '-' + accountId);
+      }, 'remove-member-' + labelId + '-' + accountId);
     };
 
     return new LabelFactory();

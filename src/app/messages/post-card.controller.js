@@ -84,8 +84,8 @@
 
     /**
      * reaply all places that post have been shared
-     * 
-     * @param {any} $event 
+     *
+     * @param {any} $event
      */
     function replyAll($event) {
       $event.preventDefault();
@@ -94,8 +94,8 @@
 
     /**
      * forward message, actully it adds post content to the compose with empty recipient
-     * 
-     * @param {any} $event 
+     *
+     * @param {any} $event
      */
     function forward($event) {
       $event.preventDefault();
@@ -104,8 +104,8 @@
 
     /**
      * Reply to post sender
-     * 
-     * @param {any} $event 
+     *
+     * @param {any} $event
      */
     function replyToSender($event) {
       $event.preventDefault();
@@ -114,8 +114,8 @@
 
     /**
      * opens modal post view
-     * 
-     * @param {any} $event 
+     *
+     * @param {any} $event
      */
     function viewFull($event) {
       $event.preventDefault();
@@ -177,8 +177,8 @@
      * after accepting the warning prompt .
      * it raises an event to listerens and
      * also removes the post from selected posts
-     * @param {object} post 
-     * @param {string} place 
+     * @param {object} post
+     * @param {string} place
      */
     function remove(post, place) {
       confirmforRemove(post, place).then(function (agree) {
@@ -207,8 +207,8 @@
 
     /**
      * warning propt for removing post from place
-     * @param {any} post 
-     * @param {any} place 
+     * @param {any} post
+     * @param {any} place
      * @returns  {Promise}
      * @function {{FunctionName}}{{}}
      */
@@ -278,8 +278,8 @@
     /**
      * replace the post content with summorized version of that
      * also scrolls the page to the top of the post card on long posts
-     * 
-     * @param {any} e 
+     *
+     * @param {any} e
      */
     function collapse(e) {
       if (vm.post.ellipsis) {
@@ -375,7 +375,7 @@
      * by a `MovePlace` modal .
      * also removes the post from selecterd post
      * and raise an event for listeners
-     * @param {any} selectedPlace 
+     * @param {any} selectedPlace
      * @borrows $uibModal
      */
     function move(selectedPlace) {
@@ -442,7 +442,7 @@
     /**
      * Loads new comments that app informed from push notifications
      * also reloads the post counters
-     * @param {any} $event 
+     * @param {any} $event
      */
     function loadNewComments($event) {
       if ($event) $event.preventDefault();
@@ -454,8 +454,8 @@
     /**
      * determines the place delete access
      * needs for remove from action
-     * @param {object} place 
-     * @returns 
+     * @param {object} place
+     * @returns
      */
     function hasDeleteAccess(place) {
       return place.hasAccess(NST_PLACE_ACCESS.REMOVE_POST);
@@ -616,7 +616,6 @@
        * determine the post have unloaded comments or not
        */
       vm.hasOlderComments = (vm.post.counters.comments && vm.post.comments) ? vm.post.counters.comments > vm.post.comments.length : false;
-      console.log(vm.post);
       vm.body = vm.post.body;
       vm.orginalPost = vm.post;
 
@@ -643,7 +642,7 @@
 
       /**
        * Event handler for comment remove event of post
-       * 
+       *
        */
       eventReferences.push($scope.$on('comment-removed', function (event, data) {
         if (vm.post.id === data.postId) {
@@ -743,7 +742,7 @@
 
     /**
      * Place messages route recognizer
-     * @returns 
+     * @returns
      */
     function isPlaceFeed() {
       if ($state.current.name === 'app.messages-favorites' ||

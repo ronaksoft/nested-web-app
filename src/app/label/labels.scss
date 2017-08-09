@@ -93,6 +93,10 @@
                         font-weight: bold;
                         line-height: 19px;
                         font-style: normal;
+                        span {
+                          font-weight: normal;
+                          color: $color-new-hurricane;
+                        }
                     }
                     p {
                         margin: 4px 0 0 0;
