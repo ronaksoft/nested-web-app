@@ -4,8 +4,8 @@
       <use xlink:href="/assets/icons/nst-icn24.svg#cross"></use>
     </svg>
     <h3 class="_df _fw">
-      <translate ng-if="ctrl.labelManager">Manage Labels</translate>
-      <translate ng-if="!ctrl.labelManager">My Labels</translate>
+      <span ng-if="ctrl.labelManager"><translate>Manage Labels</translate></span>
+      <span ng-if="!ctrl.labelManager"><translate>My Labels</translate></span>
     </h3>
   </div>
   <div class="_df _fw _aic">
@@ -17,16 +17,22 @@
       </i>
       <input ng-keyup="ctrl.searchKeyUp()" ng-model="ctrl.keyword" type="text" placeholder="Find Labels">
     </div>
-    <div ng-if="ctrl.labelManager" ng-click="ctrl.createLabel()" class="lbl-cr8" >
+    <div ng-if="ctrl.labelManager && ctrl.selectedItems.length == 0" ng-click="ctrl.createLabel()" class="lbl-cr8" >
       <a><translate>New Label</translate></a>
       <svg class="_16svg _df _fn">
         <use xlink:href="/assets/icons/nst-icn16.svg#cross"></use>' +
       </svg>
     </div>
-    <div ng-if="!ctrl.labelManager" ng-click="ctrl.requestLabel()"  class="lbl-cr8" >
+    <div ng-if="!ctrl.labelManager && ctrl.selectedItems.length == 0" ng-click="ctrl.requestLabel()"  class="lbl-cr8" >
       <a><translate>Request a Label</translate></a>
       <svg class="_16svg _df _fn">
         <use xlink:href="/assets/icons/nst-icn16.svg#cross"></use>' +
+      </svg>
+    </div>
+    <div ng-if="ctrl.labelManager && ctrl.selectedItems.length > 0" ng-click="ctrl.removeSelectedLabels()"  class="lbl-remove" >
+      <a><translate>Remove Label{{ctrl.selectedItems.length > 1 ? 's' : ''}} ({{ctrl.selectedItems.length | localize}})</translate></a>
+      <svg class="_16svg _df _fn force">
+        <use xlink:href="/assets/icons/nst-icn16.svg#bin"></use>' +
       </svg>
     </div>
   </div>
@@ -45,8 +51,8 @@
         </cite>
         <p>
           <span user-detail="request.user"><b>{{request.user.fullName}}</b></span>
-          <translate ng-if="request.label">wants to reach this.</translate>
-          <translate ng-if="!request.label">wants to create this.</translate>
+          <span ng-if="request.label"><translate>wants to reach this.</translate></span>
+          <span ng-if="!request.label"><translate>wants to create this.</translate></span>
         </p>
       </div>
       <div ng-if="!ctrl.labelManager" class="req-body">
@@ -86,8 +92,7 @@
       <hr/>
       <div class="icon" ng-if="ctrl.labelManager">
         <div class="select-card" ng-class="{'selected': label.selected}">
-          <input class="_fr" type="checkbox" id="label-select{{label.id}}" name="select"
-                ng-model="label.selected" ng-checked=""/>
+          <input ng-model="label.selected" ng-change="ctrl.toggleSelected(label.id, label.selected)" class="_fr" type="checkbox" id="label-select{{label.id}}" name="select"/>
           <label class="_fw _df _asc setting" for="label-select{{label.id}}"></label>
         </div>
       </div>
