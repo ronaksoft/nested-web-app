@@ -25,7 +25,8 @@
     vm.setting = {
       skip: 0,
       limit: 16,
-    }
+    };
+
     init();
 
     function init() {
@@ -34,8 +35,10 @@
     }
 
     function searchLabel() {
-      if ( !vm.haveMore ) return;
-      if(vm.oldKeyword !== vm.keyword){
+      if (!vm.haveMore) {
+        return;
+      }
+      if (vm.oldKeyword !== vm.keyword) {
         restoreDefault();
       }
       var searchService;
@@ -83,6 +86,7 @@
         }
       }).result.then(function (result) {
         if (result) {
+          restoreDefault();
           searchLabel(vm.keyword);
         }
       });
@@ -97,6 +101,7 @@
         controllerAs: 'createCtrl'
       }).result.then(function (result) {
         if (result) {
+          restoreDefault();
           searchLabel();
         }
       });
@@ -111,6 +116,7 @@
         controllerAs: 'requestCtrl'
       }).result.then(function (result) {
         if (result) {
+          restoreDefault();
           getRequests();
         }
       });
