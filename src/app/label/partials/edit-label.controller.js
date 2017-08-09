@@ -125,13 +125,27 @@
     }
 
     function removeLabel() {
-      NstSvcLabelFactory.remove(vm.id).then(function (result) {
-        toastr.success(NstSvcTranslation.get("Label removed successfully."));
-      }).catch(function (error) {
-        toastr.error(NstSvcTranslation.get("Something went wrong."));
-      }).finally(function () {
-        $uibModalInstance.close(true);
-      });
+      var modal = $uibModal.open({
+          animation: false,
+          templateUrl: 'app/label/partials/delete-label-prompt.html',
+          controller: 'LabelRemoveConfirmController',
+          controllerAs: 'removeCtrl',
+          size: 'sm',
+          resolve: {
+            selectedLabel: function () {
+              return vm.title;
+            }
+          }
+        }).result.then(function (confirmResult) {
+          NstSvcLabelFactory.remove(vm.id).then(function (result) {
+            toastr.success(NstSvcTranslation.get("Label removed successfully."));
+            $uibModalInstance.close(true);
+          }).catch(function (error) {
+            toastr.error(NstSvcTranslation.get("Something went wrong."));
+            NstSvcLogger.error(error);
+          });
+        })
+      
     }
   }
 
