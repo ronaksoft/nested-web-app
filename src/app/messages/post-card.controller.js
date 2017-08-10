@@ -244,12 +244,17 @@
      * retract message for senders with circumated time
      * also removes the post from selected posts
      */
+    console.log($scope);
     function retract() {
       vm.retractProgress = true;
       NstSvcPostInteraction.retract(vm.post).finally(function () {
         vm.retractProgress = false;
         vm.isChecked = false;
         $scope.$emit('post-select',{postId: vm.post.id,isChecked : vm.isChecked});
+        if (isPostView()) {
+          console.log('closeit')
+          $scope.$parent.$parent.$dismiss();
+        }
       });
     }
 
@@ -787,6 +792,13 @@
         return true;
       }
       return false;
+    }
+
+    function isPostView() {
+      if ($state.current.name == 'app.message') {
+        return vm.isPostView = true;
+      }
+      return vm.isPostView = false;
     }
 
     /**
