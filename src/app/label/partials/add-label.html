@@ -11,9 +11,13 @@
     <ui-select minimum-input-length="4" multiple limit="{{ctrl.targetLimit}}" always-show-list class="label-search _dib" focus-on='SetFocus'
         data-ng-model="ctrl.selectedLabels" on-select="ctrl.updatedRecipient(true, $item)" on-remove="ctrl.updatedRecipient(false, $item)">
         <ui-select-match placeholder="{{::ctrl.labelSelectPlaceHolder}}" class="label-items">
-            <div class="selected-innter color-lbl-bg-{{$item.code}} ng-class:{'locked' : !$item.ispublic && !$item.isMember}">
-                <svg class="_16svg _fn fill-white" ng-if="!$item.ispublic && !$item.isMember">
+            <div class="selected-innter color-lbl-bg-{{$item.code}} ng-class:{'locked' : !$item.public && !$item.is_member}">
+                <svg class="_16svg _fn fill-white" ng-if="!$item.public && !$item.is_member">
                     <use xlink:href="/assets/icons/nst-icn16.svg#lock"></use>
+                </svg>
+                <svg class="_16svg _fn fill-white" ng-if="$item.public|| $item.is_member"
+                 ng-click="ctrl.clear($item, $select)">
+                    <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
                 </svg>
                 <span>{{$item.title}}</span>
             </div>

@@ -23,6 +23,7 @@
     };
     vm.goDownward = false;
     vm.load = load;
+    vm.clear = clear;
     vm.selectedLabels = argv.addedLabels.length > 0 ? argv.addedLabels : [];
     vm.firstTouch = false;
     var defaultLimit = 8;
@@ -74,6 +75,12 @@
     function updatedRecipient(onSelect, label) {
       vm.firstTouch = true;
       $scope.$broadcast('SetFocus');
+    }
+    function clear(item, select) {
+      vm.firstTouch = true;
+      _.remove(vm.selectedLabels, function (o) {
+        return item._id === o._id;
+      });
     }
   }
 

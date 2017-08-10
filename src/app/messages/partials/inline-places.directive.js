@@ -28,7 +28,6 @@
         },100);
 
         function adjustElements() {
-          console.log('adjustElements');
           startAdjust = true;
           if ( elem.height() > 40 && removeItems < 50) {
             if ( scope.limitRecipients > 0 ) {
