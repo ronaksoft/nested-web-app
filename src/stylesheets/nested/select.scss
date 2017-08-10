@@ -319,7 +319,8 @@ select,option {
       @extend ._txe;
     }
     .close {
-      line-height: 28px;
+      display: none;
+      /*line-height: 28px;
       width: 18px;
       justify-content: center;
       transition: opacity $animation-dur;
@@ -327,12 +328,12 @@ select,option {
       right: 8px;
       font-size: 20px;
       top: 2px;
-      padding: 0;
+      padding: 0;*/
     }
     div.selected-innter {
       border-radius: 4px;
       border: none;
-      padding: 0 28px 0 8px;
+      padding: 0 8px 0 28px;
       height: 28px;
       max-width: 216px;
       transition-property: border-color,background;
@@ -346,6 +347,11 @@ select,option {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+      }
+      svg {
+        position: absolute;
+        left: 5px;
+        top: 5px;
       }
     }
     &:hover,&:active,&:focus {

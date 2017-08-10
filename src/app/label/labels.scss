@@ -259,10 +259,12 @@
         margin-bottom: 32px;
         .address-input {
             padding: 0;
+            display: flex
         }
         .ui-select-multiple.ui-select-bootstrap {
             input.ui-select-search {
                 height: 32px;
+                transition: none;
                 padding: 0;
                 margin: 0;
                 font-size: 14px;
@@ -455,6 +457,7 @@
         /*max-height: 459px!important;*/
         max-height: 100%!important;
         background-color: red;
+        border-radius: 4px;
         padding: 24px 16px 0 16px!important;
         h4 {
             font-size: 20px;
