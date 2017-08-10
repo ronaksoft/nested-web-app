@@ -17,10 +17,10 @@ build:desktop:
     - cd /var/lib/desktop
     - ls ./node_modules
     - npm install -g gulp bower
+    - rm -rf ./node_modules/gulp*
     - npm install
     - bower install
     - rm -rf ./node_modules/gulp-utils
-    - npm install --save-dev gulp-utils
     - gulp build --mode=production
     - mkdir -p $BUILD_DIR/desktop
     - cp -a ./dist/production/. $BUILD_DIR/desktop
@@ -49,7 +49,6 @@ build:mobile:
     - git checkout master
     - cp -a ./. /var/lib/mobile
     - cd /var/lib/mobile
-    - npm install -g yarn
     - npm install
     - npm run build:prod
     - mkdir -p $BUILD_DIR/mobile
