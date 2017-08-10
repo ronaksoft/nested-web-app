@@ -34,7 +34,7 @@
       eventReferences = [];
 
     vm.remove = _.partial(remove, vm.post);
-    // vm.toggleRemoveFrom = toggleRemoveFrom;
+    vm.toggleRemoveFrom = toggleRemoveFrom;
     vm.retract = retract;
     vm.expand = expand;
     vm.collapse = collapse;
@@ -209,9 +209,9 @@
       });
     }
 
-    // function toggleRemoveFrom(show) {
-    //   vm.showRemoveFrom = show;
-    // }
+    function toggleRemoveFrom(show) {
+      vm.showRemoveFrom = show;
+    }
 
     /**
      * warning propt for removing post from place
