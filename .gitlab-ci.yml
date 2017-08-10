@@ -5,7 +5,7 @@ stages:
 variables:
   BUILD_DIR: $CI_PROJECT_DIR/build
 
-image: node
+image: "registry.ronaksoftware.com/base/node:builder"
 
 build:desktop:
   stage: build
@@ -21,7 +21,7 @@ build:desktop:
     - gulp build --mode=production
     - mkdir -p $BUILD_DIR/desktop
     - cp -r ./dist/production/* $BUILD_DIR/desktop
-    - cp .local-web-server.json $BUILD_DIR/desktop
+    - cp w $BUILD_DIR/desktop
     - mkdir -p $BUILD_DIR/bin
     - cp -r ./bin/* $BUILD_DIR/bin
     - find . -type f -not -name \*.html -exec rm -rf {} \;
