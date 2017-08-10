@@ -569,17 +569,19 @@ body.modal-open {
     overflow: hidden;
     margin-top: -25px;
   }*/
-  .ui-select-choices-row{
+  &.ui-select-bootstrap .ui-select-choices-row{
     display: inline-flex;
     flex-direction: row;
-    height: 50px;
-    width: 33.3%;
-    margin-top: 5px;
+    height: 48px;
+    width: calc(33.3% - 12px);
+    margin-bottom: 12px;
+    margin-right: 12px;
     a{
       display: inline-flex!important;
       flex-direction: row;
-      height: 50px;
+      height: 48px;
       width: 100%;
+      padding: 8px 4px;
     }
     &:hover{
       background-color: $color-sense-5;
