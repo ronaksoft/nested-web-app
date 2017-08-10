@@ -11,7 +11,10 @@
     <ui-select minimum-input-length="4" multiple limit="{{ctrl.targetLimit}}" always-show-list class="label-search _dib" focus-on='SetFocus'
         data-ng-model="ctrl.selectedLabels" on-select="ctrl.updatedRecipient(true, $item)" on-remove="ctrl.updatedRecipient(false, $item)">
         <ui-select-match placeholder="{{::ctrl.labelSelectPlaceHolder}}" class="label-items">
-            <div class="selected-innter color-lbl-bg-{{$item.code}}">
+            <div class="selected-innter color-lbl-bg-{{$item.code}} ng-class:{'locked' : !$item.ispublic && !$item.isMember}">
+                <svg class="_16svg _fn fill-white" ng-if="!$item.ispublic && !$item.isMember">
+                    <use xlink:href="/assets/icons/nst-icn16.svg#lock"></use>
+                </svg>
                 <span>{{$item.title}}</span>
             </div>
         </ui-select-match>
