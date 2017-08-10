@@ -13,22 +13,24 @@ build:desktop:
       - master
       - develop
   script:
-    - cp -r . /var/lib/desktop
+    - cp -a ./. /var/lib/desktop
     - cd /var/lib/desktop
     - ls ./node_modules
     - npm install -g gulp bower
     - npm install
     - bower install
+    - rm -rf ./node_modules/gulp-utils
+    - npm install --save-dev gulp-utils
     - gulp build --mode=production
     - mkdir -p $BUILD_DIR/desktop
-    - cp -r ./dist/production/* $BUILD_DIR/desktop
+    - cp -a ./dist/production/. $BUILD_DIR/desktop
     - cp wdio.conf.js $BUILD_DIR/desktop
     - mkdir -p $BUILD_DIR/bin
-    - cp -r ./bin/* $BUILD_DIR/bin
+    - cp -a ./bin/. $BUILD_DIR/bin
     - find . -type f -not -name \*.html -exec rm -rf {} \;
     - find . -type d -empty -delete
     - rm -rf ./src/index.html
-    - cp -r ./src/* $BUILD_DIR/desktop
+    - cp -a ./src/. $BUILD_DIR/desktop
 
   artifacts:
     untracked: true
@@ -45,16 +47,16 @@ build:mobile:
     - cd /var/lib/mobile-org
     - git clone http://gitlab-ci-token:$CI_BUILD_TOKEN@git.ronaksoftware.com/nested/web-mobile-app.git .
     - git checkout master
-    - cp -r ./* /var/lib/mobile
+    - cp -a ./. /var/lib/mobile
     - cd /var/lib/mobile
     - npm install -g yarn
     - npm install
     - npm run build:prod
     - mkdir -p $BUILD_DIR/mobile
     - cp ./package.json $BUILD_DIR/mobile
-    - cp -r ./node_modules $BUILD_DIR/mobile
-    - cp -r ./src $BUILD_DIR/mobile
-    - cp -r ./build $BUILD_DIR/mobile/build
+    - cp -a ./node_modules $BUILD_DIR/mobile
+    - cp -a ./src $BUILD_DIR/mobile
+    - cp -a ./build $BUILD_DIR/mobile/build
   artifacts:
     untracked: true
     expire_in: 1 hour
