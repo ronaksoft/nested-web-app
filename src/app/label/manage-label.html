@@ -88,7 +88,7 @@
   </ul>
   <h5 class="list-head">Labels</h5>
   <ul class="labels">
-    <li ng-repeat="label in ctrl.labels">
+    <li ng-repeat="label in ctrl.labels track by $index">
       <hr/>
       <div class="icon" ng-if="ctrl.labelManager">
         <div class="select-card" ng-class="{'selected': label.selected}">

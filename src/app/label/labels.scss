@@ -148,6 +148,11 @@
                     display: flex;
                     width: 100%;
                     font-size: 14px;
+                    overflow: hidden;
+                    span {
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
                 }
                 .usage {
                     margin-left: 24px;
@@ -192,6 +197,7 @@
     min-height: 0px!important;
     padding: 24px!important;
     align-self: center;
+    max-height: 100vh;
     &.request-modal {
         h4 {
             margin-bottom: 24px;
@@ -210,6 +216,7 @@
         display: flex;
         align-items: center;
         color: $color-solid;
+        flex: none;
         span {
             flex: 1;
             display: flex;
@@ -219,6 +226,10 @@
         margin-top: 24px;
         color: $color-gale-new;
         font-weight: bold;
+        flex: none
+    }
+    .close-btn {
+        margin-right: 16px;
     }
     .label-color {
         &.marginbtm {
@@ -288,6 +299,8 @@
     ul.holders {
         margin: 0 -24px 0 -16px;
         list-style: none;
+        max-height: 194px;
+        flex: none;
         li {
             display: flex;
             height: 48px;
@@ -311,6 +324,15 @@
                 flex: none;
                 align-items: center;
                 color: $color-solid-64;
+            }
+            .actions.force {
+                opacity: 0;
+                transition: opacity $animation-dur;
+            }
+            &:hover{
+                .actions.force {
+                    opacity: 1
+                }
             }
             hr {
                 position: absolute;
@@ -336,6 +358,11 @@
             right: 20px;
             .list-items {
                 height: 40px;
+                opacity: .72;
+                transition: opacity $animation-dur;
+                &:hover{
+                    opacity: 1;
+                }
                 span {
                     color: $color-new-hurricane;
                 }
@@ -495,6 +522,7 @@
         }
         .modal-footer {
             height: 48px;
+            flex: none;
             align-items: center;
             input {
                 width: 100%!important;

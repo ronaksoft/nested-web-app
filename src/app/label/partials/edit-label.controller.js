@@ -38,7 +38,7 @@
         vm.holderType = 'specific';
         vm.specificHolders = label.topMembers;
         specificHoldersBackup = _.clone(vm.specificHolders);
-        NstSvcLabelFactory.getMembers(vm.id, 0, 100).then(function (result) {
+        NstSvcLabelFactory.getMembers(vm.id, 0, 50).then(function (result) {
           vm.specificHolders = result;
           specificHoldersBackup = _.clone(result);
         });

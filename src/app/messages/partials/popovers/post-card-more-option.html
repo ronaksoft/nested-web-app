@@ -1,4 +1,4 @@
-<div class="_df list-items _aic _fw" ng-click="ctlPostCard.toggleRecieveNotification()">
+<!--<div class="_df list-items _aic _fw" ng-click="ctlPostCard.toggleRecieveNotification()">
   <div>
     <svg class="_16svg _df _fn">
       <use xlink:href="/assets/icons/nst-icn16.svg#bell"></use>
@@ -6,7 +6,7 @@
   </div>
   <span class="_fw setting _asc" ng-if="!ctlPostCard.watched">	&nbsp;<translate>Turn On Notifications</translate></span>
   <span class="_fw setting _asc" ng-if="ctlPostCard.watched">	&nbsp;<translate>Turn Off Notifications</translate></span>
-</div>
+</div>-->
 <a class="_df list-items _aic _fw" ui-sref="app.message({ postId : ctlPostCard.post.id })"
    ng-click="ctlPostCard.viewFull($event)" ng-if="!ctlPostCard.chainView">
   <div class="_aic _df">
@@ -16,7 +16,7 @@
   </div>
   <span><translate>Full view</translate></span>
 </a>
-<!--<a class="list-items _difh" ng-click="ctlPostCard.toggleRecieveNotification()">
+<a class="list-items _difh" ng-click="ctlPostCard.toggleRecieveNotification()">
   <div>
     <svg class="_16svg _df _fn">
       <use xlink:href="/assets/icons/nst-icn16.svg#bell"></use>
@@ -24,7 +24,17 @@
   </div>
   <input class="_fr" type="checkbox" id="comments" name="comments" ng-checked="ctlPostCard.watched"/>
   <label class="_fw setting _asc" for="comments"><translate>Recieve notifications</translate></label>
-</a>-->
+</a>
+
+<a ng-if="ctlPostCard.haveAnyLabelAcess" class="_df list-items _aic _fw cursor-pointer" add-label added-labels="ctlPostCard.post.labels" after-add-label="ctlPostCard.addLabels" ng-if="ctlPostCard.currentUserIsSender">
+  <div class="_aic _df">
+    <svg class="_16svg">
+      <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
+    </svg>
+  </div>
+  <span><translate>Modify labels</translate></span>
+</a>
+
 <a ng-if="!ctlPostCard.post.internal && ctlPostCard.post.isTrusted" class="list-items _difh" ng-click="ctlPostCard.untrustSender()">
   <div>
     <svg class="_16svg _df _fn">
@@ -80,16 +90,6 @@
     </svg>
   </div>
   <span><translate>Attach a Place</translate></span>
-</a>
-
-
-<a ng-if="ctlPostCard.currentUserIsSender" class="_df list-items _aic _fw cursor-pointer" add-label added-labels="ctlPostCard.post.labels" after-add-label="ctlPostCard.addLabels" ng-if="ctlPostCard.currentUserIsSender">
-  <div class="_aic _df">
-    <svg class="_16svg">
-      <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
-    </svg>
-  </div>
-  <span><translate>Modify labels</translate></span>
 </a>
 
 <a class="_df list-items _aic _fw" ng-click="ctlPostCard.seenBy();" ng-if="ctlPostCard.currentUserIsSender">

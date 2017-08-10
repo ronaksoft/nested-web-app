@@ -82,7 +82,7 @@
         size: 'lg-white multiple',
         templateUrl: 'app/label/partials/edit-label.html',
         controller: 'editLabelController',
-        controllerAs: 'editCtrl',
+        controllerAs: 'ctrl',
         resolve: {
           argv: {
             label: label
