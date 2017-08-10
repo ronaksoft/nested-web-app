@@ -9,14 +9,17 @@
     return {
       restrict: 'A',
       link: function (scope, ele) {
-        var interval = $interval(function(){
+        var interval = setInterval(function(){
             if ( ele.parent()[0].scrollTop + ele.parent()[0].clientHeight > ele.parent()[0].scrollHeight * 0.9 ) {
-                scope.ctrl.searchKeyUp();
+                scope.$apply(function () {
+                  scope.ctrl.searchKeyUp();
+                });
             }
         },1000);
         
         scope.$on('$destroy', function () {
-            $interval.cancel(interval);
+            // $interval.cancel(interval);
+            clearInterval(interval);
         });
         
       }
