@@ -25,7 +25,7 @@
         <input type="radio" ng-model="createCtrl.holderType" value="all" id="create-label-all" name="selector">
         <label for="create-label-all"><translate>Public</translate></label>
     </div>
-    <div class="_dib _fw input-select-match" ng-if="createCtrl.holderType == 'specific'">
+    <div class="_df _fw input-select-match" ng-if="createCtrl.holderType == 'specific'">
       <ui-select minimum-input-length="4" multiple class="address-input"
                  data-ng-model="createCtrl.specificHolders" limit="{{createCtrl.limit}}"
                  autofocus="true" on-select="addHolderCtrl.search('')">
