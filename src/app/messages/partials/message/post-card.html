@@ -147,7 +147,7 @@
     <span data-ng-repeat="label in ctlPostCard.post.labels track by $index" class="defcur color-lbl-bg-{{label.code}}">
         {{::label.title}}
     </span>
-    <a ng-if="ctlPostCard.post.labels.length > 0 && ctlPostCard.currentUserIsSender"  add-label added-labels="ctlPostCard.post.labels" after-add-label="ctlPostCard.addLabels"
+    <a ng-if="ctlPostCard.haveAnyLabelAcess"  add-label added-labels="ctlPostCard.post.labels" after-add-label="ctlPostCard.addLabels"
       data-uib-tooltip-template="'add-label-tooltip.html'"
       data-tooltip-append-to-body="true" data-tooltip-placement="auto top">
         <svg class="_16svg _r90">
