@@ -21,7 +21,6 @@ build:desktop:
     - npm install
     - npm rebuild node-sass
     - bower install
-    - rm -rf ./node_modules/gulp-utils
     - ./node_modules/.bin/gulp build --mode=production
     - mkdir -p $BUILD_DIR/desktop
     - cp -a ./dist/production/. $BUILD_DIR/desktop
@@ -29,7 +28,6 @@ build:desktop:
     - mkdir -p $BUILD_DIR/bin
     - cp -a ./bin/. $BUILD_DIR/bin
     - find . -type f -not -name \*.html -exec rm -rf {} \;
-    - find . -type d -empty -delete
     - rm -rf ./src/index.html
     - cp -a ./src/. $BUILD_DIR/desktop
 
