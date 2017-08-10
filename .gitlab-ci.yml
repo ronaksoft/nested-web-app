@@ -16,12 +16,13 @@ build:desktop:
     - cp -a ./. /var/lib/desktop
     - cd /var/lib/desktop
     - ls ./node_modules
-    - npm install -g gulp bower
-    - rm -rf ./node_modules/gulp*
+    - apk add --update python build-base
+    - npm install -g bower
     - npm install
+    - npm rebuild node-sass
     - bower install
     - rm -rf ./node_modules/gulp-utils
-    - gulp build --mode=production
+    - ./node_modules/.bin/gulp build --mode=production
     - mkdir -p $BUILD_DIR/desktop
     - cp -a ./dist/production/. $BUILD_DIR/desktop
     - cp wdio.conf.js $BUILD_DIR/desktop
