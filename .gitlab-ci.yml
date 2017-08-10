@@ -5,7 +5,7 @@ stages:
 variables:
   BUILD_DIR: $CI_PROJECT_DIR/build
 
-image: node
+image: docker pull registry.ronaksoftware.com/base/node:builder
 
 build:desktop:
   stage: build
@@ -40,11 +40,12 @@ build:mobile:
       - master
       - develop
   script:
-    - mkdir -p /var/lib/mobile
-    - cd /var/lib/mobile
+    - mkdir -p /var/lib/mobile-git
+    - cd /var/lib/mobile-git
     - git clone http://gitlab-ci-token:$CI_BUILD_TOKEN@git.ronaksoftware.com/nested/web-mobile-app.git .
     - git checkout master
-    - npm install -g yarn
+    - cp -r /var/lib/mobile-git/* /var/lib/mobile
+    - cd /var/lib/mobile
     - npm install
     - npm run build:prod
     - mkdir -p $BUILD_DIR/mobile

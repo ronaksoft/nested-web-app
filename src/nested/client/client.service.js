@@ -16,7 +16,7 @@
     Client.prototype.constructor = Client;
 
     Client.prototype.getCid = function () {
-      let cid = $cookies.get('ncid');
+      var cid = $cookies.get('ncid');
       if (!cid) {
         cid = ['web', 'desktop', platform.name, platform.os.family].join('_');
         this.setCid(cid);
