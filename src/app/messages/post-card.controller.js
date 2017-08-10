@@ -65,6 +65,7 @@
     vm.isChecked = false;
     vm.isCheckedForce = false;
     vm.postSenderIsCurrentUser = false;
+    vm.haveAnyLabelAcess = true; // TODO Read this from label cache
     // vm.isPlaceFilter = false;
 
     isPlaceFeed();

@@ -1,6 +1,6 @@
 <div class="label-sm-modal">
     <h4>
-        <svg class="_24svg _fn" ng-click="$dismiss();">
+        <svg class="_24svg _fn close-btn" ng-click="$dismiss();">
             <use xlink:href="/assets/icons/nst-icn24.svg#xcross"></use>
         </svg>
         <translate>Edit Label</translate>
@@ -14,11 +14,11 @@
         </div>
     </h4>
     <Label>Label Name</Label>
-    <input ng-model="editCtrl.title" type="text">
+    <input ng-model="ctrl.title" type="text">
     <Label>Label Color</Label>
     <!--<input type="text" class="label-color">-->
     <div class="_pr _fw label-color marginbtm">
-        <select name="lang" ng-model="editCtrl.code">
+        <select name="lang" ng-model="ctrl.code">
             <option selected value="A">- Default -</option>
             <option value="B">Green</option>
             <option value="C">Yellow</option>
@@ -27,21 +27,21 @@
             <option value="F">Blue</option>
             <option value="G">Aquamarine</option>
         </select>
-        <svg class="_16svg mirror _fn color-lbl-{{editCtrl.code}}">
+        <svg class="_16svg mirror _fn color-lbl-{{ctrl.code}}">
             <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
         </svg>
     </div>
-    <h5 ng-if="editCtrl.holderType == 'specific'" class="list-head">
-        <translate>Holders</translate>&nbsp;({{ editCtrl.specificHolders.length | localize }})
-        <p ng-click="editCtrl.addHolder()">
+    <h5 ng-if="ctrl.holderType == 'specific'" class="list-head">
+        <translate>Holders</translate>&nbsp;({{ ctrl.specificHolders.length | localize }})
+        <p ng-click="ctrl.addHolder()">
             <translate class="nst-mood-cheerful">Add</translate>
             <svg class="_16svg _fn fill-sense-wire">
                 <use xlink:href="/assets/icons/nst-icn16.svg#cross"></use>
             </svg>
         </p>
     </h5>
-    <ul ng-if="editCtrl.holderType == 'specific'" class="holders">
-        <li ng-repeat="user in editCtrl.specificHolders">
+    <ul ng-if="ctrl.holderType == 'specific'" nst-scrollbar class="holders" modal-scroll>
+        <li ng-repeat="user in ctrl.specificHolders">
             <div class="icon">
                 <div class="user-avatar-20">
                     <img ng-src="{{user | picture}}" alt="user.fullName" data-uib-tooltip="{{user.fullName}}" data-tooltip-append-to-body="true" data-tooltip-placement="top auto">
@@ -50,17 +50,18 @@
             <span>
                 {{user.fullName}}
             </span>
-            <div ng-click="editCtrl.removeHolder(user.id)" class="actions _aic _df">
-              <svg class="_16svg _df _fn force">
-                <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
-              </svg>
+            <div ng-click="ctrl.removeHolder(user.id)" class="actions _aic _df force">
+                <translate>remove</translate>
+                <!--<svg class="_16svg _df _fn force">
+                    <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
+                </svg>-->
             </div>
             <hr/>
         </li>
     </ul>
-    <p ng-if="editCtrl.holderType == 'all'" class="holders-all-msg">All users on your company can use this label.</p>
+    <p ng-if="ctrl.holderType == 'all'" class="holders-all-msg">All users on your company can use this label.</p>
     <div class="modal-footer">
       <input type="button" ng-click="$dismiss()"  value="Discard" class="butn-white">
-      <input type="button" ng-disabled="editCtrl.isNotValid()" ng-click="editCtrl.editLabel()" value="Apply" class="butn-green">
+      <input type="button" ng-disabled="ctrl.isNotValid()" ng-click="ctrl.editLabel()" value="Apply" class="butn-green">
     </div>
 </div>
