@@ -59,6 +59,7 @@
     vm.register = function(formIsValid) {
 
       vm.submitted = true;
+      vm.registerProgress = true;
 
       validateUsername(vm.username, true).then(function (errors) {
         if (errors.length > 0 || !formIsValid) {
@@ -73,7 +74,6 @@
         var postData = new FormData();
 
 
-        vm.registerProgress = true;
         var ajax = new NstHttp('',
         {
           cmd : 'account/register_user',
@@ -109,7 +109,9 @@
         });
 
       }).catch(function (error) {
-        toastr.error(NstSvcTranslation.get('Sorry, an error has occured while checking your username.'))
+        toastr.error(NstSvcTranslation.get('Sorry, an error has occured while checking your username.'));
+      }).finally(function () {
+        vm.registerProgress = false;
       });
 
     };
