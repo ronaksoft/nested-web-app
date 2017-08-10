@@ -24,7 +24,7 @@
     vm.goDownward = false;
     vm.load = load;
     vm.clear = clear;
-    vm.selectedLabels = argv.addedLabels.length > 0 ? argv.addedLabels : [];
+    vm.selectedLabels = argv.addedLabels.length > 0 ? _.clone(argv.addedLabels) : [];
     vm.firstTouch = false;
     var defaultLimit = 8;
     vm.setting = {
