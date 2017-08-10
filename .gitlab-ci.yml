@@ -15,13 +15,14 @@ build:desktop:
   script:
     - cp -r . /var/lib/desktop
     - cd /var/lib/desktop
+    - ls
     - npm install -g gulp bower
     - npm install
     - bower install
     - gulp build --mode=production
     - mkdir -p $BUILD_DIR/desktop
     - cp -r ./dist/production/* $BUILD_DIR/desktop
-    - cp w $BUILD_DIR/desktop
+    - cp wdio.conf.js $BUILD_DIR/desktop
     - mkdir -p $BUILD_DIR/bin
     - cp -r ./bin/* $BUILD_DIR/bin
     - find . -type f -not -name \*.html -exec rm -rf {} \;
