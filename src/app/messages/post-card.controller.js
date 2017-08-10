@@ -57,6 +57,7 @@
     vm.untrustSender = untrustSender;
     vm.alwaysTrust = alwaysTrust;
     vm.addLabels = addLabels;
+    vm.isFeed = isFeed;
 
     vm.expandProgress = false;
     vm.body = null;
@@ -67,6 +68,11 @@
     vm.postSenderIsCurrentUser = false;
     vm.haveAnyLabelAcess = true; // TODO Read this from label cache
     // vm.isPlaceFilter = false;
+
+    vm.limits = {
+      places: 1,
+      recipients: 1,
+    }
 
     isPlaceFeed();
     $scope.$parent.$parent.affixObserver = 1;
@@ -621,6 +627,11 @@
       vm.body = vm.post.body;
       vm.orginalPost = vm.post;
 
+      vm.limits = {
+        places: vm.post.places.length,
+        recipients: vm.post.recipients.length,
+      }
+
       /**
        * checks the post body content is trusted ( displaying images )
        */
@@ -763,6 +774,19 @@
         return vm.isPlaceFilter = true;
       }
       return vm.isPlaceFilter = false;
+    }
+
+    /**
+     * Checks the current state is `Feed` page or not
+     * @returns {boolean}
+     */
+    function isFeed() {
+      if ($state.current.name === 'app.messages-favorites' ||
+          $state.current.name === 'app.messages-sorted' ||
+          $state.current.name === 'app.messages-favorites-sorted') {
+        return true;
+      }
+      return false;
     }
 
     /**
