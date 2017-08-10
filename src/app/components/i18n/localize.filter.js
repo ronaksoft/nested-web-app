@@ -1,3 +1,12 @@
+/**
+ * @file src/app/components/i18n/localize.filter.js
+ * @author Soroush Torkzadeh <sorousht@nested.me>
+ * @description Returns the localized numbers and leaves the other characters untouched
+ * Documented by:          Soroush Torkzadeh <sorousht@nested.me>
+ * Date of documentation:  2017-08-09
+ * Reviewed by:            -
+ * Date of review:         -
+ */
 (function() {
   angular
     .module('ronak.nested.web.components.i18n')

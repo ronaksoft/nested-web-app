@@ -1,3 +1,12 @@
+/**
+ * @file src/app/components/i18n/translate.directive.js
+ * @author Soroush Torkzadeh <sorousht@nested.me>
+ * @description Translates and replaces the element with the translated text wrapped in a span
+ * Documented by:          Soroush Torkzadeh <sorousht@nested.me>
+ * Date of documentation:  2017-08-09
+ * Reviewed by:            -
+ * Date of review:         -
+ */
 (function () {
   'use strict';
 
