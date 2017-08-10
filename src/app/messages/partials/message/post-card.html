@@ -144,14 +144,14 @@
                           attachments="ctlPostCard.post.attachments"></nst-attachments-view>
   </section>
   <section class="post-labels" ng-if="ctlPostCard.post.labels.length > 0">
-    <span data-ng-repeat="label in ctlPostCard.post.labels" class="defcur color-lbl-bg-{{label.code}}">
+    <span data-ng-repeat="label in ctlPostCard.post.labels track by $index" class="defcur color-lbl-bg-{{label.code}}">
         {{::label.title}}
     </span>
-    <a ng-if="ctlPostCard.post.labels.length > 0"  add-label added-labels="ctlPostCard.post.labels" after-add-label="ctlPostCard.addLabels"
+    <a ng-if="ctlPostCard.post.labels.length > 0 && ctlPostCard.currentUserIsSender"  add-label added-labels="ctlPostCard.post.labels" after-add-label="ctlPostCard.addLabels"
       data-uib-tooltip-template="'add-label-tooltip.html'"
       data-tooltip-append-to-body="true" data-tooltip-placement="auto top">
-        <svg class="_16svg">
-          <use xlink:href="/assets/icons/nst-icn16.svg#cross"></use>
+        <svg class="_16svg _r90">
+          <use xlink:href="/assets/icons/nst-icn16.svg#more"></use>
         </svg>
     </a>
   </section>
@@ -354,5 +354,5 @@
   <translate>Forward</translate>
 </script>
 <script type="text/ng-template" id="add-label-tooltip.html">
-  <translate>add labels</translate>
+  <translate>Modify labels</translate>
 </script>

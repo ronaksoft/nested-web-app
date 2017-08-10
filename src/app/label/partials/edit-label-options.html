@@ -1,5 +1,5 @@
 <div class="_difv">
-  <a ng-click="editCtrl.addHolder()" class="_df list-items _aic _fw">
+  <a ng-if="editCtrl.holderType == 'specific'" ng-click="editCtrl.addHolder()" class="_df list-items _aic _fw">
     <div class="_aic _df">
       <svg class="_16svg">
           <use xlink:href="/assets/icons/nst-icn16.svg#cross"></use>
@@ -19,7 +19,7 @@
       <translate>Remove all Holders</translate>
     </div>
   </a>
-  <hr/>
+  <hr ng-if="editCtrl.holderType == 'specific'"/>
   <!--<a ng-if="editCtrl.holderType == 'specific'" ng-click="editCtrl.setHolderType('all')" class="_df list-items _aic _fw">
     <div class="_aic _df">
       <svg class="_16svg">

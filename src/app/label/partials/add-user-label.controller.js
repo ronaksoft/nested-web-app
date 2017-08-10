@@ -13,6 +13,7 @@
 
     var defaultSearchResultCount = 9;
 
+    vm.lastSelectedUsers = [];
     vm.selectedUsers = [];
     vm.users = [];
     vm.search = _.debounce(search, 512);
@@ -21,7 +22,7 @@
     vm.limit = 100;
 
     if (argv.selectedUser) {
-      vm.selectedUsers = argv.selectedUser;
+      vm.lastSelectedUsers = argv.selectedUser;
     }
 
     search();
@@ -39,7 +40,9 @@
       NstSvcUserFactory.search(settings, NST_USER_SEARCH_AREA.ACCOUNTS)
         .then(function (users) {
           users = _.unionBy(users, 'id');
-          vm.users = _.differenceBy(users, vm.selectedUsers, 'id');
+          var tempUsers = vm.lastSelectedUsers.concat(vm.selectedUsers);
+          tempUsers = _.unionBy(tempUsers, 'id');
+          vm.users = _.differenceBy(users, tempUsers, 'id');
           if (_.isString(query)
             && _.size(query) >= 4
             && _.indexOf(query, " ") === -1

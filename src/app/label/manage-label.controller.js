@@ -9,23 +9,28 @@
     , toastr, _, NstSvcTranslation, NstSvcUserFactory, NstSvcLabelFactory, NST_LABEL_SEARCH_FILTER, NstSvcAuth) {
 
     var vm = this;
+
     vm.keyword = '';
     vm.labelManager = NstSvcAuth.user.labelEditor;
     vm.labels = [];
     vm.haveMore = true;
     vm.requestList = [];
-    vm.oldKeyword = ''
+    vm.oldKeyword = '';
+    vm.selectedItems = [];
     vm.editLabel = editLabel;
     vm.createLabel = createLabel;
     vm.requestLabel = requestLabel;
+    vm.removeSelectedLabels = removeSelectedLabels;
     vm.declineRequest = declineRequest;
     vm.acceptRequest = acceptRequest;
     vm.withdrawRequest = withdrawRequest;
+    vm.toggleSelected = toggleSelected;
     vm.searchKeyUp = _.debounce(searchLabel, 512);
     vm.setting = {
       skip: 0,
       limit: 16,
-    }
+    };
+
     init();
 
     function init() {
@@ -34,8 +39,10 @@
     }
 
     function searchLabel() {
-      if ( !vm.haveMore ) return;
-      if(vm.oldKeyword !== vm.keyword){
+      if (!vm.haveMore) {
+        return;
+      }
+      if (vm.oldKeyword !== vm.keyword) {
         restoreDefault();
       }
       var searchService;
@@ -83,6 +90,7 @@
         }
       }).result.then(function (result) {
         if (result) {
+          restoreDefault();
           searchLabel(vm.keyword);
         }
       });
@@ -97,6 +105,7 @@
         controllerAs: 'createCtrl'
       }).result.then(function (result) {
         if (result) {
+          restoreDefault();
           searchLabel();
         }
       });
@@ -111,18 +120,70 @@
         controllerAs: 'requestCtrl'
       }).result.then(function (result) {
         if (result) {
+          restoreDefault();
           getRequests();
         }
       });
     }
 
+    function removeSelectedLabels() {
+      $uibModal.open({
+        animation: false,
+        templateUrl: 'app/label/partials/label-confirm-modal.html',
+        controller: 'labelConfirmModalController',
+        controllerAs: 'confirmModal',
+        size: 'sm',
+        resolve: {
+          modalSetting: {
+            title: NstSvcTranslation.get('Remove selected label(s)'),
+            body: NstSvcTranslation.get('Are you sure you want to remove selected label(s)?'),
+            confirmText: NstSvcTranslation.get('Remove'),
+            confirmColor: 'red',
+            cancelText: NstSvcTranslation.get('Cancel')
+          }
+        }
+      }).result.then(function () {
+        callRemoveLabelPromises().then(function (result) {
+          restoreDefault();
+          searchLabel();
+          vm.selectedItems = [];
+          toastr.success(NstSvcTranslation.get("Selected labels removed successfully."));
+        });
+      });
+    }
+
+    function callRemoveLabelPromises() {
+      var labelActionPromises = [];
+      for (var i = 0; i < vm.selectedItems.length; i++) {
+        labelActionPromises.push(NstSvcLabelFactory.remove(vm.selectedItems[i]));
+      }
+      return $q.all(labelActionPromises);
+    }
+
     function declineRequest(id) {
-      NstSvcLabelFactory.updateRequest(id, 'reject').then(function (result) {
-        removeRequest(id);
-        searchLabel(vm.keyword);
-        toastr.success(NstSvcTranslation.get("Request declined successfully."));
-      }).catch(function (error) {
-        toastr.error(NstSvcTranslation.get("Something went wrong."));
+      $uibModal.open({
+        animation: false,
+        templateUrl: 'app/label/partials/label-confirm-modal.html',
+        controller: 'labelConfirmModalController',
+        controllerAs: 'confirmModal',
+        size: 'sm',
+        resolve: {
+          modalSetting: {
+            title: NstSvcTranslation.get('Decline request!'),
+            body: NstSvcTranslation.get('Are you sure you want to decline this request?'),
+            confirmText: NstSvcTranslation.get('Decline'),
+            confirmColor: 'red',
+            cancelText: NstSvcTranslation.get('Cancel')
+          }
+        }
+      }).result.then(function () {
+        NstSvcLabelFactory.updateRequest(id, 'reject').then(function (result) {
+          removeRequest(id);
+          searchLabel(vm.keyword);
+          toastr.success(NstSvcTranslation.get("Request declined successfully."));
+        }).catch(function (error) {
+          toastr.error(NstSvcTranslation.get("Something went wrong."));
+        });
       });
     }
 
@@ -137,11 +198,28 @@
     }
 
     function withdrawRequest(id) {
-      NstSvcLabelFactory.cancelRequest(id).then(function (result) {
-        removeRequest(id);
-        toastr.success(NstSvcTranslation.get("Your request has been withdrawn successfully."));
-      }).catch(function (error) {
-        toastr.error(NstSvcTranslation.get("Something went wrong."));
+      $uibModal.open({
+        animation: false,
+        templateUrl: 'app/label/partials/label-confirm-modal.html',
+        controller: 'labelConfirmModalController',
+        controllerAs: 'confirmModal',
+        size: 'sm',
+        resolve: {
+          modalSetting: {
+            title: NstSvcTranslation.get('Withdraw request!'),
+            body: NstSvcTranslation.get('Are you sure you want to withdraw?'),
+            confirmText: NstSvcTranslation.get('Withdraw'),
+            confirmColor: 'red',
+            cancelText: NstSvcTranslation.get('Cancel')
+          }
+        }
+      }).result.then(function () {
+        NstSvcLabelFactory.cancelRequest(id).then(function (result) {
+          removeRequest(id);
+          toastr.success(NstSvcTranslation.get("Your request has been withdrawn successfully."));
+        }).catch(function (error) {
+          toastr.error(NstSvcTranslation.get("Something went wrong."));
+        });
       });
     }
 
@@ -149,6 +227,16 @@
       var index;
       index = _.findIndex(vm.requestList, {id: id});
       vm.requestList.splice(index, 1);
+    }
+
+    function toggleSelected(id, checked) {
+      var index;
+      if (checked) {
+        vm.selectedItems.push(id);
+      } else {
+        index = _.findIndex(vm.selectedItems, {id: id});
+        vm.selectedItems.splice(index, 1);
+      }
     }
   }
 

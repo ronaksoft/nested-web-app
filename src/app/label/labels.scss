@@ -35,7 +35,7 @@
             opacity: .4;
         }
     }
-    .lbl-cr8 {
+    .lbl-cr8, .lbl-remove {
         white-space: nowrap;
         margin-left: 24px;
         padding: 0 8px;
@@ -48,6 +48,9 @@
         svg {
             fill: $color-gale-new;
             margin-left: 6px;
+        }
+        svg.force {
+          fill: $color-force-wire;
         }
     }
     h4 {
@@ -168,12 +171,16 @@
                     }
                 }
                 .edit {
-                    opacity: .4;
+                    opacity: 0;
+                    transition: opacity $animation-dur;
                 }
                 &:last-of-type {
                   hr {
                     display: none;
                   }
+                }
+                &:hover .edit {
+                    opacity: 0.4;
                 }
             }
         }

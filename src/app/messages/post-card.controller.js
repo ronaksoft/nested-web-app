@@ -64,6 +64,7 @@
     vm.unreadCommentsCount = 0;
     vm.isChecked = false;
     vm.isCheckedForce = false;
+    vm.postSenderIsCurrentUser = false;
     // vm.isPlaceFilter = false;
 
     isPlaceFeed();
@@ -703,7 +704,7 @@
     });
 
     /**
-     * add labels to post
+     * add / remove labels of post
      * @param {any} items
      */
     function addLabels(items){
@@ -711,12 +712,21 @@
       var addItems = _.difference(items, vm.post.labels);
       addItems.forEach(function(o){
         var id = o._id || o.id;
-        NstSvcPostFactory.addLabel(vm.post.id, id);
+        NstSvcPostFactory.addLabel(vm.post.id, id).then(function() {
+          // console.log(o);
+          // vm.post.labels.push(o);
+        });
       });
-      vm.post.labels = items;
       removeItems.forEach(function(o){
         var id = o._id || o.id;
-        NstSvcPostFactory.removeLabel(vm.post.id, id);
+        NstSvcPostFactory.removeLabel(vm.post.id, id).then(function() {
+          // _.remove(vm.post.labels, function(n) {
+          //   var id1 =  n.id || n._id;
+          //   var id2 =  o.id || o._id;
+          //   console.log(id1, id2);
+          //   return id1 === id2
+          // });
+        });
       });
       vm.post.labels = items;
     }

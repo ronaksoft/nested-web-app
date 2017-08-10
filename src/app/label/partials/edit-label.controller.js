@@ -20,6 +20,7 @@
 
     vm.isNotValid = isNotValid;
     vm.addHolder = addHolder;
+    vm.removeHolder = removeHolder;
     vm.removeAllHolders = removeAllHolders;
     vm.setHolderType = setHolderType;
     vm.editLabel = editLabel;
@@ -36,13 +37,14 @@
       } else {
         vm.holderType = 'specific';
         vm.specificHolders = label.topMembers;
+        specificHoldersBackup = _.clone(vm.specificHolders);
         NstSvcLabelFactory.getMembers(vm.id, 0, 100).then(function (result) {
           vm.specificHolders = result;
+          specificHoldersBackup = _.clone(result);
         });
       }
       vm.code = label.code;
       vm.title = label.title;
-      specificHoldersBackup = _.clone(vm.specificHolders);
     }
 
     function isNotValid() {
@@ -119,18 +121,39 @@
         }
       }).result.then(function (result) {
         if (result) {
-          vm.specificHolders = result;
+          var tempUsers = vm.specificHolders.concat(result);
+          tempUsers = _.unionBy(tempUsers, 'id');
+          vm.specificHolders = tempUsers;
         }
       });
     }
 
+    function removeHolder(id) {
+      var index;
+      index = _.findIndex(vm.specificHolders, {id: id});
+      vm.specificHolders.splice(index, 1);
+    }
+
     function removeLabel() {
-      NstSvcLabelFactory.remove(vm.id).then(function (result) {
-        toastr.success(NstSvcTranslation.get("Label removed successfully."));
-      }).catch(function (error) {
-        toastr.error(NstSvcTranslation.get("Something went wrong."));
-      }).finally(function () {
-        $uibModalInstance.close(true);
+      $uibModal.open({
+        animation: false,
+        templateUrl: 'app/label/partials/delete-label-prompt.html',
+        controller: 'removeLabelPromptController',
+        controllerAs: 'removeCtrl',
+        size: 'sm',
+        resolve: {
+          selectedLabel: function () {
+            return vm.title;
+          }
+        }
+      }).result.then(function (confirmResult) {
+        NstSvcLabelFactory.remove(vm.id).then(function (result) {
+          toastr.success(NstSvcTranslation.get("Label removed successfully."));
+          $uibModalInstance.close(true);
+        }).catch(function (error) {
+          toastr.error(NstSvcTranslation.get("Something went wrong."));
+          NstSvcLogger.error(error);
+        });
       });
     }
   }

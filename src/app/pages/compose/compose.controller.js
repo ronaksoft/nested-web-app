@@ -216,7 +216,6 @@
     })();
 
     vm.addLabels = function(items) {
-      console.log(items)
       vm.model.labels = items;
     }
     /**
