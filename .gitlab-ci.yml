@@ -5,7 +5,7 @@ stages:
 variables:
   BUILD_DIR: $CI_PROJECT_DIR/build
 
-image: docker pull registry.ronaksoftware.com/base/node:builder
+image: node
 
 build:desktop:
   stage: build
@@ -21,7 +21,7 @@ build:desktop:
     - gulp build --mode=production
     - mkdir -p $BUILD_DIR/desktop
     - cp -r ./dist/production/* $BUILD_DIR/desktop
-    - cp lws.config.js $BUILD_DIR/desktop
+    - cp .local-web-server.json $BUILD_DIR/desktop
     - mkdir -p $BUILD_DIR/bin
     - cp -r ./bin/* $BUILD_DIR/bin
     - find . -type f -not -name \*.html -exec rm -rf {} \;
@@ -40,12 +40,11 @@ build:mobile:
       - master
       - develop
   script:
-    - mkdir -p /var/lib/mobile-git
-    - cd /var/lib/mobile-git
+    - mkdir -p /var/lib/mobile
+    - cd /var/lib/mobile
     - git clone http://gitlab-ci-token:$CI_BUILD_TOKEN@git.ronaksoftware.com/nested/web-mobile-app.git .
     - git checkout master
-    - cp -r /var/lib/mobile-git/* /var/lib/mobile
-    - cd /var/lib/mobile
+    - npm install -g yarn
     - npm install
     - npm run build:prod
     - mkdir -p $BUILD_DIR/mobile
