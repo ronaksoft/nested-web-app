@@ -211,19 +211,23 @@
     }
 
     function parseAddLabel(data) {
-
+      console.log(data);
       var deferred = $q.defer();
       // console.log(data);
-      var labelPromise = NstSvcLabelFactory.get(data.place_id);
+      var labelPromise = NstSvcLabelFactory.getMany(data.label_id);
       var actorPromise = NstSvcUserFactory.getTiny(data.actor_id);
+      var postPromise = NstSvcPostFactory.get(data.post_id);
 
-      $q.all([labelPromise, actorPromise]).then(function (resultSet) {
+      $q.all([labelPromise, actorPromise, postPromise]).then(function (resultSet) {
+        console.log(resultSet);
         var activity = new NstActivity();
         activity.id = data._id;
         activity.type = data.action;
         activity.date = new Date(data.timestamp);
-        activity.label = resultSet[0];
+        activity.label = resultSet[0] ? resultSet[0] : null;
         activity.actor = resultSet[1];
+        activity.post = resultSet[2];
+        console.log(activity);
         deferred.resolve(activity);
       }).catch(function (error) {
         deferred.resolve(null);
@@ -236,16 +240,18 @@
     function parseRemoveLabel(data) {
 
       var deferred = $q.defer();
-      var labelPromise = NstSvcLabelFactory.get(data.place_id);
+      var labelPromise = NstSvcLabelFactory.getMany(data.label_id);
       var actorPromise = NstSvcUserFactory.getTiny(data.actor_id);
+      var postPromise = NstSvcPostFactory.get(data.post_id);
 
-      $q.all([labelPromise, actorPromise]).then(function (resultSet) {
+      $q.all([labelPromise, actorPromise, postPromise]).then(function (resultSet) {
         var activity = new NstActivity();
         activity.id = data._id;
         activity.type = data.action;
         activity.date = new Date(data.timestamp);
-        activity.label = resultSet[0];
+        activity.label = resultSet[0] ? resultSet[0] : null;
         activity.actor = resultSet[1];
+        activity.post = resultSet[2];
         deferred.resolve(activity);
       }).catch(function (error) {
         deferred.resolve(null);

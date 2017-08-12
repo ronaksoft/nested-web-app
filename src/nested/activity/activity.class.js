@@ -19,6 +19,7 @@
 
       this.member = null;
       this.memberType = null;
+      this.label = null;
 
     }
 
