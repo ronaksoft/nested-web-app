@@ -482,7 +482,6 @@
           return NstSvcPostFactory.getFavoriteMessages(vm.messagesSetting);
 
         case 'app.place-messages-unread':
-        case 'app.place-messages-unread':
           return NstSvcPostFactory.getUnreadMessages(vm.messagesSetting, [vm.currentPlaceId], false);
 
 
