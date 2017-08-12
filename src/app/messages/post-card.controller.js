@@ -17,7 +17,7 @@
   function PostCardController($state, $log, $timeout, $stateParams, $rootScope, $scope, $filter, $window, $sce, $uibModal,
                               _, moment, toastr,
                               NST_EVENT_ACTION, NST_PLACE_ACCESS, NST_POST_EVENT, SvcCardCtrlAffix,
-                              NstSvcSync, NstVmFile, NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory,
+                              NstSvcSync, NstVmFile, NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory, NstSearchQuery,
                               NstSvcAuth, NstUtility, NstSvcPostInteraction, NstSvcTranslation, NstSvcLogger) {
     var vm = this;
 
@@ -58,6 +58,7 @@
     vm.alwaysTrust = alwaysTrust;
     vm.addLabels = addLabels;
     vm.isFeed = isFeed;
+    vm.labelClick = labelClick;
 
     vm.expandProgress = false;
     vm.body = null;
@@ -838,6 +839,19 @@
       }).catch(function (){
         toastr.error(NstSvcTranslation.get(NstUtility.string.format('An error occured while removing {0} from the trusted list.', vm.post.sender.id)));
       });
+    }
+
+    /**
+     * searchs the label
+     * @param {string} title title of Label
+     * @returns {boolean}
+     */
+    function labelClick(title) {
+      var searchQuery = new NstSearchQuery('', true);
+
+      searchQuery.addLabel(title);
+
+      $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toString())});
     }
   }
 

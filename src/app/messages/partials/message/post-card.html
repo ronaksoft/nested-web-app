@@ -144,7 +144,7 @@
                           attachments="ctlPostCard.post.attachments"></nst-attachments-view>
   </section>
   <section class="post-labels" ng-if="ctlPostCard.post.labels.length > 0">
-    <span data-ng-repeat="label in ctlPostCard.post.labels track by $index" class="defcur color-lbl-bg-{{label.code}}">
+    <span data-ng-repeat="label in ctlPostCard.post.labels track by $index" ng-click="ctlPostCard.labelClick(label.title);" class="defcur color-lbl-bg-{{label.code}}">
         {{::label.title}}
     </span>
     <a ng-if="ctlPostCard.haveAnyLabelAcess"  add-label added-labels="ctlPostCard.post.labels" after-add-label="ctlPostCard.addLabels"

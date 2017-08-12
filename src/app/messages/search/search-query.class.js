@@ -119,7 +119,7 @@
 
     SearchQuery.prototype.addLabel = function (label) {
       if (!_.includes(this.labels, label)) {
-        this.label.push(label);
+        this.labels.push(label);
       }
     };
 
