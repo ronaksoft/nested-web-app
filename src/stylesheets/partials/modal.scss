@@ -87,10 +87,19 @@ body.modal-open {
   border: 1px solid $color-breeze;
   border-radius: 6px;
   background-color: $color-white;
-  padding: 10px;
-  width: 800px;
+  width: 588px;
   height: auto;
   max-width: 100%;
+  h4 {
+    margin: 20px 12px 24px 12px;
+    display: flex;
+    span {
+      padding-left: 16px;
+      font-size: 20px;
+      line-height: 24px;
+      color: $color-solid;
+    }
+  }
   .butn-green {
     margin: 0;
     position: relative;
@@ -105,6 +114,14 @@ body.modal-open {
     margin-bottom: 6px;
     max-width: 715px;
     //width: auto!important;
+  }
+  .m-footer {
+    padding: 0 8px;
+    height: 48px;
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: flex-end;
   }
 }
 
@@ -518,9 +535,13 @@ body.modal-open {
 }
 
 
-.modal-add {
-  border-bottom: 1px solid $color-calm;
-  margin-bottom: 10px;
+.modal-add-input {
+  border-bottom: 1px solid $color-calm!important;
+  width: calc(100% - 32px)!important;
+  padding: 0;
+  border-radius: 0;
+  position: relative;
+  margin: 0 16px 24px 16px;
   .butn-green-nav {
     margin: 0;
     position: relative;
@@ -533,28 +554,34 @@ body.modal-open {
     letter-spacing: -1px;
     font-weight: 700;
   }
+  .searh-input {
+    width: 100%;
+    height: 32px;
+  }
   input {
     border: none;
     padding: 5px 0;
     min-height: 32px;
   }
-  .ui-select-container ul {
+  /*.ui-select-container ul {
     width: calc(100% + 80px)!important;
     max-height: 170px!important;
     overflow: hidden;
     margin-top: -25px;
-  }
-  .ui-select-choices-row{
+  }*/
+  &.ui-select-bootstrap .ui-select-choices-row{
     display: inline-flex;
     flex-direction: row;
-    height: 50px;
-    width: 33.3%;
-    margin-top: 5px;
+    height: 48px;
+    width: calc(33.3% - 12px);
+    margin-bottom: 12px;
+    margin-right: 12px;
     a{
       display: inline-flex!important;
       flex-direction: row;
-      height: 50px;
+      height: 48px;
       width: 100%;
+      padding: 8px 4px;
     }
     &:hover{
       background-color: $color-sense-5;
@@ -565,8 +592,7 @@ body.modal-open {
     border: none;
     box-shadow: none;
     background-color: $color-white;
-    top: calc(100% + 30px);
-
+    top: calc(100% + 44px);
   }
   input {
     padding-left: 0;

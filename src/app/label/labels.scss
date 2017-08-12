@@ -35,7 +35,7 @@
             opacity: .4;
         }
     }
-    .lbl-cr8 {
+    .lbl-cr8, .lbl-remove {
         white-space: nowrap;
         margin-left: 24px;
         padding: 0 8px;
@@ -48,6 +48,9 @@
         svg {
             fill: $color-gale-new;
             margin-left: 6px;
+        }
+        svg.force {
+          fill: $color-force-wire;
         }
     }
     h4 {
@@ -93,6 +96,10 @@
                         font-weight: bold;
                         line-height: 19px;
                         font-style: normal;
+                        span {
+                          font-weight: normal;
+                          color: $color-new-hurricane;
+                        }
                     }
                     p {
                         margin: 4px 0 0 0;
@@ -113,6 +120,19 @@
                     flex: none;
                     padding-right: 16px;
                 }
+                &:last-of-type {
+                  hr {
+                    display: none;
+                  }
+                }
+            }
+        }
+        &.requests.pending {
+            li {
+                height: 48px;
+                .req-body {
+                    padding-top: 0;
+                }
             }
         }
         &.labels {
@@ -128,6 +148,11 @@
                     display: flex;
                     width: 100%;
                     font-size: 14px;
+                    overflow: hidden;
+                    span {
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
                 }
                 .usage {
                     margin-left: 24px;
@@ -151,7 +176,16 @@
                     }
                 }
                 .edit {
-                    opacity: .4;
+                    opacity: 0;
+                    transition: opacity $animation-dur;
+                }
+                &:last-of-type {
+                  hr {
+                    display: none;
+                  }
+                }
+                &:hover .edit {
+                    opacity: 0.4;
                 }
             }
         }
@@ -163,6 +197,7 @@
     min-height: 0px!important;
     padding: 24px!important;
     align-self: center;
+    max-height: 100vh;
     &.request-modal {
         h4 {
             margin-bottom: 24px;
@@ -181,6 +216,7 @@
         display: flex;
         align-items: center;
         color: $color-solid;
+        flex: none;
         span {
             flex: 1;
             display: flex;
@@ -190,6 +226,10 @@
         margin-top: 24px;
         color: $color-gale-new;
         font-weight: bold;
+        flex: none
+    }
+    .close-btn {
+        margin-right: 16px;
     }
     .label-color {
         &.marginbtm {
@@ -215,16 +255,26 @@
         }
     }
     .input-select-match {
-        height: 32px;
+        min-height: 32px;
         margin-bottom: 32px;
         .address-input {
             padding: 0;
+            display: flex
         }
-        .ui-select-multiple.ui-select-bootstrap input.ui-select-search {
-            height: 32px;
-            padding: 0;
-            margin: 0;
-            font-size: 14px;
+        .ui-select-multiple.ui-select-bootstrap {
+            input.ui-select-search {
+                height: 32px;
+                transition: none;
+                padding: 0;
+                margin: 0;
+                font-size: 14px;
+            }
+            .ui-select-match-item div.selected-innter {
+                height: 28px;
+            }
+        }
+        .ui-select-match > span {
+            margin-bottom: 8px;
         }
     }
     .holders-all-msg {
@@ -240,6 +290,7 @@
         justify-content: flex-end;
         padding: 0;
         border: none;
+        line-height: 16px;
         input {
             width: 92px!important;
             height: 32px!important;
@@ -250,6 +301,8 @@
     ul.holders {
         margin: 0 -24px 0 -16px;
         list-style: none;
+        max-height: 194px;
+        flex: none;
         li {
             display: flex;
             height: 48px;
@@ -274,13 +327,27 @@
                 align-items: center;
                 color: $color-solid-64;
             }
+            .actions.force {
+                opacity: 0;
+                transition: opacity $animation-dur;
+            }
+            &:hover{
+                .actions.force {
+                    opacity: 1
+                }
+            }
             hr {
                 position: absolute;
                 border-color: $color-breeze-5-new;
                 bottom: 0;
                 right: 0;
                 margin: 0;
-                width: calc(100% - 48px)
+                width: calc(100% - 48px);
+            }
+            &:last-of-type {
+                hr {
+                  display: none;
+                }
             }
         }
     }
@@ -293,6 +360,11 @@
             right: 20px;
             .list-items {
                 height: 40px;
+                opacity: .72;
+                transition: opacity $animation-dur;
+                &:hover{
+                    opacity: 1;
+                }
                 span {
                     color: $color-new-hurricane;
                 }
@@ -378,4 +450,97 @@
             }
         }
     }
+    &.add-label {
+        max-width: 320px!important;
+        margin-left: -160px!important;
+        min-height: 459px!important;
+        /*max-height: 459px!important;*/
+        max-height: 100%!important;
+        background-color: red;
+        border-radius: 4px;
+        padding: 24px 16px 0 16px!important;
+        h4 {
+            font-size: 20px;
+            line-height: 20px;
+            font-weight: 400;
+            margin-bottom: 24px;
+            svg {
+                margin-right: 8px;
+            }
+            p {
+              font-size: 13px;
+              color: $color-gale;
+              line-height: 16px;
+              margin: 0;
+            }
+        }
+        .label-search {
+            padding: 0 4px;
+            /*height: 307px;*/
+            >div:first-child {
+                border-bottom: 1px solid $color-solid;
+                margin-bottom: 24px;
+            }
+            input {
+                padding: 0;
+                border-radius: 0;
+                height: 32px;
+            }
+            input::-moz-placeholder {
+                font-size: 14px;
+                color: $color-solid-24;
+            }
+            input::-webkit-input-placeholder {
+                font-size: 14px;
+                color: $color-solid-24;
+            }
+            .label-items {
+                height: 30px;
+            }
+            .dropdown-menu {
+                box-shadow: none;
+                position: relative;
+                border: none;
+                padding: 0;
+                max-height: 256px;
+                height: 256px;
+                display: block!important;
+            }
+        }
+        .ui-select-bootstrap .ui-select-choices-row > a {
+            padding: 8px 0;
+            line-height: 16px;
+            >._vat {
+                padding:  0 8px;
+            }
+            span {
+                font-size: 13px;
+            }
+        }
+        .load-more-labels {
+            height: 32px;
+            color: $color-new-hurricane;
+            font-size: 13px;
+            line-height: 32px;
+        }
+        .modal-footer {
+            height: 48px;
+            flex: none;
+            align-items: center;
+            input {
+                width: 100%!important;
+                line-height: 19px
+            }
+        }
+    }
+}
+
+.label-initials-32 {
+  width: 32px;
+  height: 32px;
+  line-height: 31px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: normal;
+  padding-top: 3px;
 }

@@ -1,48 +1,46 @@
-<div id="add-view">
-  <div class="_difv _fw">
-      <div class="_difh modal-add">
-        <h5 class="_df _fw" data-ng-if="!addMemberCtrl.isGrandPlace"><translate>Add Members</translate></h5>
-        <h5 class="_df _fw" data-ng-if="addMemberCtrl.isGrandPlace"><translate>Invite new Members</translate></h5>
-        <div class="_df" ng-click="$dismiss();"><img src="../assets/icons/close.svg" class="closebut"></div>
-      </div>
-      <div class="_difh _fw modal-add">
-        <ui-select multiple class="modal-add-input nst-mood-simple _df" data-ng-model="addMemberCtrl.selectedUsers" limit="{{addMemberCtrl.limit}}" autofocus="true" always-show-list on-select="addMemberCtrl.search('')">
-          <ui-select-match placeholder="{{::addMemberCtrl.searchPlaceholder}}">
-            <div class="selected-innter">
-              <span class="place-img">
-                <img initial-avatar="{{$item.id}}" picture="{{$item | avatar}}"
-                     data-width="24" data-height="24" data-radius="2"
-                     data-word-count="2" data-font-size="12" name="{{$item.fullName}}"/>
-              </span>
-              <span class="place-name">{{$item.fullName}}</span>
-            </div>
-          </ui-select-match>
-          <ui-select-choices refresh="addMemberCtrl.search($select.search)" refresh-delay="0"
-                             repeat="user in (addMemberCtrl.users | filter: $select.search) track by user.id" >
-            <img initial-avatar="{{user.id}}" name="{{user.fullName}}" picture="{{user| avatar:'x64'}}" data-width="40" data-height="40" data-radius="24" class="account-initials-40 _df" data-word-count="2" data-font-size="16"/>
-            <div class="_difv">
-              <!--todo:: | highlight: $select.search in persian name-->
-              <span auto-dir="user.fullName"><span class="_df _fw" data-ng-bind-html="user.fullName"></span></span>
-              <small class="_df">@{{user.id}}</small>
-            </div>
-          </ui-select-choices>
-        </ui-select>
-        <div class="butn-green" data-ng-if="addMemberCtrl.isGrandPlace" ng-click="addMemberCtrl.add();" id="invite"><translate>Invite</translate></div>
-        <div class="butn-green" data-ng-if="!addMemberCtrl.isGrandPlace" ng-click="addMemberCtrl.add();" id="add"><translate>Add</translate></div>
-      </div>
-    <div class="modal-body">
-      <p data-ng-if="addMemberCtrl.users < 1 && !addMemberCtrl.isTeammateMode" class="_fw"><ranslate>Import Contacts:</ranslate></p>
-      <p data-ng-if="addMemberCtrl.users < 1 && addMemberCtrl.isTeammateMode" class="_fw"><translate>You can add multiple Members simultaneously</translate></p>
-      <div class="_fw suggests">
-        <div class="devider" data-ng-if="addMemberCtrl.users < 1"></div>
-      </div>
+<div id="add-view" class="_difv _fw">
+  <h4>
+    <div class="_df" ng-click="$dismiss();">
+      <svg class="_24svg _fn">
+          <use xlink:href="/assets/icons/nst-icn24.svg#xcross"></use>
+      </svg>
     </div>
-      <div data-ng-if="!addMemberCtrl.isGrandPlace" class="nst-modal-footer _df _fw">
-          <!--<p>People who you add to this place, will be added automatically in root place. if you want to add people just to this place ,<a class="nst-mood-cheerful">invite them as a member</a>.</p>-->
-        <p>Add people by searching their name or entering their {{addMemberCtrl.isGrandPlace ? 'name, ID, email or phone number' : 'name or ID'}}.</p>
+    <translate data-ng-if="!addMemberCtrl.isGrandPlace">Add Members</translate>
+    <translate data-ng-if="addMemberCtrl.isGrandPlace">Invite new Members</translate>
+  </h4>
+  <ui-select multiple class="modal-add-input _df"
+    data-ng-model="addMemberCtrl.selectedUsers" limit="{{addMemberCtrl.limit}}"
+    autofocus="true" always-show-list on-select="addMemberCtrl.search('')">
+    <ui-select-match placeholder="{{::addMemberCtrl.searchPlaceholder}}">
+      <div class="selected-innter">
+        <span class="place-img">
+          <img initial-avatar="{{$item.id}}" picture="{{$item | avatar}}"
+                data-width="24" data-height="24" data-radius="2"
+                data-word-count="2" data-font-size="12" name="{{$item.fullName}}"/>
+        </span>
+        <span class="place-name">{{$item.fullName}}</span>
       </div>
-      <div data-ng-if="addMemberCtrl.isGrandPlace" class="nst-modal-footer _df _fw">
-          <p><translate>Invite new people by searching their name, entering their email, or phone number.</translate></p>
+    </ui-select-match>
+    <ui-select-choices refresh="addMemberCtrl.search($select.search)" refresh-delay="0"
+                        repeat="user in (addMemberCtrl.users | filter: $select.search) track by user.id" >
+      <img initial-avatar="{{user.id}}" name="{{user.fullName}}" picture="{{user| avatar:'x64'}}" data-width="32"
+      data-height="32" data-radius="24" class="account-initials-32 _df" data-word-count="2" data-font-size="16"/>
+      <div class="_difv">
+        <!--todo:: | highlight: $select.search in persian name-->
+        <span auto-dir="user.fullName"><span class="_txe _fw" data-ng-bind-html="user.fullName"></span></span>
+        <small class="_df">@{{user.id}}</small>
       </div>
+    </ui-select-choices>
+  </ui-select>
+  <div class="modal-body">
+    <p data-ng-if="addMemberCtrl.users < 1 && !addMemberCtrl.isTeammateMode" class="_fw"><ranslate>Import Contacts:</ranslate></p>
+    <p data-ng-if="addMemberCtrl.users < 1 && addMemberCtrl.isTeammateMode" class="_fw"><translate>You can add multiple Members simultaneously</translate></p>
+    <div class="_fw suggests">
+      <translate>Suggested:</translate>
+    </div>
+  </div>
+  <div class="m-footer _df _fw">
+    <input type="button" class="butn-green" data-ng-if="addMemberCtrl.isGrandPlace" ng-disabled="addMemberCtrl.selectedUsers.length === 0" value="Invite" ng-click="addMemberCtrl.add();" id="invite"/>
+    <input type="button" class="butn-green" data-ng-if="!addMemberCtrl.isGrandPlace" ng-disabled="addMemberCtrl.selectedUsers.length === 0" value="Add" ng-click="addMemberCtrl.add();" id="add"/>
   </div>
 </div>

@@ -1,3 +1,12 @@
+/**
+ * @file src/app/activity/recent/activity.controller.js
+ * @author Soroush Torkzadeh <sorousht@nested.me>
+ * @description Activities of a place
+ * Documented by:          Soroush Torkzadeh <sorousht@nested.me>
+ * Date of documentation:  2017-08-07
+ * Reviewed by:            -
+ * Date of review:         -
+ */
 (function () {
   'use strict';
 
@@ -103,6 +112,11 @@
         NST_EVENT_ACTION.COMMENT_REMOVE
       ];
 
+      activityFilterGroups[NST_ACTIVITY_FILTER.LABEL] = [
+        NST_EVENT_ACTION.LABEL_ADD,
+        NST_EVENT_ACTION.LABEL_REMOVE
+      ];
+
       activityFilterGroups[NST_ACTIVITY_FILTER.LOGS] = [
         NST_EVENT_ACTION.MEMBER_REMOVE,
         NST_EVENT_ACTION.MEMBER_JOIN,
@@ -113,6 +127,7 @@
       vm.filterDictionary[NST_ACTIVITY_FILTER.MESSAGES] = NstSvcTranslation.get("Messages");
       vm.filterDictionary[NST_ACTIVITY_FILTER.COMMENTS] = NstSvcTranslation.get("Comments");
       vm.filterDictionary[NST_ACTIVITY_FILTER.LOGS] = NstSvcTranslation.get("Logs");
+      vm.filterDictionary[NST_ACTIVITY_FILTER.LABEL] = NstSvcTranslation.get("labels");
 
 
       if (placeIdParamIsValid($stateParams.placeId)) {

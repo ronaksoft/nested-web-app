@@ -17,7 +17,7 @@
   function PostCardController($state, $log, $timeout, $stateParams, $rootScope, $scope, $filter, $window, $sce, $uibModal,
                               _, moment, toastr,
                               NST_EVENT_ACTION, NST_PLACE_ACCESS, NST_POST_EVENT, SvcCardCtrlAffix,
-                              NstSvcSync, NstVmFile, NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory,
+                              NstSvcSync, NstVmFile, NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory, NstSearchQuery,
                               NstSvcAuth, NstUtility, NstSvcPostInteraction, NstSvcTranslation, NstSvcLogger) {
     var vm = this;
 
@@ -34,7 +34,7 @@
       eventReferences = [];
 
     vm.remove = _.partial(remove, vm.post);
-    // vm.toggleRemoveFrom = toggleRemoveFrom;
+    vm.toggleRemoveFrom = toggleRemoveFrom;
     vm.retract = retract;
     vm.expand = expand;
     vm.collapse = collapse;
@@ -56,6 +56,9 @@
     vm.toggleMoveTo = toggleMoveTo;
     vm.untrustSender = untrustSender;
     vm.alwaysTrust = alwaysTrust;
+    vm.addLabels = addLabels;
+    vm.isFeed = isFeed;
+    vm.labelClick = labelClick;
 
     vm.expandProgress = false;
     vm.body = null;
@@ -63,7 +66,14 @@
     vm.unreadCommentsCount = 0;
     vm.isChecked = false;
     vm.isCheckedForce = false;
+    vm.postSenderIsCurrentUser = false;
+    vm.haveAnyLabelAcess = true; // TODO Read this from label cache
     // vm.isPlaceFilter = false;
+
+    vm.limits = {
+      places: 1,
+      recipients: 1,
+    }
 
     isPlaceFeed();
     $scope.$parent.$parent.affixObserver = 1;
@@ -83,8 +93,8 @@
 
     /**
      * reaply all places that post have been shared
-     * 
-     * @param {any} $event 
+     *
+     * @param {any} $event
      */
     function replyAll($event) {
       $event.preventDefault();
@@ -93,8 +103,8 @@
 
     /**
      * forward message, actully it adds post content to the compose with empty recipient
-     * 
-     * @param {any} $event 
+     *
+     * @param {any} $event
      */
     function forward($event) {
       $event.preventDefault();
@@ -103,8 +113,8 @@
 
     /**
      * Reply to post sender
-     * 
-     * @param {any} $event 
+     *
+     * @param {any} $event
      */
     function replyToSender($event) {
       $event.preventDefault();
@@ -113,8 +123,8 @@
 
     /**
      * opens modal post view
-     * 
-     * @param {any} $event 
+     *
+     * @param {any} $event
      */
     function viewFull($event) {
       $event.preventDefault();
@@ -176,8 +186,8 @@
      * after accepting the warning prompt .
      * it raises an event to listerens and
      * also removes the post from selected posts
-     * @param {object} post 
-     * @param {string} place 
+     * @param {object} post
+     * @param {string} place
      */
     function remove(post, place) {
       confirmforRemove(post, place).then(function (agree) {
@@ -200,14 +210,14 @@
       });
     }
 
-    // function toggleRemoveFrom(show) {
-    //   vm.showRemoveFrom = show;
-    // }
+    function toggleRemoveFrom(show) {
+      vm.showRemoveFrom = show;
+    }
 
     /**
      * warning propt for removing post from place
-     * @param {any} post 
-     * @param {any} place 
+     * @param {any} post
+     * @param {any} place
      * @returns  {Promise}
      * @function {{FunctionName}}{{}}
      */
@@ -235,12 +245,17 @@
      * retract message for senders with circumated time
      * also removes the post from selected posts
      */
+    console.log($scope);
     function retract() {
       vm.retractProgress = true;
       NstSvcPostInteraction.retract(vm.post).finally(function () {
         vm.retractProgress = false;
         vm.isChecked = false;
         $scope.$emit('post-select',{postId: vm.post.id,isChecked : vm.isChecked});
+        if (isPostView()) {
+          console.log('closeit')
+          $scope.$parent.$parent.$dismiss();
+        }
       });
     }
 
@@ -277,8 +292,8 @@
     /**
      * replace the post content with summorized version of that
      * also scrolls the page to the top of the post card on long posts
-     * 
-     * @param {any} e 
+     *
+     * @param {any} e
      */
     function collapse(e) {
       if (vm.post.ellipsis) {
@@ -374,7 +389,7 @@
      * by a `MovePlace` modal .
      * also removes the post from selecterd post
      * and raise an event for listeners
-     * @param {any} selectedPlace 
+     * @param {any} selectedPlace
      * @borrows $uibModal
      */
     function move(selectedPlace) {
@@ -441,7 +456,7 @@
     /**
      * Loads new comments that app informed from push notifications
      * also reloads the post counters
-     * @param {any} $event 
+     * @param {any} $event
      */
     function loadNewComments($event) {
       if ($event) $event.preventDefault();
@@ -453,8 +468,8 @@
     /**
      * determines the place delete access
      * needs for remove from action
-     * @param {object} place 
-     * @returns 
+     * @param {object} place
+     * @returns
      */
     function hasDeleteAccess(place) {
       return place.hasAccess(NST_PLACE_ACCESS.REMOVE_POST);
@@ -615,14 +630,19 @@
        * determine the post have unloaded comments or not
        */
       vm.hasOlderComments = (vm.post.counters.comments && vm.post.comments) ? vm.post.counters.comments > vm.post.comments.length : false;
-
       vm.body = vm.post.body;
       vm.orginalPost = vm.post;
+
+      vm.limits = {
+        places: vm.post.places.length,
+        recipients: vm.post.recipients.length,
+      }
 
       /**
        * checks the post body content is trusted ( displaying images )
        */
-      if (vm.post.trusted) {
+      // alert('vm.post' + vm.post.trusted);
+      if (vm.post.isTrusted) {
         showTrustedBody();
       }
 
@@ -642,7 +662,7 @@
 
       /**
        * Event handler for comment remove event of post
-       * 
+       *
        */
       eventReferences.push($scope.$on('comment-removed', function (event, data) {
         if (vm.post.id === data.postId) {
@@ -701,6 +721,33 @@
       });
     });
 
+    /**
+     * add / remove labels of post
+     * @param {any} items
+     */
+    function addLabels(items){
+      var removeItems = _.difference(vm.post.labels, items);
+      var addItems = _.difference(items, vm.post.labels);
+      addItems.forEach(function(o){
+        var id = o._id || o.id;
+        NstSvcPostFactory.addLabel(vm.post.id, id).then(function() {
+          // console.log(o);
+          // vm.post.labels.push(o);
+        });
+      });
+      removeItems.forEach(function(o){
+        var id = o._id || o.id;
+        NstSvcPostFactory.removeLabel(vm.post.id, id).then(function() {
+          // _.remove(vm.post.labels, function(n) {
+          //   var id1 =  n.id || n._id;
+          //   var id2 =  o.id || o._id;
+          //   console.log(id1, id2);
+          //   return id1 === id2
+          // });
+        });
+      });
+      vm.post.labels = items;
+    }
 
     /**
      * open post chains
@@ -724,7 +771,7 @@
 
     /**
      * Place messages route recognizer
-     * @returns 
+     * @returns
      */
     function isPlaceFeed() {
       if ($state.current.name === 'app.messages-favorites' ||
@@ -733,6 +780,26 @@
         return vm.isPlaceFilter = true;
       }
       return vm.isPlaceFilter = false;
+    }
+
+    /**
+     * Checks the current state is `Feed` page or not
+     * @returns {boolean}
+     */
+    function isFeed() {
+      if ($state.current.name === 'app.messages-favorites' ||
+          $state.current.name === 'app.messages-sorted' ||
+          $state.current.name === 'app.messages-favorites-sorted') {
+        return true;
+      }
+      return false;
+    }
+
+    function isPostView() {
+      if ($state.current.name == 'app.message') {
+        return vm.isPostView = true;
+      }
+      return vm.isPostView = false;
     }
 
     /**
@@ -772,6 +839,19 @@
       }).catch(function (){
         toastr.error(NstSvcTranslation.get(NstUtility.string.format('An error occured while removing {0} from the trusted list.', vm.post.sender.id)));
       });
+    }
+
+    /**
+     * searchs the label
+     * @param {string} title title of Label
+     * @returns {boolean}
+     */
+    function labelClick(title) {
+      var searchQuery = new NstSearchQuery('', true);
+
+      searchQuery.addLabel(title);
+
+      $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toString())});
     }
   }
 

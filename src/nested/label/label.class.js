@@ -19,6 +19,8 @@
       this.counters = {};
 
       this.topMembers = [];
+
+      this.isMember = undefined;
     }
 
     Label.prototype = {};

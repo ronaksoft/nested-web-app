@@ -43,7 +43,7 @@
       </div>
       <div class="bot-nav">
         <div class="_df _fw _pr">
-          <input class="_fw" type="text" placeholder="Search..." ng-model="ctlFullNavbar.query" translate-attrs="placeholder" ng-keyup="ctlFullNavbar.searchKeyPressed($event, ctlFullNavbar.query)">
+          <input class="_fw" mention-new-method mention-enable-label type="text" placeholder="Search..." ng-model="ctlFullNavbar.query" translate-attrs="placeholder" ng-keyup="ctlFullNavbar.searchKeyPressed($event, ctlFullNavbar.query)">
           <svg class="_16svg close-inp" ng-if="ctlFullNavbar.query.length > 0" ng-click="ctlFullNavbar.query = ''">
             <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
           </svg>
@@ -56,7 +56,7 @@
         <svg class="_24svg _r90 _df _fn mirror" ng-click="ctlFullNavbar.goBack()">
           <use xlink:href="/assets/icons/nst-icn24.svg#arrow"></use>
         </svg>
-        <input type="text" nst-mention placeholder="Search..." class="_df _fw" ng-model="ctlFullNavbar.query" translate-attrs="placeholder" ng-keyup="ctlFullNavbar.searchKeyPressed($event, ctlFullNavbar.query)">
+        <input type="text" nst-mention mention-new-method mention-enable-label placeholder="Search..." class="_df _fw" ng-model="ctlFullNavbar.query" translate-attrs="placeholder" ng-keyup="ctlFullNavbar.searchKeyPressed($event, ctlFullNavbar.query)">
         <div class="cp-illu _fn"></div>
       </div>
     </div>
@@ -87,7 +87,8 @@
             </a>
           </nav>-->
           <div class="search">
-            <input type="text" nst-mention class="form-control" place-id="{{ctlFullNavbar.placeId}}"
+            <input type="text" class="form-control"
+                   nst-mention mention-new-method mention-enable-label place-id="{{ctlFullNavbar.placeId}}"
                    ng-keyup="ctlFullNavbar.search(ctlFullNavbar.searchQuery, $event);" ng-model="ctlFullNavbar.searchQuery"
                    placeholder="Search..." has-place="ctlFullNavbar.hasPlace()" place-name="ctlFullNavbar.title"/>
             <svg class="_24svg mirror _fn">

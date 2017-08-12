@@ -70,6 +70,7 @@
       subject: '',
       body: '',
       forwardedFrom: null,
+      labels: [],
       replyTo: null,
       errors: [],
       modified: false,
@@ -77,23 +78,7 @@
       saving: false,
       saved: false,
       comment: true,
-      labels: [{
-        id: '1',
-        color: 'A',
-        text: 'Test1',
-        owner: []
-      },{
-        id: '2',
-        color: 'B',
-        text: 'Test2',
-        owner: []
-      },{
-        id: '3',
-        color: 'D',
-        text: 'Test3',
-        owner: []
-      }],
-      selectedLabels: []
+      labels: []
     };
 
     vm.search = {
@@ -230,6 +215,9 @@
         });
     })();
 
+    vm.addLabels = function(items) {
+      vm.model.labels = items;
+    }
     /**
      * Adds uploaded attachments ( exists before composing ) into compose attachments
      * also prevents to add already added items
@@ -742,7 +730,10 @@
             NstSvcLogger.debug4('Compose | Compose model is valid');
             vm.focus = false;
             vm.model.saving = true;
-
+            
+            var postLabelsIds = vm.model.labels.map(function(i){
+              return i.id
+            })
             var post = new NstPost();
             post.subject = vm.model.subject;
             post.body = vm.model.body;
@@ -751,6 +742,7 @@
             post.forwardFrom = vm.model.forwardedFrom;
             post.replyTo = vm.model.replyTo;
             post.recipients = vm.model.recipients;
+            post.labels = postLabelsIds.join(',');
             post.noComment = !vm.model.comment;
             post.places = [];
 

@@ -1,3 +1,12 @@
+/**
+ * @file src/app/place/settings/main/place-main-settings.controller.js
+ * @author Soroush Torkzadeh <sorousht@nested.me>
+ * @description A place settings
+ * Documented by:          Soroush Torkzadeh <sorousht@nested.me>
+ * Date of documentation:  2017-08-07
+ * Reviewed by:            -
+ * Date of review:         -
+ */
 (function() {
   'use strict';
 
@@ -6,6 +15,18 @@
     .controller('PlaceMainSettingsController', PlaceMainSettingsController);
 
   /** @ngInject */
+  /**
+   * The main settings of a place
+   * 
+   * @param {any} $q 
+   * @param {any} toastr 
+   * @param {any} NstSvcPlaceFactory 
+   * @param {any} NstSvcTranslation 
+   * @param {any} NstSvcLogger 
+   * @param {any} NST_PLACE_POLICY_OPTION 
+   * @param {any} NST_PLACE_POLICY 
+   * @param {any} NST_PLACE_POLICY_RECEPTIVE 
+   */
   function PlaceMainSettingsController($q, toastr,
     NstSvcPlaceFactory, NstSvcTranslation, NstSvcLogger,
     NST_PLACE_POLICY_OPTION, NST_PLACE_POLICY, NST_PLACE_POLICY_RECEPTIVE) {
@@ -25,6 +46,12 @@
 
     })();
 
+    /**
+     * Requests for updating a place settings
+     * 
+     * @param {any} params 
+     * @returns 
+     */
     function update(params) {
       var deferred = $q.defer();
 
@@ -32,7 +59,7 @@
       NstSvcPlaceFactory.update(vm.place.id, params).then(function () {
         deferred.resolve();
       }).catch(function (error) {
-        toastr.error(NstSvcTranslation.get('An error has occured while trying to update the place settings.'));
+        toastr.error(NstSvcTranslation.get('An error has occurred while trying to update the place settings.'));
         deferred.reject();
       }).finally(function () {
         vm.updateProgress = false;
@@ -41,6 +68,15 @@
       return deferred.promise;
     }
 
+    /**
+     * Updates a place name, then closes the edit modal
+     * 
+     * @param {any} isValid 
+     * @param {any} value 
+     * @param {any} $close 
+     * @param {any} $dismiss 
+     * @returns 
+     */
     function updateName(isValid, value, $close, $dismiss) {
       if (!isValid) {
         return;
@@ -52,6 +88,15 @@
       });
     }
 
+    /**
+     * Updates a place description, then closes the edit modal
+     * 
+     * @param {any} isValid 
+     * @param {any} value 
+     * @param {any} $close 
+     * @param {any} $dismiss 
+     * @returns 
+     */
     function updateDescription(isValid, value, $close, $dismiss) {
       if (!isValid) {
         return;
@@ -63,6 +108,13 @@
       });
     }
 
+    /**
+     * Updates a place privacy.receptive and policy.add_post regarding
+     * the selected type of policy for add_post
+     * 
+     * @param {any} value 
+     * @returns 
+     */
     function setAddPostPolicy(value) {
       switch (value) {
         case NST_PLACE_POLICY_OPTION.MANAGERS:
@@ -90,10 +142,22 @@
       }
     }
 
+    /**
+     * Turns off/on privacy.search of the place
+     * 
+     * @param {any} value 
+     * @returns 
+     */
     function setSearchPrivacy(value) {
       return update({ 'privacy.search' : value });
     }
 
+    /**
+     * Updates policy.add_member of a place
+     * 
+     * @param {any} value 
+     * @returns 
+     */
     function setAddMemberPolicy(value) {
       var newValue = null;
 
@@ -111,6 +175,12 @@
       return update({ 'policy.add_member' : newValue });
     }
 
+    /**
+     * Updates policy.add_place of a place
+     * 
+     * @param {any} value 
+     * @returns 
+     */
     function setAddPlacePolicy(value) {
       var newValue = null;
 
@@ -128,6 +198,12 @@
       return update({ 'policy.add_place' : newValue });
     }
 
+    /**
+     * Maps the place privacy and policy to the options that user is abel to select
+     * 
+     * @param {any} place 
+     * @returns 
+     */
     function getAddPostPrivacyLevel(place) {
       if (place.privacy.receptive === NST_PLACE_POLICY_RECEPTIVE.OFF && place.policy.add_post === NST_PLACE_POLICY.CREATORS) {
         return NST_PLACE_POLICY_OPTION.MANAGERS;
@@ -143,6 +219,12 @@
       }
     }
 
+    /**
+     * Maps the place policy.add_member to the options that the user is able to select
+     * 
+     * @param {any} place 
+     * @returns 
+     */
     function getAddMemberPrivacyLevel(place) {
       switch (place.policy.add_member) {
         case NST_PLACE_POLICY.CREATORS:
@@ -157,6 +239,12 @@
       }
     }
 
+    /**
+     * Maps policy.add_place of the place to the options that the user is able to select
+     * 
+     * @param {any} place 
+     * @returns 
+     */
     function getAddPlacePrivacyLevel(place) {
       switch (place.policy.add_place) {
         case NST_PLACE_POLICY.CREATORS:

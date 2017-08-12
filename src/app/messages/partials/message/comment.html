@@ -32,9 +32,10 @@
       <translate>Hide</translate>
     </script>
     <div class="delete-comment" data-ng-if="ctrl.allowToRemoveComment(comment)"
+         ng-init="canRemove = ctrl.isInFirstDay(comment) && comment.sender.id == ctrl.user.id"
          ng-click="ctrl.removeComment(comment);  _track('post card', 'remove comment');" >
       <svg class="_16svg" data-tooltip-append-to-body="true"
-         data-uib-tooltip-template="ctrl.hasCommentRemoveAccess ? 'hide-cm-tooltip.html' : 'remove-cm-tooltip.html'"
+         data-uib-tooltip-template="canRemove ? 'remove-cm-tooltip.html' : 'hide-cm-tooltip.html'"
          data-tooltip-placement="right auto">
         <use xlink:href="/assets/icons/nst-icn16.svg#bin"></use>
       </svg>

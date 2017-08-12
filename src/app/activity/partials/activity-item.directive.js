@@ -54,6 +54,14 @@
             scope.tplUrl = 'app/activity/partials/activity-comment-remove.html';
             break;
 
+          case NST_EVENT_ACTION.LABEL_ADD:
+            scope.tplUrl = 'app/activity/partials/activity-label-add.html';
+            break;
+
+          case NST_EVENT_ACTION.LABEL_REMOVE:
+            scope.tplUrl = 'app/activity/partials/activity-label-remove.html';
+            break;
+
           default:
             scope.tplUrl = '';
             return NstSvcLogger.error(NstUtility.string.format('The event type ({0}) is not supported!', scope.activity.type));

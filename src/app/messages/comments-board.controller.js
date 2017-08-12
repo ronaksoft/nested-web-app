@@ -33,6 +33,7 @@
     vm.limitCommentBoard = limitCommentBoard;
     vm.canShowOlderComments = canShowOlderComments;
     vm.commentBoardNeedsRolling = commentBoardNeedsRolling;
+    vm.isInFirstDay = isInFirstDay;
     vm.unreadCommentsCount = 0;
     vm.showRemoved = false;
 
@@ -131,7 +132,11 @@
 
     function allowToRemoveComment(comment) {
       return vm.hasCommentRemoveAccess ||
-        (comment.sender.id === vm.user.id && ((NstSvcDate.now() - comment.timestamp) < 24 * 60 * 60 * 1e3));
+        (comment.sender.id === vm.user.id && vm.isInFirstDay(comment));
+    }
+
+    function isInFirstDay(comment) {
+      return (NstSvcDate.now() - comment.timestamp) < 24 * 60 * 60 * 1e3;
     }
 
     /**

@@ -6,34 +6,60 @@
     .factory('NstSearchQuery', NstSearchQuery);
 
   /** @ngInject */
-  function NstSearchQuery(NstObject, NST_SEARCH_QUERY_PREFIX) {
+  function NstSearchQuery(NstObject, NST_SEARCH_QUERY_PREFIX, $window) {
     var QUERY_SEPARATOR = ' ';
     /**
      * Creates an instance of NstSearchQuery
      *
      * @param {String}    query   the query
+     * @param {Boolean}    isNewMethod   new search method
      *
      * @constructor
      */
-    function SearchQuery(query) {
+    function SearchQuery(query, isNewMethod) {
+
+      this.newMethod = false;
+      if (isNewMethod === true) {
+        this.newMethod = true;
+      }
 
       this.places = [];
       this.users = [];
+      this.labels = [];
       this.otherKeywords = [];
 
       var decodedQuery = decodeURIComponent(query);
+
+      if (_.startsWith(decodedQuery, NST_SEARCH_QUERY_PREFIX.NEW_METHOD_KEY)) {
+        this.newMethod = true;
+        decodedQuery = _.trimStart(decodedQuery, NST_SEARCH_QUERY_PREFIX.NEW_METHOD_KEY);
+      }
       var words = _.split(decodedQuery, QUERY_SEPARATOR);
 
+      this.prefixes = {};
+      if (!this.newMethod) {
+        this.prefixes.user = NST_SEARCH_QUERY_PREFIX.USER;
+        this.prefixes.place = NST_SEARCH_QUERY_PREFIX.PLACE;
+        this.prefixes.label = NST_SEARCH_QUERY_PREFIX.NEW_LABEL;
+      } else {
+        this.prefixes.user = NST_SEARCH_QUERY_PREFIX.NEW_USER;
+        this.prefixes.place = NST_SEARCH_QUERY_PREFIX.NEW_PLACE;
+        this.prefixes.label = NST_SEARCH_QUERY_PREFIX.NEW_LABEL;
+      }
+
+      var that = this;
+
       _.forEach(words, function (word) {
-        if (_.startsWith(word, NST_SEARCH_QUERY_PREFIX.PLACE)) {
-
-          this.places.push(_.trimStart(word, NST_SEARCH_QUERY_PREFIX.PLACE));
-        } else if (_.startsWith(word, NST_SEARCH_QUERY_PREFIX.USER)) {
-
-          this.users.push(_.trimStart(word, NST_SEARCH_QUERY_PREFIX.USER));
+        if (_.startsWith(word, that.prefixes.place)) {
+          this.places.push(_.trimStart(word, that.prefixes.place));
+        } else if (_.startsWith(word, that.prefixes.user)) {
+          this.users.push(_.trimStart(word, that.prefixes.user));
+        } else if (_.startsWith(word, that.prefixes.label)) {
+          this.labels.push(_.trimStart(word, that.prefixes.label));
         } else {
-
-          this.otherKeywords.push(word);
+          if (word.length > 0) {
+            this.otherKeywords.push(word);
+          }
         }
       }.bind(this));
 
@@ -43,17 +69,28 @@
     SearchQuery.prototype = new NstObject();
     SearchQuery.prototype.constructor = SearchQuery;
 
-    SearchQuery.prototype.toString = function () {
+    SearchQuery.prototype.toString = function (scape) {
+      if (scape == null) {
+        scape = true;
+      }
+      var that = this;
       var items = _.concat(
         _.map(this.places, function (place) {
-          return NST_SEARCH_QUERY_PREFIX.PLACE + place;
+          return that.prefixes.place + place;
         }),
         _.map(this.users, function (user) {
-          return NST_SEARCH_QUERY_PREFIX.USER + user;
+          return that.prefixes.user + user;
+        }),
+        _.map(this.labels, function (label) {
+          return that.prefixes.label + label;
         }),
         this.otherKeywords);
 
-      return _.join(items, QUERY_SEPARATOR);
+      if (this.newMethod && scape) {
+        return NST_SEARCH_QUERY_PREFIX.NEW_METHOD_KEY + ' ' + _.join(items, QUERY_SEPARATOR);
+      } else {
+        return _.join(items, QUERY_SEPARATOR);
+      }
     }
 
     SearchQuery.prototype.ToEncodeString = function () {
@@ -79,12 +116,32 @@
         this.users.push(user);
       }
     };
+
+    SearchQuery.prototype.addLabel = function (label) {
+      if (!_.includes(this.labels, label)) {
+        this.labels.push(label);
+      }
+    };
+
     SearchQuery.prototype.addOtherKeyword = function (keyword) {
       this.otherKeywords.push(keyword);
     };
 
     SearchQuery.encode = function (queryString) {
       return encodeURIComponent(queryString);
+    };
+
+    SearchQuery.prototype.isNewMethod = function () {
+      return this.newMethod;
+    };
+
+    SearchQuery.prototype.getSearchParams = function () {
+      return {
+        places: this.places,
+        users: this.users,
+        labels: this.labels,
+        keywords: this.otherKeywords
+      };
     };
 
     return SearchQuery;

@@ -19,6 +19,7 @@
 
     vm.add = add;
     vm.loadMore = loadMore;
+    vm.openAttachment = openAttachment;
     vm.addToCompose = addToCompose;
     vm.closePopover = closePopover;
     vm.unSelectFiles = unSelectFiles;
@@ -163,6 +164,49 @@
      */
     function closePopover() {
       $scope.$parent.$parent.ctlCompose.filesPopver = false;
+    }
+
+    /**
+     * Represents attachments view
+     * @param {any} attachment
+     * @returns
+     */
+    function openAttachment(e, attachment){
+      e.stopPropagation();
+      e.preventDefault();
+      $('body').addClass('attach-modal');
+      var modal = $uibModal.open({
+        animation: false,
+        templateUrl: 'app/components/attachments/view/single/main.html',
+        controller: 'AttachmentViewController',
+        controllerAs: 'ctlAttachmentView',
+        backdropClass : 'attachmdrop',
+        size: 'full',
+        resolve: {
+          fileViewerItem : function () {
+            return attachment;
+          },
+          fileViewerItems : function () {
+            return vm.files;
+          },
+          fileId : function () {
+            return null;
+          },
+          fileIds : function () {
+            return null;
+          },
+          currentPlaceId: function () {
+            return null;
+          },
+          currentPostId: function () {
+            return null;
+          }
+        }
+      }).result.catch(function(){
+        $('body').removeClass('attach-modal');
+      });
+
+      return modal.result;
     }
 
   }

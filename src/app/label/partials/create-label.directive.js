@@ -41,7 +41,7 @@
                 size: 'lg-white multiple',
                 templateUrl: 'app/label/partials/request-label.html',
                 controller: 'requestLabelController',
-                controllerAs: 'ctrl'
+                controllerAs: 'requestCtrl'
             })
           }
         }

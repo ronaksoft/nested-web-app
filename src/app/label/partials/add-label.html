@@ -1,0 +1,42 @@
+<div class="add-label label-sm-modal">
+    <h4>
+        <svg class="_24svg _fn" ng-click="$dismiss();">
+            <use xlink:href="/assets/icons/nst-icn24.svg#xcross"></use>
+        </svg>
+        <translate>Labels</translate>
+        <p>
+            {{ctrl.selectedLabels.length | localize}}/{{10 | localize}}
+        </p>
+    </h4>
+    <ui-select minimum-input-length="4" multiple limit="{{ctrl.targetLimit}}" always-show-list class="label-search _dib" focus-on='SetFocus'
+        data-ng-model="ctrl.selectedLabels" on-select="ctrl.updatedRecipient(true, $item)" on-remove="ctrl.updatedRecipient(false, $item)">
+        <ui-select-match placeholder="{{::ctrl.labelSelectPlaceHolder}}" class="label-items">
+            <div class="selected-innter color-lbl-bg-{{$item.code}} ng-class:{'locked' : !$item.public && !$item.is_member}">
+                <svg class="_16svg _fn fill-white" ng-if="!$item.public && !$item.is_member">
+                    <use xlink:href="/assets/icons/nst-icn16.svg#lock"></use>
+                </svg>
+                <svg class="_16svg _fn fill-white" ng-if="$item.public|| $item.is_member"
+                 ng-click="ctrl.clear($item, $select)">
+                    <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
+                </svg>
+                <span>{{$item.title}}</span>
+            </div>
+        </ui-select-match>
+        <!--{{$select.open = true;""}}-->
+        <ui-select-choices refresh="ctrl.searchFn($select.search)" position="down"
+                            refresh-delay="0"  nst-scrollbar go-downward="ctrl.goDownward"
+                            repeat="label in ctrl.search.results track by $index">
+                            {{$select.open = ctrl.search.results.length > 0; ""}}
+            <svg class="_16svg mirror _fn color-lbl-{{label.code}}">
+                <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
+            </svg>
+            <span class="_vat _df" data-ng-bind-html="label.title | highlight: $select.search"></span>
+        </ui-select-choices>
+    </ui-select>
+    <div class="load-more-labels">
+        <translate ng-if="ctrl.haveMore" ng-click="ctrl.load()">Show more…</translate>
+    </div>
+    <div class="modal-footer">
+        <input type="button" class="butn-green" ng-disabled="!ctrl.firstTouch" value="Done" ng-click="ctrl.submitLabels();" translate-attrs="value">
+    </div>
+</div>
