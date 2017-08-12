@@ -11,7 +11,7 @@
     var vm = this;
 
     vm.keyword = '';
-    vm.labelManager = NstSvcAuth.user.labelEditor;
+    vm.labelManager = NstSvcAuth.user.authority.labelEditor;
     vm.labels = [];
     vm.haveMore = true;
     vm.requestList = [];

@@ -9,7 +9,7 @@
                              _, md5,
                              NstSvcPostStorage, NstCollector, NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory, NstSvcStore, NstSvcCommentFactory, NstFactoryEventData, NstUtility,
                              NstFactoryError, NstFactoryQuery, NstPost, NstBaseFactory,
-                             NST_MESSAGES_SORT_OPTION, NST_SRV_EVENT, NST_CONFIG, NST_POST_EVENT) {
+                             NST_MESSAGES_SORT_OPTION, NST_SRV_EVENT, NST_CONFIG, NST_POST_EVENT, NstSvcLabelFactory) {
 
     function PostFactory() {
       this.collector = new NstCollector('post', this.getMany);
@@ -384,7 +384,9 @@
       post.noComment = data.no_comment;
       post.watched = data.watched;
       post.isTrusted = data.is_trusted;
-      post.labels = data.post_labels;
+      post.labels = _.map(data.post_labels, function (item) {
+        return NstSvcLabelFactory.parse(item);
+      });
 
 
       var resources = {};
