@@ -144,21 +144,21 @@
                           attachments="ctlPostCard.post.attachments"></nst-attachments-view>
   </section>
   <section class="post-labels" ng-if="ctlPostCard.post.labels.length > 0">
-    <span data-ng-repeat="label in ctlPostCard.post.labels track by $index" class="defcur color-lbl-bg-{{label.code}}">
+    <span data-ng-repeat="label in ctlPostCard.post.labels track by $index" ng-click="ctlPostCard.labelClick(label.title);" class="color-lbl-bg-{{label.code}}">
         {{::label.title}}
     </span>
     <a ng-if="ctlPostCard.haveAnyLabelAcess"  add-label added-labels="ctlPostCard.post.labels" after-add-label="ctlPostCard.addLabels"
-      data-uib-tooltip-template="'add-label-tooltip.html'"
+      data-uib-tooltip-template="'add-label-tooltip.html'" class="cursor-pointer"
       data-tooltip-append-to-body="true" data-tooltip-placement="auto top">
         <svg class="_16svg _r90">
           <use xlink:href="/assets/icons/nst-icn16.svg#more"></use>
         </svg>
     </a>
   </section>
-  <section class="post-places" ng-if="(!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)" inline-places="ctlPostCard.isFeed()"
+  <section class="post-places" ng-if="(!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)" inline-places="!ctlPostCard.isPostView"
   limit-places="ctlPostCard.limits.places" limit-recipients="ctlPostCard.limits.recipients">
     <translate class="places-label" ng-if="ctlPostCard.post.places.length > 0">shared with:</translate>{{ctlPostCard.limit.places}}
-    <span data-ng-repeat="place in ctlPostCard.post.places | limitTo: ctlPostCard.limits.places"
+    <span data-ng-repeat="place in ctlPostCard.post.places | limitTo: ctlPostCard.limits.places track by place.id"
           class="ng-class:{'del-access' :  ctlPostCard.hasDeleteAccess(place)}">
         <a ui-sref="app.place-messages({ placeId : place.id })" place-detail="place.id" dir="ltr">
           {{::place.name}}
@@ -168,10 +168,11 @@
         </svg>
     </span>
     <a ng-if="ctlPostCard.post.recipients.length > 0"
-       data-ng-repeat="recipient in ctlPostCard.post.recipients | limitTo: ctlPostCard.limits.recipients">{{::recipient}}
+       data-ng-repeat="recipient in ctlPostCard.post.recipients | limitTo: ctlPostCard.limits.recipients track by $index">{{::recipient}}
     </a>
     <a ng-if="ctlPostCard.limits.places < ctlPostCard.post.places.length || ctlPostCard.limit.recipients < ctlPostCard.post.recipients.length"
          data-uib-tooltip-template="'morePlaces-uib-tooltip.html'"
+         class="more"
          data-tooltip-append-to-body="true" data-tooltip-placement="auto top">
       <translate>and</translate> {{ ctlPostCard.post.places.length + ctlPostCard.post.recipients.length - ctlPostCard.limit.recipients - ctlPostCard.limits.places | localize}} <translate>more</translate>...
     </a>

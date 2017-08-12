@@ -17,7 +17,7 @@
   function PostCardController($state, $log, $timeout, $stateParams, $rootScope, $scope, $filter, $window, $sce, $uibModal,
                               _, moment, toastr,
                               NST_EVENT_ACTION, NST_PLACE_ACCESS, NST_POST_EVENT, SvcCardCtrlAffix,
-                              NstSvcSync, NstVmFile, NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory,
+                              NstSvcSync, NstVmFile, NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory, NstSearchQuery,
                               NstSvcAuth, NstUtility, NstSvcPostInteraction, NstSvcTranslation, NstSvcLogger) {
     var vm = this;
 
@@ -58,7 +58,9 @@
     vm.alwaysTrust = alwaysTrust;
     vm.addLabels = addLabels;
     vm.isFeed = isFeed;
-
+    vm.labelClick = labelClick;
+    vm.isPostView = isPostView();
+    
     vm.expandProgress = false;
     vm.body = null;
     vm.chainView = false;
@@ -244,7 +246,6 @@
      * retract message for senders with circumated time
      * also removes the post from selected posts
      */
-    console.log($scope);
     function retract() {
       vm.retractProgress = true;
       NstSvcPostInteraction.retract(vm.post).finally(function () {
@@ -252,7 +253,6 @@
         vm.isChecked = false;
         $scope.$emit('post-select',{postId: vm.post.id,isChecked : vm.isChecked});
         if (isPostView()) {
-          console.log('closeit')
           $scope.$parent.$parent.$dismiss();
         }
       });
@@ -793,12 +793,15 @@
       }
       return false;
     }
-
+    /**
+     * Checks the current state is post view page or not
+     * @returns {boolean}
+     */
     function isPostView() {
       if ($state.current.name == 'app.message') {
-        return vm.isPostView = true;
+        return true
       }
-      return vm.isPostView = false;
+      return false;
     }
 
     /**
@@ -838,6 +841,19 @@
       }).catch(function (){
         toastr.error(NstSvcTranslation.get(NstUtility.string.format('An error occured while removing {0} from the trusted list.', vm.post.sender.id)));
       });
+    }
+
+    /**
+     * searchs the label
+     * @param {string} title title of Label
+     * @returns {boolean}
+     */
+    function labelClick(title) {
+      var searchQuery = new NstSearchQuery('', true);
+
+      searchQuery.addLabel(title);
+
+      $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toString())});
     }
   }
 

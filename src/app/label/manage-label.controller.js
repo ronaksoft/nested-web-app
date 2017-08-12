@@ -11,7 +11,7 @@
     var vm = this;
 
     vm.keyword = '';
-    vm.labelManager = NstSvcAuth.user.labelEditor;
+    vm.labelManager = NstSvcAuth.user.authority.labelEditor;
     vm.labels = [];
     vm.haveMore = true;
     vm.requestList = [];
@@ -39,11 +39,11 @@
     }
 
     function searchLabel() {
-      if (!vm.haveMore) {
-        return;
-      }
       if (vm.oldKeyword !== vm.keyword) {
         restoreDefault();
+      }
+      if (!vm.haveMore) {
+        return;
       }
       var searchService;
       var filter = (vm.labelManager ? NST_LABEL_SEARCH_FILTER.ALL : NST_LABEL_SEARCH_FILTER.MY_PRIVATES);
@@ -179,6 +179,7 @@
       }).result.then(function () {
         NstSvcLabelFactory.updateRequest(id, 'reject').then(function (result) {
           removeRequest(id);
+          restoreDefault();
           searchLabel(vm.keyword);
           toastr.success(NstSvcTranslation.get("Request declined successfully."));
         }).catch(function (error) {
@@ -190,6 +191,7 @@
     function acceptRequest(id) {
       NstSvcLabelFactory.updateRequest(id, 'accept').then(function (result) {
         removeRequest(id);
+        restoreDefault();
         searchLabel(vm.keyword);
         toastr.success(NstSvcTranslation.get("Request accepted successfully."));
       }).catch(function (error) {

@@ -56,7 +56,7 @@
       <div ng-hide="item.thumbnail.length" class="attachment-tiny-thumb tiny-thumb-type-{{item.type}}">
         {{item.extension | uppercase}}
       </div>
-      <img ng-show="item.thumbnail.length" src="{{item.thumbnail}}" alt="">
+      <img ng-show="item.thumbnail.length" ng-src="{{item.thumbnail}}" alt="">
       <span>{{item.filename}}</span>
     </li>
   </ul>

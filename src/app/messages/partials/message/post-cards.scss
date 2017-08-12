@@ -472,6 +472,14 @@ post-card {
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.24);
       color: $color-solid;
     }
+    &.more {
+      cursor: pointer;
+      background-color: transparent;
+    }
+    &.more:hover {
+      box-shadow: none;
+      color: $color-solid;
+    }
   }
   svg {
     display: none;
