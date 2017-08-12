@@ -158,7 +158,7 @@
   <section class="post-places" ng-if="(!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)" inline-places="ctlPostCard.isFeed()"
   limit-places="ctlPostCard.limits.places" limit-recipients="ctlPostCard.limits.recipients">
     <translate class="places-label" ng-if="ctlPostCard.post.places.length > 0">shared with:</translate>{{ctlPostCard.limit.places}}
-    <span data-ng-repeat="place in ctlPostCard.post.places | limitTo: ctlPostCard.limits.places"
+    <span data-ng-repeat="place in ctlPostCard.post.places track by place.id | limitTo: ctlPostCard.limits.places"
           class="ng-class:{'del-access' :  ctlPostCard.hasDeleteAccess(place)}">
         <a ui-sref="app.place-messages({ placeId : place.id })" place-detail="place.id" dir="ltr">
           {{::place.name}}
@@ -168,7 +168,7 @@
         </svg>
     </span>
     <a ng-if="ctlPostCard.post.recipients.length > 0"
-       data-ng-repeat="recipient in ctlPostCard.post.recipients | limitTo: ctlPostCard.limits.recipients">{{::recipient}}
+       data-ng-repeat="recipient in ctlPostCard.post.recipients track by $index | limitTo: ctlPostCard.limits.recipients">{{::recipient}}
     </a>
     <a ng-if="ctlPostCard.limits.places < ctlPostCard.post.places.length || ctlPostCard.limit.recipients < ctlPostCard.post.recipients.length"
          data-uib-tooltip-template="'morePlaces-uib-tooltip.html'"

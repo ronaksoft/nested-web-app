@@ -5,7 +5,10 @@
         </svg>
         <translate>Labels</translate>
         <p>
-            {{ctrl.selectedLabels.length | localize}}/{{10 | localize}}
+            <span ng-class="{'force' : ctrl.selectedLabels.length > 10}">
+                {{ctrl.selectedLabels.length | localize}}
+            </span>
+            /{{10 | localize}}
         </p>
     </h4>
     <ui-select minimum-input-length="4" multiple limit="{{ctrl.targetLimit}}" always-show-list class="label-search _difv" focus-on='SetFocus'
@@ -37,6 +40,6 @@
         <translate ng-if="ctrl.haveMore" ng-click="ctrl.load()">Show more…</translate>
     </div>
     <div class="modal-footer">
-        <input type="button" class="butn-green" ng-disabled="!ctrl.firstTouch" value="Done" ng-click="ctrl.submitLabels();" translate-attrs="value">
+        <input type="button" class="butn-green" ng-disabled="!ctrl.firstTouch && ctrl.selectedLabels.length > 10" value="Done" ng-click="ctrl.submitLabels();" translate-attrs="value">
     </div>
 </div>
