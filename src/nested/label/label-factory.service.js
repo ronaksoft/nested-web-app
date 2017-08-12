@@ -114,6 +114,20 @@
       }, 'removeMember-' + labelId + '-' + accountId);
     };
 
+    LabelFactory.prototype.getMany = function (id) {
+      return this.sentinel.watch(function () {
+        return NstSvcServer.request('label/get_many', {
+          label_id: id,
+        }).then(function (data) {
+          if (id.indexOf(',') === -1) {
+            return $q.resolve(data.labels[0]);
+          }
+
+          return $q.resolve(data.labels);
+        });
+      }, 'getMany' + id);
+    };
+
     return new LabelFactory();
   }
 })();
