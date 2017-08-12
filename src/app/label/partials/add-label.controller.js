@@ -24,7 +24,14 @@
     vm.goDownward = false;
     vm.load = load;
     vm.clear = clear;
-    vm.selectedLabels = argv.addedLabels.length > 0 ? _.clone(argv.addedLabels) : [];
+    vm.selectedLabels = argv.addedLabels.length > 0 ?
+      _.clone(argv.addedLabels).sort(function (a, b) {
+        if (!a.public && !a.is_member && (b.is_member || b.public)) {
+          return -1;
+        } else {
+          return 1;
+        }
+      }) : [];
     vm.firstTouch = false;
     var defaultLimit = 8;
     vm.setting = {
