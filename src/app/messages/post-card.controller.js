@@ -245,7 +245,6 @@
      * retract message for senders with circumated time
      * also removes the post from selected posts
      */
-    console.log($scope);
     function retract() {
       vm.retractProgress = true;
       NstSvcPostInteraction.retract(vm.post).finally(function () {
