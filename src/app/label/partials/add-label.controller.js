@@ -79,7 +79,7 @@
     function clear(item, select) {
       vm.firstTouch = true;
       _.remove(vm.selectedLabels, function (o) {
-        return item._id === o._id;
+        return item.id === o.id;
       });
     }
   }

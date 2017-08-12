@@ -144,11 +144,11 @@
                           attachments="ctlPostCard.post.attachments"></nst-attachments-view>
   </section>
   <section class="post-labels" ng-if="ctlPostCard.post.labels.length > 0">
-    <span data-ng-repeat="label in ctlPostCard.post.labels track by $index" ng-click="ctlPostCard.labelClick(label.title);" class="defcur color-lbl-bg-{{label.code}}">
+    <span data-ng-repeat="label in ctlPostCard.post.labels track by $index" ng-click="ctlPostCard.labelClick(label.title);" class="color-lbl-bg-{{label.code}}">
         {{::label.title}}
     </span>
     <a ng-if="ctlPostCard.haveAnyLabelAcess"  add-label added-labels="ctlPostCard.post.labels" after-add-label="ctlPostCard.addLabels"
-      data-uib-tooltip-template="'add-label-tooltip.html'"
+      data-uib-tooltip-template="'add-label-tooltip.html'" class="cursor-pointer"
       data-tooltip-append-to-body="true" data-tooltip-placement="auto top">
         <svg class="_16svg _r90">
           <use xlink:href="/assets/icons/nst-icn16.svg#more"></use>
@@ -172,6 +172,7 @@
     </a>
     <a ng-if="ctlPostCard.limits.places < ctlPostCard.post.places.length || ctlPostCard.limit.recipients < ctlPostCard.post.recipients.length"
          data-uib-tooltip-template="'morePlaces-uib-tooltip.html'"
+         class="more"
          data-tooltip-append-to-body="true" data-tooltip-placement="auto top">
       <translate>and</translate> {{ ctlPostCard.post.places.length + ctlPostCard.post.recipients.length - ctlPostCard.limit.recipients - ctlPostCard.limits.places | localize}} <translate>more</translate>...
     </a>
