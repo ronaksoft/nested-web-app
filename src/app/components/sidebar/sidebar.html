@@ -173,8 +173,8 @@
         </div>
       </a>
       <script type="text/ng-template" id="label-uib-tooltip.html">
-        <span ng-if="ctlSidebar.user.labelEditor" translate-inner>Manage Labels</span>
-        <span ng-if="!ctlSidebar.user.labelEditor" translate-inner>My Labels</span>
+        <span ng-if="ctlSidebar.user.authority.labelEditor" translate-inner>Manage Labels</span>
+        <span ng-if="!ctlSidebar.user.authority.labelEditor" translate-inner>My Labels</span>
       </script>
       <a class="detailed" manage-label
          data-uib-tooltip-template="'label-uib-tooltip.html'"
