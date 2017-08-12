@@ -179,6 +179,7 @@
       }).result.then(function () {
         NstSvcLabelFactory.updateRequest(id, 'reject').then(function (result) {
           removeRequest(id);
+          restoreDefault();
           searchLabel(vm.keyword);
           toastr.success(NstSvcTranslation.get("Request declined successfully."));
         }).catch(function (error) {
@@ -190,6 +191,7 @@
     function acceptRequest(id) {
       NstSvcLabelFactory.updateRequest(id, 'accept').then(function (result) {
         removeRequest(id);
+        restoreDefault();
         searchLabel(vm.keyword);
         toastr.success(NstSvcTranslation.get("Request accepted successfully."));
       }).catch(function (error) {
