@@ -86,7 +86,11 @@
         toastr.success(NstSvcTranslation.get("Your request submited successfully."));
         $uibModalInstance.close(true);
       }).catch(function(error) {
-        toastr.error(NstSvcTranslation.get("Something went wrong."));
+        if (error.code === 5) {
+          toastr.warning(NstSvcTranslation.get("Label request already exists!"));
+        } else {
+          toastr.error(NstSvcTranslation.get("Something went wrong."));
+        }
       }).finally(function () {
         $scope.$dismiss();
       });
