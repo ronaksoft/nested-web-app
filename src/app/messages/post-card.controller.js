@@ -253,7 +253,6 @@
         vm.isChecked = false;
         $scope.$emit('post-select',{postId: vm.post.id,isChecked : vm.isChecked});
         if (isPostView()) {
-          console.log('closeit')
           $scope.$parent.$parent.$dismiss();
         }
       });

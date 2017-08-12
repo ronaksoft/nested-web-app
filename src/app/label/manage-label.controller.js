@@ -39,11 +39,11 @@
     }
 
     function searchLabel() {
-      if (!vm.haveMore) {
-        return;
-      }
       if (vm.oldKeyword !== vm.keyword) {
         restoreDefault();
+      }
+      if (!vm.haveMore) {
+        return;
       }
       var searchService;
       var filter = (vm.labelManager ? NST_LABEL_SEARCH_FILTER.ALL : NST_LABEL_SEARCH_FILTER.MY_PRIVATES);
