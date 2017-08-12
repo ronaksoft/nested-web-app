@@ -59,7 +59,8 @@
     vm.addLabels = addLabels;
     vm.isFeed = isFeed;
     vm.labelClick = labelClick;
-
+    vm.isPostView = isPostView();
+    
     vm.expandProgress = false;
     vm.body = null;
     vm.chainView = false;
@@ -792,12 +793,15 @@
       }
       return false;
     }
-
+    /**
+     * Checks the current state is post view page or not
+     * @returns {boolean}
+     */
     function isPostView() {
       if ($state.current.name == 'app.message') {
-        return vm.isPostView = true;
+        return true
       }
-      return vm.isPostView = false;
+      return false;
     }
 
     /**
