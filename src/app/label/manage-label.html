@@ -15,7 +15,7 @@
           <use xlink:href="/assets/icons/nst-icn16.svg#search"></use>
         </svg>
       </i>
-      <input ng-keyup="ctrl.searchKeyUp()" ng-model="ctrl.keyword" type="text" placeholder="Find Labels">
+      <input ng-keyup="ctrl.searchKeyUp()" ng-model="ctrl.keyword" type="text" placeholder="Find Labels" translate-attrs="placeholder">
     </div>
     <div ng-if="ctrl.labelManager && ctrl.selectedItems.length == 0" ng-click="ctrl.createLabel()" class="lbl-cr8" >
       <a><translate>New Label</translate></a>
@@ -37,7 +37,7 @@
     </div>
   </div>
   <h5 ng-if="ctrl.requestList.length > 0" class="list-head">{{ctrl.labelManager ? '' : 'Pending '}}Requests</h5>
-  <ul class="requests" ng-class="{'pending': !ctrl.labelManager}">
+  <ul class="requests" ng-class="{'pending': !ctrl.labelManager}" nst-scrollbar>
     <li ng-repeat="request in ctrl.requestList">
       <hr/>
       <div class="icon">
@@ -87,7 +87,7 @@
     </li>
   </ul>
   <h5 class="list-head">Labels</h5>
-  <ul class="labels">
+  <ul class="labels _df" nst-scrollbar>
     <li ng-repeat="label in ctrl.labels track by $index">
       <hr/>
       <div class="icon" ng-if="ctrl.labelManager">
