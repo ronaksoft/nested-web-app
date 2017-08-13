@@ -16,7 +16,6 @@
     .quick-message {
       z-index: 10;
       border: 1px solid $color-border;
-      // box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
       border-radius: 4px;
       position: relative;
       padding: 8px;
@@ -35,7 +34,7 @@
           animation: 1s ease-in forwards remove-max-height;
         }
       }
-      .compose-input {
+      .compose-subject-input {
         height: 42px;
         color: $color-solid;
         &::-webkit-input-placeholder {
@@ -134,5 +133,5 @@
       }
     }
   }
-  
+
 }

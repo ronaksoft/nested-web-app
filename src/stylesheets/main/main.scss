@@ -50,11 +50,6 @@ u:hover {
   text-decoration: underline;
 }
 
-//::selection {
-//  color: rgba(255,255,255,1);
-//  background: rgba(0,0,0,1);
-//}
-
 a,a:focus{
   outline-width:0;
   text-decoration: none;
@@ -99,6 +94,6 @@ vr {
 //Remove bug in safari for justify aligned texts
 @media not all and (min-resolution:.001dpcm) { 
     .post-card .post-body p { 
-         text-align: initial!important; 
+      text-align: initial!important; 
     }
 }
