@@ -47,7 +47,7 @@
       </div>
       <div ng-if="ctrl.labelManager" class="req-body">
         <cite>
-          {{request.label ? request.label.title : request.title}}
+          {{request.label ? (request.label.title | scapeRevSpace): (request.title | scapeRevSpace)}}
         </cite>
         <p>
           <span user-detail="request.user"><b>{{request.user.fullName}}</b></span>
@@ -59,7 +59,7 @@
         <cite class="{{request.label.code}}">
           <span ng-if="request.label"><translate>Joining to</translate></span>
           <span ng-if="!request.label"><translate>Adding</translate></span>
-          "{{request.label ? request.label.title : request.title}}"
+          "{{request.label ? (request.label.title | scapeRevSpace): (request.title | scapeRevSpace)}}"
         </cite>
       </div>
       <div class="actions">
@@ -97,7 +97,7 @@
         </div>
       </div>
       <div class="label-details">
-        <span>{{label.title}}</span>
+        <span>{{label.title | scapeRevSpace}}</span>
       </div>
       <div class="usage">
         <svg class="_16svg _df _fn color-lbl-{{label.code}}">

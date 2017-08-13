@@ -38,17 +38,17 @@
       skip: 0,
       limit: defaultLimit + vm.selectedLabels.length,
       filter: NST_LABEL_SEARCH_FILTER.MY_LABELS,
-    }
+    };
 
     vm.load();
 
     vm.submitLabels = function (){
       $uibModalInstance.close(vm.selectedLabels);
-    }
+    };
 
     function search(keyword){
       if (typeof keyword !== 'string' || vm.loading) return;
-      
+
       vm.loading = true;
       if ( keyword !== vm.oldKeyword) {
         restoreDefault();

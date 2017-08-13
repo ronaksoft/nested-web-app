@@ -5,7 +5,7 @@
     .module('ronak.nested.web.components')
     .controller('manageLabelController', manageLabelController);
 
-  function manageLabelController($timeout, $scope, $q, $uibModalInstance, $uibModal
+  function manageLabelController($timeout, $scope, $q, $uibModalInstance, $uibModal, $filter
     , toastr, _, NstSvcTranslation, NstSvcUserFactory, NstSvcLabelFactory, NST_LABEL_SEARCH_FILTER, NstSvcAuth) {
 
     var vm = this;
@@ -48,12 +48,13 @@
       var searchService;
       var filter = (vm.labelManager ? NST_LABEL_SEARCH_FILTER.ALL : NST_LABEL_SEARCH_FILTER.MY_PRIVATES);
       if (vm.keyword.length > 0) {
-        searchService = NstSvcLabelFactory.search(vm.keyword, filter, vm.setting.skip, vm.setting.limit);
+        var keyword = $filter('scapeSpace')(vm.keyword);
+        searchService = NstSvcLabelFactory.search(keyword, filter, vm.setting.skip, vm.setting.limit);
       } else {
         searchService = NstSvcLabelFactory.search(null, filter, vm.setting.skip, vm.setting.limit);
       }
       searchService.then(function (result) {
-        vm.labels = vm.labels.concat(result);
+        vm.labels = _.unionBy(vm.labels.concat(result), 'id');
         vm.oldKeyword = vm.keyword;
         vm.haveMore = result.length === vm.setting.limit;
         vm.setting.skip += result.length;
