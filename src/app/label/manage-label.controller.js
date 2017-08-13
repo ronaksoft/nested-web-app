@@ -53,7 +53,7 @@
         searchService = NstSvcLabelFactory.search(null, filter, vm.setting.skip, vm.setting.limit);
       }
       searchService.then(function (result) {
-        vm.labels = vm.labels.concat(result);
+        vm.labels = _.unionBy(vm.labels.concat(result), 'id');
         vm.oldKeyword = vm.keyword;
         vm.haveMore = result.length === vm.setting.limit;
         vm.setting.skip += result.length;
