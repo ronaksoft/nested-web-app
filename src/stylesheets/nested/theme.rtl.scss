@@ -130,7 +130,7 @@ body[dir="rtl"] {
   .green-radio:checked + label {
     background-position: 100% -64px;
   }
-  #place-settings .user-item .name {
+  #place-settings .user-option-slider .name {
     padding-left: 0;
     padding-right: 8px;
   }
@@ -483,7 +483,7 @@ body[dir="rtl"] {
     padding-right: 10px;
     padding-left: 0;
   }
-  .user-wrp .idname {
+  .sidebar-profile-popover .id-name-user {
     padding-right: 4px;
     padding-left: 0;
   }
@@ -590,7 +590,7 @@ body[dir="rtl"] {
     left: auto;
     right: 0;
   }
-  .user-item .name {
+  .user-option-slider .name {
     padding-left: 0;
     padding-right: 8px;
   }
@@ -623,7 +623,7 @@ body[dir="rtl"] {
     left: auto;
     right: 6px;
   }
-  #place-settings .user-item {
+  #place-settings .user-option-slider {
     margin-right: -32px;
   }
   #add-view .ui-select-choices-row {

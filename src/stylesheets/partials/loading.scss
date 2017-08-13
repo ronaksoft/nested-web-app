@@ -1,0 +1,159 @@
+@-webkit-keyframes spin {
+    0% {
+      -webkit-transform:rotate(0deg);
+      opacity: 0;
+    }
+    15% {
+      opacity: 1;
+    }
+    25% {
+      -webkit-transform:rotate(270deg);
+      opacity: 1;
+    }
+    50% {
+      -webkit-transform:rotate(960deg);
+      opacity: 1;
+    }
+    80% {
+      -webkit-transform:rotate(1300deg);
+      opacity: 1;
+    }
+    100% {
+      -webkit-transform:rotate(1820deg);
+      opacity: 0;
+    }
+  }
+  @-moz-keyframes spin {
+    0% {
+      -moz-transform:rotate(0deg);
+      opacity: 0;
+    }
+    15% {
+      opacity: 1;
+    }
+    25% {
+      -moz-transform:rotate(270deg);
+      opacity: 1;
+    }
+    50% {
+      -moz-transform:rotate(960deg);
+      opacity: 1;
+    }
+    80% {
+      -moz-transform:rotate(1300deg);
+      opacity: 1;
+    }
+    100% {
+      -moz-transform:rotate(1820deg);
+      opacity: 0;
+    }
+  }
+  @keyframes spin {
+    0% {
+      transform:rotate(0deg);
+      opacity: 0;
+    }
+    15% {
+      opacity: 1;
+    }
+    25% {
+      transform:rotate(270deg);
+      opacity: 1;
+    }
+    50% {
+      transform:rotate(960deg);
+      opacity: 1;
+    }
+    80% {
+      transform:rotate(1300deg);
+      opacity: 1;
+    }
+    100% {
+      transform:rotate(1820deg);
+      opacity: 0;
+    }
+  }
+  
+  .loading {
+    height: 44px;
+    left: 50%;
+    margin-left: -22px;
+    margin-top: -20px;
+    position: absolute;
+    top: 50%;
+    width: 44px;
+  }
+  .loading .animation {
+    -webkit-animation: spin 5s linear 0s infinite;
+    -moz-animation: spin 5s linear 0s infinite;
+    animation: spin 5s linear 0s infinite;
+    -webkit-transform: translate3d(0, 0, 0);
+    -moz-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    -webkit-perspective: 1000;
+    -moz-perspective: 1000;
+    perspective: 1000;
+    opacity: 0;
+  }
+  .loading .animation:nth-child(2) {
+    -webkit-animation-delay: 125ms;
+    -moz-animation-delay: 125ms;
+    animation-delay: 125ms;
+  }
+  .loading .animation:nth-child(3) {
+    -webkit-animation-delay: 250ms;
+    -moz-animation-delay: 250ms;
+    animation-delay: 250ms;
+  }
+  .loading .animation:nth-child(4) {
+    -webkit-animation-delay: 375ms;
+    -moz-animation-delay: 375ms;
+    animation-delay: 375ms;
+  }
+  .loading .animation:nth-child(5) {
+    -webkit-animation-delay: 500ms;
+    -moz-animation-delay: 500ms;
+    animation-delay: 500ms;
+  }
+  .loading .circle {
+    background: none repeat scroll 0 0 #14D769;
+    border-radius: 100% 100% 100% 100%;
+    height: 6px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 6px;
+  }
+  .loading .circle.two {
+    background: rgba(20, 215, 105, 0.8);
+  }
+  .loading .circle.three {
+    background: rgba(20, 215, 105, 0.6);
+  }
+  .loading .circle.four {
+    background: rgba(20, 215, 105, 0.4);
+  }
+  .loading .circle.five {
+    background: rgba(20, 215, 105, 0.2);
+  }
+  .loading.white .circle {
+    background: none repeat scroll 0 0 #ffffff;
+    border-radius: 100% 100% 100% 100%;
+    height: 6px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 6px;
+  }
+  .loading.white .circle.two {
+    background: rgba(255, 255, 255, 0.8);
+  }
+  .loading.white .circle.three {
+    background: rgba(255, 255, 255, 0.6);
+  }
+  .loading.white .circle.four {
+    background: rgba(255, 255, 255, 0.4);
+  }
+  .loading.white .circle.five {
+    background: rgba(255, 255, 255, 0.2);
+  }

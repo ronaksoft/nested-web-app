@@ -1,0 +1,92 @@
+/**
+  ******************************
+  *  Margins
+  ******************************
+ */
+
+.margin-l-5 {
+  margin-left: 5px;
+}
+
+.margin-r-5 {
+  margin-right: 5px;
+}
+
+.margin-t-5 {
+  margin-top: 5px;
+}
+.margin-top-10 {
+  margin-top: 10px;
+}
+
+.margin-r_5{
+  margin-right: -5px;
+}
+
+.margin-l-50 {
+  margin-left: 50px;
+}
+
+.nst-vc {
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #F5F5F5;
+  // padding: 72px 0;
+  #Logo {
+    margin: 0 0 12px 0;
+    flex: none;
+    width: 60px;
+    height: 60px;
+  }
+  > a {
+    flex: none;
+    line-height: 24px;
+    display: flex;
+    height: 24px;
+    margin-bottom: 8px;
+    max-width: 358px;
+    color: $color-hurricane;
+    fill: $color-hurricane;
+  }
+}
+
+.nst-vb {
+  height: 100%;
+  display: flex;
+  align-items: baseline;
+}
+
+.no-gutter [class*="col-"] {
+  padding-left: 2.5px;
+  padding-right: 2.5px;
+}
+
+.no-gutter [class*="col-"]:first-child {
+  padding-left: 15px;
+}
+
+.no-gutter [class*="col-"]:last-child {
+  padding-right: 15px;
+}
+
+.no-gutter2 [class*="col-"] {
+  padding-left: 2.5px;
+  padding-right: 2.5px;
+}
+
+.no-gutter2 [class*="col-"]:first-child {
+  padding-left: 0px;
+}
+
+.no-gutter2 [class*="col-"]:last-child {
+  padding-right: 0px;
+}
+
+@for $i from 0 through 6 {
+  .nst-margin-#{$i * 4} {
+    margin: #{$i * 4}px;
+  }
+}

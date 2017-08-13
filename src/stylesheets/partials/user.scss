@@ -1,6 +1,6 @@
-/*************************
- *    User Initials & avatars
- *************************/
+/****************************
+ *  User Initials & avatars
+ ****************************/
 
 * [class *= "account-initials-"] {
   margin-right: 8px;
@@ -59,10 +59,10 @@
   @include avatar(80px,72px,1010px);
 }
 
-.user-wrp {
+.sidebar-profile-popover {
   height: auto!important;
   align-items: center;
-  .idname {
+  .id-name-user {
     justify-content: center;
     height: 40px;
     width: calc(100% - 32px);
@@ -70,7 +70,7 @@
   }
 }
 
-.user-item {
+.user-option-slider {
   height: 72px;
   width: 100%;
   transition: all $animation-dur;
