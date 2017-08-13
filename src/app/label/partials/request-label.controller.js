@@ -11,7 +11,7 @@
     var vm = this;
     vm.code = 'D';
     vm.label = {
-      id: '',
+      id: null,
       code: 'A',
       title: '',
     };
