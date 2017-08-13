@@ -10,7 +10,8 @@
 
         content = content.trim();
 
-        return content.replace(/\s/g, '-');
+        return content.replace(/\s/g, ' ');
+        // return content.replace(/\s/g, '-');
       };
     })
     .filter('scapeRevSpace', function () {
@@ -20,7 +21,8 @@
 
         if (content == null) return "";
 
-        return content.replace(/-/g, ' ');
+        return content.replace(/\s/g, ' ');
+        // return content.replace(/-/g, ' ');
       };
     });
 })();
