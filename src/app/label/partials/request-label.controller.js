@@ -71,7 +71,7 @@
         } else {
           return true;
         }
-      } else if (vm.label.title.length <= 3) {
+      } else if (vm.label.title.length <= 1) {
         return true;
       }
       return false;
