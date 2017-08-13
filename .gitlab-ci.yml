@@ -45,11 +45,8 @@ build:mobile:
     - cd /var/lib/mobile-org
     - git clone http://gitlab-ci-token:$CI_BUILD_TOKEN@git.ronaksoftware.com/nested/web-mobile-app.git .
     - git checkout master
-<<<<<<< HEAD
-=======
     - cp -a ./. /var/lib/mobile
     - cd /var/lib/mobile
->>>>>>> e5e34b283806d06c771503bfdb61f9e61625c6c5
     - npm install
     - npm run build:prod
     - mkdir -p $BUILD_DIR/mobile
@@ -60,7 +57,6 @@ build:mobile:
   artifacts:
     untracked: true
     expire_in: 1 hour
-
 
 deploy:production:
   image: gitlab/dind
