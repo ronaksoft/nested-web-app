@@ -742,6 +742,63 @@ body[dir="rtl"] {
       }
     }
   }
+
+  .manage-label .lbl-cr8, .manage-label .lbl-remove {
+    margin-left: 0;
+    margin-right: 24px;
+    svg {
+      margin-left: 0;
+      margin-right: 6px;
+    }
+  }
+  .manage-label ul.labels li .icon {
+    padding: 16px 0 0 16px;
+  }
+  .manage-label ul.requests li .actions > div {
+    margin-left: 0;
+    margin-right: 16px;
+  }
+  .manage-label ul.labels li .usage {
+    margin-left: 0;
+    margin-right: 24px;
+  }
+  .manage-label ul.labels li .users {
+    margin-left: 0;
+    margin-right: 16px;
+  }
+  .label-sm-modal .label-color svg {
+    left: 0;
+    right: 12px;
+  }
+  .modal-lg-white .modal-content select {
+    padding: 0 32px 0 8px;
+  }
+  input[type="radio"] + label {
+    margin: 0 0 0 40px;
+  }
+  .label-sm-modal .modal-footer input {
+    margin: 0 8px 0 0!important;
+  }
+  .label-sm-modal ul.holders li {
+    padding-right: 0;
+    padding-left: 24px;
+  }
+  .label-sm-modal .close-btn {
+    margin-left: 16px;
+    margin-right: 0;
+  }
+  .label-sm-modal .modal-more-set + .popover {
+    right: 240px !important;
+    left: 20px;
+  }
+  .label-sm-modal.add-label h4 svg {
+    margin-right: 0;
+    margin-left: 8px;
+  }
+  .post-labels span {
+    margin-right: 0;
+    margin-left: 6px;
+  }
 }
 body[dir="ltr"] {
   .post-card-comments p.RTL-text {
