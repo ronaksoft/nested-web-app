@@ -1054,6 +1054,7 @@
     //   title: 'Bold',
     //   icon: 'bold'
     // });
+    $.FroalaEditor.ICON_DEFAULT_TEMPLATE = 'material_design';
 
     $.FroalaEditor.RegisterCommand('rightToLeft', {
       title: 'RTL',
