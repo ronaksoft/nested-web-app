@@ -17,7 +17,7 @@
   function PostCardController($state, $log, $timeout, $stateParams, $rootScope, $scope, $filter, $window, $sce, $uibModal,
                               _, moment, toastr,
                               NST_EVENT_ACTION, NST_PLACE_ACCESS, NST_POST_EVENT, SvcCardCtrlAffix,
-                              NstSvcSync, NstVmFile, NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory,
+                              NstSvcSync, NstVmFile, NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory, NstSearchQuery,
                               NstSvcAuth, NstUtility, NstSvcPostInteraction, NstSvcTranslation, NstSvcLogger) {
     var vm = this;
 
@@ -34,7 +34,7 @@
       eventReferences = [];
 
     vm.remove = _.partial(remove, vm.post);
-    // vm.toggleRemoveFrom = toggleRemoveFrom;
+    vm.toggleRemoveFrom = toggleRemoveFrom;
     vm.retract = retract;
     vm.expand = expand;
     vm.collapse = collapse;
@@ -56,14 +56,25 @@
     vm.toggleMoveTo = toggleMoveTo;
     vm.untrustSender = untrustSender;
     vm.alwaysTrust = alwaysTrust;
-
+    vm.addLabels = addLabels;
+    vm.isFeed = isFeed;
+    vm.labelClick = labelClick;
+    vm.isPostView = isPostView();
+    
     vm.expandProgress = false;
     vm.body = null;
     vm.chainView = false;
     vm.unreadCommentsCount = 0;
     vm.isChecked = false;
     vm.isCheckedForce = false;
+    vm.postSenderIsCurrentUser = false;
+    vm.haveAnyLabelAcess = true; // TODO Read this from label cache
     // vm.isPlaceFilter = false;
+
+    vm.limits = {
+      places: 1,
+      recipients: 1,
+    }
 
     isPlaceFeed();
     $scope.$parent.$parent.affixObserver = 1;
@@ -200,9 +211,9 @@
       });
     }
 
-    // function toggleRemoveFrom(show) {
-    //   vm.showRemoveFrom = show;
-    // }
+    function toggleRemoveFrom(show) {
+      vm.showRemoveFrom = show;
+    }
 
     /**
      * warning propt for removing post from place
@@ -241,6 +252,9 @@
         vm.retractProgress = false;
         vm.isChecked = false;
         $scope.$emit('post-select',{postId: vm.post.id,isChecked : vm.isChecked});
+        if (isPostView()) {
+          $scope.$parent.$parent.$dismiss();
+        }
       });
     }
 
@@ -615,9 +629,13 @@
        * determine the post have unloaded comments or not
        */
       vm.hasOlderComments = (vm.post.counters.comments && vm.post.comments) ? vm.post.counters.comments > vm.post.comments.length : false;
-
       vm.body = vm.post.body;
       vm.orginalPost = vm.post;
+
+      vm.limits = {
+        places: vm.post.places.length,
+        recipients: vm.post.recipients.length,
+      }
 
       /**
        * checks the post body content is trusted ( displaying images )
@@ -702,6 +720,33 @@
       });
     });
 
+    /**
+     * add / remove labels of post
+     * @param {any} items
+     */
+    function addLabels(items){
+      var removeItems = _.difference(vm.post.labels, items);
+      var addItems = _.difference(items, vm.post.labels);
+      addItems.forEach(function(o){
+        var id = o._id || o.id;
+        NstSvcPostFactory.addLabel(vm.post.id, id).then(function() {
+          // console.log(o);
+          // vm.post.labels.push(o);
+        });
+      });
+      removeItems.forEach(function(o){
+        var id = o._id || o.id;
+        NstSvcPostFactory.removeLabel(vm.post.id, id).then(function() {
+          // _.remove(vm.post.labels, function(n) {
+          //   var id1 =  n.id || n._id;
+          //   var id2 =  o.id || o._id;
+          //   console.log(id1, id2);
+          //   return id1 === id2
+          // });
+        });
+      });
+      vm.post.labels = items;
+    }
 
     /**
      * open post chains
@@ -734,6 +779,29 @@
         return vm.isPlaceFilter = true;
       }
       return vm.isPlaceFilter = false;
+    }
+
+    /**
+     * Checks the current state is `Feed` page or not
+     * @returns {boolean}
+     */
+    function isFeed() {
+      if ($state.current.name === 'app.messages-favorites' ||
+          $state.current.name === 'app.messages-sorted' ||
+          $state.current.name === 'app.messages-favorites-sorted') {
+        return true;
+      }
+      return false;
+    }
+    /**
+     * Checks the current state is post view page or not
+     * @returns {boolean}
+     */
+    function isPostView() {
+      if ($state.current.name == 'app.message') {
+        return true
+      }
+      return false;
     }
 
     /**
@@ -773,6 +841,19 @@
       }).catch(function (){
         toastr.error(NstSvcTranslation.get(NstUtility.string.format('An error occured while removing {0} from the trusted list.', vm.post.sender.id)));
       });
+    }
+
+    /**
+     * searchs the label
+     * @param {string} title title of Label
+     * @returns {boolean}
+     */
+    function labelClick(title) {
+      var searchQuery = new NstSearchQuery('', true);
+
+      searchQuery.addLabel(title);
+
+      $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toString())});
     }
   }
 

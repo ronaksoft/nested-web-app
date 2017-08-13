@@ -87,11 +87,6 @@
             <use xlink:href="/assets/icons/nst-icn24.svg#attach"></use>
           </svg>
         </label>
-        <!--<label class="_df _fn cursor-pointer" for="attach-img">
-          <svg class="_24svg _asc">
-            <use xlink:href="/assets/icons/nst-icn24.svg#camera-wire"></use>
-          </svg>
-        </label>-->
         <div class="emoji _df _pr">
           <svg class="_24svg _asc">
             <use xlink:href="/assets/icons/nst-icn24.svg#small-face-wire"></use>
@@ -100,12 +95,22 @@
           <div class="body" emoji-init=".fr-element" compose-emoji="true" ng-show="ctlCompose.emojiTarget != 'title';"></div>
         </div>
         <div class="_df f1"></div>
-        <svg class="_16svg _asc" popover-class="white-pop post-card-moreopt compose-opt"
-           data-popover-placement="{{$root._direction == 'ltr' ? 'left auto' : 'right auto'}}"
-           data-uib-popover-template="'app/pages/compose/partials/compose-settings.html'"
-           data-popover-append-to-body="false">
-          <use xlink:href="/assets/icons/nst-icn16.svg#gear"></use>
-        </svg>
+        <div class="_pr _df _fn lbl-btn" add-label added-labels="ctlCompose.model.labels" after-add-label="ctlCompose.addLabels">
+          <span ng-if="ctlCompose.model.labels.length > 0">
+            +{{ctlCompose.model.labels.length}}
+          </span>
+          <svg class="_16svg _asc">
+            <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
+          </svg>
+        </div>
+        <div class="_pr _df _fn">
+          <svg class="_16svg _asc" popover-class="white-pop post-card-moreopt compose-opt"
+            data-popover-placement="{{$root._direction == 'ltr' ? 'left auto' : 'right auto'}}"
+            data-uib-popover-template="'app/pages/compose/partials/compose-settings.html'"
+            data-popover-append-to-body="false">
+            <use xlink:href="/assets/icons/nst-icn16.svg#gear"></use>
+          </svg>
+        </div>
       </div>
       <div class="quick-btns">
         <input type="button" ng-click="ctlCompose.clear()" class="butn-white" ng-if="ctlCompose.pending" value="Discard" ng-if="ctlCompose.quickMode" translate-attrs="value">

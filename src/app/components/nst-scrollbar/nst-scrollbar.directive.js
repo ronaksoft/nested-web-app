@@ -1,3 +1,12 @@
+/**
+ * @file src/app/components/nst-scrollbar/nst-scrollbar.directive.js
+ * @author Soroush Torkzadeh <sorousht@nested.me>
+ * @description A customized scrollbar is built on top of perfect-scrollbar
+ * Documented by:          Soroush Torkzadeh <sorousht@nested.me>
+ * Date of documentation:  2017-08-09
+ * Reviewed by:            -
+ * Date of review:         -
+ */
 (function() {
   'use strict';
   var app = angular.module('ronak.nested.web.components.scroll');
@@ -15,6 +24,14 @@
   app.value('nstScrollbarSettings', defaultSettings);
   app.directive('nstScrollbar', nstScrollbar);
 
+  /**
+   * This component is based on perfect-scrollbar (https://github.com/noraesae/perfect-scrollbar)
+   * 
+   * 
+   * @param {any} $window 
+   * @param {any} nstScrollbarSettings 
+   * @returns 
+   */
   function nstScrollbar($window, nstScrollbarSettings) {
     return {
       restrict : 'A',
@@ -52,7 +69,7 @@
     }
 
     function link($scope, $element, $attrs) {
-
+      // Reads all settings from the provided attributes
       var customSettings = {
         wheelSpeed : readNumberValue($attrs.wheelSpeed),
         minScrollbarLength : readNumberValue($attrs.minScrollbarLength),
@@ -64,6 +81,7 @@
         scrollSpeed : $attrs.scrollSpeed === 'slow' || $attrs.scrollSpeed === 'fast' ? $attrs.scrollSpeed : readNumberValue($attrs.scrollSpeed)
       };
 
+      // Sets default value for the settings that have not been provided
       var settings = _.defaults(customSettings, nstScrollbarSettings);
 
       var container = $element[0];
@@ -72,6 +90,7 @@
       // NOTE: perfect-scrollbar does not work without relative position
       if (container) {
         $element.css('position', 'relative');
+        // Initializes the scroll-bar on the container
         Ps.initialize(container, {
           wheelSpeed : settings.wheelSpeed,
           minScrollbarLength : settings.minScrollbarLength,
@@ -131,6 +150,7 @@
         });
       }
 
+      // Goes upward when the attribute value changes
       $scope.$watch('goUpward', function (newValue, oldValue) {
         if (newValue) {
           if (settings.scrollAnimate) {
@@ -150,6 +170,7 @@
         }
       });
 
+      // Goes downward when the attribute value changes
       $scope.$watch('goDownward', function (newValue, oldValue) {
         if (newValue) {
           if (settings.scrollAnimate) {
@@ -169,7 +190,7 @@
 
         }
       });
-
+      
       $scope.$on('$destroy', function () {
         Ps.destroy(container);
       });

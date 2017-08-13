@@ -9,7 +9,7 @@
                              NstSvcServer, NstSvcTinyUserStorage, NstSvcUserStorage, NstPlace,
                              NST_USER_SEARCH_AREA,
                              NST_USER_EVENT,
-                             NstBaseFactory, NstFactoryQuery, NstFactoryError, NstTinyUser, NstUser, NstPicture, NstFactoryEventData) {
+                             NstBaseFactory, NstFactoryQuery, NstFactoryError, NstTinyUser, NstUser, NstUserAuthority, NstPicture, NstFactoryEventData) {
     function UserFactory() { }
 
     UserFactory.prototype = new NstBaseFactory();
@@ -269,13 +269,26 @@
       return user;
     };
 
+    UserFactory.prototype.parseUserAuthority = function (data) {
+      var userAuthority = new NstUserAuthority();
+      if (!angular.isObject(data)) {
+        return userAuthority;
+      }
+
+      userAuthority.labelEditor = data.label_editor;
+
+      return userAuthority;
+    };
+
     UserFactory.prototype.parseUser = function (userData) {
       var user = new NstUser();
 
       if (!angular.isObject(userData)) {
         return user;
       }
+      var that = this;
       user.admin = userData.admin ? true : false;
+      user.labelEditor = userData.label_editor ? true : false;
       user.id = userData._id;
       user.firstName = userData.fname ? userData.fname : userData.name ? userData.name : userData._id;
       user.lastName = userData.lname || '';
@@ -287,6 +300,7 @@
       user.gender = userData.gender;
       user.email = userData.email;
       user.privacy = userData.privacy;
+      user.authority = this.parseUserAuthority(userData.authority);
 
       if (_.isObject(userData.counters)) {
         user.totalNotificationsCount = userData.counters.total_mentions;
@@ -340,14 +354,15 @@
       }
 
       settings = _.defaults(settings, defaultSettings);
-      NstSvcServer.request('search/accounts' + area, params).then(function (data) {
-        var users = _.map(data.accounts, function (account) {
-          return factory.parseTinyUser(account);
-        });
-        defer.resolve(users);
-      }).catch(defer.reject);
-
-      return defer.promise;
+      return this.sentinel.watch(function () {
+        NstSvcServer.request('search/accounts' + area, params).then(function (data) {
+          var users = _.map(data.accounts, function (account) {
+            return factory.parseTinyUser(account);
+          });
+          defer.resolve(users);
+        }).catch(defer.reject);
+        return defer.promise;
+      }, 'search/accounts' + area + params.keyword);
     };
 
     UserFactory.prototype.changePhone = function (phone, verificationId, password) {

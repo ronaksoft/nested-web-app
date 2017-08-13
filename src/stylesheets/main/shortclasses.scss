@@ -310,6 +310,10 @@ hr.nomargin {
   fill:  $color-gale
 }
 
+.fill-white {
+  fill:  $color-white
+}
+
 .fill-solid-24 {
   fill:  $color-solid-24
 }
@@ -317,6 +321,76 @@ hr.nomargin {
 .fill-D6D6D6 {
   fill:  #D6D6D6
 }
+
+.color-lbl-A {
+  color: #8895A1;
+  fill: #8895A1;
+}
+.color-lbl-bg-A {
+  background: #8895A1!important;
+  background-color: #8895A1;
+}
+
+.color-lbl-B {
+  color: #60BF70;
+  fill: #60BF70;
+}
+
+.color-lbl-bg-B {
+  background: #60BF70!important;
+  background-color: #60BF70;
+}
+
+.color-lbl-C {
+  color: #EBC246;
+  fill: #EBC246;
+}
+
+.color-lbl-bg-C {
+  background: #EBC246!important;
+  background-color: #EBC246;
+}
+
+.color-lbl-D {
+  color: #F26161;
+  fill: #F26161;
+}
+
+.color-lbl-bg-D {
+  background: #F26161!important;
+  background-color: #F26161;
+}
+
+.color-lbl-E {
+  color: #8669BF;
+  fill: #8669BF;
+}
+
+.color-lbl-bg-E {
+  background: #8669BF!important;
+  background-color: #8669BF;
+}
+
+.color-lbl-F {
+  color: #508EE6;
+  fill: #508EE6;
+}
+
+.color-lbl-bg-F {
+  background: #508EE6!important;
+  background-color: #508EE6;
+}
+
+.color-lbl-G {
+  color: #6CD9D9;
+  fill: #6CD9D9;
+}
+
+.color-lbl-bg-G {
+  background: #6CD9D9!important;
+  background-color: #6CD9D9;
+}
+
 .highlight-sense {
   &:hover{
     background-color: $color-sense-5;

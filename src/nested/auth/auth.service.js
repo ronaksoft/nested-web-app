@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function NstSvcAuth(_, $cookies, $q, $log, $rootScope,
-                      NstSvcServer, NstSvcUserFactory, NstSvcPlaceFactory, NstSvcLogger, NstSvcI18n,
+                      NstSvcServer, NstSvcUserFactory, NstSvcPlaceFactory, NstSvcLogger, NstSvcI18n, NstSvcClient,
                       NstSvcUserStorage, NstSvcCurrentUserStorage, NstSvcFileStorage, NstSvcInvitationStorage, NstFactoryError,
                       NstSvcMyPlaceIdStorage, NstSvcPlaceRoleStorage, NstSvcPlaceStorage, NstSvcTinyPlaceStorage,
                       NstSvcPostStorage, NstSvcUploadTokenStorage, NstSvcTinyUserStorage, NstSvcContactStorage, NstSvcDate,
@@ -204,20 +204,8 @@
     Auth.prototype.recall = function (sessionKey, sessionSecret) {
       this.setState(NST_AUTH_STATE.AUTHORIZING);
 
-
-      if ($cookies.get('ndt')) {
-        this.setLastDeviceToken($cookies.get('ndt'));
-      }
-
-      //set device id
-      if ($cookies.get('ndid')) {
-        this.setLastDeviceId($cookies.get('ndid'));
-      } else {
-        var did = generateDeviceId();
-        this.setLastDeviceId(did);
-        $cookies.put('ndid', did);
-      }
-
+      this.setLastDeviceToken(NstSvcClient.getDt());
+      this.setLastDeviceId(NstSvcClient.getDid());
 
       var payload = {
         _sk: sessionKey,
@@ -351,27 +339,17 @@
         this.setLastSessionSecret($cookies.get('nss'));
       }
 
-
-      if ($cookies.get('ndt')) {
-        this.setLastDeviceToken($cookies.get('ndt'));
-      }
-
-      //set device id
-      if ($cookies.get('ndid')) {
-        this.setLastDeviceId($cookies.get('ndid'));
-      } else {
-        var did = generateDeviceId();
-        this.setLastDeviceId(did);
-        $cookies.put('ndid', did);
-      }
-
+      this.setLastDeviceToken(NstSvcClient.getDt());
+      this.setLastDeviceId(NstSvcClient.getDid());
 
       if (this.getLastSessionKey() && this.getLastSessionSecret()) {
         // TODO: Use Try Service
         this.recall(this.getLastSessionKey(), this.getLastSessionSecret()).then(function (response) {
           service.user = NstSvcUserFactory.parseUser(response.account);
-
           service.state = NST_AUTH_STATE.AUTHORIZED;
+
+          NstSvcClient.setDt(service.lastDeviceToken);
+          NstSvcClient.setDid(service.lastDeviceId);
 
           service.authorize(response).then(deferred.resolve);
         }).catch(function (error) {
@@ -463,9 +441,10 @@
     };
 
     Auth.prototype.setDeviceToken = function (token) {
-      if (token !== $cookies.get('ndt')) {
+      var currentToken = NstSvcClient.getDt();
+      if (token !== currentToken) {
         this.setLastDeviceToken(token);
-        $cookies.put('ndt', token);
+        NstSvcClient.setDt(token);
         this.reconnect();
       }
     };

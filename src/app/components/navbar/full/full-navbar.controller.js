@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function FullNavbarController($scope, $rootScope, $uibModal, $state, $q,
-                                toastr, NstUtility,
+                                toastr, NstUtility, $window,
                                 NstSvcAuth, NstSvcLogger,
                                 NstSearchQuery, NstSvcPlaceFactory, NstSvcTranslation,
                                 NST_CONFIG, NST_DEFAULT, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_PLACE_EVENT,
@@ -406,13 +406,16 @@
       if (!sendKeyIsPressed(event) || !query || element.attr("mention") === "true") {
         return;
       }
-      var searchQury = new NstSearchQuery(query);
+
+      var newMethod = event.target.attributes.hasOwnProperty('mention-new-method');
+
+      var searchQuery = new NstSearchQuery(query, newMethod);
 
       if (hasPlace()) {
-        searchQury.addPlace(getPlaceId());
+        searchQuery.addPlace(getPlaceId());
       }
 
-      $state.go('app.search', {search: NstSearchQuery.encode(searchQury.toString())});
+      $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toString())});
     }
 
 

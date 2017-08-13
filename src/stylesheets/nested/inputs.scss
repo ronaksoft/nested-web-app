@@ -175,3 +175,57 @@ input::-webkit-input-placeholder {
     white-space: nowrap;
     overflow: hidden;
 }
+
+label.setting  {
+  display: inline-block;
+  background-image: url('../assets/icons/radiobuttons-checkbox.svg');
+  height: 16px;
+  min-width: 17px;
+  padding: 0 17px 0 0!important;
+  font-size: $font-size-small;
+  background-size: 16px 192px;
+  background-position: right -64px;
+  background-repeat: no-repeat;
+}
+
+input[type="checkbox"]:disabled + label.setting {
+  background-position: right -48;
+}
+
+input[type="checkbox"]:hover + label.setting {
+  background-position: right -80px;
+}
+
+input[type="checkbox"]:checked + label.setting {
+  background-position: right -16px;
+}
+
+input[type="checkbox"]:checked:disabled + label.setting {
+  background-position: right 0;
+}
+
+input[type="checkbox"]:checked:hover + label.setting {
+  background-position: right -32px;
+}
+
+input[type="radio"] + label{
+    padding-left: 20px;
+    margin: 0 40px 0 0;
+    display: inline-block;
+    background-image: url('../assets/icons/radiobuttons-checkbox.svg');
+    min-width: 17px;
+    height: 16px;
+    font-size: $font-size-small;
+    background-size: 16px 192px;
+    background-position: left -144px;
+    background-repeat: no-repeat;
+}
+input[type="radio"]:disabled + label {
+  background-position: left -176px;
+}
+input[type="radio"]:checked + label {
+  background-position: left -96px;
+}
+input[type="radio"]:checked:disabled + label {
+  background-position: left -128px;
+}

@@ -20,6 +20,7 @@
       'ronak.nested.web.place',
       'ronak.nested.web.file',
       'ronak.nested.web.contact',
+      'ronak.nested.web.label',
       'ronak.nested.web.models',
       'ronak.nested.web.data',
       'ronak.nested.web.config',

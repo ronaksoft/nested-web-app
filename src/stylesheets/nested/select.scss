@@ -162,149 +162,262 @@ select:-moz-focusring {
 select,option {
   color: $color-solid;
 }
-.ui-select-multiple.ui-select-bootstrap .ui-select-match-item {
-  background-color: transparent;
-  border-radius: 0;
-  color: $color-solid;
-  padding: 0;
-  height: 30px;
-  margin: 0!important;
-  border-width: 0;
-  span {
-    line-height: 28px!important;
+.ui-select-multiple.ui-select-bootstrap {
+  .ui-select-match-item {
+    background-color: transparent;
+    border-radius: 0;
+    color: $color-solid;
     padding: 0;
-    height: 28px;
-    font-size: 14px;
-    white-space: nowrap;
-    @extend ._txe;
-  }
-  .close {
-    line-height: 30px;
-    width: 20px;
-    justify-content: center;
-    transition: opacity $animation-dur;
-    position: absolute;
-    right: 8px;
-    top: 2px;
-    padding: 0;
-  }
-  div.selected-innter {
-    background: linear-gradient(to bottom,$color-bg-nested ,$sidebar-place-bg-hover-color 100%);
-    border-style: solid;
-    border-width: 1px;
-    border-color: #E6E6E6;
-    border-radius: 4px;
     height: 30px;
-    max-width: 216px;
-    transition-property: border-color,background;
-    transition-duration: $animation-dur;
-    .place-img {
-      display: inline-block;
-      font-size: $font-size-xxsmall;
-      border-radius: 4px 0 0 4px;
-      color: $color-white;
-      width: 28px;
+    margin: 0!important;
+    border-width: 0;
+    span {
+      line-height: 28px!important;
+      padding: 0;
       height: 28px;
-      // transform: translateY(-1px);
-      img {
-        width: 100%;
-        height: 100%;
-      }
-      svg {
-        width: 16px;
-        fill: #FF0014;
-        height: 16px;
-      }
-    }
-    .place-name {
-      display: inline-block;
-      line-height: 24px;
-      font-size: $font-size-medium;
-      min-width: 16px;
-      max-width: calc(100% - 24px);
-      border-radius: 0 6px 6px 0;
-      color: $color-solid;
-      padding: 0 28px 0 4px;
-      margin-left: -3px;
+      font-size: 14px;
       white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      @extend ._txe;
     }
-    &.isEmail {
-      border-radius: 20px;
-      border-color: #B9D7FF;
-      max-width: 256px;
-      .place-name {
-        max-width: calc(100% + 4px);
-        padding-left: 12px;
-      }
-    }
-    &.isEmail.error {
-      border-color: #FF0014;
-      background: #FFC8C8;
-      .place-name {
-        color: #FF0014;
-        font-weight: 700;
-        padding-left: 0;
-      }
-    }
-    &.isEmail:hover {
-      border-color: #9BB9E1;
-      border-radius: 20px;
-    }
-  }
-  &:hover,&:active,&:focus {
-    outline-offset: 0!important;
-    outline-width: 0!important;
     .close {
-      opacity: 1;
-      text-shadow: none;
+      line-height: 30px;
+      width: 20px;
+      justify-content: center;
+      transition: opacity $animation-dur;
+      position: absolute;
+      right: 8px;
+      top: 2px;
+      padding: 0;
     }
-  }
-  &:hover {
-    div.selected-innter{
-      height: 30px;
-      border-color: #C0C0C0;
-      background: linear-gradient(to bottom,$color-bg-nested ,$sidebar-place-bg-hover-color 100%);
-    }
-    div.selected-innter.isEmail{
-      height: 30px;
-      border-color: #9BB9E1;
-      background: linear-gradient(to bottom,$color-bg-nested ,$sidebar-place-bg-hover-color 100%);
-    }
-    div.selected-innter.isEmail.error{
-      border-color: #FF0014;
-      background: #FFC8C8;
-    }
-  }
-  &:active,&:focus{
     div.selected-innter {
-      border-color: $color-sense;
-      background: linear-gradient(to bottom, #8AEBB4, #8AEBB4 100%);
+      background: linear-gradient(to bottom,$color-bg-nested ,$sidebar-place-bg-hover-color 100%);
+      border-style: solid;
+      border-width: 1px;
+      border-color: #E6E6E6;
+      border-radius: 4px;
+      height: 30px;
+      max-width: 216px;
+      transition-property: border-color,background;
+      transition-duration: $animation-dur;
+      .place-img {
+        display: inline-block;
+        font-size: $font-size-xxsmall;
+        border-radius: 4px 0 0 4px;
+        color: $color-white;
+        width: 28px;
+        height: 28px;
+        // transform: translateY(-1px);
+        img {
+          width: 100%;
+          height: 100%;
+        }
+        svg {
+          width: 16px;
+          fill: #FF0014;
+          height: 16px;
+        }
+      }
+      .place-name {
+        display: inline-block;
+        line-height: 24px;
+        font-size: $font-size-medium;
+        min-width: 16px;
+        max-width: calc(100% - 24px);
+        border-radius: 0 6px 6px 0;
+        color: $color-solid;
+        padding: 0 28px 0 4px;
+        margin-left: -3px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      &.isEmail {
+        border-radius: 20px;
+        border-color: #B9D7FF;
+        max-width: 256px;
+        .place-name {
+          max-width: calc(100% + 4px);
+          padding-left: 12px;
+        }
+      }
+      &.isEmail.error {
+        border-color: #FF0014;
+        background: #FFC8C8;
+        .place-name {
+          color: #FF0014;
+          font-weight: 700;
+          padding-left: 0;
+        }
+      }
+      &.isEmail:hover {
+        border-color: #9BB9E1;
+        border-radius: 20px;
+      }
+    }
+    &:hover,&:active,&:focus {
       outline-offset: 0!important;
       outline-width: 0!important;
+      .close {
+        opacity: 1;
+        text-shadow: none;
+      }
     }
-    div.selected-innter.isEmail{
-      border-color: #379BFF;
-      background: #9BCDFF;
+    &:hover {
+      div.selected-innter{
+        height: 30px;
+        border-color: #C0C0C0;
+        background: linear-gradient(to bottom,$color-bg-nested ,$sidebar-place-bg-hover-color 100%);
+      }
+      div.selected-innter.isEmail{
+        height: 30px;
+        border-color: #9BB9E1;
+        background: linear-gradient(to bottom,$color-bg-nested ,$sidebar-place-bg-hover-color 100%);
+      }
+      div.selected-innter.isEmail.error{
+        border-color: #FF0014;
+        background: #FFC8C8;
+      }
     }
-    div.selected-innter.isEmail.error{
-      border-color: $color-force-wire;
-      background: $color-force-wire;
-      .place-name {
-        color: $color-white;
+    &:active,&:focus{
+      div.selected-innter {
+        border-color: $color-sense;
+        background: linear-gradient(to bottom, #8AEBB4, #8AEBB4 100%);
+        outline-offset: 0!important;
+        outline-width: 0!important;
+      }
+      div.selected-innter.isEmail{
+        border-color: #379BFF;
+        background: #9BCDFF;
+      }
+      div.selected-innter.isEmail.error{
+        border-color: $color-force-wire;
+        background: $color-force-wire;
+        .place-name {
+          color: $color-white;
+        }
+        svg {
+          fill: $color-white;
+        }
+      }
+
+    }
+  }
+  .label-items .ui-select-match-item {
+    background-color: transparent;
+    border-radius: 0;
+    color: $color-white;
+    padding: 0;
+    height: 28px;
+    margin: 0!important;
+    border-width: 0;
+    span {
+      line-height: 28px!important;
+      padding: 0;
+      height: 28px;
+      font-size: 14px;
+      white-space: nowrap;
+      @extend ._txe;
+    }
+    .close {
+      display: none;
+      /*line-height: 28px;
+      width: 18px;
+      justify-content: center;
+      transition: opacity $animation-dur;
+      position: absolute;
+      right: 8px;
+      font-size: 20px;
+      top: 2px;
+      padding: 0;*/
+    }
+    div.selected-innter {
+      border-radius: 4px;
+      border: none;
+      padding: 0 8px 0 28px;
+      height: 28px;
+      max-width: 216px;
+      transition-property: border-color,background;
+      transition-duration: $animation-dur;
+      .span {
+        display: inline-block;
+        line-height: 24px;
+        font-size: $font-size-medium;
+        min-width: 16px;
+        color: $color-solid;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
       svg {
-        fill: $color-white;
+        position: absolute;
+        left: 5px;
+        top: 5px;
       }
     }
+    &:hover,&:active,&:focus {
+      outline-offset: 0!important;
+      outline-width: 0!important;
+      .close {
+        opacity: 1;
+        text-shadow: none;
+      }
+    }
+    &:hover {
+      div.selected-innter{
+        height: 28px;
+        border-color: transparent;
+      }
+    }
+    &:active,&:focus{
+      div.selected-innter {
+        background: $color-solid!important;
+        outline-offset: 0!important;
+        outline-width: 0!important;
+      }
+      .close {
+        color: $color-white;
+      }
+      .color-lbl-bg-A {
+        box-shadow: 0 0 8px #8895A1;
+      }
 
+      .color-lbl-bg-B {
+        box-shadow: 0 0 8px #60BF70;
+      }
+
+      .color-lbl-bg-C {
+        box-shadow: 0 0 8px #EBC246;
+      }
+
+      .color-lbl-bg-D {
+        box-shadow: 0 0 8px #F26161;
+      }
+
+      .color-lbl-bg-E {
+        box-shadow: 0 0 8px #8669BF;
+      }
+
+      .color-lbl-bg-F {
+        box-shadow: 0 0 8px #508EE6;
+      }
+
+      .color-lbl-bg-G {
+        box-shadow: 0 0 8px #6CD9D9;
+      }
+    }
   }
 }
 
-.ui-select-match > span {
-  margin: 0 2px 3px 2px;
-  display: inline-flex;
+.ui-select-match {
+  >span {
+    margin: 0 2px 3px 2px;
+    display: inline-flex;
+  }
+  &.label-items {
+    >span {
+
+    }
+  }
 }
 .btn-primary:active,.btn-primary:focus {
   //border-color: $color-sense!important;
@@ -312,12 +425,16 @@ select,option {
 }
 
 .suggests {
-  height: 180px;
+  height: 212px;
   overflow: hidden;
-  display: inline-flex;
+  display: flex;
+  flex: none;
   flex-direction: row;
   flex-wrap: wrap;
-  .item {
+  font-size: 14px;
+  color: $color-gale-new;
+  padding: 0 16px;
+  /*.item {
     width: 48%;
     height: 50px;
     transition: all .3s;
@@ -403,7 +520,7 @@ select,option {
     &:hover {
       background-color: #E8FBF0;
     }
-  }
+  }*/
   .devider {
     width: 4%;
     height: 50px;

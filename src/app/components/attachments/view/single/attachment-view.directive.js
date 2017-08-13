@@ -24,7 +24,6 @@
         scope.resize = function () {
           // 240 is Width of sidepanel
           if (scope.sideBarOpen && (window.innerWidth - 240) < scope.attachment.newW) {
-
             scope.scaleVal = (window.innerWidth - 240) / scope.attachment.newW;
 
           } else {
@@ -118,16 +117,19 @@
 
         scope.sizeDetect = function (aw, ah) {
           var a = scope.attachment,
-            ww = window.innerWidth,
+            ww = window.innerWidth, // screen width
             wh = window.innerHeight - 64, // Navbar Height : 64
-            ratio = aw / ah,
-            pw = aw <= 1024 ? aw : 1024, // Preview width TODO : 1024 from configs
+            ratio = aw / ah, //image ratio
+            pw = aw <= 1024 ? aw : 1024, // Preview width TODO : get `1024` from configs
             ph = pw * ( 1 / ratio );
           var newW, newH;
-          if ((wh < ph && wh * ratio > ww) || ( ww < pw && ww * (1 / ratio) < wh )) {
+
+          if ((wh < ph && ww < wh * ratio ) ||
+              ( ww < pw && wh < ww * (1 / ratio) )) {
             newW = ww;
             newH = ww * (1 / ratio);
-          } else if ((wh < ph && wh * ratio < ww) || ( ww < pw && ww * (1 / ratio) > wh )) {
+          } else if ((wh < ph && wh * ratio < ww) ||
+                    ( ww < pw && ww * (1 / ratio) > wh )) {
             newW = wh * ratio;
             newH = wh;
           } else if (wh > ph && ww > pw) {
@@ -151,9 +153,9 @@
 
 
         var resizeIt = _.debounce(scope.sizeDetect, 500);
-        angular.element($window).on('resize', resizeIt);
+        angular.element($window).on('resize', resizeIt(scope.attachment.width, scope.attachment.height));
         scope.$on('$destroy', function () {
-          angular.element($window).off('resize', resizeIt);
+          angular.element($window).off('resize', resizeIt(scope.attachment.width, scope.attachment.height));
         });
       },
       template: '<div class="nst-preview-pic-mode" data-ng-include="tplUrl" data-ng-init="attachment = attachment"></div>'

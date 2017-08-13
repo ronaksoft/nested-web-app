@@ -1,0 +1,42 @@
+<div id="add-view" class="_difv _fw">
+  <h4>
+    <div class="_df" ng-click="$dismiss();">
+      <svg class="_24svg _fn">
+          <use xlink:href="/assets/icons/nst-icn24.svg#xcross"></use>
+      </svg>
+    </div>
+    <translate>Add Holders</translate>
+  </h4>
+  <ui-select multiple class="modal-add-input _df"
+    data-ng-model="addHolderCtrl.selectedUsers" limit="{{addHolderCtrl.limit}}"
+    autofocus="true" always-show-list on-select="addHolderCtrl.search('')">
+    <ui-select-match placeholder="{{::addHolderCtrl.searchPlaceholder}}">
+      <div class="selected-innter">
+        <span class="place-img">
+          <img initial-avatar="{{$item.id}}" picture="{{$item | avatar}}"
+                data-width="24" data-height="24" data-radius="2"
+                data-word-count="2" data-font-size="12" name="{{$item.fullName}}"/>
+        </span>
+        <span class="place-name">{{$item.fullName}}</span>
+      </div>
+    </ui-select-match>
+    <ui-select-choices refresh="addHolderCtrl.search($select.search)" refresh-delay="0"
+                        repeat="user in (addHolderCtrl.users | filter: $select.search) | limitTo: 9 track by user.id" >
+      <img initial-avatar="{{user.id}}" name="{{user.fullName}}" picture="{{user| avatar:'x64'}}" data-width="32" data-height="32"
+      data-radius="24" class="account-initials-32 _df" data-word-count="2" data-font-size="16"/>
+      <div class="_difv">
+        <!--todo:: | highlight: $select.search in persian name-->
+        <span auto-dir="user.fullName"><span class="_txe _fw" data-ng-bind-html="user.fullName"></span></span>
+        <small class="_df">@{{user.id}}</small>
+      </div>
+    </ui-select-choices>
+  </ui-select>
+  <div class="modal-body">
+    <div class="_fw suggests">
+      <translate>Suggested:</translate>
+    </div>
+  </div>
+  <div class="m-footer _df _fw">
+    <input type="button" class="butn-green" ng-disabled="addHolderCtrl.selectedUsers.length === 0" value="Add" ng-click="addHolderCtrl.add()"/>
+  </div>
+</div>

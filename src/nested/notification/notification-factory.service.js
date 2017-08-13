@@ -7,7 +7,7 @@
 
   function NstSvcNotificationFactory(_, $q, $rootScope,
                                      NstSvcServer, NstSvcUserFactory, NstSvcPostFactory, NstSvcCommentFactory, NstSvcAuth,
-                                     NstBaseFactory, NstMention, NstFactoryEventData, NstSvcInvitationFactory, NstSvcPlaceFactory,
+                                     NstBaseFactory, NstMention, NstFactoryEventData, NstSvcInvitationFactory, NstSvcPlaceFactory, NstSvcLabelFactory,
                                      NST_AUTH_EVENT, NST_NOTIFICATION_EVENT, NST_NOTIFICATION_TYPE, NST_SRV_PUSH_CMD) {
     function NotificationFactory() {
       var that = this;
@@ -93,6 +93,13 @@
 
               case NST_NOTIFICATION_TYPE.NEW_SESSION:
                 return parseNewSession(notif);
+
+              case NST_NOTIFICATION_TYPE.LABEL_REQUEST_APPROVED:
+              case NST_NOTIFICATION_TYPE.LABEL_REQUEST_REJECTED:
+              case NST_NOTIFICATION_TYPE.LABEL_REQUEST_CREATED:
+              case NST_NOTIFICATION_TYPE.LABEL_JOINED:
+                return parseLabelNotification(notif);
+
             }
           });
           $q.all(notificationPromises)
@@ -428,6 +435,37 @@
           });
       }).catch(function () {
         deferred.resolve({id: data._id, data: null});
+      });
+
+      return deferred.promise;
+    }
+
+    function parseLabelNotification(data) {
+      var deferred = $q.defer();
+
+      var accountPromise = data.account_id ? NstSvcUserFactory.getTiny(data.account_id) : $q.resolve();
+      var actorPromise = data.actor_id ? NstSvcUserFactory.getTiny(data.actor_id) : $q.resolve();
+      var labelPromise = data.label_id ? NstSvcLabelFactory.getMany(data.label_id) : $q.resolve();
+      var placePromise = data.place_id ? NstSvcPlaceFactory.get(data.place_id) : $q.resolve();
+
+
+      $q.all([accountPromise, actorPromise, labelPromise, placePromise]).then(function (values) {
+        console.log('====================================');
+        console.log(values);
+        console.log('====================================');
+        deferred.resolve(
+          {
+            id: data._id,
+            isSeen: data.read,
+            date: new Date(data.timestamp),
+            account: values[0],
+            actor: values[1],
+            label: values[2],
+            place: values[3],
+            type: data.type,
+          });
+      }).catch(function () {
+        deferred.resolve({ id: data._id, data: null });
       });
 
       return deferred.promise;

@@ -472,6 +472,14 @@ post-card {
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.24);
       color: $color-solid;
     }
+    &.more {
+      cursor: pointer;
+      background-color: transparent;
+    }
+    &.more:hover {
+      box-shadow: none;
+      color: $color-solid;
+    }
   }
   svg {
     display: none;
@@ -486,6 +494,40 @@ post-card {
     &:hover {
       svg {
         opacity: 1;
+      }
+    }
+  }
+}
+.post-labels {
+  flex-wrap: wrap;
+  flex: none;
+  span {
+    line-height: 18px;
+    margin-right: 6px;
+    color: $color-white;
+    border-radius: 4px;
+    padding: 0 6px;
+    margin-bottom: 8px;
+    font-size: 12px;
+    opacity: .72;
+    white-space: nowrap;
+    transition: opacity $animation-dur;
+    &:hover {
+      opacity: 1;
+    }
+  }
+  a {
+    border: 1px solid $color-solid-24;
+    border-radius: 2px;
+    height: 18px;
+    width: 18px;
+    box-sizing: border-box;
+    svg {
+      fill: $color-new-hurricane;
+    }
+    &:hover {
+      svg {
+        fill: $color-solid;
       }
     }
   }

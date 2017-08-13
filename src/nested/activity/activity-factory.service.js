@@ -9,7 +9,7 @@
                                  _,
                                  NST_ACTIVITY_FILTER, NST_EVENT_ACTION,
                                  NstSvcServer, NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory, NstSvcCommentFactory, NstUtility,
-                                 NstBaseFactory, NstSvcLogger, NstActivity, NstPost, NstTinyPlace, NstPicture) {
+                                 NstBaseFactory, NstSvcLogger, NstActivity, NstPost, NstTinyPlace, NstPicture, NstSvcLabelFactory) {
 
 
     function ActivityFactory() {}
@@ -47,6 +47,11 @@
           return parseAddComment(data);
         case NST_EVENT_ACTION.COMMENT_REMOVE:
           return parseRemoveComment(data);
+
+        case NST_EVENT_ACTION.LABEL_ADD:
+          return parseAddLabel(data);
+        case NST_EVENT_ACTION.LABEL_REMOVE:
+          return parseRemoveLabel(data);
 
         case NST_EVENT_ACTION.POST_ADD:
           return parsePostAdd(data);
@@ -196,6 +201,54 @@
         activity.date = new Date(data.timestamp);
         activity.post = resultSet[0];
         activity.comment = resultSet[1];
+        deferred.resolve(activity);
+      }).catch(function (error) {
+        deferred.resolve(null);
+        NstSvcLogger.error("Activity Factory GET:" , error)
+      });
+
+      return deferred.promise;
+    }
+
+    function parseAddLabel(data) {
+      var deferred = $q.defer();
+      // console.log(data);
+      var labelPromise = NstSvcLabelFactory.getMany(data.label_id);
+      var actorPromise = NstSvcUserFactory.getTiny(data.actor_id);
+      var postPromise = NstSvcPostFactory.get(data.post_id);
+
+      $q.all([labelPromise, actorPromise, postPromise]).then(function (resultSet) {
+        var activity = new NstActivity();
+        activity.id = data._id;
+        activity.type = data.action;
+        activity.date = new Date(data.timestamp);
+        activity.label = resultSet[0] ? resultSet[0] : null;
+        activity.actor = resultSet[1];
+        activity.post = resultSet[2];
+        deferred.resolve(activity);
+      }).catch(function (error) {
+        deferred.resolve(null);
+        NstSvcLogger.error("Activity Factory GET:" , error)
+      });
+
+      return deferred.promise;
+    }
+
+    function parseRemoveLabel(data) {
+
+      var deferred = $q.defer();
+      var labelPromise = NstSvcLabelFactory.getMany(data.label_id);
+      var actorPromise = NstSvcUserFactory.getTiny(data.actor_id);
+      var postPromise = NstSvcPostFactory.get(data.post_id);
+
+      $q.all([labelPromise, actorPromise, postPromise]).then(function (resultSet) {
+        var activity = new NstActivity();
+        activity.id = data._id;
+        activity.type = data.action;
+        activity.date = new Date(data.timestamp);
+        activity.label = resultSet[0] ? resultSet[0] : null;
+        activity.actor = resultSet[1];
+        activity.post = resultSet[2];
         deferred.resolve(activity);
       }).catch(function (error) {
         deferred.resolve(null);

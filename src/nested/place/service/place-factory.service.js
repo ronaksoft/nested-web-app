@@ -150,7 +150,6 @@
           var place = NstSvcPlaceStorage.get(query.id) || NstSvcTinyPlaceStorage.get(query.id);
 
           if (place) {
-            console.log(place);
             resolve(place);
           } else {
             factory.get(query.id).then(function (place) {

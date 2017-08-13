@@ -1,3 +1,14 @@
+/**
+ * @file src/app/components/i18n/translate.filter.js
+ * @author Soroush Torkzadeh <sorousht@nested.me>
+ * @description This services finds the given word or sentence equivalent
+ * in the selected locale dictionary and also localizes numbers
+ * Documented by:          Soroush Torkzadeh <sorousht@nested.me>
+ * Date of documentation:  2017-08-09
+ * Reviewed by:            -
+ * Date of review:         -
+ */
+
 (function () {
   'use strict';
 

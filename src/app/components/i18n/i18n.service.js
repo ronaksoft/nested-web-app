@@ -1,3 +1,12 @@
+/**
+ * @file src/app/components/disabled-for.directive.js
+ * @author Soroush Torkzadeh <sorousht@nested.me>
+ * @description Internationalization service that brings fa-IR and en-US locales in nested
+ * Documented by:          Soroush Torkzadeh <sorousht@nested.me>
+ * Date of documentation:  2017-08-09
+ * Reviewed by:            -
+ * Date of review:         -
+ */
 (function () {
   'use strict';
 
@@ -6,6 +15,15 @@
     .service('NstSvcI18n', NstSvcI18n);
 
   /** @ngInject */
+  /**
+   * Nested supports multiple languages utilizing this service
+   * 
+   * @param {any} _ 
+   * @param {any} NstSvcI18nStorage 
+   * @param {any} moment 
+   * @param {any} $location 
+   * @returns 
+   */
   function NstSvcI18n(_, NstSvcI18nStorage, moment, $location) {
     function I18n() {
       this.locales = {};
@@ -26,6 +44,7 @@
       }
       this.selectedLocale = NstSvcI18nStorage.get('locale') || routedLocale || defaultLocale;
       if (this.selectedLocale === "fa-IR") {
+        // configures moment-js if the selected locale is 'fa-IR'
         moment.loadPersian();
         moment.locale('fa', {months: 'فروردین_اردیبهشت_خرداد_تیر_مرداد_شهریور_مهر_آبان_آذر_دی_بهمن_اسفند'.split('_')});
       } else {
@@ -33,6 +52,12 @@
       }
     }
 
+    /**
+     * Adds a new locale to the list
+     * 
+     * @param {any} key 
+     * @param {any} dictionary 
+     */
     I18n.prototype.addLocale = function (key, dictionary) {
       if (!_.has(this.locales, key)) {
         this.locales[key] = dictionary;
@@ -41,6 +66,12 @@
       }
     };
 
+    /**
+     * Returns the selected locale
+     * 
+     * @param {any} name 
+     * @returns 
+     */
     I18n.prototype.getLocale = function (name) {
       var key = name || this.selectedLocale;
       if (_.has(this.locales, key)) {
@@ -51,6 +82,11 @@
 
     };
 
+    /**
+     * Switches to the given locale and configures moment package
+     * 
+     * @param {any} key 
+     */
     I18n.prototype.setLocale = function (key) {
       var name = key || this.selectedLocale;
       if (_.has(this.locales, name)) {
@@ -66,6 +102,12 @@
       NstSvcI18nStorage.remove('locale');
     }
 
+    /**
+     * Returns a query parameter value by key
+     * 
+     * @param {any} key 
+     * @returns 
+     */
     function findLanguage(key) {
       var queryParameters = $location.search();
 

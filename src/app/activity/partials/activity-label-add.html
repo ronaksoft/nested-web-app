@@ -1,0 +1,21 @@
+<div class="actdes">
+  <div class="ico">
+    <svg class="_16svg _df">
+      <use xlink:href="/assets/icons/nst-icn16.svg#add-to-place"></use>
+    </svg>
+  </div>
+  <div class="sender" data-ng-include="'app/activity/partials/activity-common-actor.html'"
+       data-ng-init="actor = act.actor"></div>
+</div>
+<div class="actcon">
+  <div class="msg">
+    <div class="subject">
+      <div class="nst-mood-simple">{{act | json}}
+        <translate>added {{act.label.title | scapeRevSpace}} label to {{act.post.subject}}.</translate>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="places"></div>
+  <div class="time no-animation" data-ng-include="'app/activity/partials/activity-common-date.html'"></div>
+</div>

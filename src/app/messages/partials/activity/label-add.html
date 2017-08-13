@@ -1,0 +1,27 @@
+<div class="_df">
+  <div user-detail="act.actor">
+
+    <img initial-avatar="{{act.actor.id}}" name="{{act.actor.fullName}}" picture="{{act.actor | avatar}}"
+         data-width="16" data-height="16" data-radius="16"
+         data-word-count="2" data-font-size="8"
+         class="account-initials-24 _df _fn"/>
+  </div>
+</div>
+<div class="colomn">
+  <div class="_difh top">
+    <div class="sender _df">
+      <div user-detail="act.actor">
+        <a class="on-avatar">{{::act.actor.fullName}}</a>
+      </div>
+    </div>
+    <div class="_df _fn">
+      <span>{{act.date | passed | localize }}</span>
+    </div>
+    <svg class="_16svg _df _fn fill-sense-wire mirror">
+      <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
+    </svg>
+  </div>
+  <div class="_df">
+    <p><translate>added {{act.label.title | scapeRevSpace}} label to {{act.post.subject}}.</translate></p>
+  </div>
+</div>

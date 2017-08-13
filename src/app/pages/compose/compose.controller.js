@@ -70,13 +70,15 @@
       subject: '',
       body: '',
       forwardedFrom: null,
+      labels: [],
       replyTo: null,
       errors: [],
       modified: false,
       ready: false,
       saving: false,
       saved: false,
-      comment: true
+      comment: true,
+      labels: []
     };
 
     vm.search = {
@@ -130,7 +132,7 @@
     (function () {
 
       /**
-       * Add state params attachments to the model 
+       * Add state params attachments to the model
        */
       if ($stateParams.attachments && $stateParams.attachments.length > 0) {
         vm.addUploadedAttachs($stateParams.attachments);
@@ -213,6 +215,9 @@
         });
     })();
 
+    vm.addLabels = function(items) {
+      vm.model.labels = items;
+    }
     /**
      * Adds uploaded attachments ( exists before composing ) into compose attachments
      * also prevents to add already added items
@@ -725,7 +730,10 @@
             NstSvcLogger.debug4('Compose | Compose model is valid');
             vm.focus = false;
             vm.model.saving = true;
-
+            
+            var postLabelsIds = vm.model.labels.map(function(i){
+              return i.id
+            })
             var post = new NstPost();
             post.subject = vm.model.subject;
             post.body = vm.model.body;
@@ -734,6 +742,7 @@
             post.forwardFrom = vm.model.forwardedFrom;
             post.replyTo = vm.model.replyTo;
             post.recipients = vm.model.recipients;
+            post.labels = postLabelsIds.join(',');
             post.noComment = !vm.model.comment;
             post.places = [];
 
@@ -1040,11 +1049,12 @@
     $.FroalaEditor.DefineIcon('underline', {SRC: vm.isRetinaDisplay ? '/assets/icons/editor/underline@2x.png' : '/assets/icons/editor/underline.png', ALT: 'underline', template: 'image'});
     $.FroalaEditor.DefineIcon('fontSize', {SRC: vm.isRetinaDisplay ? '/assets/icons/editor/fontsize@2x.png' : '/assets/icons/editor/fontsize.png', ALT: 'fontsize', template: 'image'});
     $.FroalaEditor.DefineIcon('color', {SRC: vm.isRetinaDisplay ? '/assets/icons/editor/color@2x.png' : '/assets/icons/editor/color.png', ALT: 'color', template: 'image'});
-    
+
     // $.FroalaEditor.RegisterCommand('bold', {
     //   title: 'Bold',
     //   icon: 'bold'
     // });
+    // $.FroalaEditor.ICON_DEFAULT_TEMPLATE = 'material_design';
 
     $.FroalaEditor.RegisterCommand('rightToLeft', {
       title: 'RTL',
@@ -1198,7 +1208,7 @@
     function isRetinaDisplay() {
         if (window.matchMedia) {
             var mq = window.matchMedia("only screen and (min--moz-device-pixel-ratio: 1.3), only screen and (-o-min-device-pixel-ratio: 2.6/2), only screen and (-webkit-min-device-pixel-ratio: 1.3), only screen  and (min-device-pixel-ratio: 1.3), only screen and (min-resolution: 1.3dppx)");
-            return (mq && mq.matches || (window.devicePixelRatio > 1)); 
+            return (mq && mq.matches || (window.devicePixelRatio > 1));
         }
     }
 
@@ -1256,6 +1266,28 @@
         });
       }
 
+    };
+
+    /**
+     * Toggles label
+     * @param {string} id
+     */
+    vm.toggleLabel = function (id) {
+      var index = vm.model.selectedLabels.indexOf(id);
+      if (index === -1) {
+        vm.model.selectedLabels.push(id);
+      } else {
+        vm.model.selectedLabels.splice(index, 1);
+      }
+    };
+
+    /**
+     * Checks if label is selected
+     * @param {string} id
+     * @return {boolean}
+     */
+    vm.isLabelSelected = function (id) {
+      return vm.model.selectedLabels.indexOf(id) > -1;
     };
 
     // $('.wdt-emoji-popup.open').removeClass('open');

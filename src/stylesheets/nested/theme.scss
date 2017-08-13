@@ -1,0 +1,24 @@
+h5.list-head {
+    line-height: 24px;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 0 6px;
+    background-color: $color-breeze-5-new;
+    border-radius: 4px;
+    flex: none;
+    color: $color-solid;
+    width: calc(100% + 16px);
+    display: flex;
+    margin: 8px -8px;
+    span {
+        flex: none;
+    }
+    p {
+        display: flex;
+        width: 100%;
+        justify-content: flex-end;
+        margin: 0;
+        align-items: center;
+        color: $color-solid-64;
+    }
+}

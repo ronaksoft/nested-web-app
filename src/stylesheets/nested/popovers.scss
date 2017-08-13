@@ -179,38 +179,6 @@
   width: 100%;
 }
 
-label.setting  {
-  display: inline-block;
-  background-image: url('../assets/icons/radiobuttons-checkbox.svg');
-  height: 16px;
-  min-width: 17px;
-  padding: 0 17px 0 0!important;
-  font-size: $font-size-small;
-  background-size: 16px 192px;
-  background-position: right -64px;
-  background-repeat: no-repeat;
-}
-
-input[type="checkbox"]:disabled + label.setting {
-  background-position: right -48;
-}
-
-input[type="checkbox"]:hover + label.setting {
-  background-position: right -80px;
-}
-
-input[type="checkbox"]:checked + label.setting {
-  background-position: right -16px;
-}
-
-input[type="checkbox"]:checked:disabled + label.setting {
-  background-position: right 0;
-}
-
-input[type="checkbox"]:checked:hover + label.setting {
-  background-position: right -32px;
-}
-
 .popup-panel {
   margin-top: 24px;
   flex-direction: column;
