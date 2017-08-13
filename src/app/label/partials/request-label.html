@@ -43,6 +43,6 @@
     </p>
     <div class="modal-footer">
         <input type="button" ng-click="$dismiss()" value="Discard" class="butn-white">
-        <input type="button" ng-disabled="requestCtrl.isNotValid()" ng-click="requestCtrl.requestLabel()" value="Send Request" class="butn-green">
+        <input type="button" ng-disabled="requestCtrl.isNotValid() || requestCtrl.disabled" ng-click="requestCtrl.requestLabel()" value="Send Request" class="butn-green">
     </div>
 </div>

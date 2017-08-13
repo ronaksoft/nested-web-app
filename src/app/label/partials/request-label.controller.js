@@ -22,6 +22,7 @@
     vm.openSuggests = true;
     vm.codes = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
     vm.suggests = [];
+    vm.disabled = false;
     vm.changeColor = changeColor;
     vm.suggestClickHandler = suggestClickHandler;
     vm.requestNewLabel = requestNewLabel;
@@ -76,6 +77,7 @@
     }
 
     function requestLabel() {
+      vm.disabled = true;
       var labelService;
       if (vm.newLabel) {
         labelService = NstSvcLabelFactory.request(null, vm.label.title, vm.label.code);
@@ -92,6 +94,7 @@
           toastr.error(NstSvcTranslation.get("Something went wrong."));
         }
       }).finally(function () {
+        vm.disabled = false;
         $scope.$dismiss();
       });
     }
