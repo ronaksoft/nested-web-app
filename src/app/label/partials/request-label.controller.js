@@ -5,7 +5,7 @@
     .module('ronak.nested.web.components')
     .controller('requestLabelController', requestLabelController);
 
-  function requestLabelController($timeout, $scope, $q, $uibModalInstance,
+  function requestLabelController($timeout, $scope, $q, $uibModalInstance, $filter,
     moment, toastr, _, NstSvcLabelFactory, NstSvcTranslation, NstUtility, NST_LABEL_SEARCH_FILTER) {
 
     var vm = this;
@@ -48,6 +48,7 @@
 
     function searchLabel() {
       if (vm.keyword.length > 1) {
+        var keyword = $filter('scapeSpace')(vm.keyword);
         NstSvcLabelFactory.search(vm.keyword, NST_LABEL_SEARCH_FILTER.PRIVATES).then(function (result) {
           vm.suggests = result;
         });
@@ -80,7 +81,8 @@
       vm.disabled = true;
       var labelService;
       if (vm.newLabel) {
-        labelService = NstSvcLabelFactory.request(null, vm.label.title, vm.label.code);
+        var title = $filter('scapeSpace')(vm.label.title);
+        labelService = NstSvcLabelFactory.request(null, title, vm.label.code);
       } else {
         labelService = NstSvcLabelFactory.request(vm.label.id);
       }

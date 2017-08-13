@@ -211,7 +211,6 @@
     }
 
     function parseAddLabel(data) {
-      console.log(data);
       var deferred = $q.defer();
       // console.log(data);
       var labelPromise = NstSvcLabelFactory.getMany(data.label_id);
@@ -219,7 +218,6 @@
       var postPromise = NstSvcPostFactory.get(data.post_id);
 
       $q.all([labelPromise, actorPromise, postPromise]).then(function (resultSet) {
-        console.log(resultSet);
         var activity = new NstActivity();
         activity.id = data._id;
         activity.type = data.action;
@@ -227,7 +225,6 @@
         activity.label = resultSet[0] ? resultSet[0] : null;
         activity.actor = resultSet[1];
         activity.post = resultSet[2];
-        console.log(activity);
         deferred.resolve(activity);
       }).catch(function (error) {
         deferred.resolve(null);
