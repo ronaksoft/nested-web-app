@@ -121,11 +121,11 @@ post-card {
   background-color: $color-white;
   overflow: visible;
   transition: all $animation-dur;
-  .icon .fw,
+  .icon .forward-post,
   .icon .more,
-  .icon .re,
-  .icon .reed,
-  .icon .fwed {
+  .icon .reply-post,
+  .icon .post-is-replied,
+  .icon .post-is-forwarded {
     svg {
       fill: $color-breeze;
     }
@@ -135,12 +135,12 @@ post-card {
     // .icon .more svg {
     //   fill: black;
     // }
-    .icon .fwed{
+    .icon .post-is-forwarded{
       svg {
         fill: $color-forward;
       }
     }
-    .icon .reed {
+    .icon .post-is-replied {
       svg {
         fill: $color-reply;
       }
@@ -380,13 +380,13 @@ post-card {
         display: flex;
         justify-content: center;
         align-items: center;
-        &.fw:hover {
+        &.forward-post:hover {
           background-color: rgba(40, 60, 210, .1);
           svg {
             fill: $color-forward;
           }
         }
-        &.re:hover {
+        &.reply-post:hover {
           svg {
             fill: $color-reply;
           }

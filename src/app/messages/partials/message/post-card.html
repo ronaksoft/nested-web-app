@@ -23,7 +23,7 @@
       <a
         ng-click="ctlPostCard.viewFull($event);ctlPostCard.markAsRead(); _track('post card','open post view : click forward icon');"
         ng-if="ctlPostCard.isForwarded" class="icon">
-        <div class="fwed">
+        <div class="post-is-forwarded">
           <svg class="svg-hover">
             <use xlink:href="/assets/icons/nst-icn20.svg#forwarded"></use>
             <use xlink:href="/assets/icons/nst-icn20.svg#forwarded"></use>
@@ -34,7 +34,7 @@
       <a
         ng-click="ctlPostCard.viewFull($event);ctlPostCard.markAsRead(); _track('post card','open post view : click reply icon');"
         ng-if="ctlPostCard.isReplyed" class="icon">
-        <div class="reed">
+        <div class="post-is-replied">
           <svg class="svg-hover mirror">
             <use xlink:href="/assets/icons/nst-icn20.svg#replied"></use>
             <use xlink:href="/assets/icons/nst-icn20.svg#replied"></use>
@@ -206,7 +206,7 @@
          ui-sref="app.compose-forward({ postId: ctlPostCard.post.id })"
          ng-click="ctlPostCard.forward($event); ctlPostCard.markAsRead(); _track('post card', 'forward : toolbar');"
          class="icon _df">
-        <div class="fw">
+        <div class="forward-post">
           <svg class="svg-hover _24svg">
             <use xlink:href="/assets/icons/nst-icn24.svg#forward"></use>
             <use xlink:href="/assets/icons/nst-icn24.svg#forward"></use>
@@ -218,7 +218,7 @@
          data-tooltip-append-to-body="true" data-tooltip-placement="auto top"
          ng-click="ctlPostCard.replyAll($event); ctlPostCard.markAsRead(); _track('post card', 'reply all : toolbar');"
          ui-sref="app.compose-reply-all({ postId: ctlPostCard.post.id })">
-        <div class="re">
+        <div class="reply-post">
           <svg class="svg-hover _24svg mirror">
             <use xlink:href="/assets/icons/nst-icn24.svg#reply"></use>
             <use xlink:href="/assets/icons/nst-icn20.svg#reply"></use>
