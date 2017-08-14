@@ -8,7 +8,7 @@
   function NstSvcPostFactory($q, $log, $rootScope,
                              _, md5,
                              NstSvcPostStorage, NstCollector, NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory, NstSvcStore, NstSvcCommentFactory, NstUtility,
-                             NstPost, NstBaseFactory, NstFactoryQuery, NstFactoryError,
+                             NstPost, NstBaseFactory,
                              NST_MESSAGES_SORT_OPTION, NST_SRV_EVENT, NST_CONFIG, NST_POST_EVENT, NstSvcLabelFactory) {
 
     function PostFactory() {
@@ -133,12 +133,8 @@
      * @returns {Promise}      the post
      */
     function read(id) {
-
       var factory = this;
       var defer = $q.defer();
-
-      var query = new NstFactoryQuery(id);
-
 
       if (!id) {
         throw "Post id is not define!";
@@ -562,7 +558,6 @@
         skip: skip || 0
       };
       var defer = $q.defer();
-      var query = new NstFactoryQuery(null, params);
       return factory.sentinel.watch(function () {
         NstSvcServer.request('search/posts', {
           keywords: queryString,
@@ -571,9 +566,7 @@
         }).then(function (result) {
           var postPromises = _.map(result.posts, parsePost);
           $q.all(postPromises).then(defer.resolve).catch(defer.reject);
-        }).catch(function (error) {
-          defer.reject(new NstFactoryError(query, '', error.getCode(), error));
-        });
+        }).catch(defer.reject);
 
         return defer.promise;
       }, 'searchPost', 'old');
@@ -590,27 +583,17 @@
         skip: skip || 0
       };
       var defer = $q.defer();
-      var query = new NstFactoryQuery(null, params);
       return factory.sentinel.watch(function () {
         NstSvcServer.request('search/posts', params).then(function (result) {
           var postPromises = _.map(result.posts, parsePost);
           $q.all(postPromises).then(defer.resolve).catch(defer.reject);
-        }).catch(function (error) {
-          defer.reject(new NstFactoryError(query, '', error.getCode(), error));
-        });
+        }).catch(defer.reject);
         return defer.promise;
       }, 'searchPost', 'new');
     }
 
     function conversation(accountId, queryString, limit, skip) {
       var defer = $q.defer();
-      var query = new NstFactoryQuery(null, {
-        account_id: accountId,
-        query: queryString,
-        limit: limit,
-        skip: skip
-      });
-
       NstSvcServer.request('search/posts_conversation', {
         account_id: accountId,
         keywords: queryString,
@@ -619,9 +602,7 @@
       }).then(function (result) {
         var postPromises = _.map(result.posts, parsePost);
         $q.all(postPromises).then(defer.resolve).catch(defer.reject);
-      }).catch(function (error) {
-        defer.reject(new NstFactoryError(query, '', error.getCode(), error));
-      });
+      }).catch(defer.reject);
 
       return defer.promise;
     }

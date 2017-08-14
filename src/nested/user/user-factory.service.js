@@ -135,9 +135,7 @@
       }).then(function (user) {
         $rootScope.$broadcast(NST_USER_EVENT.PROFILE_UPDATED, { userId: user.id, user : user});
         deferred.resolve(user);
-      }).catch(function (error) {
-        deferred.reject(new NstFactoryError(null, error.getMessage(), error.getCode(), error));
-      });
+      }).catch(deferred.reject);
 
       return deferred.promise;
     };

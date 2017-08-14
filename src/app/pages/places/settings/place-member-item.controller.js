@@ -7,8 +7,9 @@
 
   /** @ngInject */
   function PlaceMemberItemController($scope, $log, toastr,
-                                     NstSvcPlaceFactory, NstUtility, NstSvcInvitationFactory, NstSvcTranslation, NstSvcLogger, NstSvcAuth, NstSvcModal,
-                                     NstPlaceOneCreatorLeftError, NstPlaceCreatorOfParentError) {
+    NstSvcModal, NstUtility,
+    NstSvcPlaceFactory, NstSvcInvitationFactory, NstSvcTranslation, NstSvcLogger, NstSvcAuth,
+    NST_SRV_ERROR) {
     var vm = this;
 
     vm.promote = promote;
@@ -85,13 +86,22 @@
           }
 
         }).catch(function (error) {
-          if (error instanceof NstPlaceOneCreatorLeftError) {
-            toastr.error(NstUtility.string.format(NstSvcTranslation.get('User {0} is the only Manager of this Place!'), vm.member.name));
-          } else if (error instanceof NstPlaceCreatorOfParentError) {
-            toastr.error(NstUtility.string.format(NstSvcTranslation.get('You are not allowed to remove {0}, because he/she is the creator of its highest-ranking Place ({1}).'), vm.member.name, vm.place.parent.name));
-          } else {
-            toastr.error(NstUtility.string.format(NstSvcTranslation.get('An error has occured while trying to remove the member')));
+          if (error.code === NST_SRV_ERROR.ACCESS_DENIED) {
+            switch (error.message[0]) {
+              case 'last_creator':
+                toastr.error(NstUtility.string.format(NstSvcTranslation.get('User {0} is the only Manager of this Place!'), vm.member.name));
+                break;
+              case 'parent_creator':
+                toastr.error(NstUtility.string.format(NstSvcTranslation.get('You are not allowed to remove {0}, because he/she is the creator of its highest-ranking Place ({1}).'), vm.member.name, vm.place.parent.name));
+                break;
+              default:
+                toastr.error(NstUtility.string.format(NstSvcTranslation.get('An error has occured while trying to remove the member')));
+                break;
+            }
+            return;
           }
+
+          toastr.error(NstUtility.string.format(NstSvcTranslation.get('An error has occured while trying to remove the member')));
         });
       })
     }

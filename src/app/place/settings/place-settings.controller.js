@@ -43,9 +43,6 @@
    * @param {any} NstSvcTranslation
    * @param {any} NstSvcModal
    * @param {any} NstPicture
-   * @param {any} NstPlaceOneCreatorLeftError
-   * @param {any} NstPlaceCreatorOfParentError
-   * @param {any} NstManagerOfSubPlaceError
    * @param {any} NstEntityTracker
    */
   function PlaceSettingsController($scope, $stateParams, $q, $state, $rootScope,
@@ -53,7 +50,7 @@
     NST_PLACE_POLICY_OPTION, NST_STORE_UPLOAD_TYPE, NST_PLACE_ACCESS, NST_SRV_ERROR,
     NST_PLACE_MEMBER_TYPE, NST_PLACE_TYPE, NST_DEFAULT, NST_PLACE_EVENT,
     NstSvcStore, NstSvcAuth, NstSvcPlaceFactory, NstUtility, NstSvcLogger, NstSvcTranslation, NstSvcModal,
-    NstPicture, NstPlaceOneCreatorLeftError, NstPlaceCreatorOfParentError, NstManagerOfSubPlaceError, NstEntityTracker) {
+    NstPicture, NstEntityTracker) {
     var vm = this;
     $scope.NST_PLACE_POLICY_OPTION = NST_PLACE_POLICY_OPTION;
     $scope.NST_PLACE_TYPE = NST_PLACE_TYPE;
@@ -331,15 +328,24 @@
         }, 1));
 
       }).catch(function(error) {
-        if (error instanceof NstPlaceOneCreatorLeftError){
-          toastr.error(NstSvcTranslation.get('You are the only one left!'));
-        } else if (error instanceof NstPlaceCreatorOfParentError) {
-          toastr.error(NstUtility.string.format(NstSvcTranslation.get('You are not allowed to leave the Place because you are the creator of its highest-ranking Place ({0}).'), vm.place.parent.name));
-        } else if (error instanceof NstManagerOfSubPlaceError) {
-          toastr.error(NstSvcTranslation.get('You can not leave here, because you are the manager of one of its sub-places.'));
-        } else {
-          toastr.error(NstSvcTranslation.get("An error has happened before leaving this place"));
+        if (error.code === NST_SRV_ERROR.ACCESS_DENIED) {
+          switch (error.message[0]) {
+            case 'last_creator':
+              toastr.error(NstSvcTranslation.get('You are the only one left!'));
+            break;
+            case 'parent_creator':
+              toastr.error(NstUtility.string.format(NstSvcTranslation.get('You are not allowed to leave the Place because you are the creator of its highest-ranking Place ({0}).'), vm.place.parent.name));
+            break;
+            case 'cannot_leave_some_subplaces':
+              toastr.error(NstSvcTranslation.get('You can not leave here, because you are the manager of one of its sub-places.'));
+            break;
+            default:
+              toastr.error(NstSvcTranslation.get("An error has happened before leaving this place"));
+          }
+          return;
         }
+
+        toastr.error(NstSvcTranslation.get("An error has happened before leaving this place"));
       });
 
     }
@@ -382,11 +388,18 @@
         }, 1));
 
       }).catch(function(error) {
-        if (error.err_code === 1 && error.items[0] === "remove_children_first") {
-          toastr.warning(NstSvcTranslation.get("You have to delete all the sub-Places within, before removing this Place."));
-        } else {
-          toastr.error(NstSvcTranslation.get("An error has occurred in removing this Place."));
+        if (error.code === NST_SRV_ERROR.ACCESS_DENIED) {
+          switch (error.message[0]) {
+            case 'remove_children_first':
+              toastr.error(NstSvcTranslation.get("You have to delete all the sub-Places within, before removing this Place."));
+            break;
+            default:
+              toastr.error(NstSvcTranslation.get("An error has occurred in removing this Place."));
+          }
+          return;
         }
+
+        toastr.error(NstSvcTranslation.get("An error has occurred in removing this Place."));
       });
     }
 

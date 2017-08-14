@@ -8,8 +8,7 @@
   function NstSvcPlaceFactory($q, _, $rootScope, $window,
                               NST_SRV_ERROR, NST_PLACE_ACCESS, NST_EVENT_ACTION, NST_PLACE_EVENT,
                               NstSvcServer, NstSvcPlaceStorage, NstSvcTinyPlaceStorage, NstSvcMyPlaceIdStorage, NstSvcUserFactory, NstSvcLogger,
-                              NstBaseFactory, NstUtility, NstTinyPlace, NstPlace, NstSvcPlaceMap, NstPicture,
-                              NstPlaceCreatorOfParentError, NstPlaceOneCreatorLeftError, NstManagerOfSubPlaceError, NstUtilPlace) {
+                              NstBaseFactory, NstUtility, NstTinyPlace, NstPlace, NstSvcPlaceMap, NstPicture, NstUtilPlace) {
     function PlaceFactory() {
       var factory = this;
 
@@ -352,28 +351,23 @@
 
       return factory.sentinel.watch(function () {
         var deferred = $q.defer();
-        factory.hasAccess(id, [NST_PLACE_ACCESS.REMOVE_PLACE]).then(function (has) {
-          if (!has) {
-            deferred.reject(new NstFactoryError(query, 'Access Denied', NST_SRV_ERROR.ACCESS_DENIED));
-          }
 
-          factory.get(id).then(function (place) {
-            NstSvcServer.request('place/remove', {
-              place_id: id
-            }).then(function () {
-              // clean up storages
-              NstSvcPlaceStorage.remove(id);
-              NstSvcTinyPlaceStorage.remove(id);
-              var myPlaces = NstSvcMyPlaceIdStorage.get('tiny');
-              factory.removePlaceFromTree(myPlaces, id);
-              NstSvcMyPlaceIdStorage.set('tiny', myPlaces);
+        factory.get(id).then(function (place) {
+          NstSvcServer.request('place/remove', {
+            place_id: id
+          }).then(function () {
+            // clean up storages
+            NstSvcPlaceStorage.remove(id);
+            NstSvcTinyPlaceStorage.remove(id);
+            var myPlaces = NstSvcMyPlaceIdStorage.get('tiny');
+            factory.removePlaceFromTree(myPlaces, id);
+            NstSvcMyPlaceIdStorage.set('tiny', myPlaces);
 
-              $rootScope.$broadcast(NST_PLACE_EVENT.REMOVED, {placeId: place.id, place: place});
+            $rootScope.$broadcast(NST_PLACE_EVENT.REMOVED, {placeId: place.id, place: place});
 
-              deferred.resolve(place);
-            }).catch(deferred.reject);
+            deferred.resolve(place);
           }).catch(deferred.reject);
-        });
+        }).catch(deferred.reject);
 
         return deferred.promise;
       }, "remove", id);
@@ -515,9 +509,7 @@
             addedUsers: addedUsers,
             rejectedUsers: _.differenceBy(users, addedUsers, 'id')
           });
-        }).catch(function (error) {
-          deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
-        });
+        }).catch(deferred.reject);
 
         return deferred.promise;
       }, "addUser", place.id + '-' + userIds);
@@ -543,9 +535,7 @@
           addedUsers: addedUsers,
           rejectedUsers: _.differenceBy(users, addedUsers, 'id')
         });
-      }).catch(function (error) {
-        deferred.reject(new NstFactoryError(userIds, error.getMessage(), error.getCode(), error));
-      });
+      }).catch(deferred.reject);
 
       return deferred.promise;
 
@@ -565,17 +555,7 @@
           NstSvcLogger.debug(NstUtility.string.format('User "{0}" was removed from place "{1}".', memberId, placeId));
           factory.updateStorageByPlaceId(placeId);
           deferred.resolve();
-        }).catch(function (error) {
-          if (error.getCode() === NST_SRV_ERROR.ACCESS_DENIED) {
-            if (error.previous.items[0] === 'last_creator') {
-              deferred.reject(new NstPlaceOneCreatorLeftError(error));
-            } else if (error.previous.items[0] === 'parent_creator') {
-              deferred.reject(new NstPlaceCreatorOfParentError(error));
-            }
-          } else {
-            deferred.reject(error);
-          }
-        });
+        }).catch(deferred.reject);
 
         return deferred.promise;
       }, "removeMember", id);
@@ -596,22 +576,7 @@
           factory.get(placeId, true).then(function () {
             deferred.resolve();
           });
-        }).catch(function (error) {
-          if (error.getCode() === NST_SRV_ERROR.ACCESS_DENIED) {
-            if (error.previous.items[0] === 'last_creator') {
-              deferred.reject(new NstPlaceOneCreatorLeftError(error));
-            } else if (error.previous.items[0] === 'parent_creator') {
-              deferred.reject(new NstPlaceCreatorOfParentError(error));
-            } else if (error.previous.items[0] === "cannot_leave_some_subplaces") {
-              deferred.reject(new NstManagerOfSubPlaceError(error));
-            } else {
-              deferred.reject(error);
-            }
-
-          } else {
-            deferred.reject(error);
-          }
-        });
+        }).catch(deferred.reject);
 
         return deferred.promise;
       }, "leave", placeId);
@@ -941,9 +906,7 @@
           filter: 'creator'
         }).then(function (data) {
           deferred.resolve(_.map(data.places, factory.parseTinyPlace));
-        }).catch(function (error) {
-          reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
-        });
+        }).catch(reject);
 
         return deferred.promise;
       }, "getPlacesWithCreatorFilter");

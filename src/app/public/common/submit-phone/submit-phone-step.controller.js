@@ -19,12 +19,12 @@
   /** @ngInject */
   /**
    * The component gives you a list of countries and lets you one and submit your phone number.
-   * 
-   * @param {any} $scope 
-   * @param {any} NstHttp 
-   * @param {any} $q 
-   * @param {any} NstSvcTranslation 
-   * @param {any} toastr 
+   *
+   * @param {any} $scope
+   * @param {any} NstHttp
+   * @param {any} $q
+   * @param {any} NstSvcTranslation
+   * @param {any} toastr
    */
   function SubmitPhoneStepController($scope, NstHttp, $q, NstSvcTranslation, toastr) {
     var vm = this;
@@ -83,8 +83,8 @@
 
     /**
      * Validates the given phone number and submits if the validation was successfull. Then navigates to the next step.
-     * 
-     * @param {any} phoneNumber 
+     *
+     * @param {any} phoneNumber
      */
     function validateAndSend(phoneNumber) {
       validatePhone().then(function (available) {
@@ -107,9 +107,9 @@
 
     /**
      * Emits an event that leads to changing the step
-     * 
-     * @param {any} verificationId 
-     * @param {any} phone 
+     *
+     * @param {any} verificationId
+     * @param {any} phone
      */
     function nextStep(verificationId, phone) {
       $scope.$emit(vm.onCompleted, {verificationId: verificationId, phone: phone});
@@ -117,9 +117,9 @@
 
     /**
      * Sends the phone number
-     * 
-     * @param {any} phone 
-     * @returns 
+     *
+     * @param {any} phone
+     * @returns
      */
     function sendPhoneNumber(phone) {
       var deferred = $q.defer();
@@ -136,7 +136,7 @@
             verificationId: data.data.vid
           });
         } else if (data.status === 'err') {
-          if (data.err_code === 5) {
+          if (data.code === 5) {
             deferred.reject('phone_number_exists');
           } else {
             deferred.reject('unknown')
@@ -154,8 +154,8 @@
 
     /**
      * Validates the given phone number with the country validation rules
-     * 
-     * @returns 
+     *
+     * @returns
      */
     function validatePhone() {
       var deferred = $q.defer();
@@ -189,9 +189,9 @@
 
     /**
      * Check the phone to be available or registered depending on the component configuration.
-     * 
-     * @param {any} phone 
-     * @returns 
+     *
+     * @param {any} phone
+     * @returns
      */
     function checkPhone(phone) {
       var deferred = $q.defer();
@@ -227,10 +227,10 @@
 
     /**
      * Returns true if the given phone number is a valid one
-     * 
-     * @param {any} countryId 
-     * @param {any} phone 
-     * @returns 
+     *
+     * @param {any} countryId
+     * @param {any} phone
+     * @returns
      */
     function getPhoneIsValid(countryId, phone) {
       if (phone === dummyPhone) {
@@ -245,8 +245,8 @@
 
     /**
      * Concatinates country code and phone to build a complete phone number
-     * 
-     * @returns 
+     *
+     * @returns
      */
     function getPhoneNumber() {
       if (vm.countryCode && vm.phone) {
@@ -257,9 +257,9 @@
 
     /**
      * Checks the phone number to be available for registration. In other words, The phone number should not be taken before
-     * 
-     * @param {any} phone 
-     * @returns 
+     *
+     * @param {any} phone
+     * @returns
      */
     function phoneAvailable(phone) {
       var deferred = $q.defer();
@@ -283,9 +283,9 @@
 
     /**
      * Checks the phone number to be exist. In other words, The phone number should be associated with an account
-     * 
-     * @param {any} phone 
-     * @returns 
+     *
+     * @param {any} phone
+     * @returns
      */
     function phoneRegistered(phone) {
       var deferred = $q.defer();

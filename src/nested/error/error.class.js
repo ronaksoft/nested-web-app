@@ -6,7 +6,7 @@
     .factory('NstError', NstError);
 
   /** @ngInject */
-  function NstError(NstObject) {
+  function NstError() {
     /**
      * Creates an instance of NstError
      *
@@ -20,11 +20,9 @@
       this.message = message;
       this.code = code;
       this.previous = previous;
-
-      NstObject.call(this);
     }
 
-    Error.prototype = new NstObject();
+    Error.prototype = {};
     Error.prototype.constructor = Error;
 
     return Error;

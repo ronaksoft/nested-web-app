@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function NstSvcInvitationFactory($q, $log, _, $rootScope,
-                                   NST_SRV_ERROR, NST_SRV_EVENT, NST_INVITATION_EVENT, NST_EVENT_ACTION, NST_PLACE_MEMBER_TYPE, NST_STORAGE_TYPE, NST_INVITATION_FACTORY_STATE,
+                                   NST_SRV_EVENT, NST_INVITATION_EVENT, NST_EVENT_ACTION, NST_PLACE_MEMBER_TYPE, NST_STORAGE_TYPE, NST_INVITATION_FACTORY_STATE,
                                    NstSvcInvitationStorage, NstSvcServer, NstSvcUserFactory, NstSvcPlaceFactory, NstSvcNotification,
                                    NstObservableObject, NstInvitation, NstStorage) {
     function InvitationFactory() {

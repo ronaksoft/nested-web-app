@@ -1138,7 +1138,7 @@
       return NstSvcPlaceFactory.get(id).catch(function (error) {
         var deferred = $q.defer();
 
-        switch (error.getPrevious().getCode()) {
+        switch (errorcode) {
           case NST_SRV_ERROR.TIMEOUT:
             // Keep Retrying
             deferred.reject.apply(null, arguments);

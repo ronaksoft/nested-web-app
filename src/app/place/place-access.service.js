@@ -27,7 +27,7 @@
           deferred.resolve(null);
         }
       }).catch(function (error) {
-        if (error.err_code === NST_SRV_ERROR.UNAVAILABLE) {
+        if (error.code === NST_SRV_ERROR.UNAVAILABLE) {
           deferred.resolve(null);
         } else {
           deferred.reject(error);
