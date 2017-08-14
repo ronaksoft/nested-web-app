@@ -52,37 +52,6 @@
       $state.go('app.compose', {}, {notify: false});
     };
 
-    vm.invitation.accept = function (id) {
-      return NstSvcInvitationFactory.accept(id);
-    };
-
-    vm.invitation.decline = function (id) {
-      return NstSvcInvitationFactory.decline(id);
-    };
-
-    vm.invitation.showModal = function (id) {
-      NstSvcInvitationFactory.get(id).then(function (invitation) {
-        $uibModal.open({
-          animation: false,
-          size: 'sm',
-          templateUrl: 'app/components/sidebar/invitation/decide-modal.html',
-          controller: 'InvitationController',
-          controllerAs: 'ctrlInvitation',
-          resolve: {
-            argv: {
-              invitation: invitation
-            }
-          }
-        }).result.then(function (result) {
-          if (result) {
-            return vm.invitation.accept(id);
-          } else {
-            return vm.invitation.decline(id);
-          }
-        });
-      });
-    };
-
     vm.getPlaceName = function () {
       if (vm.hasPlace()){
         return $scope.place.name;

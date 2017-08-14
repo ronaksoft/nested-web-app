@@ -19,14 +19,14 @@
   /**
    * In order to change the user password, The page asks he/she the old and the new password
    *
-   * @param {any} $scope 
-   * @param {any} $log 
-   * @param {any} $state 
-   * @param {any} toastr 
-   * @param {any} NstSvcUserFactory 
-   * @param {any} NST_SRV_ERROR 
-   * @param {any} NST_NAVBAR_CONTROL_TYPE 
-   * @param {any} NstSvcTranslation 
+   * @param {any} $scope
+   * @param {any} $log
+   * @param {any} $state
+   * @param {any} toastr
+   * @param {any} NstSvcUserFactory
+   * @param {any} NST_SRV_ERROR
+   * @param {any} NST_NAVBAR_CONTROL_TYPE
+   * @param {any} NstSvcTranslation
    */
   function ChangePasswordController($scope, $log, $state,
     toastr,
@@ -44,9 +44,9 @@
 
     /**
      * Validates and sets the new password
-     * 
-     * @param {any} isValid 
-     * @returns 
+     *
+     * @param {any} isValid
+     * @returns
      */
     function change(isValid) {
       // Sets submitted to true to make the enable form validation on any field change
@@ -69,8 +69,7 @@
           vm.submitted = false;
 
         }).catch(function(error) {
-            console.log(error);
-          if (error.code === NST_SRV_ERROR.INVALID) {
+          if (error.err_code === NST_SRV_ERROR.INVALID) {
               return toastr.error(NstSvcTranslation.get('The old password you have entered is incorrect'));
           } else {
               return toastr.error(NstSvcTranslation.get('An error has occured while trying to chaing your password'));

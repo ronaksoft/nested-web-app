@@ -21,7 +21,7 @@
                                  NstSvcAuth, NstSvcStore, NstSvcUserFactory, NstUtility, NstSvcTranslation, NstSvcDate, NstSvcModal,
                                  NST_STORE_UPLOAD_TYPE, NST_NAVBAR_CONTROL_TYPE, NST_PATTERN) {
     var vm = this;
-    
+
     // Current user
     vm.model = NstSvcAuth.user;
 
@@ -52,7 +52,7 @@
         vm.model = user;
         vm.canEditProfile = user.privacy.change_profile;
         vm.canChangePicture = user.privacy.change_picture;
-      }).catch(function (error) {
+      }).catch(function () {
         toastr.error('An error has occured while retrieving user profile')
       }).finally(function () {
         vm.loadProgress = false;
@@ -63,9 +63,9 @@
 
     /**
      * Updates the user profile with the given parameters
-     * 
-     * @param {any} params 
-     * @returns 
+     *
+     * @param {any} params
+     * @returns
      */
     function update(params) {
       var deferred = $q.defer();
@@ -87,13 +87,13 @@
     /**
      * Updates the user first name and last name and closes the edit modal
      * if the it has been changed successfully
-     * 
-     * @param {any} isValid 
-     * @param {any} firstName 
-     * @param {any} lastName 
-     * @param {any} $close 
-     * @param {any} $dismiss 
-     * @returns 
+     *
+     * @param {any} isValid
+     * @param {any} firstName
+     * @param {any} lastName
+     * @param {any} $close
+     * @param {any} $dismiss
+     * @returns
      */
     function updateName(isValid, firstName, lastName, $close, $dismiss) {
       if (!isValid) {
@@ -112,12 +112,12 @@
 
     /**
      * Updates the user date of birth and closes the edit modal if it has been updated successfully
-     * 
-     * @param {any} isValid 
-     * @param {any} value 
-     * @param {any} $close 
-     * @param {any} $dismiss 
-     * @returns 
+     *
+     * @param {any} isValid
+     * @param {any} value
+     * @param {any} $close
+     * @param {any} $dismiss
+     * @returns
      */
     function updateDateOfBirth(isValid, value, $close, $dismiss) {
       if (!isValid) {
@@ -134,12 +134,12 @@
 
     /**
      * Updates the user email address and closes the edit modal if it has been updated successfully
-     * 
-     * @param {any} isValid 
-     * @param {any} value 
-     * @param {any} $close 
-     * @param {any} $dismiss 
-     * @returns 
+     *
+     * @param {any} isValid
+     * @param {any} value
+     * @param {any} $close
+     * @param {any} $dismiss
+     * @returns
      */
     function updateEmail(isValid, value, $close, $dismiss) {
       if (!isValid) {
@@ -156,11 +156,11 @@
 
     /**
      * Changes the user gender and closes the edit modal if the new one has been set successfully
-     * 
-     * @param {any} isValid 
-     * @param {any} value 
-     * @param {any} $close 
-     * @returns 
+     *
+     * @param {any} isValid
+     * @param {any} value
+     * @param {any} $close
+     * @returns
      */
     function updateGender(isValid, value, $close) {
       if (!isValid) {
@@ -177,9 +177,9 @@
 
     /**
      * Toggles the user searchable (in privacy) and closes the edit modal if it has been changed successfully
-     * 
-     * @param {any} value 
-     * @returns 
+     *
+     * @param {any} value
+     * @returns
      */
     function updateSearchable(value) {
       return update({
@@ -197,7 +197,7 @@
 
     /**
      * Opens change-phone modal and updates the model with a the new phone number
-     * 
+     *
      */
     function changePhone() {
       $uibModal.open({
@@ -226,8 +226,8 @@
 
     /**
      * Loads the selected image and updates the user picture. Opens a crop modal in any browser except Safari
-     * 
-     * @param {any} event 
+     *
+     * @param {any} event
      */
     function setImage(event) {
       vm.uploadedFile = event.currentTarget.files[0];
@@ -291,7 +291,7 @@
 
     /**
      * Asks the user to confirm before removing the account picture
-     * 
+     *
      */
     function confirmRemovePicture() {
       NstSvcModal.confirm(NstSvcTranslation.get("Removing profile picture"),
@@ -307,8 +307,8 @@
     /**
      * Removes the authenticated user's profile picture and updates
      * the model in both the controller and `NstSvcAuth`
-     * 
-     * @returns 
+     *
+     * @returns
      */
     function removePicture() {
       var deferred = $q.defer();
@@ -316,9 +316,7 @@
         vm.model = user;
         NstSvcAuth.setUser(user);
         deferred.resolve();
-      }).catch(function (error) {
-        deferred.reject();
-      });
+      }).catch(deferred.reject);
 
       return deferred.promise;
     }

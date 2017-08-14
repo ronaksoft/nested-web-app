@@ -377,7 +377,7 @@
                   vm.currentPlace.counters.posts = p.counters.posts;
                 });
               }
-            }).catch(function (error) {
+            }).catch(function () {
               toastr.error(NstSvcTranslation.get("An error has occurred in trying to remove this message from the selected Place."));
             });
           });
@@ -450,10 +450,7 @@
     function readMulti($event) {
       $event.preventDefault();
       for (var i = 0; i < vm.selectedPosts.length; i++) {
-          NstSvcPostFactory.read(vm.selectedPosts[i]).then(function (){
-        }).catch(function (err) {
-          $log.debug('MARK AS READ :' + err);
-        });
+          NstSvcPostFactory.read(vm.selectedPosts[i]);
       }
 
       // FIXME : this block after all responses

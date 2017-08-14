@@ -60,7 +60,7 @@
     vm.isFeed = isFeed;
     vm.labelClick = labelClick;
     vm.isPostView = isPostView();
-    
+
     vm.expandProgress = false;
     vm.body = null;
     vm.chainView = false;
@@ -205,7 +205,7 @@
           });
           vm.isChecked = false;
           $scope.$emit('post-select',{postId: vm.post.id,isChecked : vm.isChecked});
-        }).catch(function (error) {
+        }).catch(function () {
           toastr.error(NstSvcTranslation.get("An error has occurred in trying to remove this message from the selected Place."));
         });
       });
@@ -281,7 +281,7 @@
         }
         ++$scope.$parent.$parent.affixObserver;
         SvcCardCtrlAffix.change();
-      }).catch(function (error) {
+      }).catch(function () {
         toastr.error(NstSvcTranslation.get('An error occured while tying to show the post full body.'));
       }).finally(function () {
         vm.expandProgress = false;

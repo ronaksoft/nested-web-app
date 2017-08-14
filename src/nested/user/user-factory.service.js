@@ -9,7 +9,7 @@
                              NstSvcServer, NstSvcTinyUserStorage, NstSvcUserStorage, NstPlace,
                              NST_USER_SEARCH_AREA,
                              NST_USER_EVENT,
-                             NstBaseFactory, NstFactoryQuery, NstFactoryError, NstTinyUser, NstUser, NstUserAuthority, NstPicture) {
+                             NstBaseFactory, NstTinyUser, NstUser, NstUserAuthority, NstPicture) {
     function UserFactory() { }
 
     UserFactory.prototype = new NstBaseFactory();
@@ -34,22 +34,18 @@
       var factory = this;
 
       return factory.sentinel.watch(function () {
-        var query = new NstFactoryQuery(id);
-
         return $q(function (resolve, reject) {
-          var user = NstSvcUserStorage.get(query.id);
+          var user = NstSvcUserStorage.get(id);
           if (user && !force) {
             resolve(user);
           } else {
             NstSvcServer.request('account/get', {
-              'account_id': query.id
+              'account_id': id
             }).then(function (userData) {
               var user = factory.parseUser(userData);
-              NstSvcUserStorage.set(query.id, user);
+              NstSvcUserStorage.set(id, user);
               resolve(user);
-            }).catch(function (error) {
-              reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
-            });
+            }).catch(reject);
           }
         });
       }, "get", id);
@@ -70,10 +66,8 @@
       }
       var factory = this;
       return factory.sentinel.watch(function () {
-        var query = new NstFactoryQuery(id);
-
         return $q(function (resolve, reject) {
-          var user = NstSvcUserStorage.get(query.id) || NstSvcTinyUserStorage.get(query.id);
+          var user = NstSvcUserStorage.get(id) || NstSvcTinyUserStorage.get(id);
           if (user) {
             if (!(user instanceof NstTinyUser)) {
               user = new NstTinyUser(user);
@@ -81,9 +75,9 @@
 
             resolve(user);
           } else {
-            factory.get(query.id).then(function (user) {
+            factory.get(id).then(function (user) {
               user = new NstTinyUser(user);
-              NstSvcTinyUserStorage.set(query.id, user);
+              NstSvcTinyUserStorage.set(id, user);
               resolve(user);
             }).catch(reject);
           }
@@ -149,24 +143,10 @@
     };
 
     UserFactory.prototype.changePassword = function (oldPassword, newPassword) {
-
-      var deferred = $q.defer();
-
-      var query = new NstFactoryQuery(null, {
-        oldPassword: oldPassword,
-        newPassword: newPassword
-      });
-
-      NstSvcServer.request('account/set_password', {
+      return NstSvcServer.request('account/set_password', {
         old_pass: md5.createHash(oldPassword),
         new_pass: md5.createHash(newPassword)
-      }).then(function () {
-        deferred.resolve();
-      }).catch(function (error) {
-        deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
       });
-
-      return deferred.promise;
     }
 
     UserFactory.prototype.updatePicture = function (userId, uid) {
@@ -195,18 +175,14 @@
       var factory = this;
 
       return factory.sentinel.watch(function () {
-
         var deferred = $q.defer();
-
         NstSvcServer.request('account/remove_picture').then(function () {
 
           return factory.get(userId, true);
         }).then(function (user) {
           $rootScope.$broadcast(NST_USER_EVENT.PICTURE_REMOVED, { userId: user.id, user: user });
           deferred.resolve(user);
-        }).catch(function (error) {
-          deferred.reject(new NstFactoryError(new NstFactoryQuery(), error.getMessage(), error.getCode(), error));
-        });
+        }).catch(deferred.reject);
 
         return deferred.promise;
       }, "removePicture");

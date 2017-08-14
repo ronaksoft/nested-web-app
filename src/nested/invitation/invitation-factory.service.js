@@ -9,7 +9,7 @@
   function NstSvcInvitationFactory($q, $log, _, $rootScope,
                                    NST_SRV_ERROR, NST_SRV_EVENT, NST_INVITATION_EVENT, NST_EVENT_ACTION, NST_PLACE_MEMBER_TYPE, NST_STORAGE_TYPE, NST_INVITATION_FACTORY_STATE,
                                    NstSvcInvitationStorage, NstSvcServer, NstSvcUserFactory, NstSvcPlaceFactory, NstSvcNotification,
-                                   NstObservableObject, NstFactoryError, NstFactoryQuery, NstInvitation, NstStorage) {
+                                   NstObservableObject, NstInvitation, NstStorage) {
     function InvitationFactory() {
       var factory = this;
 
@@ -67,9 +67,7 @@
 
             defer.resolve(invitations);
           });
-        }).catch(function (error) {
-          defer.reject(new NstFactoryError(new NstFactoryQuery(), error.getMessage(), error.getCode(), error));
-        });
+        }).catch(defer.reject);
 
         this.requests.getAll = defer.promise;
       }
@@ -93,21 +91,17 @@
 
     InvitationFactory.prototype.get = function (id) {
       var factory = this;
-
+      // TODO: Use sentinel to watch the request
       if (!this.requests.get[id]) {
-        var query = new NstFactoryQuery(id);
-
         this.requests.get[id] = $q(function (resolve, reject) {
 
           NstSvcServer.request('account/get_invitation', {
-            invite_id: query.getId()
+            invite_id: id,
           }).then(function (invitationData) {
             var invitation = factory.parseInvitation(invitationData);
-            NstSvcInvitationStorage.set(query.getId(), invitation);
+            NstSvcInvitationStorage.set(id, invitation);
             resolve(invitation);
-          }).catch(function (error) {
-            reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
-          });
+          }).catch(reject);
 
         });
       }
@@ -134,7 +128,6 @@
 
       if (!this.requests.decide[id]) {
         var defer = $q.defer();
-        var query = new NstFactoryQuery(id);
 
         this.get(id).then(function (invitation) {
           NstSvcServer.request('account/respond_invite', {
@@ -146,9 +139,7 @@
               defer.resolve(invitation);
             });
             $rootScope.$broadcast(NST_INVITATION_EVENT.ACCEPT, { invitationId: id, invitation: invitation });
-          }).catch(function (error) {
-            defer.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
-          });
+          }).catch(defer.reject);
         }).catch(defer.reject);
 
         this.requests.decide[id] = defer.promise;
@@ -162,7 +153,6 @@
 
       if (!this.requests.decide[id]) {
         var defer = $q.defer();
-        var query = new NstFactoryQuery(id);
 
         this.get(id).then(function (invitation) {
           NstSvcServer.request('account/respond_invite', {
@@ -171,9 +161,7 @@
           }).then(function () {
             $rootScope.$broadcast(NST_INVITATION_EVENT.DECLINE, { invitationId: id, invitation: invitation });
             defer.resolve(invitation);
-          }).catch(function (error) {
-            defer.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
-          });
+          }).catch(defer.reject);
         }).catch(defer.reject);
 
         this.requests.decide[id] = defer.promise;
@@ -223,22 +211,16 @@
           place.setId(data.place_id);
         }
 
-        if (invitee.id && inviter.id && place.id) {
-          $q.all([
-            NstSvcUserFactory.getTiny(invitee.id),
-            NstSvcUserFactory.getTiny(inviter.id),
-            NstSvcPlaceFactory.getTiny(place.id)
-          ]).then(function (values) {
-            invitation.invitee = values[0];
-            invitation.inviter = values[1];
-            invitation.place = values[2];
-            defer.resolve(invitation);
-          }).catch(function (error) {
-            defer.reject(new NstFactoryError(new NstFactoryQuery(), error.getMessage(), error.getCode(), error));
-          });
-        } else {
-          defer.reject(new NstFactoryError(new NstFactoryQuery(), "Invalid", NST_SRV_ERROR.UNAVAILABLE));
-        }
+        $q.all([
+          NstSvcUserFactory.getTiny(invitee.id),
+          NstSvcUserFactory.getTiny(inviter.id),
+          NstSvcPlaceFactory.getTiny(place.id)
+        ]).then(function (values) {
+          invitation.invitee = values[0];
+          invitation.inviter = values[1];
+          invitation.place = values[2];
+          defer.resolve(invitation);
+        }).catch(defer.reject);
       }
 
       return defer.promise;
@@ -263,7 +245,6 @@
 
       if (!this.requests.getPendings[placeId]) {
         var defer = $q.defer();
-        var query = new NstFactoryQuery(placeId);
 
         NstSvcServer.request('place/get_invitations', {
           place_id: placeId,
@@ -279,12 +260,7 @@
 
             defer.resolve(keyholderInvitations);
           }).catch(defer.reject);
-
-
-        }).catch(function (error) {
-          defer.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
-          $log.debug(error);
-        });
+        }).catch(defer.reject);
 
         this.requests.getPendings[placeId] = defer.promise;
       }

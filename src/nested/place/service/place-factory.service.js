@@ -8,7 +8,7 @@
   function NstSvcPlaceFactory($q, _, $rootScope, $window,
                               NST_SRV_ERROR, NST_PLACE_ACCESS, NST_EVENT_ACTION, NST_PLACE_EVENT,
                               NstSvcServer, NstSvcPlaceStorage, NstSvcTinyPlaceStorage, NstSvcMyPlaceIdStorage, NstSvcUserFactory, NstSvcPlaceRoleStorage, NstSvcPlaceAccessStorage, NstSvcLogger,
-                              NstBaseFactory, NstFactoryQuery, NstFactoryError, NstUtility, NstTinyPlace, NstPlace, NstSvcPlaceMap, NstPicture,
+                              NstBaseFactory, NstUtility, NstTinyPlace, NstPlace, NstSvcPlaceMap, NstPicture,
                               NstPlaceCreatorOfParentError, NstPlaceOneCreatorLeftError, NstManagerOfSubPlaceError, NstUtilPlace) {
     function PlaceFactory() {
       var factory = this;
@@ -81,23 +81,19 @@
       return factory.sentinel.watch(function () {
 
         return $q(function (resolve, reject) {
-          var query = new NstFactoryQuery(id);
-
-          var place = NstSvcPlaceStorage.get(query.id);
+          var place = NstSvcPlaceStorage.get(id);
           if (place && !force) {
             resolve(place);
           } else {
 
             NstSvcServer.request('place/get', {
-              place_id: query.id
+              place_id: id
             }).then(function (placeData) {
               // TODO: The response should contains "data" property
               var place = factory.parsePlace(placeData);
-              NstSvcPlaceStorage.set(query.id, place);
+              NstSvcPlaceStorage.set(id, place);
               resolve(place);
-            }).catch(function (error) {
-              reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
-            });
+            }).catch(reject);
 
           }
         });
@@ -115,16 +111,14 @@
       var factory = this;
 
       return factory.sentinel.watch(function () {
-        var query = new NstFactoryQuery(id);
-
         return $q(function (resolve, reject) {
-          var place = NstSvcPlaceStorage.get(query.id) || NstSvcTinyPlaceStorage.get(query.id);
+          var place = NstSvcPlaceStorage.get(id) || NstSvcTinyPlaceStorage.get(id);
 
           if (place) {
             resolve(place);
           } else {
-            factory.get(query.id).then(function (place) {
-              NstSvcTinyPlaceStorage.set(query.id, place);
+            factory.get(id).then(function (place) {
+              NstSvcTinyPlaceStorage.set(id, place);
               resolve(place);
             }).catch(reject);
           }
@@ -144,16 +138,14 @@
       var factory = this;
 
       return factory.sentinel.watch(function () {
-        var query = new NstFactoryQuery(id);
-
         return $q(function (resolve, reject) {
-          var place = NstSvcPlaceStorage.get(query.id) || NstSvcTinyPlaceStorage.get(query.id);
+          var place = NstSvcPlaceStorage.get(id) || NstSvcTinyPlaceStorage.get(id);
 
           if (place) {
             resolve(place);
           } else {
-            factory.get(query.id).then(function (place) {
-              NstSvcTinyPlaceStorage.set(query.id, place);
+            factory.get(id).then(function (place) {
+              NstSvcTinyPlaceStorage.set(id, place);
               resolve(place);
             }).catch(reject);
           }
@@ -181,7 +173,6 @@
       var factory = this;
 
       return this.sentinel.watch(function () {
-        var query = new NstFactoryQuery();
         return $q(function (resolve, reject) {
           var placeIds = NstSvcMyPlaceIdStorage.get('tiny');
           if (placeIds) {
@@ -193,9 +184,7 @@
               var placeIds = data.places.map(createMap);
               NstSvcMyPlaceIdStorage.set('tiny', placeIds);
               resolveMap(placeIds).then(resolve);
-            }).catch(function (error) {
-              reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
-            });
+            }).catch(reject);
           }
         });
       }, "getMyTinyPlaces");
@@ -361,13 +350,11 @@
 
       return factory.sentinel.watch(function () {
         var deferred = $q.defer();
-        var query = new NstFactoryQuery(id, {
-          uid: uid
-        });
-
-        factory.hasAccess(query.id, [NST_PLACE_ACCESS.CONTROL]).then(function (has) {
+        factory.hasAccess(id, [NST_PLACE_ACCESS.CONTROL]).then(function (has) {
           if (!has) {
-            deferred.reject(new NstFactoryError(query, 'Access Denied', NST_SRV_ERROR.ACCESS_DENIED));
+            deferred.reject({
+              err_code: NST_SRV_ERROR.ACCESS_DENIED,
+            });
           }
 
           NstSvcServer.request('place/set_picture', {
@@ -380,12 +367,8 @@
             });
 
             deferred.resolve(response);
-          }).catch(function (error) {
-            deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
-          });
-        }).catch(function () {
-          deferred.reject(new NstFactoryError(query, 'Access Denied', NST_SRV_ERROR.ACCESS_DENIED));
-        });
+          }).catch(deferred.reject);
+        }).catch(deferred.reject);
 
         return deferred.promise;
       }, "updatePicture", id);
@@ -396,20 +379,18 @@
 
       return factory.sentinel.watch(function () {
         var deferred = $q.defer();
-        var query = new NstFactoryQuery(id);
-
-        factory.hasAccess(query.id, [NST_PLACE_ACCESS.REMOVE_PLACE]).then(function (has) {
+        factory.hasAccess(id, [NST_PLACE_ACCESS.REMOVE_PLACE]).then(function (has) {
           if (!has) {
             deferred.reject(new NstFactoryError(query, 'Access Denied', NST_SRV_ERROR.ACCESS_DENIED));
           }
 
           factory.get(id).then(function (place) {
             NstSvcServer.request('place/remove', {
-              place_id: query.id
+              place_id: id
             }).then(function () {
               // clean up storages
-              NstSvcPlaceStorage.remove(query.id);
-              NstSvcTinyPlaceStorage.remove(query.id);
+              NstSvcPlaceStorage.remove(id);
+              NstSvcTinyPlaceStorage.remove(id);
               var myPlaces = NstSvcMyPlaceIdStorage.get('tiny');
               factory.removePlaceFromTree(myPlaces, id);
               NstSvcMyPlaceIdStorage.set('tiny', myPlaces);
@@ -417,12 +398,8 @@
               $rootScope.$broadcast(NST_PLACE_EVENT.REMOVED, {placeId: place.id, place: place});
 
               deferred.resolve(place);
-            }).catch(function (error) {
-              deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
-            });
-          }).catch(function (error) {
-            deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
-          });
+            }).catch(deferred.reject);
+          }).catch(deferred.reject);
         });
 
         return deferred.promise;
@@ -434,15 +411,11 @@
 
       return factory.sentinel.watch(function () {
         var deferred = $q.defer();
-        var query = new NstFactoryQuery(id);
-
         NstSvcServer.request('place/get_notification', {
           place_id: id
         }).then(function (data) {
           deferred.resolve(data.state);
-        }).catch(function (error) {
-          deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
-        });
+        }).catch(deferred.reject);
 
         return deferred.promise;
       }, "getNotificationOption", id);
@@ -453,17 +426,13 @@
 
       return factory.sentinel.watch(function () {
         var deferred = $q.defer();
-        var query = new NstFactoryQuery(id);
-
         NstSvcServer.request('place/set_notification', {
           place_id: id,
           state: !!value
         }).then(function () {
           $rootScope.$broadcast(NST_PLACE_EVENT.NOTIFICATION, {placeId: id, notification: value});
           deferred.resolve(true);
-        }).catch(function (error) {
-          deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
-        });
+        }).catch(deferred.reject);
 
         return deferred.promise;
       }, "setNotificationOption", id);
@@ -474,17 +443,13 @@
 
       return factory.sentinel.watch(function () {
         var deferred = $q.defer();
-        var query = new NstFactoryQuery();
+        NstSvcServer.request('account/get_favorite_places', {}).then(function (data) {
+          var flatArray = data.places.map(function (place) {
+            return place._id
+          });
 
-        NstSvcServer.request('account/get_favorite_places', {})
-          .then(function (data) {
-            var flatArray = data.places.map(function (place) {
-              return place._id
-            });
-            deferred.resolve(flatArray);
-          }).catch(function (error) {
-          deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
-        });
+          deferred.resolve(flatArray);
+        }).catch(deferred.reject);
 
         return deferred.promise;
       }, "getFavoritesPlaces");
@@ -495,18 +460,14 @@
 
       return factory.sentinel.watch(function () {
         var requestCommad = value ? 'place/add_favorite' : 'place/remove_favorite';
-
         var deferred = $q.defer();
-        var query = new NstFactoryQuery(id);
 
         NstSvcServer.request(requestCommad, {
           place_id: id
         }).then(function () {
           $rootScope.$broadcast('place-bookmark', {placeId: id, bookmark: value});
           deferred.resolve(true);
-        }).catch(function (error) {
-          deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
-        });
+        }).catch(deferred.reject);
 
         return deferred.promise;
       }, "setBookmarkOption", id);
@@ -516,7 +477,6 @@
       var factory = this;
       return factory.sentinel.watch(function () {
         var deferred = $q.defer();
-        var query = new NstFactoryQuery(keyword);
 
         NstSvcServer.request('search/places_for_compose', {
           keyword: keyword,
@@ -533,9 +493,7 @@
             places: places,
             recipients: response.recipients
           });
-        }).catch(function (error) {
-          deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
-        });
+        }).catch(deferred.reject);
 
         return deferred.promise;
       }, "search", keyword);
@@ -545,7 +503,6 @@
       var factory = this;
       return factory.sentinel.watch(function () {
         var deferred = $q.defer();
-        var query = new NstFactoryQuery(keyword);
 
         NstSvcServer.request('search/places_for_search', {
           keyword: keyword
@@ -558,9 +515,7 @@
           }
 
           deferred.resolve(places);
-        }).catch(function (error) {
-          deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
-        });
+        }).catch(deferred.reject);
 
         return deferred.promise;
       }, "search", keyword);
@@ -629,14 +584,10 @@
 
       return factory.sentinel.watch(function () {
         var deferred = $q.defer();
-        var query = new NstFactoryQuery(id, {
-          placeId: placeId,
-          memberId: memberId
-        });
 
         NstSvcServer.request('place/remove_member', {
-          place_id: query.data.placeId,
-          member_id: query.data.memberId
+          place_id: placeId,
+          member_id: memberId,
         }).then(function () {
           NstSvcLogger.debug(NstUtility.string.format('User "{0}" was removed from place "{1}".', memberId, placeId));
           factory.updateStorageByPlaceId(placeId);
@@ -648,9 +599,8 @@
             } else if (error.previous.items[0] === 'parent_creator') {
               deferred.reject(new NstPlaceCreatorOfParentError(error));
             }
-
           } else {
-            deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+            deferred.reject(error);
           }
         });
 
@@ -663,13 +613,12 @@
 
       return factory.sentinel.watch(function () {
         var deferred = $q.defer();
-        var query = new NstFactoryQuery(placeId);
 
         NstSvcServer.request('place/leave', {
           place_id: placeId
         }).then(function () {
-          NstSvcPlaceStorage.remove(query.id);
-          NstSvcTinyPlaceStorage.remove(query.id);
+          NstSvcPlaceStorage.remove(placeId);
+          NstSvcTinyPlaceStorage.remove(placeId);
           $rootScope.$broadcast(NST_PLACE_EVENT.REMOVED, {placeId: placeId});
           factory.get(placeId, true).then(function () {
             deferred.resolve();
@@ -687,7 +636,7 @@
             }
 
           } else {
-            deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+            deferred.reject(error);
           }
         });
 
@@ -697,10 +646,6 @@
 
     PlaceFactory.prototype.getCreators = function (id, limit, skip) {
       var deferred = $q.defer();
-      var query = new NstFactoryQuery(id, {
-        limit: limit,
-        skip: skip
-      });
 
       NstSvcServer.request('place/get_creators', {
         place_id: id,
@@ -715,19 +660,13 @@
           creators: creators,
           total: data.total
         });
-      }).catch(function (error) {
-        deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
-      });
+      }).catch(deferred.reject);
 
       return deferred.promise;
     };
 
     PlaceFactory.prototype.getKeyholders = function (id, limit, skip) {
       var deferred = $q.defer();
-      var query = new NstFactoryQuery(id, {
-        limit: limit,
-        skip: skip
-      });
 
       NstSvcServer.request('place/get_key_holders', {
         place_id: id,
@@ -742,19 +681,16 @@
           keyHolders: keyHolders,
           total: data.total
         });
-      }).catch(function (error) {
-        deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
-      });
+      }).catch(deferred.reject);
 
       return deferred.promise;
     };
 
     PlaceFactory.prototype.getRoleOnPlace = function (id, forceRequest) {
       var factory = this;
-
+      // TODO: Use sentinel to watch the request
       if (!this.requests.getRole[id]) {
         var deferred = $q.defer();
-        var query = new NstFactoryQuery(id);
 
         var placeRole = NstSvcPlaceRoleStorage.get(id);
         if (placeRole && !forceRequest) {
@@ -765,7 +701,9 @@
             if (placeRole) {
               deferred.resolve(placeRole);
             } else {
-              deferred.reject(new NstFactoryError(query, 'Unknown Error in Retrieving Place Role', NST_SRV_ERROR.UNKNOWN));
+              deferred.reject({
+                err_code: NST_SRV_ERROR.UNKNOWN,
+              });
             }
           }).catch(deferred.reject);
         }
@@ -801,7 +739,6 @@
 
       return factory.sentinel.watch(function () {
         var deferred = $q.defer();
-        var query = new NstFactoryQuery(id);
 
         var placeAccess = NstSvcPlaceAccessStorage.get(id);
         if (placeAccess && !forceRequest) {
@@ -830,11 +767,11 @@
             if (access) {
               deferred.resolve(access);
             } else {
-              deferred.reject(new NstFactoryError(query, 'Unknown Error in Retrieving Place Role', NST_SRV_ERROR.UNKNOWN));
+              deferred.reject({
+                err_code: NST_SRV_ERROR.UNKNOWN,
+              });
             }
-          }).catch(function (error) {
-            deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
-          });
+          }).catch(deferred.reject);
         }
 
         return deferred.promise;
@@ -917,22 +854,16 @@
 
     PlaceFactory.prototype.promoteMember = function (placeId, memberId) {
       var id = placeId + "-" + memberId;
-      var query = new NstFactoryQuery(id, {
-        placeId: placeId,
-        memberId: memberId
-      });
 
       return this.sentinel.watch(function () {
         var deferred = $q.defer();
 
         NstSvcServer.request('place/promote_member', {
-          place_id: query.data.placeId,
-          member_id: query.data.memberId
+          place_id: placeId,
+          member_id: memberId
         }).then(function () {
           deferred.resolve();
-        }).catch(function (error) {
-          deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
-        });
+        }).catch(deferred.reject);
 
         return deferred.promise;
       }, id);
@@ -940,22 +871,16 @@
 
     PlaceFactory.prototype.demoteMember = function (placeId, memberId) {
       var id = placeId + "-" + memberId;
-      var query = new NstFactoryQuery(id, {
-        placeId: placeId,
-        memberId: memberId
-      });
 
       return this.sentinel.watch(function () {
         var deferred = $q.defer();
 
         NstSvcServer.request('place/demote_member', {
-          place_id: query.data.placeId,
-          member_id: query.data.memberId
+          place_id: placeId,
+          member_id: memberId,
         }).then(function () {
           deferred.resolve();
-        }).catch(function (error) {
-          deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
-        });
+        }).catch(deferred.reject);
 
         return deferred.promise;
       }, id);
@@ -1099,16 +1024,7 @@
       var factory = this;
       var defer = $q.defer();
 
-      var query = new NstFactoryQuery(placeId);
-
       if (!placeId) {
-        throw "place id is not define!";
-      } else {
-        placeId = placeId;
-      }
-
-
-      if (!query.id) {
         defer.resolve(null);
       } else {
         NstSvcServer.request('place/mark_all_read', {
@@ -1118,15 +1034,12 @@
           $rootScope.$broadcast('post-read-all', {placeId: placeId});
           defer.resolve(true);
 
-        }).catch(function (error) {
-          defer.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
-        });
+        }).catch(defer.reject);
 
       }
 
       return defer.promise;
     }
-
 
     /**
      * Get unread posts count of places

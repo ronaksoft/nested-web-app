@@ -95,26 +95,6 @@
 
       /**
        * @function
-       * Accepts the give id invitation
-       * @param {any} id
-       * @returns
-       */
-      vm.invitation.accept = function (id) {
-        return NstSvcInvitationFactory.accept(id);
-      };
-
-      /**
-       * @function
-       * Declines the give id invitation
-       * @param {any} id
-       * @returns
-       */
-      vm.invitation.decline = function (id) {
-        return NstSvcInvitationFactory.decline(id);
-      };
-
-      /**
-       * @function
        * Represents the invitation prompt modal
        * @param {any} id
        * @param {boolean} openOtherInvitations
@@ -141,7 +121,7 @@
             }
 
             if (result) { // Accept the Invitation
-              return vm.invitation.accept(id).then(function (invitation) {
+              return NstSvcInvitationFactory.accept(id).then(function (invitation) {
                 var vmPlace = _.find(vm.places, {id: invitation.place.id});
 
                 if (!vmPlace) {
@@ -166,7 +146,7 @@
                 }
               });
             } else { // Decline the Invitation
-              return vm.invitation.decline(id);
+              return NstSvcInvitationFactory.decline(id);
             }
             // if (openOtherInvitations) {
             //   var checkDisplayInvitationModal = true;
@@ -587,15 +567,6 @@
        */
       function getMyPlaces() {
         return NstSvcPlaceFactory.getMyTinyPlaces();
-      }
-
-      /**
-       * Gets invitation data
-       * @param {any} id
-       * @returns {Promise}
-       */
-      function getInvitation(id) {
-        return NstSvcInvitationFactory.get(id);
       }
 
       /**

@@ -18,29 +18,29 @@
 
   /** @ngInject */
   /**
-   * Retrieves a Place key-holders and creators. The user is able to add/invite others 
-   * 
-   * @param {any} $scope 
-   * @param {any} $q 
-   * @param {any} $state 
-   * @param {any} $stateParams 
-   * @param {any} $uibModal 
-   * @param {any} toastr 
-   * @param {any} _ 
-   * @param {any} $rootScope 
-   * @param {any} NstSvcPlaceFactory 
-   * @param {any} NstUtility 
-   * @param {any} NstSvcAuth 
-   * @param {any} NstSvcUserFactory 
-   * @param {any} NstSvcTranslation 
-   * @param {any} NstSvcWait 
-   * @param {any} NstVmMemberItem 
-   * @param {any} NST_SRV_ERROR 
-   * @param {any} NST_NOTIFICATION_TYPE 
-   * @param {any} NstEntityTracker 
-   * @param {any} NST_PLACE_ACCESS 
-   * @param {any} NST_PLACE_MEMBER_TYPE 
-   * @param {any} NstSvcLogger 
+   * Retrieves a Place key-holders and creators. The user is able to add/invite others
+   *
+   * @param {any} $scope
+   * @param {any} $q
+   * @param {any} $state
+   * @param {any} $stateParams
+   * @param {any} $uibModal
+   * @param {any} toastr
+   * @param {any} _
+   * @param {any} $rootScope
+   * @param {any} NstSvcPlaceFactory
+   * @param {any} NstUtility
+   * @param {any} NstSvcAuth
+   * @param {any} NstSvcUserFactory
+   * @param {any} NstSvcTranslation
+   * @param {any} NstSvcWait
+   * @param {any} NstVmMemberItem
+   * @param {any} NST_SRV_ERROR
+   * @param {any} NST_NOTIFICATION_TYPE
+   * @param {any} NstEntityTracker
+   * @param {any} NST_PLACE_ACCESS
+   * @param {any} NST_PLACE_MEMBER_TYPE
+   * @param {any} NstSvcLogger
    */
   function placeTeammatesController($scope, $q, $state, $stateParams, $uibModal, toastr, _, $rootScope,
                                     NstSvcPlaceFactory, NstUtility, NstSvcAuth, NstSvcUserFactory, NstSvcTranslation, NstSvcWait,
@@ -74,16 +74,12 @@
       if (vm.placeId === data.invitation.place.id) {
         NstSvcPlaceFactory.get(vm.placeId, true).then(function (place) {
           vm.place = place;
-        }).catch(function (error) {
         });
 
         if (vm.teammates.length < vm.teammatesSettings.limit) {
-          NstSvcUserFactory.get(data.invitation.invitee.id)
-            .then(function (user) {
-              vm.teammates.push(new NstVmMemberItem(user, NST_PLACE_MEMBER_TYPE.KEY_HOLDER))
-            })
-            .catch(function (error) {
-            });
+          NstSvcUserFactory.get(data.invitation.invitee.id).then(function (user) {
+            vm.teammates.push(new NstVmMemberItem(user, NST_PLACE_MEMBER_TYPE.KEY_HOLDER))
+          });
 
           addedMembersTracker.track(data.invitation.invitee.id);
         }
@@ -116,14 +112,14 @@
       }
     }));
 
-    // Demotes the member to key-holder 
+    // Demotes the member to key-holder
     eventReferences.push($rootScope.$on('member-demoted', function (event, data) {
       var member = vm.teammates.filter(function (m) {
         return m.id === data.member.id
       });
       if (member[0]) member[0].role = NST_PLACE_MEMBER_TYPE.KEY_HOLDER;
     }));
-    
+
     // Promotes the member to creator
     eventReferences.push($rootScope.$on('member-promoted', function (event, data) {
       var member = vm.teammates.filter(function (m) {
@@ -147,8 +143,8 @@
 
     /**
      * Gets the places and loads the place members if the user has the required permissions
-     * 
-     * @returns 
+     *
+     * @returns
      */
     function initialize() {
       if (!vm.placeId) {
@@ -179,7 +175,7 @@
 
     /**
      * Opens place-settings page and shows members tab by default
-     * 
+     *
      */
     function openMemberModal() {
       $state.go('app.place-settings', { placeId : vm.placeId, tab : 'members' }, { notify : false });
@@ -187,8 +183,8 @@
 
     /**
      * Opens a modals to select members and adds/invites the selected members
-     * 
-     * @param {any} role 
+     *
+     * @param {any} role
      */
     function showAddModal(role) {
 
@@ -226,9 +222,9 @@
     /**
      * Adds the selected teammates. Dispatches 'member-added' event for those
      * who have been added successfully. After that displays an appropriate message.
-     * 
-     * @param {any} place 
-     * @param {any} users 
+     *
+     * @param {any} place
+     * @param {any} users
      */
     function add(place, users) {
       NstSvcPlaceFactory.addUser(place, users).then(function (result) {
@@ -276,9 +272,9 @@
     /**
      * Invites the selected members. Dispatches 'member-invited' event for those
      * who have been added successfully. After that displays an appropriate message.
-     * 
-     * @param {any} place 
-     * @param {any} users 
+     *
+     * @param {any} place
+     * @param {any} users
      */
     function invite(place, users) {
       NstSvcPlaceFactory.inviteUser(place, users).then(function (result) {
@@ -313,9 +309,9 @@
 
     /**
      * Emits 'member-added' event with the given place and user
-     * 
-     * @param {any} place 
-     * @param {any} user 
+     *
+     * @param {any} place
+     * @param {any} user
      */
     function dispatchUserAdded(place, user) {
       eventReferences.push($rootScope.$emit(
@@ -329,7 +325,7 @@
 
     /**
      * Just shows the add/invite modal
-     * 
+     *
      */
     function addMember() {
       showAddModal(NST_PLACE_MEMBER_TYPE.KEY_HOLDER);
@@ -337,10 +333,10 @@
 
     /**
      * Loads both creators and key-holders by requesting for two different APIs
-     * 
-     * @param {any} placeId 
-     * @param {any} hasSeeMembersAccess 
-     * @returns 
+     *
+     * @param {any} placeId
+     * @param {any} hasSeeMembersAccess
+     * @returns
      */
     function loadTeammates(placeId, hasSeeMembersAccess) {
       var deferred = $q.defer();
@@ -362,7 +358,7 @@
 
     /**
      * Loads the place members if the user has the requires permissions
-     * 
+     *
      */
     function load() {
 
@@ -381,12 +377,12 @@
 
     /**
      * Retrieves the place creators using the given skip and limit
-     * 
-     * @param {any} placeId 
-     * @param {any} limit 
-     * @param {any} skip 
-     * @param {any} hasAccess 
-     * @returns 
+     *
+     * @param {any} placeId
+     * @param {any} limit
+     * @param {any} skip
+     * @param {any} hasAccess
+     * @returns
      */
     function getCreators(placeId, limit, skip, hasAccess) {
       var deferred = $q.defer();
@@ -414,12 +410,12 @@
 
     /**
      * Retrieves the place key-holders with the given limit and skip
-     * 
-     * @param {any} placeId 
-     * @param {any} limit 
-     * @param {any} skip 
-     * @param {any} hasAccess 
-     * @returns 
+     *
+     * @param {any} placeId
+     * @param {any} limit
+     * @param {any} skip
+     * @param {any} hasAccess
+     * @returns
      */
     function getKeyholders(placeId, limit, skip, hasAccess) {
       var deferred = $q.defer();
