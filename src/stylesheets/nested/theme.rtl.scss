@@ -149,7 +149,7 @@ body[dir="rtl"] {
     right: 0;
     left: auto;
   }
-  #add-view .butn-green{
+  .add-member-modal .butn-green{
     left: 0;
     right: auto;
   }
@@ -221,7 +221,7 @@ body[dir="rtl"] {
   .place-info {
     left: 0;
   }
-  #delete-view .closebut {
+  .super-mini-modal .closebut {
     right: auto;
     left: 16px;
   }
@@ -233,7 +233,7 @@ body[dir="rtl"] {
     left: 0;
     right: -2px;
   }
-  .recent-place-pop {
+  .recently-visited-places-popover {
     left: auto!important;
     right: 8px!important;
   }
@@ -284,7 +284,7 @@ body[dir="rtl"] {
     margin-right: 50px;
     margin-left: 0;
   }
-  .mentions .arrow {
+  .notifications-popover .arrow {
     border-width: 0 1px 1px 0!important;
     right: -6px !important;
     left: auto!important;
@@ -293,10 +293,10 @@ body[dir="rtl"] {
     left: auto;
     right: 42px;
   }
-  .close-modal {
-    right: auto;
-    right: 56px;
-  }
+  // .close-modal {
+  //   right: auto;
+  //   right: 56px;
+  // }
   .post-card-comments {
      padding: 8px 0 0px 16px;
     .delete-comment {
@@ -368,7 +368,7 @@ body[dir="rtl"] {
     direction: rtl;
     padding: 3px 10px;
   }
-  .pop-profile svg {
+  .profile-popover svg {
     margin-right: 0;
     margin-left: 8px;
   }
@@ -622,7 +622,7 @@ body[dir="rtl"] {
   #place-settings .user-option-slider {
     margin-right: -32px;
   }
-  #add-view .ui-select-choices-row {
+  .add-member-modal .ui-select-choices-row {
     float: right;
   }
   nst-navbar .place-info h3 svg {
@@ -635,11 +635,11 @@ body[dir="rtl"] {
   .place-head.setting-head h3 {
     margin: 0 16px 0 0;
   }
-  .modal-lg-white .modal-content h2 span {
+  .modal-full-height-center .modal-content h2 span {
     margin-left: 0;
     margin-right: 16px;
   }
-  .modal-lg-white .modal-content>div {
+  .modal-full-height-center .modal-content>div {
     right: 50%;
     margin-right: -240px;
     left: 0;
@@ -766,7 +766,7 @@ body[dir="rtl"] {
     left: 0;
     right: 12px;
   }
-  .modal-lg-white .modal-content select {
+  .modal-full-height-center .modal-content select {
     padding: 0 32px 0 8px;
   }
   input[type="radio"] + label {
@@ -794,6 +794,31 @@ body[dir="rtl"] {
   .post-labels span {
     margin-right: 0;
     margin-left: 6px;
+  }
+  .popover-white-nst-msg {
+    left: -1px!important;
+    right: auto;
+  }
+  .popover-white-nst-setting {
+    left: 0!important;
+    right: auto;
+  }
+  .popover-white-nst-sort {
+    left: 0px!important;
+    right: auto;
+  }
+  .white-pop .popover-content a div, .white-pop .popover-content label div {
+    &:last-of-type {
+      margin-left: 0;
+      margin-right: 8px;
+    }
+    &:first-of-type {
+      margin-right: 0;
+      margin-left: 8px;
+    }
+  }
+  .popover-userdetail .user-data div .butn-white, .popover-userdetail .user-data div .butn-white-nav {
+    margin: 0 0 0 4px;
   }
 }
 body[dir="ltr"] {

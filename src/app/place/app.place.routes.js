@@ -19,7 +19,7 @@
 
         var modal = $uibModal.open({
           animation: false,
-          size: 'lg-white',
+          size: 'full-height-center',
           templateUrl: 'app/place/settings/place-settings.html',
           controller: 'PlaceSettingsController',
           controllerAs: 'ctrl'

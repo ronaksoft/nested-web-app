@@ -1,5 +1,5 @@
 <div class="_fh _pr _fw" id="compose-box" compose-drop>
-  <div class="compose-wrp ng-class:{'attached' : ctlCompose.attachments.viewModels.length > 0}" ng-mouseleave="ctlCompose.mouseIn = false" ng-mouseenter="ctlCompose.mouseIn = true">
+  <div class="compose-wrapper ng-class:{'attached' : ctlCompose.attachments.viewModels.length > 0}" ng-mouseleave="ctlCompose.mouseIn = false" ng-mouseenter="ctlCompose.mouseIn = true">
     <div class="modal-head" ng-if="!ctlCompose.quickMode">
       <svg class="_16svg" ng-click="$dismiss()">
         <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
@@ -104,7 +104,7 @@
           </svg>
         </div>
         <div class="_pr _df _fn">
-          <svg class="_16svg _asc" popover-class="white-pop post-card-moreopt compose-opt"
+          <svg class="_16svg _asc" popover-class="white-pop post-card-moreo-ptions compose-opt"
             data-popover-placement="{{$root._direction == 'ltr' ? 'left auto' : 'right auto'}}"
             data-uib-popover-template="'app/pages/compose/partials/compose-settings.html'"
             data-popover-append-to-body="false">

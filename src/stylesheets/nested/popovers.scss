@@ -1,32 +1,18 @@
-#more-badge-popover.popover{
-  border-radius: 206px;
-  bow-shadow: unset;
-}
-#more-badge-popover {
-  .popover-content{
-    padding:0;
-  }
-  .popover-content:hover {
-    background-color: $color-sense-50;
-  }
-}
 .navbar-popover {
   margin-left: 20px;
   margin-top: -6px;
   direction: ltr;
 }
-//.places .popover {
-//  direction: ltr;
-//}
-#menu.popover-content {
-  padding: 0;
-}
 
-#menu.popup-panel {
-  max-width: 238px;
-  margin: 0;
-  padding: 0;
-}
+// #menu.popover-content {
+//   padding: 0;
+// }
+
+// #menu.popup-panel {
+//   max-width: 238px;
+//   margin: 0;
+//   padding: 0;
+// }
 
 .popover-white + .popover {
   max-width: 320px;
@@ -129,14 +115,15 @@
   flex-direction: column;
   display: inline-flex;
 }
-#popup-msg-badge {
+
+.more-places-popover {
   overflow-y: auto;
   height: auto;
   max-height: 145px;
  }
 
 //mention popover
-.mentions {
+.notifications-popover {
   min-width: 360px;
   max-width: 360px;
   max-height: 480px;
@@ -198,9 +185,9 @@
   }
 }
 
-.pop-profile {
+.profile-popover {
   width: 224px;
-  &.edit-pop-profile {
+  &.edit-profile-popover {
     a:first-child ,
     a:first-child + a ,
     hr:first-of-type {
@@ -225,57 +212,31 @@
   }
 }
 
-.post-card-moreopt {
+.post-card-moreo-ptions {
   z-index: 222!important;
   max-width: 320px;
   min-width: 220px
-}
-body[dir="rtl"] {
-  .popover-white-nst-msg {
-    left: -1px!important;
-    right: auto;
-  }
-  .popover-white-nst-setting {
-    left: 0!important;
-    right: auto;
-  }
-  .popover-white-nst-sort {
-    left: 0px!important;
-    right: auto;
-  }
-  .white-pop .popover-content a div, .white-pop .popover-content label div {
-    &:last-of-type {
-      margin-left: 0;
-      margin-right: 8px;
-    }
-    &:first-of-type {
-      margin-right: 0;
-      margin-left: 8px;
-    }
-  }
-  .popover-userdetail .user-data div .butn-white, .popover-userdetail .user-data div .butn-white-nav {
-    margin: 0 0 0 4px;
-  }
 }
 
 .navbar-popover {
   width: 276px!important;
   .popover-content{
-  .list-items {
-    padding-left: 8px;
-    padding-right: 8px;
-    div:first-of-type {
-      margin-left: 4px;
-      margin-right: 12px;
+    .list-items {
+      padding-left: 8px;
+      padding-right: 8px;
+      div:first-of-type {
+        margin-left: 4px;
+        margin-right: 12px;
+      }
+      div.top-user-avatar-24 {
+        margin-left: 0;
+        margin-right: 8px;
+      }
     }
-    div.top-user-avatar-24 {
-      margin-left: 0;
-      margin-right: 8px;
-    }
-  }
   }
 }
-.recent-place-pop {
+
+.recently-visited-places-popover {
   border-radius: 4px;
   min-width: 224px;
   width: 224px;

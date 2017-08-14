@@ -80,7 +80,7 @@
       }
       $uibModal.open({
         animation: false,
-        size: 'lg-white multiple',
+        size: 'full-height-center multiple',
         templateUrl: 'app/label/partials/edit-label.html',
         controller: 'editLabelController',
         controllerAs: 'ctrl',
@@ -100,7 +100,7 @@
     function createLabel() {
       $uibModal.open({
         animation: false,
-        size: 'lg-white multiple',
+        size: 'full-height-center multiple',
         templateUrl: 'app/label/partials/create-label.html',
         controller: 'createLabelController',
         controllerAs: 'createCtrl'
@@ -115,7 +115,7 @@
     function requestLabel() {
       $uibModal.open({
         animation: false,
-        size: 'lg-white multiple',
+        size: 'full-height-center multiple',
         templateUrl: 'app/label/partials/request-label.html',
         controller: 'requestLabelController',
         controllerAs: 'requestCtrl'
