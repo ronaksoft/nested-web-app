@@ -53,6 +53,36 @@
   }
 }
 
+.nst-arrow {
+  background: url('../assets/icons/arrow.svg') no-repeat;
+  height: 25px;
+  width: 16px;
+  padding: 0 0 0 5px;
+  background-position: center center;
+  background-size: contain;
+  cursor: pointer;
+}
+.no-animation {
+  animation: none!important;
+}
+.no-animation *{
+  animation: none!important;
+}
+.arrow {
+  width: 15px;
+}.ico {
+  min-width: 30px;
+  justify-content: center;
+}
+
+.ui-select-highlight {
+  background-color: #AEECC9;
+  color: $color-hurricane;
+}
+
+.user {
+  height: 70px;
+}
 .nst-vb {
   height: 100%;
   display: flex;
