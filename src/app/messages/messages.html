@@ -63,7 +63,7 @@
           </p>
           <div ng-show="!ctlMessages.isSentMode && !ctlMessages.isbookmarkedsMode && ctlMessages.selectedPosts.length == 0"
               ng-mouseenter="popoverSortShow = true" class="iconsblock _fn"
-              data-popover-class="white-pop popover-white-nst-sort"uib-popover-template="'app/messages/partials/popovers/sort_popover.html'"
+              data-popover-class="white-pop messages-sort-popover"uib-popover-template="'app/messages/partials/popovers/sort_popover.html'"
               data-popover-placement="bottom-center" data-popover-is-open="popoverSortShow" id="test-filter-sort">
             <span class="_df" ng-if="ctlMessages.messagesSetting.sort == 'latest-messages'"><translate>Recent Messages</translate></span>
             <span class="_df" ng-if="ctlMessages.messagesSetting.sort != 'latest-messages'"><translate>Latest Activity</translate></span>
