@@ -11,7 +11,7 @@
                                  NST_PLACE_TYPE, NST_PLACE_ACCESS,
                                  NST_STORE_UPLOAD_TYPE, NST_PLACE_POLICY_RECEPTIVE,
                                  NstSvcAuth, NstSvcPlaceFactory, NstSvcStore, NstVmMemberItem, NstSvcUserFactory,
-                                 NstUtility, $uibModal, $uibModalInstance, NstSvcLogger, NstSvcTranslation) {
+                                 NstUtility, _, $uibModal, $uibModalInstance, NstSvcLogger, NstSvcTranslation) {
 
     $scope.NST_PLACE_POLICY_OPTION = NST_PLACE_POLICY_OPTION;
     $scope.NST_PLACE_TYPE = NST_PLACE_TYPE;
@@ -47,7 +47,7 @@
       policy: {
         addPost: NST_PLACE_POLICY_OPTION.MANAGERS,
         addMember: vm.memberOptions[0].key,
-        addPlace: vm.memberOptions[0].key,
+        addPlace: vm.memberOptions[0].key
       },
       description: null,
       favorite: true,

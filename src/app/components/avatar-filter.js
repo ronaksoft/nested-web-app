@@ -3,9 +3,9 @@
 
   angular
     .module('ronak.nested.web.components')
-    .filter('avatar', function() {
+    .filter('avatar', function(_) {
 
-      return function(model, size, _) {
+      return function(model, size) {
 
         size = size || "x32";
         if (model && model.hasPicture() && _.isFunction(model.picture.getUrl)) {

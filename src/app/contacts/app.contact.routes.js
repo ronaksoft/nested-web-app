@@ -27,7 +27,7 @@
           $rootScope.goToLastState(true);
         });
       }],
-      onExit: function($uibModalStack) {
+      onExit: function() {
 
       }
     });

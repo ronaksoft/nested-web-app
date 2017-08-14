@@ -6,10 +6,10 @@
     .controller('AppController', AppController);
 
   /** @ngInject */
-  function AppController($q, $scope, $window, $rootScope, $timeout, $state, $stateParams, $uibModalStack, $interval, $log, $injector,
+  function AppController($q, $scope, $window, $rootScope, $state, $stateParams, $interval, $log, $injector,
                          hotkeys, deviceDetector, NstSvcInteractionTracker,
                          NST_DEFAULT, NST_AUTH_EVENT, NST_SRV_EVENT, NST_NOTIFICATION_EVENT, NST_CONFIG,
-                         NstSvcServer, NstSvcAuth, NstSvcLogger, NstSvcI18n, NstSvcNotification, _, NstSvcNotificationFactory) {
+                         NstSvcServer, NstSvcAuth, NstSvcLogger, NstSvcI18n, _, NstSvcNotificationFactory) {
     var vm = this;
     var eventReferences = [];
 
@@ -87,7 +87,7 @@
       NstSvcNotificationFactory.markAsSeen(data.notificationId)
     }));
 
-    eventReferences.push($rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState) {
+    eventReferences.push($rootScope.$on('$stateChangeSuccess', function (event, toState, toParams) {
       toggleSidebar(toState, toParams);
     }));
 

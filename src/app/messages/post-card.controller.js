@@ -21,9 +21,9 @@
                               NstSvcAuth, NstUtility, NstSvcPostInteraction, NstSvcTranslation, NstSvcLogger) {
     var vm = this;
 
-    // var commentBoardMin = 3,
+    var commentBoardMin = 3,
     //   commentBoardMax = 99,
-     var commentBoardMin = {
+      commentBoardMin = {
         limit: 8,
         date: null
       },

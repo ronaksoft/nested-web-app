@@ -11,7 +11,7 @@
                                 NstSvcAuth, NstSvcLogger,
                                 NstSearchQuery, NstSvcPlaceFactory, NstSvcTranslation,
                                 NST_CONFIG, NST_DEFAULT, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_PLACE_EVENT,
-                                NstPlaceOneCreatorLeftError, NstPlaceCreatorOfParentError, NstManagerOfSubPlaceError) {
+                                NstPlaceOneCreatorLeftError, _, NstPlaceCreatorOfParentError, NstManagerOfSubPlaceError) {
     var vm = this;
     var eventReferences = [];
     /*****************************
@@ -95,7 +95,7 @@
         $state.go('app.place-create', {placeId: getPlaceId(), isClosePlace: true}, {notify: false});
       }
       $event.preventDefault();
-    };
+    }
 
     /**
      * Represents add member to place modal

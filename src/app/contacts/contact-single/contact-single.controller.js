@@ -95,7 +95,7 @@
         vm.contact.isContact = false;
         vm.contact.isFavorite = false;
         $rootScope.$broadcast('contact-favorite-remove', vm.contact);
-      }).catch(function (error) {
+      }).catch(function () {
         toastr.error(NstSvcTranslation.get("An error has occured while removing the user from your contacts list."));
       }).finally(function () {
         vm.removeProgress = false;
