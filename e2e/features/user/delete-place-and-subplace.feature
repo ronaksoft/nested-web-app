@@ -20,7 +20,7 @@
 #    Given I Click Triple-dot
 #    When I wait 2s
 #    Given I Click by ngClick "ctlFullNavbar.confirmToRemove()"
-#    When Wait see object with id "super-mini-modal"
+#    When Wait see object with id "mini-modal"
 #    Given I Click by ngClick "nextStep =! nextStep; focusInput=true"
 #    When I wait 1s
 #    Given I fill input by name "placeIdInput" with "test-create-place-id.test-create-sub-place-id"
@@ -35,7 +35,7 @@
 #    Given I Click Triple-dot
 #    When I wait 2s
 #    Given I Click by ngClick "ctlFullNavbar.confirmToRemove()"
-#    When Wait see object with id "super-mini-modal"
+#    When Wait see object with id "mini-modal"
 #    Given I Click by ngClick "nextStep =! nextStep; focusInput=true"
 #    When I wait 1s
 #    Given I fill input by name "placeIdInput" with "test-create-place-id"

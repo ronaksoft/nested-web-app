@@ -84,35 +84,21 @@
     width: 44px;
   }
   .loading .animation {
-    -webkit-animation: spin 5s linear 0s infinite;
-    -moz-animation: spin 5s linear 0s infinite;
     animation: spin 5s linear 0s infinite;
-    -webkit-transform: translate3d(0, 0, 0);
-    -moz-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0);
-    -webkit-perspective: 1000;
-    -moz-perspective: 1000;
     perspective: 1000;
     opacity: 0;
   }
   .loading .animation:nth-child(2) {
-    -webkit-animation-delay: 125ms;
-    -moz-animation-delay: 125ms;
     animation-delay: 125ms;
   }
   .loading .animation:nth-child(3) {
-    -webkit-animation-delay: 250ms;
-    -moz-animation-delay: 250ms;
     animation-delay: 250ms;
   }
   .loading .animation:nth-child(4) {
-    -webkit-animation-delay: 375ms;
-    -moz-animation-delay: 375ms;
     animation-delay: 375ms;
   }
   .loading .animation:nth-child(5) {
-    -webkit-animation-delay: 500ms;
-    -moz-animation-delay: 500ms;
     animation-delay: 500ms;
   }
   .loading .circle {
@@ -136,6 +122,7 @@
   .loading .circle.five {
     background: rgba(20, 215, 105, 0.2);
   }
+  
   .loading.white .circle {
     background: none repeat scroll 0 0 #ffffff;
     border-radius: 100% 100% 100% 100%;

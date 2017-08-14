@@ -221,7 +221,7 @@ body[dir="rtl"] {
   .place-info {
     left: 0;
   }
-  .super-mini-modal .closebut {
+  .mini-modal .closebut {
     right: auto;
     left: 16px;
   }
@@ -697,8 +697,8 @@ body[dir="rtl"] {
     right: auto;
     left: 40px;
   }
-  .userrow span:last-child ,
-  .userrow span:first-child {
+  .inline-user-row span:last-child ,
+  .inline-user-row span:first-child {
     padding-left: 0;
     padding-right: 8px;
   }
@@ -713,7 +713,7 @@ body[dir="rtl"] {
   #contacts-list input {
     padding-right: 32px;
   }
-  .placerow span {
+  .inline-place-row span {
     padding-right: 8px;
     padding-left: 0;
   }

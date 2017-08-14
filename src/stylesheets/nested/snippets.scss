@@ -1,4 +1,4 @@
-.placerow {
+.inline-place-row {
   overflow: hidden;
   img {
     width: 32px;
@@ -20,7 +20,7 @@
   }
 }
 
-.userrow {
+.inline-user-row {
   display: flex;
   &:hover {
     background-color: $color-sense-5;

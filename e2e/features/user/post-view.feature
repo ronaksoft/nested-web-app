@@ -46,7 +46,7 @@
 #    When I wait 5s
 #    Given I Click by ngClick "$dismiss()"
 #    When I wait 5s
-#    When Wait see object with id "super-mini-modal"
+#    When Wait see object with id "mini-modal"
 #    When I wait 5s
 #    Given I Click by ngClick "$close(true);"
 ##    When Wait see object with id "PostView" ----------------check----------------
@@ -59,7 +59,7 @@
 #    When Wait to see music
 #    When Wait to see pdf
 #    Given I Click by ngClick "$dismiss()"
-#    When Wait see object with id "super-mini-modal"
+#    When Wait see object with id "mini-modal"
 #    Given I Click by ngClick "$close(true);"
 #    Given I pin a post
 #    When I wait 2s
