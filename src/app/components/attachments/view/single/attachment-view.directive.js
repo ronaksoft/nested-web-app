@@ -31,7 +31,7 @@
           }
         };
 
-        scope.$on('vjsVideoReady', function (e, data) {
+        scope.$on('vjsVideoReady', function (e) {
           $('.vjs-loading-spinner').empty().html('<div class="loading" ng-hide="attachment.show" ng-if="preview">' +
             '<div class="animation"><div class="circle one"></div></div>' +
             '<div class="animation"><div class="circle two"></div></div>' +
@@ -42,7 +42,7 @@
 
         scope.$watch(function () {
           return scope.attachment.viewUrl
-        }, function (n) {
+        }, function () {
           // setTimeout(function () {
           update(scope);
           // }, 0);
@@ -50,7 +50,7 @@
 
         scope.$watch(function () {
           return scope.attachment
-        }, function (n) {
+        }, function () {
           // setTimeout(function () {
           update(scope);
           // }, 0);
@@ -136,8 +136,8 @@
             newW = pw;
             newH = ph;
           }
-          scope.attachment.newW = newW;
-          scope.attachment.newH = newH;
+          a.newW = newW;
+          a.newH = newH;
         };
 
         scope.docPreview = function () {

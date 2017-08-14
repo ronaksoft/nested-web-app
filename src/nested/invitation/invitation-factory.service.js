@@ -25,7 +25,6 @@
 
         switch (tlData.action) {
           case NST_EVENT_ACTION.MEMBER_INVITE:
-          console.log('tlevent of invitation');
             factory.get(tlData.invite_id).then(function (invitation) {
               NstSvcNotification.push(tlData.invite_id);
               $rootScope.$broadcast(NST_INVITATION_EVENT.ADD, { invitationId: invitation.getId(), invitation: invitation });
@@ -130,8 +129,6 @@
     };
 
     InvitationFactory.prototype.accept = function (id) {
-      var factory = this;
-
       if (!this.requests.decide[id]) {
         var defer = $q.defer();
         var query = new NstFactoryQuery(id);
@@ -158,8 +155,6 @@
     };
 
     InvitationFactory.prototype.decline = function (id) {
-      var factory = this;
-
       if (!this.requests.decide[id]) {
         var defer = $q.defer();
         var query = new NstFactoryQuery(id);

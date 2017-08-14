@@ -18,16 +18,16 @@
   /** @ngInject */
   /**
    * Gives the user a chance to change her password by entring a new password.
-   * 
-   * @param {any} $scope 
-   * @param {any} $state 
-   * @param {any} $q 
-   * @param {any} md5 
-   * @param {any} toastr 
-   * @param {any} NST_DEFAULT 
-   * @param {any} NstSvcAuth 
-   * @param {any} NstHttp 
-   * @param {any} NstSvcTranslation 
+   *
+   * @param {any} $scope
+   * @param {any} $state
+   * @param {any} $q
+   * @param {any} md5
+   * @param {any} toastr
+   * @param {any} NST_DEFAULT
+   * @param {any} NstSvcAuth
+   * @param {any} NstHttp
+   * @param {any} NstSvcTranslation
    */
   function RecoverPasswordStepController($scope, $state, $q, md5, toastr,
     NST_DEFAULT, NstSvcAuth, NstHttp, NstSvcTranslation) {
@@ -38,7 +38,7 @@
 
     /**
      * Emits an event that leads to route transition.
-     * 
+     *
      */
     function nextStep() {
       eventReferences.push($scope.$emit(vm.onCompleted, {
@@ -48,11 +48,11 @@
 
     /**
      * Changes the user password using a verification Id that she has been received in the previous steps
-     * 
-     * @param {any} verificationId 
-     * @param {any} phone 
-     * @param {any} password 
-     * @returns 
+     *
+     * @param {any} verificationId
+     * @param {any} phone
+     * @param {any} password
+     * @returns
      */
     function sendNewPassword(verificationId, phone, password) {
       var deferred = $q.defer();
@@ -63,7 +63,7 @@
         data: {
           'vid': verificationId,
           'phone': phone,
-          'new_pass': password,
+          'new_pass': password
         }
       }).post().then(function(result) {
         if (result.status === "ok") {
@@ -71,7 +71,7 @@
         } else {
           deferred.reject('unknown');
         }
-      }).catch(function(error) {
+      }).catch(function() {
         deferred.reject('unknown');
       }).finally(function() {
         vm.resetPasswordProgress = false;
@@ -82,9 +82,9 @@
 
     /**
      * Encrypts the given password and sends to Cyrus. Then navigates to the next step by emiting an event
-     * 
-     * @param {any} isValid 
-     * @returns 
+     *
+     * @param {any} isValid
+     * @returns
      */
     function resetPassword(isValid) {
       vm.submitted = true;
@@ -92,10 +92,10 @@
         return;
       }
 
-      sendNewPassword(vm.verificationId, vm.phone, md5.createHash(vm.password)).then(function(result) {
+      sendNewPassword(vm.verificationId, vm.phone, md5.createHash(vm.password)).then(function() {
         toastr.success(NstSvcTranslation.get("You've changed your password successfully."));
         nextStep();
-      }).catch(function(reason) {
+      }).catch(function() {
         toastr.error(NstSvcTranslation.get('Sorry, an error has occurred in reseting your password.'));
       });
 

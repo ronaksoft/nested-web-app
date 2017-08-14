@@ -33,7 +33,7 @@
       NstSvcServer.addEventListener(NST_EVENT_ACTION.PLACE_REMOVE, function (event) {
         var tlData = event.detail;
 
-        factory.getTiny(tlData.place_id).then(function (parentPlace) {
+        factory.getTiny(tlData.place_id).then(function () {
           $rootScope.$broadcast(NST_PLACE_EVENT.REMOVED, {placeId: tlData.child_id});
         });
 
@@ -263,7 +263,6 @@
     }
 
     PlaceFactory.prototype.addToMyPlaceIds = function (id) {
-      var factory = this;
 
       var fullPlaceIds = NstSvcMyPlaceIdStorage.get('all');
       if (fullPlaceIds) {
@@ -567,7 +566,6 @@
     };
 
     PlaceFactory.prototype.addUser = function (place, users) {
-      var factory = this;
       var userIds = _.isArray(users)
         ? _.join(_.map(users, 'id'), ',')
         : users;
@@ -606,7 +604,6 @@
         place_id: place.id,
         member_id: userIds
       }).then(function (result) {
-        console.log('invite result', result);
         var notAddedIds = result.invalid_ids || [];
         var addedUsers = _.reject(users, function (user) {
           return _.includes(notAddedIds, user.id);
@@ -1096,11 +1093,9 @@
      */
     PlaceFactory.prototype.markAllPostAsRead = function (placeId) {
 
-      var factory = this;
       var defer = $q.defer();
 
       var query = new NstFactoryQuery(placeId);
-
       if (!placeId) {
         throw "place id is not define!";
       } else {
@@ -1181,7 +1176,6 @@
         return deferred.promise;
       }, "getPlacesWithCreatorFilter");
     }
-
 
     /**
      * update place cache if place id belongs to a grand place

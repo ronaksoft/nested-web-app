@@ -17,19 +17,19 @@
   /** @ngInject */
   /**
    * Gives the user a form to fill and create an account
-   * 
-   * @param {any} $scope 
-   * @param {any} $state 
-   * @param {any} $timeout 
-   * @param {any} $stateParams 
-   * @param {any} md5 
-   * @param {any} toastr 
-   * @param {any} NST_DEFAULT 
-   * @param {any} NST_PATTERN 
-   * @param {any} NstSvcAuth 
-   * @param {any} NstHttp 
-   * @param {any} $q 
-   * @param {any} NstSvcTranslation 
+   *
+   * @param {any} $scope
+   * @param {any} $state
+   * @param {any} $timeout
+   * @param {any} $stateParams
+   * @param {any} md5
+   * @param {any} toastr
+   * @param {any} NST_DEFAULT
+   * @param {any} NST_PATTERN
+   * @param {any} NstSvcAuth
+   * @param {any} NstHttp
+   * @param {any} $q
+   * @param {any} NstSvcTranslation
    */
   function RegisterStepController($scope, $state, $timeout, $stateParams, md5, toastr, NST_DEFAULT, NST_PATTERN, NstSvcAuth, NstHttp, $q, NstSvcTranslation) {
     var vm = this;
@@ -44,8 +44,8 @@
 
     /**
      * Emits an event that leads to a route change
-     * 
-     * @param {any} credentials 
+     *
+     * @param {any} credentials
      */
     function nextStep(credentials) {
       eventReferences.push($scope.$emit(vm.onCompleted, { credentials : credentials }));
@@ -53,8 +53,8 @@
 
     /**
      * Registers the user account
-     * 
-     * @param {any} formIsValid 
+     *
+     * @param {any} formIsValid
      */
     vm.register = function(formIsValid) {
 
@@ -71,7 +71,7 @@
           password: md5.createHash(vm.password)
         };
 
-        var postData = new FormData();
+        // var postData = new FormData();
 
 
         var ajax = new NstHttp('',
@@ -116,12 +116,12 @@
 
     };
 
-    var timers = [];
+    // var timers = [];
 
     /**
      * Concatinates country code and phone to form a complete phone number
-     * 
-     * @returns 
+     *
+     * @returns
      */
     function getPhoneNumber() {
       if (vm.countryCode && vm.phone) {
@@ -133,9 +133,9 @@
 
     /**
      * Checks the username to be available
-     * 
-     * @param {any} username 
-     * @returns 
+     *
+     * @param {any} username
+     * @returns
      */
     function usernameAvailable(username) {
       var deferred = $q.defer();
@@ -158,10 +158,10 @@
 
     /**
      * Validates username with precise rules and helps the user to pick her username
-     * 
-     * @param {any} username 
-     * @param {any} check 
-     * @returns 
+     *
+     * @param {any} username
+     * @param {any} check
+     * @returns
      */
     function validateUsername(username, check) {
       if (!check || !username) {

@@ -17,7 +17,7 @@
           checkPhoneAvailable : '@',
           checkPhoneRegistered : '@',
           instantSubmit : '='
-        },
+        }
       };
     });
 

@@ -41,7 +41,7 @@
       $uibModalInstance.close(data.phone);
     }));
 
-    eventReferences.push($scope.$on(vm.previousStepEventKey, function (event, data) {
+    eventReferences.push($scope.$on(vm.previousStepEventKey, function (event) {
       vm.autoSubmit = false;
       vm.step--;
     }));

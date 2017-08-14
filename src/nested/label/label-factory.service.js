@@ -61,7 +61,7 @@
         return NstSvcServer.request('label/create', {
           title: title,
           code: code,
-          is_public: isPublic,
+          is_public: isPublic
         }).then(function (result) {
           var label = new NstLabel();
 
@@ -80,7 +80,7 @@
         return NstSvcServer.request('label/update', {
           label_id: id,
           title: title,
-          code: code,
+          code: code
         });
       }, 'update-' + id);
     };
@@ -88,7 +88,7 @@
     LabelFactory.prototype.remove = function (id) {
       return this.sentinel.watch(function () {
         return NstSvcServer.request('label/remove', {
-          label_id: id,
+          label_id: id
         });
       }, 'remove-' + id);
     };
@@ -125,7 +125,7 @@
         return NstSvcServer.request('label/request', {
           label_id: id,
           title: title,
-          code: code,
+          code: code
         });
       }, 'request-' + (id || title));
     };
@@ -134,7 +134,7 @@
       return this.sentinel.watch(function () {
         return NstSvcServer.request('label/update_request', {
           request_id: id,
-          status: status,
+          status: status
         });
       }, 'request-update' + id + status);
     };
@@ -142,7 +142,7 @@
     LabelFactory.prototype.cancelRequest = function (id) {
       return this.sentinel.watch(function () {
         return NstSvcServer.request('label/remove_request', {
-          request_id: id,
+          request_id: id
         });
       }, 'remove-request' + id + status);
     };
@@ -153,7 +153,7 @@
         return NstSvcServer.request('label/get_members', {
           label_id: labelId,
           skip: skip || 0,
-          limit: limit || 10,
+          limit: limit || 10
         }).then(function (result) {
           return $q.resolve(_.map(result.members, that.parseMember));
         });
@@ -164,7 +164,7 @@
       return this.sentinel.watch(function () {
         return NstSvcServer.request('label/add_member', {
           label_id: labelId,
-          account_id: accountId,
+          account_id: accountId
         });
       }, 'add-member-' + labelId + '-' + accountId);
     };
@@ -173,7 +173,7 @@
       return this.sentinel.watch(function () {
         return NstSvcServer.request('label/remove_member', {
           label_id: labelId,
-          account_id: accountId,
+          account_id: accountId
         });
       }, 'remove-member-' + labelId + '-' + accountId);
     };
@@ -181,7 +181,7 @@
     LabelFactory.prototype.getMany = function (id) {
       return this.sentinel.watch(function () {
         return NstSvcServer.request('label/get_many', {
-          label_id: id,
+          label_id: id
         }).then(function (data) {
           if (id.indexOf(',') === -1) {
             return $q.resolve(data.labels[0]);

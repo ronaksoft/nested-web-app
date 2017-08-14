@@ -6,14 +6,12 @@
     .service('NstSvcPingPong', NstSvcPingPong);
 
   /** @ngInject */
-  function NstSvcPingPong($timeout, $interval, _,
-                          NST_SRV_EVENT, NST_SRV_PING_PONG,
+  function NstSvcPingPong($timeout, $interval, _, NST_SRV_PING_PONG,
                           NstSvcLogger, NstSvcDate,
                           NstObservableObject) {
 
     function PingPong(stream) {
 
-      var service = this;
 
       this.stream = stream;
       this.onConnectedHandler = null;

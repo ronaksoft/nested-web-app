@@ -13,7 +13,7 @@
     .module('ronak.nested.web')
     .service('NstSvcDate', NstSvcDate);
 
-  function NstSvcDate($q, _) {
+  function NstSvcDate() {
 
     /**
      * NstSvcDate service.

@@ -1,6 +1,5 @@
 describe("NstSvcFileType", function () {
   var NstSvcFileType = null,
-      fileTypeGroupProvider = null,
       sandbox = null;
   beforeEach(module('ronak.nested.web.file'));
   beforeEach(module('ronak.nested.web.common'));

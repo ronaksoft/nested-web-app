@@ -35,7 +35,7 @@
      *  Implementations  *
      *********************/
 
-    function getComment(commentId, postId) {
+    function getComment(commentId) {
       return factory.sentinel.watch(function () {
         var deferred = $q.defer();
         if (!commentId) {
@@ -89,7 +89,7 @@
           });
 
           NstSvcServer.request('post/get_many_comments', {
-            comment_id: commentIds.join(','),
+            comment_id: commentIds.join(',')
           }).then(function (data) {
             deferred.resolve({
               idKey: '_id',
