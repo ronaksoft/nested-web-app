@@ -127,7 +127,7 @@
       justify-content: flex-end;
     }
   }
-  .recive-set {
+  .receive-set {
     width: 100%;
     display: inline-flex;
     flex-direction: column;
@@ -160,7 +160,7 @@
       }
     }
   }
-  .recive-set.preview {
+  .receive-set.preview {
     &.select-box.selected{
       background: none;
       border:none

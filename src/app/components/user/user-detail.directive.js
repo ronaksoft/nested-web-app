@@ -25,7 +25,7 @@
           };
 
           if ( $scope.isAvailable ) {
-            $element.addClass('on-avatar');
+            $element.addClass('enabled-detail-popover');
           } else {
             $element.addClass('on-self-avatar');
           }
