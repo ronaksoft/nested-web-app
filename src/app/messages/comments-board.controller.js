@@ -123,7 +123,7 @@
         NstUtility.collection.dropById(vm.comments, comment.id);
         var canceler = $scope.$emit('comment-removed', { postId : vm.postId, commentId : comment.id });
         pageEventKeys.push(canceler);
-      }).catch(function(error) {
+      }).catch(function() {
         toastr.error(NstSvcTranslation.get('Sorry, an error has occured while removing your comment'));
       }).finally(function() {
         vm.commentRemoveProgress = false;

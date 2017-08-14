@@ -8,10 +8,10 @@
   function range() {
     return {
       require: 'ngModel',
-      link: function(scope, element, attributes, ngModel) {
+      link: function(scope, element, attributes, ngModel, _) {
         var min = null,
             max = null;
-            
+
         if (_.has(attributes, 'range')) {
           min = Number(_.split(attributes.range, "-")[0]);
           max = Number(_.split(attributes.range, "-")[1]);

@@ -41,8 +41,7 @@
   function FilesController($stateParams, toastr, $uibModal, $state, $timeout, $q, $scope,
                            NST_PLACE_ACCESS,
                            NstSvcFileFactory, NstSvcPlaceAccess, NstSvcModal,
-                           NstSvcTranslation, NstSvcAuth, NstSvcWait, NstSvcInteractionTracker,
-                           NstAttachment,
+                           NstSvcTranslation, NstSvcAuth, NstSvcWait, _, NstSvcInteractionTracker,
                            NST_DEFAULT) {
     var vm = this;
     var onSelectTimeout = null;

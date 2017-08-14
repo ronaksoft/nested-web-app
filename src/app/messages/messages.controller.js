@@ -6,10 +6,10 @@
     .controller('MessagesController', MessagesController);
 
   /** @ngInject */
-  function MessagesController($rootScope, $q, $stateParams, $log, $state, $window, $scope, $uibModal, $timeout,
+  function MessagesController($rootScope, $q, $stateParams, $log, $state, $scope, $uibModal, $timeout,
                               moment, toastr,
                               NST_MESSAGES_SORT_OPTION, NST_MESSAGES_VIEW_SETTING, NST_DEFAULT, NST_EVENT_ACTION, NST_PLACE_ACCESS, NST_POST_EVENT,
-                              NstSvcPostFactory, NstSvcPlaceFactory, NstSvcServer, NstUtility, NstSvcAuth, NstSvcSync, NstSvcWait, NstVmFile,
+                              NstSvcPostFactory, NstSvcPlaceFactory, _, NstUtility, NstSvcAuth, NstSvcSync, NstSvcWait, NstVmFile,
                               NstSvcMessagesSettingStorage, NstSvcTranslation, NstSvcInteractionTracker, SvcCardCtrlAffix,
                               NstSvcPlaceAccess, NstSvcModal, NstSvcDate) {
 
@@ -137,11 +137,11 @@
           });
       }
 
-      eventReferences.push($rootScope.$on(NST_POST_EVENT.READ, function (event) {
+      eventReferences.push($rootScope.$on(NST_POST_EVENT.READ, function () {
         getUnreadsCount();
       }));
 
-      eventReferences.push($rootScope.$on('post-read-all', function (e) {
+      eventReferences.push($rootScope.$on('post-read-all', function () {
         getUnreadsCount();
       }));
 

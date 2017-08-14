@@ -5,7 +5,7 @@
     .module('ronak.nested.web.notification')
     .controller('NotificationsController', NotificationsController);
 
-  function NotificationsController(_, $q, $state, $scope, $log,
+  function NotificationsController(_, $q, $state, $scope, $log, $rootScope,
                                    NST_NOTIFICATION_TYPE, NST_NOTIFICATION_EVENT,
                                    NstSvcNotificationFactory, NstSvcInteractionTracker, NstSvcDate) {
     var vm = this;

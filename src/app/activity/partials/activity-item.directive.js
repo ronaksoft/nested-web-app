@@ -15,7 +15,7 @@
         extended: '=extended',
         currentPlaceId: '='
       },
-      link: function (scope, element, attrs) {
+      link: function (scope, element) {
 
         switch (scope.activity.type) {
           case NST_EVENT_ACTION.MEMBER_REMOVE:

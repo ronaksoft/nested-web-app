@@ -22,7 +22,7 @@
               return JSON.stringify(em);
             }).join('|');
             NstSvcKeyFactory.set(NST_KEY.WEBAPP_SETTING_RECENT_EMOJI, sts)
-            .then(function (result) {
+            .then(function () {
             });
           }
 

@@ -6,7 +6,7 @@
       scope: {
         onFileChange: '='
       },
-      link: function($scope, $element, $attrs) {
+      link: function($scope, $element) {
         $element.on('change', function(event) {
           $scope.onFileChange(event);
         })

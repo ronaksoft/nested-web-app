@@ -6,7 +6,7 @@
     .service('NstSvcWait', NstSvcWait);
 
   /** @ngInject */
-  function NstSvcWait($rootScope) {
+  function NstSvcWait($rootScope, _) {
     function Wait() {
 
     }

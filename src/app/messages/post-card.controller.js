@@ -593,7 +593,7 @@
      * Event listener for read all posts
      * and updates the model
      */
-    eventReferences.push($rootScope.$on('post-read-all', function (e) {
+    eventReferences.push($rootScope.$on('post-read-all', function () {
       vm.post.read = true;
     }));
 

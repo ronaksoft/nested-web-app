@@ -17,19 +17,19 @@
   /** @ngInject */
   /**
    * Displays a contact information and her mutual places with the user
-   * 
-   * @param {any} $q 
-   * @param {any} $state 
-   * @param {any} toastr 
-   * @param {any} $scope 
-   * @param {any} $uibModalStack 
-   * @param {any} $rootScope 
-   * @param {any} $stateParams 
-   * @param {any} NstSvcTranslation 
-   * @param {any} NstSvcContactFactory 
-   * @param {any} NstSvcPlaceFactory 
+   *
+   * @param {any} $q
+   * @param {any} $state
+   * @param {any} toastr
+   * @param {any} $scope
+   * @param {any} $uibModalStack
+   * @param {any} $rootScope
+   * @param {any} $stateParams
+   * @param {any} NstSvcTranslation
+   * @param {any} NstSvcContactFactory
+   * @param {any} NstSvcPlaceFactory
    */
-  function ContactSingleController($q, $state, toastr, $scope, $uibModalStack, $rootScope, $stateParams,
+  function ContactSingleController($q, $state, toastr, _, $scope, $uibModalStack, $rootScope, $stateParams,
     NstSvcTranslation, NstSvcContactFactory, NstSvcPlaceFactory) {
     var vm = this;
 
@@ -46,9 +46,9 @@
     })();
 
     /**
-     * Loads the contact information and retrieves the mutual places 
-     * 
-     * @param {any} id 
+     * Loads the contact information and retrieves the mutual places
+     *
+     * @param {any} id
      */
     function loadContact(id) {
       vm.loadProgress = true;
@@ -57,7 +57,7 @@
         return NstSvcPlaceFactory.getMutualPlaces(id);
       }).then(function (places) {
         vm.mutualPlaces = places;
-      }).catch(function (error) {
+      }).catch(function () {
         toastr.error(NstSvcTranslation.get("An error has occured while loading the contact data."));
       }).finally(function () {
         vm.loadProgress = false;
@@ -66,14 +66,14 @@
 
     /**
      * Adds the user with the given Id to the authenticated user contacts
-     * 
-     * @param {any} id 
+     *
+     * @param {any} id
      */
     function add(id) {
       vm.addProgress = true;
       NstSvcContactFactory.add(id).then(function () {
         vm.contact.isContact = true;
-      }).catch(function (error) {
+      }).catch(function () {
         toastr.error(NstSvcTranslation.get("An error has occured while adding the user in your contacts list."));
       });
     }
@@ -81,9 +81,9 @@
     /**
      * Removes the user from the authenticated user's contact list and broadcasts `contact-favorite-remove`
      * to tell contact side-widget the contact is no longer in favorites list
-     * 
-     * @param {any} id 
-     * @returns 
+     *
+     * @param {any} id
+     * @returns
      */
     function remove(id) {
       if (!vm.contact.isContact) {
@@ -104,15 +104,15 @@
 
     /**
      * Favorites a contact and broadcasts 'contact-favorite-add'.
-     * 
-     * @param {any} id 
+     *
+     * @param {any} id
      */
     function addFavorite(id) {
       vm.favoriteProgress = true;
       NstSvcContactFactory.addFavorite(id).then(function () {
         vm.contact.isFavorite = true;
         $rootScope.$broadcast('contact-favorite-add', vm.contact);
-      }).catch(function (error) {
+      }).catch(function () {
         toastr.error(NstSvcTranslation.get("An error has occured while adding the user in your favorite contact list."));
       }).finally(function () {
         vm.favoriteProgress = false;
@@ -121,15 +121,15 @@
 
     /**
      * Removes the given user from favorite contacts and broadcasts `contact-favorite-remove`
-     * 
-     * @param {any} id 
+     *
+     * @param {any} id
      */
     function removeFavorite(id) {
       vm.removeFavoriteProgress = true;
       NstSvcContactFactory.removeFavorite(id).then(function () {
         vm.contact.isFavorite = false;
         $rootScope.$broadcast('contact-favorite-remove', vm.contact);
-      }).catch(function (error) {
+      }).catch(function () {
         toastr.error(NstSvcTranslation.get("An error has occured while adding the user in your favorite contact list."));
       }).finally(function () {
         vm.removeFavoriteProgress = true;
@@ -140,7 +140,7 @@
      * Favorites/Unfavorites a contact by using `addFavorite` and `removeFavorite`
      * @see addFavorite
      * @see removeFavorite
-     * @returns 
+     * @returns
      */
     function toggleFavorite() {
       if (vm.contact.isFavorite) {
@@ -162,8 +162,8 @@
 
     /**
      * Closes the modal and navigates to conversation page
-     * 
-     * @param {any} id 
+     *
+     * @param {any} id
      */
     function viewConversation(id) {
       close().then(function () {
@@ -173,8 +173,8 @@
 
     /**
      * Closes the modal and navigates to compose page
-     * 
-     * @param {any} id 
+     *
+     * @param {any} id
      */
     function sendMessage(id) {
       close().then(function () {
@@ -184,8 +184,8 @@
 
     /**
      * Closes the modal and returns a Promise that will be resolved when the modal disappeared
-     * 
-     * @returns 
+     *
+     * @returns
      */
     function close() {
       var deferred = $q.defer();
@@ -206,7 +206,7 @@
 
     /**
      * Closes the modal or switches to list-view
-     * 
+     *
      */
     function back() {
       if ($stateParams.contactId) {
@@ -218,9 +218,9 @@
 
     /**
      * Closes the modal and Navigates to the place messages page
-     * 
-     * @param {any} $event 
-     * @param {any} place 
+     *
+     * @param {any} $event
+     * @param {any} place
      */
     function goToPlace($event, place) {
       $event.preventDefault();

@@ -15,16 +15,13 @@
   /** @ngInject */
   /**
    * A wrapper modal for contact single/list view
-   * 
-   * @param {any} $stateParams 
-   * @param {any} toastr 
-   * @param {any} $uibModalInstance 
-   * @param {any} $state 
-   * @param {any} $timeout 
-   * @param {any} $q 
-   * @param {any} $scope 
+   *
+   * @param {any} $stateParams
+   * @param {any} $uibModalInstance
+   * @param {any} $state
+   * @param {any} $scope
    */
-  function ContactController($stateParams, toastr, $uibModalInstance, $state, $timeout, $q, $scope) {
+  function ContactController($stateParams, _, $uibModalInstance, $scope) {
     var vm = this,
       eventReferences = [];
 
@@ -45,11 +42,11 @@
       vm.contactId = data.id;
     }));
     // Switches to contact list view
-    eventReferences.push($scope.$on('view-contact-list', function(event, data) {
+    eventReferences.push($scope.$on('view-contact-list', function() {
       vm.mode = 'list';
     }));
     // Closes the modal
-    eventReferences.push($scope.$on('close-modal', function(event, data) {
+    eventReferences.push($scope.$on('close-modal', function() {
       $uibModalInstance.dismiss();
     }));
 
