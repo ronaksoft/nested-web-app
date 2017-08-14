@@ -6,7 +6,7 @@
     .service('NstSvcPostDraft', NstSvcPostDraft);
 
   /** @ngInject */
-  function NstSvcPostDraft(NstSvcPostDraftStorage, NstPostDraft, NstSvcAuth) {
+  function NstSvcPostDraft(NstSvcPostDraftStorage, NstPostDraft, NstSvcAuth, _) {
     function PostDraft() {
       this.hasDraft = null;
       this.key = NstSvcAuth.user.id;

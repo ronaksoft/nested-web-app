@@ -46,7 +46,7 @@
    * @param {any} NstEntityTracker
    */
   function PlaceSettingsController($scope, $stateParams, $q, $state, $rootScope,
-    $timeout, $uibModal, $uibModalInstance, toastr,
+    $timeout, $uibModal, $uibModalInstance, toastr, _,
     NST_PLACE_POLICY_OPTION, NST_STORE_UPLOAD_TYPE, NST_PLACE_ACCESS, NST_SRV_ERROR,
     NST_PLACE_MEMBER_TYPE, NST_PLACE_TYPE, NST_DEFAULT, NST_PLACE_EVENT,
     NstSvcStore, NstSvcAuth, NstSvcPlaceFactory, NstUtility, NstSvcLogger, NstSvcTranslation, NstSvcModal,
@@ -225,7 +225,12 @@
         var request = NstSvcStore.uploadWithProgress(file, logoUploadProgress, NST_STORE_UPLOAD_TYPE.PLACE_PIC, NstSvcAuth.lastSessionKey);
 
           request.getPromise().then(function (result) {
+<<<<<<< HEAD
             NstSvcPlaceFactory.updatePicture(vm.place.id, result.data.universal_id).then(function (result) {
+=======
+
+            NstSvcPlaceFactory.updatePicture(vm.place.id, result.data.universal_id).then(function () {
+>>>>>>> 7492d82277e3b005874926b137d11f8c84a4bc87
               NstSvcLogger.info(NstUtility.string.format('Place {0} picture updated successfully.', vm.place.id));
               toastr.success(NstSvcTranslation.get("The Place photo has been set successfully."));
             }).catch(function () {
@@ -260,7 +265,8 @@
             var request = NstSvcStore.uploadWithProgress(vm.logoFile, logoUploadProgress, NST_STORE_UPLOAD_TYPE.PLACE_PIC, NstSvcAuth.lastSessionKey);
 
             request.getPromise().then(function (result) {
-              NstSvcPlaceFactory.updatePicture(vm.place.id, result.data.universal_id).then(function (result) {
+
+              NstSvcPlaceFactory.updatePicture(vm.place.id, result.data.universal_id).then(function () {
                 NstSvcLogger.info(NstUtility.string.format('Place {0} picture updated successfully.', vm.place.id));
                 toastr.success(NstSvcTranslation.get("The Place photo has been set successfully."));
               }).catch(function () {
@@ -317,7 +323,7 @@
      *
      */
     function leave() {
-      NstSvcPlaceFactory.leave(vm.placeId).then(function(result) {
+      NstSvcPlaceFactory.leave(vm.placeId).then(function() {
         timeoutReferences.push($timeout(function () {
           $uibModalInstance.close();
           if (_.indexOf(vm.place.id, '.') > -1) {
@@ -366,7 +372,7 @@
             return vm.place;
           }
         }
-      }).result.then(function(confirmResult) {
+      }).result.then(function() {
         remove();
       });
     }
@@ -376,7 +382,7 @@
      *
      */
     function remove() {
-      NstSvcPlaceFactory.remove(vm.place.id).then(function(removeResult) {
+      NstSvcPlaceFactory.remove(vm.place.id).then(function() {
         toastr.success(NstUtility.string.format(NstSvcTranslation.get("Place {0} was removed successfully."), vm.place.name));
         timeoutReferences.push($timeout(function () {
           $uibModalInstance.close();
@@ -408,10 +414,10 @@
      *
      */
     function removePicture() {
-      NstSvcModal.confirm(NstSvcTranslation.get("Confirm"), NstSvcTranslation.get("Please make sure before removing the place picture.")).then(function(confirmed) {
-        NstSvcPlaceFactory.updatePicture(vm.place.id, "").then(function (result) {
+      NstSvcModal.confirm(NstSvcTranslation.get("Confirm"), NstSvcTranslation.get("Please make sure before removing the place picture.")).then(function() {
+        NstSvcPlaceFactory.updatePicture(vm.place.id, "").then(function () {
           vm.place.picture = null;
-        }).catch(function (error) {
+        }).catch(function () {
           toastr.error(NstSvcTranslation.get("An error occured while removing the place picture"));
         });
       });

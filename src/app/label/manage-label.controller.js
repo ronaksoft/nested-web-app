@@ -28,7 +28,7 @@
     vm.searchKeyUp = _.debounce(searchLabel, 512);
     vm.setting = {
       skip: 0,
-      limit: 16,
+      limit: 16
     };
 
     init();
@@ -144,7 +144,7 @@
           }
         }
       }).result.then(function () {
-        callRemoveLabelPromises().then(function (result) {
+        callRemoveLabelPromises().then(function () {
           restoreDefault();
           searchLabel();
           vm.selectedItems = [];
@@ -178,24 +178,24 @@
           }
         }
       }).result.then(function () {
-        NstSvcLabelFactory.updateRequest(id, 'reject').then(function (result) {
+        NstSvcLabelFactory.updateRequest(id, 'reject').then(function () {
           removeRequest(id);
           restoreDefault();
           searchLabel(vm.keyword);
           toastr.success(NstSvcTranslation.get("Request declined successfully."));
-        }).catch(function (error) {
+        }).catch(function () {
           toastr.error(NstSvcTranslation.get("Something went wrong."));
         });
       });
     }
 
     function acceptRequest(id) {
-      NstSvcLabelFactory.updateRequest(id, 'accept').then(function (result) {
+      NstSvcLabelFactory.updateRequest(id, 'accept').then(function () {
         removeRequest(id);
         restoreDefault();
         searchLabel(vm.keyword);
         toastr.success(NstSvcTranslation.get("Request accepted successfully."));
-      }).catch(function (error) {
+      }).catch(function () {
         toastr.error(NstSvcTranslation.get("Something went wrong."));
       });
     }
@@ -217,10 +217,10 @@
           }
         }
       }).result.then(function () {
-        NstSvcLabelFactory.cancelRequest(id).then(function (result) {
+        NstSvcLabelFactory.cancelRequest(id).then(function () {
           removeRequest(id);
           toastr.success(NstSvcTranslation.get("Your request has been withdrawn successfully."));
-        }).catch(function (error) {
+        }).catch(function () {
           toastr.error(NstSvcTranslation.get("Something went wrong."));
         });
       });

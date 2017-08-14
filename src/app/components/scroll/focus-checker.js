@@ -6,10 +6,10 @@
     .directive('focusChecker', focusChecker);
 
   /** @ngInject */
-  function focusChecker($window,$rootScope,$timeout,_) {
+  function focusChecker($window,$rootScope) {
     return {
       restrict: 'A',
-      link: function ($scope, $element, $attrs) {
+      link: function ($scope, $element) {
         $element.bind('click change', function() {
           if ( $scope.ctlCompose.collapse ) {
             $scope.$emit('focus-rec');

@@ -5,8 +5,8 @@
     .module('ronak.nested.web.components.dragndrop',
     ['ngDroplet']
     )
-    .controller('draggedFilesCtrl', function IndexController($scope, $timeout) {
-      
+    .controller('draggedFilesCtrl', function IndexController($scope) {
+
     })
 
 })();

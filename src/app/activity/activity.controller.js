@@ -46,13 +46,13 @@
     _, moment,
     NST_SRV_EVENT, NST_EVENT_ACTION, NST_ACTIVITY_FILTER, NST_DEFAULT,
     NstSvcActivityMap, NstSvcModal,
-    NstSvcActivitySettingStorage,
+    NstSvcActivitySettingStorage, NstSvcDate,
     NstSvcActivityFactory, NstSvcSync, NstSvcInvitationFactory, NstSvcServer, NstUtility, NstSvcPlaceAccess, NstSvcTranslation, NstSvcInteractionTracker) {
 
     var vm = this;
     var activityFilterGroups = {};
-    var eventListeners = [],
-        eventReferences = [];
+    // var eventListeners = [],
+    var eventReferences = [];
     var reconnectEvent;
 
     vm.activities = [];
@@ -70,7 +70,7 @@
       limit: 24,
       filter: NST_ACTIVITY_FILTER.ALL,
       placeId: null,
-      date: null,
+      date: null
     };
 
     vm.filterDictionary = {};
@@ -343,10 +343,10 @@
     /**
      * Checks the given place Id not to be empty and not equals the default value
      *
-     * @param {any} value
+     * @param {any}
      * @returns
      */
-    function placeIdParamIsValid(value) {
+    function placeIdParamIsValid() {
       return !!$stateParams.placeId && $stateParams.placeId !== NST_DEFAULT.STATE_PARAM;
     }
 

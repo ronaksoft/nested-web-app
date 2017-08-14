@@ -17,14 +17,14 @@
   /** @ngInject */
   /**
    * The user's contacts list
-   * 
-   * @param {any} toastr 
-   * @param {any} $q 
-   * @param {any} $scope 
-   * @param {any} NstSvcContactFactory 
-   * @param {any} NstSvcTranslation 
+   *
+   * @param {any} toastr
+   * @param {any} $q
+   * @param {any} $scope
+   * @param {any} NstSvcContactFactory
+   * @param {any} NstSvcTranslation
    */
-  function ContactListController(toastr, $q, $scope,
+  function ContactListController(toastr, $q, _, $scope,
     NstSvcContactFactory, NstSvcTranslation) {
     var vm = this;
 
@@ -37,8 +37,8 @@
 
     /**
      * Returns a Promise that resolves a list of all contacts
-     * 
-     * @returns 
+     *
+     * @returns
      */
     function get() {
       var deferred = $q.defer();
@@ -59,15 +59,15 @@
     /**
      * Filters contacts by the given keyword and groups by the starting character of name.
      * This function also clears favorites list in search mode
-     * 
-     * @param {any} keyword 
+     *
+     * @param {any} keyword
      */
     function search(keyword) {
       get().then(function (contacts) {
         var filteredItems = _.filter(contacts, function (contact) {
             return contactHasKeyword(contact, keyword);
           });
-        
+
         if (keyword && keyword.length > 0) {
           vm.favorites = [];
         } else {
@@ -107,9 +107,9 @@
 
     /**
      * Orders a list of contact by lastname and firstname
-     * 
-     * @param {any} items 
-     * @returns 
+     *
+     * @param {any} items
+     * @returns
      */
     function orderItems(items) {
       return _.orderBy(items, [function (item) {
@@ -123,10 +123,10 @@
 
     /**
      * Returns true if the keyword does match either name or Id
-     * 
-     * @param {any} contact 
-     * @param {any} keyword 
-     * @returns 
+     *
+     * @param {any} contact
+     * @param {any} keyword
+     * @returns
      */
     function contactHasKeyword(contact, keyword) {
       var fullName = _.toLower(contact.fullName),
@@ -138,9 +138,9 @@
 
     /**
      * Returns the first character of the given word
-     * 
-     * @param {any} word 
-     * @returns 
+     *
+     * @param {any} word
+     * @returns
      */
     function getFirstChar(word) {
       return _.chain(word).head().toLower().value();
@@ -148,9 +148,9 @@
 
     /**
      * Returns true if the provided string is convertible to Number
-     * 
-     * @param {any} character 
-     * @returns 
+     *
+     * @param {any} character
+     * @returns
      */
     function isNumber(character) {
       return !_.isNaN(_.toNumber(character));

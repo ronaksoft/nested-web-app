@@ -22,12 +22,12 @@
     var vm = this;
 
     var commentBoardMin = 3,
-      commentBoardMax = 99,
+    //   commentBoardMax = 99,
       commentBoardMin = {
         limit: 8,
         date: null
       },
-      chaingStack = [],
+      // chaingStack = [],
       newCommentIds = [],
       unreadCommentIds = [],
       focusOnSentTimeout = null,
@@ -73,7 +73,7 @@
 
     vm.limits = {
       places: 1,
-      recipients: 1,
+      recipients: 1
     }
 
     isPlaceFeed();
@@ -593,7 +593,7 @@
      * Event listener for read all posts
      * and updates the model
      */
-    eventReferences.push($rootScope.$on('post-read-all', function (e, data) {
+    eventReferences.push($rootScope.$on('post-read-all', function () {
       vm.post.read = true;
     }));
 
@@ -634,7 +634,7 @@
 
       vm.limits = {
         places: vm.post.places.length,
-        recipients: vm.post.recipients.length,
+        recipients: vm.post.recipients.length
       }
 
       /**

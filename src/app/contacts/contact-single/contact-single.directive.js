@@ -18,7 +18,7 @@
         contact: '='
       },
       bindToController: true,
-      link: function (scope, element, attrs) {
+      link: function (scope) {
       }
     };
   }

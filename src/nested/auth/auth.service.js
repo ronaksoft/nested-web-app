@@ -276,7 +276,7 @@
       return deferred.promise;
     };
 
-    Auth.prototype.setState = function (state, reason) {
+    Auth.prototype.setState = function (state) {
       if (this.state === state) return;
 
       this.state = state;
@@ -483,7 +483,7 @@
     $rootScope.$on(NST_AUTH_EVENT.AUTHORIZE, function (e, data) {
       NstSvcCurrentUserStorage.set(NST_AUTH_STORAGE_KEY.USER, data.user);
     });
-    $rootScope.$on(NST_AUTH_EVENT.UNAUTHORIZE, function (e, data) {
+    $rootScope.$on(NST_AUTH_EVENT.UNAUTHORIZE, function () {
       NstSvcCurrentUserStorage.remove(NST_AUTH_STORAGE_KEY.USER);
     });
 

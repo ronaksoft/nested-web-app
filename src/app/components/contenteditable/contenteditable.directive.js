@@ -20,16 +20,9 @@
           pasteAsText: true,
           beforeInvokeElement: function () {
           },
-          beforeInsertHtml: function () {
-            //this = Medium.Html
-          },
           beforeAddTag: function (tag, shouldFocus, isEditable, afterElement) {
           },
-          keyContext: null,
-          pasteEventHandler: function(e) {
-            /*default paste event handler*/
-          }
-
+          keyContext: null
         });
         return;
 
@@ -49,7 +42,7 @@
           //console.log('Triggers each time the view is changed ');
         })
 
-        // The below defines the function that willr render the view on model change
+        // The below defines the function that will render the view on model change
         ngModel.$render = function(){
           $(element).text(ngModel.$viewValue);
         }
@@ -89,7 +82,6 @@
 
         var pasteHandler = function(e){
           scope.$apply(function(){
-            //console.log('pasted');
             e.preventDefault();
             var text = e.clipboardData.getData("text/plain");
             document.execCommand("insertHTML", false, text);
@@ -104,7 +96,7 @@
 
         //Set the events up
 
-        $(element).focus(function(e){
+        $(element).focus(function(){
           scope.$apply(function(){
             if(typeof $(element).text() === 'string' && $(element).text().length>0 && ('modelnotempty' in attrs)){
               oldVal = $(element).text();
@@ -115,7 +107,7 @@
           })
         })
 
-        $(element).blur(function(e){
+        $(element).blur(function(){
           scope.$apply(blurHandler);
         })
 

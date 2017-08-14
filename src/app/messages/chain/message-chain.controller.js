@@ -6,7 +6,7 @@
     .controller('MessageChainController', MessageChainController);
 
   /** @ngInject */
-  function MessageChainController($rootScope, $scope, $q, $stateParams, $log, $state,
+  function MessageChainController($rootScope, $scope, $q, $stateParams, $log, _,
     moment,
     NST_DEFAULT, NST_MESSAGES_VIEW_SETTING,
     NstSvcPostFactory, NstUtility, NstSvcAuth, NstSvcPlaceFactory,
@@ -53,7 +53,7 @@
               vm.loading = false;
             }).catch(function () {
               vm.loading = false;
-              $log.debug(error);
+              $log.debug();
             });
           }
         }).catch(function(error) {
@@ -82,7 +82,7 @@
     }
 
     function loadViewSetting() {
-      return $q(function (resolve, reject) {
+      return $q(function (resolve) {
         var setting = {
           content: readSettingItem(NST_MESSAGES_VIEW_SETTING.CONTENT),
           attachments: readSettingItem(NST_MESSAGES_VIEW_SETTING.ATTACHMENTS),

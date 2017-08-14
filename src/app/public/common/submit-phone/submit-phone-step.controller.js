@@ -26,7 +26,7 @@
    * @param {any} NstSvcTranslation
    * @param {any} toastr
    */
-  function SubmitPhoneStepController($scope, NstHttp, $q, NstSvcTranslation, toastr) {
+  function SubmitPhoneStepController($scope, NstHttp, $q, NstSvcTranslation, toastr, _) {
     var vm = this;
 
     // This phone number is for test purpose only and you wont receive any verification code or call.
@@ -57,7 +57,7 @@
         },
         function () {
           return vm.countryId;
-        }], function(newValues, oldValues, scope) {
+        }], function(newValues) {
           if (_.every(newValues)) {
             if (autoSubmitReferece) {
               autoSubmitReferece();
@@ -201,7 +201,7 @@
         phoneAvailable(phone).then(function (available) {
           vm.phoneAvailableStatus = available ? 'available' : 'used';
           deferred.resolve(vm.phoneAvailableStatus === 'available');
-        }).catch(function (error) {
+        }).catch(function () {
           vm.phoneAvailableStatus = 'error';
           deferred.resolve(false);
         });
@@ -211,7 +211,7 @@
         phoneRegistered(phone).then(function (registered) {
           vm.phoneAvailableStatus = registered ? 'registered' : 'notfound';
           deferred.resolve(vm.phoneAvailableStatus === 'registered');
-        }).catch(function (error) {
+        }).catch(function () {
           vm.phoneAvailableStatus = 'error';
           deferred.resolve(false);
         });

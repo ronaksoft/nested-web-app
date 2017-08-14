@@ -15,7 +15,7 @@
         scope: {
           placeId: '=placeDetail'
         },
-        link: function ($scope, $element, $attrs) {
+        link: function ($scope) {
           var dd = $scope.placeId;
 
           // $scope.isEmail = NST_PATTERN.EMAIL.test($scope.placeId);

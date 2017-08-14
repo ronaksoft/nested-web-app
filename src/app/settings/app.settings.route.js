@@ -6,7 +6,7 @@
     .config(routerConfig);
 
   /** @ngInject */
-  function routerConfig($stateProvider, $urlRouterProvider, NST_DEFAULT) {
+  function routerConfig($stateProvider) {
     $stateProvider
     .state('app.settings', {
       url: '/settings',

@@ -37,7 +37,6 @@
           throw (new Error("Could not create a NstAttachment model without filename"));
         }
       } catch (err) {
-        console.log(err);
         return err;
       }
 

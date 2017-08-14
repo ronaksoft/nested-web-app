@@ -13,7 +13,7 @@
 
   angular
     .module('ronak.nested.web.components')
-    .directive('nstDisableForBtn', function($interval, NstUtility) {
+    .directive('nstDisableForBtn', function($interval, NstUtility, _) {
       return {
         restrict: 'A',
         replace: true,
@@ -22,13 +22,13 @@
           click: '&',
           originalText: '@value'
         },
-        link: function($scope, $element, $attrs) {
+        link: function($scope, $element) {
           var timer = null;
 
           var seconds = $scope.seconds || 0;
           var jelement = $($element);
           jelement.val($scope.originalText);
-          $element.bind('click', function(e) {
+          $element.bind('click', function() {
             if (timer) {
               $interval.cancel(timer);
             }
@@ -54,11 +54,11 @@
       /**
        * Starts a countdown timer and displays the remaining time in front of the original text
        * When the time reaches the end, The button will be enabled again
-       * 
-       * @param {any} element 
-       * @param {any} seconds 
-       * @param {any} originalText 
-       * @returns 
+       *
+       * @param {any} element
+       * @param {any} seconds
+       * @param {any} originalText
+       * @returns
        */
       function disable(element, seconds, originalText) {
         var timer = null;
@@ -83,9 +83,9 @@
 
       /**
        * Writes the remaining seconds in {minutes}:{seconds} format like 2:20 or 0:09
-       * 
-       * @param {any} seconds 
-       * @returns 
+       *
+       * @param {any} seconds
+       * @returns
        */
       function formatTime(seconds) {
         return NstUtility.string.format("{0}:{1}", _.padStart(Math.round(seconds / 60), 2, "0"), _.padStart(seconds % 60, 2, "0"));

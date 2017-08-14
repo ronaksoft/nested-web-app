@@ -4,6 +4,6 @@
   angular
     .module('ronak.nested.web.data', [
       'ronak.nested.web.models',
-      'ronak.nested.web.common',
+      'ronak.nested.web.common'
     ]);
 })();

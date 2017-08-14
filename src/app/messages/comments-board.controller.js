@@ -7,7 +7,7 @@
 
   function CommentsBoardController($timeout, $scope, $q, $state,
                                    NstSvcAuth,NstSvcDate, NstSvcCommentFactory, NstUtility, NstSvcTranslation,
-                                   moment, toastr, _) {
+                                   moment, toastr, NstSvcLogger, _) {
     var vm = this;
 
     var commentBoardMin = 3,
@@ -16,8 +16,8 @@
         limit: 8,
         date: null
       },
-      newCommentIds = [],
-      unreadCommentIds = [],
+      // newCommentIds = [],
+      // unreadCommentIds = [],
       focusOnSentTimeout = null,
       pageEventKeys = [];
 
@@ -61,7 +61,7 @@
       return _.last(_.orderBy(comments, 'timestamp'));
     }
 
-    function getLastCommentDate(comments) {
+    function getLastCommentDate() {
       var date = null;
       vm.lastComment = vm.lastComment || findLastComment(vm.comments);
       if (vm.lastComment) {
@@ -93,7 +93,7 @@
     function loadRecentComments() {
       var settings = {
         date : getLastCommentDate(vm.comments),
-        limit : 30,
+        limit : 30
       };
 
       getRecentComments(vm.postId, settings).then(function (result) {
@@ -119,7 +119,7 @@
         return;
       }
       vm.commentRemoveProgress = true;
-      NstSvcCommentFactory.removeComment(vm.postId, comment).then(function(post) {
+      NstSvcCommentFactory.removeComment(vm.postId, comment).then(function() {
         NstUtility.collection.dropById(vm.comments, comment.id);
         var canceler = $scope.$emit('comment-removed', { postId : vm.postId, commentId : comment.id });
         pageEventKeys.push(canceler);
@@ -148,7 +148,7 @@
     function resize(el) {
       el.style.height = '';
       el.style.height = el.scrollHeight + "px";
-    };
+    }
     /**
      * send - add the comment to the list of the post comments
      *
@@ -193,7 +193,7 @@
         }, 10);
         vm.onCommentSent(comment);
         resizeTextare(e.target);
-      }).catch(function(error) {
+      }).catch(function() {
         toastr.error(NstSvcTranslation.get('Sorry, an error has occured in sending your comment'));
       });
     }

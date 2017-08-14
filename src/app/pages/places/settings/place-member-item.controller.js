@@ -18,7 +18,8 @@
     vm.isCurrent = NstSvcAuth.user.id === vm.member.id;
 
     function promote() {
-      NstSvcPlaceFactory.promoteMember(vm.place.id, vm.member.id).then(function (result) {
+
+      NstSvcPlaceFactory.promoteMember(vm.place.id, vm.member.id).then(function () {
         vm.place.counters.creators++;
         vm.place.counters.key_holders--;
         $scope.$emit('member-promoted', {
@@ -36,7 +37,7 @@
         return;
       }
 
-      NstSvcPlaceFactory.demoteMember(vm.place.id, vm.member.id).then(function (result) {
+      NstSvcPlaceFactory.demoteMember(vm.place.id, vm.member.id).then(function () {
         vm.place.counters.key_holders++;
         vm.place.counters.creators--;
         $scope.$emit('member-demoted', {
@@ -68,7 +69,7 @@
           return;
         }
 
-        removeMember().then(function (result) {
+        removeMember().then(function () {
           return NstSvcPlaceFactory.get(vm.place.id);
         }).then(function (newPlace) {
           if (result) {

@@ -13,7 +13,7 @@
       params: {
         placeId: NST_DEFAULT.STATE_PARAM,
         filter: 'all',
-        search: NST_DEFAULT.STATE_PARAM,
+        search: NST_DEFAULT.STATE_PARAM
       },
       options : {
         group : 'file',

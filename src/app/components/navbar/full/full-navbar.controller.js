@@ -6,7 +6,7 @@
     .controller('FullNavbarController', FullNavbarController);
 
   /** @ngInject */
-  function FullNavbarController($scope, $rootScope, $uibModal, $state, $q,
+  function FullNavbarController($scope, $rootScope, $uibModal, $state, $q, _,
                                 toastr, NstUtility, $window,
                                 NstSvcAuth, NstSvcLogger,
                                 NstSearchQuery, NstSvcPlaceFactory, NstSvcTranslation,
@@ -94,7 +94,7 @@
         $state.go('app.place-create', {placeId: getPlaceId(), isClosePlace: true}, {notify: false});
       }
       $event.preventDefault();
-    };
+    }
 
     /**
      * Represents add member to place modal
