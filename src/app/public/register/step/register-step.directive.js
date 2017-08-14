@@ -15,7 +15,7 @@
         },
         controller : 'RegisterStepController',
         controllerAs : 'ctrl',
-        bindToController : true,
+        bindToController : true
       };
     });
 

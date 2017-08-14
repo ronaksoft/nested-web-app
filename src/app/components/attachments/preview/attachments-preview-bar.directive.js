@@ -5,9 +5,9 @@
     .module('ronak.nested.web.components.attachment')
     .directive('nstAttachmentsPreviewBar', AttachmentsPreviewBar);
 
-  function AttachmentsPreviewBar($timeout, $interval, toastr, $q, $stateParams, $rootScope, 
+  function AttachmentsPreviewBar($timeout, $interval, toastr, $q, $stateParams, $rootScope,
                                  NST_FILE_TYPE, NST_ATTACHMENTS_PREVIEW_BAR_MODE, NST_ATTACHMENTS_PREVIEW_BAR_ORDER, NST_STORE_ROUTE,
-                                 NstSvcStore, NstSvcFileFactory) {
+                                 NstSvcStore, NstSvcFileFactory, _) {
     return {
       restrict: 'E',
       templateUrl: 'app/components/attachments/preview/main.html',
@@ -30,7 +30,7 @@
         var moves = [];
         var borderLeftArray=[],borderRightArray=[];
         var audioDOMS = [];
-    
+
         if (modeIsValid(scope.mode)) {
           scope.internalMode = scope.mode;
         }
@@ -113,8 +113,8 @@
 
         $timeout(function () {
           scope.scrollWrp = ele.children().next();
-          var leftArrow = ele.children().first();
-          var rightArrow = ele.children().next().next();
+          // var leftArrow = ele.children().first();
+          // var rightArrow = ele.children().next().next();
 
           checkScroll(scope.scrollWrp[0]);
 
@@ -160,7 +160,7 @@
             item.downloadUrl = NstSvcStore.resolveUrl(NST_STORE_ROUTE.DOWNLOAD, item.id, token);
             item.viewUrl = NstSvcStore.resolveUrl(NST_STORE_ROUTE.VIEW, item.id, token);
             location.href = item.downloadUrl;
-          }).catch(function (error) {
+          }).catch(function () {
             toastr.error('Sorry, An error has occured while trying to load the file');
           });
         };
@@ -207,13 +207,13 @@
         };
 
         function revertPlayFlag(id){
-          
+
           var playedOne = scope.items.find(function(item){
             return item.id === id;
           });
           playedOne.isPlay = false
         }
-        
+
         scope.$on('play-audio', function (e, d){
           _.remove(audioDOMS, function(item) {
             return d.id !== item.className;
@@ -231,7 +231,7 @@
           });
         });
         scope.playAudio = function (item) {
-          
+
           var alreadyPlayed = audioDOMS.find(function (audioDOM) {
             return audioDOM.className === item.id;
           })
@@ -263,7 +263,7 @@
                 return n.className === item.id;
               });
             };
-          }).catch(function (error) {
+          }).catch(function () {
             toastr.error('Sorry, An error has occured while playing the audio');
           });
         }
@@ -345,17 +345,6 @@
             }
           }, 50)
         }
-
-        function stopScrollPower() {
-          $timeout.cancel(pwTimeout);
-          $interval.cancel(interval);
-
-          for (var i = 0; i < moves.length; i++) {
-            $interval.cancel(moves[i]);
-          }
-          moves = []
-        }
-
       }
     };
     function makeid() {

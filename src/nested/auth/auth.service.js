@@ -488,7 +488,7 @@
     $rootScope.$on(NST_AUTH_EVENT.AUTHORIZE, function (e, data) {
       NstSvcCurrentUserStorage.set(NST_AUTH_STORAGE_KEY.USER, data.user);
     });
-    $rootScope.$on(NST_AUTH_EVENT.UNAUTHORIZE, function (e) {
+    $rootScope.$on(NST_AUTH_EVENT.UNAUTHORIZE, function () {
       NstSvcCurrentUserStorage.remove(NST_AUTH_STORAGE_KEY.USER);
     });
 

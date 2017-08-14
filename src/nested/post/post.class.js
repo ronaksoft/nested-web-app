@@ -5,7 +5,7 @@
     .module('ronak.nested.web.models')
     .factory('NstPost', NstPost);
 
-  function NstPost(_) {
+  function NstPost() {
     Post.prototype = {};
     Post.prototype.constructor = Post;
 

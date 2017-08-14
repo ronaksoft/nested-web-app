@@ -6,7 +6,7 @@
     .controller('ChangePhoneController', ChangePhoneController);
 
   /** @ngInject */
-  function ChangePhoneController($scope, $uibModalInstance) {
+  function ChangePhoneController($scope, $uibModalInstance, _) {
     var vm = this;
     var eventReferences = [];
 

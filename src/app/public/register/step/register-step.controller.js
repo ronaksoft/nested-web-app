@@ -31,7 +31,7 @@
    * @param {any} $q
    * @param {any} NstSvcTranslation
    */
-  function RegisterStepController($scope, $state, $timeout, $stateParams, md5, toastr, NST_DEFAULT, NST_PATTERN, NstSvcAuth, NstHttp, $q, NstSvcTranslation) {
+  function RegisterStepController($scope, _, $state, $timeout, $stateParams, md5, toastr, NST_DEFAULT, NST_PATTERN, NstSvcAuth, NstHttp, $q, NstSvcTranslation) {
     var vm = this;
 
 
@@ -102,13 +102,13 @@
             }
           }
         })
-        .catch(function (error) {
+        .catch(function () {
           toastr.error("An error happened while creating your account.");
         }).finally(function () {
           vm.registerProgress = false;
         });
 
-      }).catch(function (error) {
+      }).catch(function () {
         toastr.error(NstSvcTranslation.get('Sorry, an error has occured while checking your username.'));
       }).finally(function () {
         vm.registerProgress = false;

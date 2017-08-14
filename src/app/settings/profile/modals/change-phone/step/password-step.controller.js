@@ -6,7 +6,7 @@
     .controller('PasswordStepController', PasswordStepController);
 
   /** @ngInject */
-  function PasswordStepController($scope, md5, NstSvcUserFactory, NST_SRV_ERROR) {
+  function PasswordStepController($scope, md5, NstSvcUserFactory, NST_SRV_ERROR, _) {
     var vm = this;
 
 

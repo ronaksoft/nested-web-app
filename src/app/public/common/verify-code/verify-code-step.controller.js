@@ -18,21 +18,21 @@
   /** @ngInject */
   /**
    * Gives the user an input to enter her Nested veriufication code
-   * 
-   * @param {any} $scope 
-   * @param {any} $state 
-   * @param {any} $timeout 
-   * @param {any} $stateParams 
-   * @param {any} md5 
-   * @param {any} toastr 
-   * @param {any} NST_DEFAULT 
-   * @param {any} NST_PATTERN 
-   * @param {any} NstSvcAuth 
-   * @param {any} NstHttp 
-   * @param {any} $q 
-   * @param {any} NstSvcTranslation 
+   *
+   * @param {any} $scope
+   * @param {any} $state
+   * @param {any} $timeout
+   * @param {any} $stateParams
+   * @param {any} md5
+   * @param {any} toastr
+   * @param {any} NST_DEFAULT
+   * @param {any} NST_PATTERN
+   * @param {any} NstSvcAuth
+   * @param {any} NstHttp
+   * @param {any} $q
+   * @param {any} NstSvcTranslation
    */
-  function VerifyCodeStepController($scope, $state, $timeout, $stateParams, md5, toastr, NST_DEFAULT, NST_PATTERN, NstSvcAuth, NstHttp, $q, NstSvcTranslation) {
+  function VerifyCodeStepController($scope, md5, _, toastr, NST_DEFAULT, NST_PATTERN, NstSvcAuth, NstHttp, $q, NstSvcTranslation) {
     var vm = this;
 
     vm.nextStep = nextStep;
@@ -47,7 +47,7 @@
 
     /**
      * Emits an event that leads to moving forward
-     * 
+     *
      */
     function nextStep() {
       eventReferences.push($scope.$emit(vm.onCompleted, { verified : true }));
@@ -55,7 +55,7 @@
 
     /**
      * Emits an event that leads to moving backward
-     * 
+     *
      */
     function previousStep() {
       eventReferences.push($scope.$emit(vm.onPrevious, { phone : vm.phone }));
@@ -63,25 +63,25 @@
 
     /**
      * Resends a message that contains the verification code
-     * 
-     * @param {any} verificationId 
-     * @param {any} phoneNumber 
-     * @returns 
+     *
+     * @param {any} verificationId
+     * @param {any} phoneNumber
+     * @returns
      */
-    function resendVerificationCode(verificationId, phoneNumber) {
+    function resendVerificationCode(verificationId) {
       var deferred = $q.defer();
 
       vm.resendVerificationCodeProgress = true;
       var request = new NstHttp('', {
         cmd: 'auth/send_text',
         data: {
-          'vid': verificationId,
+          'vid': verificationId
         }
       });
 
-      request.post().then(function(response) {
+      request.post().then(function() {
         deferred.resolve(true);
-      }).catch(function(error) {
+      }).catch(function() {
         deferred.reject('unknown');
       }).finally(function() {
         vm.resendVerificationCodeProgress = false;
@@ -92,7 +92,7 @@
 
     /**
      * Resends the verification code via SMS and notifies the user
-     * 
+     *
      */
     function resend() {
       resendVerificationCode(vm.verificationId, vm.phone).then(function() {
@@ -104,25 +104,25 @@
 
     /**
      * A machine reads the verification code over the phone by calling the given phone number
-     * 
-     * @param {any} verificationId 
-     * @param {any} phoneNumber 
-     * @returns 
+     *
+     * @param {any} verificationId
+     * @param {any} phoneNumber
+     * @returns
      */
-    function callForVerification(verificationId, phoneNumber) {
+    function callForVerification(verificationId) {
       var deferred = $q.defer();
 
       vm.callForVerificationProgress = true;
       var request = new NstHttp('', {
         cmd: 'auth/call_phone',
         data: {
-          vid: verificationId,
+          vid: verificationId
         }
       });
 
-      request.post().then(function(response) {
+      request.post().then(function() {
         deferred.resolve(true);
-      }).catch(function(error) {
+      }).catch(function() {
         deferred.reject('unknown');
       }).finally(function() {
         vm.callForVerificationProgress = false;
@@ -133,7 +133,7 @@
 
     /**
      * Requests for a call
-     * 
+     *
      */
     function callMe() {
       callForVerification(vm.verificationId, vm.phone).then(function() {
@@ -145,10 +145,10 @@
 
     /**
      * Sends the verification code to Cyrus
-     * 
-     * @param {any} verificationId 
-     * @param {any} code 
-     * @returns 
+     *
+     * @param {any} verificationId
+     * @param {any} code
+     * @returns
      */
     function verifyCode(verificationId, code) {
       var deferred = $q.defer();
@@ -156,7 +156,7 @@
         cmd: 'auth/verify_code',
         data: {
           vid: verificationId,
-          code: code,
+          code: code
         }
       });
 
@@ -167,7 +167,7 @@
         } else {
           deferred.reject('unknown');
         }
-      }).catch(function(error) {
+      }).catch(function() {
         deferred.reject('unknown');
       }).finally(function() {
         vm.verificationProgress = false;
@@ -180,7 +180,7 @@
     vm.verify = function() {
       verifyCode(vm.verificationId, vm.verificationCode).then(function() {
         nextStep();
-      }).catch(function(error) {
+      }).catch(function() {
         toastr.error(NstSvcTranslation.get('Sorry, an error has occurred in verifying the code.'));
       });
     }

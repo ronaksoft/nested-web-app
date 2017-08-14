@@ -5,7 +5,7 @@
     .module('ronak.nested.web.components.validation')
     .directive('allowOnlyNumber', allowOnlyNumber);
 
-  function allowOnlyNumber() {
+  function allowOnlyNumber(_) {
     return {
       require: 'ngModel',
       link: function(scope, element, attrs, modelController) {

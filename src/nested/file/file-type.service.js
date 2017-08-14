@@ -25,7 +25,7 @@
       'application/vnd.ms-excel.sheet.macroEnabled.12',
       'application/vnd.ms-excel.template.macroEnabled.12',
       'application/vnd.ms-excel.addin.macroEnabled.12',
-      'application/vnd.ms-excel.sheet.binary.macroEnabled.12',
+      'application/vnd.ms-excel.sheet.binary.macroEnabled.12'
     ];
 
     fileGroups[NST_FILE_TYPE.IMAGE] = [

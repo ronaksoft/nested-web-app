@@ -29,7 +29,7 @@
    * @param {any} NstHttp
    * @param {any} NstSvcTranslation
    */
-  function RecoverPasswordStepController($scope, $state, $q, md5, toastr,
+  function RecoverPasswordStepController($scope, $state, $q, md5, _, toastr,
     NST_DEFAULT, NstSvcAuth, NstHttp, NstSvcTranslation) {
     var vm = this;
     var eventReferences = [];

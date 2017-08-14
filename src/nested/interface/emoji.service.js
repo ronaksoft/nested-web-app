@@ -11,10 +11,8 @@
     getRecent : function () {
 
     },
-
-    setRecent : function (emo) {
+    setRecent : function (mo) {
     }
-
 
     };
   }

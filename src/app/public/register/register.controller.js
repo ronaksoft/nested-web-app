@@ -6,7 +6,7 @@
     .controller('RegisterController', RegisterController);
 
   /** @ngInject */
-  function RegisterController($scope, $state, NST_DEFAULT, NstSvcAuth, $stateParams) {
+  function RegisterController($scope, $state, NST_DEFAULT, NstSvcAuth, $stateParams, _) {
     var vm = this;
     vm.phoneSubmittedEventKey = 'register-phone-submitted';
     vm.codeVerifiedEventKey = 'register-code-verified';
@@ -60,7 +60,7 @@
       }
     }));
 
-    eventReferences.push($scope.$on(vm.previousStepEventKey, function (event, data) {
+    eventReferences.push($scope.$on(vm.previousStepEventKey, function () {
       vm.autoSubmit = false;
       vm.step--;
     }));

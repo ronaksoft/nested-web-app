@@ -17,11 +17,11 @@
   /** @ngInject */
   /**
    * A component that wraps password recovery steps
-   * 
-   * @param {any} $scope 
-   * @param {any} $state 
+   *
+   * @param {any} $scope
+   * @param {any} $state
    */
-  function RecoverPasswordController($scope, $state) {
+  function RecoverPasswordController($scope, $state, _) {
     var vm = this;
 
     vm.phoneSubmittedEventKey = 'recover-password-phone-submitted';
@@ -57,7 +57,7 @@
       }
     }));
 
-    eventReferences.push($scope.$on(vm.previousStepEventKey, function (event, data) {
+    eventReferences.push($scope.$on(vm.previousStepEventKey, function () {
       vm.step--;
     }));
 

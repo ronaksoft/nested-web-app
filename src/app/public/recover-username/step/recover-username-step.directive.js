@@ -14,7 +14,7 @@
         },
         controller : 'RecoverUsernameStepController',
         controllerAs : 'ctrl',
-        bindToController : true,
+        bindToController : true
       };
     });
 

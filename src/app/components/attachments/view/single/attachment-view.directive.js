@@ -5,7 +5,7 @@
     .module('ronak.nested.web.components.attachment')
     .directive('nstAttachmentView', AttachmentView);
 
-  function AttachmentView(NST_FILE_TYPE, $sce, $window, NstSvcKeyFactory, NST_KEY) {
+  function AttachmentView(NST_FILE_TYPE, $sce, $window, NstSvcKeyFactory, NST_KEY, _) {
     return {
       restrict: 'E',
       scope: {
@@ -31,7 +31,7 @@
           }
         };
 
-        scope.$on('vjsVideoReady', function (e) {
+        scope.$on('vjsVideoReady', function () {
           $('.vjs-loading-spinner').empty().html('<div class="loading" ng-hide="attachment.show" ng-if="preview">' +
             '<div class="animation"><div class="circle one"></div></div>' +
             '<div class="animation"><div class="circle two"></div></div>' +
@@ -147,7 +147,7 @@
         scope.docAlwaysPreview = function () {
           scope.previewSetting[scope.attachment.type] = true;
           NstSvcKeyFactory.set(NST_KEY.WEBAPP_SETTING_DOCUMENT_PREVIEW, JSON.stringify(scope.previewSetting))
-            .then(function (result) {
+            .then(function () {
             });
         }
 

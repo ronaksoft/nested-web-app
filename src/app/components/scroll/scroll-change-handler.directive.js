@@ -6,7 +6,7 @@
     .directive('scrollChangeHandler', scrollChangeHandler);
 
   /** @ngInject */
-  function scrollChangeHandler() {
+  function scrollChangeHandler(_) {
     return {
       restrict: 'E',
       scope: {

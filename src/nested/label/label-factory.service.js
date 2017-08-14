@@ -9,7 +9,7 @@
   function NstSvcLabelFactory($q,
     NstBaseFactory, NstSvcServer, NstSvcUserFactory,
     NstLabel, NstLabelRequest,
-    NST_LABEL_SEARCH_FILTER) {
+    NST_LABEL_SEARCH_FILTER, _) {
 
     function LabelFactory() {
     }
@@ -101,7 +101,7 @@
           filter: filter || NST_LABEL_SEARCH_FILTER.ALL,
           skip: skip || 0,
           limit: limit || 10,
-          details: true,
+          details: true
         }).then(function (result) {
           return $q.resolve(_.map(result.labels, that.parse));
         });
