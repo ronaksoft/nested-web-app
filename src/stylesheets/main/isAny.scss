@@ -1,12 +1,3 @@
-.nst-content-body {
-  display: flex;
-  position: relative;
-  flex-direction: column;
-  min-height: calc(100% - 50px);
-  z-index: 10;
-  height: 100%;
-}
-
 .maincontainer {
   display: flex;
   flex-direction: row;
@@ -66,16 +57,12 @@
   transition: $animation-dur;
 }
 
-#content-wrapper {
-  //margin-top: 182px;
+.content-wrapper {
   min-height: calc(100vh - 134px);
-  //min-height: 100vh;
-  //height: 100%;
   clear: both;
   justify-content: center;
   display: flex;
   align-self: flex-end;
-  //overflow-x: hidden;
   overflow-y: auto;
   overflow-y: initial;
 }

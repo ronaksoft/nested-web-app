@@ -116,6 +116,16 @@
   display: inline-flex;
 }
 
+.sidebar-profile-popover {
+  height: auto!important;
+  align-items: center;
+  .id-name-user {
+    justify-content: center;
+    height: 40px;
+    width: calc(100% - 32px);
+    padding-left: 4px;
+  }
+}
 .more-places-popover {
   overflow-y: auto;
   height: auto;

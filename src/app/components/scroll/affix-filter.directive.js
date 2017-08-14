@@ -21,7 +21,7 @@
         var i = 0;
 
         applier();
-        // $element.clone().appendTo('#content-wrapper');
+        // $element.clone().appendTo('.content-wrapper');
         // console.log(clone);
 
 

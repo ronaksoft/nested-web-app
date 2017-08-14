@@ -17,9 +17,6 @@
   *          reset             *
   ******************************
 */
-html {
-  height: 100%;
-}
 body,
 html {
   -webkit-overflow-scrolling: touch;
@@ -27,7 +24,9 @@ html {
   min-width: 240px;
   overflow-x: hidden;
 }
-
+html {
+  height: 100%;
+}
 body {
   font-family: $font-family-per-reg, $font-family-eng-reg;
   margin: 0;
@@ -54,8 +53,8 @@ a,a:focus{
   outline-width:0;
   text-decoration: none;
 }
-
 a {
+  color: $color-sense-wire;
   text-decoration: none;
   &:hover {
     text-decoration: none;
@@ -63,9 +62,6 @@ a {
   }
 }
 
-a {
-  color: $color-storm;
-}
 mark {
   background-color: inherit;
   color: inherit;

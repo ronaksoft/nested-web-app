@@ -1,9 +1,9 @@
 <nst-navbar data-ng-model="navbar" place-id="{{ctlActivity.currentPlace.id}}" nav-title="{{ctlActivity.currentPlace.id?ctlActivity.currentPlace.name:'Feed'}}"  show-place-id="ctlActivity.showPlaceId" nav-picture-url="{{ctlActivity.currentPlace.id ? ctlActivity.currentPlace.picture.getUrl('x128') : '' }}" nav-picture-class="{{ !ctlActivity.currentPlace.id? 'icon-nav icon-all-place' : '' }}" ready-to-show="ctlActivity.currentPlaceLoaded" place-description="{{ctlActivity.currentPlace.description}}"></nst-navbar>
 <!-- ctlActivity.currentPlace -->
 <div class="navbar-illu"></div>
-<div class="nst-content _tr _bgwhite" id="content-wrapper">
+<div class="nst-content _tr _bgwhite content-wrapper">
   <scroll-change-handler reached-bottom="ctlActivity.loadMore" disabled="ctlActivity.reachedTheEnd"></scroll-change-handler>
-  <section class="_fw nst-content-body">
+  <section class="_fw activities-content-body">
     <div class="navbarillu"></div>
     <div class="filter-bar _fw" ng-mouseleave="filterPopoverShow = false;popoverSettingShow = false" style="justify-content: flex-end;">
       <div class="iconsblock" data-popover-class="white-pop popover-white-nst-setting"
@@ -16,7 +16,7 @@
       </div>
     </div>
 
-    <section class="_fw nst-content-body _bgwhite">
+    <section class="_fw activities-content-body _bgwhite">
       <div class="_fw activities-list _bgwhite" set-seen-on-visible>
         <div class="activity-date" ng-repeat="group in ctlActivity.activities track by group.date">
           <p class="nst-mood-simple">
