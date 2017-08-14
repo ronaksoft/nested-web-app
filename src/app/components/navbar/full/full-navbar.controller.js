@@ -6,12 +6,11 @@
     .controller('FullNavbarController', FullNavbarController);
 
   /** @ngInject */
-  function FullNavbarController($scope, $rootScope, $uibModal, $state, $q,
+  function FullNavbarController($scope, $rootScope, $uibModal, $state, $q, _,
                                 toastr, NstUtility, $window,
                                 NstSvcAuth, NstSvcLogger,
                                 NstSearchQuery, NstSvcPlaceFactory, NstSvcTranslation,
-                                NST_CONFIG, NST_DEFAULT, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_PLACE_EVENT,
-                                NstPlaceOneCreatorLeftError, _, NstPlaceCreatorOfParentError, NstManagerOfSubPlaceError) {
+                                NST_CONFIG, NST_DEFAULT, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_PLACE_EVENT, NST_SRV_ERROR) {
     var vm = this;
     var eventReferences = [];
     /*****************************
@@ -135,8 +134,6 @@
             add(vm.place, selectedUsers);
           }
         });
-      }).catch(function (error) {
-        NstSvcLogger.error(error);
       });
 
     }
@@ -363,9 +360,7 @@
      */
     function toggleBookmark() {
       vm.isBookmarked = !vm.isBookmarked;
-      NstSvcPlaceFactory.setBookmarkOption(vm.placeId, vm.isBookmarked).then(function (result) {
-
-      }).catch(function (error) {
+      NstSvcPlaceFactory.setBookmarkOption(vm.placeId, vm.isBookmarked).catch(function () {
         vm.isBookmarked = !vm.isBookmarked;
       });
     }
@@ -376,9 +371,7 @@
      */
     function toggleNotification() {
       vm.notificationStatus = !vm.notificationStatus;
-      NstSvcPlaceFactory.setNotificationOption(vm.placeId, vm.notificationStatus).then(function (result) {
-
-      }).catch(function (error) {
+      NstSvcPlaceFactory.setNotificationOption(vm.placeId, vm.notificationStatus).catch(function () {
         vm.notificationStatus = !vm.notificationStatus;
       });
     }
@@ -427,15 +420,13 @@
         if (vm.placeId) {
           vm.domain = NST_CONFIG.DOMAIN;
           vm.isGrandPlace = vm.placeId.split('.').length === 1;
-          NstSvcPlaceFactory.getFavoritesPlaces()
-            .then(function (bookmaks) {
-              if (bookmaks.indexOf(vm.placeId) >= 0) vm.isBookmarked = true;
-            });
+          NstSvcPlaceFactory.getFavoritesPlaces().then(function (bookmaks) {
+            if (bookmaks.indexOf(vm.placeId) >= 0) vm.isBookmarked = true;
+          });
 
-          NstSvcPlaceFactory.getNotificationOption(vm.placeId)
-            .then(function (status) {
-              vm.notificationStatus = status;
-            });
+          NstSvcPlaceFactory.getNotificationOption(vm.placeId).then(function (status) {
+            vm.notificationStatus = status;
+          });
 
 
           if (vm.hasPlace && !vm.place) {
@@ -516,15 +507,26 @@
           $state.go(NST_DEFAULT.STATE);
         }
       }).catch(function (error) {
-        if (error instanceof NstPlaceOneCreatorLeftError) {
-          toastr.error(NstSvcTranslation.get('You are the only one left!'));
-        } else if (error instanceof NstPlaceCreatorOfParentError) {
-          toastr.error(NstUtility.string.format(NstSvcTranslation.get('You are not allowed to leave the Place because you are the creator of its highest-ranking Place ({0}).'), vm.place.parent.name));
-        } else if (error instanceof NstManagerOfSubPlaceError) {
-          toastr.error(NstSvcTranslation.get('You can not leave here, because you are the manager of one of its sub-places.'));
-        } else {
-          toastr.error(NstSvcTranslation.get("An error has happened before leaving this place"));
+        if (error.code === NST_SRV_ERROR.ACCESS_DENIED) {
+          switch (error.message[0]) {
+            case 'last_creator':
+              toastr.error(NstSvcTranslation.get('You are the only one left!'));
+              break;
+            case 'parent_creator':
+              toastr.error(NstUtility.string.format(NstSvcTranslation.get('You are not allowed to leave the Place because you are the creator of its highest-ranking Place ({0}).'), vm.place.parent.name));
+              break;
+            case 'cannot_leave_some_subplaces':
+              toastr.error(NstSvcTranslation.get('You can not leave here, because you are the manager of one of its sub-places.'));
+              break;
+            default:
+              toastr.error(NstSvcTranslation.get("An error has happened before leaving this place"));
+              break;
+          }
+
+          return;
         }
+
+        toastr.error(NstSvcTranslation.get("An error has happened before leaving this place"));
       });
 
     }
@@ -558,8 +560,6 @@
         }).result.then(function (confirmResult) {
           remove();
         });
-      }).catch(function (error) {
-        NstSvcLogger.error(error);
       });
 
 
@@ -577,8 +577,8 @@
           $state.go(NST_DEFAULT.STATE);
         }
       }).catch(function (error) {
-        if (error.code === 1 && error.message[0] === "remove_children_first") {
-          toastr.warning(NstSvcTranslation.get("You have to delete all the sub-Places within, before removing this Place."));
+        if (error.code === NST_SRV_ERROR.ACCESS_DENIED && error.message[0] === "remove_children_first") {
+          toastr.error(NstSvcTranslation.get("You have to delete all the sub-Places within, before removing this Place."));
         } else {
           toastr.error(NstSvcTranslation.get("An error has occurred in removing this Place."));
         }

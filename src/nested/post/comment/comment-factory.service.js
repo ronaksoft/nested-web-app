@@ -9,7 +9,7 @@
                                 _,
                                 NST_COMMENT_EVENT,
                                 NstSvcServer, NstCollector, NstSvcUserFactory, NstPicture, NstUtility,
-                                NstFactoryError, NstFactoryQuery, NstComment, NstTinyUser, NstBaseFactory) {
+                                NstComment, NstTinyUser, NstBaseFactory) {
 
     function CommentFactory() {
       this.collector = new NstCollector('post', this.getManyComment);
@@ -42,35 +42,11 @@
           deferred.reject(new Error('commentIds is not provided'))
         } else {
 
-          var query = new NstFactoryQuery(commentId, {
-            commentId: commentId
-          });
-
-          factory.collector.add(commentId)
-            .then(function (data) {
-              return parseComment(data);
-            })
-            .then(function (comment) {
-              deferred.resolve(comment);
-            })
-            .catch(function (error) {
-              deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
-            });
-
-          // var query = new NstFactoryQuery(commentId, {
-          //   postId: postId
-          // });
-          // NstSvcServer.request('post/get_comment', {
-          //   comment_id: query.id,
-          //   post_id: query.data.postId
-          // }).then(function (data) {
-          //   return parseComment(data);
-          // }).then(function (comment) {
-          //   deferred.resolve(comment);
-          // }).catch(function (error) {
-          //   deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
-          // });
-
+          factory.collector.add(commentId).then(function (data) {
+            return parseComment(data);
+          }).then(function (comment) {
+            deferred.resolve(comment);
+          }).catch(deferred.reject);
         }
 
         return deferred.promise;
@@ -79,30 +55,25 @@
 
 
     function getManyComment(commentIds) {
+      var joinedIds = commentIds.join(',');
       return factory.sentinel.watch(function () {
         var deferred = $q.defer();
-        if (!commentIds) {
+        if (!joinedIds) {
           deferred.reject(new Error('commentIds is not provided'))
         } else {
-          var query = new NstFactoryQuery(commentIds.join(','), {
-            comment_id: commentIds.join(',')
-          });
-
           NstSvcServer.request('post/get_many_comments', {
-            comment_id: commentIds.join(',')
+            comment_id: joinedIds,
           }).then(function (data) {
             deferred.resolve({
               idKey: '_id',
               resolves: data.comments,
               rejects: data.no_access
             });
-          }).catch(function (error) {
-            deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
-          });
+          }).catch(deferred.reject);
         }
 
         return deferred.promise;
-      }, "getManyComment", commentIds.join(','));
+      }, "getManyComment", joinedIds);
     }
 
     /**
@@ -149,13 +120,8 @@
         if (!postId) {
           deferred.reject(new Error('post is not provided'));
         } else {
-          var query = new NstFactoryQuery(postId, {
-            date: settings.date,
-            limit: settings.limit
-          });
-
           NstSvcServer.request('post/get_comments', {
-            post_id: query.id,
+            post_id: postId,
             before: settings.date,
             limit: settings.limit
           }).then(function (data) {
@@ -166,9 +132,7 @@
             $q.all(allCommnets).then(function (commentItems) {
               deferred.resolve(commentItems);
             });
-          }).catch(function (error) {
-            deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
-          });
+          }).catch(deferred.reject);
         }
 
         return deferred.promise;
@@ -181,13 +145,8 @@
         if (!postId) {
           deferred.reject(new Error('post is not provided'));
         } else {
-          var query = new NstFactoryQuery(postId, {
-            date: settings.date,
-            limit: settings.limit
-          });
-
           NstSvcServer.request('post/get_comments', {
-            post_id: query.id,
+            post_id: postId,
             after: settings.date,
             limit: settings.limit
           }).then(function (data) {
@@ -198,9 +157,7 @@
             $q.all(allCommnets).then(function (commentItems) {
               deferred.resolve(commentItems);
             });
-          }).catch(function (error) {
-            deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
-          });
+          }).catch(deferred.reject);
         }
 
         return deferred.promise;
@@ -224,17 +181,12 @@
         } else if (!(comment && comment.id)) {
           deferred.reject(new Error('comment is not provided'));
         } else {
-          var query = new NstFactoryQuery(comment.id, {
-            postId: postId
-          });
           NstSvcServer.request('post/remove_comment', {
             post_id: postId,
-            comment_id: query.id
+            comment_id: comment.id,
           }).then(function () {
             deferred.resolve(comment);
-          }).catch(function (error) {
-            deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
-          });
+          }).catch(deferred.reject);
         }
 
         return deferred.promise;

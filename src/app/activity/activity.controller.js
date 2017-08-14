@@ -61,8 +61,6 @@
     vm.loadMoreCounter = 0;
 
     vm.loadMore = loadMore;
-    vm.acceptInvitation = acceptInvitation;
-    vm.declineInvitation = declineInvitation;
     vm.applyFilter = applyFilter;
     vm.toggleViewMode = toggleViewMode;
 
@@ -181,22 +179,6 @@
       vm.loadMoreCounter ++;
       NstSvcInteractionTracker.trackEvent('activities', 'load more', vm.loadMoreCounter);
       loadActivities();
-    }
-    // TODO: The function is declared but never used
-    function acceptInvitation(invitation) {
-      NstSvcInvitationFactory.accept(invitation).then(function () {
-
-      }).catch(function () {
-
-      });
-    }
-    // TODO: The function is declared but never used
-    function declineInvitation(invitation) {
-      NstSvcInvitationFactory.decline(invitation).then(function () {
-
-      }).catch(function () {
-
-      });
     }
 
     /**
@@ -346,17 +328,6 @@
       var lastDate = !!last ? last.date : moment(NstSvcDate.now());
 
       vm.activitySettings.date = NstUtility.date.toUnix(lastDate);
-    }
-    // TODO: The function is declared but never used
-    function loadInvitations() {
-      return $q(function (resolve, reject) {
-        NstSvcInvitationFactory.get().then(function (invitations) {
-
-          vm.invitations = invitations;
-          resolve(vm.invitations);
-
-        }).catch(reject);
-      });
     }
 
     /**

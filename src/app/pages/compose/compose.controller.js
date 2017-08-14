@@ -23,7 +23,7 @@
                              NstSvcFileType, NstSvcAttachmentMap, NstSvcSidebar, NstSvcSystemConstants,
                              NstUtility, NstSvcTranslation, NstSvcModal, NstSvcPostDraft,
                              NstSvcUserFactory, NstSvcLogger, NstSvcAuth,
-                             NstTinyPlace, NstVmPlace, NstVmSelectTag, NstLocalResource, NstPicture,
+                             NstTinyPlace, NstVmPlace, NstVmSelectTag, NstPicture,
                              NstPostDraft, NstTinyUser, NstVmUser, NstPost) {
     var vm = this;
     vm.quickMode = false;
@@ -424,18 +424,16 @@
 
 
       }).catch(function () {
-        NstSvcLogger.debug4('Compose | not recipients found');
         vm.search.results = [];
         var initPlace = new NstVmSelectTag({
           id: query,
           name: query
         });
 
-        if (initPlace.id)
+        if (initPlace.id) {
           vm.search.results.push(initPlace);
+        }
       });
-
-
     }
 
     /**
@@ -523,7 +521,6 @@
 
       reader.onload = function (event) {
         var uri = event.target.result;
-        var resource = new NstLocalResource(uri);
 
         // Load and Show Thumbnail
         if (NST_FILE_TYPE.IMAGE == type || NST_FILE_TYPE.GIF == type) {
@@ -730,7 +727,7 @@
             NstSvcLogger.debug4('Compose | Compose model is valid');
             vm.focus = false;
             vm.model.saving = true;
-            
+
             var postLabelsIds = vm.model.labels.map(function(i){
               return i.id
             })
@@ -1141,7 +1138,7 @@
       return NstSvcPlaceFactory.get(id).catch(function (error) {
         var deferred = $q.defer();
 
-        switch (error.getPrevious().getCode()) {
+        switch (errorcode) {
           case NST_SRV_ERROR.TIMEOUT:
             // Keep Retrying
             deferred.reject.apply(null, arguments);

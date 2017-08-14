@@ -36,17 +36,14 @@
       if ($stateParams.placeId) {
         var grandPlaceId = $stateParams.placeId.split('.')[0];
 
-        NstSvcPlaceFactory.getFavoritesPlaces()
-          .then(function (list) {
-            list.map(function (obj) {
-              vm.placesFavoritesObject[obj] = true;
-            })
-          });
+        NstSvcPlaceFactory.getFavoritesPlaces().then(function (list) {
+          list.map(function (obj) {
+            vm.placesFavoritesObject[obj] = true;
+          })
+        });
 
         getGrandPlaceChildren(grandPlaceId).then(function (places) {
           vm.children = places;
-        }).catch(function (error) {
-          NstSvcLogger.error(error);
         }).finally(function () {
           vm.loading = false;
         });

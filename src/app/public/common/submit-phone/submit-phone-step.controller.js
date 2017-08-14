@@ -136,7 +136,7 @@
             verificationId: data.data.vid
           });
         } else if (data.status === 'err') {
-          if (data.err_code === 5) {
+          if (data.code === 5) {
             deferred.reject('phone_number_exists');
           } else {
             deferred.reject('unknown')

@@ -7,7 +7,7 @@
   /** @ngInject */
   function NstSvcAttachmentFactory($q, _,
                                    NstSvcServer, NstSvcFileType, NstSvcFileStorage,
-                                   NstAttachment, NstPicture, NstStoreToken, NstFactoryError, NstFactoryQuery) {
+                                   NstAttachment, NstPicture, NstStoreToken) {
 
     /**
      * PostFactory - all operations related to post, comment
@@ -72,10 +72,7 @@
       }).then(function (response) {
         var promises = _.map(response.info, parseAttachment);
         $q.all(promises).then(defer.resolve).catch(defer.reject);
-      }).catch(function (error) {
-        var query = new NstFactoryQuery(ids);
-        defer.reject(new NstFactoryError(query, error.message, error.code));
-      });
+      }).catch(defer.reject);
 
       return defer.promise;
     }
@@ -88,12 +85,7 @@
         attachment_id: attachmentId
       }).then(function () {
         defer.resolve(attachmentId);
-      }).catch(function (error) {
-        var query = new NstFactoryQuery(attachmentId, {postId: postId});
-        var factoryError = new NstFactoryError(query, error.message, error.code);
-
-        defer.reject(factoryError);
-      });
+      }).catch(defer.reject);
 
       return defer.promise;
     }
@@ -109,10 +101,7 @@
         universal_id: id
       }).then(function (file) {
         deferred.resolve(parseAttachment(file));
-      }).catch(function (error) {
-        var query = new NstFactoryQuery(id);
-        deferred.reject(new NstFactoryError(query, error.message, error.code));
-      });
+      }).catch(deferred.reject);
 
       return deferred.promise;
     }

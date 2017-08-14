@@ -20,10 +20,9 @@
 
           // $scope.isEmail = NST_PATTERN.EMAIL.test($scope.placeId);
           (function(){
-            NstSvcPlaceFactory.get(dd)
-              .then(function (place) {
-                $scope.place = place;
-              });
+            NstSvcPlaceFactory.get(dd).then(function (place) {
+              $scope.place = place;
+            });
           })();
 
           // All subplaces of person shoould not available

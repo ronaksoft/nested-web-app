@@ -130,11 +130,9 @@
       }
 
       if (isBookMark()) {
-
-        NstSvcPlaceFactory.getFavoritesPlaces()
-          .then(function (data) {
-            vm.bookmarkedPlaces = data;
-          });
+        NstSvcPlaceFactory.getFavoritesPlaces().then(function (data) {
+          vm.bookmarkedPlaces = data;
+        });
       }
 
       eventReferences.push($rootScope.$on(NST_POST_EVENT.READ, function () {
@@ -450,10 +448,7 @@
     function readMulti($event) {
       $event.preventDefault();
       for (var i = 0; i < vm.selectedPosts.length; i++) {
-          NstSvcPostFactory.read(vm.selectedPosts[i]).then(function (){
-        }).catch(function (err) {
-          $log.debug('MARK AS READ :' + err);
-        });
+          NstSvcPostFactory.read(vm.selectedPosts[i]);
       }
 
       // FIXME : this block after all responses
@@ -776,10 +771,7 @@
     }
 
     function markAllAsRead() {
-      NstSvcPlaceFactory.markAllPostAsRead($stateParams.placeId)
-        .then(function () {
-
-        });
+      NstSvcPlaceFactory.markAllPostAsRead($stateParams.placeId);
     }
 
     function getQuickMessageAccess() {

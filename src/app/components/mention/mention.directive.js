@@ -135,7 +135,6 @@
                           })
                         });
                         callback(items);
-                      }).catch(function (error) {
                       });
 
                     }
