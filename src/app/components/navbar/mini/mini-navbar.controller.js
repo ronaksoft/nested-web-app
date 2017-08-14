@@ -9,7 +9,7 @@
   function MiniNavbarController($q, $state, $stateParams, $uibModal, $rootScope, $scope,
                                 NST_AUTH_EVENT, NST_DEFAULT,
                                 NstSvcAuth, NstSvcPlaceFactory, NstSvcInvitationFactory,
-                                NstVmUser, NstVmPlace, NstVmInvitation) {
+                                NstVmUser, NstVmPlace, NstVmInvitation, _) {
     var vm = this;
     var eventReferences = [];
     vm.mentionOpen = false;

@@ -36,11 +36,11 @@
    * @param {any} NstSvcTranslation
    * @param {any} NstSvcLogger
    */
-  function PlaceMemberSettingsController(_, $q, $uibModal, toastr, $scope, $rootScope,
+  function PlaceMemberSettingsController( $q, $uibModal, toastr, $scope, $rootScope,
                                          NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_SRV_ERROR,
                                          NstSvcPlaceFactory, NstSvcInvitationFactory, NstVmMemberItem,
                                          NstSvcAuth, NstSvcModal,
-                                         NstUtility, NstSvcTranslation, NstSvcLogger) {
+                                         NstUtility, NstSvcTranslation, NstSvcLogger, _) {
 
     var defaultTeammatesLimit = 16;
 
