@@ -392,7 +392,7 @@ nst-navbar {
     }
   }
   .nst-navbar,.nst-navbar-f{
-    height: 80px;
+    min-height: 80px;
     justify-content: center;
     z-index: 50;
     width: 100%;
@@ -696,7 +696,7 @@ nst-navbar {
     }
   }
   .srch-nav {
-    height: 80px;
+    min-height: 80px;
     display: flex;
     justify-content: center;
     .bot-nav {
@@ -760,7 +760,7 @@ nst-navbar {
       }
     }
     .bot-nav {
-      height: 80px;
+      min-height: 80px;
       align-items: center;
       display: flex;
       input {
@@ -833,7 +833,7 @@ body.scrolled {
     border-color: rgba(0,0,0,.14);
   }
   .search-chips-container {
-    height: 40px;
+    min-height: 40px;
     border-radius: 4px;
     background-color: rgba(0,0,0,.02);
     border-color: rgba(0,0,0,.14);
@@ -882,7 +882,8 @@ body.scrolled {
   }
   .content {
     .bot-nav {
-      height: 80px;
+      min-height: 80px;
+      height: auto;
       position: relative;
     }
   }
