@@ -23,7 +23,7 @@
                              NstSvcFileType, NstSvcAttachmentMap, NstSvcSidebar, NstSvcSystemConstants,
                              NstUtility, NstSvcTranslation, NstSvcModal, NstSvcPostDraft,
                              NstSvcUserFactory, NstSvcLogger, NstSvcAuth,
-                             NstTinyPlace, NstVmPlace, NstVmSelectTag, NstLocalResource, NstPicture,
+                             NstTinyPlace, NstVmPlace, NstVmSelectTag, NstPicture,
                              NstPostDraft, NstTinyUser, NstVmUser, NstPost) {
     var vm = this;
     vm.quickMode = false;
@@ -523,7 +523,6 @@
 
       reader.onload = function (event) {
         var uri = event.target.result;
-        var resource = new NstLocalResource(uri);
 
         // Load and Show Thumbnail
         if (NST_FILE_TYPE.IMAGE == type || NST_FILE_TYPE.GIF == type) {
