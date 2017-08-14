@@ -19,7 +19,7 @@
     NstSvcI18n.addLocale("en-US", NST_LOCALE_EN_US);
     NstSvcI18n.addLocale("fa-IR", NST_LOCALE_FA_IR);
 
-    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState) {
       if (!$rootScope.stateHistory) {
         $rootScope.stateHistory = [];
       }

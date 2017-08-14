@@ -28,7 +28,7 @@
       // create a listener for all events
       _.forEach(events, function (key) {
 
-        listeners[key] = $rootScope.$on(key, function (event, data) {
+        listeners[key] = $rootScope.$on(key, function (event) {
           // do not track an event more than once
           if (_.includes(happend, key)) {
             event.preventDefault();

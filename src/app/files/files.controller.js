@@ -19,24 +19,24 @@
   /**
    * Gives a list of files associated with a Place. The user is allowed to download
    * and share the files with other posts.
-   * 
-   * @param {any} $stateParams 
-   * @param {any} toastr 
-   * @param {any} $uibModal 
-   * @param {any} $state 
-   * @param {any} $timeout 
-   * @param {any} $q 
-   * @param {any} $scope 
-   * @param {any} NST_PLACE_ACCESS 
-   * @param {any} NstSvcFileFactory 
-   * @param {any} NstSvcPlaceAccess 
-   * @param {any} NstSvcModal 
-   * @param {any} NstSvcTranslation 
-   * @param {any} NstSvcAuth 
-   * @param {any} NstSvcWait 
-   * @param {any} NstSvcInteractionTracker 
-   * @param {any} NstAttachment 
-   * @param {any} NST_DEFAULT 
+   *
+   * @param {any} $stateParams
+   * @param {any} toastr
+   * @param {any} $uibModal
+   * @param {any} $state
+   * @param {any} $timeout
+   * @param {any} $q
+   * @param {any} $scope
+   * @param {any} NST_PLACE_ACCESS
+   * @param {any} NstSvcFileFactory
+   * @param {any} NstSvcPlaceAccess
+   * @param {any} NstSvcModal
+   * @param {any} NstSvcTranslation
+   * @param {any} NstSvcAuth
+   * @param {any} NstSvcWait
+   * @param {any} NstSvcInteractionTracker
+   * @param {any} NstAttachment
+   * @param {any} NST_DEFAULT
    */
   function FilesController($stateParams, toastr, $uibModal, $state, $timeout, $q, $scope,
                            NST_PLACE_ACCESS,
@@ -153,8 +153,8 @@
 
     /**
      * Returns true if the place is a personal or sub-personal one
-     * 
-     * @returns 
+     *
+     * @returns
      */
     function isSubPersonal() {
       if (vm.currentPlaceId)
@@ -171,8 +171,8 @@
 
     /**
      * Retrieves the files with the applied filter
-     * 
-     * @param {any} filter 
+     *
+     * @param {any} filter
      */
     function filter(filter) {
       vm.selectedFileType = filter;
@@ -183,8 +183,8 @@
 
     /**
      * Returns the matched predefined filter with the provided key in URL
-     * 
-     * @returns 
+     *
+     * @returns
      */
     function getSelectedFilter() {
       var value = _.toLower($stateParams.filter);
@@ -196,8 +196,8 @@
 
     /**
      * Returns the value of `search` parameter in URL
-     * 
-     * @returns 
+     *
+     * @returns
      */
     function getSearchParameter() {
       var value = $stateParams.search;
@@ -211,8 +211,8 @@
     /**
      * Retrieves a list of files by the given limit, skip, keyword and filter
      * and specifies that there are more files or not
-     * 
-     * @returns 
+     *
+     * @returns
      */
     function load() {
       vm.filesLoadProgress = true;
@@ -246,8 +246,8 @@
 
     /**
      * Opens the attachment viewer modal
-     * 
-     * @param {any} file 
+     *
+     * @param {any} file
      */
     function preview(file) {
 
@@ -283,8 +283,8 @@
     }
 
     /**
-     * Loads more files 
-     * 
+     * Loads more files
+     *
      */
     function loadMore() {
       if (vm.hasNextPage) {
@@ -296,11 +296,11 @@
 
     /**
      * Adds the selected item to selected files list and calculates the total immediately size
-     * 
-     * @param {any} fileIds 
-     * @param {any} el 
+     *
+     * @param {any} fileIds
+     * @param {any} el
      */
-    function onSelect(fileIds, el) {
+    function onSelect(fileIds) {
       if (onSelectTimeout) {
         $timeout.cancel(onSelectTimeout);
       }
@@ -313,11 +313,11 @@
         var sizes = _.map(vm.selectedFiles, 'size');
         vm.totalSelectedFileSize = _.sum(sizes);
       });
-    };
+    }
 
     /**
      * Opens a compose modal with the selected attachments
-     * 
+     *
      */
     function composeWithAttachments() {
       $state.go('app.compose', {attachments: vm.selectedFiles}, {notify: false});

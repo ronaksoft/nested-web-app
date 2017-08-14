@@ -19,7 +19,7 @@
             "reason" : cause,
             "browser_name" : browser.name,
             "browser_version" : browser.fullVersion,
-            "session_key" : NstSvcServer.getSessionKey(),
+            "session_key" : NstSvcServer.getSessionKey()
           },
           tags: {
             "state" : $state.current.name,
@@ -34,7 +34,7 @@
   });
 
   function getBrowserDetail() {
-    var nVer = navigator.appVersion;
+    // var nVer = navigator.appVersion;
     var nAgt = navigator.userAgent;
     var browserName = navigator.appName;
     var fullVersion = '' + parseFloat(navigator.appVersion);
@@ -94,7 +94,7 @@
     return {
       name : browserName,
       fullVersion : fullVersion,
-      majorVersion : majorVersion,
+      majorVersion : majorVersion
     };
   }
 

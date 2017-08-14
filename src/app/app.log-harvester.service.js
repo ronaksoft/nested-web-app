@@ -4,15 +4,12 @@
     var buffer = {};
 
     function start(url, period, entriesBucketKey) {
-        // console.log('Log Harvester | started');
         setInterval(function() {
             if (!isArray(window[entriesBucketKey])) {
-                console.log('Log Harvester | field is not defined');
                 return;
             }
 
             if (window[entriesBucketKey].length === 0) {
-                // console.log('Log Harvester | nothing to harvest');
                 return;
             }
 
@@ -42,7 +39,7 @@
             method: 'post',
             url: url,
             data: buffer[key],
-            success: function (response) {
+            success: function () {
                 var entriesCount = buffer[key].split("\n").length;
                 console.log('Log Harvester | All {count} log(s) have been sent successfully.'.replace("{count}", entriesCount));
                 delete buffer[key];
@@ -52,7 +49,7 @@
                     ignite(storedKeys[0]);
                 }
             },
-            error: function (response) {
+            error: function () {
                 console.log('Log Harvester | We are currently not able to send these {count} logs, we store them to send later.'.replace('{count}', buffer[key].split("\n").length));
             }
         });
