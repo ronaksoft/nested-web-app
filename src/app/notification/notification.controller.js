@@ -6,8 +6,7 @@
     .controller('NotificationsController', NotificationsController);
 
   function NotificationsController(_, $q, $state, $scope, $log,
-                                   NST_NOTIFICATION_TYPE, NST_NOTIFICATION_EVENT,
-                                   NstFactoryEventData, NstSvcNotificationFactory, NstSvcInteractionTracker, NstSvcDate) {
+                                   NST_NOTIFICATION_TYPE, NST_NOTIFICATION_EVENT, NstSvcNotificationFactory, NstSvcInteractionTracker, NstSvcDate) {
     var vm = this;
     vm.NST_NOTIFICATION_TYPE = NST_NOTIFICATION_TYPE;
     var pageItemsCount = 12;

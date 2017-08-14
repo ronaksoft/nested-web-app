@@ -7,7 +7,7 @@
   /** @ngInject */
   function NstSvcPostFactory($q, $log, $rootScope,
                              _, md5,
-                             NstSvcPostStorage, NstCollector, NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory, NstSvcStore, NstSvcCommentFactory, NstFactoryEventData, NstUtility,
+                             NstSvcPostStorage, NstCollector, NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory, NstSvcStore, NstSvcCommentFactory, NstUtility,
                              NstFactoryError, NstFactoryQuery, NstPost, NstBaseFactory,
                              NST_MESSAGES_SORT_OPTION, NST_SRV_EVENT, NST_CONFIG, NST_POST_EVENT, NstSvcLabelFactory) {
 

@@ -9,7 +9,7 @@
                              NstSvcServer, NstSvcTinyUserStorage, NstSvcUserStorage, NstPlace,
                              NST_USER_SEARCH_AREA,
                              NST_USER_EVENT,
-                             NstBaseFactory, NstFactoryQuery, NstFactoryError, NstTinyUser, NstUser, NstUserAuthority, NstPicture, NstFactoryEventData) {
+                             NstBaseFactory, NstFactoryQuery, NstFactoryError, NstTinyUser, NstUser, NstUserAuthority, NstPicture) {
     function UserFactory() { }
 
     UserFactory.prototype = new NstBaseFactory();
