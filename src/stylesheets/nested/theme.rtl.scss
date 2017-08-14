@@ -237,7 +237,7 @@ body[dir="rtl"] {
     left: auto!important;
     right: 8px!important;
   }
-  .nst-navbar-f,.nst-navbar-fff {
+  .nst-navbar-fixed {
     left: 0;
     right: $sidebar-width;
   }
@@ -399,7 +399,7 @@ body[dir="rtl"] {
     }
 
   }
-  #EventList .ico {
+  .activities-list .ico {
     float: right;
     padding-left: 0;
     padding-right: 8px;
@@ -489,10 +489,6 @@ body[dir="rtl"] {
   }
   .post-card .post-places svg {
     margin: -4px -4px -3px 4px;
-  }
-  .nst-navbar-f .icon-filter + span {
-    margin-left: 0;
-    margin-right: 8px;
   }
   .badge-invite {
     left: auto;
@@ -743,7 +739,7 @@ body[dir="rtl"] {
     }
   }
 
-  .manage-label .lbl-cr8, .manage-label .lbl-remove {
+  .manage-label .label-create-butn, .manage-label .label-remove-butn {
     margin-left: 0;
     margin-right: 24px;
     svg {

@@ -546,9 +546,6 @@ post-card {
   margin-left: 8px;
   @include avatar(32px,32px,10%);
 }
-h3 {
-  font-weight: 100;
-}
 
 .post-card .post-attachments {
   //height: 66px;
@@ -844,7 +841,7 @@ h3 {
     font-size: 14px
   }
 }
-.isNotRF {
+.no-replied-or-forwarded {
   margin-top: 24px;
 }
 .post-back {

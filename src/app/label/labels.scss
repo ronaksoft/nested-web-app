@@ -3,7 +3,7 @@
     display: flex;
     box-shadow: 0 0 24px $color-solid;
     padding: 0 24px!important;
-    .labels-headline {
+    .labels-manage-header {
         display: flex;
         margin-top: 40px;
         margin-bottom: 24px;
@@ -15,7 +15,7 @@
             margin: 0;
         }
     }
-    .lbl-search {
+    .search-label {
         display: flex;
         margin: 16px 0;
         position: relative;
@@ -36,7 +36,7 @@
             opacity: .4;
         }
     }
-    .lbl-cr8, .lbl-remove {
+    .label-create-butn, .label-remove-butn {
         white-space: nowrap;
         margin-left: 24px;
         padding: 0 8px;
