@@ -1192,11 +1192,6 @@
         }
       }).then(function (attachment) {
         $scope.compose.post.removeAttachment(attachment);
-        $timeout(function () {
-          if ($scope.compose.post.attachments.length === 0) {
-            $scope.showUploadProgress = false;
-          }
-        });
       });
     };
 

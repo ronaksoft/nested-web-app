@@ -74,11 +74,11 @@
         width: 100%;
         height: 108px;
       }
-      .compose-scrl-wrp {
+      .compose-scroll-wrapper {
         min-height: 0;
         max-height: none;
       }
-      .editor-btn-wrp {
+      .editor-butns-wrapper {
         // max-height : 0;
         // transition: opacity,max-height 0.3s;
         overflow: hidden;
@@ -94,7 +94,7 @@
           display: inline-block;
         }
       }
-      .nst-attach {
+      .compose-attachment-bar {
         position: relative;
         bottom: 0;
         margin-top: 8px
@@ -113,7 +113,7 @@
       .nst-compose-message .cke_contents.cke_reset {
         min-height: 0;
       }
-      .nst-compose-message,.modal-ft {
+      .nst-compose-message,.compose-modal-footer {
         overflow: hidden;
         display: flex;
         // max-height: 0;

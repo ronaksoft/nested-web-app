@@ -521,7 +521,7 @@ body[dir="rtl"] {
   .compose-btns > * {
     margin: 0 0 0 8px;
   }
-  .compose-opt {
+  .compose-options {
     right: auto !important;
     left: -8px !important;
   }
@@ -559,7 +559,7 @@ body[dir="rtl"] {
   //     float: left
   //   }
   // }
-  #input-compose-to .ui-select-choices {
+  #compose-recipient-input .ui-select-choices {
     left: 0;
     right: 16px;
   }

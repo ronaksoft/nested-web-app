@@ -263,11 +263,11 @@ body.modal-open {
       min-height: 100px;
     }
     &.attached {
-      .modal-bo {
+      .compose-modal-body {
         margin: 48px 0 204px 0;
         max-height: calc(90vh - 412px);
       }
-      .compose-scrl-wrp {
+      .compose-scroll-wrapper {
         min-height: 145px;
         .wdt-emoji-picker {
           display: none;
@@ -275,7 +275,7 @@ body.modal-open {
           visibility: hidden;
         }
       }
-      .editor-btn-wrp {
+      .editor-butns-wrapper {
         bottom: 156px;
       }
     }
@@ -301,7 +301,7 @@ body.modal-open {
       }
     }
   }
-  .modal-bo {
+  .compose-modal-body {
     margin: 48px 0 96px 0;
     padding: 0 16px;
     height: calc(100% - 144px);
@@ -314,7 +314,7 @@ body.modal-open {
     }
     
   }
-  .modal-ft {
+  .compose-modal-footer {
     padding: 0 16px;
     height: 48px;
     display: flex;
@@ -345,7 +345,7 @@ body.modal-open {
       height: 32px;
     }
   }
-  .editor-btn-wrp {
+  .editor-butns-wrapper {
     height: 48px;
     // width: 100%;
     position: absolute;
@@ -373,11 +373,11 @@ body.modal-open {
     top: 0;
     max-height: 100vh;
     min-height: 0;
-    .nst-attach {
+    .compose-attachment-bar {
         width: calc(100% - 32px);
         margin: 0 16px;
       }
-    .modal-bo {
+    .compose-modal-body {
       margin-top: 48px;
       min-height: calc(100% - 252px);
       height: calc(100vh - 144px);
