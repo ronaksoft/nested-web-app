@@ -5,7 +5,7 @@
     .module('ronak.nested.web.components')
     .controller('createLabelController', createLabelController);
 
-  function createLabelController($scope, $q, $uibModalInstance,
+  function createLabelController($scope, $q, $uibModalInstance, $filter,
     toastr, _, NstSvcLabelFactory, NstSvcUserFactory, NST_USER_SEARCH_AREA, NstSvcTranslation) {
 
     var vm = this;
@@ -67,8 +67,8 @@
 
     function createLabel() {
       var isPublic = (vm.holderType === 'all');
-      //TODO: add specific holders
-      NstSvcLabelFactory.create(vm.title, vm.code, isPublic).then(function (result) {
+      var title = $filter('scapeSpace')(vm.title);
+      NstSvcLabelFactory.create(title, vm.code, isPublic).then(function (result) {
         if (isPublic) {
           toastr.success(NstSvcTranslation.get("Label created successfully."));
         } else {
