@@ -6,7 +6,7 @@ angular
 /** @ngInject */
 function NstSvcNotification($q, $window, _, $state, $rootScope,
                             NST_NOTIFICATION_TYPE, NST_AUTH_EVENT, NST_EVENT_ACTION, NST_CONFIG,
-                            NstObservableObject, NstSvcLogger, NstModel, NstSvcTranslation, NstSvcAuth,
+                            NstObservableObject, NstSvcLogger, NstSvcTranslation, NstSvcAuth,
                             NstUtility) {
 
 
@@ -23,7 +23,7 @@ function NstSvcNotification($q, $window, _, $state, $rootScope,
   function MyNotification() {
     this.stack = {};
     this.options = {};
-    NstModel.call(this);
+    NstObservableObject.call(this);
   }
 
 
