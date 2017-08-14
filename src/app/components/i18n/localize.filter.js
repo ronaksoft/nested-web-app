@@ -10,7 +10,7 @@
 (function() {
   angular
     .module('ronak.nested.web.components.i18n')
-    .filter('localize', ['NstSvcTranslation', function(NstSvcTranslation, _) {
+    .filter('localize', ['NstSvcTranslation', '_', function(NstSvcTranslation, _) {
 
       var numbers = {
         '1': NstSvcTranslation.get("1"),
