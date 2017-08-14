@@ -461,7 +461,7 @@ nst-navbar {
             font-weight: bold
           }
         }
-        
+
 
       }
     }
@@ -670,7 +670,7 @@ nst-navbar {
 
       }
     }
-    
+
   }
   .menu-links-butn {
       span {
@@ -692,7 +692,7 @@ nst-navbar {
     align-items: center;
     h2 {
       margin: 0;
-      
+
     }
   }
   .srch-nav {
@@ -831,6 +831,54 @@ body.scrolled {
     border-radius: 4px;
     background-color: rgba(0,0,0,.02);
     border-color: rgba(0,0,0,.14);
+  }
+  .search-chips-container {
+    height: 40px;
+    border-radius: 4px;
+    background-color: rgba(0,0,0,.02);
+    border-color: rgba(0,0,0,.14);
+    padding: 3px 3px 0 3px;
+    border: 1px solid gainsboro;
+    color: #323D47;
+    flex-wrap: wrap;
+    .chips {
+      display: flex;
+      flex: none;
+      padding: 5px;
+      margin: 0 3px 3px 0;
+      vertical-align: middle;
+      color: #fff;
+      border-radius: 3px;
+      border: 2px solid #dcdcdc;
+      //max-width: 50px;
+      overflow: hidden;
+      transition: all 0.3s;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      &:hover {
+        max-width: 100%;
+      }
+      &.chip-place {
+        background-color: #c38e3e;
+      }
+      &.chip-user {
+        background-color: #60c383;
+      }
+      &.chip-label {
+        background-color: #8bc34a;
+      }
+      &.chip-keyword {
+        background-color: #c35700;
+      }
+    }
+    input {
+      display: flex;
+      flex: 1;
+      min-width: 100px;
+      background: none;
+      border: none;
+      height: 30px;
+    }
   }
   .content {
     .bot-nav {

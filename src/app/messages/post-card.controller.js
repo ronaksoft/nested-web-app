@@ -60,7 +60,7 @@
     vm.isFeed = isFeed;
     vm.labelClick = labelClick;
     vm.isPostView = isPostView();
-    
+
     vm.expandProgress = false;
     vm.body = null;
     vm.chainView = false;
@@ -849,7 +849,7 @@
      * @returns {boolean}
      */
     function labelClick(title) {
-      var searchQuery = new NstSearchQuery('', true);
+      var searchQuery = new NstSearchQuery('');
 
       searchQuery.addLabel(title);
 

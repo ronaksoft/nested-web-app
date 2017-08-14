@@ -47,6 +47,62 @@
     vm.isFavPlaces = $state.current.options.favoritePlace;
     vm.searchKeyPressed = searchKeyPressed;
     vm.goBack = goBack;
+    vm.chips = [];
+    vm.removeChip = removeChip;
+
+    initSearch();
+
+    function initSearch() {
+      var searchQuery = new NstSearchQuery(vm.query, true);
+      var params = searchQuery.getSearchParams();
+      initChips(params);
+    }
+
+    function initChips(params) {
+      vm.chips = [];
+      addItemToChips(vm.chips, params.places, 'chip-place');
+      addItemToChips(vm.chips, params.users, 'chip-user');
+      addItemToChips(vm.chips, params.labels, 'chip-label');
+      addItemToChips(vm.chips, params.keywords, 'chip-keyword');
+    }
+
+    function addItemToChips(chipArray, items, type) {
+      if (items.length === 0) {
+        return;
+      }
+      for (var i = 0; i < items.length; i++) {
+        chipArray.push({
+          type: type,
+          name: items[i]
+        });
+      }
+    }
+
+    /**
+     * remove selected chip by name from search query
+     * @param {string} type
+     * @param {string} name
+     */
+    function removeChip(type, name) {
+      var searchQuery = new NstSearchQuery(vm.query, true);
+      switch (type) {
+        case 'chip-place':
+          searchQuery.removePlace(name);
+          break;
+        case 'chip-user':
+          searchQuery.removeUser(name);
+          break;
+        case 'chip-label':
+          searchQuery.removeLabel(name);
+          break;
+        case 'chip-keyword':
+          searchQuery.removeKeyword(name);
+          break;
+      }
+      vm.query = searchQuery.toString();
+      initChips(searchQuery.getSearchParams());
+      vm.forceSearch(vm.query);
+    }
 
     /**
      * Checks current state is `unreads` page or not
@@ -461,10 +517,18 @@
      * Triggers when in search input any key being pressed
      * @param {event} $event
      * @param {string} text
+     * @param {boolean} isChips
      */
-    function searchKeyPressed($event, text) {
+    function searchKeyPressed($event, text, isChips) {
       if (vm.searchOnKeypress) {
-        vm.searchOnKeypress($event, text);
+        if (isChips) {
+          if (text === undefined) {
+            text = '';
+          }
+          vm.searchOnKeypress($event, vm.query + ' ' + text);
+        } else {
+          vm.searchOnKeypress($event, text);
+        }
       }
     }
 

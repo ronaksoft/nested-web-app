@@ -56,7 +56,16 @@
         <svg class="_24svg _r90 _df _fn mirror" ng-click="ctlFullNavbar.goBack()">
           <use xlink:href="/assets/icons/nst-icn24.svg#arrow"></use>
         </svg>
-        <input type="text" nst-mention mention-new-method mention-enable-label placeholder="Search..." class="_df _fw" ng-model="ctlFullNavbar.query" translate-attrs="placeholder" ng-keyup="ctlFullNavbar.searchKeyPressed($event, ctlFullNavbar.query)">
+        <!--<input type="text" nst-mention mention-new-method mention-enable-label placeholder="Search..." class="_df _fw" ng-model="ctlFullNavbar.query" translate-attrs="placeholder" ng-keyup="ctlFullNavbar.searchKeyPressed($event, ctlFullNavbar.query)">-->
+        <div class="search-chips-container _df _fw">
+          <div ng-repeat="chip in ctlFullNavbar.chips" class="chips {{chip.type}}">
+            <svg class="_16svg _r90 _df _fn fill-white" ng-click="ctlFullNavbar.removeChip(chip.type, chip.name)">
+              <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
+            </svg>
+            <span class="_df _fn">{{chip.name}}</span>
+          </div>
+          <input nst-mention mention-new-method mention-enable-label id="search-chip-input" placeholder="Search..." ng-model="ctlFullNavbar.chipQuery" translate-attrs="placeholder" ng-keyup="ctlFullNavbar.searchKeyPressed($event, ctlFullNavbar.chipQuery, true)">
+        </div>
         <div class="cp-illu _fn"></div>
       </div>
     </div>
