@@ -124,8 +124,6 @@
             vm.currentPlaceLoaded = true;
           }
           defer.resolve(vm.currentPlace);
-        }).catch(function (error) {
-          defer.reject(error);
         });
       }
 

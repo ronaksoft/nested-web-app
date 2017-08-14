@@ -424,18 +424,16 @@
 
 
       }).catch(function () {
-        NstSvcLogger.debug4('Compose | not recipients found');
         vm.search.results = [];
         var initPlace = new NstVmSelectTag({
           id: query,
           name: query
         });
 
-        if (initPlace.id)
+        if (initPlace.id) {
           vm.search.results.push(initPlace);
+        }
       });
-
-
     }
 
     /**
@@ -729,7 +727,7 @@
             NstSvcLogger.debug4('Compose | Compose model is valid');
             vm.focus = false;
             vm.model.saving = true;
-            
+
             var postLabelsIds = vm.model.labels.map(function(i){
               return i.id
             })

@@ -165,8 +165,6 @@
 
           load();
         }
-      }).catch(function (error) {
-        NstSvcLogger.error(error);
       }).finally(function () {
         vm.loading = false;
       });

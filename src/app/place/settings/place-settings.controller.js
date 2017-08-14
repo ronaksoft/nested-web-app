@@ -17,36 +17,36 @@
   /** @ngInject */
   /**
    * The user edits a place settings using this page
-   * 
-   * @param {any} $scope 
-   * @param {any} $stateParams 
-   * @param {any} $q 
-   * @param {any} $state 
-   * @param {any} $rootScope 
-   * @param {any} $timeout 
-   * @param {any} $uibModal 
-   * @param {any} $uibModalInstance 
-   * @param {any} toastr 
-   * @param {any} NST_PLACE_POLICY_OPTION 
-   * @param {any} NST_STORE_UPLOAD_TYPE 
-   * @param {any} NST_PLACE_ACCESS 
-   * @param {any} NST_SRV_ERROR 
-   * @param {any} NST_PLACE_MEMBER_TYPE 
-   * @param {any} NST_PLACE_TYPE 
-   * @param {any} NST_DEFAULT 
-   * @param {any} NST_PLACE_EVENT 
-   * @param {any} NstSvcStore 
-   * @param {any} NstSvcAuth 
-   * @param {any} NstSvcPlaceFactory 
-   * @param {any} NstUtility 
-   * @param {any} NstSvcLogger 
-   * @param {any} NstSvcTranslation 
-   * @param {any} NstSvcModal 
-   * @param {any} NstPicture 
-   * @param {any} NstPlaceOneCreatorLeftError 
-   * @param {any} NstPlaceCreatorOfParentError 
-   * @param {any} NstManagerOfSubPlaceError 
-   * @param {any} NstEntityTracker 
+   *
+   * @param {any} $scope
+   * @param {any} $stateParams
+   * @param {any} $q
+   * @param {any} $state
+   * @param {any} $rootScope
+   * @param {any} $timeout
+   * @param {any} $uibModal
+   * @param {any} $uibModalInstance
+   * @param {any} toastr
+   * @param {any} NST_PLACE_POLICY_OPTION
+   * @param {any} NST_STORE_UPLOAD_TYPE
+   * @param {any} NST_PLACE_ACCESS
+   * @param {any} NST_SRV_ERROR
+   * @param {any} NST_PLACE_MEMBER_TYPE
+   * @param {any} NST_PLACE_TYPE
+   * @param {any} NST_DEFAULT
+   * @param {any} NST_PLACE_EVENT
+   * @param {any} NstSvcStore
+   * @param {any} NstSvcAuth
+   * @param {any} NstSvcPlaceFactory
+   * @param {any} NstUtility
+   * @param {any} NstSvcLogger
+   * @param {any} NstSvcTranslation
+   * @param {any} NstSvcModal
+   * @param {any} NstPicture
+   * @param {any} NstPlaceOneCreatorLeftError
+   * @param {any} NstPlaceCreatorOfParentError
+   * @param {any} NstManagerOfSubPlaceError
+   * @param {any} NstEntityTracker
    */
   function PlaceSettingsController($scope, $stateParams, $q, $state, $rootScope,
     $timeout, $uibModal, $uibModalInstance, toastr,
@@ -158,9 +158,9 @@
 
     /**
      * Finds the type of the place
-     * 
-     * @param {any} place 
-     * @returns 
+     *
+     * @param {any} place
+     * @returns
      */
     function getPlaceType(place) {
       if (NstUtility.place.isGrand(place.id)) {
@@ -186,9 +186,9 @@
 
     /**
      * Loads the place and checks all required accesses
-     * 
-     * @param {any} id 
-     * @returns 
+     *
+     * @param {any} id
+     * @returns
      */
     function loadPlace(id) {
       var deferred = $q.defer(),
@@ -219,8 +219,8 @@
 
     /**
      * Opens a crop modal (if the browser is not Safari) and sets the cropped picture as the place picture
-     * 
-     * @param {any} event 
+     *
+     * @param {any} event
      */
     function setPicture(event) {
       var file = event.currentTarget.files[0];
@@ -228,12 +228,10 @@
         var request = NstSvcStore.uploadWithProgress(file, logoUploadProgress, NST_STORE_UPLOAD_TYPE.PLACE_PIC, NstSvcAuth.lastSessionKey);
 
           request.getPromise().then(function (result) {
-
             NstSvcPlaceFactory.updatePicture(vm.place.id, result.data.universal_id).then(function (result) {
               NstSvcLogger.info(NstUtility.string.format('Place {0} picture updated successfully.', vm.place.id));
               toastr.success(NstSvcTranslation.get("The Place photo has been set successfully."));
-            }).catch(function (error) {
-              NstSvcLogger.error(error);
+            }).catch(function () {
               toastr.error(NstSvcTranslation.get("An error has occurred in updating the Place photo."));
             });
 
@@ -265,17 +263,14 @@
             var request = NstSvcStore.uploadWithProgress(vm.logoFile, logoUploadProgress, NST_STORE_UPLOAD_TYPE.PLACE_PIC, NstSvcAuth.lastSessionKey);
 
             request.getPromise().then(function (result) {
-
               NstSvcPlaceFactory.updatePicture(vm.place.id, result.data.universal_id).then(function (result) {
                 NstSvcLogger.info(NstUtility.string.format('Place {0} picture updated successfully.', vm.place.id));
                 toastr.success(NstSvcTranslation.get("The Place photo has been set successfully."));
-              }).catch(function (error) {
-                NstSvcLogger.error(error);
+              }).catch(function () {
                 toastr.error(NstSvcTranslation.get("An error has occurred in updating the Place photo."));
               });
 
               vm.place.picture = new NstPicture(result.data.thumbs);
-              // vm.tempPictureUrl = null;
             });
           };
 
@@ -289,8 +284,8 @@
 
     /**
      * Logs upload progress
-     * 
-     * @param {any} event 
+     *
+     * @param {any} event
      */
     function logoUploadProgress(event) {
       vm.logoUploadedSize = event.loaded;
@@ -322,7 +317,7 @@
 
     /**
      * Leaves the place and navigates to the leaved place's grand parent or feeds page
-     * 
+     *
      */
     function leave() {
       NstSvcPlaceFactory.leave(vm.placeId).then(function(result) {
@@ -372,7 +367,7 @@
 
     /**
      * Removes the place and navigates to the removed place's grand parent or feeds page
-     * 
+     *
      */
     function remove() {
       NstSvcPlaceFactory.remove(vm.place.id).then(function(removeResult) {
@@ -387,7 +382,7 @@
         }, 1));
 
       }).catch(function(error) {
-        if (error.code === 1 && error.message[0] === "remove_children_first") {
+        if (error.err_code === 1 && error.items[0] === "remove_children_first") {
           toastr.warning(NstSvcTranslation.get("You have to delete all the sub-Places within, before removing this Place."));
         } else {
           toastr.error(NstSvcTranslation.get("An error has occurred in removing this Place."));
@@ -397,7 +392,7 @@
 
     /**
      * Removes the place picture
-     * 
+     *
      */
     function removePicture() {
       NstSvcModal.confirm(NstSvcTranslation.get("Confirm"), NstSvcTranslation.get("Please make sure before removing the place picture.")).then(function(confirmed) {

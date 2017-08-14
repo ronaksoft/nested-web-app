@@ -130,11 +130,9 @@
       }
 
       if (isBookMark()) {
-
-        NstSvcPlaceFactory.getFavoritesPlaces()
-          .then(function (data) {
-            vm.bookmarkedPlaces = data;
-          });
+        NstSvcPlaceFactory.getFavoritesPlaces().then(function (data) {
+          vm.bookmarkedPlaces = data;
+        });
       }
 
       eventReferences.push($rootScope.$on(NST_POST_EVENT.READ, function (event, data) {
@@ -773,10 +771,7 @@
     }
 
     function markAllAsRead() {
-      NstSvcPlaceFactory.markAllPostAsRead($stateParams.placeId)
-        .then(function (result) {
-
-        });
+      NstSvcPlaceFactory.markAllPostAsRead($stateParams.placeId);
     }
 
     function getQuickMessageAccess() {

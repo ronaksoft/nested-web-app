@@ -7,7 +7,7 @@
 
   function NstSvcPlaceFactory($q, _, $rootScope, $window,
                               NST_SRV_ERROR, NST_PLACE_ACCESS, NST_EVENT_ACTION, NST_PLACE_EVENT,
-                              NstSvcServer, NstSvcPlaceStorage, NstSvcTinyPlaceStorage, NstSvcMyPlaceIdStorage, NstSvcUserFactory, NstSvcPlaceRoleStorage, NstSvcPlaceAccessStorage, NstSvcLogger,
+                              NstSvcServer, NstSvcPlaceStorage, NstSvcTinyPlaceStorage, NstSvcMyPlaceIdStorage, NstSvcUserFactory, NstSvcLogger,
                               NstBaseFactory, NstUtility, NstTinyPlace, NstPlace, NstSvcPlaceMap, NstPicture,
                               NstPlaceCreatorOfParentError, NstPlaceOneCreatorLeftError, NstManagerOfSubPlaceError, NstUtilPlace) {
     function PlaceFactory() {
@@ -108,33 +108,6 @@
      * @returns {Promise}
      */
     PlaceFactory.prototype.getTiny = function (id) {
-      var factory = this;
-
-      return factory.sentinel.watch(function () {
-        return $q(function (resolve, reject) {
-          var place = NstSvcPlaceStorage.get(id) || NstSvcTinyPlaceStorage.get(id);
-
-          if (place) {
-            resolve(place);
-          } else {
-            factory.get(id).then(function (place) {
-              NstSvcTinyPlaceStorage.set(id, place);
-              resolve(place);
-            }).catch(reject);
-          }
-        });
-      }, "getTiny", id);
-
-    }
-
-    /**
-     * Retrieves a place by id and store in the related cache storage
-     *
-     * @param {String} id
-     *
-     * @returns {Promise}
-     */
-    PlaceFactory.prototype.getChildrens = function (id) {
       var factory = this;
 
       return factory.sentinel.watch(function () {
@@ -681,125 +654,6 @@
           keyHolders: keyHolders,
           total: data.total
         });
-      }).catch(deferred.reject);
-
-      return deferred.promise;
-    };
-
-    PlaceFactory.prototype.getRoleOnPlace = function (id, forceRequest) {
-      var factory = this;
-      // TODO: Use sentinel to watch the request
-      if (!this.requests.getRole[id]) {
-        var deferred = $q.defer();
-
-        var placeRole = NstSvcPlaceRoleStorage.get(id);
-        if (placeRole && !forceRequest) {
-          deferred.resolve(placeRole);
-        } else {
-          this.get(id).then(function () {
-            placeRole = NstSvcPlaceRoleStorage.get(id);
-            if (placeRole) {
-              deferred.resolve(placeRole);
-            } else {
-              deferred.reject({
-                err_code: NST_SRV_ERROR.UNKNOWN,
-              });
-            }
-          }).catch(deferred.reject);
-        }
-
-        this.requests.getRole[id] = deferred.promise;
-      }
-
-      return this.requests.getRole[id].then(function () {
-        var args = arguments;
-        delete factory.requests.getRole[id];
-
-        return $q(function (res) {
-          res.apply(null, args);
-        });
-      }).catch(function () {
-        var args = arguments;
-        delete factory.requests.getRole[id];
-
-        return $q(function (res, rej) {
-          rej.apply(null, args);
-        });
-      });
-    };
-
-    PlaceFactory.prototype.setRoleOnPlace = function (placeId, role) {
-      if (role) {
-        NstSvcPlaceRoleStorage.set(placeId, role);
-      }
-    };
-
-    PlaceFactory.prototype.getAccessOnPlace = function (id, forceRequest) {
-      var factory = this;
-
-      return factory.sentinel.watch(function () {
-        var deferred = $q.defer();
-
-        var placeAccess = NstSvcPlaceAccessStorage.get(id);
-        if (placeAccess && !forceRequest) {
-          deferred.resolve(placeAccess);
-        } else {
-          NstSvcServer.request('place/get_access', {
-            place_ids: id
-          }).then(function (response) {
-            var access = [];
-            if (response.places.length) {
-              if (response.places.length > 1) {
-                access = {};
-                for (var k in response.places) {
-                  var placeData = response.places[k];
-                  var placeId = placeData._id;
-                  access[placeId] = placeData.access;
-                  factory.setAccessOnPlace(placeId, access[placeId]);
-                }
-              } else {
-                var placeInfo = response.places[0];
-                access = placeInfo.access;
-                factory.setAccessOnPlace(id, placeInfo.access);
-              }
-            }
-
-            if (access) {
-              deferred.resolve(access);
-            } else {
-              deferred.reject({
-                err_code: NST_SRV_ERROR.UNKNOWN,
-              });
-            }
-          }).catch(deferred.reject);
-        }
-
-        return deferred.promise;
-      }, "getAccessOnPlace", id);
-    }
-
-    PlaceFactory.prototype.setAccessOnPlace = function (placeId, access) {
-      if (access) {
-        return NstSvcPlaceAccessStorage.set(placeId, access);
-      }
-    };
-
-    /**
-     * Retrieves Access list on Place
-     *
-     * @param placeId
-     * @param qAccess
-     * @param forceRequest
-     *
-     * @return {Promise}
-     */
-    PlaceFactory.prototype.hasAccess = function (placeId, qAccess, forceRequest) {
-      var deferred = $q.defer();
-      qAccess = angular.isArray(qAccess) ? qAccess : [qAccess];
-
-      this.getAccessOnPlace(placeId, forceRequest).then(function (actAccess) {
-        var difference = _.difference(qAccess, actAccess);
-        deferred.resolve(0 == difference.length);
       }).catch(deferred.reject);
 
       return deferred.promise;

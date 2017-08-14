@@ -428,19 +428,16 @@
       var request = NstSvcStore.uploadWithProgress(vm.logoFile, logoUploadProgress, NST_STORE_UPLOAD_TYPE.PLACE_PIC, NstSvcAuth.lastSessionKey);
 
       request.getPromise().then(function (result) {
-
         NstSvcPlaceFactory.updatePicture(vm.place.id, result.data.universal_id).then(function (result) {
           NstSvcLogger.info(NstUtility.string.format('Place {0} picture updated successfully.', vm.place.id));
           deferred.resolve();
-        }).catch(function (error) {
-          NstSvcLogger.error(error);
+        }).catch(function () {
           toastr.warning(NstSvcTranslation.get("Your place created successfully but an error has occurred in uploading the Place photo."));
-          deferred.resolve()
+          deferred.resolve();
         });
-
-
       });
 
+      return deferred.promise;
     }
 
     function logoUploadProgress(event) {

@@ -135,8 +135,6 @@
             add(vm.place, selectedUsers);
           }
         });
-      }).catch(function (error) {
-        NstSvcLogger.error(error);
       });
 
     }
@@ -363,9 +361,7 @@
      */
     function toggleBookmark() {
       vm.isBookmarked = !vm.isBookmarked;
-      NstSvcPlaceFactory.setBookmarkOption(vm.placeId, vm.isBookmarked).then(function (result) {
-
-      }).catch(function (error) {
+      NstSvcPlaceFactory.setBookmarkOption(vm.placeId, vm.isBookmarked).catch(function () {
         vm.isBookmarked = !vm.isBookmarked;
       });
     }
@@ -376,9 +372,7 @@
      */
     function toggleNotification() {
       vm.notificationStatus = !vm.notificationStatus;
-      NstSvcPlaceFactory.setNotificationOption(vm.placeId, vm.notificationStatus).then(function (result) {
-
-      }).catch(function (error) {
+      NstSvcPlaceFactory.setNotificationOption(vm.placeId, vm.notificationStatus).catch(function () {
         vm.notificationStatus = !vm.notificationStatus;
       });
     }
@@ -427,15 +421,13 @@
         if (vm.placeId) {
           vm.domain = NST_CONFIG.DOMAIN;
           vm.isGrandPlace = vm.placeId.split('.').length === 1;
-          NstSvcPlaceFactory.getFavoritesPlaces()
-            .then(function (bookmaks) {
-              if (bookmaks.indexOf(vm.placeId) >= 0) vm.isBookmarked = true;
-            });
+          NstSvcPlaceFactory.getFavoritesPlaces().then(function (bookmaks) {
+            if (bookmaks.indexOf(vm.placeId) >= 0) vm.isBookmarked = true;
+          });
 
-          NstSvcPlaceFactory.getNotificationOption(vm.placeId)
-            .then(function (status) {
-              vm.notificationStatus = status;
-            });
+          NstSvcPlaceFactory.getNotificationOption(vm.placeId).then(function (status) {
+            vm.notificationStatus = status;
+          });
 
 
           if (vm.hasPlace && !vm.place) {
@@ -558,8 +550,6 @@
         }).result.then(function (confirmResult) {
           remove();
         });
-      }).catch(function (error) {
-        NstSvcLogger.error(error);
       });
 
 
@@ -577,7 +567,7 @@
           $state.go(NST_DEFAULT.STATE);
         }
       }).catch(function (error) {
-        if (error.code === 1 && error.message[0] === "remove_children_first") {
+        if (error.err_code === 1 && error.items[0] === "remove_children_first") {
           toastr.warning(NstSvcTranslation.get("You have to delete all the sub-Places within, before removing this Place."));
         } else {
           toastr.error(NstSvcTranslation.get("An error has occurred in removing this Place."));

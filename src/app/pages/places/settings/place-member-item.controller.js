@@ -17,15 +17,12 @@
     vm.isCurrent = NstSvcAuth.user.id === vm.member.id;
 
     function promote() {
-
       NstSvcPlaceFactory.promoteMember(vm.place.id, vm.member.id).then(function (result) {
         vm.place.counters.creators++;
         vm.place.counters.key_holders--;
         $scope.$emit('member-promoted', {
           member: vm.member
         });
-      }).catch(function (error) {
-        $log.debug(error);
       });
     }
 
@@ -44,8 +41,6 @@
         $scope.$emit('member-demoted', {
           member: vm.member
         });
-      }).catch(function (error) {
-        $log.debug(error);
       });
     }
 

@@ -74,7 +74,7 @@
             initPlace.name = keyword;
             vm.resultTargets.push(initPlace);
         }
-      }).catch(function (error) {
+      }).catch(function () {
         vm.resultTargets = [];
       }).finally(function () {
         vm.searchPlaceProgress = false;
