@@ -24,7 +24,7 @@
       var decodedQuery = decodeURIComponent(query);
 
       var words = [];
-      var queryRegEx = /(\S([^[:|\s]+):\"([^"]+)")|(\S+)/g;
+      var queryRegEx = /(\S([^[:|\s]+):\"([^"]+)")|(\"([^"]+)")|(\S+)/g;
 
       var match;
       do {
