@@ -445,14 +445,11 @@
 
       var accountPromise = data.account_id ? NstSvcUserFactory.getTiny(data.account_id) : $q.resolve();
       var actorPromise = data.actor_id ? NstSvcUserFactory.getTiny(data.actor_id) : $q.resolve();
-      var labelPromise = data.label_id ? NstSvcLabelFactory.getMany(data.label_id) : $q.resolve();
+      var labelPromise = data.label_id ? NstSvcLabelFactory.get(data.label_id) : $q.resolve();
       var placePromise = data.place_id ? NstSvcPlaceFactory.get(data.place_id) : $q.resolve();
 
 
       $q.all([accountPromise, actorPromise, labelPromise, placePromise]).then(function (values) {
-        console.log('====================================');
-        console.log(values);
-        console.log('====================================');
         deferred.resolve(
           {
             id: data._id,
@@ -460,7 +457,7 @@
             date: new Date(data.timestamp),
             account: values[0],
             actor: values[1],
-            label: values[2],
+            label: values[2][0],
             place: values[3],
             type: data.type,
           });
