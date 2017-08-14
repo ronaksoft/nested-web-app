@@ -64,10 +64,6 @@ body[data-wdt-emoji-bundle='apple'] .wdt-emoji[data-has-img-apple='false'] {
   overflow: hidden;
   box-shadow: 0 8px 16px rgba(0,0,0,.32);
   background-color: white;
-  // background-color: #fff;
-  // &.notSupport {
-  //   font-family: 'emoji';
-  // }
 }
 .notSupportEmo {
   .wdt-emoji-picker {
@@ -162,14 +158,11 @@ body[data-wdt-emoji-bundle='apple'] .wdt-emoji[data-has-img-apple='false'] {
 }
 
 .wdt-emoji-popup h3.sticky {
-  // position: absolute;
-  // z-index: 4;
   width: calc(100% - 24px);
 }
 
 .wdt-emoji-scroll-wrapper {
   overflow: hidden;
-  // overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
   overflow-anchor: none;
   height: calc(100% - 35px);
@@ -192,16 +185,8 @@ body[data-wdt-emoji-bundle='apple'] .wdt-emoji[data-has-img-apple='false'] {
   margin-right: 4px !important;
   margin-bottom: 1px;
   padding: 6px;
-
-  -webkit-transition: background 500ms ease-out;
-  -moz-transition: background 500ms ease-out;
-  -ms-transition: background 500ms ease-out;
-  -o-transition: background 500ms ease-out;
   transition: background 500ms ease-out;
   text-align: center;
-
-  -webkit-border-radius: 6px;
-  -moz-border-radius: 6px;
   border-radius: 6px;
 }
 
@@ -439,70 +424,4 @@ img.emoji {
   border-bottom-color: #e7543d;
   border-radius: 50% 50% 0 0;
   background-color: rgba(255, 255, 255, .8);
-}
-
-/* iPhone 2G-4S-5-5S in portrait */
-@media only screen
-and (min-device-width: 320px)
-and (max-device-width: 480px)
-and (orientation: portrait) {
-  .wdt-emoji-picker {
-    display: none;
-  }
-
-  .wdt-emoji-tab {
-    width: 24px;
-  }
-
-  .wdt-emoji {
-    margin-right: 0 !important;
-  }
-
-  #wdt-emoji-footer {
-    display: none;
-  }
-
-  .wdt-emoji-scroll-wrapper {
-    height: 170px;
-  }
-
-  .wdt-emoji-popup {
-    height: 206px;
-
-    -webkit-border-radius: 0;
-    -moz-border-radius: 0;
-    border-radius: 0;
-  }
-
-  #wdt-emoji-search {
-    display: none;
-  }
-
-  .wdt-emoji-popup-mobile-closer {
-    visibility: visible;
-
-    opacity: 1;
-  }
-
-  .wdt-emoji-popup h3.sticky {
-    width: 200px;
-  }
-}
-
-/* iPhone 6 in portrait */
-@media only screen
-and (min-device-width: 375px)
-and (max-device-width: 667px)
-and (orientation: portrait) {
-  .wdt-emoji {
-    margin-right: -1px !important;
-  }
-
-  .wdt-emoji-tab {
-    width: 30px;
-  }
-
-  .wdt-emoji-popup h3.sticky {
-    width: 359px;
-  }
 }

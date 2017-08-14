@@ -18,7 +18,7 @@
   }
 
 }
-.notif {
+.unread-notif-badge {
   height: 20px;
   color: $color-white;
   background-color: rgb(255, 0, 20);
@@ -290,7 +290,6 @@
       font-weight: bold
     }
   }
-  //flex: 0 1 auto;
   a{
     display: inline-flex!important;
     flex-direction: row;
@@ -316,12 +315,9 @@
 .sidebar-wrapper .detailed.isSelected.home-item:after {
     display: none
 }
-.side-menu-item:active {
-}
 .sidebar > .side-place {
   padding-left: 8px;
   height: 100%;
-  //height: calc(100% - 420px);
 }
 .side-place-wrapper {
   z-index: 1;
@@ -333,7 +329,6 @@
   justify-content: center;
   width: 100%;
   border-bottom : 1px solid rgba(255,255,255,.04);
-  //transform: scaleX($sidebar-width-tiny/$sidebar-width);
   .places{
     position: relative;
     overflow: auto;
@@ -608,9 +603,6 @@
   flex: none;
   z-index: 2;
   margin: 8px 0;
-  //background-color: #e7ece9;
-  //height: 180px;
-  //padding-left: 15px;
   display: inline-flex;
   flex-direction: column;
   align-items: center;
@@ -627,7 +619,7 @@
       //margin-left: 22px;
       transition: $animation-dur;
     }
-    &.oddH {
+    &.sidebar-different-height-item {
       height: 40px;
     }
   }
@@ -1032,8 +1024,8 @@ ul ul > li:last-child > .place-item-inner{
 
   }
 }
-.oddH {
-  .notif {
+.sidebar-different-height-item {
+  .unread-notif-badge {
     width: 16px;
     height: 16px;
     background-color: $color-force;

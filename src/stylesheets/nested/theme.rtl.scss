@@ -141,7 +141,7 @@ body[dir="rtl"] {
     margin-right: 0;
     margin-left: 8px;
   }
-  .menu-links-butn {
+  .nav-item-butn {
     margin-right: 24px;
     margin-left: 0;
   }
@@ -256,7 +256,7 @@ body[dir="rtl"] {
       height: 16px;
     }
   }
-  nst-navbar .menu-links-butn span {
+  nst-navbar .nav-item-butn span {
     margin-left: 0;
     margin-right: 8px;
   }
@@ -494,11 +494,11 @@ body[dir="rtl"] {
     left: auto;
     right: 24px;
   }
-  nst-navbar .conv-nav .conv-logos .user-avatar-32 {
+  nst-navbar .conversation-nav .conversation-people .user-avatar-32 {
     left: auto;
     right: 0;
   }
-  nst-navbar .conv-nav .conv-logos .user-avatar-40 {
+  nst-navbar .conversation-nav .conversation-people .user-avatar-40 {
     right: auto;
     left: 0;
   }

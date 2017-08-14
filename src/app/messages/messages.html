@@ -7,11 +7,11 @@
             ready-to-show="ctlMessages.currentPlaceLoaded"
             ready-to-anime="true"
             place-description="{{ctlMessages.currentPlace.description}}"></nst-navbar>
-<div class="navbar-illu ng-class:{'feed' : !ctlMessages.currentPlace || ctlMessages.isUnreadMode,'conv' : ctlMessages.isConvMode}"></div>
+<div class="navbar-holder ng-class:{'feed' : !ctlMessages.currentPlace || ctlMessages.isUnreadMode,'conv' : ctlMessages.isConvMode}"></div>
 <div class="nst-content _tr content-wrapper">
   <scroll-change-handler reached-bottom="ctlMessages.loadMore" disabled="ctlMessages.reachedTheEnd"></scroll-change-handler>
   <section class="content nst-marginbtm-28">
-    <div class="navbarillu"></div>
+    <div class="old-navbar-holder"></div>
     <div class="filter-bar" ng-if="!ctlMessages.isbookmarkedsMode && !ctlMessages.isSentMode && !(ctlMessages.isUnreadMode && ctlMessages.unreadCount == 0) ">
       <div ng-if="!ctlMessages.isbookmarkedsMode && !ctlMessages.isSentMode && !ctlMessages.isUnreadMode" class="filter-bar-inner ng-class:{'nfeed' : ctlMessages.currentPlace }" affixer-filters parent=".content-plus" after-content="0" top="56" fixed-top="true">
         <div class="toolbar" ng-mouseleave="popoverSortShow = false">
