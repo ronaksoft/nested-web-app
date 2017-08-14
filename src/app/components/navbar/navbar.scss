@@ -293,7 +293,7 @@ nst-navbar {
     display: flex;
     flex: none;
   }
-  .nst-navbar.nfeed {
+  .nst-navbar.is-not-feed {
     height: 134px!important;
     width: calc(100vw - 240px);
     .content {

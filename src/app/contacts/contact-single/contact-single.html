@@ -51,17 +51,17 @@
     <div class="place-head-holder"></div>
     <div class="place-head-holder-2"></div>
 
-    <div class="inf">
+    <div class="contact-info">
         <h4><translate>Full Name</translate></h4>
         <h5>{{::ctrl.contact.fullName}}</h5>
     </div>
 
-    <div class="inf">
+    <div class="contact-info">
         <h4><translate>User ID</translate></h4>
         <h5>{{::ctrl.contact.id}}</h5>
     </div>
 
-    <div class="inf">
+    <div class="contact-info">
         <h4><translate>Mutual Places ({{ctrl.mutualPlaces.length || 0 | localize}})</translate></h4>
         <div class="mu-places">
             <a class="inline-place-row" ng-repeat="place in ctrl.mutualPlaces" ui-sref="app.place-messages({ placeId: place.id })" ng-click="ctrl.goToPlace($event, place);">

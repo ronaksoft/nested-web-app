@@ -81,46 +81,8 @@
         display: flex;
         align-items: center;
       }
-      .mbrs-srch {
-        width: 55px;
-        height: 100%;
-        display: flex;
-        flex: none;
-        align-items: center;
-        justify-content: center;
-        z-index: 1;
-        svg {
-          fill: $color-breeze;
-          use:last-of-type {
-            display: none;
-          }
-        }
-        &.srch {
-          z-index: 3;
-          svg {
-            fill: $color-solid;
-            use:first-of-type {
-              display: none;
-            }
-            use:last-of-type {
-              display: block;
-            }
-          }
-        }
-      }
-      input {
-        border: none;
-        height: 35px;
-        font-size: 13px;
-      }
-      input::-webkit-input-placeholder,
-      input:-ms-input-placeholder,
-      input:-moz-placeholder {
-        color: $color-breeze;
-        font-size: 13px;
-      }
     }
-    .top-add {
+    .place-setting-add-member {
       font-size: 11px;
       color: $color-black04;
       fill: $color-sense-wire;
@@ -147,18 +109,18 @@
         opacity: 1;
       }
     }
-    .src-res {
-      display: inline-flex;
-      flex-direction: row;
-      align-items: center;
-      p {
-        display: flex;
-        flex: 1;
-        color: #000000;
-        font-weight: 400;
-        margin: 0;
-      }
-    }
+    // .src-res {
+    //   display: inline-flex;
+    //   flex-direction: row;
+    //   align-items: center;
+    //   p {
+    //     display: flex;
+    //     flex: 1;
+    //     color: #000000;
+    //     font-weight: 400;
+    //     margin: 0;
+    //   }
+    // }
   }
   .receive-set.preview {
     &.select-box.selected{
