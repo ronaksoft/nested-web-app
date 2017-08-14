@@ -11,7 +11,7 @@
                                  NST_PLACE_TYPE, NST_PLACE_ACCESS,
                                  NST_STORE_UPLOAD_TYPE, NST_PLACE_POLICY_RECEPTIVE,
                                  NstSvcAuth, NstSvcPlaceFactory, NstSvcStore, NstVmMemberItem, NstSvcUserFactory,
-                                 NstUtility, $uibModal, $uibModalInstance, NstSvcLogger, NstSvcTranslation) {
+                                 NstUtility, _, $uibModal, $uibModalInstance, NstSvcLogger, NstSvcTranslation) {
 
     $scope.NST_PLACE_POLICY_OPTION = NST_PLACE_POLICY_OPTION;
     $scope.NST_PLACE_TYPE = NST_PLACE_TYPE;
@@ -47,7 +47,7 @@
       policy: {
         addPost: NST_PLACE_POLICY_OPTION.MANAGERS,
         addMember: vm.memberOptions[0].key,
-        addPlace: vm.memberOptions[0].key,
+        addPlace: vm.memberOptions[0].key
       },
       description: null,
       favorite: true,
@@ -428,19 +428,16 @@
       var request = NstSvcStore.uploadWithProgress(vm.logoFile, logoUploadProgress, NST_STORE_UPLOAD_TYPE.PLACE_PIC, NstSvcAuth.lastSessionKey);
 
       request.getPromise().then(function (result) {
-
         NstSvcPlaceFactory.updatePicture(vm.place.id, result.data.universal_id).then(function (result) {
           NstSvcLogger.info(NstUtility.string.format('Place {0} picture updated successfully.', vm.place.id));
           deferred.resolve();
-        }).catch(function (error) {
-          NstSvcLogger.error(error);
+        }).catch(function () {
           toastr.warning(NstSvcTranslation.get("Your place created successfully but an error has occurred in uploading the Place photo."));
-          deferred.resolve()
+          deferred.resolve();
         });
-
-
       });
 
+      return deferred.promise;
     }
 
     function logoUploadProgress(event) {

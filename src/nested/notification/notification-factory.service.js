@@ -7,7 +7,7 @@
 
   function NstSvcNotificationFactory(_, $q, $rootScope,
                                      NstSvcServer, NstSvcUserFactory, NstSvcPostFactory, NstSvcCommentFactory, NstSvcAuth,
-                                     NstBaseFactory, NstMention, NstFactoryEventData, NstSvcInvitationFactory, NstSvcPlaceFactory, NstSvcLabelFactory,
+                                     NstBaseFactory, NstMention, NstSvcInvitationFactory, NstSvcPlaceFactory, NstSvcLabelFactory,
                                      NST_AUTH_EVENT, NST_NOTIFICATION_EVENT, NST_NOTIFICATION_TYPE, NST_SRV_PUSH_CMD) {
     function NotificationFactory() {
       var that = this;

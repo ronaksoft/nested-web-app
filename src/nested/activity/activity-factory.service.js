@@ -212,7 +212,6 @@
 
     function parseAddLabel(data) {
       var deferred = $q.defer();
-      // console.log(data);
       var labelPromise = NstSvcLabelFactory.getMany(data.label_id);
       var actorPromise = NstSvcUserFactory.getTiny(data.actor_id);
       var postPromise = NstSvcPostFactory.get(data.post_id);

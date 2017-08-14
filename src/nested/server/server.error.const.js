@@ -11,6 +11,6 @@
     DUPLICATE: 5,
     LIMIT_REACHED: 6,
     SESSION_EXPIRE: 8,
-    TIMEOUT: 1000,
+    TIMEOUT: 1000
   });
 })();

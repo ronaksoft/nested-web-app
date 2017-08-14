@@ -8,7 +8,7 @@
     Attachment.prototype = {};
     Attachment.prototype.constructor = Attachment;
 
-    function Attachment(data) {
+    function Attachment() {
 
       this.id = null;
 

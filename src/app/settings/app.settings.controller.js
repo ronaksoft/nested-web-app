@@ -8,14 +8,13 @@
   /** @ngInject */
   /**
    * The app main settings page that wraps all setting pages
-   * 
-   * @param {any} $rootScope 
-   * @param {any} $scope 
-   * @param {any} NST_USER_EVENT 
-   * @param {any} NstSvcUserFactory 
-   * @param {any} NstSvcAuth 
+   *
+   * @param {any} $rootScope
+   * @param {any} $scope
+   * @param {any} NST_USER_EVENT
+   * @param {any} NstSvcAuth
    */
-  function SettingsController($rootScope, $scope, NST_USER_EVENT, NstSvcUserFactory, NstSvcAuth) {
+  function SettingsController($rootScope, $scope, NST_USER_EVENT, _, NstSvcAuth) {
     var vm = this;
     var eventReferences = [];
 

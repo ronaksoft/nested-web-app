@@ -3,7 +3,7 @@
 
   angular
     .module('ronak.nested.web.components.date')
-    .filter('date', function(moment, NstUtility, NstSvcTranslation, NstSvcI18n) {
+    .filter('date', function(moment, NstUtility, NstSvcTranslation) {
 
       return function(date, format) {
         if (!moment.isMoment(date)) {

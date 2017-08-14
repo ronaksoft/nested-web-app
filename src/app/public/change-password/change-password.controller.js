@@ -33,7 +33,7 @@
           toastr.error(NstSvcTranslation.get('Your new password must be between 6 characters.'));
           return;
         }
-        NstSvcUserFactory.changePassword(vm.model.oldPassword, vm.model.newPassword).then(function (result) {
+        NstSvcUserFactory.changePassword(vm.model.oldPassword, vm.model.newPassword).then(function () {
           toastr.success(NstSvcTranslation.get('You have changed your password successfully.'));
           vm.model = {
             oldPassword: '',
@@ -45,8 +45,7 @@
           $state.go('app.messages-favorites');
 
         }).catch(function (error) {
-          console.log(error);
-          if (error.code === NST_SRV_ERROR.INVALID) {
+          if (error.err_code === NST_SRV_ERROR.INVALID) {
             return toastr.error(NstSvcTranslation.get('The old password you have entered is incorrect'));
           } else {
             return toastr.error(NstSvcTranslation.get('An error has occured while trying to chaing your password'));

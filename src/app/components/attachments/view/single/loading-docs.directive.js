@@ -11,7 +11,7 @@
       scope: {
         show : '='
       },
-      link: function (scope,el,att) {
+      link: function (scope,el) {
         el.width(angular.element('.nst-preview-pic-mode').width() - 20);
         el.height(angular.element('.nst-preview-pic-mode').height() - 20);
 

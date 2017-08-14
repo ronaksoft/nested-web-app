@@ -135,7 +135,6 @@
                           })
                         });
                         callback(items);
-                      }).catch(function (error) {
                       });
 
                     }
@@ -166,7 +165,7 @@
                   callbacks: {
                     beforeInsert: function (value, $li) {
                       var elm = angular.element($li);
-                      return labelKey + elm.attr('data-id').trim();
+                      return labelKey + '"' + elm.attr('data-id') + '"';
                     },
                     remoteFilter: function (query, callback) {
                       NstSvcLabelFactory.search(query).then(function (labels) {

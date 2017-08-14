@@ -16,7 +16,7 @@
           onCompleted : '@',
           onPrevious : '@',
           countryCode : '='
-        },
+        }
       };
     });
 

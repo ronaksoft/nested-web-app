@@ -6,8 +6,8 @@ angular
 /** @ngInject */
 function NstSvcNotification($q, $window, _, $state, $rootScope,
                             NST_NOTIFICATION_TYPE, NST_AUTH_EVENT, NST_EVENT_ACTION, NST_CONFIG,
-                            NstObservableObject, NstSvcLogger, NstModel, NstSvcTranslation, NstSvcAuth, NstFactoryEventData,
-                            NstUtility) {
+                            NstObservableObject, NstSvcLogger, NstSvcTranslation, NstSvcAuth, NST_NOTIFICATION_EVENT,
+                            NstUtility, NstSvcDate) {
 
 
   var config = {
@@ -23,7 +23,7 @@ function NstSvcNotification($q, $window, _, $state, $rootScope,
   function MyNotification() {
     this.stack = {};
     this.options = {};
-    NstModel.call(this);
+    NstObservableObject.call(this);
   }
 
 
@@ -55,7 +55,7 @@ function NstSvcNotification($q, $window, _, $state, $rootScope,
         fcm_messaging_script.onload = function () {
           firebase.initializeApp(config);
           service.configFCM();
-          $rootScope.$on(NST_AUTH_EVENT.AUTHORIZE, function (e, data) {
+          $rootScope.$on(NST_AUTH_EVENT.AUTHORIZE, function () {
             service.configFCM();
           });
 
@@ -70,7 +70,7 @@ function NstSvcNotification($q, $window, _, $state, $rootScope,
   MyNotification.prototype.registerServiceWorker = function () {
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('/firebase-messaging-sw.js')
-        .then(function (registration) {
+        .then(function () {
           NstSvcLogger.info(" Notification | Messaging service notification registered.");
         }).catch(function (err) {
         NstSvcLogger.info(" Notification | Messaging service notification registered.", err);
@@ -123,7 +123,7 @@ function NstSvcNotification($q, $window, _, $state, $rootScope,
         NstSvcLogger.debug("Notification  | ", payload);
       });
       // TODO: Move this to costructor. Because every method call adds a new listener
-      $rootScope.$on(NST_AUTH_EVENT.UNAUTHORIZE, function (e, data) {
+      $rootScope.$on(NST_AUTH_EVENT.UNAUTHORIZE, function () {
         messaging.deleteToken(dt)
         that.options = {};
         that.stack = {};

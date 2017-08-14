@@ -6,7 +6,7 @@
     .directive('scrollChangeObserver', scrollChangeObserver);
 
   /** @ngInject */
-  function scrollChangeObserver() {
+  function scrollChangeObserver(_) {
     return {
       restrict : 'E',
       bindToController : true,

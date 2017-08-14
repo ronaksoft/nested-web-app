@@ -8,8 +8,8 @@
   /** @ngInject */
   function NstSvcAuth(_, $cookies, $q, $log, $rootScope,
                       NstSvcServer, NstSvcUserFactory, NstSvcPlaceFactory, NstSvcLogger, NstSvcI18n, NstSvcClient,
-                      NstSvcUserStorage, NstSvcCurrentUserStorage, NstSvcFileStorage, NstSvcInvitationStorage, NstFactoryError,
-                      NstSvcMyPlaceIdStorage, NstSvcPlaceRoleStorage, NstSvcPlaceStorage, NstSvcTinyPlaceStorage,
+                      NstSvcUserStorage, NstSvcCurrentUserStorage, NstSvcFileStorage, NstSvcInvitationStorage,
+                      NstSvcMyPlaceIdStorage, NstSvcPlaceStorage, NstSvcTinyPlaceStorage,
                       NstSvcPostStorage, NstSvcUploadTokenStorage, NstSvcTinyUserStorage, NstSvcContactStorage, NstSvcDate,
                       NST_SRV_EVENT, NST_SRV_RESPONSE_STATUS, NST_SRV_ERROR, NST_UNREGISTER_REASON, NST_CONFIG,
                       NST_AUTH_EVENT, NST_AUTH_STATE, NST_AUTH_STORAGE_KEY,
@@ -241,7 +241,6 @@
           NstSvcFileStorage.cache.flush();
           NstSvcInvitationStorage.cache.flush();
           NstSvcMyPlaceIdStorage.cache.flush();
-          NstSvcPlaceRoleStorage.cache.flush();
           NstSvcPlaceStorage.cache.flush();
           NstSvcTinyPlaceStorage.cache.flush();
           NstSvcPostStorage.cache.flush();
@@ -277,7 +276,7 @@
       return deferred.promise;
     };
 
-    Auth.prototype.setState = function (state, reason) {
+    Auth.prototype.setState = function (state) {
       if (this.state === state) return;
 
       this.state = state;
@@ -355,7 +354,7 @@
         }).catch(function (error) {
           $log.debug('Auth | Recall Error: ', error);
 
-          switch (error.getCode()) {
+          switch (error.code) {
             case NST_SRV_ERROR.ACCESS_DENIED:
             case NST_SRV_ERROR.INVALID:
             case NST_SRV_ERROR.UNAUTHORIZED:
@@ -420,9 +419,7 @@
       return $q(function (resolve, reject) {
         NstSvcServer.request('session/get_actives', {}).then(function (userSessions) {
           resolve(_.map(userSessions.sessions, factory.parseSession.bind(factory)));
-        }).catch(function (error) {
-          reject(new NstFactoryError({}, error.getMessage(), error.getCode(), error));
-        });
+        }).catch(reject);
       });
 
     };
@@ -433,9 +430,7 @@
           _sk: sk
         }).then(function () {
           resolve();
-        }).catch(function (error) {
-          reject(new NstFactoryError({_sk: sk}, error.getMessage(), error.getCode(), error));
-        });
+        }).catch(reject);
       });
 
     };
@@ -488,7 +483,7 @@
     $rootScope.$on(NST_AUTH_EVENT.AUTHORIZE, function (e, data) {
       NstSvcCurrentUserStorage.set(NST_AUTH_STORAGE_KEY.USER, data.user);
     });
-    $rootScope.$on(NST_AUTH_EVENT.UNAUTHORIZE, function (e, data) {
+    $rootScope.$on(NST_AUTH_EVENT.UNAUTHORIZE, function () {
       NstSvcCurrentUserStorage.remove(NST_AUTH_STORAGE_KEY.USER);
     });
 

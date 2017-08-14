@@ -5,17 +5,14 @@
     .service('SvcEmoji', SvcEmoji);
 
   /** @ngInject */
-  function SvcEmoji($rootScope,$window,$timeout) {
+  function SvcEmoji() {
     return {
 
     getRecent : function () {
-      
+
     },
-
-    setRecent : function (emo) {
-      console.log(emo);
+    setRecent : function (mo) {
     }
-
 
     };
   }

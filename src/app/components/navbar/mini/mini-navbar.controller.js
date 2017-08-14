@@ -9,7 +9,7 @@
   function MiniNavbarController($q, $state, $stateParams, $uibModal, $rootScope, $scope,
                                 NST_AUTH_EVENT, NST_DEFAULT,
                                 NstSvcAuth, NstSvcPlaceFactory, NstSvcInvitationFactory,
-                                NstVmUser, NstVmPlace, NstVmInvitation) {
+                                NstVmUser, NstVmPlace, NstVmInvitation, _) {
     var vm = this;
     var eventReferences = [];
     vm.mentionOpen = false;
@@ -50,37 +50,6 @@
     vm.compose = function ($event) {
       $event.preventDefault();
       $state.go('app.compose', {}, {notify: false});
-    };
-
-    vm.invitation.accept = function (id) {
-      return NstSvcInvitationFactory.accept(id);
-    };
-
-    vm.invitation.decline = function (id) {
-      return NstSvcInvitationFactory.decline(id);
-    };
-
-    vm.invitation.showModal = function (id) {
-      NstSvcInvitationFactory.get(id).then(function (invitation) {
-        $uibModal.open({
-          animation: false,
-          size: 'sm',
-          templateUrl: 'app/components/sidebar/invitation/decide-modal.html',
-          controller: 'InvitationController',
-          controllerAs: 'ctrlInvitation',
-          resolve: {
-            argv: {
-              invitation: invitation
-            }
-          }
-        }).result.then(function (result) {
-          if (result) {
-            return vm.invitation.accept(id);
-          } else {
-            return vm.invitation.decline(id);
-          }
-        });
-      });
     };
 
     vm.getPlaceName = function () {

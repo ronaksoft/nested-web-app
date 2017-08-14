@@ -5,15 +5,13 @@
     .factory('NstServerQuery', NstServerQuery);
 
   /** @ngInject */
-  function NstServerQuery(NstObject) {
+  function NstServerQuery() {
     function ServerQuery(id, data) {
       this.id = id;
       this.data = data;
-
-      NstObject.call(this);
     }
 
-    ServerQuery.prototype = new NstObject();
+    ServerQuery.prototype = {};
     ServerQuery.prototype.constructor = ServerQuery;
 
     return ServerQuery;

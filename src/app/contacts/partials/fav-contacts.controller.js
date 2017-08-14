@@ -17,13 +17,13 @@
   /** @ngInject */
   /**
    * Populates a list of favorite contacts
-   * 
-   * @param {any} _ 
-   * @param {any} $state 
-   * @param {any} $rootScope 
-   * @param {any} $scope 
-   * @param {any} NstSvcContactFactory 
-   * @param {any} NstUtility 
+   *
+   * @param {any} _
+   * @param {any} $state
+   * @param {any} $rootScope
+   * @param {any} $scope
+   * @param {any} NstSvcContactFactory
+   * @param {any} NstUtility
    */
   function FavoriteContacts(_, $state, $rootScope, $scope,
     NstSvcContactFactory, NstUtility) {
@@ -39,7 +39,7 @@
       // Gets all contacts and filter by `isFavorite`. Then orders by lastnam and limits the number of contacts to 30
       NstSvcContactFactory.getAll().then(function (contacts) {
         vm.contacts = _.chain(contacts).filter({ 'isFavorite': true }).orderBy(['lastName'], ['asc']).take(MAX_ITEMS_COUNT).value();
-      }).catch(function (error) {
+      }).catch(function () {
         vm.errorLoad = true;
       }).finally(function () {
         vm.loadProgress = false;
@@ -65,9 +65,9 @@
 
     /**
      * Opens the contact single-view page
-     * 
-     * @param {any} $event 
-     * @param {any} contact 
+     *
+     * @param {any} $event
+     * @param {any} contact
      */
     function openContact($event, contact) {
       $event.preventDefault();

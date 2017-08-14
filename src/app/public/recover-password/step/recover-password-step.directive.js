@@ -14,7 +14,7 @@
         },
         controller : 'RecoverPasswordStepController',
         controllerAs : 'ctrl',
-        bindToController : true,
+        bindToController : true
       };
     });
 

@@ -6,7 +6,7 @@
     .factory('NstSearchQuery', NstSearchQuery);
 
   /** @ngInject */
-  function NstSearchQuery(NstObject, NST_SEARCH_QUERY_PREFIX, $window) {
+  function NstSearchQuery(NstObject, NST_SEARCH_QUERY_PREFIX, _) {
     var QUERY_SEPARATOR = ' ';
     /**
      * Creates an instance of NstSearchQuery
@@ -34,7 +34,17 @@
         this.newMethod = true;
         decodedQuery = _.trimStart(decodedQuery, NST_SEARCH_QUERY_PREFIX.NEW_METHOD_KEY);
       }
-      var words = _.split(decodedQuery, QUERY_SEPARATOR);
+      // var words = _.split(decodedQuery, QUERY_SEPARATOR);
+      var words = [];
+      var queryRegEx = /(\S([^[:|\s]+):\"([^"]+)")|(\S+)/g;
+
+      var match;
+      do {
+        match = queryRegEx.exec(decodedQuery);
+        if (match) {
+          words.push(match[0]);
+        }
+      } while (match);
 
       this.prefixes = {};
       if (!this.newMethod) {
@@ -51,11 +61,11 @@
 
       _.forEach(words, function (word) {
         if (_.startsWith(word, that.prefixes.place)) {
-          this.places.push(_.trimStart(word, that.prefixes.place));
+          this.addPlace(_.trimStart(word, that.prefixes.place));
         } else if (_.startsWith(word, that.prefixes.user)) {
-          this.users.push(_.trimStart(word, that.prefixes.user));
+          this.addUser(_.trimStart(word, that.prefixes.user));
         } else if (_.startsWith(word, that.prefixes.label)) {
-          this.labels.push(_.trimStart(word, that.prefixes.label));
+          this.addLabel(_.trim(_.trimStart(word, that.prefixes.label), '"'));
         } else {
           if (word.length > 0) {
             this.otherKeywords.push(word);
@@ -82,7 +92,7 @@
           return that.prefixes.user + user;
         }),
         _.map(this.labels, function (label) {
-          return that.prefixes.label + label;
+          return that.prefixes.label + '"' + label + '"';
         }),
         this.otherKeywords);
 

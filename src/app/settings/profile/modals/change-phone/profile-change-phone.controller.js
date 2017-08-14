@@ -6,7 +6,7 @@
     .controller('ChangePhoneController', ChangePhoneController);
 
   /** @ngInject */
-  function ChangePhoneController($scope, $uibModalInstance) {
+  function ChangePhoneController($scope, $uibModalInstance, _) {
     var vm = this;
     var eventReferences = [];
 
@@ -41,7 +41,7 @@
       $uibModalInstance.close(data.phone);
     }));
 
-    eventReferences.push($scope.$on(vm.previousStepEventKey, function (event, data) {
+    eventReferences.push($scope.$on(vm.previousStepEventKey, function (event) {
       vm.autoSubmit = false;
       vm.step--;
     }));

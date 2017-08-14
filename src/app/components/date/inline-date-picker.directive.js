@@ -5,13 +5,13 @@
     .module('ronak.nested.web.components.date')
     .directive('inlineDatePicker', inlineDatePicker);
 
-  function inlineDatePicker(moment, NstSvcI18n, NstUtility, NstSvcDate) {
+  function inlineDatePicker(moment, NstSvcI18n, NstUtility, NstSvcDate, _) {
     return {
       restrict: 'E',
       replace : true,
       templateUrl: 'app/components/date/inline-date-picker.html',
       scope : {
-        value : '=selectedValue',
+        value : '=selectedValue'
       },
       link: function (scope ,element, attrs) {
         scope.validationEnabled = _.has(attrs, "validationEnabled");
@@ -40,7 +40,7 @@
         },
         function () {
           return scope.day;
-        }], _.debounce(function(newValues, oldValues) {
+        }], _.debounce(function(newValues) {
 
           if (_.every(newValues)) {
             setValue(newValues[0], newValues[1], newValues[2]);
@@ -53,7 +53,7 @@
         },
         function () {
           return scope.month;
-        }], _.debounce(function(newValues, oldValues) {
+        }], _.debounce(function(newValues) {
           if (newValues[0] && newValues[1]) {
             // set days range according to the selected year and month
             scope.days = createDaysList(newValues[0], newValues[1], scope.min, scope.max);
@@ -64,7 +64,7 @@
           }
         }, 300));
 
-        var yearWatcher = scope.$watch('year', _.debounce(function(newValue, oldValue) {
+        scope.$watch('year', _.debounce(function(newValue) {
           if (newValue) {
             scope.months = createMonthsList(newValue, scope.min, scope.max);
           }
@@ -153,7 +153,7 @@
       return _.range(1, upperBound + 1);
     }
 
-    function createMonthsList(year, minDate, maxDate) {
+    function createMonthsList() {
       return getMonths();
       // if (areInSameYear(year, maxDate)) {
       //
@@ -167,7 +167,7 @@
       // }
     }
 
-    function createDaysList(year, month, minDate, maxDate) {
+    function createDaysList() {
       return getDays();
       // if (areInSameMonth(year, month, maxDate)) {
       //

@@ -7,11 +7,11 @@
   /** @ngInject */
   function NstSvcPlaceAccess($q,
   NstSvcPlaceFactory,
-  NST_PLACE_ACCESS,
+  _,
   NST_SRV_ERROR) {
 
     var service = {
-      getIfhasAccessToRead : getIfhasAccessToRead,
+      getIfhasAccessToRead : getIfhasAccessToRead
     };
 
     return service;
