@@ -137,11 +137,11 @@
           });
       }
 
-      eventReferences.push($rootScope.$on(NST_POST_EVENT.READ, function (event, data) {
+      eventReferences.push($rootScope.$on(NST_POST_EVENT.READ, function (event) {
         getUnreadsCount();
       }));
 
-      eventReferences.push($rootScope.$on('post-read-all', function (e, data) {
+      eventReferences.push($rootScope.$on('post-read-all', function (e) {
         getUnreadsCount();
       }));
 
@@ -329,7 +329,7 @@
     function openContacts($event) {
       $state.go('app.contacts', {}, {notify: false});
       $event.preventDefault();
-    };
+    }
 
     function confirmforRemoveMulti(posts, place) {
       return $uibModal.open({
@@ -356,7 +356,7 @@
         if (!agree) {
           return;
         }
-        var get = true;
+        // var get = true;
         for (var i = 0; i < vm.selectedPosts.length; i++) {
           NstSvcPostFactory.get(vm.selectedPosts[i]).then(function (post) {
             NstSvcPostFactory.remove(post.id, vm.currentPlaceId).then(function () {
@@ -377,7 +377,7 @@
                   vm.currentPlace.counters.posts = p.counters.posts;
                 });
               }
-            }).catch(function (error) {
+            }).catch(function () {
               toastr.error(NstSvcTranslation.get("An error has occurred in trying to remove this message from the selected Place."));
             });
           });
@@ -491,7 +491,7 @@
     }
 
     function loadViewSetting() {
-      return $q(function (resolve, reject) {
+      return $q(function (resolve) {
         var setting = {
           content: readSettingItem(NST_MESSAGES_VIEW_SETTING.CONTENT),
           attachments: readSettingItem(NST_MESSAGES_VIEW_SETTING.ATTACHMENTS),
@@ -760,7 +760,7 @@
           }
         });
       }
-    };
+    }
 
     function loadMyPlaces() {
       var defer = $q.defer();
@@ -777,7 +777,7 @@
 
     function markAllAsRead() {
       NstSvcPlaceFactory.markAllPostAsRead($stateParams.placeId)
-        .then(function (result) {
+        .then(function () {
 
         });
     }

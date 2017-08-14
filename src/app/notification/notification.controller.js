@@ -7,7 +7,7 @@
 
   function NotificationsController(_, $q, $state, $scope, $log,
                                    NST_NOTIFICATION_TYPE, NST_NOTIFICATION_EVENT,
-                                   NstFactoryEventData, NstSvcNotificationFactory, NstSvcInteractionTracker, NstSvcDate) {
+                                   NstSvcNotificationFactory, NstSvcInteractionTracker, NstSvcDate) {
     var vm = this;
     vm.NST_NOTIFICATION_TYPE = NST_NOTIFICATION_TYPE;
     var pageItemsCount = 12;
@@ -142,8 +142,6 @@
           return openPlace(notification.place.id);
         case NST_NOTIFICATION_TYPE.NEW_SESSION:
           return;
-
-
       }
     }
 

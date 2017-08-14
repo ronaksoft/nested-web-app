@@ -21,13 +21,13 @@
                               NstSvcAuth, NstUtility, NstSvcPostInteraction, NstSvcTranslation, NstSvcLogger) {
     var vm = this;
 
-    var commentBoardMin = 3,
-      commentBoardMax = 99,
-      commentBoardMin = {
+    // var commentBoardMin = 3,
+    //   commentBoardMax = 99,
+     var commentBoardMin = {
         limit: 8,
         date: null
       },
-      chaingStack = [],
+      // chaingStack = [],
       newCommentIds = [],
       unreadCommentIds = [],
       focusOnSentTimeout = null,
@@ -60,7 +60,7 @@
     vm.isFeed = isFeed;
     vm.labelClick = labelClick;
     vm.isPostView = isPostView();
-    
+
     vm.expandProgress = false;
     vm.body = null;
     vm.chainView = false;
@@ -73,7 +73,7 @@
 
     vm.limits = {
       places: 1,
-      recipients: 1,
+      recipients: 1
     }
 
     isPlaceFeed();
@@ -205,7 +205,7 @@
           });
           vm.isChecked = false;
           $scope.$emit('post-select',{postId: vm.post.id,isChecked : vm.isChecked});
-        }).catch(function (error) {
+        }).catch(function () {
           toastr.error(NstSvcTranslation.get("An error has occurred in trying to remove this message from the selected Place."));
         });
       });
@@ -281,7 +281,7 @@
         }
         ++$scope.$parent.$parent.affixObserver;
         SvcCardCtrlAffix.change();
-      }).catch(function (error) {
+      }).catch(function () {
         toastr.error(NstSvcTranslation.get('An error occured while tying to show the post full body.'));
       }).finally(function () {
         vm.expandProgress = false;
@@ -593,7 +593,7 @@
      * Event listener for read all posts
      * and updates the model
      */
-    eventReferences.push($rootScope.$on('post-read-all', function (e, data) {
+    eventReferences.push($rootScope.$on('post-read-all', function (e) {
       vm.post.read = true;
     }));
 
@@ -634,7 +634,7 @@
 
       vm.limits = {
         places: vm.post.places.length,
-        recipients: vm.post.recipients.length,
+        recipients: vm.post.recipients.length
       }
 
       /**

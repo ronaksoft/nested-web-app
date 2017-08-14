@@ -71,7 +71,7 @@
 
     });
 
-    eventReferences.push($rootScope.$on(NST_AUTH_EVENT.AUTHORIZE_FAIL, function (e) {
+    eventReferences.push($rootScope.$on(NST_AUTH_EVENT.AUTHORIZE_FAIL, function () {
       $state.go('public.signin');
     }));
 

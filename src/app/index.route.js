@@ -41,7 +41,7 @@
             $rootScope.goToLastState(true);
           });
         }],
-        onExit: function ($uibModalStack) {
+        onExit: function () {
         }
       })
 
@@ -65,7 +65,7 @@
             $rootScope.goToLastState(true);
           });
         }],
-        onExit: function ($uibModalStack) {
+        onExit: function () {
         }
       })
       .state('app.compose-forward', {
@@ -88,7 +88,7 @@
             $rootScope.goToLastState(true);
           });
         }],
-        onExit: function ($uibModalStack) {
+        onExit: function () {
         }
       })
       .state('app.compose-reply-all', {
@@ -111,7 +111,7 @@
             $rootScope.goToLastState(true);
           });
         }],
-        onExit: function ($uibModalStack) {
+        onExit: function () {
         }
       })
       .state('app.compose-reply-sender', {
@@ -134,7 +134,7 @@
             $rootScope.goToLastState(true);
           });
         }],
-        onExit: function ($uibModalStack) {
+        onExit: function () {
         }
       })
 
@@ -153,7 +153,7 @@
           group: 'settings'
         },
         onEnter: ['$rootScope', '$stateParams', '$state', '$uibModal', function ($rootScope, $stateParams, $state, $uibModal) {
-          var modal = $uibModal.open({
+          $uibModal.open({
             animation: false,
             size: 'lg-white',
             templateUrl: 'app/place/create/place-create.html',
@@ -164,7 +164,7 @@
             $rootScope.goToLastState(true);
           });
         }],
-        onExit: function ($uibModalStack, $stateParams) {
+        onExit: function ($uibModalStack) {
         }
       })
 

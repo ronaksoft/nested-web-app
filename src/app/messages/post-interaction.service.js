@@ -31,9 +31,9 @@
       } else {
         NstSvcModal.confirm(RETRACT_CONFIRM_TITLE, RETRACT_CONFIRM_MESSAGE).then(function(confirmed) {
           if (confirmed) {
-            NstSvcPostFactory.retract(post.id).then(function(result) {
+            NstSvcPostFactory.retract(post.id).then(function() {
               $rootScope.$broadcast('post-removed', {
-                postId: post.id,
+                postId: post.id
               });
               toastr.success(RETRACT_SUCCESS_MESSAGE);
               deferred.resolve(true);
@@ -53,9 +53,9 @@
     function markAsRead(postId) {
       var deferred = $q.defer();
 
-      NstSvcPostFactory.read(postId).then(function(result) {
+      NstSvcPostFactory.read(postId).then(function() {
         $rootScope.$broadcast(NST_POST_EVENT.READ, {
-          postId: postId,
+          postId: postId
         });
 
         deferred.resolve(true);

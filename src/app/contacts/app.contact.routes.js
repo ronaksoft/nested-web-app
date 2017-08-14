@@ -6,15 +6,15 @@
     .config(routerConfig);
 
   /** @ngInject */
-  function routerConfig($stateProvider, NST_DEFAULT) {
+  function routerConfig($stateProvider) {
 
     $stateProvider.state('app.contacts', {
       url: '/contacts/:contactId',
       params: {
-        contactId: '',
+        contactId: ''
       },
       options: {
-        group: 'contact',
+        group: 'contact'
       },
       onEnter: ['$rootScope', '$stateParams', '$state', '$uibModal', function($rootScope, $stateParams, $state, $uibModal) {
         $uibModal.open({
@@ -27,8 +27,8 @@
           $rootScope.goToLastState(true);
         });
       }],
-      onExit: function($uibModalStack, $state) {
-        
+      onExit: function($uibModalStack) {
+
       }
     });
 

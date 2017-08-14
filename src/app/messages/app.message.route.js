@@ -19,7 +19,7 @@
           group: 'message'
         },
         onEnter: ['$rootScope', '$stateParams', '$state', '$uibModal', function($rootScope, $stateParams, $state, $uibModal) {
-          var modal = $uibModal.open({
+           $uibModal.open({
             animation: false,
             templateUrl: 'app/messages/post/post.html',
             controller: 'PostController',
@@ -37,11 +37,11 @@
             $rootScope.goToLastState(true);
           });
         }],
-        onExit: function($uibModalStack, $state) {
+        onExit: function($uibModalStack) {
           if ($uibModalStack) {
             $uibModalStack.dismissAll();
           }
-        },
+        }
       })
 
       .state('app.messages', {
@@ -101,7 +101,7 @@
           primary: true,
           group: 'message',
           feed : true
-        },
+        }
       })
       .state('app.messages-sent', {
         url: '/shared',
@@ -143,7 +143,7 @@
       .state('app.place-messages', {
         url: '/places/:placeId/messages',
         params: {
-          placeId : NST_DEFAULT.STATE_PARAM,
+          placeId : NST_DEFAULT.STATE_PARAM
         },
         templateUrl: 'app/messages/messages.html',
         controller: 'MessagesController',

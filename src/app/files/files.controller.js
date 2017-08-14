@@ -145,7 +145,7 @@
             $state.go(NST_DEFAULT.STATE);
           });
         }
-      }).catch(function (error) {
+      }).catch(function () {
         toastr.error(NstSvcTranslation.get('Sorry, an error has occurred while loading the Place.'));
       });
 
@@ -233,7 +233,7 @@
         vm.files.push.apply(vm.files, newFileItems);
         vm.loadFilesError = false;
         deferred.resolve();
-      }).catch(function (error) {
+      }).catch(function () {
         toastr.error(NstSvcTranslation.get('An error has occurred while retrieving files.'));
         vm.loadFilesError = true;
         deferred.reject();
