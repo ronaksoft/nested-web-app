@@ -53,7 +53,7 @@
           }
           return combined + ')';
         }
-
+          var exports = {};
         //AMD wrapper
         if (typeof define !== 'undefined' ) {
           define([], persianRex);
