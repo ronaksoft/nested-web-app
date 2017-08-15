@@ -3,7 +3,7 @@
 
   angular
     .module('ronak.nested.web.components.text')
-    .directive('contentedit', function() {
+    .directive('contentedit', function($) {
     var obj = {
       restrict:'A',
       replace:false,

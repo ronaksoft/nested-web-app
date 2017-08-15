@@ -14,21 +14,14 @@
     .module('ronak.nested.web.message')
     .controller('PostCardController', PostCardController);
 
-  function PostCardController($state, $log, $timeout, $stateParams, $rootScope, $scope, $filter, $window, $sce, $uibModal,
-                              _, moment, toastr,
+  function PostCardController($state, $log, $timeout, $stateParams, $rootScope, $scope, $uibModal,
+                              _, toastr,
                               NST_EVENT_ACTION, NST_PLACE_ACCESS, NST_POST_EVENT, SvcCardCtrlAffix,
-                              NstSvcSync, NstVmFile, NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory, NstSearchQuery,
-                              NstSvcAuth, NstUtility, NstSvcPostInteraction, NstSvcTranslation, NstSvcLogger) {
+                              NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory, NstSearchQuery,
+                              NstSvcAuth, NstUtility, NstSvcPostInteraction, NstSvcTranslation, NstSvcLogger, $) {
     var vm = this;
 
-    var commentBoardMin = 3,
-    //   commentBoardMax = 99,
-      commentBoardMin = {
-        limit: 8,
-        date: null
-      },
-      // chaingStack = [],
-      newCommentIds = [],
+      var newCommentIds = [],
       unreadCommentIds = [],
       focusOnSentTimeout = null,
       eventReferences = [];
@@ -69,7 +62,6 @@
     vm.isCheckedForce = false;
     vm.postSenderIsCurrentUser = false;
     vm.haveAnyLabelAcess = true; // TODO Read this from label cache
-    // vm.isPlaceFilter = false;
 
     vm.limits = {
       places: 1,

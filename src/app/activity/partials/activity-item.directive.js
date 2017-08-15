@@ -6,7 +6,7 @@
     .directive('activityItem', ActivityItem);
 
   /** @ngInject */
-  function ActivityItem(NST_EVENT_ACTION, NstSvcLogger, NstUtility) {
+  function ActivityItem(NST_EVENT_ACTION, NstSvcLogger, NstUtility, $) {
     return {
       restrict: 'E',
       transclude : true,

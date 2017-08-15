@@ -42,16 +42,15 @@
    * @param {any} NstSvcTranslation
    * @param {any} NstSvcInteractionTracker
    */
-  function ActivityController($q, $stateParams, $log, $state, $scope, $rootScope,
+  function ActivityController( $stateParams, $log, $state, $scope, $rootScope,
     _, moment,
     NST_SRV_EVENT, NST_EVENT_ACTION, NST_ACTIVITY_FILTER, NST_DEFAULT,
     NstSvcActivityMap, NstSvcModal,
     NstSvcActivitySettingStorage, NstSvcDate,
-    NstSvcActivityFactory, NstSvcSync, NstSvcInvitationFactory, NstSvcServer, NstUtility, NstSvcPlaceAccess, NstSvcTranslation, NstSvcInteractionTracker) {
+    NstSvcActivityFactory, NstSvcSync, NstSvcServer, NstUtility, NstSvcPlaceAccess, NstSvcTranslation, NstSvcInteractionTracker) {
 
     var vm = this;
     var activityFilterGroups = {};
-    // var eventListeners = [],
     var eventReferences = [];
     var reconnectEvent;
 
@@ -466,13 +465,6 @@
      * @param {any} activity
      * @returns
      */
-    function activityPassesFilter(activity) {
-      if (vm.activitySettings.filter === NST_ACTIVITY_FILTER.ALL) {
-        return true;
-      } else {
-        return _.includes(activityFilterGroups[vm.activitySettings.filter], activity.type);
-      }
-    }
 
     $scope.$on('$destroy', function () {
       NstSvcSync.closeChannel(vm.syncId);

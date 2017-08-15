@@ -13,7 +13,7 @@
       controller: 'ContactListController',
       controllerAs: 'ctrl',
       replace: true,
-      link: function (scope) {
+      link: function () {
 
       }
     };
