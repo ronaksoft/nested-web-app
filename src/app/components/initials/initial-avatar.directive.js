@@ -3,7 +3,7 @@
 
   angular
     .module('ronak.nested.web.components')
-    .directive('initialAvatar', function () {
+    .directive('initialAvatar', function ($) {
       return {
         scope: {
           initialAvatar : '@',

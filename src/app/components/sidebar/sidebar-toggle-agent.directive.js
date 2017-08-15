@@ -6,7 +6,7 @@
     .directive('nstSidebarToggleAgent', SidebarToggleAgent);
 
   /** @ngInject */
-  function SidebarToggleAgent($location, $rootScope) {
+  function SidebarToggleAgent($location, $rootScope, $) {
     return {
       restrict: 'A',
       scope: {
@@ -17,7 +17,7 @@
 
         var hrefWatcherCleaner = $scope.$watch(function () {
           return $attrs.href;
-        }, function (newValue, oldValue) {
+        }, function (newValue) {
           if (newValue) {
             setClickBehaviour();
           }
@@ -31,25 +31,14 @@
           jElement.off('click');
           if ($attrs.href) {
             if (isCurrentViewLink($attrs.href)) {
-              jElement.on('click', function(event) {
+              jElement.on('click', function() {
                 $scope.$apply(function () {
 
                   //FIXME What is toggleAgentSwitch ?!
-                  // $scope.toggleAgentSwitch = !$scope.toggleAgentSwitch;
                   $scope.$emit('collapse-sidebar');
                 });
               });
             }
-            // @NOTE : The else block closes the sidebar on chosing another item
-            // else {
-            //   jElement.on('click', function(event) {
-            //     if ($scope.toggleAgentSwitch) {
-            //       $scope.$apply(function () {
-            //         $scope.toggleAgentSwitch = false;
-            //       });
-            //     }
-            //   });
-            // }
           }
         }
 

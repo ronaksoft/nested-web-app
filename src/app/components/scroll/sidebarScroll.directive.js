@@ -6,12 +6,11 @@
     .directive('sidebarScroll', onScroll);
 
   /** @ngInject */
-  function onScroll(_, $rootScope, $timeout, $interval, $window) {
+  function onScroll($timeout, $interval, $window) {
     return {
       restrict: 'A',
-      link: function (scope, $element, $attrs) {
+      link: function (scope, $element) {
         var placesArray = [],
-            unreadArray = [],
             win = angular.element($window);
         scope.ctlSidebar.overFlowBottom = false;
         scope.ctlSidebar.overFlowBottomUnread = false;
@@ -70,7 +69,7 @@
 
             scope.ctlSidebar.overFlowBottomUnread = UnreadCountsB > 0;
         }
-          
+
         function initControlls() {
             insertItems();
         }
@@ -110,7 +109,7 @@
                 i += 4;
             },1);
         };
-        
+
         scope.ctlSidebar.scrollBottom = function(){
             var scrollDis = $element[0].clientHeight - 80;
             var i = 0

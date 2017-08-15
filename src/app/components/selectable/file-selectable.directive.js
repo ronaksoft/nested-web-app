@@ -2,7 +2,7 @@
   'use strict';
   angular
     .module('ronak.nested.web.components')
-    .directive('nstSelectable', function () {
+    .directive('nstSelectable', function ($) {
       return {
         restrict: 'AE',
         scope: {
@@ -10,7 +10,7 @@
           selectAttr: "@",
           onSelect: "="
         },
-        link: function (scope, element, attrs) {
+        link: function (scope, element) {
           var seletableElement = $(element);
           if (!seletableElement) {
             return;
@@ -22,7 +22,7 @@
             keyboard: true,
             textSelection: true,
             keyboardMode: "select",
-            select: function (event, ui) {
+            select: function () {
               selectedArray = [];
               seletableElement.selectonic("getSelected").each(function (i, e) {
                 selectedArray.push($(e).attr(scope.selectAttr))
@@ -31,7 +31,7 @@
                 scope.onSelect(selectedArray);
               }
             },
-            unselect: function (event, ui) {
+            unselect: function () {
               selectedArray = [];
               seletableElement.selectonic("getSelected").each(function (i, e) {
                 selectedArray.push($(e).attr(scope.selectAttr))

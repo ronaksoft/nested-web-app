@@ -7,7 +7,7 @@
         var newString = value.replace(reg, function (match, p1, p2) {
           return "<" + p1 + "span" + p2 + ">";
         });
-        newString = newString.replace(/href=['|"](.*?)['|"]/g, function (match, p1) {
+        newString = newString.replace(/href=['|"](.*?)['|"]/g, function () {
           return ""
         });
         var linked = $filter('linky')(newString, '_blank');

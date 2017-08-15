@@ -16,11 +16,8 @@
             $element.css({'justify-content' : 'flex-start'});
           }
         }
-
+        
         $timeout(resizer,0);
-
-
-
       }
     };
   }

@@ -5,7 +5,7 @@
     .module('ronak.nested.web.components.text')
     .directive('autoDir', autoDirDetector);
 
-  function autoDirDetector($parse,$rootScope) {
+  function autoDirDetector($parse,$rootScope, _) {
     return {
       restrict: 'A',
       link: function (scope ,element, attrs) {

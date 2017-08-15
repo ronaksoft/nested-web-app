@@ -15,7 +15,7 @@
         scope: {
           user: '=userDetail'
         },
-        link: function ($scope, $element, $attrs) {
+        link: function ($scope, $element) {
           $scope.user = $scope.user ? $scope.user : {};
           $scope.isEmail = NST_PATTERN.EMAIL.test( $scope.user.id);
           $scope.isAvailable = NstSvcAuth.user.id !== $scope.user.id ;

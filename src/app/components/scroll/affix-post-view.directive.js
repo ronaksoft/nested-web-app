@@ -6,7 +6,7 @@
     .directive('affixerPostView', onScroll);
 
   /** @ngInject */
-  function onScroll($window,$rootScope,$timeout) {
+  function onScroll($window,$rootScope,$timeout, $) {
     return {
       restrict: 'A',
       link: function ($scope, $element, $attrs) {
@@ -46,8 +46,6 @@
           topOffset = top - parseInt($attrs.top);
           var offLeft = $element.offset().left || 0;
 
-          // if($attrs.parentMode) offLeft = $element.parent().offset().left;
-
           var height = $element.outerHeight();
           var width = $element.outerWidth();
           var dontSetWidth = $attrs.dontSetWidth || false;
@@ -60,7 +58,7 @@
             containerLeft = $($attrs.parent)[0].offsetLeft;
           }
 
-          
+
           if (!!$attrs.afterContent ) {
             afterContent = $attrs.afterContent;
           }
@@ -72,15 +70,6 @@
             var clearRight = true;
           }
 
-          // affixElement();
-          
-
-            // if (isChrome || isFirefox) {
-            //   offLeft = parseInt($(container).offset().left) + parseInt(afterContent) - parseInt($('.sidebar').offset().left);
-            // }else if (!(isChrome || isFirefox )){
-            //   offLeft = parseInt($(container).offset().left) + parseInt(afterContent);
-            // }
-          
           function removeFix() {
             $element.css('position', '');
             $element.css('top', '');
@@ -121,7 +110,6 @@
               return container.unbind('scroll', affixElement);
             }
           }
-
 
           container.bind('scroll', affixElement);
           firstFixes();

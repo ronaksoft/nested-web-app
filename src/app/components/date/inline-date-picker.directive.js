@@ -155,49 +155,12 @@
 
     function createMonthsList() {
       return getMonths();
-      // if (areInSameYear(year, maxDate)) {
-      //
-      //   return _.take(getMonths(), (getMonth(maxDate) + 1));
-      // } else if (areInSameYear(year, minDate)) {
-      //
-      //   return _.takeRight(getMonths(), 12 - (getMonth(minDate) -1));
-      // } else {
-      //
-      //   return getMonths();
-      // }
     }
 
     function createDaysList() {
       return getDays();
-      // if (areInSameMonth(year, month, maxDate)) {
-      //
-      //   return _.take(getDays(), getDay(maxDate));
-      // } else if (areInSameMonth(year, month, minDate)) {
-      //
-      //   return _.takeRight(getDays(), getDaysInMonth(year, month) - (getDay(minDate)));
-      // } else {
-      //
-      //   return getDays();
-      // }
     }
 
-    function areInSameYear(year, secondDate) {
-      var date = moment({ year : year });
-      if (isJalali()) {
-        return date.isSame(secondDate, "jYear");
-      } else {
-        return date.isSame(secondDate, "year");
-      }
-    }
-
-    function areInSameMonth(year, month, secondDate) {
-      var date = moment({ year : year, month : month });
-      if (isJalali()) {
-        return date.isSame(secondDate, "jMonth")
-      } else {
-        return date.isSame(secondDate, "month")
-      }
-    }
 
     function isJalali() {
       return NstSvcI18n.selectedLocale === "fa-IR";

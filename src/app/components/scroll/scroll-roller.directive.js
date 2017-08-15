@@ -3,7 +3,7 @@
   var app = angular.module('ronak.nested.web.components.scroll');
   app.directive('scrollRoller', scrollRoller);
 
-  function scrollRoller(_) {
+  function scrollRoller(_, $) {
     var defaultSettings = {
       animated : true,
       speed : 1000,

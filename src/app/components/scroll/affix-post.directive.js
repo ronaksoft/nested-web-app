@@ -6,12 +6,10 @@
     .directive('affixPost', affixPost);
 
   /** @ngInject */
-  function affixPost($window,$rootScope,deviceDetector,$timeout,SvcCardCtrlAffix) {
+  function affixPost($timeout,SvcCardCtrlAffix) {
     return {
       restrict: 'A',
-      link: function ($scope, $element, $attrs) {
-
-        //console.log(el,$element.parent().children().first().height(),$element.parent().children().first()[0].scrollHeight);
+      link: function ($scope, $element) {
         $timeout(function () {
           var el = {
             el : $element,
@@ -22,7 +20,6 @@
           };
           SvcCardCtrlAffix.add(el);
         },100);
-
       }
     };
   }
