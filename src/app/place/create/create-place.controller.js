@@ -245,8 +245,6 @@
     var checkIdAvailabilityLazily = _.debounce(checkIdAvailability, 640);
 
     function checkIdAvailability(id, deferred, dontGenerate) {
-      var deferred = deferred || $q.defer();
-
       vm.placeIdChecking = true;
       vm.placeIdIsFullAvailable = true;
       NstSvcPlaceFactory.isIdAvailable(vm.place.parentId ? vm.place.parentId + '.' + id : id)
@@ -361,8 +359,6 @@
 
 
     function showAddOrInviteMember(role) {
-      var role = role || NST_PLACE_MEMBER_TYPE.KEY_HOLDER;
-
       var modal = $uibModal.open({
         animation: false,
         templateUrl: 'app/pages/places/settings/place-add-member.html',

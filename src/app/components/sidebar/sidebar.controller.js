@@ -13,7 +13,7 @@
                                NstSvcAuth, NstSvcServer, NstSvcLogger, NstSvcNotification, NstSvcTranslation,
                                 NstSvcPlaceFactory, NstSvcInvitationFactory, NstUtility, NstSvcUserFactory, NstSvcSidebar, NstSvcNotificationFactory,
                                 NstSvcKeyFactory, NstSvcPostDraft,
-                               NstVmPlace, NstVmInvitation, NstVmMention) {
+                               NstVmPlace, NstVmInvitation) {
       var vm = this;
       var eventReferences = [];
 
@@ -812,7 +812,6 @@
         getInvitations().then(function (invitations) {
           //FIXME:: Check last invitation
 
-          var invitations = mapInvitations(invitations);
           var lastInvitation = _.pullAllBy(invitations, vm.invitation, 'id')[0];
 
 

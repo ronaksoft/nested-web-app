@@ -10,7 +10,7 @@
     return {
       restrict: 'E',
       scope: {},
-      link: function (scope, elem) {
+      link: function (scope) {
       },
       templateUrl: 'app/messages/partials/message/post-card.html',
       controller: 'PostCardController',

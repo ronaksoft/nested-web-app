@@ -81,7 +81,7 @@
           });
         }
         $uibModalInstance.close(true);
-      }).catch(function (error) {
+      }).catch(function () {
         if (error.code === 5) {
           toastr.warning(NstSvcTranslation.get("Label already exists!"));
         } else {

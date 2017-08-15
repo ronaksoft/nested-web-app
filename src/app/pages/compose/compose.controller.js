@@ -15,7 +15,7 @@
     .controller('ComposeController', ComposeController);
 
   /** @ngInject */
-  function ComposeController($q, $rootScope, $state, $stateParams, $scope, $log, $timeout, $uibModalStack, $window,
+  function ComposeController($q, $rootScope, $state, $stateParams, $scope, $log, $timeout, $uibModalStack,
                              _, toastr,
                              NST_SRV_ERROR, NST_PATTERN, NST_CONFIG, NST_DEFAULT, NST_ATTACHMENT_STATUS, NST_STORE_UPLOAD_TYPE,
                              NST_FILE_TYPE, SvcCardCtrlAffix,
@@ -23,8 +23,8 @@
                              NstSvcFileType, NstSvcAttachmentMap, NstSvcSidebar, NstSvcSystemConstants,
                              NstUtility, NstSvcTranslation, NstSvcModal, NstSvcPostDraft,
                              NstSvcUserFactory, NstSvcLogger, NstSvcAuth,
-                             NstTinyPlace, NstVmPlace, NstVmSelectTag, NstPicture,
-                             NstPostDraft, NstTinyUser, NstVmUser, NstPost) {
+                             NstTinyPlace, NstVmSelectTag, NstPicture,
+                             NstPostDraft, NstPost) {
     var vm = this;
     vm.quickMode = false;
     vm.focus = false;
@@ -70,7 +70,6 @@
       subject: '',
       body: '',
       forwardedFrom: null,
-      labels: [],
       replyTo: null,
       errors: [],
       modified: false,

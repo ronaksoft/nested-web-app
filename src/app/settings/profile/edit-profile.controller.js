@@ -214,8 +214,6 @@
     vm.removeImage = confirmRemovePicture;
     vm.setImage = setImage;
     var imageLoadTimeout = null;
-
-
     /*****************************
      ***** Controller Methods ****
      *****************************/

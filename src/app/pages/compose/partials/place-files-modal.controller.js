@@ -201,7 +201,7 @@
         },100)
         // vm.loadFilesError = false;
         deferred.resolve();
-      }).catch(function (error) {
+      }).catch(function () {
         toastr.error(NstSvcTranslation.get('An error has occurred while retrieving files.'));
         vm.loadFilesError = true;
         deferred.reject();

@@ -84,9 +84,6 @@
           scope.internalMode = NST_ATTACHMENTS_PREVIEW_BAR_MODE.THUMBNAIL_TWO_IMAGE;
           scope.deform = false;
 
-
-          var wrpWidth = ele.parent().parent().width() - scope.flexDiv;
-          var imgOneRatio = scope.items[0].width / scope.items[0].height || 1;
           var imgTwoRatio = scope.items[1].width / scope.items[1].height || 1;
           var ratio = imgOneRatio / imgTwoRatio;
           scope.scaleOne = (ratio / (1 + ratio)) * 100;
