@@ -1083,7 +1083,7 @@
       fontSize: ['8', '10', '14', '18', '22'],
       toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'fontSize', '|', 'color', 'align', 'formatOL', 'formatUL', 'insertLink', '|', 'rightToLeft', 'leftToRight'],
       events: {
-        'froalaEditor.initialized': function (e) {
+        'froalaEditor.initialized': function () {
         },
         'froalaEditor.focus': function () {
           vm.focusBody = true;
