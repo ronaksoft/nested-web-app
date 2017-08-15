@@ -180,7 +180,6 @@
     };
 
     LabelFactory.prototype.getMany = function (id) {
-      console.log(id);
       var joinedIds = id.join(',');
       return NstSvcServer.request('label/get_many', {
         label_id: joinedIds,

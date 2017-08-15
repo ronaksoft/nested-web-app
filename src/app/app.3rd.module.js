@@ -13,6 +13,7 @@
       'ui.bootstrap',
       'toastr',
       'lodash',
+      'jquery',
       'momentjs',
       'cfp.hotkeys',
       'ngImgCrop',
