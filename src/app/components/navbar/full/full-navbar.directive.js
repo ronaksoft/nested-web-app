@@ -24,7 +24,8 @@
         placeDescription: '@',
         account: '=',
         query: '=',
-        searchOnKeypress : '='
+        searchOnKeypress : '=',
+        forceSearch : '='
       },
       link: function ($scope, $element, $attrs) {
       }

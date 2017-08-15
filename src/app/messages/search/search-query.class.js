@@ -12,17 +12,10 @@
      * Creates an instance of NstSearchQuery
      *
      * @param {String}    query   the query
-     * @param {Boolean}    isNewMethod   new search method
      *
      * @constructor
      */
-    function SearchQuery(query, isNewMethod) {
-
-      this.newMethod = false;
-      if (isNewMethod === true) {
-        this.newMethod = true;
-      }
-
+    function SearchQuery(query) {
       this.places = [];
       this.users = [];
       this.labels = [];
@@ -30,35 +23,34 @@
 
       var decodedQuery = decodeURIComponent(query);
 
-      if (_.startsWith(decodedQuery, NST_SEARCH_QUERY_PREFIX.NEW_METHOD_KEY)) {
-        this.newMethod = true;
-        decodedQuery = _.trimStart(decodedQuery, NST_SEARCH_QUERY_PREFIX.NEW_METHOD_KEY);
-      }
-      var words = _.split(decodedQuery, QUERY_SEPARATOR);
+      var words = [];
+      var queryRegEx = /(\S([^[:|\s]+):\"([^"]+)")|(\"([^"]+)")|(\S+)/g;
+
+      var match;
+      do {
+        match = queryRegEx.exec(decodedQuery);
+        if (match) {
+          words.push(match[0]);
+        }
+      } while (match);
 
       this.prefixes = {};
-      if (!this.newMethod) {
-        this.prefixes.user = NST_SEARCH_QUERY_PREFIX.USER;
-        this.prefixes.place = NST_SEARCH_QUERY_PREFIX.PLACE;
-        this.prefixes.label = NST_SEARCH_QUERY_PREFIX.NEW_LABEL;
-      } else {
-        this.prefixes.user = NST_SEARCH_QUERY_PREFIX.NEW_USER;
-        this.prefixes.place = NST_SEARCH_QUERY_PREFIX.NEW_PLACE;
-        this.prefixes.label = NST_SEARCH_QUERY_PREFIX.NEW_LABEL;
-      }
+      this.prefixes.user = NST_SEARCH_QUERY_PREFIX.NEW_USER;
+      this.prefixes.place = NST_SEARCH_QUERY_PREFIX.NEW_PLACE;
+      this.prefixes.label = NST_SEARCH_QUERY_PREFIX.NEW_LABEL;
 
       var that = this;
 
       _.forEach(words, function (word) {
         if (_.startsWith(word, that.prefixes.place)) {
-          this.places.push(_.trimStart(word, that.prefixes.place));
+          this.addPlace(_.trimStart(word, that.prefixes.place));
         } else if (_.startsWith(word, that.prefixes.user)) {
-          this.users.push(_.trimStart(word, that.prefixes.user));
+          this.addUser(_.trimStart(word, that.prefixes.user));
         } else if (_.startsWith(word, that.prefixes.label)) {
-          this.labels.push(_.trimStart(word, that.prefixes.label));
+          this.addLabel(_.trim(_.trimStart(word, that.prefixes.label), '"'));
         } else {
           if (word.length > 0) {
-            this.otherKeywords.push(word);
+            this.addOtherKeyword(word);
           }
         }
       }.bind(this));
@@ -82,15 +74,11 @@
           return that.prefixes.user + user;
         }),
         _.map(this.labels, function (label) {
-          return that.prefixes.label + label;
+          return that.prefixes.label + '"' + label + '"';
         }),
         this.otherKeywords);
 
-      if (this.newMethod && scape) {
-        return NST_SEARCH_QUERY_PREFIX.NEW_METHOD_KEY + ' ' + _.join(items, QUERY_SEPARATOR);
-      } else {
-        return _.join(items, QUERY_SEPARATOR);
-      }
+      return _.join(items, QUERY_SEPARATOR);
     }
 
     SearchQuery.prototype.ToEncodeString = function () {
@@ -101,6 +89,12 @@
       if (!_.includes(this.places, place)) {
         this.places.push(place);
       }
+    };
+
+    SearchQuery.prototype.removePlace = function (place) {
+      _.remove(this.places, function (item) {
+        return place === item;
+      });
     };
 
     SearchQuery.prototype.getDefaultPlaceId = function () {
@@ -117,22 +111,36 @@
       }
     };
 
+    SearchQuery.prototype.removeUser = function (user) {
+      _.remove(this.users, function (item) {
+        return user === item;
+      });
+    };
+
     SearchQuery.prototype.addLabel = function (label) {
       if (!_.includes(this.labels, label)) {
         this.labels.push(label);
       }
     };
 
+    SearchQuery.prototype.removeLabel = function (label) {
+      _.remove(this.labels, function (item) {
+        return label === item;
+      });
+    };
+
     SearchQuery.prototype.addOtherKeyword = function (keyword) {
       this.otherKeywords.push(keyword);
     };
 
-    SearchQuery.encode = function (queryString) {
-      return encodeURIComponent(queryString);
+    SearchQuery.prototype.removeKeyword = function (keyword) {
+      _.remove(this.otherKeywords, function (item) {
+        return keyword === item;
+      });
     };
 
-    SearchQuery.prototype.isNewMethod = function () {
-      return this.newMethod;
+    SearchQuery.encode = function (queryString) {
+      return encodeURIComponent(queryString);
     };
 
     SearchQuery.prototype.getSearchParams = function () {
