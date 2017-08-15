@@ -50,14 +50,13 @@
 
             var initProfile = NstSvcUserFactory.parseTinyUser({
               _id: settings.query,
-              fname: settings.query,
+              fname: settings.query
             });
             vm.users.push(initProfile);
           }
           vm.query = query;
         })
         .catch(function (error) {
-          console.log(error);
         });
     }
 

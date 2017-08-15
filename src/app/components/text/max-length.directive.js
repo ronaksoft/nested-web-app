@@ -9,7 +9,6 @@
     return {
       restrict: 'A',
       link: function (scope ,element, attrs) {
-        var str = "custom";
         function highlight(str) {
           var maxLength = parseInt(attrs.maxLength);
 

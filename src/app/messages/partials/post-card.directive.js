@@ -6,11 +6,11 @@
     .directive('postCard', PostItem);
 
   /** @ngInject */
-  function PostItem(NST_EVENT_ACTION) {
+  function PostItem() {
     return {
       restrict: 'E',
       scope: {},
-      link: function (scope, elem, attrs) {
+      link: function (scope, elem) {
       },
       templateUrl: 'app/messages/partials/message/post-card.html',
       controller: 'PostCardController',

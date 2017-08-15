@@ -28,10 +28,9 @@
    * @param {any} NST_NAVBAR_CONTROL_TYPE
    * @param {any} NstSvcTranslation
    */
-  function ChangePasswordController($scope, $log, $state,
-    toastr,
+  function ChangePasswordController(toastr,
     NstSvcUserFactory,
-    NST_SRV_ERROR, NST_NAVBAR_CONTROL_TYPE, NstSvcTranslation) {
+    NST_SRV_ERROR, NstSvcTranslation) {
     var vm = this;
 
     vm.model = {
@@ -58,7 +57,7 @@
           return;
         }
         // Changes the password
-        NstSvcUserFactory.changePassword(vm.model.oldPassword, vm.model.newPassword).then(function(result) {
+        NstSvcUserFactory.changePassword(vm.model.oldPassword, vm.model.newPassword).then(function() {
           toastr.success(NstSvcTranslation.get('You have changed your password successfully.'));
           // Clears the form
           vm.model = {

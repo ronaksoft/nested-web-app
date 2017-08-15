@@ -5,7 +5,7 @@
     .module('ronak.nested.web.common')
     .factory('NstVmPlace', NstVmPlace);
   // TODO: Why a view-model injects $state!!??
-  function NstVmPlace($state, NstTinyPlace, NstPlace, NST_STORE_ROUTE) {
+  function NstVmPlace($state, NstTinyPlace, NstPlace) {
     /**
      * Creates an instance of NstVmPlace
      *
@@ -43,8 +43,6 @@
 
       if ($state.current.name.indexOf('activity') > -1) {
         state = 'place-activity';
-      // } else if ($state.current.name.indexOf('compose') > -1) {
-      //   state = 'place-compose';
       } else if ($state.current.name.indexOf('settings') > -1) {
         state = 'place-settings';
       }

@@ -6,7 +6,7 @@
     .directive('affixerPostView', onScroll);
 
   /** @ngInject */
-  function onScroll($window,$rootScope,$timeout, $) {
+  function onScroll($window,$timeout, $) {
     return {
       restrict: 'A',
       link: function ($scope, $element, $attrs) {
@@ -14,15 +14,9 @@
         var win = angular.element($window);
         var topOffset = 0;
         var afterContent = 0;
-        var applierTrigger = false;
         var container = $attrs.container ? $($attrs.container) : win;
         var containerLeft = $('body').offset().left || 0;
         var rightAuto = $attrs.rtlRightAuto || false;
-
-        var isRTL = $rootScope._direction;
-
-        var i = 0;
-        var defTop = $element.offset().top;
 
         applier();
         if( $attrs.observe ) {

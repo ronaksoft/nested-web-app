@@ -5,7 +5,7 @@
     .module('ronak.nested.web.components.attachment')
     .directive('nstAttachmentsEditableBar', AttachmentsEditableBar);
 
-  function AttachmentsEditableBar(NST_ATTACHMENTS_EDITABLE_BAR_MODE, $timeout, $interval, _) {
+  function AttachmentsEditableBar(NST_ATTACHMENTS_EDITABLE_BAR_MODE, $timeout, $interval, _, $) {
     return {
       restrict: 'E',
       templateUrl: 'app/components/attachments/editable/main.html',

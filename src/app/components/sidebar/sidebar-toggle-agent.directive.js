@@ -6,7 +6,7 @@
     .directive('nstSidebarToggleAgent', SidebarToggleAgent);
 
   /** @ngInject */
-  function SidebarToggleAgent($location, $rootScope, $) {
+  function SidebarToggleAgent($location, $rootScope, $, _) {
     return {
       restrict: 'A',
       scope: {

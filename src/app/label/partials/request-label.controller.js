@@ -13,7 +13,7 @@
     vm.label = {
       id: null,
       code: 'A',
-      title: '',
+      title: ''
     };
     vm.userSelectPlaceHolder = 'Enter username or user-id…';
     vm.newLabel = false;
@@ -48,7 +48,6 @@
 
     function searchLabel() {
       if (vm.keyword.length > 1) {
-        var keyword = $filter('scapeSpace')(vm.keyword);
         NstSvcLabelFactory.search(vm.keyword, NST_LABEL_SEARCH_FILTER.PRIVATES).then(function (result) {
           vm.suggests = result;
         });
@@ -86,7 +85,7 @@
       } else {
         labelService = NstSvcLabelFactory.request(vm.label.id);
       }
-      labelService.then(function (result) {
+      labelService.then(function () {
         toastr.success(NstSvcTranslation.get("Your request submited successfully."));
         $uibModalInstance.close(true);
       }).catch(function(error) {

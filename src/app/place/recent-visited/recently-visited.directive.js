@@ -11,7 +11,7 @@
         controllerAs : 'ctrl',
         bindToController : true,
         replace : true,
-        link: function (scope, element, attrs) {
+        link: function (scope, element) {
 
         }
       };

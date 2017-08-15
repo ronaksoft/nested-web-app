@@ -469,13 +469,13 @@
         accept: function () {
           return true;
         },
-        itemMoved: function (event) {
+        itemMoved: function () {
         },
         orderChanged: function (event) {
           fillOrder(event.source, event.dest);
         },
         clone: false,
-        allowDuplicates: false,
+        allowDuplicates: false
       };
 
       function fillOrder() {
@@ -610,13 +610,6 @@
 
       function mapInvitations(invitationModels) {
         return invitationModels.map(mapInvitation);
-      }
-
-      function mapMentions(mentions) {
-        var currentUserId = NstSvcAuth.user.id;
-        return _.map(mentions, function (item) {
-          return new NstVmMention(item, currentUserId);
-        });
       }
 
       /*****************************
@@ -824,8 +817,6 @@
 
 
           if (!lastInvitation) return;
-
-          vm.invitations = invitations;
 
           NstSvcNotification.push(
             NstUtility.string.format(

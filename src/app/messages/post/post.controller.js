@@ -6,10 +6,8 @@
     .controller('PostController', PostController);
 
   /** @ngInject */
-  function PostController($q, $scope, $rootScope, $stateParams, $state, $uibModalInstance,
-                          _, toastr,
-                          NstVmFile,
-                          NstSvcAuth, NstSvcPostFactory, NstSvcPlaceFactory, NstUtility, NstSvcLogger, NstSvcPostInteraction, NstSvcTranslation, NstSvcSync,
+  function PostController($q, $scope, $rootScope, $stateParams, $uibModalInstance,
+                          _, toastr, NstSvcPostFactory, NstUtility, NstSvcLogger, NstSvcPostInteraction, NstSvcTranslation, NstSvcSync,
                           selectedPostId) {
     var vm = this;
     var defaultLimit = 8;
@@ -34,13 +32,13 @@
 
     (function () {
       vm.expandProgress = true;
-      load(vm.postId).then(function (done) {
+      load(vm.postId).then(function () {
         vm.expandProgress = false;
         // TODO: uncomment and fix
         vm.syncId = NstSvcSync.openChannel(_.head(vm.post.places).id);
 
         return vm.post.read ? $q.resolve(true) : markPostAsRead(vm.postId);
-      }).then(function (result) {
+      }).then(function () {
         $rootScope.$broadcast('post-viewed', { postId: vm.post.id });
       }).catch(function (error) {
         NstSvcLogger.error(error);
@@ -109,7 +107,7 @@
         vm.post.resources = resolvedSet[1].resources;
 
         vm.messages.splice(vm.messages.length - 1, 1, vm.post);
-      }).catch(function (error) {
+      }).catch(function () {
         toastr.error(NstSvcTranslation.get('An error occured while tying to show the post full body.'));
       });
     }
@@ -124,7 +122,7 @@
       loadChainMessages(oldest.id, defaultLimit).then(function (messages) {
         NstUtility.collection.dropById(messages, oldest.id);
         vm.messages.unshift.apply(vm.messages, messages);
-      }).catch(function (error) {
+      }).catch(function () {
         toastr.error(NstSvcTranslation.get('Sorry, An error has occured while loading the older posts'));
       });
     }

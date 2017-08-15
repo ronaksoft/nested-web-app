@@ -6,20 +6,13 @@
     .controller('MiniNavbarController', MiniNavbarController);
 
   /** @ngInject */
-  function MiniNavbarController($q, $state, $stateParams, $uibModal, $rootScope, $scope,
+  function MiniNavbarController($q, $state, $stateParams, $rootScope, $scope,
                                 NST_AUTH_EVENT, NST_DEFAULT,
                                 NstSvcAuth, NstSvcPlaceFactory, NstSvcInvitationFactory,
                                 NstVmUser, NstVmPlace, NstVmInvitation, _) {
     var vm = this;
     var eventReferences = [];
     vm.mentionOpen = false;
-
-
-    // $scope.$watch('place', function (newValue, oldValue) {
-    //   // if (oldValue !== newValue) {
-    //   //   vm.place = newValue;
-    //   // }
-    // });
 
     /*****************************
      *** Controller Properties ***
@@ -111,10 +104,6 @@
       return state;
     }
 
-    function openCreatePlaceModal($event) {
-      $event.preventDefault();
-      $state.go('app.place-create', {  } , { notify : false });
-    }
 
     function getComposeState() {
       var state = 'app.compose';
@@ -173,7 +162,7 @@
         if (NstSvcAuth.isAuthorized()) {
           res(NstSvcAuth.user);
         } else {
-          eventReferences.push($rootScope.$on(NST_AUTH_EVENT.AUTHORIZE, function (e, data) {
+          eventReferences.push($rootScope.$on(NST_AUTH_EVENT.AUTHORIZE, function () {
             res(NstSvcAuth.user);
           }));
         }
@@ -234,7 +223,7 @@
      *****    Change urls   ****
      *****************************/
 
-    $scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+    $scope.$on('$stateChangeSuccess', function (event, toState) {
       if (toState.options && toState.options.primary) {
         fixUrls();
       }

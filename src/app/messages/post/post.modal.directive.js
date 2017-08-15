@@ -4,7 +4,7 @@
     angular.module('ronak.nested.web.message')
       .directive('nstPostModal', PostModal);
 
-    function PostModal($timeout, $state, $window) {
+    function PostModal($timeout, $state) {
       var directive = {
         link: link,
         template: function(element) {
@@ -28,9 +28,6 @@
         };
 
         $element.click(function (event) {
-          var x = event.clientX/$window.innerWidth;
-          var y = event.clientY/$window.innerHeight;
-
           var style=document.createElement('style');
           style.type='text/css';
           if(style.styleSheet){

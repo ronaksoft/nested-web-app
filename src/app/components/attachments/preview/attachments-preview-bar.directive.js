@@ -5,7 +5,7 @@
     .module('ronak.nested.web.components.attachment')
     .directive('nstAttachmentsPreviewBar', AttachmentsPreviewBar);
 
-  function AttachmentsPreviewBar($timeout, $interval, toastr, $q, $stateParams, $rootScope,
+  function AttachmentsPreviewBar($timeout, $interval, toastr, $, $rootScope,
                                  NST_FILE_TYPE, NST_ATTACHMENTS_PREVIEW_BAR_MODE, NST_ATTACHMENTS_PREVIEW_BAR_ORDER, NST_STORE_ROUTE,
                                  NstSvcStore, NstSvcFileFactory, _) {
     return {
@@ -26,8 +26,6 @@
         scope.scrollDis = 140;
         scope.NST_FILE_TYPE = NST_FILE_TYPE;
         scope.cardWidth = angular.element('.attachments-card').width();
-        var interval, pwTimeout;
-        var moves = [];
         var borderLeftArray=[],borderRightArray=[];
         var audioDOMS = [];
 
@@ -101,41 +99,17 @@
           if( ( imgOneRatio < .1 && scope.items[0].height > 1024) || (imgTwoRatio < .1 && scope.items[1].height > 1024)) {
             scope.deform = true;
           }
-
-
-          // var unkHeight = Math.min(scope.items[0].height, scope.items[1].height);
-          // var scale = wrpWidth / ( unkHeight * imgOneRatio + unkHeight * imgTwoRatio );
-          // scope.imgHeight = scale * unkHeight;
-          // scope.flexOneWidth = scale * (unkHeight * imgOneRatio);
-          // scope.flexTwoWidth = scale * (unkHeight * imgTwoRatio);
         }
 
 
         $timeout(function () {
           scope.scrollWrp = ele.children().next();
-          // var leftArrow = ele.children().first();
-          // var rightArrow = ele.children().next().next();
 
           checkScroll(scope.scrollWrp[0]);
 
           scope.scrollWrp.scroll(function () {
             checkScroll(scope.scrollWrp[0]);
           });
-
-          // rightArrow.mousedown(function () {
-          //   scrollPower('right');
-          // });
-          // rightArrow.mouseup(function () {
-          //   stopScrollPower();
-          // });
-          //
-          // leftArrow.mousedown(function () {
-          //   scrollPower('left');
-          // });
-          // leftArrow.mouseup(function () {
-          //   stopScrollPower();
-          // });
-
         }, 1000);
 
 
@@ -170,9 +144,6 @@
         }
 
         scope.goLeft = function () {
-          // var k = makeid();
-          // count[k] = 0;
-          // scrollLeft(count, k);
 
           var el = scope.scrollWrp[0];
           var i = 0;
@@ -264,33 +235,6 @@
           });
         }
 
-        // function scrollLeft(count, k) {
-        //   var el = scope.scrollWrp[0];
-        //   var i = $interval(function () {
-        //     count[k]++;
-        //     if (count[k] < scope.scrollDis) {
-        //       el.scrollLeft -= 2;
-        //     } else {
-        //       $interval.cancel(i);
-        //     }
-        //   }, 1);
-        //   moves.push(i);
-        // }
-        //
-        // function scrollRight(count, k) {
-        //   var el = scope.scrollWrp[0];
-        //   var i = $interval(function () {
-        //     count[k]++;
-        //     if (count[k] < scope.scrollDis) {
-        //       el.scrollLeft += 2;
-        //     } else {
-        //       $interval.cancel(i);
-        //     }
-        //   }, 1);
-        //   moves.push(i);
-        //
-        // }
-
         function checkScroll(el) {
           if (el.clientWidth < el.scrollWidth && el.scrollLeft == 0) {
             scope.overFlowRight = true;
@@ -328,30 +272,8 @@
           });
           return numb - filter[filter.length - 1]
         }
-
-        function scrollPower(dir) {
-          pwTimeout = $timeout(function () {
-            if (dir == 'right') {
-              interval = $interval(function () {
-                scope.goRight()
-              }, 100);
-            }
-            else {
-              interval = $interval(scope.goLeft, 100);
-            }
-          }, 50)
-        }
       }
     };
-    function makeid() {
-      var text = "";
-      var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-      for (var i = 0; i < 5; i++)
-        text += possible.charAt(Math.floor(Math.random() * possible.length));
-
-      return text;
-    }
 
     function modeIsValid(mode) {
       return _.values(NST_ATTACHMENTS_PREVIEW_BAR_MODE).indexOf(mode) > -1;

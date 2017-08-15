@@ -6,9 +6,8 @@
     .controller('FullNavbarController', FullNavbarController);
 
   /** @ngInject */
-  function FullNavbarController($scope, $rootScope, $uibModal, $state, $q, _,
-                                toastr, NstUtility, $window,
-                                NstSvcAuth, NstSvcLogger,
+  function FullNavbarController($scope, $rootScope, $uibModal, $state, _,
+                                toastr, NstUtility, NstSvcAuth,
                                 NstSearchQuery, NstSvcPlaceFactory, NstSvcTranslation,
                                 NST_CONFIG, NST_DEFAULT, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_PLACE_EVENT, NST_SRV_ERROR) {
     var vm = this;
@@ -178,7 +177,7 @@
             toastr.success(message + '<br/>' + names);
           }
         }
-      }).catch(function (error) {
+      }).catch(function () {
         toastr.warning(NstSvcTranslation.get('An error has occured while adding the user(s) to the place!'));
       });
     }
@@ -215,25 +214,11 @@
             toastr.success(message + '<br/>' + names);
           }
         }
-      }).catch(function (error) {
+      }).catch(function () {
         toastr.warning(NstSvcTranslation.get('An error has occured while inviting the user(s) to the place!'));
       });
     }
 
-    /**
-     * Calls the proper function for adding member for Grand places either children places
-     * @param {object} place
-     * @param {string} role
-     * @param {object} user
-     * @returns
-     */
-    function joinUser(place, role, user) {
-      if (place.isGrandPlace()) {
-        return NstSvcPlaceFactory.inviteUser(place, role, user);
-      } else {
-        return NstSvcPlaceFactory.addUser(place, role, user);
-      }
-    }
 
     /**
      * return the current place id
@@ -500,7 +485,7 @@
      * leave the place with showing results
      */
     function leave() {
-      NstSvcPlaceFactory.leave(vm.getPlaceId()).then(function (result) {
+      NstSvcPlaceFactory.leave(vm.getPlaceId()).then(function () {
         if (_.indexOf(vm.place.id, '.') > -1) {
           $state.go('app.place-messages', {placeId: vm.place.grandParentId});
         } else {
@@ -546,7 +531,7 @@
 
       NstSvcPlaceFactory.get(vm.getPlaceId()).then(function (place) {
         vm.place = place;
-        var modal = $uibModal.open({
+         $uibModal.open({
           animation: false,
           templateUrl: 'app/pages/places/settings/place-delete.html',
           controller: 'PlaceRemoveConfirmController',
@@ -557,7 +542,7 @@
               return vm.place;
             }
           }
-        }).result.then(function (confirmResult) {
+        }).result.then(function () {
           remove();
         });
       });
@@ -569,7 +554,7 @@
      * deletes the place also shows the results of the api
      */
     function remove() {
-      NstSvcPlaceFactory.remove(vm.place.id).then(function (removeResult) {
+      NstSvcPlaceFactory.remove(vm.place.id).then(function () {
         toastr.success(NstUtility.string.format(NstSvcTranslation.get("Place {0} was removed successfully."), vm.place.name));
         if (_.indexOf(vm.place.id, '.') > -1) {
           $state.go('app.place-messages', {placeId: vm.place.grandParentId});
@@ -609,7 +594,7 @@
     }));
 
     eventReferences.push($rootScope.$on(NST_PLACE_EVENT.PICTURE_CHANGED, function (e, data) {
-      NstSvcPlaceFactory.get(data.placeId).then(function (place) {
+      NstSvcPlaceFactory.get(data.placeId).then(function () {
         vm.place = data.place;
       });
     }));

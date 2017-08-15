@@ -6,9 +6,9 @@
     .controller('SearchController', SearchController);
 
   /** @ngInject */
-  function SearchController($rootScope, $log, _, $stateParams, $state,
-                            NST_DEFAULT, NstSvcPostFactory, NstSvcServer, NstSvcAuth,
-                            NstSearchQuery, NstVmFile) {
+  function SearchController($log, _, $stateParams, $state,
+                            NST_DEFAULT, NstSvcPostFactory,
+                            NstSearchQuery) {
     var vm = this;
     var limit = 8;
     var skip = 0;
