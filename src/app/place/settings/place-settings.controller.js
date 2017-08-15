@@ -225,12 +225,7 @@
         var request = NstSvcStore.uploadWithProgress(file, logoUploadProgress, NST_STORE_UPLOAD_TYPE.PLACE_PIC, NstSvcAuth.lastSessionKey);
 
           request.getPromise().then(function (result) {
-<<<<<<< HEAD
-            NstSvcPlaceFactory.updatePicture(vm.place.id, result.data.universal_id).then(function (result) {
-=======
-
             NstSvcPlaceFactory.updatePicture(vm.place.id, result.data.universal_id).then(function () {
->>>>>>> 7492d82277e3b005874926b137d11f8c84a4bc87
               NstSvcLogger.info(NstUtility.string.format('Place {0} picture updated successfully.', vm.place.id));
               toastr.success(NstSvcTranslation.get("The Place photo has been set successfully."));
             }).catch(function () {
