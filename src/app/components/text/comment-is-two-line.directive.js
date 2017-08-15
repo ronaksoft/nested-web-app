@@ -5,10 +5,10 @@
     .module('ronak.nested.web.components')
     .directive('isTwoLine', isTwoLine);
 
-  function isTwoLine($timeout, $rootScope) {
+  function isTwoLine($timeout) {
     return {
       restrict: 'A',
-      link: function (scope ,$element, attrs) {
+      link: function (scope ,$element) {
 
         function resizer() {
           if ($element.height() > 17) {

@@ -5,7 +5,7 @@
     .module('ronak.nested.web.components.attachment')
     .controller('AttachmentViewController', AttachmentViewController);
 
-  function AttachmentViewController($q, $scope, $timeout, $sce, $state, $stateParams, _,
+  function AttachmentViewController($q, $, $sce, $state, _,
                                     hotkeys, toastr,
                                     NST_FILE_TYPE, NST_STORE_ROUTE,
                                     NstVmFile,

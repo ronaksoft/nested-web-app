@@ -19,7 +19,7 @@
       }
     };
 
-    function link($scope, $element) {
+    function link($scope) {
 
     }
 

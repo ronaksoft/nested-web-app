@@ -6,10 +6,9 @@
     .controller('placeFilesModalController', placeFilesModalController);
 
   /** @ngInject */
-  function placeFilesModalController($stateParams, toastr, $uibModal, $state, $timeout, $q, $scope, _,
-                           NST_PLACE_ACCESS, NST_ATTACHMENT_STATUS, NstSvcAttachmentMap, NstSvcPlaceFactory,
-                           NstSvcFileFactory, NstSvcPlaceAccess, NstSvcModal, uploadfiles,
-                           NstSvcTranslation, NstSvcAuth, NstSvcWait, NstSvcInteractionTracker) {
+  function placeFilesModalController( toastr, $uibModal, $timeout, $q, $scope, _, NstSvcPlaceFactory,
+                           NstSvcFileFactory, uploadfiles,
+                           NstSvcTranslation, $) {
     var vm = this;
     vm.selectedFiles = [];
     vm.places = [];
@@ -54,7 +53,7 @@
       // vm.filesLoadProgress = true;
       vm.loadFilesError = false;
       vm.getSubPlace();
-      
+
     }
 
     /**

@@ -5,10 +5,10 @@
     .module('ronak.nested.web.components')
     .directive('ellipsisMail', ellipsisMail);
 
-  function ellipsisMail($timeout) {
+  function ellipsisMail() {
     return {
       restrict: 'A',
-      link: function (scope ,$element, attrs) {
+      link: function (scope ,$element) {
 
         function resizer() {
 

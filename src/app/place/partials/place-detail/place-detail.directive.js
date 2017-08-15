@@ -3,7 +3,7 @@
 
   angular
     .module('ronak.nested.web.components')
-    .directive('placeDetail', function($timeout,$state,NstSearchQuery,NstSvcAuth,NST_PATTERN,NstSvcPlaceFactory) {
+    .directive('placeDetail', function($timeout,$state,NstSearchQuery,NstSvcAuth,NST_PATTERN,NstSvcPlaceFactory, $) {
       return {
         template: function(element) {
           var tag = element[0].nodeName;
