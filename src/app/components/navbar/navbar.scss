@@ -837,38 +837,43 @@ body.scrolled {
     border-radius: 4px;
     background-color: rgba(0,0,0,.02);
     border-color: rgba(0,0,0,.14);
-    padding: 3px 3px 0 3px;
+    padding: 7px 5px 0 5px;
     border: 1px solid gainsboro;
     color: #323D47;
     flex-wrap: wrap;
     .chips {
       display: flex;
       flex: none;
-      padding: 5px;
-      margin: 0 3px 3px 0;
+      padding: 0;
+      margin: 0 3px 7px 0;
       vertical-align: middle;
       color: #fff;
-      border-radius: 3px;
-      border: 2px solid #dcdcdc;
+      border-radius: 5px;
       //max-width: 50px;
       overflow: hidden;
       transition: all 0.3s;
       text-overflow: ellipsis;
       white-space: nowrap;
+      background-color: #dcdedf;
       &:hover {
-        max-width: 100%;
+        //max-width: 100%;
       }
-      &.chip-place {
-        background-color: #c38e3e;
+      .chip-type,
+      .chip-title {
+        display: flex;
+        flex: none;
+        height: 100%;
+        padding: 5px 4px 2px;
+        font-weight: 200;
+        background-color: #333e47;
+        svg {
+          transform: scale(0.7);
+        }
       }
-      &.chip-user {
-        background-color: #60c383;
-      }
-      &.chip-label {
-        background-color: #8bc34a;
-      }
-      &.chip-keyword {
-        background-color: #c35700;
+      .chip-title {
+        font-weight: 300;
+        color: #364049;
+        background-color: #dcdedf;
       }
     }
     input {
