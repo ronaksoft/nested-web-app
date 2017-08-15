@@ -1,3 +1,4 @@
+/* jshint ignore:start */
 /* eslint-disable */
 /*!
  @package wdt-emoji-bundle - Slack like emoji selector with apple, twitter, google, emojione and custom emoji support.

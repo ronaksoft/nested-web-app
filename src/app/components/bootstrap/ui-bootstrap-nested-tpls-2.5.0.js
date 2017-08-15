@@ -1,3 +1,4 @@
+/* jshint ignore:start */
 /* eslint-disable */
 /*
  * angular-ui-bootstrap
