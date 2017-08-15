@@ -3,7 +3,7 @@
 
   angular
     .module('ronak.nested.web.user')
-    .controller('CropController', function ($state, $scope, $uibModalInstance, argv,$timeout){
+    .controller('CropController', function ($state, $scope, $uibModalInstance, argv){
       var vm = this;
 
       /*****************************
@@ -17,7 +17,7 @@
       vm.ready = false;
 
       var reader = new FileReader();
-      reader.onload = function (event) {
+      reader.onload = function () {
       };
       reader.readAsDataURL(vm.uploadedImage);
 
