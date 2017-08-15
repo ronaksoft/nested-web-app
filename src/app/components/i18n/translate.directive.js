@@ -12,7 +12,7 @@
 
   angular
     .module('ronak.nested.web.components.i18n')
-    .directive('translate', ['NstSvcTranslation', function (NstSvcTranslation, $) {
+    .directive('translate', ['NstSvcTranslation', '$', function (NstSvcTranslation, $) {
       return {
         restrict: 'E',
         replace : true,
