@@ -357,7 +357,7 @@
             toastr.success(message + '<br/>' + names);
           }
         }
-      }).catch(function () {
+      }).catch(function (error) {
         toastr.warning(NstSvcTranslation.get('An error has occurred while adding the user(s) to the place!'));
       });
     }
@@ -409,12 +409,14 @@
 
           //there are some users that were invited successfully
           if (_.size(result.addedUsers) > 0) {
-            names.join('<br/>');
+            var names = _(result.addedUsers).map(function (user) {
+              return NstUtility.string.format('{0} (@{1})', user.fullName, user.id);
+            }).join('<br/>');
             var message = NstSvcTranslation.get('These users have been invited:');
             toastr.success(message + '<br/>' + names);
           }
         }
-      }).catch(function () {
+      }).catch(function (error) {
         toastr.warning(NstSvcTranslation.get('An error has occurred while inviting the user(s) to the place!'));
       });
     }
@@ -491,15 +493,6 @@
     }
 
     /**
-     * Returns true if there is at least a teammate in list
-     *
-     * @returns
-     */
-    function hasAnyTeammate() {
-      return vm.teammates && vm.teammates.length > 0;
-    }
-
-    /**
      * Promotes the selected key-holders and updates all counters. It confirms before performing the action
      *
      * @returns
@@ -526,7 +519,7 @@
       ).then(function (result) {
         if (result) {
           _.forEach(members, function (member) {
-            NstSvcPlaceFactory.promoteMember(vm.place.id, member.id).then(function () {
+            NstSvcPlaceFactory.promoteMember(vm.place.id, member.id).then(function (result) {
               var mem = vm.teammates.filter(function (m) {
                 return m.id === member.id
               })[0];
@@ -568,7 +561,7 @@
       ).then(function (result) {
         if (result) {
           _.forEach(members, function (member) {
-            NstSvcPlaceFactory.demoteMember(vm.place.id, member.id).then(function () {
+            NstSvcPlaceFactory.demoteMember(vm.place.id, member.id).then(function (result) {
               var mem = vm.teammates.filter(function (m) {
                 return m.id === member.id
               })[0];
@@ -613,7 +606,7 @@
       ).then(function (result) {
         if (result) {
           _.forEach(members, function (member) {
-            removeMember(member).then(function () {
+            removeMember(member).then(function (result) {
               return NstSvcPlaceFactory.get(vm.place.id, true);
             }).then(function (newPlace) {
 

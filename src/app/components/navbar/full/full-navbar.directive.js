@@ -27,7 +27,7 @@
         searchOnKeypress : '=',
         forceSearch : '='
       },
-      link: function ($scope, $element) {
+      link: function () {
       }
     };
   }

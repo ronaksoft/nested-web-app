@@ -12,7 +12,7 @@
     return {
       restrict: 'E',
       scope:{},
-      link: function(scope) {
+      link: function() {
       },
       templateUrl: 'app/messages/partials/message/comment.html',
       controller: 'CommentsBoardController',

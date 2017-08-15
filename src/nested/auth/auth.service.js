@@ -463,21 +463,6 @@
 
     };
 
-    function generateDeviceId() {
-      function guid() {
-        function s4() {
-          return Math.floor((1 + Math.random()) * 0x10000)
-            .toString(16)
-            .substring(1);
-        }
-
-        return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-          s4() + '-' + s4() + s4() + s4();
-      }
-
-      return "web_" + NstSvcDate.now() + "-" + guid() + "-" + guid();
-    }
-
     var service = new Auth(NstSvcCurrentUserStorage.get(NST_AUTH_STORAGE_KEY.USER));
 
     $rootScope.$on(NST_AUTH_EVENT.AUTHORIZE, function (e, data) {

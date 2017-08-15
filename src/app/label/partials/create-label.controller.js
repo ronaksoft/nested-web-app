@@ -56,7 +56,7 @@
           }
           vm.query = query;
         })
-        .catch(function (error) {
+        .catch(function () {
         });
     }
 

@@ -76,7 +76,7 @@
           }
         };
 
-        var upKeyHandler = function(e){
+        var upKeyHandler = function(){
           read(); //function is defined below and just extracts the innerhtml
         };
 
