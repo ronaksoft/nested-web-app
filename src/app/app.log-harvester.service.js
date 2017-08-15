@@ -1,5 +1,4 @@
 (function(window) {
-    // start("http://dev-01.ronaksoftware.com:8086/write?db=nested", 10 * 1000, "_logs");
 
     var buffer = {};
 

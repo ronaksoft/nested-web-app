@@ -16,9 +16,7 @@
             "time" : new Date().getTime(),
             "message" : exception,
             "reason" : cause,
-            "browser_name" : platform.name,
-            "browser_version" : platform.version,
-            "session_key" : NstSvcServer.getSessionKey(),
+            "session_key" : NstSvcServer.getSessionKey()
           },
           tags: {
             "state" : $state.current.name,
