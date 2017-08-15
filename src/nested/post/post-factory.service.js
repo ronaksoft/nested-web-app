@@ -100,7 +100,6 @@
       return defer.promise;
     }
 
-
     function getMany(ids) {
 
       var defer = $q.defer();
@@ -123,7 +122,6 @@
 
       return defer.promise;
     }
-
 
     /**
      * anonymous function - retrieve a post by id and store in the related cache storage
