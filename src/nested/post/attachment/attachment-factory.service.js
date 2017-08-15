@@ -14,7 +14,6 @@
      */
     var service = {
       parseAttachment: parseAttachment,
-      load: load,
       remove: remove,
       createAttachmentModel: createAttachmentModel,
       getOne: getOne
@@ -62,19 +61,6 @@
       NstSvcFileStorage.set(attachment.id, attachment);
 
       return attachment;
-    }
-
-    function load(ids) {
-      var defer = $q.defer();
-
-      NstSvcServer.request('file/get', {
-        universal_ids: _.join(ids, ',')
-      }).then(function (response) {
-        var promises = _.map(response.info, parseAttachment);
-        $q.all(promises).then(defer.resolve).catch(defer.reject);
-      }).catch(defer.reject);
-
-      return defer.promise;
     }
 
     function remove(attachmentId, postId) {
