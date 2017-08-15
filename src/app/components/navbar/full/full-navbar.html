@@ -60,7 +60,7 @@
         <div class="search-chips-container _df _fw">
           <div ng-repeat="chip in ctlFullNavbar.chips" class="chips">
             <div class="chip-type">
-              <svg class="_16svg _r90 _df _fn fill-white" ng-click="ctlFullNavbar.removeChip(chip.type, chip.name)">
+              <svg class="_16svg _r90 _df _fn fill-white" ng-click="ctlFullNavbar.removeChip(chip.type, chip.title)">
                 <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
               </svg>
               <span ng-if="chip.type != 'keyword'" class="_df _fn">{{chip.type}}</span>
