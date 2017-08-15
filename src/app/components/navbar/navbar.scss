@@ -854,26 +854,20 @@ body.scrolled {
       transition: all 0.3s;
       text-overflow: ellipsis;
       white-space: nowrap;
-      background-color: #dcdedf;
       &:hover {
-        //max-width: 100%;
+        max-width: 100%;
       }
-      .chip-type,
-      .chip-title {
-        display: flex;
-        flex: none;
-        height: 100%;
-        padding: 5px 4px 2px;
-        font-weight: 200;
-        background-color: #333e47;
-        svg {
-          transform: scale(0.7);
-        }
+      &.chip-place {
+        background-color: #c38e3e;
       }
-      .chip-title {
-        font-weight: 300;
-        color: #364049;
-        background-color: #dcdedf;
+      &.chip-user {
+        background-color: #60c383;
+      }
+      &.chip-label {
+        background-color: #8bc34a;
+      }
+      &.chip-keyword {
+        background-color: #c35700;
       }
     }
     input {
