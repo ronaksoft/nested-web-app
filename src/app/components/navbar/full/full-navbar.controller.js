@@ -60,10 +60,10 @@
 
     function initChips(params) {
       vm.chips = [];
-      addItemToChips(vm.chips, params.places, 'chip-place');
-      addItemToChips(vm.chips, params.users, 'chip-user');
-      addItemToChips(vm.chips, params.labels, 'chip-label');
-      addItemToChips(vm.chips, params.keywords, 'chip-keyword');
+      addItemToChips(vm.chips, params.places, 'in');
+      addItemToChips(vm.chips, params.users, 'from');
+      addItemToChips(vm.chips, params.labels, 'label');
+      addItemToChips(vm.chips, params.keywords, 'keyword');
     }
 
     function addItemToChips(chipArray, items, type) {
@@ -73,7 +73,7 @@
       for (var i = 0; i < items.length; i++) {
         chipArray.push({
           type: type,
-          name: items[i]
+          title: items[i]
         });
       }
     }
@@ -86,16 +86,16 @@
     function removeChip(type, name) {
       var searchQuery = new NstSearchQuery(vm.query, true);
       switch (type) {
-        case 'chip-place':
+        case 'in':
           searchQuery.removePlace(name);
           break;
-        case 'chip-user':
+        case 'from':
           searchQuery.removeUser(name);
           break;
-        case 'chip-label':
+        case 'label':
           searchQuery.removeLabel(name);
           break;
-        case 'chip-keyword':
+        case 'keyword':
           searchQuery.removeKeyword(name);
           break;
       }

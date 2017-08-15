@@ -271,6 +271,15 @@ hr.nomargin {
 .large-font {
   font-size: $font-size-large;
 }
+.nst-text-bold {
+  font-weight: bold;
+}
+.nst-padding-10 {
+  padding: 10px;
+}
+.nst-padding-bottom-10 {
+  padding-bottom: 10px;
+}
 .force {
   color: $color-force-wire;
   fill: $color-force-wire;
