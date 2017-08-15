@@ -11,7 +11,7 @@
     getRecent : function () {
 
     },
-    setRecent : function (mo) {
+    setRecent : function () {
     }
 
     };

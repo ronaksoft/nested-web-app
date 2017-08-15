@@ -182,18 +182,17 @@
     LabelFactory.prototype.getMany = function (id) {
       var joinedIds = id.join(',');
       return NstSvcServer.request('label/get_many', {
-        label_id: joinedIds,
+        label_id: joinedIds
       }).then(function (data) {
         return $q.resolve({
           idKey: '_id',
           resolves: data.labels,
-          rejects: data.no_access,
+          rejects: data.no_access
         });
       });
     };
 
     LabelFactory.prototype.get = function (id) {
-      var that = this;
       var deferred = $q.defer();
 
       this.collector.add(id).then(function (data) {

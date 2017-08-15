@@ -24,7 +24,7 @@
                              NstUtility, NstSvcTranslation, NstSvcModal, NstSvcPostDraft,
                              NstSvcUserFactory, NstSvcLogger, NstSvcAuth,
                              NstTinyPlace, NstVmSelectTag, NstPicture,
-                             NstPostDraft, NstPost) {
+                             NstPostDraft, NstPost, $) {
     var vm = this;
     vm.quickMode = false;
     vm.focus = false;

@@ -5,12 +5,9 @@ describe("NstSvcFileType", function () {
   beforeEach(module('ronak.nested.web.common'));
   beforeEach(inject(function (_NstSvcFileType_) {
     NstSvcFileType = _NstSvcFileType_;
-    // fileTypeGroupProvider = _fileTypeGroupProvider_;
-    // console.log(fileTypeGroupProvider);
+
   }));
-  // beforeEach(function () {
-  //   sandbox = sinon.sandbox.create();
-  // });
+
 
   describe("getSuffix(fileName)", function () {
 

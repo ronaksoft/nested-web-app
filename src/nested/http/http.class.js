@@ -8,7 +8,7 @@
   function NstHttp($q, $http,
                    _,
                    NST_SRV_ERROR, NST_CONFIG, NST_REQ_STATUS, NST_RES_STATUS,
-                   NstSvcRandomize,
+                   NstSvcRandomize, $,
                    NstObservableObject, NstRequest, NstResponse) {
     function HTTP(route, data, settings) {
       this.route = (0 == route.indexOf('http')) ? route : (NST_CONFIG.REGISTER.AJAX.URL + route);
