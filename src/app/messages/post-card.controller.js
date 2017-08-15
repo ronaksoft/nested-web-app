@@ -841,7 +841,7 @@
      * @returns {boolean}
      */
     function labelClick(title) {
-      var searchQuery = new NstSearchQuery('', true);
+      var searchQuery = new NstSearchQuery('');
 
       searchQuery.addLabel(title);
 
