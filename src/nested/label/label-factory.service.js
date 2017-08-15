@@ -7,11 +7,12 @@
 
   /** @ngInject */
   function NstSvcLabelFactory($q,
-    NstBaseFactory, NstSvcServer, NstSvcUserFactory,
+    NstBaseFactory, NstSvcServer, NstSvcUserFactory, NstCollector,
     NstLabel, NstLabelRequest,
     NST_LABEL_SEARCH_FILTER, _) {
 
     function LabelFactory() {
+      this.collector = new NstCollector('label', this.getMany);
     }
 
     LabelFactory.prototype = new NstBaseFactory();
@@ -179,18 +180,31 @@
     };
 
     LabelFactory.prototype.getMany = function (id) {
-      return this.sentinel.watch(function () {
-        return NstSvcServer.request('label/get_many', {
-          label_id: id
-        }).then(function (data) {
-          if (id.indexOf(',') === -1) {
-            return $q.resolve(data.labels[0]);
-          }
-
-          return $q.resolve(data.labels);
+      var joinedIds = id.join(',');
+      return NstSvcServer.request('label/get_many', {
+        label_id: joinedIds,
+      }).then(function (data) {
+        return $q.resolve({
+          idKey: '_id',
+          resolves: data.labels,
+          rejects: data.no_access,
         });
-      }, 'getMany' + id);
+      });
     };
+
+    LabelFactory.prototype.get = function (id) {
+      var that = this;
+      var deferred = $q.defer();
+
+      this.collector.add(id).then(function (data) {
+        var label = this.parse(data);
+        deferred.resolve(label);
+      }).catch(function (error) {
+        deferred.reject(error);
+      });
+
+      return deferred.promise;
+    }
 
     return new LabelFactory();
   }

@@ -212,7 +212,7 @@
 
     function parseAddLabel(data) {
       var deferred = $q.defer();
-      var labelPromise = NstSvcLabelFactory.getMany(data.label_id);
+      var labelPromise = NstSvcLabelFactory.get(data.label_id);
       var actorPromise = NstSvcUserFactory.getTiny(data.actor_id);
       var postPromise = NstSvcPostFactory.get(data.post_id);
 
@@ -236,7 +236,7 @@
     function parseRemoveLabel(data) {
 
       var deferred = $q.defer();
-      var labelPromise = NstSvcLabelFactory.getMany(data.label_id);
+      var labelPromise = NstSvcLabelFactory.get(data.label_id);
       var actorPromise = NstSvcUserFactory.getTiny(data.actor_id);
       var postPromise = NstSvcPostFactory.get(data.post_id);
 
@@ -439,6 +439,5 @@
         return deferred.promise;
       }, 'getRecentActivities', settings.placeId);
     }
-
   }
 })();

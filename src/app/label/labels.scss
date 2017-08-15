@@ -2,6 +2,7 @@
     flex-direction: column;
     display: flex;
     box-shadow: 0 0 24px $color-solid;
+    max-height: 100vh;
     padding: 0 24px!important;
     .labels-headline {
         display: flex;
