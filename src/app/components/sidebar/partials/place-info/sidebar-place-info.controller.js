@@ -158,13 +158,13 @@
      *****  Event Listeners   ****
      *****************************/
 
-    eventReferences.push($rootScope.$on(NST_PLACE_EVENT.SUB_ADDED, function (e) {
+    eventReferences.push($rootScope.$on(NST_PLACE_EVENT.SUB_ADDED, function () {
       //TODO:: change children without Initializing()
       // NstSvcPlaceFactory.addPlaceToTree(vm.children, mapPlace(event.detail.place));
       Initializing();
     }));
 
-    eventReferences.push($rootScope.$on(NST_PLACE_EVENT.UPDATED, function (e) {
+    eventReferences.push($rootScope.$on(NST_PLACE_EVENT.UPDATED, function () {
       //TODO:: change children without Initializing()
       // NstSvcPlaceFactory.updatePlaceInTree(vm.children, mapPlace(event.detail.place));
 
@@ -172,16 +172,16 @@
     }));
 
 
-    eventReferences.push($rootScope.$on(NST_EVENT_ACTION.POST_ADD, function (e) {
+    eventReferences.push($rootScope.$on(NST_EVENT_ACTION.POST_ADD, function () {
       getPlaceUnreadCounts();
     }));
 
 
-    eventReferences.push($rootScope.$on(NST_POST_EVENT.READ, function (event) {
+    eventReferences.push($rootScope.$on(NST_POST_EVENT.READ, function () {
       getPlaceUnreadCounts();
     }));
 
-    eventReferences.push($rootScope.$on('post-read-all', function (e) {
+    eventReferences.push($rootScope.$on('post-read-all', function () {
       getPlaceUnreadCounts();
     }));
 

@@ -6,14 +6,14 @@
     .directive('addLabel', addLabel);
 
   /** @ngInject */
-  function addLabel($location, $rootScope, $uibModal) {
+  function addLabel($uibModal) {
     return {
       restrict: 'EA',
       scope: {
         afterAddLabel : '=',
-        addedLabels : '=',
+        addedLabels : '='
       },
-      link: function($scope, $element, $attrs) {
+      link: function($scope, $element) {
         $element[0].addEventListener("click", onClickHandler);
 
         /**

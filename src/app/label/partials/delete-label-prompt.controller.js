@@ -6,7 +6,7 @@
     .controller('removeLabelPromptController', removeLabelPromptController);
 
   /** @ngInject */
-  function removeLabelPromptController(selectedLabel, $uibModalInstance, NST_CONFIG) {
+  function removeLabelPromptController(selectedLabel, $uibModalInstance) {
     var vm = this;
     vm.label = selectedLabel;
 

@@ -8,7 +8,7 @@
   function appBanner() {
     return {
       restrict: 'A',
-      link: function (scope ,element, attrs) {
+      link: function () {
         // detect user and their resolution for showing cookie privacy
         // ios have his own api we just need to show this on android browsers ...
         if(getMobileOperatingSystem == 'Android') {

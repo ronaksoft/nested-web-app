@@ -6,7 +6,7 @@
     .directive('focusChecker', focusChecker);
 
   /** @ngInject */
-  function focusChecker($window,$rootScope) {
+  function focusChecker() {
     return {
       restrict: 'A',
       link: function ($scope, $element) {

@@ -13,7 +13,7 @@
           place: '=',
           access: '='
         },
-        link: function (scope, element, attrs) {
+        link: function () {
         }
       };
     });

@@ -43,9 +43,9 @@
    * @param {any} NstSvcLogger
    */
   function placeTeammatesController($scope, $q, $state, $stateParams, $uibModal, toastr, _, $rootScope,
-                                    NstSvcPlaceFactory, NstUtility, NstSvcAuth, NstSvcUserFactory, NstSvcTranslation, NstSvcWait,
-                                    NstVmMemberItem, NST_SRV_ERROR, NST_NOTIFICATION_TYPE, NstEntityTracker,
-                                    NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NstSvcLogger) {
+                                    NstSvcPlaceFactory, NstUtility, NstSvcUserFactory, NstSvcTranslation,
+                                    NstVmMemberItem, NST_NOTIFICATION_TYPE, NstEntityTracker,
+                                    NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE) {
     var vm = this;
     // to keep track of added users
     var removedMembersTracker = new NstEntityTracker(),
@@ -262,7 +262,7 @@
             toastr.success(message + '<br/>' + names);
           }
         }
-      }).catch(function (error) {
+      }).catch(function () {
         toastr.warning(NstSvcTranslation.get('An error has occured while adding the user(s) to the place!'));
       });
     }
@@ -296,11 +296,10 @@
             var names = _(result.addedUsers).map(function (user) {
               return NstUtility.string.format('{0} (@{1})', user.fullName, user.id);
             }).join('<br/>');
-            var message = NstSvcTranslation.get('These users have been invited:');
             toastr.success(message + '<br/>' + names);
           }
         }
-      }).catch(function (error) {
+      }).catch(function () {
         toastr.warning(NstSvcTranslation.get('An error has occured while inviting the user(s) to the place!'));
       });
     }

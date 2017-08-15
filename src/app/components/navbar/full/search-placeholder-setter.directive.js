@@ -6,14 +6,14 @@
     .directive('searchPlaceholderSetter', searchPlaceholderSetter);
 
   /** @ngInject */
-  function searchPlaceholderSetter(NstUtility, NstSvcTranslation) {
+  function searchPlaceholderSetter(NstUtility, NstSvcTranslation, $) {
     return {
       restrict: 'A',
       scope : {
         placeName : '=',
         hasPlace : '='
       },
-      link : function (scope, element, attributes) {
+      link : function (scope, element) {
         var jelement = $(element);
         var bluredText = NstSvcTranslation.get("Search");
 
@@ -21,7 +21,7 @@
 
         var focusedText = null;
 
-        var canceler = scope.$watch('hasPlace', function (newValue, oldValue) {
+        var canceler = scope.$watch('hasPlace', function () {
           if (scope.hasPlace) {
             focusedText = NstUtility.string.format(NstSvcTranslation.get("Search in {0}"), scope.placeName);
           } else {
@@ -29,11 +29,11 @@
           }
         });
 
-        var setOnFocus = function (event) {
+        var setOnFocus = function () {
           jelement.attr('placeholder', focusedText);
         };
 
-        var setOnBlur = function (event) {
+        var setOnBlur = function () {
           jelement.attr('placeholder', bluredText);
         };
 

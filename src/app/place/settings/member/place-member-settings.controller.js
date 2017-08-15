@@ -284,7 +284,6 @@
      * @param {any} role
      */
     function showAddModal(role) {
-      var role = role || NST_PLACE_MEMBER_TYPE.KEY_HOLDER;
 
       var modal = $uibModal.open({
         animation: false,
@@ -353,14 +352,12 @@
 
           //there are some users that were added successfully
           if (_.size(result.addedUsers) > 0) {
-            var names = _(result.addedUsers).map(function (user) {
-              return NstUtility.string.format('{0} (@{1})', user.fullName, user.id);
-            }).join('<br/>');
+             names.join('<br/>');
             var message = NstSvcTranslation.get('These users have been added:');
             toastr.success(message + '<br/>' + names);
           }
         }
-      }).catch(function (error) {
+      }).catch(function () {
         toastr.warning(NstSvcTranslation.get('An error has occurred while adding the user(s) to the place!'));
       });
     }
@@ -419,7 +416,7 @@
             toastr.success(message + '<br/>' + names);
           }
         }
-      }).catch(function (error) {
+      }).catch(function () {
         toastr.warning(NstSvcTranslation.get('An error has occurred while inviting the user(s) to the place!'));
       });
     }
@@ -496,15 +493,6 @@
     }
 
     /**
-     * Returns true if there is at least a teammate in list
-     *
-     * @returns
-     */
-    function hasAnyTeammate() {
-      return vm.teammates && vm.teammates.length > 0;
-    }
-
-    /**
      * Promotes the selected key-holders and updates all counters. It confirms before performing the action
      *
      * @returns
@@ -531,7 +519,7 @@
       ).then(function (result) {
         if (result) {
           _.forEach(members, function (member) {
-            NstSvcPlaceFactory.promoteMember(vm.place.id, member.id).then(function (result) {
+            NstSvcPlaceFactory.promoteMember(vm.place.id, member.id).then(function () {
               var mem = vm.teammates.filter(function (m) {
                 return m.id === member.id
               })[0];
@@ -573,7 +561,7 @@
       ).then(function (result) {
         if (result) {
           _.forEach(members, function (member) {
-            NstSvcPlaceFactory.demoteMember(vm.place.id, member.id).then(function (result) {
+            NstSvcPlaceFactory.demoteMember(vm.place.id, member.id).then(function () {
               var mem = vm.teammates.filter(function (m) {
                 return m.id === member.id
               })[0];
@@ -618,7 +606,7 @@
       ).then(function (result) {
         if (result) {
           _.forEach(members, function (member) {
-            removeMember(member).then(function (result) {
+            removeMember(member).then(function () {
               return NstSvcPlaceFactory.get(vm.place.id, true);
             }).then(function (newPlace) {
 

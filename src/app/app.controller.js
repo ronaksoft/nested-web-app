@@ -6,10 +6,10 @@
     .controller('AppController', AppController);
 
   /** @ngInject */
-  function AppController($q, $scope, $window, $rootScope, $state, $stateParams, $interval, $log, $injector,
-                         hotkeys, deviceDetector, NstSvcInteractionTracker,
+  function AppController( $scope, $window, $rootScope, $state, $stateParams, $interval,
+                         deviceDetector, NstSvcInteractionTracker,
                          NST_DEFAULT, NST_AUTH_EVENT, NST_SRV_EVENT, NST_NOTIFICATION_EVENT, NST_CONFIG,
-                         NstSvcServer, NstSvcAuth, NstSvcLogger, NstSvcI18n, _, NstSvcNotificationFactory) {
+                         NstSvcServer, NstSvcAuth, NstSvcLogger, NstSvcI18n, _, NstSvcNotificationFactory, $) {
     var vm = this;
     var eventReferences = [];
 
@@ -29,7 +29,6 @@
       || deviceDetector.os_version === 'windows-7'
       || deviceDetector.os_version === 'windows-8'
       || deviceDetector.os === 'linux' ) {
-        // $('.wdt-emoji-popup').addClass('notSupport');
         $('body').addClass('notSupportEmo');
     }
     $rootScope._track = trackBehaviour;

@@ -6,8 +6,7 @@
     .controller('RecoverUsernameController', RecoverUsernameController);
 
   /** @ngInject */
-  function RecoverUsernameController($scope, $state, $q, md5, toastr,
-    NST_DEFAULT, NstSvcAuth, NstHttp, NstSvcTranslation) {
+  function RecoverUsernameController($scope, $state, _) {
     var vm = this;
 
     vm.phoneSubmittedEventKey = 'recover-username-phone-submitted';
@@ -41,7 +40,7 @@
       }
     }));
 
-    eventReferences.push($scope.$on(vm.previousStepEventKey, function (event, data) {
+    eventReferences.push($scope.$on(vm.previousStepEventKey, function () {
       vm.step--;
     }));
 

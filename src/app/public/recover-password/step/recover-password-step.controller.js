@@ -30,7 +30,7 @@
    * @param {any} NstSvcTranslation
    */
   function RecoverPasswordStepController($scope, $state, $q, md5, _, toastr,
-    NST_DEFAULT, NstSvcAuth, NstHttp, NstSvcTranslation) {
+     NstHttp, NstSvcTranslation) {
     var vm = this;
     var eventReferences = [];
 
@@ -58,7 +58,7 @@
       var deferred = $q.defer();
 
       vm.resetPasswordProgress = true;
-      var request = new NstHttp('', {
+      new NstHttp('', {
         cmd: 'auth/recover_pass',
         data: {
           'vid': verificationId,

@@ -693,12 +693,6 @@
       vm.revealHotMessage = false;
     }
 
-    function insertMessage(list, item) {
-      if (!_.some(list, {id: item.id})) {
-        list.unshift(item);
-      }
-    }
-
     function isBookMark() {
       if ($state.current.name == 'app.messages-favorites' ||
         $state.current.name == 'app.messages-favorites-sorted') {
@@ -738,13 +732,6 @@
       }
       return vm.isConvMode = false;
     }
-
-    function isFeed() {
-      return _.includes([
-        'app.'
-      ])
-    }
-
     function fillPlaceIds(container, list) {
       if (_.isObject(container) && _.keys(container).length > 1) {
         _.forIn(container, function (item) {

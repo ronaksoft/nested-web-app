@@ -6,7 +6,7 @@
     .directive('nstNavbar', Navbar);
 
   /** @ngInject */
-  function Navbar($rootScope,$window) {
+  function Navbar() {
     return {
       restrict: 'E',
       templateUrl: 'app/components/navbar/full/full-navbar.html',
@@ -24,9 +24,10 @@
         placeDescription: '@',
         account: '=',
         query: '=',
-        searchOnKeypress : '='
+        searchOnKeypress : '=',
+        forceSearch : '='
       },
-      link: function ($scope, $element, $attrs) {
+      link: function () {
       }
     };
   }

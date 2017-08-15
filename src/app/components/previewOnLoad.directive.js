@@ -3,7 +3,7 @@
 
   angular
     .module('ronak.nested.web.components')
-      .directive('previewOnLoad', function ($timeout) {
+      .directive('previewOnLoad', function ($timeout, $) {
       return {
         restrict: 'A',
         link: function($scope, $element) {

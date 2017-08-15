@@ -16,10 +16,10 @@
     .controller('EditProfileController', EditProfileController);
 
   /** @ngInject */
-  function EditProfileController($rootScope, $scope, $stateParams, $state, $q, $uibModal, $timeout, $log, $window,
+  function EditProfileController($rootScope, $q, $uibModal, $timeout,
                                  toastr, moment,
-                                 NstSvcAuth, NstSvcStore, NstSvcUserFactory, NstUtility, NstSvcTranslation, NstSvcDate, NstSvcModal,
-                                 NST_STORE_UPLOAD_TYPE, NST_NAVBAR_CONTROL_TYPE, NST_PATTERN) {
+                                 NstSvcAuth, NstSvcStore, NstSvcUserFactory, NstSvcTranslation, NstSvcDate, NstSvcModal,
+                                 NST_STORE_UPLOAD_TYPE, NST_PATTERN, _) {
     var vm = this;
 
     // Current user
@@ -74,7 +74,7 @@
       NstSvcUserFactory.update(vm.model.id, params).then(function (user) {
         NstSvcAuth.setUser(user);
         deferred.resolve();
-      }).catch(function (error) {
+      }).catch(function () {
         toastr.error(NstSvcTranslation.get("Sorry, an error has occurred while updating your profile."));
         deferred.reject();
       }).finally(function () {
@@ -87,15 +87,13 @@
     /**
      * Updates the user first name and last name and closes the edit modal
      * if the it has been changed successfully
-     *
      * @param {any} isValid
      * @param {any} firstName
      * @param {any} lastName
      * @param {any} $close
-     * @param {any} $dismiss
      * @returns
      */
-    function updateName(isValid, firstName, lastName, $close, $dismiss) {
+    function updateName(isValid, firstName, lastName, $close) {
       if (!isValid) {
         return;
       }
@@ -116,10 +114,9 @@
      * @param {any} isValid
      * @param {any} value
      * @param {any} $close
-     * @param {any} $dismiss
      * @returns
      */
-    function updateDateOfBirth(isValid, value, $close, $dismiss) {
+    function updateDateOfBirth(isValid, value, $close) {
       if (!isValid) {
         return;
       }
@@ -138,10 +135,9 @@
      * @param {any} isValid
      * @param {any} value
      * @param {any} $close
-     * @param {any} $dismiss
      * @returns
      */
-    function updateEmail(isValid, value, $close, $dismiss) {
+    function updateEmail(isValid, value, $close) {
       if (!isValid) {
         return;
       }
@@ -218,8 +214,6 @@
     vm.removeImage = confirmRemovePicture;
     vm.setImage = setImage;
     var imageLoadTimeout = null;
-
-
     /*****************************
      ***** Controller Methods ****
      *****************************/
@@ -233,7 +227,7 @@
       vm.uploadedFile = event.currentTarget.files[0];
       if ($rootScope.deviceDetector.browser === 'safari') {
         // Uploads the selected image
-        var request = NstSvcStore.uploadWithProgress(vm.uploadedFile, function (event) {
+        var request = NstSvcStore.uploadWithProgress(vm.uploadedFile, function () {
         }, NST_STORE_UPLOAD_TYPE.PROFILE_PIC, NstSvcAuth.lastSessionKey);
 
         request.finished().then(function (response) {
@@ -265,7 +259,7 @@
               // DIsplays the cropped image before upload starts
               vm.picture = event.target.result;
               // Uploads the cropped image
-              var request = NstSvcStore.uploadWithProgress(vm.uploadedFile, function (event) {
+              var request = NstSvcStore.uploadWithProgress(vm.uploadedFile, function () {
               }, NST_STORE_UPLOAD_TYPE.PROFILE_PIC, NstSvcAuth.lastSessionKey);
 
               request.finished().then(function (response) {

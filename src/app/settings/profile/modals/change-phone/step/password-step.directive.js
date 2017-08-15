@@ -15,7 +15,7 @@
         },
         controller : 'PasswordStepController',
         controllerAs : 'ctrl',
-        bindToController : true,
+        bindToController : true
       };
     });
 

@@ -6,10 +6,9 @@
     .controller('MessageChainController', MessageChainController);
 
   /** @ngInject */
-  function MessageChainController($rootScope, $scope, $q, $stateParams, $log, _,
-    moment,
+  function MessageChainController( $q, $stateParams, $log, _,
     NST_DEFAULT, NST_MESSAGES_VIEW_SETTING,
-    NstSvcPostFactory, NstUtility, NstSvcAuth, NstSvcPlaceFactory,
+    NstSvcPostFactory, NstSvcPlaceFactory,
     NstSvcMessagesSettingStorage) {
     var vm = this;
 

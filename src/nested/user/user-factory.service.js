@@ -205,7 +205,7 @@
         place.accesses = placeData.access;
 
         return place;
-      };
+      }
 
 
       NstSvcServer.request('account/GET_RECENTLY_VISITED_PLACES', {}).then(function (data) {
@@ -260,7 +260,6 @@
       if (!angular.isObject(userData)) {
         return user;
       }
-      var that = this;
       user.admin = userData.admin ? true : false;
       user.labelEditor = userData.label_editor ? true : false;
       user.id = userData._id;
@@ -353,7 +352,7 @@
     UserFactory.prototype.trustEmail = function (email) {
       return this.sentinel.watch(function () {
         return NstSvcServer.request('account/trust_email', {
-          email_addr: email,
+          email_addr: email
         });
       }, 'trustEmail');
     }
@@ -361,7 +360,7 @@
     UserFactory.prototype.untrustEmail = function (email) {
       return this.sentinel.watch(function () {
         return NstSvcServer.request('account/untrust_email', {
-          email_addr: email,
+          email_addr: email
         });
       }, 'untrustEmail');
     }

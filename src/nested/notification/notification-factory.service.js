@@ -13,7 +13,7 @@
       var that = this;
       that.count = 0;
 
-      $rootScope.$on(NST_AUTH_EVENT.AUTHORIZE, function (e, data) {
+      $rootScope.$on(NST_AUTH_EVENT.AUTHORIZE, function () {
         if (NstSvcAuth.user.unreadNotificationCount) {
           $rootScope.$broadcast(NST_NOTIFICATION_EVENT.UPDATE, { count: NstSvcAuth.user.unreadNotificationCount });
         } else {
@@ -29,7 +29,7 @@
         });
       });
 
-      $rootScope.$on(NST_AUTH_EVENT.UNAUTHORIZE, function (e, data) {
+      $rootScope.$on(NST_AUTH_EVENT.UNAUTHORIZE, function () {
         that.loadedNotifications = [];
       });
 
@@ -184,10 +184,8 @@
     }
 
     function resetCounter() {
-      var factory = this;
       return this.sentinel.watch(function () {
         var defer = $q.defer();
-
         NstSvcServer.request('notification/reset_counter', {}).then(function () {
           $rootScope.$broadcast(NST_NOTIFICATION_EVENT.UPDATE, { count: 0 });
           defer.resolve();
@@ -459,7 +457,7 @@
             actor: values[1],
             label: values[2][0],
             place: values[3],
-            type: data.type,
+            type: data.type
           });
       }).catch(function () {
         deferred.resolve({ id: data._id, data: null });

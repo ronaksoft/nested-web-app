@@ -24,7 +24,7 @@
                         $location.url($attrs.href.substring(1));
                     }, 200)
                 });
-                $element.dblclick(function(evnt) {
+                $element.dblclick(function() {
                     $timeout.cancel(timer);
                 });
             }

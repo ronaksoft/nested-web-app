@@ -5,10 +5,8 @@
     .module('ronak.nested.web.components')
     .controller('addLabelController', addLabelController);
 
-  function addLabelController($timeout, $scope, $q, $uibModalInstance,
-    moment, toastr, _, NstSvcLabelFactory, NST_LABEL_SEARCH_FILTER,
-    NstSvcPostFactory, NstSvcPlaceFactory, NstSvcTranslation, NstUtility,
-    NstTinyPlace, argv) {
+  function addLabelController($timeout, $scope, $uibModalInstance,
+                              _, NstSvcLabelFactory, NST_LABEL_SEARCH_FILTER, argv) {
 
     var vm = this;
     vm.labelSelectPlaceHolder = 'Select from below or type label name…';
@@ -37,7 +35,7 @@
     vm.setting = {
       skip: 0,
       limit: defaultLimit + vm.selectedLabels.length,
-      filter: NST_LABEL_SEARCH_FILTER.MY_LABELS,
+      filter: NST_LABEL_SEARCH_FILTER.MY_LABELS
     };
 
     vm.load();
@@ -60,7 +58,6 @@
 
         vm.search.results.push.apply(vm.search.results, newItems);
 
-        // console.log(items.length, sameItems.length, items.length - (vm.selectedLabels.length - sameItems.length),vm.setting.skip);
         vm.setting.skip += items.length - (vm.selectedLabels.length - sameItems.length);
         vm.oldKeyword = keyword;
         vm.haveMore = vm.setting.limit === items.length;
@@ -79,11 +76,11 @@
       vm.search.results = [];
       vm.haveMore = true;
     }
-    function updatedRecipient(onSelect, label) {
+    function updatedRecipient() {
       vm.firstTouch = true;
       $scope.$broadcast('SetFocus');
     }
-    function clear(item, select) {
+    function clear(item) {
       vm.firstTouch = true;
       _.remove(vm.selectedLabels, function (o) {
         return item.id === o.id;

@@ -97,7 +97,7 @@
     function resend() {
       resendVerificationCode(vm.verificationId, vm.phone).then(function() {
         toastr.success(NstSvcTranslation.get("Verification code has been sent again."));
-      }).catch(function(error) {
+      }).catch(function() {
         toastr.error(NstSvcTranslation.get("An error has occurred in sending a new verification code."));
       });
     }

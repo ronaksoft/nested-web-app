@@ -16,7 +16,7 @@
           place : '=',
           placeId : '='
         },
-        link: function (scope, element) {
+        link: function () {
 
         }
       };

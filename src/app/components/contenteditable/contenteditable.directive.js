@@ -3,7 +3,7 @@
 
   angular
     .module('ronak.nested.web.components.text')
-    .directive('contentedit', function() {
+    .directive('contentedit', function($) {
     var obj = {
       restrict:'A',
       replace:false,
@@ -76,7 +76,7 @@
           }
         };
 
-        var upKeyHandler = function(e){
+        var upKeyHandler = function(){
           read(); //function is defined below and just extracts the innerhtml
         };
 

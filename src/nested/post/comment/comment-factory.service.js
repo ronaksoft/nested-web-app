@@ -62,7 +62,7 @@
           deferred.reject(new Error('commentIds is not provided'))
         } else {
           NstSvcServer.request('post/get_many_comments', {
-            comment_id: joinedIds,
+            comment_id: joinedIds
           }).then(function (data) {
             deferred.resolve({
               idKey: '_id',
@@ -183,7 +183,7 @@
         } else {
           NstSvcServer.request('post/remove_comment', {
             post_id: postId,
-            comment_id: comment.id,
+            comment_id: comment.id
           }).then(function () {
             deferred.resolve(comment);
           }).catch(deferred.reject);

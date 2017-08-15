@@ -13,7 +13,7 @@
 
   angular
     .module('ronak.nested.web.components')
-    .directive('nstDisableForBtn', function($interval, NstUtility, _) {
+    .directive('nstDisableForBtn', function($interval, NstUtility, _, $) {
       return {
         restrict: 'A',
         replace: true,

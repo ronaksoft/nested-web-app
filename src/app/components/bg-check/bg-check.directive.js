@@ -3,7 +3,7 @@
 
   angular
     .module('ronak.nested.web.components')
-    .directive('bgCheck', function(NstSvcLogger) {
+    .directive('bgCheck', function(NstSvcLogger, $) {
       return {
         restrict: 'A',
         link: function(scope, element, $attrs) {
@@ -57,7 +57,6 @@
 
               var ctx = canvas.getContext("2d");
               ctx.drawImage(this,0,0);
-              //canvas.toDataURL('image/png').replace(/^data:image\/(png|jpg);base64,/, '')
 
 
 

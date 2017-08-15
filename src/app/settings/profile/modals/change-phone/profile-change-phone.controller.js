@@ -41,7 +41,7 @@
       $uibModalInstance.close(data.phone);
     }));
 
-    eventReferences.push($scope.$on(vm.previousStepEventKey, function (event) {
+    eventReferences.push($scope.$on(vm.previousStepEventKey, function () {
       vm.autoSubmit = false;
       vm.step--;
     }));
@@ -53,14 +53,5 @@
         }
       });
     });
-
-    function getPhoneNumber() {
-      if (vm.code && vm.phone) {
-        return vm.code.toString() + _.trimStart(vm.phone.toString(), "0");
-      }
-
-      return "";
-    }
-
   }
 })();

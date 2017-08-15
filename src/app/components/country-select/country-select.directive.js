@@ -22,7 +22,7 @@
    * @param {any} NST_COUNTRIES_ATLAS
    * @returns
    */
-  function countrySelect(NST_COUNTRIES_ATLAS, _) {
+  function countrySelect(NST_COUNTRIES_ATLAS, _, $) {
 
     return {
       restrict: 'E',

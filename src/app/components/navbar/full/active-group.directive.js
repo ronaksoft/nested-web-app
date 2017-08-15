@@ -9,7 +9,7 @@
         scope :{
           activeGroup : "@"
         },
-        link: function(scope, element, attrs) {
+        link: function(scope, element) {
           if (!$state.current.options) {
             return;
           }

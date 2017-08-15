@@ -40,13 +40,13 @@
               "</div>" +
               "</li>";
 
-            element.on('hidden.atwho', function (event, flag, query) {
+            element.on('hidden.atwho', function () {
               $timeout(function () {
                 element.attr('mention', false);
               }, 200);
             });
 
-            element.on('shown.atwho', function (event, flag, query) {
+            element.on('shown.atwho', function () {
               element.attr('mention', true);
             });
 
@@ -67,7 +67,7 @@
                     remoteFilter: function (query, callback) {
                       var searchSettings = {
                         query: query,
-                        limit: 5,
+                        limit: 5
                       };
                       if (attrs.postId) {
                         searchSettings.postId = attrs.postId;
@@ -96,7 +96,7 @@
                           })
                         });
                         callback(items);
-                      }).catch(function (error) {
+                      }).catch(function () {
                       });
                     }
                   }
@@ -118,10 +118,6 @@
                       return placeKey + elm.attr('data-id').trim();
                     },
                     remoteFilter: function (query, callback) {
-                      var searchSettings = {
-                        query: query.query,
-                        limit: 5,
-                      };
                       NstSvcPlaceFactory.search(query).then(function (places) {
                         var uniquePlaces = _.unionBy(places, 'id');
                         var items = [];
@@ -136,7 +132,6 @@
                         });
                         callback(items);
                       });
-
                     }
                   }
                 });
@@ -181,7 +176,7 @@
                           })
                         });
                         callback(items);
-                      }).catch(function (error) {
+                      }).catch(function () {
                       });
                     }
                   }

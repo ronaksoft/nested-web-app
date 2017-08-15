@@ -3,7 +3,7 @@
 
   angular
     .module('ronak.nested.web.activity')
-    .directive('setSeenOnVisible', function () {
+    .directive('setSeenOnVisible', function ($) {
       return {
         restrict: 'A',
         link: function (scope, element, attrs) {

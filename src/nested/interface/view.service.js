@@ -5,7 +5,7 @@
     .service('SvcCardCtrlAffix', SvcCardCtrlAffix);
 
   /** @ngInject */
-  function SvcCardCtrlAffix($rootScope,$window,deviceDetector,$timeout) {
+  function SvcCardCtrlAffix($rootScope,$window,deviceDetector,$timeout, $) {
     var obj = {};
 
     var win = angular.element($window);

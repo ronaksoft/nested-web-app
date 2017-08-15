@@ -6,13 +6,13 @@
       .controller('SidebarController', SidebarController);
 
     /** @ngInject */
-    function SidebarController($q, $scope, $state, $stateParams, $uibModal, $window, $rootScope, $timeout,
+    function SidebarController($q, $scope, $state, $stateParams, $uibModal, $rootScope,
                                _,
                                NST_DEFAULT, NST_AUTH_EVENT, NST_INVITATION_EVENT, NST_CONFIG,NST_KEY, deviceDetector,
                                NST_EVENT_ACTION, NST_USER_EVENT, NST_NOTIFICATION_EVENT, NST_SRV_EVENT, NST_NOTIFICATION_TYPE, NST_PLACE_EVENT, NST_POST_EVENT,
                                NstSvcAuth, NstSvcServer, NstSvcLogger, NstSvcNotification, NstSvcTranslation,
-                               NstSvcPostFactory, NstSvcPlaceFactory, NstSvcInvitationFactory, NstUtility, NstSvcUserFactory, NstSvcSidebar, NstSvcNotificationFactory,
-                               NstSvcNotificationSync, NstSvcSync, NstSvcKeyFactory, NstSvcPostDraft,
+                                NstSvcPlaceFactory, NstSvcInvitationFactory, NstUtility, NstSvcUserFactory, NstSvcSidebar, NstSvcNotificationFactory,
+                                NstSvcKeyFactory, NstSvcPostDraft,
                                NstVmPlace, NstVmInvitation) {
       var vm = this;
       var eventReferences = [];
@@ -270,7 +270,7 @@
             }
           });
 
-      }).catch(function (error) {
+      }).catch(function () {
         throw 'SIDEBAR | places can not init'
       });
 
@@ -286,7 +286,7 @@
           });
 
         }
-      }).catch(function (error) {
+      }).catch(function () {
         throw 'SIDEBAR | invitation can not init'
       });
 
@@ -299,13 +299,13 @@
 
       function togglePlace(status) {
         vm.showPlaces = status;
-      };
+      }
 
       /*****************************
        *****    Change urls   ****
        *****************************/
 
-      $scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+      $scope.$on('$stateChangeSuccess', function (event, toState) {
         vm.isBookmarkMode = false;
         vm.isFeed = false;
         vm.isSentMode = false;
@@ -344,13 +344,12 @@
         vm.urls = {
           unfiltered: $state.href(getUnfilteredState()),
           compose: $state.href(getComposeState(), {placeId: vm.stateParams.placeId || NST_DEFAULT.STATE_PARAM}),
-          // bookmarks: $state.href(getBookmarksState()),
           sent: $state.href(getSentState()),
           subplaceAdd: $state.href(getPlaceAddState(), {placeId: vm.stateParams.placeId || NST_DEFAULT.STATE_PARAM})
         };
 
         mapPlacesUrl(vm.places);
-      };
+      }
 
       /**
        * fill the `href` Property of all places and children
@@ -364,7 +363,6 @@
           if ($state.current.params && $state.current.params.placeId) {
             place.href = $state.href($state.current.name, Object.assign({}, $stateParams, {placeId: place.id}));
           } else {
-            var group = $state.current.options && $state.current.options.group ? $state.current.options.group : null;
             switch ($state.current.options.group) {
               case 'file':
                 place.href = $state.href('app.place-files', {placeId: place.id});
@@ -404,12 +402,6 @@
        */
       function getUnfilteredState() {
         var state = 'app.messages-favorites';
-        // switch ($state.current.options.group) {
-        //   case 'activity':
-        //     state = 'app.activity';
-        //     break;
-        // }
-
         return state;
       }
 
@@ -444,30 +436,8 @@
        * @function
        */
       function getComposeState() {
-        // if ($state.current.params && $state.current.params.placeId) {
-        //   return 'app.place-compose';
-        // }
 
         return 'app.compose';
-      }
-
-      /**
-       * determine `bookmark` state
-       * @returns {string}
-       * @static
-       * @function
-       */
-      function getBookmarksState() {
-        var state = 'app.messages-favorites';
-
-        switch ($state.current.options.group) {
-          case 'activity':
-            //todo: favorite activities ( if someday API created ) should start from here ...
-            state = 'app.messages-favorites';
-            break;
-        }
-
-        return state;
       }
 
       /**
@@ -496,19 +466,19 @@
        *****************************/
 
       vm.setOrder = {
-        accept: function (sourceItemHandleScope, destSortableScope) {
+        accept: function () {
           return true;
         },
-        itemMoved: function (event) {
+        itemMoved: function () {
         },
         orderChanged: function (event) {
           fillOrder(event.source, event.dest);
         },
         clone: false,
-        allowDuplicates: false,
+        allowDuplicates: false
       };
 
-      function fillOrder(from,to) {
+      function fillOrder() {
         var newOrder = {};
         vm.places.forEach(function (place,i) {
           newOrder[place.id] = i + 1;
@@ -554,7 +524,7 @@
           if (NstSvcAuth.isAuthorized()) {
             res(NstSvcAuth.user);
           } else {
-            eventReferences.push($rootScope.$on(NST_AUTH_EVENT.AUTHORIZE, function (e, data) {
+            eventReferences.push($rootScope.$on(NST_AUTH_EVENT.AUTHORIZE, function () {
               res(NstSvcAuth.user);
             }));
           }
@@ -640,13 +610,6 @@
 
       function mapInvitations(invitationModels) {
         return invitationModels.map(mapInvitation);
-      }
-
-      function mapMentions(mentions) {
-        var currentUserId = NstSvcAuth.user.id;
-        return _.map(mentions, function (item) {
-          return new NstVmMention(item, currentUserId);
-        });
       }
 
       /*****************************
@@ -803,28 +766,28 @@
       /**
        * Event listener for `NST_EVENT_ACTION.POST_ADD`
        */
-      eventReferences.push($rootScope.$on(NST_EVENT_ACTION.POST_ADD, function (e, data) {
+      eventReferences.push($rootScope.$on(NST_EVENT_ACTION.POST_ADD, function () {
         getGrandPlaceUnreadCounts();
       }));
 
       /**
        * Event listener for `NST_EVENT_ACTION.POST_REMOVE`
        */
-      eventReferences.push($rootScope.$on(NST_EVENT_ACTION.POST_REMOVE, function (e, data) {
+      eventReferences.push($rootScope.$on(NST_EVENT_ACTION.POST_REMOVE, function () {
         getGrandPlaceUnreadCounts();
       }));
 
       /**
        * Event listener for `NST_POST_EVENT.READ`
        */
-      eventReferences.push($rootScope.$on(NST_POST_EVENT.READ, function (event, data) {
+      eventReferences.push($rootScope.$on(NST_POST_EVENT.READ, function () {
         getGrandPlaceUnreadCounts();
       }));
 
       /**
        * Event listener for `post-read-all`
        */
-      eventReferences.push($rootScope.$on('post-read-all', function (e, data) {
+      eventReferences.push($rootScope.$on('post-read-all', function () {
         getGrandPlaceUnreadCounts();
       }));
 
@@ -834,11 +797,6 @@
       eventReferences.push($rootScope.$on(NST_NOTIFICATION_EVENT.UPDATE, function (e, data) {
         vm.notificationsCount = data.count;
       }));
-
-      // NOTE: Nobody dispaches an event with this key!!
-      // eventReferences.push($rootScope.$on(NST_NOTIFICATION_EVENT.NEW_NOTIFICATION, function (e, data) {
-      //   vm.notificationsCount += 1;
-      // }));
 
       /**
        * Event listener for `NST_NOTIFICATION_EVENT.OPEN_INVITATION_MODAL`
@@ -850,22 +808,14 @@
       /**
        * Event listener for `NST_NOTIFICATION_TYPE.INVITE`
        */
-      eventReferences.push($rootScope.$on(NST_NOTIFICATION_TYPE.INVITE, function (e, data) {
+      eventReferences.push($rootScope.$on(NST_NOTIFICATION_TYPE.INVITE, function () {
         getInvitations().then(function (invitations) {
           //FIXME:: Check last invitation
 
-          var invitations = mapInvitations(invitations);
           var lastInvitation = _.pullAllBy(invitations, vm.invitation, 'id')[0];
 
 
           if (!lastInvitation) return;
-
-          vm.invitations = invitations;
-
-
-          // var lastInvitation = _.find(invitations, function (inv) {
-          //   return inv.id === event.detail.invite_id
-          // });
 
           NstSvcNotification.push(
             NstUtility.string.format(
@@ -875,7 +825,7 @@
             function () {
               vm.invitation.showModal(lastInvitation.id)
             })
-        }).catch(function (error) {
+        }).catch(function () {
           throw 'SIDEBAR | invitation push can not init'
         });
       }));

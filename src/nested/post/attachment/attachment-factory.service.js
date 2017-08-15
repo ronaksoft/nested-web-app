@@ -7,7 +7,7 @@
   /** @ngInject */
   function NstSvcAttachmentFactory($q, _,
                                    NstSvcServer, NstSvcFileType, NstSvcFileStorage,
-                                   NstAttachment, NstPicture, NstStoreToken) {
+                                   NstAttachment, NstPicture) {
 
     /**
      * PostFactory - all operations related to post, comment

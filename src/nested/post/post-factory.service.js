@@ -110,7 +110,7 @@
         defer.resolve(null);
       } else {
         NstSvcServer.request('post/get_many', {
-          post_id: joinedIds,
+          post_id: joinedIds
         }).then(function (dataObj) {
           defer.resolve({
             idKey: '_id',
@@ -131,7 +131,6 @@
      * @returns {Promise}      the post
      */
     function read(id) {
-      var factory = this;
       var defer = $q.defer();
 
       if (!id) {
@@ -264,7 +263,7 @@
     function pin(id) {
       return $q(function (resolve, reject) {
         NstSvcServer.request('post/pin', {
-          post_id: id,
+          post_id: id
         }).then(function () { //remove the object from storage and return the id
           var post = NstSvcPostStorage.get(id);
 
@@ -282,7 +281,7 @@
     function unpin(id) {
       return $q(function (resolve, reject) {
         NstSvcServer.request('post/unpin', {
-          post_id: id,
+          post_id: id
         }).then(function () { //remove the object from storage and return the id
           var post = NstSvcPostStorage.get(id);
 
@@ -550,11 +549,6 @@
     }
 
     function search(queryString, limit, skip) {
-      var params = {
-        query: queryString,
-        limit: limit || 8,
-        skip: skip || 0
-      };
       var defer = $q.defer();
       return factory.sentinel.watch(function () {
         NstSvcServer.request('search/posts', {
@@ -610,7 +604,7 @@
 
       NstSvcServer.request('post/get_chain', {
         post_id: id,
-        limit: limit || 8,
+        limit: limit || 8
       }).then(function (data) {
         var messagePromises = _.map(data.posts, function (post) {
           return parsePost(post);
@@ -659,7 +653,7 @@
           post_id: postId,
           old_place_id: oldPlaceId,
           new_place_id: newPlaceId
-        }).then(function(result){
+        }).then(function(){
           deferred.resolve({postId : postId})
         }).catch(deferred.reject);
 
@@ -697,7 +691,7 @@
       return this.sentinel.watch(function () {
         return $q(function (resolve, reject) {
           NstSvcServer.request('post/get_counters', {
-            post_id: postId,
+            post_id: postId
           }).then(function (data) {
             resolve(data.counters);
           }).catch(reject);
@@ -723,7 +717,7 @@
       return this.sentinel.watch(function () {
         return NstSvcServer.request('post/add_label', {
           post_id: postId,
-          label_id: labelId,
+          label_id: labelId
         });
       }, "addLabel", watchKey);
     }
@@ -733,7 +727,7 @@
       return this.sentinel.watch(function () {
         return NstSvcServer.request('post/remove_label', {
           post_id: postId,
-          label_id: labelId,
+          label_id: labelId
         });
       }, "removeLabel", watchKey);
     }

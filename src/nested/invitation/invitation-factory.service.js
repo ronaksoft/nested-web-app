@@ -95,7 +95,7 @@
         this.requests.get[id] = $q(function (resolve, reject) {
 
           NstSvcServer.request('account/get_invitation', {
-            invite_id: id,
+            invite_id: id
           }).then(function (invitationData) {
             var invitation = factory.parseInvitation(invitationData);
             NstSvcInvitationStorage.set(id, invitation);

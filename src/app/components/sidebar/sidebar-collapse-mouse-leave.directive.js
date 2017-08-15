@@ -6,7 +6,7 @@
     .directive('nstSidebarRevertMouseLeave', sidebarRevertMouseLeave);
 
   /** @ngInject */
-  function sidebarRevertMouseLeave($timeout) {
+  function sidebarRevertMouseLeave($timeout,$) {
     return {
       restrict: 'A',
       scope :{

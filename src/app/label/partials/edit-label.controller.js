@@ -5,8 +5,8 @@
     .module('ronak.nested.web.components')
     .controller('editLabelController', editLabelController);
 
-  function editLabelController($timeout, $scope, $q, $uibModalInstance, $uibModal, $filter,
-    moment, toastr, _, NstSvcLabelFactory, NstSvcTranslation, NstUtility, argv) {
+  function editLabelController($q, $uibModalInstance, $uibModal, $filter,
+     toastr, _, NstSvcLabelFactory, NstSvcTranslation, NstSvcLogger, argv) {
 
     var vm = this;
     vm.id = null;
@@ -93,8 +93,8 @@
 
     function editLabel() {
       var title = $filter('scapeSpace')(vm.title);
-      NstSvcLabelFactory.update(vm.id, title, vm.code).then(function (result) {
-        callHolderPromises().then(function (result) {
+      NstSvcLabelFactory.update(vm.id, title, vm.code).then(function () {
+        callHolderPromises().then(function () {
           toastr.success(NstSvcTranslation.get("Label modified successfully."));
         });
         $uibModalInstance.close(true);
@@ -147,8 +147,8 @@
             return vm.title;
           }
         }
-      }).result.then(function (confirmResult) {
-        NstSvcLabelFactory.remove(vm.id).then(function (result) {
+      }).result.then(function () {
+        NstSvcLabelFactory.remove(vm.id).then(function () {
           toastr.success(NstSvcTranslation.get("Label removed successfully."));
           $uibModalInstance.close(true);
         }).catch(function (error) {

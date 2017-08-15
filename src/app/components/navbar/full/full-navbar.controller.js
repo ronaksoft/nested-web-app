@@ -6,9 +6,8 @@
     .controller('FullNavbarController', FullNavbarController);
 
   /** @ngInject */
-  function FullNavbarController($scope, $rootScope, $uibModal, $state, $q, _,
-                                toastr, NstUtility, $window,
-                                NstSvcAuth, NstSvcLogger,
+  function FullNavbarController($scope, $rootScope, $uibModal, $state, _,
+                                toastr, NstUtility, NstSvcAuth,
                                 NstSearchQuery, NstSvcPlaceFactory, NstSvcTranslation,
                                 NST_CONFIG, NST_DEFAULT, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_PLACE_EVENT, NST_SRV_ERROR) {
     var vm = this;
@@ -46,6 +45,62 @@
     vm.isFavPlaces = $state.current.options.favoritePlace;
     vm.searchKeyPressed = searchKeyPressed;
     vm.goBack = goBack;
+    vm.chips = [];
+    vm.removeChip = removeChip;
+
+    initSearch();
+
+    function initSearch() {
+      var searchQuery = new NstSearchQuery(vm.query, true);
+      var params = searchQuery.getSearchParams();
+      initChips(params);
+    }
+
+    function initChips(params) {
+      vm.chips = [];
+      addItemToChips(vm.chips, params.places, 'in');
+      addItemToChips(vm.chips, params.users, 'from');
+      addItemToChips(vm.chips, params.labels, 'label');
+      addItemToChips(vm.chips, params.keywords, 'keyword');
+    }
+
+    function addItemToChips(chipArray, items, type) {
+      if (items.length === 0) {
+        return;
+      }
+      for (var i = 0; i < items.length; i++) {
+        chipArray.push({
+          type: type,
+          title: items[i]
+        });
+      }
+    }
+
+    /**
+     * remove selected chip by name from search query
+     * @param {string} type
+     * @param {string} name
+     */
+    function removeChip(type, name) {
+      var searchQuery = new NstSearchQuery(vm.query, true);
+      switch (type) {
+        case 'in':
+          searchQuery.removePlace(name);
+          break;
+        case 'from':
+          searchQuery.removeUser(name);
+          break;
+        case 'label':
+          searchQuery.removeLabel(name);
+          break;
+        case 'keyword':
+          searchQuery.removeKeyword(name);
+          break;
+      }
+      vm.query = searchQuery.toString();
+      initChips(searchQuery.getSearchParams());
+      vm.forceSearch(vm.query);
+    }
 
     /**
      * Checks current state is `unreads` page or not
@@ -178,7 +233,7 @@
             toastr.success(message + '<br/>' + names);
           }
         }
-      }).catch(function (error) {
+      }).catch(function () {
         toastr.warning(NstSvcTranslation.get('An error has occured while adding the user(s) to the place!'));
       });
     }
@@ -215,25 +270,11 @@
             toastr.success(message + '<br/>' + names);
           }
         }
-      }).catch(function (error) {
+      }).catch(function () {
         toastr.warning(NstSvcTranslation.get('An error has occured while inviting the user(s) to the place!'));
       });
     }
 
-    /**
-     * Calls the proper function for adding member for Grand places either children places
-     * @param {object} place
-     * @param {string} role
-     * @param {object} user
-     * @returns
-     */
-    function joinUser(place, role, user) {
-      if (place.isGrandPlace()) {
-        return NstSvcPlaceFactory.inviteUser(place, role, user);
-      } else {
-        return NstSvcPlaceFactory.addUser(place, role, user);
-      }
-    }
 
     /**
      * return the current place id
@@ -452,10 +493,18 @@
      * Triggers when in search input any key being pressed
      * @param {event} $event
      * @param {string} text
+     * @param {boolean} isChips
      */
-    function searchKeyPressed($event, text) {
+    function searchKeyPressed($event, text, isChips) {
       if (vm.searchOnKeypress) {
-        vm.searchOnKeypress($event, text);
+        if (isChips) {
+          if (text === undefined) {
+            text = '';
+          }
+          vm.searchOnKeypress($event, vm.query + ' ' + text);
+        } else {
+          vm.searchOnKeypress($event, text);
+        }
       }
     }
 
@@ -500,7 +549,7 @@
      * leave the place with showing results
      */
     function leave() {
-      NstSvcPlaceFactory.leave(vm.getPlaceId()).then(function (result) {
+      NstSvcPlaceFactory.leave(vm.getPlaceId()).then(function () {
         if (_.indexOf(vm.place.id, '.') > -1) {
           $state.go('app.place-messages', {placeId: vm.place.grandParentId});
         } else {
@@ -546,7 +595,7 @@
 
       NstSvcPlaceFactory.get(vm.getPlaceId()).then(function (place) {
         vm.place = place;
-        var modal = $uibModal.open({
+         $uibModal.open({
           animation: false,
           templateUrl: 'app/pages/places/settings/place-delete.html',
           controller: 'PlaceRemoveConfirmController',
@@ -557,7 +606,7 @@
               return vm.place;
             }
           }
-        }).result.then(function (confirmResult) {
+        }).result.then(function () {
           remove();
         });
       });
@@ -569,7 +618,7 @@
      * deletes the place also shows the results of the api
      */
     function remove() {
-      NstSvcPlaceFactory.remove(vm.place.id).then(function (removeResult) {
+      NstSvcPlaceFactory.remove(vm.place.id).then(function () {
         toastr.success(NstUtility.string.format(NstSvcTranslation.get("Place {0} was removed successfully."), vm.place.name));
         if (_.indexOf(vm.place.id, '.') > -1) {
           $state.go('app.place-messages', {placeId: vm.place.grandParentId});
@@ -609,7 +658,7 @@
     }));
 
     eventReferences.push($rootScope.$on(NST_PLACE_EVENT.PICTURE_CHANGED, function (e, data) {
-      NstSvcPlaceFactory.get(data.placeId).then(function (place) {
+      NstSvcPlaceFactory.get(data.placeId).then(function () {
         vm.place = data.place;
       });
     }));

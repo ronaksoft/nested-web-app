@@ -12,11 +12,8 @@
       scope: {
         model : '=switchDrag'
       },
-      link: function (scope, $element, $attrs) {
+      link: function (scope, $element) {
 
-
-        var parent = $element.parent().parent();
-        var parentWidth = parent.width();
         var checkbox = $element.parent().parent().find('input');
 
         var isRTL = $rootScope._direction == 'rtl';
@@ -31,7 +28,7 @@
               type:"x",
               bounds:{minX:minX, maxX: maxX},
               throwProps:true,
-              onDrag : function (e) {
+              onDrag : function () {
 
                 // if dragged towards right
                 if (isRTL) {

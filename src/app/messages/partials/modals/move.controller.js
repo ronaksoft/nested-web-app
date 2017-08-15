@@ -5,7 +5,7 @@
     .module('ronak.nested.web.message')
     .controller('MovePlaceController', MovePlaceController);
 
-  function MovePlaceController($timeout, $scope, $q, $uibModalInstance, $interval,
+  function MovePlaceController($timeout, $uibModalInstance, $interval,
     toastr, _,
     NstSvcPostFactory, NstSvcPlaceFactory, NstSvcTranslation, NstUtility,
     postId, selectedPlace, postPlaces, multi) {
@@ -40,7 +40,7 @@
           .differenceBy(postPlaces, 'id')
           .take(limit).value();
 
-      }).catch(function (error) {
+      }).catch(function () {
         vm.resultTargets = [];
       }).finally(function () {
         vm.searchPlaceProgress = false;
@@ -63,7 +63,7 @@
         for (var i = 0; i < postsC; i++) {
           NstSvcPostFactory.movePlace(postId[i], selectedPlace.id, targetPlace.id).then(function (result) {
             successC.push(result.postId);
-          }).catch(function (error) {
+          }).catch(function () {
             failedC.push('');
           }).finally(function () {
             vm.replaceProgress = false;
@@ -87,9 +87,9 @@
         }, 100);
       } else {
 
-        NstSvcPostFactory.movePlace(postId, selectedPlace.id, targetPlace.id).then(function (result) {
+        NstSvcPostFactory.movePlace(postId, selectedPlace.id, targetPlace.id).then(function () {
           toastr.success(NstUtility.string.format(NstSvcTranslation.get("The post has been successfully moved from <b>{0}</b> to <b>{1}</b>."), selectedPlace.name, targetPlace.name));
-        }).catch(function (error) {
+        }).catch(function () {
           toastr.error(NstUtility.string.format(NstSvcTranslation.get("An error occured while trying to move from <b>{0}</b> to <b>{1}</b>"), selectedPlace.name, targetPlace.name));
         }).finally(function () {
           vm.replaceProgress = false;

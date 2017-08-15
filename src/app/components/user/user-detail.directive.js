@@ -3,7 +3,7 @@
 
   angular
     .module('ronak.nested.web.components')
-    .directive('userDetail', function($timeout,$state,NstSearchQuery,NstSvcAuth,NST_PATTERN) {
+    .directive('userDetail', function($timeout,$state,NstSearchQuery,NstSvcAuth,NST_PATTERN, $) {
       return {
         template: function(element) {
           var tag = element[0].nodeName;
@@ -15,7 +15,7 @@
         scope: {
           user: '=userDetail'
         },
-        link: function ($scope, $element, $attrs) {
+        link: function ($scope, $element) {
           $scope.user = $scope.user ? $scope.user : {};
           $scope.isEmail = NST_PATTERN.EMAIL.test( $scope.user.id);
           $scope.isAvailable = NstSvcAuth.user.id !== $scope.user.id ;
@@ -29,7 +29,7 @@
           } else {
             $element.addClass('on-self-avatar');
           }
-            
+
           $scope.openOverEnable = function () {
 
             $scope.deletePopovers();
