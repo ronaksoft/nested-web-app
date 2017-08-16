@@ -34,12 +34,12 @@
           var fixed = false;
 
           if ($attrs.parent && $($attrs.parent).offset() ) {
-            containerLeft = $($attrs.parent)[0].offsetLeft;
+            var containerLeft = $($attrs.parent)[0].offsetLeft;
           }
 
 
           if ($attrs.afterContent ) {
-            afterContent = $attrs.afterContent;
+            var afterContent = $attrs.afterContent;
           }
 
           if ($attrs.fixedTop ) {

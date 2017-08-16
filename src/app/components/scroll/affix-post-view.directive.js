@@ -13,9 +13,7 @@
 
         var win = angular.element($window);
         var topOffset = 0;
-        var afterContent = 0;
         var container = $attrs.container ? $($attrs.container) : win;
-        var containerLeft = $('body').offset().left || 0;
         var rightAuto = $attrs.rtlRightAuto || false;
 
         applier();
@@ -47,15 +45,6 @@
           var actualWidth = Math.min(width, win.outerWidth());
 
           var fixed = false;
-
-          if ($attrs.parent && $($attrs.parent).offset() ) {
-            containerLeft = $($attrs.parent)[0].offsetLeft;
-          }
-
-
-          if ($attrs.afterContent ) {
-            afterContent = $attrs.afterContent;
-          }
 
           if ($attrs.fixedTop ) {
             top = parseInt($attrs.top);

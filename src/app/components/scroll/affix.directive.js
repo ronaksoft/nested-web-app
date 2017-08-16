@@ -14,8 +14,7 @@
             topOffset = 0,
             afterContent = 0,
             containerLeft = $('body').offset().left || 0,
-            isRTL = $rootScope._direction,
-            defTop = $element.offset().top;
+            isRTL = $rootScope._direction;
 
         $rootScope.$on('affixCheck',function(){
           $timeout(function(){applier();},10);

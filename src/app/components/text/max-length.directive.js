@@ -11,6 +11,7 @@
       link: function (scope ,element, attrs) {
         function highlight() {
           var maxLength = parseInt(attrs.maxLength);
+          return maxLength;
         }
         scope.$watch(function(){
           return element.text().length;

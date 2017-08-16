@@ -1127,10 +1127,10 @@
      */
     function getPlace(id) {
       NstSvcLogger.debug4('Compose | Get place :', id);
-      return NstSvcPlaceFactory.get(id).catch(function () {
+      return NstSvcPlaceFactory.get(id).catch(function (error) {
         var deferred = $q.defer();
 
-        switch (errorcode) {
+        switch (error.code) {
           case NST_SRV_ERROR.TIMEOUT:
             // Keep Retrying
             deferred.reject.apply(null, arguments);
@@ -1233,7 +1233,7 @@
       vm.model.body = '';
       vm.model.forwardedFrom = null;
       vm.model.replyTo = null;
-      var discardCanceler = $timeout(function () {
+      $timeout(function () {
         vm.focus = false;
       }, 512);
     }
