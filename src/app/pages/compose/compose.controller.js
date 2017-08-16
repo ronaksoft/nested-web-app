@@ -70,7 +70,6 @@
       subject: '',
       body: '',
       forwardedFrom: null,
-      labels: [],
       replyTo: null,
       errors: [],
       modified: false,
