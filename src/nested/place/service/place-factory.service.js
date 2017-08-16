@@ -5,7 +5,7 @@
     .module('ronak.nested.web.place')
     .service('NstSvcPlaceFactory', NstSvcPlaceFactory);
 
-  function NstSvcPlaceFactory($q, _, $rootScope, NstSvcPlaceRoleStorage,
+  function NstSvcPlaceFactory($q, _, $rootScope,
                               NST_SRV_ERROR, NST_PLACE_ACCESS, NST_EVENT_ACTION, NST_PLACE_EVENT,
                               NstSvcServer, NstSvcPlaceStorage, NstSvcTinyPlaceStorage, NstSvcMyPlaceIdStorage, NstSvcUserFactory, NstSvcLogger,
                               NstBaseFactory, NstUtility, NstTinyPlace, NstPlace, NstSvcPlaceMap, NstPicture, NstUtilPlace) {
@@ -887,7 +887,6 @@
       NstSvcPlaceStorage.flush();
       NstSvcTinyPlaceStorage.flush();
       NstSvcMyPlaceIdStorage.flush();
-      NstSvcPlaceRoleStorage.flush();
     };
 
     PlaceFactory.prototype.isIdAvailable = isIdAvailable;
