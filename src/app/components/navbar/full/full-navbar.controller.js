@@ -54,28 +54,24 @@
 
     function initSearch() {
       var searchQuery = new NstSearchQuery(vm.query, true);
-      var params = searchQuery.getSearchParams();
+      var params = searchQuery.getSortedParams();
       initChips(params);
     }
 
     function initChips(params) {
       vm.chips = [];
-      addItemToChips(vm.chips, params.places, 'in');
-      addItemToChips(vm.chips, params.users, 'from');
-      addItemToChips(vm.chips, params.labels, 'label');
-      addItemToChips(vm.chips, params.keywords, 'keyword');
-    }
-
-    function addItemToChips(chipArray, items, type) {
-      if (items.length === 0) {
-        return;
-      }
-      for (var i = 0; i < items.length; i++) {
-        chipArray.push({
-          type: type,
-          title: items[i]
-        });
-      }
+      var types = {
+        'place': 'in',
+        'user': 'from',
+        'label': 'label',
+        'keyword': 'keyword'
+      };
+      vm.chips = _.map(params, function (item) {
+        return {
+          type: types[item.type],
+          title: item.id
+        };
+      });
     }
 
     /**
@@ -100,7 +96,7 @@
           break;
       }
       vm.query = searchQuery.toString();
-      initChips(searchQuery.getSearchParams());
+      initChips(searchQuery.getSortedParams());
       vm.forceSearch(vm.query);
     }
 

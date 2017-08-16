@@ -132,6 +132,13 @@
     (function () {
 
       /**
+       * Prevents from closing window
+       */
+      window.onbeforeunload = function () {
+        return "You have attempted to leave this page. Are you sure?";
+      };
+
+      /**
        * Add state params attachments to the model
        */
       if ($stateParams.attachments && $stateParams.attachments.length > 0) {
@@ -730,7 +737,7 @@
             NstSvcLogger.debug4('Compose | Compose model is valid');
             vm.focus = false;
             vm.model.saving = true;
-            
+
             var postLabelsIds = vm.model.labels.map(function(i){
               return i.id
             })
@@ -1292,6 +1299,7 @@
 
     // $('.wdt-emoji-popup.open').removeClass('open');
     $scope.$on('$destroy', function () {
+      window.onbeforeunload = null;
       $('.wdt-emoji-popup.open').removeClass('open');
       NstSvcLogger.debug4('Compose | Compose id destroyed :');
       NstSvcSidebar.removeOnItemClick();
