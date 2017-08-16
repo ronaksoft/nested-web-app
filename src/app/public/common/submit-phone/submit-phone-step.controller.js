@@ -26,7 +26,7 @@
    * @param {any} NstSvcTranslation
    * @param {any} toastr
    */
-  function SubmitPhoneStepController($scope, NstHttp, $q, NstSvcTranslation, toastr, _) {
+  function SubmitPhoneStepController($scope, NstHttp, $q, NstSvcTranslation, toastr, _, phoneUtils) {
     var vm = this;
 
     // This phone number is for test purpose only and you wont receive any verification code or call.

@@ -125,7 +125,7 @@
 
     function parseDate(date, defaultValue) {
       var format = "YYYY-MM-DD";
-      var date = moment(date, format);
+       date = moment(date, format);
 
       return date.isValid() ? date : defaultValue;
     }

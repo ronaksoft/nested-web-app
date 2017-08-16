@@ -31,7 +31,6 @@
     vm.collapse = false;
     vm.mouseIn = false;
     var eventReferences = [];
-    var discardCanceler = null;
     var systemConstants = {};
     vm.makeChangeForWatchers = 0;
     vm.clear = clear;
@@ -1234,7 +1233,7 @@
       vm.model.body = '';
       vm.model.forwardedFrom = null;
       vm.model.replyTo = null;
-      discardCanceler = $timeout(function () {
+      var discardCanceler = $timeout(function () {
         vm.focus = false;
       }, 512);
     }

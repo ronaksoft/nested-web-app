@@ -12,9 +12,6 @@
       link: function ($scope, $element, $attrs) {
         var win = angular.element($window);
         var topOffset = 0;
-        var afterContent = 0;
-        var containerLeft = $('body').offset().left || 0;
-
         var isRTL = $rootScope._direction;
         applier();
 
@@ -36,19 +33,19 @@
 
           var fixed = false;
 
-          if (!!$attrs.parent && $($attrs.parent).offset() ) {
+          if ($attrs.parent && $($attrs.parent).offset() ) {
             containerLeft = $($attrs.parent)[0].offsetLeft;
           }
 
 
-          if (!!$attrs.afterContent ) {
+          if ($attrs.afterContent ) {
             afterContent = $attrs.afterContent;
           }
 
-          if (!!$attrs.fixedTop ) {
+          if ($attrs.fixedTop ) {
             top = parseInt($attrs.top);
           }
-          if (!!$attrs.clearRight ) {
+          if ($attrs.clearRight ) {
             var clearRight = true;
           }
 
@@ -56,7 +53,6 @@
           function findLeftOffset () {
             if (isRTL == 'rtl') {
               offLeft = parseInt(containerLeft)  +  $($attrs.parent).width()  - parseInt(afterContent) - width;
-            } else {
             }
           }
           function removeFix() {
@@ -82,7 +78,7 @@
           }
 
           function firstFixes() {
-            if (!!$attrs.firstImp ) {
+            if ($attrs.firstImp ) {
               $element.css('position', 'fixed');
               $element.css('top', parseInt(top) - parseInt(topOffset) + 'px');
               $element.css('left', offLeft + 'px');

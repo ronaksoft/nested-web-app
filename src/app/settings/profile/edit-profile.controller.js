@@ -213,7 +213,6 @@
      *****************************/
     vm.removeImage = confirmRemovePicture;
     vm.setImage = setImage;
-    var imageLoadTimeout = null;
     /*****************************
      ***** Controller Methods ****
      *****************************/
@@ -252,6 +251,7 @@
           },
           controllerAs: 'ctlCrop'
         }).result.then(function (croppedFile) {
+          var imageLoadTimeout = null;
           vm.uploadedFile = croppedFile;
           var reader = new FileReader();
           reader.onload = function (event) {

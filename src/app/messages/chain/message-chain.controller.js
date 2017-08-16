@@ -93,7 +93,7 @@
       });
     }
 
-    function mapMessages(messages) {
+    var mapMessages = function (messages) {
       return _.reduce(messages, function (memo, message, number, array) {
         if (message.id) {
           memo.push(mapMessage(message));

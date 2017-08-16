@@ -6,7 +6,7 @@
     .directive('switchDrag', dragxaxis);
 
   /** @ngInject */
-  function dragxaxis($timeout,$rootScope) {
+  function dragxaxis($timeout,$rootScope, Draggable) {
     return {
       restrict: 'A',
       scope: {
@@ -21,7 +21,6 @@
         var minX = isRTL ? -52 : 4;
         var maxX = isRTL ? -4 : 52;
         var midX = isRTL ? -32 : 32;
-        var Draggable = {};
         $timeout(function () {
           if (!checkbox.prop("disabled")) {
             Draggable.create($element, {
