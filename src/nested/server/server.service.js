@@ -11,7 +11,7 @@
                         NST_SRV_MESSAGE_TYPE, NST_SRV_PUSH_CMD, NST_SRV_RESPONSE_STATUS, NST_SRV_ERROR,
                         NST_SRV_EVENT, NST_SRV_MESSAGE,
                         NstSvcRandomize, NstSvcLogger, NstSvcTry, NstSvcConnectionMonitor, NstHttp, NstSvcClient,
-                        NstObservableObject, NstServerError, NstServerQuery, NstRequest, NstResponse) {
+                        NstObservableObject, NstServerError, NstServerQuery, NstRequest, NstResponse, NstSvcRequestCacheFactory) {
 
     var NST_SERVER_DOMAIN = 'nested.server.domain';
 
@@ -279,9 +279,16 @@
 
     Server.prototype.constructor = Server;
 
-    Server.prototype.request = function (action, data, timeout) {
+    Server.prototype.request = function (action, data, timeout, callback) {
       var service = this;
       var payload = angular.extend(data || {}, {});
+
+      var argCallback = arguments[arguments.length - 1];
+      if (_.isFunction(argCallback)) {
+        var cacheResult = NstSvcRequestCacheFactory.observeRequest(action, payload);
+        argCallback(cacheResult);
+      }
+
       var retryablePromise = NstSvcTry.do(function () {
 
         var reqId = service.genQueueId(action, data);
@@ -310,6 +317,7 @@
       // TODO: Return the request itself
       return retryablePromise.then(function (response) {
         // TODO: Resolve with response itself
+        NstSvcRequestCacheFactory.updateResponse(action, payload, response.getData());
         return $q.resolve(response.getData());
       }).catch(function (response) {
         NstSvcLogger.debug2('WS | Response: ', response);
