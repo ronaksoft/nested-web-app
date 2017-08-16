@@ -6,11 +6,12 @@
     .service('NstSvcUserFactory', NstSvcUserFactory);
 
   function NstSvcUserFactory($q, md5, _, $rootScope,
-                             NstSvcServer, NstSvcTinyUserStorage, NstSvcUserStorage, NstPlace,
-                             NST_USER_SEARCH_AREA,
-                             NST_USER_EVENT,
-                             NstBaseFactory, NstTinyUser, NstUser, NstUserAuthority, NstPicture) {
-    function UserFactory() { }
+                             NstSvcServer, NstSvcTinyUserStorage, NstSvcUserStorage, NstSvcCacheDb,
+                             NST_USER_SEARCH_AREA, NST_USER_EVENT,
+                             NstBaseFactory, NstTinyUser, NstUser, NstUserAuthority, NstPicture, NstPlace) {
+    function UserFactory() { 
+      this.cache = new NstSvcCacheDb('user');
+    }
 
     UserFactory.prototype = new NstBaseFactory();
     UserFactory.prototype.constructor = UserFactory;
@@ -30,26 +31,22 @@
      *
      * @returns {Promise}
      */
-    UserFactory.prototype.get = function (id, force) {
+    UserFactory.prototype.get = function (id, cacheHandler) {
       var factory = this;
-
-      return factory.sentinel.watch(function () {
-        return $q(function (resolve, reject) {
-          var user = NstSvcUserStorage.get(id);
-          if (user && !force) {
-            resolve(user);
-          } else {
-            NstSvcServer.request('account/get', {
-              'account_id': id
-            }).then(function (userData) {
-              var user = factory.parseUser(userData);
-              NstSvcUserStorage.set(id, user);
-              resolve(user);
-            }).catch(reject);
-          }
-        });
-      }, "get", id);
-
+      return NstSvcServer.request('account/get', {
+        'account_id': id
+      }, function (cachedResponse) {
+        var cachedModel = null;
+        if (cachedResponse) {
+          cachedModel = factory.parseUser(cachedResponse);
+        } else {
+          cachedModel = factory.cache.get(id);
+        }
+        cacheHandler(cachedModel);
+      }).then(function (userData) {
+        factory.cache.set(id, userData);
+        return $q.resolve(factory.parseUser(userData));
+      });
     }
 
     /**
@@ -253,6 +250,34 @@
 
       return userAuthority;
     };
+
+    UserFactory.prototype.parseCachedModel = function (data) {
+      return this.parseTinyUser(data);
+    }
+
+    UserFactory.prototype.transformToCacheModel = function (user) {
+      if (user instanceof NstTinyUser) {
+        var model = {
+          _id: user.id,
+          fname: user.firstName,
+          lname: user.lastName,
+        };
+
+        if (user.hasPicture()) {
+          model['picture'] = {
+            org: user.picture.original,
+            pre: user.picture.preview,
+            x128: user.picture.x128,
+            x64: user.picture.x64,
+            x32: user.picture.x32,
+          };
+        }
+
+        return model;
+      }
+
+      return null;
+    }
 
     UserFactory.prototype.parseUser = function (userData) {
       var user = new NstUser();
