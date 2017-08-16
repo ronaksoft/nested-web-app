@@ -145,7 +145,7 @@
   </section>
   <section class="post-labels" ng-if="ctlPostCard.post.labels.length > 0">
     <span data-ng-repeat="label in ctlPostCard.post.labels track by $index" ng-click="ctlPostCard.labelClick(label.title);" class="color-lbl-bg-{{label.code}}">
-        {{::label.title | scapeRevSpace}}
+        {{ label.title | scapeRevSpace}}
     </span>
     <a ng-if="ctlPostCard.haveAnyLabelAcess"  add-label added-labels="ctlPostCard.post.labels" after-add-label="ctlPostCard.addLabels"
       data-uib-tooltip-template="'add-label-tooltip.html'" class="cursor-pointer"
