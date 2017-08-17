@@ -5,8 +5,7 @@
     .module('ronak.nested.web.message')
     .controller('AttachPlaceController', AttachPlaceController);
 
-  function AttachPlaceController($timeout, $scope, $q, $uibModalInstance,
-    moment, toastr, _,
+  function AttachPlaceController( $uibModalInstance, toastr, _,
     NstSvcPostFactory, NstSvcPlaceFactory, NstSvcTranslation, NstUtility,
     NstTinyPlace,
     postId, postPlaces) {
@@ -51,7 +50,7 @@
             return _.includes(result.attachedPlaces, place.id);
           }));
         }
-      }).catch(function (result) {
+      }).catch(function () {
         toastr.error(NstSvcTranslation.get("An error occured while attaching a place to the post"));
       }).finally(function () {
         vm.attachProgress = false;
@@ -74,7 +73,7 @@
             initPlace.name = keyword;
             vm.resultTargets.push(initPlace);
         }
-      }).catch(function (error) {
+      }).catch(function () {
         vm.resultTargets = [];
       }).finally(function () {
         vm.searchPlaceProgress = false;

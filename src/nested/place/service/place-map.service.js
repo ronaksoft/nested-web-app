@@ -8,7 +8,7 @@
   function NstSvcPlaceMap(_) {
 
     var service = {
-      toTree: toTree,
+      toTree: toTree
     };
 
     return service;

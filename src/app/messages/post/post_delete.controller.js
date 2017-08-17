@@ -3,7 +3,7 @@
 
   angular.module('ronak.nested.web.message').controller('postDeleteController', postDeleteController);
 
-  function postDeleteController($scope, $log)
+  function postDeleteController($scope)
   {
     var vm = this;
     vm.post = $scope.$resolve.model.post;

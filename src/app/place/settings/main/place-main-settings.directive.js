@@ -3,7 +3,7 @@
 
   angular
     .module('ronak.nested.web.place')
-    .directive('placeMainSettings', function(NST_PLACE_POLICY_OPTION) {
+    .directive('placeMainSettings', function(NST_PLACE_POLICY_OPTION, _) {
       var templates = {
         'grand' : 'grand-place-settings.html',
         'sub-personal': 'sub-personal-place-settings.html',

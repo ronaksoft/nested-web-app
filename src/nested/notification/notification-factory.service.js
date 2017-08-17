@@ -7,13 +7,13 @@
 
   function NstSvcNotificationFactory(_, $q, $rootScope,
                                      NstSvcServer, NstSvcUserFactory, NstSvcPostFactory, NstSvcCommentFactory, NstSvcAuth,
-                                     NstBaseFactory, NstMention, NstFactoryEventData, NstSvcInvitationFactory, NstSvcPlaceFactory, NstSvcLabelFactory,
+                                     NstBaseFactory, NstMention, NstSvcInvitationFactory, NstSvcPlaceFactory, NstSvcLabelFactory,
                                      NST_AUTH_EVENT, NST_NOTIFICATION_EVENT, NST_NOTIFICATION_TYPE, NST_SRV_PUSH_CMD) {
     function NotificationFactory() {
       var that = this;
       that.count = 0;
 
-      $rootScope.$on(NST_AUTH_EVENT.AUTHORIZE, function (e, data) {
+      $rootScope.$on(NST_AUTH_EVENT.AUTHORIZE, function () {
         if (NstSvcAuth.user.unreadNotificationCount) {
           $rootScope.$broadcast(NST_NOTIFICATION_EVENT.UPDATE, { count: NstSvcAuth.user.unreadNotificationCount });
         } else {
@@ -29,7 +29,7 @@
         });
       });
 
-      $rootScope.$on(NST_AUTH_EVENT.UNAUTHORIZE, function (e, data) {
+      $rootScope.$on(NST_AUTH_EVENT.UNAUTHORIZE, function () {
         that.loadedNotifications = [];
       });
 
@@ -184,10 +184,8 @@
     }
 
     function resetCounter() {
-      var factory = this;
       return this.sentinel.watch(function () {
         var defer = $q.defer();
-
         NstSvcServer.request('notification/reset_counter', {}).then(function () {
           $rootScope.$broadcast(NST_NOTIFICATION_EVENT.UPDATE, { count: 0 });
           defer.resolve();
@@ -445,14 +443,11 @@
 
       var accountPromise = data.account_id ? NstSvcUserFactory.getTiny(data.account_id) : $q.resolve();
       var actorPromise = data.actor_id ? NstSvcUserFactory.getTiny(data.actor_id) : $q.resolve();
-      var labelPromise = data.label_id ? NstSvcLabelFactory.getMany(data.label_id) : $q.resolve();
+      var labelPromise = data.label_id ? NstSvcLabelFactory.get(data.label_id) : $q.resolve();
       var placePromise = data.place_id ? NstSvcPlaceFactory.get(data.place_id) : $q.resolve();
 
 
       $q.all([accountPromise, actorPromise, labelPromise, placePromise]).then(function (values) {
-        console.log('====================================');
-        console.log(values);
-        console.log('====================================');
         deferred.resolve(
           {
             id: data._id,
@@ -460,9 +455,9 @@
             date: new Date(data.timestamp),
             account: values[0],
             actor: values[1],
-            label: values[2],
+            label: values[2][0],
             place: values[3],
-            type: data.type,
+            type: data.type
           });
       }).catch(function () {
         deferred.resolve({ id: data._id, data: null });

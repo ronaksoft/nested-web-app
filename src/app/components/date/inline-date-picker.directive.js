@@ -5,13 +5,13 @@
     .module('ronak.nested.web.components.date')
     .directive('inlineDatePicker', inlineDatePicker);
 
-  function inlineDatePicker(moment, NstSvcI18n, NstUtility, NstSvcDate) {
+  function inlineDatePicker(moment, NstSvcI18n, NstUtility, NstSvcDate, _) {
     return {
       restrict: 'E',
       replace : true,
       templateUrl: 'app/components/date/inline-date-picker.html',
       scope : {
-        value : '=selectedValue',
+        value : '=selectedValue'
       },
       link: function (scope ,element, attrs) {
         scope.validationEnabled = _.has(attrs, "validationEnabled");
@@ -40,7 +40,7 @@
         },
         function () {
           return scope.day;
-        }], _.debounce(function(newValues, oldValues) {
+        }], _.debounce(function(newValues) {
 
           if (_.every(newValues)) {
             setValue(newValues[0], newValues[1], newValues[2]);
@@ -53,7 +53,7 @@
         },
         function () {
           return scope.month;
-        }], _.debounce(function(newValues, oldValues) {
+        }], _.debounce(function(newValues) {
           if (newValues[0] && newValues[1]) {
             // set days range according to the selected year and month
             scope.days = createDaysList(newValues[0], newValues[1], scope.min, scope.max);
@@ -64,7 +64,7 @@
           }
         }, 300));
 
-        var yearWatcher = scope.$watch('year', _.debounce(function(newValue, oldValue) {
+        scope.$watch('year', _.debounce(function(newValue) {
           if (newValue) {
             scope.months = createMonthsList(newValue, scope.min, scope.max);
           }
@@ -125,7 +125,7 @@
 
     function parseDate(date, defaultValue) {
       var format = "YYYY-MM-DD";
-      var date = moment(date, format);
+       date = moment(date, format);
 
       return date.isValid() ? date : defaultValue;
     }
@@ -153,51 +153,14 @@
       return _.range(1, upperBound + 1);
     }
 
-    function createMonthsList(year, minDate, maxDate) {
+    function createMonthsList() {
       return getMonths();
-      // if (areInSameYear(year, maxDate)) {
-      //
-      //   return _.take(getMonths(), (getMonth(maxDate) + 1));
-      // } else if (areInSameYear(year, minDate)) {
-      //
-      //   return _.takeRight(getMonths(), 12 - (getMonth(minDate) -1));
-      // } else {
-      //
-      //   return getMonths();
-      // }
     }
 
-    function createDaysList(year, month, minDate, maxDate) {
+    function createDaysList() {
       return getDays();
-      // if (areInSameMonth(year, month, maxDate)) {
-      //
-      //   return _.take(getDays(), getDay(maxDate));
-      // } else if (areInSameMonth(year, month, minDate)) {
-      //
-      //   return _.takeRight(getDays(), getDaysInMonth(year, month) - (getDay(minDate)));
-      // } else {
-      //
-      //   return getDays();
-      // }
     }
 
-    function areInSameYear(year, secondDate) {
-      var date = moment({ year : year });
-      if (isJalali()) {
-        return date.isSame(secondDate, "jYear");
-      } else {
-        return date.isSame(secondDate, "year");
-      }
-    }
-
-    function areInSameMonth(year, month, secondDate) {
-      var date = moment({ year : year, month : month });
-      if (isJalali()) {
-        return date.isSame(secondDate, "jMonth")
-      } else {
-        return date.isSame(secondDate, "month")
-      }
-    }
 
     function isJalali() {
       return NstSvcI18n.selectedLocale === "fa-IR";

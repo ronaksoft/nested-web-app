@@ -3,7 +3,7 @@
 
   angular
     .module('ronak.nested.web.components')
-    .directive('placeDetail', function($timeout,$state,NstSearchQuery,NstSvcAuth,NST_PATTERN,NstSvcPlaceFactory) {
+    .directive('placeDetail', function($timeout,$state,NstSearchQuery,NstSvcAuth,NST_PATTERN,NstSvcPlaceFactory, $) {
       return {
         template: function(element) {
           var tag = element[0].nodeName;
@@ -15,15 +15,14 @@
         scope: {
           placeId: '=placeDetail'
         },
-        link: function ($scope, $element, $attrs) {
+        link: function ($scope) {
           var dd = $scope.placeId;
 
           // $scope.isEmail = NST_PATTERN.EMAIL.test($scope.placeId);
           (function(){
-            NstSvcPlaceFactory.get(dd)
-              .then(function (place) {
-                $scope.place = place;
-              });
+            NstSvcPlaceFactory.get(dd).then(function (place) {
+              $scope.place = place;
+            });
           })();
 
           // All subplaces of person shoould not available

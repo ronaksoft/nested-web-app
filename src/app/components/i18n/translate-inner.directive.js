@@ -13,11 +13,11 @@
 
   angular
     .module('ronak.nested.web.components.i18n')
-    .directive('translateInner', ['NstSvcTranslation', function (NstSvcTranslation) {
+    .directive('translateInner', ['NstSvcTranslation', '$', function (NstSvcTranslation, $) {
       return {
         restrict: 'A',
         replace : true,
-        compile : function (element, attributes) {
+        compile : function (element) {
           var jelement = $(element);
           var text = jelement[0].innerHTML || jelement[0].innerText;
 

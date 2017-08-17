@@ -14,7 +14,7 @@
         key : '@eventKey'
       },
       controllerAs : 'ctlChange',
-      controller : function ($scope, $rootScope) {
+      controller : function ($scope, $rootScope, _, $) {
         var vm = this;
         var key = vm.key || 'body-scroll-change';
 

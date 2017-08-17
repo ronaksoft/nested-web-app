@@ -16,7 +16,7 @@
               }
 
               return function(scope, element, attr) {
-                  element.bind("click", function(event){
+                  element.bind("click", function(){
                       scrollInto(attr.scrollTo);
                   });
               };

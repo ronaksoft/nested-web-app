@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function NstMention() {
-    function Mention(data) {
+    function Mention() {
       this.id = null;
 
       this.commentId = null;

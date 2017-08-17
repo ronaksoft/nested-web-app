@@ -6,7 +6,7 @@
     .factory('NstSearchQuery', NstSearchQuery);
 
   /** @ngInject */
-  function NstSearchQuery(NstObject, NST_SEARCH_QUERY_PREFIX, $window) {
+  function NstSearchQuery(NstObject, NST_SEARCH_QUERY_PREFIX, _) {
     var QUERY_SEPARATOR = ' ';
     /**
      * Creates an instance of NstSearchQuery

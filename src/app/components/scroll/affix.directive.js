@@ -6,50 +6,24 @@
     .directive('affixer', onScroll);
 
   /** @ngInject */
-  function onScroll($window,$rootScope,$timeout) {
+  function onScroll($window,$rootScope,$timeout, $) {
     return {
       restrict: 'A',
       link: function ($scope, $element, $attrs) {
         var win = angular.element($window),
             topOffset = 0,
             afterContent = 0,
-            applierTrigger = false,
             containerLeft = $('body').offset().left || 0,
-            isRTL = $rootScope._direction,
-            i = 0,
-            defTop = $element.offset().top;
+            isRTL = $rootScope._direction;
 
         $rootScope.$on('affixCheck',function(){
           $timeout(function(){applier();},10);
         });
 
-        // function checkLoop() {
-        //   var tempTop = $element.offset().top;
-        //   if (defTop === tempTop) {
-
-        //   }else {
-        //     applier();
-        //   }
-        //   setTimeout(function() {
-        //     if (i < 3) {
-        //       checkLoop();
-        //     }
-        //     i++;
-        //   }, 3000);
-        // };
-
-        // applier();
         $timeout(function(){applier();},10);
-
-
- 
 
         function applier() {
           removeFix();
-
-          // var membrsH = 0;
-          // if ($element.parent().children().first().is("#members")) membrsH = parseInt($element.parent().children().first().height()) + 38;
-
 
           var top = $element.offset().top || 0;
 
@@ -65,23 +39,21 @@
 
           var fixed = false;
 
-          if (!!$attrs.parent && $($attrs.parent).offset() ) {
+          if ($attrs.parent && $($attrs.parent).offset() ) {
             containerLeft = $($attrs.parent)[0].offsetLeft;
           }
 
-          
-          if (!!$attrs.afterContent ) {
+
+          if ($attrs.afterContent ) {
             afterContent = $attrs.afterContent;
           }
 
-          if (!!$attrs.fixedTop ) {
+          if ($attrs.fixedTop ) {
             top = parseInt($attrs.top);
           }
-          if (!!$attrs.clearRight ) {
+          if ($attrs.clearRight ) {
             var clearRight = true;
           }
-
-          // affixElement();
 
           //for create a fixed element we need a left parameter so we read it from itself
           function findLeftOffset () {
@@ -91,11 +63,6 @@
               offLeft = parseInt(containerLeft) + parseInt(afterContent) + 240;
             }
 
-            // if (isChrome || isFirefox) {
-            //   offLeft = parseInt($(container).offset().left) + parseInt(afterContent) - parseInt($('.sidebar').offset().left);
-            // }else if (!(isChrome || isFirefox )){
-            //   offLeft = parseInt($(container).offset().left) + parseInt(afterContent);
-            // }
           }
           function removeFix() {
             $element.css('position', '');
@@ -123,7 +90,7 @@
           }
 
           function firstFixes() {
-            if (!!$attrs.firstImp ) {
+            if ($attrs.firstImp ) {
               $element.css('position', 'fixed');
               $element.css('top', parseInt(top) - parseInt(topOffset) + 'px');
               $element.css('left', offLeft + 'px');
@@ -149,24 +116,6 @@
           win.on("resize", resizeE);
 
         }
-
-        // $scope.$watch(function () {
-        //
-        //   //bugfix for left of undiefiend on log out
-        //   if (!$('.content') || !$(".content").offset() || !$(".content").offset().left){
-        //       return false;
-        //   }else{
-        //       return $('.content').offset().left
-        //   }
-        // },function (newVal,oldVal) {
-        //   if(newVal)
-        //     applier();
-        // });
-
-        //keep track user and change parameters
-        // $scope.$on('$routeChangeStart', function() {
-        //   applier();
-        // });
 
       }
     };

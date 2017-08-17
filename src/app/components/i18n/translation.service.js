@@ -17,7 +17,7 @@
     .service('NstSvcTranslation', NstSvcTranslation);
 
   /** @ngInject */
-  function NstSvcTranslation(NstSvcI18n, NstSvcLogger) {
+  function NstSvcTranslation(NstSvcI18n, _) {
     function Translation() {
       this.currentLocale = NstSvcI18n.getLocale();
     }

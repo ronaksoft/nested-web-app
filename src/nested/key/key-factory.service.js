@@ -42,7 +42,7 @@
 
         NstSvcServer.request('client/save_key', {
           key_name: key,
-          key_value: value,
+          key_value: value
         }).then(function (data) {
           deferred.resolve(data);
         }).catch(deferred.reject);

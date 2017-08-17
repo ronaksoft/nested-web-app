@@ -6,7 +6,7 @@
     .controller('indexController', AppController);
 
   /** @ngInject */
-  function AppController($window, $rootScope, NstSvcI18n, NstSvcNotification, _) {
+  function AppController($window, $rootScope, NstSvcI18n, NstSvcNotification, _, $) {
     var vm = this;
     vm.removeClass = _.debounce(removeClass, 512);
 

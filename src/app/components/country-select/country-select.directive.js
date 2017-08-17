@@ -19,10 +19,10 @@
    * Provides a list of countries with their telephone code. The component also has
    * auto-locate feature. It selects your country automatically based on your IP address.
    *
-   * @param {any} NST_COUNTRIES_ATLAS 
-   * @returns 
+   * @param {any} NST_COUNTRIES_ATLAS
+   * @returns
    */
-  function countrySelect(NST_COUNTRIES_ATLAS) {
+  function countrySelect(NST_COUNTRIES_ATLAS, _, $) {
 
     return {
       restrict: 'E',
@@ -44,8 +44,8 @@
 
         /**
          * Finds the countries that matches the keyword
-         * 
-         * @param {any} keyword 
+         *
+         * @param {any} keyword
          */
         function search(keyword) {
           $scope.countries = _.chain($scope.allCountries).filter(function (country) {
@@ -55,11 +55,11 @@
           }], ['desc']).value();
         }
 
-        $scope.$watch('selected', function (newValue, oldValue) {
+        $scope.$watch('selected', function (newValue) {
           $scope.$emit('country-select-changed', newValue);
         });
 
-        $scope.$watch('selectedCountryCode', function (newValue, oldValue) {
+        $scope.$watch('selectedCountryCode', function (newValue) {
           if (newValue) {
             if (!$scope.selected || ($scope.selected && $scope.selected.code !== _.toNumber(newValue))) {
               setSelectedCountryByCode(newValue);
@@ -80,8 +80,8 @@
 
         /**
          * Selects a country by matching country Id
-         * 
-         * @param {any} id 
+         *
+         * @param {any} id
          */
         function setSelectedCountryById(id) {
           var lowerId = _.toLower(id);
@@ -90,8 +90,8 @@
 
         /**
          * Selects a country by matching the country code
-         * 
-         * @param {any} code 
+         *
+         * @param {any} code
          */
         function setSelectedCountryByCode(code) {
           $scope.selected = _.find($scope.countries, { code : _.toNumber(code) });
@@ -102,8 +102,8 @@
 
     /**
      * Sends a request and receives the location information
-     * 
-     * @param {any} callback 
+     *
+     * @param {any} callback
      */
     function geoIpLookup(callback) {
       $.get("https://ipinfo.io", function() {}, "jsonp").always(function(resp) {

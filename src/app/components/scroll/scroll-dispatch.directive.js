@@ -6,7 +6,7 @@
     .directive('scrollDispatch', hideTips);
 
   /** @ngInject */
-  function hideTips(SvcCardCtrlAffix) {
+  function hideTips(SvcCardCtrlAffix, $, wdtEmojiBundle) {
     return {
       link: function ($scope, $element) {
 
@@ -36,7 +36,6 @@
 
         function dissappear(el) {
           el.first().remove();
-          // el.style.opacity = '0'
         }
 
       }

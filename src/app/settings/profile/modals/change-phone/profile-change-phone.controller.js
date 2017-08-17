@@ -6,7 +6,7 @@
     .controller('ChangePhoneController', ChangePhoneController);
 
   /** @ngInject */
-  function ChangePhoneController($scope, $uibModalInstance) {
+  function ChangePhoneController($scope, $uibModalInstance, _) {
     var vm = this;
     var eventReferences = [];
 
@@ -41,7 +41,7 @@
       $uibModalInstance.close(data.phone);
     }));
 
-    eventReferences.push($scope.$on(vm.previousStepEventKey, function (event, data) {
+    eventReferences.push($scope.$on(vm.previousStepEventKey, function () {
       vm.autoSubmit = false;
       vm.step--;
     }));
@@ -53,14 +53,5 @@
         }
       });
     });
-
-    function getPhoneNumber() {
-      if (vm.code && vm.phone) {
-        return vm.code.toString() + _.trimStart(vm.phone.toString(), "0");
-      }
-
-      return "";
-    }
-
   }
 })();

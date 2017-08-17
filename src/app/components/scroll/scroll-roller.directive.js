@@ -3,7 +3,7 @@
   var app = angular.module('ronak.nested.web.components.scroll');
   app.directive('scrollRoller', scrollRoller);
 
-  function scrollRoller() {
+  function scrollRoller(_, $) {
     var defaultSettings = {
       animated : true,
       speed : 1000,
@@ -14,7 +14,7 @@
       restrict : 'EA',
       scope : {
         rollUpward : '=',
-        rollDownward : '=',
+        rollDownward : '='
       },
       link: link
     };
@@ -27,7 +27,7 @@
       return !_.isUndefined(attr) ? _.toNumber(attr) : undefined;
     }
 
-    function link($scope, $element, $attrs) {
+    function link($scope, $attrs) {
       var customSettings = {
         animated : checkBooleanValue($attrs.animated),
         speed : readNumberValue($attrs.speed),
@@ -38,7 +38,7 @@
 
       var container = $($attrs.container || 'html, body');
 
-      var rollUpwardCleaner = $scope.$watch('rollUpward', function (newValue, oldValue) {
+      var rollUpwardCleaner = $scope.$watch('rollUpward', function (newValue) {
         if (newValue) {
           if (settings.animated) {
             container.animate({
@@ -52,7 +52,7 @@
         }
       });
 
-      var rollDownwardCleaner = $scope.$watch('rollDownward', function (newValue, oldValue) {
+      var rollDownwardCleaner = $scope.$watch('rollDownward', function (newValue) {
         if (newValue) {
           var height = container.prop('scrollHeight');
           if (settings.animated) {

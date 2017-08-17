@@ -5,7 +5,7 @@
     .module('ronak.nested.web.place')
     .directive('placePolicyOption', placePolicyOption);
 
-  function placePolicyOption($timeout, $templateRequest, $compile, NST_PLACE_POLICY_OPTION) {
+  function placePolicyOption($timeout, $templateRequest, $compile, NST_PLACE_POLICY_OPTION, _) {
     var levelClass = {};
     levelClass[NST_PLACE_POLICY_OPTION.MANAGERS] = "l1";
     levelClass[NST_PLACE_POLICY_OPTION.MEMBERS] = "l2";
@@ -25,7 +25,7 @@
         grandPlaceName: '=',
         readonly: '='
       },
-      link: function (scope, $element, attrs) {
+      link: function (scope, $element) {
         var rollbackTimout = null;
 
         scope.hasOption = hasOption;
@@ -66,7 +66,7 @@
             return;
           }
 
-          scope.levelChanged(newValue).catch(function (reason) {
+          scope.levelChanged(newValue).catch(function () {
           rollbackTimout =  $timeout(function () {
               scope.level = oldValue;
             }, 1024);

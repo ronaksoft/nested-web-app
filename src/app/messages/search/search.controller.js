@@ -6,9 +6,9 @@
     .controller('SearchController', SearchController);
 
   /** @ngInject */
-  function SearchController($rootScope, $log, $stateParams, $state,
-                            NST_DEFAULT, NstSvcPostFactory, NstSvcServer, NstSvcAuth,
-                            NstSearchQuery, NstVmFile, $window) {
+  function SearchController($log, _, $stateParams, $state,
+                            NST_DEFAULT, NstSvcPostFactory,
+                            NstSearchQuery) {
     var vm = this;
     var limit = 8;
     var skip = 0;
@@ -22,7 +22,7 @@
     vm.viewSetting = {
       content: true,
       attachments: true,
-      comments: false,
+      comments: false
     };
 
 
@@ -69,7 +69,7 @@
       vm.messages.length = 0;
       var query = new NstSearchQuery(queryString);
       vm.searchParams = query.getSearchParams();
-      $state.go('app.search', { search : NstSearchQuery.encode(query.toString()) }).then(function (newState) {
+      $state.go('app.search', { search : NstSearchQuery.encode(query.toString()) }).then(function () {
         skip = 0;
         searchMessages();
       });

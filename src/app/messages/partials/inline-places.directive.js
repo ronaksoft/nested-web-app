@@ -16,11 +16,9 @@
         limitPlaces: '=',
         limitRecipients: '='
       },
-      link: function(scope, elem, attrs) {
-        var illusion = document.createElement('div');
+      link: function(scope, elem) {
         var removeItems = 0;
         var startAdjust = false;
-        // var allowedWidth = elem.width() - 48 - 96 - 110; // padding - share width - more msg
         $timeout(function() {
           if ( scope.inlinePlaces ){
             adjustElements();

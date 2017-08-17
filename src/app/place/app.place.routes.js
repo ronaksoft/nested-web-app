@@ -17,7 +17,7 @@
       onEnter: ['$rootScope', '$stateParams', '$state', '$uibModal', '$uibModalStack', function($rootScope, $stateParams, $state, $uibModal, $uibModalStack) {
         $uibModalStack.dismissAll();
 
-        var modal = $uibModal.open({
+         $uibModal.open({
           animation: false,
           size: 'lg-white',
           templateUrl: 'app/place/settings/place-settings.html',
@@ -27,7 +27,7 @@
           $rootScope.goToLastState(true);
         });
       }],
-      onExit: function($uibModalStack) { }
+      onExit: function() { }
     });
 
   }

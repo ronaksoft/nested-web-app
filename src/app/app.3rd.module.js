@@ -13,6 +13,7 @@
       'ui.bootstrap',
       'toastr',
       'lodash',
+      'jquery',
       'momentjs',
       'cfp.hotkeys',
       'ngImgCrop',
@@ -20,6 +21,12 @@
       'froala',
       'angular-google-analytics',
       'as.sortable',
-      'vjs.video'
+    'vjs.video',
+      'perfectScrollbar',
+      'Medium',
+      'emojiBundle',
+      'firebase',
+      'phoneUtils',
+      'draggable'
     ]);
 })();

@@ -10,8 +10,8 @@
                 var offset = parseInt(attr.scrollOffset, 10)
                 if(!offset) offset = 10;
                 elem.scrollspy({ "offset" : offset});
-                scope.$watch(attr.scrollSpy, function(value) {
-                    $timeout(function() { 
+                scope.$watch(attr.scrollSpy, function() {
+                    $timeout(function() {
                     elem.scrollspy('refresh', { "offset" : offset})
                     }, 1);
                 }, true);
