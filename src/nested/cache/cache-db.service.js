@@ -24,10 +24,10 @@
         return null;
       }
 
-      var decompressedValue = LZString.decompressFromUTF16(compressedValue);
+      // var decompressedValue = LZString.decompressFromUTF16(compressedValue);
       var value = null;
       try {
-        value = JSON.parse(decompressedValue)
+        value = JSON.parse(compressedValue)
       } catch (error) {
         // removes the invalid data
         this.set(storedKey);
@@ -47,8 +47,8 @@
 
       var serializedValue = JSON.stringify(value);
       // The compressed string is 35% smaller than the original value
-      var compressedValue = LZString.compressToUTF16(serializedValue);
-      $window.localStorage.setItem(this.getKey(key), compressedValue);
+      // var compressedValue = LZString.compressToUTF16(serializedValue);
+      $window.localStorage.setItem(this.getKey(key), serializedValue);
 
       return serializedValue.length;
     };

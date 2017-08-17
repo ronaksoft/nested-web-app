@@ -217,7 +217,7 @@
         comment.removedById = data.removed_by;
 
         if (comment.removedById) {
-          promises.push(NstSvcUserFactory.getTiny(comment.removedById));
+          promises.push(NstSvcUserFactory.get(comment.removedById));
         }
 
         if (_.size(promises) === 0) {

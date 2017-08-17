@@ -105,8 +105,8 @@
 
       var postPromise = NstSvcPostFactory.get(data.post_id);
       // TODO: Not required anymore, because the actor and comment sender are the same
-      var actorPromise = NstSvcUserFactory.getTiny(data.actor_id);
-      var placePromise = NstSvcPlaceFactory.getTiny(data.place_id);
+      var actorPromise = NstSvcUserFactory.get(data.actor_id);
+      var placePromise = NstSvcPlaceFactory.get(data.place_id);
 
       $q.all([postPromise, actorPromise, placePromise]).then(function (resultSet) {
         activity.post = resultSet[0];
@@ -136,8 +136,8 @@
 
       var postPromise = NstSvcPostFactory.get(data.post_id);
       // TODO: Not required anymore, because the actor and comment sender are the same
-      var actorPromise = NstSvcUserFactory.getTiny(data.actor_id);
-      var placePromise = NstSvcPlaceFactory.getTiny(data.place_id);
+      var actorPromise = NstSvcUserFactory.get(data.actor_id);
+      var placePromise = NstSvcPlaceFactory.get(data.place_id);
       $q.all([postPromise, actorPromise, placePromise]).then(function (resultSet) {
         activity.post = resultSet[0];
         activity.actor = resultSet[1];
@@ -165,8 +165,8 @@
       activity.date = new Date(data.timestamp);
 
       var postPromise = NstSvcPostFactory.get(data.post_id);
-      var oldPlacePromise = NstSvcPlaceFactory.getTiny(data.old_place_id);
-      var newPlacePromise = NstSvcPlaceFactory.getTiny(data.new_place_id);
+      var oldPlacePromise = NstSvcPlaceFactory.get(data.old_place_id);
+      var newPlacePromise = NstSvcPlaceFactory.get(data.new_place_id);
       $q.all([postPromise, oldPlacePromise, newPlacePromise]).then(function (resultSet) {
         activity.post = resultSet[0];
         activity.oldPlace = resultSet[1];
@@ -212,7 +212,7 @@
     function parseAddLabel(data) {
       var deferred = $q.defer();
       var labelPromise = NstSvcLabelFactory.get(data.label_id);
-      var actorPromise = NstSvcUserFactory.getTiny(data.actor_id);
+      var actorPromise = NstSvcUserFactory.get(data.actor_id);
       var postPromise = NstSvcPostFactory.get(data.post_id);
 
       $q.all([labelPromise, actorPromise, postPromise]).then(function (resultSet) {
@@ -236,7 +236,7 @@
 
       var deferred = $q.defer();
       var labelPromise = NstSvcLabelFactory.get(data.label_id);
-      var actorPromise = NstSvcUserFactory.getTiny(data.actor_id);
+      var actorPromise = NstSvcUserFactory.get(data.actor_id);
       var postPromise = NstSvcPostFactory.get(data.post_id);
 
       $q.all([labelPromise, actorPromise, postPromise]).then(function (resultSet) {
@@ -265,7 +265,7 @@
 
       var commentPromise = NstSvcCommentFactory.getComment(data.comment_id, data.post_id);
       // TODO: Not required anymore, because the actor and comment sender are the same
-      var actorPromise = NstSvcUserFactory.getTiny(data.actor_id);
+      var actorPromise = NstSvcUserFactory.get(data.actor_id);
 
       $q.all([commentPromise, actorPromise]).then(function (resultSet) {
         var activity = new NstActivity();
@@ -295,9 +295,9 @@
       activity.type = data.action;
       activity.date = new Date(data.timestamp);
 
-      var actorPromise = NstSvcUserFactory.getTiny(data.actor_id);
-      var inviteePromise = NstSvcUserFactory.getTiny(data.member_id);
-      var placePromise = NstSvcPlaceFactory.getTiny(data.place_id);
+      var actorPromise = NstSvcUserFactory.get(data.actor_id);
+      var inviteePromise = NstSvcUserFactory.get(data.member_id);
+      var placePromise = NstSvcPlaceFactory.get(data.place_id);
 
       $q.all([actorPromise, inviteePromise, placePromise]).then(function (resultSet) {
         activity.actor = resultSet[0];
@@ -325,8 +325,8 @@
       activity.type = data.action;
       activity.date = new Date(data.timestamp);
 
-      var actorPromise = NstSvcUserFactory.getTiny(data.actor_id);
-      var placePromise = NstSvcPlaceFactory.getTiny(data.place_id);
+      var actorPromise = NstSvcUserFactory.get(data.actor_id);
+      var placePromise = NstSvcPlaceFactory.get(data.place_id);
 
       $q.all([actorPromise, placePromise]).then(function (resultSet) {
         activity.actor = resultSet[0];
@@ -353,8 +353,8 @@
       activity.type = data.action;
       activity.date = new Date(data.timestamp);
 
-      var placePromise = NstSvcPlaceFactory.getTiny(data.place_id);
-      var actorPromise = NstSvcUserFactory.getTiny(data.actor_id);
+      var placePromise = NstSvcPlaceFactory.get(data.place_id);
+      var actorPromise = NstSvcUserFactory.get(data.actor_id);
 
       $q.all([placePromise, actorPromise]).then(function (resultSet) {
         activity.place = resultSet[0];

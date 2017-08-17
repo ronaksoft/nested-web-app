@@ -310,10 +310,16 @@
       post.lastUpdate = data.last_update;
       post.pinned = data.pinned;
       post.attachments = _.map(data.post_attachments, NstSvcAttachmentFactory.parseAttachment);
-      post.places = _.map(data.post_places, NstSvcPlaceFactory.parseTinyPlace);
+      post.places = _.map(data.post_places, function(place) {
+        NstSvcPlaceFactory.set(place);
+        return NstSvcPlaceFactory.parseTinyPlace(place);
+      });
       post.read = data.post_read;
       post.recipients = data.post_recipients;
       post.replyToId = data.reply_to;
+      if (data.sender) {
+        NstSvcUserFactory.set(data.sender);
+      }
       post.sender = NstSvcUserFactory.parseTinyUser(data.internal ? data.sender : data.email_sender);
       post.subject = data.subject;
       post.timestamp = data.timestamp;
@@ -349,6 +355,32 @@
       }).catch(deferred.reject);
 
       return deferred.promise;
+    }
+
+    function parseCacheModel(data) {
+      var model = _.clone(data);
+
+      model.post_attachments = _.map(data.post_attachments, NstSvcAttachmentFactory.getCachedSync);
+      model.post_places = _.map(data.post_places, NstSvcPlaceFactory.getCachedSync);
+      model.post_labels = _.map(data.post_labels, NstSvcLabelFactory.getCachedSync);
+      model.recent_comments = _.map(data.recent_comments, NstSvcCommentFactory.getCachedSync);
+      model.sender = data.sender ? NstSvcUserFactory.getCachedSync(data.sender) : null;
+      model.email_sender = data.email_sender ? NstSvcUserFactory.getCachedSync(data.email_sender) : null;
+      
+      return model;
+    }
+
+    function transformToCacheModel(user) {
+      var clonedUser = _.clone(user);
+
+      clonedUser.post_attachments = _.map(user.post_attachments, '_id');
+      clonedUser.post_places = _.map(user.post_places, '_id');
+      clonedUser.post_labels = _.map(user.post_labels, '_id');
+      clonedUser.recent_comments = _.map(user.recent_comments, '_id');
+      clonedUser.sender = user.sender ? user.sender._id : null;
+      clonedUser.email_sender = user.email_sender ? user.email_sender._id : null;
+
+      return clonedUser;
     }
 
     function getMessages(setting) {

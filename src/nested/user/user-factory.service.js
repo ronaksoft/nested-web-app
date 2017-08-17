@@ -6,24 +6,17 @@
     .service('NstSvcUserFactory', NstSvcUserFactory);
 
   function NstSvcUserFactory($q, md5, _, $rootScope,
-                             NstSvcServer, NstSvcTinyUserStorage, NstSvcUserStorage, NstSvcCacheDb,
+                             NstSvcServer, NstSvcCacheProvider,
                              NST_USER_SEARCH_AREA, NST_USER_EVENT,
-                             NstBaseFactory, NstTinyUser, NstUser, NstUserAuthority, NstPicture, NstPlace) {
+                             NstBaseFactory, NstTinyUser, NstUser, NstUserAuthority, NstPicture, NstPlace, NstCollector) {
     function UserFactory() { 
-      this.cache = new NstSvcCacheDb('user');
+      this.cache = new NstSvcCacheProvider('user');
+      this.collector = new NstCollector('account', this.getMany);
     }
 
     UserFactory.prototype = new NstBaseFactory();
     UserFactory.prototype.constructor = UserFactory;
 
-    UserFactory.prototype.has = function (id) {
-      return !!NstSvcUserStorage.get(id);
-    };
-
-    UserFactory.prototype.hasTiny = function (id) {
-      return !!NstSvcTinyUserStorage.get(id);
-    };
-
     /**
      * Retrieves a user by id and store in the related cache storage
      *
@@ -31,55 +24,57 @@
      *
      * @returns {Promise}
      */
-    UserFactory.prototype.get = function (id, cacheHandler) {
+    UserFactory.prototype.get = function (id) {
       var factory = this;
-      return NstSvcServer.request('account/get', {
-        'account_id': id
-      }, function (cachedResponse) {
-        var cachedModel = null;
-        if (cachedResponse) {
-          cachedModel = factory.parseUser(cachedResponse);
-        } else {
-          cachedModel = factory.cache.get(id);
+      // first ask the cache provider to give the model
+      var cachedUser = this.getCachedSync(id);
+      if (cachedUser) {
+        return $q.resolve(cachedUser);
+      }
+
+      var deferred = $q.defer();
+      // collects all requests for account and send them all using getMany
+      this.collector.add(id).then(function (data) {
+        // update cache database
+        factory.set(data);
+        deferred.resolve(factory.parseUser(data));
+      }).catch(function (error) {
+        switch (error.code) {
+          case NST_SRV_ERROR.ACCESS_DENIED:
+          case NST_SRV_ERROR.UNAVAILABLE:
+            deferred.reject();
+            factory.cache.remove(id);
+            break;
+
+          default:
+            deferred.reject(error);
+            break;
         }
-        cacheHandler(cachedModel);
-      }).then(function (userData) {
-        factory.cache.set(id, userData);
-        return $q.resolve(factory.parseUser(userData));
       });
+
+      return deferred.promise;
     }
 
-    /**
-     * Retrieves a user by id and store in the related cache storage
-     *
-     * @param {String} id
-     *
-     * @returns {Promise}
-     */
-    UserFactory.prototype.getTiny = function (id) {
-      if (!id) {
-        return $q.reject(Error('Id is not provided'));
-        // throw Error('Id is not provided');
-      }
-      var factory = this;
-      return factory.sentinel.watch(function () {
-        return $q(function (resolve, reject) {
-          var user = NstSvcUserStorage.get(id) || NstSvcTinyUserStorage.get(id);
-          if (user) {
-            if (!(user instanceof NstTinyUser)) {
-              user = new NstTinyUser(user);
-            }
-
-            resolve(user);
-          } else {
-            factory.get(id).then(function (user) {
-              user = new NstTinyUser(user);
-              NstSvcTinyUserStorage.set(id, user);
-              resolve(user);
-            }).catch(reject);
-          }
+    UserFactory.prototype.getMany = function (id) {
+      var joinedIds = id.join(',');
+      return NstSvcServer.request('account/get_many', {
+        account_id: joinedIds
+      }).then(function (data) {
+        return $q.resolve({
+          idKey: '_id',
+          resolves: data.accounts,
+          rejects: data.no_access
         });
-      }, "getTiny", id);
+      });
+    };
+
+    UserFactory.prototype.getCachedSync = function (id) {
+      var model = this.cache.get(id);
+      if (!model) {
+        return null;
+      }
+
+      return this.parseCachedModel(model);
     }
 
     UserFactory.prototype.getTinySafe = function (id) {
@@ -93,22 +88,12 @@
       });
     };
 
-    UserFactory.prototype.set = function (user) {
-      if (user instanceof NstUser) {
-        if (this.has(user.id)) {
-          NstSvcUserStorage.merge(user.id, user);
-        } else {
-          NstSvcUserStorage.set(user.id, user);
-        }
-      } else if (user instanceof NstTinyUser) {
-        if (this.hasTiny(user.id)) {
-          NstSvcTinyUserStorage.merge(user.id, user);
-        } else {
-          NstSvcTinyUserStorage.set(user.id, user);
-        }
+    UserFactory.prototype.set = function (data) {
+      if (data && data._id) {
+        this.cache.set(data._id, this.transformToCacheModel(data));
+      } else {
+        console.error('The data is not valid to be cached!', data);
       }
-
-      return this;
     };
 
     UserFactory.prototype.update = function (id, params) {
@@ -224,6 +209,8 @@
         throw Error("Could not parse user data without _id");
       }
 
+      this.set(data);
+
       var user = new NstTinyUser();
 
       user.id = data._id;
@@ -234,8 +221,6 @@
       if (data.picture && data.picture.org) {
         user.picture = new NstPicture(data.picture);
       }
-
-      this.set(user);
 
       return user;
     };
@@ -252,61 +237,51 @@
     };
 
     UserFactory.prototype.parseCachedModel = function (data) {
-      return this.parseTinyUser(data);
+      if (!data) {
+        return null;
+      }
+
+      return this.parseUser(data);
     }
 
     UserFactory.prototype.transformToCacheModel = function (user) {
-      if (user instanceof NstTinyUser) {
-        var model = {
-          _id: user.id,
-          fname: user.firstName,
-          lname: user.lastName,
-        };
-
-        if (user.hasPicture()) {
-          model['picture'] = {
-            org: user.picture.original,
-            pre: user.picture.preview,
-            x128: user.picture.x128,
-            x64: user.picture.x64,
-            x32: user.picture.x32,
-          };
-        }
-
-        return model;
-      }
-
-      return null;
+      return user;
     }
 
-    UserFactory.prototype.parseUser = function (userData) {
+    UserFactory.prototype.parseUser = function (data) {
+      if (!_.isObject(data)) {
+        throw Error("Could not create a user model with an invalid data");
+      }
+
+      if (!data._id) {
+        throw Error("Could not parse user data without _id");
+      }
+
+      this.set(data);
       var user = new NstUser();
 
-      if (!angular.isObject(userData)) {
-        return user;
-      }
-      user.admin = userData.admin ? true : false;
-      user.labelEditor = userData.label_editor ? true : false;
-      user.id = userData._id;
-      user.firstName = userData.fname ? userData.fname : userData.name ? userData.name : userData._id;
-      user.lastName = userData.lname || '';
+      user.admin = data.admin ? true : false;
+      user.labelEditor = data.label_editor ? true : false;
+      user.id = data._id;
+      user.firstName = data.fname ? data.fname : data.name ? data.name : data._id;
+      user.lastName = data.lname || '';
       user.fullName = user.getFullName();
-      user.phone = userData.phone;
-      user.limits = userData.limits;
-      user.country = userData.country;
-      user.dateOfBirth = userData.dob;
-      user.gender = userData.gender;
-      user.email = userData.email;
-      user.privacy = userData.privacy;
-      user.authority = this.parseUserAuthority(userData.authority);
+      user.phone = data.phone;
+      user.limits = data.limits;
+      user.country = data.country;
+      user.dateOfBirth = data.dob;
+      user.gender = data.gender;
+      user.email = data.email;
+      user.privacy = data.privacy;
+      user.authority = this.parseUserAuthority(data.authority);
 
-      if (_.isObject(userData.counters)) {
-        user.totalNotificationsCount = userData.counters.total_mentions;
-        user.unreadNotificationsCount = userData.counters.unread_mentions;
+      if (_.isObject(data.counters)) {
+        user.totalNotificationsCount = data.counters.total_mentions;
+        user.unreadNotificationsCount = data.counters.unread_mentions;
       }
 
-      if (userData.picture && userData.picture.org) {
-        user.picture = new NstPicture(userData.picture);
+      if (data.picture && data.picture.org) {
+        user.picture = new NstPicture(data.picture);
       }
 
       return user;
