@@ -21,6 +21,7 @@
       'froala',
       'angular-google-analytics',
       'as.sortable',
-      'vjs.video'
+      'vjs.video',
+      'LZString',
     ]);
 })();

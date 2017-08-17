@@ -6,8 +6,8 @@
     .factory('NstSvcCacheDb', NstSvcCacheDb);
 
   /** @ngInject */
-  function NstSvcCacheDb($window, _) {
-    var NAME_PREFIX = 'ronak.nested.web.cache.';
+  function NstSvcCacheDb($window, _, LZString, md5) {
+    var NAME_PREFIX = 'cache.';
     function CacheDb(namespace) {
       this.namespace = namespace;
       this.getKey = _.partial(getKey, this.namespace);
@@ -19,8 +19,8 @@
 
     CacheDb.prototype.get = function (key) {
       var serializedValue = $window.localStorage.getItem(this.getKey(key));
-
-      return JSON.parse(serializedValue);
+      var decompressedValue = LZString.decompressFromUTF16(serializedValue);
+      return JSON.parse(decompressedValue);
     };
 
     CacheDb.prototype.set = function (key, value) {
@@ -34,22 +34,15 @@
       }
 
       var serializedValue = JSON.stringify(value);
-      $window.localStorage.setItem(this.getKey(key), serializedValue);
+      // The compressed string is 35% smaller than the original value
+      var compressedValue = LZString.compressToUTF16(serializedValue);
+      $window.localStorage.setItem(this.getKey(key), compressedValue);
 
       return serializedValue.length;
     };
 
-    CacheDb.prototype.flush = function () {
-      var namespaceRegex = new RegExp('^(' + NAME_PREFIX + this.namespace + '.)');
-      _.keys(localStorage).forEach(function (key) {
-        if (namespaceRegex.test(key)) {
-          localStorage.removeItem(key);
-        }
-      });  
-    }
-
     function getKey(namespace, key) {
-      return NAME_PREFIX + namespace + '.' + key;
+      return NAME_PREFIX + md5.createHash(namespace + '.' + key);
     }
 
     
