@@ -52,28 +52,24 @@
 
     function initSearch() {
       var searchQuery = new NstSearchQuery(vm.query, true);
-      var params = searchQuery.getSearchParams();
+      var params = searchQuery.getSortedParams();
       initChips(params);
     }
 
     function initChips(params) {
       vm.chips = [];
-      addItemToChips(vm.chips, params.places, 'in');
-      addItemToChips(vm.chips, params.users, 'from');
-      addItemToChips(vm.chips, params.labels, 'label');
-      addItemToChips(vm.chips, params.keywords, 'keyword');
-    }
-
-    function addItemToChips(chipArray, items, type) {
-      if (items.length === 0) {
-        return;
-      }
-      for (var i = 0; i < items.length; i++) {
-        chipArray.push({
-          type: type,
-          title: items[i]
-        });
-      }
+      var types = {
+        'place': 'in',
+        'user': 'from',
+        'label': 'label',
+        'keyword': 'keyword'
+      };
+      vm.chips = _.map(params, function (item) {
+        return {
+          type: types[item.type],
+          title: item.id
+        };
+      });
     }
 
     /**
@@ -98,7 +94,7 @@
           break;
       }
       vm.query = searchQuery.toString();
-      initChips(searchQuery.getSearchParams());
+      initChips(searchQuery.getSortedParams());
       vm.forceSearch(vm.query);
     }
 
@@ -214,22 +210,24 @@
           && _.size(result.addedUsers) > 0) {
           toastr.success(NstUtility.string.format(NstSvcTranslation.get('All selected users have been added to place {0} successfully.'), place.name));
         } else {
+          var names = null;
+          var message = null;
 
           // there are users that we were not able to add them
           if (_.size(result.rejectedUsers) > 0) {
-            var names = _(result.rejectedUsers).map(function (user) {
+            names = _(result.rejectedUsers).map(function (user) {
               return NstUtility.string.format('{0} (@{1})', user.fullName, user.id);
             }).join('<br/>');
-            var message = NstSvcTranslation.get('We are not able to add these users to the place:');
+            message = NstSvcTranslation.get('We are not able to add these users to the place:');
             toastr.warning(message + '<br/>' + names);
           }
 
           //there are some users that were added successfully
           if (_.size(result.addedUsers) > 0) {
-            var names = _(result.addedUsers).map(function (user) {
+            names = _(result.addedUsers).map(function (user) {
               return NstUtility.string.format('{0} (@{1})', user.fullName, user.id);
             }).join('<br/>');
-            var message = NstSvcTranslation.get('These users have been added:');
+            message = NstSvcTranslation.get('These users have been added:');
             toastr.success(message + '<br/>' + names);
           }
         }
@@ -251,22 +249,24 @@
           && _.size(result.addedUsers) > 0) {
           toastr.success(NstUtility.string.format(NstSvcTranslation.get('All selected users have been invited to place {0} successfully.'), place.name));
         } else {
+          var names = null;
+          var message = null;
 
           // there are users that we were not able to invite them
           if (_.size(result.rejectedUsers) > 0) {
-            var names = _(result.rejectedUsers).map(function (user) {
+            names = _(result.rejectedUsers).map(function (user) {
               return NstUtility.string.format('{0} (@{1})', user.fullName, user.id);
             }).join('<br/>');
-            var message = NstSvcTranslation.get('We are not able to invite these users to the place:');
+            message = NstSvcTranslation.get('We are not able to invite these users to the place:');
             toastr.warning(message + '<br/>' + names);
           }
 
           //there are some users that were invited successfully
           if (_.size(result.addedUsers) > 0) {
-            var names = _(result.addedUsers).map(function (user) {
+            names = _(result.addedUsers).map(function (user) {
               return NstUtility.string.format('{0} (@{1})', user.fullName, user.id);
             }).join('<br/>');
-            var message = NstSvcTranslation.get('These users have been invited:');
+            message = NstSvcTranslation.get('These users have been invited:');
             toastr.success(message + '<br/>' + names);
           }
         }

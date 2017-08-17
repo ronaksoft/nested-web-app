@@ -1,3 +1,5 @@
+/* jshint ignore:start */
+/* eslint-disable */
 /*
  * angular-ui-bootstrap
  * http://angular-ui.github.io/bootstrap/

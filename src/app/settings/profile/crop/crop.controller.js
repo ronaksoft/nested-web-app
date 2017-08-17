@@ -65,6 +65,7 @@
         var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
 
         // write the bytes of the string to a typed array
+        /* eslint-disable */
         var ia = new Uint8Array(byteString.length);
         for (var i = 0; i < byteString.length; i++) {
           ia[i] = byteString.charCodeAt(i);

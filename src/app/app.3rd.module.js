@@ -22,6 +22,12 @@
       'angular-google-analytics',
       'as.sortable',
       'vjs.video',
+      'perfectScrollbar',
+      'medium',
+      'emojiBundle',
+      'firebase',
+      'phoneUtils',
+      'draggable',
       'LZString',
     ]);
 })();

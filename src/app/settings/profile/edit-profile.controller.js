@@ -213,7 +213,6 @@
      *****************************/
     vm.removeImage = confirmRemovePicture;
     vm.setImage = setImage;
-    var imageLoadTimeout = null;
     /*****************************
      ***** Controller Methods ****
      *****************************/
@@ -255,7 +254,7 @@
           vm.uploadedFile = croppedFile;
           var reader = new FileReader();
           reader.onload = function (event) {
-            imageLoadTimeout = $timeout(function () {
+            $timeout(function () {
               // DIsplays the cropped image before upload starts
               vm.picture = event.target.result;
               // Uploads the cropped image

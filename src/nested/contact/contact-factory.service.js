@@ -6,7 +6,7 @@
 
   /** @ngInject */
   function NstSvcContactFactory($q, _,
-    NstSvcServer, NstBaseFactory, NstSvcUserFactory, NstSvcContactStorage,
+    NstSvcServer, NstBaseFactory, NstSvcContactStorage,
     NstContact, NstPicture) {
 
     function ContactFactory() {}
@@ -93,6 +93,7 @@
     }
 
     function getFavorites() {
+      var deferred = $q.defer();
       return factory.sentinel.watch(function () {
         return NstSvcServer.request('contact/get_favorites', {}).then(function (data) {
           return $q.resolve(deferred.resolve(_.map(data.contacts, parse)));

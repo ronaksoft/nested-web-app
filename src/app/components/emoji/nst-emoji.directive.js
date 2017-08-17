@@ -3,7 +3,7 @@
 
   angular
     .module('ronak.nested.web.components')
-    .directive('emojiInit', function ($timeout, _, NstSvcKeyFactory,NST_KEY) {
+    .directive('emojiInit', function ($timeout, _, NstSvcKeyFactory,NST_KEY, wdtEmojiBundle) {
       return {
         restrict: 'A',
         link: function (scope, element , attrs) {

@@ -17,15 +17,15 @@
 
   /**
    * A set of tools to store and read client keys
-   * 
-   * @param {any} $cookies 
-   * @returns 
+   *
+   * @param {any} $cookies
+   * @returns
    */
   function NstSvcClient($cookies) {
 
     /**
      * Creates an instance of NstSvcClient
-     * 
+     *
      */
     function Client() {
       this.serverTime = Date.now();
@@ -37,9 +37,10 @@
 
     /**
      * Returns the stored cid (client ID). Generates a new one if cid has not been stored before
-     * 
-     * @returns 
+     *
+     * @returns
      */
+    /* eslint-disable */
     Client.prototype.getCid = function () {
       var cid = $cookies.get('ncid');
       if (!cid) {
@@ -52,9 +53,9 @@
 
     /**
      * Stores cid (client ID)
-     * 
-     * @param {any} cid 
-     * @returns 
+     *
+     * @param {any} cid
+     * @returns
      */
     Client.prototype.setCid = function (cid) {
       if (!cid) {
@@ -67,8 +68,8 @@
 
     /**
      * Calculates and returns the next year date from now
-     * 
-     * @returns 
+     *
+     * @returns
      */
     function getNextYear() {
       var aYearFromNow = new Date();
@@ -79,11 +80,11 @@
 
     /**
      * Returns the stored did. Generates a new one if it was not found
-     * 
-     * @returns 
+     *
+     * @returns
      */
     Client.prototype.getDid = function () {
-      const did = $cookies.get('ndid');
+      var did = $cookies.get('ndid');
       if (did) {
         return did;
       }
@@ -93,8 +94,8 @@
 
     /**
      * Generates a GUID
-     * 
-     * @returns 
+     *
+     * @returns
      */
     function guid() {
       return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
@@ -109,9 +110,9 @@
 
     /**
      * Stores the did (device ID)
-     * 
-     * @param {any} did 
-     * @returns 
+     *
+     * @param {any} did
+     * @returns
      */
     Client.prototype.setDid = function (did) {
       if (!did) {
@@ -124,8 +125,8 @@
 
     /**
      * Returns the stored dt (device token)
-     * 
-     * @returns 
+     *
+     * @returns
      */
     Client.prototype.getDt = function () {
       return $cookies.get('ndt');
@@ -133,9 +134,9 @@
 
     /**
      * Stores the given dt (device token)
-     * 
-     * @param {any} dt 
-     * @returns 
+     *
+     * @param {any} dt
+     * @returns
      */
     Client.prototype.setDt = function (dt) {
       if (!dt) {
@@ -148,8 +149,8 @@
 
     /**
      * Returns the stored do (device operating system)
-     * 
-     * @returns 
+     *
+     * @returns
      */
     Client.prototype.getDo = function () {
       return $cookies.get('ndo');
@@ -157,9 +158,9 @@
 
     /**
      * Stores the given do (device operating system)
-     * 
-     * @param {any} dos 
-     * @returns 
+     *
+     * @param {any} dos
+     * @returns
      */
     Client.prototype.setDo = function (dos) {
       if (!dos) {

@@ -32,7 +32,7 @@
    * @param {any} nstScrollbarSettings
    * @returns
    */
-  function nstScrollbar($window, nstScrollbarSettings, _, $) {
+  function nstScrollbar($window, nstScrollbarSettings, _, $, Ps) {
     return {
       restrict : 'A',
       scope : {

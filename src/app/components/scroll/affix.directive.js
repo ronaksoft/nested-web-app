@@ -14,8 +14,7 @@
             topOffset = 0,
             afterContent = 0,
             containerLeft = $('body').offset().left || 0,
-            isRTL = $rootScope._direction,
-            defTop = $element.offset().top;
+            isRTL = $rootScope._direction;
 
         $rootScope.$on('affixCheck',function(){
           $timeout(function(){applier();},10);
@@ -40,19 +39,19 @@
 
           var fixed = false;
 
-          if (!!$attrs.parent && $($attrs.parent).offset() ) {
+          if ($attrs.parent && $($attrs.parent).offset() ) {
             containerLeft = $($attrs.parent)[0].offsetLeft;
           }
 
 
-          if (!!$attrs.afterContent ) {
+          if ($attrs.afterContent ) {
             afterContent = $attrs.afterContent;
           }
 
-          if (!!$attrs.fixedTop ) {
+          if ($attrs.fixedTop ) {
             top = parseInt($attrs.top);
           }
-          if (!!$attrs.clearRight ) {
+          if ($attrs.clearRight ) {
             var clearRight = true;
           }
 
@@ -91,7 +90,7 @@
           }
 
           function firstFixes() {
-            if (!!$attrs.firstImp ) {
+            if ($attrs.firstImp ) {
               $element.css('position', 'fixed');
               $element.css('top', parseInt(top) - parseInt(topOffset) + 'px');
               $element.css('left', offLeft + 'px');

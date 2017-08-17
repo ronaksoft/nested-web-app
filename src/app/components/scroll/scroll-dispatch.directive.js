@@ -6,7 +6,7 @@
     .directive('scrollDispatch', hideTips);
 
   /** @ngInject */
-  function hideTips(SvcCardCtrlAffix, $) {
+  function hideTips(SvcCardCtrlAffix, $, wdtEmojiBundle) {
     return {
       link: function ($scope, $element) {
 

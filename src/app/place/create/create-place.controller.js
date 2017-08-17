@@ -295,16 +295,7 @@
 
     function save() {
       vm.submitted = true;
-
-      if (vm.hasParentPlace) {
-        hasAccessToAdd(vm.place.parentId).then(function () {
-          createPlace(vm.place);
-        }).catch(function (error) {
-          NstSvcLogger.error(error);
-        });
-      } else {
-        createPlace(vm.place);
-      }
+      createPlace(vm.place);
     }
 
     function createPlace(model) {
