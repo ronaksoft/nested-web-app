@@ -24,6 +24,15 @@
     };
 
     CacheDb.prototype.set = function (key, value) {
+      if (!key) {
+        return -1;
+      }
+
+      if (!value) {
+        $window.localStorage.removeItem(this.getKey(key));
+        return 0;
+      }
+
       var serializedValue = JSON.stringify(value);
       $window.localStorage.setItem(this.getKey(key), serializedValue);
 
