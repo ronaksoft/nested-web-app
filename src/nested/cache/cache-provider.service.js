@@ -7,6 +7,8 @@
 
   /** @ngInject */
   function NstSvcCacheProvider(NstSvcCacheDb, _) {
+    var EXPIRATION_KEY = '__exp';
+    var EXPIRATION_TIME = 1000 * 60 * 5;
     function CacheProvider(namespace) {
       this.namespace = namespace;
       this.db = new NstSvcCacheDb(this.namespace);
@@ -17,19 +19,55 @@
     CacheProvider.prototype.constructor = CacheProvider;
 
     CacheProvider.prototype.get = function(key) {
-      var value = this.memory[key];
+      if (!validateKey(key)) {
+        return -1;
+      }
+
+      var model = this.memory[key] || this.db.get(key);
+      var expiration = model[EXPIRATION_KEY];
       
-      return value || this.db.get(key);
+      if (!expiration) {
+        return model;
+      }
+
+      if (expiration > Date.now()) {
+        this.remove(key);
+
+        return null;
+      }
+
+      return model;
     }
 
     CacheProvider.prototype.remove = function(key) {
+      if (!validateKey(key)) {
+        return -1;
+      }
+
       _.unset(this.memory, key);
-      this.db.set(key);
+      return this.db.set(key);
     }
 
     CacheProvider.prototype.set = function(key, value) {
-      this.memory[key] = value;
-      this.db.set(key, value);
+      if (!validateKey(key)) {
+        return -1;
+      }
+
+      var expirationExtension = {};
+      expirationExtension[EXPIRATION_KEY] = Date.now() + EXPIRATION_TIME;
+      var extendedValue = Object.assign(expirationExtension, value);
+
+      this.memory[key] = extendedValue;
+      return this.db.set(key, extendedValue);
+    }
+
+    function validateKey(key) {
+      if (!key || !_.isString(key)) {
+        console.error('The key must be a nonempty string.', key);
+        return false;
+      }
+
+      return true;
     }
 
     return CacheProvider;
