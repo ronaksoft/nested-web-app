@@ -11,6 +11,8 @@
     function CacheDb(namespace) {
       this.namespace = namespace;
       this.getKey = _.partial(getKey, this.namespace);
+      this.storeQueue = [];
+      this.store = _.throttle(store, 2500);
     }
 
     CacheDb.prototype = {};
@@ -19,8 +21,16 @@
 
     CacheDb.prototype.get = function (key) {
       var storedKey = this.getKey(key);
+      // Look at localStorage
       var compressedValue = $window.localStorage.getItem(storedKey);
       if (!compressedValue) {
+        // Try to find it in the items that are waiting to be stored
+        var queueItem = _.find(this.storeQueue, { 'key': key });
+        if (queueItem && queueItem.value) {
+          return queueItem.value;
+        }
+
+        // There is not any value associated with the provided key
         return null;
       }
 
@@ -42,19 +52,30 @@
 
       if (!value) {
         $window.localStorage.removeItem(this.getKey(key));
-        return 0;
+        return;
       }
 
-      var serializedValue = JSON.stringify(value);
-      // The compressed string is 35% smaller than the original value
-      // var compressedValue = LZString.compressToUTF16(serializedValue);
-      $window.localStorage.setItem(this.getKey(key), serializedValue);
+      this.storeQueue.push({
+        key: key,
+        value: value,
+      });
 
-      return serializedValue.length;
+      this.store();
     };
 
     function getKey(namespace, key) {
       return NAME_PREFIX + md5.createHash(namespace + '.' + key);
+    }
+
+    function store() {
+      var item = null;
+      while(item = this.storeQueue.pop()) {
+
+        var serializedValue = JSON.stringify(item.value);
+        // The compressed string is 35% smaller than the original value
+        // var compressedValue = LZString.compressToUTF16(serializedValue);
+        $window.localStorage.setItem(this.getKey(item.key), serializedValue);
+      }
     }
 
     
