@@ -18,9 +18,21 @@
 
 
     CacheDb.prototype.get = function (key) {
-      var serializedValue = $window.localStorage.getItem(this.getKey(key));
-      var decompressedValue = LZString.decompressFromUTF16(serializedValue);
-      return JSON.parse(decompressedValue);
+      var storedKey = this.getKey(key);
+      var compressedValue = $window.localStorage.getItem(storedKey);
+      if (!compressedValue) {
+        return null;
+      }
+
+      var decompressedValue = LZString.decompressFromUTF16(compressedValue);
+      var value = null;
+      try {
+        value = JSON.parse(decompressedValue)
+      } catch (error) {
+        // removes the invalid data
+        this.set(storedKey);
+      }
+      return value;
     };
 
     CacheDb.prototype.set = function (key, value) {

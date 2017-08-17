@@ -24,6 +24,11 @@
       }
 
       var model = this.memory[key] || this.db.get(key);
+      
+      if (!model) {
+        return null;
+      }
+      
       var expiration = model[EXPIRATION_KEY];
       
       if (!expiration) {
