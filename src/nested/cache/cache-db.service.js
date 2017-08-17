@@ -39,7 +39,7 @@
       try {
         value = JSON.parse(compressedValue)
       } catch (error) {
-        // removes the invalid data
+        // Remove the invalid data
         this.set(storedKey);
       }
       return value;
@@ -51,10 +51,14 @@
       }
 
       if (!value) {
+        // Remove the item from storeQueue if it has not been sent to localStorage yet.
+        _.remove(this.storeQueue, { 'key': key });
+        // Remove from localStorage
         $window.localStorage.removeItem(this.getKey(key));
         return;
       }
 
+      // Put the item in the queue. It will be stored in localStorage in a while
       this.storeQueue.push({
         key: key,
         value: value,
