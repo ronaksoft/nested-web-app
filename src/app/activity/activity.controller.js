@@ -52,7 +52,6 @@
     var vm = this;
     var activityFilterGroups = {};
     var eventReferences = [];
-    var reconnectEvent;
 
     vm.activities = [];
     vm.currentPlace = null;
@@ -324,7 +323,7 @@
      */
     function setLastActivityDate(activities) {
       var last = _.last(activities);
-      var lastDate = !!last ? last.date : moment(NstSvcDate.now());
+      var lastDate = last ? last.date : moment(NstSvcDate.now());
 
       vm.activitySettings.date = NstUtility.date.toUnix(lastDate);
     }
@@ -380,7 +379,7 @@
     });
 
     // Request new activities everytime the socket reconnects to server
-    reconnectEvent = NstSvcServer.addEventListener(NST_SRV_EVENT.RECONNECT, function () {
+    NstSvcServer.addEventListener(NST_SRV_EVENT.RECONNECT, function () {
       loadAfter(getRecentActivityTime());
     });
 

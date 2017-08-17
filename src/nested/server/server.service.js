@@ -378,10 +378,8 @@
             break;
 
           case NST_REQ_STATUS.QUEUED:
-            if (qItem.timeoutPromise instanceof Promise) {
-              $timeout.cancel(qItem.timeoutPromise);
-              delete this.queue[reqId];
-            }
+            $timeout.cancel(qItem.timeoutPromise);
+            delete this.queue[reqId];
             break;
 
           case NST_REQ_STATUS.CANCELLED:

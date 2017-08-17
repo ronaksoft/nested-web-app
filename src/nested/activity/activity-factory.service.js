@@ -8,7 +8,7 @@
   function NstSvcActivityFactory($q, _,
     NST_ACTIVITY_FILTER, NST_EVENT_ACTION,
     NstSvcServer, NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcCommentFactory,
-    NstBaseFactory, NstSvcLogger, NstActivity, NstSvcLabelFactory) {
+    NstBaseFactory, NstSvcLogger, NstActivity, NstSvcLabelFactory, NstUtility) {
 
 
     function ActivityFactory() {}

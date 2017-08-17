@@ -31,7 +31,6 @@
     vm.collapse = false;
     vm.mouseIn = false;
     var eventReferences = [];
-    var discardCanceler = null;
     var systemConstants = {};
     vm.makeChangeForWatchers = 0;
     vm.clear = clear;
@@ -126,6 +125,13 @@
     vm.place = undefined;
 
     (function () {
+
+      /**
+       * Prevents from closing window
+       */
+      window.onbeforeunload = function () {
+        return "You have attempted to leave this page. Are you sure?";
+      };
 
       /**
        * Add state params attachments to the model
@@ -1083,7 +1089,7 @@
       fontSize: ['8', '10', '14', '18', '22'],
       toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'fontSize', '|', 'color', 'align', 'formatOL', 'formatUL', 'insertLink', '|', 'rightToLeft', 'leftToRight'],
       events: {
-        'froalaEditor.initialized': function (e) {
+        'froalaEditor.initialized': function () {
         },
         'froalaEditor.focus': function () {
           vm.focusBody = true;
@@ -1128,10 +1134,10 @@
      */
     function getPlace(id) {
       NstSvcLogger.debug4('Compose | Get place :', id);
-      return NstSvcPlaceFactory.get(id).catch(function () {
+      return NstSvcPlaceFactory.get(id).catch(function (error) {
         var deferred = $q.defer();
 
-        switch (errorcode) {
+        switch (error.code) {
           case NST_SRV_ERROR.TIMEOUT:
             // Keep Retrying
             deferred.reject.apply(null, arguments);
@@ -1234,7 +1240,7 @@
       vm.model.body = '';
       vm.model.forwardedFrom = null;
       vm.model.replyTo = null;
-      discardCanceler = $timeout(function () {
+      $timeout(function () {
         vm.focus = false;
       }, 512);
     }
@@ -1282,6 +1288,7 @@
 
     // $('.wdt-emoji-popup.open').removeClass('open');
     $scope.$on('$destroy', function () {
+      window.onbeforeunload = null;
       $('.wdt-emoji-popup.open').removeClass('open');
       NstSvcLogger.debug4('Compose | Compose id destroyed :');
       NstSvcSidebar.removeOnItemClick();

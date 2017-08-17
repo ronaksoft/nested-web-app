@@ -26,7 +26,7 @@
    * @param {any} NstSvcDate
    * @returns
    */
-  function NstSvcWS(_, NstSvcLogger, NstUtility, NST_WEBSOCKET_STATE, moment, NstSvcDate) {
+  function NstSvcWS(_, NstSvcLogger, NstUtility, NST_WEBSOCKET_STATE) {
 
     /**
      * Creates a new instance of browser web-socket. This service only wraps the browser

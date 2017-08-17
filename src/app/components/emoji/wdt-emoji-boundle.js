@@ -1,3 +1,5 @@
+/* jshint ignore:start */
+/* eslint-disable */
 /*!
  @package wdt-emoji-bundle - Slack like emoji selector with apple, twitter, google, emojione and custom emoji support.
  @version version: 0.2.0
@@ -393,7 +395,7 @@
 
     // fill with emoji
     wdtEmojiBundle.fillPickerPopup();
-    
+
 
     wdtEmojiBundle.closePickers();
     // addClass(this, 'wdt-emoji-picker-open');
@@ -659,7 +661,7 @@
       // bind input
       replaceText(wdtEmojiBundle.input, selection, wdtEmojiBundle.render(this.dataset.wdtEmojiShortname));
       wdtEmojiBundle.fillRecent();
-      // Show in 
+      // Show in
       fire('select', {el: wdtEmojiBundle.input, event: event, emoji: this.dataset.wdtEmojiShortname});
 
       var ce = document.createEvent('Event');
@@ -1165,7 +1167,7 @@
       } else {
         $(selection.element).text(nVal);
       }
-      
+
       var range = document.createRange();
       range.setStart(selection.element, selection.start + emo.length);
       range.setEnd(selection.element, selection.end + emo.length);

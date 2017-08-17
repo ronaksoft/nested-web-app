@@ -83,7 +83,7 @@
             }
           }
 
-          for (var i = 0; i < scope.ctlSidebar.places.length; i++) {
+          for (i = 0; i < scope.ctlSidebar.places.length; i++) {
             if (scope.ctlSidebar.placesNotifCountObject[scope.ctlSidebar.places[i].id]) {
               placesArray.push(1);
             } else {

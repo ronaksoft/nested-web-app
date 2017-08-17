@@ -1,3 +1,4 @@
+/* eslint-disable */
 (function() {
   'use strict';
 
@@ -53,7 +54,6 @@
           }
           return combined + ')';
         }
-
         //AMD wrapper
         if (typeof define !== 'undefined' ) {
           define([], persianRex);

@@ -1,3 +1,4 @@
+/* eslint-disable */
 // TODO: Move this file to another place
 (function($){
 

@@ -9,11 +9,9 @@
     return {
       restrict: 'A',
       link: function (scope ,element, attrs) {
-        function highlight(str) {
+        function highlight() {
           var maxLength = parseInt(attrs.maxLength);
-
-          if (str.length > maxLength) {
-          }
+          return maxLength;
         }
         scope.$watch(function(){
           return element.text().length;

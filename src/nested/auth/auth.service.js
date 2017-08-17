@@ -47,6 +47,7 @@
       });
 
       //Config local storage events
+      /* eslint-disable */
       if (window.addEventListener)
         addEventListener('storage', storage_event, false);
       else if (window.attachEvent)
