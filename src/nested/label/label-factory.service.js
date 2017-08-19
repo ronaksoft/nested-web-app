@@ -194,9 +194,9 @@
 
     LabelFactory.prototype.get = function (id) {
       var deferred = $q.defer();
-
+      var factory = this;
       this.collector.add(id).then(function (data) {
-        var label = this.parse(data);
+        var label = factory.parse(data);
         deferred.resolve(label);
       }).catch(function (error) {
         deferred.reject(error);
