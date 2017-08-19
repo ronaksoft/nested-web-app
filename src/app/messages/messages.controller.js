@@ -198,8 +198,8 @@
           // someone else sent the post
           vm.hotMessageStorage.unshift(data.activity.post);
           vm.hasNewMessages = true;
-          getUnreadsCount();
         }
+        getUnreadsCount();
       }));
 
 

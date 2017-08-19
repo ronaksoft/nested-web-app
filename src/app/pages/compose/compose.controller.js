@@ -1290,7 +1290,6 @@
     // $('.wdt-emoji-popup.open').removeClass('open');
     $scope.$on('$destroy', function () {
       window.onbeforeunload = null;
-      console.log('onbeforeunload destroy');
       $('.wdt-emoji-popup.open').removeClass('open');
       NstSvcLogger.debug4('Compose | Compose id destroyed :');
       NstSvcSidebar.removeOnItemClick();

@@ -426,7 +426,6 @@
         }).then(function (response) {
 
           var activities = _.map(response.activities, parseActivityIntelligently);
-
           $q.all(activities).then(function (values) {
             deferred.resolve(values.filter(function (obj) {
               return obj !== null;
