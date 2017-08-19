@@ -126,12 +126,6 @@
 
     (function () {
 
-      /**
-       * Prevents from closing window
-       */
-      window.onbeforeunload = function () {
-        return "You have attempted to leave this page. Are you sure?";
-      };
 
       /**
        * Add state params attachments to the model
@@ -164,6 +158,13 @@
         }));
 
       } else {
+        /**
+         * Prevents from closing window
+         */
+        window.onbeforeunload = function () {
+          return "You have attempted to leave this page. Are you sure?";
+        };
+
         NstSvcLogger.debug4('Compose | compose is in modal');
         eventReferences.push($scope.$on('modal.closing', function (event) {
           if (shouldSaveDraft() && !vm.finish) {
