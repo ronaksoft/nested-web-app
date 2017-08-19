@@ -8,7 +8,7 @@
   /** @ngInject */
   function NstTinyPlace(_) {
     /**
-     * Creates an instance of NstTinyPlace. Do not use this directly, use NstSvcPlaceFactory.getTiny(data) instead
+     * Creates an instance of NstTinyPlace.
      *
      * @param {string|Object} data    Place Info
      *

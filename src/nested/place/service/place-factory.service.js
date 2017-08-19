@@ -66,14 +66,19 @@
      * Retrieves a place by id and store in the related cache storage
      *
      * @param {String} id
+     * @param {boolean} normal
      *
      * @returns {Promise}
      */
-    PlaceFactory.prototype.get = function (id) {
+    PlaceFactory.prototype.get = function (id, normal) {
       var factory = this;
       // first ask the cache provider to give the model
       var cachedPlace = this.getCachedSync(id);
-      if (cachedPlace) {
+      if (cachedPlace && !normal) {
+        // The cached model exists and the place type (normal/tiny) does not matter
+        return $q.resolve(cachedPlace);
+      } else if (normal && cachedPlace && cachedPlace.privacy && cachedPlace.policy) {
+        // The cached model exists and only a normal place is accepted
         return $q.resolve(cachedPlace);
       }
 
@@ -98,6 +103,16 @@
       });
 
       return deferred.promise;
+    }
+
+    PlaceFactory.prototype.getSafe = function (id, normal) {
+      return $q(function(resolve) {
+        this.get(id, normal).then(function (place) {
+          resolve(place);
+        }).catch(function () {
+          resolve(null);
+        });
+      });
     }
 
     PlaceFactory.prototype.getMany = function (id) {
@@ -662,9 +677,6 @@
       if (!data) {
         return null;
       }
-      console.log('====================================');
-      console.log('cached model', data);
-      console.log('====================================');
       if (data.privacy && data.policy) {
         // The cached place is a perfect one
         return this.parsePlace(data);

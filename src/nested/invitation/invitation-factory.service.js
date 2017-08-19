@@ -209,7 +209,7 @@
         $q.all([
           NstSvcUserFactory.get(invitee.id),
           NstSvcUserFactory.get(inviter.id),
-          NstSvcPlaceFactory.getTiny(place.id)
+          NstSvcPlaceFactory.get(place.id)
         ]).then(function (values) {
           invitation.invitee = values[0];
           invitation.inviter = values[1];

@@ -331,7 +331,7 @@
         if (NST_PATTERN.EMAIL.test(recipientId)) {
           return NstSvcUserFactory.getTinySafe(recipientId);
         } else {
-          return NstSvcPlaceFactory.getTinySafe(recipientId);
+          return NstSvcPlaceFactory.getSafe(recipientId);
         }
       })).then(function (recipients) {
 
