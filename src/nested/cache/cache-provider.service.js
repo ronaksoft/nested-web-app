@@ -49,20 +49,22 @@
       return this.db.set(key);
     }
 
-    CacheProvider.prototype.set = function(key, value) {
+    CacheProvider.prototype.set = function(key, value, merge) {
       if (!validateKey(key)) {
         return -1;
       }
-
-      var oldValue = this.db.get(key);
+      var extendedValue = null;
       var newValue = null;
-      if (oldValue && !isExpired(oldValue)) {
-        // Merge the new value with the old one
-        newValue = _.merge(value, oldValue);
+
+      if (merge) {
+        var oldValue = this.db.get(key);
+        if (oldValue && !isExpired(oldValue)) {
+          // Merge the new value with the old one
+          newValue = _.merge(value, oldValue);
+        }
       }
 
-      var extendedValue = addExpiration(newValue || value);
-
+      extendedValue = addExpiration(newValue || value);
       this.memory[key] = extendedValue;
       return this.db.set(key, extendedValue);
     }
