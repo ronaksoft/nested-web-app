@@ -42,14 +42,15 @@
       var that = this;
 
       var order = 0;
+
       _.forEach(words, function (word) {
         order++;
         if (_.startsWith(word, that.prefixes.place)) {
-          this.addPlace(_.trimStart(word, that.prefixes.place), order);
+          this.addPlace(_.replace(word, that.prefixes.place, ''), order);
         } else if (_.startsWith(word, that.prefixes.user)) {
-          this.addUser(_.trimStart(word, that.prefixes.user), order);
+          this.addUser(_.replace(word, that.prefixes.user, ''), order);
         } else if (_.startsWith(word, that.prefixes.label)) {
-          this.addLabel(_.trim(_.trimStart(word, that.prefixes.label), '"'), order);
+          this.addLabel(_.trim(_.replace(word, that.prefixes.label, ''), '"'), order);
         } else {
           if (word.length > 0) {
             this.addOtherKeyword(word, order);
@@ -64,19 +65,6 @@
     SearchQuery.prototype.constructor = SearchQuery;
 
     SearchQuery.prototype.toString = function () {
-      // var that = this;
-      // var items = _.concat(
-      //   _.map(this.places, function (place) {
-      //     return that.prefixes.place + place;
-      //   }),
-      //   _.map(this.users, function (user) {
-      //     return that.prefixes.user + user;
-      //   }),
-      //   _.map(this.labels, function (label) {
-      //     return that.prefixes.label + '"' + label + '"';
-      //   }),
-      //   this.otherKeywords);
-      //
       var items = this.getSortedParams();
       var stringList = [];
 
@@ -93,11 +81,11 @@
       }
 
       return _.join(stringList, QUERY_SEPARATOR);
-    }
+    };
 
     SearchQuery.prototype.ToEncodeString = function () {
       return encodeURIComponent(this.toString());
-    }
+    };
 
     SearchQuery.prototype.addPlace = function (place, order) {
       if (order === null) {
