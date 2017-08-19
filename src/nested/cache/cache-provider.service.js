@@ -29,15 +29,11 @@
         return null;
       }
       
-      var expiration = model[EXPIRATION_KEY];
-      
-      if (!expiration) {
-        return model;
-      }
-
-      if (expiration > Date.now()) {
+      if (isExpired(model)) {
         this.remove(key);
-
+        console.log('====================================');
+        console.log('This is expired', model);
+        console.log('====================================');
         return null;
       }
 
@@ -58,9 +54,14 @@
         return -1;
       }
 
-      var expirationExtension = {};
-      expirationExtension[EXPIRATION_KEY] = Date.now() + EXPIRATION_TIME;
-      var extendedValue = Object.assign(expirationExtension, value);
+      var oldValue = this.db.get(key);
+      var newValue = null;
+      if (oldValue && !isExpired(oldValue)) {
+        // Merge the new value with the old one
+        newValue = _.merge(value, oldValue);
+      }
+
+      var extendedValue = addExpiration(newValue || value);
 
       this.memory[key] = extendedValue;
       return this.db.set(key, extendedValue);
@@ -73,6 +74,23 @@
       }
 
       return true;
+    }
+
+    function isExpired(model) {
+      var expiration = model[EXPIRATION_KEY];
+
+      if (!expiration) {
+        return false;
+      }
+
+      return Date.now() > expiration
+    }
+
+    function addExpiration(model) {
+      var expirationExtension = {};
+      expirationExtension[EXPIRATION_KEY] = Date.now() + EXPIRATION_TIME;
+
+      return Object.assign(expirationExtension, model);
     }
 
     return CacheProvider;
