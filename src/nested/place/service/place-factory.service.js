@@ -212,9 +212,6 @@
       }
 
       function createMap(placeData) {
-        console.log('====================================');
-        console.log(placeData);
-        console.log('====================================');
         factory.set(placeData);
         var place = factory.parsePlace(placeData);
         var map = {
@@ -311,9 +308,7 @@
       model.place_id = placeId;
 
       NstSvcServer.request('place/update', params).then(function () {
-
-        NstSvcPlaceStorage.remove(placeId);
-        NstSvcTinyPlaceStorage.remove(placeId);
+        factory.cache.remove(placeId);
 
         factory.get(placeId).then(function (place) {
           $rootScope.$broadcast(NST_PLACE_EVENT.UPDATED, {placeId: placeId, place: place});
@@ -365,8 +360,7 @@
             place_id: id
           }).then(function () {
             // clean up storages
-            NstSvcPlaceStorage.remove(id);
-            NstSvcTinyPlaceStorage.remove(id);
+            this.cache.remove(id);
             var myPlaces = NstSvcMyPlaceIdStorage.get('tiny');
             factory.removePlaceFromTree(myPlaces, id);
             NstSvcMyPlaceIdStorage.set('tiny', myPlaces);
@@ -575,8 +569,7 @@
         NstSvcServer.request('place/leave', {
           place_id: placeId
         }).then(function () {
-          NstSvcPlaceStorage.remove(placeId);
-          NstSvcTinyPlaceStorage.remove(placeId);
+          factory.cache.remove(placeId);
           $rootScope.$broadcast(NST_PLACE_EVENT.REMOVED, {placeId: placeId});
           factory.get(placeId, true).then(function () {
             deferred.resolve();
@@ -906,8 +899,6 @@
     };
 
     PlaceFactory.prototype.flush = function () {
-      NstSvcPlaceStorage.flush();
-      NstSvcTinyPlaceStorage.flush();
       NstSvcMyPlaceIdStorage.flush();
     };
 
@@ -940,7 +931,7 @@
       if (NstUtilPlace.isGrand(placeId)) {
         factory.getGrandPlaceChildren(placeId).then(function (places) {
           _.map(places, function (place) {
-            NstSvcTinyPlaceStorage.set(place);
+            factory.set(place);
           });
         }).catch(function () {
           NstSvcLogger.debug('Cant resolve in remove member');
