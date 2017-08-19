@@ -48,7 +48,7 @@
     (function () {
       vm.loadProgress = true;
       // Retrieves the user account from Cyrus and updates the model
-      NstSvcUserFactory.get(vm.model.id, true).then(function (user) {
+      NstSvcUserFactory.getCurrent().then(function (user) {
         vm.model = user;
         vm.canEditProfile = user.privacy.change_profile;
         vm.canChangePicture = user.privacy.change_picture;

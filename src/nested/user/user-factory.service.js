@@ -37,7 +37,7 @@
       this.collector.add(id).then(function (data) {
         // update cache database
         factory.set(data);
-        deferred.resolve(factory.parseUser(data));
+        deferred.resolve(factory.parseTinyUser(data));
       }).catch(function (error) {
         switch (error.code) {
           case NST_SRV_ERROR.ACCESS_DENIED:
@@ -54,6 +54,22 @@
 
       return deferred.promise;
     }
+
+
+    /**
+     * Returns the account of current user. This always asks Cyrus and does not use any cache storage
+     * 
+     * @param {any} id 
+     * @returns 
+     */
+    UserFactory.prototype.getCurrent = function (id) {
+      var factory = this;
+      return NstSvcServer.request('account/get', {}).then(function (account) {
+        return $q.resolve(factory.parseUser(account));
+      });
+    }
+
+
 
     UserFactory.prototype.getMany = function (id) {
       var joinedIds = id.join(',');
@@ -77,10 +93,10 @@
       return this.parseCachedModel(model);
     }
 
-    UserFactory.prototype.getTinySafe = function (id) {
+    UserFactory.prototype.getSafe = function (id) {
       var service = this;
       return $q(function (resolve) {
-        service.getTiny(id).then(function (place) {
+        service.get(id).then(function (place) {
           resolve(place);
         }).catch(function () {
           resolve({id: id});
