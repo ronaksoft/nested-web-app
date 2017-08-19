@@ -188,7 +188,6 @@
         return NstSvcServer.request('label/get_many', {
           label_id: joinedIds
         }).then(function (data) {
-          console.log(data);
           defer.resolve({
             idKey: '_id',
             resolves: data.labels,
