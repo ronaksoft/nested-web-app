@@ -19,8 +19,11 @@
         top: auto!important;
     }
     &.quick {
-        /*bottom: 0px;*/
+        // position: fixed;
+        // bottom: 60px;
+        // top: auto!important;
         > .arrow {
+            border-top-color: transparent!important;
             border-right-color: #F5F5F5!important;
         }
     }

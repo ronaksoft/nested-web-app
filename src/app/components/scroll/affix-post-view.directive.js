@@ -24,13 +24,20 @@
             return $timeout(function(){applier()},500);
           });
         }
-
-
-        win.on("resize", function () {
+        function resizeF () {
           applier();
-        });
+        }
+
+        win.on("resize", resizeF);
 
         function applier() {
+
+          if (window.affixerListeners && window.affixerListeners.length > 0) {
+            window.affixerListeners.forEach( function(item){
+              window.removeEventListener("scroll", item);
+            });
+          }
+
           if ($attrs.affixerPostView === 'false' || $attrs.affixerPostView === false) return;
           removeFix();
           var top = $element[0].offsetTop + $element.parent()[0].offsetTop + 58 || 0;
@@ -94,11 +101,18 @@
             }
           }
 
-          container.bind('scroll', affixElement);
+          window.addEventListener("scroll", affixElement);
           firstFixes();
+          
+          if ( !window.affixerListeners ) {
+            window.affixerListeners = [];
+          }
+          window.affixerListeners.push(affixElement);
 
+          $scope.$on('$destroy', function () {
+            container.unbind('scroll', affixElement);
+          })
         }
-
       }
     };
   }
