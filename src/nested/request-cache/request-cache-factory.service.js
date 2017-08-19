@@ -57,7 +57,6 @@
 
     function observeRequest(cmd, data) {
       var requestKey = this.getRequestKey(cmd, data);
-      console.log(this.requestKeyList);
       var item = this.getItem(requestKey);
       if (item === null) {
         this.shortenRequestList();
