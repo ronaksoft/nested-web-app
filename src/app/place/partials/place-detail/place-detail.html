@@ -1,7 +1,7 @@
  <div>
   <div class="user-avatar-bg">
     <div class="blur-image">
-      <div style="background-image: url('{{place | picture : 'x128'}}')"></div>
+      <div style="background-image: url('{{place | picture : \'x128\'}}')"></div>
     </div>
     <div class="place-avatar-72">
       <img initial-avatar="{{place.id}}" name="{{place.name}}" picture="{{place | picture : 'x128'}}" data-width="72"
@@ -10,8 +10,8 @@
     </div>
   </div>
   <div class="user-data">
-    <h4>{{::place.name}}</h4>
-    <span><span ng-if="!isEmail">#</span>{{::place.id}}</span>
+    <h4>{{place.name > 32 place.name.substr(0, 32) + '...' : place.name}}</h4>
+    <span><span ng-if="!isEmail">#</span>{{{place.id > 20 place.id.substr(0, 20) + '...' : place.id}}</span>
   </div>
 
 </div>

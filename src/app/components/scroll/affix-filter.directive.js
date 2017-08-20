@@ -22,6 +22,12 @@
         function applier() {
           removeFix();
 
+          if (window.affixerListeners && window.affixerListeners.length > 0) {
+            window.affixerListeners.forEach( function(item){
+              window.removeEventListener("scroll", item);
+            });
+          }
+
           var top = $element.offset().top || 0;
 
           topOffset = $element.offset().top - parseInt($attrs.top) - 24;
@@ -92,6 +98,13 @@
           }
 
           findLeftOffset();
+          window.addEventListener("scroll", affixElement);
+
+          if ( !window.affixerListeners ) {
+            window.affixerListeners = [];
+          }
+          window.affixerListeners.push(affixElement);
+
           win.bind('scroll', affixElement);
           firstFixes();
 
