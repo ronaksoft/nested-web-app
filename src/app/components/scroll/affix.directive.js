@@ -122,7 +122,7 @@
             window.affixerListeners = [];
           }
           window.affixerListeners.push(affixElement);
-          window.affixerListeners.push(resizeE);
+          // window.affixerListeners.push(resizeE);
           
           function resizeE() {
             applier();

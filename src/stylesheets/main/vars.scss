@@ -12,7 +12,6 @@ $color-sense-50: #83d8ad;
 $color-solid-30: #b2b2b2;
 $color-solid-60: #666666;
 $color-force: #ff6464;
-$color-force-10: #ffefef;
 $color-force-wire: #E60000;
 $color-hurricane-old: #476152;
 $color-shine: #FFD732;
@@ -38,7 +37,7 @@ $color-pdf: #CD2828;
 $color-gale: rgba(0,0,0,.4);
 // $color-modal-bg: rgba(153,153,153,.72);
 
-//Deprecate soon
+//Deprecated
 $color-black004: $color-calm;
 $color-black008: $color-breeze-50;
 $color-black04: $color-gale;
@@ -105,7 +104,6 @@ $navbar-height-scrolled: 48px;
 $topnav-height: 56px;
 $sidebar-width: 240px;
 $sidebar-width-tiny: 64px;
-$sidebar-height-profile: 167px;
 $sidebar-width-plus: $sidebar-width - $sidebar-width-tiny;
 $sidebar-color: #232629;
 $sidebar-bg-hover-color: $color-solid;
@@ -117,7 +115,6 @@ $post-card-min-width: 320px;
 $content-plus-width: 276px;
 
 $animation-dur: .3s;
-
 $sidebar-delay: 5s;
 $sidebar-app-dur: 100ms;
 $sidebar-scroll-move: $sidebar-delay/2;
