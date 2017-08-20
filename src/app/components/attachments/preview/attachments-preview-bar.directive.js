@@ -7,7 +7,7 @@
 
   function AttachmentsPreviewBar($timeout, $interval, toastr, $q, $, $rootScope,
                                  NST_FILE_TYPE, NST_ATTACHMENTS_PREVIEW_BAR_MODE, NST_ATTACHMENTS_PREVIEW_BAR_ORDER, NST_STORE_ROUTE,
-                                 NstSvcStore, NstSvcFileFactory, _) {
+                                 NstSvcStore, NstSvcFileFactory, SvcMiniPlayer, _) {
     return {
       restrict: 'E',
       templateUrl: 'app/components/attachments/preview/main.html',
@@ -206,21 +206,11 @@
           }, 1);
         };
 
-        function revertPlayFlag(id){
-
-          var playedOne = scope.items.find(function(item){
-            return item.id === id;
-          });
-          playedOne.isPlay = false
-        }
-
-        scope.$on('play-audio', function (e, d){
-          _.remove(audioDOMS, function(item) {
-            return d.id !== item.className;
+        scope.$on('play-audio', function (e, id){
+          scope.items.filter(function(item) {
+            return id !== item.id;
           }).forEach(function (i){
-            i.pause();
-            i.remove();
-            revertPlayFlag(i.className);
+            i.isPlay = false
           });
         });
 
@@ -230,39 +220,31 @@
             item.remove();
           });
         });
-        scope.playAudio = function (item) {
 
-          var alreadyPlayed = audioDOMS.find(function (audioDOM) {
-            return audioDOM.className === item.id;
-          })
-          if ( alreadyPlayed ) {
-            alreadyPlayed.pause();
-            alreadyPlayed.remove();
-            item.isPlay = false;
-            _.remove(audioDOMS, function(n) {
-              return n.className === item.id;
-            });
-            return ;
-          }
+        scope.playAudio = function (item) {
           item.isPlay = true;
-          var audio = document.createElement('audio');
-          audio.style.display = "none";
-          audio.className = item.id;
-          audio.autoplay = true;
+
+          // var alreadyPlayed = audioDOMS.find(function (audioDOM) {
+          //   return audioDOM.className === item.id;
+          // })
+          // if ( alreadyPlayed ) {
+          //   alreadyPlayed.pause();
+          //   alreadyPlayed.remove();
+          //   item.isPlay = false;
+          //   _.remove(audioDOMS, function(n) {
+          //     return n.className === item.id;
+          //   });
+          //   return ;
+          // }
+          // item.isPlay = true;
+          // var audio = document.createElement('audio');
+          // audio.style.display = "none";
+          // audio.className = item.id;
+          // audio.autoplay = true;
 
           getToken(item.id).then(function (token) {
-            audio.src = NstSvcStore.resolveUrl(NST_STORE_ROUTE.VIEW, item.id, token);
-            document.body.appendChild(audio);
-            $rootScope.$broadcast('play-audio', item);
-            audioDOMS.push(audio);
-
-            audio.onended = function(){
-              item.isPlay = false;
-              audio.remove() //Remove when played.
-              _.remove(audioDOMS, function(n) {
-                return n.className === item.id;
-              });
-            };
+            item.src = NstSvcStore.resolveUrl(NST_STORE_ROUTE.VIEW, item.id, token);
+            SvcMiniPlayer.addMusic(item);
           }).catch(function () {
             toastr.error('Sorry, An error has occured while playing the audio');
           });

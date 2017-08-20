@@ -128,9 +128,6 @@ nst-attachments-preview-bar {
         }
       }
       &:hover {
-        .playbtn {
-          background-color: black;
-        }
         .file-detail {
           opacity: 1;
         }
@@ -490,6 +487,10 @@ nst-attachments-preview-bar {
   &.oddCase {
     transform: translate(50%,-50%);
   }
+  &:hover {
+    background-color: black;
+  }
+  
 }
 .gif-sign {
   color: $color-white;
