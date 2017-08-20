@@ -37,13 +37,6 @@ $color-pdf: #CD2828;
 $color-gale: rgba(0,0,0,.4);
 // $color-modal-bg: rgba(153,153,153,.72);
 
-//Deprecated
-$color-black004: $color-calm;
-$color-black008: $color-breeze-50;
-$color-black04: $color-gale;
-$color-black16: $color-breeze;
-$color-comment : #444444;
-
 // Black with different opacities
 $color-calm: rgba(0,0,0,.04);
 $color-breeze: rgba(0,0,0,.16);
@@ -119,3 +112,11 @@ $sidebar-delay: 5s;
 $sidebar-app-dur: 100ms;
 $sidebar-scroll-move: $sidebar-delay/2;
 $sidebar-place-move: $sidebar-delay - $sidebar-scroll-move;
+
+
+//Deprecate soon
+$color-black004: $color-calm;
+$color-black008: $color-breeze-50;
+$color-black04: $color-gale;
+$color-black16: $color-breeze;
+$color-comment : #444444;

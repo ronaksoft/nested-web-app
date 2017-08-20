@@ -259,6 +259,7 @@ body.modal-open {
     min-height: 480px;
     height: 100%;
     position: relative;
+    box-shadow: 0 16px 32px $color-gale;
     .fr-box.fr-basic .fr-element {
       min-height: 100px;
     }
