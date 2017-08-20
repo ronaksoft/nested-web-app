@@ -26,6 +26,7 @@
     </a>
     <a href="javascript:void(0);" ng-click="onClick(item);$event.stopPropagation()" ng-if="item.type !== 'image' && item.type !== 'gif' && item.uploadType === 'VOICE'">
       <div class="attach-thumbnail attach-thumbnail-voice">
+        <span class="voice-time" ng-if="false">1:24</span>
         <span class="playbtn" ng-click="playAudio(item);$event.stopPropagation();">
           <svg class="_24svg" ng-if="!item.isPlay">
             <use xlink:href="/assets/icons/nst-icn24.svg#play"></use>

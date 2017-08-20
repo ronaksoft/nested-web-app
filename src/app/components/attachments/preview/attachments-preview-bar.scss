@@ -460,6 +460,13 @@ nst-attachments-preview-bar {
     width: 100%;
     display: flex;
   }
+  .voice-time {
+    position: absolute;
+    left: 16px;
+    top: 16px;
+    font-size: 13px;
+    color: $color-new-hurricane;
+  }
 }
 .attach-thumbnail-video {
   background: url('../assets/icons/bg_attachment_other.svg') no-repeat;
