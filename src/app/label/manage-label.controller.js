@@ -5,8 +5,8 @@
     .module('ronak.nested.web.components')
     .controller('manageLabelController', manageLabelController);
 
-  function manageLabelController($timeout, $scope, $q, $uibModalInstance, $uibModal, $filter
-    , toastr, _, NstSvcTranslation, NstSvcUserFactory, NstSvcLabelFactory, NST_LABEL_SEARCH_FILTER, NstSvcAuth) {
+  function manageLabelController($state, $scope, $q, $uibModalInstance, $uibModal, $filter
+    , toastr, _, NstSvcTranslation, NstSearchQuery, NstSvcLabelFactory, NST_LABEL_SEARCH_FILTER, NstSvcAuth) {
 
     var vm = this;
 
@@ -25,6 +25,7 @@
     vm.acceptRequest = acceptRequest;
     vm.withdrawRequest = withdrawRequest;
     vm.toggleSelected = toggleSelected;
+    vm.searchThis = searchThis;
     vm.searchKeyUp = _.debounce(searchLabel, 512);
     vm.setting = {
       skip: 0,
@@ -240,6 +241,16 @@
         index = _.findIndex(vm.selectedItems, {id: id});
         vm.selectedItems.splice(index, 1);
       }
+    }
+
+    function searchThis(title) {
+      var searchQuery = new NstSearchQuery('');
+
+      searchQuery.addLabel(title);
+
+      $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toString())});
+
+      $scope.$dismiss();
     }
   }
 
