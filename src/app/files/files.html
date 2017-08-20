@@ -7,11 +7,11 @@
             ready-to-show="ctlFiles.currentPlaceLoaded"
             ready-to-anime="true"
             place-description="{{ctlFiles.currentPlace.description}}"></nst-navbar>
-<div class="navbar-illu"></div>
-<div class="nst-content _tr" id="content-wrapper" ng-init="showFilters = true;">
+<div class="navbar-holder"></div>
+<div class="nst-content _tr content-wrapper" ng-init="showFilters = true;">
 <scroll-change-handler reached-bottom="ctlFiles.loadMore"></scroll-change-handler>
   <section class="content _bgwhite">
-    <div class="navbarillu"></div>
+    <div class="old-navbar-holder"></div>
     <div class="_difh _fw">
       <div class="_df _fn">
         <div class="files-nav" popover-append-to-body="false" uib-popover-template="'app/files/files-sort-popover.html'"

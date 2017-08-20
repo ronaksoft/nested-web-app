@@ -61,3 +61,13 @@ body.drag-enter #compose-box:after {
 #view {
   z-index: 4000;
 }
+@keyframes dragDrop {
+  from {
+    opacity: .87;
+    visibility: visible;
+  }
+  to {
+    visibility: hidden;
+    opacity: 0;
+  }
+}
