@@ -30,6 +30,7 @@
     vm.loadMore = loadMore;
     vm.searchOnEnterKeyPressed = searchOnEnterKeyPressed;
     vm.forceSearch = forceSearch;
+    vm.removeLastChip = removeLastChip;
     vm.backToPlace = backToPlace;
 
     (function () {
@@ -63,6 +64,12 @@
 
     function forceSearch(queryString) {
       search(queryString);
+    }
+
+    function removeLastChip(queryString) {
+      var query = new NstSearchQuery(queryString);
+      query.removeLastItem();
+      search(query.toString());
     }
 
     function search(queryString) {

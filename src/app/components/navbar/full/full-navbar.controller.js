@@ -46,6 +46,7 @@
     vm.searchKeyPressed = searchKeyPressed;
     vm.goBack = goBack;
     vm.chips = [];
+    vm.lastChipText = null;
     vm.removeChip = removeChip;
 
     initSearch();
@@ -501,7 +502,12 @@
           if (text === undefined) {
             text = '';
           }
+          if (text === '' && vm.lastChipText === '' && $event.keyCode === 8) {
+            vm.removeLastChip(vm.query);
+            return;
+          }
           vm.searchOnKeypress($event, vm.query + ' ' + text);
+          vm.lastChipText = text;
         } else {
           vm.searchOnKeypress($event, text);
         }
