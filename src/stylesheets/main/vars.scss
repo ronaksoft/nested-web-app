@@ -14,12 +14,6 @@ $color-solid-60: #666666;
 $color-force: #ff6464;
 $color-force-10: #ffefef;
 $color-force-wire: #E60000;
-$color-calm: rgba(0,0,0,.04);
-$color-breeze: rgba(0,0,0,.16);
-$color-breeze-50: rgba(0,0,0,.08);
-$color-wind: rgba(0,0,0,.32);
-$color-storm: rgba(0,0,0,.48);
-$color-hurricane: rgba(0,0,0,.72);
 $color-hurricane-old: #476152;
 $color-shine: #FFD732;
 $color-badge: #a0e8b8;
@@ -51,20 +45,34 @@ $color-black04: $color-gale;
 $color-black16: $color-breeze;
 $color-comment : #444444;
 
+// Black with different opacities
+$color-calm: rgba(0,0,0,.04);
+$color-breeze: rgba(0,0,0,.16);
+$color-breeze-50: rgba(0,0,0,.08);
+$color-wind: rgba(0,0,0,.32);
+$color-storm: rgba(0,0,0,.48);
+$color-hurricane: rgba(0,0,0,.72);
 
+// Solid color with different opacities
 $color-new-hurricane : rgba(50, 61, 71, .72);
 $color-solid-64 : rgba(50, 61, 71, .64);
+$color-solid-48 : rgba(50, 61, 71, .48);
 $color-gale-new : rgba(50, 61, 71, .4);
+$color-wind-new : rgba(50, 61, 71, .32);
+$color-solid-24 : rgba(50, 61, 71, .24);
 $color-breeze-new : rgba(50, 61, 71, .16);
 $color-breeze-5-new : rgba(50, 61, 71, .08);
-$color-solid-24 : rgba(50, 61, 71, .24);
-$color-wind-new : rgba(50, 61, 71, .32);
+
 $color-modal-bg: $color-new-hurricane;
+
 $color-attachment-drop-bg : rgba(20,20,20,.92);
 $color-attachment-shadow : rgba(20,20,20,.64);
+
+// white color with different opacities
 $color-hurri-white : rgba(255,255,255,.72);
 $color-gale-white : rgba(255,255,255,.4);
 
+// Font sizes
 $font-size-xxsmall: 10px;
 $font-size-xsmall: 11px;
 $font-size-small: 12px;
@@ -74,22 +82,24 @@ $font-size-xlarge: 22px;
 $font-size-xxlarge: 24px;
 $post-font-size: 12pt;
 
+// Font weights
 $font-wight-light: 300;
 $font-wight-regular: 400;
 $font-wight-semibold: 600;
 $font-wight-bold: 700;
 
+// Font families
 $font-family-eng-reg: 'OpenSans';
 $font-family-eng-bold: 'OpenSans';
 $font-family-per-reg: 'YekanBakh';
 $font-family-per-bold: 'YekanBakh';
 
+// border radiuses
 $border-radius-base:        4px !default;
 $border-radius-large:       6px !default;
 $border-radius-small:       3px !default;
 $border-radius-butn:       4px !default;
 
-$animation-dur: .3s;
 $navbar-height: 134px;
 $navbar-height-scrolled: 48px;
 $topnav-height: 56px;
@@ -105,6 +115,8 @@ $post-card-max-width: 648px;
 $post-card-min-width: 320px;
 
 $content-plus-width: 276px;
+
+$animation-dur: .3s;
 
 $sidebar-delay: 5s;
 $sidebar-app-dur: 100ms;
