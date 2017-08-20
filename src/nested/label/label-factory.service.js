@@ -198,26 +198,27 @@
     };
 
     LabelFactory.prototype.get = function (id) {
-      // var deferred = $q.defer();
-      // var factory = this;
-      // this.collector.add(id).then(function (data) {
-      //   var label = factory.parse(data);
-      //   deferred.resolve(label);
-      // }).catch(function (error) {
-      //   deferred.reject(error);
-      // });
-      //
-      // return deferred.promise;
+      var deferred = $q.defer();
       var factory = this;
-      return this.sentinel.watch(function () {
-        return NstSvcServer.request('label/get_many', {
-          label_id: id
-        }).then(function (result) {
-          return $q.resolve(factory.parse(result.labels[0]));
-        }).catch(function () {
-          return null;
-        });
-      }, 'get-label-' + id);
+      console.log(factory.collector.getList());
+      this.collector.add(id).then(function (data) {
+        var label = factory.parse(data);
+        deferred.resolve(label);
+      }).catch(function (error) {
+        deferred.reject(error);
+      });
+
+      return deferred.promise;
+      // var factory = this;
+      // return this.sentinel.watch(function () {
+      //   return NstSvcServer.request('label/get_many', {
+      //     label_id: id
+      //   }).then(function (result) {
+      //     return $q.resolve(factory.parse(result.labels[0]));
+      //   }).catch(function () {
+      //     return null;
+      //   });
+      // }, 'get-label-' + id);
     };
 
     return new LabelFactory();
