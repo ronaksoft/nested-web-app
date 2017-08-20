@@ -6,7 +6,7 @@
     .service('NstSvcLabelFactory', NstSvcLabelFactory);
 
   /** @ngInject */
-  function NstSvcLabelFactory($q,
+  function NstSvcLabelFactory($q,$ ,
     NstBaseFactory, NstSvcServer, NstSvcUserFactory, NstCollector,
     NstLabel, NstLabelRequest,
     NST_LABEL_SEARCH_FILTER, _) {
