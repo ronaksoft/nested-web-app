@@ -46,20 +46,6 @@ a.normal-badge {
   color: $color-white;
 }
 
-.large-badge {
-  background-color: $color-badge;
-  border-radius: 16px;
-  flex: none;
-  display: flex;
-  align-items: center;
-  margin: 4px 4px;
-}
-.large-badge a {
-  color: $color-solid;
-  margin: 2px 12px;
-  font-size: 13px;
-  white-space: nowrap;
-}
 .normal-badge:hover {
   color: $color-solid;
 }

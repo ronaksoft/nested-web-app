@@ -14,12 +14,6 @@ $color-solid-60: #666666;
 $color-force: #ff6464;
 $color-force-10: #ffefef;
 $color-force-wire: #E60000;
-$color-calm: rgba(0,0,0,.04);
-$color-breeze: rgba(0,0,0,.16);
-$color-breeze-50: rgba(0,0,0,.08);
-$color-wind: rgba(0,0,0,.32);
-$color-storm: rgba(0,0,0,.48);
-$color-hurricane: rgba(0,0,0,.72);
 $color-hurricane-old: #476152;
 $color-shine: #FFD732;
 $color-badge: #a0e8b8;
@@ -44,27 +38,35 @@ $color-pdf: #CD2828;
 $color-gale: rgba(0,0,0,.4);
 // $color-modal-bg: rgba(153,153,153,.72);
 
-//Deprecate soon
-$color-black004: $color-calm;
-$color-black008: $color-breeze-50;
-$color-black04: $color-gale;
-$color-black16: $color-breeze;
-$color-comment : #444444;
 
+// Black with different opacities
+$color-calm: rgba(0,0,0,.04);
+$color-breeze: rgba(0,0,0,.16);
+$color-breeze-50: rgba(0,0,0,.08);
+$color-wind: rgba(0,0,0,.32);
+$color-storm: rgba(0,0,0,.48);
+$color-hurricane: rgba(0,0,0,.72);
 
+// Solid color with different opacities
 $color-new-hurricane : rgba(50, 61, 71, .72);
 $color-solid-64 : rgba(50, 61, 71, .64);
+$color-solid-48 : rgba(50, 61, 71, .48);
 $color-gale-new : rgba(50, 61, 71, .4);
+$color-wind-new : rgba(50, 61, 71, .32);
+$color-solid-24 : rgba(50, 61, 71, .24);
 $color-breeze-new : rgba(50, 61, 71, .16);
 $color-breeze-5-new : rgba(50, 61, 71, .08);
-$color-solid-24 : rgba(50, 61, 71, .24);
-$color-wind-new : rgba(50, 61, 71, .32);
+
 $color-modal-bg: $color-new-hurricane;
+
 $color-attachment-drop-bg : rgba(20,20,20,.92);
 $color-attachment-shadow : rgba(20,20,20,.64);
+
+// white color with different opacities
 $color-hurri-white : rgba(255,255,255,.72);
 $color-gale-white : rgba(255,255,255,.4);
 
+// Font sizes
 $font-size-xxsmall: 10px;
 $font-size-xsmall: 11px;
 $font-size-small: 12px;
@@ -74,22 +76,24 @@ $font-size-xlarge: 22px;
 $font-size-xxlarge: 24px;
 $post-font-size: 12pt;
 
+// Font weights
 $font-wight-light: 300;
 $font-wight-regular: 400;
 $font-wight-semibold: 600;
 $font-wight-bold: 700;
 
+// Font families
 $font-family-eng-reg: 'OpenSans';
 $font-family-eng-bold: 'OpenSans';
 $font-family-per-reg: 'YekanBakh';
 $font-family-per-bold: 'YekanBakh';
 
+// border radiuses
 $border-radius-base:        4px !default;
 $border-radius-large:       6px !default;
 $border-radius-small:       3px !default;
 $border-radius-butn:       4px !default;
 
-$animation-dur: .3s;
 $navbar-height: 134px;
 $navbar-height-scrolled: 48px;
 $topnav-height: 56px;
@@ -106,244 +110,17 @@ $post-card-min-width: 320px;
 
 $content-plus-width: 276px;
 
+$animation-dur: .3s;
+
 $sidebar-delay: 5s;
 $sidebar-app-dur: 100ms;
 $sidebar-scroll-move: $sidebar-delay/2;
 $sidebar-place-move: $sidebar-delay - $sidebar-scroll-move;
 
-/**
-  *********************************
-  *     Keyframes                 *
-  *********************************
-*/
-@keyframes appearence {
-  from {opacity: 0;}
-  to {opacity: 1;}
-}
-@keyframes appearence-2 {
-  from {opacity: 0;}
-  to {opacity: 1;}
-}
-@keyframes svgadd {
-  from {
-    opacity: 0;
-    //transform: rotateZ(0deg);
-  }
-  to {
-    opacity: 1;
-    //transform: rotateZ(45deg);
-  }
-}
-@keyframes modal-dialog {
-  0% {
-    transform: scale(0,0);
-  }
-  100% {
-    transform: scale(1,1);
-  }
-}
-@keyframes modal-dialog2 {
-  0% {
-    transform: scale(1,1);
-  }
-  100% {
-    transform: scale(0,0);
-  }
-}
-@keyframes post-view {
-  0% {
-    background-color: rgba(255,255,255,0);
-  }
-  100% {
-    background-color: rgba(255,255,255,1);
-  }
-}
-@keyframes side-anim-detail {
-  0% {
-    width: $sidebar-width-tiny;
-  }
-  100% {
-    width: $sidebar-width;
-    z-index: 4;
-  }
-}
-@keyframes side-anim {
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
-  }
-}
-@keyframes side-anim-places {
-  from {
-    width: $sidebar-width-tiny;
-  }
-  to {
-    width: $sidebar-width;
-  }
-}
-@keyframes replace-wire {
-  from {
-    left: 0;
-  }
-  to {
-    left: 50%;
-  }
-}
-@keyframes replace-wire-full {
-  from {
-    left: 50%;
-  }
-  to {
-    left: calc(100% - 12px);
-  }
-}
-@keyframes appearenceOp {
-  from {opacity: 0;}
-  to {opacity: .5;}
-}
-@keyframes fadeoutcom {
-  from {z-index: 20;}
-  to {z-index: -10;}
-}
-@keyframes grow-htb {
-  0% {height: 0;}
-  80% {height: 120%}
-  100% {height: 100%;}
-}
-@keyframes app-tr {
-  0% {
-    opacity: 0;
-    left: -40px;
-  }
-  90% {
-    opacity: 1;
-    left: 0;
-  }
-  100% {
-    opacity: .8;
-    left: 0;
-  }
-}
-@keyframes off-right {
-  0% {
-    left: -4px;
-  }
-  100% {
-    left: 0;
-  }
-}
-@keyframes grow-full {
-  0% {
-    width: 0;
-    height: 0;
-  }
-  30% {
-    width: 80%;
-    height: 80%;
-  }
-  100% {
-    width: 100%;
-    height: 100%;
-  }
-}
-@keyframes post-comment {
-  0% {
-    top: -100px;
-    height: 1px;
-    opacity: 0;
-  }
-  100% {
-    top: 0;
-    height: auto;
-    opacity: 1;
-  }
-}
-@keyframes fadein {
-  from {
-    opacity:0;
-  }
-  to {
-    opacity:1;
-  }
-}
-@keyframes ellipsis {
-  to {
-    width: 1.25em;
-  }
-}
 
-@-webkit-keyframes ellipsis {
-  to {
-    width: 1.25em;
-  }
-}
-@keyframes activity-item-hot {
-  from {
-    max-height: 0;
-  }
-  to {
-    max-height: 64px;
-  }
-}
-
-@keyframes activity-item-normal {
-  from {
-    background-color: $hot-bg-color;
-  }
-  to {
-    background-color: $color-white;
-  }
-}
-
-@keyframes recent-activity-item-hot {
-  from {
-    max-height: 0;
-    background-color: $hot-bg-color;
-  }
-  to {
-    max-height: 512px;
-    background-color: $hot-bg-color;
-  }
-}
-
-@keyframes recent-activity-item-normal {
-  from {
-    background-color: $hot-bg-color;
-  }
-  to {
-    background-color: $color-white;
-  }
-}
-
-// @keyframes spin {
-//   0% { transform: rotate(0deg); }
-//   100% { transform: rotate(360deg); }
-// }
-@keyframes down-slip {
-  0% { max-height: 0;}
-  100% { opacity: 1;
-    max-height: 2500px;}
-}
-@keyframes remove-max-height {
-  0% { max-height: 0;}
-  90% { max-height: 500px;}
-  100% { max-height: none;}
-}
-@keyframes remove-max-height-rev {
-  0% { max-height: none;}
-  10% { max-height: 500px;}
-  100% { max-height: 0;}
-}
-@keyframes more-reci {
-  0% {
-    transform: scale(.5,.5);
-  }
-  20% {
-    transform: scale(1,1);
-  }
-  100% {
-    transform: scale(1,1);
-  }
-}
+//Deprecate soon
+$color-black004: $color-calm;
+$color-black008: $color-breeze-50;
+$color-black04: $color-gale;
+$color-black16: $color-breeze;
+$color-comment : #444444;

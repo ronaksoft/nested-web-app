@@ -5,12 +5,12 @@
             search-on-keypress="ctlConversation.searchOnEnterKeyPressed"
             ready-to-show="ctlConversation.currentPlaceLoaded"
             ready-to-anime="true"></nst-navbar>
-<div class="navbar-illu"></div>
-<div class="nst-content _tr" id="content-wrapper">
+<div class="navbar-holder"></div>
+<div class="nst-content _tr content-wrapper">
   <section class="content nst-marginbtm-28">
     <scroll-change-handler reached-bottom="ctlConversation.loadMore"></scroll-change-handler>
 
-    <div class="top-section"></div>
+    <div class="navbar-top-section"></div>
 
     <div class="post-area">
       <post-card class="_fw" data-ng-repeat="msg in ctlConversation.messages track by msg.id" post="msg"

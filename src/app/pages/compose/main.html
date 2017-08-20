@@ -1,5 +1,5 @@
 <div class="_fh _pr _fw" id="compose-box" compose-drop>
-  <div class="compose-wrp ng-class:{'attached' : ctlCompose.attachments.viewModels.length > 0}" ng-mouseleave="ctlCompose.mouseIn = false" ng-mouseenter="ctlCompose.mouseIn = true">
+  <div class="compose-wrapper ng-class:{'attached' : ctlCompose.attachments.viewModels.length > 0}" ng-mouseleave="ctlCompose.mouseIn = false" ng-mouseenter="ctlCompose.mouseIn = true">
     <div class="modal-head" ng-if="!ctlCompose.quickMode">
       <svg class="_16svg" ng-click="$dismiss()">
         <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
@@ -9,11 +9,11 @@
         <use xlink:href="/assets/icons/nst-icn16.svg#collapse"></use>
       </svg>
     </div>
-    <div class="modal-bo _difv _fw ng-class:{'scrolled' : ctlCompose.collapse}">
+    <div class="compose-modal-body _difv _fw ng-class:{'scrolled' : ctlCompose.collapse}">
       <p class="_df _fn" ng-if="!ctlCompose.quickMode"><b><translate>Share With</translate></b></p>
       <div ng-if="!ctlCompose.quickMode && ctlCompose.targetLimit" class="_df _fw input-select-match">
         <ui-select minimum-input-length="4" multiple limit="{{ctlCompose.targetLimit}}"  class="address-input _dib" autofocus focus-on="focus-rec" focus-checker
-                   id="input-compose-to" on-select="ctlCompose.emitItemsAnalytics()" on-remove="ctlCompose.emitItemsAnalytics()"
+                   id="compose-recipient-input" on-select="ctlCompose.emitItemsAnalytics()" on-remove="ctlCompose.emitItemsAnalytics()"
                    data-ng-model="ctlCompose.model.recipients">
           <ui-select-match placeholder="{{::ctlCompose.inputPlaceHolderLabel}}" compose-match-item class="match-items">
             <div class="selected-innter " ng-class="{'isEmail' : $item.isEmail,'error' : !$item.isValid}">
@@ -41,9 +41,9 @@
           </ui-select-choices>
         </ui-select>
       </div>
-      <div nst-scrollbar dir="ltr" suppress-scroll-x="true" suppress-scroll-y="{{ctlCompose.quickMode}}" go-upward="ctlCompose.makeChangeForWatchers" class="wdt-emoji-picker-parent compose-scrl-wrp">
+      <div nst-scrollbar dir="ltr" suppress-scroll-x="true" suppress-scroll-y="{{ctlCompose.quickMode}}" go-upward="ctlCompose.makeChangeForWatchers" class="wdt-emoji-picker-parent compose-scroll-wrapper">
         <section class="_difc _fw _fn" dir="{{$root._direction}}">
-          <input id="compose-subject" class="compose-input _fw wdt-emoji-bundle-enabled" name="subject" value="{{ctlCompose.model.subject}}" ng-focus="ctlCompose.focusBox()" ng-blur="ctlCompose.blurBox()" ng-keydown="ctlCompose.subjectKeyDown($event)"
+          <input id="compose-subject" class="compose-subject-input _fw wdt-emoji-bundle-enabled" name="subject" value="{{ctlCompose.model.subject}}" ng-focus="ctlCompose.focusBox()" ng-blur="ctlCompose.blurBox()" ng-keydown="ctlCompose.subjectKeyDown($event)"
           placeholder="{{ ctlCompose.focus || ctlCompose.attachments.viewModels.length > 0 || !ctlCompose.quickMode ? 'Add a title' : 'Write your message or drag files here…'}}" data-ng-model="ctlCompose.model.subject" auto-dir="ctlCompose.model.subject" translate-attrs="placeholder" autocomplete="off">
         </section>
 
@@ -52,13 +52,13 @@
         </section>
       </div>
     </div>
-    <div class="editor-btn-wrp anim-q ng-class:{'focused' : ctlCompose.focus || ctlCompose.attachments.viewModels.length > 0, 'empty' : ctlCompose.model.body.length == 0, 'showBar' : ctlCompose.focusBody, 'notfirst' : ctlCompose.firstUp}" id="editor-btn-quick"></div>
-    <div class="editor-btn-wrp anim-q ng-class:{'focused' : ctlCompose.focus || ctlCompose.attachments.viewModels.length > 0, 'empty' : ctlCompose.model.body.length == 0, 'showBar' : ctlCompose.focusBody, 'notfirst' : ctlCompose.firstUp}" id="editor-btn"></div>
+    <div class="editor-butns-wrapper anim-q ng-class:{'focused' : ctlCompose.focus || ctlCompose.attachments.viewModels.length > 0, 'empty' : ctlCompose.model.body.length == 0, 'showBar' : ctlCompose.focusBody, 'notfirst' : ctlCompose.firstUp}" id="editor-btn-quick"></div>
+    <div class="editor-butns-wrapper anim-q ng-class:{'focused' : ctlCompose.focus || ctlCompose.attachments.viewModels.length > 0, 'empty' : ctlCompose.model.body.length == 0, 'showBar' : ctlCompose.focusBody, 'notfirst' : ctlCompose.firstUp}" id="editor-btn"></div>
     <form name="attachmentForm">
       <input type="hidden" name="attLength" data-ng-model="ctlCompose.model.attachments.length"/>
     </form>
 
-    <div class="nst-attach _dif" data-ng-show="ctlCompose.attachments.viewModels.length > 0">
+    <div class="compose-attachment-bar _dif" data-ng-show="ctlCompose.attachments.viewModels.length > 0">
       <div class="_fw _pr">
         <nst-attachments-editable-bar mode="thumbnail" items="ctlCompose.attachments.viewModels" on-item-delete="ctlCompose.attachments.detach"></nst-attachments-editable-bar>
       </div>
@@ -66,23 +66,16 @@
         <input id="attach" type="file" multiple on-file-change="ctlCompose.attachments.fileSelected"/>
         <input id="attach-img" type="file" multiple on-file-change="ctlCompose.attachments.mediaSelected"/>
       </div>
-      <div class="nst-attach-con _fh" ng-if="showUploadProgress">
-        <div class="progress">
-          <div class="progress-bar" ng-class="{'progress-bar-success' : totalProgress == 100}" role="progressbar" aria-valuenow="{{totalProgress}}" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width: {{totalProgress}}%;">
-            <span>{{totalProgress}}%</span>
-          </div>
-        </div>
-      </div>
     </div>
-    <div class="modal-ft _fw anim-q _aic ng-class:{'focused' : ctlCompose.focus, 'notfirst' : ctlCompose.firstUp}">
+    <div class="compose-modal-footer _fw anim-q _aic ng-class:{'focused' : ctlCompose.focus, 'notfirst' : ctlCompose.firstUp}">
       <div class="compose-btns _pr">
         <label class="_df _fn cursor-pointer" class="cursor-pointer margin-r_5 icon _df"
            popover-class="white-pop files-modal {{ctlCompose.quickMode ? 'quick' : 'modal-view'}}"
            ng-click="ctlCompose.filesPopver = true"
            data-popover-is-open="ctlCompose.filesPopver"
-           data-popover-placement="{{ctlCompose.quickMode ? 'right-top auto' : 'top-center auto'}}"
+           data-popover-placement="{{ctlCompose.quickMode ? 'left-center auto' : 'top-center auto'}}"
            data-uib-popover-template="'app/pages/compose/partials/files-modal.html'"
-           data-popover-append-to-body="ctlCompose.quickMode ? true : false" translate-attrs="data-uib-tooltip">
+           data-popover-append-to-body="ctlCompose.quickMode ? false : false" translate-attrs="data-uib-tooltip">
           <svg class="_24svg _asc">
             <use xlink:href="/assets/icons/nst-icn24.svg#attach"></use>
           </svg>
@@ -91,11 +84,11 @@
           <svg class="_24svg _asc">
             <use xlink:href="/assets/icons/nst-icn24.svg#small-face-wire"></use>
           </svg>
-          <div class="subj" emoji-init=".compose-input" compose-emoji="true" ng-show="ctlCompose.emojiTarget == 'title';"></div>
+          <div class="subj" emoji-init=".compose-subject-input" compose-emoji="true" ng-show="ctlCompose.emojiTarget == 'title';"></div>
           <div class="body" emoji-init=".fr-element" compose-emoji="true" ng-show="ctlCompose.emojiTarget != 'title';"></div>
         </div>
         <div class="_df f1"></div>
-        <div class="_pr _df _fn lbl-btn" add-label added-labels="ctlCompose.model.labels" after-add-label="ctlCompose.addLabels">
+        <div class="_pr _df _fn label-butn" add-label added-labels="ctlCompose.model.labels" after-add-label="ctlCompose.addLabels">
           <span ng-if="ctlCompose.model.labels.length > 0">
             +{{ctlCompose.model.labels.length}}
           </span>
@@ -104,7 +97,7 @@
           </svg>
         </div>
         <div class="_pr _df _fn">
-          <svg class="_16svg _asc" popover-class="white-pop post-card-moreopt compose-opt"
+          <svg class="_16svg _asc" popover-class="white-pop post-card-moreo-ptions compose-options"
             data-popover-placement="{{$root._direction == 'ltr' ? 'left auto' : 'right auto'}}"
             data-uib-popover-template="'app/pages/compose/partials/compose-settings.html'"
             data-popover-append-to-body="false">

@@ -14,7 +14,7 @@ img-crop {
     height: 480px;
     padding: 0 16px;
   }
-  .crp-head {
+  .crop-modal-head {
     height: 56px;
     width: 100%;
     display: flex;
@@ -26,12 +26,12 @@ img-crop {
       font-weight: 500;
     }
   }
-  .crp-body {
+  .crop-modal-body {
     display: flex;
     height: calc(100% - 104px);
     padding: 4px 32px;
   }
-  .crp-foot {
+  .crop-modal-foot {
     height: 48px;
     width: 100%;
     justify-content: flex-end;

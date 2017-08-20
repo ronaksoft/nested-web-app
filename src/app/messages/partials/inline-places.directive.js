@@ -18,7 +18,6 @@
       },
       link: function(scope, elem) {
         var removeItems = 0;
-        var startAdjust = false;
         $timeout(function() {
           if ( scope.inlinePlaces ){
             adjustElements();
@@ -26,7 +25,6 @@
         },100);
 
         function adjustElements() {
-          startAdjust = true;
           if ( elem.height() > 40 && removeItems < 50) {
             if ( scope.limitRecipients > 0 ) {
               scope.limitRecipients--;
@@ -36,17 +34,9 @@
             removeItems++;
             $timeout(function() {
               adjustElements();
-            },10)
-          } else {
-            startAdjust = false;
+            },100);
           }
         }
-
-        scope.$watch('places',function(n){
-          if (n && n.length > 1 && scope.inlinePlaces && !startAdjust ) {
-            adjustElements();
-          }
-        })
       }
     };
   }

@@ -59,27 +59,9 @@
   top: 50%;
   transform: translateY(-50%)
 }
-.icon-side {
-  background-repeat: no-repeat;
-  margin: 0 5px;
-  flex: none;
-  width: 24px;
-  height: 24px;
-  background-position: 0 0;
-}
 
 .icon-all-place {
   background-image: url("../assets/icons/all-places.svg");
-}
-
-.icon-bookmarks {
-  background-image: url("../assets/icons/bookmarks.svg");
-}
-
-
-.icon-add {
-  background-image: url("../assets/icons/actionbuttons_place.svg");
-  background-position: 0 -48px;
 }
 
 .icon-nav {
@@ -89,62 +71,6 @@
   flex: none;
   width: 48px;
   height: 48px;
-}
-.icon-top {
-  fill: white;
-  width: 24px;
-  height: 24px;
-  background-size: cover;
-  background-image: url("../assets/icons/smallscreenhandlers.svg");
-  background-repeat: no-repeat;
-}
-.icon-top-action {
-  background-image: url("../assets/icons/sidebaricon.svg");
-  background-repeat: no-repeat;
-  flex: none;
-  width: 48px;
-  height: 48px;
-}
-.icon-top-all-place {
-  background-position: 0 0px;
-}
-
-.icon-top-bookmarks {
-  background-position: 0 -48px;
-}
-
-.icon-top-sent {
-  background-position: 0 -96px;
-}
-.hamburger-icon {
-  background-position: 0 0;
-}
-.comp-icon {
-  background-position: 0 -24px;
-}
-.close-icon {
-  background-position: 0 -48px;
-}
-.profile-icon {
-  background-position: 0 -72px;
-}
-.signout-icon {
-  background-position: 0 -96px;
-}
-
-.icon-compose {
-  background-image: url("../assets/icons/compose-ico.svg");
-  background-repeat: no-repeat;
-  margin: 0;
-  width: 32px;
-  height: 32px;
-}
-
-
-.icon-more {
-  background: url('../assets/icons/nst-more-badge.svg') no-repeat;
-  height: 32px;
-  width: 32px;
 }
 
 .icon-search-rotated {
@@ -156,73 +82,6 @@
   background: url('../assets/icons/search-white.svg') no-repeat;
   width: 32px;
   height: 32px;
-}
-.icon-close-search {
-  background: url('../assets/icons/search.svg') no-repeat;
-  width: 32px;
-  height: 32px;
-  background-position: 0 -32px;
-}
-
-.icon-storm {
-  color: $color-storm;
-}
-
-.icon-breez {
-  color: $color-breeze;
-}
-
-.icon-solid {
-  fill: $color-solid;
-}
-.icon-post {
-  background-image: url("../assets/icons/messageact.svg");
-  background-repeat: no-repeat;
-  margin: 0 5px;
-  background-size: cover;
-  width: 20px;
-  height: 20px;
-}
-.icon-fw {
-  background-position: 0 -40px;
-}
-.icon-delete-menu {
-  background-position: 0 -20px;
-}
-.icon-post-head {
-  background-image: url("../assets/icons/headlineicon.svg");
-  background-repeat: no-repeat;
-  background-size: cover;
-  width: 16px;
-  height: 16px;
-  position: relative;
-  left: 5px;
-}
-.forward-card .icon-post-head {
-  background-image: url("../assets/icons/headlineicon-forward.svg");
-}
-.reply-card .icon-post-head {
-  background-image: url("../assets/icons/headlineicon-reply.svg");
-}
-.icon-attached {
-  background-position: 0 0;
-}
-.icon-replied {
-  background-position: 0 -16px;
-}
-.icon-fwd {
-  background-position: 0 -32px;
-}
-.icon-open-link {
-  background-position: 0 -60px
-}
-
-
-
-
-.icon-viewicon-filter {
-  background-position: 0 -24px;
-  z-index: 37;
 }
 
 .iconsblock {
@@ -245,11 +104,6 @@
   border-color: $color-breeze;
   border-radius: 5px;
   background-color: $color-white;
-}
-.icon-close {
-  background: url('../assets/icons/close.svg');
-  width: 24px;
-  height: 24px;
 }
 [class*="ei-"] {
   width: 16px;
@@ -305,47 +159,6 @@
   background-position: 0 -64px;
 }
 
-
-.option-delete-icon {
-  width: 24px;
-  height: 24px;
-  background-image: url("../assets/icons/actionbuttons_place.svg");
-  background-position: 0 0px;
-  background-repeat: no-repeat;
-}
-
-.option-leave-icon {
-  width: 24px;
-  height: 24px;
-  background-image: url("../assets/icons/actionbuttons_place.svg");
-  background-position: 0 -24px;
-  background-repeat: no-repeat;
-}
-
-.option-rename-icon {
-  width: 24px;
-  height: 24px;
-  background-image: url("../assets/icons/actionbuttons_place.svg");
-  background-position: 0 -72px;
-  background-repeat: no-repeat;
-}
-
-.option-add-icon {
-  width: 24px;
-  height: 24px;
-  background-image: url("../assets/icons/actionbuttons_place.svg");
-  background-position: 0 -48px;
-  background-repeat: no-repeat;
-}
-
-.nst-event-pic {
-  width: 16px;
-  height: 16px;
-  background-image: url('../assets/icons/eventicon.png');
-  background-position: 0 -2px;
-  background-repeat: no-repeat;
-}
-
 .headlineicon {
   width: 16px;
   height: 16px;
@@ -354,94 +167,11 @@
   background-repeat: no-repeat;
 }
 
-.headlineicon-green {
-  width: 24px;
-  height: 24px;
-  background-image: url('../assets/icons/actionbuttons_compose_24.png');
-  background-repeat: no-repeat;
-  cursor: pointer;
-}
-[class*="action-button-post-"]{
-  width: 24px;
-  height: 24px;
-  background-image: url('../assets/icons/actionbuttons_post.svg');
-}
-
-.action-button-post-delete {
-  background-position: 0 -48px;
-}
-
-.action-button-post-forward {
-  background-position: 0 -24px;
-}
-
-.delete-icon {
-  width: 24px;
-  height: 24px;
-  background-image: url('../assets/icons/actionbuttons_post_24.png');
-  background-position: 0 -48px;
-  background-repeat: no-repeat;
-}
-
-.forward-icon {
-  width: 24px;
-  height: 24px;
-  background-image: url('../assets/icons/actionbuttons_post_24.png');
-  background-position: 0 -24px;
-  background-repeat: no-repeat;
-}
-
-.Reply-icon {
-  width: 24px;
-  height: 24px;
-  background-image: url('../assets/icons/actionbuttons_post_24.png');
-  background-position: 0 0px;
-  background-repeat: no-repeat;
-}
 .closebut{
   position: relative;
   top: -5px;
   height: 24px;
   width: 24px;
-}
-
-[class*="profile-menu-"] {
-  //background: url('../assets/icons/menuicon.svg') no-repeat;
-  width: 32px;
-  height: 32px;
-  background-position: 0 0;
-}
-
-.profile-menu-setting {
-  background: url('../assets/icons/5.svg') no-repeat;
-}
-
-.profile-menu-mentions {
-  background: url('../assets/icons/mention.svg') no-repeat;
-  background-position: 0 0;
-}
-
-.profile-menu-signout {
-  background: url('../assets/icons/1.svg') no-repeat;
-  background-position: 0 0;
-}
-
-
-.tick {
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  fill : $color-white;
-  border-radius: 8px;
-  border: 1px solid $color-border;
-  background-color: $color-white;
-  box-sizing: content-box;
-  margin-right: 8px;
-}
-.selected .tick {
-  fill: $color-white;
-  background-color: $color-sense-wire;
-  border-color: $color-sense-wire;
 }
 
 .thi-svg {
@@ -522,10 +252,4 @@ svg.flip-vertical {
   -moz-transform: scale(-1, -1);
    -o-transform: scale(-1, -1);
    transform: scale(-1, -1);
-}
-.triangle {
-  //width: 8px;
-  //height: 4px;
-  //background: url("../assets/icons/otr-tri.svg") no-repeat;
-  //background-size: contain;
 }

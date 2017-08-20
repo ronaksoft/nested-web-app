@@ -19,7 +19,7 @@
       onEnter: ['$rootScope', '$stateParams', '$state', '$uibModal', function($rootScope, $stateParams, $state, $uibModal) {
         $uibModal.open({
           animation: false,
-          size: 'lg-white',
+          size: 'full-height-center',
           templateUrl: 'app/contacts/contact/contact.html',
           controller: 'ContactController',
           controllerAs: 'ctrl'
