@@ -50,6 +50,10 @@
           font-size: 18px;
         }
       }
+      .files-modal-head ,
+      .files-modal ul {
+        display: none;
+      }
       input + .wdt-emoji-picker {
         display: none;
       }

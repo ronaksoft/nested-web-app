@@ -230,6 +230,27 @@
       return tempList;
     };
 
+    SearchQuery.prototype.removeLastItem = function () {
+      var items = this.getSortedParams();
+      if (items.length > 0) {
+        var item = items[items.length - 1];
+        switch (item.type) {
+          case 'place':
+            this.removePlace(item.id);
+            break;
+          case 'user':
+            this.removeUser(item.id);
+            break;
+          case 'label':
+            this.removeLabel(item.id);
+            break;
+          case 'keyword':
+            this.removeKeyword(item.id);
+            break;
+        }
+      }
+    };
+
     return SearchQuery;
 
 

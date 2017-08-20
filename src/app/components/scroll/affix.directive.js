@@ -5,7 +5,6 @@
     .module('ronak.nested.web.components.scroll')
     .directive('affixer', onScroll);
 
-
   /** @ngInject */
   function onScroll($window,$rootScope,$timeout, $) {
     return {
@@ -123,8 +122,8 @@
             window.affixerListeners = [];
           }
           window.affixerListeners.push(affixElement);
-          window.affixerListeners.push(resizeE);
-
+          // window.affixerListeners.push(resizeE);
+          
           function resizeE() {
             applier();
           }
