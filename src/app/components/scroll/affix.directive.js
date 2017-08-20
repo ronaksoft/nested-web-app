@@ -116,7 +116,7 @@
           firstFixes();
 
           window.addEventListener("scroll", affixElement);
-          window.addEventListener("resize", resizeE);
+          // window.addEventListener("resize", resizeE);
 
           if ( !window.affixerListeners ) {
             window.affixerListeners = [];

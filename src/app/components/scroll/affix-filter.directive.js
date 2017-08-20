@@ -15,9 +15,9 @@
         var isRTL = $rootScope._direction;
         applier();
 
-        win.on("resize", function () {
-          applier();
-        });
+        // win.on("resize", function () {
+        //   applier();
+        // });
 
         function applier() {
           removeFix();

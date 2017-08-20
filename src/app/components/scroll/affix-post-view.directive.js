@@ -28,7 +28,7 @@
           applier();
         }
 
-        win.on("resize", resizeF);
+        // win.on("resize", resizeF);
 
         function applier() {
 
