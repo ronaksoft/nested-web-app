@@ -25,7 +25,8 @@
         account: '=',
         query: '=',
         searchOnKeypress : '=',
-        forceSearch : '='
+        forceSearch : '=',
+        removeLastChip : '='
       },
       link: function ($scope, $element, $attrs) {
       }
