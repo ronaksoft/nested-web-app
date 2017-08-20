@@ -1,11 +1,3 @@
-<!--<div ng-if="!attachment.isDownloaded && attachment.extension === 'mp4'" class="nst-preview-pic-mode">-->
-
-
-  <!--<img ng-if="attachment.hasThumbnail" class="_oph" ng-src="{{attachment.thumbnail}}" />-->
-  <!--<div ng-if="!attachment.hasThumbnail" class="att-exp-application-large-">-->
-    <!--<div class="_tac _fw _dibp title-att color-doc nst-font-large upper-case">{{attachment.extension}}</div>-->
-  <!--</div>-->
-<!--</div>-->
 <div ng-if="attachment.viewUrl" class="attachment-image-show ng-class:{'loaded' : attachment.loaded}" style="width:{{attachment.newW + 'px'}};height:{{attachment.newH + 'px'}};transform:scale({{scaleVal}},{{scaleVal}})">
   <video width="{{attachment.newW}}" height="{{attachment.newH}}" autoplay loop preview-on-load>
     <source src="{{trustSrc(attachment.viewUrl)}}" type="video/mp4">

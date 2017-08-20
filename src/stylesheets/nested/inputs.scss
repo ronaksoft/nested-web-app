@@ -45,10 +45,6 @@ input[type="checkbox"] {
   padding-left: 10px;
 }
 
-select {
-  appearance: none;
-}
-
 a .ui-select-choises-row-inner {
   border-bottom: 1px solid $color-breeze;
 }
@@ -93,6 +89,7 @@ a .ui-select-choises-row-inner {
 }
 
 select {
+  appearance: none;
   transition-duration: 0.2s;
   transition-timing-function: ease;
   background: url("../assets/icons/inputform.svg") no-repeat 98% -124px,linear-gradient(to bottom,$color-white ,$color-light-cloud 100%);

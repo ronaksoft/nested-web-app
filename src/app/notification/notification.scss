@@ -1,4 +1,4 @@
-.mention-wrp {
+.notification-wrapper {
   display: block;
   flex-direction: column;
   width: 100%;
@@ -89,7 +89,7 @@
             font-weight: 700;
           }
         }
-        .ment-date {
+        .mention-date {
           line-height: 21px;
           color: $color-black04;
           text-align: right;
@@ -126,7 +126,7 @@
         div,p {
           opacity: 1;
         }
-        .ment-date {
+        .mention-date {
           background-color: $color-bg;
         }
       }
@@ -147,6 +147,6 @@
 
   }
 }
-.popover-mentions {
+.notifications-popover-handler {
   cursor: pointer;
 }

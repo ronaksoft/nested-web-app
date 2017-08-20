@@ -329,7 +329,7 @@
     } else {
       selector = '.fr-element'
     }
-    wdtEmojiBundle.input = $('.compose-wrp')[0].querySelector(selector);
+    wdtEmojiBundle.input = $('.compose-wrapper')[0].querySelector(selector);
 
     // @todo - [needim] - popup must be visible in viewport calculate carefully
     function findBestAvailablePosition(el) {

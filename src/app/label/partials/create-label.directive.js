@@ -30,7 +30,7 @@
           if ( isManager ){
             $uibModal.open({
                 animation: false,
-                size: 'lg-white multiple',
+                size: 'full-height-center multiple',
                 templateUrl: 'app/label/partials/create-label.html',
                 controller: 'createLabelController',
                 controllerAs: 'ctrl'
@@ -38,7 +38,7 @@
           } else {
             $uibModal.open({
                 animation: false,
-                size: 'lg-white multiple',
+                size: 'full-height-center multiple',
                 templateUrl: 'app/label/partials/request-label.html',
                 controller: 'requestLabelController',
                 controllerAs: 'requestCtrl'

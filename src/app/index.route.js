@@ -155,7 +155,7 @@
         onEnter: ['$rootScope', '$stateParams', '$state', '$uibModal', function ($rootScope, $stateParams, $state, $uibModal) {
           $uibModal.open({
             animation: false,
-            size: 'lg-white',
+            size: 'full-height-center',
             templateUrl: 'app/place/create/place-create.html',
             controller: 'PlaceCreateController',
             controllerAs: 'ctrl'

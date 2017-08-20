@@ -5,7 +5,7 @@
     </div>
   </li>
   <li ng-repeat="contact in ctrl.contacts" dir="{{$root._direction}}">
-    <a class="_df userrow _aic _fw" ui-sref="app.contact({ contactId: contact.id })"
+    <a class="_df inline-user-row _aic _fw" ui-sref="app.contact({ contactId: contact.id })"
        ng-click="ctrl.openContact($event, contact)">
       <div class="top-user-avatar-24">
         <img initial-avatar="{{ctlPostCard.post.sender.id}}" name="{{contact.fullName}}" picture="{{contact | avatar : 'x32'}}" data-width="24"
