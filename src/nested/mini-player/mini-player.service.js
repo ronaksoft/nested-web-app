@@ -165,6 +165,10 @@
       audioDOM.pause();
       audioObjs = [];
       playing = null;
+      callIfValid(this.statusChangedRef, {
+        status: 'pause',
+        id: null
+      });
       $rootScope.$broadcast('play-audio', '');
     }
 
