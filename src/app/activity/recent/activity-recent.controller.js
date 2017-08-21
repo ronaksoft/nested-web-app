@@ -102,7 +102,7 @@
 
       var defer = $q.defer();
 
-      NstSvcActivityFactory.getRecent(settings).then(function (activities) {
+      NstSvcActivityFactory.getRecent(settings, handleCachedActivities).then(function (activities) {
         vm.activities = activities;
         vm.status.loadInProgress = false;
 
@@ -112,6 +112,11 @@
       });
 
       return defer.promise;
+    }
+
+    function handleCachedActivities(activities) {
+      vm.activities = activities;
+      vm.status.loadInProgress = false;
     }
 
     /**

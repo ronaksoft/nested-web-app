@@ -7,7 +7,7 @@
   /** @ngInject */
   function NstSvcActivityFactory($q, _,
     NST_ACTIVITY_FILTER, NST_EVENT_ACTION,
-    NstSvcServer, NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcCommentFactory,
+    NstSvcServer, NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcCommentFactory, NstSvcActivityCacheFactory,
     NstBaseFactory, NstSvcLogger, NstActivity, NstSvcLabelFactory, NstUtility) {
 
 
@@ -414,7 +414,7 @@
       });
     }
 
-    function getRecent(settings) {
+    function getRecent(settings, cacheHandler) {
       return factory.sentinel.watch(function () {
 
         var deferred = $q.defer();
@@ -423,6 +423,10 @@
           filter: NST_ACTIVITY_FILTER.ALL,
           limit: settings.limit || 10,
           place_id: settings.placeId
+        }, function(cachedResponse) {
+          if (_.isFunction(cacheHandler) && cachedResponse) {
+            cacheHandler(_.map(cachedResponse.activities, NstSvcActivityCacheFactory.parseCachedModel));
+          }
         }).then(function (response) {
 
           var activities = _.map(response.activities, parseActivityIntelligently);
