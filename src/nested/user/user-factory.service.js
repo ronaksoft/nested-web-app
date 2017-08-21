@@ -257,7 +257,7 @@
         return null;
       }
 
-      return this.parseUser(data);
+      return this.parseTinyUser(data);
     }
 
     UserFactory.prototype.transformToCacheModel = function (user) {
