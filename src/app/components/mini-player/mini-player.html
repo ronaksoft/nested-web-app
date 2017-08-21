@@ -6,7 +6,7 @@
         ng-if="ctrl.isVoice"/>
         
         <span>{{ctrl.currentPlay.item.filename}}</span>
-        <svg class="_16svg fill-white" ng-if="vm.currentPlay.index > 0" ng-click="ctrl.previous()">
+        <svg class="_16svg fill-white" ng-if="vm.currentPlay.prev" ng-click="ctrl.previous()">
             <use xlink:href="/assets/icons/nst-icn16.svg#player-back"></use>
         </svg>
         <svg class="_16svg fill-white" ng-if="ctrl.currentPlay.item.isPlay">
@@ -15,7 +15,7 @@
         <svg class="_16svg fill-white" ng-if="!ctrl.currentPlay.item.isPlay">
             <use xlink:href="/assets/icons/nst-icn16.svg#pause"></use>
         </svg>
-        <svg class="_16svg fill-white" ng-click="ctrl.next()">
+        <svg class="_16svg fill-white" ng-if="vm.currentPlay.next" ng-click="ctrl.next()">
             <use xlink:href="/assets/icons/nst-icn16.svg#player-next"></use>
         </svg>
         <svg class="_16svg fill-white" ng-click="ctrl.displayState = 2">

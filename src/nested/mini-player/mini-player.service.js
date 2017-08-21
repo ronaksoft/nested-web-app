@@ -73,7 +73,7 @@
       // }
     }
 
-    function play (id) {
+    function play(id) {
       if (playing !== null) {
         var playingItem = this.getCurrent();
         this.pause(playingItem.item.id);

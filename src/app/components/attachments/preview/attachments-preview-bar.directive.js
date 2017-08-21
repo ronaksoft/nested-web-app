@@ -26,6 +26,7 @@
         scope.scrollDis = 140;
         scope.NST_FILE_TYPE = NST_FILE_TYPE;
         scope.cardWidth = angular.element('.attachments-card').width();
+        var alreadyAdded = false;
         // var interval, pwTimeout;
         // var moves = [];
         var borderLeftArray=[],borderRightArray=[];
@@ -223,7 +224,19 @@
 
         scope.playAudio = function (item) {
           item.isPlay = true;
-
+          scope.items.forEach(function(attachment){
+            if (attachment.uploadType !== 'AUDIO' && attachment.uploadType !== 'VOICE') {
+              return;
+            }
+            getToken(attachment.id).then(function (token) {
+              attachment.src = NstSvcStore.resolveUrl(NST_STORE_ROUTE.VIEW, item.id, token);
+              SvcMiniPlayer.addTrack(attachment);
+              SvcMiniPlayer.setPlaylist(scope.postId);
+            }).catch(function () {
+              toastr.error('Sorry, An error has occured while playing the audio');
+            });
+          });
+          
           // var alreadyPlayed = audioDOMS.find(function (audioDOM) {
           //   return audioDOM.className === item.id;
           // })
@@ -241,13 +254,6 @@
           // audio.style.display = "none";
           // audio.className = item.id;
           // audio.autoplay = true;
-
-          getToken(item.id).then(function (token) {
-            item.src = NstSvcStore.resolveUrl(NST_STORE_ROUTE.VIEW, item.id, token);
-            SvcMiniPlayer.addTrack(item);
-          }).catch(function () {
-            toastr.error('Sorry, An error has occured while playing the audio');
-          });
         }
 
         // function scrollLeft(count, k) {

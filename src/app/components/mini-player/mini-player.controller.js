@@ -15,28 +15,33 @@
       vm.previous = previous;
       vm.playList = [];
       vm.isVoice = false;
+      
+      var updateDebounce = _.debounce(update, 128);
 
       vm.currentPlay = {
         item : {},
         index : 0
       }
 
-      getCurrent();
 
       SvcMiniPlayer.timeChanged(function (d) {
         console.log(d);
       });
 
-      SvcMiniPlayer.statusChanged(function (result) {
-        if (result.status === 'play') {
-          getCurrent();
-        }
-      });
+      // SvcMiniPlayer.statusChanged(function (result) {
+      //   if (result.status === 'play') {
+      //     getCurrent();
+      //   }
+      // });
 
       SvcMiniPlayer.listUpdated(function () {
+        updateDebounce()
+      });
+
+      function update() {
         getCurrent();
         getList()
-      });
+      }
 
 
       function getCurrent() {
