@@ -151,6 +151,10 @@
       }
     };
 
+    Collector.prototype.getList = function () {
+      return this.itemStack;
+    };
+
     return Collector;
   }
 })();

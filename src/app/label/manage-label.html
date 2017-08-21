@@ -97,7 +97,7 @@
         </div>
       </div>
       <div class="label-details">
-        <span>{{label.title | scapeRevSpace}}</span>
+        <span ng-click="ctrl.searchThis(label.title)">{{label.title | scapeRevSpace}}</span>
       </div>
       <div class="usage">
         <svg class="_16svg _df _fn color-lbl-{{label.code}}">
