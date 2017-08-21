@@ -78,8 +78,7 @@
       //   return audioDOM.className === id;
       // });
       audioDOM.play();
-      console.log(id, 'is playing');
-      callIfValid(this.statusChanged, {
+      callIfValid(this.statusChangedRef, {
         status: 'play',
         id: id
       });
@@ -89,7 +88,7 @@
     function pause (id) {
       playing = '';
       audioDOM.pause();
-      callIfValid(this.statusChanged, {
+      callIfValid(this.statusChangedRef, {
         status: 'pause',
         id: id
       });
@@ -137,11 +136,14 @@
 
     function callIfValid() {
       if (_.isFunction(arguments[0])) {
+        var func = arguments[0];
         var param = null;
         if (arguments.length > 1) {
-          param = arguments.shift();
+          param = arguments[1];
         }
-        arguments[0](param);
+        console.log(param);
+        console.log(func);
+        func(param);
       }
     }
   }
