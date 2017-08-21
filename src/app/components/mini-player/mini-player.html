@@ -1,4 +1,4 @@
-<div class="mini-player">
+<div class="mini-player">{{ctrl.playStatus ? true : false}}
     <div class="player-ribbon" ng-if="ctrl.displayState === 1">
         <img ng-src="{{ctrl.currentPlay.item.thumbnail}}" alt="" ng-if="!ctrl.isVoice">
         <img initial-avatar="{{::ctrl.currentPlay.item.sender.id}}" name="{{::ctrl.currentPlay.item.sender.fullName}}" picture="{{ctrl.currentPlay.item.sender | avatar}}"
@@ -9,10 +9,10 @@
         <svg class="_16svg fill-white" ng-if="ctrl.currentPlay.prev" ng-click="ctrl.previous()">
             <use xlink:href="/assets/icons/nst-icn16.svg#player-back"></use>
         </svg>
-        <svg class="_16svg fill-white" ng-if="ctrl.currentPlay.item.isPlayed" ng-click="ctrl.play()">
+        <svg class="_16svg fill-white" ng-if="!ctrl.playStatus" ng-click="ctrl.play()">
             <use xlink:href="/assets/icons/nst-icn16.svg#play"></use>
         </svg>
-        <svg class="_16svg fill-white" ng-if="!ctrl.currentPlay.item.isPlayed" ng-click="ctrl.pause()">
+        <svg class="_16svg fill-white" ng-if="ctrl.playStatus" ng-click="ctrl.pause()">
             <use xlink:href="/assets/icons/nst-icn16.svg#pause"></use>
         </svg>
         <svg class="_16svg fill-white" ng-if="ctrl.currentPlay.next" ng-click="ctrl.next()">

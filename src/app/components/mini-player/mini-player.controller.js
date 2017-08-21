@@ -13,6 +13,9 @@
       vm.closePlayer = closePlayer;
       vm.next = next;
       vm.previous = previous;
+      vm.play = play;
+      vm.pause = pause;
+      vm.playStatus = false;
       vm.playList = [];
       vm.isVoice = false;
       
@@ -29,11 +32,11 @@
       });
 
       SvcMiniPlayer.statusChanged(function (result) {
+        console.log(result.status);
+        vm.playStatus = result.status === 'play';
+        console.log(vm.playStatus)
         if (result.status === 'play') {
-          vm.currentPlay.item.isPlayed = true;
           updateDebounce();
-        } else if (result.status === 'pause') {
-          vm.currentPlay.item.isPlayed = false;
         }
       });
 
@@ -75,10 +78,12 @@
       }
 
       function pause() {
+        console.log('pause');
         SvcMiniPlayer.pause(vm.currentPlay.item.id);
       }
 
       function play() {
+        console.log('play');
         SvcMiniPlayer.play(vm.currentPlay.item.id);
       }
 
