@@ -2,6 +2,21 @@
     <div class="player-ribbon" ng-if="ctrl.displayState === 1">
         <img ng-src="s" alt="">
         <span>Une Cellier - T…</span>
+            <svg class="_16svg fill-white">
+                <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
+            </svg>
+            <svg class="_16svg fill-white" ng-if="vm.currentPlay.index > 0">
+                <use xlink:href="/assets/icons/nst-icn16.svg#player-back"></use>
+            </svg>
+            <svg class="_16svg fill-white">
+                <use xlink:href="/assets/icons/nst-icn16.svg#player-next"></use>
+            </svg>
+            <svg class="_16svg fill-white">
+                <use xlink:href="/assets/icons/nst-icn16.svg#expand"></use>
+            </svg>
+            <svg class="_16svg fill-white">
+                <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
+            </svg>
     </div>
     <div class="mini-player-inner" ng-if="ctrl.displayState === 2">
         <div class="player">
