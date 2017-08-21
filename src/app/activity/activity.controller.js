@@ -56,7 +56,6 @@
     vm.activities = [];
     vm.currentPlace = null;
     vm.noActivity = false;
-    vm.loadMoreCounter = 0;
 
     vm.loadMore = loadMore;
     vm.applyFilter = applyFilter;
@@ -149,20 +148,11 @@
       vm.expanded = !NstSvcActivitySettingStorage.get('collapsed');
 
       generateUrls();
-      // Retrieves a place with the given Id, if the user has required accesses. Then loads the place activities
-      NstSvcPlaceAccess.getIfhasAccessToRead($stateParams.placeId).then(function (place) {
-        if (place) {
-          vm.currentPlace = place;
-          vm.currentPlaceLoaded = true;
-          vm.showPlaceId = !_.includes([ 'off', 'internal' ], place.privacy.receptive);
-          return loadActivities();
-        } else {
-          NstSvcModal.error(NstSvcTranslation.get("Error"), NstSvcTranslation.get("Either this Place doesn't exist, or you don't have the permit to enter the Place.")).finally(function () {
-            $state.go(NST_DEFAULT.STATE);
-          });
-        }
-      }).catch(function (error) {
-        $log.debug(error);
+      load();
+      NstSvcPlaceAccess.getIfhasAccessToRead($stateParams.placeId).then(function(place) {
+        vm.showPlaceId = !_.includes([ 'off', 'internal' ], place.privacy.receptive);
+        vm.currentPlace = place;
+        vm.currentPlaceLoaded = true;
       });
 
     })();
@@ -173,10 +163,32 @@
      ********************/
 
     function loadMore() {
-      // TODO: loadMoreCounter is not used! remove it and the next tracking line
-      vm.loadMoreCounter ++;
-      NstSvcInteractionTracker.trackEvent('activities', 'load more', vm.loadMoreCounter);
-      loadActivities();
+      if (vm.loading) {
+        return false;
+      }
+
+      vm.loading = true;
+      vm.tryAgainToLoadMore = false;
+      NstSvcActivityFactory.get(vm.activitySettings).then(function (activities) {
+        if (activities.length === 0 && !vm.activities.length === 0) {
+          vm.reachedTheEnd = false;
+          vm.noActivity = true;
+        } else if (activities.length === 0 && vm.activities.length > 0) {
+          vm.reachedTheEnd = true;
+        } else {
+          vm.reachedTheEnd = false;
+          setLastActivityDate(activities);
+          appendActivities(activities);
+        }
+
+        vm.loading = false;
+        vm.tryAgainToLoadMore = false;
+
+      }).catch(function (error) {
+        vm.loading = false;
+        vm.tryAgainToLoadMore = true;
+        $log.debug(error);
+      });
     }
 
     /**
@@ -246,19 +258,15 @@
      *
      * @returns
      */
-    function loadActivities() {
-      if (vm.loading) {
-        return false;
-      }
-
+    function load() {
       vm.loading = true;
       vm.tryAgainToLoadMore = false;
-      NstSvcActivityFactory.get(vm.activitySettings).then(function(activities) {
+      NstSvcActivityFactory.get(vm.activitySettings, function(cachedActivities) {
+        appendActivities(cachedActivities);
+      }).then(function(activities) {
         if (activities.length === 0 && !vm.activities.length === 0) {
           vm.reachedTheEnd = false;
           vm.noActivity = true;
-        } else if (activities.length === 0 && vm.activities.length > 0) {
-          vm.reachedTheEnd = true;
         } else {
           vm.reachedTheEnd = false;
           setLastActivityDate(activities);
@@ -282,12 +290,36 @@
      *
      * @param {any} activities
      */
-    function mergeWithActivities(activities) {
+    function appendActivities(activities) {
       var activityGroups = mapActivities(activities);
       _.forEach(activityGroups, function (targetGroup) {
         var sourceGroup = _.find(vm.activities, { date : targetGroup.date });
         if (sourceGroup) { // merge
           sourceGroup.items.push.apply(sourceGroup.items, targetGroup.items);
+        } else { // add
+          vm.activities.push(targetGroup);
+        }
+      });
+    }
+
+    function mergeWithActivities(activities) {
+      var activityGroups = mapActivities(activities);
+      _.forEach(activityGroups, function (targetGroup) {
+        var sourceGroup = _.find(vm.activities, { date: targetGroup.date });
+        if (sourceGroup) {
+          // merge
+          var newItems = _.differenceBy(targetGroup.items, sourceGroup.items, 'id');
+          var removedItems = _.differenceBy(sourceGroup.items, targetGroup.items, 'id');
+          // first omit the removed items; The items that are no longer exist in fresh activities
+          _.forEach(removedItems, function (item) {
+            var index = _.findIndex(sourceGroup.items, { 'id': item.id });
+            if (index > -1) {
+              sourceGroup.items.splice(index, 1);
+            }
+          });
+
+          // add new items; The items that do not exist in cached items, but was found in fresh activities
+          sourceGroup.items.unshift.apply(sourceGroup.items, newItems);
         } else { // add
           vm.activities.push(targetGroup);
         }
@@ -323,9 +355,7 @@
      */
     function setLastActivityDate(activities) {
       var last = _.last(activities);
-      var lastDate = last ? last.date : moment(NstSvcDate.now());
-
-      vm.activitySettings.date = NstUtility.date.toUnix(lastDate);
+      vm.activitySettings.date = last ? last.date : NstSvcDate.now();
     }
 
     /**
@@ -389,16 +419,14 @@
      * @returns
      */
     function getRecentActivityTime() {
-      var date = moment(NstSvcDate.now()).subtract(10, 'minute');
-
       if (vm.activities.length > 0) {
         var latestActivity = _.head(vm.activities[0].items);
         if (latestActivity) {
-          date = latestActivity.date;
+          return latestActivity.date;
         }
       }
 
-      return NstUtility.date.toUnix(date);
+      return moment(NstSvcDate.now()).subtract(10, 'minute').valueOf();
     }
 
     /**
@@ -468,9 +496,9 @@
     $scope.$on('$destroy', function () {
       NstSvcSync.closeChannel(vm.syncId);
 
-      _.forEach(eventReferences, function (cenceler) {
-        if (_.isFunction(cenceler)) {
-          cenceler();
+      _.forEach(eventReferences, function (canceler) {
+        if (_.isFunction(canceler)) {
+          canceler();
         }
       });
     });

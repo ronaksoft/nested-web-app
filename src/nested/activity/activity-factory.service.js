@@ -76,7 +76,7 @@
 
       activity.id = data._id;
       activity.type = data.action;
-      activity.date = new Date(data.timestamp);
+      activity.date = data.timestamp;
 
       var postPromise = NstSvcPostFactory.get(data.post_id);
       $q.all([postPromise]).then(function (resultSet) {
@@ -101,7 +101,7 @@
 
       activity.id = data._id;
       activity.type = data.action;
-      activity.date = new Date(data.timestamp);
+      activity.date = data.timestamp;
 
       var postPromise = NstSvcPostFactory.get(data.post_id);
       // TODO: Not required anymore, because the actor and comment sender are the same
@@ -132,7 +132,7 @@
 
       activity.id = data._id;
       activity.type = data.action;
-      activity.date = new Date(data.timestamp);
+      activity.date = data.timestamp;
 
       var postPromise = NstSvcPostFactory.get(data.post_id);
       // TODO: Not required anymore, because the actor and comment sender are the same
@@ -162,7 +162,7 @@
 
       activity.id = data._id;
       activity.type = data.action;
-      activity.date = new Date(data.timestamp);
+      activity.date = data.timestamp;
 
       var postPromise = NstSvcPostFactory.get(data.post_id);
       var oldPlacePromise = NstSvcPlaceFactory.get(data.old_place_id);
@@ -197,7 +197,7 @@
         var activity = new NstActivity();
         activity.id = data._id;
         activity.type = data.action;
-        activity.date = new Date(data.timestamp);
+        activity.date = data.timestamp;
         activity.post = resultSet[0];
         activity.comment = resultSet[1];
         deferred.resolve(activity);
@@ -219,7 +219,7 @@
         var activity = new NstActivity();
         activity.id = data._id;
         activity.type = data.action;
-        activity.date = new Date(data.timestamp);
+        activity.date = data.timestamp;
         activity.label = resultSet[0] ? resultSet[0] : null;
         activity.actor = resultSet[1];
         activity.post = resultSet[2];
@@ -243,7 +243,7 @@
         var activity = new NstActivity();
         activity.id = data._id;
         activity.type = data.action;
-        activity.date = new Date(data.timestamp);
+        activity.date = data.timestamp;
         activity.label = resultSet[0] ? resultSet[0] : null;
         activity.actor = resultSet[1];
         activity.post = resultSet[2];
@@ -271,7 +271,7 @@
         var activity = new NstActivity();
         activity.id = data._id;
         activity.type = data.action;
-        activity.date = new Date(data.timestamp);
+        activity.date = data.timestamp;
         activity.comment = resultSet[0];
         activity.actor = resultSet[1];
         deferred.resolve(activity);
@@ -293,7 +293,7 @@
 
       activity.id = data._id;
       activity.type = data.action;
-      activity.date = new Date(data.timestamp);
+      activity.date = data.timestamp;
 
       var actorPromise = NstSvcUserFactory.get(data.actor_id);
       var inviteePromise = NstSvcUserFactory.get(data.member_id);
@@ -323,7 +323,7 @@
 
       activity.id = data._id;
       activity.type = data.action;
-      activity.date = new Date(data.timestamp);
+      activity.date = data.timestamp;
 
       var actorPromise = NstSvcUserFactory.get(data.actor_id);
       var placePromise = NstSvcPlaceFactory.get(data.place_id);
@@ -351,7 +351,7 @@
 
       activity.id = data._id;
       activity.type = data.action;
-      activity.date = new Date(data.timestamp);
+      activity.date = data.timestamp;
 
       var placePromise = NstSvcPlaceFactory.get(data.place_id);
       var actorPromise = NstSvcUserFactory.get(data.actor_id);
@@ -369,7 +369,7 @@
       return deferred.promise;
     }
 
-    function getActivities(settings) {
+    function getActivities(settings, cacheHandler) {
       return factory.sentinel.watch(function () {
 
         var deferred = $q.defer();
@@ -380,6 +380,10 @@
           after: settings.after,
           filter: settings.filter || 'all',
           place_id: settings.placeId
+        }, function (cachedResponse) {
+          if (_.isFunction(cacheHandler) && cachedResponse) {
+            cacheHandler(_.map(cachedResponse.activities, NstSvcActivityCacheFactory.parseCachedModel));
+          }
         }).then(function (response) {
 
           var activities = _.map(response.activities, parseActivityIntelligently);
@@ -396,13 +400,13 @@
       }, 'getActivities', settings.placeId);
     }
 
-    function get(settings) {
+    function get(settings, cacheHandler) {
       return getActivities({
         limit: settings.limit,
         placeId: settings.placeId,
         before: settings.date,
         filter: settings.filter
-      });
+      }, cacheHandler);
     }
 
     function getAfter(settings) {
