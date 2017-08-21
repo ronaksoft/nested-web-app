@@ -91,7 +91,8 @@
       audioDOM.play();
       callIfValid(this.statusChangedRef, {
         status: 'play',
-        id: id
+        id: id,
+        playlist: this.playlistName
       });
       $rootScope.$broadcast('play-audio', id);
     }
@@ -101,7 +102,8 @@
       audioDOM.pause();
       callIfValid(this.statusChangedRef, {
         status: 'pause',
-        id: id
+        id: id,
+        playlist: this.playlistName
       });
       $rootScope.$broadcast('play-audio', '');
     }
@@ -116,11 +118,12 @@
         return;
       }
       var id = audioObjs[index].id;
-      this.play(id);
       callIfValid(this.statusChangedRef, {
         status: 'next',
-        id: id
+        id: id,
+        playlist: this.playlistName
       });
+      this.play(id);
     }
 
     function prev() {
@@ -133,11 +136,12 @@
         return;
       }
       var id = audioObjs[index].id;
-      this.play(id);
       callIfValid(this.statusChangedRef, {
         status: 'prev',
-        id: id
+        id: id,
+        playlist: this.playlistName
       });
+      this.play(id);
     }
 
     function seekTo (id, sec) {
@@ -145,7 +149,8 @@
       callIfValid(this.statusChangedRef, {
         status: 'seek',
         time: sec,
-        id: id
+        id: id,
+        playlist: this.playlistName
       });
     }
 
@@ -165,6 +170,11 @@
       audioDOM.pause();
       audioObjs = [];
       playing = null;
+      callIfValid(this.statusChangedRef, {
+        status: 'pause',
+        id: null,
+        playlist: this.playlistName
+      });
       $rootScope.$broadcast('play-audio', '');
     }
 
