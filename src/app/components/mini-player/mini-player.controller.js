@@ -28,11 +28,11 @@
         console.log(d);
       });
 
-      // SvcMiniPlayer.statusChanged(function (result) {
-      //   if (result.status === 'play') {
-      //     getCurrent();
-      //   }
-      // });
+      SvcMiniPlayer.statusChanged(function (result) {
+        if (result.status === 'play') {
+          updateDebounce();
+        }
+      });
 
       SvcMiniPlayer.listUpdated(function () {
         updateDebounce()
@@ -45,22 +45,26 @@
 
 
       function getCurrent() {
-        vm.currentPlay = SvcMiniPlayer.getCurrent();
-        console.log(vm.currentPlay);
-        if (vm.currentPlay.item) {
-          vm.isVoice = vm.currentPlay.item.uploadType !== "AUDIO";
-        }
+        $scope.$apply(function () {
+          vm.currentPlay = SvcMiniPlayer.getCurrent();
+          console.log(vm.currentPlay);
+          if (vm.currentPlay.item) {
+            vm.isVoice = vm.currentPlay.item.uploadType !== "AUDIO";
+          }
+        }); 
       }
 
       function getList() {
-        vm.playList = SvcMiniPlayer.getList();
-        console.log(vm.playList);
-        if ( vm.displayState === 0 && vm.playList.length > 0) {
-          vm.displayState = 1;
-        }
+          $scope.$apply(function () {
+            vm.playList = SvcMiniPlayer.getList();
+            console.log(vm.playList);
+              if (vm.displayState === 0 && vm.playList.length > 0) {
+                vm.displayState = 1;
+              }
+          });        
       }
       function playPauseToggle() {
-        if(vm.currentPlay.track.isPlayed) {
+        if(vm.currentPlay.item.isPlayed) {
           pause();
         } else {
           play();
@@ -68,19 +72,19 @@
       }
 
       function pause() {
-        vm.playList = SvcMiniPlayer.pause(vm.currentPlay.track.id);
+        SvcMiniPlayer.pause(vm.currentPlay.item.id);
       }
 
       function play() {
-        vm.playList = SvcMiniPlayer.play(vm.currentPlay.track.id);
+        SvcMiniPlayer.play(vm.currentPlay.item.id);
       }
 
       function next() {
-        vm.playList = SvcMiniPlayer.play(vm.playList[vm.currentPlay.index + 1].id);
+        SvcMiniPlayer.next();
       }
 
       function previous() {
-        vm.playList = SvcMiniPlayer.play(vm.playList[vm.currentPlay.index - 1].id);
+        SvcMiniPlayer.prev();
       }
 
       function closePlayer(){
