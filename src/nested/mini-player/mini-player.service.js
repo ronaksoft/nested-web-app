@@ -72,6 +72,12 @@
         callIfValid(this.listUpdatedRef);
       }
 
+      callIfValid(this.statusChangedRef, {
+        status: 'add',
+        id: item.id,
+        playlist: this.playlistName
+      });
+
       if (item.isPlayed) {
         this.play(item.id);
       }
@@ -82,12 +88,20 @@
         var playingItem = this.getCurrent();
         this.pause(playingItem.item.id);
       }
-      playing = id;
+      var noIdFlag = false;
+      if (id === undefined) {
+        id = playing;
+        noIdFlag = true;
+      } else {
+        playing = id;
+      }
       var index = _.findIndex(audioObjs, function (o) {
         return o.id === id
       });
-      audioDOM.src = audioObjs[index].src;
-      audioDOM.load();
+      if (!noIdFlag) {
+        audioDOM.src = audioObjs[index].src;
+        audioDOM.load();
+      }
       audioDOM.play();
       callIfValid(this.statusChangedRef, {
         status: 'play',
@@ -98,7 +112,9 @@
     }
 
     function pause (id) {
-      playing = '';
+      // if (id !== undefined && id !) {
+      //   playing = null;
+      // }
       audioDOM.pause();
       callIfValid(this.statusChangedRef, {
         status: 'pause',

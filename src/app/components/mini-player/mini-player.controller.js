@@ -18,7 +18,7 @@
       vm.playStatus = false;
       vm.playList = [];
       vm.isVoice = false;
-      
+
       var updateDebounce = _.debounce(update, 128);
 
       vm.currentPlay = {
@@ -28,20 +28,18 @@
 
 
       SvcMiniPlayer.timeChanged(function (d) {
-        console.log(d);
+        // console.log(d);
       });
 
       SvcMiniPlayer.statusChanged(function (result) {
-        console.log(result.status);
         vm.playStatus = result.status === 'play';
-        console.log(vm.playStatus)
         if (result.status === 'play') {
           updateDebounce();
         }
       });
 
       SvcMiniPlayer.listUpdated(function () {
-        updateDebounce()
+        updateDebounce();
       });
 
       function update() {
@@ -53,21 +51,21 @@
       function getCurrent() {
         $scope.$apply(function () {
           vm.currentPlay = SvcMiniPlayer.getCurrent();
-          console.log(vm.currentPlay);
+          // console.log(vm.currentPlay);
           if (vm.currentPlay.item) {
             vm.isVoice = vm.currentPlay.item.uploadType !== "AUDIO";
           }
-        }); 
+        });
       }
 
       function getList() {
           $scope.$apply(function () {
             vm.playList = SvcMiniPlayer.getList();
-            console.log(vm.playList);
-              if (vm.displayState === 0 && vm.playList.length > 0) {
-                vm.displayState = 1;
-              }
-          });        
+            // console.log(vm.playList);
+            if (vm.displayState === 0 && vm.playList.length > 0) {
+              vm.displayState = 1;
+            }
+          });
       }
       function playPauseToggle() {
         if(vm.currentPlay.item.isPlayed) {
@@ -78,13 +76,11 @@
       }
 
       function pause() {
-        console.log('pause');
-        SvcMiniPlayer.pause(vm.currentPlay.item.id);
+        SvcMiniPlayer.pause();
       }
 
       function play() {
-        console.log('play');
-        SvcMiniPlayer.play(vm.currentPlay.item.id);
+        SvcMiniPlayer.play();
       }
 
       function next() {
