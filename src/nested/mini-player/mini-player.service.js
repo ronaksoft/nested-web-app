@@ -71,7 +71,7 @@
       }
 
       audioDOM.className = item.id;
-      audioDOM.autoplay = item.isPlayed ? true : false;
+      audioDOM.autoplay = item.isPlayed? true : false;
       audioDOM.src = item.src;
       audioDOM.load();
 

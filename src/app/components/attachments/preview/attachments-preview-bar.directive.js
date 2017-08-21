@@ -208,11 +208,10 @@
         };
 
         scope.$on('play-audio', function (e, id){
-          console.log(arguments, id);
           scope.items.filter(function(item) {
             return id !== item.id;
           }).forEach(function (i){
-            i.isPlay = false
+            i.isPlayed = false
           });
         });
 
@@ -224,24 +223,22 @@
         });
 
         scope.playAudio = function (item) {
-          item.isPlay = true;
-          console.log(item.isPlay);
-          console.log(item);
-          SvcMiniPlayer.setPlaylist(scope.postId);          
+          SvcMiniPlayer.setPlaylist(scope.postId);
           scope.items.forEach(function(attachment){
-            console.log('itemforEach');
             if (attachment.uploadType !== 'AUDIO' && attachment.uploadType !== 'VOICE') {
               return;
             }
             getToken(attachment.id).then(function (token) {
-              console.log('getTokenforEach');
               attachment.src = NstSvcStore.resolveUrl(NST_STORE_ROUTE.VIEW, attachment.id, token);
+              if (item.id === attachment.id) {
+                attachment.isPlayed = true;
+              }
               SvcMiniPlayer.addTrack(attachment);
             }).catch(function () {
               toastr.error('Sorry, An error has occured while playing the audio');
             });
           });
-          
+
           // var alreadyPlayed = audioDOMS.find(function (audioDOM) {
           //   return audioDOM.className === item.id;
           // })
