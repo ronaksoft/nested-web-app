@@ -6,13 +6,15 @@
 
   /** @ngInject */
   function NstSvcPostFactory($q, $log, $rootScope,
-                             _, md5,
-                             NstSvcPostStorage, NstCollector, NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory, NstSvcStore, NstSvcCommentFactory, NstUtility,
-                             NstPost, NstBaseFactory,
-                             NST_MESSAGES_SORT_OPTION, NST_SRV_EVENT, NST_CONFIG, NST_POST_EVENT, NstSvcLabelFactory) {
+    _, md5,
+    NstSvcPostStorage, NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory, NstSvcStore,
+    NstSvcCommentFactory, NstUtility, NstSvcCacheProvider,
+    NstPost, NstBaseFactory, NstCollector,
+    NST_MESSAGES_SORT_OPTION, NST_SRV_EVENT, NST_CONFIG, NST_POST_EVENT, NstSvcLabelFactory) {
 
     function PostFactory() {
       this.collector = new NstCollector('post', this.getMany);
+      this.cache = new NstSvcCacheProvider('post');
     }
 
     PostFactory.prototype = new NstBaseFactory();
@@ -47,6 +49,10 @@
     PostFactory.prototype.setNotification = setNotification;
     PostFactory.prototype.addLabel = addLabel;
     PostFactory.prototype.removeLabel = removeLabel;
+    PostFactory.prototype.getCachedSync = getCachedSync;
+    PostFactory.prototype.set = set;
+    PostFactory.prototype.transformToCacheModel = transformToCacheModel;
+    PostFactory.prototype.parseCachedModel = parseCachedModel;
 
     var factory = new PostFactory();
     return factory;
@@ -62,42 +68,30 @@
      *
      * @returns {Promise}      the post
      */
-    function get(id, markAsRead) {
-      var defer = $q.defer();
+    function get(id) {
+      var factory = this;
 
-      if (!id) {
-        defer.resolve(null);
-      } else {
-        var post = NstSvcPostStorage.get(id);
-        if (post && !post.bodyIsTrivial) {
-          defer.resolve(post);
-        } else {
-
-          if (markAsRead) {
-
-            NstSvcServer.request('post/get', {
-              post_id: id,
-              mark_read: markAsRead ? markAsRead : false
-            }).then(function (data) {
-              var post = parsePost(data);
-              post.bodyIsTrivial = false;
-              NstSvcPostStorage.set(post.id, post);
-              defer.resolve(post);
-            }).catch(defer.reject);
-
-          } else {
-
-            this.collector.add(id).then(function (data) {
-                var post = parsePost(data);
-                post.bodyIsTrivial = false;
-                NstSvcPostStorage.set(post.id, post);
-                defer.resolve(post);
-              }).catch(defer.reject);
-          }
-        }
+      var cachedPlace = this.getCachedSync(id);
+      if (cachedPlace) {
+        return $q.resolve(cachedPlace);
       }
 
-      return defer.promise;
+      var deferred = $q.defer();
+      this.collector.add(id).then(function (data) {
+        factory.set(data);
+        deferred.resolve(parsePost(data));
+      }).catch(function(error) {
+        switch (error.code) {
+          case NST_SRV_ERROR.ACCESS_DENIED:
+          case NST_SRV_ERROR.UNAVAILABLE:
+            factory.cache.remove(id);
+            break;
+        }
+
+        deferred.reject(error);
+      });
+
+      return deferred.promise;
     }
 
     function getMany(ids) {
@@ -159,16 +153,104 @@
       return defer.promise;
     }
 
-    function set(post) {
-      if (post instanceof NstPost) {
-        if (has(post.getId())) {
-          NstSvcPostStorage.merge(post.getId(), post);
-        } else {
-          NstSvcPostStorage.set(post.getId(), post);
-        }
+    function getCachedSync(id) {
+      return this.parseCachedModel(this.cache.get(id));
+    }
+
+    function removeCachedModel(id) {
+      return this.cache.remove(id);
+    }
+
+    function set(data) {
+      if (data && data._id) {
+        this.cache.set(data._id, this.transformToCacheModel(data));
+      } else {
+        console.error('The data is not valid to be cached!', data);
+      }
+    }
+
+    function parseCachedModel(data) {
+      if (!data) {
+        return null;
       }
 
-      return this;
+      var post = new NstPost();
+
+      post.id = data._id;
+      post.contentType = data.content_type;
+      post.counters = data.counters;
+      post.forwardFromId = data.forward_from;
+      post.internal = data.internal;
+      post.lastUpdate = data.last_update;
+      post.pinned = data.pinned;
+      post.attachments = data.post_attachments;
+      post.places = _.map(data.post_places, function (placeId) {
+        return NstSvcPlaceFactory.getCachedSync(placeId);
+      });
+      // Make sure the post places were found successfully
+      if (!_.every(post.places)) {
+        this.cache.remove(data._id);
+        return null;
+      }
+      post.read = data.post_read;
+      post.recipients = data.post_recipients;
+      post.replyToId = data.reply_to;
+      post.sender = NstSvcUserFactory.getCachedSync(data.sender);
+      // Make sure the post sender was found successfully
+      if (data.sender && !post.sender) {
+        this.cache.remove(data._id);
+        return null;
+      }
+      post.subject = data.subject;
+      post.timestamp = data.timestamp;
+      post.type = data.type;
+      post.wipeAccess = data.wipe_access;
+      post.ellipsis = data.ellipsis;
+      post.noComment = data.no_comment;
+      post.watched = data.watched;
+      post.isTrusted = data.is_trusted;
+      post.labels = _.map(data.post_labels, function (labelId) {
+        return NstSvcLabelFactory.getCachedSync(labelId);
+      });
+      // Make sure all post labels were found successfully
+      if (!_.every(post.labels)) {
+        this.cache.remove(data._id);
+        return null;
+      }
+      post.body = data.body;
+      post.comments = data.recent_comments;
+
+      return post;
+    }
+
+    function transformToCacheModel(place) {
+      return {
+        _id: data._id,
+        content_type: data.content_type,
+        counters: data.counters,
+        internal: data.internal,
+        last_update: data.last_update,
+        pinned: data.pinned,
+        post_attachments: data.post_attachments,
+        post_places: _.map(data.post_places, '_id'),
+        post_read: data.post_read,
+        sender: data.sender ? data.sender._id : null,
+        email_sender: data.email_sender ? data.email_sender._id : null,
+        subject: data.subject,
+        timestamp: data.timestamp,
+        body: data.body,
+        post_recipients: data.post_recipients,
+        reply_to: data.reply_to,
+        type: data.type,
+        wipe_access: data.wipe_access,
+        ellipsis: data.ellipsis,
+        no_comment: data.no_comment,
+        watched: data.watched,
+        is_trusted: data.is_trusted,
+        post_labels: _.map(data.post_labels, 'id'),
+        body: data.body,
+        recent_comments: data.recent_comments,
+      };
     }
 
     function send(post) {
