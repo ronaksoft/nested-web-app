@@ -132,7 +132,7 @@
         var playingItem = this.getCurrent();
       }
       var index = playingItem.index;
-      index++;
+      index--;
       if (index < 0) {
         return;
       }
