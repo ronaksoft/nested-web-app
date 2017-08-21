@@ -18,13 +18,22 @@
         index : 0
       }
 
-      SvcMiniPlayer.timeChanged( function (d) {
+      getCurrent();
+
+      SvcMiniPlayer.timeChanged(function (d) {
         console.log(d);
-      })
-      SvcMiniPlayer.listUpdated( function () {
+      });
+
+      SvcMiniPlayer.statusChanged(function (result) {
+        if (result.status === 'play') {
+          getCurrent();
+        }
+      });
+
+      SvcMiniPlayer.listUpdated(function () {
         getCurrent();
         getList()
-      })
+      });
 
 
       function getCurrent() {

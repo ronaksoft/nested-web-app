@@ -32,6 +32,7 @@
     MiniPlayer.prototype.addTrack = addTrack;
     MiniPlayer.prototype.play = play;
     MiniPlayer.prototype.pause = pause;
+    MiniPlayer.prototype.seekTo = seekTo;
     MiniPlayer.timeChangedRef = null;
     MiniPlayer.prototype.timeChanged = timeChanged;
     MiniPlayer.listUpdatedRef = null;
@@ -92,6 +93,15 @@
         id: id
       });
       $rootScope.$broadcast('play-audio', '');
+    }
+
+    function seekTo (id, sec) {
+      audioDOM.currentTime = sec;
+      callIfValid(this.statusChangedRef, {
+        status: 'seek',
+        time: sec,
+        id: id
+      });
     }
 
     function timeChanged (callback) {
