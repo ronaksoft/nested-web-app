@@ -54,34 +54,20 @@
 
 
     (function () {
-      //
-      // if (vm.placeId || vm.place) {
-      //   vm.settings.placeId = vm.placeId || (vm.place ? vm.place.id : null);
-      // }
-
-
       if (vm.settings.placeId) {
-        // Waits for sidebar and messages page to get datat and bind values
-        NstSvcWait.all(['main-done'], function () {
-          // First of all, get the place and check if the user has READ access
-          NstSvcPlaceFactory.get(vm.settings.placeId).then(function (place) {
-            if (place.hasAccess(NST_PLACE_ACCESS.READ)) {
-              // Loads the recent activities
-              getRecentActivity(vm.settings);
+        // Waits for sidebar and messages page to get data and bind values
+        // Loads the recent activities
+        getRecentActivity(vm.settings);
 
-              NstSvcServer.addEventListener(NST_SRV_EVENT.RECONNECT, function () {
-                NstSvcLogger.debug('Retrieving recent activities right after reconnecting.');
-                getRecentActivity(vm.settings);
-              });
-              // Listens to $rootScope and adds a new activity to the list
-              _.forEach(NST_EVENT_ACTION, function (action) {
-                eventReferences.push($rootScope.$on(action, function (e, data) {
-                  addNewActivity(data.activity);
-                }));
-              });
-
-            }
-          });
+        NstSvcServer.addEventListener(NST_SRV_EVENT.RECONNECT, function () {
+          NstSvcLogger.debug('Retrieving recent activities right after reconnecting.');
+          getRecentActivity(vm.settings);
+        });
+        // Listens to $rootScope and adds a new activity to the list
+        _.forEach(NST_EVENT_ACTION, function (action) {
+          eventReferences.push($rootScope.$on(action, function (e, data) {
+            addNewActivity(data.activity);
+          }));
         });
       }
     })();
