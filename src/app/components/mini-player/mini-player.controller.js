@@ -30,7 +30,10 @@
 
       SvcMiniPlayer.statusChanged(function (result) {
         if (result.status === 'play') {
+          vm.currentPlay.item.isPlayed = true;
           updateDebounce();
+        } else if (result.status === 'pause') {
+          vm.currentPlay.item.isPlayed = false;
         }
       });
 

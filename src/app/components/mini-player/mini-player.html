@@ -9,10 +9,10 @@
         <svg class="_16svg fill-white" ng-if="ctrl.currentPlay.prev" ng-click="ctrl.previous()">
             <use xlink:href="/assets/icons/nst-icn16.svg#player-back"></use>
         </svg>
-        <svg class="_16svg fill-white" ng-if="ctrl.currentPlay.item.isPlayed">
+        <svg class="_16svg fill-white" ng-if="ctrl.currentPlay.item.isPlayed" ng-click="ctrl.play()">
             <use xlink:href="/assets/icons/nst-icn16.svg#play"></use>
         </svg>
-        <svg class="_16svg fill-white" ng-if="!ctrl.currentPlay.item.isPlayed">
+        <svg class="_16svg fill-white" ng-if="!ctrl.currentPlay.item.isPlayed" ng-click="ctrl.pause()">
             <use xlink:href="/assets/icons/nst-icn16.svg#pause"></use>
         </svg>
         <svg class="_16svg fill-white" ng-if="ctrl.currentPlay.next" ng-click="ctrl.next()">
@@ -28,19 +28,18 @@
     <div class="mini-player-inner" ng-if="ctrl.displayState === 2">
         <div class="player">
             <div class="sound-poster">
-                <img ng-src="s" alt="">
-                <!-- <img ng-src="ctrl.currentPlay.track.preview" alt=""> -->
+                <img ng-src="{{ctrl.currentPlay.item.thumbnail}}" alt="" ng-if="!ctrl.isVoice">                    
             </div>
             <div class="_difv _fw _jcc">
                 <div class="player-handler">
         
                 </div>
                 <span>
-                    sd
+                    {{ctrl.currentPlay.item.filename}}
                 </span>
             </div>
             <div class="player-quit">
-                    <svg class="_16svg fill-white">
+                    <svg class="_16svg fill-white" ng-click="ctrl.closePlayer()">
                         <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
                     </svg>
             </div>

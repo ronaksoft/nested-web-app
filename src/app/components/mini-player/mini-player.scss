@@ -23,6 +23,8 @@
             color: $color-white;
             display: flex;
             width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
         }
         svg {
             margin-left: 12px;
