@@ -34,6 +34,8 @@
     MiniPlayer.prototype.addTrack = addTrack;
     MiniPlayer.prototype.play = play;
     MiniPlayer.prototype.pause = pause;
+    MiniPlayer.prototype.next = next;
+    MiniPlayer.prototype.prev = prev;
     MiniPlayer.prototype.seekTo = seekTo;
     MiniPlayer.timeChangedRef = null;
     MiniPlayer.prototype.timeChanged = timeChanged;
@@ -86,6 +88,10 @@
         this.pause(playingItem.item.id);
       }
       playing = id;
+      var index = _.findIndex(audioObjs, function (o) {
+        return o.id === id
+      });
+      audioDOM.src = audioObjs[index].src;
       audioDOM.play();
       callIfValid(this.statusChangedRef, {
         status: 'play',
@@ -102,6 +108,40 @@
         id: id
       });
       $rootScope.$broadcast('play-audio', '');
+    }
+
+    function next() {
+      if (playing !== null) {
+        var playingItem = this.getCurrent();
+      }
+      var index = playingItem.index;
+      index++;
+      if (index >= audioObjs.length) {
+        return;
+      }
+      var id = audioObjs[index].id;
+      this.play(id);
+      callIfValid(this.statusChangedRef, {
+        status: 'next',
+        id: id
+      });
+    }
+
+    function prev() {
+      if (playing !== null) {
+        var playingItem = this.getCurrent();
+      }
+      var index = playingItem.index;
+      index--;
+      if (index < 0) {
+        return;
+      }
+      var id = audioObjs[index].id;
+      this.play(id);
+      callIfValid(this.statusChangedRef, {
+        status: 'prev',
+        id: id
+      });
     }
 
     function seekTo (id, sec) {
