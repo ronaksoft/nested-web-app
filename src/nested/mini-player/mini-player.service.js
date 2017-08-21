@@ -75,11 +75,9 @@
       audioDOM.src = item.src;
       audioDOM.load();
 
-      // audioDOMS.push(audio);
-
-      // if (item.isPlayed) {
+      if (item.isPlayed) {
         this.play(item.id);
-      // }
+      }
     }
 
     function play (id) {
@@ -88,9 +86,6 @@
         this.pause(playingItem.item.id);
       }
       playing = id;
-      // var DOM = audioDOMS.find(function (audioDOM) {
-      //   return audioDOM.className === id;
-      // });
       audioDOM.play();
       callIfValid(this.statusChangedRef, {
         status: 'play',
@@ -132,7 +127,6 @@
 
     function removeAll () {
       audioDOM.pause();
-
       audioObjs = [];
       $rootScope.$broadcast('play-audio', '');
     }
