@@ -72,11 +72,6 @@
         callIfValid(this.listUpdatedRef);
       }
 
-      audioDOM.className = item.id;
-      audioDOM.autoplay = item.isPlayed? true : false;
-      audioDOM.src = item.src;
-      audioDOM.load();
-
       if (item.isPlayed) {
         this.play(item.id);
       }
@@ -92,6 +87,7 @@
         return o.id === id
       });
       audioDOM.src = audioObjs[index].src;
+      audioDOM.load();
       audioDOM.play();
       callIfValid(this.statusChangedRef, {
         status: 'play',
