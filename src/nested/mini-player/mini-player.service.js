@@ -20,9 +20,10 @@
         $rootScope.$broadcast('play-audio', '');
       };
 
+      var that = this;
       audioInterval = setInterval(function () {
         if (!audioDOM.paused) {
-          callIfValid(this.timeChangedRef, audioDOM.currentTime);
+          callIfValid(that.timeChangedRef, audioDOM.currentTime);
         }
       }, 500);
     }
@@ -97,13 +98,13 @@
 
     function timeChanged (callback) {
       if (_.isFunction(callback)) {
-        this.timeChanedRef = callback;
+        this.timeChangedRef = callback;
       }
     }
 
     function statusChanged (callback) {
       if (_.isFunction(callback)) {
-        this.timeChanedRef = callback;
+        this.statusChangedRef = callback;
       }
     }
 
@@ -141,8 +142,6 @@
         if (arguments.length > 1) {
           param = arguments[1];
         }
-        console.log(param);
-        console.log(func);
         func(param);
       }
     }
