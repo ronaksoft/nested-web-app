@@ -11,10 +11,13 @@
       vm.displayState = 0;
       vm.playPauseToggle = playPauseToggle;
       vm.closePlayer = closePlayer;
+      vm.next = next;
+      vm.previous = previous;
       vm.playList = [];
+      vm.isVoice = false;
 
       vm.currentPlay = {
-        track : {},
+        item : {},
         index : 0
       }
 
@@ -39,13 +42,16 @@
       function getCurrent() {
         vm.currentPlay = SvcMiniPlayer.getCurrent();
         console.log(vm.currentPlay);
+        if (vm.currentPlay.item) {
+          vm.isVoice = vm.currentPlay.item.uploadType !== "AUDIO";
+        }
       }
 
       function getList() {
         vm.playList = SvcMiniPlayer.getList();
         console.log(vm.playList);
         if ( vm.displayState === 0 && vm.playList.length > 0) {
-          vm.playList = 1;
+          vm.displayState = 1;
         }
       }
       function playPauseToggle() {
@@ -64,8 +70,16 @@
         vm.playList = SvcMiniPlayer.play(vm.currentPlay.track.id);
       }
 
+      function next() {
+        vm.playList = SvcMiniPlayer.play(vm.playList[vm.currentPlay.index + 1].id);
+      }
+
+      function previous() {
+        vm.playList = SvcMiniPlayer.play(vm.playList[vm.currentPlay.index - 1].id);
+      }
+
       function closePlayer(){
-        vm.playList = 0;
+        vm.displayState = 0;
       }
 
     }

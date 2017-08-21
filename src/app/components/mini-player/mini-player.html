@@ -1,22 +1,29 @@
 <div class="mini-player">
     <div class="player-ribbon" ng-if="ctrl.displayState === 1">
-        <img ng-src="s" alt="">
-        <span>Une Cellier - T…</span>
-            <svg class="_16svg fill-white">
-                <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
-            </svg>
-            <svg class="_16svg fill-white" ng-if="vm.currentPlay.index > 0">
-                <use xlink:href="/assets/icons/nst-icn16.svg#player-back"></use>
-            </svg>
-            <svg class="_16svg fill-white">
-                <use xlink:href="/assets/icons/nst-icn16.svg#player-next"></use>
-            </svg>
-            <svg class="_16svg fill-white">
-                <use xlink:href="/assets/icons/nst-icn16.svg#expand"></use>
-            </svg>
-            <svg class="_16svg fill-white">
-                <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
-            </svg>
+        <img ng-src="{{ctrl.currentPlay.item.thumbnail}}" alt="" ng-if="!ctrl.isVoice">
+        <img initial-avatar="{{::ctrl.currentPlay.item.sender.id}}" name="{{::ctrl.currentPlay.item.sender.fullName}}" picture="{{ctrl.currentPlay.item.sender | avatar}}"
+        data-width="24" data-height="24" data-radius="13" class="account-initials-24 _df" data-word-count="2" data-font-size="8"
+        ng-if="ctrl.isVoice"/>
+        
+        <span>{{ctrl.currentPlay.item.filename}}</span>
+        <svg class="_16svg fill-white" ng-if="vm.currentPlay.index > 0" ng-click="ctrl.previous()">
+            <use xlink:href="/assets/icons/nst-icn16.svg#player-back"></use>
+        </svg>
+        <svg class="_16svg fill-white" ng-if="ctrl.currentPlay.item.isPlay">
+            <use xlink:href="/assets/icons/nst-icn16.svg#play"></use>
+        </svg>
+        <svg class="_16svg fill-white" ng-if="!ctrl.currentPlay.item.isPlay">
+            <use xlink:href="/assets/icons/nst-icn16.svg#pause"></use>
+        </svg>
+        <svg class="_16svg fill-white" ng-click="ctrl.next()">
+            <use xlink:href="/assets/icons/nst-icn16.svg#player-next"></use>
+        </svg>
+        <svg class="_16svg fill-white" ng-click="ctrl.displayState = 2">
+            <use xlink:href="/assets/icons/nst-icn16.svg#expand"></use>
+        </svg>
+        <svg class="_16svg fill-white" ng-click="ctrl.closePlayer()">
+            <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
+        </svg>
     </div>
     <div class="mini-player-inner" ng-if="ctrl.displayState === 2">
         <div class="player">
