@@ -46,12 +46,17 @@
     var service = new MiniPlayer();
     return service;
 
-    function addTrack (item) {
+    function addTrack (item, sender) {
       var alreadyCreated = audioObjs.find(function (element) {
         return element.id === item.id;
       });
 
       if (!alreadyCreated) {
+        if (sender !== null) {
+          item = _.merge(item, {
+            sender: sender
+          });
+        }
         audioObjs.push(item);
         callIfValid(this.listUpdatedRef);
       }
@@ -127,10 +132,13 @@
       var index = _.findIndex(audioObjs, function (o) {
         return o.id === playing
       });
+
       return {
         item : audioObjs[index],
+        prev: (index === 0) ? false : true,
+        next: (index === (audioObjs.length - 1))? false : true,
         index : index
-      }
+      };
     }
 
     function listUpdated (callback) {
