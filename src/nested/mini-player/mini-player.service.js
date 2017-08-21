@@ -29,6 +29,8 @@
     }
 
     MiniPlayer.prototype.constructor = MiniPlayer;
+    MiniPlayer.playlistName = null;
+    MiniPlayer.prototype.setPlaylist = setPlaylist;
     MiniPlayer.prototype.addTrack = addTrack;
     MiniPlayer.prototype.play = play;
     MiniPlayer.prototype.pause = pause;
@@ -45,6 +47,13 @@
 
     var service = new MiniPlayer();
     return service;
+
+    function setPlaylist(name) {
+      if (name !== this.playlistName) {
+        this.removeAll();
+      }
+      this.playlistName = name;
+    }
 
     function addTrack (item, sender) {
       var alreadyCreated = audioObjs.find(function (element) {
@@ -66,11 +75,9 @@
       audioDOM.src = item.src;
       audioDOM.load();
 
-      // audioDOMS.push(audio);
-
-      // if (item.isPlayed) {
+      if (item.isPlayed) {
         this.play(item.id);
-      // }
+      }
     }
 
     function play(id) {
@@ -79,9 +86,6 @@
         this.pause(playingItem.item.id);
       }
       playing = id;
-      // var DOM = audioDOMS.find(function (audioDOM) {
-      //   return audioDOM.className === id;
-      // });
       audioDOM.play();
       callIfValid(this.statusChangedRef, {
         status: 'play',
@@ -123,7 +127,6 @@
 
     function removeAll () {
       audioDOM.pause();
-
       audioObjs = [];
       $rootScope.$broadcast('play-audio', '');
     }
