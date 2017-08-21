@@ -11,7 +11,8 @@
             audioObjs = [],
             currentlyPlay;
 
-        obj.addMusic = function (item) {
+        
+        obj.prototype.addMusic = function (item) {
             
             var alreadyCreated = audioDOMS.find(function (audioDOM) {
                 return audioDOM.className === item.id;
@@ -45,7 +46,7 @@
             };
         };
 
-        obj.play = function (id) {
+        obj.prototype.play = function (id) {
             currentlyPlay = id;
             var DOM = audioDOMS.find(function (audioDOM) {
                 return audioDOM.className === id;
@@ -54,7 +55,7 @@
             $rootScope.$broadcast('play-audio', id);
         };
 
-        obj.pause = function (id) {
+        obj.prototype.pause = function (id) {
             currentlyPlay = '';
             var DOM = audioDOMS.find(function (audioDOM) {
                 return audioDOM.className === id;
@@ -63,7 +64,7 @@
             $rootScope.$broadcast('play-audio', '');
         }
 
-        obj.removeAll = function () {
+        obj.prototype.removeAll = function () {
             audioDOMS.forEach(function (i){
                 i.pause();
                 i.remove();
@@ -72,6 +73,20 @@
             audioObjs = [];
             $rootScope.$broadcast('play-audio', '');
         };
+
+        obj.prototype.getCurrent = function () {
+            var index = _.findIndex(obj.audioObjs, function (o) {
+                return o.id === obj.currentlyPlay
+            });
+            return {
+                item : obj.audioObjs[index],
+                index : index
+            }
+        }
+
+        obj.prototype.getList = function () {
+            return audioObjs;
+        }
 
         return obj;
     }

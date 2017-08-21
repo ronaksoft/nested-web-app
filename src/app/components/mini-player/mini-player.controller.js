@@ -6,11 +6,19 @@
       .controller('MiniPlyerController', MiniPlyerController);
   
     /** @ngInject */
-    function MiniPlyerController($scope, $rootScope, $uibModal, $state, _,
-                                  toastr, NstUtility, NstSvcAuth,
-                                  NstSearchQuery, NstSvcPlaceFactory, NstSvcTranslation,
-                                  NST_CONFIG, NST_DEFAULT, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_PLACE_EVENT) {
+    function MiniPlyerController($scope, $rootScope, $uibModal, $state, _, SvcMiniPlayer) {
       var vm = this;
+      vm.playList = [];
+
+      vm.currentPlay = {
+        item : {},
+        index : 0
+      }
+
+      getCurrent();
+      function getCurrent() {
+        vm.playList = SvcMiniPlayer.getCurrent()
+      }
   
     }
   })();

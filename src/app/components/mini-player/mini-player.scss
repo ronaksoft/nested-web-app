@@ -3,11 +3,35 @@
     bottom: 0;
     left: 50%;
     margin-left: -160px;
-    height: 88px;
+    min-height: 88px;
     width: 320px;
     background-color: $color-solid;
     z-index: 9999;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
     box-shadow: 0 4px 16px $color-solid-64;
+    display: flex;
+    flex-direction: column;
+    .player {
+        height: 54px;
+        display: flex;
+        flex: none;
+        .sound-poster {
+            padding: 16px;
+            img {
+                width: 36px;
+                height: 36px;
+            }
+        }
+    }
+    .player-buttons-wrapper {
+        height: 32px;
+        display: flex;
+        flex: none;
+    }
+    .player-list {
+        display: flex;
+        max-height: 208px; 
+        padding: 8p 0;
+    }
 }
