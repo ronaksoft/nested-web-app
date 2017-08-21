@@ -33,7 +33,7 @@
     MiniPlayer.prototype.play = play;
     MiniPlayer.prototype.pause = pause;
     MiniPlayer.timeChanedRef = null;
-    MiniPlayer.prototype.timeChaned = timeChanged;
+    MiniPlayer.prototype.timeChanged = timeChanged;
     MiniPlayer.listUpdatedRef = null;
     MiniPlayer.prototype.listUpdated = listUpdated;
     MiniPlayer.prototype.removeAll = removeAll;
