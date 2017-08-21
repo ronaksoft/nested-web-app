@@ -1,7 +1,7 @@
 .mini-player {
     position: fixed;
     bottom: 0;
-    left: 50%;
+    left: 50vw;
     margin-left: -160px;
     min-height: 88px;
     width: 320px;
@@ -17,17 +17,59 @@
         display: flex;
         flex: none;
         .sound-poster {
-            padding: 16px;
+            padding: 8px 16px;
             img {
                 width: 36px;
                 height: 36px;
             }
         }
+        .player-handler {
+            padding: 0 12px;
+            height: 24px;
+        }
+        span {
+            line-height: 18px;
+            font-size: 12px;
+            opacity: .64;
+            color: $color-white;
+        }
+        .player-quit {
+            width: 52px;
+            display: flex;
+            padding: 8px;
+            opacity: .64;
+            justify-content: flex-end;
+        }
     }
     .player-buttons-wrapper {
         height: 32px;
         display: flex;
+        align-items: center;
         flex: none;
+        .remain-time ,
+        .player-dropdown {
+            width: 48px;
+            display: flex;
+            padding: 0 8px;
+            flex: none;
+        }
+        .player-buttons{
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            svg {
+                margin: 0 12px;
+            }
+        }
+        .player-dropdown {
+            justify-content: flex-end;
+            opacity: .72;
+        }
+        .remain-time {
+            opacity: .64;
+            color: $color-white;
+            justify-content: center;
+        }
     }
     .player-list {
         display: flex;

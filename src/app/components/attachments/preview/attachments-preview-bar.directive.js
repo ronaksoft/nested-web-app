@@ -223,7 +223,6 @@
 
         scope.playAudio = function (item) {
           item.isPlay = true;
-          if ( item.isPlay)
 
           // var alreadyPlayed = audioDOMS.find(function (audioDOM) {
           //   return audioDOM.className === item.id;

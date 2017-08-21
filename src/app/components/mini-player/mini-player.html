@@ -1,37 +1,50 @@
 <div class="mini-player">
    <div class="player">
        <div class="sound-poster">
-           <img src="" alt="">
+           <img ng-src="s" alt="">
+           <!-- <img ng-src="ctrl.currentPlay.track.preview" alt=""> -->
        </div>
-       <div class="_difv _fw">
+       <div class="_difv _fw _jcc">
            <div class="player-handler">
 
            </div>
+           <span>
+               sd
+           </span>
        </div>
        <div class="player-quit">
-            <svg class="_16svg close-inp">
+            <svg class="_16svg fill-white">
                 <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
             </svg>
        </div>
    </div>
    <div class="player-buttons-wrapper">
        <div class="remain-time">
-        {{ctrl.currentPlay.duration}}
+           22
+        <!-- {{ctrl.currentPlay.track.duration}} -->
        </div>
        <div class="player-buttons">
             <div class="butn-previous">
-                <svg class="_16svg close-inp">
+                <svg class="_16svg fill-white">
                     <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
                 </svg>
             </div>
-            <div class="butn-playpause">
-
+            <div class="butn-playpause" ng-click="ctrl.playPauseToggle">
+                <svg class="_16svg fill-white">
+                    <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
+                </svg>
             </div>
             <div class="butn-next">
-
+                <svg class="_16svg fill-white">
+                    <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
+                </svg>
             </div>
        </div>
-       <div class="player-dropdown"></div>
+       <div class="player-dropdown">
+            <svg class="_16svg fill-white">
+                <use xlink:href="/assets/icons/nst-icn16.svg#arrow"></use>
+            </svg>
+       </div>
    </div>
    <div class="player-list">
 
