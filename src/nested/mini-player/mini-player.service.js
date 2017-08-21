@@ -50,12 +50,10 @@
         return element.id === item.id;
       });
 
-      if (alreadyCreated) {
-        return ;
+      if (!alreadyCreated) {
+        audioObjs.push(item);
+        callIfValid(this.listUpdatedRef);
       }
-
-      audioObjs.push(item);
-      callIfValid(this.listUpdatedRef);
 
       audioDOM.className = item.id;
       audioDOM.autoplay = item.isPlayed ? true : false;
