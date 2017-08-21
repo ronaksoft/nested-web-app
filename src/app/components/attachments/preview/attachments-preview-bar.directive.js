@@ -245,7 +245,7 @@
 
           getToken(item.id).then(function (token) {
             item.src = NstSvcStore.resolveUrl(NST_STORE_ROUTE.VIEW, item.id, token);
-            SvcMiniPlayer.addMusic(item);
+            SvcMiniPlayer.addTrack(item);
           }).catch(function () {
             toastr.error('Sorry, An error has occured while playing the audio');
           });
