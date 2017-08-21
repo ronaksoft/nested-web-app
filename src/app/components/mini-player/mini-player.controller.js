@@ -89,6 +89,7 @@
 
       function closePlayer(){
         vm.displayState = 0;
+        SvcMiniPlayer.removeAll();
       }
 
     }
