@@ -29,6 +29,8 @@
     }
 
     MiniPlayer.prototype.constructor = MiniPlayer;
+    MiniPlayer.playlistName = null;
+    MiniPlayer.prototype.setPlaylist = setPlaylist;
     MiniPlayer.prototype.addTrack = addTrack;
     MiniPlayer.prototype.play = play;
     MiniPlayer.prototype.pause = pause;
@@ -45,6 +47,13 @@
 
     var service = new MiniPlayer();
     return service;
+
+    function setPlaylist(name) {
+      if (name !== this.playlistName) {
+        this.removeAll();
+      }
+      this.playlistName = name;
+    }
 
     function addTrack (item, sender) {
       var alreadyCreated = audioObjs.find(function (element) {
