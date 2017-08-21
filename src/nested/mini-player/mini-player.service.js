@@ -8,7 +8,7 @@
   function SvcMiniPlayer($rootScope,$window,deviceDetector,$timeout, NstSvcFileFactory, NstSvcStore, _) {
     var audioDOM;
     var audioObjs = [];
-    var currentlyPlay = null;
+    var playing = null;
     var audioInterval;
 
     function MiniPlayer () {
@@ -22,8 +22,7 @@
 
       audioInterval = setInterval(function () {
         if (!audioDOM.paused) {
-          console.log(audioDOM.currentTime);
-          callIfValid(this.timeChanedRef, audioDOM.currentTime);
+          callIfValid(this.timeChangedRef, audioDOM.currentTime);
         }
       }, 500);
     }
@@ -32,10 +31,12 @@
     MiniPlayer.prototype.addTrack = addTrack;
     MiniPlayer.prototype.play = play;
     MiniPlayer.prototype.pause = pause;
-    MiniPlayer.timeChanedRef = null;
+    MiniPlayer.timeChangedRef = null;
     MiniPlayer.prototype.timeChanged = timeChanged;
     MiniPlayer.listUpdatedRef = null;
     MiniPlayer.prototype.listUpdated = listUpdated;
+    MiniPlayer.statusChangedRef = null;
+    MiniPlayer.prototype.statusChanged = statusChanged;
     MiniPlayer.prototype.removeAll = removeAll;
     MiniPlayer.prototype.getCurrent = getCurrent;
     MiniPlayer.prototype.getList = getList;
@@ -55,13 +56,6 @@
       audioObjs.push(item);
       callIfValid(this.listUpdatedRef);
 
-      // var audio = document.createElement('audio');
-      // audio.style.display = 'none';
-      // audio.className = item.id;
-      // audio.autoplay = item.isPlayed ? true : false;
-      // audio.src = item.src;
-      // document.body.appendChild(audio);
-
       audioDOM.className = item.id;
       audioDOM.autoplay = item.isPlayed ? true : false;
       audioDOM.src = item.src;
@@ -75,26 +69,40 @@
     }
 
     function play (id) {
-      if (currentlyPlay !== null) {
+      if (playing !== null) {
         var playingItem = this.getCurrent();
         this.pause(playingItem.item.id);
       }
-      currentlyPlay = id;
+      playing = id;
       // var DOM = audioDOMS.find(function (audioDOM) {
       //   return audioDOM.className === id;
       // });
       audioDOM.play();
       console.log(id, 'is playing');
+      callIfValid(this.statusChanged, {
+        status: 'play',
+        id: id
+      });
       $rootScope.$broadcast('play-audio', id);
     }
 
     function pause (id) {
-      currentlyPlay = '';
+      playing = '';
       audioDOM.pause();
+      callIfValid(this.statusChanged, {
+        status: 'pause',
+        id: id
+      });
       $rootScope.$broadcast('play-audio', '');
     }
 
     function timeChanged (callback) {
+      if (_.isFunction(callback)) {
+        this.timeChanedRef = callback;
+      }
+    }
+
+    function statusChanged (callback) {
       if (_.isFunction(callback)) {
         this.timeChanedRef = callback;
       }
@@ -109,7 +117,7 @@
 
     function getCurrent () {
       var index = _.findIndex(audioObjs, function (o) {
-        return o.id === currentlyPlay
+        return o.id === playing
       });
       return {
         item : audioObjs[index],
