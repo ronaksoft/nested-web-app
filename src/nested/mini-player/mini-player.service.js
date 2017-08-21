@@ -118,12 +118,12 @@
         return;
       }
       var id = audioObjs[index].id;
-      this.play(id);
       callIfValid(this.statusChangedRef, {
         status: 'next',
         id: id,
         playlist: this.playlistName
       });
+      this.play(id);
     }
 
     function prev() {
@@ -136,12 +136,12 @@
         return;
       }
       var id = audioObjs[index].id;
-      this.play(id);
       callIfValid(this.statusChangedRef, {
         status: 'prev',
         id: id,
         playlist: this.playlistName
       });
+      this.play(id);
     }
 
     function seekTo (id, sec) {
