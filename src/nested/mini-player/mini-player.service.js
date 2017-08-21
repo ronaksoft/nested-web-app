@@ -164,6 +164,7 @@
     function removeAll () {
       audioDOM.pause();
       audioObjs = [];
+      playing = null;
       $rootScope.$broadcast('play-audio', '');
     }
 
