@@ -208,6 +208,7 @@
         };
 
         scope.$on('play-audio', function (e, id){
+          console.log(arguments, id);
           scope.items.filter(function(item) {
             return id !== item.id;
           }).forEach(function (i){
@@ -224,14 +225,18 @@
 
         scope.playAudio = function (item) {
           item.isPlay = true;
+          console.log(item.isPlay);
+          console.log(item);
+          SvcMiniPlayer.setPlaylist(scope.postId);          
           scope.items.forEach(function(attachment){
+            console.log('itemforEach');
             if (attachment.uploadType !== 'AUDIO' && attachment.uploadType !== 'VOICE') {
               return;
             }
             getToken(attachment.id).then(function (token) {
-              attachment.src = NstSvcStore.resolveUrl(NST_STORE_ROUTE.VIEW, item.id, token);
+              console.log('getTokenforEach');
+              attachment.src = NstSvcStore.resolveUrl(NST_STORE_ROUTE.VIEW, attachment.id, token);
               SvcMiniPlayer.addTrack(attachment);
-              SvcMiniPlayer.setPlaylist(scope.postId);
             }).catch(function () {
               toastr.error('Sorry, An error has occured while playing the audio');
             });
