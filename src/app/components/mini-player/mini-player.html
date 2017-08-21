@@ -1,4 +1,4 @@
-<div class="mini-player">{{ctrl.playStatus ? true : false}}
+<div class="mini-player">
     <div class="player-ribbon" ng-if="ctrl.displayState === 1">
         <img ng-src="{{ctrl.currentPlay.item.thumbnail}}" alt="" ng-if="!ctrl.isVoice">
         <img initial-avatar="{{::ctrl.currentPlay.item.sender.id}}" name="{{::ctrl.currentPlay.item.sender.fullName}}" picture="{{ctrl.currentPlay.item.sender | avatar}}"

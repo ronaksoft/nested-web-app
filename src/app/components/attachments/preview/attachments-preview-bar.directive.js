@@ -208,10 +208,12 @@
         };
 
         scope.$on('play-audio', function (e, id){
+          console.log('id', id);
           scope.items.filter(function(item) {
+            console.log(id ,item.id);
             return id !== item.id;
           }).forEach(function (i){
-            i.isPlayed = false
+            i.isPlay = false
           });
         });
 
@@ -223,6 +225,9 @@
         });
 
         scope.playAudio = function (item) {
+          if (item.isPlay) {
+            return SvcMiniPlayer.pause();
+          }
           SvcMiniPlayer.setPlaylist(scope.postId);
           scope.items.forEach(function(attachment){
             if (attachment.uploadType !== 'AUDIO' && attachment.uploadType !== 'VOICE') {
@@ -231,7 +236,7 @@
             getToken(attachment.id).then(function (token) {
               attachment.src = NstSvcStore.resolveUrl(NST_STORE_ROUTE.VIEW, attachment.id, token);
               if (item.id === attachment.id) {
-                attachment.isPlayed = true;
+                attachment.isPlay = true;
               }
               SvcMiniPlayer.addTrack(attachment);
             }).catch(function () {
