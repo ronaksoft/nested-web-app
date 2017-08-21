@@ -3,15 +3,26 @@
     bottom: 0;
     left: 50vw;
     margin-left: -160px;
-    min-height: 88px;
     width: 320px;
-    background-color: $color-solid;
     z-index: 9999;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-    box-shadow: 0 4px 16px $color-solid-64;
-    display: flex;
-    flex-direction: column;
+    .player-ribbon {
+        height: 32px;
+        margin-bottom: 5px;
+        display: flex;
+        background-color: $color-solid;
+        border-radius: 8px;
+        box-shadow: 0 4px 16px $color-solid-64;
+        padding: 8px;
+    }
+    .mini-player-inner {
+        display: flex;
+        background-color: $color-solid;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        flex-direction: column;
+        min-height: 88px;
+        box-shadow: 0 4px 16px $color-solid-64;
+    }
     .player {
         height: 54px;
         display: flex;

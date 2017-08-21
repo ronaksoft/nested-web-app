@@ -8,6 +8,7 @@
     /** @ngInject */
     function MiniPlyerController($scope, $rootScope, $uibModal, $state, _, SvcMiniPlayer) {
       var vm = this;
+      vm.displayState = 0;
       vm.playPauseToggle = playPauseToggle;
       vm.playList = [];
 
