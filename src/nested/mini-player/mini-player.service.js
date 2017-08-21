@@ -9,6 +9,7 @@
     var audioDOM;
     var audioObjs = [];
     var currentlyPlay = null;
+    var audioInterval;
 
     function MiniPlayer () {
       audioDOM = document.createElement('audio');
@@ -18,12 +19,23 @@
       audioDOM.onended = function () {
         $rootScope.$broadcast('play-audio', '');
       };
+
+      audioInterval = setInterval(function () {
+        if (!audioDOM.paused) {
+          console.log(audioDOM.currentTime);
+          callIfValid(this.timeChanedRef, audioDOM.currentTime);
+        }
+      }, 500);
     }
 
     MiniPlayer.prototype.constructor = MiniPlayer;
     MiniPlayer.prototype.addTrack = addTrack;
     MiniPlayer.prototype.play = play;
     MiniPlayer.prototype.pause = pause;
+    MiniPlayer.timeChanedRef = null;
+    MiniPlayer.prototype.timeChaned = timeChanged;
+    MiniPlayer.listUpdatedRef = null;
+    MiniPlayer.prototype.listUpdated = listUpdated;
     MiniPlayer.prototype.removeAll = removeAll;
     MiniPlayer.prototype.getCurrent = getCurrent;
     MiniPlayer.prototype.getList = getList;
@@ -32,20 +44,16 @@
     return service;
 
     function addTrack (item) {
-      // var alreadyCreated = audioDOMS.find(function (audioDOM) {
-      //   return audioDOM.className === item.id;
-      // });
-      //
-      // if (alreadyCreated) {
-      //   // alreadyCreated.pause();
-      //   // alreadyAdded.remove();
-      //   // pauseCallback(false);
-      //   // _.remove(audioDOMS, function(n) {
-      //   //     return n.className === item.id;
-      //   // });
-      //   return ;
-      // }
+      var alreadyCreated = audioObjs.find(function (element) {
+        return element.id === item.id;
+      });
+
+      if (alreadyCreated) {
+        return ;
+      }
+
       audioObjs.push(item);
+      callIfValid(this.listUpdatedRef);
 
       // var audio = document.createElement('audio');
       // audio.style.display = 'none';
@@ -61,7 +69,9 @@
 
       // audioDOMS.push(audio);
 
-      this.play(item.id);
+      // if (item.isPlayed) {
+        this.play(item.id);
+      // }
     }
 
     function play (id) {
@@ -84,6 +94,12 @@
       $rootScope.$broadcast('play-audio', '');
     }
 
+    function timeChanged (callback) {
+      if (_.isFunction(callback)) {
+        this.timeChanedRef = callback;
+      }
+    }
+
     function removeAll () {
       audioDOM.pause();
 
@@ -101,8 +117,24 @@
       }
     }
 
+    function listUpdated (callback) {
+      if (_.isFunction(callback)) {
+        this.listUpdatedRef = callback;
+      }
+    }
+
     function getList () {
       return audioObjs;
+    }
+
+    function callIfValid() {
+      if (_.isFunction(arguments[0])) {
+        var param = null;
+        if (arguments.length > 1) {
+          param = arguments.shift();
+        }
+        arguments[0](param);
+      }
     }
   }
 })();
