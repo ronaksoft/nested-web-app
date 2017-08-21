@@ -133,7 +133,7 @@
         if (arguments.length > 1) {
           param = arguments.shift();
         }
-        arguments[0]();
+        arguments[0](param);
       }
     }
   }
