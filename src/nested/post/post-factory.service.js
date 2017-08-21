@@ -195,11 +195,13 @@
       post.read = data.post_read;
       post.recipients = data.post_recipients;
       post.replyToId = data.reply_to;
-      post.sender = NstSvcUserFactory.getCachedSync(data.sender);
-      // Make sure the post sender was found successfully
-      if (data.sender && !post.sender) {
-        this.cache.remove(data._id);
-        return null;
+      if (data.sender) {
+        post.sender = NstSvcUserFactory.getCachedSync(data.sender);
+        // Make sure the post sender was found successfully
+        if (!post.sender) {
+          this.cache.remove(data._id);
+          return null;
+        }
       }
       post.subject = data.subject;
       post.timestamp = data.timestamp;

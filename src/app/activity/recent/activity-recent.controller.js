@@ -85,21 +85,40 @@
      * @returns
      */
     function getRecentActivity(settings) {
-
-      var defer = $q.defer();
-
       NstSvcActivityFactory.getRecent(settings, handleCachedActivities).then(function (activities) {
-        vm.activities = activities;
+        merge(activities);
         vm.status.loadInProgress = false;
-
-        defer.resolve(vm.activities);
       }).catch(function () {
         vm.status.loadInProgress = false;
       });
-
-      return defer.promise;
     }
 
+    /**
+     * Merges the received activities with the cached items
+     * 
+     * @param {any} activities 
+     */
+    function merge(activities) {
+      var newItems = _.differenceBy(activities, vm.activities, 'id');
+      var removedItems = _.differenceBy(vm.activities, activities, 'id');
+
+      // first omit the removed items; The items that are no longer exist in fresh activities
+      _.forEach(removedItems, function(item) {
+        var index = _.findIndex(vm.activities, { 'id': item.id });
+        if (index > -1) {
+          vm.activities.splice(index, 1);
+        }
+      });
+
+      // add new items; The items that do not exist in cached items, but was found in fresh activities
+      vm.activities.unshift.apply(vm.activities, newItems);
+    }
+
+    /**
+     * Binds the cached items
+     * 
+     * @param {any} activities 
+     */
     function handleCachedActivities(activities) {
       vm.activities = activities;
       vm.status.loadInProgress = false;
