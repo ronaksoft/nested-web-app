@@ -17,6 +17,7 @@
         mode: '=',
         badge: '=',
         postId: '='
+        sender: '='
       },
       link: function (scope, ele) {
         scope.internalMode = NST_ATTACHMENTS_PREVIEW_BAR_MODE.AUTO;
@@ -231,6 +232,10 @@
             getToken(attachment.id).then(function (token) {
               
               attachment.src = NstSvcStore.resolveUrl(NST_STORE_ROUTE.VIEW, attachment.id, token);
+              attachment.isVoice = attachment.uploadType === "VOICE"
+              if ( attachment.isVoice.isVoice ) {
+                attachment.sender = scope.sender
+              }
               // console.log( item.id, attachment.id, item.id === attachment.id);
               if (item.id === attachment.id) {
                 // console.log(attachment.isPlayed);
