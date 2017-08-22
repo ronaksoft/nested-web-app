@@ -16,11 +16,18 @@
       audioDOM.style.display = 'none';
       document.body.appendChild(audioDOM);
 
+      var that = this;
+
       audioDOM.onended = function () {
+        that.currentStatus = 'pause';
+        callIfValid(that.statusChangedRef, {
+          status: that.currentStatus,
+          id: playing,
+          playlist: that.playlistName
+        });
         broadcastStatus('');
       };
 
-      var that = this;
       audioInterval = setInterval(function () {
         if (!audioDOM.paused) {
           callIfValid(that.timeChangedRef, {
