@@ -64,7 +64,7 @@
 
       function barClick(e) {
         var barWidth = e.currentTarget.clientWidth;
-        var x = e.offsetX;
+        var x = e.clientX - $(e.currentTarget).offset().left;
         var newRatio = x / barWidth;
         var setTime = vm.currentTime.duration * newRatio;
         vm.currentTime.ratio = newRatio;
