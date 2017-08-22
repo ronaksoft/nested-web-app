@@ -116,6 +116,7 @@
 
 
         scope.sizeDetect = function (aw, ah) {
+          console.log(123123123);
           var a = scope.attachment,
             ww = window.innerWidth, // screen width
             wh = window.innerHeight - 64, // Navbar Height : 64
@@ -153,9 +154,9 @@
 
 
         var resizeIt = _.debounce(scope.sizeDetect, 500);
-        angular.element($window).on('resize', resizeIt(scope.attachment.width, scope.attachment.height));
+        // angular.element($window).on('resize', resizeIt(scope.attachment.width, scope.attachment.height));
         scope.$on('$destroy', function () {
-          angular.element($window).off('resize', resizeIt(scope.attachment.width, scope.attachment.height));
+          // angular.element($window).off('resize', resizeIt(scope.attachment.width, scope.attachment.height));
         });
       },
       template: '<div class="nst-preview-pic-mode" data-ng-include="tplUrl" data-ng-init="attachment = attachment"></div>'

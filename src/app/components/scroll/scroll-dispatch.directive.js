@@ -18,8 +18,8 @@
           dissappear($element.find('.tooltip'));
           dissappear($element.find('.hide-on-scroll'));
           wdtEmojiBundle.close();
-          for ( var i = 0; i < wdtEmojiBundle.fadeOut.length; i++ ) {
-            document.removeEventListener("click", wdtEmojiBundle.fadeOut[i]);
+          for ( var i = 0; i < wdtEmojiBundle.eventListeners.fadeOut.length; i++ ) {
+            document.removeEventListener("click", wdtEmojiBundle.eventListeners.fadeOut[i]);
           }
         });
 

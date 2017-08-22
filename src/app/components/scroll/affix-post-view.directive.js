@@ -32,8 +32,8 @@
 
         function applier() {
 
-          if (window.affixerListeners && window.affixerListeners.length > 0) {
-            window.affixerListeners.forEach( function(item){
+          if (window.affixerListenersPostView && window.affixerListenersPostView.length > 0) {
+            window.affixerListenersPostView.forEach( function(item){
               window.removeEventListener("scroll", item);
             });
           }
@@ -104,10 +104,10 @@
           window.addEventListener("scroll", affixElement);
           firstFixes();
           
-          if ( !window.affixerListeners ) {
-            window.affixerListeners = [];
+          if ( !window.affixerListenersPostView ) {
+            window.affixerListenersPostView = [];
           }
-          window.affixerListeners.push(affixElement);
+          window.affixerListenersPostView.push(affixElement);
 
           $scope.$on('$destroy', function () {
             container.unbind('scroll', affixElement);

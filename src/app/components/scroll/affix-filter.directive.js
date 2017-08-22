@@ -22,8 +22,8 @@
         function applier() {
           removeFix();
 
-          if (window.affixerListeners && window.affixerListeners.length > 0) {
-            window.affixerListeners.forEach( function(item){
+          if (window.affixerListenerFilter && window.affixerListenerFilter.length > 0) {
+            window.affixerListenerFilter.forEach( function(item){
               window.removeEventListener("scroll", item);
             });
           }
@@ -100,10 +100,10 @@
           findLeftOffset();
           window.addEventListener("scroll", affixElement);
 
-          if ( !window.affixerListeners ) {
-            window.affixerListeners = [];
+          if ( !window.affixerListenerFilter ) {
+            window.affixerListenerFilter = [];
           }
-          window.affixerListeners.push(affixElement);
+          window.affixerListenerFilter.push(affixElement);
 
           win.bind('scroll', affixElement);
           firstFixes();

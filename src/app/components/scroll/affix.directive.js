@@ -6,7 +6,7 @@
     .directive('affixer', onScroll);
 
   /** @ngInject */
-  function onScroll($window,$rootScope,$timeout, $) {
+  function onScroll($window,$rootScope,$timeout, $, _) {
     return {
       restrict: 'A',
       link: function ($scope, $element, $attrs) {
@@ -28,7 +28,10 @@
           removeFix();
 
           if (window.affixerListeners && window.affixerListeners.length > 0) {
-            window.affixerListeners.forEach( function(item){
+            window.affixerListeners.scroll.forEach( function(item){
+              window.removeEventListener("scroll", item);
+            });
+            window.affixerListeners.resize.forEach( function(item){
               window.removeEventListener("scroll", item);
             });
           }
@@ -112,21 +115,22 @@
 
           findLeftOffset();
           affixElement();
-          // win.bind('scroll', affixElement);
           firstFixes();
 
+          var resizeE = _.debounce(applier, 16);
+
           window.addEventListener("scroll", affixElement);
-          // window.addEventListener("resize", resizeE);
+          window.addEventListener("resize", resizeE);
 
           if ( !window.affixerListeners ) {
-            window.affixerListeners = [];
+            window.affixerListeners = {
+              scroll : [],
+              resize : []
+            };
           }
-          window.affixerListeners.push(affixElement);
-          // window.affixerListeners.push(resizeE);
+          window.affixerListeners.scroll.push(affixElement);
+          window.affixerListeners.resize.push(resizeE);
           
-          function resizeE() {
-            applier();
-          }
 
         }
 
