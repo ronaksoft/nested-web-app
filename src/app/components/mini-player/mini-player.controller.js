@@ -44,10 +44,12 @@
         if (result.status === 'play' || result.status === 'pause') {
           updateDebounce();
         } else if (result.status === 'end') {
-          vm.currentTime = {
-            time: vm.currentTime.duration,
-            ratio: 1
-          };
+          $scope.$apply(function () {
+            vm.currentTime = {
+              time: 0,
+              ratio: 1
+            };
+          });
         }
       });
 

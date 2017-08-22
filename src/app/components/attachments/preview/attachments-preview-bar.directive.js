@@ -232,13 +232,9 @@
               if ( attachment.isVoice ) {
                 attachment.sender = scope.sender
               }
-              // console.log( item.id, attachment.id, item.id === attachment.id);
               if (item.id === attachment.id) {
-                // console.log(attachment.isPlayed);
                 attachment.isPlayed = true;
-                // console.log(attachment.isPlayed);
               }
-              console.log(attachment)
               SvcMiniPlayer.addTrack(attachment);
             }).catch(function () {
               toastr.error('Sorry, An error has occured while playing the audio');
