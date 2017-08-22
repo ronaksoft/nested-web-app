@@ -199,11 +199,11 @@
     }
     .player-list {
         display: flex;
-        max-height: 208px;
+        max-height: 0;
         transition: max-height $animation-dur;
         overflow: auto;
-        &.collapse {
-            max-height: 0;
+        &.expand {
+            max-height: 208px;
         }
         ul {
             padding: 4px 0;
@@ -238,8 +238,10 @@
                         padding-right: 16px;
                     }
                     &.isPlayed {
-                        color: $color-sense;
-                        font-weight: bold
+                        span {
+                            color: $color-sense;
+                            font-weight: bold
+                        }
                     }
                 }
                 &:last-of-type {

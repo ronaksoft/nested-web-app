@@ -94,7 +94,7 @@
                 </svg>
             </div>
         </div>
-        <div class="player-list ng-class:{'collapse' : ctrl.displayState === 2}" nst-scrollbar>
+        <div class="player-list ng-class:{'expand' : ctrl.displayState !== 2}" nst-scrollbar>
             <ul>
                 <li ng-repeat="track in ctrl.playList" ng-click="ctrl.play(track.id)">
                     <div class="poster ng-class:{'user-avatar-52' : track.isVoice}">
