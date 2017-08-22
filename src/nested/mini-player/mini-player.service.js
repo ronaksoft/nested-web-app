@@ -59,6 +59,7 @@
     MiniPlayer.prototype.getCurrent = getCurrent;
     MiniPlayer.prototype.getList = getList;
     MiniPlayer.prototype.broadcastStatus = broadcastStatus;
+    MiniPlayer.prototype.getStatus = getStatus;
 
     var service = new MiniPlayer();
     return service;
@@ -258,6 +259,13 @@
         return;
       }
       $rootScope.$broadcast('play-audio', this.playlistName + '_' + id);
+    }
+
+    function getStatus() {
+      if (this.playlistName === undefined || this.playlistName === null) {
+        return '';
+      }
+      return this.playlistName + '_' + playing;
     }
   }
 })();
