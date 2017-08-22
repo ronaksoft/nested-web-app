@@ -199,3 +199,9 @@
   stroke: #FAFAFA;
   background-color: #FAFAFA;
 }
+.uib-wrapper-post-view {
+  z-index: 999!important;
+  & + div {
+    z-index: 998!important;
+  }
+}

@@ -4,7 +4,7 @@
     left: 50vw;
     margin-left: -160px;
     width: 320px;
-    z-index: 9999;
+    z-index: 1000;
     .player-ribbon {
         height: 32px;
         margin-bottom: 8px;
@@ -19,7 +19,7 @@
                 width: 16px;
                 height: 16px;
                 object-fit: cover;
-                border-radius: 1px ;
+                border-radius: 1px;
             }
         }
         a {
