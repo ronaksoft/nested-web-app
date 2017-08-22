@@ -65,7 +65,7 @@
         <div class="player-buttons-wrapper">
             <div class="remain-time">
                 <!-- -22:22 -->
-                {{ctrl.currentTimeString}}
+                {{ctrl.currentTime | durationToTime}}
                 <!-- {{ctrl.currentPlay.track.duration}} -->
             </div>
             <div class="player-buttons">
