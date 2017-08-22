@@ -9,7 +9,6 @@
   function NstSvcAuth(_, $cookies, $q, $log, $rootScope,
                       NstSvcServer, NstSvcUserFactory, NstSvcPlaceFactory, NstSvcLogger, NstSvcI18n, NstSvcClient,
                       NstSvcCurrentUserStorage, NstSvcFileStorage, NstSvcInvitationStorage,
-                      NstSvcMyPlaceIdStorage,
                       NstSvcPostStorage, NstSvcUploadTokenStorage, NstSvcContactStorage, NstSvcDate,
                       NST_SRV_EVENT, NST_SRV_RESPONSE_STATUS, NST_SRV_ERROR, NST_UNREGISTER_REASON, NST_CONFIG,
                       NST_AUTH_EVENT, NST_AUTH_STATE, NST_AUTH_STORAGE_KEY,
@@ -231,7 +230,6 @@
           NstSvcCurrentUserStorage.cache.flush();
           NstSvcFileStorage.cache.flush();
           NstSvcInvitationStorage.cache.flush();
-          NstSvcMyPlaceIdStorage.cache.flush();
           NstSvcPostStorage.cache.flush();
           NstSvcUploadTokenStorage.cache.flush();
           NstSvcContactStorage.cache.flush();

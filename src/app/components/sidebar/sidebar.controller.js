@@ -238,7 +238,6 @@
       });
 
       getMyPlaces().then(function (places) {
-
         getPlaceOrder()
           .then(function (order) {
 
@@ -567,7 +566,7 @@
        * Get user limits for creations or any from Api
        */
       function mapLimits() {
-        NstSvcUserFactory.get(vm.user.id, true).then(function (person) {
+        NstSvcUserFactory.getCurrent().then(function (person) {
           vm.createGrandPlaceLimit = person.limits.grand_places;
         });
       }

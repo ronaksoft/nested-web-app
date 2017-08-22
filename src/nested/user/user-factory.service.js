@@ -55,7 +55,6 @@
       return deferred.promise;
     }
 
-
     /**
      * Returns the account of current user. This always asks Cyrus and does not use any cache storage
      * 
@@ -68,8 +67,6 @@
         return $q.resolve(factory.parseUser(account));
       });
     }
-
-
 
     UserFactory.prototype.getMany = function (id) {
       var joinedIds = id.join(',');
@@ -380,7 +377,6 @@
         });
       }, 'untrustEmail');
     }
-
 
     return new UserFactory();
   }
