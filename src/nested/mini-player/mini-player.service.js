@@ -23,7 +23,11 @@
       var that = this;
       audioInterval = setInterval(function () {
         if (!audioDOM.paused) {
-          callIfValid(that.timeChangedRef, audioDOM.currentTime);
+          callIfValid(that.timeChangedRef, {
+            time: audioDOM.currentTime,
+            duration: audioDOM.duration,
+            ratio: (audioDOM.currentTime/audioDOM.duration)
+          });
         }
       }, 500);
     }
@@ -213,7 +217,7 @@
       return {
         item : audioObjs[index],
         status: this.currentStatus,
-        prev: (index === 0) ? false : true,
+        prev: (index === 0)? false : true,
         next: (index === (audioObjs.length - 1))? false : true,
         index : index
       };
