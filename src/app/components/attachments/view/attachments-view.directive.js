@@ -17,7 +17,8 @@
       scope: {
         postId : '=',
         attachments: '=',
-        previewMode: '='
+        previewMode: '=',
+        sender: '='
       }
     };
   }

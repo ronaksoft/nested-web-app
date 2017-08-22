@@ -16,7 +16,7 @@
         items: '=',
         mode: '=',
         badge: '=',
-        postId: '='
+        postId: '=',
         sender: '='
       },
       link: function (scope, ele) {
@@ -27,7 +27,6 @@
         scope.scrollDis = 140;
         scope.NST_FILE_TYPE = NST_FILE_TYPE;
         scope.cardWidth = angular.element('.attachments-card').width();
-        var alreadyAdded = false;
         // var interval, pwTimeout;
         // var moves = [];
         var borderLeftArray=[],borderRightArray=[];
@@ -232,8 +231,8 @@
             getToken(attachment.id).then(function (token) {
               
               attachment.src = NstSvcStore.resolveUrl(NST_STORE_ROUTE.VIEW, attachment.id, token);
-              attachment.isVoice = attachment.uploadType === "VOICE"
-              if ( attachment.isVoice.isVoice ) {
+              attachment.isVoice = attachment.uploadType === "VOICE";
+              if ( attachment.isVoice ) {
                 attachment.sender = scope.sender
               }
               // console.log( item.id, attachment.id, item.id === attachment.id);
@@ -242,6 +241,7 @@
                 attachment.isPlayed = true;
                 // console.log(attachment.isPlayed);
               }
+              console.log(attachment)
               SvcMiniPlayer.addTrack(attachment);
             }).catch(function () {
               toastr.error('Sorry, An error has occured while playing the audio');

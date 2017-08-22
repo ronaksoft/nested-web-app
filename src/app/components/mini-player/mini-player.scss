@@ -71,7 +71,8 @@
         display: flex;
         flex: none;
         .sound-poster {
-            padding: 8px;
+            padding: 0 8px;
+            margin: 8px 0;
             img {
                 width: 36px;
                 height: 36px;

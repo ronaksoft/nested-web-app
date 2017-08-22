@@ -2,7 +2,7 @@
     <div class="player-ribbon" ng-if="ctrl.displayState === 1">
         <img ng-src="{{ctrl.currentPlay.item.thumbnail}}" alt="" ng-if="!ctrl.isVoice">
         <img initial-avatar="{{::ctrl.currentPlay.item.sender.id}}" name="{{::ctrl.currentPlay.item.sender.fullName}}" picture="{{ctrl.currentPlay.item.sender | avatar}}"
-        data-width="24" data-height="24" data-radius="13" class="account-initials-24 _df" data-word-count="2" data-font-size="8"
+        data-width="16" data-height="16" data-radius="16" class="account-initials-16 _df" data-word-count="2" data-font-size="8"
         ng-if="ctrl.isVoice"/>
         <a>
             <span class="_txe">{{ctrl.currentPlay.item.filename}}</span>
@@ -18,7 +18,7 @@
             </svg>
         </div>
         <div ng-click="ctrl.pause()" ng-if="ctrl.currentPlay.status != 'pause'">
-            <svg class="_16svg fill-white">
+            <svg class="_16svg fill-white active">
                 <use xlink:href="/assets/icons/nst-icn16.svg#pause"></use>
             </svg>
         </div>
@@ -40,8 +40,11 @@
     </div>
     <div class="mini-player-inner" ng-if="ctrl.displayState === 2 || ctrl.displayState === 3">
         <div class="player">
-            <div class="sound-poster">
+            <div class="sound-poster ng-class:{'user-avatar-36' : ctrl.isVoice}">
                 <img ng-src="{{ctrl.currentPlay.item.thumbnail}}" alt="" ng-if="!ctrl.isVoice">
+                <img ng-if="ctrl.isVoice" initial-avatar="{{::ctrl.currentPlay.item.sender.id}}" name="{{::ctrl.currentPlay.item.sender.fullName}}" picture="{{ctrl.currentPlay.item.sender | avatar}}"
+                data-width="36" data-height="36" data-radius="20" class="account-initials-16 _df" data-word-count="2" data-font-size="8"
+                ng-if="ctrl.isVoice"/>
             </div>
             <div class="_difv _fw _jcc">
                 <div class="player-handler" ng-click="ctrl.barClick($event)">
@@ -75,10 +78,10 @@
                     </svg>
                 </div>
                 <div class="butn-playpause" ng-click="ctrl.playPauseToggle">
-                    <svg class="_16svg fill-white" ng-if="ctrl.currentPlay.status == 'pause'" ng-click="ctrl.play()">
+                    <svg class="_16svg fill-white active" ng-if="ctrl.currentPlay.status == 'pause'" ng-click="ctrl.play()">
                         <use xlink:href="/assets/icons/nst-icn16.svg#play"></use>
                     </svg>
-                    <svg class="_16svg fill-white" ng-if="ctrl.currentPlay.status != 'pause'" ng-click="ctrl.pause()">
+                    <svg class="_16svg fill-white active" ng-if="ctrl.currentPlay.status != 'pause'" ng-click="ctrl.pause()">
                         <use xlink:href="/assets/icons/nst-icn16.svg#pause"></use>
                     </svg>
                 </div>
