@@ -20,9 +20,8 @@
       vm.playStatus = false;
       vm.playList = [];
       vm.isVoice = false;
-      vm.currentTime = 0;
+      vm.currentTime = {};
       vm.currentTimeString = ' 00:00'
-      vm.currentRatio = 0;
 
       var updateDebounce = _.debounce(update, 50);
 
@@ -56,9 +55,12 @@
       }
 
       function barClick(e) {
-        var target = e.currentTime;
+        var barWidth = e.currentTarget.clientWidth;
         var x = e.offsetX;
-        console.log(x, e)
+        var newRatio = x / barWidth;
+        var setTime = vm.currentTime.duration * newRatio;
+        vm.currentTime.ratio = newRatio;
+        SvcMiniPlayer.seekTo(setTime);
       }
 
 
@@ -75,7 +77,6 @@
       function getList() {
           $scope.$apply(function () {
             vm.playList = SvcMiniPlayer.getList();
-            console.log( vm.playList);
             if (vm.displayState === 0 && vm.playList.length > 0) {
               vm.displayState = 1;
             }
