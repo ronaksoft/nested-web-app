@@ -46,7 +46,9 @@
             </div>
             <div class="_difv _fw _jcc">
                 <div class="player-handler">
-        
+                    <div class="bg-bar"></div>
+                    <div class="played-bar"></div>
+                    <div class="player-dragger"></div>
                 </div>
                 <span>
                     {{ctrl.currentPlay.item.filename}}
@@ -63,8 +65,8 @@
         </div>
         <div class="player-buttons-wrapper">
             <div class="remain-time">
-                -22:22
-                <!-- {{ctrl.currentTime}} -->
+                <!-- -22:22 -->
+                {{ctrl.currentTimeString}}
                 <!-- {{ctrl.currentPlay.track.duration}} -->
             </div>
             <div class="player-buttons">

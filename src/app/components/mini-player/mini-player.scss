@@ -17,7 +17,7 @@
             width: 16px;
             height: 16px;
             object-fit: cover;
-            border-radius:   ;
+            border-radius: 1px ;
         }
         a {
             margin-left: 8px;
@@ -71,7 +71,7 @@
         display: flex;
         flex: none;
         .sound-poster {
-            padding: 8px 16px;
+            padding: 8px;
             img {
                 width: 36px;
                 height: 36px;
@@ -80,6 +80,36 @@
         .player-handler {
             padding: 0 12px;
             height: 24px;
+            position: relative;
+            .bg-bar ,
+            .played-bar {
+                height: 2px;
+                width: 100%;
+                background-color: $color-white;
+                border-radius: 1px;
+                position: absolute;
+                top: 50%;
+                left: 0;
+            }
+            .bg-bar {
+                opacity: .16;
+            }
+            .played-bar {
+                transform-origin: left center;
+                transform: scaleX(.5);
+            }
+            .player-dragger {
+                position: absolute;
+                left: 0;
+                top: 6px;
+                width: 12px;
+                height: 12px;
+                border-radius: 10px;
+                background-color: $color-white;
+                box-shadow: 0 0 4px $color-solid;
+                margin-left: -6px;
+                left: 100%;
+            }
         }
         span {
             line-height: 18px;
@@ -131,7 +161,6 @@
             opacity: .64;
             padding-left: 8px;
             color: $color-white;
-            justify-content: center;
         }
     }
     .player-list {
