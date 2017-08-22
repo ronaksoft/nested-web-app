@@ -77,6 +77,7 @@
       function getList() {
           $scope.$apply(function () {
             vm.playList = SvcMiniPlayer.getList();
+            console.log(vm.playList);
             if (vm.displayState === 0 && vm.playList.length > 0) {
               vm.displayState = 1;
             }

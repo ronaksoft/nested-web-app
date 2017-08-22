@@ -229,10 +229,13 @@
               return;
             }
             getToken(attachment.id).then(function (token) {
-              console.log(attachment,token, attachment.picture);
+              
               attachment.src = NstSvcStore.resolveUrl(NST_STORE_ROUTE.VIEW, attachment.id, token);
+              // console.log( item.id, attachment.id, item.id === attachment.id);
               if (item.id === attachment.id) {
+                // console.log(attachment.isPlayed);
                 attachment.isPlayed = true;
+                // console.log(attachment.isPlayed);
               }
               SvcMiniPlayer.addTrack(attachment);
             }).catch(function () {
