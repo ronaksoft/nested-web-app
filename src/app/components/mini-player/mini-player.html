@@ -1,9 +1,11 @@
 <div class="mini-player">
     <div class="player-ribbon" ng-if="ctrl.displayState === 1">
-        <img ng-src="{{ctrl.currentPlay.item.thumbnail}}" alt="" ng-if="!ctrl.isVoice">
-        <img initial-avatar="{{::ctrl.currentPlay.item.sender.id}}" name="{{::ctrl.currentPlay.item.sender.fullName}}" picture="{{ctrl.currentPlay.item.sender | avatar}}"
-        data-width="16" data-height="16" data-radius="16" class="account-initials-16 _df" data-word-count="2" data-font-size="8"
-        ng-if="ctrl.isVoice"/>
+        <i class="sound-poster ng-class:{'user-avatar-16' : ctrl.isVoice}">
+            <img ng-src="{{ctrl.currentPlay.item.thumbnail}}" alt="" ng-if="!ctrl.isVoice">
+            <img ng-if="ctrl.isVoice" initial-avatar="{{::ctrl.currentPlay.item.sender.id}}" name="{{::ctrl.currentPlay.item.sender.fullName}}" picture="{{ctrl.currentPlay.item.sender | avatar}}"
+            data-width="16" data-height="16" data-radius="20" class="account-initials-16 _df" data-word-count="2" data-font-size="8"
+            ng-if="ctrl.isVoice"/>
+        </i>
         <a>
             <span class="_txe">{{ctrl.currentPlay.item.filename}}</span>
         </a>
@@ -100,8 +102,11 @@
         <div class="player-list ng-class:{'collapse' : ctrl.displayState === 2}">
             <ul>
                 <li ng-repeat="track in ctrl.playList" ng-click="ctrl.play(track.id)">
-                    <div class="poster">
+                    <div class="poster ng-class:{'user-avatar-52' : ctrl.isVoice}">
                         <img ng-src="{{track.thumbnail}}" alt="" ng-if="!ctrl.isVoice">
+                        <img ng-if="ctrl.isVoice" initial-avatar="{{track.sender.id}}" name="{{track.sender.fullName}}" picture="{{track.sender | avatar}}"
+                        data-width="24" data-height="24" data-radius="20" class="account-initials-24 _df" data-word-count="2" data-font-size="8"
+                        ng-if="ctrl.isVoice"/>
                     </div>
                     <div class="info ng-class:{'isPlayed' : track.isPlayed}">
                         {{track.filename}}

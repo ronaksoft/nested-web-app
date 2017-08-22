@@ -13,11 +13,14 @@
         border-radius: 8px;
         box-shadow: 0 4px 16px $color-solid-64;
         padding: 8px;
-        img {
-            width: 16px;
-            height: 16px;
-            object-fit: cover;
-            border-radius: 1px ;
+        .sound-poster {
+            overflow: hidden;
+            img {
+                width: 16px;
+                height: 16px;
+                object-fit: cover;
+                border-radius: 1px ;
+            }
         }
         a {
             margin-left: 8px;
