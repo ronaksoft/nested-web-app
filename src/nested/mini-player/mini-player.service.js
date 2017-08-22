@@ -253,6 +253,9 @@
     }
 
     function broadcastStatus(id) {
+      if (this.playlistName === undefined || this.playlistName === null) {
+        return;
+      }
       $rootScope.$broadcast('play-audio', this.playlistName + '_' + id);
     }
   }
