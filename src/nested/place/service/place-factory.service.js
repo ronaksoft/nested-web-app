@@ -580,13 +580,20 @@
       }, "leave", placeId);
     };
 
-    PlaceFactory.prototype.getCreators = function (id, limit, skip) {
+    PlaceFactory.prototype.getCreators = function (id, limit, skip, cacheHandler) {
       var deferred = $q.defer();
 
       NstSvcServer.request('place/get_creators', {
         place_id: id,
         limit: limit,
         skip: skip
+      }, function (cachedResponse) {
+        if (!cachedResponse) return;
+
+        var items = _.chain(cachedResponse.creators).map(function (creator) {
+          return NstSvcUserFactory.getCachedSync(creator._id) || NstSvcUserFactory.parseTinyUser(creator);
+        }).value();
+        cacheHandler(items);
       }).then(function (data) {
         var creators = _.map(data.creators, function (creator) {
           return NstSvcUserFactory.parseTinyUser(creator);
@@ -601,13 +608,19 @@
       return deferred.promise;
     };
 
-    PlaceFactory.prototype.getKeyholders = function (id, limit, skip) {
+    PlaceFactory.prototype.getKeyholders = function (id, limit, skip, cacheHandler) {
       var deferred = $q.defer();
 
       NstSvcServer.request('place/get_key_holders', {
         place_id: id,
         limit: limit,
         skip: skip
+      }, function (cachedResponse) {
+        if (!cachedResponse) return;
+        var items = _.chain(cachedResponse.key_holders).map(function (keyHolder) {
+          return NstSvcUserFactory.getCachedSync(keyHolder._id) || NstSvcUserFactory.parseTinyUser(keyHolder);
+        }).value();
+        cacheHandler(items);
       }).then(function (data) {
         var keyHolders = _.map(data.key_holders, function (keyHolder) {
           return NstSvcUserFactory.parseTinyUser(keyHolder);

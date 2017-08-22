@@ -156,7 +156,7 @@
 
       // fixme :: check Waiting
       // NstSvcWait.all(['main-done'], function () {
-      NstSvcPlaceFactory.get(vm.placeId).then(function (place) {
+      NstSvcPlaceFactory.get(vm.placeId, true).then(function (place) {
         if (place) {
           vm.place = place;
 
@@ -337,14 +337,14 @@
      * @param {any} hasSeeMembersAccess
      * @returns
      */
-    function loadTeammates(placeId, hasSeeMembersAccess) {
+    function loadTeammates(placeId, hasSeeMembersAccess, cacheHandler) {
       var deferred = $q.defer();
 
       var teammates = [];
-      getCreators(placeId, vm.teammatesSettings.limit, vm.teammatesSettings.skip, hasSeeMembersAccess).then(function (creators) {
+      getCreators(placeId, vm.teammatesSettings.limit, vm.teammatesSettings.skip, hasSeeMembersAccess, cacheHandler).then(function (creators) {
         teammates.push.apply(teammates, creators);
 
-        return getKeyholders(placeId, vm.teammatesSettings.limit - creators.length - ( vm.hasAddMembersAccess ? 1 : 0 ), vm.teammatesSettings.skip, hasSeeMembersAccess);
+        return getKeyholders(placeId, vm.teammatesSettings.limit - creators.length - ( vm.hasAddMembersAccess ? 1 : 0 ), vm.teammatesSettings.skip, hasSeeMembersAccess, cacheHandler);
       }).then(function (keyHolders) {
 
         teammates.push.apply(teammates, keyHolders);
@@ -363,8 +363,23 @@
 
       if (vm.hasSeeMembersAccess) {
 
-        loadTeammates(vm.placeId, vm.hasSeeMembersAccess).then(function (teammates) {
-          vm.teammates = teammates;
+        loadTeammates(vm.placeId, vm.hasSeeMembersAccess, function(teammates) {
+          vm.teammates.push.apply(vm.teammates, _.compact(teammates));
+        }).then(function (teammates) {
+          var newItems = _.differenceBy(teammates, vm.teammates, 'id');
+          var removedItems = _.differenceBy(vm.teammates, teammates, 'id');
+
+          // first omit the removed items; The items that are no longer exist in fresh teammates
+          _.forEach(removedItems, function (item) {
+            var index = _.findIndex(vm.teammates, { 'id': item.id });
+            if (index > -1) {
+              vm.teammates.splice(index, 1);
+            }
+          });
+
+          // add new items; The items that do not exist in cached items, but was found in fresh teammates
+          vm.teammates.unshift.apply(vm.teammates, newItems);
+          // vm.teammates = teammates;
         }).finally(function () {
           readyAffix();
           vm.loading = false;
@@ -383,12 +398,16 @@
      * @param {any} hasAccess
      * @returns
      */
-    function getCreators(placeId, limit, skip, hasAccess) {
+    function getCreators(placeId, limit, skip, hasAccess, cacheHandler) {
       var deferred = $q.defer();
 
       if (hasAccess && vm.teammatesSettings.creatorsCount < vm.place.counters.creators) {
 
-        NstSvcPlaceFactory.getCreators(placeId, limit, skip).then(function (data) {
+        NstSvcPlaceFactory.getCreators(placeId, limit, skip, function(cachedCreators) {
+          cacheHandler(_.map(cachedCreators, function (item) {
+            return new NstVmMemberItem(item, 'creator');
+          }));
+        }).then(function (data) {
           var creatorItems = _.map(data.creators, function (item) {
             return new NstVmMemberItem(item, 'creator');
           });
@@ -416,11 +435,15 @@
      * @param {any} hasAccess
      * @returns
      */
-    function getKeyholders(placeId, limit, skip, hasAccess) {
+    function getKeyholders(placeId, limit, skip, hasAccess, cacheHandler) {
       var deferred = $q.defer();
 
       if (limit > 0 && hasAccess && vm.teammatesSettings.keyHoldersCount < vm.place.counters.key_holders) {
-        NstSvcPlaceFactory.getKeyholders(placeId, limit, skip).then(function (data) {
+        NstSvcPlaceFactory.getKeyholders(placeId, limit, skip, function(cachedKeyHolders) {
+          cacheHandler(_.map(cachedKeyHolders, function (item) {
+            return new NstVmMemberItem(item, 'key_holder');
+          }));
+        }).then(function (data) {
           var keyHolderItems = _.map(data.keyHolders, function (item) {
             return new NstVmMemberItem(item, 'key_holder');
           });
