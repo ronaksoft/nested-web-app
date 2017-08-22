@@ -15,6 +15,7 @@
         padding: 8px;
         .sound-poster {
             overflow: hidden;
+            flex: none;
             img {
                 width: 16px;
                 height: 16px;
@@ -41,13 +42,21 @@
             flex: none;
             &:last-child {
                 margin-right: 0;
+                width: 24px;
                 svg {
                     margin-right: 0;
                 }
             }
         }
+        .devider {
+            width: 24px;
+            display: flex;
+            flex: none;
+            margin: 0;
+        }
         svg {
-            margin: 0 8px;
+            margin-right: 8px;
+            margin-left: 8px;
             opacity: .16;
             display: flex;
             flex: none;
@@ -127,10 +136,15 @@
             width: 52px;
             display: flex;
             padding: 8px;
-            opacity: .64;
             justify-content: flex-start;
             align-items: flex-end;
             flex-direction: column;
+            svg {
+                opacity: .4;
+                &:hover{
+                    opacity: 1;
+                }
+            }
             svg:first-child {
                 margin-bottom: 12px;
             }
@@ -141,6 +155,7 @@
         display: flex;
         align-items: center;
         flex: none;
+        margin-bottom: 5px;
         .remain-time ,
         .player-dropdown {
             width: 72px;
@@ -158,13 +173,21 @@
             svg {
                 margin: 0 12px;
             }
+            .butn-previous ,
+            .butn-next {
+                opacity: .16;
+                &:hover {
+                    opacity: .88;
+                }
+            }
         }
         .player-dropdown {
             justify-content: flex-end;
-            opacity: .72;
+            opacity: .4;
         }
         .remain-time {
             opacity: .64;
+            font-size: 12px;
             padding-left: 8px;
             color: $color-white;
         }
@@ -177,7 +200,7 @@
             max-height: 0;
         }
         ul {
-            padding: 8px 0;
+            padding: 4px 0;
             list-style: none;
             width: 100%;
             li {
