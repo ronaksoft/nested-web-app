@@ -4,15 +4,15 @@
         <img initial-avatar="{{::ctrl.currentPlay.item.sender.id}}" name="{{::ctrl.currentPlay.item.sender.fullName}}" picture="{{ctrl.currentPlay.item.sender | avatar}}"
         data-width="24" data-height="24" data-radius="13" class="account-initials-24 _df" data-word-count="2" data-font-size="8"
         ng-if="ctrl.isVoice"/>
-        
+
         <span>{{ctrl.currentPlay.item.filename}}</span>
         <svg class="_16svg fill-white" ng-if="ctrl.currentPlay.prev" ng-click="ctrl.previous()">
             <use xlink:href="/assets/icons/nst-icn16.svg#player-back"></use>
         </svg>
-        <svg class="_16svg fill-white" ng-if="!ctrl.playStatus" ng-click="ctrl.play()">
+        <svg class="_16svg fill-white" ng-if="ctrl.currentPlay.status == 'pause'" ng-click="ctrl.play()">
             <use xlink:href="/assets/icons/nst-icn16.svg#play"></use>
         </svg>
-        <svg class="_16svg fill-white" ng-if="ctrl.playStatus" ng-click="ctrl.pause()">
+        <svg class="_16svg fill-white" ng-if="ctrl.currentPlay.status != 'pause'" ng-click="ctrl.pause()">
             <use xlink:href="/assets/icons/nst-icn16.svg#pause"></use>
         </svg>
         <svg class="_16svg fill-white" ng-if="ctrl.currentPlay.next" ng-click="ctrl.next()">
@@ -32,7 +32,7 @@
             </div>
             <div class="_difv _fw _jcc">
                 <div class="player-handler">
-        
+
                 </div>
                 <span>
                     {{ctrl.currentPlay.item.filename}}
