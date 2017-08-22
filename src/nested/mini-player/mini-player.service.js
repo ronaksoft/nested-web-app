@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
   angular
     .module('ronak.nested.web.message')
@@ -11,7 +11,7 @@
     var playing = null;
     var audioInterval;
 
-    function MiniPlayer () {
+    function MiniPlayer() {
       audioDOM = document.createElement('audio');
       audioDOM.style.display = 'none';
       document.body.appendChild(audioDOM);
@@ -25,7 +25,7 @@
           id: playing,
           playlist: that.playlistName
         });
-        broadcastStatus('');
+        that.broadcastStatus('');
       };
 
       audioInterval = setInterval(function () {
@@ -33,7 +33,7 @@
           callIfValid(that.timeChangedRef, {
             time: audioDOM.currentTime,
             duration: audioDOM.duration,
-            ratio: (audioDOM.currentTime/audioDOM.duration)
+            ratio: (audioDOM.currentTime / audioDOM.duration)
           });
         }
       }, 500);
@@ -58,6 +58,7 @@
     MiniPlayer.prototype.removeAll = removeAll;
     MiniPlayer.prototype.getCurrent = getCurrent;
     MiniPlayer.prototype.getList = getList;
+    MiniPlayer.broadcastStatus = broadcastStatus;
 
     var service = new MiniPlayer();
     return service;
@@ -69,7 +70,7 @@
       this.playlistName = name;
     }
 
-    function addTrack (item, sender) {
+    function addTrack(item, sender) {
       var alreadyCreated = audioObjs.find(function (element) {
         return element.id === item.id;
       });
@@ -122,10 +123,10 @@
         id: id,
         playlist: this.playlistName
       });
-      broadcastStatus(id);
+      this.broadcastStatus(id);
     }
 
-    function pause (id) {
+    function pause(id) {
       // if (id !== undefined && id !) {
       //   playing = null;
       // }
@@ -136,7 +137,7 @@
         id: id,
         playlist: this.playlistName
       });
-      broadcastStatus('');
+      this.broadcastStatus('');
     }
 
     function next() {
@@ -177,7 +178,7 @@
       this.play(id);
     }
 
-    function seekTo (sec) {
+    function seekTo(sec) {
       if (audioDOM.paused) {
         return;
       }
@@ -191,19 +192,19 @@
       });
     }
 
-    function timeChanged (callback) {
+    function timeChanged(callback) {
       if (_.isFunction(callback)) {
         this.timeChangedRef = callback;
       }
     }
 
-    function statusChanged (callback) {
+    function statusChanged(callback) {
       if (_.isFunction(callback)) {
         this.statusChangedRef = callback;
       }
     }
 
-    function removeAll () {
+    function removeAll() {
       audioDOM.pause();
       audioObjs = [];
       playing = null;
@@ -213,30 +214,30 @@
         id: null,
         playlist: this.playlistName
       });
-      broadcastStatus('');
+      this.broadcastStatus('');
     }
 
-    function getCurrent () {
+    function getCurrent() {
       var index = _.findIndex(audioObjs, function (o) {
         return o.id === playing
       });
 
       return {
-        item : audioObjs[index],
+        item: audioObjs[index],
         status: this.currentStatus,
-        prev: (index === 0)? false : true,
-        next: (index === (audioObjs.length - 1))? false : true,
-        index : index
+        prev: (index === 0) ? false : true,
+        next: (index === (audioObjs.length - 1)) ? false : true,
+        index: index
       };
     }
 
-    function listUpdated (callback) {
+    function listUpdated(callback) {
       if (_.isFunction(callback)) {
         this.listUpdatedRef = callback;
       }
     }
 
-    function getList () {
+    function getList() {
       return audioObjs;
     }
 
@@ -252,7 +253,7 @@
     }
 
     function broadcastStatus(id) {
-      $rootScope.$broadcast('play-audio', service.playlistName + '_' + id);
+      $rootScope.$broadcast('play-audio', this.playlistName + '_' + id);
     }
   }
 })();
