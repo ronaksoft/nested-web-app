@@ -30,7 +30,6 @@
         // var interval, pwTimeout;
         // var moves = [];
         var borderLeftArray=[],borderRightArray=[];
-        var audioDOMS = [];
 
         if (modeIsValid(scope.mode)) {
           scope.internalMode = scope.mode;
@@ -208,24 +207,17 @@
         };
 
         scope.$on('play-audio', function (e, id){
-          console.log('id', id);
-          scope.items.filter(function(item) {
-            console.log(id ,item.id);
-            return id !== item.id;
-          }).forEach(function (i){
-            i.isPlay = false
-          });
-        });
-
-        scope.$on('$destroy', function () {
-          _.forEach(audioDOMS, function (item) {
-            item.pause();
-            item.remove();
+          scope.items.forEach(function(item) {
+            if ( id !== item.id ) {
+              item.isPlayed = false
+            } else {
+              item.isPlayed = true
+            }
           });
         });
 
         scope.playAudio = function (item) {
-          if (item.isPlay) {
+          if (item.isPlayed) {
             return SvcMiniPlayer.pause();
           }
           SvcMiniPlayer.setPlaylist(scope.postId);
@@ -236,31 +228,13 @@
             getToken(attachment.id).then(function (token) {
               attachment.src = NstSvcStore.resolveUrl(NST_STORE_ROUTE.VIEW, attachment.id, token);
               if (item.id === attachment.id) {
-                attachment.isPlay = true;
+                attachment.isPlayed = true;
               }
               SvcMiniPlayer.addTrack(attachment);
             }).catch(function () {
               toastr.error('Sorry, An error has occured while playing the audio');
             });
           });
-
-          // var alreadyPlayed = audioDOMS.find(function (audioDOM) {
-          //   return audioDOM.className === item.id;
-          // })
-          // if ( alreadyPlayed ) {
-          //   alreadyPlayed.pause();
-          //   alreadyPlayed.remove();
-          //   item.isPlay = false;
-          //   _.remove(audioDOMS, function(n) {
-          //     return n.className === item.id;
-          //   });
-          //   return ;
-          // }
-          // item.isPlay = true;
-          // var audio = document.createElement('audio');
-          // audio.style.display = "none";
-          // audio.className = item.id;
-          // audio.autoplay = true;
         }
 
         // function scrollLeft(count, k) {

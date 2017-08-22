@@ -7,7 +7,7 @@
     z-index: 9999;
     .player-ribbon {
         height: 32px;
-        margin-bottom: 5px;
+        margin-bottom: 8px;
         display: flex;
         background-color: $color-solid;
         border-radius: 8px;
@@ -71,7 +71,12 @@
             display: flex;
             padding: 8px;
             opacity: .64;
-            justify-content: flex-end;
+            justify-content: flex-start;
+            align-items: flex-end;
+            flex-direction: column;
+            svg:first-child {
+                margin-bottom: 12px;
+            }
         }
     }
     .player-buttons-wrapper {
@@ -81,7 +86,7 @@
         flex: none;
         .remain-time ,
         .player-dropdown {
-            width: 48px;
+            width: 72px;
             display: flex;
             padding: 0 8px;
             flex: none;
@@ -90,6 +95,9 @@
             width: 100%;
             display: flex;
             justify-content: center;
+            > div {
+                width: 40px;
+            }
             svg {
                 margin: 0 12px;
             }
@@ -100,6 +108,7 @@
         }
         .remain-time {
             opacity: .64;
+            padding-left: 8px;
             color: $color-white;
             justify-content: center;
         }
@@ -107,6 +116,43 @@
     .player-list {
         display: flex;
         max-height: 208px; 
-        padding: 8p 0;
+        transition: max-height $animation-dur;
+        &.collapse {
+            max-height: 0;
+        }
+        ul {
+            padding: 8px 0;
+            list-style: none;
+            width: 100%;
+            li {
+                height: 40px;
+                width: 100%;
+                display: flex;
+                align-items: center;
+                .poster {
+                    width: 52px;
+                    display: flex;
+                    justify-content: center;
+                    flex: none;
+                    img {
+                        width: 24px;
+                        height: 24px;
+                    }
+                }
+                .info {
+                    height: 100%;
+                    display: flex;
+                    width: 100%;
+                    border-bottom: 1px solid rgba(255,255,255,.08);
+                    color: $color-64-white;
+                    font-size: 12px;
+                    align-items: center;
+                    &.isPlayed {
+                        color: $color-sense;
+                        font-weight: bold
+                    }
+                }
+            }
+        }
     }
 }

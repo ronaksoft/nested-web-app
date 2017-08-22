@@ -15,9 +15,11 @@
       vm.previous = previous;
       vm.play = play;
       vm.pause = pause;
+      vm.openList = openList;
       vm.playStatus = false;
       vm.playList = [];
       vm.isVoice = false;
+      vm.currentTime = 0;
 
       var updateDebounce = _.debounce(update, 128);
 
@@ -27,8 +29,9 @@
       }
 
 
-      SvcMiniPlayer.timeChanged(function (d) {
-        // console.log(d);
+      SvcMiniPlayer.timeChanged(function (t) {
+        vm.currentTime = t;
+        // console.log(t);
       });
 
       SvcMiniPlayer.statusChanged(function (result) {
@@ -61,7 +64,7 @@
       function getList() {
           $scope.$apply(function () {
             vm.playList = SvcMiniPlayer.getList();
-            // console.log(vm.playList);
+            console.log( vm.playList);
             if (vm.displayState === 0 && vm.playList.length > 0) {
               vm.displayState = 1;
             }
@@ -75,12 +78,25 @@
         }
       }
 
+      function openList(){
+        if (vm.displayState === 2) {
+          vm.displayState = 3
+        } else {
+          vm.displayState = 2
+        }
+      }
+
       function pause() {
         SvcMiniPlayer.pause();
       }
 
-      function play() {
-        SvcMiniPlayer.play();
+      function play(id) {
+        if(id) {
+          SvcMiniPlayer.play(id);
+        } else {
+          SvcMiniPlayer.play();
+        }
+
       }
 
       function next() {
