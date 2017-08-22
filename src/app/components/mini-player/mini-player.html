@@ -53,7 +53,7 @@
                 <div class="player-handler" ng-click="ctrl.barClick($event)">
                     <div class="bg-bar"></div>
                     <div class="played-bar" style="transform: scaleX({{ctrl.currentTime.ratio}})"></div>
-                    <div class="player-dragger" style="left: {{ctrl.currentTime.ratio * 100}}%"></div>
+                    <div class="player-dragger" ng-click="$event.stopPropagation()" style="left: {{ctrl.currentTime.ratio * 100}}%"></div>
                 </div>
                 <span ng-click="ctrl.gotoPost()" class="_wrb">{{ctrl.currentPlay.item.filename}}</span>
             </div>
@@ -67,11 +67,7 @@
             </div>
         </div>
         <div class="player-buttons-wrapper">
-            <div class="remain-time">
-                <!-- -22:22 -->
-                {{ctrl.currentTime.time - ctrl.currentTime.duration | durationToTime}}
-                <!-- {{ctrl.currentPlay.track.duration}} -->
-            </div>
+            <div class="remain-time">{{ctrl.currentTime.time - ctrl.currentTime.duration | durationToTime}}</div>
             <div class="player-buttons">
                 <div class="butn-previous">
                     <svg class="_16svg fill-white" ng-if="ctrl.currentPlay.prev" ng-click="ctrl.previous()">
