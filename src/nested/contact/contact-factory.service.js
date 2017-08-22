@@ -30,6 +30,8 @@
       return factory.sentinel.watch(function () {
         return NstSvcServer.request('contact/get', {
           contact_id: id
+        }).then(function (result) {
+          return $q.resolve(parse(result));
         });
       }, "get");
     }

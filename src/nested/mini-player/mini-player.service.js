@@ -5,7 +5,7 @@
     .service('SvcMiniPlayer', SvcMiniPlayer);
 
   /** @ngInject */
-  function SvcMiniPlayer($rootScope,$window,deviceDetector,$timeout, NstSvcFileFactory, NstSvcStore, _) {
+  function SvcMiniPlayer($rootScope, _) {
     var audioDOM;
     var audioObjs = [];
     var playing = null;
@@ -17,13 +17,17 @@
       document.body.appendChild(audioDOM);
 
       audioDOM.onended = function () {
-        $rootScope.$broadcast('play-audio', '');
+        broadcastStatus('');
       };
 
       var that = this;
       audioInterval = setInterval(function () {
         if (!audioDOM.paused) {
-          callIfValid(that.timeChangedRef, audioDOM.currentTime);
+          callIfValid(that.timeChangedRef, {
+            time: audioDOM.currentTime,
+            duration: audioDOM.duration,
+            ratio: (audioDOM.currentTime/audioDOM.duration)
+          });
         }
       }, 500);
     }
@@ -41,6 +45,7 @@
     MiniPlayer.prototype.timeChanged = timeChanged;
     MiniPlayer.listUpdatedRef = null;
     MiniPlayer.prototype.listUpdated = listUpdated;
+    MiniPlayer.currentStatus = 'pause';
     MiniPlayer.statusChangedRef = null;
     MiniPlayer.prototype.statusChanged = statusChanged;
     MiniPlayer.prototype.removeAll = removeAll;
@@ -72,8 +77,9 @@
         callIfValid(this.listUpdatedRef);
       }
 
+      this.currentStatus = 'add';
       callIfValid(this.statusChangedRef, {
-        status: 'add',
+        status: this.currentStatus,
         id: item.id,
         playlist: this.playlistName
       });
@@ -103,12 +109,13 @@
         audioDOM.load();
       }
       audioDOM.play();
+      this.currentStatus = 'play';
       callIfValid(this.statusChangedRef, {
-        status: 'play',
+        status: this.currentStatus,
         id: id,
         playlist: this.playlistName
       });
-      $rootScope.$broadcast('play-audio', id);
+      broadcastStatus(id);
     }
 
     function pause (id) {
@@ -116,12 +123,13 @@
       //   playing = null;
       // }
       audioDOM.pause();
+      this.currentStatus = 'pause';
       callIfValid(this.statusChangedRef, {
-        status: 'pause',
+        status: this.currentStatus,
         id: id,
         playlist: this.playlistName
       });
-      $rootScope.$broadcast('play-audio', '');
+      broadcastStatus('');
     }
 
     function next() {
@@ -134,8 +142,9 @@
         return;
       }
       var id = audioObjs[index].id;
+      this.currentStatus = 'next';
       callIfValid(this.statusChangedRef, {
-        status: 'next',
+        status: this.currentStatus,
         id: id,
         playlist: this.playlistName
       });
@@ -152,20 +161,25 @@
         return;
       }
       var id = audioObjs[index].id;
+      this.currentStatus = 'prev';
       callIfValid(this.statusChangedRef, {
-        status: 'prev',
+        status: this.currentStatus,
         id: id,
         playlist: this.playlistName
       });
       this.play(id);
     }
 
-    function seekTo (id, sec) {
+    function seekTo (sec) {
+      if (audioDOM.paused) {
+        return;
+      }
       audioDOM.currentTime = sec;
+      this.currentStatus = 'seek';
       callIfValid(this.statusChangedRef, {
-        status: 'seek',
+        status: this.currentStatus,
         time: sec,
-        id: id,
+        id: playing,
         playlist: this.playlistName
       });
     }
@@ -186,12 +200,13 @@
       audioDOM.pause();
       audioObjs = [];
       playing = null;
+      this.currentStatus = 'pause'
       callIfValid(this.statusChangedRef, {
-        status: 'pause',
+        status: this.currentStatus,
         id: null,
         playlist: this.playlistName
       });
-      $rootScope.$broadcast('play-audio', '');
+      broadcastStatus('');
     }
 
     function getCurrent () {
@@ -201,7 +216,8 @@
 
       return {
         item : audioObjs[index],
-        prev: (index === 0) ? false : true,
+        status: this.currentStatus,
+        prev: (index === 0)? false : true,
         next: (index === (audioObjs.length - 1))? false : true,
         index : index
       };
@@ -226,6 +242,10 @@
         }
         func(param);
       }
+    }
+
+    function broadcastStatus(id) {
+      $rootScope.$broadcast('play-audio', service.playlistName + '_' + id);
     }
   }
 })();

@@ -4,7 +4,6 @@
         <img initial-avatar="{{::ctrl.currentPlay.item.sender.id}}" name="{{::ctrl.currentPlay.item.sender.fullName}}" picture="{{ctrl.currentPlay.item.sender | avatar}}"
         data-width="24" data-height="24" data-radius="13" class="account-initials-24 _df" data-word-count="2" data-font-size="8"
         ng-if="ctrl.isVoice"/>
-        
         <a>
             <span class="_txe">{{ctrl.currentPlay.item.filename}}</span>
         </a>
@@ -13,12 +12,12 @@
                 <use xlink:href="/assets/icons/nst-icn16.svg#player-back"></use>
             </svg>
         </div>
-        <div ng-click="ctrl.play()" ng-if="!ctrl.playStatus">
+        <div ng-click="ctrl.play()" ng-if="ctrl.currentPlay.status == 'pause'">
             <svg class="_16svg fill-white active">
                 <use xlink:href="/assets/icons/nst-icn16.svg#play"></use>
             </svg>
         </div>
-        <div ng-click="ctrl.pause()" ng-if="ctrl.playStatus">
+        <div ng-click="ctrl.pause()" ng-if="ctrl.currentPlay.status != 'pause'">
             <svg class="_16svg fill-white">
                 <use xlink:href="/assets/icons/nst-icn16.svg#pause"></use>
             </svg>

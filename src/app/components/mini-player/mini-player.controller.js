@@ -23,7 +23,7 @@
       vm.currentTimeString = ' 00:00'
       vm.currentRatio = 0;
 
-      var updateDebounce = _.debounce(update, 128);
+      var updateDebounce = _.debounce(update, 50);
 
       vm.currentPlay = {
         item : {},
@@ -39,7 +39,7 @@
 
       SvcMiniPlayer.statusChanged(function (result) {
         vm.playStatus = result.status === 'play';
-        if (result.status === 'play') {
+        if (result.status === 'play' || result.status === 'pause') {
           updateDebounce();
         }
       });
