@@ -166,7 +166,7 @@
     }
     .player-list {
         display: flex;
-        max-height: 208px; 
+        max-height: 208px;
         transition: max-height $animation-dur;
         &.collapse {
             max-height: 0;
@@ -201,6 +201,11 @@
                     &.isPlayed {
                         color: $color-sense;
                         font-weight: bold
+                    }
+                }
+                &:last-of-type {
+                    .info {
+                      border-bottom-color: transparent;
                     }
                 }
             }

@@ -101,7 +101,7 @@
             <ul>
                 <li ng-repeat="track in ctrl.playList" ng-click="ctrl.play(track.id)">
                     <div class="poster">
-                        <img ng-src="{{ctrl.currentPlay.item.thumbnail}}" alt="" ng-if="!ctrl.isVoice">
+                        <img ng-src="{{track.thumbnail}}" alt="" ng-if="!ctrl.isVoice">
                     </div>
                     <div class="info ng-class:{'isPlayed' : track.isPlayed}">
                         {{track.filename}}
