@@ -16,6 +16,7 @@
       vm.play = play;
       vm.pause = pause;
       vm.openList = openList;
+      vm.barClick = barClick;
       vm.playStatus = false;
       vm.playList = [];
       vm.isVoice = false;
@@ -32,7 +33,7 @@
 
 
       SvcMiniPlayer.timeChanged(function (t) {
-        console.log(t);
+        // console.log(t);
         $scope.$apply(function () {
           vm.currentTime = t;
         });
@@ -52,6 +53,12 @@
       function update() {
         getCurrent();
         getList()
+      }
+
+      function barClick(e) {
+        var target = e.currentTime;
+        var x = e.offsetX;
+        console.log(x, e)
       }
 
 

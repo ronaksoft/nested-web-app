@@ -207,11 +207,14 @@
         };
 
         scope.$on('play-audio', function (e, id){
-          scope.items.forEach(function(item) {
-            if ( id !== item.id ) {
-              item.isPlayed = false
+          console.log(id);
+          scope.items.forEach(function (item) {
+            // if (attachmentID !== item.id) {
+              console.log(item.id + '_' + scope.postId);
+            if (id !== item.id + '_' + scope.postId) {
+              item.isPlayed = false;
             } else {
-              item.isPlayed = true
+              item.isPlayed = true;
             }
           });
         });

@@ -44,7 +44,7 @@
                 <img ng-src="{{ctrl.currentPlay.item.thumbnail}}" alt="" ng-if="!ctrl.isVoice">
             </div>
             <div class="_difv _fw _jcc">
-                <div class="player-handler">
+                <div class="player-handler" ng-click="ctrl.barClick($event)">
                     <div class="bg-bar"></div>
                     <div class="played-bar" style="transform: scaleX({{ctrl.currentTime.ratio}})"></div>
                     <div class="player-dragger" style="left: {{ctrl.currentTime.ratio * 100}}%"></div>
@@ -65,7 +65,7 @@
         <div class="player-buttons-wrapper">
             <div class="remain-time">
                 <!-- -22:22 -->
-                {{ctrl.currentTime | durationToTime}}
+                {{ctrl.currentTime.time - ctrl.currentTime.duration | durationToTime}}
                 <!-- {{ctrl.currentPlay.track.duration}} -->
             </div>
             <div class="player-buttons">
