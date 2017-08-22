@@ -58,7 +58,7 @@
     MiniPlayer.prototype.removeAll = removeAll;
     MiniPlayer.prototype.getCurrent = getCurrent;
     MiniPlayer.prototype.getList = getList;
-    MiniPlayer.broadcastStatus = broadcastStatus;
+    MiniPlayer.prototype.broadcastStatus = broadcastStatus;
 
     var service = new MiniPlayer();
     return service;
