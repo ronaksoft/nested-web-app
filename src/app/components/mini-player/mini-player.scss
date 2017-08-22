@@ -16,8 +16,10 @@
         img {
             width: 16px;
             height: 16px;
+            object-fit: cover;
+            border-radius:   ;
         }
-        span {
+        a {
             margin-left: 8px;
             opacity: .64;
             color: $color-white;
@@ -25,13 +27,32 @@
             width: 100%;
             white-space: nowrap;
             overflow: hidden;
+            span {
+                display: block;
+                width: 100%;
+            }
+        }
+        > div {
+            width: 32px;
+            margin: 0 4px;
+            flex: none;
+            &:last-child {
+                margin-right: 0;
+                svg {
+                    margin-right: 0;
+                }
+            }
         }
         svg {
-            margin-left: 12px;
+            margin: 0 8px;
             opacity: .16;
             display: flex;
             flex: none;
+            transition: opacity $animation-dur;
             &:hover {
+                opacity: 1;
+            }
+            &.active {
                 opacity: 1;
             }
         }

@@ -226,6 +226,7 @@
               return;
             }
             getToken(attachment.id).then(function (token) {
+              console.log(attachment,token, attachment.picture);
               attachment.src = NstSvcStore.resolveUrl(NST_STORE_ROUTE.VIEW, attachment.id, token);
               if (item.id === attachment.id) {
                 attachment.isPlayed = true;
