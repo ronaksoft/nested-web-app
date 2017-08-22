@@ -206,7 +206,13 @@
           }, 1);
         };
 
+        setPlayedStatus(SvcMiniPlayer.getStatus());
+
         scope.$on('play-audio', function (e, id){
+          setPlayedStatus(id);
+        });
+
+        function setPlayedStatus(id) {
           scope.items.forEach(function (item) {
             if (id !== scope.postId + '_' + item.id) {
               item.isPlayed = false;
@@ -214,7 +220,7 @@
               item.isPlayed = true;
             }
           });
-        });
+        }
 
         scope.playAudio = function (item) {
           if (item.isPlayed) {
@@ -226,7 +232,7 @@
               return;
             }
             getToken(attachment.id).then(function (token) {
-              
+
               attachment.src = NstSvcStore.resolveUrl(NST_STORE_ROUTE.VIEW, attachment.id, token);
               attachment.isVoice = attachment.uploadType === "VOICE";
               if ( attachment.isVoice ) {

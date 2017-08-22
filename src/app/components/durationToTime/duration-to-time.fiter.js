@@ -6,6 +6,9 @@
     .filter('durationToTime', function(){
       return function(duration) {
         duration = Math.floor(parseInt(duration));
+        if (isNaN(duration)) {
+          return '';
+        }
         var isNegative = false;
         if (duration < 0) {
           duration = -duration;
