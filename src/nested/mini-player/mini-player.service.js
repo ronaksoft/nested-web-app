@@ -208,7 +208,7 @@
       audioDOM.pause();
       audioObjs = [];
       playing = null;
-      this.currentStatus = 'pause'
+      this.currentStatus = 'pause';
       callIfValid(this.statusChangedRef, {
         status: this.currentStatus,
         id: null,
