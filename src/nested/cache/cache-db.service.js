@@ -3,14 +3,12 @@
 
   angular
     .module('ronak.nested.web.common.cache')
-    .factory('NstSvcCacheDb', NstSvcCacheDb);
+    .service('NstSvcCacheDb', NstSvcCacheDb);
 
   /** @ngInject */
   function NstSvcCacheDb($window, _, LZString, md5) {
     var NAME_PREFIX = 'cache.';
-    function CacheDb(namespace) {
-      this.namespace = namespace;
-      this.getKey = _.partial(getKey, this.namespace);
+    function CacheDb() {
       this.storeQueue = [];
       this.store = _.throttle(store, 2500);
     }
@@ -19,16 +17,16 @@
     CacheDb.prototype.constructor = CacheDb;
 
 
-    CacheDb.prototype.get = function (key) {
-      var storedKey = this.getKey(key);
+    CacheDb.prototype.get = function (namespace, key) {
+      var storedKey = getKey(namespace, key);
+      // Try to find it in the items that are waiting to be stored
+      var queueItem = _.find(this.storeQueue, { 'key': storedKey });
+      if (queueItem && queueItem.value) {
+        return queueItem.value;
+      }
       // Look at localStorage
       var compressedValue = $window.localStorage.getItem(storedKey);
       if (!compressedValue) {
-        // Try to find it in the items that are waiting to be stored
-        var queueItem = _.find(this.storeQueue, { 'key': key });
-        if (queueItem && queueItem.value) {
-          return queueItem.value;
-        }
 
         // There is not any value associated with the provided key
         return null;
@@ -45,28 +43,41 @@
       return value;
     };
 
-    CacheDb.prototype.set = function (key, value) {
+    CacheDb.prototype.set = function (namespace, key, value) {
       if (!key) {
         return -1;
       }
 
+      var storedKey = getKey(namespace, key);
+
       if (!value) {
         // Remove the item from storeQueue if it has not been sent to localStorage yet.
-        _.remove(this.storeQueue, { 'key': key });
+        _.remove(this.storeQueue, { 'key': storedKey });
         // Remove from localStorage
-        $window.localStorage.removeItem(this.getKey(key));
+        $window.localStorage.removeItem(storedKey);
         return;
       }
 
       // Put the item in the queue. It will be stored in localStorage in a while
       this.storeQueue.push({
-        key: key,
+        key: storedKey,
         value: value,
       });
 
       this.store();
     };
 
+    CacheDb.prototype.flush = function () {
+      this.store.cancel();
+      this.storeQueue.length = 0;
+      _.forIn($window.localStorage, (value, key) => {
+        if (_.startsWith(key, NAME_PREFIX)) {
+          // TODO: Why removes all keys?
+          $window.localStorage.removeItem(key);
+        }
+      });
+    }
+    
     function getKey(namespace, key) {
       return NAME_PREFIX + md5.createHash(namespace + '.' + key);
     }
@@ -78,11 +89,12 @@
         var serializedValue = JSON.stringify(item.value);
         // The compressed string is 35% smaller than the original value
         // var compressedValue = LZString.compressToUTF16(serializedValue);
-        $window.localStorage.setItem(this.getKey(item.key), serializedValue);
+        $window.localStorage.setItem(item.key, serializedValue);
       }
     }
 
+
     
-    return CacheDb;
+    return new CacheDb();
   }
 })();

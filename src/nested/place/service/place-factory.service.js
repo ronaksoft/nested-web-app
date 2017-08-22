@@ -7,7 +7,7 @@
 
   function NstSvcPlaceFactory($q, _, $rootScope,
                               NST_SRV_ERROR, NST_PLACE_ACCESS, NST_EVENT_ACTION, NST_PLACE_EVENT,
-                              NstSvcServer, NstSvcUserFactory, NstSvcLogger, NstSvcCacheProvider,
+                              NstSvcServer, NstSvcUserFactory, NstSvcLogger, NstSvcGlobalCache,
                               NstBaseFactory, NstUtility, NstTinyPlace, NstPlace, NstSvcPlaceMap, NstPicture, NstUtilPlace, NstCollector) {
     function PlaceFactory() {
       var factory = this;
@@ -52,7 +52,7 @@
         factory.updateStorageByPlaceId(tlData.place_id);
       });
 
-      this.cache = new NstSvcCacheProvider('place');
+      this.cache = NstSvcGlobalCache.createProvider('place');
       this.collector = new NstCollector('place', this.getMany);
 
       NstBaseFactory.call(this);

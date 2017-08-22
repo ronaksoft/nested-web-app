@@ -8,10 +8,9 @@
   /** @ngInject */
   function NstSvcCacheProvider(NstSvcCacheDb, _) {
     var EXPIRATION_KEY = '__exp';
-    var EXPIRATION_TIME = 1000 * 60 * 5;
+    var EXPIRATION_TIME = 1000 * 60 * 30;
     function CacheProvider(namespace) {
       this.namespace = namespace;
-      this.db = new NstSvcCacheDb(this.namespace);
       this.memory = {};
     }
 
@@ -23,7 +22,7 @@
         return -1;
       }
 
-      var model = this.memory[key] || this.db.get(key);
+      var model = this.memory[key] || NstSvcCacheDb.get(this.namespace, key);
       
       if (!model) {
         return null;
@@ -31,9 +30,6 @@
       
       if (isExpired(model)) {
         this.remove(key);
-        console.log('====================================');
-        console.log('This is expired', model);
-        console.log('====================================');
         return null;
       }
 
@@ -46,7 +42,7 @@
       }
 
       _.unset(this.memory, key);
-      return this.db.set(key);
+      return NstSvcCacheDb.set(this.namespace, key);
     }
 
     CacheProvider.prototype.set = function(key, value, merge) {
@@ -57,7 +53,7 @@
       var newValue = null;
 
       if (merge) {
-        var oldValue = this.db.get(key);
+        var oldValue = NstSvcCacheDb.get(this.namespace, key);
         if (oldValue && !isExpired(oldValue)) {
           // Merge the new value with the old one
           newValue = _.merge(value, oldValue);
@@ -66,7 +62,11 @@
 
       extendedValue = addExpiration(newValue || value);
       this.memory[key] = extendedValue;
-      return this.db.set(key, extendedValue);
+      return NstSvcCacheDb.set(this.namespace, key, extendedValue);
+    }
+
+    CacheProvider.prototype.flush = function () {
+      this.memory = {};
     }
 
     function validateKey(key) {
@@ -94,6 +94,7 @@
 
       return Object.assign(expirationExtension, model);
     }
+
 
     return CacheProvider;
   }

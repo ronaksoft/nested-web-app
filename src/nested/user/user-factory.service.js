@@ -6,11 +6,11 @@
     .service('NstSvcUserFactory', NstSvcUserFactory);
 
   function NstSvcUserFactory($q, md5, _, $rootScope,
-                             NstSvcServer, NstSvcCacheProvider,
+                             NstSvcServer, NstSvcGlobalCache,
                              NST_USER_SEARCH_AREA, NST_USER_EVENT,
                              NstBaseFactory, NstTinyUser, NstUser, NstUserAuthority, NstPicture, NstPlace, NstCollector) {
     function UserFactory() { 
-      this.cache = new NstSvcCacheProvider('user');
+      this.cache = NstSvcGlobalCache.createProvider('user');
       this.collector = new NstCollector('account', this.getMany);
     }
 
@@ -63,9 +63,9 @@
      */
     UserFactory.prototype.getCurrent = function () {
       var factory = this;
-      var current = factory.cache.get('_current');
-      if (current && current._id) {
-        return $q.resolve(factory.parseUser(current));
+      var current = factory.getCurrentCachedSync();
+      if (current) {
+        return $q.resolve(current);
       }
       
       return this.sentinel.watch(function () {
@@ -75,6 +75,19 @@
         });
       }, 'getCurrent');
     }
+
+    UserFactory.prototype.getCurrentCachedSync = function () {
+      var current = this.cache.get('_current');
+      if (!current) {
+        return;
+      }
+      
+      return this.parseUser(current);
+    }
+
+    UserFactory.prototype.setCurrent = function (user) {
+      this.cache.set('_current', user);
+    };
 
     UserFactory.prototype.getMany = function (id) {
       var joinedIds = id.join(',');

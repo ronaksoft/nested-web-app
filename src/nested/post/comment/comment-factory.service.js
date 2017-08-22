@@ -8,12 +8,12 @@
   function NstSvcCommentFactory($q,
                                 _,
                                 NST_COMMENT_EVENT, NST_SRV_ERROR,
-                                NstSvcServer, NstCollector, NstSvcUserFactory, NstPicture, NstUtility, NstSvcCacheProvider,
+                                NstSvcServer, NstCollector, NstSvcUserFactory, NstPicture, NstUtility, NstSvcGlobalCache,
                                 NstComment, NstTinyUser, NstBaseFactory) {
 
     function CommentFactory() {
       this.collector = new NstCollector('post', this.getManyComment);
-      this.cache = new NstSvcCacheProvider('comment');
+      this.cache = NstSvcGlobalCache.createProvider('comment');
     }
 
     CommentFactory.prototype = new NstBaseFactory();

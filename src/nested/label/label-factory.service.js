@@ -7,13 +7,13 @@
 
   /** @ngInject */
   function NstSvcLabelFactory($q,
-    NstBaseFactory, NstSvcServer, NstSvcUserFactory, NstCollector, NstSvcCacheProvider,
+    NstBaseFactory, NstSvcServer, NstSvcUserFactory, NstCollector, NstSvcGlobalCache,
     NstLabel, NstLabelRequest, 
     NST_LABEL_SEARCH_FILTER, _) {
 
     function LabelFactory() {
       this.collector = new NstCollector('label', this.getMany);
-      this.cache = new NstSvcCacheProvider('label');
+      this.cache = NstSvcGlobalCache.createProvider('label');
     }
 
     LabelFactory.prototype = new NstBaseFactory();

@@ -9,7 +9,7 @@
   function NstSvcAuth(_, $cookies, $q, $log, $rootScope,
                       NstSvcServer, NstSvcUserFactory, NstSvcPlaceFactory, NstSvcLogger, NstSvcI18n, NstSvcClient,
                       NstSvcCurrentUserStorage, NstSvcFileStorage, NstSvcInvitationStorage,
-                      NstSvcPostStorage, NstSvcUploadTokenStorage, NstSvcContactStorage, NstSvcDate,
+                      NstSvcUploadTokenStorage, NstSvcContactStorage, NstSvcDate, NstSvcGlobalCache,
                       NST_SRV_EVENT, NST_SRV_RESPONSE_STATUS, NST_SRV_ERROR, NST_UNREGISTER_REASON, NST_CONFIG,
                       NST_AUTH_EVENT, NST_AUTH_STATE, NST_AUTH_STORAGE_KEY,
                       NstObservableObject) {
@@ -227,10 +227,10 @@
           break;
 
         default:
+          NstSvcGlobalCache.flush();
           NstSvcCurrentUserStorage.cache.flush();
           NstSvcFileStorage.cache.flush();
           NstSvcInvitationStorage.cache.flush();
-          NstSvcPostStorage.cache.flush();
           NstSvcUploadTokenStorage.cache.flush();
           NstSvcContactStorage.cache.flush();
 
@@ -329,6 +329,7 @@
       if (this.getLastSessionKey() && this.getLastSessionSecret()) {
         // TODO: Use Try Service
         this.recall(this.getLastSessionKey(), this.getLastSessionSecret()).then(function (response) {
+          NstSvcUserFactory.setCurrent(response.account);
           service.user = NstSvcUserFactory.parseUser(response.account);
           service.state = NST_AUTH_STATE.AUTHORIZED;
 
@@ -366,7 +367,6 @@
     };
 
     Auth.prototype.logout = function () {
-      NstSvcPlaceFactory.flush();
       NstSvcI18n.clearSavedLocale();
       $rootScope.$emit('unseen-activity-clear');
 
