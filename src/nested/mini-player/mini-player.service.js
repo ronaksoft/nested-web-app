@@ -19,7 +19,7 @@
       var that = this;
 
       audioDOM.onended = function () {
-        that.currentStatus = 'pause';
+        that.currentStatus = 'end';
         callIfValid(that.statusChangedRef, {
           status: that.currentStatus,
           id: playing,
@@ -225,6 +225,7 @@
       return {
         item: audioObjs[index],
         status: this.currentStatus,
+        playlist: this.playlistName,
         prev: (index === 0) ? false : true,
         next: (index === (audioObjs.length - 1)) ? false : true,
         index: index

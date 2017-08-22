@@ -1,10 +1,10 @@
 <div class="mini-player">
     <div class="player-ribbon" ng-if="ctrl.displayState === 1">
-        <img ng-src="{{ctrl.currentPlay.item.thumbnail}}" alt="" ng-if="!ctrl.isVoice">
-        <img initial-avatar="{{::ctrl.currentPlay.item.sender.id}}" name="{{::ctrl.currentPlay.item.sender.fullName}}" picture="{{ctrl.currentPlay.item.sender | avatar}}"
+        <img ng-click="ctrl.gotoPost()" ng-src="{{ctrl.currentPlay.item.thumbnail}}" alt="" ng-if="!ctrl.isVoice">
+        <img ng-click="ctrl.gotoPost()" initial-avatar="{{::ctrl.currentPlay.item.sender.id}}" name="{{::ctrl.currentPlay.item.sender.fullName}}" picture="{{ctrl.currentPlay.item.sender | avatar}}"
         data-width="24" data-height="24" data-radius="13" class="account-initials-24 _df" data-word-count="2" data-font-size="8"
         ng-if="ctrl.isVoice"/>
-        <a>
+        <a ng-click="ctrl.gotoPost()">
             <span class="_txe">{{ctrl.currentPlay.item.filename}}</span>
         </a>
         <div ng-click="ctrl.previous()" ng-if="ctrl.currentPlay.prev">
@@ -41,7 +41,7 @@
     <div class="mini-player-inner" ng-if="ctrl.displayState === 2 || ctrl.displayState === 3">
         <div class="player">
             <div class="sound-poster">
-                <img ng-src="{{ctrl.currentPlay.item.thumbnail}}" alt="" ng-if="!ctrl.isVoice">
+                <img ng-click="ctrl.gotoPost()" ng-src="{{ctrl.currentPlay.item.thumbnail}}" alt="" ng-if="!ctrl.isVoice">
             </div>
             <div class="_difv _fw _jcc">
                 <div class="player-handler" ng-click="ctrl.barClick($event)">
@@ -49,7 +49,7 @@
                     <div class="played-bar" style="transform: scaleX({{ctrl.currentTime.ratio}})"></div>
                     <div class="player-dragger" style="left: {{ctrl.currentTime.ratio * 100}}%"></div>
                 </div>
-                <span>
+                <span ng-click="ctrl.gotoPost()">
                     {{ctrl.currentPlay.item.filename}}
                 </span>
             </div>
