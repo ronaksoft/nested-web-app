@@ -34,7 +34,6 @@
 
 
       SvcMiniPlayer.timeChanged(function (t) {
-        console.log(t);
         $scope.$apply(function () {
           vm.currentTime = t;
         });
@@ -84,7 +83,6 @@
       function getList() {
           $scope.$apply(function () {
             vm.playList = SvcMiniPlayer.getList();
-            console.log(vm.playList);
             if (vm.displayState === 0 && vm.playList.length > 0) {
               vm.displayState = 1;
             }

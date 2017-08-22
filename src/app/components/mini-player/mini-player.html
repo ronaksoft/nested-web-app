@@ -46,16 +46,11 @@
     </div>
     <div class="mini-player-inner" ng-if="ctrl.displayState === 2 || ctrl.displayState === 3">
         <div class="player">
-<<<<<<< HEAD
-            <div class="sound-poster">
-                <img ng-click="ctrl.gotoPost()" ng-src="{{ctrl.currentPlay.item.thumbnail}}" alt="" ng-if="!ctrl.isVoice">
-=======
-            <div class="sound-poster ng-class:{'user-avatar-36' : ctrl.isVoice}">
+            <div ng-click="ctrl.gotoPost()" class="sound-poster ng-class:{'user-avatar-36' : ctrl.isVoice}">
                 <img ng-src="{{ctrl.currentPlay.item.thumbnail}}" alt="" ng-if="!ctrl.isVoice">
                 <img ng-if="ctrl.isVoice" initial-avatar="{{::ctrl.currentPlay.item.sender.id}}" name="{{::ctrl.currentPlay.item.sender.fullName}}" picture="{{ctrl.currentPlay.item.sender | avatar}}"
                 data-width="36" data-height="36" data-radius="20" class="account-initials-16 _df" data-word-count="2" data-font-size="8"
                 ng-if="ctrl.isVoice"/>
->>>>>>> 1ef5a631e6643bebefdfa2139396fc2530912abd
             </div>
             <div class="_difv _fw _jcc">
                 <div class="player-handler" ng-click="ctrl.barClick($event)">
