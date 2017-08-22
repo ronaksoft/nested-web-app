@@ -55,9 +55,7 @@
                     <div class="played-bar" style="transform: scaleX({{ctrl.currentTime.ratio}})"></div>
                     <div class="player-dragger" style="left: {{ctrl.currentTime.ratio * 100}}%"></div>
                 </div>
-                <span ng-click="ctrl.gotoPost()" class="_wrb">
-                    {{ctrl.currentPlay.item.filename}}
-                </span>
+                <span ng-click="ctrl.gotoPost()" class="_wrb">{{ctrl.currentPlay.item.filename}}</span>
             </div>
             <div class="player-quit">
                 <svg class="_16svg fill-white _fn" ng-click="ctrl.closePlayer()">
