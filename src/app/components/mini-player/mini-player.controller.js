@@ -32,8 +32,9 @@
 
 
       SvcMiniPlayer.timeChanged(function (t) {
+        console.log(t);
         $scope.$apply(function () {
-          vm.currentTime = Math.floor(t);
+          vm.currentTime = t;
         });
       });
 

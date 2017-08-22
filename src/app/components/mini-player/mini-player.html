@@ -46,8 +46,8 @@
             <div class="_difv _fw _jcc">
                 <div class="player-handler">
                     <div class="bg-bar"></div>
-                    <div class="played-bar"></div>
-                    <div class="player-dragger"></div>
+                    <div class="played-bar" style="transform: scaleX({{ctrl.currentTime.ratio}})"></div>
+                    <div class="player-dragger" style="left: {{ctrl.currentTime.ratio * 100}}%"></div>
                 </div>
                 <span>
                     {{ctrl.currentPlay.item.filename}}
@@ -75,10 +75,10 @@
                     </svg>
                 </div>
                 <div class="butn-playpause" ng-click="ctrl.playPauseToggle">
-                    <svg class="_16svg fill-white" ng-if="!ctrl.playStatus" ng-click="ctrl.play()">
+                    <svg class="_16svg fill-white" ng-if="ctrl.currentPlay.status == 'pause'" ng-click="ctrl.play()">
                         <use xlink:href="/assets/icons/nst-icn16.svg#play"></use>
                     </svg>
-                    <svg class="_16svg fill-white" ng-if="ctrl.playStatus" ng-click="ctrl.pause()">
+                    <svg class="_16svg fill-white" ng-if="ctrl.currentPlay.status != 'pause'" ng-click="ctrl.pause()">
                         <use xlink:href="/assets/icons/nst-icn16.svg#pause"></use>
                     </svg>
                 </div>
