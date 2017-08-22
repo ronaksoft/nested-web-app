@@ -1,12 +1,12 @@
 <div class="mini-player">
     <div class="player-ribbon" ng-if="ctrl.displayState === 1">
-        <i class="sound-poster ng-class:{'user-avatar-16' : ctrl.isVoice}">
+        <i class="sound-poster ng-class:{'user-avatar-16' : ctrl.isVoice}" ng-click="ctrl.gotoPost()">
             <img ng-src="{{ctrl.currentPlay.item.thumbnail}}" alt="" ng-if="!ctrl.isVoice">
             <img ng-if="ctrl.isVoice" initial-avatar="{{::ctrl.currentPlay.item.sender.id}}" name="{{::ctrl.currentPlay.item.sender.fullName}}" picture="{{ctrl.currentPlay.item.sender | avatar}}"
             data-width="16" data-height="16" data-radius="20" class="account-initials-16 _df" data-word-count="2" data-font-size="8"
             ng-if="ctrl.isVoice"/>
         </i>
-        <a>
+        <a ng-click="ctrl.gotoPost()">
             <span class="_txe">{{ctrl.currentPlay.item.filename}}</span>
         </a>
         <div ng-click="ctrl.previous()" ng-if="ctrl.currentPlay.prev">
@@ -42,7 +42,7 @@
     </div>
     <div class="mini-player-inner" ng-if="ctrl.displayState === 2 || ctrl.displayState === 3">
         <div class="player">
-            <div class="sound-poster ng-class:{'user-avatar-36' : ctrl.isVoice}">
+            <div ng-click="ctrl.gotoPost()" class="sound-poster ng-class:{'user-avatar-36' : ctrl.isVoice}">
                 <img ng-src="{{ctrl.currentPlay.item.thumbnail}}" alt="" ng-if="!ctrl.isVoice">
                 <img ng-if="ctrl.isVoice" initial-avatar="{{::ctrl.currentPlay.item.sender.id}}" name="{{::ctrl.currentPlay.item.sender.fullName}}" picture="{{ctrl.currentPlay.item.sender | avatar}}"
                 data-width="36" data-height="36" data-radius="20" class="account-initials-16 _df" data-word-count="2" data-font-size="8"
@@ -54,7 +54,7 @@
                     <div class="played-bar" style="transform: scaleX({{ctrl.currentTime.ratio}})"></div>
                     <div class="player-dragger" style="left: {{ctrl.currentTime.ratio * 100}}%"></div>
                 </div>
-                <span>
+                <span ng-click="ctrl.gotoPost()">
                     {{ctrl.currentPlay.item.filename}}
                 </span>
             </div>

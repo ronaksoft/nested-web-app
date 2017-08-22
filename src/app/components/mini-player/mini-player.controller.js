@@ -6,7 +6,7 @@
       .controller('MiniPlyerController', MiniPlyerController);
 
     /** @ngInject */
-    function MiniPlyerController($scope, $rootScope, $uibModal, $state, _, SvcMiniPlayer, moment) {
+    function MiniPlyerController($scope, $rootScope, $state, _, SvcMiniPlayer) {
       var vm = this;
       vm.displayState = 0;
       vm.playPauseToggle = playPauseToggle;
@@ -17,6 +17,7 @@
       vm.pause = pause;
       vm.openList = openList;
       vm.barClick = barClick;
+      vm.gotoPost = gotoPost;
       vm.playStatus = false;
       vm.playList = [];
       vm.isVoice = false;
@@ -26,13 +27,13 @@
       var updateDebounce = _.debounce(update, 50);
 
       vm.currentPlay = {
-        item : {},
+        item: {},
+        playlist: null,
         index : 0
-      }
+      };
 
 
       SvcMiniPlayer.timeChanged(function (t) {
-        console.log(t);
         $scope.$apply(function () {
           vm.currentTime = t;
         });
@@ -82,7 +83,6 @@
       function getList() {
           $scope.$apply(function () {
             vm.playList = SvcMiniPlayer.getList();
-            console.log(vm.playList);
             if (vm.displayState === 0 && vm.playList.length > 0) {
               vm.displayState = 1;
             }
@@ -114,7 +114,6 @@
         } else {
           SvcMiniPlayer.play();
         }
-
       }
 
       function next() {
@@ -125,9 +124,16 @@
         SvcMiniPlayer.prev();
       }
 
-      function closePlayer(){
+      function closePlayer() {
         vm.displayState = 0;
         SvcMiniPlayer.removeAll();
+      }
+
+      function gotoPost() {
+        if (vm.currentPlay === undefined || vm.currentPlay.playlist === null) {
+          return;
+        }
+        $state.go('app.message', {postId: vm.currentPlay.playlist}, {notify : false});
       }
 
     }
