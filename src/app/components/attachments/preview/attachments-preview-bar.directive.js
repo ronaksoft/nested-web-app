@@ -16,7 +16,8 @@
         items: '=',
         mode: '=',
         badge: '=',
-        postId: '='
+        postId: '=',
+        sender: '='
       },
       link: function (scope, ele) {
         scope.internalMode = NST_ATTACHMENTS_PREVIEW_BAR_MODE.AUTO;
@@ -26,7 +27,6 @@
         scope.scrollDis = 140;
         scope.NST_FILE_TYPE = NST_FILE_TYPE;
         scope.cardWidth = angular.element('.attachments-card').width();
-        var alreadyAdded = false;
         // var interval, pwTimeout;
         // var moves = [];
         var borderLeftArray=[],borderRightArray=[];
@@ -226,11 +226,19 @@
               return;
             }
             getToken(attachment.id).then(function (token) {
-              console.log(attachment,token, attachment.picture);
+              
               attachment.src = NstSvcStore.resolveUrl(NST_STORE_ROUTE.VIEW, attachment.id, token);
-              if (item.id === attachment.id) {
-                attachment.isPlayed = true;
+              attachment.isVoice = attachment.uploadType === "VOICE";
+              if ( attachment.isVoice ) {
+                attachment.sender = scope.sender
               }
+              // console.log( item.id, attachment.id, item.id === attachment.id);
+              if (item.id === attachment.id) {
+                // console.log(attachment.isPlayed);
+                attachment.isPlayed = true;
+                // console.log(attachment.isPlayed);
+              }
+              console.log(attachment)
               SvcMiniPlayer.addTrack(attachment);
             }).catch(function () {
               toastr.error('Sorry, An error has occured while playing the audio');

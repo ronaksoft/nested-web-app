@@ -34,7 +34,7 @@
 
 
       SvcMiniPlayer.timeChanged(function (t) {
-        // console.log(t);
+        console.log(t);
         $scope.$apply(function () {
           vm.currentTime = t;
         });
@@ -44,6 +44,11 @@
         vm.playStatus = result.status === 'play';
         if (result.status === 'play' || result.status === 'pause') {
           updateDebounce();
+        } else if (result.status === 'end') {
+          vm.currentTime = {
+            time: vm.currentTime.duration,
+            ratio: 1
+          };
         }
       });
 
@@ -79,6 +84,7 @@
       function getList() {
           $scope.$apply(function () {
             vm.playList = SvcMiniPlayer.getList();
+            console.log(vm.playList);
             if (vm.displayState === 0 && vm.playList.length > 0) {
               vm.displayState = 1;
             }
