@@ -56,16 +56,24 @@
     }
 
     /**
-     * Returns the account of current user. This always asks Cyrus and does not use any cache storage
+     * Returns the current user account. First uses cache storage and the asks Cyrus if the account was not found
      * 
      * @param {any} id 
      * @returns 
      */
-    UserFactory.prototype.getCurrent = function (id) {
+    UserFactory.prototype.getCurrent = function () {
       var factory = this;
-      return NstSvcServer.request('account/get', {}).then(function (account) {
-        return $q.resolve(factory.parseUser(account));
-      });
+      var current = factory.cache.get('_current');
+      if (current && current._id) {
+        return $q.resolve(factory.parseUser(current));
+      }
+      
+      return this.sentinel.watch(function () {
+        return NstSvcServer.request('account/get', {}).then(function (account) {
+          factory.cache.set('_current', account);
+          return $q.resolve(factory.parseUser(account));
+        });
+      }, 'getCurrent');
     }
 
     UserFactory.prototype.getMany = function (id) {
