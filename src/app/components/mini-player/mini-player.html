@@ -70,7 +70,7 @@
             </div>
         </div>
         <div class="player-buttons-wrapper">
-            <div class="remain-time">{{ctrl.currentTime.time - ctrl.currentTime.duration | durationToTime}}</div>
+            <div class="remain-time" dir="ltr">{{ctrl.currentTime.time - ctrl.currentTime.duration | durationToTime | localize}}</div>
             <div class="player-buttons">
                 <div class="butn-previous">
                     <svg class="_16svg fill-white mirror" ng-if="ctrl.currentPlay.prev" ng-click="ctrl.previous()">

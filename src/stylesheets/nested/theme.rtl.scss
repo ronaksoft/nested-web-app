@@ -846,6 +846,19 @@ body[dir="rtl"] {
     margin-right: 4px;
     margin-left: 0;
   }
+  nst-attachments-editable-bar ul li .attsize,
+  nst-attachments-preview-bar ul li .attsize {
+    padding-right: 0;
+    text-align: left;
+    padding-left: 48px;
+  }
+  nst-attachments-editable-bar ul.thumbnail-bar li:last-child .music-knee,
+  nst-attachments-preview-bar ul.thumbnail-bar li:last-child .music-knee {
+    right: 0;
+  }
+  .mini-player .player-buttons-wrapper .remain-time {
+    justify-content: flex-end;
+  }
 }
 body[dir="ltr"] {
   .post-card-comments p.RTL-text {

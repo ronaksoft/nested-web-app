@@ -12,7 +12,7 @@
         GIF
       </span>
       <span class="playbtn" ng-if="item.type === 'video'">
-        <svg class="_24svg">
+        <svg class="_24svg mirror">
           <use xlink:href="/assets/icons/nst-icn24.svg#play"></use>
         </svg>
       </span>
@@ -28,7 +28,7 @@
       <div class="attach-thumbnail attach-thumbnail-voice">
         <span class="voice-time" ng-if="false">1:24</span>
         <span class="playbtn" ng-click="playAudio(item);$event.stopPropagation();">
-          <svg class="_24svg" ng-if="!item.isPlayed">
+          <svg class="_24svg mirror" ng-if="!item.isPlayed">
             <use xlink:href="/assets/icons/nst-icn24.svg#play"></use>
           </svg>
           <svg class="_24svg" ng-if="item.isPlayed">
@@ -43,7 +43,7 @@
       style="background: url({{ item.picture.getUrl('x128') || '/assets/icons/ph_music.png' }});background-size: cover; height: 96px;position: relative;top: 4px; width: 96px">
       </div>
       <span class="playbtn" ng-click="playAudio(item);$event.stopPropagation();">
-        <svg class="_24svg" ng-if="!item.isPlayed">
+        <svg class="_24svg mirror" ng-if="!item.isPlayed">
           <use xlink:href="/assets/icons/nst-icn24.svg#play"></use>
         </svg>
         <svg class="_24svg" ng-if="item.isPlayed">
@@ -81,7 +81,7 @@
     width: {{width}}px" ng-src="{{items[0].picture.getUrl('preview')}}"/>
   </div>
   <span class="playbtn _scl2" ng-if="items[0].type === 'video'" ng-click="onClick(items[0]);">
-    <svg class="_24svg">
+    <svg class="_24svg mirror">
       <use xlink:href="/assets/icons/nst-icn24.svg#play"></use>
     </svg>
   </span>
@@ -109,7 +109,7 @@
   </a>
 
   <span class="playbtn _scl2" ng-if="items[0].type === 'video' || items[0].type === 'gif'" style="left: {{scaleOne / 2}}%;right:auto;" ng-click="onClick(items[0])">
-    <svg class="_24svg" ng-if="items[0].type === 'video'">
+    <svg class="_24svg mirror" ng-if="items[0].type === 'video'">
       <use xlink:href="/assets/icons/nst-icn24.svg#play"></use>
     </svg>
     <svg class="_24svg" ng-if="items[0].type === 'gif'">
@@ -129,7 +129,7 @@
   </a>
 
   <span class="playbtn _scl2 oddCase" ng-if="items[0].type === 'video' || items[0].type === 'gif'" style="right: {{scaleTwo / 2}}%;left:auto;" ng-click="onClick(items[1])">
-    <svg class="_24svg" ng-if="items[1].type === 'video'">
+    <svg class="_24svg mirror" ng-if="items[1].type === 'video'">
       <use xlink:href="/assets/icons/nst-icn24.svg#play"></use>
     </svg>
     <svg class="_24svg" ng-if="items[1].type === 'gif'">
