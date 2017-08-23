@@ -48,6 +48,7 @@
     vm.chips = [];
     vm.lastChipText = null;
     vm.removeChip = removeChip;
+    vm.searchPlaceholder = NstSvcTranslation.get('Search...');
 
     initSearch();
 

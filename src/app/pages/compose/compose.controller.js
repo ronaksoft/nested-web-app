@@ -45,6 +45,11 @@
     vm.cmdVPress = false;
     vm.isRetinaDisplay = isRetinaDisplay();
     vm.targetLimit;
+    vm.translations = {
+      title1: NstSvcTranslation.get('Add a title'),
+      title2: NstSvcTranslation.get('Write your message or drag files here…'),
+      body: NstSvcTranslation.get('Type something...')
+    };
 
     vm.quickMode = vm.mode === 'quick';
 
@@ -1085,7 +1090,7 @@
       charCounterCount: false,
       tabSpaces: 4,
       toolbarBottom: true,
-      placeholderText: 'Type something...',
+      placeholderText: vm.translations.body,
       pluginsEnabled: ['colors', 'fontSize', 'fontFamily', 'link', 'url', 'wordPaste', 'lists', 'align', 'codeBeautifier'],
       fontSize: ['8', '10', '14', '18', '22'],
       toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'fontSize', '|', 'color', 'align', 'formatOL', 'formatUL', 'insertLink', '|', 'rightToLeft', 'leftToRight'],

@@ -116,7 +116,6 @@
 
 
         scope.sizeDetect = function (aw, ah) {
-          console.log(123123123);
           var a = scope.attachment,
             ww = window.innerWidth, // screen width
             wh = window.innerHeight - 64, // Navbar Height : 64
