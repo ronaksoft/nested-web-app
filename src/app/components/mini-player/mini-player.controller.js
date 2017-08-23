@@ -6,7 +6,7 @@
       .controller('MiniPlyerController', MiniPlyerController);
 
     /** @ngInject */
-    function MiniPlyerController($scope, $rootScope, $state, _, SvcMiniPlayer) {
+    function MiniPlyerController($scope, $rootScope, $state, _, SvcMiniPlayer, $) {
       var vm = this;
       vm.displayState = 0;
       vm.playPauseToggle = playPauseToggle;
@@ -21,8 +21,11 @@
       vm.playStatus = false;
       vm.playList = [];
       vm.isVoice = false;
-      vm.currentTime = {};
-      vm.currentTimeString = ' 00:00'
+      vm.currentTime = {
+        time: 0,
+        duration: 100,
+        ratio: 0
+      };
 
       var updateDebounce = _.debounce(update, 50);
 
