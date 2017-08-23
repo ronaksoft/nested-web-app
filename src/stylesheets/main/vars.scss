@@ -5,36 +5,36 @@
 */
 
 $color-solid: #323D47;
-$color-sense: #14d769;
-$color-sense-wire: #00b45a;
+$color-sense: rgba(20,215,105,1);
+$color-sense-wire: rgba(0,180,90,1);
 $color-sense-5: #f3fdf7;
 $color-sense-50: #83d8ad;
 $color-solid-30: #b2b2b2;
 $color-solid-60: #666666;
-$color-force: #ff6464;
-$color-force-wire: #E60000;
+$color-force: rgba(255,100,100,1);
+$color-force-wire: rgba(230,0,0,1);
 $color-hurricane-old: #476152;
-$color-shine: #FFD732;
+$color-shine: rgba(255,215,50,1);
 $color-badge: #a0e8b8;
 $color-fillbox: #f0f5f2;
 $color-white: #FFFFFF;
 $color-bg:rgb(250,250,250);
 $color-light-cloud:rgb(245,245,245);
 $color-bg-nested: #F5F5F5;
-$color-bg-pending: #3296FF;
+$color-bg-pending: rgba(50,150,255,1);
 $color-bg-pending-fill: #99CBFF;
 $color-bg-pending-hover: #E1F5FF;
 $color-border-pics: rgba(0,0,0,.2);
 $color-border: rgb(220,220,220);
 $color-grey: rgb(192,192,192);
 $color-grey-text: #808080;
-$color-forward: #3246A5;
-$color-reply: rgb(90,210,170);
+$color-forward: rgba(50, 70, 165, 1);
+$color-reply: rgb(110,215,180);
 $color-hover-comment: #DAF2E4;
 $hot-bg-color: cornsilk;
 $color-pdf: #CD2828;
+$color-cool-smoke : rgba(136,149,161,1);
 
-$color-gale: rgba(0,0,0,.4);
 // $color-modal-bg: rgba(153,153,153,.72);
 
 // Black with different opacities
@@ -42,8 +42,10 @@ $color-calm: rgba(0,0,0,.04);
 $color-breeze: rgba(0,0,0,.16);
 $color-breeze-50: rgba(0,0,0,.08);
 $color-wind: rgba(0,0,0,.32);
+$color-gale: rgba(0,0,0,.4);
 $color-storm: rgba(0,0,0,.48);
 $color-hurricane: rgba(0,0,0,.72);
+$color-breeze-light: $color-breeze-50;
 
 // Solid color with different opacities
 $color-new-hurricane : rgba(50, 61, 71, .72);
@@ -121,3 +123,19 @@ $color-black008: $color-breeze-50;
 $color-black04: $color-gale;
 $color-black16: $color-breeze;
 $color-comment : #444444;
+
+
+// Attachments color
+$color-attachments-document : rgba(40,120,205,1);
+$color-attachments-pdf : rgba(205,40,40,1);
+$color-attachments-media : rgba(40,205,150,1);
+$color-attachments-zip : rgba(80,45,150,1);
+$color-attachments-other : rgba(40,40,40,1);
+
+//labels:
+$color-kiwi : rgba(90,191,112,1);
+$color-apricot : rgba(235,194,70,1);
+$color-grapefruit : rgba(242,97,97,1);
+$color-grape : rgba(134,105,191,1);
+$color-blueberry : rgba(80,142,230,1);
+$color-aquamarine : rgba(108,217,217,1);

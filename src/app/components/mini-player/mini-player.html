@@ -8,7 +8,7 @@
         </i>
         <a ng-click="ctrl.gotoPost()">
             <span class="_txe" ng-click="ctrl.gotoPost()" ng-if="!ctrl.isVoice">{{ctrl.currentPlay.item.filename}}</span>
-            <span ng-click="ctrl.gotoPost()" class="_txe" ng-if="ctrl.isVoice">{{ctrl.currentPlay.sender.fullName}}</span>
+            <span ng-click="ctrl.gotoPost()" class="_txe" ng-if="ctrl.isVoice">{{ctrl.currentPlay.item.sender.fullName}}</span>
         </a>
         <div ng-click="ctrl.previous()" ng-if="ctrl.currentPlay.prev">
             <svg class="_16svg fill-white">
@@ -57,7 +57,7 @@
                     <div class="player-dragger" ng-click="$event.stopPropagation()" style="left: {{ctrl.currentTime.ratio * 100}}%"></div>
                 </div>
                 <span ng-click="ctrl.gotoPost()" class="_wrb" ng-if="!ctrl.isVoice">{{ctrl.currentPlay.item.filename}}</span>
-                <span ng-click="ctrl.gotoPost()" class="_wrb" ng-if="ctrl.isVoice">{{ctrl.currentPlay.sender.fullName}}</span>
+                <span ng-click="ctrl.gotoPost()" class="_wrb" ng-if="ctrl.isVoice">{{ctrl.currentPlay.item.sender.fullName}}</span>
             </div>
             <div class="player-quit">
                 <svg class="_16svg fill-white _fn" ng-click="ctrl.closePlayer()">
