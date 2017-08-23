@@ -222,15 +222,19 @@
           });
         }
 
+        scope.attachmentCount = 0;
+
         scope.playAudio = function (item) {
           if (item.isPlayed) {
             return SvcMiniPlayer.pause();
           }
           SvcMiniPlayer.setPlaylist(scope.postId);
-          scope.items.forEach(function(attachment){
+          scope.attachmentCount = 0;
+          scope.items.forEach(function (attachment) {
             if (attachment.uploadType !== 'AUDIO' && attachment.uploadType !== 'VOICE') {
               return;
             }
+            scope.attachmentCount++;
             getToken(attachment.id).then(function (token) {
 
               attachment.src = NstSvcStore.resolveUrl(NST_STORE_ROUTE.VIEW, attachment.id, token);
@@ -241,39 +245,48 @@
               if (item.id === attachment.id) {
                 attachment.isPlayed = true;
               }
-              SvcMiniPlayer.addTrack(attachment);
+              scope.attachmentCount--;
+              if (scope.attachmentCount === 0) {
+                scope.addAllMedia();
+              }
             }).catch(function () {
               toastr.error('Sorry, An error has occured while playing the audio');
             });
           });
-        }
+        };
 
-        // function scrollLeft(count, k) {
-        //   var el = scope.scrollWrp[0];
-        //   var i = $interval(function () {
-        //     count[k]++;
-        //     if (count[k] < scope.scrollDis) {
-        //       el.scrollLeft -= 2;
-        //     } else {
-        //       $interval.cancel(i);
-        //     }
-        //   }, 1);
-        //   moves.push(i);
-        // }
-        //
-        // function scrollRight(count, k) {
-        //   var el = scope.scrollWrp[0];
-        //   var i = $interval(function () {
-        //     count[k]++;
-        //     if (count[k] < scope.scrollDis) {
-        //       el.scrollLeft += 2;
-        //     } else {
-        //       $interval.cancel(i);
-        //     }
-        //   }, 1);
-        //   moves.push(i);
-        //
-        // }
+        scope.addAllMedia = function () {
+          scope.items.forEach(function (attachment) {
+            SvcMiniPlayer.addTrack(attachment);
+          });
+        };
+
+        /*function scrollLeft(count, k) {
+          var el = scope.scrollWrp[0];
+          var i = $interval(function () {
+            count[k]++;
+            if (count[k] < scope.scrollDis) {
+              el.scrollLeft -= 2;
+            } else {
+              $interval.cancel(i);
+            }
+          }, 1);
+          moves.push(i);
+        }*/
+
+        /*function scrollRight(count, k) {
+          var el = scope.scrollWrp[0];
+          var i = $interval(function () {
+            count[k]++;
+            if (count[k] < scope.scrollDis) {
+              el.scrollLeft += 2;
+            } else {
+              $interval.cancel(i);
+            }
+          }, 1);
+          moves.push(i);
+
+        }*/
 
         function checkScroll(el) {
           if (el.clientWidth < el.scrollWidth && el.scrollLeft == 0) {
