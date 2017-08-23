@@ -19,7 +19,7 @@
       <p class="_fw" auto-dir="comment.body">
             <span class="_df _fn time" data-uib-tooltip="{{::comment.timestamp | date : 'full' | localize}}" data-tooltip-append-to-body="true" data-tooltip-placement="top auto">{{comment.timestamp | passed | localize}}</span>
         <strong class="_fl" user-detail="comment.sender">{{comment.sender.fullName}}:&nbsp;</strong>
-        <span is-two-line class="_fl" ng-bind-html="comment.body | link | nstPopover | plainToHtml "></span>
+        <span is-two-line class="_fl" ng-bind-html="to_trusted(comment.body | link | nstPopover | plainToHtml)"></span>
         <i ng-if="comment.body === '' && !comment.removedBy">
           (<translate>removed</translate>)
         </i>
