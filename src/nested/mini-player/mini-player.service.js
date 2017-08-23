@@ -9,7 +9,7 @@
     var audioDOM;
     var audioObjs = [];
     var playing = null;
-    var audioInterval;
+    var audioInterval, audioIntervalEnable = false;
 
     function MiniPlayer() {
       audioDOM = document.createElement('audio');
@@ -27,19 +27,11 @@
         });
         that.broadcastStatus('');
       };
-
-      audioInterval = setInterval(function () {
-        if (!audioDOM.paused) {
-          callIfValid(that.timeChangedRef, {
-            time: audioDOM.currentTime,
-            duration: audioDOM.duration,
-            ratio: (audioDOM.currentTime / audioDOM.duration)
-          });
-        }
-      }, 500);
     }
 
     MiniPlayer.prototype.constructor = MiniPlayer;
+    MiniPlayer.prototype.startInterval = startInterval;
+    MiniPlayer.prototype.stopInterval = stopInterval;
     MiniPlayer.playlistName = null;
     MiniPlayer.prototype.setPlaylist = setPlaylist;
     MiniPlayer.prototype.addTrack = addTrack;
@@ -63,6 +55,30 @@
 
     var service = new MiniPlayer();
     return service;
+
+    function startInterval() {
+      if (audioIntervalEnable) {
+        return;
+      }
+      audioIntervalEnable = true;
+      var that = this;
+      audioInterval = setInterval(function () {
+        if (!audioDOM.paused) {
+          callIfValid(that.timeChangedRef, {
+            time: audioDOM.currentTime,
+            duration: audioDOM.duration,
+            ratio: (audioDOM.currentTime / audioDOM.duration)
+          });
+        }
+      }, 500);
+    }
+
+    function stopInterval() {
+      if (audioInterval) {
+        clearInterval(audioInterval);
+        audioIntervalEnable = false;
+      }
+    }
 
     function setPlaylist(name) {
       if (name !== this.playlistName) {
@@ -103,6 +119,7 @@
         var playingItem = this.getCurrent();
         this.pause(playingItem.item.id);
       }
+      this.startInterval();
       var noIdFlag = false;
       if (id === undefined) {
         id = playing;
@@ -131,6 +148,7 @@
       // if (id !== undefined && id !) {
       //   playing = null;
       // }
+      this.stopInterval();
       audioDOM.pause();
       this.currentStatus = 'pause';
       callIfValid(this.statusChangedRef, {

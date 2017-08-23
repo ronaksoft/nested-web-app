@@ -14,9 +14,9 @@
             topOffset = 0,
             afterContent = 0,
             containerLeft = $('body').offset().left || 0,
-            isRTL = $rootScope._direction,
-            obj = {},
-            hash = Math.ceil(Math.random() * 2000);
+            isRTL = $rootScope._direction;
+            // obj = {},
+            // hash = Math.ceil(Math.random() * 2000);
 
         $rootScope.$on('affixCheck',function(){
           $timeout(function(){applier();},10);
@@ -130,7 +130,7 @@
           }
           window.affixerListeners.scroll.push(affixElement);
           window.affixerListeners.resize.push(resizeE);
-          
+
 
         }
 

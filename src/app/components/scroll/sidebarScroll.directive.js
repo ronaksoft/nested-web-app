@@ -16,8 +16,8 @@
         scope.ctlSidebar.overFlowBottomUnread = false;
         scope.ctlSidebar.overFlowTop = false;
         scope.ctlSidebar.overFlowTopUnread = false;
- 
-        // win.on("resize", checkScroll);
+
+        win.on("resize", checkScroll);
 
         // Hell handle on promise resolving
         $timeout(function(){

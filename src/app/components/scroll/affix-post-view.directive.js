@@ -6,7 +6,7 @@
     .directive('affixerPostView', onScroll);
 
   /** @ngInject */
-  function onScroll($window,$timeout, $) {
+  function onScroll($window, $timeout, $) {
     return {
       restrict: 'A',
       link: function ($scope, $element, $attrs) {
@@ -17,23 +17,26 @@
         var rightAuto = $attrs.rtlRightAuto || false;
 
         applier();
-        if( $attrs.observe ) {
-          $scope.$watch(function(){
+        if ($attrs.observe) {
+          $scope.$watch(function () {
             return $scope.$parent.$parent.$parent.affixObserver;
-          },function(){
-            return $timeout(function(){applier()},500);
+          }, function () {
+            return $timeout(function () {
+              applier()
+            }, 500);
           });
         }
-        function resizeF () {
+
+        function resizeF() {
           applier();
         }
 
-        // win.on("resize", resizeF);
+        win.on("resize", resizeF);
 
         function applier() {
 
           if (window.affixerListenersPostView && window.affixerListenersPostView.length > 0) {
-            window.affixerListenersPostView.forEach( function(item){
+            window.affixerListenersPostView.forEach(function (item) {
               window.removeEventListener("scroll", item);
             });
           }
@@ -53,10 +56,10 @@
 
           var fixed = false;
 
-          if ($attrs.fixedTop ) {
+          if ($attrs.fixedTop) {
             top = parseInt($attrs.top);
           }
-          if ($attrs.clearRight ) {
+          if ($attrs.clearRight) {
             var clearRight = true;
           }
 
@@ -77,24 +80,24 @@
               $element.css('top', parseInt(top) + 'px');
               $element.css('left', offLeft + 'px');
               if (rightAuto) $element.css('right', 'auto');
-              if(!dontSetWidth) $element.css('width', actualWidth + 'px');
+              if (!dontSetWidth) $element.css('width', actualWidth + 'px');
               $element.css('height', height + 'px');
               $element.css('transform', 'none');
               fixed = true;
-            } else if (fixed && container[0].scrollTop < topOffset ) {
+            } else if (fixed && container[0].scrollTop < topOffset) {
               removeFix();
               fixed = false;
             }
           }
 
           function firstFixes() {
-            if ($attrs.firstImp ) {
+            if ($attrs.firstImp) {
               $element.css('position', 'fixed');
               $element.css('top', parseInt(top) - parseInt(topOffset) + 'px');
               $element.css('left', offLeft + 'px');
               $element.css('width', width + 'px');
               $element.css('height', height + 'px');
-              if(clearRight) {
+              if (clearRight) {
                 $element.css('right', 'auto');
               }
               return container.unbind('scroll', affixElement);
@@ -103,8 +106,8 @@
 
           window.addEventListener("scroll", affixElement);
           firstFixes();
-          
-          if ( !window.affixerListenersPostView ) {
+
+          if (!window.affixerListenersPostView) {
             window.affixerListenersPostView = [];
           }
           window.affixerListenersPostView.push(affixElement);
