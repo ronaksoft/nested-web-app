@@ -3,7 +3,7 @@
 
   angular
     .module('ronak.nested.web.components.text')
-    .filter('nstPopover', function(NstSvcUserFactory) {
+    .filter('nstPopover', function() {
       return function(text) {
         var regex = /@\S*|(\S+|\s)/g;
 
@@ -19,13 +19,8 @@
         var string = '';
 
         for (var i in words) {
-          // if (words[i] == '@hamidrezakk') {
-          //   NstSvcUserFactory.getTiny('hamidrezakk').then(function(result) {
-          //     console.log(result);
-          //   });
-          // }
           if (words[i].indexOf('@') > -1) {
-            string += '<a class="nst-user-popover" nst-user-popover="' + words[i] + '">' + words[i] + '</a>';
+            string += '<a class="nst-user-popover" user-detail="' + words[i] + '">' + words[i] + '</a>';
           } else {
             string += words[i];
           }
