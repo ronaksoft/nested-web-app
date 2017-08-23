@@ -628,6 +628,13 @@ post-card {
       text-decoration: underline!important;
       color: $color-sense;
     }
+    &.nst-user-popover {
+      color: $color-hurricane;
+      &:hover {
+        text-decoration: none;
+        color: $color-storm;
+      }
+    }
   }
   .time {
     //padding-top: 4px;
