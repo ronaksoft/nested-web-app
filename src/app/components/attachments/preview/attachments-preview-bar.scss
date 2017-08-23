@@ -70,6 +70,8 @@ nst-attachments-preview-bar {
           background-color: $color-force;
           border-color: $color-force-wire;
           z-index: 2;
+          bottom: 16px;
+          right: 16px;
         }
         &.thumbnails {
           bottom: 16px;
@@ -121,10 +123,10 @@ nst-attachments-preview-bar {
           right: 16px;
         }
         .attdl {
-          right: 24px;
+          right: 32px;
         }
         .playbtn {
-          margin-left: -8px;
+          // margin-left: -8px;
         }
       }
       &:hover {
@@ -351,6 +353,7 @@ nst-attachments-preview-bar {
   overflow: hidden;
   background-size: cover;
   border-style: none;
+  position: relative;
   > .file-name {
     display: flex;
     flex: 1;
