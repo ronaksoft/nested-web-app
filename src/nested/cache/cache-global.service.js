@@ -23,9 +23,6 @@
     }
 
     GlobalCache.prototype.createProvider = function (namespace) {
-      console.log('====================================');
-      console.log('this.providers', this.providers);
-      console.log('====================================');
       return this.providers[namespace] = new NstSvcCacheProvider(namespace);
     }
 

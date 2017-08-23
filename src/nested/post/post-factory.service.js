@@ -7,24 +7,22 @@
   /** @ngInject */
   function NstSvcPostFactory($q, $log, $rootScope,
     _, md5,
-    NstSvcPostStorage, NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory, NstSvcStore,
-    NstSvcCommentFactory, NstUtility, NstSvcCacheProvider,
+    NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory, NstSvcStore,
+    NstSvcCommentFactory, NstUtility, NstSvcGlobalCache,
     NstPost, NstBaseFactory, NstCollector,
     NST_MESSAGES_SORT_OPTION, NST_SRV_EVENT, NST_CONFIG, NST_POST_EVENT, NstSvcLabelFactory) {
 
     function PostFactory() {
       this.collector = new NstCollector('post', this.getMany);
-      this.cache = new NstSvcCacheProvider('post');
+      this.cache = NstSvcGlobalCache.createProvider('post');
     }
 
     PostFactory.prototype = new NstBaseFactory();
     PostFactory.prototype.constructor = PostFactory;
 
-    PostFactory.prototype.has = has;
     PostFactory.prototype.get = get;
     PostFactory.prototype.getMany = getMany;
     PostFactory.prototype.read = read;
-    PostFactory.prototype.set = set;
     PostFactory.prototype.send = send;
     PostFactory.prototype.remove = remove;
     PostFactory.prototype.retract = retract;
@@ -35,7 +33,6 @@
     PostFactory.prototype.getFavoriteMessages = getFavoriteMessages;
     PostFactory.prototype.getUnreadMessages = getUnreadMessages;
     PostFactory.prototype.parsePost = parsePost;
-    PostFactory.prototype.getMessage = getMessage;
     PostFactory.prototype.search = search;
     PostFactory.prototype.newSearch = newSearch;
     PostFactory.prototype.pin = pin;
@@ -56,10 +53,6 @@
 
     var factory = new PostFactory();
     return factory;
-
-    function has(id) {
-      return !!NstSvcPostStorage.get(id);
-    }
 
     /**
      * anonymous function - retrieve a post by id and store in the related cache storage
@@ -125,32 +118,13 @@
      * @returns {Promise}      the post
      */
     function read(id) {
-      var defer = $q.defer();
-
-      if (!id) {
-        throw "Post id is not define!";
-      }
-
-      if (!id) {
-        defer.resolve(null);
-      } else {
-        NstSvcServer.request('post/mark_as_read', {
-          post_id: id
-        }).then(function () {
-          var post = NstSvcPostStorage.get(id);
-
-          if (post) {
-            post.read = true;
-            NstSvcPostStorage.set(id, post);
-          }
-          $rootScope.$broadcast(NST_POST_EVENT.READ, { postId: id });
-
-          defer.resolve(true);
-
-        }).catch(defer.reject);
-      }
-
-      return defer.promise;
+      return NstSvcServer.request('post/mark_as_read', {
+        post_id: id
+      }).then(function () {
+        factory.cache.remove(id);
+        $rootScope.$broadcast(NST_POST_EVENT.READ, { postId: id });
+        $q.resolve();
+      });
     }
 
     function getCachedSync(id) {
@@ -311,73 +285,41 @@
      * @returns {Promise}     the removed post
      */
     function remove(id, placeId) {
-      return $q(function (resolve, reject) {
-        NstSvcServer.request('post/remove', {
-          post_id: id,
-          place_id: placeId
-        }).then(function () { //remove the object from storage and return the id
-          var post = NstSvcPostStorage.get(id);
-
-          if (post) {
-            NstUtility.collection.dropById(post.places, placeId);
-            if (post.places.length === 0) { //the last place was removed
-              NstSvcPostStorage.remove(id);
-            } else {
-              NstSvcPostStorage.set(id, post);
-            }
-          }
-
-          resolve(post);
-        }).catch(reject);
+      return NstSvcServer.request('post/remove', {
+        post_id: id,
+        place_id: placeId
+      }).then(function () {
+        factory.cache.remove(id);
+        return $q.resolve();
       });
     }
 
     function retract(id) {
-      var factory = this;
-      return factory.sentinel.watch(function () {
-        return NstSvcServer.request('post/wipe', {
-          post_id: id
-        }).then(function () {
-          NstSvcPostStorage.remove(id);
-          return $q.resolve(true);
-        });
-      }, "retract", id);
+      return NstSvcServer.request('post/wipe', {
+        post_id: id
+      }).then(function () {
+        factory.cache.remove(id);
+        return $q.resolve(true);
+      });
     }
 
     function pin(id) {
-      return $q(function (resolve, reject) {
-        NstSvcServer.request('post/pin', {
-          post_id: id
-        }).then(function () { //remove the object from storage and return the id
-          var post = NstSvcPostStorage.get(id);
-
-          if (post) {
-            post.pinned = true;
-            NstSvcPostStorage.set(id, post);
-          }
-          $rootScope.$broadcast(NST_POST_EVENT.BOOKMARKED, { postId: id });
-
-          resolve(post);
-        }).catch(reject);
+      NstSvcServer.request('post/pin', {
+        post_id: id
+      }).then(function () {
+        factory.cache.remove(id);
+        $rootScope.$broadcast(NST_POST_EVENT.BOOKMARKED, { postId: id });
+        $q.resolve();
       });
     }
 
     function unpin(id) {
-      return $q(function (resolve, reject) {
-        NstSvcServer.request('post/unpin', {
-          post_id: id
-        }).then(function () { //remove the object from storage and return the id
-          var post = NstSvcPostStorage.get(id);
-
-          if (post) {
-            post.pinned = false;
-            NstSvcPostStorage.set(id, post);
-          }
-
-          $rootScope.$broadcast(NST_POST_EVENT.UNBOOKMARKED, { postId: id });
-
-          resolve(post);
-        }).catch(reject);
+      NstSvcServer.request('post/unpin', {
+        post_id: id
+      }).then(function () {
+        factory.cache.remove(id);
+        $rootScope.$broadcast(NST_POST_EVENT.UNBOOKMARKED, { postId: id });
+        $q.resolve();
       });
     }
 
@@ -467,35 +409,37 @@
       return clonedUser;
     }
 
-    function getMessages(setting) {
+    function getMessages(setting, cacheHandler) {
       var defer = $q.defer();
 
       var options = {
         limit: setting.limit,
-        before: setting.date
+        before: setting.before,
       };
 
       if (setting.sort === NST_MESSAGES_SORT_OPTION.LATEST_ACTIVITY) {
         options.by_update = true;
       }
 
-      NstSvcServer.request('account/get_posts', options).then(function (data) {
-        var messagePromises = _.map(data.posts, parsePost);
-        $q.all(messagePromises).then(function (messages) {
-          _.forEach(messages, function (item) {
-            NstSvcPostStorage.set(item.id, item);
+      return NstSvcServer.request('account/get_posts', options, function (cachedResponse) {
+        if (cachedResponse && _.isFunction(cacheHandler)) {
+          var cachedPosts = _.map(cachedResponse.posts, function (post) {
+            return factory.getCachedSync(post._id);
           });
-          defer.resolve(messages);
-        }).catch(defer.reject);
-      }).catch(function (error) {
-        // TODO: format the error and throw it
-        defer.reject(error);
-      });
 
-      return defer.promise;
+          cacheHandler(cachedPosts);
+        }
+      }).then(function (data) {
+        var messagePromises = _.map(data.posts, function (post) {
+          factory.set(post);
+          return factory.parsePost(post);
+        });
+
+        return $q.all(messagePromises);
+      });
     }
 
-    function getBookmarkedMessages(setting) {
+    function getBookmarkedMessages(setting, cacheHandler) {
       var defer = $q.defer();
 
       var options = {
@@ -507,57 +451,54 @@
         options.by_update = true;
       }
 
-      NstSvcServer.request('account/get_pinned_posts', options).then(function (data) {
-        var messagePromises = _.map(data.posts, parsePost);
-        $q.all(messagePromises).then(function (messages) {
-          _.forEach(messages, function (item) {
-            NstSvcPostStorage.set(item.id, item);
+      return NstSvcServer.request('account/get_pinned_posts', options, function (cachedResponse) {
+        if (cachedResponse && _.isFunction(cacheHandler)) {
+          var cachedPosts = _.map(cachedResponse.posts, function (post) {
+            return factory.getCachedSync(post._id);
           });
-          defer.resolve(messages);
-        });
-      }).catch(function (error) {
-        // TODO: format the error and throw it
-        defer.reject(error);
-      });
 
-      return defer.promise;
+          cacheHandler(cachedPosts);
+        }
+      }).then(function (data) {
+        var messagePromises = _.map(data.posts, function (post) {
+          factory.set(post);
+          return factory.parsePost(post);
+        });
+        return $q.all(messagePromises);
+      });
     }
 
-    function getSentMessages(setting) {
-      var defer = $q.defer();
-
+    function getSentMessages(setting, cacheHandler) {
       var options = {
         limit: setting.limit,
-        before: setting.date
+        before: setting.before,
       };
 
       if (setting.sort === NST_MESSAGES_SORT_OPTION.LATEST_ACTIVITY) {
         options.by_update = true;
       }
 
-      NstSvcServer.request('account/get_sent_posts', options).then(function (data) {
-        var messagePromises = _.map(data.posts, parsePost);
-        $q.all(messagePromises).then(function (messages) {
-          _.forEach(messages, function (item) {
-            NstSvcPostStorage.set(item.id, item);
+      return NstSvcServer.request('account/get_sent_posts', options, function (cachedResponse) {
+        if (cachedResponse && _.isFunction(cacheHandler)) {
+          var cachedPosts = _.map(cachedResponse.posts, function (post) {
+            return factory.getCachedSync(post._id);
           });
-          defer.resolve(messages);
-        });
-      }).catch(function (error) {
-        // TODO: format the error and throw it
-        defer.reject(error);
-      });
 
-      return defer.promise;
+          cacheHandler(cachedPosts);
+        }
+      }).then(function (data) {
+        var messagePromises = _.map(data.posts, function (post) {
+          factory.set(post);
+          return factory.parsePost(post);
+        });
+        return $q.all(messagePromises);
+      });
     }
 
-    function getPlaceMessages(setting, placeId) {
-
-      var defer = $q.defer();
-
+    function getPlaceMessages(setting, placeId, cacheHandler) {
       var options = {
         limit: setting.limit,
-        before: setting.after ? null : setting.date,
+        before: setting.before,
         place_id: placeId
       };
 
@@ -569,31 +510,30 @@
         options.by_update = true;
       }
 
-      NstSvcServer.request('place/get_posts', options).then(function (data) {
-        var messagePromises = _.map(data.posts, parsePost);
-        $q.all(messagePromises).then(function (messages) {
-          _.forEach(messages, function (item) {
-            NstSvcPostStorage.set(item.id, item);
+      return NstSvcServer.request('place/get_posts', options, function (cachedResponse) {
+        if (cachedResponse && _.isFunction(cacheHandler)) {
+          var cachedPosts = _.map(cachedResponse.posts, function (post) {
+            return factory.getCachedSync(post._id);
           });
-          defer.resolve(messages);
-        });
-      }).catch(function (error) {
-        // TODO: format the error and throw it
-        defer.reject(error);
-      });
 
-      return defer.promise;
+          cacheHandler(cachedPosts);
+        }
+      }).then(function (data) {
+        var messagePromises = _.map(data.posts, function (post) {
+          factory.set(post);
+          return factory.parsePost(post);
+        });
+        
+        return $q.all(messagePromises);
+      });
     }
 
-    function getFavoriteMessages(setting, bookmarkId) {
-
-      var defer = $q.defer();
-
+    function getFavoriteMessages(setting, bookmarkId, cacheHandler) {
       bookmarkId = bookmarkId || "_starred";
 
       var options = {
         limit: setting.limit,
-        before: setting.date,
+        before: setting.before,
         bookmark_id: bookmarkId
       };
 
@@ -601,32 +541,31 @@
         options.by_update = true;
       }
 
-      NstSvcServer.request('account/get_favorite_posts', options).then(function (data) {
-        var messagePromises = _.map(data.posts, parsePost);
-        $q.all(messagePromises).then(function (messages) {
-          _.forEach(messages, function (item) {
-            NstSvcPostStorage.set(item.id, item);
+      return NstSvcServer.request('account/get_favorite_posts', options, function (cachedResponse) {
+        if (cachedResponse && _.isFunction(cacheHandler)) {
+          var cachedPosts = _.map(cachedResponse.posts, function (post) {
+            return factory.getCachedSync(post._id);
           });
-          defer.resolve(messages);
-        });
-      }).catch(function (error) {
-        // TODO: format the error and throw it
-        defer.reject(error);
-      });
 
-      return defer.promise;
+          cacheHandler(cachedPosts);
+        }
+      }).then(function (data) {
+        var messagePromises = _.map(data.posts, function (post) {
+          factory.set(post);
+          return factory.parsePost(post);
+        });
+        return $q.all(messagePromises);
+      });
     }
 
-    function getUnreadMessages(setting, places) {
+    function getUnreadMessages(setting, places, cacheHandler) {
 
       if (!_.isArray(places))
         throw "Places must be an Array.";
 
-      var defer = $q.defer();
-
       var options = {
         limit: setting.limit,
-        before: setting.date,
+        before: setting.before,
         place_id: places.join(",")
       };
 
@@ -634,34 +573,21 @@
         options.by_update = true;
       }
 
-      NstSvcServer.request('place/get_unread_posts', options).then(function (data) {
-        var messagePromises = _.map(data.posts, parsePost);
-        $q.all(messagePromises).then(function (messages) {
-          _.forEach(messages, function (item) {
-            NstSvcPostStorage.set(item.id, item);
+      return NstSvcServer.request('place/get_unread_posts', options, function (cachedResponse) {
+        if (cachedResponse && _.isFunction(cacheHandler)) {
+          var cachedPosts = _.map(cachedResponse.posts, function (post) {
+            return factory.getCachedSync(post._id);
           });
-          defer.resolve(messages);
-        });
-      }).catch(function (error) {
-        // TODO: format the error and throw it
-        defer.reject(error);
-      });
 
-      return defer.promise;
-    }
-
-    function getMessage(id) {
-      var defer = $q.defer();
-
-      NstSvcServer.request('post/get', {
-        post_id: id
+          cacheHandler(cachedPosts);
+        }
       }).then(function (data) {
-        var message = parsePost(data.post);
-
-        defer.resolve(message);
-      }).catch(defer.reject);
-
-      return defer.promise;
+        var messagePromises = _.map(data.posts, function (post) {
+          factory.set(post);
+          return factory.parsePost(post);
+        });
+        return $q.all(messagePromises);
+      });
     }
 
     function search(queryString, limit, skip) {
