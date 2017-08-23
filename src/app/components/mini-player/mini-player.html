@@ -1,7 +1,7 @@
 <div class="mini-player">
     <div class="player-ribbon" ng-if="ctrl.displayState === 1">
         <i class="sound-poster ng-class:{'user-avatar-16' : ctrl.isVoice}" ng-click="ctrl.gotoPost()">
-            <img ng-src="{{ctrl.currentPlay.item.thumbnail}}" alt="" ng-if="!ctrl.isVoice">
+            <img ng-src="{{ctrl.currentPlay.item.thumbnail || '/assets/icons/ph_music.png'}}" alt="" ng-if="!ctrl.isVoice">
             <img ng-if="ctrl.isVoice" initial-avatar="{{ctrl.currentPlay.item.sender.id}}" name="{{ctrl.currentPlay.item.sender.fullName}}" picture="{{ctrl.currentPlay.item.sender | avatar}}"
             data-width="16" data-height="16" data-radius="20" class="account-initials-16 _df" data-word-count="2" data-font-size="8"
             ng-if="ctrl.isVoice"/>
@@ -45,7 +45,7 @@
     <div class="mini-player-inner" ng-if="ctrl.displayState === 2 || ctrl.displayState === 3">
         <div class="player">
             <div ng-click="ctrl.gotoPost()" class="sound-poster ng-class:{'user-avatar-36' : ctrl.isVoice}">
-                <img ng-src="{{ctrl.currentPlay.item.thumbnail}}" alt="" ng-if="!ctrl.isVoice">
+                <img ng-src="{{ctrl.currentPlay.item.thumbnail || '/assets/icons/ph_music.png'}}" alt="" ng-if="!ctrl.isVoice">
                 <img ng-if="ctrl.isVoice" initial-avatar="{{ctrl.currentPlay.item.sender.id}}" name="{{ctrl.currentPlay.item.sender.fullName}}" picture="{{ctrl.currentPlay.item.sender | avatar}}"
                 data-width="36" data-height="36" data-radius="20" class="account-initials-16 _df" data-word-count="2" data-font-size="8"
                 ng-if="ctrl.isVoice"/>
@@ -100,13 +100,15 @@
             <ul>
                 <li ng-repeat="track in ctrl.playList" ng-click="ctrl.play(track.id)">
                     <div class="poster ng-class:{'user-avatar-52' : track.isVoice}">
-                        <img ng-src="{{track.thumbnail}}" alt="" ng-if="!track.isVoice">
+                        <img ng-src="{{track.thumbnail || '/assets/icons/ph_music.png'}}" alt="" ng-if="!track.isVoice">
                         <img ng-if="track.isVoice" initial-avatar="{{track.sender.id}}" name="{{track.sender.fullName}}" picture="{{track.sender | avatar}}"
                         data-width="24" data-height="24" data-radius="20" class="account-initials-24 _df" data-word-count="2" data-font-size="8"
                         ng-if="track.isVoice"/>
                     </div>
                     <div class="info ng-class:{'isPlayed' : track.isPlayed}">
-                        <span class="_txe">{{track.filename.split('.').splice(-1,1).join('.')}}</span>
+                        <span class="_txe">{{track.filename.split('.').length > 1 ?
+                            track.filename.split('.').splice(0,track.filename.split('.').length - 1).join('.') :
+                            track.filename}}</span>
                     </div>
                 </li>
             </ul>

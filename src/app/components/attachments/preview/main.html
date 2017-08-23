@@ -40,7 +40,7 @@
     </a>
     <a href="javascript:void(0);" ng-click="onClick(item);$event.stopPropagation()" ng-if="item.type !== 'image' && item.type !== 'gif' && item.uploadType === 'AUDIO'">
       <div class="attach-thumbnail-img" alt=""
-      style="background: url({{item.picture.getUrl('x128')}});background-size: cover; height: 96px;position: relative;top: 4px; width: 96px">
+      style="background: url({{ item.picture.getUrl('x128') || '/assets/icons/ph_music.png' }});background-size: cover; height: 96px;position: relative;top: 4px; width: 96px">
       </div>
       <span class="playbtn" ng-click="playAudio(item);$event.stopPropagation();">
         <svg class="_24svg" ng-if="!item.isPlayed">
