@@ -591,7 +591,16 @@ body[dir="rtl"] {
     padding-right: 8px;
   }
   .place-head {
-    margin-right: -32px;
+    margin-right: auto;
+    margin-left: -32px;
+    left: auto;
+    right: 50vw;
+    transform: translate3d(50%, 0, 0);
+  }
+  .place-head-holder-2 {
+    right: 50vw;
+    left: auto;
+    transform: translate3d(50%, 0, 0);
   }
   #place-settings .settings-tab {
     margin-left: 0;
@@ -640,7 +649,7 @@ body[dir="rtl"] {
     margin-right: 16px;
   }
   .modal-full-height-center .modal-content>div {
-    right: 50%;
+    right: 50vw;
     margin-right: -240px;
     left: 0;
     margin-left: 0;
