@@ -5,9 +5,9 @@
     .module('ronak.nested.web.components.attachment')
     .directive('nstAttachmentsPreviewBar', AttachmentsPreviewBar);
 
-  function AttachmentsPreviewBar($timeout, $interval, toastr, $q, $stateParams, $rootScope, 
+  function AttachmentsPreviewBar($timeout, $interval, toastr, $q, $, $rootScope,
                                  NST_FILE_TYPE, NST_ATTACHMENTS_PREVIEW_BAR_MODE, NST_ATTACHMENTS_PREVIEW_BAR_ORDER, NST_STORE_ROUTE,
-                                 NstSvcStore, NstSvcFileFactory) {
+                                 NstSvcStore, NstSvcFileFactory, SvcMiniPlayer, _) {
     return {
       restrict: 'E',
       templateUrl: 'app/components/attachments/preview/main.html',
@@ -16,7 +16,8 @@
         items: '=',
         mode: '=',
         badge: '=',
-        postId: '='
+        postId: '=',
+        sender: '='
       },
       link: function (scope, ele) {
         scope.internalMode = NST_ATTACHMENTS_PREVIEW_BAR_MODE.AUTO;
@@ -26,11 +27,10 @@
         scope.scrollDis = 140;
         scope.NST_FILE_TYPE = NST_FILE_TYPE;
         scope.cardWidth = angular.element('.attachments-card').width();
-        var interval, pwTimeout;
-        var moves = [];
+        // var interval, pwTimeout;
+        // var moves = [];
         var borderLeftArray=[],borderRightArray=[];
-        var audioDOMS = [];
-    
+
         if (modeIsValid(scope.mode)) {
           scope.internalMode = scope.mode;
         }
@@ -87,8 +87,8 @@
           scope.deform = false;
 
 
-          var wrpWidth = ele.parent().parent().width() - scope.flexDiv;
-          var imgOneRatio = scope.items[0].width / scope.items[0].height || 1;
+          wrpWidth = ele.parent().parent().width() - scope.flexDiv;
+          imgOneRatio = scope.items[0].width / scope.items[0].height || 1;
           var imgTwoRatio = scope.items[1].width / scope.items[1].height || 1;
           var ratio = imgOneRatio / imgTwoRatio;
           scope.scaleOne = (ratio / (1 + ratio)) * 100;
@@ -113,8 +113,8 @@
 
         $timeout(function () {
           scope.scrollWrp = ele.children().next();
-          var leftArrow = ele.children().first();
-          var rightArrow = ele.children().next().next();
+          // var leftArrow = ele.children().first();
+          // var rightArrow = ele.children().next().next();
 
           checkScroll(scope.scrollWrp[0]);
 
@@ -160,7 +160,7 @@
             item.downloadUrl = NstSvcStore.resolveUrl(NST_STORE_ROUTE.DOWNLOAD, item.id, token);
             item.viewUrl = NstSvcStore.resolveUrl(NST_STORE_ROUTE.VIEW, item.id, token);
             location.href = item.downloadUrl;
-          }).catch(function (error) {
+          }).catch(function () {
             toastr.error('Sorry, An error has occured while trying to load the file');
           });
         };
@@ -206,94 +206,89 @@
           }, 1);
         };
 
-        function revertPlayFlag(id){
-          
-          var playedOne = scope.items.find(function(item){
-            return item.id === id;
-          });
-          playedOne.isPlay = false
-        }
-        
-        scope.$on('play-audio', function (e, d){
-          _.remove(audioDOMS, function(item) {
-            return d.id !== item.className;
-          }).forEach(function (i){
-            i.pause();
-            i.remove();
-            revertPlayFlag(i.className);
-          });
+        setPlayedStatus(SvcMiniPlayer.getStatus());
+
+        scope.$on('play-audio', function (e, id){
+          setPlayedStatus(id);
         });
 
-        scope.$on('$destroy', function () {
-          _.forEach(audioDOMS, function (item) {
-            item.pause();
-            item.remove();
+        function setPlayedStatus(id) {
+          scope.items.forEach(function (item) {
+            if (id !== scope.postId + '_' + item.id) {
+              item.isPlayed = false;
+            } else {
+              item.isPlayed = true;
+            }
           });
-        });
+        }
+
+        scope.attachmentCount = 0;
+
         scope.playAudio = function (item) {
-          
-          var alreadyPlayed = audioDOMS.find(function (audioDOM) {
-            return audioDOM.className === item.id;
-          })
-          if ( alreadyPlayed ) {
-            alreadyPlayed.pause();
-            alreadyPlayed.remove();
-            item.isPlay = false;
-            _.remove(audioDOMS, function(n) {
-              return n.className === item.id;
-            });
-            return ;
+          if (item.isPlayed) {
+            return SvcMiniPlayer.pause();
           }
-          item.isPlay = true;
-          var audio = document.createElement('audio');
-          audio.style.display = "none";
-          audio.className = item.id;
-          audio.autoplay = true;
-
-          getToken(item.id).then(function (token) {
-            audio.src = NstSvcStore.resolveUrl(NST_STORE_ROUTE.VIEW, item.id, token);
-            document.body.appendChild(audio);
-            $rootScope.$broadcast('play-audio', item);
-            audioDOMS.push(audio);
-
-            audio.onended = function(){
-              item.isPlay = false;
-              audio.remove() //Remove when played.
-              _.remove(audioDOMS, function(n) {
-                return n.className === item.id;
+          SvcMiniPlayer.setPlaylist(scope.postId);
+          scope.attachmentCount = 0;
+          scope.items.forEach(function (attachment) {
+            if (attachment.uploadType !== 'AUDIO' && attachment.uploadType !== 'VOICE') {
+              return;
+            }
+            scope.attachmentCount++;
+            setTimeout(function () {
+              getToken(attachment.id).then(function (token) {
+                attachment.src = NstSvcStore.resolveUrl(NST_STORE_ROUTE.VIEW, attachment.id, token);
+                attachment.isVoice = attachment.uploadType === "VOICE";
+                if ( attachment.isVoice ) {
+                  attachment.sender = scope.sender
+                }
+                if (item.id === attachment.id) {
+                  attachment.isPlayed = true;
+                }
+                scope.attachmentCount--;
+                // if (scope.attachmentCount === 0) {
+                //   scope.addAllMedia();
+                // }
+                SvcMiniPlayer.addTrack(attachment);
+              }).catch(function () {
+                toastr.error('Sorry, An error has occured while playing the audio');
               });
-            };
-          }).catch(function (error) {
-            toastr.error('Sorry, An error has occured while playing the audio');
+            }, 120);
           });
-        }
+        };
 
-        // function scrollLeft(count, k) {
-        //   var el = scope.scrollWrp[0];
-        //   var i = $interval(function () {
-        //     count[k]++;
-        //     if (count[k] < scope.scrollDis) {
-        //       el.scrollLeft -= 2;
-        //     } else {
-        //       $interval.cancel(i);
-        //     }
-        //   }, 1);
-        //   moves.push(i);
-        // }
-        //
-        // function scrollRight(count, k) {
-        //   var el = scope.scrollWrp[0];
-        //   var i = $interval(function () {
-        //     count[k]++;
-        //     if (count[k] < scope.scrollDis) {
-        //       el.scrollLeft += 2;
-        //     } else {
-        //       $interval.cancel(i);
-        //     }
-        //   }, 1);
-        //   moves.push(i);
-        //
-        // }
+        scope.addAllMedia = function () {
+          scope.items.forEach(function (attachment) {
+            SvcMiniPlayer.addTrack(attachment);
+          });
+        };
+
+        /*function scrollLeft(count, k) {
+          var el = scope.scrollWrp[0];
+          var i = $interval(function () {
+            count[k]++;
+            if (count[k] < scope.scrollDis) {
+              el.scrollLeft -= 2;
+            } else {
+              $interval.cancel(i);
+            }
+          }, 1);
+          moves.push(i);
+        }*/
+
+        /*function scrollRight(count, k) {
+          var el = scope.scrollWrp[0];
+          var i = $interval(function () {
+            count[k]++;
+            if (count[k] < scope.scrollDis) {
+              el.scrollLeft += 2;
+            } else {
+              $interval.cancel(i);
+            }
+          }, 1);
+          moves.push(i);
+
+        }*/
 
         function checkScroll(el) {
           if (el.clientWidth < el.scrollWidth && el.scrollLeft == 0) {
@@ -333,40 +328,29 @@
           return numb - filter[filter.length - 1]
         }
 
-        function scrollPower(dir) {
-          pwTimeout = $timeout(function () {
-            if (dir == 'right') {
-              interval = $interval(function () {
-                scope.goRight()
-              }, 100);
-            }
-            else {
-              interval = $interval(scope.goLeft, 100);
-            }
-          }, 50)
-        }
-
-        function stopScrollPower() {
-          $timeout.cancel(pwTimeout);
-          $interval.cancel(interval);
-
-          for (var i = 0; i < moves.length; i++) {
-            $interval.cancel(moves[i]);
-          }
-          moves = []
-        }
-
+        // function scrollPower(dir) {
+        //   pwTimeout = $timeout(function () {
+        //     if (dir == 'right') {
+        //       interval = $interval(function () {
+        //         scope.goRight()
+        //       }, 100);
+        //     }
+        //     else {
+        //       interval = $interval(scope.goLeft, 100);
+        //     }
+        //   }, 50)
+        // }
       }
     };
-    function makeid() {
-      var text = "";
-      var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    // function makeid() {
+    //   var text = "";
+    //   var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
-      for (var i = 0; i < 5; i++)
-        text += possible.charAt(Math.floor(Math.random() * possible.length));
+    //   for (var i = 0; i < 5; i++)
+    //     text += possible.charAt(Math.floor(Math.random() * possible.length));
 
-      return text;
-    }
+    //   return text;
+    // }
 
     function modeIsValid(mode) {
       return _.values(NST_ATTACHMENTS_PREVIEW_BAR_MODE).indexOf(mode) > -1;

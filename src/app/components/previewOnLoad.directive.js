@@ -3,16 +3,16 @@
 
   angular
     .module('ronak.nested.web.components')
-      .directive('previewOnLoad', function ($timeout) {
+      .directive('previewOnLoad', function ($timeout, $) {
       return {
         restrict: 'A',
-        link: function($scope, $element, $attrs) {
+        link: function($scope, $element) {
           // $element.hide();
           $scope.$parent.attachment.loaded = false;
           $scope.$parent.attachment.loadedProgress = 0;
           var jelement = $($element);
           // var jthumb = $attrs.thumbnailId ? $($attrs.thumbnailId) : null;
-          jelement.on($element[0].nodeName === 'VIDEO' ? 'loadeddata' : 'load', function(event, foo) {
+          jelement.on($element[0].nodeName === 'VIDEO' ? 'loadeddata' : 'load', function() {
             $timeout(function(){
               $scope.$parent.attachment.loaded = true;
               // $element.parent().addClass('loaded');
@@ -23,7 +23,7 @@
           // }, function () {
           //   $element.hide();
           // })
-          
+
 
           // function load ( url, callback ) {
           //   var xmlHTTP = new XMLHttpRequest();
@@ -52,7 +52,7 @@
           //       console.log($scope.$parent.attachment.loadedProgress);
           //       // Update your progress bar here. Make sure to check if the progress value
           //       // has changed to avoid spamming the DOM.
-          //       // Something like: 
+          //       // Something like:
           //       // if ( prevValue != thisImage completedPercentage ) display_progress();
           //   };
 

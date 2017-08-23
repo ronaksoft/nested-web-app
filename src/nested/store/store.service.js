@@ -76,7 +76,6 @@
     Store.prototype.upload = function (file, type) {
       type = type || NST_STORE_UPLOAD_TYPE.FILE;
 
-      var service = this;
       var action = 'upload/' + type;
       var request = new NstRequest(action, {
         file: file,
@@ -171,7 +170,6 @@
     Store.prototype.uploadWithProgress = function (file, onProgress, type, sessionKey) {
       type = type || NST_STORE_UPLOAD_TYPE.FILE;
 
-      var service = this;
       var action = 'upload/' + type;
       var request = new NstRequest(action, {
         file: file,

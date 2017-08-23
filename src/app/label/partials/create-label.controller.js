@@ -50,14 +50,13 @@
 
             var initProfile = NstSvcUserFactory.parseTinyUser({
               _id: settings.query,
-              fname: settings.query,
+              fname: settings.query
             });
             vm.users.push(initProfile);
           }
           vm.query = query;
         })
-        .catch(function (error) {
-          console.log(error);
+        .catch(function () {
         });
     }
 
@@ -75,9 +74,9 @@
           var specificHolders = _.map(vm.specificHolders, function (item) {
             return item.id;
           });
-          NstSvcLabelFactory.addMember(result.id, specificHolders.join(',')).then(function (result) {
+          NstSvcLabelFactory.addMember(result.id, specificHolders.join(',')).then(function () {
             toastr.success(NstSvcTranslation.get("Label created successfully."));
-          }).catch(function (error) {
+          }).catch(function () {
             toastr.warning(NstSvcTranslation.get("Label created successfully, but no member assigned to it!"));
           });
         }

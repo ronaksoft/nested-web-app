@@ -23,7 +23,7 @@
 
       // Allow loading from our assets domain.  Notice the difference between * and **.
       'http://xerxes.nested.ronaksoftware.com/download/**',
-      'https://xerxes.nested.me/**',
+      'https://xerxes.nested.me/**'
 
     ]);
 

@@ -6,10 +6,10 @@
     .controller('MessagesController', MessagesController);
 
   /** @ngInject */
-  function MessagesController($rootScope, $q, $stateParams, $log, $state, $window, $scope, $uibModal, $timeout,
+  function MessagesController($rootScope, $q, $stateParams, $log, $state, $scope, $uibModal, $timeout,
                               moment, toastr,
                               NST_MESSAGES_SORT_OPTION, NST_MESSAGES_VIEW_SETTING, NST_DEFAULT, NST_EVENT_ACTION, NST_PLACE_ACCESS, NST_POST_EVENT,
-                              NstSvcPostFactory, NstSvcPlaceFactory, NstSvcServer, NstUtility, NstSvcAuth, NstSvcSync, NstSvcWait, NstVmFile,
+                              NstSvcPostFactory, NstSvcPlaceFactory, _, NstUtility, NstSvcAuth, NstSvcSync, NstSvcWait, NstVmFile,
                               NstSvcMessagesSettingStorage, NstSvcTranslation, NstSvcInteractionTracker, SvcCardCtrlAffix,
                               NstSvcPlaceAccess, NstSvcModal, NstSvcDate) {
 
@@ -130,18 +130,16 @@
       }
 
       if (isBookMark()) {
-
-        NstSvcPlaceFactory.getFavoritesPlaces()
-          .then(function (data) {
-            vm.bookmarkedPlaces = data;
-          });
+        NstSvcPlaceFactory.getFavoritesPlaces().then(function (data) {
+          vm.bookmarkedPlaces = data;
+        });
       }
 
-      eventReferences.push($rootScope.$on(NST_POST_EVENT.READ, function (event, data) {
+      eventReferences.push($rootScope.$on(NST_POST_EVENT.READ, function () {
         getUnreadsCount();
       }));
 
-      eventReferences.push($rootScope.$on('post-read-all', function (e, data) {
+      eventReferences.push($rootScope.$on('post-read-all', function () {
         getUnreadsCount();
       }));
 
@@ -201,6 +199,7 @@
           vm.hotMessageStorage.unshift(data.activity.post);
           vm.hasNewMessages = true;
         }
+        getUnreadsCount();
       }));
 
 
@@ -329,7 +328,7 @@
     function openContacts($event) {
       $state.go('app.contacts', {}, {notify: false});
       $event.preventDefault();
-    };
+    }
 
     function confirmforRemoveMulti(posts, place) {
       return $uibModal.open({
@@ -356,7 +355,7 @@
         if (!agree) {
           return;
         }
-        var get = true;
+        // var get = true;
         for (var i = 0; i < vm.selectedPosts.length; i++) {
           NstSvcPostFactory.get(vm.selectedPosts[i]).then(function (post) {
             NstSvcPostFactory.remove(post.id, vm.currentPlaceId).then(function () {
@@ -377,7 +376,7 @@
                   vm.currentPlace.counters.posts = p.counters.posts;
                 });
               }
-            }).catch(function (error) {
+            }).catch(function () {
               toastr.error(NstSvcTranslation.get("An error has occurred in trying to remove this message from the selected Place."));
             });
           });
@@ -450,10 +449,7 @@
     function readMulti($event) {
       $event.preventDefault();
       for (var i = 0; i < vm.selectedPosts.length; i++) {
-          NstSvcPostFactory.read(vm.selectedPosts[i]).then(function (){
-        }).catch(function (err) {
-          $log.debug('MARK AS READ :' + err);
-        });
+          NstSvcPostFactory.read(vm.selectedPosts[i]);
       }
 
       // FIXME : this block after all responses
@@ -491,7 +487,7 @@
     }
 
     function loadViewSetting() {
-      return $q(function (resolve, reject) {
+      return $q(function (resolve) {
         var setting = {
           content: readSettingItem(NST_MESSAGES_VIEW_SETTING.CONTENT),
           attachments: readSettingItem(NST_MESSAGES_VIEW_SETTING.ATTACHMENTS),
@@ -698,12 +694,6 @@
       vm.revealHotMessage = false;
     }
 
-    function insertMessage(list, item) {
-      if (!_.some(list, {id: item.id})) {
-        list.unshift(item);
-      }
-    }
-
     function isBookMark() {
       if ($state.current.name == 'app.messages-favorites' ||
         $state.current.name == 'app.messages-favorites-sorted') {
@@ -743,13 +733,6 @@
       }
       return vm.isConvMode = false;
     }
-
-    function isFeed() {
-      return _.includes([
-        'app.'
-      ])
-    }
-
     function fillPlaceIds(container, list) {
       if (_.isObject(container) && _.keys(container).length > 1) {
         _.forIn(container, function (item) {
@@ -760,7 +743,7 @@
           }
         });
       }
-    };
+    }
 
     function loadMyPlaces() {
       var defer = $q.defer();
@@ -776,10 +759,7 @@
     }
 
     function markAllAsRead() {
-      NstSvcPlaceFactory.markAllPostAsRead($stateParams.placeId)
-        .then(function (result) {
-
-        });
+      NstSvcPlaceFactory.markAllPostAsRead($stateParams.placeId);
     }
 
     function getQuickMessageAccess() {

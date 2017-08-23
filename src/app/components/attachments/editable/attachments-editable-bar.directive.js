@@ -5,7 +5,7 @@
     .module('ronak.nested.web.components.attachment')
     .directive('nstAttachmentsEditableBar', AttachmentsEditableBar);
 
-  function AttachmentsEditableBar(NST_ATTACHMENTS_EDITABLE_BAR_MODE, $timeout, $interval) {
+  function AttachmentsEditableBar(NST_ATTACHMENTS_EDITABLE_BAR_MODE, $timeout, $interval, _, $) {
     return {
       restrict: 'E',
       templateUrl: 'app/components/attachments/editable/main.html',
@@ -19,7 +19,6 @@
         scope.overFlowLeft = scope.overFlowRight = false;
         scope.internalMode = NST_ATTACHMENTS_EDITABLE_BAR_MODE.AUTO;
         scope.scrollWrp = ele.children().next();
-        var pwTimeout, interval;
         var borderLeftArray=[],borderRightArray=[];
         scope.scrollDis = 140;
 
@@ -33,7 +32,7 @@
           $timeout(function() {
             checkImageRatio();
           },300);
-          
+
           $timeout(function () {
             checkScroll(scope.scrollWrp[0]);
             checkArrays(scope.scrollWrp[0]);
@@ -42,8 +41,8 @@
 
         $timeout(function () {
           scope.scrollWrp = ele.children().next();
-          var leftArrow = ele.children().first();
-          var rightArrow = ele.children().next().next();
+          // var leftArrow = ele.children().first();
+          // var rightArrow = ele.children().next().next();
 
           checkScroll(scope.scrollWrp[0]);
           checkArrays(scope.scrollWrp[0]);
@@ -120,9 +119,9 @@
             scope.overFlowRight = true;
             scope.overFlowLeft = true;
           }
-          
 
-          
+
+
         }
         function checkArrays(el) {
           var childs = $(el).children();
@@ -139,7 +138,7 @@
           borderRightArray = borderRightArrayTemp;
         }
 
-        
+
     function checkImageRatio() {
       for (var i = 0; i<scope.items.length; i++){
         var elem = document.createElement("img");
@@ -149,9 +148,9 @@
         var ratio = scope.items[i].width / scope.items[i].height;
         scope.items[i].widthResized = 96 * ratio;
       }
-      
+
     }
-      
+
 
     function findNext(numb) {
         return borderRightArray.filter(function (i) {

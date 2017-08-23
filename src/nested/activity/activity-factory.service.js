@@ -5,11 +5,10 @@
     .service('NstSvcActivityFactory', NstSvcActivityFactory);
 
   /** @ngInject */
-  function NstSvcActivityFactory($q, $log,
-                                 _,
-                                 NST_ACTIVITY_FILTER, NST_EVENT_ACTION,
-                                 NstSvcServer, NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory, NstSvcCommentFactory, NstUtility,
-                                 NstBaseFactory, NstSvcLogger, NstActivity, NstPost, NstTinyPlace, NstPicture, NstSvcLabelFactory) {
+  function NstSvcActivityFactory($q, _,
+    NST_ACTIVITY_FILTER, NST_EVENT_ACTION,
+    NstSvcServer, NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcCommentFactory,
+    NstBaseFactory, NstSvcLogger, NstActivity, NstSvcLabelFactory, NstUtility) {
 
 
     function ActivityFactory() {}
@@ -212,8 +211,7 @@
 
     function parseAddLabel(data) {
       var deferred = $q.defer();
-      // console.log(data);
-      var labelPromise = NstSvcLabelFactory.getMany(data.label_id);
+      var labelPromise = NstSvcLabelFactory.get(data.label_id);
       var actorPromise = NstSvcUserFactory.getTiny(data.actor_id);
       var postPromise = NstSvcPostFactory.get(data.post_id);
 
@@ -226,9 +224,9 @@
         activity.actor = resultSet[1];
         activity.post = resultSet[2];
         deferred.resolve(activity);
-      }).catch(function (error) {
+      }).catch(function (/*error*/) {
         deferred.resolve(null);
-        NstSvcLogger.error("Activity Factory GET:" , error)
+        // NstSvcLogger.error("Activity Factory GET:" , error)
       });
 
       return deferred.promise;
@@ -237,7 +235,7 @@
     function parseRemoveLabel(data) {
 
       var deferred = $q.defer();
-      var labelPromise = NstSvcLabelFactory.getMany(data.label_id);
+      var labelPromise = NstSvcLabelFactory.get(data.label_id);
       var actorPromise = NstSvcUserFactory.getTiny(data.actor_id);
       var postPromise = NstSvcPostFactory.get(data.post_id);
 
@@ -250,9 +248,9 @@
         activity.actor = resultSet[1];
         activity.post = resultSet[2];
         deferred.resolve(activity);
-      }).catch(function (error) {
+      }).catch(function (/*error*/) {
         deferred.resolve(null);
-        NstSvcLogger.error("Activity Factory GET:" , error)
+        // NstSvcLogger.error("Activity Factory GET:" , error)
       });
 
       return deferred.promise;
@@ -428,7 +426,6 @@
         }).then(function (response) {
 
           var activities = _.map(response.activities, parseActivityIntelligently);
-
           $q.all(activities).then(function (values) {
             deferred.resolve(values.filter(function (obj) {
               return obj !== null;
@@ -440,6 +437,5 @@
         return deferred.promise;
       }, 'getRecentActivities', settings.placeId);
     }
-
   }
 })();

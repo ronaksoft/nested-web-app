@@ -13,7 +13,7 @@
   /** @ngInject */
   function NstSvcFileFactory($q, _,
                              NstSvcServer, NstSvcFileType, NstSvcDownloadTokenStorage, NstSvcFileStorage,
-                             NstBaseFactory, NstPicture, NstAttachment, NstFactoryError, NstFactoryQuery, NstStoreToken) {
+                             NstBaseFactory, NstPicture, NstAttachment, NstStoreToken) {
     /**
      * @constructor
      */
@@ -205,12 +205,7 @@
 
       NstSvcServer.request('file/get_download_token', requestData).then(function (data) {
         defer.resolve(createToken(data.token));
-      }).catch(function (error) {
-        var query = new NstFactoryQuery(attachmentId);
-        var factoryError = new NstFactoryError(query, error.message, error.code);
-
-        defer.reject(factoryError);
-      });
+      }).catch(defer.reject);
 
       return defer.promise;
     }

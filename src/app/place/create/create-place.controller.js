@@ -10,8 +10,8 @@
                                  NST_DEFAULT, NST_SRV_ERROR, NST_PLACE_ADD_TYPES, NST_PLACE_MEMBER_TYPE, NST_PLACE_POLICY_OPTION,
                                  NST_PLACE_TYPE, NST_PLACE_ACCESS,
                                  NST_STORE_UPLOAD_TYPE, NST_PLACE_POLICY_RECEPTIVE,
-                                 NstSvcAuth, NstSvcPlaceFactory, NstSvcStore, NstVmMemberItem, NstSvcUserFactory,
-                                 NstUtility, $uibModal, $uibModalInstance, NstSvcLogger, NstSvcTranslation) {
+                                 NstSvcAuth, NstSvcPlaceFactory, NstSvcStore, NstVmMemberItem,
+                                 NstUtility, _, $uibModal, $uibModalInstance, NstSvcLogger, NstSvcTranslation) {
 
     $scope.NST_PLACE_POLICY_OPTION = NST_PLACE_POLICY_OPTION;
     $scope.NST_PLACE_TYPE = NST_PLACE_TYPE;
@@ -47,7 +47,7 @@
       policy: {
         addPost: NST_PLACE_POLICY_OPTION.MANAGERS,
         addMember: vm.memberOptions[0].key,
-        addPlace: vm.memberOptions[0].key,
+        addPlace: vm.memberOptions[0].key
       },
       description: null,
       favorite: true,
@@ -79,7 +79,7 @@
         vm.place.parentId = $stateParams.placeId;
         vm.placesParts = $stateParams.placeId.split('.');
         if ($stateParams.placeId !== NST_DEFAULT.STATE) {
-          loadParentPlace(vm.placesParts).catch(function (error) {
+          loadParentPlace(vm.placesParts).catch(function () {
             toastr.error(NstSvcTranslation.get("There seems to be an error in reaching information from the highest-ranking Place."));
           });
         }
@@ -229,14 +229,6 @@
       vm.isOpenPlace = false;
     }
 
-    function setPolicyAddMember(value) {
-      vm.place.policy.addMember = value;
-    }
-
-    function setPolicyAddPlace(value) {
-      vm.place.policy.addPlace = value;
-    }
-
     function stateParamIsProvided(parameter) {
       return !!parameter && parameter !== NST_DEFAULT.STATE_PARAM;
     }
@@ -253,8 +245,6 @@
     var checkIdAvailabilityLazily = _.debounce(checkIdAvailability, 640);
 
     function checkIdAvailability(id, deferred, dontGenerate) {
-      var deferred = deferred || $q.defer();
-
       vm.placeIdChecking = true;
       vm.placeIdIsFullAvailable = true;
       NstSvcPlaceFactory.isIdAvailable(vm.place.parentId ? vm.place.parentId + '.' + id : id)
@@ -303,18 +293,9 @@
       return NstUtility.string.format("{0}-{1}", id, _.padStart(_.random(99, 9999), 4, "0"));
     }
 
-    function save(isValid) {
+    function save() {
       vm.submitted = true;
-
-      if (vm.hasParentPlace) {
-        hasAccessToAdd(vm.place.parentId).then(function (result) {
-          createPlace(vm.place);
-        }).catch(function (error) {
-          NstSvcLogger.error(error);
-        });
-      } else {
-        createPlace(vm.place);
-      }
+      createPlace(vm.place);
     }
 
     function createPlace(model) {
@@ -333,13 +314,13 @@
           vm.createdPlace = place;
           return setFavorite(place.id, true);
         })
-        .then(function (result) {
+        .then(function () {
           return addOrInviteMembers(vm.createdPlace);
         })
-        .then(function (result) {
+        .then(function () {
           return uploadPlacePicture()
         })
-        .then(function (result) {
+        .then(function () {
           NstSvcPlaceFactory.get(vm.createdPlace.id, true).then(function (createdPlace) {
             vm.createdPlace = createdPlace;
             vm.step = 3;
@@ -358,14 +339,6 @@
         });
     }
 
-    function hasAccessToAdd(grandPlaceId) {
-      return $q.resolve(vm.grandPlace.hasAccess(NST_PLACE_ACCESS.ADD_PLACE));
-    }
-
-    function continueToPlaceMessages(placeId) {
-      $uibModalInstance.close();
-      $state.go('app.place-messages', {placeId: placeId});
-    }
 
     function setFavorite(placeId, favorite) {
       if (favorite) {
@@ -375,17 +348,8 @@
       }
     }
 
-    function setNotification(placeId, notification) {
-      if (notification) {
-        return NstSvcPlaceFactory.setNotificationOption(placeId, true);
-      } else {
-        return $q.resolve(notification);
-      }
-    }
 
     function showAddOrInviteMember(role) {
-      var role = role || NST_PLACE_MEMBER_TYPE.KEY_HOLDER;
-
       var modal = $uibModal.open({
         animation: false,
         templateUrl: 'app/pages/places/settings/place-add-member.html',
@@ -428,19 +392,16 @@
       var request = NstSvcStore.uploadWithProgress(vm.logoFile, logoUploadProgress, NST_STORE_UPLOAD_TYPE.PLACE_PIC, NstSvcAuth.lastSessionKey);
 
       request.getPromise().then(function (result) {
-
-        NstSvcPlaceFactory.updatePicture(vm.place.id, result.data.universal_id).then(function (result) {
+        NstSvcPlaceFactory.updatePicture(vm.place.id, result.data.universal_id).then(function () {
           NstSvcLogger.info(NstUtility.string.format('Place {0} picture updated successfully.', vm.place.id));
           deferred.resolve();
-        }).catch(function (error) {
-          NstSvcLogger.error(error);
+        }).catch(function () {
           toastr.warning(NstSvcTranslation.get("Your place created successfully but an error has occurred in uploading the Place photo."));
-          deferred.resolve()
+          deferred.resolve();
         });
-
-
       });
 
+      return deferred.promise;
     }
 
     function logoUploadProgress(event) {
@@ -450,7 +411,7 @@
       NstSvcLogger.error(NstUtility.string.format('Upload progress : {0}%', vm.logoUploadedRatio));
     }
 
-    function addOrInviteMembers(place) {
+    function addOrInviteMembers() {
       var currentUserId = NstSvcAuth.user.id;
       var hasAnyOtherTeammate = _.some(vm.teammates, function (user) {
         return user.id !== currentUserId
@@ -527,14 +488,14 @@
       vm.addMemberPolicy = result;
       deferred.resolve();
       return deferred.promise;
-    };
+    }
 
     function updateAddPlacePolicy(result) {
       var deferred = $q.defer();
       vm.addPlacePolicy = result;
       deferred.resolve();
       return deferred.promise;
-    };
+    }
 
     function uploadCreatedPlaceMoreOption() {
       if (!vm.addMemberPolicy && !vm.addPlacePolicy) {
@@ -563,7 +524,7 @@
       vm.updateProgress = true;
       NstSvcPlaceFactory.update(vm.place.id, params).then(function () {
         deferred.resolve();
-      }).catch(function (error) {
+      }).catch(function () {
         toastr.error(NstSvcTranslation.get('An error has occured while trying to update the place settings.'));
         deferred.reject();
       }).finally(function () {

@@ -14,7 +14,7 @@
       link: link
     };
 
-    function link($scope, $element, $attrs) {
+    function link() {
       defaultTitle = document.title;
 
       $rootScope.$on('unseen-activity-notify', function (event, value) {

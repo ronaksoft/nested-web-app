@@ -22,6 +22,6 @@
       COMMENT_REMOVE: 2049,
       // LABEL
       LABEL_ADD: 263,
-      LABEL_REMOVE: 264,
+      LABEL_REMOVE: 264
     });
 })();

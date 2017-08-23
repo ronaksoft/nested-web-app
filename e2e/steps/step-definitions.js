@@ -304,7 +304,7 @@ module.exports = function () {
 
   this.When(/^Wait to see compose-modal$/, function () {
     var EC = protractor.ExpectedConditions;
-    return browser.wait(EC.visibilityOf(element(By.css('.modal-bo'))), 50000);
+    return browser.wait(EC.visibilityOf(element(By.css('.compose-modal-body'))), 50000);
   });
 
   this.When(/^Wait to see create place step "([^"]*)"$/, function (expectedStep) {

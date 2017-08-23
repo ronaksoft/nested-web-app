@@ -14,21 +14,14 @@
     .module('ronak.nested.web.message')
     .controller('PostCardController', PostCardController);
 
-  function PostCardController($state, $log, $timeout, $stateParams, $rootScope, $scope, $filter, $window, $sce, $uibModal,
-                              _, moment, toastr,
+  function PostCardController($state, $log, $timeout, $stateParams, $rootScope, $scope, $uibModal,
+                              _, toastr,
                               NST_EVENT_ACTION, NST_PLACE_ACCESS, NST_POST_EVENT, SvcCardCtrlAffix,
-                              NstSvcSync, NstVmFile, NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory, NstSearchQuery,
-                              NstSvcAuth, NstUtility, NstSvcPostInteraction, NstSvcTranslation, NstSvcLogger) {
+                              NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory, NstSearchQuery,
+                              NstSvcAuth, NstUtility, NstSvcPostInteraction, NstSvcTranslation, NstSvcLogger, $) {
     var vm = this;
 
-    var commentBoardMin = 3,
-      commentBoardMax = 99,
-      commentBoardMin = {
-        limit: 8,
-        date: null
-      },
-      chaingStack = [],
-      newCommentIds = [],
+      var newCommentIds = [],
       unreadCommentIds = [],
       focusOnSentTimeout = null,
       eventReferences = [];
@@ -69,11 +62,10 @@
     vm.isCheckedForce = false;
     vm.postSenderIsCurrentUser = false;
     vm.haveAnyLabelAcess = true; // TODO Read this from label cache
-    // vm.isPlaceFilter = false;
 
     vm.limits = {
       places: 1,
-      recipients: 1,
+      recipients: 1
     }
 
     isPlaceFeed();
@@ -205,7 +197,7 @@
           });
           vm.isChecked = false;
           $scope.$emit('post-select',{postId: vm.post.id,isChecked : vm.isChecked});
-        }).catch(function (error) {
+        }).catch(function () {
           toastr.error(NstSvcTranslation.get("An error has occurred in trying to remove this message from the selected Place."));
         });
       });
@@ -281,7 +273,7 @@
         }
         ++$scope.$parent.$parent.affixObserver;
         SvcCardCtrlAffix.change();
-      }).catch(function (error) {
+      }).catch(function () {
         toastr.error(NstSvcTranslation.get('An error occured while tying to show the post full body.'));
       }).finally(function () {
         vm.expandProgress = false;
@@ -593,7 +585,7 @@
      * Event listener for read all posts
      * and updates the model
      */
-    eventReferences.push($rootScope.$on('post-read-all', function (e, data) {
+    eventReferences.push($rootScope.$on('post-read-all', function () {
       vm.post.read = true;
     }));
 
@@ -634,7 +626,7 @@
 
       vm.limits = {
         places: vm.post.places.length,
-        recipients: vm.post.recipients.length,
+        recipients: vm.post.recipients.length
       }
 
       /**

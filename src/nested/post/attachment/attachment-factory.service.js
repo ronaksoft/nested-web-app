@@ -7,14 +7,13 @@
   /** @ngInject */
   function NstSvcAttachmentFactory($q, _,
                                    NstSvcServer, NstSvcFileType, NstSvcFileStorage,
-                                   NstAttachment, NstPicture, NstStoreToken, NstFactoryError, NstFactoryQuery) {
+                                   NstAttachment, NstPicture) {
 
     /**
      * PostFactory - all operations related to post, comment
      */
     var service = {
       parseAttachment: parseAttachment,
-      load: load,
       remove: remove,
       createAttachmentModel: createAttachmentModel,
       getOne: getOne
@@ -37,7 +36,6 @@
           throw (new Error("Could not create a NstAttachment model without filename"));
         }
       } catch (err) {
-        console.log(err);
         return err;
       }
 
@@ -65,22 +63,6 @@
       return attachment;
     }
 
-    function load(ids) {
-      var defer = $q.defer();
-
-      NstSvcServer.request('file/get', {
-        universal_ids: _.join(ids, ',')
-      }).then(function (response) {
-        var promises = _.map(response.info, parseAttachment);
-        $q.all(promises).then(defer.resolve).catch(defer.reject);
-      }).catch(function (error) {
-        var query = new NstFactoryQuery(ids);
-        defer.reject(new NstFactoryError(query, error.message, error.code));
-      });
-
-      return defer.promise;
-    }
-
     function remove(attachmentId, postId) {
       var defer = $q.defer();
 
@@ -89,12 +71,7 @@
         attachment_id: attachmentId
       }).then(function () {
         defer.resolve(attachmentId);
-      }).catch(function (error) {
-        var query = new NstFactoryQuery(attachmentId, {postId: postId});
-        var factoryError = new NstFactoryError(query, error.message, error.code);
-
-        defer.reject(factoryError);
-      });
+      }).catch(defer.reject);
 
       return defer.promise;
     }
@@ -110,10 +87,7 @@
         universal_id: id
       }).then(function (file) {
         deferred.resolve(parseAttachment(file));
-      }).catch(function (error) {
-        var query = new NstFactoryQuery(id);
-        deferred.reject(new NstFactoryError(query, error.message, error.code));
-      });
+      }).catch(deferred.reject);
 
       return deferred.promise;
     }

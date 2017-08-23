@@ -10,8 +10,8 @@
     </div>
   </div>
   <div class="user-data">
-    <h4>{{::place.name}}</h4>
-    <span><span ng-if="!isEmail">#</span>{{::place.id}}</span>
+    <h4>{{place.name > 32 ? place.name.substr(0, 32) + '...' : place.name}}</h4>
+    <span><span ng-if="!isEmail">#</span>{{place.id > 20 ? place.id.substr(0, 20) + '...' : place.id}}</span>
   </div>
 
 </div>

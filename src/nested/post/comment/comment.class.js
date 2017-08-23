@@ -8,7 +8,7 @@
     Comment.prototype = {};
     Comment.prototype.constructor = Comment;
 
-    function Comment(model) {
+    function Comment() {
       this.id = undefined;
       this.body = undefined;
       this.timestamp = undefined;

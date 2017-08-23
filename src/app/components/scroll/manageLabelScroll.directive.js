@@ -5,7 +5,7 @@
     .module('ronak.nested.web.components')
     .directive('manageLabelScroll', manageLabelScroll);
 
-  function manageLabelScroll($interval) {
+  function manageLabelScroll() {
     return {
       restrict: 'A',
       link: function (scope, ele) {
@@ -16,12 +16,11 @@
                 });
             }
         },1000);
-        
+
         scope.$on('$destroy', function () {
-            // $interval.cancel(interval);
             clearInterval(interval);
         });
-        
+
       }
     };
   }

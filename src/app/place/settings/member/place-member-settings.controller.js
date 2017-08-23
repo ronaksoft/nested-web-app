@@ -17,30 +17,30 @@
   /** @ngInject */
   /**
    * A place members are listed here and the user can remove, promote/demote and invite new members
-   * 
-   * @param {any} _ 
-   * @param {any} $q 
-   * @param {any} $uibModal 
-   * @param {any} toastr 
-   * @param {any} $scope 
-   * @param {any} $rootScope 
-   * @param {any} NST_PLACE_ACCESS 
-   * @param {any} NST_PLACE_MEMBER_TYPE 
-   * @param {any} NST_SRV_ERROR 
-   * @param {any} NstSvcPlaceFactory 
-   * @param {any} NstSvcInvitationFactory 
-   * @param {any} NstVmMemberItem 
-   * @param {any} NstSvcAuth 
-   * @param {any} NstSvcModal 
-   * @param {any} NstUtility 
-   * @param {any} NstSvcTranslation 
-   * @param {any} NstSvcLogger 
+   *
+   * @param {any} _
+   * @param {any} $q
+   * @param {any} $uibModal
+   * @param {any} toastr
+   * @param {any} $scope
+   * @param {any} $rootScope
+   * @param {any} NST_PLACE_ACCESS
+   * @param {any} NST_PLACE_MEMBER_TYPE
+   * @param {any} NST_SRV_ERROR
+   * @param {any} NstSvcPlaceFactory
+   * @param {any} NstSvcInvitationFactory
+   * @param {any} NstVmMemberItem
+   * @param {any} NstSvcAuth
+   * @param {any} NstSvcModal
+   * @param {any} NstUtility
+   * @param {any} NstSvcTranslation
+   * @param {any} NstSvcLogger
    */
-  function PlaceMemberSettingsController(_, $q, $uibModal, toastr, $scope, $rootScope,
+  function PlaceMemberSettingsController( $q, $uibModal, toastr, $scope, $rootScope,
                                          NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_SRV_ERROR,
                                          NstSvcPlaceFactory, NstSvcInvitationFactory, NstVmMemberItem,
                                          NstSvcAuth, NstSvcModal,
-                                         NstUtility, NstSvcTranslation, NstSvcLogger) {
+                                         NstUtility, NstSvcTranslation, NstSvcLogger, _) {
 
     var defaultTeammatesLimit = 16;
 
@@ -91,11 +91,11 @@
     /**
      * Loads the place creators and key-holders using two separate API and calculates the number of
      * creators or key-holders that should be requested
-     * 
-     * @param {any} placeId 
-     * @param {any} accessToSeeMembers 
-     * @param {any} accessToSeePendings 
-     * @returns 
+     *
+     * @param {any} placeId
+     * @param {any} accessToSeeMembers
+     * @param {any} accessToSeePendings
+     * @returns
      */
     function loadTeammates(placeId, accessToSeeMembers, accessToSeePendings) {
       var deferred = $q.defer();
@@ -141,8 +141,8 @@
 
     /**
      * Loads more teammates and appends to the list
-     * 
-     * @returns 
+     *
+     * @returns
      */
     function loadMoreTeammates() {
       vm.teammatesLoadProgress = true;
@@ -159,12 +159,12 @@
     /**
      * Retrieves the place creators with the specified limit and skip. The function returns an
      * empty array if the user does not have the required permissions
-     * 
-     * @param {any} placeId 
-     * @param {any} limit 
-     * @param {any} skip 
-     * @param {any} hasAccess 
-     * @returns 
+     *
+     * @param {any} placeId
+     * @param {any} limit
+     * @param {any} skip
+     * @param {any} hasAccess
+     * @returns
      */
     function getCreators(placeId, limit, skip, hasAccess) {
       var deferred = $q.defer();
@@ -194,12 +194,12 @@
     /**
      * Retrieves the place key-holders with the specified limit and skip. The function returns an
      * empty array if the user does not have the required permissions
-     * 
-     * @param {any} placeId 
-     * @param {any} limit 
-     * @param {any} skip 
-     * @param {any} hasAccess 
-     * @returns 
+     *
+     * @param {any} placeId
+     * @param {any} limit
+     * @param {any} skip
+     * @param {any} hasAccess
+     * @returns
      */
     function getKeyholders(placeId, limit, skip, hasAccess) {
       var deferred = $q.defer();
@@ -227,12 +227,12 @@
     /**
      * Retrieves the place pending invitations with the specified limit and skip. The function returns an
      * empty array if the user does not have the required permissions
-     * 
-     * @param {any} placeId 
-     * @param {any} limit 
-     * @param {any} skip 
-     * @param {any} access 
-     * @returns 
+     *
+     * @param {any} placeId
+     * @param {any} limit
+     * @param {any} skip
+     * @param {any} access
+     * @returns
      */
     function getPendings(placeId, limit, skip, access) {
       var deferred = $q.defer();
@@ -253,8 +253,8 @@
 
     /**
      * Select/Unselect a member and updates all counters
-     * 
-     * @param {any} member 
+     *
+     * @param {any} member
      */
     function onSelect(member) {
       if (memberIsSelected(member)) {
@@ -270,9 +270,9 @@
 
     /**
      * Returns true if the given member has been selected before
-     * 
-     * @param {any} member 
-     * @returns 
+     *
+     * @param {any} member
+     * @returns
      */
     function memberIsSelected(member) {
       return vm.selectedMates[member.id]
@@ -280,11 +280,10 @@
 
     /**
      * Opens add/invite member modal and Adds/Invites the selected members on modal closes
-     * 
-     * @param {any} role 
+     *
+     * @param {any} role
      */
     function showAddModal(role) {
-      var role = role || NST_PLACE_MEMBER_TYPE.KEY_HOLDER;
 
       var modal = $uibModal.open({
         animation: false,
@@ -319,9 +318,9 @@
 
     /**
      * Adds the selected users to the place
-     * 
-     * @param {any} place 
-     * @param {any} users 
+     *
+     * @param {any} place
+     * @param {any} users
      */
     function addUsers(place, users) {
       NstSvcPlaceFactory.addUser(place, users).then(function (result) {
@@ -341,35 +340,35 @@
           && _.size(result.addedUsers) > 0) {
           toastr.success(NstUtility.string.format(NstSvcTranslation.get('All selected users have been added to place {0} successfully.'), place.name));
         } else {
+          var names = null;
+          var message = null;
 
           // there are users that we were not able to add them
           if (_.size(result.rejectedUsers) > 0) {
-            var names = _(result.rejectedUsers).map(function (user) {
+            names = _(result.rejectedUsers).map(function (user) {
               return NstUtility.string.format('{0} (@{1})', user.fullName, user.id);
             }).join('<br/>');
-            var message = NstSvcTranslation.get('We are not able to add these users to the place:');
+            message = NstSvcTranslation.get('We are not able to add these users to the place:');
             toastr.warning(message + '<br/>' + names);
           }
 
           //there are some users that were added successfully
           if (_.size(result.addedUsers) > 0) {
-            var names = _(result.addedUsers).map(function (user) {
-              return NstUtility.string.format('{0} (@{1})', user.fullName, user.id);
-            }).join('<br/>');
-            var message = NstSvcTranslation.get('These users have been added:');
+             names.join('<br/>');
+            message = NstSvcTranslation.get('These users have been added:');
             toastr.success(message + '<br/>' + names);
           }
         }
-      }).catch(function (error) {
+      }).catch(function () {
         toastr.warning(NstSvcTranslation.get('An error has occurred while adding the user(s) to the place!'));
       });
     }
 
     /**
      * Dispatches member-add event through $rootScope
-     * 
-     * @param {any} place 
-     * @param {any} user 
+     *
+     * @param {any} place
+     * @param {any} user
      */
     function dispatchUserAdded(place, user) {
       eventReferences.push($rootScope.$emit(
@@ -383,9 +382,9 @@
 
     /**
      * Sends an invitation to the given users
-     * 
-     * @param {any} place 
-     * @param {any} users 
+     *
+     * @param {any} place
+     * @param {any} users
      */
     function inviteUsers(place, users) {
       NstSvcPlaceFactory.inviteUser(place, users).then(function (result) {
@@ -400,33 +399,35 @@
           && _.size(result.addedUsers) > 0) {
           toastr.success(NstUtility.string.format(NstSvcTranslation.get('All selected users have been invited to place {0} successfully.'), place.name));
         } else {
+          var names = null;
+          var message =  null;
 
           // there are users that we were not able to invite them
           if (_.size(result.rejectedUsers) > 0) {
-            var names = _(result.rejectedUsers).map(function (user) {
+            names = _(result.rejectedUsers).map(function (user) {
               return NstUtility.string.format('{0} (@{1})', user.fullName, user.id);
             }).join('<br/>');
-            var message = NstSvcTranslation.get('We are not able to invite these users to the place:');
+            message = NstSvcTranslation.get('We are not able to invite these users to the place:');
             toastr.warning(message + '<br/>' + names);
           }
 
           //there are some users that were invited successfully
           if (_.size(result.addedUsers) > 0) {
-            var names = _(result.addedUsers).map(function (user) {
+            names = _(result.addedUsers).map(function (user) {
               return NstUtility.string.format('{0} (@{1})', user.fullName, user.id);
             }).join('<br/>');
-            var message = NstSvcTranslation.get('These users have been invited:');
+            message = NstSvcTranslation.get('These users have been invited:');
             toastr.success(message + '<br/>' + names);
           }
         }
-      }).catch(function (error) {
+      }).catch(function () {
         toastr.warning(NstSvcTranslation.get('An error has occurred while inviting the user(s) to the place!'));
       });
     }
 
     /**
      * Calculates and sets the number of creators
-     * 
+     *
      */
     function selectedCreatorsCalculator() {
       var count = 0;
@@ -440,7 +441,7 @@
 
     /**
      * Calculates and sets the number of key-holders
-     * 
+     *
      */
     function selectedKeyHoldersCalculator() {
       var count = 0;
@@ -454,8 +455,8 @@
 
     /**
      * Returns the selected creators
-     * 
-     * @returns 
+     *
+     * @returns
      */
     function getSelectedCreators() {
       var creators = [];
@@ -469,8 +470,8 @@
 
     /**
      * Returns the selected key-holders
-     * 
-     * @returns 
+     *
+     * @returns
      */
     function getSelectedKeyHolders() {
       var keyHolders = [];
@@ -484,8 +485,8 @@
 
     /**
      * Returns the selected members
-     * 
-     * @returns 
+     *
+     * @returns
      */
     function getSelectedMembers() {
       var members = [];
@@ -496,18 +497,9 @@
     }
 
     /**
-     * Returns true if there is at least a teammate in list
-     * 
-     * @returns 
-     */
-    function hasAnyTeammate() {
-      return vm.teammates && vm.teammates.length > 0;
-    }
-
-    /**
      * Promotes the selected key-holders and updates all counters. It confirms before performing the action
-     * 
-     * @returns 
+     *
+     * @returns
      */
     function promote() {
       var members = getSelectedKeyHolders();
@@ -531,15 +523,13 @@
       ).then(function (result) {
         if (result) {
           _.forEach(members, function (member) {
-            NstSvcPlaceFactory.promoteMember(vm.place.id, member.id).then(function (result) {
+            NstSvcPlaceFactory.promoteMember(vm.place.id, member.id).then(function () {
               var mem = vm.teammates.filter(function (m) {
                 return m.id === member.id
               })[0];
               if (mem) mem.role = NST_PLACE_MEMBER_TYPE.CREATOR;
               selectedCreatorsCalculator();
               selectedKeyHoldersCalculator();
-            }).catch(function (error) {
-              $log.debug(error);
             });
           });
         }
@@ -547,10 +537,10 @@
     }
 
     /**
-     * 
+     *
      * Demotes the selected key-holders and updates all counters. It confirms before performing the action
-     * 
-     * @returns 
+     *
+     * @returns
      */
     function demote() {
       var members = getSelectedCreators();
@@ -575,15 +565,13 @@
       ).then(function (result) {
         if (result) {
           _.forEach(members, function (member) {
-            NstSvcPlaceFactory.demoteMember(vm.place.id, member.id).then(function (result) {
+            NstSvcPlaceFactory.demoteMember(vm.place.id, member.id).then(function () {
               var mem = vm.teammates.filter(function (m) {
                 return m.id === member.id
               })[0];
               if (mem) mem.role = NST_PLACE_MEMBER_TYPE.KEY_HOLDER;
               selectedCreatorsCalculator();
               selectedKeyHoldersCalculator();
-            }).catch(function (error) {
-              $log.debug(error);
             });
           });
         }
@@ -592,9 +580,9 @@
 
     /**
      * Removes the selected member(s) and updates all counters. It confirms before performing the action.
-     * 
-     * @param {any} userId 
-     * @returns 
+     *
+     * @param {any} userId
+     * @returns
      */
     function remove(userId) {
       var members;
@@ -622,7 +610,7 @@
       ).then(function (result) {
         if (result) {
           _.forEach(members, function (member) {
-            removeMember(member).then(function (result) {
+            removeMember(member).then(function () {
               return NstSvcPlaceFactory.get(vm.place.id, true);
             }).then(function (newPlace) {
 
@@ -644,13 +632,23 @@
               }
 
             }).catch(function (error) {
-              if (error instanceof NstPlaceOneCreatorLeftError) {
-                toastr.error(NstUtility.string.format(NstSvcTranslation.get('User {0} is the only Manager of this Place!'), vm.member.name));
-              } else if (error instanceof NstPlaceCreatorOfParentError) {
-                toastr.error(NstUtility.string.format(NstSvcTranslation.get('You are not allowed to remove {0}, because he/she is the creator of its highest-ranking Place ({1}).'), vm.member.name, vm.place.parent.name));
-              } else {
-                toastr.error(NstUtility.string.format(NstSvcTranslation.get('An error has occurred while trying to remove the member')));
+              if (error.code === NST_SRV_ERROR.ACCESS_DENIED) {
+                switch (error.message[0]) {
+                  case 'last_creator':
+                    toastr.error(NstUtility.string.format(NstSvcTranslation.get('User {0} is the only Manager of this Place!'), vm.member.name));
+                    break;
+                  case 'parent_creator':
+                    toastr.error(NstUtility.string.format(NstSvcTranslation.get('You are not allowed to remove {0}, because he/she is the creator of its highest-ranking Place ({1}).'), vm.member.name, vm.place.parent.name));
+                    break;
+                  default:
+                    toastr.error(NstUtility.string.format(NstSvcTranslation.get('An error has occurred while trying to remove the member')));
+                    break;
+                }
+
+                return;
               }
+
+              toastr.error(NstUtility.string.format(NstSvcTranslation.get('An error has occurred while trying to remove the member')));
             });
           });
         }
@@ -660,9 +658,9 @@
 
     /**
      * Removes the member or Revokes the invitation based on the given item type
-     * 
-     * @param {any} member 
-     * @returns 
+     *
+     * @param {any} member
+     * @returns
      */
     function removeMember(member) {
       return member.isPending() ? NstSvcInvitationFactory.revoke(member.InvitationId) : NstSvcPlaceFactory.removeMember(vm.place.id, member.id);

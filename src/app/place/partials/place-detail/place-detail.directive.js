@@ -3,11 +3,11 @@
 
   angular
     .module('ronak.nested.web.components')
-    .directive('placeDetail', function($timeout,$state,NstSearchQuery,NstSvcAuth,NST_PATTERN,NstSvcPlaceFactory) {
+    .directive('placeDetail', function($timeout,$state,NstSearchQuery,NstSvcAuth,NST_PATTERN,NstSvcPlaceFactory, $) {
       return {
         template: function(element) {
           var tag = element[0].nodeName;
-          return '<' + tag +' ng-transclude ng-mouseenter="openOverEnable()" ng-mouseleave="openOverdisable()" data-popover-is-open="openOver()" data-popover-enable="isAvailable" data-popover-class="white-pop popover-placedetail" uib-popover-template="\'app/place/partials/place-detail/place-detail.html\'" data-popover-append-to-body="true" data-popover-placement="top-center auto" ng-click="viewContact()"></' + tag +'>';
+          return '<' + tag +' ng-transclude ng-mouseenter="openOverEnable()" ng-mouseleave="openOverdisable()" data-popover-is-open="openOver()" data-popover-enable="isAvailable" data-popover-class="white-pop popover-placedetail hide-on-scroll" uib-popover-template="\'app/place/partials/place-detail/place-detail.html\'" data-popover-append-to-body="true" data-popover-placement="top-center auto" ng-click="viewContact()"></' + tag +'>';
         },
         restrict: 'EA',
         replace: true,
@@ -15,15 +15,14 @@
         scope: {
           placeId: '=placeDetail'
         },
-        link: function ($scope, $element, $attrs) {
+        link: function ($scope) {
           var dd = $scope.placeId;
 
           // $scope.isEmail = NST_PATTERN.EMAIL.test($scope.placeId);
           (function(){
-            NstSvcPlaceFactory.get(dd)
-              .then(function (place) {
-                $scope.place = place;
-              });
+            NstSvcPlaceFactory.get(dd).then(function (place) {
+              $scope.place = place;
+            });
           })();
 
           // All subplaces of person shoould not available

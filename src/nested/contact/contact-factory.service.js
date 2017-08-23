@@ -6,7 +6,7 @@
 
   /** @ngInject */
   function NstSvcContactFactory($q, _,
-    NstSvcServer, NstBaseFactory, NstSvcUserFactory, NstSvcContactStorage,
+    NstSvcServer, NstBaseFactory, NstSvcContactStorage,
     NstContact, NstPicture) {
 
     function ContactFactory() {}
@@ -27,82 +27,48 @@
     return factory;
 
     function get(id) {
-
       return factory.sentinel.watch(function () {
-        var deferred = $q.defer();
-
-        NstSvcServer.request('contact/get', {
+        return NstSvcServer.request('contact/get', {
           contact_id: id
-        }).then(function (data) {
-          deferred.resolve(parse(data));
-        }).catch(deferred.reject);
-
-        return deferred.promise;
+        }).then(function (result) {
+          return $q.resolve(parse(result));
+        });
       }, "get");
     }
 
     function add(id) {
-
       return factory.sentinel.watch(function () {
-        var deferred = $q.defer();
-
         NstSvcServer.request('contact/add', {
           contact_id: id
-        }).then(function (data) {
-          deferred.resolve(data);
-        }).catch(deferred.reject);
-
-        return deferred.promise;
+        });
       }, "add" + id);
     }
 
     function addFavorite(id) {
-
       return factory.sentinel.watch(function () {
-        var deferred = $q.defer();
-
-        NstSvcServer.request('contact/add_favorite', {
+        return NstSvcServer.request('contact/add_favorite', {
           contact_id : id
-        }).then(function (data) {
-          deferred.resolve(data);
-        }).catch(deferred.reject);
-
-        return deferred.promise;
+        });
       }, "addFavorite");
     }
 
     function removeFavorite(id) {
-
       return factory.sentinel.watch(function () {
-        var deferred = $q.defer();
-
-        NstSvcServer.request('contact/remove_favorite', {
+        return NstSvcServer.request('contact/remove_favorite', {
           contact_id : id
-        }).then(function (data) {
-          deferred.resolve(data);
-        }).catch(deferred.reject);
-
-        return deferred.promise;
+        });
       }, "removeFavorite");
     }
 
     function remove(id) {
-
       return factory.sentinel.watch(function () {
-        var deferred = $q.defer();
-
-        NstSvcServer.request('contact/remove', {
+        return NstSvcServer.request('contact/remove', {
           contact_id : id
-        }).then(function (data) {
-          deferred.resolve(data);
-        }).catch(deferred.reject);
-
-        return deferred.promise;
+        });
       }, "remove");
     }
 
     function getAll() {
-
       return factory.sentinel.watch(function () {
         var deferred = $q.defer();
 
@@ -129,15 +95,11 @@
     }
 
     function getFavorites() {
-
+      var deferred = $q.defer();
       return factory.sentinel.watch(function () {
-        var deferred = $q.defer();
-
-        NstSvcServer.request('contact/get_favorites', {}).then(function (data) {
-          deferred.resolve(_.map(data.contacts, parse));
-        }).catch(deferred.reject);
-
-        return deferred.promise;
+        return NstSvcServer.request('contact/get_favorites', {}).then(function (data) {
+          return $q.resolve(deferred.resolve(_.map(data.contacts, parse)));
+        });
       }, "getAll");
     }
 
@@ -167,7 +129,6 @@
 
       return contact;
     }
-
   }
 })
 ();

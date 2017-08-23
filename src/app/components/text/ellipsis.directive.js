@@ -7,19 +7,10 @@
   function ellipsis($timeout) {
     var directive = {
       link: link,
-      // template: function(element, attrs) {
-      //   var tag = element[0].nodeName;
-      //   return '<' + tag + ' ng-mouseenter="ellipsisControl()" data-uib-tooltip="{{name}}" data-tooltip-enable="{{tooltipEnabled}}" data-tooltip-append-to-body="true" data-tooltip-placement="top auto" ng-transclude></' + tag +'>';
-      // },
       restrict: 'A'
-      // scope: {
-      //   name: '=ellipsis'
-      // },
-      // replace: true,
-      // transclude: true
     };
 
-    function link(scope, element, attrs) {
+    function link(scope, element) {
       /**
        * postPreview - preview the places that have delete access and let the user to choose one
        *

@@ -20,7 +20,7 @@
 #    When I wait 5s
 #    Given I Click icon by class "_24svg _df _fn edit-icon"
 #    When I wait 1s
-#    When Wait see object with id "change-view"
+#    When Wait see object with id "change-setting-modal"
 #    When I wait 1s
 #    Given I clear input by name "name"
 #    When I wait 1s
@@ -50,7 +50,7 @@
 #    When I wait 5s
 #    Given I Click icon by class "_24svg _df _fn edit-icon"
 #    When I wait 1s
-#    When Wait see object with id "change-view"
+#    When Wait see object with id "change-setting-modal"
 #    When I wait 1s
 #    Given I clear input by name "name"
 #    When I wait 1s

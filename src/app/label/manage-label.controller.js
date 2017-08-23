@@ -5,8 +5,8 @@
     .module('ronak.nested.web.components')
     .controller('manageLabelController', manageLabelController);
 
-  function manageLabelController($timeout, $scope, $q, $uibModalInstance, $uibModal, $filter
-    , toastr, _, NstSvcTranslation, NstSvcUserFactory, NstSvcLabelFactory, NST_LABEL_SEARCH_FILTER, NstSvcAuth) {
+  function manageLabelController($state, $scope, $q, $uibModalInstance, $uibModal, $filter
+    , toastr, _, NstSvcTranslation, NstSearchQuery, NstSvcLabelFactory, NST_LABEL_SEARCH_FILTER, NstSvcAuth) {
 
     var vm = this;
 
@@ -25,10 +25,11 @@
     vm.acceptRequest = acceptRequest;
     vm.withdrawRequest = withdrawRequest;
     vm.toggleSelected = toggleSelected;
+    vm.searchThis = searchThis;
     vm.searchKeyUp = _.debounce(searchLabel, 512);
     vm.setting = {
       skip: 0,
-      limit: 16,
+      limit: 16
     };
 
     init();
@@ -80,7 +81,7 @@
       }
       $uibModal.open({
         animation: false,
-        size: 'lg-white multiple',
+        size: 'full-height-center multiple',
         templateUrl: 'app/label/partials/edit-label.html',
         controller: 'editLabelController',
         controllerAs: 'ctrl',
@@ -100,7 +101,7 @@
     function createLabel() {
       $uibModal.open({
         animation: false,
-        size: 'lg-white multiple',
+        size: 'full-height-center multiple',
         templateUrl: 'app/label/partials/create-label.html',
         controller: 'createLabelController',
         controllerAs: 'createCtrl'
@@ -115,7 +116,7 @@
     function requestLabel() {
       $uibModal.open({
         animation: false,
-        size: 'lg-white multiple',
+        size: 'full-height-center multiple',
         templateUrl: 'app/label/partials/request-label.html',
         controller: 'requestLabelController',
         controllerAs: 'requestCtrl'
@@ -144,7 +145,7 @@
           }
         }
       }).result.then(function () {
-        callRemoveLabelPromises().then(function (result) {
+        callRemoveLabelPromises().then(function () {
           restoreDefault();
           searchLabel();
           vm.selectedItems = [];
@@ -178,24 +179,24 @@
           }
         }
       }).result.then(function () {
-        NstSvcLabelFactory.updateRequest(id, 'reject').then(function (result) {
+        NstSvcLabelFactory.updateRequest(id, 'reject').then(function () {
           removeRequest(id);
           restoreDefault();
           searchLabel(vm.keyword);
           toastr.success(NstSvcTranslation.get("Request declined successfully."));
-        }).catch(function (error) {
+        }).catch(function () {
           toastr.error(NstSvcTranslation.get("Something went wrong."));
         });
       });
     }
 
     function acceptRequest(id) {
-      NstSvcLabelFactory.updateRequest(id, 'accept').then(function (result) {
+      NstSvcLabelFactory.updateRequest(id, 'accept').then(function () {
         removeRequest(id);
         restoreDefault();
         searchLabel(vm.keyword);
         toastr.success(NstSvcTranslation.get("Request accepted successfully."));
-      }).catch(function (error) {
+      }).catch(function () {
         toastr.error(NstSvcTranslation.get("Something went wrong."));
       });
     }
@@ -217,10 +218,10 @@
           }
         }
       }).result.then(function () {
-        NstSvcLabelFactory.cancelRequest(id).then(function (result) {
+        NstSvcLabelFactory.cancelRequest(id).then(function () {
           removeRequest(id);
           toastr.success(NstSvcTranslation.get("Your request has been withdrawn successfully."));
-        }).catch(function (error) {
+        }).catch(function () {
           toastr.error(NstSvcTranslation.get("Something went wrong."));
         });
       });
@@ -240,6 +241,16 @@
         index = _.findIndex(vm.selectedItems, {id: id});
         vm.selectedItems.splice(index, 1);
       }
+    }
+
+    function searchThis(title) {
+      var searchQuery = new NstSearchQuery('');
+
+      searchQuery.addLabel(title);
+
+      $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toString())});
+
+      $scope.$dismiss();
     }
   }
 

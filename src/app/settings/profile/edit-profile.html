@@ -11,7 +11,7 @@
     </label>
     <img ng-if="!ctrl.canChangePicture" initial-avatar="{{::ctrl.model.id}}" name="{{::ctrl.model.fullName}}" picture="{{ctrl.model | avatar : 'x128'}}" data-width="96" data-height="96" data-radius="96" class="account-initials-24" data-word-count="2" data-font-size="24"/>
     <input id="logo" type="file" name="logo" accept="image/*" on-file-change="ctrl.setImage">
-    <div class="probut">
+    <div class="profile-avatar-upload">
       <div ng-if="ctrl.canChangePicture" ng-if="ctrl.model.hasPicture()" ng-if="ctrl.model" class="remove-photo-hover" data-ng-click="ctrl.removeImage()" role="button"></div>
       <label ng-if="ctrl.canChangePicture" for="logo" class="add-photo-hover"></label>
     </div>

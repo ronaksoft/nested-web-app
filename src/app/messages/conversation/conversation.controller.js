@@ -6,9 +6,7 @@
     .controller('conversationController', conversationController);
 
   /** @ngInject */
-  function conversationController(_, $log, $stateParams, $state, $scope,
-                            NST_DEFAULT, NstSvcPostFactory, NstSvcUserFactory, NstSvcServer, NstSvcAuth,
-                            NstVmFile, NstSearchQuery) {
+  function conversationController(_, $log, $stateParams, $state, NstSvcPostFactory, NstSvcUserFactory, $) {
     var vm = this;
     var limit = 8;
     var skip = 0;
@@ -21,7 +19,7 @@
     vm.viewSetting = {
       content: true,
       attachments: true,
-      comments: false,
+      comments: false
     };
     vm.searchOnEnterKeyPressed = searchOnEnterKeyPressed;
 

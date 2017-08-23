@@ -11,7 +11,7 @@
                         NST_SRV_MESSAGE_TYPE, NST_SRV_PUSH_CMD, NST_SRV_RESPONSE_STATUS, NST_SRV_ERROR,
                         NST_SRV_EVENT, NST_SRV_MESSAGE,
                         NstSvcRandomize, NstSvcLogger, NstSvcTry, NstSvcConnectionMonitor, NstHttp, NstSvcClient,
-                        NstObservableObject, NstServerError, NstServerQuery, NstRequest, NstResponse, NstSvcDate) {
+                        NstObservableObject, NstServerError, NstServerQuery, NstRequest, NstResponse) {
 
     var NST_SERVER_DOMAIN = 'nested.server.domain';
 
@@ -26,7 +26,7 @@
         STORE_URL: NST_CONFIG.STORE.URL,
         ADMIN_DOMAIN: NST_CONFIG.ADMIN_DOMAIN,
         ADMIN_PORT: NST_CONFIG.ADMIN_PORT,
-        DOMAIN: NST_CONFIG.DOMAIN,
+        DOMAIN: NST_CONFIG.DOMAIN
       };
 
       var server = this;
@@ -378,10 +378,8 @@
             break;
 
           case NST_REQ_STATUS.QUEUED:
-            if (qItem.timeoutPromise instanceof Promise) {
-              $timeout.cancel(qItem.timeoutPromise);
-              delete this.queue[reqId];
-            }
+            $timeout.cancel(qItem.timeoutPromise);
+            delete this.queue[reqId];
             break;
 
           case NST_REQ_STATUS.CANCELLED:

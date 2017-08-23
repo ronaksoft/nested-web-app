@@ -3,73 +3,19 @@
   *     Nested Classes - Page Specific - Events  *
   **********************************************************
  */
-.eventsbody {
-  min-height: 100%;
-  nst-attachments-preview-bar ul.thumbnail-bar {
-    position: relative;
-  }
-}
-
-.actdate {
-  min-height: 25px;
-  p {
-    padding: 0 8px;
-  }
-  width: 100%;
-}
-
-.actcon {
-  border-bottom: 1px solid $color-breeze;
-  padding: 6px 5px;
-  //min-width:400px;
-  width: 100%;
-  max-width: calc(100% - 200px);
-  float: left;
-  display: inline-flex;
-  animation: app-tr .5s ease-out;
-  & > *{
-    animation: off-right .1s ease-out;
-  }
-}
-
-.actdes {
-  cursor: default;
-  min-width: 200px;
-  max-width: 200px;
-  float: left;
+ .activities-content-body {
+  display: flex;
   position: relative;
-  padding-top: 1px;
+  flex-direction: column;
+  min-height: calc(100% - 50px);
+  z-index: 10;
+  height: 100%;
 }
-.placeactsico {
-  margin-top: 8px;
-  border-radius: 50%;
-}
-#EventList {
+.activities-list {
+  min-height: 100%;
   width: 100%;
   height: auto;
   flex: none;
-  .evrow {
-    position: relative;
-    display: flex;
-    margin: 0; // Horizontal Margin makes horizontal scrollbar appear!
-    padding: 0 5px;
-    width: 100%;
-    transition: all $animation-dur;
-    &:hover{
-      background-color: #E7FBF0;
-    }
-    &.hot {
-      background-color: $hot-bg-color;
-      overflow-y: hidden;
-      &.ng-enter {
-        animation: activity-item-hot 0.64s ease-in-out forwards;
-      }
-    }
-    &.seen {
-      background: inherit;
-      animation: activity-item-normal 0.64s 3s ease-out backwards;
-    }
-  }
   .ico {
     display: block;
     float: left;
@@ -157,9 +103,46 @@
       font-size: $font-size-xsmall;
     }
   }
+  nst-attachments-preview-bar ul.thumbnail-bar {
+    position: relative;
+  }
 }
 
-.post {
+.activity-date {
+  min-height: 25px;
+  p {
+    padding: 0 8px;
+  }
+  width: 100%;
+}
+
+.activity-content {
+  border-bottom: 1px solid $color-breeze;
+  padding: 6px 5px;
+  width: 100%;
+  max-width: calc(100% - 200px);
+  float: left;
+  display: inline-flex;
+  animation: app-tr .5s ease-out;
+  & > *{
+    animation: off-right .1s ease-out;
+  }
+}
+
+.activity-description {
+  cursor: default;
+  min-width: 200px;
+  max-width: 200px;
+  float: left;
+  position: relative;
+  padding-top: 1px;
+}
+.places-activity-icon {
+  margin-top: 8px;
+  border-radius: 50%;
+}
+
+.post-subject-activity {
   color: $color-solid!important;
   font-weight: 550;
 }

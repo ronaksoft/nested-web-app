@@ -6,10 +6,10 @@
     .controller('SidebarPlaceInfoController', SidebarPlaceInfoController);
 
   /** @ngInject */
-  function SidebarPlaceInfoController($rootScope, $q, $scope, $state, $stateParams, $window, _,
+  function SidebarPlaceInfoController($rootScope, $q, $scope, $state, $stateParams, _,
                                       NstSvcLogger,
-                                      NstSvcPostFactory, NstSvcPlaceFactory, NstSvcPlaceMap, NstUtility, NstSvcSync,
-                                      NST_DEFAULT, NstVmPlace, NstSvcServer, NST_SRV_EVENT, NST_EVENT_ACTION, NST_PLACE_EVENT, NST_POST_EVENT) {
+                                      NstSvcPlaceFactory, NstSvcPlaceMap, NstUtility,
+                                      NstVmPlace, NstSvcServer, NST_SRV_EVENT, NST_EVENT_ACTION, NST_PLACE_EVENT, NST_POST_EVENT) {
     var vm = this;
     var eventReferences = [];
 
@@ -36,17 +36,14 @@
       if ($stateParams.placeId) {
         var grandPlaceId = $stateParams.placeId.split('.')[0];
 
-        NstSvcPlaceFactory.getFavoritesPlaces()
-          .then(function (list) {
-            list.map(function (obj) {
-              vm.placesFavoritesObject[obj] = true;
-            })
-          });
+        NstSvcPlaceFactory.getFavoritesPlaces().then(function (list) {
+          list.map(function (obj) {
+            vm.placesFavoritesObject[obj] = true;
+          })
+        });
 
         getGrandPlaceChildren(grandPlaceId).then(function (places) {
           vm.children = places;
-        }).catch(function (error) {
-          NstSvcLogger.error(error);
         }).finally(function () {
           vm.loading = false;
         });
@@ -161,13 +158,13 @@
      *****  Event Listeners   ****
      *****************************/
 
-    eventReferences.push($rootScope.$on(NST_PLACE_EVENT.SUB_ADDED, function (e, data) {
+    eventReferences.push($rootScope.$on(NST_PLACE_EVENT.SUB_ADDED, function () {
       //TODO:: change children without Initializing()
       // NstSvcPlaceFactory.addPlaceToTree(vm.children, mapPlace(event.detail.place));
       Initializing();
     }));
 
-    eventReferences.push($rootScope.$on(NST_PLACE_EVENT.UPDATED, function (e, data) {
+    eventReferences.push($rootScope.$on(NST_PLACE_EVENT.UPDATED, function () {
       //TODO:: change children without Initializing()
       // NstSvcPlaceFactory.updatePlaceInTree(vm.children, mapPlace(event.detail.place));
 
@@ -175,16 +172,16 @@
     }));
 
 
-    eventReferences.push($rootScope.$on(NST_EVENT_ACTION.POST_ADD, function (e, data) {
+    eventReferences.push($rootScope.$on(NST_EVENT_ACTION.POST_ADD, function () {
       getPlaceUnreadCounts();
     }));
 
 
-    eventReferences.push($rootScope.$on(NST_POST_EVENT.READ, function (event, data) {
+    eventReferences.push($rootScope.$on(NST_POST_EVENT.READ, function () {
       getPlaceUnreadCounts();
     }));
 
-    eventReferences.push($rootScope.$on('post-read-all', function (e, data) {
+    eventReferences.push($rootScope.$on('post-read-all', function () {
       getPlaceUnreadCounts();
     }));
 

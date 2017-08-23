@@ -1,3 +1,5 @@
+/* jshint ignore:start */
+/* eslint-disable */
 /*
  * angular-ui-bootstrap
  * http://angular-ui.github.io/bootstrap/
@@ -57,7 +59,7 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.multiMap', 'ui.bootstrap.sta
  * A helper directive for the $modal service. It creates a backdrop element.
  */
   .directive('uibModalBackdrop', ['$animate', '$injector', '$uibModalStack',
-  function($animate, $injector, $modalStack) {
+  function($animate, $injector, $modalStack, $) {
     return {
       restrict: 'A',
       compile: function(tElement, tAttrs) {
@@ -285,7 +287,7 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.multiMap', 'ui.bootstrap.sta
         checkRemoveBackdrop();
         // setTimeout(function(){
         //   if(!$('body').hasClass('modal-open')){
-            
+
         //   }
         // },100);
         //move focus to specified element if available, or else to body

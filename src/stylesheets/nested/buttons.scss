@@ -160,18 +160,6 @@
   cursor: not-allowed;
 }
 
-.butn-white-nav{
-  margin: 5px;
-  height: 32px;
-  display: inline-block;
-  line-height: 22px;
-  font-size: $font-size-medium;
-  font-weight: 600;
-  text-align: center;
-  padding: 5px 16px 5px 16px;
-  //width: 128px;
-  @extend .butn-white;
-}
 /**
   *********************************
   *      Other btn classes        *
@@ -189,17 +177,11 @@
   @extend .butn-green;
 }
 
-
 /**
   *********************************
   *          switches          *
   *********************************
-*/
-
-.labtxt{
-  text-align: center;
-  line-height: 22px;
-}
+*/ 
 
 .switch {
   min-width: 128px;
@@ -486,37 +468,6 @@ input[type="checkbox"].inpsw[disabled]:checked + label + label  {
 
 }
 
-.change-button {
-  color: $color-sense-wire;
-  font-size: 15px;
-  font-weight: 400;
-  text-decoration: underline;
-  transition: color $animation-dur;
-  &:hover {
-    color: $color-sense-wire;
-  }
-}
-
-
-.green-radio + label {
-    display: inline-block;
-    background: url('../assets/icons/controls.svg') no-repeat;
-    background-position: 0 -48px;
-    height: 16px;
-    min-width: 17px;
-    padding: 0 0 0 17px;
-    color: $color-storm;
-    font-weight: 400;
-    @extend .nst-font-medium;
-    line-height: 17px;
-  }
-.green-radio:checked + label {
-  background-position: 0 -64px;
-}
-.green-radio {
-  display: none;
-}
-
 .inline-date-picker {
   display: flex;
   div {
@@ -539,12 +490,4 @@ input[type="checkbox"].inpsw[disabled]:checked + label + label  {
     width: 16px;
     flex: none;
   }
-}
-a.invite-btn {
-  font-size: 14px;
-  font-weight: bold;
-  color: $color-sense;
-  border: 1px solid $color-sense;
-  line-height: 32px;
-  padding: 0 14px;
 }

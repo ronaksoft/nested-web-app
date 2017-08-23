@@ -6,7 +6,7 @@
     .controller('PasswordStepController', PasswordStepController);
 
   /** @ngInject */
-  function PasswordStepController($scope, md5, NstSvcUserFactory, NST_SRV_ERROR) {
+  function PasswordStepController($scope, md5, NstSvcUserFactory, NST_SRV_ERROR, _) {
     var vm = this;
 
 
@@ -24,7 +24,7 @@
       }
 
       var phone = getPhoneNumber();
-      NstSvcUserFactory.changePhone(phone, vm.verificationId, md5.createHash(vm.password)).then(function (result) {
+      NstSvcUserFactory.changePhone(phone, vm.verificationId, md5.createHash(vm.password)).then(function () {
         nextStep(phone);
       }).catch(function (error) {
         if (error.code === NST_SRV_ERROR.INVALID && error.message[0] === 'pass') {

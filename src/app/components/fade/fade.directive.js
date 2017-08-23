@@ -13,7 +13,7 @@
 
   angular
     .module('ronak.nested.web.components')
-    .directive('nstShowEffect', function($timeout) {
+    .directive('nstShowEffect', function($timeout, $) {
       return {
         restrict: 'A',
         scope: {},

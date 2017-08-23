@@ -16,11 +16,8 @@
         limitPlaces: '=',
         limitRecipients: '='
       },
-      link: function(scope, elem, attrs) {
-        var illusion = document.createElement('div');
+      link: function(scope, elem) {
         var removeItems = 0;
-        var startAdjust = false;
-        // var allowedWidth = elem.width() - 48 - 96 - 110; // padding - share width - more msg
         $timeout(function() {
           if ( scope.inlinePlaces ){
             adjustElements();
@@ -28,7 +25,6 @@
         },100);
 
         function adjustElements() {
-          startAdjust = true;
           if ( elem.height() > 40 && removeItems < 50) {
             if ( scope.limitRecipients > 0 ) {
               scope.limitRecipients--;
@@ -38,17 +34,9 @@
             removeItems++;
             $timeout(function() {
               adjustElements();
-            },10)
-          } else {
-            startAdjust = false;
+            },100);
           }
         }
-
-        scope.$watch('places',function(n){
-          if (n && n.length > 1 && scope.inlinePlaces && !startAdjust ) {
-            adjustElements();
-          }
-        })
       }
     };
   }

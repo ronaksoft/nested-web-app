@@ -26,13 +26,13 @@
 
   /**
    * This component is based on perfect-scrollbar (https://github.com/noraesae/perfect-scrollbar)
-   * 
-   * 
-   * @param {any} $window 
-   * @param {any} nstScrollbarSettings 
-   * @returns 
+   *
+   *
+   * @param {any} $window
+   * @param {any} nstScrollbarSettings
+   * @returns
    */
-  function nstScrollbar($window, nstScrollbarSettings) {
+  function nstScrollbar($window, nstScrollbarSettings, _, $, Ps) {
     return {
       restrict : 'A',
       scope : {
@@ -97,7 +97,7 @@
           suppressScrollX : settings.suppressScrollX,
           suppressScrollY : settings.suppressScrollY,
           scrollXMarginOffset : settings.scrollXMarginOffset,
-          scrollYMarginOffset : settings.scrollYMarginOffset,
+          scrollYMarginOffset : settings.scrollYMarginOffset
         });
       }
 
@@ -151,7 +151,7 @@
       }
 
       // Goes upward when the attribute value changes
-      $scope.$watch('goUpward', function (newValue, oldValue) {
+      $scope.$watch('goUpward', function (newValue) {
         if (newValue) {
           if (settings.scrollAnimate) {
             Ps.update(container);
@@ -171,7 +171,7 @@
       });
 
       // Goes downward when the attribute value changes
-      $scope.$watch('goDownward', function (newValue, oldValue) {
+      $scope.$watch('goDownward', function (newValue) {
         if (newValue) {
           if (settings.scrollAnimate) {
             Ps.update(container);
@@ -190,7 +190,7 @@
 
         }
       });
-      
+
       $scope.$on('$destroy', function () {
         Ps.destroy(container);
       });

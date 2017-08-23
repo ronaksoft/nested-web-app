@@ -3,7 +3,7 @@
 
   angular
     .module('ronak.nested.web.place')
-    .directive('nstPlaceMemberItem', function (moment) {
+    .directive('nstPlaceMemberItem', function () {
       return {
         restrict: 'EA',
         templateUrl: 'app/pages/places/settings/place-member-item.html',

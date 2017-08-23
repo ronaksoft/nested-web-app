@@ -1,0 +1,62 @@
+.inline-place-row {
+  overflow: hidden;
+  img {
+    width: 32px;
+    display: inline-block;
+    height: 32px;
+    flex: none;
+  }
+  span {
+    font-size: 14px;
+    line-height: 20px;
+    color: $color-solid;
+    padding-left: 8px;
+    white-space: nowrap;
+    display: inline-block;
+    width: calc(100% - 37px);
+    vertical-align: middle;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.inline-user-row {
+  display: flex;
+  &:hover {
+    background-color: $color-sense-5;
+    cursor: pointer;
+    transition: .2s;
+  }
+  > * {
+    display: flex;
+  }
+  img {
+    @include avatar(48px,48px,1010px);
+  }
+  span:last-child {
+    font-size: 14px;
+    line-height: 20px;
+    color: $color-gale;
+    padding-left: 8px;
+  }
+  span:first-child {
+    font-size: 16px;
+    line-height: 22px;
+    color: $color-solid;
+    padding-left: 8px;
+    margin-top: 4px;
+  }
+  
+  .status {
+    width: 10px;
+    height: 10px;
+    border-radius: 100%;
+    background-color: #D6D6D6;
+    &.online {
+      background-color: $color-sense
+    }
+    &.idle {
+      background-color: $color-shine
+    }
+  }
+}

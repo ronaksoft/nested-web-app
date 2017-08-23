@@ -6,11 +6,10 @@
     .controller('AppController', AppController);
 
   /** @ngInject */
-  function AppController($q, $scope, $window, $rootScope, $timeout, $state, $stateParams, $uibModalStack, $interval, $log, $injector,
-                         hotkeys, deviceDetector, NstSvcInteractionTracker,
+  function AppController( $scope, $window, $rootScope, $state, $stateParams, $interval,
+                         deviceDetector, NstSvcInteractionTracker,
                          NST_DEFAULT, NST_AUTH_EVENT, NST_SRV_EVENT, NST_NOTIFICATION_EVENT, NST_CONFIG,
-                         NstSvcServer, NstSvcAuth, NstSvcLogger, NstSvcI18n, NstSvcNotification, NstSvcNotificationFactory,
-                         NstObject) {
+                         NstSvcServer, NstSvcAuth, NstSvcLogger, NstSvcI18n, _, NstSvcNotificationFactory, $) {
     var vm = this;
     var eventReferences = [];
 
@@ -30,7 +29,6 @@
       || deviceDetector.os_version === 'windows-7'
       || deviceDetector.os_version === 'windows-8'
       || deviceDetector.os === 'linux' ) {
-        // $('.wdt-emoji-popup').addClass('notSupport');
         $('body').addClass('notSupportEmo');
     }
     $rootScope._track = trackBehaviour;
@@ -52,16 +50,16 @@
       NstSvcLogger.debug('AppController calls $digest to update passed times every 1 min.');
     }, 60 * 1000);
 
-    NstSvcServer.addEventListener(NST_SRV_EVENT.DISCONNECT, function (msg) {
+    NstSvcServer.addEventListener(NST_SRV_EVENT.DISCONNECT, function () {
       vm.disconnected = true;
     });
 
-    NstSvcServer.addEventListener(NST_SRV_EVENT.CONNECT, function (msg) {
+    NstSvcServer.addEventListener(NST_SRV_EVENT.CONNECT, function () {
       vm.disconnected = false;
       vm.showLoadingScreen = false;
     });
 
-    NstSvcServer.addEventListener(NST_SRV_EVENT.UNINITIALIZE, function (msg) {
+    NstSvcServer.addEventListener(NST_SRV_EVENT.UNINITIALIZE, function () {
       vm.disconnected = true;
     });
 
@@ -72,7 +70,7 @@
 
     });
 
-    eventReferences.push($rootScope.$on(NST_AUTH_EVENT.AUTHORIZE_FAIL, function (e, data) {
+    eventReferences.push($rootScope.$on(NST_AUTH_EVENT.AUTHORIZE_FAIL, function () {
       $state.go('public.signin');
     }));
 
@@ -88,7 +86,7 @@
       NstSvcNotificationFactory.markAsSeen(data.notificationId)
     }));
 
-    eventReferences.push($rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+    eventReferences.push($rootScope.$on('$stateChangeSuccess', function (event, toState, toParams) {
       toggleSidebar(toState, toParams);
     }));
 

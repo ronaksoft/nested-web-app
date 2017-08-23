@@ -63,7 +63,7 @@
 
   <p ng-if="!ctrl.isPersonalPlace"><translate>Members ({{ctrl.teammates.length}})</translate></p>
 
-  <div class="select-box2 _difh"
+  <div class="select-box _difh"
        ng-if="!ctrl.isPersonalPlace"
        ng-click="ctrl.showAddOrInviteMember()">
     <div class="add">
@@ -76,7 +76,7 @@
       <translate ng-if="!ctrl.isCreateGrandPlaceMode">Add Members</translate>
     </h4>
   </div>
-  <nst-place-member-item class="user-item"
+  <nst-place-member-item class="user-option-slider"
                          ng-if="!ctrl.isPersonalPlace"
                          data-ng-repeat="member in ctrl.teammates"
                          member="member"

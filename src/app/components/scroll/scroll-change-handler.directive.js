@@ -18,7 +18,7 @@
       },
       bindToController: true,
       controllerAs: 'ctlChange',
-      controller: function($scope) {
+      controller: function($scope, _, $) {
         var vm = this;
         var key = vm.handlerKey || 'body-scroll-change';
         var deregister = $scope.$on(key, function(data) {

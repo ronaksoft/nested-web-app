@@ -5,10 +5,10 @@
     .module('ronak.nested.web.components')
     .directive('fitText', fitText);
 
-  function fitText($timeout) {
+  function fitText() {
     return {
       restrict: 'A',
-      link: function (scope ,$element, attrs) {
+      link: function (scope ,$element) {
 
         function resizer() {
           var $quote = $element;

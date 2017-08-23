@@ -6,11 +6,8 @@
     .controller('filesPopoverComposeController', filesPopoverComposeController);
 
   /** @ngInject */
-  function filesPopoverComposeController($stateParams, toastr, $uibModal, $state, $timeout, $q, $scope, _,
-                           NST_PLACE_ACCESS, NST_ATTACHMENT_STATUS, NstSvcAttachmentMap,
-                           NstSvcFileFactory, NstSvcPlaceAccess, NstSvcModal,
-                           NstSvcTranslation, NstSvcAuth, NstSvcWait, NstSvcInteractionTracker,
-                           NstAttachment) {
+  function filesPopoverComposeController( toastr, $uibModal, $q, $scope, _,
+                           NstSvcFileFactory, NstSvcTranslation, $) {
     var vm = this;
     vm.loadMoreCounter = 0;
     vm.selectedFiles = [];
@@ -74,7 +71,7 @@
         vm.files.push.apply(vm.files, newFileItems);
         vm.loadFilesError = false;
         deferred.resolve();
-      }).catch(function (error) {
+      }).catch(function () {
         toastr.error(NstSvcTranslation.get('An error has occurred while retrieving files.'));
         vm.loadFilesError = true;
         deferred.reject();

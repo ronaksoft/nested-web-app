@@ -8,7 +8,7 @@
   function NstHttp($q, $http,
                    _,
                    NST_SRV_ERROR, NST_CONFIG, NST_REQ_STATUS, NST_RES_STATUS,
-                   NstSvcRandomize,
+                   NstSvcRandomize, $,
                    NstObservableObject, NstRequest, NstResponse) {
     function HTTP(route, data, settings) {
       this.route = (0 == route.indexOf('http')) ? route : (NST_CONFIG.REGISTER.AJAX.URL + route);
@@ -48,7 +48,7 @@
       var options = this.settings;
       options.params = data || this.data;
 
-      $http.get(this.route, options).success(function (data, status) {
+      $http.get(this.route, options).success(function (data) {
         me.setStatus(NST_RES_STATUS.SUCCESS);
         deferred.resolve(data.data);
       }).error(function (error) {

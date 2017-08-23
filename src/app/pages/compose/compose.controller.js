@@ -15,7 +15,7 @@
     .controller('ComposeController', ComposeController);
 
   /** @ngInject */
-  function ComposeController($q, $rootScope, $state, $stateParams, $scope, $log, $timeout, $uibModalStack, $window,
+  function ComposeController($q, $rootScope, $state, $stateParams, $scope, $log, $timeout, $uibModalStack,
                              _, toastr,
                              NST_SRV_ERROR, NST_PATTERN, NST_CONFIG, NST_DEFAULT, NST_ATTACHMENT_STATUS, NST_STORE_UPLOAD_TYPE,
                              NST_FILE_TYPE, SvcCardCtrlAffix,
@@ -23,15 +23,14 @@
                              NstSvcFileType, NstSvcAttachmentMap, NstSvcSidebar, NstSvcSystemConstants,
                              NstUtility, NstSvcTranslation, NstSvcModal, NstSvcPostDraft,
                              NstSvcUserFactory, NstSvcLogger, NstSvcAuth,
-                             NstTinyPlace, NstVmPlace, NstVmSelectTag, NstLocalResource, NstPicture,
-                             NstPostDraft, NstTinyUser, NstVmUser, NstPost) {
+                             NstTinyPlace, NstVmSelectTag, NstPicture,
+                             NstPostDraft, NstPost, $) {
     var vm = this;
     vm.quickMode = false;
     vm.focus = false;
     vm.collapse = false;
     vm.mouseIn = false;
     var eventReferences = [];
-    var discardCanceler = null;
     var systemConstants = {};
     vm.makeChangeForWatchers = 0;
     vm.clear = clear;
@@ -46,6 +45,11 @@
     vm.cmdVPress = false;
     vm.isRetinaDisplay = isRetinaDisplay();
     vm.targetLimit;
+    vm.translations = {
+      title1: NstSvcTranslation.get('Add a title'),
+      title2: NstSvcTranslation.get('Write your message or drag files here…'),
+      body: NstSvcTranslation.get('Type something...')
+    };
 
     vm.quickMode = vm.mode === 'quick';
 
@@ -70,7 +74,6 @@
       subject: '',
       body: '',
       forwardedFrom: null,
-      labels: [],
       replyTo: null,
       errors: [],
       modified: false,
@@ -126,10 +129,8 @@
 
     vm.place = undefined;
 
-    var isRTL = $rootScope._direction;
-    var lang = isRTL == 'rtl' ? 'fa' : 'en';
-
     (function () {
+
 
       /**
        * Add state params attachments to the model
@@ -147,7 +148,7 @@
         NstSvcLogger.debug4('Compose | compose is in quick mode');
         NstSvcLogger.debug4('Compose | insert place id as recipient in quick post');
         addRecipients($stateParams.placeId);
-        eventReferences.push($scope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+        eventReferences.push($scope.$on('$stateChangeStart', function (event, toState, toParams) {
           var confirm = _.size(_.trim(vm.model.subject)) > 0 || _.size(_.trim(vm.model.body)) || _.size(vm.model.attachments) > 0;
           if (confirm && !vm.finish) {
             event.preventDefault();
@@ -162,6 +163,13 @@
         }));
 
       } else {
+        /**
+         * Prevents from closing window
+         */
+        window.onbeforeunload = function () {
+          return "You have attempted to leave this page. Are you sure?";
+        };
+
         NstSvcLogger.debug4('Compose | compose is in modal');
         eventReferences.push($scope.$on('modal.closing', function (event) {
           if (shouldSaveDraft() && !vm.finish) {
@@ -241,7 +249,6 @@
       if (duplicates < 0 ) {
         toastr.warning(NstUtility.string.format(NstSvcTranslation.get('{0} item/s has been added before!'), duplicates * -1));
       }
-      // console.log(vm.model.attachments, vm.attachments.viewModels);
       vm.attachments.size.total += _.sum(_.map(attachments, 'size'));
       vm.attachments.size.uploaded += _.sum(_.map(attachments, 'size'));
     }
@@ -361,7 +368,7 @@
         e.preventDefault();
         vm.froalaOpts.froalaEditor('events.focus');
       }
-    };
+    }
 
 
     /**
@@ -424,18 +431,16 @@
 
 
       }).catch(function () {
-        NstSvcLogger.debug4('Compose | not recipients found');
         vm.search.results = [];
         var initPlace = new NstVmSelectTag({
           id: query,
           name: query
         });
 
-        if (initPlace.id)
+        if (initPlace.id) {
           vm.search.results.push(initPlace);
+        }
       });
-
-
     }
 
     /**
@@ -470,7 +475,7 @@
       }
 
       for (var i = 0; i < files.length; i++) {
-        vm.attachments.attach(files[i], type).then(function (request) {
+        vm.attachments.attach(files[i], type).then(function () {
         });
       }
       event.currentTarget.value = "";
@@ -503,7 +508,6 @@
         return;
       }
       var deferred = $q.defer();
-      var readyPromises = [];
 
       $log.debug('Compose | File Attach: ', file);
 
@@ -523,7 +527,6 @@
 
       reader.onload = function (event) {
         var uri = event.target.result;
-        var resource = new NstLocalResource(uri);
 
         // Load and Show Thumbnail
         if (NST_FILE_TYPE.IMAGE == type || NST_FILE_TYPE.GIF == type) {
@@ -540,7 +543,7 @@
       };
       reader.readAsDataURL(file);
 
-      qRead.promise.then(function (uri) {
+      qRead.promise.then(function () {
         var deferred = $q.defer();
 
         // Upload Attachment
@@ -730,7 +733,7 @@
             NstSvcLogger.debug4('Compose | Compose model is valid');
             vm.focus = false;
             vm.model.saving = true;
-            
+
             var postLabelsIds = vm.model.labels.map(function(i){
               return i.id
             })
@@ -1087,21 +1090,20 @@
       charCounterCount: false,
       tabSpaces: 4,
       toolbarBottom: true,
-      placeholderText: 'Type something...',
+      placeholderText: vm.translations.body,
       pluginsEnabled: ['colors', 'fontSize', 'fontFamily', 'link', 'url', 'wordPaste', 'lists', 'align', 'codeBeautifier'],
       fontSize: ['8', '10', '14', '18', '22'],
       toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'fontSize', '|', 'color', 'align', 'formatOL', 'formatUL', 'insertLink', '|', 'rightToLeft', 'leftToRight'],
       events: {
-        'froalaEditor.initialized': function (e, editor) {
-          // $(editor.$el).attr('spellcheck', 'false');
+        'froalaEditor.initialized': function () {
         },
-        'froalaEditor.focus': function (e, editor) {
+        'froalaEditor.focus': function () {
           vm.focusBody = true;
           vm.emojiTarget = 'body';
           vm.focus = true;
           vm.collapse = true;
         },
-        'froalaEditor.blur': function (e, editor) {
+        'froalaEditor.blur': function () {
           vm.focusBody = false;
         },
         'froalaEditor.keydown': function (e, editor, je) {
@@ -1141,7 +1143,7 @@
       return NstSvcPlaceFactory.get(id).catch(function (error) {
         var deferred = $q.defer();
 
-        switch (error.getPrevious().getCode()) {
+        switch (error.code) {
           case NST_SRV_ERROR.TIMEOUT:
             // Keep Retrying
             deferred.reject.apply(null, arguments);
@@ -1186,17 +1188,12 @@
           attachment.cancelUpload();
           resolve(attachment);
         } else { // the store is uploaded and it should be removed from server
-          NstSvcAttachmentFactory.remove(attachment.id).then(function (result) {
+          NstSvcAttachmentFactory.remove(attachment.id).then(function () {
             resolve(attachment);
           }).catch(reject);
         }
       }).then(function (attachment) {
         $scope.compose.post.removeAttachment(attachment);
-        $timeout(function () {
-          if ($scope.compose.post.attachments.length === 0) {
-            $scope.showUploadProgress = false;
-          }
-        });
       });
     };
 
@@ -1244,7 +1241,7 @@
       vm.model.body = '';
       vm.model.forwardedFrom = null;
       vm.model.replyTo = null;
-      discardCanceler = $timeout(function () {
+      $timeout(function () {
         vm.focus = false;
       }, 512);
     }
@@ -1262,7 +1259,7 @@
       var dt = event.dataTransfer;
       var files = dt.files;
       for (var i = 0; i < files.length; i++) {
-        vm.attachments.attach(files[i]).then(function (request) {
+        vm.attachments.attach(files[i]).then(function () {
         });
       }
 
@@ -1292,6 +1289,7 @@
 
     // $('.wdt-emoji-popup.open').removeClass('open');
     $scope.$on('$destroy', function () {
+      window.onbeforeunload = null;
       $('.wdt-emoji-popup.open').removeClass('open');
       NstSvcLogger.debug4('Compose | Compose id destroyed :');
       NstSvcSidebar.removeOnItemClick();

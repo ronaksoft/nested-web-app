@@ -5,13 +5,13 @@
     .module('ronak.nested.web.components.date')
     .directive('changeUpDownPress', changeUpDownPress);
 
-  function changeUpDownPress() {
+  function changeUpDownPress(_) {
     return {
       restrict: 'A',
       scope: {
-        ngModel: '=',
+        ngModel: '='
       },
-      link: function(scope, element, attrs) {
+      link: function(scope, element) {
         element.bind('keydown', function(e) {
           if (_.includes([38, 40], e.keyCode)) {
             e.preventDefault();

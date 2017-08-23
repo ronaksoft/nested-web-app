@@ -1,5 +1,5 @@
 <div class="manage-label" manage-label-scroll>
-  <div class="labels-headline _aic">
+  <div class="labels-manage-header _aic">
     <svg class="_24svg _df _r45 _fn" ng-click="$dismiss();">
       <use xlink:href="/assets/icons/nst-icn24.svg#cross"></use>
     </svg>
@@ -9,7 +9,7 @@
     </h3>
   </div>
   <div class="_df _fw _aic">
-    <div class="lbl-search">
+    <div class="search-label">
       <i>
         <svg class="_16svg mirror _fn">
           <use xlink:href="/assets/icons/nst-icn16.svg#search"></use>
@@ -17,19 +17,19 @@
       </i>
       <input ng-keyup="ctrl.searchKeyUp()" ng-model="ctrl.keyword" type="text" placeholder="Find Labels" translate-attrs="placeholder">
     </div>
-    <div ng-if="ctrl.labelManager && ctrl.selectedItems.length == 0" ng-click="ctrl.createLabel()" class="lbl-cr8" >
+    <div ng-if="ctrl.labelManager && ctrl.selectedItems.length == 0" ng-click="ctrl.createLabel()" class="label-create-butn" >
       <a><translate>New Label</translate></a>
       <svg class="_16svg _df _fn">
         <use xlink:href="/assets/icons/nst-icn16.svg#cross"></use>' +
       </svg>
     </div>
-    <div ng-if="!ctrl.labelManager && ctrl.selectedItems.length == 0" ng-click="ctrl.requestLabel()"  class="lbl-cr8" >
+    <div ng-if="!ctrl.labelManager && ctrl.selectedItems.length == 0" ng-click="ctrl.requestLabel()"  class="label-create-butn" >
       <a><translate>Request a Label</translate></a>
       <svg class="_16svg _df _fn">
         <use xlink:href="/assets/icons/nst-icn16.svg#cross"></use>' +
       </svg>
     </div>
-    <div ng-if="ctrl.labelManager && ctrl.selectedItems.length > 0" ng-click="ctrl.removeSelectedLabels()"  class="lbl-remove" >
+    <div ng-if="ctrl.labelManager && ctrl.selectedItems.length > 0" ng-click="ctrl.removeSelectedLabels()"  class="label-remove-butn" >
       <a><translate>Remove Label{{ctrl.selectedItems.length > 1 ? 's' : ''}} ({{ctrl.selectedItems.length | localize}})</translate></a>
       <svg class="_16svg _df _fn force">
         <use xlink:href="/assets/icons/nst-icn16.svg#bin"></use>' +
@@ -97,7 +97,7 @@
         </div>
       </div>
       <div class="label-details">
-        <span>{{label.title | scapeRevSpace}}</span>
+        <span ng-click="ctrl.searchThis(label.title)">{{label.title | scapeRevSpace}}</span>
       </div>
       <div class="usage">
         <svg class="_16svg _df _fn color-lbl-{{label.code}}">

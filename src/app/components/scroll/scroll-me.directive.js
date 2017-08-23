@@ -5,7 +5,7 @@
     .module('ronak.nested.web.components.scroll')
     .directive('scrollMe', ScrollMe);
 
-  function ScrollMe($timeout) {
+  function ScrollMe($timeout, $) {
     return {
       restrict: 'A',
       link: function (scope ,element, attrs) {

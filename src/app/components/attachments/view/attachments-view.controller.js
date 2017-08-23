@@ -5,7 +5,7 @@
     .module('ronak.nested.web.components.attachment')
     .controller('AttachmentsViewController', AttachmentsViewController);
 
-  function AttachmentsViewController($scope, $uibModal) {
+  function AttachmentsViewController($scope, $uibModal, _, $) {
     var vm = this;
     var eventReferences = [];
 

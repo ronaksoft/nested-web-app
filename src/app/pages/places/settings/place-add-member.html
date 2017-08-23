@@ -1,4 +1,4 @@
-<div id="add-view" class="_difv _fw">
+<div class="_difv _fw add-member-modal">
   <h4>
     <div class="_df" ng-click="$dismiss();">
       <svg class="_24svg _fn">
@@ -8,7 +8,7 @@
     <translate data-ng-if="!addMemberCtrl.isGrandPlace">Add Members</translate>
     <translate data-ng-if="addMemberCtrl.isGrandPlace">Invite new Members</translate>
   </h4>
-  <ui-select multiple class="modal-add-input _df"
+  <ui-select multiple class="add-user-modal-input _df"
     data-ng-model="addMemberCtrl.selectedUsers" limit="{{addMemberCtrl.limit}}"
     autofocus="true" always-show-list on-select="addMemberCtrl.search('')">
     <ui-select-match placeholder="{{::addMemberCtrl.searchPlaceholder}}">

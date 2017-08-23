@@ -7,11 +7,12 @@
 
   /** @ngInject */
   function NstSvcLabelFactory($q,
-    NstBaseFactory, NstSvcServer, NstSvcUserFactory,
-    NstLabel, NstLabelRequest,
-    NST_LABEL_SEARCH_FILTER) {
+                              NstBaseFactory, NstSvcServer, NstSvcUserFactory, NstCollector,
+                              NstLabel, NstLabelRequest,
+                              NST_LABEL_SEARCH_FILTER, _) {
 
     function LabelFactory() {
+      this.collector = new NstCollector('label', this.getMany);
     }
 
     LabelFactory.prototype = new NstBaseFactory();
@@ -44,7 +45,7 @@
         } else {
           delete model.label;
         }
-        model.user =  NstSvcUserFactory.parseTinyUser(data.requester);
+        model.user = NstSvcUserFactory.parseTinyUser(data.requester);
         model.title = data.title;
         model.code = data.code;
       }
@@ -61,7 +62,7 @@
         return NstSvcServer.request('label/create', {
           title: title,
           code: code,
-          is_public: isPublic,
+          is_public: isPublic
         }).then(function (result) {
           var label = new NstLabel();
 
@@ -80,7 +81,7 @@
         return NstSvcServer.request('label/update', {
           label_id: id,
           title: title,
-          code: code,
+          code: code
         });
       }, 'update-' + id);
     };
@@ -88,7 +89,7 @@
     LabelFactory.prototype.remove = function (id) {
       return this.sentinel.watch(function () {
         return NstSvcServer.request('label/remove', {
-          label_id: id,
+          label_id: id
         });
       }, 'remove-' + id);
     };
@@ -101,7 +102,7 @@
           filter: filter || NST_LABEL_SEARCH_FILTER.ALL,
           skip: skip || 0,
           limit: limit || 10,
-          details: true,
+          details: true
         }).then(function (result) {
           return $q.resolve(_.map(result.labels, that.parse));
         });
@@ -125,7 +126,7 @@
         return NstSvcServer.request('label/request', {
           label_id: id,
           title: title,
-          code: code,
+          code: code
         });
       }, 'request-' + (id || title));
     };
@@ -134,7 +135,7 @@
       return this.sentinel.watch(function () {
         return NstSvcServer.request('label/update_request', {
           request_id: id,
-          status: status,
+          status: status
         });
       }, 'request-update' + id + status);
     };
@@ -142,18 +143,18 @@
     LabelFactory.prototype.cancelRequest = function (id) {
       return this.sentinel.watch(function () {
         return NstSvcServer.request('label/remove_request', {
-          request_id: id,
+          request_id: id
         });
       }, 'remove-request' + id + status);
     };
 
     LabelFactory.prototype.getMembers = function (labelId, skip, limit) {
-      var that= this;
+      var that = this;
       return this.sentinel.watch(function () {
         return NstSvcServer.request('label/get_members', {
           label_id: labelId,
           skip: skip || 0,
-          limit: limit || 10,
+          limit: limit || 10
         }).then(function (result) {
           return $q.resolve(_.map(result.members, that.parseMember));
         });
@@ -164,7 +165,7 @@
       return this.sentinel.watch(function () {
         return NstSvcServer.request('label/add_member', {
           label_id: labelId,
-          account_id: accountId,
+          account_id: accountId
         });
       }, 'add-member-' + labelId + '-' + accountId);
     };
@@ -173,23 +174,56 @@
       return this.sentinel.watch(function () {
         return NstSvcServer.request('label/remove_member', {
           label_id: labelId,
-          account_id: accountId,
+          account_id: accountId
         });
       }, 'remove-member-' + labelId + '-' + accountId);
     };
 
-    LabelFactory.prototype.getMany = function (id) {
-      return this.sentinel.watch(function () {
-        return NstSvcServer.request('label/get_many', {
-          label_id: id,
+    LabelFactory.prototype.getMany = function (ids) {
+      var defer = $q.defer();
+      var joinedIds = ids.join(',');
+      if (!joinedIds) {
+        defer.reject(null);
+      } else {
+        NstSvcServer.request('label/get_many', {
+          label_id: joinedIds
         }).then(function (data) {
-          if (id.indexOf(',') === -1) {
-            return $q.resolve(data.labels[0]);
-          }
 
-          return $q.resolve(data.labels);
-        });
-      }, 'getMany' + id);
+          var not_access = _.differenceWith(ids, data.labels, function (i, b) {
+            return i === b._id;
+          });
+
+          defer.resolve({
+            idKey: '_id',
+            resolves: data.labels,
+            rejects: not_access
+          });
+        }).catch(defer.reject);
+      }
+      return defer.promise;
+    };
+
+    LabelFactory.prototype.get = function (id) {
+      var deferred = $q.defer();
+      var factory = this;
+      this.collector.add(id).then(function (data) {
+        var label = factory.parse(data);
+        deferred.resolve(label);
+      }).catch(function (error) {
+        deferred.reject(error);
+      });
+
+      return deferred.promise;
+      // var factory = this;
+      // return this.sentinel.watch(function () {
+      //   return NstSvcServer.request('label/get_many', {
+      //     label_id: id
+      //   }).then(function (result) {
+      //     return $q.resolve(factory.parse(result.labels[0]));
+      //   }).catch(function () {
+      //     return null;
+      //   });
+      // }, 'get-label-' + id);
     };
 
     return new LabelFactory();

@@ -6,7 +6,7 @@
     .factory('NstSearchQuery', NstSearchQuery);
 
   /** @ngInject */
-  function NstSearchQuery(NstObject, NST_SEARCH_QUERY_PREFIX, $window) {
+  function NstSearchQuery(NstObject, NST_SEARCH_QUERY_PREFIX, _) {
     var QUERY_SEPARATOR = ' ';
     /**
      * Creates an instance of NstSearchQuery
@@ -41,16 +41,19 @@
 
       var that = this;
 
+      var order = 0;
+
       _.forEach(words, function (word) {
+        order++;
         if (_.startsWith(word, that.prefixes.place)) {
-          this.addPlace(_.trimStart(word, that.prefixes.place));
+          this.addPlace(_.replace(word, that.prefixes.place, ''), order);
         } else if (_.startsWith(word, that.prefixes.user)) {
-          this.addUser(_.trimStart(word, that.prefixes.user));
+          this.addUser(_.replace(word, that.prefixes.user, ''), order);
         } else if (_.startsWith(word, that.prefixes.label)) {
-          this.addLabel(_.trim(_.trimStart(word, that.prefixes.label), '"'));
+          this.addLabel(_.trim(_.replace(word, that.prefixes.label, ''), '"'), order);
         } else {
           if (word.length > 0) {
-            this.addOtherKeyword(word);
+            this.addOtherKeyword(word, order);
           }
         }
       }.bind(this));
@@ -61,81 +64,106 @@
     SearchQuery.prototype = new NstObject();
     SearchQuery.prototype.constructor = SearchQuery;
 
-    SearchQuery.prototype.toString = function (scape) {
-      if (scape == null) {
-        scape = true;
-      }
-      var that = this;
-      var items = _.concat(
-        _.map(this.places, function (place) {
-          return that.prefixes.place + place;
-        }),
-        _.map(this.users, function (user) {
-          return that.prefixes.user + user;
-        }),
-        _.map(this.labels, function (label) {
-          return that.prefixes.label + '"' + label + '"';
-        }),
-        this.otherKeywords);
+    SearchQuery.prototype.toString = function () {
+      var items = this.getSortedParams();
+      var stringList = [];
 
-      return _.join(items, QUERY_SEPARATOR);
-    }
+      for (var i = 0; i < items.length; i++) {
+        if (items[i].type === 'place') {
+          stringList.push(this.prefixes.place + items[i].id);
+        } else if (items[i].type === 'user') {
+          stringList.push(this.prefixes.user + items[i].id);
+        } else if (items[i].type === 'label') {
+          stringList.push(this.prefixes.label + '"' + items[i].id + '"');
+        } else {
+          stringList.push(items[i].id);
+        }
+      }
+
+      return _.join(stringList, QUERY_SEPARATOR);
+    };
 
     SearchQuery.prototype.ToEncodeString = function () {
       return encodeURIComponent(this.toString());
-    }
+    };
 
-    SearchQuery.prototype.addPlace = function (place) {
-      if (!_.includes(this.places, place)) {
-        this.places.push(place);
+    SearchQuery.prototype.addPlace = function (place, order) {
+      if (order === null) {
+        order = 0;
+      }
+      if (!_.find(this.places, {id: place})) {
+        this.places.push({
+          id: place,
+          order: order
+        });
       }
     };
 
     SearchQuery.prototype.removePlace = function (place) {
       _.remove(this.places, function (item) {
-        return place === item;
+        return place === item.id;
       });
     };
 
     SearchQuery.prototype.getDefaultPlaceId = function () {
       if (this.places.length > 0){
-        return this.places[0];
+        return this.places[0].id;
       } else {
         return null;
       }
     };
 
-    SearchQuery.prototype.addUser = function (user) {
-      if (!_.includes(this.users, user)) {
-        this.users.push(user);
+    SearchQuery.prototype.addUser = function (user, order) {
+      if (order === null) {
+        order = 0;
+      }
+      if (!_.find(this.users, {id: user})) {
+        this.users.push({
+          id: user,
+          order: order
+        });
       }
     };
 
     SearchQuery.prototype.removeUser = function (user) {
       _.remove(this.users, function (item) {
-        return user === item;
+        return user === item.id;
       });
     };
 
-    SearchQuery.prototype.addLabel = function (label) {
-      if (!_.includes(this.labels, label)) {
-        this.labels.push(label);
+    SearchQuery.prototype.addLabel = function (label, order) {
+      if (order === null) {
+        order = 0;
+      }
+      if (!_.find(this.labels, {id: label})) {
+        this.labels.push({
+          id: label,
+          order: order
+        });
       }
     };
 
     SearchQuery.prototype.removeLabel = function (label) {
       _.remove(this.labels, function (item) {
-        return label === item;
+        return label === item.id;
       });
     };
 
-    SearchQuery.prototype.addOtherKeyword = function (keyword) {
-      this.otherKeywords.push(keyword);
+    SearchQuery.prototype.addOtherKeyword = function (keyword, order) {
+      if (order === null) {
+        order = 0;
+      }
+      if (!_.find(this.otherKeywords, {id: keyword})) {
+        this.otherKeywords.push({
+          id: keyword,
+          order: order
+        });
+      }
     };
 
     SearchQuery.prototype.removeKeyword = function (keyword) {
       _.remove(this.otherKeywords, function (item) {
-        return keyword === item;
+        return keyword === item.id;
       });
     };
 
@@ -145,11 +173,82 @@
 
     SearchQuery.prototype.getSearchParams = function () {
       return {
-        places: this.places,
-        users: this.users,
-        labels: this.labels,
-        keywords: this.otherKeywords
+        places: _.map(this.places, function (item) {
+          return item.id;
+        }),
+        users: _.map(this.users, function (item) {
+          return item.id;
+        }),
+        labels: _.map(this.labels, function (item) {
+          return item.id;
+        }),
+        keywords: _.map(this.otherKeywords, function (item) {
+          return item.id;
+        })
       };
+    };
+
+    SearchQuery.prototype.getSortedParams = function () {
+      var tempList = [];
+      var i;
+      for (i = 0; i < this.places.length; i++) {
+        tempList.push({
+          id: this.places[i].id,
+          order: this.places[i].order,
+          type: 'place'
+        });
+      }
+
+      for (i = 0; i < this.users.length; i++) {
+        tempList.push({
+          id: this.users[i].id,
+          order: this.users[i].order,
+          type: 'user'
+        });
+      }
+
+      for (i = 0; i < this.labels.length; i++) {
+        tempList.push({
+          id: this.labels[i].id,
+          order: this.labels[i].order,
+          type: 'label'
+        });
+      }
+
+      for (i = 0; i < this.otherKeywords.length; i++) {
+        tempList.push({
+          id: this.otherKeywords[i].id,
+          order: this.otherKeywords[i].order,
+          type: 'keyword'
+        });
+      }
+
+      tempList.sort(function (a, b) {
+        return (a.order < b.order ? -1 : 1);
+      });
+
+      return tempList;
+    };
+
+    SearchQuery.prototype.removeLastItem = function () {
+      var items = this.getSortedParams();
+      if (items.length > 0) {
+        var item = items[items.length - 1];
+        switch (item.type) {
+          case 'place':
+            this.removePlace(item.id);
+            break;
+          case 'user':
+            this.removeUser(item.id);
+            break;
+          case 'label':
+            this.removeLabel(item.id);
+            break;
+          case 'keyword':
+            this.removeKeyword(item.id);
+            break;
+        }
+      }
     };
 
     return SearchQuery;

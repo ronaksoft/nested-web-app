@@ -1,3 +1,5 @@
+/* jshint ignore:start */
+/* eslint-disable */
 /*!
  @package wdt-emoji-bundle - Slack like emoji selector with apple, twitter, google, emojione and custom emoji support.
  @version version: 0.2.0
@@ -17,7 +19,10 @@
   }
 })(this, function (EmojiConvertor) {
   var wdtEmojiBundle = {};
-  wdtEmojiBundle.fadeOut = [];
+  wdtEmojiBundle.eventListeners = {
+    fadeOut : [],
+    resize : []
+  };
   wdtEmojiBundle.defaults = {
     pickerColors : ['green', 'pink', 'yellow', 'blue', 'gray'],
     textMode     : true,
@@ -265,15 +270,15 @@
 
       setTimeout(function(){
         document.addEventListener("click", fadeOut);
-        wdtEmojiBundle.fadeOut.push(fadeOut);
+        wdtEmojiBundle.eventListeners.fadeOut.push(fadeOut);
       },100)
        function fadeOut (event) {
         if ( event.pageX > suitLeft && event.pageY > suitTop && event.pageY < popupRect.height + suitTop && event.pageX < popupRect.width + suitLeft ) {
         } else {
-          for ( var i = 0; i < wdtEmojiBundle.fadeOut.length; i++ ) {
-            document.removeEventListener("click", wdtEmojiBundle.fadeOut[i]);
+          for ( var i = 0; i < wdtEmojiBundle.eventListeners.fadeOut.length; i++ ) {
+            document.removeEventListener("click", wdtEmojiBundle.eventListeners.fadeOut[i]);
           }
-          wdtEmojiBundle.fadeOut = []
+          wdtEmojiBundle.eventListeners.fadeOut = [];
 
           wdtEmojiBundle.close();
         }
@@ -296,9 +301,12 @@
     }
 
     // On window resized
-    window.addEventListener('resize', function(new_event){
+    window.addEventListener('resize', resizeWin);
+
+    function resizeWin(){
       css(wdtEmojiBundle.popup, findBestAvailablePosition(ev.target));
-    });
+    }
+    wdtEmojiBundle.eventListeners.resize.push(resizeWin);
 
     // fill with emoji
     wdtEmojiBundle.fillPickerPopup();
@@ -327,7 +335,7 @@
     } else {
       selector = '.fr-element'
     }
-    wdtEmojiBundle.input = $('.compose-wrp')[0].querySelector(selector);
+    wdtEmojiBundle.input = $('.compose-wrapper')[0].querySelector(selector);
 
     // @todo - [needim] - popup must be visible in viewport calculate carefully
     function findBestAvailablePosition(el) {
@@ -352,15 +360,15 @@
       pos.top += 'px';
       setTimeout(function(){
         document.addEventListener("click", fadeOut);
-        wdtEmojiBundle.fadeOut.push(fadeOut);
+        wdtEmojiBundle.eventListeners.fadeOut.push(fadeOut);
       },100)
        function fadeOut (event) {
         if ( event.pageX > suitLeft && event.pageY > suitTop && event.pageY < popupRect.height + suitTop && event.pageX < popupRect.width + suitLeft ) {
         } else {
-          for ( var i = 0; i < wdtEmojiBundle.fadeOut.length; i++ ) {
-            document.removeEventListener("click", wdtEmojiBundle.fadeOut[i]);
+          for ( var i = 0; i < wdtEmojiBundle.eventListeners.fadeOut.length; i++ ) {
+            document.removeEventListener("click", wdtEmojiBundle.eventListeners.fadeOut[i]);
           }
-          wdtEmojiBundle.fadeOut = []
+          wdtEmojiBundle.eventListeners.fadeOut = []
 
           wdtEmojiBundle.close();
         }
@@ -385,15 +393,19 @@
     css(wdtEmojiBundle.popup, findBestAvailablePosition(ev.target));
 
     // On window resized
-    window.addEventListener('resize', function(new_event){
+    window.addEventListener('resize', resizeWin);
+
+    function resizeWin(){
+      console.log('111');
       css(wdtEmojiBundle.popup, findBestAvailablePosition(ev.target));
-    });
+    }
+    wdtEmojiBundle.eventListeners.resize.push(resizeWin);
 
     wdtEmojiBundle.popup.classList.add('open');
 
     // fill with emoji
     wdtEmojiBundle.fillPickerPopup();
-    
+
 
     wdtEmojiBundle.closePickers();
     // addClass(this, 'wdt-emoji-picker-open');
@@ -610,6 +622,10 @@
       for (var i = 0; i < openPickers.length; i++) {
         wdtEmojiBundle.closePicker(openPickers[i]);
       }
+      for ( var i = 0; i < wdtEmojiBundle.eventListeners.resize.length; i++ ) {
+        document.removeEventListener("resize", wdtEmojiBundle.eventListeners.resize[i]);
+      }
+      wdtEmojiBundle.eventListeners.resize = [];
     }
   };
 
@@ -659,15 +675,15 @@
       // bind input
       replaceText(wdtEmojiBundle.input, selection, wdtEmojiBundle.render(this.dataset.wdtEmojiShortname));
       wdtEmojiBundle.fillRecent();
-      // Show in 
+      // Show in
       fire('select', {el: wdtEmojiBundle.input, event: event, emoji: this.dataset.wdtEmojiShortname});
 
       var ce = document.createEvent('Event');
       ce.initEvent('input', true, true);
       wdtEmojiBundle.input.dispatchEvent(ce);
       // wdtEmojiBundle.close();
-      // for ( var i = 0; i < wdtEmojiBundle.fadeOut.length; i++ ) {
-      //   document.removeEventListener("click", wdtEmojiBundle.fadeOut[i]);
+      // for ( var i = 0; i < wdtEmojiBundle.eventListeners.length; i++ ) {
+      //   document.removeEventListener("click", wdtEmojiBundle.eventListeners[i]);
       // }
       fire('afterSelect', {el: wdtEmojiBundle.input, event: event, emoji: ':' + this.dataset.wdtEmojiShortname + ':'});
 
@@ -1165,7 +1181,7 @@
       } else {
         $(selection.element).text(nVal);
       }
-      
+
       var range = document.createRange();
       range.setStart(selection.element, selection.start + emo.length);
       range.setEnd(selection.element, selection.end + emo.length);

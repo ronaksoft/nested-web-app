@@ -18,28 +18,28 @@
   /** @ngInject */
   /**
    * A component that displays the recent activities
-   * 
-   * @param {any} $q 
-   * @param {any} _ 
-   * @param {any} $rootScope 
-   * @param {any} $scope 
-   * @param {any} $state 
-   * @param {any} $stateParams 
-   * @param {any} NstSvcActivityFactory 
-   * @param {any} NstSvcActivityMap 
-   * @param {any} NstSvcServer 
-   * @param {any} NstSvcLogger 
-   * @param {any} NstSvcWait 
-   * @param {any} NstSvcPlaceFactory 
-   * @param {any} NST_ACTIVITY_FACTORY_EVENT 
-   * @param {any} NST_PLACE_ACCESS 
-   * @param {any} NstSvcSync 
-   * @param {any} NST_SRV_EVENT 
-   * @param {any} NST_EVENT_ACTION 
+   *
+   * @param {any} $q
+   * @param {any} _
+   * @param {any} $rootScope
+   * @param {any} $scope
+   * @param {any} $state
+   * @param {any} $stateParams
+   * @param {any} NstSvcActivityFactory
+   * @param {any} NstSvcActivityMap
+   * @param {any} NstSvcServer
+   * @param {any} NstSvcLogger
+   * @param {any} NstSvcWait
+   * @param {any} NstSvcPlaceFactory
+   * @param {any} NST_ACTIVITY_FACTORY_EVENT
+   * @param {any} NST_PLACE_ACCESS
+   * @param {any} NstSvcSync
+   * @param {any} NST_SRV_EVENT
+   * @param {any} NST_EVENT_ACTION
    */
   function RecentActivityController($q, _, $rootScope, $scope, $state, $stateParams,
-    NstSvcActivityFactory, NstSvcActivityMap, NstSvcServer, NstSvcLogger, NstSvcWait,
-    NstSvcPlaceFactory, NST_ACTIVITY_FACTORY_EVENT, NST_PLACE_ACCESS, NstSvcSync, NST_SRV_EVENT, NST_EVENT_ACTION) {
+    NstSvcActivityFactory, NstSvcServer, NstSvcLogger, NstSvcWait,
+    NstSvcPlaceFactory, NST_PLACE_ACCESS, NST_SRV_EVENT, NST_EVENT_ACTION) {
     var vm = this;
     var eventReferences = [];
     vm.activities = [];
@@ -49,7 +49,7 @@
     };
     vm.settings = {
       limit: vm.count || 10,
-      placeId: $stateParams.placeId,
+      placeId: $stateParams.placeId
     };
 
 
@@ -94,9 +94,9 @@
     }
     /**
      * Retrieves and binds the recent activities
-     * 
-     * @param {any} settings 
-     * @returns 
+     *
+     * @param {any} settings
+     * @returns
      */
     function getRecentActivity(settings) {
 
@@ -107,7 +107,7 @@
         vm.status.loadInProgress = false;
 
         defer.resolve(vm.activities);
-      }).catch(function (error) {
+      }).catch(function () {
         vm.status.loadInProgress = false;
       });
 
@@ -116,8 +116,8 @@
 
     /**
      * Insert a hot activity
-     * 
-     * @param {any} activity 
+     *
+     * @param {any} activity
      */
     function addNewActivity(activity) {
       if (!_.some(vm.activities, { id : activity.id })) {
@@ -141,9 +141,9 @@
     /**
      * An activity belongs to the place when either both Ids are the same or the activity
      * represents a new post and the post has been sent to the place
-     * 
-     * @param {any} activity 
-     * @returns 
+     *
+     * @param {any} activity
+     * @returns
      */
     function activityBelongsToPlace(activity) {
       if (activity.place) {

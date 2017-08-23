@@ -3,7 +3,7 @@
 
   angular
     .module('ronak.nested.web.components')
-    .directive('initialAvatar', function () {
+    .directive('initialAvatar', function ($) {
       return {
         scope: {
           initialAvatar : '@',
@@ -14,11 +14,11 @@
         },
         link: function ($scope, $element,$attrs) {
           initialize($scope.initialAvatar,$scope.name,$scope.picture);
-          var watcher = $scope.$watchGroup(["initialAvatar", "name", "picture"], function (newValues, oldValues) {
+          var watcher = $scope.$watchGroup(["initialAvatar", "name", "picture"], function (newValues) {
             initialize(newValues[0],newValues[1], newValues[2]);
           });
 
-          
+
           function initialize(id, name, picture) {
             var abbr,finalColor;
             if( name ) {
@@ -27,7 +27,7 @@
               abbr = 'U';
             }
 
-            var c = abbr.toUpperCase(); 
+            var c = abbr.toUpperCase();
             var colors = ["#F44336", "#E91E63", "#9C27B0", "#673AB7", "#3F51B5", "#2196F3", "#03A9F4", "#00BCD4", "#009688", "#4CAF50", "#8BC34A", "#CDDC39", "#FFEB3B", "#FF9800", "#FF5722", "#607D8B"];
             var settings = {
               // Default settings
@@ -40,7 +40,7 @@
               fontFamily: 'HelveticaNeue-Light,Helvetica Neue Light,Helvetica Neue,Helvetica, Arial,Lucida Grande, sans-serif',
               radius: $attrs.radius || 0
             };
-            
+
             var cobj = $('<text text-anchor="middle"></text>').attr({
                 'y': '50%',
                 'x': '50%',
@@ -50,7 +50,7 @@
                 'font-family': settings.fontFamily
             }).html(c).css({
                 'font-weight': settings.fontWeight,
-                'font-size': settings.fontSize +'px',
+                'font-size': settings.fontSize +'px'
             });
 
             var colorIndex = getIndexStr(id);

@@ -5,11 +5,10 @@
     .directive('selectable', selectable);
 
   /** @ngInject */
-  function selectable() {
+  function selectable($) {
     return {
       restrict: 'A',
-      link : function (scope ,element, attrs) {
-        var el = angular.element(element);
+      link : function (scope ,element) {
         $(element).click(function () {
           $(element).toggleClass('selected');
         });

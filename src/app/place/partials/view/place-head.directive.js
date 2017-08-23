@@ -19,7 +19,7 @@
       },
       replace: true,
       templateUrl : 'app/place/partials/view/place-head.html',
-      link: function (scope,ele,att) {
+      link: function (scope) {
 
         scope.settings = scope.env == 'settings';
         scope.contact = scope.env == 'contact';

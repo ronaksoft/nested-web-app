@@ -9,7 +9,7 @@
   function mailResizer($timeout) {
     return {
       restrict: 'A',
-      link: function (scope, elem, attrs) {
+      link: function (scope, elem) {
         elem.css({'display': 'table'});
         elem.css({'width': '100%'});
 
@@ -44,8 +44,6 @@
 
             });
 
-
-            // elem.css({'transform': 'scale(' + ratio +',' + ratio + '','font-size': fontRatio + '%','line-height': fontRatio + '%'});
             elem.css({
               'transform': 'scale(' + ratio + ',' + ratio + ')'
               , '-moz-transform': 'scale(' + ratio + ',' + ratio + ')'

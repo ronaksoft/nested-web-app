@@ -6,47 +6,54 @@
 <ul ng-if="internalMode == 'thumbnail'" class="thumbnail-bar">
   <li ng-repeat="item in items">
     <a href="javascript:void(0);" ng-click="onClick(item);$event.stopPropagation()" ng-if="item.type === 'image' || item.type === 'gif' || ( item.type === 'video' && item.uploadType !== 'FILE' )">
-      <img class="attach-thumbnail-img" alt=""
-        style="background: url({{item.picture.getUrl('x128')}});background-size: cover; height: 96px;position: relative;top: 4px; width: {{ (item.width / item.height * 96) }}px"/>
-        <span class="playbtn" ng-if="item.type === 'gif'">
-          <svg class="_24svg">
-            <use xlink:href="/assets/icons/nst-icn24.svg#infinity"></use>
-          </svg>
-        </span>
-        <span class="playbtn" ng-if="item.type === 'video'">
-          <svg class="_24svg">
-            <use xlink:href="/assets/icons/nst-icn24.svg#play"></use>
-          </svg>
-        </span>
+      <div class="attach-thumbnail-img" alt=""
+        style="background: url({{item.picture.getUrl('x128')}});background-size: cover; height: 96px;position: relative;top: 4px; width: {{ (item.width / item.height * 96) }}px"></div>
+      <span class="gif-sign" ng-if="item.type === 'gif'">
+        GIF
+      </span>
+      <span class="playbtn" ng-if="item.type === 'video'">
+        <svg class="_24svg mirror">
+          <use xlink:href="/assets/icons/nst-icn24.svg#play"></use>
+        </svg>
+      </span>
     </a>
     <a href="javascript:void(0);" ng-click="onClick(item);$event.stopPropagation()" ng-if="item.type !== 'image' && item.type !== 'gif' && item.uploadType === 'FILE'">
       <div class="attach-thumbnail {{'attach-thumbnail-' + item.type}}">
         <div class="file-name"><p>{{item.filename}}</p></div>
-        <div class="detail">
-          <p>{{item.extension | uppercase}}</p>
-          <span class="attsize">{{item.size | bytes:2}}</span>
-        </div>
+        <div class="file-extention">{{item.extension | uppercase}}</div>
+        <div class="file-detail"><span class="attsize">{{item.size | bytes:2}}</span></div>
       </div>
     </a>
     <a href="javascript:void(0);" ng-click="onClick(item);$event.stopPropagation()" ng-if="item.type !== 'image' && item.type !== 'gif' && item.uploadType === 'VOICE'">
-      <div class="attach-thumbnail {{'attach-thumbnail-' + item.type}}">
-        <div class="file-name"><p></p></div>
-        <div class="detail">
-          <p>{{'VOC' | uppercase}}</p>
-          <span class="attsize">{{item.size | bytes:2}}</span>
-        </div>
+      <div class="attach-thumbnail attach-thumbnail-voice">
+        <span class="voice-time" ng-if="false">1:24</span>
         <span class="playbtn" ng-click="playAudio(item);$event.stopPropagation();">
-          <svg class="_24svg" ng-if="!item.isPlay">
+          <svg class="_24svg mirror" ng-if="!item.isPlayed">
             <use xlink:href="/assets/icons/nst-icn24.svg#play"></use>
           </svg>
-          <svg class="_24svg" ng-if="item.isPlay">
+          <svg class="_24svg" ng-if="item.isPlayed">
             <use xlink:href="/assets/icons/nst-icn24.svg#pause"></use>
           </svg>
         </span>
       </div>
 
     </a>
-    <a href="javascript:void(0);" ng-click="download(item);$event.stopPropagation()" class="attdl">
+    <a href="javascript:void(0);" ng-click="onClick(item);$event.stopPropagation()" ng-if="item.type !== 'image' && item.type !== 'gif' && item.uploadType === 'AUDIO'">
+      <div class="attach-thumbnail-img" alt=""
+      style="background: url({{ item.picture.getUrl('x128') || '/assets/icons/ph_music.png' }});background-size: cover; height: 96px;position: relative;top: 4px; width: 96px">
+      </div>
+      <span class="playbtn" ng-click="playAudio(item);$event.stopPropagation();">
+        <svg class="_24svg mirror" ng-if="!item.isPlayed">
+          <use xlink:href="/assets/icons/nst-icn24.svg#play"></use>
+        </svg>
+        <svg class="_24svg" ng-if="item.isPlayed">
+          <use xlink:href="/assets/icons/nst-icn24.svg#pause"></use>
+        </svg>
+      </span>
+      <span class="music-knee"></span>
+
+    </a>
+    <a href="javascript:void(0);" ng-if="item.type !== 'gif' && item.uploadType !== 'AUDIO' && item.uploadType !== 'VOICE'" ng-click="download(item);$event.stopPropagation()" class="attdl thumbnails">
       <svg class="_16svg">
         <use xlink:href="/assets/icons/nst-icn16.svg#downloads"></use>
       </svg>
@@ -74,7 +81,7 @@
     width: {{width}}px" ng-src="{{items[0].picture.getUrl('preview')}}"/>
   </div>
   <span class="playbtn _scl2" ng-if="items[0].type === 'video'" ng-click="onClick(items[0]);">
-    <svg class="_24svg">
+    <svg class="_24svg mirror">
       <use xlink:href="/assets/icons/nst-icn24.svg#play"></use>
     </svg>
   </span>
@@ -102,7 +109,7 @@
   </a>
 
   <span class="playbtn _scl2" ng-if="items[0].type === 'video' || items[0].type === 'gif'" style="left: {{scaleOne / 2}}%;right:auto;" ng-click="onClick(items[0])">
-    <svg class="_24svg" ng-if="items[0].type === 'video'">
+    <svg class="_24svg mirror" ng-if="items[0].type === 'video'">
       <use xlink:href="/assets/icons/nst-icn24.svg#play"></use>
     </svg>
     <svg class="_24svg" ng-if="items[0].type === 'gif'">
@@ -122,7 +129,7 @@
   </a>
 
   <span class="playbtn _scl2 oddCase" ng-if="items[0].type === 'video' || items[0].type === 'gif'" style="right: {{scaleTwo / 2}}%;left:auto;" ng-click="onClick(items[1])">
-    <svg class="_24svg" ng-if="items[1].type === 'video'">
+    <svg class="_24svg mirror" ng-if="items[1].type === 'video'">
       <use xlink:href="/assets/icons/nst-icn24.svg#play"></use>
     </svg>
     <svg class="_24svg" ng-if="items[1].type === 'gif'">

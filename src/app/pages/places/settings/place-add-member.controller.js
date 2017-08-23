@@ -10,7 +10,7 @@
                                     NST_USER_SEARCH_AREA,
                                     NstSvcUserFactory, NstSvcTranslation,
                                     NST_PLACE_MEMBER_TYPE,
-                                    chosenRole, currentPlace, mode, isForGrandPlace) {
+                                    _, currentPlace, mode, isForGrandPlace) {
     var vm = this;
     var defaultSearchResultCount = 9;
 
@@ -69,7 +69,7 @@
             if (vm.isGrandPlace || isForGrandPlace) {
               var initProfile = NstSvcUserFactory.parseTinyUser({
                 _id: settings.query,
-                fname: settings.query,
+                fname: settings.query
               });
               vm.users.push(initProfile);
             }

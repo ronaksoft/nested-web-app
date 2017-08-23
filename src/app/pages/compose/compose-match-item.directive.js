@@ -14,7 +14,7 @@
     .module('ronak.nested.web.components.scroll')
     .directive('composeMatchItem', composeMatchItem);
 
-  function composeMatchItem($timeout, $interval, toastr, $q, $stateParams) {
+  function composeMatchItem($timeout, $) {
     return {
       restrict: 'A',
       scope: {
@@ -28,14 +28,6 @@
         $timeout(getSizes,0);
         var containerW, itemsW = 0, overflowed = false, lastIndex = 0;
 
-        // $interval(function(){
-        //   console.log(ele.children().length);
-        // },2000);
-        // scope.$watch(function (){
-        //   return ele.children().length;
-        // },function (){
-        //   return getSizes();
-        // });
         scope.$on('compose-add-item',getSizes);
 
 
@@ -43,11 +35,11 @@
          * @function
          * for ui treatments
          * this function collapse the recipients box into one line and adds 
-         * an element called `more-reci` at the end of first line
+         * an element called `more-recipient-badge` at the end of first line
          */
         function getSizes(){
-          // remove `more-reci` element 
-          $('#more-reci').remove();
+          // remove `more-recipient-badge` element 
+          $('#more-recipient-badge').remove();
           itemsW = 0;
           overflowed = false;
           containerW = ele.parent().parent()[0].offsetWidth;
@@ -67,12 +59,12 @@
             }
             if ( overflowed ) {
               var x = childs.length - lastIndex;
-              ele.children().eq(lastIndex - 1).after('<span id="more-reci">+' + x + '</span>');
+              ele.children().eq(lastIndex - 1).after('<span id="more-recipient-badge">+' + x + '</span>');
             }
           }},2);
-         
+
         }
-        
+
       }
     };
   }
