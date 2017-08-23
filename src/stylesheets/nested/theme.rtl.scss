@@ -820,6 +820,32 @@ body[dir="rtl"] {
   .popover-userdetail .user-data div .butn-white, .popover-userdetail .user-data div .butn-white-nav {
     margin: 0 0 0 4px;
   }
+  .mini-player .player-list ul li .info span {
+    padding-right: 0;
+    padding-left: 16px;
+  }
+  .mini-player .player .player-handler .bg-bar,
+  .mini-player .player .player-handler .played-bar {
+    left: auto;
+    right: 0;
+    transform-origin: right center;
+  }
+  .mini-player .player .player-handler .player-dragger {
+    left: auto;
+    right: 0;
+  }
+  .mini-player .player-ribbon a {
+    margin-left: 0;
+    margin-right: 8px;
+  }
+  .mini-player .player-ribbon > div:last-child svg {
+    margin-right: 8px;
+    margin-left: 0;
+  }
+  .mini-player .player-ribbon > div:last-child {
+    margin-right: 4px;
+    margin-left: 0;
+  }
 }
 body[dir="ltr"] {
   .post-card-comments p.RTL-text {
