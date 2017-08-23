@@ -876,6 +876,11 @@ body[dir="rtl"] {
     margin-right: 0;
     margin-left: 4px;
   }
+  .vjs-has-started .vjs-control-bar {
+    left: auto;
+    right: 50%;
+    transform: translateX(50%);
+  }
 }
 body[dir="ltr"] {
   .post-card-comments p.RTL-text {
