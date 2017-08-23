@@ -235,23 +235,25 @@
               return;
             }
             scope.attachmentCount++;
-            getToken(attachment.id).then(function (token) {
-
-              attachment.src = NstSvcStore.resolveUrl(NST_STORE_ROUTE.VIEW, attachment.id, token);
-              attachment.isVoice = attachment.uploadType === "VOICE";
-              if ( attachment.isVoice ) {
-                attachment.sender = scope.sender
-              }
-              if (item.id === attachment.id) {
-                attachment.isPlayed = true;
-              }
-              scope.attachmentCount--;
-              if (scope.attachmentCount === 0) {
-                scope.addAllMedia();
-              }
-            }).catch(function () {
-              toastr.error('Sorry, An error has occured while playing the audio');
-            });
+            setTimeout(function () {
+              getToken(attachment.id).then(function (token) {
+                attachment.src = NstSvcStore.resolveUrl(NST_STORE_ROUTE.VIEW, attachment.id, token);
+                attachment.isVoice = attachment.uploadType === "VOICE";
+                if ( attachment.isVoice ) {
+                  attachment.sender = scope.sender
+                }
+                if (item.id === attachment.id) {
+                  attachment.isPlayed = true;
+                }
+                scope.attachmentCount--;
+                // if (scope.attachmentCount === 0) {
+                //   scope.addAllMedia();
+                // }
+                SvcMiniPlayer.addTrack(attachment);
+              }).catch(function () {
+                toastr.error('Sorry, An error has occured while playing the audio');
+              });
+            }, 120);
           });
         };
 
