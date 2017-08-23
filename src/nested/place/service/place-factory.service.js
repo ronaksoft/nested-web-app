@@ -152,7 +152,7 @@
         with_children: true
       }).then(function (data) {
         factory.cache.set('_my', {
-          places: _.map(data.places, 'id'),
+          places: _.map(data.places, 'id')
         });
         var places = _.map(data.places, function(place) {
           factory.set(place);
@@ -187,18 +187,6 @@
 
       return grandPlaces;
     }
-
-    PlaceFactory.prototype.addToMyPlaceIds = function (id) {
-      var myPlaceIds = factory.cache.get('_my');
-      if (myPlaceIds) {
-        myPlaceIds.push(id);
-        this.cache.set('_my', myPlaceIds);
-      }
-
-      return this.get(id).then(function (place) {
-        $rootScope.$broadcast(NST_PLACE_EVENT.ROOT_ADDED, {placeId: place.id, place: place});
-      });
-    };
 
     PlaceFactory.prototype.create = function (model, placeType) {
       var deferred = $q.defer();
@@ -583,7 +571,7 @@
       if (data && data._id) {
         this.cache.set(data._id, this.transformToCacheModel(data), true);
       } else {
-        console.error('The data is not valid to be cached!', data);
+        // console.error('The data is not valid to be cached!', data);
       }
     };
 

@@ -6,10 +6,10 @@
     .service('NstSvcLabelFactory', NstSvcLabelFactory);
 
   /** @ngInject */
-  function NstSvcLabelFactory($q,
+  function NstSvcLabelFactory($q, _,
     NstBaseFactory, NstSvcServer, NstSvcUserFactory, NstCollector, NstSvcGlobalCache,
-    NstLabel, NstLabelRequest, 
-    NST_LABEL_SEARCH_FILTER, _) {
+    NstLabel, NstLabelRequest,
+    NST_LABEL_SEARCH_FILTER,NST_SRV_ERROR) {
 
     function LabelFactory() {
       this.collector = new NstCollector('label', this.getMany);
@@ -111,7 +111,7 @@
             that.set(item);
             return that.parse(item);
           });
-          
+
           return $q.resolve(labels);
         });
       }, 'search');
@@ -224,7 +224,7 @@
             factory.cache.remove(id);
             break;
         }
-        
+
         deferred.reject(error);
       });
 
@@ -235,7 +235,7 @@
       if (data && data._id) {
         this.cache.set(data._id, this.transformToCacheModel(data));
       } else {
-        console.error('The data is not valid to be cached!', data);
+        // console.error('The data is not valid to be cached!', data);
       }
     };
 
@@ -265,7 +265,7 @@
         public: data.public,
         topMembers: _.map(data.top_members, '_id'),
         counters: data.counters,
-        isMember: data.is_member,
+       isMember: data.is_member
       };
     };
 

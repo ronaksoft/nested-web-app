@@ -5,7 +5,7 @@
     .service('NstSvcRequestCacheFactory', NstSvcRequestCacheFactory);
 
   /** @ngInject */
-  function NstSvcRequestCacheFactory($q, _) {
+  function NstSvcRequestCacheFactory() {
 
     var pipeLength = 100;
 

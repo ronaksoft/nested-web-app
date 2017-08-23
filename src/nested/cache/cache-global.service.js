@@ -6,7 +6,7 @@
     .service('NstSvcGlobalCache', NstSvcGlobalCache);
 
   /** @ngInject */
-  function NstSvcGlobalCache(NstSvcCacheDb, NstSvcCacheProvider) {
+  function NstSvcGlobalCache(_, NstSvcCacheDb, NstSvcCacheProvider) {
     function GlobalCache() {
       this.providers = {};
     }

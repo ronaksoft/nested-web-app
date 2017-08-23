@@ -6,12 +6,11 @@
     .controller('MessagesController', MessagesController);
 
   /** @ngInject */
-  function MessagesController($rootScope, $q, $stateParams, $log, $state, $scope, $uibModal, $timeout,
+  function MessagesController($rootScope, $stateParams, $state, $scope, $uibModal, _,
                               moment, toastr,
-                              NST_MESSAGES_SORT_OPTION, NST_MESSAGES_VIEW_SETTING, NST_DEFAULT, NST_EVENT_ACTION, NST_PLACE_ACCESS, NST_POST_EVENT,
-                              NstSvcPostFactory, NstSvcPlaceFactory, _, NstUtility, NstSvcAuth, NstSvcSync, NstSvcWait, NstVmFile,
-                              NstSvcMessagesSettingStorage, NstSvcTranslation, NstSvcInteractionTracker, SvcCardCtrlAffix,
-                              NstSvcPlaceAccess, NstSvcModal, NstSvcDate) {
+                              NST_MESSAGES_SORT_OPTION, NST_DEFAULT, NST_EVENT_ACTION, NST_PLACE_ACCESS, NST_POST_EVENT,
+                              NstSvcPostFactory, NstSvcPlaceFactory, NstUtility, NstSvcAuth, NstSvcSync,
+                              NstSvcMessagesSettingStorage, NstSvcTranslation, SvcCardCtrlAffix) {
 
     var vm = this;
 
@@ -19,12 +18,6 @@
 
     var DEFAULT_MESSAGES_COUNT = 8,
       defaultSortOption = NST_MESSAGES_SORT_OPTION.LATEST_MESSAGES,
-      defaultViewSetting = {
-        content: true,
-        attachments: true,
-        comments: true,
-        quickMessage: true
-      },
       sortOptionStorageKey = 'sort-option';
     vm.messages = [];
     vm.hotMessagesCount = 0;
@@ -58,7 +51,7 @@
       limit: DEFAULT_MESSAGES_COUNT,
       skip: 0,
       sort: defaultSortOption,
-      before: null,
+      before: null
     };
 
     vm.quickMessageAccess = false;
@@ -132,7 +125,6 @@
         if (message) {
 
           if (vm.messages.length === 1) {
-            loadMessages(true);
             loadUnreadPostsCount();
           }
 
@@ -163,7 +155,6 @@
         if ($stateParams.placeId === data.fromPlace.id) {
 
           if (vm.messages.length === 1) {
-            loadMessages(true);
             loadUnreadPostsCount();
           }
 
@@ -276,10 +267,10 @@
     function load() {
       return getMessages(vm.messagesSetting, handleCachedPosts).then(function (posts) {
         mergePosts(posts);
-      }).catch(function (error) {
-        console.log('====================================');
-        console.log(error);
-        console.log('====================================');
+      }).catch(function () {
+        // console.log('====================================');
+        // console.log(error);
+        // console.log('====================================');
         // TODO: Use this when is required
         // NstSvcModal.error(NstSvcTranslation.get("Error"), NstSvcTranslation.get("Either this Place doesn't exist, or you don't have the permit to enter the Place.")).finally(function () {
         //   $state.go(NST_DEFAULT.STATE);

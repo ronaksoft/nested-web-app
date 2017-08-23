@@ -23,11 +23,11 @@
       }
 
       var model = this.memory[key] || NstSvcCacheDb.get(this.namespace, key);
-      
+
       if (!model) {
         return null;
       }
-      
+
       if (isExpired(model)) {
         this.remove(key);
         return null;
@@ -71,7 +71,7 @@
 
     function validateKey(key) {
       if (!key || !_.isString(key)) {
-        console.error('The key must be a nonempty string.', key);
+        // console.error('The key must be a nonempty string.', key);
         return false;
       }
 

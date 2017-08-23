@@ -5,12 +5,12 @@
     .service('NstSvcPostFactory', NstSvcPostFactory);
 
   /** @ngInject */
-  function NstSvcPostFactory($q, $log, $rootScope,
+  function NstSvcPostFactory($q, $rootScope,
     _, md5,
-    NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory, NstSvcStore,
+    NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory,
     NstSvcCommentFactory, NstUtility, NstSvcGlobalCache,
     NstPost, NstBaseFactory, NstCollector,
-    NST_MESSAGES_SORT_OPTION, NST_SRV_EVENT, NST_CONFIG, NST_POST_EVENT, NstSvcLabelFactory) {
+    NST_MESSAGES_SORT_OPTION, NST_SRV_ERROR, NST_CONFIG, NST_POST_EVENT, NstSvcLabelFactory) {
 
     function PostFactory() {
       this.collector = new NstCollector('post', this.getMany);
@@ -131,15 +131,11 @@
       return this.parseCachedModel(this.cache.get(id));
     }
 
-    function removeCachedModel(id) {
-      return this.cache.remove(id);
-    }
-
     function set(data) {
       if (data && data._id) {
         this.cache.set(data._id, this.transformToCacheModel(data));
       } else {
-        console.error('The data is not valid to be cached!', data);
+        // console.error('The data is not valid to be cached!', data);
       }
     }
 
@@ -381,11 +377,10 @@
     }
 
     function getMessages(setting, cacheHandler) {
-      var defer = $q.defer();
 
       var options = {
         limit: setting.limit,
-        before: setting.before,
+        before: setting.before
       };
 
       if (setting.sort === NST_MESSAGES_SORT_OPTION.LATEST_ACTIVITY) {
@@ -402,7 +397,6 @@
     }
 
     function getBookmarkedMessages(setting, cacheHandler) {
-      var defer = $q.defer();
 
       var options = {
         limit: setting.limit,
@@ -425,7 +419,7 @@
     function getSentMessages(setting, cacheHandler) {
       var options = {
         limit: setting.limit,
-        before: setting.before,
+        before: setting.before
       };
 
       if (setting.sort === NST_MESSAGES_SORT_OPTION.LATEST_ACTIVITY) {
@@ -461,7 +455,7 @@
           factory.set(post);
           return factory.parsePost(post);
         });
-        
+
         return $q.all(messagePromises);
       });
     }

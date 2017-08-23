@@ -279,7 +279,7 @@
 
     Server.prototype.constructor = Server;
 
-    Server.prototype.request = function (action, data, timeout, callback) {
+    Server.prototype.request = function (action, data, timeout) {
       var service = this;
       var payload = angular.extend(data || {}, {});
 

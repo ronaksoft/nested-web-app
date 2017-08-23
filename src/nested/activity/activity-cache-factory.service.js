@@ -5,10 +5,9 @@
     .service('NstSvcActivityCacheFactory', NstSvcActivityCacheFactory);
 
   /** @ngInject */
-  function NstSvcActivityCacheFactory(_,
-    NST_EVENT_ACTION,
+  function NstSvcActivityCacheFactory(NST_EVENT_ACTION,
     NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcCommentFactory, NstSvcLabelFactory,
-    NstSvcLogger, NstActivity, NstUtility) {
+    NstSvcLogger, NstActivity) {
 
 
     function ActivityCacheFactory() { }
@@ -288,7 +287,7 @@
       if (data.place_id && !activity.place) {
         return null;
       }
-      
+
       activity.actor = NstSvcUserFactory.getCachedSync(data.actor_id);
       if (data.actor_id && !activity.actor) {
         return null;

@@ -6,7 +6,7 @@
     .service('NstSvcCacheDb', NstSvcCacheDb);
 
   /** @ngInject */
-  function NstSvcCacheDb($window, _, LZString, md5) {
+  function NstSvcCacheDb($window, _, md5) {
     var NAME_PREFIX = 'cache.';
     function CacheDb() {
       this.storeQueue = [];
@@ -61,7 +61,7 @@
       // Put the item in the queue. It will be stored in localStorage in a while
       this.storeQueue.push({
         key: storedKey,
-        value: value,
+        value: value
       });
 
       this.store();
@@ -70,31 +70,32 @@
     CacheDb.prototype.flush = function () {
       this.store.cancel();
       this.storeQueue.length = 0;
-      _.forIn($window.localStorage, (value, key) => {
+      _.forIn($window.localStorage, function(value, key) {
         if (_.startsWith(key, NAME_PREFIX)) {
           // TODO: Why removes all keys?
           $window.localStorage.removeItem(key);
         }
       });
-    }
-    
+    };
+
     function getKey(namespace, key) {
       return NAME_PREFIX + md5.createHash(namespace + '.' + key);
     }
 
     function store() {
-      var item = null;
-      while(item = this.storeQueue.pop()) {
+      var item = this.storeQueue.pop();
+      while(item) {
 
         var serializedValue = JSON.stringify(item.value);
         // The compressed string is 35% smaller than the original value
         // var compressedValue = LZString.compressToUTF16(serializedValue);
         $window.localStorage.setItem(item.key, serializedValue);
+        item = this.storeQueue.pop();
       }
     }
 
 
-    
+
     return new CacheDb();
   }
 })();

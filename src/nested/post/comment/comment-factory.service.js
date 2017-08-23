@@ -288,7 +288,7 @@
         sender: place.sender._id,
         text: place.text,
         timestamp: place.timestamp,
-        removed_by: place.removed_by,
+        removed_by: place.removed_by
       };
     }
 
@@ -322,7 +322,7 @@
       if (data && data._id) {
         this.cache.set(data._id, this.transformToCacheModel(data));
       } else {
-        console.error('The data is not valid to be cached!', data);
+        // console.error('The data is not valid to be cached!', data);
       }
     }
 

@@ -7,9 +7,9 @@
 
   function NstSvcUserFactory($q, md5, _, $rootScope,
                              NstSvcServer, NstSvcGlobalCache,
-                             NST_USER_SEARCH_AREA, NST_USER_EVENT,
+                             NST_USER_SEARCH_AREA, NST_USER_EVENT, NST_SRV_ERROR,
                              NstBaseFactory, NstTinyUser, NstUser, NstUserAuthority, NstPicture, NstPlace, NstCollector) {
-    function UserFactory() { 
+    function UserFactory() {
       this.cache = NstSvcGlobalCache.createProvider('user');
       this.collector = new NstCollector('account', this.getMany);
     }
@@ -57,9 +57,9 @@
 
     /**
      * Returns the current user account. First uses cache storage and the asks Cyrus if the account was not found
-     * 
-     * @param {any} id 
-     * @returns 
+     *
+     * @param {any} id
+     * @returns
      */
     UserFactory.prototype.getCurrent = function () {
       var factory = this;
@@ -67,7 +67,7 @@
       if (current) {
         return $q.resolve(current);
       }
-      
+
       return this.sentinel.watch(function () {
         return NstSvcServer.request('account/get', {}).then(function (account) {
           factory.cache.set('_current', account);
@@ -81,7 +81,7 @@
       if (!current) {
         return;
       }
-      
+
       return this.parseUser(current);
     }
 
@@ -126,7 +126,7 @@
       if (data && data._id) {
         this.cache.set(data._id, this.transformToCacheModel(data));
       } else {
-        console.error('The data is not valid to be cached!', data);
+        // console.error('The data is not valid to be cached!', data);
       }
     };
 
@@ -139,7 +139,7 @@
         "lastName": "lname",
         "dateOfBirth": "dob",
         "gender": "gender",
-        "privacy" : "privacy"
+        "privacy": "privacy"
       };
 
       var keyValues = _.mapKeys(params, function (value, key) {
@@ -149,7 +149,7 @@
       NstSvcServer.request('account/update', keyValues).then(function () {
         return service.get(id, true);
       }).then(function (user) {
-        $rootScope.$broadcast(NST_USER_EVENT.PROFILE_UPDATED, { userId: user.id, user : user});
+        $rootScope.$broadcast(NST_USER_EVENT.PROFILE_UPDATED, {userId: user.id, user: user});
         deferred.resolve(user);
       }).catch(deferred.reject);
 
@@ -175,7 +175,7 @@
 
           return factory.get(userId, true);
         }).then(function (user) {
-          $rootScope.$broadcast(NST_USER_EVENT.PICTURE_UPDATED, { userId: user, user: user });
+          $rootScope.$broadcast(NST_USER_EVENT.PICTURE_UPDATED, {userId: user, user: user});
           deferred.resolve(user);
         }).catch(function (error) {
           deferred.reject(error);
@@ -194,7 +194,7 @@
 
           return factory.get(userId, true);
         }).then(function (user) {
-          $rootScope.$broadcast(NST_USER_EVENT.PICTURE_REMOVED, { userId: user.id, user: user });
+          $rootScope.$broadcast(NST_USER_EVENT.PICTURE_REMOVED, {userId: user.id, user: user});
           deferred.resolve(user);
         }).catch(deferred.reject);
 

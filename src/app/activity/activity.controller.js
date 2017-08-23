@@ -45,9 +45,9 @@
   function ActivityController( $stateParams, $log, $state, $scope, $rootScope,
     _, moment,
     NST_SRV_EVENT, NST_EVENT_ACTION, NST_ACTIVITY_FILTER, NST_DEFAULT,
-    NstSvcActivityMap, NstSvcModal,
+    NstSvcActivityMap,
     NstSvcActivitySettingStorage, NstSvcDate,
-    NstSvcActivityFactory, NstSvcSync, NstSvcServer, NstUtility, NstSvcPlaceAccess, NstSvcTranslation, NstSvcInteractionTracker) {
+    NstSvcActivityFactory, NstSvcSync, NstSvcServer, NstSvcPlaceAccess, NstSvcTranslation) {
 
     var vm = this;
     var activityFilterGroups = {};

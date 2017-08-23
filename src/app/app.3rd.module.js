@@ -28,6 +28,6 @@
       'firebase',
       'phoneUtils',
       'draggable',
-      'LZString',
+      'LZString'
     ]);
 })();
