@@ -106,7 +106,7 @@
                         ng-if="track.isVoice"/>
                     </div>
                     <div class="info ng-class:{'isPlayed' : track.isPlayed}">
-                        <span class="_txe">{{track.filename}}</span>
+                        <span class="_txe">{{track.filename.split('.').splice(-1,1).join('.')}}</span>
                     </div>
                 </li>
             </ul>

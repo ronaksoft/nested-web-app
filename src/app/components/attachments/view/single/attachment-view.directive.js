@@ -154,9 +154,9 @@
 
 
         var resizeIt = _.debounce(scope.sizeDetect, 500);
-        // angular.element($window).on('resize', resizeIt(scope.attachment.width, scope.attachment.height));
+        angular.element($window).on('resize', resizeIt(scope.attachment.width, scope.attachment.height));
         scope.$on('$destroy', function () {
-          // angular.element($window).off('resize', resizeIt(scope.attachment.width, scope.attachment.height));
+          angular.element($window).off('resize', resizeIt(scope.attachment.width, scope.attachment.height));
         });
       },
       template: '<div class="nst-preview-pic-mode" data-ng-include="tplUrl" data-ng-init="attachment = attachment"></div>'
