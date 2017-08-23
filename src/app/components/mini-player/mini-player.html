@@ -15,12 +15,12 @@
                 <use xlink:href="/assets/icons/nst-icn16.svg#player-back"></use>
             </svg>
         </div>
-        <div ng-click="ctrl.play()" ng-if="ctrl.currentPlay.status == 'pause'">
+        <div ng-click="ctrl.play()" ng-if="ctrl.currentPlay.status == 'pause' || ctrl.currentPlay.status == 'end'">
             <svg class="_16svg fill-white active">
                 <use xlink:href="/assets/icons/nst-icn16.svg#play"></use>
             </svg>
         </div>
-        <div ng-click="ctrl.pause()" ng-if="ctrl.currentPlay.status != 'pause'">
+        <div ng-click="ctrl.pause()" ng-if="ctrl.currentPlay.status != 'pause' && ctrl.currentPlay.status != 'end'">
             <svg class="_16svg fill-white active">
                 <use xlink:href="/assets/icons/nst-icn16.svg#pause"></use>
             </svg>
@@ -76,11 +76,11 @@
                         <use xlink:href="/assets/icons/nst-icn16.svg#player-back"></use>
                     </svg>
                 </div>
-                <div class="butn-playpause" ng-click="ctrl.playPauseToggle"> 
-                    <svg class="_16svg fill-white active" ng-if="ctrl.currentPlay.status == 'pause'" ng-click="ctrl.play()">
+                <div class="butn-playpause" ng-click="ctrl.playPauseToggle">
+                    <svg class="_16svg fill-white active" ng-if="ctrl.currentPlay.status == 'pause' || ctrl.currentPlay.status == 'end'" ng-click="ctrl.play()">
                         <use xlink:href="/assets/icons/nst-icn16.svg#play"></use>
                     </svg>
-                    <svg class="_16svg fill-white active" ng-if="ctrl.currentPlay.status != 'pause'" ng-click="ctrl.pause()">
+                    <svg class="_16svg fill-white active" ng-if="ctrl.currentPlay.status != 'pause' && ctrl.currentPlay.status != 'end'" ng-click="ctrl.pause()">
                         <use xlink:href="/assets/icons/nst-icn16.svg#pause"></use>
                     </svg>
                 </div>

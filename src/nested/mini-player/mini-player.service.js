@@ -134,7 +134,9 @@
         audioDOM.src = audioObjs[index].src;
         audioDOM.load();
       }
-      audioDOM.play();
+      setTimeout(function () {
+        audioDOM.play();
+      }, 100);
       this.currentStatus = 'play';
       callIfValid(this.statusChangedRef, {
         status: this.currentStatus,
@@ -145,9 +147,6 @@
     }
 
     function pause(id) {
-      // if (id !== undefined && id !) {
-      //   playing = null;
-      // }
       this.stopInterval();
       audioDOM.pause();
       this.currentStatus = 'pause';
