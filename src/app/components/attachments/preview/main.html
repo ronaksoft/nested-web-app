@@ -73,12 +73,16 @@
   </li>
 </ul>
 <div ng-if="internalMode == 'onlyimg'" class="only-img">
-  <div class="_df _jcc" style="width: {{wrpWidth}}px; height: {{wrpHeight}}px; overflow: hidden"
+  <div class="_df _jcc" style="width: {{wrpWidth}}px; height: {{wrpHeight}}px; overflow: hidden">
+       <div class="_df" style="width: {{height}}px; height: {{width}}px; overflow: hidden;position:relative;"
        ng-click="onClick(items[0]);">
-    <img style="
-    object-fit: cover;
-    height: {{height}}px;
-    width: {{width}}px" ng-src="{{items[0].picture.getUrl('preview')}}"/>
+    <img ng-src="{{items[0].picture.getUrl('preview')}}"/>
+    <div class="download-img" ng-click="download(items[0])">
+      <svg class="_16svg">
+        <use xlink:href="/assets/icons/nst-icn16.svg#downloads"></use>
+      </svg>
+    </div>
+       </div>
   </div>
   <span class="playbtn _scl2" ng-if="items[0].type === 'video'" ng-click="onClick(items[0]);">
     <svg class="_24svg mirror">
@@ -90,11 +94,6 @@
       <use xlink:href="/assets/icons/nst-icn24.svg#infinity"></use>
     </svg>
   </span>
-  <div class="download-img" ng-click="download(items[0])">
-    <svg class="_16svg">
-      <use xlink:href="/assets/icons/nst-icn16.svg#downloads"></use>
-    </svg>
-  </div>
 </div>
 <div ng-if="internalMode == 'twoimg'" class="two-img _fw ng-class:{'deform' : deform}">
 

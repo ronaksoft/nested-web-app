@@ -532,6 +532,7 @@ body.modal-open {
     background-color: transparent;
     > div {
       background-color: $color-white;
+      box-shadow: 0 0px 24px $color-solid;
       max-width: 480px;
       min-height: 100vh;
       left: 50vw;
