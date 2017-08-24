@@ -1,3 +1,12 @@
+/**
+ * @file src/nested/cache/cache-db.service.js
+ * @author Soroush Torkzadeh <sorousht@nested.me>
+ * @description A database on top of localStorage specially designed and optimized for the project
+ * Documented by:          Soroush Torkzadeh <sorousht@nested.me>
+ * Date of documentation:  2017-08-24
+ * Reviewed by:            -
+ * Date of review:         -
+ */
 (function () {
   'use strict';
 
@@ -17,6 +26,15 @@
     CacheDb.prototype.constructor = CacheDb;
 
 
+    /**
+     * @func get
+     * 
+     * Returns the object with the provided namespace and key. It looks in both storeQueue and localStorage to retrieve the object
+     * 
+     * @param {any} namespace 
+     * @param {any} key 
+     * @returns 
+     */
     CacheDb.prototype.get = function (namespace, key) {
       var storedKey = getKey(namespace, key);
       // Try to find it in the items that are waiting to be stored
@@ -43,6 +61,15 @@
       return value;
     };
 
+    /**
+     * Stores the value with the given namespace and key. It first pushes the item in storeQueue
+     * and then writes later on
+     * 
+     * @param {any} namespace 
+     * @param {any} key 
+     * @param {any} value 
+     * @returns 
+     */
     CacheDb.prototype.set = function (namespace, key, value) {
       if (!key) {
         return -1;
@@ -67,6 +94,10 @@
       this.store();
     };
 
+    /**
+     * Flushes the cached item in both memory and localStorage
+     * 
+     */
     CacheDb.prototype.flush = function () {
       this.store.cancel();
       this.storeQueue.length = 0;
@@ -78,10 +109,21 @@
       });
     };
 
+    /**
+     * Generates a unique hash using the given namespace and key
+     * 
+     * @param {any} namespace 
+     * @param {any} key 
+     * @returns 
+     */
     function getKey(namespace, key) {
       return NAME_PREFIX + md5.createHash(namespace + '.' + key);
     }
 
+    /**
+     * Stores all items that are waiting to be written in localStorage
+     * 
+     */
     function store() {
       var item = this.storeQueue.pop();
       while(item) {
