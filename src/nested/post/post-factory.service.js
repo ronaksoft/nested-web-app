@@ -157,25 +157,25 @@
       post.internal = data.internal;
       post.lastUpdate = data.last_update;
       post.pinned = data.pinned;
-      post.attachments = data.post_attachments;
+      post.attachments = _.map(data.post_attachments, NstSvcAttachmentFactory.parseAttachment);
       post.places = _.map(data.post_places, function (placeId) {
         return NstSvcPlaceFactory.getCachedSync(placeId);
       });
-      // Make sure the post places were found successfully
-      if (!_.every(post.places)) {
-        this.cache.remove(data._id);
-        return null;
-      }
+      // // Make sure the post places were found successfully
+      // if (!_.every(post.places) || post.places.length !== data.post_places) {
+      //   this.cache.remove(data._id);
+      //   return null;
+      // }
       post.read = data.post_read;
       post.recipients = data.post_recipients;
       post.replyToId = data.reply_to;
       if (data.sender) {
         post.sender = NstSvcUserFactory.getCachedSync(data.sender);
-        // Make sure the post sender was found successfully
-        if (!post.sender) {
-          this.cache.remove(data._id);
-          return null;
-        }
+        // // Make sure the post sender was found successfully
+        // if (!post.sender) {
+        //   this.cache.remove(data._id);
+        //   return null;
+        // }
       }
       post.subject = data.subject;
       post.timestamp = data.timestamp;
@@ -188,45 +188,26 @@
       post.labels = _.map(data.post_labels, function (labelId) {
         return NstSvcLabelFactory.getCachedSync(labelId);
       });
-      // Make sure all post labels were found successfully
-      if (!_.every(post.labels)) {
-        this.cache.remove(data._id);
-        return null;
-      }
+      // // Make sure all post labels were found successfully
+      // if (!_.every(post.labels) || post.labels.length !== data.post_labels.length) {
+      //   this.cache.remove(data._id);
+      //   return null;
+      // }
       post.body = data.body;
-      post.comments = data.recent_comments;
+      post.comments = _.map(data.recent_comments, function (comment) {
+        return NstSvcCommentFactory.getCachedSync(comment._id);
+      });
 
       return post;
     }
 
     function transformToCacheModel(place) {
-      return {
-        _id: data._id,
-        content_type: data.content_type,
-        counters: data.counters,
-        internal: data.internal,
-        last_update: data.last_update,
-        pinned: data.pinned,
-        post_attachments: data.post_attachments,
-        post_places: _.map(data.post_places, '_id'),
-        post_read: data.post_read,
-        sender: data.sender ? data.sender._id : null,
-        email_sender: data.email_sender ? data.email_sender._id : null,
-        subject: data.subject,
-        timestamp: data.timestamp,
-        body: data.body,
-        post_recipients: data.post_recipients,
-        reply_to: data.reply_to,
-        type: data.type,
-        wipe_access: data.wipe_access,
-        ellipsis: data.ellipsis,
-        no_comment: data.no_comment,
-        watched: data.watched,
-        is_trusted: data.is_trusted,
-        post_labels: _.map(data.post_labels, 'id'),
-        body: data.body,
-        recent_comments: data.recent_comments,
-      };
+      var copy = _.clone(place);
+      copy.sender = place.sender ? place.sender._id : null;
+      copy.post_places = _.map(place.post_places, '_id');
+      copy.post_labels = _.map(place.post_labels, '_id');
+
+      return copy;
     }
 
     function send(post) {
@@ -347,6 +328,12 @@
         NstSvcUserFactory.set(data.sender);
       }
       post.sender = NstSvcUserFactory.parseTinyUser(data.internal ? data.sender : data.email_sender);
+      if (data.sender) {
+        NstSvcUserFactory.set(data.sender);
+      }
+      if (data.email_sender) {
+        NstSvcUserFactory.set(data.email_sender);
+      }
       post.subject = data.subject;
       post.timestamp = data.timestamp;
       post.type = data.type;
@@ -356,6 +343,7 @@
       post.watched = data.watched;
       post.isTrusted = data.is_trusted;
       post.labels = _.map(data.post_labels, function (item) {
+        NstSvcLabelFactory.set(item);
         return NstSvcLabelFactory.parse(item);
       });
 
@@ -383,30 +371,13 @@
       return deferred.promise;
     }
 
-    function parseCacheModel(data) {
-      var model = _.clone(data);
-
-      model.post_attachments = _.map(data.post_attachments, NstSvcAttachmentFactory.getCachedSync);
-      model.post_places = _.map(data.post_places, NstSvcPlaceFactory.getCachedSync);
-      model.post_labels = _.map(data.post_labels, NstSvcLabelFactory.getCachedSync);
-      model.recent_comments = _.map(data.recent_comments, NstSvcCommentFactory.getCachedSync);
-      model.sender = data.sender ? NstSvcUserFactory.getCachedSync(data.sender) : null;
-      model.email_sender = data.email_sender ? NstSvcUserFactory.getCachedSync(data.email_sender) : null;
-      
-      return model;
-    }
-
-    function transformToCacheModel(user) {
-      var clonedUser = _.clone(user);
-
-      clonedUser.post_attachments = _.map(user.post_attachments, '_id');
-      clonedUser.post_places = _.map(user.post_places, '_id');
-      clonedUser.post_labels = _.map(user.post_labels, '_id');
-      clonedUser.recent_comments = _.map(user.recent_comments, '_id');
-      clonedUser.sender = user.sender ? user.sender._id : null;
-      clonedUser.email_sender = user.email_sender ? user.email_sender._id : null;
-
-      return clonedUser;
+    function handleCachedResponse(cacheHandler, cachedResponse) {
+      if (cachedResponse && _.isFunction(cacheHandler)) {
+        var cachedPosts = _.map(cachedResponse.posts, function (post) {
+          return factory.getCachedSync(post._id);
+        });
+        cacheHandler(_.compact(cachedPosts));
+      }
     }
 
     function getMessages(setting, cacheHandler) {
@@ -420,16 +391,7 @@
       if (setting.sort === NST_MESSAGES_SORT_OPTION.LATEST_ACTIVITY) {
         options.by_update = true;
       }
-
-      return NstSvcServer.request('account/get_posts', options, function (cachedResponse) {
-        if (cachedResponse && _.isFunction(cacheHandler)) {
-          var cachedPosts = _.map(cachedResponse.posts, function (post) {
-            return factory.getCachedSync(post._id);
-          });
-
-          cacheHandler(cachedPosts);
-        }
-      }).then(function (data) {
+      return NstSvcServer.request('account/get_posts', options, _.partial(handleCachedResponse, cacheHandler)).then(function (data) {
         var messagePromises = _.map(data.posts, function (post) {
           factory.set(post);
           return factory.parsePost(post);
@@ -451,15 +413,7 @@
         options.by_update = true;
       }
 
-      return NstSvcServer.request('account/get_pinned_posts', options, function (cachedResponse) {
-        if (cachedResponse && _.isFunction(cacheHandler)) {
-          var cachedPosts = _.map(cachedResponse.posts, function (post) {
-            return factory.getCachedSync(post._id);
-          });
-
-          cacheHandler(cachedPosts);
-        }
-      }).then(function (data) {
+      return NstSvcServer.request('account/get_pinned_posts', options, _.partial(handleCachedResponse, cacheHandler)).then(function (data) {
         var messagePromises = _.map(data.posts, function (post) {
           factory.set(post);
           return factory.parsePost(post);
@@ -478,15 +432,7 @@
         options.by_update = true;
       }
 
-      return NstSvcServer.request('account/get_sent_posts', options, function (cachedResponse) {
-        if (cachedResponse && _.isFunction(cacheHandler)) {
-          var cachedPosts = _.map(cachedResponse.posts, function (post) {
-            return factory.getCachedSync(post._id);
-          });
-
-          cacheHandler(cachedPosts);
-        }
-      }).then(function (data) {
+      return NstSvcServer.request('account/get_sent_posts', options, _.partial(handleCachedResponse, cacheHandler)).then(function (data) {
         var messagePromises = _.map(data.posts, function (post) {
           factory.set(post);
           return factory.parsePost(post);
@@ -510,15 +456,7 @@
         options.by_update = true;
       }
 
-      return NstSvcServer.request('place/get_posts', options, function (cachedResponse) {
-        if (cachedResponse && _.isFunction(cacheHandler)) {
-          var cachedPosts = _.map(cachedResponse.posts, function (post) {
-            return factory.getCachedSync(post._id);
-          });
-
-          cacheHandler(cachedPosts);
-        }
-      }).then(function (data) {
+      return NstSvcServer.request('place/get_posts', options, _.partial(handleCachedResponse, cacheHandler)).then(function (data) {
         var messagePromises = _.map(data.posts, function (post) {
           factory.set(post);
           return factory.parsePost(post);
@@ -541,15 +479,7 @@
         options.by_update = true;
       }
 
-      return NstSvcServer.request('account/get_favorite_posts', options, function (cachedResponse) {
-        if (cachedResponse && _.isFunction(cacheHandler)) {
-          var cachedPosts = _.map(cachedResponse.posts, function (post) {
-            return factory.getCachedSync(post._id);
-          });
-
-          cacheHandler(cachedPosts);
-        }
-      }).then(function (data) {
+      return NstSvcServer.request('account/get_favorite_posts', options, _.partial(handleCachedResponse, cacheHandler)).then(function (data) {
         var messagePromises = _.map(data.posts, function (post) {
           factory.set(post);
           return factory.parsePost(post);
@@ -573,15 +503,7 @@
         options.by_update = true;
       }
 
-      return NstSvcServer.request('place/get_unread_posts', options, function (cachedResponse) {
-        if (cachedResponse && _.isFunction(cacheHandler)) {
-          var cachedPosts = _.map(cachedResponse.posts, function (post) {
-            return factory.getCachedSync(post._id);
-          });
-
-          cacheHandler(cachedPosts);
-        }
-      }).then(function (data) {
+      return NstSvcServer.request('place/get_unread_posts', options, _.partial(handleCachedResponse, cacheHandler)).then(function (data) {
         var messagePromises = _.map(data.posts, function (post) {
           factory.set(post);
           return factory.parsePost(post);

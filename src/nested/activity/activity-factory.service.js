@@ -429,7 +429,8 @@
           place_id: settings.placeId
         }, function(cachedResponse) {
           if (_.isFunction(cacheHandler) && cachedResponse) {
-            cacheHandler(_.map(cachedResponse.activities, NstSvcActivityCacheFactory.parseCachedModel));
+            var activities = _.chain(cachedResponse.activities).map(NstSvcActivityCacheFactory.parseCachedModel).compact().value();
+            cacheHandler(activities);
           }
         }).then(function (response) {
 

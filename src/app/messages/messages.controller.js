@@ -226,8 +226,9 @@
       });
     }
 
-    function cacheHandler(cachedPosts) {
+    function handleCachedPosts(cachedPosts) {
       vm.messages = cachedPosts;
+      vm.loading = false;
     }
 
     function mergePosts(posts) {
@@ -273,7 +274,7 @@
     }
 
     function load() {
-      return getMessages(vm.messagesSetting, cacheHandler).then(function (posts) {
+      return getMessages(vm.messagesSetting, handleCachedPosts).then(function (posts) {
         mergePosts(posts);
       }).catch(function (error) {
         console.log('====================================');
