@@ -260,14 +260,18 @@ nst-attachments-preview-bar {
     display: inline-table;
     position: relative;
     //flex-direction: row;
+    
+    .gif-sign {
+      bottom: 8px; 
+     }
     img {
       object-fit: cover;
       float: left;
       min-width: 80px;
       min-height: 96px;
       max-height: 1024px;
-      max-width: calc(100% - 96px);
-      border: 1px solid $color-border;
+      // max-width: calc(100% - 96px);
+      // border: 1px solid $color-border;
     }
     div {
       float: left;
@@ -317,6 +321,9 @@ nst-attachments-preview-bar {
           pointer-events: none;
           content: "";
           top: 0;
+      }
+      .gif-sign {
+       bottom: 8px; 
       }
     }
     .download-img {

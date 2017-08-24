@@ -76,12 +76,12 @@
           scope.wrpHeight = scope.height > 1024 ? 1024 : scope.height;
         }
 
-
+console.log(scope.items[0].type)
         if (!scope.badge && scope.items.length === 2 &&
           (scope.items[0].type === NST_FILE_TYPE.IMAGE || scope.items[0].type === NST_FILE_TYPE.GIF ||
           (scope.items[0].type === NST_FILE_TYPE.VIDEO && scope.items[0].uploadType === 'VIDEO') ) &&
           (scope.items[1].type === NST_FILE_TYPE.IMAGE || scope.items[1].type === NST_FILE_TYPE.GIF ||
-          (scope.items[0].type === NST_FILE_TYPE.VIDEO && scope.items[0].uploadType === 'VIDEO') ) &&
+          (scope.items[1].type === NST_FILE_TYPE.VIDEO && scope.items[1].uploadType === 'VIDEO') ) &&
           scope.items[0].hasPreview && scope.items[1].hasPreview ) {
           scope.internalMode = NST_ATTACHMENTS_PREVIEW_BAR_MODE.THUMBNAIL_TWO_IMAGE;
           scope.deform = false;
