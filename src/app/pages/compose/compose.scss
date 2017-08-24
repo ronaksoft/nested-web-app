@@ -375,3 +375,8 @@
     }
   }
 }
+@media screen and ( max-height: 700px) {
+  .modal .modal-compose .modal-content {
+    top: 0;
+  }
+}
