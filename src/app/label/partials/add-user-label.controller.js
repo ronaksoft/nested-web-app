@@ -20,6 +20,7 @@
     vm.add = add;
     vm.query = '';
     vm.limit = 100;
+    vm.searchPlaceholder = 'Add Holders';
 
     if (argv.selectedUser) {
       vm.lastSelectedUsers = argv.selectedUser;
