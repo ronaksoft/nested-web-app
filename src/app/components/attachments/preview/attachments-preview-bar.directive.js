@@ -76,7 +76,6 @@
           scope.wrpHeight = scope.height > 1024 ? 1024 : scope.height;
         }
 
-console.log(scope.items[0].type)
         if (!scope.badge && scope.items.length === 2 &&
           (scope.items[0].type === NST_FILE_TYPE.IMAGE || scope.items[0].type === NST_FILE_TYPE.GIF ||
           (scope.items[0].type === NST_FILE_TYPE.VIDEO && scope.items[0].uploadType === 'VIDEO') ) &&
@@ -136,7 +135,7 @@ console.log(scope.items[0].type)
           //   stopScrollPower();
           // });
 
-        }, 1000);
+        }, 100);
 
 
         // interaction functions
@@ -177,7 +176,6 @@ console.log(scope.items[0].type)
           // var k = makeid();
           // count[k] = 0;
           // scrollLeft(count, k);
-
           var el = scope.scrollWrp[0];
           var i = 0;
 
@@ -309,8 +307,19 @@ console.log(scope.items[0].type)
 
           if(borderLeftArray.length == 0) {
             for(var i=0; i < childs.length; i++){
-              borderLeftArray.push(childs[i].offsetLeft - 16);
-              borderRightArray.push(childs[i].offsetLeft + childs[i].offsetWidth - 16)
+              var paddingSize = (i + 1) === childs.length ? 0 : 16
+              var leftborderPosition = childs[i].offsetLeft + el.scrollLeft - paddingSize;
+              var paddingSize2 = $rootScope._direction === 'rtl' ? 0 : 16;
+              borderLeftArray.push(leftborderPosition);
+              borderRightArray.push(childs[i].offsetLeft + childs[i].offsetWidth + el.scrollLeft - paddingSize2);
+              if($rootScope._direction === 'rtl') {
+                borderLeftArray.sort(function (a,b) {
+                  return a - b;
+                })
+                borderRightArray.sort(function (a,b) {
+                  return a - b;
+                })
+              }
             }
 
           }
