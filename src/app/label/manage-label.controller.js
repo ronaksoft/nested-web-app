@@ -27,6 +27,10 @@
     vm.toggleSelected = toggleSelected;
     vm.searchThis = searchThis;
     vm.searchKeyUp = _.debounce(searchLabel, 512);
+    vm.translation = {
+      pending: NstSvcTranslation.get('Pending Requests'),
+      request: NstSvcTranslation.get('Pending Requests')
+    };
     vm.setting = {
       skip: 0,
       limit: 16
