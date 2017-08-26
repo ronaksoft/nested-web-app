@@ -1,4 +1,12 @@
 #single-contact {
+  .place-head {
+      .popover {
+          right: 64px!important;
+          top: -6px!important;
+          left: auto!important;
+          z-index: 22;
+      }
+  }
   .contact-info {
       margin-top: 8px;
       margin-bottom: 16px;
