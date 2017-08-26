@@ -21,8 +21,11 @@
       vm.playStatus = false;
       vm.playList = [];
       vm.isVoice = false;
-      vm.currentTime = {};
-      vm.currentTimeString = ' 00:00'
+      vm.currentTime = {
+        time: 0,
+        duration: 100,
+        ratio: 0
+      };
 
       var updateDebounce = _.debounce(update, 50);
 
@@ -64,8 +67,16 @@
 
       function barClick(e) {
         var barWidth = e.currentTarget.clientWidth;
-        var x = e.clientX - $(e.currentTarget).offset().left;
-        var newRatio = x / barWidth;
+        var x;
+        
+        
+        if ( $rootScope._direction !== 'rtl') {
+          x = e.clientX - $(e.currentTarget).offset().left;
+        } else {
+          x = e.clientX - $(e.currentTarget).offset().left - barWidth;
+        }
+        var newRatio = Math.abs(x / barWidth);
+        console.log(newRatio);
         var setTime = vm.currentTime.duration * newRatio;
         vm.currentTime.ratio = newRatio;
         SvcMiniPlayer.seekTo(setTime);

@@ -466,23 +466,23 @@ span.filename {
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #282828;
+  color: $color-attachments-other;
   border-radius: 2px;
 }
 .tiny-thumb-type-archive {
-  border: 1px solid #502D96;
-  color: #502D96;
+  border: 1px solid $color-attachments-zip;
+  color: $color-attachments-zip;
 }
 .tiny-thumb-type-document {
-  border: 1px solid #2878CD;
-  color: #2878CD;
+  border: 1px solid $color-attachments-document;
+  color: $color-attachments-document;
 }
 .tiny-thumb-type-pdf {
-  border: 1px solid #CD2828;
-  color: #CD2828;
+  border: 1px solid $color-attachments-pdf;
+  color: $color-attachments-pdf;
 }
 .tiny-thumb-type-audio {
-  border: 1px solid #28CD96;
-  color: #28CD96;
+  border: 1px solid $color-attachments-media;
+  color: $color-attachments-media;
 }
 
