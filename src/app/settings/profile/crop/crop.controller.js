@@ -18,6 +18,7 @@
 
       var reader = new FileReader();
       reader.onload = function () {
+        vm.ready = true;
       };
       reader.readAsDataURL(vm.uploadedImage);
 
@@ -25,7 +26,7 @@
         return vm.ready;
       }, function () {
         if (vm.ready) {
-          vm.uploadedImageURL = vm.uploadedImage;
+          vm.uploadedImageURL = reader.result;
         }
       });
       vm.calc = function () {
