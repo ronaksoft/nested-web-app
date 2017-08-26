@@ -87,7 +87,6 @@
             }
           }
 
-
           container.addEventListener("scroll", affixElement);
 
           if (!window.affixerListenersPostView) {
