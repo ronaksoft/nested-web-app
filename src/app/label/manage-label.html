@@ -41,11 +41,11 @@
     <a class="_df _fw _jcc _aic" ng-click="ctrl.selectedView = 0;ctrl.changeTab()" ng-class="{'active' : ctrl.selectedView == 0}" ng-hide="ctrl.placeType == 'sub-personal'">
       <translate>Manage Labels</translate>
     </a>
-    <a class="_df _fw _jcc _aic" ng-click="ctrl.selectedView = 1;;ctrl.changeTab()" ng-class="{'active' : ctrl.selectedView == 1}">
+    <a class="_df _fw _jcc _aic" ng-click="ctrl.selectedView = 1;ctrl.changeTab()" ng-class="{'active' : ctrl.selectedView == 1}">
       <translate>My Labels</translate>
     </a>
   </div>
-  <h5 ng-if="ctrl.requestList.length > 0 && ctrl.selectedView !== 1" class="list-head">{{ctrl.labelManager ? '' : 'Pending '}}Requests</h5>
+  <h5 ng-if="ctrl.requestList.length > 0 && ctrl.selectedView !== 1" class="list-head">{{ctrl.labelManager ? ctrl.translation.request: ctrl.translation.pending}}</h5>
   <ul class="requests" ng-class="{'pending': !ctrl.labelManager}" nst-scrollbar ng-if="ctrl.selectedView !== 1">
     <li ng-repeat="request in ctrl.requestList">
       <hr/>
@@ -95,7 +95,7 @@
       </div>
     </li>
   </ul>
-  <h5 class="list-head">Labels</h5>
+  <h5 class="list-head"><translate>Labels</translate></h5>
   <ul class="labels _df" nst-scrollbar>
     <li ng-repeat="label in ctrl.labels track by $index">
       <hr/>

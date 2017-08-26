@@ -19,12 +19,12 @@
       "REQUEST_MAX_RETRY_TIMES": 16
     },
     "STORE": {
-      "URL": "https://xerxes.nested.me",
+      "URL": "https://xerxes.nested.me:80",
       "TOKEN_EXPMS": 3550000
     },
     "REGISTER": {
       "AJAX": {
-        "URL": "https://cyrus.nested.me:444"
+        "URL": "https://cyrus.nested.me"
       }
     },
     "GOOGLE_ANALYTICS_TOKEN": "UA-80877772-5",
