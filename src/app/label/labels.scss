@@ -4,6 +4,11 @@
     box-shadow: 0 0 24px $color-solid;
     max-height: 100vh;
     padding: 0 24px!important;
+    .settings-tab {
+        width: calc(100% + 48px);
+        margin-left: -24px;
+        margin-bottom: 24px;
+      }
     .labels-manage-header {
         display: flex;
         margin-top: 40px;

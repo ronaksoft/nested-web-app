@@ -36,8 +36,17 @@
       </svg>
     </div>
   </div>
-  <h5 ng-if="ctrl.requestList.length > 0" class="list-head">{{ctrl.labelManager ? vm.translations.request: vm.translations.pending}}</h5>
-  <ul class="requests" ng-class="{'pending': !ctrl.labelManager}" nst-scrollbar>
+  <div class="_difh settings-tab" ng-if="ctrl.labelManager">
+    <div class="shadow"></div>
+    <a class="_df _fw _jcc _aic" ng-click="ctrl.selectedView = 0;ctrl.changeTab()" ng-class="{'active' : ctrl.selectedView == 0}" ng-hide="ctrl.placeType == 'sub-personal'">
+      <translate>Manage Labels</translate>
+    </a>
+    <a class="_df _fw _jcc _aic" ng-click="ctrl.selectedView = 1;ctrl.changeTab()" ng-class="{'active' : ctrl.selectedView == 1}">
+      <translate>My Labels</translate>
+    </a>
+  </div>
+  <h5 ng-if="ctrl.requestList.length > 0 && ctrl.selectedView !== 1" class="list-head">{{ctrl.labelManager ? ctrl.translation.request: ctrl.translation.pending}}</h5>
+  <ul class="requests" ng-class="{'pending': !ctrl.labelManager}" nst-scrollbar ng-if="ctrl.selectedView !== 1">
     <li ng-repeat="request in ctrl.requestList">
       <hr/>
       <div class="icon">
@@ -90,7 +99,7 @@
   <ul class="labels _df" nst-scrollbar>
     <li ng-repeat="label in ctrl.labels track by $index">
       <hr/>
-      <div class="icon" ng-if="ctrl.labelManager">
+      <div class="icon" ng-if="ctrl.labelManager && ctrl.selectedView !== 1">
         <div class="select-card" ng-class="{'selected': label.selected}">
           <input ng-model="label.selected" ng-change="ctrl.toggleSelected(label.id, label.selected)" class="_fr" type="checkbox" id="label-select{{label.id}}" name="select"/>
           <label class="_fw _df _asc setting" for="label-select{{label.id}}"></label>
@@ -113,7 +122,7 @@
           <img ng-src="{{user | picture}}" alt="user.fullName" data-uib-tooltip="{{user.fullName}}" data-tooltip-append-to-body="true" data-tooltip-placement="top auto">
         </div>
       </div>
-      <div class="edit" ng-if="ctrl.labelManager">
+      <div class="edit" ng-if="ctrl.labelManager && ctrl.selectedView !== 1">
         <svg class="_16svg _df _fn" ng-click="ctrl.editLabel(label.id)">
           <use xlink:href="/assets/icons/nst-icn16.svg#pencil"></use>
         </svg>

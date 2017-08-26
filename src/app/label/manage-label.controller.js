@@ -26,6 +26,8 @@
     vm.withdrawRequest = withdrawRequest;
     vm.toggleSelected = toggleSelected;
     vm.searchThis = searchThis;
+    vm.changeTab = changeTab;
+    vm.selectedView = 0;
     vm.searchKeyUp = _.debounce(searchLabel, 512);
     vm.translation = {
       pending: NstSvcTranslation.get('Pending Requests'),
@@ -51,7 +53,7 @@
         return;
       }
       var searchService;
-      var filter = (vm.labelManager ? NST_LABEL_SEARCH_FILTER.ALL : NST_LABEL_SEARCH_FILTER.MY_PRIVATES);
+      var filter = (vm.labelManager && vm.selectedView === 0 ? NST_LABEL_SEARCH_FILTER.ALL : NST_LABEL_SEARCH_FILTER.MY_PRIVATES);
       if (vm.keyword.length > 0) {
         var keyword = $filter('scapeSpace')(vm.keyword);
         searchService = NstSvcLabelFactory.search(keyword, filter, vm.setting.skip, vm.setting.limit);
@@ -65,6 +67,9 @@
         vm.setting.skip += result.length;
       });
     }
+    $scope.$watch('selectedView',function (){
+      console.log('yes')
+    })
 
     function restoreDefault() {
       vm.setting.skip = 0;
@@ -245,6 +250,11 @@
         index = _.findIndex(vm.selectedItems, {id: id});
         vm.selectedItems.splice(index, 1);
       }
+    }
+
+    function changeTab () {
+      restoreDefault();
+      searchLabel(vm.keyword);
     }
 
     function searchThis(title) {

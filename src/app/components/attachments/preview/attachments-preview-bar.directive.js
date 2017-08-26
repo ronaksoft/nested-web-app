@@ -76,12 +76,11 @@
           scope.wrpHeight = scope.height > 1024 ? 1024 : scope.height;
         }
 
-
         if (!scope.badge && scope.items.length === 2 &&
           (scope.items[0].type === NST_FILE_TYPE.IMAGE || scope.items[0].type === NST_FILE_TYPE.GIF ||
           (scope.items[0].type === NST_FILE_TYPE.VIDEO && scope.items[0].uploadType === 'VIDEO') ) &&
           (scope.items[1].type === NST_FILE_TYPE.IMAGE || scope.items[1].type === NST_FILE_TYPE.GIF ||
-          (scope.items[0].type === NST_FILE_TYPE.VIDEO && scope.items[0].uploadType === 'VIDEO') ) &&
+          (scope.items[1].type === NST_FILE_TYPE.VIDEO && scope.items[1].uploadType === 'VIDEO') ) &&
           scope.items[0].hasPreview && scope.items[1].hasPreview ) {
           scope.internalMode = NST_ATTACHMENTS_PREVIEW_BAR_MODE.THUMBNAIL_TWO_IMAGE;
           scope.deform = false;
@@ -136,7 +135,7 @@
           //   stopScrollPower();
           // });
 
-        }, 1000);
+        }, 100);
 
 
         // interaction functions
@@ -177,7 +176,6 @@
           // var k = makeid();
           // count[k] = 0;
           // scrollLeft(count, k);
-
           var el = scope.scrollWrp[0];
           var i = 0;
 
@@ -309,8 +307,19 @@
 
           if(borderLeftArray.length == 0) {
             for(var i=0; i < childs.length; i++){
-              borderLeftArray.push(childs[i].offsetLeft - 16);
-              borderRightArray.push(childs[i].offsetLeft + childs[i].offsetWidth - 16)
+              var paddingSize = (i + 1) === childs.length ? 0 : 16
+              var leftborderPosition = childs[i].offsetLeft + el.scrollLeft - paddingSize;
+              var paddingSize2 = $rootScope._direction === 'rtl' ? 0 : 16;
+              borderLeftArray.push(leftborderPosition);
+              borderRightArray.push(childs[i].offsetLeft + childs[i].offsetWidth + el.scrollLeft - paddingSize2);
+              if($rootScope._direction === 'rtl') {
+                borderLeftArray.sort(function (a,b) {
+                  return a - b;
+                })
+                borderRightArray.sort(function (a,b) {
+                  return a - b;
+                })
+              }
             }
 
           }
