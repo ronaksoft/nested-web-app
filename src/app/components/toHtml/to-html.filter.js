@@ -11,7 +11,7 @@
         // .replace(/</g, "&lt;")
         // .replace(/>/g, "&gt;")
         .replace(/\t/g, "    ")
-        .replace(/\r\n|\r|\n/g, "<br />");
+        .replace(/\r\n|\r|\n/g, " <br/> ");
 
       };
     });

@@ -58,10 +58,6 @@
       vm.user = NstSvcAuth.user;
     })();
 
-    $scope.to_trusted = function(html_code) {
-      return $sce.trustAsHtml(html_code);
-    };
-
     function findLastComment(comments) {
       return _.last(_.orderBy(comments, 'timestamp'));
     }
