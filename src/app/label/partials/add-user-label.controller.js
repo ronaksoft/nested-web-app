@@ -20,7 +20,7 @@
     vm.add = add;
     vm.query = '';
     vm.limit = 100;
-    vm.searchPlaceholder = 'Add Holders';
+    vm.searchPlaceholder = NstSvcTranslation.get('Add Holders');
 
     if (argv.selectedUser) {
       vm.lastSelectedUsers = argv.selectedUser;

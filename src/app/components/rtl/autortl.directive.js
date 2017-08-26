@@ -121,7 +121,7 @@
           direction(parse.body.textContent);
         });
 
-        }
+      }
     };
   }
 })();
