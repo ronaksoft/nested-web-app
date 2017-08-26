@@ -39,6 +39,12 @@
               "<span class='_df nst-mood-storm nst-font-small'>${id}</span>" +
               "</div>" +
               "</li>";
+            var mentionPlaceTemplate = "<li data-id='${id}' class='_difv'><img src='${avatar}' class='place-picture-32 mCS_img_loaded _df'>" +
+              "<div class='_difv'>" +
+              "<span class='_df list-unstyled text-center teammate-name  nst-mood-solid text-name'>  ${name}</span>" +
+              "<span class='_df nst-mood-storm nst-font-small'>${id}</span>" +
+              "</div>" +
+              "</li>";
 
             element.on('hidden.atwho', function () {
               $timeout(function () {
@@ -111,7 +117,7 @@
                   maxLen: 10,
                   startWithSpace: true,
                   limit: 5,
-                  displayTpl: mentionTemplate,
+                  displayTpl: mentionPlaceTemplate,
                   callbacks: {
                     beforeInsert: function (value, $li) {
                       var elm = angular.element($li);
