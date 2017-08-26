@@ -147,6 +147,7 @@
 .settings-tab {
   height: 48px;
   width: 100%;
+  flex: none;
   position: relative;
   .shadow {
     box-shadow: 0 0 16px $color-black16;

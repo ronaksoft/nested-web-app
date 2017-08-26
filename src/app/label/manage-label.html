@@ -46,7 +46,7 @@
     </a>
   </div>
   <h5 ng-if="ctrl.requestList.length > 0 && ctrl.selectedView !== 1" class="list-head">{{ctrl.labelManager ? ctrl.translation.request: ctrl.translation.pending}}</h5>
-  <ul class="requests" ng-class="{'pending': !ctrl.labelManager}" nst-scrollbar ng-if="ctrl.selectedView !== 1">
+  <ul class="requests _fn" ng-class="{'pending': !ctrl.labelManager}" nst-scrollbar ng-if="ctrl.selectedView !== 1">
     <li ng-repeat="request in ctrl.requestList">
       <hr/>
       <div class="icon">
