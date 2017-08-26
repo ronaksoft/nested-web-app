@@ -36,7 +36,7 @@
       </svg>
     </div>
   </div>
-  <h5 ng-if="ctrl.requestList.length > 0" class="list-head">{{ctrl.labelManager ? '' : 'Pending '}}Requests</h5>
+  <h5 ng-if="ctrl.requestList.length > 0" class="list-head">{{ctrl.labelManager ? vm.translations.request: vm.translations.pending}}</h5>
   <ul class="requests" ng-class="{'pending': !ctrl.labelManager}" nst-scrollbar>
     <li ng-repeat="request in ctrl.requestList">
       <hr/>
@@ -86,7 +86,7 @@
       </div>
     </li>
   </ul>
-  <h5 class="list-head">Labels</h5>
+  <h5 class="list-head"><translate>Labels</translate></h5>
   <ul class="labels _df" nst-scrollbar>
     <li ng-repeat="label in ctrl.labels track by $index">
       <hr/>

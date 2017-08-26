@@ -19,11 +19,11 @@ build:desktop:
     - apk add --update python build-base
     - npm install -g bower
     - npm install
-    - npm rebuild node-sass
     - bower install
+    - npm rebuild node-sass
     - ./node_modules/.bin/gulp build --mode=production
     - mkdir -p $BUILD_DIR/desktop
-    - cp -a ./dist/production/. $BUILD_DIR/desktop
+    - cp -r ./dist/production/* $BUILD_DIR/desktop
     - cp ./lws.config.js $BUILD_DIR/desktop
     - mkdir -p $BUILD_DIR/bin
     - cp -a ./bin/. $BUILD_DIR/bin
