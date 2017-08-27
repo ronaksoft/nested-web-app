@@ -9,7 +9,7 @@
                               _, NstSvcLabelFactory, NST_LABEL_SEARCH_FILTER, argv) {
 
     var vm = this;
-    vm.labelSelectPlaceHolder = NstSvcTranslation('Select from below or type label name');
+    vm.labelSelectPlaceHolder = NstSvcTranslation.get('Select from below or type label name');
     vm.targetLimit = 100;
     vm.haveMore = true;
     vm.searchFn = _.debounce(search, 100);
