@@ -76,7 +76,6 @@
           x = e.clientX - $(e.currentTarget).offset().left - barWidth;
         }
         var newRatio = Math.abs(x / barWidth);
-        console.log(newRatio);
         var setTime = vm.currentTime.duration * newRatio;
         vm.currentTime.ratio = newRatio;
         SvcMiniPlayer.seekTo(setTime);
