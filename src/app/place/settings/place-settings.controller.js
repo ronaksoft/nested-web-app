@@ -217,15 +217,12 @@
           },
           controllerAs: 'ctlCrop'
         }).result.then(function (croppedFile) {
-          console.log(croppedFile);
           vm.logoFile = croppedFile;
 
           var request = NstSvcStore.uploadWithProgress(vm.logoFile, logoUploadProgress, NST_STORE_UPLOAD_TYPE.PLACE_PIC, NstSvcAuth.lastSessionKey);
           
           request.getPromise().then(function (result) {
-            console.log(result);
 
-            // TODO Check the error
             NstSvcPlaceFactory.updatePicture(vm.place.id, result.data.universal_id).then(function () {
               NstSvcLogger.info(NstUtility.string.format('Place {0} picture updated successfully.', vm.place.id));
               toastr.success(NstSvcTranslation.get("The Place photo has been set successfully."));
