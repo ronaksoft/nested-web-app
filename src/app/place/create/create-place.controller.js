@@ -245,6 +245,8 @@
     var checkIdAvailabilityLazily = _.debounce(checkIdAvailability, 640);
 
     function checkIdAvailability(id, deferred, dontGenerate) {
+      deferred = deferred || $q.defer();
+
       vm.placeIdChecking = true;
       vm.placeIdIsFullAvailable = true;
       NstSvcPlaceFactory.isIdAvailable(vm.place.parentId ? vm.place.parentId + '.' + id : id)
