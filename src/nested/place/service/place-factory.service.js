@@ -321,12 +321,12 @@
 
       return factory.sentinel.watch(function () {
         var deferred = $q.defer();
-        factory.hasAccess(id, [NST_PLACE_ACCESS.CONTROL]).then(function (has) {
-          if (!has) {
-            deferred.reject({
-              err_code: NST_SRV_ERROR.ACCESS_DENIED
-            });
-          }
+        // factory.hasAccess(id, [NST_PLACE_ACCESS.CONTROL]).then(function (has) {
+        //   if (!has) {
+        //     deferred.reject({
+        //       err_code: NST_SRV_ERROR.ACCESS_DENIED
+        //     });
+        //   }
 
           NstSvcServer.request('place/set_picture', {
             place_id: id,
@@ -339,7 +339,7 @@
 
             deferred.resolve(response);
           }).catch(deferred.reject);
-        }).catch(deferred.reject);
+        // }).catch(deferred.reject);
 
         return deferred.promise;
       }, "updatePicture", id);
@@ -972,6 +972,8 @@
 
       return false;
     }
+
+
 
     function updatePlace(places, place, depth) {
       if (!_.isArray(places) || places.length === 0) {
