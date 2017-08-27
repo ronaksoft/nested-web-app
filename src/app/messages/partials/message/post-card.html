@@ -7,7 +7,7 @@
 
   <section class="collapse-view" ng-if="ctlPostCard.isRibbon && ctlPostCard.ribbonEnabled"
            ng-click="ctlPostCard.switchToPostCard();">
-    <div class="user-avatar-24" user-detail="ctlPostCard.post.sender">
+    <div class="user-avatar-24" user-detail="ctlPostCard.post.sender" user-id="ctlPostCard.post.sender.id">
       <img initial-avatar="{{ctlPostCard.post.sender.id}}" name="{{ctlPostCard.post.sender.fullName}}"
            picture="{{ctlPostCard.post.sender | avatar}}" data-width="24"
            data-height="24"
@@ -43,7 +43,7 @@
       </a>
     </div>
     <div class="img _df">
-      <div class="user-avatar-38" user-detail="ctlPostCard.post.sender">
+      <div class="user-avatar-38" user-detail="ctlPostCard.post.sender.id">
         <img initial-avatar="{{ctlPostCard.post.sender.id}}" name="{{ctlPostCard.post.sender.fullName}}"
              picture="{{ctlPostCard.post.sender | avatar : 'x64'}}" data-width="38"
              data-height="38"

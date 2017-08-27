@@ -5,7 +5,7 @@
     .module('ronak.nested.web.message')
     .controller('CommentsBoardController', CommentsBoardController);
 
-  function CommentsBoardController($timeout, $scope, $q, $state,
+  function CommentsBoardController($timeout, $scope, $sce, $q, $state,
                                    NstSvcAuth,NstSvcDate, NstSvcCommentFactory, NstUtility, NstSvcTranslation,
                                    moment, toastr, NstSvcLogger, _) {
     var vm = this;
@@ -36,6 +36,7 @@
     vm.isInFirstDay = isInFirstDay;
     vm.unreadCommentsCount = 0;
     vm.showRemoved = false;
+
 
     (function () {
       vm.hasOlderComments = vm.totalCommentsCount > vm.comments.length;

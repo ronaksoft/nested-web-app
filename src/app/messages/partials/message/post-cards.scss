@@ -626,8 +626,16 @@ post-card {
   p span a {
     color: $color-sense-wire;
     &:hover {
-      text-decoration: underline!important;
+      text-decoration: underline !important;
       color: $color-sense;
+    }
+    &.nst-user-popover {
+      color: $color-hurricane;
+      cursor: pointer;
+      &:hover {
+        text-decoration: none !important;
+        color: $color-storm;
+      }
     }
   }
   .time {
