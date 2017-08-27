@@ -11,7 +11,7 @@
     var vm = this;
     vm.id = null;
     vm.code = 'A';
-    vm.userSelectPlaceHolder = 'Enter username or user-id…';
+    vm.userSelectPlaceHolder = NstSvcTranslation.get('Enter username or user-id');
     vm.holderType = 'all';
     vm.specificHolders = [];
     vm.title = '';

@@ -5,11 +5,11 @@
     .module('ronak.nested.web.components')
     .controller('addLabelController', addLabelController);
 
-  function addLabelController($timeout, $scope, $uibModalInstance,
+  function addLabelController($timeout, $scope, $uibModalInstance, NstSvcTranslation,
                               _, NstSvcLabelFactory, NST_LABEL_SEARCH_FILTER, argv) {
 
     var vm = this;
-    vm.labelSelectPlaceHolder = 'Select from below or type label name…';
+    vm.labelSelectPlaceHolder = NstSvcTranslation('Select from below or type label name');
     vm.targetLimit = 100;
     vm.haveMore = true;
     vm.searchFn = _.debounce(search, 100);

@@ -31,7 +31,7 @@
     vm.searchKeyUp = _.debounce(searchLabel, 512);
     vm.translation = {
       pending: NstSvcTranslation.get('Pending Requests'),
-      request: NstSvcTranslation.get('Pending Requests')
+      request: NstSvcTranslation.get('Requests')
     };
     vm.setting = {
       skip: 0,
