@@ -38,10 +38,10 @@
 
     function add(id) {
       return factory.sentinel.watch(function () {
-        NstSvcServer.request('contact/add', {
+        return NstSvcServer.request('contact/add', {
           contact_id: id
         });
-      }, "add" + id);
+      }, "addContact" + id);
     }
 
     function addFavorite(id) {

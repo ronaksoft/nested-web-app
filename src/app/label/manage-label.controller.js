@@ -67,9 +67,6 @@
         vm.setting.skip += result.length;
       });
     }
-    $scope.$watch('selectedView',function (){
-      console.log('yes')
-    })
 
     function restoreDefault() {
       vm.setting.skip = 0;
