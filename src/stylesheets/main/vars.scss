@@ -95,7 +95,10 @@ $border-radius-large:       6px !default;
 $border-radius-small:       3px !default;
 $border-radius-butn:       4px !default;
 
-$navbar-height: 134px;
+
+$navbar-max-width: 880px;
+$navbar-min-width: 544px;
+$navbar-height: 80px;
 $navbar-height-scrolled: 48px;
 $topnav-height: 56px;
 $sidebar-width: 240px;
@@ -104,6 +107,9 @@ $sidebar-width-plus: $sidebar-width - $sidebar-width-tiny;
 $sidebar-color: #232629;
 $sidebar-bg-hover-color: $color-solid;
 $sidebar-place-bg-hover-color: #F0F0F0;
+
+$topbar-max-width: $sidebar-width + $navbar-max-width + $sidebar-width;
+$topbar-min-width: $sidebar-width + $navbar-min-width + $sidebar-width;
 
 $post-card-max-width: 648px;
 $post-card-min-width: 320px;

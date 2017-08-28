@@ -8,4 +8,23 @@
   display: flex;
   align-items: center;
   z-index: 1100;
+  justify-content: center;
+  .search {
+    max-width: $navbar-max-width;
+    min-width: $navbar-min-width;
+    width: 100vw;
+  }
+  .logo,
+  .account {
+    width: $sidebar-width;
+    display: flex;
+    flex: none;
+  }
+  .logo{
+    padding: 0 16px;
+    #Logo-type-white {
+      margin: 0 8px;
+      opacity: .72;
+    }
+  }
 }

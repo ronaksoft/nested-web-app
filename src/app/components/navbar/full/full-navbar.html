@@ -1,15 +1,12 @@
-<div class="nst-navbar _tr is-not-feed"
+<div class="nst-navbar-fixed _tr"
      ng-if="!ctlFullNavbar.isUnreadMode && !ctlFullNavbar.isSearchMode && !ctlFullNavbar.isConvMode && !ctlFullNavbar.isFeed && !ctlFullNavbar.isSentMode && !ctlFullNavbar.isBookmarkMode"
      data-ng-include="'app/components/navbar/full/navbar-static.html'">
 
 </div>
 <div ng-if="ctlFullNavbar.isUnreadMode || ctlFullNavbar.isConvMode ||
             ctlFullNavbar.isSearchMode || ctlFullNavbar.isFeed ||
-            ctlFullNavbar.isSentMode || ctlFullNavbar.isBookmarkMode"
+            ctlFullNavbar.isSentMode || ctlFullNavbar. "
             class="nst-navbar-fixed _tr">
-  <div class="bg">
-    <div></div>
-  </div>
   <div class="nst-content _tr">
     <div class="content _pr unread-nav" ng-if="ctlFullNavbar.isUnreadMode">
       <div class="place-logo">

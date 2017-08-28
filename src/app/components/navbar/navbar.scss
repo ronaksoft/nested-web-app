@@ -16,7 +16,6 @@
 
 
 nst-navbar {
-  align-self: flex-start;
   position: relative;
   top: 0;
   right: 0;
@@ -294,20 +293,6 @@ nst-navbar {
     display: flex;
     flex: none;
   }
-  .nst-navbar.is-not-feed {
-    height: 134px!important;
-    width: calc(100vw - 240px);
-    .content {
-      .top-nav {
-      }
-      .bot-nav {
-        height: 42px;
-        overflow: hidden;
-
-      }
-    }
-
-  }
   .nav-item-butn {
     span {
       margin-left: 8px;
@@ -407,9 +392,13 @@ nst-navbar {
 }
 .nst-navbar-fixed {
   position: fixed;
-  top: 0;
-  left: $sidebar-width;
-  width: calc(100vw - 240px)!important;
+  top: 48px;
+  background-color: $color-white;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 4px 16px $color-breeze-new;
+  width: 100%;
+  max-width: 880px;
+  min-width: 544px;
   h2 {
     margin: 0;
     line-height: 28px;

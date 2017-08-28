@@ -1,22 +1,7 @@
 <div class="sidebar _df" ng-class="{ 'expanded' : ctlSidebar.isInDetailMode }" nst-sidebar-revert-mouse-leave="ctlSidebar.isInDetailMode" leave-delay="1000">
   <div class="sidebar-wrapper">
     <div class="side-top">
-      <a class="nested-logo detailed" ui-sref="app.messages-favorites()">
-        <div data-uib-tooltip-template="'nested-uib-tooltip.html'"
-               data-tooltip-placement="right auto" data-tooltip-append-to-body="true">
-          <div id="Logo-white"></div>
-        </div>
-        <div ui-sref="app.messages-favorites()">
-          <script type="text/ng-template" id="nested-uib-tooltip.html">
-            <span>
-              Nested &copy; 2017
-              <br>
-              v {{ctlSidebar.APP_VERSION}}
-            </span>
-          </script>
-          <!--<div id="Logo-type-white"></div>-->
-        </div>
-      </a>
+      
       <script type="text/ng-template" id="compose-uib-tooltip.html">
         <translate>Compose</translate>
       </script>

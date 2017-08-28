@@ -1,16 +1,16 @@
-<!-- <nst-navbar data-ng-model="navbar"
-            place-id="{{ctlMessages.currentPlace.id}}"
-            show-place-id="ctlMessages.showPlaceId"
-            nav-title="{{ctlMessages.currentPlace.id?ctlMessages.currentPlace.name: ctlMessages.navTitle}}"
-            nav-picture-url="{{ctlMessages.currentPlace.id ? ctlMessages.currentPlace.picture.getUrl('x128') : '' }}"
-            nav-picture-class="{{ !ctlMessages.currentPlace.id? ctlMessages.navIconClass : '' }}"
-            ready-to-show="ctlMessages.currentPlaceLoaded"
-            ready-to-anime="true"
-            place-description="{{ctlMessages.currentPlace.description}}"></nst-navbar>
-<div class="navbar-holder ng-class:{'feed' : !ctlMessages.currentPlace || ctlMessages.isUnreadMode,'conv' : ctlMessages.isConvMode}"></div> -->
 <div class="nst-content _tr content-wrapper">
   <scroll-change-handler reached-bottom="ctlMessages.loadMore" disabled="ctlMessages.reachedTheEnd"></scroll-change-handler>
   <section class="content nst-marginbtm-28">
+    <nst-navbar data-ng-model="navbar"
+      place-id="{{ctlMessages.currentPlace.id}}"
+      show-place-id="ctlMessages.showPlaceId"
+      nav-title="{{ctlMessages.currentPlace.id?ctlMessages.currentPlace.name: ctlMessages.navTitle}}"
+      nav-picture-url="{{ctlMessages.currentPlace.id ? ctlMessages.currentPlace.picture.getUrl('x128') : '' }}"
+      nav-picture-class="{{ !ctlMessages.currentPlace.id? ctlMessages.navIconClass : '' }}"
+      ready-to-show="ctlMessages.currentPlaceLoaded"
+      ready-to-anime="true"
+      place-description="{{ctlMessages.currentPlace.description}}"></nst-navbar>
+    <div class="navbar-holder ng-class:{'feed' : !ctlMessages.currentPlace || ctlMessages.isUnreadMode,'conv' : ctlMessages.isConvMode}"></div>
     <div class="old-navbar-holder"></div>
     <div class="filter-bar" ng-if="!ctlMessages.isbookmarkedsMode && !ctlMessages.isSentMode && !(ctlMessages.isUnreadMode && ctlMessages.unreadCount == 0) ">
       <div ng-if="!ctlMessages.isbookmarkedsMode && !ctlMessages.isSentMode && !ctlMessages.isUnreadMode" class="filter-bar-inner ng-class:{'is-not-feed' : ctlMessages.currentPlace }" affixer-filters parent=".content-plus" after-content="0" top="56" fixed-top="true">
@@ -71,7 +71,6 @@
               <use xlink:href="/assets/icons/nst-icn16.svg#sort"></use>
             </svg>
           </div>
-          <hr>
         </div>
       </div>
       <div ng-if="ctlMessages.isUnreadMode && ctlMessages.unreadCount > 0" class="filter-bar-inner" affixer-filters parent=".content-plus" after-content="0" top="56" fixed-top="true">

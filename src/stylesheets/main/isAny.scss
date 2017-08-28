@@ -45,8 +45,9 @@
 }
 
 .content {
-  max-width: 720px;
-  width: calc(100% - 240px);
+  max-width: $navbar-max-width;
+  min-width: $navbar-min-width;
+  width: 100vw;
   display: inline-flex;
   flex: none;
   flex-direction: column;

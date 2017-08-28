@@ -1,6 +1,7 @@
 .post-area {
   justify-content: center;
   z-index: 20;
+  padding-top: 16px;
   > * {
     margin: 0 24px;
     &._fw {
@@ -10,39 +11,33 @@
 }
 
 .filter-bar {
-  height: 80px;
+  height: 48px;
   display: inline-flex;
-  flex-direction: row;
-  align-items: center;
+  position: relative;
+  padding-top: 8px;
   flex: none;
   position: relative;
-  align-self: flex-end;
   width: 100%;
+  background-color: $color-bg-nested;
   .filter-bar-inner {
     background-color: $color-bg-nested;
     z-index: 22;
-    width: 100%;
-    height: 100%;
+    height: 40px;
     display: flex;
     max-width: 720px;
     position: fixed;
-    padding: 24px 24px 0 24px;
-    height: 64px;
-    margin-bottom: 16px;
-    left: calc(50vw - 16px);
-    transform: translate3d(-50%,0,0);
-    width: calc(100vw - 544px);
-    min-width: 480px;
-    top: 80px;
+    max-width: 880px;
+    min-width: 544px;
+    width: 100vw;
+    top: 136px;
     .toolbar {
       width: 100%;
       height: 100%;
+      border-radius: 8px;
+      border: 1px solid $color-breeze-5-new;
       display: flex;
       align-items: center;
       position: relative;
-    }
-    &.is-not-feed {
-      top: 134px;
     }
      hr {
       position: absolute;
