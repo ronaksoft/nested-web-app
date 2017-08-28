@@ -883,6 +883,21 @@
       }
     };
 
+    PlaceFactory.prototype.getRecentlyVisitedPlace = function (cacheHandler) {
+      var factory = this;
+
+      return NstSvcServer.request('account/GET_RECENTLY_VISITED_PLACES', {}, function(cachedResponse) {
+        if (_.isFunction(cacheHandler) && cachedResponse) {
+          var places = _.map(cachedResponse.places, function(place) {
+            return factory.getCachedSync(place._id) || factory.parseTinyPlace(place);
+          });
+
+          cacheHandler(places);
+        }
+      }).then(function (data) {
+        return $q.resolve(_.map(data.places, factory.parsePlace));
+      });
+    };
     /**
      * addPlace - Finds parent of a place and puts the place in its children
      *
@@ -928,8 +943,6 @@
 
       return false;
     }
-
-
 
     function updatePlace(places, place, depth) {
       if (!_.isArray(places) || places.length === 0) {
@@ -1010,6 +1023,7 @@
         return deferred.promise;
       }, "isIdAvailable", id);
     }
+
 
     return new PlaceFactory();
   }
