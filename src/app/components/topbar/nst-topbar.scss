@@ -1,0 +1,11 @@
+.top-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 48px;
+  background-color: $color-solid;
+  display: flex;
+  align-items: center;
+  z-index: 1100;
+}
