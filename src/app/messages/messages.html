@@ -175,7 +175,7 @@
       <fav-contacts></fav-contacts>
     </div>
     <div id="members" nst-scrollbar suppress-scroll-x="true"
-         ng-if="ctrl.hasSeeMembersAccess && ctrl.isPlaceMessage && ctrl.currentPlaceId">
+         ng-if="ctrl.isPlaceMessage && !ctrl.isPersonal">
       <nst-place-teammates-sidebar grand-place="ctrl.currentPlaceId" place-id="ctrl.currentPlaceId"></nst-place-teammates-sidebar>
     </div>
     <div id="cp1" nst-scrollbar suppress-scroll-x="true" ng-show="!ctrl.isBookmark && !ctrl.isSent && !ctrl.isUnread && ctrl.currentPlaceId"
