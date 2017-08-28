@@ -333,12 +333,9 @@
       }).catch(deferred.reject);
 
       $q.all(_.map(draft.recipients, function (recipientId) {
+        var isNormalPlace = !NST_PATTERN.EMAIL.test(recipientId);
 
-        if (NST_PATTERN.EMAIL.test(recipientId)) {
-          return NstSvcUserFactory.getTinySafe(recipientId);
-        } else {
-          return NstSvcPlaceFactory.getTinySafe(recipientId);
-        }
+        return NstSvcPlaceFactory.getSafe(recipientId, isNormalPlace);
       })).then(function (recipients) {
 
         vm.model.recipients = recipients.map(function (recipient) {

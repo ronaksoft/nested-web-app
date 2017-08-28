@@ -7,7 +7,7 @@
   /** @ngInject */
   function NstSvcActivityFactory($q, _,
     NST_ACTIVITY_FILTER, NST_EVENT_ACTION,
-    NstSvcServer, NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcCommentFactory,
+    NstSvcServer, NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcCommentFactory, NstSvcActivityCacheFactory,
     NstBaseFactory, NstSvcLogger, NstActivity, NstSvcLabelFactory, NstUtility) {
 
 
@@ -76,7 +76,7 @@
 
       activity.id = data._id;
       activity.type = data.action;
-      activity.date = new Date(data.timestamp);
+      activity.date = data.timestamp;
 
       var postPromise = NstSvcPostFactory.get(data.post_id);
       $q.all([postPromise]).then(function (resultSet) {
@@ -101,12 +101,12 @@
 
       activity.id = data._id;
       activity.type = data.action;
-      activity.date = new Date(data.timestamp);
+      activity.date = data.timestamp;
 
       var postPromise = NstSvcPostFactory.get(data.post_id);
       // TODO: Not required anymore, because the actor and comment sender are the same
-      var actorPromise = NstSvcUserFactory.getTiny(data.actor_id);
-      var placePromise = NstSvcPlaceFactory.getTiny(data.place_id);
+      var actorPromise = NstSvcUserFactory.get(data.actor_id);
+      var placePromise = NstSvcPlaceFactory.get(data.place_id);
 
       $q.all([postPromise, actorPromise, placePromise]).then(function (resultSet) {
         activity.post = resultSet[0];
@@ -132,12 +132,12 @@
 
       activity.id = data._id;
       activity.type = data.action;
-      activity.date = new Date(data.timestamp);
+      activity.date = data.timestamp;
 
       var postPromise = NstSvcPostFactory.get(data.post_id);
       // TODO: Not required anymore, because the actor and comment sender are the same
-      var actorPromise = NstSvcUserFactory.getTiny(data.actor_id);
-      var placePromise = NstSvcPlaceFactory.getTiny(data.place_id);
+      var actorPromise = NstSvcUserFactory.get(data.actor_id);
+      var placePromise = NstSvcPlaceFactory.get(data.place_id);
       $q.all([postPromise, actorPromise, placePromise]).then(function (resultSet) {
         activity.post = resultSet[0];
         activity.actor = resultSet[1];
@@ -162,11 +162,11 @@
 
       activity.id = data._id;
       activity.type = data.action;
-      activity.date = new Date(data.timestamp);
+      activity.date = data.timestamp;
 
       var postPromise = NstSvcPostFactory.get(data.post_id);
-      var oldPlacePromise = NstSvcPlaceFactory.getTiny(data.old_place_id);
-      var newPlacePromise = NstSvcPlaceFactory.getTiny(data.new_place_id);
+      var oldPlacePromise = NstSvcPlaceFactory.get(data.old_place_id);
+      var newPlacePromise = NstSvcPlaceFactory.get(data.new_place_id);
       $q.all([postPromise, oldPlacePromise, newPlacePromise]).then(function (resultSet) {
         activity.post = resultSet[0];
         activity.oldPlace = resultSet[1];
@@ -197,7 +197,7 @@
         var activity = new NstActivity();
         activity.id = data._id;
         activity.type = data.action;
-        activity.date = new Date(data.timestamp);
+        activity.date = data.timestamp;
         activity.post = resultSet[0];
         activity.comment = resultSet[1];
         deferred.resolve(activity);
@@ -212,14 +212,14 @@
     function parseAddLabel(data) {
       var deferred = $q.defer();
       var labelPromise = NstSvcLabelFactory.get(data.label_id);
-      var actorPromise = NstSvcUserFactory.getTiny(data.actor_id);
+      var actorPromise = NstSvcUserFactory.get(data.actor_id);
       var postPromise = NstSvcPostFactory.get(data.post_id);
 
       $q.all([labelPromise, actorPromise, postPromise]).then(function (resultSet) {
         var activity = new NstActivity();
         activity.id = data._id;
         activity.type = data.action;
-        activity.date = new Date(data.timestamp);
+        activity.date = data.timestamp;
         activity.label = resultSet[0] ? resultSet[0] : null;
         activity.actor = resultSet[1];
         activity.post = resultSet[2];
@@ -236,14 +236,14 @@
 
       var deferred = $q.defer();
       var labelPromise = NstSvcLabelFactory.get(data.label_id);
-      var actorPromise = NstSvcUserFactory.getTiny(data.actor_id);
+      var actorPromise = NstSvcUserFactory.get(data.actor_id);
       var postPromise = NstSvcPostFactory.get(data.post_id);
 
       $q.all([labelPromise, actorPromise, postPromise]).then(function (resultSet) {
         var activity = new NstActivity();
         activity.id = data._id;
         activity.type = data.action;
-        activity.date = new Date(data.timestamp);
+        activity.date = data.timestamp;
         activity.label = resultSet[0] ? resultSet[0] : null;
         activity.actor = resultSet[1];
         activity.post = resultSet[2];
@@ -265,13 +265,13 @@
 
       var commentPromise = NstSvcCommentFactory.getComment(data.comment_id, data.post_id);
       // TODO: Not required anymore, because the actor and comment sender are the same
-      var actorPromise = NstSvcUserFactory.getTiny(data.actor_id);
+      var actorPromise = NstSvcUserFactory.get(data.actor_id);
 
       $q.all([commentPromise, actorPromise]).then(function (resultSet) {
         var activity = new NstActivity();
         activity.id = data._id;
         activity.type = data.action;
-        activity.date = new Date(data.timestamp);
+        activity.date = data.timestamp;
         activity.comment = resultSet[0];
         activity.actor = resultSet[1];
         deferred.resolve(activity);
@@ -293,11 +293,11 @@
 
       activity.id = data._id;
       activity.type = data.action;
-      activity.date = new Date(data.timestamp);
+      activity.date = data.timestamp;
 
-      var actorPromise = NstSvcUserFactory.getTiny(data.actor_id);
-      var inviteePromise = NstSvcUserFactory.getTiny(data.member_id);
-      var placePromise = NstSvcPlaceFactory.getTiny(data.place_id);
+      var actorPromise = NstSvcUserFactory.get(data.actor_id);
+      var inviteePromise = NstSvcUserFactory.get(data.member_id);
+      var placePromise = NstSvcPlaceFactory.get(data.place_id);
 
       $q.all([actorPromise, inviteePromise, placePromise]).then(function (resultSet) {
         activity.actor = resultSet[0];
@@ -323,10 +323,10 @@
 
       activity.id = data._id;
       activity.type = data.action;
-      activity.date = new Date(data.timestamp);
+      activity.date = data.timestamp;
 
-      var actorPromise = NstSvcUserFactory.getTiny(data.actor_id);
-      var placePromise = NstSvcPlaceFactory.getTiny(data.place_id);
+      var actorPromise = NstSvcUserFactory.get(data.actor_id);
+      var placePromise = NstSvcPlaceFactory.get(data.place_id);
 
       $q.all([actorPromise, placePromise]).then(function (resultSet) {
         activity.actor = resultSet[0];
@@ -351,10 +351,10 @@
 
       activity.id = data._id;
       activity.type = data.action;
-      activity.date = new Date(data.timestamp);
+      activity.date = data.timestamp;
 
-      var placePromise = NstSvcPlaceFactory.getTiny(data.place_id);
-      var actorPromise = NstSvcUserFactory.getTiny(data.actor_id);
+      var placePromise = NstSvcPlaceFactory.get(data.place_id);
+      var actorPromise = NstSvcUserFactory.get(data.actor_id);
 
       $q.all([placePromise, actorPromise]).then(function (resultSet) {
         activity.place = resultSet[0];
@@ -369,7 +369,7 @@
       return deferred.promise;
     }
 
-    function getActivities(settings) {
+    function getActivities(settings, cacheHandler) {
       return factory.sentinel.watch(function () {
 
         var deferred = $q.defer();
@@ -380,6 +380,10 @@
           after: settings.after,
           filter: settings.filter || 'all',
           place_id: settings.placeId
+        }, function (cachedResponse) {
+          if (_.isFunction(cacheHandler) && cachedResponse) {
+            cacheHandler(_.map(cachedResponse.activities, NstSvcActivityCacheFactory.parseCachedModel));
+          }
         }).then(function (response) {
 
           var activities = _.map(response.activities, parseActivityIntelligently);
@@ -396,13 +400,13 @@
       }, 'getActivities', settings.placeId);
     }
 
-    function get(settings) {
+    function get(settings, cacheHandler) {
       return getActivities({
         limit: settings.limit,
         placeId: settings.placeId,
         before: settings.date,
         filter: settings.filter
-      });
+      }, cacheHandler);
     }
 
     function getAfter(settings) {
@@ -414,7 +418,7 @@
       });
     }
 
-    function getRecent(settings) {
+    function getRecent(settings, cacheHandler) {
       return factory.sentinel.watch(function () {
 
         var deferred = $q.defer();
@@ -423,6 +427,11 @@
           filter: NST_ACTIVITY_FILTER.ALL,
           limit: settings.limit || 10,
           place_id: settings.placeId
+        }, function(cachedResponse) {
+          if (_.isFunction(cacheHandler) && cachedResponse) {
+            var activities = _.chain(cachedResponse.activities).map(NstSvcActivityCacheFactory.parseCachedModel).compact().value();
+            cacheHandler(activities);
+          }
         }).then(function (response) {
 
           var activities = _.map(response.activities, parseActivityIntelligently);

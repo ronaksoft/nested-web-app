@@ -6,23 +6,17 @@
     .service('NstSvcUserFactory', NstSvcUserFactory);
 
   function NstSvcUserFactory($q, md5, _, $rootScope,
-                             NstSvcServer, NstSvcTinyUserStorage, NstSvcUserStorage, NstPlace,
-                             NST_USER_SEARCH_AREA,
-                             NST_USER_EVENT,
-                             NstBaseFactory, NstTinyUser, NstUser, NstUserAuthority, NstPicture) {
-    function UserFactory() { }
+                             NstSvcServer, NstSvcGlobalCache,
+                             NST_USER_SEARCH_AREA, NST_USER_EVENT, NST_SRV_ERROR,
+                             NstBaseFactory, NstTinyUser, NstUser, NstUserAuthority, NstPicture, NstPlace, NstCollector) {
+    function UserFactory() {
+      this.cache = NstSvcGlobalCache.createProvider('user');
+      this.collector = new NstCollector('account', this.getMany);
+    }
 
     UserFactory.prototype = new NstBaseFactory();
     UserFactory.prototype.constructor = UserFactory;
 
-    UserFactory.prototype.has = function (id) {
-      return !!NstSvcUserStorage.get(id);
-    };
-
-    UserFactory.prototype.hasTiny = function (id) {
-      return !!NstSvcTinyUserStorage.get(id);
-    };
-
     /**
      * Retrieves a user by id and store in the related cache storage
      *
@@ -30,65 +24,97 @@
      *
      * @returns {Promise}
      */
-    UserFactory.prototype.get = function (id, force) {
+    UserFactory.prototype.get = function (id) {
       var factory = this;
-
-      return factory.sentinel.watch(function () {
-        return $q(function (resolve, reject) {
-          var user = NstSvcUserStorage.get(id);
-          if (user && !force) {
-            resolve(user);
-          } else {
-            NstSvcServer.request('account/get', {
-              'account_id': id
-            }).then(function (userData) {
-              var user = factory.parseUser(userData);
-              NstSvcUserStorage.set(id, user);
-              resolve(user);
-            }).catch(reject);
-          }
-        });
-      }, "get", id);
-
-    }
-
-    /**
-     * Retrieves a user by id and store in the related cache storage
-     *
-     * @param {String} id
-     *
-     * @returns {Promise}
-     */
-    UserFactory.prototype.getTiny = function (id) {
-      if (!id) {
-        return $q.reject(Error('Id is not provided'));
-        // throw Error('Id is not provided');
+      // first ask the cache provider to give the model
+      var cachedUser = this.getCachedSync(id);
+      if (cachedUser) {
+        return $q.resolve(cachedUser);
       }
-      var factory = this;
-      return factory.sentinel.watch(function () {
-        return $q(function (resolve, reject) {
-          var user = NstSvcUserStorage.get(id) || NstSvcTinyUserStorage.get(id);
-          if (user) {
-            if (!(user instanceof NstTinyUser)) {
-              user = new NstTinyUser(user);
-            }
 
-            resolve(user);
-          } else {
-            factory.get(id).then(function (user) {
-              user = new NstTinyUser(user);
-              NstSvcTinyUserStorage.set(id, user);
-              resolve(user);
-            }).catch(reject);
-          }
-        });
-      }, "getTiny", id);
+      var deferred = $q.defer();
+      // collects all requests for account and send them all using getMany
+      this.collector.add(id).then(function (data) {
+        // update cache database
+        factory.set(data);
+        deferred.resolve(factory.parseTinyUser(data));
+      }).catch(function (error) {
+        switch (error.code) {
+          case NST_SRV_ERROR.ACCESS_DENIED:
+          case NST_SRV_ERROR.UNAVAILABLE:
+            deferred.reject();
+            factory.cache.remove(id);
+            break;
+
+          default:
+            deferred.reject(error);
+            break;
+        }
+      });
+
+      return deferred.promise;
     }
 
-    UserFactory.prototype.getTinySafe = function (id) {
+    /**
+     * Returns the current user account. First uses cache storage and the asks Cyrus if the account was not found
+     *
+     * @param {any} id
+     * @returns
+     */
+    UserFactory.prototype.getCurrent = function () {
+      var factory = this;
+      var current = factory.getCurrentCachedSync();
+      if (current) {
+        return $q.resolve(current);
+      }
+
+      return this.sentinel.watch(function () {
+        return NstSvcServer.request('account/get', {}).then(function (account) {
+          factory.cache.set('_current', account);
+          return $q.resolve(factory.parseUser(account));
+        });
+      }, 'getCurrent');
+    }
+
+    UserFactory.prototype.getCurrentCachedSync = function () {
+      var current = this.cache.get('_current');
+      if (!current) {
+        return;
+      }
+
+      return this.parseUser(current);
+    }
+
+    UserFactory.prototype.setCurrent = function (user) {
+      this.cache.set('_current', user);
+    };
+
+    UserFactory.prototype.getMany = function (id) {
+      var joinedIds = id.join(',');
+      return NstSvcServer.request('account/get_many', {
+        account_id: joinedIds
+      }).then(function (data) {
+        return $q.resolve({
+          idKey: '_id',
+          resolves: data.accounts,
+          rejects: data.no_access
+        });
+      });
+    };
+
+    UserFactory.prototype.getCachedSync = function (id) {
+      var model = this.cache.get(id);
+      if (!model) {
+        return null;
+      }
+
+      return this.parseCachedModel(model);
+    }
+
+    UserFactory.prototype.getSafe = function (id) {
       var service = this;
       return $q(function (resolve) {
-        service.getTiny(id).then(function (place) {
+        service.get(id).then(function (place) {
           resolve(place);
         }).catch(function () {
           resolve({id: id});
@@ -96,22 +122,12 @@
       });
     };
 
-    UserFactory.prototype.set = function (user) {
-      if (user instanceof NstUser) {
-        if (this.has(user.id)) {
-          NstSvcUserStorage.merge(user.id, user);
-        } else {
-          NstSvcUserStorage.set(user.id, user);
-        }
-      } else if (user instanceof NstTinyUser) {
-        if (this.hasTiny(user.id)) {
-          NstSvcTinyUserStorage.merge(user.id, user);
-        } else {
-          NstSvcTinyUserStorage.set(user.id, user);
-        }
+    UserFactory.prototype.set = function (data) {
+      if (data && data._id) {
+        this.cache.set(data._id, this.transformToCacheModel(data));
+      } else {
+        // console.error('The data is not valid to be cached!', data);
       }
-
-      return this;
     };
 
     UserFactory.prototype.update = function (id, params) {
@@ -123,7 +139,7 @@
         "lastName": "lname",
         "dateOfBirth": "dob",
         "gender": "gender",
-        "privacy" : "privacy"
+        "privacy": "privacy"
       };
 
       var keyValues = _.mapKeys(params, function (value, key) {
@@ -133,7 +149,7 @@
       NstSvcServer.request('account/update', keyValues).then(function () {
         return service.get(id, true);
       }).then(function (user) {
-        $rootScope.$broadcast(NST_USER_EVENT.PROFILE_UPDATED, { userId: user.id, user : user});
+        $rootScope.$broadcast(NST_USER_EVENT.PROFILE_UPDATED, {userId: user.id, user: user});
         deferred.resolve(user);
       }).catch(deferred.reject);
 
@@ -159,7 +175,7 @@
 
           return factory.get(userId, true);
         }).then(function (user) {
-          $rootScope.$broadcast(NST_USER_EVENT.PICTURE_UPDATED, { userId: user, user: user });
+          $rootScope.$broadcast(NST_USER_EVENT.PICTURE_UPDATED, {userId: user, user: user});
           deferred.resolve(user);
         }).catch(function (error) {
           deferred.reject(error);
@@ -178,44 +194,12 @@
 
           return factory.get(userId, true);
         }).then(function (user) {
-          $rootScope.$broadcast(NST_USER_EVENT.PICTURE_REMOVED, { userId: user.id, user: user });
+          $rootScope.$broadcast(NST_USER_EVENT.PICTURE_REMOVED, {userId: user.id, user: user});
           deferred.resolve(user);
         }).catch(deferred.reject);
 
         return deferred.promise;
       }, "removePicture");
-    }
-
-    UserFactory.prototype.getRecentlyVisitedPlace = function () {
-
-      var deferred = $q.defer();
-
-      function parsePlace(placeData) {
-        var place = new NstPlace();
-
-        place.id = placeData._id;
-        place.unreadPosts = placeData.unread_posts;
-        place.name = placeData.name;
-        place.description = placeData.description;
-        place.picture = new NstPicture(placeData.picture);
-        place.grandParentId = placeData.grand_parent_id;
-        place.privacy = placeData.privacy;
-        place.policy = placeData.policy;
-        place.counters = placeData.counters;
-        place.accesses = placeData.access;
-
-        return place;
-      }
-
-
-      NstSvcServer.request('account/GET_RECENTLY_VISITED_PLACES', {}).then(function (data) {
-        var places = _.map(data.places, parsePlace);
-        deferred.resolve(places);
-      }).catch(function (error) {
-        deferred.reject(error);
-      });
-
-      return deferred.promise;
     }
 
     UserFactory.prototype.parseTinyUser = function (data) {
@@ -227,6 +211,8 @@
         throw Error("Could not parse user data without _id");
       }
 
+      this.set(data);
+
       var user = new NstTinyUser();
 
       user.id = data._id;
@@ -237,8 +223,6 @@
       if (data.picture && data.picture.org) {
         user.picture = new NstPicture(data.picture);
       }
-
-      this.set(user);
 
       return user;
     };
@@ -254,34 +238,52 @@
       return userAuthority;
     };
 
-    UserFactory.prototype.parseUser = function (userData) {
+    UserFactory.prototype.parseCachedModel = function (data) {
+      if (!data) {
+        return null;
+      }
+
+      return this.parseTinyUser(data);
+    }
+
+    UserFactory.prototype.transformToCacheModel = function (user) {
+      return user;
+    }
+
+    UserFactory.prototype.parseUser = function (data) {
+      if (!_.isObject(data)) {
+        throw Error("Could not create a user model with an invalid data");
+      }
+
+      if (!data._id) {
+        throw Error("Could not parse user data without _id");
+      }
+
+      this.set(data);
       var user = new NstUser();
 
-      if (!angular.isObject(userData)) {
-        return user;
-      }
-      user.admin = userData.admin ? true : false;
-      user.labelEditor = userData.label_editor ? true : false;
-      user.id = userData._id;
-      user.firstName = userData.fname ? userData.fname : userData.name ? userData.name : userData._id;
-      user.lastName = userData.lname || '';
+      user.admin = data.admin ? true : false;
+      user.labelEditor = data.label_editor ? true : false;
+      user.id = data._id;
+      user.firstName = data.fname ? data.fname : data.name ? data.name : data._id;
+      user.lastName = data.lname || '';
       user.fullName = user.getFullName();
-      user.phone = userData.phone;
-      user.limits = userData.limits;
-      user.country = userData.country;
-      user.dateOfBirth = userData.dob;
-      user.gender = userData.gender;
-      user.email = userData.email;
-      user.privacy = userData.privacy;
-      user.authority = this.parseUserAuthority(userData.authority);
+      user.phone = data.phone;
+      user.limits = data.limits;
+      user.country = data.country;
+      user.dateOfBirth = data.dob;
+      user.gender = data.gender;
+      user.email = data.email;
+      user.privacy = data.privacy;
+      user.authority = this.parseUserAuthority(data.authority);
 
-      if (_.isObject(userData.counters)) {
-        user.totalNotificationsCount = userData.counters.total_mentions;
-        user.unreadNotificationsCount = userData.counters.unread_mentions;
+      if (_.isObject(data.counters)) {
+        user.totalNotificationsCount = data.counters.total_mentions;
+        user.unreadNotificationsCount = data.counters.unread_mentions;
       }
 
-      if (userData.picture && userData.picture.org) {
-        user.picture = new NstPicture(userData.picture);
+      if (data.picture && data.picture.org) {
+        user.picture = new NstPicture(data.picture);
       }
 
       return user;
@@ -364,7 +366,6 @@
         });
       }, 'untrustEmail');
     }
-
 
     return new UserFactory();
   }

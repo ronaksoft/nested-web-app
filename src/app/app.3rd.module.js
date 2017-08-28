@@ -27,6 +27,7 @@
       'emojiBundle',
       'firebase',
       'phoneUtils',
-      'draggable'
+      'draggable',
+      'LZString'
     ]);
 })();
