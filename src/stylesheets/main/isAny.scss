@@ -47,7 +47,7 @@
 .content {
   max-width: $navbar-max-width;
   min-width: $navbar-min-width;
-  width: 100vw;
+  width: calc(100vw - 480px);
   display: inline-flex;
   flex: none;
   flex-direction: column;

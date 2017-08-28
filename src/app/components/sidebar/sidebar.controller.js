@@ -640,7 +640,6 @@
                 totalUnread += obj.count;
               });
               vm.totalUnreadPosts = totalUnread;
-              if ( deviceDetector.isDesktop() ) vm.insertItems();
               $rootScope.$emit('unseen-activity-notify', totalUnread);
               $rootScope.$broadcast('init-controls-sidebar');
             });

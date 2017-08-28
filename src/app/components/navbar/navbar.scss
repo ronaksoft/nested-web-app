@@ -396,7 +396,7 @@ nst-navbar {
   background-color: $color-white;
   border-radius: 0 0 8px 8px;
   box-shadow: 0 4px 16px $color-breeze-new;
-  width: 100%;
+  width: calc(100vw - 480px);
   max-width: 880px;
   min-width: 544px;
   h2 {

@@ -5,6 +5,8 @@
   > * {
     margin: 0 24px;
     &._fw {
+      max-width: 720px;
+      margin: auto;
       width: calc(100% - 48px);
     }
   }
@@ -28,7 +30,7 @@
     position: fixed;
     max-width: 880px;
     min-width: 544px;
-    width: 100vw;
+    width: calc(100vw - 480px);
     top: 136px;
     .toolbar {
       width: 100%;

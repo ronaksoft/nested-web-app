@@ -46,9 +46,7 @@
   position: relative;
   flex: none;
   transition: all $animation-dur;
-  & > div {
-    //transition: $animation-dur;
-  }
+  padding: 0 8px;
   .detailed {
     justify-content: flex-start;
     margin: 0;
@@ -247,7 +245,7 @@
   color: $color-white;
   // box-shadow: inset 0 -1px 1px rgba(0,0,0,.5), /*bottom internal shadow*/
   // inset 0 1px 1px rgba(255,255,255,.5); /*top internal highlight*/
-  background-color: $color-sense;
+  // background-color: $color-sense;
   transition-duration: $animation-dur;
   transition-property: all;
   transition-timing-function: ease;
@@ -261,7 +259,6 @@
   flex: none;
   flex-direction: column;
   justify-content: center;
-  border-bottom: 1px solid $color-breeze;
   .side-menu-item {
     height: 32px;
   }
@@ -298,9 +295,6 @@
   margin-left: 3px;
   cursor: pointer;
 }
-.sidebar-wrapper .detailed.isSelected.home-item:after {
-    display: none
-}
 .sidebar > .side-place {
   padding-left: 8px;
   height: 100%;
@@ -314,14 +308,12 @@
   display: flex;
   justify-content: center;
   width: 100%;
-  border-bottom : 1px solid rgba(255,255,255,.04);
   .places{
     position: relative;
     overflow: auto;
     width: 100%;
     justify-content: flex-start;
     padding: 16px 0;
-    border-bottom: 1px solid $color-breeze;
     .ps-scrollbar-y-rail {
       z-index: 5
     }
@@ -434,17 +426,6 @@
     }
      >*:last-child p{
       font-weight: bold;
-    }
-    &:after {
-      content: "";
-      position: absolute;
-      height: 20px;
-      width: 20px;
-      top: 50%;
-      transform: translateY(-50%);
-      right: -10px;
-      background: url("../assets/icons/otr-tri.svg") no-repeat;
-      //transform: rotate(-90deg);
     }
   }
 }
