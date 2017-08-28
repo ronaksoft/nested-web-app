@@ -1,12 +1,13 @@
-.sidebar {
+.sidebar-directive {
   position: relative;
-  left: 0;
-  bottom: 0;
-  top: 0;
   width: $sidebar-width;
-  height: 100%;
+  padding-top: 48px;
+}
+.sidebar {
+  // position: fixed;
+  top: 48px;
+  width: $sidebar-width;
   flex: none;
-  transition: width .3s;
   z-index: 56;
   transform: translateZ(0);
   @include user-select(none);
@@ -40,8 +41,8 @@
   z-index: 4;
   display: inline-flex;
   flex-direction: column;
-  width: $sidebar-width-tiny;
-  background-color: $sidebar-color;
+  width: $sidebar-width;
+  // background-color: $sidebar-color;
   position: relative;
   flex: none;
   transition: all $animation-dur;
@@ -131,21 +132,21 @@
   .side-place-invite-item-inner.detailed,
   .create-place.detailed,
   .side-place-item-inner.detailed{
-    color: rgba(255,255,255,.4);
+    color: rgba(50,61,71,.8);
     svg {
-      fill: rgba(255,255,255,.4);
+      fill: rgba(50,61,71,.72);
       transition: all $animation-dur;
     }
     a, span {
-      color: rgba(255,255,255,.4);
+      color: rgba(50,61,71,.8);
     }
     &:hover,&.isSelected {
-      color: rgba(255,255,255,1);
+      color: rgba(50,61,71,1);
       a, span {
-        color: rgba(255,255,255,1);
+        color: rgba(50,61,71,1);
       }
       svg {
-        fill: rgba(255,255,255,1);
+        fill: rgba(50,61,71,1);
       }
     }
   }
@@ -323,7 +324,7 @@
   z-index: 1;
   left: 0;
   flex: 1;
-  max-height: calc(100vh - 400px);
+  // max-height: calc(100vh - 448px);
   position: relative;
   display: flex;
   justify-content: center;

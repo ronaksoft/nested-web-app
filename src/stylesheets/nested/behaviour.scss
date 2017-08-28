@@ -7,15 +7,9 @@
   }
 }
 
-.maincontainer.sideNotiny {
-  .sidebar-wrapper {
-    width: $sidebar-width!important;
-  }
-}
-
 .maincontainer.sidetiny {
   .sidebar{
-    width: $sidebar-width-tiny;
+    // width: $sidebar-width-tiny;
     .side-access {
       padding: 0;
       display: inline-flex;

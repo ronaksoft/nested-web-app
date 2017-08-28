@@ -2,7 +2,7 @@
 <nst-topbar class="ng-animate-disabled"></nst-topbar>
   <div class="maincontainer _fw" ng-class="{'navtiny' : navView,'sideNotiny' : ctlApp.viewSettings.sidebar.collapsed,'noSide':ctlApp.viewSettings.sidebar.hidden}">
     <nst-sidebar ng-hide="ctlApp.viewSettings.sidebar.hidden" collapsed="ctlApp.viewSettings.sidebar.collapsed"
-      class="_fn _fh ng-animate-disabled">
+      class="sidebar-directive ng-animate-disabled">
     </nst-sidebar>
     <scroll-change-observer></scroll-change-observer>
     <div class="nst-container" ui-view></div>

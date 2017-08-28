@@ -87,17 +87,7 @@
       </div>
     </div>
     <div class="side-place-wrapper _fw">
-      <div class="shadow-top ng-class:{'vis' : ctlSidebar.overFlowTop}" ng-click="ctlSidebar.scrollTop()">
-        <svg class="_16svg">
-          <use xlink:href="/assets/icons/nst-icn16.svg#arrow"></use>
-        </svg>
-        <div class="unreadPlace" ng-show="ctlSidebar.overFlowTopUnread">
-          <svg class="pendfill">
-            <use xlink:href="/assets/icons/nst-icn24.svg#unread-circle"></use>
-          </svg>
-        </div>
-      </div>
-      <div class="places _ltr" dir="ltr" nst-scrollbar suppress-scroll-x="true" sidebar-scroll >
+      <div class="places _ltr">
         <ul class="side-place" data-ng-if="ctlSidebar.invitations.length > 0 " dir="{{_direction}}">
           <li class="side-place-item" ng-repeat="invitaion in ctlSidebar.invitations">
             <a href="javascript:void(0);" ng-click="ctlSidebar.invitation.showModal(invitaion.id)"
@@ -136,16 +126,6 @@
           </span>
           <translate>Create a new Place</translate>
         </a>
-      </div>
-      <div class="shadow-bot ng-class:{'vis' : ctlSidebar.overFlowBottom}" ng-click="ctlSidebar.scrollBottom()">
-        <svg class="_16svg">
-          <use xlink:href="/assets/icons/nst-icn16.svg#arrow"></use>
-        </svg>
-        <div class="unreadPlace" ng-show="ctlSidebar.overFlowBottomUnread">
-            <svg class="pendfill">
-              <use xlink:href="/assets/icons/nst-icn24.svg#unread-circle"></use>
-            </svg>
-          </div>
       </div>
     </div>
     <div class="side-access">
@@ -241,19 +221,8 @@
       </script>
     </div>
   </div>
-  <div class="sidebar-plus-wrapper" ng-show="ctlSidebar.selectedGrandPlace">
-    <div class="side-profile-block" bg-check="{{ctlSidebar.selectedGrandPlace.avatar}}">
-      <div class="user-detail txt">
-        <a class="_wrb">{{ctlSidebar.selectedGrandPlace.name}}</a>
-      </div>
-      <div class="user-avatar">
-        <img ng-if="ctlSidebar.selectedGrandPlace.avatar" ng-src="{{ctlSidebar.selectedGrandPlace.avatar}}"/>
-        <img ng-if="!ctlSidebar.selectedGrandPlace.avatar" class="account-initials-32"
-             initials="ctlSidebar.selectedGrandPlace.name" data-url="ctlSidebar.selectedGrandPlace.avatar"
-             data-width="size" data-height="size" data-radius="20" data-word-count="2" data-font-size="16"/>
-      </div>
-    </div>
-    <div nst-scrollbar dir="ltr" suppress-scroll-x="true" class="places">
+  <div class="sidebar-plus-wrapper" ng-if="false">
+    <div class="places">
       <div class="places-list" dir="{{$root._direction}}">
         <nst-sidebar-place-info grand-place="ctlSidebar.selectedGrandPlace" unread-mode="ctlSidebar.isUnreadMode"></nst-sidebar-place-info>
       </div>
