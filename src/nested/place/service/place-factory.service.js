@@ -773,19 +773,22 @@
       }, id);
     };
 
-    PlaceFactory.prototype.getMutualPlaces = function (accountId) {
+    PlaceFactory.prototype.getMutualPlaces = function (accountId, cacheHandler) {
       var factory = this;
-      return this.sentinel.watch(function () {
-        var deferred = $q.defer();
 
-        NstSvcServer.request('place/get_mutual_places', {
-          account_id: accountId
-        }).then(function (data) {
-          deferred.resolve(_.map(data.places, factory.parseTinyPlace));
-        }).catch(deferred.reject);
+      return NstSvcServer.request('place/get_mutual_places', {
+        account_id: accountId
+      }, function (cachedResponse) {
+        if (cachedResponse && _.isFunction(cacheHandler)) {
+          var places = _.map(cachedResponse.places, function (place) {
+            return factory.getCachedSync(place._id) || factory.parseTinyPlace(place);
+          });
 
-        return deferred.promise;
-      }, "getMutualPlaces_" + accountId);
+          cacheHandler(places);
+        }
+      }).then(function (data) {
+        return $q.resolve(_.map(data.places, factory.parseTinyPlace));
+      });
     }
 
     /**
