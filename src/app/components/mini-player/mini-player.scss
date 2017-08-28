@@ -1,0 +1,256 @@
+.mini-player {
+    position: fixed;
+    bottom: 0;
+    left: 50vw;
+    margin-left: -160px;
+    width: 320px;
+    z-index: 1000;
+    .player-ribbon {
+        height: 32px;
+        margin-bottom: 8px;
+        display: flex;
+        background-color: $color-solid;
+        border-radius: 8px;
+        box-shadow: 0 4px 16px $color-solid-64;
+        padding: 8px;
+        .sound-poster {
+            overflow: hidden;
+            flex: none;
+            img {
+                width: 16px;
+                height: 16px;
+                object-fit: cover;
+                border-radius: 1px;
+            }
+        }
+        a {
+            margin-left: 8px;
+            opacity: .64;
+            color: $color-white;
+            display: flex;
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            span {
+                display: block;
+                width: 100%;
+                line-height: 1.2;
+            }
+        }
+        > div {
+            width: 32px;
+            margin: 0 4px;
+            flex: none;
+            &:last-child {
+                margin-right: 0;
+                width: 24px;
+                svg {
+                    margin-right: 0;
+                }
+            }
+        }
+        .devider {
+            width: 24px;
+            display: flex;
+            flex: none;
+            margin: 0;
+        }
+        svg {
+            margin-right: 8px;
+            margin-left: 8px;
+            opacity: .16;
+            display: flex;
+            flex: none;
+            transition: opacity $animation-dur;
+            &:hover {
+                opacity: 1;
+            }
+            &.active {
+                opacity: 1;
+            }
+        }
+    }
+    .mini-player-inner {
+        display: flex;
+        background-color: $color-solid;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        flex-direction: column;
+        min-height: 88px;
+        box-shadow: 0 4px 16px $color-solid-64;
+    }
+    .player {
+        height: 54px;
+        display: flex;
+        flex: none;
+        .sound-poster {
+            padding: 0 8px;
+            margin: 8px 0;
+            img {
+                width: 36px;
+                height: 36px;
+            }
+        }
+        .player-handler {
+            margin: 0 12px;
+            height: 24px;
+            position: relative;
+            .bg-bar ,
+            .played-bar {
+                height: 2px;
+                width: 100%;
+                background-color: $color-white;
+                border-radius: 1px;
+                position: absolute;
+                top: 11px;
+                left: 0;
+            }
+            .bg-bar {
+                opacity: .16;
+            }
+            .played-bar {
+                transform-origin: left center;
+                transform: scaleX(.5);
+            }
+            .player-dragger {
+                position: absolute;
+                left: 0;
+                top: 6px;
+                width: 12px;
+                height: 12px;
+                border-radius: 10px;
+                background-color: $color-white;
+                box-shadow: 0 0 4px $color-solid;
+                margin-left: -6px;
+                left: 0;
+            }
+        }
+        span {
+            line-height: 18px;
+            font-size: 12px;
+            opacity: .64;
+            text-align: center;
+            max-width: 160px;
+            align-self: center;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            color: $color-white;
+        }
+        .player-quit {
+            width: 52px;
+            display: flex;
+            padding: 8px;
+            justify-content: flex-start;
+            align-items: flex-end;
+            flex-direction: column;
+            svg {
+                opacity: .4;
+                &:hover{
+                    opacity: 1;
+                }
+            }
+            svg:first-child {
+                margin-bottom: 12px;
+            }
+        }
+    }
+    .player-buttons-wrapper {
+        height: 32px;
+        display: flex;
+        align-items: center;
+        flex: none;
+        margin-bottom: 8px;
+        .remain-time ,
+        .player-dropdown {
+            width: 72px;
+            display: flex;
+            padding: 0 8px;
+            flex: none;
+        }
+        .player-buttons{
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            > div {
+                width: 40px;
+                height: 16px;
+            }
+            svg {
+                margin: 0 12px;
+            }
+            .butn-previous ,
+            .butn-next {
+                opacity: .16;
+                &:hover {
+                    opacity: .88;
+                }
+            }
+        }
+        .player-dropdown {
+            justify-content: flex-end;
+            opacity: .4;
+        }
+        .remain-time {
+            opacity: .64;
+            font-size: 12px;
+            padding-left: 8px;
+            color: $color-white;
+        }
+    }
+    .player-list {
+        display: flex;
+        max-height: 0;
+        transition: max-height $animation-dur;
+        overflow: auto;
+        &.expand {
+            max-height: 208px;
+        }
+        ul {
+            padding: 4px 0;
+            list-style: none;
+            width: 100%;
+            li {
+                height: 40px;
+                width: 100%;
+                display: flex;
+                align-items: center;
+                .poster {
+                    width: 52px;
+                    display: flex;
+                    justify-content: center;
+                    flex: none;
+                    img {
+                        width: 24px;
+                        height: 24px;
+                    }
+                }
+                .info {
+                    height: 100%;
+                    display: flex;
+                    width: 100%;
+                    overflow: hidden;
+                    border-bottom: 1px solid rgba(255,255,255,.08);
+                    align-items: center;
+                    span {
+                        color: $color-64-white;
+                        font-size: 12px;
+                        width: 100%;
+                        padding-right: 16px;
+                    }
+                    &.isPlayed {
+                        span {
+                            color: $color-sense;
+                            font-weight: bold
+                        }
+                    }
+                }
+                &:last-of-type {
+                    .info {
+                      border-bottom-color: transparent;
+                    }
+                }
+            }
+        }
+    }
+}

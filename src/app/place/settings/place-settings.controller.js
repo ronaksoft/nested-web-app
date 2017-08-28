@@ -14,37 +14,6 @@
     .module('ronak.nested.web.place')
     .controller('PlaceSettingsController', PlaceSettingsController);
 
-  /** @ngInject */
-  /**
-   * The user edits a place settings using this page
-   *
-   * @param {any} $scope
-   * @param {any} $stateParams
-   * @param {any} $q
-   * @param {any} $state
-   * @param {any} $rootScope
-   * @param {any} $timeout
-   * @param {any} $uibModal
-   * @param {any} $uibModalInstance
-   * @param {any} toastr
-   * @param {any} NST_PLACE_POLICY_OPTION
-   * @param {any} NST_STORE_UPLOAD_TYPE
-   * @param {any} NST_PLACE_ACCESS
-   * @param {any} NST_SRV_ERROR
-   * @param {any} NST_PLACE_MEMBER_TYPE
-   * @param {any} NST_PLACE_TYPE
-   * @param {any} NST_DEFAULT
-   * @param {any} NST_PLACE_EVENT
-   * @param {any} NstSvcStore
-   * @param {any} NstSvcAuth
-   * @param {any} NstSvcPlaceFactory
-   * @param {any} NstUtility
-   * @param {any} NstSvcLogger
-   * @param {any} NstSvcTranslation
-   * @param {any} NstSvcModal
-   * @param {any} NstPicture
-   * @param {any} NstEntityTracker
-   */
   function PlaceSettingsController($scope, $stateParams, $q, $state, $rootScope,
     $timeout, $uibModal, $uibModalInstance, toastr, _,
     NST_PLACE_POLICY_OPTION, NST_STORE_UPLOAD_TYPE, NST_PLACE_ACCESS, NST_SRV_ERROR,
@@ -249,30 +218,20 @@
           controllerAs: 'ctlCrop'
         }).result.then(function (croppedFile) {
           vm.logoFile = croppedFile;
-          vm.logoUrl = '';
 
-          var reader = new FileReader();
-          reader.onload = function (readEvent) {
-            NstSvcLogger.info('The picture is loaded locally and going to be sent to server.');
-            vm.logoUrl = readEvent.target.result;
+          var request = NstSvcStore.uploadWithProgress(vm.logoFile, logoUploadProgress, NST_STORE_UPLOAD_TYPE.PLACE_PIC, NstSvcAuth.lastSessionKey);
+          
+          request.getPromise().then(function (result) {
 
-            // upload the picture
-            var request = NstSvcStore.uploadWithProgress(vm.logoFile, logoUploadProgress, NST_STORE_UPLOAD_TYPE.PLACE_PIC, NstSvcAuth.lastSessionKey);
-
-            request.getPromise().then(function (result) {
-
-              NstSvcPlaceFactory.updatePicture(vm.place.id, result.data.universal_id).then(function () {
-                NstSvcLogger.info(NstUtility.string.format('Place {0} picture updated successfully.', vm.place.id));
-                toastr.success(NstSvcTranslation.get("The Place photo has been set successfully."));
-              }).catch(function () {
-                toastr.error(NstSvcTranslation.get("An error has occurred in updating the Place photo."));
-              });
-
-              vm.place.picture = new NstPicture(result.data.thumbs);
+            NstSvcPlaceFactory.updatePicture(vm.place.id, result.data.universal_id).then(function () {
+              NstSvcLogger.info(NstUtility.string.format('Place {0} picture updated successfully.', vm.place.id));
+              toastr.success(NstSvcTranslation.get("The Place photo has been set successfully."));
+            }).catch(function () {
+              toastr.error(NstSvcTranslation.get("An error has occurred in updating the Place photo."));
             });
-          };
 
-          reader.readAsDataURL(vm.logoFile);
+            vm.place.picture = new NstPicture(result.data.thumbs);
+          });
         }).catch(function () {
           event.target.value = '';
         });

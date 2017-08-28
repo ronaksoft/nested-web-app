@@ -4,7 +4,12 @@
     box-shadow: 0 0 24px $color-solid;
     max-height: 100vh;
     padding: 0 24px!important;
-    .labels-headline {
+    .settings-tab {
+        width: calc(100% + 48px);
+        margin-left: -24px;
+        margin-bottom: 24px;
+      }
+    .labels-manage-header {
         display: flex;
         margin-top: 40px;
         margin-bottom: 24px;
@@ -16,7 +21,7 @@
             margin: 0;
         }
     }
-    .lbl-search {
+    .search-label {
         display: flex;
         margin: 16px 0;
         position: relative;
@@ -37,7 +42,7 @@
             opacity: .4;
         }
     }
-    .lbl-cr8, .lbl-remove {
+    .label-create-butn, .label-remove-butn {
         white-space: nowrap;
         margin-left: 24px;
         padding: 0 8px;
@@ -509,6 +514,8 @@
                 position: relative;
                 border: none;
                 padding: 0;
+                top: 0;
+                left: 0;
                 max-height: 256px;
                 height: 256px;
                 display: block!important;

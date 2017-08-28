@@ -15,8 +15,8 @@
     </div>
   </div>
   <div class="user-data">
-    <h4>{{::user.fullName}}</h4>
-    <span><span ng-if="!isEmail">@</span>{{::user.id}}</span>
+    <h4>{{user.fullName > 32 ? user.fullName.substr(0, 32) + '...' : user.fullName}}</h4>
+    <span><span ng-if="!isEmail">@</span>{{user.id > 20 ? user.id.substr(0, 20) + '...' : user.id}}</span>
     <div class="_fw">
       <a class="butn-white" ui-sref="app.conversation({userId:user.id})">
         <svg class="_24svg _df">

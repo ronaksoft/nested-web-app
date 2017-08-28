@@ -6,31 +6,41 @@
     .directive('affixerPostView', onScroll);
 
   /** @ngInject */
-  function onScroll($window,$timeout, $) {
+  function onScroll($window, $timeout, $) {
     return {
       restrict: 'A',
       link: function ($scope, $element, $attrs) {
 
         var win = angular.element($window);
         var topOffset = 0;
-        var container = $attrs.container ? $($attrs.container) : win;
+        var container = $attrs.container ? $($attrs.container)[0] : win;
         var rightAuto = $attrs.rtlRightAuto || false;
 
         applier();
-        if( $attrs.observe ) {
-          $scope.$watch(function(){
+        if ($attrs.observe) {
+          $scope.$watch(function () {
             return $scope.$parent.$parent.$parent.affixObserver;
-          },function(){
-            return $timeout(function(){applier()},500);
+          }, function () {
+            return $timeout(function () {
+              applier()
+            }, 500);
           });
         }
 
-
-        win.on("resize", function () {
+        function resizeF() {
           applier();
-        });
+        }
+
+        win.on("resize", resizeF);
 
         function applier() {
+
+          if (window.affixerListenersPostView && window.affixerListenersPostView.length > 0) {
+            window.affixerListenersPostView.forEach(function (item) {
+              window.removeEventListener("scroll", item);
+            });
+          }
+
           if ($attrs.affixerPostView === 'false' || $attrs.affixerPostView === false) return;
           removeFix();
           var top = $element[0].offsetTop + $element.parent()[0].offsetTop + 58 || 0;
@@ -46,11 +56,8 @@
 
           var fixed = false;
 
-          if ($attrs.fixedTop ) {
+          if ($attrs.fixedTop) {
             top = parseInt($attrs.top);
-          }
-          if ($attrs.clearRight ) {
-            var clearRight = true;
           }
 
           function removeFix() {
@@ -65,40 +72,32 @@
 
 
           function affixElement() {
-            if (!fixed && container[0].scrollTop > topOffset) {
+            if (!fixed && container.scrollTop > topOffset) {
               $element.css('position', 'fixed');
               $element.css('top', parseInt(top) + 'px');
               $element.css('left', offLeft + 'px');
               if (rightAuto) $element.css('right', 'auto');
-              if(!dontSetWidth) $element.css('width', actualWidth + 'px');
+              if (!dontSetWidth) $element.css('width', actualWidth + 'px');
               $element.css('height', height + 'px');
               $element.css('transform', 'none');
               fixed = true;
-            } else if (fixed && container[0].scrollTop < topOffset ) {
+            } else if (fixed && container.scrollTop < topOffset) {
               removeFix();
               fixed = false;
             }
           }
 
-          function firstFixes() {
-            if ($attrs.firstImp ) {
-              $element.css('position', 'fixed');
-              $element.css('top', parseInt(top) - parseInt(topOffset) + 'px');
-              $element.css('left', offLeft + 'px');
-              $element.css('width', width + 'px');
-              $element.css('height', height + 'px');
-              if(clearRight) {
-                $element.css('right', 'auto');
-              }
-              return container.unbind('scroll', affixElement);
-            }
+          container.addEventListener("scroll", affixElement);
+
+          if (!window.affixerListenersPostView) {
+            window.affixerListenersPostView = [];
           }
+          window.affixerListenersPostView.push(affixElement);
 
-          container.bind('scroll', affixElement);
-          firstFixes();
-
+          $scope.$on('$destroy', function () {
+            container.removeEventListener('scroll', affixElement);
+          })
         }
-
       }
     };
   }

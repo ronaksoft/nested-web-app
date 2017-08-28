@@ -152,13 +152,13 @@
       <script type="text/ng-template" id="recently-uib-tooltip.html">
         <translate>Recently Viewd Places</translate>
       </script>
-      <a class="detailed popover-mentions"
+      <a class="detailed notifications-popover-handler"
          ng-click="ctlSidebar.recentOpen =! ctlSidebar.recentOpen;ctlSidebar.profileOpen = falsen;ctlSidebar.mentionOpen = false" ng-init="ctlSidebar.recentOpen = false"
          data-uib-popover-template="'app/place/recent-visited/recently-visited.html'"
          data-popover-placement="top-center auto"
          data-popover-append-to-body="false"
          data-popover-is-open="ctlSidebar.recentOpen"
-         data-popover-class="recent-place-pop"
+         data-popover-class="recently-visited-places-popover"
          data-tooltip-append-to-body="true"
          data-uib-tooltip-template="'recently-uib-tooltip.html'"
          data-tooltip-enable="{{!ctlApp.viewSettings.sidebar.collapsed ? true : false}}"
@@ -195,10 +195,10 @@
       <script type="text/ng-template" id="mention-uib-tooltip.html">
         <translate>Notifications</translate>
       </script>
-      <a class="detailed popover-mentions oddH"
+      <a class="detailed notifications-popover-handler sidebar-different-height-item"
          data-uib-popover-template="'app/notification/notification-popover.html'"
          data-popover-placement="right-bottom auto"
-         data-popover-class="mentions"
+         data-popover-class="notifications-popover"
          data-popover-append-to-body="false"
          data-popover-is-open="ctlSidebar.mentionOpen"
          data-popover-trigger="none"
@@ -210,7 +210,7 @@
           <svg class="_20svg">
             <use xlink:href="/assets/icons/nst-icn20.svg#bell"></use>
           </svg>
-          <div class="notif" ng-if="ctlSidebar.notificationsCount > 0">{{ctlSidebar.notificationsCount | localize}}</div>
+          <div class="unread-notif-badge" ng-if="ctlSidebar.notificationsCount > 0">{{ctlSidebar.notificationsCount | localize}}</div>
         </div>
         <div ng-click="ctlSidebar.mentionOpen =! ctlSidebar.mentionOpen;ctlSidebar.profileOpen = false;$event.preventDefault();$event.stopPropagation(); _track('sidebar', 'view notifications');">
           <translate>Notifications</translate>
@@ -222,7 +222,7 @@
       <a class="detailed"
          data-uib-popover-template="'app/settings/profile/profile-popover.html'"
          data-popover-placement="right-bottom auto"
-         data-popover-class="pop-white pop-profile"
+         data-popover-class="pop-white profile-popover"
          data-popover-is-open="ctlSidebar.profileOpen"
          data-popover-append-to-body="false"
          data-uib-tooltip-template="'profile-uib-tooltip.html'"
@@ -241,7 +241,6 @@
       </script>
     </div>
   </div>
-  <!--<div class="sidebar-border"></div>-->
   <div class="sidebar-plus-wrapper" ng-show="ctlSidebar.selectedGrandPlace">
     <div class="side-profile-block" bg-check="{{ctlSidebar.selectedGrandPlace.avatar}}">
       <div class="user-detail txt">
@@ -253,12 +252,6 @@
              initials="ctlSidebar.selectedGrandPlace.name" data-url="ctlSidebar.selectedGrandPlace.avatar"
              data-width="size" data-height="size" data-radius="20" data-word-count="2" data-font-size="16"/>
       </div>
-      <!--<div class="side-stats">-->
-        <!--<div class="unread ng-class:{'active' : ctlSidebar.isUnreadMode}">-->
-          <!--<a class="_fn _df" ui-sref="app.place-messages-unread({placeId: ctlSidebar.selectedGrandPlace.id})"><translate>Total unseen posts</translate>&nbsp;</a>-->
-          <!--<span class="_fn _df">{{(ctlSidebar.placesNotifCountObject[ctlSidebar.selectedGrandPlace.id] || 0) | localize}}</span>-->
-        <!--</div>-->
-      <!--</div>-->
     </div>
     <div nst-scrollbar dir="ltr" suppress-scroll-x="true" class="places">
       <div class="places-list" dir="{{$root._direction}}">

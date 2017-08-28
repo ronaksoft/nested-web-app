@@ -11,20 +11,24 @@
   <!--<a ng-if="ctrl.hasAnyRemoved && ctrl.showRemoved" href="javascript:void(0);" ng-click="ctrl.showRemoved = false; _track('post card', 'hide removed comments');">Hide removed comments</a>-->
 </div>
 <div ng-repeat="comment in ctrl.comments | limitTo : ctrl.commentBoardLimit * -1  | orderBy:'timestamp'">
-  <div class="post-card-comments _difh _fw _wrb" ng-if="!comment.removedById || (ctrl.showRemoved && comment.removedById)" ng-class="{ 'removed-comment' : comment.removedById }">
-    <div class="user-avatar-24" user-detail="comment.sender">
-      <img initial-avatar="{{::comment.sender.id}}" name="{{::comment.sender.fullName}}" picture="{{comment.sender | avatar}}" data-width="24" data-height="24" data-radius="13" class="account-initials-24 _df" data-word-count="2" data-font-size="8"/>
-    </div>
-    <div class="text _df _fw">
-      <p class="_fw" auto-dir="comment.body">
-            <span class="_df _fn time" data-uib-tooltip="{{::comment.timestamp | date : 'full' | localize}}" data-tooltip-append-to-body="true" data-tooltip-placement="top auto">{{comment.timestamp | passed | localize}}</span>
-        <strong class="_fl" user-detail="comment.sender">{{comment.sender.fullName}}:&nbsp;</strong>
-        <span is-two-line class="_fl" ng-bind-html="comment.body | link | plainToHtml "></span>
-        <i ng-if="comment.removedById">
-          (<translate>removed by <a class="comment-removed-by" href user-detail="comment.removedBy">{{::comment.removedBy.fullName}}</a></translate>)
-        </i>
-      </p>
-    </div>
+  <div class="post-card-comments _difh _fw _wrb" ng-class="{ 'removed-comment' : comment.removedById }">
+    <!--<div class="user-avatar-24" user-detail="comment.sender">-->
+      <!--<img initial-avatar="{{::comment.sender.id}}" name="{{::comment.sender.fullName}}" picture="{{comment.sender | avatar}}" data-width="24" data-height="24" data-radius="13" class="account-initials-24 _df" data-word-count="2" data-font-size="8"/>-->
+    <!--</div>-->
+    <!--<div class="text _df _fw">-->
+      <!--<p class="_fw" auto-dir="comment.body">-->
+            <!--<span class="_df _fn time" data-uib-tooltip="{{::comment.timestamp | date : 'full' | localize}}" data-tooltip-append-to-body="true" data-tooltip-placement="top auto">{{comment.timestamp | passed | localize}}</span>-->
+        <!--<strong class="_fl" user-detail="comment.sender">{{comment.sender.fullName}}:&nbsp;</strong>-->
+        <!--<span is-two-line class="_fl" ng-bind-html="to_trusted(comment.body | link | nstPopover | plainToHtml)"></span>-->
+        <!--<i ng-if="comment.body === '' && !comment.removedBy">-->
+          <!--(<translate>removed</translate>)-->
+        <!--</i>-->
+        <!--<i ng-if="comment.removedBy">-->
+          <!--(<translate>removed by <span class="comment-removed-by" user-detail="comment.removedBy">{{::comment.removedBy.fullName}}</span></translate>)-->
+        <!--</i>-->
+      <!--</p>-->
+    <!--</div>-->
+    <nst-comment-body comment="comment"></nst-comment-body>
     <script type="text/ng-template" id="remove-cm-tooltip.html">
       <translate>Remove</translate>
     </script>

@@ -39,14 +39,14 @@
 #    Given I Click by ngClick "ctlPostCard.viewFull($event); ctlPostCard.markAsRead(); _track('post card','open post view : click date');"
 #    When Wait see object with id "PostView"
 #    Given I Click by ngClick "ctlPostCard.replyAll($event);ctlPostCard.markAsRead(); _track('post card', 'reply : add-on');"
-#    When Wait see object with class "compose-wrp"
+#    When Wait see object with class "compose-wrapper"
 #    When I wait 5s
 #    When should see "test post view" place name
 #    When Wait to see subject "Creating a rich post for testing post view"
 #    When I wait 5s
 #    Given I Click by ngClick "$dismiss()"
 #    When I wait 5s
-#    When Wait see object with id "delete-view"
+#    When Wait see object with id "mini-modal"
 #    When I wait 5s
 #    Given I Click by ngClick "$close(true);"
 ##    When Wait see object with id "PostView" ----------------check----------------
@@ -59,7 +59,7 @@
 #    When Wait to see music
 #    When Wait to see pdf
 #    Given I Click by ngClick "$dismiss()"
-#    When Wait see object with id "delete-view"
+#    When Wait see object with id "mini-modal"
 #    Given I Click by ngClick "$close(true);"
 #    Given I pin a post
 #    When I wait 2s

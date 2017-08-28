@@ -121,11 +121,11 @@ post-card {
   background-color: $color-white;
   overflow: visible;
   transition: all $animation-dur;
-  .icon .fw,
+  .icon .forward-post,
   .icon .more,
-  .icon .re,
-  .icon .reed,
-  .icon .fwed {
+  .icon .reply-post,
+  .icon .post-is-replied,
+  .icon .post-is-forwarded {
     svg {
       fill: $color-breeze;
     }
@@ -135,12 +135,12 @@ post-card {
     // .icon .more svg {
     //   fill: black;
     // }
-    .icon .fwed{
+    .icon .post-is-forwarded{
       svg {
         fill: $color-forward;
       }
     }
-    .icon .reed {
+    .icon .post-is-replied {
       svg {
         fill: $color-reply;
       }
@@ -220,6 +220,7 @@ post-card {
     h4 span {
       margin: 0;
       font-size: 16px;
+      line-height: 1.4;
       font-weight: 400;
       color: $color-solid;
       max-width: 350px;
@@ -380,13 +381,13 @@ post-card {
         display: flex;
         justify-content: center;
         align-items: center;
-        &.fw:hover {
+        &.forward-post:hover {
           background-color: rgba(40, 60, 210, .1);
           svg {
             fill: $color-forward;
           }
         }
-        &.re:hover {
+        &.reply-post:hover {
           svg {
             fill: $color-reply;
           }
@@ -546,9 +547,6 @@ post-card {
   margin-left: 8px;
   @include avatar(32px,32px,10%);
 }
-h3 {
-  font-weight: 100;
-}
 
 .post-card .post-attachments {
   //height: 66px;
@@ -628,8 +626,16 @@ h3 {
   p span a {
     color: $color-sense-wire;
     &:hover {
-      text-decoration: underline!important;
+      text-decoration: underline !important;
       color: $color-sense;
+    }
+    &.nst-user-popover {
+      color: $color-hurricane;
+      cursor: pointer;
+      &:hover {
+        text-decoration: none !important;
+        color: $color-storm;
+      }
     }
   }
   .time {
@@ -740,56 +746,6 @@ h3 {
   display: flex;
 }
 
-.no-permission {
-  background-color: #D2D2D2;
-  width: 114px;
-  font-weight: 400;
-  color: #FFFFFF;
-  @extend .nst-font-small;
-  border-radius: 24px;
-  height: 24px;
-  text-align: center;
-  position: relative;
-  transition: background-color $animation-dur;
-  display: inline-flex;
-  flex-direction: row;
-  align-items: center;
-  cursor: pointer;
-  &:hover {
-    background-color: $color-force;
-  }
-  .forbidden-icon {
-    width: 23px;
-    position: relative;
-    align-items: center;
-    justify-content: center;
-    display: flex;
-    div:last-child {
-      transform: translate3d(-50%, -50%, 0);
-      left: 50%;
-      top: 50%;
-      border: 2px solid #FFFFFF;
-      border-radius: 50%;
-      width: 12px;
-      position: absolute;
-      height: 12px;
-      display: flex;
-    }
-    div:first-child {
-      left: 31%;
-      top: 45%;
-      border-style: solid;
-      transform: rotateZ(45deg) translate3d(-50%, -50%, 0);
-      border-color: #FFFFFF;
-      width: 2px;
-      position: absolute;
-      height: 10px;
-      border-width: 0px 0px 0px 2px;
-    }
-
-  }
-}
-
 .chain {
   top: 0;
   left: 0;
@@ -844,7 +800,7 @@ h3 {
     font-size: 14px
   }
 }
-.isNotRF {
+.no-replied-or-forwarded {
   margin-top: 24px;
 }
 .post-back {

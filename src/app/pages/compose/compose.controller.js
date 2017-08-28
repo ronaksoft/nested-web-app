@@ -45,6 +45,11 @@
     vm.cmdVPress = false;
     vm.isRetinaDisplay = isRetinaDisplay();
     vm.targetLimit;
+    vm.translations = {
+      title1: NstSvcTranslation.get('Add a title'),
+      title2: NstSvcTranslation.get('Write your message or drag files here…'),
+      body: NstSvcTranslation.get('Type something...')
+    };
 
     vm.quickMode = vm.mode === 'quick';
 
@@ -126,12 +131,6 @@
 
     (function () {
 
-      /**
-       * Prevents from closing window
-       */
-      window.onbeforeunload = function () {
-        return "You have attempted to leave this page. Are you sure?";
-      };
 
       /**
        * Add state params attachments to the model
@@ -164,6 +163,13 @@
         }));
 
       } else {
+        /**
+         * Prevents from closing window
+         */
+        window.onbeforeunload = function () {
+          return "You have attempted to leave this page. Are you sure?";
+        };
+
         NstSvcLogger.debug4('Compose | compose is in modal');
         eventReferences.push($scope.$on('modal.closing', function (event) {
           if (shouldSaveDraft() && !vm.finish) {
@@ -1081,7 +1087,7 @@
       charCounterCount: false,
       tabSpaces: 4,
       toolbarBottom: true,
-      placeholderText: 'Type something...',
+      placeholderText: vm.translations.body,
       pluginsEnabled: ['colors', 'fontSize', 'fontFamily', 'link', 'url', 'wordPaste', 'lists', 'align', 'codeBeautifier'],
       fontSize: ['8', '10', '14', '18', '22'],
       toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'fontSize', '|', 'color', 'align', 'formatOL', 'formatUL', 'insertLink', '|', 'rightToLeft', 'leftToRight'],
@@ -1185,11 +1191,6 @@
         }
       }).then(function (attachment) {
         $scope.compose.post.removeAttachment(attachment);
-        $timeout(function () {
-          if ($scope.compose.post.attachments.length === 0) {
-            $scope.showUploadProgress = false;
-          }
-        });
       });
     };
 

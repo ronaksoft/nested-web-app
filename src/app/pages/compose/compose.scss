@@ -3,16 +3,6 @@
   *    Drag drop compose
   **********************************************************
  */
-@keyframes dragDrop {
-  from {
-    opacity: .87;
-    visibility: visible;
-  }
-  to {
-    visibility: hidden;
-    opacity: 0;
-  }
-}
 
 .butn-toolbar > .butn-group {
   padding: 5px;
@@ -85,7 +75,7 @@
   min-height: 100px
 }
 
-.compose-input {
+.compose-subject-input {
   //margin-top: 20px;
   height: 26px;
   border: none;
@@ -110,7 +100,7 @@
   }
 }
 
-.compose-wrp .address-input {
+.compose-wrapper .address-input {
   width: 100%;
   height: 100%;
   border: none;
@@ -122,26 +112,7 @@
   min-height: 32px;
   box-sizing: border-box
 }
-
-.nst-attach-upload {
-  text-align: center;
-  min-width: 150px;
-  padding: 3px 10px;
-  background-color: $color-fillbox;
-  border-radius: $border-radius-large;
-  line-height: 15px;
-  font-size: $font-size-small;
-}
-.nst-attach-con{
-  position: relative;
-  bottom:-20px;
-  display: block;
-  align-self: flex-end;
-  width: 196px;
-  margin: 0 8px;
-
-}
-.nst-attach {
+.compose-attachment-bar {
   flex: none;
   height: 108px;
   width: 100%;
@@ -176,12 +147,6 @@
   p {
     padding: 0;
   }
-  .cke_contents.cke_reset {
-    min-height: 230px;
-  }
-  .cke_wysiwyg_div {
-    padding: 0;
-  }
 }
 
 .input-select-match {
@@ -193,11 +158,8 @@
   border-bottom: 1px solid $color-border;
   transition: max-height $animation-dur;
 }
-.sto {
-  padding: 0 16px;
-}
 
-#input-compose-to  .ui-select-choices {
+#compose-recipient-input  .ui-select-choices {
    padding: 0;
    max-height: 250px;
    width: calc(100% - 32px);
@@ -271,33 +233,6 @@
     top: 0;
   }
 }
-.cke_reset {
-  width: 100%!important;
-  border: none!important;
-}
-#editor-btn {
-  .cke_chrome {
-    border: none;
-  }
-  .cke_top {
-    border: none;
-    background: transparent;
-    padding-left: 0;
-  }
-}
-.cke_1_contents {
-  height: 100%;
-  body {
-    margin: 0;
-  }
-}
-.cke_wysiwyg_div {
-  overflow: hidden!important;
-}
-//
-//a.cke_button__link.cke_button_off {
-//  display: none;
-//}
 .compose-btns {
   display: inline-flex;
   flex-direction: row;
@@ -313,7 +248,7 @@
     fill: $color-solid;
   }
 }
-.compose-opt {
+.compose-options {
   right: -8px!important;
   top: -12px!important;
   left: auto!important;
@@ -328,14 +263,14 @@
     padding: 5px 8px;
   }
 }
-.lbl-btn {
+.label-butn {
   line-height: 24px;
   margin-right: 16px;
   svg {
     margin-left: 4px;
   }
 }
-.compose-lbl {
+.compose-label {
   border: none;
   bottom: 24px;
   top: auto!important;
@@ -365,49 +300,24 @@
   flex-direction: row;
   flex: none;
 }
-// body.isMobile .modal .modal-compose{
-//   .modal-ft {
-//     display: inline-flex;
-//     flex-direction: column;
-//     height: 100px;
-//     >div {
-//       width: 100%;
-//     }
-//     .quick-btns {
-//       justify-content: flex-end;
-//     }
-//   }
-// }
-body.isMobile .quick-message-wrp .quick-message-inner .quick-message .modal-ft {
-  .modal-ft {
-    display: inline-flex;
-    flex-direction: column;
-    height: 100px;
-  }
-}
-body.isMobile {
-  .modal-ft {
-    flex-direction: column;
-  }
-}
-.modal-bo.scrolled {
+.compose-modal-body.scrolled {
   .input-select-match {
     overflow: hidden;
     max-height: 33px;
   }
-  #input-compose-to .ui-select-choices {
+  #compose-recipient-input .ui-select-choices {
     display: none;
   }
   .address-input {
     align-items: flex-start
   }
-  #more-reci {
+  #more-recipient-badge {
     display: inline-flex
   }
 }
-#more-reci {
+#more-recipient-badge {
   display: none;
-  animation: 1s ease-in forwards more-reci;
+  animation: 1s ease-in forwards more-recipient-badge;
   width: 32px;
   height: 30px;
   line-height: 30px;
@@ -428,30 +338,8 @@ body.isMobile {
   height: 29px
 }
 
-.compose-wrp .fr-box {
-  width: 100%;
-  height: 100%;
-  cursor: initial;
-  p {
-    margin: 0;
-  }
-  .fr-element {
-    padding: 0;
-    overflow: visible;
-  }
-}
-.compose-wrp .fr-box.fr-basic .fr-element {
-  padding: 0
-}
-.compose-wrp .fr-box.fr-basic .fr-wrapper {
-  background: transparent
-}
-.editor-btn-wrp .fr-toolbar.fr-bottom {
-  box-shadow: none;
-  border: none;
-  background-color: rgba(50,61,71,.08)
-}
-.editor-btn-wrp {
+
+.editor-butns-wrapper {
   opacity: 0;
   visibility: hidden;
   margin-bottom: 8px;
@@ -460,48 +348,7 @@ body.isMobile {
     visibility: visible
   }
 }
-.fr-toolbar .fr-command.fr-btn, .fr-popup .fr-command.fr-btn {
-  height: 32px;
-}
-.fr-separator.fr-vs {
-  height: 24px;
-  margin: 3px 0;
-}
-.fr-toolbar .fr-command.fr-btn i, .fr-popup .fr-command.fr-btn i {
-  margin: 0;
-  justify-content: center;
-  width: 100%;
-}
-
-.fr-toolbar .fr-command.fr-btn.fr-dropdown i, .fr-popup .fr-command.fr-btn.fr-dropdown i, .fr-toolbar .fr-command.fr-btn.fr-dropdown span, .fr-popup .fr-command.fr-btn.fr-dropdown span, .fr-toolbar .fr-command.fr-btn.fr-dropdown img, .fr-popup .fr-command.fr-btn.fr-dropdown img {
-  margin: 0;
-  width: 24px;
-}
-.fr-toolbar .fr-command.fr-btn span, .fr-popup .fr-command.fr-btn span {
-    min-width: 24px;
-}
-.fr-toolbar .fr-command.fr-btn img, .fr-popup .fr-command.fr-btn img {
-    margin: auto;
-    width: 24px;
-    height: 24px;
-    display: block;
-    opacity: .72;
-}
-.fr-toolbar .fr-command.fr-btn[aria-pressed="true"] img,
-.fr-toolbar .fr-command.fr-btn.fr-active img,
-.fr-popup .fr-command.fr-btn[aria-pressed="true"] img {
-    opacity: 1;
-    background-color: $color-breeze-5-new;
-    border-radius: 2px;
-}
-.fr-toolbar .fr-command.fr-btn.fr-dropdown.fr-selection {
-  width: 38px;
-}
-.fr-command.fr-btn + .fr-dropdown-menu .fr-dropdown-wrapper .fr-dropdown-content ul.fr-dropdown-list li img {
-  width: 24px;
-  height: 24px;
-}
-.compose-scrl-wrp {
+.compose-scroll-wrapper {
   max-height: calc( 90vh - 300px);
   min-height: 250px;
   margin: 0 -8px;
@@ -513,7 +360,7 @@ body.isMobile {
     display: none;
   }
 }
-.modal-ft {
+.compose-modal-footer {
   .emoji {
     position: relative;
     width: 24px;
@@ -526,5 +373,10 @@ body.isMobile {
       left: 0;
       right: auto;
     }
+  }
+}
+@media screen and ( max-height: 700px) {
+  .modal .modal-compose .modal-content {
+    top: 0;
   }
 }

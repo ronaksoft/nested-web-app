@@ -6,15 +6,17 @@
     .directive('affixer', onScroll);
 
   /** @ngInject */
-  function onScroll($window,$rootScope,$timeout, $) {
+  function onScroll($window,$rootScope,$timeout, $, _) {
     return {
       restrict: 'A',
       link: function ($scope, $element, $attrs) {
-        var win = angular.element($window),
+        var win = angular.element(window),
             topOffset = 0,
             afterContent = 0,
             containerLeft = $('body').offset().left || 0,
             isRTL = $rootScope._direction;
+            // obj = {},
+            // hash = Math.ceil(Math.random() * 2000);
 
         $rootScope.$on('affixCheck',function(){
           $timeout(function(){applier();},10);
@@ -24,6 +26,15 @@
 
         function applier() {
           removeFix();
+
+          if (window.affixerListeners && window.affixerListeners.length > 0) {
+            window.affixerListeners.scroll.forEach( function(item){
+              window.removeEventListener("scroll", item);
+            });
+            window.affixerListeners.resize.forEach( function(item){
+              window.removeEventListener("scroll", item);
+            });
+          }
 
           var top = $element.offset().top || 0;
 
@@ -39,24 +50,24 @@
 
           var fixed = false;
 
-          if ($attrs.parent && $($attrs.parent).offset() ) {
+          if ($attrs.parent && $($attrs.parent).offset()) {
             containerLeft = $($attrs.parent)[0].offsetLeft;
           }
 
 
-          if ($attrs.afterContent ) {
+          if ($attrs.afterContent) {
             afterContent = $attrs.afterContent;
           }
 
-          if ($attrs.fixedTop ) {
+          if ($attrs.fixedTop) {
             top = parseInt($attrs.top);
           }
-          if ($attrs.clearRight ) {
+          if ($attrs.clearRight) {
             var clearRight = true;
           }
 
           //for create a fixed element we need a left parameter so we read it from itself
-          function findLeftOffset () {
+          function findLeftOffset() {
             if (isRTL == 'rtl') {
               offLeft = parseInt(containerLeft)  +  $($attrs.parent).width()  - parseInt(afterContent) - width;
             } else {
@@ -102,18 +113,24 @@
             }
           }
 
-          function resizeE() {
-            win.off('resize', resizeE);
-            win.unbind('scroll', affixElement);
-            applier();
-          }
-
           findLeftOffset();
           affixElement();
-          win.bind('scroll', affixElement);
           firstFixes();
 
-          win.on("resize", resizeE);
+          var resizeE = _.debounce(applier, 16);
+
+          window.addEventListener("scroll", affixElement);
+          window.addEventListener("resize", resizeE);
+
+          if ( !window.affixerListeners ) {
+            window.affixerListeners = {
+              scroll : [],
+              resize : []
+            };
+          }
+          window.affixerListeners.scroll.push(affixElement);
+          window.affixerListeners.resize.push(resizeE);
+
 
         }
 

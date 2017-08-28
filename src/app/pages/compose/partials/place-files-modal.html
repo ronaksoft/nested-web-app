@@ -1,7 +1,7 @@
 <div class="place-files-modal">
     <div class="modal-h">
         <div ng-repeat="breadcrumb in ctrl.breadcrumb track by $index" ng-click="ctrl.breadcrumbClick(breadcrumb)" ng-if="ctrl.selectedFiles.length === 0 && breadcrumb.visible">
-            <svg class="_16svg">
+            <svg class="_16svg mirror _r-90">
                 <use xlink:href="/assets/icons/nst-icn16.svg#arrow"></use>
             </svg>
             {{breadcrumb.name}}
@@ -16,8 +16,8 @@
         </div>
     </div>
     <div class="modal-b">
-        <ul modal-scroll nst-scrollbar ng-if="!ctrl.isLoadingPlaces">
-            <li class="place ng-class:{'disabledItem' : ctrl.selectedFiles.length > 0}" ng-repeat="place in ctrl.places" ng-click="ctrl.placeClick(place.id, place.name)">
+        <ul modal-scroll dir="ltr" nst-scrollbar ng-if="!ctrl.isLoadingPlaces">
+            <li dir="{{$root._direction}}" class="place ng-class:{'disabledItem' : ctrl.selectedFiles.length > 0}" ng-repeat="place in ctrl.places" ng-click="ctrl.placeClick(place.id, place.name)">
                 <div class="place-logo">
                     <img ng-src="{{place | picture:'x64'}}"/>
                     <i>
@@ -36,7 +36,7 @@
                     {{place.name.substring(0, 24)}}{{place.name.length > 24 ? '...' : ''}}
                 </p>
             </li>
-            <li ng-repeat="file in ctrl.files" ng-click="ctrl.attachClick(file)" class="file ng-class:{'checked' : file.selected}">
+            <li dir="{{$root._direction}}" ng-repeat="file in ctrl.files" ng-click="ctrl.attachClick(file)" class="file ng-class:{'checked' : file.selected}">
                 <div class="pre-thumb" ng-if="file.thumbnail">
                     <img ng-src="{{file.thumbnail}}"/>
                 </div>
@@ -54,7 +54,7 @@
                     </svg>
                 </div>
             </li>
-            <div ng-if="ctrl.places.length === 0 && ctrl.files.length === 0 && !ctrl.initialStart && !ctrl.isLoading"><translate>No File or place</translate></div>
+            <div dir="{{$root._direction}}" class="_jcc _df _aic _fw" ng-if="ctrl.places.length === 0 && ctrl.files.length === 0 && !ctrl.initialStart && !ctrl.isLoading"><translate>No File or place</translate></div>
         </ul>
         <div class="loading" ng-if="ctrl.isLoading">
             <div class="animation"><div class="circle one"></div></div>

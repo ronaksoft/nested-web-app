@@ -224,9 +224,9 @@
         activity.actor = resultSet[1];
         activity.post = resultSet[2];
         deferred.resolve(activity);
-      }).catch(function (error) {
+      }).catch(function (/*error*/) {
         deferred.resolve(null);
-        NstSvcLogger.error("Activity Factory GET:" , error)
+        // NstSvcLogger.error("Activity Factory GET:" , error)
       });
 
       return deferred.promise;
@@ -248,9 +248,9 @@
         activity.actor = resultSet[1];
         activity.post = resultSet[2];
         deferred.resolve(activity);
-      }).catch(function (error) {
+      }).catch(function (/*error*/) {
         deferred.resolve(null);
-        NstSvcLogger.error("Activity Factory GET:" , error)
+        // NstSvcLogger.error("Activity Factory GET:" , error)
       });
 
       return deferred.promise;
@@ -435,7 +435,6 @@
         }).then(function (response) {
 
           var activities = _.map(response.activities, parseActivityIntelligently);
-
           $q.all(activities).then(function (values) {
             deferred.resolve(values.filter(function (obj) {
               return obj !== null;

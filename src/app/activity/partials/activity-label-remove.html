@@ -1,4 +1,4 @@
-<div class="actdes">
+<div class="activity-description">
   <div class="ico">
     <svg class="_16svg _df">
       <use xlink:href="/assets/icons/nst-icn16.svg#add-to-place"></use>
@@ -7,11 +7,11 @@
   <div class="sender" data-ng-include="'app/activity/partials/activity-common-actor.html'"
        data-ng-init="actor = act.actor"></div>
 </div>
-<div class="actcon">
+<div class="activity-content">
   <div class="msg">
     <div class="subject">
       <div class="nst-mood-simple">
-        <translate>label removed.</translate>
+        <translate>removed {{act.label.title | scapeRevSpace}} label from {{act.post.subject}}.</translate>
         </a>
       </div>
     </div>

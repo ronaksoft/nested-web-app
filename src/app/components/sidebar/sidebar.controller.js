@@ -76,7 +76,7 @@
         $event.preventDefault();
         $uibModal.open({
           animation: false,
-          size: 'lg-white',
+          size: 'full-height-center',
           templateUrl: 'app/label/manage-label.html',
           controller: 'manageLabelController',
           controllerAs: 'ctrl'

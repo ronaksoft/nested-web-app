@@ -3,31 +3,44 @@
 
   angular
     .module('ronak.nested.web.components')
-    .directive('userDetail', function($timeout,$state,NstSearchQuery,NstSvcAuth,NST_PATTERN, $) {
+    .directive('userDetail', function($timeout,$state,NstSearchQuery,NstSvcAuth,NST_PATTERN, $, NstSvcUserFactory, _) {
       return {
         template: function(element) {
           var tag = element[0].nodeName;
-          return '<' + tag +' ng-transclude ng-mouseenter="openOverEnable()" ng-mouseleave="openOverdisable()" data-popover-is-open="openOver()" data-popover-enable="isAvailable" data-popover-class="white-pop popover-userdetail" uib-popover-template="\'app/components/user/user-detail.html\'" data-popover-append-to-body="true" data-popover-placement="top-center auto" ng-click="viewContact();$event.stopPropagation()"></' + tag +'>';
+          return '<' + tag +' ng-transclude ng-mouseenter="openOverEnable()" ng-mouseleave="openOverdisable()" data-popover-is-open="openOver()" data-popover-enable="isAvailable" data-popover-class="white-pop popover-userdetail hide-on-scroll" uib-popover-template="\'app/components/user/user-detail.html\'" data-popover-append-to-body="true" data-popover-placement="top-center auto" ng-click="viewContact();$event.stopPropagation()"></' + tag +'>';
         },
         restrict: 'EA',
         replace: true,
         transclude: true,
         scope: {
-          user: '=userDetail'
+          userDetail: '=userDetail'
         },
         link: function ($scope, $element) {
-          $scope.user = $scope.user ? $scope.user : {};
-          $scope.isEmail = NST_PATTERN.EMAIL.test( $scope.user.id);
-          $scope.isAvailable = NstSvcAuth.user.id !== $scope.user.id ;
+          
+          if ( _.isString($scope.userDetail) ) {
+            NstSvcUserFactory.get($scope.userDetail).then(function (user){
+              $scope.user = user;
+              init();
+            });
+            
+          } else {
+            $scope.user = $scope.userDetail ? $scope.userDetail : {};
+            init();
+          }
+          
 
           $scope.openOver = function () {
             return false
           };
 
-          if ( $scope.isAvailable ) {
-            $element.addClass('on-avatar');
-          } else {
-            $element.addClass('on-self-avatar');
+          function init() {
+            $scope.isEmail = NST_PATTERN.EMAIL.test( $scope.user.id);
+            $scope.isAvailable = NstSvcAuth.user.id !== $scope.user.id;
+            if ( $scope.isAvailable ) {
+              $element.addClass('enabled-detail-popover');
+            } else {
+              $element.addClass('on-self-avatar');
+            }
           }
 
           $scope.openOverEnable = function () {

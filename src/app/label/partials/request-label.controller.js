@@ -15,7 +15,7 @@
       code: 'A',
       title: ''
     };
-    vm.userSelectPlaceHolder = 'Enter username or user-id…';
+    vm.userSelectPlaceHolder = NstSvcTranslation.get('Enter username or user-id');
     vm.newLabel = false;
     vm.editCode = false;
     vm.keyword = '';

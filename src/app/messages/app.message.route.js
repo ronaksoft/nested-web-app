@@ -25,6 +25,7 @@
             controller: 'PostController',
             controllerAs: 'ctlPost',
             size: 'post-view',
+            windowClass: 'uib-wrapper-post-view',
             resolve: {
               selectedPostId: function () {
                 return $stateParams.postId;

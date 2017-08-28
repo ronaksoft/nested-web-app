@@ -13,7 +13,7 @@
         <translate><b>{{ ::notification.actor.fullName }}</b> promoted you to be a Manager <b>{{notification.place.name}} (#{{notification.place.id}})</b>.</translate>
       </p>
     </div>
-    <div class="ment-date _fn" data-uib-tooltip="{{notification.date | date : 'full' | localize}}" data-tooltip-append-to-body="true" data-tooltip-placement="top auto">
+    <div class="mention-date _fn" data-uib-tooltip="{{notification.date | date : 'full' | localize}}" data-tooltip-append-to-body="true" data-tooltip-placement="top auto">
       {{notification.date | passed | localize}}
     </div>
     <svg class="_df _fn _16svg crown">

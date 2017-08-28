@@ -320,6 +320,16 @@ hr.nomargin {
 .f6 {
   flex: 6;
 }
+.upper-case {
+  text-transform: uppercase;
+}
+.capitalize {
+  text-transform: capitalize;
+}
+.nst-error-msg {
+  font-size: $font-size-small;
+  color: $color-force-wire;
+}
 .fill-sense-wire {
   fill: $color-sense-wire;
 }

@@ -5,9 +5,9 @@
     .module('ronak.nested.web.components.attachment')
     .directive('nstAttachmentsPreviewBar', AttachmentsPreviewBar);
 
-  function AttachmentsPreviewBar($timeout, $interval, toastr, $, $rootScope,
+  function AttachmentsPreviewBar($timeout, $interval, toastr, $q, $, $rootScope,
                                  NST_FILE_TYPE, NST_ATTACHMENTS_PREVIEW_BAR_MODE, NST_ATTACHMENTS_PREVIEW_BAR_ORDER, NST_STORE_ROUTE,
-                                 NstSvcStore, NstSvcFileFactory, _) {
+                                 NstSvcStore, NstSvcFileFactory, SvcMiniPlayer, _) {
     return {
       restrict: 'E',
       templateUrl: 'app/components/attachments/preview/main.html',
@@ -16,7 +16,8 @@
         items: '=',
         mode: '=',
         badge: '=',
-        postId: '='
+        postId: '=',
+        sender: '='
       },
       link: function (scope, ele) {
         scope.internalMode = NST_ATTACHMENTS_PREVIEW_BAR_MODE.AUTO;
@@ -26,8 +27,9 @@
         scope.scrollDis = 140;
         scope.NST_FILE_TYPE = NST_FILE_TYPE;
         scope.cardWidth = angular.element('.attachments-card').width();
+        // var interval, pwTimeout;
+        // var moves = [];
         var borderLeftArray=[],borderRightArray=[];
-        var audioDOMS = [];
 
         if (modeIsValid(scope.mode)) {
           scope.internalMode = scope.mode;
@@ -74,16 +76,18 @@
           scope.wrpHeight = scope.height > 1024 ? 1024 : scope.height;
         }
 
-
         if (!scope.badge && scope.items.length === 2 &&
           (scope.items[0].type === NST_FILE_TYPE.IMAGE || scope.items[0].type === NST_FILE_TYPE.GIF ||
           (scope.items[0].type === NST_FILE_TYPE.VIDEO && scope.items[0].uploadType === 'VIDEO') ) &&
           (scope.items[1].type === NST_FILE_TYPE.IMAGE || scope.items[1].type === NST_FILE_TYPE.GIF ||
-          (scope.items[0].type === NST_FILE_TYPE.VIDEO && scope.items[0].uploadType === 'VIDEO') ) &&
+          (scope.items[1].type === NST_FILE_TYPE.VIDEO && scope.items[1].uploadType === 'VIDEO') ) &&
           scope.items[0].hasPreview && scope.items[1].hasPreview ) {
           scope.internalMode = NST_ATTACHMENTS_PREVIEW_BAR_MODE.THUMBNAIL_TWO_IMAGE;
           scope.deform = false;
 
+
+          wrpWidth = ele.parent().parent().width() - scope.flexDiv;
+          imgOneRatio = scope.items[0].width / scope.items[0].height || 1;
           var imgTwoRatio = scope.items[1].width / scope.items[1].height || 1;
           var ratio = imgOneRatio / imgTwoRatio;
           scope.scaleOne = (ratio / (1 + ratio)) * 100;
@@ -96,18 +100,42 @@
           if( ( imgOneRatio < .1 && scope.items[0].height > 1024) || (imgTwoRatio < .1 && scope.items[1].height > 1024)) {
             scope.deform = true;
           }
+
+
+          // var unkHeight = Math.min(scope.items[0].height, scope.items[1].height);
+          // var scale = wrpWidth / ( unkHeight * imgOneRatio + unkHeight * imgTwoRatio );
+          // scope.imgHeight = scale * unkHeight;
+          // scope.flexOneWidth = scale * (unkHeight * imgOneRatio);
+          // scope.flexTwoWidth = scale * (unkHeight * imgTwoRatio);
         }
 
 
         $timeout(function () {
           scope.scrollWrp = ele.children().next();
+          // var leftArrow = ele.children().first();
+          // var rightArrow = ele.children().next().next();
 
           checkScroll(scope.scrollWrp[0]);
 
           scope.scrollWrp.scroll(function () {
             checkScroll(scope.scrollWrp[0]);
           });
-        }, 1000);
+
+          // rightArrow.mousedown(function () {
+          //   scrollPower('right');
+          // });
+          // rightArrow.mouseup(function () {
+          //   stopScrollPower();
+          // });
+          //
+          // leftArrow.mousedown(function () {
+          //   scrollPower('left');
+          // });
+          // leftArrow.mouseup(function () {
+          //   stopScrollPower();
+          // });
+
+        }, 100);
 
 
         // interaction functions
@@ -137,11 +165,17 @@
         };
 
         function getToken(id) {
-          return NstSvcFileFactory.getDownloadToken(id, null, scope.postId);
+          var deferred = $q.defer();
+            NstSvcFileFactory.getDownloadToken(id, null, scope.postId).then(deferred.resolve).catch(deferred.reject).finally(function () {
+          });
+
+          return deferred.promise;
         }
 
         scope.goLeft = function () {
-
+          // var k = makeid();
+          // count[k] = 0;
+          // scrollLeft(count, k);
           var el = scope.scrollWrp[0];
           var i = 0;
 
@@ -170,67 +204,89 @@
           }, 1);
         };
 
-        function revertPlayFlag(id){
+        setPlayedStatus(SvcMiniPlayer.getStatus());
 
-          var playedOne = scope.items.find(function(item){
-            return item.id === id;
+        scope.$on('play-audio', function (e, id){
+          setPlayedStatus(id);
+        });
+
+        function setPlayedStatus(id) {
+          scope.items.forEach(function (item) {
+            if (id !== scope.postId + '_' + item.id) {
+              item.isPlayed = false;
+            } else {
+              item.isPlayed = true;
+            }
           });
-          playedOne.isPlay = false
         }
 
-        scope.$on('play-audio', function (e, d){
-          _.remove(audioDOMS, function(item) {
-            return d.id !== item.className;
-          }).forEach(function (i){
-            i.pause();
-            i.remove();
-            revertPlayFlag(i.className);
-          });
-        });
+        scope.attachmentCount = 0;
 
-        scope.$on('$destroy', function () {
-          _.forEach(audioDOMS, function (item) {
-            item.pause();
-            item.remove();
-          });
-        });
         scope.playAudio = function (item) {
-
-          var alreadyPlayed = audioDOMS.find(function (audioDOM) {
-            return audioDOM.className === item.id;
-          })
-          if ( alreadyPlayed ) {
-            alreadyPlayed.pause();
-            alreadyPlayed.remove();
-            item.isPlay = false;
-            _.remove(audioDOMS, function(n) {
-              return n.className === item.id;
-            });
-            return ;
+          if (item.isPlayed) {
+            return SvcMiniPlayer.pause();
           }
-          item.isPlay = true;
-          var audio = document.createElement('audio');
-          audio.style.display = "none";
-          audio.className = item.id;
-          audio.autoplay = true;
-
-          getToken(item.id).then(function (token) {
-            audio.src = NstSvcStore.resolveUrl(NST_STORE_ROUTE.VIEW, item.id, token);
-            document.body.appendChild(audio);
-            $rootScope.$broadcast('play-audio', item);
-            audioDOMS.push(audio);
-
-            audio.onended = function(){
-              item.isPlay = false;
-              audio.remove() //Remove when played.
-              _.remove(audioDOMS, function(n) {
-                return n.className === item.id;
+          SvcMiniPlayer.setPlaylist(scope.postId);
+          scope.attachmentCount = 0;
+          scope.items.forEach(function (attachment) {
+            if (attachment.uploadType !== 'AUDIO' && attachment.uploadType !== 'VOICE') {
+              return;
+            }
+            scope.attachmentCount++;
+            setTimeout(function () {
+              getToken(attachment.id).then(function (token) {
+                attachment.src = NstSvcStore.resolveUrl(NST_STORE_ROUTE.VIEW, attachment.id, token);
+                attachment.isVoice = attachment.uploadType === "VOICE";
+                if ( attachment.isVoice ) {
+                  attachment.sender = scope.sender
+                }
+                if (item.id === attachment.id) {
+                  attachment.isPlayed = true;
+                }
+                scope.attachmentCount--;
+                // if (scope.attachmentCount === 0) {
+                //   scope.addAllMedia();
+                // }
+                SvcMiniPlayer.addTrack(attachment);
+              }).catch(function () {
+                toastr.error('Sorry, An error has occured while playing the audio');
               });
-            };
-          }).catch(function () {
-            toastr.error('Sorry, An error has occured while playing the audio');
+            }, 120);
           });
-        }
+        };
+
+        scope.addAllMedia = function () {
+          scope.items.forEach(function (attachment) {
+            SvcMiniPlayer.addTrack(attachment);
+          });
+        };
+
+        /*function scrollLeft(count, k) {
+          var el = scope.scrollWrp[0];
+          var i = $interval(function () {
+            count[k]++;
+            if (count[k] < scope.scrollDis) {
+              el.scrollLeft -= 2;
+            } else {
+              $interval.cancel(i);
+            }
+          }, 1);
+          moves.push(i);
+        }*/
+
+        /*function scrollRight(count, k) {
+          var el = scope.scrollWrp[0];
+          var i = $interval(function () {
+            count[k]++;
+            if (count[k] < scope.scrollDis) {
+              el.scrollLeft += 2;
+            } else {
+              $interval.cancel(i);
+            }
+          }, 1);
+          moves.push(i);
+
+        }*/
 
         function checkScroll(el) {
           if (el.clientWidth < el.scrollWidth && el.scrollLeft == 0) {
@@ -251,8 +307,19 @@
 
           if(borderLeftArray.length == 0) {
             for(var i=0; i < childs.length; i++){
-              borderLeftArray.push(childs[i].offsetLeft - 16);
-              borderRightArray.push(childs[i].offsetLeft + childs[i].offsetWidth - 16)
+              var paddingSize = (i + 1) === childs.length ? 0 : 16
+              var leftborderPosition = childs[i].offsetLeft + el.scrollLeft - paddingSize;
+              var paddingSize2 = $rootScope._direction === 'rtl' ? 0 : 16;
+              borderLeftArray.push(leftborderPosition);
+              borderRightArray.push(childs[i].offsetLeft + childs[i].offsetWidth + el.scrollLeft - paddingSize2);
+              if($rootScope._direction === 'rtl') {
+                borderLeftArray.sort(function (a,b) {
+                  return a - b;
+                })
+                borderRightArray.sort(function (a,b) {
+                  return a - b;
+                })
+              }
             }
 
           }
@@ -269,8 +336,30 @@
           });
           return numb - filter[filter.length - 1]
         }
+
+        // function scrollPower(dir) {
+        //   pwTimeout = $timeout(function () {
+        //     if (dir == 'right') {
+        //       interval = $interval(function () {
+        //         scope.goRight()
+        //       }, 100);
+        //     }
+        //     else {
+        //       interval = $interval(scope.goLeft, 100);
+        //     }
+        //   }, 50)
+        // }
       }
     };
+    // function makeid() {
+    //   var text = "";
+    //   var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    //   for (var i = 0; i < 5; i++)
+    //     text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+    //   return text;
+    // }
 
     function modeIsValid(mode) {
       return _.values(NST_ATTACHMENTS_PREVIEW_BAR_MODE).indexOf(mode) > -1;

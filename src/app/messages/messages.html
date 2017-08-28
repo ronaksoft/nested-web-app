@@ -7,13 +7,13 @@
             ready-to-show="ctrl.currentPlace"
             ready-to-anime="true"
             place-description="{{ctrl.currentPlace.description}}"></nst-navbar>
-<div class="navbar-illu ng-class:{'feed' : !ctrl.currentPlace || ctrl.isUnread}"></div>
-<div class="nst-content _tr" id="content-wrapper">
+<div class="navbar-holder ng-class:{'feed' : !ctrl.currentPlace || ctrl.isUnreadMode,'conv' : ctrl.isConvMode}"></div>
+<div class="nst-content _tr content-wrapper">
   <scroll-change-handler reached-bottom="ctrl.loadMore" disabled="ctrl.reachedTheEnd"></scroll-change-handler>
   <section class="content nst-marginbtm-28">
-    <div class="navbarillu"></div>
-    <div class="filter-bar" ng-if="!ctrl.isBookmark && !ctrl.isSent && !(ctrl.isUnread && ctrl.unreadCount == 0) ">
-      <div ng-if="!ctrl.isBookmark && !ctrl.isSent && !ctrl.isUnread" class="filter-bar-inner ng-class:{'nfeed' : ctrl.currentPlace }" affixer-filters parent=".content-plus" after-content="0" top="56" fixed-top="true">
+    <div class="old-navbar-holder"></div>
+    <div class="filter-bar" ng-if="!ctrl.isbookmarkedsMode && !ctrl.isSentMode && !(ctrl.isUnreadMode && ctrl.unreadCount == 0) ">
+      <div ng-if="!ctrl.isbookmarkedsMode && !ctrl.isSentMode && !ctrl.isUnreadMode" class="filter-bar-inner ng-class:{'is-not-feed' : ctrl.currentPlace }" affixer-filters parent=".content-plus" after-content="0" top="56" fixed-top="true">
         <div class="toolbar" ng-mouseleave="popoverSortShow = false">
           <p class="_df _fw" ng-if="ctrl.currentPlace.counters.posts == 1">
             <translate>One post</translate>
@@ -63,7 +63,7 @@
           </p>
           <div ng-show="!ctrl.isSent && !ctrl.isBookmark && ctrl.selectedPosts.length == 0"
               ng-mouseenter="popoverSortShow = true" class="iconsblock _fn"
-              data-popover-class="white-pop popover-white-nst-sort"uib-popover-template="'app/messages/partials/popovers/sort_popover.html'"
+              data-popover-class="white-pop messages-sort-popover"uib-popover-template="'app/messages/partials/popovers/sort_popover.html'"
               data-popover-placement="bottom-center" data-popover-is-open="popoverSortShow" id="test-filter-sort">
             <span class="_df" ng-if="ctrl.messagesSetting.sort == 'latest-messages'"><translate>Recent Messages</translate></span>
             <span class="_df" ng-if="ctrl.messagesSetting.sort != 'latest-messages'"><translate>Latest Activity</translate></span>

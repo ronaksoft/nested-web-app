@@ -5,8 +5,8 @@
     .module('ronak.nested.web.components')
     .controller('manageLabelController', manageLabelController);
 
-  function manageLabelController($timeout, $scope, $q, $uibModalInstance, $uibModal, $filter
-    , toastr, _, NstSvcTranslation, NstSvcUserFactory, NstSvcLabelFactory, NST_LABEL_SEARCH_FILTER, NstSvcAuth) {
+  function manageLabelController($state, $scope, $q, $uibModalInstance, $uibModal, $filter
+    , toastr, _, NstSvcTranslation, NstSearchQuery, NstSvcLabelFactory, NST_LABEL_SEARCH_FILTER, NstSvcAuth) {
 
     var vm = this;
 
@@ -25,7 +25,14 @@
     vm.acceptRequest = acceptRequest;
     vm.withdrawRequest = withdrawRequest;
     vm.toggleSelected = toggleSelected;
+    vm.searchThis = searchThis;
+    vm.changeTab = changeTab;
+    vm.selectedView = 0;
     vm.searchKeyUp = _.debounce(searchLabel, 512);
+    vm.translation = {
+      pending: NstSvcTranslation.get('Pending Requests'),
+      request: NstSvcTranslation.get('Requests')
+    };
     vm.setting = {
       skip: 0,
       limit: 16
@@ -46,7 +53,7 @@
         return;
       }
       var searchService;
-      var filter = (vm.labelManager ? NST_LABEL_SEARCH_FILTER.ALL : NST_LABEL_SEARCH_FILTER.MY_PRIVATES);
+      var filter = (vm.labelManager && vm.selectedView === 0 ? NST_LABEL_SEARCH_FILTER.ALL : NST_LABEL_SEARCH_FILTER.MY_PRIVATES);
       if (vm.keyword.length > 0) {
         var keyword = $filter('scapeSpace')(vm.keyword);
         searchService = NstSvcLabelFactory.search(keyword, filter, vm.setting.skip, vm.setting.limit);
@@ -80,7 +87,7 @@
       }
       $uibModal.open({
         animation: false,
-        size: 'lg-white multiple',
+        size: 'full-height-center multiple',
         templateUrl: 'app/label/partials/edit-label.html',
         controller: 'editLabelController',
         controllerAs: 'ctrl',
@@ -100,7 +107,7 @@
     function createLabel() {
       $uibModal.open({
         animation: false,
-        size: 'lg-white multiple',
+        size: 'full-height-center multiple',
         templateUrl: 'app/label/partials/create-label.html',
         controller: 'createLabelController',
         controllerAs: 'createCtrl'
@@ -115,7 +122,7 @@
     function requestLabel() {
       $uibModal.open({
         animation: false,
-        size: 'lg-white multiple',
+        size: 'full-height-center multiple',
         templateUrl: 'app/label/partials/request-label.html',
         controller: 'requestLabelController',
         controllerAs: 'requestCtrl'
@@ -240,6 +247,21 @@
         index = _.findIndex(vm.selectedItems, {id: id});
         vm.selectedItems.splice(index, 1);
       }
+    }
+
+    function changeTab () {
+      restoreDefault();
+      searchLabel(vm.keyword);
+    }
+
+    function searchThis(title) {
+      var searchQuery = new NstSearchQuery('');
+
+      searchQuery.addLabel(title);
+
+      $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toString())});
+
+      $scope.$dismiss();
     }
   }
 
