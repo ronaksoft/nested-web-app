@@ -371,7 +371,7 @@
         var countOfMappeedUsers = 1;
         var users = $q.all(_.map(notif.data.others.splice(1, 4), function (user) {
           countOfMappeedUsers++;
-          return NstSvcUserFactory.getTiny(user)
+          return NstSvcUserFactory.get(user)
         }));
         $q.all([postProm, commentProm, users])
           .then(function (value) {
@@ -441,8 +441,8 @@
     function parseLabelNotification(data) {
       var deferred = $q.defer();
 
-      var accountPromise = data.account_id ? NstSvcUserFactory.getTiny(data.account_id) : $q.resolve();
-      var actorPromise = data.actor_id ? NstSvcUserFactory.getTiny(data.actor_id) : $q.resolve();
+      var accountPromise = data.account_id ? NstSvcUserFactory.get(data.account_id) : $q.resolve();
+      var actorPromise = data.actor_id ? NstSvcUserFactory.get(data.actor_id) : $q.resolve();
       var labelPromise = data.label_id ? NstSvcLabelFactory.get(data.label_id) : $q.resolve();
       var placePromise = data.place_id ? NstSvcPlaceFactory.get(data.place_id) : $q.resolve();
 

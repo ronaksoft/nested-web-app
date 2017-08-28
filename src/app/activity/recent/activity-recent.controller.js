@@ -54,34 +54,20 @@
 
 
     (function () {
-      //
-      // if (vm.placeId || vm.place) {
-      //   vm.settings.placeId = vm.placeId || (vm.place ? vm.place.id : null);
-      // }
-
-
       if (vm.settings.placeId) {
-        // Waits for sidebar and messages page to get datat and bind values
-        NstSvcWait.all(['main-done'], function () {
-          // First of all, get the place and check if the user has READ access
-          NstSvcPlaceFactory.get(vm.settings.placeId).then(function (place) {
-            if (place.hasAccess(NST_PLACE_ACCESS.READ)) {
-              // Loads the recent activities
-              getRecentActivity(vm.settings);
+        // Waits for sidebar and messages page to get data and bind values
+        // Loads the recent activities
+        getRecentActivity(vm.settings);
 
-              NstSvcServer.addEventListener(NST_SRV_EVENT.RECONNECT, function () {
-                NstSvcLogger.debug('Retrieving recent activities right after reconnecting.');
-                getRecentActivity(vm.settings);
-              });
-              // Listens to $rootScope and adds a new activity to the list
-              _.forEach(NST_EVENT_ACTION, function (action) {
-                eventReferences.push($rootScope.$on(action, function (e, data) {
-                  addNewActivity(data.activity);
-                }));
-              });
-
-            }
-          });
+        NstSvcServer.addEventListener(NST_SRV_EVENT.RECONNECT, function () {
+          NstSvcLogger.debug('Retrieving recent activities right after reconnecting.');
+          getRecentActivity(vm.settings);
+        });
+        // Listens to $rootScope and adds a new activity to the list
+        _.forEach(NST_EVENT_ACTION, function (action) {
+          eventReferences.push($rootScope.$on(action, function (e, data) {
+            addNewActivity(data.activity);
+          }));
         });
       }
     })();
@@ -99,19 +85,43 @@
      * @returns
      */
     function getRecentActivity(settings) {
-
-      var defer = $q.defer();
-
-      NstSvcActivityFactory.getRecent(settings).then(function (activities) {
-        vm.activities = activities;
+      NstSvcActivityFactory.getRecent(settings, handleCachedActivities).then(function (activities) {
+        merge(activities);
         vm.status.loadInProgress = false;
-
-        defer.resolve(vm.activities);
       }).catch(function () {
         vm.status.loadInProgress = false;
       });
+    }
 
-      return defer.promise;
+    /**
+     * Merges the received activities with the cached items
+     * 
+     * @param {any} activities 
+     */
+    function merge(activities) {
+      var newItems = _.differenceBy(activities, vm.activities, 'id');
+      var removedItems = _.differenceBy(vm.activities, activities, 'id');
+
+      // first omit the removed items; The items that are no longer exist in fresh activities
+      _.forEach(removedItems, function(item) {
+        var index = _.findIndex(vm.activities, { 'id': item.id });
+        if (index > -1) {
+          vm.activities.splice(index, 1);
+        }
+      });
+
+      // add new items; The items that do not exist in cached items, but was found in fresh activities
+      vm.activities.unshift.apply(vm.activities, newItems);
+    }
+
+    /**
+     * Binds the cached items
+     * 
+     * @param {any} activities 
+     */
+    function handleCachedActivities(activities) {
+      vm.activities = activities;
+      vm.status.loadInProgress = false;
     }
 
     /**

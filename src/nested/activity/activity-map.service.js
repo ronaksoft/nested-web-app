@@ -21,15 +21,16 @@
      */
     function toActivityItems(acts) {
 
-      return _.chain(acts).groupBy(function (activity) {
-        var date = moment(activity.date.valueOf());
+      return _.chain(acts).compact().groupBy(function (activity) {
+        var date = moment(activity.date);
+        var now = NstSvcDate.now();
 
-        var thisMonthStart = moment(NstSvcDate.now()).startOf('month');
+        var thisMonthStart = moment(now).startOf('month');
         if (date.isSameOrAfter(thisMonthStart)) {
           return date.clone().startOf('day').unix();
         }
 
-        var thisYearStart =  moment(NstSvcDate.now()).startOf('year');
+        var thisYearStart =  moment(now).startOf('year');
         if (date.isSameOrAfter(thisYearStart)) {
           return date.clone().startOf('month').unix();
         }

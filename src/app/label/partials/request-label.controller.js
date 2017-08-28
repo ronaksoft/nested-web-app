@@ -5,8 +5,8 @@
     .module('ronak.nested.web.components')
     .controller('requestLabelController', requestLabelController);
 
-  function requestLabelController($timeout, $scope, $q, $uibModalInstance, $filter,
-    moment, toastr, _, NstSvcLabelFactory, NstSvcTranslation, NstUtility, NST_LABEL_SEARCH_FILTER) {
+  function requestLabelController($scope, $uibModalInstance, $filter,
+                                  toastr, _, NstSvcLabelFactory, NstSvcTranslation, NST_LABEL_SEARCH_FILTER) {
 
     var vm = this;
     vm.code = 'D';

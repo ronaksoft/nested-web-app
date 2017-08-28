@@ -8,9 +8,8 @@
   /** @ngInject */
   function NstSvcAuth(_, $cookies, $q, $log, $rootScope,
                       NstSvcServer, NstSvcUserFactory, NstSvcPlaceFactory, NstSvcLogger, NstSvcI18n, NstSvcClient,
-                      NstSvcUserStorage, NstSvcCurrentUserStorage, NstSvcFileStorage, NstSvcInvitationStorage,
-                      NstSvcMyPlaceIdStorage, NstSvcPlaceStorage, NstSvcTinyPlaceStorage,
-                      NstSvcPostStorage, NstSvcUploadTokenStorage, NstSvcTinyUserStorage, NstSvcContactStorage, NstSvcDate,
+                      NstSvcCurrentUserStorage, NstSvcFileStorage, NstSvcInvitationStorage,
+                      NstSvcUploadTokenStorage, NstSvcDate, NstSvcGlobalCache,
                       NST_SRV_EVENT, NST_SRV_RESPONSE_STATUS, NST_SRV_ERROR, NST_UNREGISTER_REASON, NST_CONFIG,
                       NST_AUTH_EVENT, NST_AUTH_STATE, NST_AUTH_STORAGE_KEY,
                       NstObservableObject) {
@@ -30,9 +29,7 @@
       NstObservableObject.call(this);
 
       if (user.id) {
-        NstSvcUserFactory.set(user).get(user.id).then(function (user) {
-          service.setUser(user);
-        });
+        service.setUser(user);
       }
 
       if (NstSvcServer.isInitialized()) {
@@ -171,21 +168,13 @@
         'nos': 'android'
       }, remember);
 
-      this.setUser(NstSvcUserFactory.parseUser(data.account));
-      NstSvcUserFactory.set(this.getUser());
+      NstSvcUserFactory.set(data.account);
+      var user = NstSvcUserFactory.parseUser(data.account);
+      this.setUser(user);
+      service.setUserCookie(user, remember);
+      $rootScope.$broadcast(NST_AUTH_EVENT.AUTHORIZE, { user: user });
 
-      // TODO: Not sure about using UserFactory like this!
-      NstSvcUserFactory.get(this.getUser().id).then(function (user) {
-        service.setUser(user);
-
-        service.setUserCookie(user, remember);
-
-        $rootScope.$broadcast(NST_AUTH_EVENT.AUTHORIZE, { user: user });
-
-        deferred.resolve(service.getUser());
-      }).catch(deferred.reject);
-
-      return deferred.promise;
+      return $q.resolve(user);
     };
 
     Auth.prototype.register = function (username, password) {
@@ -238,17 +227,11 @@
           break;
 
         default:
+          NstSvcGlobalCache.flush();
           NstSvcCurrentUserStorage.cache.flush();
           NstSvcFileStorage.cache.flush();
           NstSvcInvitationStorage.cache.flush();
-          NstSvcMyPlaceIdStorage.cache.flush();
-          NstSvcPlaceStorage.cache.flush();
-          NstSvcTinyPlaceStorage.cache.flush();
-          NstSvcPostStorage.cache.flush();
           NstSvcUploadTokenStorage.cache.flush();
-          NstSvcTinyUserStorage.cache.flush();
-          NstSvcUserStorage.cache.flush();
-          NstSvcContactStorage.cache.flush();
 
           service.user = null;
 
@@ -345,6 +328,7 @@
       if (this.getLastSessionKey() && this.getLastSessionSecret()) {
         // TODO: Use Try Service
         this.recall(this.getLastSessionKey(), this.getLastSessionSecret()).then(function (response) {
+          NstSvcUserFactory.setCurrent(response.account);
           service.user = NstSvcUserFactory.parseUser(response.account);
           service.state = NST_AUTH_STATE.AUTHORIZED;
 
@@ -382,7 +366,6 @@
     };
 
     Auth.prototype.logout = function () {
-      NstSvcPlaceFactory.flush();
       NstSvcI18n.clearSavedLocale();
       $rootScope.$emit('unseen-activity-clear');
 
@@ -406,7 +389,6 @@
 
     Auth.prototype.setUser = function (user) {
       this.user = user
-      NstSvcCurrentUserStorage.set(NST_AUTH_STORAGE_KEY.USER, user);
     };
 
     /**

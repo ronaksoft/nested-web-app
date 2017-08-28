@@ -49,7 +49,7 @@
         url: '/messages',
         templateUrl: 'app/messages/messages.html',
         controller: 'MessagesController',
-        controllerAs: 'ctlMessages',
+        controllerAs: 'ctrl',
         options: {
           primary: true,
           group: 'message',
@@ -60,7 +60,7 @@
         url: '/bookmarks',
         templateUrl: 'app/messages/messages.html',
         controller: 'MessagesController',
-        controllerAs: 'ctlMessages',
+        controllerAs: 'ctrl',
         options: {
           primary: true,
           group: 'bookmarked',
@@ -71,7 +71,7 @@
         url: '/bookmarks/:sort',
         templateUrl: 'app/messages/messages.html',
         controller: 'MessagesController',
-        controllerAs: 'ctlMessages',
+        controllerAs: 'ctrl',
         options: {
           primary: true,
           group: 'bookmarked',
@@ -82,7 +82,7 @@
         url: '/feed',
         templateUrl: 'app/messages/messages.html',
         controller: 'MessagesController',
-        controllerAs: 'ctlMessages',
+        controllerAs: 'ctrl',
         options: {
           primary: true,
           group: 'message',
@@ -97,7 +97,7 @@
         },
         templateUrl: 'app/messages/messages.html',
         controller: 'MessagesController',
-        controllerAs: 'ctlMessages',
+        controllerAs: 'ctrl',
         options: {
           primary: true,
           group: 'message',
@@ -108,7 +108,7 @@
         url: '/shared',
         templateUrl: 'app/messages/messages.html',
         controller: 'MessagesController',
-        controllerAs: 'ctlMessages',
+        controllerAs: 'ctrl',
         options: {
           primary: true,
           group: 'sent'
@@ -121,7 +121,7 @@
         },
         templateUrl: 'app/messages/messages.html',
         controller: 'MessagesController',
-        controllerAs: 'ctlMessages',
+        controllerAs: 'ctrl',
         options: {
           primary: true,
           group: 'message'
@@ -134,7 +134,7 @@
         },
         templateUrl: 'app/messages/messages.html',
         controller: 'MessagesController',
-        controllerAs: 'ctlMessages',
+        controllerAs: 'ctrl',
         options: {
           primary: true,
           group: 'message',
@@ -148,7 +148,7 @@
         },
         templateUrl: 'app/messages/messages.html',
         controller: 'MessagesController',
-        controllerAs: 'ctlMessages',
+        controllerAs: 'ctrl',
         options: {
           primary: true,
           group: 'posts'
@@ -158,7 +158,7 @@
         url: '/places/:placeId/unread',
         templateUrl: 'app/messages/messages.html',
         controller: 'MessagesController',
-        controllerAs: 'ctlMessages',
+        controllerAs: 'ctrl',
         options : {
           group : 'message'
         }
@@ -171,7 +171,7 @@
         },
         templateUrl: 'app/messages/messages.html',
         controller: 'MessagesController',
-        controllerAs: 'ctlMessages',
+        controllerAs: 'ctrl',
         options: {
           primary: true,
           group: 'message'

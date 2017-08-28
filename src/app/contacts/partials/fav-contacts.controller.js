@@ -32,13 +32,30 @@
         eventReferences = [];
 
     vm.openContact = openContact;
+    vm.contacts = [];
 
     (function () {
 
       vm.loadProgress = true;
       // Gets all contacts and filter by `isFavorite`. Then orders by lastnam and limits the number of contacts to 30
-      NstSvcContactFactory.getAll().then(function (contacts) {
-        vm.contacts = _.chain(contacts).filter({ 'isFavorite': true }).orderBy(['lastName'], ['asc']).take(MAX_ITEMS_COUNT).value();
+      NstSvcContactFactory.getAll(function (cachedContacts){
+        vm.contacts = filterFavorites(cachedContacts);
+      }).then(function (contacts) {
+        var favorites = filterFavorites(contacts);
+        var newItems = _.differenceBy(favorites, vm.contacts, 'id');
+        var removedItems = _.differenceBy(vm.contacts, favorites, 'id');
+
+        // first omit the removed items; The items that are no longer exist in fresh contacts
+        _.forEach(removedItems, function (item) {
+          var index = _.findIndex(vm.contacts, { 'id': item.id });
+          if (index > -1) {
+            vm.contacts.splice(index, 1);
+          }
+        });
+
+        // add new items; The items that do not exist in cached items, but was found in fresh contacts
+        vm.contacts.unshift.apply(vm.contacts, newItems);
+        
       }).catch(function () {
         vm.errorLoad = true;
       }).finally(function () {
@@ -81,6 +98,10 @@
         }
       });
     });
+
+    function filterFavorites(contacts) {
+      return _.chain(contacts).filter({ 'isFavorite': true }).orderBy(['lastName'], ['asc']).take(MAX_ITEMS_COUNT).value();
+    }
 
   }
 })();

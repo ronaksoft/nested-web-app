@@ -7,12 +7,13 @@
   /** @ngInject */
   function NstSvcCommentFactory($q,
                                 _,
-                                NST_COMMENT_EVENT,
-                                NstSvcServer, NstCollector, NstSvcUserFactory, NstPicture, NstUtility,
+                                NST_COMMENT_EVENT, NST_SRV_ERROR,
+                                NstSvcServer, NstCollector, NstSvcUserFactory, NstPicture, NstUtility, NstSvcGlobalCache,
                                 NstComment, NstTinyUser, NstBaseFactory) {
 
     function CommentFactory() {
       this.collector = new NstCollector('post', this.getManyComment);
+      this.cache = NstSvcGlobalCache.createProvider('comment');
     }
 
     CommentFactory.prototype = new NstBaseFactory();
@@ -27,6 +28,11 @@
     CommentFactory.prototype.parseComment = parseComment;
     CommentFactory.prototype.parseMessageComment = parseMessageComment;
     CommentFactory.prototype.getCommentsAfter = getCommentsAfter;
+    CommentFactory.prototype.getCachedSync = getCachedSync;
+    CommentFactory.prototype.parseCachedModel = parseCachedModel;
+    CommentFactory.prototype.transformToCacheModel = transformToCacheModel;
+    CommentFactory.prototype.set = set;
+
 
     var factory = new CommentFactory();
     return factory;
@@ -35,22 +41,34 @@
      *  Implementations  *
      *********************/
 
-    function getComment(commentId) {
-      return factory.sentinel.watch(function () {
-        var deferred = $q.defer();
-        if (!commentId) {
-          deferred.reject(new Error('commentIds is not provided'))
-        } else {
+    function getComment(id) {
+      var factory = this;
+      // first ask the cache provider to give the model
+      var cachedComment = this.getCachedSync(id);
+      if (cachedComment) {
+        return $q.resolve(cachedComment);
+      }
 
-          factory.collector.add(commentId).then(function (data) {
-            return parseComment(data);
-          }).then(function (comment) {
-            deferred.resolve(comment);
-          }).catch(deferred.reject);
+      var deferred = $q.defer();
+
+      factory.collector.add(id).then(function (data) {
+        factory.set(data);
+        deferred.resolve(parseComment(data));
+      }).catch(function (error) {
+        switch (error.code) {
+          case NST_SRV_ERROR.ACCESS_DENIED:
+          case NST_SRV_ERROR.UNAVAILABLE:
+            deferred.resolve();
+            factory.cache.remove(id);
+            break;
+
+          default:
+            deferred.reject(error);
+            break;
         }
+      });
 
-        return deferred.promise;
-      }, "getComment", commentId);
+      return deferred.promise;
     }
 
 
@@ -74,6 +92,10 @@
 
         return deferred.promise;
       }, "getManyComment", joinedIds);
+    }
+
+    function getCachedSync(id) {
+      return this.parseCachedModel(this.cache.get(id));
     }
 
     /**
@@ -217,7 +239,7 @@
         comment.removedById = data.removed_by;
 
         if (comment.removedById) {
-          promises.push(NstSvcUserFactory.getTiny(comment.removedById));
+          promises.push(NstSvcUserFactory.get(comment.removedById));
         }
 
         if (_.size(promises) === 0) {
@@ -233,6 +255,41 @@
       }
 
       return defer.promise;
+    }
+
+    function parseCachedModel(data) {
+      if (!data) {
+        return null;
+      }
+
+      var comment = new NstComment();
+
+      comment.id = data._id;
+      comment.sender = NstSvcUserFactory.getCachedSync(data.sender);
+      comment.body = data.text;
+      comment.timestamp = data.timestamp;
+      if (data.sender && !comment.sender) {
+        return null;
+      }
+      if (data.removed_by) {
+        comment.removedById = data.removed_by;
+        comment.removedBy = NstSvcUserFactory.getCachedSync(data.removed_by);
+        if (data.removed_by && !comment.removedBy) {
+          return null;
+        }
+      }
+
+      return comment;
+    }
+
+    function transformToCacheModel(place) {
+      return {
+        _id: place._id,
+        sender: place.sender._id,
+        text: place.text,
+        timestamp: place.timestamp,
+        removed_by: place.removed_by
+      };
     }
 
     function parseMessageComment(data) {
@@ -259,6 +316,14 @@
       }).catch(defer.reject);
 
       return defer.promise;
+    }
+
+    function set(data) {
+      if (data && data._id) {
+        this.cache.set(data._id, this.transformToCacheModel(data));
+      } else {
+        // console.error('The data is not valid to be cached!', data);
+      }
     }
 
   }

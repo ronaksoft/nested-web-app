@@ -8,7 +8,7 @@
         restrict: 'E',
         templateUrl : 'app/contacts/partials/fav-contacts.html',
         controller : 'FavoriteContactsController',
-        controllerAs : 'ctrl',
+        controllerAs : 'contactsCtrl',
         bindToController : true,
         replace : true,
         link: function () {

@@ -33,6 +33,7 @@
     NstSvcTranslation, NstSvcContactFactory, NstSvcPlaceFactory) {
     var vm = this;
 
+    vm.mutualPlaces = [];
     vm.toggleFavorite = toggleFavorite;
     vm.add = _.partial(add, vm.contactId);
     vm.remove = _.partial(remove, vm.contactId);
@@ -54,9 +55,23 @@
       vm.loadProgress = true;
       getContact(id).then(function (contact) {
         vm.contact = contact;
-        return NstSvcPlaceFactory.getMutualPlaces(id);
+        return NstSvcPlaceFactory.getMutualPlaces(id, function (cachedPlaces) {
+          vm.mutualPlaces = cachedPlaces;  
+        });
       }).then(function (places) {
-        vm.mutualPlaces = places;
+        var newItems = _.differenceBy(places, vm.mutualPlaces, 'id');
+        var removedItems = _.differenceBy(vm.mutualPlaces, places, 'id');
+
+        // first omit the removed items; The items that are no longer exist in fresh contacts
+        _.forEach(removedItems, function (item) {
+          var index = _.findIndex(vm.mutualPlaces, { 'id': item.id });
+          if (index > -1) {
+            vm.mutualPlaces.splice(index, 1);
+          }
+        });
+
+        // add new items; The items that do not exist in cached items, but was found in fresh contacts
+        vm.mutualPlaces.unshift.apply(vm.mutualPlaces, newItems);
       }).catch(function () {
         toastr.error(NstSvcTranslation.get("An error has occured while loading the contact data."));
       }).finally(function () {

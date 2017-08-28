@@ -184,16 +184,16 @@
 
         var invitee = null;
         if (angular.isObject(data.invitee)) {
+          NstSvcUserFactory.set(data.invitee);
           invitee = NstSvcUserFactory.parseTinyUser(data.invitee);
-          NstSvcUserFactory.set(invitee);
         } else if (data.invitee_id) {
           invitee.id = data.invitee_id;
         }
 
         var inviter = null;
         if (angular.isObject(data.inviter)) {
+          NstSvcUserFactory.set(data.inviter);
           inviter = NstSvcUserFactory.parseTinyUser(data.inviter);
-          NstSvcUserFactory.set(inviter);
         } else if (data.inviter_id) {
           inviter.id = data.inviter_id;
         }
@@ -201,15 +201,15 @@
         var place = null;
         if (angular.isObject(data.place)) {
           place = NstSvcPlaceFactory.parseTinyPlace(data.place);
-          NstSvcPlaceFactory.set(place);
+          NstSvcPlaceFactory.set(data.place);
         } else if (data.place_id) {
           place.setId(data.place_id);
         }
 
         $q.all([
-          NstSvcUserFactory.getTiny(invitee.id),
-          NstSvcUserFactory.getTiny(inviter.id),
-          NstSvcPlaceFactory.getTiny(place.id)
+          NstSvcUserFactory.get(invitee.id),
+          NstSvcUserFactory.get(inviter.id),
+          NstSvcPlaceFactory.get(place.id)
         ]).then(function (values) {
           invitation.invitee = values[0];
           invitation.inviter = values[1];
