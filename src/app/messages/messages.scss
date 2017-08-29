@@ -5,6 +5,9 @@
   > * {
     margin: 0 24px;
     &._fw {
+      max-width: 720px;
+      margin: auto;
+      display: block;
       width: calc(100% - 48px);
     }
   }
@@ -14,7 +17,6 @@
   height: 48px;
   display: inline-flex;
   position: relative;
-  padding-top: 8px;
   flex: none;
   position: relative;
   width: 100%;
@@ -22,14 +24,15 @@
   .filter-bar-inner {
     background-color: $color-bg-nested;
     z-index: 22;
-    height: 40px;
+    height: 48px;
+    padding-top: 8px;    
     display: flex;
     max-width: 720px;
-    position: fixed;
+    // position: fixed;
     max-width: 880px;
     min-width: 544px;
-    width: 100vw;
-    top: 136px;
+    width: calc(100vw - 480px);
+    top: 96px;
     .toolbar {
       width: 100%;
       height: 100%;
