@@ -240,33 +240,35 @@
       getMyPlaces().then(function (places) {
         getPlaceOrder()
           .then(function (order) {
+            console.time('TIME: Creating my places tree');
+            vm.places = createTree(places, [], [], null);
+            console.timeEnd('TIME: Creating my places tree');
+            console.log('====================================');
+            console.log(vm.places);
+            console.log('====================================');
 
-            vm.places = mapPlaces(places).filter(function (obj) {
-              return obj.id.split('.').length === 1;
-            });
+            // var outOfOrder = 1000;
+            // for (var i = 0; i < vm.places.length; i++) {
+            //   if (order[vm.places[i].id]) {
+            //     vm.places[i].order = order[vm.places[i].id];
+            //   } else {
+            //     vm.places[i].order = outOfOrder;
+            //     outOfOrder++;
+            //   }
+            // }
 
-            var outOfOrder = 1000;
-            for (var i = 0; i < vm.places.length; i++) {
-              if (order[vm.places[i].id]) {
-                vm.places[i].order = order[vm.places[i].id];
-              } else {
-                vm.places[i].order = outOfOrder;
-                outOfOrder++;
-              }
-            }
+            // vm.places = _.sortBy(vm.places,'order');
 
-            vm.places = _.sortBy(vm.places,'order');
+            // fillPlacesNotifCountObject(vm.places);
+            // getGrandPlaceUnreadCounts();
 
-            fillPlacesNotifCountObject(vm.places);
-            getGrandPlaceUnreadCounts();
+            // fixUrls();
 
-            fixUrls();
-
-            if ($stateParams.placeId) {
-              vm.selectedGrandPlace = _.find(vm.places, function (place) {
-                return place.id === $stateParams.placeId.split('.')[0];
-              });
-            }
+            // if ($stateParams.placeId) {
+            //   vm.selectedGrandPlace = _.find(vm.places, function (place) {
+            //     return place.id === $stateParams.placeId.split('.')[0];
+            //   });
+            // }
           });
 
       }).catch(function () {
@@ -535,7 +537,7 @@
        * @returns
        */
       function getMyPlaces() {
-        return NstSvcPlaceFactory.getMyTinyPlaces();
+        return NstSvcPlaceFactory.getMyPlaces();
       }
 
       /**
@@ -905,6 +907,70 @@
           return true;
         }
         return false;
+      }
+
+      function getChildren(place, places, expandedPlaces, selectedId) {
+        return _.chain(places).filter(function (child) {
+          return child && child.id && child.id.indexOf(place.id + '.') === 0;
+        }).map(function (place) {
+          var isOpen = _.includes(expandedPlaces, place.id);
+          var isActive = place.id === selectedId;
+          var children = getChildren(place, places, expandedPlaces, selectedId);
+
+          return createTreeItem(place, children, isOpen, isOpen);
+        }).sortBy(['name']).value();
+      }
+
+      function createTree(places, orders, expandedPlaces, selectedId) {
+        return _.chain(places).filter(function (place) {
+          return place.id && place.id.indexOf('.') === -1;
+        }).map(function(place) {
+          var isOpen = _.includes(expandedPlaces, place.id);
+          var isActive = place.id === selectedId;
+          var children = getChildren(place, places, expandedPlaces, selectedId);
+
+          return createTreeItem(place, children, isOpen, isActive);
+        }).sortBy(function(place) {
+          return orders[place.id];
+        }).value();
+      }
+
+      function createTreeItem(place, children, isOpen, isActive) {
+        console.log('====================================');
+        console.log(place);
+        console.log('====================================');
+        var picture = place.hasPicture() ? place.picture.getUrl('x32') : null;
+        var canCreateClosedPlace = place.privacy.locked && place.canAddSubPlace();
+        var canCreateOpenPlace = !place.privacy.locked && place.canAddSubPlace();
+        return {
+          id: place.id,
+          name: place.name,
+          picture: picture,
+          children: children,
+          hasChildren: children && children.length > 0,
+          isOpen: isOpen,
+          isActive: isActive,
+          url: getPlaceUrl(place.id),
+          canCreateOpenPlace: canCreateOpenPlace,
+          canCreateClosedPlace: canCreateClosedPlace,
+        };
+      }
+
+      function getPlaceUrl(placeId) {
+        switch ($state.current.options.group) {
+          case 'file':
+            return $state.href('app.place-files', { placeId: placeId });
+            break;
+          case 'activity':
+            return $state.href('app.place-activity', { placeId: placeId });
+            break;
+          case 'compose':
+            return $state.href('app.place-compose', { placeId: placeId });
+            break;
+          default:
+            return $state.href('app.place-messages', { placeId: placeId });
+            break;
+        }
       }
 
     }

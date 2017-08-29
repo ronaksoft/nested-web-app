@@ -52,20 +52,41 @@
       if (!vm.haveMore) {
         return;
       }
-      var searchService;
       var filter = (vm.labelManager && vm.selectedView === 0 ? NST_LABEL_SEARCH_FILTER.ALL : NST_LABEL_SEARCH_FILTER.MY_PRIVATES);
       if (vm.keyword.length > 0) {
         var keyword = $filter('scapeSpace')(vm.keyword);
-        searchService = NstSvcLabelFactory.search(keyword, filter, vm.setting.skip, vm.setting.limit);
+        searchService = NstSvcLabelFactory.search(keyword, filter, vm.setting.skip, vm.setting.limit).then(function(labels) {
+          vm.labels = _.unionBy(vm.labels.concat(labels), 'id');
+          vm.oldKeyword = vm.keyword;
+          vm.haveMore = labels.length === vm.setting.limit;
+          vm.setting.skip += labels.length;
+        });
       } else {
-        searchService = NstSvcLabelFactory.search(null, filter, vm.setting.skip, vm.setting.limit);
+        NstSvcLabelFactory.search(null, filter, vm.setting.skip, vm.setting.limit, function(cachedLabels) {
+          vm.labels = cachedLabels;
+        }).then(function (labels) {
+          merge(labels);
+          vm.oldKeyword = vm.keyword;
+          vm.haveMore = labels.length === vm.setting.limit;
+          vm.setting.skip += labels.length;
+        });
       }
-      searchService.then(function (result) {
-        vm.labels = _.unionBy(vm.labels.concat(result), 'id');
-        vm.oldKeyword = vm.keyword;
-        vm.haveMore = result.length === vm.setting.limit;
-        vm.setting.skip += result.length;
+    }
+
+    function merge(labels) {
+      var newItems = _.differenceBy(labels, vm.labels, 'id');
+      var removedItems = _.differenceBy(vm.labels, labels, 'id');
+
+      // first omit the removed items; The items that are no longer exist in fresh contacts
+      _.forEach(removedItems, function (item) {
+        var index = _.findIndex(vm.labels, { 'id': item.id });
+        if (index > -1) {
+          vm.labels.splice(index, 1);
+        }
       });
+
+      // add new items; The items that do not exist in cached items, but was found in fresh contacts
+      vm.labels.unshift.apply(vm.labels, newItems);
     }
 
     function restoreDefault() {
