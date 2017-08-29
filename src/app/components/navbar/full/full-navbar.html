@@ -109,5 +109,27 @@
     </div>
   </div>
 </div>
+<div ng-if="!ctlFullNavbar.isUnreadMode && !ctlFullNavbar.isSearchMode && !ctlFullNavbar.isConvMode && !ctlFullNavbar.isFeed && !ctlFullNavbar.isSentMode && !ctlFullNavbar.isBookmarkMode"
+            class="nst-navbar _tr">
+  <div class="nst-content _tr">
+    <div class="content _pr">
+      <div class="bot-nav">
+        <div class="navigation">
+          <h2 class="_df _fw" ng-if="ctlFullNavbar.isFeed"><translate>Feed</translate></h2>
+          <div class="search">
+            <input type="text" class="form-control"
+                   nst-mention mention-new-method mention-enable-label place-id="{{ctlFullNavbar.placeId}}"
+                   ng-keyup="ctlFullNavbar.search(ctlFullNavbar.searchQuery, $event);" ng-model="ctlFullNavbar.searchQuery"
+                   placeholder="{{ctlFullNavbar.searchPlaceholder}}" has-place="ctlFullNavbar.hasPlace()" place-name="ctlFullNavbar.title"/>
+            <svg class="_24svg mirror _fn">
+              <use xlink:href="/assets/icons/nst-icn24.svg#search"></use>
+            </svg>
+          </div>
+        </div>
+        <div class="cp-illu"></div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <scroll-roller roll-upward="ctlFullNavbar.rollToTop"></scroll-roller>

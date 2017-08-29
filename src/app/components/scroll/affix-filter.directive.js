@@ -30,37 +30,11 @@
 
           var top = $element.offset().top || 0;
 
-          topOffset = $element.offset().top - parseInt($attrs.top) - 24;
-
-          var offLeft = $element.offset().left - 24 || 0;
-
-          var height = $element.outerHeight();
-          var width = $element.outerWidth();
+          topOffset = 104 + 48 - parseInt($attrs.top);
 
           var fixed = false;
+          console.log($element[0].getBoundingClientRect().top, $element.offset().top, parseInt($attrs.top));
 
-          if ($attrs.parent && $($attrs.parent).offset() ) {
-            var containerLeft = $($attrs.parent)[0].offsetLeft;
-          }
-
-
-          if ($attrs.afterContent ) {
-            var afterContent = $attrs.afterContent;
-          }
-
-          if ($attrs.fixedTop ) {
-            top = parseInt($attrs.top);
-          }
-          if ($attrs.clearRight ) {
-            var clearRight = true;
-          }
-
-          //for create a fixed element we need a left parameter so we read it from itself
-          function findLeftOffset () {
-            if (isRTL == 'rtl') {
-              offLeft = parseInt(containerLeft)  +  $($attrs.parent).width()  - parseInt(afterContent) - width;
-            }
-          }
           function removeFix() {
             $element.css('position', '');
             $element.css('top', '');
@@ -73,9 +47,6 @@
           function affixElement() {
             if (!fixed && $window.pageYOffset > topOffset) {
               $element.css('position', 'fixed');
-              $element.css('top', parseInt(top) + 'px');
-              if (isRTL == 'ltr')$element.css('left', offLeft + 'px');
-              if (isRTL == 'rtl')$element.css('left', offLeft + 'px');
               fixed = true;
             } else if (fixed && $window.pageYOffset < topOffset ) {
               removeFix();
@@ -83,30 +54,12 @@
             }
           }
 
-          function firstFixes() {
-            if ($attrs.firstImp ) {
-              $element.css('position', 'fixed');
-              $element.css('top', parseInt(top) - parseInt(topOffset) + 'px');
-              $element.css('left', offLeft + 'px');
-              $element.css('width', width + 'px');
-              $element.css('height', height + 'px');
-              if(clearRight) {
-                $element.css('right', 'auto');
-              }
-              return win.unbind('scroll', affixElement);
-            }
-          }
-
-          findLeftOffset();
           window.addEventListener("scroll", affixElement);
 
           if ( !window.affixerListenerFilter ) {
             window.affixerListenerFilter = [];
           }
           window.affixerListenerFilter.push(affixElement);
-
-          win.bind('scroll', affixElement);
-          firstFixes();
 
         }
 

@@ -17,34 +17,19 @@
 
 nst-navbar {
   position: relative;
-  top: 0;
-  right: 0;
-  left: 0;
-  width: 100%;
+  max-width: 880px;
+  width: calc(100vw - 480px);
   z-index: 55;
+  height: 104px;
   @include user-select(none);
-  //width: calc(100% - 272px);
-  //width: 100%;
+  align-self: center;
   //will-change: height;
   //transform-style: preserve-3d;
   //backface-visibility: hidden;
   //transform: matrix3d(1,0,0.00,0,0.00,1,0.00,0,0,0,1,0,0,0,1,1);
-  .bg {
-    background-color: $color-white;
-    border-bottom: 1px solid $color-calm;
-    box-shadow: 0 0 16px rgba(0, 0, 0, 0.15);
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    transform: translateZ(0);
-  }
   .nst-navbar{
-    height: 80px;
     //height: 48px!important;
     justify-content: center;
-    z-index: 50;
     width: 100%;
     display: flex;
     .nav-item-butn {
@@ -52,14 +37,6 @@ nst-navbar {
       font-size: 16px;
       font-weight: 500;
     }
-    .content {
-      .bot-nav {
-        height: 100%;
-      }
-    }
-  }
-  .nst-content {
-    z-index: 2;
   }
   .content {
     flex-direction: column;
@@ -385,20 +362,48 @@ nst-navbar {
 }
 
 .nst-navbar {
-  height: $navbar-height;
-  position: fixed;
-  top: 0;
-  left: $sidebar-width;
+  width: 100%;
+  // height: $navbar-height;
+  height: calc(100% - 24px);
+  margin: 16px 0 8px 0;
+  z-index: 88;
+  position: relative;
+  background-color: $color-white;
+  box-shadow: 0 4px 16px $color-breeze-new;
+  overflow: hidden;
+  border-radius: 8px;
 }
 .nst-navbar-fixed {
   position: fixed;
   top: 48px;
-  background-color: $color-white;
-  border-radius: 0 0 8px 8px;
-  box-shadow: 0 4px 16px $color-breeze-new;
+  z-index: 77;
+  height: 48px;
+  background-color: #F0F0F0;
+  // border-radius: 0 0 8px 8px;
+  // box-shadow: 0 4px 16px $color-breeze-new;
   width: calc(100vw - 480px);
   max-width: 880px;
   min-width: 544px;
+  .nst-navbar-fixed-container {
+    height: 40px;
+    width: 100%;
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    .place-pic {
+      width: 24px;
+      height: 24px;
+      margin: 0 8px;
+      border-radius: 2px;
+    }
+    cite {
+      margin: 0 4px;
+      font-size: 14px;
+      font-weight: bold;
+      font-style: normal;
+      color: $color-solid;
+    }
+  }
   h2 {
     margin: 0;
     line-height: 28px;
@@ -471,18 +476,6 @@ nst-navbar {
       height: 30px;
     }
   }
-  .content {
-    .bot-nav {
-      min-height: 80px;
-      height: auto;
-      position: relative;
-    }
-  }
-}
-.old-navbar-holder {
-  width: 100%;
-  height: $topnav-height;
-  flex: none
 }
 .navbar-holder {
   width: 100%;
@@ -549,15 +542,10 @@ nst-navbar {
   margin-top: 4px;
 }
 
-.nst-navbar .content-plus{
-  justify-content: center;
-  height: auto;
-  display: none;
-}
 
-.place-switch .circle .svg-hover {
-  margin: 3px 4px;
-  use:last-child {
-    display: flex;
-  }
-}
+// .place-switch .circle .svg-hover {
+//   margin: 3px 4px;
+//   use:last-child {
+//     display: flex;
+//   }
+// }
