@@ -23,7 +23,7 @@
     },
     "REGISTER": {
       "AJAX": {
-        "URL": "http://cyrus.ronaksoftware.com:8080"
+        "URL": "http://cyrus.ronaksoftware.com:82"
       }
     },
     "GOOGLE_ANALYTICS_TOKEN": "UA-92612481-1",

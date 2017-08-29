@@ -12,7 +12,7 @@
         "OPTIONS": {}
       }
     },
-    "SIGN_OUT_TARGET": "https://nested.me",
+    "SIGN_OUT_TARGET": "https://ronaksoftware.com",
     "WEBSOCKET": {
       "URL": "ws://cyrus.ronaksoftware.com:81",
       "TIMEOUT": 60000,
