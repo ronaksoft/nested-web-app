@@ -260,9 +260,9 @@ nst-attachments-preview-bar {
     display: inline-table;
     position: relative;
     //flex-direction: row;
-    
+
     .gif-sign {
-      bottom: 8px; 
+      bottom: 8px;
      }
     img {
       object-fit: cover;
@@ -323,7 +323,7 @@ nst-attachments-preview-bar {
           top: 0;
       }
       .gif-sign {
-       bottom: 8px; 
+       bottom: 8px;
       }
     }
     .download-img {
@@ -383,7 +383,7 @@ nst-attachments-preview-bar {
       overflow: hidden;
       text-overflow: ellipsis;
       -webkit-line-clamp: 3;
-      max-height: 100%;
+      //max-height: 100%;
       margin: 0;
     }
   }
@@ -508,7 +508,7 @@ nst-attachments-preview-bar {
   &:hover {
     background-color: black;
   }
-  
+
 }
 .gif-sign {
   color: $color-white;

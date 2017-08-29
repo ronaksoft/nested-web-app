@@ -3,7 +3,7 @@
         <translate>Request a Label</translate>
     </h4>
     <div class="req-modal-input ng-class:{'_oh' : requestCtrl.editColor}">
-        <input type="text" ng-model="requestCtrl.keyword" placeholder="Enter a label name…" data-ng-keyup="requestCtrl.inputKeyUpHandler();">
+        <input type="text" ng-model="requestCtrl.keyword" placeholder="{{requestCtrl.labelSelectPlaceHolder}}" data-ng-keyup="requestCtrl.inputKeyUpHandler();">
         <div class="color-btn" ng-click="requestCtrl.editCode = true" ng-if="requestCtrl.newLabel">
             <svg class="_16svg _fn color-lbl-{{requestCtrl.label.code}}">
                 <use xlink:href="/assets/icons/nst-icn16.svg#gear"></use>
@@ -42,7 +42,7 @@
         <translate>You can request an existing label or create a new one. You ll have access after Label Manager approve your request.</translate>
     </p>
     <div class="modal-footer">
-        <input type="button" ng-click="$dismiss()" value="Discard" class="butn-white">
-        <input type="button" ng-disabled="requestCtrl.isNotValid() || requestCtrl.disabled" ng-click="requestCtrl.requestLabel()" value="Send Request" class="butn-green">
+        <input type="button" ng-click="$dismiss()" value="{{requestCtrl.translation.discard}}" class="butn-white">
+        <input type="button" ng-disabled="requestCtrl.isNotValid() || requestCtrl.disabled" ng-click="requestCtrl.requestLabel()" value="{{requestCtrl.translation.send}}" class="butn-green">
     </div>
 </div>
