@@ -13,17 +13,17 @@
       }
     },
     "WEBSOCKET": {
-      "URL": "ws://cyrus.ronaksoftware.com",
+      "URL": "_WS_CYRUS_CYRUS_URL_CONF_",
       "TIMEOUT": 60000,
       "REQUEST_MAX_RETRY_TIMES": 16
     },
     "STORE": {
-      "URL": "http://xerxes.ronaksoftware.com",
+      "URL": "_XERXES_URL_CONF_",
       "TOKEN_EXPMS": 3550000
     },
     "REGISTER": {
       "AJAX": {
-        "URL": "http://cyrus.ronaksoftware.com:82"
+        "URL": "_HTTP_CYRUS_URL_CONF_"
       }
     },
     "GOOGLE_ANALYTICS_TOKEN": "UA-92612481-1",
