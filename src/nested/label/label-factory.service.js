@@ -20,20 +20,21 @@
     LabelFactory.prototype.constructor = LabelFactory;
 
     LabelFactory.prototype.parse = function (data) {
-      var model = new NstLabel();
-
-      if (data && data._id) {
-        model.id = data._id;
-        model.title = data.title;
-        model.code = data.code;
-        model.public = data.public;
-        model.topMembers = _.map(data.top_members, function (member) {
-          NstSvcUserFactory.set(member);
-          return NstSvcUserFactory.parseTinyUser(member);
-        });
-        model.counters = data.counters;
-        model.isMember = data.is_member;
+      if (!(data && data._id)) {
+        return null;
       }
+
+      var model = new NstLabel();
+      model.id = data._id;
+      model.title = data.title;
+      model.code = data.code;
+      model.public = data.public;
+      model.topMembers = _.map(data.top_members, function (member) {
+        NstSvcUserFactory.set(member);
+        return NstSvcUserFactory.parseTinyUser(member);
+      });
+      model.counters = data.counters;
+      model.isMember = data.is_member;
 
       return model;
     };
@@ -97,24 +98,37 @@
       }, 'remove-' + id);
     };
 
-    LabelFactory.prototype.search = function (keyword, filter, skip, limit) {
+    LabelFactory.prototype.search = function (keyword, filter, skip, limit, cacheHandler) {
       var that = this;
-      return this.sentinel.watch(function () {
-        return NstSvcServer.request('search/labels', {
-          keyword: keyword,
-          filter: filter || NST_LABEL_SEARCH_FILTER.ALL,
-          skip: skip || 0,
-          limit: limit || 10,
-          details: true
-        }).then(function (result) {
-          var labels = _.map(result.labels, function (item) {
-            that.set(item);
-            return that.parse(item);
-          });
+      return NstSvcServer.request('search/labels', {
+        keyword: keyword,
+        filter: filter || NST_LABEL_SEARCH_FILTER.ALL,
+        skip: skip || 0,
+        limit: limit || 10,
+        details: true
+      }, function(cachedResponse) {
+        if (cachedResponse && _.isFunction(cacheHandler)) {
+          var labels = _.reduce(cachedResponse.labels, function (list, label){
+            var cachedLabel = that.getCachedSync(label._id);
+            if (cachedLabel) {
+              list.push(cachedLabel);
+            }
 
-          return $q.resolve(labels);
+            return list;
+          }, []);
+          console.log('====================================');
+          console.log(labels);
+          console.log('====================================');
+          cacheHandler(labels);
+        }
+      }).then(function (result) {
+        var labels = _.map(result.labels, function (item) {
+          that.set(item);
+          return that.parse(item);
         });
-      }, 'search');
+
+        return $q.resolve(labels);
+      });
     };
 
     LabelFactory.prototype.getRequests = function (skip, limit) {
@@ -261,6 +275,10 @@
     };
 
     LabelFactory.prototype.parseCacheModel = function (data) {
+      if (!(data && data._id)) {
+        return null;
+      }
+
       var model = new NstLabel();
 
       if (data && data._id) {
@@ -279,18 +297,11 @@
     };
 
     LabelFactory.prototype.transformToCacheModel = function (data) {
-      return {
-        id: data._id,
-        title: data.title,
-        code: data.code,
-        public: data.public,
-        topMembers: _.map(data.top_members, '_id'),
-        counters: data.counters,
-       isMember: data.is_member
-      };
+      var cacheModel = _.clone(data);
+      cacheModel.top_members = _.map(data.top_members, '_id');
+
+      return cacheModel;
     };
-
-
 
     return new LabelFactory();
   }
