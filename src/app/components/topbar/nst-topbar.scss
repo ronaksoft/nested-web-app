@@ -1,6 +1,7 @@
 .top-bar {
   position: fixed;
-  top: 0;
+  top: -5px;
+  transform: translate3d(0,5px,0);
   left: 0;
   width: 100vw;
   height: 48px;
@@ -19,6 +20,12 @@
       position: relative;
       width: 100%;
       max-width: 720px;
+      i {
+        position: absolute;
+        left: 4px;
+        top: 4px;
+        opacity: .24;
+      }
       input {
         height: 32px;
         line-height: 36px;

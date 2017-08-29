@@ -10,9 +10,7 @@
     return {
       restrict: 'A',
       link: function ($scope, $element, $attrs) {
-        var win = angular.element($window);
         var topOffset = 0;
-        var isRTL = $rootScope._direction;
         applier();
 
         // win.on("resize", function () {
@@ -22,18 +20,17 @@
         function applier() {
           removeFix();
 
-          if (window.affixerListenerFilter && window.affixerListenerFilter.length > 0) {
-            window.affixerListenerFilter.forEach( function(item){
-              window.removeEventListener("scroll", item);
-            });
-          }
+          // if (window.affixerListenerFilter && window.affixerListenerFilter.length > 0) {
+          //   window.affixerListenerFilter.forEach( function(item){
+          //     window.removeEventListener("scroll", item);
+          //   });
+          // }
 
-          var top = $element.offset().top || 0;
+          var top = $attrs.fixedNavbar ? 48 : $element.offset().top || 0;
 
-          topOffset = 104 + 48 - parseInt($attrs.top);
-
+          topOffset = top - parseInt($attrs.top);
+          console.log(top, topOffset)
           var fixed = false;
-          console.log($element[0].getBoundingClientRect().top, $element.offset().top, parseInt($attrs.top));
 
           function removeFix() {
             $element.css('position', '');
@@ -42,11 +39,15 @@
             $element.css('right', '');
             $element.css('width', '');
             $element.css('height', '');
+            if ($attrs.hideThis) {
+              $element.css('display', 'none');
+            }
           }
 
           function affixElement() {
             if (!fixed && $window.pageYOffset > topOffset) {
               $element.css('position', 'fixed');
+              $element.css('display', '');
               fixed = true;
             } else if (fixed && $window.pageYOffset < topOffset ) {
               removeFix();

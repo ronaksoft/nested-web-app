@@ -35,6 +35,8 @@
     top: 96px;
     .toolbar {
       width: 100%;
+      max-width: 720px;
+      margin: 0 auto;
       height: 100%;
       border-radius: 8px;
       border: 1px solid $color-breeze-5-new;

@@ -18,6 +18,11 @@
   </div>
   <div class="search">
     <div class="inner">
+      <i>
+          <svg class="_24svg fill-white">
+              <use xlink:href="/assets/icons/nst-icn24.svg#search"></use>
+            </svg>
+      </i>
       <input nst-mention mention-new-method mention-enable-label focus-me="1" placeholder="{{ctrlTopBar.searchPlaceholder}}" ng-model="ctrlTopBar.chipQuery"
         translate-attrs="placeholder" ng-keyup="ctrlTopBar.searchKeyPressed($event, ctrlTopBar.chipQuery, true)">
     </div>

@@ -4,6 +4,7 @@ post-card {
   flex-direction: column;
   align-items: center;
   position: relative;
+  max-width: calc(720px - 64px)!important;
   //z-index: 600;
   &:last-child {
     .post-card-wire {
