@@ -15,11 +15,11 @@
     .service('NstSvcCacheDb', NstSvcCacheDb);
 
   /** @ngInject */
-  function NstSvcCacheDb($window, _, md5) {
+  function NstSvcCacheDb($window, _) {
     var NAME_PREFIX = 'cache.';
     function CacheDb() {
       this.storeQueue = [];
-      this.store = _.throttle(store, 2500);
+      this.store = _.throttle(store, 3500);
     }
 
     CacheDb.prototype = {};
@@ -117,7 +117,7 @@
      * @returns 
      */
     function getKey(namespace, key) {
-      return NAME_PREFIX + md5.createHash(namespace + '.' + key);
+      return NAME_PREFIX + namespace + '.' + key;
     }
 
     /**
