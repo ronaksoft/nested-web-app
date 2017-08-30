@@ -1,17 +1,21 @@
-<nst-navbar data-ng-model="navbar"
-            place-id="{{ctlFiles.currentPlace.id}}"
-            show-place-id="ctlFiles.showPlaceId"
-            nav-title="{{ctlFiles.currentPlace.id?ctlFiles.currentPlace.name: ctlFiles.navTitle}}"
-            nav-picture-url="{{ctlFiles.currentPlace.id ? ctlFiles.currentPlace.picture.getUrl('x128') : '' }}"
-            nav-picture-class="{{ !ctlFiles.currentPlace.id? ctlFiles.navIconClass : '' }}"
-            ready-to-show="ctlFiles.currentPlaceLoaded"
-            ready-to-anime="true"
-            place-description="{{ctlFiles.currentPlace.description}}"></nst-navbar>
-<div class="navbar-holder"></div>
 <div class="nst-content _tr content-wrapper" ng-init="showFilters = true;">
 <scroll-change-handler reached-bottom="ctlFiles.loadMore"></scroll-change-handler>
-  <section class="content _bgwhite">
-    <div class="old-navbar-holder"></div>
+  <section class="_fw content">
+    <nst-navbar class="places-navbar" data-ng-model="navbar"
+      place-id="{{ctlFiles.currentPlace.id}}"
+      show-place-id="ctlFiles.showPlaceId"
+      nav-title="{{ctlFiles.currentPlace.id?ctlFiles.currentPlace.name: ctlFiles.navTitle}}"
+      nav-picture-url="{{ctlFiles.currentPlace.id ? ctlFiles.currentPlace.picture.getUrl('x128') : '' }}"
+      nav-picture-class="{{ !ctlFiles.currentPlace.id? ctlFiles.navIconClass : '' }}"
+      ready-to-show="ctlFiles.currentPlaceLoaded"
+      ready-to-anime="true"></nst-navbar>
+    <div class="filter-bar">
+      <div class="filter-bar-inner" affixer-filter top="96">
+        <div class="toolbar">
+          <p class="_df _fw"></p>
+        </div>
+      </div>
+    </div>
     <div class="_difh _fw">
       <div class="_df _fn">
         <div class="files-nav" popover-append-to-body="false" uib-popover-template="'app/files/files-sort-popover.html'"
@@ -31,7 +35,7 @@
       <div class="_df _fw"></div>
     </div>
 
-    <div class="file-list">
+    <div class="file-list _bgwhite">
       <div class="file-list-header">
         <div class="files-srch _df {{ctlFiles.keyword.length > 0 ? 'srch' : ''}}" ng-if="ctlFiles.selectedFiles.length  == 0">
           <svg class="_16svg" ng-click="ctlFiles.searchFunc()">
@@ -103,14 +107,13 @@
     <div class="nst-marginbtm-32"></div>
   </section>
   <div class="content-plus illu">
-    <div id="members" nst-scrollbar suppress-scroll-x="true"
+    <!-- <div id="members" nst-scrollbar suppress-scroll-x="true"
          ng-if="!ctlFiles.isSubPersonal() && ctlFiles.hasSeeMembersAccess">
       <nst-place-teammates-sidebar grand-place="ctlFiles.currentPlaceId" place-id="ctlFiles.currentPlaceId"></nst-place-teammates-sidebar>
     </div>
     <div id="cp1" nst-scrollbar suppress-scroll-x="true"
          affixer parent=".content-plus" after-content="0" top="134" fixed-top="true">
-      <!--FIXME:: use only one of place/place-id -->
       <nst-recent-activity place="ctlFiles.currentPlaceId" place-id="ctlFiles.currentPlaceId"  count="16"/>
-    </div>
+    </div> -->
   </div>
 </div>

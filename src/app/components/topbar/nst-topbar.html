@@ -31,19 +31,17 @@
     <script type="text/ng-template" id="mention-uib-tooltip.html">
       <translate>Notifications</translate>
     </script>
-    <a class="notifications-popover-handler" data-uib-popover-template="'app/notification/notification-popover.html'" data-popover-placement="bottom-center auto"
+    <a class="notifications-popover-handler" data-uib-popover-template="'app/notification/notification-popover.html'" data-popover-placement="bottom-right auto"
       data-popover-class="notifications-popover" data-popover-is-open="ctrlTopBar.notifOpen" data-popover-append-to-body="false"
-      data-tooltip-append-to-body="true" data-popover-trigger="none" data-uib-tooltip-template="'mention-uib-tooltip.html'"
-      data-tooltip-placement="right auto" ng-click="ctrlTopBar.notifOpen =! ctrlTopBar.notifOpen;ctrlTopBar.profileOpen = false;$event.preventDefault();$event.stopPropagation()">
+      data-popover-trigger="none" ng-click="ctrlTopBar.notifOpen =! ctrlTopBar.notifOpen;ctrlTopBar.profileOpen = false;$event.preventDefault();$event.stopPropagation()">
       <svg class="_20svg fill-white">
         <use xlink:href="/assets/icons/nst-icn20.svg#bell"></use>
       </svg>
       <div class="unread-notif-badge" ng-if="ctrlTopBar.notificationsCount > 0">{{ctrlTopBar.notificationsCount | localize}}</div>
     </a>
-    <a class="detailed" data-uib-popover-template="'app/settings/profile/profile-popover.html'" data-popover-placement="bottom-center auto"
+    <a class="detailed" data-uib-popover-template="'app/settings/profile/profile-popover.html'" data-popover-placement="bottom-right auto"
       data-popover-class="pop-white profile-popover" data-popover-is-open="ctrlTopBar.profileOpen" data-popover-append-to-body="false"
-      data-uib-tooltip-template="'profile-uib-tooltip.html'" data-popover-trigger="none" data-tooltip-placement="right auto"
-      data-tooltip-append-to-body="true">
+      data-popover-trigger="none">
       <div class="top-user-avatar-24" user-detail="ctrlTopBar.user.id" user-id="ctrlTopBar.user.id" ng-click="ctrlTopBar.profileOpen =! ctrlTopBar.profileOpen;ctrlTopBar.notifOpen = false;">
         <img initial-avatar="{{ctrlTopBar.user.id}}" name="{{ctrlTopBar.user.fullName}}" picture="{{ctrlTopBar.user | avatar}}" data-width="32"
           data-height="32" data-radius="30" class="account-initials-24 _df" data-word-count="2" data-font-size="12" />

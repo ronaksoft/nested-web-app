@@ -7,8 +7,7 @@
       ==============-->
     <nst-navbar ng-class="{'places-navbar' : ctrl.isPlaceMessage}" data-ng-model="navbar" place-id="{{ctrl.currentPlace.id}}"
       show-place-id="ctrl.showPlaceId" nav-title="{{ctrl.currentPlace.id?ctrl.currentPlace.name: ctrl.navTitle}}" nav-picture-url="{{ctrl.currentPlace.id ? ctrl.currentPlace.picture.getUrl('x128') : '' }}"
-      nav-picture-class="{{ !ctrl.currentPlace.id? ctrl.navIconClass : '' }}" ready-to-show="ctrl.currentPlaceLoaded" ready-to-anime="true"
-      place-description="{{ctrl.currentPlace.description}}"></nst-navbar>
+      nav-picture-class="{{ !ctrl.currentPlace.id? ctrl.navIconClass : '' }}" ready-to-show="ctrl.currentPlaceLoaded" ready-to-anime="true"></nst-navbar>
     
     <!-- filter bar
       ==============-->
