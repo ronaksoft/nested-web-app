@@ -44,7 +44,7 @@
           }
         }
       })
-
+      // Deprecated
       .state('app.messages', {
         url: '/messages',
         templateUrl: 'app/messages/messages.html',
@@ -67,6 +67,7 @@
           feed : true
         }
       })
+      // Deprecated
       .state('app.messages-bookmarked-sort', {
         url: '/bookmarks/:sort',
         templateUrl: 'app/messages/messages.html',
@@ -114,6 +115,7 @@
           group: 'sent'
         }
       })
+      // Deprecated
       .state('app.messages-sent-sorted', {
         url: '/shared/:sort',
         params: {
@@ -127,6 +129,7 @@
           group: 'message'
         }
       })
+      // Deprecated
       .state('app.messages-sorted', {
         url: '/messages/:sort',
         params: {
