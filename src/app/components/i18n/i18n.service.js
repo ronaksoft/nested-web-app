@@ -120,7 +120,7 @@
     /**
      * Switches to the given calender and configures moment package
      *
-     * @param {any} key
+     * @param {any} name
      */
     I18n.prototype.setCalendar = function (name) {
       this.selectedCalendar = name;
