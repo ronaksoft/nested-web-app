@@ -84,26 +84,28 @@
   height: 32px;
 }
 
-.iconsblock {
+.filter-bar-popover-button {
   //width: 38px;
   display: flex;
-  height: 28px;
+  height: 32px;
   align-items: center;
   cursor: pointer;
   box-sizing: border-box;
-  border: 1px solid transparent;
   min-width: 42px;
   justify-content: center;
-
+  padding-left: 8px;
+  svg {
+    margin: 0 8px; 
+  }
 }
-.iconsblock-right {
+.filter-bar-popover-button-right {
   margin-right: 28px;
 }
 
-.iconsblock:hover {
-  border-color: $color-breeze;
-  border-radius: 5px;
-  background-color: $color-white;
+.filter-bar-popover-button:hover {
+  // border-color: $color-breeze;
+  // border-radius: 5px;
+  // background-color: $color-white;
 }
 [class*="ei-"] {
   width: 16px;

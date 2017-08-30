@@ -43,50 +43,73 @@
       display: flex;
       align-items: center;
       position: relative;
-    }
-     hr {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      border-color: $color-border;
-      // left: 24px;
-      width: 100%;
-      // width: calc(100% - 48px);
-      margin: 0;
+      padding-left: 4px;
+      transition: background-color $animation-dur;
+      .default-mode-butn {
+        margin-left: 4px;
+        fill: $color-white;
+        &:hover {
+          opacity: 1;
+        }
+      }
+      p {
+        margin-right: 4px;
+      }
+      > span ,
+      > * > span {
+        color: $color-solid;
+        opacity: .72;
+        font-size: 12px; 
+      }
+      b span {
+        opacity: 1;
+        color: $color-white;
+      }
+      svg {
+        fill: $color-solid;
+        opacity: .72;
+      }
+      &.unread-mode ,
+      &.selcted-mode  {
+        > span ,
+        > * > span {
+          color: $color-white;
+        }
+        svg {
+          fill: $color-white;
+        }
+      }
+      &.unread-mode  {
+        background-color: #3296FF;
+        border: 1px solid #3296FF;
+      }
+      &.selcted-mode {
+        background-color: $color-solid;
+        border: 1px solid $color-solid;
+      }
     }
   }
   span {
-    color: $color-black04;
-    font-size: 11px;
-    white-space: nowrap;
     line-height: 32px;
   }
   a span {
-    color: $color-solid;
     &.force {
       color: $color-force-wire;
     }
   }
   b {
-    line-height: 32px
+    line-height: 32px;
   }
   p {
     margin: 0;
     span{
-      font-size: 12px
+      margin: 0 8px;
     }
     a {
       white-space: nowrap;
       font-size: 12px;
-    }
-  }
-  .selected-cards-action {
-    a {
-      margin: 0 8px;
-      svg {
-        margin: 0 4px;
-      }
+      color: $color-new-hurricane;
+      font-size: 12px; 
     }
   }
   .icon-filter {
@@ -95,17 +118,9 @@
     z-index: 54;
     height: 16px;
     width: 16px;
-    fill: $color-black04;
   }
   .disable {
     opacity: .08;
-  }
-  .mark-read {
-    margin-right: 28px;
-    svg {
-      fill: $color-black04;
-      margin-left: 4px;
-    }
   }
 }
 .tool-bar {

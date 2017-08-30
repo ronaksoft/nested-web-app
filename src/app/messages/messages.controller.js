@@ -39,12 +39,14 @@
     vm.moveMulti = moveMulti;
     vm.markMulti = markMulti;
     vm.readMulti = readMulti;
+    vm.goUnreadMode = goUnreadMode;
+    vm.unselectAll = unselectAll;
     // Some flags that help us find where we are
     vm.isFeed = false;
     vm.isBookmark = false;
     vm.isPlaceMessage = false;
     vm.isSent = false;
-    vm.isUnread = false;
+    vm.isUnreadMode = false;
     vm.isPersonal = false;
 
     vm.messagesSetting = {
@@ -264,6 +266,10 @@
     function replacePosts(newPosts) {
       vm.messages = newPosts;
     }
+    function goUnreadMode() {
+      vm.isUnreadMode = true;
+      // TODO replace posts
+    }
 
     function load() {
       return getMessages(vm.messagesSetting, handleCachedPosts).then(function (posts) {
@@ -445,8 +451,13 @@
       for (var i = 0; i < vm.selectedPosts.length; i++) {
         NstSvcPostFactory.pin(vm.selectedPosts[i]);
       }
-      vm.selectedPosts = [];
-      $scope.$broadcast('selected-length-change',{selectedPosts : vm.selectedPosts});
+      unselectAll();
+    }
+    function unselectAll() {
+      if ( vm.selectedPosts.length > 0) {
+        vm.selectedPosts = [];
+        $scope.$broadcast('selected-length-change',{selectedPosts : vm.selectedPosts});
+      }
     }
 
     function readMulti($event) {
@@ -454,10 +465,8 @@
       for (var i = 0; i < vm.selectedPosts.length; i++) {
           NstSvcPostFactory.read(vm.selectedPosts[i]);
       }
-
       // FIXME : this block after all responses
-      vm.selectedPosts = [];
-      $scope.$broadcast('selected-length-change',{selectedPosts : vm.selectedPosts});
+      unselectAll()
     }
 
     function getMessages(settings, cacheHandler) {
@@ -465,14 +474,14 @@
       vm.error = false;
 
       var promise = null;
-      if (vm.isFeed) {
-        promise = NstSvcPostFactory.getFavoriteMessages(settings, cacheHandler);
+      if (vm.isUnreadMode) {
+        promise = NstSvcPostFactory.getUnreadMessages(settings, [vm.currentPlaceId], cacheHandler);
       } else if (vm.isBookmark) {
         promise = NstSvcPostFactory.getBookmarkedMessages(settings, cacheHandler);
       } else if (vm.isSent) {
         promise = NstSvcPostFactory.getSentMessages(settings, cacheHandler);
-      } else if (vm.isUnread) {
-        promise = NstSvcPostFactory.getUnreadMessages(settings, [vm.currentPlaceId], cacheHandler);
+      } else if (vm.isFeed) {
+        promise = NstSvcPostFactory.getFavoriteMessages(settings, cacheHandler);
       } else {
         promise = NstSvcPostFactory.getPlaceMessages(settings, vm.currentPlaceId, cacheHandler);
       }
@@ -577,7 +586,7 @@
 
         case 'app.place-messages-unread':
         case 'app.place-messages-unread-sorted':
-          vm.isUnread = true;
+          vm.isUnreadMode = true;
           break;
 
         default:
