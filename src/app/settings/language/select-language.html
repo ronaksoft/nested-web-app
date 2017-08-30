@@ -2,7 +2,7 @@
   <svg class="_16svg">
     <use xlink:href="/assets/icons/nst-icn16.svg#earth"></use>
   </svg>
-  <translate>Language</translate>
+  <translate>Language and calendar</translate>
 </div>
 <div class="lang-box">
   <translate>Choose your language</translate>
@@ -11,4 +11,12 @@
     <option value="fa-IR">Farsi (فارسی)</option>
   </select>
   <div class="flg {{ctrl.locale == 'fa-IR' ? 'ir' : 'us'}} "></div>
+</div>
+<div class="lang-box">
+  <translate>Choose your calendar</translate>
+  <select name="lang" id="calendar" ng-model="ctrl.calendar" ng-change="ctrl.changeCalendar(ctrl.calendar)">
+    <option value="jalali">Jalali (جلالی)</option>
+    <option value="gregorian">Gregorian (میلادی)</option>
+  </select>
+  <div class="flg {{ctrl.calendar == 'jalali' ? 'ir' : 'us'}} "></div>
 </div>
