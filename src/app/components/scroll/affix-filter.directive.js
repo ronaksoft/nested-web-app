@@ -6,12 +6,14 @@
     .directive('affixerFilter', onScroll);
 
   /** @ngInject */
-  function onScroll($window,$rootScope, $) {
+  function onScroll($window,$rootScope, $timeout) {
     return {
       restrict: 'A',
       link: function ($scope, $element, $attrs) {
         var topOffset = 0;
-        applier();
+        $timeout(function () {
+          applier();
+        }, 128);
 
         // win.on("resize", function () {
         //   applier();
