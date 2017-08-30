@@ -1,10 +1,9 @@
-<div class="nst-navbar-fixed _tr" style="display:none;"
-  ng-if="!ctlFullNavbar.isUnreadMode && !ctlFullNavbar.isSearchMode &&
-  !ctlFullNavbar.isConvMode && !ctlFullNavbar.isFeed && !ctlFullNavbar.isSentMode && !ctlFullNavbar.isBookmarkMode"
-  data-ng-include="'app/components/navbar/full/navbar-static.html'" affixer-filter top="48" hide-this="true" fixed-navbar="true"></div>
+<div class="nst-navbar-fixed _tr" style="display:none;" ng-if="!ctlFullNavbar.isUnreadMode && !ctlFullNavbar.isSearchMode &&
+  !ctlFullNavbar.isConvMode && !ctlFullNavbar.isFeed && !ctlFullNavbar.isSentMode && !ctlFullNavbar.isBookmarkMode" data-ng-include="'app/components/navbar/full/navbar-static.html'"
+  affixer-filter top="48" hide-this="true" fixed-navbar="true"></div>
 <div ng-if="ctlFullNavbar.isUnreadMode || ctlFullNavbar.isConvMode ||
             ctlFullNavbar.isSearchMode || ctlFullNavbar.isFeed ||
-            ctlFullNavbar.isSentMode || ctlFullNavbar.isBookmarkMode" class="nst-navbar-fixed _tr">
+            ctlFullNavbar.isSentMode || ctlFullNavbar.isBookmarkMode" class="nst-navbar-fixed _tr feed-nav">
   <!-- <div class="nst-content _tr">
     <div class="content _pr unread-nav" ng-if="ctlFullNavbar.isUnreadMode">
       <div class="place-logo">
@@ -99,11 +98,19 @@
     </div>
   </div> -->
   <div class="nst-navbar-fixed-container">
-      <div class="place-pic">
-          <img ng-src="{{ctlFullNavbar.place | picture:'x32'}}" width="24" height="24"/>
-      </div>
-      <cite>{{ctlFullNavbar.title}}</cite>
+    <div class="place-pic">
+      <svg class="icon-filter _df _16svg" ng-if="ctlFullNavbar.isFeed">
+        <use xlink:href="/assets/icons/nst-icn16.svg#messages"></use>
+      </svg>
+      <svg class="icon-filter _df _16svg" ng-if="ctlFullNavbar.isBookmarkMode">
+        <use xlink:href="/assets/icons/nst-icn16.svg#bookmarked-message"></use>
+      </svg>
+      <svg class="icon-filter _df _16svg" ng-if="ctlFullNavbar.isSentMode">
+        <use xlink:href="/assets/icons/nst-icn16.svg#sent-message"></use>
+      </svg>
     </div>
+    <cite>{{ctlFullNavbar.title}}</cite>
+  </div>
 </div>
 <div ng-if="!ctlFullNavbar.isUnreadMode && !ctlFullNavbar.isSearchMode && !ctlFullNavbar.isConvMode && !ctlFullNavbar.isFeed && !ctlFullNavbar.isSentMode && !ctlFullNavbar.isBookmarkMode"
   class="nst-navbar _tr">
