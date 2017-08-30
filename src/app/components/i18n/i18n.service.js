@@ -124,8 +124,8 @@
      */
     I18n.prototype.setCalendar = function (name) {
       this.selectedCalendar = name;
-      localStorage.setItem('ronak.nested.web.calendar', name);
       moment.locale((name === 'jalali'? 'fa': 'en-US'));
+      localStorage.setItem('ronak.nested.web.calendar', name);
     };
 
     /**
