@@ -136,24 +136,21 @@
      *
      * @returns {Promise}
      */
-    PlaceFactory.prototype.getMyPlaces = function () {
+    PlaceFactory.prototype.getMyPlaces = function (force) {
       var factory = this;
-      console.time('TIME: Reading side items from cache');
-      var myPlaces = factory.cache.get('_my');
+      if (!force) {
+        var myPlaces = factory.cache.get('_my');
 
-      if (myPlaces && myPlaces.value) {
-        var places = _.map(myPlaces.value, function (placeId) {
-          return factory.getCachedSync(placeId);
-        });
+        if (myPlaces && myPlaces.value) {
+          var places = _.map(myPlaces.value, function (placeId) {
+            return factory.getCachedSync(placeId);
+          });
 
-        console.log('Providing from cache', places);
-
-        if (_.every(places, '_id')) {
-          return $q.resolve(places);
+          if (_.every(places, '_id')) {
+            return $q.resolve(places);
+          }
         }
       }
-
-      console.timeEnd('TIME: Reading side items from cache');
 
       return NstSvcServer.request('account/get_all_places', {
         with_children: true
