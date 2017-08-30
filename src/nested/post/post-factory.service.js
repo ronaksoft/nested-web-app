@@ -157,21 +157,21 @@
       post.places = _.map(data.post_places, function (placeId) {
         return NstSvcPlaceFactory.getCachedSync(placeId);
       });
-      // // Make sure the post places were found successfully
-      // if (!_.every(post.places) || post.places.length !== data.post_places) {
-      //   this.cache.remove(data._id);
-      //   return null;
-      // }
+      // Make sure the post places were found successfully
+      if (!_.every(post.places)) {
+        this.cache.remove(data._id);
+        return null;
+      }
       post.read = data.post_read;
       post.recipients = data.post_recipients;
       post.replyToId = data.reply_to;
       if (data.sender) {
         post.sender = NstSvcUserFactory.getCachedSync(data.sender);
-        // // Make sure the post sender was found successfully
-        // if (!post.sender) {
-        //   this.cache.remove(data._id);
-        //   return null;
-        // }
+        // Make sure the post sender was found successfully
+        if (!post.sender) {
+          this.cache.remove(data._id);
+          return null;
+        }
       }
       post.subject = data.subject;
       post.timestamp = data.timestamp;
@@ -184,24 +184,25 @@
       post.labels = _.map(data.post_labels, function (labelId) {
         return NstSvcLabelFactory.getCachedSync(labelId);
       });
-      // // Make sure all post labels were found successfully
-      // if (!_.every(post.labels) || post.labels.length !== data.post_labels.length) {
-      //   this.cache.remove(data._id);
-      //   return null;
-      // }
+      // Make sure all post labels were found successfully
+      if (data.post_labels.length > 0 && !_.every(post.labels)) {
+        this.cache.remove(data._id);
+        return null;
+      }
       post.body = data.body;
-      post.comments = _.map(data.recent_comments, function (comment) {
-        return NstSvcCommentFactory.getCachedSync(comment._id);
+      post.comments = _.map(data.recent_comments, function (commentId) {
+        return NstSvcCommentFactory.getCachedSync(commentId);
       });
 
       return post;
     }
 
-    function transformToCacheModel(place) {
-      var copy = _.clone(place);
-      copy.sender = place.sender ? place.sender._id : null;
-      copy.post_places = _.map(place.post_places, '_id');
-      copy.post_labels = _.map(place.post_labels, '_id');
+    function transformToCacheModel(post) {
+      var copy = _.clone(post);
+      copy.sender = post.sender ? post.sender._id : null;
+      copy.post_places = _.map(post.post_places, '_id');
+      copy.post_labels = _.map(post.post_labels, '_id');
+      copy.recent_comments = _.map(post.recent_comments, '_id');
 
       return copy;
     }

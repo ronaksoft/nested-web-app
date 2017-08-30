@@ -265,12 +265,14 @@
       var comment = new NstComment();
 
       comment.id = data._id;
-      comment.sender = NstSvcUserFactory.getCachedSync(data.sender);
+      if (data.sender) {
+        comment.sender = NstSvcUserFactory.getCachedSync(data.sender);
+        if (!comment.sender) {
+          return null;
+        }
+      }
       comment.body = data.text;
       comment.timestamp = data.timestamp;
-      if (data.sender && !comment.sender) {
-        return null;
-      }
       if (data.removed_by) {
         comment.removedById = data.removed_by;
         comment.removedBy = NstSvcUserFactory.getCachedSync(data.removed_by);
@@ -282,13 +284,13 @@
       return comment;
     }
 
-    function transformToCacheModel(place) {
+    function transformToCacheModel(comment) {
       return {
-        _id: place._id,
-        sender: place.sender._id,
-        text: place.text,
-        timestamp: place.timestamp,
-        removed_by: place.removed_by
+        _id: comment._id,
+        sender: comment.sender ? comment.sender._id : comment.sender_id,
+        text: comment.text,
+        timestamp: comment.timestamp,
+        removed_by: comment.removed_by
       };
     }
 
