@@ -552,7 +552,7 @@
         limit: limit,
         skip: skip
       }, function (cachedResponse) {
-        if (!cachedResponse) return;
+        if (!cachedResponse || !_.isFunction(cacheHandler)) return;
 
         var items = _.chain(cachedResponse.creators).map(function (creator) {
           return NstSvcUserFactory.getCachedSync(creator._id) || NstSvcUserFactory.parseTinyUser(creator);
@@ -580,7 +580,7 @@
         limit: limit,
         skip: skip
       }, function (cachedResponse) {
-        if (!cachedResponse) return;
+        if (!cachedResponse || !_.isFunction(cacheHandler)) return;
         var items = _.chain(cachedResponse.key_holders).map(function (keyHolder) {
           return NstSvcUserFactory.getCachedSync(keyHolder._id) || NstSvcUserFactory.parseTinyUser(keyHolder);
         }).value();
