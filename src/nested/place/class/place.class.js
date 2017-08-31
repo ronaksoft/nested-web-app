@@ -19,7 +19,7 @@
 
       this.limits = {};
 
-      this.unreadPosts = {};
+      this.unreadPosts = null;
 
       NstTinyPlace.call(this);
     }

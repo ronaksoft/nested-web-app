@@ -525,12 +525,31 @@
           picture: picture,
           children: children,
           hasChildren: children && children.length > 0,
+          hasUnseen: hasUnseen(place, vm.myPlacesUnreadPosts),
+          childrenHasUnseen: anyChildrenHasUnseen(place, children, vm.myPlacesUnreadPosts),
           isExpanded: isExpanded,
           isActive: isActive,
           depth: depth,
           canCreateOpenPlace: canCreateOpenPlace,
           canCreateClosedPlace: canCreateClosedPlace,
         };
+      }
+
+      function anyChildrenHasUnseen(place, children, myPlacesUnreadPosts) {
+        if (!place || _.size(children) === 0) {
+          return false;
+        }
+
+        return _.some(children, function(child) {
+          return child.hasUnseen;
+        });
+      }
+
+      function hasUnseen(place, myPlacesUnreadPosts) {
+        console.log('====================================');
+        console.log('hasUnseen', place);
+        console.log('====================================');
+        return place.unreadPosts > 0 || myPlacesUnreadPosts[place.id] > 0;
       }
 
     }
