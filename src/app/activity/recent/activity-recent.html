@@ -1,5 +1,10 @@
 <div class="activity-recent">
-  <div class="name"  ng-click="recentCtrl.openActivity()"><translate>Recent Activities</translate></div>
+  <div class="name"  ng-click="recentCtrl.openActivity()">
+    <translate>Recent Activities</translate>
+    <svg class="_16svg _df mirror">
+        <use xlink:href="/assets/icons/nst-icn16.svg#expand"></use>
+      </svg>
+  </div>
   <div class="recent-container _fw _df _jcc _fn" style="height: 80px" data-ng-if="recentCtrl.status.loadInProgress">
     <div class="nst-mood-cheerful no-gutter nst-margin-24 _pr">
       <div class="loading">
@@ -11,7 +16,7 @@
       </div>
     </div>
   </div>
-  <ul class="recent-container" data-ng-if="!recentCtrl.status.loadInProgress">
+  <ul class="recent-container" data-ng-if="!recentCtrl.status.loadInProgress" nst-scrollbar suppress-scroll-x="true">
     <li class="recent-item use-ng-animate" ng-class="{ hot : activity.isHot }" ng-repeat="activity in recentCtrl.activities | limitTo:recentCtrl.count track by activity.id">
       <recent-activity-item place="recentCtrl.place" model="activity" current-place-id="settings.placeId"/>
     </li>
