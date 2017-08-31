@@ -136,9 +136,9 @@
         var newActs = _.filter(data, function (act) {
 
           //check and update near activity timestamp
-          if (act.date.getTime() > nearActTime) nearActTime = act.date.getTime();
+          if (act.date > nearActTime) nearActTime = act.date;
 
-          return act.date.getTime() > self.latestActivityTimestamp;
+          return act.date > self.latestActivityTimestamp;
         });
 
         NstSvcLogger.debug2('Sync Service | Received activity after ' + new Date(self.latestActivityTimestamp), data.length, newActs.length);

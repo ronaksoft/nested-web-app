@@ -104,7 +104,7 @@
           // someone else sent the post
           vm.hotMessagesCount ++;
         }
-        getUnreadsCount();
+        loadUnreadPostsCount();
       }));
 
       if (vm.isBookmark) {
