@@ -225,6 +225,17 @@
       vm.loading = false;
     }
 
+    function applyChanges(oldPost, newPost) {
+      if (oldPost.lastUpdate >= newPost.lastUpdate) {
+        // The post has not been changed
+        return;
+      }
+
+      oldPost.labels = newPost.labels;
+      oldPost.comments = newPost.comments;
+      oldPost.places = newPost.places;
+    }
+
     function mergePosts(posts) {
       var newItems = _.differenceBy(posts, vm.messages, 'id');
       var removedItems = _.differenceBy(vm.messages, posts, 'id');
@@ -249,6 +260,8 @@
 
         // The post is in the right position
         if (oldPostIndex === index) {
+          // Just update places, labels and comments of the post to make sure everything is up to date
+          applyChanges(vm.messages[oldPostIndex], post);
           return;
         }
 
