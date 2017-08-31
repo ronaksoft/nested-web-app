@@ -8,7 +8,7 @@
   function NstSvcPlaceFactory($q, _, $rootScope,
                               NST_SRV_ERROR, NST_PLACE_ACCESS, NST_EVENT_ACTION, NST_PLACE_EVENT,
                               NstSvcServer, NstSvcUserFactory, NstSvcLogger, NstSvcGlobalCache,
-                              NstBaseFactory, NstUtility, NstTinyPlace, NstPlace, NstSvcPlaceMap, NstPicture, NstUtilPlace, NstCollector) {
+                              NstBaseFactory, NstUtility, NstTinyPlace, NstPlace, NstPicture, NstUtilPlace, NstCollector) {
     function PlaceFactory() {
       var factory = this;
 
@@ -49,7 +49,6 @@
 
       NstSvcServer.addEventListener(NST_EVENT_ACTION.MEMBER_JOIN, function (event) {
         var tlData = event.detail;
-        factory.updateStorageByPlaceId(tlData.place_id);
       });
 
       this.cache = NstSvcGlobalCache.createProvider('place');
@@ -194,31 +193,6 @@
         return $q.resolve(_.includes(ids, placeId));
       });
     }
-
-    // function getChildren(placeId, places) {
-    //   return _.filter(places, function (child) {
-    //     return child && child.id && child.id.indexOf(placeId + '.') === 0;
-    //   });
-    // }
-
-    // function fillChildren(place, places) {
-    //   place.children = getChildren(place.id, places);
-    //   _.forEach(place.children, function(child) {
-    //     fillChildren(child, places);
-    //   });
-    // }
-
-    // function createPlaceTree(places) {
-    //   var grandPlaces = _.filter(places, function(place) {
-    //     return place.id && place.id.indexOf('.') === -1;
-    //   });
-
-    //   _.forEach(grandPlaces, function(grandPlace) {
-    //     fillChildren(grandPlace, places);
-    //   });
-
-    //   return grandPlaces;
-    // }
 
     PlaceFactory.prototype.create = function (model, placeType) {
       var deferred = $q.defer();
@@ -516,7 +490,6 @@
           member_id: memberId
         }).then(function () {
           NstSvcLogger.debug(NstUtility.string.format('User "{0}" was removed from place "{1}".', memberId, placeId));
-          factory.updateStorageByPlaceId(placeId);
           deferred.resolve();
         }).catch(deferred.reject);
 
@@ -696,39 +669,15 @@
     };
 
     // Deprecated
-    PlaceFactory.prototype.removePlaceFromTree = function (tree, placeId, parentId) {
-      removePlace(tree, placeId, parentId);
-    }
-    // Deprecated
-    PlaceFactory.prototype.filterPlacesByRemovePostAccess = function (places) {
-      return this.filterPlacesByAccessCode(places, NST_PLACE_ACCESS.REMOVE_POST);
-    }
-    // Deprecated
     PlaceFactory.prototype.filterPlacesByReadPostAccess = function (places) {
       return this.filterPlacesByAccessCode(places, NST_PLACE_ACCESS.READ);
     }
-    // Deprecated
-    PlaceFactory.prototype.filterPlacesByControlAccess = function (places) {
-      return this.filterPlacesByAccessCode(places, NST_PLACE_ACCESS.CONTROL);
-    }
 
-    PlaceFactory.prototype.getChildTree = function (grandPlace, children) {
-      var mapper = new NstSvcPlaceMap();
-      mapper.toTree(grandPlace, children);
-    };
     // Deprecated
     PlaceFactory.prototype.filterPlacesByAccessCode = function (places, code) {
       return _.filter(places, function (place) {
         return _.includes(place.accesses, code);
       });
-    };
-    // Deprecated
-    PlaceFactory.prototype.addPlaceToTree = function (tree, place) {
-      addPlace(tree, place);
-    };
-    // Deprecated
-    PlaceFactory.prototype.updatePlaceInTree = function (tree, place) {
-      updatePlace(tree, place);
     };
     // Deprecated
     PlaceFactory.prototype.getAccess = function (placeId) {
@@ -865,25 +814,6 @@
       }, "getPlacesWithCreatorFilter");
     }
 
-    /**
-     * update place cache if place id belongs to a grand place
-     *
-     * @param  {string} placeId if of the place
-     * @return {void}
-     */
-    PlaceFactory.prototype.updateStorageByPlaceId = function (placeId) {
-      var factory = this;
-      if (NstUtilPlace.isGrand(placeId)) {
-        factory.getGrandPlaceChildren(placeId).then(function (places) {
-          _.map(places, function (place) {
-            factory.set(place);
-          });
-        }).catch(function () {
-          NstSvcLogger.debug('Cant resolve in remove member');
-        });
-      }
-    };
-
     PlaceFactory.prototype.getRecentlyVisitedPlace = function (cacheHandler) {
       var factory = this;
 
@@ -899,112 +829,6 @@
         return $q.resolve(_.map(data.places, factory.parsePlace));
       });
     };
-    // Deprecated
-    /**
-     * addPlace - Finds parent of a place and puts the place in its children
-     *
-     * @param  {NstVmPlace[]} places    The tree of places
-     * @param  {NstVmPlace}   place     A new place
-     * @param  {String}       parentId  Current parent Id
-     * @param  {Number}       depth     Current depth
-     * @return {Bolean}                 Returns true if the place was added
-     */
-    function addPlace(places, place, parentId, depth) {
-      if (!_.isArray(places) || !place) {
-        return false;
-      }
-
-      depth = depth || 0;
-
-      var placeIdSlices = _.split(place.id, '.');
-      // set the root place as parent Id for the first time
-      parentId = parentId || _.first(placeIdSlices);
-      var parent = _.find(places, {
-        id: parentId
-      });
-      if (!parent) {
-        return false;
-      }
-      // For example, if parentId='ronak' and placeId='ronak.dev.web' then trailingIds would be ['dev', 'web']
-      var trailingIds = _.difference(placeIdSlices, _.split(parentId, '.'));
-      if (trailingIds.length > 0) {
-        depth++;
-        var nextParentId = _.join(_.concat(parentId, _.first(trailingIds)), '.');
-        return addPlace(parent.children, place, nextParentId, depth);
-      } else {
-        if (_.has(place, 'depth')) {
-          place.depth = depth;
-        }
-        if (!_.some(places, {
-            id: place.id
-          })) {
-          places.push(place);
-          return true;
-        }
-      }
-
-      return false;
-    }
-    // Deprecated
-    function updatePlace(places, place, depth) {
-      if (!_.isArray(places) || places.length === 0) {
-        return false;
-      }
-
-
-      var placeLevels = _.split(place.id, '.');
-      depth = depth || 0;
-
-      if (depth == placeLevels.length - 1) {
-        var itemIndex = _.findIndex(places, {
-          id: place.id
-        });
-        places[itemIndex] = place;
-        places[itemIndex].depth = depth;
-        return true;
-      } else {
-        var parentId = _.take(placeLevels, depth + 1).join('.');
-        var parentIndex = _.findIndex(places, {
-          id: parentId
-        });
-        updatePlace(places[parentIndex].children, place, depth + 1)
-      }
-
-    }
-    // Deprecated
-    function removePlace(places, originalId, parentId) {
-      if (!(_.isArray(places) && places.length > 0)) {
-        return false;
-      }
-      if (_.some(places, {id: originalId})) {
-        NstUtility.collection.dropById(places, originalId);
-        return true;
-      }
-
-      // parentId is null for the first time.
-      parentId = parentId || NstUtility.place.getGrandId(originalId);
-      var parent = _.find(places, {
-        id: parentId
-      });
-      if (!parent) {
-        return false;
-      }
-
-      var childId = getNextChild(originalId, parentId);
-      removePlace(parent.children, originalId, childId);
-    }
-    // Deprecated
-    /**
-     * getNextChild - Finds the next childId by matching the parentId and originalId
-     *
-     * @param  {String} originalId Id of the place that should be removed
-     * @param  {String} parentId   Id of the place parent
-     * @return {String}            The next child that might be the parent of the place
-     */
-    function getNextChild(originalId, parentId) {
-      var withoutParent = originalId.substring(parentId.length + 1);
-      return parentId + '.' + _.first(_.split(withoutParent, '.'));
-    }
 
     return new PlaceFactory();
   }
