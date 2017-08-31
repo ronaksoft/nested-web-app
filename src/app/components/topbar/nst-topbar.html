@@ -28,9 +28,12 @@
     </div>
   </div>
   <div class="account">
-    <script type="text/ng-template" id="mention-uib-tooltip.html">
-      <translate>Notifications</translate>
-    </script>
+    <a data-uib-tooltip-template="'label-uib-tooltip.html'" data-tooltip-append-to-body="false"
+    data-tooltip-placement="bottom auto" ng-click="ctrlTopBar.goLabelRoute($event);" manage-label>
+      <svg class="_16svg fill-white">
+        <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
+      </svg>
+    </a>
     <a class="notifications-popover-handler" data-uib-popover-template="'app/notification/notification-popover.html'" data-popover-placement="bottom-right auto"
       data-popover-class="notifications-popover" data-popover-is-open="ctrlTopBar.notifOpen" data-popover-append-to-body="false"
       data-popover-trigger="none" ng-click="ctrlTopBar.notifOpen =! ctrlTopBar.notifOpen;ctrlTopBar.profileOpen = false;$event.preventDefault();$event.stopPropagation()">
@@ -49,3 +52,11 @@
     </a>
   </div>
 </div>
+
+<script type="text/ng-template" id="mention-uib-tooltip.html">
+  <translate>Notifications</translate>
+</script>
+<script type="text/ng-template" id="label-uib-tooltip.html">
+  <span ng-if="ctrlTopBar.user.authority.labelEditor" translate-inner>Manage Labels</span>
+  <span ng-if="!ctrlTopBar.user.authority.labelEditor" translate-inner>My Labels</span>
+</script>

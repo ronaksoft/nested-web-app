@@ -8,6 +8,7 @@
   top: 48px;
   width: $sidebar-width - 8px;
   margin: 16px 4px 0 4px;
+  padding: 6px;
   background-color: #FAFAFA;
   border-radius: 4px;
   border: 1px solid $color-breeze-new;
@@ -45,12 +46,11 @@
   z-index: 4;
   display: inline-flex;
   flex-direction: column;
-  width: $sidebar-width;
+  width: 100%;
   // background-color: $sidebar-color;
   position: relative;
   flex: none;
   transition: all $animation-dur;
-  padding: 0 8px;
   .detailed {
     justify-content: flex-start;
     margin: 0;
@@ -256,7 +256,6 @@
   transition : background-color 0.3s ease-in
 }
 .side-menu {
-  //height: 180px;
   padding-top: 12px;
   padding-bottom: 8px;
   display: flex;
@@ -282,12 +281,6 @@
     flex-direction: row;
     width: 100%;
     justify-content: center;
-  }
-  svg {
-    width: 16px;
-    height: 16px;
-    display: flex;
-    fill: white;
   }
 }
 
