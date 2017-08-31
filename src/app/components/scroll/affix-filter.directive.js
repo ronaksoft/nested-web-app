@@ -31,7 +31,6 @@
           var top = $attrs.fixedNavbar ? 48 : $element.offset().top || 0;
 
           topOffset = top - parseInt($attrs.top);
-          console.log(top, topOffset)
           var fixed = false;
 
           function removeFix() {

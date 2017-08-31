@@ -43,6 +43,8 @@
         $q.all([getMyPlacesOrder(), getMyPlaces()]).then(function(results) {
           myPlaceOrders = results[0];
           vm.places = createTree(results[1], myPlaceOrders, [], vm.selectedPlaceId);
+          
+          console.log(vm.places);
           loadMyPlacesUnreadPostsCount();
         });
 
@@ -280,6 +282,16 @@
       function setMyPlacesOrder(order) {
         return NstSvcKeyFactory.set(NST_KEY.GENERAL_SETTING_PLACE_ORDER, JSON.stringify(order));
       }
+
+      
+      vm.range = function (num) {
+        var seq = [];
+        for (var i = 0; i < num; i++) {
+          seq.push(i);
+        }
+
+        return seq;
+      };
 
       /*****************************
        *****    Fetch Methods   ****
