@@ -115,18 +115,13 @@
     .ps-scrollbar-y-rail {
       z-index: 5
     }
-    svg {
-      // Temp : remove this
-      max-width: 30px;
-      max-height: 30px;
-    }
-    ul.side-places {
+    > ul > li > ul {
       padding-left: 16px;
       width: 100%;
       list-style: none;
       display: flex;
       flex-direction: column;
-      >li>div>svg {
+      > li > div > svg {
         position: absolute!important;
         top: 10px;
       }
@@ -138,17 +133,12 @@
         ul {
           //border-left: 1px solid $color-wind;
           //padding-left: 16px;
-          width: calc(100% - 0);
+          width: 100%;
           .place-item-inner {
             a {
               position: relative;
               left: -16px;
             }
-          }
-        }
-        &:last-child {
-          >div>.filler {
-            visibility: visible;
           }
         }
       }
@@ -236,7 +226,6 @@
   }
   a {
     text-decoration: none;
-    display: inline;
     position: relative;
     width: 100%;
     overflow: hidden;
@@ -244,20 +233,6 @@
     align-items: center;
     white-space: nowrap;
   }
-}
-
-.side-place {
-  display: flex;
-  flex-flow: column;
-  flex: 1;
-  flex-direction: column;
-  align-items: flex-end;
-  width: 100%;
-  justify-content: flex-start; //width: calc(100% - 10px);
-}
-
-.sidebar ul li .side-place-item-inner {
-  min-height: 48px;
 }
 
 .invitation-name {
@@ -580,4 +555,15 @@ ul ul>li:last-child>.place-item-inner {
   border-right: solid;
   border-width: 0;
   border-color: $color-breeze;
+}
+
+.side-grand-place-item {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+}
+
+.side-grand-place-item-inner {
+  display: flex;
+  width: 100%;
 }
