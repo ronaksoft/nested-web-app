@@ -17,14 +17,6 @@
     vm.currentPlaceId = $stateParams.placeId;
     vm.hasNotUnreadPostInChildren = hasNotUnreadPostInChildren;
 
-    vm.range = function (num) {
-      var seq = [];
-      for (var i = 0; i < num; i++) {
-        seq.push(i);
-      }
-
-      return seq;
-    };
 
 
     function Initializing() {
@@ -75,22 +67,22 @@
 
     function getGrandPlaceChildren(grandPlaceId) {
       var deferred = $q.defer();
-      NstSvcPlaceFactory.getGrandPlaceChildren(grandPlaceId).then(function (places) {
+      // NstSvcPlaceFactory.getGrandPlaceChildren(grandPlaceId).then(function (places) {
 
-        var placesList = _.map(places, function (place) {
-          var model = new NstVmPlace(place);
-          model.isStarred = place.isStarred;
-          model.href = $state.href('app.place-messages', {placeId: place.id});
-          return model;
-        });
+      //   var placesList = _.map(places, function (place) {
+      //     var model = new NstVmPlace(place);
+      //     model.isStarred = place.isStarred;
+      //     model.href = $state.href('app.place-messages', {placeId: place.id});
+      //     return model;
+      //   });
 
 
-        fillPlacesNotifCountObject(placesList);
-        getPlaceUnreadCounts();
+      //   fillPlacesNotifCountObject(placesList);
+      //   getPlaceUnreadCounts();
 
-        deferred.resolve(NstSvcPlaceMap.toTree(placesList, $stateParams.placeId));
+      //   deferred.resolve(NstSvcPlaceMap.toTree(placesList, $stateParams.placeId));
 
-      }).catch(deferred.reject);
+      // }).catch(deferred.reject);
 
       return deferred.promise;
     }

@@ -17,6 +17,22 @@
       vm.user = NstSvcAuth.user;
       
       /**
+       * @function goLabelRoute
+       * Opens the label manager modal
+       * @param {any} $event
+       */
+      vm.goLabelRoute = function ($event) {
+        $event.preventDefault();
+        $uibModal.open({
+          animation: false,
+          size: 'full-height-center',
+          templateUrl: 'app/label/manage-label.html',
+          controller: 'manageLabelController',
+          controllerAs: 'ctrl'
+        })
+      };
+
+      /**
        * Triggers when in search input any key being pressed
        * @param {event} $event
        * @param {string} text

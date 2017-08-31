@@ -43,6 +43,8 @@
         $q.all([getMyPlacesOrder(), getMyPlaces()]).then(function(results) {
           myPlaceOrders = results[0];
           vm.places = createTree(results[1], myPlaceOrders, [], vm.selectedPlaceId);
+          
+          console.log(vm.places);
           loadMyPlacesUnreadPostsCount();
         });
 
@@ -100,21 +102,6 @@
         $state.go('app.compose', {}, {notify: false});
       };
 
-      /**
-       * @function goLabelRoute
-       * Opens the label manager modal
-       * @param {any} $event
-       */
-      vm.goLabelRoute = function ($event) {
-        $event.preventDefault();
-        $uibModal.open({
-          animation: false,
-          size: 'full-height-center',
-          templateUrl: 'app/label/manage-label.html',
-          controller: 'manageLabelController',
-          controllerAs: 'ctrl'
-        })
-      };
 
 
       /**
@@ -295,6 +282,16 @@
       function setMyPlacesOrder(order) {
         return NstSvcKeyFactory.set(NST_KEY.GENERAL_SETTING_PLACE_ORDER, JSON.stringify(order));
       }
+
+      
+      vm.range = function (num) {
+        var seq = [];
+        for (var i = 0; i < num; i++) {
+          seq.push(i);
+        }
+
+        return seq;
+      };
 
       /*****************************
        *****    Fetch Methods   ****

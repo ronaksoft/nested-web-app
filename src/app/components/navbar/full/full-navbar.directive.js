@@ -21,7 +21,6 @@
         title : '@navTitle',
         placeId : '@',
         readyToShow : '=',
-        placeDescription: '@',
         account: '=',
         query: '=',
         searchOnKeypress : '=',

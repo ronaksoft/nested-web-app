@@ -1,24 +1,25 @@
-<div class="_df" nst-post-modal post="act.post">
-  <div user-detail="act.comment.sender">
-    <img initial-avatar="{{act.comment.sender.id}}" name="{{act.comment.sender.fullName}}" picture="{{act.comment.sender | avatar}}" data-width="16" data-height="16" data-radius="16"
-         class="account-initials-24 _df _fn" data-word-count="2" data-font-size="8"/>
+<div class="_difh top">
+  <div user-detail="act.comment.sender" class="user-avatar-20">
+    <img initial-avatar="{{act.comment.sender.id}}" name="{{act.comment.sender.fullName}}" picture="{{act.comment.sender | avatar}}"
+      data-width="16" data-height="20" data-radius="20" class="account-initials-20 _df _fn" data-word-count="2" data-font-size="8"
+    />
   </div>
+  <div class="sender _df">
+    <div user-detail="act.comment.sender">
+      <a class="enabled-detail-popover">{{act.comment.sender.firstName + ' ' + act.comment.sender.lastName}}</a>
+    </div>
+  </div>
+  <svg class="_16svg _df _fn force">
+    <use xlink:href="/assets/icons/nst-icn16.svg#comment"></use>
+  </svg>
 </div>
-<div class="colomn" nst-post-modal post="act.post">
-  <div class="_difh top">
-    <div class="sender _df">
-      <div user-detail="act.comment.sender">
-        <a class="enabled-detail-popover">{{::act.comment.sender.firstName}}</a>
-      </div>
-    </div>
-    <div class="_df _fn">
-      <span>{{act.date | passed | localize}}</span>
-    </div>
-    <svg class="_16svg _df _fn crown">
-      <use xlink:href="/assets/icons/nst-icn16.svg#comment"></use>
-    </svg>
+<div class="body" nst-post-modal post="act.post">
+  <div class="_difv">
+    <p>
+      <translate>removed a comment</translate>
+    </p>
   </div>
-  <div class="_df">
-    <p><translate>removed a comment</translate></p>
+  <div class="_df _fn comment-time">
+    <span>{{act.date | passed | localize }}</span>
   </div>
 </div>
