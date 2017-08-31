@@ -8,7 +8,7 @@
   /** @ngInject */
   function SidebarPlaceInfoController($rootScope, $q, $scope, $state, $stateParams, _,
                                       NstSvcLogger,
-                                      NstSvcPlaceFactory, NstSvcPlaceMap, NstUtility,
+                                      NstSvcPlaceFactory, NstUtility,
                                       NstVmPlace, NstSvcServer, NST_SRV_EVENT, NST_EVENT_ACTION, NST_PLACE_EVENT, NST_POST_EVENT) {
     var vm = this;
     var eventReferences = [];

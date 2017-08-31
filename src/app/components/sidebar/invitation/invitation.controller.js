@@ -3,7 +3,7 @@
 
   angular
     .module('ronak.nested.web.user')
-    .controller('InvitationController', function ($state, $scope, $uibModalInstance, NstVmInvitation, argv,
+    .controller('InvitationController', function ($state, $scope, $uibModalInstance, argv,
                                                   NST_CONFIG, NST_INVITATION_FACTORY_STATE) {
       var vm = this;
 
@@ -33,14 +33,6 @@
         $uibModalInstance.dismiss();
       };
 
-      /*****************************
-       *****  Controller Logic  ****
-       *****************************/
-
-      /*****************************
-       *****    State Methods   ****
-       *****************************/
-
       function getPlaceState() {
         var state = 'place-messages';
         switch ($state.current.name) {
@@ -52,17 +44,5 @@
 
         return state;
       }
-
-      /*****************************
-       *****    Fetch Methods   ****
-       *****************************/
-
-      /*****************************
-       *****     Map Methods    ****
-       *****************************/
-
-      function mapInvitation(invitationModel) {
-        return new NstVmInvitation(invitationModel);
-      }
-    })
+    });
 })();

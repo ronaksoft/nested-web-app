@@ -20,8 +20,8 @@
         </div>
       </a>
       <div class="side-menu">
-        <a ui-sref="app.messages-favorites()" class="side-menu-item ng-class:{'isSelected' : ctlSidebar.isFeed}">
-          <span class="item-icon">
+        <a ui-sref="app.messages-favorites()" class="side-menu-item" ui-sref-active="isSelected">
+          <span class="item-icon" active-group="message">
             <svg class="_16svg">
               <use xlink:href="/assets/icons/nst-icn16.svg#messages"></use>
             </svg>
@@ -30,8 +30,8 @@
             <translate>Feed</translate>
           </div>
         </a>
-        <a ui-sref="app.messages-bookmarked()" class="side-menu-item ng-class:{'isSelected' : ctlSidebar.isBookmarkMode}"
-           active-group="bookmarked" >
+        <a ui-sref="app.messages-bookmarked()" class="side-menu-item"
+           active-group="bookmarked"  ui-sref-active="isSelected">
           <span class="item-icon">
             <svg class="_16svg">
               <use xlink:href="/assets/icons/nst-icn16.svg#bookmarked-message"></use>
@@ -41,7 +41,8 @@
             <translate>Bookmarked Posts</translate>
           </div>
         </a>
-        <a ui-sref="app.messages-sent()" class="side-menu-item ng-class:{'isSelected' : ctlSidebar.isSentMode}">
+        <a ui-sref="app.messages-sent()" class="side-menu-item"
+        ui-sref-active="isSelected" active-group="sent">
           <span class="item-icon">
             <svg class="_16svg">
               <use xlink:href="/assets/icons/nst-icn16.svg#sent-message"></use>

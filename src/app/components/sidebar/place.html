@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <a href="{{place.href}}" class="side-place-item-inner">
   <div ng-if="place.avatar" class="side-place-item-image">
     <div class="unreadPlace" ng-if="ctlSidebar.placesNotifCountObject[place.id] > 0">
@@ -14,3 +15,29 @@
   </div>
 </a>
 <nst-sidebar-place-info grand-place="place" unread-mode="ctlSidebar.isUnreadMode"></nst-sidebar-place-info>
+=======
+
+  <a ui-sref="app.place-messages({ placeId: place.id })" class="side-place-item-inner detailed" nst-sidebar-toggle-agent
+     toggle-agent-switch="ctlSidebar.isInDetailMode"
+     ui-sref-active="isSelected"
+     data-uib-tooltip="{{place.name}}"
+     data-tooltip-enable="{{!ctlApp.viewSettings.sidebar.collapsed || forceTooltip ? true : false}}"
+     data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
+    <div class="side-place-item-image">
+      <div data-as-sortable-item-handle>
+      <div class="unreadPlace" ng-if="ctlSidebar.myPlacesUnreadPosts[place.id] > 0">
+        <svg class="pendfill">
+          <use xlink:href="/assets/icons/nst-icn24.svg#unread-circle"></use>
+        </svg>
+      </div>
+      <img class="" ng-src="{{place.picture}}"/>
+      </div>
+    </div>
+    <div>
+      <p ng-click="ctlSidebar.onPlaceClick($event,place);" class="_fw" data-ellipsis>
+        {{place.name}}
+      </p>
+    </div>
+  </a>
+
+>>>>>>> e076971d4ca577e51f669b8c6ff16b3cc44f3cac

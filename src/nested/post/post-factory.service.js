@@ -157,21 +157,24 @@
       post.places = _.map(data.post_places, function (placeId) {
         return NstSvcPlaceFactory.getCachedSync(placeId);
       });
-      // // Make sure the post places were found successfully
-      // if (!_.every(post.places) || post.places.length !== data.post_places) {
-      //   this.cache.remove(data._id);
-      //   return null;
-      // }
+      // Make sure the post places were found successfully
+      if (!_.every(post.places)) {
+        this.cache.remove(data._id);
+        return null;
+      }
       post.read = data.post_read;
       post.recipients = data.post_recipients;
       post.replyToId = data.reply_to;
       if (data.sender) {
         post.sender = NstSvcUserFactory.getCachedSync(data.sender);
-        // // Make sure the post sender was found successfully
-        // if (!post.sender) {
-        //   this.cache.remove(data._id);
-        //   return null;
-        // }
+        // Make sure the post sender was found successfully
+        if (!post.sender) {
+          this.cache.remove(data._id);
+          return null;
+        }
+      } else if (data.email_sender) {
+        // Email sender object is serialized within the post because it does not change
+        post.sender = NstSvcUserFactory.parseTinyUser(data.email_sender);
       }
       post.subject = data.subject;
       post.timestamp = data.timestamp;
@@ -184,24 +187,24 @@
       post.labels = _.map(data.post_labels, function (labelId) {
         return NstSvcLabelFactory.getCachedSync(labelId);
       });
-      // // Make sure all post labels were found successfully
-      // if (!_.every(post.labels) || post.labels.length !== data.post_labels.length) {
-      //   this.cache.remove(data._id);
-      //   return null;
-      // }
+      // Make sure all post labels were found successfully
+      if (data.post_labels.length > 0 && !_.every(post.labels)) {
+        this.cache.remove(data._id);
+        return null;
+      }
       post.body = data.body;
-      post.comments = _.map(data.recent_comments, function (comment) {
-        return NstSvcCommentFactory.getCachedSync(comment._id);
+      post.comments = _.map(data.post_comments, function (comment) {
+        return NstSvcCommentFactory.parseComment(comment);
       });
 
       return post;
     }
 
-    function transformToCacheModel(place) {
-      var copy = _.clone(place);
-      copy.sender = place.sender ? place.sender._id : null;
-      copy.post_places = _.map(place.post_places, '_id');
-      copy.post_labels = _.map(place.post_labels, '_id');
+    function transformToCacheModel(post) {
+      var copy = _.clone(post);
+      copy.sender = post.sender ? post.sender._id : null;
+      copy.post_places = _.map(post.post_places, '_id');
+      copy.post_labels = _.map(post.post_labels, '_id');
 
       return copy;
     }
@@ -301,7 +304,9 @@
     }
 
     function parsePost(data) {
-      var deferred = $q.defer();
+      if (!(data && data._id)) {
+        return null;
+      }
 
       var post = new NstPost();
 
@@ -356,15 +361,11 @@
       post.body = body;
       post.resources = resources;
 
-      var recentCommentPromises = _.map(data.recent_comments, NstSvcCommentFactory.parseMessageComment);
+      post.comments = _.map(data.post_comments, function(comment) {
+        return NstSvcCommentFactory.parseComment(comment);
+      });
 
-      $q.all(recentCommentPromises).then(function (results) {
-        post.comments = results;
-
-        deferred.resolve(post);
-      }).catch(deferred.reject);
-
-      return deferred.promise;
+      return post;
     }
 
     function handleCachedResponse(cacheHandler, cachedResponse) {
@@ -387,12 +388,12 @@
         options.by_update = true;
       }
       return NstSvcServer.request('account/get_posts', options, _.partial(handleCachedResponse, cacheHandler)).then(function (data) {
-        var messagePromises = _.map(data.posts, function (post) {
+        var posts = _.map(data.posts, function (post) {
           factory.set(post);
           return factory.parsePost(post);
         });
 
-        return $q.all(messagePromises);
+        return posts;
       });
     }
 
@@ -408,11 +409,12 @@
       }
 
       return NstSvcServer.request('account/get_pinned_posts', options, _.partial(handleCachedResponse, cacheHandler)).then(function (data) {
-        var messagePromises = _.map(data.posts, function (post) {
+        var posts = _.map(data.posts, function (post) {
           factory.set(post);
           return factory.parsePost(post);
         });
-        return $q.all(messagePromises);
+
+        return posts;
       });
     }
 
@@ -427,11 +429,12 @@
       }
 
       return NstSvcServer.request('account/get_sent_posts', options, _.partial(handleCachedResponse, cacheHandler)).then(function (data) {
-        var messagePromises = _.map(data.posts, function (post) {
+        var posts = _.map(data.posts, function (post) {
           factory.set(post);
           return factory.parsePost(post);
         });
-        return $q.all(messagePromises);
+
+        return posts;
       });
     }
 
@@ -451,12 +454,12 @@
       }
 
       return NstSvcServer.request('place/get_posts', options, _.partial(handleCachedResponse, cacheHandler)).then(function (data) {
-        var messagePromises = _.map(data.posts, function (post) {
+        var posts = _.map(data.posts, function (post) {
           factory.set(post);
           return factory.parsePost(post);
         });
 
-        return $q.all(messagePromises);
+        return posts;
       });
     }
 
@@ -474,11 +477,12 @@
       }
 
       return NstSvcServer.request('account/get_favorite_posts', options, _.partial(handleCachedResponse, cacheHandler)).then(function (data) {
-        var messagePromises = _.map(data.posts, function (post) {
+        var posts = _.map(data.posts, function (post) {
           factory.set(post);
           return factory.parsePost(post);
         });
-        return $q.all(messagePromises);
+
+        return posts;
       });
     }
 
@@ -498,11 +502,12 @@
       }
 
       return NstSvcServer.request('place/get_unread_posts', options, _.partial(handleCachedResponse, cacheHandler)).then(function (data) {
-        var messagePromises = _.map(data.posts, function (post) {
+        var posts = _.map(data.posts, function (post) {
           factory.set(post);
           return factory.parsePost(post);
         });
-        return $q.all(messagePromises);
+
+        return posts;
       });
     }
 
@@ -560,17 +565,14 @@
     function getChainMessages(id, limit) {
       var deferred = $q.defer();
 
-      NstSvcServer.request('post/get_chain', {
+      return NstSvcServer.request('post/get_chain', {
         post_id: id,
         limit: limit || 8
       }).then(function (data) {
-        var messagePromises = _.map(data.posts, function (post) {
+        return _.map(data.posts, function (post) {
           return parsePost(post);
         });
-        $q.all(messagePromises).then(function (messages) {
-          deferred.resolve(messages);
-        }).catch(deferred.reject);
-      }).catch(deferred.reject);
+      });
 
       return deferred.promise;
     }
