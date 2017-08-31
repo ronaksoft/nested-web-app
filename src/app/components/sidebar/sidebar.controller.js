@@ -489,15 +489,15 @@
         return false;
       }
 
-      function getChildren(place, places, expandedPlaces, selectedId) {
+      function getChildren(place, places, expandedPlaces, selectedId, depth) {
         return _.chain(places).filter(function (child) {
           return child && child.id && child.id.indexOf(place.id + '.') === 0;
         }).map(function (place) {
           var isActive = place.id === selectedId;
           var isExpanded = isItemExpanded(place, expandedPlaces, selectedId);
-          var children = getChildren(place, places, expandedPlaces, selectedId);
+          var children = getChildren(place, places, expandedPlaces, selectedId, depth + 1);
 
-          return createTreeItem(place, children, isExpanded, isExpanded);
+          return createTreeItem(place, children, isExpanded, isExpanded, depth);
         }).sortBy(['name']).value();
       }
 
@@ -507,15 +507,15 @@
         }).map(function(place) {
           var isActive = place.id === selectedId;
           var isExpanded = isItemExpanded(place, expandedPlaces, selectedId);
-          var children = getChildren(place, places, expandedPlaces, selectedId);
+          var children = getChildren(place, places, expandedPlaces, selectedId, 1);
 
-          return createTreeItem(place, children, isExpanded, isActive);
+          return createTreeItem(place, children, isExpanded, isActive, 0);
         }).sortBy(function(place) {
           return orders[place.id];
         }).value();
       }
 
-      function createTreeItem(place, children, isExpanded, isActive) {
+      function createTreeItem(place, children, isExpanded, isActive, depth) {
         var picture = place.hasPicture() ? place.picture.getUrl('x32') : null;
         var canCreateClosedPlace = place.privacy.locked && place.canAddSubPlace();
         var canCreateOpenPlace = !place.privacy.locked && place.canAddSubPlace();
@@ -527,6 +527,7 @@
           hasChildren: children && children.length > 0,
           isExpanded: isExpanded,
           isActive: isActive,
+          depth: depth,
           canCreateOpenPlace: canCreateOpenPlace,
           canCreateClosedPlace: canCreateClosedPlace,
         };
