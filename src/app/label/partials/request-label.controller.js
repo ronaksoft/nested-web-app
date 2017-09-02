@@ -15,7 +15,7 @@
       code: 'A',
       title: ''
     };
-    vm.userSelectPlaceHolder = NstSvcTranslation.get('Enter username or user-id');
+    vm.labelSelectPlaceHolder = NstSvcTranslation.get('Enter a label name');
     vm.newLabel = false;
     vm.editCode = false;
     vm.keyword = '';
@@ -29,6 +29,10 @@
     vm.inputKeyUpHandler = _.debounce(inputKeyUpHandler, 512);
     vm.isNotValid = isNotValid;
     vm.requestLabel = requestLabel;
+    vm.translation = {
+      discard: NstSvcTranslation.get('Discard'),
+      send: NstSvcTranslation.get('Send Request')
+    };
 
     function changeColor(code) {
       vm.label.code = code;

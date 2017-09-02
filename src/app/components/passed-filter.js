@@ -3,7 +3,7 @@
 
   angular
     .module('ronak.nested.web.components.date')
-    .filter('passed', function(moment, NstSvcTranslation, NstSvcDate) {
+    .filter('passed', function(moment, NstSvcTranslation, NstSvcCalendarTranslation, NstSvcDate) {
 
       var dateFilter = function(date) {
 
@@ -21,20 +21,20 @@
 
         var today = moment(current).startOf('day');
         if (date.isSameOrAfter(today)) {
-          return date.format(NstSvcTranslation.get('HH:mm'));
+          return date.format(NstSvcCalendarTranslation.get('HH:mm'));
         }
 
         var yesterday = moment(current).startOf('day').subtract(1, 'days');
         if (date.isSameOrAfter(yesterday)) {
-          return date.format(NstSvcTranslation.get('[Yesterday] HH:mm'));
+          return date.format(NstSvcCalendarTranslation.get('[Yesterday] HH:mm'));
         }
 
         var thisYear = moment(current).startOf('year');
         if (date.isSameOrAfter(thisYear)) {
-          return date.format(NstSvcTranslation.get('MMM DD'));
+          return date.format(NstSvcCalendarTranslation.get('MMM DD'));
         }
 
-        return date.format(NstSvcTranslation.get('DD[/]MM[/]YYYY'));
+        return date.format(NstSvcCalendarTranslation.get('DD[/]MM[/]YYYY'));
       }
 
       dateFilter.$stateful = true;

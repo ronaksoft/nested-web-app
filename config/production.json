@@ -1,7 +1,7 @@
 {
   "NST_CONFIG": {
     "APP_CLIENT_ID": "WEB_APP",
-    "APP_VERSION" : "3.8.2",
+    "APP_VERSION" : "3.8.3",
     "DOMAIN" : "_DOMAIN_",
     "ADMIN_DOMAIN" : "_ADMIN_DOMAIN_",
     "ADMIN_PORT" : "_ADMIN_PORT_",
@@ -14,17 +14,17 @@
     },
     "SIGN_OUT_TARGET": "https://nested.me",
     "WEBSOCKET": {
-      "URL": "wss://cyrus.nested.me:443",
+      "URL": "_WS_CYRUS_CYRUS_URL_CONF_",
       "TIMEOUT": 60000,
       "REQUEST_MAX_RETRY_TIMES": 16
     },
     "STORE": {
-      "URL": "https://xerxes.nested.me:80",
+      "URL": "_XERXES_URL_CONF_",
       "TOKEN_EXPMS": 3550000
     },
     "REGISTER": {
       "AJAX": {
-        "URL": "https://cyrus.nested.me"
+        "URL": "_HTTP_CYRUS_URL_CONF_"
       }
     },
     "GOOGLE_ANALYTICS_TOKEN": "UA-80877772-5",

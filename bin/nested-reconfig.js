@@ -15,9 +15,9 @@ const config = {
 };
 
 const defaultConfig = {
-    WS_CYRUS: "wss://cyrus.nested.me:443",
-    HTTP_CYRUS: "https://cyrus.nested.me:444",
-    XERXES: "https://xerxes.nested.me",
+    WS_CYRUS: "_WS_CYRUS_CYRUS_URL_CONF_",
+    HTTP_CYRUS: "_HTTP_CYRUS_URL_CONF_",
+    XERXES: "_XERXES_URL_CONF_",
     GOOGLE_ANALYTICS_TOKEN: "UA-80877772-5",
     DOMAIN: "_DOMAIN_",
     ADMIN_DOMAIN: "_ADMIN_DOMAIN_",

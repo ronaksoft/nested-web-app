@@ -5,7 +5,7 @@
     .module('ronak.nested.web.components.date')
     .directive('inlineDatePicker', inlineDatePicker);
 
-  function inlineDatePicker(moment, NstSvcI18n, NstUtility, NstSvcDate, _) {
+  function inlineDatePicker(moment, NstSvcI18n, NstUtility, NstSvcDate, NstSvcCalendarTranslation, _) {
     return {
       restrict: 'E',
       replace : true,
@@ -124,6 +124,7 @@
     }
 
     function parseDate(date, defaultValue) {
+      // var format = NstSvcCalendarTranslation.get("YYYY-MM-DD");
       var format = "YYYY-MM-DD";
        date = moment(date, format);
 
@@ -139,7 +140,12 @@
     }
 
     function getMonths() {
-      var months = moment.months();
+      var months = [];
+      if (isJalali()) {
+        months = getJalaliMonths();
+      } else {
+        months = moment.months();
+      }
       return _.map(months, function (month, index) {
         return {
           name : month,
@@ -161,9 +167,16 @@
       return getDays();
     }
 
+    function getJalaliMonths() {
+      if (NstSvcI18n.selectedLocale === 'fa-IR') {
+        return 'فروردین_اردیبهشت_خرداد_تیر_مرداد_شهریور_مهر_آبان_آذر_دی_بهمن_اسفند'.split('_')
+      } else {
+        return 'Farvardin_Ordibehesht_Khordad_Tir_Mordad_Shahrivar_Mehr_Aban_Azar_Dey_Bahman_Esfand'.split('_');
+      }
+    }
 
     function isJalali() {
-      return NstSvcI18n.selectedLocale === "fa-IR";
+      return NstSvcI18n.selectedCalendar === "jalali";
     }
   }
 })();
