@@ -17,7 +17,7 @@
     .service('NstSvcCalendarTranslation', NstSvcCalendarTranslation);
 
   /** @ngInject */
-  function NstSvcCalendarTranslation(NstSvcI18n, _) {
+  function NstSvcCalendarTranslation(NstSvcI18n) {
     function Translation() {
       this.currentCalendar = NstSvcI18n.selectedCalendar;
     }
@@ -29,7 +29,7 @@
       "MMM DD": "jD jMMMM",
       "DD[/]MM[/]YYYY": "jYYYY[/]jMM[/]jDD",
       "YYYY-MM-DD": "jYYYY-jMM-jDD",
-      "dddd, MMMM DD YYYY, HH:mm": "HH:mm dddd، jD jMMMM jYYYY",
+      "dddd, MMMM DD YYYY, HH:mm": "HH:mm dddd، jD jMMMM jYYYY"
     };
 
     formatMap['gregorian'] = {
