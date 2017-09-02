@@ -79,8 +79,6 @@
         NstSvcMessagesSettingStorage.set(sortOptionStorageKey, vm.messagesSetting.sort);
       }
 
-      generateUrls();
-
       if (vm.currentPlaceId) {
         loadPlace();
       }
@@ -524,32 +522,6 @@
       }
 
       return lastDate;
-    }
-
-    function generateUrls() {
-      vm.urls = {
-        latestActivity: '',
-        latestMessages: ''
-      };
-
-      if (vm.currentPlaceId) {
-        vm.urls.latestActivity = $state.href('app.place-messages-sorted', {
-          placeId: vm.currentPlaceId,
-          sort: NST_MESSAGES_SORT_OPTION.LATEST_ACTIVITY
-        });
-        vm.urls.latestMessages = $state.href('app.place-messages-sorted', {
-          placeId: vm.currentPlaceId,
-          sort: NST_MESSAGES_SORT_OPTION.LATEST_MESSAGES
-        });
-      } else {
-        vm.urls.latestActivity = $state.href('app.messages-sorted', {
-          sort: NST_MESSAGES_SORT_OPTION.LATEST_ACTIVITY
-        });
-        vm.urls.latestMessages = $state.href('app.messages-sorted', {
-          sort: NST_MESSAGES_SORT_OPTION.LATEST_MESSAGES
-        });
-      }
-
     }
 
     function showNewMessages() {

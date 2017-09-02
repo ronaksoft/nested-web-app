@@ -44,32 +44,8 @@
           }
         }
       })
-      // Deprecated
-      .state('app.messages', {
-        url: '/messages',
-        templateUrl: 'app/messages/messages.html',
-        controller: 'MessagesController',
-        controllerAs: 'ctrl',
-        options: {
-          primary: true,
-          group: 'message',
-          feed : true
-        }
-      })
       .state('app.messages-bookmarked', {
         url: '/bookmarks',
-        templateUrl: 'app/messages/messages.html',
-        controller: 'MessagesController',
-        controllerAs: 'ctrl',
-        options: {
-          primary: true,
-          group: 'bookmarked',
-          feed : true
-        }
-      })
-      // Deprecated
-      .state('app.messages-bookmarked-sort', {
-        url: '/bookmarks/:sort',
         templateUrl: 'app/messages/messages.html',
         controller: 'MessagesController',
         controllerAs: 'ctrl',
@@ -113,35 +89,6 @@
         options: {
           primary: true,
           group: 'sent'
-        }
-      })
-      // Deprecated
-      .state('app.messages-sent-sorted', {
-        url: '/shared/:sort',
-        params: {
-          sort: NST_DEFAULT.STATE_PARAM
-        },
-        templateUrl: 'app/messages/messages.html',
-        controller: 'MessagesController',
-        controllerAs: 'ctrl',
-        options: {
-          primary: true,
-          group: 'message'
-        }
-      })
-      // Deprecated
-      .state('app.messages-sorted', {
-        url: '/messages/:sort',
-        params: {
-          sort: NST_DEFAULT.STATE_PARAM
-        },
-        templateUrl: 'app/messages/messages.html',
-        controller: 'MessagesController',
-        controllerAs: 'ctrl',
-        options: {
-          primary: true,
-          group: 'message',
-          feed: true
         }
       })
       .state('app.place-messages', {
