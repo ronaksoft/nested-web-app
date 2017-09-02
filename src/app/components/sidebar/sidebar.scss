@@ -88,13 +88,8 @@
     transition: all $animation-dur;
     position: relative;
     max-height: 36px;
-    a {
-      @extend ._txe;
-      min-height: 32px;
+    cite {
       transition: all $animation-dur;
-      color: $color-storm;
-      font-weight: 400;
-      @extend .nst-font-medium;
       line-height: 32px;
       padding-left: 8px;
       padding-right: 21px;
@@ -111,16 +106,15 @@
         width: auto;
         max-width: 100%;
       }
-    }
-    a:hover,
-    a.isSelected {
-      background-color: $sidebar-place-bg-hover-color;
-      border-radius: 3px;
-      color: $color-solid;
       b {
         color: $color-bg-pending;
         opacity: .72;
       }
+    }
+    &.isSelected cite {
+      background-color: $sidebar-place-bg-hover-color;
+      border-radius: 3px;
+      color: $color-solid;
     }
     .icon {
       position: relative;
@@ -246,7 +240,11 @@
   .places {
     position: relative;
     flex: 1;
-    width: 100%;
+    width: calc(100% + 12px);
+    margin: 0 -6px;
+    >ul {
+      padding: 0 6px;
+    }
     i {
       display: flex;
       padding-right: 2px;
@@ -268,9 +266,11 @@
       fill: #C1C4C7;
     }
     cite {
-      font-size: 14px;
+      @extend ._txe;
+      font-size: 13px;
       color: $color-solid;
       opacity: .8;
+      position: relative;
       b {
         color: $color-bg-pending;
         font-weight: 700;
@@ -278,7 +278,16 @@
       }
     }
     .ps-scrollbar-y-rail {
-      z-index: 5
+      z-index: 5;
+      left: 0!important;
+      right: auto!important;
+      > .ps-scrollbar-y {
+        right: 4px;
+      }
+      &:active > .ps-scrollbar-y ,
+      &:hover > .ps-scrollbar-y {
+        width: 6px;
+      }
     }
     >ul>li>ul {
       // padding-left: 16px;
@@ -349,26 +358,7 @@
   flex-direction: row;
   cursor: pointer;
   padding-left: 3px;
-  a {
-    color: $color-solid;
-  }
-  >div:first-child {
-    opacity: .72;
-    transition: opacity $animation-dur;
-  }
-  &:hover {
-    >div:first-child {
-      opacity: 1;
-    }
-  }
-  &.isSelected {
-    >div:first-child {
-      opacity: 1;
-    }
-    >*:last-child p {
-      font-weight: bold;
-    }
-  }
+  color: $color-solid;
 }
 
 .side-place-invite-item-inner {
@@ -420,13 +410,6 @@
   //color: $color-hurricane;
   font-weight: $font-wight-regular;
   width: 100%;
-}
-
-.side-place-item-inner>a:first-child {
-  flex-direction: row;
-  display: inline-flex;
-  min-width: 40px;
-  justify-content: center;
 }
 
 .side-place-invite-item-inner>a:first-child {
