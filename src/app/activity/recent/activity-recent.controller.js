@@ -37,7 +37,8 @@
    * @param {any} NST_SRV_EVENT
    * @param {any} NST_EVENT_ACTION
    */
-  function RecentActivityController($q, _, $rootScope, $scope, $state, $stateParams,
+
+  function RecentActivityController($q, _, $rootScope, $scope, $state, $stateParams, $timeout,
     NstSvcActivityFactory, NstSvcServer, NstSvcLogger, NstSvcWait,
     NstSvcPlaceFactory, NST_PLACE_ACCESS, NST_SRV_EVENT, NST_EVENT_ACTION) {
     var vm = this;
@@ -52,8 +53,9 @@
       placeId: $stateParams.placeId
     };
 
+    $timeout(initialize, 500);
 
-    (function () {
+    function initialize() {
       if (vm.settings.placeId) {
         // Waits for sidebar and messages page to get data and bind values
         // Loads the recent activities
@@ -70,10 +72,7 @@
           }));
         });
       }
-    })();
-
-
-
+    }
 
     function openActivity() {
       $state.go('app.place-activity', { placeId : vm.settings.placeId });
