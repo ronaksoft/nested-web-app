@@ -10,8 +10,6 @@
       <img style="width: {{item.widthResized}}px" ng-if="item.type === 'image' || item.type === 'gif'" class="attach-thumbnail-img" alt="" ng-src="{{item.thumbnail}}" height="96" width="item.widthResized" ng-show="item.widthResized > 0" />
       <div ng-if="item.type !== 'image' && item.type !== 'gif'" class="attach-thumbnail {{'attach-thumbnail-' + item.type}}">
         <div class="file-name"><p>{{item.name}}</p></div>
-        <div class="file-extention" ng-if="item.isUploaded">{{item.extension.split(' ').join('') | uppercase}}</div>
-        <div class="file-detail" ng-if="item.isUploaded"><span class="attsize">{{item.size | bytes:2}}</span></div>
       </div>
     </a>
     <a href="javascript:void(0);" ng-click="onDelete(item)" class="attdl del">

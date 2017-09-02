@@ -3,7 +3,7 @@
 
   angular
     .module('ronak.nested.web.components.date')
-    .filter('date', function(moment, NstUtility, NstSvcTranslation) {
+    .filter('date', function(moment, NstUtility, NstSvcCalendarTranslation) {
 
       return function(date, format) {
         if (!moment.isMoment(date)) {
@@ -12,10 +12,10 @@
 
         switch (format) {
           case 'short':
-            return date.format(NstSvcTranslation.get("YYYY-MM-DD"));
+            return date.format(NstSvcCalendarTranslation.get("YYYY-MM-DD"));
           case 'full':
           default:
-            return date.format(NstSvcTranslation.get("dddd, MMMM DD YYYY, HH:mm"));
+            return date.format(NstSvcCalendarTranslation.get("dddd, MMMM DD YYYY, HH:mm"));
         }
       }
 

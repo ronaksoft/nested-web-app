@@ -7,18 +7,15 @@
     </div>
     <img ng-src="{{place.picture}}" alt="{{place.id}}"/>
   </div>
-  <div>
-    <p ng-click="ctlSidebar.onPlaceClick($event,place);" class="_fw" data-ellipsis>
-      {{place.name}}
-    </p>
-  </div>
-  <i ng-if="place.children.length > 0" class="e2-arrow tw-svg _difv ng-class:{'open' : place.collapse}"
-      data-ng-click="place.collapse =! place.collapse;$event.preventDefault()" role="button" tabindex="0">
-    <svg class="pendfill _24svg ng-class:{'visibility-hidden': ctlPlaceInfo.hasNotUnreadPostInChildren(place.id)}">
-      <use xlink:href="/assets/icons/nst-icn24.svg#unread-circle"></use>
-    </svg>
-    <svg class="_24svg">
-      <use xlink:href="/assets/icons/nst-icn24.svg#arrow"></use>
+  <cite class="_fw _df" data-ellipsis>
+    {{place.name}}
+    <b class="_df _fn" ng-if="ctlSidebar.myPlacesUnreadPosts[place.id] > 0">&nbsp;{{ctlSidebar.myPlacesUnreadPosts[place.id] | localize}}</b>
+  </cite>
+  <i ng-if="place.children.length > 0" class="tw-svg _difv ng-class:{'open' : place.collapse}"
+      data-ng-click="place.collapse =! place.collapse;$event.stopPropagation();$event.preventDefault();" role="button" tabindex="0">
+    <div class="unread-on-arrow ng-class:{'visibility-hidden': !place.childrenHasUnseen && false}"></div>
+    <svg class="_16svg">
+      <use xlink:href="/assets/icons/nst-icn16.svg#arrow"></use>
     </svg>
   </i>
 </a>
