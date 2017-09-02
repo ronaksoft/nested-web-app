@@ -54,10 +54,9 @@
     <div class="side-places-wrapper _fw">
       <div class="side-places-head _df">
         <translate class="_df _fw">Places</translate>
-        <div ng-click="ctlSidebar.openCreatePlaceModal($event);" data-uib-tooltip-template="'create-uib-tooltip.html'" data-tooltip-append-to-body="true"
-          data-tooltip-placement="right auto" class="_df _aic _jcc _fn">
-          <svg class="_24svg">
-            <use xlink:href="/assets/icons/nst-icn24.svg#cross"></use>
+        <div ng-click="ctlSidebar.openCreatePlaceModal($event);" class="_df _aic _jcc _fn">
+          <svg class="_16svg">
+            <use xlink:href="/assets/icons/nst-icn16.svg#cross"></use>
           </svg>
         </div>
       </div>
@@ -66,23 +65,17 @@
           <li class="side-grand-place-item" ng-repeat="place in ctlSidebar.places" data-ng-include="'app/components/sidebar/place.html'"
             onload="place = place"></li>
         </ul>
-        <!-- <ul class="side-place" data-ng-if="ctlSidebar.invitations.length > 0 " dir="{{_direction}}">
-          <li class="side-place-item" ng-repeat="invitaion in ctlSidebar.invitations">
-            <a href="javascript:void(0);" ng-click="ctlSidebar.invitation.showModal(invitaion.id)" class="side-place-invite-item-inner active detailed"
-              data-uib-tooltip="{{invitaion.place.name}}" data-tooltip-enable="{{!ctlApp.viewSettings.sidebar.collapsed || forceTooltip ? true : false}}"
-              data-tooltip-placement="right auto" data-tooltip-append-to-body="true">
-              <div class="side-place-item-image">
-                <img class="" ng-src="{{invitaion.place | picture : 'x64'}}" />
+        <ul class="side-invites" data-ng-if="ctlSidebar.invitations.length > 0 " dir="{{_direction}}">
+          <li class="side-invite-item" ng-repeat="invitaion in ctlSidebar.invitations">
+            <a href="javascript:void(0);" ng-click="ctlSidebar.invitation.showModal(invitaion.id)" class="side-invite-item-inner">
+              <div class="side-invite-item-image">
+                <img class="" ng-src="{{invitaion.place | picture : 'x32'}}" />
               </div>
-              <div class="_difv">
-                <p class="_fw nst-font-small nst-mood-pending-fill">
-                  <translate>You've been invited to</translate>
-                </p>
-                <span class="invitation-name _txe _fw" data-ng-bind="::invitaion.place.name" data-ellipsis></span>
-              </div>
+              <span class="_txe" data-ng-bind="::invitaion.place.name" data-ellipsis></span>
+              <translate>&nbsp;Invitation</translate>
             </a>
           </li>
-        </ul> -->
+        </ul> 
         <!-- <a class="create-place _fw detailed" dir="{{_direction}}">
           <span>
             <svg class="_24svg">
@@ -90,7 +83,7 @@
             </svg>
           </span>
           <translate>Create a new Place</translate>
-        </a> -->
+        </a>-->
       </div>
     </div>
     <!--<div class="side-access">

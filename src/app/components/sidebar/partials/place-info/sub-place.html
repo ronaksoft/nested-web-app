@@ -6,19 +6,20 @@
     <div class="box3"></div>
     <div class="box4"></div>
   </dl>
-  <svg class="icon _16svg fill-D6D6D6">
+  <div class="place-line-icon"></div>
+  <!-- <svg class="icon _16svg fill-D6D6D6">
     <use xlink:href="/assets/icons/nst-icn16.svg#hole"></use>
-  </svg>
+  </svg> -->
   <cite>
       <span class="_txe _dib" auto-dir="place.name">{{ place.name }}</span>
       <b class="_df _fn" ng-if="ctlSidebar.placesNotifCountObject[place.id] > 0">&nbsp;{{ctlSidebar.placesNotifCountObject[place.id] | localize}}</b>
   </cite>
-  <i ng-if="place.children.length > 0" class="tw-svg _difv ng-class:{'open' : place.collapse}" data-ng-click="place.collapse =! place.collapse;$event.stopPropagation()"
+  <i ng-if="place.children.length > 0" class="tw-svg _difv ng-class:{'open' : place.collapse}" data-ng-click="place.collapse =! place.collapse;$event.preventDefault()"
     role="button" tabindex="0">
-    <div class="unread-on-arrow ng-class:{'visibility-hidden': !place.childrenHasUnseen && false}"></div>
-      <svg class="_16svg">
-        <use xlink:href="/assets/icons/nst-icn16.svg#arrow"></use>
-      </svg>
+    <div class="unread-on-arrow ng-class:{'visibility-hidden': !place.childrenHasUnseen}"></div>
+    <svg class="_16svg">
+      <use xlink:href="/assets/icons/nst-icn16.svg#arrow"></use>
+    </svg>
   </i>
 </a>
 <ul ng-if="place.children.length > 0 && place.collapse">

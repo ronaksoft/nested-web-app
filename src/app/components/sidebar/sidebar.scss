@@ -10,7 +10,7 @@
   top: 48px;
   width: $sidebar-width - 8px;
   margin: 16px 2px 0 2px;
-  padding: 6px;
+  padding: 6px 6px 0 6px;
   background-color: #FAFAFA;
   border-radius: 4px;
   border: 1px solid $color-breeze-new;
@@ -43,7 +43,9 @@
   display: flex;
   width: 100%;
   flex-direction: column;
-  padding-left: 8px;
+  > ul {
+    padding-left: 8px;
+  }
 }
 
 .side-grand-place-item-inner {
@@ -51,11 +53,46 @@
   width: 100%;
   height: 36px;
   margin-top: 8px;
+  padding-left: 8px;
+  border-radius: 4px;
   .unread-on-arrow {
     width: 4px;
     height: 4px;
     border-radius: 100%;
     background-color: $color-bg-pending;
+  }
+  cite {
+    padding-right: 34px;
+    span {
+      max-width: 100%;
+    }
+  }
+  &:hover {
+    background-color: rgba(50, 61, 71, .12);
+    cite {
+      opacity: 1;
+    }
+  }
+  &:active {
+    background-color: rgba(50, 61, 71, .16);
+  }
+  &.isSelected{
+    background-color: #ffffff;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .16);
+    cite {
+      opacity: 1;
+      font-weight: bold;
+    }
+    &:hover {
+      background-color: #ffffff;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, .16);
+    }
+    &:active {
+      background-color: #ffffff;
+    }
+    >* {
+      opacity: 1;
+    }
   }
 }
 
@@ -89,13 +126,9 @@
     position: relative;
     max-height: 36px;
     cite {
-      transition: all $animation-dur;
-      line-height: 32px;
       padding-left: 8px;
-      padding-right: 21px;
+      padding-right: 34px;
       display: flex;
-      margin-top: 4px;
-      margin-bottom: 4px;
       margin-right: -16px;
       width: 100%;
       left: -16px;
@@ -111,17 +144,38 @@
         opacity: .72;
       }
     }
-    &.isSelected cite {
-      background-color: $sidebar-place-bg-hover-color;
-      border-radius: 3px;
-      color: $color-solid;
+    &:hover {
+      cite {
+        background-color: rgba(50, 61, 71, .12);
+        opacity: 1;
+      }
     }
-    .icon {
-      position: relative;
-      left: -16px;
-      margin: 0;
-      width: 16px;
-      height: 16px;
+    &:active {
+      cite {
+        background-color: rgba(50, 61, 71, .16);
+      }
+    }
+    &.isSelected{
+      cite {
+        background-color: #ffffff;
+        color: $color-solid;
+        font-weight: bold;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, .16);
+      }
+      &:hover {
+        cite { 
+          background-color: #ffffff;
+          box-shadow: 0 1px 2px rgba(0, 0, 0, .16);
+        }
+      }
+      &:active {
+        cite {
+          background-color: #ffffff;
+        }
+      }
+      >* {
+        opacity: 1;
+      }
     }
   }
   .unreadPlace {
@@ -240,6 +294,7 @@
   .places {
     position: relative;
     flex: 1;
+    min-height: 400px;
     width: calc(100% + 12px);
     margin: 0 -6px;
     >ul {
@@ -249,21 +304,47 @@
       display: flex;
       padding-right: 2px;
       position: absolute;
-      right: 0;
+      right: 4px;
       top: 50%;
       width: 28px;
       height: 28px;
       transform: translateY(-50%);
       justify-content: center;
       align-items: center;
+      opacity: .4;
+      transition: background-color .2s;
+      border-radius: 4px;
+      &:hover {
+        opacity: 1;
+        background-color: rgba(50,61,71,.12);
+      }
+      &:active {
+        opacity: 1;
+        background-color: rgba(50,61,71,.16);
+      }
       label {
         width: 12px;
         height: 12px;
         transition: all $animation-dur;
       }
     }
-    .icon {
-      fill: #C1C4C7;
+    .place-line-icon {
+      position: relative;
+      left: -16px;
+      margin: 0;
+      width: 16px;
+      height: 16px;
+      flex: none;
+      &::after {
+        content: '';
+        position: absolute;
+        left: 6px;
+        top: 6px;
+        width: 5px;
+        height: 5px;
+        border-radius: 100%;
+        background-color: #C1C4C7;
+      }
     }
     cite {
       @extend ._txe;
@@ -271,6 +352,9 @@
       color: $color-solid;
       opacity: .8;
       position: relative;
+      line-height: 36px;
+      border-radius: 4px;
+      transition: box-shadow .2s, background-color .2s;
       b {
         color: $color-bg-pending;
         font-weight: 700;
@@ -323,24 +407,13 @@
     text-decoration: none;
     position: relative;
     width: 100%;
-    overflow: hidden;
+    // overflow: hidden;
     text-overflow: ellipsis;
     align-items: center;
     white-space: nowrap;
   }
 }
 
-.invitation-name {
-  display: inline-flex;
-  flex-direction: row;
-  text-decoration: none;
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-  align-items: center;
-  font-weight: 600;
-  font-size: $font-size-medium;
-}
 
 .side-place-item {
   display: inline-flex;
@@ -359,34 +432,6 @@
   cursor: pointer;
   padding-left: 3px;
   color: $color-solid;
-}
-
-.side-place-invite-item-inner {
-  display: inline-flex;
-  width: 100%;
-  height: 56px;
-  align-items: center;
-  flex: none;
-  flex-direction: row;
-  cursor: pointer;
-  background-color: rgba(50, 150, 255, .8);
-  transition: all $animation-dur ease;
-  span {
-    line-height: 19px;
-    color: $color-white;
-    @extend .nst-font-large;
-    font-weight: 700;
-  }
-  p>span {
-    line-height: 16px;
-    color: $color-white;
-    font-size: 13px;
-    font-weight: 300;
-  }
-}
-
-.side-place-invite-item-inner:hover {
-  background-color: rgba(50, 150, 255, 1)!important;
 }
 
 .side-place-name:hover {
@@ -410,43 +455,6 @@
   //color: $color-hurricane;
   font-weight: $font-wight-regular;
   width: 100%;
-}
-
-.side-place-invite-item-inner>a:first-child {
-  flex-direction: row;
-  display: inline-flex;
-  min-width: 40px;
-  padding-left: 5px;
-}
-
-.create-place {
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  color: $color-hurricane;
-  div {
-    align-items: center;
-    justify-content: center;
-    display: flex;
-    height: 100%;
-    width: 80%;
-    text-align: center;
-  }
-  svg {
-    width: 24px;
-    height: 24px;
-    fill: $color-white;
-  }
-  #addIcon use:first-child {
-    opacity: 0;
-  }
-  &:hover {
-    #addIcon use:first-child {
-      animation: svgadd 1s ease forwards;
-    }
-  }
 }
 
 
@@ -587,3 +595,41 @@ ul ul>li:last-child {
   border-color: $color-breeze;
 }
 
+.side-invites {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 16px;
+  .side-invite-item {
+    display: flex;
+    height: 36px;
+    margin-top: 8px;
+    .side-invite-item-inner {
+      display: flex;
+      width: 100%;
+      border-radius: 4px;
+      transition: background-color .2s;
+      .side-invite-item-image {
+        padding: 0 8px;
+      }
+      img {
+        width: 24px;
+        height: 24px;
+      }
+      span {
+        color: $color-bg-pending;
+        opacity: .8;
+        transition: opacity .2s;
+      }
+      &:hover {
+        background-color: rgba(50, 150, 255, .12);
+        span {
+          opacity: 1;
+        }
+      }
+      &:active {
+        background-color: rgba(50, 150, 255, .16);
+      }
+    }
+  }
+}

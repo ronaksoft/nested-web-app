@@ -26,6 +26,10 @@
 }
 
 .file-list {
+  max-width: 648px;
+  width: calc(100vw - 540px);
+  margin-left: auto;
+  margin-right: auto;
   .file-list-header {
     height: 48px;
     display: flex;
