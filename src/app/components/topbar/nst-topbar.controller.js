@@ -6,7 +6,7 @@
       .controller('TopBarController', TopBarController);
 
     /** @ngInject */
-    function TopBarController($q, $scope, $state, $stateParams, $uibModal, $rootScope,
+    function TopBarController($q, $, $scope, $state, $stateParams, $uibModal, $rootScope,
                                _, NstSvcTranslation, NstSvcAuth) {
       var vm = this;
       vm.searchPlaceholder = NstSvcTranslation.get('Search...');
@@ -15,6 +15,12 @@
       vm.profileOpen = false;
       vm.notifOpen = false;
       vm.user = NstSvcAuth.user;
+      vm.searchModalOpen = false;
+
+      vm.toggleSearchModal = function() {
+        $('html').toggleClass('_oh');
+        vm.searchModalOpen =! vm.searchModalOpen ;
+      }
       
       /**
        * @function goLabelRoute
