@@ -1,5 +1,6 @@
 (function () {
   'use strict';
+
   angular.module('ronak.nested.web.components.i18n').constant('NST_LOCALE_FA_IR', {
     "_direction": "rtl",
     "0": "۰",
@@ -117,6 +118,7 @@
     "Change phone number": "تغییر شماره تلفن همراه",
     "Check your phone and enter the code below": "کد ارسال شده به تلفن همراه را اینجا وارد کنید",
     "Choose from Places": "انتخاب از بین place‌ها",
+    "Choose your calendar": "تاریخ خود را انتخاب کنید",
     "Choose your language": "انتخاب زبان",
     "Choose your username:": "انتخاب نام کاربری",
     "Click here to load more messages": "پست‌های بیشتر...",
@@ -145,7 +147,6 @@
     "Currenct Place": "Place انتخاب شده",
     "Current Password": "رمز عبور فعلی",
     "Current Session": "همین دستگاه",
-    "DD[/]MM[/]YYYY": "jYYYY[/]jMM[/]jDD",
     "Date of Birth": "تاریخ تولد",
     "Date of birth": "تاریخ تولد",
     "Day": "روز",
@@ -226,7 +227,7 @@
     "Label removed successfully.": "برچسب باموفقیت حذف شد.",
     "Label request already exists!": "برچسب خواسته شده وجود دارد!",
     "Labels": "برچسب‌ها",
-    "Language": "زبان",
+    "Language and calendar": "تاریخ و زبان",
     "Latest Activity": "آخرین فعالیت‌",
     "Leave": "ترک کردن",
     "Leave Place": "ترک Place",
@@ -237,7 +238,6 @@
     "Loading...": "بارگیری...",
     "Log out": "خروج",
     "Logs": "لاگ‌ها",
-    "MMM DD": "jD jMMMM",
     "Male": "مرد",
     "Manage Labels": "مدیریت برچسب‌ها",
     "Manager": "مدیر",
@@ -497,7 +497,6 @@
     "Withdraw request!": "درخواست لغو شد!",
     "Working...": "درحال انجام...",
     "Write your message or drag files here…": "پست خود را بنویسید یا فایل‌های موردنظرتان را به اینجا بکشید.",
-    "YYYY-MM-DD": "jYYYY-jMM-jDD",
     "Year": "سال ",
     "Yes": "بله",
     "Yo did not shared anything yet.": "هنوز هیچ پستی را به اشتراک نگذاشته‌اید.",
@@ -544,7 +543,6 @@
     "Your settings saved.": "تنظیمات شما ذخیره شد.",
     "Your username is:": "نام کاربری شما:",
     "Your {{ctrl.post}} posts will be removed from here.": "({{ctrl.post}}) پست‌ شما از این‌جا حذف خواهد شد.",
-    "[Yesterday] HH:mm": "[دیروز] HH:mm",
     "add": "افزودن",
     "added {{act.label.title | scapeRevSpace}} label to {{act.post.subject}}.": "برچسب {{act.label.title | scapeRevSpace}} را به {{act.post.subject}} اضافه کرد.",
     "all": "همه موارد",
@@ -562,7 +560,6 @@
     "commented on:": "نظر: ",
     "created here": "اینجا را ساخت",
     "created here.": "اینجا را ساخته‌است",
-    "dddd, MMMM DD YYYY, HH:mm": "HH:mm dddd، jD jMMMM jYYYY",
     "description": "شرح",
     "documents": "اسناد",
     "dot(.) is not allowed": "(.) معتبر نیست",
