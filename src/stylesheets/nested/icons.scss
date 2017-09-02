@@ -220,30 +220,29 @@
 
 .tw-svg {
   flex: none;
-  width: 24px;
-  max-height: 40px;
+  position: relative;
+  div {
+    position: absolute;
+    top: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 1;
+    transition: opacity $animation-dur;
+  }
   svg {
-    min-width: 24px;
-    max-width: 24px;
-    min-height: 24px;
-    max-height: 24px;
-    display: block;
+    position: absolute;
+    left: 50%;
+    margin-left: -8px;
     transition: all $animation-dur ease;
     transform-origin: center center;
   }
-  svg:first-child {
-    transform: translateY(-10px);
-  }
-  svg:last-child {
-    transform: translateY(-25px);
-  }
 }
 .tw-svg.open {
-  svg:first-child {
+  div {
     opacity: 0;
   }
-  svg:last-child {
-    transform: translateY(-24px) rotateZ(180deg);
+  svg {
+    transform: rotateZ(180deg);
   }
 }
 .edit-icon {
