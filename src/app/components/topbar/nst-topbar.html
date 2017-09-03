@@ -88,7 +88,7 @@
     </section>
     <section class="from-suggests" ng-if="ctrlTopBar.suggestion.accounts.length > 0">
       <h5>
-        <translate>Posts from:</translate>
+        <translate>from:</translate>
       </h5>
       <ul>
         <li ng-repeat="account in ctrlTopBar.suggestion.accounts | limitTo: 6">
@@ -113,6 +113,20 @@
         </li>
       </ul>
     </section>
+    <section class="place-suggests">
+        <h5>
+          <translate>Posts in:</translate>
+        </h5>
+        <ul>
+          <li>
+            <div class="profile-user-avatar-32">
+              <img initial-avatar="sample" name="sample" picture="{{ctlPostCard.post.sender | avatar : 'x32'}}" data-width="32" data-height="32"
+                data-radius="30" class="account-initials-32 _df" data-word-count="2" data-font-size="16" />
+            </div>
+            <span>sample</span>
+          </li>
+        </ul>
+      </section>
   </div>
   <form class="advanced-search-popover" ng-if="ctrlTopBar.advancedSearchOpen">
     <label for="advanced-search-from">from:</label>
