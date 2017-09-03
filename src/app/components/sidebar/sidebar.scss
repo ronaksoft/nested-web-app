@@ -77,18 +77,18 @@
     background-color: rgba(50, 61, 71, .16);
   }
   &.isSelected{
-    background-color: #ffffff;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, .16);
+    background-color: rgba(50, 61, 71, .24);
+    // box-shadow: 0 1px 4px rgba(0, 0, 0, .16);
     cite {
       opacity: 1;
       font-weight: bold;
     }
     &:hover {
-      background-color: #ffffff;
-      box-shadow: 0 1px 2px rgba(0, 0, 0, .16);
+      background-color: rgba(50, 61, 71, .24);
+      // box-shadow: 0 1px 2px rgba(0, 0, 0, .16);
     }
     &:active {
-      background-color: #ffffff;
+      background-color: rgba(50, 61, 71, .24);
     }
     >* {
       opacity: 1;
@@ -141,7 +141,7 @@
       }
       b {
         color: $color-bg-pending;
-        opacity: .72;
+        opacity: 1;
       }
     }
     &:hover {
@@ -157,20 +157,19 @@
     }
     &.isSelected{
       cite {
-        background-color: #ffffff;
-        color: $color-solid;
+        background-color: rgba(50, 61, 71, .24);
         font-weight: bold;
-        box-shadow: 0 1px 4px rgba(0, 0, 0, .16);
+        // box-shadow: 0 1px 4px rgba(0, 0, 0, .16);
       }
       &:hover {
         cite { 
-          background-color: #ffffff;
-          box-shadow: 0 1px 2px rgba(0, 0, 0, .16);
+          background-color: rgba(50, 61, 71, .24);
+          // box-shadow: 0 1px 2px rgba(0, 0, 0, .16);
         }
       }
       &:active {
         cite {
-          background-color: #ffffff;
+          background-color: rgba(50, 61, 71, .24);
         }
       }
       >* {
@@ -206,11 +205,11 @@
     justify-content: center;
     display: flex;
     flex: none;
-    opacity: .72;
+    // opacity: .72;
     transition: opacity .2s;
   }
   .item-desc {
-    opacity: .8;
+    // opacity: .8;
     transition: opacity .2s;
   }
   span {
@@ -219,18 +218,16 @@
     font-weight: 400;
   }
   &.isSelected {
-    background-color: #ffffff;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, .16);
+    background-color: rgba(50, 61, 71, .24);
     span {
       font-weight: bold;
+      color: $color-solid;
     }
     &:hover {
-      background-color: #ffffff;
-      box-shadow: 0 1px 4px rgba(0, 0, 0, .16);
+      background-color: rgba(50, 61, 71, .24);
     }
     &:active {
-      background-color: #ffffff;
-      box-shadow: 0 1px 4px rgba(0, 0, 0, .16);
+      background-color: rgba(50, 61, 71, .24);
     }
     >* {
       opacity: 1;
@@ -275,14 +272,14 @@
     align-items: center;
     span {
       padding: 0 8px;
-      color: $color-solid-24;
+      color: $color-solid-40;
       font-size: 12px;
       font-weight: bold;
     }
     div {
       width: 28px;
       height: 28px;
-      opacity: .24;
+      opacity: .64;
       margin: 2px;
       border-radius: 4px;
       &:hover {
@@ -615,10 +612,11 @@ ul ul>li:last-child {
       img {
         width: 24px;
         height: 24px;
+        border-radius: 2px;
       }
       span {
         color: $color-bg-pending;
-        opacity: .8;
+        // opacity: .8;
         transition: opacity .2s;
       }
       &:hover {
