@@ -469,6 +469,10 @@
         });
       });
 
+      function isChild(parentId, place) {
+        return place && place.id && place.id.indexOf(parentId + '.') === 0;
+      }
+
       function isItemExpanded(place, expandedPlaces, selectedId) {
         // In this case the the selected Place ID is exactly the same with current place ID or
         // the current Place ID is a subset of selected Place ID. Take a look at the examples:
@@ -487,15 +491,24 @@
       }
 
       function getChildren(place, places, expandedPlaces, selectedId, depth) {
-        return _.chain(places).filter(function (child) {
-          return child && child.id && child.id.indexOf(place.id + '.') === 0;
-        }).map(function (place) {
-          var isActive = place.id === selectedId;
-          var isExpanded = isItemExpanded(place, expandedPlaces, selectedId);
-          var children = getChildren(place, places, expandedPlaces, selectedId, depth + 1);
+        return _.chain(places).sortBy(['id']).reduce(function (stack, item) {
+          if (!isChild(place.id, item)) {
+            return stack;
+          }
 
-          return createTreeItem(place, children, isExpanded, isExpanded, depth);
-        }).sortBy(['name']).value();
+          var previous = _.last(stack);
+          if (previous && isChild(previous.id, item)) {
+            return stack;
+          }
+
+          var isActive = item.id === selectedId;
+          var isExpanded = isItemExpanded(item, expandedPlaces, selectedId);
+          var children = getChildren(item, places, expandedPlaces, selectedId, depth + 1);
+
+          stack.push(createTreeItem(item, children, isExpanded, isActive, depth));
+
+          return stack;
+        }, []).sortBy(['name']).value();
       }
 
       function createTree(places, orders, expandedPlaces, selectedId) {
@@ -514,8 +527,6 @@
 
       function createTreeItem(place, children, isExpanded, isActive, depth) {
         var picture = place.hasPicture() ? place.picture.getUrl('x32') : null;
-        var canCreateClosedPlace = place.privacy.locked && place.canAddSubPlace();
-        var canCreateOpenPlace = !place.privacy.locked && place.canAddSubPlace();
         return {
           id: place.id,
           name: place.name,
@@ -527,8 +538,6 @@
           isExpanded: isExpanded,
           isActive: isActive,
           depth: depth,
-          canCreateOpenPlace: canCreateOpenPlace,
-          canCreateClosedPlace: canCreateClosedPlace,
         };
       }
 
@@ -543,9 +552,6 @@
       }
 
       function hasUnseen(place, myPlacesUnreadPosts) {
-        console.log('====================================');
-        console.log('hasUnseen', place);
-        console.log('====================================');
         return place.unreadPosts > 0 || myPlacesUnreadPosts[place.id] > 0;
       }
 
