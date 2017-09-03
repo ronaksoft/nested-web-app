@@ -10,6 +10,9 @@
   align-items: center;
   z-index: 300;
   justify-content: center;
+  &.search-modal-is-open {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .24);
+  }
   .search {
     max-width: $navbar-max-width;
     min-width: $navbar-min-width;
@@ -89,7 +92,6 @@
   right: 0;
   bottom: 0;
   top: 48px;
-  background-color: rgba(35, 38, 41, .88);
   .search-popover {
     position: absolute;
     left: 50vw;
@@ -100,6 +102,19 @@
     transform: translateX(-50%);
     background-color: #FFFFFF;
     border-radius: 0 0 4px 4px;
+    .search-query {
+      padding: 0 16px;
+      height: 40px;
+      a span{
+        color: $color-solid;
+        font-size: 14px;
+        
+      }
+      span {
+        color: $color-gale;
+        font-size: 13px;
+      }
+    }
     section {
       max-height: 30vh;
       padding: 0 8px;
@@ -167,6 +182,7 @@
         svg {
           margin-right: 12px;
           flex: none;
+          opacity: .64;
         }
         span {
           line-height: 39px;
@@ -178,5 +194,13 @@
         }
       }
     }
+  }
+  .backdrop {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background-color: rgba(35, 38, 41, .88);
   }
 }

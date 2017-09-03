@@ -17,7 +17,12 @@
       vm.user = NstSvcAuth.user;
       vm.searchModalOpen = false;
 
-      vm.toggleSearchModal = function() {
+      vm.toggleSearchModal = function(force) {
+        if ( force ) {
+          $('html').addClass('_oh');
+          vm.searchModalOpen = true ;
+          return;
+        }
         $('html').toggleClass('_oh');
         vm.searchModalOpen =! vm.searchModalOpen ;
       }
@@ -45,6 +50,7 @@
        * @param {boolean} isChips
        */
       function searchKeyPressed($event, text, isChips) {
+        vm.toggleSearchModal(true);
         if (vm.searchOnKeypress) {
           if (isChips) {
             if (text === undefined) {

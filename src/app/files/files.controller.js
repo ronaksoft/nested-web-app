@@ -15,29 +15,6 @@
     .module('ronak.nested.web.components')
     .controller('FilesController', FilesController);
 
-  /** @ngInject */
-  /**
-   * Gives a list of files associated with a Place. The user is allowed to download
-   * and share the files with other posts.
-   *
-   * @param {any} $stateParams
-   * @param {any} toastr
-   * @param {any} $uibModal
-   * @param {any} $state
-   * @param {any} $timeout
-   * @param {any} $q
-   * @param {any} $scope
-   * @param {any} NST_PLACE_ACCESS
-   * @param {any} NstSvcFileFactory
-   * @param {any} NstSvcPlaceAccess
-   * @param {any} NstSvcModal
-   * @param {any} NstSvcTranslation
-   * @param {any} NstSvcAuth
-   * @param {any} NstSvcWait
-   * @param {any} NstSvcInteractionTracker
-   * @param {any} NstAttachment
-   * @param {any} NST_DEFAULT
-   */
   function FilesController($stateParams, toastr, $uibModal, $state, $timeout, $q, $scope,
                            NST_PLACE_ACCESS,
                            NstSvcFileFactory, NstSvcPlaceAccess, NstSvcModal,
@@ -95,6 +72,8 @@
     vm.onSelect = onSelect;
     vm.compose = composeWithAttachments;
     vm.isSubPersonal = isSubPersonal;
+    vm.selectFile = selectFile;
+    vm.unselectAll = unselectAll;
 
     vm.selectedFiles = [];
     vm.files = [];
@@ -312,6 +291,19 @@
         var sizes = _.map(vm.selectedFiles, 'size');
         vm.totalSelectedFileSize = _.sum(sizes);
       });
+    }
+
+    function selectFile(item){
+      onSelect([item.id]);
+      item.isSelected =! item.isSelected;
+    }
+
+    function unselectAll() {
+      vm.selectedFiles.forEach(function (file) {
+        file.isSelected = false;
+        console.log(file);
+      });
+      vm.selectedFiles = [];
     }
 
     /**
