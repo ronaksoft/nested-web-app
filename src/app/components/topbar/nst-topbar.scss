@@ -41,6 +41,15 @@
         border-radius: 4px;
         box-shadow: none;
       }
+      span {
+        position: absolute;
+        right: 4px;
+        top: 4px;
+        opacity: .24;
+        &.open {
+          opacity: 1;
+        }
+      }
     }
     input:-ms-input-placeholder {
       color: rgba(255,255,255,.4);
@@ -92,16 +101,18 @@
   right: 0;
   bottom: 0;
   top: 48px;
-  .search-popover {
+  .search-popover ,
+  .advanced-search-popover {
     position: absolute;
     left: 50vw;
-    top: 0;
     padding-top: 8px;
     width: 100%;
     max-width: 480px;
     transform: translateX(-50%);
     background-color: #FFFFFF;
     border-radius: 0 0 4px 4px;
+  }
+  .search-popover {
     .search-query {
       padding: 0 16px;
       height: 40px;
@@ -193,6 +204,50 @@
           color: rgba(50, 61, 71, .8);
         }
       }
+    }
+  }
+  .advanced-search-popover {
+    padding-left: 16px;
+    padding-right: 16px;
+    label {
+      color: $color-solid;
+      font-size: 13px;
+      font-weight: bold;
+      opacity: .8;
+      margin-top: 8px;
+      margin-bottom: 6px;
+    }
+    .checkbox-label {
+      margin-top: 20px;
+      margin-bottom: 20px;
+      font-size: 13px;
+      font-weight: bold;
+      line-height: 16px;
+    }
+    select {
+      height: 32px;
+      width: 120px;
+      margin-bottom: 4px;
+    }
+    .seperator-text {
+      margin: 0 16px;
+    }
+    .advanced-search-text-input {
+      height: 32px;
+      width: 100%;
+      display: flex;
+      border: 1px solid $color-solid-24;
+      border-radius: 4px;
+      margin-bottom: 4px;
+      &:focus {
+        border-color: $color-solid;
+        border-width: 2px;
+      }
+    }
+    .butn-green {
+      margin-top: 20px;
+      margin-bottom: 16px;
+      height: 40px;
     }
   }
   .backdrop {

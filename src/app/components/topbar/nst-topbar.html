@@ -1,4 +1,4 @@
-<div class="top-bar ng-class:{'search-modal-is-open' : ctrlTopBar.searchModalOpen}">
+<div class="top-bar ng-class:{'search-modal-is-open' : ctrlTopBar.searchModalOpen || ctrlTopBar.advancedSearchOpen}">
   <div class="logo">
     <a ui-sref="app.messages-favorites()" class="_df">
       <div data-uib-tooltip-template="'nested-uib-tooltip.html'" class="_df" data-tooltip-placement="bottom auto" data-tooltip-append-to-body="true">
@@ -18,18 +18,23 @@
   </div>
   <div class="search">
     <div class="inner">
-      <i ng-if="!ctrlTopBar.searchModalOpen">
-          <svg class="_24svg fill-white">
-            <use xlink:href="/assets/icons/nst-icn24.svg#search"></use>
-          </svg>
+      <i ng-if="!ctrlTopBar.searchModalOpen && !ctrlTopBar.advancedSearchOpen">
+        <svg class="_24svg fill-white">
+          <use xlink:href="/assets/icons/nst-icn24.svg#search"></use>
+        </svg>
       </i>
-      <i ng-if="ctrlTopBar.searchModalOpen" ng-click="ctrlTopBar.toggleSearchModal()">
-          <svg class="_24svg fill-white">
-            <use xlink:href="/assets/icons/nst-icn24.svg#xcross"></use>
-          </svg>
+      <i ng-if="ctrlTopBar.searchModalOpen || ctrlTopBar.advancedSearchOpen" ng-click="ctrlTopBar.toggleSearchModal()">
+        <svg class="_24svg fill-white">
+          <use xlink:href="/assets/icons/nst-icn24.svg#xcross"></use>
+        </svg>
       </i>
       <input nst-mention mention-new-method mention-enable-label placeholder="{{ctrlTopBar.searchPlaceholder}}" ng-model="ctrlTopBar.chipQuery"
         translate-attrs="placeholder" ng-keyup="ctrlTopBar.searchKeyPressed($event, ctrlTopBar.chipQuery, true)" ng-focus="ctrlTopBar.toggleSearchModal(true)">
+      <span ng-if="ctrlTopBar.searchModalOpen || ctrlTopBar.advancedSearchOpen" ng-class="{'open' : ctrlTopBar.advancedSearchOpen}" ng-click="ctrlTopBar.toggleAdvancedSearch()">
+        <svg class="_24svg fill-white">
+          <use xlink:href="/assets/icons/nst-icn24.svg#preferences"></use>
+        </svg>
+      </span>
     </div>
   </div>
   <div class="account">
@@ -59,13 +64,15 @@
 </div>
 <!-- search Modal
  ======================-->
-<div class="search-modal" ng-if="ctrlTopBar.searchModalOpen">
+<div class="search-modal" ng-if="ctrlTopBar.searchModalOpen || ctrlTopBar.advancedSearchOpen">
   <!-- Backdrop
   ====================== -->
-  <div class="backdrop" ng-if="ctrlTopBar.searchModalOpen" ng-click="ctrlTopBar.toggleSearchModal()"></div>  
-  <div class="search-popover">
+  <div class="backdrop" ng-if="ctrlTopBar.searchModalOpen || ctrlTopBar.advancedSearchOpen" ng-click="ctrlTopBar.toggleSearchModal()"></div>
+  <div class="search-popover" ng-if="ctrlTopBar.searchModalOpen">
     <div class="_difh _fw search-query _aic" ng-if="ctrlTopBar.chipQuery.length > 0">
-      <a class="_df _fw"><translate>Search for <b>“{{ctrlTopBar.chipQuery}}”</b></translate></a>
+      <a class="_df _fw">
+        <translate>Search for <b>“{{ctrlTopBar.chipQuery}}”</b></translate>
+      </a>
       <translate>enter</translate>
     </div>
     <section class="recent-search">
@@ -113,6 +120,30 @@
       </ul>
     </section>
   </div>
+  <form class="advanced-search-popover" ng-if="ctrlTopBar.advancedSearchOpen">
+    <label for="advanced-search-from">from:</label>
+    <input id="advanced-search-from" class="advanced-search-text-input" type="text">
+    <label for="advanced-search-in">in:</label>
+    <input id="advanced-search-in" class="advanced-search-text-input" type="text">
+    <label for="advanced-search-subject">subject:</label>
+    <input id="advanced-search-subject" class="advanced-search-text-input" type="text">
+    <label for="advanced-search-label">label:</label>
+    <input id="advanced-search-label" class="advanced-search-text-input" type="text">
+
+    <input class="_fr" type="checkbox" id="attachment" name="attachment" ng-checked="ctrlTopBar.hasAttachment"/>
+    <label class="_fw setting checkbox-label _asc" for="attachment"><translate>Has attachment</translate></label>
+    
+    <label>Date within</label>
+    <div class="_difh _aic _fw">
+      <select class="_df">
+        <option>1 week</option>
+      </select>
+      <span class="_fn _df seperator-text">of</span>
+      <input class="advanced-search-text-input" type="text">
+    </div>
+    
+    <input class="butn-green _fw" type="submit">
+  </form>
 </div>
 
 <script type="text/ng-template" id="mention-uib-tooltip.html">

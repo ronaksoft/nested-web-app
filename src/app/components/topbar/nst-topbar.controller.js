@@ -16,15 +16,29 @@
       vm.notifOpen = false;
       vm.user = NstSvcAuth.user;
       vm.searchModalOpen = false;
+      vm.advancedSearchOpen = false;
 
       vm.toggleSearchModal = function(force) {
         if ( force ) {
           $('html').addClass('_oh');
           vm.searchModalOpen = true ;
+          vm.advancedSearchOpen = false;
           return;
         }
         $('html').toggleClass('_oh');
         vm.searchModalOpen =! vm.searchModalOpen ;
+        vm.advancedSearchOpen = false;
+      }
+      vm.toggleAdvancedSearch = function(force) {
+        if ( force ) {
+          vm.advancedSearchOpen = true ;
+          return;
+        }
+        vm.searchModalOpen = false ;
+        vm.advancedSearchOpen =! vm.advancedSearchOpen ;
+        if (!vm.advancedSearchOpen) {
+          vm.searchModalOpen = true ;
+        }
       }
       
       /**
