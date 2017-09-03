@@ -1,4 +1,4 @@
-<div class="nst-content _tr content-wrapper" ng-init="showFilters = true;">
+<div class="nst-content _tr content-wrapper" ng-init="showFilters = false;">
   <scroll-change-handler reached-bottom="ctlFiles.loadMore"></scroll-change-handler>
   <section class="_fw content">
     <nst-navbar class="places-navbar" data-ng-model="navbar" place-id="{{ctlFiles.currentPlace.id}}" show-place-id="ctlFiles.showPlaceId"
@@ -7,7 +7,18 @@
       ready-to-anime="true"></nst-navbar>
     <div class="filter-bar">
       <div class="filter-bar-inner" affixer-filter top="96">
-        <div class="toolbar ng-class:{'selcted-mode' : ctlFiles.selectedFiles.length > 0}" ng-mouseleave="showFilters = false;">
+        <div class="toolbar ng-class:{'selcted-mode' : ctlFiles.selectedFiles.length > 0,'unread-mode' : ctlFiles.selectedFileType.label !== 'all'}"
+          ng-mouseleave="showFilters = false;">
+          <div class="search-files" ng-show="ctlFiles.selectedFiles.length == 0">
+            <input type="text" placeholder="Search in files" ng-model="ctlFiles.keyword" ng-change="ctlFiles.search(ctlFiles.keyword);"
+              translate-attrs="placeholder" focus-me="{{ctlFiles.searchTrigg}}" />
+            <svg class="_16svg" ng-click="ctlFiles.searchFunc()" ng-show="ctlFiles.keyword.length === 0">
+              <use xlink:href="/assets/icons/nst-icn16.svg#search"></use>
+            </svg>
+            <svg class="_16svg" ng-click="ctlFiles.keyword = ''" ng-show="ctlFiles.keyword.length > 0">
+              <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
+            </svg>
+          </div>
           <svg class="default-mode-butn _16svg _df _fn" ng-if="ctlFiles.selectedFiles.length > 0" ng-click="ctlFiles.unselectAll();">
             <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
           </svg>
@@ -27,7 +38,7 @@
           <div ng-if="ctlFiles.selectedFiles.length === 0" ng-mouseenter="showFilters = true" data-popover-class="white-pop messages-sort-popover"
             uib-popover-template="'app/files/files-sort-popover.html'" data-popover-placement="bottom-center" data-popover-is-open="showFilters"
             id="test-filter-sort" class="filter-bar-popover-button _fn">
-            <span class="_df">{{::ctlFiles.selectedFileType.label}}</span>
+            <span class="_df">{{ctlFiles.selectedFileType.label}}</span>
             <svg class="icon-filter _df">
               <use xlink:href="/assets/icons/nst-icn16.svg#sort"></use>
             </svg>
@@ -37,31 +48,10 @@
     </div>
 
     <div class="file-list _bgwhite">
-      <div class="file-list-header">
-        <div class="files-srch _df {{ctlFiles.keyword.length > 0 ? 'srch' : ''}}" ng-if="ctlFiles.selectedFiles.length  == 0">
-          <svg class="_16svg" ng-click="ctlFiles.searchFunc()">
-            <use xlink:href="/assets/icons/nst-icn16.svg#search"></use>
-            <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
-          </svg>
-        </div>
-        <div class="header-name" ng-show="ctlFiles.selectedFiles.length == 0">
-          <input type="text" placeholder="File name" ng-model="ctlFiles.keyword" ng-change="ctlFiles.search(ctlFiles.keyword);" translate-attrs="placeholder"
-            focus-me="{{ctlFiles.searchTrigg}}" />
-        </div>
-        <div class="header-name" ng-show="ctlFiles.selectedFiles.length > 0"></div>
-        <div ng-show="ctlFiles.selectedFiles.length > 0" id="header-send-to">
-          <span class="_dib">
-            <svg>
-              <use xlink:href="/assets/icons/nst-icn20.svg#forward"></use>
-            </svg>
-          </span>
-
-        </div>
-      </div>
       <ul class="files-types" ng-if="ctlFiles.files.length > 0">
         <li class="ng-class:{'checked' : item.isSelected}" fid="{{::item.id}}" data-ng-repeat="item in ctlFiles.files" ng-click="ctlFiles.preview(item);"
           ng-init="item.isSelected = false;">
-          <div class="checkbox" ng-click="ctlFiles.selectFile(item);$event.preventDefault();$event.stopPropagation();">
+          <div class="checkbox" ng-click="ctlFiles.toggleSelect(item);$event.preventDefault();$event.stopPropagation();">
             <svg class="_16svg _asc">
               <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
             </svg>

@@ -24,6 +24,47 @@
     color: #869D91;
   }
 }
+.toolbar .search-files {
+  display: flex;
+  position: relative;
+  height: 32px;
+  input {
+    background-color: transparent;
+    height: 32px;
+    border: 1px solid $color-breeze-new;
+    border-radius: 6px;
+    font-size: 12px;
+    color: $color-solid;
+    width: 200px;
+    padding-left: 30px;
+    transition: width $animation-dur,background-color $animation-dur;
+  }
+  input + svg {
+    opacity: .4;
+    transition: opacity $animation-dur;
+  }
+  input::-webkit-input-placeholder {
+    color: $color-solid-64;
+  }
+  input::-moz-placeholder {
+    color: $color-solid-64;
+  }
+  input:hover ,
+  input:focus {
+    width: 320px;
+    background-color: $color-white;
+  }
+  input:hover + svg,
+  input:focus + svg{
+    opacity: .24;
+  }
+  svg {
+    left: 8px;
+    top: 8px;
+    position: absolute;
+    fill: $color-solid!important;
+  }
+}
 
 .file-list {
   max-width: 648px;
@@ -194,7 +235,9 @@
     }
     .attachment-tiny-thumb {
       width: 48px;
+      flex: none;
       margin-right: 16px;
+      margin-left: 0;
       box-shadow: 0 1px 2px rgba(40, 40, 40, .32);
       display: block;
       line-height: 24px;

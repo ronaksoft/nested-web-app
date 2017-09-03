@@ -72,7 +72,8 @@
     vm.onSelect = onSelect;
     vm.compose = composeWithAttachments;
     vm.isSubPersonal = isSubPersonal;
-    vm.selectFile = selectFile;
+    vm.toggleSelect = toggleSelect;
+    vm.unselectFile = unselectFile;
     vm.unselectAll = unselectAll;
 
     vm.selectedFiles = [];
@@ -293,17 +294,26 @@
       });
     }
 
-    function selectFile(item){
+    function toggleSelect(item){
+      if ( item.isSelected ) {
+        unselectFile(item)
+      } else {
+      item.isSelected =! item.isSelected;
       onSelect([item.id]);
+      }
+    }
+
+    function unselectFile(item){
+      _.remove(vm.selectedFiles, function(file) {
+        return item.id === file.id
+      });
       item.isSelected =! item.isSelected;
     }
 
     function unselectAll() {
       vm.selectedFiles.forEach(function (file) {
-        file.isSelected = false;
-        console.log(file);
+        unselectFile(file);
       });
-      vm.selectedFiles = [];
     }
 
     /**
