@@ -25,6 +25,12 @@
         labels: []
       };
 
+      (function () {
+        NstSvcSuggestionFactory.searchSuggestion('').then(function (result) {
+          vm.suggestion = result;
+        });
+      })();
+
       vm.toggleSearchModal = function(force) {
         if ( force ) {
           $('html').addClass('_oh');
@@ -35,7 +41,7 @@
         $('html').toggleClass('_oh');
         vm.searchModalOpen =! vm.searchModalOpen ;
         vm.advancedSearchOpen = false;
-      }
+      };
 
       vm.toggleAdvancedSearch = function(force) {
         if ( force ) {
