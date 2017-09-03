@@ -75,47 +75,41 @@
       </a>
       <translate>enter</translate>
     </div>
-    <section class="recent-search">
+    <section class="recent-search" ng-if="ctrlTopBar.suggestion.histories.length > 0">
       <h5>
-        <translate>Recent searchs</translate>
+        <translate>Recent searches</translate>
       </h5>
       <ul>
-        <li>
-          <a>Creative brief</a>
+        <li ng-repeat="history in ctrlTopBar.suggestion.histories">
+          <a>{{history}}</a>
           <span>remove</span>
         </li>
       </ul>
     </section>
-    <section class="from-suggests">
+    <section class="from-suggests" ng-if="ctrlTopBar.suggestion.posts.length > 0">
       <h5>
         <translate>Posts from:</translate>
       </h5>
       <ul>
-        <li>
+        <li ng-repeat="account in ctrlTopBar.suggestion.accounts">
           <div class="profile-user-avatar-32">
-            <img initial-avatar="sample" name="sample" picture="{{ctlPostCard.post.sender | avatar : 'x32'}}" data-width="32" data-height="32"
+            <img initial-avatar="sample" name="sample" picture="{{account | avatar : 'x32'}}" data-width="32" data-height="32"
               data-radius="30" class="account-initials-32 _df" data-word-count="2" data-font-size="16" />
           </div>
-          <span>sample</span>
+          <span>{{account.fullName}}</span>
         </li>
       </ul>
     </section>
-    <section class="label-suggests">
+    <section class="label-suggests" ng-if="ctrlTopBar.suggestion.labels.length > 0">
       <h5>
         <translate>Has Label:</translate>
       </h5>
       <ul>
-        <li>
-          <svg class="_24svg _df _fn color-lbl-A">
+        <li ng-repeat="label in ctrlTopBar.suggestion.labels">
+          <svg class="_24svg _df _fn color-lbl-{{label.code}}">
             <use xlink:href="/assets/icons/nst-icn24.svg#tag"></use>
           </svg>
-          <span>Clients</span>
-        </li>
-        <li>
-          <svg class="_24svg _df _fn color-lbl-A">
-            <use xlink:href="/assets/icons/nst-icn24.svg#tag"></use>
-          </svg>
-          <span>Clients</span>
+          <span>{{label.title}}</span>
         </li>
       </ul>
     </section>
@@ -132,7 +126,7 @@
 
     <input class="_fr" type="checkbox" id="attachment" name="attachment" ng-checked="ctrlTopBar.hasAttachment"/>
     <label class="_fw setting checkbox-label _asc" for="attachment"><translate>Has attachment</translate></label>
-    
+
     <label>Date within</label>
     <div class="_difh _aic _fw">
       <select class="_df">
@@ -141,7 +135,7 @@
       <span class="_fn _df seperator-text">of</span>
       <input class="advanced-search-text-input" type="text">
     </div>
-    
+
     <input class="butn-green _fw" type="submit">
   </form>
 </div>

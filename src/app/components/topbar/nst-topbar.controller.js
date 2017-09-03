@@ -6,8 +6,8 @@
       .controller('TopBarController', TopBarController);
 
     /** @ngInject */
-    function TopBarController($q, $, $scope, $state, $stateParams, $uibModal, $rootScope,
-                               _, NstSvcTranslation, NstSvcAuth) {
+    function TopBarController($q, $, $scope, $state, $stateParams, $uibModal, $rootScope, NST_SEARCH_QUERY_PREFIX,
+                               _, NstSvcTranslation, NstSvcAuth, NstSvcSuggestionFactory) {
       var vm = this;
       vm.searchPlaceholder = NstSvcTranslation.get('Search...');
       vm.searchKeyPressed = searchKeyPressed;
@@ -17,6 +17,13 @@
       vm.user = NstSvcAuth.user;
       vm.searchModalOpen = false;
       vm.advancedSearchOpen = false;
+      vm.debouncedSugesstion = _.debounce(getLastItem, 500);
+      vm.suggestion = {
+        histories: [],
+        places: [],
+        accounts: [],
+        labels: []
+      };
 
       vm.toggleSearchModal = function(force) {
         if ( force ) {
@@ -29,6 +36,7 @@
         vm.searchModalOpen =! vm.searchModalOpen ;
         vm.advancedSearchOpen = false;
       }
+
       vm.toggleAdvancedSearch = function(force) {
         if ( force ) {
           vm.advancedSearchOpen = true ;
@@ -40,7 +48,7 @@
           vm.searchModalOpen = true ;
         }
       }
-      
+
       /**
        * @function goLabelRoute
        * Opens the label manager modal
@@ -65,21 +73,69 @@
        */
       function searchKeyPressed($event, text, isChips) {
         vm.toggleSearchModal(true);
-        if (vm.searchOnKeypress) {
-          if (isChips) {
-            if (text === undefined) {
-              text = '';
+        vm.debouncedSugesstion(text);
+
+      //   if (vm.searchOnKeypress) {
+      //     if (isChips) {
+      //       if (text === undefined) {
+      //         text = '';
+      //       }
+      //       if (text === '' && vm.lastChipText === '' && $event.keyCode === 8) {
+      //         vm.removeLastChip(vm.query);
+      //         return;
+      //       }
+      //       vm.searchOnKeypress($event, vm.query + ' ' + text);
+      //       vm.lastChipText = text;
+      //     } else {
+      //       vm.searchOnKeypress($event, text);
+      //     }
+      //   }
+      }
+
+
+      function getLastItem(query) {
+        var queryRegEx = /(\S([^[:|\s]+):\"([^"]+)")|(\"([^"]+)")|(\S+)/g;
+
+        var placePrefix = NST_SEARCH_QUERY_PREFIX.NEW_PLACE;
+        var userPrefix = NST_SEARCH_QUERY_PREFIX.NEW_USER;
+        var labelPrefix = NST_SEARCH_QUERY_PREFIX.NEW_LABEL;
+
+        var word = query;
+        var type = 'other';
+        var lastWord;
+        var match;
+        do {
+          match = queryRegEx.exec(query);
+          if (match) {
+            if (_.startsWith(match[0], placePrefix)) {
+              word = _.replace(match[0], placePrefix, '');
+              type = 'place';
+            } else if (_.startsWith(match[0], userPrefix)) {
+              word = _.replace(match[0], userPrefix, '');
+              type = 'user';
+            } else if (_.startsWith(match[0], labelPrefix)) {
+              word = _.replace(match[0], labelPrefix, '');
+              type = 'label';
+            } else {
+              lastWord = match[0];
             }
-            if (text === '' && vm.lastChipText === '' && $event.keyCode === 8) {
-              vm.removeLastChip(vm.query);
-              return;
-            }
-            vm.searchOnKeypress($event, vm.query + ' ' + text);
-            vm.lastChipText = text;
-          } else {
-            vm.searchOnKeypress($event, text);
           }
+        } while (match);
+
+        if (word.length < 1) {
+          word = lastWord;
+          type = 'other';
         }
+
+        NstSvcSuggestionFactory.searchSuggestion(word).then(function (result) {
+          // console.log(result);
+          vm.suggestion = result;
+        });
+
+        return {
+          word: word,
+          type: type
+        };
       }
     }
   })();

@@ -391,14 +391,14 @@
     function searchRecipients(query) {
       NstSvcLogger.debug4('Compose | Search recipients with query : ', query);
 
-      var initPlace = new NstVmSelectTag({
-        id: query,
-        name: query
-      });
-
-      if (initPlace.isValid) {
-        vm.search.results.push(initPlace);
-      }
+      // var initPlace = new NstVmSelectTag({
+      //   id: query,
+      //   name: query
+      // });
+      //
+      // if (initPlace.isValid) {
+      //   vm.search.results.push(initPlace);
+      // }
 
 
       return NstSvcPlaceFactory.searchForCompose(query).then(function (results) {
@@ -425,7 +425,6 @@
             vm.search.results.push(initPlace);
           }
         }
-
 
       }).catch(function () {
         vm.search.results = [];
