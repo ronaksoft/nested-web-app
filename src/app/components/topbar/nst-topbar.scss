@@ -230,7 +230,8 @@
           margin: 0;
         }
         &.selected {
-          background-color: rgba(0, 0, 0, 0.2);
+          background-color: $color-breeze-new;
+          border-radius: 4px;
         }
       }
     }
@@ -241,7 +242,8 @@
         align-items: center;
         width: 100%;
         &.selected {
-          background-color: rgba(0, 0, 0, 0.2);
+          background-color: $color-breeze-new;
+          border-radius: 4px;
         }
       }
       img {
@@ -273,7 +275,6 @@
         svg {
           margin-right: 12px;
           flex: none;
-          opacity: .64;
         }
         span {
           line-height: 39px;
@@ -284,7 +285,8 @@
           color: rgba(50, 61, 71, .8);
         }
         &.selected {
-          background-color: rgba(0, 0, 0, 0.2);
+          background-color: $color-breeze-new;
+          border-radius: 4px;
         }
       }
     }
