@@ -8,7 +8,7 @@
     /** @ngInject */
     function SidebarController($q, $scope, $state, $stateParams, $uibModal, $rootScope,
                                _,
-                               NST_DEFAULT, NST_AUTH_EVENT, NST_INVITATION_EVENT, NST_CONFIG,NST_KEY, deviceDetector,
+                               NST_DEFAULT, NST_AUTH_EVENT, NST_INVITATION_EVENT, NST_CONFIG, NST_KEY, deviceDetector, NST_PLACE_ACCESS,
                                NST_EVENT_ACTION, NST_USER_EVENT, NST_NOTIFICATION_EVENT, NST_SRV_EVENT, NST_NOTIFICATION_TYPE, NST_PLACE_EVENT, NST_POST_EVENT,
                                NstSvcAuth, NstSvcServer, NstSvcLogger, NstSvcNotification, NstSvcTranslation,
                                 NstSvcPlaceFactory, NstSvcInvitationFactory, NstUtility, NstSvcUserFactory, NstSvcSidebar, NstSvcNotificationFactory,
@@ -28,12 +28,14 @@
       vm.invitation = {};
       vm.places = [];
       vm.onPlaceClick = onPlaceClick;
-      vm.canAddGrandPlace = null;
       vm.mentionOpen = vm.profileOpen = false;
       vm.openCreatePlaceModal = openCreatePlaceModal;
       vm.openCreateSubplaceModal = openCreateSubplaceModal;
       vm.hasDraft = false;
       vm.myPlacesUnreadPosts = {};
+      vm.canCreateClosedPlace = false;
+      vm.canCreateOpenPlace = false;
+      vm.canCreateGrandPlace = false;
 
       initialize();
 
@@ -46,12 +48,12 @@
           myPlaceOrders = results[0];
           vm.places = createTree(results[1], myPlaceOrders, [], vm.selectedPlaceId);
           
-          console.log(vm.places);
           loadMyPlacesUnreadPostsCount();
         });
 
         loadCurrentUser();
         loadInvitations();
+        setCreatePlaceAccesses();
 
         vm.hasDraft = NstSvcPostDraft.has();
         vm.admin_area = NST_CONFIG.ADMIN_DOMAIN + (NST_CONFIG.ADMIN_PORT ? ':' + NST_CONFIG.ADMIN_PORT : '');
@@ -80,10 +82,33 @@
       }
 
       function loadCurrentUser() {
-        NstSvcUserFactory.getCurrent().then(function (user) {
-          vm.user = user;
-          vm.notificationsCount = user.unreadNotificationsCount;
-          vm.canAddGrandPlace = user.limits.grand_places > 0;
+        vm.canCreateGrandPlace = false;
+        vm.canCreateOpenPlace = false;
+        vm.canCreateClosedPlace = false;
+
+        vm.selectedPlaceId = $stateParams.placeId;
+
+        $q.all([
+          NstSvcPlaceFactory.get(vm.selectedPlaceId, true),
+          NstSvcUserFactory.getCurrent(),
+        ]).then(function (results) {
+          if (_.size(results) === 2 && _.every(results)) {
+            var hasAddPlaceAccess = results[0].hasAccess(NST_PLACE_ACCESS.ADD_PLACE);
+            var canAddMore = results[0].canAddSubPlace();
+
+            vm.canCreateClosedPlace = hasAddPlaceAccess
+              && results[0].privacy.locked
+              && canAddMore;
+            vm.canCreateOpenPlace = hasAddPlaceAccess
+              && results[0].privacy.locked
+              && canAddMore
+              && NstUtility.place.isGrand(results[0].id);
+
+            vm.canCreateGrandPlace = results[1].limits.grand_places > 0;
+
+            vm.user = results[1];
+            vm.notificationsCount = results[1].unreadNotificationsCount;
+          }
         });
       }
 
@@ -266,9 +291,40 @@
        *****    Change urls   ****
        *****************************/
 
-      $scope.$on('$stateChangeSuccess', function (event, toState) {
+      $rootScope.$on('$stateChangeSuccess', function () {
         vm.selectedPlaceId = $stateParams.placeId;
+        loadCurrentUser();
       });
+
+      function setCreatePlaceAccesses() {
+        vm.canCreateGrandPlace = false;
+        vm.canCreateOpenPlace = false;
+        vm.canCreateClosedPlace = false;
+
+        $q.all([
+          NstSvcPlaceFactory.get(vm.selectedPlaceId, true),
+          NstSvcUserFactory.getCurrent(),
+        ]).then(function(results) {
+          if (_.size(results) === 2 && _.every(results)) {
+            var selectedPlace = results[0];
+            var currentUser = results[1];
+
+            var hasAddPlaceAccess = selectedPlace.hasAccess(NST_PLACE_ACCESS.ADD_PLACE);
+            var canAddMore = selectedPlace.canAddSubPlace();
+
+            vm.canCreateClosedPlace = hasAddPlaceAccess 
+              && selectedPlace.privacy.locked 
+              && canAddMore;
+            vm.canCreateOpenPlace = hasAddPlaceAccess 
+              && selectedPlace.privacy.locked
+              && canAddMore 
+              && NstUtility.place.isGrand(selectedPlace.id)
+              && selectedPlace.id !== currentUser.id;
+
+            vm.canCreateGrandPlace = currentUser.limits.grand_places > 0;
+          }
+        });
+      }
 
 
       /*****************************

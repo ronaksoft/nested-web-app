@@ -44,7 +44,6 @@
     };
 
     checkToBeAuthenticated($state.current, $stateParams);
-    toggleSidebar($state.current, $state.params);
 
     $interval(function () {
       NstSvcLogger.debug('AppController calls $digest to update passed times every 1 min.');
@@ -86,10 +85,6 @@
       NstSvcNotificationFactory.markAsSeen(data.notificationId)
     }));
 
-    eventReferences.push($rootScope.$on('$stateChangeSuccess', function (event, toState, toParams) {
-      toggleSidebar(toState, toParams);
-    }));
-
     eventReferences.push($scope.$on('show-loading', function () {
       vm.showLoadingScreen = true;
     }));
@@ -126,18 +121,6 @@
       checkToBeAuthenticated(toState, toParams, event);
       scrollTopBody();
     }));
-
-    function toggleSidebar(state, params) {
-      if (state.options && state.options && state.options.fullscreen) {
-        vm.viewSettings.sidebar.hidden = true;
-      } else if (params && params.placeId) {
-        vm.viewSettings.sidebar.hidden = false;
-        vm.viewSettings.sidebar.collapsed = false;
-      } else {
-        vm.viewSettings.sidebar.hidden = false;
-        vm.viewSettings.sidebar.collapsed = true;
-      }
-    }
 
     function checkToBeAuthenticated(state, stateParams, event) {
       if (!NstSvcAuth.isInAuthorization() && _.startsWith(state.name, "app.")) {
