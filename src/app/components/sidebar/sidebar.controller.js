@@ -17,6 +17,7 @@
       var vm = this;
       var eventReferences = [];
       var myPlaceOrders = {};
+      var ABSENT_PLACE_PICTURE_URL = '/assets/icons/absents_place.svg';
 
       /*****************************
        *** Controller Properties ***
@@ -484,10 +485,25 @@
         });
       });
 
+      /**
+       * Returns true if the given Place is a child of the provided parent Place ID
+       * 
+       * @param {any} parentId 
+       * @param {any} place 
+       * @returns 
+       */
       function isChild(parentId, place) {
         return place && place.id && place.id.indexOf(parentId + '.') === 0;
       }
 
+      /**
+       * Returns true if the item should be expanded in Places tree
+       * 
+       * @param {any} place 
+       * @param {any} expandedPlaces A list of places that were expanded before.
+       * @param {any} selectedId
+       * @returns 
+       */
       function isItemExpanded(place, expandedPlaces, selectedId) {
         // In this case the the selected Place ID is exactly the same with current place ID or
         // the current Place ID is a subset of selected Place ID. Take a look at the examples:
@@ -505,13 +521,32 @@
         return false;
       }
 
+      /**
+       * Filters the place children
+       * 
+       * @param {any} place 
+       * @param {any} places
+       * @param {any} expandedPlaces 
+       * @param {any} selectedId 
+       * @param {any} depth 
+       * @returns 
+       */
       function getChildren(place, places, expandedPlaces, selectedId, depth) {
         return _.chain(places).sortBy(['id']).reduce(function (stack, item) {
+          // The child does not belong to the Place
           if (!isChild(place.id, item)) {
             return stack;
           }
 
           var previous = _.last(stack);
+          // The place is a child of the previous item. Take a look at the following example:
+          // Imagine a user Place tree is ordered in this way:
+          // |A
+          // |  A.X
+          // |    A.X.K
+          // |B
+          // |  B.Y.J
+          // Then a place's child goes right after its parent if we sort the list by ID
           if (previous && isChild(previous.id, item)) {
             return stack;
           }
@@ -526,12 +561,24 @@
         }, []).sortBy(['name']).value();
       }
 
+      /**
+       * Creates the user Places tree
+       * 
+       * @param {any} places 
+       * @param {any} orders The order of grand Places. A user is allowed to reorder her grand Places
+       * and we keep the order as a global setting between all user devices
+       * @param {any} expandedPlaces 
+       * @param {any} selectedId 
+       * @returns 
+       */
       function createTree(places, orders, expandedPlaces, selectedId) {
         return _.chain(places).filter(function (place) {
+          // This condition filters all grand Places
           return place.id && place.id.indexOf('.') === -1;
         }).map(function(place) {
           var isActive = place.id === selectedId;
           var isExpanded = isItemExpanded(place, expandedPlaces, selectedId);
+          // finds the place children
           var children = getChildren(place, places, expandedPlaces, selectedId, 1);
 
           return createTreeItem(place, children, isExpanded, isActive, 0);
@@ -540,8 +587,18 @@
         }).value();
       }
 
+      /**
+       * Creates an instance of tree item
+       * 
+       * @param {any} place 
+       * @param {any} children 
+       * @param {any} isExpanded 
+       * @param {any} isActive 
+       * @param {any} depth 
+       * @returns 
+       */
       function createTreeItem(place, children, isExpanded, isActive, depth) {
-        var picture = place.hasPicture() ? place.picture.getUrl('x32') : null;
+        var picture = place.hasPicture() ? place.picture.getUrl('x32') : ABSENT_PLACE_PICTURE_URL;
         return {
           id: place.id,
           name: place.name,
@@ -556,6 +613,14 @@
         };
       }
 
+      /**
+       * Iterates over the Place children and returns true if any child has unseen post
+       * 
+       * @param {any} place 
+       * @param {any} children 
+       * @param {any} myPlacesUnreadPosts 
+       * @returns 
+       */
       function anyChildrenHasUnseen(place, children, myPlacesUnreadPosts) {
         if (!place || _.size(children) === 0) {
           return false;
@@ -566,6 +631,13 @@
         });
       }
 
+      /**
+       * Checks both the Place model and myPlacesUnreadPosts to find whether the Place has unseen posts or not
+       * 
+       * @param {any} place 
+       * @param {any} myPlacesUnreadPosts 
+       * @returns 
+       */
       function hasUnseen(place, myPlacesUnreadPosts) {
         return place.unreadPosts > 0 || myPlacesUnreadPosts[place.id] > 0;
       }

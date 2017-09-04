@@ -6,7 +6,7 @@
     .controller('MessagesController', MessagesController);
 
   /** @ngInject */
-  function MessagesController($rootScope, $stateParams, $state, $scope, $uibModal, _,
+  function MessagesController($rootScope, $stateParams, $state, $scope, $uibModal, _, $timeout,
                               moment, toastr,
                               NST_MESSAGES_SORT_OPTION, NST_DEFAULT, NST_EVENT_ACTION, NST_PLACE_ACCESS, NST_POST_EVENT,
                               NstSvcPostFactory, NstSvcPlaceFactory, NstUtility, NstSvcAuth, NstSvcSync,
@@ -19,9 +19,13 @@
     var DEFAULT_MESSAGES_COUNT = 8,
       defaultSortOption = NST_MESSAGES_SORT_OPTION.LATEST_MESSAGES,
       sortOptionStorageKey = 'sort-option';
+    // Consistently Interactive Time Handler
+    var CITHandler = null;
     vm.messages = [];
     vm.hotMessagesCount = 0;
     vm.selectedPosts = [];
+    // First Interactive Time
+    vm.FIT = true;
 
     vm.loadMore = loadMore;
     vm.tryAgainToLoadMore = false;
@@ -221,6 +225,11 @@
     function handleCachedPosts(cachedPosts) {
       vm.messages = cachedPosts;
       vm.loading = false;
+      CITHandler = $timeout(function() {
+        $scope.$apply(function() {
+          vm.FIT = false;
+        });
+      }, 500);
     }
 
     function applyChanges(oldPost, newPost) {
@@ -284,7 +293,11 @@
 
     function load() {
       return getMessages(vm.messagesSetting, handleCachedPosts).then(function (posts) {
-        mergePosts(posts);
+        // if (CITHandler) {
+        //   $timeout.cancel(CITHandler);
+        // }
+        // vm.FIT = false;
+        // mergePosts(posts);
       }).catch(function () {
         // console.log('====================================');
         // console.log(error);
@@ -584,6 +597,9 @@
     }
 
     $scope.$on('$destroy', function () {
+      if (CITHandler) {
+        $timeout.cancel(CITHandler);
+      }
       NstSvcSync.closeChannel(vm.syncId);
       SvcCardCtrlAffix.measurement(80);
       _.forEach(eventReferences, function (canceler) {

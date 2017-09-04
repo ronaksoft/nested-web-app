@@ -155,12 +155,14 @@
 
     function restoreLastState() {
       var last = null;
-      // restore to find a primary route
-      while ($rootScope.stateHistory.length > 0) {
-        last = $rootScope.stateHistory.pop();
-        if (last.state.options && last.state.options.primary && last.state.name !== $state.current.name) {
-          $rootScope.stateHistory.push(last);
-          return last;
+      if (_.isArray($rootScope.stateHistory) && _.size($rootScope.stateHistory) > 0) {
+        // restore to find a primary route
+        while ($rootScope.stateHistory.length > 0) {
+          last = $rootScope.stateHistory.pop();
+          if (last.state.options && last.state.options.primary && last.state.name !== $state.current.name) {
+            $rootScope.stateHistory.push(last);
+            return last;
+          }
         }
       }
 
