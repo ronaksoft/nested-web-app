@@ -28,8 +28,8 @@
           <use xlink:href="/assets/icons/nst-icn24.svg#xcross"></use>
         </svg>
       </i>
-      <input nst-mention mention-new-method mention-enable-label placeholder="{{ctrlTopBar.searchPlaceholder}}" ng-model="ctrlTopBar.chipQuery"
-        translate-attrs="placeholder" ng-keyup="ctrlTopBar.searchKeyPressed($event, ctrlTopBar.chipQuery, true)" ng-focus="ctrlTopBar.toggleSearchModal(true)">
+      <input placeholder="{{ctrlTopBar.searchPlaceholder}}" ng-model="ctrlTopBar.query"
+        translate-attrs="placeholder" ng-keyup="ctrlTopBar.searchKeyPressed($event, ctrlTopBar.query, true)" ng-focus="ctrlTopBar.toggleSearchModal(true)">
       <span ng-if="ctrlTopBar.searchModalOpen || ctrlTopBar.advancedSearchOpen" ng-class="{'open' : ctrlTopBar.advancedSearchOpen}" ng-click="ctrlTopBar.toggleAdvancedSearch()">
         <svg class="_24svg fill-white">
           <use xlink:href="/assets/icons/nst-icn24.svg#preferences"></use>
@@ -75,7 +75,7 @@
       </a>
       <translate>enter</translate>
     </div>
-    <section class="recent-search" ng-if="ctrlTopBar.suggestion.histories.length > 0">
+    <section class="recent-search" ng-if="ctrlTopBar.suggestion.histories.length > 0 && ctrlTopBar.defaultSearch == true">
       <h5>
         <translate>Recent searches</translate>
       </h5>
@@ -86,7 +86,7 @@
         </li>
       </ul>
     </section>
-    <section class="init-from-suggests" ng-if="ctrlTopBar.suggestion.accounts.length > 0">
+    <section class="init-from-suggests" ng-if="ctrlTopBar.suggestion.accounts.length > 0 && ctrlTopBar.defaultSearch == true">
       <h5>
         <translate>Posts from:</translate>
       </h5>
@@ -100,7 +100,7 @@
         </li>
       </ul>
     </section>
-    <section class="from-suggests" ng-if="ctrlTopBar.suggestion.accounts.length > 0">
+    <section class="from-suggests" ng-if="ctrlTopBar.suggestion.accounts.length > 0 && ctrlTopBar.defaultSearch == false">
       <h5>
         <translate>from:</translate>
       </h5>
@@ -110,12 +110,12 @@
             <img initial-avatar="sample" name="sample" picture="{{account | avatar : 'x32'}}" data-width="32" data-height="32"
               data-radius="30" class="account-initials-32 _df" data-word-count="2" data-font-size="16" />
           </div>
-          <span class="_txe">{{account.firstName}}</span>
-          <a>{{account.id}}</a>
+          <span class="_txe account-title" data-ng-bind-html="account.firstName | highlight: ctrlTopBar.query">{{account.firstName}}</span>
+          <a data-ng-bind-html="account.id | highlight: ctrlTopBar.query"></a>
         </li>
       </ul>
     </section>
-    <section class="place-suggests" ng-if="ctrlTopBar.suggestion.accounts.length > 0">
+    <section class="place-suggests" ng-if="ctrlTopBar.suggestion.place.length > 0  && ctrlTopBar.defaultSearch == true">
       <h5>
         <translate>in:</translate>
       </h5>
