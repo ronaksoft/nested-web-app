@@ -146,6 +146,9 @@
               break;
           }
           console.log(vm.selectedItem);
+          if (vm.selectedItem !== -1) {
+            selectItem(vm.selectedItem);
+          }
           return true;
         } else {
           return false;
@@ -170,6 +173,45 @@
           count += vm.suggestion.labels.length;
         }
         return count;
+      }
+
+      function resetSelected(items) {
+        for (var i in items) {
+          items[i]._selected = false;
+        }
+      }
+
+      function selectItem(index) {
+        var accountCount = 0;
+        if (vm.suggestion.accounts.length > getLimit('accounts')) {
+          accountCount = getLimit('accounts');
+        } else {
+          accountCount = vm.suggestion.accounts.length;
+        }
+        var placeCount = 0;
+        if (vm.suggestion.places.length > getLimit('places')) {
+          placeCount = getLimit('accounts');
+        } else {
+          placeCount = vm.suggestion.places.length;
+        }
+        var labelCount = 0;
+        if (vm.suggestion.labels.length > getLimit('labels')) {
+          labelCount = getLimit('accounts');
+        } else {
+          labelCount = vm.suggestion.labels.length;
+        }
+
+        resetSelected(vm.suggestion.accounts);
+        resetSelected(vm.suggestion.places);
+        resetSelected(vm.suggestion.labels);
+
+        if (index >= 0 && index < accountCount) {
+          vm.suggestion.accounts[index]._selected = true
+        } else if (index >= accountCount && index < accountCount + placeCount) {
+          vm.suggestion.places[index - accountCount]._selected = true
+        } else if (index >= accountCount + placeCount && index < accountCount + placeCount + labelCount) {
+          vm.suggestion.labels[index - (accountCount + labelCount)]._selected = true
+        }
       }
 
       function getUniqueItems(data) {
