@@ -1,7 +1,7 @@
 .top-bar {
   position: fixed;
   top: -5px;
-  transform: translate3d(0,5px,0);
+  transform: translate3d(0, 5px, 0);
   left: 0;
   width: 100vw;
   height: 48px;
@@ -20,45 +20,81 @@
     display: flex;
     justify-content: center;
     .inner {
-      position: relative;
       width: 100%;
       max-width: 480px;
-      i {
-        position: absolute;
-        left: 4px;
-        top: 4px;
-        opacity: .24;
-      }
-      input {
-        height: 32px;
-        line-height: 36px;
+      overflow-x: auto;
+      height: 32px;
+      background-color: rgba(255, 255, 255, .12);
+      border-radius: 4px;
+      border-bottom: 1px solid rgba(0,0,0, .4);
+      overflow: hidden;
+      display: flex;
+      .input-wrapper {
+        position: relative;
+        min-width: 256px;
         width: 100%;
-        background-color: rgba(255,255,255,.12);
-        padding-left: 32px;
-        color: $color-white;
-        border: none;
-        outline: none;
-        border-radius: 4px;
-        box-shadow: none;
+        i {
+          position: absolute;
+          left: 4px;
+          top: 4px;
+          opacity: .24;
+        }
+        input {
+          line-height: 36px;
+          width: 100%;
+          height: 32px;
+          background-color: transparent;
+          padding-left: 32px;
+          color: $color-white;
+          border: none;
+          outline: none;
+          box-shadow: none;
+        }
+        span {
+          position: absolute;
+          right: 4px;
+          top: 4px;
+          opacity: .24;
+          &.open {
+            opacity: 1;
+          }
+        }
       }
-      span {
-        position: absolute;
-        right: 4px;
-        top: 4px;
-        opacity: .24;
-        &.open {
-          opacity: 1;
+      .search-chips-container {
+        padding: 6px 5px 0 5px;
+        color: #323D47;
+        flex-wrap: nowrap;
+        .chips {
+          display: flex;
+          flex: none;
+          padding: 0;
+          margin: 0 2px;
+          color: #fff;
+          border-radius: 4px;
+          overflow: hidden;
+          transition: all 0.3s;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          background-color: rgb(0,0,0);
+          b span {
+            font-size: 12px;
+            color: $color-white;
+            opacity: 1;
+          }
+          span {
+            opacity: .8;
+          }
         }
       }
     }
     input:-ms-input-placeholder {
-      color: rgba(255,255,255,.4);
+      color: rgba(255, 255, 255, .4);
     }
     input::-webkit-input-placeholder {
-      color: rgba(255,255,255,.4);
+      color: rgba(255, 255, 255, .4);
     }
     input:-moz-placeholder {
-      color: rgba(255,255,255,.4);
+      color: rgba(255, 255, 255, .4);
     }
   }
   .logo,
@@ -67,7 +103,7 @@
     display: flex;
     flex: none;
   }
-  .logo{
+  .logo {
     padding: 0 16px;
     #Logo-type-white {
       margin: 0 8px;
@@ -76,7 +112,7 @@
   }
   .account {
     justify-content: flex-end;
-    > a {
+    >a {
       position: relative;
       display: flex;
       justify-content: center;
@@ -86,14 +122,15 @@
       height: 32px;
       border-radius: 4px;
       &:hover {
-        background-color: rgba(0,0,0,.4);
+        background-color: rgba(0, 0, 0, .4);
       }
     }
-    .notifications-popover-handler svg{
+    .notifications-popover-handler svg {
       opacity: .4
     }
   }
 }
+
 .search-modal {
   position: fixed;
   z-index: 223;
@@ -101,7 +138,7 @@
   right: 0;
   bottom: 0;
   top: 48px;
-  .search-popover ,
+  .search-popover,
   .advanced-search-popover {
     position: absolute;
     left: 50vw;
@@ -120,10 +157,9 @@
     .search-query {
       padding: 0 16px;
       height: 40px;
-      a span{
+      a span {
         color: $color-solid;
         font-size: 14px;
-
       }
       span {
         color: $color-gale;
@@ -214,7 +250,7 @@
           width: 100%;
           padding: 0 8px;
           b {
-            color:$color-solid;
+            color: $color-solid;
           }
         }
         a {
@@ -223,7 +259,7 @@
           display: flex;
           flex: none;
           b {
-            color:$color-solid;
+            color: $color-solid;
           }
         }
         img {
@@ -250,7 +286,7 @@
         border-radius: 3px;
         flex: none;
       }
-      li > span {
+      li>span {
         width: 100%;
         display: flex;
         padding: 0 8px;
