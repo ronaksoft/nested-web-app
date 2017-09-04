@@ -26,6 +26,7 @@
       height: 32px;
       background-color: rgba(255, 255, 255, .12);
       border-radius: 4px;
+      border-bottom: 1px solid rgba(0,0,0, .4);
       overflow: hidden;
       display: flex;
       .input-wrapper {
@@ -67,31 +68,21 @@
           display: flex;
           flex: none;
           padding: 0;
-          margin: 0 3px 6px 0;
+          margin: 0 2px;
           color: #fff;
-          border-radius: 5px;
+          border-radius: 4px;
           overflow: hidden;
           transition: all 0.3s;
           text-overflow: ellipsis;
           white-space: nowrap;
-          .chip-type,
-          .chip-title {
-            display: flex;
-            flex: none;
-            height: 100%;
-            padding: 5px 4px 2px;
-            font-weight: 200;
-            color: #dcdedf;
-            background-color: #333e47;
-            svg {
-              transform: scale(0.8);
-              margin-bottom: 3px;
-            }
+          background-color: rgb(0,0,0);
+          b span {
+            font-size: 12px;
+            color: $color-white;
+            opacity: 1;
           }
-          .chip-title {
-            font-weight: 300;
-            color: #333e47;
-            background-color: #dcdedf;
+          span {
+            opacity: .8;
           }
         }
       }

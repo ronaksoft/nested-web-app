@@ -20,13 +20,8 @@
     <div class="inner">
       <div class="search-chips-container _df">
         <div ng-repeat="chip in ctrlTopBar.chips" class="chips">
-          <div class="chip-type">
-            <svg class="_16svg _r90 _df _fn fill-white" ng-click="ctrlTopBar.removeChip(chip.type, chip.title)">
-              <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
-            </svg>
-            <span ng-if="chip.type != 'keyword'" class="_df _fn">{{chip.type}}</span>
-          </div>
-          <div class="chip-title">{{chip.title}}</div>
+          <b><span ng-if="chip.type != 'keyword'" class="_df _fn">{{chip.type}}:&nbsp;</span></b>
+          <span>{{chip.title}}</span>
         </div>
       </div>
       <div class="input-wrapper">
