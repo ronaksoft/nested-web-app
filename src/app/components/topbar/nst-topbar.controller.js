@@ -7,18 +7,21 @@
 
     /** @ngInject */
     function TopBarController($q, $, $scope, $state, $stateParams, $uibModal, $rootScope, NST_SEARCH_QUERY_PREFIX,
-                               _, NstSvcTranslation, NstSvcAuth, NstSvcSuggestionFactory) {
+                               _, NstSvcTranslation, NstSvcAuth, NstSvcSuggestionFactory, NstSvcLabelFactory, NstSvcUserFactory,
+                              NST_USER_SEARCH_AREA) {
       var vm = this;
       vm.searchPlaceholder = NstSvcTranslation.get('Search...');
       vm.searchKeyPressed = searchKeyPressed;
       vm.query = '';
+      vm.excludedQuery = '';
+      vm.queryType = '';
       vm.notificationsCount = 10;
       vm.profileOpen = false;
       vm.notifOpen = false;
       vm.user = NstSvcAuth.user;
       vm.searchModalOpen = false;
       vm.advancedSearchOpen = false;
-      vm.debouncedSugesstion = _.debounce(getLastItem, 500);
+      vm.debouncedSugesstion = _.debounce(getSuggestions, 500);
       vm.defaultSearch = true;
       vm.defaultSuggestion = {
         histories: [],
@@ -32,10 +35,25 @@
         accounts: [],
         labels: []
       };
+      vm.limits = {
+        exact: {
+          place: 6,
+          accounts: 6,
+          labels: 6
+        },
+        all: {
+          place: 3,
+          accounts: 3,
+          labels: 3
+        }
+      };
+      vm.getLimit = getLimit;
+      vm.resultCount = 6;
+      vm.selectedItem = -1;
 
 
       (function () {
-        NstSvcSuggestionFactory.searchSuggestion('').then(function (result) {
+        NstSvcSuggestionFactory.search('').then(function (result) {
           vm.defaultSuggestion = getUniqueItems(result);
           vm.suggestion = vm.defaultSuggestion;
         });
@@ -88,8 +106,10 @@
        * @param {boolean} isChips
        */
       function searchKeyPressed($event, text, isChips) {
-        vm.toggleSearchModal(true);
-        vm.debouncedSugesstion(text);
+        if (!isNotQuery($event)) {
+          vm.toggleSearchModal(true);
+          vm.debouncedSugesstion(text);
+        }
 
       //   if (vm.searchOnKeypress) {
       //     if (isChips) {
@@ -108,6 +128,50 @@
       //   }
       }
 
+      function isNotQuery(event) {
+        var keys = [13, 38, 40];
+        if (keys.indexOf(event.keyCode) > -1) {
+          switch (event.keyCode) {
+            case 38:
+              vm.selectedItem--;
+              if (vm.selectedItem < 0) {
+                vm.selectedItem = 0;
+              }
+              break;
+            case 40:
+              vm.selectedItem++;
+              if (vm.selectedItem >= vm.resultCount) {
+                vm.selectedItem = vm.resultCount - 1;
+              }
+              break;
+          }
+          console.log(vm.selectedItem);
+          return true;
+        } else {
+          return false;
+        }
+      }
+
+      function countItems() {
+        var count = 0;
+        if (vm.suggestion.accounts.length > getLimit('accounts')) {
+          count += getLimit('accounts');
+        } else {
+          count += vm.suggestion.accounts.length;
+        }
+        if (vm.suggestion.places.length > getLimit('places')) {
+          count += getLimit('places');
+        } else {
+          count += vm.suggestion.places.length;
+        }
+        if (vm.suggestion.labels.length > getLimit('labels')) {
+          count += getLimit('labels');
+        } else {
+          count += vm.suggestion.labels.length;
+        }
+        return count;
+      }
+
       function getUniqueItems(data) {
         var result = {
           places: [],
@@ -115,10 +179,18 @@
           labels: [],
           history: []
         };
-        result.places = _.uniqBy(data.places, 'id');
-        result.accounts = _.uniqBy(data.accounts, 'id');
-        result.labels = _.uniqBy(data.labels, 'id');
-        result.histories = data.histories;
+        if (data.places !== undefined) {
+          result.places = _.uniqBy(data.places, 'id');
+        }
+        if (data.accounts !== undefined) {
+          result.accounts = _.uniqBy(data.accounts, 'id');
+        }
+        if (data.labels !== undefined) {
+          result.labels = _.uniqBy(data.labels, 'id');
+        }
+        if (data.histories !== undefined) {
+          result.histories = data.histories;
+        }
         return result;
       }
 
@@ -156,21 +228,57 @@
           type = 'other';
         }
 
-        if (_.trim(query).length === 0) {
-          vm.defaultSearch = true;
-          vm.suggestion = vm.defaultSuggestion;
-        } else {
-          NstSvcSuggestionFactory.searchSuggestion(word).then(function (result) {
-            // console.log(result);
-            vm.suggestion = getUniqueItems(result);
-            vm.defaultSearch = false;
-          });
-        }
-
         return {
           word: word,
           type: type
         };
+      }
+
+      function getSuggestions(query) {
+        if (_.trim(query).length === 0) {
+          vm.defaultSearch = true;
+          vm.suggestion = vm.defaultSuggestion;
+        }
+        else {
+          var result = getLastItem(query);
+          vm.excludedQuery = result.word;
+          vm.queryType = result.type;
+
+          switch (result.type) {
+            case 'place':
+              break;
+            case 'user':
+              var settings = {
+                query: result.word,
+                limit: 6
+              };
+              NstSvcUserFactory.search(settings, NST_USER_SEARCH_AREA.ACCOUNTS).then(function (result) {
+                vm.suggestion = getUniqueItems({accounts: result});
+                vm.resultCount = countItems();
+                vm.defaultSearch = false;
+              });
+              break;
+            case 'label':
+              NstSvcLabelFactory.search(result.word).then(function (result) {
+                vm.suggestion = getUniqueItems({labels: result});
+                vm.resultCount = countItems();
+                vm.defaultSearch = false;
+              });
+              break;
+            case 'other':
+              NstSvcSuggestionFactory.search(result.word).then(function (result) {
+                vm.suggestion = getUniqueItems(result);
+                vm.resultCount = countItems();
+                vm.defaultSearch = false;
+              });
+              break;
+          }
+        }
+      }
+
+      function getLimit(type) {
+        var category = (vm.queryType === 'other' || vm.defaultSearch) ? 'all': 'exact';
+        return vm.limits[category][type];
       }
     }
   })();

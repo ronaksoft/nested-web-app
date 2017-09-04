@@ -15,7 +15,7 @@
     SuggestionFactory.prototype = new NstBaseFactory();
     SuggestionFactory.prototype.constructor = SuggestionFactory;
 
-    SuggestionFactory.prototype.searchSuggestion = searchSuggestion;
+    SuggestionFactory.prototype.search = search;
 
     var factory = new SuggestionFactory();
     return factory;
@@ -43,7 +43,7 @@
       return suggestion;
     }
 
-    function searchSuggestion(keyword) {
+    function search(keyword) {
       var params = {
         keyword: keyword
       };
