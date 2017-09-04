@@ -11,6 +11,7 @@
       var vm = this;
       vm.searchPlaceholder = NstSvcTranslation.get('Search...');
       vm.searchKeyPressed = searchKeyPressed;
+      vm.query = '';
       vm.notificationsCount = 10;
       vm.profileOpen = false;
       vm.notifOpen = false;
@@ -18,6 +19,13 @@
       vm.searchModalOpen = false;
       vm.advancedSearchOpen = false;
       vm.debouncedSugesstion = _.debounce(getLastItem, 500);
+      vm.defaultSearch = true;
+      vm.defaultSuggestion = {
+        histories: [],
+        places: [],
+        accounts: [],
+        labels: []
+      };
       vm.suggestion = {
         histories: [],
         places: [],
@@ -25,14 +33,16 @@
         labels: []
       };
 
+
       (function () {
         NstSvcSuggestionFactory.searchSuggestion('').then(function (result) {
-          vm.suggestion = result;
+          vm.defaultSuggestion = getUniqueItems(result);
+          vm.suggestion = vm.defaultSuggestion;
         });
       })();
 
       vm.toggleSearchModal = function(force) {
-        if ( force ) {
+        if (force) {
           $('html').addClass('_oh');
           vm.searchModalOpen = true ;
           vm.advancedSearchOpen = false;
@@ -98,6 +108,19 @@
       //   }
       }
 
+      function getUniqueItems(data) {
+        var result = {
+          places: [],
+          accounts: [],
+          labels: [],
+          history: []
+        };
+        result.places = _.uniqBy(data.places, 'id');
+        result.accounts = _.uniqBy(data.accounts, 'id');
+        result.labels = _.uniqBy(data.labels, 'id');
+        result.histories = data.histories;
+        return result;
+      }
 
       function getLastItem(query) {
         var queryRegEx = /(\S([^[:|\s]+):\"([^"]+)")|(\"([^"]+)")|(\S+)/g;
@@ -133,10 +156,16 @@
           type = 'other';
         }
 
-        NstSvcSuggestionFactory.searchSuggestion(word).then(function (result) {
-          // console.log(result);
-          vm.suggestion = result;
-        });
+        if (_.trim(query).length === 0) {
+          vm.defaultSearch = true;
+          vm.suggestion = vm.defaultSuggestion;
+        } else {
+          NstSvcSuggestionFactory.searchSuggestion(word).then(function (result) {
+            // console.log(result);
+            vm.suggestion = getUniqueItems(result);
+            vm.defaultSearch = false;
+          });
+        }
 
         return {
           word: word,
