@@ -105,22 +105,22 @@
         <translate>from:</translate>
       </h5>
       <ul>
-        <li ng-repeat="account in ctrlTopBar.suggestion.accounts | limitTo: 6">
+        <li ng-repeat="account in ctrlTopBar.suggestion.accounts | limitTo: ctrlTopBar.getLimit('accounts')" ng-class="{'selected': account._selected}">
           <div class="profile-user-avatar-32">
             <img initial-avatar="sample" name="sample" picture="{{account | avatar : 'x32'}}" data-width="32" data-height="32"
               data-radius="30" class="account-initials-32 _df" data-word-count="2" data-font-size="16" />
           </div>
-          <span class="_txe account-title" data-ng-bind-html="account.firstName | highlight: ctrlTopBar.query">{{account.firstName}}</span>
-          <a data-ng-bind-html="account.id | highlight: ctrlTopBar.query"></a>
+          <span class="_txe account-title" data-ng-bind-html="account.firstName | highlight: ctrlTopBar.excludedQuery">{{account.firstName}}</span>
+          <a data-ng-bind-html="account.id | highlight: ctrlTopBar.excludedQuery"></a>
         </li>
       </ul>
     </section>
-    <section class="place-suggests" ng-if="ctrlTopBar.suggestion.place.length > 0  && ctrlTopBar.defaultSearch == true">
+    <section class="place-suggests" ng-if="ctrlTopBar.suggestion.places.length > 0  && ctrlTopBar.defaultSearch == false">
       <h5>
         <translate>in:</translate>
       </h5>
       <ul>
-        <li>
+        <li ng-repeat="place in ctrlTopBar.suggestion.places | limitTo: ctrlTopBar.getLimit('places')" ng-class="{'selected': place._selected}">
           <img src />
           <span class="_txe">asdasd asdwe</span>
           <a class="_txe">asdasd asdwe</a>
@@ -132,7 +132,7 @@
         <translate>Has Label:</translate>
       </h5>
       <ul>
-        <li ng-repeat="label in ctrlTopBar.suggestion.labels | limitTo: 3">
+        <li ng-repeat="label in ctrlTopBar.suggestion.labels | limitTo: ctrlTopBar.getLimit('labels')" ng-class="{'selected': label._selected}">
           <svg class="_24svg _df _fn color-lbl-{{label.code}}">
             <use xlink:href="/assets/icons/nst-icn24.svg#tag"></use>
           </svg>

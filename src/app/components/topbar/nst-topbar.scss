@@ -106,6 +106,7 @@
     position: absolute;
     left: 50vw;
     padding-top: 8px;
+    padding-bottom: 3px;
     width: 100%;
     max-width: 480px;
     transform: translateX(-50%);
@@ -228,6 +229,9 @@
         img {
           margin: 0;
         }
+        &.selected {
+          background-color: rgba(0, 0, 0, 0.2);
+        }
       }
     }
     .place-suggests {
@@ -236,6 +240,9 @@
         height: 40px;
         align-items: center;
         width: 100%;
+        &.selected {
+          background-color: rgba(0, 0, 0, 0.2);
+        }
       }
       img {
         padding: 3px;
@@ -272,6 +279,9 @@
           font-size: 14px;
           border-bottom: 1px solid $color-breeze-5-new;
           color: rgba(50, 61, 71, .8);
+        }
+        &.selected {
+          background-color: rgba(0, 0, 0, 0.2);
         }
       }
     }
