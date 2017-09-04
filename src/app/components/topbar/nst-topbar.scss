@@ -23,11 +23,11 @@
       width: 100%;
       max-width: 480px;
       overflow-x: auto;
+      overflow-y: hidden;
       height: 32px;
       background-color: rgba(255, 255, 255, .12);
       border-radius: 4px;
       border-bottom: 1px solid rgba(0,0,0, .4);
-      overflow: hidden;
       display: flex;
       .input-wrapper {
         position: relative;
