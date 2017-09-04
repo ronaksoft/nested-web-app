@@ -45,8 +45,8 @@
       <svg class="icon-filter _df _16svg" ng-if="ctlFullNavbar.isConvMode">
         <use xlink:href="/assets/icons/nst-icn16.svg#exchange"></use>
       </svg>
-      <cite ng-if="!ctlFullNavbar.isConvMode">{{ctlFullNavbar.title}}</cite>
     </div>
+    <cite ng-if="!ctlFullNavbar.isConvMode">{{ctlFullNavbar.title}}</cite>
     <div class="place-pic" ng-if="ctlFullNavbar.isConvMode">
       <img initial-avatar="{{ctlFullNavbar.account.id}}" name="{{ctlFullNavbar.account.fullName}}" picture="{{ctlFullNavbar.account | avatar:'x32'}}"
         data-width="24" data-height="24" data-radius="4" data-word-count="2" data-font-size="12" ng-if="ctlFullNavbar.account"

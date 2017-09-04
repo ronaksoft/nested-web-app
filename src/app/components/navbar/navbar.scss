@@ -393,6 +393,7 @@ nst-navbar {
       justify-content: center;
       svg {
         fill: $color-solid;
+        flex: none;
       }
     }
     cite {
@@ -401,6 +402,7 @@ nst-navbar {
       font-weight: bold;
       font-style: normal;
       color: $color-solid;
+      flex: none;
     }
     &.search-nav {
       background-color: #DBDBDB;
