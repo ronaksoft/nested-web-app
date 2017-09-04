@@ -245,12 +245,15 @@
         }
       }
       img {
-        padding: 3px;
+        border-radius: 3px;
       }
-      span {
+      li > span {
         width: 100%;
         display: flex;
         padding: 0 8px;
+        color: $color-new-hurricane;
+      }
+      span {
         color: $color-new-hurricane;
       }
       a {

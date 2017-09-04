@@ -121,7 +121,7 @@
       </h5>
       <ul>
         <li ng-repeat="place in ctrlTopBar.suggestion.places | limitTo: ctrlTopBar.getLimit('places')" ng-class="{'selected': place._selected}">
-          <img src />
+          <img ng-src="{{place | picture:'x64'}}" width="32" height="32" />
           <span class="_txe place-title" data-ng-bind-html="place.name | highlight: ctrlTopBar.excludedQuery"></span>
           <a data-ng-bind-html="place.id | highlight: ctrlTopBar.excludedQuery"></a>
         </li>
