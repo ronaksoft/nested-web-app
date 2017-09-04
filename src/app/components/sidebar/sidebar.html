@@ -54,7 +54,9 @@
     <div class="side-places-wrapper _fw">
       <div class="side-places-head _df">
         <translate class="_df _fw">Places</translate>
-        <div ng-click="ctlSidebar.openCreatePlaceModal($event);" class="_df _aic _jcc _fn">
+        <div class="_df _aic _jcc _fn" data-popover-class="white-pop create-place-popover"
+        data-popover-append-to-body="false" uib-popover-template="'app/components/sidebar/partials/create-place-popover.html'"
+        data-popover-trigger="focus" data-popover-placement="auto bottom-right" >
           <svg class="_16svg">
             <use xlink:href="/assets/icons/nst-icn16.svg#cross"></use>
           </svg>

@@ -30,6 +30,7 @@
       vm.canAddGrandPlace = null;
       vm.mentionOpen = vm.profileOpen = false;
       vm.openCreatePlaceModal = openCreatePlaceModal;
+      vm.openCreateSubplaceModal = openCreateSubplaceModal;
       vm.hasDraft = false;
       vm.myPlacesUnreadPosts = {};
 
@@ -53,6 +54,20 @@
 
         vm.hasDraft = NstSvcPostDraft.has();
         vm.admin_area = NST_CONFIG.ADMIN_DOMAIN + (NST_CONFIG.ADMIN_PORT ? ':' + NST_CONFIG.ADMIN_PORT : '');
+      }
+
+      /**
+       * Represents the create place modal
+       * @param {event} $event
+       * @param {sting} style - common place or private place
+       */
+      function openCreateSubplaceModal($event, style) {
+        if (style === 'open') {
+          $state.go('app.place-create', {placeId: getPlaceId(), isOpenPlace: true}, {notify: false});
+        } else {
+          $state.go('app.place-create', {placeId: getPlaceId(), isClosePlace: true}, {notify: false});
+        }
+        $event.preventDefault();
       }
 
       function rebuildMyPlacesTree() {

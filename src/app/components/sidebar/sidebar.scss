@@ -270,13 +270,13 @@
     height: 32px;
     flex: none;
     align-items: center;
-    span {
+    > span {
       padding: 0 8px;
       color: $color-gale-new;
       font-size: 12px;
       font-weight: bold;
     }
-    div {
+    >div._df {
       width: 28px;
       height: 28px;
       opacity: .64;
