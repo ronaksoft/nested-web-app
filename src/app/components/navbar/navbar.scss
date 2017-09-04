@@ -440,56 +440,6 @@ nst-navbar {
     background-color: rgba(0, 0, 0, .02);
     border-color: rgba(0, 0, 0, .14);
   }
-  .search-chips-container {
-    min-height: 40px;
-    border-radius: 4px;
-    background-color: rgba(0, 0, 0, .02);
-    border-color: rgba(0, 0, 0, .14);
-    padding: 6px 5px 0 5px;
-    border: 1px solid gainsboro;
-    color: #323D47;
-    flex-wrap: wrap;
-    .chips {
-      display: flex;
-      flex: none;
-      padding: 0;
-      margin: 0 3px 6px 0;
-      vertical-align: middle;
-      color: #fff;
-      border-radius: 5px;
-      overflow: hidden;
-      transition: all 0.3s;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      .chip-type,
-      .chip-title {
-        display: flex;
-        flex: none;
-        height: 100%;
-        padding: 5px 4px 2px;
-        font-weight: 200;
-        color: #dcdedf;
-        background-color: #333e47;
-        svg {
-          transform: scale(0.8);
-          margin-bottom: 3px;
-        }
-      }
-      .chip-title {
-        font-weight: 300;
-        color: #333e47;
-        background-color: #dcdedf;
-      }
-    }
-    input {
-      display: flex;
-      flex: 1;
-      min-width: 100px;
-      background: none;
-      border: none;
-      height: 30px;
-    }
-  }
 }
 
 .navbar-holder {
