@@ -26,7 +26,8 @@
         addOn: '=',
         loading: '=',
         commentBoard: '=',
-        ribbonEnabled: '='
+        ribbonEnabled: '=',
+        FIT: '=firstInteractiveTime',
       }
     };
   }

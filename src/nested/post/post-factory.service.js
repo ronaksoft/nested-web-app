@@ -61,12 +61,15 @@
      *
      * @returns {Promise}      the post
      */
-    function get(id) {
+    function get(id, fullBody) {
       var factory = this;
 
       var cachedPlace = this.getCachedSync(id);
       if (cachedPlace) {
-        return $q.resolve(cachedPlace);
+        // If a post with full body was requested, then the post ellipsis should be false
+        if (!fullBody || (fullBody && !cachedPlace.ellipsis)) {
+          return $q.resolve(cachedPlace);
+        }
       }
 
       var deferred = $q.defer();
@@ -562,12 +565,22 @@
       return defer.promise;
     }
 
-    function getChainMessages(id, limit) {
+    function getChainMessages(id, limit, cacheHandler) {
       var deferred = $q.defer();
 
       return NstSvcServer.request('post/get_chain', {
         post_id: id,
         limit: limit || 8
+      }, function(cachedResponse) {
+        if (cachedResponse && _.isFunction(cacheHandler)) {
+          var cachedPosts = _.map(cachedResponse.posts, function(post) {
+            return factory.getCachedSync(post._id);
+          });
+
+          if (_.size(cachedPosts) > 0 && _.every(cachedPosts)) {
+            cacheHandler(cachedPosts);
+          }
+        }
       }).then(function (data) {
         return _.map(data.posts, function (post) {
           return parsePost(post);

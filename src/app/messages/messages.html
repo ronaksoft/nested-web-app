@@ -5,13 +5,13 @@
   <section class="content nst-marginbtm-28">
     <!-- navbar place
       ==============-->
-    <nst-navbar ng-class="{'places-navbar' : ctrl.isPlaceMessage}" data-ng-model="navbar" place-id="{{ctrl.currentPlace.id}}"
+     <nst-navbar ng-class="{'places-navbar' : ctrl.isPlaceMessage}" data-ng-model="navbar" place-id="{{ctrl.currentPlace.id}}"
       show-place-id="ctrl.showPlaceId" nav-title="{{ctrl.currentPlace.id?ctrl.currentPlace.name: ctrl.navTitle}}" nav-picture-url="{{ctrl.currentPlace.id ? ctrl.currentPlace.picture.getUrl('x128') : '' }}"
-      nav-picture-class="{{ !ctrl.currentPlace.id? ctrl.navIconClass : '' }}" ready-to-show="ctrl.currentPlaceLoaded" ready-to-anime="true"></nst-navbar>
+      nav-picture-class="{{ !ctrl.currentPlace.id? ctrl.navIconClass : '' }}" ready-to-show="ctrl.currentPlaceLoaded" ready-to-anime="true"></nst-navbar> 
     
     <!-- filter bar
       ==============-->
-    <!-- <div class="filter-bar" ng-if="!ctrl.isbookmarkedsMode && !ctrl.isSentMode && !(ctrl.isUnreadMode && ctrl.unreadCount == 0) "> -->
+    <!-- <div class="filter-bar" ng-if="!ctrl.isbookmarkedsMode && !ctrl.isSentMode && !(ctrl.isUnreadMode && ctrl.unreadCount == 0) ">  -->
     <div class="filter-bar">
       <div ng-if="!ctrl.isbookmarkedsMode && !ctrl.isSentMode" class="filter-bar-inner" affixer-filter top="96">
         <div class="toolbar ng-class:{'selcted-mode' : ctrl.selectedPosts.length > 0, 'unread-mode' : ctrl.isUnreadMode}" ng-mouseleave="popoverSortShow = false">
@@ -107,12 +107,12 @@
           <translate>One New Message</translate>
         </a>
       </div>
-      <div class="quick-message-wrp _fw" ng-if="ctrl.quickMessageAccess">
+      <div class="quick-message-wrp _fw" ng-if="false && ctrl.quickMessageAccess">
         <nst-quick-message class="quick-message-inner _fw" place-id="ctrl.currentPlace.id"></nst-quick-message>
         <div class="post-card-wire"></div>
       </div>
-      <post-card class="_fw" data-ng-repeat="msg in ctrl.messages track by msg.id" post="msg" scroll-to-view id="{{::msg.id}}"
-        postinplace="ctrl.currentPlaceId" has-remove-access="ctrl.placeRemoveAccess" add-on="false" comment-board="!ctrl.isSent"></post-card>
+      <post-card class="_fw" data-ng-repeat="msg in ctrl.messages | limitTo: 3 track by msg.id " post="msg" scroll-to-view id="{{::msg.id}}"
+        postinplace="ctrl.currentPlaceId" has-remove-access="ctrl.placeRemoveAccess" add-on="false" comment-board="!ctrl.isSent" first-interactive-time="ctrl.FIT"></post-card>
     </div>
 
     <!-- load more button

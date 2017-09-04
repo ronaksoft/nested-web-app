@@ -13,13 +13,11 @@
     var defaultLimit = 8;
     var eventReferences = [];
 
-
     /*****************************
      *** Controller Properties ***
      *****************************/
 
     vm.chainStack = [];
-    vm.post = null;
     vm.postId = selectedPostId || $stateParams.postId;
     vm.loadProgress = false;
 
@@ -32,14 +30,12 @@
 
     (function () {
       vm.expandProgress = true;
-      load(vm.postId).then(function () {
+      load(vm.postId).then(function (posts) {
         vm.expandProgress = false;
-        // TODO: uncomment and fix
-        vm.syncId = NstSvcSync.openChannel(_.head(vm.post.places).id);
+        if (_.size(posts) === 0) return;
 
-        return vm.post.read ? $q.resolve(true) : markPostAsRead(vm.postId);
-      }).then(function () {
-        $rootScope.$broadcast('post-viewed', { postId: vm.post.id });
+        vm.syncId = NstSvcSync.openChannel(vm.postId);
+        markPostAsRead(vm.postId);
       }).catch(function (error) {
         NstSvcLogger.error(error);
       });
@@ -64,16 +60,17 @@
       }));
     })();
 
-    function loadChainMessages(postId, limit) {
+    function loadChainMessages(postId, limit, cacheHandler) {
       var max = limit + 1;
       vm.loadProgressId = true;
       return $q(function (resolve, reject) {
-        NstSvcPostFactory.getChainMessages(postId, max).then(function (messages) {
+        NstSvcPostFactory.getChainMessages(postId, max, function(cachedPosts) {
+          if (_.size(cachedPosts) > 0 && _.isFunction(cacheHandler)) {
+            cacheHandler(_.chain(cachedPosts).take(limit).sortBy('timestamp').value());
+          }
+        }).then(function (messages) {
           vm.hasOlder = _.size(messages) >= limit;
-          var items = _.chain(messages).take(limit).sortBy('timestamp').map(function (message) {
-            message.attachments = message.attachments;
-            return message;
-          }).value();
+          var items = _.chain(messages).take(limit).sortBy('timestamp').value();
           resolve(items);
         }).catch(reject).finally(function () {
           vm.loadProgress = false;
@@ -94,19 +91,18 @@
 
     function load(postId) {
       vm.expandProgressId = postId;
-      return $q.all([loadChainMessages(postId, defaultLimit), NstSvcPostFactory.get(postId)]).then(function (resolvedSet) {
+      return loadChainMessages(postId, defaultLimit, function(cachedPosts) {
         vm.expandProgressId = null;
         vm.extendedId = postId;
         vm.postId = postId;
         pushToChainStack(postId);
-        vm.messages = resolvedSet[0];
-        vm.post = _.last(resolvedSet[0]);
-
-        vm.post.body = resolvedSet[1].body;
-        vm.post.trusted = Object.keys(resolvedSet[1].resources).length > 0 ? $stateParams.trusted : true;
-        vm.post.resources = resolvedSet[1].resources;
-
-        vm.messages.splice(vm.messages.length - 1, 1, vm.post);
+        vm.messages = cachedPosts;
+      }).then(function (posts) {
+        vm.expandProgressId = null;
+        vm.extendedId = postId;
+        vm.postId = postId;
+        pushToChainStack(postId);
+        vm.messages = posts;
       }).catch(function () {
         toastr.error(NstSvcTranslation.get('An error occured while tying to show the post full body.'));
       });
@@ -130,26 +126,30 @@
     function markPostAsRead(id) {
       vm.markAsReadProgress = true;
       NstSvcPostInteraction.markAsRead(id).then(function () {
-        vm.post.read = true;
-      }).catch(function () {
-        vm.post.read = false;
+        var targetPost = _.find(vm.messages, { id: id });
+        if (targetPost) {
+          targetPost.read = true;
+        }
       }).finally(function () {
         vm.markAsReadProgress = false;
       });
     }
 
     $uibModalInstance.result.finally(function () {
+      var targetPost = _.last(vm.messages);
+      if (!targetPost) return;
+
       eventReferences.push($rootScope.$broadcast('post-modal-closed', {
-        postId: vm.post.id,
-        comments: _.takeRight(vm.post.comments, 3)
+        postId: vm.postId,
+        comments: _.takeRight(targetPost.comments, 3)
       }));
     });
 
     $scope.$on('$destroy', function () {
       NstSvcSync.closeChannel(vm.syncId);
-      _.forEach(eventReferences, function (cenceler) {
-        if (_.isFunction(cenceler)) {
-          cenceler();
+      _.forEach(eventReferences, function (canceler) {
+        if (_.isFunction(canceler)) {
+          canceler();
         }
       });
     });

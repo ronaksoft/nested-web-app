@@ -10,7 +10,7 @@
     NstContact, NstPicture) {
 
     function ContactFactory() {
-      this.cache = NstSvcGlobalCache.createProvider('place');
+      this.cache = NstSvcGlobalCache.createProvider('contact');
     }
 
     ContactFactory.prototype = new NstBaseFactory();
