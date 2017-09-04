@@ -16,6 +16,17 @@
      * @constructor
      */
     function SearchQuery(query) {
+      this.order = 0;
+      this.setQuery(query);
+      NstObject.call(this);
+    }
+
+    SearchQuery.prototype = new NstObject();
+    SearchQuery.prototype.constructor = SearchQuery;
+
+
+
+    SearchQuery.prototype.setQuery = function (query) {
       this.places = [];
       this.users = [];
       this.labels = [];
@@ -41,28 +52,23 @@
 
       var that = this;
 
-      var order = 0;
+      this.order = 0;
 
       _.forEach(words, function (word) {
-        order++;
+        that.order++;
         if (_.startsWith(word, that.prefixes.place)) {
-          this.addPlace(_.replace(word, that.prefixes.place, ''), order);
+          this.addPlace(_.replace(word, that.prefixes.place, ''), that.order);
         } else if (_.startsWith(word, that.prefixes.user)) {
-          this.addUser(_.replace(word, that.prefixes.user, ''), order);
+          this.addUser(_.replace(word, that.prefixes.user, ''), that.order);
         } else if (_.startsWith(word, that.prefixes.label)) {
-          this.addLabel(_.trim(_.replace(word, that.prefixes.label, ''), '"'), order);
+          this.addLabel(_.trim(_.replace(word, that.prefixes.label, ''), '"'), that.order);
         } else {
           if (word.length > 0) {
-            this.addOtherKeyword(word, order);
+            this.addOtherKeyword(word, that.order);
           }
         }
       }.bind(this));
-
-      NstObject.call(this);
-    }
-
-    SearchQuery.prototype = new NstObject();
-    SearchQuery.prototype.constructor = SearchQuery;
+    };
 
     SearchQuery.prototype.toString = function () {
       var items = this.getSortedParams();
@@ -89,7 +95,7 @@
 
     SearchQuery.prototype.addPlace = function (place, order) {
       if (order === null) {
-        order = 0;
+        order = ++this.order;
       }
       if (!_.find(this.places, {id: place})) {
         this.places.push({
@@ -115,7 +121,7 @@
 
     SearchQuery.prototype.addUser = function (user, order) {
       if (order === null) {
-        order = 0;
+        order = ++this.order;
       }
       if (!_.find(this.users, {id: user})) {
         this.users.push({
@@ -133,7 +139,7 @@
 
     SearchQuery.prototype.addLabel = function (label, order) {
       if (order === null) {
-        order = 0;
+        order = ++this.order;
       }
       if (!_.find(this.labels, {id: label})) {
         this.labels.push({
@@ -151,7 +157,7 @@
 
     SearchQuery.prototype.addOtherKeyword = function (keyword, order) {
       if (order === null) {
-        order = 0;
+        order = ++this.order;
       }
       if (!_.find(this.otherKeywords, {id: keyword})) {
         this.otherKeywords.push({

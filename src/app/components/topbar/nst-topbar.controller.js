@@ -8,7 +8,7 @@
     /** @ngInject */
     function TopBarController($q, $, $scope, $state, $stateParams, $uibModal, $rootScope, NST_SEARCH_QUERY_PREFIX,
                                _, NstSvcTranslation, NstSvcAuth, NstSvcSuggestionFactory, NstSvcLabelFactory, NstSvcUserFactory,
-                              NST_USER_SEARCH_AREA, NstSvcPlaceFactory) {
+                              NST_USER_SEARCH_AREA, NstSvcPlaceFactory, NstSearchQuery) {
       var vm = this;
       vm.searchPlaceholder = NstSvcTranslation.get('Search...');
       vm.searchKeyPressed = searchKeyPressed;
@@ -51,13 +51,32 @@
       vm.resultCount = 6;
       vm.selectedItem = -1;
 
+      var searchQuery;
 
       (function () {
-        NstSvcSuggestionFactory.search('').then(function (result) {
+        initQuery(true);
+        $rootScope.$on('$routeChangeSuccess', function () {
+          initQuery(false);
+        });
+        NstSvcSuggestionFactory.search(vm.query).then(function (result) {
           vm.defaultSuggestion = getUniqueItems(result);
           vm.suggestion = vm.defaultSuggestion;
         });
       })();
+
+      function initQuery(init) {
+        if ($state.current.name === 'app.search') {
+          if ($stateParams.search !== '_') {
+            vm.query = $stateParams.search;
+          }
+        }
+        if (init) {
+          searchQuery = new NstSearchQuery(vm.query);
+        } else {
+          searchQuery.setQuery(vm.query);
+        }
+      }
+
 
       vm.toggleSearchModal = function(force) {
         if (force) {
@@ -72,16 +91,16 @@
       };
 
       vm.toggleAdvancedSearch = function(force) {
-        if ( force ) {
+        if (force) {
           vm.advancedSearchOpen = true ;
           return;
         }
         vm.searchModalOpen = false ;
-        vm.advancedSearchOpen =! vm.advancedSearchOpen ;
+        vm.advancedSearchOpen =! vm.advancedSearchOpen;
         if (!vm.advancedSearchOpen) {
           vm.searchModalOpen = true ;
         }
-      }
+      };
 
       /**
        * @function goLabelRoute
@@ -109,6 +128,8 @@
         if (!isNotQuery($event)) {
           vm.toggleSearchModal(true);
           vm.debouncedSugesstion(text);
+        } else {
+          $event.preventDefault();
         }
 
       //   if (vm.searchOnKeypress) {
@@ -132,6 +153,9 @@
         var keys = [13, 38, 40];
         if (keys.indexOf(event.keyCode) > -1) {
           switch (event.keyCode) {
+            case 13:
+              returnKeyPressed();
+              return true;
             case 38:
               vm.selectedItem--;
               if (vm.selectedItem < 0) {
@@ -152,6 +176,27 @@
         } else {
           return false;
         }
+      }
+
+      function returnKeyPressed() {
+        if (vm.selectedItem === -1) {
+          searchQuery.setQuery(vm.query);
+        } else {
+          var item = selectItem(vm.selectedItem);
+          switch (item.type) {
+            case 'account':
+              searchQuery.addUser(item.data.id);
+              break;
+            case 'place':
+              searchQuery.addPlace(item.data.id);
+              break;
+            case 'label':
+              searchQuery.addLabel(item.data.title);
+              break;
+          }
+        }
+        $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toString())});
+        vm.toggleSearchModal();
       }
 
       function countItems() {

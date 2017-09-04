@@ -36,7 +36,7 @@
           </svg>
         </i>
         <input placeholder="{{ctrlTopBar.searchPlaceholder}}" ng-model="ctrlTopBar.query"
-          translate-attrs="placeholder" ng-keyup="ctrlTopBar.searchKeyPressed($event, ctrlTopBar.query, true)" ng-focus="ctrlTopBar.toggleSearchModal(true)">
+          translate-attrs="placeholder" ng-keyup="ctrlTopBar.searchKeyPressed($event, ctrlTopBar.query, true)" ng-focus="ctrlTopBar.toggleSearchModal(true);">
         <span ng-if="ctrlTopBar.searchModalOpen || ctrlTopBar.advancedSearchOpen" ng-class="{'open' : ctrlTopBar.advancedSearchOpen}" ng-click="ctrlTopBar.toggleAdvancedSearch()">
           <svg class="_24svg fill-white">
             <use xlink:href="/assets/icons/nst-icn24.svg#preferences"></use>
