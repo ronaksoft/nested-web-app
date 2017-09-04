@@ -8,7 +8,7 @@
     /** @ngInject */
     function TopBarController($q, $, $scope, $state, $stateParams, $uibModal, $rootScope, NST_SEARCH_QUERY_PREFIX,
                                _, NstSvcTranslation, NstSvcAuth, NstSvcSuggestionFactory, NstSvcLabelFactory, NstSvcUserFactory,
-                              NST_USER_SEARCH_AREA) {
+                              NST_USER_SEARCH_AREA, NstSvcPlaceFactory) {
       var vm = this;
       vm.searchPlaceholder = NstSvcTranslation.get('Search...');
       vm.searchKeyPressed = searchKeyPressed;
@@ -37,12 +37,12 @@
       };
       vm.limits = {
         exact: {
-          place: 6,
+          places: 6,
           accounts: 6,
           labels: 6
         },
         all: {
-          place: 3,
+          places: 3,
           accounts: 3,
           labels: 3
         }
@@ -145,9 +145,8 @@
               }
               break;
           }
-          console.log(vm.selectedItem);
           if (vm.selectedItem !== -1) {
-            selectItem(vm.selectedItem);
+            selectItem(vm.selectedItem).data._selected = true;
           }
           return true;
         } else {
@@ -190,13 +189,13 @@
         }
         var placeCount = 0;
         if (vm.suggestion.places.length > getLimit('places')) {
-          placeCount = getLimit('accounts');
+          placeCount = getLimit('places');
         } else {
           placeCount = vm.suggestion.places.length;
         }
         var labelCount = 0;
         if (vm.suggestion.labels.length > getLimit('labels')) {
-          labelCount = getLimit('accounts');
+          labelCount = getLimit('labels');
         } else {
           labelCount = vm.suggestion.labels.length;
         }
@@ -206,11 +205,20 @@
         resetSelected(vm.suggestion.labels);
 
         if (index >= 0 && index < accountCount) {
-          vm.suggestion.accounts[index]._selected = true
+          return {
+            data: vm.suggestion.accounts[index],
+            type: 'account'
+          }
         } else if (index >= accountCount && index < accountCount + placeCount) {
-          vm.suggestion.places[index - accountCount]._selected = true
+          return {
+            data: vm.suggestion.places[index - accountCount],
+            type: 'place'
+          }
         } else if (index >= accountCount + placeCount && index < accountCount + placeCount + labelCount) {
-          vm.suggestion.labels[index - (accountCount + labelCount)]._selected = true
+          return {
+            data: vm.suggestion.labels[index - (accountCount + placeCount)],
+            type: 'label'
+          }
         }
       }
 
@@ -288,6 +296,12 @@
 
           switch (result.type) {
             case 'place':
+              NstSvcPlaceFactory.searchForCompose(result.word).then(function (result) {
+                vm.suggestion = getUniqueItems({places: result.places});
+                vm.resultCount = countItems();
+                vm.defaultSearch = false;
+                vm.selectedItem = -1;
+              });
               break;
             case 'user':
               var settings = {
@@ -298,6 +312,7 @@
                 vm.suggestion = getUniqueItems({accounts: result});
                 vm.resultCount = countItems();
                 vm.defaultSearch = false;
+                vm.selectedItem = -1;
               });
               break;
             case 'label':
@@ -305,6 +320,7 @@
                 vm.suggestion = getUniqueItems({labels: result});
                 vm.resultCount = countItems();
                 vm.defaultSearch = false;
+                vm.selectedItem = -1;
               });
               break;
             case 'other':
@@ -312,6 +328,7 @@
                 vm.suggestion = getUniqueItems(result);
                 vm.resultCount = countItems();
                 vm.defaultSearch = false;
+                vm.selectedItem = -1;
               });
               break;
           }
