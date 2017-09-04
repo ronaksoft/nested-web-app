@@ -21,7 +21,7 @@
       vm.user = NstSvcAuth.user;
       vm.searchModalOpen = false;
       vm.advancedSearchOpen = false;
-      vm.debouncedSugesstion = _.debounce(getSuggestions, 500);
+      vm.debouncedSugesstion = _.debounce(getSuggestions, 128);
       vm.defaultSearch = true;
       vm.defaultSuggestion = {
         histories: [],
@@ -50,6 +50,14 @@
       vm.getLimit = getLimit;
       vm.resultCount = 6;
       vm.selectedItem = -1;
+      vm.addChip = addChip;
+      // vm.chips = [{
+      //   title: 'a',
+      //   type: 'label'
+      // },{
+      //   title: 'b',
+      //   type: 'label'
+      // }];
 
       var searchQuery;
 
@@ -383,6 +391,22 @@
       function getLimit(type) {
         var category = (vm.queryType === 'other' || vm.defaultSearch) ? 'all': 'exact';
         return vm.limits[category][type];
+      }
+
+      function addChip(id, type) {
+        switch (type) {
+          case 'account':
+            searchQuery.addUser(id);
+            break;
+          case 'place':
+            searchQuery.addPlace(id);
+            break;
+          case 'label':
+            searchQuery.addLabel(id);
+            break;
+        }
+        $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toString())});
+        vm.toggleSearchModal();
       }
     }
   })();
