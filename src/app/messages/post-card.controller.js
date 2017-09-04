@@ -63,11 +63,6 @@
     vm.postSenderIsCurrentUser = false;
     vm.haveAnyLabelAcess = true; // TODO Read this from label cache
 
-    vm.limits = {
-      places: 1,
-      recipients: 1
-    }
-
     isPlaceFeed();
     $scope.$parent.$parent.affixObserver = 1;
 
@@ -463,7 +458,11 @@
      * @returns
      */
     function hasDeleteAccess(place) {
-      return place.hasAccess(NST_PLACE_ACCESS.REMOVE_POST);
+      if ( typeof place.hasAccess === 'function') {
+        return place.hasAccess(NST_PLACE_ACCESS.REMOVE_POST);
+      } else {
+        return false;
+      }
     }
 
     /**
@@ -623,11 +622,6 @@
       vm.hasOlderComments = (vm.post.counters.comments && vm.post.comments) ? vm.post.counters.comments > vm.post.comments.length : false;
       vm.body = vm.post.body;
       vm.orginalPost = vm.post;
-
-      vm.limits = {
-        places: vm.post.places.length,
-        recipients: vm.post.recipients.length
-      }
 
       /**
        * checks the post body content is trusted ( displaying images )

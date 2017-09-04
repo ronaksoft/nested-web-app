@@ -155,26 +155,26 @@
         </svg>
     </a>
   </section>
-  <section class="post-places" ng-if="(!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)" inline-places="!ctlPostCard.isPostView"
-  limit-places="ctlPostCard.limits.places" limit-recipients="ctlPostCard.limits.recipients">
-    <translate class="places-label" ng-if="ctlPostCard.post.places.length > 0">shared with:</translate>{{ctlPostCard.limit.places}}
-    <span data-ng-repeat="place in ctlPostCard.post.places | limitTo: ctlPostCard.limits.places track by place.id"
+  <section class="post-places ng-class:{'no-post-view' : !ctlPostCard.chainView}" ng-if="(!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)" >
+    <translate class="places-label" ng-if="ctlPostCard.post.places.length > 0">shared with:</translate>
+    {{ctlPostCard.limit = !ctlPostCard.chainView ? 3 : 50; ""}}
+    <span data-ng-repeat="place in ctlPostCard.post.places.concat(ctlPostCard.post.recipients) | limitTo: ctlPostCard.limit track by place.id ? place.id : place"
           class="ng-class:{'del-access' :  ctlPostCard.hasDeleteAccess(place)}">
         <a ui-sref="app.place-messages({ placeId : place.id })" place-detail="place.id" dir="ltr">
-          {{::place.name}}
+          {{place.name ? place.name : place}}
         </a>
         <svg class="_16svg red-item" ng-click="ctlPostCard.remove(place);$event.stopPropagation();">
           <use xlink:href="/assets/icons/nst-icn16.svg#bin"></use>
         </svg>
     </span>
-    <a ng-if="ctlPostCard.post.recipients.length > 0"
+    <!-- <a ng-if="ctlPostCard.post.recipients.length > 0"
        data-ng-repeat="recipient in ctlPostCard.post.recipients | limitTo: ctlPostCard.limits.recipients track by $index">{{::recipient}}
-    </a>
-    <a ng-if="ctlPostCard.limits.places < ctlPostCard.post.places.length || ctlPostCard.limit.recipients < ctlPostCard.post.recipients.length"
+    </a> -->
+    <a ng-if="3 < ctlPostCard.post.places.length + ctlPostCard.post.recipients.length && !ctlPostCard.chainView"
          data-uib-tooltip-template="'morePlaces-uib-tooltip.html'"
          class="more"
          data-tooltip-append-to-body="true" data-tooltip-placement="auto top">
-      <translate>and</translate> {{ ctlPostCard.post.places.length + ctlPostCard.post.recipients.length - ctlPostCard.limit.recipients - ctlPostCard.limits.places | localize}} <translate>more</translate>...
+      <translate>and</translate> {{ ctlPostCard.post.places.length + ctlPostCard.post.recipients.length - 3 | localize}} <translate>more</translate>...
     </a>
   </section>
 
@@ -365,11 +365,8 @@
 </script>
 <script type="text/ng-template" id="morePlaces-uib-tooltip.html">
   <ul>
-    <li data-ng-repeat="place in ctlPostCard.post.places" ng-if="$index >= ctlPostCard.limits.places">
-      {{::place.name}}
-    </li>
-    <li data-ng-repeat="recipient in ctlPostCard.post.recipients" ng-if="$index >= ctlPostCard.limits.recipients">
-      {{::recipient}}
+    <li data-ng-repeat="place in ctlPostCard.post.places.concat(ctlPostCard.post.recipients)" ng-if="$index >= 3">
+      {{place.name ? place.name : place}}
     </li>
   </ul>
 </script>

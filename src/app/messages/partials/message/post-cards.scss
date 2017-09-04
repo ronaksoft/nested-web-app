@@ -430,11 +430,38 @@ post-card {
 .post-places {
   margin: 8px 0;
   flex-wrap: wrap;
+  &.no-post-view {
+    flex-wrap: nowrap;
+    overflow: hidden;
+    > span {
+      max-width: 20%;
+      overflow: hidden;
+      position: relative;
+      a {
+        display: block;
+        width: 100%;
+        float: left;
+        margin-top: 4px;
+        span {
+          display: block;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+      svg {
+        position: absolute;
+        right: 0;
+        top: 12px;
+        background-color: $color-white;
+      }
+    }
+  }
   .places-label {
     font-size: 14px;
     line-height: 32px;
     margin-right: 16px;
     color: $color-breeze;
+    flex: none;
     &:hover {
       box-shadow: none;
     }

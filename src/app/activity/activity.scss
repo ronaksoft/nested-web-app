@@ -7,7 +7,12 @@
   display: flex;
   position: relative;
   flex-direction: column;
-  // min-height: calc(100% - 50px);
+  max-width: 648px;
+  width: calc(100vw - 540px);
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 16px;
+  // min-height: calc(100% - 50px)
 }
 .activities-list {
   min-height: 100%;
