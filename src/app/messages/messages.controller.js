@@ -293,11 +293,11 @@
 
     function load() {
       return getMessages(vm.messagesSetting, handleCachedPosts).then(function (posts) {
-        // if (CITHandler) {
-        //   $timeout.cancel(CITHandler);
-        // }
-        // vm.FIT = false;
-        // mergePosts(posts);
+        if (CITHandler) {
+          $timeout.cancel(CITHandler);
+        }
+        vm.FIT = false;
+        mergePosts(posts);
       }).catch(function () {
         // console.log('====================================');
         // console.log(error);
