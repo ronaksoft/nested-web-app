@@ -17,6 +17,7 @@
       var vm = this;
       var eventReferences = [];
       var myPlaceOrders = {};
+      var ABSENT_PLACE_PICTURE_URL = '/assets/icons/absents_place.svg';
 
       /*****************************
        *** Controller Properties ***
@@ -526,7 +527,7 @@
       }
 
       function createTreeItem(place, children, isExpanded, isActive, depth) {
-        var picture = place.hasPicture() ? place.picture.getUrl('x32') : null;
+        var picture = place.hasPicture() ? place.picture.getUrl('x32') : ABSENT_PLACE_PICTURE_URL;
         return {
           id: place.id,
           name: place.name,
