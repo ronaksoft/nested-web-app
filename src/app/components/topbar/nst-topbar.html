@@ -19,9 +19,14 @@
   <div class="search">
     <div class="inner">
       <div class="search-chips-container _df">
-        <div ng-repeat="chip in ctrlTopBar.chips" class="chips">
-          <b><span ng-if="chip.type != 'keyword'" class="_df _fn">{{chip.type}}:&nbsp;</span></b>
-          <span>{{chip.title}}</span>
+        <div class="chips">
+          <div class="close-chips">
+              <svg class="_16svg _df _fn fill-white">
+                <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
+              </svg>
+          </div>
+          <b><span ng-if="chip.type != 'keyword'" class="_df _fn">from:&nbsp;</span></b>
+          <span>Ali</span>
         </div>
       </div>
       <div class="input-wrapper">
