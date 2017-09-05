@@ -102,6 +102,7 @@
     }));
 
     eventReferences.push($rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
+      $scope.isMainLayout = toState.options && toState.options.group !== 'settings';
       $('.wdt-emoji-popup.open').removeClass('open');
       // $rootScope.$broadcast('reload-counters');
       checkToBeAuthenticated(toState, toParams, event);
