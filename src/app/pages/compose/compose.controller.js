@@ -172,10 +172,8 @@
         NstSvcLogger.debug4('Compose | compose is in modal');
         eventReferences.push($scope.$on('modal.closing', function (event) {
           if (vm.ultimateSaveDraft) {
-            console.log(vm.ultimateSaveDraft);
             saveDraft();
             vm.finish = true;
-            // $uibModalStack.dismissAll();
           } else if(shouldSaveDraft() && !vm.finish) {
             window.onbeforeunload = function () {
               return "You have attempted to leave this page. Are you sure?";
@@ -284,7 +282,6 @@
     }
 
     function backDropClick() {
-      console.log(111111);
       vm.ultimateSaveDraft = true;
       $scope.$dismiss();
     }

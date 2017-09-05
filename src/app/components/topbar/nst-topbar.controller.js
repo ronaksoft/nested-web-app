@@ -13,6 +13,7 @@
       vm.searchPlaceholder = NstSvcTranslation.get('Search...');
       vm.searchKeyPressed = searchKeyPressed;
       vm.loadNotificationsCount = loadNotificationsCount;
+      vm.closeProfile = closeProfile;
       vm.query = '';
       vm.newQuery = '';
       vm.excludedQuery = '';
@@ -499,11 +500,14 @@
        * Gets invitations
        * @returns {Promise}
        */
-
       function loadNotificationsCount() {
         NstSvcNotificationFactory.getNotificationsCount().then(function (count) {
           vm.notificationsCount = count;
         });
+      }
+
+      function closeProfile() {
+        vm.profileOpen = false;
       }
 
 
