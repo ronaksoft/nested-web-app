@@ -36,6 +36,7 @@
       vm.canCreateClosedPlace = false;
       vm.canCreateOpenPlace = false;
       vm.canCreateGrandPlace = false;
+      vm.noAccessCreatingMessage = '';
 
       initialize();
 
@@ -95,6 +96,15 @@
           if (_.size(results) === 2 && _.every(results)) {
             var hasAddPlaceAccess = results[0].hasAccess(NST_PLACE_ACCESS.ADD_PLACE);
             var canAddMore = results[0].canAddSubPlace();
+            if (!hasAddPlaceAccess){
+              vm.noAccessCreatingMessage = 'You have no access create sub Places here.';
+            }
+            if (!canAddMore){
+              vm.noAccessCreatingMessage = 'You have reached the creation limit.';
+            }
+            if (!results[0].privacy.locked && !NstUtility.place.isGrand(results[0].id)){
+              vm.noAccessCreatingMessage = 'You just can create sub Places only in closed Places';
+            }
 
             vm.canCreateClosedPlace = hasAddPlaceAccess
               && results[0].privacy.locked

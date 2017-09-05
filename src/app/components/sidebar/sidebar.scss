@@ -282,9 +282,16 @@
       opacity: .64;
       margin: 2px;
       border-radius: 4px;
+      &.disabled {
+        cursor: default;
+      }
       &:hover {
         opacity: 1;
         background-color: $color-breeze-new;
+        &.disabled {
+          opacity: .64;
+          background-color: transparent;
+        }
       }
     }
   }
