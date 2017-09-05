@@ -12,17 +12,36 @@
 
   /** @ngInject */
   function NstSvcFileFactory($q, _,
-                             NstSvcServer, NstSvcFileType, NstSvcDownloadTokenStorage, NstSvcFileStorage,
-                             NstBaseFactory, NstPicture, NstAttachment, NstStoreToken) {
+    NstSvcServer, NstSvcFileType, NstSvcFileStorage, NstSvcGlobalCache,
+    NstBaseFactory, NstPicture, NstAttachment, NstStoreToken) {
     /**
      * @constructor
      */
     function FileFactory() {
       NstBaseFactory.call(this);
+
+      this.tokenCache = NstSvcGlobalCache.createProvider('token');
     }
 
     FileFactory.prototype = new NstBaseFactory();
     FileFactory.prototype.constructor = FileFactory;
+
+    FileFactory.prototype.setToken = function(key, value) {
+      this.tokenCache.set(key, {
+        value: value,
+      });
+    }
+
+    FileFactory.prototype.getToken = function(key, value) {
+      var token = this.tokenCache.get(key);
+      if (token && token.value) {
+        return token.value;
+      }
+
+      return null;
+    }
+
+
 
 
     /**
@@ -162,16 +181,13 @@
     FileFactory.prototype.getDownloadToken = function (attachmentId, placeId, postId) {
       var deferred = $q.defer();
       var tokenKey = generateTokenKey(attachmentId);
-      var tokenObj = NstSvcDownloadTokenStorage.get(tokenKey);
+      var tokenObj = createToken(factory.getToken(tokenKey));
       if (tokenObj && !tokenObj.isExpired()) {
         deferred.resolve(tokenObj);
       } else {
-        NstSvcDownloadTokenStorage.remove(tokenKey);
+        factory.tokenCache.remove(tokenKey);
         requestNewDownloadToken(attachmentId, placeId, postId).then(function (newToken) {
-          NstSvcDownloadTokenStorage.set(tokenKey, {
-            token: newToken.toString(),
-            sk: NstSvcServer.getSessionKey()
-          });
+          factory.setToken(tokenKey, newToken.toString());
           deferred.resolve(newToken);
         }).catch(deferred.reject);
       }
