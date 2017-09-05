@@ -6,7 +6,7 @@
       .controller('TopBarController', TopBarController);
 
     /** @ngInject */
-    function TopBarController($q, $, $scope, $state, $stateParams, $uibModal, $rootScope, NST_SEARCH_QUERY_PREFIX,
+    function TopBarController($q, $, $scope, $timeout, $state, $stateParams, $uibModal, $rootScope, NST_SEARCH_QUERY_PREFIX,
                                _, NstSvcTranslation, NstSvcAuth, NstSvcSuggestionFactory, NstSvcLabelFactory, NstSvcUserFactory, NstSvcNotificationFactory,
                               NST_USER_SEARCH_AREA, NstSvcPlaceFactory, NstSearchQuery) {
       var vm = this;
@@ -67,6 +67,7 @@
       vm.addChip = addChip;
       vm.removeChip = removeChip;
       vm.chips = [];
+      vm.isSearchPage = false;
 
       var searchQuery;
 
@@ -74,6 +75,7 @@
         initQuery(true);
         $rootScope.$on('$stateChangeSuccess', function () {
           initQuery(false);
+          isSearch();
         });
         NstSvcSuggestionFactory.search('').then(function (result) {
           vm.defaultSuggestion = getUniqueItems(result);
@@ -117,6 +119,11 @@
         vm.advancedSearch.hasAttachment = searchQuery.getHasAttachment();
         vm.advancedSearch.within = searchQuery.getWithin();
         vm.advancedSearch.date = searchQuery.getDate();
+      }
+
+      function isSearch() {
+        vm.isSearchPage = $state.current.name === 'app.search';
+        return vm.isSearchPage;
       }
 
       vm.toggleSearchModal = function(force) {

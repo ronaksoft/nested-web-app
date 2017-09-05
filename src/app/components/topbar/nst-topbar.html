@@ -17,7 +17,7 @@
     </a>
   </div>
   <div class="search">
-    <div class="inner">
+    <div class="inner ng-class:{'in-search-page' : ctrlTopBar.isSearchPage}">
       <i ng-if="!ctrlTopBar.searchModalOpen && !ctrlTopBar.advancedSearchOpen && ctrlTopBar.chips.length === 0">
         <svg class="_24svg fill-white">
           <use xlink:href="/assets/icons/nst-icn24.svg#search"></use>
