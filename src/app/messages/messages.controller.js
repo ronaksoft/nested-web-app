@@ -10,7 +10,7 @@
                               moment, toastr,
                               NST_MESSAGES_SORT_OPTION, NST_DEFAULT, NST_EVENT_ACTION, NST_PLACE_ACCESS, NST_POST_EVENT,
                               NstSvcPostFactory, NstSvcPlaceFactory, NstUtility, NstSvcAuth, NstSvcSync,
-                              NstSvcMessagesSettingStorage, NstSvcTranslation, SvcCardCtrlAffix) {
+                              NstSvcTranslation, SvcCardCtrlAffix) {
 
     var vm = this;
 
@@ -75,13 +75,6 @@
 
       setLocationFlag();
       configureNavbar();
-
-      if (!$stateParams.sort || $stateParams.sort === NST_DEFAULT.STATE_PARAM) {
-        vm.messagesSetting.sort = NstSvcMessagesSettingStorage.get(sortOptionStorageKey, defaultSortOption);
-      } else {
-        vm.messagesSetting.sort = $stateParams.sort;
-        NstSvcMessagesSettingStorage.set(sortOptionStorageKey, vm.messagesSetting.sort);
-      }
 
       if (vm.currentPlaceId) {
         loadPlace();
