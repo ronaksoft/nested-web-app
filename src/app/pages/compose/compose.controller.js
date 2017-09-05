@@ -343,12 +343,11 @@
       }).catch(deferred.reject);
 
       $q.all(_.map(draft.recipients, function (recipientId) {
-        var isNormalPlace = !NST_PATTERN.EMAIL.test(recipientId);
 
-        return NstSvcPlaceFactory.getSafe(recipientId, isNormalPlace);
+        return NstSvcPlaceFactory.getSafe(recipientId);
       })).then(function (recipients) {
-
-        vm.model.recipients = recipients.map(function (recipient) {
+        vm.model.recipients = draft.recipients.map(function (id) {
+          var recipient = _.find(recipients, { id: id }) || { id : id };
           return new NstVmSelectTag(recipient);
         });
         deferred.resolve(draft);

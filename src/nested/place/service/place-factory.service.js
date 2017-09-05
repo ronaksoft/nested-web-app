@@ -105,8 +105,9 @@
     }
 
     PlaceFactory.prototype.getSafe = function (id, normal) {
+      var factory = this;
       return $q(function(resolve) {
-        this.get(id, normal).then(function (place) {
+        factory.get(id, normal).then(function (place) {
           resolve(place);
         }).catch(function () {
           resolve(null);
