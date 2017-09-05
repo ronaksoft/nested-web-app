@@ -134,8 +134,17 @@
         vm.attachments.current.loaded = false;
       }
       vm.attachments.current = vm.attachments.collection[index];
-      if (vm.attachments.current.type === NST_FILE_TYPE.PDF ||
-        vm.attachments.current.type === NST_FILE_TYPE.DOCUMENT) {
+      if (vm.attachments.current.type === NST_FILE_TYPE.PDF) {
+        vm.attachments.current.show = false;
+
+        getToken(vm.attachments.current.id).then(function (token) {
+          vm.attachments.current.viewUrl = $sce.trustAsResourceUrl(
+            encodeURI(NstSvcStore.resolveUrl(NST_STORE_ROUTE.VIEW, vm.attachments.current.id, token)));
+
+        }).catch(function () {
+          toastr.error('Sorry, An error has occured while trying to load the file');
+        });
+      } else if(vm.attachments.current.type === NST_FILE_TYPE.DOCUMENT) {
         vm.attachments.current.show = false;
 
         getToken(vm.attachments.current.id).then(function (token) {

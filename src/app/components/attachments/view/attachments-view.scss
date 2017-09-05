@@ -352,6 +352,10 @@ span.filename {
   }
 }
 .preview-box {
+  object {
+    width: 100vw;
+    height: calc(100vh - 64px);
+  }
 }
 .attachment-pager {
   position: fixed;
