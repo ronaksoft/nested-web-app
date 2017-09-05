@@ -12,7 +12,9 @@
       var vm = this;
       vm.searchPlaceholder = NstSvcTranslation.get('Search...');
       vm.searchKeyPressed = searchKeyPressed;
+      vm.loadNotificationsCount = loadNotificationsCount;
       vm.query = '';
+      vm.newQuery = '';
       vm.excludedQuery = '';
       vm.queryType = '';
       vm.notificationsCount = 0;
@@ -48,40 +50,46 @@
         }
       };
       vm.getLimit = getLimit;
-      vm.resultCount = 6;
+      vm.resultCount = 0;
       vm.selectedItem = -1;
       vm.addChip = addChip;
-      vm.chips = [{
-        title: 'a',
-        type: 'label'
-      },{
-        title: 'b',
-        type: 'label'
-      }];
+      vm.removeChip = removeChip;
+      vm.chips = [];
 
       var searchQuery;
 
       (function () {
+        console.log('init');
         initQuery(true);
-        $rootScope.$on('$routeChangeSuccess', function () {
+        $rootScope.$on('$stateChangeSuccess', function () {
+          console.log('stateChanged');
           initQuery(false);
         });
         NstSvcSuggestionFactory.search(vm.query).then(function (result) {
           vm.defaultSuggestion = getUniqueItems(result);
-          vm.suggestion = vm.defaultSuggestion;
+          vm.suggestion = Object.assign({}, vm.defaultSuggestion);
         });
       })();
 
       function initQuery(init) {
         if ($state.current.name === 'app.search') {
-          if ($stateParams.search !== '_') {
-            vm.query = $stateParams.search;
+          vm.query = $stateParams.search;
+          if (vm.query === '_') {
+            vm.query = '';
           }
-        }
-        if (init) {
-          searchQuery = new NstSearchQuery(vm.query);
+          vm.newQuery = '';
+          if (init) {
+            searchQuery = new NstSearchQuery(vm.query);
+          } else {
+            searchQuery.setQuery(vm.query);
+          }
+          initChips(searchQuery.getSortedParams());
+          vm.newQuery = searchQuery.getAllKeywords();
         } else {
-          searchQuery.setQuery(vm.query);
+          vm.query = '';
+          vm.newQuery = '';
+          vm.chips = [];
+          vm.selectedItem = -1;
         }
       }
 
@@ -130,44 +138,30 @@
        * Triggers when in search input any key being pressed
        * @param {event} $event
        * @param {string} text
-       * @param {boolean} isChips
        */
-      function searchKeyPressed($event, text, isChips) {
+      function searchKeyPressed($event, text) {
         if (!isNotQuery($event)) {
           vm.toggleSearchModal(true);
           vm.debouncedSugesstion(text);
         } else {
           $event.preventDefault();
         }
-
-      //   if (vm.searchOnKeypress) {
-      //     if (isChips) {
-      //       if (text === undefined) {
-      //         text = '';
-      //       }
-      //       if (text === '' && vm.lastChipText === '' && $event.keyCode === 8) {
-      //         vm.removeLastChip(vm.query);
-      //         return;
-      //       }
-      //       vm.searchOnKeypress($event, vm.query + ' ' + text);
-      //       vm.lastChipText = text;
-      //     } else {
-      //       vm.searchOnKeypress($event, text);
-      //     }
-      //   }
       }
 
       function isNotQuery(event) {
-        var keys = [13, 38, 40];
+        var keys = [13, 27, 38, 40];
         if (keys.indexOf(event.keyCode) > -1) {
           switch (event.keyCode) {
+            case 27:
+              vm.toggleSearchModal();
+              return true;
             case 13:
               returnKeyPressed();
               return true;
             case 38:
               vm.selectedItem--;
-              if (vm.selectedItem < 0) {
-                vm.selectedItem = 0;
+              if (vm.selectedItem < -1) {
+                vm.selectedItem = -1;
               }
               break;
             case 40:
@@ -177,8 +171,12 @@
               }
               break;
           }
-          if (vm.selectedItem !== -1) {
+          if (vm.selectedItem !== -1 && vm.resultCount > 0) {
             selectItem(vm.selectedItem).data._selected = true;
+          } else {
+            resetSelected(vm.suggestion.accounts);
+            resetSelected(vm.suggestion.places);
+            resetSelected(vm.suggestion.labels);
           }
           return true;
         } else {
@@ -188,7 +186,7 @@
 
       function returnKeyPressed() {
         if (vm.selectedItem === -1) {
-          searchQuery.setQuery(vm.query);
+          searchQuery.setQuery(vm.query, vm.newQuery);
         } else {
           var item = selectItem(vm.selectedItem);
           switch (item.type) {
@@ -338,9 +336,12 @@
       }
 
       function getSuggestions(query) {
+        console.log(_.trim(query), _.trim(query).length);
         if (_.trim(query).length === 0) {
+          console.log('here');
           vm.defaultSearch = true;
           vm.suggestion = vm.defaultSuggestion;
+          console.log(vm.suggestion);
         }
         else {
           var result = getLastItem(query);
@@ -393,6 +394,25 @@
         return vm.limits[category][type];
       }
 
+      function initChips(params) {
+        vm.chips = [];
+        var types = {
+          'place': 'in',
+          'user': 'from',
+          'label': 'label',
+          'keyword': 'keyword'
+        };
+        params = _.filter(params, function (item) {
+          return (item.type !== 'keyword');
+        });
+        vm.chips = _.map(params, function (item) {
+          return {
+            type: types[item.type],
+            title: item.id
+          };
+        });
+      }
+
       function addChip(id, type) {
         switch (type) {
           case 'account':
@@ -409,7 +429,34 @@
         vm.toggleSearchModal();
       }
 
-      
+      /**
+       * remove selected chip by name from search query
+       * @param {string} type
+       * @param {string} name
+       */
+      function removeChip(type, name) {
+        switch (type) {
+          case 'in':
+            searchQuery.removePlace(name);
+            break;
+          case 'from':
+            searchQuery.removeUser(name);
+            break;
+          case 'label':
+            searchQuery.removeLabel(name);
+            break;
+          case 'keyword':
+            searchQuery.removeKeyword(name);
+            break;
+        }
+        // vm.query = searchQuery.toString();
+        $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toString())});
+        if (vm.searchModalOpen) {
+          vm.toggleSearchModal();
+        }
+        // vm.forceSearch(vm.query);
+      }
+
       /**
        * Listen to closing notification popover event
        */
@@ -422,20 +469,19 @@
        * Gets invitations
        * @returns {Promise}
        */
-      
+
       function loadNotificationsCount() {
         NstSvcNotificationFactory.getNotificationsCount().then(function (count) {
           vm.notificationsCount = count;
         });
       }
 
-      
+
       /**
        * Event listener for `reload-counters`
        */
       $rootScope.$on('reload-counters', function () {
         loadNotificationsCount();
       });
-
     }
   })();

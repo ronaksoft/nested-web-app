@@ -53,7 +53,7 @@
 .panel-profile-setting {
   max-width: 574px;
   float: left;
-  width: calc(100% - 280px);
+  width: calc(100vw - 280px);
   text-decoration: none;
   background-color: $color-white;
   border: 1px solid #E6E6E6;

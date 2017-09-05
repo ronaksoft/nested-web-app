@@ -547,11 +547,7 @@
           name : i
         });
       });
-      
-      console.log(concatArray);
       vm.totalRecipients = _.uniqBy(concatArray, 'id');
-      
-      console.log(vm.totalRecipients);
     });
 
     /**

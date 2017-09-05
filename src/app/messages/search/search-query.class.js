@@ -26,12 +26,54 @@
 
 
 
-    SearchQuery.prototype.setQuery = function (query) {
+    SearchQuery.prototype.setQuery = function (query, secondaryQuery) {
       this.places = [];
       this.users = [];
       this.labels = [];
       this.otherKeywords = [];
+      this.order = 0;
+      var secondaryResult = {
+        places: [],
+        users: [],
+        labels: [],
+        keywords: []
+      };
+      var result = this.parseQuery(query);
 
+      if ((secondaryQuery !== null && secondaryQuery !== undefined) && secondaryQuery.length > 0) {
+        secondaryResult = this.parseQuery(secondaryQuery);
+      }
+
+      var that = this;
+
+      Array.prototype.concat(result.places, secondaryResult.places).forEach(function (item) {
+        that.addPlace(item.id, item.order);
+      });
+
+      Array.prototype.concat(result.users, secondaryResult.users).forEach(function (item) {
+        that.addUser(item.id, item.order);
+      });
+
+      Array.prototype.concat(result.labels, secondaryResult.labels).forEach(function (item) {
+        that.addLabel(item.id, item.order);
+      });
+
+      if (secondaryQuery !== null && secondaryQuery !== undefined) {
+        secondaryResult.keywords.forEach(function (item) {
+          that.addOtherKeyword(item.id, item.order);
+        });
+      } else {
+        result.keywords.forEach(function (item) {
+          that.addOtherKeyword(item.id, item.order);
+        });
+      }
+    };
+
+    SearchQuery.prototype.parseQuery = function (query) {
+      var places = [];
+      var users = [];
+      var labels = [];
+      var keywords = [];
       var decodedQuery = decodeURIComponent(query);
 
       var words = [];
@@ -52,22 +94,39 @@
 
       var that = this;
 
-      this.order = 0;
-
       _.forEach(words, function (word) {
         that.order++;
         if (_.startsWith(word, that.prefixes.place)) {
-          this.addPlace(_.replace(word, that.prefixes.place, ''), that.order);
+          places.push({
+            id: _.replace(word, that.prefixes.place, ''),
+            order: that.order
+          });
         } else if (_.startsWith(word, that.prefixes.user)) {
-          this.addUser(_.replace(word, that.prefixes.user, ''), that.order);
+          users.push({
+            id: _.replace(word, that.prefixes.user, ''),
+            order: that.order
+          });
         } else if (_.startsWith(word, that.prefixes.label)) {
-          this.addLabel(_.trim(_.replace(word, that.prefixes.label, ''), '"'), that.order);
+          labels.push({
+            id: _.trim(_.replace(word, that.prefixes.label, ''), '"'),
+            order: that.order
+          });
         } else {
           if (word.length > 0) {
-            this.addOtherKeyword(word, that.order);
+            keywords.push({
+              id: word,
+              order: that.order
+            });
           }
         }
-      }.bind(this));
+      });
+
+      return {
+        places: places,
+        users: users,
+        labels: labels,
+        keywords: keywords
+      };
     };
 
     SearchQuery.prototype.toString = function () {
@@ -171,6 +230,16 @@
       _.remove(this.otherKeywords, function (item) {
         return keyword === item.id;
       });
+    };
+
+    SearchQuery.prototype.removeAllKeywords = function () {
+      this.otherKeywords = [];
+    };
+
+    SearchQuery.prototype.getAllKeywords = function () {
+      return this.otherKeywords.map(function (item) {
+        return item.id;
+      }).join(' ');
     };
 
     SearchQuery.encode = function (queryString) {
