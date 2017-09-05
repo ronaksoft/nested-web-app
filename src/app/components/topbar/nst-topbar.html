@@ -83,7 +83,7 @@
   <div class="backdrop" ng-if="ctrlTopBar.searchModalOpen || ctrlTopBar.advancedSearchOpen" ng-click="ctrlTopBar.toggleSearchModal()"></div>
   <div class="search-popover" ng-if="ctrlTopBar.searchModalOpen">
     <div class="_difh _fw search-query _aic" ng-if="ctrlTopBar.newQuery.length > 0">
-      <a class="_df _fw">
+      <a class="_df _fw"  ng-click="ctrlTopBar.searchIt(ctrlTopBar.newQuery, true)">
         <translate>Search for <b>“{{ctrlTopBar.newQuery}}”</b></translate>
       </a>
       <translate>enter</translate>
@@ -93,9 +93,9 @@
         <translate>Recent searches</translate>
       </h5>
       <ul>
-        <li ng-repeat="history in ctrlTopBar.suggestion.histories">
+        <li ng-repeat="history in ctrlTopBar.suggestion.histories" ng-click="ctrlTopBar.searchIt(history)">
           <a>{{history}}</a>
-          <span>remove</span>
+          <!--<span>remove</span>-->
         </li>
       </ul>
     </section>
