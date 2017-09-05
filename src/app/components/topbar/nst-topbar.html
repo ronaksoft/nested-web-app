@@ -19,14 +19,14 @@
   <div class="search">
     <div class="inner" nst-scrollbar suppress-scroll-y="true">
       <div class="search-chips-container _df">
-        <div class="chips">
+        <div ng-repeat="chip in ctrlTopBar.chips" class="chips">
           <div class="close-chips">
-              <svg class="_16svg _df _fn fill-white">
+              <svg ng-click="ctrlTopBar.removeChip(chip.type, chip.title)" class="_16svg _df _fn fill-white">
                 <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
               </svg>
           </div>
-          <b><span ng-if="chip.type != 'keyword'" class="_df _fn">from:&nbsp;</span></b>
-          <span>Ali</span>
+          <b><span ng-if="chip.type != 'keyword'" class="_df _fn">{{chip.type}}:&nbsp;</span></b>
+          <span>{{chip.title}}</span>
         </div>
       </div>
       <i ng-if="!ctrlTopBar.searchModalOpen && !ctrlTopBar.advancedSearchOpen && ctrlTopBar.chips.length === 0">
@@ -40,8 +40,8 @@
         </svg>
       </i>
       <div class="input-wrapper">
-        <input placeholder="{{ctrlTopBar.searchPlaceholder}}" ng-model="ctrlTopBar.query"
-          translate-attrs="placeholder" ng-keyup="ctrlTopBar.searchKeyPressed($event, ctrlTopBar.query, true)" ng-focus="ctrlTopBar.toggleSearchModal(true);">
+        <input placeholder="{{ctrlTopBar.searchPlaceholder}}" ng-model="ctrlTopBar.newQuery"
+          translate-attrs="placeholder" ng-keyup="ctrlTopBar.searchKeyPressed($event, ctrlTopBar.newQuery, true)" ng-focus="ctrlTopBar.toggleSearchModal(true);">
       </div>
       <span ng-if="ctrlTopBar.searchModalOpen || ctrlTopBar.advancedSearchOpen" class="advanced-search ng-class:{'open' : ctrlTopBar.advancedSearchOpen}" ng-class="{'open' : ctrlTopBar.advancedSearchOpen} " ng-click="ctrlTopBar.toggleAdvancedSearch()">
         <svg class="_24svg fill-white">
@@ -82,9 +82,9 @@
   ====================== -->
   <div class="backdrop" ng-if="ctrlTopBar.searchModalOpen || ctrlTopBar.advancedSearchOpen" ng-click="ctrlTopBar.toggleSearchModal()"></div>
   <div class="search-popover" ng-if="ctrlTopBar.searchModalOpen">
-    <div class="_difh _fw search-query _aic" ng-if="ctrlTopBar.query.length > 0">
+    <div class="_difh _fw search-query _aic" ng-if="ctrlTopBar.newQuery.length > 0">
       <a class="_df _fw">
-        <translate>Search for <b>“{{ctrlTopBar.query}}”</b></translate>
+        <translate>Search for <b>“{{ctrlTopBar.newQuery}}”</b></translate>
       </a>
       <translate>enter</translate>
     </div>
