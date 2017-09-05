@@ -370,7 +370,6 @@
             result.word = '';
           }
 
-          console.log(result);
           vm.excludedQuery = result.word;
           vm.queryType = result.type;
 
