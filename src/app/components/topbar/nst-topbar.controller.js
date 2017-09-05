@@ -12,6 +12,7 @@
       var vm = this;
       vm.searchPlaceholder = NstSvcTranslation.get('Search...');
       vm.searchKeyPressed = searchKeyPressed;
+      vm.loadNotificationsCount = loadNotificationsCount;
       vm.query = '';
       vm.newQuery = '';
       vm.excludedQuery = '';
