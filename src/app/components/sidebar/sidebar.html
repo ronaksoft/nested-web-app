@@ -54,9 +54,14 @@
     <div class="side-places-wrapper _fw">
       <div class="side-places-head _df">
         <translate class="_df _fw">Places</translate>
-        <div class="_df _aic _jcc _fn" data-popover-class="white-pop create-place-popover"
-        data-popover-append-to-body="false" uib-popover-template="'app/components/sidebar/partials/create-place-popover.html'"
-        data-popover-trigger="focus" data-popover-placement="auto bottom-right" >
+        <div class="_df _aic _jcc _fn ng-class:{'disabled' : !ctlSidebar.canCreateClosedPlace && !ctlSidebar.canCreateGrandPlace && !ctlSidebar.canCreateOpenPlace}"
+          data-popover-class="white-pop create-place-popover" data-popover-append-to-body="false" uib-popover-template="'app/components/sidebar/partials/create-place-popover.html'"
+          data-popover-trigger="focus" data-popover-placement="auto bottom-right"
+          data-popover-enable="{{!ctlSidebar.canCreateClosedPlace && !ctlSidebar.canCreateGrandPlace && !ctlSidebar.canCreateOpenPlace ? false : true}}"          
+          data-uib-tooltip-template="'cannot-create-place.html'"
+          data-tooltip-append-to-body="true"
+          data-tooltip-enable="{{!ctlSidebar.canCreateClosedPlace && !ctlSidebar.canCreateGrandPlace && !ctlSidebar.canCreateOpenPlace ? true : false}}"
+          data-tooltip-placement="right auto">
           <svg class="_16svg">
             <use xlink:href="/assets/icons/nst-icn16.svg#cross"></use>
           </svg>
@@ -77,7 +82,7 @@
               <translate>&nbsp;Invitation</translate>
             </a>
           </li>
-        </ul> 
+        </ul>
         <!-- <a class="create-place _fw detailed" dir="{{_direction}}">
           <span>
             <svg class="_24svg">
@@ -128,6 +133,9 @@
 <script type="text/ng-template" id="sent-uib-tooltip.html">
   <translate>Shared by me</translate>
 </script>
-<script type="text/ng-template" id="create-uib-tooltip.html">
-  <translate>Create a new Place</translate>
+<script type="text/ng-template" id="cannot-create-place.html">
+<script type="text/ng-template" id="cannot-create-place.html">
+  <translate>You have no access to create any more grand places</translate>
+  <br>
+  <translate>{{ctlSidebar.noAccessCreatingMessage}}</translate>
 </script>

@@ -7,7 +7,7 @@
 
     /** @ngInject */
     function TopBarController($q, $, $scope, $state, $stateParams, $uibModal, $rootScope, NST_SEARCH_QUERY_PREFIX,
-                               _, NstSvcTranslation, NstSvcAuth, NstSvcSuggestionFactory, NstSvcLabelFactory, NstSvcUserFactory,
+                               _, NstSvcTranslation, NstSvcAuth, NstSvcSuggestionFactory, NstSvcLabelFactory, NstSvcUserFactory, NstSvcNotificationFactory,
                               NST_USER_SEARCH_AREA, NstSvcPlaceFactory, NstSearchQuery) {
       var vm = this;
       vm.searchPlaceholder = NstSvcTranslation.get('Search...');
@@ -15,7 +15,7 @@
       vm.query = '';
       vm.excludedQuery = '';
       vm.queryType = '';
-      vm.notificationsCount = 10;
+      vm.notificationsCount = 0;
       vm.profileOpen = false;
       vm.notifOpen = false;
       vm.user = NstSvcAuth.user;
@@ -408,5 +408,34 @@
         $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toString())});
         vm.toggleSearchModal();
       }
+
+      
+      /**
+       * Listen to closing notification popover event
+       */
+      $scope.$on('close-mention', function () {
+        vm.mentionOpen = false;
+      });
+
+      /**
+       * @function getInvitations
+       * Gets invitations
+       * @returns {Promise}
+       */
+      
+      function loadNotificationsCount() {
+        NstSvcNotificationFactory.getNotificationsCount().then(function (count) {
+          vm.notificationsCount = count;
+        });
+      }
+
+      
+      /**
+       * Event listener for `reload-counters`
+       */
+      $rootScope.$on('reload-counters', function () {
+        loadNotificationsCount();
+      });
+
     }
   })();

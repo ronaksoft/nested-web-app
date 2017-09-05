@@ -78,7 +78,7 @@
         flex-direction: column;
         width: calc(100% - 10px);
         margin-left: 10px;
-        padding-top: 8px;
+        padding-top: 4px;
         padding-bottom: 6px;
         border-bottom: 1px solid $color-breeze;
         span {
@@ -89,16 +89,17 @@
         }
         p {
           color: $color-new-hurricane;
-          font-size: $font-size-xsmall;
+          font-size: 12px;
           @extend ._wrb;
           max-width: 100%;
           padding-right: 8px;
-          //line-height: 13px;
+          margin-bottom:  4px;
+          line-height: 17px;
           //font-weight: 400;
           span {
             color: $color-new-hurricane;
             white-space: normal;
-            font-size: $font-size-xsmall;
+            font-size: 12px;
             @extend ._wrb;
           }
         }

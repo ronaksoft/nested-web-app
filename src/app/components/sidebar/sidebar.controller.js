@@ -29,7 +29,6 @@
       vm.invitation = {};
       vm.places = [];
       vm.onPlaceClick = onPlaceClick;
-      vm.mentionOpen = vm.profileOpen = false;
       vm.openCreatePlaceModal = openCreatePlaceModal;
       vm.openCreateSubplaceModal = openCreateSubplaceModal;
       vm.hasDraft = false;
@@ -37,6 +36,7 @@
       vm.canCreateClosedPlace = false;
       vm.canCreateOpenPlace = false;
       vm.canCreateGrandPlace = false;
+      vm.noAccessCreatingMessage = '';
 
       initialize();
 
@@ -96,6 +96,15 @@
           if (_.size(results) === 2 && _.every(results)) {
             var hasAddPlaceAccess = results[0].hasAccess(NST_PLACE_ACCESS.ADD_PLACE);
             var canAddMore = results[0].canAddSubPlace();
+            if (!hasAddPlaceAccess){
+              vm.noAccessCreatingMessage = 'You have no access create sub Places here.';
+            }
+            if (!canAddMore){
+              vm.noAccessCreatingMessage = 'You have reached the creation limit.';
+            }
+            if (!results[0].privacy.locked && !NstUtility.place.isGrand(results[0].id)){
+              vm.noAccessCreatingMessage = 'You just can create sub Places only in closed Places';
+            }
 
             vm.canCreateClosedPlace = hasAddPlaceAccess
               && results[0].privacy.locked
@@ -108,7 +117,7 @@
             vm.canCreateGrandPlace = results[1].limits.grand_places > 0;
 
             vm.user = results[1];
-            vm.notificationsCount = results[1].unreadNotificationsCount;
+            // vm.notificationsCount = results[1].unreadNotificationsCount;
           }
         });
       }
@@ -255,19 +264,6 @@
         }
       }
 
-      /**
-       * Listen to closing notification popover event
-       */
-      $scope.$on('close-mention', function () {
-        vm.mentionOpen = false;
-      });
-
-      /**
-       * Close the profile popover
-       */
-      vm.closeProfile = function () {
-        vm.profileOpen = false;
-      };
 
       function loadInvitations() {
         NstSvcInvitationFactory.getAll().then(function (invitations) {
@@ -373,22 +369,6 @@
       };
 
       /*****************************
-       *****    Fetch Methods   ****
-       *****************************/
-
-      /**
-       * @function getInvitations
-       * Gets invitations
-       * @returns {Promise}
-       */
-      
-      function loadNotificationsCount() {
-        NstSvcNotificationFactory.getNotificationsCount().then(function (count) {
-          vm.notificationsCount = count;
-        });
-      }
-
-      /*****************************
        *****  Event Listeners   ****
        *****************************/
 
@@ -470,13 +450,6 @@
       }));
 
       /**
-       * Event listener for `NST_NOTIFICATION_EVENT.UPDATE`
-       */
-      eventReferences.push($rootScope.$on(NST_NOTIFICATION_EVENT.UPDATE, function (e, data) {
-        vm.notificationsCount = data.count;
-      }));
-
-      /**
        * Event listener for `NST_NOTIFICATION_EVENT.OPEN_INVITATION_MODAL`
        */
       eventReferences.push($rootScope.$on(NST_NOTIFICATION_EVENT.OPEN_INVITATION_MODAL, function (e, data) {
@@ -513,9 +486,7 @@
        */
       NstSvcServer.addEventListener(NST_SRV_EVENT.RECONNECT, function () {
         NstSvcLogger.debug('Retrieving mentions count right after reconnecting.');
-        getNotificationsCount();
         NstSvcLogger.debug('Retrieving the grand place unreads count right after reconnecting.');
-        getGrandPlaceUnreadCounts();
         NstSvcLogger.debug('Retrieving invitations right after reconnecting.');
         getInvitations().then(function (result) {
           vm.invitations = result;
@@ -528,7 +499,6 @@
        */
       $rootScope.$on('reload-counters', function () {
         NstSvcLogger.debug('Retrieving mentions count right after focus.');
-        loadNotificationsCount();
         NstSvcLogger.debug('Retrieving the grand place unreads count right after focus.');
         loadMyPlacesUnreadPostsCount();
       });

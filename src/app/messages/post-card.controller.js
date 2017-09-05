@@ -62,6 +62,7 @@
     vm.isCheckedForce = false;
     vm.postSenderIsCurrentUser = false;
     vm.haveAnyLabelAcess = true; // TODO Read this from label cache
+    vm.totalRecipients = [];
 
     isPlaceFeed();
     $scope.$parent.$parent.affixObserver = 1;
@@ -531,6 +532,26 @@
       return vm.isChecked;
     },function(){
       $scope.$emit('post-select',{postId: vm.post.id,isChecked : vm.isChecked});
+    });
+
+    /**
+     * assigned variables used in html rendering
+     */
+    $scope.$watch(function(){
+      return vm.post.places;
+    },function(){
+      var concatArray = vm.post.places;
+      vm.post.recipients.forEach( function (i){
+        concatArray.push({
+          id : i,
+          name : i
+        });
+      });
+      
+      console.log(concatArray);
+      vm.totalRecipients = _.uniqBy(concatArray, 'id');
+      
+      console.log(vm.totalRecipients);
     });
 
     /**
