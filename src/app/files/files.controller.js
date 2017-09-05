@@ -319,10 +319,6 @@
     }
 
     $scope.$on('$destroy', function () {
-      if (onSelectTimeout) {
-        $timeout.cancel(onSelectTimeout);
-      }
-
       _.forEach(eventReferences, function (canceler) {
         if (_.isFunction(canceler)) {
           canceler();
