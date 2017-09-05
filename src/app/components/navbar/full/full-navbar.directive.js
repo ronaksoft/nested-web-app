@@ -22,10 +22,7 @@
         placeId : '@',
         readyToShow : '=',
         account: '=',
-        query: '=',
-        searchOnKeypress : '=',
-        forceSearch : '=',
-        removeLastChip : '='
+        query: '='
       },
       link: function () {
       }

@@ -9,6 +9,9 @@
       NEW_USER: 'from:',
       NEW_PLACE: 'in:',
       NEW_LABEL: 'label:',
-      NEW_METHOD_KEY: '::new_method::'
+      SUBJECT: 'subject:',
+      ATTACHMENT: 'attachment:',
+      WITHIN: 'within:',
+      DATE: 'date:'
     });
 })();

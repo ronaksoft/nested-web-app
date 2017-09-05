@@ -51,6 +51,15 @@
           labels: 3
         }
       };
+      vm.advancedSearch = {
+        users: '',
+        places: '',
+        subject: '',
+        labels: '',
+        attachment: false,
+        within: 1,
+        date: ''
+      };
       vm.getLimit = getLimit;
       vm.resultCount = 0;
       vm.selectedItem = -1;
@@ -72,15 +81,16 @@
       })();
 
       function initQuery(init) {
+        if (init) {
+          searchQuery = new NstSearchQuery(vm.query);
+        }
         if ($state.current.name === 'app.search') {
           vm.query = $stateParams.search;
           if (vm.query === '_') {
             vm.query = '';
           }
           vm.newQuery = '';
-          if (init) {
-            searchQuery = new NstSearchQuery(vm.query);
-          } else {
+          if (!init) {
             searchQuery.setQuery(vm.query);
           }
           initChips(searchQuery.getSortedParams());
@@ -95,9 +105,14 @@
 
 
       vm.toggleSearchModal = function(force) {
-        if (force) {
+        if (force === true) {
           $('html').addClass('_oh');
           vm.searchModalOpen = true ;
+          vm.advancedSearchOpen = false;
+          return;
+        } else if (force === false) {
+          $('html').removeClass('_oh');
+          vm.searchModalOpen = false ;
           vm.advancedSearchOpen = false;
           return;
         }
@@ -152,12 +167,18 @@
             getSuggestions(text);
           }
         }
+        lastQuery = text;
       }
 
+      var lastQuery = null;
+
       function isNotQuery(event) {
-        var keys = [13, 27, 38, 40];
+        var keys = [8, 13, 27, 38, 40];
         if (keys.indexOf(event.keyCode) > -1) {
           switch (event.keyCode) {
+            case 8:
+              backspaceHandler();
+              return true;
             case 27:
               vm.toggleSearchModal();
               return true;
@@ -209,7 +230,16 @@
           }
         }
         $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toString())});
-        vm.toggleSearchModal();
+        vm.toggleSearchModal(false);
+      }
+
+      function backspaceHandler() {
+        if (lastQuery === '') {
+          searchQuery.setQuery(vm.query, '');
+          searchQuery.removeLastItem();
+          $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toString())});
+          vm.toggleSearchModal(false);
+        }
       }
 
       function trimByType(text) {
@@ -327,7 +357,6 @@
 
         var word = query;
         var type = 'other';
-        // var lastWord;
         var match;
         do {
           match = queryRegEx.exec(query);
@@ -341,16 +370,9 @@
             } else if (_.startsWith(match[0], labelPrefix)) {
               word = _.replace(match[0], labelPrefix, '');
               type = 'label';
-            } /*else {
-              lastWord = match[0];
-            }*/
+            }
           }
         } while (match);
-
-        // if (lastWord !== undefined && lastWord.length > 0) {
-        //   word = lastWord;
-        //   type = 'other';
-        // }
 
         return {
           word: word,
@@ -448,7 +470,7 @@
             break;
         }
         $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toString())});
-        vm.toggleSearchModal();
+        vm.toggleSearchModal(false);
       }
 
       /**
@@ -473,7 +495,7 @@
         }
         $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toString())});
         if (vm.searchModalOpen) {
-          vm.toggleSearchModal();
+          vm.toggleSearchModal(false);
         }
       }
 
@@ -484,7 +506,7 @@
           searchQuery.setQuery(query);
         }
         $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toString())});
-        vm.toggleSearchModal();
+        vm.toggleSearchModal(false);
       }
 
       /**

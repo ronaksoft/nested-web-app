@@ -58,6 +58,11 @@
         that.addLabel(item.id, item.order);
       });
 
+      this.subject = result.subject;
+      this.hasAttachment = result.hasAttachment;
+      this.within = result.within;
+      this.date = result.date;
+
       if (secondaryQuery !== null && secondaryQuery !== undefined) {
         secondaryResult.keywords.forEach(function (item) {
           that.addOtherKeyword(item.id, item.order);
@@ -74,6 +79,10 @@
       var users = [];
       var labels = [];
       var keywords = [];
+      var subject = '';
+      var hasAttachment = false;
+      var within = '1';
+      var date = '';
       var decodedQuery = decodeURIComponent(query);
 
       var words = [];
@@ -91,6 +100,10 @@
       this.prefixes.user = NST_SEARCH_QUERY_PREFIX.NEW_USER;
       this.prefixes.place = NST_SEARCH_QUERY_PREFIX.NEW_PLACE;
       this.prefixes.label = NST_SEARCH_QUERY_PREFIX.NEW_LABEL;
+      this.prefixes.subject = NST_SEARCH_QUERY_PREFIX.SUBJECT;
+      this.prefixes.attachment = NST_SEARCH_QUERY_PREFIX.ATTACHMENT;
+      this.prefixes.within = NST_SEARCH_QUERY_PREFIX.WITHIN;
+      this.prefixes.date = NST_SEARCH_QUERY_PREFIX.date;
 
       var that = this;
 
@@ -111,7 +124,16 @@
             id: _.trim(_.replace(word, that.prefixes.label, ''), '"'),
             order: that.order
           });
-        } else {
+        } else if (_.startsWith(word, that.prefixes.subject)) {
+          subject = _.trim(_.replace(word, that.prefixes.subject, ''), '"');
+        } else if (_.startsWith(word, that.prefixes.attachment)) {
+          hasAttachment = (_.replace(word, that.prefixes.attachment, '') === 'true');
+        } else if (_.startsWith(word, that.prefixes.within)) {
+          within = _.trim(_.replace(word, that.prefixes.within, ''), '"');
+        } else if (_.startsWith(word, that.prefixes.date)) {
+          date = _.trim(_.replace(word, that.prefixes.date, ''), '"');
+        }
+        else {
           if (word.length > 0) {
             keywords.push({
               id: word,
@@ -125,7 +147,11 @@
         places: places,
         users: users,
         labels: labels,
-        keywords: keywords
+        keywords: keywords,
+        subject: subject,
+        hasAttachment: hasAttachment,
+        within: within,
+        date: date
       };
     };
 
@@ -181,6 +207,19 @@
       }
     };
 
+    SearchQuery.prototype.setPlaces = function (places) {
+      places = places.split(',');
+      for (var i in places) {
+        this.addPlace(places[i]);
+      }
+    };
+
+    SearchQuery.prototype.getPlaces = function () {
+      return _.map(this.places, function (item) {
+        return item.id;
+      }).join(',');
+    };
+
     SearchQuery.prototype.addUser = function (user, order) {
       if (!checkValidity(user)) {
         return;
@@ -202,6 +241,19 @@
       });
     };
 
+    SearchQuery.prototype.setUsers = function (users) {
+      users = users.split(',');
+      for (var i in users) {
+        this.addUser(users[i]);
+      }
+    };
+
+    SearchQuery.prototype.getUsers = function () {
+      return _.map(this.users, function (item) {
+        return item.id;
+      }).join(',');
+    };
+
     SearchQuery.prototype.addLabel = function (label, order) {
       if (!checkValidity(label)) {
         return;
@@ -221,6 +273,19 @@
       _.remove(this.labels, function (item) {
         return label === item.id;
       });
+    };
+
+    SearchQuery.prototype.setLabels = function (labels) {
+      labels = labels.split(',');
+      for (var i in labels) {
+        this.addLabel(labels[i]);
+      }
+    };
+
+    SearchQuery.prototype.getLabels = function () {
+      return _.map(this.labels, function (item) {
+        return item.id;
+      }).join(',');
     };
 
     SearchQuery.prototype.addOtherKeyword = function (keyword, order) {
@@ -248,10 +313,47 @@
       this.otherKeywords = [];
     };
 
+    SearchQuery.prototype.setAllKeywords = function (keywords) {
+      this.removeAllKeywords();
+      this.otherKeywords = keywords;
+    };
+
     SearchQuery.prototype.getAllKeywords = function () {
       return this.otherKeywords.map(function (item) {
         return item.id;
       }).join(' ');
+    };
+
+    SearchQuery.prototype.setSubject = function (subject) {
+      this.subject = '"' + subject + '"';
+    };
+
+    SearchQuery.prototype.getSubject = function () {
+      return _.trim(this.subject, '"');
+    };
+
+    SearchQuery.prototype.setHasAttachment = function (has) {
+      this.hasAttachment = has? 'true': 'false';
+    };
+
+    SearchQuery.prototype.getHasAttachment = function () {
+      return (this.hasAttachment === 'true')
+    };
+
+    SearchQuery.prototype.setWithin = function (within) {
+      this.within = '"' + within + '"';
+    };
+
+    SearchQuery.prototype.getWithin = function () {
+      return _.trim(this.within, '"');
+    };
+
+    SearchQuery.prototype.setDate = function (date) {
+      this.date = '"' + date + '"';
+    };
+
+    SearchQuery.prototype.getDate = function () {
+      return _.trim(this.date, '"');
     };
 
     SearchQuery.encode = function (queryString) {

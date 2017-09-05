@@ -28,9 +28,6 @@
 
     vm.search = search;
     vm.loadMore = loadMore;
-    vm.searchOnEnterKeyPressed = searchOnEnterKeyPressed;
-    vm.forceSearch = forceSearch;
-    vm.removeLastChip = removeLastChip;
     vm.backToPlace = backToPlace;
 
     (function () {
@@ -41,36 +38,6 @@
       vm.searchParams = query.getSearchParams();
       searchMessages();
     })();
-
-    /**
-     * sendKeyIsPressed - check whether the pressed key is Enter or not
-     *
-     * @param  {Event} event keypress event handler
-     * @return {bool}        true if the pressed key is Enter
-     */
-    function sendKeyIsPressed(e) {
-      return 13 === e.keyCode && !(e.shiftKey || e.ctrlKey);
-    }
-
-    function searchOnEnterKeyPressed(e, queryString) {
-
-      var element = angular.element(e.target);
-      if (!queryString || !sendKeyIsPressed(e) || element.attr("mention") === "true") {
-        return;
-      }
-
-      search(queryString);
-    }
-
-    function forceSearch(queryString) {
-      search(queryString);
-    }
-
-    function removeLastChip(queryString) {
-      var query = new NstSearchQuery(queryString);
-      query.removeLastItem();
-      search(query.toString());
-    }
 
     function search(queryString) {
       vm.messages.length = 0;
