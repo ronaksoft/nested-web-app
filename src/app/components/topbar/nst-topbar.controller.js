@@ -83,6 +83,9 @@
 
       function initQuery(init) {
         if (init) {
+          if ($state.current.name === 'app.search') {
+            vm.query = $stateParams.search;
+          }
           searchQuery = new NstSearchQuery(vm.query);
         }
         if ($state.current.name === 'app.search') {
