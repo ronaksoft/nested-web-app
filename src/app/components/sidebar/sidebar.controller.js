@@ -73,6 +73,14 @@
         $event.preventDefault();
       }
 
+      /**
+       * return the current place id
+       * @returns string
+       */
+      function getPlaceId() {
+        return vm.selectedPlaceId;
+      }
+
       function rebuildMyPlacesTree(placeId) {
         getMyPlaces(true).then(function(places) {
           vm.places = createTree(places, myPlaceOrders, [], placeId);
