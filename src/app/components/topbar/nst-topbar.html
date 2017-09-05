@@ -141,8 +141,11 @@
       </ul>
     </section>
     <section class="label-suggests" ng-if="ctrlTopBar.suggestion.labels.length > 0">
-      <h5>
+      <h5 ng-if="ctrlTopBar.defaultSearch == true">
         <translate>Has Label:</translate>
+      </h5>
+      <h5 ng-if="ctrlTopBar.defaultSearch == false">
+        <translate>label:</translate>
       </h5>
       <ul>
         <li ng-repeat="label in ctrlTopBar.suggestion.labels | limitTo: ctrlTopBar.getLimit('labels')" ng-class="{'selected': label._selected}" ng-click="ctrlTopBar.addChip(label.title, 'label');">
