@@ -8,7 +8,7 @@
   /** @ngInject */
   function NstSvcInvitationFactory($q, $log, _, $rootScope,
                                    NST_SRV_EVENT, NST_INVITATION_EVENT, NST_EVENT_ACTION, NST_PLACE_MEMBER_TYPE, NST_STORAGE_TYPE, NST_INVITATION_FACTORY_STATE,
-                                   NstSvcInvitationStorage, NstSvcServer, NstSvcUserFactory, NstSvcPlaceFactory, NstSvcNotification,
+                                   NstSvcServer, NstSvcUserFactory, NstSvcPlaceFactory, NstSvcNotification,
                                    NstObservableObject, NstInvitation, NstStorage) {
     function InvitationFactory() {
       var factory = this;
@@ -59,7 +59,6 @@
               if (values[k] instanceof NstInvitation) {
                 var invitation = values[k];
 
-                NstSvcInvitationStorage.set(invitation.id, invitation);
                 invitations.push(invitation);
               }
             }
@@ -98,7 +97,6 @@
             invite_id: id
           }).then(function (invitationData) {
             var invitation = factory.parseInvitation(invitationData);
-            NstSvcInvitationStorage.set(id, invitation);
             resolve(invitation);
           }).catch(reject);
 

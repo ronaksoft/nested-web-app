@@ -86,7 +86,9 @@
     }
 
     UserFactory.prototype.setCurrent = function (user) {
-      this.cache.set('_current', user);
+      this.cache.set('_current', user, {
+        expiration: new Date().setFullYear(new Date().getFullYear() + 1),
+      });
     };
 
     UserFactory.prototype.removeCurrent = function (user) {

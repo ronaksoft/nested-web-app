@@ -574,7 +574,7 @@
 
     PlaceFactory.prototype.set = function (data) {
       if (data && data._id) {
-        this.cache.set(data._id, this.transformToCacheModel(data), true);
+        this.cache.set(data._id, this.transformToCacheModel(data), { merge: true });
       } else {
         // console.error('The data is not valid to be cached!', data);
       }

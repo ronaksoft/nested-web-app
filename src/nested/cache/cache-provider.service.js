@@ -84,14 +84,14 @@
      * @param {any} merge 
      * @returns 
      */
-    CacheProvider.prototype.set = function(key, value, merge) {
+    CacheProvider.prototype.set = function(key, value, options) {
       if (!validateKey(key)) {
         return -1;
       }
       var extendedValue = null;
       var newValue = null;
 
-      if (merge) {
+      if (options && options.merge) {
         var oldValue = NstSvcCacheDb.get(this.namespace, key);
         if (oldValue && !isExpired(oldValue)) {
           // Merge the new value with the old one
@@ -99,7 +99,12 @@
         }
       }
 
-      extendedValue = addExpiration(newValue || value);
+      var expiration = EXPIRATION_TIME;
+      if (options && options.expiration > 0) {
+        expiration = options.expiration;
+      }
+
+      extendedValue = addExpiration(newValue || value, expiration);
       this.memory[key] = extendedValue;
       return NstSvcCacheDb.set(this.namespace, key, extendedValue);
     }
@@ -149,9 +154,9 @@
      * @param {any} model 
      * @returns 
      */
-    function addExpiration(model) {
+    function addExpiration(model, expiration) {
       var expirationExtension = {};
-      expirationExtension[EXPIRATION_KEY] = Date.now() + EXPIRATION_TIME;
+      expirationExtension[EXPIRATION_KEY] = expiration;
 
       return Object.assign(expirationExtension, model);
     }
