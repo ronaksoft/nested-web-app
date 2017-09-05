@@ -66,7 +66,7 @@
         });
         NstSvcSuggestionFactory.search(vm.query).then(function (result) {
           vm.defaultSuggestion = getUniqueItems(result);
-          vm.suggestion = vm.defaultSuggestion.slice(0);
+          vm.suggestion = Object.assign({}, vm.defaultSuggestion);
         });
       })();
 
