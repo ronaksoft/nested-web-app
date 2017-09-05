@@ -7,9 +7,9 @@
 	<path d="M18,11H2V9h16V11z M18,5H2v2h16V5z M18,13H2v2h16V13z"/>
 </g>
 <g id="bell">
-	<rect id="space_286_" style="&st0;" width="20" height="20"/>
-	<path d="M17,13v2H3v-2l2-2V6.5c0-2.8,2.2-5,5-5h0c2.8,0,5,2.2,5,5V11L17,13z M7.5,16c0,1.4,1.1,2.5,2.5,2.5s2.5-1.1,2.5-2.5H7.5z"
-		/>
+	<rect id="space_286_" style="fill:none;" width="20" height="20"/>
+	<path d="M17,13v2H3v-2l2-2V6.5c0-2.761,2.239-5,5-5h0c2.761,0,5,2.239,5,5V11L17,13z M7.5,16c0,1.381,1.119,2.5,2.5,2.5
+		s2.5-1.119,2.5-2.5H7.5z"/>
 </g>
 <g id="message">
 	<rect id="space_513_" style="&st0;" width="20" height="20"/>

@@ -29,12 +29,12 @@
           <span>Ali</span>
         </div>
       </div>
-      <i ng-if="!ctrlTopBar.searchModalOpen && !ctrlTopBar.advancedSearchOpen">
+      <i ng-if="!ctrlTopBar.searchModalOpen && !ctrlTopBar.advancedSearchOpen && ctrlTopBar.chips.length === 0">
         <svg class="_24svg fill-white">
           <use xlink:href="/assets/icons/nst-icn24.svg#search"></use>
         </svg>
       </i>
-      <i ng-if="ctrlTopBar.searchModalOpen || ctrlTopBar.advancedSearchOpen" ng-click="ctrlTopBar.toggleSearchModal()">
+      <i ng-if="ctrlTopBar.searchModalOpen || ctrlTopBar.advancedSearchOpen || ctrlTopBar.chips.length > 0" ng-click="ctrlTopBar.toggleSearchModal()">
         <svg class="_24svg fill-white">
           <use xlink:href="/assets/icons/nst-icn24.svg#xcross"></use>
         </svg>

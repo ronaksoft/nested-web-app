@@ -51,13 +51,13 @@
       vm.resultCount = 6;
       vm.selectedItem = -1;
       vm.addChip = addChip;
-      // vm.chips = [{
-      //   title: 'a',
-      //   type: 'label'
-      // },{
-      //   title: 'b',
-      //   type: 'label'
-      // }];
+      vm.chips = [{
+        title: 'a',
+        type: 'label'
+      },{
+        title: 'b',
+        type: 'label'
+      }];
 
       var searchQuery;
 
