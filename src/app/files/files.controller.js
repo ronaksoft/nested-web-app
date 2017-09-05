@@ -21,7 +21,6 @@
                            NstSvcTranslation, NstSvcAuth, NstSvcWait, _, NstSvcInteractionTracker,
                            NST_DEFAULT) {
     var vm = this;
-    var onSelectTimeout = null;
     var eventReferences = [];
     vm.searchTrigg = 0;
     vm.loadMoreCounter = 0;
@@ -69,7 +68,6 @@
     vm.filter = filter;
     vm.preview = preview;
     vm.loadMore = loadMore;
-    vm.onSelect = onSelect;
     vm.compose = composeWithAttachments;
     vm.isSubPersonal = isSubPersonal;
     vm.toggleSelect = toggleSelect;
@@ -279,41 +277,37 @@
      * @param {any} fileIds
      * @param {any} el
      */
-    function onSelect(fileIds) {
-      if (onSelectTimeout) {
-        $timeout.cancel(onSelectTimeout);
-      }
-
-      onSelectTimeout = $timeout(function () {
-        vm.selectedFiles = _.filter(vm.files, function (file) {
-          return _.includes(fileIds, file.id);
-        });
-
-        var sizes = _.map(vm.selectedFiles, 'size');
-        vm.totalSelectedFileSize = _.sum(sizes);
-      });
+    function calculateSize() {
+      var sizes = _.map(vm.selectedFiles, 'size');
+      vm.totalSelectedFileSize = _.sum(sizes);
     }
 
     function toggleSelect(item){
       if ( item.isSelected ) {
         unselectFile(item)
       } else {
-      item.isSelected =! item.isSelected;
-      onSelect([item.id]);
+        selectFile(item)
       }
+      calculateSize();
     }
 
     function unselectFile(item){
       _.remove(vm.selectedFiles, function(file) {
         return item.id === file.id
       });
-      item.isSelected =! item.isSelected;
+      item.isSelected = false;
+    }
+
+    function selectFile(item){
+      vm.selectedFiles.push(item);
+      item.isSelected = true;
     }
 
     function unselectAll() {
       vm.selectedFiles.forEach(function (file) {
-        unselectFile(file);
+        file.isSelected = false;
       });
+      vm.selectedFiles = [];
     }
 
     /**

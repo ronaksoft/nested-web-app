@@ -245,6 +245,7 @@
   &#compose {
     height: 40px;
     margin-bottom: 8px;
+    position: relative;
     &:hover {
       background-color: #ffffff;
       box-shadow: 0 1px 4px rgba(0, 0, 0, .16);
