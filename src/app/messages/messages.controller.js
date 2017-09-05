@@ -555,7 +555,11 @@
         vm.currentPlace = place;
         vm.quickMessageAccess = place.hasAccess(NST_PLACE_ACCESS.WRITE_POST);
         vm.placeRemoveAccess = place.hasAccess(NST_PLACE_ACCESS.REMOVE_POST);
-        vm.showPlaceId = !_.includes(['off', 'internal'], place.privacy.receptive);
+        try {
+          vm.showPlaceId = !_.includes(['off', 'internal'], place.privacy.receptive);
+        } catch(e) {
+          vm.showPlaceId = true
+        }
       });
     }
 
