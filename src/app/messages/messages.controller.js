@@ -9,7 +9,7 @@
   function MessagesController($rootScope, $stateParams, $state, $scope, $uibModal, _, $timeout,
                               moment, toastr,
                               NST_MESSAGES_SORT_OPTION, NST_DEFAULT, NST_EVENT_ACTION, NST_PLACE_ACCESS, NST_POST_EVENT,
-                              NstSvcPostFactory, NstSvcPlaceFactory, NstUtility, NstSvcAuth, NstSvcSync,
+                              NstSvcPostFactory, NstSvcPlaceFactory, NstUtility, NstSvcAuth, NstSvcSync, NstSvcModal,
                               NstSvcTranslation, SvcCardCtrlAffix) {
 
     var vm = this;
@@ -291,14 +291,14 @@
         }
         vm.FIT = false;
         mergePosts(posts);
-      }).catch(function () {
-        // console.log('====================================');
-        // console.log(error);
-        // console.log('====================================');
-        // TODO: Use this when is required
-        // NstSvcModal.error(NstSvcTranslation.get("Error"), NstSvcTranslation.get("Either this Place doesn't exist, or you don't have the permit to enter the Place.")).finally(function () {
-        //   $state.go(NST_DEFAULT.STATE);
-        // });
+      }).catch(function (error) {
+        NstSvcModal.error(NstSvcTranslation.get("Error"), NstSvcTranslation.get("Either this Place doesn't exist, or you don't have the permit to enter the Place.")).finally(function () {
+          if ($state.current.name !== NST_DEFAULT.STATE) {
+            $state.go(NST_DEFAULT.STATE);
+          } else {
+            $state.reload(NST_DEFAULT.STATE);
+          }
+        });
       });
     }
 
