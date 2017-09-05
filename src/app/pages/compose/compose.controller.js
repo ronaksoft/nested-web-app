@@ -326,6 +326,9 @@
       var deferred = $q.defer();
 
       var draft = NstSvcPostDraft.get();
+      if (!draft) {
+        deferred.reject(Error('Could not load draft'));
+      }
       vm.model.subject = draft.subject;
       vm.model.body = draft.body;
       $q.all(_.map(draft.attachments, function (attachmentId) {
