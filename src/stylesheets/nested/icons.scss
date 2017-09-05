@@ -232,6 +232,7 @@
   svg {
     position: absolute;
     left: 50%;
+    top: 5px;
     margin-left: -8px;
     transition: all $animation-dur ease;
     transform-origin: center center;

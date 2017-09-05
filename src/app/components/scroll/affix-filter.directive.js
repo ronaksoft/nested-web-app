@@ -40,6 +40,8 @@
             $element.css('right', '');
             $element.css('width', '');
             $element.css('height', '');
+            $element.css('transform', '');
+              $element.css('left', '0');
             if ($attrs.hideThis) {
               $element.css('display', 'none');
             }
@@ -48,6 +50,8 @@
           function affixElement() {
             if (!fixed && $window.pageYOffset > topOffset) {
               $element.css('position', 'fixed');
+              $element.css('left', '50%');
+              $element.css('transform', 'translateX(-50%)');
               $element.css('display', '');
               fixed = true;
             } else if (fixed && $window.pageYOffset < topOffset ) {

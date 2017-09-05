@@ -298,10 +298,9 @@
   }
   .places {
     position: relative;
-    flex: 1;
-    min-height: 400px;
     width: calc(100% + 12px);
     margin: 0 -6px;
+    max-height: calc(100vh - 268px);
     >ul {
       padding: 0 6px;
     }
