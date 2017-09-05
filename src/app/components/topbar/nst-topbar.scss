@@ -19,6 +19,7 @@
     width: calc(100vw - 480px);
     display: flex;
     justify-content: center;
+    position: relative;
     .inner {
       width: 100%;
       max-width: 480px;
@@ -48,12 +49,13 @@
       }
       .input-wrapper {
         position: relative;
-        min-width: 256px;
         width: 100%;
+        display: flex;
         input {
           line-height: 36px;
           width: 100%;
           height: 32px;
+          min-width: 256px;
           background-color: transparent;
           // padding-left: 32px;
           color: $color-white;

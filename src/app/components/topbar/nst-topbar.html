@@ -17,18 +17,7 @@
     </a>
   </div>
   <div class="search">
-    <div class="inner" nst-scrollbar suppress-scroll-y="true">
-      <div class="search-chips-container _df">
-        <div ng-repeat="chip in ctrlTopBar.chips" class="chips">
-          <div class="close-chips">
-              <svg ng-click="ctrlTopBar.removeChip(chip.type, chip.title)" class="_16svg _df _fn fill-white">
-                <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
-              </svg>
-          </div>
-          <b><span ng-if="chip.type != 'keyword'" class="_df _fn">{{chip.type}}:&nbsp;</span></b>
-          <span>{{chip.title}}</span>
-        </div>
-      </div>
+    <div class="inner">
       <i ng-if="!ctrlTopBar.searchModalOpen && !ctrlTopBar.advancedSearchOpen && ctrlTopBar.chips.length === 0">
         <svg class="_24svg fill-white">
           <use xlink:href="/assets/icons/nst-icn24.svg#search"></use>
@@ -39,7 +28,18 @@
           <use xlink:href="/assets/icons/nst-icn24.svg#xcross"></use>
         </svg>
       </i>
-      <div class="input-wrapper">
+      <div class="input-wrapper" nst-scrollbar suppress-scroll-y="true">
+        <div class="search-chips-container _df">
+          <div ng-repeat="chip in ctrlTopBar.chips" class="chips">
+            <div class="close-chips">
+                <svg ng-click="ctrlTopBar.removeChip(chip.type, chip.title)" class="_16svg _df _fn fill-white">
+                  <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
+                </svg>
+            </div>
+            <b><span ng-if="chip.type != 'keyword'" class="_df _fn">{{chip.type}}:&nbsp;</span></b>
+            <span>{{chip.title}}</span>
+          </div>
+        </div>
         <input placeholder="{{ctrlTopBar.searchPlaceholder}}" ng-model="ctrlTopBar.newQuery"
           translate-attrs="placeholder" ng-keyup="ctrlTopBar.searchKeyPressed($event, ctrlTopBar.newQuery, true)" ng-focus="ctrlTopBar.toggleSearchModal(true);">
       </div>
@@ -179,6 +179,9 @@
       </select>
       <span class="_fn _df seperator-text"><translate>of<translate></span>
       <input ng-mode="ctrlTopBar.advancedSearch.date" class="advanced-search-text-input" type="text">
+      <!-- <input class="advanced-search-text-input" type="text" ng-model="date" config="yourCustomConf"
+      g-formatted-picked-date="gfdate" g-picked-date="gdate" ng-jalaali-flat-datepicker>
+      picked date is {{gfdate}} -->
     </div>
 
     <input class="butn-green _fw" type="submit">
