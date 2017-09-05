@@ -1,10 +1,9 @@
 <div class="_fh _fw ng-animate-disabled ng-class:{'_oh _fhv': $root.topNavOpen,'show-mob-app': !userAppNoticed}">
 <nst-topbar class="ng-animate-disabled"></nst-topbar>
   <div class="maincontainer _fw" ng-class="{'navtiny' : navView,'sideNotiny' : ctlApp.viewSettings.sidebar.collapsed,'noSide':ctlApp.viewSettings.sidebar.hidden}">
-    <nst-sidebar ng-hide="ctlApp.viewSettings.sidebar.hidden" collapsed="ctlApp.viewSettings.sidebar.collapsed"
-      class="sidebar-directive ng-animate-disabled">
+    <nst-sidebar ng-if="isMainLayout" class="sidebar-directive ng-animate-disabled">
     </nst-sidebar>
-    <scroll-change-observer></scroll-change-observer>
+    <scroll-change-observer ng-if="isMainLayout"></scroll-change-observer>
     <div class="nst-container" ui-view></div>
     <!-- <nst- ng-hide="ctlApp.viewSettings.sidebar.hidden" collapsed="ctlApp.viewSettings.sidebar.collapsed"
         class="_fn _fh ng-animate-disabled">

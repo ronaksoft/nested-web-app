@@ -43,6 +43,8 @@
 
     };
 
+    $scope.isMainLayout = $state.current.options && $state.current.options.group !== 'settings';
+
     checkToBeAuthenticated($state.current, $stateParams);
 
     $interval(function () {
@@ -87,22 +89,6 @@
 
     eventReferences.push($scope.$on('show-loading', function () {
       vm.showLoadingScreen = true;
-    }));
-
-    eventReferences.push($scope.$on('collapse-sidebar', function () {
-      vm.viewSettings.sidebar.collapsed = !vm.viewSettings.sidebar.collapsed
-    }));
-
-    eventReferences.push($scope.$watch(function () {
-      return vm.viewSettings.sidebar.collapsed
-    }, function () {
-      var tooltip = $('body').find('.tooltip');
-      if (tooltip.is(":visible")) {
-        tooltip.first().hide()
-      } else {
-        tooltip.first().show()
-
-      }
     }));
 
     eventReferences.push($rootScope.$on(NST_AUTH_EVENT.CHANGE_PASSWORD, function () {
