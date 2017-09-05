@@ -52,11 +52,12 @@
         }
       };
       vm.advancedSearch = {
+        keywords: '',
         users: '',
         places: '',
         subject: '',
         labels: '',
-        attachment: false,
+        hasAttachment: false,
         within: 1,
         date: ''
       };
@@ -94,6 +95,7 @@
             searchQuery.setQuery(vm.query);
           }
           initChips(searchQuery.getSortedParams());
+          getAdancedSearchParams();
           vm.newQuery = searchQuery.getAllKeywords();
         } else {
           vm.query = '';
@@ -103,6 +105,16 @@
         }
       }
 
+      function getAdancedSearchParams() {
+        vm.advancedSearch.keywords = searchQuery.getAllKeywords();
+        vm.advancedSearch.users = searchQuery.getUsers();
+        vm.advancedSearch.places = searchQuery.getPlaces();
+        vm.advancedSearch.subject = searchQuery.getSubject();
+        vm.advancedSearch.labels = searchQuery.getLabels();
+        vm.advancedSearch.hasAttachment = searchQuery.getHasAttachment();
+        vm.advancedSearch.within = searchQuery.getWithin();
+        vm.advancedSearch.date = searchQuery.getDate();
+      }
 
       vm.toggleSearchModal = function(force) {
         if (force === true) {

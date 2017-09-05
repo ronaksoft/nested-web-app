@@ -158,25 +158,27 @@
     </section>
   </div>
   <form class="advanced-search-popover" ng-if="ctrlTopBar.advancedSearchOpen">
-    <label for="advanced-search-from">from:</label>
-    <input id="advanced-search-from" class="advanced-search-text-input" type="text">
-    <label for="advanced-search-in">in:</label>
-    <input id="advanced-search-in" class="advanced-search-text-input" type="text">
-    <label for="advanced-search-subject">subject:</label>
-    <input id="advanced-search-subject" class="advanced-search-text-input" type="text">
-    <label for="advanced-search-label">label:</label>
-    <input id="advanced-search-label" class="advanced-search-text-input" type="text">
+    <label for="advanced-search-keyword"><translate>keyword:</translate></label>
+    <input ng-model="ctrlTopBar.advancedSearch.keywords" id="advanced-search-keyword" class="advanced-search-text-input" type="text">
+    <label for="advanced-search-from"><translate>from:</translate></label>
+    <input ng-model="ctrlTopBar.advancedSearch.users" id="advanced-search-from" class="advanced-search-text-input" type="text">
+    <label for="advanced-search-in"><translate>in:</translate></label>
+    <input ng-model="ctrlTopBar.advancedSearch.places" id="advanced-search-in" class="advanced-search-text-input" type="text">
+    <label for="advanced-search-subject"><translate>subject:</translate></label>
+    <input ng-model="ctrlTopBar.advancedSearch.subject" id="advanced-search-subject" class="advanced-search-text-input" type="text">
+    <label for="advanced-search-label"><translate>label:</translate></label>
+    <input ng-model="ctrlTopBar.advancedSearch.labels" id="advanced-search-label" class="advanced-search-text-input" type="text">
 
-    <input class="_fr" type="checkbox" id="attachment" name="attachment" ng-checked="ctrlTopBar.hasAttachment"/>
+    <input class="_fr" type="checkbox" id="attachment" name="attachment" ng-checked="ctrlTopBar.advancedSearch.hasAttachment"/>
     <label class="_fw setting checkbox-label _asc" for="attachment"><translate>Has attachment</translate></label>
 
-    <label>Date within</label>
+    <label><translate>Date within</translate></label>
     <div class="_difh _aic _fw">
-      <select class="_df">
-        <option>1 week</option>
+      <select ng-mode="ctrlTopBar.advancedSearch.within" class="_df">
+        <option><translate>1 week</translate></option>
       </select>
-      <span class="_fn _df seperator-text">of</span>
-      <input class="advanced-search-text-input" type="text">
+      <span class="_fn _df seperator-text"><translate>of<translate></span>
+      <input ng-mode="ctrlTopBar.advancedSearch.date" class="advanced-search-text-input" type="text">
     </div>
 
     <input class="butn-green _fw" type="submit">
