@@ -117,7 +117,7 @@
 
     eventReferences.push($rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
       $('.wdt-emoji-popup.open').removeClass('open');
-      $rootScope.$broadcast('reload-counters');
+      // $rootScope.$broadcast('reload-counters');
       checkToBeAuthenticated(toState, toParams, event);
       scrollTopBody();
     }));

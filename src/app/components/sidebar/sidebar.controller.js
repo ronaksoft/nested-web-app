@@ -18,6 +18,7 @@
       var eventReferences = [];
       var myPlaceOrders = {};
       var ABSENT_PLACE_PICTURE_URL = '/assets/icons/absents_place.svg';
+      var myPlaceIds = [];
 
       /*****************************
        *** Controller Properties ***
@@ -73,9 +74,9 @@
         $event.preventDefault();
       }
 
-      function rebuildMyPlacesTree() {
-        getMyPlaces(force).then(function(places) {
-          vm.places = createTree(places, myPlaceOrders, [], vm.selectedPlaceId);
+      function rebuildMyPlacesTree(placeId) {
+        getMyPlaces(true).then(function(places) {
+          vm.places = createTree(places, myPlaceOrders, [], placeId);
 
           loadMyPlacesUnreadPostsCount();
         });
@@ -112,11 +113,9 @@
         });
       }
 
-      function loadMyPlacesUnreadPostsCount(grandPlaceIds) {
-        var grandPlaceIds = _.map(vm.places.map(function (place) {
-          return place.id;
-        }));
-        return NstSvcPlaceFactory.getPlacesUnreadPostsCount(grandPlaceIds, true).then(function(places) {
+      function loadMyPlacesUnreadPostsCount() {
+        
+        return NstSvcPlaceFactory.getPlacesUnreadPostsCount(myPlaceIds, true).then(function(places) {
           var total = 0;
           vm.myPlacesUnreadPosts = {};
 
@@ -291,10 +290,10 @@
        *****    Change urls   ****
        *****************************/
 
-      $rootScope.$on('$stateChangeSuccess', function () {
+      eventReferences.push($rootScope.$on('$stateChangeSuccess', function () {
         vm.selectedPlaceId = $stateParams.placeId;
         loadCurrentUser();
-      });
+      }));
 
       function setCreatePlaceAccesses() {
         vm.canCreateGrandPlace = false;
@@ -402,11 +401,11 @@
       }));
 
       eventReferences.push($rootScope.$on(NST_PLACE_EVENT.ROOT_ADDED, function (e, data) {
-        rebuildMyPlacesTree();
+        rebuildMyPlacesTree(data.place.id);
       }));
 
       eventReferences.push($rootScope.$on(NST_PLACE_EVENT.SUB_ADDED, function (e, data) {
-        rebuildMyPlacesTree();
+        rebuildMyPlacesTree(data.place.id);
       }));
 
       eventReferences.push($rootScope.$on(NST_USER_EVENT.PROFILE_UPDATED, function (e, data) {
@@ -636,7 +635,10 @@
        * @returns 
        */
       function createTree(places, orders, expandedPlaces, selectedId) {
+        myPlaceIds = [];
         return _.chain(places).filter(function (place) {
+          // An array of the user places ID (just for getting unread posts count).
+          myPlaceIds.push(place.id);
           // This condition filters all grand Places
           return place.id && place.id.indexOf('.') === -1;
         }).map(function(place) {

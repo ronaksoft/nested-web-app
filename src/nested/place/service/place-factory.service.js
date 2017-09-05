@@ -302,9 +302,8 @@
             place_id: id
           }).then(function () {
             // clean up storages
-            this.cache.remove(id);
+            factory.cache.remove(id);
             var myPlaces = factory.cache.get('_my');
-            factory.removePlaceFromTree(myPlaces, id);
             factory.cache.set('_my', myPlaces);
 
             $rootScope.$broadcast(NST_PLACE_EVENT.REMOVED, {placeId: place.id, place: place});
