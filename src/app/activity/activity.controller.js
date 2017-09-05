@@ -32,7 +32,6 @@
    * @param {any} NST_DEFAULT
    * @param {any} NstSvcActivityMap
    * @param {any} NstSvcModal
-   * @param {any} NstSvcActivitySettingStorage
    * @param {any} NstSvcActivityFactory
    * @param {any} NstSvcSync
    * @param {any} NstSvcInvitationFactory
@@ -46,11 +45,10 @@
     _, moment,
     NST_SRV_EVENT, NST_EVENT_ACTION, NST_ACTIVITY_FILTER, NST_DEFAULT,
     NstSvcActivityMap,
-    NstSvcActivitySettingStorage, NstSvcDate,
+    NstSvcDate,
     NstSvcActivityFactory, NstSvcSync, NstSvcServer, NstSvcPlaceAccess, NstSvcTranslation) {
 
     var vm = this;
-    var activityFilterGroups = {};
     var eventReferences = [];
 
     vm.activities = [];
@@ -58,8 +56,6 @@
     vm.noActivity = false;
 
     vm.loadMore = loadMore;
-    vm.applyFilter = applyFilter;
-    vm.toggleViewMode = toggleViewMode;
 
     vm.expanded = true;
 
@@ -68,17 +64,6 @@
       filter: NST_ACTIVITY_FILTER.ALL,
       placeId: null,
       date: null
-    };
-
-    vm.filterDictionary = {};
-
-    vm.urls = {
-      filters: {
-        all: '',
-        messages: '',
-        comments: '',
-        logs: ''
-      }
     };
 
 
@@ -92,39 +77,6 @@
      ******************/
 
     (function () {
-      // Every filter group contains some sort of activities
-      activityFilterGroups[NST_ACTIVITY_FILTER.MESSAGES] = [
-        NST_EVENT_ACTION.POST_ADD,
-        NST_EVENT_ACTION.POST_COPY,
-        NST_EVENT_ACTION.POST_RETRACT,
-        NST_EVENT_ACTION.POST_UPDATE,
-        NST_EVENT_ACTION.POST_ATTACH_PLACE,
-        NST_EVENT_ACTION.POST_REMOVE_PLACE,
-        NST_EVENT_ACTION.POST_MOVE
-      ];
-      activityFilterGroups[NST_ACTIVITY_FILTER.COMMENTS] = [
-        NST_EVENT_ACTION.COMMENT_ADD,
-        NST_EVENT_ACTION.COMMENT_REMOVE
-      ];
-
-      activityFilterGroups[NST_ACTIVITY_FILTER.LABEL] = [
-        NST_EVENT_ACTION.LABEL_ADD,
-        NST_EVENT_ACTION.LABEL_REMOVE
-      ];
-
-      activityFilterGroups[NST_ACTIVITY_FILTER.LOGS] = [
-        NST_EVENT_ACTION.MEMBER_REMOVE,
-        NST_EVENT_ACTION.MEMBER_JOIN,
-        NST_EVENT_ACTION.PLACE_ADD
-      ];
-
-      vm.filterDictionary[NST_ACTIVITY_FILTER.ALL] = NstSvcTranslation.get("All");
-      vm.filterDictionary[NST_ACTIVITY_FILTER.MESSAGES] = NstSvcTranslation.get("Messages");
-      vm.filterDictionary[NST_ACTIVITY_FILTER.COMMENTS] = NstSvcTranslation.get("Comments");
-      vm.filterDictionary[NST_ACTIVITY_FILTER.LOGS] = NstSvcTranslation.get("Logs");
-      vm.filterDictionary[NST_ACTIVITY_FILTER.LABEL] = NstSvcTranslation.get("labels");
-
-
       if (placeIdParamIsValid($stateParams.placeId)) {
         vm.activitySettings.placeId = $stateParams.placeId;
         NstSvcSync.openChannel($stateParams.placeId);
@@ -132,22 +84,6 @@
         vm.activitySettings.placeId = null;
       }
 
-      // First looks for filter in URL. Stores the value, if any filter was provided in URL.
-      if (!$stateParams.filter || $stateParams.filter === NST_DEFAULT.STATE_PARAM) {
-        vm.activitySettings.filter = NstSvcActivitySettingStorage.get('filter') || NST_ACTIVITY_FILTER.ALL;
-      } else {
-        if (filterIsValid($stateParams.filter)) {
-          vm.activitySettings.filter = $stateParams.filter;
-          NstSvcActivitySettingStorage.set('filter', vm.activitySettings.filter);
-        } else {
-          vm.activitySettings.filter = NST_ACTIVITY_FILTER.ALL;
-        }
-      }
-
-      // Reads activitySettings.collapsed from local storage
-      vm.expanded = !NstSvcActivitySettingStorage.get('collapsed');
-
-      generateUrls();
       load();
       NstSvcPlaceAccess.getIfhasAccessToRead($stateParams.placeId).then(function(place) {
         vm.showPlaceId = !_.includes([ 'off', 'internal' ], place.privacy.receptive);
@@ -189,33 +125,6 @@
         vm.tryAgainToLoadMore = true;
         $log.debug(error);
       });
-    }
-
-    /**
-     * Applies the given filter by navigating to the related route
-     *
-     * @param {any} filter
-     */
-    function applyFilter(filter) {
-      if (vm.activitySettings.placeId) {
-        $state.go('app.place-activity-filtered', {
-          placeId: vm.activitySettings.placeId,
-          filter: filter
-        }, { notify : false });
-      } else {
-        $state.go('app.activity-filtered', {
-          filter: filter
-        }, { notify : false });
-      }
-    }
-
-    /**
-     * Toggles expanded/collapsed views
-     *
-     */
-    function toggleViewMode() {
-      vm.expanded = !vm.expanded;
-      NstSvcActivitySettingStorage.set('collapsed', !vm.expanded);
     }
 
     /**
@@ -359,16 +268,6 @@
     }
 
     /**
-     * The given filter should be predefined. Returns true if the filter exists in the list.
-     *
-     * @param {any} value
-     * @returns
-     */
-    function filterIsValid(value) {
-      return _.includes(_.values(NST_ACTIVITY_FILTER), value);
-    }
-
-    /**
      * Checks the given place Id not to be empty and not equals the default value
      *
      * @param {any}
@@ -377,30 +276,6 @@
     function placeIdParamIsValid() {
       return !!$stateParams.placeId && $stateParams.placeId !== NST_DEFAULT.STATE_PARAM;
     }
-
-    /**
-     * Generates different URLs for every filters
-     *
-     */
-    function generateUrls() {
-      if (vm.activitySettings.placeId) {
-        vm.urls.filters = {
-          all: $state.href('app.place-activity-filtered', {placeId: vm.activitySettings.placeId, filter: NST_ACTIVITY_FILTER.ALL }),
-          messages: $state.href('app.place-activity-filtered', {placeId: vm.activitySettings.placeId, filter: NST_ACTIVITY_FILTER.MESSAGES }),
-          comments: $state.href('app.place-activity-filtered', {placeId: vm.activitySettings.placeId, filter: NST_ACTIVITY_FILTER.COMMENTS }),
-          logs: $state.href('app.place-activity-filtered', {placeId: vm.activitySettings.placeId, filter: NST_ACTIVITY_FILTER.LOGS })
-        };
-      } else {
-        vm.urls.filters = {
-          all: $state.href('app.activity-filtered', {filter: NST_ACTIVITY_FILTER.ALL }),
-          messages: $state.href('app.activity-filtered', {filter: NST_ACTIVITY_FILTER.MESSAGES }),
-          comments: $state.href('app.activity-filtered', {filter: NST_ACTIVITY_FILTER.COMMENTS }),
-          logs: $state.href('app.activity-filtered', {filter: NST_ACTIVITY_FILTER.LOGS })
-        };
-      }
-    }
-
-
 
     _.forEach(NST_EVENT_ACTION, function (action) {
       eventReferences.push($rootScope.$on(action, function (e, data) {

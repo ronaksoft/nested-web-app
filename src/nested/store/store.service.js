@@ -8,7 +8,7 @@
   function NstSvcStore($q, $http, $log,
                        _,
                        NST_RES_STATUS, NST_REQ_STATUS, NST_SRV_ERROR, NST_CONFIG, NST_STORE_ROUTE, NST_STORE_ROUTE_PATTERN, NST_STORE_UPLOAD_TYPE, NST_SRV_RESPONSE_STATUS,
-                       NstSvcServer, NstSvcDownloadTokenStorage, NstSvcUploadTokenStorage, NstSvcRandomize,
+                       NstSvcServer, NstSvcDownloadTokenStorage, NstSvcRandomize,
                        NstObservableObject, NstStoreToken, NstRequest, NstResponse, NstHttp, NstSvcDate) {
     /**
      * Creates an instance of NstSvcStore
@@ -199,7 +199,7 @@
       request.setStatus(NST_REQ_STATUS.QUEUED);
       request.setData(angular.extend(request.getData(), {reqId: reqId}));
 
-      getUploadToken().catch(function (error) {
+      requestNewUploadToken().catch(function (error) {
         var deferred = $q.defer();
         // TODO: Check for what to be passed as response data
         var response = new NstResponse(NST_RES_STATUS.FAILURE, error);
@@ -295,32 +295,12 @@
       request.finish(response || new NstResponse());
     };
 
-    function getUploadToken() {
-      var defer = $q.defer();
-      var tokenKey = 'default-upload-token';
-
-      var token = NstSvcUploadTokenStorage.get(tokenKey);
-      if (!token || token.isExpired()) {
-        NstSvcUploadTokenStorage.remove(tokenKey);
-        requestNewUploadToken(tokenKey).then(defer.resolve).catch(defer.reject);
-      } else {
-        defer.resolve(token);
-      }
-
-      return defer.promise;
-    }
-
     function requestNewUploadToken(storageKey) {
       var deferred = $q.defer();
 
       NstSvcServer.request('file/get_upload_token').then(function (data) {
-        var token = createToken(data.token);
-        NstSvcDownloadTokenStorage.set(storageKey, token);
-        deferred.resolve(token);
-      }).catch(function (error) {
-        // TODO: Reject with StoreError(StoreQuery) Object
-        deferred.reject(error);
-      });
+        deferred.resolve(createToken(data.token));
+      }).catch(deferred.reject);
 
       return deferred.promise;
     }

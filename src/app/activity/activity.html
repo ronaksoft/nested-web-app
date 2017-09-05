@@ -6,23 +6,6 @@
       show-place-id="ctlActivity.showPlaceId" nav-picture-url="{{ctlActivity.currentPlace.id ? ctlActivity.currentPlace.picture.getUrl('x128') : '' }}"
       nav-picture-class="{{ !ctlActivity.currentPlace.id? 'icon-nav icon-all-place' : '' }}" ready-to-show="ctlActivity.currentPlaceLoaded"></nst-navbar>
 
-    <div class="filter-bar">
-        <div class="filter-bar-inner" affixer-filter top="96">
-          <div class="toolbar" ng-mouseleave="popoverSettingShow = false">
-            <p class="_df _fw"></p>
-            <div ng-mouseenter="popoverSettingShow = true"
-              data-popover-class="white-pop messages-sort-popover" uib-popover-template="'app/activity/partials/popovers/setting_popover.html'"
-              data-popover-placement="bottom-center" data-popover-is-open="popoverSettingShow" class="filter-bar-popover-button _fn">
-              <translate class="_df" ng-if="ctlActivity.expanded === false">Collapsed View</translate>
-              <translate class="_df" ng-if="ctlActivity.expanded === true">Expanded View</translate>
-              <svg class="icon-filter _df" id="test-setting-filter">
-                <use xlink:href="/assets/icons/nst-icn16.svg#filter"></use>
-              </svg>
-            </div>
-          </div>
-        </div>
-      </div>
-
     <section class="_fw activities-content-body _bgwhite">
       <div class="_fw activities-list _bgwhite" set-seen-on-visible>
         <div class="activity-date" ng-repeat="group in ctlActivity.activities track by group.date">
