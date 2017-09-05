@@ -112,8 +112,8 @@
           vm.query = '';
           vm.newQuery = '';
           vm.chips = [];
-          vm.selectedItem = -1;
         }
+        vm.selectedItem = -1;
       }
 
       function getAdancedSearchParams() {
@@ -259,6 +259,7 @@
         }
         $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toString())});
         vm.toggleSearchModal(false);
+        vm.selectedItem = -1
       }
 
       function backspaceHandler() {
