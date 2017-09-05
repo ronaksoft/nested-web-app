@@ -77,10 +77,10 @@
           initQuery(false);
           isSearch();
         });
-        NstSvcSuggestionFactory.search('').then(function (result) {
-          vm.defaultSuggestion = getUniqueItems(result);
-          vm.suggestion = Object.assign({}, vm.defaultSuggestion);
-        });
+        // NstSvcSuggestionFactory.search('').then(function (result) {
+        //   vm.defaultSuggestion = getUniqueItems(result);
+        //   vm.suggestion = Object.assign({}, vm.defaultSuggestion);
+        // });
       })();
 
       function initQuery(init) {
@@ -102,12 +102,18 @@
           initChips(searchQuery.getSortedParams());
           getAdancedSearchParams();
           vm.newQuery = searchQuery.getAllKeywords();
+          if (_.trim(vm.newQuery).length === 0) {
+            NstSvcSuggestionFactory.search('').then(function (result) {
+              vm.defaultSuggestion = getUniqueItems(result);
+              vm.suggestion = Object.assign({}, vm.defaultSuggestion);
+            });
+          }
         } else {
           vm.query = '';
           vm.newQuery = '';
           vm.chips = [];
-          vm.selectedItem = -1;
         }
+        vm.selectedItem = -1;
       }
 
       function getAdancedSearchParams() {
@@ -253,6 +259,7 @@
         }
         $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toString())});
         vm.toggleSearchModal(false);
+        vm.selectedItem = -1
       }
 
       function backspaceHandler() {
@@ -355,14 +362,30 @@
           labels: [],
           history: []
         };
+        var params = searchQuery.getSearchParams();
+        var places = _.map(params.places, function (item) {
+          return {
+            id: item
+          };
+        });
         if (data.places !== undefined) {
-          result.places = _.uniqBy(data.places, 'id');
+          result.places = _.differenceBy(_.uniqBy(data.places, 'id'), places, 'id');
         }
+        var users = _.map(params.users, function (item) {
+          return {
+            id: item
+          };
+        });
         if (data.accounts !== undefined) {
-          result.accounts = _.uniqBy(data.accounts, 'id');
+          result.accounts = _.differenceBy(_.uniqBy(data.accounts, 'id'), users, 'id');
         }
+        var labels = _.map(params.labels, function (item) {
+          return {
+            title: item
+          };
+        });
         if (data.labels !== undefined) {
-          result.labels = _.uniqBy(data.labels, 'id');
+          result.labels = _.differenceBy(_.uniqBy(data.labels, 'id'), labels, 'title');
         }
         if (data.histories !== undefined) {
           result.histories = data.histories;
@@ -406,6 +429,10 @@
         if (_.trim(query).length === 0) {
           vm.defaultSearch = true;
           vm.suggestion = vm.defaultSuggestion;
+          NstSvcSuggestionFactory.search('').then(function (result) {
+            vm.defaultSuggestion = getUniqueItems(result);
+            vm.suggestion = Object.assign({}, vm.defaultSuggestion);
+          });
         }
         else {
           vm.defaultSearch = false;
