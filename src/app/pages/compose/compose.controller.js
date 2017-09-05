@@ -37,6 +37,7 @@
     vm.scroll = scroll;
     vm.addUploadedAttachs = addUploadedAttachs;
     vm.searchRecipients = searchRecipients;
+    vm.backDropClick = backDropClick;
     vm.emojiTarget = 'title';
     vm.haveComment = true;
     vm.focusBody = false;
@@ -45,6 +46,7 @@
     vm.cmdVPress = false;
     vm.isRetinaDisplay = isRetinaDisplay();
     vm.targetLimit;
+    vm.ultimateSaveDraft = false;
     vm.translations = {
       title1: NstSvcTranslation.get('Add a title'),
       title2: NstSvcTranslation.get('Write your message or drag files here…'),
@@ -166,13 +168,16 @@
         /**
          * Prevents from closing window
          */
-        window.onbeforeunload = function () {
-          return "You have attempted to leave this page. Are you sure?";
-        };
 
         NstSvcLogger.debug4('Compose | compose is in modal');
         eventReferences.push($scope.$on('modal.closing', function (event) {
-          if (shouldSaveDraft() && !vm.finish) {
+          if (vm.ultimateSaveDraft) {
+            saveDraft();
+            vm.finish = true;
+          } else if(shouldSaveDraft() && !vm.finish) {
+            window.onbeforeunload = function () {
+              return "You have attempted to leave this page. Are you sure?";
+            };
             event.preventDefault();
 
             if ($state.current.options && $state.current.options.supportDraft) {
@@ -274,6 +279,11 @@
       NstSvcLogger.debug4('Compose | discarding draft');
       NstSvcPostDraft.discard();
       $rootScope.$broadcast('draft-change');
+    }
+
+    function backDropClick() {
+      vm.ultimateSaveDraft = true;
+      $scope.$dismiss();
     }
 
     /**

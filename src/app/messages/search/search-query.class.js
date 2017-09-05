@@ -153,7 +153,10 @@
     };
 
     SearchQuery.prototype.addPlace = function (place, order) {
-      if (order === null) {
+      if (!checkValidity(place)) {
+        return;
+      }
+      if (order === null || order === undefined) {
         order = ++this.order;
       }
       if (!_.find(this.places, {id: place})) {
@@ -179,7 +182,10 @@
     };
 
     SearchQuery.prototype.addUser = function (user, order) {
-      if (order === null) {
+      if (!checkValidity(user)) {
+        return;
+      }
+      if (order === null || order === undefined) {
         order = ++this.order;
       }
       if (!_.find(this.users, {id: user})) {
@@ -197,7 +203,10 @@
     };
 
     SearchQuery.prototype.addLabel = function (label, order) {
-      if (order === null) {
+      if (!checkValidity(label)) {
+        return;
+      }
+      if (order === null || order === undefined) {
         order = ++this.order;
       }
       if (!_.find(this.labels, {id: label})) {
@@ -215,7 +224,10 @@
     };
 
     SearchQuery.prototype.addOtherKeyword = function (keyword, order) {
-      if (order === null) {
+      if (!checkValidity(keyword)) {
+        return;
+      }
+      if (order === null || order === undefined) {
         order = ++this.order;
       }
       if (!_.find(this.otherKeywords, {id: keyword})) {
@@ -325,6 +337,14 @@
         }
       }
     };
+
+    function checkValidity(text) {
+      if (text !== undefined && text !== null && text.length !== 0) {
+        return true;
+      } else {
+        return false;
+      }
+    }
 
     return SearchQuery;
 
