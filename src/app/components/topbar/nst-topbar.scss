@@ -29,35 +29,37 @@
       border-radius: 4px;
       border-bottom: 1px solid rgba(0,0,0, .4);
       display: flex;
+      position: relative;
+      padding-left: 32px;
+      i {
+        position: absolute;
+        left: 4px;
+        top: 4px;
+        opacity: .24;
+      }
+      span.advanced-search {
+        position: absolute;
+        right: 4px;
+        top: 4px;
+        opacity: .24;
+        &.open {
+          opacity: 1;
+        }
+      }
       .input-wrapper {
         position: relative;
         min-width: 256px;
         width: 100%;
-        i {
-          position: absolute;
-          left: 4px;
-          top: 4px;
-          opacity: .24;
-        }
         input {
           line-height: 36px;
           width: 100%;
           height: 32px;
           background-color: transparent;
-          padding-left: 32px;
+          // padding-left: 32px;
           color: $color-white;
           border: none;
           outline: none;
           box-shadow: none;
-        }
-        span {
-          position: absolute;
-          right: 4px;
-          top: 4px;
-          opacity: .24;
-          &.open {
-            opacity: 1;
-          }
         }
       }
       .search-chips-container {

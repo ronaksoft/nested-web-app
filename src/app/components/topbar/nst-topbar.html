@@ -29,25 +29,25 @@
           <span>Ali</span>
         </div>
       </div>
+      <i ng-if="!ctrlTopBar.searchModalOpen && !ctrlTopBar.advancedSearchOpen">
+        <svg class="_24svg fill-white">
+          <use xlink:href="/assets/icons/nst-icn24.svg#search"></use>
+        </svg>
+      </i>
+      <i ng-if="ctrlTopBar.searchModalOpen || ctrlTopBar.advancedSearchOpen" ng-click="ctrlTopBar.toggleSearchModal()">
+        <svg class="_24svg fill-white">
+          <use xlink:href="/assets/icons/nst-icn24.svg#xcross"></use>
+        </svg>
+      </i>
       <div class="input-wrapper">
-        <i ng-if="!ctrlTopBar.searchModalOpen && !ctrlTopBar.advancedSearchOpen">
-          <svg class="_24svg fill-white">
-            <use xlink:href="/assets/icons/nst-icn24.svg#search"></use>
-          </svg>
-        </i>
-        <i ng-if="ctrlTopBar.searchModalOpen || ctrlTopBar.advancedSearchOpen" ng-click="ctrlTopBar.toggleSearchModal()">
-          <svg class="_24svg fill-white">
-            <use xlink:href="/assets/icons/nst-icn24.svg#xcross"></use>
-          </svg>
-        </i>
         <input placeholder="{{ctrlTopBar.searchPlaceholder}}" ng-model="ctrlTopBar.query"
           translate-attrs="placeholder" ng-keyup="ctrlTopBar.searchKeyPressed($event, ctrlTopBar.query, true)" ng-focus="ctrlTopBar.toggleSearchModal(true);">
-        <span ng-if="ctrlTopBar.searchModalOpen || ctrlTopBar.advancedSearchOpen" ng-class="{'open' : ctrlTopBar.advancedSearchOpen}" ng-click="ctrlTopBar.toggleAdvancedSearch()">
-          <svg class="_24svg fill-white">
-            <use xlink:href="/assets/icons/nst-icn24.svg#preferences"></use>
-          </svg>
-        </span>
       </div>
+      <span ng-if="ctrlTopBar.searchModalOpen || ctrlTopBar.advancedSearchOpen" class="advanced-search ng-class:{'open' : ctrlTopBar.advancedSearchOpen}" ng-class="{'open' : ctrlTopBar.advancedSearchOpen} " ng-click="ctrlTopBar.toggleAdvancedSearch()">
+        <svg class="_24svg fill-white">
+          <use xlink:href="/assets/icons/nst-icn24.svg#preferences"></use>
+        </svg>
+      </span>
     </div>
   </div>
   <div class="account">
