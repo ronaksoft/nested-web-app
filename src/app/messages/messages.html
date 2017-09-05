@@ -15,7 +15,7 @@
     <div class="filter-bar">
       <div ng-if="!ctrl.isbookmarkedsMode && !ctrl.isSentMode" class="filter-bar-inner" affixer-filter top="96">
         <div class="toolbar ng-class:{'selcted-mode' : ctrl.selectedPosts.length > 0, 'unread-mode' : ctrl.isUnreadMode}" ng-mouseleave="popoverSortShow = false">
-          <svg class="default-mode-butn _16svg _df _fn" ng-if="ctrl.isUnreadMode || ctrl.selectedPosts.length > 0" ng-click="ctrl.isUnreadMode = false;ctrl.unselectAll();">
+          <svg class="default-mode-butn _16svg _df _fn" ng-if="ctrl.isUnreadMode || ctrl.selectedPosts.length > 0" ng-click="ctrl.exitUnseenMode();ctrl.unselectAll();">
             <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
           </svg>
           <p class="_df _fn" ng-if="!ctrl.isUnreadMode && ctrl.selectedPosts.length === 0">

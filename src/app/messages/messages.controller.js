@@ -45,6 +45,8 @@
     vm.readMulti = readMulti;
     vm.goUnreadMode = goUnreadMode;
     vm.unselectAll = unselectAll;
+    vm.exitUnseenMode = exitUnseenMode;
+
     // Some flags that help us find where we are
     vm.isFeed = false;
     vm.isBookmark = false;
@@ -279,9 +281,17 @@
     function replacePosts(newPosts) {
       vm.messages = newPosts;
     }
+    
     function goUnreadMode() {
       vm.isUnreadMode = true;
-      // TODO replace posts
+      load();
+    }
+
+    function exitUnseenMode() {
+      if (vm.isUnreadMode) {
+        vm.isUnreadMode = false;
+        load();
+      }
     }
 
     function load() {
@@ -301,6 +311,7 @@
         });
       });
     }
+
 
     function loadMore() {
       if (vm.loading || vm.reachedTheEnd || vm.noMessages) {
