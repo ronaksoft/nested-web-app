@@ -9,7 +9,7 @@
   function NstSvcPostDraft(NstSvcPostDraftStorage, NstPostDraft, NstSvcAuth, _) {
     function PostDraft() {
       this.hasDraft = null;
-      this.key = NstSvcAuth.user.id;
+      this.key = NstSvcAuth.user && NstSvcAuth.user.id;
     }
 
     PostDraft.prototype.discard = function () {

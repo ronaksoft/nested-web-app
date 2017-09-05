@@ -8,10 +8,9 @@
   /** @ngInject */
   function NstSvcAuth(_, $cookies, $q, $log, $rootScope,
                       NstSvcServer, NstSvcUserFactory, NstSvcPlaceFactory, NstSvcLogger, NstSvcI18n, NstSvcClient,
-                      NstSvcCurrentUserStorage, NstSvcFileStorage, NstSvcInvitationStorage,
                       NstSvcDate, NstSvcGlobalCache,
                       NST_SRV_EVENT, NST_SRV_RESPONSE_STATUS, NST_SRV_ERROR, NST_UNREGISTER_REASON, NST_CONFIG,
-                      NST_AUTH_EVENT, NST_AUTH_STATE, NST_AUTH_STORAGE_KEY,
+                      NST_AUTH_EVENT, NST_AUTH_STATE,
                       NstObservableObject) {
 
     var USER_STATUS_STORAGE_NAME = 'nested.user_status';
@@ -28,7 +27,7 @@
 
       NstObservableObject.call(this);
 
-      if (user.id) {
+      if (user && user.id) {
         service.setUser(user);
       }
 
@@ -87,14 +86,11 @@
      *                                  else they will be stored as session variables
      *                                  that expires when you close the browser.
      */
-    Auth.prototype.setAppCookies = function (cookies, remember) {
+    Auth.prototype.setAppCookies = function (cookies) {
       var cookieOptions = {};
-      var persist = remember || this.getRemember();
-      if (persist) {
-        var expires = new Date();
-        expires.setFullYear(expires.getFullYear() + 1);
-        cookieOptions['expires'] = expires;
-      }
+      var expires = new Date();
+      expires.setFullYear(expires.getFullYear() + 1);
+      cookieOptions['expires'] = expires;
 
       _.forIn(cookies, function (value, key) {
         $cookies.put(key, value, cookieOptions);
@@ -110,18 +106,15 @@
      *                                  else they will be stored as session variables
      *                                  that expires when you close the browser.
      */
-    Auth.prototype.setUserCookie = function (user, remember) {
+    Auth.prototype.setUserCookie = function (user) {
       // FIXME:: set domain form location
       var cookieOptions = {
         'domain': NST_CONFIG.DOMAIN
       };
 
-      var persist = remember || this.getRemember();
-      if (persist) {
-        var expires = new Date();
-        expires.setFullYear(expires.getFullYear() + 1);
-        cookieOptions['expires'] = expires;
-      }
+      var expires = new Date();
+      expires.setFullYear(expires.getFullYear() + 1);
+      cookieOptions['expires'] = expires;
 
       $cookies.put('user', JSON.stringify({
         id: user.id,
@@ -170,6 +163,7 @@
 
       NstSvcUserFactory.set(data.account);
       var user = NstSvcUserFactory.parseUser(data.account);
+      NstSvcUserFactory.setCurrent(data.account);
       this.setUser(user);
       service.setUserCookie(user, remember);
       $rootScope.$broadcast(NST_AUTH_EVENT.AUTHORIZE, { user: user });
@@ -227,13 +221,7 @@
           break;
 
         default:
-          NstSvcGlobalCache.flush();
-          NstSvcCurrentUserStorage.cache.flush();
-          NstSvcFileStorage.cache.flush();
-          NstSvcInvitationStorage.cache.flush();
-
           service.user = null;
-
           localStorage.clear();
 
           this.setState(NST_AUTH_STATE.UNAUTHORIZED);
@@ -252,6 +240,7 @@
       }
 
       qUnauth.promise.then(function (response) {
+        NstSvcUserFactory.removeCurrent();
         $rootScope.$broadcast(NST_AUTH_EVENT.UNAUTHORIZE, { reason: reason });
         deferred.resolve(response);
       }).catch(deferred.reject);
@@ -286,7 +275,6 @@
         .then(function () {
           service.register(id, credentials.password).then(function (response) {
             service.setState(NST_AUTH_STATE.AUTHORIZED);
-            service.setRemember(remember);
             service.authorize(response).then(deferred.resolve);
           }).catch(function (error) {
             service.unregister(NST_UNREGISTER_REASON.AUTH_FAIL).then(function () {
@@ -300,14 +288,6 @@
 
       return deferred.promise;
     };
-
-    Auth.prototype.setRemember = function (value) {
-      localStorage.setItem(NST_AUTH_STORAGE_KEY.REMEMBER, value);
-    }
-
-    Auth.prototype.getRemember = function () {
-      return localStorage.getItem(NST_AUTH_STORAGE_KEY.REMEMBER) === 'true';
-    }
 
     Auth.prototype.reconnect = function () {
       var service = this;
@@ -445,15 +425,7 @@
 
     };
 
-    var service = new Auth(NstSvcCurrentUserStorage.get(NST_AUTH_STORAGE_KEY.USER));
-
-    $rootScope.$on(NST_AUTH_EVENT.AUTHORIZE, function (e, data) {
-      NstSvcCurrentUserStorage.set(NST_AUTH_STORAGE_KEY.USER, data.user);
-    });
-    $rootScope.$on(NST_AUTH_EVENT.UNAUTHORIZE, function () {
-      NstSvcCurrentUserStorage.remove(NST_AUTH_STORAGE_KEY.USER);
-    });
-
+    var service = new Auth(NstSvcUserFactory.getCurrentCachedSync());
 
     return service;
   }

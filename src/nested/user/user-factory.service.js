@@ -89,6 +89,10 @@
       this.cache.set('_current', user);
     };
 
+    UserFactory.prototype.removeCurrent = function (user) {
+      this.cache.remove('_current');
+    };
+
     UserFactory.prototype.getMany = function (id) {
       var joinedIds = id.join(',');
       return NstSvcServer.request('account/get_many', {

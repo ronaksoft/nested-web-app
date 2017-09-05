@@ -35,7 +35,7 @@
 
           function init() {
             $scope.isEmail = NST_PATTERN.EMAIL.test( $scope.user.id);
-            $scope.isAvailable = NstSvcAuth.user.id !== $scope.user.id;
+            $scope.isAvailable = NstSvcAuth.user && NstSvcAuth.user.id !== $scope.user.id;
             if ( $scope.isAvailable ) {
               $element.addClass('enabled-detail-popover');
             } else {
