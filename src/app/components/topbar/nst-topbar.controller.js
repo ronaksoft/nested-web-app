@@ -67,7 +67,7 @@
       vm.addChip = addChip;
       vm.removeChip = removeChip;
       vm.chips = [];
-      vm.isSearchPage = false;
+      vm.isSearch = isSearch;
 
       var searchQuery;
 
@@ -85,7 +85,7 @@
 
       function initQuery(init) {
         if (init) {
-          if ($state.current.name === 'app.search') {
+          if (vm.isSearch()) {
             vm.query = $stateParams.search;
           }
           searchQuery = new NstSearchQuery(vm.query);
@@ -94,7 +94,7 @@
             vm.suggestion = Object.assign({}, vm.defaultSuggestion);
           });
         }
-        if ($state.current.name === 'app.search') {
+        if (vm.isSearch()) {
           vm.query = $stateParams.search;
           if (vm.query === '_') {
             vm.query = '';
@@ -118,6 +118,9 @@
           vm.chips = [];
         }
         vm.selectedItem = -1;
+        $timeout(function (){
+          scrollEndSearch();
+        },100);
       }
 
       function getAdancedSearchParams() {
@@ -132,8 +135,7 @@
       }
 
       function isSearch() {
-        vm.isSearchPage = $state.current.name === 'app.search';
-        return vm.isSearchPage;
+        return $state.current.name === 'app.search';
       }
 
       vm.toggleSearchModal = function(force) {
@@ -570,14 +572,10 @@
       });
 
       function scrollEndSearch() {
-        if ( typeof $scope.scrollEndSearch === 'function') {
+        if (_.isFunction($scope.scrollEndSearch)) {
           $scope.scrollEndSearch();
         }
       }
-
-      $timeout(function (){
-        scrollEndSearch();
-      },100)
 
       /**
        * @function getInvitations
