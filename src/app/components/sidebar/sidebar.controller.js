@@ -83,7 +83,7 @@
 
       function rebuildMyPlacesTree(placeId) {
         getMyPlaces(true).then(function(places) {
-          vm.places = createTree(places, myPlaceOrders, [], placeId);
+          vm.places = createTree(places, myPlaceOrders, [], placeId || vm.selectedPlaceId);
 
           loadMyPlacesUnreadPostsCount();
         });
