@@ -99,7 +99,7 @@
           vm.messages.unshift(data.activity.post);
         } else if (mustBeAddedToHotPosts(data.activity.post)) {
           // someone else sent the post
-          vm.hotMessagesCount ++;
+          vm.hotMessagesCount = vm.hotMessagesCount + 1;
         }
         loadUnreadPostsCount();
       }));

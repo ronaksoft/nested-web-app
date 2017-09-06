@@ -24,20 +24,33 @@
     SearchQuery.prototype = new NstObject();
     SearchQuery.prototype.constructor = SearchQuery;
 
-
-
     SearchQuery.prototype.setQuery = function (query, secondaryQuery) {
       this.places = [];
       this.users = [];
       this.labels = [];
       this.otherKeywords = [];
-      this.order = 0;
+      this.before = null;
+      this.after = null;
+
       var secondaryResult = {
         places: [],
         users: [],
         labels: [],
         keywords: []
       };
+
+      this.prefixes = {
+        user: NST_SEARCH_QUERY_PREFIX.NEW_USER,
+        place: NST_SEARCH_QUERY_PREFIX.NEW_PLACE,
+        label: NST_SEARCH_QUERY_PREFIX.NEW_LABEL,
+        subject: NST_SEARCH_QUERY_PREFIX.SUBJECT,
+        attachment: NST_SEARCH_QUERY_PREFIX.ATTACHMENT,
+        within: NST_SEARCH_QUERY_PREFIX.WITHIN,
+        date: NST_SEARCH_QUERY_PREFIX.DATE
+      };
+
+      this.order = 0;
+
       var result = this.parseQuery(query);
 
       if ((secondaryQuery !== null && secondaryQuery !== undefined) && secondaryQuery.length > 0) {
@@ -95,15 +108,6 @@
           words.push(match[0]);
         }
       } while (match);
-
-      this.prefixes = {};
-      this.prefixes.user = NST_SEARCH_QUERY_PREFIX.NEW_USER;
-      this.prefixes.place = NST_SEARCH_QUERY_PREFIX.NEW_PLACE;
-      this.prefixes.label = NST_SEARCH_QUERY_PREFIX.NEW_LABEL;
-      this.prefixes.subject = NST_SEARCH_QUERY_PREFIX.SUBJECT;
-      this.prefixes.attachment = NST_SEARCH_QUERY_PREFIX.ATTACHMENT;
-      this.prefixes.within = NST_SEARCH_QUERY_PREFIX.WITHIN;
-      this.prefixes.date = NST_SEARCH_QUERY_PREFIX.date;
 
       var that = this;
 
@@ -172,6 +176,22 @@
       }
 
       return _.join(stringList, QUERY_SEPARATOR);
+    };
+
+    SearchQuery.prototype.toAdvancedString = function () {
+      var query = this.toString();
+      query += ' ';
+      if (this.subject.length > 0) {
+        query += this.prefixes.subject + '"' + this.subject + '" ';
+      }
+      if (this.hasAttachment === 'true') {
+        query += this.prefixes.attachment + 'true ';
+      }
+      if (this.within.length > 0 && this.date.length > 0) {
+        query += this.prefixes.within + '"' + this.within + '" ';
+        query += this.prefixes.date + '"' + this.date + '"';
+      }
+      return query;
     };
 
     SearchQuery.prototype.ToEncodeString = function () {
@@ -315,7 +335,7 @@
 
     SearchQuery.prototype.setAllKeywords = function (keywords) {
       this.removeAllKeywords();
-      this.otherKeywords = keywords;
+      this.addOtherKeyword(keywords);
     };
 
     SearchQuery.prototype.getAllKeywords = function () {
@@ -325,35 +345,35 @@
     };
 
     SearchQuery.prototype.setSubject = function (subject) {
-      this.subject = '"' + subject + '"';
+      this.subject = subject;
     };
 
     SearchQuery.prototype.getSubject = function () {
-      return _.trim(this.subject, '"');
+      return this.subject;
     };
 
     SearchQuery.prototype.setHasAttachment = function (has) {
-      this.hasAttachment = has? 'true': 'false';
+      this.hasAttachment = has;
     };
 
     SearchQuery.prototype.getHasAttachment = function () {
-      return (this.hasAttachment === 'true')
+      return this.hasAttachment;
     };
 
     SearchQuery.prototype.setWithin = function (within) {
-      this.within = '"' + within + '"';
+      this.within = within;
     };
 
     SearchQuery.prototype.getWithin = function () {
-      return _.trim(this.within, '"');
+      return this.within;
     };
 
     SearchQuery.prototype.setDate = function (date) {
-      this.date = '"' + date + '"';
+      this.date = date;
     };
 
     SearchQuery.prototype.getDate = function () {
-      return _.trim(this.date, '"');
+      return this.date;
     };
 
     SearchQuery.encode = function (queryString) {
@@ -373,7 +393,11 @@
         }),
         keywords: _.map(this.otherKeywords, function (item) {
           return item.id;
-        })
+        }),
+        subject: this.subject,
+        hasAttachment: this.hasAttachment,
+        before: this.before,
+        after: this.after
       };
     };
 
@@ -441,11 +465,7 @@
     };
 
     function checkValidity(text) {
-      if (text !== undefined && text !== null && text.length !== 0) {
-        return true;
-      } else {
-        return false;
-      }
+      return (text !== undefined && text !== null && text.length !== 0);
     }
 
     return SearchQuery;

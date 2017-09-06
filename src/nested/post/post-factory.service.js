@@ -35,6 +35,7 @@
     PostFactory.prototype.parsePost = parsePost;
     PostFactory.prototype.search = search;
     PostFactory.prototype.newSearch = newSearch;
+    PostFactory.prototype.advancedSearch = advancedSearch;
     PostFactory.prototype.pin = pin;
     PostFactory.prototype.unpin = unpin;
     PostFactory.prototype.getChainMessages = getChainMessages;
@@ -540,6 +541,36 @@
         limit: limit || 8,
         skip: skip || 0
       };
+      var defer = $q.defer();
+      return factory.sentinel.watch(function () {
+        NstSvcServer.request('search/posts', params).then(function (result) {
+          var postPromises = _.map(result.posts, parsePost);
+          $q.all(postPromises).then(defer.resolve).catch(defer.reject);
+        }).catch(defer.reject);
+        return defer.promise;
+      }, 'searchPost', 'new');
+    }
+
+    function advancedSearch(parameters, limit, skip) {
+      var params = {
+        advanced: true,
+        place_id: parameters.places,
+        sender_id: parameters.users,
+        label_title: parameters.labels,
+        keyword: parameters.keywords,
+        subject: parameters.subject,
+        has_attachment: parameters.hasAttachment,
+        limit: limit || 8,
+        skip: skip || 0
+      };
+
+      if (parameters.hasOwnProperty('before') && parameters.hasOwnProperty('after')) {
+        _.merge(params, {
+          before: parameters.before,
+          after: parameters.after
+        });
+      }
+
       var defer = $q.defer();
       return factory.sentinel.watch(function () {
         NstSvcServer.request('search/posts', params).then(function (result) {

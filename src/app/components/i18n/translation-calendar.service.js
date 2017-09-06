@@ -17,15 +17,15 @@
     .service('NstSvcCalendarTranslation', NstSvcCalendarTranslation);
 
   /** @ngInject */
-  function NstSvcCalendarTranslation(NstSvcI18n, _) {
+  function NstSvcCalendarTranslation(NstSvcI18n) {
     function Translation() {
       this.currentCalendar = NstSvcI18n.selectedCalendar;
     }
-
     var formatMap = [];
+
     formatMap['jalali'] = {
       "HH:mm": "HH:mm",
-      "[Yesterday] HH:mm": "[دیروز] HH:mm",
+      "[Yesterday] HH:mm": (NstSvcI18n.selectedLocale === 'en-US'? '[Yesterday] HH:mm': '[دیروز] HH:mm'),
       "MMM DD": "jD jMMMM",
       "DD[/]MM[/]YYYY": "jYYYY[/]jMM[/]jDD",
       "YYYY-MM-DD": "jYYYY-jMM-jDD",
@@ -34,6 +34,8 @@
 
     formatMap['gregorian'] = {
     };
+
+    Translation.prototype.constructor = Translation;
 
     Translation.prototype.get = function (text) {
       var value = formatMap[this.currentCalendar][text];

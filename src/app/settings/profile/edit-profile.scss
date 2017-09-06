@@ -89,7 +89,7 @@
       }
       &:hover {
         a.force {
-          opacity: 1; 
+          opacity: 1;
         }
       }
     }
@@ -116,6 +116,11 @@
     }
     .form-group {
       margin-bottom: 32px;
+      &:last-of-type {
+        .field {
+          border-bottom-color: transparent;
+        }
+      }
     }
   }
   .profile-name {

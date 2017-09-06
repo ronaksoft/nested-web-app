@@ -6,14 +6,18 @@
       .controller('TopBarController', TopBarController);
 
     /** @ngInject */
-    function TopBarController($q, $, $scope, $timeout, $state, $stateParams, $uibModal, $rootScope, NST_SEARCH_QUERY_PREFIX,
-                               _, NstSvcTranslation, NstSvcAuth, NstSvcSuggestionFactory, NstSvcLabelFactory, NstSvcUserFactory, NstSvcNotificationFactory,
-                              NST_USER_SEARCH_AREA, NstSvcPlaceFactory, NstSearchQuery) {
+    function TopBarController($q, $, $scope, $timeout, $state, $stateParams, $uibModal,
+                              $rootScope, NST_SEARCH_QUERY_PREFIX, _, NstSvcTranslation,
+                              NstSvcSuggestionFactory, NstSvcLabelFactory,
+                              NstSvcUserFactory, NstSvcNotificationFactory, NST_USER_SEARCH_AREA,
+                              NstSvcPlaceFactory, NstSearchQuery) {
       var vm = this;
       vm.searchPlaceholder = NstSvcTranslation.get('Search...');
       vm.searchKeyPressed = searchKeyPressed;
       vm.loadNotificationsCount = loadNotificationsCount;
       vm.closeProfile = closeProfile;
+      vm.toggleSearchModal = toggleSearchModal;
+      vm.toggleAdvancedSearch = toggleAdvancedSearch;
       vm.query = '';
       vm.newQuery = '';
       vm.excludedQuery = '';
@@ -21,7 +25,6 @@
       vm.notificationsCount = 0;
       vm.profileOpen = false;
       vm.notifOpen = false;
-      vm.user = NstSvcAuth.user;
       vm.searchModalOpen = false;
       vm.advancedSearchOpen = false;
       vm.debouncedSugesstion = _.debounce(getSuggestions, 128);
@@ -67,7 +70,12 @@
       vm.addChip = addChip;
       vm.removeChip = removeChip;
       vm.chips = [];
-      vm.isSearchPage = false;
+      vm.isSearch = isSearch;
+      vm.advancedSearchIt = advancedSearchIt;
+
+      vm.translation = {
+        submit: NstSvcTranslation.get('Submit')
+      };
 
       var searchQuery;
 
@@ -77,6 +85,9 @@
           initQuery(false);
           isSearch();
         });
+        NstSvcUserFactory.getCurrent().then(function(user) {
+          vm.user = user;
+        });
         // NstSvcSuggestionFactory.search('').then(function (result) {
         //   vm.defaultSuggestion = getUniqueItems(result);
         //   vm.suggestion = Object.assign({}, vm.defaultSuggestion);
@@ -85,8 +96,11 @@
 
       function initQuery(init) {
         if (init) {
-          if ($state.current.name === 'app.search') {
+          if (vm.isSearch()) {
             vm.query = $stateParams.search;
+            if (vm.query === '_') {
+              vm.query = '';
+            }
           }
           searchQuery = new NstSearchQuery(vm.query);
           NstSvcSuggestionFactory.search('').then(function (result) {
@@ -94,7 +108,7 @@
             vm.suggestion = Object.assign({}, vm.defaultSuggestion);
           });
         }
-        if ($state.current.name === 'app.search') {
+        if (vm.isSearch()) {
           vm.query = $stateParams.search;
           if (vm.query === '_') {
             vm.query = '';
@@ -104,7 +118,7 @@
             searchQuery.setQuery(vm.query);
           }
           initChips(searchQuery.getSortedParams());
-          getAdancedSearchParams();
+          getAdvancedSearchParams();
           vm.newQuery = searchQuery.getAllKeywords();
           if (_.trim(vm.newQuery).length === 0) {
             NstSvcSuggestionFactory.search('').then(function (result) {
@@ -113,14 +127,28 @@
             });
           }
         } else {
+          vm.toggleSearchModal(false);
           vm.query = '';
           vm.newQuery = '';
           vm.chips = [];
+          vm.advancedSearch = {
+            keywords: '',
+            users: '',
+            places: '',
+            subject: '',
+            labels: '',
+            hasAttachment: false,
+            within: 1,
+            date: ''
+          };
         }
         vm.selectedItem = -1;
+        $timeout(function (){
+          scrollEndSearch();
+        },100);
       }
 
-      function getAdancedSearchParams() {
+      function getAdvancedSearchParams() {
         vm.advancedSearch.keywords = searchQuery.getAllKeywords();
         vm.advancedSearch.users = searchQuery.getUsers();
         vm.advancedSearch.places = searchQuery.getPlaces();
@@ -132,11 +160,10 @@
       }
 
       function isSearch() {
-        vm.isSearchPage = $state.current.name === 'app.search';
-        return vm.isSearchPage;
+        return $state.current.name === 'app.search';
       }
 
-      vm.toggleSearchModal = function(force) {
+      function toggleSearchModal(force) {
         if (force === true) {
           $('html').addClass('_oh');
           vm.searchModalOpen = true ;
@@ -151,9 +178,9 @@
         $('html').toggleClass('_oh');
         vm.searchModalOpen =! vm.searchModalOpen ;
         vm.advancedSearchOpen = false;
-      };
+      }
 
-      vm.toggleAdvancedSearch = function(force) {
+      function toggleAdvancedSearch(force) {
         if (force) {
           vm.advancedSearchOpen = true ;
           return;
@@ -163,7 +190,7 @@
         if (!vm.advancedSearchOpen) {
           vm.searchModalOpen = true ;
         }
-      };
+      }
 
       /**
        * @function goLabelRoute
@@ -261,7 +288,7 @@
               break;
           }
         }
-        $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toString())});
+        $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toString()), advanced: 'false'});
         vm.toggleSearchModal(false);
         vm.selectedItem = -1
       }
@@ -270,7 +297,7 @@
         if (lastQuery === '') {
           searchQuery.setQuery(vm.query, '');
           searchQuery.removeLastItem();
-          $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toString())});
+          $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toString()), advanced: 'false'});
           vm.toggleSearchModal(false);
         }
       }
@@ -522,7 +549,7 @@
             searchQuery.addLabel(id);
             break;
         }
-        $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toString())});
+        $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toString()), advanced: 'false'});
         vm.toggleSearchModal(false);
       }
 
@@ -546,7 +573,7 @@
             searchQuery.removeKeyword(name);
             break;
         }
-        $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toString())});
+        $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toString()), advanced: 'false'});
         if (vm.searchModalOpen) {
           vm.toggleSearchModal(false);
         }
@@ -558,7 +585,20 @@
         } else {
           searchQuery.setQuery(query);
         }
-        $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toString())});
+        $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toString()), advanced: 'false'});
+        vm.toggleSearchModal(false);
+      }
+
+      function advancedSearchIt() {
+        searchQuery.setAllKeywords(this.advancedSearch.keywords);
+        searchQuery.setUsers(this.advancedSearch.users);
+        searchQuery.setPlaces(this.advancedSearch.places);
+        searchQuery.setSubject(this.advancedSearch.subject);
+        searchQuery.setLabels(this.advancedSearch.labels);
+        searchQuery.setHasAttachment(this.advancedSearch.hasAttachment);
+        searchQuery.setWithin(this.advancedSearch.within);
+        searchQuery.setDate(this.advancedSearch.date);
+        $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toAdvancedString()), advanced: 'true'});
         vm.toggleSearchModal(false);
       }
 
@@ -570,14 +610,10 @@
       });
 
       function scrollEndSearch() {
-        if ( typeof $scope.scrollEndSearch === 'function') {
+        if (_.isFunction($scope.scrollEndSearch)) {
           $scope.scrollEndSearch();
         }
       }
-
-      $timeout(function (){
-        scrollEndSearch();
-      },100)
 
       /**
        * @function getInvitations

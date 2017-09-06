@@ -39,11 +39,25 @@
       searchMessages();
     })();
 
+    function getRouteParams(query) {
+      if (isAdvanced()) {
+        return {
+          search: NstSearchQuery.encode(query.toAdvancedString()),
+          advanced: 'true'
+        }
+      } else {
+        return {
+          search: NstSearchQuery.encode(query.toString()),
+          advanced: 'false'
+        }
+      }
+    }
+
     function search(queryString) {
       vm.messages.length = 0;
       var query = new NstSearchQuery(queryString);
       vm.searchParams = query.getSearchParams();
-      $state.go('app.search', { search : NstSearchQuery.encode(query.toString()) }).then(function () {
+      $state.go('app.search', getRouteParams(query)).then(function () {
         skip = 0;
         searchMessages();
       });
@@ -58,6 +72,14 @@
       vm.loadMessageError = false;
       vm.reachedTheEnd = false;
 
+      if (isAdvanced()) {
+        advancedSearch();
+      } else {
+        normalSearch();
+      }
+    }
+
+    function normalSearch() {
       NstSvcPostFactory.newSearch(
         vm.searchParams.places.join(','),
         vm.searchParams.users.join(','),
@@ -65,19 +87,58 @@
         vm.searchParams.keywords.join(' '),
         limit,
         skip).then(function (posts) {
-          _.forEach(posts, function (message) {
-            if (!_.some(vm.messages, {id: message.id})) {
-              vm.messages.push(message);
-            }
-          });
-          vm.noResult = vm.messages.length === 0;
-          vm.reachedTheEnd = vm.messages.length > 0 && posts.length < limit;
-          vm.loading = false;
+        _.forEach(posts, function (message) {
+          if (!_.some(vm.messages, {id: message.id})) {
+            vm.messages.push(message);
+          }
+        });
+        vm.noResult = vm.messages.length === 0;
+        vm.reachedTheEnd = vm.messages.length > 0 && posts.length < limit;
+        vm.loading = false;
       }).catch(function (error) {
         $log.debug(error);
         vm.loadMessageError = true;
         vm.loading = false;
       });
+    }
+
+    function advancedSearch() {
+      var params = {
+        places: vm.searchParams.places.join(','),
+        users: vm.searchParams.users.join(','),
+        labels: vm.searchParams.labels.join(','),
+        keywords: vm.searchParams.keywords.join(' '),
+        subject: vm.searchParams.subject,
+        hasAttachment: vm.searchParams.hasAttachment
+      };
+      if (vm.searchParams.before !== null && vm.searchParams.after !== null) {
+        _.merge(params, {
+          before: vm.searchParams.before,
+          after: vm.searchParams.after
+        });
+      }
+
+      NstSvcPostFactory.advancedSearch(
+        params,
+        limit,
+        skip).then(function (posts) {
+        _.forEach(posts, function (message) {
+          if (!_.some(vm.messages, {id: message.id})) {
+            vm.messages.push(message);
+          }
+        });
+        vm.noResult = vm.messages.length === 0;
+        vm.reachedTheEnd = vm.messages.length > 0 && posts.length < limit;
+        vm.loading = false;
+      }).catch(function (error) {
+        $log.debug(error);
+        vm.loadMessageError = true;
+        vm.loading = false;
+      });
+    }
+
+    function isAdvanced() {
+      return ($stateParams.advanced === 'true');
     }
 
     function loadMore() {

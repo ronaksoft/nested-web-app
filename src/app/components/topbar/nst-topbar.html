@@ -17,7 +17,7 @@
     </a>
   </div>
   <div class="search">
-    <div class="inner ng-class:{'in-search-page' : ctrlTopBar.isSearchPage}">
+    <div class="inner ng-class:{'in-search-page' : ctrlTopBar.isSearch()}">
       <i ng-if="!ctrlTopBar.searchModalOpen && !ctrlTopBar.advancedSearchOpen && ctrlTopBar.chips.length === 0">
         <svg class="_24svg fill-white">
           <use xlink:href="/assets/icons/nst-icn24.svg#search"></use>
@@ -57,7 +57,7 @@
         <use xlink:href="/assets/icons/nst-icn20.svg#tag"></use>
       </svg>
     </a>
-    <a class="cursor_pointer" data-uib-popover-template="'app/notification/notification-popover.html'" data-popover-placement="bottom-right auto"
+    <a class="cursor-pointer" data-uib-popover-template="'app/notification/notification-popover.html'" data-popover-placement="bottom-right auto"
       data-popover-class="notifications-popover" data-popover-is-open="ctrlTopBar.notifOpen" data-popover-append-to-body="false"
       data-popover-trigger="none" ng-click="ctrlTopBar.notifOpen =! ctrlTopBar.notifOpen;ctrlTopBar.profileOpen = false;ctrlTopBar.notificationsCount = 0;$event.preventDefault();$event.stopPropagation()">
       <svg class="_20svg fill-white">
@@ -66,11 +66,11 @@
       <div class="unread-notif-badge" ng-if="ctrlTopBar.notificationsCount > 0">{{ctrlTopBar.notificationsCount | localize}}</div>
     </a>
     <a class="detailed" data-uib-popover-template="'app/settings/profile/profile-popover.html'" data-popover-placement="bottom-right auto"
-      data-popover-class="pop-white profile-popover" data-popover-is-open="ctrlTopBar.profileOpen" data-popover-append-to-body="false"
-      data-popover-trigger="none">
-      <div class="top-user-avatar-24" user-detail="ctrlTopBar.user.id" user-id="ctrlTopBar.user.id" ng-click="ctrlTopBar.profileOpen =! ctrlTopBar.profileOpen;ctrlTopBar.notifOpen = false;">
+       data-popover-class="pop-white profile-popover" data-popover-is-open="ctrlTopBar.profileOpen" data-popover-append-to-body="false"
+       data-popover-trigger="none">
+      <div class="top-user-avatar-24" ng-click="ctrlTopBar.notifOpen = false;">
         <img initial-avatar="{{ctrlTopBar.user.id}}" name="{{ctrlTopBar.user.fullName}}" picture="{{ctrlTopBar.user | avatar}}" data-width="32"
-          data-height="32" data-radius="30" class="account-initials-24 _df" data-word-count="2" data-font-size="12" />
+             data-height="32" data-radius="30" class="account-initials-24 _df" data-word-count="2" data-font-size="12" />
       </div>
     </a>
   </div>
@@ -169,21 +169,22 @@
     <label for="advanced-search-label"><translate>label:</translate></label>
     <input ng-model="ctrlTopBar.advancedSearch.labels" id="advanced-search-label" class="advanced-search-text-input" type="text">
 
-    <input class="_fr" type="checkbox" id="attachment" name="attachment" ng-checked="ctrlTopBar.advancedSearch.hasAttachment"/>
+    <input ng-model="ctrlTopBar.advancedSearch.hasAttachment" class="_fr" type="checkbox" id="attachment" name="attachment" />
     <label class="_fw setting checkbox-label _asc" for="attachment"><translate>Has attachment</translate></label>
 
     <label><translate>Date within</translate></label>
     <div class="_difh _aic _fw">
-      <select ng-mode="ctrlTopBar.advancedSearch.within" class="_df">
-        <option><translate>1 week</translate></option>
+      <select ng-model="ctrlTopBar.advancedSearch.within" class="_df">
+        <option value="1"><translate>1 week</translate></option>
+        <option value="2"><translate>2 weeks</translate></option>
+        <option value="3"><translate>3 weeks</translate></option>
       </select>
       <span class="_fn _df seperator-text"><translate>of<translate></span>
-      <!-- <input ng-mode="ctrlTopBar.advancedSearch.date" class="advanced-search-text-input" type="text"> -->
-      <input class="advanced-search-text-input" type="text" ng-model="date" config="{}" isJalali="true"
+      <input class="advanced-search-text-input" type="text" ng-model="ctrlTopBar.advancedSearch.date" config="{}" isJalali="true"
         g-formatted-picked-date="gfdate" g-picked-date="gdate" ng-jalaali-flat-datepicker>
     </div>
 
-    <input class="butn-green _fw" type="submit">
+    <input ng-click="ctrlTopBar.advancedSearchIt()" value="{{ctrlTopBar.translation.submit}}" class="butn-green _fw" type="submit">
   </form>
 </div>
 

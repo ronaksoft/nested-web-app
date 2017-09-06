@@ -83,7 +83,7 @@
 
       function rebuildMyPlacesTree(placeId) {
         getMyPlaces(true).then(function(places) {
-          vm.places = createTree(places, myPlaceOrders, [], placeId);
+          vm.places = createTree(places, myPlaceOrders, [], placeId || vm.selectedPlaceId);
 
           loadMyPlacesUnreadPostsCount();
         });
@@ -96,37 +96,45 @@
 
         vm.selectedPlaceId = $stateParams.placeId;
 
-        $q.all([
-          NstSvcPlaceFactory.get(vm.selectedPlaceId, true),
-          NstSvcUserFactory.getCurrent()
-        ]).then(function (results) {
-          if (_.size(results) === 2 && _.every(results)) {
-            var hasAddPlaceAccess = results[0].hasAccess(NST_PLACE_ACCESS.ADD_PLACE);
-            var canAddMore = results[0].canAddSubPlace();
-            if (!hasAddPlaceAccess){
-              vm.noAccessCreatingMessage = NstSvcTranslation.get('You have no access create sub Places here.');
-            }
-            if (!canAddMore){
-              vm.noAccessCreatingMessage = NstSvcTranslation.get('You have reached the creation limit.');
-            }
-            if (!results[0].privacy.locked && !NstUtility.place.isGrand(results[0].id)){
-              vm.noAccessCreatingMessage = NstSvcTranslation.get('You just can create sub Places only in closed Places');
-            }
+        if (vm.selectedPlaceId) {
+          $q.all([
+            NstSvcPlaceFactory.get(vm.selectedPlaceId, true),
+            NstSvcUserFactory.getCurrent()
+          ]).then(function (results) {
+            if (_.size(results) === 2 && _.every(results)) {
+              var hasAddPlaceAccess = results[0].hasAccess(NST_PLACE_ACCESS.ADD_PLACE);
+              var canAddMore = results[0].canAddSubPlace();
+              if (!hasAddPlaceAccess) {
+                vm.noAccessCreatingMessage = NstSvcTranslation.get('You have no access create sub Places here.');
+              }
+              if (!canAddMore) {
+                vm.noAccessCreatingMessage = NstSvcTranslation.get('You have reached the creation limit.');
+              }
+              if (!results[0].privacy.locked && !NstUtility.place.isGrand(results[0].id)) {
+                vm.noAccessCreatingMessage = NstSvcTranslation.get('You just can create sub Places only in closed Places');
+              }
 
-            vm.canCreateClosedPlace = hasAddPlaceAccess
-              && results[0].privacy.locked
-              && canAddMore;
-            vm.canCreateOpenPlace = hasAddPlaceAccess
-              && results[0].privacy.locked
-              && canAddMore
-              && NstUtility.place.isGrand(results[0].id);
-            vm.canCreateGrandPlace = results[1].limits.grand_places > 0;
-            // vm.canCreateGrandPlace = currentUser.limits.grand_places > 0;
+              vm.canCreateClosedPlace = hasAddPlaceAccess
+                && results[0].privacy.locked
+                && canAddMore;
+              vm.canCreateOpenPlace = hasAddPlaceAccess
+                && results[0].privacy.locked
+                && canAddMore
+                && NstUtility.place.isGrand(results[0].id)
+                && results[0].id !== results[1].id;
+              vm.canCreateGrandPlace = results[1].limits.grand_places > 0;
+              // vm.canCreateGrandPlace = currentUser.limits.grand_places > 0;
 
-            vm.user = results[1];
-            // vm.notificationsCount = results[1].unreadNotificationsCount;
-          }
-        });
+              vm.user = results[1];
+              // vm.notificationsCount = results[1].unreadNotificationsCount;
+            }
+          });
+        } else {
+            NstSvcUserFactory.getCurrent().then(function (user) {
+              vm.canCreateGrandPlace = user.limits.grand_places > 0;
+              vm.user = user;
+          });
+        }
       }
 
       function loadMyPlacesUnreadPostsCount() {
