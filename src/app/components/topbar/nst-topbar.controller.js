@@ -565,6 +565,16 @@
         vm.mentionOpen = false;
       });
 
+      function scrollEndSearch() {
+        if ( typeof $scope.scrollEndSearch === 'function') {
+          $scope.scrollEndSearch();
+        }
+      }
+
+      $timeout(function (){
+        scrollEndSearch();
+      },100)
+
       /**
        * @function getInvitations
        * Gets invitations

@@ -184,11 +184,11 @@
     <!-- <a ng-if="ctlPostCard.post.recipients.length > 0"
        data-ng-repeat="recipient in ctlPostCard.post.recipients | limitTo: ctlPostCard.limits.recipients track by $index">{{::recipient}}
     </a> -->
-    <a ng-if="3 < ctlPostCard.post.places.length + ctlPostCard.post.recipients.length && !ctlPostCard.chainView"
+    <a ng-if="3 < ctlPostCard.totalRecipients.length && !ctlPostCard.chainView"
          data-uib-tooltip-template="'morePlaces-uib-tooltip.html'"
          class="more" ng-if="!ctlPostCard.FIT"
          data-tooltip-append-to-body="true" data-tooltip-placement="auto top">
-      <translate>and</translate> {{ ctlPostCard.post.places.length + ctlPostCard.post.recipients.length - 3 | localize}} <translate>more</translate>...
+      <translate>and</translate> {{ ctlPostCard.totalRecipients.length - 3 | localize}} <translate>more</translate>...
     </a>
   </section>
 

@@ -1,6 +1,6 @@
 <div class="nst-navbar-fixed _tr" style="display:none;" ng-if="!ctlFullNavbar.isUnreadMode && !ctlFullNavbar.isSearchMode &&
   !ctlFullNavbar.isConvMode && !ctlFullNavbar.isFeed && !ctlFullNavbar.isSentMode && !ctlFullNavbar.isBookmarkMode" data-ng-include="'app/components/navbar/full/navbar-static.html'"
-  affixer-filter top="48" hide-this="true" fixed-navbar="true"></div>
+  affixer-filter top="48" hide-this="true" fixed-navbar="true"  ng-click="ctlFullNavbar.scrollTopBody()"></div>
 <div ng-if="ctlFullNavbar.isConvMode || ctlFullNavbar.isSearchMode || ctlFullNavbar.isFeed ||
             ctlFullNavbar.isSentMode || ctlFullNavbar.isBookmarkMode" class="nst-navbar-fixed _tr feed-nav">
   <!-- <div class="nst-content _tr">
@@ -26,7 +26,7 @@
       </div>
     </div>
   </div> -->
-  <div class="nst-navbar-fixed-container ng-class:{'conv-nav' : ctlFullNavbar.isConvMode, 'search-nav' : ctlFullNavbar.isSearchMode}">
+  <div class="nst-navbar-fixed-container ng-class:{'conv-nav' : ctlFullNavbar.isConvMode, 'search-nav' : ctlFullNavbar.isSearchMode}" ng-click="ctlFullNavbar.scrollTopBody()">
     <div class="place-pic" ng-if="ctlFullNavbar.isConvMode">
       <img initial-avatar="{{ctlFullNavbar.user.id}}" name="{{ctlFullNavbar.user.fullName}}" picture="{{ctlFullNavbar.user | avatar:'x32'}}"
         data-width="24" data-height="24" data-radius="4" data-word-count="2" data-font-size="12" ng-if="ctlFullNavbar.user"

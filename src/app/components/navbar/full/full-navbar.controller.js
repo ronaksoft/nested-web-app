@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function FullNavbarController($scope, $rootScope, $uibModal, $state, _,
-                                toastr, NstUtility, NstSvcAuth,
+                                toastr, NstUtility, NstSvcAuth, $,
                                 NstSearchQuery, NstSvcPlaceFactory, NstSvcTranslation,
                                 NST_CONFIG, NST_DEFAULT, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_PLACE_EVENT, NST_SRV_ERROR) {
     var vm = this;
@@ -48,6 +48,7 @@
     vm.chips = [];
     vm.lastChipText = null;
     vm.removeChip = removeChip;
+    vm.scrollTopBody = scrollTopBody;
     vm.searchPlaceholder = NstSvcTranslation.get('Search...');
 
     initSearch();
@@ -284,6 +285,11 @@
      */
     function getPlaceId() {
       return vm.placeId;
+    }
+
+    
+    function scrollTopBody() {
+      $("html, body").animate({ scrollTop: 0 }, "fast");
     }
 
     /**
