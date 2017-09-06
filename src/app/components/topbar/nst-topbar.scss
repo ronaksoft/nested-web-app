@@ -379,7 +379,8 @@
       height: 32px;
       width: 120px;
       margin-bottom: 4px;
-      background-position-y: -128px;
+      background: url(../assets/icons/inputform.svg) no-repeat 98% -124px, linear-gradient(to bottom, #FFFFFF, whitesmoke 100%);
+      // background-position-y: -128px;
     }
     .seperator-text {
       margin: 0 16px;

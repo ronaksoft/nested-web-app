@@ -19,6 +19,9 @@
   z-index: 1;
   width: auto;
   min-height: calc(100vh - 56px);
+  max-width: 880px + 240px;
+  width: calc(100vw - 240px);
+  min-width: 544px + 240px;
 }
 .nst-content.second-view {
   height: 100%;

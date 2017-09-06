@@ -136,7 +136,6 @@
      */
     function findLanguage(key) {
       var queryParameters = $location.search();
-
       return queryParameters[key] || "";
     }
 

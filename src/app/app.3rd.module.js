@@ -28,7 +28,7 @@
       'firebase',
       'phoneUtils',
       'draggable',
-      // 'ngJalaaliFlatDatepicker',
+      'ngJalaaliFlatDatepicker',
       'LZString'
     ]);
 })();
