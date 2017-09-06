@@ -7,7 +7,7 @@
 
     /** @ngInject */
     function TopBarController($q, $, $scope, $timeout, $state, $stateParams, $uibModal, $rootScope, NST_SEARCH_QUERY_PREFIX,
-                               _, NstSvcTranslation, NstSvcAuth, NstSvcSuggestionFactory, NstSvcLabelFactory, NstSvcUserFactory, NstSvcNotificationFactory,
+                               _, NstSvcTranslation, NstSvcSuggestionFactory, NstSvcLabelFactory, NstSvcUserFactory, NstSvcNotificationFactory,
                               NST_USER_SEARCH_AREA, NstSvcPlaceFactory, NstSearchQuery) {
       var vm = this;
       vm.searchPlaceholder = NstSvcTranslation.get('Search...');
@@ -21,7 +21,6 @@
       vm.notificationsCount = 0;
       vm.profileOpen = false;
       vm.notifOpen = false;
-      vm.user = NstSvcAuth.user;
       vm.searchModalOpen = false;
       vm.advancedSearchOpen = false;
       vm.debouncedSugesstion = _.debounce(getSuggestions, 128);
@@ -76,6 +75,9 @@
         $rootScope.$on('$stateChangeSuccess', function () {
           initQuery(false);
           isSearch();
+        });
+        NstSvcUserFactory.getCurrent().then(function(user) {
+          vm.user = user;
         });
         // NstSvcSuggestionFactory.search('').then(function (result) {
         //   vm.defaultSuggestion = getUniqueItems(result);
