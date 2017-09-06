@@ -6,14 +6,18 @@
       .controller('TopBarController', TopBarController);
 
     /** @ngInject */
-    function TopBarController($q, $, $scope, $timeout, $state, $stateParams, $uibModal, $rootScope, NST_SEARCH_QUERY_PREFIX,
-                               _, NstSvcTranslation, NstSvcAuth, NstSvcSuggestionFactory, NstSvcLabelFactory, NstSvcUserFactory, NstSvcNotificationFactory,
-                              NST_USER_SEARCH_AREA, NstSvcPlaceFactory, NstSearchQuery) {
+    function TopBarController($q, $, $scope, $timeout, $state, $stateParams, $uibModal,
+                              $rootScope, NST_SEARCH_QUERY_PREFIX, _, NstSvcTranslation,
+                              NstSvcAuth, NstSvcSuggestionFactory, NstSvcLabelFactory,
+                              NstSvcUserFactory, NstSvcNotificationFactory, NST_USER_SEARCH_AREA,
+                              NstSvcPlaceFactory, NstSearchQuery) {
       var vm = this;
       vm.searchPlaceholder = NstSvcTranslation.get('Search...');
       vm.searchKeyPressed = searchKeyPressed;
       vm.loadNotificationsCount = loadNotificationsCount;
       vm.closeProfile = closeProfile;
+      vm.toggleSearchModal = toggleSearchModal;
+      vm.toggleAdvancedSearch = toggleAdvancedSearch;
       vm.query = '';
       vm.newQuery = '';
       vm.excludedQuery = '';
@@ -68,6 +72,11 @@
       vm.removeChip = removeChip;
       vm.chips = [];
       vm.isSearch = isSearch;
+      vm.advancedSearchIt = advancedSearchIt;
+
+      vm.translation = {
+        submit: NstSvcTranslation.get('Submit')
+      };
 
       var searchQuery;
 
@@ -87,6 +96,9 @@
         if (init) {
           if (vm.isSearch()) {
             vm.query = $stateParams.search;
+            if (vm.query === '_') {
+              vm.query = '';
+            }
           }
           searchQuery = new NstSearchQuery(vm.query);
           NstSvcSuggestionFactory.search('').then(function (result) {
@@ -104,7 +116,7 @@
             searchQuery.setQuery(vm.query);
           }
           initChips(searchQuery.getSortedParams());
-          getAdancedSearchParams();
+          getAdvancedSearchParams();
           vm.newQuery = searchQuery.getAllKeywords();
           if (_.trim(vm.newQuery).length === 0) {
             NstSvcSuggestionFactory.search('').then(function (result) {
@@ -113,6 +125,7 @@
             });
           }
         } else {
+          vm.toggleSearchModal(false);
           vm.query = '';
           vm.newQuery = '';
           vm.chips = [];
@@ -123,7 +136,7 @@
         },100);
       }
 
-      function getAdancedSearchParams() {
+      function getAdvancedSearchParams() {
         vm.advancedSearch.keywords = searchQuery.getAllKeywords();
         vm.advancedSearch.users = searchQuery.getUsers();
         vm.advancedSearch.places = searchQuery.getPlaces();
@@ -138,7 +151,7 @@
         return $state.current.name === 'app.search';
       }
 
-      vm.toggleSearchModal = function(force) {
+      function toggleSearchModal(force) {
         if (force === true) {
           $('html').addClass('_oh');
           vm.searchModalOpen = true ;
@@ -153,9 +166,9 @@
         $('html').toggleClass('_oh');
         vm.searchModalOpen =! vm.searchModalOpen ;
         vm.advancedSearchOpen = false;
-      };
+      }
 
-      vm.toggleAdvancedSearch = function(force) {
+      function toggleAdvancedSearch(force) {
         if (force) {
           vm.advancedSearchOpen = true ;
           return;
@@ -165,7 +178,7 @@
         if (!vm.advancedSearchOpen) {
           vm.searchModalOpen = true ;
         }
-      };
+      }
 
       /**
        * @function goLabelRoute
@@ -562,6 +575,19 @@
         }
         $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toString())});
         vm.toggleSearchModal(false);
+      }
+
+      function advancedSearchIt() {
+        searchQuery.setAllKeywords(this.advancedSearch.keywords);
+        searchQuery.setUsers(this.advancedSearch.users);
+        searchQuery.setPlaces(this.advancedSearch.places);
+        searchQuery.setSubject(this.advancedSearch.subject);
+        searchQuery.setLabels(this.advancedSearch.labels);
+        searchQuery.setHasAttachment(this.advancedSearch.hasAttachment);
+        searchQuery.setWithin(this.advancedSearch.within);
+        searchQuery.setDate(this.advancedSearch.date);
+
+        console.log(searchQuery.toAdvancedString());
       }
 
       /**

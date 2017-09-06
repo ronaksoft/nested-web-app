@@ -169,22 +169,24 @@
     <label for="advanced-search-label"><translate>label:</translate></label>
     <input ng-model="ctrlTopBar.advancedSearch.labels" id="advanced-search-label" class="advanced-search-text-input" type="text">
 
-    <input class="_fr" type="checkbox" id="attachment" name="attachment" ng-checked="ctrlTopBar.advancedSearch.hasAttachment"/>
+    <input ng-model="ctrlTopBar.advancedSearch.hasAttachment" class="_fr" type="checkbox" id="attachment" name="attachment" />
     <label class="_fw setting checkbox-label _asc" for="attachment"><translate>Has attachment</translate></label>
 
     <label><translate>Date within</translate></label>
     <div class="_difh _aic _fw">
-      <select ng-mode="ctrlTopBar.advancedSearch.within" class="_df">
-        <option><translate>1 week</translate></option>
+      <select ng-model="ctrlTopBar.advancedSearch.within" class="_df">
+        <option value="1"><translate>1 week</translate></option>
+        <option value="2"><translate>2 weeks</translate></option>
+        <option value="3"><translate>3 weeks</translate></option>
       </select>
       <span class="_fn _df seperator-text"><translate>of<translate></span>
-      <input ng-mode="ctrlTopBar.advancedSearch.date" class="advanced-search-text-input" type="text">
+      <input ng-model="ctrlTopBar.advancedSearch.date" class="advanced-search-text-input" type="text">
       <!-- <input class="advanced-search-text-input" type="text" ng-model="date" config="yourCustomConf"
       g-formatted-picked-date="gfdate" g-picked-date="gdate" ng-jalaali-flat-datepicker>
       picked date is {{gfdate}} -->
     </div>
 
-    <input class="butn-green _fw" type="submit">
+    <input ng-click="ctrlTopBar.advancedSearchIt()" value="{{ctrlTopBar.translation.submit}}" class="butn-green _fw" type="submit">
   </form>
 </div>
 
