@@ -119,7 +119,8 @@
             vm.canCreateOpenPlace = hasAddPlaceAccess
               && results[0].privacy.locked
               && canAddMore
-              && NstUtility.place.isGrand(results[0].id);
+              && NstUtility.place.isGrand(results[0].id)
+              && results[0].id !== results[1].id;
             vm.canCreateGrandPlace = results[1].limits.grand_places > 0;
             // vm.canCreateGrandPlace = currentUser.limits.grand_places > 0;
 
