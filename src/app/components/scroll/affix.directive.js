@@ -38,7 +38,7 @@
 
           var top = $element.offset().top || 0;
 
-          topOffset = $element.offset().top - parseInt($attrs.top) - 24;
+          topOffset = $element.offset().top - parseInt($attrs.top) - 16;
 
           var offLeft = $element.offset().left || 0;
 
