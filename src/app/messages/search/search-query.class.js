@@ -29,7 +29,9 @@
       this.users = [];
       this.labels = [];
       this.otherKeywords = [];
-      this.order = 0;
+      this.before = null;
+      this.after = null;
+
       var secondaryResult = {
         places: [],
         users: [],
@@ -47,6 +49,7 @@
         date: NST_SEARCH_QUERY_PREFIX.DATE
       };
 
+      this.order = 0;
 
       var result = this.parseQuery(query);
 
@@ -72,8 +75,6 @@
       this.hasAttachment = result.hasAttachment;
       this.within = result.within;
       this.date = result.date;
-
-      console.log(result);
 
       if (secondaryQuery !== null && secondaryQuery !== undefined) {
         secondaryResult.keywords.forEach(function (item) {
@@ -179,13 +180,17 @@
 
     SearchQuery.prototype.toAdvancedString = function () {
       var query = this.toString();
-
       query += ' ';
-      query += this.prefixes.subject + '"' + this.subject + '" ';
-      query += this.prefixes.attachment + (this.hasAttachment? 'true': 'false') + ' ';
-      query += this.prefixes.within + '"' + this.within + '" ';
-      query += this.prefixes.date + '"' + this.date + '"';
-
+      if (this.subject.length > 0) {
+        query += this.prefixes.subject + '"' + this.subject + '" ';
+      }
+      if (this.hasAttachment === 'true') {
+        query += this.prefixes.attachment + 'true ';
+      }
+      if (this.within.length > 0 && this.date.length > 0) {
+        query += this.prefixes.within + '"' + this.within + '" ';
+        query += this.prefixes.date + '"' + this.date + '"';
+      }
       return query;
     };
 
@@ -388,7 +393,11 @@
         }),
         keywords: _.map(this.otherKeywords, function (item) {
           return item.id;
-        })
+        }),
+        subject: this.subject,
+        hasAttachment: this.hasAttachment,
+        before: this.before,
+        after: this.after
       };
     };
 

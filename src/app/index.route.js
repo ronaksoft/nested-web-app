@@ -245,9 +245,10 @@
        *****************************/
 
       .state('app.search', {
-        url: '/search/:search',
+        url: '/search/:search/:advanced',
         params: {
-          search: NST_DEFAULT.STATE_PARAM
+          search: NST_DEFAULT.STATE_PARAM,
+          advanced: 'false'
         },
         reloadOnSearch: false,
         templateUrl: 'app/messages/search/search.html',
