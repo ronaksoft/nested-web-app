@@ -15,9 +15,9 @@
     .controller('PostCardController', PostCardController);
 
   function PostCardController($state, $log, $timeout, $stateParams, $rootScope, $scope, $uibModal,
-                              _, toastr,
+                              _, toastr, 
                               NST_EVENT_ACTION, NST_PLACE_ACCESS, NST_POST_EVENT, SvcCardCtrlAffix,
-                              NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory, NstSearchQuery,
+                              NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory, NstSearchQuery, NstSvcModal,
                               NstSvcAuth, NstUtility, NstSvcPostInteraction, NstSvcTranslation, NstSvcLogger, $) {
     var vm = this;
 
@@ -72,6 +72,8 @@
     vm.hasPlacesWithControlAccess = hasPlacesWithControlAccess;
     vm.hasDeleteAccess = hasDeleteAccess;
     vm.hasHiddenCommentAccess = hasPlacesWithControlAccess();
+
+    vm.goToPlace = goToPlace;
 
     /**
      * Checks post card is in chains view
@@ -857,6 +859,16 @@
       searchQuery.addLabel(title);
 
       $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toString())});
+    }
+
+    function goToPlace(e, place) {
+      e.preventDefault();
+
+      if (place.hasAccess(NST_PLACE_ACCESS.READ_POST)) {
+        $state.go('app.place-messages', { placeId: place.id });
+      } else {
+        NstSvcModal.error(NstSvcTranslation.get("Error"), NstSvcTranslation.get("Either this Place doesn't exist, or you don't have the permit to enter the Place."));
+      }
     }
   }
 
