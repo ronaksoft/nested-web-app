@@ -131,6 +131,16 @@
           vm.query = '';
           vm.newQuery = '';
           vm.chips = [];
+          vm.advancedSearch = {
+            keywords: '',
+            users: '',
+            places: '',
+            subject: '',
+            labels: '',
+            hasAttachment: false,
+            within: 1,
+            date: ''
+          };
         }
         vm.selectedItem = -1;
         $timeout(function (){
