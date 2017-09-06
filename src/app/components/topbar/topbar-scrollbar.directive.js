@@ -13,10 +13,8 @@
             scope.scrollEndSearch = function(){
                 $element[0].scrollLeft = $element[0].scrollWidth - $element.outerWidth();
             };
-            $($element[0]).scroll(function(event, delta) {
-                console.log('mousewheel',arguments);
+            $($element[0]).mousewheel(function(event, delta) {
                 this.scrollLeft -= (delta * 30);
-            
                 event.preventDefault();
         
             });
