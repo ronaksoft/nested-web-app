@@ -1,4 +1,4 @@
-<div class="manage-label" manage-label-scroll>
+<div class="manage-label">
   <div class="labels-manage-header _aic _fn">
     <svg class="_24svg _df _r45 _fn" ng-click="$dismiss();">
       <use xlink:href="/assets/icons/nst-icn24.svg#cross"></use>
@@ -96,7 +96,7 @@
     </li>
   </ul>
   <h5 class="list-head"><translate>Labels</translate></h5>
-  <ul class="labels _df" nst-scrollbar>
+  <ul class="labels _df" nst-scrollbar  manage-label-scroll>
     <li ng-repeat="label in ctrl.labels track by $index" class="_fn">
       <hr/>
       <div class="icon" ng-if="ctrl.labelManager && ctrl.selectedView !== 1">
