@@ -2,7 +2,7 @@ $width: 290px;
 $header-h: 65px;
 $table-padding: 14px;
 $font-color: #384146;
-$default-color: #0093de; // Blue
+$default-color: $color-sense-wire;
 
 .ng-flat-datepicker-wrapper {
     display: inline-block;
@@ -18,6 +18,7 @@ $default-color: #0093de; // Blue
     position: absolute;
     background-color: white;
     z-index: 3000;
+    bottom: 40px;
     box-shadow: 1px 1px 7px 0px rgba(37, 53, 50, 0.37);
     .ng-jalaali-flat-datepicker-table-header-bckgrnd {
         height: $header-h;
@@ -80,7 +81,7 @@ $default-color: #0093de; // Blue
                     }
                 }
                 &.days .day-item:hover{
-                    background-color: #0093de;
+                    background-color: $color-sense-wire;
                     color: #f5f5f5!important;
                 }
                 td {
@@ -108,7 +109,7 @@ $default-color: #0093de; // Blue
                             font-weight: 700;
                         }
                         &.isSelected {
-                            background-color: #0093de;
+                            background-color: $color-sense-wire;
                             color: #f5f5f5!important;
                         }
                         &.isInMonth {
@@ -275,7 +276,7 @@ $default-color: #0093de; // Blue
                     }
                 }
                 &.days .day-item:hover{
-                    background-color: #0093de;
+                    background-color: $color-sense-wire;
                     color: #f5f5f5!important;
                 }
                 td {
@@ -303,7 +304,7 @@ $default-color: #0093de; // Blue
                             font-weight: 700;
                         }
                         &.isSelected {
-                            background-color: #0093de;
+                            background-color: $color-sense-wire;
                             color: #f5f5f5!important;
                         }
                         &.isInMonth {
