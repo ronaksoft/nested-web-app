@@ -404,6 +404,10 @@
         loadMyPlacesUnreadPostsCount();
       }));
 
+      eventReferences.push($rootScope.$on(NST_POST_EVENT.REMOVE, function () {
+        loadMyPlacesUnreadPostsCount();
+      }));
+
       /**
        * Event listener for `NST_POST_EVENT.READ`
        */

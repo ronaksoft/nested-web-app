@@ -274,6 +274,7 @@
         place_id: placeId
       }).then(function () {
         factory.cache.remove(id);
+        $rootScope.$broadcast(NST_POST_EVENT.REMOVE, { postId: id });
         return $q.resolve();
       });
     }
