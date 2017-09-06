@@ -144,6 +144,11 @@
         return null;
       }
 
+      activity.actor = NstSvcUserFactory.getCachedSync(data.actor_id);
+      if (data.actor_id && !activity.actor) {
+        return null;
+      }
+
       return activity;
     }
 

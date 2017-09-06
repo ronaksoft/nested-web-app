@@ -163,14 +163,15 @@
       activity.id = data._id;
       activity.type = data.action;
       activity.date = data.timestamp;
-
       var postPromise = NstSvcPostFactory.get(data.post_id);
       var oldPlacePromise = NstSvcPlaceFactory.get(data.old_place_id);
       var newPlacePromise = NstSvcPlaceFactory.get(data.new_place_id);
-      $q.all([postPromise, oldPlacePromise, newPlacePromise]).then(function (resultSet) {
+      var actorPromise = NstSvcUserFactory.get(data.actor_id);
+      $q.all([postPromise, oldPlacePromise, newPlacePromise, actorPromise]).then(function (resultSet) {
         activity.post = resultSet[0];
         activity.oldPlace = resultSet[1];
         activity.newPlace = resultSet[2];
+        activity.actor = resultSet[3];
 
         deferred.resolve(activity);
       }).catch(function (error) {
