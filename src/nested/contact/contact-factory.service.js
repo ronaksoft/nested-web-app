@@ -76,7 +76,7 @@
       var cachedHashModel = factory.cache.get('_hash');
 
       if (cachedHashModel && cachedHashModel.hash) {
-        return cachedHashModel.hash;
+        return cachedHashModel.value;
       }
 
       return '';
