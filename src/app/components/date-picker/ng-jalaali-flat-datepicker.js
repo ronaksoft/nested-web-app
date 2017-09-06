@@ -81,7 +81,6 @@
                 isJalali: '=?isJalali'
             },
             link: function(scope, element, attrs, ngModel) {
-                console.log(NstSvcI18n.selectedCalendar)
                 var jalali = true;
                 if ( NstSvcI18n.selectedCalendar === "gregorian") {
                     jalali = false;
@@ -406,7 +405,6 @@ angular.module("ngJalaaliFlatDatepicker").run(["$templateCache", "$http", "NstSv
     } else {
         html = 'app/components/date-picker/datepicker-fa.html';
     }
-    console.log(html, NstSvcI18n.selectedCalendar)
     $http.get(html, {cache: $templateCache})
         .success(function(tplContent){
         $templateCache.put("datepicker.html",tplContent);
