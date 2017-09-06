@@ -7,8 +7,9 @@
     </div>
     <img ng-src="{{place.picture}}"/>
   </div>
-  <cite class="_fw _df" data-ellipsis>
-    <span class="_txe">
+  <cite class="_fw _df" data-uib-tooltip="{{place.name}}" data-tooltip-enable="{{forceTooltip ? true : false}}" data-tooltip-placement="right auto"
+  data-tooltip-append-to-body="true">
+    <span class="_txe" data-ellipsis auto-dir="place.name">
       {{place.name}}
     </span>
     <b class="_df _fn" ng-if="ctlSidebar.myPlacesUnreadPosts[place.id] > 0">&nbsp;{{ctlSidebar.myPlacesUnreadPosts[place.id] | localize}}</b>
