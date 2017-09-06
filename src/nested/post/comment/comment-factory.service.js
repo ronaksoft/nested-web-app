@@ -40,9 +40,8 @@
      *********************/
 
     function getComment(id) {
-      var factory = this;
       // first ask the cache provider to give the model
-      var cachedComment = this.getCachedSync(id);
+      var cachedComment = factory.getCachedSync(id);
       if (cachedComment) {
         return $q.resolve(cachedComment);
       }
