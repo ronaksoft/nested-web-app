@@ -268,15 +268,7 @@
        * warning modal if the user reached the create place limit
        */
       function openCreatePlaceModal() {
-        if (vm.createGrandPlaceLimit > 0) {
-          $state.go('app.place-create', {}, {notify: false});
-        } else {
-          $uibModal.open({
-            animation: false,
-            size: 'sm',
-            templateUrl: 'app/place/create/modals/create-place-no-access.html'
-          });
-        }
+        $state.go('app.place-create', {}, {notify: false});
       }
 
 
