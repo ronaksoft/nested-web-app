@@ -178,10 +178,9 @@
         <option><translate>1 week</translate></option>
       </select>
       <span class="_fn _df seperator-text"><translate>of<translate></span>
-      <input ng-mode="ctrlTopBar.advancedSearch.date" class="advanced-search-text-input" type="text">
-      <!-- <input class="advanced-search-text-input" type="text" ng-model="date" config="yourCustomConf"
-      g-formatted-picked-date="gfdate" g-picked-date="gdate" ng-jalaali-flat-datepicker>
-      picked date is {{gfdate}} -->
+      <!-- <input ng-mode="ctrlTopBar.advancedSearch.date" class="advanced-search-text-input" type="text"> -->
+      <input class="advanced-search-text-input" type="text" ng-model="date" config="{}" isJalali="true"
+        g-formatted-picked-date="gfdate" g-picked-date="gdate" ng-jalaali-flat-datepicker>
     </div>
 
     <input class="butn-green _fw" type="submit">
