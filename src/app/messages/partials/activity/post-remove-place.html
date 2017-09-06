@@ -1,38 +1,37 @@
 <div class="_difh top">
   <div user-detail="act.post.sender" class="user-avatar-20">
-      <img initial-avatar="{{::act.post.sender.id}}" name="{{::act.post.sender.firstName}}" picture="{{act.post.sender | avatar}}"
-        data-width="20" data-height="20" data-radius="20" class="account-initials-20 _df _fn" data-word-count="2" data-font-size="8"
-      />
-    </div>
-    </div>
-    <div class="sender _df">
-      <div user-detail="act.actor">
-        <a class="enabled-detail-popover">{{::act.post.sender.firstName + act.post.sender.lastName}}</a>
-      </div>
-    </div>
-    <svg class="_16svg _df _fn fill-sense-wire">
-        <use xlink:href="/assets/icons/nst-icn16.svg#message"></use>
-      </svg>
+    <img initial-avatar="{{::act.post.sender.id}}" name="{{::act.post.sender.firstName}}" picture="{{act.post.sender | avatar}}"
+      data-width="20" data-height="20" data-radius="20" class="account-initials-20 _df _fn" data-word-count="2" data-font-size="8"
+    />
   </div>
-  <div class="body" nst-post-modal post="act.post">
-    <div class="_difv">
-        <p auto-dir="act.post.subject" ng-if="act.post.subject.length > 0">
-          <translate>removed a post: </translate>
-          <mark data-ng-bind-html="act.post.subject"></mark>
-        </p>
-        <p auto-dir="act.post.body" ng-if="act.post.subject.length == 0">
-          <translate>removed a post: </translate>
-          <mark data-ng-bind-html="act.post.body | truncate | removeHTMLTags"></mark>
-        </p>
-        <p auto-dir="act.post.body" ng-if="act.post.subject.length == 0 && act.post.body == 0">
-          <mark>
-            <translate>remove a post with {{act.post.counters.attaches > 1 ? act.post.counters.attaches : 'one'}} {{act.post.counters.attaches
-              > 1 ? 'attachments' : 'attachment'}}.</translate>
-          </mark>
-        </p>
-    </div>
-    <div class="_df _fn comment-time">
-      <span>{{act.date | passed | localize }}</span>
-    </div>
+</div>
+<div class="sender _df">
+  <div user-detail="act.actor">
+    <a class="enabled-detail-popover">{{::act.post.sender.firstName + act.post.sender.lastName}}</a>
   </div>
-  
+</div>
+<svg class="_16svg _df _fn fill-sense-wire">
+  <use xlink:href="/assets/icons/nst-icn16.svg#message"></use>
+</svg>
+</div>
+<div class="body" nst-post-modal post="act.post">
+  <div class="_difv">
+    <p auto-dir="act.post.subject" ng-if="act.post.subject.length > 0">
+      <translate>removed a post: </translate>
+      <mark data-ng-bind-html="act.post.subject"></mark>
+    </p>
+    <p auto-dir="act.post.body" ng-if="act.post.subject.length == 0">
+      <translate>removed a post: </translate>
+      <mark data-ng-bind-html="act.post.body | truncate | removeHTMLTags"></mark>
+    </p>
+    <p auto-dir="act.post.body" ng-if="act.post.subject.length == 0 && act.post.body == 0">
+      <mark>
+        <translate>remove a post with {{act.post.counters.attaches > 1 ? act.post.counters.attaches : 'one'}} {{act.post.counters.attaches
+          > 1 ? 'attachments' : 'attachment'}}.</translate>
+      </mark>
+    </p>
+  </div>
+  <div class="_df _fn comment-time">
+    <span>{{act.date | passed | localize }}</span>
+  </div>
+</div>
