@@ -187,8 +187,8 @@
       <div class="name"><translate>Recently Visited Places</translate></div>
       <recent-visited-places></recent-visited-places>
     </div>-->
-    <div ng-if="!ctrl.currentPlaceId && !ctrl.isBookmark && !ctrl.isSent">
-      <!-- affixer parent=".content-plus" after-content="0" top="80" fixed-top="true"> -->
+    <div ng-if="!ctrl.currentPlaceId && !ctrl.isBookmark && !ctrl.isSent"
+      affixer parent=".content-plus" after-content="0" top="48" fixed-top="true">
       <div class="name">
         <translate>Contacts</translate>
         <svg class="_16svg _df mirror" ng-click="ctrl.openContacts($event)">
@@ -200,8 +200,8 @@
     <div id="members" nst-scrollbar suppress-scroll-x="true" ng-if="ctrl.isPlaceMessage && ctrl.currentPlaceId && !ctrl.isPersonal">
       <nst-place-teammates-sidebar grand-place="ctrl.currentPlaceId" place-id="ctrl.currentPlaceId"></nst-place-teammates-sidebar>
     </div>
-    <div id="cp1" ng-show="!ctrl.isBookmark && !ctrl.isSent && ctrl.currentPlaceId">
-      <!-- affixer parent=".content-plus" after-content="0" top="134" fixed-top="true"> -->
+    <div id="cp1" ng-show="!ctrl.isBookmark && !ctrl.isSent && ctrl.currentPlaceId"
+      affixer parent=".content-plus" after-content="0" top="48" fixed-top="true">
       <nst-recent-activity place="ctrl.currentPlaceId" place-id="ctrl.currentPlaceId" count="16" />
     </div>
   </div>
