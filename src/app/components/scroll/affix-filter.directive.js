@@ -50,7 +50,7 @@
           function affixElement() {
             if (!fixed && $window.pageYOffset > topOffset) {
               $element.css('position', 'fixed');
-              $element.css('left', '50%');
+              $element.css('left', '50vw');
               $element.css('transform', 'translateX(-50%)');
               $element.css('display', '');
               fixed = true;
