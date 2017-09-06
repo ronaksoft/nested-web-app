@@ -200,7 +200,7 @@
     <div id="members" nst-scrollbar suppress-scroll-x="true" ng-if="ctrl.isPlaceMessage && ctrl.currentPlaceId && !ctrl.isPersonal">
       <nst-place-teammates-sidebar grand-place="ctrl.currentPlaceId" place-id="ctrl.currentPlaceId"></nst-place-teammates-sidebar>
     </div>
-    <div id="cp1" ng-show="!ctrl.isBookmark && !ctrl.isSent && !ctrl.isUnreadMode && ctrl.currentPlaceId">
+    <div id="cp1" ng-show="!ctrl.isBookmark && !ctrl.isSent && ctrl.currentPlaceId">
       <!-- affixer parent=".content-plus" after-content="0" top="134" fixed-top="true"> -->
       <nst-recent-activity place="ctrl.currentPlaceId" place-id="ctrl.currentPlaceId" count="16" />
     </div>
