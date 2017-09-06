@@ -11,6 +11,9 @@
       width: calc(100% - 48px);
     }
   }
+  .loading {
+    margin-top: 50px;
+  }
 }
 
 .filter-bar {
@@ -34,6 +37,7 @@
     min-width: 544px;
     width: calc(100vw - 480px);
     top: 96px;
+    left:50vw;
     .toolbar {
       width: 100%;
       max-width: 720px;

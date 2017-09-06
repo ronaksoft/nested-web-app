@@ -89,6 +89,10 @@
             vm.query = $stateParams.search;
           }
           searchQuery = new NstSearchQuery(vm.query);
+          NstSvcSuggestionFactory.search('').then(function (result) {
+            vm.defaultSuggestion = getUniqueItems(result);
+            vm.suggestion = Object.assign({}, vm.defaultSuggestion);
+          });
         }
         if ($state.current.name === 'app.search') {
           vm.query = $stateParams.search;
