@@ -38,7 +38,7 @@
           <div ng-if="ctlFiles.selectedFiles.length === 0" ng-mouseenter="showFilters = true" data-popover-class="white-pop messages-sort-popover"
             uib-popover-template="'app/files/files-sort-popover.html'" data-popover-placement="bottom-center" data-popover-is-open="showFilters"
             id="test-filter-sort" class="filter-bar-popover-button _fn">
-            <span class="_df">{{ctlFiles.selectedFileType.label}}</span>
+            <span class="_df capitalize">{{ctlFiles.selectedFileType.label}}</span>
             <svg class="icon-filter _df">
               <use xlink:href="/assets/icons/nst-icn16.svg#sort"></use>
             </svg>
