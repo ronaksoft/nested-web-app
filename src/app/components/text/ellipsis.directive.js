@@ -20,7 +20,6 @@
 
       $timeout(function () {
         if (element[0].clientWidth < element[0].scrollWidth) {
-          console.log(scope.$parent.place);
           scope.$parent.forceTooltip = true;
         }
       },100);
