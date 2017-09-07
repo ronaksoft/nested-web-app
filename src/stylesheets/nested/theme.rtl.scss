@@ -135,8 +135,8 @@ body[dir="rtl"] {
     margin-left: 8px;
   }
   .nav-item-butn {
-    margin-right: 24px;
-    margin-left: 0;
+    margin-left: 24px;
+    margin-right: 0;
   }
   .dropdown-menu {
     right: 0;
@@ -420,7 +420,14 @@ body[dir="rtl"] {
   .text-right {
     text-align: left;
   }
-  .post-card .post-head .select-card label {}
+  input[type="checkbox"] + label.setting.left-box {
+    background-position-x: 100%!important;
+    padding: 0 24px 0 0!important;
+  }
+  input[type="checkbox"]:checked + label.setting.left-box {
+    background-position-x: 100%!important;
+    padding: 0 24px 0 0!important;
+  }
   input[type="checkbox"]:checked+label.setting,
   input[type="checkbox"]:checked+label.setting {
     background-position-x: 0;
@@ -946,6 +953,19 @@ body[dir="rtl"] {
     margin-left: -16px;
     left: auto;
     right: -16px;
+  }
+  .nst-navbar-fixed .nst-navbar-fixed-container .place-pic {
+    margin: 0 8px 0 12px;
+  }
+  .nst-navbar-fixed .nst-navbar-fixed-container cite {
+    margin-right: 0;
+    margin-left: 4px;
+  }
+  .nst-navbar .place-detail > span {
+    margin: 0 10px 0 16px;
+  }
+  .nst-navbar .place-detail .more-navbar-settings-icon {
+    margin: 0 12px 0 28px;
   }
 }
 
