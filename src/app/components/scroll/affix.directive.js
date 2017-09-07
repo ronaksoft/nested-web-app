@@ -120,7 +120,7 @@
           var resizeE = _.debounce(applier, 16);
 
           window.addEventListener("scroll", affixElement);
-          window.addEventListener("resize", resizeE);
+          // window.addEventListener("resize", resizeE);
 
           if ( !window.affixerListeners ) {
             window.affixerListeners = {

@@ -7,6 +7,7 @@ $default-color: $color-sense-wire;
 .ng-flat-datepicker-wrapper {
     display: inline-block;
     position: relative;
+    width: 100%;
     * {
         box-sizing: border-box;
     }
@@ -216,6 +217,7 @@ $default-color: $color-sense-wire;
     position: absolute;
     background-color: white;
     z-index: 3000;
+    bottom: 40px;
     box-shadow: 1px 1px 7px 0px rgba(37, 53, 50, 0.37);
     .ng-flat-datepicker-table-header-bckgrnd {
         height: $header-h;
