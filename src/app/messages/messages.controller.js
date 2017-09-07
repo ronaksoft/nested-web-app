@@ -75,6 +75,8 @@
         vm.currentPlaceId = $stateParams.placeId;
       }
 
+      vm.messagesSetting.sort = $stateParams.sort || defaultSortOption;
+
       setLocationFlag();
       configureNavbar();
 
