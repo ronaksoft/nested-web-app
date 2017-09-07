@@ -14,38 +14,11 @@
     .module('ronak.nested.web.activity')
     .controller('ActivityController', ActivityController);
 
-  /** @ngInject */
-  /**
-   * Activities page controller
-   *
-   * @param {any} $q
-   * @param {any} $stateParams
-   * @param {any} $log
-   * @param {any} $state
-   * @param {any} $scope
-   * @param {any} $rootScope
-   * @param {any} _
-   * @param {any} moment
-   * @param {any} NST_SRV_EVENT
-   * @param {any} NST_EVENT_ACTION
-   * @param {any} NST_ACTIVITY_FILTER
-   * @param {any} NST_DEFAULT
-   * @param {any} NstSvcActivityMap
-   * @param {any} NstSvcModal
-   * @param {any} NstSvcActivityFactory
-   * @param {any} NstSvcSync
-   * @param {any} NstSvcInvitationFactory
-   * @param {any} NstSvcServer
-   * @param {any} NstUtility
-   * @param {any} NstSvcPlaceAccess
-   * @param {any} NstSvcTranslation
-   * @param {any} NstSvcInteractionTracker
-   */
   function ActivityController( $stateParams, $log, $state, $scope, $rootScope,
     _, moment,
-    NST_SRV_EVENT, NST_EVENT_ACTION, NST_ACTIVITY_FILTER, NST_DEFAULT,
+    NST_SRV_EVENT, NST_EVENT_ACTION, NST_ACTIVITY_FILTER, NST_DEFAULT, NstSvcAuth,
     NstSvcActivityMap,
-    NstSvcDate,
+    NstSvcDate, NST_PLACE_ACCESS,
     NstSvcActivityFactory, NstSvcSync, NstSvcServer, NstSvcPlaceAccess, NstSvcTranslation) {
 
     var vm = this;
@@ -70,6 +43,7 @@
     vm.tryAgainToLoadMore = false;
     vm.reachedTheEnd = false;
     vm.loading = false;
+    vm.isSubPersonal = isSubPersonal;
 
 
     /******************
@@ -89,6 +63,9 @@
         vm.showPlaceId = !_.includes([ 'off', 'internal' ], place.privacy.receptive);
         vm.currentPlace = place;
         vm.currentPlaceLoaded = true;
+        
+        vm.hasSeeMembersAccess = place.hasAccess(NST_PLACE_ACCESS.SEE_MEMBERS);
+        
       });
 
     })();
@@ -127,6 +104,15 @@
       });
     }
 
+    /**
+     * Returns true if the place is a personal or sub-personal one
+     *
+     * @returns
+     */
+    function isSubPersonal() {
+      if (vm.currentPlaceId)
+        return NstSvcAuth.user.id == vm.currentPlaceId.split('.')[0];
+    }
     /**
      * Retrieves after a the specified activity timestamp. Then merges them with the old ones.
      *
