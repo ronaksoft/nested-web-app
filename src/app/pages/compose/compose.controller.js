@@ -282,7 +282,7 @@
     }
 
     function backDropClick() {
-      vm.ultimateSaveDraft = true;
+      vm.ultimateSaveDraft = shouldSaveDraft();
       $scope.$dismiss();
     }
 

@@ -319,13 +319,17 @@
       if (vm.loading || vm.reachedTheEnd || vm.noMessages) {
         return;
       }
-
+      vm.loading = true;
       vm.messagesSetting.before = getLastMessageTime();
       return getMessages(vm.messagesSetting).then(function (posts) {
         appendPosts(posts);
         vm.tryAgainToLoadMore = false;
+        $timeout(function (){
+          vm.loading = false;
+        },1000)
       }).catch(function () {
         vm.tryAgainToLoadMore = true;
+        vm.loading = false;
       });
     }
 

@@ -11,6 +11,7 @@
       restrict: 'A',
       link: function ($scope, $element, $attrs) {
         var topOffset = 0;
+        var isRTL = $rootScope._direction === 'rtl';
         $timeout(function () {
           applier();
         }, 128);
@@ -50,8 +51,13 @@
           function affixElement() {
             if (!fixed && $window.pageYOffset > topOffset) {
               $element.css('position', 'fixed');
-              $element.css('left', '50vw');
-              $element.css('transform', 'translateX(-50%)');
+              if (isRTL) {
+                $element.css('left', '50%');
+                $element.css('transform', 'translateX(-50%)');
+              } else {
+                $element.css('left', '50vw');
+                $element.css('transform', 'translateX(-50%)');
+              }
               $element.css('display', '');
               fixed = true;
             } else if (fixed && $window.pageYOffset < topOffset ) {

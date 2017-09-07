@@ -38,7 +38,7 @@
 
           var top = $element.offset().top || 0;
 
-          topOffset = $element.offset().top - parseInt($attrs.top) - 24;
+          topOffset = $element.offset().top - parseInt($attrs.top) - 16;
 
           var offLeft = $element.offset().left || 0;
 
@@ -120,7 +120,7 @@
           var resizeE = _.debounce(applier, 16);
 
           window.addEventListener("scroll", affixElement);
-          window.addEventListener("resize", resizeE);
+          // window.addEventListener("resize", resizeE);
 
           if ( !window.affixerListeners ) {
             window.affixerListeners = {

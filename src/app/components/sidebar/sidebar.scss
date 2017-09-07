@@ -55,6 +55,7 @@
   margin-top: 8px;
   padding-left: 8px;
   border-radius: 4px;
+  transition: background-color $animation-dur;
   .unread-on-arrow {
     width: 4px;
     height: 4px;
@@ -71,6 +72,13 @@
     background-color: rgba(50, 61, 71, .12);
     cite {
       opacity: 1;
+    }
+    i {
+      opacity: 1;
+      background-color: rgba(50, 61, 71, .12);
+      &:hover {
+        background-color: rgba(50, 61, 71, .12);
+      }
     }
   }
   &:active {
@@ -180,7 +188,7 @@
   .unreadPlace {
     position: absolute;
     height: 24px;
-    left: -2px;
+    right: 0;
     font-size: 24px;
     top: 50%;
     transform: translateY(-50%);
@@ -306,7 +314,6 @@
     }
     i {
       display: flex;
-      padding-right: 2px;
       position: absolute;
       right: 4px;
       top: 50%;
@@ -315,12 +322,13 @@
       transform: translateY(-50%);
       justify-content: center;
       align-items: center;
-      opacity: .4;
       transition: background-color .2s;
       border-radius: 4px;
       &:hover {
-        opacity: 1;
-        background-color: rgba(50,61,71,.12);
+        svg {
+          opacity: 1;
+        }
+        background-color: rgba(50, 60, 71, 0.12);
       }
       &:active {
         opacity: 1;

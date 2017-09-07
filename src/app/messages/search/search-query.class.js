@@ -184,10 +184,10 @@
       if (this.subject.length > 0) {
         query += this.prefixes.subject + '"' + this.subject + '" ';
       }
-      if (this.hasAttachment === 'true') {
+      if (this.hasAttachment) {
         query += this.prefixes.attachment + 'true ';
       }
-      if (this.within.length > 0 && this.date.length > 0) {
+      if (this.within.length > 0 && this.within !== '-1' && this.date.length > 0) {
         query += this.prefixes.within + '"' + this.within + '" ';
         query += this.prefixes.date + '"' + this.date + '"';
       }
@@ -361,7 +361,7 @@
     };
 
     SearchQuery.prototype.setWithin = function (within) {
-      this.within = within;
+      this.within = String(within);
     };
 
     SearchQuery.prototype.getWithin = function () {
@@ -369,7 +369,7 @@
     };
 
     SearchQuery.prototype.setDate = function (date) {
-      this.date = date;
+      this.date = String(date);
     };
 
     SearchQuery.prototype.getDate = function () {
@@ -381,6 +381,10 @@
     };
 
     SearchQuery.prototype.getSearchParams = function () {
+      if (this.date.length > 0 && this.within.length > 0) {
+        this.before = parseInt(this.date);
+        this.after = parseInt(this.date) - (parseInt(this.within) * 36288000); // 7 * 24 * 60 * 60 * 60
+      }
       return {
         places: _.map(this.places, function (item) {
           return item.id;
@@ -396,8 +400,8 @@
         }),
         subject: this.subject,
         hasAttachment: this.hasAttachment,
-        before: this.before,
-        after: this.after
+        before: this.before * 1000,
+        after: this.after * 1000
       };
     };
 

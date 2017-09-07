@@ -61,7 +61,7 @@
         subject: '',
         labels: '',
         hasAttachment: false,
-        within: 1,
+        within: '1',
         date: ''
       };
       vm.getLimit = getLimit;
@@ -138,7 +138,7 @@
             subject: '',
             labels: '',
             hasAttachment: false,
-            within: 1,
+            within: '1',
             date: ''
           };
         }
@@ -156,7 +156,13 @@
         vm.advancedSearch.labels = searchQuery.getLabels();
         vm.advancedSearch.hasAttachment = searchQuery.getHasAttachment();
         vm.advancedSearch.within = searchQuery.getWithin();
-        vm.advancedSearch.date = searchQuery.getDate();
+        try {
+          if (searchQuery.getDate() !== '') {
+            vm.advancedSearch.date = new Date(parseInt(searchQuery.getDate()) * 1000).toString();
+          }
+        } catch (e) {
+          vm.advancedSearch.date = '';
+        }
       }
 
       function isSearch() {
@@ -237,7 +243,7 @@
           switch (event.keyCode) {
             case 8:
               backspaceHandler();
-              return true;
+              return false;
             case 27:
               vm.toggleSearchModal();
               return true;
@@ -596,8 +602,14 @@
         searchQuery.setSubject(this.advancedSearch.subject);
         searchQuery.setLabels(this.advancedSearch.labels);
         searchQuery.setHasAttachment(this.advancedSearch.hasAttachment);
-        searchQuery.setWithin(this.advancedSearch.within);
-        searchQuery.setDate(this.advancedSearch.date);
+
+        try {
+          searchQuery.setWithin(this.advancedSearch.within);
+          searchQuery.setDate(this.advancedSearch.date.unix());
+        } catch (e) {
+          searchQuery.setWithin('-1');
+        }
+
         $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toAdvancedString()), advanced: 'true'});
         vm.toggleSearchModal(false);
       }
