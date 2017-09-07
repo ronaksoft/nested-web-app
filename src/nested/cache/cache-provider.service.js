@@ -18,7 +18,7 @@
   /** @ngInject */
   function NstSvcCacheProvider(NstSvcCacheDb, _) {
     var EXPIRATION_KEY = '__exp';
-    var EXPIRATION_TIME = 1000 * 60 * 30;
+    var EXPIRATION_DURATION = 1000 * 60 * 30;
     
     /**
      * Creates an instance of NstSvcCacheProvider
@@ -99,9 +99,11 @@
         }
       }
 
-      var expiration = EXPIRATION_TIME;
+      var expiration = null;
       if (options && options.expiration > 0) {
         expiration = options.expiration;
+      } else {
+        expiration = new Date().getTime() + EXPIRATION_DURATION;
       }
 
       extendedValue = addExpiration(newValue || value, expiration);
