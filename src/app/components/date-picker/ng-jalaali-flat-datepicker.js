@@ -1,3 +1,12 @@
+/**
+ * @file scenes/private/posts/components/post/index.tsx
+ * @author robzizo <me@robzizo.ir>
+ * @description Date picker component that alows to pick a date from only past or feuture
+ *              by supporting both jalali and georgian calenders.
+ *              Thanks https://github.com/thg303/ng-jalaali-flat-datepicker
+ *              and https://github.com/RemiAWE/ng-flat-datepicker
+ *              for their contribiutes.
+ */
 (function() {
 
     'use strict';
@@ -82,13 +91,13 @@
             },
             link: function(scope, element, attrs, ngModel) {
                 var jalali = true;
+                var farsi = false;
                 if ( NstSvcI18n.selectedCalendar === "gregorian") {
                     jalali = false;
                 }
-                if ( jalali ) {
-                    moment.loadPersian();
-                } 
-                
+                if ( NstSvcI18n.selectedLocale === 'fa-IR') {
+                    farsi = true;
+                }
                 var template = angular.element($templateCache.get('datepicker.html'));
                 
                 var dateSelected = '';
@@ -119,13 +128,17 @@
                 scope.currentWeeks = [];
                 scope.daysNameList = datesCalculator.getDaysNames();
                 
-                if ( jalali ) {
+                if ( jalali && farsi ) {
                     scope.monthsList = moment.localeData()._jMonths;
-                    scope.yearsList = datesCalculator.getYearsList(getStartYear(), scope.config.dropDownYears);
+                } else if( jalali && !farsi ) {
+                    scope.monthsList = moment.localeData()._jMonths;
+                }else if ( !jalali && farsi) {
+                    scope.monthsList = moment.monthsShort();
                 } else {
                     scope.monthsList = moment.months();
-                    datesCalculator.getYearsList();
                 }
+
+                scope.yearsList = datesCalculator.getYearsList(getStartYear(), scope.config.dropDownYears);
 
                 // Display
                 scope.pickerDisplayed = false;
@@ -235,7 +248,7 @@
                     if ( jalali ) { 
                         scope.calendarCursor = moment(scope.calendarCursor).jYear(parseInt(year));
                     } else {
-                        scope.calendarCursor = moment(scope.calendarCursor).year(parseInt(year));
+                        scope.calendarCursor = moment(scope.calendarCursor).year(year);
                     }
                 };
 
@@ -353,9 +366,9 @@
          .module('ngJalaaliFlatDatepicker')
          .factory('datesCalculator', datesCalculator);
 
-    function datesCalculator (moment, $location) {
+    function datesCalculator (moment, NstSvcI18n) {
         var jalali = true;
-        if ( $location.selectedCalendar === "gregorian") {
+        if ( NstSvcI18n.selectedCalendar === "gregorian") {
             jalali = false;
         }
         /**
@@ -366,13 +379,12 @@
          */
         function getYearsList(startYear, dropDownYears) {
             var yearsList = [];
-            for (var i = startYear; i <= parseInt(startYear) + parseInt(dropDownYears); i++) {
-                
+            for (var i = 2012; i <= parseInt(2012) + parseInt(dropDownYears); i++) {
 
                 if ( jalali ) {
                     yearsList.push(moment.utc(i.toString(), 'YYYY').format('jYYYY'));
                 } else {
-                    yearsList.push(moment.utc(i.toString(), 'YYYY'));
+                    yearsList.push(i);
                 }
             }
             return yearsList;
@@ -398,9 +410,10 @@
 
 })();
 
-angular.module("ngJalaaliFlatDatepicker").run(["$templateCache", "$http", "NstSvcI18n", function($templateCache, $http, NstSvcI18n) {
+angular.module("ngJalaaliFlatDatepicker").run(["$templateCache", "$http", "NstSvcI18n","$rootScope", function($templateCache, $http, NstSvcI18n, $rootScope) {
     var html;
     if (NstSvcI18n.selectedCalendar === "gregorian") {
+    // if ($rootScope._direction === 'ltr') {
         html = 'app/components/date-picker/datepicker-en.html';
     } else {
         html = 'app/components/date-picker/datepicker-fa.html';
