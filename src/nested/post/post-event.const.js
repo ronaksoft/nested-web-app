@@ -6,6 +6,8 @@
     .constant('NST_POST_EVENT', {
       READ: 'post-read',
       BOOKMARKED: 'post-bookmarked',
-      UNBOOKMARKED: 'post-unbookmarked'
+      UNBOOKMARKED: 'post-unbookmarked',
+      REMOVE: 'post-remove',
+      MOVE: 'post-move',
     });
 })();

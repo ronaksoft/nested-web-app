@@ -161,6 +161,10 @@
         return _.some(activity.post.places, function (place) {
           return place.id === vm.settings.placeId;
         });
+      } else if (activity.newPlace) {
+        return activity.newPlace.id === vm.settings.placeId;
+      } else if (activity.oldPlace) {
+        return activity.oldPlace.id === vm.settings.placeId;
       }
 
       return false;

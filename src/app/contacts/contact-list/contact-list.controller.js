@@ -44,8 +44,8 @@
       var deferred = $q.defer();
 
       vm.loadProgress = true;
-      NstSvcContactFactory.getAll(function (cachedContacts) {
-        deferred.resolve(cachedContacts);
+      NstSvcContactFactory.getAll().then(function (contacts) {
+        deferred.resolve(contacts);
       }).catch(function (error) {
         toastr.error(NstSvcTranslation.get("An error occured while loading your contacts list."));
         deferred.reject(error);

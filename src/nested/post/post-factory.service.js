@@ -274,6 +274,7 @@
         place_id: placeId
       }).then(function () {
         factory.cache.remove(id);
+        $rootScope.$broadcast(NST_POST_EVENT.REMOVE, { postId: id });
         return $q.resolve();
       });
     }
@@ -658,6 +659,7 @@
           old_place_id: oldPlaceId,
           new_place_id: newPlaceId
         }).then(function(){
+          $rootScope.$broadcast(NST_POST_EVENT.MOVE, { postId: postId });
           deferred.resolve({postId : postId})
         }).catch(deferred.reject);
 

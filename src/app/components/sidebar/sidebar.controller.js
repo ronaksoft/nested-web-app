@@ -196,14 +196,8 @@
 
             if (result) { // Accept the Invitation
               return NstSvcInvitationFactory.accept(id).then(function (invitation) {
-                var vmPlace = _.find(vm.places, {id: invitation.place.id});
-
-                if (!vmPlace) {
-                  vmPlace = mapPlace(invitation.place);
-                  // TODO: Highlight Newly Added Place
-                  vm.places.push(vmPlace);
-                  mapPlacesUrl(vm.places);
-                }
+                rebuildMyPlacesTree(invitation.place.id);
+                
                 if (openOtherInvitations) {
                   var checkDisplayInvitationModal = true;
                   vm.invitations.map(function (invite) {
@@ -267,15 +261,7 @@
        * warning modal if the user reached the create place limit
        */
       function openCreatePlaceModal() {
-        if (vm.createGrandPlaceLimit > 0) {
-          $state.go('app.place-create', {}, {notify: false});
-        } else {
-          $uibModal.open({
-            animation: false,
-            size: 'sm',
-            templateUrl: 'app/place/create/modals/create-place-no-access.html'
-          });
-        }
+        $state.go('app.place-create', {}, {notify: false});
       }
 
 
@@ -408,6 +394,14 @@
        * Event listener for `NST_EVENT_ACTION.POST_REMOVE`
        */
       eventReferences.push($rootScope.$on(NST_EVENT_ACTION.POST_REMOVE, function () {
+        loadMyPlacesUnreadPostsCount();
+      }));
+
+      eventReferences.push($rootScope.$on(NST_POST_EVENT.REMOVE, function () {
+        loadMyPlacesUnreadPostsCount();
+      }));
+
+      eventReferences.push($rootScope.$on(NST_POST_EVENT.MOVE, function () {
         loadMyPlacesUnreadPostsCount();
       }));
 

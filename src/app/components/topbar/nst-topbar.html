@@ -41,7 +41,7 @@
           </div>
         </div>
         <input placeholder="{{ctrlTopBar.searchPlaceholder}}" ng-model="ctrlTopBar.newQuery"
-          translate-attrs="placeholder" ng-keyup="ctrlTopBar.searchKeyPressed($event, ctrlTopBar.newQuery, true)" ng-focus="ctrlTopBar.toggleSearchModal(true);">
+          ng-keyup="ctrlTopBar.searchKeyPressed($event, ctrlTopBar.newQuery, true)" ng-focus="ctrlTopBar.toggleSearchModal(true);">
       </div>
       <span class="advanced-search ng-class:{'open' : ctrlTopBar.advancedSearchOpen}" ng-click="ctrlTopBar.toggleAdvancedSearch()">
         <svg class="_24svg fill-white">
@@ -84,7 +84,7 @@
   <div class="search-popover" ng-if="ctrlTopBar.searchModalOpen">
     <div class="_difh _fw search-query _aic" ng-if="ctrlTopBar.newQuery.length > 0">
       <a class="_df _fw"  ng-click="ctrlTopBar.searchIt(ctrlTopBar.newQuery, true)">
-        <translate>Search for <b>“{{ctrlTopBar.newQuery}}”</b></translate>
+        <translate>Search for <b>{{ctrlTopBar.newQuery}}</b></translate>
       </a>
       <translate>enter</translate>
     </div>
@@ -179,7 +179,7 @@
         <option value="2"><translate>2 weeks</translate></option>
         <option value="3"><translate>3 weeks</translate></option>
       </select>
-      <span class="_fn _df seperator-text"><translate>of<translate></span>
+      <span class="_fn _df seperator-text"><translate>of</translate></span>
       <input class="advanced-search-text-input" type="text" ng-model="ctrlTopBar.advancedSearch.date" config="{}"
         g-formatted-picked-date="gfdate" g-picked-date="gdate" ng-jalaali-flat-datepicker>
     </div>

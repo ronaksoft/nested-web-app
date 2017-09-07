@@ -170,6 +170,34 @@
       });
     }
 
+    PlaceFactory.prototype.getGrandPlaces = function() {
+      var factory = this;
+      return NstSvcServer.request('account/get_all_places').then(function (data) {
+        var places = [];
+        _.forEach(data.places, function (place) {
+          factory.set(place);
+          places.push(factory.parsePlace(place));
+        });
+
+        return $q.resolve(places);
+      });
+    }
+
+    PlaceFactory.prototype.getGrandPlaceChildren = function (grandPlaceId) {
+      var factory = this;
+      return NstSvcServer.request('place/get_sub_places', {
+        place_id: grandPlaceId
+      }).then(function (data) {
+        var places = [];
+        _.forEach(data.places, function(place) {
+          factory.set(place);
+          places.push(factory.parsePlace(place));
+        });
+
+        return $q.resolve(places);
+      });
+    }
+
     PlaceFactory.prototype.isInMyPlaces = function (placeId) {
       var factory = this;
       var myPlaces = factory.cache.get('_my');
