@@ -197,14 +197,8 @@
 
             if (result) { // Accept the Invitation
               return NstSvcInvitationFactory.accept(id).then(function (invitation) {
-                var vmPlace = _.find(vm.places, {id: invitation.place.id});
-
-                if (!vmPlace) {
-                  vmPlace = mapPlace(invitation.place);
-                  // TODO: Highlight Newly Added Place
-                  vm.places.push(vmPlace);
-                  mapPlacesUrl(vm.places);
-                }
+                rebuildMyPlacesTree(invitation.place.id);
+                
                 if (openOtherInvitations) {
                   var checkDisplayInvitationModal = true;
                   vm.invitations.map(function (invite) {
