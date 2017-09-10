@@ -252,6 +252,11 @@
     .list-items {
       padding-left: 8px;
       padding-right: 8px;
+      height: auto;
+      min-height: 30px;
+      &:hover {
+        background-color: rgba(50, 61, 71, .12);
+      }
       div:first-of-type {
         margin-left: 4px;
         margin-right: 12px;
@@ -259,6 +264,16 @@
       div.top-user-avatar-24 {
         margin-left: 0;
         margin-right: 8px;
+      }
+      span {
+        font-size: 14px;
+        color: $color-solid;
+        line-height: 18px;
+      }
+      aside span {
+        font-size: 13px;
+        color: $color-solid;
+        opacity: .64;
       }
     }
   }

@@ -2,7 +2,7 @@
     ng-click="ctlSidebar.openCreatePlaceModal($event);">
   <div>
     <svg class="_16svg">
-      <use xlink:href="/assets/icons/nst-icn16.svg#window"></use>
+      <use xlink:href="/assets/icons/nst-icn16.svg#places"></use>
     </svg>
   </div>
   <span><translate>Create a Grand Place</translate></span>
@@ -14,7 +14,10 @@
       <use xlink:href="/assets/icons/nst-icn16.svg#window"></use>
     </svg>
   </div>
-  <span><translate>Create an Open Place</translate></span>
+  <span class="_difv">
+    <translate>Create an Open Place</translate>
+    <aside><translate>nest in</translate>&nbsp;<b>{{ctlSidebar.selectedPlaceId}}</b></aside>
+  </span>
 </a>
 <a class="_df list-items _aic" ng-if="ctlSidebar.canCreateClosedPlace" ng-click="ctlSidebar.openCreateSubplaceModal($event,'close');">
   <div>
@@ -22,5 +25,8 @@
       <use xlink:href="/assets/icons/nst-icn16.svg#brick-wall"></use>
     </svg>
   </div>
-  <span><translate>Create a Closed Place</translate></span>
+  <span class="_difv">
+    <translate>Create a Closed Place</translate>
+    <aside><translate>nest in</translate>&nbsp;<b>{{ctlSidebar.selectedPlaceId}}</b></aside>
+  </span>
 </a>

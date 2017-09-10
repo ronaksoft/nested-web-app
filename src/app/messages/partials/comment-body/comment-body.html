@@ -14,11 +14,11 @@
           <abbr ng-if="part.type == 'other'" ng-bind-html="part.word | link"></abbr>
         </abbr>
       </span>
-      <i ng-if="ctlCommentBody.comment.body === '' && !ctlCommentBody.comment.removedBy">
+      <!-- <i ng-if="ctlCommentBody.comment.body === '' && !ctlCommentBody.comment.removedBy">
         (<translate>removed</translate>)
-      </i>
-      <i ng-if="ctlCommentBody.comment.removedBy">
-        (<translate>removed by <span class="comment-removed-by" user-detail="comment.removedBy">{{ctlCommentBody.comment.removedBy.fullName}}</span></translate>)
+      </i> -->
+      <i ng-if="ctlCommentBody.comment.removedById">
+        (<translate>removed by <span class="comment-removed-by" user-detail="comment.removedById">{{ctlCommentBody.comment.removedById}}</span></translate>)
       </i>
     </p>
   </div>
