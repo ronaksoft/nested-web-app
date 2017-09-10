@@ -307,7 +307,7 @@
   .places {
     position: relative;
     width: calc(100% + 12px);
-    margin: 0 -6px;
+    margin: 0 -6px 16px -6px;
     max-height: calc(100vh - 268px);
     >ul {
       padding: 0 6px;
@@ -611,7 +611,6 @@ ul ul>li:last-child {
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin-bottom: 16px;
   .side-invite-item {
     display: flex;
     height: 36px;

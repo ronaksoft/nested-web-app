@@ -161,8 +161,6 @@ body[dir="rtl"] {
     padding-left: 24px;
   }
   .compose-subject-input {
-    padding-left: 0;
-    padding-right: 16px;
     direction: rtl;
   }
   .nst-navbar {
@@ -965,6 +963,10 @@ body[dir="rtl"] {
   .post-places.no-post-view > span svg {
     right: auto;
     left: 0;
+  }
+  .top-bar .search .inner .search-chips-container .chips .close-chips {
+    left: auto;
+    right: 0;
   }
 }
 
