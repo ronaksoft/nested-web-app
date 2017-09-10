@@ -15,29 +15,6 @@
     .module('ronak.nested.web.activity')
     .controller('RecentActivityController', RecentActivityController);
 
-  /** @ngInject */
-  /**
-   * A component that displays the recent activities
-   *
-   * @param {any} $q
-   * @param {any} _
-   * @param {any} $rootScope
-   * @param {any} $scope
-   * @param {any} $state
-   * @param {any} $stateParams
-   * @param {any} NstSvcActivityFactory
-   * @param {any} NstSvcActivityMap
-   * @param {any} NstSvcServer
-   * @param {any} NstSvcLogger
-   * @param {any} NstSvcWait
-   * @param {any} NstSvcPlaceFactory
-   * @param {any} NST_ACTIVITY_FACTORY_EVENT
-   * @param {any} NST_PLACE_ACCESS
-   * @param {any} NstSvcSync
-   * @param {any} NST_SRV_EVENT
-   * @param {any} NST_EVENT_ACTION
-   */
-
   function RecentActivityController($q, _, $rootScope, $scope, $state, $stateParams, $timeout,
     NstSvcActivityFactory, NstSvcServer, NstSvcLogger, NstSvcWait,
     NstSvcPlaceFactory, NST_PLACE_ACCESS, NST_SRV_EVENT, NST_EVENT_ACTION) {

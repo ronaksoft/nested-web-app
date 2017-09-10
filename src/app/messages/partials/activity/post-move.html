@@ -1,34 +1,39 @@
 <div class="_difh top">
   <div user-detail="act.actor" class="user-avatar-20">
-    <img initial-avatar="{{::act.actor.id}}" name="{{::act.actor.firstName}}" picture="{{act.actor | avatar}}"
-      data-width="20" data-height="20" data-radius="20" class="account-initials-20 _df _fn" data-word-count="2" data-font-size="8"
-    />
+    <img initial-avatar="{{::act.actor.id}}" name="{{::act.actor.fullName}}" picture="{{act.actor | avatar}}" data-width="20"
+      data-height="20" data-radius="20" class="account-initials-20 _df _fn" data-word-count="2" data-font-size="8" />
   </div>
-</div>
-<div class="sender _df">
-  <div user-detail="act.actor">
-    <a class="enabled-detail-popover">{{::act.actor.firstName + act.actor.lastName}}</a>
+  <div class="sender _df">
+    <div user-detail="act.actor">
+      <a class="enabled-detail-popover">{{::act.actor.fullName}}</a>
+    </div>
   </div>
-</div>
-<svg class="_16svg _df _fn fill-sense-wire">
-  <use xlink:href="/assets/icons/nst-icn16.svg#message"></use>
-</svg>
+  <svg class="_16svg _df _fn fill-sense-wire">
+    <use xlink:href="/assets/icons/nst-icn16.svg#message"></use>
+  </svg>
 </div>
 <div class="body" nst-post-modal post="act.post">
   <div class="_difv">
     <p auto-dir="act.post.subject" ng-if="act.post.subject.length > 0">
-      <translate>move a post here: </translate>
-      <mark data-ng-bind-html="act.post.subject"></mark>
+      <translate>attached</translate>&nbsp;
+      <mark data-ng-bind-html="act.post.subject"></mark>&nbsp;
+      <translate>to a new place</translate>
+      <span>{{act.newPlace.name}}</span>
     </p>
     <p auto-dir="act.post.body" ng-if="act.post.subject.length == 0 && act.post.body.length > 0">
-      <translate>move a post here: </translate>
-      <mark data-ng-bind-html="act.post.body | truncate | removeHTMLTags"></mark>
+      <translate>attached</translate>&nbsp;
+      <mark data-ng-bind-html="act.post.body | truncate | removeHTMLTags"></mark>&nbsp;
+      <translate>to a new place</translate>
+      <span>{{act.newPlace.name}}</span>
     </p>
     <p auto-dir="act.post.body" ng-if="act.post.subject.length == 0 && act.post.body == 0">
+      <translate>attached</translate>&nbsp;
       <mark>
-        <translate>move a post here with {{act.post.counters.attaches > 1 ? act.post.counters.attaches : 'one'}} {{act.post.counters.attaches
+        <translate>a post here with {{act.post.counters.attaches > 1 ? act.post.counters.attaches : 'one'}} {{act.post.counters.attaches
           > 1 ? 'attachments' : 'attachment'}}.</translate>
-      </mark>
+      </mark>&nbsp;
+      <translate>to a new place</translate>
+      <span>{{act.newPlace.name}}</span>
     </p>
   </div>
   <div class="_df _fn comment-time">
