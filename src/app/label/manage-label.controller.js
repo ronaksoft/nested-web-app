@@ -53,6 +53,7 @@
         return;
       }
       var filter = (vm.labelManager && vm.selectedView === 0 ? NST_LABEL_SEARCH_FILTER.ALL : NST_LABEL_SEARCH_FILTER.MY_PRIVATES);
+
       if (vm.keyword.length > 0) {
         var keyword = $filter('scapeSpace')(vm.keyword);
         searchService = NstSvcLabelFactory.search(keyword, filter, vm.setting.skip, vm.setting.limit).then(function(labels) {
@@ -74,16 +75,17 @@
     }
 
     function merge(labels) {
+
       var newItems = _.differenceBy(labels, vm.labels, 'id');
-      var removedItems = _.differenceBy(vm.labels, labels, 'id');
+      // var removedItems = _.differenceBy(vm.labels, labels, 'id');
 
       // first omit the removed items; The items that are no longer exist in fresh contacts
-      _.forEach(removedItems, function (item) {
-        var index = _.findIndex(vm.labels, { 'id': item.id });
-        if (index > -1) {
-          vm.labels.splice(index, 1);
-        }
-      });
+      // _.forEach(removedItems, function (item) {
+      //   var index = _.findIndex(vm.labels, { 'id': item.id });
+      //   if (index > -1) {
+      //     vm.labels.splice(index, 1);
+      //   }
+      // });
 
       // add new items; The items that do not exist in cached items, but was found in fresh contacts
       vm.labels.unshift.apply(vm.labels, newItems);

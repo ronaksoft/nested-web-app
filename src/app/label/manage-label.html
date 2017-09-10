@@ -96,7 +96,7 @@
     </li>
   </ul>
   <h5 class="list-head"><translate>Labels</translate></h5>
-  <ul class="labels _df" nst-scrollbar  manage-label-scroll>
+  <ul class="labels _df" nst-scrollbar>
     <li ng-repeat="label in ctrl.labels track by $index" class="_fn">
       <hr/>
       <div class="icon" ng-if="ctrl.labelManager && ctrl.selectedView !== 1">
@@ -128,5 +128,6 @@
         </svg>
       </div>
     </li>
+    <li class="_fn" ng-if="ctrl.haveMore" ng-click="ctrl.searchKeyUp()"><translate>Load More...</translate></li>
   </ul>
 </div>
