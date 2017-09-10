@@ -3,7 +3,6 @@
   top: -5px;
   transform: translate3d(0, 5px, 0);
   left: 0;
-  width: 100vw;
   height: 48px;
   background-color: $sidebar-color;
   display: flex;
@@ -41,7 +40,11 @@
         position: absolute;
         left: 4px;
         top: 4px;
-        opacity: .24;
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
       span.advanced-search {
         position: absolute;
@@ -157,6 +160,12 @@
     ._20svg {
       opacity: .4
     }
+  }
+  .close-search-bg {
+    background-color: rgba(255, 255, 255, .4);
+    fill: rgba(255, 255, 255, .16);
+    border-radius: 20px;
+    opacity: 1;
   }
 }
 

@@ -31,6 +31,12 @@
       || deviceDetector.os === 'linux' ) {
         $('body').addClass('notSupportEmo');
     }
+    if ( deviceDetector.browser === 'safari') {
+      var style = document.createElement('style');
+      style.type = 'text/css';
+      style.innerHTML = '._100vw { width: 100%;!important; }';
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
     $rootScope._track = trackBehaviour;
     $rootScope.goToLastState = function (disableNotify, defaultState) {
       var previous = defaultState || restoreLastState();

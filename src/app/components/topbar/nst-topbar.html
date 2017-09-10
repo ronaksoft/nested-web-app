@@ -1,4 +1,4 @@
-<div class="top-bar ng-class:{'search-modal-is-open' : ctrlTopBar.searchModalOpen || ctrlTopBar.advancedSearchOpen}">
+<div class="top-bar _100vw ng-class:{'search-modal-is-open' : ctrlTopBar.searchModalOpen || ctrlTopBar.advancedSearchOpen}">
   <div class="logo">
     <a ui-sref="app.messages-favorites()" class="_df">
       <div data-uib-tooltip-template="'nested-uib-tooltip.html'" class="_df" data-tooltip-placement="bottom auto" data-tooltip-append-to-body="true">
@@ -17,15 +17,15 @@
     </a>
   </div>
   <div class="search">
-    <div class="inner ng-class:{'in-search-page' : ctrlTopBar.isSearch()}">
+    <div class="inner">
       <i ng-if="!ctrlTopBar.searchModalOpen && !ctrlTopBar.advancedSearchOpen && ctrlTopBar.chips.length === 0">
         <svg class="_24svg fill-white">
           <use xlink:href="/assets/icons/nst-icn24.svg#search"></use>
         </svg>
       </i>
       <i ng-if="ctrlTopBar.searchModalOpen || ctrlTopBar.advancedSearchOpen || ctrlTopBar.chips.length > 0" ng-click="ctrlTopBar.toggleSearchModal()">
-        <svg class="_24svg fill-white">
-          <use xlink:href="/assets/icons/nst-icn24.svg#xcross"></use>
+        <svg class="_16svg fill-white close-search-bg">
+          <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
         </svg>
       </i>
       <div class="input-wrapper" nst-scrollbar suppress-scroll-y="true" topbar-scrollbar>
