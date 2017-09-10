@@ -8,11 +8,11 @@
       <strong class="_fl" user-detail="comment.sender">{{ctlCommentBody.comment.sender.fullName}}:&nbsp;</strong>
       <!--<span is-two-line class="_fl" ng-bind-html="to_trusted(ctlCommentBody.comment.body | link | nstPopover | plainToHtml)"></span>-->
       <span is-two-line class="_fl">
-        <span ng-repeat="part in ctlCommentBody.parts">
+        <abbr ng-repeat="part in ctlCommentBody.parts">
           <br ng-if="part.type == 'linebreak'" />
-          <span ng-if="part.type == 'mention'" class="nst-user-popover" user-detail="part.user">{{part.word}}</span>
-          <span ng-if="part.type == 'other'" ng-bind-html="part.word | link"></span>
-        </span>
+          <abbr ng-if="part.type == 'mention'" class="nst-user-popover" user-detail="part.user">{{part.word}}</abbr>
+          <abbr ng-if="part.type == 'other'" ng-bind-html="part.word | link"></abbr>
+        </abbr>
       </span>
       <i ng-if="ctlCommentBody.comment.body === '' && !ctlCommentBody.comment.removedBy">
         (<translate>removed</translate>)
