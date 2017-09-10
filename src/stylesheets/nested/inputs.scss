@@ -183,6 +183,8 @@ label.setting  {
   font-size: $font-size-small;
   background-size: 16px 192px;
   background-repeat: no-repeat;
+  background-position-x: left;
+  background-position-y: -64px;
   &.left-box {
     background-position-x: left!important;
     padding: 0 0 0 24px!important;
@@ -190,23 +192,28 @@ label.setting  {
 }
 
 input[type="checkbox"]:disabled + label.setting {
-  background-position: right -48;
+  background-position-x: right;
+  background-position-y: -48px;
 }
 
 input[type="checkbox"]:hover + label.setting {
-  background-position: right -80px;
+  background-position-x: right;
+  background-position-y: -80px;
 }
 
 input[type="checkbox"]:checked + label.setting {
-  background-position: right -16px;
+  background-position-x: right;
+  background-position-y: -16px;
 }
 
 input[type="checkbox"]:checked:disabled + label.setting {
-  background-position: right 0;
+  background-position-x: right;
+  background-position-y: 0;
 }
 
 input[type="checkbox"]:checked:hover + label.setting {
-  background-position: right -32px;
+  background-position-x: right;
+  background-position-y: -32px;
 }
 
 // 
