@@ -649,5 +649,9 @@
       $rootScope.$on('reload-counters', function () {
         loadNotificationsCount();
       });
+
+      $rootScope.$on('topbar-notification-changed', function () {
+        loadNotificationsCount();
+      });
     }
   })();
