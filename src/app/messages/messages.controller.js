@@ -283,7 +283,7 @@
     function replacePosts(newPosts) {
       vm.messages = newPosts;
     }
-    
+
     function goUnreadMode() {
       vm.isUnreadMode = true;
       load();
@@ -357,13 +357,13 @@
 
     function configureNavbar() {
       if (vm.isBookmark) {
-        vm.navTitle = 'Favorite Feed';
+        vm.navTitle = NstSvcTranslation.get('Bookmarked Posts');
         vm.navIconClass = 'bookmarks';
       } else if (vm.isSent) {
-        vm.navTitle = 'Sent';
+        vm.navTitle = NstSvcTranslation.get('Sent');
         vm.navIconClass = 'sent';
       } else {
-        vm.navTitle = 'Feed';
+        vm.navTitle = NstSvcTranslation.get('Feed');
         vm.navIconClass = 'all-places';
       }
     }
