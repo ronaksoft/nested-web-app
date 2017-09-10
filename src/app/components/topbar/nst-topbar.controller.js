@@ -18,6 +18,8 @@
       vm.closeProfile = closeProfile;
       vm.toggleSearchModal = toggleSearchModal;
       vm.toggleAdvancedSearch = toggleAdvancedSearch;
+      vm.empty = empty;
+      vm.isEmpty = isEmpty;
       vm.query = '';
       vm.newQuery = '';
       vm.excludedQuery = '';
@@ -128,19 +130,7 @@
           }
         } else {
           vm.toggleSearchModal(false);
-          vm.query = '';
-          vm.newQuery = '';
-          vm.chips = [];
-          vm.advancedSearch = {
-            keywords: '',
-            users: '',
-            places: '',
-            subject: '',
-            labels: '',
-            hasAttachment: false,
-            within: '1',
-            date: ''
-          };
+          vm.empty();
         }
         vm.selectedItem = -1;
         $timeout(function (){
@@ -163,6 +153,28 @@
         } catch (e) {
           vm.advancedSearch.date = '';
         }
+      }
+
+      function empty() {
+        vm.query = '';
+        vm.newQuery = '';
+        vm.chips = [];
+        vm.advancedSearch = {
+          keywords: '',
+          users: '',
+          places: '',
+          subject: '',
+          labels: '',
+          hasAttachment: false,
+          within: '1',
+          date: ''
+        };
+        vm.selectedItem = -1;
+        searchQuery.setQuery('');
+      }
+
+      function isEmpty() {
+        return (vm.query === '' && vm.newQuery === '' && vm.chips.length === 0);
       }
 
       function isSearch() {
