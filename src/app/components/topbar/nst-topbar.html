@@ -17,13 +17,13 @@
     </a>
   </div>
   <div class="search">
-    <div class="inner ng-class:{'in-search-page' : ctrlTopBar.isSearch()}">
-      <i ng-if="!ctrlTopBar.searchModalOpen && !ctrlTopBar.advancedSearchOpen && ctrlTopBar.chips.length === 0">
+    <div class="inner">
+      <i ng-if="ctrlTopBar.isEmpty()">
         <svg class="_24svg fill-white">
           <use xlink:href="/assets/icons/nst-icn24.svg#search"></use>
         </svg>
       </i>
-      <i ng-if="ctrlTopBar.searchModalOpen || ctrlTopBar.advancedSearchOpen || ctrlTopBar.chips.length > 0" ng-click="ctrlTopBar.toggleSearchModal()">
+      <i ng-if="!ctrlTopBar.isEmpty()" ng-click="ctrlTopBar.empty()">
         <svg class="_24svg fill-white">
           <use xlink:href="/assets/icons/nst-icn24.svg#xcross"></use>
         </svg>
