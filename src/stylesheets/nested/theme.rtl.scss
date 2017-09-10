@@ -274,11 +274,6 @@ body[dir="rtl"] {
     margin-right: 50px;
     margin-left: 0;
   }
-  .notifications-popover .arrow {
-    border-width: 0 1px 1px 0!important;
-    right: -6px !important;
-    left: auto!important;
-  }
   .file-list .file-list-header .files-srch input {
     left: auto;
     right: 42px;
@@ -966,6 +961,10 @@ body[dir="rtl"] {
   }
   .nst-navbar .place-detail .more-navbar-settings-icon {
     margin: 0 12px 0 28px;
+  }
+  .post-places.no-post-view > span svg {
+    right: auto;
+    left: 0;
   }
 }
 
