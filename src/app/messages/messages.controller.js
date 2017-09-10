@@ -360,7 +360,7 @@
         vm.navTitle = NstSvcTranslation.get('Bookmarked Posts');
         vm.navIconClass = 'bookmarks';
       } else if (vm.isSent) {
-        vm.navTitle = NstSvcTranslation.get('Sent');
+        vm.navTitle = NstSvcTranslation.get('Shared by me');
         vm.navIconClass = 'sent';
       } else {
         vm.navTitle = NstSvcTranslation.get('Feed');

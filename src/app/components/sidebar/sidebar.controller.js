@@ -48,7 +48,7 @@
         $q.all([getMyPlacesOrder(), getMyPlaces()]).then(function(results) {
           myPlaceOrders = results[0];
           vm.places = createTree(results[1], myPlaceOrders, [], vm.selectedPlaceId);
-          
+
           loadMyPlacesUnreadPostsCount();
         });
 
@@ -137,7 +137,7 @@
       }
 
       function loadMyPlacesUnreadPostsCount() {
-        
+
         return NstSvcPlaceFactory.getPlacesUnreadPostsCount(myPlaceIds, true).then(function(places) {
           var total = 0;
           vm.myPlacesUnreadPosts = {};
@@ -197,7 +197,7 @@
             if (result) { // Accept the Invitation
               return NstSvcInvitationFactory.accept(id).then(function (invitation) {
                 rebuildMyPlacesTree(invitation.place.id);
-                
+
                 if (openOtherInvitations) {
                   var checkDisplayInvitationModal = true;
                   vm.invitations.map(function (invite) {
@@ -320,7 +320,7 @@
         return NstSvcKeyFactory.set(NST_KEY.GENERAL_SETTING_PLACE_ORDER, JSON.stringify(order));
       }
 
-      
+
       vm.range = function (num) {
         var seq = [];
         for (var i = 0; i < num; i++) {
@@ -336,30 +336,37 @@
 
       eventReferences.push($rootScope.$on(NST_INVITATION_EVENT.ADD, function (e, data) {
         loadInvitations();
+        $rootScope.$emit('topbar-notification-changed');
       }));
 
       eventReferences.push($rootScope.$on(NST_INVITATION_EVENT.ACCEPT, function (e, data) {
         loadInvitations();
+        $rootScope.$emit('topbar-notification-changed');
       }));
 
       eventReferences.push($rootScope.$on(NST_PLACE_EVENT.ROOT_ADDED, function (e, data) {
         rebuildMyPlacesTree(data.place.id);
+        $rootScope.$emit('topbar-notification-changed');
       }));
 
       eventReferences.push($rootScope.$on(NST_PLACE_EVENT.SUB_ADDED, function (e, data) {
         rebuildMyPlacesTree(data.place.id);
+        $rootScope.$emit('topbar-notification-changed');
       }));
 
       eventReferences.push($rootScope.$on(NST_USER_EVENT.PROFILE_UPDATED, function (e, data) {
         loadCurrentUser();
+        $rootScope.$emit('topbar-notification-changed');
       }));
 
       eventReferences.push($rootScope.$on(NST_USER_EVENT.PICTURE_UPDATED, function (e, data) {
         loadCurrentUser();
+        $rootScope.$emit('topbar-notification-changed');
       }));
 
       eventReferences.push($rootScope.$on(NST_USER_EVENT.PICTURE_REMOVED, function (e, data) {
         loadCurrentUser();
+        $rootScope.$emit('topbar-notification-changed');
       }));
 
       /**
@@ -367,6 +374,7 @@
        */
       eventReferences.push($rootScope.$on(NST_PLACE_EVENT.UPDATED, function (e, data) {
         rebuildMyPlacesTree();
+        $rootScope.$emit('topbar-notification-changed');
       }));
 
       /**
@@ -374,6 +382,7 @@
        */
       eventReferences.push($rootScope.$on(NST_PLACE_EVENT.PICTURE_CHANGED, function (e, data) {
         rebuildMyPlacesTree();
+        $rootScope.$emit('topbar-notification-changed');
       }));
 
       /**
@@ -381,6 +390,7 @@
        */
       eventReferences.push($rootScope.$on(NST_PLACE_EVENT.REMOVED, function (e, data) {
         rebuildMyPlacesTree();
+        $rootScope.$emit('topbar-notification-changed');
       }));
 
       /**
@@ -388,6 +398,7 @@
        */
       eventReferences.push($rootScope.$on(NST_EVENT_ACTION.POST_ADD, function () {
         loadMyPlacesUnreadPostsCount();
+        $rootScope.$emit('topbar-notification-changed');
       }));
 
       /**
@@ -395,14 +406,17 @@
        */
       eventReferences.push($rootScope.$on(NST_EVENT_ACTION.POST_REMOVE, function () {
         loadMyPlacesUnreadPostsCount();
+        $rootScope.$emit('topbar-notification-changed');
       }));
 
       eventReferences.push($rootScope.$on(NST_POST_EVENT.REMOVE, function () {
         loadMyPlacesUnreadPostsCount();
+        $rootScope.$emit('topbar-notification-changed');
       }));
 
       eventReferences.push($rootScope.$on(NST_POST_EVENT.MOVE, function () {
         loadMyPlacesUnreadPostsCount();
+        $rootScope.$emit('topbar-notification-changed');
       }));
 
       /**
@@ -410,6 +424,7 @@
        */
       eventReferences.push($rootScope.$on(NST_POST_EVENT.READ, function () {
         loadMyPlacesUnreadPostsCount();
+        $rootScope.$emit('topbar-notification-changed');
       }));
 
       /**
@@ -424,6 +439,7 @@
        */
       eventReferences.push($rootScope.$on(NST_NOTIFICATION_EVENT.OPEN_INVITATION_MODAL, function (e, data) {
         vm.invitation.showModal(data.notificationId);
+        $rootScope.$emit('topbar-notification-changed');
       }));
 
       /**
@@ -449,6 +465,7 @@
         }).catch(function () {
           throw 'SIDEBAR | invitation push can not init'
         });
+        $rootScope.$emit('topbar-notification-changed');
       }));
 
       /**
@@ -490,10 +507,10 @@
 
       /**
        * Returns true if the given Place is a child of the provided parent Place ID
-       * 
-       * @param {any} parentId 
-       * @param {any} place 
-       * @returns 
+       *
+       * @param {any} parentId
+       * @param {any} place
+       * @returns
        */
       function isChild(parentId, place) {
         return place && place.id && place.id.indexOf(parentId + '.') === 0;
@@ -501,11 +518,11 @@
 
       /**
        * Returns true if the item should be expanded in Places tree
-       * 
-       * @param {any} place 
+       *
+       * @param {any} place
        * @param {any} expandedPlaces A list of places that were expanded before.
        * @param {any} selectedId
-       * @returns 
+       * @returns
        */
       function isItemExpanded(place, expandedPlaces, selectedId) {
         // In this case the the selected Place ID is exactly the same with current place ID or
@@ -526,13 +543,13 @@
 
       /**
        * Filters the place children
-       * 
-       * @param {any} place 
+       *
+       * @param {any} place
        * @param {any} places
-       * @param {any} expandedPlaces 
-       * @param {any} selectedId 
-       * @param {any} depth 
-       * @returns 
+       * @param {any} expandedPlaces
+       * @param {any} selectedId
+       * @param {any} depth
+       * @returns
        */
       function getChildren(place, places, expandedPlaces, selectedId, depth) {
         return _.chain(places).sortBy(['id']).reduce(function (stack, item) {
@@ -566,13 +583,13 @@
 
       /**
        * Creates the user Places tree
-       * 
-       * @param {any} places 
+       *
+       * @param {any} places
        * @param {any} orders The order of grand Places. A user is allowed to reorder her grand Places
        * and we keep the order as a global setting between all user devices
-       * @param {any} expandedPlaces 
-       * @param {any} selectedId 
-       * @returns 
+       * @param {any} expandedPlaces
+       * @param {any} selectedId
+       * @returns
        */
       function createTree(places, orders, expandedPlaces, selectedId) {
         myPlaceIds = [];
@@ -595,13 +612,13 @@
 
       /**
        * Creates an instance of tree item
-       * 
-       * @param {any} place 
-       * @param {any} children 
-       * @param {any} isExpanded 
-       * @param {any} isActive 
-       * @param {any} depth 
-       * @returns 
+       *
+       * @param {any} place
+       * @param {any} children
+       * @param {any} isExpanded
+       * @param {any} isActive
+       * @param {any} depth
+       * @returns
        */
       function createTreeItem(place, children, isExpanded, isActive, depth) {
         var picture = place.hasPicture() ? place.picture.getUrl('x32') : ABSENT_PLACE_PICTURE_URL;
@@ -621,11 +638,11 @@
 
       /**
        * Iterates over the Place children and returns true if any child has unseen post
-       * 
-       * @param {any} place 
-       * @param {any} children 
-       * @param {any} myPlacesUnreadPosts 
-       * @returns 
+       *
+       * @param {any} place
+       * @param {any} children
+       * @param {any} myPlacesUnreadPosts
+       * @returns
        */
       function anyChildrenHasUnseen(place, children, myPlacesUnreadPosts) {
         if (!place || _.size(children) === 0) {
@@ -639,10 +656,10 @@
 
       /**
        * Checks both the Place model and myPlacesUnreadPosts to find whether the Place has unseen posts or not
-       * 
-       * @param {any} place 
-       * @param {any} myPlacesUnreadPosts 
-       * @returns 
+       *
+       * @param {any} place
+       * @param {any} myPlacesUnreadPosts
+       * @returns
        */
       function hasUnseen(place, myPlacesUnreadPosts) {
         return place.unreadPosts > 0 || myPlacesUnreadPosts[place.id] > 0;
