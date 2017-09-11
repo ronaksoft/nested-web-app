@@ -15,7 +15,7 @@
     .controller('PostCardController', PostCardController);
 
   function PostCardController($state, $log, $timeout, $stateParams, $rootScope, $scope, $uibModal,
-                              _, toastr, 
+                              _, toastr,
                               NST_EVENT_ACTION, NST_PLACE_ACCESS, NST_POST_EVENT, SvcCardCtrlAffix,
                               NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory, NstSearchQuery, NstSvcModal,
                               NstSvcAuth, NstUtility, NstSvcPostInteraction, NstSvcTranslation, NstSvcLogger, $) {
@@ -589,7 +589,7 @@
         loadNewComments();
         if (!_.includes(newCommentIds, data.activity.id)) {
           newCommentIds.push(data.activity.id);
-          vm.post.counters.comments++;
+          // vm.post.counters.comments++;
         }
       } else {
         if (!_.includes(unreadCommentIds, data.activity.id)) {
