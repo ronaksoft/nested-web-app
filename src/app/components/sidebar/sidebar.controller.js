@@ -141,7 +141,7 @@
 
       function loadMyPlacesUnreadPostsCount() {
 
-        return NstSvcPlaceFactory.getPlacesUnreadPostsCount(myPlaceIds, true).then(function(places) {
+        return NstSvcPlaceFactory.getPlacesUnreadPostsCount(myPlaceIds, false).then(function(places) {
           var total = 0;
           vm.myPlacesUnreadPosts = {};
 
