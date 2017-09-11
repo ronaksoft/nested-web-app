@@ -574,6 +574,7 @@
         }
         $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toString()), advanced: 'false'});
         vm.toggleSearchModal(false);
+        vm.queryType = 'other';
       }
 
       /**

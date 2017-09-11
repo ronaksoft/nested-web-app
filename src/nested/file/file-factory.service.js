@@ -28,18 +28,18 @@
 
     FileFactory.prototype.setToken = function(key, value) {
       this.tokenCache.set(key, {
-        value: value,
+        value: value
       });
-    }
+    };
 
-    FileFactory.prototype.getToken = function(key, value) {
+    FileFactory.prototype.getToken = function(key) {
       var token = this.tokenCache.get(key);
       if (token && token.value) {
         return token.value;
       }
 
       return null;
-    }
+    };
 
 
 
@@ -120,7 +120,7 @@
         var recentFiles = NstSvcFileStorage.get('recentFiles');
         if (recentFiles && skip === 0) {
           deferred.resolve(recentFiles);
-        } 
+        }
         NstSvcServer.request('file/get_recent_files', {
             skip: skip || 0,
             limit: limit || 16

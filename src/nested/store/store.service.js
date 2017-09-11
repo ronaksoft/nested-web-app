@@ -105,7 +105,7 @@
       request.setStatus(NST_REQ_STATUS.QUEUED);
       request.setData(angular.extend(request.getData(), {reqId: reqId}));
 
-      getUploadToken().catch(function (error) {
+      requestNewUploadToken().catch(function (error) {
         var deferred = $q.defer();
         // TODO: Check for what to be passed as response data
         var response = new NstResponse(NST_RES_STATUS.FAILURE, error);
@@ -295,7 +295,7 @@
       request.finish(response || new NstResponse());
     };
 
-    function requestNewUploadToken(storageKey) {
+    function requestNewUploadToken(/*storageKey*/) {
       var deferred = $q.defer();
 
       NstSvcServer.request('file/get_upload_token').then(function (data) {
