@@ -255,7 +255,7 @@
       height: auto;
       min-height: 30px;
       &:hover {
-        background-color: rgba(50, 61, 71, .12);
+        background-color: $color-bg-hover-item;
       }
       div:first-of-type {
         margin-left: 4px;

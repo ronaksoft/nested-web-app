@@ -337,7 +337,7 @@ nst-navbar {
     display: flex;
     align-items: center;
     max-width: 350px;
-    ._16svg {
+    > ._16svg {
       margin: 0 2px;
       flex: none;
       fill: $color-solid-64;

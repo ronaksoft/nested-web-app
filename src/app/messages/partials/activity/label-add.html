@@ -5,7 +5,7 @@
   </div>
   <div class="sender _df">
     <div user-detail="act.actor.id">
-      <a class="enabled-detail-popover">{{act.actor.fullName}}</a>
+      <a>{{act.actor.fullName}}</a>
     </div>
   </div>
   <svg class="_16svg _df _fn fill-sense-wire mirror">
@@ -15,7 +15,7 @@
 <div class="body" nst-post-modal post="act.post">
   <div class="_difv">
     <p>
-      <translate>added {{act.label.title | scapeRevSpace}} label to {{act.post.subject}}.</translate>
+      <translate>added {{act.label.title | scapeRevSpace}} label to {{act.post.subject > 32 ? act.post.subject.substr(0,32) + '...' : act.post.subject}}.</translate>
     </p>
   </div>
   <div class="_df _fn comment-time">

@@ -7,7 +7,7 @@
 </div>
 <div class="sender _df">
   <div user-detail="act.actor.id">
-    <a class="enabled-detail-popover">{{::act.post.sender.fullName}}</a>
+    <a>{{::act.post.sender.fullName}}</a>
   </div>
 </div>
 <svg class="_16svg _df _fn fill-sense-wire">
@@ -18,11 +18,11 @@
   <div class="_difv">
     <p auto-dir="act.post.subject" ng-if="act.post.subject.length > 0">
       <translate>removed a post: </translate>
-      <mark data-ng-bind-html="act.post.subject"></mark>
+      <mark data-ng-bind-html="act.post.subject > 48 ? act.post.subject.substr(0,48) + '...' : act.post.subject"></mark>
     </p>
     <p auto-dir="act.post.body" ng-if="act.post.subject.length == 0">
       <translate>removed a post: </translate>
-      <mark data-ng-bind-html="act.post.body | truncate | removeHTMLTags"></mark>
+      <mark data-ng-bind-html="act.post.body > 48 ? act.post.body.substr(0,48) + '...' : act.post.body | truncate | removeHTMLTags"></mark>
     </p>
     <p auto-dir="act.post.body" ng-if="act.post.subject.length == 0 && act.post.body == 0">
       <mark>
