@@ -15,7 +15,12 @@
 </div>
 <div class="body" nst-post-modal post="act.post">
   <div class="_difv">
-    <p auto-dir="act.comment.body"><span>{{act.comment.body.length > 42 ? act.comment.body.substr(0,42) + '...' : act.comment.body}}</span></p>
+    <p ng-if="act.comment.body.length === 0">
+      <translate>removed</translate>
+    </p>
+    <p auto-dir="act.comment.body" ng-if="act.comment.body.length > 0">
+      <span>{{act.comment.body.length > 42 ? act.comment.body.substr(0,42) + '...' : act.comment.body}}</span>
+    </p>
   </div>
   <div class="_df _fn comment-time">
     <span>{{act.date | passed | localize }}</span>

@@ -968,6 +968,14 @@ body[dir="rtl"] {
     left: auto;
     right: 0;
   }
+  .content-plus > div .activity-item .top .user-avatar-20 {
+    margin-right: 0;
+    margin-left: 4px;
+  }
+  .content-plus > div .activity-item .body {
+    margin-left: 0;
+    margin-right: 10px;
+  }
 }
 
 
