@@ -107,7 +107,7 @@
 
       return file;
     }
-    
+
     FileFactory.prototype.recentFiles = function (skip, limit, cacheHandler) {
       var that = this;
 
@@ -131,6 +131,13 @@
         return $q.resolve(files);
       });
     };
+
+    FileFactory.prototype.setFile = function (data) {
+      if (data && data._id) {
+        this.fileCache.set(data._id, this.transformToCacheModel(data));
+      }
+    }
+
 
     /**
      * Get single file by Id
