@@ -598,8 +598,6 @@
     }
 
     function getChainMessages(id, limit, cacheHandler) {
-      var deferred = $q.defer();
-
       return NstSvcServer.request('post/get_chain', {
         post_id: id,
         limit: limit || 8
@@ -618,8 +616,6 @@
           return parsePost(post);
         });
       });
-
-      return deferred.promise;
     }
 
     function attachPlaces(postId, placeIds) {

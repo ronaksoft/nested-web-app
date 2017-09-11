@@ -207,7 +207,7 @@
                       vm.invitation.showModal(invite.id, true);
                     } else {
                       setTimeout(function () {
-                        $state.go(getPlaceFilteredState(), {placeId: vmPlace.id});
+                        $state.go('app.place-messages', { placeId: invitation.place.id});
                       }, 100)
                     }
                   });
@@ -447,7 +447,7 @@
        * Event listener for `NST_NOTIFICATION_TYPE.INVITE`
        */
       eventReferences.push($rootScope.$on(NST_NOTIFICATION_TYPE.INVITE, function () {
-        getInvitations().then(function (invitations) {
+        NstSvcInvitationFactory.getAll().then(function (invitations) {
           //FIXME:: Check last invitation
 
           var lastInvitation = _.pullAllBy(invitations, vm.invitation, 'id')[0];
@@ -476,7 +476,7 @@
         NstSvcLogger.debug('Retrieving mentions count right after reconnecting.');
         NstSvcLogger.debug('Retrieving the grand place unreads count right after reconnecting.');
         NstSvcLogger.debug('Retrieving invitations right after reconnecting.');
-        getInvitations().then(function (result) {
+        NstSvcInvitationFactory.getAll().then(function (result) {
           vm.invitations = result;
         });
 
@@ -633,7 +633,7 @@
           childrenHasUnseen: anyChildrenHasUnseen(place, children, vm.myPlacesUnreadPosts),
           isExpanded: isExpanded,
           isActive: isActive,
-          depth: depth,
+          depth: depth
         };
       }
 
@@ -645,7 +645,7 @@
        * @param {any} myPlacesUnreadPosts
        * @returns
        */
-      function anyChildrenHasUnseen(place, children, myPlacesUnreadPosts) {
+      function anyChildrenHasUnseen(place, children) {
         if (!place || _.size(children) === 0) {
           return false;
         }

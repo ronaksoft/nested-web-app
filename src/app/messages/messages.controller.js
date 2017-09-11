@@ -17,8 +17,7 @@
     $rootScope.topNavOpen = false;
 
     var DEFAULT_MESSAGES_COUNT = 8,
-      defaultSortOption = NST_MESSAGES_SORT_OPTION.LATEST_MESSAGES,
-      sortOptionStorageKey = 'sort-option';
+      defaultSortOption = NST_MESSAGES_SORT_OPTION.LATEST_MESSAGES;
     // Consistently Interactive Time Handler
     var CITHandler = null;
     vm.messages = [];
@@ -303,7 +302,7 @@
         }
         vm.FIT = false;
         mergePosts(posts);
-      }).catch(function (error) {
+      }).catch(function () {
         NstSvcModal.error(NstSvcTranslation.get("Error"), NstSvcTranslation.get("Either this Place doesn't exist, or you don't have the permit to enter the Place.")).finally(function () {
           if ($state.current.name !== NST_DEFAULT.STATE) {
             $state.go(NST_DEFAULT.STATE);
