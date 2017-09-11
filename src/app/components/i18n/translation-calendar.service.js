@@ -29,7 +29,7 @@
       "MMM DD": "jD jMMMM",
       "DD[/]MM[/]YYYY": "jYYYY[/]jMM[/]jDD",
       "YYYY-MM-DD": "jYYYY-jMM-jDD",
-      "dddd, MMMM DD YYYY, HH:mm": "HH:mm dddd، jD jMMMM jYYYY",
+      "dddd, MMMM DD YYYY, HH:mm": "HH:mm dddd، jD jMMMM jYYYY"
     };
 
     formatMap['gregorian'] = {

@@ -38,7 +38,7 @@
             }
             return (fromNow ? input.fromNow() + " " : "") + input.format(format);
         };
-    };
+    }
 
     function ngJalaaliFlatDatepickerProvider() {
         var options = {
@@ -65,11 +65,11 @@
             return ngJFD;
         };
 
-    };
+    }
 
 
     function ngJalaaliFlatDatepickerDirective($templateCache, $compile, $document, datesCalculator, ngJalaaliFDP, moment, NstSvcI18n) {
-        var parseConfig = function(config) {
+        /*function parseConfig (config) {
             var temp = angular.fromJson(config);
             if (typeof(temp.minDate) == 'undefined') {
                 temp.minDate = moment.utc(temp.minDate);
@@ -78,8 +78,8 @@
                 temp.maxDate = moment.utc(temp.maxDate);
             }
             return temp;
-        };
-
+        }*/
+        
         return {
             restrict: 'A',
             require: 'ngModel',
@@ -99,7 +99,7 @@
                     farsi = true;
                 }
                 var template = angular.element($templateCache.get('datepicker.html'));
-                
+
                 var dateSelected = '';
                 var today = moment.utc();
 
@@ -127,7 +127,7 @@
                 scope.calendarCursor = today;
                 scope.currentWeeks = [];
                 scope.daysNameList = datesCalculator.getDaysNames();
-                
+
                 if ( jalali && farsi ) {
                     scope.monthsList = moment.localeData()._jMonths;
                 } else if( jalali && !farsi ) {
@@ -185,7 +185,7 @@
                 /**
                  * ClickOutside, handle all clicks outside the DatePicker when visible
                  */
-                element.bind('click', function(e) {
+                element.bind('click', function() {
                     scope.$apply(function() {
                         scope.pickerDisplayed = true;
                         $document.on('click', onDocumentClick);
@@ -231,7 +231,7 @@
                  */
                 scope.selectMonth = function selectMonth(month) {
                     scope.showMonthsList = false;
-                    if ( jalali ) { 
+                    if ( jalali ) {
                         scope.calendarCursor = moment(scope.calendarCursor).jMonth(month);
                     } else {
                         scope.calendarCursor = moment(scope.calendarCursor).month(month);
@@ -245,7 +245,7 @@
                  */
                 scope.selectYear = function selectYear(year) {
                     scope.showYearsList = false;
-                    if ( jalali ) { 
+                    if ( jalali ) {
                         scope.calendarCursor = moment(scope.calendarCursor).jYear(parseInt(year));
                     } else {
                         scope.calendarCursor = moment(scope.calendarCursor).year(year);
@@ -295,7 +295,7 @@
                     date = moment.utc(date);
                     var firstDayOfMonth,lastDayOfMonth;
                     // Todo:
-                    if ( jalali ) { 
+                    if ( jalali ) {
                         firstDayOfMonth = moment.utc(date).jDate(1);
                         lastDayOfMonth = moment.utc(date).jDate(moment.jDaysInMonth(moment(date).jYear, moment(date).jMonth()));
                     } else {
@@ -410,7 +410,7 @@
 
 })();
 
-angular.module("ngJalaaliFlatDatepicker").run(["$templateCache", "$http", "NstSvcI18n","$rootScope", function($templateCache, $http, NstSvcI18n, $rootScope) {
+angular.module("ngJalaaliFlatDatepicker").run(["$templateCache", "$http", "NstSvcI18n","$rootScope", function($templateCache, $http, NstSvcI18n) {
     var html;
     if (NstSvcI18n.selectedCalendar === "gregorian") {
     // if ($rootScope._direction === 'ltr') {

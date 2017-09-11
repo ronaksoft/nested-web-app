@@ -598,7 +598,7 @@
     }
 
     function getChainMessages(id, limit, cacheHandler) {
-      var deferred = $q.defer();
+      // var deferred = $q.defer();
 
       return NstSvcServer.request('post/get_chain', {
         post_id: id,
@@ -619,7 +619,7 @@
         });
       });
 
-      return deferred.promise;
+      // return deferred.promise;
     }
 
     function attachPlaces(postId, placeIds) {
