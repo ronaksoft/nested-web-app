@@ -56,12 +56,12 @@
         <translate class="_df _fw">Places</translate>
         <div class="_df _aic _jcc _fn ng-class:{'disabled' : !ctlSidebar.canCreateClosedPlace && !ctlSidebar.canCreateGrandPlace && !ctlSidebar.canCreateOpenPlace}"
           data-popover-class="white-pop create-place-popover" data-popover-append-to-body="false" uib-popover-template="'app/components/sidebar/partials/create-place-popover.html'"
-          data-popover-trigger="focus" data-popover-placement="auto bottom-right"
+          data-popover-trigger="focus" data-popover-placement="auto bottom-{{$root._direction === 'rtl' ? 'left' : 'right'}}"
           data-popover-enable="{{!ctlSidebar.canCreateClosedPlace && !ctlSidebar.canCreateGrandPlace && !ctlSidebar.canCreateOpenPlace ? false : true}}"          
           data-uib-tooltip-template="'cannot-create-place.html'"
           data-tooltip-append-to-body="true"
           data-tooltip-enable="{{!ctlSidebar.canCreateClosedPlace && !ctlSidebar.canCreateGrandPlace && !ctlSidebar.canCreateOpenPlace ? true : false}}"
-          data-tooltip-placement="right auto">
+          data-tooltip-placement="{{$root._direction === 'rtl' ? 'left' : 'right'}} auto">
           <svg class="_16svg">
             <use xlink:href="/assets/icons/nst-icn16.svg#cross"></use>
           </svg>

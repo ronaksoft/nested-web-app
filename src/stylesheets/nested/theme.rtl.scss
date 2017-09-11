@@ -1009,6 +1009,10 @@ body[dir="rtl"] {
     margin-left: 0;
     margin-right: 16px;
   }
+  .search-modal .search-popover .init-from-suggests li {
+    margin-right: 0;
+    margin-left: 6px;
+  }
 }
 
 body[dir="ltr"] {
