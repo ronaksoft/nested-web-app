@@ -18,7 +18,7 @@
   function FilesController($stateParams, toastr, $uibModal, $state, $timeout, $q, $scope,
                            NST_PLACE_ACCESS,
                            NstSvcFileFactory, NstSvcPlaceAccess, NstSvcModal,
-                           NstSvcTranslation, NstSvcAuth, NstSvcWait, _, NstSvcInteractionTracker,
+                           NstSvcTranslation, NstSvcAuth, _, NstSvcInteractionTracker,
                            NST_DEFAULT) {
     var vm = this;
     var eventReferences = [];
@@ -114,9 +114,7 @@
           vm.hasSeeMembersAccess = place.hasAccess(NST_PLACE_ACCESS.SEE_MEMBERS);
           vm.showPlaceId = !_.includes(['off', 'internal'], place.privacy.receptive);
 
-          load().then(function () {
-            eventReferences.push(NstSvcWait.emit('main-done'));
-          });
+          load();
         } else {
           NstSvcModal.error(NstSvcTranslation.get("Error"), NstSvcTranslation.get("Either this Place doesn't exist, or you don't have the permit to enter the Place.")).finally(function () {
             $state.go(NST_DEFAULT.STATE);

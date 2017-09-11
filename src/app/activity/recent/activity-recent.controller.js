@@ -16,7 +16,7 @@
     .controller('RecentActivityController', RecentActivityController);
 
   function RecentActivityController($q, _, $rootScope, $scope, $state, $stateParams, $timeout,
-    NstSvcActivityFactory, NstSvcServer, NstSvcLogger, NstSvcWait,
+    NstSvcActivityFactory, NstSvcServer, NstSvcLogger,
     NstSvcPlaceFactory, NST_PLACE_ACCESS, NST_SRV_EVENT, NST_EVENT_ACTION) {
     var vm = this;
     var eventReferences = [];

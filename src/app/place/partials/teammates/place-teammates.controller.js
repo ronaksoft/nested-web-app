@@ -33,7 +33,6 @@
    * @param {any} NstSvcAuth
    * @param {any} NstSvcUserFactory
    * @param {any} NstSvcTranslation
-   * @param {any} NstSvcWait
    * @param {any} NstVmMemberItem
    * @param {any} NST_SRV_ERROR
    * @param {any} NST_NOTIFICATION_TYPE
@@ -154,8 +153,6 @@
       vm.loading = true;
 
 
-      // fixme :: check Waiting
-      // NstSvcWait.all(['main-done'], function () {
       NstSvcPlaceFactory.get(vm.placeId, true).then(function (place) {
         if (place) {
           vm.place = place;
@@ -168,7 +165,6 @@
       }).finally(function () {
         vm.loading = false;
       });
-      // });
     }
 
     /**
