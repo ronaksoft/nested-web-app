@@ -976,8 +976,28 @@ body[dir="rtl"] {
     margin-left: 0;
     margin-right: 10px;
   }
+  .file-list ul li {
+    padding-left: 0;
+    padding-right: 16px;
+  }
+  .file-list ul .checkbox {
+    margin-left: 16px;
+    margin-right: 0;
+  }
+  .file-list ul .file-item-inner {
+    padding-right: 0;
+    padding-left: 16px;
+  }
+  .file-list ul .attachment-tiny-thumb {
+    margin-left: 16px;
+    margin-right: 0;
+  }
+  .file-list ul .item-size,
+  .file-list ul .item-date {
+    margin-left: 0;
+    margin-right: 16px;
+  }
 }
-
 
 body[dir="ltr"] {
   .post-card-comments p.RTL-text {
