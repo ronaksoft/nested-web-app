@@ -47,8 +47,8 @@
         });
       });
 
-      NstSvcServer.addEventListener(NST_EVENT_ACTION.MEMBER_JOIN, function (event) {
-        var tlData = event.detail;
+      NstSvcServer.addEventListener(NST_EVENT_ACTION.MEMBER_JOIN, function (/*event*/) {
+        // var tlData = event.detail;
       });
 
       this.cache = NstSvcGlobalCache.createProvider('place');
@@ -163,12 +163,12 @@
         });
 
         factory.cache.set('_my', {
-          value: ids,
+          value: ids
         });
 
         return $q.resolve(places);
       });
-    }
+    };
 
     PlaceFactory.prototype.getGrandPlaces = function() {
       var factory = this;
@@ -216,7 +216,7 @@
         });
 
         factory.cache.set('_my', {
-          value: ids,
+          value: ids
         });
 
         return $q.resolve(_.includes(ids, placeId));

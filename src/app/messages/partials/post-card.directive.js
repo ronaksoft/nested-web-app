@@ -27,7 +27,7 @@
         loading: '=',
         commentBoard: '=',
         ribbonEnabled: '=',
-        FIT: '=firstInteractiveTime',
+        FIT: '=firstInteractiveTime'
       }
     };
   }

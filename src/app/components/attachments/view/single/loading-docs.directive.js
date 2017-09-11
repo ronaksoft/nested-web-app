@@ -16,7 +16,6 @@
         el.height(angular.element('.nst-preview-pic-mode').height() - 20);
 
         el.load(function() {
-          console.log('aaa');
           scope.show = true
         })
       }

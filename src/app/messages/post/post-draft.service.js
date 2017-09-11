@@ -30,7 +30,7 @@
 
     PostDraft.prototype.save = function (draft) {
       this.cache.set(this.key, draft, {
-        expiration: new Date().setFullYear(new Date().getFullYear() + 1),
+        expiration: new Date().setFullYear(new Date().getFullYear() + 1)
       });
 
       this.hasDraft = true;

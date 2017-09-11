@@ -65,7 +65,7 @@
     });
 
 
-    function getGrandPlaceChildren(grandPlaceId) {
+    function getGrandPlaceChildren() {
       var deferred = $q.defer();
       // NstSvcPlaceFactory.getGrandPlaceChildren(grandPlaceId).then(function (places) {
 
@@ -93,7 +93,7 @@
      *****************************/
 
 
-    function fillPlacesNotifCountObject(places) {
+    /*function fillPlacesNotifCountObject(places) {
       vm.placesNotifCountObject = {};
       _.each(places, function (place) {
         if (place)
@@ -102,7 +102,7 @@
       if (vm.grandPlace) {
         vm.placesNotifCountObject[vm.grandPlace.id] = 0;
       }
-    }
+    }*/
 
     function getPlaceUnreadCounts() {
       var placeIds = _.keys(vm.placesNotifCountObject);

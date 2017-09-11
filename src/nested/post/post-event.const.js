@@ -8,6 +8,6 @@
       BOOKMARKED: 'post-bookmarked',
       UNBOOKMARKED: 'post-unbookmarked',
       REMOVE: 'post-remove',
-      MOVE: 'post-move',
+      MOVE: 'post-move'
     });
 })();
