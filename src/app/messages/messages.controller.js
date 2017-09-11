@@ -601,7 +601,7 @@
           break;
 
         default:
-          if (NstSvcAuth.user.id == vm.currentPlaceId.split('.')[0]) {
+          if (NstSvcAuth.user && NstSvcAuth.user.id == vm.currentPlaceId.split('.')[0]) {
             vm.isPersonal = true;
           }
           vm.isPlaceMessage = true;
