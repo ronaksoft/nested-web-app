@@ -589,7 +589,7 @@
         loadNewComments();
         if (!_.includes(newCommentIds, data.activity.id)) {
           newCommentIds.push(data.activity.id);
-          vm.post.counters.comments++;
+          // vm.post.counters.comments++;
         }
       } else {
         if (!_.includes(unreadCommentIds, data.activity.id)) {
