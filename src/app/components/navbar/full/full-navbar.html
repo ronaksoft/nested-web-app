@@ -1,8 +1,8 @@
 <div class="nst-navbar-fixed _tr" style="display:none;" ng-if="!ctlFullNavbar.isUnreadMode && !ctlFullNavbar.isSearchMode &&
   !ctlFullNavbar.isConvMode && !ctlFullNavbar.isFeed && !ctlFullNavbar.isSentMode && !ctlFullNavbar.isBookmarkMode" data-ng-include="'app/components/navbar/full/navbar-static.html'"
   affixer-filter top="48" hide-this="true" fixed-navbar="true"  ng-click="ctlFullNavbar.scrollTopBody()"></div>
-<div ng-if="ctlFullNavbar.isConvMode || ctlFullNavbar.isSearchMode || ctlFullNavbar.isFeed ||
-            ctlFullNavbar.isSentMode || ctlFullNavbar.isBookmarkMode" class="nst-navbar-fixed _tr feed-nav">
+<div class="nst-navbar-fixed _tr feed-nav" ng-if="ctlFullNavbar.isConvMode || ctlFullNavbar.isSearchMode ||
+            ctlFullNavbar.isFeed || ctlFullNavbar.isSentMode || ctlFullNavbar.isBookmarkMode">
   <!-- <div class="nst-content _tr">
     <div class="content _pr search-nav" ng-if="ctlFullNavbar.isSearchMode">
       <div class="bot-nav">
