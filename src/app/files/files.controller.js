@@ -112,7 +112,7 @@
           vm.currentPlaceLoaded = true;
 
           vm.hasSeeMembersAccess = place.hasAccess(NST_PLACE_ACCESS.SEE_MEMBERS);
-          vm.showPlaceId = !_.includes(['off', 'internal'], place.privacy.receptive);
+          vm.showPlaceId = place.privacy && !_.includes(['off', 'internal'], place.privacy.receptive);
 
           load();
         } else {
@@ -183,6 +183,27 @@
       return decodeURIComponent(value);
     }
 
+    function merge(newFiles) {
+      var newItems = _.differenceBy(newFiles, vm.files, 'id');
+      var removedItems = _.differenceBy(vm.files, newFiles, 'id');
+
+      // first omit the removed items; The items that are no longer exist in fresh newFiles
+      _.forEach(removedItems, function (item) {
+        var index = _.findIndex(vm.files, { 'id': item.id });
+        if (index > -1) {
+          vm.files.splice(index, 1);
+        }
+      });
+
+      // add new items; The items that do not exist in cached items, but was found in fresh newFiles
+      vm.files.unshift.apply(vm.files, newItems);
+
+    }
+
+    function append(newFiles) {
+      vm.files.push.apply(vm.files, newFiles);
+    }
+
     /**
      * Retrieves a list of files by the given limit, skip, keyword and filter
      * and specifies that there are more files or not
@@ -193,30 +214,26 @@
       vm.filesLoadProgress = true;
       vm.loadFilesError = false;
 
-      var deferred = $q.defer();
-
-      NstSvcFileFactory.get(vm.currentPlaceId,
+      return NstSvcFileFactory.getPlaceFiles(vm.currentPlaceId,
         vm.settings.filter,
         vm.settings.keyword,
         vm.settings.skip,
-        vm.settings.limit).then(function (fileItems) {
-        var newFileItems = _.differenceBy(fileItems, vm.files, 'id');
+        vm.settings.limit, function(cachedFiles) {
+          vm.files = cachedFiles;
+          vm.filesLoadProgress = false;
+        }).then(function (fileItems) {
+        merge(fileItems);
 
         vm.hasNextPage = fileItems.length === vm.settings.limit;
-        vm.settings.skip += newFileItems.length;
+        vm.settings.skip = vm.files.length;
 
-        vm.files.push.apply(vm.files, newFileItems);
         vm.loadFilesError = false;
-        deferred.resolve();
       }).catch(function () {
         toastr.error(NstSvcTranslation.get('An error has occurred while retrieving files.'));
         vm.loadFilesError = true;
-        deferred.reject();
       }).finally(function () {
         vm.filesLoadProgress = false;
       });
-
-      return deferred.promise;
     }
 
     /**
@@ -262,11 +279,32 @@
      *
      */
     function loadMore() {
-      if (vm.hasNextPage) {
-        vm.loadMoreCounter++;
-        NstSvcInteractionTracker.trackEvent('files', 'load more', vm.loadMoreCounter);
-        load();
+      if (!vm.hasNextPage) {
+        return;
       }
+
+      NstSvcInteractionTracker.trackEvent('files', 'load more', vm.loadMoreCounter);
+      vm.loadMoreCounter++;
+      vm.filesLoadProgress = true;
+      vm.loadFilesError = false;
+
+      NstSvcFileFactory.getPlaceFiles(vm.currentPlaceId,
+        vm.settings.filter,
+        vm.settings.keyword,
+        vm.settings.skip,
+        vm.settings.limit).then(function (fileItems) {
+          append(fileItems);
+
+          vm.hasNextPage = fileItems.length === vm.settings.limit;
+          vm.settings.skip += fileItems.length;
+
+          vm.loadFilesError = false;
+        }).catch(function () {
+          toastr.error(NstSvcTranslation.get('An error has occurred while retrieving files.'));
+          vm.loadFilesError = true;
+        }).finally(function () {
+          vm.filesLoadProgress = false;
+        });
     }
 
     /**

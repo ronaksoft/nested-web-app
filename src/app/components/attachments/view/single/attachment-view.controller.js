@@ -181,7 +181,7 @@
       var deferred = $q.defer();
 
       vm.filesLoadProgress = true;
-      NstSvcFileFactory.get(ids).then(function (files) {
+      NstSvcFileFactory.getPlaceFiles(ids).then(function (files) {
         deferred.resolve(files);
       }).catch(function () {
         toastr.error(NstSvcTranslation.get('Sorry, an error occurred in viewing the files.'));
@@ -196,7 +196,7 @@
       var deferred = $q.defer();
 
       vm.fileLoadProgress = true;
-      NstSvcFileFactory.get([id]).then(function (files) {
+      NstSvcFileFactory.getPlaceFiles([id]).then(function (files) {
         deferred.resolve(files[0]);
       }).catch(function () {
         toastr.error(NstSvcTranslation.get('Sorry, an error occurred in viewing the files.'));

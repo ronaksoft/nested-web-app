@@ -12,7 +12,7 @@
 
   /** @ngInject */
   function NstSvcFileFactory($q, _,
-    NstSvcServer, NstSvcFileType, NstSvcFileStorage, NstSvcGlobalCache,
+    NstSvcServer, NstSvcFileType, NstSvcGlobalCache,
     NstBaseFactory, NstPicture, NstAttachment, NstStoreToken) {
     /**
      * @constructor
@@ -21,6 +21,7 @@
       NstBaseFactory.call(this);
 
       this.tokenCache = NstSvcGlobalCache.createProvider('token');
+      this.fileCache = NstSvcGlobalCache.createProvider('file');
     }
 
     FileFactory.prototype = new NstBaseFactory();
@@ -40,9 +41,12 @@
 
       return null;
     }
-
-
-
+    
+    FileFactory.prototype.setFile = function(data) {
+      if (data && data._id) {
+        this.fileCache.set(data._id, this.transformToCacheModel(data));
+      }
+    }
 
     /**
      * Get files list.
@@ -55,32 +59,30 @@
      * @param limit
      * @returns {*|promise} Array of NstAttachment objects
      */
-    FileFactory.prototype.get = function (placeId, filter, keyword, skip, limit) {
+    FileFactory.prototype.getPlaceFiles = function (placeId, filter, keyword, skip, limit, cacheHandler) {
       var that = this;
-      return factory.sentinel.watch(function () {
-        var deferred = $q.defer();
 
-        NstSvcServer.request('place/get_files', {
-          place_id: placeId,
-          filter: filter || null,
-          filename: keyword || '',
-          skip: skip || 0,
-          limit: limit || 16
-        }).then(function (data) {
-          var files = _.map(data.files, function (item) {
-            var file = that.parseFile(item);
-            NstSvcFileStorage.set(file.id, file);
-            return file;
+      return NstSvcServer.request('place/get_files', {
+        place_id: placeId,
+        filter: filter || null,
+        filename: keyword || '',
+        skip: skip || 0,
+        limit: limit || 16
+      }, function (cachedResponse) {
+        if (cachedResponse && _.isFunction(cacheHandler)) {
+          var cachedFiles = _.map(cachedResponse.files, function (file) {
+            return that.getCachedSync(file._id);
           });
-          deferred.resolve(files);
-        }).catch(function (error) {
-          deferred.reject(error);
+          cacheHandler(_.compact(cachedFiles));
+        }
+      }).then(function (data) {
+        return _.map(data.files, function (item) {
+          that.setFile(item);
+          return that.parseFile(item);
         });
+      });
 
-        return deferred.promise;
-      }, 'get', placeId);
     }
-
 
     /**
      * Parse server file object
@@ -111,39 +113,30 @@
 
       return file;
     }
-
-
-    FileFactory.prototype.recentFiles = function (skip, limit, callback) {
+    // Cache it
+    FileFactory.prototype.recentFiles = function (skip, limit, cacheHandler) {
       var that = this;
-      return factory.sentinel.watch(function () {
-        var deferred = $q.defer();
-        var recentFiles = NstSvcFileStorage.get('recentFiles');
-        if (recentFiles && skip === 0) {
-          deferred.resolve(recentFiles);
-        } 
-        NstSvcServer.request('file/get_recent_files', {
-            skip: skip || 0,
-            limit: limit || 16
-        }).then(function (data) {
-          var files = _.map(data.files, function (item) {
-            var file = that.parseFile(item);
-            NstSvcFileStorage.set(file.id, file);
-            return file;
-          });
-          if( skip === 0 ) {
-            NstSvcFileStorage.set('recentFiles',files);
-          }
-          if ((!recentFiles && skip === 0) || skip > 0) {
-            deferred.resolve(files);
-          }
-          callback(files);
-        }).catch(function (error) {
-          deferred.reject(error);
-        });
-        return deferred.promise;
-      }, 'get');
-    };
 
+      return NstSvcServer.request('file/get_recent_files', {
+          skip: skip || 0,
+          limit: limit || 16
+      }, function (cachedResponse) {
+        if (cachedResponse && _.isFunction(cacheHandler)) {
+          var cachedFiles = _.map(cachedResponse.files, function (file) {
+            return that.getCachedSync(file._id);
+          });
+          cacheHandler(_.compact(cachedFiles));
+        }
+      }).then(function (data) {
+        var files = _.map(data.files, function (item) {
+          var file = that.parseFile(item);
+          that.setFile(item);
+          return file;
+        });
+
+        return $q.resolve(files);
+      });
+    };
 
     /**
      * Get single file by Id
@@ -152,10 +145,21 @@
      *
      * @param id
      */
-    FileFactory.prototype.getOne = function (id) {
-      return NstSvcFileStorage.get(id);
+    FileFactory.prototype.getCachedSync = function (id) {
+      return this.parseCachedModel(this.fileCache.get(id));
+    }
+    
+    FileFactory.prototype.parseCachedModel = function (data) {
+      if (!data) {
+        return null;
+      }
+
+      return factory.parseFile(data);
     }
 
+    FileFactory.prototype.transformToCacheModel = function (file) {
+      return file;
+    }
 
     /**
      * create an token object
@@ -167,7 +171,6 @@
     function createToken(rawToken) {
       return new NstStoreToken(rawToken, NstSvcServer.getSessionKey());
     }
-
 
     /**
      * Get download token from server for file(attachment)

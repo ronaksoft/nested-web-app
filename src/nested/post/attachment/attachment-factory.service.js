@@ -6,7 +6,7 @@
 
   /** @ngInject */
   function NstSvcAttachmentFactory($q, _,
-                                   NstSvcServer, NstSvcFileType, NstSvcFileStorage,
+                                   NstSvcServer, NstSvcFileType,
                                    NstAttachment, NstPicture) {
 
     /**
@@ -57,8 +57,6 @@
         attachment.picture = new NstPicture(data.thumbs);
         attachment.thumbnail = attachment.hasThumbnail("") ? attachment.picture.getUrl("x128") : '';
       }
-
-      NstSvcFileStorage.set(attachment.id, attachment);
 
       return attachment;
     }

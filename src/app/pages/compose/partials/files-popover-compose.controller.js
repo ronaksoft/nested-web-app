@@ -90,13 +90,7 @@
       function callback(fileItems){
         // certainly this function do not call on next pages load request
         if ( vm.settings.skip === 0 ) {
-          setTimeout(function(){
-            var newFileItems = _.differenceBy(fileItems, vm.files, 'id');
-            if (newFileItems.length > 0) {
-              vm.files.unshift(newFileItems);
-              vm.settings.skip += newFileItems.length;
-            }
-          },100);
+          vm.files = fileItems;
         }
       }
 
