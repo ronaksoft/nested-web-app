@@ -270,10 +270,15 @@
         color: $color-solid;
         line-height: 18px;
       }
-      aside span {
-        font-size: 13px;
-        color: $color-solid;
-        opacity: .64;
+      aside {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        span {
+          font-size: 13px;
+          color: $color-solid;
+          opacity: .64;
+        }
       }
     }
   }

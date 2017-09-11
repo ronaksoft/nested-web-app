@@ -37,6 +37,7 @@
       vm.canCreateOpenPlace = false;
       vm.canCreateGrandPlace = false;
       vm.noAccessCreatingMessage = '';
+      vm.selectedPlaceName = '';
 
       initialize();
 
@@ -101,6 +102,8 @@
             NstSvcUserFactory.getCurrent()
           ]).then(function (results) {
             if (_.size(results) === 2 && _.every(results)) {
+              console.log(results[0]);
+              vm.selectedPlaceName = results[0].name
               var hasAddPlaceAccess = results[0].hasAccess(NST_PLACE_ACCESS.ADD_PLACE);
               var canAddMore = results[0].canAddSubPlace();
               if (!hasAddPlaceAccess) {
