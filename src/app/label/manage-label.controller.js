@@ -56,7 +56,7 @@
 
       if (vm.keyword.length > 0) {
         var keyword = $filter('scapeSpace')(vm.keyword);
-        searchService = NstSvcLabelFactory.search(keyword, filter, vm.setting.skip, vm.setting.limit).then(function(labels) {
+        NstSvcLabelFactory.search(keyword, filter, vm.setting.skip, vm.setting.limit).then(function(labels) {
           vm.labels = _.unionBy(vm.labels.concat(labels), 'id');
           vm.oldKeyword = vm.keyword;
           vm.haveMore = labels.length === vm.setting.limit;
@@ -88,7 +88,7 @@
       // });
 
       // add new items; The items that do not exist in cached items, but was found in fresh contacts
-      vm.labels.unshift.apply(vm.labels, newItems);
+      vm.labels.push.apply(vm.labels, newItems);
     }
 
     function restoreDefault() {
