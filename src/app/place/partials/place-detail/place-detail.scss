@@ -142,4 +142,8 @@
 }
 .on-self-avatar {
    cursor: default;
+   a:hover {
+    cursor: default;
+    text-decoration: none;
+   }
 }

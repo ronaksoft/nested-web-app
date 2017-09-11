@@ -6,7 +6,7 @@
   </div>
   <div class="sender _df">
     <div user-detail="act.comment.sender.id">
-      <a class="enabled-detail-popover">{{act.comment.sender.firstName + ' ' + act.comment.sender.lastName}}</a>
+      <a>{{act.comment.sender.fullName}}</a>
     </div>
   </div>
   <svg class="_16svg _df _fn crown">
@@ -15,7 +15,7 @@
 </div>
 <div class="body" nst-post-modal post="act.post">
   <div class="_difv">
-    <p auto-dir="act.comment.body"><span ng-bind-html="act.comment.body"></span></p>
+    <p auto-dir="act.comment.body"><span>{{act.comment.body.length > 42 ? act.comment.body.substr(0,42) + '...' : act.comment.body}}</span></p>
   </div>
   <div class="_df _fn comment-time">
     <span>{{act.date | passed | localize }}</span>
