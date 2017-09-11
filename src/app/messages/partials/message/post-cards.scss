@@ -666,6 +666,9 @@ post-card {
       }
     }
   }
+  abbr span {
+    float: none!important;
+  }
   .time {
     //padding-top: 4px;
     font-size: $font-size-small;

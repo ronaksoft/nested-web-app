@@ -84,7 +84,7 @@
 
     function setHash(value) {
       return factory.cache.set('_hash', {
-        value: value,
+        value: value
       });
     }
 
@@ -99,7 +99,7 @@
 
     function setAll(value) {
       return factory.cache.set('_all', {
-        value: value,
+        value: value
       });
     }
 

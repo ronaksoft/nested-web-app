@@ -323,10 +323,15 @@
       function trimByType(text) {
         var words = text.split(' ');
         var index;
+        var typeMap = {
+          user: 'from',
+          place: 'in',
+          label: 'label'
+        };
         if (vm.queryType === 'other') {
           index = words.lastIndexOf(vm.excludedQuery);
         } else {
-          index = words.lastIndexOf(vm.queryType + ':' + vm.excludedQuery);
+          index = words.lastIndexOf(typeMap[vm.queryType] + ':' + vm.excludedQuery);
         }
         if (index > -1) {
           words[index] = '';
@@ -532,7 +537,7 @@
 
       function getLimit(type) {
         var category = (vm.queryType === 'other' || vm.defaultSearch) ? 'all': 'exact';
-        return vm.limits[category][type];
+        return vm.limits[category][type] || 3;
       }
 
       function initChips(params) {
@@ -569,6 +574,7 @@
         }
         $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toString()), advanced: 'false'});
         vm.toggleSearchModal(false);
+        vm.queryType = 'other';
       }
 
       /**

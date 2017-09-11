@@ -6,7 +6,7 @@
     .directive('affixerFilter', onScroll);
 
   /** @ngInject */
-  function onScroll($window,$rootScope, $timeout) {
+  function onScroll($window,$rootScope, $timeout, deviceDetector) {
     return {
       restrict: 'A',
       link: function ($scope, $element, $attrs) {
@@ -55,8 +55,12 @@
                 $element.css('left', '50%');
                 $element.css('transform', 'translateX(-50%)');
               } else {
-                $element.css('left', '50vw');
                 $element.css('transform', 'translateX(-50%)');
+                if ( deviceDetector.browser === 'safari') {
+                  $element.css('left', '50%');
+                } else {
+                  $element.css('left', '50vw');
+                }
               }
               $element.css('display', '');
               fixed = true;

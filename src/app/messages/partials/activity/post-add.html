@@ -16,7 +16,7 @@
 <div class="body" nst-post-modal post="act.post">
   <div class="_difv">
     <p auto-dir="act.post.subject" ng-if="act.post.subject.length > 0"><mark>{{act.post.subject.length > 48 ? act.post.subject.substr(0,48) + '...' : act.post.subject}}</mark></p>
-    <p auto-dir="act.post.body" ng-if="act.post.subject.length == 0"><mark data-ng-bind-html="act.post.body > 48 ? act.post.body.substr(0,48) + '...' : act.post.body | truncate | removeHTMLTags"></mark></p>
+    <p auto-dir="act.post.body" ng-if="act.post.subject.length == 0"><mark data-ng-bind-html="act.post.body.length > 48 ? act.post.body.substr(0,48) + '...' : act.post.body | truncate | removeHTMLTags"></mark></p>
     <p auto-dir="act.post.body" ng-if="act.post.subject.length == 0 && act.post.body == 0"><mark><translate>Shared {{act.post.counters.attaches > 1 ? act.post.counters.attaches : 'one'}} {{act.post.counters.attaches > 1 ? 'attachments' : 'attachment'}}.</translate></mark></p>
   </div>
   <div class="_df _fn comment-time">

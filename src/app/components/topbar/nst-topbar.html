@@ -17,19 +17,19 @@
     </a>
   </div>
   <div class="search">
-    <div class="inner">
+    <div class="inner ng-class:{'openend' : ctrlTopBar.searchModalOpen || ctrlTopBar.advancedSearchOpen}">
       <i ng-if="ctrlTopBar.isEmpty()">
-        <svg class="_24svg fill-white">
-          <use xlink:href="/assets/icons/nst-icn24.svg#search"></use>
+        <svg class="_16svg fill-white">
+          <use xlink:href="/assets/icons/nst-icn16.svg#search"></use>
         </svg>
       </i>
       <i ng-if="!ctrlTopBar.isEmpty()" ng-click="ctrlTopBar.empty()">
-        <svg class="_16svg fill-white close-search-bg">
-          <use xlink:href="/assets/icons/nst-icn24.svg#xcross"></use>
+        <svg class="_16svg fill-white">
+          <use xlink:href="/assets/icons/nst-icn16.svg#negative-xcross"></use>
         </svg>
       </i>
       <div class="input-wrapper" nst-scrollbar suppress-scroll-y="true" topbar-scrollbar>
-        <div class="search-chips-container _df">
+        <div class="search-chips-container _df" ng-if="ctrlTopBar.chips.length > 0">
           <div ng-repeat="chip in ctrlTopBar.chips" class="chips">
             <div class="close-chips">
                 <svg ng-click="ctrlTopBar.removeChip(chip.type, chip.title)" class="_16svg _df _fn fill-white">

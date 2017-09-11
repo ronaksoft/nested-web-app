@@ -116,9 +116,6 @@
 
             return list;
           }, []);
-          console.log('====================================');
-          console.log(labels);
-          console.log('====================================');
           cacheHandler(labels);
         }
       }).then(function (result) {
@@ -238,7 +235,7 @@
       }
 
       var deferred = $q.defer();
-      var factory = this;
+
       this.collector.add(id).then(function (data) {
         factory.set(data);
         deferred.resolve(factory.parse(data));

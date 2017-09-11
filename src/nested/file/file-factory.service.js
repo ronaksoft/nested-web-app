@@ -29,24 +29,18 @@
 
     FileFactory.prototype.setToken = function(key, value) {
       this.tokenCache.set(key, {
-        value: value,
+        value: value
       });
-    }
+    };
 
-    FileFactory.prototype.getToken = function(key, value) {
+    FileFactory.prototype.getToken = function(key) {
       var token = this.tokenCache.get(key);
       if (token && token.value) {
         return token.value;
       }
 
       return null;
-    }
-    
-    FileFactory.prototype.setFile = function(data) {
-      if (data && data._id) {
-        this.fileCache.set(data._id, this.transformToCacheModel(data));
-      }
-    }
+    };
 
     /**
      * Get files list.
@@ -113,7 +107,7 @@
 
       return file;
     }
-    // Cache it
+    
     FileFactory.prototype.recentFiles = function (skip, limit, cacheHandler) {
       var that = this;
 

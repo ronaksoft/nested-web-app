@@ -15,7 +15,7 @@
 <div class="body" nst-post-modal post="act.post">
   <div class="_difv">
     <p>
-      <translate>added {{act.label.title | scapeRevSpace}} label to {{act.post.subject > 32 ? act.post.subject.substr(0,32) + '...' : act.post.subject}}.</translate>
+      <translate>added {{act.label.title | scapeRevSpace}} label to {{act.post.subject.length > 32 ? act.post.subject.substr(0,32) + '...' : act.post.subject}}.</translate>
     </p>
   </div>
   <div class="_df _fn comment-time">

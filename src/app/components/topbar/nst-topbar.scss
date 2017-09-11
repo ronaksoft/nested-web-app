@@ -33,8 +33,10 @@
       padding-left: 32px;
       padding-right: 32px;
       transition: max-width .2s;
-      &.in-search-page {
-        max-width: 100%;
+      &.openend {
+        i {
+          opacity: .4;
+        }
       }
       i {
         position: absolute;
@@ -45,6 +47,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        opacity: .24;
       }
       span.advanced-search {
         position: absolute;
@@ -160,12 +163,6 @@
     ._20svg {
       opacity: .4
     }
-  }
-  .close-search-bg {
-    background-color: rgba(255, 255, 255, .4);
-    fill: rgba(255, 255, 255, .16);
-    border-radius: 20px;
-    opacity: 1;
   }
 }
 
