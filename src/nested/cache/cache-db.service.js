@@ -19,7 +19,7 @@
     var NAME_PREFIX = 'cache.';
     function CacheDb() {
       this.storeQueue = [];
-      this.store = _.throttle(store, 3500);
+      this.store = _.throttle(store, 5000);
     }
 
     CacheDb.prototype = {};

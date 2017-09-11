@@ -18,6 +18,10 @@
     function Auth(user) {
       var service = this;
 
+      console.log('====================================');
+      console.log('user', user);
+      console.log('====================================');
+
       this.user = user;
       this.state = NST_AUTH_STATE.UNAUTHORIZED;
       this.lastSessionKey = null;
@@ -26,10 +30,6 @@
       this.lastDeviceToken = null;
 
       NstObservableObject.call(this);
-
-      if (user && user.id) {
-        service.setUser(user);
-      }
 
       if (NstSvcServer.isInitialized()) {
         this.reconnect();
