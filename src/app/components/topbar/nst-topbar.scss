@@ -33,8 +33,10 @@
       padding-left: 32px;
       padding-right: 32px;
       transition: max-width .2s;
-      &.in-search-page {
-        max-width: 100%;
+      &.openend {
+        i {
+          opacity: .4;
+        }
       }
       i {
         position: absolute;
