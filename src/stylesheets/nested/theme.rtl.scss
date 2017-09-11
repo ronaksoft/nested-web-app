@@ -997,6 +997,9 @@ body[dir="rtl"] {
     margin-left: 0;
     margin-right: 16px;
   }
+  .label-sm-modal.add-label .ui-select-bootstrap .ui-select-choices-row > a {
+    direction: rtl;
+  }
 }
 
 body[dir="ltr"] {
