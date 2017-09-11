@@ -1000,6 +1000,15 @@ body[dir="rtl"] {
   .label-sm-modal.add-label .ui-select-bootstrap .ui-select-choices-row > a {
     direction: rtl;
   }
+  #single-contact .place-head .popover {
+    left: 64px !important;
+    right: auto !important;
+    border-radius: 0 6px 6px 6px;
+  }
+  .place-head.contact-head .contact-actions > div {
+    margin-left: 0;
+    margin-right: 16px;
+  }
 }
 
 body[dir="ltr"] {
