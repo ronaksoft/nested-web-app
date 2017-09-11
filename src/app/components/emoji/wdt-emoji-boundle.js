@@ -135,6 +135,9 @@
 
     if (element) {
       var textArea = document.querySelectorAll(selector)[0];
+      if (!textArea) {
+        return
+      }
       if (textArea.getAttribute('contenteditable')) {
         textArea.dataset.rangeIndex = 0;
         wdtEmojiBundle.addRangeStore(textArea);
