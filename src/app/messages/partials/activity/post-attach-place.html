@@ -4,15 +4,14 @@
       data-width="20" data-height="20" data-radius="20" class="account-initials-20 _df _fn" data-word-count="2" data-font-size="8"
     />
   </div>
-</div>
-<div class="sender _df">
-  <div user-detail="act.actor.id">
-    <a>{{::act.post.sender.firstName + act.post.sender.lastName}}</a>
+  <div class="sender _df">
+    <div user-detail="act.actor.id">
+      <a>{{::act.post.sender.firstName + act.post.sender.lastName}}</a>
+    </div>
   </div>
-</div>
-<svg class="_16svg _df _fn fill-sense-wire">
-  <use xlink:href="/assets/icons/nst-icn16.svg#message"></use>
-</svg>
+  <svg class="_16svg _df _fn fill-sense-wire">
+    <use xlink:href="/assets/icons/nst-icn16.svg#message"></use>
+  </svg>
 </div>
 <div class="body" nst-post-modal post="act.post">
   <div class="_difv">
@@ -33,12 +32,5 @@
   </div>
   <div class="_df _fn comment-time">
     <span>{{act.date | passed | localize }}</span>
-  </div>
-</div>
-<div nst-post-modal post="act.post" class="_df">
-  <div user-detail="act.post.sender" class="user-avatar-20">
-    <img initial-avatar="{{::act.post.sender.id}}" name="{{::act.post.sender.firstName}}" picture="{{act.post.sender | avatar}}"
-      data-width="20" data-height="20" data-radius="20" class="account-initials-20 _df _fn" data-word-count="2" data-font-size="8"
-    />
   </div>
 </div>

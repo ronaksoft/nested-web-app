@@ -1101,7 +1101,7 @@
       placeholderText: vm.translations.body,
       pluginsEnabled: ['colors', 'fontSize', 'fontFamily', 'link', 'url', 'wordPaste', 'lists', 'align', 'codeBeautifier'],
       fontSize: ['8', '10', '14', '18', '22'],
-      toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'fontSize', '|', 'color', 'align', 'formatOL', 'formatUL', 'insertLink', '|', 'rightToLeft', 'leftToRight'],
+      toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'fontSize', '|', 'color', 'align', 'formatOL', 'formatUL', 'insertLink', '|', 'leftToRight', 'rightToLeft'],
       events: {
         'froalaEditor.initialized': function () {
         },
