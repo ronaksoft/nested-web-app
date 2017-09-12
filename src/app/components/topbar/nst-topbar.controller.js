@@ -10,7 +10,7 @@
                               $rootScope, NST_SEARCH_QUERY_PREFIX, _, NstSvcTranslation,
                               NstSvcSuggestionFactory, NstSvcLabelFactory,
                               NstSvcUserFactory, NstSvcNotificationFactory, NST_USER_SEARCH_AREA,
-                              NstSvcPlaceFactory, NstSearchQuery) {
+                              NstSvcPlaceFactory, NstSearchQuery, NST_CONFIG) {
       var vm = this;
       vm.searchPlaceholder = NstSvcTranslation.get('Search...');
       vm.searchKeyPressed = searchKeyPressed;
@@ -82,6 +82,9 @@
       var searchQuery;
 
       (function () {
+        // TODO : Not working any more
+        vm.adminArea = NST_CONFIG.ADMIN_DOMAIN + (NST_CONFIG.ADMIN_PORT ? ':' + NST_CONFIG.ADMIN_PORT : '');
+
         initQuery(true);
         $rootScope.$on('$stateChangeSuccess', function () {
           initQuery(false);
