@@ -119,7 +119,12 @@
       NstSvcLogger.debug4('Sync Service | Is this activity important in this state ( page ) ?!');
 
       // check open event's place_id has channel
-      if (!hasOpenChannel.apply(this, [event.detail.place_id]) && event.detail.action !== NST_EVENT_ACTION.POST_ADD) return;
+      if (!hasOpenChannel.apply(this, [event.detail.place_id]) &&
+        event.detail.action !== NST_EVENT_ACTION.POST_ADD &&
+        event.detail.action !== NST_EVENT_ACTION.COMMENT_ADD &&
+        event.detail.action !== NST_EVENT_ACTION.COMMENT_REMOVE) {
+        return;
+      }
 
       NstSvcLogger.debug4('Sync Service | This activity will take an action in this state');
 
