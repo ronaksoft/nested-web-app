@@ -15,25 +15,27 @@
 <div class="body" nst-post-modal post="act.post">
   <div class="_difv">
     <p auto-dir="act.post.subject" ng-if="act.post.subject.length > 0">
-      <translate>attached</translate>&nbsp;
+      <translate>moved</translate>&nbsp;
       <mark data-ng-bind-html="act.post.subject.length > 48 ? act.post.subject.substr(0,48) + '...' : act.post.subject"></mark>&nbsp;
-      <translate>to a new place</translate>
-      <span>{{act.newPlace.name}}</span>
+      <translate ng-if="place !== act.newPlace.id">from here</translate>
+      <translate ng-if="place === act.newPlace.id">to here</translate>
     </p>
     <p auto-dir="act.post.body" ng-if="act.post.subject.length == 0 && act.post.body.length > 0">
-      <translate>attached</translate>&nbsp;
+      <translate>moved</translate>&nbsp;
       <mark data-ng-bind-html="act.post.body.length > 48 ? act.post.body.substr(0,48) + '...' : act.post.body | truncate | removeHTMLTags"></mark>&nbsp;
-      <translate>to a new place</translate>
-      <span>{{act.newPlace.name}}</span>
+      <translate ng-if="place !== act.newPlace.id">from here</translate>
+      <translate ng-if="place === act.newPlace.id">to here</translate>
+      <!-- <translate>to a new place</translate>
+      <span>{{act.newPlace.name}}</span> -->
     </p>
     <p auto-dir="act.post.body" ng-if="act.post.subject.length == 0 && act.post.body == 0">
-      <translate>attached</translate>&nbsp;
+      <translate>moved</translate>&nbsp;
       <mark>
         <translate>a post here with {{act.post.counters.attaches > 1 ? act.post.counters.attaches : 'one'}} {{act.post.counters.attaches
           > 1 ? 'attachments' : 'attachment'}}.</translate>
       </mark>&nbsp;
-      <translate>to a new place</translate>
-      <span>{{act.newPlace.name}}</span>
+      <translate ng-if="place !== act.newPlace.id">from here</translate>
+      <translate ng-if="place === act.newPlace.id">to here</translate>
     </p>
   </div>
   <div class="_df _fn comment-time">

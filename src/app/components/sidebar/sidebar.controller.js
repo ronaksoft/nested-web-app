@@ -330,7 +330,7 @@
       // }
 
 
-      vm.range = function (num) {
+      vm.range = function(num) {
         var seq = [];
         for (var i = 0; i < num; i++) {
           seq.push(i);
@@ -611,6 +611,7 @@
           // This condition filters all grand Places
           return place.id && place.id.indexOf('.') === -1;
         }).map(function(place) {
+          console.log(place.id, selectedId);
           var isActive = place.id === selectedId;
           var isExpanded = isItemExpanded(place, expandedPlaces, selectedId);
           // finds the place children

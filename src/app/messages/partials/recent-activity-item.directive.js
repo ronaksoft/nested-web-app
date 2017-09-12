@@ -68,7 +68,7 @@
             return NstSvcLogger.error(NstUtility.string.format('The event type ({0}) is not supported!', scope.activity.type));
         }
       },
-      template: '<div class="activity-item" data-ng-include="tplUrl" data-ng-init="act = activity"></div>'
+      template: '<div class="activity-item" data-ng-include="tplUrl" data-ng-init="act = activity;currentPlaceId = currentPlaceId"></div>'
     };
   }
 })();
