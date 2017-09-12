@@ -37,6 +37,7 @@
       vm.canCreateGrandPlace = false;
       vm.noAccessCreatingMessage = '';
       vm.selectedPlaceName = '';
+      vm.scrollTopPlaces;
 
       initialize();
 
@@ -312,6 +313,13 @@
         });
       }
 
+      
+      function scrollTop() {
+        if (_.isFunction($scope.scrollTopPlaces)) {
+          $scope.scrollTopPlaces();
+        }
+      }
+
       // /**
       //  * @function
       //  * Sets the grand places order in server
@@ -348,11 +356,13 @@
       eventReferences.push($rootScope.$on(NST_PLACE_EVENT.ROOT_ADDED, function (e, data) {
         rebuildMyPlacesTree(data.place.id);
         $rootScope.$emit('topbar-notification-changed');
+        scrollTop();
       }));
 
       eventReferences.push($rootScope.$on(NST_PLACE_EVENT.SUB_ADDED, function (e, data) {
         rebuildMyPlacesTree(data.place.id);
         $rootScope.$emit('topbar-notification-changed');
+        scrollTop();
       }));
 
       eventReferences.push($rootScope.$on(NST_USER_EVENT.PROFILE_UPDATED, function () {
@@ -392,6 +402,7 @@
       eventReferences.push($rootScope.$on(NST_PLACE_EVENT.REMOVED, function () {
         rebuildMyPlacesTree();
         $rootScope.$emit('topbar-notification-changed');
+        scrollTop();
       }));
 
       /**
