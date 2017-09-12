@@ -164,7 +164,7 @@
        data-ng-repeat="recipient in ctlPostCard.post.recipients | limitTo: ctlPostCard.limits.recipients track by $index">{{::recipient}}
     </a> -->
     <a ng-if="3 < ctlPostCard.totalRecipients.length && !ctlPostCard.chainView" data-uib-tooltip-template="'morePlaces-uib-tooltip.html'"
-      class="more" ng-if="!ctlPostCard.FIT" data-tooltip-append-to-body="true" data-tooltip-placement="auto top">
+      class="more" ng-if="!ctlPostCard.FIT" data-tooltip-append-to-body="false" data-tooltip-placement="auto top">
       <translate>and</translate> {{ ctlPostCard.totalRecipients.length - 3 | localize}}
       <translate>more</translate>...
     </a>

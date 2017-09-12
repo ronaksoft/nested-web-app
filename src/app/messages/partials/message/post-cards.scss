@@ -455,6 +455,11 @@ post-card {
         background-color: $color-white;
       }
     }
+    .tooltip {
+      ul {
+        list-style: none;
+      }
+    }
   }
   .places-label {
     font-size: 14px;
