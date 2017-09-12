@@ -7,10 +7,10 @@
 
   /** @ngInject */
   function MessagesController($rootScope, $stateParams, $state, $scope, $uibModal, _, $timeout,
-                              moment, toastr,
-                              NST_MESSAGES_SORT_OPTION, NST_DEFAULT, NST_EVENT_ACTION, NST_PLACE_ACCESS, NST_POST_EVENT,
-                              NstSvcPostFactory, NstSvcPlaceFactory, NstUtility, NstSvcAuth, NstSvcSync, NstSvcModal,
-                              NstSvcTranslation, SvcCardCtrlAffix) {
+    moment, toastr,
+    NST_MESSAGES_SORT_OPTION, NST_DEFAULT, NST_EVENT_ACTION, NST_PLACE_ACCESS, NST_POST_EVENT,
+    NstSvcPostFactory, NstSvcPlaceFactory, NstUtility, NstSvcAuth, NstSvcSync, NstSvcModal,
+    NstSvcTranslation, SvcCardCtrlAffix) {
 
     var vm = this;
 
@@ -145,6 +145,26 @@
           }
         }
       });
+      
+    
+    $rootScope.$on('post-hide', function (event, data) {
+      var message = _.find(vm.messages, {
+        id: data.postId
+      });
+      if (message) {
+        message.tempHide = true
+      }
+    });
+
+    $rootScope.$on('post-show', function (event, data) {
+      var message = _.find(vm.messages, {
+        id: data.postId
+      });
+      if (message) {
+        message.tempHide = false
+      }
+    });
+
 
       $scope.$on('post-moved', function (event, data) {
         // there are tow conditions that a moved post should be removed from messages list
@@ -176,7 +196,9 @@
       }
 
       // The message was sent to the current place
-      if (_.some(post.places, { id: vm.currentPlaceId })) {
+      if (_.some(post.places, {
+          id: vm.currentPlaceId
+        })) {
         return true;
       }
 
@@ -198,7 +220,9 @@
       }
 
       // The message was sent to the current place
-      if (_.some(post.places, { id: vm.currentPlaceId })) {
+      if (_.some(post.places, {
+          id: vm.currentPlaceId
+        })) {
         return true;
       }
 
@@ -221,8 +245,8 @@
     function handleCachedPosts(cachedPosts) {
       vm.messages = cachedPosts;
       vm.loading = false;
-      CITHandler = $timeout(function() {
-        $scope.$apply(function() {
+      CITHandler = $timeout(function () {
+        $scope.$apply(function () {
           vm.FIT = false;
         });
       }, 500);
@@ -245,7 +269,9 @@
 
       // first omit the removed items; The items that are no longer exist in fresh posts
       _.forEach(removedItems, function (item) {
-        var index = _.findIndex(vm.messages, { 'id': item.id });
+        var index = _.findIndex(vm.messages, {
+          'id': item.id
+        });
         if (index > -1) {
           vm.messages.splice(index, 1);
         }
@@ -255,8 +281,10 @@
       vm.messages.unshift.apply(vm.messages, newItems);
 
       // re-arrange posts
-      _.forEach(posts, function(post, index) {
-        var oldPostIndex = _.findIndex(vm.messages, { id: post.id });
+      _.forEach(posts, function (post, index) {
+        var oldPostIndex = _.findIndex(vm.messages, {
+          id: post.id
+        });
         if (oldPostIndex === -1) {
           return;
         }
@@ -323,9 +351,9 @@
       return getMessages(vm.messagesSetting).then(function (posts) {
         appendPosts(posts);
         vm.tryAgainToLoadMore = false;
-        $timeout(function (){
+        $timeout(function () {
           vm.loading = false;
-        },1000)
+        }, 1000)
       }).catch(function () {
         vm.tryAgainToLoadMore = true;
         vm.loading = false;
@@ -341,17 +369,19 @@
       });
     }
 
-    $scope.$on('post-select',function(event, data) {
+    $scope.$on('post-select', function (event, data) {
       if (vm.tempBanPlaces) {
         vm.tempBanPlaces = [];
       }
-      if ( data.isChecked ) {
+      if (data.isChecked) {
         vm.selectedPosts.push(data.postId);
       } else {
         var index = vm.selectedPosts.indexOf(data.postId);
         if (index > -1) vm.selectedPosts.splice(index, 1);
       }
-      $scope.$broadcast('selected-length-change',{selectedPosts : vm.selectedPosts});
+      $scope.$broadcast('selected-length-change', {
+        selectedPosts: vm.selectedPosts
+      });
     });
 
     function configureNavbar() {
@@ -368,7 +398,9 @@
     }
 
     function openContacts($event) {
-      $state.go('app.contacts', {}, {notify: false});
+      $state.go('app.contacts', {}, {
+        notify: false
+      });
       $event.preventDefault();
     }
 
@@ -398,30 +430,80 @@
           return;
         }
         // var get = true;
-        for (var i = 0; i < vm.selectedPosts.length; i++) {
-          NstSvcPostFactory.get(vm.selectedPosts[i]).then(function (post) {
-            NstSvcPostFactory.remove(post.id, vm.currentPlaceId).then(function () {
-              NstUtility.collection.dropById(post.places, vm.currentPlaceId);
-              // toastr.success(NstUtility.string.format(NstSvcTranslation.get("The post has been removed from this Place.")));
-              $rootScope.$broadcast('post-removed', {
-                postId: post.id,
-                placeId: vm.currentPlaceId
-              });
-              vm.selectedPosts.splice(0,1);
+        var undoFlag = false;
+        toastr.warning(NstUtility.string.format(NstSvcTranslation.get("The post has been removed from this Place.")), {
+          onHidden: actioner,
+          extraData : {
+            undo : undoFunction
+          }
+        });
+        window.actionsGC.push(action);
+        var selecteds = vm.selectedPosts.slice(0);
 
-              // TODO increase decrease on other ways
-              --vm.currentPlace.counters.posts;
-              $scope.$broadcast('selected-length-change',{selectedPosts : vm.selectedPosts});
+        // Unselect posts
+        vm.selectedPosts = [];
+        $scope.$broadcast('selected-length-change', {
+          selectedPosts: vm.selectedPosts
+        });
 
-              if ( i === vm.selectedPosts.length - 1 ){
-                NstSvcPlaceFactory.get(vm.currentPlaceId,true).then(function(p){
-                  vm.currentPlace.counters.posts = p.counters.posts;
-                });
-              }
-            }).catch(function () {
-              toastr.error(NstSvcTranslation.get("An error has occurred in trying to remove this message from the selected Place."));
+        
+        // temporary hide post card from view
+        selecteds.forEach(function(post) {
+          $rootScope.$broadcast('post-hide', {
+            postId: post,
+            placeId: vm.currentPlaceId
+          });
+        });
+
+        
+        function actioner() {
+          action();
+          window.actionsGC.splice(window.actionsGC.indexOf(action), 1);
+        }
+
+        function undoFunction() {
+          undoFlag = true;
+          window.actionsGC.splice(window.actionsGC.indexOf(action), 1);
+
+          // make visible temporary hiden posts
+          selecteds.forEach(function(post) {
+            $rootScope.$broadcast('post-show', {
+              postId: post,
+              placeId: vm.currentPlaceId
             });
           });
+        }
+
+        function action() {
+          if ( undoFlag ) {
+            return;
+          }
+          for (var i = 0; i < selecteds.length; i++) {
+            NstSvcPostFactory.get(selecteds[i]).then(function (post) {
+              NstSvcPostFactory.remove(post.id, vm.currentPlaceId).then(function () {
+                NstUtility.collection.dropById(post.places, vm.currentPlaceId);
+                // toastr.success(NstUtility.string.format(NstSvcTranslation.get("The post has been removed from this Place.")));
+                
+                $rootScope.$broadcast('post-removed', {
+                  postId: post.id,
+                  placeId: vm.currentPlaceId
+                });
+
+                // TODO increase decrease on other ways
+                --vm.currentPlace.counters.posts;
+
+                // Last item : updates the counter
+                if (i === selecteds.length - 1) {
+                  NstSvcPlaceFactory.get(vm.currentPlaceId, true).then(function (p) {
+                    vm.currentPlace.counters.posts = p.counters.posts;
+                  });
+                }
+              }).catch(function () {
+                toastr.error(NstSvcTranslation.get("An error has occurred in trying to remove this message from the selected Place."));
+              });
+            });
+          }
+
         }
 
       });
@@ -451,14 +533,14 @@
       }).result.then(function (result) {
         // vm.selectedPosts = [];
         // $scope.$broadcast('selected-length-change',{selectedPosts : vm.selectedPosts.length});
-        for ( var i = 0; i < result.success.length; i++) {
+        for (var i = 0; i < result.success.length; i++) {
           $scope.$emit('post-moved', {
             postId: result.success[i],
             toPlace: result.toPlace,
             fromPlace: result.fromPlace
           });
 
-          if ( result.failed.length > 0 ) {
+          if (result.failed.length > 0) {
             vm.tempBanPlaces = [];
             vm.tempBanPlaces.push(result.toPlace);
           }
@@ -471,11 +553,13 @@
           // what is this ?  and TODO : optimise for multi   :
           // NstUtility.collection.replaceById(vm.post.places, result.fromPlace.id, result.toPlace);
         }
-        $scope.$broadcast('selected-length-change',{selectedPosts : vm.selectedPosts});
-        NstSvcPlaceFactory.get(vm.currentPlaceId,true).then(function(p){
+        $scope.$broadcast('selected-length-change', {
+          selectedPosts: vm.selectedPosts
+        });
+        NstSvcPlaceFactory.get(vm.currentPlaceId, true).then(function (p) {
           vm.currentPlace.counters.posts = p.counters.posts;
         });
-        NstSvcPlaceFactory.get(result.toPlace,true);
+        NstSvcPlaceFactory.get(result.toPlace, true);
       });
     }
 
@@ -486,17 +570,20 @@
       }
       unselectAll();
     }
+
     function unselectAll() {
-      if ( vm.selectedPosts.length > 0) {
+      if (vm.selectedPosts.length > 0) {
         vm.selectedPosts = [];
-        $scope.$broadcast('selected-length-change',{selectedPosts : vm.selectedPosts});
+        $scope.$broadcast('selected-length-change', {
+          selectedPosts: vm.selectedPosts
+        });
       }
     }
 
     function readMulti($event) {
       $event.preventDefault();
       for (var i = 0; i < vm.selectedPosts.length; i++) {
-          NstSvcPostFactory.read(vm.selectedPosts[i]);
+        NstSvcPostFactory.read(vm.selectedPosts[i]);
       }
       // FIXME : this block after all responses
       unselectAll()
@@ -547,7 +634,7 @@
     }
 
     function showNewMessages() {
-      reload().then(function() {
+      reload().then(function () {
         vm.hotMessagesCount = 0;
       });
 
@@ -573,7 +660,7 @@
         vm.placeRemoveAccess = place.hasAccess(NST_PLACE_ACCESS.REMOVE_POST);
         try {
           vm.sholocawPlaceId = !_.includes(['off', 'internal'], place.privacy.receptive);
-        } catch(e) {
+        } catch (e) {
           vm.showPlaceId = true
         }
       });

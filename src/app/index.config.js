@@ -13,6 +13,15 @@
     localStorageServiceProvider
       .setPrefix('ronak.nested.web');
 
+    window.actionsGC = [];
+    window.addEventListener("beforeunload", function (e) {
+      window.actionsGC.forEach(function(fun) {
+        if (typeof fun === 'function') {
+          fun();
+        }
+      });
+      return;
+    });
     // Enable log
     $logProvider.debugEnabled(true);
 
@@ -33,10 +42,21 @@
 
     // Set options third-party lib
     toastrConfig.allowHtml = true;
-    toastrConfig.timeOut = 5000;
-    toastrConfig.positionClass = 'toast-top-right';
-    toastrConfig.preventOpenDuplicates = true;
+    toastrConfig.timeOut = 55000;
+    toastrConfig.positionClass = 'toast-top-center';
+    toastrConfig.preventOpenDuplicates = false;
     toastrConfig.progressBar = true;
+    toastrConfig.autoDismiss = false;
+    toastrConfig.onHidden = null;
+    toastrConfig.onShown = null;
+    toastrConfig.onTap = null;
+    toastrConfig.progressBar = false;
+    toastrConfig.templates = {
+      toast: 'app/components/toast/toast.html',
+      progressbar: 'directives/progressbar/progressbar.html'
+    };
+    
+    toastrConfig.closeButton = true;
 
     $animateProvider.classNameFilter(/use-ng-animate/);
 
