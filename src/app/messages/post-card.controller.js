@@ -194,6 +194,8 @@
             placeId: place.id
           });
           vm.isChecked = false;
+          
+          createTotalPostRecipients();
           $scope.$emit('post-select',{postId: vm.post.id,isChecked : vm.isChecked});
         }).catch(function () {
           toastr.error(NstSvcTranslation.get("An error has occurred in trying to remove this message from the selected Place."));
@@ -341,7 +343,8 @@
             vm.post.places.push(place);
           }
         });
-
+        
+        createTotalPostRecipients();
         NstSvcPlaceFactory.getAccess(_.map(attachedPlaces, 'id')).then(function (accesses) {
           _.forEach(accesses, function (item) {
             var postPlace = _.find(vm.post.places, {id: item.id});
@@ -408,6 +411,7 @@
           fromPlace: result.fromPlace
         });
         vm.isChecked = false;
+        createTotalPostRecipients();
         $scope.$emit('post-select',{postId: vm.post.id,isChecked : vm.isChecked});
         NstUtility.collection.replaceById(vm.post.places, result.fromPlace.id, result.toPlace);
       });
@@ -542,6 +546,10 @@
     $scope.$watch(function(){
       return vm.post.places;
     },function(){
+      createTotalPostRecipients()
+    });
+
+    function createTotalPostRecipients() {
       var concatArray = vm.post.places;
       vm.post.recipients.forEach( function (i){
         concatArray.push({
@@ -550,7 +558,7 @@
         });
       });
       vm.totalRecipients = _.uniqBy(concatArray, 'id');
-    });
+    }
 
     /**
      * Listen to the selected posts of app for changing the checkbox display method
