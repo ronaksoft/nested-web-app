@@ -583,7 +583,7 @@
 
     /**
      * Event handler new comment add push and Checks
-     * the activity is belong to this post for futhur actions or not
+     * the activity belongs to this post for further actions or not
      * (need more document)
      */
     eventReferences.push($rootScope.$on(NST_EVENT_ACTION.COMMENT_ADD, function (e, data) {

@@ -313,7 +313,7 @@
         });
       }
 
-      
+
       function scrollTop() {
         if (_.isFunction($scope.scrollTopPlaces)) {
           $scope.scrollTopPlaces();
@@ -343,41 +343,45 @@
        *****  Event Listeners   ****
        *****************************/
 
+      function dispatchTopbarEvent() {
+        $rootScope.$emit('topbar-notification-changed');
+      }
+
       eventReferences.push($rootScope.$on(NST_INVITATION_EVENT.ADD, function () {
         loadInvitations();
-        $rootScope.$emit('topbar-notification-changed');
+        dispatchTopbarEvent();
       }));
 
       eventReferences.push($rootScope.$on(NST_INVITATION_EVENT.ACCEPT, function () {
         loadInvitations();
-        $rootScope.$emit('topbar-notification-changed');
+        dispatchTopbarEvent();
       }));
 
       eventReferences.push($rootScope.$on(NST_PLACE_EVENT.ROOT_ADDED, function (e, data) {
         rebuildMyPlacesTree(data.place.id);
-        $rootScope.$emit('topbar-notification-changed');
+        dispatchTopbarEvent();
         scrollTop();
       }));
 
       eventReferences.push($rootScope.$on(NST_PLACE_EVENT.SUB_ADDED, function (e, data) {
         rebuildMyPlacesTree(data.place.id);
-        $rootScope.$emit('topbar-notification-changed');
+        dispatchTopbarEvent();
         scrollTop();
       }));
 
       eventReferences.push($rootScope.$on(NST_USER_EVENT.PROFILE_UPDATED, function () {
         loadCurrentUser();
-        $rootScope.$emit('topbar-notification-changed');
+        dispatchTopbarEvent();
       }));
 
       eventReferences.push($rootScope.$on(NST_USER_EVENT.PICTURE_UPDATED, function () {
         loadCurrentUser();
-        $rootScope.$emit('topbar-notification-changed');
+        dispatchTopbarEvent();
       }));
 
       eventReferences.push($rootScope.$on(NST_USER_EVENT.PICTURE_REMOVED, function () {
         loadCurrentUser();
-        $rootScope.$emit('topbar-notification-changed');
+        dispatchTopbarEvent();
       }));
 
       /**
@@ -385,7 +389,7 @@
        */
       eventReferences.push($rootScope.$on(NST_PLACE_EVENT.UPDATED, function () {
         rebuildMyPlacesTree();
-        $rootScope.$emit('topbar-notification-changed');
+        dispatchTopbarEvent();
       }));
 
       /**
@@ -393,7 +397,7 @@
        */
       eventReferences.push($rootScope.$on(NST_PLACE_EVENT.PICTURE_CHANGED, function () {
         rebuildMyPlacesTree();
-        $rootScope.$emit('topbar-notification-changed');
+        dispatchTopbarEvent();
       }));
 
       /**
@@ -401,7 +405,7 @@
        */
       eventReferences.push($rootScope.$on(NST_PLACE_EVENT.REMOVED, function () {
         rebuildMyPlacesTree();
-        $rootScope.$emit('topbar-notification-changed');
+        dispatchTopbarEvent();
         scrollTop();
       }));
 
@@ -410,7 +414,7 @@
        */
       eventReferences.push($rootScope.$on(NST_EVENT_ACTION.POST_ADD, function () {
         loadMyPlacesUnreadPostsCount();
-        $rootScope.$emit('topbar-notification-changed');
+        dispatchTopbarEvent();
       }));
 
       /**
@@ -418,17 +422,17 @@
        */
       eventReferences.push($rootScope.$on(NST_EVENT_ACTION.POST_REMOVE, function () {
         loadMyPlacesUnreadPostsCount();
-        $rootScope.$emit('topbar-notification-changed');
+        dispatchTopbarEvent();
       }));
 
       eventReferences.push($rootScope.$on(NST_POST_EVENT.REMOVE, function () {
         loadMyPlacesUnreadPostsCount();
-        $rootScope.$emit('topbar-notification-changed');
+        dispatchTopbarEvent();
       }));
 
       eventReferences.push($rootScope.$on(NST_POST_EVENT.MOVE, function () {
         loadMyPlacesUnreadPostsCount();
-        $rootScope.$emit('topbar-notification-changed');
+        dispatchTopbarEvent();
       }));
 
       /**
@@ -436,7 +440,7 @@
        */
       eventReferences.push($rootScope.$on(NST_POST_EVENT.READ, function () {
         loadMyPlacesUnreadPostsCount();
-        $rootScope.$emit('topbar-notification-changed');
+        dispatchTopbarEvent();
       }));
 
       /**
@@ -451,7 +455,7 @@
        */
       eventReferences.push($rootScope.$on(NST_NOTIFICATION_EVENT.OPEN_INVITATION_MODAL, function (e, data) {
         vm.invitation.showModal(data.notificationId);
-        $rootScope.$emit('topbar-notification-changed');
+        dispatchTopbarEvent();
       }));
 
       /**
@@ -477,7 +481,7 @@
         }).catch(function () {
           throw 'SIDEBAR | invitation push can not init'
         });
-        $rootScope.$emit('topbar-notification-changed');
+        dispatchTopbarEvent();
       }));
 
       /**
@@ -611,7 +615,6 @@
           // This condition filters all grand Places
           return place.id && place.id.indexOf('.') === -1;
         }).map(function(place) {
-          console.log(place.id, selectedId);
           var isActive = place.id === selectedId;
           var isExpanded = isItemExpanded(place, expandedPlaces, selectedId);
           // finds the place children
