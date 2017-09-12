@@ -29,6 +29,11 @@
     overflow-y: auto;
     border-radius: 3px;
     //height: 100%;
+    .recent-item:last-of-type {
+      .activity-item .body {
+        border-bottom: none;
+      }
+    }
     .activity-item {
       display: flex;
       flex-direction: column;
