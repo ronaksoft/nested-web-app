@@ -11,7 +11,10 @@
         restrict: 'A',
         link: function (scope, $element) {
             scope.scrollEndSearch = function(){
-                $element[0].scrollLeft = $element[0].scrollWidth - $element.outerWidth();
+              setTimeout(function (){
+                $element.stop().animate({scrollLeft: $element[0].scrollWidth - $element.outerWidth()}, 200, 'swing')                
+              },300)
+                // $element[0].scrollLeft = $element[0].scrollWidth - $element.outerWidth();
             };
             $($element[0]).mousewheel(function(event, delta) {
                 this.scrollLeft -= (delta * 30);
