@@ -5,8 +5,9 @@
     .module('ronak.nested.web.components')
     .controller('manageLabelController', manageLabelController);
 
-  function manageLabelController($state, $scope, $q, $uibModalInstance, $uibModal, $filter
-    , toastr, _, NstSvcTranslation, NstSearchQuery, NstSvcLabelFactory, NST_LABEL_SEARCH_FILTER, NstSvcAuth) {
+  function manageLabelController($state, $scope, $q, $uibModalInstance, $uibModal,
+                                 $filter, toastr, _, NstSvcTranslation, NstSearchQuery,
+                                 NstSvcLabelFactory, NST_LABEL_SEARCH_FILTER, NstSvcAuth) {
 
     var vm = this;
 
@@ -57,7 +58,8 @@
       if (vm.keyword.length > 0) {
         var keyword = $filter('scapeSpace')(vm.keyword);
         NstSvcLabelFactory.search(keyword, filter, vm.setting.skip, vm.setting.limit).then(function(labels) {
-          vm.labels = _.unionBy(vm.labels.concat(labels), 'id');
+          // vm.labels = _.unionBy(vm.labels.concat(labels), 'id');
+          merge(labels);
           vm.oldKeyword = vm.keyword;
           vm.haveMore = labels.length === vm.setting.limit;
           vm.setting.skip += labels.length;
@@ -76,7 +78,7 @@
 
     function merge(labels) {
 
-      var newItems = _.differenceBy(labels, vm.labels, 'id');
+      var newItems = _.differenceBy(_.unionBy(labels, 'id'), vm.labels, 'id');
       // var removedItems = _.differenceBy(vm.labels, labels, 'id');
 
       // first omit the removed items; The items that are no longer exist in fresh contacts
@@ -122,7 +124,7 @@
       }).result.then(function (result) {
         if (result) {
           restoreDefault();
-          searchLabel(vm.keyword);
+          searchLabel();
         }
       });
     }
@@ -211,7 +213,7 @@
         NstSvcLabelFactory.updateRequest(id, 'reject').then(function () {
           removeRequest(id);
           restoreDefault();
-          searchLabel(vm.keyword);
+          searchLabel();
           toastr.success(NstSvcTranslation.get("Request declined successfully."));
         }).catch(function () {
           toastr.error(NstSvcTranslation.get("Something went wrong."));
@@ -223,7 +225,7 @@
       NstSvcLabelFactory.updateRequest(id, 'accept').then(function () {
         removeRequest(id);
         restoreDefault();
-        searchLabel(vm.keyword);
+        searchLabel();
         toastr.success(NstSvcTranslation.get("Request accepted successfully."));
       }).catch(function () {
         toastr.error(NstSvcTranslation.get("Something went wrong."));
@@ -274,7 +276,7 @@
 
     function changeTab () {
       restoreDefault();
-      searchLabel(vm.keyword);
+      searchLabel();
     }
 
     function searchThis(title) {

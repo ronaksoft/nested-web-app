@@ -30,6 +30,8 @@
       vm.onPlaceClick = onPlaceClick;
       vm.openCreatePlaceModal = openCreatePlaceModal;
       vm.openCreateSubplaceModal = openCreateSubplaceModal;
+      vm.updateExpanded = updateExpanded;
+      vm.expandedPlaces = [];
       vm.hasDraft = false;
       vm.myPlacesUnreadPosts = {};
       vm.canCreateClosedPlace = false;
@@ -48,7 +50,7 @@
       function initialize() {
         $q.all([getMyPlacesOrder(), getMyPlaces()]).then(function(results) {
           myPlaceOrders = results[0];
-          vm.places = createTree(results[1], myPlaceOrders, [], vm.selectedPlaceId);
+          vm.places = createTree(results[1], myPlaceOrders, vm.expandedPlaces, vm.selectedPlaceId);
 
           loadMyPlacesUnreadPostsCount();
         });
@@ -83,7 +85,7 @@
 
       function rebuildMyPlacesTree(placeId) {
         getMyPlaces(true).then(function(places) {
-          vm.places = createTree(places, myPlaceOrders, [], placeId || vm.selectedPlaceId);
+          vm.places = createTree(places, myPlaceOrders, vm.expandedPlaces, placeId || vm.selectedPlaceId);
 
           loadMyPlacesUnreadPostsCount();
         });
@@ -677,6 +679,21 @@
        */
       function hasUnseen(place, myPlacesUnreadPosts) {
         return place.unreadPosts > 0 || myPlacesUnreadPosts[place.id] > 0;
+      }
+
+      /**
+       * Updates expanded places
+       *
+       * @param {any} placeId
+       * @param {any} expanded
+       */
+      function updateExpanded(placeId, expanded) {
+        var index = vm.expandedPlaces.indexOf(placeId);
+        if (expanded && index === -1) {
+          vm.expandedPlaces.push(placeId);
+        } else if (!expanded && index !== -1) {
+          vm.expandedPlaces.splice(index, 1);
+        }
       }
 
     }
