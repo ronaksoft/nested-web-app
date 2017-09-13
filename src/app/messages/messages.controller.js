@@ -551,12 +551,10 @@
         $scope.$broadcast('selected-length-change', {
           selectedPosts: vm.selectedPosts
         });
-        
         NstSvcPlaceFactory.getFresh(vm.currentPlaceId).then(function (p) {
-          console.log(p.counters.posts);
           vm.currentPlace.counters.posts = p.counters.posts;
         });
-        NstSvcPlaceFactory.getFresh(result.toPlace);
+        NstSvcPlaceFactory.getFresh(result.toPlace.id);
       });
     }
 
