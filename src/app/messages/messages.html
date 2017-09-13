@@ -23,7 +23,7 @@
             <!-- <a ng-if="ctrl.unreadCount > 0" ui-sref="app.place-messages-unread({placeId: ctrl.currentPlace.id})">
               <span class="nst-mood-pending">&nbsp;(</span><translate class="nst-mood-pending">one Unseen</translate><span class="nst-mood-pending">)</span>
             </a> -->
-            <translate ng-if="ctrl.currentPlace.counters.posts > 1 || ctrl.currentPlace.counters.posts === 0">{{ctrl.currentPlace.counters.posts | localize}} posts</translate>
+            <translate ng-if="ctrl.currentPlace.counters.posts > 1 || ctrl.currentPlace.counters.posts === 0">{{ctrl.currentPlace.counters.posts}} posts</translate>
           </p>
           <p class="_df _fn" ng-if="ctrl.unreadCount > 0 && ctrl.selectedPosts.length === 0" ng-click="_track('posts', 'view unread');ctrl.goUnreadMode();">
             <translate ng-if="!ctrl.isUnreadMode">{{ctrl.unreadCount | localize}} Unseen</translate>

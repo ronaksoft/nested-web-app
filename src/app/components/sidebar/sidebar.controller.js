@@ -167,8 +167,6 @@
         $state.go('app.compose', {}, {notify: false});
       };
 
-
-
       /**
        * @function
        * Represents the invitation prompt modal

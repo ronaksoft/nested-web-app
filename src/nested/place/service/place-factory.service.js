@@ -104,6 +104,17 @@
       return deferred.promise;
     }
 
+    PlaceFactory.prototype.getFresh = function (id) {
+      var factory = this;
+      return NstSvcServer.request('place/get', {
+        place_id: id
+      }).then(function (data) {
+        console.log(data);
+        factory.set(data);
+        return $q.resolve(factory.parsePlace(data));
+      });
+    }
+
     PlaceFactory.prototype.getSafe = function (id, normal) {
       var factory = this;
       return $q(function(resolve) {
@@ -307,7 +318,7 @@
             place_id: id,
             universal_id: uid
           }).then(function (response) {
-
+            factory.cache.remove(id);
             factory.get(id, true).then(function (place) {
               $rootScope.$broadcast(NST_PLACE_EVENT.PICTURE_CHANGED, {placeId: place.id, place: place});
             });
