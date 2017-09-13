@@ -58,7 +58,7 @@
         delete  settings.placeId;
       }
 
-      NstSvcUserFactory.search(settings, (vm.isGrandPlace || isForGrandPlace) ? NST_USER_SEARCH_AREA.ACCOUNTS : NST_USER_SEARCH_AREA.ADD)
+      NstSvcUserFactory.search(settings, (vm.isGrandPlace || isForGrandPlace) ? NST_USER_SEARCH_AREA.INVITE : NST_USER_SEARCH_AREA.ADD)
         .then(function (users) {
           users = _.unionBy(users, 'id');
           vm.users = _.differenceBy(users, vm.selectedUsers, 'id');

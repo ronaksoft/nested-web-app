@@ -16,6 +16,11 @@
 
     $rootScope.modals = {};
 
+    if( typeof window.svg4everybody === 'function') {
+      window.svg4everybody({
+        polyfill: true // polyfill <use> elements for External Content
+      });
+    }
     NstSvcI18n.addLocale("en-US", NST_LOCALE_EN_US);
     NstSvcI18n.addLocale("fa-IR", NST_LOCALE_FA_IR);
 
