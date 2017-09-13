@@ -129,7 +129,6 @@
 
       var deferred = $q.defer();
       var activity = new NstActivity();
-
       activity.id = data._id;
       activity.type = data.action;
       activity.date = data.timestamp;
@@ -138,10 +137,12 @@
       // TODO: Not required anymore, because the actor and comment sender are the same
       var actorPromise = NstSvcUserFactory.get(data.actor_id);
       var placePromise = NstSvcPlaceFactory.get(data.place_id);
-      $q.all([postPromise, actorPromise, placePromise]).then(function (resultSet) {
+      var newPlacePromise = NstSvcPlaceFactory.get(data.new_place_id);
+      $q.all([postPromise, actorPromise, placePromise, newPlacePromise]).then(function (resultSet) {
         activity.post = resultSet[0];
         activity.actor = resultSet[1];
         activity.place = resultSet[2];
+        activity.attachedPlace =  resultSet[3];
 
         deferred.resolve(activity);
       }).catch(function (error) {
