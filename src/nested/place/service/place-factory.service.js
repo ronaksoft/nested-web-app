@@ -61,6 +61,17 @@
 
     PlaceFactory.prototype.constructor = PlaceFactory;
 
+
+    PlaceFactory.prototype.updateCache = function (id) {
+      this.cache.remove(id);
+      var factory = this;
+      return NstSvcServer.request('place/get', {
+        place_id: id
+      }).then(function (data) {
+        factory.set(data);
+      });
+    };
+
     /**
      * Retrieves a place by id and store in the related cache storage
      *
@@ -75,9 +86,11 @@
       var cachedPlace = this.getCachedSync(id);
       if (cachedPlace && !normal) {
         // The cached model exists and the place type (normal/tiny) does not matter
+        this.updateCache();
         return $q.resolve(cachedPlace);
       } else if (normal && cachedPlace && cachedPlace.privacy && cachedPlace.policy) {
         // The cached model exists and only a normal place is accepted
+        this.updateCache();
         return $q.resolve(cachedPlace);
       }
 
@@ -105,11 +118,11 @@
     }
 
     PlaceFactory.prototype.getFresh = function (id) {
+      this.cache.remove(id);
       var factory = this;
       return NstSvcServer.request('place/get', {
         place_id: id
       }).then(function (data) {
-        console.log(data);
         factory.set(data);
         return $q.resolve(factory.parsePlace(data));
       });
