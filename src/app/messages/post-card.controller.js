@@ -691,6 +691,12 @@
         }
       }));
 
+      eventReferences.push($rootScope.$on(NST_POST_EVENT.READ, function (event, data) {
+        if (data.postId === vm.post.id) {
+          markAsRead();
+        }
+      }));
+
       // assign placesWithRemoveAccess
       vm.placesWithRemoveAccess = getPlacesWithRemoveAccess();
       // assign placesWithControlAccess

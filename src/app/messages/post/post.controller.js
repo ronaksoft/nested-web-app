@@ -8,7 +8,7 @@
   /** @ngInject */
   function PostController($q, $scope, $rootScope, $stateParams, $uibModalInstance,
                           _, toastr, NstSvcPostFactory, NstUtility, NstSvcLogger, NstSvcPostInteraction, NstSvcTranslation, NstSvcSync,
-                          selectedPostId) {
+                          selectedPostId, NST_POST_EVENT) {
     var vm = this;
     var defaultLimit = 8;
     var eventReferences = [];
@@ -29,13 +29,13 @@
     vm.backToChain = backToChain;
 
     (function () {
+      markPostAsRead(vm.postId);
       vm.expandProgress = true;
       load(vm.postId).then(function (posts) {
         vm.expandProgress = false;
         if (_.size(posts) === 0) return;
 
         vm.syncId = NstSvcSync.openChannel(vm.postId);
-        markPostAsRead(vm.postId);
       }).catch(function (error) {
         NstSvcLogger.error(error);
       });
