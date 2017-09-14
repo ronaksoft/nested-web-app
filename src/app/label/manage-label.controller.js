@@ -38,6 +38,7 @@
       skip: 0,
       limit: 16
     };
+    vm.goUpwardVal = 0;
 
     init();
 
@@ -54,7 +55,6 @@
         return;
       }
       var filter = (vm.labelManager && vm.selectedView === 0 ? NST_LABEL_SEARCH_FILTER.ALL : NST_LABEL_SEARCH_FILTER.MY_PRIVATES);
-
       if (vm.keyword.length > 0) {
         var keyword = $filter('scapeSpace')(vm.keyword);
         NstSvcLabelFactory.search(keyword, filter, vm.setting.skip, vm.setting.limit).then(function(labels) {
@@ -66,7 +66,7 @@
         });
       } else {
         NstSvcLabelFactory.search(null, filter, vm.setting.skip, vm.setting.limit, function(cachedLabels) {
-          vm.labels = cachedLabels;
+          merge(cachedLabels);
         }).then(function (labels) {
           merge(labels);
           vm.oldKeyword = vm.keyword;
@@ -90,13 +90,14 @@
       // });
 
       // add new items; The items that do not exist in cached items, but was found in fresh contacts
-      vm.labels.push.apply(vm.labels, newItems);
+      vm.labels = _.concat(vm.labels, newItems);
     }
 
     function restoreDefault() {
       vm.setting.skip = 0;
       vm.labels = [];
       vm.haveMore = true;
+      ++vm.goUpwardVal;
     }
 
     function getRequests() {
@@ -177,8 +178,6 @@
         }
       }).result.then(function () {
         callRemoveLabelPromises().then(function () {
-          restoreDefault();
-          searchLabel();
           vm.selectedItems = [];
           toastr.success(NstSvcTranslation.get("Selected labels removed successfully."));
         });
@@ -189,6 +188,9 @@
       var labelActionPromises = [];
       for (var i = 0; i < vm.selectedItems.length; i++) {
         labelActionPromises.push(NstSvcLabelFactory.remove(vm.selectedItems[i]));
+        var index = _.findIndex(vm.labels, {id: vm.selectedItems[i]});
+        vm.labels.splice(index, 1);
+        vm.setting.skip--;
       }
       return $q.all(labelActionPromises);
     }
