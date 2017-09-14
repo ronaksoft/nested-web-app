@@ -8,7 +8,7 @@
   /** @ngInject */
   function PostController($q, $scope, $rootScope, $stateParams, $uibModalInstance,
                           _, toastr, NstSvcPostFactory, NstUtility, NstSvcLogger, NstSvcPostInteraction, NstSvcTranslation, NstSvcSync,
-                          selectedPostId, NST_POST_EVENT) {
+                          selectedPostId) {
     var vm = this;
     var defaultLimit = 8;
     var eventReferences = [];

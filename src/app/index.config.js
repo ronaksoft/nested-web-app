@@ -14,7 +14,7 @@
       .setPrefix('ronak.nested.web');
 
     window.actionsGC = [];
-    window.addEventListener("beforeunload", function (e) {
+    window.addEventListener("beforeunload", function () {
       window.actionsGC.forEach(function(fun) {
         if (typeof fun === 'function') {
           fun();
