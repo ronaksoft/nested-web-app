@@ -8,7 +8,7 @@
     <translate data-ng-if="!addMemberCtrl.isGrandPlace">Add Members</translate>
     <translate data-ng-if="addMemberCtrl.isGrandPlace">Invite new Members</translate>
   </h4>
-  <ui-select multiple class="add-user-modal-input _df"
+  <ui-select multiple class="add-user-modal-input _fn _df"
     data-ng-model="addMemberCtrl.selectedUsers" limit="{{addMemberCtrl.limit}}"
     autofocus="true" always-show-list on-select="addMemberCtrl.search('')">
     <ui-select-match placeholder="{{::addMemberCtrl.searchPlaceholder}}">

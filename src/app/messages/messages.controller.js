@@ -426,81 +426,106 @@
           return;
         }
         // var get = true;
-        var undoFlag = false;
-        toastr.warning(NstUtility.string.format(NstSvcTranslation.get("The post has been removed from this Place.")), {
-          onHidden: actioner,
-          extraData : {
-            undo : undoFunction
-          }
-        });
-        window.actionsGC.push(action);
-        var selecteds = vm.selectedPosts.slice(0);
-
-        // Unselect posts
-        vm.selectedPosts = [];
-        $scope.$broadcast('selected-length-change', {
-          selectedPosts: vm.selectedPosts
-        });
-
-        
-        // temporary hide post card from view
-        selecteds.forEach(function(post) {
-          $rootScope.$broadcast('post-hide', {
-            postId: post,
-            placeId: vm.currentPlaceId
-          });
-        });
-
-        
-        function actioner() {
-          action();
-          window.actionsGC.splice(window.actionsGC.indexOf(action), 1);
-        }
-
-        function undoFunction() {
-          undoFlag = true;
-          window.actionsGC.splice(window.actionsGC.indexOf(action), 1);
-
-          // make visible temporary hiden posts
-          selecteds.forEach(function(post) {
-            $rootScope.$broadcast('post-show', {
-              postId: post,
-              placeId: vm.currentPlaceId
-            });
-          });
-        }
-
-        function action() {
-          if ( undoFlag ) {
-            return;
-          }
-          for (var i = 0; i < selecteds.length; i++) {
-            NstSvcPostFactory.get(selecteds[i]).then(function (post) {
-              NstSvcPostFactory.remove(post.id, vm.currentPlaceId).then(function () {
-                NstUtility.collection.dropById(post.places, vm.currentPlaceId);
-                // toastr.success(NstUtility.string.format(NstSvcTranslation.get("The post has been removed from this Place.")));
-                
-                $rootScope.$broadcast('post-removed', {
-                  postId: post.id,
-                  placeId: vm.currentPlaceId
-                });
-
-                // TODO increase decrease on other ways
-                --vm.currentPlace.counters.posts;
-
-                // Last item : updates the counter
-                if (i === selecteds.length - 1) {
-                  NstSvcPlaceFactory.getFresh(vm.currentPlaceId).then(function (p) {
-                    vm.currentPlace.counters.posts = p.counters.posts;
-                  });
-                }
-              }).catch(function () {
-                toastr.error(NstSvcTranslation.get("An error has occurred in trying to remove this message from the selected Place."));
+        for (var i = 0; i < vm.selectedPosts.length; i++) {
+          NstSvcPostFactory.get(vm.selectedPosts[i]).then(function (post) {
+            NstSvcPostFactory.remove(post.id, vm.currentPlaceId).then(function () {
+              NstUtility.collection.dropById(post.places, vm.currentPlaceId);
+              // toastr.success(NstUtility.string.format(NstSvcTranslation.get("The post has been removed from this Place.")));
+              $rootScope.$broadcast('post-removed', {
+                postId: post.id,
+                placeId: vm.currentPlaceId
               });
-            });
-          }
+              vm.selectedPosts.splice(0,1);
 
+              // TODO increase decrease on other ways
+              --vm.currentPlace.counters.posts;
+              $scope.$broadcast('selected-length-change',{selectedPosts : vm.selectedPosts});
+
+              if ( i === vm.selectedPosts.length - 1 ){
+                NstSvcPlaceFactory.get(vm.currentPlaceId,true).then(function(p){
+                  vm.currentPlace.counters.posts = p.counters.posts;
+                });
+              }
+            }).catch(function () {
+              toastr.error(NstSvcTranslation.get("An error has occurred in trying to remove this message from the selected Place."));
+            });
+          });
         }
+        // var undoFlag = false;
+        // toastr.warning(NstUtility.string.format(NstSvcTranslation.get("The post has been removed from this Place.")), {
+        //   onHidden: actioner,
+        //   extraData : {
+        //     undo : undoFunction
+        //   }
+        // });
+        // window.actionsGC.push(action);
+        // var selecteds = vm.selectedPosts.slice(0);
+
+        // // Unselect posts
+        // vm.selectedPosts = [];
+        // $scope.$broadcast('selected-length-change', {
+        //   selectedPosts: vm.selectedPosts
+        // });
+
+        
+        // // temporary hide post card from view
+        // selecteds.forEach(function(post) {
+        //   $rootScope.$broadcast('post-hide', {
+        //     postId: post,
+        //     placeId: vm.currentPlaceId
+        //   });
+        // });
+
+        
+        // function actioner() {
+        //   action();
+        //   window.actionsGC.splice(window.actionsGC.indexOf(action), 1);
+        // }
+
+        // function undoFunction() {
+        //   undoFlag = true;
+        //   window.actionsGC.splice(window.actionsGC.indexOf(action), 1);
+
+        //   // make visible temporary hiden posts
+        //   selecteds.forEach(function(post) {
+        //     $rootScope.$broadcast('post-show', {
+        //       postId: post,
+        //       placeId: vm.currentPlaceId
+        //     });
+        //   });
+        // }
+
+        // function action() {
+        //   if ( undoFlag ) {
+        //     return;
+        //   }
+        //   for (var i = 0; i < selecteds.length; i++) {
+        //     NstSvcPostFactory.get(selecteds[i]).then(function (post) {
+        //       NstSvcPostFactory.remove(post.id, vm.currentPlaceId).then(function () {
+        //         NstUtility.collection.dropById(post.places, vm.currentPlaceId);
+        //         // toastr.success(NstUtility.string.format(NstSvcTranslation.get("The post has been removed from this Place.")));
+                
+        //         $rootScope.$broadcast('post-removed', {
+        //           postId: post.id,
+        //           placeId: vm.currentPlaceId
+        //         });
+
+        //         // TODO increase decrease on other ways
+        //         --vm.currentPlace.counters.posts;
+
+        //         // Last item : updates the counter
+        //         if (i === selecteds.length - 1) {
+        //           NstSvcPlaceFactory.getFresh(vm.currentPlaceId).then(function (p) {
+        //             vm.currentPlace.counters.posts = p.counters.posts;
+        //           });
+        //         }
+        //       }).catch(function () {
+        //         toastr.error(NstSvcTranslation.get("An error has occurred in trying to remove this message from the selected Place."));
+        //       });
+        //     });
+        //   }
+
+        // }
 
       });
     }
