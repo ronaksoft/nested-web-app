@@ -22,7 +22,6 @@
                            NST_DEFAULT) {
     var vm = this;
     var eventReferences = [];
-    vm.searchTrigg = 0;
     vm.loadMoreCounter = 0;
     vm.keyword = '';
 
@@ -32,7 +31,11 @@
         vm.keyword = '';
         search(vm.keyword);
       } else {
-        ++vm.searchTrigg;
+        if (vm.searchTrigg) {
+          ++vm.searchTrigg;
+        } else {
+          vm.searchTrigg = 0;
+        }
       }
 
     };

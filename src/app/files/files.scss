@@ -45,6 +45,9 @@
   width: calc(100vw - 540px);
   margin-left: auto;
   margin-right: auto;
+  height: 100%;
+  display: flex;
+  box-shadow: 0 4px 8px $color-breeze-new;
   .file-list-header {
     height: 48px;
     display: flex; //margin-top: 25px;
