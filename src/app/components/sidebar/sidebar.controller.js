@@ -11,8 +11,8 @@
                                NST_DEFAULT, NST_AUTH_EVENT, NST_INVITATION_EVENT, NST_CONFIG, NST_KEY, deviceDetector, NST_PLACE_ACCESS,
                                NST_EVENT_ACTION, NST_USER_EVENT, NST_NOTIFICATION_EVENT, NST_SRV_EVENT, NST_NOTIFICATION_TYPE, NST_PLACE_EVENT, NST_POST_EVENT,
                                NstSvcAuth, NstSvcServer, NstSvcLogger, NstSvcNotification, NstSvcTranslation,
-                                NstSvcPlaceFactory, NstSvcInvitationFactory, NstUtility, NstSvcUserFactory, NstSvcSidebar, NstSvcNotificationFactory,
-                                NstSvcKeyFactory, NstSvcPostDraft) {
+                               NstSvcNotificationSync, NstSvcPlaceFactory, NstSvcInvitationFactory, NstUtility, NstSvcUserFactory, NstSvcSidebar, NstSvcNotificationFactory,
+                               NstSvcKeyFactory, NstSvcPostDraft) {
       var vm = this;
       var eventReferences = [];
       var myPlaceOrders = {};
@@ -88,7 +88,6 @@
       function rebuildMyPlacesTree(placeId) {
         getMyPlaces(true).then(function(places) {
           vm.places = createTree(places, myPlaceOrders, vm.expandedPlaces, placeId || vm.selectedPlaceId);
-
           loadMyPlacesUnreadPostsCount();
         });
       }
@@ -591,7 +590,7 @@
             return stack;
           }
 
-          var isActive = item.id === selectedId;
+          var isActive = (item.id === selectedId);
           var isExpanded = isItemExpanded(item, expandedPlaces, selectedId);
           var children = getChildren(item, places, expandedPlaces, selectedId, depth + 1);
 
@@ -619,7 +618,7 @@
           // This condition filters all grand Places
           return place.id && place.id.indexOf('.') === -1;
         }).map(function(place) {
-          var isActive = place.id === selectedId;
+          var isActive = (place.id === selectedId);
           var isExpanded = isItemExpanded(place, expandedPlaces, selectedId);
           // finds the place children
           var children = getChildren(place, places, expandedPlaces, selectedId, 1);
@@ -738,7 +737,6 @@
         });
         hasUnseenChildrenList = _.union(hasUnseenChildrenList);
         vm.myPlacesHasUnseenChildren = hasUnseenChildrenList;
-        console.log(vm.myPlacesHasUnseenChildren);
       }
 
       function isChildrenUnseen(id) {

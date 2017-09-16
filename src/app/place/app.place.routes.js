@@ -24,7 +24,7 @@
           controller: 'PlaceSettingsController',
           controllerAs: 'ctrl'
         }).result.catch(function() {
-          $rootScope.goToLastState(true);
+          $rootScope.goToLastState(false);
         });
       }],
       onExit: function() { }

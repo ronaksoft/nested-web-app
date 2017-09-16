@@ -1,4 +1,4 @@
-<a ui-sref="app.place-messages({ placeId: place.id })" dbl-click="{{place.children.length > 0}}" ng-dblclick="place.isExpanded =! place.collapse;ctlSidebar.updateExpanded(place.id, place.isExpanded);" class="side-grand-place-item-inner" ui-sref-active="isSelected">
+<a ui-sref="app.place-messages({ placeId: place.id })" dbl-click="{{place.children.length > 0}}" ng-dblclick="place.isExpanded =! place.collapse;ctlSidebar.updateExpanded(place.id, place.isExpanded);" class="side-grand-place-item-inner" ui-sref-active="isSelected" ng-class="{'isSelected': place.isActive}">
   <div class="side-grand-place-item-image">
     <div class="unreadPlace" ng-if="ctlSidebar.placesNotifCountObject[place.id] > 0">
       <svg class="pendfill _24svg">
