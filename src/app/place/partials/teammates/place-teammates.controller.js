@@ -342,7 +342,6 @@
       }).then(function (keyHolders) {
         teammates.push.apply(teammates, keyHolders);
 
-        teammates = _.unionBy(teammates, 'id');
         deferred.resolve(teammates);
       }).catch(deferred.reject);
 
@@ -358,7 +357,7 @@
       if (vm.hasSeeMembersAccess) {
 
         loadTeammates(vm.placeId, vm.hasSeeMembersAccess, function(teammates) {
-          vm.teammates.push.apply(vm.teammates, _.compact(teammates));
+          vm.teammates.push.apply(vm.teammates, _.compact(_.unionBy(teammates, 'id')));
         }).then(function (teammates) {
           var newItems = _.differenceBy(teammates, vm.teammates, 'id');
           var removedItems = _.differenceBy(vm.teammates, teammates, 'id');
@@ -373,7 +372,6 @@
 
           // add new items; The items that do not exist in cached items, but was found in fresh teammates
           vm.teammates.unshift.apply(vm.teammates, newItems);
-          vm.teammates = _.unionBy(vm.teammates, 'id');
           // vm.teammates = teammates;
         }).finally(function () {
           readyAffix();
