@@ -34,6 +34,8 @@
       vm.expandedPlaces = [];
       vm.hasDraft = false;
       vm.myPlacesUnreadPosts = {};
+      vm.myPlacesHasUnseenChildren = [];
+      vm.isChildrenUnseen = isChildrenUnseen;
       vm.canCreateClosedPlace = false;
       vm.canCreateOpenPlace = false;
       vm.canCreateGrandPlace = false;
@@ -150,6 +152,8 @@
             vm.myPlacesUnreadPosts[item.place_id] = item.count;
             total += item.count;
           });
+
+          updateUnseenParents();
 
           $rootScope.$emit('unseen-activity-notify', total);
         });
@@ -694,6 +698,51 @@
         } else if (!expanded && index !== -1) {
           vm.expandedPlaces.splice(index, 1);
         }
+      }
+
+      function removeLastChildFromPlace(id) {
+        var parts = id.split('.');
+        parts.pop();
+        return parts.join('.');
+      }
+
+      function appendChildToParent(items, index, list) {
+        if (index < 2) {
+          return;
+        }
+        _.forEach(items[index], function (item) {
+          if (items[index - 1] === undefined) {
+            items[index - 1] = [];
+          }
+          var parent = removeLastChildFromPlace(item);
+          list.push(parent);
+          items[index - 1].push(parent);
+        });
+      }
+
+      function updateUnseenParents() {
+        var list = [];
+        _.forEach(vm.myPlacesUnreadPosts, function (item, key) {
+          if (item > 0) {
+            var parts = key.split('.');
+            if (list[parts.length] === undefined) {
+              list[parts.length] = [];
+            }
+            list[parts.length].push(key);
+          }
+        });
+        // list.reverse();
+        var hasUnseenChildrenList = [];
+        _.forEachRight(list, function (item, key) {
+          appendChildToParent(list, key, hasUnseenChildrenList);
+        });
+        hasUnseenChildrenList = _.union(hasUnseenChildrenList);
+        vm.myPlacesHasUnseenChildren = hasUnseenChildrenList;
+        console.log(vm.myPlacesHasUnseenChildren);
+      }
+
+      function isChildrenUnseen(id) {
+        return vm.myPlacesHasUnseenChildren.indexOf(id) > -1;
       }
 
     }

@@ -599,7 +599,6 @@
 
     PlaceFactory.prototype.getKeyholders = function (id, limit, skip, cacheHandler) {
       var deferred = $q.defer();
-
       NstSvcServer.request('place/get_key_holders', {
         place_id: id,
         limit: limit,

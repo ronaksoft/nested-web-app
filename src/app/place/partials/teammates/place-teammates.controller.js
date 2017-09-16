@@ -335,16 +335,14 @@
      */
     function loadTeammates(placeId, hasSeeMembersAccess, cacheHandler) {
       var deferred = $q.defer();
-
       var teammates = [];
       getCreators(placeId, vm.teammatesSettings.limit, vm.teammatesSettings.skip, hasSeeMembersAccess, cacheHandler).then(function (creators) {
         teammates.push.apply(teammates, creators);
-
         return getKeyholders(placeId, vm.teammatesSettings.limit - creators.length - ( vm.hasAddMembersAccess ? 1 : 0 ), vm.teammatesSettings.skip, hasSeeMembersAccess, cacheHandler);
       }).then(function (keyHolders) {
-
         teammates.push.apply(teammates, keyHolders);
 
+        teammates = _.unionBy(teammates, 'id');
         deferred.resolve(teammates);
       }).catch(deferred.reject);
 
@@ -375,6 +373,7 @@
 
           // add new items; The items that do not exist in cached items, but was found in fresh teammates
           vm.teammates.unshift.apply(vm.teammates, newItems);
+          vm.teammates = _.unionBy(vm.teammates, 'id');
           // vm.teammates = teammates;
         }).finally(function () {
           readyAffix();
@@ -434,7 +433,7 @@
     function getKeyholders(placeId, limit, skip, hasAccess, cacheHandler) {
       var deferred = $q.defer();
 
-      if (limit > 0 && hasAccess && vm.teammatesSettings.keyHoldersCount < vm.place.counters.key_holders) {
+      if (limit > 0 && hasAccess /*&& vm.teammatesSettings.keyHoldersCount < vm.place.counters.key_holders*/) {
         NstSvcPlaceFactory.getKeyholders(placeId, limit, skip, function(cachedKeyHolders) {
           cacheHandler(_.map(cachedKeyHolders, function (item) {
             return new NstVmMemberItem(item, 'key_holder');
@@ -443,7 +442,6 @@
           var keyHolderItems = _.map(data.keyHolders, function (item) {
             return new NstVmMemberItem(item, 'key_holder');
           });
-
           deferred.resolve(keyHolderItems);
         }).catch(deferred.reject);
       } else {
