@@ -226,7 +226,8 @@
 </div>
 
 
-<section class="post-card-comment" data-ng-if="!ctlPostCard.FIT && !ctlPostCard.hideComments && !ctlPostCard.post.noComment && ctlPostCard.commentBoard">
+<section class="post-card-comment" data-ng-if="!ctlPostCard.FIT && !ctlPostCard.hideComments && !ctlPostCard.post.noComment && ctlPostCard.commentBoard"
+  id="comment-{{ctlPostCard.post.id}}">
   <comments-board comments="ctlPostCard.post.comments" limit="ctlPostCard.commentBoardLimit" post-id="ctlPostCard.post.id"
     total-comments-count="ctlPostCard.post.counters.comments" on-comment-sent="ctlPostCard.onAddComment" has-comment-remove-access="ctlPostCard.hasHiddenCommentAccess"></comments-board>
 </section>
@@ -286,11 +287,12 @@
     </svg>
     <span ng-if="ctlPostCard.unreadCommentsCount === 0">
       <span ng-if="ctlPostCard.post.counters.comments == 0"><translate>No comments</translate></span>
-    <span ng-if="ctlPostCard.post.counters.comments == 1"><translate>One comment</translate></span>
-    <span ng-if="ctlPostCard.post.counters.comments > 1"><translate>{{ctlPostCard.post.counters.comments | localize}} comments</translate></span>
+    <span ng-click="ctlPostCard.goTo('comment-' + ctlPostCard.post.id)" ng-if="ctlPostCard.post.counters.comments == 1"><translate>One comment</translate></span>
+    <span ng-click="ctlPostCard.goTo('comment-' + ctlPostCard.post.id)" ng-if="ctlPostCard.post.counters.comments > 1"><translate>{{ctlPostCard.post.counters.comments | localize}} comments</translate></span>
     </span>
-    <a class="_df _fn comments-count new-comments-count" ng-if="ctlPostCard.unreadCommentsCount > 0" ui-sref="app.message({ postId : ctlPostCard.post.id })"
-      ng-click="ctlPostCard.loadNewComments($event)">
+    <!-- <a class="_df _fn comments-count new-comments-count" ng-if="ctlPostCard.unreadCommentsCount > 0" ui-sref="app.message({ postId : ctlPostCard.post.id })" -->
+    <a class="_df _fn comments-count new-comments-count" ng-if="ctlPostCard.unreadCommentsCount > 0"
+      ng-click="ctlPostCard.loadNewComments($event);">
       <span ng-if="ctlPostCard.unreadCommentsCount == 1"><translate>1 new comment</translate></span>
       <span ng-if="ctlPostCard.unreadCommentsCount > 1">{{ctlPostCard.unreadCommentsCount | localize}} <translate>new comments</translate></span>
     </a>

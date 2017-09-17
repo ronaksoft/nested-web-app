@@ -14,7 +14,7 @@
     .module('ronak.nested.web.message')
     .controller('PostCardController', PostCardController);
 
-  function PostCardController($state, $log, $timeout, $stateParams, $rootScope, $scope, $uibModal,
+  function PostCardController($state, $log, $timeout, $stateParams, $rootScope, $scope, $uibModal, $location, $anchorScroll,
                               _, toastr,
                               NST_EVENT_ACTION, NST_PLACE_ACCESS, NST_POST_EVENT, SvcCardCtrlAffix,
                               NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory, NstSearchQuery, NstSvcModal,
@@ -670,6 +670,11 @@
       // TODO : ( docuemnt this)
       if (vm.addOn) {
         vm.isExpanded = true;
+      }
+
+      vm.goTo = function (posId) {
+        $location.hash(posId);
+        $anchorScroll();
       }
 
       /**

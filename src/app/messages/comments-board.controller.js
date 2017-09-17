@@ -5,7 +5,7 @@
     .module('ronak.nested.web.message')
     .controller('CommentsBoardController', CommentsBoardController);
 
-  function CommentsBoardController($timeout, $scope, $sce, $q, $state,
+  function CommentsBoardController($timeout, $scope, $sce, $q, $state, $location, $anchorScroll,
                                    NstSvcAuth,NstSvcDate, NstSvcCommentFactory, NstUtility, NstSvcTranslation,
                                    moment, toastr, NstSvcLogger, _) {
     var vm = this;
@@ -103,6 +103,8 @@
         vm.lastComment = findLastComment(vm.comments);
         vm.hasAnyRemoved = _.some(vm.comments, 'removedById');
         vm.commentBoardLimit = 30;
+        $location.hash('comment-' + newComments[newComments.length - 1].id);
+        $anchorScroll();
       }).catch(function (error) {
         NstSvcLogger.error(error);
       });
