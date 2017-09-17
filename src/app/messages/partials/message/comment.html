@@ -1,6 +1,6 @@
 <div class="_df _fw comments-load" ng-if="ctrl.canShowOlderComments() || ctrl.commentBoardNeedsRolling() || ctrl.showRemoved">
   <a href="javascript:void(0);" ng-click="ctrl.limitCommentBoard(); _track('post card', 'roll up comments');">
-    <svg class="_16svg flip-vertical" ng-show="ctrl.commentBoardNeedsRolling()">
+    <svg class="_16svg ng-class:{'_r-180' : ctrl.canShowOlderComments()}">
       <use xlink:href="/assets/icons/nst-icn16.svg#arrow"></use>
     </svg>
   </a>
@@ -32,7 +32,7 @@
 </div>
 <div class="post-card-comment-input _df">
   <div class="user-avatar-24" user-detail="ctrl.user.id">
-    <img initial-avatar="{{ctrl.user.id}}" name="{{ctrl.user.fullName}}" picture="{{ctrl.user.sender | avatar}}"
+    <img initial-avatar="{{ctrl.user.id}}" name="{{ctrl.user.fullName}}" picture="{{ctrl.user | avatar}}"
       data-width="24" data-height="24" data-radius="13" class="account-initials-24 _df" data-word-count="2" data-font-size="8"/>
   </div>
   <textarea type="text" nst-mention post-id="{{ctrl.postId}}" data-ng-model="ctrl.post.newComment"  auto-dir="ctrl.post.newComment"
