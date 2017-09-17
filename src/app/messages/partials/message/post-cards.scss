@@ -721,11 +721,13 @@ post-card {
 }
 
 .comments-load {
-  height: 32px;
+  height: 40px;
   align-items: center;
   a {
     display: flex;
     color: $color-sense-wire;
+    font-style: italic;
+    font-size: 13px;
     &:hover {
       color: $color-solid;
       fill: $color-sense-wire;
@@ -733,7 +735,7 @@ post-card {
     }
   }
   a:first-of-type {
-    width: 48px;
+    width: 40px;
     height: 100%;
     align-items: center;
     justify-content: center;
@@ -746,7 +748,7 @@ post-card {
 
 .post-card-comment-input {
   align-items: center;
-  padding: 0 6px;
+  padding-right: 6px;
   textarea {
     margin: 8px 0;
     min-height: 32px;
