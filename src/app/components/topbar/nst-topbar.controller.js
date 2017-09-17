@@ -6,7 +6,7 @@
       .controller('TopBarController', TopBarController);
 
     /** @ngInject */
-    function TopBarController($q, $, $scope, $timeout, $state, $stateParams, $uibModal,
+    function TopBarController($q, $, $scope, $timeout, $window, $state, $stateParams, $uibModal,
                               $rootScope, NST_SEARCH_QUERY_PREFIX, _, NstSvcTranslation,
                               NstSvcSuggestionFactory, NstSvcLabelFactory,
                               NstSvcUserFactory, NstSvcNotificationFactory, NST_USER_SEARCH_AREA,
@@ -82,7 +82,6 @@
       var searchQuery;
 
       (function () {
-        // TODO : Not working any more
         vm.adminArea = NST_CONFIG.ADMIN_DOMAIN + (NST_CONFIG.ADMIN_PORT ? ':' + NST_CONFIG.ADMIN_PORT : '');
 
         initQuery(true);
@@ -149,6 +148,15 @@
         vm.advancedSearch.labels = searchQuery.getLabels();
         vm.advancedSearch.hasAttachment = searchQuery.getHasAttachment();
         vm.advancedSearch.within = searchQuery.getWithin();
+        if (vm.advancedSearch.users.length > 0) {
+          vm.advancedSearch.users = vm.advancedSearch.users + ', ';
+        }
+        if (vm.advancedSearch.places.length > 0) {
+          vm.advancedSearch.places = vm.advancedSearch.places + ', ';
+        }
+        if (vm.advancedSearch.labels.length > 0) {
+          vm.advancedSearch.labels = vm.advancedSearch.labels + ', ';
+        }
         try {
           if (searchQuery.getDate() !== '') {
             vm.advancedSearch.date = new Date(parseInt(searchQuery.getDate()) * 1000).toString();
@@ -662,7 +670,6 @@
       function closeProfile() {
         vm.profileOpen = false;
       }
-
 
       /**
        * Event listener for `reload-counters`
