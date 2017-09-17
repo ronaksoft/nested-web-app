@@ -233,7 +233,6 @@
           _.forEach(result.addedUsers, dispatcher);
         });
 
-
         // notify the user about the result of adding
         if (_.size(result.rejectedUsers) === 0
           && _.size(result.addedUsers) > 0) {
@@ -355,24 +354,10 @@
     function load() {
 
       if (vm.hasSeeMembersAccess) {
-
         loadTeammates(vm.placeId, vm.hasSeeMembersAccess, function(teammates) {
-          vm.teammates.push.apply(vm.teammates, _.compact(_.unionBy(teammates, 'id')));
+          vm.teammates = teammates;
         }).then(function (teammates) {
-          var newItems = _.differenceBy(teammates, vm.teammates, 'id');
-          var removedItems = _.differenceBy(vm.teammates, teammates, 'id');
-
-          // first omit the removed items; The items that are no longer exist in fresh teammates
-          _.forEach(removedItems, function (item) {
-            var index = _.findIndex(vm.teammates, { 'id': item.id });
-            if (index > -1) {
-              vm.teammates.splice(index, 1);
-            }
-          });
-
-          // add new items; The items that do not exist in cached items, but was found in fresh teammates
-          vm.teammates.unshift.apply(vm.teammates, newItems);
-          // vm.teammates = teammates;
+          vm.teammates = teammates;
         }).finally(function () {
           readyAffix();
           vm.loading = false;
