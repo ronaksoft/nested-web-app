@@ -46,8 +46,11 @@
     direction: ltr;
     //min-height: 476px - 88px;
     .loading-notif {
-      height: 104px;
-      align-items: center;
+      padding-top: 24px;
+    }
+    .loading {
+      height: 24px;
+      width: 24px;
     }
     li {
       display: flex;

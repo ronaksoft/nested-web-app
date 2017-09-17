@@ -5,9 +5,9 @@
     .module('ronak.nested.web.notification')
     .controller('NotificationsController', NotificationsController);
 
-  function NotificationsController(_, $q, $state, $scope, $log, $rootScope,
-                                   NST_NOTIFICATION_TYPE, NST_NOTIFICATION_EVENT,
-                                   NstSvcNotificationFactory, NstSvcInteractionTracker, NstSvcDate) {
+  function NotificationsController(_, $q, $state, $scope, $log, $rootScope, $uibModal,
+                                   NST_NOTIFICATION_TYPE, NST_NOTIFICATION_EVENT, NstSvcInvitationFactory,
+                                   NstSvcNotificationFactory, NstSvcInteractionTracker, NstSvcDate, NST_PLACE_EVENT) {
     var vm = this;
     vm.NST_NOTIFICATION_TYPE = NST_NOTIFICATION_TYPE;
     var pageItemsCount = 12;
@@ -153,6 +153,38 @@
     function openPlace(placeId) {
       $state.go('app.place-messages',{placeId : placeId});
     }
+
+    vm.showinvitationModal =  function (id) {
+      $rootScope.$broadcast(NST_NOTIFICATION_EVENT.OPEN_INVITATION_MODAL, {notificationId : id});
+      // NstSvcInvitationFactory.get(id).then(function (invitation) {
+      //   $uibModal.open({
+      //     animation: false,
+      //     size: 'sm',
+      //     templateUrl: 'app/components/sidebar/invitation/decide-modal.html',
+      //     controller: 'InvitationController',
+      //     controllerAs: 'ctrlInvitation',
+      //     resolve: {
+      //       argv: {
+      //         invitation: invitation
+      //       }
+      //     }
+      //   }).result.then(function (result) {
+      //     for (var k in vm.invitations) {
+      //       if (id == vm.invitations[k].id) {
+      //         vm.invitations.splice(k, 1);
+      //       }
+      //     }
+
+      //     if (result) { // Accept the Invitation
+      //       return NstSvcInvitationFactory.accept(id).then(function (invitation) {
+              
+      //       });
+      //     } else { // Decline the Invitation
+      //       return NstSvcInvitationFactory.decline(id);
+      //     }
+      //   }).catch(function () {});
+      // });
+    };
 
 
   }
