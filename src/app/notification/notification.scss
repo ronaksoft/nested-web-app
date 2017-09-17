@@ -45,6 +45,10 @@
     height: 100%;
     direction: ltr;
     //min-height: 476px - 88px;
+    .loading-notif {
+      height: 104px;
+      align-items: center;
+    }
     li {
       display: flex;
       flex-direction: column;
