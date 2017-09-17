@@ -93,6 +93,7 @@
       "Shared by me": "Shared by Me",
       "Show Images": "Show pictures",
       "Show in their search results?": "Show in the Search results?",
+      "Show more comments...": "Load more comments...",
       "Sorry, An error has occured while creating the place.": "Sorry, an error has occurred while creating the Place.",
       "Sorry, An error has occured while loading the older posts": "Sorry, an error has occurred while loading older posts.",
       "Sorry, an error has occured in sending your comment": "Sorry, an error has occurred while sharing your comment.",
