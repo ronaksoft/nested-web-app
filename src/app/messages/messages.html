@@ -11,9 +11,9 @@
     
     <!-- filter bar
       ==============-->
-    <!-- <div class="filter-bar" ng-if="!ctrl.isbookmarkedsMode && !ctrl.isSentMode && !(ctrl.isUnreadMode && ctrl.unreadCount == 0) ">  -->
-    <div class="filter-bar">
-      <div ng-if="!ctrl.isbookmarkedsMode && !ctrl.isSentMode" class="filter-bar-inner" affixer-filter top="96">
+    <!-- <div class="filter-bar" ng-if="!ctrl.isbookmarkedsMode && !ctrl.isSent && !(ctrl.isUnreadMode && ctrl.unreadCount == 0) ">  -->
+    <div class="filter-bar" ng-if="!ctrl.isBookmark && !ctrl.isSent">
+      <div class="filter-bar-inner" affixer-filter top="96">
         <div class="toolbar ng-class:{'selcted-mode' : ctrl.selectedPosts.length > 0, 'unread-mode' : ctrl.isUnreadMode}" ng-mouseleave="popoverSortShow = false">
           <svg class="default-mode-butn _16svg _df _fn" ng-if="ctrl.isUnreadMode || ctrl.selectedPosts.length > 0" ng-click="ctrl.exitUnseenMode();ctrl.unselectAll();">
             <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
@@ -65,7 +65,7 @@
               <translate>bookmark</translate>
             </a>
           </p> -->
-          <div ng-show="!ctrl.isSentMode && !ctrl.isBookmark && ctrl.selectedPosts.length == 0 && !ctrl.isUnreadMode" ng-mouseenter="popoverSortShow = true"
+          <div ng-show="!ctrl.isSent && !ctrl.isBookmark && ctrl.selectedPosts.length == 0 && !ctrl.isUnreadMode" ng-mouseenter="popoverSortShow = true"
             data-popover-class="white-pop messages-sort-popover" uib-popover-template="'app/messages/partials/popovers/sort_popover.html'"
             data-popover-placement="bottom-center" data-popover-is-open="popoverSortShow" id="test-filter-sort" class="filter-bar-popover-button _fn">
             <translate class="_df" ng-if="ctrl.messagesSetting.sort === 'latest-messages'">Recent Messages</translate>
