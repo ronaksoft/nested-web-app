@@ -733,6 +733,14 @@
       }
     }
 
+    $scope.$watch(function (){
+      return vm.unreadCount
+    },function() {
+      if (vm.unreadCount === 0) {
+        vm.isUnreadMode = false;
+      }
+    })
+
     $scope.$on('$destroy', function () {
       if (CITHandler) {
         $timeout.cancel(CITHandler);
