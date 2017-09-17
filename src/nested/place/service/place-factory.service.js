@@ -86,11 +86,11 @@
       var cachedPlace = this.getCachedSync(id);
       if (cachedPlace && !normal) {
         // The cached model exists and the place type (normal/tiny) does not matter
-        this.updateCache();
+        // this.updateCache(id);
         return $q.resolve(cachedPlace);
       } else if (normal && cachedPlace && cachedPlace.privacy && cachedPlace.policy) {
         // The cached model exists and only a normal place is accepted
-        this.updateCache();
+        // this.updateCache(id);
         return $q.resolve(cachedPlace);
       }
 
