@@ -161,13 +161,13 @@
     <label for="advanced-search-keyword"><translate>keyword:</translate></label>
     <input ng-model="ctrlTopBar.advancedSearch.keywords" id="advanced-search-keyword" class="advanced-search-text-input" type="text">
     <label for="advanced-search-from"><translate>from:</translate></label>
-    <input ng-model="ctrlTopBar.advancedSearch.users" id="advanced-search-from" class="advanced-search-text-input" type="text">
+    <input nst-mention-user ng-model="ctrlTopBar.advancedSearch.users" id="advanced-search-from" class="advanced-search-text-input" type="text">
     <label for="advanced-search-in"><translate>in:</translate></label>
-    <input ng-model="ctrlTopBar.advancedSearch.places" id="advanced-search-in" class="advanced-search-text-input" type="text">
+    <input nst-mention-place ng-model="ctrlTopBar.advancedSearch.places" id="advanced-search-in" class="advanced-search-text-input" type="text">
     <label for="advanced-search-subject"><translate>subject:</translate></label>
     <input ng-model="ctrlTopBar.advancedSearch.subject" id="advanced-search-subject" class="advanced-search-text-input" type="text">
     <label for="advanced-search-label"><translate>label:</translate></label>
-    <input ng-model="ctrlTopBar.advancedSearch.labels" id="advanced-search-label" class="advanced-search-text-input" type="text">
+    <input nst-mention-label ng-model="ctrlTopBar.advancedSearch.labels" id="advanced-search-label" class="advanced-search-text-input" type="text">
 
     <input ng-model="ctrlTopBar.advancedSearch.hasAttachment" class="_fr" type="checkbox" id="attachment" name="attachment" />
     <label class="_fw setting left-box checkbox-label _asc" for="attachment"><translate>Has attachment</translate></label>

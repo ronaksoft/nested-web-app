@@ -228,6 +228,7 @@
     };
 
     SearchQuery.prototype.setPlaces = function (places) {
+      places = places.replace(/, /g, ',');
       places = places.split(',');
       for (var i in places) {
         this.addPlace(places[i]);
@@ -262,6 +263,7 @@
     };
 
     SearchQuery.prototype.setUsers = function (users) {
+      users = users.replace(/, /g, ',');
       users = users.split(',');
       for (var i in users) {
         this.addUser(users[i]);
@@ -296,6 +298,7 @@
     };
 
     SearchQuery.prototype.setLabels = function (labels) {
+      labels = labels.replace(/, /g, ',');
       labels = labels.split(',');
       for (var i in labels) {
         this.addLabel(labels[i]);
