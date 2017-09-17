@@ -204,7 +204,7 @@
     function getKeyholders(placeId, limit, skip, hasAccess) {
       var deferred = $q.defer();
 
-      if (limit > 0 && hasAccess && vm.teammatesSettings.keyHoldersCount < vm.place.counters.key_holders) {
+      if (limit > 0 && hasAccess /*&& vm.teammatesSettings.keyHoldersCount < vm.place.counters.key_holders*/) {
         NstSvcPlaceFactory.getKeyholders(placeId, limit, skip).then(function (result) {
           var keyHolderItems = _.map(result.keyHolders, function (item) {
             return new NstVmMemberItem(item, 'key_holder');

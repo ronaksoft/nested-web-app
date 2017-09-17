@@ -1,4 +1,4 @@
-<a ui-sref="app.place-messages({ placeId: place.id })" dbl-click="{{place.children.length > 0}}" ng-dblclick="place.isExpanded =! place.collapse;ctlSidebar.updateExpanded(place.id, place.isExpanded);" class="side-grand-place-item-inner" ui-sref-active="isSelected">
+<a ui-sref="app.place-messages({ placeId: place.id })" dbl-click="{{place.children.length > 0}}" ng-dblclick="place.isExpanded =! place.collapse;ctlSidebar.updateExpanded(place.id, place.isExpanded);" class="side-grand-place-item-inner" ui-sref-active="isSelected" ng-class="{'isSelected': place.isActive}">
   <div class="side-grand-place-item-image">
     <div class="unreadPlace" ng-if="ctlSidebar.placesNotifCountObject[place.id] > 0">
       <svg class="pendfill _24svg">
@@ -16,7 +16,7 @@
   </cite>
   <i ng-if="place.children.length > 0" class="tw-svg _difv ng-class:{'open' : place.isExpanded}"
       data-ng-click="place.isExpanded =! place.isExpanded;ctlSidebar.updateExpanded(place.id, place.isExpanded);$event.stopPropagation();$event.preventDefault();" role="button" tabindex="0">
-    <div class="unread-on-arrow ng-class:{'visibility-hidden': !place.childrenHasUnseen}"></div>
+    <div ng-if="ctlSidebar.isChildrenUnseen(place.id)" class="unread-on-arrow"></div>
     <svg class="_16svg">
       <use xlink:href="/assets/icons/nst-icn16.svg#arrow"></use>
     </svg>

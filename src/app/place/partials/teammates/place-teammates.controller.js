@@ -335,14 +335,11 @@
      */
     function loadTeammates(placeId, hasSeeMembersAccess, cacheHandler) {
       var deferred = $q.defer();
-
       var teammates = [];
       getCreators(placeId, vm.teammatesSettings.limit, vm.teammatesSettings.skip, hasSeeMembersAccess, cacheHandler).then(function (creators) {
         teammates.push.apply(teammates, creators);
-
         return getKeyholders(placeId, vm.teammatesSettings.limit - creators.length - ( vm.hasAddMembersAccess ? 1 : 0 ), vm.teammatesSettings.skip, hasSeeMembersAccess, cacheHandler);
       }).then(function (keyHolders) {
-
         teammates.push.apply(teammates, keyHolders);
 
         deferred.resolve(teammates);
@@ -360,7 +357,7 @@
       if (vm.hasSeeMembersAccess) {
 
         loadTeammates(vm.placeId, vm.hasSeeMembersAccess, function(teammates) {
-          vm.teammates.push.apply(vm.teammates, _.compact(teammates));
+          vm.teammates.push.apply(vm.teammates, _.compact(_.unionBy(teammates, 'id')));
         }).then(function (teammates) {
           var newItems = _.differenceBy(teammates, vm.teammates, 'id');
           var removedItems = _.differenceBy(vm.teammates, teammates, 'id');
@@ -434,7 +431,7 @@
     function getKeyholders(placeId, limit, skip, hasAccess, cacheHandler) {
       var deferred = $q.defer();
 
-      if (limit > 0 && hasAccess && vm.teammatesSettings.keyHoldersCount < vm.place.counters.key_holders) {
+      if (limit > 0 && hasAccess /*&& vm.teammatesSettings.keyHoldersCount < vm.place.counters.key_holders*/) {
         NstSvcPlaceFactory.getKeyholders(placeId, limit, skip, function(cachedKeyHolders) {
           cacheHandler(_.map(cachedKeyHolders, function (item) {
             return new NstVmMemberItem(item, 'key_holder');
@@ -443,7 +440,6 @@
           var keyHolderItems = _.map(data.keyHolders, function (item) {
             return new NstVmMemberItem(item, 'key_holder');
           });
-
           deferred.resolve(keyHolderItems);
         }).catch(deferred.reject);
       } else {
