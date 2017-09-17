@@ -3,7 +3,7 @@
   angular
     .module('ronak.nested.web.components.mention')
     .directive('nstMentionLabel', function (_, $rootScope, $timeout, $window,
-                                            NstSvcLabelFactory) {
+                                            NstSvcLabelFactory, NstSvcTranslation) {
       return {
         restrict: 'A',
         link: function (scope, _element) {
@@ -53,7 +53,7 @@
                       _.map(uniqueLabels, function (item) {
                         items.push({
                           id: item.title,
-                          type: item.public ? 'everyone' : 'specific users',
+                          type: item.public ? NstSvcTranslation.get('everyone') : NstSvcTranslation.get('specific users'),
                           name: item.title,
                           code: item.code,
                           searchField: [item.id, item.title].join(' ')
