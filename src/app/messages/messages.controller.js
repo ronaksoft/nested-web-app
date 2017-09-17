@@ -430,7 +430,7 @@
           NstSvcPostFactory.get(vm.selectedPosts[i]).then(function (post) {
             NstSvcPostFactory.remove(post.id, vm.currentPlaceId).then(function () {
               NstUtility.collection.dropById(post.places, vm.currentPlaceId);
-              // toastr.success(NstUtility.string.format(NstSvcTranslation.get("The post has been removed from this Place.")));
+              toastr.success(NstUtility.string.format(NstSvcTranslation.get("The post has been removed from this Place.")));
               $rootScope.$broadcast('post-removed', {
                 postId: post.id,
                 placeId: vm.currentPlaceId

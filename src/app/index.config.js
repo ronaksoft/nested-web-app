@@ -52,7 +52,7 @@
     toastrConfig.onTap = null;
     toastrConfig.progressBar = false;
     toastrConfig.templates = {
-      toast: 'app/components/toast/toast.html',
+      toast: 'directives/toast/toast2.html',
       progressbar: 'directives/progressbar/progressbar.html'
     };
     
