@@ -27,27 +27,36 @@
     UserFactory.prototype.get = function (id) {
       var factory = this;
       // first ask the cache provider to give the model
+      var deferred = $q.defer();
+
       var cachedUser = this.getCachedSync(id);
+      var withServer = true;
       if (cachedUser) {
-        return $q.resolve(cachedUser);
+        withServer = false;
+        deferred.resolve(cachedUser);
       }
 
-      var deferred = $q.defer();
       // collects all requests for account and send them all using getMany
       this.collector.add(id).then(function (data) {
         // update cache database
         factory.set(data);
-        deferred.resolve(factory.parseTinyUser(data));
+        if (withServer) {
+          deferred.resolve(factory.parseTinyUser(data));
+        }
       }).catch(function (error) {
         switch (error.code) {
           case NST_SRV_ERROR.ACCESS_DENIED:
           case NST_SRV_ERROR.UNAVAILABLE:
-            deferred.reject();
+            if (withServer) {
+              deferred.reject();
+            }
             factory.cache.remove(id);
             break;
 
           default:
-            deferred.reject(error);
+            if (withServer) {
+              deferred.reject(error);
+            }
             break;
         }
       });
