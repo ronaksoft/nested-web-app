@@ -268,7 +268,7 @@
           markAsRead();
         }
 
-        if (vm.post.isTrusted || Object.keys(post.resources).length == 0) {
+        if (vm.post.isTrusted || !post.resources || Object.keys(post.resources).length == 0) {
           showTrustedBody();
         }
         ++$scope.$parent.$parent.affixObserver;
