@@ -116,10 +116,14 @@
       </a>
     </li>
 
-    <li class="more-mentions loading-notif" ng-click="ctlNotifications.loadMore()" ng-if="!ctlNotifications.reached">
-      <translate ng-if="!ctlMentions.error" ng-show="!ctlNotifications.loadingBefore && !ctlNotifications.reached">Load more...</translate>
-      <translate ng-if="ctlMentions.error" ng-show="!ctlNotifications.loadingBefore && !ctlNotifications.reached">Try again...</translate>
-      <div class="_fw _jcc _df margin-top-10 _pr" ng-if="ctlNotifications.loadingBefore && !ctlNotifications.error">
+    <li class="more-mentions" ng-click="ctlNotifications.loadMore();$event.stopPropagation();"
+      ng-if="!ctlNotifications.reached && !ctlNotifications.loadingBefore">
+      <translate ng-if="!ctlMentions.error" ng-show="!ctlNotifications.reached">Load more...</translate>
+      <translate ng-if="ctlMentions.error" ng-show="!ctlNotifications.reached">Try again...</translate>
+    </li>
+    <li class="more-mentions loading-notif"
+      ng-if="!ctlNotifications.reached && ctlNotifications.loadingBefore && !ctlNotifications.error">
+      <div class="_fw _jcc _df margin-top-10 _pr">
         <div class="loading">
           <div class="animation">
             <div class="circle one"></div>
