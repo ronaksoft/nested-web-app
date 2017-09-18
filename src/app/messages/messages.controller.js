@@ -740,6 +740,7 @@
       return vm.unreadCount
     },function() {
       if (vm.unreadCount === 0) {
+        vm.exitUnseenMode();
         vm.isUnreadMode = false;
       }
     })
