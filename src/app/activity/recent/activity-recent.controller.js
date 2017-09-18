@@ -71,8 +71,8 @@
 
     /**
      * Merges the received activities with the cached items
-     * 
-     * @param {any} activities 
+     *
+     * @param {any} activities
      */
     function merge(activities) {
       var newItems = _.differenceBy(activities, vm.activities, 'id');
@@ -92,8 +92,8 @@
 
     /**
      * Binds the cached items
-     * 
-     * @param {any} activities 
+     *
+     * @param {any} activities
      */
     function handleCachedActivities(activities) {
       vm.activities = activities;

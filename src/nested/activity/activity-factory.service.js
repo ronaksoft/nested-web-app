@@ -19,12 +19,12 @@
     ActivityFactory.prototype.get = get;
     ActivityFactory.prototype.getAfter = getAfter;
     ActivityFactory.prototype.getRecent = getRecent;
-    ActivityFactory.prototype.parseActivityIntelligently = parseActivityIntelligently;
+    ActivityFactory.prototype.parseActivity = parseActivity;
 
     var factory = new ActivityFactory();
     return factory;
 
-    function parseActivityIntelligently(data) {
+    function parseActivity(data) {
       if (!data) {
         return null;
       }
@@ -71,24 +71,21 @@
         throw Error(NstUtility.string.format('The provided activity is not of {0} type.', NST_EVENT_ACTION.POST_ADD));
       }
 
-      var deferred = $q.defer();
       var activity = new NstActivity();
 
       activity.id = data._id;
       activity.type = data.action;
       activity.date = data.timestamp;
+      activity.actor = NstSvcUserFactory.parseTinyUser(data.actor);
+      activity.place = NstSvcPlaceFactory.parseTinyPlace(data.place);
+      activity.post = {
+        id: data.post_id,
+        body: data.post_preview,
+        subject: data.post_subject
+      };
+      activity.places = data.places;
 
-      var postPromise = NstSvcPostFactory.get(data.post_id);
-      $q.all([postPromise]).then(function (resultSet) {
-        activity.post = resultSet[0];
-
-        deferred.resolve(activity);
-      }).catch(function (error) {
-        deferred.resolve(null);
-        NstSvcLogger.error("Activity Factory GET:" , error)
-      });
-
-      return deferred.promise;
+      return activity;
     }
 
     function parsePostRemovePlace(data) {
@@ -96,30 +93,20 @@
         throw Error(NstUtility.string.format('The provided activity is not of {0} type.', NST_EVENT_ACTION.POST_REMOVE_PLACE));
       }
 
-      var deferred = $q.defer();
       var activity = new NstActivity();
 
       activity.id = data._id;
       activity.type = data.action;
       activity.date = data.timestamp;
+      activity.actor = NstSvcUserFactory.parseTinyUser(data.actor);
+      activity.place = NstSvcPlaceFactory.parseTinyPlace(data.place);
+      activity.post = {
+        id: data.post_id,
+        body: data.post_preview,
+        subject: data.post_subject
+      };
 
-      var postPromise = NstSvcPostFactory.get(data.post_id);
-      // TODO: Not required anymore, because the actor and comment sender are the same
-      var actorPromise = NstSvcUserFactory.get(data.actor_id);
-      var placePromise = NstSvcPlaceFactory.get(data.place_id);
-
-      $q.all([postPromise, actorPromise, placePromise]).then(function (resultSet) {
-        activity.post = resultSet[0];
-        activity.actor = resultSet[1];
-        activity.place = resultSet[2];
-
-        deferred.resolve(activity);
-      }).catch(function (error) {
-        deferred.resolve(null);
-        NstSvcLogger.error("Activity Factory GET:" , error)
-      });
-
-      return deferred.promise;
+      return activity;
     }
 
     function parsePostAttachPlace(data) {
@@ -127,30 +114,20 @@
         throw Error(NstUtility.string.format('The provided activity is not of {0} type.', NST_EVENT_ACTION.POST_ATTACH_PLACE));
       }
 
-      var deferred = $q.defer();
       var activity = new NstActivity();
       activity.id = data._id;
       activity.type = data.action;
       activity.date = data.timestamp;
+      activity.post = {
+        id: data.post_id,
+        body: data.post_preview,
+        subject: data.post_subject
+      };
+      activity.actor = NstSvcUserFactory.parseTinyUser(data.actor);
+      activity.place = NstSvcPlaceFactory.parseTinyPlace(data.place);
+      activity.attachedPlace = NstSvcPlaceFactory.parseTinyPlace(data.new_place);
 
-      var postPromise = NstSvcPostFactory.get(data.post_id);
-      // TODO: Not required anymore, because the actor and comment sender are the same
-      var actorPromise = NstSvcUserFactory.get(data.actor_id);
-      var placePromise = NstSvcPlaceFactory.get(data.place_id);
-      var newPlacePromise = NstSvcPlaceFactory.get(data.new_place_id);
-      $q.all([postPromise, actorPromise, placePromise, newPlacePromise]).then(function (resultSet) {
-        activity.post = resultSet[0];
-        activity.actor = resultSet[1];
-        activity.place = resultSet[2];
-        activity.attachedPlace =  resultSet[3];
-
-        deferred.resolve(activity);
-      }).catch(function (error) {
-        deferred.resolve(null);
-        NstSvcLogger.error("Activity Factory GET:" , error)
-      });
-
-      return deferred.promise;
+      return activity;
     }
 
     function parsePostMove(data) {
@@ -158,29 +135,21 @@
         throw Error(NstUtility.string.format('The provided activity is not of {0} type.', NST_EVENT_ACTION.POST_MOVE));
       }
 
-      var deferred = $q.defer();
       var activity = new NstActivity();
 
       activity.id = data._id;
       activity.type = data.action;
       activity.date = data.timestamp;
-      var postPromise = NstSvcPostFactory.get(data.post_id);
-      var oldPlacePromise = NstSvcPlaceFactory.get(data.old_place_id);
-      var newPlacePromise = NstSvcPlaceFactory.get(data.new_place_id);
-      var actorPromise = NstSvcUserFactory.get(data.actor_id);
-      $q.all([postPromise, oldPlacePromise, newPlacePromise, actorPromise]).then(function (resultSet) {
-        activity.post = resultSet[0];
-        activity.oldPlace = resultSet[1];
-        activity.newPlace = resultSet[2];
-        activity.actor = resultSet[3];
+      activity.post = {
+        id: data.post_id,
+        body: data.post_preview,
+        subject: data.post_subject
+      };
+      activity.oldPlace = NstSvcPlaceFactory.parseTinyPlace(data.old_place);
+      activity.newPlace = NstSvcPlaceFactory.parseTinyPlace(data.new_place);
+      activity.actor = NstSvcUserFactory.parseTinyUser(data.actor);
 
-        deferred.resolve(activity);
-      }).catch(function (error) {
-        deferred.resolve(null);
-        NstSvcLogger.error("Activity Factory GET:" , error)
-      });
-
-      return deferred.promise;
+      return activity;
     }
 
     function parseAddComment(data) {
@@ -188,74 +157,60 @@
         throw Error(NstUtility.string.format('The provided activity is not of {0} type.', NST_EVENT_ACTION.COMMENT_ADD));
       }
 
-      var deferred = $q.defer();
+      var activity = new NstActivity();
+      activity.id = data._id;
+      activity.type = data.action;
+      activity.date = data.timestamp;
+      activity.actor = NstSvcUserFactory.parseTinyUser(data.actor);
+      activity.place = NstSvcPlaceFactory.parseTinyPlace(data.place);
+      activity.post = {
+        id: data.post_id,
+        subject: data.post_subject
+      };
+      activity.comment = {
+        body: data.comment_text
+      };
+      activity.places = data.places;
 
-
-
-      var postPromise = NstSvcPostFactory.get(data.post_id);
-      var commentPromise = NstSvcCommentFactory.getComment(data.comment_id, data.post_id);
-
-      $q.all([postPromise, commentPromise]).then(function (resultSet) {
-        var activity = new NstActivity();
-        activity.id = data._id;
-        activity.type = data.action;
-        activity.date = data.timestamp;
-        activity.post = resultSet[0];
-        activity.comment = resultSet[1];
-        deferred.resolve(activity);
-      }).catch(function (error) {
-        deferred.resolve(null);
-        NstSvcLogger.error("Activity Factory GET:" , error)
-      });
-
-      return deferred.promise;
+      return activity;
     }
 
     function parseAddLabel(data) {
-      var deferred = $q.defer();
-      var labelPromise = NstSvcLabelFactory.get(data.label_id);
-      var actorPromise = NstSvcUserFactory.get(data.actor_id);
-      var postPromise = NstSvcPostFactory.get(data.post_id);
+      if (data.action !== NST_EVENT_ACTION.LABEL_ADD) {
+        throw Error(NstUtility.string.format('The provided activity is not of {0} type.', NST_EVENT_ACTION.LABEL_ADD));
+      }
 
-      $q.all([labelPromise, actorPromise, postPromise]).then(function (resultSet) {
-        var activity = new NstActivity();
-        activity.id = data._id;
-        activity.type = data.action;
-        activity.date = data.timestamp;
-        activity.label = resultSet[0] ? resultSet[0] : null;
-        activity.actor = resultSet[1];
-        activity.post = resultSet[2];
-        deferred.resolve(activity);
-      }).catch(function (/*error*/) {
-        deferred.resolve(null);
-        // NstSvcLogger.error("Activity Factory GET:" , error)
-      });
+      var activity = new NstActivity();
+      activity.id = data._id;
+      activity.type = data.action;
+      activity.date = data.timestamp;
+      activity.label = NstSvcLabelFactory.parse(data.label);
+      activity.actor = NstSvcUserFactory.parseTinyUser(data.actor);
+      activity.post = {
+        id: data.post_id,
+        subject: data.post_subject
+      };
 
-      return deferred.promise;
+      return activity;
     }
 
     function parseRemoveLabel(data) {
+      if (data.action !== NST_EVENT_ACTION.LABEL_REMOVE) {
+        throw Error(NstUtility.string.format('The provided activity is not of {0} type.', NST_EVENT_ACTION.LABEL_REMOVE));
+      }
 
-      var deferred = $q.defer();
-      var labelPromise = NstSvcLabelFactory.get(data.label_id);
-      var actorPromise = NstSvcUserFactory.get(data.actor_id);
-      var postPromise = NstSvcPostFactory.get(data.post_id);
+      var activity = new NstActivity();
+      activity.id = data._id;
+      activity.type = data.action;
+      activity.date = data.timestamp;
+      activity.label = NstSvcLabelFactory.parse(data.label);
+      activity.actor = NstSvcUserFactory.parseTinyUser(data.actor);
+      activity.post = {
+        id: data.post_id,
+        subject: data.post_subject
+      };
 
-      $q.all([labelPromise, actorPromise, postPromise]).then(function (resultSet) {
-        var activity = new NstActivity();
-        activity.id = data._id;
-        activity.type = data.action;
-        activity.date = data.timestamp;
-        activity.label = resultSet[0] ? resultSet[0] : null;
-        activity.actor = resultSet[1];
-        activity.post = resultSet[2];
-        deferred.resolve(activity);
-      }).catch(function (/*error*/) {
-        deferred.resolve(null);
-        // NstSvcLogger.error("Activity Factory GET:" , error)
-      });
-
-      return deferred.promise;
+      return activity;
     }
 
     function parseRemoveComment(data) {
@@ -263,26 +218,19 @@
         throw Error(NstUtility.string.format('The provided activity is not of {0} type.', NST_EVENT_ACTION.COMMENT_REMOVE));
       }
 
-      var deferred = $q.defer();
+      var activity = new NstActivity();
+      activity.id = data._id;
+      activity.type = data.action;
+      activity.date = data.timestamp;
+      activity.actor = NstSvcUserFactory.parseTinyUser(data.actor);
+      activity.post = {
+        id: data.post_id
+      };
+      activity.comment = {
+        body: data.comment_text
+      };
 
-      var commentPromise = NstSvcCommentFactory.getComment(data.comment_id, data.post_id);
-      // TODO: Not required anymore, because the actor and comment sender are the same
-      var actorPromise = NstSvcUserFactory.get(data.actor_id);
-
-      $q.all([commentPromise, actorPromise]).then(function (resultSet) {
-        var activity = new NstActivity();
-        activity.id = data._id;
-        activity.type = data.action;
-        activity.date = data.timestamp;
-        activity.comment = resultSet[0];
-        activity.actor = resultSet[1];
-        deferred.resolve(activity);
-      }).catch(function (error) {
-        deferred.resolve(null);
-        NstSvcLogger.error("Activity Factory GET:" , error)
-      });
-
-      return deferred.promise;
+      return activity;
     }
 
     function parseMemberRemove(data) {
@@ -290,29 +238,16 @@
         throw Error(NstUtility.string.format('The provided activity is not of {0} type.', NST_EVENT_ACTION.MEMBER_REMOVE));
       }
 
-      var deferred = $q.defer();
       var activity = new NstActivity();
 
       activity.id = data._id;
       activity.type = data.action;
       activity.date = data.timestamp;
+      activity.actor = NstSvcUserFactory.parseTinyUser(data.actor);
+      activity.member = NstSvcUserFactory.parseTinyUser(data.member);
+      activity.place = NstSvcPlaceFactory.parseTinyPlace(data.place);
 
-      var actorPromise = NstSvcUserFactory.get(data.actor_id);
-      var inviteePromise = NstSvcUserFactory.get(data.member_id);
-      var placePromise = NstSvcPlaceFactory.get(data.place_id);
-
-      $q.all([actorPromise, inviteePromise, placePromise]).then(function (resultSet) {
-        activity.actor = resultSet[0];
-        activity.member = resultSet[1];
-        activity.place = resultSet[2];
-
-        deferred.resolve(activity);
-      }).catch(function (error) {
-        deferred.resolve(null);
-        NstSvcLogger.error("Activity Factory GET:" , error)
-      });
-
-      return deferred.promise;
+      return activity;
     }
 
     function parseMemberJoin(data) {
@@ -320,27 +255,15 @@
         throw Error(NstUtility.string.format('The provided activity is not of {0} type.', NST_EVENT_ACTION.MEMBER_JOIN));
       }
 
-      var deferred = $q.defer();
       var activity = new NstActivity();
 
       activity.id = data._id;
       activity.type = data.action;
       activity.date = data.timestamp;
+      activity.actor = NstSvcUserFactory.parseTinyUser(data.actor);
+      activity.place = NstSvcPlaceFactory.parseTinyPlace(data.place);
 
-      var actorPromise = NstSvcUserFactory.get(data.actor_id);
-      var placePromise = NstSvcPlaceFactory.get(data.place_id);
-
-      $q.all([actorPromise, placePromise]).then(function (resultSet) {
-        activity.actor = resultSet[0];
-        activity.place = resultSet[1];
-
-        deferred.resolve(activity);
-      }).catch(function (error) {
-        deferred.resolve(null);
-        NstSvcLogger.error("Activity Factory GET:" , error)
-      });
-
-      return deferred.promise;
+      return activity;
     }
 
     function parsePlaceAdd(data) {
@@ -348,27 +271,17 @@
         throw Error(NstUtility.string.format('The provided activity is not of {0} type.', NST_EVENT_ACTION.PLACE_ADD));
       }
 
-      var deferred = $q.defer();
       var activity = new NstActivity();
 
       activity.id = data._id;
       activity.type = data.action;
       activity.date = data.timestamp;
+      activity.actor = NstSvcUserFactory.parseTinyUser(data.actor);
+      activity.post = {
+        id: data.post_id
+      };
 
-      var placePromise = NstSvcPlaceFactory.get(data.place_id);
-      var actorPromise = NstSvcUserFactory.get(data.actor_id);
-
-      $q.all([placePromise, actorPromise]).then(function (resultSet) {
-        activity.place = resultSet[0];
-        activity.actor = resultSet[1];
-
-        deferred.resolve(activity);
-      }).catch(function (error) {
-        deferred.resolve(null);
-        NstSvcLogger.error("Activity Factory GET:" , error)
-      });
-
-      return deferred.promise;
+      return activity;
     }
 
     function getActivities(settings, cacheHandler) {
@@ -381,20 +294,15 @@
           before: settings.before,
           after: settings.after,
           filter: settings.filter || 'all',
-          place_id: settings.placeId
+          place_id: settings.placeId,
+          details: true
         }, function (cachedResponse) {
           if (_.isFunction(cacheHandler) && cachedResponse) {
-            cacheHandler(_.map(cachedResponse.activities, NstSvcActivityCacheFactory.parseCachedModel));
+            cacheHandler(_.map(cachedResponse.activities, parseActivity));
           }
         }).then(function (response) {
 
-          var activities = _.map(response.activities, parseActivityIntelligently);
-
-          $q.all(activities).then(function (values) {
-            deferred.resolve(values.filter(function (obj) {
-              return obj !== null;
-            }));
-          }).catch(deferred.reject);
+          deferred.resolve(_.map(response.activities, parseActivity));
 
         }).catch(deferred.reject);
 
@@ -428,20 +336,16 @@
         NstSvcServer.request('place/get_activities', {
           filter: NST_ACTIVITY_FILTER.ALL,
           limit: settings.limit || 10,
-          place_id: settings.placeId
+          place_id: settings.placeId,
+          details: true
         }, function(cachedResponse) {
           if (_.isFunction(cacheHandler) && cachedResponse) {
-            var activities = _.chain(cachedResponse.activities).map(NstSvcActivityCacheFactory.parseCachedModel).compact().value();
+            var activities = _.chain(cachedResponse.activities).map(parseActivity).compact().value();
             cacheHandler(activities);
           }
         }).then(function (response) {
 
-          var activities = _.map(response.activities, parseActivityIntelligently);
-          $q.all(activities).then(function (values) {
-            deferred.resolve(values.filter(function (obj) {
-              return obj !== null;
-            }));
-          }).catch(deferred.reject);
+          deferred.resolve(_.map(response.activities, parseActivity));
 
         }).catch(deferred.reject);
 

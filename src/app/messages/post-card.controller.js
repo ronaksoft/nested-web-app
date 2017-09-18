@@ -194,7 +194,7 @@
             placeId: place.id
           });
           vm.isChecked = false;
-          
+
           createTotalPostRecipients();
           $scope.$emit('post-select',{postId: vm.post.id,isChecked : vm.isChecked});
         }).catch(function () {
@@ -343,7 +343,7 @@
             vm.post.places.push(place);
           }
         });
-        
+
         createTotalPostRecipients();
         NstSvcPlaceFactory.getAccess(_.map(attachedPlaces, 'id')).then(function (accesses) {
           _.forEach(accesses, function (item) {
@@ -553,13 +553,15 @@
 
     function createTotalPostRecipients() {
       var concatArray = vm.post.places.slice(0);
-      vm.post.recipients.forEach( function (i){
-        concatArray.push({
-          id : i,
-          name : i
+      if (vm.post.recipients) {
+        vm.post.recipients.forEach( function (i){
+          concatArray.push({
+            id : i,
+            name : i
+          });
         });
-      });
-      vm.totalRecipients = _.uniqBy(concatArray, 'id');
+        vm.totalRecipients = _.uniqBy(concatArray, 'id');
+      }
     }
 
     /**
@@ -594,7 +596,7 @@
         return;
       }
 
-      var senderIsCurrentUser = NstSvcAuth.user.id == data.activity.comment.sender.id;
+      var senderIsCurrentUser = (NstSvcAuth.user.id === data.activity.actor.id);
       if (senderIsCurrentUser) {
         loadNewComments();
         if (!_.includes(newCommentIds, data.activity.id)) {
@@ -846,7 +848,7 @@
      */
     function getPlacesWithControlAccess() {
       return _.filter(vm.post.places, function (place) {
-        place.hasAccess(NST_PLACE_ACCESS.CONTROL);
+        return place.hasAccess(NST_PLACE_ACCESS.CONTROL);
       });
     }
 
@@ -856,6 +858,7 @@
      */
     function hasPlacesWithControlAccess() {
       return _.some(vm.post.places, function (place) {
+        // console.log(place, place.hasAccess(NST_PLACE_ACCESS.CONTROL));
         return place.hasAccess(NST_PLACE_ACCESS.CONTROL);
       });
     }

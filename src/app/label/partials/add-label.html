@@ -33,7 +33,7 @@
             <svg class="_16svg mirror _fn color-lbl-{{label.code}}">
                 <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
             </svg>
-            <span class="_vat _df" data-ng-bind-html="(label.title | scapeRevSpace) | highlight: $select.search"></span>
+            <span class="_vat _df" auto-dir="label.title" data-ng-bind-html="(label.title | scapeRevSpace) | highlight: $select.search"></span>
         </ui-select-choices>
     </ui-select>
     <div class="load-more-labels">

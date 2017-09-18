@@ -21,6 +21,8 @@
       this.memberType = null;
       this.label = null;
 
+      this.places = null;
+
     }
 
     Activity.prototype = {};

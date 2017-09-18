@@ -63,9 +63,9 @@
         vm.showPlaceId = !_.includes([ 'off', 'internal' ], place.privacy.receptive);
         vm.currentPlace = place;
         vm.currentPlaceLoaded = true;
-        
+
         vm.hasSeeMembersAccess = place.hasAccess(NST_PLACE_ACCESS.SEE_MEMBERS);
-        
+
       });
 
     })();
