@@ -846,7 +846,7 @@
      */
     function getPlacesWithControlAccess() {
       return _.filter(vm.post.places, function (place) {
-        place.hasAccess(NST_PLACE_ACCESS.CONTROL);
+        return place.hasAccess(NST_PLACE_ACCESS.CONTROL);
       });
     }
 
@@ -856,6 +856,7 @@
      */
     function hasPlacesWithControlAccess() {
       return _.some(vm.post.places, function (place) {
+        // console.log(place, place.hasAccess(NST_PLACE_ACCESS.CONTROL));
         return place.hasAccess(NST_PLACE_ACCESS.CONTROL);
       });
     }
