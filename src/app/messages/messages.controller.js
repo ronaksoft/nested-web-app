@@ -564,17 +564,17 @@
             fromPlace: result.fromPlace
           });
 
-          if (result.failed.length > 0) {
-            vm.tempBanPlaces = [];
-            vm.tempBanPlaces.push(result.toPlace);
-          }
-
           // Remove item fram staged posts
           var index = vm.selectedPosts.indexOf(result.success[i]);
           vm.selectedPosts.splice(index, 1);
           --vm.currentPlace.counters.posts;
           // what is this ?  and TODO : optimise for multi   :
           // NstUtility.collection.replaceById(vm.post.places, result.fromPlace.id, result.toPlace);
+        }
+
+        if (result.failed.length > 0) {
+          vm.tempBanPlaces = [];
+          vm.tempBanPlaces.push(result.toPlace);
         }
         $scope.$broadcast('selected-length-change', {
           selectedPosts: vm.selectedPosts
