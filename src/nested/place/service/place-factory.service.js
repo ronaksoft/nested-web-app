@@ -360,7 +360,11 @@
 
         return deferred.promise;
       }, "updatePicture", id);
-    }
+    };
+
+    PlaceFactory.prototype.removeCache = function (id) {
+      this.cache.remove(id);
+    };
 
     PlaceFactory.prototype.remove = function (id) {
       var factory = this;
