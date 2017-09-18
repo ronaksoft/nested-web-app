@@ -95,6 +95,9 @@
       }));
 
       eventReferences.push($rootScope.$on(NST_EVENT_ACTION.POST_ADD, function (e, data) {
+        if (vm.isFeed) {
+          load();
+        }
         if (postMustBeShown(data.activity.post)) {
           // The current user is the sender
           vm.messages.unshift(data.activity.post);
@@ -145,8 +148,8 @@
           }
         }
       }));
-      
-    
+
+
       $rootScope.$on('post-hide', function (event, data) {
         var message = _.find(vm.messages, {
           id: data.postId
@@ -467,7 +470,7 @@
         //   selectedPosts: vm.selectedPosts
         // });
 
-        
+
         // // temporary hide post card from view
         // selecteds.forEach(function(post) {
         //   $rootScope.$broadcast('post-hide', {
@@ -476,7 +479,7 @@
         //   });
         // });
 
-        
+
         // function actioner() {
         //   action();
         //   window.actionsGC.splice(window.actionsGC.indexOf(action), 1);
@@ -504,7 +507,7 @@
         //       NstSvcPostFactory.remove(post.id, vm.currentPlaceId).then(function () {
         //         NstUtility.collection.dropById(post.places, vm.currentPlaceId);
         //         // toastr.success(NstUtility.string.format(NstSvcTranslation.get("The post has been removed from this Place.")));
-                
+
         //         $rootScope.$broadcast('post-removed', {
         //           postId: post.id,
         //           placeId: vm.currentPlaceId
