@@ -61,17 +61,6 @@
 
     PlaceFactory.prototype.constructor = PlaceFactory;
 
-
-    PlaceFactory.prototype.updateCache = function (id) {
-      this.cache.remove(id);
-      var factory = this;
-      return NstSvcServer.request('place/get', {
-        place_id: id
-      }).then(function (data) {
-        factory.set(data);
-      });
-    };
-
     /**
      * Retrieves a place by id and store in the related cache storage
      *
@@ -81,31 +70,60 @@
      * @returns {Promise}
      */
     PlaceFactory.prototype.get = function (id, normal) {
+      var deferred = $q.defer();
       var factory = this;
       // first ask the cache provider to give the model
       var cachedPlace = this.getCachedSync(id);
+      var withServer = true;
       if (cachedPlace && !normal) {
         // The cached model exists and the place type (normal/tiny) does not matter
-        // this.updateCache(id);
-        return $q.resolve(cachedPlace);
+        withServer = false;
+        deferred.resolve(cachedPlace);
       } else if (normal && cachedPlace && cachedPlace.privacy && cachedPlace.policy) {
         // The cached model exists and only a normal place is accepted
-        // this.updateCache(id);
-        return $q.resolve(cachedPlace);
+        withServer = false;
+        deferred.resolve(cachedPlace);
       }
 
-      var deferred = $q.defer();
       // collects all requests for place and send them all using getMany
       this.collector.add(id).then(function (data) {
         // update cache database
         factory.set(data);
-        deferred.resolve(factory.parsePlace(data));
+        if (withServer) {
+          deferred.resolve(factory.parsePlace(data));
+        }
+      }).catch(function (error) {
+        switch (error.code) {
+          case NST_SRV_ERROR.ACCESS_DENIED:
+          case NST_SRV_ERROR.UNAVAILABLE:
+            if (withServer) {
+              deferred.resolve();
+            }
+            factory.cache.remove(id);
+            break;
+
+          default:
+            if (withServer) {
+              deferred.reject(error);
+            }
+            break;
+        }
+      });
+
+      return deferred.promise;
+    }
+
+    PlaceFactory.prototype.getWithNoCache = function (id) {
+
+      var deferred = $q.defer();
+      // collects all requests for place and send them all using getMany
+      this.collector.add(id).then(function (data) {
+        deferred.resolve(data);
       }).catch(function (error) {
         switch (error.code) {
           case NST_SRV_ERROR.ACCESS_DENIED:
           case NST_SRV_ERROR.UNAVAILABLE:
             deferred.resolve();
-            factory.cache.remove(id);
             break;
 
           default:
