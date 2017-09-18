@@ -41,7 +41,6 @@
       vm.canCreateGrandPlace = false;
       vm.noAccessCreatingMessage = '';
       vm.selectedPlaceName = '';
-      vm.scrollTopPlaces;
 
       initialize();
 
