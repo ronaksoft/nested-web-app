@@ -410,6 +410,8 @@
           toPlace: result.toPlace,
           fromPlace: result.fromPlace
         });
+        NstSvcPlaceFactory.getFresh(selectedPlace);
+        NstSvcPlaceFactory.getFresh(result.toPlace.id);
         vm.isChecked = false;
         createTotalPostRecipients();
         $scope.$emit('post-select',{postId: vm.post.id,isChecked : vm.isChecked});
@@ -550,7 +552,7 @@
     });
 
     function createTotalPostRecipients() {
-      var concatArray = vm.post.places;
+      var concatArray = vm.post.places.slice(0);
       vm.post.recipients.forEach( function (i){
         concatArray.push({
           id : i,
@@ -844,7 +846,7 @@
      */
     function getPlacesWithControlAccess() {
       return _.filter(vm.post.places, function (place) {
-        return place.hasAccess(NST_PLACE_ACCESS.CONTROL);
+        place.hasAccess(NST_PLACE_ACCESS.CONTROL);
       });
     }
 

@@ -73,6 +73,7 @@
       if (vm.placeId === data.invitation.place.id) {
         NstSvcPlaceFactory.get(vm.placeId, true).then(function (place) {
           vm.place = place;
+          console.log(vm.place);
         });
 
         if (vm.teammates.length < vm.teammatesSettings.limit) {
@@ -156,6 +157,7 @@
       NstSvcPlaceFactory.get(vm.placeId, true).then(function (place) {
         if (place) {
           vm.place = place;
+          console.log(vm.place);
 
           vm.hasAddMembersAccess = place.hasAccess(NST_PLACE_ACCESS.ADD_MEMBERS);
           vm.hasSeeMembersAccess = place.hasAccess(NST_PLACE_ACCESS.SEE_MEMBERS);

@@ -41,7 +41,6 @@
       vm.canCreateGrandPlace = false;
       vm.noAccessCreatingMessage = '';
       vm.selectedPlaceName = '';
-      vm.scrollTopPlaces;
 
       initialize();
 
@@ -370,21 +369,6 @@
         rebuildMyPlacesTree(data.place.id);
         dispatchTopbarEvent();
         scrollTop();
-      }));
-
-      eventReferences.push($rootScope.$on(NST_USER_EVENT.PROFILE_UPDATED, function () {
-        loadCurrentUser();
-        dispatchTopbarEvent();
-      }));
-
-      eventReferences.push($rootScope.$on(NST_USER_EVENT.PICTURE_UPDATED, function () {
-        loadCurrentUser();
-        dispatchTopbarEvent();
-      }));
-
-      eventReferences.push($rootScope.$on(NST_USER_EVENT.PICTURE_REMOVED, function () {
-        loadCurrentUser();
-        dispatchTopbarEvent();
       }));
 
       /**

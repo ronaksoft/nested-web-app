@@ -6,12 +6,13 @@
       .controller('TopBarController', TopBarController);
 
     /** @ngInject */
-    function TopBarController($q, $, $scope, $timeout, $window, $state, $stateParams, $uibModal,
+    function TopBarController($q, $, $scope, $timeout, $state, $stateParams, $uibModal,
                               $rootScope, NST_SEARCH_QUERY_PREFIX, _, NstSvcTranslation,
                               NstSvcSuggestionFactory, NstSvcLabelFactory,
                               NstSvcUserFactory, NstSvcNotificationFactory, NST_USER_SEARCH_AREA,
-                              NstSvcPlaceFactory, NstSearchQuery, NST_CONFIG) {
+                              NstSvcPlaceFactory, NstSearchQuery, NST_CONFIG, NST_USER_EVENT) {
       var vm = this;
+      var eventReferences = [];
       vm.searchPlaceholder = NstSvcTranslation.get('Search...');
       vm.searchKeyPressed = searchKeyPressed;
       vm.loadNotificationsCount = loadNotificationsCount;
@@ -674,12 +675,38 @@
       /**
        * Event listener for `reload-counters`
        */
-      $rootScope.$on('reload-counters', function () {
+      eventReferences.push($rootScope.$on('reload-counters', function () {
         loadNotificationsCount();
-      });
+      }));
 
-      $rootScope.$on('topbar-notification-changed', function () {
+      eventReferences.push($rootScope.$on('topbar-notification-changed', function () {
         loadNotificationsCount();
+      }));
+
+      eventReferences.push($rootScope.$on(NST_USER_EVENT.PROFILE_UPDATED, function () {
+        NstSvcUserFactory.getCurrent(true).then(function(user) {
+          vm.user = user;
+        });
+      }));
+
+      eventReferences.push($rootScope.$on(NST_USER_EVENT.PICTURE_UPDATED, function () {
+        NstSvcUserFactory.getCurrent(true).then(function(user) {
+          vm.user = user;
+        });
+      }));
+
+      eventReferences.push($rootScope.$on(NST_USER_EVENT.PICTURE_REMOVED, function () {
+        NstSvcUserFactory.getCurrent(true).then(function(user) {
+          vm.user = user;
+        });
+      }));
+
+      $scope.$on('$destroy', function () {
+        _.forEach(eventReferences, function (canceler) {
+          if (_.isFunction(canceler)) {
+            canceler();
+          }
+        });
       });
     }
   })();

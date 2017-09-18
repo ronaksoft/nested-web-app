@@ -121,8 +121,10 @@
       </script>
       <div class="cursor-pointer _df _fn" data-uib-tooltip-template="'notification-uib-tooltip.html'" data-tooltip-append-to-body="false"
         data-tooltip-placement="{{ $root._direction == 'rtl' ? 'left-top' : 'right-top'}} auto">
-        <svg class="svg-hover _24svg" ng-click="ctlFullNavbar.toggleNotification()" ng-class="{morphed : ctlFullNavbar.notificationStatus}">
+        <svg class="svg-hover _24svg" ng-click="ctlFullNavbar.toggleNotification()" ng-show="!ctlFullNavbar.notificationStatus">
           <use xlink:href="/assets/icons/nst-icn24.svg#bell-muted"></use>
+        </svg>
+        <svg class="_24svg fill-sense-wire" ng-click="ctlFullNavbar.toggleNotification()" ng-show="ctlFullNavbar.notificationStatus">
           <use xlink:href="/assets/icons/nst-icn24.svg#bell-ringed"></use>
         </svg>
       </div>

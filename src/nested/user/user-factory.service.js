@@ -24,16 +24,20 @@
      *
      * @returns {Promise}
      */
-    UserFactory.prototype.get = function (id) {
+    UserFactory.prototype.get = function (id, ignore) {
       var factory = this;
       // first ask the cache provider to give the model
       var deferred = $q.defer();
 
       var cachedUser = this.getCachedSync(id);
       var withServer = true;
-      if (cachedUser) {
+      if (cachedUser && ignore !== true) {
         withServer = false;
         deferred.resolve(cachedUser);
+      }
+
+      if (ignore === true) {
+        factory.cache.remove(id);
       }
 
       // collects all requests for account and send them all using getMany
@@ -67,14 +71,18 @@
     /**
      * Returns the current user account. First uses cache storage and the asks Cyrus if the account was not found
      *
-     * @param {any} id
+     * @param {any} ignore
      * @returns
      */
-    UserFactory.prototype.getCurrent = function () {
+    UserFactory.prototype.getCurrent = function (ignore) {
       var factory = this;
       var current = factory.getCurrentCachedSync();
-      if (current) {
+      if (current && ignore !== true) {
         return $q.resolve(current);
+      }
+
+      if (ignore) {
+        factory.cache.remove(current);
       }
 
       return this.sentinel.watch(function () {
@@ -187,7 +195,6 @@
         NstSvcServer.request('account/set_picture', {
           universal_id: uid
         }).then(function () {
-
           return factory.get(userId, true);
         }).then(function (user) {
           $rootScope.$broadcast(NST_USER_EVENT.PICTURE_UPDATED, {userId: user, user: user});
