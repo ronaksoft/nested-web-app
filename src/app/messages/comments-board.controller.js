@@ -103,7 +103,7 @@
         vm.lastComment = findLastComment(vm.comments);
         vm.hasAnyRemoved = _.some(vm.comments, 'removedById');
         vm.commentBoardLimit = 30;
-        $location.hash('comment-' + newComments[newComments.length - 1].id);
+        $location.hash('comment-' + newComments[0].id);
         $anchorScroll();
       }).catch(function (error) {
         NstSvcLogger.error(error);

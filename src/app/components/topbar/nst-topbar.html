@@ -80,7 +80,7 @@
 <div class="search-modal" ng-if="ctrlTopBar.searchModalOpen || ctrlTopBar.advancedSearchOpen">
   <!-- Backdrop
   ====================== -->
-  <div class="backdrop" ng-if="ctrlTopBar.searchModalOpen || ctrlTopBar.advancedSearchOpen" ng-click="ctrlTopBar.toggleSearchModal()"></div>
+  <div class="backdrop" ng-click="ctrlTopBar.toggleSearchModal(false)"></div>
   <div class="search-popover" ng-if="ctrlTopBar.searchModalOpen">
     <div class="_difh _fw search-query _aic" ng-if="ctrlTopBar.newQuery.length > 0">
       <a class="_df _fw"  ng-click="ctrlTopBar.searchIt(ctrlTopBar.newQuery, true)">
