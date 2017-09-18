@@ -73,7 +73,6 @@
       if (vm.placeId === data.invitation.place.id) {
         NstSvcPlaceFactory.get(vm.placeId, true).then(function (place) {
           vm.place = place;
-          console.log(vm.place);
         });
 
         if (vm.teammates.length < vm.teammatesSettings.limit) {

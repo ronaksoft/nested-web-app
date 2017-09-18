@@ -7,7 +7,7 @@
 
   function NotificationsController(_, $q, $state, $scope, $log, $rootScope, $uibModal,
                                    NST_NOTIFICATION_TYPE, NST_NOTIFICATION_EVENT, NstSvcInvitationFactory,
-                                   NstSvcNotificationFactory, NstSvcInteractionTracker, NstSvcDate, NST_PLACE_EVENT) {
+                                   NstSvcNotificationFactory, NstSvcInteractionTracker, NstSvcDate) {
     var vm = this;
     vm.NST_NOTIFICATION_TYPE = NST_NOTIFICATION_TYPE;
     var pageItemsCount = 12;
