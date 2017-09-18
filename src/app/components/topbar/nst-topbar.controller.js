@@ -686,18 +686,21 @@
       eventReferences.push($rootScope.$on(NST_USER_EVENT.PROFILE_UPDATED, function () {
         NstSvcUserFactory.getCurrent(true).then(function(user) {
           vm.user = user;
+          NstSvcPlaceFactory.removeCache(user.id);
         });
       }));
 
       eventReferences.push($rootScope.$on(NST_USER_EVENT.PICTURE_UPDATED, function () {
         NstSvcUserFactory.getCurrent(true).then(function(user) {
           vm.user = user;
+          NstSvcPlaceFactory.removeCache(user.id);
         });
       }));
 
       eventReferences.push($rootScope.$on(NST_USER_EVENT.PICTURE_REMOVED, function () {
         NstSvcUserFactory.getCurrent(true).then(function(user) {
           vm.user = user;
+          NstSvcPlaceFactory.removeCache(user.id);
         });
       }));
 
