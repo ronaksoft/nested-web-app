@@ -1,25 +1,22 @@
 <div class="_difh top">
   <div user-detail="act.comment.sender.id" class="user-avatar-20">
-    <img initial-avatar="{{act.actor.id}}" name="{{act.actor.fullName}}" picture="{{act.actor | avatar}}"
+    <img initial-avatar="{{act.comment.sender.id}}" name="{{act.comment.sender.fullName}}" picture="{{act.comment.sender | avatar}}"
       data-width="16" data-height="20" data-radius="20" class="account-initials-20 _df _fn" data-word-count="2" data-font-size="8"
     />
   </div>
   <div class="sender _df">
     <div user-detail="act.comment.sender.id">
-      <a>{{act.actor.fullName}}</a>
+      <a>{{act.comment.sender.fullName}}</a>
     </div>
   </div>
-  <svg class="_16svg _df _fn crown">
+  <svg class="_16svg _df _fn force">
     <use xlink:href="/assets/icons/nst-icn16.svg#comment"></use>
   </svg>
 </div>
 <div class="body" nst-post-modal post="act.post">
   <div class="_difv">
-    <p ng-if="act.comment.body.length === 0">
-      <translate>removed</translate>
-    </p>
-    <p auto-dir="act.comment.body" ng-if="act.comment.body.length > 0">
-      <span>{{act.comment.body.length > 42 ? act.comment.body.substr(0,42) + '...' : act.comment.body}}</span>
+    <p>
+      <translate>removed a comment</translate>
     </p>
   </div>
   <div class="_df _fn comment-time">

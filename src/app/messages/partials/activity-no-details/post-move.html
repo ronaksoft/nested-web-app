@@ -28,8 +28,17 @@
       <!-- <translate>to a new place</translate>
       <span>{{act.newPlace.name}}</span> -->
     </p>
+    <p auto-dir="act.post.body" ng-if="act.post.subject.length == 0 && act.post.body == 0">
+      <translate>moved</translate>&nbsp;
+      <mark>
+        <translate>a post here with {{act.post.counters.attaches > 1 ? act.post.counters.attaches : 'one'}} {{act.post.counters.attaches
+          > 1 ? 'attachments' : 'attachment'}}.</translate>
+      </mark>&nbsp;
+      <translate ng-if="place !== act.newPlace.id">from here</translate>
+      <translate ng-if="place === act.newPlace.id">to here</translate>
+    </p>
   </div>
   <div class="_df _fn comment-time">
-    <span>{{act.timestamp | passed | localize }}</span>
+    <span>{{act.date | passed | localize }}</span>
   </div>
 </div>

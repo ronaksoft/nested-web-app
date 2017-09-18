@@ -194,7 +194,7 @@
             placeId: place.id
           });
           vm.isChecked = false;
-          
+
           createTotalPostRecipients();
           $scope.$emit('post-select',{postId: vm.post.id,isChecked : vm.isChecked});
         }).catch(function () {
@@ -343,7 +343,7 @@
             vm.post.places.push(place);
           }
         });
-        
+
         createTotalPostRecipients();
         NstSvcPlaceFactory.getAccess(_.map(attachedPlaces, 'id')).then(function (accesses) {
           _.forEach(accesses, function (item) {
@@ -594,7 +594,7 @@
         return;
       }
 
-      var senderIsCurrentUser = NstSvcAuth.user.id == data.activity.comment.sender.id;
+      var senderIsCurrentUser = (NstSvcAuth.user.id === data.activity.actor.id);
       if (senderIsCurrentUser) {
         loadNewComments();
         if (!_.includes(newCommentIds, data.activity.id)) {

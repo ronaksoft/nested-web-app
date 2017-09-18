@@ -1,12 +1,12 @@
 <div class="_difh top">
   <div user-detail="act.post.sender.id" class="user-avatar-20">
-    <img initial-avatar="{{::act.post.sender.id}}" name="{{::act.post.sender.firstName}}" picture="{{act.post.sender | avatar}}"
+    <img initial-avatar="{{::act.actor.id}}" name="{{::act.actor.firstName}}" picture="{{act.actor | avatar}}"
       data-width="20" data-height="20" data-radius="20" class="account-initials-20 _df _fn" data-word-count="2" data-font-size="8"
     />
   </div>
   <div class="sender _df">
     <div user-detail="act.actor.id">
-      <a>{{::act.post.sender.fullName}}</a>
+      <a>{{::act.actor.fullName}}</a>
     </div>
   </div>
   <svg class="_16svg _df _fn fill-sense-wire">
@@ -22,12 +22,6 @@
     <p auto-dir="act.post.body" ng-if="act.post.subject.length == 0 && act.post.body.length > 0">
       <translate>attached {{act.attachedPlace.name}} to</translate>
       <mark data-ng-bind-html="act.post.body.length > 48 ? act.post.body.substr(0,48) + '...' : act.post.body | truncate | removeHTMLTags"></mark>
-    </p>
-    <p auto-dir="act.post.body" ng-if="act.post.subject.length == 0 && act.post.body == 0">
-      <mark>
-        <translate>attach {{act.attachedPlace.name}} to a post with {{act.post.counters.attaches > 1 ? act.post.counters.attaches : 'one'}} {{act.post.counters.attaches
-          > 1 ? 'attachments' : 'attachment'}}.</translate>
-      </mark>
     </p>
   </div>
   <div class="_df _fn comment-time">
