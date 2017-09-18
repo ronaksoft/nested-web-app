@@ -553,13 +553,15 @@
 
     function createTotalPostRecipients() {
       var concatArray = vm.post.places.slice(0);
-      vm.post.recipients.forEach( function (i){
-        concatArray.push({
-          id : i,
-          name : i
+      if (vm.post.recipients) {
+        vm.post.recipients.forEach( function (i){
+          concatArray.push({
+            id : i,
+            name : i
+          });
         });
-      });
-      vm.totalRecipients = _.uniqBy(concatArray, 'id');
+        vm.totalRecipients = _.uniqBy(concatArray, 'id');
+      }
     }
 
     /**
