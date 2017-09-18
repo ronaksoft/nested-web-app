@@ -157,7 +157,6 @@
       NstSvcPlaceFactory.get(vm.placeId, true).then(function (place) {
         if (place) {
           vm.place = place;
-          console.log(vm.place);
 
           vm.hasAddMembersAccess = place.hasAccess(NST_PLACE_ACCESS.ADD_MEMBERS);
           vm.hasSeeMembersAccess = place.hasAccess(NST_PLACE_ACCESS.SEE_MEMBERS);

@@ -381,20 +381,22 @@
           before: settings.before,
           after: settings.after,
           filter: settings.filter || 'all',
-          place_id: settings.placeId
+          place_id: settings.placeId,
+          details: true
         }, function (cachedResponse) {
           if (_.isFunction(cacheHandler) && cachedResponse) {
             cacheHandler(_.map(cachedResponse.activities, NstSvcActivityCacheFactory.parseCachedModel));
           }
         }).then(function (response) {
 
-          var activities = _.map(response.activities, parseActivityIntelligently);
-
-          $q.all(activities).then(function (values) {
-            deferred.resolve(values.filter(function (obj) {
-              return obj !== null;
-            }));
-          }).catch(deferred.reject);
+          // var activities = _.map(response.activities, parseActivityIntelligently);
+          //
+          // $q.all(activities).then(function (values) {
+          //   deferred.resolve(values.filter(function (obj) {
+          //     return obj !== null;
+          //   }));
+          // }).catch(deferred.reject);
+          deferred.resolve(_.map(response.activities, NstSvcActivityCacheFactory.parseCachedModel));
 
         }).catch(deferred.reject);
 
@@ -428,20 +430,23 @@
         NstSvcServer.request('place/get_activities', {
           filter: NST_ACTIVITY_FILTER.ALL,
           limit: settings.limit || 10,
-          place_id: settings.placeId
+          place_id: settings.placeId,
+          details: true
         }, function(cachedResponse) {
           if (_.isFunction(cacheHandler) && cachedResponse) {
             var activities = _.chain(cachedResponse.activities).map(NstSvcActivityCacheFactory.parseCachedModel).compact().value();
             cacheHandler(activities);
           }
         }).then(function (response) {
+          //
+          // var activities = _.map(response.activities, parseActivityIntelligently);
+          // $q.all(activities).then(function (values) {
+          //   deferred.resolve(values.filter(function (obj) {
+          //     return obj !== null;
+          //   }));
+          // }).catch(deferred.reject);
 
-          var activities = _.map(response.activities, parseActivityIntelligently);
-          $q.all(activities).then(function (values) {
-            deferred.resolve(values.filter(function (obj) {
-              return obj !== null;
-            }));
-          }).catch(deferred.reject);
+          deferred.resolve(_.map(response.activities, NstSvcActivityCacheFactory.parseCachedModel));
 
         }).catch(deferred.reject);
 
