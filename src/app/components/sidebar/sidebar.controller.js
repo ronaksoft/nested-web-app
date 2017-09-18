@@ -371,21 +371,6 @@
         scrollTop();
       }));
 
-      eventReferences.push($rootScope.$on(NST_USER_EVENT.PROFILE_UPDATED, function () {
-        loadCurrentUser();
-        dispatchTopbarEvent();
-      }));
-
-      eventReferences.push($rootScope.$on(NST_USER_EVENT.PICTURE_UPDATED, function () {
-        loadCurrentUser();
-        dispatchTopbarEvent();
-      }));
-
-      eventReferences.push($rootScope.$on(NST_USER_EVENT.PICTURE_REMOVED, function () {
-        loadCurrentUser();
-        dispatchTopbarEvent();
-      }));
-
       /**
        * Event listener for `NST_PLACE_EVENT.UPDATED`
        */

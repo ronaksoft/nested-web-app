@@ -217,6 +217,15 @@
      ***** Controller Methods ****
      *****************************/
 
+    function updateLogoProgressBar(percent) {
+      angular.element('.upload-photo .profile-picture').attr('progress', percent);
+    }
+
+    function logoUploadProgress(event) {
+      var logoUploadedRatio = parseInt((event.loaded / event.total) * 75);
+      updateLogoProgressBar(logoUploadedRatio);
+    }
+
     /**
      * Loads the selected image and updates the user picture. Opens a crop modal in any browser except Safari
      *
@@ -224,19 +233,22 @@
      */
     function setImage(event) {
       vm.uploadedFile = event.currentTarget.files[0];
+      updateLogoProgressBar(0);
       if ($rootScope.deviceDetector.browser === 'safari') {
         // Uploads the selected image
-        var request = NstSvcStore.uploadWithProgress(vm.uploadedFile, function () {
-        }, NST_STORE_UPLOAD_TYPE.PROFILE_PIC, NstSvcAuth.lastSessionKey);
+        var request = NstSvcStore.uploadWithProgress(vm.uploadedFile, logoUploadProgress,
+          NST_STORE_UPLOAD_TYPE.PROFILE_PIC, NstSvcAuth.lastSessionKey);
 
         request.finished().then(function (response) {
           // Sets picture as the user profile avatar
+          updateLogoProgressBar(87);
           return NstSvcUserFactory.updatePicture(vm.model.id, response.data.universal_id);
         }).then(function (user) {
           // Updates the model
-          vm.model = user;
+          vm.model.picture = user.picture;
           // And updates the authenticated user model in `NstSvcAuth`
           NstSvcAuth.setUser(user);
+          updateLogoProgressBar(100);
         });
       } else {
         $uibModal.open({
@@ -258,16 +270,18 @@
               // DIsplays the cropped image before upload starts
               vm.picture = event.target.result;
               // Uploads the cropped image
-              var request = NstSvcStore.uploadWithProgress(vm.uploadedFile, function () {
-              }, NST_STORE_UPLOAD_TYPE.PROFILE_PIC, NstSvcAuth.lastSessionKey);
+              var request = NstSvcStore.uploadWithProgress(vm.uploadedFile, logoUploadProgress,
+                NST_STORE_UPLOAD_TYPE.PROFILE_PIC, NstSvcAuth.lastSessionKey);
 
               request.finished().then(function (response) {
                 // Sets picture as the user profile avatar
+                updateLogoProgressBar(87);
                 return NstSvcUserFactory.updatePicture(vm.model.id, response.data.universal_id);
               }).then(function (user) {
                 // Updates the model
-                vm.model = user;
+                vm.model.picture = user.picture;
                 // And updates the authenticated user model in `NstSvcAuth`
+                updateLogoProgressBar(100);
                 NstSvcAuth.setUser(user);
               });
 
