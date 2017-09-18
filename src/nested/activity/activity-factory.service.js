@@ -83,6 +83,7 @@
         body: data.post_preview,
         subject: data.post_subject
       };
+      activity.places = data.places;
 
       return activity;
     }
@@ -161,12 +162,15 @@
       activity.type = data.action;
       activity.date = data.timestamp;
       activity.actor = NstSvcUserFactory.parseTinyUser(data.actor);
+      activity.place = NstSvcPlaceFactory.parseTinyPlace(data.place);
       activity.post = {
-        id: data.post_id
+        id: data.post_id,
+        subject: data.post_subject
       };
       activity.comment = {
         body: data.comment_text
       };
+      activity.places = data.places;
 
       return activity;
     }
@@ -294,7 +298,7 @@
           details: true
         }, function (cachedResponse) {
           if (_.isFunction(cacheHandler) && cachedResponse) {
-            cacheHandler(_.map(cachedResponse.activities, NstSvcActivityCacheFactory.parseCachedModel));
+            cacheHandler(_.map(cachedResponse.activities, parseActivity));
           }
         }).then(function (response) {
 
@@ -336,7 +340,7 @@
           details: true
         }, function(cachedResponse) {
           if (_.isFunction(cacheHandler) && cachedResponse) {
-            var activities = _.chain(cachedResponse.activities).map(NstSvcActivityCacheFactory.parseCachedModel).compact().value();
+            var activities = _.chain(cachedResponse.activities).map(parseActivity).compact().value();
             cacheHandler(activities);
           }
         }).then(function (response) {
