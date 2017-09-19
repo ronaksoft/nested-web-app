@@ -85,6 +85,8 @@
       _.remove(vm.selectedLabels, function (o) {
         return item.id === o.id;
       });
+      vm.search.results.push(item);
+      vm.search.results = _.uniqBy(vm.search.results, 'id');
     }
   }
 

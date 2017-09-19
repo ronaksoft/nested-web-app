@@ -1025,6 +1025,9 @@ body[dir="rtl"] {
     margin-left: 0;
     margin-right: 4px;
   }
+  .profile-popover {
+    border-radius: 0 6px 6px 6px;
+  }
 }
 
 body[dir="ltr"] {
