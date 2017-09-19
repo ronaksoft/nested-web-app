@@ -348,14 +348,12 @@
       vm.loading = true;
       vm.messagesSetting.before = getLastMessageTime();
       return getMessages(vm.messagesSetting).then(function (posts) {
-        appendPosts(posts);
-        vm.tryAgainToLoadMore = false;
         $timeout(function () {
-          vm.loading = false;
+          appendPosts(posts);
         }, 1000)
+        vm.tryAgainToLoadMore = false;
       }).catch(function () {
         vm.tryAgainToLoadMore = true;
-        vm.loading = false;
       });
     }
 
@@ -635,7 +633,9 @@
       }).catch(function () {
         vm.error = true;
       }).finally(function () {
-        vm.loading = false;
+        $timeout(function () {
+          vm.loading = false;
+        }, 1000)
       });
 
       return promise;

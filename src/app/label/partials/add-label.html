@@ -12,7 +12,7 @@
         </p>
     </h4>
     <ui-select minimum-input-length="4" multiple limit="{{ctrl.targetLimit}}" always-show-list class="label-search _difv" focus-on='SetFocus'
-        data-ng-model="ctrl.selectedLabels" on-select="ctrl.updatedRecipient(true, $item)" on-remove="alert(2222)">
+        data-ng-model="ctrl.selectedLabels" on-select="ctrl.updatedRecipient(true, $item)" on-remove="ctrl.updatedRecipient(false, $item)">
         <ui-select-match placeholder="{{::ctrl.labelSelectPlaceHolder}}" class="label-items">
             <div class="selected-innter color-lbl-bg-{{$item.code}} ng-class:{'locked' : !$item.public && !$item.isMember}">
                 <svg class="_16svg _fn fill-white" ng-if="!$item.public && !$item.isMember">
