@@ -5,7 +5,7 @@
     .module('ronak.nested.web.components')
     .controller('manageLabelController', manageLabelController);
 
-  function manageLabelController($state, $scope, $q, $uibModalInstance, $uibModal,
+  function manageLabelController($state, $scope, $q, $uibModalInstance, $uibModal, $rootScope,
                                  $filter, toastr, _, NstSvcTranslation, NstSearchQuery,
                                  NstSvcLabelFactory, NST_LABEL_SEARCH_FILTER, NstSvcAuth) {
 
@@ -217,6 +217,7 @@
           restoreDefault();
           searchLabel();
           toastr.success(NstSvcTranslation.get("Request declined successfully."));
+          $rootScope.$emit('label-request-status-changed');
         }).catch(function () {
           toastr.error(NstSvcTranslation.get("Something went wrong."));
         });
@@ -229,6 +230,7 @@
         restoreDefault();
         searchLabel();
         toastr.success(NstSvcTranslation.get("Request accepted successfully."));
+        $rootScope.$emit('label-request-status-changed');
       }).catch(function () {
         toastr.error(NstSvcTranslation.get("Something went wrong."));
       });

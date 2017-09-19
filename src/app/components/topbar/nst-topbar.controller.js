@@ -69,6 +69,7 @@
       };
       vm.getLimit = getLimit;
       vm.resultCount = 0;
+      vm.requestedLabels = 0;
       vm.selectedItem = -1;
       vm.addChip = addChip;
       vm.removeChip = removeChip;
@@ -92,6 +93,9 @@
         });
         NstSvcUserFactory.getCurrent().then(function(user) {
           vm.user = user;
+          if (user.authority.labelEditor) {
+            requsetLabelCounter();
+          }
         });
         // NstSvcSuggestionFactory.search('').then(function (result) {
         //   vm.defaultSuggestion = getUniqueItems(result);
@@ -139,6 +143,12 @@
         $timeout(function (){
           scrollEndSearch();
         },100);
+      }
+
+      function requsetLabelCounter() {
+        NstSvcLabelFactory.getRequests().then(function (result) {
+          vm.requestedLabels = result.length;
+        });
       }
 
       function getAdvancedSearchParams() {
@@ -702,6 +712,10 @@
           vm.user = user;
           NstSvcPlaceFactory.removeCache(user.id);
         });
+      }));
+
+      eventReferences.push($rootScope.$on('label-request-status-changed', function () {
+        requsetLabelCounter();
       }));
 
       $scope.$on('$destroy', function () {
