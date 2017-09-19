@@ -9,7 +9,7 @@
   function NstSvcInvitationFactory($q, $log, _, $rootScope,
                                    NST_SRV_EVENT, NST_INVITATION_EVENT, NST_EVENT_ACTION, NST_PLACE_MEMBER_TYPE, NST_STORAGE_TYPE, NST_INVITATION_FACTORY_STATE,
                                    NstSvcServer, NstSvcUserFactory, NstSvcPlaceFactory, NstSvcNotification,
-                                   NstObservableObject, NstInvitation, NstStorage) {
+                                   NstObservableObject, NstInvitation, NstStorage, NstCollector, NST_SRV_ERROR, NST_NOTIFICATION_TYPE) {
     function InvitationFactory() {
       var factory = this;
 
@@ -19,6 +19,8 @@
         decide: {},
         getPendings: {}
       };
+
+      this.collector = new NstCollector('invitation', this.getMany);
 
       NstSvcServer.addEventListener(NST_SRV_EVENT.TIMELINE, function (event) {
         var tlData = event.detail.timeline_data;
@@ -87,6 +89,19 @@
       });
     };
 
+    InvitationFactory.prototype.getMany = function (id) {
+      var joinedIds = id.join(',');
+      return NstSvcServer.request('account/get_many_invitation', {
+        account_id: joinedIds
+      }).then(function (data) {
+        return $q.resolve({
+          idKey: '_id',
+          resolves: data.accounts,
+          rejects: data.no_access
+        });
+      });
+    };
+
     InvitationFactory.prototype.get = function (id) {
       var factory = this;
       // TODO: Use sentinel to watch the request
@@ -118,6 +133,25 @@
           rej.apply(null, args);
         });
       });
+
+      // var factory = this;
+      // var deferred = $q.defer();
+      // this.collector.add(id).then(function (data) {
+      //     deferred.resolve(factory.parseInvitation(data));
+      // }).catch(function (error) {
+      //   switch (error.code) {
+      //     case NST_SRV_ERROR.ACCESS_DENIED:
+      //     case NST_SRV_ERROR.UNAVAILABLE:
+      //         deferred.reject();
+      //       break;
+      //
+      //     default:
+      //         deferred.reject(error);
+      //       break;
+      //   }
+      // });
+      //
+      // return deferred.promise;
     };
 
     InvitationFactory.prototype.accept = function (id) {
