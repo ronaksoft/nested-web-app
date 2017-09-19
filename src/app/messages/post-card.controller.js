@@ -626,7 +626,7 @@
 
       vm.limits = {
         places: vm.post.places.length,
-        recipients: vm.post.recipients.length
+        recipients: vm.post.recipients ? vm.post.recipients.length : 0
       }
 
       /**
