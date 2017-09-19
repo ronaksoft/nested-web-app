@@ -61,7 +61,9 @@
       }
 
       if (this.selectedLocale === 'fa-IR') {
-        moment.locale('fa', {months: 'فروردین_اردیبهشت_خرداد_تیر_مرداد_شهریور_مهر_آبان_آذر_دی_بهمن_اسفند'.split('_')});
+        if (this.selectedCalendar === 'jalali') {
+          moment.locale('fa', {months: 'فروردین_اردیبهشت_خرداد_تیر_مرداد_شهریور_مهر_آبان_آذر_دی_بهمن_اسفند'.split('_')});
+        }
       } else {
         moment.locale('en-US');
       }

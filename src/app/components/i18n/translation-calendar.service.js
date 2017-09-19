@@ -33,6 +33,8 @@
     };
 
     formatMap['gregorian'] = {
+      "[Yesterday] HH:mm": (NstSvcI18n.selectedLocale === 'en-US'? '[Yesterday] HH:mm': '[دیروز] HH:mm'),
+      "dddd, MMMM DD YYYY, HH:mm": (NstSvcI18n.selectedLocale === 'en-US'? "dddd, MMMM DD YYYY, HH:mm": "dddd, DD MMMM YYYY, HH:mm")
     };
 
     Translation.prototype.constructor = Translation;
