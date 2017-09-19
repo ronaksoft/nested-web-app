@@ -600,8 +600,8 @@
             name: i
           });
         });
-        vm.totalRecipients = _.uniqBy(concatArray, 'id');
       }
+      vm.totalRecipients = _.uniqBy(concatArray, 'id');
     }
 
     /**
