@@ -46,6 +46,7 @@
   margin-left: auto;
   margin-right: auto;
   height: 100%;
+  flex-direction: column;
   display: flex;
   box-shadow: 0 4px 8px $color-breeze-new;
   .file-list-header {
