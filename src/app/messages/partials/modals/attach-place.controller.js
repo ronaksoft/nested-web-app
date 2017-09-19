@@ -18,6 +18,7 @@
     vm.attachPlaces = _.partial(attachPlaces, postId, postPlaces, POST_PLACE_LIMIT);
     vm.searchPlace = _.partial(searchPlace, postPlaces, PLACE_SUGGEST_LIMIT);
     vm.selectedTargets = [];
+    vm.inputPlaceholder = NstSvcTranslation.get('Enter a Place name or a Nested address...');
 
     function attachPlaces(postId, postPlaces, limit, places) {
       vm.attachProgress = true;
