@@ -1013,6 +1013,18 @@ body[dir="rtl"] {
     margin-right: 0;
     margin-left: 6px;
   }
+  .file-list ul img {
+    margin-right: 0;
+    margin-left: 16px;
+  }
+  .filter-bar .filter-bar-inner .toolbar {
+    padding-right: 4px;
+    padding-left: 0;
+  }
+  .filter-bar .filter-bar-inner .toolbar .default-mode-butn {
+    margin-left: 0;
+    margin-right: 4px;
+  }
 }
 
 body[dir="ltr"] {

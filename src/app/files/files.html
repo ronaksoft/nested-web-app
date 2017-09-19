@@ -7,7 +7,7 @@
       ready-to-anime="true"></nst-navbar>
     <div class="filter-bar">
       <div class="filter-bar-inner" affixer-filter top="96">
-        <div class="toolbar ng-class:{'selcted-mode' : ctlFiles.selectedFiles.length > 0,'unread-mode' : ctlFiles.selectedFileType.label !== 'all'}"
+        <div class="toolbar ng-class:{'selcted-mode' : ctlFiles.selectedFiles.length > 0,'unread-mode' : !(ctlFiles.selectedFileType.label === 'all' || ctlFiles.selectedFileType.label === 'همه موارد')}"
           ng-mouseleave="showFilters = false;">
           <div class="search-files" ng-show="ctlFiles.selectedFiles.length == 0">
             <input type="text" placeholder="Search in files" ng-model="ctlFiles.keyword" ng-change="ctlFiles.search(ctlFiles.keyword);"
@@ -71,10 +71,12 @@
           </div>
         </li>
       </ul>
-      <div class="text-center margin-top-10 nst-mood-storm _fw" ng-if="ctlFiles.files.length == 0 && !ctlFiles.filesLoadProgress && ctlFiles.selectedFileType.label !== 'all'">
+      <div class="text-center margin-top-10 nst-mood-storm _fw" ng-if="ctlFiles.files.length == 0 && !ctlFiles.filesLoadProgress &&
+        (ctlFiles.selectedFileType.label !== 'all' || ctlFiles.selectedFileType.label !== 'همه موارد')">
         <translate>There are no {{ ctlFiles.selectedFileType.label }} files here yet...</translate>
       </div>
-      <div class="text-center margin-top-10 nst-mood-storm _fw" ng-if="ctlFiles.files.length == 0 && !ctlFiles.filesLoadProgress && ctlFiles.selectedFileType.label === 'all'">
+      <div class="text-center margin-top-10 nst-mood-storm _fw" ng-if="ctlFiles.files.length == 0 && !ctlFiles.filesLoadProgress &&
+        (ctlFiles.selectedFileType.label === 'all' || ctlFiles.selectedFileType.label === 'همه موارد')">
         <translate>There are no files here yet...</translate>
       </div>
       <div ng-click="ctlFiles.loadMore()" class="text-center margin-top-10 nst-mood-storm" ng-if="ctlFiles.files.length > 0 && !ctlFiles.filesLoadProgress && ctlFiles.hasNextPage">
