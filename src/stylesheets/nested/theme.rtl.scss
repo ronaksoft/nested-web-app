@@ -1028,6 +1028,9 @@ body[dir="rtl"] {
 }
 
 body[dir="ltr"] {
+  .ng-jalaali-flat-datepicker table tbody {
+    direction: ltr;
+  }
   .post-card-comments p.RTL-text {
     strong {
       direction: ltr;

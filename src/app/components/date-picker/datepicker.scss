@@ -158,7 +158,7 @@ $default-color: $color-sense-wire;
     border-radius: 3px;
     line-height: 22px;
     font-size: 22px;
-    display: inline-block;
+    display: flex;
     cursor: pointer;
     &.selected,
     &:hover {
@@ -275,6 +275,7 @@ $default-color: $color-sense-wire;
                         padding-bottom: $table-padding;
                         border-bottom: 1px solid #d8d8d8;
                         color: $font-color;
+                        font-size: 10px;
                     }
                 }
                 &.days .day-item:hover{
@@ -336,6 +337,7 @@ $default-color: $color-sense-wire;
         fill: white;
         cursor: pointer;
         padding:5px;
+        // transform: rotateZ(180deg);
         &:hover {
             fill: rgba(255,255,255,.5);
         }
@@ -343,7 +345,7 @@ $default-color: $color-sense-wire;
 
     &.ng-flat-datepicker-arrow-left {
         svg {
-            transform: rotate(180deg);
+            transform: rotate(-180deg);
         }
     }
 }
@@ -354,7 +356,8 @@ $default-color: $color-sense-wire;
     border-radius: 3px;
     line-height: 22px;
     font-size: 22px;
-    display: inline-block;
+    display: flex;
+    justify-content: center;
     cursor: pointer;
     &.selected,
     &:hover {
@@ -380,8 +383,8 @@ $default-color: $color-sense-wire;
         span {
             padding-top: 6px;
             padding-bottom: 5px;
-            display: block;
-            text-align: center;
+            display: flex;
+            justify-content: center;
             font-size: 13px;
             line-height: 13px;
             cursor: pointer;
