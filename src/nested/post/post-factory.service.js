@@ -328,7 +328,7 @@
         return NstSvcPlaceFactory.parseTinyPlace(place);
       });
       post.read = data.post_read;
-      post.recipients = data.post_recipients;
+      post.recipients = (data.post_recipients === null? []: data.post_recipients);
       post.replyToId = data.reply_to;
       if (data.sender) {
         NstSvcUserFactory.set(data.sender);

@@ -1,11 +1,11 @@
-<div class="_difh top">
-  <div user-detail="act.post.sender.id" class="user-avatar-20">
+<div class="_difh top" nst-post-modal post="act.post">
+  <div user-detail="act.actor" class="user-avatar-20">
     <img initial-avatar="{{::act.actor.id}}" name="{{::act.actor.firstName}}" picture="{{act.actor | avatar}}"
       data-width="20" data-height="20" data-radius="20" class="account-initials-20 _df _fn" data-word-count="2" data-font-size="8"
     />
   </div>
   <div class="sender _df">
-    <div user-detail="act.actor.id">
+    <div user-detail="act.actor">
       <a auto-dir="act.actor.fullName">{{::act.actor.fullName}}</a>
     </div>
   </div>

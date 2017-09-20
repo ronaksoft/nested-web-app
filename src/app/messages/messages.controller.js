@@ -98,10 +98,13 @@
         if (vm.isFeed) {
           load();
         }
-        if (postMustBeShown(data.activity.post)) {
+        if (postMustBeShown(data.activity)) {
           // The current user is the sender
-          vm.messages.unshift(data.activity.post);
-        } else if (mustBeAddedToHotPosts(data.activity.post)) {
+          // vm.messages.unshift(data.activity.post);
+          NstSvcPostFactory.get(data.activity.post.id).then(function (message) {
+            vm.messages.unshift(message);
+          });
+        } else if (mustBeAddedToHotPosts(data.activity)) {
           // someone else sent the post
           vm.hotMessagesCount = vm.hotMessagesCount + 1;
         }
@@ -184,8 +187,8 @@
       }));
     })();
 
-    function postMustBeShown(post) {
-      if (post.sender.id !== NstSvcAuth.user.id) {
+    function postMustBeShown(activity) {
+      if (activity.actor.id !== NstSvcAuth.user.id) {
         return false;
       }
 
@@ -195,38 +198,34 @@
       }
 
       // The message was sent to the current place
-      if (_.some(post.places, {
-          id: vm.currentPlaceId
-        })) {
+      if (_.includes(activity.places, vm.currentPlaceId)) {
         return true;
       }
 
       // The message
-      if (!vm.currentPlaceId && _.intersection(_.map(post.places, 'id'), vm.bookmarkedPlaces).length > 0) {
+      if (!vm.currentPlaceId && _.intersection(_.map(activity.places, 'id'), vm.bookmarkedPlaces).length > 0) {
         return true;
       }
 
       return false;
     }
 
-    function mustBeAddedToHotPosts(post) {
-      if (post.read) {
-        return false;
-      }
+    function mustBeAddedToHotPosts(activity) {
+      // if (post.read) {
+      //   return false;
+      // }
 
-      if (post.sender.id === NstSvcAuth.user.id) {
+      if (activity.actor.id === NstSvcAuth.user.id) {
         return false;
       }
 
       // The message was sent to the current place
-      if (_.some(post.places, {
-          id: vm.currentPlaceId
-        })) {
+      if (_.includes(activity.places, vm.currentPlaceId)) {
         return true;
       }
 
       // The message
-      if (!vm.currentPlaceId && _.intersection(_.map(post.places, 'id'), vm.bookmarkedPlaces).length > 0) {
+      if (!vm.currentPlaceId && _.intersection(_.map(activity.places, 'id'), vm.bookmarkedPlaces).length > 0) {
         return true;
       }
 
