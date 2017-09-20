@@ -181,13 +181,21 @@
     function setBookmark(setBookmark) {
       vm.post.pinned = setBookmark;
       if (setBookmark) {
-        NstSvcPostFactory.pin(vm.post.id).catch(function () {
+        try {
+          NstSvcPostFactory.pin(vm.post.id).catch(function () {
+            vm.post.pinned = !setBookmark;
+          });
+        } catch (e) {
           vm.post.pinned = !setBookmark;
-        });
+        }
       } else {
-        NstSvcPostFactory.unpin(vm.post.id).catch(function () {
+        try {
+          NstSvcPostFactory.unpin(vm.post.id).catch(function () {
+            vm.post.pinned = !setBookmark;
+          });
+        } catch (e) {
           vm.post.pinned = !setBookmark;
-        });
+        }
       }
     }
 

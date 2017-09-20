@@ -295,6 +295,8 @@
         factory.cache.remove(id);
         $rootScope.$broadcast(NST_POST_EVENT.BOOKMARKED, { postId: id });
         $q.resolve();
+      }).catch(function () {
+        $q.reject();
       });
     }
 
@@ -305,6 +307,8 @@
         factory.cache.remove(id);
         $rootScope.$broadcast(NST_POST_EVENT.UNBOOKMARKED, { postId: id });
         $q.resolve();
+      }).catch(function () {
+        $q.reject();
       });
     }
 
