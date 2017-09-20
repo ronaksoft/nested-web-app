@@ -178,6 +178,11 @@
       flex: none;
       width: 100%;
       user-select: none;
+      &:last-of-type {
+        .file-item-inner {
+          border-bottom-color: transparent;
+        }
+      }
     }
     .checkbox {
       width: 16px;
@@ -255,7 +260,7 @@
       margin-left: 16px
     }
     .file-list-item {
-      
+
       #files-time {
         color: #C8C8C8;
       }

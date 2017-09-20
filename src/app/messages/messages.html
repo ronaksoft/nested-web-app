@@ -7,8 +7,8 @@
       ==============-->
      <nst-navbar ng-class="{'places-navbar' : ctrl.isPlaceMessage}" data-ng-model="navbar" place-id="{{ctrl.currentPlace.id}}"
       show-place-id="ctrl.showPlaceId" nav-title="{{ctrl.currentPlace.id?ctrl.currentPlace.name: ctrl.navTitle}}" nav-picture-url="{{ctrl.currentPlace.id ? ctrl.currentPlace.picture.getUrl('x128') : '' }}"
-      nav-picture-class="{{ !ctrl.currentPlace.id? ctrl.navIconClass : '' }}" ready-to-show="ctrl.currentPlaceLoaded" ready-to-anime="true"></nst-navbar> 
-    
+      nav-picture-class="{{ !ctrl.currentPlace.id? ctrl.navIconClass : '' }}" ready-to-show="ctrl.currentPlaceLoaded" ready-to-anime="true"></nst-navbar>
+
     <!-- filter bar
       ==============-->
     <!-- <div class="filter-bar" ng-if="!ctrl.isbookmarkedsMode && !ctrl.isSent && !(ctrl.isUnreadMode && ctrl.unreadCount == 0) ">  -->
@@ -163,7 +163,7 @@
       <span class="_fw _tac">
           Loading...
       </span>
-      <div class="loading">
+      <!--<div class="loading">
         <div class="animation">
           <div class="circle one"></div>
         </div>
@@ -179,7 +179,7 @@
         <div class="animation">
           <div class="circle five"></div>
         </div>
-      </div>
+      </div>-->
     </div>
     <div class="nst-marginbtm-32"></div>
   </section>
