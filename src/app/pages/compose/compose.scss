@@ -352,12 +352,17 @@
   max-height: calc( 90vh - 300px);
   min-height: 250px;
   margin: 0 -12px;
+  width: auto!important;
   padding: 0 12px;
   ul, ol {
     margin: 0 24px;
   }
   .wdt-emoji-picker {
     display: none;
+  }
+  .iscroll-scroller {
+    display: flex;
+    flex-direction: column;
   }
 }
 .compose-modal-footer {

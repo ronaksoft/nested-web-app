@@ -68,7 +68,7 @@
         tap: false,
         click: false,
         preventDefaultException: {
-          tagName: /.*/
+          tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT|LABEL|A)$/
         },
         mouseWheel: true,
         keyBindings: false,

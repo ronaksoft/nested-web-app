@@ -32,7 +32,7 @@
     vm.mouseIn = false;
     var eventReferences = [];
     var systemConstants = {};
-    vm.makeChangeForWatchers = 0;
+    // vm.makeChangeForWatchers = 0;
     vm.clear = clear;
     vm.scroll = scroll;
     vm.addUploadedAttachs = addUploadedAttachs;
@@ -54,6 +54,8 @@
     };
 
     vm.quickMode = vm.mode === 'quick';
+
+    $scope.scrollInstance;
 
     /**
      * Call this function if some thing changed the position of post cards
@@ -705,9 +707,9 @@
     vm.fullCompose = function () {
       NstSvcLogger.debug4('Compose | Toggle full compose mode');
       $('body').toggleClass('fullCompose');
-      if ($('body').hasClass('fullCompose')) {
-        vm.makeChangeForWatchers++;
-      }
+      // if ($('body').hasClass('fullCompose')) {
+      //   vm.makeChangeForWatchers++;
+      // }
       NstSvcLogger.debug4('Compose | is recipient items suitable for this frame ?!');
       vm.emitItemsAnalytics();
     };
