@@ -4,6 +4,9 @@
   .recent-container {
     list-style: none;
     background-color: $color-white;
+    li {
+      display: flex;
+    }
     li:last-child {
       .colomn {
         border: none;

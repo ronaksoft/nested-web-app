@@ -70,6 +70,14 @@
         border-radius: 4px;
         color: $color-solid;
     }
+    .iscroll-wrapper {
+        width: auto;
+        flex: 1;
+        margin: 0 -24px;
+        ul {
+            margin: 0;
+        }
+    }
     ul {
         margin: 0 -24px;
         flex-direction: column;

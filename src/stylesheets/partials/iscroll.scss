@@ -1,0 +1,11 @@
+body.iscroll-on .iscroll-scroller {
+    position: relative;
+}
+body.iscroll-on .iscroll-wrapper {
+    background-color: transparent;
+    &:hover {
+        .iScrollVerticalScrollbar.iScrollLoneScrollbar {
+            opacity: 1!important;
+        }
+    }
+}
