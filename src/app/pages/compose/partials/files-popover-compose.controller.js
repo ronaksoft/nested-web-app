@@ -14,6 +14,7 @@
     vm.files = [];
     vm.placeFiles = placeFiles;
 
+    $scope.scrollInstance;
     vm.add = add;
     vm.loadMore = loadMore;
     vm.openAttachment = openAttachment;

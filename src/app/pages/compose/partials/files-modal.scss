@@ -44,9 +44,10 @@
             margin-right: 8px;
         }
     }
-    ul {
+    .iscroll-wrapper {
         max-height: 353px;
-        overflow: auto;
+    }
+    ul {
         &.haveSelectedItem {
             max-height: 406px;
         }

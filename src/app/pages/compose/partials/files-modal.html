@@ -9,24 +9,26 @@
             <translate ng-if="ctrl.selectedFiles.length == 1">File Selected</translate>
         </span>
     </div>
-    <ul modal-scroll nst-scrollbar class="ng-class:{'haveSelectedItem' : ctrl.selectedFiles.length > 0}">
-        <li ng-repeat="item in ctrl.files" ng-click="ctrl.add(item)" class="ng-class:{'checked' : item.isSelected}">
-            <div class="checkbox ng-class:{'checked' : item.isSelected}">
-                <svg class="_16svg _asc">
-                    <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
-                </svg>
-            </div>
-            <div ng-hide="item.thumbnail.length" class="attachment-tiny-thumb tiny-thumb-type-{{item.type}}">
-                {{item.extension | uppercase}}
-            </div>
-            <img ng-show="item.thumbnail.length" ng-src="{{item.thumbnail}}" alt="{{item.filename}}">
-            <span>
-                <abbr ng-click="ctrl.openAttachment($event, item)">
-                    {{item.filename}}
-                </abbr>
-            </span>
-        </li>
-    </ul>
+    <div iscroll="" load-more iscroll-instance="scrollInstance" class="iscroll-wrapper">
+        <ul class="iscroll-scroller ng-class:{'haveSelectedItem' : ctrl.selectedFiles.length > 0}">
+            <li ng-repeat="item in ctrl.files" ng-click="ctrl.add(item)" class="ng-class:{'checked' : item.isSelected}">
+                <div class="checkbox ng-class:{'checked' : item.isSelected}">
+                    <svg class="_16svg _asc">
+                        <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
+                    </svg>
+                </div>
+                <div ng-hide="item.thumbnail.length" class="attachment-tiny-thumb tiny-thumb-type-{{item.type}}">
+                    {{item.extension | uppercase}}
+                </div>
+                <img ng-show="item.thumbnail.length" ng-src="{{item.thumbnail}}" alt="{{item.filename}}">
+                <span>
+                    <abbr ng-click="ctrl.openAttachment($event, item)">
+                        {{item.filename}}
+                    </abbr>
+                </span>
+            </li>
+        </ul>
+    </div>
     <div class="files-modal-footer select" ng-if="ctrl.selectedFiles.length === 0">
         <label for="attach">
             <svg class="_24svg _asc">
