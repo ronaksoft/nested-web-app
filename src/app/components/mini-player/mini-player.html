@@ -97,8 +97,8 @@
                 </svg>
             </div>
         </div>
-        <div class="player-list ng-class:{'expand' : ctrl.displayState !== 2}" nst-scrollbar dir="ltr">
-            <ul dir="{{$root._direction}}">
+        <div class="player-list iscroll-wrapper ng-class:{'expand' : ctrl.displayState !== 2}" iscroll="">
+            <ul class="iscroll-scroller">
                 <li ng-repeat="track in ctrl.playList" ng-click="ctrl.play(track.id)">
                     <div class="poster ng-class:{'user-avatar-52' : track.isVoice}">
                         <img ng-src="{{track.thumbnail || '/assets/icons/ph_music.png'}}" alt="" ng-if="!track.isVoice">
