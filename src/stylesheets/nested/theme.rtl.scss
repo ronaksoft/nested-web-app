@@ -1028,6 +1028,10 @@ body[dir="rtl"] {
   .profile-popover {
     border-radius: 0 6px 6px 6px;
   }
+  .unread-notif-badge {
+    left: auto;
+    right: -4px;
+  }
 }
 
 body[dir="ltr"] {

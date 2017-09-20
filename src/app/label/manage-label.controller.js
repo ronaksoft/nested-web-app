@@ -154,7 +154,7 @@
         controllerAs: 'requestCtrl'
       }).result.then(function (result) {
         if (result) {
-          restoreDefault();
+          // restoreDefault();
           getRequests();
         }
       });
