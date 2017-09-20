@@ -138,7 +138,9 @@
         {{ label.title | scapeRevSpace}}
     </span>
     <a ng-if="!ctlPostCard.FIT && ctlPostCard.haveAnyLabelAcess" add-label added-labels="ctlPostCard.post.labels" after-add-label="ctlPostCard.addLabels"
-      data-uib-tooltip-template="'add-label-tooltip.html'" class="cursor-pointer" data-tooltip-append-to-body="true" data-tooltip-placement="auto top">
+       data-uib-tooltip-template="'add-label-tooltip.html'" class="cursor-pointer" data-tooltip-append-to-body="true" data-tooltip-placement="auto top"
+       ng-click="ctlPostCard.markAsRead();"
+    >
       <svg class="_16svg _r90">
         <use xlink:href="/assets/icons/nst-icn16.svg#more"></use>
       </svg>
