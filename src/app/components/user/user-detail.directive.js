@@ -16,18 +16,18 @@
           userDetail: '=userDetail'
         },
         link: function ($scope, $element) {
-          
+
           if ( _.isString($scope.userDetail) ) {
             NstSvcUserFactory.get($scope.userDetail).then(function (user){
               $scope.user = user;
               init();
             });
-            
+
           } else {
             $scope.user = $scope.userDetail ? $scope.userDetail : {};
             init();
           }
-          
+
 
           $scope.openOver = function () {
             return false

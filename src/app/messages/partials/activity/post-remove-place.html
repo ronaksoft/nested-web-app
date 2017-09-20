@@ -1,18 +1,17 @@
-<div class="_difh top">
-  <div user-detail="act.post.sender.id" class="user-avatar-20">
-    <img initial-avatar="{{::act.post.sender.id}}" name="{{::act.post.sender.firstName}}" picture="{{act.post.sender | avatar}}"
+<div class="_difh top" nst-post-modal post="act.post">
+  <div user-detail="act.actor" class="user-avatar-20">
+    <img initial-avatar="{{::act.actor.id}}" name="{{::act.actor.firstName}}" picture="{{act.actor | avatar}}"
       data-width="20" data-height="20" data-radius="20" class="account-initials-20 _df _fn" data-word-count="2" data-font-size="8"
     />
   </div>
-</div>
-<div class="sender _df">
-  <div user-detail="act.actor.id">
-    <a auto-dir="act.actor.fullName">{{::act.post.sender.fullName}}</a>
+  <div class="sender _df">
+    <div user-detail="act.actor">
+      <a auto-dir="act.actor.fullName">{{::act.actor.fullName}}</a>
+    </div>
   </div>
-</div>
-<svg class="_16svg _df _fn fill-sense-wire">
-  <use xlink:href="/assets/icons/nst-icn16.svg#message"></use>
-</svg>
+  <svg class="_16svg _df _fn fill-sense-wire">
+    <use xlink:href="/assets/icons/nst-icn16.svg#message"></use>
+  </svg>
 </div>
 <div class="body" nst-post-modal post="act.post">
   <div class="_difv">
