@@ -318,11 +318,14 @@
             font-weight: bold;
         }
     }
-    ul.holders {
+    .holders {
         margin: 0 -24px 0 -16px;
-        list-style: none;
         max-height: 194px;
-        flex: none;
+        width: auto;
+        ul {
+            flex: none;
+            list-style: none;
+        }
         li {
             display: flex;
             height: 48px;
