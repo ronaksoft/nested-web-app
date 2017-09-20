@@ -16,46 +16,48 @@
         </div>
     </div>
     <div class="modal-b">
-        <ul modal-scroll dir="ltr" nst-scrollbar ng-if="!ctrl.isLoadingPlaces">
-            <li dir="{{$root._direction}}" class="place ng-class:{'disabledItem' : ctrl.selectedFiles.length > 0}" ng-repeat="place in ctrl.places" ng-click="ctrl.placeClick(place.id, place.name)">
-                <div class="place-logo">
-                    <img ng-src="{{place | picture:'x64'}}"/>
-                    <i>
-                        <svg class="_16svg" ng-show="place.id.indexOf('.') === -1">
-                            <use xlink:href="/assets/icons/nst-icn16.svg#places"></use>
+        <div modal-scroll iscroll="" class="iscroll-wrapper" ng-if="!ctrl.isLoadingPlaces">
+            <ul class="iscroll-scroller">
+                <li dir="{{$root._direction}}" class="place ng-class:{'disabledItem' : ctrl.selectedFiles.length > 0}" ng-repeat="place in ctrl.places" ng-click="ctrl.placeClick(place.id, place.name)">
+                    <div class="place-logo">
+                        <img ng-src="{{place | picture:'x64'}}"/>
+                        <i>
+                            <svg class="_16svg" ng-show="place.id.indexOf('.') === -1">
+                                <use xlink:href="/assets/icons/nst-icn16.svg#places"></use>
+                            </svg>
+                            <svg class="_16svg" ng-show="place.id.indexOf('.') !== -1 && !place.privacy.locked">
+                                <use xlink:href="/assets/icons/nst-icn16.svg#window"></use>
+                            </svg>
+                            <svg class="_16svg" ng-show="place.id.indexOf('.') !== -1 && place.privacy.locked">
+                                <use xlink:href="/assets/icons/nst-icn16.svg#brick-wall"></use>
+                            </svg>
+                        </i>
+                    </div>
+                    <p class="_wrb">
+                        {{place.name.substring(0, 24)}}{{place.name.length > 24 ? '...' : ''}}
+                    </p>
+                </li>
+                <li dir="{{$root._direction}}" ng-repeat="file in ctrl.files" ng-click="ctrl.attachClick(file)" class="file ng-class:{'checked' : file.selected}">
+                    <div class="pre-thumb" ng-if="file.thumbnail">
+                        <img ng-src="{{file.thumbnail}}"/>
+                    </div>
+                    <div class="file-thumb {{file.type}}" ng-if="!file.thumbnail">
+                        <span>
+                            {{file.extension}}
+                        </span>
+                    </div>
+                    <p>
+                        {{file.filename.substring(0, 20)}}{{file.filename.length > 20 ? '...' : ''}}
+                    </p>
+                    <div class="checkbox" ng-click="ctrl.selectToggle($event, file)">
+                        <svg class="_16svg">
+                            <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
                         </svg>
-                        <svg class="_16svg" ng-show="place.id.indexOf('.') !== -1 && !place.privacy.locked">
-                            <use xlink:href="/assets/icons/nst-icn16.svg#window"></use>
-                        </svg>
-                        <svg class="_16svg" ng-show="place.id.indexOf('.') !== -1 && place.privacy.locked">
-                            <use xlink:href="/assets/icons/nst-icn16.svg#brick-wall"></use>
-                        </svg>
-                    </i>
-                </div>
-                <p class="_wrb">
-                    {{place.name.substring(0, 24)}}{{place.name.length > 24 ? '...' : ''}}
-                </p>
-            </li>
-            <li dir="{{$root._direction}}" ng-repeat="file in ctrl.files" ng-click="ctrl.attachClick(file)" class="file ng-class:{'checked' : file.selected}">
-                <div class="pre-thumb" ng-if="file.thumbnail">
-                    <img ng-src="{{file.thumbnail}}"/>
-                </div>
-                <div class="file-thumb {{file.type}}" ng-if="!file.thumbnail">
-                    <span>
-                        {{file.extension}}
-                    </span>
-                </div>
-                <p>
-                    {{file.filename.substring(0, 20)}}{{file.filename.length > 20 ? '...' : ''}}
-                </p>
-                <div class="checkbox" ng-click="ctrl.selectToggle($event, file)">
-                    <svg class="_16svg">
-                        <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
-                    </svg>
-                </div>
-            </li>
-            <div dir="{{$root._direction}}" class="_jcc _df _aic _fw" ng-if="ctrl.places.length === 0 && ctrl.files.length === 0 && !ctrl.initialStart && !ctrl.isLoading"><translate>No File or place</translate></div>
-        </ul>
+                    </div>
+                </li>
+                <div dir="{{$root._direction}}" class="_jcc _df _aic _fw" ng-if="ctrl.places.length === 0 && ctrl.files.length === 0 && !ctrl.initialStart && !ctrl.isLoading"><translate>No File or place</translate></div>
+            </ul>
+        </div>
         <div class="loading" ng-if="ctrl.isLoading">
             <div class="animation"><div class="circle one"></div></div>
             <div class="animation"><div class="circle two"></div></div>
