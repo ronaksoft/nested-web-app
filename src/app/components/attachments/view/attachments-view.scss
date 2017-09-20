@@ -411,9 +411,11 @@ span.filename {
     padding: 0 16px;
     margin:0;
   }
+  .iscroll-wrapper {
+    max-height: calc(100% - 64px);
+  }
   ul {
     list-style: none;
-    max-height: calc(100% - 64px);
     li {
       height: 56px;
       opacity: .4;
@@ -429,6 +431,7 @@ span.filename {
       height: 32px;
       border-radius: 3px;
       margin: 0 12px;
+      object-fit: cover;
     }
     span {
       max-width: calc(100% - 56px);
