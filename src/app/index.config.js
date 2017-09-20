@@ -60,25 +60,25 @@
 
     iScrollServiceProvider.configureDefaults({
       iScroll: {
-          // Passed through to the iScroll library
-          momentum: false,
-          scrollX: false,
-          scrollY: true,
-          probeType: 1,
-          tap: false,
-          click: false,
-          preventDefaultException: {
-              tagName: /.*/
-          },
-          mouseWheel: true,
-          keyBindings: false,
-          scrollbars: true,
-          fadeScrollbars: true,
-          interactiveScrollbars: true,
-          deceleration: 0.001,
-          disableMouse: true,
-          disableTouch: false,
-          disablePointer: true
+        // Passed through to the iScroll library
+        momentum: false,
+        scrollX: false,
+        scrollY: true,
+        probeType: 1,
+        tap: false,
+        click: false,
+        preventDefaultException: {
+          tagName: /.*/
+        },
+        mouseWheel: true,
+        keyBindings: false,
+        scrollbars: true,
+        fadeScrollbars: true,
+        interactiveScrollbars: true,
+        deceleration: 0.001,
+        disableMouse: true,
+        disableTouch: false,
+        disablePointer: true
       },
       directive: {
           // Interpreted by the directive
