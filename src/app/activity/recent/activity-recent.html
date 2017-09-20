@@ -17,7 +17,7 @@
     </div>
   </div>
   <div iscroll="" class="iscroll-wrapper recent-container" data-ng-if="!recentCtrl.status.loadInProgress">
-    <ul class="iscroll-scroller iscroll-scroller">
+    <ul class="iscroll-scroller">
       <li class="recent-item use-ng-animate" ng-class="{ hot : activity.isHot }" ng-repeat="activity in recentCtrl.activities | limitTo:recentCtrl.count track by activity.id">
         <recent-activity-item place="recentCtrl.place" model="activity" current-place-id="settings.placeId"/>
       </li>
