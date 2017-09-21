@@ -40,25 +40,27 @@
             </svg>
         </p>
     </h5>
-    <ul ng-if="ctrl.holderType == 'specific'" nst-scrollbar class="holders visible-scrollbar">
-        <li ng-repeat="user in ctrl.specificHolders">
-            <div class="icon">
-                <div class="user-avatar-20">
-                    <img ng-src="{{user | picture}}" alt="user.fullName" data-uib-tooltip="{{user.fullName}}" data-tooltip-append-to-body="true" data-tooltip-placement="top auto">
+    <div iscroll="" class="iscroll-wrapper holders" ng-if="ctrl.holderType == 'specific'">
+        <ul class="iscroll-scroller">
+            <li ng-repeat="user in ctrl.specificHolders">
+                <div class="icon">
+                    <div class="user-avatar-20">
+                        <img ng-src="{{user | picture}}" alt="user.fullName" data-uib-tooltip="{{user.fullName}}" data-tooltip-append-to-body="true" data-tooltip-placement="top auto">
+                    </div>
                 </div>
-            </div>
-            <span>
-                {{user.fullName}}
-            </span>
-            <div ng-click="ctrl.removeHolder(user.id)" class="actions _aic _df force">
-                <translate>remove</translate>
-                <!--<svg class="_16svg _df _fn force">
-                    <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
-                </svg>-->
-            </div>
-            <hr/>
-        </li>
-    </ul>
+                <span>
+                    {{user.fullName}}
+                </span>
+                <div ng-click="ctrl.removeHolder(user.id)" class="actions _aic _df force">
+                    <translate>remove</translate>
+                    <!--<svg class="_16svg _df _fn force">
+                        <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
+                    </svg>-->
+                </div>
+                <hr/>
+            </li>
+        </ul>
+    </div>
     <p ng-if="ctrl.holderType == 'all'" class="holders-all-msg">All users on your company can use this label.</p>
     <div class="modal-footer">
       <input type="button" ng-click="$dismiss()"  value="Discard" class="butn-white">

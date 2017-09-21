@@ -3,7 +3,10 @@
   flex-direction: column;
   .recent-container {
     list-style: none;
-    background-color: $color-white;
+    background-color: $color-white!important;
+    li {
+      display: flex;
+    }
     li:last-child {
       .colomn {
         border: none;

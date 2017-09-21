@@ -178,8 +178,7 @@
     }
   </style>
 </head>
-<body scroll-dispatch dir="{{_direction}}" ng-controller="indexController as index"
-      ng-class="{'_oh':$root.topNavOpen,'isDesktop':$root.deviceDetector.isDesktop(),'isMobile':$root.deviceDetector.isTablet() || $root.deviceDetector.isMobile()}">
+<body scroll-dispatch dir="{{_direction}}" ng-controller="indexController as index" class="isDesktop iscroll-on">
 
 <nst-unseen-activity></nst-unseen-activity>
 <!--Initial loading part-->

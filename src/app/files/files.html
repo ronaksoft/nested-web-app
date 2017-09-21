@@ -111,10 +111,10 @@
     </div>
   </section>
   <div class="content-plus illu">
-    <div id="members" nst-scrollbar suppress-scroll-x="true" ng-if="!ctlFiles.isSubPersonal() && ctlFiles.hasSeeMembersAccess">
+    <div id="members" ng-if="!ctlFiles.isSubPersonal() && ctlFiles.hasSeeMembersAccess">
       <nst-place-teammates-sidebar grand-place="ctlFiles.currentPlaceId" place-id="ctlFiles.currentPlaceId"></nst-place-teammates-sidebar>
     </div>
-    <div id="cp1" nst-scrollbar suppress-scroll-x="true" affixer parent=".content-plus" after-content="0" top="48" fixed-top="true">
+    <div id="cp1" iscroll class="iscroll-wrapper" affixer parent=".content-plus" after-content="0" top="48" fixed-top="true">
       <nst-recent-activity place="ctlFiles.currentPlaceId" place-id="ctlFiles.currentPlaceId" count="16" />
     </div>
   </div>

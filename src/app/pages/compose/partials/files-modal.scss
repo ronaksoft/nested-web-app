@@ -44,9 +44,10 @@
             margin-right: 8px;
         }
     }
-    ul {
+    .iscroll-wrapper {
         max-height: 353px;
-        overflow: auto;
+    }
+    ul {
         &.haveSelectedItem {
             max-height: 406px;
         }
@@ -200,6 +201,9 @@
         background-color: #F5F5F5;
         flex-grow: 1;
         padding: 8px 16px;
+        .iscroll-on.iscroll-wrapper {
+            height: auto
+        }
     }
     .modal-f {
         box-shadow: 0 0 8px rgba(0,0,0,.08);
@@ -222,7 +226,7 @@
         flex-wrap: wrap;
         width: 100%;
         list-style: none;
-        overflow: auto;
+        // overflow: auto;
         li {
             width: 132px;
             margin: 4px;
