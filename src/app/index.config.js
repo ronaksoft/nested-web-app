@@ -64,7 +64,7 @@
         momentum: false,
         scrollX: false,
         scrollY: true,
-        probeType: 1,
+        probeType: 2,
         tap: false,
         click: false,
         preventDefaultException: {
