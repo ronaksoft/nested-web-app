@@ -30,6 +30,7 @@
     vm.changeTab = changeTab;
     vm.selectedView = 0;
     vm.searchKeyUp = _.debounce(searchLabel, 512);
+    vm.loadMore = vm.searchKeyUp;
     vm.translation = {
       pending: NstSvcTranslation.get('Pending Requests'),
       request: NstSvcTranslation.get('Requests')
