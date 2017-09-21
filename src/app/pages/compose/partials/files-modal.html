@@ -9,7 +9,7 @@
             <translate ng-if="ctrl.selectedFiles.length == 1">File Selected</translate>
         </span>
     </div>
-    <div iscroll="" load-more iscroll-instance="scrollInstance" class="iscroll-wrapper">
+    <div iscroll load-more iscroll-instance="scrollInstance" class="iscroll-wrapper">
         <ul class="iscroll-scroller ng-class:{'haveSelectedItem' : ctrl.selectedFiles.length > 0}">
             <li ng-repeat="item in ctrl.files" ng-click="ctrl.add(item)" class="ng-class:{'checked' : item.isSelected}">
                 <div class="checkbox ng-class:{'checked' : item.isSelected}">

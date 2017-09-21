@@ -92,6 +92,7 @@
         // certainly this function do not call on next pages load request
         if ( vm.settings.skip === 0 ) {
           vm.files = fileItems;
+          vm.settings.skip += fileItems.length;
         }
       }
 
@@ -103,6 +104,7 @@
      * For load more this function be calling
      */
     function loadMore() {
+      console.log('load more')
       if (vm.hasNextPage) {
         vm.loadMoreCounter++;
         // NstSvcInteractionTracker.trackEvent('files', 'load more', vm.loadMoreCounter);
