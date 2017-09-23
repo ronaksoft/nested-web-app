@@ -44,7 +44,7 @@
     toastrConfig.allowHtml = true;
     toastrConfig.timeOut = 5000;
     toastrConfig.positionClass = 'toast-top-center';
-    toastrConfig.preventOpenDuplicates = false;
+    toastrConfig.preventOpenDuplicates = true;
     toastrConfig.progressBar = true;
     toastrConfig.autoDismiss = false;
     toastrConfig.onHidden = null;
