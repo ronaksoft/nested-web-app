@@ -56,11 +56,12 @@
       <svg class="_20svg fill-white">
         <use xlink:href="/assets/icons/nst-icn20.svg#tag"></use>
       </svg>
-      <div class="unread-notif-badge" ng-if="ctrlTopBar.user.authority.labelEditor && ctrlTopBar.requestedLabels > 0">{{ctrlTopBar.requestedLabels | localize}}</div> 
+      <div class="unread-notif-badge" ng-if="ctrlTopBar.user.authority.labelEditor && ctrlTopBar.requestedLabels > 0">{{ctrlTopBar.requestedLabels | localize}}</div>
     </a>
-    <a class="cursor-pointer" data-uib-popover-template="'app/notification/notification-popover.html'" data-popover-placement="{{$root._direction === 'rtl' ? 'bottom-left' : 'bottom-right'}} auto"
-      data-popover-class="notifications-popover" data-popover-is-open="ctrlTopBar.notifOpen" data-popover-append-to-body="false"
-      data-popover-trigger="none" ng-click="ctrlTopBar.notifOpen =! ctrlTopBar.notifOpen;ctrlTopBar.profileOpen = false;ctrlTopBar.notificationsCount = 0;$event.preventDefault();$event.stopPropagation()">
+    <a class="cursor-pointer" data-uib-tooltip-template="'notification-uib-tooltip.html'" data-tooltip-append-to-body="false" data-tooltip-placement="bottom auto"
+       data-uib-popover-template="'app/notification/notification-popover.html'" data-popover-placement="{{$root._direction === 'rtl' ? 'bottom-left' : 'bottom-right'}} auto"
+       data-popover-class="notifications-popover" data-popover-is-open="ctrlTopBar.notifOpen" data-popover-append-to-body="false"
+       data-popover-trigger="none" ng-click="ctrlTopBar.notifOpen =! ctrlTopBar.notifOpen;ctrlTopBar.profileOpen = false;ctrlTopBar.notificationsCount = 0;$event.preventDefault();$event.stopPropagation()">
       <svg class="_20svg fill-white">
         <use xlink:href="/assets/icons/nst-icn20.svg#bell"></use>
       </svg>
@@ -72,7 +73,7 @@
       <div class="top-user-avatar-24" ng-click="ctrlTopBar.notifOpen = false;">
         <img initial-avatar="{{ctrlTopBar.user.id}}" name="{{ctrlTopBar.user.fullName}}" picture="{{ctrlTopBar.user | avatar}}" data-width="32"
              data-height="32" data-radius="30" class="account-initials-24 _df" data-word-count="2" data-font-size="12" />
-      </div>     
+      </div>
     </a>
   </div>
 </div>
@@ -189,7 +190,7 @@
   </form>
 </div>
 
-<script type="text/ng-template" id="mention-uib-tooltip.html">
+<script type="text/ng-template" id="notification-uib-tooltip.html">
   <translate>Notifications</translate>
 </script>
 <script type="text/ng-template" id="label-uib-tooltip.html">
