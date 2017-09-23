@@ -70,6 +70,14 @@
         border-radius: 4px;
         color: $color-solid;
     }
+    .iscroll-wrapper {
+        width: auto;
+        flex: 1;
+        margin: 0 -24px;
+        ul {
+            margin: 0;
+        }
+    }
     ul {
         margin: 0 -24px;
         flex-direction: column;
@@ -310,11 +318,14 @@
             font-weight: bold;
         }
     }
-    ul.holders {
+    .holders {
         margin: 0 -24px 0 -16px;
-        list-style: none;
         max-height: 194px;
-        flex: none;
+        width: auto;
+        ul {
+            flex: none;
+            list-style: none;
+        }
         li {
             display: flex;
             height: 48px;

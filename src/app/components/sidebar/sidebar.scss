@@ -314,11 +314,14 @@
       }
     }
   }
-  .places {
+  .iscroll-wrapper {
     position: relative;
+    height: auto;
     width: calc(100% + 12px);
     margin: 0 -6px 6px -6px;
     max-height: calc(100vh - 268px);
+  }
+  .places {
     >ul {
       padding: 0 6px;
     }

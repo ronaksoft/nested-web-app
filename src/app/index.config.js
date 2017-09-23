@@ -6,7 +6,7 @@
     .config(config);
 
   /** @ngInject */
-  function config($logProvider, $locationProvider,  toastrConfig, localStorageServiceProvider,
+  function config($logProvider, $locationProvider,  toastrConfig, localStorageServiceProvider, iScrollServiceProvider,
                   $animateProvider, $sceDelegateProvider, $compileProvider) {
 
 
@@ -44,7 +44,7 @@
     toastrConfig.allowHtml = true;
     toastrConfig.timeOut = 5000;
     toastrConfig.positionClass = 'toast-top-center';
-    toastrConfig.preventOpenDuplicates = false;
+    toastrConfig.preventOpenDuplicates = true;
     toastrConfig.progressBar = true;
     toastrConfig.autoDismiss = false;
     toastrConfig.onHidden = null;
@@ -57,6 +57,37 @@
     };
     
     toastrConfig.closeButton = true;
+
+    iScrollServiceProvider.configureDefaults({
+      iScroll: {
+        // Passed through to the iScroll library
+        momentum: false,
+        scrollX: false,
+        scrollY: true,
+        probeType: 2,
+        tap: false,
+        click: false,
+        preventDefaultException: {
+          tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT|LABEL|A)$/,
+          className: /(^|\s)prevent-scroll(\s|$)/
+        },
+        mouseWheel: true,
+        keyBindings: false,
+        scrollbars: true,
+        fadeScrollbars: true,
+        interactiveScrollbars: true,
+        resizeScrollbars: true,
+        shrinkScrollbars: true,
+        deceleration: 0.001,
+        disableMouse: true,
+        disableTouch: false,
+        disablePointer: true
+      },
+      directive: {
+          // Interpreted by the directive
+          refreshInterval: 500
+      }
+    });
 
     $animateProvider.classNameFilter(/use-ng-animate/);
 

@@ -28,20 +28,24 @@
           <use xlink:href="/assets/icons/nst-icn16.svg#negative-xcross"></use>
         </svg>
       </i>
-      <div class="input-wrapper" nst-scrollbar suppress-scroll-y="true" topbar-scrollbar>
-        <div class="search-chips-container _df" ng-if="ctrlTopBar.chips.length > 0">
-          <div ng-repeat="chip in ctrlTopBar.chips" class="chips">
-            <div class="close-chips">
-                <svg ng-click="ctrlTopBar.removeChip(chip.type, chip.title)" class="_16svg _df _fn fill-white">
-                  <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
-                </svg>
+      <div class="input-wrapper iscroll-wrapper" iscroll="{scrollY: false,scrollX: true}" topbar-scrollbar>
+        <div class="iscroll-scroller">
+          <div class="_df _fn">
+            <div class="search-chips-container _df" ng-if="ctrlTopBar.chips.length > 0">
+              <div ng-repeat="chip in ctrlTopBar.chips" class="chips">
+                <div class="close-chips">
+                    <svg ng-click="ctrlTopBar.removeChip(chip.type, chip.title)" class="_16svg _df _fn fill-white">
+                      <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
+                    </svg>
+                </div>
+                <b><span ng-if="chip.type != 'keyword'" class="_df _fn">{{chip.type}}:&nbsp;</span></b>
+                <span>{{chip.title}}</span>
+              </div>
             </div>
-            <b><span ng-if="chip.type != 'keyword'" class="_df _fn">{{chip.type}}:&nbsp;</span></b>
-            <span>{{chip.title}}</span>
+            <input placeholder="{{ctrlTopBar.searchPlaceholder}}" ng-model="ctrlTopBar.newQuery"
+              ng-keyup="ctrlTopBar.searchKeyPressed($event, ctrlTopBar.newQuery, true)" ng-focus="ctrlTopBar.toggleSearchModal(true);">
           </div>
         </div>
-        <input placeholder="{{ctrlTopBar.searchPlaceholder}}" ng-model="ctrlTopBar.newQuery"
-          ng-keyup="ctrlTopBar.searchKeyPressed($event, ctrlTopBar.newQuery, true)" ng-focus="ctrlTopBar.toggleSearchModal(true);">
       </div>
       <span ng-if="ctrlTopBar.searchModalOpen || ctrlTopBar.advancedSearchOpen" class="advanced-search ng-class:{'open' : ctrlTopBar.advancedSearchOpen}" ng-click="ctrlTopBar.toggleAdvancedSearch()">
         <svg class="_24svg fill-white">

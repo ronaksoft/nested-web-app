@@ -199,10 +199,8 @@
         }
     }
     .player-list {
-        display: flex;
         max-height: 0;
         transition: max-height $animation-dur;
-        overflow: auto;
         &.expand {
             max-height: 208px;
         }
