@@ -349,21 +349,21 @@
   }
 }
 .compose-scroll-wrapper {
+  // margin: 0 -12px;
+  // width: auto!important;
+  // overflow: auto;
   max-height: calc( 90vh - 300px);
   min-height: 250px;
-  margin: 0 -12px;
-  width: auto!important;
+  position: relative;
   overflow: auto;
-  padding: 0 12px;
+  // padding: 0 12px;
+  // display: flex;
+  // flex-direction: column;
   ul, ol {
     margin: 0 24px;
   }
   .wdt-emoji-picker {
     display: none;
-  }
-  .iscroll-scroller {
-    display: flex;
-    flex-direction: column;
   }
 }
 .compose-modal-footer {
