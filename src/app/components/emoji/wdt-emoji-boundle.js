@@ -986,7 +986,7 @@
    */
   var sticky = function (el) {
 
-    var
+    var scrollerRect = wdtEmojiBundle.scrollerMain.getBoundingClientRect(),
       elTop = el.getBoundingClientRect().top - scrollerRect.top,
       tabHeaderHeight = wdtEmojiBundle.popup.querySelector('#wdt-emoji-menu-header').getBoundingClientRect().height;
 
