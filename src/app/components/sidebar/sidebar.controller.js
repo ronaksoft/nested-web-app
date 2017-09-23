@@ -211,10 +211,15 @@
                     } else {
                       setTimeout(function () {
                         $state.go('app.place-messages', { placeId: invitation.place.id});
-                      }, 100)
+                      }, 100);
                     }
                   });
 
+                }
+                else {
+                  setTimeout(function () {
+                    $state.go('app.place-messages', { placeId: invitation.place.id});
+                  }, 100);
                 }
               });
             } else { // Decline the Invitation

@@ -76,7 +76,7 @@
 
         var ajax = new NstHttp('',
         {
-          cmd : 'account/register_user',
+          cmd : 'auth/register_user',
           data : {
             'vid' : vm.verificationId,
             'phone' : getPhoneNumber(),
