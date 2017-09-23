@@ -1036,6 +1036,10 @@ body[dir="rtl"] {
     padding-right: 0;
     padding-left: 6px;
   }
+  .sidebar-wrapper .unreadPlace {
+    right: auto;
+    left: 0;
+  }
 }
 
 body[dir="ltr"] {
