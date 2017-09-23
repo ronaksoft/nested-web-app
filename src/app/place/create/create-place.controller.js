@@ -359,6 +359,7 @@
         controllerAs: 'addMemberCtrl',
         size: 'sm',
         resolve: {
+          newPlace: true,
           chosenRole: function () {
             return role;
           },

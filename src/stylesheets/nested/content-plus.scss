@@ -162,20 +162,20 @@
     .avatars {
       display: flex;
       flex-direction: row;
-      margin: 10px;
+      margin: 10px 7px;
       flex: none;
       flex-wrap: wrap;
-      width: calc(100% - 16px);
-      ._difh:first-of-type + div + div + div + div + div ,
-      ._difh:first-of-type + div + div + div + div + div + div + div + div + div + div + div,
+      width: calc(100% - 14px);
+      ._difh:first-of-type + div + div + div + div ,
+      ._difh:first-of-type + div + div + div + div + div + div + div + div + div,
       ._difh:last-of-type {
         .devid {
           display: none;
         }
       }
       div.user-avatar-32 {
-        margin: 2px;
         width: 32px;
+        margin: 2px 0;
         position: relative;
         &::after {
           left: 0
@@ -208,7 +208,7 @@
         height: 24px;
       }
       .devid {
-        width: 4px;
+        width: 12px;
         height: 100%;
         display: flex;
         flex: none;
