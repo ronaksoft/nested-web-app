@@ -68,13 +68,16 @@
         tap: false,
         click: false,
         preventDefaultException: {
-          tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT|LABEL|A)$/
+          tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT|LABEL|A)$/,
+          className: /(^|\s)prevent-scroll(\s|$)/
         },
         mouseWheel: true,
         keyBindings: false,
         scrollbars: true,
         fadeScrollbars: true,
         interactiveScrollbars: true,
+        resizeScrollbars: true,
+        shrinkScrollbars: true,
         deceleration: 0.001,
         disableMouse: true,
         disableTouch: false,

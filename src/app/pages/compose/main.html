@@ -42,8 +42,7 @@
           </ui-select-choices>
         </ui-select>
       </div>
-      <div iscroll="{scrollY : !ctlCompose.quickMode, preventDefault: !ctlCompose.quickMode}" iscroll-instance="scrollInstance"
-        class="wdt-emoji-picker-parent compose-scroll-wrapper iscroll-wrapper">
+      <div class="wdt-emoji-picker-parent compose-scroll-wrapper">
         <div class="iscroll-scroller">
           <section class="_difc _fw _fn">
             <input id="compose-subject" class="compose-subject-input _fw wdt-emoji-bundle-enabled" name="subject" value="{{ctlCompose.model.subject}}" ng-focus="ctlCompose.focusBox()" ng-blur="ctlCompose.blurBox()" ng-keydown="ctlCompose.subjectKeyDown($event)"
