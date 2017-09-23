@@ -104,7 +104,6 @@
      * For load more this function be calling
      */
     function loadMore() {
-      console.log('load more')
       if (vm.hasNextPage) {
         vm.loadMoreCounter++;
         // NstSvcInteractionTracker.trackEvent('files', 'load more', vm.loadMoreCounter);

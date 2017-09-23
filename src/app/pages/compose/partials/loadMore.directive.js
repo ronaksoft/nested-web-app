@@ -11,11 +11,9 @@
       link: function (scope) {
         
         var interval = $timeout(function(){
-          console.log('add load more', scope.scrollInstance, scope.ctrl.loadMore);
           scope.scrollInstance.on('scroll', handleScroll);
         },10);
         function handleScroll(){
-          console.log('scrolled')
           if (this.wrapperHeight - this.y > .9 * this.scrollerHeight) {
             scope.ctrl.loadMore();
           }
