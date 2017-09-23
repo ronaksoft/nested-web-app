@@ -5,25 +5,23 @@
 */
 
 $color-solid: #323D47;
-$color-sense: rgba(20,215,105,1);
-$color-sense-wire: rgba(0,180,90,1);
+$color-super-solid: #232629;
+$color-sense: rgba(20, 215, 105, 1);
+$color-sense-wire: rgba(0, 180, 90, 1);
 $color-sense-5: #f3fdf7;
 $color-sense-50: #83d8ad;
-$color-solid-30: #b2b2b2;
-$color-solid-60: #666666;
-$color-force: rgba(255,100,100,1);
-$color-force-wire: rgba(230,0,0,1);
-$color-hurricane-old: #476152;
-$color-shine: rgba(255,215,50,1);
-$color-badge: #a0e8b8;
-$color-fillbox: #f0f5f2;
+$color-solid-30: #c0c3c6;
+$color-solid-60: #838a90;
+$color-force: #ff3344;
+$color-force-wire: #e60026;
+$color-shine: #ffcc33;
+$color-shine-wire: #e6ac00;
+$color-bg-pending: #0079f2;
+$color-bg-pending-wire: #004da6;
 $color-white: #FFFFFF;
 $color-bg:rgb(250,250,250);
 $color-light-cloud:rgb(245,245,245);
 $color-bg-nested: #F0F0F0;
-$color-bg-pending: rgba(50,150,255,1);
-$color-bg-pending-fill: #99CBFF;
-$color-bg-pending-hover: #E1F5FF;
 $color-border-pics: rgba(0,0,0,.2);
 $color-border: rgb(220,220,220);
 $color-grey: rgb(192,192,192);
@@ -38,6 +36,10 @@ $color-bg-hover-item :rgba(50, 61, 71, .12);
 $color-bg-active-item :rgba(50, 61, 71, .16);
 
 // $color-modal-bg: rgba(153,153,153,.72);
+
+// depricated
+$color-fillbox: #f0f5f2;
+$color-badge: #a0e8b8;
 
 // Black with different opacities
 $color-calm: rgba(0,0,0,.04);
@@ -106,7 +108,7 @@ $topnav-height: 56px;
 $sidebar-width: 240px;
 $sidebar-width-tiny: 64px;
 $sidebar-width-plus: $sidebar-width - $sidebar-width-tiny;
-$sidebar-color: #232629;
+$sidebar-color: $color-super-solid;
 $sidebar-bg-hover-color: $color-solid;
 $sidebar-place-bg-hover-color: #F0F0F0;
 
