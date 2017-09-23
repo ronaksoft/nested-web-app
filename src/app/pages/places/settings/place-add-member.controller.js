@@ -10,7 +10,7 @@
                                     NST_USER_SEARCH_AREA,
                                     NstSvcUserFactory, NstSvcTranslation,
                                     NST_PLACE_MEMBER_TYPE,
-                                    _, currentPlace, mode, isForGrandPlace) {
+                                    _, currentPlace, mode, isForGrandPlace, newPlace) {
     var vm = this;
     var defaultSearchResultCount = 9;
 
@@ -58,7 +58,12 @@
         delete  settings.placeId;
       }
 
-      NstSvcUserFactory.search(settings, (vm.isGrandPlace || isForGrandPlace) ? NST_USER_SEARCH_AREA.INVITE : NST_USER_SEARCH_AREA.ADD)
+      var newPlaceFlag = false;
+      if (newPlace !== undefined && newPlace === true) {
+        newPlaceFlag = true;
+      }
+
+      NstSvcUserFactory.search(settings, (newPlaceFlag? NST_USER_SEARCH_AREA.ACCOUNTS: (vm.isGrandPlace || isForGrandPlace) ? NST_USER_SEARCH_AREA.INVITE : NST_USER_SEARCH_AREA.ADD))
         .then(function (users) {
           users = _.unionBy(users, 'id');
           vm.users = _.differenceBy(users, vm.selectedUsers, 'id');
