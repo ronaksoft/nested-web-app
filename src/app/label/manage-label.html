@@ -17,20 +17,26 @@
       </i>
       <input ng-keyup="ctrl.searchKeyUp()" ng-model="ctrl.keyword" type="text" placeholder="Find Labels" translate-attrs="placeholder">
     </div>
-    <div ng-if="ctrl.labelManager && ctrl.selectedItems.length == 0" ng-click="ctrl.createLabel()" class="label-create-butn" >
-      <a><translate>New Label</translate></a>
+    <div ng-if="ctrl.labelManager && ctrl.selectedItems.length == 0" ng-click="ctrl.createLabel()" class="label-create-butn">
+      <a>
+        <translate>New Label</translate>
+      </a>
       <svg class="_16svg _df _fn">
         <use xlink:href="/assets/icons/nst-icn16.svg#cross"></use>' +
       </svg>
     </div>
-    <div ng-if="!ctrl.labelManager && ctrl.selectedItems.length == 0" ng-click="ctrl.requestLabel()"  class="label-create-butn" >
-      <a><translate>Request a Label</translate></a>
+    <div ng-if="!ctrl.labelManager && ctrl.selectedItems.length == 0" ng-click="ctrl.requestLabel()" class="label-create-butn">
+      <a>
+        <translate>Request a Label</translate>
+      </a>
       <svg class="_16svg _df _fn">
         <use xlink:href="/assets/icons/nst-icn16.svg#cross"></use>' +
       </svg>
     </div>
-    <div ng-if="ctrl.labelManager && ctrl.selectedItems.length > 0" ng-click="ctrl.removeSelectedLabels()"  class="label-remove-butn" >
-      <a><translate>Remove Label{{ctrl.selectedItems.length > 1 ? 's' : ''}} ({{ctrl.selectedItems.length | localize}})</translate></a>
+    <div ng-if="ctrl.labelManager && ctrl.selectedItems.length > 0" ng-click="ctrl.removeSelectedLabels()" class="label-remove-butn">
+      <a>
+        <translate>Remove Label{{ctrl.selectedItems.length > 1 ? 's' : ''}} ({{ctrl.selectedItems.length | localize}})</translate>
+      </a>
       <svg class="_16svg _df _fn force">
         <use xlink:href="/assets/icons/nst-icn16.svg#bin"></use>' +
       </svg>
@@ -38,7 +44,8 @@
   </div>
   <div class="_difh settings-tab" ng-if="ctrl.labelManager">
     <div class="shadow"></div>
-    <a class="_df _fw _jcc _aic" ng-click="ctrl.selectedView = 0;ctrl.changeTab()" ng-class="{'active' : ctrl.selectedView == 0}" ng-hide="ctrl.placeType == 'sub-personal'">
+    <a class="_df _fw _jcc _aic" ng-click="ctrl.selectedView = 0;ctrl.changeTab()" ng-class="{'active' : ctrl.selectedView == 0}"
+      ng-hide="ctrl.placeType == 'sub-personal'">
       <translate>Manage Labels</translate>
     </a>
     <a class="_df _fw _jcc _aic" ng-click="ctrl.selectedView = 1;ctrl.changeTab()" ng-class="{'active' : ctrl.selectedView == 1}">
@@ -46,88 +53,98 @@
     </a>
   </div>
   <h5 ng-if="ctrl.requestList.length > 0 && ctrl.selectedView !== 1" class="list-head">{{ctrl.labelManager ? ctrl.translation.request: ctrl.translation.pending}}</h5>
-  <ul class="requests _fn" ng-class="{'pending': !ctrl.labelManager}" nst-scrollbar="{scrollSpeed: 'fast'}" ng-if="ctrl.selectedView !== 1" go-upward="ctrl.goUpwardVal">
-    <li ng-repeat="request in ctrl.requestList">
-      <hr/>
-      <div class="icon">
-        <svg class="_16svg _df _fn color-lbl-{{request.label ? request.label.code : request.code}}">
-          <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
-        </svg>
-      </div>
-      <div ng-if="ctrl.labelManager" class="req-body">
-        <cite>
-          {{request.label ? (request.label.title | scapeRevSpace): (request.title | scapeRevSpace)}}
-        </cite>
-        <p>
-          <span user-detail="request.user"><b>{{request.user.fullName}}</b></span>
-          <span ng-if="request.label"><translate>wants to reach this.</translate></span>
-          <span ng-if="!request.label"><translate>wants to create this.</translate></span>
-        </p>
-      </div>
-      <div ng-if="!ctrl.labelManager" class="req-body">
-        <cite class="{{request.label.code}}">
-          <span ng-if="request.label"><translate>Joining to</translate></span>
-          <span ng-if="!request.label"><translate>Adding</translate></span>
-          "{{request.label ? (request.label.title | scapeRevSpace): (request.title | scapeRevSpace)}}"
-        </cite>
-      </div>
-      <div class="actions">
-        <div ng-if="ctrl.labelManager && request.label" ng-click="ctrl.editLabel(request.label)">
-          <svg class="_16svg _df _fn fill-solid-24">
-            <use xlink:href="/assets/icons/nst-icn16.svg#gear"></use>
+  <div iscroll class="iscroll-wrapper" ng-if="ctrl.selectedView !== 1">
+    <ul class="iscroll-scroller requests _fn" ng-class="{'pending': !ctrl.labelManager}">
+      <li ng-repeat="request in ctrl.requestList">
+        <hr/>
+        <div class="icon">
+          <svg class="_16svg _df _fn color-lbl-{{request.label ? request.label.code : request.code}}">
+            <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
           </svg>
         </div>
-        <div ng-if="ctrl.labelManager" ng-click="ctrl.declineRequest(request.id)">
-          <svg class="_16svg _df _fn force">
-            <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
+        <div ng-if="ctrl.labelManager" class="req-body">
+          <cite>
+            {{request.label ? (request.label.title | scapeRevSpace): (request.title | scapeRevSpace)}}
+          </cite>
+          <p>
+            <span user-detail="request.user"><b>{{request.user.fullName}}</b></span>
+            <span ng-if="request.label"><translate>wants to reach this.</translate></span>
+            <span ng-if="!request.label"><translate>wants to create this.</translate></span>
+          </p>
+        </div>
+        <div ng-if="!ctrl.labelManager" class="req-body">
+          <cite class="{{request.label.code}}">
+            <span ng-if="request.label"><translate>Joining to</translate></span>
+            <span ng-if="!request.label"><translate>Adding</translate></span>
+            "{{request.label ? (request.label.title | scapeRevSpace): (request.title | scapeRevSpace)}}"
+          </cite>
+        </div>
+        <div class="actions">
+          <div ng-if="ctrl.labelManager && request.label" ng-click="ctrl.editLabel(request.label)">
+            <svg class="_16svg _df _fn fill-solid-24">
+              <use xlink:href="/assets/icons/nst-icn16.svg#gear"></use>
+            </svg>
+          </div>
+          <div ng-if="ctrl.labelManager" ng-click="ctrl.declineRequest(request.id)">
+            <svg class="_16svg _df _fn force">
+              <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
+            </svg>
+          </div>
+          <div ng-if="ctrl.labelManager" ng-click="ctrl.acceptRequest(request.id)">
+            <svg class="_16svg _df _fn fill-sense-wire">
+              <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
+            </svg>
+          </div>
+          <div ng-if="!ctrl.labelManager" ng-click="ctrl.withdrawRequest(request.id)" class="actions">
+            <svg class="_16svg _df _fn force">
+              <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
+            </svg>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <h5 class="list-head">
+    <translate>Labels</translate>
+  </h5>
+  <div iscroll load-more iscroll-instance="scrollInstance" class="iscroll-wrapper">
+    <ul class="iscroll-scroller labels _df">
+      <li ng-repeat="label in ctrl.labels track by $index" class="_fn">
+        <hr/>
+        <div class="icon" ng-if="ctrl.labelManager && ctrl.selectedView !== 1">
+          <div class="select-card" ng-class="{'selected': label.selected}">
+            <input ng-model="label.selected" ng-change="ctrl.toggleSelected(label.id, label.selected)" class="_fr" type="checkbox" id="label-select{{label.id}}"
+              name="select" />
+            <label class="_fw _df _asc setting" for="label-select{{label.id}}"></label>
+          </div>
+        </div>
+        <div class="label-details">
+          <span ng-click="ctrl.searchThis(label.title)">{{label.title | scapeRevSpace}}</span>
+        </div>
+        <div class="usage">
+          <svg class="_16svg _df _fn color-lbl-{{label.code}}">
+            <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
+          </svg>
+          <span>{{label.counters.posts | localize}}</span>
+        </div>
+        <div ng-if="label.public" class="users">
+          <translate>everyone</translate>
+        </div>
+        <div ng-if="!label.public" class="users">
+          <div ng-repeat="user in label.topMembers" class="user-avatar-20">
+            <img ng-src="{{user | picture}}" alt="user.fullName" data-uib-tooltip="{{user.fullName}}" data-tooltip-append-to-body="true"
+              data-tooltip-placement="top auto">
+          </div>
+        </div>
+        <div class="edit" ng-if="ctrl.labelManager && ctrl.selectedView !== 1">
+          <svg class="_16svg _df _fn" ng-click="ctrl.editLabel(label.id)">
+            <use xlink:href="/assets/icons/nst-icn16.svg#pencil"></use>
           </svg>
         </div>
-        <div ng-if="ctrl.labelManager" ng-click="ctrl.acceptRequest(request.id)">
-          <svg class="_16svg _df _fn fill-sense-wire">
-            <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
-          </svg>
-        </div>
-        <div ng-if="!ctrl.labelManager" ng-click="ctrl.withdrawRequest(request.id)" class="actions">
-          <svg class="_16svg _df _fn force">
-            <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
-          </svg>
-        </div>
-      </div>
-    </li>
-  </ul>
-  <h5 class="list-head"><translate>Labels</translate></h5>
-  <ul class="labels _df" nst-scrollbar go-upward="ctrl.goUpwardVal">
-    <li ng-repeat="label in ctrl.labels track by $index" class="_fn">
-      <hr/>
-      <div class="icon" ng-if="ctrl.labelManager && ctrl.selectedView !== 1">
-        <div class="select-card" ng-class="{'selected': label.selected}">
-          <input ng-model="label.selected" ng-change="ctrl.toggleSelected(label.id, label.selected)" class="_fr" type="checkbox" id="label-select{{label.id}}" name="select"/>
-          <label class="_fw _df _asc setting" for="label-select{{label.id}}"></label>
-        </div>
-      </div>
-      <div class="label-details">
-        <span ng-click="ctrl.searchThis(label.title)">{{label.title | scapeRevSpace}}</span>
-      </div>
-      <div class="usage">
-        <svg class="_16svg _df _fn color-lbl-{{label.code}}">
-          <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
-        </svg>
-        <span>{{label.counters.posts | localize}}</span>
-      </div>
-      <div ng-if="label.public" class="users">
-        <translate>everyone</translate>
-      </div>
-      <div ng-if="!label.public" class="users">
-        <div ng-repeat="user in label.topMembers" class="user-avatar-20">
-          <img ng-src="{{user | picture}}" alt="user.fullName" data-uib-tooltip="{{user.fullName}}" data-tooltip-append-to-body="true" data-tooltip-placement="top auto">
-        </div>
-      </div>
-      <div class="edit" ng-if="ctrl.labelManager && ctrl.selectedView !== 1">
-        <svg class="_16svg _df _fn" ng-click="ctrl.editLabel(label.id)">
-          <use xlink:href="/assets/icons/nst-icn16.svg#pencil"></use>
-        </svg>
-      </div>
-    </li>
-    <li class="_fn" ng-if="ctrl.haveMore" ng-click="ctrl.searchKeyUp()"><translate>Load More...</translate></li>
-  </ul>
+      </li>
+      <li class="_fn" ng-if="ctrl.haveMore" ng-click="ctrl.searchKeyUp()">
+        <translate>Load More...</translate>
+      </li>
+    </ul>
+  </div>
 </div>

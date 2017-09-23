@@ -5,7 +5,7 @@
     .module('ronak.nested.web.message')
     .controller('SeenByController', SeenByController);
 
-  function SeenByController(toastr, _,
+  function SeenByController(toastr, _, $scope,
                             NstSvcPostFactory,
                             postId) {
     var vm = this,
@@ -14,15 +14,16 @@
 
     vm.loading = false;
     vm.readers = [];
+    $scope.scrollInstance
 
-    vm.loadWhoSeen = loadWhoSeen;
+    vm.loadMore = loadMore;
 
     (function () {
-      loadWhoSeen();
+      loadMore();
     })();
 
 
-    function loadWhoSeen() {
+    function loadMore() {
 
       if (vm.loading || reached) return;
       vm.loading = true;

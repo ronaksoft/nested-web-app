@@ -13,7 +13,11 @@
   #cp1 {
     max-height: 480px;
   }
-  & > div {
+  .content-plus-inner {
+    position: fixed;
+    width: 240px;
+  }
+  .content-plus-inner > div {
     display: inline-flex;
     flex-direction: column;
     background-color: $color-white;
@@ -26,6 +30,7 @@
     position: relative;
     justify-content: space-between;
     border-radius: 3px;
+    height: auto!important;
     //height: 100%;
     .recent-item:last-of-type {
       .activity-item .body {
@@ -239,6 +244,7 @@
 
 .fav-contacts {
   max-height: calc(100vh - 300px);
+  height: auto!important;
   li {
     display: flex
   }

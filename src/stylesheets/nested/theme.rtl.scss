@@ -1029,12 +1029,16 @@ body[dir="rtl"] {
     border-radius: 0 6px 6px 6px;
   }
   .unread-notif-badge {
-    left: auto;
-    right: -4px;
+    left: -4px;
+    right: auto;
   }
   .post-card-comment-input {
-    padding-right: auto;
+    padding-right: 0;
     padding-left: 6px;
+  }
+  .sidebar-wrapper .unreadPlace {
+    right: auto;
+    left: 0;
   }
 }
 

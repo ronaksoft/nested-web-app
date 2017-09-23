@@ -6,7 +6,7 @@
     .run(runBlock);
 
   /** @ngInject */
-  function runBlock($rootScope, $templateCache,
+  function runBlock($rootScope, $templateCache, iScrollService,
                     NST_LOCALE_EN_US, NST_LOCALE_FA_IR,
                     NstSvcI18n) {
     window.nestedLogs = [];
@@ -15,6 +15,10 @@
     // }
 
     $rootScope.modals = {};
+
+    iScrollService.toggle(true);
+    
+    iScrollService.state.useIScroll = true;
 
     if( typeof window.svg4everybody === 'function') {
       window.svg4everybody({

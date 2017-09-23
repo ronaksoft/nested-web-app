@@ -34,7 +34,7 @@
   font-weight: 600;
   top: 6px;
   transform: translateY(-40%);
-  left: -4px;
+  right: -4px;
   padding: 3px 5px 1px 5px;
   min-width: 16px;
   border-bottom: 1px solid $color-force-wire;
@@ -314,11 +314,14 @@
       }
     }
   }
-  .places {
+  .iscroll-wrapper {
     position: relative;
+    height: auto;
     width: calc(100% + 12px);
     margin: 0 -6px 6px -6px;
     max-height: calc(100vh - 268px);
+  }
+  .places {
     >ul {
       padding: 0 6px;
     }

@@ -23,6 +23,7 @@
       'as.sortable',
       'vjs.video',
       'perfectScrollbar',
+      'angular-iscroll',
       'medium',
       'emojiBundle',
       'firebase',

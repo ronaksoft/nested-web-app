@@ -27,7 +27,7 @@
         </ui-select-match>
         <!--{{$select.open = true;""}}-->
         <ui-select-choices refresh="ctrl.searchFn($select.search)" position="down"
-                            refresh-delay="0" dir="ltr" nst-scrollbar go-downward="ctrl.goDownward"
+                            refresh-delay="0" dir="ltr" iscroll class="iscroll-wrapper"
                             repeat="label in ctrl.search.results track by $index">
                             {{$select.open = ctrl.search.results.length > 0; ""}}
             <svg class="_16svg mirror _fn color-lbl-{{label.code}}">

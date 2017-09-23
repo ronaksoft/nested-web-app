@@ -50,15 +50,17 @@
 </div>
 <div class="attachs-bar" data-ng-if="ctlAttachmentView.attachments.collection.length > 1">
   <h3><translate>Attachments</translate></h3>
-  <ul dir="ltr" nst-scrollbar>
-    <li ng-repeat="item in ctlAttachmentView.attachments.collection" ng-click="ctlAttachmentView.getIndex(item)"
-    class="ng-class:{'active' : ctlAttachmentView.attachments.current.id === item.id}">
-      <div ng-hide="item.thumbnail.length" class="attachment-tiny-thumb tiny-thumb-type-{{item.type}}">
-        {{item.extension | uppercase}}
-      </div>
-      <img ng-show="item.thumbnail.length" ng-src="{{item.thumbnail}}" alt="">
-      <span>{{item.filename}}</span>
-    </li>
-  </ul>
+  <div iscroll="" class="iscroll-wrapper">
+    <ul class="iscroll-scroller">
+      <li ng-repeat="item in ctlAttachmentView.attachments.collection" ng-click="ctlAttachmentView.getIndex(item)"
+      class="ng-class:{'active' : ctlAttachmentView.attachments.current.id === item.id}">
+        <div ng-hide="item.thumbnail.length" class="attachment-tiny-thumb tiny-thumb-type-{{item.type}}">
+          {{item.extension | uppercase}}
+        </div>
+        <img ng-show="item.thumbnail.length" ng-src="{{item.thumbnail}}" alt="">
+        <span>{{item.filename}}</span>
+      </li>
+    </ul>
+</div>
   <!--<nst-attachments-preview-bar items="ctlAttachmentView.attachments.collection" mode="attach-list" on-item-click="ctlAttachmentView.goTo"></nst-attachments-preview-bar>-->
 </div>

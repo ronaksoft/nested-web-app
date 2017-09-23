@@ -9,7 +9,7 @@
   function NstSvcInvitationFactory($q, $log, _, $rootScope,
                                    NST_SRV_EVENT, NST_INVITATION_EVENT, NST_EVENT_ACTION, NST_PLACE_MEMBER_TYPE, NST_STORAGE_TYPE, NST_INVITATION_FACTORY_STATE,
                                    NstSvcServer, NstSvcUserFactory, NstSvcPlaceFactory, NstSvcNotification,
-                                   NstObservableObject, NstInvitation, NstStorage, NstCollector, NST_SRV_ERROR, NST_NOTIFICATION_TYPE) {
+                                   NstObservableObject, NstInvitation, NstStorage, NstCollector) {
     function InvitationFactory() {
       var factory = this;
 

@@ -9,25 +9,27 @@
       <translate>Seen by:</translate>
     </h2>
   </div>
-  <div class="modal-body" nst-scrollbar on-reach-bottom="ctrl.loadWhoSeen">
-    <div class="_fw _jcc _df margin-top-10" ng-if="ctrl.loading">
-      <div class="nst-loading nst-loading-size-4 _fl"></div>
-      <span>&nbsp;</span>
-      <div class="nst-font-xsmall _fr nst-marginbtm-4">
-        <translate>Loading...</translate>
+  <div iscroll load-more iscroll-instance="scrollInstance" class="modal-body iscroll-wrapper">
+    <div class="iscroll-scroller">
+      <div class="_fw _jcc _df margin-top-10" ng-if="ctrl.loading">
+        <div class="nst-loading nst-loading-size-4 _fl"></div>
+        <span>&nbsp;</span>
+        <div class="nst-font-xsmall _fr nst-marginbtm-4">
+          <translate>Loading...</translate>
+        </div>
       </div>
-    </div>
-    <div class="_fw _jcc _df margin-top-10" ng-if="!ctrl.loading && ctrl.readers.length === 0">
-      <trasnlate>No one has seen the post!</trasnlate>
-    </div>
-    <div class="_difh user-wrapper" ng-repeat="reader in ctrl.readers">
-      <img initial-avatar="{{reader.user.id}}" name="{{reader.user.fullName}}" picture="{{reader.user | avatar : 'x64'}}"
-           data-width="48"
-           data-height="48"
-           data-radius="48" class="account-initials-48" data-word-count="2" data-font-size="16"/>
-      <div class="_difv">
-        <p>{{reader.user.fullName}}</p>
-        <span><span data-uib-tooltip="{{reader.timestamp | date : 'full' | localize}}" data-tooltip-append-to-body="true" data-tooltip-placement="auto right">{{ reader.timestamp | passed | localize }}</span></span>
+      <div class="_fw _jcc _df margin-top-10" ng-if="!ctrl.loading && ctrl.readers.length === 0">
+        <trasnlate>No one has seen the post!</trasnlate>
+      </div>
+      <div class="_difh user-wrapper" ng-repeat="reader in ctrl.readers">
+        <img initial-avatar="{{reader.user.id}}" name="{{reader.user.fullName}}" picture="{{reader.user | avatar : 'x64'}}"
+            data-width="48"
+            data-height="48"
+            data-radius="48" class="account-initials-48" data-word-count="2" data-font-size="16"/>
+        <div class="_difv">
+          <p>{{reader.user.fullName}}</p>
+          <span><span data-uib-tooltip="{{reader.timestamp | date : 'full' | localize}}" data-tooltip-append-to-body="true" data-tooltip-placement="auto right">{{ reader.timestamp | passed | localize }}</span></span>
+        </div>
       </div>
     </div>
   </div>
