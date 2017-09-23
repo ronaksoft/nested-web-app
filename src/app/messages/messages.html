@@ -186,26 +186,22 @@
   <!-- content plus
       ==============-->
   <div class="content-plus illu">
-    <!--<div class="visible-scrollbar">
-      <div class="name"><translate>Recently Visited Places</translate></div>
-      <recent-visited-places></recent-visited-places>
-    </div>-->
-    <div ng-if="!ctrl.currentPlaceId && !ctrl.isBookmark && !ctrl.isSent"
-      affixer parent=".content-plus" after-content="0" top="48" fixed-top="true">
-      <div class="name">
-        <translate>Contacts</translate>
-        <svg class="_16svg _df mirror" ng-click="ctrl.openContacts($event)">
-          <use xlink:href="/assets/icons/nst-icn16.svg#expand"></use>
-        </svg>
-      </div>
-      <fav-contacts></fav-contacts>
-    </div>
-    <div id="members" iscroll class="iscroll-wrapper" ng-if="ctrl.isPlaceMessage && ctrl.currentPlaceId && !ctrl.isPersonal">
-      <nst-place-teammates-sidebar grand-place="ctrl.currentPlaceId" place-id="ctrl.currentPlaceId"></nst-place-teammates-sidebar>
-    </div>
-    <div id="cp1" ng-show="!ctrl.isBookmark && !ctrl.isSent && ctrl.currentPlaceId"
-      affixer parent=".content-plus" after-content="0" top="48" fixed-top="true">
-      <nst-recent-activity place="ctrl.currentPlaceId" place-id="ctrl.currentPlaceId" count="10" />
+    <div class="content-plus-inner">
+        <div ng-if="!ctrl.currentPlaceId && !ctrl.isBookmark && !ctrl.isSent">
+          <div class="name">
+            <translate>Contacts</translate>
+            <svg class="_16svg _df mirror" ng-click="ctrl.openContacts($event)">
+              <use xlink:href="/assets/icons/nst-icn16.svg#expand"></use>
+            </svg>
+          </div>
+          <fav-contacts></fav-contacts>
+        </div>
+        <div id="members" iscroll class="iscroll-wrapper" ng-if="ctrl.isPlaceMessage && ctrl.currentPlaceId && !ctrl.isPersonal">
+          <nst-place-teammates-sidebar grand-place="ctrl.currentPlaceId" place-id="ctrl.currentPlaceId"></nst-place-teammates-sidebar>
+        </div>
+        <div id="cp1" ng-show="!ctrl.isBookmark && !ctrl.isSent && ctrl.currentPlaceId">
+          <nst-recent-activity place="ctrl.currentPlaceId" place-id="ctrl.currentPlaceId" count="10" />
+        </div>
     </div>
   </div>
 </div>

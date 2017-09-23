@@ -13,7 +13,11 @@
   #cp1 {
     max-height: 480px;
   }
-  & > div {
+  .content-plus-inner {
+    position: fixed;
+    width: 240px;
+  }
+  .content-plus-inner > div {
     display: inline-flex;
     flex-direction: column;
     background-color: $color-white;
