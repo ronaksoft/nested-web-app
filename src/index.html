@@ -10,27 +10,76 @@
   } catch (e) {
   }</script>
   <script id="regexD">
-    !function (e, n, r) {
+    (function (module, window, angular) {
       "use strict";
 
-      function t(e, n) {
-        return ("string" == typeof n || n instanceof String) && (n = new RegExp(n)), n instanceof RegExp ? n.test(e) : n && Array.isArray(n.and) ? n.and.every(function (n) {
-          return t(e, n)
-        }) : n && Array.isArray(n.or) ? n.or.some(function (n) {
-          return t(e, n)
-        }) : n && n.not ? !t(e, n.not) : !1
+      function test(string, regex) {
+        if (typeof regex === 'string' || regex instanceof String) {
+          regex=new RegExp(regex);
+        }
+
+        if (regex instanceof RegExp) {
+          return regex.test(string);
+        }
+        else if (regex && Array.isArray(regex.and)) {
+          return regex.and.every(function (item) {
+            return test(string, item);
+          });
+        }
+        else if (regex && Array.isArray(regex.or)) {
+          return regex.or.some(function (item) {
+            return test(string, item);
+          });
+        }
+        else if (regex && regex.not) {
+          return !test(string, regex.not);
+        }
+        else {
+          return false;
+        }
       }
 
-      function o(e, n) {
-        return ("string" == typeof n || n instanceof String) && (n = new RegExp(n)), n instanceof RegExp ? n.exec(e) : n && Array.isArray(n) ? n.reduce(function (n, r) {
-          return n ? n : o(e, r)
-        }, null) : null
+      function exec(string, regex) {
+        if (typeof regex === 'string' || regex instanceof String) {
+          regex=new RegExp(regex);
+        }
+
+        if (regex instanceof RegExp) {
+          return regex.exec(string);
+        }
+        else if (regex && Array.isArray(regex)) {
+          return regex.reduce(function (res, item) {
+            return (!!res) ? res : exec(string, item);
+          }, null);
+        }
+        else {
+          return null;
+        }
       }
 
-      r && r.module("reTree", []).factory("reTree", [function () {
-        return {test: t, exec: o}
-      }]), n && (n.reTree = {test: t, exec: o}), e && (e.exports = {test: t, exec: o})
-    }("undefined" == typeof module ? null : module, "undefined" == typeof window ? null : window, "undefined" == typeof angular ? null : angular);
+      if (!!angular) {
+        angular.module("reTree", []).factory("reTree", [function () {
+          return {
+            test: test,
+            exec: exec
+          };
+        }]);
+      }
+
+      if (!!window) {
+        window.reTree = {
+          test: test,
+          exec: exec
+        };
+      }
+
+      if (!!module && !!(module.exports)) {
+        module.exports = {
+          test: test,
+          exec: exec
+        };
+      }
+    })(typeof module === 'undefined' ? null : module, typeof window === 'undefined' ? null : window, typeof angular === 'undefined' ? null : angular);
   </script>
   <script id="mobileD">
     var DEVICES_RE = {
@@ -49,14 +98,14 @@
       VITA: /\bMozilla\/5.0 \(Play(S|s)tation Vita\b/
     };
     var ua = navigator.userAgent;
-    var resault = [];
+    var result = [];
     var url = window.location.href;
     url = url.toLowerCase().replace('index.html', '')
     for (var k in DEVICES_RE) {
       var test = reTree.test(ua, DEVICES_RE[k]);
-      resault.push(test);
+      result.push(test);
     }
-    if (resault.indexOf(true) > -1) {
+    if (result.indexOf(true) > -1) {
       var newLocation = '/m/' + window.location.pathname;
       location.href = newLocation.replace('m//','m/');
     }
