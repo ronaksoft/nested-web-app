@@ -1040,6 +1040,10 @@ body[dir="rtl"] {
     right: auto;
     left: 0;
   }
+  .iScrollVerticalScrollbar {
+    left: 0!important;
+    right: auto!important;
+  }
 }
 
 body[dir="ltr"] {
