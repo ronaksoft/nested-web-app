@@ -97,8 +97,8 @@
         }
       }
       &.unread-mode  {
-        background-color: #3296FF;
-        border: 1px solid #3296FF;
+        background-color: $color-bg-pending;
+        border: 1px solid $color-bg-pending;
       }
       &.selcted-mode {
         background-color: $color-solid;

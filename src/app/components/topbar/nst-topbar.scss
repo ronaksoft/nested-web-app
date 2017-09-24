@@ -77,7 +77,7 @@
       }
       .search-chips-container {
         padding: 6px 5px 0 5px;
-        color: #323D47;
+        color: $color-solid;
         flex-wrap: nowrap;
         .chips {
           display: flex;
@@ -182,7 +182,7 @@
     width: 100%;
     max-width: 480px;
     transform: translateX(-50%);
-    background-color: #FFFFFF;
+    background-color: $color-white;
     border-radius: 0 0 4px 4px;
   }
   .search-popover {
