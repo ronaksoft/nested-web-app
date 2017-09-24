@@ -54,6 +54,7 @@ $color-border-pics: transparentize($color-black, 1 - .2);
 $color-black-24: transparentize($color-black, 1 - .24);
 
 // Solid color with different opacities
+$color-solid-80 : transparentize($color-solid, 1 - .8);
 $color-new-hurricane : transparentize($color-solid, 1 - .72);
 $color-solid-64 :  transparentize($color-solid, 1 - .64);
 $color-solid-48 : transparentize($color-solid, 1 - .48);

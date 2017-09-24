@@ -438,7 +438,7 @@ input[type="checkbox"].inpsw[disabled]:checked + label + label  {
     border-right-width: 0;
     b {
       opacity: 1;
-      color: rgba(255,255,255,1);
+      color: $color-white;
     }
   }
   input[type="checkbox"]:checked  + label + label {

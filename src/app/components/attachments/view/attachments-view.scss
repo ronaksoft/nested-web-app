@@ -185,7 +185,7 @@ span.filename {
   color: $color-hurri-white;
   transition: right $animation-dur ease-in,left $animation-dur ease-in;
   svg {
-    fill: rgba(255,255,255,.72);
+    fill: transparentize($color-white, 1 - .72);
   }
   .nav-btn {
     width: 40px;

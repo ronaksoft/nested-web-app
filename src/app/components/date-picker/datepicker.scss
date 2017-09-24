@@ -141,7 +141,7 @@ $default-color: $color-sense-wire;
         cursor: pointer;
         padding:5px;
         &:hover {
-            fill: rgba(255,255,255,.5);
+            fill: transparentize($color-white, 1 - .5);
         }
     }
 
@@ -339,7 +339,7 @@ $default-color: $color-sense-wire;
         padding:5px;
         // transform: rotateZ(180deg);
         &:hover {
-            fill: rgba(255,255,255,.5);
+            fill: transparentize($color-white, 1 - .5);
         }
     }
 
