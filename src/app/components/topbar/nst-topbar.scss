@@ -120,13 +120,13 @@
       }
     }
     input:-ms-input-placeholder {
-      color: transparentize($color-white, 1 - .4);
+      color: $color-white-transparentize;
     }
     input::-webkit-input-placeholder {
-      color: transparentize($color-white, 1 - .4);
+      color: $color-white-transparentize;
     }
     input:-moz-placeholder {
-      color: transparentize($color-white, 1 - .4);
+      color: $color-white-transparentize;
     }
     .ps-container > .ps-scrollbar-x-rail {
       display: none;
