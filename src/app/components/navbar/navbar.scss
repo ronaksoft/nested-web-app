@@ -81,7 +81,7 @@ nst-navbar {
           }
         }
         svg {
-          fill: rgba(0, 0, 0, .24);
+          fill: $color-black-24;
           position: absolute;
           right: 4px;
           background-color: $color-white;
@@ -439,8 +439,8 @@ nst-navbar {
   input {
     height: 40px;
     border-radius: 4px;
-    background-color: rgba(0, 0, 0, .02);
-    border-color: rgba(0, 0, 0, .14);
+    background-color: $color-border-pics;
+    border-color: transparentize($color-black, 1 - .14);
   }
 }
 

@@ -135,7 +135,7 @@
     padding: 0 8px;
     border-radius: 3px 3px 0 0;
     line-height: 30px;
-    background-color: rgba(50, 61, 71, .04);
+    background-color:  transparentize($color-solid, 1 - .04);
     position: relative;
     svg {
       position: absolute;

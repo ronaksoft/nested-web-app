@@ -305,10 +305,10 @@ body.modal-open {
     justify-content: flex-start;
     position: absolute;
     svg {
-      fill: rgba(0,0,0,.24);
+      fill: $color-black-24;
       transition: fill $animation-dur;
       &:hover {
-        fill: rgba(0,0,0,1);
+        fill: $color-black;
       }
     }
   }

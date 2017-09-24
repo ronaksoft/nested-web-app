@@ -297,8 +297,8 @@
                         text-align: center;
                     }
                     &.pdf span{
-                        color: $color-pdf;
-                        border-color: $color-pdf;
+                        color: $color-attachments-pdf;
+                        border-color: $color-attachments-pdf;
                         box-shadow: 0 2px 4px rgba(205, 40, 40, .32);
                     }
                     &.archive span{

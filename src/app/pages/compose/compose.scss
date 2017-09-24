@@ -35,15 +35,15 @@
 .ui-select-bootstrap {
   .ui-select-choices-row.active > a{
     background-color: rgba(20,215,105,.08);
-    color: rgba(50,61,71,.72);
+    color: $color-new-hurricane;
   }
   .ui-select-choices-row>a:hover,
   .ui-select-choices-row>a:focus {
     background-color: rgba(20,215,105,.08);
-    color: rgba(50,61,71,.72);
+    color: $color-new-hurricane;
   }
   .ui-select-choices-row>a {
-    color: rgba(50,61,71,.72);
+    color: $color-new-hurricane;
     display: flex;
     align-items: center;
     padding: 8px 12px;
