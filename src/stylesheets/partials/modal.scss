@@ -275,7 +275,7 @@ body.modal-open {
     }
     &.attached {
       .compose-modal-body {
-        margin: 48px 0 204px 0;
+        margin: 48px 0 0 0;
         max-height: calc(90vh - 412px);
       }
       .compose-scroll-wrapper {
