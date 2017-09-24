@@ -70,7 +70,7 @@
                 }
             }
             &.checked {
-                background-color: rgba(20,215,105,.16);
+                background-color: transparentize($color-sense, 1 - .16);
                 .checkbox{
                     border: 1px solid $color-sense-wire;
                     background-color: $color-sense-wire;
@@ -337,8 +337,8 @@
                 }
             }
             &.checked {
-                background-color: rgba(20,215,105,.16);
-                border-color: rgba(20,215,105,.24);
+                background-color: transparentize($color-sense, 1 - .16);
+                border-color: transparentize($color-sense, 1 - .24);
                 .checkbox{
                     border: 1px solid $color-sense-wire;
                     background-color: $color-sense-wire;

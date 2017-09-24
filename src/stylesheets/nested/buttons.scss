@@ -443,7 +443,7 @@ input[type="checkbox"].inpsw[disabled]:checked + label + label  {
   }
   input[type="checkbox"]:checked  + label + label {
     border-left-width: 0;
-    color: rgba(20,215,105,0);
+    color: transparent;
     b {
       opacity: 0;
     }
@@ -458,7 +458,7 @@ input[type="checkbox"].inpsw[disabled]:checked + label + label  {
     background-color: #E6E6E6;
     border-color: rgba(120,120,120,.2);
     b {
-      color: rgba(0,0,0,.2);
+      color: $color-border-pics;
     }
     .circle {
       background-color: #FAFAFA;

@@ -197,7 +197,7 @@ span.filename {
     align-items: center;
     &:hover,&.active {
       border-radius: 8px;
-      background-color: rgba(255,255,255,.08);
+      background-color: transparentize($color-white, 1 - .08);
     }
     &:last-child {
       margin-right: 0;
@@ -455,7 +455,7 @@ span.filename {
   }
   .attach-bar-menu {
     border-radius: 8px;
-    background-color: rgba(255,255,255,.08);
+    background-color: transparentize($color-white, 1 - .08);
   }
   .attachment-doc-show {
     & + iframe {

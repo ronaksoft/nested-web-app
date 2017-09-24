@@ -34,12 +34,12 @@
 }
 .ui-select-bootstrap {
   .ui-select-choices-row.active > a{
-    background-color: rgba(20,215,105,.08);
+    background-color: transparentize($color-sense, 1 - .08);
     color: $color-new-hurricane;
   }
   .ui-select-choices-row>a:hover,
   .ui-select-choices-row>a:focus {
-    background-color: rgba(20,215,105,.08);
+    background-color: transparentize($color-sense, 1 - .08);
     color: $color-new-hurricane;
   }
   .ui-select-choices-row>a {
