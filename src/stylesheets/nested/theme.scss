@@ -32,7 +32,7 @@ h5.list-head {
     flex-direction: row;
     align-items: center;
     &.j-selected {
-      background-color: rgba(20, 215, 105,.10);
+      background-color: transparentize($color-sense, 1 - .1);
       .chk-box {
         .chk-ico {
           background: url('../assets/icons/controls.svg') right -16px no-repeat;
@@ -40,7 +40,7 @@ h5.list-head {
       }
     }
     &:hover {
-      background-color: rgba(20, 215, 105,.05);
+      background-color: transparentize($color-sense, .5);
       .user-more-opt {
         fill: $color-solid;
       }

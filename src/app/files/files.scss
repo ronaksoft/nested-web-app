@@ -198,7 +198,7 @@
       }
     }
     li.checked {
-      background-color: rgba(20, 215, 105, .16);
+      background-color: transparentize($color-sense, 1 - .16);
       .checkbox {
         border: 1px solid $color-sense-wire;
         background-color: $color-sense-wire;

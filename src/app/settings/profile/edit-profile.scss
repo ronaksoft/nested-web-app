@@ -34,7 +34,7 @@
       transition: color $animation-dur;
     }
     &.active {
-      background-color: rgba(20, 215, 105,.05);
+      background-color: transparentize($color-sense, 0.5);
       svg {
         fill: $color-solid;
       }
