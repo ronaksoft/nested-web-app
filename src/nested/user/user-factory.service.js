@@ -66,7 +66,7 @@
       });
 
       return deferred.promise;
-    }
+    };
 
     /**
      * Returns the current user account. First uses cache storage and the asks Cyrus if the account was not found
@@ -92,7 +92,7 @@
           return $q.resolve(factory.parseUser(account));
         });
       }, 'getCurrent');
-    }
+    };
 
     UserFactory.prototype.getCurrentCachedSync = function () {
       if (this.currentUser === '_current') {
@@ -104,9 +104,12 @@
       }
 
       return this.parseUser(current);
-    }
+    };
 
     UserFactory.prototype.setCurrent = function (user) {
+      if (this.currentUser === '_current') {
+        this.currentUser = user._id || user.id;
+      }
       this.cache.set(this.currentUser, user, {
         expiration: new Date().setFullYear(new Date().getFullYear() + 1)
       });
