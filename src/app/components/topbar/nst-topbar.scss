@@ -208,7 +208,7 @@
         margin: 6px 0;
         line-height: 24px;
         border-radius: 4px;
-        background-color: rgba(50, 61, 71, .12);
+        background-color: transparentize($color-solid, 1 - .12);
         color: $color-solid-64;
         padding: 0 6px;
         font-weight: bold;
