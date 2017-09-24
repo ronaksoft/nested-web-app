@@ -322,6 +322,7 @@
     max-height: calc(100vh - 268px);
   }
   .places {
+    transition-duration: 200ms!important;
     >ul {
       padding: 0 6px;
     }

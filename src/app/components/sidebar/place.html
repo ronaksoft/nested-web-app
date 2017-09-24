@@ -1,21 +1,28 @@
-<a ui-sref="app.place-messages({ placeId: place.id })" dbl-click="{{place.children.length > 0}}" ng-dblclick="place.isExpanded =! place.collapse;ctlSidebar.updateExpanded(place.id, place.isExpanded);" class="side-grand-place-item-inner" ui-sref-active="isSelected" ng-class="{'isSelected': place.isActive}">
+<a ui-sref="app.place-messages({ placeId: place.id })" dbl-click="{{place.children.length > 0}}" ng-dblclick="place.isExpanded =! place.collapse;ctlSidebar.updateExpanded(place.id, place.isExpanded);ctlSidebar.scrollIntoView = $event"
+  class="side-grand-place-item-inner" ui-sref-active="isSelected" ng-class="{'isSelected': place.isActive}">
   <div class="side-grand-place-item-image">
     <div class="unreadPlace" ng-if="ctlSidebar.placesNotifCountObject[place.id] > 0">
       <svg class="pendfill _24svg">
         <use xlink:href="/assets/icons/nst-icn24.svg#unread-circle"></use>
       </svg>
     </div>
-    <img ng-src="{{place.picture}}"/>
+    <img ng-src="{{place.picture}}" />
   </div>
   <cite class="_fw _df" data-uib-tooltip="{{place.name}}" data-tooltip-enable="{{forceTooltip ? true : false}}" data-tooltip-placement="right auto"
-  data-tooltip-append-to-body="true">
+    data-tooltip-append-to-body="true">
     <span class="_txe" data-ellipsis auto-dir="place.name">
       {{place.name}}
     </span>
     <b class="_df _fn" ng-if="ctlSidebar.myPlacesUnreadPosts[place.id] > 0">&nbsp;{{ctlSidebar.myPlacesUnreadPosts[place.id] | localize}}</b>
   </cite>
   <i ng-if="place.children.length > 0" class="tw-svg _difv ng-class:{'open' : place.isExpanded}"
-      data-ng-click="place.isExpanded =! place.isExpanded;ctlSidebar.updateExpanded(place.id, place.isExpanded);$event.stopPropagation();$event.preventDefault();" role="button" tabindex="0">
+    data-ng-click="
+      place.isExpanded =! place.isExpanded;
+      place.isExpanded ? ctlSidebar.scrollIntoViewEvent = $event : null;
+      ctlSidebar.updateExpanded(place.id, place.isExpanded);
+      $event.stopPropagation();
+      $event.preventDefault();"
+    role="button" tabindex="0">
     <div ng-if="ctlSidebar.isChildrenUnseen(place.id)" class="unread-on-arrow"></div>
     <svg class="_16svg">
       <use xlink:href="/assets/icons/nst-icn16.svg#arrow"></use>
@@ -24,7 +31,7 @@
 </a>
 <!-- <nst-sidebar-place-info grand-place="place" unread-mode="ctlSidebar.isUnreadMode"></nst-sidebar-place-info> -->
 <ul ng-if="place.children.length > 0 && place.isExpanded">
-  <li class="side-place-item" ng-repeat="child in place.children"
-      data-ng-include="'app/components/sidebar/partials/place-info/sub-place.html'" onload="place = child">
+  <li class="side-place-item" ng-repeat="child in place.children" data-ng-include="'app/components/sidebar/partials/place-info/sub-place.html'"
+    onload="place = child">
   </li>
 </ul>
