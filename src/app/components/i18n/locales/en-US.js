@@ -156,6 +156,7 @@
       "write your comment...": "Write your comment...",
       "{{grandPlaceName}} Members": "<b>”{{grandPlaceName}}”</b> Members",
       "{{placeName}} Managers": "<b>”{{placeName}}”</b> Managers",
-      "{{placeName}} Managers and Members": "<b>”{{placeName}}”</b> Managers and Members"
+      "{{placeName}} Managers and Members": "<b>”{{placeName}}”</b> Managers and Members",
+      "Language and calendar": "Language and Calendar"
     });
 })();
