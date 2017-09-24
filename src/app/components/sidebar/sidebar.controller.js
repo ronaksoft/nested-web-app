@@ -101,7 +101,7 @@
         if (vm.selectedPlaceId) {
           $q.all([
             NstSvcPlaceFactory.get(vm.selectedPlaceId, true),
-            NstSvcUserFactory.getCurrent()
+            NstSvcUserFactory.getCurrent(true)
           ]).then(function (results) {
             if (_.size(results) === 2 && _.every(results)) {
               vm.selectedPlaceName = results[0].name;
@@ -133,7 +133,7 @@
             }
           });
         } else {
-            NstSvcUserFactory.getCurrent().then(function (user) {
+            NstSvcUserFactory.getCurrent(true).then(function (user) {
               vm.canCreateGrandPlace = user.limits.grand_places > 0;
               vm.user = user;
           });
