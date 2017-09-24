@@ -16,7 +16,7 @@
 
     UserFactory.prototype = new NstBaseFactory();
     UserFactory.prototype.constructor = UserFactory;
-
+    UserFactory.prototype.currentUser = '_current';
     /**
      * Retrieves a user by id and store in the related cache storage
      *
@@ -45,7 +45,7 @@
         // update cache database
         factory.set(data);
         if (withServer) {
-          deferred.resolve(factory.parseTinyUser(data));
+          deferred.resolve(factory.parseTinyUser(data, true));
         }
       }).catch(function (error) {
         switch (error.code) {
@@ -87,14 +87,18 @@
 
       return this.sentinel.watch(function () {
         return NstSvcServer.request('account/get', {}).then(function (account) {
-          factory.cache.set('_current', account);
+          factory.currentUser = account._id || account.id;
+          factory.cache.set(factory.currentUser, account);
           return $q.resolve(factory.parseUser(account));
         });
       }, 'getCurrent');
     }
 
     UserFactory.prototype.getCurrentCachedSync = function () {
-      var current = this.cache.get('_current');
+      if (this.currentUser === '_current') {
+        return;
+      }
+      var current = this.cache.get(this.currentUser);
       if (!current) {
         return;
       }
@@ -103,13 +107,13 @@
     }
 
     UserFactory.prototype.setCurrent = function (user) {
-      this.cache.set('_current', user, {
+      this.cache.set(this.currentUser, user, {
         expiration: new Date().setFullYear(new Date().getFullYear() + 1)
       });
     };
 
     UserFactory.prototype.removeCurrent = function () {
-      this.cache.remove('_current');
+      this.cache.remove(this.currentUser);
     };
 
     UserFactory.prototype.getMany = function (id) {
@@ -224,7 +228,7 @@
       }, "removePicture");
     }
 
-    UserFactory.prototype.parseTinyUser = function (data) {
+    UserFactory.prototype.parseTinyUser = function (data, dontSetCache) {
       if (!_.isObject(data)) {
         throw Error("Could not create a user model with an invalid data");
       }
@@ -233,7 +237,9 @@
         throw Error("Could not parse user data without _id");
       }
 
-      this.set(data);
+      if (dontSetCache !== true) {
+        this.set(data);
+      }
 
       var user = new NstTinyUser();
 
