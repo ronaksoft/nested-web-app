@@ -425,12 +425,14 @@
         if (!agree) {
           return;
         }
+        var successCount = 0;
+        var failedCount = 0;
         // var get = true;
         for (var i = 0; i < vm.selectedPosts.length; i++) {
           NstSvcPostFactory.get(vm.selectedPosts[i]).then(function (post) {
             NstSvcPostFactory.remove(post.id, vm.currentPlaceId).then(function () {
+              successCount += 0;
               NstUtility.collection.dropById(post.places, vm.currentPlaceId);
-              toastr.success(NstUtility.string.format(NstSvcTranslation.get("The post has been removed from this Place.")));
               $rootScope.$broadcast('post-removed', {
                 postId: post.id,
                 placeId: vm.currentPlaceId
@@ -442,12 +444,24 @@
               $scope.$broadcast('selected-length-change',{selectedPosts : vm.selectedPosts});
 
               if ( i === vm.selectedPosts.length - 1 ){
+                toastr.success(NstUtility.string.format(NstSvcTranslation.get("The {0} posts has been removed from this Place."), successCount));                
+                if ( vm.selectedPosts.length !== successCount ){
+                  toastr.warning(NstUtility.string.format(NstSvcTranslation.get("The {0} posts has been not removed from this Place."), failedCount));                                  
+                }
                 NstSvcPlaceFactory.get(vm.currentPlaceId,true).then(function(p){
                   vm.currentPlace.counters.posts = p.counters.posts;
                 });
               }
             }).catch(function () {
-              toastr.error(NstSvcTranslation.get("An error has occurred in trying to remove this message from the selected Place."));
+              failedCount += 0;
+              if ( i === vm.selectedPosts.length - 1 ){
+                toastr.error(NstSvcTranslation.get("An error has occurred in trying to remove this message from the selected Place."));
+                if ( vm.selectedPosts.length !== failedCount) {
+                  NstSvcPlaceFactory.get(vm.currentPlaceId,true).then(function(p){
+                    vm.currentPlace.counters.posts = p.counters.posts;
+                  });
+                }
+              }
             });
           });
         }
