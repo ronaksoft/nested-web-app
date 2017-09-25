@@ -181,35 +181,28 @@
               return "You have attempted to leave this page. Are you sure?";
             };
             event.preventDefault();
+            // $state.current.options && $state.current.options.supportDraft => this condition removed from code by robzizo
 
-            if ($state.current.options && $state.current.options.supportDraft) {
-              NstSvcLogger.debug4('Compose | show discard modal');
-              NstSvcModal.confirm(
-                NstSvcTranslation.get("Confirm"),
-                NstSvcTranslation.get("By discarding this message, you will lose your draft. Are you sure you want to discard?"),
-                {
-                  yes: NstSvcTranslation.get("Discard"),
-                  no: NstSvcTranslation.get("Draft")
-                }
-              ).then(function (confirmed) {
-                if (confirmed) {
-                  NstSvcLogger.debug4('Compose | cancel on discard modal');
-                  discardDraft();
-                } else {
-                  NstSvcLogger.debug4('Compose | confirm on discard modal');
-                  saveDraft();
-                }
+            NstSvcLogger.debug4('Compose | show discard modal');
+            NstSvcModal.confirm(
+              NstSvcTranslation.get("Confirm"),
+              NstSvcTranslation.get("By discarding this message, you will lose your draft. Are you sure you want to discard?"),
+              {
+                yes: NstSvcTranslation.get("Discard"),
+                no: NstSvcTranslation.get("Draft")
+              }
+            ).then(function (confirmed) {
+              if (confirmed) {
+                NstSvcLogger.debug4('Compose | cancel on discard modal');
+                discardDraft();
+              } else {
+                NstSvcLogger.debug4('Compose | confirm on discard modal');
+                saveDraft();
+              }
 
-                vm.finish = true;
-                $uibModalStack.dismissAll();
-              });
-
-            } else {
-              NstSvcModal.confirm(NstSvcTranslation.get("Confirm"), NstSvcTranslation.get("By discarding this message, you will lose your draft. Are you sure you want to discard?")).then(function () {
-                vm.finish = true;
-                $uibModalStack.dismissAll();
-              });
-            }
+              vm.finish = true;
+              $uibModalStack.dismissAll();
+            });
 
           }
         }));
