@@ -141,11 +141,11 @@
   z-index: 1029;
   top: 52px!important;
   // bottom: 40px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  box-shadow: 0 24px 32px $color-solid-48;
   //position: absolute;
   //z-index: 35;
   background-color: $color-white;
-  border: 1px solid #CED9D3;
+  border: none;
   border-radius: 4px;
   &.navnot {
     top: 56px!important;
@@ -175,19 +175,7 @@
     height: 100%;
   }
   >div.arrow {
-    width: 16px;
-    height: 16px;
-    border-style: solid;
-    border-color: #CED9D3;
-    background-color: #f0f5f2;
-    margin: 0;
-    display: flex;
-    top: 50%;
-    transform: translateY(-50%) rotateZ(-45deg);
-    border-width: 1px 1px 0 0;
-    z-index: -1;
-    top: -1px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    display: none;
   }
   > .popover-inner {
     z-index: 2;

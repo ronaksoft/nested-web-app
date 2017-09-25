@@ -6,20 +6,20 @@
   background-color: #fff;
 
   .subject {
-    height: 48px;
+    height: 32px;
     width: 100%;
-    background: linear-gradient(to bottom,$color-fillbox ,$color-white 100%);
+    // background: linear-gradient(to bottom,$color-fillbox ,$color-white 100%);
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding: 0 20px;
+    padding: 0 8px;
     flex: none;
     span {
       display: flex;
       flex: 1;
-      color: $color-black04;
-      @extend .nst-font-medium;
-      font-weight: 400;
+      color: $color-new-hurricane;
+      font-size: 10px;
+      font-weight: bold;
       font-style: normal;
       justify-content: flex-start;
     }
@@ -28,9 +28,27 @@
       flex: none;
     }
     svg {
-      fill: $color-storm;
-      width: 24px;
-      height: 24px;
+      fill: $color-gale-new;
+      width: 16px;
+      height: 16px;
+    }
+  }
+  .settings-tab {
+    height: 32px;
+    border-bottom: 1px solid $color-breeze-new;
+    box-sizing: content-box;
+    a {
+      color: $color-new-hurricane;
+      font-size: 12px;
+      font-weight: bold;
+      border-bottom-width: 2px;
+      margin-bottom: -1px;
+      background-color: transparent;
+    }
+    .unread-notif-badge {
+      transform: none;
+      top: -8px;
+      right: -14px;
     }
   }
   .iscroll-wrapper {
