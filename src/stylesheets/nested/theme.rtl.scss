@@ -1048,6 +1048,14 @@ body[dir="rtl"] {
     margin-right: 0;
     margin-left: 8px;
   }
+  .search-modal .search-popover .search-query span {
+    min-width: 60px;
+    text-align: right;
+  }
+  .search-modal .search-popover .from-suggests li {
+    margin-left: 6px;
+    margin-right: au;
+  }
 }
 
 body[dir="ltr"] {

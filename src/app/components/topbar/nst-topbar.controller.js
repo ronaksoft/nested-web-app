@@ -8,9 +8,19 @@
     /** @ngInject */
     function TopBarController($q, $, $scope, $timeout, $state, $stateParams, $uibModal,
                               $rootScope, NST_SEARCH_QUERY_PREFIX, _, NstSvcTranslation,
-                              NstSvcSuggestionFactory, NstSvcLabelFactory,
+                              NstSvcSuggestionFactory, NstSvcLabelFactory, NstSvcI18n,
                               NstSvcUserFactory, NstSvcNotificationFactory, NST_USER_SEARCH_AREA,
                               NstSvcPlaceFactory, NstSearchQuery, NST_CONFIG, NST_USER_EVENT) {
+      var searchPrefixLocale = [];
+      if (NstSvcI18n.selectedLocale === 'en-US') {
+        searchPrefixLocale.user = NST_SEARCH_QUERY_PREFIX.NEW_USER;
+        searchPrefixLocale.place = NST_SEARCH_QUERY_PREFIX.NEW_PLACE;
+        searchPrefixLocale.label = NST_SEARCH_QUERY_PREFIX.NEW_LABEL;
+      } else {
+        searchPrefixLocale.user = NST_SEARCH_QUERY_PREFIX.NEW_USER_FA;
+        searchPrefixLocale.place = NST_SEARCH_QUERY_PREFIX.NEW_PLACE_FA;
+        searchPrefixLocale.label = NST_SEARCH_QUERY_PREFIX.NEW_LABEL_FA;
+      }
       var vm = this;
       var eventReferences = [];
       vm.searchPlaceholder = NstSvcTranslation.get('Search...');
@@ -352,14 +362,14 @@
         var words = text.split(' ');
         var index;
         var typeMap = {
-          user: 'from',
-          place: 'in',
-          label: 'label'
+          user: searchPrefixLocale.user,
+          place: searchPrefixLocale.place,
+          label: searchPrefixLocale.label
         };
         if (vm.queryType === 'other') {
           index = words.lastIndexOf(vm.excludedQuery);
         } else {
-          index = words.lastIndexOf(typeMap[vm.queryType] + ':' + vm.excludedQuery);
+          index = words.lastIndexOf(typeMap[vm.queryType] + vm.excludedQuery);
         }
         if (index > -1) {
           words[index] = '';
@@ -478,9 +488,9 @@
       function getLastItem(query) {
         var queryRegEx = /(\S([^[:|\s]+):\"([^"]+)")|(\"([^"]+)")|(\S+)/g;
 
-        var placePrefix = NST_SEARCH_QUERY_PREFIX.NEW_PLACE;
-        var userPrefix = NST_SEARCH_QUERY_PREFIX.NEW_USER;
-        var labelPrefix = NST_SEARCH_QUERY_PREFIX.NEW_LABEL;
+        var placePrefix = searchPrefixLocale.place;
+        var userPrefix = searchPrefixLocale.user;
+        var labelPrefix = searchPrefixLocale.label;
 
         var word = query;
         var type = 'other';
@@ -571,9 +581,9 @@
       function initChips(params) {
         vm.chips = [];
         var types = {
-          'place': 'in',
-          'user': 'from',
-          'label': 'label',
+          'place': searchPrefixLocale.place,
+          'user': searchPrefixLocale.user,
+          'label': searchPrefixLocale.label,
           'keyword': 'keyword'
         };
         params = _.filter(params, function (item) {
