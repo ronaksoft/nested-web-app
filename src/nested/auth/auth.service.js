@@ -40,10 +40,12 @@
 
       //Config local storage events
       /* eslint-disable */
-      if (window.addEventListener)
+      if (window.addEventListener) {
         addEventListener('storage', storage_event, false);
-      else if (window.attachEvent)
+      }
+      else if (window.attachEvent) {
         attachEvent('onstorage', storage_event, false);
+      }
 
       function storage_event(e) {
         if (e.key === USER_STATUS_STORAGE_NAME
