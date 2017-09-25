@@ -106,6 +106,7 @@
     };
 
     SearchQuery.prototype.transformLocale = function (str) {
+      str = str || '';
       var userRe = new RegExp(searchPrefixLocale.user, 'g');
       var placeRe = new RegExp(searchPrefixLocale.place, 'g');
       var labelRe = new RegExp(searchPrefixLocale.label, 'g');
