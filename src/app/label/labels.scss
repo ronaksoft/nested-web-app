@@ -210,6 +210,21 @@
     }
 }
 
+.empty-place-holder {
+    img {
+        margin: auto;
+    }
+    span {
+        max-width: 300px;
+        margin: auto;
+        display: block;
+        text-align: center;
+        font-size: 14px;
+        color: $color-solid-80;
+        line-height: 19px;
+    }
+}
+
 .label-sm-modal {
     height: auto!important;
     min-height: 0px!important;
