@@ -10,7 +10,7 @@
       moment, toastr,
       NST_MESSAGES_SORT_OPTION, NST_DEFAULT, NST_EVENT_ACTION, NST_PLACE_ACCESS, NST_POST_EVENT,
       NstSvcPostFactory, NstSvcPlaceFactory, NstUtility, NstSvcAuth, NstSvcSync, NstSvcModal,
-      NstSvcTranslation, SvcCardCtrlAffix) {
+      NstSvcTranslation, SvcCardCtrlAffix, NstSvcUserFactory) {
 
       var vm = this;
 
@@ -743,8 +743,14 @@
               break;
 
             default:
-              if (NstSvcAuth.user && NstSvcAuth.user.id == vm.currentPlaceId.split('.')[0]) {
+              if (NstSvcAuth.user && NstSvcAuth.user.id === vm.currentPlaceId.split('.')[0]) {
                 vm.isPersonal = true;
+              } else {
+                NstSvcUserFactory.getCurrent().then(function (data) {
+                  if (data.id === vm.currentPlaceId.split('.')[0]) {
+                    vm.isPersonal = true;
+                  }
+                });
               }
               vm.isPlaceMessage = true;
               break;
