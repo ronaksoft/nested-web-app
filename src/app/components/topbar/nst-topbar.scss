@@ -139,10 +139,25 @@
     flex: none;
   }
   .logo {
-    padding: 0 16px;
+    // padding: 0 16px;
     #Logo-type-white {
       margin: 0 8px;
       opacity: .72;
+    }
+    a {
+      padding: 0 16px;
+    }
+    a.nested-nav {
+      opacity: .4;
+      height: 100%;
+      span {
+        color: $color-white;
+        font-size: 13px;
+        line-height: 48px;
+      }
+      &.active {
+        opacity: 1;
+      }
     }
   }
   .account {

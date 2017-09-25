@@ -49,7 +49,7 @@
 
     };
 
-    $scope.isMainLayout = $state.current.options && $state.current.options.group !== 'settings';
+    $scope.isMainLayout = $state.current.options && $state.current.options.group !== 'settings' && $state.current.options.group !== 'tasks';
 
     checkToBeAuthenticated($state.current, $stateParams);
 
