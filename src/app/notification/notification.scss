@@ -116,7 +116,7 @@
           }
         }
         .mention-date {
-          line-height: 21px;
+          line-height: 18px;
           color: $color-solid-80;
           text-align: right;
           font-weight: 400;
@@ -139,10 +139,15 @@
         .bottom-border {
           border-bottom: 1px solid $color-border;
           max-width: calc(100% - 40px);
+          padding-top: 2px;
           > svg {
             margin-right: 8px;
             margin-left: 4px;
             fill: $color-gale-new;
+          }
+          > div:first-of-type {
+            flex-direction:column;
+            overflow:hidden
           }
         }
       }

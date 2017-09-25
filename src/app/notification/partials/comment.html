@@ -21,10 +21,10 @@
         </div>
       </div>
       <p>
-        <span>{{ ::notification.comment.sender.fullName }} </span>
-        <span ng-if="notification.users[0] && notification.users[0].id != notification.comment.sender.id"><translate>and</translate> {{ ::notification.users[0].fullName }} </span>
-        <span ng-if="notification.users[1] && notification.users[1].id != notification.comment.sender.id"><translate>and</translate> {{ ::notification.users[1].fullName }} </span>
-        <span ng-if="notification.users[2] && notification.users[2].id != notification.comment.sender.id"><translate>and</translate> {{ ::notification.users[2].fullName }} </span>
+        <span class="sender"><b class="_fw _db _txe">{{ ::notification.comment.sender.fullName }}</b></span>
+        <span class="sender" ng-if="notification.users[0] && notification.users[0].id != notification.comment.sender.id"><translate>and</translate><b class="_db _txe">{{ ::notification.users[0].fullName }}</b></span>
+        <span class="sender" ng-if="notification.users[1] && notification.users[1].id != notification.comment.sender.id"><translate>and</translate><b class="_db _txe">{{ ::notification.users[1].fullName }}</b></span>
+        <span class="sender" ng-if="notification.users[2] && notification.users[2].id != notification.comment.sender.id"><translate>and</translate><b class="_db _txe">{{ ::notification.users[2].fullName }}</b></span>
         <small ng-if="notification.users[0]"><translate>commented on your post</translate>.</small>
         <!--{{notification.post.subject}}:<br>-->
       </p>
