@@ -347,7 +347,7 @@
       }
       a {
         color: $color-gale;
-        font-size: 14px;
+        font-size: 12px;
         display: flex;
         flex: none;
         padding: 0 8px;
@@ -433,4 +433,13 @@
     top: 0;
     background-color: rgba(35, 38, 41, .88);
   }
+}
+
+.search-info-chip {
+  margin: 0 2px;
+  height: 20px;
+  border-radius: 4px;
+  background-color: black;
+  padding: 0 4px 0 4px;
+  color: #fff;
 }

@@ -621,6 +621,9 @@ post-card {
     position: relative;
     max-width: 100%;
   }
+  .comment-removed-by, .comment-removed-by span {
+    float: none !important;
+  }
   p span a {
     color: $color-sense-wire;
     &:hover {

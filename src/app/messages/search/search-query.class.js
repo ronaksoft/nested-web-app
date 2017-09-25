@@ -6,7 +6,7 @@
     .factory('NstSearchQuery', NstSearchQuery);
 
   /** @ngInject */
-  function NstSearchQuery(NstObject, NST_SEARCH_QUERY_PREFIX, _) {
+  function NstSearchQuery(NstObject, NST_SEARCH_QUERY_PREFIX, NstSvcI18n, _) {
     var QUERY_SEPARATOR = ' ';
     /**
      * Creates an instance of NstSearchQuery
@@ -19,6 +19,17 @@
       this.order = 0;
       this.setQuery(query);
       NstObject.call(this);
+    }
+
+    var searchPrefixLocale = [];
+    if (NstSvcI18n.selectedLocale === 'en-US') {
+      searchPrefixLocale.user = NST_SEARCH_QUERY_PREFIX.NEW_USER;
+      searchPrefixLocale.place = NST_SEARCH_QUERY_PREFIX.NEW_PLACE;
+      searchPrefixLocale.label = NST_SEARCH_QUERY_PREFIX.NEW_LABEL;
+    } else {
+      searchPrefixLocale.user = NST_SEARCH_QUERY_PREFIX.NEW_USER_FA;
+      searchPrefixLocale.place = NST_SEARCH_QUERY_PREFIX.NEW_PLACE_FA;
+      searchPrefixLocale.label = NST_SEARCH_QUERY_PREFIX.NEW_LABEL_FA;
     }
 
     SearchQuery.prototype = new NstObject();
@@ -50,6 +61,13 @@
       };
 
       this.order = 0;
+
+      if (NstSvcI18n.selectedLocale !== 'en-US') {
+        query = this.transformLocale(query);
+        if (secondaryQuery !== null && secondaryQuery !== undefined) {
+          secondaryQuery = this.transformLocale(secondaryQuery);
+        }
+      }
 
       var result = this.parseQuery(query);
 
@@ -85,6 +103,19 @@
           that.addOtherKeyword(item.id, item.order);
         });
       }
+    };
+
+    SearchQuery.prototype.transformLocale = function (str) {
+      str = str || '';
+      var userRe = new RegExp(searchPrefixLocale.user, 'g');
+      var placeRe = new RegExp(searchPrefixLocale.place, 'g');
+      var labelRe = new RegExp(searchPrefixLocale.label, 'g');
+
+      str = str.replace(userRe, this.prefixes.user);
+      str = str.replace(placeRe, this.prefixes.place);
+      str = str.replace(labelRe, this.prefixes.label);
+
+      return str;
     };
 
     SearchQuery.prototype.parseQuery = function (query) {

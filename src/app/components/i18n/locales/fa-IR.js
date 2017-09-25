@@ -600,7 +600,7 @@
     "removed": "حذف شد",
     "removed a comment": " نظر حذف شد.",
     "removed a post: ": "حذف پست",
-    "removed by <span class=\"comment-removed-by\" user-detail=\"comment.removedById\">{{ctlCommentBody.comment.removedById}}</span>": "توسط <span class=\"comment-removed-by\" user-detail=\"comment.removedById\">{{ctlCommentBody.comment.removedById}}</span>حذف شد.",
+    "removed by <span user-detail=\"comment.removedById\">{{ctlCommentBody.comment.removedById}}</span>": "توسط <span user-detail=\"comment.removedById\">{{ctlCommentBody.comment.removedById}}</span>حذف شد.",
     "removed {{::act.member.fullName}} from here": "حذف  {{::act.member.fullName}} از اینجا",
     "removed {{act.label.title | scapeRevSpace}} label from {{act.post.subject.length > 32 ? act.post.subject.substr(0,32) + '...' : act.post.subject}}.": "برچسب {{act.label.title | scapeRevSpace}} از {{act.post.subject.length > 32 ? act.post.subject.substr(0,32) + '...' : act.post.subject}} حذف شد.",
     "removed {{act.label.title | scapeRevSpace}} label from {{act.post.subject}}.": "برچسب \"{{act.label.title | scapeRevSpace}}\" را از پست \"{{act.post.subject}}\" حذف کرد.",
