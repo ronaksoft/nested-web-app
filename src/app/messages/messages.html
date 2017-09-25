@@ -33,7 +33,7 @@
             <b><translate>{{ctrl.selectedPosts.length}} Selceted</translate></b>
           </p>
           <p class="_df _fw"></p>
-          <div class="_df _fn _aic filter-bar-popover-button" ng-if="ctrl.unreadCount" ng-click="ctrl.markAllAsRead(); ctrl.exitUnseenMode()">
+          <div class="_df _fn _aic filter-bar-popover-button" ng-if="ctrl.unreadCount && ctrl.selectedPosts.length === 0" ng-click="ctrl.markAllAsRead(); ctrl.exitUnseenMode()">
             <translate>Mark all as Seen</translate>
             <svg class="_16svg _df">
               <use xlink:href="/assets/icons/nst-icn16.svg#eye-open"></use>
