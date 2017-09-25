@@ -195,6 +195,7 @@
           currentPlace: function () {
             return vm.place;
           },
+          newPlace: false,
           mode: function () {
             return false
           },
