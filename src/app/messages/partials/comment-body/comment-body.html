@@ -10,7 +10,7 @@
       <span is-two-line class="_fl">
         <abbr ng-repeat="part in ctlCommentBody.parts">
           <br ng-if="part.type == 'linebreak'" />
-          <abbr ng-if="part.type == 'mention'" class="nst-user-popover" user-detail="part.user">{{part.word}}</abbr>
+          <abbr ng-if="part.type == 'mention'" class="nst-user-popover" user-detail="part.user" style="display: inline-block;direction: ltr;">{{part.word}}</abbr>
           <abbr ng-if="part.type == 'other'" ng-bind-html="part.word | link"></abbr>
         </abbr>
       </span>
