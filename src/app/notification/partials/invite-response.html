@@ -1,9 +1,9 @@
 <div class="mention">
   <div class="_fn">
-    <div class="user-avatar-32">
+    <div class="user-avatar-24">
       <img initial-avatar="{{::notification.invitation.inviter.id}}"
            picture="{{::notification.invitation.invitee | avatar}}" name="{{::notification.invitation.inviter.fullName}}"
-           data-width="32" data-height="32" data-radius="32" class="account-initials-32" data-word-count="2"
+           data-width="24" data-height="24" data-radius="24" class="account-initials-24" data-word-count="2"
            data-font-size="12"/>
     </div>
   </div>
@@ -16,7 +16,7 @@
     <div class="mention-date _fn" data-uib-tooltip="{{notification.date | date : 'full' | localize}}" data-tooltip-append-to-body="true" data-tooltip-placement="top auto">
       {{notification.date | passed | localize}}
     </div>
-    <svg class="_df _fn _16svg fill-sense-wire">
+    <svg class="_df _fn _16svg">
       <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
     </svg>
   </div>

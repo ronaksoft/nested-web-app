@@ -92,7 +92,7 @@
         display: flex;
         position: relative;
         width: 100%;
-        padding: 12px 12px 0 12px;
+        padding: 8px 0 0 0;
         p {
           white-space: normal;
           line-height: 16px;
@@ -107,23 +107,24 @@
           &:last-of-type{
             margin-bottom: 20px;
           }
-          span {
+          span.sender {
             line-height: 16px;
             color: $color-solid;
             font-size: 13px;
+            white-space: nowrap;
             font-weight: 700;
           }
         }
         .mention-date {
           line-height: 21px;
-          color: $color-black04;
+          color: $color-solid-80;
           text-align: right;
           font-weight: 400;
           transition: all $animation-dur;
-          font-size: 11px;
+          font-size: 12px;
           white-space: nowrap;
           flex-direction: row;
-          padding: 0 4px;
+          // padding: 0 4px;
         }
         .more-actors {
           width: 32px;
@@ -138,6 +139,11 @@
         .bottom-border {
           border-bottom: 1px solid $color-border;
           max-width: calc(100% - 40px);
+          > svg {
+            margin-right: 8px;
+            margin-left: 4px;
+            fill: $color-gale-new;
+          }
         }
       }
       &:hover {

@@ -18,7 +18,7 @@
     vm.loadNew = loadAfter;
     vm.onClickMention = onClickMention;
     vm.error = null;
-    vm.selectedView = 0;
+    vm.selectedView = 1;
 
 
     //initialize

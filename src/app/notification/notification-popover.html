@@ -11,13 +11,13 @@
   </div>
   
   <div class="_difh settings-tab">
-    <a class="_df _fw _jcc _aic" ng-click="NotificationsController.selectedView = 0;NotificationsController.changeTab()" ng-class="{'active' : NotificationsController.selectedView === 0}">
+    <a class="_df _fw _jcc _aic" ng-click="ctlNotifications.selectedView = 1;ctlNotifications.changeTab()" ng-class="{'active' : ctlNotifications.selectedView === 1}">
       <span class="_pr">
         <translate>Post</translate>
         <div class="unread-notif-badge">{{22 | localize}}</div>
       </span>
     </a>
-    <a class="_df _fw _jcc _aic" ng-click="NotificationsController.selectedView = 1;NotificationsController.changeTab()" ng-class="{'active' : NotificationsController.selectedView === 1}">
+    <a class="_df _fw _jcc _aic" ng-click="ctlNotifications.selectedView = 2;ctlNotifications.changeTab()" ng-class="{'active' : ctlNotifications.selectedView === 2}">
         <span class="_pr">
           <translate>Task</translate>
           <div class="unread-notif-badge">{{8 | localize}}</div>    
