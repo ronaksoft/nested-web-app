@@ -30,57 +30,18 @@
       <div class="side-places-head _df">
         <translate class="_df _fw">Tasks</translate>
       </div>
-      <div iscroll class="iscroll-wrapper" iscroll-instance="scrollInstance" scroll-into-view=".side-grand-place-item">
-        <div class="places iscroll-scroller" sidebar-scrollbar>
-          <ul class="side-place-border-selector">
+      <div iscroll class="iscroll-wrapper" iscroll-instance="scrollInstance">
+        <div class="places iscroll-scroller">
+          <!-- <ul class="side-place-border-selector">
             <li class="side-grand-place-item" ng-repeat="place in ctlSidebar.places" data-ng-include="'app/components/sidebar/place.html'"
               onload="place = place"></li>
-          </ul>
+          </ul> -->
         </div>
       </div>
     </div>
-    <!--<div class="side-access">
-      <script type="text/ng-template" id="recently-uib-tooltip.html">
-        <translate>Recently Viewd Places</translate>
-      </script>
-      <a class="detailed notifications-popover-handler"
-         ng-click="ctlSidebar.recentOpen =! ctlSidebar.recentOpen;ctlSidebar.profileOpen = falsen;ctlSidebar.mentionOpen = false" ng-init="ctlSidebar.recentOpen = false"
-         data-uib-popover-template="'app/place/recent-visited/recently-visited.html'"
-         data-popover-placement="top-center auto"
-         data-popover-append-to-body="false"
-         data-popover-is-open="ctlSidebar.recentOpen"
-         data-popover-class="recently-visited-places-popover"
-         data-tooltip-append-to-body="true"
-         data-uib-tooltip-template="'recently-uib-tooltip.html'"
-         data-tooltip-enable="{{!ctlApp.viewSettings.sidebar.collapsed ? true : false}}"
-         data-tooltip-placement="right auto">
-        <div>
-          <svg class="_16svg">
-            <use xlink:href="/assets/icons/nst-icn16.svg#square-clock"></use>
-          </svg>
-        </div>
-        <div ng-click="_track('sidebar', 'view notifications');">
-          <translate>Recently Viewd Places</translate>
-        </div>
-      </a>
-    </div> -->
   </div>
 </div>
 
 <script type="text/ng-template" id="compose-uib-tooltip.html">
   <translate>Compose</translate>
-</script>
-<script type="text/ng-template" id="feed-uib-tooltip.html">
-  <translate>Feed</translate>
-</script>
-<script type="text/ng-template" id="bookmark-uib-tooltip.html">
-  <translate>Bookmarked Posts</translate>
-</script>
-<script type="text/ng-template" id="sent-uib-tooltip.html">
-  <translate>Shared by me</translate>
-</script>
-<script type="text/ng-template" id="cannot-create-place.html">
-  <translate>You have no access to create any more grand places</translate>
-  <br>
-  {{ctlSidebar.noAccessCreatingMessage}}
 </script>
