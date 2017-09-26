@@ -262,7 +262,7 @@
       draft.subject = vm.model.subject;
       draft.body = vm.model.body;
       draft.attachments = _.map(vm.model.attachments, 'id');
-      draft.recipients = _.map(vm.model.recipients, 'id');
+      draft.recipients = vm.model.recipients;
       NstSvcPostDraft.save(draft);
       $rootScope.$broadcast('draft-change');
     }
@@ -339,17 +339,7 @@
         vm.attachments.size.total += _.sum(_.map(attachments, 'size'));
         vm.attachments.size.uploaded += _.sum(_.map(attachments, 'size'));
       }).catch(deferred.reject);
-
-      $q.all(_.map(draft.recipients, function (recipientId) {
-
-        return NstSvcPlaceFactory.getSafe(recipientId);
-      })).then(function (recipients) {
-        vm.model.recipients = draft.recipients.map(function (id) {
-          var recipient = _.find(recipients, { id: id }) || { id : id };
-          return new NstVmSelectTag(recipient);
-        });
-        deferred.resolve(draft);
-      }).catch(deferred.reject);
+      vm.model.recipients = draft.recipients
 
       return deferred.promise;
     }
