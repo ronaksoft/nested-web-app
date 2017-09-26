@@ -36,8 +36,11 @@
         }
     }
     .candidate {
-        svg {
-            fill: $color-bg-pending;
+        .list-li-icon {
+            transform: translateY(-10px);
+            svg {
+                fill: $color-bg-pending;
+            }
         }
         .list-li-body > span {
             color: $color-bg-pending;
