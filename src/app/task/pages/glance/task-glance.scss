@@ -7,8 +7,23 @@
     background-color: $color-white;
     box-shadow: 0 4px 8px $color-breeze-new;
     h2 {
-        margin-top: 12px;
-        padding: 12px;
+        margin: 12px 24px 0 24px;
         height: 56px;
+        font-size: 18px;
+        font-weight: bold;
+        color: $color-solid;
+        align-items: center;
+        display: flex;
+        opacity: .4;
+        position: relative;
+        hr {
+            opacity: .2;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            margin: 0;
+            border-color: $color-solid;
+            width: 100%;
+        }
     }
 }
