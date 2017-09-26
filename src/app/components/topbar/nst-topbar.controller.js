@@ -23,6 +23,8 @@
       }
       var vm = this;
       var eventReferences = [];
+      vm.APP_VERSION = NST_CONFIG.APP_VERSION;
+      vm.BUILD_VERSION = NST_CONFIG.BUILD_VERSION;
       vm.searchPlaceholder = NstSvcTranslation.get('Search...');
       vm.searchKeyPressed = searchKeyPressed;
       vm.loadNotificationsCount = loadNotificationsCount;
@@ -100,7 +102,6 @@
         } else {
           vm.adminArea = location.protocol + '//' + NST_CONFIG.ADMIN_DOMAIN + (NST_CONFIG.ADMIN_PORT ? ':' + NST_CONFIG.ADMIN_PORT : '');
         }
-
 
         initQuery(true);
         $rootScope.$on('$stateChangeSuccess', function () {

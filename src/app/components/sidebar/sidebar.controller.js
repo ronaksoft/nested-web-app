@@ -22,7 +22,6 @@
       /*****************************
        *** Controller Properties ***
        *****************************/
-      vm.APP_VERSION = NST_CONFIG.APP_VERSION;
       vm.user = NstSvcAuth.user;
       vm.stateParams = $stateParams;
       vm.invitation = {};

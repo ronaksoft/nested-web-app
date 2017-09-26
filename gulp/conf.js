@@ -13,6 +13,7 @@ var args = require('yargs');
  *  Application mode
  */
 exports.mode = 'development';
+exports.ver = '';
 switch (args.argv.mode) {
   case 'production':
     exports.mode = 'production';
@@ -21,6 +22,10 @@ switch (args.argv.mode) {
   case 'staging':
     exports.mode = 'staging';
     break;
+}
+
+if (args.argv.ver) {
+  exports.ver = args.argv.ver;
 }
 
 /**
@@ -32,7 +37,8 @@ exports.paths = {
   dist: 'dist',
   relDist: 'dist/' + exports.mode,
   tmp: '.tmp',
-  e2e: 'e2e'
+  e2e: 'e2e',
+  ver: exports.ver
 };
 
 /**
