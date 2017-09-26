@@ -74,6 +74,60 @@
 
 /**
   *********************************
+  *        Blue btn              *
+  *********************************
+*/
+
+.butn-pending{
+  background-color: $color-bg-pending;
+  border: 1px solid $color-bg-pending-wire;
+  border-radius:2px;
+  font-size: 14px;
+  height: 32px;
+  flex: none;
+  text-decoration: none;
+  color: $color-white;
+  text-align: center;
+  transition: all $animation-dur;
+  justify-content: center;
+  align-items: center;
+  @include user-select(none);
+  font-weight: bold;
+  min-width: 80px;
+  padding: 0 16px;
+  a,span {
+    //margin: 4px 0;
+    color: $color-white;
+    white-space: nowrap;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
+  }
+  &:hover {
+    border: 1px solid $color-bg-pending;
+    a,span{
+      color: $color-white;
+      text-decoration: none;
+    }
+  }
+  &:focus {
+    background-color: $color-bg-pending-wire;
+    border: 1px solid $color-bg-pending-wire;
+  }
+  &.secondary {
+    background-color: $color-white!important;
+    color: $color-bg-pending-wire;
+  }
+}
+
+.butn-green:disabled{
+  opacity: .5;
+  cursor: not-allowed;
+  text-decoration: none;
+}
+
+/**
+  *********************************
   *          red btn              *
   *********************************
 */

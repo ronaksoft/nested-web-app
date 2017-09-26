@@ -30,15 +30,16 @@
         svg {
             fill: $color-force;
         }
-        span {
+        .list-li-extra > span {
             color: $color-force;
+            font-size: 13px;
         }
     }
     .candidate {
         svg {
             fill: $color-bg-pending;
         }
-        span {
+        .list-li-body > span {
             color: $color-bg-pending;
         }
     }

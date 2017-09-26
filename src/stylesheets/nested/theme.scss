@@ -62,14 +62,29 @@ h5.list-head {
     margin: 0 10px;
     > span:first-of-type {
       font-size: 14px;
+      line-height: 19px;
       font-weight: bold;
+      margin-bottom: 4px;
+    }
+    p {
+      font-size: 13px;
+      color: $color-solid-80;
     }
   }
   .list-li-extra {
     display: flex;
     flex: none;
-    font-size: 13px;
+    font-size: 14px;
+    color: $color-solid;
     flex-direction: column;
+  }
+  .list-li-buttons {
+    display: flex;
+    flex: none;
+    font-size: 14px;
+    > * {
+      margin-left: 8px;
+    }
   }
 }
 
