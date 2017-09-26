@@ -244,7 +244,7 @@ body.modal-open {
     background-color: $color-white;
     width: 632px;
     min-height: 480px;
-    max-height: calc(90vh - 160px);
+    max-height: calc(100vh - 160px);
     // overflow: hidden;
     border-radius: 4px;
     >div {
@@ -276,7 +276,7 @@ body.modal-open {
     &.attached {
       .compose-modal-body {
         margin: 48px 0 0 0;
-        max-height: calc(90vh - 412px);
+        max-height: calc(100vh - 426px);
       }
       .compose-scroll-wrapper {
         min-height: 145px;
