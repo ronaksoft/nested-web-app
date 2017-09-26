@@ -3,6 +3,8 @@
   <div class="maincontainer _fw" ng-class="{'navtiny' : navView,'sideNotiny' : ctlApp.viewSettings.sidebar.collapsed,'noSide':ctlApp.viewSettings.sidebar.hidden}">
     <nst-sidebar ng-if="isMainLayout" class="sidebar-directive ng-animate-disabled">
     </nst-sidebar>
+    <nst-task-sidebar ng-if="isTaskLayout && !isMainLayout" class="sidebar-directive ng-animate-disabled">
+    </nst-task-sidebar>
     <scroll-change-observer ng-if="isMainLayout"></scroll-change-observer>
     <div class="nst-container" ui-view></div>
     <!-- <nst- ng-hide="ctlApp.viewSettings.sidebar.hidden" collapsed="ctlApp.viewSettings.sidebar.collapsed"

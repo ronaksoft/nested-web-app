@@ -13,7 +13,7 @@
         <div class="top-user-avatar-24" ng-if="notification.users.length > 1 && user.id !== notification.comment.sender.id" ng-repeat="user in notification.users">
           <img initial-avatar="{{::user.id}}" name="{{::user.fullName}}"
                picture="{{::user | avatar}}"
-               data-width="24" data-height="24" data-radius="24" class="account-initials-24" data-word-count="2"
+               data-width="16" data-height="16" data-radius="16" class="account-initials-16" data-word-count="2"
                data-font-size="12"/>
         </div>
         <div class="more-actors" ng-if="notification.otherUsersCount">

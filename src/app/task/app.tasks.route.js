@@ -11,14 +11,14 @@
     .state('app.tasks', {
       url: '/tasks',
       abstract: true,
-      templateUrl: 'app/settings/settings.html',
-      controller: 'SettingsController',
+      templateUrl: 'app/task/pages/glance/task-glance.html',
+      controller: 'taskGlanceController',
       controllerAs: 'ctrl'
     })
     .state('app.tasks.glance',{
       url: '/glance',
-      templateUrl: 'app/settings/profile/edit-profile.html',
-      controller: 'EditProfileController',
+      templateUrl: 'app/task/pages/glance/task-glance.html',
+      controller: 'taskGlanceController',
       controllerAs: 'ctrl',
       options : {
         group : 'tasks',

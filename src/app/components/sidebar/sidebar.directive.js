@@ -9,8 +9,12 @@
   function Sidebar() {
     return {
       restrict: 'E',
-      templateUrl: 'app/components/sidebar/sidebar.html',
-      controller: 'SidebarController',
+      templateUrl: function(elem,attrs) {
+          return attrs.templateUrl || 'app/components/sidebar/sidebar.html'
+      },
+      controller: function(elem,attrs) {
+        return attrs.controller || 'SidebarController'
+      },
       controllerAs: 'ctlSidebar',
       bindToController: {
         collapsed: '='
