@@ -153,11 +153,11 @@
     {{ctlPostCard.limit = !ctlPostCard.chainView ? 3 : 50; ""}}
     <span data-ng-repeat="place in ctlPostCard.totalRecipients | limitTo: ctlPostCard.limit track by place.id ? place.id : place"
       class="ng-class:{'del-access' :  ctlPostCard.hasDeleteAccess(place)}">
-        <a ng-if="!ctlPostCard.FIT" ui-sref="app.place-messages({ placeId : place.id })" ng-click="ctlPostCard.goToPlace($event, place);" place-detail="place.id" dir="ltr">
+        <a ng-if="!ctlPostCard.FIT" ng-click="ctlPostCard.goToPlace($event, place);" place-detail="place.id" dir="ltr">
           {{place.name}}
         </a>
         <!-- First Interactive time -->
-        <a ng-if="ctlPostCard.FIT" ui-sref="app.place-messages({ placeId : place.id })" dir="ltr">
+        <a ng-if="ctlPostCard.FIT" dir="ltr">
           {{place.name}}
         </a>
         <svg class="_16svg red-item" ng-click="ctlPostCard.remove(place);$event.stopPropagation();">
