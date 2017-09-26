@@ -937,15 +937,28 @@
       });
     }
 
+    function copyToClipboard(text) {
+      var inp = document.createElement('input');
+      document.body.appendChild(inp);
+      inp.value = text;
+      inp.select();
+      document.execCommand('copy', false);
+      inp.remove();
+    }
+
     function goToPlace(e, place) {
       e.preventDefault();
-
-      if (place.hasAccess(NST_PLACE_ACCESS.READ_POST)) {
-        $state.go('app.place-messages', {
-          placeId: place.id
-        });
+      var emailRe = /\S+@\S+\.\S+/;
+      if (emailRe.test(place.id)) {
+        copyToClipboard(place.id);
       } else {
-        NstSvcModal.error(NstSvcTranslation.get("Error"), NstSvcTranslation.get("Either this Place doesn't exist, or you don't have the permit to enter the Place."));
+        if (place.hasAccess(NST_PLACE_ACCESS.READ_POST)) {
+          $state.go('app.place-messages', {
+            placeId: place.id
+          });
+        } else {
+          NstSvcModal.error(NstSvcTranslation.get("Error"), NstSvcTranslation.get("Either this Place doesn't exist, or you don't have the permit to enter the Place."));
+        }
       }
     }
   }
