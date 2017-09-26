@@ -2,26 +2,26 @@
   'use strict';
 
   angular
-    .module('ronak.nested.web.tasks')
+    .module('ronak.nested.web.task')
     .config(routerConfig);
 
   /** @ngInject */
   function routerConfig($stateProvider) {
     $stateProvider
-    .state('app.tasks', {
-      url: '/tasks',
+    .state('app.task', {
+      url: '/task',
       abstract: true,
       templateUrl: 'app/task/pages/glance/task-glance.html',
       controller: 'taskGlanceController',
       controllerAs: 'ctrl'
     })
-    .state('app.tasks.glance',{
+    .state('app.task.glance',{
       url: '/glance',
       templateUrl: 'app/task/pages/glance/task-glance.html',
       controller: 'taskGlanceController',
       controllerAs: 'ctrl',
       options : {
-        group : 'tasks',
+        group : 'task',
         fullscreen : true
       }
     })

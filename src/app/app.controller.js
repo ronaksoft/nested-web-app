@@ -49,8 +49,8 @@
 
     };
 
-    $scope.isMainLayout = $state.current.options && $state.current.options.group !== 'settings' && $state.current.options.group !== 'tasks';
-    $scope.isTaskLayout = $state.current.options && $state.current.options.group === 'tasks';
+    $scope.isMainLayout = $state.current.options && $state.current.options.group !== 'settings' && $state.current.options.group !== 'task';
+    $scope.isTaskLayout = $state.current.options && $state.current.options.group === 'task';
 
     checkToBeAuthenticated($state.current, $stateParams);
 
@@ -109,8 +109,8 @@
     }));
 
     eventReferences.push($rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
-      $scope.isMainLayout = toState.options && toState.options.group !== 'settings' && toState.options.group !== 'tasks';
-      $scope.isTaskLayout = toState.options && toState.options.group === 'tasks';
+      $scope.isMainLayout = toState.options && toState.options.group !== 'settings' && toState.options.group !== 'task';
+      $scope.isTaskLayout = toState.options && toState.options.group === 'task';
       $('.wdt-emoji-popup.open').removeClass('open');
       // $rootScope.$broadcast('reload-counters');
       checkToBeAuthenticated(toState, toParams, event);

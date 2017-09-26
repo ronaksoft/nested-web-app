@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('ronak.nested.web.tasks', [
+    .module('ronak.nested.web.task', [
       'ronak.nested.web.common',
       'ronak.nested.web.components'
     ]);
