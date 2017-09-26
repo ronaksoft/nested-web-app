@@ -10,6 +10,15 @@ h5.list-head {
     width: calc(100% + 16px);
     display: flex;
     margin: 8px -8px;
+    &.large {
+      line-height: 32px;
+      margin: 8px 16px;
+      padding: 0 8px;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 8px;
+      width: calc(100% - 32px);
+    }
     span {
         flex: none;
     }
@@ -21,8 +30,60 @@ h5.list-head {
         align-items: center;
         color: $color-solid-64;
     }
+    &.error {
+      color: $color-force;
+      background-color: transparentize($color-force, 1 - .16);
+    }
+    &.pending {
+      color: $color-bg-pending;
+      background-color: transparentize($color-bg-pending, 1 - .04);
+    }
 }
 
+.list-ul {
+  display: flex;
+  width: 100%;
+  li {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    padding: 0 24px;
+  }
+  .list-li-icon {
+    width: 32px;
+    height: 32px;
+    flex: none;
+    @include align-center();
+  }
+  .list-li-body {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    margin: 0 10px;
+    > span:first-of-type {
+      font-size: 14px;
+      font-weight: bold;
+    }
+  }
+  .list-li-extra {
+    display: flex;
+    flex: none;
+    font-size: 13px;
+    flex-direction: column;
+  }
+}
+
+li {
+  &.small {
+    height: 32px;
+  }
+  &.medium {
+    height: 48px;
+  }
+  &.large {
+    height: 72px;
+  }
+}
 
 .user-option-slider {
     height: 72px;

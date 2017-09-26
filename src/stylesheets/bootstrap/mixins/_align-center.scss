@@ -1,0 +1,7 @@
+// avatars border
+
+@mixin align-center() {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

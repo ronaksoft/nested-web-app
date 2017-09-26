@@ -26,4 +26,20 @@
             width: 100%;
         }
     }
+    .overdue {
+        svg {
+            fill: $color-force;
+        }
+        span {
+            color: $color-force;
+        }
+    }
+    .candidate {
+        svg {
+            fill: $color-bg-pending;
+        }
+        span {
+            color: $color-bg-pending;
+        }
+    }
 }
