@@ -2,13 +2,8 @@
   <div class="sidebar-wrapper">
     <!-- sidebar navigator
      ====================-->
-    <a class="side-menu-item" id="compose" ng-click="ctlSidebar.compose($event);">
+    <a class="side-menu-item" id="compose">
       <div class="item-icon">
-        <div class="unreadPlace" ng-if="ctlSidebar.hasDraft">
-          <svg class="pendfill">
-            <use xlink:href="/assets/icons/nst-icn24.svg#unread-circle"></use>
-          </svg>
-        </div>
         <div>
           <svg class="_24svg">
             <use xlink:href="/assets/icons/nst-icn24.svg#compose"></use>
@@ -16,73 +11,30 @@
         </div>
       </div>
       <div class="item-desc">
-        <translate>Compose</translate>
+        <translate>Create New Task</translate>
       </div>
     </a>
-    <a ui-sref="app.messages-favorites()" class="side-menu-item" ui-sref-active="isSelected">
-        <span class="item-icon" active-group="message">
-          <svg class="_16svg">
-            <use xlink:href="/assets/icons/nst-icn16.svg#messages"></use>
-          </svg>
-        </span>
-        <div class="item-desc">
-          <translate>Feed</translate>
-        </div>
-      </a>
-    <a ui-sref="app.messages-bookmarked()" class="side-menu-item" active-group="bookmarked" ui-sref-active="isSelected">
-        <span class="item-icon">
-          <svg class="_16svg">
-            <use xlink:href="/assets/icons/nst-icn16.svg#bookmarked-message"></use>
-          </svg>
-        </span>
-        <div class="item-desc">
-          <translate>Bookmarked Posts</translate>
-        </div>
-      </a>
-    <a ui-sref="app.messages-sent()" class="side-menu-item" ui-sref-active="isSelected" active-group="sent">
-      <span class="item-icon">
+    <a ui-sref="app.tasks.glance()" class="side-menu-item" ui-sref-active="isSelected">
+      <span class="item-icon" active-group="message">
         <svg class="_16svg">
-          <use xlink:href="/assets/icons/nst-icn16.svg#sent-message"></use>
+          <use xlink:href="/assets/icons/nst-icn16.svg#messages"></use>
         </svg>
       </span>
       <div class="item-desc">
-        <translate>Shared by me</translate>
+        <translate>Glance</translate>
       </div>
     </a>
     <!-- sidebar places
      ====================-->
     <div class="side-places-wrapper _fw">
       <div class="side-places-head _df">
-        <translate class="_df _fw">Places</translate>
-        <div class="_df _aic _jcc _fn ng-class:{'disabled' : !ctlSidebar.canCreateClosedPlace && !ctlSidebar.canCreateGrandPlace && !ctlSidebar.canCreateOpenPlace}"
-          data-popover-class="white-pop create-place-popover" data-popover-append-to-body="false" uib-popover-template="'app/components/sidebar/partials/create-place-popover.html'"
-          data-popover-trigger="focus" data-popover-placement="auto bottom-{{$root._direction === 'rtl' ? 'left' : 'right'}}"
-          data-popover-enable="{{!ctlSidebar.canCreateClosedPlace && !ctlSidebar.canCreateGrandPlace && !ctlSidebar.canCreateOpenPlace ? false : true}}"          
-          data-uib-tooltip-template="'cannot-create-place.html'"
-          data-tooltip-append-to-body="true"
-          data-tooltip-enable="{{!ctlSidebar.canCreateClosedPlace && !ctlSidebar.canCreateGrandPlace && !ctlSidebar.canCreateOpenPlace ? true : false}}"
-          data-tooltip-placement="{{$root._direction === 'rtl' ? 'left' : 'right'}} auto">
-          <svg class="_16svg">
-            <use xlink:href="/assets/icons/nst-icn16.svg#cross"></use>
-          </svg>
-        </div>
+        <translate class="_df _fw">Tasks</translate>
       </div>
       <div iscroll class="iscroll-wrapper" iscroll-instance="scrollInstance" scroll-into-view=".side-grand-place-item">
         <div class="places iscroll-scroller" sidebar-scrollbar>
           <ul class="side-place-border-selector">
             <li class="side-grand-place-item" ng-repeat="place in ctlSidebar.places" data-ng-include="'app/components/sidebar/place.html'"
               onload="place = place"></li>
-          </ul>
-          <ul class="side-invites" data-ng-if="ctlSidebar.invitations.length > 0 ">
-            <li class="side-invite-item" ng-repeat="invitaion in ctlSidebar.invitations">
-              <a href="javascript:void(0);" ng-click="ctlSidebar.invitation.showModal(invitaion.id)" class="side-invite-item-inner">
-                <div class="side-invite-item-image">
-                  <img class="" ng-src="{{invitaion.place | picture : 'x32'}}" />
-                </div>
-                <span class="_txe" data-ng-bind="::invitaion.place.name" data-ellipsis></span>
-                &nbsp;<translate>Invitation</translate>
-              </a>
-            </li>
           </ul>
         </div>
       </div>
