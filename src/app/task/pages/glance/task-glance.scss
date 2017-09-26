@@ -1,0 +1,9 @@
+.tasks-area {
+    max-width: 720px;
+    margin: auto;
+    display: block;
+    width: calc(100% - 48px);
+    min-height: 100%;
+    background-color: $color-white;
+    box-shadow: 0 4px 8px $color-breeze-new;
+}
