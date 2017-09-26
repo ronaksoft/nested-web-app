@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('ronak.nested.web.components.sidebar')
+    .module('ronak.nested.web.task')
     .directive('nstTaskSidebar', Sidebar);
 
   /** @ngInject */
