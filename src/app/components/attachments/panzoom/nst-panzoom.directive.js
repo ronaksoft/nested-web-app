@@ -32,10 +32,10 @@
           x: 0,
           y: 0
         };
-        // var origin = {
-        //   x: 0,
-        //   y: 0
-        // };
+        var origin = {
+          x: 0,
+          y: 0
+        };
         var panStartPos = {
           x: 0,
           y: 0
@@ -70,6 +70,8 @@
             pan.y = (e.pageY - panStartPos.y);
             applyChanges();
           }
+          origin.x = 0;
+          origin.y = 0;
         }));
         eventReferences.push(angular.element('body').on('mouseup', function (e) {
           if (startPan) {
@@ -78,13 +80,15 @@
           startPan = false;
         }));
 
-        var hammertime = new Hammer($element.get(0));
-        hammertime.on('pan', function(ev) {
-          console.log('pan', ev);
-        });
-        hammertime.on('pinch', function(ev) {
-          console.log('pinch', ev);
-        });
+        eventReferences.push($element.on('mousewheel', function (e) {
+          zoom += (-e.deltaY)/100;
+          applyChanges();
+          if (origin.x === 0 && origin.y === 0) {
+            origin.x = e.pageX - pan.x;
+            origin.y = e.pageY - pan.y;
+          }
+        }));
+
 
         function applyChanges() {
           if (zoom < 0.1) {
