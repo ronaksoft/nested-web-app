@@ -281,7 +281,7 @@ span.filename {
   overflow: hidden;
   position: relative;
   box-shadow: 0 16px 32px $color-attachment-shadow;
-  .vjs-fullscreen-control { 
+  .vjs-fullscreen-control {
     width: 8px;
     visibility: hidden
   }
@@ -364,7 +364,7 @@ span.filename {
   top: 50%;
   z-index: 333;
   transform: translateY(-50%);
-  background-color: rgba(15, 15, 15,.24);
+  background-color: rgba(15, 15, 15, .24);
   transition: opacity $animation-dur;
   display: flex;
   justify-content: center;
