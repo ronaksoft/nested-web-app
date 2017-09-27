@@ -78,6 +78,14 @@
           startPan = false;
         }));
 
+        var hammertime = new Hammer($element.get(0));
+        hammertime.on('pan', function(ev) {
+          console.log('pan', ev);
+        });
+        hammertime.on('pinch', function(ev) {
+          console.log('pinch', ev);
+        });
+
         function applyChanges() {
           if (zoom < 0.1) {
             zoom = 0.1;
