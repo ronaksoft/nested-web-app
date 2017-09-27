@@ -9,9 +9,7 @@
     var obj = {};
 
     var win = angular.element($window);
-    var isMobile = deviceDetector.isMobile() || deviceDetector.isTablet();
-    var isRTL = $rootScope._direction == 'rtl';
-    var MobTopOff = isMobile ? 56 : 0;
+    var MobTopOff = 0;
     var winH = win.height();
     var navH = 80;
     $rootScope.cardCtrls = [];
@@ -53,9 +51,8 @@
           e.fixed = true;
           e.el.css('position', 'fixed');
           e.el.css('top', 72 + navH + MobTopOff + 'px');
-          if (!isRTL) e.el.css('left', e.leftOff + 'px');
-          if (isRTL && !isMobile) e.el.css('right', e.leftOff - 20 + 'px');
-          if (isRTL && isMobile) e.el.css('right', e.leftOff + 'px');
+          if ($rootScope._direction !== 'rtl') e.el.css('left', e.leftOff + 'px');
+          if ($rootScope._direction === 'rtl') e.el.css('right', e.leftOff + 'px');
         } else if (Ypos + MobTopOff < e.topOff - (48 + navH ) && e.fixed) {
           e.fixed = false;
           e.el.css('position', '');

@@ -3,7 +3,7 @@
 
   angular
     .module('ronak.nested.web.task')
-    .directive(' taskProgressIcon', taskProgress);
+    .directive('taskProgressIcon', taskProgress);
 
   /** @ngInject */
   function taskProgress() {
