@@ -585,7 +585,7 @@
           'place': searchPrefixLocale.place,
           'user': searchPrefixLocale.user,
           'label': searchPrefixLocale.label,
-          'keyword': 'keyword'
+          'keyword': NST_SEARCH_QUERY_PREFIX.KEYWORD
         };
         params = _.filter(params, function (item) {
           return (item.type !== 'keyword');
@@ -623,16 +623,16 @@
        */
       function removeChip(type, name) {
         switch (type) {
-          case 'in':
+          case searchPrefixLocale.place:
             searchQuery.removePlace(name);
             break;
-          case 'from':
+          case searchPrefixLocale.user:
             searchQuery.removeUser(name);
             break;
-          case 'label':
+          case searchPrefixLocale.label:
             searchQuery.removeLabel(name);
             break;
-          case 'keyword':
+          case NST_SEARCH_QUERY_PREFIX.KEYWORD:
             searchQuery.removeKeyword(name);
             break;
         }
