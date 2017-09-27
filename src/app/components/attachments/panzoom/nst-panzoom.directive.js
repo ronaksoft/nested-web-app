@@ -33,8 +33,8 @@
           y: 0
         };
         var origin = {
-          x: 0,
-          y: 0
+          x: 50,
+          y: 50
         };
         var panStartPos = {
           x: 0,
@@ -55,12 +55,15 @@
           zoom = 1.0;
           pan.x = 0;
           pan.y = 0;
+          origin.x = 50;
+          origin.y = 50;
           applyChanges();
         }));
         eventReferences.push($element.on('mousedown', function (e) {
           startPan = true;
           panStartPos.x = e.pageX - pan.x;
           panStartPos.y = e.pageY - pan.y;
+          console.log((e.offsetX / $element.width()), (e.offsetY / $element.height()));
           applyChanges();
         }));
         eventReferences.push(angular.element('body').on('mousemove', function (e) {
@@ -70,8 +73,8 @@
             pan.y = (e.pageY - panStartPos.y);
             applyChanges();
           }
-          origin.x = 0;
-          origin.y = 0;
+          origin.x = 50;
+          origin.y = 50;
         }));
         eventReferences.push(angular.element('body').on('mouseup', function (e) {
           if (startPan) {
@@ -82,11 +85,23 @@
 
         eventReferences.push($element.on('mousewheel', function (e) {
           zoom += (-e.deltaY)/100;
-          applyChanges();
-          if (origin.x === 0 && origin.y === 0) {
-            origin.x = e.pageX - pan.x;
-            origin.y = e.pageY - pan.y;
+          if (origin.x === 50 && origin.y === 50) {
+            origin.x = ((e.offsetX/zoom) / $element.width()) * 100;
+            origin.y = ((e.offsetY/zoom) / $element.height()) * 100;
+            if (origin.x < 1) {
+              origin.x = 1;
+            }
+            if (origin.x > 99) {
+              origin.x = 99;
+            }
+            if (origin.y < 1) {
+              origin.y = 1;
+            }
+            if (origin.y > 99) {
+              origin.y = 99;
+            }
           }
+          applyChanges();
         }));
 
 
@@ -98,6 +113,7 @@
             zoom = 10;
           }
           $element.css('transform', 'scale(' + zoom + ') translate(' + (pan.x/zoom) + 'px, ' + (pan.y/zoom) + 'px)');
+          $element.css('transform-origin', origin.x + '% ' + origin.y + '%');
         }
 
         $scope.$on('$destroy', function() {
