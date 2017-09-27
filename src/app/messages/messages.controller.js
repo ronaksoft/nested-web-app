@@ -44,6 +44,7 @@
       vm.readMulti = readMulti;
       vm.goUnreadMode = goUnreadMode;
       vm.unselectAll = unselectAll;
+      vm.selectAll = selectAll;
       vm.exitUnseenMode = exitUnseenMode;
 
       // Some flags that help us find where we are
@@ -617,6 +618,16 @@
               selectedPosts: vm.selectedPosts
             });
           }
+        }
+
+        function selectAll() {
+          vm.selectedPosts = vm.messages.map(function (msg) {
+            return msg.id
+          })
+          $scope.$broadcast('selected-length-change', {
+            selectedPosts: vm.selectedPosts,
+            selectAll : true
+          });
         }
 
         function readMulti($event) {
