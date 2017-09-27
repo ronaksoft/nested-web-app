@@ -49,12 +49,12 @@
       <li ng-repeat="notif in ctlNotifications.notifications track by notif.id"
           ng-click="ctlNotifications.onClickMention(notif, $event);">
 
-        <!-- <div ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.MENTION"
+        <div ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.MENTION"
             ui-sref="app.message({ postId : notif.mention.post.id })"
             class="notif-li ng-class:{'seen' : notif.isSeen}"
             ng-include="'/app/notification/partials/mention.html'"
             ng-init="notification = notif">
-        </div> -->
+        </div>
 
         <div ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.COMMENT"
             ui-sref="app.message({ postId : notif.post.id })"
@@ -63,51 +63,51 @@
             ng-init="notification = notif">
         </div>
 
-        <!-- <div ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.PROMOTED"
+        <div ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.PROMOTED"
             class="notif-li ng-class:{'seen' : notif.isSeen}"
             ng-include="'/app/notification/partials/promote.html'"
             ng-init="notification = notif">
-        </div> -->
+        </div>
 
-        <!-- <div ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.PLACE_SETTINGS_CHANGED"
+        <div ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.PLACE_SETTINGS_CHANGED"
             class="notif-li ng-class:{'seen' : notif.isSeen}"
             ng-include="'/app/notification/partials/place-settings-changed.html'"
             ng-init="notification = notif">
-        </div> -->
+        </div>
 
-        <!-- <div ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.DEMOTED"
+        <div ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.DEMOTED"
             class="notif-li ng-class:{'seen' : notif.isSeen}"
             ng-include="'/app/notification/partials/demote.html'"
             ng-init="notification = notif">
-        </div> -->
+        </div>
 
-        <!-- <div ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.INVITE"
+        <div ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.INVITE"
             class="notif-li ng-class:{'seen' : notif.isSeen}"
             ng-include="'/app/notification/partials/invite.html'"
             ng-init="notification = notif">
-        </div> -->
+        </div>
 
-        <!-- <div ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.INVITE_RESPOND"
+        <div ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.INVITE_RESPOND"
             class="notif-li ng-class:{'seen' : notif.isSeen}"
             ng-include="'/app/notification/partials/invite-response.html'"
             ng-init="notification = notif">
-        </div> -->
+        </div>
 
-        <!-- <div ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.YOU_JOINED"
+        <div ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.YOU_JOINED"
             ui-sref="app.place-messages({ placeId : notif.place.id })"
             class="notif-li ng-class:{'seen' : notif.isSeen}"
             ng-include="'/app/notification/partials/you-joined.html'"
             ng-init="notification = notif">
-        </div> -->
+        </div>
 
-        <!-- <a ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.NEW_SESSION"
+        <a ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.NEW_SESSION"
             ui-sref="app.settings.sessions"
             class="notif-li ng-class:{'seen' : notif.isSeen}"
             ng-include="'/app/notification/partials/new-session.html'"
             ng-init="notification = notif">
-        </a> -->
+        </a>
 
-        <!-- <a ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.LABEL_REQUEST_APPROVED"
+        <a ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.LABEL_REQUEST_APPROVED"
             class="notif-li ng-class:{'seen' : notif.isSeen}"
             ng-include="'/app/notification/partials/label-approve.html'"
             ng-init="notification = notif">
@@ -129,7 +129,7 @@
             class="notif-li ng-class:{'seen' : notif.isSeen}"
             ng-include="'/app/notification/partials/label-created.html'"
             ng-init="notification = notif">
-        </a> -->
+        </a>
       </li>
 
       <li class="more-mentions" ng-click="ctlNotifications.loadMore();$event.stopPropagation();"
