@@ -360,12 +360,15 @@
 
       var resources = {};
       var imgRegex = new RegExp('<img(.*?)src=[\'|"](.*?)[\'|"](.*?)>', 'g');
-      var body = data.body.replace(imgRegex, function (m, p1, p2, p3) {
-        if (p2.indexOf(NST_CONFIG.STORE.URL) === 0) return m;
-        var hash = md5.createHash(p2);
-        resources[hash] = p2;
-        return "<img" + p1 + "source='" + hash + "' " + p3 + "/>"
-      });
+      var body = '';
+      if (data.body !== undefined) {
+        body = data.body.replace(imgRegex, function (m, p1, p2, p3) {
+          if (p2.indexOf(NST_CONFIG.STORE.URL) === 0) return m;
+          var hash = md5.createHash(p2);
+          resources[hash] = p2;
+          return "<img" + p1 + "source='" + hash + "' " + p3 + "/>"
+        });
+      }
 
       post.body = body;
       post.resources = resources;
