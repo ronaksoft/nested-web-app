@@ -5,13 +5,17 @@
     .module('ronak.nested.web.components.attachment')
     .directive('nstPanzoom', NstPanzoom);
 
-  function NstPanzoom(NST_FILE_TYPE, $sce, $window, NstSvcKeyFactory, NST_KEY, _, $) {
+  function NstPanzoom(NST_FILE_TYPE, _) {
     return {
       restrict: 'A',
       scope: {
-        containerClass: '=nstPanzoom'
+        containerClass: '=nstPanzoom',
+        fileType: '=fileType'
       },
       link: function ($scope, $element) {
+        if ($scope.fileType !== NST_FILE_TYPE.IMAGE) {
+          return;
+        }
         var eventReferences = [];
         var template =
           '<div class="nst-panzoom-container">' +
@@ -28,10 +32,10 @@
           x: 0,
           y: 0
         };
-        var origin = {
-          x: 0,
-          y: 0
-        };
+        // var origin = {
+        //   x: 0,
+        //   y: 0
+        // };
         var panStartPos = {
           x: 0,
           y: 0
