@@ -15,7 +15,7 @@
       <span class="_txe _dib" data-ellipsis auto-dir="child.name">{{ child.name }}</span>
       <b class="_df _fn" ng-if="ctlSidebar.myPlacesUnreadPosts[child.id] > 0">&nbsp;{{ctlSidebar.myPlacesUnreadPosts[child.id] | localize}}</b>
   </cite>
-  <i ng-if="child.children.length > 0" class="tw-svg _difv ng-class:{'open' : child.isExpanded}"
+  <div ng-if="child.children.length > 0" class="arrow-toggle tw-svg _difv ng-class:{'open' : child.isExpanded}"
     data-ng-click="
       child.isExpanded =! child.isExpanded;
       place.isExpanded ? ctlSidebar.scrollIntoViewEvent = $event : null;
@@ -26,7 +26,7 @@
     <svg class="_16svg">
       <use xlink:href="/assets/icons/nst-icn16.svg#arrow"></use>
     </svg>
-  </i>
+  </div>
 </a>
 <ul ng-if="child.children.length > 0 && child.isExpanded">
   <li class="side-place-item" ng-repeat="child in child.children" data-ng-include="'app/components/sidebar/partials/place-info/sub-place.html'">

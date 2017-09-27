@@ -15,7 +15,7 @@
     </span>
     <b class="_df _fn" ng-if="ctlSidebar.myPlacesUnreadPosts[place.id] > 0">&nbsp;{{ctlSidebar.myPlacesUnreadPosts[place.id] | localize}}</b>
   </cite>
-  <i ng-if="place.children.length > 0" class="tw-svg _difv ng-class:{'open' : place.isExpanded}"
+  <div ng-if="place.children.length > 0" class="arrow-toggle tw-svg _difv ng-class:{'open' : place.isExpanded}"
     data-ng-click="
       place.isExpanded =! place.isExpanded;
       place.isExpanded ? ctlSidebar.scrollIntoViewEvent = $event : null;
@@ -27,7 +27,7 @@
     <svg class="_16svg">
       <use xlink:href="/assets/icons/nst-icn16.svg#arrow"></use>
     </svg>
-  </i>
+  </div>
 </a>
 <!-- <nst-sidebar-place-info grand-place="place" unread-mode="ctlSidebar.isUnreadMode"></nst-sidebar-place-info> -->
 <ul ng-if="place.children.length > 0 && place.isExpanded">
