@@ -197,6 +197,7 @@
         return null;
       }
       post.body = data.body;
+      post.preview = data.preview;
       post.comments = _.map(data.post_comments, function (comment) {
         return NstSvcCommentFactory.parseComment(comment);
       });
@@ -371,6 +372,11 @@
       }
 
       post.body = body;
+
+      if (data.preview !== undefined) {
+        post.preview = data.preview;
+      }
+
       post.resources = resources;
 
       post.comments = _.map(data.post_comments, function(comment) {
