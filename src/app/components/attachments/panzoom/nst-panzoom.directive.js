@@ -9,9 +9,9 @@
     return {
       restrict: 'A',
       scope: {
-        containerClass: '=nstPanzoom',
+        containerClass: '=nstPanzoom'
       },
-      link: function ($scope, $element, attrs) {
+      link: function ($scope, $element) {
         var eventReferences = [];
         var template =
           '<div class="nst-panzoom-container">' +
@@ -32,7 +32,6 @@
           x: 0,
           y: 0
         };
-
         var panStartPos = {
           x: 0,
           y: 0
@@ -86,6 +85,7 @@
         }
 
         $scope.$on('$destroy', function() {
+          toolsElem.remove();
           _.forEach(eventReferences, function (event) {
             event.off();
           });
