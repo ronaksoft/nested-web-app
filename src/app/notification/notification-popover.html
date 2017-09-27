@@ -69,11 +69,11 @@
             ng-init="notification = notif">
         </div>
 
-        <!-- <div ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.PLACE_SETTINGS_CHANGED"
+        <div ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.PLACE_SETTINGS_CHANGED"
             class="notif-li ng-class:{'seen' : notif.isSeen}"
             ng-include="'/app/notification/partials/place-settings-changed.html'"
             ng-init="notification = notif">
-        </div> -->
+        </div>
 
         <!-- <div ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.DEMOTED"
             class="notif-li ng-class:{'seen' : notif.isSeen}"
@@ -100,12 +100,12 @@
             ng-init="notification = notif">
         </div>
 
-        <!-- <a ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.NEW_SESSION"
+        <a ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.NEW_SESSION"
             ui-sref="app.settings.sessions"
             class="notif-li ng-class:{'seen' : notif.isSeen}"
             ng-include="'/app/notification/partials/new-session.html'"
             ng-init="notification = notif">
-        </a> -->
+        </a>
 
         <!-- <a ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.LABEL_REQUEST_APPROVED"
             class="notif-li ng-class:{'seen' : notif.isSeen}"
