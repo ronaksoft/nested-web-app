@@ -40,7 +40,6 @@
     vm.replyToSender = replyToSender;
     vm.viewFull = viewFull;
     vm.setBookmark = setBookmark;
-    vm.loadNewComments = loadNewComments;
     vm.attachPlace = attachPlace;
     vm.toggleRecieveNotification = toggleRecieveNotification;
     vm.seenBy = seenBy;
@@ -52,6 +51,7 @@
     vm.addLabels = addLabels;
     vm.isFeed = isFeed;
     vm.labelClick = labelClick;
+    vm.loadNewComments = loadNewComments;
     vm.isPostView = isPostView();
 
     vm.expandProgress = false;
