@@ -311,21 +311,6 @@
       right: 4px;
       top: 50%;
       transform: translateY(-50%);
-      &:hover {
-        svg {
-          opacity: 1;
-        }
-        background-color: $color-bg-hover-item;
-      }
-      &:active {
-        opacity: 1;
-        background-color: $color-bg-active-item;
-      }
-      label {
-        width: 12px;
-        height: 12px;
-        transition: all $animation-dur;
-      }
     }
     .place-line-icon {
       position: relative;
