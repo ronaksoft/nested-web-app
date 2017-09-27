@@ -46,11 +46,11 @@
     }
     .iscroll-wrapper {
         max-height: 353px;
-    }
-    ul {
         &.haveSelectedItem {
             max-height: 406px;
         }
+    }
+    ul {
         li {
             display: flex;
             width: 100%;

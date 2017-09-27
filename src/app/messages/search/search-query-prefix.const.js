@@ -6,6 +6,7 @@
     .constant('NST_SEARCH_QUERY_PREFIX', {
       USER: '@',
       PLACE: '#',
+      KEYWORD: 'keyword',
       NEW_USER: 'from:',
       NEW_PLACE: 'in:',
       NEW_LABEL: 'label:',

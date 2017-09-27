@@ -40,7 +40,6 @@
     vm.replyToSender = replyToSender;
     vm.viewFull = viewFull;
     vm.setBookmark = setBookmark;
-    vm.loadNewComments = loadNewComments;
     vm.attachPlace = attachPlace;
     vm.toggleRecieveNotification = toggleRecieveNotification;
     vm.seenBy = seenBy;
@@ -52,6 +51,7 @@
     vm.addLabels = addLabels;
     vm.isFeed = isFeed;
     vm.labelClick = labelClick;
+    vm.loadNewComments = loadNewComments;
     vm.isPostView = isPostView();
 
     vm.expandProgress = false;
@@ -60,6 +60,7 @@
     vm.unreadCommentsCount = 0;
     vm.isChecked = false;
     vm.isCheckedForce = false;
+    vm.setIsCheckedWatchOffTemporary = false;
     vm.postSenderIsCurrentUser = false;
     vm.haveAnyLabelAcess = true; // TODO Read this from label cache
     vm.totalRecipients = [];
@@ -584,10 +585,12 @@
     $scope.$watch(function () {
       return vm.isChecked;
     }, function () {
-      $scope.$emit('post-select', {
-        postId: vm.post.id,
-        isChecked: vm.isChecked
-      });
+      if (!vm.setIsCheckedWatchOffTemporary) {
+        $scope.$emit('post-select', {
+          postId: vm.post.id,
+          isChecked: vm.isChecked
+        });
+      }
     });
 
     /**
@@ -618,6 +621,15 @@
     $scope.$on('selected-length-change', function (e, v) {
       if (v.selectedPosts.length > 0) {
         vm.isCheckedForce = true;
+        if(v.selectAll) {
+          vm.setIsCheckedWatchOffTemporary = true;
+          $timeout(function () {
+            vm.setIsCheckedWatchOffTemporary = false
+          }, 100);
+          if (v.selectedPosts.indexOf(vm.post.id)) {
+            vm.isChecked = true;
+          }
+        }
       } else {
         vm.isCheckedForce = false;
         vm.isChecked = false;

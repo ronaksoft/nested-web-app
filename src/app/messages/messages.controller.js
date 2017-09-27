@@ -44,6 +44,7 @@
       vm.readMulti = readMulti;
       vm.goUnreadMode = goUnreadMode;
       vm.unselectAll = unselectAll;
+      vm.selectAll = selectAll;
       vm.exitUnseenMode = exitUnseenMode;
 
       // Some flags that help us find where we are
@@ -153,23 +154,23 @@
         }));
 
 
-        $rootScope.$on('post-hide', function (event, data) {
+        eventReferences.push($rootScope.$on('post-hide', function (event, data) {
           var message = _.find(vm.messages, {
             id: data.postId
           });
           if (message) {
             message.tempHide = true
           }
-        });
+        }));
 
-        $rootScope.$on('post-show', function (event, data) {
+        eventReferences.push($rootScope.$on('post-show', function (event, data) {
           var message = _.find(vm.messages, {
             id: data.postId
           });
           if (message) {
             message.tempHide = false
           }
-        });
+        }));
 
         eventReferences.push($scope.$on('post-moved', function (event, data) {
           // there are tow conditions that a moved post should be removed from messages list
@@ -368,7 +369,7 @@
         });
       }
 
-      $scope.$on('post-select', function (event, data) {
+      eventReferences.push($scope.$on('post-select', function (event, data) {
         if (vm.tempBanPlaces) {
           vm.tempBanPlaces = [];
         }
@@ -381,7 +382,7 @@
         $scope.$broadcast('selected-length-change', {
           selectedPosts: vm.selectedPosts
         });
-      });
+      }));
 
       function configureNavbar() {
         if (vm.isBookmark) {
@@ -619,6 +620,16 @@
           }
         }
 
+        function selectAll() {
+          vm.selectedPosts = vm.messages.map(function (msg) {
+            return msg.id
+          })
+          $scope.$broadcast('selected-length-change', {
+            selectedPosts: vm.selectedPosts,
+            selectAll : true
+          });
+        }
+
         function readMulti($event) {
           $event.preventDefault();
           for (var i = 0; i < vm.selectedPosts.length; i++) {
@@ -767,7 +778,11 @@
             vm.exitUnseenMode();
             vm.isUnreadMode = false;
           }
-        })
+        });
+
+        eventReferences.push($rootScope.$on('reload-counters', function () {
+          loadUnreadPostsCount();
+        }));
 
         $scope.$on('$destroy', function () {
           if (CITHandler) {
@@ -780,10 +795,6 @@
               canceler();
             }
           });
-        });
-
-        $rootScope.$on('reload-counters', function () {
-          loadUnreadPostsCount();
         });
       }
 
