@@ -10,7 +10,7 @@
       moment, toastr,
       NST_MESSAGES_SORT_OPTION, NST_DEFAULT, NST_EVENT_ACTION, NST_PLACE_ACCESS, NST_POST_EVENT,
       NstSvcPostFactory, NstSvcPlaceFactory, NstUtility, NstSvcAuth, NstSvcSync, NstSvcModal,
-      NstSvcTranslation, SvcCardCtrlAffix, NstSvcUserFactory) {
+      NstSvcTranslation, SvcCardCtrlAffix, NstSvcUserFactory, NST_SRV_ERROR) {
 
       var vm = this;
 
@@ -328,7 +328,10 @@
           }
           vm.FIT = false;
           mergePosts(posts);
-        }).catch(function () {
+        }).catch(function (error) {
+          if (error.code === NST_SRV_ERROR.ACCESS_DENIED && error.message && error.message[0] === 'password_change') {
+            return;
+          }
           NstSvcModal.error(NstSvcTranslation.get("Error"), NstSvcTranslation.get("Either this Place doesn't exist, or you don't have the permit to enter the Place.")).finally(function () {
             if ($state.current.name !== NST_DEFAULT.STATE) {
               $state.go(NST_DEFAULT.STATE);
