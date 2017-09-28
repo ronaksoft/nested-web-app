@@ -65,6 +65,8 @@
   .item-desc {
     // opacity: .8;
     transition: opacity .2s;
+    display: flex;
+    width: 100%;
   }
   span {
     color: $color-solid;
@@ -536,4 +538,20 @@ ul ul>li:last-child {
 // Tasks
 .side-tasks-filter-list {
   padding: 0 6px;
+  .side-menu-item {
+    margin-top: 8px;
+  }
+  .item-desc {
+    >span:first-of-type {
+      width: 100%;
+      display: flex;
+      & + span {
+        padding: 0 8px;
+      }
+    }
+  }
+  .create-filter {
+    margin-top: 16px;
+    @include hover(.4, 1);
+  }
 }
