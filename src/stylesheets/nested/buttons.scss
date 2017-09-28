@@ -53,6 +53,10 @@
   &:focus {
     background-color: $color-sense;
   }
+  &.secondary {
+    background-color: $color-white!important;
+    color: $color-sense-wire;
+  }
 }
 
 .butn-green:disabled{
@@ -160,6 +164,10 @@
   }
   &:focus{
     background-color: $color-force;
+  }
+  &.secondary {
+    background-color: $color-white!important;
+    color: $color-force-wire;
   }
 }
 
