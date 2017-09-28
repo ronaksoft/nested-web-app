@@ -555,6 +555,13 @@ input[type="checkbox"].inpsw[disabled]:checked + label + label  {
   border-radius: 4px;
   width: 28px;
   height: 28px;
+  .unread-on-arrow {
+    width: 6px;
+    height: 6px;
+    margin-top: -2px;
+    border-radius: 100%;
+    background-color: $color-bg-pending;
+  }
   &:hover {
     svg {
       opacity: 1;

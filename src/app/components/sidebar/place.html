@@ -1,6 +1,6 @@
 <a ui-sref="app.place-messages({ placeId: place.id })" dbl-click="{{place.children.length > 0}}" ng-dblclick="place.isExpanded =! place.collapse;ctlSidebar.updateExpanded(place.id, place.isExpanded);ctlSidebar.scrollIntoView = $event"
-  class="side-grand-place-item-inner" ui-sref-active="isSelected" ng-class="{'isSelected': place.isActive}">
-  <div class="side-grand-place-item-image">
+  class="side-grand-place-item-container" ui-sref-active="isSelected" ng-class="{'isSelected': place.isActive}">
+  <div class="picture">
     <div class="unreadPlace" ng-if="ctlSidebar.placesNotifCountObject[place.id] > 0">
       <svg class="pendfill _24svg">
         <use xlink:href="/assets/icons/nst-icn24.svg#unread-circle"></use>
@@ -31,7 +31,7 @@
 </a>
 <!-- <nst-sidebar-place-info grand-place="place" unread-mode="ctlSidebar.isUnreadMode"></nst-sidebar-place-info> -->
 <ul ng-if="place.children.length > 0 && place.isExpanded">
-  <li class="side-place-item" ng-repeat="child in place.children" data-ng-include="'app/components/sidebar/partials/place-info/sub-place.html'"
+  <li class="side-place-item" ng-repeat="child in place.children" data-ng-include="'app/components/sidebar/sub-place.html'"
     onload="place = child">
   </li>
 </ul>

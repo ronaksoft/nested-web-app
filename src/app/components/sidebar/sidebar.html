@@ -1,8 +1,8 @@
 <div class="sidebar _df">
-  <div class="sidebar-wrapper">
+  <div class="sidebar-container">
     <!-- sidebar navigator
      ====================-->
-    <a class="side-menu-item" id="compose" ng-click="ctlSidebar.compose($event);">
+    <a class="side-menu-item large" ng-click="ctlSidebar.compose($event);">
       <div class="item-icon">
         <div class="unreadPlace" ng-if="ctlSidebar.hasDraft">
           <svg class="pendfill">
@@ -69,7 +69,7 @@
       </div>
       <div iscroll class="iscroll-wrapper" iscroll-instance="scrollInstance" scroll-into-view=".side-grand-place-item">
         <div class="places iscroll-scroller" sidebar-scrollbar>
-          <ul class="side-place-border-selector">
+          <ul class="places-tree-parent">
             <li class="side-grand-place-item" ng-repeat="place in ctlSidebar.places" data-ng-include="'app/components/sidebar/place.html'"
               onload="place = place"></li>
           </ul>
