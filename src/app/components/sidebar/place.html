@@ -31,7 +31,7 @@
 </a>
 <!-- <nst-sidebar-place-info grand-place="place" unread-mode="ctlSidebar.isUnreadMode"></nst-sidebar-place-info> -->
 <ul ng-if="place.children.length > 0 && place.isExpanded">
-  <li class="side-place-item" ng-repeat="child in place.children" data-ng-include="'app/components/sidebar/sub-place.html'"
+  <li class="_aic" ng-repeat="child in place.children" data-ng-include="'app/components/sidebar/sub-place.html'"
     onload="place = child">
   </li>
 </ul>
