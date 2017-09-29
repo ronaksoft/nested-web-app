@@ -69,6 +69,15 @@
           opacity: 1;
         }
       }
+      .devider {
+         height: 24px;
+         width: 1px;
+         background-color: $color-black;
+         opacity: .16;
+         display: flex;
+         flex: none;
+         margin: 0 8px;
+      }
       p {
         margin-right: 4px;
       }

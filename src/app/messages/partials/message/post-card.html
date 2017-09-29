@@ -185,7 +185,7 @@
       <span>{{ctlPostCard.post.counters.comments | localize }}</span>
     </a>
     <a class="_df _fn comments-count new-comments-count" ng-if="ctlPostCard.unreadCommentsCount > 0 && !ctlPostCard.post.noComment"
-      ng-click="ctlPostCard.viewFull($event); _track('post card', 'open post view : click new comment icon');">
+      ng-click="ctlPostCard.loadNewComments($event); _track('post card', 'open post view : click new comment icon');">
       <!--fixme :: set blue icon-->
       <svg class="_16svg">
         <use xlink:href="/assets/icons/nst-icn16.svg#comment"></use>
@@ -305,7 +305,6 @@
 </div>
 
 <div class="card-control" affix-post ng-if="!ctlPostCard.FIT && !ctlPostCard.chainView">
-
   <svg class="_16svg pendfill" ng-click="ctlPostCard.markAsRead();ctlPostCard.expand();" ng-if="!ctlPostCard.post.read">
     <use xlink:href="/assets/icons/nst-icn16.svg#circle"></use>
   </svg>

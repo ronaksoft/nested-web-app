@@ -1,4 +1,4 @@
-<div class="mention">
+<div class="notif-li-container">
   <div class="_fn">
     <div class="user-avatar-24">
       <img initial-avatar="{{::notification.actor.id}}" picture="{{::notification.actor | avatar}}" name="{{::notification.actor.fullName}}"
@@ -7,15 +7,14 @@
     </div>
   </div>
   <div class="_difh f1 _fn bottom-border">
-    <div class="_difv f1">
-      <p>
-        <small><b>{{::notification.actor.fullName}}:</b></small>
-      </p>
+    <div class="notif-li-body">
+      <div class="notif-li-subject">
+          <span><b class="_fw _db _txe">{{ ::notification.actor.fullName }}</b></span>
+          <div class="mention-date _fn" data-uib-tooltip="{{notification.date | date : 'full' | localize}}" data-tooltip-append-to-body="true" data-tooltip-placement="top auto">
+            {{notification.date | passed | localize}}
+          </div>
+      </div>
       <p translate-inner>Your request for <b>{{::notification.label.title | scapeRevSpace}}</b> label was approved</p>
-    </div>
-    <div class="mention-date _fn" data-uib-tooltip="{{notification.date | date : 'full' | localize}}" data-tooltip-append-to-body="true"
-      data-tooltip-placement="top auto">
-      {{notification.date | passed | localize}}
     </div>
     <svg class="_df _fn _16svg">
       <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>

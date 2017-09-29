@@ -1,10 +1,10 @@
 <div class="notification-wrapper" ng-controller="NotificationsController as ctlNotifications">
-  <div class="subject">
-    <a class="_df _fw">
+  <div class="head-line">
+    <a class="subject _df _fw">
       <translate>Notifications</translate>
     </a>
-    <div class="_32svg _df _fn _aic _jcc" ng-click="ctlNotifications.markAllSeen()">
-      <svg ng-click="ctlNotifications.markAllSeen()">
+    <div class="icon" ng-click="ctlNotifications.markAllSeen()">
+      <svg class="_16svg fill-solid" ng-click="ctlNotifications.markAllSeen()">
         <use xlink:href="/assets/icons/nst-icn16.svg#list-check"></use>
       </svg>
     </div>
@@ -25,7 +25,7 @@
     </a>
   </div>
   <div iscroll="" class="iscroll-wrapper">
-    <ul class="iscroll-scroller">
+    <ul class="notif-ul" class="iscroll-scroller">
       <li class="_fw _jcc _df margin-top-10" ng-if="ctlNotifications.loadingAfter">
         <div class="loading">
           <div class="animation">
@@ -51,82 +51,82 @@
 
         <div ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.MENTION"
             ui-sref="app.message({ postId : notif.mention.post.id })"
-            class="item-inner ng-class:{'seen' : notif.isSeen}"
+            class="notif-li ng-class:{'seen' : notif.isSeen}"
             ng-include="'/app/notification/partials/mention.html'"
             ng-init="notification = notif">
         </div>
 
         <div ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.COMMENT"
             ui-sref="app.message({ postId : notif.post.id })"
-            class="item-inner ng-class:{'seen' : notif.isSeen}"
+            class="notif-li ng-class:{'seen' : notif.isSeen}"
             ng-include="'/app/notification/partials/comment.html'"
             ng-init="notification = notif">
         </div>
 
         <div ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.PROMOTED"
-            class="item-inner ng-class:{'seen' : notif.isSeen}"
+            class="notif-li ng-class:{'seen' : notif.isSeen}"
             ng-include="'/app/notification/partials/promote.html'"
             ng-init="notification = notif">
         </div>
 
         <div ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.PLACE_SETTINGS_CHANGED"
-            class="item-inner ng-class:{'seen' : notif.isSeen}"
+            class="notif-li ng-class:{'seen' : notif.isSeen}"
             ng-include="'/app/notification/partials/place-settings-changed.html'"
             ng-init="notification = notif">
         </div>
 
         <div ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.DEMOTED"
-            class="item-inner ng-class:{'seen' : notif.isSeen}"
+            class="notif-li ng-class:{'seen' : notif.isSeen}"
             ng-include="'/app/notification/partials/demote.html'"
             ng-init="notification = notif">
         </div>
 
         <div ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.INVITE"
-            class="item-inner ng-class:{'seen' : notif.isSeen}"
+            class="notif-li ng-class:{'seen' : notif.isSeen}"
             ng-include="'/app/notification/partials/invite.html'"
             ng-init="notification = notif">
         </div>
 
         <div ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.INVITE_RESPOND"
-            class="item-inner ng-class:{'seen' : notif.isSeen}"
+            class="notif-li ng-class:{'seen' : notif.isSeen}"
             ng-include="'/app/notification/partials/invite-response.html'"
             ng-init="notification = notif">
         </div>
 
         <div ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.YOU_JOINED"
             ui-sref="app.place-messages({ placeId : notif.place.id })"
-            class="item-inner ng-class:{'seen' : notif.isSeen}"
+            class="notif-li ng-class:{'seen' : notif.isSeen}"
             ng-include="'/app/notification/partials/you-joined.html'"
             ng-init="notification = notif">
         </div>
 
         <a ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.NEW_SESSION"
             ui-sref="app.settings.sessions"
-            class="item-inner ng-class:{'seen' : notif.isSeen}"
+            class="notif-li ng-class:{'seen' : notif.isSeen}"
             ng-include="'/app/notification/partials/new-session.html'"
             ng-init="notification = notif">
         </a>
 
         <a ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.LABEL_REQUEST_APPROVED"
-            class="item-inner ng-class:{'seen' : notif.isSeen}"
+            class="notif-li ng-class:{'seen' : notif.isSeen}"
             ng-include="'/app/notification/partials/label-approve.html'"
             ng-init="notification = notif">
         </a>
 
         <a ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.LABEL_REQUEST_REJECTED"
-            class="item-inner ng-class:{'seen' : notif.isSeen}"
+            class="notif-li ng-class:{'seen' : notif.isSeen}"
             ng-include="'/app/notification/partials/label-reject.html'"
             ng-init="notification = notif">
         </a>
 
         <a ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.LABEL_JOINED"
-            class="item-inner ng-class:{'seen' : notif.isSeen}"
+            class="notif-li ng-class:{'seen' : notif.isSeen}"
             ng-include="'/app/notification/partials/label-join.html'"
             ng-init="notification = notif">
         </a>
 
         <a ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.LABEL_REQUEST_CREATED"
-            class="item-inner ng-class:{'seen' : notif.isSeen}"
+            class="notif-li ng-class:{'seen' : notif.isSeen}"
             ng-include="'/app/notification/partials/label-created.html'"
             ng-init="notification = notif">
         </a>
@@ -137,7 +137,7 @@
         <translate ng-if="!ctlMentions.error" ng-show="!ctlNotifications.reached">Load more...</translate>
         <translate ng-if="ctlMentions.error" ng-show="!ctlNotifications.reached">Try again...</translate>
       </li>
-      <li class="more-mentions loading-notif"
+      <li class="more-mentions notif-ul-loading"
         ng-if="!ctlNotifications.reached && ctlNotifications.loadingBefore && !ctlNotifications.error">
         <div class="_fw _jcc _df margin-top-10 _pr">
           <div class="loading">

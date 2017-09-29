@@ -1,4 +1,4 @@
-<div class="mention">
+<div class="notif-li-container">
   <div class="_fn">
     <div class="user-avatar-24">
       <img ng-if="notification.comment.sender" initial-avatar="{{::notification.comment.sender.id}}"
@@ -8,32 +8,55 @@
     </div>
   </div>
   <div class="_difh f1 _fn bottom-border">
-    <div class="_difv f1">
-      <div class="_difh _fn">
-        <div class="top-user-avatar-24" ng-if="notification.users.length > 1 && user.id !== notification.comment.sender.id" ng-repeat="user in notification.users">
-          <img initial-avatar="{{::user.id}}" name="{{::user.fullName}}"
-               picture="{{::user | avatar}}"
-               data-width="16" data-height="16" data-radius="16" class="account-initials-16" data-word-count="2"
-               data-font-size="12"/>
-        </div>
-        <div class="more-actors" ng-if="notification.otherUsersCount">
-          +{{ notification.otherUsersCount }}
+    <div class="notif-li-body">
+      <div class="notif-li-subject">
+        <span>
+          <b class="_fw _db _txe" ng-if="notification.users.length < 1">{{ ::notification.comment.sender.fullName }}</b>
+          <div class="comment-more-senders-avatar" ng-if="notification.users.length > 0 && user.id !== notification.comment.sender.id" ng-repeat="user in notification.users">
+            <img initial-avatar="{{::user.id}}" name="{{::user.fullName}}"
+                  picture="{{::user | avatar}}"
+                  data-width="18" data-height="18" data-radius="16" class="account-initials-16" data-word-count="2"
+                  data-font-size="12"/>
+          </div>
+          <div class="more-actors" ng-if="notification.otherUsersCount">
+            +{{ notification.otherUsersCount }}
+          </div>
+        </span>
+        <div class="mention-date _fn" data-uib-tooltip="{{notification.date | date : 'full' | localize}}" data-tooltip-append-to-body="true" data-tooltip-placement="top auto">
+          {{notification.date | passed | localize}}
         </div>
       </div>
-      <p>
-        <span class="sender"><b class="_fw _db _txe">{{ ::notification.comment.sender.fullName }}</b></span>
-        <span class="sender" ng-if="notification.users[0] && notification.users[0].id != notification.comment.sender.id"><translate>and</translate><b class="_db _txe">{{ ::notification.users[0].fullName }}</b></span>
-        <span class="sender" ng-if="notification.users[1] && notification.users[1].id != notification.comment.sender.id"><translate>and</translate><b class="_db _txe">{{ ::notification.users[1].fullName }}</b></span>
-        <span class="sender" ng-if="notification.users[2] && notification.users[2].id != notification.comment.sender.id"><translate>and</translate><b class="_db _txe">{{ ::notification.users[2].fullName }}</b></span>
-        <small ng-if="notification.users[0]"><translate>commented on your post</translate>.</small>
-        <!--{{notification.post.subject}}:<br>-->
-      </p>
-      <p auto-dir="notif.commentBody"  ng-if="notification.users.length < 1">
+      <p auto-dir="notification.comment.body" ng-if="notification.users.length < 1">
         {{::notification.comment.body | truncate}}
+        <div ng-if="notification.comment.removedById">comment has removed</div>
       </p>
-    </div>
-    <div class="mention-date _fn" data-uib-tooltip="{{notification.date | date : 'full' | localize}}" data-tooltip-append-to-body="true" data-tooltip-placement="top auto">
-      {{notification.lastUpdate | passed | localize}}
+      <p ng-if="notification.users.length > 0">
+          <span class="sender">
+            <b class="_txe">{{notification.comment.sender.fullName}}</b>
+          </span>
+          <span class="sender" ng-if="notification.users[0] && notification.users[0].id != notification.comment.sender.id">
+            <translate ng-if="notification.otherUsersCount">,</translate>
+            <translate ng-if="!notification.otherUsersCount">&</translate>
+            <b class="_txe">{{ ::notification.users[0].fullName }}</b>
+          </span>
+          <span class="sender" ng-if="notification.users[1] && notification.users[1].id != notification.comment.sender.id">
+            <translate ng-if="notification.otherUsersCount">,</translate>
+            <translate ng-if="!notification.otherUsersCount">&</translate>
+            <b class="_txe">{{ ::notification.users[1].fullName }}</b>
+          </span>
+          <span class="sender" ng-if="notification.users[2] && notification.users[2].id != notification.comment.sender.id">
+            <translate ng-if="notification.otherUsersCount">,</translate>
+            <translate ng-if="!notification.otherUsersCount">&</translate>
+            <b class="_txe">{{ ::notification.users[2].fullName }}</b>
+          </span>
+          <span class="sender" ng-if="notification.otherUsersCount">
+            <translate>&</translate>
+            <b class="_txe">{{ ::notification.otherUsersCount }}</b>
+            <translate ng-if="notification.otherUsersCount > 1">others</translate>
+            <translate ng-if="notification.otherUsersCount == 1">other</translate>
+          </span>
+          <translate>commented on your post</translate>.
+      </p>
     </div>
     <svg class="_df _fn _16svg">
       <use xlink:href="/assets/icons/nst-icn16.svg#comments"></use>

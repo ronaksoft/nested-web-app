@@ -32,7 +32,7 @@
               }
             //   var needToTrailTop = $(parentListItem).offset().top - $(el).offset().top > $scope.scrollInstance.y;
               var needToTrailBottom = (parentListItem.offsetTop + parentListItem.clientHeight) - ($scope.scrollInstance.wrapperHeight - $scope.scrollInstance.y)
-              // $(parentListItem).parents('.side-grand-place-item-inner');
+              // $(parentListItem).parents('.side-grand-place-item-container');
             if ( needToTrailBottom > 0) {
                 $scope.scrollInstance.scrollBy(0, -1 * needToTrailBottom - 16);
             }

@@ -135,8 +135,14 @@
      * @returns
      */
     function isSubPersonal() {
-      if (vm.currentPlaceId)
-        return NstSvcAuth.user.id == vm.currentPlaceId.split('.')[0];
+      if (vm.currentPlaceId) {
+        var currentUserId = vm.currentPlaceId.split('.')[0];
+        if (NstSvcAuth.user !== undefined) {
+          return NstSvcAuth.user.id === currentUserId;
+        } else {
+          return false;
+        }
+      }
     }
 
     function search(keyword) {

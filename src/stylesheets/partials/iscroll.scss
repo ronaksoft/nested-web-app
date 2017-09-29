@@ -4,9 +4,21 @@ body.iscroll-on .iscroll-scroller {
 }
 body.iscroll-on .iscroll-wrapper {
     background-color: transparent;
+    .iScrollVerticalScrollbar.iScrollLoneScrollbar {
+        width: 10px!important;
+        > div {
+          width: 6px!important;
+          left: 0px!important;
+          transition: all $animation-dur;
+          background-color: $color-breeze!important;
+        }
+    }
     &:hover {
         .iScrollVerticalScrollbar.iScrollLoneScrollbar {
             opacity: 1!important;
+            > div {
+                background-color: $color-gale!important;
+            }
         }
     }
 }

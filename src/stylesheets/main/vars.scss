@@ -114,6 +114,8 @@ $navbar-height: 80px;
 $navbar-height-scrolled: 48px;
 $topnav-height: 56px;
 $sidebar-width: 240px;
+$sidebar-padding: 8px;
+$sidebar-inner-padding: 6px;
 $sidebar-width-tiny: 64px;
 $sidebar-width-plus: $sidebar-width - $sidebar-width-tiny;
 $sidebar-color: $color-super-solid;
@@ -157,3 +159,7 @@ $color-grapefruit : rgba(242,97,97,1);
 $color-grape : rgba(134,105,191,1);
 $color-blueberry : rgba(80,142,230,1);
 $color-aquamarine : rgba(108,217,217,1);
+
+
+// z-indexes
+$sidebar-zindex : 56;

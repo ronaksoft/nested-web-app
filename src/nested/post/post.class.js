@@ -12,7 +12,8 @@
     function Post() {
 
       this.id = undefined;
-      this.body = undefined;
+      this.body = '';
+      this.preview = '';
       this.contentType = undefined;
       this.counters = {};
       this.forwardFromId = undefined;
