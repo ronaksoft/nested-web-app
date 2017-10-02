@@ -154,23 +154,23 @@
         }));
 
 
-        $rootScope.$on('post-hide', function (event, data) {
+        eventReferences.push($rootScope.$on('post-hide', function (event, data) {
           var message = _.find(vm.messages, {
             id: data.postId
           });
           if (message) {
             message.tempHide = true
           }
-        });
+        }));
 
-        $rootScope.$on('post-show', function (event, data) {
+        eventReferences.push($rootScope.$on('post-show', function (event, data) {
           var message = _.find(vm.messages, {
             id: data.postId
           });
           if (message) {
             message.tempHide = false
           }
-        });
+        }));
 
         eventReferences.push($scope.$on('post-moved', function (event, data) {
           // there are tow conditions that a moved post should be removed from messages list
@@ -369,7 +369,7 @@
         });
       }
 
-      $scope.$on('post-select', function (event, data) {
+      eventReferences.push($scope.$on('post-select', function (event, data) {
         if (vm.tempBanPlaces) {
           vm.tempBanPlaces = [];
         }
@@ -382,7 +382,7 @@
         $scope.$broadcast('selected-length-change', {
           selectedPosts: vm.selectedPosts
         });
-      });
+      }));
 
       function configureNavbar() {
         if (vm.isBookmark) {
@@ -651,7 +651,7 @@
           } else if (vm.isSent) {
             promise = NstSvcPostFactory.getSentMessages(settings, cacheHandler);
           } else if (vm.isFeed) {
-            promise = NstSvcPostFactory.getFavoriteMessages(settings, cacheHandler);
+            promise = NstSvcPostFactory.getFavoriteMessages(settings, null, cacheHandler);
           } else {
             promise = NstSvcPostFactory.getPlaceMessages(settings, vm.currentPlaceId, cacheHandler);
           }
@@ -778,7 +778,11 @@
             vm.exitUnseenMode();
             vm.isUnreadMode = false;
           }
-        })
+        });
+
+        eventReferences.push($rootScope.$on('reload-counters', function () {
+          loadUnreadPostsCount();
+        }));
 
         $scope.$on('$destroy', function () {
           if (CITHandler) {
@@ -791,10 +795,6 @@
               canceler();
             }
           });
-        });
-
-        $rootScope.$on('reload-counters', function () {
-          loadUnreadPostsCount();
         });
       }
 

@@ -25,6 +25,7 @@
     RequestCacheFactory.prototype.updateCachePosition = updateCachePosition;
     RequestCacheFactory.prototype.moveToFront = moveToFront;
     RequestCacheFactory.prototype.shortenRequestList = shortenRequestList;
+    RequestCacheFactory.prototype.flush = flush;
 
     var factory = new RequestCacheFactory();
     return factory;
@@ -99,6 +100,12 @@
 
     function shortenRequestList() {
       while (this.requestKeyList.length >= pipeLength) {
+        this.requestKeyList.pop();
+      }
+    }
+
+    function flush() {
+      while (this.requestKeyList.length > 0) {
         this.requestKeyList.pop();
       }
     }
