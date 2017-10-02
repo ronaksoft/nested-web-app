@@ -30,9 +30,13 @@
         svg {
             fill: $color-force;
         }
-        .list-li-extra > span {
+        .list-li-extra > span:first-of-type {
             color: $color-force;
             font-size: 13px;
+        }
+        .list-li-body > span:first-of-type {
+            margin-bottom: 0;
+            color: $color-force;
         }
     }
     .candidate {
@@ -40,6 +44,11 @@
             transform: translateY(-10px);
             svg {
                 fill: $color-bg-pending;
+            }
+        }
+        .list-li-buttons {
+            >input {
+                min-width: 90px;
             }
         }
         .list-li-body > span {
