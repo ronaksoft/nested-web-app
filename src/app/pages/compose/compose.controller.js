@@ -346,8 +346,8 @@
 
     NstSvcSidebar.setOnItemClick(onPlaceSelected);
 
-    vm.subjectKeyDown = _.debounce(subjectKeyDown, 100)
-    vm.search.fn = _.debounce(vm.searchRecipients, 320);
+    vm.subjectKeyDown = _.debounce(subjectKeyDown, 128)
+    vm.search.fn = _.debounce(vm.searchRecipients, 128);
 
     /**
      * Triggers when any key pressed in subject input
