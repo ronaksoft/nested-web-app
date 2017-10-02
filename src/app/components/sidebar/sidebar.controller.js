@@ -51,7 +51,6 @@
         $q.all([getMyPlacesOrder(), getMyPlaces()]).then(function(results) {
           myPlaceOrders = results[0];
           vm.places = createTree(results[1], myPlaceOrders, vm.expandedPlaces, vm.selectedPlaceId);
-
           loadMyPlacesUnreadPostsCount();
         });
 
