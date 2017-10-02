@@ -99,9 +99,9 @@
     auto-dir="ctlPostCard.post.body">
 
     <div ng-if="!ctlPostCard.isExpanded" class="_fw">
-      <span ng-if="!ctlPostCard.FIT" ng-bind-html="ctlPostCard.post.body | trustAsHtml"></span>
+      <span ng-if="!ctlPostCard.FIT" ng-bind-html="(ctlPostCard.post.preview? ctlPostCard.post.preview: ctlPostCard.post.body) | trustAsHtml"></span>
       <!-- First Interactive time -->
-      <span ng-if="ctlPostCard.FIT" ng-bind-html="ctlPostCard.post.body"></span>
+      <span ng-if="ctlPostCard.FIT" ng-bind-html="ctlPostCard.post.preview"></span>
       <a ng-click="ctlPostCard.expand(); _track('post card', 'show more');" ng-if="(!ctlPostCard.expandProgress && ctlPostCard.post.ellipsis && !ctlPostCard.addOn) && !ctlPostCard.isExpanded"
         class="show-more">
         <span>-</span>
@@ -109,9 +109,8 @@
       </a>
     </div>
     <div ng-if="ctlPostCard.isExpanded" class="_fw">
-
-      <div mail-resizer ng-if="ctlPostCard.isExpanded && !ctlPostCard.post.isTrusted " ng-bind-html="ctlPostCard.body | trustAsHtml"></div>
-      <div mail-resizer ng-if="ctlPostCard.isExpanded && ctlPostCard.post.isTrusted" ng-bind-html="ctlPostCard.body | trustAsHtml"></div>
+      <div mail-resizer ng-if="!ctlPostCard.post.isTrusted " ng-bind-html="ctlPostCard.body | trustAsHtml"></div>
+      <div mail-resizer ng-if="ctlPostCard.post.isTrusted" ng-bind-html="ctlPostCard.body | trustAsHtml"></div>
     </div>
   </section>
   <section ng-if="ctlPostCard.isExpanded">
