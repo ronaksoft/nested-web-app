@@ -258,6 +258,7 @@
         controller: 'AttachmentViewController',
         controllerAs: 'ctlAttachmentView',
         backdropClass: 'attachmdrop',
+        windowClass: '_oh',
         size: 'full',
         resolve: {
           fileViewerItem: function () {
