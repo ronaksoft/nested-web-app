@@ -52,9 +52,11 @@
         <li class="ng-class:{'checked' : item.isSelected}" fid="{{::item.id}}" data-ng-repeat="item in ctlFiles.files" ng-click="ctlFiles.preview(item);"
           ng-init="item.isSelected = false;">
           <div class="checkbox" ng-click="ctlFiles.toggleSelect(item);$event.preventDefault();$event.stopPropagation();">
-            <svg class="_16svg _asc">
-              <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
-            </svg>
+            <div class="_16svg">
+              <svg class="_16svg _asc">
+                <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
+              </svg>
+            </div>
           </div>
           <div class="file-item-inner">
             <div ng-hide="item.thumbnail.length" class="attachment-tiny-thumb tiny-thumb-type-{{item.type}}">
