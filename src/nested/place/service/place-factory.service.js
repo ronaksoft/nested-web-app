@@ -180,6 +180,8 @@
      */
     PlaceFactory.prototype.getMyPlaces = function (force) {
       var factory = this;
+      var deferred = $q.defer();
+      var withServer = true;
       if (!force) {
         var myPlaces = factory.cache.get('_my');
 
@@ -188,13 +190,14 @@
             return factory.getCachedSync(placeId);
           });
 
-          if (_.every(places, '_id')) {
-            return $q.resolve(places);
+          if (_.every(places, '_id') || _.every(places, 'id')) {
+            withServer = false;
+            deferred.resolve(places);
           }
         }
       }
 
-      return NstSvcServer.request('account/get_all_places', {
+      NstSvcServer.request('account/get_all_places', {
         with_children: true
       }).then(function (data) {
         var ids = [];
@@ -208,8 +211,16 @@
           value: ids
         });
 
-        return $q.resolve(places);
+        if (withServer) {
+          deferred.resolve(places);
+        }
+      }).catch(function (error) {
+        if (withServer) {
+          deferred.reject(error);
+        }
       });
+
+      return deferred.promise;
     };
 
     PlaceFactory.prototype.getGrandPlaces = function() {
