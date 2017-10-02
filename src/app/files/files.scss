@@ -173,7 +173,6 @@
     li {
       height: 64px;
       align-items: center;
-      padding-left: 16px;
       display: flex;
       flex: none;
       width: 100%;
@@ -185,13 +184,14 @@
       }
     }
     .checkbox {
-      width: 16px;
-      height: 16px;
-      display: flex;
-      border: 1px solid $color-solid-24;
-      border-radius: 8px;
+      width: 48px;
+      height: 48px;
+      @include align-center();
       flex: none;
-      margin-right: 16px;
+      div {
+        border: 1px solid $color-solid-24;
+        border-radius: 8px;
+      }
       svg {
         opacity: 0;
         fill: $color-white!important;
@@ -199,7 +199,7 @@
     }
     li.checked {
       background-color: transparentize($color-sense, 1 - .16);
-      .checkbox {
+      .checkbox div{
         border: 1px solid $color-sense-wire;
         background-color: $color-sense-wire;
         svg {
