@@ -400,9 +400,21 @@
 
       return NstSvcPlaceFactory.searchForCompose(query).then(function (results) {
         NstSvcLogger.debug4('Compose | Searched recipients for binding them in html', results);
-        vm.search.results = _.chain(results.places).uniqBy('id').map(function (place) {
+        // var oldItems = vm.search.results.length;
+        var newItemsChips = _.chain(results.places).uniqBy('id').map(function (place) {
           return new NstVmSelectTag(place);
         }).value();
+        vm.search.results = newItemsChips;
+        // newItemsChips.forEach(function (item, index) {
+        //   if (vm.search.results[index]) {
+        //     vm.search.results[index] = item
+        //   } else {
+        //     vm.search.results.push(item)
+        //   }
+        // });
+        // if (oldItems > newItemsChips.length) {
+        //   vm.search.results.splice(newItemsChips.length, oldItems - newItemsChips.length)
+        // }
 
         _.forEach(results.recipients, function (recipient) {
           var tag = new NstVmSelectTag({
@@ -412,15 +424,12 @@
           vm.search.results.push(tag);
         });
 
-        if (!_.some(vm.search.results, {'id': query})) {
+        if (!_.some(vm.search.results, {'id': query}) && query && query.length > 0) {
           var initPlace = new NstVmSelectTag({
             id: query,
             name: query
           });
-
-          if (initPlace.isValid) {
-            vm.search.results.push(initPlace);
-          }
+          vm.search.results.unshift(initPlace);
         }
 
       }).catch(function () {
