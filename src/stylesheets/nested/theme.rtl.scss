@@ -904,9 +904,9 @@ body[dir="rtl"] {
     left: 4px;
     right: auto;
   }
-  .search-modal .search-popover .label-suggests li svg {
-    margin-right: 0;
-    margin-left: 12px;
+  .search-modal .search-popover .label-suggests li .icon {
+    padding-right: 0;
+    padding-left: 12px;
   }
   .search-modal .advanced-search-popover select {
     background: url(../assets/icons/inputform.svg) no-repeat -10px -128px, linear-gradient(to bottom, #FFFFFF, whitesmoke 100%);
@@ -1009,7 +1009,7 @@ body[dir="rtl"] {
     margin-left: 0;
     margin-right: 16px;
   }
-  .search-modal .search-popover .init-from-suggests li {
+  .suggest-list.horizental li {
     margin-right: 0;
     margin-left: 6px;
   }
@@ -1052,9 +1052,8 @@ body[dir="rtl"] {
     min-width: 60px;
     text-align: right;
   }
-  .search-modal .search-popover .from-suggests li {
-    margin-left: 6px;
-    margin-right: au;
+  .suggest-list li a.LTR-text {
+    justify-content: flex-end;
   }
 }
 
