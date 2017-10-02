@@ -75,9 +75,12 @@ h5.list-head {
   .list-li-extra {
     display: flex;
     flex: none;
-    font-size: 14px;
+    font-size: 13px;
     color: $color-solid;
     flex-direction: column;
+    & + .list-li-buttons {
+      margin-left: 8px;
+    }
   }
   .list-li-buttons {
     display: flex;
@@ -85,6 +88,7 @@ h5.list-head {
     font-size: 14px;
     > * {
       margin-left: 8px;
+      margin-right: 0;
     }
   }
 }
