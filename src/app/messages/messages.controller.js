@@ -46,6 +46,7 @@
       vm.unselectAll = unselectAll;
       vm.selectAll = selectAll;
       vm.exitUnseenMode = exitUnseenMode;
+      vm.currentUser = NstSvcAuth.user;
 
       // Some flags that help us find where we are
       vm.isFeed = false;
