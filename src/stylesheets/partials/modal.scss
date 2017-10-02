@@ -17,6 +17,9 @@ body.modal-open {
     .butn-green {
       width: 128px;
     }
+    &._oh {
+      overflow: hidden;
+    }
   }
 }
 

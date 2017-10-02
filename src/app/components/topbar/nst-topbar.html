@@ -101,10 +101,10 @@
       <translate>enter</translate>
     </div>
     <section class="recent-search" ng-if="ctrlTopBar.suggestion.histories.length > 0 && ctrlTopBar.defaultSearch == true">
-      <h5>
+      <h5 class="list-head">
         <translate>Recent searches</translate>
       </h5>
-      <ul>
+      <ul class="suggest-list">
         <li ng-repeat="history in ctrlTopBar.suggestion.histories" ng-click="ctrlTopBar.searchIt(history)">
           <a>{{history}}</a>
           <!--<span>remove</span>-->
@@ -112,59 +112,63 @@
       </ul>
     </section>
     <section class="init-from-suggests" ng-if="ctrlTopBar.suggestion.accounts.length > 0 && ctrlTopBar.defaultSearch == true">
-      <h5>
+      <h5 class="list-head">
         <translate>Posts from:</translate>
       </h5>
-      <ul>
+      <ul class="suggest-list horizental">
         <li ng-repeat="account in ctrlTopBar.suggestion.accounts | limitTo: 6" ng-click="ctrlTopBar.addChip(account.id, 'account');">
-          <div class="profile-user-avatar-32">
+          <div class="profile-user-avatar-32 icon icon-circ">
             <img initial-avatar="sample" name="sample" picture="{{account | avatar : 'x32'}}" data-width="32" data-height="32"
               data-radius="30" class="account-initials-32 _df" data-word-count="2" data-font-size="16" />
           </div>
-          <span class="_txe">{{account.firstName}}</span>
+          <a class="_txe">{{account.firstName}}</a>
         </li>
       </ul>
     </section>
     <section class="from-suggests" ng-if="ctrlTopBar.suggestion.accounts.length > 0 && ctrlTopBar.defaultSearch == false">
-      <h5>
+      <h5 class="list-head">
         <translate>from:</translate>
       </h5>
-      <ul>
+      <ul class="suggest-list">
         <li ng-repeat="account in ctrlTopBar.suggestion.accounts | limitTo: ctrlTopBar.getLimit('accounts')" ng-class="{'selected': account._selected}" ng-click="ctrlTopBar.addChip(account.id, 'account');">
-          <div class="profile-user-avatar-32">
+          <div class="profile-user-avatar-32 icon icon-circ">
             <img initial-avatar="sample" name="sample" picture="{{account | avatar : 'x32'}}" data-width="32" data-height="32"
               data-radius="30" class="account-initials-32 _df" data-word-count="2" data-font-size="16" />
           </div>
-          <span class="_txe account-title" data-ng-bind-html="account.firstName | highlight: ctrlTopBar.excludedQuery"></span>
-          <a data-ng-bind-html="account.id | highlight: ctrlTopBar.excludedQuery"></a>
+          <a class="_txe title" data-ng-bind-html="account.firstName | highlight: ctrlTopBar.excludedQuery"></a>
+          <span data-ng-bind-html="account.id | highlight: ctrlTopBar.excludedQuery"></span>
         </li>
       </ul>
     </section>
     <section class="place-suggests" ng-if="ctrlTopBar.suggestion.places.length > 0  && ctrlTopBar.defaultSearch == false">
-      <h5>
+      <h5 class="list-head">
         <translate>in:</translate>
       </h5>
-      <ul>
+      <ul class="suggest-list">
         <li ng-repeat="place in ctrlTopBar.suggestion.places | limitTo: ctrlTopBar.getLimit('places')" ng-class="{'selected': place._selected}" ng-click="ctrlTopBar.addChip(place.id, 'place');">
-          <img ng-src="{{place | picture:'x64'}}" width="32" height="32" />
-          <span class="_txe place-title" data-ng-bind-html="place.name | highlight: ctrlTopBar.excludedQuery"></span>
-          <a data-ng-bind-html="place.id | highlight: ctrlTopBar.excludedQuery"></a>
+          <div class="icon icon-squ">
+              <img ng-src="{{place | picture:'x64'}}" width="32" height="32" />
+          </div>
+          <a class="_txe title" data-ng-bind-html="place.name | highlight: ctrlTopBar.excludedQuery"></a>
+          <span data-ng-bind-html="place.id | highlight: ctrlTopBar.excludedQuery"></span>
         </li>
       </ul>
     </section>
     <section class="label-suggests" ng-if="ctrlTopBar.suggestion.labels.length > 0">
-      <h5 ng-if="ctrlTopBar.defaultSearch == true">
+      <h5 class="list-head" ng-if="ctrlTopBar.defaultSearch == true">
         <translate>Has Label:</translate>
       </h5>
-      <h5 ng-if="ctrlTopBar.defaultSearch == false">
+      <h5 class="list-head" ng-if="ctrlTopBar.defaultSearch == false">
         <translate>label:</translate>
       </h5>
-      <ul>
+      <ul class="suggest-list">
         <li ng-repeat="label in ctrlTopBar.suggestion.labels | limitTo: ctrlTopBar.getLimit('labels')" ng-class="{'selected': label._selected}" ng-click="ctrlTopBar.addChip(label.title, 'label');">
-          <svg class="_24svg _df _fn color-lbl-{{label.code}}">
-            <use xlink:href="/assets/icons/nst-icn24.svg#tag"></use>
-          </svg>
-          <span>{{label.title}}</span>
+          <div class="icon">
+            <svg class="_24svg _df _fn color-lbl-{{label.code}}">
+              <use xlink:href="/assets/icons/nst-icn24.svg#tag"></use>
+            </svg>
+          </div>
+          <a>{{label.title}}</a>
         </li>
       </ul>
     </section>

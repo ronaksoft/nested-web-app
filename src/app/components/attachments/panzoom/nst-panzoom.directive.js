@@ -5,7 +5,7 @@
     .module('ronak.nested.web.components.attachment')
     .directive('nstPanzoom', NstPanzoom);
 
-  function NstPanzoom(NST_FILE_TYPE, _) {
+  function NstPanzoom(NST_FILE_TYPE, _, $timeout) {
     return {
       restrict: 'A',
       scope: {
@@ -44,12 +44,12 @@
         var startPan = false;
         var toolsElem = angular.element($scope.containerClass + ' .nst-panzoom-container');
         eventReferences.push(toolsElem.find('.nst-panzoom-item[rel="in"]').on('click', function () {
-          zoom += 0.1;
-          applyChanges();
+          zoom += 0.15;
+          applyChanges(true);
         }));
         eventReferences.push(toolsElem.find('.nst-panzoom-item[rel="out"]').on('click', function () {
-          zoom -= 0.1;
-          applyChanges();
+          zoom -= 0.15;
+          applyChanges(true);
         }));
         eventReferences.push(toolsElem.find('.nst-panzoom-item[rel="reset"]').on('click', function () {
           zoom = 1.0;
@@ -57,13 +57,13 @@
           pan.y = 0;
           origin.x = 50;
           origin.y = 50;
-          applyChanges();
+          applyChanges(true);
         }));
         eventReferences.push($element.on('mousedown', function (e) {
           startPan = true;
           panStartPos.x = e.pageX - pan.x;
           panStartPos.y = e.pageY - pan.y;
-          console.log((e.offsetX / $element.width()), (e.offsetY / $element.height()));
+          // console.log((e.offsetX / $element.width()), (e.offsetY / $element.height()));
           applyChanges();
         }));
         eventReferences.push(angular.element('body').on('mousemove', function (e) {
@@ -84,7 +84,7 @@
         }));
 
         eventReferences.push($element.on('mousewheel', function (e) {
-          zoom += (-e.deltaY)/100;
+          zoom += e.deltaY/100;
           if (origin.x === 50 && origin.y === 50) {
             origin.x = ((e.offsetX/zoom) / $element.width()) * 100;
             origin.y = ((e.offsetY/zoom) / $element.height()) * 100;
@@ -104,13 +104,25 @@
           applyChanges();
         }));
 
-
-        function applyChanges() {
+        var animateTimeout;
+        function applyChanges(animate) {
           if (zoom < 0.1) {
             zoom = 0.1;
           }
           if (zoom > 10) {
             zoom = 10;
+          }
+          if (animate) {
+            try {
+              $timeout.cancel(animateTimeout);
+            }
+            catch (e) {
+              console.log(e);
+            }
+            $element.css('transition', 'all 0.2s');
+            animateTimeout = $timeout(function () {
+              $element.css('transition', 'none');
+            }, 200);
           }
           $element.css('transform', 'scale(' + zoom + ') translate(' + (pan.x/zoom) + 'px, ' + (pan.y/zoom) + 'px)');
           $element.css('transform-origin', origin.x + '% ' + origin.y + '%');
