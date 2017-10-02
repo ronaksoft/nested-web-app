@@ -105,7 +105,7 @@
     }
 
     function flush() {
-      while (this.requestKeyList.length >= 0) {
+      while (this.requestKeyList.length > 0) {
         this.requestKeyList.pop();
       }
     }
