@@ -220,14 +220,11 @@
       max-height: 50vh;
       overflow: hidden;
       padding: 0 8px;
-      h5 {
+      h5.list-head {
         margin: 6px 0;
-        line-height: 24px;
-        border-radius: 4px;
         background-color: transparentize($color-solid, 1 - .12);
         color: $color-solid-64;
-        padding: 0 6px;
-        font-weight: bold;
+        width: 100%;
       }
     }
     .recent-search,

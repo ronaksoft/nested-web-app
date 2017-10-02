@@ -101,7 +101,7 @@
       <translate>enter</translate>
     </div>
     <section class="recent-search" ng-if="ctrlTopBar.suggestion.histories.length > 0 && ctrlTopBar.defaultSearch == true">
-      <h5>
+      <h5 class="list-head">
         <translate>Recent searches</translate>
       </h5>
       <ul class="suggest-list">
@@ -112,7 +112,7 @@
       </ul>
     </section>
     <section class="init-from-suggests" ng-if="ctrlTopBar.suggestion.accounts.length > 0 && ctrlTopBar.defaultSearch == true">
-      <h5>
+      <h5 class="list-head">
         <translate>Posts from:</translate>
       </h5>
       <ul class="suggest-list horizental">
@@ -126,7 +126,7 @@
       </ul>
     </section>
     <section class="from-suggests" ng-if="ctrlTopBar.suggestion.accounts.length > 0 && ctrlTopBar.defaultSearch == false">
-      <h5>
+      <h5 class="list-head">
         <translate>from:</translate>
       </h5>
       <ul class="suggest-list">
@@ -141,7 +141,7 @@
       </ul>
     </section>
     <section class="place-suggests" ng-if="ctrlTopBar.suggestion.places.length > 0  && ctrlTopBar.defaultSearch == false">
-      <h5>
+      <h5 class="list-head">
         <translate>in:</translate>
       </h5>
       <ul class="suggest-list">
@@ -155,10 +155,10 @@
       </ul>
     </section>
     <section class="label-suggests" ng-if="ctrlTopBar.suggestion.labels.length > 0">
-      <h5 ng-if="ctrlTopBar.defaultSearch == true">
+      <h5 class="list-head" ng-if="ctrlTopBar.defaultSearch == true">
         <translate>Has Label:</translate>
       </h5>
-      <h5 ng-if="ctrlTopBar.defaultSearch == false">
+      <h5 class="list-head" ng-if="ctrlTopBar.defaultSearch == false">
         <translate>label:</translate>
       </h5>
       <ul class="suggest-list">
