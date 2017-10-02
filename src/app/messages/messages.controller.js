@@ -651,7 +651,7 @@
           } else if (vm.isSent) {
             promise = NstSvcPostFactory.getSentMessages(settings, cacheHandler);
           } else if (vm.isFeed) {
-            promise = NstSvcPostFactory.getFavoriteMessages(settings, cacheHandler);
+            promise = NstSvcPostFactory.getFavoriteMessages(settings, null, cacheHandler);
           } else {
             promise = NstSvcPostFactory.getPlaceMessages(settings, vm.currentPlaceId, cacheHandler);
           }
