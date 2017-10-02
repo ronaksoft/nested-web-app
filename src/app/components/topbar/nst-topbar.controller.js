@@ -100,7 +100,6 @@
       function checkLayouts() {
         vm.isPostLayout = $state.current.options && $state.current.options.group !== 'settings' && $state.current.options.group !== 'task';
         vm.isTaskLayout = $state.current.options && $state.current.options.group === 'task';
-        console.log(vm.isPostLayout, vm.isTaskLayout);
       }
 
       (function () {
