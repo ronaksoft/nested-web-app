@@ -15,10 +15,10 @@
         <div id="Logo-type-white"></div>
       </div> -->
     </a>
-    <a class="nested-nav" ui-sref="app.messages-favorites()" ui-sref-active="active">
+    <a class="nested-nav" ui-sref="app.messages-favorites()" ng-class="{active: ctrlTopBar.isPostLayout}">
       <translate>Post</translate>
     </a>
-    <a class="nested-nav" ui-sref="app.task.glance()" ui-sref-active="active">
+    <a class="nested-nav" ui-sref="app.task.glance()" ng-class="{active: ctrlTopBar.isTaskLayout}">
       <translate>Task</translate>
     </a>
   </div>

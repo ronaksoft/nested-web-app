@@ -23,6 +23,8 @@
       }
       var vm = this;
       var eventReferences = [];
+      vm.isPostLayout = false;
+      vm.isTaskLayout = false;
       vm.APP_VERSION = NST_CONFIG.APP_VERSION;
       vm.BUILD_VERSION = NST_CONFIG.BUILD_VERSION;
       vm.searchPlaceholder = NstSvcTranslation.get('Search...');
@@ -95,6 +97,11 @@
 
       var searchQuery;
 
+      function checkLayouts() {
+        vm.isPostLayout = $state.current.options && $state.current.options.group !== 'settings' && $state.current.options.group !== 'task';
+        vm.isTaskLayout = $state.current.options && $state.current.options.group === 'task';
+      }
+
       (function () {
         vm.adminArea = '';
         if (NST_CONFIG.ADMIN_URL.length > 0) {
@@ -103,10 +110,13 @@
           vm.adminArea = location.protocol + '//' + NST_CONFIG.ADMIN_DOMAIN + (NST_CONFIG.ADMIN_PORT ? ':' + NST_CONFIG.ADMIN_PORT : '');
         }
 
+        checkLayouts();
+
         initQuery(true);
         $rootScope.$on('$stateChangeSuccess', function () {
           initQuery(false);
           isSearch();
+          checkLayouts();
         });
         NstSvcUserFactory.getCurrent().then(function(user) {
           vm.user = user;
