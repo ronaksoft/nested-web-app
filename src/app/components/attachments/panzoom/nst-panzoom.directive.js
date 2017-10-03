@@ -125,7 +125,7 @@
             }, 200);
           }
           $element.css('transform', 'scale(' + zoom + ') translate(' + (pan.x/zoom) + 'px, ' + (pan.y/zoom) + 'px)');
-          $element.css('transform-origin', origin.x + '% ' + origin.y + '%');
+          // $element.css('transform-origin', origin.x + '% ' + origin.y + '%');
         }
 
         $scope.$on('$destroy', function() {
