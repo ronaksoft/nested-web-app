@@ -12,7 +12,12 @@
   color: $color-solid;
   fill: $color-solid;
   transition: background-color $animation-dur;
-  span {color: $color-solid;fill: $color-solid}
+  span {
+    color: $color-solid;
+    fill: $color-solid;
+    line-height: 1.4;
+    height: 100%;
+  }
   span,label,a {
     transition-duration: $animation-dur;
     transition-property: background-color,color;
