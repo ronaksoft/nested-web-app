@@ -237,13 +237,13 @@
      * @returns
      */
     function openAttachment(attachment){
-      $('body').addClass('attach-modal');
       var modal = $uibModal.open({
         animation: false,
         templateUrl: 'app/components/attachments/view/single/main.html',
         controller: 'AttachmentViewController',
         controllerAs: 'ctlAttachmentView',
         backdropClass : 'attachmdrop',
+        openedClass : ' modal-open attach-modal',
         windowClass: '_oh',
         size: 'full',
         resolve: {
@@ -267,7 +267,6 @@
           }
         }
       }).result.catch(function(){
-        $('body').removeClass('attach-modal');
       });
 
       return modal.result;

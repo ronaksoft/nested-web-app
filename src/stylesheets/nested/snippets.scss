@@ -22,8 +22,9 @@
 
 .inline-user-row {
   display: flex;
+  transition: background-color $animation-dur;
   &:hover {
-    background-color: $color-sense-5;
+    background-color: $color-breeze-5-new;
     cursor: pointer;
     transition: .2s;
   }
