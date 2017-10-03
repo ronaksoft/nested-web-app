@@ -163,8 +163,7 @@
           }
         }
         $scope.$close(result.addedUsers);
-      }).catch(function (e) {
-        console.log(e)
+      }).catch(function () {
         toastr.warning(NstSvcTranslation.get('An error has occured while inviting the user(s) to the place!'));
         $scope.$close([]);
       });
@@ -202,9 +201,8 @@
             toastr.success(message + '<br/>' + names);
           }
         }
-        $scope.$close(vm.selectedUsers);
-      }).catch(function (e) {
-        console.log(e);
+        $scope.$close(result.addedUsers);
+      }).catch(function () {
         toastr.warning(NstSvcTranslation.get('An error has occured while adding the user(s) to the place!'));
         $scope.$close([]);
       });

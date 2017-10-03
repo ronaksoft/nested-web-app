@@ -7,8 +7,8 @@
 
     /** @ngInject */
     function SidebarController($q, $scope, $state, $stateParams, $uibModal, $rootScope,
-                               _,
-                               NST_DEFAULT, NST_AUTH_EVENT, NST_INVITATION_EVENT, NST_CONFIG, NST_KEY, deviceDetector, NST_PLACE_ACCESS,
+                               _, toastr,
+                               NST_DEFAULT, NST_AUTH_EVENT, NST_INVITATION_EVENT, NST_CONFIG, NST_KEY, deviceDetector, NST_PLACE_ACCESS, NST_SRV_ERROR,
                                NST_EVENT_ACTION, NST_USER_EVENT, NST_NOTIFICATION_EVENT, NST_SRV_EVENT, NST_NOTIFICATION_TYPE, NST_PLACE_EVENT, NST_POST_EVENT,
                                NstSvcAuth, NstSvcServer, NstSvcLogger, NstSvcNotification, NstSvcTranslation,
                                NstSvcNotificationSync, NstSvcPlaceFactory, NstSvcInvitationFactory, NstUtility, NstSvcUserFactory, NstSvcSidebar, NstSvcNotificationFactory,
@@ -232,7 +232,10 @@
             //     }
             //   });
             // }
-          }).catch(function () {
+          }).catch(function (e) {
+            if ( e.code === NST_SRV_ERROR.LIMIT_REACHED) {
+              toastr.warning(NstSvcTranslation.get('The Place members limit is reached'));
+            }
             if (openOtherInvitations) {
               var checkDisplayInvitationModal = true;
               vm.invitations.map(function (invite) {

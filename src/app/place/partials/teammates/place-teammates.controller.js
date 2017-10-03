@@ -205,21 +205,7 @@
         }
       });
 
-      modal.result.then(function (selectedUsers){
-        // if (vm.isGrand) {
-        //   console.log(selectedUsers, vm.teammates);
-        //   // show the users that were invited successfully
-        //   var role = 'pending_' + NST_PLACE_MEMBER_TYPE.KEY_HOLDER;
-        //   vm.teammates.push.apply(vm.teammates, _.map(selectedUsers, function (member) {
-        //     return new NstVmMemberItem(member, role);
-        //   }));
-        //   console.log(vm.teammates);
-        // } else {
-        //   vm.teammates.push.apply(vm.teammates, _.map(selectedUsers, function (member) {
-        //     return new NstVmMemberItem(member, NST_PLACE_MEMBER_TYPE.KEY_HOLDER);
-        //   }));
-        // }
-      });
+      modal.result.then();
     }
 
     /**
