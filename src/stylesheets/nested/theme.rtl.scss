@@ -1047,6 +1047,9 @@ body[dir="rtl"] {
   .suggest-list li a.LTR-text {
     justify-content: flex-end;
   }
+  .content-plus .content-plus-inner > div .activity-item {
+    padding: 8px 6px 0 15px;
+  }
 }
 
 body[dir="ltr"] {
