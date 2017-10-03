@@ -53,7 +53,8 @@
       <span class="music-knee"></span>
 
     </a>
-    <a href="javascript:void(0);" ng-if="item.type !== 'gif' && item.uploadType !== 'AUDIO' && item.uploadType !== 'VOICE'" ng-click="download(item);$event.stopPropagation()"
+    <a href="javascript:void(0);" ng-if="item.type !== 'gif' && item.uploadType !== 'AUDIO' && item.uploadType !== 'VOICE'"
+      ng-click="download(item);$event.stopPropagation()"
       class="attdl thumbnails">
       <svg class="_16svg">
         <use xlink:href="/assets/icons/nst-icn16.svg#downloads"></use>
@@ -76,7 +77,7 @@
   <div class="_df _jcc" style="width: {{wrpWidth}}px; height: {{wrpHeight}}px; overflow: hidden">
     <div class="_df" style="width: {{width}}px; height: {{height}}px; overflow: hidden;position:relative;" ng-click="onClick(items[0]);">
       <img ng-src="{{items[0].picture.getUrl('preview')}}" />
-      <div class="download-img" ng-click="download(items[0])">
+      <div class="download-img" ng-click="download(items[0]);$event.stopPropagation();">
         <svg class="_16svg">
           <use xlink:href="/assets/icons/nst-icn16.svg#downloads"></use>
         </svg>
@@ -97,7 +98,7 @@
   <div style="width: calc({{scaleOne}}% - 8px);height: {{constHeight}}px;position:relative">
     <img style="width: 100%;height: 100%" ng-src="{{items[0].picture.getUrl('preview')}}" ng-click="onClick(items[0]);$event.stopPropagation()"
     />
-    <a class="download-img" ng-click="download(items[0])">
+    <a class="download-img" ng-click="download(items[0]);$event.stopPropagation();">
       <svg class="_16svg">
         <use xlink:href="/assets/icons/nst-icn16.svg#downloads"></use>
       </svg>
@@ -119,7 +120,7 @@
     <img style="width: 100%;height: 100%;object-fit: cover" ng-src="{{items[1].picture.getUrl('preview')}}" ng-click="onClick(items[1]);$event.stopPropagation()"
     />
 
-    <a class="download-img" ng-click="download(items[1])">
+    <a class="download-img" ng-click="download(items[1]);$event.stopPropagation();">
       <svg class="_16svg">
         <use xlink:href="/assets/icons/nst-icn16.svg#downloads"></use>
       </svg>

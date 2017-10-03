@@ -1,29 +1,27 @@
-<div class="_df">
-  <div user-detail="act.actor">
-    <img initial-avatar="{{act.actor.id}}" name="{{act.actor.fullName}}" picture="{{act.actor | avatar}}" data-width="16" data-height="16" data-radius="16"
-         class="account-initials-24 _df _fn" data-word-count="2" data-font-size="8"/>
+<div class="_difh top" nst-post-modal post="act.post">
+  <div user-detail="act.actor" class="user-avatar-20">
+    <img initial-avatar="{{act.actor.id}}" name="{{act.actor.fullName}}" picture="{{act.actor | avatar}}" data-width="20" data-height="20"
+      data-radius="16" data-word-count="2" data-font-size="8" class="account-initials-20 _df _fn" />
   </div>
+  <div class="sender _df">
+    <div user-detail="act.actor">
+      <a auto-dir="act.actor.fullName">{{act.actor.fullName}}</a>
+    </div>
+  </div>
+  <svg class="_16svg _df _fn force mirror">
+    <use xlink:href="/assets/icons/nst-icn16.svg#exit"></use>
+  </svg>
 </div>
-<div class="colomn">
-  <div class="_difh top">
-    <div class="sender _df">
-      <div user-detail="act.actor">
-        <a class="enabled-detail-popover">{{::act.actor.firstName}}</a>
-      </div>
-    </div>
-    <div class="_df _fn">
-      <span>{{act.date | passed | localize }}</span>
-    </div>
-    <svg class="_16svg _df _fn force mirror">
-      <use xlink:href="/assets/icons/nst-icn16.svg#exit"></use>
-    </svg>
-  </div>
-  <div class="_df">
+<div class="body" nst-post-modal post="act.post">
+  <div class="_difv">
     <p data-ng-if="!(act.member.id == act.actor.id)" class="nst-mood-simple">
-        <translate>removed&nbsp;@{{::act.member.id}}.</translate>
+      <translate>removed&nbsp;@{{::act.member.id}}.</translate>
     </p>
     <p data-ng-if="act.member.id == act.actor.id" class="nst-mood-simple">
       <translate>left</translate>.
     </p>
+  </div>
+  <div class="_df _fn comment-time">
+    <span>{{act.date | passed | localize }}</span>
   </div>
 </div>

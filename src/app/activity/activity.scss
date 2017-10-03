@@ -7,9 +7,13 @@
   display: flex;
   position: relative;
   flex-direction: column;
-  min-height: calc(100% - 50px);
-  z-index: 10;
-  height: 100%;
+  max-width: 648px;
+  width: calc(100vw - 540px);
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 16px;
+  min-height: calc(100% - 114px);
+  box-shadow: 0 4px 8px $color-breeze-new;
 }
 .activities-list {
   min-height: 100%;
@@ -22,6 +26,7 @@
     width: 16px;
     padding-left: 8px;
     vertical-align: top;
+    margin-top: 8px;
   }
   .sender {
     display: inline-flex;

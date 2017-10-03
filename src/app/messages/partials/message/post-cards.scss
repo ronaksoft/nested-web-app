@@ -4,6 +4,7 @@ post-card {
   flex-direction: column;
   align-items: center;
   position: relative;
+  max-width: calc(720px - 64px)!important;
   //z-index: 600;
   &:last-child {
     .post-card-wire {
@@ -36,7 +37,7 @@ post-card {
       align-items: center;
     }
     svg {
-      fill: rgba(0, 0, 0, .4);
+      fill: $color-gale;
       width: 24px;
       height: 24px;
     }
@@ -299,39 +300,6 @@ post-card {
       color: $color-solid;
     }
   }
-  .post-card-badge {
-    background-color: transparent;
-    justify-content: flex-end;
-    position: absolute;
-    z-index: 34;
-    height: 2px;
-    overflow-y: visible;
-    top: -1px;
-    & > a {
-      height: 20px;
-      cursor: pointer;
-      color: $color-white;
-      font-size: $font-size-small;
-      border-bottom-left-radius: 4px;
-      border-bottom-right-radius: 4px;
-      margin-left: 5px;
-      padding: 2px 8px 5px 8px;
-      background-color: $color-wind;
-      z-index: 36;
-      max-width: 96px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    & > a:first-child {
-      z-index: 32;
-      //background-color: rgb(134, 157, 145);
-    }
-    & > a:last-child {
-      position: relative;
-      //background-color: rgb(20, 215, 105);
-    }
-  }
   .post-card-time {
     position: relative;
     line-height: 14px;
@@ -342,13 +310,11 @@ post-card {
     height: 40px;
     align-items: center;
 
-
     .comments-count {
       span {
         padding: 0 3px;
       }
     }
-
 
     > a {
       font-size: $font-size-small;
@@ -418,7 +384,7 @@ post-card {
     p {
       margin: 0;
       font-size: 13px;
-      color: rgba(0, 0, 0, .4);
+      color: $color-gale;
       @extend ._txe;
     }
   }
@@ -429,11 +395,43 @@ post-card {
 .post-places {
   margin: 8px 0;
   flex-wrap: wrap;
+  &.no-post-view {
+    flex-wrap: nowrap;
+    overflow: hidden;
+    > span {
+      max-width: 20%;
+      overflow: hidden;
+      position: relative;
+      a {
+        display: block;
+        width: 100%;
+        float: left;
+        margin-top: 4px;
+        span {
+          display: block;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+      svg {
+        position: absolute;
+        right: 0;
+        top: 12px;
+        background-color: $color-white;
+      }
+    }
+    .tooltip {
+      ul {
+        list-style: none;
+      }
+    }
+  }
   .places-label {
     font-size: 14px;
     line-height: 32px;
     margin-right: 16px;
     color: $color-breeze;
+    flex: none;
     &:hover {
       box-shadow: none;
     }
@@ -623,6 +621,9 @@ post-card {
     position: relative;
     max-width: 100%;
   }
+  .comment-removed-by, .comment-removed-by span {
+    float: none !important;
+  }
   p span a {
     color: $color-sense-wire;
     &:hover {
@@ -637,6 +638,9 @@ post-card {
         color: $color-storm;
       }
     }
+  }
+  abbr span {
+    float: none!important;
   }
   .time {
     //padding-top: 4px;
@@ -655,10 +659,10 @@ post-card {
     transform: translateX(20px);
     opacity: 0;
     svg {
-      fill: rgba(0, 0, 0, .08);
+      fill: $color-breeze-50;
       transition: fill $animation-dur;
       &:hover {
-        fill: rgba(0, 0, 0, .4);
+        fill: $color-gale
       }
     }
     &:hover {
@@ -685,11 +689,14 @@ post-card {
 }
 
 .comments-load {
-  height: 32px;
+  height: 40px;
   align-items: center;
+  margin-top: 8px;
   a {
     display: flex;
     color: $color-sense-wire;
+    font-style: italic;
+    font-size: 13px;
     &:hover {
       color: $color-solid;
       fill: $color-sense-wire;
@@ -697,20 +704,20 @@ post-card {
     }
   }
   a:first-of-type {
-    width: 48px;
+    width: 40px;
     height: 100%;
     align-items: center;
     justify-content: center;
     margin: 0;
     svg {
-      fill: rgba(0,0,0,.24);
+      fill: $color-black-24;
     }
   }
 }
 
 .post-card-comment-input {
   align-items: center;
-  padding: 0 6px;
+  padding-right: 6px;
   textarea {
     margin: 8px 0;
     min-height: 32px;

@@ -11,7 +11,7 @@
 
   <div class="modal-body">
     <ui-select minimum-input-length="4" multiple limit="10" class="_df _fw" data-ng-model="ctrl.selectedTargets">
-      <ui-select-match placeholder="Enter a Place name or a Nested address..." translate-attrs="placeholder">
+      <ui-select-match placeholder="{{ctrl.inputPlaceholder}}" translate-attrs="placeholder">
         <div class="selected-innter">
           <span class="place-img">
             <img ng-if="$item.hasPicture()" ng-src="{{$item | picture}}"/>
@@ -23,7 +23,7 @@
       </ui-select-match>
       <ui-select-choices refresh="ctrl.searchPlace($select.search)" refresh-delay="0" repeat="place as place in (ctrl.resultTargets | filter: $select.search ) track by $index">
         <img class="account-initials-32" ng-src="{{place | picture: 'x64'}}" />
-        <span class="" data-ng-bind-html="place.name | highlight: $select.search"></span>
+        <span class="_fw" data-ng-bind-html="place.name | highlight: $select.search"></span>
         <br/>
         <span class="nst-font-10 _vat margin-l-50">{{place.id}}</span>
       </ui-select-choices>

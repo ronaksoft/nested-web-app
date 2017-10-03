@@ -33,18 +33,26 @@
       height: 24px;
     }
   }
+  .iscroll-wrapper {
+    max-height: 476px - 48px;
+    flex: 1;
+    height: 100%;
+
+  }
   ul {
     display: block;
-    max-height: 476px - 48px;
     flex-direction: column;
     list-style: none;
     flex: 1;
     transition: height $animation-dur;
-    overflow-y: auto;
-    overflow-x: hidden;
-    height: 100%;
-    direction: ltr;
     //min-height: 476px - 88px;
+    .loading-notif {
+      padding-top: 24px;
+    }
+    .loading {
+      height: 24px;
+      width: 24px;
+    }
     li {
       display: flex;
       flex-direction: column;
@@ -146,7 +154,4 @@
     transition: all $animation-dur;
 
   }
-}
-.notifications-popover-handler {
-  cursor: pointer;
 }

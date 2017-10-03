@@ -66,7 +66,7 @@
         <div class="mu-places">
             <a class="inline-place-row" ng-repeat="place in ctrl.mutualPlaces" ui-sref="app.place-messages({ placeId: place.id })" ng-click="ctrl.goToPlace($event, place);">
                 <img ng-src="{{ place | picture : 'x64'}}" alt="{{::place.name}}">
-                <span>{{::place.name}}</span>
+                <span auto-dir="place.name">{{::place.name}}</span>
             </a>
         </div>
     </div>

@@ -1,92 +1,141 @@
 .post-area {
   justify-content: center;
   z-index: 20;
+  padding-top: 16px;
   > * {
     margin: 0 24px;
     &._fw {
+      max-width: 720px;
+      margin: auto;
+      display: block;
       width: calc(100% - 48px);
     }
+  }
+  .loading {
+    margin-top: 50px;
+    z-index: 999;
+  }
+}
+
+.content {
+  .loading {
+    margin-top: -22px;
+    margin-left: -22px;
+    z-index: 999;
+    position: fixed;
+    left: 50vw;
+    top: 50vh;
   }
 }
 
 .filter-bar {
-  height: 80px;
+  height: 48px;
   display: inline-flex;
-  flex-direction: row;
-  align-items: center;
+  position: relative;
   flex: none;
   position: relative;
-  align-self: flex-end;
   width: 100%;
+  justify-content: center;
+  background-color: $color-bg-nested;
   .filter-bar-inner {
     background-color: $color-bg-nested;
     z-index: 22;
-    width: 100%;
-    height: 100%;
+    height: 48px;
+    padding-top: 8px;    
     display: flex;
     max-width: 720px;
-    position: fixed;
-    padding: 24px 24px 0 24px;
-    height: 64px;
-    margin-bottom: 16px;
-    left: calc(50vw - 16px);
-    transform: translate3d(-50%,0,0);
-    width: calc(100vw - 544px);
-    min-width: 480px;
-    top: 80px;
+    // position: fixed;
+    max-width: 880px;
+    min-width: 544px;
+    width: calc(100vw - 480px);
+    top: 96px;
+    left:50vw;
     .toolbar {
       width: 100%;
+      max-width: 720px;
+      margin: 0 auto;
       height: 100%;
+      border-radius: 8px;
+      border: 1px solid $color-breeze-5-new;
       display: flex;
       align-items: center;
       position: relative;
-    }
-    &.is-not-feed {
-      top: 134px;
-    }
-     hr {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      border-color: $color-border;
-      // left: 24px;
-      width: 100%;
-      // width: calc(100% - 48px);
-      margin: 0;
+      padding-left: 4px;
+      transition: background-color $animation-dur;
+      .default-mode-butn {
+        margin-left: 4px;
+        fill: $color-white;
+        &:hover {
+          opacity: 1;
+        }
+      }
+      .devider {
+         height: 24px;
+         width: 1px;
+         background-color: $color-black;
+         opacity: .16;
+         display: flex;
+         flex: none;
+         margin: 0 8px;
+      }
+      p {
+        margin-right: 4px;
+      }
+      > span ,
+      > * > span {
+        color: $color-solid;
+        opacity: .72;
+        font-size: 12px; 
+      }
+      b span {
+        opacity: 1;
+        color: $color-white;
+      }
+      svg {
+        fill: $color-solid;
+        opacity: .72;
+      }
+      &.unread-mode ,
+      &.selcted-mode  {
+        > span ,
+        > * > span {
+          color: $color-white;
+        }
+        svg {
+          fill: $color-white;
+        }
+      }
+      &.unread-mode  {
+        background-color: $color-bg-pending;
+        border: 1px solid $color-bg-pending;
+      }
+      &.selcted-mode {
+        background-color: $color-solid;
+        border: 1px solid $color-solid;
+      }
     }
   }
   span {
-    color: $color-black04;
-    font-size: 11px;
-    white-space: nowrap;
     line-height: 32px;
   }
   a span {
-    color: $color-solid;
     &.force {
       color: $color-force-wire;
     }
   }
   b {
-    line-height: 32px
+    line-height: 32px;
   }
   p {
     margin: 0;
     span{
-      font-size: 12px
+      margin: 0 8px;
     }
     a {
       white-space: nowrap;
       font-size: 12px;
-    }
-  }
-  .selected-cards-action {
-    a {
-      margin: 0 8px;
-      svg {
-        margin: 0 4px;
-      }
+      color: $color-new-hurricane;
+      font-size: 12px; 
     }
   }
   .icon-filter {
@@ -95,17 +144,9 @@
     z-index: 54;
     height: 16px;
     width: 16px;
-    fill: $color-black04;
   }
   .disable {
     opacity: .08;
-  }
-  .mark-read {
-    margin-right: 28px;
-    svg {
-      fill: $color-black04;
-      margin-left: 4px;
-    }
   }
 }
 .tool-bar {

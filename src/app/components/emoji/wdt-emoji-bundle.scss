@@ -154,7 +154,7 @@ body[data-wdt-emoji-bundle='apple'] .wdt-emoji[data-has-img-apple='false'] {
   padding: 8px;
 
   color: #555;
-  background: rgba(255, 255, 255, .95);
+  background: transparentize($color-white, 1 - .95);
 }
 
 .wdt-emoji-popup h3.sticky {
@@ -423,5 +423,5 @@ img.emoji {
   border: 1px solid rgba(0, 0, 0, .1);
   border-bottom-color: #e7543d;
   border-radius: 50% 50% 0 0;
-  background-color: rgba(255, 255, 255, .8);
+  background-color: transparentize($color-white, 1 - .8);
 }

@@ -16,16 +16,16 @@
         font-size: 12px;
     }
     .vjs-load-progress {
-        background-color: rgba(255,255,255,.24);
+        background-color: transparentize($color-white, 1 - .24);
         border-radius: 4px;
     }
     .vjs-slider {
-        background-color: rgba(255,255,255,.08);
+        background-color: transparentize($color-white, 1 - .08);
         height: 2px;
         border-radius: 4px;
     }
     .vjs-control-text {
-        color: rgba(255,255,255,.64);
+        color: transparentize($color-white, 1 - .64);
     }
     .vjs-big-play-button {
         left: 50%;
@@ -51,7 +51,7 @@
     left: -4px;
     background-color: $color-hurricane;
     .vjs-slider {
-        background-color: rgba(255, 255, 255, 0.08);
+        background-color: transparentize($color-white, 1 - .08);
         height: 5em;
         border-radius: 4px;
     }

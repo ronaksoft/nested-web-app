@@ -1,7 +1,14 @@
 .activity-recent {
+  display: flex;
+  flex-direction: column;
+  max-height: 478px;
   .recent-container {
+    height: auto;
     list-style: none;
-    background-color: $color-white;
+    background-color: $color-white!important;
+    li {
+      display: flex;
+    }
     li:last-child {
       .colomn {
         border: none;

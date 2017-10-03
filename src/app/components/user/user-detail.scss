@@ -36,7 +36,7 @@
         width: 100%;
         height: 100%;
         position: absolute;
-        background: rgba(0,0,0,.2);
+        background: $color-border-pics;
       }
       div {
         width: 100%;
@@ -71,7 +71,7 @@
       @extend ._wrb;
     }
     span {
-      color: #00B45A;
+      color: $color-sense-wire;
       font-size: 13px;
       line-height: 16px;
       font-weight: 400;

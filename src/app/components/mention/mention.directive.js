@@ -2,7 +2,7 @@
   'use strict';
   angular
     .module('ronak.nested.web.components.mention')
-    .directive('nstMention', function (_, $rootScope, $timeout, $window,
+    .directive('nstMention', function (_, $rootScope, $timeout, $window, $,
                                        NST_USER_SEARCH_AREA,
                                        NstSvcUserFactory, NstSvcPlaceFactory, NstSvcLabelFactory, NstVmPlace,
                                        NstVmUser, NST_SEARCH_QUERY_PREFIX) {
@@ -25,6 +25,29 @@
             });
           } else {
             appendMention(_element)
+          }
+
+          function repositionModal(offset, obj) {
+            try {
+              var documentDir = $('body').attr('dir');
+              var containerWidth = $(obj.$el[0]).find('.atwho-view').width();
+              var direction = obj.$inputor.context.style.direction;
+
+              if (documentDir === 'ltr') {
+                if (direction === 'rtl') {
+                  offset.left = ($window.innerWidth - offset.left) - containerWidth + 10;
+                }
+              } else {
+                if (direction === 'rtl') {
+                  offset.left = (offset.left - containerWidth) + 5;
+                } else {
+                  offset.left = ($window.innerWidth - offset.left) - 5;
+                }
+              }
+            }
+            catch (e) {
+              return offset;
+            }
           }
 
           function appendMention(element) {
@@ -104,6 +127,9 @@
                         callback(items);
                       }).catch(function () {
                       });
+                    },
+                    beforeReposition: function (offset) {
+                      repositionModal(offset, this);
                     }
                   }
                 });
@@ -138,6 +164,9 @@
                         });
                         callback(items);
                       });
+                    },
+                    beforeReposition: function (offset) {
+                      repositionModal(offset, this);
                     }
                   }
                 });
@@ -184,6 +213,9 @@
                         callback(items);
                       }).catch(function () {
                       });
+                    },
+                    beforeReposition: function (offset) {
+                      repositionModal(offset, this);
                     }
                   }
                 });

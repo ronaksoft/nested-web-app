@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: row;
   z-index: -99;
+  justify-content: center;
   min-height: 100%;
 }
 
@@ -10,21 +11,22 @@
   transition-property: opacity;
   transition-duration: $animation-dur;
   display: inline-flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: center;
   position: relative;
-  //width: 100%;
-  //overflow-y: auto;
-  //  overflow-y: initial;
+  margin-top: 48px;
   scroll-behavior: smooth;
   z-index: 1;
-  margin-left: $sidebar-width;
-  width: calc(100% - 240px);
-  min-height: 100vh;
+  width: auto;
+  min-height: calc(100vh - 56px);
+  max-width: 880px + 240px;
+  width: calc(100vw - 240px);
+  min-width: 544px + 240px;
 }
 .nst-content.second-view {
   height: 100%;
   .content {
-    max-width: 791px;
+    max-width: 854px;
     margin: 0 auto;
     flex-direction: row;
     display: inline-block;
@@ -46,8 +48,9 @@
 }
 
 .content {
-  max-width: 720px;
-  width: calc(100% - 240px);
+  max-width: $navbar-max-width;
+  min-width: $navbar-min-width;
+  width: calc(100vw - 480px);
   display: inline-flex;
   flex: none;
   flex-direction: column;
@@ -58,13 +61,13 @@
 }
 
 .content-wrapper {
-  min-height: calc(100vh - 134px);
+  min-height: calc(100vh - 48px);
   clear: both;
   justify-content: center;
   display: flex;
   align-self: flex-end;
-  overflow-y: auto;
-  overflow-y: initial;
+  // overflow-y: auto;
+  // overflow-y: initial;
 }
 
 .second-view {

@@ -4,8 +4,8 @@
   *********************************************************
 */
 #ngProgress {
-  background: linear-gradient(to right, rgba(20,215,105,1),rgba(20,215,105,1),rgba(20,215,105,0) );
-  color: rgba(20,215,105,.5)!important;
+  background: linear-gradient(to right, $color-sense,$color-sense, transparent);
+  color: transparentize($color-sense, 1 - .5)!important;
   //color: black!important;
   //opacity: .9!important;
   background-color: transparent!important;

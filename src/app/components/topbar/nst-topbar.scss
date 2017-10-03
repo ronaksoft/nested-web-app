@@ -1,0 +1,388 @@
+.top-bar {
+  position: fixed;
+  top: -5px;
+  transform: translate3d(0, 5px, 0);
+  left: 0;
+  height: 48px;
+  background-color: $sidebar-color;
+  display: flex;
+  align-items: center;
+  z-index: 300;
+  justify-content: center;
+  &.search-modal-is-open {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .24);
+  }
+  .search {
+    max-width: $navbar-max-width;
+    min-width: $navbar-min-width;
+    width: calc(100vw - 480px);
+    display: flex;
+    justify-content: center;
+    position: relative;
+    .inner {
+      width: 100%;
+      overflow-x: auto;
+      overflow-y: hidden;
+      max-width: 480px;
+      height: 32px;
+      background-color: transparentize($color-white, 1 - .12);
+      border-radius: 4px;
+      border-bottom: 1px solid rgba(0,0,0, .4);
+      display: flex;
+      position: relative;
+      padding-left: 32px;
+      padding-right: 32px;
+      transition: max-width .2s;
+      &.openend {
+        i {
+          opacity: .4;
+        }
+      }
+      i {
+        position: absolute;
+        left: 4px;
+        top: 4px;
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: .24;
+      }
+      span.advanced-search {
+        position: absolute;
+        right: 4px;
+        top: 4px;
+        opacity: .24;
+        &.open {
+          opacity: 1;
+        }
+      }
+      .input-wrapper {
+        position: relative;
+        width: 100%;
+        display: flex;
+        input {
+          line-height: 36px;
+          width: 100%;
+          height: 32px;
+          min-width: 100px;
+          background-color: transparent;
+          // padding-left: 32px;
+          color: $color-white;
+          border: none;
+          outline: none;
+          box-shadow: none;
+        }
+      }
+      .search-chips-container {
+        padding: 6px 5px 0 5px;
+        color: $color-solid;
+        flex-wrap: nowrap;
+        .chips {
+          display: flex;
+          flex: none;
+          margin: 0 2px;
+          height: 20px;
+          border-radius: 4px;
+          overflow: hidden;
+          transition: all 0.3s;
+          text-overflow: ellipsis;
+          position: relative;
+          white-space: nowrap;
+          background-color: $color-black;
+          padding: 0 10px 0 4px;
+          .close-chips {
+            width: 20px;
+            height: 20px;
+            padding: 2px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            background-color: $color-black;
+          }
+          &:hover {
+            .close-chips {
+              opacity: 1;
+            }
+          }
+          b span {
+            opacity: 1;
+          }
+          span {
+            line-height: 20px;
+            font-size: 12px;
+            color: $color-white;
+            opacity: .8;
+          }
+        }
+      }
+    }
+    input:-ms-input-placeholder {
+      color: $color-white-transparentize;
+    }
+    input::-webkit-input-placeholder {
+      color: $color-white-transparentize;
+    }
+    input:-moz-placeholder {
+      color: $color-white-transparentize;
+    }
+    .ps-container > .ps-scrollbar-x-rail {
+      display: none;
+    }
+  }
+  .logo,
+  .account {
+    width: $sidebar-width;
+    display: flex;
+    flex: none;
+  }
+  .logo {
+    padding: 0 16px;
+    #Logo-type-white {
+      margin: 0 8px;
+      opacity: .72;
+    }
+  }
+  .account {
+    justify-content: flex-end;
+    >a {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      margin: 0 12px;
+      align-items: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 4px;
+      &:hover {
+        background-color: $color-gale
+      }
+    }
+    ._20svg {
+      opacity: .4
+    }
+  }
+}
+
+.search-modal {
+  position: fixed;
+  z-index: 223;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 48px;
+  .search-popover,
+  .advanced-search-popover {
+    position: absolute;
+    left: 50vw;
+    padding-top: 8px;
+    padding-bottom: 3px;
+    width: 100%;
+    max-width: 480px;
+    transform: translateX(-50%);
+    background-color: $color-white;
+    border-radius: 0 0 4px 4px;
+  }
+  .search-popover {
+    .ui-select-highlight {
+      background-color: transparent;
+    }
+    .search-query {
+      padding: 0 16px;
+      height: 40px;
+      a span {
+        color: $color-solid;
+        font-size: 14px;
+      }
+      span {
+        color: $color-gale;
+        font-size: 13px;
+      }
+    }
+    section {
+      max-height: 50vh;
+      overflow: hidden;
+      padding: 0 8px;
+      h5 {
+        margin: 6px 0;
+        line-height: 24px;
+        border-radius: 4px;
+        background-color: transparentize($color-solid, 1 - .12);
+        color: $color-solid-64;
+        padding: 0 6px;
+        font-weight: bold;
+      }
+    }
+    .recent-search,
+    .from-suggests,
+    .place-suggests {
+      li {
+        padding: 0 8px;
+      }
+    }
+    .init-from-suggests {
+      li {
+        a {
+          font-size: 12px;
+          text-align: center;
+          display: block;
+          line-height: 16px;
+          margin-top: 4px;
+        }
+      }
+    }
+    .label-suggests {
+      li {
+        .icon {
+          width: 36px;
+          height: 24px;
+          padding-right: 12px;
+        }
+        a {
+          line-height: 39px;
+          border-bottom: 1px solid $color-breeze-5-new;
+        }
+      }
+    }
+  }
+  .advanced-search-popover {
+    padding-left: 16px;
+    padding-right: 16px;
+    label {
+      color: $color-solid;
+      font-size: 13px;
+      font-weight: bold;
+      opacity: .8;
+      margin-top: 8px;
+      margin-bottom: 6px;
+    }
+    .checkbox-label {
+      margin-top: 20px;
+      margin-bottom: 20px;
+      font-size: 13px;
+      font-weight: bold;
+      line-height: 16px;
+    }
+    select {
+      height: 32px;
+      width: 120px;
+      margin-bottom: 4px;
+      padding-left: 8px;
+      background: url(../assets/icons/inputform.svg) no-repeat 98% -128px, linear-gradient(to bottom, #FFFFFF, whitesmoke 100%);
+      // background-position-y: -128px;
+    }
+    .seperator-text {
+      margin: 0 16px;
+    }
+    .advanced-search-text-input {
+      height: 32px;
+      width: 100%;
+      display: flex;
+      border: 1px solid $color-solid-24;
+      border-radius: 4px;
+      margin-bottom: 4px;
+      &:focus {
+        border-color: $color-solid;
+        border-width: 2px;
+      }
+    }
+    .butn-green {
+      margin-top: 20px;
+      margin-bottom: 16px;
+      height: 40px;
+    }
+  }
+  .backdrop {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background-color: rgba(35, 38, 41, .88);
+  }
+}
+
+.search-info-chip {
+  margin: 0 2px;
+  height: 20px;
+  border-radius: 4px;
+  background-color: black;
+  padding: 0 4px 0 4px;
+  color: #fff;
+}
+
+.suggest-list {
+  list-style: none;
+  display: flex;
+  overflow-x: hidden;
+  flex-direction: column;
+  &.horizental {
+    flex-wrap: nowrap;
+    display: flex;
+    overflow: hidden;
+    flex: none;
+    flex-direction: row;
+    li {
+      display: inline-flex;
+      flex-direction: column;
+      justify-content: center;
+      width: 72px;
+      height: 60px;
+      margin-right: 6px;
+    }
+  }
+  li {
+    height: 40px;
+    display: flex;
+    flex: none;
+    align-items: center;
+    &.selected {
+      background-color: $color-bg-active-item;
+      border-radius: 4px;
+    }
+    .icon {
+      width: 32px;
+      height: 32px;
+      flex: none;
+      overflow: hidden;
+      &.icon-squ {
+        border-radius: 3px;
+      }
+      img {
+        margin: 0;
+      }
+    }
+    a{
+      color: $color-solid-80;
+      font-size: 14px;
+      line-height: 16px;
+      display: flex;
+      width: 100%;
+      b {
+        color: $color-solid;
+      }
+      span {
+        color: $color-solid-80;
+        font-size: 14px;
+      }
+    }
+    a.title  {
+      margin-top: 4px;
+      padding: 0 8px;
+    }
+    span {
+      color: $color-gale-new;
+      font-size: 12px;
+      display: flex;
+      flex: none;
+      b {
+        color: $color-solid;
+      }
+    }
+    > span {
+      padding: 0 8px;
+    }
+  }
+}

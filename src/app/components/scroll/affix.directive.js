@@ -38,7 +38,7 @@
 
           var top = $element.offset().top || 0;
 
-          topOffset = $element.offset().top - parseInt($attrs.top) - 24;
+          topOffset = $element.offset().top - parseInt($attrs.top) - 16;
 
           var offLeft = $element.offset().left || 0;
 
@@ -89,8 +89,8 @@
             if (!fixed && $window.pageYOffset > topOffset) {
               $element.css('position', 'fixed');
               $element.css('top', parseInt(top) + 'px');
-              if (isRTL == 'ltr')$element.css('left', offLeft + 'px');
-              if (isRTL == 'rtl')$element.css('left', offLeft + 'px');
+              // if (isRTL == 'ltr')$element.css('left', offLeft + 'px');
+              // if (isRTL == 'rtl')$element.css('left', offLeft + 'px');
               if(!dontSetWidth) $element.css('width', actualWidth + 'px');
               // $element.css('height', height + 'px');
               fixed = true;
@@ -120,7 +120,7 @@
           var resizeE = _.debounce(applier, 16);
 
           window.addEventListener("scroll", affixElement);
-          window.addEventListener("resize", resizeE);
+          // window.addEventListener("resize", resizeE);
 
           if ( !window.affixerListeners ) {
             window.affixerListeners = {

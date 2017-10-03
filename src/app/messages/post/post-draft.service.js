@@ -6,21 +6,22 @@
     .service('NstSvcPostDraft', NstSvcPostDraft);
 
   /** @ngInject */
-  function NstSvcPostDraft(NstSvcPostDraftStorage, NstPostDraft, NstSvcAuth, _) {
+  function NstSvcPostDraft(NstPostDraft, _, NstSvcGlobalCache) {
     function PostDraft() {
       this.hasDraft = null;
-      this.key = NstSvcAuth.user.id;
+      this.key = '_model'
+      this.cache = NstSvcGlobalCache.createProvider('draft');
     }
 
     PostDraft.prototype.discard = function () {
-      NstSvcPostDraftStorage.flush();
+      this.cache.remove(this.key);
       this.hasDraft = false;
     };
 
     PostDraft.prototype.has = function () {
       if (this.hasDraft === null) {
 
-        var draft = NstSvcPostDraftStorage.get(this.key);
+        var draft = this.cache.get(this.key);
         this.hasDraft = _.isObject(draft);
       }
 
@@ -28,12 +29,15 @@
     };
 
     PostDraft.prototype.save = function (draft) {
-      NstSvcPostDraftStorage.set(this.key, draft);
+      this.cache.set(this.key, draft, {
+        expiration: new Date().setFullYear(new Date().getFullYear() + 1)
+      });
+
       this.hasDraft = true;
     };
 
     PostDraft.prototype.get = function () {
-      return NstSvcPostDraftStorage.get(this.key);
+      return this.cache.get(this.key);
     };
 
     return new PostDraft();

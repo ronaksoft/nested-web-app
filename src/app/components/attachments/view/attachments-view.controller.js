@@ -26,6 +26,7 @@
         templateUrl: 'app/components/attachments/view/single/main.html',
         controller: 'AttachmentViewController',
         controllerAs: 'ctlAttachmentView',
+        windowClass: '_oh',
         backdropClass : 'attachmdrop',
         size: 'full',
         resolve: {

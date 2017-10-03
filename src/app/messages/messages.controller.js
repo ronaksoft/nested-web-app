@@ -1,794 +1,802 @@
 (function () {
-  'use strict';
+    'use strict';
 
-  angular
-    .module('ronak.nested.web.message')
-    .controller('MessagesController', MessagesController);
+    angular
+      .module('ronak.nested.web.message')
+      .controller('MessagesController', MessagesController);
 
-  /** @ngInject */
-  function MessagesController($rootScope, $q, $stateParams, $log, $state, $scope, $uibModal, $timeout,
-                              moment, toastr,
-                              NST_MESSAGES_SORT_OPTION, NST_MESSAGES_VIEW_SETTING, NST_DEFAULT, NST_EVENT_ACTION, NST_PLACE_ACCESS, NST_POST_EVENT,
-                              NstSvcPostFactory, NstSvcPlaceFactory, _, NstUtility, NstSvcAuth, NstSvcSync, NstSvcWait, NstVmFile,
-                              NstSvcMessagesSettingStorage, NstSvcTranslation, NstSvcInteractionTracker, SvcCardCtrlAffix,
-                              NstSvcPlaceAccess, NstSvcModal, NstSvcDate) {
+    /** @ngInject */
+    function MessagesController($rootScope, $stateParams, $state, $scope, $uibModal, _, $timeout,
+      moment, toastr,
+      NST_MESSAGES_SORT_OPTION, NST_DEFAULT, NST_EVENT_ACTION, NST_PLACE_ACCESS, NST_POST_EVENT,
+      NstSvcPostFactory, NstSvcPlaceFactory, NstUtility, NstSvcAuth, NstSvcSync, NstSvcModal,
+      NstSvcTranslation, SvcCardCtrlAffix, NstSvcUserFactory, NST_SRV_ERROR) {
 
-    var vm = this;
+      var vm = this;
 
-    $rootScope.topNavOpen = false;
-    isConversation();
+      $rootScope.topNavOpen = false;
 
-    var DEFAULT_MESSAGES_COUNT = 8,
-      defaultSortOption = NST_MESSAGES_SORT_OPTION.LATEST_MESSAGES,
-      defaultViewSetting = {
-        content: true,
-        attachments: true,
-        comments: true,
-        quickMessage: true
-      },
-      sortOptionStorageKey = 'sort-option';
-    vm.messages = [];
-    vm.hotMessageStorage = [];
-    vm.hotMessages = [];
-    vm.cache = [];
-    vm.hasNewMessages = false;
-    vm.myPlaceIds = [];
-    vm.loadMoreCounter = 0;
-    vm.selectedPosts = [];
+      var DEFAULT_MESSAGES_COUNT = 8,
+        defaultSortOption = NST_MESSAGES_SORT_OPTION.LATEST_MESSAGES;
+      // Consistently Interactive Time Handler
+      var CITHandler = null;
+      vm.messages = [];
+      vm.hotMessagesCount = 0;
+      vm.selectedPosts = [];
+      // First Interactive Time
+      vm.FIT = true;
 
-    vm.loadMore = loadMore;
-    vm.tryAgainToLoadMore = false;
-    vm.reachedTheEnd = false;
-    vm.noMessages = false;
-    vm.loading = false;
-    vm.loadMessageError = false;
-    // Reveals hot message when user wants to show new messages
-    vm.revealHotMessage = false;
-    vm.markAllAsRead = markAllAsRead;
-    vm.showNewMessages = showNewMessages;
-    vm.dismissNewMessage = dismissNewMessage;
-    vm.openContacts = openContacts;
-    vm.removeMulti = removeMulti;
-    vm.moveMulti = moveMulti;
-    vm.markMulti = markMulti;
-    vm.readMulti = readMulti;
-    isPlaceFeed();
+      vm.loadMore = loadMore;
+      vm.tryAgainToLoadMore = false;
+      vm.reachedTheEnd = false;
+      vm.noMessages = false;
+      vm.loading = false;
+      vm.error = false;
+      // Reveals hot message when user wants to show new messages
+      vm.revealHotMessage = false;
+      vm.markAllAsRead = markAllAsRead;
+      vm.showNewMessages = showNewMessages;
+      vm.dismissNewMessage = dismissNewMessage;
+      vm.openContacts = openContacts;
+      vm.removeMulti = removeMulti;
+      vm.moveMulti = moveMulti;
+      vm.markMulti = markMulti;
+      vm.readMulti = readMulti;
+      vm.goUnreadMode = goUnreadMode;
+      vm.unselectAll = unselectAll;
+      vm.selectAll = selectAll;
+      vm.exitUnseenMode = exitUnseenMode;
+      vm.currentUser = NstSvcAuth.user;
 
-    vm.messagesSetting = {
-      limit: DEFAULT_MESSAGES_COUNT,
-      skip: 0,
-      sort: defaultSortOption,
-      date: null
-    };
+      // Some flags that help us find where we are
+      vm.isFeed = false;
+      vm.isBookmark = false;
+      vm.isPlaceMessage = false;
+      vm.isSent = false;
+      vm.isUnreadMode = false;
+      vm.isPersonal = false;
 
-    vm.toggleContentPreview = toggleContentPreview;
-    vm.toggleAttachmentsPreview = toggleAttachmentsPreview;
-    vm.toggleCommentsPreview = toggleCommentsPreview;
-    vm.toggleQuickMessagePreview = toggleQuickMessagePreview;
-    vm.isBookMark = isBookMark();
-    vm.isSubPersonal = isSubPersonal;
+      vm.messagesSetting = {
+        limit: DEFAULT_MESSAGES_COUNT,
+        skip: 0,
+        sort: defaultSortOption,
+        before: null
+      };
 
-    vm.quickMessageAccess = false;
-    // Listen for when the dnd has been configured.
-    var eventReferences = [];
-    (function () {
-      isUnread();
-      vm.isSentMode = 'messages-sent' === $state.current.name;
-      vm.isbookmarkedsMode = 'app.messages-bookmarked' === $state.current.name;
+      vm.quickMessageAccess = false;
+      // Listen for when the dnd has been configured.
+      var eventReferences = [];
+      (function () {
 
-      if (!$stateParams.placeId || $stateParams.placeId === NST_DEFAULT.STATE_PARAM) {
-        vm.syncId = NstSvcSync.openAllChannel();
-        vm.currentPlaceId = null;
-      } else {
-        vm.syncId = NstSvcSync.openChannel($stateParams.placeId);
-        vm.currentPlaceId = $stateParams.placeId;
-      }
+        if (!$stateParams.placeId || $stateParams.placeId === NST_DEFAULT.STATE_PARAM) {
+          vm.syncId = NstSvcSync.openAllChannel();
+          vm.currentPlaceId = null;
+        } else {
+          vm.syncId = NstSvcSync.openChannel($stateParams.placeId);
+          vm.currentPlaceId = $stateParams.placeId;
+        }
 
-      if (!$stateParams.sort || $stateParams.sort === NST_DEFAULT.STATE_PARAM) {
-        vm.messagesSetting.sort = NstSvcMessagesSettingStorage.get(sortOptionStorageKey, defaultSortOption);
-      } else {
-        vm.messagesSetting.sort = $stateParams.sort;
-        NstSvcMessagesSettingStorage.set(sortOptionStorageKey, vm.messagesSetting.sort);
-      }
+        vm.messagesSetting.sort = $stateParams.sort || defaultSortOption;
 
-      generateUrls();
-      getUnreadsCount();
+        setLocationFlag();
+        configureNavbar();
 
-      if (vm.currentPlaceId) {
-        $timeout(function(){
-          if ( "app.place-messages" === $state.current.name )
-          SvcCardCtrlAffix.measurement(134);
-        },1000);
-        NstSvcPlaceAccess.getIfhasAccessToRead(vm.currentPlaceId).then(function (place) {
-          if (place) {
-            vm.currentPlace = place;
-            vm.hasSeeMembersAccess = place.hasAccess(NST_PLACE_ACCESS.SEE_MEMBERS);
-            vm.currentPlaceLoaded = true;
-            vm.showPlaceId = !_.includes(['off', 'internal'], vm.currentPlace.privacy.receptive);
+        if (vm.currentPlaceId) {
+          loadPlace();
+        }
 
-            $q.all([loadViewSetting(), loadMessages(), loadMyPlaces(), getQuickMessageAccess(), loadRemovePostAccess()]).catch(function (error) {
-              $log.debug(error);
-            }).finally(function () {
-              eventReferences.push(NstSvcWait.emit('main-done'));
-            });
-          } else {
-            NstSvcModal.error(NstSvcTranslation.get("Error"), NstSvcTranslation.get("Either this Place doesn't exist, or you don't have the permit to enter the Place.")).finally(function () {
-              $state.go(NST_DEFAULT.STATE);
-            });
+        load();
+        loadUnreadPostsCount();
+
+        eventReferences.push($rootScope.$on(NST_POST_EVENT.READ, function () {
+          loadUnreadPostsCount();
+        }));
+
+        eventReferences.push($rootScope.$on('post-read-all', function () {
+          loadUnreadPostsCount();
+        }));
+
+        eventReferences.push($rootScope.$on(NST_EVENT_ACTION.POST_ADD, function (e, data) {
+          if (vm.isFeed) {
+            load();
           }
-        }).catch(function (error) {
-          vm.errorInInitialLoading = true;
-          $log.debug(error);
-        });
-      } else {
-        vm.currentPlaceLoaded = true;
-        $q.all([loadViewSetting(), loadMessages(), loadMyPlaces()]).catch(function (error) {
-          $log.debug(error);
-        }).finally(function () {
-          eventReferences.push(NstSvcWait.emit('main-done'));
-        });
-      }
+          if (postMustBeShown(data.activity)) {
+            // The current user is the sender
+            // vm.messages.unshift(data.activity.post);
+            NstSvcPostFactory.get(data.activity.post.id).then(function (message) {
+              vm.messages.unshift(message);
+            });
+          } else if (mustBeAddedToHotPosts(data.activity)) {
+            // someone else sent the post
+            vm.hotMessagesCount = vm.hotMessagesCount + 1;
+          }
+          loadUnreadPostsCount();
+          reloadPlace();
+        }));
 
-      if (isBookMark()) {
-        NstSvcPlaceFactory.getFavoritesPlaces().then(function (data) {
-          vm.bookmarkedPlaces = data;
-        });
-      }
+        if (vm.isBookmark) {
+          eventReferences.push($rootScope.$on(NST_POST_EVENT.UNBOOKMARKED, function (e, data) {
+            var message = _.find(vm.messages, {
+              id: data.postId
+            });
 
-      eventReferences.push($rootScope.$on(NST_POST_EVENT.READ, function () {
-        getUnreadsCount();
-      }));
-
-      eventReferences.push($rootScope.$on('post-read-all', function () {
-        getUnreadsCount();
-      }));
-
-      function postMustBeShown(post) {
-        if (post.sender.id !== NstSvcAuth.user.id) {
-          return false;
+            if (message) {
+              NstUtility.collection.dropById(vm.messages, message.id);
+            }
+          }));
         }
 
-        // Is in sent page
-        if (isSent()) {
-          return true;
-        }
+        eventReferences.push($rootScope.$on('post-removed', function (event, data) {
 
-        // The message was sent to the current place
-        if (_.some(post.places, {id: vm.currentPlaceId})) {
-          return true;
-        }
-
-        // The message
-        if (!vm.currentPlaceId && _.intersection(_.map(post.places, 'id'), vm.bookmarkedPlaces).length > 0) {
-          return true;
-        }
-
-        return false;
-      }
-
-      function mustBeAddedToHotPosts(post) {
-        if (post.read) {
-          return false;
-        }
-
-        if (post.sender.id === NstSvcAuth.user.id) {
-          return false;
-        }
-
-        // The message was sent to the current place
-        if (_.some(post.places, {id: vm.currentPlaceId})) {
-          return true;
-        }
-
-        // The message
-        if (!vm.currentPlaceId && _.intersection(_.map(post.places, 'id'), vm.bookmarkedPlaces).length > 0) {
-          return true;
-        }
-
-        return false;
-      }
-
-      eventReferences.push($rootScope.$on(NST_EVENT_ACTION.POST_ADD, function (e, data) {
-        if (postMustBeShown(data.activity.post)) {
-          // The current user is the sender
-          data.activity.post.attachments = data.activity.post.attachments;
-          vm.messages.unshift(data.activity.post);
-
-        } else if (mustBeAddedToHotPosts(data.activity.post)) {
-          // someone else sent the post
-          vm.hotMessageStorage.unshift(data.activity.post);
-          vm.hasNewMessages = true;
-        }
-        getUnreadsCount();
-      }));
-
-
-      eventReferences.push($rootScope.$on(NST_POST_EVENT.UNBOOKMARKED, function (e, data) {
-        if ($state.current.name === 'app.messages-bookmarked' ||
-          $state.current.name === 'app.messages-bookmarked-sorted') {
           var message = _.find(vm.messages, {
             id: data.postId
           });
 
           if (message) {
-            NstUtility.collection.dropById(vm.messages, message.id);
+
+            loadUnreadPostsCount();
+            reloadPlace();
+
+            if (data.placeId) { // remove the post from the place
+              // remove the place from the post's places
+              NstUtility.collection.dropById(message.places, data.placeId);
+
+              // remove the post if the user has not access to see it any more
+              var places = NstSvcPlaceFactory.filterPlacesByReadPostAccess(message.places);
+              if ((_.isArray(places) && places.length === 0) || (vm.currentPlaceId && data.placeId == vm.currentPlaceId)) {
+                NstUtility.collection.dropById(vm.messages, data.postId);
+                return;
+              }
+
+            } else { //retract it
+              NstUtility.collection.dropById(vm.messages, message.id);
+            }
           }
+        }));
+
+
+        eventReferences.push($rootScope.$on('post-hide', function (event, data) {
+          var message = _.find(vm.messages, {
+            id: data.postId
+          });
+          if (message) {
+            message.tempHide = true
+          }
+        }));
+
+        eventReferences.push($rootScope.$on('post-show', function (event, data) {
+          var message = _.find(vm.messages, {
+            id: data.postId
+          });
+          if (message) {
+            message.tempHide = false
+          }
+        }));
+
+        eventReferences.push($scope.$on('post-moved', function (event, data) {
+          // there are tow conditions that a moved post should be removed from messages list
+          // 1. The moved place is the one that you see its messages list (DONE)
+          // 2. You moved a place to another one and none of the post new places
+          //    are not marked to be shown in feeds page
+          // TODO: Implement the second condition
+
+          loadUnreadPostsCount();
+          reloadPlace();
+          if ($stateParams.placeId === data.fromPlace.id) {
+            NstUtility.collection.dropById(vm.messages, data.postId);
+            return;
+          }
+        }));
+      })();
+
+      function postMustBeShown(activity) {
+        if (activity.actor.id !== NstSvcAuth.user.id) {
+          return false;
         }
+
+        // Is in sent page
+        if (vm.isSent) {
+          return true;
+        }
+
+        // The message was sent to the current place
+        if (_.includes(activity.places, vm.currentPlaceId)) {
+          return true;
+        }
+
+        // The message
+        if (!vm.currentPlaceId && _.intersection(_.map(activity.places, 'id'), vm.bookmarkedPlaces).length > 0) {
+          return true;
+        }
+
+        return false;
+      }
+
+      function mustBeAddedToHotPosts(activity) {
+        // if (post.read) {
+        //   return false;
+        // }
+
+        if (activity.actor.id === NstSvcAuth.user.id) {
+          return false;
+        }
+
+        // The message was sent to the current place
+        if (_.includes(activity.places, vm.currentPlaceId)) {
+          return true;
+        }
+
+        // The message
+        if (!vm.currentPlaceId && _.intersection(_.map(activity.places, 'id'), vm.bookmarkedPlaces).length > 0) {
+          return true;
+        }
+
+        return false;
+      }
+
+      function loadUnreadPostsCount() {
+        NstSvcPlaceFactory.getPlacesUnreadPostsCount([vm.currentPlaceId]).then(function (places) {
+          vm.unreadCount = _.reduce(places, function (sum, place) {
+            return sum + place.count;
+          }, 0);
+        });
+      }
+
+      function handleCachedPosts(cachedPosts) {
+        vm.messages = cachedPosts;
+        vm.loading = false;
+        CITHandler = $timeout(function () {
+          $scope.$apply(function () {
+            vm.FIT = false;
+          });
+        }, 500);
+      }
+
+      function applyChanges(oldPost, newPost) {
+        if (oldPost.lastUpdate >= newPost.lastUpdate) {
+          // The post has not been changed
+          return;
+        }
+
+        oldPost.labels = newPost.labels;
+        oldPost.comments = newPost.comments;
+        oldPost.places = newPost.places;
+      }
+
+      function mergePosts(posts) {
+        var newItems = _.differenceBy(posts, vm.messages, 'id');
+        var removedItems = _.differenceBy(vm.messages, posts, 'id');
+
+        // first omit the removed items; The items that are no longer exist in fresh posts
+        _.forEach(removedItems, function (item) {
+          var index = _.findIndex(vm.messages, {
+            'id': item.id
+          });
+          if (index > -1) {
+            vm.messages.splice(index, 1);
+          }
+        });
+
+        // add new items; The items that do not exist in cached items, but was found in fresh posts
+        vm.messages.unshift.apply(vm.messages, newItems);
+
+        // re-arrange posts
+        _.forEach(posts, function (post, index) {
+          var oldPostIndex = _.findIndex(vm.messages, {
+            id: post.id
+          });
+          if (oldPostIndex === -1) {
+            return;
+          }
+
+          // The post is in the right position
+          if (oldPostIndex === index) {
+            // Just update places, labels and comments of the post to make sure everything is up to date
+            applyChanges(vm.messages[oldPostIndex], post);
+            return;
+          }
+
+          // change the post position
+          vm.messages.splice(oldPostIndex, 1);
+          vm.messages.splice(index, 0, post);
+        });
+      }
+
+      function appendPosts(oldPosts) {
+        var items = _.differenceBy(oldPosts, vm.messages, 'id');
+        vm.messages.push.apply(vm.messages, items);
+      }
+
+      function replacePosts(newPosts) {
+        vm.messages = newPosts;
+      }
+
+      function goUnreadMode() {
+        vm.isUnreadMode = true;
+        load();
+      }
+
+      function exitUnseenMode() {
+        if (vm.isUnreadMode) {
+          vm.isUnreadMode = false;
+          load();
+        }
+      }
+
+      function load() {
+        return getMessages(vm.messagesSetting, handleCachedPosts).then(function (posts) {
+          if (CITHandler) {
+            $timeout.cancel(CITHandler);
+          }
+          vm.FIT = false;
+          mergePosts(posts);
+        }).catch(function (error) {
+          if (error.code === NST_SRV_ERROR.ACCESS_DENIED && error.message && error.message[0] === 'password_change') {
+            return;
+          }
+          NstSvcModal.error(NstSvcTranslation.get("Error"), NstSvcTranslation.get("Either this Place doesn't exist, or you don't have the permit to enter the Place.")).finally(function () {
+            if ($state.current.name !== NST_DEFAULT.STATE) {
+              $state.go(NST_DEFAULT.STATE);
+            } else {
+              $state.reload(NST_DEFAULT.STATE);
+            }
+          });
+        });
+      }
+
+
+      function loadMore() {
+        if (vm.loading || vm.reachedTheEnd || vm.noMessages) {
+          return;
+        }
+        vm.loading = true;
+        vm.messagesSetting.before = getLastMessageTime();
+        return getMessages(vm.messagesSetting).then(function (posts) {
+          $timeout(function () {
+            appendPosts(posts);
+          }, 1000)
+          vm.tryAgainToLoadMore = false;
+        }).catch(function () {
+          vm.tryAgainToLoadMore = true;
+        });
+      }
+
+      function reload() {
+        vm.messagesSetting.skip = 0;
+        vm.messagesSetting.before = null;
+
+        return getMessages(vm.messagesSetting).then(function (posts) {
+          replacePosts(posts);
+        });
+      }
+
+      eventReferences.push($scope.$on('post-select', function (event, data) {
+        if (vm.tempBanPlaces) {
+          vm.tempBanPlaces = [];
+        }
+        if (data.isChecked) {
+          vm.selectedPosts.push(data.postId);
+        } else {
+          var index = vm.selectedPosts.indexOf(data.postId);
+          if (index > -1) vm.selectedPosts.splice(index, 1);
+        }
+        $scope.$broadcast('selected-length-change', {
+          selectedPosts: vm.selectedPosts
+        });
       }));
 
-      $rootScope.$on('post-removed', function (event, data) {
+      function configureNavbar() {
+        if (vm.isBookmark) {
+          vm.navTitle = NstSvcTranslation.get('Bookmarked Posts');
+          vm.navIconClass = 'bookmarks';
+        } else if (vm.isSent) {
+          vm.navTitle = NstSvcTranslation.get('Shared by me');
+          vm.navIconClass = 'sent';
+        } else {
+          vm.navTitle = NstSvcTranslation.get('Feed');
+          vm.navIconClass = 'all-places';
+        }
+      }
 
-        var message = _.find(vm.messages, {
-          id: data.postId
+      function openContacts($event) {
+        $state.go('app.contacts', {}, {
+          notify: false
         });
+        $event.preventDefault();
+      }
 
-        if (message) {
-
-          if (vm.messages.length === 1) {
-            loadMessages(true);
-            getUnreadsCount();
+      function confirmforRemoveMulti(posts, place) {
+        return $uibModal.open({
+          animation: false,
+          backdropClass: 'comdrop',
+          size: 'sm',
+          templateUrl: 'app/messages/partials/modals/remove-multi-from-confirm.html',
+          controller: 'RemoveFromConfirmController',
+          controllerAs: 'ctrl',
+          resolve: {
+            post: function () {
+              return posts;
+            },
+            place: function () {
+              return place;
+            }
           }
+        }).result;
+      }
 
-          if (data.placeId) { // remove the post from the place
-            // remove the place from the post's places
-            NstUtility.collection.dropById(message.places, data.placeId);
-
-            // remove the post if the user has not access to see it any more
-            var places = NstSvcPlaceFactory.filterPlacesByReadPostAccess(message.places);
-            if ((_.isArray(places) && places.length === 0) || (vm.currentPlaceId && data.placeId == vm.currentPlaceId)) {
-              NstUtility.collection.dropById(vm.messages, data.postId);
+      function removeMulti($event) {
+        $event.preventDefault();
+        confirmforRemoveMulti(vm.selectedPosts.length, vm.currentPlace).then(function (agree) {
+            if (!agree) {
               return;
             }
+            var allCount = vm.selectedPosts.length;
+            var successCount = 0;
+            var failedCount = 0;
+            // var get = true;
+            vm.selectedPosts.forEach(function (item, i) {
+              NstSvcPostFactory.get(item).then(function (post) {
+                NstSvcPostFactory.remove(post.id, vm.currentPlaceId).then(function () {
+                  ++successCount;
+                  NstUtility.collection.dropById(post.places, vm.currentPlaceId);
+                  $rootScope.$broadcast('post-removed', {
+                    postId: post.id,
+                    placeId: vm.currentPlaceId
+                  });
+                  vm.selectedPosts.splice(0, 1);
 
-          } else { //retract it
-            NstUtility.collection.dropById(vm.messages, message.id);
-          }
-        }
-
-
-
-
-
-
-      });
-
-      $scope.$on('post-moved', function (event, data) {
-        // there are tow conditions that a moved post should be removed from messages list
-        // 1. The moved place is the one that you see its messages list (DONE)
-        // 2. You moved a place to another one and none of the post new places
-        //    are not marked to be shown in feeds page
-        // TODO: Implement the second condition
-
-        if ($stateParams.placeId === data.fromPlace.id) {
-
-          if (vm.messages.length === 1) {
-            loadMessages(true);
-            getUnreadsCount();
-          }
-
-
-          NstUtility.collection.dropById(vm.messages, data.postId);
-          return;
-        }
-      });
-
-      setNavbarProperties();
-
-    })();
-
-    function getUnreadsCount() {
-      return $q(function (resolve) {
-        NstSvcPlaceFactory.getPlacesUnreadPostsCount([vm.currentPlaceId])
-          .then(function (places) {
-            _.each(places, function (obj) {
-              vm.unreadCount = obj.count;
-            });
-            resolve();
-          });
-      });
-    }
-
-    $scope.$on('post-select',function(event, data) {
-      if (vm.tempBanPlaces) {
-        vm.tempBanPlaces = [];
-      }
-      if ( data.isChecked ) {
-        vm.selectedPosts.push(data.postId);
-      } else {
-        var index = vm.selectedPosts.indexOf(data.postId);
-        if (index > -1) vm.selectedPosts.splice(index, 1);
-      }
-      $scope.$broadcast('selected-length-change',{selectedPosts : vm.selectedPosts});
-    });
-
-    function setNavbarProperties() {
-      vm.navTitle = 'Feed';
-      vm.navIconClass = 'all-places';
-
-
-      if (isBookMark()) {
-        vm.navTitle = 'Favorite Feed';
-        vm.navIconClass = 'bookmarks';
-      }
-
-      if (isSent()) {
-        vm.navTitle = 'Sent';
-        vm.navIconClass = 'sent';
-      }
-
-    }
-    function isPlaceFeed() {
-      if ($state.current.name == 'app.place-messages' ||
-        $state.current.name == 'app.place-messages-sorted') {
-        return vm.isPlaceFilter = true;
-      }
-      return vm.isPlaceFilter = false;
-    }
-
-    function openContacts($event) {
-      $state.go('app.contacts', {}, {notify: false});
-      $event.preventDefault();
-    }
-
-    function confirmforRemoveMulti(posts, place) {
-      return $uibModal.open({
-        animation: false,
-        backdropClass: 'comdrop',
-        size: 'sm',
-        templateUrl: 'app/messages/partials/modals/remove-multi-from-confirm.html',
-        controller: 'RemoveFromConfirmController',
-        controllerAs: 'ctrl',
-        resolve: {
-          post: function () {
-            return posts;
-          },
-          place: function () {
-            return place;
-          }
-        }
-      }).result;
-    }
-
-    function removeMulti($event) {
-      $event.preventDefault();
-      confirmforRemoveMulti(vm.selectedPosts.length, vm.currentPlace).then(function (agree) {
-        if (!agree) {
-          return;
-        }
-        // var get = true;
-        for (var i = 0; i < vm.selectedPosts.length; i++) {
-          NstSvcPostFactory.get(vm.selectedPosts[i]).then(function (post) {
-            NstSvcPostFactory.remove(post.id, vm.currentPlaceId).then(function () {
-              NstUtility.collection.dropById(post.places, vm.currentPlaceId);
-              // toastr.success(NstUtility.string.format(NstSvcTranslation.get("The post has been removed from this Place.")));
-              $rootScope.$broadcast('post-removed', {
-                postId: post.id,
-                placeId: vm.currentPlaceId
+                  // TODO increase decrease on other ways
+                  --vm.currentPlace.counters.posts;
+                  $scope.$broadcast('selected-length-change', {
+                    selectedPosts: vm.selectedPosts
+                  });
+                  if (successCount + failedCount === allCount) {
+                    toastr.success(NstUtility.string.format(NstSvcTranslation.get("The {0} posts has been removed from this Place."), successCount));
+                    if (allCount !== successCount) {
+                      toastr.warning(NstUtility.string.format(NstSvcTranslation.get("The {0} posts has been not removed from this Place."), failedCount));
+                    }
+                    NstSvcPlaceFactory.get(vm.currentPlaceId, true).then(function (p) {
+                      vm.currentPlace.counters.posts = p.counters.posts;
+                    });
+                  }
+                }).catch(function () {
+                  ++failedCount;
+                  if (i === allCount - 1) {
+                    toastr.error(NstSvcTranslation.get("An error has occurred in trying to remove this message from the selected Place."));
+                    if (allCount !== failedCount) {
+                      NstSvcPlaceFactory.get(vm.currentPlaceId, true).then(function (p) {
+                        vm.currentPlace.counters.posts = p.counters.posts;
+                      });
+                    }
+                  }
+                });
               });
-              vm.selectedPosts.splice(0,1);
+            })
+              // var undoFlag = false;
+              // toastr.warning(NstUtility.string.format(NstSvcTranslation.get("The post has been removed from this Place.")), {
+              //   onHidden: actioner,
+              //   extraData : {
+              //     undo : undoFunction
+              //   }
+              // });
+              // window.actionsGC.push(action);
+              // var selecteds = vm.selectedPosts.slice(0);
 
-              // TODO increase decrease on other ways
+              // // Unselect posts
+              // vm.selectedPosts = [];
+              // $scope.$broadcast('selected-length-change', {
+              //   selectedPosts: vm.selectedPosts
+              // });
+
+
+              // // temporary hide post card from view
+              // selecteds.forEach(function(post) {
+              //   $rootScope.$broadcast('post-hide', {
+              //     postId: post,
+              //     placeId: vm.currentPlaceId
+              //   });
+              // });
+
+
+              // function actioner() {
+              //   action();
+              //   window.actionsGC.splice(window.actionsGC.indexOf(action), 1);
+              // }
+
+              // function undoFunction() {
+              //   undoFlag = true;
+              //   window.actionsGC.splice(window.actionsGC.indexOf(action), 1);
+
+              //   // make visible temporary hiden posts
+              //   selecteds.forEach(function(post) {
+              //     $rootScope.$broadcast('post-show', {
+              //       postId: post,
+              //       placeId: vm.currentPlaceId
+              //     });
+              //   });
+              // }
+
+              // function action() {
+              //   if ( undoFlag ) {
+              //     return;
+              //   }
+              //   for (var i = 0; i < selecteds.length; i++) {
+              //     NstSvcPostFactory.get(selecteds[i]).then(function (post) {
+              //       NstSvcPostFactory.remove(post.id, vm.currentPlaceId).then(function () {
+              //         NstUtility.collection.dropById(post.places, vm.currentPlaceId);
+              //         // toastr.success(NstUtility.string.format(NstSvcTranslation.get("The post has been removed from this Place.")));
+
+              //         $rootScope.$broadcast('post-removed', {
+              //           postId: post.id,
+              //           placeId: vm.currentPlaceId
+              //         });
+
+              //         // TODO increase decrease on other ways
+              //         --vm.currentPlace.counters.posts;
+
+              //         // Last item : updates the counter
+              //         if (i === selecteds.length - 1) {
+              //           NstSvcPlaceFactory.getFresh(vm.currentPlaceId).then(function (p) {
+              //             vm.currentPlace.counters.posts = p.counters.posts;
+              //           });
+              //         }
+              //       }).catch(function () {
+              //         toastr.error(NstSvcTranslation.get("An error has occurred in trying to remove this message from the selected Place."));
+              //       });
+              //     });
+              //   }
+
+              // }
+
+            });
+        }
+
+        function moveMulti($event) {
+          $event.preventDefault();
+          $uibModal.open({
+            animation: false,
+            backdropClass: 'comdrop',
+            size: 'sm',
+            templateUrl: 'app/messages/partials/modals/move.html',
+            controller: 'MovePlaceController',
+            controllerAs: 'ctrl',
+            resolve: {
+              postId: function () {
+                return vm.selectedPosts;
+              },
+              selectedPlace: function () {
+                return vm.currentPlace;
+              },
+              postPlaces: function () {
+                return vm.tempBanPlaces ? vm.tempBanPlaces : [];
+              },
+              multi: true
+            }
+          }).result.then(function (result) {
+            // vm.selectedPosts = [];
+            // $scope.$broadcast('selected-length-change',{selectedPosts : vm.selectedPosts.length});
+            for (var i = 0; i < result.success.length; i++) {
+              $scope.$emit('post-moved', {
+                postId: result.success[i],
+                toPlace: result.toPlace,
+                fromPlace: result.fromPlace
+              });
+
+              // Remove item fram staged posts
+              var index = vm.selectedPosts.indexOf(result.success[i]);
+              vm.selectedPosts.splice(index, 1);
               --vm.currentPlace.counters.posts;
-              $scope.$broadcast('selected-length-change',{selectedPosts : vm.selectedPosts});
+              // what is this ?  and TODO : optimise for multi   :
+              // NstUtility.collection.replaceById(vm.post.places, result.fromPlace.id, result.toPlace);
+            }
 
-              if ( i === vm.selectedPosts.length - 1 ){
-                NstSvcPlaceFactory.get(vm.currentPlaceId,true).then(function(p){
-                  vm.currentPlace.counters.posts = p.counters.posts;
+            if (result.failed.length > 0) {
+              vm.tempBanPlaces = [];
+              vm.tempBanPlaces.push(result.toPlace);
+            }
+            $scope.$broadcast('selected-length-change', {
+              selectedPosts: vm.selectedPosts
+            });
+            NstSvcPlaceFactory.getFresh(vm.currentPlaceId).then(function (p) {
+              vm.currentPlace.counters.posts = p.counters.posts;
+            });
+            NstSvcPlaceFactory.getFresh(result.toPlace.id);
+          });
+        }
+
+        function markMulti($event) {
+          $event.preventDefault();
+          for (var i = 0; i < vm.selectedPosts.length; i++) {
+            NstSvcPostFactory.pin(vm.selectedPosts[i]);
+          }
+          unselectAll();
+        }
+
+        function unselectAll() {
+          if (vm.selectedPosts.length > 0) {
+            vm.selectedPosts = [];
+            $scope.$broadcast('selected-length-change', {
+              selectedPosts: vm.selectedPosts
+            });
+          }
+        }
+
+        function selectAll() {
+          vm.selectedPosts = vm.messages.map(function (msg) {
+            return msg.id
+          })
+          $scope.$broadcast('selected-length-change', {
+            selectedPosts: vm.selectedPosts,
+            selectAll : true
+          });
+        }
+
+        function readMulti($event) {
+          $event.preventDefault();
+          for (var i = 0; i < vm.selectedPosts.length; i++) {
+            NstSvcPostFactory.read(vm.selectedPosts[i]);
+          }
+          // FIXME : this block after all responses
+          unselectAll()
+        }
+
+        function getMessages(settings, cacheHandler) {
+          vm.loading = true;
+          vm.error = false;
+
+          var promise = null;
+          if (vm.isUnreadMode) {
+            promise = NstSvcPostFactory.getUnreadMessages(settings, [vm.currentPlaceId], cacheHandler);
+          } else if (vm.isBookmark) {
+            promise = NstSvcPostFactory.getBookmarkedMessages(settings, cacheHandler);
+          } else if (vm.isSent) {
+            promise = NstSvcPostFactory.getSentMessages(settings, cacheHandler);
+          } else if (vm.isFeed) {
+            promise = NstSvcPostFactory.getFavoriteMessages(settings, null, cacheHandler);
+          } else {
+            promise = NstSvcPostFactory.getPlaceMessages(settings, vm.currentPlaceId, cacheHandler);
+          }
+
+          promise.then(function (posts) {
+            vm.reachedTheEnd = posts.length < settings.limit;
+            vm.noMessages = vm.messages.length === 0 && posts.length === 0;
+          }).catch(function () {
+            vm.error = true;
+          }).finally(function () {
+            $timeout(function () {
+              vm.loading = false;
+            }, 1000)
+          });
+
+          return promise;
+        }
+
+        function getLastMessageTime() {
+
+          var last = _.last(vm.messages);
+
+          if (!last) {
+            return null;
+          }
+          var lastDate = !vm.isSent && NST_MESSAGES_SORT_OPTION.LATEST_ACTIVITY == vm.messagesSetting.sort ? last.lastUpdate : last.timestamp;
+          if (moment.isMoment(lastDate)) {
+            return lastDate.format('x');
+          }
+
+          return lastDate;
+        }
+
+        function showNewMessages() {
+          reload().then(function () {
+            vm.hotMessagesCount = 0;
+          });
+
+          $rootScope.$emit('unseen-activity-clear');
+        }
+
+        function dismissNewMessage() {
+          vm.revealHotMessage = false;
+        }
+
+        function markAllAsRead() {
+          NstSvcPlaceFactory.markAllPostAsRead($stateParams.placeId);
+        }
+
+        function loadPlace() {
+          if (!vm.currentPlaceId) {
+            return;
+          }
+
+          NstSvcPlaceFactory.get(vm.currentPlaceId, true).then(function (place) {
+            vm.currentPlace = place;
+            vm.quickMessageAccess = place.hasAccess(NST_PLACE_ACCESS.WRITE_POST);
+            vm.placeRemoveAccess = place.hasAccess(NST_PLACE_ACCESS.REMOVE_POST);
+            try {
+              vm.sholocawPlaceId = !_.includes(['off', 'internal'], place.privacy.receptive);
+            } catch (e) {
+              vm.showPlaceId = true
+            }
+          });
+        }
+
+        function reloadPlace() {
+          if (!vm.currentPlaceId) {
+            return;
+          }
+
+          NstSvcPlaceFactory.getFresh(vm.currentPlaceId).then(function (place) {
+            vm.currentPlace = place;
+            vm.quickMessageAccess = place.hasAccess(NST_PLACE_ACCESS.WRITE_POST);
+            vm.placeRemoveAccess = place.hasAccess(NST_PLACE_ACCESS.REMOVE_POST);
+            try {
+              vm.sholocawPlaceId = !_.includes(['off', 'internal'], place.privacy.receptive);
+            } catch (e) {
+              vm.showPlaceId = true
+            }
+          });
+        }
+
+        function setLocationFlag() {
+          switch ($state.current.name) {
+            case 'app.messages-favorites':
+            case 'app.messages-favorites-sorted':
+              vm.isFeed = true;
+              break;
+
+            case 'app.messages-bookmarked':
+              vm.isBookmark = true;
+              break;
+
+            case 'app.messages-sent':
+            case 'app.messages-sent-sorted':
+              vm.isSent = true;
+              break;
+
+            case 'app.place-messages-unread':
+            case 'app.place-messages-unread-sorted':
+              vm.isUnreadMode = true;
+              break;
+
+            default:
+              if (NstSvcAuth.user && NstSvcAuth.user.id === vm.currentPlaceId.split('.')[0]) {
+                vm.isPersonal = true;
+              } else {
+                NstSvcUserFactory.getCurrent().then(function (data) {
+                  if (data.id === vm.currentPlaceId.split('.')[0]) {
+                    vm.isPersonal = true;
+                  }
                 });
               }
-            }).catch(function () {
-              toastr.error(NstSvcTranslation.get("An error has occurred in trying to remove this message from the selected Place."));
-            });
-          });
-        }
-
-      });
-    }
-
-    function moveMulti($event) {
-      $event.preventDefault();
-      $uibModal.open({
-        animation: false,
-        backdropClass: 'comdrop',
-        size: 'sm',
-        templateUrl: 'app/messages/partials/modals/move.html',
-        controller: 'MovePlaceController',
-        controllerAs: 'ctrl',
-        resolve: {
-          postId: function () {
-            return vm.selectedPosts;
-          },
-          selectedPlace: function () {
-            return vm.currentPlace;
-          },
-          postPlaces: function () {
-            return vm.tempBanPlaces ? vm.tempBanPlaces : [];
-          },
-          multi: true
-        }
-      }).result.then(function (result) {
-        // vm.selectedPosts = [];
-        // $scope.$broadcast('selected-length-change',{selectedPosts : vm.selectedPosts.length});
-        for ( var i = 0; i < result.success.length; i++) {
-          $scope.$emit('post-moved', {
-            postId: result.success[i],
-            toPlace: result.toPlace,
-            fromPlace: result.fromPlace
-          });
-
-          if ( result.failed.length > 0 ) {
-            vm.tempBanPlaces = [];
-            vm.tempBanPlaces.push(result.toPlace);
+              vm.isPlaceMessage = true;
+              break;
           }
-
-          // Remove item fram staged posts
-          var index = vm.selectedPosts.indexOf(result.success[i]);
-          vm.selectedPosts.splice(index, 1);
-
-          --vm.currentPlace.counters.posts;
-          // what is this ?  and TODO : optimise for multi   :
-          // NstUtility.collection.replaceById(vm.post.places, result.fromPlace.id, result.toPlace);
         }
-        $scope.$broadcast('selected-length-change',{selectedPosts : vm.selectedPosts});
-        NstSvcPlaceFactory.get(vm.currentPlaceId,true).then(function(p){
-          vm.currentPlace.counters.posts = p.counters.posts;
+
+        $scope.$watch(function () {
+          return vm.unreadCount
+        }, function () {
+          if (vm.unreadCount === 0) {
+            vm.exitUnseenMode();
+            vm.isUnreadMode = false;
+          }
         });
-        NstSvcPlaceFactory.get(result.toPlace,true);
-      });
-    }
 
-    function markMulti($event) {
-      $event.preventDefault();
-      for (var i = 0; i < vm.selectedPosts.length; i++) {
-        NstSvcPostFactory.pin(vm.selectedPosts[i]);
-      }
-      vm.selectedPosts = [];
-      $scope.$broadcast('selected-length-change',{selectedPosts : vm.selectedPosts});
-    }
+        eventReferences.push($rootScope.$on('reload-counters', function () {
+          loadUnreadPostsCount();
+        }));
 
-    function readMulti($event) {
-      $event.preventDefault();
-      for (var i = 0; i < vm.selectedPosts.length; i++) {
-          NstSvcPostFactory.read(vm.selectedPosts[i]);
-      }
-
-      // FIXME : this block after all responses
-      vm.selectedPosts = [];
-      $scope.$broadcast('selected-length-change',{selectedPosts : vm.selectedPosts});
-    }
-
-    function getMessages() {
-      vm.messagesSetting.skip = null;
-      switch ($state.current.name) {
-        case 'app.place-messages':
-        case 'app.place-messages-sorted':
-          return NstSvcPostFactory.getPlaceMessages(vm.messagesSetting, vm.currentPlaceId);
-
-        case 'app.messages-bookmarked':
-        case 'app.messages-bookmarked-sorted':
-          vm.messagesSetting.skip = _.size(vm.messages);
-          return NstSvcPostFactory.getBookmarkedMessages(vm.messagesSetting);
-
-        case 'app.messages-sent':
-        case 'app.messages-sent-sorted':
-          return NstSvcPostFactory.getSentMessages(vm.messagesSetting);
-
-        case 'app.messages-favorites':
-        case 'app.messages-favorites-sorted':
-          return NstSvcPostFactory.getFavoriteMessages(vm.messagesSetting);
-
-        case 'app.place-messages-unread':
-          return NstSvcPostFactory.getUnreadMessages(vm.messagesSetting, [vm.currentPlaceId], false);
-
-
-        default:
-          return NstSvcPostFactory.getMessages(vm.messagesSetting);
-      }
-    }
-
-    function loadViewSetting() {
-      return $q(function (resolve) {
-        var setting = {
-          content: readSettingItem(NST_MESSAGES_VIEW_SETTING.CONTENT),
-          attachments: readSettingItem(NST_MESSAGES_VIEW_SETTING.ATTACHMENTS),
-          comments: readSettingItem(NST_MESSAGES_VIEW_SETTING.COMMENTS),
-          quickMessage: readSettingItem(NST_MESSAGES_VIEW_SETTING.QUICK_MESSAGE)
-        };
-        vm.viewSetting = _.defaults(setting, defaultViewSetting);
-        resolve(vm.viewSetting);
-      });
-    }
-
-    function loadMessages(force, after) {
-      if (vm.loading || ((vm.noMessages || vm.reachedTheEnd || vm.errorInInitialLoading) && !force)) {
-        return $q.resolve(vm.messages);
-      }
-
-      vm.tryAgainToLoadMore = false;
-      vm.loading = true;
-
-      return getAccessableMessages(after);
-    }
-
-    function getAccessableMessages(after) {
-      var defer = $q.defer();
-
-      if (after) {
-        vm.messagesSetting.after = getFirstMessageTime();
-      } else {
-        vm.messagesSetting.date = getLastMessageTime();
-        vm.messagesSetting.after = null;
-      }
-
-
-      getMessages().then(function (messages) {
-        vm.cache = _.concat(vm.cache, messages);
-
-        if (0 == vm.cache.length && !after) {
-          vm.noMessages = true;
-        }
-
-        if (messages.length < vm.messagesSetting.limit && !after) {
-          // fixme : user NstLog
-          // $log.debug('Messages | Reached the end because of less results: ', messages, after);
-          vm.reachedTheEnd = true;
-        }
-
-        if (messages.length > 0) {
-          var lastMessageVersion = vm.messages.slice();
-          for (var i = 0; i < messages.length; i++) {
-            var hasData = lastMessageVersion.filter(function (obj) {
-              return (obj.id === messages[i].id);
-            });
-            messages[i].attachments = messages[i].attachments;
-
-            if (hasData.length === 0) {
-              if (after) {
-                vm.messages.unshift(messages[i]);
-              } else {
-                vm.messages.push(messages[i]);
-              }
-
+        $scope.$on('$destroy', function () {
+          if (CITHandler) {
+            $timeout.cancel(CITHandler);
+          }
+          NstSvcSync.closeChannel(vm.syncId);
+          SvcCardCtrlAffix.measurement(80);
+          _.forEach(eventReferences, function (canceler) {
+            if (_.isFunction(canceler)) {
+              canceler();
             }
-          }
-        }
-        vm.tryAgainToLoadMore = false;
-        vm.loading = false;
-        defer.resolve(vm.messages);
-
-      })
-        .catch(function (error) {
-          vm.loading = false;
-          vm.tryAgainToLoadMore = true;
-          defer.reject(error);
-        });
-
-      return defer.promise;
-    }
-
-    function loadMore(force) {
-      vm.messagesSetting.limit = DEFAULT_MESSAGES_COUNT;
-      vm.loadMoreCounter++;
-      NstSvcInteractionTracker.trackEvent('posts', 'load more', vm.loadMoreCounter);
-
-      return loadMessages(force).catch(function (error) {
-        var deferred = $q.defer();
-
-        $log.debug('Messages | Load More Error: ', error);
-        deferred.reject.apply(null, arguments);
-
-        return deferred.promise;
-      });
-    }
-
-    function loadRemovePostAccess() {
-      vm.placeRemoveAccess = vm.currentPlace.hasAccess(NST_PLACE_ACCESS.REMOVE_POST);
-      return $q.resolve(vm.placeRemoveAccess);
-    }
-
-    function getFirstMessageTime() {
-
-      var fists = _.first(vm.messages);
-
-      if (!fists) {
-        return moment(NstSvcDate.now()).format('x');
-      }
-      var lastDate = NST_MESSAGES_SORT_OPTION.LATEST_ACTIVITY == vm.messagesSetting.sort ? fists.lastUpdate : fists.timestamp;
-      if (moment.isMoment(lastDate)) {
-        return lastDate.format('x');
-      }
-
-      return lastDate;
-    }
-
-    function getLastMessageTime() {
-
-      var last = _.last(vm.messages);
-
-      if (!last) {
-        return null;
-      }
-      var lastDate = !isSent() && NST_MESSAGES_SORT_OPTION.LATEST_ACTIVITY == vm.messagesSetting.sort ? last.lastUpdate : last.timestamp;
-      if (moment.isMoment(lastDate)) {
-        return lastDate.format('x');
-      }
-
-      return lastDate;
-    }
-
-    function toggleContentPreview() {
-      vm.viewSetting.content = !vm.viewSetting.content;
-      setSettingItem(NST_MESSAGES_VIEW_SETTING.CONTENT, vm.viewSetting.content);
-    }
-
-    function toggleCommentsPreview() {
-      vm.viewSetting.comments = !vm.viewSetting.comments;
-      setSettingItem(NST_MESSAGES_VIEW_SETTING.COMMENTS, vm.viewSetting.comments);
-    }
-
-    function toggleAttachmentsPreview() {
-      vm.viewSetting.attachments = !vm.viewSetting.attachments;
-      setSettingItem(NST_MESSAGES_VIEW_SETTING.ATTACHMENTS, vm.viewSetting.attachments);
-    }
-
-    function toggleQuickMessagePreview() {
-      vm.viewSetting.quickMessage = !vm.viewSetting.quickMessage;
-      setSettingItem(NST_MESSAGES_VIEW_SETTING.QUICK_MESSAGE, vm.viewSetting.quickMessage);
-    }
-
-    function generateUrls() {
-      vm.urls = {
-        latestActivity: '',
-        latestMessages: ''
-      };
-
-      if (vm.currentPlaceId) {
-        vm.urls.latestActivity = $state.href('app.place-messages-sorted', {
-          placeId: vm.currentPlaceId,
-          sort: NST_MESSAGES_SORT_OPTION.LATEST_ACTIVITY
-        });
-        vm.urls.latestMessages = $state.href('app.place-messages-sorted', {
-          placeId: vm.currentPlaceId,
-          sort: NST_MESSAGES_SORT_OPTION.LATEST_MESSAGES
-        });
-      } else {
-        vm.urls.latestActivity = $state.href('app.messages-sorted', {
-          sort: NST_MESSAGES_SORT_OPTION.LATEST_ACTIVITY
-        });
-        vm.urls.latestMessages = $state.href('app.messages-sorted', {
-          sort: NST_MESSAGES_SORT_OPTION.LATEST_MESSAGES
+          });
         });
       }
 
-    }
-
-    function readSettingItem(key) {
-      var value = NstSvcMessagesSettingStorage.get(key);
-
-      return 'hide' !== value;
-    }
-
-    function setSettingItem(key, bool) {
-      NstSvcMessagesSettingStorage.set(key, bool ? 'show' : 'hide');
-    }
-
-    function showNewMessages() {
-      vm.cache = [];
-      vm.messages = [];
-      vm.revealHotMessage = true;
-      vm.loading = true;
-      getAccessableMessages().then(function () {
-        vm.hotMessages = [];
-        vm.hotMessageStorage = [];
-        vm.hasNewMessages = false;
-      }).catch(function () {
-        vm.hasNewMessages = true;
-      });
-
-
-      $rootScope.$emit('unseen-activity-clear');
-    }
-
-    function dismissNewMessage() {
-      vm.hasNewMessages = false;
-      vm.revealHotMessage = false;
-    }
-
-    function isBookMark() {
-      if ($state.current.name == 'app.messages-favorites' ||
-        $state.current.name == 'app.messages-favorites-sorted') {
-        vm.isBookmarkMode = true;
-        return true;
-      }
-      return false;
-    }
-
-    function isSubPersonal() {
-      if (vm.currentPlaceId)
-        return NstSvcAuth.user.id == vm.currentPlaceId.split('.')[0];
-    }
-
-    function isSent() {
-      if ($state.current.name == 'app.messages-sent' ||
-        $state.current.name == 'app.messages-sent-sorted') {
-        vm.isSentMode = true;
-        return true;
-      }
-      return false;
-    }
-
-    function isUnread() {
-      if ($state.current.name == 'app.place-messages-unread' ||
-        $state.current.name == 'app.place-messages-unread-sorted') {
-        vm.isUnreadMode = true;
-        return true;
-      }
-      return false;
-    }
-
-    function isConversation() {
-      if ($state.current.name == 'app.conversation' ||
-        $state.current.name == 'app.conversation-keyword') {
-        return vm.isConvMode = true;
-      }
-      return vm.isConvMode = false;
-    }
-    function fillPlaceIds(container, list) {
-      if (_.isObject(container) && _.keys(container).length > 1) {
-        _.forIn(container, function (item) {
-          if (_.isObject(item) && item.id) {
-            list.push(item.id);
-
-            fillPlaceIds(item.children, list);
-          }
-        });
-      }
-    }
-
-    function loadMyPlaces() {
-      var defer = $q.defer();
-
-      NstSvcPlaceFactory.getMyTinyPlaces().then(function (myPlaces) {
-        var flatPlaceIds = [];
-        fillPlaceIds(myPlaces, flatPlaceIds);
-        vm.myPlaceIds = flatPlaceIds;
-        defer.resolve(flatPlaceIds);
-      }).catch(defer.reject);
-
-      return defer.promise;
-    }
-
-    function markAllAsRead() {
-      NstSvcPlaceFactory.markAllPostAsRead($stateParams.placeId);
-    }
-
-    function getQuickMessageAccess() {
-      var defer = $q.defer();
-
-      if (!vm.currentPlace.id || vm.isSentMode || vm.isUnreadMode) {
-        vm.quickMessageAccess = false;
-        defer.resolve(false);
-      } else {
-        vm.quickMessageAccess = vm.currentPlace.hasAccess(NST_PLACE_ACCESS.WRITE_POST);
-      }
-
-      return $q.resolve(vm.quickMessageAccess);
-    }
-
-    $scope.$on('$destroy', function () {
-      NstSvcSync.closeChannel(vm.syncId);
-      SvcCardCtrlAffix.measurement(80);
-      _.forEach(eventReferences, function (cenceler) {
-        if (_.isFunction(cenceler)) {
-          cenceler();
-        }
-      });
-    });
-
-    $rootScope.$on('reload-counters', function () {
-      getUnreadsCount();
-    });
-
-  }
-
-})();
+    })();

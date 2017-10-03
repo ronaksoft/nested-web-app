@@ -26,6 +26,8 @@ function buildScripts() {
   ).pipe(
     $.replace('{{BUILD}}', '3.0.0-alpha')
   ).pipe(
+    $.replace('_BUILD_VERSION_', conf.ver)
+  ).pipe(
     gulp.dest(path.join(conf.paths.tmp, '/serve/config'))
   );
 

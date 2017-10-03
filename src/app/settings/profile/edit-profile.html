@@ -6,7 +6,7 @@
 </div>
 <div class="_fw upload-photo-container">
   <div class="_ma upload-photo">
-    <label ng-if="ctrl.canChangePicture" for="logo">
+    <label ng-if="ctrl.canChangePicture" for="logo" class="profile-picture" progress="0">
      <img initial-avatar="{{::ctrl.model.id}}" name="{{::ctrl.model.fullName}}" picture="{{ctrl.model | avatar : 'x128'}}" data-width="96" data-height="96" data-radius="96" class="account-initials-24" data-word-count="2" data-font-size="24"/>
     </label>
     <img ng-if="!ctrl.canChangePicture" initial-avatar="{{::ctrl.model.id}}" name="{{::ctrl.model.fullName}}" picture="{{ctrl.model | avatar : 'x128'}}" data-width="96" data-height="96" data-radius="96" class="account-initials-24" data-word-count="2" data-font-size="24"/>

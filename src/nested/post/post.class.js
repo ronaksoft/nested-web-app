@@ -12,7 +12,8 @@
     function Post() {
 
       this.id = undefined;
-      this.body = undefined;
+      this.body = '';
+      this.preview = '';
       this.contentType = undefined;
       this.counters = {};
       this.forwardFromId = undefined;
@@ -42,7 +43,8 @@
       var imgRegex = new RegExp('<img(.*?)source=[\'|"](.*?)[\'|"](.*?)>', 'g');
       var resources = this.resources;
       this.trusted = true;
-      var body = this.body.replace(imgRegex, function (m, p1, p2, p3) {
+      var text = this.body || this.preview;
+      var body = text.replace(imgRegex, function (m, p1, p2, p3) {
         var src = resources[p2];
         return "<img" + p1 + "src='" + src + "' " + p3 + ">"
       });

@@ -361,10 +361,6 @@ select,option {
     }
   }
 }
-.btn-primary:active,.btn-primary:focus {
-  //border-color: $color-sense!important;
-  //background: linear-gradient(to bottom, #8AEBB4, #8AEBB4 100%)!important;
-}
 
 .suggests {
   height: 212px;
@@ -376,93 +372,6 @@ select,option {
   font-size: 14px;
   color: $color-gale-new;
   padding: 0 16px;
-  /*.item {
-    width: 48%;
-    height: 50px;
-    transition: all .3s;
-    cursor: pointer;
-    .item-logo {
-      width: 64px;
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex: none;
-      img {
-        width: 48px;
-        height: auto;
-      }
-    }
-    .det {
-      flex: 1;
-      justify-content: center;
-      p {
-        @extend .nst-font-large;
-        line-height: 19px;
-        color: #143C82;
-        font-weight: 400;
-        margin: 0;
-      }
-      span {
-        font-size: 13px;
-        line-height: 16px;
-        color: $color-grey-text;
-        font-weight: 400;
-        strong {
-          color: $color-solid;
-        }
-      }
-    }
-    &:hover {
-      background-color: #E8FBF0;
-      border-radius: 2px;
-      .det p {
-        text-decoration: underline;
-      }
-    }
-  }
-  .item.invite {
-    .item-logo {
-      width: 48px;
-      img {
-        width: 32px;
-        height: auto;
-      }
-    }
-    .det {
-      p {
-        @extend .nst-font-large;
-        line-height: 19px;
-        color: #143C82;
-        font-weight: 400;
-        margin: 0;
-      }
-    }
-    &:hover {
-      background-color: $color-bg-pending-hover;
-    }
-  }
-  .item.add {
-    height: 72px;
-    .item-logo {
-      width: 64px;
-      img {
-        width: 48px;
-        height: auto;
-      }
-    }
-    .det {
-      p {
-        line-height: 19px;
-        @extend .nst-font-large;
-        color: $color-sense-wire;
-        font-weight: 400;
-      }
-    }
-    &:hover {
-      background-color: #E8FBF0;
-    }
-  }*/
   .devider {
     width: 4%;
     height: 50px;

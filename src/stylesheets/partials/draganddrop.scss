@@ -46,18 +46,6 @@ body.drag-enter #compose-box:after {
   animation-delay: 10s;
   animation-fill-mode: forwards;
 }
-//.event-dragenter .droplet {
-//  background-color: #E7ECE9;
-//  opacity: .5;
-//  height: 100%;
-//  animation: dragDrop .1s;
-//}
-//.event-drop .droplet {
-//  background-color: transparent;
-//  opacity: .5;
-//  z-index: -990;
-//  height: 100%;
-//}
 #view {
   z-index: 4000;
 }

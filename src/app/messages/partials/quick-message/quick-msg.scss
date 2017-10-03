@@ -13,6 +13,9 @@
         left: -4px;
       }
     }
+    .editor-btn {
+      display: none;
+    }
     .quick-message {
       z-index: 10;
       border: 1px solid $color-border;
@@ -81,6 +84,7 @@
       .compose-scroll-wrapper {
         min-height: 0;
         max-height: none;
+        overflow: visible;
       }
       .editor-butns-wrapper {
         // max-height : 0;

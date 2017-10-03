@@ -4,10 +4,6 @@ body.isDesktop {
     width: calc(100% - 160px);
     height: calc(100% - 160px);
   }
-  .nst-container{
-    margin-left: $sidebar-width;
-    width: calc(100% - 240px);
-  }
   .noSide
   .nst-container{
     margin-left: 0;

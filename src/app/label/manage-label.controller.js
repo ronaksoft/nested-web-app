@@ -5,8 +5,9 @@
     .module('ronak.nested.web.components')
     .controller('manageLabelController', manageLabelController);
 
-  function manageLabelController($state, $scope, $q, $uibModalInstance, $uibModal, $filter
-    , toastr, _, NstSvcTranslation, NstSearchQuery, NstSvcLabelFactory, NST_LABEL_SEARCH_FILTER, NstSvcAuth) {
+  function manageLabelController($state, $scope, $q, $uibModalInstance, $uibModal, $rootScope,
+                                 $filter, toastr, _, NstSvcTranslation, NstSearchQuery,
+                                 NstSvcLabelFactory, NST_LABEL_SEARCH_FILTER, NstSvcAuth) {
 
     var vm = this;
 
@@ -29,6 +30,7 @@
     vm.changeTab = changeTab;
     vm.selectedView = 0;
     vm.searchKeyUp = _.debounce(searchLabel, 512);
+    vm.loadMore = vm.searchKeyUp;
     vm.translation = {
       pending: NstSvcTranslation.get('Pending Requests'),
       request: NstSvcTranslation.get('Requests')
@@ -37,6 +39,7 @@
       skip: 0,
       limit: 16
     };
+    vm.goUpwardVal = 0;
 
     init();
 
@@ -52,26 +55,50 @@
       if (!vm.haveMore) {
         return;
       }
-      var searchService;
       var filter = (vm.labelManager && vm.selectedView === 0 ? NST_LABEL_SEARCH_FILTER.ALL : NST_LABEL_SEARCH_FILTER.MY_PRIVATES);
       if (vm.keyword.length > 0) {
         var keyword = $filter('scapeSpace')(vm.keyword);
-        searchService = NstSvcLabelFactory.search(keyword, filter, vm.setting.skip, vm.setting.limit);
+        NstSvcLabelFactory.search(keyword, filter, vm.setting.skip, vm.setting.limit).then(function(labels) {
+          // vm.labels = _.unionBy(vm.labels.concat(labels), 'id');
+          merge(labels);
+          vm.oldKeyword = vm.keyword;
+          vm.haveMore = labels.length === vm.setting.limit;
+          vm.setting.skip += labels.length;
+        });
       } else {
-        searchService = NstSvcLabelFactory.search(null, filter, vm.setting.skip, vm.setting.limit);
+        NstSvcLabelFactory.search(null, filter, vm.setting.skip, vm.setting.limit, function(cachedLabels) {
+          merge(cachedLabels);
+        }).then(function (labels) {
+          merge(labels);
+          vm.oldKeyword = vm.keyword;
+          vm.haveMore = labels.length === vm.setting.limit;
+          vm.setting.skip += labels.length;
+        });
       }
-      searchService.then(function (result) {
-        vm.labels = _.unionBy(vm.labels.concat(result), 'id');
-        vm.oldKeyword = vm.keyword;
-        vm.haveMore = result.length === vm.setting.limit;
-        vm.setting.skip += result.length;
-      });
+    }
+
+    function merge(labels) {
+
+      var newItems = _.differenceBy(_.unionBy(labels, 'id'), vm.labels, 'id');
+      // var removedItems = _.differenceBy(vm.labels, labels, 'id');
+
+      // first omit the removed items; The items that are no longer exist in fresh contacts
+      // _.forEach(removedItems, function (item) {
+      //   var index = _.findIndex(vm.labels, { 'id': item.id });
+      //   if (index > -1) {
+      //     vm.labels.splice(index, 1);
+      //   }
+      // });
+
+      // add new items; The items that do not exist in cached items, but was found in fresh contacts
+      vm.labels = _.concat(vm.labels, newItems);
     }
 
     function restoreDefault() {
       vm.setting.skip = 0;
       vm.labels = [];
       vm.haveMore = true;
+      ++vm.goUpwardVal;
     }
 
     function getRequests() {
@@ -99,7 +126,7 @@
       }).result.then(function (result) {
         if (result) {
           restoreDefault();
-          searchLabel(vm.keyword);
+          searchLabel();
         }
       });
     }
@@ -128,7 +155,7 @@
         controllerAs: 'requestCtrl'
       }).result.then(function (result) {
         if (result) {
-          restoreDefault();
+          // restoreDefault();
           getRequests();
         }
       });
@@ -152,8 +179,6 @@
         }
       }).result.then(function () {
         callRemoveLabelPromises().then(function () {
-          restoreDefault();
-          searchLabel();
           vm.selectedItems = [];
           toastr.success(NstSvcTranslation.get("Selected labels removed successfully."));
         });
@@ -164,6 +189,9 @@
       var labelActionPromises = [];
       for (var i = 0; i < vm.selectedItems.length; i++) {
         labelActionPromises.push(NstSvcLabelFactory.remove(vm.selectedItems[i]));
+        var index = _.findIndex(vm.labels, {id: vm.selectedItems[i]});
+        vm.labels.splice(index, 1);
+        vm.setting.skip--;
       }
       return $q.all(labelActionPromises);
     }
@@ -188,8 +216,9 @@
         NstSvcLabelFactory.updateRequest(id, 'reject').then(function () {
           removeRequest(id);
           restoreDefault();
-          searchLabel(vm.keyword);
+          searchLabel();
           toastr.success(NstSvcTranslation.get("Request declined successfully."));
+          $rootScope.$emit('label-request-status-changed');
         }).catch(function () {
           toastr.error(NstSvcTranslation.get("Something went wrong."));
         });
@@ -200,8 +229,9 @@
       NstSvcLabelFactory.updateRequest(id, 'accept').then(function () {
         removeRequest(id);
         restoreDefault();
-        searchLabel(vm.keyword);
+        searchLabel();
         toastr.success(NstSvcTranslation.get("Request accepted successfully."));
+        $rootScope.$emit('label-request-status-changed');
       }).catch(function () {
         toastr.error(NstSvcTranslation.get("Something went wrong."));
       });
@@ -251,7 +281,7 @@
 
     function changeTab () {
       restoreDefault();
-      searchLabel(vm.keyword);
+      searchLabel();
     }
 
     function searchThis(title) {

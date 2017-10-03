@@ -1,31 +1,32 @@
 <a class="_difh list-items _fn sidebar-profile-popover">
   <div class="profile-user-avatar-32">
-    <img initial-avatar="{{ctlSidebar.user.id}}" picture="{{ctlSidebar.user | avatar}}" data-width="32" data-height="32"
-         data-radius="32" class="account-initials-24" data-word-count="2" data-font-size="12" name="{{ctlSidebar.user.fullName}}"/>
+    <img initial-avatar="{{ctrlTopBar.user.id}}" picture="{{ctrlTopBar.user | avatar}}" data-width="32" data-height="32"
+         data-radius="32" class="account-initials-24" data-word-count="2" data-font-size="12" name="{{ctrlTopBar.user.fullName}}"/>
   </div>
   <div class="id-name-user _difv _fn _txe">
-    <span class="_db _fn">{{ctlSidebar.user.fullName}}</span>
-    <small class="_df _fn">@{{ctlSidebar.user.id}}</small>
+    <span class="_db _fn">{{ctrlTopBar.user.fullName}}</span>
+    <small class="_df _fn">@{{ctrlTopBar.user.id}}</small>
   </div>
 
 </a>
-<a class="_df list-items _aic" ui-sref="app.settings.profile" target="_blank" ng-click="ctlSidebar.closeProfile(); _track('sidebar', 'view profile');">
+<a class="_df list-items _aic" ui-sref="app.settings.profile" ng-click="ctrlTopBar.closeProfile(); _track('sidebar', 'view profile');">
   <translate>Profile Settings</translate>
 </a>
 <hr class="line-popover">
 <!--<a class="_df list-items _aic">-->
   <!--<translate>Install apps</translate>-->
 <!--</a>-->
-<a class="_df list-items _aic" ng-click="ctlSidebar.closeProfile()" target="_blank" href="https://help.nested.me">
+<a class="_df list-items _aic" ng-click="ctrlTopBar.closeProfile()" target="_blank" href="https://help.nested.me">
   <translate>Help center</translate>
 </a>
-<a class="_df list-items _aic" ng-click="ctlSidebar.closeProfile(); _track('sidebar', 'report a problem');" ui-sref="app.place-compose({ placeId: 'feedback'})" ui-sref-opts="{notify: false}" >
+<a class="_df list-items _aic" ng-click="ctrlTopBar.closeProfile(); _track('sidebar', 'report a problem');" ui-sref="app.place-compose({ placeId: 'support@nested.me'})" ui-sref-opts="{notify: false}" >
   <translate>Report a problem</translate>
 </a>
-<a class="_df list-items _aic" target="_blank" ng-click="ctlSidebar.closeProfile()" href="{{$root._direction === 'rtl' ? 'https://nested.me/fa/feedback/' : 'https://nested.me/feedback/'}}">
+<!-- <a class="_df list-items _aic" target="_blank" ng-click="ctrlTopBar.closeProfile()" href="{{$root._direction === 'rtl' ? 'https://nested.me/fa/feedback/' : 'https://nested.me/feedback/'}}"> -->
+<a class="_df list-items _aic" ng-click="ctrlTopBar.closeProfile()" ui-sref="app.place-compose({ placeId: 'feedback@nested.me'})" ui-sref-opts="{notify: false}">
   <translate>Send a feedback</translate>
 </a>
-<a ng-if="ctlSidebar.user.admin" class="_df list-items _aic" target="_blank" href="//{{ctlSidebar.admin_area}}">
+<a ng-if="ctrlTopBar.user.admin" class="_df list-items _aic" target="_blank" href="{{ctrlTopBar.adminArea}}">
   <translate>Admin area</translate>
 </a>
 <hr class="line-popover">

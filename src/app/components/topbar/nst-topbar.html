@@ -1,0 +1,207 @@
+<div class="top-bar _100vw ng-class:{'search-modal-is-open' : ctrlTopBar.searchModalOpen || ctrlTopBar.advancedSearchOpen}">
+  <div class="logo">
+    <a ui-sref="app.messages-favorites()" class="_df">
+      <div data-uib-tooltip-template="'nested-uib-tooltip.html'" class="_df" data-tooltip-placement="bottom auto" data-tooltip-append-to-body="true">
+        <div id="Logo-white"></div>
+      </div>
+      <script type="text/ng-template" id="nested-uib-tooltip.html">
+        <span>
+          Nested &copy; 2017
+          <br>
+          v {{ctrlTopBar.APP_VERSION}}({{ctrlTopBar.BUILD_VERSION}})
+        </span>
+      </script>
+      <div class="_df">
+        <div id="Logo-type-white"></div>
+      </div>
+    </a>
+  </div>
+  <div class="search">
+    <div class="inner ng-class:{'openend' : ctrlTopBar.searchModalOpen || ctrlTopBar.advancedSearchOpen}">
+      <i ng-if="ctrlTopBar.isEmpty()">
+        <svg class="_16svg fill-white">
+          <use xlink:href="/assets/icons/nst-icn16.svg#search"></use>
+        </svg>
+      </i>
+      <i ng-if="!ctrlTopBar.isEmpty()" ng-click="ctrlTopBar.empty()">
+        <svg class="_16svg fill-white">
+          <use xlink:href="/assets/icons/nst-icn16.svg#negative-xcross"></use>
+        </svg>
+      </i>
+      <div class="input-wrapper iscroll-wrapper" iscroll="{scrollY: false,scrollX: true}" topbar-scrollbar>
+        <div class="iscroll-scroller">
+          <div class="_df _fn">
+            <div class="search-chips-container _df" ng-if="ctrlTopBar.chips.length > 0">
+              <div ng-repeat="chip in ctrlTopBar.chips" class="chips">
+                <div class="close-chips">
+                  <svg ng-click="ctrlTopBar.removeChip(chip.type, chip.title)" class="_16svg _df _fn fill-white">
+                    <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
+                  </svg>
+                </div>
+                <b><span ng-if="chip.type != 'keyword'" class="_df _fn">{{chip.type}}&nbsp;</span></b>
+                <span>{{chip.title}}</span>
+              </div>
+            </div>
+            <input placeholder="{{ctrlTopBar.searchPlaceholder}}" ng-model="ctrlTopBar.newQuery"
+              ng-keyup="ctrlTopBar.searchKeyPressed($event, ctrlTopBar.newQuery, true)" ng-focus="ctrlTopBar.toggleSearchModal(true);">
+          </div>
+        </div>
+      </div>
+      <span ng-if="ctrlTopBar.searchModalOpen || ctrlTopBar.advancedSearchOpen" class="advanced-search ng-class:{'open' : ctrlTopBar.advancedSearchOpen}" ng-click="ctrlTopBar.toggleAdvancedSearch()">
+        <svg class="_24svg fill-white">
+          <use xlink:href="/assets/icons/nst-icn24.svg#preferences"></use>
+        </svg>
+      </span>
+    </div>
+  </div>
+  <div class="account">
+    <a data-uib-tooltip-template="'label-uib-tooltip.html'" data-tooltip-append-to-body="false" data-tooltip-placement="bottom auto"
+      ng-click="ctrlTopBar.goLabelRoute($event);" manage-label>
+      <svg class="_20svg fill-white">
+        <use xlink:href="/assets/icons/nst-icn20.svg#tag"></use>
+      </svg>
+      <div class="unread-notif-badge" ng-if="ctrlTopBar.user.authority.labelEditor && ctrlTopBar.requestedLabels > 0">{{ctrlTopBar.requestedLabels | localize}}</div>
+    </a>
+    <a class="cursor-pointer" data-uib-tooltip-template="'top-notification-uib-tooltip.html'" data-tooltip-append-to-body="false" data-tooltip-placement="bottom auto"
+       data-uib-popover-template="'app/notification/notification-popover.html'" data-popover-placement="{{$root._direction === 'rtl' ? 'bottom-left' : 'bottom-right'}} auto"
+       data-popover-class="notifications-popover" data-popover-is-open="ctrlTopBar.notifOpen" data-popover-append-to-body="false"
+       data-popover-trigger="none" ng-click="ctrlTopBar.notifOpen =! ctrlTopBar.notifOpen;ctrlTopBar.profileOpen = false;ctrlTopBar.notificationsCount = 0;$event.preventDefault();$event.stopPropagation()">
+      <svg class="_20svg fill-white">
+        <use xlink:href="/assets/icons/nst-icn20.svg#bell"></use>
+      </svg>
+      <div class="unread-notif-badge" ng-if="ctrlTopBar.notificationsCount > 0">{{ctrlTopBar.notificationsCount | localize}}</div>
+    </a>
+    <a class="detailed" data-uib-popover-template="'app/settings/profile/profile-popover.html'" data-popover-placement="bottom-{{$root._direction === 'rtl' ? 'left' : 'right'}} auto"
+       data-popover-class="pop-white profile-popover" data-popover-is-open="ctrlTopBar.profileOpen" data-popover-append-to-body="false"
+       data-popover-trigger="none">
+      <div class="top-user-avatar-24" ng-click="ctrlTopBar.notifOpen = false;">
+        <img initial-avatar="{{ctrlTopBar.user.id}}" name="{{ctrlTopBar.user.fullName}}" picture="{{ctrlTopBar.user | avatar}}" data-width="32"
+             data-height="32" data-radius="30" class="account-initials-24 _df" data-word-count="2" data-font-size="12" />
+      </div>
+    </a>
+  </div>
+</div>
+<!-- search Modal
+ ======================-->
+<div class="search-modal" ng-if="ctrlTopBar.searchModalOpen || ctrlTopBar.advancedSearchOpen">
+  <!-- Backdrop
+  ====================== -->
+  <div class="backdrop" ng-click="ctrlTopBar.toggleSearchModal(false)"></div>
+  <div class="search-popover" ng-if="ctrlTopBar.searchModalOpen">
+    <div class="_difh _fw search-query _aic" ng-if="ctrlTopBar.newQuery.length > 0">
+      <a class="_df _fw"  ng-click="ctrlTopBar.searchIt(ctrlTopBar.newQuery, true)">
+        <translate>Search for <b>{{ctrlTopBar.newQuery}}</b></translate>
+      </a>
+      <translate>enter</translate>
+    </div>
+    <section class="recent-search" ng-if="ctrlTopBar.suggestion.histories.length > 0 && ctrlTopBar.defaultSearch == true">
+      <h5>
+        <translate>Recent searches</translate>
+      </h5>
+      <ul class="suggest-list">
+        <li ng-repeat="history in ctrlTopBar.suggestion.histories" ng-click="ctrlTopBar.searchIt(history)">
+          <a>{{history}}</a>
+          <!--<span>remove</span>-->
+        </li>
+      </ul>
+    </section>
+    <section class="init-from-suggests" ng-if="ctrlTopBar.suggestion.accounts.length > 0 && ctrlTopBar.defaultSearch == true">
+      <h5>
+        <translate>Posts from:</translate>
+      </h5>
+      <ul class="suggest-list horizental">
+        <li ng-repeat="account in ctrlTopBar.suggestion.accounts | limitTo: 6" ng-click="ctrlTopBar.addChip(account.id, 'account');">
+          <div class="profile-user-avatar-32 icon icon-circ">
+            <img initial-avatar="sample" name="sample" picture="{{account | avatar : 'x32'}}" data-width="32" data-height="32"
+              data-radius="30" class="account-initials-32 _df" data-word-count="2" data-font-size="16" />
+          </div>
+          <a class="_txe">{{account.firstName}}</a>
+        </li>
+      </ul>
+    </section>
+    <section class="from-suggests" ng-if="ctrlTopBar.suggestion.accounts.length > 0 && ctrlTopBar.defaultSearch == false">
+      <h5>
+        <translate>from:</translate>
+      </h5>
+      <ul class="suggest-list">
+        <li ng-repeat="account in ctrlTopBar.suggestion.accounts | limitTo: ctrlTopBar.getLimit('accounts')" ng-class="{'selected': account._selected}" ng-click="ctrlTopBar.addChip(account.id, 'account');">
+          <div class="profile-user-avatar-32 icon icon-circ">
+            <img initial-avatar="sample" name="sample" picture="{{account | avatar : 'x32'}}" data-width="32" data-height="32"
+              data-radius="30" class="account-initials-32 _df" data-word-count="2" data-font-size="16" />
+          </div>
+          <a auto-dir="account.firstName" class="_txe title" data-ng-bind-html="account.firstName | highlight: ctrlTopBar.excludedQuery"></a>
+          <span data-ng-bind-html="account.id | highlight: ctrlTopBar.excludedQuery"></span>
+        </li>
+      </ul>
+    </section>
+    <section class="place-suggests" ng-if="ctrlTopBar.suggestion.places.length > 0  && ctrlTopBar.defaultSearch == false">
+      <h5>
+        <translate>in:</translate>
+      </h5>
+      <ul class="suggest-list">
+        <li ng-repeat="place in ctrlTopBar.suggestion.places | limitTo: ctrlTopBar.getLimit('places')" ng-class="{'selected': place._selected}" ng-click="ctrlTopBar.addChip(place.id, 'place');">
+          <div class="icon icon-squ">
+              <img ng-src="{{place | picture:'x64'}}" width="32" height="32" />
+          </div>
+          <a class="_txe title" auto-dir="place.name" data-ng-bind-html="place.name | highlight: ctrlTopBar.excludedQuery"></a>
+          <span data-ng-bind-html="place.id | highlight: ctrlTopBar.excludedQuery"></span>
+        </li>
+      </ul>
+    </section>
+    <section class="label-suggests" ng-if="ctrlTopBar.suggestion.labels.length > 0">
+      <h5 ng-if="ctrlTopBar.defaultSearch == true">
+        <translate>Has Label:</translate>
+      </h5>
+      <h5 ng-if="ctrlTopBar.defaultSearch == false">
+        <translate>label:</translate>
+      </h5>
+      <ul class="suggest-list">
+        <li ng-repeat="label in ctrlTopBar.suggestion.labels | limitTo: ctrlTopBar.getLimit('labels')" ng-class="{'selected': label._selected}" ng-click="ctrlTopBar.addChip(label.title, 'label');">
+          <div class="icon">
+            <svg class="_24svg _df _fn color-lbl-{{label.code}}">
+              <use xlink:href="/assets/icons/nst-icn24.svg#tag"></use>
+            </svg>
+          </div>
+          <a>{{label.title}}</a>
+        </li>
+      </ul>
+    </section>
+  </div>
+  <form class="advanced-search-popover" ng-show="ctrlTopBar.advancedSearchOpen">
+    <label for="advanced-search-keyword"><translate>keyword:</translate></label>
+    <input ng-model="ctrlTopBar.advancedSearch.keywords" id="advanced-search-keyword" class="advanced-search-text-input" type="text">
+    <label for="advanced-search-from"><translate>from:</translate></label>
+    <input nst-mention-user ng-model="ctrlTopBar.advancedSearch.users" id="advanced-search-from" class="advanced-search-text-input" type="text">
+    <label for="advanced-search-in"><translate>in:</translate></label>
+    <input nst-mention-place ng-model="ctrlTopBar.advancedSearch.places" id="advanced-search-in" class="advanced-search-text-input" type="text">
+    <label for="advanced-search-subject"><translate>subject:</translate></label>
+    <input ng-model="ctrlTopBar.advancedSearch.subject" id="advanced-search-subject" class="advanced-search-text-input" type="text">
+    <label for="advanced-search-label"><translate>label:</translate></label>
+    <input nst-mention-label ng-model="ctrlTopBar.advancedSearch.labels" id="advanced-search-label" class="advanced-search-text-input" type="text">
+
+    <input ng-model="ctrlTopBar.advancedSearch.hasAttachment" class="_fr" type="checkbox" id="attachment" name="attachment" />
+    <label class="_fw setting left-box checkbox-label _asc" for="attachment"><translate>Has attachment</translate></label>
+
+    <label><translate>Date within</translate></label>
+    <div class="_difh _aic _fw">
+      <select ng-model="ctrlTopBar.advancedSearch.within" class="_df">
+        <option value="1"><translate>1 week</translate></option>
+        <option value="2"><translate>2 weeks</translate></option>
+        <option value="3"><translate>3 weeks</translate></option>
+      </select>
+      <span class="_fn _df seperator-text"><translate>of</translate></span>
+      <input class="advanced-search-text-input" type="text" ng-model="ctrlTopBar.advancedSearch.date" config="{}"
+        g-formatted-picked-date="gfdate" g-picked-date="gdate" ng-jalaali-flat-datepicker>
+    </div>
+
+    <input ng-click="ctrlTopBar.advancedSearchIt()" value="{{ctrlTopBar.translation.submit}}" class="butn-green _fw" type="submit">
+  </form>
+</div>
+
+<script type="text/ng-template" id="top-notification-uib-tooltip.html">
+  <translate>Notifications</translate>
+</script>
+<script type="text/ng-template" id="label-uib-tooltip.html">
+  <span ng-if="ctrlTopBar.user.authority.labelEditor" translate-inner>Manage Labels</span>
+  <span ng-if="!ctrlTopBar.user.authority.labelEditor" translate-inner>My Labels</span>
+</script>

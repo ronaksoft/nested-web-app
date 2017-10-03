@@ -111,16 +111,16 @@
     width: 6px;
   }
   .loading .circle.two {
-    background: rgba(20, 215, 105, 0.8);
+    background: transparentize($color-sense, 1 - .8);
   }
   .loading .circle.three {
-    background: rgba(20, 215, 105, 0.6);
+    background: transparentize($color-sense, 1 - .6);
   }
   .loading .circle.four {
-    background: rgba(20, 215, 105, 0.4);
+    background: transparentize($color-sense, 1 - .4);
   }
   .loading .circle.five {
-    background: rgba(20, 215, 105, 0.2);
+    background: transparentize($color-sense, 1 - .2);
   }
   
   .loading.white .circle {
@@ -133,14 +133,14 @@
     width: 6px;
   }
   .loading.white .circle.two {
-    background: rgba(255, 255, 255, 0.8);
+    background: transparentize($color-white, 1 - 0.8);
   }
   .loading.white .circle.three {
-    background: rgba(255, 255, 255, 0.6);
+    background: transparentize($color-white, 1 - 0.6);
   }
   .loading.white .circle.four {
-    background: rgba(255, 255, 255, 0.4);
+    background: transparentize($color-white, 1 - 0.4);
   }
   .loading.white .circle.five {
-    background: rgba(255, 255, 255, 0.2);
+    background: transparentize($color-white, 1 - 0.2);
   }

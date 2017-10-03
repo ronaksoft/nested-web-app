@@ -191,7 +191,7 @@
      */
     function getFiles(placeId) {
       var deferred = $q.defer();
-      NstSvcFileFactory.get(placeId, null, '', vm.settings.skip, vm.settings.limit).then(function (fileItems) {
+      NstSvcFileFactory.getPlaceFiles(placeId, null, '', vm.settings.skip, vm.settings.limit).then(function (fileItems) {
         var newFileItems = _.differenceBy(fileItems, vm.files, 'id');
         vm.hasNextPage = fileItems.length === vm.settings.limit;
         vm.settings.skip += newFileItems.length;
@@ -244,6 +244,7 @@
         controller: 'AttachmentViewController',
         controllerAs: 'ctlAttachmentView',
         backdropClass : 'attachmdrop',
+        windowClass: '_oh',
         size: 'full',
         resolve: {
           fileViewerItem : function () {

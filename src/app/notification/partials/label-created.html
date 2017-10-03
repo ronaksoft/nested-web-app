@@ -1,0 +1,24 @@
+<div class="mention">
+  <div class="_fn">
+    <div class="user-avatar-32">
+      <img initial-avatar="{{::notification.actor.id}}" picture="{{::notification.actor | avatar}}" name="{{::notification.actor.fullName}}"
+        data-width="32" data-height="32" data-radius="32" class="account-initials-32" data-word-count="2" data-font-size="12"
+      />
+    </div>
+  </div>
+  <div class="_difh f1 _fn bottom-border">
+    <div class="_difv f1">
+      <p>
+        <small><b>{{::notification.actor.fullName}}:</b></small>
+      </p>
+      <p translate-inner>Your request for <b>{{::notification.label.title | scapeRevSpace}}</b> label was created</p>
+    </div>
+    <div class="mention-date _fn" data-uib-tooltip="{{notification.date | date : 'full' | localize}}" data-tooltip-append-to-body="true"
+      data-tooltip-placement="top auto">
+      {{notification.date | passed | localize}}
+    </div>
+    <svg class="_df _fn _16svg crown">
+      <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
+    </svg>
+  </div>
+</div>

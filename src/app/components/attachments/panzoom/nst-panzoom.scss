@@ -1,0 +1,37 @@
+.nst-panzoom-container {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  height: 90px;
+  width: 30px;
+  background-color: #484848;
+  box-shadow: 0 0 1px rgba(255, 255, 255, 0.58);
+  border-radius: 3px;
+  font-size: 20px;
+  font-weight: 200;
+  transition: all $animation-dur;
+  .nst-panzoom-item {
+    height: 30px;
+    width: 30px;
+    line-height: 30px;
+    color: #fff;
+    text-align: center;
+    border-bottom: 1px solid #999;
+    cursor: pointer;
+    background-color: transparent;
+    transition: all $animation-dur;
+    &:hover {
+      background-color: #666;
+    }
+    &:last-of-type {
+      border-bottom-color: transparent;
+    }
+    .unfilled-rect {
+      display: inline-block;
+      height: 13px;
+      width: 15px;
+      border: 2px solid #fff;
+    }
+  }
+}
+

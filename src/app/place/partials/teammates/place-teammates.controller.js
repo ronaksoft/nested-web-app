@@ -33,7 +33,6 @@
    * @param {any} NstSvcAuth
    * @param {any} NstSvcUserFactory
    * @param {any} NstSvcTranslation
-   * @param {any} NstSvcWait
    * @param {any} NstVmMemberItem
    * @param {any} NST_SRV_ERROR
    * @param {any} NST_NOTIFICATION_TYPE
@@ -62,7 +61,7 @@
     vm.placeId = $stateParams.placeId;
     vm.teammatesSettings = {
       skip: 0,
-      limit: 18,
+      limit: 15,
       creatorsCount: 0,
       keyHoldersCount: 0,
       pendingsCount: 0
@@ -154,9 +153,7 @@
       vm.loading = true;
 
 
-      // fixme :: check Waiting
-      // NstSvcWait.all(['main-done'], function () {
-      NstSvcPlaceFactory.get(vm.placeId).then(function (place) {
+      NstSvcPlaceFactory.get(vm.placeId, true).then(function (place) {
         if (place) {
           vm.place = place;
 
@@ -168,7 +165,6 @@
       }).finally(function () {
         vm.loading = false;
       });
-      // });
     }
 
     /**
@@ -199,6 +195,7 @@
           currentPlace: function () {
             return vm.place;
           },
+          newPlace: false,
           mode: function () {
             return false
           },
@@ -208,118 +205,7 @@
         }
       });
 
-      modal.result.then(function (selectedUsers) {
-        if (NstUtility.place.isGrand(vm.place.id)) {
-          invite(vm.place, selectedUsers);
-        } else {
-          add(vm.place, selectedUsers);
-        }
-      });
-    }
-
-    /**
-     * Adds the selected teammates. Dispatches 'member-added' event for those
-     * who have been added successfully. After that displays an appropriate message.
-     *
-     * @param {any} place
-     * @param {any} users
-     */
-    function add(place, users) {
-      NstSvcPlaceFactory.addUser(place, users).then(function (result) {
-        // show the users that were added successfully
-        vm.teammates.push.apply(vm.teammates, _.map(result.addedUsers, function (member) {
-          return new NstVmMemberItem(member, NST_PLACE_MEMBER_TYPE.KEY_HOLDER);
-        }));
-        // dispatch the required events
-        NstSvcPlaceFactory.get(place.id, true).then(function (newPlace) {
-          vm.place = newPlace;
-          var dispatcher = _.partial(dispatchUserAdded, newPlace);
-          _.forEach(result.addedUsers, dispatcher);
-        });
-
-
-        // notify the user about the result of adding
-        if (_.size(result.rejectedUsers) === 0
-          && _.size(result.addedUsers) > 0) {
-          toastr.success(NstUtility.string.format(NstSvcTranslation.get('All selected users have been added to place {0} successfully.'), place.name));
-        } else {
-          var names = null;
-          var message = null;
-          // there are users that we were not able to add them
-          if (_.size(result.rejectedUsers) > 0) {
-            names = _(result.rejectedUsers).map(function (user) {
-              return NstUtility.string.format('{0} (@{1})', user.fullName, user.id);
-            }).join('<br/>');
-            message = NstSvcTranslation.get('We are not able to add these users to the place:');
-            toastr.warning(message + '<br/>' + names);
-          }
-
-          //there are some users that were added successfully
-          if (_.size(result.addedUsers) > 0) {
-            names = _(result.addedUsers).map(function (user) {
-              return NstUtility.string.format('{0} (@{1})', user.fullName, user.id);
-            }).join('<br/>');
-            message = NstSvcTranslation.get('These users have been added:');
-            toastr.success(message + '<br/>' + names);
-          }
-        }
-      }).catch(function () {
-        toastr.warning(NstSvcTranslation.get('An error has occured while adding the user(s) to the place!'));
-      });
-    }
-
-    /**
-     * Invites the selected members. Dispatches 'member-invited' event for those
-     * who have been added successfully. After that displays an appropriate message.
-     *
-     * @param {any} place
-     * @param {any} users
-     */
-    function invite(place, users) {
-      NstSvcPlaceFactory.inviteUser(place, users).then(function (result) {
-        // notify the user about the result of adding
-        if (_.size(result.rejectedUsers) === 0
-          && _.size(result.addedUsers) > 0) {
-          toastr.success(NstUtility.string.format(NstSvcTranslation.get('All selected users have been invited to place {0} successfully.'), place.name));
-        } else {
-          var names = null;
-          var message = null;
-          // there are users that we were not able to invite them
-          if (_.size(result.rejectedUsers) > 0) {
-            names = _(result.rejectedUsers).map(function (user) {
-              return NstUtility.string.format('{0} (@{1})', user.fullName, user.id);
-            }).join('<br/>');
-            message = NstSvcTranslation.get('We are not able to invite these users to the place:');
-            toastr.warning(message + '<br/>' + names);
-          }
-
-          //there are some users that were invited successfully
-          if (_.size(result.addedUsers) > 0) {
-            names = _(result.addedUsers).map(function (user) {
-              return NstUtility.string.format('{0} (@{1})', user.fullName, user.id);
-            }).join('<br/>');
-            toastr.success(message + '<br/>' + names);
-          }
-        }
-      }).catch(function () {
-        toastr.warning(NstSvcTranslation.get('An error has occured while inviting the user(s) to the place!'));
-      });
-    }
-
-    /**
-     * Emits 'member-added' event with the given place and user
-     *
-     * @param {any} place
-     * @param {any} user
-     */
-    function dispatchUserAdded(place, user) {
-      eventReferences.push($rootScope.$emit(
-        'member-added',
-        {
-          place: place,
-          member: user
-        }
-      ));
+      modal.result.then();
     }
 
     /**
@@ -337,16 +223,13 @@
      * @param {any} hasSeeMembersAccess
      * @returns
      */
-    function loadTeammates(placeId, hasSeeMembersAccess) {
+    function loadTeammates(placeId, hasSeeMembersAccess, cacheHandler) {
       var deferred = $q.defer();
-
       var teammates = [];
-      getCreators(placeId, vm.teammatesSettings.limit, vm.teammatesSettings.skip, hasSeeMembersAccess).then(function (creators) {
+      getCreators(placeId, vm.teammatesSettings.limit, vm.teammatesSettings.skip, hasSeeMembersAccess, cacheHandler).then(function (creators) {
         teammates.push.apply(teammates, creators);
-
-        return getKeyholders(placeId, vm.teammatesSettings.limit - creators.length - ( vm.hasAddMembersAccess ? 1 : 0 ), vm.teammatesSettings.skip, hasSeeMembersAccess);
+        return getKeyholders(placeId, vm.teammatesSettings.limit - creators.length - ( vm.hasAddMembersAccess ? 1 : 0 ), vm.teammatesSettings.skip, hasSeeMembersAccess, cacheHandler);
       }).then(function (keyHolders) {
-
         teammates.push.apply(teammates, keyHolders);
 
         deferred.resolve(teammates);
@@ -362,8 +245,9 @@
     function load() {
 
       if (vm.hasSeeMembersAccess) {
-
-        loadTeammates(vm.placeId, vm.hasSeeMembersAccess).then(function (teammates) {
+        loadTeammates(vm.placeId, vm.hasSeeMembersAccess, function(teammates) {
+          vm.teammates = teammates;
+        }).then(function (teammates) {
           vm.teammates = teammates;
         }).finally(function () {
           readyAffix();
@@ -383,12 +267,16 @@
      * @param {any} hasAccess
      * @returns
      */
-    function getCreators(placeId, limit, skip, hasAccess) {
+    function getCreators(placeId, limit, skip, hasAccess, cacheHandler) {
       var deferred = $q.defer();
 
       if (hasAccess && vm.teammatesSettings.creatorsCount < vm.place.counters.creators) {
 
-        NstSvcPlaceFactory.getCreators(placeId, limit, skip).then(function (data) {
+        NstSvcPlaceFactory.getCreators(placeId, limit, skip, function(cachedCreators) {
+          cacheHandler(_.map(cachedCreators, function (item) {
+            return new NstVmMemberItem(item, 'creator');
+          }));
+        }).then(function (data) {
           var creatorItems = _.map(data.creators, function (item) {
             return new NstVmMemberItem(item, 'creator');
           });
@@ -416,15 +304,18 @@
      * @param {any} hasAccess
      * @returns
      */
-    function getKeyholders(placeId, limit, skip, hasAccess) {
+    function getKeyholders(placeId, limit, skip, hasAccess, cacheHandler) {
       var deferred = $q.defer();
 
-      if (limit > 0 && hasAccess && vm.teammatesSettings.keyHoldersCount < vm.place.counters.key_holders) {
-        NstSvcPlaceFactory.getKeyholders(placeId, limit, skip).then(function (data) {
+      if (limit > 0 && hasAccess /*&& vm.teammatesSettings.keyHoldersCount < vm.place.counters.key_holders*/) {
+        NstSvcPlaceFactory.getKeyholders(placeId, limit, skip, function(cachedKeyHolders) {
+          cacheHandler(_.map(cachedKeyHolders, function (item) {
+            return new NstVmMemberItem(item, 'key_holder');
+          }));
+        }).then(function (data) {
           var keyHolderItems = _.map(data.keyHolders, function (item) {
             return new NstVmMemberItem(item, 'key_holder');
           });
-
           deferred.resolve(keyHolderItems);
         }).catch(deferred.reject);
       } else {

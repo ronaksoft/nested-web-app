@@ -44,12 +44,13 @@
             margin-right: 8px;
         }
     }
-    ul {
+    .iscroll-wrapper {
         max-height: 353px;
-        overflow: auto;
         &.haveSelectedItem {
             max-height: 406px;
         }
+    }
+    ul {
         li {
             display: flex;
             width: 100%;
@@ -69,7 +70,7 @@
                 }
             }
             &.checked {
-                background-color: rgba(20,215,105,.16);
+                background-color: transparentize($color-sense, 1 - .16);
                 .checkbox{
                     border: 1px solid $color-sense-wire;
                     background-color: $color-sense-wire;
@@ -200,6 +201,9 @@
         background-color: #F5F5F5;
         flex-grow: 1;
         padding: 8px 16px;
+        .iscroll-on.iscroll-wrapper {
+            height: auto
+        }
     }
     .modal-f {
         box-shadow: 0 0 8px rgba(0,0,0,.08);
@@ -222,7 +226,7 @@
         flex-wrap: wrap;
         width: 100%;
         list-style: none;
-        overflow: auto;
+        // overflow: auto;
         li {
             width: 132px;
             margin: 4px;
@@ -293,8 +297,8 @@
                         text-align: center;
                     }
                     &.pdf span{
-                        color: $color-pdf;
-                        border-color: $color-pdf;
+                        color: $color-attachments-pdf;
+                        border-color: $color-attachments-pdf;
                         box-shadow: 0 2px 4px rgba(205, 40, 40, .32);
                     }
                     &.archive span{
@@ -333,8 +337,8 @@
                 }
             }
             &.checked {
-                background-color: rgba(20,215,105,.16);
-                border-color: rgba(20,215,105,.24);
+                background-color: transparentize($color-sense, 1 - .16);
+                border-color: transparentize($color-sense, 1 - .24);
                 .checkbox{
                     border: 1px solid $color-sense-wire;
                     background-color: $color-sense-wire;

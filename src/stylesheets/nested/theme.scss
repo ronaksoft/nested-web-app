@@ -32,7 +32,7 @@ h5.list-head {
     flex-direction: row;
     align-items: center;
     &.j-selected {
-      background-color: rgba(20, 215, 105,.10);
+      background-color: $color-breeze-new;
       .chk-box {
         .chk-ico {
           background: url('../assets/icons/controls.svg') right -16px no-repeat;
@@ -40,7 +40,7 @@ h5.list-head {
       }
     }
     &:hover {
-      background-color: rgba(20, 215, 105,.05);
+      background-color: $color-breeze-5-new;
       .user-more-opt {
         fill: $color-solid;
       }
@@ -75,7 +75,7 @@ h5.list-head {
         font-weight: 400;
       }
       span {
-        color: #00B45A;
+        color: $color-sense-wire;
         @extend .nst-font-medium;
         font-weight: 400;
       }
