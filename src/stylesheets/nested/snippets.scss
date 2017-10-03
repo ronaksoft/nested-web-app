@@ -47,7 +47,9 @@
     padding-left: 8px;
     margin-top: 4px;
   }
-  
+  .text-wrap {
+    max-width: calc(100% - 24px)
+  }
   .status {
     width: 10px;
     height: 10px;
