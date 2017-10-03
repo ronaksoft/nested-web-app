@@ -210,6 +210,7 @@
         };
         vm.selectedItem = -1;
         searchQuery.setQuery('');
+        getSuggestions(vm.newQuery);
       }
 
       function isEmpty() {
