@@ -64,6 +64,7 @@
      */
     function search(keyword) {
       get().then(function (contacts) {
+        scrollTop()
         var filteredItems = _.filter(contacts, function (contact) {
             return contactHasKeyword(contact, keyword);
           });
@@ -154,6 +155,13 @@
      */
     function isNumber(character) {
       return !_.isNaN(_.toNumber(character));
+    }
+
+    
+    function scrollTop() {
+      if (_.isFunction($scope.scrollTopPlaces)) {
+        $scope.scrollTopPlaces();
+      }
     }
 
     function view(contact) {

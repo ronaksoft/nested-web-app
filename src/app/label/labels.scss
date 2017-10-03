@@ -70,6 +70,14 @@
         border-radius: 4px;
         color: $color-solid;
     }
+    .iscroll-wrapper {
+        width: auto;
+        flex: 1;
+        margin: 0 -24px;
+        ul {
+            margin: 0;
+        }
+    }
     ul {
         margin: 0 -24px;
         flex-direction: column;
@@ -89,59 +97,6 @@
                 right: 0;
                 margin: 0;
                 width: calc(100% - 48px)
-            }
-        }
-        &.requests {
-            max-height: 320px;
-            li {
-                height: 64px;
-                .req-body {
-                    padding-top: 8px;
-                    display: flex;
-                    width: 100%;
-                    flex-direction: column;
-                    cite {
-                        font-size: 16px;
-                        font-weight: bold;
-                        line-height: 19px;
-                        font-style: normal;
-                        span {
-                          font-weight: normal;
-                          color: $color-new-hurricane;
-                        }
-                    }
-                    p {
-                        margin: 4px 0 0 0;
-                        color: $color-new-hurricane;
-                    }
-                }
-                .actions {
-                    > div {
-                        width:  24px;
-                        height: 24px;
-                        margin-left: 16px;
-                        display: flex;
-                        justify-content: center;
-                        transform: translateX(8px);
-                        align-items: center;
-                    }
-                    display: flex;
-                    flex: none;
-                    padding-right: 16px;
-                }
-                &:last-of-type {
-                  hr {
-                    display: none;
-                  }
-                }
-            }
-        }
-        &.requests.pending {
-            li {
-                height: 48px;
-                .req-body {
-                    padding-top: 0;
-                }
             }
         }
         &.labels {
@@ -199,6 +154,76 @@
                 }
             }
         }
+
+    }
+    .requests {
+        max-height: 320px;
+        flex-shrink: 0;
+        .pending {
+            li {
+                height: 48px;
+                .req-body {
+                    padding-top: 0;
+                }
+            }
+        }
+        li {
+            height: 64px;
+            .req-body {
+                padding-top: 8px;
+                display: flex;
+                width: 100%;
+                flex-direction: column;
+                cite {
+                    font-size: 16px;
+                    font-weight: bold;
+                    line-height: 19px;
+                    font-style: normal;
+                    span {
+                      font-weight: normal;
+                      color: $color-new-hurricane;
+                    }
+                }
+                p {
+                    margin: 4px 0 0 0;
+                    color: $color-new-hurricane;
+                }
+            }
+            .actions {
+                > div {
+                    width:  24px;
+                    height: 24px;
+                    margin-left: 16px;
+                    display: flex;
+                    justify-content: center;
+                    transform: translateX(8px);
+                    align-items: center;
+                }
+                display: flex;
+                flex: none;
+                padding-right: 16px;
+            }
+            &:last-of-type {
+              hr {
+                display: none;
+              }
+            }
+        }
+    }
+}
+
+.empty-place-holder {
+    img {
+        margin: auto;
+    }
+    span {
+        max-width: 300px;
+        margin: auto;
+        display: block;
+        text-align: center;
+        font-size: 14px;
+        color: $color-solid-80;
+        line-height: 19px;
     }
 }
 
@@ -310,11 +335,14 @@
             font-weight: bold;
         }
     }
-    ul.holders {
+    .holders {
         margin: 0 -24px 0 -16px;
-        list-style: none;
         max-height: 194px;
-        flex: none;
+        width: auto;
+        ul {
+            flex: none;
+            list-style: none;
+        }
         li {
             display: flex;
             height: 48px;

@@ -42,6 +42,8 @@
 
         $scope.search = search;
 
+        $scope.selected = '';
+
         /**
          * Finds the countries that matches the keyword
          *
@@ -85,7 +87,9 @@
          */
         function setSelectedCountryById(id) {
           var lowerId = _.toLower(id);
-          $scope.selected = _.find($scope.countries, { id : lowerId });
+          $scope.$apply(function () {
+            $scope.selected = _.find($scope.countries, {id: lowerId});
+          });
         }
 
         /**

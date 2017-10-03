@@ -8,7 +8,7 @@
   function NstSvcNotificationFactory(_, $q, $rootScope,
                                      NstSvcServer, NstSvcUserFactory, NstSvcPostFactory, NstSvcCommentFactory, NstSvcAuth,
                                      NstBaseFactory, NstMention, NstSvcInvitationFactory, NstSvcPlaceFactory, NstSvcLabelFactory,
-                                     NST_AUTH_EVENT, NST_NOTIFICATION_EVENT, NST_NOTIFICATION_TYPE, NST_SRV_PUSH_CMD) {
+                                     NST_AUTH_EVENT, NST_NOTIFICATION_EVENT, NST_NOTIFICATION_TYPE, NST_SRV_PUSH_CMD, NST_INVITATION_EVENT) {
     function NotificationFactory() {
       var that = this;
       that.count = 0;
@@ -45,6 +45,7 @@
     NotificationFactory.prototype.getLoadedNotification = getLoadedNotification;
     NotificationFactory.prototype.markAsSeen = markAsSeen;
     NotificationFactory.prototype.resetCounter = resetCounter;
+    NotificationFactory.prototype.checkIfHasInvitation = checkIfHasInvitation;
 
 
     var factory = new NotificationFactory();
@@ -53,6 +54,26 @@
     /*****************
      **   Methods   **
      *****************/
+
+    function checkIfHasInvitation(notifications) {
+      var hasInvite = false;
+      // var hasInviteRespond = false;
+      _.forEach(notifications, function (item) {
+        if (item.type === NST_NOTIFICATION_TYPE.INVITE) {
+          hasInvite = true;
+        } /*else if (item.type === NST_NOTIFICATION_TYPE.INVITE_RESPOND) {
+          hasInviteRespond = true;
+        }*/
+      });
+
+      if (hasInvite) {
+        $rootScope.$broadcast(NST_INVITATION_EVENT.ADD);
+      }
+
+      // if (hasInviteRespond) {
+      //   $rootScope.$broadcast(NST_INVITATION_EVENT.ACCEPT);
+      // }
+    }
 
     function getNotifications(settings) {
       return this.sentinel.watch(function () {
@@ -112,7 +133,8 @@
                 }
                 return hasData;
               });
-              defer.resolve(notifications)
+              factory.checkIfHasInvitation(notifications);
+              defer.resolve(notifications);
             })
             .catch(function (err) {
               defer.reject(err)
@@ -371,7 +393,7 @@
         var countOfMappeedUsers = 1;
         var users = $q.all(_.map(notif.data.others.splice(1, 4), function (user) {
           countOfMappeedUsers++;
-          return NstSvcUserFactory.getTiny(user)
+          return NstSvcUserFactory.get(user)
         }));
         $q.all([postProm, commentProm, users])
           .then(function (value) {
@@ -441,8 +463,8 @@
     function parseLabelNotification(data) {
       var deferred = $q.defer();
 
-      var accountPromise = data.account_id ? NstSvcUserFactory.getTiny(data.account_id) : $q.resolve();
-      var actorPromise = data.actor_id ? NstSvcUserFactory.getTiny(data.actor_id) : $q.resolve();
+      var accountPromise = data.account_id ? NstSvcUserFactory.get(data.account_id) : $q.resolve();
+      var actorPromise = data.actor_id ? NstSvcUserFactory.get(data.actor_id) : $q.resolve();
       var labelPromise = data.label_id ? NstSvcLabelFactory.get(data.label_id) : $q.resolve();
       var placePromise = data.place_id ? NstSvcPlaceFactory.get(data.place_id) : $q.resolve();
 

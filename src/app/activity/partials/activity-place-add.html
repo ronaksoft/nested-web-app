@@ -1,8 +1,8 @@
 <div class="activity-description">
   <div class="ico">
-    <img data-ng-if="act.place.picture" ng-src="{{::act.place | picture}}" height="16" width="16" class="places-activity-icon"/>
-    <div initials class="places-activity-icon account-initials-16" data-ng-if="!act.place.picture"
-         data-ng-bind="act.place.name | initials:2"></div>
+    <svg class="_16svg _df _fn fill-b">
+      <use xlink:href="/assets/icons/nst-icn16.svg#places"></use>
+    </svg>
   </div>
   <div class="sender" data-ng-include="'app/activity/partials/activity-common-actor.html'"
        data-ng-init="actor = act.actor"></div>

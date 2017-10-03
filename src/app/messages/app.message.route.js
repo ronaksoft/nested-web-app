@@ -44,34 +44,11 @@
           }
         }
       })
-
-      .state('app.messages', {
-        url: '/messages',
-        templateUrl: 'app/messages/messages.html',
-        controller: 'MessagesController',
-        controllerAs: 'ctlMessages',
-        options: {
-          primary: true,
-          group: 'message',
-          feed : true
-        }
-      })
       .state('app.messages-bookmarked', {
         url: '/bookmarks',
         templateUrl: 'app/messages/messages.html',
         controller: 'MessagesController',
-        controllerAs: 'ctlMessages',
-        options: {
-          primary: true,
-          group: 'bookmarked',
-          feed : true
-        }
-      })
-      .state('app.messages-bookmarked-sort', {
-        url: '/bookmarks/:sort',
-        templateUrl: 'app/messages/messages.html',
-        controller: 'MessagesController',
-        controllerAs: 'ctlMessages',
+        controllerAs: 'ctrl',
         options: {
           primary: true,
           group: 'bookmarked',
@@ -82,7 +59,7 @@
         url: '/feed',
         templateUrl: 'app/messages/messages.html',
         controller: 'MessagesController',
-        controllerAs: 'ctlMessages',
+        controllerAs: 'ctrl',
         options: {
           primary: true,
           group: 'message',
@@ -97,7 +74,7 @@
         },
         templateUrl: 'app/messages/messages.html',
         controller: 'MessagesController',
-        controllerAs: 'ctlMessages',
+        controllerAs: 'ctrl',
         options: {
           primary: true,
           group: 'message',
@@ -108,37 +85,10 @@
         url: '/shared',
         templateUrl: 'app/messages/messages.html',
         controller: 'MessagesController',
-        controllerAs: 'ctlMessages',
+        controllerAs: 'ctrl',
         options: {
           primary: true,
           group: 'sent'
-        }
-      })
-      .state('app.messages-sent-sorted', {
-        url: '/shared/:sort',
-        params: {
-          sort: NST_DEFAULT.STATE_PARAM
-        },
-        templateUrl: 'app/messages/messages.html',
-        controller: 'MessagesController',
-        controllerAs: 'ctlMessages',
-        options: {
-          primary: true,
-          group: 'message'
-        }
-      })
-      .state('app.messages-sorted', {
-        url: '/messages/:sort',
-        params: {
-          sort: NST_DEFAULT.STATE_PARAM
-        },
-        templateUrl: 'app/messages/messages.html',
-        controller: 'MessagesController',
-        controllerAs: 'ctlMessages',
-        options: {
-          primary: true,
-          group: 'message',
-          feed: true
         }
       })
       .state('app.place-messages', {
@@ -148,7 +98,7 @@
         },
         templateUrl: 'app/messages/messages.html',
         controller: 'MessagesController',
-        controllerAs: 'ctlMessages',
+        controllerAs: 'ctrl',
         options: {
           primary: true,
           group: 'posts'
@@ -158,7 +108,7 @@
         url: '/places/:placeId/unread',
         templateUrl: 'app/messages/messages.html',
         controller: 'MessagesController',
-        controllerAs: 'ctlMessages',
+        controllerAs: 'ctrl',
         options : {
           group : 'message'
         }
@@ -171,7 +121,7 @@
         },
         templateUrl: 'app/messages/messages.html',
         controller: 'MessagesController',
-        controllerAs: 'ctlMessages',
+        controllerAs: 'ctrl',
         options: {
           primary: true,
           group: 'message'

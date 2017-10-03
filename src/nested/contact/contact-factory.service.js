@@ -6,10 +6,12 @@
 
   /** @ngInject */
   function NstSvcContactFactory($q, _,
-    NstSvcServer, NstBaseFactory, NstSvcContactStorage,
+    NstSvcServer, NstBaseFactory, NstSvcGlobalCache,
     NstContact, NstPicture) {
 
-    function ContactFactory() {}
+    function ContactFactory() {
+      this.cache = NstSvcGlobalCache.createProvider('contact');
+    }
 
     ContactFactory.prototype = new NstBaseFactory();
     ContactFactory.prototype.constructor = ContactFactory;
@@ -20,20 +22,22 @@
     ContactFactory.prototype.removeFavorite = removeFavorite;
     ContactFactory.prototype.remove = remove;
     ContactFactory.prototype.getAll = getAll;
-    ContactFactory.prototype.getFavorites = getFavorites;
-
 
     var factory = new ContactFactory();
     return factory;
 
     function get(id) {
-      return factory.sentinel.watch(function () {
-        return NstSvcServer.request('contact/get', {
-          contact_id: id
-        }).then(function (result) {
-          return $q.resolve(parse(result));
-        });
-      }, "get");
+      var allContacts = getAllCachedSync();
+      var cachedContact = _.find(allContacts, { '_id': id });
+      if (cachedContact) {
+        return $q.resolve(parse(cachedContact));
+      }
+
+      return NstSvcServer.request('contact/get', {
+        contact_id: id
+      }).then(function (result) {
+        return $q.resolve(parse(result));
+      });
     }
 
     function add(id) {
@@ -68,39 +72,55 @@
       }, "remove");
     }
 
-    function getAll() {
-      return factory.sentinel.watch(function () {
-        var deferred = $q.defer();
+    function getHash() {
+      var cachedHashModel = factory.cache.get('_hash');
 
-        var hash = NstSvcContactStorage.get("hash");
+      if (cachedHashModel && cachedHashModel.hash) {
+        return cachedHashModel.value;
+      }
 
-        NstSvcServer.request('contact/get_all', {
-          hash: hash || ""
-        }).then(function (data) {
-          if (data.hash) {
-            NstSvcContactStorage.set("hash", data.hash);
-          }
-
-          if (data.hash && data.hash !== hash) {
-            NstSvcContactStorage.set("list", data.contacts || []);
-          }
-
-          var contacts = NstSvcContactStorage.get("list");
-          deferred.resolve(_.map(contacts, parse));
-
-        }).catch(deferred.reject);
-
-        return deferred.promise;
-      }, "getAll");
+      return '';
     }
 
-    function getFavorites() {
-      var deferred = $q.defer();
-      return factory.sentinel.watch(function () {
-        return NstSvcServer.request('contact/get_favorites', {}).then(function (data) {
-          return $q.resolve(deferred.resolve(_.map(data.contacts, parse)));
-        });
-      }, "getAll");
+    function setHash(value) {
+      return factory.cache.set('_hash', {
+        value: value
+      });
+    }
+
+    function getAllCachedSync() {
+      var cachedModel = factory.cache.get('_all');
+      if (cachedModel && cachedModel.value) {
+        return cachedModel.value;
+      }
+
+      return [];
+    }
+
+    function setAll(value) {
+      return factory.cache.set('_all', {
+        value: value
+      });
+    }
+
+    function getAll(cacheHandler) {
+      if (_.isFunction(cacheHandler)) {
+        cacheHandler(_.map(getAllCachedSync(), parse));
+      }
+
+      var hash = getHash();
+
+      return NstSvcServer.request('contact/get_all', {
+        hash: hash || ""
+      }).then(function (data) {
+        if (data.hash && data.hash !== hash) {
+          setHash(data.hash);
+          setAll(data.contacts);
+          return $q.resolve(_.map(data.contacts, parse));
+        }
+
+        return $q.resolve([]);
+      });
     }
 
     function parse(data) {

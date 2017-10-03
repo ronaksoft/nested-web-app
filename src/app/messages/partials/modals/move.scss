@@ -110,7 +110,7 @@
     transition: background-color $animation-dur;
     border-radius: 7px;
     &:hover,&.selected {
-      background-color: rgba(20,215,105,.08);
+      background-color: transparentize($color-sense, 1 - .08);
     }
      img {
        width: 48px;

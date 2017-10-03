@@ -31,6 +31,12 @@
       || deviceDetector.os === 'linux' ) {
         $('body').addClass('notSupportEmo');
     }
+    if ( deviceDetector.browser === 'safari') {
+      var style = document.createElement('style');
+      style.type = 'text/css';
+      style.innerHTML = '._100vw { width: 100%;!important; }';
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
     $rootScope._track = trackBehaviour;
     $rootScope.goToLastState = function (disableNotify, defaultState) {
       var previous = defaultState || restoreLastState();
@@ -43,8 +49,9 @@
 
     };
 
+    $scope.isMainLayout = $state.current.options && $state.current.options.group !== 'settings';
+
     checkToBeAuthenticated($state.current, $stateParams);
-    toggleSidebar($state.current, $state.params);
 
     $interval(function () {
       NstSvcLogger.debug('AppController calls $digest to update passed times every 1 min.');
@@ -86,28 +93,8 @@
       NstSvcNotificationFactory.markAsSeen(data.notificationId)
     }));
 
-    eventReferences.push($rootScope.$on('$stateChangeSuccess', function (event, toState, toParams) {
-      toggleSidebar(toState, toParams);
-    }));
-
     eventReferences.push($scope.$on('show-loading', function () {
       vm.showLoadingScreen = true;
-    }));
-
-    eventReferences.push($scope.$on('collapse-sidebar', function () {
-      vm.viewSettings.sidebar.collapsed = !vm.viewSettings.sidebar.collapsed
-    }));
-
-    eventReferences.push($scope.$watch(function () {
-      return vm.viewSettings.sidebar.collapsed
-    }, function () {
-      var tooltip = $('body').find('.tooltip');
-      if (tooltip.is(":visible")) {
-        tooltip.first().hide()
-      } else {
-        tooltip.first().show()
-
-      }
     }));
 
     eventReferences.push($rootScope.$on(NST_AUTH_EVENT.CHANGE_PASSWORD, function () {
@@ -121,23 +108,12 @@
     }));
 
     eventReferences.push($rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
+      $scope.isMainLayout = toState.options && toState.options.group !== 'settings';
       $('.wdt-emoji-popup.open').removeClass('open');
-      $rootScope.$broadcast('reload-counters');
+      // $rootScope.$broadcast('reload-counters');
       checkToBeAuthenticated(toState, toParams, event);
       scrollTopBody();
     }));
-
-    function toggleSidebar(state, params) {
-      if (state.options && state.options && state.options.fullscreen) {
-        vm.viewSettings.sidebar.hidden = true;
-      } else if (params && params.placeId) {
-        vm.viewSettings.sidebar.hidden = false;
-        vm.viewSettings.sidebar.collapsed = false;
-      } else {
-        vm.viewSettings.sidebar.hidden = false;
-        vm.viewSettings.sidebar.collapsed = true;
-      }
-    }
 
     function checkToBeAuthenticated(state, stateParams, event) {
       if (!NstSvcAuth.isInAuthorization() && _.startsWith(state.name, "app.")) {
@@ -155,12 +131,14 @@
 
     function restoreLastState() {
       var last = null;
-      // restore to find a primary route
-      while ($rootScope.stateHistory.length > 0) {
-        last = $rootScope.stateHistory.pop();
-        if (last.state.options && last.state.options.primary && last.state.name !== $state.current.name) {
-          $rootScope.stateHistory.push(last);
-          return last;
+      if (_.isArray($rootScope.stateHistory) && _.size($rootScope.stateHistory) > 0) {
+        // restore to find a primary route
+        while ($rootScope.stateHistory.length > 0) {
+          last = $rootScope.stateHistory.pop();
+          if (last.state.options && last.state.options.primary && last.state.name !== $state.current.name) {
+            $rootScope.stateHistory.push(last);
+            return last;
+          }
         }
       }
 

@@ -8,7 +8,7 @@
   /** @ngInject */
   function SidebarPlaceInfoController($rootScope, $q, $scope, $state, $stateParams, _,
                                       NstSvcLogger,
-                                      NstSvcPlaceFactory, NstSvcPlaceMap, NstUtility,
+                                      NstSvcPlaceFactory, NstUtility,
                                       NstVmPlace, NstSvcServer, NST_SRV_EVENT, NST_EVENT_ACTION, NST_PLACE_EVENT, NST_POST_EVENT) {
     var vm = this;
     var eventReferences = [];
@@ -17,14 +17,6 @@
     vm.currentPlaceId = $stateParams.placeId;
     vm.hasNotUnreadPostInChildren = hasNotUnreadPostInChildren;
 
-    vm.range = function (num) {
-      var seq = [];
-      for (var i = 0; i < num; i++) {
-        seq.push(i);
-      }
-
-      return seq;
-    };
 
 
     function Initializing() {
@@ -73,24 +65,24 @@
     });
 
 
-    function getGrandPlaceChildren(grandPlaceId) {
+    function getGrandPlaceChildren() {
       var deferred = $q.defer();
-      NstSvcPlaceFactory.getGrandPlaceChildren(grandPlaceId).then(function (places) {
+      // NstSvcPlaceFactory.getGrandPlaceChildren(grandPlaceId).then(function (places) {
 
-        var placesList = _.map(places, function (place) {
-          var model = new NstVmPlace(place);
-          model.isStarred = place.isStarred;
-          model.href = $state.href('app.place-messages', {placeId: place.id});
-          return model;
-        });
+      //   var placesList = _.map(places, function (place) {
+      //     var model = new NstVmPlace(place);
+      //     model.isStarred = place.isStarred;
+      //     model.href = $state.href('app.place-messages', {placeId: place.id});
+      //     return model;
+      //   });
 
 
-        fillPlacesNotifCountObject(placesList);
-        getPlaceUnreadCounts();
+      //   fillPlacesNotifCountObject(placesList);
+      //   getPlaceUnreadCounts();
 
-        deferred.resolve(NstSvcPlaceMap.toTree(placesList, $stateParams.placeId));
+      //   deferred.resolve(NstSvcPlaceMap.toTree(placesList, $stateParams.placeId));
 
-      }).catch(deferred.reject);
+      // }).catch(deferred.reject);
 
       return deferred.promise;
     }
@@ -101,7 +93,7 @@
      *****************************/
 
 
-    function fillPlacesNotifCountObject(places) {
+    /*function fillPlacesNotifCountObject(places) {
       vm.placesNotifCountObject = {};
       _.each(places, function (place) {
         if (place)
@@ -110,7 +102,7 @@
       if (vm.grandPlace) {
         vm.placesNotifCountObject[vm.grandPlace.id] = 0;
       }
-    }
+    }*/
 
     function getPlaceUnreadCounts() {
       var placeIds = _.keys(vm.placesNotifCountObject);

@@ -8,8 +8,8 @@
   /** @ngInject */
   function NstSvcInvitationFactory($q, $log, _, $rootScope,
                                    NST_SRV_EVENT, NST_INVITATION_EVENT, NST_EVENT_ACTION, NST_PLACE_MEMBER_TYPE, NST_STORAGE_TYPE, NST_INVITATION_FACTORY_STATE,
-                                   NstSvcInvitationStorage, NstSvcServer, NstSvcUserFactory, NstSvcPlaceFactory, NstSvcNotification,
-                                   NstObservableObject, NstInvitation, NstStorage) {
+                                   NstSvcServer, NstSvcUserFactory, NstSvcPlaceFactory, NstSvcNotification,
+                                   NstObservableObject, NstInvitation, NstStorage, NstCollector) {
     function InvitationFactory() {
       var factory = this;
 
@@ -19,6 +19,8 @@
         decide: {},
         getPendings: {}
       };
+
+      this.collector = new NstCollector('invitation', this.getMany);
 
       NstSvcServer.addEventListener(NST_SRV_EVENT.TIMELINE, function (event) {
         var tlData = event.detail.timeline_data;
@@ -59,7 +61,6 @@
               if (values[k] instanceof NstInvitation) {
                 var invitation = values[k];
 
-                NstSvcInvitationStorage.set(invitation.id, invitation);
                 invitations.push(invitation);
               }
             }
@@ -88,6 +89,19 @@
       });
     };
 
+    InvitationFactory.prototype.getMany = function (id) {
+      var joinedIds = id.join(',');
+      return NstSvcServer.request('account/get_many_invitation', {
+        account_id: joinedIds
+      }).then(function (data) {
+        return $q.resolve({
+          idKey: '_id',
+          resolves: data.accounts,
+          rejects: data.no_access
+        });
+      });
+    };
+
     InvitationFactory.prototype.get = function (id) {
       var factory = this;
       // TODO: Use sentinel to watch the request
@@ -98,7 +112,6 @@
             invite_id: id
           }).then(function (invitationData) {
             var invitation = factory.parseInvitation(invitationData);
-            NstSvcInvitationStorage.set(id, invitation);
             resolve(invitation);
           }).catch(reject);
 
@@ -120,6 +133,25 @@
           rej.apply(null, args);
         });
       });
+
+      // var factory = this;
+      // var deferred = $q.defer();
+      // this.collector.add(id).then(function (data) {
+      //     deferred.resolve(factory.parseInvitation(data));
+      // }).catch(function (error) {
+      //   switch (error.code) {
+      //     case NST_SRV_ERROR.ACCESS_DENIED:
+      //     case NST_SRV_ERROR.UNAVAILABLE:
+      //         deferred.reject();
+      //       break;
+      //
+      //     default:
+      //         deferred.reject(error);
+      //       break;
+      //   }
+      // });
+      //
+      // return deferred.promise;
     };
 
     InvitationFactory.prototype.accept = function (id) {
@@ -184,16 +216,16 @@
 
         var invitee = null;
         if (angular.isObject(data.invitee)) {
+          NstSvcUserFactory.set(data.invitee);
           invitee = NstSvcUserFactory.parseTinyUser(data.invitee);
-          NstSvcUserFactory.set(invitee);
         } else if (data.invitee_id) {
           invitee.id = data.invitee_id;
         }
 
         var inviter = null;
         if (angular.isObject(data.inviter)) {
+          NstSvcUserFactory.set(data.inviter);
           inviter = NstSvcUserFactory.parseTinyUser(data.inviter);
-          NstSvcUserFactory.set(inviter);
         } else if (data.inviter_id) {
           inviter.id = data.inviter_id;
         }
@@ -201,15 +233,15 @@
         var place = null;
         if (angular.isObject(data.place)) {
           place = NstSvcPlaceFactory.parseTinyPlace(data.place);
-          NstSvcPlaceFactory.set(place);
+          NstSvcPlaceFactory.set(data.place);
         } else if (data.place_id) {
           place.setId(data.place_id);
         }
 
         $q.all([
-          NstSvcUserFactory.getTiny(invitee.id),
-          NstSvcUserFactory.getTiny(inviter.id),
-          NstSvcPlaceFactory.getTiny(place.id)
+          NstSvcUserFactory.get(invitee.id),
+          NstSvcUserFactory.get(inviter.id),
+          NstSvcPlaceFactory.get(place.id)
         ]).then(function (values) {
           invitation.invitee = values[0];
           invitation.inviter = values[1];

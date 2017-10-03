@@ -32,11 +32,12 @@
     vm.mouseIn = false;
     var eventReferences = [];
     var systemConstants = {};
-    vm.makeChangeForWatchers = 0;
+    // vm.makeChangeForWatchers = 0;
     vm.clear = clear;
     vm.scroll = scroll;
     vm.addUploadedAttachs = addUploadedAttachs;
     vm.searchRecipients = searchRecipients;
+    vm.backDropClick = backDropClick;
     vm.emojiTarget = 'title';
     vm.haveComment = true;
     vm.focusBody = false;
@@ -45,6 +46,7 @@
     vm.cmdVPress = false;
     vm.isRetinaDisplay = isRetinaDisplay();
     vm.targetLimit;
+    vm.ultimateSaveDraft = false;
     vm.translations = {
       title1: NstSvcTranslation.get('Add a title'),
       title2: NstSvcTranslation.get('Write your message or drag files here…'),
@@ -52,6 +54,8 @@
     };
 
     vm.quickMode = vm.mode === 'quick';
+
+    $scope.scrollInstance;
 
     /**
      * Call this function if some thing changed the position of post cards
@@ -166,43 +170,39 @@
         /**
          * Prevents from closing window
          */
-        window.onbeforeunload = function () {
-          return "You have attempted to leave this page. Are you sure?";
-        };
 
         NstSvcLogger.debug4('Compose | compose is in modal');
         eventReferences.push($scope.$on('modal.closing', function (event) {
-          if (shouldSaveDraft() && !vm.finish) {
+          if (vm.ultimateSaveDraft) {
+            saveDraft();
+            vm.finish = true;
+          } else if(shouldSaveDraft() && !vm.finish) {
+            window.onbeforeunload = function () {
+              return "You have attempted to leave this page. Are you sure?";
+            };
             event.preventDefault();
+            // $state.current.options && $state.current.options.supportDraft => this condition removed from code by robzizo
 
-            if ($state.current.options && $state.current.options.supportDraft) {
-              NstSvcLogger.debug4('Compose | show discard modal');
-              NstSvcModal.confirm(
-                NstSvcTranslation.get("Confirm"),
-                NstSvcTranslation.get("By discarding this message, you will lose your draft. Are you sure you want to discard?"),
-                {
-                  yes: NstSvcTranslation.get("Discard"),
-                  no: NstSvcTranslation.get("Draft")
-                }
-              ).then(function (confirmed) {
-                if (confirmed) {
-                  NstSvcLogger.debug4('Compose | cancel on discard modal');
-                  discardDraft();
-                } else {
-                  NstSvcLogger.debug4('Compose | confirm on discard modal');
-                  saveDraft();
-                }
+            NstSvcLogger.debug4('Compose | show discard modal');
+            NstSvcModal.confirm(
+              NstSvcTranslation.get("Confirm"),
+              NstSvcTranslation.get("By discarding this message, you will lose your draft. Are you sure you want to discard?"),
+              {
+                yes: NstSvcTranslation.get("Discard"),
+                no: NstSvcTranslation.get("Draft")
+              }
+            ).then(function (confirmed) {
+              if (confirmed) {
+                NstSvcLogger.debug4('Compose | cancel on discard modal');
+                discardDraft();
+              } else {
+                NstSvcLogger.debug4('Compose | confirm on discard modal');
+                saveDraft();
+              }
 
-                vm.finish = true;
-                $uibModalStack.dismissAll();
-              });
-
-            } else {
-              NstSvcModal.confirm(NstSvcTranslation.get("Confirm"), NstSvcTranslation.get("By discarding this message, you will lose your draft. Are you sure you want to discard?")).then(function () {
-                vm.finish = true;
-                $uibModalStack.dismissAll();
-              });
-            }
+              vm.finish = true;
+              $uibModalStack.dismissAll();
+            });
 
           }
         }));
@@ -262,7 +262,7 @@
       draft.subject = vm.model.subject;
       draft.body = vm.model.body;
       draft.attachments = _.map(vm.model.attachments, 'id');
-      draft.recipients = _.map(vm.model.recipients, 'id');
+      draft.recipients = vm.model.recipients;
       NstSvcPostDraft.save(draft);
       $rootScope.$broadcast('draft-change');
     }
@@ -274,6 +274,11 @@
       NstSvcLogger.debug4('Compose | discarding draft');
       NstSvcPostDraft.discard();
       $rootScope.$broadcast('draft-change');
+    }
+
+    function backDropClick() {
+      vm.ultimateSaveDraft = shouldSaveDraft();
+      $scope.$dismiss();
     }
 
     /**
@@ -316,6 +321,9 @@
       var deferred = $q.defer();
 
       var draft = NstSvcPostDraft.get();
+      if (!draft) {
+        deferred.reject(Error('Could not load draft'));
+      }
       vm.model.subject = draft.subject;
       vm.model.body = draft.body;
       $q.all(_.map(draft.attachments, function (attachmentId) {
@@ -331,29 +339,15 @@
         vm.attachments.size.total += _.sum(_.map(attachments, 'size'));
         vm.attachments.size.uploaded += _.sum(_.map(attachments, 'size'));
       }).catch(deferred.reject);
-
-      $q.all(_.map(draft.recipients, function (recipientId) {
-
-        if (NST_PATTERN.EMAIL.test(recipientId)) {
-          return NstSvcUserFactory.getTinySafe(recipientId);
-        } else {
-          return NstSvcPlaceFactory.getTinySafe(recipientId);
-        }
-      })).then(function (recipients) {
-
-        vm.model.recipients = recipients.map(function (recipient) {
-          return new NstVmSelectTag(recipient);
-        });
-        deferred.resolve(draft);
-      }).catch(deferred.reject);
+      vm.model.recipients = draft.recipients
 
       return deferred.promise;
     }
 
     NstSvcSidebar.setOnItemClick(onPlaceSelected);
 
-    vm.subjectKeyDown = _.debounce(subjectKeyDown, 100)
-    vm.search.fn = _.debounce(vm.searchRecipients, 320);
+    vm.subjectKeyDown = _.debounce(subjectKeyDown, 128)
+    vm.search.fn = _.debounce(vm.searchRecipients, 128);
 
     /**
      * Triggers when any key pressed in subject input
@@ -394,21 +388,33 @@
     function searchRecipients(query) {
       NstSvcLogger.debug4('Compose | Search recipients with query : ', query);
 
-      var initPlace = new NstVmSelectTag({
-        id: query,
-        name: query
-      });
-
-      if (initPlace.isValid) {
-        vm.search.results.push(initPlace);
-      }
+      // var initPlace = new NstVmSelectTag({
+      //   id: query,
+      //   name: query
+      // });
+      //
+      // if (initPlace.isValid) {
+      //   vm.search.results.push(initPlace);
+      // }
 
 
       return NstSvcPlaceFactory.searchForCompose(query).then(function (results) {
         NstSvcLogger.debug4('Compose | Searched recipients for binding them in html', results);
-        vm.search.results = _.chain(results.places).uniqBy('id').map(function (place) {
+        // var oldItems = vm.search.results.length;
+        var newItemsChips = _.chain(results.places).uniqBy('id').map(function (place) {
           return new NstVmSelectTag(place);
         }).value();
+        vm.search.results = newItemsChips;
+        // newItemsChips.forEach(function (item, index) {
+        //   if (vm.search.results[index]) {
+        //     vm.search.results[index] = item
+        //   } else {
+        //     vm.search.results.push(item)
+        //   }
+        // });
+        // if (oldItems > newItemsChips.length) {
+        //   vm.search.results.splice(newItemsChips.length, oldItems - newItemsChips.length)
+        // }
 
         _.forEach(results.recipients, function (recipient) {
           var tag = new NstVmSelectTag({
@@ -418,17 +424,13 @@
           vm.search.results.push(tag);
         });
 
-        if (!_.some(vm.search.results, {'id': query})) {
+        if (!_.some(vm.search.results, {'id': query}) && query && query.length > 0) {
           var initPlace = new NstVmSelectTag({
             id: query,
             name: query
           });
-
-          if (initPlace.isValid) {
-            vm.search.results.push(initPlace);
-          }
+          vm.search.results.unshift(initPlace);
         }
-
 
       }).catch(function () {
         vm.search.results = [];
@@ -697,9 +699,9 @@
     vm.fullCompose = function () {
       NstSvcLogger.debug4('Compose | Toggle full compose mode');
       $('body').toggleClass('fullCompose');
-      if ($('body').hasClass('fullCompose')) {
-        vm.makeChangeForWatchers++;
-      }
+      // if ($('body').hasClass('fullCompose')) {
+      //   vm.makeChangeForWatchers++;
+      // }
       NstSvcLogger.debug4('Compose | is recipient items suitable for this frame ?!');
       vm.emitItemsAnalytics();
     };
@@ -1093,7 +1095,7 @@
       placeholderText: vm.translations.body,
       pluginsEnabled: ['colors', 'fontSize', 'fontFamily', 'link', 'url', 'wordPaste', 'lists', 'align', 'codeBeautifier'],
       fontSize: ['8', '10', '14', '18', '22'],
-      toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'fontSize', '|', 'color', 'align', 'formatOL', 'formatUL', 'insertLink', '|', 'rightToLeft', 'leftToRight'],
+      toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'fontSize', '|', 'color', 'align', 'formatOL', 'formatUL', 'insertLink', '|', 'leftToRight', 'rightToLeft'],
       events: {
         'froalaEditor.initialized': function () {
         },

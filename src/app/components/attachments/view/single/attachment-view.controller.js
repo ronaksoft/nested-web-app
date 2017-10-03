@@ -134,8 +134,17 @@
         vm.attachments.current.loaded = false;
       }
       vm.attachments.current = vm.attachments.collection[index];
-      if (vm.attachments.current.type === NST_FILE_TYPE.PDF ||
-        vm.attachments.current.type === NST_FILE_TYPE.DOCUMENT) {
+      if (vm.attachments.current.type === NST_FILE_TYPE.PDF) {
+        vm.attachments.current.show = false;
+
+        getToken(vm.attachments.current.id).then(function (token) {
+          vm.attachments.current.viewUrl = $sce.trustAsResourceUrl(
+            encodeURI(NstSvcStore.resolveUrl(NST_STORE_ROUTE.VIEW, vm.attachments.current.id, token)));
+
+        }).catch(function () {
+          toastr.error('Sorry, An error has occured while trying to load the file');
+        });
+      } else if(vm.attachments.current.type === NST_FILE_TYPE.DOCUMENT) {
         vm.attachments.current.show = false;
 
         getToken(vm.attachments.current.id).then(function (token) {
@@ -172,7 +181,7 @@
       var deferred = $q.defer();
 
       vm.filesLoadProgress = true;
-      NstSvcFileFactory.get(ids).then(function (files) {
+      NstSvcFileFactory.getPlaceFiles(ids).then(function (files) {
         deferred.resolve(files);
       }).catch(function () {
         toastr.error(NstSvcTranslation.get('Sorry, an error occurred in viewing the files.'));
@@ -187,7 +196,7 @@
       var deferred = $q.defer();
 
       vm.fileLoadProgress = true;
-      NstSvcFileFactory.get([id]).then(function (files) {
+      NstSvcFileFactory.getPlaceFiles([id]).then(function (files) {
         deferred.resolve(files[0]);
       }).catch(function () {
         toastr.error(NstSvcTranslation.get('Sorry, an error occurred in viewing the files.'));

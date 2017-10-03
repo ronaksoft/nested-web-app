@@ -8,15 +8,15 @@
 #Logo-white {
   background: url("../assets/icons/Nested_LogoNegative.svg") no-repeat;
   background-size: contain;
-  height: 32px;
-  width: 32px;
+  height: 24px;
+  width: 24px;
   margin: auto;
 }
 #Logo-type-white {
   background: url("../assets/icons/Nested_EnglishTypeNegative.svg") no-repeat;
   background-size: contain;
-  height: 40px;
-  width: 90px;
+  height: 24px;
+  width: 54px;
 }
 .svg-hover {
   transition: all .2s;
@@ -84,26 +84,28 @@
   height: 32px;
 }
 
-.iconsblock {
+.filter-bar-popover-button {
   //width: 38px;
   display: flex;
-  height: 28px;
+  height: 32px;
   align-items: center;
   cursor: pointer;
   box-sizing: border-box;
-  border: 1px solid transparent;
   min-width: 42px;
   justify-content: center;
-
+  padding-left: 8px;
+  svg {
+    margin: 0 8px; 
+  }
 }
-.iconsblock-right {
+.filter-bar-popover-button-right {
   margin-right: 28px;
 }
 
-.iconsblock:hover {
-  border-color: $color-breeze;
-  border-radius: 5px;
-  background-color: $color-white;
+.filter-bar-popover-button:hover {
+  // border-color: $color-breeze;
+  // border-radius: 5px;
+  // background-color: $color-white;
 }
 [class*="ei-"] {
   width: 16px;
@@ -218,30 +220,30 @@
 
 .tw-svg {
   flex: none;
-  width: 24px;
-  max-height: 40px;
+  position: relative;
+  div {
+    position: absolute;
+    top: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 1;
+    transition: opacity $animation-dur;
+  }
   svg {
-    min-width: 24px;
-    max-width: 24px;
-    min-height: 24px;
-    max-height: 24px;
-    display: block;
+    position: absolute;
+    left: 50%;
+    top: 5px;
+    margin-left: -8px;
     transition: all $animation-dur ease;
     transform-origin: center center;
   }
-  svg:first-child {
-    transform: translateY(-10px);
-  }
-  svg:last-child {
-    transform: translateY(-25px);
-  }
 }
 .tw-svg.open {
-  svg:first-child {
+  div {
     opacity: 0;
   }
-  svg:last-child {
-    transform: translateY(-24px) rotateZ(180deg);
+  svg {
+    transform: rotateZ(180deg);
   }
 }
 .edit-icon {

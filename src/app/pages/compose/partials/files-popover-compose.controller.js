@@ -14,6 +14,7 @@
     vm.files = [];
     vm.placeFiles = placeFiles;
 
+    $scope.scrollInstance;
     vm.add = add;
     vm.loadMore = loadMore;
     vm.openAttachment = openAttachment;
@@ -90,13 +91,8 @@
       function callback(fileItems){
         // certainly this function do not call on next pages load request
         if ( vm.settings.skip === 0 ) {
-          setTimeout(function(){
-            var newFileItems = _.differenceBy(fileItems, vm.files, 'id');
-            if (newFileItems.length > 0) {
-              vm.files.unshift(newFileItems);
-              vm.settings.skip += newFileItems.length;
-            }
-          },100);
+          vm.files = fileItems;
+          vm.settings.skip += fileItems.length;
         }
       }
 
@@ -178,6 +174,7 @@
         controller: 'AttachmentViewController',
         controllerAs: 'ctlAttachmentView',
         backdropClass : 'attachmdrop',
+        windowClass: '_oh',
         size: 'full',
         resolve: {
           fileViewerItem : function () {

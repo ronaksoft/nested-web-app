@@ -185,7 +185,7 @@ span.filename {
   color: $color-hurri-white;
   transition: right $animation-dur ease-in,left $animation-dur ease-in;
   svg {
-    fill: rgba(255,255,255,.72);
+    fill: transparentize($color-white, 1 - .72);
   }
   .nav-btn {
     width: 40px;
@@ -197,7 +197,7 @@ span.filename {
     align-items: center;
     &:hover,&.active {
       border-radius: 8px;
-      background-color: rgba(255,255,255,.08);
+      background-color: transparentize($color-white, 1 - .08);
     }
     &:last-child {
       margin-right: 0;
@@ -281,7 +281,7 @@ span.filename {
   overflow: hidden;
   position: relative;
   box-shadow: 0 16px 32px $color-attachment-shadow;
-  .vjs-fullscreen-control { 
+  .vjs-fullscreen-control {
     width: 8px;
     visibility: hidden
   }
@@ -352,6 +352,10 @@ span.filename {
   }
 }
 .preview-box {
+  object {
+    width: 100vw;
+    height: calc(100vh - 64px);
+  }
 }
 .attachment-pager {
   position: fixed;
@@ -360,7 +364,7 @@ span.filename {
   top: 50%;
   z-index: 333;
   transform: translateY(-50%);
-  background-color: rgba(15, 15, 15,.24);
+  background-color: rgba(15, 15, 15, .24);
   transition: opacity $animation-dur;
   display: flex;
   justify-content: center;
@@ -407,9 +411,11 @@ span.filename {
     padding: 0 16px;
     margin:0;
   }
+  .iscroll-wrapper {
+    max-height: calc(100% - 64px);
+  }
   ul {
     list-style: none;
-    max-height: calc(100% - 64px);
     li {
       height: 56px;
       opacity: .4;
@@ -425,6 +431,7 @@ span.filename {
       height: 32px;
       border-radius: 3px;
       margin: 0 12px;
+      object-fit: cover;
     }
     span {
       max-width: calc(100% - 56px);
@@ -448,7 +455,7 @@ span.filename {
   }
   .attach-bar-menu {
     border-radius: 8px;
-    background-color: rgba(255,255,255,.08);
+    background-color: transparentize($color-white, 1 - .08);
   }
   .attachment-doc-show {
     & + iframe {

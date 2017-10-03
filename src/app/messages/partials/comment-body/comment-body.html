@@ -8,17 +8,17 @@
       <strong class="_fl" user-detail="comment.sender">{{ctlCommentBody.comment.sender.fullName}}:&nbsp;</strong>
       <!--<span is-two-line class="_fl" ng-bind-html="to_trusted(ctlCommentBody.comment.body | link | nstPopover | plainToHtml)"></span>-->
       <span is-two-line class="_fl">
-        <span ng-repeat="part in ctlCommentBody.parts">
+        <abbr ng-repeat="part in ctlCommentBody.parts">
           <br ng-if="part.type == 'linebreak'" />
-          <span ng-if="part.type == 'mention'" class="nst-user-popover" user-detail="part.user">{{part.word}}</span>
-          <span ng-if="part.type == 'other'" ng-bind-html="part.word | link"></span>
-        </span>
+          <abbr ng-if="part.type == 'mention'" class="nst-user-popover" user-detail="part.user" style="display: inline-block;direction: ltr;">{{part.word}}</abbr>
+          <abbr ng-if="part.type == 'other'" ng-bind-html="part.word | link"></abbr>
+        </abbr>
       </span>
-      <i ng-if="ctlCommentBody.comment.body === '' && !ctlCommentBody.comment.removedBy">
+      <!-- <i ng-if="ctlCommentBody.comment.body === '' && !ctlCommentBody.comment.removedBy">
         (<translate>removed</translate>)
-      </i>
-      <i ng-if="ctlCommentBody.comment.removedBy">
-        (<translate>removed by <span class="comment-removed-by" user-detail="comment.removedBy">{{ctlCommentBody.comment.removedBy.fullName}}</span></translate>)
+      </i> -->
+      <i ng-if="ctlCommentBody.comment.removedById" class="comment-removed-by">
+        (<translate>removed by <span user-detail="comment.removedById">{{ctlCommentBody.comment.removedById}}</span></translate>)
       </i>
     </p>
   </div>

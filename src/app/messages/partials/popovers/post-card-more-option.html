@@ -26,7 +26,9 @@
   <label class="_fw setting _asc" for="comments"><translate>Recieve notifications</translate></label>
 </a>
 
-<a ng-if="ctlPostCard.haveAnyLabelAcess" class="_df list-items _aic _fw cursor-pointer" add-label added-labels="ctlPostCard.post.labels" after-add-label="ctlPostCard.addLabels" ng-if="ctlPostCard.currentUserIsSender">
+<a ng-if="ctlPostCard.haveAnyLabelAcess || ctlPostCard.currentUserIsSender" class="_df list-items _aic _fw cursor-pointer"
+   add-label added-labels="ctlPostCard.post.labels" after-add-label="ctlPostCard.addLabels"
+   ng-click="ctlPostCard.markAsRead()">
   <div class="_aic _df">
     <svg class="_16svg">
       <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>

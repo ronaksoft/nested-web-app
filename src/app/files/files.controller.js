@@ -15,38 +15,13 @@
     .module('ronak.nested.web.components')
     .controller('FilesController', FilesController);
 
-  /** @ngInject */
-  /**
-   * Gives a list of files associated with a Place. The user is allowed to download
-   * and share the files with other posts.
-   *
-   * @param {any} $stateParams
-   * @param {any} toastr
-   * @param {any} $uibModal
-   * @param {any} $state
-   * @param {any} $timeout
-   * @param {any} $q
-   * @param {any} $scope
-   * @param {any} NST_PLACE_ACCESS
-   * @param {any} NstSvcFileFactory
-   * @param {any} NstSvcPlaceAccess
-   * @param {any} NstSvcModal
-   * @param {any} NstSvcTranslation
-   * @param {any} NstSvcAuth
-   * @param {any} NstSvcWait
-   * @param {any} NstSvcInteractionTracker
-   * @param {any} NstAttachment
-   * @param {any} NST_DEFAULT
-   */
   function FilesController($stateParams, toastr, $uibModal, $state, $timeout, $q, $scope,
                            NST_PLACE_ACCESS,
                            NstSvcFileFactory, NstSvcPlaceAccess, NstSvcModal,
-                           NstSvcTranslation, NstSvcAuth, NstSvcWait, _, NstSvcInteractionTracker,
+                           NstSvcTranslation, NstSvcAuth, _, NstSvcInteractionTracker,
                            NST_DEFAULT) {
     var vm = this;
-    var onSelectTimeout = null;
     var eventReferences = [];
-    vm.searchTrigg = 0;
     vm.loadMoreCounter = 0;
     vm.keyword = '';
 
@@ -56,7 +31,11 @@
         vm.keyword = '';
         search(vm.keyword);
       } else {
-        ++vm.searchTrigg;
+        if (vm.searchTrigg) {
+          ++vm.searchTrigg;
+        } else {
+          vm.searchTrigg = 0;
+        }
       }
 
     };
@@ -92,9 +71,11 @@
     vm.filter = filter;
     vm.preview = preview;
     vm.loadMore = loadMore;
-    vm.onSelect = onSelect;
     vm.compose = composeWithAttachments;
     vm.isSubPersonal = isSubPersonal;
+    vm.toggleSelect = toggleSelect;
+    vm.unselectFile = unselectFile;
+    vm.unselectAll = unselectAll;
 
     vm.selectedFiles = [];
     vm.files = [];
@@ -134,11 +115,9 @@
           vm.currentPlaceLoaded = true;
 
           vm.hasSeeMembersAccess = place.hasAccess(NST_PLACE_ACCESS.SEE_MEMBERS);
-          vm.showPlaceId = !_.includes(['off', 'internal'], place.privacy.receptive);
+          vm.showPlaceId = place.privacy && !_.includes(['off', 'internal'], place.privacy.receptive);
 
-          load().then(function () {
-            eventReferences.push(NstSvcWait.emit('main-done'));
-          });
+          load();
         } else {
           NstSvcModal.error(NstSvcTranslation.get("Error"), NstSvcTranslation.get("Either this Place doesn't exist, or you don't have the permit to enter the Place.")).finally(function () {
             $state.go(NST_DEFAULT.STATE);
@@ -156,8 +135,14 @@
      * @returns
      */
     function isSubPersonal() {
-      if (vm.currentPlaceId)
-        return NstSvcAuth.user.id == vm.currentPlaceId.split('.')[0];
+      if (vm.currentPlaceId) {
+        var currentUserId = vm.currentPlaceId.split('.')[0];
+        if (NstSvcAuth.user !== undefined) {
+          return NstSvcAuth.user.id === currentUserId;
+        } else {
+          return false;
+        }
+      }
     }
 
     function search(keyword) {
@@ -207,6 +192,27 @@
       return decodeURIComponent(value);
     }
 
+    function merge(newFiles) {
+      var newItems = _.differenceBy(newFiles, vm.files, 'id');
+      var removedItems = _.differenceBy(vm.files, newFiles, 'id');
+
+      // first omit the removed items; The items that are no longer exist in fresh newFiles
+      _.forEach(removedItems, function (item) {
+        var index = _.findIndex(vm.files, { 'id': item.id });
+        if (index > -1) {
+          vm.files.splice(index, 1);
+        }
+      });
+
+      // add new items; The items that do not exist in cached items, but was found in fresh newFiles
+      vm.files.unshift.apply(vm.files, newItems);
+
+    }
+
+    function append(newFiles) {
+      vm.files.push.apply(vm.files, newFiles);
+    }
+
     /**
      * Retrieves a list of files by the given limit, skip, keyword and filter
      * and specifies that there are more files or not
@@ -217,30 +223,26 @@
       vm.filesLoadProgress = true;
       vm.loadFilesError = false;
 
-      var deferred = $q.defer();
-
-      NstSvcFileFactory.get(vm.currentPlaceId,
+      return NstSvcFileFactory.getPlaceFiles(vm.currentPlaceId,
         vm.settings.filter,
         vm.settings.keyword,
         vm.settings.skip,
-        vm.settings.limit).then(function (fileItems) {
-        var newFileItems = _.differenceBy(fileItems, vm.files, 'id');
+        vm.settings.limit, function(cachedFiles) {
+          vm.files = cachedFiles;
+          vm.filesLoadProgress = false;
+        }).then(function (fileItems) {
+        merge(fileItems);
 
         vm.hasNextPage = fileItems.length === vm.settings.limit;
-        vm.settings.skip += newFileItems.length;
+        vm.settings.skip = vm.files.length;
 
-        vm.files.push.apply(vm.files, newFileItems);
         vm.loadFilesError = false;
-        deferred.resolve();
       }).catch(function () {
         toastr.error(NstSvcTranslation.get('An error has occurred while retrieving files.'));
         vm.loadFilesError = true;
-        deferred.reject();
       }).finally(function () {
         vm.filesLoadProgress = false;
       });
-
-      return deferred.promise;
     }
 
     /**
@@ -256,6 +258,7 @@
         controller: 'AttachmentViewController',
         controllerAs: 'ctlAttachmentView',
         backdropClass: 'attachmdrop',
+        windowClass: '_oh',
         size: 'full',
         resolve: {
           fileViewerItem: function () {
@@ -286,11 +289,32 @@
      *
      */
     function loadMore() {
-      if (vm.hasNextPage) {
-        vm.loadMoreCounter++;
-        NstSvcInteractionTracker.trackEvent('files', 'load more', vm.loadMoreCounter);
-        load();
+      if (!vm.hasNextPage) {
+        return;
       }
+
+      NstSvcInteractionTracker.trackEvent('files', 'load more', vm.loadMoreCounter);
+      vm.loadMoreCounter++;
+      vm.filesLoadProgress = true;
+      vm.loadFilesError = false;
+
+      NstSvcFileFactory.getPlaceFiles(vm.currentPlaceId,
+        vm.settings.filter,
+        vm.settings.keyword,
+        vm.settings.skip,
+        vm.settings.limit).then(function (fileItems) {
+          append(fileItems);
+
+          vm.hasNextPage = fileItems.length === vm.settings.limit;
+          vm.settings.skip += fileItems.length;
+
+          vm.loadFilesError = false;
+        }).catch(function () {
+          toastr.error(NstSvcTranslation.get('An error has occurred while retrieving files.'));
+          vm.loadFilesError = true;
+        }).finally(function () {
+          vm.filesLoadProgress = false;
+        });
     }
 
     /**
@@ -299,19 +323,37 @@
      * @param {any} fileIds
      * @param {any} el
      */
-    function onSelect(fileIds) {
-      if (onSelectTimeout) {
-        $timeout.cancel(onSelectTimeout);
+    function calculateSize() {
+      var sizes = _.map(vm.selectedFiles, 'size');
+      vm.totalSelectedFileSize = _.sum(sizes);
+    }
+
+    function toggleSelect(item){
+      if ( item.isSelected ) {
+        unselectFile(item)
+      } else {
+        selectFile(item)
       }
+      calculateSize();
+    }
 
-      onSelectTimeout = $timeout(function () {
-        vm.selectedFiles = _.filter(vm.files, function (file) {
-          return _.includes(fileIds, file.id);
-        });
-
-        var sizes = _.map(vm.selectedFiles, 'size');
-        vm.totalSelectedFileSize = _.sum(sizes);
+    function unselectFile(item){
+      _.remove(vm.selectedFiles, function(file) {
+        return item.id === file.id
       });
+      item.isSelected = false;
+    }
+
+    function selectFile(item){
+      vm.selectedFiles.push(item);
+      item.isSelected = true;
+    }
+
+    function unselectAll() {
+      vm.selectedFiles.forEach(function (file) {
+        file.isSelected = false;
+      });
+      vm.selectedFiles = [];
     }
 
     /**
@@ -323,10 +365,6 @@
     }
 
     $scope.$on('$destroy', function () {
-      if (onSelectTimeout) {
-        $timeout.cancel(onSelectTimeout);
-      }
-
       _.forEach(eventReferences, function (canceler) {
         if (_.isFunction(canceler)) {
           canceler();

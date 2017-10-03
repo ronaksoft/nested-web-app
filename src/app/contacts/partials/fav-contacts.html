@@ -1,22 +1,35 @@
-<ul class="_bgwhite fav-contacts" dir="ltr" nst-scrollbar suppress-scroll-x="true">
-  <li ng-if=" ctrl.contacts.length === 0">
-    <div class="_jcc _df _fw nst-margin-12">
-      <translate>No Favorite Contact!!</translate>
-    </div>
-  </li>
-  <li ng-repeat="contact in ctrl.contacts" dir="{{$root._direction}}">
-    <a class="_df inline-user-row _aic _fw" ui-sref="app.contact({ contactId: contact.id })"
-       ng-click="ctrl.openContact($event, contact)">
-      <div class="top-user-avatar-24">
-        <img initial-avatar="{{ctlPostCard.post.sender.id}}" name="{{contact.fullName}}" picture="{{contact | avatar : 'x32'}}" data-width="24"
-             data-height="24"
-             data-radius="24" class="account-initials-24 _df" data-word-count="2" data-font-size="11"/>
+<div iscroll="" class="iscroll-wrapper _bgwhite fav-contacts ">
+  <ul class="iscroll-scroller">
+    <li ng-if=" contactsCtrl.contacts.length === 0 && !contactsCtrl.loadProgress">
+      <div class="_jcc _df _fw nst-margin-12">
+        <translate>No Favorite Contact!!</translate>
       </div>
-      <div class="_df text-wrap _fw">
-        <span class="_txe">{{contact.fullName}}</span>
+    </li>
+    <li class="_fw _df _jcc _fn" ng-if="contactsCtrl.loadProgress">
+      <div class="nst-mood-cheerful no-gutter nst-margin-24">
+        <div class="_fw">
+          <div class="nst-loading nst-loading-size-4 _fl"></div>
+          <span>&nbsp;</span>
+          <div class="nst-font-xsmall _fr nst-marginbtm-4">
+            <translate>Loading...</translate>
+          </div>
+        </div>
       </div>
-      <!-- <div class="status">
-      </div> -->
-    </a>
-  </li>
-</ul>
+    </li>
+    <li ng-if="!contactsCtrl.loadProgress" ng-repeat="contact in contactsCtrl.contacts">
+      <a class="_df inline-user-row _aic _fw" ui-sref="app.contact({ contactId: contact.id })"
+        ng-click="contactsCtrl.openContact($event, contact)">
+        <div class="top-user-avatar-24">
+          <img initial-avatar="{{ctlPostCard.post.sender.id}}" name="{{contact.fullName}}" picture="{{contact | avatar : 'x32'}}" data-width="24"
+              data-height="24"
+              data-radius="24" class="account-initials-24 _df" data-word-count="2" data-font-size="11"/>
+        </div>
+        <div class="_df text-wrap _fw">
+          <span class="_txe">{{contact.fullName}}</span>
+        </div>
+        <!-- <div class="status">
+        </div> -->
+      </a>
+    </li>
+  </ul>
+</div>

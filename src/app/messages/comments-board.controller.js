@@ -5,7 +5,7 @@
     .module('ronak.nested.web.message')
     .controller('CommentsBoardController', CommentsBoardController);
 
-  function CommentsBoardController($timeout, $scope, $sce, $q, $state,
+  function CommentsBoardController($timeout, $scope, $sce, $q, $state, $location, $anchorScroll,
                                    NstSvcAuth,NstSvcDate, NstSvcCommentFactory, NstUtility, NstSvcTranslation,
                                    moment, toastr, NstSvcLogger, _) {
     var vm = this;
@@ -42,7 +42,11 @@
       vm.hasOlderComments = vm.totalCommentsCount > vm.comments.length;
       var key = $scope.$on('post-load-new-comments', function (event, data) {
         if (data.postId === vm.postId) {
-          loadRecentComments();
+          if (data.scrollIntoView) {
+            loadRecentComments(data.scrollIntoView);
+          } else {
+            loadRecentComments();
+          }
         }
       });
 
@@ -91,7 +95,7 @@
       return deferred.promise;
     }
 
-    function loadRecentComments() {
+    function loadRecentComments(scrollIntoView) {
       var settings = {
         date : getLastCommentDate(vm.comments),
         limit : 30
@@ -103,6 +107,10 @@
         vm.lastComment = findLastComment(vm.comments);
         vm.hasAnyRemoved = _.some(vm.comments, 'removedById');
         vm.commentBoardLimit = 30;
+        if ( newComments.length > 0 && newComments[0].id && scrollIntoView) {
+          $location.hash('comment-' + newComments[0].id);
+          $anchorScroll();
+        }
       }).catch(function (error) {
         NstSvcLogger.error(error);
       });

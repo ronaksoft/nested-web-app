@@ -16,18 +16,18 @@
           userDetail: '=userDetail'
         },
         link: function ($scope, $element) {
-          
+
           if ( _.isString($scope.userDetail) ) {
             NstSvcUserFactory.get($scope.userDetail).then(function (user){
               $scope.user = user;
               init();
             });
-            
+
           } else {
             $scope.user = $scope.userDetail ? $scope.userDetail : {};
             init();
           }
-          
+
 
           $scope.openOver = function () {
             return false
@@ -35,7 +35,7 @@
 
           function init() {
             $scope.isEmail = NST_PATTERN.EMAIL.test( $scope.user.id);
-            $scope.isAvailable = NstSvcAuth.user.id !== $scope.user.id;
+            $scope.isAvailable = NstSvcAuth.user && NstSvcAuth.user.id !== $scope.user.id;
             if ( $scope.isAvailable ) {
               $element.addClass('enabled-detail-popover');
             } else {

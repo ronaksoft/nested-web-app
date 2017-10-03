@@ -13,6 +13,8 @@
         switch (format) {
           case 'short':
             return date.format(NstSvcCalendarTranslation.get("YYYY-MM-DD"));
+          case 'file-date':
+            return date.format(NstSvcCalendarTranslation.get("MMM DD, YYYY HH:mm"));
           case 'full':
           default:
             return date.format(NstSvcCalendarTranslation.get("dddd, MMMM DD YYYY, HH:mm"));

@@ -19,13 +19,17 @@
 
       this.limits = {};
 
-      this.unreadPosts = {};
+      this.unreadPosts = null;
 
       NstTinyPlace.call(this);
     }
 
     Place.prototype = new NstTinyPlace();
     Place.prototype.constructor = Place;
+
+    Place.prototype.canAddSubPlace = function() {
+      return this.limits && this.counters && this.counters.childs < this.limits.childs;
+    }
 
     return Place;
   }

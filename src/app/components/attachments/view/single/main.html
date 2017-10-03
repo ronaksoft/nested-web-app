@@ -25,7 +25,8 @@
     </svg>
   </div>
   <div class="nav-divid" data-ng-if="ctlAttachmentView.attachments.collection.length > 1"></div>
-  <div class="nav-btn attach-bar-menu" data-ng-if="ctlAttachmentView.attachments.collection.length > 1" ng-click="ctlAttachmentView.showBar()">
+  <div class="nav-btn attach-bar-menu" data-ng-if="ctlAttachmentView.attachments.collection.length > 1"
+       ng-click="ctlAttachmentView.showBar()">
     <svg class="_24svg _df _fn">
       <use xlink:href="/assets/icons/nst-icn24.svg#side-bar"></use>
     </svg>
@@ -33,32 +34,39 @@
 </div>
 <div class="attachment-image-show ng-class:{'loaded' : ctlAttachmentView.loaded}">
 </div>
-<div data-ng-if="ctlAttachmentView.attachments.collection.length > 1" class="attachment-pager prev" data-ng-click="ctlAttachmentView.goPrevious()">
+<div data-ng-if="ctlAttachmentView.attachments.collection.length > 1" class="attachment-pager prev"
+     data-ng-click="ctlAttachmentView.goPrevious()">
   <svg class="_24svg _df _fn">
     <use xlink:href="/assets/icons/nst-icn24.svg#arrow"></use>
   </svg>
 </div>
-<div data-ng-if="ctlAttachmentView.attachments.collection.length > 1" class="attachment-pager next" data-ng-click="ctlAttachmentView.goNext()">
+<div data-ng-if="ctlAttachmentView.attachments.collection.length > 1" class="attachment-pager next"
+     data-ng-click="ctlAttachmentView.goNext()">
   <svg class="_24svg _df _fn">
     <use xlink:href="/assets/icons/nst-icn24.svg#arrow"></use>
   </svg>
 </div>
-<div class="preview-box">
+<div nst-panzoom="'.modal-content'" file-type="ctlAttachmentView.attachments.current.type" class="preview-box">
 
-<nst-attachment-view attachment="ctlAttachmentView.attachments.current" side-bar-open="ctlAttachmentView.barOpen"></nst-attachment-view>
+  <nst-attachment-view attachment="ctlAttachmentView.attachments.current"
+                       side-bar-open="ctlAttachmentView.barOpen"></nst-attachment-view>
 
 </div>
 <div class="attachs-bar" data-ng-if="ctlAttachmentView.attachments.collection.length > 1">
-  <h3><translate>Attachments</translate></h3>
-  <ul dir="ltr" nst-scrollbar>
-    <li ng-repeat="item in ctlAttachmentView.attachments.collection" ng-click="ctlAttachmentView.getIndex(item)"
-    class="ng-class:{'active' : ctlAttachmentView.attachments.current.id === item.id}">
-      <div ng-hide="item.thumbnail.length" class="attachment-tiny-thumb tiny-thumb-type-{{item.type}}">
-        {{item.extension | uppercase}}
-      </div>
-      <img ng-show="item.thumbnail.length" ng-src="{{item.thumbnail}}" alt="">
-      <span>{{item.filename}}</span>
-    </li>
-  </ul>
+  <h3>
+    <translate>Attachments</translate>
+  </h3>
+  <div iscroll="" class="iscroll-wrapper">
+    <ul class="iscroll-scroller">
+      <li ng-repeat="item in ctlAttachmentView.attachments.collection" ng-click="ctlAttachmentView.getIndex(item)"
+          class="ng-class:{'active' : ctlAttachmentView.attachments.current.id === item.id}">
+        <div ng-hide="item.thumbnail.length" class="attachment-tiny-thumb tiny-thumb-type-{{item.type}}">
+          {{item.extension | uppercase}}
+        </div>
+        <img ng-show="item.thumbnail.length" ng-src="{{item.thumbnail}}" alt="">
+        <span>{{item.filename}}</span>
+      </li>
+    </ul>
+  </div>
   <!--<nst-attachments-preview-bar items="ctlAttachmentView.attachments.collection" mode="attach-list" on-item-click="ctlAttachmentView.goTo"></nst-attachments-preview-bar>-->
 </div>

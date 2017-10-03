@@ -13,15 +13,16 @@
     <div class="rghbtn" ng-click="docPreview()"><b><translate>Preview</translate></b></div>
   </div>
 </div>
-<iframe loading-docs show="attachment.show" ng-if="previewSetting.pdf"
+<!-- <iframe loading-docs show="attachment.show" ng-if="previewSetting.pdf"
   ng-show="attachment.show"
   ng-src="{{attachment.viewUrl}}" frameborder='0'>This is an embedded <a target='_blank'  href='https://office.com'>Microsoft
   Office</a> document, powered by <a target='_blank' href='https://office.com/webapps'>Office Online</a>.
-</iframe>
-<div class="loading" ng-hide="attachment.show" ng-if="previewSetting.pdf && !fetchPreviewSetting">
-  <div class="animation"><div class="circle one"></div></div>
-  <div class="animation"><div class="circle two"></div></div>
-  <div class="animation"><div class="circle three"></div></div>
-  <div class="animation"><div class="circle four"></div></div>
-  <div class="animation"><div class="circle five"></div></div>
-</div>
+</iframe> -->
+<object ng-if="attachment.viewUrl && previewSetting.pdf"
+  data="{{attachment.viewUrl + '#toolbar=0&amp;'}}" type="application/pdf">
+  <param name="view" value="Fit" />
+  <p>It appears you don't have a PDF plugin for this browser. 
+    No problem though... 
+    You can <a href="/path/to/file.pdf">click here to download the PDF</a>.
+  </p>
+</object>

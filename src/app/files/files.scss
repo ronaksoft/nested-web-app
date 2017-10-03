@@ -1,37 +1,58 @@
-.files-nav {
+.toolbar .search-files {
   display: flex;
-  padding:0;
-  margin: 16px 0;
-  align-items: baseline;
-  p {
-    font-size: 32px;
-    line-height: 43px;
-    font-weight: 300;
-    color: $color-gale;
-    text-align: left;
-    margin: 0 0 0 20px;
-    padding: 0;
-    white-space: nowrap;
+  position: relative;
+  height: 32px;
+  input {
+    background-color: transparent;
+    height: 32px;
+    border: 1px solid $color-breeze-new;
+    border-radius: 6px;
+    font-size: 12px;
+    color: $color-solid;
+    width: 200px;
+    padding-left: 30px;
+    transition: width $animation-dur,background-color $animation-dur;
   }
-  .files-arrow {
-    background: url('../assets/icons/arrow.svg') no-repeat;
-    display: inline;
-    border: 0;
-    left: 0;
-    padding: 5px 10px 0 10px;
-    cursor: pointer;
-    margin-left: 7px;
-    color: #869D91;
+  input + svg {
+    opacity: .4;
+    transition: opacity $animation-dur;
+  }
+  input::-webkit-input-placeholder {
+    color: $color-solid-64;
+  }
+  input::-moz-placeholder {
+    color: $color-solid-64;
+  }
+  input:hover ,
+  input:focus {
+    width: 320px;
+    background-color: $color-white;
+  }
+  input:hover + svg,
+  input:focus + svg{
+    opacity: .24;
+  }
+  svg {
+    left: 8px;
+    top: 8px;
+    position: absolute;
+    fill: $color-solid!important;
   }
 }
 
 .file-list {
+  max-width: 648px;
+  width: calc(100vw - 540px);
+  margin-left: auto;
+  margin-right: auto;
+  height: 100%;
+  flex-direction: column;
+  display: flex;
+  box-shadow: 0 4px 8px $color-breeze-new;
   .file-list-header {
     height: 48px;
-    display: flex;
-    //margin-top: 25px;
+    display: flex; //margin-top: 25px;
     border-bottom: 1px solid #f0f0f0;
-
     svg {
       width: 23px;
       height: 20px;
@@ -126,81 +147,123 @@
       font-weight: 100;
       cursor: pointer;
       margin-bottom: 10px;
-    }
-
-    //TODO: ali
+    } //TODO: ali
     #header-send-to {
       color: $color-sense-wire;
       font-size: 13px;
       font-weight: 300;
-      margin-right: 20px;
-      //margin-left: 10px;
+      margin-right: 20px; //margin-left: 10px;
       cursor: pointer;
       margin-bottom: 10px;
       margin-top: 10px;
       display: flex;
       flex: none;
     }
-    .send span{
-      vertical-align:text-top ;
+    .send span {
+      vertical-align: text-top;
     }
   }
   ul {
     list-style-type: none;
     box-sizing: border-box;
     height: 100%;
-    .files-types {
-      padding: 0 !important;
-    }
-    .file-list-container {
-      width:100%;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    li {
+      height: 64px;
       align-items: center;
-      user-select: none;
-
-    }
-    .file-list-item {
       display: flex;
-      width: calc(100% - 55px);
-      border-bottom: 1px solid #f0f0f0;
-      padding: 20px 0 20px 16px;
-      box-sizing: border-box;
-      .item-name {
-        width: 100%;
-        display: flex;
-        flex: 1;
-        font-size: 15px;
-        line-height: 17px;
-        max-height: 34px;
-        font-weight: 500;
-        word-break: break-all;
-        overflow: hidden;
-        max-width: calc(100% - 208px);
-        a{
-          display: block; /* Fallback for non-webkit */
-          display: -webkit-box;
-          -webkit-line-clamp: 2;
-          -webkit-box-orient: vertical;
-          max-height: 34px;
-          width: auto;
-          white-space: normal;
-          color:#000000;
+      flex: none;
+      width: 100%;
+      user-select: none;
+      &:last-of-type {
+        .file-item-inner {
+          border-bottom-color: transparent;
         }
       }
-      .item-date {
-        width: 128px;
-        display: flex;
-        flex: none;
-        font-size: 13px;
-        color: #7D8793;
-        //margin-right: 16px;
+    }
+    .checkbox {
+      width: 48px;
+      height: 48px;
+      // @include align-center();
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex: none;
+      div {
+        border: 1px solid $color-solid-24;
+        border-radius: 8px;
       }
-      .item-size {
-        width: 80px;
-        display: flex;
-        flex: none;
-        font-size: 13px;
-        color: #7D8793;
+      svg {
+        opacity: 0;
+        fill: $color-white!important;
       }
+    }
+    li.checked {
+      background-color: transparentize($color-sense, 1 - .16);
+      .checkbox div{
+        border: 1px solid $color-sense-wire;
+        background-color: $color-sense-wire;
+        svg {
+          opacity: 1;
+        }
+      }
+    }
+    .file-item-inner {
+      height: 100%;
+      display: flex;
+      width: 100%;
+      align-items: center;
+      padding-right: 16px;
+      border-bottom: 1px solid $color-breeze-5-new;
+      overflow: hidden;
+    }
+    .attachment-tiny-thumb {
+      width: 48px;
+      flex: none;
+      margin-right: 16px;
+      margin-left: 0;
+      box-shadow: 0 1px 2px rgba(40, 40, 40, .32);
+      display: block;
+      line-height: 24px;
+      text-align: center;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    img {
+      width: 48px;
+      height: 48px;
+      margin-right: 16px;
+      border-radius: 2px;
+      object-fit: cover;
+      flex: none;
+    }
+    abbr {
+      max-width: calc(100% - 296px);
+      width: 100%;
+      font-size: 14px;
+      color: $color-solid;
+      overflow: hidden;
+    }
+    .item-date {
+      width: 128px;
+      margin-left: 16px;
+      display: flex;
+      flex: none;
+      font-size: 13px;
+      color: $color-solid-64; //margin-right: 16px;
+    }
+    .item-size {
+      width: 80px;
+      display: flex;
+      flex: none;
+      font-size: 13px;
+      color: $color-solid;
+      margin-left: 16px
+    }
+    .file-list-item {
+
       #files-time {
         color: #C8C8C8;
       }
@@ -209,14 +272,14 @@
 }
 
 div.files-input {
-  flex-grow:4;
+  flex-grow: 4;
 }
 
 li.j-selected {
-  background-color:#E8FBF0;
+  background-color: $color-breeze-new;
   border-bottom: none;
-  &:hover{
-    background-color:#E8FBF0!important;
+  &:hover {
+    background-color: $color-breeze-new!important;
   }
 }
 
@@ -250,11 +313,11 @@ li.file-list-container {
   }
 }
 
-.file-badge, .file-thumbnail {
-  display : inline-block;
+.file-badge {
+  display: inline-block;
   border: 1px solid $color-solid-30;
   border-radius: 2px;
-  width : 50px;
+  width: 50px;
 }
 
 .file-badge {
@@ -271,14 +334,6 @@ li.file-list-container {
   font-weight: bold;
 }
 
-.file-thumbnail {
-  object-fit: cover;
-  width: 48px;
-  height: 48px;
-  border: none;
-  border-radius: 0;
-}
-
 .file-badge-pdf {
   border-color: #FA0032;
   background: linear-gradient(lighten(#FA0032, 40), $color-white);
@@ -286,6 +341,7 @@ li.file-list-container {
   margin-top: 8px;
   font-weight: bold;
 }
+
 .file-badge-archive {
   border-color: #5A28BE;
   background: linear-gradient(lighten(#5A28BE, 40), $color-white);
@@ -293,6 +349,7 @@ li.file-list-container {
   margin-top: 8px;
   font-weight: bold;
 }
+
 .file-badge-document {
   border-color: #148CF0;
   background: linear-gradient(lighten(#148CF0, 40), $color-white);
@@ -300,7 +357,10 @@ li.file-list-container {
   margin-top: 8px;
   font-weight: bold;
 }
-.file-badge-audio, .file-badge-video, .file-badge-image {
+
+.file-badge-audio,
+.file-badge-video,
+.file-badge-image {
   border-color: #3CC882;
   background: linear-gradient(lighten(#3CC882, 40), $color-white);
   color: #3CC882;
@@ -308,7 +368,7 @@ li.file-list-container {
   font-weight: bold;
 }
 
-.popover-files{
+.popover-files {
   width: 150px;
   background: #FFFFFF;
   border-color: #ced9d3;
@@ -335,5 +395,3 @@ li.file-list-container {
 .popover.bottom {
   margin-top: 0;
 }
-
-

@@ -14,14 +14,14 @@
     .module('ronak.nested.web.message')
     .controller('PostCardController', PostCardController);
 
-  function PostCardController($state, $log, $timeout, $stateParams, $rootScope, $scope, $uibModal,
-                              _, toastr,
-                              NST_EVENT_ACTION, NST_PLACE_ACCESS, NST_POST_EVENT, SvcCardCtrlAffix,
-                              NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory, NstSearchQuery,
-                              NstSvcAuth, NstUtility, NstSvcPostInteraction, NstSvcTranslation, NstSvcLogger, $) {
+  function PostCardController($state, $log, $timeout, $stateParams, $rootScope, $scope, $uibModal, $location, $anchorScroll,
+    _, toastr,
+    NST_EVENT_ACTION, NST_PLACE_ACCESS, NST_POST_EVENT, SvcCardCtrlAffix,
+    NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory, NstSearchQuery, NstSvcModal,
+    NstSvcAuth, NstUtility, NstSvcPostInteraction, NstSvcTranslation, NstSvcLogger, $) {
     var vm = this;
 
-      var newCommentIds = [],
+    var newCommentIds = [],
       unreadCommentIds = [],
       focusOnSentTimeout = null,
       eventReferences = [];
@@ -40,7 +40,6 @@
     vm.replyToSender = replyToSender;
     vm.viewFull = viewFull;
     vm.setBookmark = setBookmark;
-    vm.loadNewComments = loadNewComments;
     vm.attachPlace = attachPlace;
     vm.toggleRecieveNotification = toggleRecieveNotification;
     vm.seenBy = seenBy;
@@ -52,6 +51,7 @@
     vm.addLabels = addLabels;
     vm.isFeed = isFeed;
     vm.labelClick = labelClick;
+    vm.loadNewComments = loadNewComments;
     vm.isPostView = isPostView();
 
     vm.expandProgress = false;
@@ -60,13 +60,10 @@
     vm.unreadCommentsCount = 0;
     vm.isChecked = false;
     vm.isCheckedForce = false;
+    vm.setIsCheckedWatchOffTemporary = false;
     vm.postSenderIsCurrentUser = false;
     vm.haveAnyLabelAcess = true; // TODO Read this from label cache
-
-    vm.limits = {
-      places: 1,
-      recipients: 1
-    }
+    vm.totalRecipients = [];
 
     isPlaceFeed();
     $scope.$parent.$parent.affixObserver = 1;
@@ -76,6 +73,8 @@
     vm.hasPlacesWithControlAccess = hasPlacesWithControlAccess;
     vm.hasDeleteAccess = hasDeleteAccess;
     vm.hasHiddenCommentAccess = hasPlacesWithControlAccess();
+
+    vm.goToPlace = goToPlace;
 
     /**
      * Checks post card is in chains view
@@ -91,7 +90,11 @@
      */
     function replyAll($event) {
       $event.preventDefault();
-      $state.go('app.compose-reply-all', {postId: vm.post.id}, {notify: false});
+      $state.go('app.compose-reply-all', {
+        postId: vm.post.id
+      }, {
+        notify: false
+      });
     }
 
     /**
@@ -101,7 +104,11 @@
      */
     function forward($event) {
       $event.preventDefault();
-      $state.go('app.compose-forward', {postId: vm.post.id}, {notify: false});
+      $state.go('app.compose-forward', {
+        postId: vm.post.id
+      }, {
+        notify: false
+      });
     }
 
     /**
@@ -111,7 +118,11 @@
      */
     function replyToSender($event) {
       $event.preventDefault();
-      $state.go('app.compose-reply-sender', {postId: vm.post.id}, {notify: false});
+      $state.go('app.compose-reply-sender', {
+        postId: vm.post.id
+      }, {
+        notify: false
+      });
     }
 
     /**
@@ -125,9 +136,16 @@
       markAsRead();
       // helper for opening post view inside another post view
       if ($state.current.name !== 'app.message') {
-        $state.go('app.message', {postId: vm.post.id, trusted: vm.post.isTrusted}, {notify: false});
+        $state.go('app.message', {
+          postId: vm.post.id,
+          trusted: vm.post.isTrusted
+        }, {
+          notify: false
+        });
       } else {
-        var reference = $scope.$emit('post-view-target-changed', {postId: vm.post.id});
+        var reference = $scope.$emit('post-view-target-changed', {
+          postId: vm.post.id
+        });
         eventReferences.push(reference);
       }
     }
@@ -137,7 +155,7 @@
      * by adding to watchers list, user gets all notifications of post
      */
     function toggleRecieveNotification() {
-      vm.watched =! vm.watched;
+      vm.watched = !vm.watched;
       NstSvcPostFactory.setNotification(vm.post.id, vm.watched);
     }
 
@@ -164,13 +182,21 @@
     function setBookmark(setBookmark) {
       vm.post.pinned = setBookmark;
       if (setBookmark) {
-        NstSvcPostFactory.pin(vm.post.id).catch(function () {
+        try {
+          NstSvcPostFactory.pin(vm.post.id).catch(function () {
+            vm.post.pinned = !setBookmark;
+          });
+        } catch (e) {
           vm.post.pinned = !setBookmark;
-        });
+        }
       } else {
-        NstSvcPostFactory.unpin(vm.post.id).catch(function () {
+        try {
+          NstSvcPostFactory.unpin(vm.post.id).catch(function () {
+            vm.post.pinned = !setBookmark;
+          });
+        } catch (e) {
           vm.post.pinned = !setBookmark;
-        });
+        }
       }
     }
 
@@ -196,7 +222,12 @@
             placeId: place.id
           });
           vm.isChecked = false;
-          $scope.$emit('post-select',{postId: vm.post.id,isChecked : vm.isChecked});
+
+          createTotalPostRecipients();
+          $scope.$emit('post-select', {
+            postId: vm.post.id,
+            isChecked: vm.isChecked
+          });
         }).catch(function () {
           toastr.error(NstSvcTranslation.get("An error has occurred in trying to remove this message from the selected Place."));
         });
@@ -243,7 +274,10 @@
       NstSvcPostInteraction.retract(vm.post).finally(function () {
         vm.retractProgress = false;
         vm.isChecked = false;
-        $scope.$emit('post-select',{postId: vm.post.id,isChecked : vm.isChecked});
+        $scope.$emit('post-select', {
+          postId: vm.post.id,
+          isChecked: vm.isChecked
+        });
         if (isPostView()) {
           $scope.$parent.$parent.$dismiss();
         }
@@ -268,7 +302,7 @@
           markAsRead();
         }
 
-        if (vm.post.isTrusted || Object.keys(post.resources).length == 0) {
+        if (vm.post.isTrusted || !post.resources || Object.keys(post.resources).length == 0) {
           showTrustedBody();
         }
         ++$scope.$parent.$parent.affixObserver;
@@ -295,13 +329,12 @@
         var scrollOnCollapseCase = document.documentElement.clientHeight < elParentH;
         var postCollaspeTimeout = scrollOnCollapseCase ? 300 : 0;
         if (scrollOnCollapseCase) {
-          $timeout(function(){
+          $timeout(function () {
             SvcCardCtrlAffix.change();
-          },300)
+          }, 300)
           $('html, body').animate({
             scrollTop: postCardOffTOp
-          }, 300, 'swing', function () {
-          });
+          }, 300, 'swing', function () {});
         }
         $timeout(function () {
           vm.isExpanded = false;
@@ -339,14 +372,19 @@
         }
       }).result.then(function (attachedPlaces) {
         _.forEach(attachedPlaces, function (place) {
-          if (!_.some(vm.post.places, {id: place.id})) {
+          if (!_.some(vm.post.places, {
+              id: place.id
+            })) {
             vm.post.places.push(place);
           }
         });
 
+        createTotalPostRecipients();
         NstSvcPlaceFactory.getAccess(_.map(attachedPlaces, 'id')).then(function (accesses) {
           _.forEach(accesses, function (item) {
-            var postPlace = _.find(vm.post.places, {id: item.id});
+            var postPlace = _.find(vm.post.places, {
+              id: item.id
+            });
             if (postPlace) {
               postPlace.accesses = item.accesses;
             }
@@ -401,7 +439,7 @@
           postPlaces: function () {
             return vm.post.places;
           },
-          multi : false
+          multi: false
         }
       }).result.then(function (result) {
         $scope.$emit('post-moved', {
@@ -409,8 +447,14 @@
           toPlace: result.toPlace,
           fromPlace: result.fromPlace
         });
+        NstSvcPlaceFactory.getFresh(selectedPlace);
+        NstSvcPlaceFactory.getFresh(result.toPlace.id);
         vm.isChecked = false;
-        $scope.$emit('post-select',{postId: vm.post.id,isChecked : vm.isChecked});
+        createTotalPostRecipients();
+        $scope.$emit('post-select', {
+          postId: vm.post.id,
+          isChecked: vm.isChecked
+        });
         NstUtility.collection.replaceById(vm.post.places, result.fromPlace.id, result.toPlace);
       });
     }
@@ -437,7 +481,7 @@
 
     function alwaysTrust() {
       showTrustedBody();
-      NstSvcUserFactory.trustEmail(vm.post.sender.id).then(function() {
+      NstSvcUserFactory.trustEmail(vm.post.sender.id).then(function () {
         vm.post.isTrusted = true;
       }).catch(function () {
         toastr.error(NstSvcTranslation.get('An error has occured in trusting the sender'));
@@ -449,9 +493,15 @@
      * also reloads the post counters
      * @param {any} $event
      */
-    function loadNewComments($event) {
+    function loadNewComments($event, scrollIntoView) {
       if ($event) $event.preventDefault();
-      eventReferences.push($scope.$broadcast('post-load-new-comments', { postId: vm.post.id }));
+      var data = {
+        postId: vm.post.id
+      }
+      if (scrollIntoView) {
+        data.scrollIntoView = true;
+      }
+      eventReferences.push($scope.$broadcast('post-load-new-comments', data));
       reloadCounters();
       vm.unreadCommentsCount = 0;
     }
@@ -463,7 +513,11 @@
      * @returns
      */
     function hasDeleteAccess(place) {
-      return place.hasAccess(NST_PLACE_ACCESS.REMOVE_POST);
+      if (typeof place.hasAccess === 'function') {
+        return place.hasAccess(NST_PLACE_ACCESS.REMOVE_POST);
+      } else {
+        return false;
+      }
     }
 
     /**
@@ -528,18 +582,54 @@
      * Raise event for select/unselect post
      * `Messages` page and other posts listens to this
      */
-    $scope.$watch(function(){
+    $scope.$watch(function () {
       return vm.isChecked;
-    },function(){
-      $scope.$emit('post-select',{postId: vm.post.id,isChecked : vm.isChecked});
+    }, function () {
+      if (!vm.setIsCheckedWatchOffTemporary) {
+        $scope.$emit('post-select', {
+          postId: vm.post.id,
+          isChecked: vm.isChecked
+        });
+      }
     });
+
+    /**
+     * assigned variables used in html rendering
+     */
+    $scope.$watch(function () {
+      return vm.post.places;
+    }, function () {
+      createTotalPostRecipients()
+    });
+
+    function createTotalPostRecipients() {
+      var concatArray = vm.post.places.slice(0);
+      if (vm.post.recipients) {
+        vm.post.recipients.forEach(function (i) {
+          concatArray.push({
+            id: i,
+            name: i
+          });
+        });
+      }
+      vm.totalRecipients = _.uniqBy(concatArray, 'id');
+    }
 
     /**
      * Listen to the selected posts of app for changing the checkbox display method
      */
-    $scope.$on('selected-length-change',function(e, v){
-      if ( v.selectedPosts.length > 0) {
+    $scope.$on('selected-length-change', function (e, v) {
+      if (v.selectedPosts.length > 0) {
         vm.isCheckedForce = true;
+        if(v.selectAll) {
+          vm.setIsCheckedWatchOffTemporary = true;
+          $timeout(function () {
+            vm.setIsCheckedWatchOffTemporary = false
+          }, 100);
+          if (v.selectedPosts.indexOf(vm.post.id)) {
+            vm.isChecked = true;
+          }
+        }
       } else {
         vm.isCheckedForce = false;
         vm.isChecked = false;
@@ -557,7 +647,7 @@
 
     /**
      * Event handler new comment add push and Checks
-     * the activity is belong to this post for futhur actions or not
+     * the activity belongs to this post for further actions or not
      * (need more document)
      */
     eventReferences.push($rootScope.$on(NST_EVENT_ACTION.COMMENT_ADD, function (e, data) {
@@ -566,12 +656,12 @@
         return;
       }
 
-      var senderIsCurrentUser = NstSvcAuth.user.id == data.activity.comment.sender.id;
+      var senderIsCurrentUser = (NstSvcAuth.user.id === data.activity.actor.id);
       if (senderIsCurrentUser) {
         loadNewComments();
         if (!_.includes(newCommentIds, data.activity.id)) {
           newCommentIds.push(data.activity.id);
-          vm.post.counters.comments++;
+          // vm.post.counters.comments++;
         }
       } else {
         if (!_.includes(unreadCommentIds, data.activity.id)) {
@@ -600,7 +690,7 @@
 
       /**
        * @var isForwarded
-       * check the post is forwrded
+       * check the post is forwrded\
        */
       vm.isForwarded = !!vm.post.forwardFromId;
 
@@ -624,11 +714,6 @@
       vm.body = vm.post.body;
       vm.orginalPost = vm.post;
 
-      vm.limits = {
-        places: vm.post.places.length,
-        recipients: vm.post.recipients ? vm.post.recipients.length : 0
-      }
-
       /**
        * checks the post body content is trusted ( displaying images )
        */
@@ -651,6 +736,11 @@
         vm.isExpanded = true;
       }
 
+      vm.goTo = function (posId) {
+        $location.hash(posId);
+        $anchorScroll();
+      }
+
       /**
        * Event handler for comment remove event of post
        *
@@ -666,6 +756,12 @@
        */
       eventReferences.push($scope.$on('post-attachment-viewed', function (event, data) {
         if (vm.post.id === data.postId && !vm.post.read) {
+          markAsRead();
+        }
+      }));
+
+      eventReferences.push($rootScope.$on(NST_POST_EVENT.READ, function (event, data) {
+        if (data.postId === vm.post.id) {
           markAsRead();
         }
       }));
@@ -686,8 +782,8 @@
       // sometimes the post attachments does not have id and we did not find the problem
       // so we are trying to get the post and replace it with the previous corrupted post
       if (_.some(vm.post.attachments, function (attachment) {
-        return !attachment.id;
-      })) {
+          return !attachment.id;
+        })) {
         NstSvcLogger.error('Found that the post model has an attachment with empty id!');
         vm.post.attachments = [];
         NstSvcPostFactory.get(vm.post.id, true).then(function (post) {
@@ -716,19 +812,19 @@
      * add / remove labels of post
      * @param {any} items
      */
-    function addLabels(items){
+    function addLabels(items) {
       var removeItems = _.difference(vm.post.labels, items);
       var addItems = _.difference(items, vm.post.labels);
-      addItems.forEach(function(o){
+      addItems.forEach(function (o) {
         var id = o._id || o.id;
-        NstSvcPostFactory.addLabel(vm.post.id, id).then(function() {
+        NstSvcPostFactory.addLabel(vm.post.id, id).then(function () {
           // console.log(o);
           // vm.post.labels.push(o);
         });
       });
-      removeItems.forEach(function(o){
+      removeItems.forEach(function (o) {
         var id = o._id || o.id;
-        NstSvcPostFactory.removeLabel(vm.post.id, id).then(function() {
+        NstSvcPostFactory.removeLabel(vm.post.id, id).then(function () {
           // _.remove(vm.post.labels, function(n) {
           //   var id1 =  n.id || n._id;
           //   var id2 =  o.id || o._id;
@@ -746,7 +842,9 @@
      */
     function switchToPostCard() {
       // tells the parent scope to open me
-      var reference = $scope.$emit('post-chain-expand-me', {postId: vm.post.id});
+      var reference = $scope.$emit('post-chain-expand-me', {
+        postId: vm.post.id
+      });
       eventReferences.push(reference);
       ++$scope.$parent.$parent.affixObserver;
     }
@@ -766,8 +864,8 @@
      */
     function isPlaceFeed() {
       if ($state.current.name === 'app.messages-favorites' ||
-          $state.current.name === 'app.messages-sorted' ||
-          $state.current.name === 'app.messages-favorites-sorted') {
+        $state.current.name === 'app.messages-sorted' ||
+        $state.current.name === 'app.messages-favorites-sorted') {
         return vm.isPlaceFilter = true;
       }
       return vm.isPlaceFilter = false;
@@ -779,8 +877,8 @@
      */
     function isFeed() {
       if ($state.current.name === 'app.messages-favorites' ||
-          $state.current.name === 'app.messages-sorted' ||
-          $state.current.name === 'app.messages-favorites-sorted') {
+        $state.current.name === 'app.messages-sorted' ||
+        $state.current.name === 'app.messages-favorites-sorted') {
         return true;
       }
       return false;
@@ -822,6 +920,7 @@
      */
     function hasPlacesWithControlAccess() {
       return _.some(vm.post.places, function (place) {
+        // console.log(place, place.hasAccess(NST_PLACE_ACCESS.CONTROL));
         return place.hasAccess(NST_PLACE_ACCESS.CONTROL);
       });
     }
@@ -830,7 +929,7 @@
       NstSvcUserFactory.untrustEmail(vm.post.sender.id).then(function () {
         vm.post.isTrusted = false;
         toastr.success(NstSvcTranslation.get(NstUtility.string.format('Email address {0} has just been removed from the trusted list.', vm.post.sender.id)));
-      }).catch(function (){
+      }).catch(function () {
         toastr.error(NstSvcTranslation.get(NstUtility.string.format('An error occured while removing {0} from the trusted list.', vm.post.sender.id)));
       });
     }
@@ -845,7 +944,34 @@
 
       searchQuery.addLabel(title);
 
-      $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toString())});
+      $state.go('app.search', {
+        search: NstSearchQuery.encode(searchQuery.toString())
+      });
+    }
+
+    function copyToClipboard(text) {
+      var inp = document.createElement('input');
+      document.body.appendChild(inp);
+      inp.value = text;
+      inp.select();
+      document.execCommand('copy', false);
+      inp.remove();
+    }
+
+    function goToPlace(e, place) {
+      e.preventDefault();
+      var emailRe = /\S+@\S+\.\S+/;
+      if (emailRe.test(place.id)) {
+        copyToClipboard(place.id);
+      } else {
+        if (place.hasAccess(NST_PLACE_ACCESS.READ_POST)) {
+          $state.go('app.place-messages', {
+            placeId: place.id
+          });
+        } else {
+          NstSvcModal.error(NstSvcTranslation.get("Error"), NstSvcTranslation.get("Either this Place doesn't exist, or you don't have the permit to enter the Place."));
+        }
+      }
     }
   }
 

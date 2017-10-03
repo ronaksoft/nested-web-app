@@ -68,6 +68,9 @@
 ._rtl {direction: rtl}
 ._ltr{direction: ltr}
 
+._100vw {
+  width: 100vw;
+}
 ._wrb {
   word-wrap: break-word;
   word-break: break-word;
@@ -209,9 +212,6 @@ hr.nomargin {
 .nst-mood-pending {
   color: $color-bg-pending!important;
 }
-.nst-mood-pending-fill {
-  color: $color-bg-pending-fill!important;
-}
 
 .nst-mood-smooth {
   color: $color-solid-30;
@@ -267,6 +267,9 @@ hr.nomargin {
 }
 .cursor-pointer {
   cursor: pointer;
+}
+.cursor-pan {
+  cursor: move;
 }
 .large-font {
   font-size: $font-size-large;

@@ -3,7 +3,7 @@
 
   angular
     .module('ronak.nested.web.components.scroll')
-    .directive('sidebarScroll', onScroll);
+    .directive('sidebarScrolls', onScroll);
 
   /** @ngInject */
   function onScroll($timeout, $interval, $window) {

@@ -1,5 +1,4 @@
-<div class="bg"></div>
-<div class="nst-content _tr">
+<!-- <div class="nst-content _tr">
   <div class="content _pr">
     <div class="top-nav" ng-if="ctlFullNavbar.hasPlace()">
       <div class="place-logo">
@@ -17,7 +16,6 @@
         </i>
       </div>
       <div class="place-info _difv" >
-        <!--<div id="filler" affixers first-imp="true" parent=".content" after-content="72"></div>-->
         <cite fit-text>{{ctlFullNavbar.title}}</cite>
         <h3 id="place-address">
           <svg ng-show="ctlFullNavbar.hasPlace() && ctlFullNavbar.place.privacy.receptive == 'off' &&  ctlFullNavbar.place.policy.add_post == 'creators'">
@@ -34,8 +32,6 @@
           </svg>
           <span class="_ltr">{{ctlFullNavbar.getPlaceId()}}<span ng-show="ctlFullNavbar.hasPlace() && ctlFullNavbar.place.privacy.receptive == 'external'">@{{ ctlFullNavbar.domain }}</span></span>
         </h3>
-        <!--<p class="nst-mood-storm margin-t-5">{{ctlFullNavbar.placeDescription | truncate}}</p>-->
-
       </div>
       <div class="search">
         <input type="text" nst-mention mention-new-method mention-enable-label class="form-control" place-id="{{ctlFullNavbar.placeId}}"
@@ -64,7 +60,6 @@
           </a>
         </nav>
 
-        <div class="cp-illu"></div>
       </div>
     </div>
     <div class="nav-access" ng-if="ctlFullNavbar.hasPlace()">
@@ -80,17 +75,6 @@
           <use xlink:href="/assets/icons/nst-icn24.svg#more"></use>
         </svg>
       </div>
-      <!--<script type="text/ng-template" id="add-uib-tooltip.html">-->
-        <!--<translate ng-if="!ctlFullNavbar.isBookmarked">Add to feed</translate>-->
-        <!--<translate ng-if="ctlFullNavbar.isBookmarked">Remove from feed</translate>-->
-      <!--</script>-->
-      <!--<div data-uib-tooltip-template="'add-uib-tooltip.html'" data-tooltip-append-to-body="false"-->
-           <!--data-tooltip-placement="bottom-right auto">-->
-        <!--<svg class="svg-hover" ng-click="ctlFullNavbar.toggleBookmark()" ng-class="{morphed : ctlFullNavbar.isBookmarked}">-->
-          <!--<use xlink:href="/assets/icons/nst-icn24.svg#star-wire"></use>-->
-          <!--<use xlink:href="/assets/icons/nst-icn24.svg#star"></use>-->
-        <!--</svg>-->
-      <!--</div>-->
       <script type="text/ng-template" id="notification-uib-tooltip.html">
         <translate ng-if="!ctlFullNavbar.notificationStatus" >Turn notification on</translate>
         <translate ng-if="ctlFullNavbar.notificationStatus">Turn notification off</translate>
@@ -104,4 +88,10 @@
       </div>
     </div>
   </div>
+</div> -->
+<div class="nst-navbar-fixed-container">
+  <div class="place-pic">
+      <img ng-src="{{ctlFullNavbar.place | picture:'x32'}}" width="24" height="24"/>
+  </div>
+  <cite>{{ctlFullNavbar.title}}</cite>
 </div>

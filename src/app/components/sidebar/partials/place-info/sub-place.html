@@ -1,30 +1,34 @@
-<div class="place-item-inner">
-  <dl data-ng-repeat="i in ctlPlaceInfo.range(place.level + 1)" class="lines">
+<a class="side-place-item-inner" dbl-click="{{child.children.length > 0}}" ui-sref="app.place-messages({ placeId: child.id })"
+  ng-dblclick="child.isExpanded =! child.isExpanded" ui-sref-active="isSelected" ng-class="{'isSelected': child.isActive}">
+  <dl data-ng-repeat="i in ctlSidebar.range(child.depth)" class="lines">
     <div class="box2"></div>
     <div class="box1"></div>
     <div class="box3"></div>
     <div class="box4"></div>
   </dl>
-  <svg class="icon fill-D6D6D6">
+  <div class="place-line-icon"></div>
+  <!-- <svg class="icon _16svg fill-D6D6D6">
     <use xlink:href="/assets/icons/nst-icn16.svg#hole"></use>
-  </svg>
-  <a dbl-click="{{place.children.length > 0}}" href="{{place.href}}" ng-dblclick="place.collapse =! place.collapse"
-     ng-class="{ isSelected : ctlPlaceInfo.currentPlaceId == place.id }">
-      <span class="_txe _dib" auto-dir="place.name">{{ place.name }}</span>
-      <b class="_df _fn" ng-if="ctlPlaceInfo.placesNotifCountObject[place.id] > 0">&nbsp;{{ctlPlaceInfo.placesNotifCountObject[place.id] | localize}}</b>
-    </a>
-  <i ng-if="place.children.length > 0" class="e2-arrow tw-svg _difv ng-class:{'open' : place.collapse}"
-        data-ng-click="place.collapse =! place.collapse;$event.preventDefault()" role="button" tabindex="0">
-      <svg class="pendfill ng-class:{'visibility-hidden': ctlPlaceInfo.hasNotUnreadPostInChildren(place.id)}">
-        <use xlink:href="/assets/icons/nst-icn24.svg#unread-circle"></use>
-      </svg>
-      <svg>
-        <use xlink:href="/assets/icons/nst-icn24.svg#arrow"></use>
-      </svg>
+  </svg> -->
+  <cite data-uib-tooltip="{{child.name}}" data-tooltip-enable="{{forceTooltip ? true : false}}" data-tooltip-placement="right auto"
+    data-tooltip-append-to-body="true">
+      <span class="_txe _dib" data-ellipsis auto-dir="child.name">{{ child.name }}</span>
+      <b class="_df _fn" ng-if="ctlSidebar.myPlacesUnreadPosts[child.id] > 0">&nbsp;{{ctlSidebar.myPlacesUnreadPosts[child.id] | localize}}</b>
+  </cite>
+  <i ng-if="child.children.length > 0" class="tw-svg _difv ng-class:{'open' : child.isExpanded}"
+    data-ng-click="
+      child.isExpanded =! child.isExpanded;
+      place.isExpanded ? ctlSidebar.scrollIntoViewEvent = $event : null;
+      $event.preventDefault();
+      $event.stopPropagation()"
+    role="button" tabindex="0">
+    <div ng-if="ctlSidebar.isChildrenUnseen(child.id)" class="unread-on-arrow"></div>
+    <svg class="_16svg">
+      <use xlink:href="/assets/icons/nst-icn16.svg#arrow"></use>
+    </svg>
   </i>
-</div>
-<ul ng-if="place.children.length > 0 && place.collapse">
-  <li class="side-place-item" ng-repeat="child in place.children"
-      data-ng-include="'app/components/sidebar/partials/place-info/sub-place.html'" onload="place = child">
+</a>
+<ul ng-if="child.children.length > 0 && child.isExpanded">
+  <li class="side-place-item" ng-repeat="child in child.children" data-ng-include="'app/components/sidebar/partials/place-info/sub-place.html'">
   </li>
 </ul>

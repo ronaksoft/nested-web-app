@@ -17,18 +17,19 @@
     transition-duration: $animation-dur;
     transition-property: background-color,color;
   }
-  &:hover{
-    background-color: $color-sense-5;
-    border-bottom-left-radius: 5px;
+  &:hover {
+    background-color: $color-bg-hover-item;
   }
   &.active{
-    background-color: $color-sense-5;
-    border-bottom-left-radius: 5px;
+    background-color: $color-bg-active-item;
   }
   &.red-item ,
   &.red-item span{
     color: $color-force;
     fill: $color-force;
+    svg {
+      fill: $color-force;
+    }
   }
   &.red-item:hover,
   &.force:hover {

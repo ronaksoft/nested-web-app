@@ -21,12 +21,8 @@
         title : '@navTitle',
         placeId : '@',
         readyToShow : '=',
-        placeDescription: '@',
         account: '=',
-        query: '=',
-        searchOnKeypress : '=',
-        forceSearch : '=',
-        removeLastChip : '='
+        query: '='
       },
       link: function () {
       }

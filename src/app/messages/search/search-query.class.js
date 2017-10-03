@@ -6,7 +6,7 @@
     .factory('NstSearchQuery', NstSearchQuery);
 
   /** @ngInject */
-  function NstSearchQuery(NstObject, NST_SEARCH_QUERY_PREFIX, _) {
+  function NstSearchQuery(NstObject, NST_SEARCH_QUERY_PREFIX, NstSvcI18n, _) {
     var QUERY_SEPARATOR = ' ';
     /**
      * Creates an instance of NstSearchQuery
@@ -16,11 +16,117 @@
      * @constructor
      */
     function SearchQuery(query) {
+      this.order = 0;
+      this.setQuery(query);
+      NstObject.call(this);
+    }
+
+    var searchPrefixLocale = [];
+    if (NstSvcI18n.selectedLocale === 'en-US') {
+      searchPrefixLocale.user = NST_SEARCH_QUERY_PREFIX.NEW_USER;
+      searchPrefixLocale.place = NST_SEARCH_QUERY_PREFIX.NEW_PLACE;
+      searchPrefixLocale.label = NST_SEARCH_QUERY_PREFIX.NEW_LABEL;
+    } else {
+      searchPrefixLocale.user = NST_SEARCH_QUERY_PREFIX.NEW_USER_FA;
+      searchPrefixLocale.place = NST_SEARCH_QUERY_PREFIX.NEW_PLACE_FA;
+      searchPrefixLocale.label = NST_SEARCH_QUERY_PREFIX.NEW_LABEL_FA;
+    }
+
+    SearchQuery.prototype = new NstObject();
+    SearchQuery.prototype.constructor = SearchQuery;
+
+    SearchQuery.prototype.setQuery = function (query, secondaryQuery) {
       this.places = [];
       this.users = [];
       this.labels = [];
       this.otherKeywords = [];
+      this.before = null;
+      this.after = null;
 
+      var secondaryResult = {
+        places: [],
+        users: [],
+        labels: [],
+        keywords: []
+      };
+
+      this.prefixes = {
+        user: NST_SEARCH_QUERY_PREFIX.NEW_USER,
+        place: NST_SEARCH_QUERY_PREFIX.NEW_PLACE,
+        label: NST_SEARCH_QUERY_PREFIX.NEW_LABEL,
+        subject: NST_SEARCH_QUERY_PREFIX.SUBJECT,
+        attachment: NST_SEARCH_QUERY_PREFIX.ATTACHMENT,
+        within: NST_SEARCH_QUERY_PREFIX.WITHIN,
+        date: NST_SEARCH_QUERY_PREFIX.DATE
+      };
+
+      this.order = 0;
+
+      if (NstSvcI18n.selectedLocale !== 'en-US') {
+        query = this.transformLocale(query);
+        if (secondaryQuery !== null && secondaryQuery !== undefined) {
+          secondaryQuery = this.transformLocale(secondaryQuery);
+        }
+      }
+
+      var result = this.parseQuery(query);
+
+      if ((secondaryQuery !== null && secondaryQuery !== undefined) && secondaryQuery.length > 0) {
+        secondaryResult = this.parseQuery(secondaryQuery);
+      }
+
+      var that = this;
+
+      Array.prototype.concat(result.places, secondaryResult.places).forEach(function (item) {
+        that.addPlace(item.id, item.order);
+      });
+
+      Array.prototype.concat(result.users, secondaryResult.users).forEach(function (item) {
+        that.addUser(item.id, item.order);
+      });
+
+      Array.prototype.concat(result.labels, secondaryResult.labels).forEach(function (item) {
+        that.addLabel(item.id, item.order);
+      });
+
+      this.subject = result.subject;
+      this.hasAttachment = result.hasAttachment;
+      this.within = result.within;
+      this.date = result.date;
+
+      if (secondaryQuery !== null && secondaryQuery !== undefined) {
+        secondaryResult.keywords.forEach(function (item) {
+          that.addOtherKeyword(item.id, item.order);
+        });
+      } else {
+        result.keywords.forEach(function (item) {
+          that.addOtherKeyword(item.id, item.order);
+        });
+      }
+    };
+
+    SearchQuery.prototype.transformLocale = function (str) {
+      str = str || '';
+      var userRe = new RegExp(searchPrefixLocale.user, 'g');
+      var placeRe = new RegExp(searchPrefixLocale.place, 'g');
+      var labelRe = new RegExp(searchPrefixLocale.label, 'g');
+
+      str = str.replace(userRe, this.prefixes.user);
+      str = str.replace(placeRe, this.prefixes.place);
+      str = str.replace(labelRe, this.prefixes.label);
+
+      return str;
+    };
+
+    SearchQuery.prototype.parseQuery = function (query) {
+      var places = [];
+      var users = [];
+      var labels = [];
+      var keywords = [];
+      var subject = '';
+      var hasAttachment = false;
+      var within = '1';
+      var date = '';
       var decodedQuery = decodeURIComponent(query);
 
       var words = [];
@@ -34,35 +140,55 @@
         }
       } while (match);
 
-      this.prefixes = {};
-      this.prefixes.user = NST_SEARCH_QUERY_PREFIX.NEW_USER;
-      this.prefixes.place = NST_SEARCH_QUERY_PREFIX.NEW_PLACE;
-      this.prefixes.label = NST_SEARCH_QUERY_PREFIX.NEW_LABEL;
-
       var that = this;
 
-      var order = 0;
-
       _.forEach(words, function (word) {
-        order++;
+        that.order++;
         if (_.startsWith(word, that.prefixes.place)) {
-          this.addPlace(_.replace(word, that.prefixes.place, ''), order);
+          places.push({
+            id: _.replace(word, that.prefixes.place, ''),
+            order: that.order
+          });
         } else if (_.startsWith(word, that.prefixes.user)) {
-          this.addUser(_.replace(word, that.prefixes.user, ''), order);
+          users.push({
+            id: _.replace(word, that.prefixes.user, ''),
+            order: that.order
+          });
         } else if (_.startsWith(word, that.prefixes.label)) {
-          this.addLabel(_.trim(_.replace(word, that.prefixes.label, ''), '"'), order);
-        } else {
+          labels.push({
+            id: _.trim(_.replace(word, that.prefixes.label, ''), '"'),
+            order: that.order
+          });
+        } else if (_.startsWith(word, that.prefixes.subject)) {
+          subject = _.trim(_.replace(word, that.prefixes.subject, ''), '"');
+        } else if (_.startsWith(word, that.prefixes.attachment)) {
+          hasAttachment = (_.replace(word, that.prefixes.attachment, '') === 'true');
+        } else if (_.startsWith(word, that.prefixes.within)) {
+          within = _.trim(_.replace(word, that.prefixes.within, ''), '"');
+        } else if (_.startsWith(word, that.prefixes.date)) {
+          date = _.trim(_.replace(word, that.prefixes.date, ''), '"');
+        }
+        else {
           if (word.length > 0) {
-            this.addOtherKeyword(word, order);
+            keywords.push({
+              id: word,
+              order: that.order
+            });
           }
         }
-      }.bind(this));
+      });
 
-      NstObject.call(this);
-    }
-
-    SearchQuery.prototype = new NstObject();
-    SearchQuery.prototype.constructor = SearchQuery;
+      return {
+        places: places,
+        users: users,
+        labels: labels,
+        keywords: keywords,
+        subject: subject,
+        hasAttachment: hasAttachment,
+        within: within,
+        date: date
+      };
+    };
 
     SearchQuery.prototype.toString = function () {
       var items = this.getSortedParams();
@@ -83,13 +209,32 @@
       return _.join(stringList, QUERY_SEPARATOR);
     };
 
+    SearchQuery.prototype.toAdvancedString = function () {
+      var query = this.toString();
+      query += ' ';
+      if (this.subject.length > 0) {
+        query += this.prefixes.subject + '"' + this.subject + '" ';
+      }
+      if (this.hasAttachment) {
+        query += this.prefixes.attachment + 'true ';
+      }
+      if (this.within.length > 0 && this.within !== '-1' && this.date.length > 0) {
+        query += this.prefixes.within + '"' + this.within + '" ';
+        query += this.prefixes.date + '"' + this.date + '"';
+      }
+      return query;
+    };
+
     SearchQuery.prototype.ToEncodeString = function () {
       return encodeURIComponent(this.toString());
     };
 
     SearchQuery.prototype.addPlace = function (place, order) {
-      if (order === null) {
-        order = 0;
+      if (!checkValidity(place)) {
+        return;
+      }
+      if (order === null || order === undefined) {
+        order = ++this.order;
       }
       if (!_.find(this.places, {id: place})) {
         this.places.push({
@@ -113,9 +258,26 @@
       }
     };
 
+    SearchQuery.prototype.setPlaces = function (places) {
+      places = places.replace(/, /g, ',');
+      places = places.split(',');
+      for (var i in places) {
+        this.addPlace(places[i]);
+      }
+    };
+
+    SearchQuery.prototype.getPlaces = function () {
+      return _.map(this.places, function (item) {
+        return item.id;
+      }).join(',');
+    };
+
     SearchQuery.prototype.addUser = function (user, order) {
-      if (order === null) {
-        order = 0;
+      if (!checkValidity(user)) {
+        return;
+      }
+      if (order === null || order === undefined) {
+        order = ++this.order;
       }
       if (!_.find(this.users, {id: user})) {
         this.users.push({
@@ -131,9 +293,26 @@
       });
     };
 
+    SearchQuery.prototype.setUsers = function (users) {
+      users = users.replace(/, /g, ',');
+      users = users.split(',');
+      for (var i in users) {
+        this.addUser(users[i]);
+      }
+    };
+
+    SearchQuery.prototype.getUsers = function () {
+      return _.map(this.users, function (item) {
+        return item.id;
+      }).join(',');
+    };
+
     SearchQuery.prototype.addLabel = function (label, order) {
-      if (order === null) {
-        order = 0;
+      if (!checkValidity(label)) {
+        return;
+      }
+      if (order === null || order === undefined) {
+        order = ++this.order;
       }
       if (!_.find(this.labels, {id: label})) {
         this.labels.push({
@@ -149,9 +328,26 @@
       });
     };
 
+    SearchQuery.prototype.setLabels = function (labels) {
+      labels = labels.replace(/, /g, ',');
+      labels = labels.split(',');
+      for (var i in labels) {
+        this.addLabel(labels[i]);
+      }
+    };
+
+    SearchQuery.prototype.getLabels = function () {
+      return _.map(this.labels, function (item) {
+        return item.id;
+      }).join(',');
+    };
+
     SearchQuery.prototype.addOtherKeyword = function (keyword, order) {
-      if (order === null) {
-        order = 0;
+      if (!checkValidity(keyword)) {
+        return;
+      }
+      if (order === null || order === undefined) {
+        order = ++this.order;
       }
       if (!_.find(this.otherKeywords, {id: keyword})) {
         this.otherKeywords.push({
@@ -167,11 +363,62 @@
       });
     };
 
+    SearchQuery.prototype.removeAllKeywords = function () {
+      this.otherKeywords = [];
+    };
+
+    SearchQuery.prototype.setAllKeywords = function (keywords) {
+      this.removeAllKeywords();
+      this.addOtherKeyword(keywords);
+    };
+
+    SearchQuery.prototype.getAllKeywords = function () {
+      return this.otherKeywords.map(function (item) {
+        return item.id;
+      }).join(' ');
+    };
+
+    SearchQuery.prototype.setSubject = function (subject) {
+      this.subject = subject;
+    };
+
+    SearchQuery.prototype.getSubject = function () {
+      return this.subject;
+    };
+
+    SearchQuery.prototype.setHasAttachment = function (has) {
+      this.hasAttachment = has;
+    };
+
+    SearchQuery.prototype.getHasAttachment = function () {
+      return this.hasAttachment;
+    };
+
+    SearchQuery.prototype.setWithin = function (within) {
+      this.within = String(within);
+    };
+
+    SearchQuery.prototype.getWithin = function () {
+      return this.within;
+    };
+
+    SearchQuery.prototype.setDate = function (date) {
+      this.date = String(date);
+    };
+
+    SearchQuery.prototype.getDate = function () {
+      return this.date;
+    };
+
     SearchQuery.encode = function (queryString) {
       return encodeURIComponent(queryString);
     };
 
     SearchQuery.prototype.getSearchParams = function () {
+      if (this.date.length > 0 && this.within.length > 0) {
+        this.before = parseInt(this.date);
+        this.after = parseInt(this.date) - (parseInt(this.within) * 36288000); // 7 * 24 * 60 * 60 * 60
+      }
       return {
         places: _.map(this.places, function (item) {
           return item.id;
@@ -184,7 +431,11 @@
         }),
         keywords: _.map(this.otherKeywords, function (item) {
           return item.id;
-        })
+        }),
+        subject: this.subject,
+        hasAttachment: this.hasAttachment,
+        before: this.before * 1000,
+        after: this.after * 1000
       };
     };
 
@@ -250,6 +501,10 @@
         }
       }
     };
+
+    function checkValidity(text) {
+      return (text !== undefined && text !== null && text.length !== 0);
+    }
 
     return SearchQuery;
 

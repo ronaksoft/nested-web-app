@@ -17,6 +17,9 @@ body.modal-open {
     .butn-green {
       width: 128px;
     }
+    &._oh {
+      overflow: hidden;
+    }
   }
 }
 
@@ -226,7 +229,7 @@ body.modal-open {
 
 .modal .modal-compose {
   width: 100%;
-  height: 90%;
+  height: 100%;
   min-width: 100%;
   overflow-x: auto;
   display: flex;
@@ -235,24 +238,34 @@ body.modal-open {
   background-color: transparent;
   border-radius: 0!important;
   margin: 0;
+  #editor-btn-quick {
+    display: none;
+  }
   .modal-content {
     position: relative;
     top: 150px;
     background-color: $color-white;
     width: 632px;
     min-height: 480px;
-    max-height: calc(90vh - 160px);
+    max-height: calc(100vh - 160px);
     // overflow: hidden;
     border-radius: 4px;
     >div {
       min-height: 480px;
-      max-height: calc(90vh - 160px);
+      max-height: calc(100vh - 160px);
     }
     .ui-select-multiple.ui-select-bootstrap input.ui-select-search ,
     .ui-select-multiple.ui-select-bootstrap {
       padding: 0;
       // height: 29px;
     }
+  }
+  .bg-compose {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
   }
   .compose-wrapper {
     width: 100%;
@@ -265,8 +278,8 @@ body.modal-open {
     }
     &.attached {
       .compose-modal-body {
-        margin: 48px 0 204px 0;
-        max-height: calc(90vh - 412px);
+        margin: 48px 0 0 0;
+        max-height: calc(100vh - 426px);
       }
       .compose-scroll-wrapper {
         min-height: 145px;
@@ -295,18 +308,18 @@ body.modal-open {
     justify-content: flex-start;
     position: absolute;
     svg {
-      fill: rgba(0,0,0,.24);
+      fill: $color-black-24;
       transition: fill $animation-dur;
       &:hover {
-        fill: rgba(0,0,0,1);
+        fill: $color-black;
       }
     }
   }
   .compose-modal-body {
-    margin: 48px 0 96px 0;
+    margin: 48px 0 0 0;
     padding: 0 16px;
     height: calc(100% - 144px);
-    max-height: calc(90vh - 304px);
+    max-height: calc(100vh - 408px);
     //overflow-y: scroll;
     //overflow-x: hidden;
     >p {
@@ -321,7 +334,7 @@ body.modal-open {
     display: flex;
     align-items: center;
     flex-direction: row;
-    position: absolute;
+    // position: absolute;
     left: 0;
     bottom: 0;
     width: 100%;
@@ -349,7 +362,7 @@ body.modal-open {
   .editor-butns-wrapper {
     height: 48px;
     // width: 100%;
-    position: absolute;
+    // position: absolute;
     left: 0;
     bottom: 48px;
     padding: 0 16px;
@@ -545,7 +558,7 @@ body.modal-open {
     }
     h2 {
       flex: none;
-      color: #000000;
+      color: $color-black;
       letter-spacing: -1px;
       line-height: 38px;
       font-size: 32px;

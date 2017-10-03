@@ -8,7 +8,7 @@
   flex-direction: column;
   flex: none;
   max-height: 280px;
-  margin-top: 76px;
+  margin-top: 28px;
   h5 {
     font-size: 12px;
     color: #999999;
@@ -34,7 +34,7 @@
       transition: color $animation-dur;
     }
     &.active {
-      background-color: rgba(20, 215, 105,.05);
+      background-color: transparentize($color-sense, 1 - 0.05);
       svg {
         fill: $color-solid;
       }
@@ -53,12 +53,12 @@
 .panel-profile-setting {
   max-width: 574px;
   float: left;
-  width: calc(100% - 280px);
+  width: calc(100vw - 280px);
   text-decoration: none;
   background-color: $color-white;
   border: 1px solid #E6E6E6;
   border-radius: 4px;
-  margin-top: 76px;
+  margin-top: 28px;
   padding: 0 16px;
   .sessions {
     height: auto;
@@ -89,7 +89,7 @@
       }
       &:hover {
         a.force {
-          opacity: 1; 
+          opacity: 1;
         }
       }
     }
@@ -116,6 +116,11 @@
     }
     .form-group {
       margin-bottom: 32px;
+      &:last-of-type {
+        .field {
+          border-bottom-color: transparent;
+        }
+      }
     }
   }
   .profile-name {
@@ -198,7 +203,7 @@
   position: absolute;
   height: 32px;
   width: 100%;
-  bottom: 0;
+  bottom: 5px;
 }
 .add-photo-hover {
   background: url("../assets/icons/hovers.svg") no-repeat;
@@ -232,9 +237,14 @@
   text-align: center;
   @include center-block();
   position: relative;
-  width: 96px;
-  height: 96px;
+  width: 102px;
+  height: 102px;
   border-radius: 50%;
+  .profile-picture {
+    border-radius: 50%;
+    padding: 3px;
+    transition: all 0.3s;
+  }
 }
 form.inner-panel {
   padding: 40px 0;
@@ -288,5 +298,22 @@ form.inner-panel {
   margin-top: 16px;
   span {
     line-height: 32px;
+  }
+}
+
+$step: 1; // step of % for created classes
+$loops: 100;
+$increment: (360 / $loops);
+$half: round($loops / 2);
+@for $i from 0 through $loops {
+  .profile-picture[progress="#{$i*$step}"] {
+    @if $i < 50 {
+      $nextdeg: 90deg + ( $increment * $i );
+      background-image: linear-gradient(90deg, #fff 50%, transparent 50%, transparent), linear-gradient($nextdeg, $color-sense-wire 50%, #fff 50%, #fff);
+    }
+    @else {
+      $nextdeg: -90deg + ( $increment * ( $i - $half ) );
+      background-image: linear-gradient($nextdeg, $color-sense-wire 50%, transparent 50%, transparent), linear-gradient(270deg, $color-sense-wire 50%, #fff 50%, #fff);
+    }
   }
 }

@@ -1,101 +1,120 @@
 .content-plus {
   display: inline-flex;
   flex-direction: column;
-  width: 256px;
+  width: 240px;
+  flex: none;
   z-index: 10;
   top: 0;
-  margin: 0 8px;
+  padding: 0 8px;
   position: relative;
-  left: 0;
   //transition: all 0.2s;
   // backface-visibility: hidden;
   //transform: translateZ(0) scale(1.0, 1.0);
   #cp1 {
     max-height: 480px;
   }
-  & > div {
+  .content-plus-inner {
+    position: fixed;
+    width: 224px;
+  }
+  .content-plus-inner > div {
     display: inline-flex;
     flex-direction: column;
-    width: 256px;
+    background-color: $color-white;
+    width: 100%;
     flex: none;
-    overflow-y: auto;
-    margin-top: 24px;
-    padding: 12px 0 0 0;
+    margin-top: 16px;
+    padding: 1px 0 0 0;
     z-index: 15;
-    border: 1px solid $color-border;
+    border: 1px solid #e6e6e6;
     position: relative;
     justify-content: space-between;
-    overflow-y: auto;
-    border-radius: 4px;
+    border-radius: 3px;
+    height: auto!important;
     //height: 100%;
-    .row {
+    .recent-item:last-of-type {
+      .activity-item .body {
+        border-bottom: none;
+      }
+    }
+    .activity-item {
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
       width: 100%;
       //height: 24px;
       align-items: flex-start;
       flex-shrink: inherit;
-      padding-left: 8px;
-      padding-top: 8px;
+      padding: 8px 15px 0 6px;
       position: relative;
-      .colomn {
+      .top{
+        height: 20px;
+        width: 100%;
+        padding-right: 1px;
+        align-items: center;
+        max-width: 234px;
+        flex: none;
+        overflow: hidden;
+        .user-avatar-20 {
+          margin-right: 4px;
+        }
+        .sender {
+          align-items: center;
+          overflow: hidden;
+          flex: 1;
+          max-width: 100%;
+          >div {
+            max-width: 100%;
+            @extend ._txe;
+          }
+          a,a>span {
+            color: $color-new-hurricane;
+            font-weight: 400;
+            font-size: 12px;
+            line-height: 1.4;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            display: block;
+          }
+        }
+        svg {
+          align-self: flex-start;
+        }
+      }
+      .body {
         display: inline-flex;
         flex-direction: column;
-        width: 100%;
-        max-width: calc(100% - 32px);
+        width: calc(100% - 10px);
+        margin-left: 10px;
+        padding-top: 4px;
+        padding-bottom: 6px;
         border-bottom: 1px solid $color-breeze;
         span {
-          color: $color-wind;
           font-size: $font-size-xxsmall;
           line-height: 12px;
           font-weight: 400;
           white-space: nowrap;
         }
-        .top{
-          height: 20px;
-          width: 100%;
-          padding-right: 8px;
-          align-items: center;
-          max-width: 234px;
-          flex: none;
-          overflow: hidden;
-          .sender {
-            align-items: center;
-            overflow: hidden;
-            flex: 1;
-            max-width: 100%;
-            >div {
-              max-width: 100%;
-              @extend ._txe;
-            }
-            a,a>span {
-              color: $color-hurricane;
-              font-weight: 600;
-              font-size: $font-size-xsmall;
-              line-height: 15px;
-              white-space: nowrap;
-              text-overflow: ellipsis;
-              overflow: hidden;
-            }
-          }
-          svg {
-            margin: 0 4px;
-          }
-        }
         p {
-          color: #808080;
-          font-size: $font-size-xsmall;
+          color: $color-new-hurricane;
+          font-size: 12px;
           @extend ._wrb;
           max-width: 100%;
           padding-right: 8px;
-          //line-height: 13px;
+          margin-bottom:  4px;
+          line-height: 17px;
           //font-weight: 400;
           span {
-            color: #808080;
+            color: $color-new-hurricane;
             white-space: normal;
-            font-size: $font-size-xsmall;
+            font-size: 12px;
             @extend ._wrb;
           }
+        }
+        .comment-time {
+          color: $color-solid-48;
+          font-size: 10px;
+          line-height: 1.4;
         }
       }
       &:hover {
@@ -110,18 +129,24 @@
     }
   }
   .name {
-    color: #999999;
-    font-size: $font-size-xsmall;
-    line-height: 15px;
-    font-weight: 400;
-    margin-bottom: 12px;
+    color: $color-new-hurricane;
+    font-size: 10px;
+    font-weight: 600; 
     padding: 0 8px;
+    border-radius: 3px 3px 0 0;
+    line-height: 30px;
+    background-color:  transparentize($color-solid, 1 - .04);
     position: relative;
     svg {
       position: absolute;
       right: 12px;
-      top: 0;
-      fill: #999999;
+      top: 6px;
+      fill: $color-breeze-new;
+    }
+    &:hover {
+      svg {
+        fill: $color-gale-new;
+      }
     }
   }
   .teammates {
@@ -137,20 +162,20 @@
     .avatars {
       display: flex;
       flex-direction: row;
-      margin: 10px;
+      margin: 10px 7px;
       flex: none;
       flex-wrap: wrap;
-      width: calc(100% - 16px);
-      ._difh:first-of-type + div + div + div + div + div ,
-      ._difh:first-of-type + div + div + div + div + div + div + div + div + div + div + div,
+      width: calc(100% - 14px);
+      ._difh:first-of-type + div + div + div + div ,
+      ._difh:first-of-type + div + div + div + div + div + div + div + div + div,
       ._difh:last-of-type {
         .devid {
           display: none;
         }
       }
       div.user-avatar-32 {
-        margin: 2px;
         width: 32px;
+        margin: 2px 0;
         position: relative;
         &::after {
           left: 0
@@ -183,7 +208,7 @@
         height: 24px;
       }
       .devid {
-        width: 4px;
+        width: 12px;
         height: 100%;
         display: flex;
         flex: none;
@@ -197,7 +222,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      margin: 2px;
+      margin: 2px 0;
       svg {
         display: flex;
         width: 20px;
@@ -219,6 +244,7 @@
 
 .fav-contacts {
   max-height: calc(100vh - 300px);
+  height: auto!important;
   li {
     display: flex
   }

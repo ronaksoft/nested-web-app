@@ -21,11 +21,11 @@
     function Translation() {
       this.currentCalendar = NstSvcI18n.selectedCalendar;
     }
-
     var formatMap = [];
+
     formatMap['jalali'] = {
       "HH:mm": "HH:mm",
-      "[Yesterday] HH:mm": "[دیروز] HH:mm",
+      "[Yesterday] HH:mm": (NstSvcI18n.selectedLocale === 'en-US'? '[Yesterday] HH:mm': '[دیروز] HH:mm'),
       "MMM DD": "jD jMMMM",
       "DD[/]MM[/]YYYY": "jYYYY[/]jMM[/]jDD",
       "YYYY-MM-DD": "jYYYY-jMM-jDD",
@@ -33,7 +33,11 @@
     };
 
     formatMap['gregorian'] = {
+      "[Yesterday] HH:mm": (NstSvcI18n.selectedLocale === 'en-US'? '[Yesterday] HH:mm': '[دیروز] HH:mm'),
+      "dddd, MMMM DD YYYY, HH:mm": (NstSvcI18n.selectedLocale === 'en-US'? "dddd, MMMM DD YYYY, HH:mm": "dddd, DD MMMM YYYY, HH:mm")
     };
+
+    Translation.prototype.constructor = Translation;
 
     Translation.prototype.get = function (text) {
       var value = formatMap[this.currentCalendar][text];

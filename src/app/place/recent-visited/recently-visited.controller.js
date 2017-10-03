@@ -21,27 +21,34 @@
    *
    * @param {any} $scope
    * @param {any} $stateParams
-   * @param {any} NstSvcUserFactory
+   * @param {any} NstSvcPlaceFactory
    */
   function RecentVisitedController($scope, $stateParams,
-                                   NstSvcUserFactory, _) {
+                                   NstSvcPlaceFactory, _) {
     var vm = this;
     vm.places = [];
     vm.loading = true;
 
     (function () {
-      NstSvcUserFactory.getRecentlyVisitedPlace()
-        .then(function (places) {
+      NstSvcPlaceFactory.getRecentlyVisitedPlace(function(cachedPlaces) {
+        vm.places = cachedPlaces;
+        vm.loading = false;
+      }).then(function (places) {
+        var newItems = _.differenceBy(places, vm.places, 'id');
+        var removedItems = _.differenceBy(vm.places, places, 'id');
 
-          var latest = _.head(places);
-          if (latest && latest.id === $stateParams.placeId) {
-            vm.places = _.drop(places, 1);
-          } else {
-            vm.places = places;
+        // first omit the removed items; The items that are no longer exist in fresh contacts
+        _.forEach(removedItems, function (item) {
+          var index = _.findIndex(vm.places, { 'id': item.id });
+          if (index > -1) {
+            vm.places.splice(index, 1);
           }
-          vm.loading = false;
+        });
 
-        })
+        // add new items; The items that do not exist in cached items, but was found in fresh contacts
+        vm.places.unshift.apply(vm.places, newItems);
+        vm.loading = false;
+      });
     })();
 
 
