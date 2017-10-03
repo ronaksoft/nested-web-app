@@ -13,7 +13,7 @@
         fileType: '=fileType'
       },
       link: function ($scope, $element) {
-        if ($scope.fileType !== NST_FILE_TYPE.IMAGE) {
+        if ($scope.fileType !== NST_FILE_TYPE.IMAGE && $scope.fileType !== NST_FILE_TYPE.GIF) {
           return;
         }
         var eventReferences = [];
