@@ -234,7 +234,7 @@
             // }
           }).catch(function (e) {
             if ( e.code === NST_SRV_ERROR.LIMIT_REACHED) {
-              toastr.warning(NstSvcTranslation.get('The Place members limit is reached'));
+              toastr.error(NstSvcTranslation.get('The Place members limit is reached'));
             }
             if (openOtherInvitations) {
               var checkDisplayInvitationModal = true;
