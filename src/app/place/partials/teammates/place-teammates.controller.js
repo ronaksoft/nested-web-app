@@ -205,117 +205,21 @@
         }
       });
 
-      modal.result.then(function (selectedUsers) {
-        if (NstUtility.place.isGrand(vm.place.id)) {
-          invite(vm.place, selectedUsers);
-        } else {
-          add(vm.place, selectedUsers);
-        }
+      modal.result.then(function (selectedUsers){
+        // if (vm.isGrand) {
+        //   console.log(selectedUsers, vm.teammates);
+        //   // show the users that were invited successfully
+        //   var role = 'pending_' + NST_PLACE_MEMBER_TYPE.KEY_HOLDER;
+        //   vm.teammates.push.apply(vm.teammates, _.map(selectedUsers, function (member) {
+        //     return new NstVmMemberItem(member, role);
+        //   }));
+        //   console.log(vm.teammates);
+        // } else {
+        //   vm.teammates.push.apply(vm.teammates, _.map(selectedUsers, function (member) {
+        //     return new NstVmMemberItem(member, NST_PLACE_MEMBER_TYPE.KEY_HOLDER);
+        //   }));
+        // }
       });
-    }
-
-    /**
-     * Adds the selected teammates. Dispatches 'member-added' event for those
-     * who have been added successfully. After that displays an appropriate message.
-     *
-     * @param {any} place
-     * @param {any} users
-     */
-    function add(place, users) {
-      NstSvcPlaceFactory.addUser(place, users).then(function (result) {
-        // show the users that were added successfully
-        vm.teammates.push.apply(vm.teammates, _.map(result.addedUsers, function (member) {
-          return new NstVmMemberItem(member, NST_PLACE_MEMBER_TYPE.KEY_HOLDER);
-        }));
-        // dispatch the required events
-        NstSvcPlaceFactory.get(place.id, true).then(function (newPlace) {
-          vm.place = newPlace;
-          var dispatcher = _.partial(dispatchUserAdded, newPlace);
-          _.forEach(result.addedUsers, dispatcher);
-        });
-
-        // notify the user about the result of adding
-        if (_.size(result.rejectedUsers) === 0
-          && _.size(result.addedUsers) > 0) {
-          toastr.success(NstUtility.string.format(NstSvcTranslation.get('All selected users have been added to place {0} successfully.'), place.name));
-        } else {
-          var names = null;
-          var message = null;
-          // there are users that we were not able to add them
-          if (_.size(result.rejectedUsers) > 0) {
-            names = _(result.rejectedUsers).map(function (user) {
-              return NstUtility.string.format('{0} (@{1})', user.fullName, user.id);
-            }).join('<br/>');
-            message = NstSvcTranslation.get('We are not able to add these users to the place:');
-            toastr.warning(message + '<br/>' + names);
-          }
-
-          //there are some users that were added successfully
-          if (_.size(result.addedUsers) > 0) {
-            names = _(result.addedUsers).map(function (user) {
-              return NstUtility.string.format('{0} (@{1})', user.fullName, user.id);
-            }).join('<br/>');
-            message = NstSvcTranslation.get('These users have been added:');
-            toastr.success(message + '<br/>' + names);
-          }
-        }
-      }).catch(function () {
-        toastr.warning(NstSvcTranslation.get('An error has occured while adding the user(s) to the place!'));
-      });
-    }
-
-    /**
-     * Invites the selected members. Dispatches 'member-invited' event for those
-     * who have been added successfully. After that displays an appropriate message.
-     *
-     * @param {any} place
-     * @param {any} users
-     */
-    function invite(place, users) {
-      NstSvcPlaceFactory.inviteUser(place, users).then(function (result) {
-        // notify the user about the result of adding
-        if (_.size(result.rejectedUsers) === 0
-          && _.size(result.addedUsers) > 0) {
-          toastr.success(NstUtility.string.format(NstSvcTranslation.get('All selected users have been invited to place {0} successfully.'), place.name));
-        } else {
-          var names = null;
-          var message = null;
-          // there are users that we were not able to invite them
-          if (_.size(result.rejectedUsers) > 0) {
-            names = _(result.rejectedUsers).map(function (user) {
-              return NstUtility.string.format('{0} (@{1})', user.fullName, user.id);
-            }).join('<br/>');
-            message = NstSvcTranslation.get('We are not able to invite these users to the place:');
-            toastr.warning(message + '<br/>' + names);
-          }
-
-          //there are some users that were invited successfully
-          if (_.size(result.addedUsers) > 0) {
-            names = _(result.addedUsers).map(function (user) {
-              return NstUtility.string.format('{0} (@{1})', user.fullName, user.id);
-            }).join('<br/>');
-            toastr.success(message + '<br/>' + names);
-          }
-        }
-      }).catch(function () {
-        toastr.warning(NstSvcTranslation.get('An error has occured while inviting the user(s) to the place!'));
-      });
-    }
-
-    /**
-     * Emits 'member-added' event with the given place and user
-     *
-     * @param {any} place
-     * @param {any} user
-     */
-    function dispatchUserAdded(place, user) {
-      eventReferences.push($rootScope.$emit(
-        'member-added',
-        {
-          place: place,
-          member: user
-        }
-      ));
     }
 
     /**
