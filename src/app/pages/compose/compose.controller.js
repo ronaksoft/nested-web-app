@@ -47,6 +47,7 @@
     vm.isRetinaDisplay = isRetinaDisplay();
     vm.targetLimit;
     vm.ultimateSaveDraft = false;
+    vm.attachmentsIsUploading = [];
     vm.translations = {
       title1: NstSvcTranslation.get('Add a title'),
       title2: NstSvcTranslation.get('Write your message or drag files here…'),
@@ -277,8 +278,27 @@
     }
 
     function backDropClick() {
-      vm.ultimateSaveDraft = shouldSaveDraft();
-      $scope.$dismiss();
+      if( vm.attachmentsIsUploading.length > 0 ) {
+        NstSvcModal.confirm(
+          NstSvcTranslation.get("Confirm"),
+          NstSvcTranslation.get("do you want to discard uploading file(s)?"),
+          {
+            yes: NstSvcTranslation.get("yes"),
+            no: NstSvcTranslation.get("no")
+          }
+        ).then(function (confirmed) {
+          if (confirmed) {
+            vm.ultimateSaveDraft = true
+            $scope.$dismiss();
+          } else {
+            saveDraft();
+          }
+        });
+      } else {
+        vm.ultimateSaveDraft = shouldSaveDraft();
+        $scope.$dismiss();
+      }
+      
     }
 
     /**
@@ -551,7 +571,7 @@
         // Upload Attachment
         var vmAttachment = NstSvcAttachmentMap.toEditableAttachmentItem(attachment);
         attachment.id = vmAttachment.id;
-
+        vm.attachmentsIsUploading.push(attachment.id);
         NstSvcLogger.debug4('Compose | start uploading file', file);
 
         var request = NstSvcStore.uploadWithProgress(file, function (event) {
@@ -583,6 +603,7 @@
           vmAttachment.isUploaded = true;
           vmAttachment.uploadedSize = attachment.size;
           vmAttachment.uploadedRatio = 1;
+          vm.attachmentsIsUploading.splice(vm.attachmentsIsUploading.indexOf(attachment.id), 1);
 
           deferred.resolve(attachment);
 
