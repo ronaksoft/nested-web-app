@@ -190,7 +190,8 @@
         $rootScope.goToLastState(true);
         return;
       }
-      composeModals.push($uibModal.open({
+      var uid = parseInt(_.uniqueId());
+      $uibModal.open({
         animation: false,
         backdropClass: 'comdrop',
         size: 'compose',
@@ -199,16 +200,34 @@
         openedClass: 'modal-open compose-modal active-compose',
         controllerAs: 'ctlCompose',
         resolve: {
-          modalId: composeModals.length
+          modalId: uid
         }
       }).result.catch(function () {
         $rootScope.goToLastState(true);
-      }));
+      });
+      composeModals.push({
+        id: uid,
+        order: composeModals.length
+      });
+    });
+
+    $rootScope.$on('minimize-compose', function () {
+      repositionMinimizedComposeModals();
     });
 
     $rootScope.$on('close-compose', function (e, data) {
-      composeModals.splice(data.index, 1);
+      var index = _.findIndex(composeModals, data.id, 'id');
+      composeModals.splice(index, 1);
+      repositionMinimizedComposeModals();
     });
+
+    function repositionMinimizedComposeModals() {
+      setTimeout(function () {
+        _.forEach(composeModals, function (item) {
+          $('.minimize-container.compose_' + item.id).parent().css('transform', 'translateX(' + (item.order * 160) + 'px)');
+        });
+      }, 100);
+    }
 
     $window.onfocus = function () {
       $rootScope.$broadcast('reload-counters');

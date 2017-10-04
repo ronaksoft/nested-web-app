@@ -26,7 +26,7 @@
                              NstTinyPlace, NstVmSelectTag, NstPicture,
                              NstPostDraft, NstPost, $) {
     var vm = this;
-    vm.modalId = -1;
+    vm.modalId = '';
     vm.quickMode = false;
     vm.focus = false;
     vm.collapse = false;
@@ -58,6 +58,11 @@
     };
 
     vm.quickMode = vm.mode === 'quick';
+    vm.minimizeData = {
+      progress: 0,
+      totalItems: 0,
+      uploadedItems: 0
+    };
 
     $scope.scrollInstance;
 
@@ -114,6 +119,37 @@
     }, function () {
       return vm.changeAffixesDebounce();
     });
+
+    $scope.$watch(function () {
+      return vm.attachments.viewModels
+    }, updateTotalAttachmentsRatio, true);
+
+    function updateTotalAttachmentsRatio(items) {
+      if (!vm.minimize) {
+        return;
+      }
+      var totalSize = 0;
+      var uploadedSize = 0;
+      var totalItems = items.length;
+      var uploadedItems = 0;
+      _.forEach(items, function (item) {
+        totalSize += item.size;
+        uploadedSize += item.uploadedSize;
+        if (item.size === item.uploadedSize) {
+          uploadedItems++;
+        }
+      });
+      vm.minimizeData.progress = parseFloat(uploadedSize/totalSize);
+      vm.minimizeData.totalItems = totalItems;
+      vm.minimizeData.uploadedItems = uploadedItems;
+      if (totalItems > 0) {
+        if (items.length === uploadedItems) {
+          $timeout(function () {
+            vm.send();
+          }, 100);
+        }
+      }
+    }
 
     /**
      * @function
@@ -707,12 +743,14 @@
           });
         }
 
-        for (var k in model.attachments) {
-          if (NST_ATTACHMENT_STATUS.ATTACHED != model.attachments[k].status) {
-            errors.push({
-              name: 'attachments',
-              message: 'Attachment uploading has not been finished yet'
-            });
+        if (vm.quickMode) {
+          for (var k in model.attachments) {
+            if (NST_ATTACHMENT_STATUS.ATTACHED != model.attachments[k].status) {
+              errors.push({
+                name: 'attachments',
+                message: 'Attachment uploading has not been finished yet'
+              });
+            }
           }
         }
 
@@ -723,6 +761,18 @@
       vm.model.ready = 0 == vm.model.errors.length;
 
       return vm.model.ready;
+    };
+
+    vm.model.isUploading = function () {
+      if (vm.quickMode) {
+        return false;
+      }
+      for (var k in vm.model.attachments) {
+        if (NST_ATTACHMENT_STATUS.ATTACHED != vm.model.attachments[k].status) {
+          return true;
+        }
+      }
+      return false;
     };
 
     /**
@@ -763,14 +813,17 @@
           }]);
         } else {
           NstSvcLogger.debug4('Compose | Compose model is valid ?!');
-          if (vm.model.check()) {
+          if (vm.model.check() && vm.model.isUploading()) {
+            vm.minimizeModal();
+            deferred.reject([]);
+          } else if (vm.model.check() && !vm.model.isUploading()) {
             NstSvcLogger.debug4('Compose | Compose model is valid');
             vm.focus = false;
             vm.model.saving = true;
 
             var postLabelsIds = vm.model.labels.map(function(i){
               return i.id
-            })
+            });
             var post = new NstPost();
             post.subject = vm.model.subject;
             post.body = vm.model.body;
@@ -854,17 +907,19 @@
         vm.pending = false;
         NstSvcLogger.debug4('Compose | Unsent Post Reasons :', errors);
         vm.model.saving = false;
-        toastr.error(errors.filter(
-          function (v) {
-            return !!v.message;
-          }
-        ).map(
-          function (v, i) {
-            return String(Number(i) + 1) + '. ' + v.message;
-          }
-        ).join("<br/>"));
+        if (errors.length > 0) {
+          toastr.error(errors.filter(
+            function (v) {
+              return !!v.message;
+            }
+          ).map(
+            function (v, i) {
+              return String(Number(i) + 1) + '. ' + v.message;
+            }
+          ).join("<br/>"));
 
-        $log.debug('Compose | Error Occurred: ', errors);
+          $log.debug('Compose | Error Occurred: ', errors);
+        }
 
         return $q(function (res, rej) {
           rej(errors);
@@ -1241,8 +1296,10 @@
     }
     function minimizeModal() {
       vm.minimize =! vm.minimize;
+      $rootScope.goToLastState(true);
       $('body').removeClass("active-compose");
       $('html').removeClass("_oh");
+      $rootScope.$broadcast('minimize-compose');
     }
 
     /**
@@ -1338,7 +1395,7 @@
     // $('.wdt-emoji-popup.open').removeClass('open');
     $scope.$on('$destroy', function () {
       $rootScope.$broadcast('close-compose', {
-        index: vm.modalId
+        id: vm.modalId
       });
       window.onbeforeunload = null;
       $('.wdt-emoji-popup.open').removeClass('open');

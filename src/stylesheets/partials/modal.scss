@@ -272,13 +272,26 @@ body.modal-open.compose-modal {
       max-height: calc(100vh - 160px);
       border-radius: 4px;
       margin: auto;
+      .minimize-container {
+        transition: all 0.3s;
+        div[ng-progressbar] {
+          transform: scaleY(0.4);
+          transform-origin: 50% 0;
+        }
+        .minimize-text {
+          padding: 0 5px 5px;
+          margin: -2px 0 0 0;
+          font-size: 12px;
+          text-align: center;
+        }
+      }
       &.minimize {
         top: auto;
-        left: 48px;
-        bottom: 48px;
-        width: 400px;
+        left: 10px;
+        bottom: 0;
+        width: 150px;
         position: fixed;
-        height: 120px;
+        height: 30px;
         min-height: 0;
       }
     }
@@ -365,7 +378,7 @@ body.modal-open.compose-modal {
       color: $color-sense-wire;
       margin-bottom: 6px;
     }
-    
+
   }
   .compose-modal-footer {
     padding: 0 16px;
