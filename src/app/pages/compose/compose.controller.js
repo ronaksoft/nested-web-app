@@ -1126,6 +1126,12 @@
           vm.focus = true;
           vm.collapse = true;
         },
+        'froalaEditor.mousedown': function () {
+          vm.focusBody = true;
+          vm.emojiTarget = 'body';
+          vm.focus = true;
+          vm.collapse = true;
+        },
         'froalaEditor.blur': function () {
           vm.focusBody = false;
         },
