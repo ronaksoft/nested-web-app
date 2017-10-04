@@ -108,8 +108,17 @@
         vm.hasAnyRemoved = _.some(vm.comments, 'removedById');
         vm.commentBoardLimit = 30;
         if ( newComments.length > 0 && newComments[0].id && scrollIntoView) {
-          $location.hash('comment-' + newComments[0].id);
-          $anchorScroll();
+          // $location.hash('comment-' + newComments[0].id);
+          // $anchorScroll();
+          
+          setTimeout(function () {
+            // $('.uib-wrapper-post-view').animate({
+            //   scrollTop: $('#' + 'comment-' + newComments[0].id).offset().top
+            // }, 800, function(){
+            // });
+            document.querySelector('#' + 'comment-' + newComments[0].id).scrollIntoView({ behavior: 'smooth' });
+          }, 256)
+       
         }
       }).catch(function (error) {
         NstSvcLogger.error(error);

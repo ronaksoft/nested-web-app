@@ -14,7 +14,7 @@
     <p ng-if="!ctlPostCard.post.subject.length > 0" ng-bind-html="ctlPostCard.post.body | removeHTMLTags | truncate"></p>
   </section>
 
-  <section class="post-head _difh" ng-if="(!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
+  <section id="{{'post-subject-' + ctlPostCard.post.id}}" class="post-head _difh" ng-if="(!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
     <div class="_difc">
       <a ng-click="ctlPostCard.viewFull($event);ctlPostCard.markAsRead(); _track('post card','open post view : click forward icon');"
         ng-if="ctlPostCard.isForwarded" class="icon">
@@ -147,7 +147,7 @@
       </svg>
     </a>
   </section>
-  <section class="post-places ng-class:{'no-post-view' : !ctlPostCard.chainView}" ng-if="(!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
+  <section id="{{'post-place-' + ctlPostCard.post.id}}" class="post-places ng-class:{'no-post-view' : !ctlPostCard.chainView}" ng-if="(!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
     <translate class="places-label" ng-if="ctlPostCard.post.places.length > 0">shared with:</translate>
     {{ctlPostCard.limit = !ctlPostCard.chainView ? 3 : 50; ""}}
     <span data-ng-repeat="place in ctlPostCard.totalRecipients | limitTo: ctlPostCard.limit track by place.id ? place.id : place"
@@ -273,7 +273,7 @@
   <div ng-if="!ctlPostCard.addOn">
     <div class="circ ng-class:{'blue' : ctlPostCard.post.isReplyed, 'green' : ctlPostCard.post.isForwarded}"></div>
   </div>
-  <div ng-if="ctlPostCard.addOn" class="no-replied-or-forwarded">
+  <div ng-if="ctlPostCard.addOn" class="no-replied-or-forwarded" ng-click="ctlPostCard.goTo('post-subject-' + ctlPostCard.post.id)">
     <svg>
       <use xlink:href="/assets/icons/nst-icn16.svg#message"></use>
     </svg>
@@ -281,15 +281,15 @@
 
   <div ng-if="ctlPostCard.addOn">
     <div class="squ"></div>
-    <span ng-if="!(ctlPostCard.post.places.length == 1)"><translate>shared in {{ctlPostCard.post.places.length | localize}} places</translate></span>
-    <span ng-if="ctlPostCard.post.places.length == 1"><translate>shared in One place</translate></span>
+    <span ng-click="ctlPostCard.goTo('post-place-' + ctlPostCard.post.id)" ng-if="!(ctlPostCard.post.places.length == 1)"><translate>shared in {{ctlPostCard.post.places.length | localize}} places</translate></span>
+    <span ng-click="ctlPostCard.goTo('post-place-' + ctlPostCard.post.id)" ng-if="ctlPostCard.post.places.length == 1"><translate>shared in One place</translate></span>
   </div>
   <div ng-if="ctlPostCard.addOn">
     <svg class="chain-ico">
       <use xlink:href="/assets/icons/nst-icn16.svg#more"></use>
     </svg>
     <span ng-if="ctlPostCard.unreadCommentsCount === 0">
-      <span ng-if="ctlPostCard.post.counters.comments == 0"><translate>No comments</translate></span>
+    <span ng-click="ctlPostCard.goTo('comment-' + ctlPostCard.post.id)" ng-if="ctlPostCard.post.counters.comments == 0"><translate>No comments</translate></span>
     <span ng-click="ctlPostCard.goTo('comment-' + ctlPostCard.post.id)" ng-if="ctlPostCard.post.counters.comments == 1"><translate>One comment</translate></span>
     <span ng-click="ctlPostCard.goTo('comment-' + ctlPostCard.post.id)" ng-if="ctlPostCard.post.counters.comments > 1"><translate>{{ctlPostCard.post.counters.comments | localize}} comments</translate></span>
     </span>
