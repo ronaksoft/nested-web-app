@@ -38,9 +38,11 @@
     vm.addUploadedAttachs = addUploadedAttachs;
     vm.searchRecipients = searchRecipients;
     vm.backDropClick = backDropClick;
+    vm.minimizeModal = minimizeModal;
     vm.emojiTarget = 'title';
     vm.haveComment = true;
     vm.focusBody = false;
+    vm.minimize = false;
     vm.filesPopver = false;
     vm.cmdPress = false;
     vm.cmdVPress = false;
@@ -1225,6 +1227,10 @@
         $scope.compose.post.removeAttachment(attachment);
       });
     };
+
+    function minimizeModal() {
+      vm.minimize =! vm.minimize;
+    }
 
     /**
      * Checks the screen is retina

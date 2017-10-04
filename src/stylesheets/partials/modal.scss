@@ -242,17 +242,38 @@ body.modal-open {
     display: none;
   }
   .modal-content {
-    position: relative;
-    top: 150px;
-    background-color: $color-white;
-    width: 632px;
-    min-height: 480px;
-    max-height: calc(100vh - 160px);
+    background-color: transparent;
+    height: 100%;
     // overflow: hidden;
-    border-radius: 4px;
-    >div {
+      position: relative;
       min-height: 480px;
       max-height: calc(100vh - 160px);
+    #compose-box {
+      position: relative;
+      top: 150px;
+      background-color: $color-white;
+      width: 632px;
+      min-height: 480px;
+      max-height: calc(100vh - 160px);
+      border-radius: 4px;
+      margin: auto;
+      &.minimize {
+        top: auto;
+        left: 48px;
+        bottom: 48px;
+        width: 400px;
+        height: 120px;
+        min-height: 0;
+      }
+    }
+    >div {
+      min-height: 480px;
+    }
+    >div.minimze {
+      width: 400px;
+      height: 120px;
+      left: 48px;
+      bottom: 48px;
     }
     .ui-select-multiple.ui-select-bootstrap input.ui-select-search ,
     .ui-select-multiple.ui-select-bootstrap {
@@ -270,7 +291,8 @@ body.modal-open {
   .compose-wrapper {
     width: 100%;
     min-height: 480px;
-    height: 100%;
+    max-height: calc(100vh - 160px);
+    // height: 100%;
     position: relative;
     box-shadow: 0 16px 32px $color-gale;
     .fr-box.fr-basic .fr-element {
@@ -319,7 +341,7 @@ body.modal-open {
     margin: 48px 0 0 0;
     padding: 0 16px;
     height: calc(100% - 144px);
-    max-height: calc(100vh - 408px);
+    max-height: calc(100vh - 320px);
     //overflow-y: scroll;
     //overflow-x: hidden;
     >p {
