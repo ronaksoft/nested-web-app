@@ -227,9 +227,9 @@ body.modal-open {
 
 }
 body.modal-open.compose-modal {
-  &.active-compose {
+  // &.active-compose {
 
-  }
+  // }
   &:not(.active-compose) {
     overflow: auto;
     .modal,

@@ -181,6 +181,10 @@
 
         NstSvcLogger.debug4('Compose | compose is in modal');
         eventReferences.push($scope.$on('modal.closing', function (event) {
+          $('html').removeClass("_oh");
+          setTimeout(function (){
+            $('body').removeClass("active-compose");
+          },100)
           if (vm.ultimateSaveDraft) {
             saveDraft();
             vm.finish = true;
@@ -1232,7 +1236,9 @@
         $scope.compose.post.removeAttachment(attachment);
       });
     };
-
+    if(!vm.quickMode) {
+      $('html').addClass("_oh");
+    }
     function minimizeModal() {
       vm.minimize =! vm.minimize;
       $('body').removeClass("active-compose");
