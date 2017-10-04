@@ -21,6 +21,9 @@
       templateUrl: 'app/pages/compose/main.html',
       controller: 'ComposeController',
       controllerAs: 'ctlCompose',
+      resolve: {
+        modalId: -1
+      },
       bindToController: {
         placeId: '=',
         mode: '='

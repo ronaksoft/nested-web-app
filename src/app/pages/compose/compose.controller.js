@@ -26,6 +26,7 @@
                              NstTinyPlace, NstVmSelectTag, NstPicture,
                              NstPostDraft, NstPost, $) {
     var vm = this;
+    vm.modalId = -1;
     vm.quickMode = false;
     vm.focus = false;
     vm.collapse = false;
@@ -59,6 +60,10 @@
     vm.quickMode = vm.mode === 'quick';
 
     $scope.scrollInstance;
+
+    if ($scope.$resolve !== undefined && $scope.$resolve.modalId !== undefined) {
+      vm.modalId = $scope.$resolve.modalId;
+    }
 
     /**
      * Call this function if some thing changed the position of post cards
@@ -300,7 +305,7 @@
         vm.ultimateSaveDraft = shouldSaveDraft();
         $scope.$dismiss();
       }
-      
+
     }
 
     /**
@@ -1324,6 +1329,9 @@
 
     // $('.wdt-emoji-popup.open').removeClass('open');
     $scope.$on('$destroy', function () {
+      $rootScope.$broadcast('close-compose', {
+        index: vm.modalId
+      });
       window.onbeforeunload = null;
       $('.wdt-emoji-popup.open').removeClass('open');
       NstSvcLogger.debug4('Compose | Compose id destroyed :');
@@ -1333,9 +1341,9 @@
       if ($('body').hasClass('fullCompose')) {
         vm.fullCompose()
       }
-      _.forEach(eventReferences, function (cenceler) {
-        if (_.isFunction(cenceler)) {
-          cenceler();
+      _.forEach(eventReferences, function (canceler) {
+        if (_.isFunction(canceler)) {
+          canceler();
         }
       });
 

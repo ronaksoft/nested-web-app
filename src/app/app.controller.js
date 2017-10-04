@@ -6,8 +6,8 @@
     .controller('AppController', AppController);
 
   /** @ngInject */
-  function AppController( $scope, $window, $rootScope, $state, $stateParams, $interval,
-                         deviceDetector, NstSvcInteractionTracker,
+  function AppController($scope, $window, $rootScope, $state, $stateParams, $interval, toastr,
+                         deviceDetector, NstSvcInteractionTracker, $uibModal, NstSvcTranslation, NstUtility,
                          NST_DEFAULT, NST_AUTH_EVENT, NST_SRV_EVENT, NST_NOTIFICATION_EVENT, NST_CONFIG,
                          NstSvcServer, NstSvcAuth, NstSvcLogger, NstSvcI18n, _, NstSvcNotificationFactory, $) {
     var vm = this;
@@ -179,6 +179,34 @@
       // Both are needed to avoid triggering other event handlers
       event.stopPropagation();
       event.preventDefault();
+    });
+
+    var composeModals = [];
+    var maxModals = 3;
+
+    $rootScope.$on('open-compose', function () {
+      if (composeModals.length >= maxModals) {
+        toastr.error(NstSvcTranslation.get(NstUtility.string.format('You cannot have more than {0} active compose modals.', maxModals)));
+        $rootScope.goToLastState(true);
+        return;
+      }
+      composeModals.push($uibModal.open({
+        animation: false,
+        backdropClass: 'comdrop',
+        size: 'compose',
+        templateUrl: 'app/pages/compose/main.html',
+        controller: 'ComposeController',
+        controllerAs: 'ctlCompose',
+        resolve: {
+          modalId: composeModals.length
+        }
+      }).result.catch(function () {
+        $rootScope.goToLastState(true);
+      }));
+    });
+
+    $rootScope.$on('close-compose', function (e, data) {
+      composeModals.splice(data.index, 1);
     });
 
     $window.onfocus = function () {
