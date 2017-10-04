@@ -63,6 +63,7 @@
             size: 'compose',
             templateUrl: 'app/pages/compose/main.html',
             controller: 'ComposeController',
+            openedClass: 'modal-open compose-modal active-compose',
             controllerAs: 'ctlCompose'
           }).result.catch(function () {
             $rootScope.goToLastState(true);
@@ -86,6 +87,7 @@
             size: 'compose',
             templateUrl: 'app/pages/compose/main.html',
             controller: 'ComposeController',
+            openedClass: 'modal-open compose-modal active-compose',
             controllerAs: 'ctlCompose'
           }).result.catch(function () {
             $rootScope.goToLastState(true);
@@ -109,6 +111,7 @@
             size: 'compose',
             templateUrl: 'app/pages/compose/main.html',
             controller: 'ComposeController',
+            openedClass: 'modal-open compose-modal active-compose',
             controllerAs: 'ctlCompose'
           }).result.catch(function () {
             $rootScope.goToLastState(true);
@@ -132,6 +135,7 @@
             size: 'compose',
             templateUrl: 'app/pages/compose/main.html',
             controller: 'ComposeController',
+            openedClass: 'modal-open compose-modal active-compose',
             controllerAs: 'ctlCompose'
           }).result.catch(function () {
             $rootScope.goToLastState(true);

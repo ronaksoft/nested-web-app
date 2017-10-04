@@ -1235,6 +1235,8 @@
 
     function minimizeModal() {
       vm.minimize =! vm.minimize;
+      $('body').removeClass("active-compose");
+      $('html').removeClass("_oh");
     }
 
     /**

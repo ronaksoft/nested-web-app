@@ -196,6 +196,7 @@
         size: 'compose',
         templateUrl: 'app/pages/compose/main.html',
         controller: 'ComposeController',
+        openedClass: 'modal-open compose-modal active-compose',
         controllerAs: 'ctlCompose',
         resolve: {
           modalId: composeModals.length

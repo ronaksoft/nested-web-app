@@ -1,4 +1,4 @@
-<div class="bg-compose" ng-click="ctlCompose.backDropClick();"></div>
+<div ng-if="!ctlCompose.minimize" class="bg-compose" ng-click="ctlCompose.backDropClick();"></div>
 <div class="_pr _fw ng-class:{'minimize' : ctlCompose.minimize}" id="compose-box" compose-drop>
   <div ng-if="!ctlCompose.minimize" class="compose-wrapper ng-class:{'attached' : ctlCompose.attachments.viewModels.length > 0}"
     ng-mouseleave="ctlCompose.mouseIn = false" ng-mouseenter="ctlCompose.mouseIn = true">
