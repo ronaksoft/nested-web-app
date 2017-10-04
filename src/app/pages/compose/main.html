@@ -3,6 +3,9 @@
   <div ng-if="!ctlCompose.minimize" class="compose-wrapper ng-class:{'attached' : ctlCompose.attachments.viewModels.length > 0}"
     ng-mouseleave="ctlCompose.mouseIn = false" ng-mouseenter="ctlCompose.mouseIn = true">
     <div class="modal-head" ng-if="!ctlCompose.quickMode">
+      <svg class="_16svg" ng-click="ctlCompose.minimizeModal()">
+        <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
+      </svg>
       <svg class="_16svg" ng-click="$dismiss()">
         <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
       </svg>
