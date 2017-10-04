@@ -12,11 +12,22 @@
         <a ng-if="ctlPost.hasOlder" ng-click="ctlPost.loadMore();">load older chain</a>
       </div>
       <div class="_fw _jcc _df _fh _aic _difh nst-mood-cheerful no-gutter ng-scope" ng-if="ctlPost.expandProgress">
-        <div class="col-xs-6">
-          <div class="nst-loading nst-loading-size-16  _fr"></div>
-        </div>
-        <div class="col-xs-6 nst-marginbtm-4">
-          <translate>Loading...</translate>
+        <div class="loading">
+          <div class="animation">
+            <div class="circle one"></div>
+          </div>
+          <div class="animation">
+            <div class="circle two"></div>
+          </div>
+          <div class="animation">
+            <div class="circle three"></div>
+          </div>
+          <div class="animation">
+            <div class="circle four"></div>
+          </div>
+          <div class="animation">
+            <div class="circle five"></div>
+          </div>
         </div>
       </div>
 
