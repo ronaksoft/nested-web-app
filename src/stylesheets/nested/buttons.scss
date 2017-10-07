@@ -1,16 +1,40 @@
 .butn {
   @include user-select(none);
-  background-color: $color-sense;
-  font-size: $font-size-medium;
+  border-width: 1px;
+  border-style: solid;
+  font-size: 14px;
   font-weight: bold;
-  border: 1px solid $color-sense-wire;
   color: $color-white;
-  height: 40px;
-  border-radius: $border-radius-large;
+  height: 32px;
+  border-radius: 2px;
+  flex: none;
   line-height: 1.33333;
-  &:focus {
-    border: 2px solid $color-solid;
+  text-align: center;
+  transition: all $animation-dur;
+  justify-content: center;
+  align-items: center;
+  min-width: 80px;
+  padding: 0 16px;
+  a,span {
+    color: $color-white;
+    white-space: nowrap;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
+  }
+  &:hover:disabled,
+  &:focus:disabled,
+  &:disabled{
+    cursor: not-allowed;
+    border-color: #DDDFE0;
+    text-decoration: none;
     box-shadow: none;
+    background-color: #DDDFE0;
+    color: #ACB0B4;
+  }
+  &.secondary:disabled {
+    box-shadow: none;
+    background-color: $color-white!important;
   }
 }
 
@@ -22,58 +46,29 @@
 
 .butn-green{
   background-color: $color-sense;
-  border: 1px solid $color-sense-wire;
-  border-radius: $border-radius-butn;
-  flex: none;
-  text-decoration: none;
+  border-color: $color-sense-wire;
   color: $color-white;
-  text-align: center;
-  transition: all $animation-dur;
-  justify-content: center;
-  align-items: center;
-  @include user-select(none);
-  font-weight: bold;
-  a,span {
-    //margin: 4px 0;
-    color: $color-white;
-    white-space: nowrap;
-    font-size: $font-size-large;
-    font-weight: bold;
-    text-decoration: none;
-  }
+  box-shadow: 0 2px 4px rgba(1, 177, 89, .32);
   &:hover {
-    background-color: $color-sense-wire;
-    text-decoration: none;
+    border-color: $color-sense;
     color: $color-white;
+    box-shadow: 0 4px 8px rgba(1, 177, 89, .32);
     a,span{
       color: $color-white;
-      text-decoration: none;
     }
   }
   &:focus {
-    background-color: $color-sense;
+    background-color: $color-sense-wire;
+    border-color: $color-sense-wire;
+    box-shadow: 0 1px 2px rgba(1, 177, 89, .32);
   }
   &.secondary {
     background-color: $color-white!important;
     color: $color-sense-wire;
+    a, span {
+      color: $color-sense-wire;
+    }
   }
-}
-
-.butn-green:disabled{
-  opacity: .5;
-  cursor: not-allowed;
-  text-decoration: none;
-}
-
-.butn-green-nav{
-  margin: 5px;
-  height: 32px;
-  display: inline-block;
-  font-size: $font-size-medium;
-  font-weight: 600;
-  padding: 5px 16px 5px 16px;
-  //width: 128px;
-  @extend .butn-green;
 }
 
 /**
@@ -84,50 +79,31 @@
 
 .butn-pending{
   background-color: $color-bg-pending;
-  border: 1px solid $color-bg-pending-wire;
-  border-radius:2px;
-  font-size: 14px;
-  height: 32px;
-  flex: none;
-  text-decoration: none;
+  border-color: $color-bg-pending-wire;
   color: $color-white;
-  text-align: center;
-  transition: all $animation-dur;
-  justify-content: center;
-  align-items: center;
-  @include user-select(none);
-  font-weight: bold;
-  min-width: 80px;
-  padding: 0 16px;
+  box-shadow: 0 2px 4px rgba(0, 77, 166, .32);
   a,span {
-    //margin: 4px 0;
     color: $color-white;
-    white-space: nowrap;
-    font-size: 14px;
-    font-weight: bold;
-    text-decoration: none;
   }
   &:hover {
-    border: 1px solid $color-bg-pending;
+    border-color: $color-bg-pending;
+    box-shadow: 0 4px 8px rgba(0, 77, 166, .32);
     a,span{
       color: $color-white;
-      text-decoration: none;
     }
   }
   &:focus {
+    box-shadow: 0 1px 2px rgba(0, 77, 166, .32);
     background-color: $color-bg-pending-wire;
-    border: 1px solid $color-bg-pending-wire;
+    border-color: $color-bg-pending-wire;
   }
   &.secondary {
     background-color: $color-white!important;
     color: $color-bg-pending-wire;
+    a, span {
+      color: $color-bg-pending-wire;
+    }
   }
-}
-
-.butn-green:disabled{
-  opacity: .5;
-  cursor: not-allowed;
-  text-decoration: none;
 }
 
 /**
@@ -138,43 +114,31 @@
 
 .butn-red{
   background-color: $color-force;
-  border: 1px solid $color-force-wire;
-  border-radius: $border-radius-butn;
+  border-color: $color-force-wire;
   margin: 0 5px;
-  //width: 128px;
-  flex: none;
-  font-weight: bold;
-  text-decoration: none;
-  transition: all $animation-dur;
-  @include user-select(none);
+  box-shadow: 0 2px 4px rgba(230, 0, 38, .32);
   a,span{
-    //margin: 4px 0;
     color: $color-white;
-    white-space: nowrap;
-    font-size: $font-size-large;
-    font-weight: bold;
-    text-decoration: none;
   }
   &:hover {
-    background-color: $color-force-wire;
+    box-shadow: 0 4px 8px rgba(230, 0, 38, .32);
+    border-color: $color-force;
     a,span{
       color: $color-white;
-      text-decoration: none;
     }
   }
   &:focus{
-    background-color: $color-force;
+    box-shadow: 0 1px 2px rgba(230, 0, 38, .32);
+    background-color: $color-force-wire;
+    border-color: $color-force-wire;
   }
   &.secondary {
     background-color: $color-white!important;
     color: $color-force-wire;
+    a, span {
+      color: $color-force-wire;
+    }
   }
-}
-
-.butn-red:disabled{
-  opacity: .5;
-  cursor: not-allowed;
-  text-decoration: none;
 }
 
 /**
