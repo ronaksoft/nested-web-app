@@ -125,7 +125,16 @@
   </div>
   <div ng-if="ctlCompose.minimize" class="minimize-container compose_{{ctlCompose.modalId}}">
     <div ng-progressbar="{{ctlCompose.minimizeData.progress}}" progressbar-mode="Line"></div>
-    <div class="minimize-text"><translate>{{ctlCompose.minimizeData.uploadedItems}} of {{ctlCompose.minimizeData.totalItems}} file(s) uploaded</translate></div>
+    <div class="minimize-info">
+      <div class="minimize-text">
+        <translate>{{ctlCompose.minimizeData.uploadedItems}} of {{ctlCompose.minimizeData.totalItems}} file(s) uploaded</translate>
+      </div>
+      <div class="minimize-abort">
+        <svg class="_16svg" ng-click="ctlCompose.abortBackgroundCompose()">
+          <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
+        </svg>
+      </div>
+    </div>
   </div>
 </div>
 

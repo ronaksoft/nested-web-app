@@ -278,11 +278,22 @@ body.modal-open.compose-modal {
           transform: scaleY(0.4);
           transform-origin: 50% 0;
         }
-        .minimize-text {
-          padding: 0 5px 5px;
-          margin: -2px 0 0 0;
-          font-size: 12px;
-          text-align: center;
+        .minimize-info {
+          display: flex;
+          .minimize-abort {
+            flex: 1;
+            width: 20px;
+            > svg {
+              margin: -2px 0 0 -8px;
+            }
+          }
+          .minimize-text {
+            flex: auto;
+            padding: 0 5px 5px;
+            margin: -2px 0 0 0;
+            font-size: 12px;
+            text-align: center;
+          }
         }
       }
       &.minimize {

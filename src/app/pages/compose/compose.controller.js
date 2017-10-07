@@ -51,6 +51,7 @@
     vm.targetLimit;
     vm.ultimateSaveDraft = false;
     vm.attachmentsIsUploading = [];
+    vm.abortBackgroundCompose = abortBackgroundCompose;
     vm.translations = {
       title1: NstSvcTranslation.get('Add a title'),
       title2: NstSvcTranslation.get('Write your message or drag files here…'),
@@ -149,6 +150,11 @@
           }, 100);
         }
       }
+    }
+
+    function abortBackgroundCompose() {
+      vm.finish = true;
+      $uibModalStack.dismissAll();
     }
 
     /**
@@ -325,7 +331,7 @@
     }
 
     function backDropClick() {
-      if( vm.attachmentsIsUploading.length > 0 ) {
+      if (vm.attachmentsIsUploading.length > 0) {
         NstSvcModal.confirm(
           NstSvcTranslation.get("Confirm"),
           NstSvcTranslation.get("do you want to discard uploading file(s)?"),
@@ -335,7 +341,7 @@
           }
         ).then(function (confirmed) {
           if (confirmed) {
-            vm.ultimateSaveDraft = true
+            vm.ultimateSaveDraft = true;
             $scope.$dismiss();
           } else {
             saveDraft();
@@ -345,7 +351,6 @@
         vm.ultimateSaveDraft = shouldSaveDraft();
         $scope.$dismiss();
       }
-
     }
 
     /**
