@@ -1,0 +1,74 @@
+.taskBackDrop {
+    background-color: transparentize($color-solid, 1 - .94);
+}
+.create-task {
+    padding: 10px 16px 0 16px;
+    .auto-height-item {
+        padding-top: 12px;
+        display: flex;
+        width: 100%;
+    }
+    .const-height-item {
+        align-items: center;
+        display: flex;
+        width: 100%;
+    }
+    h3 {
+        margin: 0;
+        font-size: 13px;
+        font-weight: bold;
+        line-height: 18px;
+        padding: 0 8px;
+    }
+    >div > label {
+        width: 48px;
+        display: flex;
+        flex: none;
+        margin: 0;
+    }
+    >div > textarea,
+    >div > input {
+        padding: 0 8px;
+        display: flex;
+        width: 100%;
+    }
+    .task-title {
+        height: 60px;
+        input {
+            font-size: 20px;
+            font-weight: bold;
+        }
+    }
+    .task-assignee {
+        min-height: 48px;
+        input {
+            margin-top: 2px;
+            height: 19px;
+            font-size: 14px;
+            line-height: 19px;
+        }
+    }
+    .task-due {
+        height: 48px;
+        input {
+            height: 18px;
+            font-size: 13px;
+            line-height: 18px;
+        }
+    }
+    
+    .task-footer {
+        height: 64px;
+        a {
+            font-size: 13px;
+            color: $color-gale;
+            padding: 0 16px;
+        }
+        input[type="button"] {
+            height: 32px;
+        }
+    }
+    textarea {
+        resize: none;
+    }
+}

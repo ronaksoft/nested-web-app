@@ -238,3 +238,26 @@ input[type="radio"]:checked + label {
 input[type="radio"]:checked:disabled + label {
   background-position: left -128px;
 }
+textarea.no-style ,
+textarea.no-style:hover ,
+textarea.no-style:focus ,
+input[type="text"].no-style ,
+input[type="text"].no-style:hover ,
+input[type="text"].no-style:focus {
+  border: none;
+  box-shadow: none;
+}
+
+
+.gale-holder:-moz-placeholder {
+  color: $color-gale-new;
+}
+.gale-holder::-moz-placeholder {
+  color: $color-gale-new;
+}
+.gale-holder:-ms-input-placeholder {
+  color: $color-gale-new;
+}
+.gale-holder::-webkit-input-placeholder {
+  color: $color-gale-new;
+}
