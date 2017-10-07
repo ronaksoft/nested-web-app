@@ -223,11 +223,12 @@
 
         NstSvcLogger.debug4('Compose | compose is in modal');
         eventReferences.push($scope.$on('modal.closing', function (event) {
-          $('html').removeClass("_oh");
-          setTimeout(function (){
-            $('body').removeClass("active-compose");
-          },100)
+          
           if (vm.ultimateSaveDraft) {
+            $('html').removeClass("_oh");
+            setTimeout(function (){
+              $('body').removeClass("active-compose");
+            },100)
             saveDraft();
             vm.finish = true;
           } else if(shouldSaveDraft() && !vm.finish) {
