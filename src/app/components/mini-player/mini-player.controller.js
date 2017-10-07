@@ -10,6 +10,7 @@
       var vm = this;
       vm.displayState = 0;
       vm.playPauseToggle = playPauseToggle;
+      vm.moveMouseDown = moveMouseDown;
       vm.closePlayer = closePlayer;
       vm.next = next;
       vm.previous = previous;
@@ -68,8 +69,8 @@
       function barClick(e) {
         var barWidth = e.currentTarget.clientWidth;
         var x;
-        
-        
+
+
         if ( $rootScope._direction !== 'rtl') {
           x = e.clientX - $(e.currentTarget).offset().left;
         } else {
@@ -148,5 +149,60 @@
         $state.go('app.message', {postId: vm.currentPlay.playlist}, {notify : false});
       }
 
+      var eventReferences = [];
+      var startMove = false;
+      var moveStartPos = {
+        x: 0,
+        y: 0
+      };
+      var movePos = {
+        x: 0,
+        y: 0
+      };
+
+      function moveMouseDown (e) {
+        startMove = true;
+        moveStartPos.x = e.pageX - movePos.x;
+        moveStartPos.y = e.pageY - movePos.y;
+        applyMove();
+      }
+      eventReferences.push(angular.element('body').on('mousemove', function (e) {
+        if (startMove) {
+          e.preventDefault();
+          movePos.x = (e.pageX - moveStartPos.x);
+          movePos.y = (e.pageY - moveStartPos.y);
+          applyMove();
+        }
+      }));
+      eventReferences.push(angular.element('body').on('mouseup', function (e) {
+        if (startMove) {
+          e.preventDefault();
+        }
+        startMove = false;
+      }));
+
+      function applyMove() {
+        var miniPlayerElement = angular.element('.mini-player');
+        checkBoundaries(miniPlayerElement);
+        miniPlayerElement.css('transform', 'translateX(' + movePos.x + 'px)');
+      }
+
+      function checkBoundaries(element) {
+        var widowWidth = window.innerWidth;
+        var miniPlayerWidth = element.width();
+        var leftBoundary = (-widowWidth/2) + miniPlayerWidth/2 + 10;
+        var rightBoundary = widowWidth/2 - (miniPlayerWidth/2 + 10);
+        if (movePos.x < leftBoundary) {
+          movePos.x = leftBoundary;
+        } else if (movePos.x > rightBoundary) {
+          movePos.x = rightBoundary;
+        }
+      }
+
+      $scope.$on('$destroy', function() {
+        _.forEach(eventReferences, function (event) {
+          event.off();
+        });
+      });
     }
   })();

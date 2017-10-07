@@ -5,7 +5,7 @@
     .module('ronak.nested.web.components.attachment')
     .directive('nstPanzoom', NstPanzoom);
 
-  function NstPanzoom(NST_FILE_TYPE, _, $timeout) {
+  function NstPanzoom(NST_FILE_TYPE, _, $timeout, NstSvcLogger) {
     return {
       restrict: 'A',
       scope: {
@@ -117,7 +117,7 @@
               $timeout.cancel(animateTimeout);
             }
             catch (e) {
-              console.log(e);
+              NstSvcLogger.debug4(e);
             }
             $element.css('transition', 'all 0.2s');
             animateTimeout = $timeout(function () {

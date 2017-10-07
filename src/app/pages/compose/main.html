@@ -1,6 +1,7 @@
-<div class="bg-compose" ng-click="ctlCompose.backDropClick();"></div>
-<div class="_fh _pr _fw" id="compose-box" compose-drop>
-  <div class="compose-wrapper ng-class:{'attached' : ctlCompose.attachments.viewModels.length > 0}" ng-mouseleave="ctlCompose.mouseIn = false" ng-mouseenter="ctlCompose.mouseIn = true">
+<div ng-if="!ctlCompose.minimize" class="bg-compose" ng-click="ctlCompose.backDropClick();"></div>
+<div class="_pr _fw ng-class:{'minimize' : ctlCompose.minimize}" id="compose-box" compose-drop>
+  <div ng-if="!ctlCompose.minimize" class="compose-wrapper ng-class:{'attached' : ctlCompose.attachments.viewModels.length > 0}"
+    ng-mouseleave="ctlCompose.mouseIn = false" ng-mouseenter="ctlCompose.mouseIn = true">
     <div class="modal-head" ng-if="!ctlCompose.quickMode">
       <svg class="_16svg" ng-click="$dismiss()">
         <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
@@ -76,7 +77,7 @@
            popover-class="white-pop files-modal {{ctlCompose.quickMode ? 'quick' : 'modal-view'}}"
            ng-click="ctlCompose.filesPopver = true"
            data-popover-is-open="ctlCompose.filesPopver"
-           data-popover-placement="{{ctlCompose.quickMode ? 
+           data-popover-placement="{{ctlCompose.quickMode ?
             $root._direction === 'rtl' ? 'left-center auto' : 'right-center auto' :
             'top-center auto'}}"
            data-uib-popover-template="'app/pages/compose/partials/files-modal.html'"
@@ -118,6 +119,19 @@
 
     </div>
 
+  </div>
+  <div ng-if="ctlCompose.minimize" class="minimize-container compose_{{ctlCompose.modalId}}">
+    <div ng-progressbar="{{ctlCompose.minimizeData.progress}}" progressbar-mode="Line"></div>
+    <div class="minimize-info">
+      <div class="minimize-text">
+        <translate>{{ctlCompose.minimizeData.uploadedItems}} of {{ctlCompose.minimizeData.totalItems}} file(s) uploaded</translate>
+      </div>
+      <div class="minimize-abort">
+        <svg class="_16svg" ng-click="ctlCompose.abortBackgroundCompose()">
+          <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
+        </svg>
+      </div>
+    </div>
   </div>
 </div>
 
