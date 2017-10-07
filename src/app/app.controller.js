@@ -6,8 +6,8 @@
     .controller('AppController', AppController);
 
   /** @ngInject */
-  function AppController( $scope, $window, $rootScope, $state, $stateParams, $interval,
-                         deviceDetector, NstSvcInteractionTracker,
+  function AppController($scope, $window, $rootScope, $state, $stateParams, $interval, toastr,
+                         deviceDetector, NstSvcInteractionTracker, $uibModal, NstSvcTranslation, NstUtility,
                          NST_DEFAULT, NST_AUTH_EVENT, NST_SRV_EVENT, NST_NOTIFICATION_EVENT, NST_CONFIG,
                          NstSvcServer, NstSvcAuth, NstSvcLogger, NstSvcI18n, _, NstSvcNotificationFactory, $) {
     var vm = this;
@@ -182,6 +182,54 @@
       event.stopPropagation();
       event.preventDefault();
     });
+
+    var composeModals = [];
+    var maxModals = 3;
+
+    $rootScope.$on('open-compose', function () {
+      if (composeModals.length >= maxModals) {
+        toastr.error(NstSvcTranslation.get(NstUtility.string.format('You cannot have more than {0} active compose modals.', maxModals)));
+        $rootScope.goToLastState(true);
+        return;
+      }
+      var uid = parseInt(_.uniqueId());
+      $uibModal.open({
+        animation: false,
+        backdropClass: 'comdrop',
+        size: 'compose',
+        templateUrl: 'app/pages/compose/main.html',
+        controller: 'ComposeController',
+        openedClass: 'modal-open compose-modal active-compose',
+        controllerAs: 'ctlCompose',
+        resolve: {
+          modalId: uid
+        }
+      }).result.catch(function () {
+        $rootScope.goToLastState(true);
+      });
+      composeModals.push({
+        id: uid,
+        order: composeModals.length
+      });
+    });
+
+    $rootScope.$on('minimize-compose', function () {
+      repositionMinimizedComposeModals();
+    });
+
+    $rootScope.$on('close-compose', function (e, data) {
+      var index = _.findIndex(composeModals, data.id, 'id');
+      composeModals.splice(index, 1);
+      repositionMinimizedComposeModals();
+    });
+
+    function repositionMinimizedComposeModals() {
+      setTimeout(function () {
+        _.forEach(composeModals, function (item) {
+          $('.minimize-container.compose_' + item.id).parent().css('transform', 'translateX(' + (item.order * 160) + 'px)');
+        });
+      }, 100);
+    }
 
     $window.onfocus = function () {
       $rootScope.$broadcast('reload-counters');

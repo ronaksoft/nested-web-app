@@ -21,6 +21,10 @@
       templateUrl: 'app/pages/compose/main.html',
       controller: 'ComposeController',
       controllerAs: 'ctlCompose',
+      openedClass: 'modal-open compose-modal',
+      resolve: {
+        modalId: -1
+      },
       bindToController: {
         placeId: '=',
         mode: '='

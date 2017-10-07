@@ -30,16 +30,19 @@
           supportDraft: true
         },
         onEnter: ['$rootScope', '$stateParams', '$state', '$uibModal', function ($rootScope, $stateParams, $state, $uibModal) {
-          $uibModal.open({
-            animation: false,
-            backdropClass: 'comdrop',
-            size: 'compose',
-            templateUrl: 'app/pages/compose/main.html',
-            controller: 'ComposeController',
-            controllerAs: 'ctlCompose'
-          }).result.catch(function () {
-            $rootScope.goToLastState(true);
-          });
+          // $uibModal.open({
+          //   animation: false,
+          //   backdropClass: 'comdrop',
+          //   size: 'compose',
+          //   templateUrl: 'app/pages/compose/main.html',
+          //   controller: 'ComposeController',
+          //   controllerAs: 'ctlCompose'
+          // }).result.catch(function () {
+          //   $rootScope.goToLastState(true);
+          // });
+          setTimeout(function () {
+            $rootScope.$broadcast('open-compose');
+          }, 100);
         }],
         onExit: function () {
         }
@@ -60,6 +63,7 @@
             size: 'compose',
             templateUrl: 'app/pages/compose/main.html',
             controller: 'ComposeController',
+            openedClass: 'modal-open compose-modal active-compose',
             controllerAs: 'ctlCompose'
           }).result.catch(function () {
             $rootScope.goToLastState(true);
@@ -83,6 +87,7 @@
             size: 'compose',
             templateUrl: 'app/pages/compose/main.html',
             controller: 'ComposeController',
+            openedClass: 'modal-open compose-modal active-compose',
             controllerAs: 'ctlCompose'
           }).result.catch(function () {
             $rootScope.goToLastState(true);
@@ -106,6 +111,7 @@
             size: 'compose',
             templateUrl: 'app/pages/compose/main.html',
             controller: 'ComposeController',
+            openedClass: 'modal-open compose-modal active-compose',
             controllerAs: 'ctlCompose'
           }).result.catch(function () {
             $rootScope.goToLastState(true);
@@ -129,6 +135,7 @@
             size: 'compose',
             templateUrl: 'app/pages/compose/main.html',
             controller: 'ComposeController',
+            openedClass: 'modal-open compose-modal active-compose',
             controllerAs: 'ctlCompose'
           }).result.catch(function () {
             $rootScope.goToLastState(true);
