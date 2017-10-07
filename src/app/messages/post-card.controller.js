@@ -501,6 +501,9 @@
       if (scrollIntoView) {
         data.scrollIntoView = true;
       }
+      /**
+       * TODO :create hash events and stop listen check
+       */
       eventReferences.push($scope.$broadcast('post-load-new-comments', data));
       reloadCounters();
       vm.unreadCommentsCount = 0;
@@ -737,8 +740,9 @@
       }
 
       vm.goTo = function (posId) {
-        $location.hash(posId);
-        $anchorScroll();
+        // $location.hash(posId);
+        document.querySelector('#' + posId).scrollIntoView({ behavior: 'smooth' });
+        // $anchorScroll();
       }
 
       /**

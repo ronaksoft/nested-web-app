@@ -276,10 +276,10 @@ div.files-input {
 }
 
 li.j-selected {
-  background-color: #E8FBF0;
+  background-color: $color-breeze-new;
   border-bottom: none;
   &:hover {
-    background-color: #E8FBF0!important;
+    background-color: $color-breeze-new!important;
   }
 }
 

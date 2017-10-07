@@ -13,7 +13,7 @@
         fileType: '=fileType'
       },
       link: function ($scope, $element) {
-        if ($scope.fileType !== NST_FILE_TYPE.IMAGE) {
+        if ($scope.fileType !== NST_FILE_TYPE.IMAGE && $scope.fileType !== NST_FILE_TYPE.GIF) {
           return;
         }
         var eventReferences = [];
@@ -125,7 +125,7 @@
             }, 200);
           }
           $element.css('transform', 'scale(' + zoom + ') translate(' + (pan.x/zoom) + 'px, ' + (pan.y/zoom) + 'px)');
-          $element.css('transform-origin', origin.x + '% ' + origin.y + '%');
+          // $element.css('transform-origin', origin.x + '% ' + origin.y + '%');
         }
 
         $scope.$on('$destroy', function() {
