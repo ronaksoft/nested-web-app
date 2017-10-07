@@ -223,7 +223,7 @@
 
         NstSvcLogger.debug4('Compose | compose is in modal');
         eventReferences.push($scope.$on('modal.closing', function (event) {
-          
+
           if (vm.ultimateSaveDraft) {
             $('html').removeClass("_oh");
             setTimeout(function (){
@@ -820,6 +820,7 @@
         } else {
           NstSvcLogger.debug4('Compose | Compose model is valid ?!');
           if (vm.model.check() && vm.model.isUploading()) {
+            discardDraft();
             vm.minimizeModal();
             deferred.reject([]);
           } else if (vm.model.check() && !vm.model.isUploading()) {
