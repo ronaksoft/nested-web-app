@@ -32,7 +32,7 @@
       </p>
       <p ng-if="notification.users.length > 0">
           <span class="sender">
-            <b class="_txe">{{notification.comment.sender.fullName}}</b>
+            <b class="_txe">{{notification.actor.fullName}}</b>
           </span>
           <span class="sender" ng-if="notification.users[0] && notification.users[0].id != notification.comment.sender.id">
             <translate ng-if="notification.otherUsersCount">,</translate>

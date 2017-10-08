@@ -320,10 +320,10 @@
     function parseComment(notif) {
       if (notif.data && notif.others.length > 0) {
         var countOfMappedUsers = 1;
-        var users = $q.all(_.map(notif.others.splice(1, 4), function (user) {
+        var users = _.map(notif.others.splice(1, 4), function (user) {
           countOfMappedUsers++;
           return NstSvcUserFactory.parseTinyUser(user);
-        }));
+        });
         return {
           id: notif._id,
           isSeen: notif.read,
