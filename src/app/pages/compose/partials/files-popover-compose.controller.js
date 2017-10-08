@@ -139,7 +139,7 @@
     function placeFiles() {
       $uibModal.open({
         animation: false,
-        backdropClass: 'comdrop',
+        // backdropClass: 'comdrop',
         size: 'sm',
         templateUrl: 'app/pages/compose/partials/place-files-modal.html',
         controller: 'placeFilesModalController',

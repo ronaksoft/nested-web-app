@@ -103,7 +103,7 @@
   <span><translate>Seen by...</translate></span>
 </a>
 
-<a ng-if="ctlPostCard.post.wipeAccess && ctlPostCard.post.recipients.length == 0"
+<a ng-if="ctlPostCard.post.wipeAccess"
    ng-click="$event.stopPropagation(); ctlPostCard.retract();"
    class="_df list-items _aic _fw red-item">
   <div class="_aic _df">
