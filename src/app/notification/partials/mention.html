@@ -12,9 +12,9 @@
       <p>
         <!--<a>{{ ::notification.mention.comment.sender.fullName }} </a> mentioned you on <b>{{notification.mention.post.subject}}</b>:<br>-->
         <a>{{ ::notification.mention.comment.sender.fullName }} </a><br>
-        <span auto-dir="notif.comment.body">{{::notification.mention.comment.body | truncate}}</span>
+        <span auto-dir="notification.comment.body">{{::notification.mention.comment.body | truncate}}</span>
       </p>
-      <p auto-dir="notif.comment.body">
+      <p auto-dir="notification.comment.body">
         {{::notification.comment.body | truncate}}
       </p>
     </div>

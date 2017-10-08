@@ -86,9 +86,6 @@
           before: settings.before,
           after: settings.after
         }).then(function (data) {
-
-          // console.log(data);
-          // return;
           var notificationPromises = _.map(data.notifications, function (notif) {
             switch (notif.type) {
               case NST_NOTIFICATION_TYPE.MENTION:
