@@ -1050,6 +1050,10 @@ body[dir="rtl"] {
   .content-plus .content-plus-inner > div .activity-item {
     padding: 8px 6px 0 15px;
   }
+  .side-places-list .arrow-toggle {
+    right: 0;
+    left: 4px;
+  }
 }
 
 body[dir="ltr"] {
