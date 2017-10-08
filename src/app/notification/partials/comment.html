@@ -26,19 +26,7 @@
           {{notification.date | passed | localize}}
         </div>
       </div>
-<<<<<<< HEAD
       <p auto-dir="notification.comment.body" ng-if="notification.users.length < 1">
-=======
-      <p>
-        <span>{{ ::notification.comment.sender.fullName }} </span>
-        <span ng-if="notification.users[0] && notification.users[0].id != notification.comment.sender.id"><translate>and</translate> {{ ::notification.users[0].fullName }} </span>
-        <span ng-if="notification.users[1] && notification.users[1].id != notification.comment.sender.id"><translate>and</translate> {{ ::notification.users[1].fullName }} </span>
-        <span ng-if="notification.users[2] && notification.users[2].id != notification.comment.sender.id"><translate>and</translate> {{ ::notification.users[2].fullName }} </span>
-        <small ng-if="notification.users[0]"><translate>commented on your post</translate>.</small>
-        <!--{{notification.post.subject}}:<br>-->
-      </p>
-      <p auto-dir="notification.comment.body">
->>>>>>> 45d59479e8e630c445f0ba13ac3da0f2ef18066b
         {{::notification.comment.body | truncate}}
         <div ng-if="notification.comment.removedById">comment has removed</div>
       </p>
