@@ -10,13 +10,13 @@
   <div class="_difh f1 _fn bottom-border">
     <div class="notif-li-body">
       <div class="notif-li-subject">
-          <span><b class="_fw _db _txe">{{ ::notification.adder.fullName }}</b></span>
+          <span><b class="_fw _db _txe">{{::notification.adder.fullName}}</b></span>
           <div class="mention-date _fn" data-uib-tooltip="{{notification.date | date : 'full' | localize}}" data-tooltip-append-to-body="true" data-tooltip-placement="top auto">
             {{notification.date | passed | localize}}
           </div>
       </div>
       <p>
-        <transplate>added you to <b>{{ notification.place.name }}</b>.</transplate>
+        <transplate>added you to <b>{{notification.place.name}}</b>.</transplate>
       </p>
     </div>
     <svg class="_df _fn _16svg">

@@ -1,8 +1,8 @@
 <div class="notif-li-container">
   <div class="_fn">
     <div class="user-avatar-24">
-      <img ng-if="notification.comment.sender" initial-avatar="{{::notification.comment.sender.id}}"
-           picture="{{::notification.comment.sender | avatar}}" name="{{::notification.comment.sender.fullName}}"
+      <img ng-if="notification.actor" initial-avatar="{{::notification.actor.id}}"
+           picture="{{::notification.actor | avatar}}" name="{{::notification.actor.fullName}}"
            data-width="2432" data-height="24" data-radius="32" class="account-initials-24" data-word-count="2"
            data-font-size="12"/>
     </div>
@@ -11,22 +11,22 @@
     <div class="notif-li-body">
       <div class="notif-li-subject">
         <span>
-          <b class="_fw _db _txe" ng-if="notification.users.length < 1">{{ ::notification.comment.sender.fullName }}</b>
-          <div class="comment-more-senders-avatar" ng-if="notification.users.length > 0 && user.id !== notification.comment.sender.id" ng-repeat="user in notification.users">
+          <b class="_fw _db _txe" ng-if="notification.users.length < 1">{{ ::notification.actor.fullName }}</b>
+          <div class="comment-more-senders-avatar" ng-if="notification.users.length > 0 && user.id !== notification.actor.id" ng-repeat="user in notification.users">
             <img initial-avatar="{{::user.id}}" name="{{::user.fullName}}"
                   picture="{{::user | avatar}}"
                   data-width="18" data-height="18" data-radius="16" class="account-initials-16" data-word-count="2"
                   data-font-size="12"/>
           </div>
           <div class="more-actors" ng-if="notification.otherUsersCount">
-            +{{ notification.otherUsersCount }}
+            +{{notification.otherUsersCount}}
           </div>
         </span>
         <div class="mention-date _fn" data-uib-tooltip="{{notification.date | date : 'full' | localize}}" data-tooltip-append-to-body="true" data-tooltip-placement="top auto">
           {{notification.date | passed | localize}}
         </div>
       </div>
-      <p auto-dir="notification.comment.body" ng-if="notification.users.length < 1">
+      <p auto-dir="notification.comment.body">
         {{::notification.comment.body | truncate}}
         <div ng-if="notification.comment.removedById">comment has removed</div>
       </p>
