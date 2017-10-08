@@ -151,42 +151,40 @@
 */
 
 .butn-white{
-  border: 1px solid $color-breeze;
-  background-color: $color-white;
-  border-radius: $border-radius-butn;
-  color: $color-storm;
+  border-color: rgb(35, 38, 41);
+  background-color: rgb(50, 61, 71);
+  color: $color-white;
+  box-shadow: 0 2px 4px rgba(35, 38, 41, .32);
   margin: 0 5px;
-  font-weight: bold;
-  flex: none;
-  text-decoration: none;
-  transition: all $animation-dur;
-  @include user-select(none);
   a,span{
-    transition: color $animation-dur;
-    //margin: 4px 0;
-    color: $color-new-hurricane;
-    white-space: nowrap;
-    //font-size: $font-size-large;
-    font-weight: bold;
+    color: $color-white;
   }
   &:hover{
-    background-color: $color-calm;
+    background-color: rgb(50, 61, 71);
+    border-color: rgb(50, 61, 71);
+    color: $color-white;
+    box-shadow: 0 4px 8px rgba(35, 38, 41, .32);
     a,span{
-      color: $color-storm;
+      color: $color-white
     }
   }
   &:focus{
-    background-color: $color-breeze;
+    background-color: $color-white;
     color: $color-white;
+    box-shadow: 0 1px 2px rgba(35, 38, 41, .32);
+    background-color: rgb(35, 38, 41);
+    border-color: rgb(35, 38, 41);
     a,span {
-      color: $color-white;
+      color: $color-white
     }
   }
-}
-.butn-white:disabled {
-  opacity: .5;
-  background-color: $color-calm;
-  cursor: not-allowed;
+  &.secondary {
+    background-color: $color-white!important;
+    color: rgb(35, 38, 41);
+    a, span {
+      color: rgb(35, 38, 41);
+    }
+  }
 }
 
 /**
