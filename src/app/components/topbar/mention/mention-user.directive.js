@@ -3,7 +3,7 @@
   angular
     .module('ronak.nested.web.components.mention')
     .directive('nstMentionUser', function (_, $rootScope, $timeout, $window,
-                                       NST_USER_SEARCH_AREA,
+                                       NST_USER_SEARCH_AREA, SvcRTL,
                                        NstSvcUserFactory, NstVmUser) {
       return {
         restrict: 'A',
@@ -35,13 +35,14 @@
           }
 
           function appendMention(element, key) {
+            console.log(arguments)
 
             var template =
               "<li data-id='${id}' class='_difv'>" +
               "<img src='${avatar}' class='account-initials-32 mCS_img_loaded _df'>" +
               "<div class='_difv'>" +
-              "<span class='_df list-unstyled text-centerteammate-name  nst-mood-solid text-name'>${name}</span>" +
-              "<span class='_df nst-mood-storm nst-font-small'>${id}</span>" +
+              "<span class='_df list-unstyled text-centerteammate-name  nst-mood-solid text-name' dir='${dir}'>${name}</span>" +
+              "<span><span class='nst-mood-storm nst-font-small' dir='ltr'>${id}</span></span>" +
               "</div>" +
               "</li>";
 
@@ -89,6 +90,7 @@
                         items.push({
                           id: obj.id,
                           name: obj.name,
+                          dir : SvcRTL.rtl.test(obj.name[0]) ? 'rtl' : 'ltr',
                           avatar: obj.avatar == "" ? avatarElement[0].currentSrc : obj.avatar,
                           searchField: [obj.id, obj.name].join(' ')
                         })
