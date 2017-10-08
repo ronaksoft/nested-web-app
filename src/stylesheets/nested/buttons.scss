@@ -31,6 +31,9 @@
     box-shadow: none;
     background-color: #DDDFE0;
     color: #ACB0B4;
+    a,span {
+      color: #ACB0B4;
+    }
   }
   &.secondary:disabled {
     box-shadow: none;
@@ -200,6 +203,7 @@
 .butn-login {
   width: 100%;
   margin: 0;
+  height: 40px;
   @extend .butn-green;
 }
 

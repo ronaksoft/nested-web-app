@@ -452,7 +452,7 @@ body.modal-open.compose-modal {
   margin: 0;
   .modal-content {
     position: relative;
-    top: 120px;
+    top: 80px;
     background-color: $color-white;
     width: 472px;
     min-height: 120px;
@@ -692,17 +692,10 @@ body.modal-open.compose-modal {
     }
     button {
       width: 100%;
-      transition: .2s all ease;
       margin: 54px 0 24px;
       line-height: 30px;
       font-size: 18px;
       font-weight: 700;
-      @extend .butn-green;
-      &:disabled {
-        opacity: 0.5;
-        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
-        filter: alpha(opacity=50);
-      }
     }
     button.submit {
       width: 100%!important;

@@ -248,7 +248,7 @@
     function confirmforRemove(post, place) {
       return $uibModal.open({
         animation: false,
-        backdropClass: 'comdrop',
+        // backdropClass: 'comdrop',
         size: 'sm',
         templateUrl: 'app/messages/partials/modals/remove-from-confirm.html',
         controller: 'RemoveFromConfirmController',
@@ -357,7 +357,7 @@
     function attachPlace() {
       $uibModal.open({
         animation: false,
-        backdropClass: 'comdrop',
+        // backdropClass: 'comdrop',
         size: 'sm',
         templateUrl: 'app/messages/partials/modals/attach-place.html',
         controller: 'AttachPlaceController',
@@ -400,7 +400,7 @@
     function seenBy() {
       $uibModal.open({
         animation: false,
-        backdropClass: 'comdrop',
+        // backdropClass: 'comdrop',
         size: 'sm',
         templateUrl: 'app/messages/partials/modals/seen-by.html',
         controller: 'SeenByController',
@@ -424,7 +424,7 @@
     function move(selectedPlace) {
       $uibModal.open({
         animation: false,
-        backdropClass: 'comdrop',
+        // backdropClass: 'comdrop',
         size: 'sm',
         templateUrl: 'app/messages/partials/modals/move.html',
         controller: 'MovePlaceController',

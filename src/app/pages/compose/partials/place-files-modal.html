@@ -16,7 +16,7 @@
         </div>
     </div>
     <div class="modal-b">
-        <div load-more iscroll class="iscroll-wrapper" ng-if="!ctrl.isLoadingPlaces">
+        <div load-more iscroll iscroll-instance="scrollInstance" class="iscroll-wrapper" ng-if="!ctrl.isLoadingPlaces">
             <ul class="iscroll-scroller">
                 <li dir="{{$root._direction}}" class="place ng-class:{'disabledItem' : ctrl.selectedFiles.length > 0}" ng-repeat="place in ctrl.places" ng-click="ctrl.placeClick(place.id, place.name)">
                     <div class="place-logo">

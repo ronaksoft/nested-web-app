@@ -408,7 +408,7 @@
       function confirmforRemoveMulti(posts, place) {
         return $uibModal.open({
           animation: false,
-          backdropClass: 'comdrop',
+          // backdropClass: 'comdrop',
           size: 'sm',
           templateUrl: 'app/messages/partials/modals/remove-multi-from-confirm.html',
           controller: 'RemoveFromConfirmController',
@@ -555,7 +555,7 @@
           $event.preventDefault();
           $uibModal.open({
             animation: false,
-            backdropClass: 'comdrop',
+            // backdropClass: 'comdrop',
             size: 'sm',
             templateUrl: 'app/messages/partials/modals/move.html',
             controller: 'MovePlaceController',
