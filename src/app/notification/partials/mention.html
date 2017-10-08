@@ -1,8 +1,8 @@
 <div class="notif-li-container">
   <div class="_fn">
     <div class="user-avatar-24">
-      <img ng-if="notification.mention.comment.sender" initial-avatar="{{::notification.mention.comment.sender.id}}"
-           picture="{{::notification.mention.comment.sender | avatar}}" name="{{::notification.mention.comment.sender.fullName}}"
+      <img ng-if="notification.mention.sender" initial-avatar="{{::notification.mention.sender.id}}"
+           picture="{{::notification.mention.sender | avatar}}" name="{{::notification.mention.sender.fullName}}"
            data-width="24" data-height="24" data-radius="24" class="account-initials-24" data-word-count="2"
            data-font-size="12"/>
     </div>
@@ -10,7 +10,7 @@
   <div class="_difh f1 _fn bottom-border">
     <div class="notif-li-body">
       <div class="notif-li-subject">
-          <span><b class="_fw _db _txe">{{ ::notification.mention.comment.sender.fullName }}</b></span>
+          <span><b class="_fw _db _txe">{{::notification.mention.sender.fullName}}</b></span>
           <div class="mention-date _fn" data-uib-tooltip="{{notification.date | date : 'full' | localize}}" data-tooltip-append-to-body="true" data-tooltip-placement="top auto">
             {{notification.date | passed | localize}}
           </div>
