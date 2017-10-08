@@ -9,6 +9,7 @@
     function createTaskController($q, $scope, $state, $stateParams, $uibModal, $rootScope) {
       var vm = this;
       // var eventReferences = [];
+      vm.showMoreOption = false
 
 
     }

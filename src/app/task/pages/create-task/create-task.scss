@@ -5,6 +5,7 @@
     padding: 10px 16px 0 16px;
     .auto-height-item {
         padding-top: 12px;
+        flex-direction: row-reverse;
         display: flex;
         width: 100%;
         textarea,
@@ -14,17 +15,25 @@
     }
     .const-height-item {
         align-items: center;
+        flex-direction: row-reverse;
         display: flex;
         width: 100%;
+        textarea,
+        input {
+            margin-top: 6px;
+        }
     }
     h3 {
         margin: 0;
+        width: 100%;
+        display: flex;
         font-size: 13px;
         font-weight: bold;
         line-height: 18px;
         padding: 0 8px;
     }
-    >* > label {
+    .auto-height-item > label ,
+    .const-height-item > label {
         width: 48px;
         display: flex;
         flex: none;
@@ -33,9 +42,14 @@
         svg {
             opacity: .4;
         }
+        ._16svg {
+            margin-top: 4px;
+        }
     }
-    >* > textarea,
-    >* > input {
+    .const-height-item > textarea,
+    .auto-height-item > textarea,
+    .const-height-item > input[type="text"] ,
+    .auto-height-item > input[type="text"] {
         padding: 0 0 6px;
         margin-right: 8px;
         margin-left: 8px;
@@ -45,6 +59,11 @@
         border-bottom: 1px solid transparent!important;
         &:focus {
             border-bottom: 1px solid $color-gale!important;
+            + label {
+                svg {
+                    opacity: 1;
+                }
+            }
         }
     }
     
@@ -67,9 +86,6 @@
             font-size: 14px;
             line-height: 19px;
         }
-        svg {
-            opacity: .16;
-        }
     }
     .task-due {
         height: 48px;
@@ -77,6 +93,15 @@
             height: 24px;
             font-size: 13px;
             line-height: 18px;
+        }
+    }
+    .task-more-options {
+        max-height: 0;
+        overflow: hidden;
+        width: 100%;
+        transition: $animation-dur max-height ease-in-out;
+        &.visible {
+            max-height: 800px;
         }
     }
     .task-description {
