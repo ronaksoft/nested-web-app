@@ -854,3 +854,6 @@ div.modal .attach-place {
     width: 100%;
   }
 }
+.modal.in + .modal.in + .modal-backdrop.comdrop {
+  display: block;
+}
