@@ -869,12 +869,14 @@
 
         // All target places have received the message
         if (response.noPermitPlaces.length === 0) {
-          NstSvcLogger.debug4('Compose | Post Sent succefully to all places');
+          NstSvcLogger.debug4('Compose | Post Sent successfully to all places');
           toastr.success(NstSvcTranslation.get('Your message has been successfully sent.'));
           NstSvcPostFactory.get(response.post.id).then(function (res) {
             $rootScope.$emit('post-quick', res);
           });
-          $uibModalStack.dismissAll();
+          // TODO check dismissAll
+          // $uibModalStack.dismissAll();
+          $scope.$dismiss();
           if (vm.quickMode) {
             clear();
           } else {
@@ -895,7 +897,8 @@
           });
 
           NstSvcLogger.debug4('Compose | Change states and models back to the normal mode after sending Post');
-          $uibModalStack.dismissAll();
+          // TODO check dismissAll
+          // $uibModalStack.dismissAll();
           if (vm.quickMode) {
             clear();
           } else {
@@ -904,7 +907,7 @@
             }
             discardDraft();
           }
-
+          $scope.$dismiss();
         }
 
         return $q(function (res) {
@@ -1401,9 +1404,11 @@
 
     // $('.wdt-emoji-popup.open').removeClass('open');
     $scope.$on('$destroy', function () {
-      $rootScope.$broadcast('close-compose', {
-        id: vm.modalId
-      });
+      if (vm.finish) {
+        $rootScope.$broadcast('close-compose', {
+          id: vm.modalId
+        });
+      }
       window.onbeforeunload = null;
       $('.wdt-emoji-popup.open').removeClass('open');
       NstSvcLogger.debug4('Compose | Compose id destroyed :');

@@ -288,7 +288,7 @@
         actor: NstSvcUserFactory.parseTinyUser(data.actor),
         place: NstSvcPlaceFactory.parseTinyPlace(data.place),
         invitation: {
-          id: data.invite_id,
+          id: data.invite_id
         },
         type: data.type
       };
@@ -302,7 +302,7 @@
         actor: NstSvcUserFactory.parseTinyUser(data.actor),
         place: NstSvcPlaceFactory.parseTinyPlace(data.place),
         invitation: {
-          id: data.invite_id,
+          id: data.invite_id
         },
         type: data.type
       };

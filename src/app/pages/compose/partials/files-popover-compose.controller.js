@@ -6,8 +6,8 @@
     .controller('filesPopoverComposeController', filesPopoverComposeController);
 
   /** @ngInject */
-  function filesPopoverComposeController( toastr, $uibModal, $q, $scope, _,
-                           NstSvcFileFactory, NstSvcTranslation, $) {
+  function filesPopoverComposeController(toastr, $uibModal, $q, $scope, _,
+                                         NstSvcFileFactory, NstSvcTranslation) {
     var vm = this;
     vm.loadMoreCounter = 0;
     vm.selectedFiles = [];
