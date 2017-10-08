@@ -8,7 +8,7 @@
   /** @ngInject */
   function placeFilesModalController( toastr, $uibModal, $timeout, $q, $scope, _, NstSvcPlaceFactory,
                            NstSvcFileFactory, uploadfiles,
-                           NstSvcTranslation, $) {
+                           NstSvcTranslation) {
     var vm = this;
     vm.selectedFiles = [];
     vm.places = [];

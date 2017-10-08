@@ -164,7 +164,7 @@
       $state.go('app.place-messages', {placeId: placeId});
     }
 
-    $(window).on('click', function (event) {
+    var windowClickEvent = $(window).on('click', function (event) {
       if (!$(event.target).is('a[href^="mailto"]')) {
         return;
       }
@@ -186,7 +186,7 @@
     var composeModals = [];
     var maxModals = 3;
 
-    $rootScope.$on('open-compose', function () {
+    eventReferences.push($rootScope.$on('open-compose', function () {
       if (composeModals.length >= maxModals) {
         toastr.error(NstSvcTranslation.get(NstUtility.string.format('You cannot have more than {0} active compose modals.', maxModals)));
         $rootScope.goToLastState(true);
@@ -211,17 +211,17 @@
         id: uid,
         order: composeModals.length
       });
-    });
+    }));
 
-    $rootScope.$on('minimize-compose', function () {
+    eventReferences.push($rootScope.$on('minimize-compose', function () {
       repositionMinimizedComposeModals();
-    });
+    }));
 
-    $rootScope.$on('close-compose', function (e, data) {
+    eventReferences.push($rootScope.$on('close-compose', function (e, data) {
       var index = _.findIndex(composeModals, data.id, 'id');
       composeModals.splice(index, 1);
       repositionMinimizedComposeModals();
-    });
+    }));
 
     function repositionMinimizedComposeModals() {
       setTimeout(function () {
@@ -241,6 +241,7 @@
           cenceler();
         }
       });
+      windowClickEvent.off();
     });
 
   }
