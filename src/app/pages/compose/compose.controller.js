@@ -154,7 +154,7 @@
 
     function abortBackgroundCompose() {
       vm.finish = true;
-      $uibModalStack.dismissAll();
+      $scope.$dismiss();
     }
 
     /**
