@@ -87,7 +87,7 @@
           after: settings.after
         }).then(function (data) {
 
-          console.log(data);
+          // console.log(data);
           // return;
           var notificationPromises = _.map(data.notifications, function (notif) {
             switch (notif.type) {
@@ -136,22 +136,7 @@
           });
           factory.checkIfHasInvitation(notifications);
           defer.resolve(notifications);
-          // $q.all(notificationPromises)
-          //   .then(function (notifs) {
-          //     var notifications = notifs.filter(function (obj) {
-          //       var hasData = obj && (obj.data !== null);
-          //       if (!hasData) {
-          //         if (obj)
-          //           removeNotification(obj.id);
-          //       }
-          //       return hasData;
-          //     });
-          //     factory.checkIfHasInvitation(notifications);
-          //     defer.resolve(notifications);
-          //   })
-          //   .catch(function (err) {
-          //     defer.reject(err)
-          //   });
+
         }).catch(defer.reject);
 
         return defer.promise;
@@ -247,41 +232,6 @@
      *****************/
 
     function parseMention(data) {
-      // var deferred = $q.defer();
-      //
-      // var mention = new NstMention();
-      // if (!data._id) {
-      //   throw 'Could not find _id in the notification raw object.';
-      // }
-      //
-      //
-      // mention.id = data._id;
-      // mention.commentId = data.comment_id;
-      // mention.postId = data.post_id;
-      // mention.senderId = data.actor_id;
-      //
-      // var senderPromise = NstSvcUserFactory.get(mention.senderId);
-      // var commentPromise = NstSvcCommentFactory.getComment(mention.commentId, mention.postId);
-      // var postPromise = NstSvcPostFactory.get(mention.postId);
-      //
-      // $q.all([senderPromise, commentPromise, postPromise]).then(function (values) {
-      //   mention.sender = values[0];
-      //   mention.comment = values[1];
-      //   mention.post = values[2];
-      //   deferred.resolve(
-      //     {
-      //       id: data._id,
-      //       isSeen: data.read,
-      //       date: new Date(data.timestamp),
-      //       mention: mention,
-      //       type: data.type
-      //     });
-      // }).catch(function () {
-      //   deferred.resolve({id: data._id, data: null});
-      // });
-      //
-      // return deferred.promise;
-
       var mention = new NstMention();
       if (!data._id) {
         throw 'Could not find _id in the notification raw object.';
@@ -291,9 +241,11 @@
       mention.commentId = data.comment_id;
       mention.postId = data.post_id;
       mention.senderId = data.actor_id;
-      mention.sender = data.actor;
-      mention.comment = data.comment;
-      mention.post = data.pos;
+      mention.sender = NstSvcUserFactory.parseTinyUser(data.actor);
+      mention.comment = NstSvcCommentFactory.parseComment(data.comment);
+      mention.post = {
+        id: data.post_id
+      };
 
       return {
         id: data._id,
@@ -305,282 +257,128 @@
     }
 
     function parsePromote(data) {
-      // var deferred = $q.defer();
-      //
-      //
-      // var actorPromise = NstSvcUserFactory.get(data.actor_id);
-      // var accountPromise = NstSvcUserFactory.get(data.account_id);
-      // var placePromise = NstSvcPlaceFactory.get(data.place_id);
-      //
-      // $q.all([actorPromise, accountPromise, placePromise]).then(function (values) {
-      //   deferred.resolve(
-      //     {
-      //       id: data._id,
-      //       isSeen: data.read,
-      //       date: new Date(data.timestamp),
-      //       actor: values[0],
-      //       member: values[1],
-      //       place: values[2],
-      //       type: data.type
-      //     });
-      // }).catch(function () {
-      //   deferred.resolve({id: data._id, data: null});
-      // });
-      //
-      // return deferred.promise;
-
       return {
         id: data._id,
         isSeen: data.read,
         date: new Date(data.timestamp),
-        actor: data.actor,
-        member: data.account,
-        place: data.place,
+        actor: NstSvcUserFactory.parseTinyUser(data.actor),
+        member: NstSvcUserFactory.parseTinyUser(data.account),
+        place: NstSvcPlaceFactory.parseTinyPlace(data.place),
         type: data.type
       }
     }
 
 
     function parsePlaceSettingsChanged(data) {
-      // var deferred = $q.defer();
-      //
-      //
-      // var actorPromise = NstSvcUserFactory.get(data.actor_id);
-      // var placePromise = NstSvcPlaceFactory.get(data.place_id);
-      //
-      // $q.all([actorPromise, placePromise]).then(function (values) {
-      //   deferred.resolve(
-      //     {
-      //       id: data._id,
-      //       isSeen: data.read,
-      //       date: new Date(data.timestamp),
-      //       actor: values[0],
-      //       place: values[1],
-      //       type: data.type
-      //     });
-      // }).catch(function () {
-      //   deferred.resolve({id: data._id, data: null});
-      // });
-      //
-      // return deferred.promise;
-
       return {
         id: data._id,
         isSeen: data.read,
         date: new Date(data.timestamp),
-        actor: data.actor,
-        place: data.place,
+        actor: NstSvcUserFactory.parseTinyUser(data.actor),
+        place: NstSvcPlaceFactory.parseTinyPlace(data.place),
         type: data.type
       }
     }
 
     function parseInvitation(data) {
-      // var deferred = $q.defer();
-      //
-      // NstSvcInvitationFactory.get(data.invite_id)
-      //   .then(function (invite) {
-      //     deferred.resolve({
-      //       id: data._id,
-      //       isSeen: data.read,
-      //       date: new Date(data.timestamp),
-      //       invitation: invite,
-      //       type: data.type
-      //     })
-      //   }).catch(function () {
-      //   deferred.resolve({id: data._id, data: null});
-      // });
-      // return deferred.promise;
-
       return {
         id: data._id,
         isSeen: data.read,
         date: new Date(data.timestamp),
-        invitation: data.invite,
+        actor: NstSvcUserFactory.parseTinyUser(data.actor),
+        place: NstSvcPlaceFactory.parseTinyPlace(data.place),
+        invitation: {
+          id: data.invite_id,
+        },
         type: data.type
       };
     }
 
     function parseInvitationResponse(data) {
-      // var deferred = $q.defer();
-      //
-      // NstSvcInvitationFactory.get(data.invite_id)
-      //   .then(function (invite) {
-      //     deferred.resolve({
-      //       id: data._id,
-      //       isSeen: data.read,
-      //       date: new Date(data.timestamp),
-      //       invitation: invite,
-      //       type: data.type
-      //     })
-      //   })
-      //   .catch(function () {
-      //     deferred.resolve({id: data._id, data: null});
-      //   });
-      //
-      // return deferred.promise;
-
       return {
         id: data._id,
         isSeen: data.read,
         date: new Date(data.timestamp),
-        invitation: data.invite,
+        actor: NstSvcUserFactory.parseTinyUser(data.actor),
+        place: NstSvcPlaceFactory.parseTinyPlace(data.place),
+        invitation: {
+          id: data.invite_id,
+        },
         type: data.type
       };
     }
 
 
     function parseYouJoined(data) {
-      // var deferred = $q.defer();
-      //
-      // var placeProm = NstSvcPlaceFactory.get(data.place_id);
-      // var adderProm = NstSvcUserFactory.get(data.actor_id);
-      //
-      // $q.all([placeProm, adderProm])
-      //   .then(function (values) {
-      //     deferred.resolve({
-      //       id: data._id,
-      //       isSeen: data.read,
-      //       date: new Date(data.timestamp),
-      //       place: values[0],
-      //       adder: values[1],
-      //       type: data.type
-      //     });
-      //   }).catch(function () {
-      //   deferred.resolve({id: data._id, data: null});
-      // });
-      //
-      //
-      // return deferred.promise;
-
       return {
         id: data._id,
         isSeen: data.read,
         date: new Date(data.timestamp),
-        place: data.place,
-        adder: data.actor,
+        place: NstSvcPlaceFactory.parseTinyPlace(data.place),
+        adder: NstSvcUserFactory.parseTinyUser(data.actor),
         type: data.type
       };
     }
 
     function parseComment(notif) {
-      var defer = $q.defer();
-      var commentProm = NstSvcCommentFactory.getComment(notif.comment_id, notif.post_id);
-      var postProm = NstSvcPostFactory.get(notif.post_id);
-
-      if (notif.data && notif.data.others) {
-        var countOfMappeedUsers = 1;
-        var users = $q.all(_.map(notif.data.others.splice(1, 4), function (user) {
-          countOfMappeedUsers++;
-          return NstSvcUserFactory.get(user)
+      if (notif.data && notif.others.length > 0) {
+        var countOfMappedUsers = 1;
+        var users = $q.all(_.map(notif.others.splice(1, 4), function (user) {
+          countOfMappedUsers++;
+          return NstSvcUserFactory.parseTinyUser(user);
         }));
-        $q.all([postProm, commentProm, users])
-          .then(function (value) {
-            defer.resolve({
-              id: notif._id,
-              isSeen: notif.read,
-              date: new Date(notif.timestamp),
-              lastUpdate: new Date(notif.last_update),
-              post: value[0],
-              comment: value[1],
-              actor: value[2][0],
-              users: value[2],
-              otherUsersCount: notif.data.others.length - countOfMappeedUsers < 1 ? 0 : notif.data.others.length - countOfMappeedUsers,
-              type: notif.type
-            });
-          })
-          .catch(function () {
-            defer.resolve({id: notif._id, data: null});
-          })
+        return {
+          id: notif._id,
+          isSeen: notif.read,
+          date: new Date(notif.timestamp),
+          lastUpdate: new Date(notif.last_update),
+          post: {
+            id: notif.post_id
+          },
+          comment: NstSvcCommentFactory.parseComment(notif.comment),
+          actor: NstSvcUserFactory.parseTinyUser(notif.actor),
+          users: users,
+          otherUsersCount: notif.data.others.length - countOfMappedUsers < 1 ? 0 : notif.data.others.length - countOfMappedUsers,
+          type: notif.type
+        }
       } else {
-        $q.all([postProm, commentProm])
-          .then(function (value) {
-            defer.resolve({
-              id: notif._id,
-              isSeen: notif.read,
-              date: new Date(notif.timestamp),
-              lastUpdate: new Date(notif.last_update),
-              post: value[0],
-              comment: value[1],
-              actor: value[1].sender,
-              users: [],
-              otherUsersCount: 0,
-              type: notif.type
-            });
-          })
-          .catch(function () {
-            defer.resolve({id: notif._id, data: null})
-          });
+        return {
+          id: notif._id,
+          isSeen: notif.read,
+          date: new Date(notif.timestamp),
+          lastUpdate: new Date(notif.last_update),
+          post: {
+            id: notif.post_id
+          },
+          comment: NstSvcCommentFactory.parseComment(notif.comment),
+          actor: NstSvcUserFactory.parseTinyUser(notif.actor),
+          users: [],
+          otherUsersCount: 0,
+          type: notif.type
+        }
       }
-
-
-      return defer.promise;
     }
 
     function parseNewSession(data) {
-      // var deferred = $q.defer();
-      //
-      // var actorPromise = NstSvcUserFactory.get(data.account_id);
-      //
-      // $q.all([actorPromise]).then(function (values) {
-      //   deferred.resolve(
-      //     {
-      //       id: data._id,
-      //       isSeen: data.read,
-      //       date: new Date(data.timestamp),
-      //       actor: values[0],
-      //       type: data.type,
-      //       from : data._cid.split("_").join(" ")
-      //     });
-      // }).catch(function () {
-      //   deferred.resolve({id: data._id, data: null});
-      // });
-      //
-      // return deferred.promise;
-
       return {
         id: data._id,
         isSeen: data.read,
         date: new Date(data.timestamp),
-        actor: data.actor,
+        actor: NstSvcUserFactory.parseTinyUser(data.actor),
         type: data.type,
         from : data.client_id.split("_").join(" ")
       };
     }
 
     function parseLabelNotification(data) {
-      // var deferred = $q.defer();
-      //
-      // var accountPromise = data.account_id ? NstSvcUserFactory.get(data.account_id) : $q.resolve();
-      // var actorPromise = data.actor_id ? NstSvcUserFactory.get(data.actor_id) : $q.resolve();
-      // var labelPromise = data.label_id ? NstSvcLabelFactory.get(data.label_id) : $q.resolve();
-      // var placePromise = data.place_id ? NstSvcPlaceFactory.get(data.place_id) : $q.resolve();
-      //
-      //
-      // $q.all([accountPromise, actorPromise, labelPromise, placePromise]).then(function (values) {
-      //   deferred.resolve(
-      //     {
-      //       id: data._id,
-      //       isSeen: data.read,
-      //       date: new Date(data.timestamp),
-      //       account: values[0],
-      //       actor: values[1],
-      //       label: values[2][0],
-      //       place: values[3],
-      //       type: data.type
-      //     });
-      // }).catch(function () {
-      //   deferred.resolve({ id: data._id, data: null });
-      // });
-      //
-      // return deferred.promise;
       return {
         id: data._id,
         isSeen: data.read,
         date: new Date(data.timestamp),
-        account: data.account,
-        actor: data.actor,
-        label: data.label,
-        place: data.place,
+        account: NstSvcUserFactory.parseTinyUser(data.account),
+        actor: NstSvcUserFactory.parseTinyUser(data.actor),
+        label: NstSvcLabelFactory.parse(data.label),
+        place: NstSvcPlaceFactory.parseTinyPlace(data.place),
         type: data.type
       }
     }
