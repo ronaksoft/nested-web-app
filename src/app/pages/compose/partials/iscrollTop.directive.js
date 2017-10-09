@@ -15,6 +15,7 @@
         }, function () {
           if ( window.nativeScroll) {
             el[0].scrollTop = 0
+            el[0].scrollLeft = 0
           } else {
             scope.scrollInstance.scrollTo(0,0);
           }
