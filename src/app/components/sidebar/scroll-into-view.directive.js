@@ -30,11 +30,20 @@
               if (!parentListItem) {
                   return
               }
+              var needToTrailBottom;
+              if ( window.nativeScroll) {
+                needToTrailBottom = (parentListItem.offsetTop + parentListItem.clientHeight) - (el.clientHeight - el.scrollTop)
+              } else {
+                needToTrailBottom = (parentListItem.offsetTop + parentListItem.clientHeight) - ($scope.scrollInstance.wrapperHeight - $scope.scrollInstance.y)
+              }
             //   var needToTrailTop = $(parentListItem).offset().top - $(el).offset().top > $scope.scrollInstance.y;
-              var needToTrailBottom = (parentListItem.offsetTop + parentListItem.clientHeight) - ($scope.scrollInstance.wrapperHeight - $scope.scrollInstance.y)
               // $(parentListItem).parents('.side-grand-place-item-inner');
             if ( needToTrailBottom > 0) {
+              if ( window.nativeScroll) {
+                $el[0].scrollTop -= needToTrailBottom - 16;
+              } else {
                 $scope.scrollInstance.scrollBy(0, -1 * needToTrailBottom - 16);
+              }
             }
           }
 
