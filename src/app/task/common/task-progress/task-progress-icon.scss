@@ -1,6 +1,25 @@
-.taks-progress-icon {
-    display: flex;
-    flex: none;
-    width: 32px;
-    height: 32px;
+.task-progress-icon {
+  position: relative;
+  display: flex;
+  flex: none;
+  width: 32px;
+  height: 32px;
+  svg {
+    &.progress {
+      position: absolute;
+      top: 7px;
+      right: 7px;
+      height: 18px;
+      width: 18px;
+      transform: rotate(-90deg);
+      border-radius: 50%;
+    }
+    circle {
+      fill: transparent;
+      stroke: #0079F2;
+      stroke-width: 18px;
+      stroke-dasharray: 0 60;
+      transition: stroke-dasharray .3s ease;
+    }
+  }
 }
