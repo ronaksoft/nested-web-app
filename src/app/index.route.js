@@ -29,20 +29,21 @@
           group: 'compose',
           supportDraft: true
         },
-        onEnter: ['$rootScope', '$stateParams', '$state', '$uibModal', function ($rootScope, $stateParams, $state, $uibModal) {
-          $uibModal.open({
-            animation: false,
-            backdropClass: 'comdrop',
-            size: 'compose',
-            templateUrl: 'app/pages/compose/main.html',
-            controller: 'ComposeController',
-            controllerAs: 'ctlCompose'
-          }).result.catch(function () {
-            $rootScope.goToLastState(true);
-          });
-        }],
-        onExit: function () {
-        }
+        onEnter: ['$rootScope'/*, '$stateParams', '$state', '$uibModal'*/, function ($rootScope/*, $stateParams, $state, $uibModal*/) {
+          // $uibModal.open({
+          //   animation: false,
+          //   backdropClass: 'comdrop',
+          //   size: 'compose',
+          //   templateUrl: 'app/pages/compose/main.html',
+          //   controller: 'ComposeController',
+          //   controllerAs: 'ctlCompose'
+          // }).result.catch(function () {
+          //   $rootScope.goToLastState(true);
+          // });
+          setTimeout(function () {
+            $rootScope.$broadcast('open-compose');
+          }, 10);
+        }]
       })
 
       .state('app.place-compose', {
@@ -54,19 +55,11 @@
         options: {
           group: 'compose'
         },
-        onEnter: ['$rootScope', '$stateParams', '$state', '$uibModal', function ($rootScope, $stateParams, $state, $uibModal) {
-          $uibModal.open({
-            animation: false,
-            size: 'compose',
-            templateUrl: 'app/pages/compose/main.html',
-            controller: 'ComposeController',
-            controllerAs: 'ctlCompose'
-          }).result.catch(function () {
-            $rootScope.goToLastState(true);
-          });
-        }],
-        onExit: function () {
-        }
+        onEnter: ['$rootScope', function ($rootScope) {
+          setTimeout(function () {
+            $rootScope.$broadcast('open-compose');
+          }, 10);
+        }]
       })
       .state('app.compose-forward', {
         url: '/forward/:postId',
@@ -77,19 +70,11 @@
         options: {
           group: 'compose'
         },
-        onEnter: ['$rootScope', '$stateParams', '$state', '$uibModal', function ($rootScope, $stateParams, $state, $uibModal) {
-          $uibModal.open({
-            animation: false,
-            size: 'compose',
-            templateUrl: 'app/pages/compose/main.html',
-            controller: 'ComposeController',
-            controllerAs: 'ctlCompose'
-          }).result.catch(function () {
-            $rootScope.goToLastState(true);
-          });
-        }],
-        onExit: function () {
-        }
+        onEnter: ['$rootScope', function ($rootScope) {
+          setTimeout(function () {
+            $rootScope.$broadcast('open-compose');
+          }, 10);
+        }]
       })
       .state('app.compose-reply-all', {
         url: '/reply/:postId',
@@ -100,19 +85,11 @@
         options: {
           group: 'compose'
         },
-        onEnter: ['$rootScope', '$stateParams', '$state', '$uibModal', function ($rootScope, $stateParams, $state, $uibModal) {
-          $uibModal.open({
-            animation: false,
-            size: 'compose',
-            templateUrl: 'app/pages/compose/main.html',
-            controller: 'ComposeController',
-            controllerAs: 'ctlCompose'
-          }).result.catch(function () {
-            $rootScope.goToLastState(true);
-          });
-        }],
-        onExit: function () {
-        }
+        onEnter: ['$rootScope', function ($rootScope) {
+          setTimeout(function () {
+            $rootScope.$broadcast('open-compose');
+          }, 10);
+        }]
       })
       .state('app.compose-reply-sender', {
         url: '/reply/:postId/sender',
@@ -123,19 +100,11 @@
         options: {
           group: 'compose'
         },
-        onEnter: ['$rootScope', '$stateParams', '$state', '$uibModal', function ($rootScope, $stateParams, $state, $uibModal) {
-          $uibModal.open({
-            animation: false,
-            size: 'compose',
-            templateUrl: 'app/pages/compose/main.html',
-            controller: 'ComposeController',
-            controllerAs: 'ctlCompose'
-          }).result.catch(function () {
-            $rootScope.goToLastState(true);
-          });
-        }],
-        onExit: function () {
-        }
+        onEnter: ['$rootScope', function ($rootScope) {
+          setTimeout(function () {
+            $rootScope.$broadcast('open-compose');
+          }, 10);
+        }]
       })
 
       /*****************************

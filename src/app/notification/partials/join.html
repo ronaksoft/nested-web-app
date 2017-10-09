@@ -11,11 +11,8 @@
     <div class="_difv f1">
       <p>
         <!--<a>{{ ::notification.mention.comment.sender.fullName }} </a> mentioned you on <b>{{notification.mention.post.subject}}</b>:<br>-->
-        <translate><a>{{ ::notification.joined.sender.fullName }}</a><br>
+        <translate><a>{{::notification.joined.sender.fullName}}</a><br>
           <small>is now on nested</small></translate>
-      </p>
-      <p auto-dir="notif.commentBody">
-        {{::notification.join.body | truncate}}
       </p>
     </div>
     <div class="mention-date _fn" data-uib-tooltip="{{notification.date | date : 'full' | localize}}" data-tooltip-append-to-body="true" data-tooltip-placement="top auto">

@@ -28,7 +28,7 @@
         <small ng-if="notification.users[0]"><translate>commented on your post</translate>.</small>
         <!--{{notification.post.subject}}:<br>-->
       </p>
-      <p auto-dir="notif.commentBody"  ng-if="notification.users.length < 1">
+      <p auto-dir="notification.comment.body">
         {{::notification.comment.body | truncate}}
       </p>
     </div>
