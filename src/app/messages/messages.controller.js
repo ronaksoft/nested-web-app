@@ -354,7 +354,7 @@
         return getMessages(vm.messagesSetting).then(function (posts) {
           $timeout(function () {
             appendPosts(posts);
-          }, 1000)
+          }, 1000);
           vm.tryAgainToLoadMore = false;
         }).catch(function () {
           vm.tryAgainToLoadMore = true;
@@ -665,7 +665,7 @@
           }).finally(function () {
             $timeout(function () {
               vm.loading = false;
-            }, 1000)
+            }, 1000);
           });
 
           return promise;

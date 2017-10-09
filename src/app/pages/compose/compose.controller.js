@@ -1404,11 +1404,9 @@
 
     // $('.wdt-emoji-popup.open').removeClass('open');
     $scope.$on('$destroy', function () {
-      if (vm.finish) {
-        $rootScope.$broadcast('close-compose', {
-          id: vm.modalId
-        });
-      }
+      $rootScope.$broadcast('close-compose', {
+        id: vm.modalId
+      });
       window.onbeforeunload = null;
       $('.wdt-emoji-popup.open').removeClass('open');
       NstSvcLogger.debug4('Compose | Compose id destroyed :');

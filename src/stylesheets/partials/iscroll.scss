@@ -22,3 +22,6 @@ body.iscroll-on .iscroll-wrapper {
         }
     }
 }
+.iscroll-wrapper.iscroll-off {
+    overflow: auto
+}
