@@ -21,7 +21,7 @@ $default-color: $color-sense-wire;
     position: absolute;
     background-color: white;
     z-index: 3000;
-    bottom: 40px;
+    top: 40px;
     box-shadow: 1px 1px 7px 0px rgba(37, 53, 50, 0.37);
     .ng-jalaali-flat-datepicker-table-header-bckgrnd {
         height: $header-h;
@@ -215,13 +215,13 @@ $default-color: $color-sense-wire;
 
 .ng-flat-datepicker {
     transform: scale(.8);
-    transform-origin: bottom;
+    transform-origin: top;
     margin-top: 10px;
     width: $width;
     position: absolute;
     background-color: white;
     z-index: 3000;
-    bottom: 40px;
+    top: 40px;
     box-shadow: 1px 1px 7px 0px rgba(37, 53, 50, 0.37);
     .ng-flat-datepicker-table-header-bckgrnd {
         height: $header-h;

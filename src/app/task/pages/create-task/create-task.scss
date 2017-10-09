@@ -31,6 +31,7 @@
         font-weight: bold;
         line-height: 18px;
         padding: 0 8px;
+        margin-top: 2px;
     }
     .auto-height-item > label ,
     .const-height-item > label {
@@ -46,10 +47,7 @@
             margin-top: 4px;
         }
     }
-    .const-height-item > textarea,
-    .auto-height-item > textarea,
-    .const-height-item > input[type="text"] ,
-    .auto-height-item > input[type="text"] {
+    .create-task-input {
         padding: 0 0 6px;
         margin-right: 8px;
         margin-left: 8px;
@@ -105,9 +103,20 @@
         }
     }
     .task-description {
+        min-height: 64px;
         textarea {
             height: 24px;
-            overflow: hidden;
+            // overflow: hidden;
+        }
+    }
+    .task-watchers {
+        input {
+            height: 24px;
+        }
+    }
+    .task-labels {
+        input {
+            height: 24px;
         }
     }
     
@@ -123,7 +132,30 @@
             padding: 0;
         }
     }
+    .todo-list {
+        list-style: none;
+        padding: 6px 0;
+        li {
+             margin: 8px;
+        }
+        input {
+            height: 24px;
+        }
+    }
     textarea {
         resize: none;
+    }
+    #task-description {
+        max-height: 56px;
+    }
+    .task-attachments-list {
+        margin: 8px;
+    }
+    .attachment-plus {
+        width: 40px;
+        height: 40px;
+        border-radius: 4px;
+        border: 1px solid #DDDFE0;
+        @include align-center();
     }
 }
