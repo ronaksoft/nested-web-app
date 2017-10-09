@@ -224,7 +224,7 @@
     function repositionMinimizedComposeModals() {
       setTimeout(function () {
         _.forEach(composeModals, function (item) {
-          $('.minimize-container.compose_' + item.id).parent().css('transform', 'translateX(' + (item.order * 160) + 'px)');
+          $('.minimize-container.compose_' + item.id).parent().css('transform', 'translateX(' + (item.order * -160) + 'px)');
         });
       }, 100);
     }
