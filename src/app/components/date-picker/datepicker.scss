@@ -14,7 +14,6 @@ $default-color: $color-sense-wire;
 }
 
 .ng-jalaali-flat-datepicker {
-    margin-top: 10px;
     transform: scale(.8);
     transform-origin: bottom;
     width: $width;
@@ -216,7 +215,6 @@ $default-color: $color-sense-wire;
 .ng-flat-datepicker {
     transform: scale(.8);
     transform-origin: top;
-    margin-top: 10px;
     width: $width;
     position: absolute;
     background-color: white;

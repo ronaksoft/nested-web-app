@@ -1,11 +1,13 @@
 <div class="create-task">
   <div class="task-title const-height-item">
-    <input type="text" class="no-style gale-holder create-task-input" placeholder="Enter a Task Title" id="task-title">
+      <div class="task-input-wrapper">
+        <input type="text" class="no-style gale-holder create-task-input" placeholder="Enter a Task Title" id="task-title">
+      </div>
     <label for="task-title">
-            <svg class="_32svg">
-                <use xlink:href="/assets/icons/nst-task-icn32.svg#in-progress-simple"></use>
-            </svg>
-        </label>
+        <svg class="_32svg">
+            <use xlink:href="/assets/icons/nst-task-icn32.svg#in-progress-simple"></use>
+        </svg>
+    </label>
   </div>
   <div class="task-assignee auto-height-item">
     <input nst-mention-user type="text" class="no-style gale-holder create-task-input" placeholder="Add Assignee or Candidates"
