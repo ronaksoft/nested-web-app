@@ -6,14 +6,18 @@
       .directive('mousewheelHorizental', mousewheelHorizental);
   
     /** @ngInject */
-    function mousewheelHorizental($) {
+    function mousewheelHorizental($, $timeout) {
       return {
         restrict: 'A',
         link: function (scope, $element) {
-            $($element[0]).mousewheel(function(event, delta) {
+          $timeout(function (){
+            if($element[0].scrollWidth > $element[0].clientWidth){
+              $($element[0]).mousewheel(function(event, delta) {
                 this.scrollLeft -= (delta * 30);
                 event.preventDefault();
             });
+            }          
+          }, 56)
           
         }
       };
