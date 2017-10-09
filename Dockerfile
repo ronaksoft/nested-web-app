@@ -3,6 +3,8 @@ FROM node:8.2.1-alpine
 # Create app directory
 RUN mkdir -p /ronak/nested
 WORKDIR /ronak/nested
+RUN apk update
+RUN apk add ca-certificates
 RUN npm install -g local-web-server
 EXPOSE 80
 EXPOSE 443
