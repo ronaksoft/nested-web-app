@@ -3,8 +3,8 @@
   angular
     .module('ronak.nested.web.components.mention')
     .directive('nstMentionUser', function (_, $rootScope, $timeout, $window,
-                                       NST_USER_SEARCH_AREA, SvcRTL,
-                                       NstSvcUserFactory, NstVmUser) {
+                                       NST_USER_SEARCH_AREA, SvcRTL, NstSvcTranslation,
+                                       NstSvcUserFactory, NstVmUser, NstSvcAuth) {
       return {
         restrict: 'A',
         link: function (scope, _element) {
@@ -35,14 +35,14 @@
           }
 
           function appendMention(element, key) {
-            console.log(arguments)
 
             var template =
-              "<li data-id='${id}' class='_difv'>" +
-              "<img src='${avatar}' class='account-initials-32 mCS_img_loaded _df'>" +
-              "<div class='_difv'>" +
-              "<span class='_df list-unstyled text-centerteammate-name  nst-mood-solid text-name' dir='${dir}'>${name}</span>" +
-              "<span><span class='nst-mood-storm nst-font-small' dir='ltr'>${id}</span></span>" +
+              "<li data-id='${id}' class='_difv user-suggets-mention'>" +
+              "<img src='${avatar}' class='account-initials-16 mCS_img_loaded _df'>" +
+              "<div>" +
+              "<span class='_df list-unstyled text-centerteammate-name _fw nst-mood-solid text-name' dir='${dir}'>${name}</span>" +
+              "<span><span class='nst-mood-storm' dir='ltr'>${alias}</span></span>" +
+              // "<span><span class='nst-mood-storm nst-font-small' dir='ltr'>${id}</span></span>" +
               "</div>" +
               "</li>";
 
@@ -91,6 +91,7 @@
                           id: obj.id,
                           name: obj.name,
                           dir : SvcRTL.rtl.test(obj.name[0]) ? 'rtl' : 'ltr',
+                          alias: obj.id === NstSvcAuth.user.id ? NstSvcTranslation.get('Me') : '',
                           avatar: obj.avatar == "" ? avatarElement[0].currentSrc : obj.avatar,
                           searchField: [obj.id, obj.name].join(' ')
                         })

@@ -57,3 +57,19 @@
     }
   }
 }
+
+.user-suggets-mention {
+   height: 32px;
+   img {
+     width: 16px;
+     height: 16px;
+     margin: 0 8px;
+   }
+   span + span {
+     padding: 0 8px;
+     font-size: 12px;
+   }
+   span:first-of-type {
+     font-size: 13px;
+   }
+}
