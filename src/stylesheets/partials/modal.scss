@@ -821,6 +821,6 @@ div.modal .attach-place {
   }
 }
 
-.modal.in + .modal.in + .modal-backdrop.comdrop {
+.modal.in:not([size="compose"]) + .modal.in[size="compose"] + .modal-backdrop.comdrop {
   display: block;
 }

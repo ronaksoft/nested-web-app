@@ -223,12 +223,13 @@
 
         NstSvcLogger.debug4('Compose | compose is in modal');
         eventReferences.push($scope.$on('modal.closing', function (event) {
+          setTimeout(function (){
+            $('body').removeClass("active-compose");
+          },64);
+          
+          $('html').removeClass("_oh");
 
           if (vm.ultimateSaveDraft) {
-            $('html').removeClass("_oh");
-            setTimeout(function (){
-              $('body').removeClass("active-compose");
-            },100)
             saveDraft();
             vm.finish = true;
           } else if(shouldSaveDraft() && !vm.finish) {
@@ -1407,6 +1408,9 @@
       $rootScope.$broadcast('close-compose', {
         id: vm.modalId
       });
+      setTimeout(function (){
+        $('body').removeClass("active-compose");
+      },64);
       window.onbeforeunload = null;
       $('.wdt-emoji-popup.open').removeClass('open');
       NstSvcLogger.debug4('Compose | Compose id destroyed :');
