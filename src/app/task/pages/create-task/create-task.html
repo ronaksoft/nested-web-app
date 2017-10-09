@@ -1,7 +1,8 @@
 <div class="create-task">
   <div class="task-title const-height-item">
-      <div class="task-input-wrapper">
-        <input type="text" class="no-style gale-holder create-task-input" placeholder="Enter a Task Title" id="task-title">
+      <div class="task-input-wrapper ng-class:{'focus' : taskTitle}">
+        <input type="text" class="no-style gale-holder create-task-input" placeholder="Enter a Task Title" id="task-title"
+            ng-focus="taskTitle = true" ng-blur="taskTitle = false">
       </div>
     <label for="task-title">
         <svg class="_32svg">
@@ -10,27 +11,36 @@
     </label>
   </div>
   <div class="task-assignee auto-height-item">
-    <input nst-mention-user type="text" class="no-style gale-holder create-task-input" placeholder="Add Assignee or Candidates"
-      id="task-assignee">
-    <label for="task-assignee">
-            <svg class="_24svg">
-                <use xlink:href="/assets/icons/nst-icn24.svg#ask-wire"></use>
-            </svg>
-        </label>
+    <div class="task-input-wrapper ng-class:{'focus' : taskAssign}">
+        <input nst-mention-user type="text" class="no-style gale-holder create-task-input" placeholder="Add Assignee or Candidates"
+        id="task-assignee" ng-focus="taskAssign = true" ng-blur="taskAssign = false">
+    </div>
+    <label for="task-assignee" ng-class="{'focus' : taskAssign}">
+        <svg class="_24svg">
+            <use xlink:href="/assets/icons/nst-icn24.svg#ask-wire"></use>
+        </svg>
+    </label>
   </div>
   <div class="task-due const-height-item">
-    <input type="text" class="no-style gale-holder create-task-input" placeholder="+ Set a due time (optional)" id="task-due"
-      ng-model="ctrlTopBar.advancedSearch.date" config="{}" g-formatted-picked-date="gfdate" g-picked-date="gdate" ng-jalaali-flat-datepicker>
-    <label for="task-due">
+        <div class="task-input-wrapper ng-class:{'focus' : taskDue}">
+            <input type="text" class="no-style gale-holder create-task-input" placeholder="+ Set a due time (optional)" id="task-due"
+            ng-focus="taskDue = true" ng-blur="taskDue = false"
+            ng-model="ctrlTopBar.advancedSearch.date" config="{}" g-formatted-picked-date="gfdate" g-picked-date="gdate" ng-jalaali-flat-datepicker>
+        </div>
+        <label for="task-due" ng-class="{'focus' : taskDue}">
             <svg class="_16svg">
                 <use xlink:href="/assets/icons/nst-icn16.svg#checked-box"></use>
             </svg>
         </label>
   </div>
   <div class="task-more-options ng-class:{'visible' : ctrl.showMoreOption}">
-    <div class="task-description auto-height-item">
-      <textarea class="no-style gale-holder create-task-input" placeholder="+ Add a Description …" id="task-description" resize-textarea></textarea>
-      <label for="task-description">
+    <div class="task-description auto-height-item ng-class:{'focus' : taskDes}">
+        <div class="task-input-wrapper">
+            <textarea class="no-style gale-holder create-task-input"
+            ng-focus="taskDes = true" ng-blur="taskDes = false"
+            placeholder="+ Add a Description …" id="task-description" resize-textarea></textarea>
+        </div>
+      <label for="task-description" ng-class="{'focus' : taskDes}">
             <svg class="_16svg">
                  <use xlink:href="/assets/icons/nst-icn16.svg#petition"></use>
             </svg>
@@ -43,12 +53,15 @@
           <li>
             <input class="_fr" type="checkbox" id="todo" />
             <label class="_fw setting left-box checkbox-label _asc" for="todo">
-                <input type="text" class="no-style gale-holder create-task-input" placeholder="+ add a to-do">
+                <div class="task-input-wrapper ng-class:{'focus' : tasktodo}">
+                    <input type="text" class="no-style gale-holder create-task-input" placeholder="+ add a to-do"
+                    ng-focus="tasktodo = true" ng-blur="tasktodo = false">
+                </div>
             </label>
           </li>
         </ul>
       </div>
-      <label>
+      <label ng-class="{'focus' : tasktodo}">
             <svg class="_16svg">
                 <use xlink:href="/assets/icons/nst-icn16.svg#finish-flag"></use>
             </svg>
@@ -74,24 +87,30 @@
     <div class="task-watchers auto-height-item">
         <div class="_difv _fw">
             <h3>Watchers</h3>
-            <input type="text" class="no-style gale-holder create-task-input" placeholder="add peoples who wants to follow task…">
+            <div class="task-input-wrapper ng-class:{'focus' : taskWatch}">
+                <input type="text" class="no-style gale-holder create-task-input"
+                ng-focus="taskWatch = true" ng-blur="taskWatch = false" placeholder="add peoples who wants to follow task…">
+            </div>
         </div>
-      <label>
-                <svg class="_16svg">
-                    <use xlink:href="/assets/icons/nst-icn16.svg#person"></use>
-                </svg>
-            </label>
+      <label ng-class="{'focus' : taskWatch}">
+            <svg class="_16svg">
+                <use xlink:href="/assets/icons/nst-icn16.svg#person"></use>
+            </svg>
+        </label>
     </div>
     <div class="task-labels auto-height-item">
         <div class="_difv _fw">
             <h3>Labels</h3>
-            <input type="text" class="no-style gale-holder create-task-input" placeholder="add labels…">            
+            <div class="task-input-wrapper ng-class:{'focus' : taskLabel}">
+                <input type="text" class="no-style gale-holder create-task-input" placeholder="add labels…"
+                ng-focus="taskLabel = true" ng-blur="taskLabel = false">            
+            </div>
         </div>
-      <label>
-                <svg class="_16svg">
-                    <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
-                </svg>
-            </label>
+      <label ng-class="{'focus' : taskLabel}">
+            <svg class="_16svg">
+                <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
+            </svg>
+        </label>
     </div>
   </div>
   <div class="task-footer const-height-item">

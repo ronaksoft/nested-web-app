@@ -3,6 +3,20 @@
 }
 .create-task {
     padding: 10px 16px 0 16px;
+    .auto-height-item ,
+    .const-height-item {
+        &:hover {
+            .task-input-wrapper {
+                border-bottom: 1px solid $color-gale!important;
+            }
+            label {
+                svg {
+                    opacity: 1;
+                }
+            }
+        }
+    }
+
     .auto-height-item {
         padding-top: 12px;
         flex-direction: row-reverse;
@@ -21,6 +35,20 @@
         textarea,
         input {
             margin-top: 6px;
+        }
+        .task-input-wrapper {
+            align-self: center;
+        }
+    }
+    .task-input-wrapper {
+        display: flex;
+        width: 100%;
+        align-self: flex-start;
+        padding: 0 0 6px;
+        margin: 0 8px;
+        border-bottom: 1px solid transparent!important;
+        &.focus {
+            border-bottom: 1px solid $color-gale!important;
         }
     }
     h3 {
@@ -46,23 +74,17 @@
         ._16svg {
             margin-top: 4px;
         }
+        &.focus {
+            svg {
+                opacity: 1;
+            }
+        }
     }
     .create-task-input {
-        padding: 0 0 6px;
-        margin-right: 8px;
-        margin-left: 8px;
         display: flex;
         width: 100%;
         border-radius: 0;
-        border-bottom: 1px solid transparent!important;
-        &:focus {
-            border-bottom: 1px solid $color-gale!important;
-            + label {
-                svg {
-                    opacity: 1;
-                }
-            }
-        }
+        padding: 0;
     }
     
     .task-title {
