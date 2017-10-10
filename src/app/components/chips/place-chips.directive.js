@@ -21,9 +21,7 @@
             scope.isSelected = false;
             
             var template = angular.element($templateCache.get('place-chips.html'));
-            console.log(scope.placeId);
             NstSvcPlaceFactory.get(scope.placeId, false).then(function(place){
-              console.log(place);
               scope.place = place;
               init();
             }).catch(function(e){

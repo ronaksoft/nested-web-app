@@ -149,3 +149,73 @@
         }
     }
 }
+.label-chips-wrapper {
+    max-width: 128px;
+    display: flex;
+    align-items: center;
+    flex: none;
+    height: 22px;
+    border-radius: 4px;
+    overflow: hidden;
+    .label-edge {
+        width: 18px;
+        height: 22px;
+        @include align-center();
+        svg:last-child {
+            display: none;
+            fill: $color-white;
+        }
+    }
+    &:not(:hover) {
+        .label-edge {
+            background-color: transparent;
+            background: transparent!important;
+        }
+    }
+    span {
+        max-width: 102px;
+        line-height: 22px;
+        font-size: 12px;
+        padding: 0 4px;
+        color: $color-white;
+    }
+    .clear {
+        svg {
+            fill: $color-solid;
+            opacity: .4;
+        }
+    }
+    &.isSelected {
+        span, {
+            background-color: $color-solid;
+            background: $color-solid!important;
+        }
+        .label-edge {
+            path {
+                fill: $color-solid;
+            }
+        }
+        &:hover {
+            .label-edge {
+                background-color: $color-solid;
+                background: $color-solid!important;
+            }
+        }
+    }
+    &:hover {
+        .label-edge {
+            svg:first-child {
+                display: none;
+            }
+            svg:last-child {
+                display: block;
+            }
+        }
+        .clear {
+            svg {
+                fill: $color-force;
+                opacity: 1;
+            }
+        }
+    }
+}
