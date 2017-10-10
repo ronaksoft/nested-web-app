@@ -46,8 +46,18 @@
         width: 100%;
         align-self: flex-start;
         padding: 0 0 6px;
+        flex-wrap: wrap;
         margin: 0 8px;
         border-bottom: 1px solid transparent!important;
+        .status {
+            font-size: 12px;
+            font-weight: bold;
+            color: $color-gale;
+            min-width: 70px;
+            &.candidate {
+                color: #0079F2;
+            }
+        }
         &.focus {
             border-bottom: 1px solid $color-gale!important;
         }

@@ -32,7 +32,7 @@
         function init() {
 
           $compile(template)(scope);
-          element.after(template);
+          element.html(template);
         }
 
         scope.selectChip = function (){
