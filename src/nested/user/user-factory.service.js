@@ -69,6 +69,43 @@
     };
 
     /**
+     * Retrieves a user by id and store in the related cache storage
+     *
+     * @param {String} id
+     *
+     * @returns {Promise}
+     */
+    UserFactory.prototype.getCached = function (id) {
+      var factory = this;
+      var deferred = $q.defer();
+
+      var cachedUser = this.getCachedSync(id);
+      if (cachedUser) {
+        deferred.resolve(cachedUser);
+        return deferred.promise;
+      }
+
+      this.collector.add(id).then(function (data) {
+        factory.set(data);
+        deferred.resolve(factory.parseTinyUser(data, true));
+      }).catch(function (error) {
+        switch (error.code) {
+          case NST_SRV_ERROR.ACCESS_DENIED:
+          case NST_SRV_ERROR.UNAVAILABLE:
+            deferred.reject();
+            factory.cache.remove(id);
+            break;
+
+          default:
+            deferred.reject(error);
+            break;
+        }
+      });
+
+      return deferred.promise;
+    };
+
+    /**
      * Returns the current user account. First uses cache storage and the asks Cyrus if the account was not found
      *
      * @param {any} ignore

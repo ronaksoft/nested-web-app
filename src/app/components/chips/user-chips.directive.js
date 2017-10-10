@@ -15,47 +15,50 @@
       scope: {
         userId: '=',
         candidate: '=',
-        onClear: '='
+        onRemove: '='
       },
-      link: function (scope, element, attrs) {
+      link: function (scope, element) {
         scope.isSelected = false;
-        
+
         var template = angular.element($templateCache.get('user-chips.html'));
-        NstSvcUserFactory.get(scope.userId).then(function(user){
+        NstSvcUserFactory.getCached(scope.userId).then(function(user) {
           scope.user = user;
           init();
-        })
+        });
         /**
          * Init the directive
          * @return {}
          */
         function init() {
-
           $compile(template)(scope);
           element.html(template);
         }
 
-        scope.selectChip = function (){
+        scope.selectChip = function () {
           scope.isSelected = true;
-        }
-        scope.unselectChip = function (){
+        };
+
+        scope.unselectChip = function () {
           scope.isSelected = false;
-        }
+        };
+
         var onDocumentClick = function (event) {
           if (element[0] !== event.target) {
             scope.isSelected = false;
           }
         };
+
         $document.on('click', onDocumentClick);
-        scope.closeChip = function (){
-          if (typeof scope.onClear === 'function') {
-            scope.onClear();
+
+        scope.closeChip = function () {
+          if (_.isFunction(scope.onRemove)) {
+            scope.onRemove(scope.userId);
           }
-        }
+        };
+
         element.on('$destroy', function () {
           $document.off('click', onDocumentClick);
         });
-
       }
     };
   }

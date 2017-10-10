@@ -17,13 +17,17 @@
     <div class="task-input-wrapper ng-class:{'focus' : taskAssign}">
         <span ng-if="ctrl.assignees.length <= 1" class="status">assignee:</span>
         <span ng-if="ctrl.assignees.length > 1" class="status candidate">candidates:</span>
-        <div user-chips user-id="assignee" candidate="(ctrl.assignees.length > 1)" ng-repeat="assignee in ctrl.assignees"></div>
+        <div user-chips user-id="assignee" candidate="(ctrl.assignees.length > 1)" on-remove="ctrl.removeAssigneeChip" ng-repeat="assignee in ctrl.assignees"></div>
         <input nst-mention-user type="text" class="no-style gale-holder create-task-input" placeholder="Add Assignee or Candidates"
         id="task-assignee" ng-focus="taskAssign = true" ng-blur="taskAssign = false" ng-model="ctrl.assigneeInput" ng-keydown="ctrl.assigneeKeyDown($event)">
     </div>
     <label for="task-assignee" ng-class="{'focus' : taskAssign}">
-        <svg class="_24svg">
+        <svg class="_24svg" ng-if="ctrl.assigneeIcon == 'no-assignee'">
             <use xlink:href="/assets/icons/nst-icn24.svg#ask-wire"></use>
+        </svg>
+        <img ng-src="{{ctrl.assigneeIcon | picture}}" ng-if="ctrl.assigneeIcon != 'no-assignee' && ctrl.assigneeIcon != 'candidate'">
+        <svg class="_24svg" ng-if="ctrl.assigneeIcon == 'candidate'">
+          <use xlink:href="/assets/icons/nst-task-icn32.svg#candidate"></use>
         </svg>
     </label>
   </div>
