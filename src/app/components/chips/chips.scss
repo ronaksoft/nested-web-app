@@ -4,14 +4,12 @@
     align-items: center;
     flex: none;
     margin-right: 4px;
+    margin-bottom: 4px;
     padding-right: 5px;
     height: 28px;
-    border: 1px solid #DDDFE0;
     border-radius: 4px;
     overflow: hidden;
-    border-style: solid;
-    border-width: 1px;
-    border-color: transparent;
+    border: 1px solid transparent;
     box-shadow: 0 2px 4px $color-breeze-new;
     .user-avatar-16 {
         margin: 0 6px;
@@ -20,7 +18,7 @@
         }
     }
     span {
-        max-width: 148;
+        max-width: 148px;
         line-height: 26px;
         font-size: 13px;
         color: $color-solid;
@@ -46,14 +44,14 @@
         &.isCandidate {
             background-color: #0079F2;
             &:hover {
-                border-color: #0079F2; 
+                border-color: #0079F2;
             }
         }
     }
     &.isCandidate {
         border-color: #0079F2;
         &:hover {
-            border-color: #004DA6; 
+            border-color: #004DA6;
         }
     }
     &:hover {
@@ -186,7 +184,7 @@
         }
     }
     &.isSelected {
-        span, {
+        span {
             background-color: $color-solid;
             background: $color-solid!important;
         }
