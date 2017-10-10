@@ -13,8 +13,10 @@
       vm.user = NstSvcAuth.user
       vm.datePickerconfig = {allowFuture : true};
 
+      vm.assigneeFocus = false;
       vm.assigneeInput = '';
       vm.assignees = [];
+      vm.assigneesData = [];
       vm.assigneeIcon = 'no-assignee';
       vm.assigneeKeyDown = assigneeKeyDown;
       vm.removeAssigneeChip = removeAssigneeChip;
@@ -25,8 +27,20 @@
             vm.assignees.push(item);
           });
           vm.assignees = _.uniq(vm.assignees);
+          getAssigneesData(vm.assignees);
           vm.assigneeInput = '';
         }
+      }
+
+      function getAssigneesData(assignees) {
+        var promises;
+        promises = _.map(assignees, function (item) {
+          return NstSvcUserFactory.getCached(item);
+        });
+        $q.all(promises).then(function (lists) {
+          vm.assigneesData = lists;
+          console.log(lists);
+        });
       }
 
       function parseMentionData(data) {

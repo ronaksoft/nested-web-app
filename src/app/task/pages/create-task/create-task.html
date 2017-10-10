@@ -15,11 +15,17 @@
   </div>
   <div class="task-assignee auto-height-item">
     <div class="task-input-wrapper ng-class:{'focus' : taskAssign}">
-        <span ng-if="ctrl.assignees.length <= 1" class="status">assignee:</span>
-        <span ng-if="ctrl.assignees.length > 1" class="status candidate">candidates:</span>
-        <div user-chips user-id="assignee" candidate="(ctrl.assignees.length > 1)" on-remove="ctrl.removeAssigneeChip" ng-repeat="assignee in ctrl.assignees"></div>
+        <span ng-if="ctrl.assignees.length <= 1 && ctrl.assigneeFocus == true" ng-click="ctrl.assigneeFocus = false" class="status">assignee:</span>
+        <span ng-if="ctrl.assignees.length > 1 && ctrl.assigneeFocus == true" ng-click="ctrl.assigneeFocus = false" class="status candidate">candidates:</span>
+        <div user-chips user-id="assignee" candidate="(ctrl.assignees.length > 1)" on-remove="ctrl.removeAssigneeChip" ng-repeat="assignee in ctrl.assignees" ng-if="ctrl.assigneeFocus == true"></div>
         <input nst-mention-user nst-mention-list="ctrl.assignees" type="text" class="no-style gale-holder create-task-input" placeholder="Add Assignee or Candidates"
-        id="task-assignee" ng-focus="taskAssign = true" ng-blur="taskAssign = false" ng-model="ctrl.assigneeInput" ng-keydown="ctrl.assigneeKeyDown($event)">
+        id="task-assignee" ng-focus="ctrl.assigneeFocus = true" ng-model="ctrl.assigneeInput" ng-keydown="ctrl.assigneeKeyDown($event)" ng-if="ctrl.assigneeFocus == true || ctrl.assignees.length == 0">
+        <div ng-if="ctrl.assigneeFocus != true && ctrl.assignees.length == 1" ng-click="ctrl.assigneeFocus = true;" class="unfocused-input">Assigned to <b>{{ctrl.assigneesData[0].fullName}}</b></div>
+        <div ng-if="ctrl.assigneeFocus != true && ctrl.assignees.length > 1" ng-click="ctrl.assigneeFocus = true;" class="unfocused-input candidates">Candidates:
+          <span ng-repeat="assigneeData in ctrl.assigneesData">
+            <b>{{assigneeData.fullName}}</b>{{ctrl.assigneesData.length - 2 == $index? ' & ': (ctrl.assigneesData.length - 2 > $index? ', ': '')}}
+          </span>
+        </div>
     </div>
     <label for="task-assignee" ng-class="{'focus' : taskAssign}">
         <svg class="_24svg" ng-if="ctrl.assigneeIcon == 'no-assignee'">
