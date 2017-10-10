@@ -15,12 +15,11 @@
   </div>
   <div class="task-assignee auto-height-item">
     <div class="task-input-wrapper ng-class:{'focus' : taskAssign}">
-        <span class="status">assignee:</span>
-        <span class="status candidate">candidates:</span>
-        <div user-chips user-id="ctrl.user.id" candidate="true"></div>
-        <div user-chips user-id="ctrl.user.id" candidate="false"></div>
+        <span ng-if="ctrl.assignees.length <= 1" class="status">assignee:</span>
+        <span ng-if="ctrl.assignees.length > 1" class="status candidate">candidates:</span>
+        <div user-chips user-id="assignee" candidate="(ctrl.assignees.length > 1)" ng-repeat="assignee in ctrl.assignees"></div>
         <input nst-mention-user type="text" class="no-style gale-holder create-task-input" placeholder="Add Assignee or Candidates"
-        id="task-assignee" ng-focus="taskAssign = true" ng-blur="taskAssign = false">
+        id="task-assignee" ng-focus="taskAssign = true" ng-blur="taskAssign = false" ng-model="ctrl.assigneeInput" ng-keydown="ctrl.assigneeKeyDown($event)">
     </div>
     <label for="task-assignee" ng-class="{'focus' : taskAssign}">
         <svg class="_24svg">
@@ -110,7 +109,7 @@
             <h3>Labels</h3>
             <div class="task-input-wrapper ng-class:{'focus' : taskLabel}">
                 <input type="text" class="no-style gale-holder create-task-input" placeholder="add labels…"
-                ng-focus="taskLabel = true" ng-blur="taskLabel = false">            
+                ng-focus="taskLabel = true" ng-blur="taskLabel = false">
             </div>
         </div>
       <label ng-class="{'focus' : taskLabel}">
