@@ -7,6 +7,9 @@
                                        NstSvcUserFactory, NstVmUser, NstSvcAuth) {
       return {
         restrict: 'A',
+        scope: {
+          selectedList: '=nstMentionList'
+        },
         link: function (scope, _element) {
 
           appendMention(_element, '');
@@ -72,10 +75,18 @@
                   remoteFilter: function (query, callback) {
                     var searchSettings = {
                       query: query,
-                      limit: 5
+                      limit: 10
                     };
                     NstSvcUserFactory.search(searchSettings, NST_USER_SEARCH_AREA.ACCOUNTS).then(function (users) {
                       var uniqueUsers = _.unionBy(users, 'id');
+                      if (_.isArray(scope.selectedList)) {
+                        var list = _.map(scope.selectedList, function (item) {
+                          return {
+                            id: item
+                          };
+                        });
+                        uniqueUsers = _.differenceBy(uniqueUsers, list, 'id');
+                      }
                       var items = [];
                       _.map(uniqueUsers, function (item) {
                         var obj = new NstVmUser(item);
