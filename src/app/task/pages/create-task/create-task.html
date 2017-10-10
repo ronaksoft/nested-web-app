@@ -15,7 +15,7 @@
   </div>
   <div class="task-assignee auto-height-item">
     <div class="task-input-wrapper ng-class:{'focus' : taskAssign}">
-        <span ng-if="ctrl.assignees.length <= 1 && ctrl.assigneeFocus == true" ng-click="ctrl.assigneeFocus = false" class="status">assignee:</span>
+        <span ng-if="ctrl.assignees.length == 1 && ctrl.assigneeFocus == true" ng-click="ctrl.assigneeFocus = false" class="status">assignee:</span>
         <span ng-if="ctrl.assignees.length > 1 && ctrl.assigneeFocus == true" ng-click="ctrl.assigneeFocus = false" class="status candidate">candidates:</span>
         <div user-chips user-id="assignee" candidate="(ctrl.assignees.length > 1)" on-remove="ctrl.removeAssigneeChip" ng-repeat="assignee in ctrl.assignees" ng-if="ctrl.assigneeFocus == true"></div>
         <input nst-mention-user nst-mention-list="ctrl.assignees" type="text" class="no-style gale-holder create-task-input" placeholder="Add Assignee or Candidates"
