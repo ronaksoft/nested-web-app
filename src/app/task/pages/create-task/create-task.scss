@@ -136,6 +136,10 @@
             height: 25px;
             font-size: 14px;
             line-height: 19px;
+            display: flex;
+            width: auto;
+            min-width: 120px;
+            flex: 1;
         }
     }
     .task-due {
