@@ -215,6 +215,37 @@ input[type="checkbox"]:checked:hover + label.setting {
   background-position-x: right;
   background-position-y: -32px;
 }
+// todo checkbox
+label.todo  {
+  display: flex;
+  line-height: 16px!important;
+  font-size: $font-size-small;
+}
+
+input[type="checkbox"]:disabled + label.setting {
+  background-position-x: right;
+  background-position-y: -48px;
+}
+
+input[type="checkbox"]:hover + label.setting {
+  background-position-x: right;
+  background-position-y: -80px;
+}
+
+input[type="checkbox"]:checked + label.setting {
+  background-position-x: right;
+  background-position-y: -16px;
+}
+
+input[type="checkbox"]:checked:disabled + label.setting {
+  background-position-x: right;
+  background-position-y: 0;
+}
+
+input[type="checkbox"]:checked:hover + label.setting {
+  background-position-x: right;
+  background-position-y: -32px;
+}
 
 // 
 input[type="radio"] + label{

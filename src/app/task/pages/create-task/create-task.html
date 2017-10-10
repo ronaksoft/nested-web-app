@@ -31,7 +31,8 @@
         <svg class="_24svg" ng-if="ctrl.assigneeIcon == 'no-assignee'">
             <use xlink:href="/assets/icons/nst-icn24.svg#ask-wire"></use>
         </svg>
-        <img ng-src="{{ctrl.assigneeIcon | picture}}" ng-if="ctrl.assigneeIcon != 'no-assignee' && ctrl.assigneeIcon != 'candidate'">
+        <img initial-avatar="{{assigneeIcon}}" name="{{assigneeIcon}}" picture="{{assigneeIcon | avatar : 'x32'}}" data-width="24" data-height="24"
+            data-radius="40" class="account-initials-24 _df" data-word-count="2" data-font-size="13"  ng-if="ctrl.assigneeIcon != 'no-assignee' && ctrl.assigneeIcon != 'candidate'"/>
         <svg class="_24svg" ng-if="ctrl.assigneeIcon == 'candidate'">
           <use xlink:href="/assets/icons/nst-task-icn32.svg#candidate"></use>
         </svg>
@@ -45,7 +46,7 @@
         </div>
         <label for="task-due" ng-class="{'focus' : taskDue}">
             <svg class="_16svg">
-                <use xlink:href="/assets/icons/nst-icn16.svg#checked-box"></use>
+                <use xlink:href="/assets/icons/nst-icn16.svg#finish-flag"></use>
             </svg>
         </label>
   </div>
@@ -66,13 +67,32 @@
       <div class="_difv _fw">
         <h3>To-Do list</h3>
         <ul class="todo-list">
-          <li>
-            <input class="_fr" type="checkbox" id="todo" />
-            <label class="_fw setting left-box checkbox-label _asc" for="todo">
-                <div class="task-input-wrapper ng-class:{'focus' : tasktodo}">
-                    <input type="text" class="no-style gale-holder create-task-input" placeholder="+ add a to-do"
-                    ng-focus="tasktodo = true" ng-blur="tasktodo = false">
-                </div>
+          <li ng-init="isChecked = true">
+            <input class="_fr" type="checkbox" id="todo1" ng-model="isChecked"/>
+            <label class="_fw todo task-input-wrapper ng-class:{'focus' : tasktodo}" for="todo1">
+                <svg class="_16svg _df" ng-if="!isChecked">
+                    <use xlink:href="/assets/icons/nst-icn16.svg#todo-undone"></use>
+                </svg>
+                <svg class="_16svg _df" ng-if="isChecked">
+                    <use xlink:href="/assets/icons/nst-icn16.svg#todo-done"></use>
+                </svg>
+                <textarea class="no-style gale-holder create-task-input f1"
+                    ng-focus="tasktodo = true" ng-blur="tasktodo = false"
+                    placeholder="+ add a to-do" resize-textarea></textarea>
+            </label>
+          </li>
+          <li ng-init="isCheckeds = false">
+            <input class="_fr" type="checkbox" id="todo2" ng-model="isCheckeds"/>
+            <label class="_fw todo task-input-wrapper ng-class:{'focus' : tasktodos}" for="todo2">
+                <svg class="_16svg _df" ng-if="!isCheckeds">
+                    <use xlink:href="/assets/icons/nst-icn16.svg#todo-undone"></use>
+                </svg>
+                <svg class="_16svg _df" ng-if="isCheckeds">
+                    <use xlink:href="/assets/icons/nst-icn16.svg#todo-done"></use>
+                </svg>
+                <textarea class="no-style gale-holder create-task-input f1"
+                    ng-focus="tasktodos = true" ng-blur="tasktodos = false"
+                    placeholder="+ add a to-do" resize-textarea></textarea>
             </label>
           </li>
         </ul>

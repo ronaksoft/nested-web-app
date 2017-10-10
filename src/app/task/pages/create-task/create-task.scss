@@ -148,6 +148,9 @@
     }
     .task-assignee {
         min-height: 48px;
+        label {
+            overflow: hidden;
+        }
         input {
             height: 25px;
             font-size: 14px;
@@ -182,6 +185,18 @@
             // overflow: hidden;
         }
     }
+    .task-todo {
+        &:hover {
+            .task-input-wrapper {
+                border-bottom: none!important;
+            }
+        }
+        li:hover {
+            .task-input-wrapper {
+                border-bottom: 1px solid $color-gale!important;
+            }
+        }
+    }
     .task-watchers {
         input {
             height: 24px;
@@ -209,10 +224,16 @@
         list-style: none;
         padding: 6px 0;
         li {
-             margin: 8px;
+             margin: 8px 0;
         }
-        input {
-            height: 24px;
+        svg {
+            margin: 4px;
+        }
+        textarea {
+            height: 18px;
+            font-size: 13px;
+            line-height: 20px;
+            max-height: 128px;
         }
     }
     textarea {
