@@ -6,6 +6,9 @@
                                            NST_USER_SEARCH_AREA, NstSvcPlaceFactory, NstVmPlace) {
       return {
         restrict: 'A',
+        scope: {
+          selectedList: '=nstMentionList'
+        },
         link: function (scope, _element) {
 
           appendMention(_element, '');
@@ -70,6 +73,14 @@
                   remoteFilter: function (query, callback) {
                     NstSvcPlaceFactory.search(query).then(function (places) {
                       var uniquePlaces = _.unionBy(places, 'id');
+                      if (_.isArray(scope.selectedList)) {
+                        var list = _.map(scope.selectedList, function (item) {
+                          return {
+                            id: item
+                          };
+                        });
+                        uniquePlaces = _.differenceBy(uniquePlaces, list, 'id');
+                      }
                       var items = [];
                       _.map(uniquePlaces, function (item) {
                         var obj = new NstVmPlace(item);

@@ -6,6 +6,9 @@
                                             NstSvcLabelFactory, NstSvcTranslation) {
       return {
         restrict: 'A',
+        scope: {
+          selectedList: '=nstMentionList'
+        },
         link: function (scope, _element) {
 
           appendMention(_element, '');
@@ -72,6 +75,14 @@
                   remoteFilter: function (query, callback) {
                     NstSvcLabelFactory.search(query).then(function (labels) {
                       var uniqueLabels = _.unionBy(labels, 'id');
+                      if (_.isArray(scope.selectedList)) {
+                        var list = _.map(scope.selectedList, function (item) {
+                          return {
+                            id: item
+                          };
+                        });
+                        uniqueLabels = _.differenceBy(uniqueLabels, list, 'id');
+                      }
                       var items = [];
                       _.map(uniqueLabels, function (item) {
                         items.push({
