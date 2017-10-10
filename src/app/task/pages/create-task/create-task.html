@@ -35,7 +35,7 @@
         <div class="task-input-wrapper ng-class:{'focus' : taskDue}">
             <input type="text" class="no-style gale-holder create-task-input" placeholder="+ Set a due time (optional)" id="task-due"
             ng-focus="taskDue = true" ng-blur="taskDue = false"
-            ng-model="ctrlTopBar.advancedSearch.date" config="{}" g-formatted-picked-date="gfdate" g-picked-date="gdate" ng-jalaali-flat-datepicker>
+            ng-model="ctrlTopBar.advancedSearch.date" datepicker-config="{allowFuture : true}" g-formatted-picked-date="gfdate" g-picked-date="gdate" ng-jalaali-flat-datepicker>
         </div>
         <label for="task-due" ng-class="{'focus' : taskDue}">
             <svg class="_16svg">
@@ -50,7 +50,7 @@
             ng-focus="taskDes = true" ng-blur="taskDes = false"
             placeholder="+ Add a Description …" id="task-description" resize-textarea></textarea>
         </div>
-      <label for="task-description" ng-class="{'focus' : taskDes}">
+        <label for="task-description" ng-class="{'focus' : taskDes}">
             <svg class="_16svg">
                  <use xlink:href="/assets/icons/nst-icn16.svg#petition"></use>
             </svg>

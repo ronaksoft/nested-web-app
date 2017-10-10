@@ -43,7 +43,7 @@
     function ngJalaaliFlatDatepickerProvider() {
         var options = {
             dateFormat: 'jYYYY/jMM/jDD',
-            gregorianDateFormat: 'YYYY-MM-DD',
+            gregorianDateFormat: 'YYYY/MM/DD',
             minDate: null,
             dropDownYears: 10,
             maxDate: null,
