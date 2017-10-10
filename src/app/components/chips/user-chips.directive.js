@@ -14,6 +14,7 @@
       restrict: 'A',
       scope: {
         userId: '=',
+        candidate: '=',
         onClear: '='
       },
       link: function (scope, element, attrs) {
