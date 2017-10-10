@@ -54,7 +54,8 @@
             getOptions: function(type) {
                 var typeOptions = type && options[type] || options;
                 return typeOptions;
-            }
+            },
+            options: options
         };
 
         this.setOptions = function(customOptions) {
@@ -84,13 +85,17 @@
             restrict: 'A',
             require: 'ngModel',
             scope: {
-                config: '=?datepickerConfig',
+                config: '=?',
                 gPickedDate: '=?gregorianPickedDate',
                 gFormattedPickedDate: '=?gregorianFormattedPickedDate',
                 isJalali: '=?isJalali'
             },
             link: function(scope, element, attrs, ngModel) {
                 var jalali = true;
+                scope.time = new Date();
+                scope.$watch('time',function (){
+                    console.log(scope.time)
+                })
                 var farsi = false;
                 if ( NstSvcI18n.selectedCalendar === "gregorian") {
                     jalali = false;
@@ -118,7 +123,9 @@
 
 
                 // Apply and init options
-                scope.config = angular.extend(ngJalaaliFDP.getOptions(), scope.config);
+                console.log(ngJalaaliFDP.options, scope.config)
+                // scope.config = _.extend(ngJalaaliFDP.getOptions(), scope.config)
+                scope.config = angular.extend(ngJalaaliFDP.options, scope.config);
                 if (angular.isDefined(scope.config.minDate)) moment.utc(scope.config.minDate).subtract(1, 'day');
                 if (angular.isDefined(scope.config.maxDate)) moment.utc(scope.config.maxDate).add(1, 'day');
                 if (!angular.isDefined(scope.config.gregorianDateFormat)) scope.config.gregorianDateFormat = scope.config.dateFormat.replace(/j/g, "");

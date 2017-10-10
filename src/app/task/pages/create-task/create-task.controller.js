@@ -11,6 +11,7 @@
       // var eventReferences = [];
       vm.showMoreOption = false
       vm.user = NstSvcAuth.user
+      vm.datePickerconfig = {allowFuture : true};
 
       vm.assigneeInput = '';
       vm.assignees = [];

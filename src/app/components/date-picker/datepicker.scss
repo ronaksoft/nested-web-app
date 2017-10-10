@@ -43,7 +43,7 @@ $default-color: $color-sense-wire;
                 align-items: center;
                 height: $header-h;
                 color: white;
-                font-size: 22px;
+                padding: 0 4px;
                 direction: ltr;
                 .ng-jalaali-flat-datepicker-header-year {
                     display: flex;
@@ -240,6 +240,7 @@ $default-color: $color-sense-wire;
                 height: $header-h;
                 color: $color-solid;
                 font-size: 13px;
+                padding: 0 4px;
                 font-weight: bold;
                 .ng-flat-datepicker-header-year {
                     display: flex;
@@ -276,7 +277,7 @@ $default-color: $color-sense-wire;
                         border-bottom: 1px solid #d8d8d8;
                         color: $font-color;
                         font-weight: bold;
-                        font-size: 13px;
+                        font-size: 11px;
                     }
                 }
                 &.days .day-item:hover{
@@ -422,6 +423,8 @@ $default-color: $color-sense-wire;
     align-items: center;
     input {
         width: 100%;
+        font-size: 13px;
+        font-weight: bold;
         margin: 0;
         border: none;
         color: $color-sense-wire;
