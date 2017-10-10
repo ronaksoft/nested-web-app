@@ -1,0 +1,47 @@
+.user-chips-wrapper {
+    max-width: 180px;
+    display: flex;
+    align-items: center;
+    flex: none;
+    margin-right: 4px;
+    padding-right: 5px;
+    height: 28px;
+    border: 1px solid #DDDFE0;
+    border-radius: 4px;
+    overflow: hidden;
+    .user-avatar-16 {
+        margin: 0 6px;
+        svg {
+            display: none;
+        }
+    }
+    span {
+        max-width: 148;
+        line-height: 28px;
+        font-size: 13px;
+        color: $color-solid;
+    }
+    &.isSelected {
+        background-color: $color-solid;
+        span {
+            color: $color-white;
+        }
+        .user-avatar-16 {
+            margin: 0 6px;
+            svg {
+                fill: $color-white;
+            }
+        }
+    }
+    &:hover {
+        .user-avatar-16 {
+            img {
+                display: none;
+            }
+            svg {
+                display: block;
+                fill: $color-force;
+            }
+        }
+    }
+}
