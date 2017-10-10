@@ -1,0 +1,18 @@
+<div class="place-chips-wrapper ng-class:{'isSelected' : isSelected, 'isEmail' : isEmail}" ng-click="selectChip();">
+  <div class="place-picture">
+    <img initial-avatar="{{place.id}}" name="{{place.name}}" picture="{{place | picture : 'x128'}}" data-width="26"
+        data-height="26" ng-if="!isEmail"
+        data-radius="6" class="_df" data-word-count="2" data-font-size="13"/>
+        <svg class="_fh _fw" ng-if="isEmail">
+            <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
+        </svg>
+  </div>
+  <span class="_txe">
+    {{place.name}}
+  </span>
+  <div class="clear">
+    <svg class="_16svg _df _fn">
+        <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
+    </svg>
+  </div>
+</div>

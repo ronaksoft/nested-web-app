@@ -71,3 +71,81 @@
         }
     }
 }
+.place-chips-wrapper {
+    max-width: 240px;
+    display: flex;
+    align-items: center;
+    flex: none;
+    margin-right: 4px;
+    padding-right: 6px;
+    height: 28px;
+    border: 1px solid #DDDFE0;
+    border-radius: 4px;
+    overflow: hidden;
+    border-style: solid;
+    border-width: 1px;
+    border-color: transparent;
+    box-shadow: 0 2px 4px $color-breeze-new;
+    .place-picture {
+        img {
+            border-radius: 4px 0 0 4px;
+            width: 26px;
+            height: 26px;
+        }
+    }
+    span {
+        max-width: 182px;
+        line-height: 26px;
+        font-size: 14px;
+        margin: 0 4px;
+        color: $color-solid;
+    }
+    .clear {
+        svg {
+            fill: $color-solid;
+            opacity: .4;
+        }
+    }
+    &.isSelected {
+        background-color: $color-solid;
+        border-color: $color-solid;
+        span {
+            color: $color-white;
+        }
+        .clear {
+            svg {
+                fill: $color-white;
+            }
+        }
+        &:hover {
+            .clear {
+                svg {
+                    fill: $color-white;
+                    opacity: 1;
+                }
+            }
+        }
+    }
+    &.isEmail {
+        border-radius: 14px;
+        .place-picture {
+            margin-left: 3px;
+            width: 22px;
+            height: 22px;
+            img {
+                border-radius: 14px;
+                width: 22px;
+                height: 22px;
+            }
+        }
+    }
+    &:hover {
+        border-color: #ACB0B4;
+        .clear {
+            svg {
+                fill: $color-force;
+                opacity: 1;
+            }
+        }
+    }
+}
