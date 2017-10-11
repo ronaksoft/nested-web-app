@@ -1,0 +1,43 @@
+.files-menu {
+    background-color: $color-white;
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+    align-items: center;
+    label {
+        margin-bottom: 0;
+    }
+    &.select {
+        padding: 0 8px;
+        > * {
+            height: 112px;
+            width: 33.3%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: $color-solid;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: bold;
+        }
+        svg {
+            margin-bottom: 14px;
+        }
+        .row-icons {
+            svg {
+                margin: 2px 4px 16px 4px;
+            }
+        }
+    }
+    &.attach {
+        padding: 0 16px;
+        height: 64px;
+        .butn-green {
+            height: 40px;
+            line-height: 40px;
+            width: 100%;
+            cursor: pointer;
+        }
+    }
+}

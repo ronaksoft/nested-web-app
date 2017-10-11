@@ -66,10 +66,10 @@
     <div class="task-todo auto-height-item">
       <div class="_difv _fw">
         <h3>To-Do list</h3>
-        <ul class="todo-list">
+        <ul class="todo-list ng-class:{'focus' : tasktodo}">
           <li ng-init="isChecked = true">
             <input class="_fr" type="checkbox" id="todo1" ng-model="isChecked"/>
-            <label class="_fw todo task-input-wrapper ng-class:{'focus' : tasktodo}" for="todo1">
+            <label class="_fw todo task-input-wrapper" for="todo1">
                 <svg class="_16svg _df" ng-if="!isChecked">
                     <use xlink:href="/assets/icons/nst-icn16.svg#todo-undone"></use>
                 </svg>
@@ -83,7 +83,7 @@
           </li>
           <li ng-init="isCheckeds = false">
             <input class="_fr" type="checkbox" id="todo2" ng-model="isCheckeds"/>
-            <label class="_fw todo task-input-wrapper ng-class:{'focus' : tasktodos}" for="todo2">
+            <label class="_fw todo task-input-wrapper" for="todo2">
                 <svg class="_16svg _df" ng-if="!isCheckeds">
                     <use xlink:href="/assets/icons/nst-icn16.svg#todo-undone"></use>
                 </svg>
@@ -99,7 +99,7 @@
       </div>
       <label ng-class="{'focus' : tasktodo}">
             <svg class="_16svg">
-                <use xlink:href="/assets/icons/nst-icn16.svg#finish-flag"></use>
+                <use xlink:href="/assets/icons/nst-icn16.svg#bullet-list"></use>
             </svg>
         </label>
     </div>
@@ -107,12 +107,16 @@
         <div class="_difv _fw">
             <h3>Attachments</h3>
             <ul class="task-attachments-list">
-                <li class="attachment-plus">
+                <li class="attachment-plus" data-popover-class="white-pop" data-popover-append-to-body="false" uib-popover-template="'app/task/common/popovers/attachment-popover.html'"
+                data-popover-trigger="focus" data-popover-placement="auto bottom-{{$root._direction === 'rtl' ? 'left' : 'right'}}">
                     <svg class="_16svg">
                         <use xlink:href="/assets/icons/nst-icn16.svg#cross"></use>
                     </svg>
                 </li>
             </ul>
+            <!-- Make unique id -->
+            <input id="upload-files" type="file" multiple on-file-change="ctrl.fileSelected"/>
+            <input id="upload-media" type="file" multiple on-file-change="ctrl.mediaSelected"/>
         </div>
         <label>
             <svg class="_16svg">

@@ -222,27 +222,27 @@ label.todo  {
   font-size: $font-size-small;
 }
 
-input[type="checkbox"]:disabled + label.setting {
-  background-position-x: right;
-  background-position-y: -48px;
+// input[type="checkbox"]:disabled + label.setting {
+//   background-position-x: right;
+//   background-position-y: -48px;
+// }
+
+// input[type="checkbox"]:hover + label.setting {
+//   background-position-x: right;
+//   background-position-y: -80px;
+// }
+
+input[type="checkbox"]:checked + label.todo {
+  text-decoration: line-through;
+  color: $color-gale;
 }
 
-input[type="checkbox"]:hover + label.setting {
-  background-position-x: right;
-  background-position-y: -80px;
-}
+// input[type="checkbox"]:checked:disabled + label.setting {
+//   background-position-x: right;
+//   background-position-y: 0;
+// }
 
-input[type="checkbox"]:checked + label.setting {
-  background-position-x: right;
-  background-position-y: -16px;
-}
-
-input[type="checkbox"]:checked:disabled + label.setting {
-  background-position-x: right;
-  background-position-y: 0;
-}
-
-input[type="checkbox"]:checked:hover + label.setting {
+input[type="checkbox"]:checked:hover + label.todo {
   background-position-x: right;
   background-position-y: -32px;
 }

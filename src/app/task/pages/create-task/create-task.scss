@@ -188,11 +188,15 @@
     .task-todo {
         &:hover {
             .task-input-wrapper {
-                border-bottom: none!important;
+                border-bottom: 1px solid transparent!important;
+            }
+            ul {
+                border-bottom: 1px solid $color-gale!important;
             }
         }
-        li:hover {
-            .task-input-wrapper {
+        ul {
+            border-bottom: 1px solid transparent!important;
+            &.focus {
                 border-bottom: 1px solid $color-gale!important;
             }
         }
@@ -223,6 +227,9 @@
     .todo-list {
         list-style: none;
         padding: 6px 0;
+        label {
+            max-width: calc(100% - 8px;)
+        }
         li {
              margin: 8px 0;
         }

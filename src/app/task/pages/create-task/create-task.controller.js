@@ -20,7 +20,27 @@
       vm.assigneeIcon = 'no-assignee';
       vm.assigneeKeyDown = assigneeKeyDown;
       vm.removeAssigneeChip = removeAssigneeChip;
-
+      vm.placeFiles = placeFiles;
+      
+      /**
+       * Opens the placeFiles modal
+       * Pass the `addToCompose` function to the new modal
+       */
+      function placeFiles() {
+        $uibModal.open({
+          animation: false,
+          // backdropClass: 'comdrop',
+          size: 'sm',
+          templateUrl: 'app/pages/compose/partials/place-files-modal.html',
+          controller: 'placeFilesModalController',
+          controllerAs: 'ctrl',
+          resolve: {
+            uploadfiles: function () {
+              return // add function;
+            }
+          }
+        });
+      }
       function assigneeKeyDown(event) {
         if (event.keyCode === 13) {
           _.forEach(parseMentionData(vm.assigneeInput), function (item) {
