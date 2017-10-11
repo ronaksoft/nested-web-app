@@ -32,8 +32,35 @@
       size: {
         uploaded: 0,
         total: 0
-      }
-    };
+        }      
+      };
+      vm.assignees = [];
+      vm.assigneesData = [];
+      vm.assigneeIcon = 'no-assignee';
+      vm.assigneeKeyDown = assigneeKeyDown;
+      vm.removeAssigneeChip = removeAssigneeChip;
+      vm.placeFiles = placeFiles;
+
+      vm.dueDate = new Date("July 21, 1983 01:15:00");
+
+      /**
+       * Opens the placeFiles modal
+       * Pass the `addToCompose` function to the new modal
+       */
+      function placeFiles() {
+        $uibModal.open({
+          animation: false,
+          // backdropClass: 'comdrop',
+          size: 'sm',
+          templateUrl: 'app/pages/compose/partials/place-files-modal.html',
+          controller: 'placeFilesModalController',
+          controllerAs: 'ctrl',
+          resolve: {
+            uploadfiles: function () {
+              return // add function;
+            }
+          }
+        });
     vm.assignees = [];
     vm.assigneesData = [];
     vm.assigneeIcon = 'no-assignee';
@@ -156,8 +183,8 @@
 
     function assigneeKeyDown(event) {
       if (event.keyCode === 13) {
-        _.forEach(parseMentionData(vm.assigneeInput), function (item) {
-          vm.assignees.push(item);
+        $q.all(promises).then(function (lists) {
+          vm.assigneesData = lists;
         });
         vm.assignees = _.uniq(vm.assignees);
         getAssigneesData(vm.assignees);
