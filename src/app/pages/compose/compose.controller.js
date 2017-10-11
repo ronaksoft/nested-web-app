@@ -223,13 +223,13 @@
 
         NstSvcLogger.debug4('Compose | compose is in modal');
         eventReferences.push($scope.$on('modal.closing', function (event) {
-          setTimeout(function (){
-            $('body').removeClass("active-compose");
-          },64);
-          
-          $('html').removeClass("_oh");
 
           if (vm.ultimateSaveDraft) {
+            setTimeout(function (){
+              $('body').removeClass("active-compose");
+            },64);
+            
+            $('html').removeClass("_oh");
             saveDraft();
             vm.finish = true;
           } else if(shouldSaveDraft() && !vm.finish) {
@@ -260,6 +260,12 @@
               $uibModalStack.dismissAll();
             });
 
+          } else {
+            setTimeout(function (){
+              $('body').removeClass("active-compose");
+            },64);
+            
+            $('html').removeClass("_oh");
           }
         }));
 
