@@ -107,8 +107,8 @@
         <div class="_difv _fw">
             <h3>Attachments</h3>
             <ul class="task-attachments-list">
-                <li class="attachment-plus" data-popover-class="white-pop" data-popover-append-to-body="false" uib-popover-template="'app/task/common/popovers/attachment-popover.html'"
-                data-popover-trigger="focus" data-popover-placement="auto bottom-{{$root._direction === 'rtl' ? 'left' : 'right'}}">
+                <li class="attachment-plus" data-popover-class="files-menu-popover" data-popover-append-to-body="false" uib-popover-template="'app/task/common/popovers/add-attachment-popover.html'"
+                data-popover-trigger="focus" data-popover-placement="auto {{$root._direction === 'rtl' ? 'left' : 'right'}}">
                     <svg class="_16svg">
                         <use xlink:href="/assets/icons/nst-icn16.svg#cross"></use>
                     </svg>
