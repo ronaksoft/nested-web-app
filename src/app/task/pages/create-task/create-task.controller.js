@@ -32,35 +32,36 @@
       size: {
         uploaded: 0,
         total: 0
-        }      
-      };
-      vm.assignees = [];
-      vm.assigneesData = [];
-      vm.assigneeIcon = 'no-assignee';
-      vm.assigneeKeyDown = assigneeKeyDown;
-      vm.removeAssigneeChip = removeAssigneeChip;
-      vm.placeFiles = placeFiles;
+      }
+    };
+    vm.assignees = [];
+    vm.assigneesData = [];
+    vm.assigneeIcon = 'no-assignee';
+    vm.assigneeKeyDown = assigneeKeyDown;
+    vm.removeAssigneeChip = removeAssigneeChip;
+    vm.placeFiles = placeFiles;
 
-      vm.dueDate = new Date("July 21, 1983 01:15:00");
+    vm.dueDate = new Date("July 21, 1983 01:15:00");
 
-      /**
-       * Opens the placeFiles modal
-       * Pass the `addToCompose` function to the new modal
-       */
-      function placeFiles() {
-        $uibModal.open({
-          animation: false,
-          // backdropClass: 'comdrop',
-          size: 'sm',
-          templateUrl: 'app/pages/compose/partials/place-files-modal.html',
-          controller: 'placeFilesModalController',
-          controllerAs: 'ctrl',
-          resolve: {
-            uploadfiles: function () {
-              return // add function;
-            }
+    /**
+     * Opens the placeFiles modal
+     * Pass the `addToCompose` function to the new modal
+     */
+    function placeFiles() {
+      $uibModal.open({
+        animation: false,
+        // backdropClass: 'comdrop',
+        size: 'sm',
+        templateUrl: 'app/pages/compose/partials/place-files-modal.html',
+        controller: 'placeFilesModalController',
+        controllerAs: 'ctrl',
+        resolve: {
+          uploadfiles: function () {
+            return // add function;
           }
-        });
+        }
+      });
+    }
     vm.assignees = [];
     vm.assigneesData = [];
     vm.assigneeIcon = 'no-assignee';
@@ -128,8 +129,7 @@
       }
 
       for (var i = 0; i < files.length; i++) {
-        vm.attachments.attach(files[i], type).then(function () {
-        });
+        vm.attachments.attach(files[i], type).then(function () {});
       }
       event.currentTarget.value = "";
     });
@@ -303,14 +303,16 @@
 
       return deferred.promise;
     };
-    
+
     /**
      * Detach the attachment of post or stop uploading it
      * @param {object} vmAttachment
      */
     vm.attachments.detach = function (vmAttachment) {
       var id = vmAttachment.id;
-      var attachment = _.find(vm.model.attachments, {id: id});
+      var attachment = _.find(vm.model.attachments, {
+        id: id
+      });
       $log.debug('Compose | Attachment Delete: ', id, attachment);
 
       if (attachment && attachment.length !== 0) {
@@ -332,7 +334,7 @@
       }
 
     };
-    
+
     /**
      * Delete attachment or cancel on uploading files
      * @param {any} attachment
@@ -365,11 +367,11 @@
       var dt = event.dataTransfer;
       var files = dt.files;
       for (var i = 0; i < files.length; i++) {
-        vm.attachments.attach(files[i]).then(function () {
-        });
+        vm.attachments.attach(files[i]).then(function () {});
       }
 
     };
+
     function getAssigneesData(assignees) {
       var promises;
       promises = _.map(assignees, function (item) {
@@ -402,9 +404,10 @@
       NstSvcSystemConstants.get().then(function (result) {
         systemConstants = result;
       }).catch(function () {
-          vm.targetLimit = 10;
-        });
+        vm.targetLimit = 10;
+      });
     })();
+
     function getAssigneeIcon(data) {
       if (data.length === 0) {
         vm.assigneeIcon = 'no-assignee';
