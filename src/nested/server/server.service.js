@@ -277,6 +277,63 @@
       return deferred.promise;
     };
 
+    function parseConfigFromRemote(data) {
+      var values = data.values;
+      var cyrus = [];
+      var xerxes = [];
+      var admin = [];
+      _.forEach(values, function (configs) {
+        var config = configs.split(';');
+        _.forEach(config, function (item) {
+          if (_.startsWith(item, 'cyrus')) {
+            cyrus.push(item);
+          } else if (_.startsWith(item, 'xerxes')) {
+            xerxes.push(item);
+          } if (_.startsWith(item, 'admin')) {
+            admin.push(item);
+          }
+        });
+      });
+      var cyrusHttpUrl = '';
+      var cyrusWsUrl = '';
+      var xerxesUrl;
+      var adminUrl = '';
+      var config = {};
+      _.forEach(cyrus, function (item) {
+        config = parseConfigData(item);
+        if (config.protocol === 'http' || config.protocol === 'https') {
+          cyrusHttpUrl = getCompleteUrl(config);
+        } else if (config.protocol === 'ws' || config.protocol === 'wss') {
+          cyrusWsUrl = getCompleteUrl(config);
+        }
+      });
+      xerxesUrl = getCompleteUrl(parseConfigData(xerxes[0]));
+      if (admin.length > 0) {
+        adminUrl = getCompleteUrl(parseConfigData(admin[0]));
+      }
+
+      return {
+        websocket: cyrusWsUrl,
+        register: cyrusHttpUrl,
+        store: xerxesUrl,
+        admin: adminUrl
+      }
+    }
+
+    function parseConfigData(data) {
+      var items = data.split(':');
+      return {
+        name: items[0],
+        protocol: items[1],
+        port: items[2],
+        url: items[3]
+      };
+    }
+
+    function getCompleteUrl(config) {
+      return config.protocol + '://' + config.url + '/' + config.port;
+    }
+
     Server.prototype.constructor = Server;
 
     Server.prototype.request = function (action, data, timeout) {
@@ -484,6 +541,7 @@
     function loadConfigFromRemote(domainName) {
       NST_CONFIG.DOMAIN = domainName;
       var ajax = new NstHttp(location.protocol + "//" + location.host + '/getConfig/' + domainName);
+      // var ajax = new NstHttp('https://npc.nested.me/dns/discovery/' + domainName + 'ferfer');
       return ajax.get();
     }
 
