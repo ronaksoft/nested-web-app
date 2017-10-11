@@ -20,8 +20,11 @@
 
     PostDraft.prototype.has = function () {
       if (this.hasDraft === null) {
-
         var draft = this.cache.get(this.key);
+        if (draft === null) {
+          this.hasDraft = false;
+          return this.hasDraft;
+        }
         this.hasDraft = _.isObject(draft);
       }
 
@@ -38,6 +41,10 @@
 
     PostDraft.prototype.get = function () {
       return this.cache.get(this.key);
+    };
+
+    PostDraft.prototype.reset = function () {
+      this.hasDraft = null;
     };
 
     return new PostDraft();
