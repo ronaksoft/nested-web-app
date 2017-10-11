@@ -34,6 +34,25 @@
       limit: 16
     };
     load();
+    /**
+     * Opens the placeFiles modal
+     * Pass the `addToCompose` function to the new modal
+     */
+    function placeFiles() {
+      $uibModal.open({
+        animation: false,
+        // backdropClass: 'comdrop',
+        size: 'sm',
+        templateUrl: 'app/pages/compose/partials/place-files-modal.html',
+        controller: 'placeFilesModalController',
+        controllerAs: 'ctrl',
+        resolve: {
+          uploadfiles: function () {
+            return $scope.$parent.$parent.ctlCompose.addUploadedAttachs;
+          }
+        }
+      });
+    }
 
     /**
      * @function

@@ -552,3 +552,25 @@ input[type="checkbox"].inpsw[disabled]:checked + label + label  {
     transition: all $animation-dur;
   }
 }
+
+
+.attachment-plus {
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  border: 1px solid $color-breeze-new;
+  background-color: $color-white;
+  @include align-center();
+  svg {
+    transition: transform $animation-dur;
+  }
+  &:hover {
+    background-color: $color-breeze-new;
+    border: 1px solid transparent;
+
+  }
+  &.active {
+    background-color: $color-wind-new;
+    border: 1px solid transparent;
+  }
+}

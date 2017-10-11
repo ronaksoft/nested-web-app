@@ -1,4 +1,5 @@
-<i ng-click="goLeft();$event.stopPropagation()" ng-class="{'_opz' : !overFlowLeft}">
+<i ng-click="goLeft();$event.stopPropagation()" ng-class="{'_opz' : !overFlowLeft}"
+  ng-if="internalMode == 'thumbnail'">
   <svg>
     <use xlink:href="/assets/icons/nst-icn24.svg#arrow-up"></use>
   </svg>
@@ -23,7 +24,27 @@
   </li>
 </ul>
 
-<i ng-click="goRight();$event.stopPropagation()" ng-class="{'_opz' : !overFlowRight}">
+<ul ng-if="internalMode == 'badge'" class="badge-bar">
+  <li ng-repeat="item in items" ng-class="item.isUploaded ? '_df' : '_df uploading'">
+    <a href="javascript:void(0);" ng-click="onClick(item)">
+      <img width="32" class="attach-badge-img" alt="" ng-src="{{item.thumbnail}}" height="32" />
+      <div class="attach-badge {{'attach-thumbnail-' + item.type}}">
+        <span class="_txe">{{item.name}}</span>
+      </div>
+    </a>
+    <a href="javascript:void(0);" ng-click="onDelete(item)" class="attdl del">
+      <svg class="_16svg">
+        <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
+      </svg>
+    </a>
+    <div class="uploadprogress" ng-if="!item.isUploaded">
+      <div ng-progressbar="{{item.uploadedRatio}}" progressbar-mode="Line"></div>
+    </div>
+  </li>
+</ul>
+
+<i ng-click="goRight();$event.stopPropagation()" ng-class="{'_opz' : !overFlowRight}"
+  ng-if="internalMode == 'thumbnail'">
   <svg>
     <use xlink:href="/assets/icons/nst-icn24.svg#arrow"></use>
   </svg>
