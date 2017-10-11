@@ -35,7 +35,6 @@
           }
 
           function appendMention(element, key) {
-            console.log(arguments)
 
             var template =
               "<li data-id='${id}' class='_difv'>" +
