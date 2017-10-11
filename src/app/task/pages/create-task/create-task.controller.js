@@ -9,8 +9,8 @@
     function createTaskController($q, $scope, $state, $stateParams, $uibModal, $rootScope, NstSvcUserFactory, NstSvcAuth, _) {
       var vm = this;
       // var eventReferences = [];
-      vm.showMoreOption = false
-      vm.user = NstSvcAuth.user
+      vm.showMoreOption = false;
+      vm.user = NstSvcAuth.user;
       vm.datePickerconfig = {allowFuture : true};
 
       vm.assigneeFocus = false;
@@ -21,7 +21,9 @@
       vm.assigneeKeyDown = assigneeKeyDown;
       vm.removeAssigneeChip = removeAssigneeChip;
       vm.placeFiles = placeFiles;
-      
+
+      vm.dueDate = new Date("July 21, 1983 01:15:00");
+
       /**
        * Opens the placeFiles modal
        * Pass the `addToCompose` function to the new modal
@@ -59,7 +61,6 @@
         });
         $q.all(promises).then(function (lists) {
           vm.assigneesData = lists;
-          console.log(lists);
         });
       }
 

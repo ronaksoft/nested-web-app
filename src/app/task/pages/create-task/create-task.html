@@ -42,7 +42,7 @@
         <div class="task-input-wrapper ng-class:{'focus' : taskDue}">
             <input type="text" class="no-style gale-holder create-task-input" placeholder="+ Set a due time (optional)" id="task-due"
             ng-focus="taskDue = true" ng-blur="taskDue = false"
-            ng-model="ctrlTopBar.advancedSearch.date" data-config="ctrl.datePickerconfig" g-formatted-picked-date="gfdate" g-picked-date="gdate" ng-jalaali-flat-datepicker>
+            ng-model="ctrl.dueDate" data-config="ctrl.datePickerconfig" g-formatted-picked-date="gfdate" g-picked-date="gdate" ng-jalaali-flat-datepicker>
         </div>
         <label for="task-due" ng-class="{'focus' : taskDue}">
             <svg class="_16svg">
