@@ -5,7 +5,7 @@
     .module('ronak.nested.web.components.attachment')
     .directive('nstAttachmentsEditableBar', AttachmentsEditableBar);
 
-  function AttachmentsEditableBar(NST_ATTACHMENTS_EDITABLE_BAR_MODE, $timeout, $interval, _, $) {
+  function AttachmentsEditableBar(NST_ATTACHMENTS_EDITABLE_BAR_MODE, $timeout, $interval, _, $, NST_FILE_TYPE) {
     return {
       restrict: 'E',
       templateUrl: 'app/components/attachments/editable/main.html',
@@ -17,6 +17,7 @@
       },
       link: function (scope, ele, attributes) {
         scope.overFlowLeft = scope.overFlowRight = false;
+        scope.getThumbnail = getThumbnail;
         scope.internalMode = NST_ATTACHMENTS_EDITABLE_BAR_MODE.AUTO;
         scope.scrollWrp = ele.children().next();
         var borderLeftArray=[],borderRightArray=[];
@@ -42,6 +43,44 @@
 
 
         }, 1000);
+
+        function getThumbnail(item, size) {
+          if(item.thumbnail && item.thumbnail.length > 0) {
+            return item.thumbnail
+          } else {
+            if (item.type ===  NST_FILE_TYPE.AUDIO || item.type ===  NST_FILE_TYPE.VIDEO) {
+              if (size){
+                return '/assets/icons/ph_small_attachment_media@2x.png';
+              } else {
+                return '/assets/icons/ph_small_attachment_media.png';
+              }
+            } else if(item.type ===  NST_FILE_TYPE.ARCHIVE) {
+              if (size){
+                return '/assets/icons/ph_small_attachment_zip@2x.png';
+              } else {
+                return '/assets/icons/ph_small_attachment_zip.png';
+              }
+            } else if(item.type ===  NST_FILE_TYPE.DOCUMENT) {
+              if (size){
+                return '/assets/icons/ph_small_attachment_document@2x.png';
+              } else {
+                return '/assets/icons/ph_small_attachment_document.png';
+              }
+            } else if(item.type ===  NST_FILE_TYPE.PDF) {
+              if (size){
+                return '/assets/icons/ph_small_attachment_pdf@2x.png';
+              } else {
+                return '/assets/icons/ph_small_attachment_pdf.png';
+              }
+            } else {
+              if (size){
+                return '/assets/icons/ph_small_attachment_other@2x.png';
+              } else {
+                return '/assets/icons/ph_small_attachment_other.png';
+              }
+            }
+          }
+        }
 
         if (scope.internalMode === NST_ATTACHMENTS_EDITABLE_BAR_MODE.AUTO) {
           if (_.some(scope.items, 'hasThumbnail')) {

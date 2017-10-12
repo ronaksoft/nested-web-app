@@ -193,6 +193,44 @@ nst-attachments-preview-bar {
         a:not(.attdl) {
           background-color: $color-white;
           border: 1px solid rgba(0, 121, 242 , .4);
+          box-shadow: 0 2px 4px rgba(0, 121, 242 , .16);
+        }
+      }
+      &.failed {
+        a:not(.attdl) {
+          background-color: $color-white;
+          border: 1px solid rgba(255, 51, 68, .4);
+          box-shadow: 0 2px 4px rgba(255, 51, 68, .16);
+          span {
+            color: $color-force
+          }
+          svg {
+            margin: 0 8px 0 12px
+          }
+          svg:first-of-type {
+            display: block
+          }
+          svg:last-of-type {
+            display: none
+          }
+        }
+        .attdl.del {
+          display: none;
+        }
+        &:hover {
+          a:not(.attdl) {
+            svg:first-of-type {
+              display: none
+            }
+            svg:last-of-type {
+              display: block
+            }
+          }
+          .failedprogress {
+            div {
+              opacity: 0;
+            }
+          }
         }
       }
       a:not(.attdl) {
@@ -202,6 +240,7 @@ nst-attachments-preview-bar {
         border: 1px solid #DDDFE0;
         background-color: #F6F6F7;
         display: flex;
+        box-shadow: 0 2px 4px $color-breeze;
         align-items: center;
         img {
           z-index: 2;
@@ -260,6 +299,24 @@ nst-attachments-preview-bar {
           animation-iteration-count: infinite;
         }
       }
+      .failedprogress {
+        z-index: 1;
+        opacity: .16;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        div {
+          background: url('../assets/icons/progress-bg-red.svg') repeat;
+          position: absolute;
+          right: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+        }
+      }
       &:hover {
         .attdl.del {
           opacity: 1;
@@ -275,74 +332,6 @@ nst-attachments-preview-bar {
     .tooltip .tooltip-arrow {
       border-top-color: $color-bg-pending;
       border-bottom-color: $color-bg-pending;
-    }
-    a.attach-badge-default {
-      .badge-extension {
-        display: inline-block;
-        line-height: 24px;
-        font-size: $font-size-xxsmall;
-        font-weight: bold;
-        border-radius: $border-radius-small 0 0 $border-radius-small;
-        color: $color-white;
-        background-color: $color-attachments-other;
-        padding: 0 4px;
-        min-width: 16px;
-        max-width: 48px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-      .badge-name {
-        display: inline-block;
-        line-height: 24px;
-        font-size: $font-size-xsmall;
-        min-width: 16px;
-        max-width: 172px;
-        border-radius: 0 6px 6px 0;
-        background-color: $color-breeze-50;
-        color: $color-solid;
-        padding: 0 6px;
-        margin-left: -3px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-    }
-    a.attach-badge-default:hover {
-      color: $color-white;
-      text-decoration: none;
-    }
-    .attach-badge-image {
-      .badge-extension {
-        background-color: $color-attachments-media !important;
-      }
-    }
-    .attach-badge-archive {
-      .badge-extension {
-        background-color: $color-attachments-zip !important;
-      }
-    }
-    .attach-badge-document {
-      .badge-extension {
-        background-color: $color-attachments-document !important;
-      }
-    }
-    .attach-badge-audio {
-      .badge-extension {
-        background-color: $color-attachments-media !important;
-      }
-    }
-    .attach-badge-video {
-      .badge-extension {
-        background-color: $color-attachments-media !important;
-      }
-    }
-    .attach-badge-pdf {
-      .badge-extension {
-        background-color: $color-attachments-pdf !important;
-      }
-    }
-    .attach-badge-other {
     }
   }
   div.two-img {

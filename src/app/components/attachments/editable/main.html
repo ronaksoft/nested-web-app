@@ -25,12 +25,20 @@
 </ul>
 
 <ul ng-if="internalMode == 'badge'" class="badge-bar">
-  <li ng-repeat="item in items" ng-class="item.isUploaded ? '_df' : '_df uploading'"  data-uib-tooltip="{{'Uploading: ' + item.uploadedRatio * 100 + '%'}}" data-tooltip-placement="top-center auto"
+  <li ng-repeat="item in items" ng-class="{'uploading' : item.isUploaded,'failed' : item.isFailed}" data-uib-tooltip="{{'Uploading: ' + (item.uploadedRatio * 100).toString().substr(0, 3) + '%'}}" data-tooltip-placement="top-center auto"
   data-tooltip-append-to-body="false" data-tooltip-enable="!item.isUploaded" data-tooltip-is-open="true">
     <a href="javascript:void(0);" ng-click="onClick(item)">
-      <img width="32" class="attach-badge-img" alt="" ng-src="{{item.thumbnail}}" height="32" />
-      <div class="attach-badge {{'attach-thumbnail-' + item.type}}">
-        <span class="_txe">{{item.name}}</span>
+      <img width="32" class="attach-badge-img" alt="" ng-src="{{item.thumbnail}}" height="32" ng-if="!item.isFailed && (item.type === 'image' || item.type === 'gif')"/>
+      <img width="32" class="attach-badge-img" alt="" ng-src="{{getThumbnail(item)}}"
+        ng-srcset="{{getThumbnail(item, '@2x')}}" height="32" ng-if="!item.isFailed && item.type !== 'image' && item.type !== 'gif'"/>
+      <svg class="_16svg" ng-if="item.isFailed">
+        <use xlink:href="/assets/icons/nst-icn16.svg#bin"></use>
+      </svg>
+      <svg class="_16svg" ng-if="item.isFailed">
+        <use xlink:href="/assets/icons/nst-icn16.svg#attach"></use>
+      </svg>
+      <div class="attach-badge">
+        <span class="_txe">{{item.name + '.' + item.extension | lowercase}}</span>
       </div>
     </a>
     <a href="javascript:void(0);" ng-click="onDelete(item)" class="attdl del">
@@ -39,6 +47,9 @@
       </svg>
     </a>
     <div class="uploadprogress" ng-if="!item.isUploaded" style="width: {{100 - (100 * item.uploadedRatio)}}%">
+      <div class="div"></div>
+    </div>
+    <div class="failedprogress" ng-if="item.isFailed">
       <div class="div"></div>
     </div>
   </li>
