@@ -219,7 +219,7 @@
 
         location.href = item.downloadUrl;
       }).catch(function () {
-        toastr.error('Sorry, An error has occured while trying to load the file');
+        toastr.error(NstSvcTranslation.get('Sorry, An error has occured while trying to load the file'));
       });
     }
 
@@ -235,7 +235,7 @@
 
         window.open(item.viewUrl, '_target');
       }).catch(function () {
-        toastr.error('Sorry, An error has occured while trying to load the file');
+        toastr.error(NstSvcTranslation.get('Sorry, An error has occured while trying to load the file'));
       });
     }
   }
