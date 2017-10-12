@@ -28,8 +28,11 @@
 }
 #compose-full {
   margin: 0 16px;
-  use:last-child {
+  &.collapse {
     display: none;
+  }
+  &.expand {
+    display: block;
   }
 }
 .ui-select-bootstrap {

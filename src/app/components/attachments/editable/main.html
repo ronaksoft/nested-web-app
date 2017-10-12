@@ -37,8 +37,8 @@
         <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
       </svg>
     </a>
-    <div class="uploadprogress" ng-if="!item.isUploaded">
-      <div ng-progressbar="{{item.uploadedRatio}}" progressbar-mode="Line"></div>
+    <div class="uploadprogress" ng-if="!item.isUploaded" style="width: {{100 - (100 * item.uploadedRatio)}}%">
+      <div class="div"></div>
     </div>
   </li>
 </ul>

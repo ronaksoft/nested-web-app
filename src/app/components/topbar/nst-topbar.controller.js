@@ -10,7 +10,7 @@
                               $rootScope, NST_SEARCH_QUERY_PREFIX, _, NstSvcTranslation,
                               NstSvcSuggestionFactory, NstSvcLabelFactory, NstSvcI18n,
                               NstSvcUserFactory, NstSvcNotificationFactory, NST_USER_SEARCH_AREA,
-                              NstSvcPlaceFactory, NstSearchQuery, NST_CONFIG, NST_USER_EVENT) {
+                              NstSvcPlaceFactory, NstSearchQuery, NST_CONFIG, NST_USER_EVENT, NST_NOTIFICATION_EVENT) {
       var searchPrefixLocale = [];
       if (NstSvcI18n.selectedLocale === 'en-US') {
         searchPrefixLocale.user = NST_SEARCH_QUERY_PREFIX.NEW_USER;
@@ -719,6 +719,10 @@
 
       eventReferences.push($rootScope.$on('topbar-notification-changed', function () {
         loadNotificationsCount();
+      }));
+
+      eventReferences.push($rootScope.$on(NST_NOTIFICATION_EVENT.UPDATE, function (e, data) {
+        vm.notificationsCount = data.count;
       }));
 
       eventReferences.push($rootScope.$on(NST_USER_EVENT.PROFILE_UPDATED, function () {
