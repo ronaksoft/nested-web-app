@@ -106,13 +106,15 @@
     <div class="task-attachment auto-height-item">
         <div class="_difv _fw">
             <h3>Attachments</h3>
-            <nst-attachments-editable-bar mode="badge" items="ctrl.attachments.viewModels" on-item-delete="ctrl.detach"></nst-attachments-editable-bar>            
-            <a class="attachment-plus ng-class:{'active' : openPopover}" ng-init="openPopover = false" ng-click="openPopover =! openPopover" data-popover-class="files-menu-popover" data-popover-append-to-body="false" uib-popover-template="'app/task/common/popovers/add-attachment-popover.html'"
-            data-popover-trigger="focus" data-popover-placement="auto {{$root._direction === 'rtl' ? 'left' : 'right'}}" data-popover-is-open="openPopover">
-                <svg class="_16svg ng-class:{'_r45' : openPopover}">
-                    <use xlink:href="/assets/icons/nst-icn16.svg#cross"></use>
-                </svg>
-            </a>
+            <div class="attachments-badge-wrapper">
+                <nst-attachments-editable-bar mode="badge" items="ctrl.attachments.viewModels" on-item-delete="ctrl.detach"></nst-attachments-editable-bar>            
+                <a class="attachment-plus ng-class:{'active' : openPopover}" ng-init="openPopover = false" ng-click="openPopover =! openPopover" data-popover-class="files-menu-popover" data-popover-append-to-body="false" uib-popover-template="'app/task/common/popovers/add-attachment-popover.html'"
+                data-popover-trigger="focus" data-popover-placement="auto {{$root._direction === 'rtl' ? 'left' : 'right'}}" data-popover-is-open="openPopover">
+                    <svg class="_16svg ng-class:{'_r45' : openPopover}">
+                        <use xlink:href="/assets/icons/nst-icn16.svg#cross"></use>
+                    </svg>
+                </a>
+            </div>
             <!-- Make unique id -->
             <input id="upload-files" type="file" multiple on-file-change="ctrl.attachments.fileSelected"/>
             <input id="upload-media" type="file" multiple on-file-change="ctrl.attachments.mediaSelected"/>

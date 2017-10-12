@@ -262,7 +262,9 @@
         var request = NstSvcStore.uploadWithProgress(file, function (event) {
           if (event.lengthComputable) {
             vmAttachment.uploadedSize = event.loaded;
-            vmAttachment.uploadedRatio = Number(event.loaded / event.total).toFixed(4);
+            $scope.$apply(function (){
+              vmAttachment.uploadedRatio = Number(event.loaded / event.total).toFixed(2);
+            })
           }
         }, group, NstSvcAuth.lastSessionKey);
 

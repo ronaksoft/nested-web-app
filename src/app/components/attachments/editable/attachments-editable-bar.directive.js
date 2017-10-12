@@ -26,37 +26,38 @@
           scope.internalMode = attributes.mode;
         }
 
-        scope.$watch(function () {
-          return scope.items.length;
-        },function () {
-          $timeout(function() {
-            checkImageRatio();
-          },300);
-
-          $timeout(function () {
-            checkScroll(scope.scrollWrp[0]);
-            checkArrays(scope.scrollWrp[0]);
-          },1000);
-        });
 
         $timeout(function () {
-          scope.scrollWrp = ele.children().next();
           // var leftArrow = ele.children().first();
           // var rightArrow = ele.children().next().next();
-
-          checkScroll(scope.scrollWrp[0]);
-          checkArrays(scope.scrollWrp[0]);
-
-          scope.scrollWrp.scroll(function () {
+          if (scope.internalMode === NST_ATTACHMENTS_EDITABLE_BAR_MODE.THUMBNAIL) {
+            scope.scrollWrp = ele.children().next();
             checkScroll(scope.scrollWrp[0]);
-          });
+            checkArrays(scope.scrollWrp[0]);
+            scope.scrollWrp.scroll(function () {
+              checkScroll(scope.scrollWrp[0]);
+            });
+            checkImageRatio();
+          }
 
-          checkImageRatio();
+
         }, 1000);
 
         if (scope.internalMode === NST_ATTACHMENTS_EDITABLE_BAR_MODE.AUTO) {
           if (_.some(scope.items, 'hasThumbnail')) {
             scope.internalMode = NST_ATTACHMENTS_EDITABLE_BAR_MODE.THUMBNAIL;
+            scope.$watch(function () {
+              return scope.items.length;
+            },function () {
+              $timeout(function() {
+                checkImageRatio();
+              },300);
+
+              $timeout(function () {
+                checkScroll(scope.scrollWrp[0]);
+                checkArrays(scope.scrollWrp[0]);
+              },1000);
+            });
           } else {
             scope.internalMode = NST_ATTACHMENTS_EDITABLE_BAR_MODE.BADGE;
           }

@@ -267,6 +267,15 @@ nst-attachments-preview-bar {
         }
       }
     }
+    .tooltip-inner {
+      color: $color-white;
+      background-color: $color-bg-pending;
+      font-size: 13px;
+    }
+    .tooltip .tooltip-arrow {
+      border-top-color: $color-bg-pending;
+      border-bottom-color: $color-bg-pending;
+    }
     a.attach-badge-default {
       .badge-extension {
         display: inline-block;
