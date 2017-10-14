@@ -12,7 +12,7 @@
                                NST_EVENT_ACTION, NST_USER_EVENT, NST_NOTIFICATION_EVENT, NST_SRV_EVENT, NST_NOTIFICATION_TYPE, NST_PLACE_EVENT, NST_POST_EVENT,
                                NstSvcAuth, NstSvcServer, NstSvcLogger, NstSvcNotification, NstSvcTranslation,
                                NstSvcNotificationSync, NstSvcPlaceFactory, NstSvcInvitationFactory, NstUtility, NstSvcUserFactory, NstSvcSidebar, NstSvcNotificationFactory,
-                               NstSvcKeyFactory, NstSvcPostDraft) {
+                               NstSvcKeyFactory, NstSvcPostDraft, NstSvcGlobalCache) {
       var vm = this;
       var eventReferences = [];
       var myPlaceOrders = {};
@@ -41,6 +41,9 @@
       vm.noAccessCreatingMessage = '';
       vm.selectedPlaceName = '';
 
+      var storedExpandedPlacesService = [];
+      var storedExpandedPlacesKey = '_savedExpandedPlaces';
+
       initialize();
 
       /*****************************
@@ -48,6 +51,15 @@
        *****************************/
 
       function initialize() {
+        storedExpandedPlacesService = NstSvcGlobalCache.createProvider('sidebar_expanded_places');
+        var expandedPlacesData = storedExpandedPlacesService.get(storedExpandedPlacesKey);
+        if (expandedPlacesData !== null && _.isObject(expandedPlacesData)) {
+          for(var key in expandedPlacesData) {
+            if (key !== '__exp') {
+              vm.expandedPlaces.push(expandedPlacesData[key]);
+            }
+          }
+        }
         $q.all([getMyPlacesOrder(), getMyPlaces()]).then(function(results) {
           myPlaceOrders = results[0];
           vm.places = createTree(results[1], myPlaceOrders, vm.expandedPlaces, vm.selectedPlaceId);
@@ -687,6 +699,13 @@
         } else if (!expanded && index !== -1) {
           vm.expandedPlaces.splice(index, 1);
         }
+        storeExpandedPlaces(vm.expandedPlaces);
+      }
+
+      function storeExpandedPlaces(expandedPlaces) {
+        storedExpandedPlacesService.set(storedExpandedPlacesKey, expandedPlaces, {
+          expiration: new Date().setFullYear(new Date().getFullYear() + 1)
+        });
       }
 
       function removeLastChildFromPlace(id) {
