@@ -32,7 +32,7 @@
         <svg class="_24svg" ng-if="ctrl.assigneeIcon == 'no-assignee'">
             <use xlink:href="/assets/icons/nst-icn24.svg#ask-wire"></use>
         </svg>
-        <img initial-avatar="{{assigneeIcon}}" name="{{assigneeIcon}}" picture="{{assigneeIcon | avatar : 'x32'}}" data-width="24" data-height="24"
+        <img initial-avatar="{{ctrl.assigneeIcon}}" name="{{ctrl.assigneeIcon}}" picture="{{ctrl.assigneeIcon | avatar : 'x32'}}" data-width="24" data-height="24"
             data-radius="40" class="account-initials-24 _df" data-word-count="2" data-font-size="13"  ng-if="ctrl.assigneeIcon != 'no-assignee' && ctrl.assigneeIcon != 'candidate'"/>
         <svg class="_24svg" ng-if="ctrl.assigneeIcon == 'candidate'">
           <use xlink:href="/assets/icons/nst-task-icn32.svg#candidate"></use>
@@ -108,7 +108,7 @@
         <div class="_difv _fw">
             <h3>Attachments</h3>
             <div class="attachments-badge-wrapper">
-                <nst-attachments-editable-bar mode="badge" items="ctrl.attachments.viewModels" on-item-delete="ctrl.detach"></nst-attachments-editable-bar>            
+                <nst-attachments-editable-bar mode="badge" items="ctrl.attachments.viewModels" on-item-delete="ctrl.detach"></nst-attachments-editable-bar>
                 <a class="attachment-plus ng-class:{'active' : openPopover}" ng-init="openPopover = false" ng-click="openPopover =! openPopover" data-popover-class="files-menu-popover" data-popover-append-to-body="false" uib-popover-template="'app/task/common/popovers/add-attachment-popover.html'"
                 data-popover-trigger="focus" data-popover-placement="auto {{$root._direction === 'rtl' ? 'left' : 'right'}}" data-popover-is-open="openPopover">
                     <svg class="_16svg ng-class:{'_r45' : openPopover}">
