@@ -12,10 +12,12 @@
       templateUrl: 'app/task/common/assignee/assignee.html',
       controller: 'TaskAssigneeController',
       controllerAs: 'ctlAssignee',
+      scope: {},
       bindToController: {
         assigneesData: '=',
         assigneeFocus: '=',
-        assigneeWithCandidate: '='
+        assigneeWithCandidate: '=',
+        assigneePlaceholder: '@'
       }
     };
   }

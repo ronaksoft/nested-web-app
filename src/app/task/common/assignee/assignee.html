@@ -1,10 +1,10 @@
-<span ng-if="ctlAssignee.assigneesData.length == 1 && ctlAssignee.assigneeFocus == true" ng-click="ctlAssignee.assigneeFocus = false"
+<span ng-if="ctlAssignee.assigneesData.length == 1 && ctlAssignee.assigneeFocus == true && ctlAssignee.assigneeWithCandidate == true" ng-click="ctlAssignee.assigneeFocus = false"
       class="status" translate-inner>assignee:</span>
-<span ng-if="ctlAssignee.assigneesData.length > 1 && ctlAssignee.assigneeFocus == true" ng-click="ctlAssignee.assigneeFocus = false"
+<span ng-if="ctlAssignee.assigneesData.length > 1 && ctlAssignee.assigneeFocus == true && ctlAssignee.assigneeWithCandidate == true" ng-click="ctlAssignee.assigneeFocus = false"
       class="status candidate" translate-inner>candidates:</span>
 <div user-chips user-id="assignee" candidate="(ctlAssignee.assignees.length > 1) && ctlAssignee.assigneeWithCandidate == true" on-remove="ctlAssignee.removeAssigneeChip"
      ng-repeat="assignee in ctlAssignee.assignees" ng-if="ctlAssignee.assigneeFocus == true"></div>
 <input nst-mention-user nst-mention-list="ctlAssignee.assignees" type="text"
-       class="no-style gale-holder create-task-input" placeholder="Add Assignee or Candidates"
+       class="no-style gale-holder create-task-input" placeholder="{{ctlAssignee.assigneePlaceholder}}"
        id="task-assignee" ng-focus="ctlAssignee.assigneeFocus = true" ng-model="ctlAssignee.assigneeInput"
        ng-keydown="ctlAssignee.assigneeKeyDown($event)" ng-if="ctlAssignee.assigneeFocus == true || ctlAssignee.assignees.length == 0">

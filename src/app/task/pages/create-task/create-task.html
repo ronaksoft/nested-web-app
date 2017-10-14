@@ -18,7 +18,7 @@
   <div class="task-assignee auto-height-item">
     <div class="task-input-wrapper ng-class:{'focus' : ctrl.assigneeFocus}">
       <task-assignee assignees-data="ctrl.assigneesData" assignee-focus="ctrl.assigneeFocus"
-                     assignee-with-candidate="true"></task-assignee>
+                     assignee-with-candidate="true" assignee-placeholder="{{ctrl.assigneePlaceholder}}"></task-assignee>
       <div ng-if="ctrl.assigneeFocus != true && ctrl.assigneesData.length == 1" ng-click="ctrl.assigneeFocus = true;"
            class="unfocused-input" translate-inner>Assigned to <b>{{ctrl.assigneesData[0].fullName}}</b></div>
       <div ng-if="ctrl.assigneeFocus != true && ctrl.assigneesData.length > 1" ng-click="ctrl.assigneeFocus = true;"
@@ -143,14 +143,13 @@
     </div>
     <div class="task-watchers auto-height-item">
       <div class="_difv _fw">
-        <h3>Watchers</h3>
-        <div class="task-input-wrapper ng-class:{'focus' : taskWatch}">
-          <input type="text" class="no-style gale-holder create-task-input"
-                 ng-focus="taskWatch = true" ng-blur="taskWatch = false"
-                 placeholder="add peoples who wants to follow task…">
+        <h3><translate>Watchers</translate></h3>
+        <div class="task-input-wrapper ng-class:{'focus' : ctrl.watcherFocus}">
+          <task-assignee assignees-data="ctrl.watchersData" assignee-focus="ctrl.watcherFocus"
+                         assignee-with-candidate="false" assignee-placeholder="{{ctrl.watcherPlaceholder}}"></task-assignee>
         </div>
       </div>
-      <label ng-class="{'focus' : taskWatch}">
+      <label ng-class="{'focus' : ctrl.watcherFocus}">
         <svg class="_16svg">
           <use xlink:href="/assets/icons/nst-icn16.svg#person"></use>
         </svg>

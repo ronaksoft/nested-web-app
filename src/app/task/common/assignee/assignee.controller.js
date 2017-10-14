@@ -17,6 +17,7 @@
   function TaskAssigneeController($scope, $q, NstSvcUserFactory, _) {
     var vm = this;
 
+    vm.assigneeInput = '';
     vm.assignees = [];
     vm.assigneeKeyDown = assigneeKeyDown;
     vm.removeAssigneeChip = removeAssigneeChip;
@@ -46,6 +47,10 @@
       var index = _.indexOf(vm.assignees, id);
       if (index > -1) {
         vm.assignees.splice(index, 1);
+      }
+      index = _.findIndex(vm.assigneesData, {id: id});
+      if (index > -1) {
+        vm.assigneesData.splice(index, 1);
       }
     }
 

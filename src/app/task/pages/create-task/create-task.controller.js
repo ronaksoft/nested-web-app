@@ -22,9 +22,7 @@
       attachfiles: {}
     };
     vm.addUploadedAttachs = addUploadedAttachs;
-    vm.assigneeFocus = false;
     vm.attachmentsIsUploading = [];
-    vm.assigneeInput = '';
     vm.attachments = {
       elementId: 'attach',
       viewModels: [],
@@ -35,26 +33,29 @@
       }
     };
 
+    vm.assigneeFocus = false;
     vm.assigneesData = [];
     vm.assigneeIcon = 'no-assignee';
-
+    vm.assigneePlaceholder = NstSvcTranslation.get('Add assignee or candidates');
     function getAssigneeIcon(data) {
       if (data.length === 0) {
         vm.assigneeIcon = 'no-assignee';
       } else if (data.length === 1) {
-        NstSvcUserFactory.getCached(data[0]).then(function (user) {
-          vm.assigneeIcon = user;
-        });
+        vm.assigneeIcon = data[0];
       } else if (data.length > 1) {
         vm.assigneeIcon = 'candidate';
       }
     }
-
     $scope.$watch(function () {
       return vm.assigneesData;
     }, function (newVal) {
       getAssigneeIcon(newVal);
     }, true);
+
+    vm.watcherFocus = false;
+    vm.watchersData = [];
+    vm.wathcerPlaceholder = NstSvcTranslation.get('Add peoples who wants to follow task...');
+
 
     vm.dueDate = new Date('July 21, 1983 01:15:00');
 
