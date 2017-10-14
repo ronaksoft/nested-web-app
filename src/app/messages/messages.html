@@ -138,7 +138,7 @@
         <div class="post-card-wire"></div>
       </div>
       <post-card class="_fw" data-ng-repeat="msg in ctrl.messages track by msg.id " post="msg" scroll-to-view id="{{::msg.id}}" ng-if="!msg.tempHide"
-        postinplace="ctrl.currentPlaceId" has-remove-access="ctrl.placeRemoveAccess" add-on="false" comment-board="!ctrl.isSent" first-interactive-time="ctrl.FIT"></post-card>
+        postinplace="ctrl.currentPlaceId" has-remove-access="ctrl.placeRemoveAccess" add-on="false" comment-board="true" first-interactive-time="ctrl.FIT"></post-card>
     </div>
 
     <!-- load more button

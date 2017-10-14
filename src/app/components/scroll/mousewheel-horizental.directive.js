@@ -12,10 +12,12 @@
         link: function (scope, $element) {
           $timeout(function (){
             if($element[0].scrollWidth > $element[0].clientWidth){
-              $($element[0]).mousewheel(function(event, delta) {
-                this.scrollLeft -= (delta * 30);
-                event.preventDefault();
-            });
+              if(!window.nativeScroll) {
+                $($element[0]).mousewheel(function(event, delta) {
+                  this.scrollLeft -= (delta * 30);
+                  event.preventDefault();
+                });
+              } 
             }          
           }, 56)
           
