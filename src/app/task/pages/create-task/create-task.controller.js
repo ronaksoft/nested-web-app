@@ -39,8 +39,66 @@
     vm.assigneeIcon = 'no-assignee';
     vm.assigneeKeyDown = assigneeKeyDown;
     vm.removeAssigneeChip = removeAssigneeChip;
+
+    function getAssigneesData(assignees) {
+      var promises;
+      promises = _.map(assignees, function (item) {
+        return NstSvcUserFactory.getCached(item);
+      });
+      $q.all(promises).then(function (lists) {
+        vm.assigneesData = lists;
+      });
+    }
+
+    function parseMentionData(data) {
+      data = data.split(',');
+      data = _.map(data, function (item) {
+        return _.trim(item);
+      });
+      data = _.filter(data, function (item) {
+        return item.length > 1;
+      });
+      return data;
+    }
+
+    function removeAssigneeChip(id) {
+      var index = _.indexOf(vm.assignees, id);
+      if (index > -1) {
+        vm.assignees.splice(index, 1);
+      }
+    }
+
+    function assigneeKeyDown(event) {
+      if (event.keyCode === 13) {
+        _.forEach(parseMentionData(vm.assigneeInput), function (item) {
+          vm.assignees.push(item);
+        });
+        vm.assignees = _.uniq(vm.assignees);
+        getAssigneesData(vm.assignees);
+        vm.assigneeInput = '';
+      }
+    }
+
+    function getAssigneeIcon(data) {
+      if (data.length === 0) {
+        vm.assigneeIcon = 'no-assignee';
+      } else if (data.length === 1) {
+        NstSvcUserFactory.getCached(data[0]).then(function (user) {
+          vm.assigneeIcon = user;
+        });
+      } else if (data.length > 1) {
+        vm.assigneeIcon = 'candidate';
+      }
+    }
+
+    $scope.$watch(function () {
+      return vm.assignees;
+    }, function (newVal) {
+      getAssigneeIcon(newVal);
+    }, true);
+
     vm.placeFiles = placeFiles;
-    vm.dueDate = new Date("July 21, 1983 01:15:00");
+    vm.dueDate = new Date('July 21, 1983 01:15:00');
 
     /**
      * Opens the placeFiles modal
@@ -177,17 +235,6 @@
         return NST_STORE_UPLOAD_TYPE.AUDIO;
       } else {
         return NST_STORE_UPLOAD_TYPE.FILE;
-      }
-    }
-
-    function assigneeKeyDown(event) {
-      if (event.keyCode === 13) {
-        $q.all(promises).then(function (lists) {
-          vm.assigneesData = lists;
-        });
-        vm.assignees = _.uniq(vm.assignees);
-        getAssigneesData(vm.assignees);
-        vm.assigneeInput = '';
       }
     }
 
@@ -373,34 +420,7 @@
 
     };
 
-    function getAssigneesData(assignees) {
-      var promises;
-      promises = _.map(assignees, function (item) {
-        return NstSvcUserFactory.getCached(item);
-      });
-      $q.all(promises).then(function (lists) {
-        vm.assigneesData = lists;
-        console.log(lists);
-      });
-    }
 
-    function parseMentionData(data) {
-      data = data.split(',');
-      data = _.map(data, function (item) {
-        return _.trim(item);
-      });
-      data = _.filter(data, function (item) {
-        return item.length > 1;
-      });
-      return data;
-    }
-
-    function removeAssigneeChip(id) {
-      var index = _.indexOf(vm.assignees, id);
-      if (index > -1) {
-        vm.assignees.splice(index, 1);
-      }
-    }
     (function () {
       NstSvcSystemConstants.get().then(function (result) {
         systemConstants = result;
@@ -409,24 +429,6 @@
       });
     })();
 
-    function getAssigneeIcon(data) {
-      if (data.length === 0) {
-        vm.assigneeIcon = 'no-assignee';
-      } else if (data.length === 1) {
-        NstSvcUserFactory.getCached(data[0]).then(function (user) {
-          vm.assigneeIcon = user;
-        });
-      } else if (data.length > 1) {
-        vm.assigneeIcon = 'candidate';
-      }
-    }
-
-    $scope.$watch(function () {
-      return vm.assignees;
-    }, function (newVal) {
-      getAssigneeIcon(newVal);
-    }, true);
-
     // Form treats
     vm.assigneFocusTrigger = 0
     vm.assigneTodoTrigger = 0
@@ -434,7 +436,7 @@
       vm.assigneFocusTrigger++;
       console.log(vm.assigneFocusTrigger);
     }
-    
+
     vm.enterDescriptionTask = function (){
       vm.assigneTodoTrigger++;
       console.log(vm.assigneTodoTrigger);
