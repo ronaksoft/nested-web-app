@@ -28,7 +28,7 @@
             margin-top: 2px;
         }
         
-        ._16svg {
+        label ._16svg {
             margin-top: 4px;
         }
     }
@@ -167,6 +167,9 @@
         label {
             overflow: hidden;
         }
+        task-assignee {
+            align-items: center;
+        }
         input {
             height: 19px;
             font-size: 14px;
@@ -265,7 +268,7 @@
         resize: none;
     }
     #task-description {
-        max-height: 56px;
+        // max-height: 56px;
     }
     .task-attachments-list {
         margin: 8px;
