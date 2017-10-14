@@ -1,158 +1,173 @@
 <div class="create-task">
   <div class="task-title auto-height-item">
-      <div class="task-input-wrapper ng-class:{'focus' : taskTitle, 'error' : ctrl.taskTitle.length > 64}">
-        <textarea type="text" class="no-style gale-holder create-task-input" placeholder="Enter a Task Title" id="task-title"
-            ng-focus="taskTitle = true" ng-blur="taskTitle = false" resize-textarea ng-model="ctrl.taskTitle" enter-key="ctrl.enterSubjectTask()"
-            prevent-shift-enter="true"></textarea>
-            <div class="error-handler" ng-if="ctrl.taskTitle.length > 54">
-                {{ctrl.taskTitle.length | localize}} / 64
-            </div>
+    <div class="task-input-wrapper ng-class:{'focus' : taskTitle, 'error' : ctrl.taskTitle.length > 64}">
+        <textarea type="text" class="no-style gale-holder create-task-input" placeholder="Enter a Task Title"
+                  id="task-title"
+                  ng-focus="taskTitle = true" ng-blur="taskTitle = false" resize-textarea ng-model="ctrl.taskTitle"
+                  enter-key="ctrl.enterSubjectTask()" prevent-shift-enter="true"></textarea>
+      <div class="error-handler" ng-if="ctrl.taskTitle.length > 54">
+        {{ctrl.taskTitle.length | localize}} / 64
       </div>
+    </div>
     <label for="task-title">
-        <svg class="_32svg">
-            <use xlink:href="/assets/icons/nst-task-icn32.svg#in-progress-simple"></use>
-        </svg>
+      <svg class="_32svg">
+        <use xlink:href="/assets/icons/nst-task-icn32.svg#in-progress-simple"></use>
+      </svg>
     </label>
   </div>
   <div class="task-assignee auto-height-item">
-    <div class="task-input-wrapper ng-class:{'focus' : taskAssign}">
-        <span ng-if="ctrl.assignees.length == 1 && ctrl.assigneeFocus == true" ng-click="ctrl.assigneeFocus = false" class="status">assignee:</span>
-        <span ng-if="ctrl.assignees.length > 1 && ctrl.assigneeFocus == true" ng-click="ctrl.assigneeFocus = false" class="status candidate">candidates:</span>
-        <div user-chips user-id="assignee" candidate="(ctrl.assignees.length > 1)" on-remove="ctrl.removeAssigneeChip" ng-repeat="assignee in ctrl.assignees" ng-if="ctrl.assigneeFocus == true"></div>
-        <input nst-mention-user nst-mention-list="ctrl.assignees" type="text" class="no-style gale-holder create-task-input" placeholder="Add Assignee or Candidates" focus-me="{{ctrl.assigneFocusTrigger}}"
-        id="task-assignee" ng-focus="ctrl.assigneeFocus = true" ng-model="ctrl.assigneeInput" ng-keydown="ctrl.assigneeKeyDown($event)" ng-if="ctrl.assigneeFocus == true || ctrl.assignees.length == 0">
-        <div ng-if="ctrl.assigneeFocus != true && ctrl.assignees.length == 1" ng-click="ctrl.assigneeFocus = true;" class="unfocused-input">Assigned to <b>{{ctrl.assigneesData[0].fullName}}</b></div>
-        <div ng-if="ctrl.assigneeFocus != true && ctrl.assignees.length > 1" ng-click="ctrl.assigneeFocus = true;" class="unfocused-input candidates">Candidates:
-          <span ng-repeat="assigneeData in ctrl.assigneesData">
+    <div class="task-input-wrapper ng-class:{'focus' : ctrl.assigneeFocus}">
+      <task-assignee assignees-data="ctrl.assigneesData" assignee-focus="ctrl.assigneeFocus"
+                     assignee-with-candidate="true" assignee-placeholder="{{ctrl.assigneePlaceholder}}"></task-assignee>
+      <div ng-if="ctrl.assigneeFocus != true && ctrl.assigneesData.length == 1" ng-click="ctrl.assigneeFocus = true;"
+           class="unfocused-input" translate-inner>Assigned to <b>{{ctrl.assigneesData[0].fullName}}</b></div>
+      <div ng-if="ctrl.assigneeFocus != true && ctrl.assigneesData.length > 1" ng-click="ctrl.assigneeFocus = true;"
+           class="unfocused-input candidates">
+        <translate>Candidates:</translate>
+        <span ng-repeat="assigneeData in ctrl.assigneesData">
             <b>{{assigneeData.fullName}}</b>{{ctrl.assigneesData.length - 2 == $index? ' & ': (ctrl.assigneesData.length - 2 > $index? ', ': '')}}
           </span>
-        </div>
+      </div>
     </div>
-    <label for="task-assignee" ng-class="{'focus' : taskAssign}">
-        <svg class="_24svg" ng-if="ctrl.assigneeIcon == 'no-assignee'">
-            <use xlink:href="/assets/icons/nst-icn24.svg#ask-wire"></use>
-        </svg>
-        <img initial-avatar="{{ctrl.assigneeIcon}}" name="{{ctrl.assigneeIcon}}" picture="{{ctrl.assigneeIcon | avatar : 'x32'}}" data-width="24" data-height="24"
-            data-radius="40" class="account-initials-24 _df" data-word-count="2" data-font-size="13"  ng-if="ctrl.assigneeIcon != 'no-assignee' && ctrl.assigneeIcon != 'candidate'"/>
-        <svg class="_24svg" ng-if="ctrl.assigneeIcon == 'candidate'">
-          <use xlink:href="/assets/icons/nst-task-icn32.svg#candidate"></use>
-        </svg>
+    <label ng-class="{'focus' : ctrl.assigneeFocus}">
+      <svg class="_24svg" ng-if="ctrl.assigneeIcon == 'no-assignee'">
+        <use xlink:href="/assets/icons/nst-icn24.svg#ask-wire"></use>
+      </svg>
+      <img initial-avatar="{{ctrl.assigneeIcon}}" name="{{ctrl.assigneeIcon}}"
+           picture="{{ctrl.assigneeIcon | avatar : 'x32'}}" data-width="24" data-height="24"
+           data-radius="40" class="account-initials-24 _df" data-word-count="2" data-font-size="13"
+           ng-if="ctrl.assigneeIcon != 'no-assignee' && ctrl.assigneeIcon != 'candidate'"/>
+      <svg class="_24svg" ng-if="ctrl.assigneeIcon == 'candidate'">
+        <use xlink:href="/assets/icons/nst-task-icn32.svg#candidate"></use>
+      </svg>
     </label>
   </div>
   <div class="task-due const-height-item">
-        <div class="task-input-wrapper ng-class:{'focus' : taskDue}">
-            <input type="text" class="no-style gale-holder create-task-input" placeholder="+ Set a due time (optional)" id="task-due"
-            ng-focus="taskDue = true" ng-blur="taskDue = false"
-            ng-model="ctrl.dueDate" data-config="ctrl.datePickerconfig" g-formatted-picked-date="gfdate" g-picked-date="gdate" ng-jalaali-flat-datepicker>
-        </div>
-        <label for="task-due" ng-class="{'focus' : taskDue}">
-            <svg class="_16svg">
-                <use xlink:href="/assets/icons/nst-icn16.svg#finish-flag"></use>
-            </svg>
-        </label>
+    <div class="task-input-wrapper ng-class:{'focus' : taskDue}">
+      <input type="text" class="no-style gale-holder create-task-input" translate-attrs="placeholder"
+             placeholder="+ Set a due time (optional)"
+             id="task-due"
+             ng-focus="taskDue = true" ng-blur="taskDue = false"
+             ng-model="ctrl.dueDate" data-config="ctrl.datePickerconfig" g-formatted-picked-date="gfdate"
+             g-picked-date="gdate" ng-jalaali-flat-datepicker>
+    </div>
+    <label for="task-due" ng-class="{'focus' : taskDue}">
+      <svg class="_16svg">
+        <use xlink:href="/assets/icons/nst-icn16.svg#finish-flag"></use>
+      </svg>
+    </label>
   </div>
   <div class="task-more-options ng-class:{'visible' : ctrl.showMoreOption}">
     <div class="task-description auto-height-item ng-class:{'focus' : taskDes}">
-        <div class="task-input-wrapper">
+      <div class="task-input-wrapper">
             <textarea class="no-style gale-holder create-task-input"
-            ng-focus="taskDes = true" ng-blur="taskDes = false" enter-key="ctrl.enterDescriptionTask()"
-            placeholder="+ Add a Description …" id="task-description" resize-textarea></textarea>
-        </div>
-        <label for="task-description" ng-class="{'focus' : taskDes}">
-            <svg class="_16svg">
-                 <use xlink:href="/assets/icons/nst-icn16.svg#petition"></use>
-            </svg>
-        </label>
+                      ng-focus="taskDes = true" ng-blur="taskDes = false" enter-key="ctrl.enterDescriptionTask()"
+                      placeholder="+ Add a Description …" id="task-description" resize-textarea></textarea>
+      </div>
+      <label for="task-description" ng-class="{'focus' : taskDes}">
+        <svg class="_16svg">
+          <use xlink:href="/assets/icons/nst-icn16.svg#petition"></use>
+        </svg>
+      </label>
     </div>
     <div class="task-todo auto-height-item">
       <div class="_difv _fw">
-        <h3>To-Do list</h3>
+        <h3>
+          <translate>To-Do list</translate>
+        </h3>
         <ul class="todo-list ng-class:{'focus' : tasktodo}">
-          <li ng-init="isChecked = true">
+          <!--<li ng-init="isChecked = true">
             <input class="_fr" type="checkbox" id="todo1" ng-model="isChecked"/>
             <label class="_fw todo task-input-wrapper" for="todo1">
-                <svg class="_16svg _df" ng-if="!isChecked">
-                    <use xlink:href="/assets/icons/nst-icn16.svg#todo-undone"></use>
-                </svg>
-                <svg class="_16svg _df" ng-if="isChecked">
-                    <use xlink:href="/assets/icons/nst-icn16.svg#todo-done"></use>
-                </svg>
-                <textarea class="no-style gale-holder create-task-input f1"
-                    ng-focus="tasktodo = true" ng-blur="tasktodo = false" focus-me="{{ctrl.assigneTodoTrigger}}"
-                    placeholder="+ add a to-do" resize-textarea></textarea>
+              <svg class="_16svg _df" ng-if="!isChecked">
+                <use xlink:href="/assets/icons/nst-icn16.svg#todo-undone"></use>
+              </svg>
+              <svg class="_16svg _df" ng-if="isChecked">
+                <use xlink:href="/assets/icons/nst-icn16.svg#todo-done"></use>
+              </svg>
+              <textarea class="no-style gale-holder create-task-input f1"
+                        ng-focus="tasktodo = true" ng-blur="tasktodo = false" focus-me="{{ctrl.assigneTodoTrigger}}"
+                        placeholder="+ add a to-do" resize-textarea></textarea>
             </label>
           </li>
           <li ng-init="isCheckeds = false">
             <input class="_fr" type="checkbox" id="todo2" ng-model="isCheckeds"/>
             <label class="_fw todo task-input-wrapper" for="todo2">
-                <svg class="_16svg _df" ng-if="!isCheckeds">
-                    <use xlink:href="/assets/icons/nst-icn16.svg#todo-undone"></use>
-                </svg>
-                <svg class="_16svg _df" ng-if="isCheckeds">
-                    <use xlink:href="/assets/icons/nst-icn16.svg#todo-done"></use>
-                </svg>
-                <textarea class="no-style gale-holder create-task-input f1"
-                    ng-focus="tasktodos = true" ng-blur="tasktodos = false"
-                    placeholder="+ add a to-do" resize-textarea></textarea>
-            </label>
+              <svg class="_16svg _df" ng-if="!isCheckeds">
+                <use xlink:href="/assets/icons/nst-icn16.svg#todo-undone"></use>
+              </svg>
+              <svg class="_16svg _df" ng-if="isCheckeds">
+                <use xlink:href="/assets/icons/nst-icn16.svg#todo-done"></use>
+              </svg>
+              <textarea class="no-style gale-holder create-task-input f1"
+                        ng-focus="tasktodos = true" ng-blur="tasktodos = false"
+                        placeholder="+ add a to-do" resize-textarea></textarea>
+            </label>-->
+          <task-todo-item todo-focus="ctrl.todoFocus"></task-todo-item>
           </li>
         </ul>
       </div>
       <label ng-class="{'focus' : tasktodo}">
-            <svg class="_16svg">
-                <use xlink:href="/assets/icons/nst-icn16.svg#bullet-list"></use>
-            </svg>
-        </label>
+        <svg class="_16svg">
+          <use xlink:href="/assets/icons/nst-icn16.svg#bullet-list"></use>
+        </svg>
+      </label>
     </div>
     <div class="task-attachment auto-height-item">
-        <div class="_difv _fw">
-            <h3>Attachments</h3>
-            <div class="attachments-badge-wrapper">
-                <nst-attachments-editable-bar mode="badge" items="ctrl.attachments.viewModels" on-item-delete="ctrl.detach"></nst-attachments-editable-bar>
-                <a class="attachment-plus ng-class:{'active' : openPopover}" ng-init="openPopover = false" ng-click="openPopover =! openPopover" data-popover-class="files-menu-popover" data-popover-append-to-body="false" uib-popover-template="'app/task/common/popovers/add-attachment-popover.html'"
-                data-popover-trigger="focus" data-popover-placement="auto {{$root._direction === 'rtl' ? 'left' : 'right'}}" data-popover-is-open="openPopover">
-                    <svg class="_16svg ng-class:{'_r45' : openPopover}">
-                        <use xlink:href="/assets/icons/nst-icn16.svg#cross"></use>
-                    </svg>
-                </a>
-            </div>
-            <!-- Make unique id -->
-            <input id="upload-files" type="file" multiple on-file-change="ctrl.attachments.fileSelected"/>
-            <input id="upload-media" type="file" multiple on-file-change="ctrl.attachments.mediaSelected"/>
-        </div>
-        <label>
-            <svg class="_16svg">
-                <use xlink:href="/assets/icons/nst-icn16.svg#attach"></use>
+      <div class="_difv _fw">
+        <h3>Attachments</h3>
+        <div class="attachments-badge-wrapper">
+          <nst-attachments-editable-bar mode="badge" items="ctrl.attachments.viewModels"
+                                        on-item-delete="ctrl.detach"></nst-attachments-editable-bar>
+          <a class="attachment-plus ng-class:{'active' : openPopover}" ng-init="openPopover = false"
+             ng-click="openPopover =! openPopover" data-popover-class="files-menu-popover"
+             data-popover-append-to-body="false"
+             uib-popover-template="'app/task/common/popovers/add-attachment-popover.html'"
+             data-popover-trigger="focus"
+             data-popover-placement="auto {{$root._direction === 'rtl' ? 'left' : 'right'}}"
+             data-popover-is-open="openPopover">
+            <svg class="_16svg ng-class:{'_r45' : openPopover}">
+              <use xlink:href="/assets/icons/nst-icn16.svg#cross"></use>
             </svg>
-        </label>
+          </a>
+        </div>
+        <!-- Make unique id -->
+        <input id="upload-files" type="file" multiple on-file-change="ctrl.attachments.fileSelected"/>
+        <input id="upload-media" type="file" multiple on-file-change="ctrl.attachments.mediaSelected"/>
+      </div>
+      <label>
+        <svg class="_16svg">
+          <use xlink:href="/assets/icons/nst-icn16.svg#attach"></use>
+        </svg>
+      </label>
     </div>
     <div class="task-watchers auto-height-item">
-        <div class="_difv _fw">
-            <h3>Watchers</h3>
-            <div class="task-input-wrapper ng-class:{'focus' : taskWatch}">
-                <input type="text" class="no-style gale-holder create-task-input"
-                ng-focus="taskWatch = true" ng-blur="taskWatch = false" placeholder="add peoples who wants to follow task…">
-            </div>
+      <div class="_difv _fw">
+        <h3><translate>Watchers</translate></h3>
+        <div class="task-input-wrapper ng-class:{'focus' : ctrl.watcherFocus}">
+          <task-assignee assignees-data="ctrl.watchersData" assignee-focus="ctrl.watcherFocus"
+                         assignee-with-candidate="false" assignee-placeholder="{{ctrl.watcherPlaceholder}}"></task-assignee>
         </div>
-      <label ng-class="{'focus' : taskWatch}">
-            <svg class="_16svg">
-                <use xlink:href="/assets/icons/nst-icn16.svg#person"></use>
-            </svg>
-        </label>
+      </div>
+      <label ng-class="{'focus' : ctrl.watcherFocus}">
+        <svg class="_16svg">
+          <use xlink:href="/assets/icons/nst-icn16.svg#person"></use>
+        </svg>
+      </label>
     </div>
     <div class="task-labels auto-height-item">
-        <div class="_difv _fw">
-            <h3>Labels</h3>
-            <div class="task-input-wrapper ng-class:{'focus' : taskLabel}">
-                <input type="text" class="no-style gale-holder create-task-input" placeholder="add labels…"
-                ng-focus="taskLabel = true" ng-blur="taskLabel = false">
-            </div>
+      <div class="_difv _fw">
+        <h3>Labels</h3>
+        <div class="task-input-wrapper ng-class:{'focus' : taskLabel}">
+          <input type="text" class="no-style gale-holder create-task-input" placeholder="add labels…"
+                 ng-focus="taskLabel = true" ng-blur="taskLabel = false">
         </div>
+      </div>
       <label ng-class="{'focus' : taskLabel}">
-            <svg class="_16svg">
-                <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
-            </svg>
-        </label>
+        <svg class="_16svg">
+          <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
+        </svg>
+      </label>
     </div>
   </div>
   <div class="task-footer const-height-item">

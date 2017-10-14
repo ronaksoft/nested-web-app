@@ -22,9 +22,7 @@
       attachfiles: {}
     };
     vm.addUploadedAttachs = addUploadedAttachs;
-    vm.assigneeFocus = false;
     vm.attachmentsIsUploading = [];
-    vm.assigneeInput = '';
     vm.attachments = {
       elementId: 'attach',
       viewModels: [],
@@ -34,72 +32,36 @@
         total: 0
       }
     };
-    vm.assignees = [];
+
+    vm.assigneeFocus = false;
     vm.assigneesData = [];
     vm.assigneeIcon = 'no-assignee';
-    vm.assigneeKeyDown = assigneeKeyDown;
-    vm.removeAssigneeChip = removeAssigneeChip;
-
-    function getAssigneesData(assignees) {
-      var promises;
-      promises = _.map(assignees, function (item) {
-        return NstSvcUserFactory.getCached(item);
-      });
-      $q.all(promises).then(function (lists) {
-        vm.assigneesData = lists;
-      });
-    }
-
-    function parseMentionData(data) {
-      data = data.split(',');
-      data = _.map(data, function (item) {
-        return _.trim(item);
-      });
-      data = _.filter(data, function (item) {
-        return item.length > 1;
-      });
-      return data;
-    }
-
-    function removeAssigneeChip(id) {
-      var index = _.indexOf(vm.assignees, id);
-      if (index > -1) {
-        vm.assignees.splice(index, 1);
-      }
-    }
-
-    function assigneeKeyDown(event) {
-      if (event.keyCode === 13) {
-        _.forEach(parseMentionData(vm.assigneeInput), function (item) {
-          vm.assignees.push(item);
-        });
-        vm.assignees = _.uniq(vm.assignees);
-        getAssigneesData(vm.assignees);
-        vm.assigneeInput = '';
-      }
-    }
-
+    vm.assigneePlaceholder = NstSvcTranslation.get('Add assignee or candidates');
     function getAssigneeIcon(data) {
       if (data.length === 0) {
         vm.assigneeIcon = 'no-assignee';
       } else if (data.length === 1) {
-        NstSvcUserFactory.getCached(data[0]).then(function (user) {
-          vm.assigneeIcon = user;
-        });
+        vm.assigneeIcon = data[0];
       } else if (data.length > 1) {
         vm.assigneeIcon = 'candidate';
       }
     }
-
     $scope.$watch(function () {
-      return vm.assignees;
+      return vm.assigneesData;
     }, function (newVal) {
       getAssigneeIcon(newVal);
     }, true);
 
-    vm.placeFiles = placeFiles;
+    vm.watcherFocus = false;
+    vm.watchersData = [];
+    vm.wathcerPlaceholder = NstSvcTranslation.get('Add peoples who wants to follow task...');
+
+
     vm.dueDate = new Date('July 21, 1983 01:15:00');
 
+    vm.todoFocus = false;
+
+    vm.placeFiles = placeFiles;
     /**
      * Opens the placeFiles modal
      * Pass the `addToCompose` function to the new modal
@@ -119,11 +81,7 @@
         }
       });
     }
-    vm.assignees = [];
-    vm.assigneesData = [];
-    vm.assigneeIcon = 'no-assignee';
-    vm.assigneeKeyDown = assigneeKeyDown;
-    vm.removeAssigneeChip = removeAssigneeChip;
+
     vm.placeFiles = placeFiles;
 
     $scope.$watch(function () {
