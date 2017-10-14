@@ -39,11 +39,11 @@
           function appendMention(element, key) {
 
             var template =
-              "<li data-id='${id}' class='_difv'>" +
-              "<img src='${avatar}' class='place-picture-32 mCS_img_loaded _df'>" +
-              "<div class='_difv'>" +
-              "<span class='_df list-unstyled text-center teammate-name  nst-mood-solid text-name' dir='${dir}'>  ${name}</span>" +
-              "<span><span class='nst-mood-storm nst-font-small' dir='ltr'>${id}</span></span>" +
+              "<li data-id='${id}' class='place-suggets-mention _difv'>" +
+              "<img src='${avatar}' class='place-picture-16 mCS_img_loaded _df'>" +
+              "<div>" +
+              "<span class='_df list-unstyled teammate-name _fw nst-mood-solid text-name'><span class='_db _fw _txe' dir='${dir}'>${name}</span></span>" +
+              "<span class='nst-mood-storm _df _fn'><span class='_db _txe' dir='ltr'>${id}</span></span>" +
               "</div>" +
               "</li>";
 

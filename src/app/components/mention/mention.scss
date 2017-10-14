@@ -27,17 +27,14 @@
       align-items: center;
       cursor: pointer;
       > div {
-        width: 100%;
-        height: 100%;
         align-items: center;
-        display: flex;
         border-bottom: 1px solid $color-breeze-5-new;
       }
-      .place-picture-32 {
-        width: 32px;
-        height: 32px;
+      .place-picture-16 {
+        width: 16px;
+        height: 16px;
         border-radius: 3px;
-        margin-right: 8px;
+        margin: 0 8px;
       }
     }
   }

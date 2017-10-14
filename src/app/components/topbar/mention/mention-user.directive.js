@@ -43,8 +43,8 @@
               "<li data-id='${id}' class='_difv user-suggets-mention'>" +
               "<img src='${avatar}' class='account-initials-16 mCS_img_loaded _df'>" +
               "<div>" +
-              "<span class='_df list-unstyled text-centerteammate-name _fw nst-mood-solid text-name' dir='${dir}'>${name}</span>" +
-              "<span><span class='nst-mood-storm' dir='ltr'>${alias}</span></span>" +
+              "<span class='_df list-unstyled text-centerteammate-name _fw nst-mood-solid text-name'><span class='_db _fw _txe' dir='${dir}'>${name}</span></span>" +
+              "<span class='nst-mood-storm _df _fn'><span class='_db _txe' dir='ltr'>${alias}</span></span>" +
               // "<span><span class='nst-mood-storm nst-font-small' dir='ltr'>${id}</span></span>" +
               "</div>" +
               "</li>";

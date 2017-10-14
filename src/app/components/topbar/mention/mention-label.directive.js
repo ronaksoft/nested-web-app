@@ -39,13 +39,13 @@
           function appendMention(element, key) {
 
             var template =
-              "<li data-id='${id}' class='_difv'>" +
+              "<li data-id='${id}' class='_difv label-suggets-mention'>" +
               "<svg class='_24svg mirror _fn label-initials-32 mCS_img_loaded _df color-lbl-${code}'>" +
               "<use xlink:href='/assets/icons/nst-icn24.svg#tag'></use>" +
               "</svg>" +
-              "<div class='_difv'>" +
-              "<span class='_df list-unstyled text-centerteammate-name  nst-mood-solid text-name' dir='${dir}'>${name}</span>" +
-              "<span class='_df nst-mood-storm nst-font-small'>${type}</span>" +
+              "<div>" +
+              "<span class='_df list-unstyled text-centerteammate-name _fw nst-mood-solid text-name'><span class='_db _fw _txe' dir='${dir}'>${name}</span></span>" +
+              "<span class='_df _fn nst-mood-storm'><span class='_db _txe'>${type}</span></span>" +
               "</div>" +
               "</li>";
 
