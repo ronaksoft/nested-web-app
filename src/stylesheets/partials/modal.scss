@@ -462,7 +462,7 @@ body.modal-open-attachment-view.compose-modal {
     width: 472px;
     min-height: 120px;
     box-shadow: 0 32px 64px $color-solid;
-    max-height: calc(100vh - 160px);
+    // max-height: calc(100vh - 160px);
     // overflow: hidden;
     border-radius: 6px;
     .ui-select-multiple.ui-select-bootstrap input.ui-select-search ,
