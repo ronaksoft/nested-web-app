@@ -228,7 +228,7 @@
             setTimeout(function (){
               $('body').removeClass("active-compose");
             },64);
-            
+
             $('html').removeClass("_oh");
             saveDraft();
             vm.finish = true;
@@ -264,7 +264,7 @@
             setTimeout(function (){
               $('body').removeClass("active-compose");
             },64);
-            
+
             $('html').removeClass("_oh");
           }
         }));
@@ -401,8 +401,9 @@
       var deferred = $q.defer();
 
       var draft = NstSvcPostDraft.get();
-      if (!draft) {
+      if (!draft || draft === null) {
         deferred.reject(Error('Could not load draft'));
+        return deferred.promise;
       }
       vm.model.subject = draft.subject;
       vm.model.body = draft.body;

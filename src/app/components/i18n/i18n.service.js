@@ -24,7 +24,7 @@
    * @param {any} $location
    * @returns
    */
-  function NstSvcI18n(_, NstSvcI18nStorage, moment, $location, NstSvcKeyFactory, NST_KEY) {
+  function NstSvcI18n(_, NstSvcI18nStorage, moment, $location, NstSvcKeyFactory, NST_KEY, toastr, $window) {
     function I18n() {
       var that = this;
       that.locales = {};
@@ -77,7 +77,10 @@
           }
         }
         if(reloadFlag) {
-          window.location.reload(true)
+          toastr.success('Applying calender and locale settings...');
+          setTimeout(function(){
+            $window.location.reload();
+          },100)
         }
       })
 
