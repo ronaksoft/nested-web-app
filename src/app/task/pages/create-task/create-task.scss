@@ -46,7 +46,7 @@
         position: relative;
         width: 100%;
         align-self: flex-start;
-        //padding: 0 0 6px;
+        padding: 0 0 6px;
         flex-wrap: wrap;
         margin: 0 8px;
         border-bottom: 1px solid transparent!important;
@@ -135,15 +135,23 @@
 
     .task-title {
         min-height: 60px;
+        padding-top: 0;
         textarea {
             font-size: 20px;
             font-weight: bold;
             height: 28px;
+            margin-top: 6px;
             overflow: hidden;
+        }
+        .task-input-wrapper {
+            align-self: center;
+        }
+        label {
+            padding-top: 6px;
         }
         svg {
             transform: scale(1.5, 1.5);
-            transform-origin: center center;
+            transform-origin: top center;
             opacity: .4!important;
         }
     }
