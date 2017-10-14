@@ -46,7 +46,7 @@
         position: relative;
         width: 100%;
         align-self: flex-start;
-        padding: 0 0 6px;
+        //padding: 0 0 6px;
         flex-wrap: wrap;
         margin: 0 8px;
         border-bottom: 1px solid transparent!important;
@@ -55,7 +55,7 @@
             font-weight: bold;
             color: $color-gale;
             min-width: 74px;
-            line-height: 28px;
+            line-height: 32px;
             &.candidate {
                 color: #0079F2;
             }
@@ -202,14 +202,11 @@
             }
         }
     }
-    .task-watchers {
-        input {
-            height: 24px;
-        }
-    }
+    .task-watchers,
     .task-labels {
         input {
-            height: 24px;
+            height: 30px;
+            padding: 0 0 6px;
         }
     }
     .task-attachment {
@@ -237,7 +234,7 @@
             max-width: calc(100% - 8px);
         }
         li {
-             margin: 8px 0;
+             margin: 8px 0 0;
         }
         svg {
             margin: 4px;
