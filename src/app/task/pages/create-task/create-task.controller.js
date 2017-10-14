@@ -34,50 +34,9 @@
         total: 0
       }
     };
-    vm.assignees = [];
+
     vm.assigneesData = [];
     vm.assigneeIcon = 'no-assignee';
-    vm.assigneeKeyDown = assigneeKeyDown;
-    vm.removeAssigneeChip = removeAssigneeChip;
-
-    function getAssigneesData(assignees) {
-      var promises;
-      promises = _.map(assignees, function (item) {
-        return NstSvcUserFactory.getCached(item);
-      });
-      $q.all(promises).then(function (lists) {
-        vm.assigneesData = lists;
-      });
-    }
-
-    function parseMentionData(data) {
-      data = data.split(',');
-      data = _.map(data, function (item) {
-        return _.trim(item);
-      });
-      data = _.filter(data, function (item) {
-        return item.length > 1;
-      });
-      return data;
-    }
-
-    function removeAssigneeChip(id) {
-      var index = _.indexOf(vm.assignees, id);
-      if (index > -1) {
-        vm.assignees.splice(index, 1);
-      }
-    }
-
-    function assigneeKeyDown(event) {
-      if (event.keyCode === 13) {
-        _.forEach(parseMentionData(vm.assigneeInput), function (item) {
-          vm.assignees.push(item);
-        });
-        vm.assignees = _.uniq(vm.assignees);
-        getAssigneesData(vm.assignees);
-        vm.assigneeInput = '';
-      }
-    }
 
     function getAssigneeIcon(data) {
       if (data.length === 0) {
@@ -92,14 +51,16 @@
     }
 
     $scope.$watch(function () {
-      return vm.assignees;
+      return vm.assigneesData;
     }, function (newVal) {
       getAssigneeIcon(newVal);
     }, true);
 
-    vm.placeFiles = placeFiles;
     vm.dueDate = new Date('July 21, 1983 01:15:00');
 
+    vm.todoFocus = false;
+
+    vm.placeFiles = placeFiles;
     /**
      * Opens the placeFiles modal
      * Pass the `addToCompose` function to the new modal
@@ -119,11 +80,7 @@
         }
       });
     }
-    vm.assignees = [];
-    vm.assigneesData = [];
-    vm.assigneeIcon = 'no-assignee';
-    vm.assigneeKeyDown = assigneeKeyDown;
-    vm.removeAssigneeChip = removeAssigneeChip;
+
     vm.placeFiles = placeFiles;
 
     $scope.$watch(function () {

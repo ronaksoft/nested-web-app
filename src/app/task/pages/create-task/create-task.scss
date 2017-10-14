@@ -54,6 +54,12 @@
         flex-wrap: wrap;
         margin: 0 8px;
         border-bottom: 1px solid transparent!important;
+        task-assignee {
+          display: flex;
+          position: relative;
+          flex-wrap: wrap;
+          width: 100%;
+        }
         .status {
             font-size: 12px;
             font-weight: bold;
