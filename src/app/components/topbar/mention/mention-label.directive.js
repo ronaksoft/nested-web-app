@@ -40,8 +40,8 @@
 
             var template =
               "<li data-id='${id}' class='_difv label-suggets-mention'>" +
-              "<svg class='_24svg mirror _fn label-initials-32 mCS_img_loaded _df color-lbl-${code}'>" +
-              "<use xlink:href='/assets/icons/nst-icn24.svg#tag'></use>" +
+              "<svg class='_16svg mirror _fn label-initials-16 mCS_img_loaded _df color-lbl-${code}'>" +
+              "<use xlink:href='/assets/icons/nst-icn16.svg#tag'></use>" +
               "</svg>" +
               "<div>" +
               "<span class='_df list-unstyled text-centerteammate-name _fw nst-mood-solid text-name'><span class='_db _fw _txe' dir='${dir}'>${name}</span></span>" +
