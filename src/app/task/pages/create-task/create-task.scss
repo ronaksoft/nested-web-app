@@ -27,6 +27,10 @@
         input {
             margin-top: 2px;
         }
+        
+        ._16svg {
+            margin-top: 4px;
+        }
     }
     .const-height-item {
         align-items: center;
@@ -117,9 +121,6 @@
         svg {
             opacity: .4;
         }
-        ._16svg {
-            margin-top: 4px;
-        }
         &.focus {
             svg {
                 opacity: 1;
@@ -173,7 +174,7 @@
     .task-due {
         height: 48px;
         input {
-            height: 24px;
+            height: 18px;
             font-size: 13px;
             line-height: 18px;
         }
