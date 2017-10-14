@@ -54,8 +54,11 @@
 
     vm.watcherFocus = false;
     vm.watchersData = [];
-    vm.wathcerPlaceholder = NstSvcTranslation.get('Add peoples who wants to follow task...');
+    vm.watcherPlaceholder = NstSvcTranslation.get('Add peoples who wants to follow task...');
 
+    vm.labelFocus = false;
+    vm.labelsData = [];
+    vm.labelPlaceholder = NstSvcTranslation.get('Add labels...');
 
     vm.dueDate = new Date('July 21, 1983 01:15:00');
 

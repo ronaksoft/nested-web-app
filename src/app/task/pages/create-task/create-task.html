@@ -149,7 +149,7 @@
                          assignee-with-candidate="false" assignee-placeholder="{{ctrl.watcherPlaceholder}}"></task-assignee>
         </div>
       </div>
-      <label ng-class="{'focus' : ctrl.watcherFocus}">
+      <label ng-class="{'focus': ctrl.labelFocus}">
         <svg class="_16svg">
           <use xlink:href="/assets/icons/nst-icn16.svg#person"></use>
         </svg>
@@ -157,13 +157,16 @@
     </div>
     <div class="task-labels auto-height-item">
       <div class="_difv _fw">
-        <h3>Labels</h3>
-        <div class="task-input-wrapper ng-class:{'focus' : taskLabel}">
-          <input type="text" class="no-style gale-holder create-task-input" placeholder="add labels…"
-                 ng-focus="taskLabel = true" ng-blur="taskLabel = false">
+        <h3><translate>Labels</translate></h3>
+        <div class="task-input-wrapper ng-class:{'focus': ctrl.labelFocus}">
+          <!--<div label-chips label-id="'599994a893063d0001c3192b'"></div>
+          <input nst-mention-label type="text" class="no-style gale-holder create-task-input" placeholder="{{ctrl.labelPlaceholder}}"
+                 ng-focus="ctrl.labelFocus = true" ng-blur="ctrl.labelFocus = false">-->
+          <task-label labels-data="ctrl.labelsData" label-focus="ctrl.labelsFocus"
+                         label-placeholder="{{ctrl.labelPlaceholder}}"></task-label>
         </div>
       </div>
-      <label ng-class="{'focus' : taskLabel}">
+      <label ng-class="{'focus': ctrl.labelFocus}">
         <svg class="_16svg">
           <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
         </svg>
