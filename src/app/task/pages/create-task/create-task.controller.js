@@ -40,7 +40,6 @@
     vm.assigneeKeyDown = assigneeKeyDown;
     vm.removeAssigneeChip = removeAssigneeChip;
     vm.placeFiles = placeFiles;
-
     vm.dueDate = new Date("July 21, 1983 01:15:00");
 
     /**
@@ -427,5 +426,18 @@
     }, function (newVal) {
       getAssigneeIcon(newVal);
     }, true);
+
+    // Form treats
+    vm.assigneFocusTrigger = 0
+    vm.assigneTodoTrigger = 0
+    vm.enterSubjectTask = function (){
+      vm.assigneFocusTrigger++;
+      console.log(vm.assigneFocusTrigger);
+    }
+    
+    vm.enterDescriptionTask = function (){
+      vm.assigneTodoTrigger++;
+      console.log(vm.assigneTodoTrigger);
+    }
   }
 })();

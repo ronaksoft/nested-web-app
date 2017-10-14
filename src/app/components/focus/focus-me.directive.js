@@ -5,11 +5,12 @@
     .module('ronak.nested.web.components')
     .directive('focusMe', function() {
       return {
-        scope: { trigger: '@focusMe' },
-        link: function(scope, element) {
+        link: function(scope, element, attrs) {
           var triggerWatcherCleaner = null;
-          triggerWatcherCleaner = scope.$watch('trigger', function(val) {
-            if (val) {
+          triggerWatcherCleaner = scope.$watch(function (){
+            return attrs.focusMe;
+          }, function(val) {
+            if (val && val != 0) {
               element[0].focus();
             }
           });

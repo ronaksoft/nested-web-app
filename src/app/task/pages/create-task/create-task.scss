@@ -63,7 +63,7 @@
             border-bottom: 1px solid $color-gale!important;
         }
         &.error {
-            input {
+            textarea {
                 color: $color-force;
             }
             &.focus {

@@ -11,14 +11,16 @@
       restrict: 'A',
       link: function (scope, $el) {
         var el = $el[0];
-        el.addEventListener('keydown', resize);
+        var eventDebounce = _.debounce(resize, 10);
+        el.addEventListener('keydown', eventDebounce);
         function resize() {
           var ele = $el[0];
           ele.style.height = '';
           ele.style.height = ele.scrollHeight + "px";
         }
         scope.$on('$destroy', function () {
-          el.removeEventListener('keydown', resize);
+          eventDebounce.cancel();
+          el.removeEventListener('keydown', eventDebounce);
         });
       }
     };

@@ -1,8 +1,8 @@
 <div class="create-task">
-  <div class="task-title const-height-item">
+  <div class="task-title auto-height-item">
       <div class="task-input-wrapper ng-class:{'focus' : taskTitle, 'error' : ctrl.taskTitle.length > 64}">
         <textarea type="text" class="no-style gale-holder create-task-input" placeholder="Enter a Task Title" id="task-title"
-            ng-focus="taskTitle = true" ng-blur="taskTitle = false" resize-textarea ng-model="ctrl.taskTitle"></textarea>
+            ng-focus="taskTitle = true" ng-blur="taskTitle = false" resize-textarea ng-model="ctrl.taskTitle" enter-key="ctrl.enterSubjectTask()"></textarea>
             <div class="error-handler" ng-if="ctrl.taskTitle.length > 54">
                 {{ctrl.taskTitle.length | localize}} / 64
             </div>
@@ -18,7 +18,7 @@
         <span ng-if="ctrl.assignees.length == 1 && ctrl.assigneeFocus == true" ng-click="ctrl.assigneeFocus = false" class="status">assignee:</span>
         <span ng-if="ctrl.assignees.length > 1 && ctrl.assigneeFocus == true" ng-click="ctrl.assigneeFocus = false" class="status candidate">candidates:</span>
         <div user-chips user-id="assignee" candidate="(ctrl.assignees.length > 1)" on-remove="ctrl.removeAssigneeChip" ng-repeat="assignee in ctrl.assignees" ng-if="ctrl.assigneeFocus == true"></div>
-        <input nst-mention-user nst-mention-list="ctrl.assignees" type="text" class="no-style gale-holder create-task-input" placeholder="Add Assignee or Candidates"
+        <input nst-mention-user nst-mention-list="ctrl.assignees" type="text" class="no-style gale-holder create-task-input" placeholder="Add Assignee or Candidates" focus-me="{{ctrl.assigneFocusTrigger}}"
         id="task-assignee" ng-focus="ctrl.assigneeFocus = true" ng-model="ctrl.assigneeInput" ng-keydown="ctrl.assigneeKeyDown($event)" ng-if="ctrl.assigneeFocus == true || ctrl.assignees.length == 0">
         <div ng-if="ctrl.assigneeFocus != true && ctrl.assignees.length == 1" ng-click="ctrl.assigneeFocus = true;" class="unfocused-input">Assigned to <b>{{ctrl.assigneesData[0].fullName}}</b></div>
         <div ng-if="ctrl.assigneeFocus != true && ctrl.assignees.length > 1" ng-click="ctrl.assigneeFocus = true;" class="unfocused-input candidates">Candidates:
@@ -54,7 +54,7 @@
     <div class="task-description auto-height-item ng-class:{'focus' : taskDes}">
         <div class="task-input-wrapper">
             <textarea class="no-style gale-holder create-task-input"
-            ng-focus="taskDes = true" ng-blur="taskDes = false"
+            ng-focus="taskDes = true" ng-blur="taskDes = false" enter-key="ctrl.enterDescriptionTask()"
             placeholder="+ Add a Description …" id="task-description" resize-textarea></textarea>
         </div>
         <label for="task-description" ng-class="{'focus' : taskDes}">
@@ -77,7 +77,7 @@
                     <use xlink:href="/assets/icons/nst-icn16.svg#todo-done"></use>
                 </svg>
                 <textarea class="no-style gale-holder create-task-input f1"
-                    ng-focus="tasktodo = true" ng-blur="tasktodo = false"
+                    ng-focus="tasktodo = true" ng-blur="tasktodo = false" focus-me="{{ctrl.assigneTodoTrigger}}"
                     placeholder="+ add a to-do" resize-textarea></textarea>
             </label>
           </li>
