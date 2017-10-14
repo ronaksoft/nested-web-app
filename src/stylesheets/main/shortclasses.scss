@@ -422,6 +422,33 @@ hr.nomargin {
   background-color: #6CD9D9;
 }
 
+.color-lbl-shadow-A {
+  box-shadow: 0 0 8px #8895A1;
+}
+
+.color-lbl-shadow-B {
+  box-shadow: 0 0 8px #60BF70;
+}
+
+.color-lbl-shadow-C {
+  box-shadow: 0 0 8px #EBC246;
+}
+
+.color-lbl-shadow-D {
+  box-shadow: 0 0 8px #F26161;
+}
+
+.color-lbl-shadow-E {
+  box-shadow: 0 0 8px #8669BF;
+}
+
+.color-lbl-shadow-F {
+  box-shadow: 0 0 8px #508EE6;
+}
+
+.color-lbl-shadow-G {
+  box-shadow: 0 0 8px #6CD9D9;
+}
 .highlight-sense {
   &:hover{
     background-color: $color-sense-5;

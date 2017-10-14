@@ -1,4 +1,5 @@
-body.modal-open {
+body.modal-open ,
+body.-attachment-view {
   min-width: auto;
   overflow : hidden;
   .modal {
@@ -226,7 +227,8 @@ body.modal-open {
   }
 
 }
-body.modal-open.compose-modal {
+body.modal-open.compose-modal ,
+body.modal-open-attachment-view.compose-modal {
   // &.active-compose {
 
   // }

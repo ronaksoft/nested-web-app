@@ -1,4 +1,4 @@
-<div class="label-chips-wrapper ng-class:{'isSelected' : isSelected}" ng-click="selectChip();">
+<div class="label-chips-wrapper ng-class:{'isSelected color-lbl-shadow-' + label.code : isSelected}" ng-click="selectChip();">
     <div class="label-edge color-lbl-bg-{{label.code}}">
         <svg class="_fh _fw _df _fn">
             <use xlink:href="/assets/icons/label-chips.svg#label-edge"></use>
@@ -11,4 +11,3 @@
         {{label.title}}
     </span>
 </div>
-      
