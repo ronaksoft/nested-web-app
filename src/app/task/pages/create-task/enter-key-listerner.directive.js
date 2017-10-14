@@ -15,8 +15,7 @@
         el.addEventListener('keydown', enterFnThrottle);
 
         function enterFn(e) {
-          if (e.which === 13) {
-            console.log($attrs.enterKey)
+          if ((e.which === 13 && !e.shiftKey) || ( $attrs.preventShiftEnter == 'true' && e.which === 13 )) {
             if ($attrs.enterKey) {
               scope.$apply($attrs.enterKey);
             }

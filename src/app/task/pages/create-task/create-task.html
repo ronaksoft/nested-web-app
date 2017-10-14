@@ -2,7 +2,8 @@
   <div class="task-title auto-height-item">
       <div class="task-input-wrapper ng-class:{'focus' : taskTitle, 'error' : ctrl.taskTitle.length > 64}">
         <textarea type="text" class="no-style gale-holder create-task-input" placeholder="Enter a Task Title" id="task-title"
-            ng-focus="taskTitle = true" ng-blur="taskTitle = false" resize-textarea ng-model="ctrl.taskTitle" enter-key="ctrl.enterSubjectTask()"></textarea>
+            ng-focus="taskTitle = true" ng-blur="taskTitle = false" resize-textarea ng-model="ctrl.taskTitle" enter-key="ctrl.enterSubjectTask()"
+            prevent-shift-enter="true"></textarea>
             <div class="error-handler" ng-if="ctrl.taskTitle.length > 54">
                 {{ctrl.taskTitle.length | localize}} / 64
             </div>
