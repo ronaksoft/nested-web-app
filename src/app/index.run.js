@@ -15,7 +15,7 @@
     // }
 
     $rootScope.modals = {};
-    if ( deviceDetector.browser !== 'safari') {
+    if ( deviceDetector.os !== 'mac') {
       window.nativeScroll = false;
       iScrollService.toggle(true);
       iScrollService.state.useIScroll = true;
