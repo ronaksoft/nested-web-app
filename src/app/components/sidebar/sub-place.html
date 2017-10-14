@@ -1,5 +1,5 @@
 <a class="side-place-item-container" dbl-click="{{child.children.length > 0}}" ui-sref="app.place-messages({ placeId: child.id })"
-  ng-dblclick="child.isExpanded =! child.isExpanded" ui-sref-active="isSelected" ng-class="{'isSelected': child.isActive}">
+  ng-dblclick="child.isExpanded =! child.isExpanded;ctlSidebar.updateExpanded(child.id, child.isExpanded)" ui-sref-active="isSelected" ng-class="{'isSelected': child.isActive}">
   <dl data-ng-repeat="i in ctlSidebar.range(child.depth)" class="lines">
     <div class="box2"></div>
     <div class="box1"></div>
@@ -18,7 +18,7 @@
   <div ng-if="child.children.length > 0" class="arrow-toggle tw-svg _difv ng-class:{'open' : child.isExpanded}"
     data-ng-click="
       child.isExpanded =! child.isExpanded;
-      place.isExpanded ? ctlSidebar.scrollIntoViewEvent = $event : null;
+      ctlSidebar.updateExpanded(child.id, child.isExpanded);
       $event.preventDefault();
       $event.stopPropagation()"
     role="button" tabindex="0">

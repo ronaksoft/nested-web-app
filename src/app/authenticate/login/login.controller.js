@@ -30,7 +30,7 @@
    */
   function LoginController($window, $state, $stateParams, md5, $location,
                            NST_DEFAULT, NST_SRV_ERROR, _,
-                           NstSvcAuth, NstSvcTranslation, NstSvcGlobalCache, NstSvcRequestCacheFactory) {
+                           NstSvcAuth, NstSvcTranslation, NstSvcGlobalCache, NstSvcRequestCacheFactory, NstSvcPostDraft) {
     var vm = this;
 
     /*****************************
@@ -84,6 +84,7 @@
       NstSvcAuth.login(credentials, true).then(function () {
         NstSvcGlobalCache.flush();
         NstSvcRequestCacheFactory.flush();
+        NstSvcPostDraft.reset();
         if ($stateParams.back) {
           goToBackUrl();
         } else {
