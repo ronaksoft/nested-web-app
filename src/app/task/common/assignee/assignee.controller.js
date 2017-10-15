@@ -1,5 +1,5 @@
 /**
- * @file app/messages/comment-body/comment-body.controller.js
+ * @file assignee.controller.js
  * @desc Controller for task assignee
  * @kind {Controller}
  * Documented by:          hamidrezakk < hamidrezakks@gmail.com >
