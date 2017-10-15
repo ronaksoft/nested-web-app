@@ -92,6 +92,7 @@
       },
       link: function (scope, element, attrs, ngModel) {
         var jalali = true;
+        scope.addTime = false;
         var timeInputElement, timeInputElementEvent, timeInputElementEventInput;
         scope.defaultTime = new Date().toString().substr(16, 5);
         scope.time = scope.defaultTime;
@@ -308,13 +309,23 @@
 
           timeInputElement = angular.element(element).parents('.ng-flat-datepicker-wrapper').find('input.time-input');
           timeInputElementEvent = timeInputElement.on('change', function (event) {
-            scope.time = event.target.value.length > 0 ? event.target.value : '00:00';
+            if (event.target.value.length > 0) {
+              scope.time = event.target.value
+            } else {
+              scope.addTime = false;
+              scope.defaultTime = new Date().toString().substr(16, 5);
+              scope.time = scope.time;
+            }
             scope.$apply(function () {
               setTime(scope.time);
             });
             ngModel.$setViewValue(moment(scope.calendarCursor).format(scope.config.dateFormat));
             ngModel.$render();
           });
+        }
+
+        scope.addTimeActivator = function () {
+          scope.addTime = true;
         }
 
         function setTime(time) {
