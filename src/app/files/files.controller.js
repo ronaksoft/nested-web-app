@@ -258,6 +258,7 @@
         controller: 'AttachmentViewController',
         controllerAs: 'ctlAttachmentView',
         backdropClass: 'attachmdrop',
+        openedClass : ' modal-open attach-modal',
         windowClass: '_oh',
         size: 'full',
         resolve: {

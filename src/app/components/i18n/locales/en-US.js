@@ -93,7 +93,6 @@
       "Shared by me": "Shared by Me",
       "Show Images": "Show pictures",
       "Show in their search results?": "Show in the Search results?",
-      "Show more comments...": "Load more comments...",
       "Sorry, An error has occured while creating the place.": "Sorry, an error has occurred while creating the Place.",
       "Sorry, An error has occured while loading the older posts": "Sorry, an error has occurred while loading older posts.",
       "Sorry, an error has occured in sending your comment": "Sorry, an error has occurred while sharing your comment.",
@@ -119,6 +118,7 @@
       "WebApp Prefrences": "WebApp preferences ",
       "Who can add members?": " Who can add new Members?",
       "Who can create subplace?": "Who can create new sub-Places?",
+      "Yo did not shared anything yet.": "You haven't shared anything yet.",
       "You are not allowed to leave the Place because you are the creator of its highest-ranking Place ({0}).": "You can't leave the Place because you are the Manager of its top-level Place ({0}).",
       "You are not allowed to remove {0}, because he/she is the creator of its highest-ranking Place ({1}).": "You are not allowed to remove {0}, because he/she is the creator of its top-level Place ({1}).",
       "You can not leave here, because you are the manager of one of its sub-places.": "You can't leave the Place because it has a sub-Place you are a Manager of!",
@@ -156,7 +156,6 @@
       "write your comment...": "Write your comment...",
       "{{grandPlaceName}} Members": "<b>”{{grandPlaceName}}”</b> Members",
       "{{placeName}} Managers": "<b>”{{placeName}}”</b> Managers",
-      "{{placeName}} Managers and Members": "<b>”{{placeName}}”</b> Managers and Members",
-      "Language and calendar": "Language and Calendar"
+      "{{placeName}} Managers and Members": "<b>”{{placeName}}”</b> Managers and Members"
     });
 })();

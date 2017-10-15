@@ -2,7 +2,7 @@
   'use strict';
   angular
     .module('ronak.nested.web.components.mention')
-    .directive('nstMentionLabel', function (_, $rootScope, $timeout, $window,
+    .directive('nstMentionLabel', function (_, $rootScope, $timeout, $window, SvcRTL,
                                             NstSvcLabelFactory, NstSvcTranslation) {
       return {
         restrict: 'A',
@@ -41,7 +41,7 @@
               "<use xlink:href='/assets/icons/nst-icn24.svg#tag'></use>" +
               "</svg>" +
               "<div class='_difv'>" +
-              "<span class='_df list-unstyled text-centerteammate-name  nst-mood-solid text-name'>${name}</span>" +
+              "<span class='_df list-unstyled text-centerteammate-name  nst-mood-solid text-name' dir='${dir}'>${name}</span>" +
               "<span class='_df nst-mood-storm nst-font-small'>${type}</span>" +
               "</div>" +
               "</li>";
@@ -78,6 +78,7 @@
                           id: item.title,
                           type: item.public ? NstSvcTranslation.get('everyone') : NstSvcTranslation.get('specific users'),
                           name: item.title,
+                          dir : SvcRTL.rtl.test(item.title[0]) ? 'rtl' : 'ltr',
                           code: item.code,
                           searchField: [item.id, item.title].join(' ')
                         })

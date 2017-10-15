@@ -226,7 +226,25 @@ body.modal-open {
   }
 
 }
+body.modal-open.compose-modal {
+  // &.active-compose {
 
+  // }
+  .modal {
+    overflow: visible;
+  }
+  &:not(.active-compose) {
+    overflow: auto;
+    .modal,
+    .modal .modal-compose {
+      width: 10px;
+      height: 10px;
+      min-height: 0;
+      min-width: 0;
+    }
+  }
+
+}
 .modal .modal-compose {
   width: 100%;
   height: 100%;
@@ -242,17 +260,63 @@ body.modal-open {
     display: none;
   }
   .modal-content {
-    position: relative;
-    top: 150px;
-    background-color: $color-white;
-    width: 632px;
-    min-height: 480px;
-    max-height: calc(100vh - 160px);
+    background-color: transparent;
+    height: 0;
     // overflow: hidden;
-    border-radius: 4px;
-    >div {
+    position: relative;
+    // min-height: 480px;
+    // max-height: calc(100vh - 160px);
+    #compose-box {
+      position: relative;
+      top: 150px;
+      background-color: $color-white;
+      width: 632px;
       min-height: 480px;
       max-height: calc(100vh - 160px);
+      border-radius: 4px;
+      margin: auto;
+      .minimize-container {
+        transition: all 0.3s;
+        div[ng-progressbar] {
+          transform: scaleY(0.4);
+          transform-origin: 50% 0;
+        }
+        .minimize-info {
+          display: flex;
+          .minimize-abort {
+            flex: 1;
+            width: 20px;
+            > svg {
+              margin: -2px 0 0 -8px;
+            }
+          }
+          .minimize-text {
+            flex: auto;
+            padding: 0 5px 5px;
+            margin: -2px 0 0 0;
+            font-size: 12px;
+            text-align: center;
+          }
+        }
+      }
+      &.minimize {
+        top: auto;
+        right: 10px;
+        bottom: 0;
+        width: 150px;
+        position: fixed;
+        height: 30px;
+        min-height: 0;
+      }
+    }
+    >div {
+      min-height: 480px;
+    }
+    >div.minimze {
+      width: 400px;
+      height: 120px;
+      left: 48px;
+      bottom: 48px;
     }
     .ui-select-multiple.ui-select-bootstrap input.ui-select-search ,
     .ui-select-multiple.ui-select-bootstrap {
@@ -266,11 +330,13 @@ body.modal-open {
     top: 0;
     width: 100%;
     height: 100%;
+    background-color: $color-modal-bg;
   }
   .compose-wrapper {
     width: 100%;
     min-height: 480px;
-    height: 100%;
+    max-height: calc(100vh - 160px);
+    // height: 100%;
     position: relative;
     box-shadow: 0 16px 32px $color-gale;
     .fr-box.fr-basic .fr-element {
@@ -319,14 +385,14 @@ body.modal-open {
     margin: 48px 0 0 0;
     padding: 0 16px;
     height: calc(100% - 144px);
-    max-height: calc(100vh - 408px);
+    max-height: calc(100vh - 320px);
     //overflow-y: scroll;
     //overflow-x: hidden;
     >p {
       color: $color-sense-wire;
       margin-bottom: 6px;
     }
-    
+
   }
   .compose-modal-footer {
     padding: 0 16px;
@@ -398,18 +464,48 @@ body.modal-open {
       max-height: calc(100vh - 413px);
     }
     #compose-full {
-      use:first-child {
-        display: none;
-      }
-      use:last-child {
+      &.collapse {
         display: block;
+      }
+      &.expand {
+        display: none;
       }
     }
   }
 }
-.fullCompose .modal .modal-compose .modal-content > div {
-  min-height: 100vh;
-  max-height: 100vh;
+.fullCompose .modal .modal-compose .modal-content {
+  overflow: hidden;
+  #compose-box {
+    min-height: 100vh;
+    max-height: 100vh;
+    min-width: 100vw;
+    max-width: 100vw;
+    top: 0;
+    border-radius: 0;
+    margin: auto;
+    .compose-wrapper {
+      max-height: 100vh;
+      height: 100vh;
+      &.attached {
+        .compose-modal-body {
+          height: auto;
+        }
+      }
+      .compose-modal-body {
+        margin-top: 48px;
+        min-height: calc(100% - 267px);
+        height: 100%;
+        max-height: calc(100vh - 153px);
+      }
+    }
+    &.minimize {
+      min-height: 0;
+      max-height: none;
+      min-width: 0;
+      top: auto;
+      max-width: none;
+    }
+  }
 }
 
 .modal-post-view,
@@ -756,4 +852,8 @@ div.modal .attach-place {
     height: 32px;
     width: 100%;
   }
+}
+
+.modal.in:not([size="compose"]) + .modal.in[size="compose"] + .modal-backdrop.comdrop {
+  display: block;
 }

@@ -24,10 +24,11 @@
    * @param {any} $location
    * @returns
    */
-  function NstSvcI18n(_, NstSvcI18nStorage, moment, $location) {
+  function NstSvcI18n(_, NstSvcI18nStorage, moment, $location, NstSvcKeyFactory, NST_KEY, toastr, $window) {
     function I18n() {
-      this.locales = {};
-      this.calendars = {};
+      var that = this;
+      that.locales = {};
+      that.calendars = {};
 
       var languages = {
         "fa": "fa-IR",
@@ -54,19 +55,49 @@
       if (routedLocale) {
         NstSvcI18nStorage.set('locale', routedLocale)
       }
-      this.selectedLocale = NstSvcI18nStorage.get('locale') || routedLocale || defaultLocale;
       this.selectedCalendar = localStorage.getItem('ronak.nested.web.calendar') || routedCalendar || defaultCalendar;
-      if (this.selectedCalendar === "jalali") {
-        moment.loadPersian();
+      this.selectedLocale = NstSvcI18nStorage.get('locale') || routedLocale || defaultLocale;
+      initCalandLocale();
+      NstSvcKeyFactory.get(NST_KEY.GENERAL_SETTING_I18N).then(function (val){
+        if(!val || val.length == 0) {
+          return
+        }
+        var settings = JSON.parse(val);
+        var reloadFlag = false
+        if (settings && settings.locale.length > 0){
+          if ( that.selectedLocale !== settings.locale ) {
+            that.setLocale(settings.locale);
+            reloadFlag = true
+          }
+        }
+        if (settings && settings.calendar.length > 0){
+          if ( that.selectedCalendar !== settings.calendar ) {
+            that.setCalendar(settings.calendar)
+            reloadFlag = true
+          }
+        }
+        if(reloadFlag) {
+          toastr.success('Applying calender and locale settings...');
+          setTimeout(function(){
+            $window.location.reload();
+          },100)
+        }
+      })
+
+      function initCalandLocale() {
+        if (that.selectedCalendar === "jalali") {
+          moment.loadPersian();
+        }
+
+        if (that.selectedLocale === 'fa-IR') {
+          if (that.selectedCalendar === 'jalali') {
+            moment.locale('fa', {months: 'فروردین_اردیبهشت_خرداد_تیر_مرداد_شهریور_مهر_آبان_آذر_دی_بهمن_اسفند'.split('_')});
+          }
+        } else {
+          moment.locale('en-US');
+        }
       }
 
-      if (this.selectedLocale === 'fa-IR') {
-        if (this.selectedCalendar === 'jalali') {
-          moment.locale('fa', {months: 'فروردین_اردیبهشت_خرداد_تیر_مرداد_شهریور_مهر_آبان_آذر_دی_بهمن_اسفند'.split('_')});
-        }
-      } else {
-        moment.locale('en-US');
-      }
     }
 
     /**
@@ -105,6 +136,10 @@
      * @param {any} key
      */
     I18n.prototype.setLocale = function (key) {
+      NstSvcKeyFactory.set(NST_KEY.GENERAL_SETTING_I18N, JSON.stringify({
+        locale : key,
+        calendar : this.selectedCalendar
+      }));
       var name = key || this.selectedLocale;
       if (_.has(this.locales, name)) {
         this.selectedLocale = name;
@@ -120,14 +155,18 @@
     };
 
     /**
-     * Switches to the given calender and configures moment package
+     * Switches to the given calendar and configures moment package
      *
      * @param {any} name
      */
     I18n.prototype.setCalendar = function (name) {
+      NstSvcKeyFactory.set(NST_KEY.GENERAL_SETTING_I18N, JSON.stringify({
+        locale : this.selectedLocale,
+        calendar : name
+      }));
+      localStorage.setItem('ronak.nested.web.calendar', name);
       this.selectedCalendar = name;
       moment.locale((name === 'jalali'? 'fa': 'en-US'));
-      localStorage.setItem('ronak.nested.web.calendar', name);
     };
 
     /**

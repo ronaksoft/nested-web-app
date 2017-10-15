@@ -6,7 +6,7 @@
     .run(runBlock);
 
   /** @ngInject */
-  function runBlock($rootScope, $templateCache, iScrollService,
+  function runBlock($rootScope, $templateCache, iScrollService, deviceDetector,
                     NST_LOCALE_EN_US, NST_LOCALE_FA_IR,
                     NstSvcI18n) {
     window.nestedLogs = [];
@@ -15,10 +15,13 @@
     // }
 
     $rootScope.modals = {};
-
-    iScrollService.toggle(true);
-    
-    iScrollService.state.useIScroll = true;
+    if ( deviceDetector.os !== 'mac') {
+      window.nativeScroll = false;
+      iScrollService.toggle(true);
+      iScrollService.state.useIScroll = true;
+    } else {
+      window.nativeScroll = true;
+    }
 
     if( typeof window.svg4everybody === 'function') {
       window.svg4everybody({

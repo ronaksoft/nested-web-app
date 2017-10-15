@@ -17,8 +17,11 @@
                     if(!elementId) $window.scrollTo(0, 0);
                     //check if an element can be found with id attribute
                     var el = document.getElementById(elementId);
-                    scope.scrollInstance.scrollToElement(el)
-                    //   if(el) el.scrollIntoView();
+                    if ( window.nativeScroll) {
+                        if(el) el.scrollIntoView();
+                    } else {
+                        scope.scrollInstance.scrollToElement(el)
+                    }
                 }
               };
           }

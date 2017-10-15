@@ -248,7 +248,7 @@
     function confirmforRemove(post, place) {
       return $uibModal.open({
         animation: false,
-        backdropClass: 'comdrop',
+        // backdropClass: 'comdrop',
         size: 'sm',
         templateUrl: 'app/messages/partials/modals/remove-from-confirm.html',
         controller: 'RemoveFromConfirmController',
@@ -357,7 +357,7 @@
     function attachPlace() {
       $uibModal.open({
         animation: false,
-        backdropClass: 'comdrop',
+        // backdropClass: 'comdrop',
         size: 'sm',
         templateUrl: 'app/messages/partials/modals/attach-place.html',
         controller: 'AttachPlaceController',
@@ -400,7 +400,7 @@
     function seenBy() {
       $uibModal.open({
         animation: false,
-        backdropClass: 'comdrop',
+        // backdropClass: 'comdrop',
         size: 'sm',
         templateUrl: 'app/messages/partials/modals/seen-by.html',
         controller: 'SeenByController',
@@ -424,7 +424,7 @@
     function move(selectedPlace) {
       $uibModal.open({
         animation: false,
-        backdropClass: 'comdrop',
+        // backdropClass: 'comdrop',
         size: 'sm',
         templateUrl: 'app/messages/partials/modals/move.html',
         controller: 'MovePlaceController',
@@ -501,6 +501,9 @@
       if (scrollIntoView) {
         data.scrollIntoView = true;
       }
+      /**
+       * TODO :create hash events and stop listen check
+       */
       eventReferences.push($scope.$broadcast('post-load-new-comments', data));
       reloadCounters();
       vm.unreadCommentsCount = 0;
@@ -737,8 +740,9 @@
       }
 
       vm.goTo = function (posId) {
-        $location.hash(posId);
-        $anchorScroll();
+        // $location.hash(posId);
+        document.querySelector('#' + posId).scrollIntoView({ behavior: 'smooth' });
+        // $anchorScroll();
       }
 
       /**

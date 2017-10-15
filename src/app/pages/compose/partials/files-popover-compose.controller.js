@@ -6,8 +6,8 @@
     .controller('filesPopoverComposeController', filesPopoverComposeController);
 
   /** @ngInject */
-  function filesPopoverComposeController( toastr, $uibModal, $q, $scope, _,
-                           NstSvcFileFactory, NstSvcTranslation, $) {
+  function filesPopoverComposeController(toastr, $uibModal, $q, $scope, _,
+                                         NstSvcFileFactory, NstSvcTranslation) {
     var vm = this;
     vm.loadMoreCounter = 0;
     vm.selectedFiles = [];
@@ -139,7 +139,7 @@
     function placeFiles() {
       $uibModal.open({
         animation: false,
-        backdropClass: 'comdrop',
+        // backdropClass: 'comdrop',
         size: 'sm',
         templateUrl: 'app/pages/compose/partials/place-files-modal.html',
         controller: 'placeFilesModalController',
@@ -167,13 +167,13 @@
     function openAttachment(e, attachment){
       e.stopPropagation();
       e.preventDefault();
-      $('body').addClass('attach-modal');
       var modal = $uibModal.open({
         animation: false,
         templateUrl: 'app/components/attachments/view/single/main.html',
         controller: 'AttachmentViewController',
         controllerAs: 'ctlAttachmentView',
         backdropClass : 'attachmdrop',
+        openedClass : ' modal-open attach-modal',
         windowClass: '_oh',
         size: 'full',
         resolve: {
@@ -197,7 +197,6 @@
           }
         }
       }).result.catch(function(){
-        $('body').removeClass('attach-modal');
       });
 
       return modal.result;

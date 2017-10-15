@@ -3,7 +3,7 @@
     <use xlink:href="/assets/icons/nst-icn24.svg#arrow-up"></use>
   </svg>
 </i>
-<ul ng-if="internalMode == 'thumbnail'" class="thumbnail-bar">
+<ul ng-if="internalMode == 'thumbnail'" class="thumbnail-bar" mousewheel-horizental>
   <li ng-repeat="item in items">
     <a href="javascript:void(0);" ng-click="onClick(item);$event.stopPropagation()" ng-if="item.type === 'image' || item.type === 'gif' || ( item.type === 'video' && item.uploadType !== 'FILE' )">
       <div class="attach-thumbnail-img" alt="" style="background: url({{item.picture.getUrl('x128')}});background-size: cover; height: 96px;position: relative;top: 4px; width: {{ (item.width / item.height * 96) }}px"></div>

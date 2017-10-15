@@ -10,11 +10,12 @@
                                     NST_USER_SEARCH_AREA,
                                     NstSvcUserFactory, NstSvcTranslation, NstUtility,
                                     NST_PLACE_MEMBER_TYPE, NstSvcPlaceFactory, toastr,
-                                    _, currentPlace, mode, isForGrandPlace, newPlace) {
+                                    _, currentPlace, mode, isForGrandPlace, newPlace, NstSvcAuth) {
     var vm = this;
-    var defaultSearchResultCount = 9;
+    var defaultSearchResultCount = 10;
     var eventReferences = [];
 
+    vm.currentUser = NstSvcAuth.user;
     vm.isTeammateMode = true;
     vm.selectedUsers = [];
     vm.users = [];
@@ -69,6 +70,7 @@
         .then(function (users) {
           users = _.unionBy(users, 'id');
           vm.users = _.differenceBy(users, vm.selectedUsers, 'id');
+          vm.users = _.differenceBy(vm.users, [vm.currentUser], 'id');
           if (_.isString(query)
             && _.size(query) >= 4
             && _.indexOf(query, " ") === -1
@@ -130,7 +132,7 @@
      */
     function inviteUsers(place, users) {
       NstSvcPlaceFactory.inviteUser(place, users).then(function (result) {
-        
+
         // dispatch the required events
         NstSvcPlaceFactory.get(place.id, true).then(function (newPlace) {
           var dispatcher = _.partial(dispatchUserAdded, newPlace);

@@ -5,7 +5,7 @@
     .module('ronak.nested.web.components.attachment')
     .controller('AttachmentsViewController', AttachmentsViewController);
 
-  function AttachmentsViewController($scope, $uibModal, _, $) {
+  function AttachmentsViewController($scope, $uibModal, _) {
     var vm = this;
     var eventReferences = [];
 
@@ -20,13 +20,14 @@
     vm.open = function (vmAttachment, vmAttachments) {
 
       eventReferences.push($scope.$emit('post-attachment-viewed', { postId : vm.postId }));
-      $('body').addClass('attach-modal');
+      // $('body').addClass('attach-modal');
       var modal = $uibModal.open({
         animation: false,
         templateUrl: 'app/components/attachments/view/single/main.html',
         controller: 'AttachmentViewController',
         controllerAs: 'ctlAttachmentView',
         windowClass: '_oh',
+        openedClass : ' modal-open attach-modal',
         backdropClass : 'attachmdrop',
         size: 'full',
         resolve: {
@@ -50,7 +51,7 @@
           }
         }
       }).result.catch(function(){
-        $('body').removeClass('attach-modal');
+        // $('body').removeClass('attach-modal');
       });
 
       return modal.result;

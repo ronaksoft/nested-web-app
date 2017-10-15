@@ -1047,6 +1047,17 @@ body[dir="rtl"] {
   .suggest-list li a.LTR-text {
     justify-content: flex-end;
   }
+  .content-plus .content-plus-inner > div .activity-item {
+    padding: 8px 6px 0 15px;
+  }
+  .side-places-list .arrow-toggle {
+    right: 0;
+    left: 4px;
+  }
+  .quick-message-wrp .quick-message-inner .quick-message {
+    margin-left: 32px;
+    margin-right: 0;
+  }
 }
 
 body[dir="ltr"] {

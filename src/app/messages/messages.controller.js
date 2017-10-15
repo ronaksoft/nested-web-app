@@ -354,7 +354,7 @@
         return getMessages(vm.messagesSetting).then(function (posts) {
           $timeout(function () {
             appendPosts(posts);
-          }, 1000)
+          }, 1000);
           vm.tryAgainToLoadMore = false;
         }).catch(function () {
           vm.tryAgainToLoadMore = true;
@@ -408,7 +408,7 @@
       function confirmforRemoveMulti(posts, place) {
         return $uibModal.open({
           animation: false,
-          backdropClass: 'comdrop',
+          // backdropClass: 'comdrop',
           size: 'sm',
           templateUrl: 'app/messages/partials/modals/remove-multi-from-confirm.html',
           controller: 'RemoveFromConfirmController',
@@ -555,7 +555,7 @@
           $event.preventDefault();
           $uibModal.open({
             animation: false,
-            backdropClass: 'comdrop',
+            // backdropClass: 'comdrop',
             size: 'sm',
             templateUrl: 'app/messages/partials/modals/move.html',
             controller: 'MovePlaceController',
@@ -665,7 +665,7 @@
           }).finally(function () {
             $timeout(function () {
               vm.loading = false;
-            }, 1000)
+            }, 1000);
           });
 
           return promise;

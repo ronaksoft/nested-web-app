@@ -419,7 +419,7 @@
 
       var options = {
         limit: setting.limit,
-        skip: setting.skip
+        before: setting.before
       };
 
       if (setting.sort === NST_MESSAGES_SORT_OPTION.LATEST_ACTIVITY) {
