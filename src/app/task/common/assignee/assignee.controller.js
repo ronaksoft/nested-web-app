@@ -19,17 +19,20 @@
 
     vm.assigneeInput = '';
     vm.assignees = [];
+    vm.mentionAssigneesData = [];
     vm.assigneeKeyDown = assigneeKeyDown;
+    vm.assigneeKeyUp = assigneeKeyUp;
     vm.removeAssigneeChip = removeAssigneeChip;
 
-    function getAssigneesData(assignees) {
-      var promises;
-      promises = _.map(assignees, function (item) {
-        return NstSvcUserFactory.getCached(item);
+    function removeRedundantAssignees(assignees, assigneesData) {
+      var tempList = [];
+      _.forEach(assignees, function (label) {
+        var index = _.findIndex(assigneesData, {id: label});
+        if (index > -1) {
+          tempList.push(assigneesData[index]);
+        }
       });
-      $q.all(promises).then(function (lists) {
-        vm.assigneesData = lists;
-      });
+      return tempList;
     }
 
     function parseMentionData(data) {
@@ -60,9 +63,23 @@
           vm.assignees.push(item);
         });
         vm.assignees = _.uniq(vm.assignees);
-        getAssigneesData(vm.assignees);
+        vm.assigneesData = removeRedundantAssignees(vm.assignees, vm.mentionAssigneesData);
         vm.assigneeInput = '';
       }
+    }
+
+    var inputLastValue = '';
+    function assigneeKeyUp(event) {
+      if (event.keyCode === 8 && inputLastValue === '') {
+        console.log(inputLastValue);
+        console.log(vm.assignees.length, vm.assigneesData.length);
+        if (vm.assignees.length > 0 && vm.assigneesData.length > 0) {
+          var text = vm.assignees.pop();
+          vm.assigneesData.pop();
+          vm.assigneeInput = text.substr(0, text.length - 1);
+        }
+      }
+      inputLastValue = vm.assigneeInput;
     }
   }
 })();
