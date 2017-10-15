@@ -159,7 +159,11 @@
     .label-edge {
         width: 18px;
         height: 22px;
+        position: relative;
         @include align-center();
+        svg {
+            position: absolute;
+        }
         svg:last-child {
             display: none;
             fill: $color-white;
@@ -174,6 +178,12 @@
     }
     &:not(.isSelected) {
         box-shadow: none;
+    }
+    &:not(.access) {
+        .label-edge {
+            background: transparent!important;
+            background-color: transparent;
+        }
     }
     span {
         max-width: 102px;
@@ -206,12 +216,14 @@
         }
     }
     &:hover {
-        .label-edge {
-            svg:first-child {
-                display: none;
-            }
-            svg:last-child {
-                display: block;
+        &.access {
+            .label-edge {
+                svg:first-child {
+                    display: none;
+                }
+                svg:last-child {
+                    display: block;
+                }
             }
         }
         .clear {

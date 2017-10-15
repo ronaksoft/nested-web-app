@@ -135,9 +135,11 @@
     <nst-attachments-view class="_fw" post-id="ctlPostCard.post.id" sender="ctlPostCard.post.sender" attachments="ctlPostCard.post.attachments"></nst-attachments-view>
   </section>
   <section class="post-labels" ng-if="ctlPostCard.post.labels.length > 0 && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
-    <span data-ng-repeat="label in ctlPostCard.post.labels track by $index" ng-click="ctlPostCard.labelClick(label.title);" class="color-lbl-bg-{{label.code}}">
+    <!-- <span data-ng-repeat="label in ctlPostCard.post.labels track by $index" ng-click="ctlPostCard.labelClick(label.title);" class="color-lbl-bg-{{label.code}}">
         {{ label.title | scapeRevSpace}}
-    </span>
+    </span> -->
+    <div label-chips label-id="label" on-remove="ctlLabel.removeLabelChip"
+      ng-repeat="label in ctlPostCard.post.labels track by $index" ng-click="ctlPostCard.labelClick(label.title);"></div>
     <a ng-if="!ctlPostCard.FIT && ctlPostCard.haveAnyLabelAcess" add-label added-labels="ctlPostCard.post.labels" after-add-label="ctlPostCard.addLabels"
        data-uib-tooltip-template="'add-label-tooltip.html'" class="cursor-pointer" data-tooltip-append-to-body="true" data-tooltip-placement="auto top"
        ng-click="ctlPostCard.markAsRead();"

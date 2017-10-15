@@ -1,4 +1,4 @@
-<div label-chips label-id="label" on-remove="ctlLabel.removeLabelChip"
+<div label-chips label-id="label" on-remove="ctlLabel.removeLabelChip" selectable="true"
      ng-repeat="label in ctlLabel.labelsData" ng-if="ctlLabel.labelFocus == true"></div>
 <input nst-mention-label nst-mention-list="ctlLabel.labels" nst-mention-data="ctlLabel.mentionLabelsData" type="text"
        class="no-style gale-holder create-task-input" placeholder="{{ctlLabel.labelPlaceholder}}"

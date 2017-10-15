@@ -500,26 +500,27 @@ post-card {
 .post-labels {
   flex-wrap: wrap;
   flex: none;
-  span {
-    line-height: 18px;
-    margin-right: 6px;
-    color: $color-white;
-    border-radius: 4px;
-    padding: 0 6px;
-    margin-bottom: 8px;
-    font-size: 12px;
-    opacity: .72;
-    white-space: nowrap;
-    transition: opacity $animation-dur;
-    &:hover {
-      opacity: 1;
-    }
-  }
+  // span {
+  //   line-height: 18px;
+  //   margin-right: 6px;
+  //   color: $color-white;
+  //   border-radius: 4px;
+  //   padding: 0 6px;
+  //   margin-bottom: 8px;
+  //   font-size: 12px;
+  //   opacity: .72;
+  //   white-space: nowrap;
+  //   transition: opacity $animation-dur;
+  //   &:hover {
+  //     opacity: 1;
+  //   }
+  // }
   a {
     border: 1px solid $color-solid-24;
     border-radius: 2px;
-    height: 18px;
-    width: 18px;
+    height: 22px;
+    width: 22px;
+    padding: 2px;
     box-sizing: border-box;
     svg {
       fill: $color-new-hurricane;

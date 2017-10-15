@@ -14,6 +14,7 @@
       restrict: 'A',
       scope: {
         labelId: '=',
+        selectable: '=?',
         onRemove: '='
       },
       link: function (scope, element) {
@@ -38,7 +39,9 @@
         }
 
         scope.selectChip = function () {
-          scope.isSelected = true;
+          if ( scope.selectable ) {            
+            scope.isSelected = true;
+          }
         };
 
         scope.unselectChip = function () {
