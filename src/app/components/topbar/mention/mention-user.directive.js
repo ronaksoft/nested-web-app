@@ -8,7 +8,8 @@
       return {
         restrict: 'A',
         scope: {
-          selectedList: '=nstMentionList'
+          selectedList: '=nstMentionList',
+          dataList: '=nstMentionData'
         },
         link: function (scope, _element) {
 
@@ -43,9 +44,8 @@
               "<li data-id='${id}' class='_difv user-suggets-mention'>" +
               "<img src='${avatar}' class='account-initials-16 mCS_img_loaded _df'>" +
               "<div>" +
-              "<span class='_df list-unstyled text-centerteammate-name _fw nst-mood-solid text-name'><span class='_db _fw _txe' dir='${dir}'>${name}</span></span>" +
+              "<span class='_df list-unstyled text-centerteammate-name _fw nst-mood-solid text-name'><span class='_db _fw _txe' dir='${dir}'>${title}</span></span>" +
               "<span class='nst-mood-storm _df _fn'><span class='_db _txe' dir='ltr'>${alias}</span></span>" +
-              // "<span><span class='nst-mood-storm nst-font-small' dir='ltr'>${id}</span></span>" +
               "</div>" +
               "</li>";
 
@@ -59,6 +59,7 @@
               element.attr('mention', true);
             });
 
+            var usersData = [];
             element
               .atwho({
                 at: key,
@@ -69,6 +70,11 @@
                 displayTpl: template,
                 callbacks: {
                   beforeInsert: function (value, $li) {
+                    var index = _.findIndex(usersData, {id: value});
+                    if (index > -1 && _.isArray(scope.dataList)) {
+                      scope.dataList.push(usersData[index]);
+                      scope.dataList = _.uniqBy(scope.dataList, 'id');
+                    }
                     var elm = angular.element($li);
                     return key + elm.attr('data-id').trim() + ',';
                   },
@@ -100,13 +106,15 @@
 
                         items.push({
                           id: obj.id,
-                          name: obj.name,
+                          name: obj.id,
+                          title: obj.name,
                           dir : SvcRTL.rtl.test(obj.name[0]) ? 'rtl' : 'ltr',
                           alias: obj.id === NstSvcAuth.user.id ? NstSvcTranslation.get('Me') : '',
-                          avatar: obj.avatar == "" ? avatarElement[0].currentSrc : obj.avatar,
+                          avatar: obj.avatar === "" ? avatarElement[0].currentSrc : obj.avatar,
                           searchField: [obj.id, obj.name].join(' ')
                         })
                       });
+                      usersData = uniqueUsers;
                       callback(items);
                     });
                   },

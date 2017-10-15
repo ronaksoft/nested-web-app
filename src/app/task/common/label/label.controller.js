@@ -47,11 +47,14 @@
     }
 
     function removeLabelChip(id) {
+      if (_.isObject(id)) {
+        id = id.title;
+      }
       var index = _.indexOf(vm.labels, id);
       if (index > -1) {
         vm.labels.splice(index, 1);
       }
-      index = _.findIndex(vm.labelsData, {id: id});
+      index = _.findIndex(vm.labelsData, {title: id});
       if (index > -1) {
         vm.labelsData.splice(index, 1);
       }
@@ -63,7 +66,6 @@
           vm.labels.push(item);
         });
         vm.labels = _.uniq(vm.labels);
-        console.log(vm.labels);
         vm.labelsData = removeRedundantLabels(vm.labels, vm.mentionLabelsData);
         vm.labelInput = '';
       }

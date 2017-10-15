@@ -98,8 +98,7 @@
                           name: item.title,
                           dir : SvcRTL.rtl.test(item.title[0]) ? 'rtl' : 'ltr',
                           code: item.code,
-                          searchField: [item.id, item.title].join(' '),
-                          data: item
+                          searchField: [item.id, item.title].join(' ')
                         })
                       });
                       labelsData = uniqueLabels;
