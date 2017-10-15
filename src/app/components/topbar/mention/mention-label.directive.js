@@ -7,7 +7,8 @@
       return {
         restrict: 'A',
         scope: {
-          selectedList: '=nstMentionList'
+          selectedList: '=nstMentionList',
+          dataList: '=nstMentionData'
         },
         link: function (scope, _element) {
 
@@ -59,6 +60,7 @@
               element.attr('mention', true);
             });
 
+            var labelsData = [];
             element
               .atwho({
                 at: key,
@@ -69,6 +71,11 @@
                 displayTpl: template,
                 callbacks: {
                   beforeInsert: function (value, $li) {
+                    var index = _.findIndex(labelsData, {title: value});
+                    if (index > -1 && _.isArray(scope.dataList)) {
+                      scope.dataList.push(labelsData[index]);
+                      scope.dataList = _.uniqBy(scope.dataList, 'id');
+                    }
                     var elm = angular.element($li);
                     return key + elm.attr('data-id').trim() + ',';
                   },
@@ -78,10 +85,10 @@
                       if (_.isArray(scope.selectedList)) {
                         var list = _.map(scope.selectedList, function (item) {
                           return {
-                            id: item
+                            title: item
                           };
                         });
-                        uniqueLabels = _.differenceBy(uniqueLabels, list, 'id');
+                        uniqueLabels = _.differenceBy(uniqueLabels, list, 'title');
                       }
                       var items = [];
                       _.map(uniqueLabels, function (item) {
@@ -91,9 +98,11 @@
                           name: item.title,
                           dir : SvcRTL.rtl.test(item.title[0]) ? 'rtl' : 'ltr',
                           code: item.code,
-                          searchField: [item.id, item.title].join(' ')
+                          searchField: [item.id, item.title].join(' '),
+                          data: item
                         })
                       });
+                      labelsData = uniqueLabels;
                       callback(items);
                     });
                   },

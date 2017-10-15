@@ -14,23 +14,24 @@
     .module('ronak.nested.web.task')
     .controller('TaskLabelController', TaskLabelController);
 
-  function TaskLabelController($scope, $q, NstSvcLabelFactory, _) {
+  function TaskLabelController($scope, _) {
     var vm = this;
 
     vm.labelInput = '';
     vm.labels = [];
+    vm.mentionLabelsData = [];
     vm.labelKeyDown = labelKeyDown;
     vm.removeLabelChip = removeLabelChip;
 
-    function getLabelsData(labels) {
-      var promises;
-      //TODO
-      promises = _.map(labels, function (item) {
-        return NstSvcLabelFactory.get(item);
+    function removeRedundantLabels(labels, labelsData) {
+      var tempList = [];
+      _.forEach(labels, function (label) {
+        var index = _.findIndex(labelsData, {title: label});
+        if (index > -1) {
+          tempList.push(labelsData[index]);
+        }
       });
-      $q.all(promises).then(function (lists) {
-        vm.labelsData = lists;
-      });
+      return tempList;
     }
 
     function parseMentionData(data) {
@@ -62,7 +63,8 @@
           vm.labels.push(item);
         });
         vm.labels = _.uniq(vm.labels);
-        getLabelsData(vm.labels);
+        console.log(vm.labels);
+        vm.labelsData = removeRedundantLabels(vm.labels, vm.mentionLabelsData);
         vm.labelInput = '';
       }
     }
