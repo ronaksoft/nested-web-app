@@ -1,9 +1,9 @@
-<div class="label-chips-wrapper color-lbl-shadow-'{{label.code}}" ng-class="{'isSelected':isSelected}" ng-click="selectChip();">
+<div class="label-chips-wrapper  color-lbl-shadow-{{label.code}} ng-class:{'isSelected': isSelected}" ng-click="selectChip();">
     <div class="label-edge color-lbl-bg-{{label.code}}">
-        <svg class="_fh _fw _df _fn">
+        <svg class="_fh _fw _df _fn color-lbl-{{label.code}}">
             <use xlink:href="/assets/icons/label-chips.svg#label-edge"></use>
         </svg>
-        <svg class="_16svg">
+        <svg class="_16svg scolor-lbl-shadow-{{label.code}}">
             <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
         </svg>
     </div>
