@@ -75,38 +75,11 @@
           <translate>To-Do list</translate>
         </h3>
         <ul class="todo-list ng-class:{'focus' : tasktodo}">
-          <!--<li ng-init="isChecked = true">
-            <input class="_fr" type="checkbox" id="todo1" ng-model="isChecked"/>
-            <label class="_fw todo task-input-wrapper" for="todo1">
-              <svg class="_16svg _df" ng-if="!isChecked">
-                <use xlink:href="/assets/icons/nst-icn16.svg#todo-undone"></use>
-              </svg>
-              <svg class="_16svg _df" ng-if="isChecked">
-                <use xlink:href="/assets/icons/nst-icn16.svg#todo-done"></use>
-              </svg>
-              <textarea class="no-style gale-holder create-task-input f1"
-                        ng-focus="tasktodo = true" ng-blur="tasktodo = false" focus-me="{{ctrl.assigneTodoTrigger}}"
-                        placeholder="+ add a to-do" resize-textarea></textarea>
-            </label>
-          </li>
-          <li ng-init="isCheckeds = false">
-            <input class="_fr" type="checkbox" id="todo2" ng-model="isCheckeds"/>
-            <label class="_fw todo task-input-wrapper" for="todo2">
-              <svg class="_16svg _df" ng-if="!isCheckeds">
-                <use xlink:href="/assets/icons/nst-icn16.svg#todo-undone"></use>
-              </svg>
-              <svg class="_16svg _df" ng-if="isCheckeds">
-                <use xlink:href="/assets/icons/nst-icn16.svg#todo-done"></use>
-              </svg>
-              <textarea class="no-style gale-holder create-task-input f1"
-                        ng-focus="tasktodos = true" ng-blur="tasktodos = false"
-                        placeholder="+ add a to-do" resize-textarea></textarea>
-            </label>-->
-          <task-todo-item todo-focus="ctrl.todoFocus"></task-todo-item>
+          <task-todo todos-data="ctrl.todosData" todo-focus="ctrl.todoFocus" todo-placeholder="{{ctrl.todoPlaceholder}}"></task-todo>
           </li>
         </ul>
       </div>
-      <label ng-class="{'focus' : tasktodo}"> 
+      <label ng-class="{'focus': tasktodo}">
         <div class="_24svg _df _jcc _aic" data-uib-tooltip="Remove To-Do list" data-tooltip-placement="top-center auto"
             data-tooltip-append-to-body="true">
             <svg class="_16svg static-item">
@@ -153,16 +126,16 @@
         </div>
       </label>
     </div>
-    <div class="task-watchers auto-height-item">
+    <div class="task-watcher auto-height-item">
       <div class="_difv _fw">
         <h3>
           <translate>Watchers</translate>
         </h3>
-        <div class="task-input-wrapper ng-class:{'focus' : ctrl.watcherFocus}">
+        <div class="task-input-wrapper ng-class:{'focus': ctrl.watcherFocus}">
           <task-assignee assignees-data="ctrl.watchersData" assignee-focus="ctrl.watcherFocus" assignee-with-candidate="false" assignee-placeholder="{{ctrl.watcherPlaceholder}}"></task-assignee>
         </div>
       </div>
-      <label ng-class="{'focus' : ctrl.watcherFocus}">
+      <label ng-class="{'focus': ctrl.watcherFocus}">
         <div class="_24svg _df _jcc _aic" data-uib-tooltip="Remove All Attachments" data-tooltip-placement="top-center auto"
             data-tooltip-append-to-body="true">
             <svg class="_16svg static-item">
@@ -182,11 +155,11 @@
         <h3>
           <translate>Labels</translate>
         </h3>
-        <div class="task-input-wrapper ng-class:{'focus' : labelFocus}">
-          <task-label labels-data="ctrl.labelsData" label-focus="ctrl.labelsFocus" label-placeholder="{{ctrl.labelPlaceholder}}"></task-label>
+        <div class="task-input-wrapper ng-class:{'focus': ctrl.labelFocus}">
+          <task-label labels-data="ctrl.labelsData" label-focus="ctrl.labelFocus" label-placeholder="{{ctrl.labelPlaceholder}}"></task-label>
         </div>
       </div>
-      <label ng-class="{'focus' : labelFocus}">
+      <label ng-class="{'focus': ctrl.labelFocus}">
         <div class="_24svg _df _jcc _aic" data-uib-tooltip="Remove All Watchers" data-tooltip-placement="top-center auto"
             data-tooltip-append-to-body="true">
             <svg class="_16svg static-item">

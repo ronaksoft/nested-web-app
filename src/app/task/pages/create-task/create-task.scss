@@ -180,7 +180,8 @@
             opacity: .4!important;
         }
     }
-    .task-assignee {
+    .task-assignee,
+    .task-watcher {
         min-height: 48px;
         label {
             overflow: hidden;
@@ -240,12 +241,6 @@
             &.focus {
                 border-bottom: 1px solid $color-gale!important;
             }
-        }
-    }
-    .task-watcher {
-        input {
-            height: 30px;
-            padding: 0 0 6px;
         }
     }
     .task-labels {

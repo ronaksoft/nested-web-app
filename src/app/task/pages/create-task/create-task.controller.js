@@ -63,6 +63,8 @@
     vm.dueDate = new Date('July 21, 1983 01:15:00');
 
     vm.todoFocus = false;
+    vm.todosData = [];
+    vm.todoPlaceholder = NstSvcTranslation.get('+ add a to-do');
 
     vm.placeFiles = placeFiles;
     /**

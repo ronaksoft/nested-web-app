@@ -1,0 +1,17 @@
+<li>
+  <input class="_fr" type="checkbox" id="todo{{data.id}}" ng-model="data.checked"/>
+  <label class="_fw todo task-input-wrapper" for="todo{{data.id}}">
+    <svg class="_16svg _df" ng-if="!data.checked">
+      <use xlink:href="/assets/icons/nst-icn16.svg#todo-undone"></use>
+    </svg>
+    <svg class="_16svg _df" ng-if="data.checked">
+      <use xlink:href="/assets/icons/nst-icn16.svg#todo-done"></use>
+    </svg>
+    <textarea class="no-style gale-holder create-task-input f1"
+              ng-model="data.value" ng-keydown="inputKeyDown($event)"
+              ng-keyup="inputKeyUp($event)"
+              enter-key prevent-shift-enter="false"
+              ng-focus="focus = true" ng-blur="focus = false"
+              placeholder="{{placeholder}}" resize-textarea></textarea>
+  </label>
+</li>

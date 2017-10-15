@@ -20,6 +20,7 @@
     vm.labelInput = '';
     vm.labels = [];
     vm.mentionLabelsData = [];
+    vm.labelKeyUp = labelKeyUp;
     vm.labelKeyDown = labelKeyDown;
     vm.removeLabelChip = removeLabelChip;
 
@@ -69,6 +70,18 @@
         vm.labelsData = removeRedundantLabels(vm.labels, vm.mentionLabelsData);
         vm.labelInput = '';
       }
+    }
+
+    var inputLastValue = '';
+    function labelKeyUp(event) {
+      if (event.keyCode === 8 && inputLastValue === '') {
+        if (vm.labels.length > 0 && vm.labelsData.length > 0) {
+          /*var text = */vm.labels.pop();
+          vm.labelsData.pop();
+          // vm.labelInput = text.substr(0, text.length - 1);
+        }
+      }
+      inputLastValue = vm.labelInput;
     }
   }
 })();
