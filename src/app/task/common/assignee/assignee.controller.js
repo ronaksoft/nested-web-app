@@ -47,6 +47,9 @@
     }
 
     function removeAssigneeChip(id) {
+      if (_.isObject(id)) {
+        id = id.id;
+      }
       var index = _.indexOf(vm.assignees, id);
       if (index > -1) {
         vm.assignees.splice(index, 1);
@@ -71,8 +74,6 @@
     var inputLastValue = '';
     function assigneeKeyUp(event) {
       if (event.keyCode === 8 && inputLastValue === '') {
-        console.log(inputLastValue);
-        console.log(vm.assignees.length, vm.assigneesData.length);
         if (vm.assignees.length > 0 && vm.assigneesData.length > 0) {
           var text = vm.assignees.pop();
           vm.assigneesData.pop();
