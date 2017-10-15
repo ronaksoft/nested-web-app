@@ -14,7 +14,7 @@
         "OPTIONS": {}
       }
     },
-    "SIGN_OUT_TARGET": "https://ronaksoftware.com",
+    "SIGN_OUT_TARGET": "http://ronaksoftware.com",
     "WEBSOCKET": {
       "URL": "ws://webapp.ronaksoftware.com:81",
       "TIMEOUT": 60000,
