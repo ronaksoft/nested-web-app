@@ -186,7 +186,7 @@ nst-attachments-preview-bar {
     display: flex;
     flex-wrap: wrap;
     li {
-      margin-right: 6px;
+      margin: 3px 6px 3px 0;
       overflow: visible;
       position: relative;
       &.uploading {

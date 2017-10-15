@@ -6,6 +6,23 @@
     max-height: 100%;
     .auto-height-item ,
     .const-height-item {
+        > label {
+            position: relative;
+            svg {
+                position: absolute;
+            }
+            .hover-item {
+                visibility: hidden;
+            }
+            &:hover {
+                .hover-item {
+                    visibility: visible;
+                }
+                .static-item {
+                    visibility: hidden;
+                }
+            }
+        }
         &:hover {
             .task-input-wrapper {
                 border-bottom: 1px solid $color-gale!important;
@@ -167,7 +184,7 @@
         label {
             overflow: hidden;
         }
-        task-assignee {
+        .task-input-wrapper {
             align-items: center;
         }
         input {
@@ -177,6 +194,7 @@
             display: flex;
             width: auto;
             min-width: 120px;
+            align-self: center;
             flex: 1;
         }
     }
