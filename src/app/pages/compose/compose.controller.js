@@ -154,6 +154,12 @@
 
     function abortBackgroundCompose() {
       vm.finish = true;
+      vm.attachments.viewModels = [];
+      _.forEach(vm.attachments.requests, function (request) {
+        if (request) {
+          NstSvcStore.cancelUpload(request);
+        }
+      });
       $scope.$dismiss();
     }
 
@@ -228,7 +234,7 @@
             setTimeout(function (){
               $('body').removeClass("active-compose");
             },64);
-            
+
             $('html').removeClass("_oh");
             saveDraft();
             vm.finish = true;
@@ -264,7 +270,7 @@
             setTimeout(function (){
               $('body').removeClass("active-compose");
             },64);
-            
+
             $('html').removeClass("_oh");
           }
         }));
@@ -669,7 +675,9 @@
 
           return deferred.promise;
         }).catch(function (error) {
-          toastr.error(NstSvcTranslation.get('An error has occured in uploading the file!'));
+          if (_.findIndex(vm.attachments.viewModels, {id: attachment.id}) > -1) {
+            toastr.error(NstSvcTranslation.get('An error has occurred in uploading the file!'));
+          }
           deferred.reject(error);
         });
 
@@ -749,7 +757,7 @@
           });
         }
 
-        if (0 == model.recipients.length) {
+        if (model.recipients.length === 0) {
           errors.push({
             name: 'recipients',
             message: 'No Recipients are Specified'
@@ -883,7 +891,6 @@
           });
           // TODO check dismissAll
           // $uibModalStack.dismissAll();
-          $scope.$dismiss();
           if (vm.quickMode) {
             clear();
           } else {
@@ -891,6 +898,7 @@
               vm.fullCompose()
             }
             discardDraft();
+            $scope.$dismiss();
           }
 
         } else if (response.post.places.length === response.noPermitPlaces.length) {
@@ -913,8 +921,8 @@
               vm.fullCompose()
             }
             discardDraft();
+            $scope.$dismiss();
           }
-          $scope.$dismiss();
         }
 
         return $q(function (res) {
