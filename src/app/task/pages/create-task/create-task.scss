@@ -44,7 +44,7 @@
         input {
             margin-top: 2px;
         }
-        
+
         label ._16svg {
             margin-top: 4px;
         }
@@ -71,7 +71,8 @@
         flex-wrap: wrap;
         margin: 0 8px;
         border-bottom: 1px solid transparent!important;
-        task-assignee {
+        task-assignee,
+        task-label {
           display: flex;
           position: relative;
           flex-wrap: wrap;
@@ -238,11 +239,22 @@
             }
         }
     }
-    .task-watchers,
-    .task-labels {
+    .task-watcher {
         input {
             height: 30px;
             padding: 0 0 6px;
+        }
+    }
+    .task-labels {
+        input {
+            height: 19px;
+            font-size: 14px;
+            line-height: 19px;
+            display: flex;
+            width: auto;
+            min-width: 120px;
+            align-self: center;
+            flex: 1;
         }
     }
     .task-attachment {
