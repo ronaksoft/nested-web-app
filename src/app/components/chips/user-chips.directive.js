@@ -7,8 +7,8 @@
     .directive('userChips', userChips);
 
 
-  function userChips($templateCache, $compile, $document, datesCalculator, ngJalaaliFDP, moment, NstSvcI18n,
-    NstSvcUserFactory) {
+  function userChips($templateCache, $compile, $document, _,
+                     NstSvcUserFactory) {
 
     return {
       restrict: 'A',
@@ -21,10 +21,16 @@
         scope.isSelected = false;
 
         var template = angular.element($templateCache.get('user-chips.html'));
-        NstSvcUserFactory.getCached(scope.userId).then(function(user) {
-          scope.user = user;
+        if (_.isObject(scope.userId)) {
+          scope.user = scope.userId;
           init();
-        });
+        } else {
+          NstSvcUserFactory.getCached(scope.userId).then(function (user) {
+            scope.user = user;
+            init();
+          });
+        }
+
         /**
          * Init the directive
          * @return {}

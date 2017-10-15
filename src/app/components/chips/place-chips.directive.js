@@ -15,6 +15,7 @@
           scope: {
             placeId: '=',
             isEmail: '=',
+            selectable: '=?',
             onClear: '='
           },
           link: function (scope, element, attrs) {
@@ -38,7 +39,9 @@
             }
     
             scope.selectChip = function (){
-              scope.isSelected = true;
+              if ( scope.selectable ) {
+                scope.isSelected = true;
+              }
             }
             scope.unselectChip = function (){
               scope.isSelected = false;

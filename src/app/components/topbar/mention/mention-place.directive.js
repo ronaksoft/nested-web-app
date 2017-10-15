@@ -7,7 +7,8 @@
       return {
         restrict: 'A',
         scope: {
-          selectedList: '=nstMentionList'
+          selectedList: '=nstMentionList',
+          dataList: '=nstMentionData'
         },
         link: function (scope, _element) {
 
@@ -42,7 +43,7 @@
               "<li data-id='${id}' class='place-suggets-mention _difv'>" +
               "<img src='${avatar}' class='place-picture-16 mCS_img_loaded _df'>" +
               "<div>" +
-              "<span class='_df list-unstyled teammate-name _fw nst-mood-solid text-name'><span class='_db _fw _txe' dir='${dir}'>${name}</span></span>" +
+              "<span class='_df list-unstyled teammate-name _fw nst-mood-solid text-name'><span class='_db _fw _txe' dir='${dir}'>${title}</span></span>" +
               "<span class='nst-mood-storm _df _fn'><span class='_db _txe' dir='ltr'>${id}</span></span>" +
               "</div>" +
               "</li>";
@@ -57,6 +58,7 @@
               element.attr('mention', true);
             });
 
+            var placesData = [];
             element
               .atwho({
                 at: key,
@@ -67,6 +69,11 @@
                 displayTpl: template,
                 callbacks: {
                   beforeInsert: function (value, $li) {
+                    var index = _.findIndex(placesData, {id: value});
+                    if (index > -1 && _.isArray(scope.dataList)) {
+                      scope.dataList.push(placesData[index]);
+                      scope.dataList = _.uniqBy(scope.dataList, 'id');
+                    }
                     var elm = angular.element($li);
                     return key + elm.attr('data-id').trim() + ',';
                   },
@@ -86,12 +93,14 @@
                         var obj = new NstVmPlace(item);
                         items.push({
                           id: obj.id,
-                          name: obj.name,
+                          name: obj.id,
+                          title: obj.name,
                           dir : SvcRTL.rtl.test(obj.name[0]) ? 'rtl' : 'ltr',
                           avatar: obj.avatar,
                           searchField: [obj.id, obj.name].join(' ')
                         })
                       });
+                      placesData = uniquePlaces;
                       callback(items);
                     });
                   },

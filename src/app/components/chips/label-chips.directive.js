@@ -56,9 +56,9 @@
 
         $document.on('click', onDocumentClick);
 
-        scope.closeChip = function () {
-          if (typeof scope.onClear === 'function') {
-            scope.onRemove();
+        scope.removeChip = function () {
+          if (_.isFunction(scope.onRemove)) {
+            scope.onRemove(scope.labelId);
           }
         };
 
