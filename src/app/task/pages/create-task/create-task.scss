@@ -173,7 +173,7 @@
         label {
             padding-top: 6px;
         }
-        svg {
+        .task-progress-icon {
             transform: scale(1.5, 1.5);
             transform-origin: top center;
             opacity: .4!important;
@@ -183,6 +183,9 @@
         min-height: 48px;
         label {
             overflow: hidden;
+            img {
+                margin: 0;
+            }
         }
         .task-input-wrapper {
             align-items: center;

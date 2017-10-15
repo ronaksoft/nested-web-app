@@ -395,12 +395,10 @@
     vm.assigneTodoTrigger = 0
     vm.enterSubjectTask = function (){
       vm.assigneFocusTrigger++;
-      console.log(vm.assigneFocusTrigger);
     }
 
     vm.enterDescriptionTask = function (){
       vm.assigneTodoTrigger++;
-      console.log(vm.assigneTodoTrigger);
     }
   }
 })();

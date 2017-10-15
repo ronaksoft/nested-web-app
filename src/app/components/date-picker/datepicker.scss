@@ -228,6 +228,7 @@ $default-color: $color-sense-wire;
     display: flex;
     padding: 12px;
     align-items: center;
+    position: relative;
     input {
         width: 100%;
         font-size: 13px;
@@ -237,6 +238,29 @@ $default-color: $color-sense-wire;
         color: $color-sense-wire;
         text-align: center;
         justify-content: center;
+        padding-left: 32px;
+        letter-spacing: 2px;
+        margin: 0!important;
+    }
+    .add-time-butn {
+        display: flex;
+        width: calc(100% - 24px);
+        background-color: $color-white;
+        justify-content: center;
+        position: absolute;
+        height: 100%;
+        align-items: center;
+        z-index: 1;
+        span {
+            color: $color-gale-new;
+            font-size: 13px;
+            font-weight: bold;
+        }
+    }
+    svg {
+        fill: $color-gale-new;
+        z-index: 2;
+        position: absolute;
     }
 }
 
