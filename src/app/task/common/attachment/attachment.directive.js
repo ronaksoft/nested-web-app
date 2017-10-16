@@ -14,7 +14,8 @@
       controllerAs: 'ctlAttachment',
       scope: {},
       bindToController: {
-        attachmentsData: '='
+        attachmentsData: '=',
+        removeItems: '='
       }
     };
   }

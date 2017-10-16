@@ -16,7 +16,8 @@
       bindToController: {
         labelsData: '=',
         labelFocus: '=',
-        labelPlaceholder: '@'
+        labelPlaceholder: '@',
+        removeItems: '='
       }
     };
   }

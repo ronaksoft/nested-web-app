@@ -212,6 +212,7 @@
 
         qRead.resolve(uri);
       };
+
       reader.readAsDataURL(file);
 
       qRead.promise.then(function () {
@@ -295,7 +296,6 @@
         NstUtility.collection.dropById(vm.attachmentsData, id);
         NstUtility.collection.dropById(vm.attachments.viewModels, id);
       }
-
     };
 
     /**
@@ -313,7 +313,13 @@
         vm.attachments.attach(files[i]).then(function () {
         });
       }
+    };
 
+    vm.removeItems = function () {
+      var cloneAttachments = Object.assign({}, vm.attachmentsData);
+      _.forEach(cloneAttachments, function (attachment) {
+        vm.attachments.detach(attachment);
+      });
     };
   }
 })();

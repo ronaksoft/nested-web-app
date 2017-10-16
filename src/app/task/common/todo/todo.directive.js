@@ -16,7 +16,8 @@
       bindToController: {
         todosData: '=',
         todoFocus: '=',
-        todoPlaceholder: '@'
+        todoPlaceholder: '@',
+        removeItems: '='
       }
     };
   }

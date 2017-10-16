@@ -17,7 +17,8 @@
         assigneesData: '=',
         assigneeFocus: '=',
         assigneeWithCandidate: '=',
-        assigneePlaceholder: '@'
+        assigneePlaceholder: '@',
+        removeItems: '='
       }
     };
   }
