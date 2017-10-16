@@ -31,11 +31,6 @@
       });
     })();
 
-    vm.model = {
-      attachments: [],
-      attachfiles: {}
-    };
-
     vm.addUploadedAttachs = addUploadedAttachs;
     vm.attachmentsIsUploading = [];
     vm.attachments = {
@@ -124,7 +119,7 @@
      * @param {any} attachments
      */
     function addUploadedAttachs(attachments) {
-      vm.model.attachments = vm.model.attachments.concat(_.map(attachments, function (item) {
+      vm.attachmentsData = vm.attachmentsData.concat(_.map(attachments, function (item) {
         item.status = NST_ATTACHMENT_STATUS.ATTACHED;
         return item;
       }));
@@ -172,7 +167,7 @@
     vm.attachments.attach = function (file, group) {
       NstSvcLogger.debug4('Compose | Check if the attached files are more than the limit size');
       NstSvcLogger.debug4('Compose | Max allowed attachements is: ', systemConstants.post_max_attachments);
-      var filesCount = _.size(vm.model.attachments);
+      var filesCount = _.size(vm.attachmentsData);
       NstSvcLogger.debug4('Compose | The number of currently attached files is: ', filesCount);
       if (systemConstants && systemConstants.post_max_attachments <= filesCount) {
         toastr.error(NstUtility.string.format(NstSvcTranslation.get("You are not allowed to attach more than {0} files. Please contact Nested administrator."), systemConstants.post_max_attachments));
@@ -194,7 +189,7 @@
       attachment.mimetype = file.type;
       // Add Attachment to Model
       vm.attachments.size.total += file.size;
-      vm.model.attachments.push(attachment);
+      vm.attachmentsData.push(attachment);
       var type = NstSvcFileType.getType(attachment.mimetype);
 
       // Read Attachment
@@ -279,48 +274,28 @@
      */
     vm.attachments.detach = function (vmAttachment) {
       var id = vmAttachment.id;
-      var attachment = _.find(vm.model.attachments, {
+      var attachment = _.find(vm.attachmentsData, {
         id: id
       });
-      $log.debug('Compose | Attachment Delete: ', id, attachment);
 
       if (attachment && attachment.length !== 0) {
         switch (attachment.status) {
           case NST_ATTACHMENT_STATUS.UPLOADING:
-            $log.debug('Compose | Removing a file while is uploading : ', attachment);
             var request = vm.attachments.requests[attachment.id];
             if (request) {
               NstSvcStore.cancelUpload(request);
             }
             break;
+          default:
+            NstSvcAttachmentFactory.remove(attachment.id);
+            break;
         }
-        $log.debug('Compose | recalculating the total file size and uploaded size : ', attachment);
         vm.attachments.size.uploaded -= vmAttachment.uploadedSize;
         vm.attachments.size.total -= attachment.size;
-        NstUtility.collection.dropById(vm.model.attachments, id);
+        NstUtility.collection.dropById(vm.attachmentsData, id);
         NstUtility.collection.dropById(vm.attachments.viewModels, id);
       }
 
-    };
-
-    /**
-     * Delete attachment or cancel on uploading files
-     * @param {any} attachment
-     */
-    $scope.deleteAttachment = function (attachment) {
-      new $q(function (resolve, reject) {
-        if (attachment.status === NST_ATTACHMENT_STATUS.UPLOADING) {
-          // abort the pending upload request
-          attachment.cancelUpload();
-          resolve(attachment);
-        } else { // the store is uploaded and it should be removed from server
-          NstSvcAttachmentFactory.remove(attachment.id).then(function () {
-            resolve(attachment);
-          }).catch(reject);
-        }
-      }).then(function (attachment) {
-        $scope.compose.post.removeAttachment(attachment);
-      });
     };
 
     /**

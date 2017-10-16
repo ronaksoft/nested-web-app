@@ -14,7 +14,7 @@
       controllerAs: 'ctlAttachment',
       scope: {},
       bindToController: {
-
+        attachmentsData: '='
       }
     };
   }

@@ -51,6 +51,13 @@
     vm.todosData = [];
     vm.todoPlaceholder = NstSvcTranslation.get('+ add a to-do');
 
+    vm.attachmentsData = [];
+
+    $scope.$watch(function () {
+      return vm.attachmentsData;
+    }, function (newVal) {
+      console.log(newVal);
+    }, true);
 
     // Form treats
     vm.assigneFocusTrigger = 0;
