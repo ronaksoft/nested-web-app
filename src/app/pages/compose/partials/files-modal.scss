@@ -205,7 +205,10 @@
         flex-grow: 1;
         padding: 8px 16px;
         .iscroll-on.iscroll-wrapper {
-            height: auto
+            height: auto;
+        }
+        .iscroll-off.iscroll-wrapper {
+            max-height: 352px
         }
     }
     .modal-f {
