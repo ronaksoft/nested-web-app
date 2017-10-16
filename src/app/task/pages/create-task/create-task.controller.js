@@ -15,6 +15,17 @@
       allowFuture: true
     };
 
+    vm.title = '';
+    vm.titleFocus = false;
+
+    vm.assigneeFocusTrigger = 0;
+    vm.assigneeTodoTrigger = 0;
+    vm.enterSubjectTask = function (){
+      vm.assigneeFocusTrigger++;
+    };
+    vm.enterDescriptionTask = function (){
+      vm.assigneeTodoTrigger++;
+    };
     vm.assigneeFocus = false;
     vm.assigneesData = [];
     vm.assigneeIcon = 'no-assignee';
@@ -38,6 +49,32 @@
       getAssigneeIcon(newVal);
     }, true);
 
+    vm.dueDateFocus = false;
+    vm.dueDate = null;
+
+    vm.descFocus = false;
+    vm.desc = '';
+    vm.descPlaceholder = NstSvcTranslation.get('+ Add a Description...');
+
+    vm.todoFocus = false;
+    vm.todosData = [];
+    vm.todoPlaceholder = NstSvcTranslation.get('+ add a to-do');
+    vm.removeTodos = function () {
+      vm.removeTodoItems.call();
+    };
+
+    vm.attachmentFocus = false;
+    vm.attachmentsData = [];
+    vm.removeAttachments = function () {
+      vm.removeAttachmentItems.call();
+    };
+
+    $scope.$watch(function () {
+      return vm.attachmentsData;
+    }, function (newVal) {
+      console.log(newVal);
+    }, true);
+
     vm.watcherFocus = false;
     vm.watchersData = [];
     vm.watcherPlaceholder = NstSvcTranslation.get('Add peoples who wants to follow task...');
@@ -52,35 +89,35 @@
       vm.removeLabelItems.call();
     };
 
-    vm.dueDate = null;
-
-    vm.todoFocus = false;
-    vm.todosData = [];
-    vm.todoPlaceholder = NstSvcTranslation.get('+ add a to-do');
-    vm.removeTodos = function () {
-      vm.removeTodoItems.call();
-    };
-
-    vm.attachmentsData = [];
-    vm.removeAttachments = function () {
-      vm.removeAttachmentItems.call();
-    };
-
+    var initializing = true;
     $scope.$watch(function () {
-      return vm.attachmentsData;
-    }, function (newVal) {
-      console.log(newVal);
+      return {
+        titleFocus: vm.titleFocus,
+        assigneeFocus: vm.assigneeFocus,
+        dueDateFocus: vm.dueDateFocus,
+        descFocus: vm.descFocus,
+        todoFocus: vm.todoFocus,
+        attachmentFocus: vm.attachmentFocus,
+        watcherFocus: vm.watcherFocus,
+        labelFocus: vm.labelFocus
+      };
+    }, function (newVal, oldVal) {
+      if (initializing) {
+        $timeout(function() {
+          initializing = false;
+          handleFocus(newVal, oldVal);
+        });
+      } else {
+        initializing = true;
+      }
     }, true);
 
-    // Form treats
-    vm.assigneFocusTrigger = 0;
-    vm.assigneTodoTrigger = 0;
-    vm.enterSubjectTask = function (){
-      vm.assigneFocusTrigger++;
-    };
-
-    vm.enterDescriptionTask = function (){
-      vm.assigneTodoTrigger++;
-    };
+    function handleFocus (newVal, oldVal) {
+      for (var i in newVal) {
+        if (newVal[i] === oldVal[i]) {
+          vm[i] = false;
+        }
+      }
+    }
   }
 })();

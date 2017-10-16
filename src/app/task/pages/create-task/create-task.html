@@ -1,8 +1,10 @@
 <div class="create-task">
   <div class="task-title auto-height-item">
-    <div class="task-input-wrapper ng-class:{'focus' : taskTitle, 'error' : ctrl.taskTitle.length > 64}">
-      <textarea type="text" class="no-style gale-holder create-task-input" placeholder="Enter a Task Title" id="task-title" ng-focus="taskTitle = true"
-        ng-blur="taskTitle = false" resize-textarea ng-model="ctrl.taskTitle" enter-key="ctrl.enterSubjectTask()" prevent-shift-enter="true"></textarea>
+    <div class="task-input-wrapper ng-class:{'focus': ctrl.titleFocus, 'error' : ctrl.taskTitle.length > 64}">
+      <textarea type="text" class="no-style gale-holder create-task-input" placeholder="Enter a Task Title"
+                id="task-title" ng-focus="ctrl.titleFocus = true"
+                ng-blur="ctrl.titleFocus = false" resize-textarea ng-model="ctrl.title"
+                enter-key="ctrl.enterSubjectTask()" prevent-shift-enter="true"></textarea>
       <div class="error-handler" ng-if="ctrl.taskTitle.length > 54">
         {{ctrl.taskTitle.length | localize}} / 64
       </div>
@@ -13,10 +15,14 @@
   </div>
   <div class="task-assignee auto-height-item">
     <div class="task-input-wrapper ng-class:{'focus' : ctrl.assigneeFocus}">
-      <task-assignee assignees-data="ctrl.assigneesData" assignee-focus="ctrl.assigneeFocus" assignee-with-candidate="true" assignee-placeholder="{{ctrl.assigneePlaceholder}}" remove-items="ctrl.removeAssigneesItems"></task-assignee>
-      <div ng-if="ctrl.assigneeFocus != true && ctrl.assigneesData.length == 1" ng-click="ctrl.assigneeFocus = true;" class="unfocused-input"
-        translate-inner>Assigned to <b>{{ctrl.assigneesData[0].fullName}}</b></div>
-      <div ng-if="ctrl.assigneeFocus != true && ctrl.assigneesData.length > 1" ng-click="ctrl.assigneeFocus = true;" class="unfocused-input candidates">
+      <task-assignee assignees-data="ctrl.assigneesData" assignee-focus="ctrl.assigneeFocus"
+                     assignee-with-candidate="true" assignee-placeholder="{{ctrl.assigneePlaceholder}}"
+                     remove-items="ctrl.removeAssigneesItems"></task-assignee>
+      <div ng-if="ctrl.assigneeFocus != true && ctrl.assigneesData.length == 1" ng-click="ctrl.assigneeFocus = true;"
+           class="unfocused-input"
+           translate-inner>Assigned to <b>{{ctrl.assigneesData[0].fullName}}</b></div>
+      <div ng-if="ctrl.assigneeFocus != true && ctrl.assigneesData.length > 1" ng-click="ctrl.assigneeFocus = true;"
+           class="unfocused-input candidates">
         <translate>Candidates:</translate>
         <span ng-repeat="assigneeData in ctrl.assigneesData">
             <b>{{assigneeData.fullName}}</b>{{ctrl.assigneesData.length - 2 == $index? ' & ': (ctrl.assigneesData.length - 2 > $index? ', ': '')}}
@@ -37,33 +43,36 @@
     </label>
   </div>
   <div class="task-due const-height-item">
-    <div class="task-input-wrapper ng-class:{'focus' : taskDue}">
-      <input type="text" class="no-style gale-holder create-task-input" translate-attrs="placeholder" placeholder="+ Set a due time (optional)"
-        id="task-due" ng-focus="taskDue = true" ng-blur="taskDue = false" ng-model="ctrl.dueDate" data-config="ctrl.datePickerconfig"
-        g-formatted-picked-date="gfdate" g-picked-date="gdate" ng-jalaali-flat-datepicker>
+    <div class="task-input-wrapper ng-class:{'focus': ctrl.dueDateFocus}">
+      <input type="text" class="no-style gale-holder create-task-input" translate-attrs="placeholder"
+             placeholder="+ Set a due time (optional)"
+             id="task-due" ng-focus="ctrl.dueDateFocus = true" ng-blur="ctrl.dueDateFocus = false"
+             ng-model="ctrl.dueDate" data-config="ctrl.datePickerconfig"
+             g-formatted-picked-date="gfdate" g-picked-date="gdate" ng-jalaali-flat-datepicker>
     </div>
-    <label for="task-due" ng-class="{'focus' : taskDue}">
+    <label for="task-due" ng-class="{'focus': ctrl.dueDateFocus}">
       <div class="_24svg _df _jcc _aic" data-uib-tooltip="Remove Due Time" data-tooltip-placement="top-center auto"
-            data-tooltip-append-to-body="true">
-            <svg class="_16svg static-item">
-                <use xlink:href="/assets/icons/nst-icn16.svg#finish-flag"></use>
-            </svg>
-            <svg class="_16svg force hover-item" ng-if="true">
-                <use xlink:href="/assets/icons/nst-icn16.svg#bin"></use>
-            </svg>
-            <svg class="_16svg force hover-item" ng-if="false">
-                <use xlink:href="/assets/icons/nst-icn16.svg#negative-xcross"></use>
-            </svg>
-        </div>
+           data-tooltip-append-to-body="true">
+        <svg class="_16svg static-item">
+          <use xlink:href="/assets/icons/nst-icn16.svg#finish-flag"></use>
+        </svg>
+        <svg class="_16svg force hover-item" ng-if="true">
+          <use xlink:href="/assets/icons/nst-icn16.svg#bin"></use>
+        </svg>
+        <svg class="_16svg force hover-item" ng-if="false">
+          <use xlink:href="/assets/icons/nst-icn16.svg#negative-xcross"></use>
+        </svg>
+      </div>
     </label>
   </div>
   <div class="task-more-options ng-class:{'visible' : ctrl.showMoreOption}">
-    <div class="task-description auto-height-item ng-class:{'focus' : taskDes}">
+    <div class="task-description auto-height-item ng-class:{'focus': ctrl.descFocus}">
       <div class="task-input-wrapper">
-        <textarea class="no-style gale-holder create-task-input" ng-focus="taskDes = true" ng-blur="taskDes = false" enter-key="ctrl.enterDescriptionTask()"
-          placeholder="+ Add a Description …" id="task-description" resize-textarea></textarea>
+        <textarea class="no-style gale-holder create-task-input" ng-model="ctrl.desc" ng-focus="ctrl.descFocus = true"
+                  ng-blur="ctrl.descFocus = false" enter-key="ctrl.enterDescriptionTask()"
+                  placeholder="{{ctrl.descPlaceholder}}" id="task-description" resize-textarea></textarea>
       </div>
-      <label for="task-description" ng-class="{'focus' : taskDes}">
+      <label for="task-description" ng-class="{'focus': ctrl.descFocus}">
         <svg class="_16svg">
           <use xlink:href="/assets/icons/nst-icn16.svg#petition"></use>
         </svg>
@@ -74,23 +83,24 @@
         <h3>
           <translate>To-Do list</translate>
         </h3>
-        <ul class="todo-list ng-class:{'focus' : tasktodo}">
-          <task-todo todos-data="ctrl.todosData" todo-focus="ctrl.todoFocus" todo-placeholder="{{ctrl.todoPlaceholder}}" remove-items="ctrl.removeTodoItems"></task-todo>
+        <ul class="todo-list ng-class:{'focus': ctrl.todoFocus}">
+          <task-todo todos-data="ctrl.todosData" todo-focus="ctrl.todoFocus" todo-placeholder="{{ctrl.todoPlaceholder}}"
+                     remove-items="ctrl.removeTodoItems"></task-todo>
           </li>
         </ul>
       </div>
-      <label ng-class="{'focus': tasktodo}">
+      <label ng-class="{'focus': ctrl.todoFocus}">
         <div class="_24svg _df _jcc _aic" data-uib-tooltip="Remove To-Do list" data-tooltip-placement="top-center auto"
-            data-tooltip-append-to-body="true">
-            <svg class="_16svg static-item">
-                <use xlink:href="/assets/icons/nst-icn16.svg#bullet-list"></use>
-            </svg>
-            <svg class="_16svg force hover-item" ng-if="true && ctrl.todosData.length > 0" ng-click="ctrl.removeTodos()">
-                <use xlink:href="/assets/icons/nst-icn16.svg#bin"></use>
-            </svg>
-            <svg class="_16svg force hover-item" ng-if="false">
-                <use xlink:href="/assets/icons/nst-icn16.svg#negative-xcross"></use>
-            </svg>
+             data-tooltip-append-to-body="true" data-tooltip-enable="ctrl.todosData.length > 0">
+          <svg class="_16svg static-item">
+            <use xlink:href="/assets/icons/nst-icn16.svg#bullet-list"></use>
+          </svg>
+          <svg class="_16svg force hover-item" ng-if="true && ctrl.todosData.length > 0" ng-click="ctrl.removeTodos()">
+            <use xlink:href="/assets/icons/nst-icn16.svg#bin"></use>
+          </svg>
+          <svg class="_16svg force hover-item" ng-if="false">
+            <use xlink:href="/assets/icons/nst-icn16.svg#negative-xcross"></use>
+          </svg>
         </div>
       </label>
     </div>
@@ -98,21 +108,24 @@
       <div class="_difv _fw">
         <h3>Attachments</h3>
         <div class="attachments-badge-wrapper">
-          <task-attachment attachments-data="ctrl.attachmentsData" remove-items="ctrl.removeAttachmentItems"></task-attachment>
+          <task-attachment attachments-data="ctrl.attachmentsData"
+                           remove-items="ctrl.removeAttachmentItems" ng-click="ctrl.attachmentFocus = true"></task-attachment>
         </div>
       </div>
       <label>
-        <div class="_24svg _df _jcc _aic" data-uib-tooltip="Remove All Attachments" data-tooltip-placement="top-center auto"
-            data-tooltip-append-to-body="true" data-tooltip-enable="ctrl.attachmentsData.length > 0">
-            <svg class="_16svg static-item">
-                <use xlink:href="/assets/icons/nst-icn16.svg#attach"></use>
-            </svg>
-            <svg class="_16svg force hover-item" ng-if="true && ctrl.attachmentsData.length > 0" ng-click="ctrl.removeAttachments()">
-                <use xlink:href="/assets/icons/nst-icn16.svg#bin"></use>
-            </svg>
-            <svg class="_16svg force hover-item" ng-if="false">
-                <use xlink:href="/assets/icons/nst-icn16.svg#negative-xcross"></use>
-            </svg>
+        <div class="_24svg _df _jcc _aic" data-uib-tooltip="Remove All Attachments"
+             data-tooltip-placement="top-center auto"
+             data-tooltip-append-to-body="true" data-tooltip-enable="ctrl.attachmentsData.length > 0">
+          <svg class="_16svg static-item">
+            <use xlink:href="/assets/icons/nst-icn16.svg#attach"></use>
+          </svg>
+          <svg class="_16svg force hover-item" ng-if="true && ctrl.attachmentsData.length > 0"
+               ng-click="ctrl.removeAttachments()">
+            <use xlink:href="/assets/icons/nst-icn16.svg#bin"></use>
+          </svg>
+          <svg class="_16svg force hover-item" ng-if="false">
+            <use xlink:href="/assets/icons/nst-icn16.svg#negative-xcross"></use>
+          </svg>
         </div>
       </label>
     </div>
@@ -122,21 +135,25 @@
           <translate>Watchers</translate>
         </h3>
         <div class="task-input-wrapper ng-class:{'focus': ctrl.watcherFocus}">
-          <task-assignee assignees-data="ctrl.watchersData" assignee-focus="ctrl.watcherFocus" assignee-with-candidate="false" assignee-placeholder="{{ctrl.watcherPlaceholder}}" remove-items="ctrl.removeWatcherItems"></task-assignee>
+          <task-assignee assignees-data="ctrl.watchersData" assignee-focus="ctrl.watcherFocus"
+                         assignee-with-candidate="false" assignee-placeholder="{{ctrl.watcherPlaceholder}}"
+                         remove-items="ctrl.removeWatcherItems"></task-assignee>
         </div>
       </div>
       <label ng-class="{'focus': ctrl.watcherFocus}">
-        <div class="_24svg _df _jcc _aic" data-uib-tooltip="Remove All Attachments" data-tooltip-placement="top-center auto"
-            data-tooltip-append-to-body="true">
-            <svg class="_16svg static-item">
-                <use xlink:href="/assets/icons/nst-icn16.svg#person"></use>
-            </svg>
-            <svg class="_16svg force hover-item" ng-if="true && ctrl.watchersData.length > 0" ng-click="ctrl.removeWatchers()">
-                <use xlink:href="/assets/icons/nst-icn16.svg#bin"></use>
-            </svg>
-            <svg class="_16svg force hover-item" ng-if="false">
-                <use xlink:href="/assets/icons/nst-icn16.svg#negative-xcross"></use>
-            </svg>
+        <div class="_24svg _df _jcc _aic" data-uib-tooltip="Remove All Attachments"
+             data-tooltip-placement="top-center auto"
+             data-tooltip-append-to-body="true" data-tooltip-enable="ctrl.watchersData.length > 0">
+          <svg class="_16svg static-item">
+            <use xlink:href="/assets/icons/nst-icn16.svg#person"></use>
+          </svg>
+          <svg class="_16svg force hover-item" ng-if="true && ctrl.watchersData.length > 0"
+               ng-click="ctrl.removeWatchers()">
+            <use xlink:href="/assets/icons/nst-icn16.svg#bin"></use>
+          </svg>
+          <svg class="_16svg force hover-item" ng-if="false">
+            <use xlink:href="/assets/icons/nst-icn16.svg#negative-xcross"></use>
+          </svg>
         </div>
       </label>
     </div>
@@ -146,23 +163,26 @@
           <translate>Labels</translate>
         </h3>
         <div class="task-input-wrapper ng-class:{'focus': ctrl.labelFocus}">
-          <task-label labels-data="ctrl.labelsData" label-focus="ctrl.labelFocus" label-placeholder="{{ctrl.labelPlaceholder}}" remove-items="ctrl.removeLabelItems"></task-label>
+          <task-label labels-data="ctrl.labelsData" label-focus="ctrl.labelFocus"
+                      label-placeholder="{{ctrl.labelPlaceholder}}" remove-items="ctrl.removeLabelItems"></task-label>
         </div>
       </div>
       <label ng-class="{'focus': ctrl.labelFocus}">
-        <div class="_24svg _df _jcc _aic" data-uib-tooltip="Remove All Watchers" data-tooltip-placement="top-center auto"
-            data-tooltip-append-to-body="true">
-            <svg class="_16svg static-item">
-                <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
-            </svg>
-            <svg class="_16svg force hover-item" ng-if="true && ctrl.labelsData.length > 0" ng-click="ctrl.removeLabels()">
-                <use xlink:href="/assets/icons/nst-icn16.svg#bin"></use>
-            </svg>
-            <svg class="_16svg force hover-item" ng-if="false">
-                <use xlink:href="/assets/icons/nst-icn16.svg#negative-xcross"></use>
-            </svg>
+        <div class="_24svg _df _jcc _aic" data-uib-tooltip="Remove All Watchers"
+             data-tooltip-placement="top-center auto"
+             data-tooltip-append-to-body="true" data-tooltip-enable="ctrl.labelsData.length > 0">
+          <svg class="_16svg static-item">
+            <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
+          </svg>
+          <svg class="_16svg force hover-item" ng-if="true && ctrl.labelsData.length > 0"
+               ng-click="ctrl.removeLabels()">
+            <use xlink:href="/assets/icons/nst-icn16.svg#bin"></use>
+          </svg>
+          <svg class="_16svg force hover-item" ng-if="false">
+            <use xlink:href="/assets/icons/nst-icn16.svg#negative-xcross"></use>
+          </svg>
         </div>
-        </label>
+      </label>
     </div>
   </div>
   <div class="task-footer const-height-item">
