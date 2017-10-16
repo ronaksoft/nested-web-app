@@ -226,13 +226,13 @@
   }
   @keyframes more-recipient-badge {
     0% {
-      transform: scale(.5,.5);
+      transform: scale(.5,.5) translateY(1px);;
     }
     20% {
-      transform: scale(1,1);
+      transform: scale(1,1) translateY(1px);;
     }
     100% {
-      transform: scale(1,1);
+      transform: scale(1,1) translateY(1px);;
     }
   }
   @keyframes attachment-progress {

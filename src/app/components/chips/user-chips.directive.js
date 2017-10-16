@@ -14,7 +14,8 @@
       restrict: 'A',
       scope: {
         userId: '=',
-        candidate: '=',
+        candidate: '=?',
+        index: '=?',
         onRemove: '='
       },
       link: function (scope, element) {
@@ -40,6 +41,12 @@
           element.html(template);
         }
 
+        scope.clearItem = function (){
+          if (_.isFunction(scope.onRemove)) {
+            scope.onRemove(scope.index);
+          }
+        }
+
         scope.selectChip = function () {
           scope.isSelected = true;
         };
@@ -55,12 +62,6 @@
         };
 
         $document.on('click', onDocumentClick);
-
-        scope.closeChip = function () {
-          if (_.isFunction(scope.onRemove)) {
-            scope.onRemove(scope.userId);
-          }
-        };
 
         element.on('$destroy', function () {
           $document.off('click', onDocumentClick);

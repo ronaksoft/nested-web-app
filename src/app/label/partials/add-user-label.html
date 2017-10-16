@@ -11,14 +11,7 @@
     data-ng-model="addHolderCtrl.selectedUsers" limit="{{addHolderCtrl.limit}}"
     autofocus="true" always-show-list on-select="addHolderCtrl.search('')">
     <ui-select-match placeholder="{{::addHolderCtrl.searchPlaceholder}}">
-      <div class="selected-innter">
-        <span class="place-img">
-          <img initial-avatar="{{$item.id}}" picture="{{$item | avatar}}"
-                data-width="24" data-height="24" data-radius="2"
-                data-word-count="2" data-font-size="12" name="{{$item.fullName}}"/>
-        </span>
-        <span class="place-name">{{$item.fullName}}</span>
-      </div>
+      <div user-chips user-id="$item.id" on-remove="$selectMultiple.removeChoice" index="$index" on-select="" selectable="true"></div>
     </ui-select-match>
     <ui-select-choices refresh="addHolderCtrl.search($select.search)" refresh-delay="0"
                         repeat="user in (addHolderCtrl.users | filter: $select.search) | limitTo: 9 track by user.id" >

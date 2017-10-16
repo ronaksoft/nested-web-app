@@ -7,8 +7,8 @@
         .directive('placeChips', placeChips);
     
     
-      function placeChips($templateCache, $compile, $document, datesCalculator, ngJalaaliFDP, moment, NstSvcI18n,
-        NstSvcPlaceFactory) {
+      function placeChips($templateCache, $log, $compile, $document, datesCalculator, ngJalaaliFDP, moment, NstSvcI18n,
+        NstSvcPlaceFactory, _) {
     
         return {
           restrict: 'A',
@@ -16,18 +16,25 @@
             placeId: '=',
             isEmail: '=',
             selectable: '=?',
-            onClear: '='
+            onSelect: '=',
+            index: '=',
+            onRemove: '='
           },
           link: function (scope, element, attrs) {
             scope.isSelected = false;
-            
+            scope.removePermission = typeof scope.onRemove === 'function'
             var template = angular.element($templateCache.get('place-chips.html'));
-            NstSvcPlaceFactory.get(scope.placeId, false).then(function(place){
-              scope.place = place;
-              init();
-            }).catch(function(e){
-              console.log(e)
-            })
+            if (_.isObject(scope.placeId)) {
+              scope.place = scope.placeId;
+              init()
+            } else {
+              NstSvcPlaceFactory.get(scope.placeId, false).then(function(place){
+                scope.place = place;
+                init();
+              }).catch(function(e){
+                $log.debug(e)
+              })
+            }
             /**
              * Init the directive
              * @return {}
@@ -39,9 +46,18 @@
             }
     
             scope.selectChip = function (){
-              if ( scope.selectable ) {
-                scope.isSelected = true;
+              if ( !scope.selectable ) {
+                return;
               }
+                scope.isSelected = true;
+                try {
+                  scope.onSelect(scope.placeId);
+                } catch(e) {
+                  $log.debug('The item is selectable but have no registered function')
+                }
+            }
+            scope.clearItem = function (){
+              scope.onRemove(scope.index);
             }
             scope.unselectChip = function (){
               scope.isSelected = false;

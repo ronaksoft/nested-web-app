@@ -9,7 +9,9 @@
     height: 28px;
     border-radius: 4px;
     overflow: hidden;
-    border: 1px solid transparent;
+    border-width: 1px ;
+    border-style: solid ;
+    border-color: #DDDFE0;
     box-shadow: 0 2px 4px $color-breeze-new;
     .user-avatar-16 {
         margin: 0 6px;
@@ -25,6 +27,7 @@
     }
     &.isSelected {
         background-color: $color-solid;
+        border-color: $color-solid;
         span {
             color: $color-white;
         }
@@ -35,6 +38,7 @@
             }
         }
         &:hover {
+            border-color: $color-solid;
             .user-avatar-16 {
                 svg {
                     fill: $color-white;
@@ -55,6 +59,7 @@
         }
     }
     &:hover {
+        border-color: #ACB0B4;
         .user-avatar-16 {
             &::after {
                 display: none;
@@ -73,9 +78,10 @@
     max-width: 240px;
     display: flex;
     align-items: center;
+    position: relative;
     flex: none;
     margin-right: 4px;
-    padding-right: 6px;
+    padding-right: 22px;
     height: 28px;
     border-radius: 4px;
     overflow: hidden;
@@ -98,6 +104,8 @@
         color: $color-solid;
     }
     .clear {
+        position: absolute;
+        right: 6px;
         svg {
             fill: $color-solid;
             opacity: .4;
@@ -222,6 +230,7 @@
                 }
                 svg:last-child {
                     display: block;
+                    fill: $color-white;
                 }
             }
         }

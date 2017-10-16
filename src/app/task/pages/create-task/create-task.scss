@@ -65,7 +65,7 @@
     .task-input-wrapper {
         display: flex;
         position: relative;
-        width: 100%;
+        width: calc(100% - 16px);
         align-self: flex-start;
         padding: 0 0 6px;
         flex-wrap: wrap;

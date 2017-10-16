@@ -20,7 +20,7 @@
                    id="compose-recipient-input" on-select="ctlCompose.emitItemsAnalytics()" on-remove="ctlCompose.emitItemsAnalytics()"
                    data-ng-model="ctlCompose.model.recipients">
           <ui-select-match placeholder="{{::ctlCompose.inputPlaceHolderLabel}}" compose-match-item class="match-items">
-            <div class="selected-innter " ng-class="{'isEmail' : $item.isEmail,'error' : !$item.isValid}">
+            <!-- <div class="selected-innter " ng-class="{'isEmail' : $item.isEmail,'error' : !$item.isValid}">
               <span class="place-img" ng-if="!$item.isEmail">
                 <img ng-src="{{$item.picture}}"/>
               </span>
@@ -30,8 +30,8 @@
                   </svg>
                 </span>
               <span class="place-name">{{$item.name}}</span>
-            </div>
-
+            </div> -->
+            <div place-chips place-id="$item.id" is-email="$item.isEmail" on-remove="$selectMultiple.removeChoice" index="$index" on-select="" selectable="true"></div>
           </ui-select-match>
           <ui-select-choices refresh="ctlCompose.search.fn($select.search)"
                              refresh-delay="0"

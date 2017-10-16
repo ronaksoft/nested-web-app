@@ -110,7 +110,7 @@ select,option {
     border-radius: 0;
     color: $color-solid;
     padding: 0;
-    height: 30px;
+    height: 28px;
     margin: 0!important;
     border-width: 0;
     span {
@@ -221,6 +221,26 @@ select,option {
       }
     }
     &:active,&:focus{
+      .place-chips-wrapper {
+        background-color: $color-solid;
+        border-color: $color-solid;
+        span {
+            color: $color-white;
+        }
+        .clear {
+            svg {
+                fill: $color-white;
+            }
+        }
+        &:hover {
+            .clear {
+                svg {
+                    fill: $color-white;
+                    opacity: 1;
+                }
+            }
+        }
+      }
       div.selected-innter {
         border-color: $color-sense;
         background: linear-gradient(to bottom, #8AEBB4, #8AEBB4 100%);
