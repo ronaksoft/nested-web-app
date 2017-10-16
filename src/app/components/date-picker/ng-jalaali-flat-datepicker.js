@@ -93,7 +93,7 @@
       link: function (scope, element, attrs, ngModel) {
         var jalali = true;
         scope.addTime = false;
-        var timeInputElement, timeInputElementEvent, timeInputElementEventInput;
+        var timeInputElement, timeInputElementEvent;
         scope.defaultTime = new Date().toString().substr(16, 5);
         scope.time = scope.defaultTime;
         var farsi = false;
@@ -398,7 +398,6 @@
 
         scope.$on('$destroy', function () {
           timeInputElementEvent.off();
-          timeInputElementEventInput.off();
         });
       }
     };
