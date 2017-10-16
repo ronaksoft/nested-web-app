@@ -259,7 +259,7 @@
         isSeen: data.read,
         date: new Date(data.timestamp),
         actor: NstSvcUserFactory.parseTinyUser(data.actor),
-        member: NstSvcUserFactory.parseTinyUser(data.account),
+        member: data.account !== undefined? NstSvcUserFactory.parseTinyUser(data.account): null,
         place: NstSvcPlaceFactory.parseTinyPlace(data.place),
         type: data.type
       }
