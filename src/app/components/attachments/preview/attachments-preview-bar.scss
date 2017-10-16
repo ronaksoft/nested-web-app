@@ -240,7 +240,6 @@ nst-attachments-preview-bar {
         border: 1px solid #DDDFE0;
         background-color: #F6F6F7;
         display: flex;
-        // box-shadow: 0 2px 4px $color-breeze;
         align-items: center;
         img {
           z-index: 2;
@@ -256,6 +255,9 @@ nst-attachments-preview-bar {
           color: $color-solid;
           max-width: 192px;
           display: block;
+        }
+        &:hover {
+          box-shadow: 0 2px 4px $color-breeze;
         }
       }
       .attdl.del {
