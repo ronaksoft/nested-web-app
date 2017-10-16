@@ -214,6 +214,9 @@
             path {
                 fill: $color-solid;
             }
+            .closer path {
+                fill: $color-white;
+            }
         }
         &:hover {
             .label-edge {

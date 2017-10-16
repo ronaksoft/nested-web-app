@@ -15,6 +15,7 @@
       scope: {
         labelId: '=',
         selectable: '=?',
+        index: '=?',
         onRemove: '='
       },
       link: function (scope, element) {
@@ -56,9 +57,11 @@
 
         $document.on('click', onDocumentClick);
 
-        scope.removeChip = function () {
-          if (_.isFunction(scope.onRemove)) {
-            scope.onRemove(scope.labelId);
+        scope.removeChip = function (e) {
+          if (_.isFunction(scope.onRemove) && (scope.label.public || scope.label.isMember)) {
+            scope.onRemove( typeof scope.index !== 'undefined' ? scope.index : scope.labelId);
+            e.preventDefault();
+            e.stopPropagation();
           }
         };
 
