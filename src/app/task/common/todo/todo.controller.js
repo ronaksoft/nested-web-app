@@ -25,6 +25,7 @@
 
     vm.addTodo = addTodo;
     vm.removeTodo = removeTodo;
+    vm.removeItems = removeItems;
 
     function addTodo() {
       if (_.findIndex(vm.todosData, {value: vm.temp.value}) > -1) {
@@ -42,6 +43,10 @@
       if (index > -1) {
         vm.todosData.splice(index, 1);
       }
+    }
+
+    function removeItems () {
+      vm.todosData = [];
     }
   }
 })();

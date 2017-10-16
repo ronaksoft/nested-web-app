@@ -23,6 +23,7 @@
     vm.labelKeyUp = labelKeyUp;
     vm.labelKeyDown = labelKeyDown;
     vm.removeLabelChip = removeLabelChip;
+    vm.removeItems = removeItems;
 
     function removeRedundantLabels(labels, labelsData) {
       var tempList = [];
@@ -82,6 +83,12 @@
         }
       }
       inputLastValue = vm.labelInput;
+    }
+
+     function removeItems () {
+       vm.labels = [];
+       vm.labelsData = []
+       vm.mentionLabelsData = [];
     }
   }
 })();

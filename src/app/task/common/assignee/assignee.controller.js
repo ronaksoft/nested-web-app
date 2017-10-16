@@ -23,6 +23,7 @@
     vm.assigneeKeyDown = assigneeKeyDown;
     vm.assigneeKeyUp = assigneeKeyUp;
     vm.removeAssigneeChip = removeAssigneeChip;
+    vm.removeItems = removeItems;
 
     function removeRedundantAssignees(assignees, assigneesData) {
       var tempList = [];
@@ -81,6 +82,12 @@
         }
       }
       inputLastValue = vm.assigneeInput;
+    }
+
+    function removeItems () {
+      vm.assignees = [];
+      vm.assigneesData = []
+      vm.mentionAssigneesData = [];
     }
   }
 })();
