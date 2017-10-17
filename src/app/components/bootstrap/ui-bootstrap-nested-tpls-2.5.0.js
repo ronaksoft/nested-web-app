@@ -1997,7 +1997,6 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
              */
             function prepareTooltip() {
               ttScope.title = attrs[prefix + 'Title'];
-              console.log(attrs[ttType]);
               if (contentParse) {
                 ttScope.content = contentParse(scope);
               } else {
