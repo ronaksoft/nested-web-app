@@ -14,13 +14,15 @@
             .hover-item {
                 visibility: hidden;
             }
-            &:hover {
+            &:not(.no-hover) {
+              &:hover {
                 .hover-item {
-                    visibility: visible;
+                  visibility: visible;
                 }
                 .static-item {
-                    visibility: hidden;
+                  visibility: hidden;
                 }
+              }
             }
         }
         &:hover {

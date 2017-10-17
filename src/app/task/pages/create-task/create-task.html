@@ -1,7 +1,7 @@
 <div class="create-task">
   <div class="task-title auto-height-item">
     <div class="task-input-wrapper ng-class:{'focus': ctrl.titleFocus, 'error' : ctrl.taskTitle.length > 64}">
-      <textarea type="text" class="no-style gale-holder create-task-input" placeholder="Enter a Task Title"
+      <textarea type="text" class="no-style gale-holder create-task-input" placeholder="{{ctrl.titlePlaceholder}}"
                 id="task-title" ng-focus="ctrl.titleFocus = true"
                 ng-blur="ctrl.titleFocus = false" resize-textarea ng-model="ctrl.title"
                 enter-key="ctrl.enterSubjectTask()" prevent-shift-enter="true"></textarea>
@@ -45,18 +45,18 @@
   <div class="task-due const-height-item">
     <div class="task-input-wrapper ng-class:{'focus': ctrl.dueDateFocus}">
       <input type="text" class="no-style gale-holder create-task-input" translate-attrs="placeholder"
-             placeholder="+ Set a due time (optional)"
+             placeholder="{{ctrl.dueDatePlaceholder}}"
              id="task-due" ng-focus="ctrl.dueDateFocus = true" ng-blur="ctrl.dueDateFocus = false"
              ng-model="ctrl.dueDate" data-config="ctrl.datePickerconfig"
              g-formatted-picked-date="gfdate" g-picked-date="gdate" ng-jalaali-flat-datepicker>
     </div>
-    <label for="task-due" ng-class="{'focus': ctrl.dueDateFocus}">
+    <label for="task-due" ng-class="{'focus': ctrl.dueDateFocus, 'no-hover': ctrl.dueDate == null}">
       <div class="_24svg _df _jcc _aic" translate-attrs="data-uib-tooltip"
       data-uib-tooltip="Remove Due Time" data-tooltip-placement="top-center auto" data-tooltip-append-to-body="false">
         <svg class="_16svg static-item">
           <use xlink:href="/assets/icons/nst-icn16.svg#finish-flag"></use>
         </svg>
-        <svg class="_16svg force hover-item" ng-if="true">
+        <svg class="_16svg force hover-item" ng-if="true && ctrl.dueDate != null" ng-click="ctrl.removeDueDate()">
           <use xlink:href="/assets/icons/nst-icn16.svg#bin"></use>
         </svg>
         <svg class="_16svg force hover-item" ng-if="false">
@@ -89,7 +89,7 @@
           </li>
         </ul>
       </div>
-      <label ng-class="{'focus': ctrl.todoFocus}">
+      <label ng-class="{'focus': ctrl.todoFocus, 'no-hover': ctrl.todosData.length === 0}">
         <div class="_24svg _df _jcc _aic" data-uib-tooltip="Remove To-Do list" data-tooltip-placement="top-center auto"
              data-tooltip-append-to-body="true" data-tooltip-enable="ctrl.todosData.length > 0">
           <svg class="_16svg static-item">
@@ -112,7 +112,7 @@
                            remove-items="ctrl.removeAttachmentItems" ng-click="ctrl.attachmentFocus = true"></task-attachment>
         </div>
       </div>
-      <label>
+      <label ng-class="{'focus': ctrl.attachmentFocus, 'no-hover': ctrl.attachmentsData.length === 0}">
         <div class="_24svg _df _jcc _aic" data-uib-tooltip="Remove All Attachments"
              data-tooltip-placement="top-center auto"
              data-tooltip-append-to-body="true" data-tooltip-enable="ctrl.attachmentsData.length > 0">
@@ -140,7 +140,7 @@
                          remove-items="ctrl.removeWatcherItems"></task-assignee>
         </div>
       </div>
-      <label ng-class="{'focus': ctrl.watcherFocus}">
+      <label ng-class="{'focus': ctrl.watcherFocus, 'no-hover': ctrl.watchersData.length === 0}">
         <div class="_24svg _df _jcc _aic" data-uib-tooltip="Remove All Attachments"
              data-tooltip-placement="top-center auto"
              data-tooltip-append-to-body="true" data-tooltip-enable="ctrl.watchersData.length > 0">
@@ -167,7 +167,7 @@
                       label-placeholder="{{ctrl.labelPlaceholder}}" remove-items="ctrl.removeLabelItems"></task-label>
         </div>
       </div>
-      <label ng-class="{'focus': ctrl.labelFocus}">
+      <label ng-class="{'focus': ctrl.labelFocus, 'no-hover': ctrl.labelsData.length === 0}">
         <div class="_24svg _df _jcc _aic" data-uib-tooltip="Remove All Watchers"
              data-tooltip-placement="top-center auto"
              data-tooltip-append-to-body="true" data-tooltip-enable="ctrl.labelsData.length > 0">
@@ -186,7 +186,7 @@
     </div>
   </div>
   <div class="task-footer const-height-item">
-    <input type="button" class="butn butn-green" disabled value="Create Task">
+    <input type="button" class="butn butn-green" ng-disabled="ctrl.isDisabled()" ng-click="ctrl.create()" translate-attrs="value" value="Create Task">
     <a class="_df _fw" ng-if="!ctrl.showMoreOption" ng-click="ctrl.showMoreOption =! ctrl.showMoreOption">
       <translate>More options</translate>
     </a>
