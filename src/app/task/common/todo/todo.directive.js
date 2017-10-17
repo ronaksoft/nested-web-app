@@ -17,7 +17,8 @@
         todosData: '=',
         todoFocus: '=',
         todoPlaceholder: '@',
-        removeItems: '='
+        removeItems: '=',
+        todoFocusMe: '='
       }
     };
   }

@@ -22,9 +22,11 @@
     vm.assigneeFocusTrigger = 0;
     vm.assigneeTodoTrigger = 0;
     vm.enterSubjectTask = function () {
+      vm.assigneeFocus = true;
       vm.assigneeFocusTrigger++;
     };
     vm.enterDescriptionTask = function () {
+      vm.todoFocus = true;
       vm.assigneeTodoTrigger++;
     };
 

@@ -14,4 +14,4 @@
        class="no-style gale-holder create-task-input" placeholder="{{ctlAssignee.assigneePlaceholder}}"
        id="task-assignee" ng-focus="ctlAssignee.assigneeFocus = true" ng-model="ctlAssignee.assigneeInput"
        ng-keydown="ctlAssignee.assigneeKeyDown($event)" ng-keyup="ctlAssignee.assigneeKeyUp($event)"
-       ng-if="ctlAssignee.assigneeFocus == true || ctlAssignee.assignees.length == 0">
+       ng-if="ctlAssignee.assigneeFocus == true || ctlAssignee.assignees.length == 0" focus-me="{{ctlAssignee.assigneeFocusMe}}">

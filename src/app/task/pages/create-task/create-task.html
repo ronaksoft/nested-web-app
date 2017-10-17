@@ -17,7 +17,7 @@
     <div class="task-input-wrapper ng-class:{'focus' : ctrl.assigneeFocus}">
       <task-assignee assignees-data="ctrl.assigneesData" assignee-focus="ctrl.assigneeFocus"
                      assignee-with-candidate="true" assignee-placeholder="{{ctrl.assigneePlaceholder}}"
-                     remove-items="ctrl.removeAssigneesItems"></task-assignee>
+                     remove-items="ctrl.removeAssigneesItems" assignee-focus-me="ctrl.assigneeFocusTrigger"></task-assignee>
       <div ng-if="ctrl.assigneeFocus != true && ctrl.assigneesData.length == 1" ng-click="ctrl.assigneeFocus = true;"
            class="unfocused-input"
            translate-inner>Assigned to <b>{{ctrl.assigneesData[0].fullName}}</b></div>
@@ -85,7 +85,7 @@
         </h3>
         <ul class="todo-list ng-class:{'focus': ctrl.todoFocus}">
           <task-todo todos-data="ctrl.todosData" todo-focus="ctrl.todoFocus" todo-placeholder="{{ctrl.todoPlaceholder}}"
-                     remove-items="ctrl.removeTodoItems"></task-todo>
+                     remove-items="ctrl.removeTodoItems" todo-focus-me="ctrl.assigneeTodoTrigger"></task-todo>
           </li>
         </ul>
       </div>

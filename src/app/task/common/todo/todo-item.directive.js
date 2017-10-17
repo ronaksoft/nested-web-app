@@ -15,7 +15,8 @@
         focus: '=todoFocus',
         add: '=todoAdd',
         remove: '=todoRemove',
-        placeholder: '@placeholder'
+        placeholder: '@placeholder',
+        focusMe: '=todoFocusMe'
       },
       link: function ($scope) {
         $scope.data.checked = false;
