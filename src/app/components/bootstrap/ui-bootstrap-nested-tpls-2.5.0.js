@@ -1953,7 +1953,6 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
               }
 
               tooltipLinkedScope = ttScope.$new();
-              tooltipLinkedScope.content = angular.element(document.body).injector().get('NstSvcTranslation').get(tooltipLinkedScope.content)              
               tooltip = tooltipLinker(tooltipLinkedScope, function(tooltip) {
                 if (appendToBody) {
                   $document.find('body').append(tooltip);
@@ -1998,6 +1997,7 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
              */
             function prepareTooltip() {
               ttScope.title = attrs[prefix + 'Title'];
+              console.log(attrs[ttType]);
               if (contentParse) {
                 ttScope.content = contentParse(scope);
               } else {
@@ -2075,7 +2075,7 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
               } else {
                 observers.push(
                   attrs.$observe(ttType, function(val) {
-                    ttScope.content = val;
+                    ttScope.content = angular.element(document.body).injector().get('NstSvcTranslation').get(val);
                     if (!val && ttScope.isOpen) {
                       hide();
                     } else {

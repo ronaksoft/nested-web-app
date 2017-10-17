@@ -25,7 +25,7 @@
 </ul>
 
 <ul ng-if="internalMode == 'badge'" class="badge-bar">
-  <li ng-repeat="item in items" ng-class="{'uploading' : !item.isUploaded && item.uploadedRatio < 1,'failed' : item.isFailed}" data-uib-tooltip="{{'Uploading: ' + (item.uploadedRatio * 100).toString().substr(0, 3) + '%'}}" data-tooltip-placement="top-center auto"
+  <li ng-repeat="item in items" ng-class="{'uploading' : !item.isUploaded && item.uploadedRatio < 1,'failed' : item.isFailed}" data-uib-tooltip="Uploading:{{(item.uploadedRatio * 100).toString().substr(0, 3)}}%" data-tooltip-placement="top-center auto"
   data-tooltip-append-to-body="false" data-tooltip-enable="!item.isUploaded && item.uploadedRatio < 1" data-tooltip-is-open="true">
     <a href="javascript:void(0);" ng-click="onClick(item)">
       <img width="32" class="attach-badge-img" alt="" ng-src="{{item.thumbnail}}" height="32" ng-if="!item.isFailed && (item.type === 'image' || item.type === 'gif')"/>
