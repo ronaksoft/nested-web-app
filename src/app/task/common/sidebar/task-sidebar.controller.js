@@ -6,22 +6,48 @@
       .controller('TaskSidebarController', TaskSidebarController);
 
     /** @ngInject */
-    function TaskSidebarController($q, $scope, $state, $stateParams, $uibModal, $rootScope) {
+    function TaskSidebarController($q, $scope, $state, $stateParams, _, $uibModal, $rootScope) {
       var vm = this;
-      // var eventReferences = [];
+      var eventReferences = [];
 
-      vm.createTask = createTask
+      vm.createTask = createTask;
 
-      function createTask(){
+      function createTask() {
         $uibModal.open({
           animation: false,
           size: 'create-task',
           templateUrl: 'app/task/pages/create-task/create-task.html',
           controller: 'createTaskController',
-          controllerAs: 'ctrl',
+          controllerAs: 'ctrlCreateTask',
           backdropClass: 'taskBackDrop'
         })
       }
+
+      function editTask() {
+        $uibModal.open({
+          animation: false,
+          size: 'create-task',
+          templateUrl: 'app/task/pages/edit-task/edit-task.html',
+          controller: 'editTaskController',
+          controllerAs: 'ctrlEditTask',
+          backdropClass: 'taskBackDrop'
+        }).result.catch(function () {
+          $rootScope.goToLastState(true);
+        });
+      }
+
+      eventReferences.push($rootScope.$on('open-task', function () {
+        editTask();
+      }));
+
+      $scope.$on('$destroy', function () {
+        _.forEach(eventReferences, function (canceler) {
+          if (_.isFunction(canceler)) {
+            canceler();
+          }
+        });
+
+      });
 
     }
   })();
