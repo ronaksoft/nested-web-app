@@ -210,6 +210,13 @@
             font-size: 13px;
             line-height: 18px;
         }
+        > label {
+            .tooltip.top {
+                margin-top: -3px;
+                padding: 5px 0;
+                transform: translateX(15px);
+            }
+        }
     }
     .task-more-options {
         max-height: 0;
