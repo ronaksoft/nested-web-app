@@ -10,7 +10,6 @@
     Task.prototype.constructor = Task;
 
     function Task() {
-
       this.id = undefined;
       this.assignee = '';
       this.candidates = '';
