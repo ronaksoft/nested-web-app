@@ -25,6 +25,15 @@
     vm.removeAssigneeChip = removeAssigneeChip;
     vm.removeItems = removeItems;
 
+    (function () {
+      if (vm.assigneeExclude !== undefined) {
+        var excludes = vm.assigneeExclude.split(',');
+        _.forEach(excludes, function (exclude) {
+          vm.assignees.push(_.trim(exclude));
+        });
+      }
+    })();
+
     function removeRedundantAssignees(assignees, assigneesData) {
       var tempList = [];
       _.forEach(assignees, function (label) {
@@ -86,7 +95,7 @@
 
     function removeItems () {
       vm.assignees = [];
-      vm.assigneesData = []
+      vm.assigneesData = [];
       vm.mentionAssigneesData = [];
     }
   }

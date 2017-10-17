@@ -87,7 +87,7 @@
 
      function removeItems () {
        vm.labels = [];
-       vm.labelsData = []
+       vm.labelsData = [];
        vm.mentionLabelsData = [];
     }
   }

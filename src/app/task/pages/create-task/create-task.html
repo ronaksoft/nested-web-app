@@ -9,8 +9,8 @@
         {{ctrl.taskTitle.length | localize}} / 64
       </div>
     </div>
-    <label for="task-title">
-      <task-progress-icon status="'assigned-no-checklist'" progress="0"></task-progress-icon>
+    <label for="task-title" ng-class="{'focus' : ctrl.titleFocus}">
+      <task-progress-icon status="(ctrl.todosData.length > 0? 'assigned-checklist' : 'assigned-no-checklist')" progress="0"></task-progress-icon>
     </label>
   </div>
   <div class="task-assignee auto-height-item">
@@ -137,7 +137,7 @@
         <div class="task-input-wrapper ng-class:{'focus': ctrl.watcherFocus}">
           <task-assignee assignees-data="ctrl.watchersData" assignee-focus="ctrl.watcherFocus"
                          assignee-with-candidate="false" assignee-placeholder="{{ctrl.watcherPlaceholder}}"
-                         remove-items="ctrl.removeWatcherItems"></task-assignee>
+                         remove-items="ctrl.removeWatcherItems" assignee-exclude="{{ctrl.user.id}}"></task-assignee>
         </div>
       </div>
       <label ng-class="{'focus': ctrl.watcherFocus, 'no-hover': ctrl.watchersData.length === 0}">

@@ -10,7 +10,7 @@
     var vm = this;
     // var eventReferences = [];
     vm.showMoreOption = false;
-    vm.user = NstSvcAuth.user
+    vm.user = NstSvcAuth.user;
     vm.datePickerconfig = {
       allowFuture: true
     };
