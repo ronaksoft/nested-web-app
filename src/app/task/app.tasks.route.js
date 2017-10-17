@@ -6,7 +6,7 @@
     .config(routerConfig);
 
   /** @ngInject */
-  function routerConfig($stateProvider) {
+  function routerConfig($stateProvider, NST_DEFAULT) {
     $stateProvider
     .state('app.task', {
       url: '/task',
@@ -20,10 +20,25 @@
       templateUrl: 'app/task/pages/glance/task-glance.html',
       controller: 'taskGlanceController',
       controllerAs: 'ctrl',
-      options : {
-        group : 'task',
-        fullscreen : true
+      options: {
+        group: 'task',
+        primary: true,
+        fullscreen: true
       }
+    })
+    .state('app.task.edit',{
+      url: '/edit/:taskId',
+      params: {
+        taskId: NST_DEFAULT.STATE_PARAM
+      },
+      options: {
+        group: 'task'
+      },
+      onEnter: ['$rootScope', function ($rootScope) {
+        setTimeout(function () {
+          $rootScope.$broadcast('open-task');
+        }, 10);
+      }]
     })
 
   }
