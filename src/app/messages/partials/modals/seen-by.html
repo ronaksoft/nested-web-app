@@ -12,11 +12,7 @@
   <div iscroll load-more iscroll-instance="scrollInstance" class="modal-body iscroll-wrapper">
     <div class="iscroll-scroller">
       <div class="_fw _jcc _df margin-top-10" ng-if="ctrl.loading">
-        <div class="nst-loading nst-loading-size-4 _fl"></div>
-        <span>&nbsp;</span>
-        <div class="nst-font-xsmall _fr nst-marginbtm-4">
-          <translate>Loading...</translate>
-        </div>
+        <div class="nst-loading"></div>
       </div>
       <div class="_fw _jcc _df margin-top-10" ng-if="!ctrl.loading && ctrl.readers.length === 0">
         <trasnlate>No one has seen the post!</trasnlate>

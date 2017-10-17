@@ -7,13 +7,7 @@
     </li>
     <li class="_fw _df _jcc _fn" ng-if="contactsCtrl.loadProgress">
       <div class="nst-mood-cheerful no-gutter nst-margin-24">
-        <div class="_fw">
-          <div class="nst-loading nst-loading-size-4 _fl"></div>
-          <span>&nbsp;</span>
-          <div class="nst-font-xsmall _fr nst-marginbtm-4">
-            <translate>Loading...</translate>
-          </div>
-        </div>
+        <div class="nst-loading"></div>
       </div>
     </li>
     <li ng-if="!contactsCtrl.loadProgress" ng-repeat="contact in contactsCtrl.contacts">

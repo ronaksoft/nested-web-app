@@ -85,23 +85,7 @@
         <translate>Load more ...</translate>
       </div>
       <div class="_difh nst-mood-cheerful no-gutter nst-margin-24" ng-if="ctlFiles.filesLoadProgress">
-        <div class="loading">
-          <div class="animation">
-            <div class="circle one"></div>
-          </div>
-          <div class="animation">
-            <div class="circle two"></div>
-          </div>
-          <div class="animation">
-            <div class="circle three"></div>
-          </div>
-          <div class="animation">
-            <div class="circle four"></div>
-          </div>
-          <div class="animation">
-            <div class="circle five"></div>
-          </div>
-        </div>
+        <div class="nst-loading"></div>
       </div>
       <div class="nst-margin-24" ng-if="ctlFiles.hasNextPage || loadFilesError">
         <p class="text-center nst-mood-storm" ng-if="!ctlFiles.hasNextPage && !ctlFiles.filesLoadProgress">

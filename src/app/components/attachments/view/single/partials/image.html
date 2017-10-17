@@ -3,20 +3,5 @@
   <div style="background-image:url('{{attachment.thumbnail}}');"></div>
   <img ng-src="{{attachment.viewUrl}}" class="prev" preview-on-load/>
 </div>
-<div class="loading white" ng-if="!attachment.loaded">
-  <div class="animation">
-    <div class="circle one"></div>
-  </div>
-  <div class="animation">
-    <div class="circle two"></div>
-  </div>
-  <div class="animation">
-    <div class="circle three"></div>
-  </div>
-  <div class="animation">
-    <div class="circle four"></div>
-  </div>
-  <div class="animation">
-    <div class="circle five"></div>
-  </div>
-</div>
+
+<div class="nst-loading white absolute" ng-if="!attachment.loaded"></div>

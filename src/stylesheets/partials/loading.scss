@@ -1,146 +1,225 @@
 @-webkit-keyframes spin {
-    0% {
-      -webkit-transform:rotate(0deg);
-      opacity: 0;
-    }
-    15% {
-      opacity: 1;
-    }
-    25% {
-      -webkit-transform:rotate(270deg);
-      opacity: 1;
-    }
-    50% {
-      -webkit-transform:rotate(960deg);
-      opacity: 1;
-    }
-    80% {
-      -webkit-transform:rotate(1300deg);
-      opacity: 1;
-    }
-    100% {
-      -webkit-transform:rotate(1820deg);
-      opacity: 0;
-    }
-  }
-  @-moz-keyframes spin {
-    0% {
-      -moz-transform:rotate(0deg);
-      opacity: 0;
-    }
-    15% {
-      opacity: 1;
-    }
-    25% {
-      -moz-transform:rotate(270deg);
-      opacity: 1;
-    }
-    50% {
-      -moz-transform:rotate(960deg);
-      opacity: 1;
-    }
-    80% {
-      -moz-transform:rotate(1300deg);
-      opacity: 1;
-    }
-    100% {
-      -moz-transform:rotate(1820deg);
-      opacity: 0;
-    }
-  }
-  @keyframes spin {
-    0% {
-      transform:rotate(0deg);
-      opacity: 0;
-    }
-    15% {
-      opacity: 1;
-    }
-    25% {
-      transform:rotate(270deg);
-      opacity: 1;
-    }
-    50% {
-      transform:rotate(960deg);
-      opacity: 1;
-    }
-    80% {
-      transform:rotate(1300deg);
-      opacity: 1;
-    }
-    100% {
-      transform:rotate(1820deg);
-      opacity: 0;
-    }
-  }
-  
-  .loading {
-    height: 44px;
-    left: 50%;
-    margin-left: -22px;
-    margin-top: -20px;
-    position: absolute;
-    top: 50%;
-    width: 44px;
-  }
-  .loading .animation {
-    animation: spin 5s linear 0s infinite;
-    transform: translate3d(0, 0, 0);
-    perspective: 1000;
+  0% {
+    -webkit-transform: rotate(0deg);
     opacity: 0;
   }
-  .loading .animation:nth-child(2) {
-    animation-delay: 125ms;
+  15% {
+    opacity: 1;
   }
-  .loading .animation:nth-child(3) {
-    animation-delay: 250ms;
+  25% {
+    -webkit-transform: rotate(270deg);
+    opacity: 1;
   }
-  .loading .animation:nth-child(4) {
-    animation-delay: 375ms;
+  50% {
+    -webkit-transform: rotate(960deg);
+    opacity: 1;
   }
-  .loading .animation:nth-child(5) {
-    animation-delay: 500ms;
+  80% {
+    -webkit-transform: rotate(1300deg);
+    opacity: 1;
   }
-  .loading .circle {
-    background: none repeat scroll 0 0 #14D769;
-    border-radius: 100% 100% 100% 100%;
-    height: 6px;
-    left: 0;
+  100% {
+    -webkit-transform: rotate(1820deg);
+    opacity: 0;
+  }
+}
+
+@-moz-keyframes spin {
+  0% {
+    -moz-transform: rotate(0deg);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  25% {
+    -moz-transform: rotate(270deg);
+    opacity: 1;
+  }
+  50% {
+    -moz-transform: rotate(960deg);
+    opacity: 1;
+  }
+  80% {
+    -moz-transform: rotate(1300deg);
+    opacity: 1;
+  }
+  100% {
+    -moz-transform: rotate(1820deg);
+    opacity: 0;
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  25% {
+    transform: rotate(270deg);
+    opacity: 1;
+  }
+  50% {
+    transform: rotate(960deg);
+    opacity: 1;
+  }
+  80% {
+    transform: rotate(1300deg);
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(1820deg);
+    opacity: 0;
+  }
+}
+@keyframes loading-first-circ {
+  0% {
+    transform: scale(.5,.5);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(.25,.25);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(.25,.25);
+    opacity: 0;
+  }
+}
+@keyframes loading-second-circ {
+  0% {
+    transform: scale(1,1);
+    opacity: 0;
+  }
+  25% {
+    transform: scale(1,1);
+    opacity: 0;
+  }
+  75% {
+    transform: scale(.5,.5);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(.5,.5);
+    opacity: 1;
+  }
+}
+
+.loading {
+  height: 44px;
+  left: 50%;
+  margin-left: -22px;
+  margin-top: -20px;
+  position: absolute;
+  top: 50%;
+  width: 44px;
+}
+
+.loading .animation {
+  animation: spin 5s linear 0s infinite;
+  transform: translate3d(0, 0, 0);
+  perspective: 1000;
+  opacity: 0;
+}
+
+.loading .animation:nth-child(2) {
+  animation-delay: 125ms;
+}
+
+.loading .animation:nth-child(3) {
+  animation-delay: 250ms;
+}
+
+.loading .animation:nth-child(4) {
+  animation-delay: 375ms;
+}
+
+.loading .animation:nth-child(5) {
+  animation-delay: 500ms;
+}
+
+.loading .circle {
+  background: none repeat scroll 0 0 #14D769;
+  border-radius: 100% 100% 100% 100%;
+  height: 6px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 6px;
+}
+
+.loading .circle.two {
+  background: transparentize($color-sense, 1 - .8);
+}
+
+.loading .circle.three {
+  background: transparentize($color-sense, 1 - .6);
+}
+
+.loading .circle.four {
+  background: transparentize($color-sense, 1 - .4);
+}
+
+.loading .circle.five {
+  background: transparentize($color-sense, 1 - .2);
+}
+
+.loading.white .circle {
+  background: none repeat scroll 0 0 #ffffff;
+  border-radius: 100% 100% 100% 100%;
+  height: 6px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 6px;
+}
+
+.loading.white .circle.two {
+  background: transparentize($color-white, 1 - 0.8);
+}
+
+.loading.white .circle.three {
+  background: transparentize($color-white, 1 - 0.6);
+}
+
+.loading.white .circle.four {
+  background: transparentize($color-white, 1 - 0.4);
+}
+
+.loading.white .circle.five {
+  background: transparentize($color-white, 1 - 0.2);
+}
+
+.nst-loading {
+  width: 64px;
+  height: 64px;
+  position: relative;
+  &.absolute {
+    left: 50%;
+    margin-left: -32px;
+    margin-top: -32px;
     position: absolute;
-    top: 0;
-    width: 6px;
+    top: 50%;
   }
-  .loading .circle.two {
-    background: transparentize($color-sense, 1 - .8);
-  }
-  .loading .circle.three {
-    background: transparentize($color-sense, 1 - .6);
-  }
-  .loading .circle.four {
-    background: transparentize($color-sense, 1 - .4);
-  }
-  .loading .circle.five {
-    background: transparentize($color-sense, 1 - .2);
-  }
-  
-  .loading.white .circle {
-    background: none repeat scroll 0 0 #ffffff;
-    border-radius: 100% 100% 100% 100%;
-    height: 6px;
-    left: 0;
+  &::before,
+  &::after {
+    content: ' ';
     position: absolute;
-    top: 0;
-    width: 6px;
+    width: 48px;
+    margin: -24px 0 0 -24px;
+    top: 50%;
+    left: 50%;
+    height: 48px;
+    border-radius: 24px;
+    background-color: $color-sense;
   }
-  .loading.white .circle.two {
-    background: transparentize($color-white, 1 - 0.8);
+  &::before {
+    animation: loading-first-circ 1s ease-in 0s infinite normal running;
   }
-  .loading.white .circle.three {
-    background: transparentize($color-white, 1 - 0.6);
+  &::after {
+    animation: loading-second-circ 1s ease-in 0s infinite normal running;
   }
-  .loading.white .circle.four {
-    background: transparentize($color-white, 1 - 0.4);
-  }
-  .loading.white .circle.five {
-    background: transparentize($color-white, 1 - 0.2);
-  }
+}

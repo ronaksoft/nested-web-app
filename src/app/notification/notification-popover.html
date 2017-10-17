@@ -27,23 +27,7 @@
   <div iscroll="" class="iscroll-wrapper">
     <ul class="notif-ul" class="iscroll-scroller">
       <li class="_fw _jcc _df margin-top-10" ng-if="ctlNotifications.loadingAfter">
-        <div class="loading">
-          <div class="animation">
-            <div class="circle one"></div>
-          </div>
-          <div class="animation">
-            <div class="circle two"></div>
-          </div>
-          <div class="animation">
-            <div class="circle three"></div>
-          </div>
-          <div class="animation">
-            <div class="circle four"></div>
-          </div>
-          <div class="animation">
-            <div class="circle five"></div>
-          </div>
-        </div>
+        <div class="nst-loading"></div>
       </li>
       <li class="_tac" ng-if="ctlNotifications.notifications.length == 0 && !ctlNotifications.loadingBefore"><translate>No Notifications</translate></li>
       <li ng-repeat="notif in ctlNotifications.notifications track by notif.id"
@@ -140,23 +124,7 @@
       <li class="more-mentions notif-ul-loading"
         ng-if="!ctlNotifications.reached && ctlNotifications.loadingBefore && !ctlNotifications.error">
         <div class="_fw _jcc _df margin-top-10 _pr">
-          <div class="loading">
-            <div class="animation">
-              <div class="circle one"></div>
-            </div>
-            <div class="animation">
-              <div class="circle two"></div>
-            </div>
-            <div class="animation">
-              <div class="circle three"></div>
-            </div>
-            <div class="animation">
-              <div class="circle four"></div>
-            </div>
-            <div class="animation">
-              <div class="circle five"></div>
-            </div>
-          </div>
+          <div class="nst-loading"></div>
         </div>
       </li>
     </ul>

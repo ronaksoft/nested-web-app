@@ -146,23 +146,6 @@
 .tooltip {
  color: $color-sense;
 }
-//--------loader-----//
-.nst-loading {
-  margin-bottom : -3px;
-  border: 2px solid #f3f3f3;
-  border-radius: 50%;
-  border-top: 2px solid $color-sense;
-  width: 12px;
-  height: 12px;
-  animation: spin 2s linear infinite;
-}
-
-@for $i from 3 through 12 {
-  .nst-loading-size-#{$i * 4} {
-    width: #{$i * 4}px;
-    height: #{$i * 4}px;
-  }
-}
 
 //--------Overlay-----------
 
