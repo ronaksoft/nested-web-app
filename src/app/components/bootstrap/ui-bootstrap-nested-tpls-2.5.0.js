@@ -1953,6 +1953,7 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
               }
 
               tooltipLinkedScope = ttScope.$new();
+              tooltipLinkedScope.content = angular.element(document.body).injector().get('NstSvcTranslation').get(tooltipLinkedScope.content)              
               tooltip = tooltipLinker(tooltipLinkedScope, function(tooltip) {
                 if (appendToBody) {
                   $document.find('body').append(tooltip);

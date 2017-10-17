@@ -214,10 +214,10 @@
           </svg>
         </div>
       </a>
-      <div ng-click="$event.stopPropagation()" class="cursor-pointer margin-r_5 icon _df" data-uib-tooltip-template="'more-uib-tooltip.html'"
+      <div ng-click="$event.stopPropagation()" class="cursor-pointer margin-r_5 icon _df" data-uib-tooltip="More options"
         data-tooltip-append-to-body="true" data-tooltip-placement="auto top" popover-class="white-pop post-card-moreo-ptions"
         data-popover-placement="{{$root._direction == 'ltr' ? 'left auto' : 'right auto'}}" data-uib-popover-template="'app/messages/partials/popovers/post-card-more-option.html'"
-        data-popover-append-to-body="true" translate-attrs="data-uib-tooltip" ng-click="_track('post card', 'more options : toolbar');">
+        data-popover-append-to-body="true" ng-click="_track('post card', 'more options : toolbar');">
         <div class="more">
           <svg class="svg-hover _24svg">
             <use xlink:href="/assets/icons/nst-icn24.svg#more"></use>
@@ -260,7 +260,7 @@
   </a>
 
   <a ng-if="ctlPostCard.addOn" popover-class="white-pop popover-white-nst-activity-places" data-tooltip-append-to-body="true"
-    data-tooltip-placement="auto top" data-uib-tooltip-template="'more-uib-tooltip.html'" data-popover-placement="bottom-left auto"
+    data-tooltip-placement="auto top" data-uib-tooltip-template="More options" data-popover-placement="bottom-left auto"
     ng-click=" _track('post card', 'more options');" data-uib-popover-template="'app/messages/partials/popovers/post-card-more-option.html'"
     data-popover-append-to-body="true" translate-attrs="data-uib-tooltip,data-uib-popover">
 
@@ -323,9 +323,7 @@
 </div>
 
 <div class="post-card-wire" ng-if="!ctlPostCard.chainView"></div>
-<script type="text/ng-template" id="more-uib-tooltip.html">
-  <translate>More options</translate>
-</script>
+
 <script type="text/ng-template" id="reply-to-all-uib-tooltip.html">
   <translate>Reply</translate>
 </script>
