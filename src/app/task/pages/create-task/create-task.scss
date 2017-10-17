@@ -203,6 +203,7 @@
             min-width: 120px;
             align-self: center;
             flex: 1;
+            min-height: 30px;
         }
     }
     .task-due {
@@ -284,21 +285,25 @@
     }
     .todo-list {
         list-style: none;
-        padding: 6px 0;
+        margin: 8px 0;
         label {
             max-width: calc(100% - 8px);
         }
         li {
-             margin: 8px 0 0;
+             margin: 8px 0;
         }
         svg {
-            margin: 4px;
+            margin: 4px 0;
+        }
+        .task-input-wrapper {
+            padding: 0;
         }
         textarea {
             height: 18px;
             font-size: 13px;
             line-height: 20px;
             max-height: 128px;
+            padding: 0 4px;
         }
     }
     textarea {
