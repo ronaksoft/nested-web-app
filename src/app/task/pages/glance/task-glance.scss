@@ -16,6 +16,14 @@
         display: flex;
         opacity: .4;
         position: relative;
+        ._16svg {
+            transform: scale(2,2);
+            transform-origin: center center;
+            fill: $color-solid;
+        }
+        span {
+            padding: 0 16px;
+        }
         hr {
             opacity: .2;
             position: absolute;
