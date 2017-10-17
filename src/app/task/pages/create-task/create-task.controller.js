@@ -6,7 +6,7 @@
     .controller('createTaskController', createTaskController);
 
   /** @ngInject */
-  function createTaskController($q, $timeout, $scope, $rootScope, NstSvcAuth, _, toastr, NstSvcTranslation, NstTask) {
+  function createTaskController($q, $timeout, $scope, $rootScope, NstSvcAuth, _, toastr, NstSvcTranslation, NstTask, NST_ATTACHMENT_STATUS) {
     var vm = this;
     // var eventReferences = [];
     vm.showMoreOption = false;
@@ -62,6 +62,9 @@
     vm.labelPlaceholder = NstSvcTranslation.get('Add labels...');
     vm.removeLabels = removeLabels;
 
+    vm.isDisabled = isDisabled;
+    vm.create = create;
+
 
     function removeAssignees() {
       vm.removeAssigneeItems.call();
@@ -103,9 +106,72 @@
       vm.removeLabelItems.call();
     }
 
-    vm.create = function () {
+    function check() {
+      var errors = [];
+      if (_.trim(vm.title) === '') {
+        errors.push(NstSvcTranslation.get('Please enter the task title'));
+      }
+      if (vm.assigneesData.length === 0) {
+        errors.push(NstSvcTranslation.get('Please add assignee or candidates'));
+      }
+      var isAttachmentValid = true;
+      for (var i in vm.attachmentsData) {
+        if (vm.attachmentsData[i].status !== NST_ATTACHMENT_STATUS.ATTACHED ) {
+          isAttachmentValid = false;
+          break;
+        }
+      }
+      if (!isAttachmentValid) {
+        errors.push(NstSvcTranslation.get('Please wait till attachments upload completely'));
+      }
+      return {
+        valid: errors.length === 0,
+        errors: errors,
+        attachment: isAttachmentValid
+      }
+    }
 
-    };
+    function isDisabled() {
+      var response = check();
+      return !response.valid;
+    }
+
+    function create () {
+      var response = check();
+      _.forEach(response.errors, function (error) {
+        toastr.error(error);
+      });
+      if (response.valid) {
+        var task = new NstTask();
+        task.title = vm.title;
+        if (vm.assigneesData.length === 1) {
+          task.assignee = vm.assigneesData[0];
+        } else {
+          task.candidates = vm.assigneesData;
+        }
+        if (vm.dueDate !== null) {
+          task.dueDate = vm.dueDate;
+        }
+        if (vm.todosData.length > 0) {
+          task.todos = vm.todosData;
+        }
+        if (vm.attachmentsData.length > 0) {
+          task.attachments = vm.attachmentsData;
+        }
+        if (vm.watchersData.length > 0) {
+          task.watchers = vm.watchersData;
+        }
+        if (vm.labelsData.length > 0) {
+          task.labels = vm.labelsData;
+        }
+        console.log(task);
+        closeModal();
+      }
+    }
+
+    function closeModal() {
+      $scope.$dismiss();
+    }
 
     var focusInit = true;
     $scope.$watch(function () {
@@ -137,5 +203,9 @@
         }
       }
     }
+
+    $scope.$on('$destroy', function () {
+      console.log('destroy');
+    });
   }
 })();
