@@ -11,9 +11,9 @@
 
     function Task() {
       this.id = undefined;
-      this.assignee = '';
-      this.candidates = '';
-      this.title = '';
+      this.assignee = undefined;
+      this.candidates = undefined;
+      this.title = undefined;
       this.dueDate = undefined;
       this.description = '';
       this.todos = undefined;
