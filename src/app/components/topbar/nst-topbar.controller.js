@@ -90,6 +90,9 @@
       vm.chips = [];
       vm.isSearch = isSearch;
       vm.advancedSearchIt = advancedSearchIt;
+      vm.datePickerconfig = {
+        allowFuture: false
+      };
 
       vm.translation = {
         submit: NstSvcTranslation.get('Submit')
