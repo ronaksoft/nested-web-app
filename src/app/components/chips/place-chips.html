@@ -3,9 +3,7 @@
     <img initial-avatar="{{place.id}}" name="{{place.name}}" picture="{{place | picture : 'x128'}}" data-width="26"
         data-height="26" ng-if="!isEmail"
         data-radius="6" class="_df" data-word-count="2" data-font-size="13"/>
-    <svg class="_fh _fw" ng-if="isEmail">
-        <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
-    </svg>
+    <img class="email-holder" src="/assets/icons/ph_email.png" ng-if="isEmail"/>
   </div>
   <span class="_txe">
     {{place.name}}

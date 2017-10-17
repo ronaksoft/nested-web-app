@@ -31,7 +31,7 @@
                 </span>
               <span class="place-name">{{$item.name}}</span>
             </div> -->
-            <div place-chips place-id="$item.id" is-email="$item.isEmail" on-remove="$selectMultiple.removeChoice" index="$index" on-select="" selectable="true"></div>
+            <div place-chips place-id="$item" is-email="$item.isEmail" on-remove="$selectMultiple.removeChoice" index="$index" on-select="" selectable="true"></div>
           </ui-select-match>
           <ui-select-choices refresh="ctlCompose.search.fn($select.search)"
                              refresh-delay="0"
