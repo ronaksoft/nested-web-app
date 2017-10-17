@@ -208,6 +208,12 @@
     position: absolute;
     top: 50%;
   }
+  &.white {
+    &::before,
+    &::after {
+    background-color: $color-white;
+    }
+  }
   &::before,
   &::after {
     content: ' ';
