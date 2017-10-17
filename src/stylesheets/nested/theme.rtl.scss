@@ -1051,8 +1051,12 @@ body[dir="rtl"] {
     padding: 8px 6px 0 15px;
   }
   .side-places-list .arrow-toggle {
-    right: 0;
+    right: auto;
     left: 4px;
+  }
+  .side-place-item-container .place-line-icon {
+    left: auto;
+    right: -16px;
   }
   .quick-message-wrp .quick-message-inner .quick-message {
     margin-left: 32px;

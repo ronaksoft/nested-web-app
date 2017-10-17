@@ -141,7 +141,7 @@
     <div label-chips label-id="label" on-remove="ctlLabel.removeLabelChip"
       ng-repeat="label in ctlPostCard.post.labels track by $index" ng-click="ctlPostCard.labelClick(label.title);"></div>
     <a ng-if="!ctlPostCard.FIT && ctlPostCard.haveAnyLabelAcess" add-label added-labels="ctlPostCard.post.labels" after-add-label="ctlPostCard.addLabels"
-       data-uib-tooltip-template="'add-label-tooltip.html'" class="cursor-pointer" data-tooltip-append-to-body="true" data-tooltip-placement="auto top"
+       data-uib-tooltip="Labels" class="cursor-pointer" data-tooltip-append-to-body="true" data-tooltip-placement="auto top"
        ng-click="ctlPostCard.markAsRead();"
     >
       <svg class="_16svg _r90">
@@ -196,7 +196,7 @@
     </a>
 
     <div class="post-icons _fw _df" ng-if="!ctlPostCard.FIT">
-      <a id="test-forward" data-uib-tooltip-template="'forward-uib-tooltip.html'" data-tooltip-append-to-body="true" data-tooltip-placement="auto top"
+      <a id="test-forward" data-uib-tooltip="Forward" data-tooltip-append-to-body="true" data-tooltip-placement="auto top"
         ui-sref="app.compose-forward({ postId: ctlPostCard.post.id })" ng-click="ctlPostCard.forward($event); ctlPostCard.markAsRead(); _track('post card', 'forward : toolbar');"
         class="icon _df">
         <div class="forward-post">
@@ -205,7 +205,7 @@
           </svg>
         </div>
       </a>
-      <a id="test-reply" class="icon _df" data-uib-tooltip-template="'reply-to-all-uib-tooltip.html'" data-tooltip-append-to-body="true"
+      <a id="test-reply" class="icon _df" data-uib-tooltip="Reply" data-tooltip-append-to-body="true" translate-attrs="data-uib-tooltip"
         data-tooltip-placement="auto top" ng-click="ctlPostCard.replyAll($event); ctlPostCard.markAsRead(); _track('post card', 'reply all : toolbar');"
         ui-sref="app.compose-reply-all({ postId: ctlPostCard.post.id })">
         <div class="reply-post">
@@ -241,14 +241,14 @@
   observe="yes" after-content="697" top="64" container=".modal" fixed-top="true">
 
   <a ng-click="ctlPostCard.replyAll($event);ctlPostCard.markAsRead(); _track('post card', 'reply : add-on');" ui-sref="app.compose-reply-all({ postId: ctlPostCard.post.id })"
-    data-uib-tooltip-template="'reply-to-all-uib-tooltip.html'" data-tooltip-append-to-body="true" data-tooltip-placement="auto top">
+    data-uib-tooltip-template="Reply" data-tooltip-append-to-body="true" data-tooltip-placement="auto top">
     <svg class="mirror">
       <use xlink:href="/assets/icons/nst-icn24.svg#reply"></use>
     </svg>
   </a>
 
   <a ui-sref="app.compose-forward({ postId: ctlPostCard.post.id })" ng-click="ctlPostCard.forward($event);ctlPostCard.markAsRead(); _track('post card', 'forward : add-on');"
-    data-uib-tooltip-template="'forward-uib-tooltip.html'" data-tooltip-append-to-body="true" data-tooltip-placement="auto top">
+    data-uib-tooltip-template="Forward" data-tooltip-append-to-body="true" data-tooltip-placement="auto top">
     <svg>
       <use xlink:href="/assets/icons/nst-icn24.svg#forward"></use>
     </svg>
@@ -324,15 +324,6 @@
 
 <div class="post-card-wire" ng-if="!ctlPostCard.chainView"></div>
 
-<script type="text/ng-template" id="reply-to-all-uib-tooltip.html">
-  <translate>Reply</translate>
-</script>
-<script type="text/ng-template" id="forward-uib-tooltip.html">
-  <translate>Forward</translate>
-</script>
-<script type="text/ng-template" id="add-label-tooltip.html">
-  <translate>Labels</translate>
-</script>
 <script type="text/ng-template" id="morePlaces-uib-tooltip.html">
   <ul>
     <li data-ng-repeat="place in ctlPostCard.totalRecipients" ng-if="$index >= 3">
