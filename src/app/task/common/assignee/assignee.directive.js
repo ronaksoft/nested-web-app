@@ -19,7 +19,8 @@
         assigneeWithCandidate: '=',
         assigneePlaceholder: '@',
         removeItems: '=',
-        assigneeFocusMe: '='
+        assigneeFocusMe: '=',
+        assigneeExclude: '@'
       }
     };
   }

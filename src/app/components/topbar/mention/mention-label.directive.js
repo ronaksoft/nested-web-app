@@ -46,7 +46,7 @@
               "</svg>" +
               "<div>" +
               "<span class='_df list-unstyled text-centerteammate-name _fw nst-mood-solid text-name'><span class='_db _fw _txe' dir='${dir}'>${name}</span></span>" +
-              "<span class='_df _fn nst-mood-storm'><span class='_db _txe'>${type}</span></span>" +
+              "<span class='_df _fn nst-mood-storm'><span class='_db _txe'></span></span>" +
               "</div>" +
               "</li>";
 
