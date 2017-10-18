@@ -22,9 +22,14 @@
     vm.isOpenBinder = false;
 
     vm.openBinder = openBinder
+    vm.bindRow = bindRow
     
     function openBinder() {
       vm.isOpenBinder =! vm.isOpenBinder;
+    }
+    function bindRow(key) {
+      vm[key] = true;
+      vm.isOpenBinder = false;
     }
     // 
     (function () {
