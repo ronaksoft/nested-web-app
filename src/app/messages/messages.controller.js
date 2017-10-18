@@ -670,7 +670,6 @@
             }, 1000);
           });
 
-          console.log($rootScope.cardCtrls);
           return promise;
         }
 
