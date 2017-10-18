@@ -12,6 +12,12 @@
 
     vm.taskId = '';
     vm.mode = 'edit';
+    vm.enableDue = false;
+    vm.enableDescription = false;
+    vm.enableTodo = false;
+    vm.enableAttachment = false;
+    vm.enableWatcher = false;
+    vm.enableLabel = false;
 
     (function () {
       vm.taskId = $stateParams.taskId;
