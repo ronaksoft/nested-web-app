@@ -1,12 +1,12 @@
 <div class="create-task task-form">
   <div class="task-title auto-height-item">
-    <div class="task-input-wrapper ng-class:{'focus': ctrlCreateTask.titleFocus, 'error' : ctrlCreateTask.taskTitle.length > 64}">
+    <div class="task-input-wrapper ng-class:{'focus': ctrlCreateTask.titleFocus, 'error' : (ctrlCreateTask.title.length > ctrlCreateTask.titleLengthLimit)}">
       <textarea type="text" class="no-style gale-holder create-task-input" placeholder="{{ctrlCreateTask.titlePlaceholder}}"
                 id="task-title" ng-focus="ctrlCreateTask.titleFocus = true"
                 ng-blur="ctrlCreateTask.titleFocus = false" resize-textarea ng-model="ctrlCreateTask.title"
                 enter-key="ctrlCreateTask.enterSubjectTask()" prevent-shift-enter="true"></textarea>
-      <div class="error-handler" ng-if="ctrlCreateTask.taskTitle.length > 54">
-        {{ctrlCreateTask.taskTitle.length | localize}} / 64
+      <div class="error-handler" ng-if="ctrlCreateTask.title.length > (ctrlCreateTask.titleLengthLimit - 10)">
+        {{ctrlCreateTask.title.length | localize}} / {{ctrlCreateTask.titleLengthLimit | localize}}
       </div>
     </div>
     <label for="task-title" ng-class="{'focus' : ctrlCreateTask.titleFocus}">
