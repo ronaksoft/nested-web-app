@@ -64,6 +64,8 @@
       };
 
       vm.quickMessageAccess = false;
+
+      vm.scrollChange = scrollChange;
       // Listen for when the dnd has been configured.
       var eventReferences = [];
       (function () {
@@ -784,6 +786,10 @@
         eventReferences.push($rootScope.$on('reload-counters', function () {
           loadUnreadPostsCount();
         }));
+
+        function scrollChange() {
+          // console.log(window.scrollY);
+        }
 
         $scope.$on('$destroy', function () {
           if (CITHandler) {

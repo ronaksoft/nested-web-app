@@ -18,29 +18,55 @@
       },
       bindToController: true,
       controllerAs: 'ctlChange',
-      controller: function($scope, _, $) {
+      controller: function($scope, _, $, $timeout) {
         var vm = this;
-        var key = vm.handlerKey || 'body-scroll-change';
-        var deregister = $scope.$on(key, function(data) {
+        var debouncer, initDebuoncer, initCnt = 0;
+        // var key = vm.handlerKey || 'body-scroll-change';
+
+        function conditionChecker(event) {
           if (_.isFunction(vm.changed) && !vm.disabled) {
-            vm.changed(data.event);
+            vm.changed(event);
           }
 
           if (_.isFunction(vm.reachedBottom) && !vm.disabled) {
-            if (document.body.offsetHeight- (window.innerHeight + window.scrollY)  <= 500) {
-              vm.reachedBottom(data.event);
+            if (document.body.offsetHeight - (window.innerHeight + window.scrollY)  <= 300) {
+              $timeout.cancel(debouncer);
+              debouncer = $timeout(function () {
+                vm.reachedBottom(event);
+              }, 100);
             }
           }
 
           if (_.isFunction(vm.reachedTop) && !vm.disabled) {
             if ($(window).scrollTop() === 0) {
-              vm.reachedTop(data.event);
+              $timeout.cancel(debouncer);
+              debouncer = $timeout(function () {
+                vm.reachedTop(event);
+              }, 100);
             }
           }
+        }
 
+        var deregister = $(document).on('scroll', function(event) {
+          initCnt++;
+          if (initCnt > 9) {
+            initCnt = 0;
+          }
+          $timeout.cancel(initDebuoncer);
+          initDebuoncer = $timeout(function () {
+            initCnt = 0;
+            conditionChecker(event);
+          }, 99);
+          if (initCnt > 0) {
+            return;
+          }
+          $timeout.cancel(initDebuoncer);
+          conditionChecker(event);
         });
 
-        $scope.$on('$destroy', deregister);
+        $scope.$on('$destroy', function () {
+          deregister.off();
+        });
       }
     };
   }

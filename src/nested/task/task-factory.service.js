@@ -72,7 +72,6 @@
     }
 
     function create(task) {
-      var deferred = $q.defer();
       var params = {
         title: task.title,
         desc: task.description
@@ -98,13 +97,14 @@
         params.label_id = getCommaSeparate(task.labels);
       }
 
-      NstSvcServer.request('task/create', params).then(function (response) {
+      return this.sentinel.watch(function () {
+        return NstSvcServer.request('task/create', params).then(function (response) {
         task.id = response.task_id;
-
-        deferred.resolve({task: task});
-      }).catch(deferred.reject);
-
-      return deferred.promise;
+          return $q.resolve({task: task});
+        }).catch(function (reject) {
+          return $q.reject(reject);
+        });
+      }, 'task-create-' + task.title);
     }
 
     function addAttachment(task_id, universal_id) {
