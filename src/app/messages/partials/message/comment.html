@@ -10,23 +10,25 @@
   <!--<a ng-if="ctrl.hasAnyRemoved && !ctrl.showRemoved" href="javascript:void(0);" ng-click="ctrl.showRemoved = true; _track('post card', 'show removed comments');">Show removed comments</a>-->
   <!--<a ng-if="ctrl.hasAnyRemoved && ctrl.showRemoved" href="javascript:void(0);" ng-click="ctrl.showRemoved = false; _track('post card', 'hide removed comments');">Hide removed comments</a>-->
 </div>
-<div ng-repeat="comment in ctrl.comments | limitTo : ctrl.commentBoardLimit * -1  | orderBy:'timestamp'" id="comment-{{comment.id}}">
-  <div class="post-card-comments _difh _fw _wrb" ng-class="{ 'removed-comment' : comment.removedById }">
-    <nst-comment-body comment="comment"></nst-comment-body>
-    <script type="text/ng-template" id="remove-cm-tooltip.html">
-      <translate>Remove</translate>
-    </script>
-    <script type="text/ng-template" id="hide-cm-tooltip.html">
-      <translate>Hide</translate>
-    </script>
-    <div class="delete-comment" data-ng-if="ctrl.allowToRemoveComment(comment) && !comment.removedById"
-         ng-init="canRemove = ctrl.isInFirstDay(comment) && comment.sender.id == ctrl.user.id"
-         ng-click="ctrl.removeComment(comment);  _track('post card', 'remove comment');" >
-      <svg class="_16svg" data-tooltip-append-to-body="true"
-         data-uib-tooltip-template="canRemove ? 'remove-cm-tooltip.html' : 'hide-cm-tooltip.html'"
-         data-tooltip-placement="right auto">
-        <use xlink:href="/assets/icons/nst-icn16.svg#bin"></use>
-      </svg>
+<div class="comments-container">
+  <div ng-repeat="comment in ctrl.comments | limitTo : ctrl.commentBoardLimit * -1  | orderBy:'timestamp'" id="comment-{{comment.id}}">
+    <div class="post-card-comments _difh _fw _wrb" ng-class="{ 'removed-comment' : comment.removedById }">
+      <nst-comment-body comment="comment"></nst-comment-body>
+      <script type="text/ng-template" id="remove-cm-tooltip.html">
+        <translate>Remove</translate>
+      </script>
+      <script type="text/ng-template" id="hide-cm-tooltip.html">
+        <translate>Hide</translate>
+      </script>
+      <div class="delete-comment" data-ng-if="ctrl.allowToRemoveComment(comment) && !comment.removedById"
+           ng-init="canRemove = ctrl.isInFirstDay(comment) && comment.sender.id == ctrl.user.id"
+           ng-click="ctrl.removeComment(comment);  _track('post card', 'remove comment');" >
+        <svg class="_16svg" data-tooltip-append-to-body="true"
+           data-uib-tooltip-template="canRemove ? 'remove-cm-tooltip.html' : 'hide-cm-tooltip.html'"
+           data-tooltip-placement="right auto">
+          <use xlink:href="/assets/icons/nst-icn16.svg#bin"></use>
+        </svg>
+      </div>
     </div>
   </div>
 </div>
