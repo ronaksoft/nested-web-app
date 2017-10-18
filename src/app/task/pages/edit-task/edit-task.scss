@@ -38,6 +38,8 @@
                 border-radius: 16px;
                 position: absolute;
                 right: 16px;
+                flex-direction: row-reverse;
+                display: flex;
                 bottom: 16px;
                 > * {
                     cursor: pointer;

@@ -35,15 +35,15 @@
         <use xlink:href="/assets/icons/nst-icn24.svg#ask-wire"></use>
       </svg>
       <img initial-avatar="{{ctrlEditTask.assigneeIcon}}" name="{{ctrlEditTask.assigneeIcon}}"
-           picture="{{ctrlEditTask.assigneeIcon | avatar : 'x32'}}" data-width="24" data-height="24"
-           data-radius="40" class="account-initials-24 _df" data-word-count="2" data-font-size="13"
+           picture="{{ctrlEditTask.assigneeIcon | avatar : 'x32'}}" data-width="20" data-height="20"
+           data-radius="40" class="account-initials-20 _df" data-word-count="2" data-font-size="13"
            ng-if="ctrlEditTask.assigneeIcon != 'no-assignee' && ctrlEditTask.assigneeIcon != 'candidate'"/>
       <svg class="_24svg" ng-if="ctrlEditTask.assigneeIcon == 'candidate'">
         <use xlink:href="/assets/icons/nst-task-icn32.svg#candidate"></use>
       </svg>
     </label>
     </div>
-    <div class="task-due const-height-item" ng-if="ctrlEditTask.enableDue">
+    <div class="task-due const-height-item">
       <div class="task-input-wrapper ng-class:{'focus': ctrlEditTask.dueDateFocus}">
         <input type="text" class="no-style gale-holder create-task-input" translate-attrs="placeholder" placeholder="{{ctrlEditTask.dueDatePlaceholder}}"
           id="task-due" ng-focus="ctrlEditTask.dueDateFocus = true" ng-blur="ctrlEditTask.dueDateFocus = false" ng-model="ctrlEditTask.dueDate"
@@ -185,6 +185,31 @@
         <div ng-click="ctrlEditTask.openBinder()">
           <svg class="_16svg">
             <use xlink:href="/assets/icons/nst-icn16.svg#cross"></use>
+          </svg>
+        </div>
+        <div ng-if="!ctrlEditTask.enableLabel" ng-click="ctrlEditTask.enableLabel = true">
+          <svg class="_16svg">
+            <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
+          </svg>
+        </div>
+        <div ng-if="!ctrlEditTask.enableWatcher" ng-click="ctrlEditTask.enableWatcher = true">
+          <svg class="_16svg">
+            <use xlink:href="/assets/icons/nst-icn16.svg#person"></use>
+          </svg>
+        </div>
+        <div ng-if="!ctrlEditTask.enableAttachment" ng-click="ctrlEditTask.enableAttachment = true">
+          <svg class="_16svg">
+            <use xlink:href="/assets/icons/nst-icn16.svg#attach"></use>
+          </svg>
+        </div>
+        <div ng-if="!ctrlEditTask.enableTodo" ng-click="ctrlEditTask.enableTodo = true">
+          <svg class="_16svg">
+            <use xlink:href="/assets/icons/nst-icn16.svg#bullet-list"></use>
+          </svg>
+        </div>
+        <div ng-if="!ctrlEditTask.enableDescription" ng-click="ctrlEditTask.enableDescription = true">
+          <svg class="_16svg">
+            <use xlink:href="/assets/icons/nst-icn16.svg#petition"></use>
           </svg>
         </div>
       </div>
