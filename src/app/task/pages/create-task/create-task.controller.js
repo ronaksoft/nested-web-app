@@ -6,9 +6,10 @@
     .controller('createTaskController', createTaskController);
 
   /** @ngInject */
-  function createTaskController($q, $timeout, $scope, $rootScope, NstSvcAuth, NstSvcTaskFactory, _, toastr, NstSvcTranslation, NstTask, NST_ATTACHMENT_STATUS) {
+  function createTaskController($q, $timeout, $scope, $rootScope, NstSvcAuth, NstSvcTaskFactory, _, toastr, NstSvcTranslation, NstTask, NST_ATTACHMENT_STATUS, NstUtility) {
     var vm = this;
     // var eventReferences = [];
+    vm.titleLengthLimit = 64;
     vm.showMoreOption = false;
     vm.user = NstSvcAuth.user;
     vm.datePickerconfig = {
@@ -112,13 +113,15 @@
       var errors = [];
       if (_.trim(vm.title) === '') {
         errors.push(NstSvcTranslation.get('Please enter the task title'));
+      } else if (_.trim(vm.title).length > vm.titleLengthLimit) {
+        errors.push(NstUtility.string.format(NstSvcTranslation.get('Task title shouldnt be more than {0} characters'), vm.titleLengthLimit));
       }
       if (vm.assigneesData.length === 0) {
         errors.push(NstSvcTranslation.get('Please add assignee or candidates'));
       }
       var isAttachmentValid = true;
       for (var i in vm.attachmentsData) {
-        if (vm.attachmentsData[i].status !== NST_ATTACHMENT_STATUS.ATTACHED ) {
+        if (vm.attachmentsData[i].status !== NST_ATTACHMENT_STATUS.ATTACHED) {
           isAttachmentValid = false;
           break;
         }
@@ -138,7 +141,7 @@
       return !response.valid;
     }
 
-    function create () {
+    function create() {
       var response = check();
       _.forEach(response.errors, function (error) {
         toastr.error(error);
@@ -152,7 +155,10 @@
           task.candidates = vm.assigneesData;
         }
         if (vm.dueDate !== null) {
-          task.dueDate = vm.dueDate;
+          task.dueDate = new Date(vm.dueDate).getTime();
+        }
+        if (_.trim(vm.description).length > 0) {
+          task.description = vm.description;
         }
         if (vm.todosData.length > 0) {
           task.todos = vm.todosData;
@@ -166,6 +172,7 @@
         if (vm.labelsData.length > 0) {
           task.labels = vm.labelsData;
         }
+        console.log(task);
         NstSvcTaskFactory.create(task).then(function (data) {
           console.log(data);
         }).catch(function (error) {
@@ -193,7 +200,7 @@
       };
     }, function (newVal, oldVal) {
       if (focusInit) {
-        $timeout(function() {
+        $timeout(function () {
           focusInit = false;
           handleFocus(newVal, oldVal);
         });
@@ -202,7 +209,7 @@
       }
     }, true);
 
-    function handleFocus (newVal, oldVal) {
+    function handleFocus(newVal, oldVal) {
       for (var i in newVal) {
         if (newVal[i] === oldVal[i]) {
           vm[i] = false;

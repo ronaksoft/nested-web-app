@@ -73,8 +73,7 @@
 
     function create(task) {
       var params = {
-        title: task.title,
-        desc: task.description
+        title: task.title
       };
 
       if (task.assignee) {
@@ -83,6 +82,14 @@
 
       if (task.candidates) {
         params.candidate_id = getCommaSeparate(task.candidates);
+      }
+
+      if (task.dueDate) {
+        params.task_due = task.dueDate;
+      }
+
+      if (task.description) {
+        params.desc = task.description;
       }
 
       if (task.attachments) {
