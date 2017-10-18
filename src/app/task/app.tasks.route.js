@@ -34,10 +34,17 @@
       options: {
         group: 'task'
       },
-      onEnter: ['$rootScope', function ($rootScope) {
-        setTimeout(function () {
-          $rootScope.$broadcast('open-task');
-        }, 10);
+      onEnter: ['$rootScope', '$uibModal', function ($rootScope, $uibModal) {
+        $uibModal.open({
+          animation: false,
+          size: 'create-task',
+          templateUrl: 'app/task/pages/edit-task/edit-task.html',
+          controller: 'editTaskController',
+          controllerAs: 'ctrlEditTask',
+          backdropClass: 'taskBackDrop'
+        }).result.catch(function () {
+          $rootScope.goToLastState(true);
+        });
       }]
     })
 

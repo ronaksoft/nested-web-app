@@ -35,7 +35,7 @@
 
       suggestion.labels = _.map(data.labels, function (item) {
         NstSvcLabelFactory.set(item);
-        return NstSvcLabelFactory.parse(item);
+        return NstSvcLabelFactory.parseLabel(item);
       });
 
       suggestion.histories = data.history;

@@ -184,7 +184,7 @@
       activity.id = data._id;
       activity.type = data.action;
       activity.date = data.timestamp;
-      activity.label = NstSvcLabelFactory.parse(data.label);
+      activity.label = NstSvcLabelFactory.parseLabel(data.label);
       activity.actor = NstSvcUserFactory.parseTinyUser(data.actor);
       activity.post = {
         id: data.post_id,
@@ -203,7 +203,7 @@
       activity.id = data._id;
       activity.type = data.action;
       activity.date = data.timestamp;
-      activity.label = NstSvcLabelFactory.parse(data.label);
+      activity.label = NstSvcLabelFactory.parseLabel(data.label);
       activity.actor = NstSvcUserFactory.parseTinyUser(data.actor);
       activity.post = {
         id: data.post_id,

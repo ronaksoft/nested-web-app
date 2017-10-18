@@ -7,9 +7,9 @@
 
   /** @ngInject */
   function NstSvcLabelFactory($q, _,
-    NstBaseFactory, NstSvcServer, NstSvcUserFactory, NstCollector, NstSvcGlobalCache,
-    NstLabel, NstLabelRequest,
-    NST_LABEL_SEARCH_FILTER,NST_SRV_ERROR) {
+                              NstBaseFactory, NstSvcServer, NstSvcUserFactory, NstCollector, NstSvcGlobalCache,
+                              NstLabel, NstLabelRequest,
+                              NST_LABEL_SEARCH_FILTER, NST_SRV_ERROR) {
 
     function LabelFactory() {
       this.collector = new NstCollector('label', this.getMany);
@@ -18,8 +18,28 @@
 
     LabelFactory.prototype = new NstBaseFactory();
     LabelFactory.prototype.constructor = LabelFactory;
+    LabelFactory.prototype.parseLabel = parseLabel;
+    LabelFactory.prototype.request = request;
+    LabelFactory.prototype.parseLabelRequest = parseLabelRequest;
+    LabelFactory.prototype.parseMember = parseMember;
+    LabelFactory.prototype.create = create;
+    LabelFactory.prototype.update = update;
+    LabelFactory.prototype.remove = remove;
+    LabelFactory.prototype.search = search;
+    LabelFactory.prototype.getRequests = getRequests;
+    LabelFactory.prototype.updateRequest = updateRequest;
+    LabelFactory.prototype.cancelRequest = cancelRequest;
+    LabelFactory.prototype.getMembers = getMembers;
+    LabelFactory.prototype.addMember = addMember;
+    LabelFactory.prototype.removeMember = removeMember;
+    LabelFactory.prototype.getMany = getMany;
+    LabelFactory.prototype.getCachedSync = getCachedSync;
+    LabelFactory.prototype.get = get;
+    LabelFactory.prototype.set = set;
+    LabelFactory.prototype.parseCacheModel = parseCacheModel;
+    LabelFactory.prototype.transformToCacheModel = transformToCacheModel;
 
-    LabelFactory.prototype.parse = function (data) {
+    function parseLabel(data) {
       if (!(data && data._id)) {
         return null;
       }
@@ -37,9 +57,9 @@
       model.isMember = data.is_member;
 
       return model;
-    };
+    }
 
-    LabelFactory.prototype.parseRequest = function (data) {
+    function parseLabelRequest(data) {
       var model = new NstLabelRequest();
       if (data && data._id) {
         model.id = data._id;
@@ -48,20 +68,20 @@
         } else {
           delete model.label;
         }
-        model.user =  NstSvcUserFactory.parseTinyUser(data.requester);
+        model.user = NstSvcUserFactory.parseTinyUser(data.requester);
         NstSvcUserFactory.set(data.requester);
         model.title = data.title;
         model.code = data.code;
       }
 
       return model;
-    };
+    }
 
-    LabelFactory.prototype.parseMember = function (data) {
+    function parseMember(data) {
       return NstSvcUserFactory.parseTinyUser(data)
-    };
+    }
 
-    LabelFactory.prototype.create = function (title, code, isPublic) {
+    function create(title, code, isPublic) {
       return this.sentinel.watch(function () {
         return NstSvcServer.request('label/create', {
           title: title,
@@ -77,28 +97,28 @@
 
           return $q.resolve(label);
         });
-      }, 'create-' + title);
-    };
+      }, 'label-create-' + title);
+    }
 
-    LabelFactory.prototype.update = function (id, title, code) {
+    function update(id, title, code) {
       return this.sentinel.watch(function () {
         return NstSvcServer.request('label/update', {
           label_id: id,
           title: title,
           code: code
         });
-      }, 'update-' + id);
-    };
+      }, 'label-update-' + id);
+    }
 
-    LabelFactory.prototype.remove = function (id) {
+    function remove(id) {
       return this.sentinel.watch(function () {
         return NstSvcServer.request('label/remove', {
           label_id: id
         });
-      }, 'remove-' + id);
-    };
+      }, 'label-remove-' + id);
+    }
 
-    LabelFactory.prototype.search = function (keyword, filter, skip, limit, cacheHandler) {
+    function search(keyword, filter, skip, limit, cacheHandler) {
       var that = this;
       return NstSvcServer.request('search/labels', {
         keyword: keyword,
@@ -106,9 +126,9 @@
         skip: skip || 0,
         limit: limit || 10,
         details: true
-      }, function(cachedResponse) {
+      }, function (cachedResponse) {
         if (cachedResponse && _.isFunction(cacheHandler)) {
-          var labels = _.reduce(cachedResponse.labels, function (list, label){
+          var labels = _.reduce(cachedResponse.labels, function (list, label) {
             var cachedLabel = that.getCachedSync(label._id);
             if (cachedLabel) {
               list.push(cachedLabel);
@@ -121,53 +141,53 @@
       }).then(function (result) {
         var labels = _.map(result.labels, function (item) {
           that.set(item);
-          return that.parse(item);
+          return that.parseLabel(item);
         });
 
         return $q.resolve(labels);
       });
-    };
+    }
 
-    LabelFactory.prototype.getRequests = function (skip, limit) {
+    function getRequests(skip, limit) {
       var that = this;
       return this.sentinel.watch(function () {
         return NstSvcServer.request('label/get_requests', {
           skip: skip || 0,
           limit: limit || 10
         }).then(function (result) {
-          return $q.resolve(_.map(result.label_requests, that.parseRequest));
+          return $q.resolve(_.map(result.label_requests, that.parseLabelRequest));
         });
-      }, 'get-request');
-    };
+      }, 'label-get-request');
+    }
 
-    LabelFactory.prototype.request = function (id, title, code) {
+    function request(id, title, code) {
       return this.sentinel.watch(function () {
         return NstSvcServer.request('label/request', {
           label_id: id,
           title: title,
           code: code
         });
-      }, 'request-' + (id || title));
-    };
+      }, 'label-request-' + (id || title));
+    }
 
-    LabelFactory.prototype.updateRequest = function (id, status) {
+    function updateRequest(id, status) {
       return this.sentinel.watch(function () {
         return NstSvcServer.request('label/update_request', {
           request_id: id,
           status: status
         });
-      }, 'request-update' + id + status);
-    };
+      }, 'label-request-update' + id + status);
+    }
 
-    LabelFactory.prototype.cancelRequest = function (id) {
+    function cancelRequest(id) {
       return this.sentinel.watch(function () {
         return NstSvcServer.request('label/remove_request', {
           request_id: id
         });
-      }, 'remove-request' + id + status);
-    };
+      }, 'label-remove-request' + id + status);
+    }
 
-    LabelFactory.prototype.getMembers = function (labelId, skip, limit) {
+    function getMembers(labelId, skip, limit) {
       var that = this;
       return this.sentinel.watch(function () {
         return NstSvcServer.request('label/get_members', {
@@ -177,28 +197,28 @@
         }).then(function (result) {
           return $q.resolve(_.map(result.members, that.parseMember));
         });
-      }, 'get-member-' + labelId);
-    };
+      }, 'label-get-member-' + labelId);
+    }
 
-    LabelFactory.prototype.addMember = function (labelId, accountId) {
+    function addMember(labelId, accountId) {
       return this.sentinel.watch(function () {
         return NstSvcServer.request('label/add_member', {
           label_id: labelId,
           account_id: accountId
         });
-      }, 'add-member-' + labelId + '-' + accountId);
-    };
+      }, 'label-add-member-' + labelId + '-' + accountId);
+    }
 
-    LabelFactory.prototype.removeMember = function (labelId, accountId) {
+    function removeMember(labelId, accountId) {
       return this.sentinel.watch(function () {
         return NstSvcServer.request('label/remove_member', {
           label_id: labelId,
           account_id: accountId
         });
-      }, 'remove-member-' + labelId + '-' + accountId);
-    };
+      }, 'label-remove-member-' + labelId + '-' + accountId);
+    }
 
-    LabelFactory.prototype.getMany = function (ids) {
+    function getMany(ids) {
       var defer = $q.defer();
       var joinedIds = ids.join(',');
       if (!joinedIds) {
@@ -220,13 +240,13 @@
         }).catch(defer.reject);
       }
       return defer.promise;
-    };
+    }
 
-    LabelFactory.prototype.getCachedSync = function(id) {
+    function getCachedSync(id) {
       return this.parseCacheModel(this.cache.get(id));
     }
 
-    LabelFactory.prototype.get = function (id) {
+    function get(id) {
       var factory = this;
 
       var cachedLabel = this.getCachedSync(id);
@@ -238,7 +258,7 @@
 
       this.collector.add(id).then(function (data) {
         factory.set(data);
-        deferred.resolve(factory.parse(data));
+        deferred.resolve(factory.parseLabel(data));
       }).catch(function (error) {
         switch (error.code) {
           case NST_SRV_ERROR.ACCESS_DENIED:
@@ -251,27 +271,17 @@
       });
 
       return deferred.promise;
-      // var factory = this;
-      // return this.sentinel.watch(function () {
-      //   return NstSvcServer.request('label/get_many', {
-      //     label_id: id
-      //   }).then(function (result) {
-      //     return $q.resolve(factory.parse(result.labels[0]));
-      //   }).catch(function () {
-      //     return null;
-      //   });
-      // }, 'get-label-' + id);
-    };
+    }
 
-    LabelFactory.prototype.set = function (data) {
+    function set(data) {
       if (data && data._id) {
         this.cache.set(data._id, this.transformToCacheModel(data));
       } else {
         // console.error('The data is not valid to be cached!', data);
       }
-    };
+    }
 
-    LabelFactory.prototype.parseCacheModel = function (data) {
+    function parseCacheModel(data) {
       if (!(data && data._id)) {
         return null;
       }
@@ -291,14 +301,14 @@
       }
 
       return model;
-    };
+    }
 
-    LabelFactory.prototype.transformToCacheModel = function (data) {
+    function transformToCacheModel(data) {
       var cacheModel = _.clone(data);
       cacheModel.top_members = _.map(data.top_members, '_id');
 
       return cacheModel;
-    };
+    }
 
     return new LabelFactory();
   }

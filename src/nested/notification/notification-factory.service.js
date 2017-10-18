@@ -374,7 +374,7 @@
         date: new Date(data.timestamp),
         account: NstSvcUserFactory.parseTinyUser(data.account),
         actor: NstSvcUserFactory.parseTinyUser(data.actor),
-        label: NstSvcLabelFactory.parse(data.label),
+        label: NstSvcLabelFactory.parseLabel(data.label),
         place: NstSvcPlaceFactory.parseTinyPlace(data.place),
         type: data.type
       }

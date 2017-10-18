@@ -36,9 +36,9 @@
         });
       }
 
-      eventReferences.push($rootScope.$on('open-task', function () {
-        editTask();
-      }));
+      // eventReferences.push($rootScope.$on('open-task', function () {
+      //   editTask();
+      // }));
 
       $scope.$on('$destroy', function () {
         _.forEach(eventReferences, function (canceler) {
