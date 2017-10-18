@@ -6,7 +6,7 @@
     .controller('createTaskController', createTaskController);
 
   /** @ngInject */
-  function createTaskController($q, $timeout, $scope, $rootScope, NstSvcAuth, _, toastr, NstSvcTranslation, NstTask, NST_ATTACHMENT_STATUS) {
+  function createTaskController($q, $timeout, $scope, $rootScope, NstSvcAuth, NstSvcTaskFactory, _, toastr, NstSvcTranslation, NstTask, NST_ATTACHMENT_STATUS) {
     var vm = this;
     // var eventReferences = [];
     vm.showMoreOption = false;
@@ -166,7 +166,11 @@
         if (vm.labelsData.length > 0) {
           task.labels = vm.labelsData;
         }
-        console.log(task);
+        NstSvcTaskFactory.create(task).then(function (data) {
+          console.log(data);
+        }).catch(function (error) {
+          console.log(error);
+        });
         closeModal();
       }
     }
