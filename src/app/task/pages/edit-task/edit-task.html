@@ -126,7 +126,7 @@
       </div>
     </label>
     </div>
-    <div class="task-watcher auto-height-item"ng-if="ctrlEditTask.enableWatcher">
+    <div class="task-watcher auto-height-item" ng-if="ctrlEditTask.enableWatcher">
       <div class="_difv _fw">
         <h3>
           <translate>Watchers</translate>
@@ -182,35 +182,65 @@
     </div>
     <div class="task-binder ng-class:{'is-open': ctrlEditTask.isOpenBinder}">
       <div class="task-binders">
-        <div ng-click="ctrlEditTask.openBinder()">
+        <div class="task-binder-butn" ng-click="ctrlEditTask.openBinder()">
           <svg class="_16svg">
             <use xlink:href="/assets/icons/nst-icn16.svg#cross"></use>
           </svg>
         </div>
-        <div ng-if="!ctrlEditTask.enableLabel" ng-click="ctrlEditTask.bind('enableLabel')">
+        <div class="task-binder-butn" ng-if="!ctrlEditTask.enableLabel" ng-click="ctrlEditTask.bindRow('enableLabel')">
           <svg class="_16svg">
             <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
           </svg>
         </div>
-        <div ng-if="!ctrlEditTask.enableWatcher" ng-click="ctrlEditTask.bindRow('enableWatcher')">
+        <div class="task-binder-tooltip">
+            <svg class="_16svg">
+              <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
+            </svg>
+            <translate>Add labels</translate>
+        </div>
+        <div class="task-binder-butn" ng-if="!ctrlEditTask.enableWatcher" ng-click="ctrlEditTask.bindRow('enableWatcher')">
           <svg class="_16svg">
             <use xlink:href="/assets/icons/nst-icn16.svg#person"></use>
           </svg>
         </div>
-        <div ng-if="!ctrlEditTask.enableAttachment" ng-click="ctrlEditTask.bindRow('enableAttachment')">
+        <div class="task-binder-tooltip">
+            <svg class="_16svg">
+              <use xlink:href="/assets/icons/nst-icn16.svg#person"></use>
+            </svg>
+            <translate>Add Watchers</translate>
+        </div>
+        <div class="task-binder-butn" ng-if="!ctrlEditTask.enableAttachment" ng-click="ctrlEditTask.bindRow('enableAttachment')">
           <svg class="_16svg">
             <use xlink:href="/assets/icons/nst-icn16.svg#attach"></use>
           </svg>
         </div>
-        <div ng-if="!ctrlEditTask.enableTodo" ng-click="ctrlEditTask.bindRow('enableTodo')">
+        <div class="task-binder-tooltip">
+            <svg class="_16svg">
+              <use xlink:href="/assets/icons/nst-icn16.svg#attach"></use>
+            </svg>
+            <translate>Add Attachments</translate>
+        </div>
+        <div class="task-binder-butn" ng-if="!ctrlEditTask.enableTodo" ng-click="ctrlEditTask.bindRow('enableTodo')">
           <svg class="_16svg">
             <use xlink:href="/assets/icons/nst-icn16.svg#bullet-list"></use>
           </svg>
         </div>
-        <div ng-if="!ctrlEditTask.enableDescription" ng-click="ctrlEditTask.bindRow('enableDescription')">
+        <div class="task-binder-tooltip">
+            <svg class="_16svg">
+              <use xlink:href="/assets/icons/nst-icn16.svg#bullet-list"></use>
+            </svg>
+            <translate>Add Todo list</translate>
+        </div>
+        <div class="task-binder-butn" ng-if="!ctrlEditTask.enableDescription" ng-click="ctrlEditTask.bindRow('enableDescription')">
           <svg class="_16svg">
             <use xlink:href="/assets/icons/nst-icn16.svg#petition"></use>
           </svg>
+        </div>
+        <div class="task-binder-tooltip">
+            <svg class="_16svg">
+              <use xlink:href="/assets/icons/nst-icn16.svg#petition"></use>
+            </svg>
+            <translate>Add Description</translate>
         </div>
       </div>
       <div class="binder-tip"></div>
