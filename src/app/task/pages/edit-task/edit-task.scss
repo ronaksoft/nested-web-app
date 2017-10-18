@@ -66,8 +66,8 @@
                 .task-binder-tooltip {
                     position: absolute;
                     left: 50%;
-                    top: 50%;
-                    transform: translate3d(-50%, -50%, 0);
+                    bottom: 144px;
+                    transform: translateX(-50%);
                     height: 204px;
                     opacity: 0;
                     visibility: hidden;
