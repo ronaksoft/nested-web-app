@@ -180,14 +180,27 @@
       </div>
     </label>
     </div>
-    <div class="task-binder"></div>
+    <div class="task-binder ng-class:{'is-open': ctrlEditTask.isOpenBinder}">
+      <div class="task-binders">
+        <div ng-click="ctrlEditTask.openBinder()">
+          <svg class="_16svg">
+            <use xlink:href="/assets/icons/nst-icn16.svg#cross"></use>
+          </svg>
+        </div>
+      </div>
+      <div class="binder-tip"></div>
+    </div>
   </div>
   <div class="task-comments">
     <div class="log-filter">
-      <h3><translate>Comments & History</translate></h3>
-      <svg class="_16svg">
-        <use xlink:href="/assets/icons/nst-icn16.svg#arrow"></use>
-      </svg>
+      <h3
+      data-popover-class="white-pop task-logs-filter-popover" data-popover-append-to-body="false" uib-popover-template="'app/task/common/popovers/task-logs-filter-popover.html'"
+      data-popover-placement="auto bottom-left">
+        <translate>Comments & History</translate>
+        <svg class="_16svg">
+          <use xlink:href="/assets/icons/nst-icn16.svg#arrow"></use>
+        </svg>
+      </h3>
     </div>
     <div class="task-comments-container">
       <div class="no-comments-holder">
@@ -197,7 +210,7 @@
           </translate>
       </div>
       <comments-board comments="[]" limit="0" post-id="'taskId'"
-      total-comments-count="0" on-comment-sent="function(){}" has-comment-remove-access="false"></comments-board>
+      total-comments-count="0" on-comment-sent="" has-comment-remove-access="false"></comments-board>
     </div>
   </div>
 </div>

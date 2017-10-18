@@ -3,16 +3,33 @@
   margin-top: -6px;
 }
 
-// #menu.popover-content {
-//   padding: 0;
-// }
-
-// #menu.popup-panel {
-//   max-width: 238px;
-//   margin: 0;
-//   padding: 0;
-// }
-
+.white-pop {
+  border: none;
+  box-shadow: 0 0 16px $color-wind-new;
+  border-radius: 4px;
+  padding: 0;
+  .popover-content {
+    .item-check {
+      display: none;
+      fill: $color-sense-wire;
+    }
+    .active {
+      span {
+        color: $color-sense-wire;
+        font-weight: bold;
+      }
+      .item-check {
+        display: flex;
+      }
+    }
+    > * > span {
+      width: 100%;
+    }
+  }
+}
+.task-logs-filter-popover {
+  min-width: 192px;
+}
 .popover-white + .popover {
   max-width: 320px;
   min-width: 319px;

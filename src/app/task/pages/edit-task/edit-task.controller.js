@@ -12,13 +12,21 @@
 
     vm.taskId = '';
     vm.mode = 'edit';
+    /** Ali */
     vm.enableDue = false;
     vm.enableDescription = false;
     vm.enableTodo = false;
     vm.enableAttachment = false;
     vm.enableWatcher = false;
     vm.enableLabel = false;
+    vm.isOpenBinder = false;
 
+    vm.openBinder = openBinder
+    
+    function openBinder() {
+      vm.isOpenBinder =! vm.isOpenBinder;
+    }
+    // 
     (function () {
       vm.taskId = $stateParams.taskId;
     })();
