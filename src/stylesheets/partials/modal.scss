@@ -498,19 +498,12 @@ body.modal-open-attachment-view.compose-modal {
   margin: 0;
   .modal-content {
     position: relative;
-    top: 80px;
-    background-color: $color-white;
+    top: 8px;
+    background-color: transparent;
     width: 752px;
     min-height: 120px;
-    box-shadow: 0 32px 64px $color-super-solid;
-    // max-height: calc(100vh - 160px);
-    // overflow: hidden;
-    border-radius: 6px;
-    .ui-select-multiple.ui-select-bootstrap input.ui-select-search ,
-    .ui-select-multiple.ui-select-bootstrap {
-      padding: 0;
-      // height: 29px;
-    }
+    box-shadow: none;
+    border-radius: 0;
   }
   .bg-compose {
     position: fixed;

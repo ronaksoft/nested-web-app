@@ -20,6 +20,7 @@
     vm.enableWatcher = false;
     vm.enableLabel = false;
     vm.isOpenBinder = false;
+    vm.isRelated = true;
 
     vm.openBinder = openBinder
     vm.bindRow = bindRow

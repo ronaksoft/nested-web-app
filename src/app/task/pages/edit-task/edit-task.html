@@ -1,7 +1,23 @@
+<div class="task-related-parent overflow-task-view">
+  <a>
+    <svg class="_16svg" ng-if="ctrlEditTask.isRelated">
+      <use xlink:href="/assets/icons/nst-icn16.svg#circle"></use>
+    </svg>
+    iOS New Design
+  </a>
+  <div class="devider"></div>
+</div>
+<div class="task-creator overflow-task-view">
+  <svg class="_16svg" ng-if="ctrlEditTask.isRelated">
+    <use xlink:href="/assets/icons/nst-icn16.svg#chain"></use>
+  </svg>
+  <h2 ng-if="!ctrlEditTask.isRelated">
+    <translate>created by</translate>&nbsp;<b>Ehsan Noureddin Mousa</b></h2>
+  <h2 ng-if="ctrlEditTask.isRelated"><b>Sofia Hämäläinen</b>&nbsp;
+    <translate>created this related task.</translate>
+  </h2>
+</div>
 <div class="edit-task">
-  <div class="task-creator">
-    <h2><translate>created by</translate>&nbsp;<b>Ehsan Noureddin Mousa</b></h2>
-  </div>
   <div class="task-form">
     <div class="task-title auto-height-item">
       <div class="task-input-wrapper ng-class:{'focus': ctrlEditTask.titleFocus, 'error' : ctrlEditTask.taskTitle.length > 64}">
@@ -64,7 +80,7 @@
       </div>
     </label>
     </div>
-    <div class="task-description auto-height-item"ng-if="ctrlEditTask.enableDescription">
+    <div class="task-description auto-height-item" ng-if="ctrlEditTask.enableDescription">
       <div class="task-input-wrapper ng-class:{'focus': ctrlEditTask.descFocus}">
         <textarea class="no-style gale-holder create-task-input" ng-model="ctrlEditTask.desc" ng-focus="ctrlEditTask.descFocus = true"
           ng-blur="ctrlEditTask.descFocus = false" enter-key="ctrlEditTask.enterDescriptionTask()" placeholder="{{ctrlEditTask.descPlaceholder}}"
@@ -76,7 +92,7 @@
       </svg>
     </label>
     </div>
-    <div class="task-todo auto-height-item"ng-if="ctrlEditTask.enableTodo">
+    <div class="task-todo auto-height-item" ng-if="ctrlEditTask.enableTodo">
       <div class="_difv _fw">
         <h3>
           <translate>To-Do list</translate>
@@ -193,10 +209,10 @@
           </svg>
         </div>
         <div class="task-binder-tooltip">
-            <svg class="_16svg">
-              <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
-            </svg>
-            <translate>Add labels</translate>
+          <svg class="_16svg">
+            <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
+          </svg>
+          <translate>Add labels</translate>
         </div>
         <div class="task-binder-butn" ng-if="!ctrlEditTask.enableWatcher" ng-click="ctrlEditTask.bindRow('enableWatcher')">
           <svg class="_16svg">
@@ -204,10 +220,10 @@
           </svg>
         </div>
         <div class="task-binder-tooltip">
-            <svg class="_16svg">
-              <use xlink:href="/assets/icons/nst-icn16.svg#person"></use>
-            </svg>
-            <translate>Add Watchers</translate>
+          <svg class="_16svg">
+            <use xlink:href="/assets/icons/nst-icn16.svg#person"></use>
+          </svg>
+          <translate>Add Watchers</translate>
         </div>
         <div class="task-binder-butn" ng-if="!ctrlEditTask.enableAttachment" ng-click="ctrlEditTask.bindRow('enableAttachment')">
           <svg class="_16svg">
@@ -215,10 +231,10 @@
           </svg>
         </div>
         <div class="task-binder-tooltip">
-            <svg class="_16svg">
-              <use xlink:href="/assets/icons/nst-icn16.svg#attach"></use>
-            </svg>
-            <translate>Add Attachments</translate>
+          <svg class="_16svg">
+            <use xlink:href="/assets/icons/nst-icn16.svg#attach"></use>
+          </svg>
+          <translate>Add Attachments</translate>
         </div>
         <div class="task-binder-butn" ng-if="!ctrlEditTask.enableTodo" ng-click="ctrlEditTask.bindRow('enableTodo')">
           <svg class="_16svg">
@@ -226,10 +242,10 @@
           </svg>
         </div>
         <div class="task-binder-tooltip">
-            <svg class="_16svg">
-              <use xlink:href="/assets/icons/nst-icn16.svg#bullet-list"></use>
-            </svg>
-            <translate>Add Todo list</translate>
+          <svg class="_16svg">
+            <use xlink:href="/assets/icons/nst-icn16.svg#bullet-list"></use>
+          </svg>
+          <translate>Add Todo list</translate>
         </div>
         <div class="task-binder-butn" ng-if="!ctrlEditTask.enableDescription" ng-click="ctrlEditTask.bindRow('enableDescription')">
           <svg class="_16svg">
@@ -237,10 +253,10 @@
           </svg>
         </div>
         <div class="task-binder-tooltip">
-            <svg class="_16svg">
-              <use xlink:href="/assets/icons/nst-icn16.svg#petition"></use>
-            </svg>
-            <translate>Add Description</translate>
+          <svg class="_16svg">
+            <use xlink:href="/assets/icons/nst-icn16.svg#petition"></use>
+          </svg>
+          <translate>Add Description</translate>
         </div>
       </div>
       <div class="binder-tip"></div>
@@ -248,9 +264,8 @@
   </div>
   <div class="task-comments">
     <div class="log-filter">
-      <h3
-      data-popover-class="white-pop task-logs-filter-popover" data-popover-append-to-body="false" uib-popover-template="'app/task/common/popovers/task-logs-filter-popover.html'"
-      data-popover-placement="auto bottom-left">
+      <h3 data-popover-class="white-pop task-logs-filter-popover" data-popover-append-to-body="false" uib-popover-template="'app/task/common/popovers/task-logs-filter-popover.html'"
+        data-popover-placement="auto bottom-left">
         <translate>Comments & History</translate>
         <svg class="_16svg">
           <use xlink:href="/assets/icons/nst-icn16.svg#arrow"></use>
@@ -259,13 +274,28 @@
     </div>
     <div class="task-comments-container">
       <div class="no-comments-holder">
-          <img class="_db" width="128" width="128" src="/assets/icons/ph_empt_comment.png" srcset="/assets/icons/ph_empt_comment@2x.png" />
-          <translate>
-              Post a comment to start a discussion.<br><b>@Mention</b> someone to notify them.
-          </translate>
+        <img class="_db" width="128" width="128" src="/assets/icons/ph_empt_comment.png" srcset="/assets/icons/ph_empt_comment@2x.png"
+        />
+        <translate>
+          Post a comment to start a discussion.<br><b>@Mention</b> someone to notify them.
+        </translate>
       </div>
-      <comments-board comments="[]" limit="0" post-id="'taskId'"
-      total-comments-count="0" on-comment-sent="" has-comment-remove-access="false"></comments-board>
+      <comments-board comments="[]" limit="0" post-id="'taskId'" total-comments-count="0" on-comment-sent="" has-comment-remove-access="false"></comments-board>
     </div>
   </div>
+</div>
+
+<div class="task-related overflow-task-view">
+  <a>
+    <svg class="_16svg" ng-if="ctrlEditTask.isRelated">
+      <use xlink:href="/assets/icons/nst-icn16.svg#chain"></use>
+    </svg>
+    iOS New Design
+  </a>
+  <a class="create-task">
+    <svg class="_16svg" ng-if="ctrlEditTask.isRelated">
+      <use xlink:href="/assets/icons/nst-icn16.svg#cross"></use>
+    </svg>
+    <translate>Create a related Task</translate>
+  </a>
 </div>
