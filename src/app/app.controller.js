@@ -109,13 +109,18 @@
     }));
 
     eventReferences.push($rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
+      resetUITemporaryData()
       $scope.isMainLayout = toState.options && toState.options.group !== 'settings' && toState.options.group !== 'task';
       $scope.isTaskLayout = toState.options && toState.options.group === 'task';
       $('.wdt-emoji-popup.open').removeClass('open');
       // $rootScope.$broadcast('reload-counters');
       checkToBeAuthenticated(toState, toParams, event);
-      scrollTopBody();
     }));
+
+    function resetUITemporaryData() {
+      $rootScope.cardCtrls = [];
+      $window.scrollTo(0, 0);
+    }
 
     function checkToBeAuthenticated(state, stateParams, event) {
       if (!NstSvcAuth.isInAuthorization() && _.startsWith(state.name, "app.")) {
@@ -125,10 +130,6 @@
 
         $state.go('public.signin-back', {back: $window.encodeURIComponent($state.href(state.name, stateParams))});
       }
-    }
-
-    function scrollTopBody() {
-      $window.scrollTo(0, 0);
     }
 
     function restoreLastState() {

@@ -12,7 +12,6 @@
     var MobTopOff = 0;
     var winH = win.height();
     var navH = 80;
-    $rootScope.cardCtrls = [];
 
     $(window).resize(function() {
       obj.change();
