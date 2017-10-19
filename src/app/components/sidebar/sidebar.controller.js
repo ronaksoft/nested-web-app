@@ -335,8 +335,8 @@
 
 
       function scrollTop() {
-        if (_.isFunction($scope.scrollTopPlaces)) {
-          $scope.scrollTopPlaces();
+        if (_.isFunction($scope.scrollToTop)) {
+          $scope.scrollToTop();
         }
       }
 

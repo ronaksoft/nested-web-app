@@ -16,18 +16,8 @@
           applier();
         }, 128);
 
-        // win.on("resize", function () {
-        //   applier();
-        // });
-
         function applier() {
           removeFix();
-
-          // if (window.affixerListenerFilter && window.affixerListenerFilter.length > 0) {
-          //   window.affixerListenerFilter.forEach( function(item){
-          //     window.removeEventListener("scroll", item);
-          //   });
-          // }
 
           var top = $attrs.fixedNavbar ? 48 : $element.offset().top || 0;
 

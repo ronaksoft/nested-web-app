@@ -68,7 +68,7 @@
         </div>
       </div>
       <div iscroll class="iscroll-wrapper" iscroll-instance="scrollInstance" scroll-into-view=".side-grand-place-item">
-        <div class="side-places-list iscroll-scroller" sidebar-scrollbar>
+        <div class="side-places-list iscroll-scroller" add-scope-scroll-top>
           <ul class="places-tree-parent">
             <li class="side-grand-place-item" ng-repeat="place in ctlSidebar.places" data-ng-include="'app/components/sidebar/place.html'"
               onload="place = place"></li>

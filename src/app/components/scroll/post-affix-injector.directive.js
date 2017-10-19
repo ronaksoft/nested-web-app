@@ -3,7 +3,7 @@
 
   angular
     .module('ronak.nested.web.components.scroll')
-    .directive('affixPost', affixPost);
+    .directive('postAffixInjector', affixPost);
 
   /** @ngInject */
   function affixPost($timeout,SvcCardCtrlAffix) {

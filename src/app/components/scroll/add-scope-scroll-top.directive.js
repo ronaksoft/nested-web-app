@@ -3,14 +3,14 @@
   
     angular
       .module('ronak.nested.web.components.scroll')
-      .directive('sidebarScrollbar', sidebarScrollbar);
+      .directive('addScopeScrollTop', sidebarScrollbar);
   
     /** @ngInject */
     function sidebarScrollbar() {
       return {
         restrict: 'A',
         link: function (scope, $element) {
-            scope.scrollTopPlaces = function(){
+            scope.scrollToTop = function(){
                 $element[0].scrollTop = 0;
             };
         }

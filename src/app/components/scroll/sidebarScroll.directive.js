@@ -1,9 +1,10 @@
+// Deprecated
 (function () {
   'use strict';
 
-  angular
-    .module('ronak.nested.web.components.scroll')
-    .directive('sidebarScrolls', onScroll);
+//   angular
+//     .module('ronak.nested.web.components.scroll')
+//     .directive('sidebarScrolls', onScroll);
 
   /** @ngInject */
   function onScroll($timeout, $interval, $window) {
