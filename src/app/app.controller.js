@@ -118,6 +118,7 @@
 
     function resetUITemporaryData() {
       $rootScope.cardCtrls = [];
+      $rootScope.affixBlocks = [];
       $window.scrollTo(0, 0);
     }
 

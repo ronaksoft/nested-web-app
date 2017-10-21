@@ -17,6 +17,7 @@
       index: 0
     }
     $rootScope.cardCtrls = [];
+    $rootScope.affixBlocks = [];
     var win = angular.element($window);
     var MobTopOff = 0;
     var winH = win.height();
@@ -110,7 +111,9 @@
       // detect scroll direction
       var scrollDown = obj.scrollPos <= Ypos;
       obj.scrollPos = Ypos;
-
+      if ( $rootScope.cardCtrls.length === 0) {
+        return;
+      }
       // Offset of first post card to top ( always should remove it from Ypos for proper compute )
       var firstOffset = $('#post-card-' + $rootScope.cardCtrls[0].id).parent().offset().top;
       postInView(Ypos, scrollDown, firstOffset);
