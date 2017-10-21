@@ -61,10 +61,12 @@ h5.list-head {
     width: 100%;
     flex-direction: column;
     margin: 0 10px;
+    > a:first-of-type ,
     > span:first-of-type {
       font-size: 14px;
       line-height: 19px;
       font-weight: bold;
+      color: $color-solid;
       margin-bottom: 4px;
     }
     p {
