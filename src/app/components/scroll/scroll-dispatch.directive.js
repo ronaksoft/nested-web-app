@@ -12,18 +12,19 @@
         var removePopovers = _.throttle(remover, 64)
         var check = _.throttle(SvcCardCtrlAffix.check, 64)
         var scroll = SvcCardCtrlAffix.scroll
-        $(window).scroll(function (e) {
-          var scrollTop = e.currentTarget.pageYOffset;
+        $(window).scroll(function () {
+          var scrollTop = this.pageYOffset;
 
           if(scrollTop < 300) {
             affixBlocks(scrollTop)
+          } else if(scrollTop + this.innerHeight >$('body').height() * 0.9) {
+            ReachEnd();
           }
           // Affix block
           check(scrollTop);
           scroll(scrollTop);
-
           // Reach end dispatcher
-
+          
           //hide tips
           removePopovers()
           // Reach end check
@@ -72,6 +73,11 @@
 
         function dissappear(el) {
           el.first().remove();
+        }
+
+        function ReachEnd() {
+          console.log('ReachEnd');
+          $rootScope.$broadcast('scroll-reached-bottom');
         }
 
       }

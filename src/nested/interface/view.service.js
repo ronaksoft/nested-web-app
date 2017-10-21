@@ -173,7 +173,7 @@
         }
       }
       
-      console.log($rootScope.inViewPost);
+      // console.log($rootScope.inViewPost);
     }
     function affixPostCard(Ypos, scrollDown, firstOffset) {
 
@@ -207,8 +207,7 @@
         }
       }
       
-      
-      console.log(obj.affixView);
+      // console.log(obj.affixView);
     }
 
     obj.scroll = function (Ypos) {

@@ -372,6 +372,10 @@
         });
       }
 
+      eventReferences.push($scope.$on('scroll-reached-bottom', function () {
+        vm.loadMore()
+      }));
+
       eventReferences.push($scope.$on('post-select', function (event, data) {
         if (vm.tempBanPlaces) {
           vm.tempBanPlaces = [];

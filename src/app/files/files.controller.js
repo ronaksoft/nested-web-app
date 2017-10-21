@@ -364,7 +364,9 @@
     function composeWithAttachments() {
       $state.go('app.compose', {attachments: vm.selectedFiles}, {notify: false});
     }
-
+    eventReferences.push($scope.$on('scroll-reached-bottom', function () {
+      vm.loadMore()
+    }));
     $scope.$on('$destroy', function () {
       _.forEach(eventReferences, function (canceler) {
         if (_.isFunction(canceler)) {

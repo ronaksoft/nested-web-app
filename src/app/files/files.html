@@ -1,5 +1,4 @@
 <div class="nst-content _tr content-wrapper" ng-init="showFilters = false;">
-  <scroll-change-handler reached-bottom="ctlFiles.loadMore"></scroll-change-handler>
   <section class="_fw content">
     <nst-navbar class="places-navbar" data-ng-model="navbar" place-id="{{ctlFiles.currentPlace.id}}" show-place-id="ctlFiles.showPlaceId"
       nav-title="{{ctlFiles.currentPlace.id?ctlFiles.currentPlace.name: ctlFiles.navTitle}}" nav-picture-url="{{ctlFiles.currentPlace.id ? ctlFiles.currentPlace.picture.getUrl('x128') : '' }}"

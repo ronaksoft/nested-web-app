@@ -6,10 +6,12 @@
     .controller('conversationController', conversationController);
 
   /** @ngInject */
-  function conversationController(_, $log, $stateParams, $state, NstSvcPostFactory, NstSvcUserFactory, $) {
+  function conversationController(_, $log, $stateParams, $state, NstSvcPostFactory, NstSvcUserFactory, $, $scope) {
     var vm = this;
     var limit = 8;
     var skip = 0;
+
+    var eventReferences = [];
 
     vm.reachedTheEnd = false;
     vm.loading = false;
@@ -106,13 +108,16 @@
     function backToConversation() {
       $state.go('app.conversation', { userId : vm.account.id});
     }
+    eventReferences.push($scope.$on('scroll-reached-bottom', function () {
+      vm.loadMore()
+    }));
 
-    $(window).scroll(function (e) {
-      var element = e.currentTarget;
-      if (element.pageYOffset + element.innerHeight === $('body').height()) {
-        $log.debug("load more");
-        vm.loadMore();
-      }
+    $scope.$on('$destroy', function () {
+      _.forEach(eventReferences, function (canceler) {
+        if (_.isFunction(canceler)) {
+          canceler();
+        }
+      });
     });
   }
 
