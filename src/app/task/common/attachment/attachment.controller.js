@@ -331,11 +331,16 @@
     });
 
     function initData(attachments) {
-      var cloneAttachments = Object.assign({}, attachments);
-      vm.attachmentsData = [];
-      _.map(cloneAttachments, function (attachment) {
-        addUploadedAttachs(attachment);
+      vm.attachmentsData = attachments;
+      vm.attachments.viewModels = attachments;
+      _.forEach(attachments, function (attachment) {
+        attachment.status = NST_ATTACHMENT_STATUS.ATTACHED;
       });
+      vm.attachments.viewModels = _.map(attachments, function (attachment) {
+        return NstSvcAttachmentMap.toEditableAttachmentItem(attachment);
+      });
+      vm.attachments.size.total += _.sum(_.map(attachments, 'size'));
+      vm.attachments.size.uploaded += _.sum(_.map(attachments, 'size'));
     }
   }
 })();

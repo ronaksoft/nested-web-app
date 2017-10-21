@@ -104,6 +104,7 @@
 
     function getTask(id) {
       NstSvcTaskFactory.get(id).then(function (task) {
+        console.log(task);
         vm.title = task.title;
         vm.assignor = task.assignor;
         if (task.assignee !== undefined) {
@@ -130,7 +131,10 @@
           vm.enableTodo = true;
         }
         if (task.attachments !== undefined) {
-          vm.attachmentsData = task.attachments;
+          vm.attachmentsData = {
+            init: true,
+            data:task.attachments
+          };
           vm.enableAttachment = true;
         }
         if (task.watchers !== undefined) {

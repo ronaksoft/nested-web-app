@@ -97,6 +97,10 @@
         params.desc = task.description;
       }
 
+      if (task.todos) {
+        params.todos = task.todos;
+      }
+
       if (task.attachments) {
         params.attachment_id = getCommaSeparate(task.attachments);
       }

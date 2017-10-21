@@ -20,6 +20,7 @@
     vm.temp = {
       id: -parseInt(_.uniqueId()),
       value: '',
+      weight: 1,
       checked: false
     };
 

@@ -136,6 +136,12 @@
       }
     }
 
+    function getTodoTransform(todos) {
+      return _.map(todos, function (todo) {
+        return btoa(todo.title) + ';' + todo.weight;
+      }).join(',');
+    }
+
     function isDisabled() {
       var response = check();
       return !response.valid;
@@ -161,7 +167,7 @@
           task.description = vm.description;
         }
         if (vm.todosData.length > 0) {
-          task.todos = vm.todosData;
+          task.todos = getTodoTransform(vm.todosData);
         }
         if (vm.attachmentsData.length > 0) {
           task.attachments = vm.attachmentsData;
