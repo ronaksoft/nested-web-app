@@ -42,6 +42,7 @@ h5.list-head {
 
 .list-ul {
   display: flex;
+  flex-direction: column;
   width: 100%;
   li {
     display: flex;
