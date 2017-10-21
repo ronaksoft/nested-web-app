@@ -93,10 +93,26 @@
       inputLastValue = vm.assigneeInput;
     }
 
-    function removeItems () {
+    function removeItems() {
       vm.assignees = [];
       vm.assigneesData = [];
       vm.mentionAssigneesData = [];
+    }
+
+    $scope.$watch(function () {
+      return vm.assigneesData;
+    }, function (newVal) {
+      if (newVal.hasOwnProperty('init') && newVal.init === true) {
+        initData(newVal.data);
+      }
+    });
+
+    function initData(users) {
+      vm.assignees = _.map(users, function (user) {
+        return user.id;
+      }).join(',');
+      vm.assigneesData = users;
+      vm.mentionAssigneesData = users;
     }
   }
 })();

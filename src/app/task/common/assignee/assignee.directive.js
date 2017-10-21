@@ -19,6 +19,7 @@
         assigneeWithCandidate: '=',
         assigneePlaceholder: '@',
         removeItems: '=',
+        initData: '=',
         assigneeFocusMe: '=',
         assigneeExclude: '@'
       }

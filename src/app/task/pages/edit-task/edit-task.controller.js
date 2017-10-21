@@ -104,13 +104,18 @@
 
     function getTask(id) {
       NstSvcTaskFactory.get(id).then(function (task) {
-        console.log(task);
         vm.title = task.title;
         vm.assignor = task.assignor;
         if (task.assignee !== undefined) {
-          vm.assigneesData = task.assignee;
+          vm.assigneesData = {
+            init: true,
+            data: [task.assignee]
+          };
         } else if (task.candidates !== undefined) {
-          vm.assigneesData = task.candidates;
+          vm.assigneesData = {
+            init: true,
+            data: task.candidates
+          };
         }
         if (task.dueDate !== undefined) {
           vm.dueDate = new Date(task.dueDate);
@@ -121,19 +126,22 @@
           vm.enableDescription = true;
         }
         if (task.todos !== undefined) {
-          vm.todos = task.todos;
+          vm.todosData = task.todos;
           vm.enableTodo = true;
         }
         if (task.attachments !== undefined) {
-          vm.attachments = task.attachments;
+          vm.attachmentsData = task.attachments;
           vm.enableAttachment = true;
         }
         if (task.watchers !== undefined) {
-          vm.watchers = task.watchers;
+          vm.watchersData = {
+            init: true,
+            data: task.watchers
+          };
           vm.enableWatcher = true;
         }
         if (task.labels !== undefined) {
-          vm.labels = task.labels;
+          vm.labelsData = task.labels;
           vm.enableLabel = true;
         }
       });
