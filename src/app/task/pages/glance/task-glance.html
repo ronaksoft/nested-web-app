@@ -51,16 +51,16 @@
       </ul>
       <h5 class="list-head large upcoming"><translate>Upcomings</translate></h5>
       <ul class="list-ul upcoming">
-        <li class="large">
+        <li class="large" ng-repeat="task in ctrl.tasks">
           <div class="list-li-icon">
             <task-progress-icon status="'assigned-progress'" progress="50"></task-progress-icon>
           </div>
           <div class="list-li-body">
-            <a ng-click="ctrl.editTask('1')">
-              <span>Blog Post: Teamwork vs Group Work</span>
+            <a ng-click="ctrl.editTask(task.id)">
+              <span>{{task.title}}</span>
             </a>
             <p>
-              <translate>with {{'anita ahmadzadeh'}} & {{'farzin nami'}} at {{'Africa Blvd'}}.</translate>
+              <translate>from {{task.assignor.fullName}} to {{task.assignee.fullName}}</translate>
             </p>
           </div>
           <div class="list-li-extra">
