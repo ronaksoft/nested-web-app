@@ -172,11 +172,10 @@
         if (vm.labelsData.length > 0) {
           task.labels = vm.labelsData;
         }
-        console.log(task);
-        NstSvcTaskFactory.create(task).then(function (data) {
-          console.log(data);
-        }).catch(function (error) {
-          console.log(error);
+        NstSvcTaskFactory.create(task).then(function () {
+          toastr.success(NstSvcTranslation.get('Task created successfully!'));
+        }).catch(function () {
+          toastr.error(NstSvcTranslation.get('Something went wrong!'));
         });
         closeModal();
       }
