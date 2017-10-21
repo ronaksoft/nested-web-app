@@ -40,27 +40,27 @@
 
       task.id = data._id;
       task.assignor = NstSvcUserFactory.parseTinyUser(data.assignor);
-      if (data.task_assignee) {
-        task.assignee = NstSvcUserFactory.parseTinyUser(data.task_assignee);
+      if (data.assignee) {
+        task.assignee = NstSvcUserFactory.parseTinyUser(data.assignee);
       }
-      if (data.task_candidates) {
-        task.candidates = _.map(data.task_candidates, function (item) {
+      if (data.candidates) {
+        task.candidates = _.map(data.candidates, function (item) {
           return NstSvcUserFactory.parseTinyUser(item);
         });
       }
       task.title = data.title;
       task.dueDate = data.dueDate;
       task.description = data.description;
-      if (data.task_attachments) {
-        task.attachments = _.map(data.task_attachments, NstSvcAttachmentFactory.parseAttachment);
+      if (data.attachments) {
+        task.attachments = _.map(data.attachments, NstSvcAttachmentFactory.parseAttachment);
       }
-      if (data.task_watchers) {
-        task.watchers = _.map(data.task_watchers, function (item) {
+      if (data.watchers) {
+        task.watchers = _.map(data.watchers, function (item) {
           return NstSvcUserFactory.parseTinyUser(item);
         });
       }
-      if (data.task_labels) {
-        task.labels = _.map(data.task_labels, function (item) {
+      if (data.labels) {
+        task.labels = _.map(data.labels, function (item) {
           NstSvcLabelFactory.set(item);
           return NstSvcLabelFactory.parseLabel(item);
         });

@@ -36,7 +36,7 @@
     <div class="task-assignee auto-height-item">
       <div class="task-input-wrapper ng-class:{'focus' : ctrlEditTask.assigneeFocus}">
         <task-assignee assignees-data="ctrlEditTask.assigneesData" assignee-focus="ctrlEditTask.assigneeFocus" assignee-with-candidate="true"
-          assignee-placeholder="{{ctrlEditTask.assigneePlaceholder}}" remove-items="ctrlEditTask.removeAssigneesItems" assignee-focus-me="ctrlEditTask.assigneeFocusTrigger"></task-assignee>
+          assignee-placeholder="{{ctrlEditTask.assigneePlaceholder}}" remove-items="ctrlEditTask.removeAssigneeItems" assignee-focus-me="ctrlEditTask.assigneeFocusTrigger"></task-assignee>
         <div ng-if="ctrlEditTask.assigneeFocus != true && ctrlEditTask.assigneesData.length == 1" ng-click="ctrlEditTask.assigneeFocus = true;"
           class="unfocused-input" translate-inner>Assigned to <b>{{ctrlEditTask.assigneesData[0].fullName}}</b></div>
         <div ng-if="ctrlEditTask.assigneeFocus != true && ctrlEditTask.assigneesData.length > 1" ng-click="ctrlEditTask.assigneeFocus = true;"

@@ -321,5 +321,21 @@
         vm.attachments.detach(attachment);
       });
     };
+
+    $scope.$watch(function () {
+      return vm.attachmentsData;
+    }, function (newVal) {
+      if (newVal.hasOwnProperty('init') && newVal.init === true) {
+        initData(newVal.data);
+      }
+    });
+
+    function initData(attachments) {
+      var cloneAttachments = Object.assign({}, attachments);
+      vm.attachmentsData = [];
+      _.map(cloneAttachments, function (attachment) {
+        addUploadedAttachs(attachment);
+      });
+    }
   }
 })();
