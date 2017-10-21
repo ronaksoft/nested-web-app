@@ -34,8 +34,10 @@
                 return $stateParams.model;
               }
             }
-          }).result.catch(function() {
-            $rootScope.goToLastState(true);
+          }).result.catch(function(result) {
+            if (result !== true) {
+              $rootScope.goToLastState(true);
+            }
           });
         }],
         onExit: function($uibModalStack) {
