@@ -48,7 +48,9 @@
         input {
             margin-top: 2px;
         }
-
+        label img {
+            margin-top: 2px;
+        }
         label ._16svg {
             margin-top: 4px;
         }
@@ -192,7 +194,7 @@
         min-height: 48px;
         padding-top: 8px;
         label {
-            padding-top: 4px;
+            // padding-top: 4px;
             overflow: hidden;
             img {
                 margin: 2px 0 0 0;
