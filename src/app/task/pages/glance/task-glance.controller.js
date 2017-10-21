@@ -26,7 +26,6 @@
         vm.tasks = vm.tasks.concat(tasks);
         _.uniqBy(vm.tasks, 'id');
         vm.taskSetting.skip = vm.tasks.length;
-        console.log(vm.tasks);
       });
     }
 

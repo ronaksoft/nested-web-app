@@ -12,25 +12,26 @@
     <use xlink:href="/assets/icons/nst-icn16.svg#line-star"></use>
   </svg>
   <h2 ng-if="!ctrlEditTask.isRelated">
-    <translate>created by</translate>&nbsp;<b>Ehsan Noureddin Mousa</b></h2>
-  <h2 ng-if="ctrlEditTask.isRelated"><b>Sofia Hämäläinen</b>&nbsp;
+    <translate>created by</translate><b>{{ctrlEditTask.assignor.fullName}}</b></h2>
+  <h2 ng-if="ctrlEditTask.isRelated"><b>{{ctrlEditTask.assignor.fullName}}</b>&nbsp;
     <translate>created this related task.</translate>
   </h2>
 </div>
 <div class="edit-task">
   <div class="task-form">
     <div class="task-title auto-height-item">
-      <div class="task-input-wrapper ng-class:{'focus': ctrlEditTask.titleFocus, 'error' : ctrlEditTask.taskTitle.length > 64}">
-        <textarea type="text" class="no-style gale-holder create-task-input" placeholder="{{ctrlEditTask.titlePlaceholder}}" id="task-title"
-          ng-focus="ctrlEditTask.titleFocus = true" ng-blur="ctrlEditTask.titleFocus = false" resize-textarea ng-model="ctrlEditTask.title"
-          enter-key="ctrlEditTask.enterSubjectTask()" prevent-shift-enter="true"></textarea>
-        <div class="error-handler" ng-if="ctrlEditTask.taskTitle.length > 54">
-          {{ctrlEditTask.taskTitle.length | localize}} / 64
+      <div class="task-input-wrapper ng-class:{'focus': ctrlEditTask.titleFocus, 'error' : (ctrlEditTask.title.length > ctrlEditTask.titleLengthLimit)}">
+      <textarea type="text" class="no-style gale-holder create-task-input" placeholder="{{ctrlEditTask.titlePlaceholder}}"
+                id="task-title" ng-focus="ctrlEditTask.titleFocus = true"
+                ng-blur="ctrlEditTask.titleFocus = false" resize-textarea ng-model="ctrlEditTask.title"
+                enter-key="ctrlEditTask.enterSubjectTask()" prevent-shift-enter="true"></textarea>
+        <div class="error-handler" ng-if="ctrlEditTask.title.length > (ctrlEditTask.titleLengthLimit - 10)">
+          {{ctrlEditTask.title.length | localize}} / {{ctrlEditTask.titleLengthLimit | localize}}
         </div>
       </div>
       <label for="task-title" ng-class="{'focus' : ctrlEditTask.titleFocus}">
-      <task-progress-icon status="(ctrlEditTask.todosData.length > 0? 'assigned-checklist' : 'assigned-no-checklist')" progress="0"></task-progress-icon>
-    </label>
+        <task-progress-icon status="(ctrlEditTask.todosData.length > 0? 'assigned-checklist' : 'assigned-no-checklist')" progress="0"></task-progress-icon>
+      </label>
     </div>
     <div class="task-assignee auto-height-item">
       <div class="task-input-wrapper ng-class:{'focus' : ctrlEditTask.assigneeFocus}">
