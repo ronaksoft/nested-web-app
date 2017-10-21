@@ -16,14 +16,14 @@
           var scrollTop = this.pageYOffset;
 
           if(scrollTop < 300) {
+            // Affix block
             affixBlocks(scrollTop)
           } else if(scrollTop + this.innerHeight >$('body').height() * 0.9) {
+            // Reach end dispatcher
             ReachEnd();
           }
-          // Affix block
           check(scrollTop);
           scroll(scrollTop);
-          // Reach end dispatcher
           
           //hide tips
           removePopovers()
@@ -76,7 +76,6 @@
         }
 
         function ReachEnd() {
-          console.log('ReachEnd');
           $rootScope.$broadcast('scroll-reached-bottom');
         }
 
