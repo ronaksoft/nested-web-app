@@ -2,7 +2,8 @@
   'forward-card': ctlPostCard.isForwarded,
   'reply-card': ctlPostCard.isReplyed,
   'unread' : !ctlPostCard.post.read,
-  'ribbon' : ctlPostCard.isRibbon }">
+  'ribbon' : ctlPostCard.isRibbon }"
+  id="{{'post-card-' + ctlPostCard.post.id}}">
 
   <section class="collapse-view" ng-if="ctlPostCard.isRibbon && ctlPostCard.ribbonEnabled" ng-click="ctlPostCard.switchToPostCard();">
     <div class="user-avatar-24" user-detail="ctlPostCard.post.sender" user-id="ctlPostCard.post.sender.id">

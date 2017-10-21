@@ -6,7 +6,7 @@
     .run(runBlock);
 
   /** @ngInject */
-  function runBlock($rootScope, $templateCache, iScrollService, $http, deviceDetector,
+  function runBlock($rootScope, $templateCache, iScrollService, $http, deviceDetector, SvcCardCtrlAffix,
                     NST_LOCALE_EN_US, NST_LOCALE_FA_IR,
                     NstSvcI18n) {
     window.nestedLogs = [];
@@ -35,7 +35,7 @@
       if (!$rootScope.stateHistory) {
         $rootScope.stateHistory = [];
       }
-
+      SvcCardCtrlAffix.reset();
       $rootScope.stateHistory.push({
         state: toState,
         params: toParams

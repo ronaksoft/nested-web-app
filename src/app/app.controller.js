@@ -20,7 +20,6 @@
     };
 
     $rootScope.navView = false;
-    $rootScope.cardCtrls = [];
     $rootScope.staticNav = true;
     $rootScope.topNavOpen = false;
     $rootScope._direction = NstSvcI18n.getLocale()._direction || "ltr";
