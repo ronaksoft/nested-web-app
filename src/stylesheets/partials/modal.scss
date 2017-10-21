@@ -496,7 +496,6 @@ body.modal-open-attachment-view.compose-modal {
   background-color: transparent;
   border-radius: 0!important;
   margin: 0;
-  border: none;
   .modal-content {
     position: relative;
     top: 8px;
@@ -505,6 +504,7 @@ body.modal-open-attachment-view.compose-modal {
     min-height: 120px;
     box-shadow: none;
     border-radius: 0;
+    border: none;
   }
   .bg-compose {
     position: fixed;
