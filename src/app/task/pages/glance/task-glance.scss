@@ -18,11 +18,11 @@
         position: relative;
         ._16svg {
             transform: scale(2,2);
-            transform-origin: center center;
+            transform-origin: left center;
             fill: $color-solid;
         }
         span {
-            padding: 0 16px;
+            padding: 0 24px;
         }
         hr {
             opacity: .2;
@@ -45,6 +45,11 @@
         .list-li-body > span:first-of-type {
             margin-bottom: 0;
             color: $color-force;
+        }
+        li {
+            &::after {
+                display: none;
+            }
         }
     }
     .candidate {

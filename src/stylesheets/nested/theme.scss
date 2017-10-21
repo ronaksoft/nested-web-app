@@ -49,6 +49,19 @@ h5.list-head {
     width: 100%;
     align-items: center;
     padding: 0 24px;
+    position: relative;
+    &::after{
+      position: absolute;
+      content: '';
+      bottom: 0;
+      right: 0;
+      width: calc(100% - 64px);
+      height: 1px;
+      background-color: $color-breeze-5-new;
+    }
+    &:last-of-type::after {
+      display: none;
+    }
   }
   .list-li-icon {
     width: 32px;
