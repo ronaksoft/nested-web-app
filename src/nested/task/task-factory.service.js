@@ -25,6 +25,9 @@
     TaskFactory.prototype.removeComment = removeComment;
     TaskFactory.prototype.addLabel = addLabel;
     TaskFactory.prototype.removeLabel = removeLabel;
+    TaskFactory.prototype.addTodo = addTodo;
+    TaskFactory.prototype.removeTodo = removeTodo;
+    TaskFactory.prototype.getByFilter = getByFilter;
     TaskFactory.prototype.get = get;
     TaskFactory.prototype.getMany = getMany;
 
@@ -36,6 +39,7 @@
       var task = new NstTask();
 
       task.id = data._id;
+      task.assignor = NstSvcUserFactory.parseTinyUser(data.assignor);
       if (data.task_assignee) {
         task.assignee = NstSvcUserFactory.parseTinyUser(data.task_assignee);
       }
@@ -61,6 +65,7 @@
           return NstSvcLabelFactory.parseLabel(item);
         });
       }
+      task.counters = data.counters;
 
       return task;
     }
@@ -155,6 +160,42 @@
         task_id: task_id,
         label_id: label_id
       });
+    }
+
+    function addTodo(task_id, title, weight) {
+      return NstSvcServer.request('task/add_todo', {
+        task_id: task_id,
+        txt: title,
+        weight: weight
+      });
+    }
+
+    function removeTodo(task_id, todo_id) {
+      return NstSvcServer.request('task/remove_todo', {
+        task_id: task_id,
+        todo_id: todo_id
+      });
+    }
+
+    function getByFilter(filter, statusFilter, skip, limit) {
+      var factory = this;
+      var deferred = $q.defer();
+
+      return this.sentinel.watch(function () {
+
+        NstSvcServer.request('task/get_by_filter', {
+          filter: filter,
+          status_filter: statusFilter,
+          skip: skip,
+          limit: limit
+        }).then(function (data) {
+          deferred.resolve(_.map(data.tasks, function (task) {
+            return factory.parseTask(task);
+          }));
+        }).catch(deferred.reject);
+
+        return deferred.promise;
+      }, 'task-get-by-filter' + filter + statusFilter);
     }
 
     function get(id) {

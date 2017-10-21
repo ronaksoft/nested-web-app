@@ -11,6 +11,7 @@
 
     function Task() {
       this.id = undefined;
+      this.assignor = undefined;
       this.assignee = undefined;
       this.candidates = undefined;
       this.title = undefined;
@@ -20,6 +21,7 @@
       this.attachments = undefined;
       this.watchers = undefined;
       this.labels = undefined;
+      this.counters = undefined;
     }
 
     return Task;
