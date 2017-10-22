@@ -211,6 +211,9 @@
     }
 
     obj.scroll = function (Ypos) {
+      if ( $rootScope.cardCtrls.length === 0) {
+        return
+      }
       var thisEl = $rootScope.cardCtrls[obj.affixView.index];
       if (thisEl) {
         var thisElement = $('#post-card-' + thisEl.id).parent();
