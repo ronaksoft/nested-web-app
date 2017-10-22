@@ -139,7 +139,7 @@
       });
       if (response.valid) {
         var task = new NstTask();
-        task.title = vm.title;
+        task.title = vm.model.title;
         if (vm.model.assignees.length === 1) {
           task.assignee = vm.model.assignees[0];
         } else {
@@ -165,6 +165,7 @@
         }
         NstSvcTaskFactory.create(task).then(function () {
           toastr.success(NstSvcTranslation.get('Task created successfully!'));
+          $rootScope.$broadcast('task-created');
         }).catch(function () {
           toastr.error(NstSvcTranslation.get('Something went wrong!'));
         });

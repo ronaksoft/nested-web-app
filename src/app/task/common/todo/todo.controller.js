@@ -29,8 +29,12 @@
     vm.removeItems = removeItems;
 
     function addTodo() {
-      if (_.findIndex(vm.todosData, {value: vm.temp.value}) > -1) {
-        toastr.warning(NstSvcTranslation.get('This todo already exists!'));
+      // if (_.findIndex(vm.todosData, {value: vm.temp.value}) > -1) {
+      //   toastr.warning(NstSvcTranslation.get('This todo already exists!'));
+      //   return;
+      // }
+      if (_.trim(vm.temp.value).length > 0) {
+        toastr.warning(NstSvcTranslation.get('Please enter a title'));
         return;
       }
       vm.todosData.push(Object.assign({}, vm.temp));
