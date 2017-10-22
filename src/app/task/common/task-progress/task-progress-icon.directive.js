@@ -15,6 +15,7 @@
         progress: '=progress'
       },
       link: function ($scope) {
+        console.log($scope.status);
         $scope.statuses = NST_TASK_PROGRESS_ICON;
         if ($scope.status === NST_TASK_PROGRESS_ICON.ASSIGNED_PROGRESS && $scope.progress !== undefined) {
           var ratio = ($scope.progress/100)*57;

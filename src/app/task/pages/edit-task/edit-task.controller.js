@@ -6,21 +6,19 @@
     .controller('editTaskController', editTaskController);
 
   /** @ngInject */
-  function editTaskController($q, $timeout, $scope, $state, $rootScope, $stateParams, NstSvcAuth, _, toastr, NstSvcTranslation, NstTask, NST_ATTACHMENT_STATUS, NstUtility, NstSvcTaskFactory) {
+  function editTaskController($q, $timeout, $scope, $state, $rootScope, $stateParams, NstSvcAuth, _, toastr, NstSvcTranslation, NstTask, NST_ATTACHMENT_STATUS, NstUtility, NstSvcTaskFactory, NstSvcTaskUtility) {
     var vm = this;
     // var eventReferences = [];
 
-    vm.titleLengthLimit = 64;
     vm.taskId = '';
     vm.mode = 'edit';
     vm.backDropClick = backDropClick;
-    /** Ali */
+
     function backDropClick() {
       
       $scope.$dismiss();
     }
     vm.isOpenBinder = false;
-    vm.isRelated = true;
 
     vm.openBinder = openBinder;
     vm.bindRow = bindRow;
@@ -39,7 +37,20 @@
       getTask(vm.taskId);
     })();
 
-    vm.task = [];
+    vm.model = {
+      isRelated: false,
+      titleLengthLimit: 64,
+      assignor: null,
+      status: null,
+      title:  '',
+      assignees: [],
+      dueDate: null,
+      description: '',
+      todos: [],
+      attachments: [],
+      watchers: [],
+      labels: []
+    };
 
     vm.showMoreOption = false;
     vm.user = NstSvcAuth.user;
@@ -65,92 +76,92 @@
     vm.assignor = null;
 
     vm.assigneeFocus = false;
-    vm.assigneesData = [];
     vm.assigneeIcon = 'no-assignee';
     vm.assigneePlaceholder = NstSvcTranslation.get('Add assignee or candidates');
     vm.removeAssignees = removeAssignees;
 
     vm.dueDateFocus = false;
-    vm.dueDate = null;
     vm.dueDatePlaceholder = NstSvcTranslation.get('+ Set a due time (optional)');
     vm.removeDueDate = removeDueDate;
     vm.enableDue = false;
 
     vm.descFocus = false;
-    vm.desc = '';
     vm.descPlaceholder = NstSvcTranslation.get('+ Add a Description...');
     vm.enableDescription = false;
 
     vm.todoFocus = false;
-    vm.todosData = [];
     vm.todoPlaceholder = NstSvcTranslation.get('+ Add a to-do');
     vm.removeTodos = removeTodos;
     vm.enableTodo = false;
 
     vm.attachmentFocus = false;
-    vm.attachmentsData = [];
     vm.removeAttachments = removeAttachments;
     vm.enableAttachment = false;
 
     vm.watcherFocus = false;
-    vm.watchersData = [];
     vm.watcherPlaceholder = NstSvcTranslation.get('Add peoples who wants to follow task...');
     vm.removeWatchers = removeWatchers;
     vm.enableWatcher = false;
 
     vm.labelFocus = false;
-    vm.labelsData = [];
     vm.labelPlaceholder = NstSvcTranslation.get('Add labels...');
     vm.removeLabels = removeLabels;
     vm.enableLabel = false;
 
     vm.isDisabled = isDisabled;
-    vm.create = create;
+
+    vm.getTaskIcon = NstSvcTaskUtility.getTaskIcon;
 
     function getTask(id) {
       NstSvcTaskFactory.get(id).then(function (task) {
-        console.log(task);
-        vm.title = task.title;
-        vm.assignor = task.assignor;
+        vm.model.title = task.title;
+        vm.model.assignor = task.assignor;
+
         if (task.assignee !== undefined) {
-          vm.assigneesData = {
+          vm.model.assignees = {
             init: true,
             data: [task.assignee]
           };
         } else if (task.candidates !== undefined) {
-          vm.assigneesData = {
+          vm.model.assignees = {
             init: true,
             data: task.candidates
           };
         }
+
         if (task.dueDate !== undefined) {
-          vm.dueDate = new Date(task.dueDate);
+          vm.model.dueDate = new Date(task.dueDate);
           // vm.enableDue = true;
         }
-        if (task.description !== undefined && task.description.length > 0) {
-          vm.desc = task.description;
+
+        if (task.description !== undefined && _.trim(task.description).length > 0) {
+          vm.model.description = task.description;
           vm.enableDescription = true;
         }
+
         if (task.todos !== undefined) {
-          vm.todosData = task.todos;
+          vm.model.todos = task.todos;
           vm.enableTodo = true;
         }
+
         if (task.attachments !== undefined) {
-          vm.attachmentsData = {
+          vm.model.attachments = {
             init: true,
-            data:task.attachments
+            data: task.attachments
           };
           vm.enableAttachment = true;
         }
+
         if (task.watchers !== undefined) {
-          vm.watchersData = {
+          vm.model.watchers = {
             init: true,
             data: task.watchers
           };
           vm.enableWatcher = true;
         }
+
         if (task.labels !== undefined) {
-          vm.labelsData = task.labels;
+          vm.model.labels = task.labels;
           vm.enableLabel = true;
         }
       });
@@ -172,13 +183,13 @@
     }
 
     $scope.$watch(function () {
-      return vm.assigneesData;
+      return vm.model.assignees;
     }, function (newVal) {
       getAssigneeIcon(newVal);
     }, true);
 
     function removeDueDate() {
-      vm.dueDate = null;
+      vm.model.dueDate = null;
     }
 
     function removeTodos() {
@@ -197,72 +208,9 @@
       vm.removeLabelItems.call();
     }
 
-    function check() {
-      var errors = [];
-      if (_.trim(vm.title) === '') {
-        errors.push(NstSvcTranslation.get('Please enter the task title'));
-      } else if (_.trim(vm.title).length > vm.titleLengthLimit) {
-        errors.push(NstUtility.string.format(NstSvcTranslation.get('Task title shouldnt be more than {0} characters'), vm.titleLengthLimit));
-      }
-      if (vm.assigneesData.length === 0) {
-        errors.push(NstSvcTranslation.get('Please add assignee or candidates'));
-      }
-      var isAttachmentValid = true;
-      for (var i in vm.attachmentsData) {
-        if (vm.attachmentsData[i].status !== NST_ATTACHMENT_STATUS.ATTACHED) {
-          isAttachmentValid = false;
-          break;
-        }
-      }
-      if (!isAttachmentValid) {
-        errors.push(NstSvcTranslation.get('Please wait till attachments upload completely'));
-      }
-      return {
-        valid: errors.length === 0,
-        errors: errors,
-        attachment: isAttachmentValid
-      }
-    }
-
     function isDisabled() {
-      var response = check();
+      var response = NstSvcTaskUtility.validateTask(vm.model);
       return !response.valid;
-    }
-
-    function create () {
-      var response = check();
-      _.forEach(response.errors, function (error) {
-        toastr.error(error);
-      });
-      if (response.valid) {
-        var task = new NstTask();
-        task.title = vm.title;
-        if (vm.assigneesData.length === 1) {
-          task.assignee = vm.assigneesData[0];
-        } else {
-          task.candidates = vm.assigneesData;
-        }
-        if (vm.dueDate !== null) {
-          task.dueDate = vm.dueDate;
-        }
-        if (vm.todosData.length > 0) {
-          task.todos = vm.todosData;
-        }
-        if (vm.attachmentsData.length > 0) {
-          task.attachments = vm.attachmentsData;
-        }
-        if (vm.watchersData.length > 0) {
-          task.watchers = vm.watchersData;
-        }
-        if (vm.labelsData.length > 0) {
-          task.labels = vm.labelsData;
-        }
-        closeModal();
-      }
-    }
-
-    function closeModal() {
-      $scope.$dismiss();
     }
 
     var focusInit = true;
