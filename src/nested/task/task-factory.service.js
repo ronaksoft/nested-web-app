@@ -52,7 +52,9 @@
         });
       }
       task.title = data.title;
-      task.dueDate = data.dueDate;
+      if (data.due_date) {
+        task.dueDate = data.due_date;
+      }
       task.description = data.description;
       if (data.todos) {
         task.todos = _.map(data.todos, function (item) {
@@ -118,7 +120,7 @@
       }
 
       if (task.dueDate) {
-        params.task_due = task.dueDate;
+        params.due_date = task.dueDate;
       }
 
       if (task.description) {

@@ -59,12 +59,15 @@
             <a ng-click="ctrl.editTask(task.id)">
               <span>{{task.title}}</span>
             </a>
-            <p>
-              <translate>from {{task.assignor.fullName}} to {{task.assignee.fullName}}</translate>
+            <p ng-if="task.assignee !== undefined">
+              <translate>from</translate> <span user-detail="task.assignor">{{task.assignor.fullName}}</span> <translate>to</translate> <span user-detail="task.assignee">{{task.assignee.fullName}}</span>
+            </p>
+            <p ng-if="task.candidates !== undefined">
+              <translate>from</translate> <span user-detail="task.assignor">{{task.assignor.fullName}}</span> <translate>to</translate> <span user-detail="task.candidates[0]">{{task.candidates[0].fullName}}</span>
             </p>
           </div>
           <div class="list-li-extra">
-            <span>Today at 18:00</span>
+            <span>{{task.dueDate | date: 'YYYY/MM/DD' | localize }}</span>
           </div>
         </li>
       </ul>

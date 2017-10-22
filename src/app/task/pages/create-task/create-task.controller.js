@@ -17,7 +17,7 @@
     };
     vm.backDropClick = backDropClick;
     function backDropClick() {
-      
+
       $scope.$dismiss();
     }
 
@@ -123,7 +123,7 @@
 
     function getTodoTransform(todos) {
       return _.map(todos, function (todo) {
-        return btoa(todo.title) + ';' + todo.weight;
+        return btoa(todo.text) + ';' + todo.weight;
       }).join(',');
     }
 
