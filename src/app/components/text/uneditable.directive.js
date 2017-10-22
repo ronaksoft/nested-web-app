@@ -14,13 +14,19 @@
           return
         }
         scope.$watch(function () {
-          return ngModel.$viewValue
+          return ngModel.$viewValue || $(element[0]).val()
         }, function (v) {
-          if (v.length > 0) return start();
+          if (angular.isDefined(v)) return start(v);
         })
 
-        function start() {
-          //TODO remove previous item on update on push
+        var haveNext = false
+
+        function start(v) {
+          console.log(element, v)
+          if ( haveNext ){
+            element.next().remove();
+          }
+          haveNext = true;
           var el = element[0];
           var style = getComputedStyle(el);
           var styled = {
@@ -28,7 +34,7 @@
             fontSize: style.fontSize,
             height: style.height,
             lineHeight: style.height,
-            display: style.display,
+            display: 'flex',
             flex: style.flex,
             fontWeight: style.fontWeight,
             marginTop: style.marginTop,
@@ -39,7 +45,7 @@
           for (var k in styled) {
             newSpan.style[k] = styled[k]
           }
-          newSpan.innerText = ngModel.$viewValue;
+          newSpan.innerText = v.length > 0 ? v : el.placeholder;
           element[0].style.display = 'none';
           newSpan.setAttribute('class', el.className);
           element.after(newSpan)
