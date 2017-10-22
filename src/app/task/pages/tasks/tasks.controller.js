@@ -3,9 +3,9 @@
 
   angular
     .module('ronak.nested.web.task')
-    .controller('taskGlanceController', taskGlanceController);
+    .controller('tasksController', tasksController);
 
-  function taskGlanceController($rootScope, $scope, _, $state, NstSvcTaskFactory, NST_TASK_STATUS, NstSvcTaskUtility, $timeout) {
+  function tasksController($rootScope, $scope, _, $state, NstSvcTaskFactory, NST_TASK_STATUS, NstSvcTaskUtility, $timeout) {
     var vm = this;
     var eventReferences = [];
 
@@ -31,8 +31,10 @@
 
     setLocationFlag();
     loadTasks();
-    getOverdueTasks();
-    getPendingTasks();
+    if (vm.isGlancePage) {
+      getOverdueTasks();
+      getPendingTasks();
+    }
 
     function setLocationFlag() {
       switch ($state.current.name) {
@@ -86,7 +88,16 @@
     function getTasks() {
       vm.loading = true;
       var promise;
-      promise = NstSvcTaskFactory.getByFilter(NST_TASK_STATUS.CREATED_BY_ME, null, vm.taskSetting.skip, vm.taskSetting.limit);
+
+      if (vm.isGlancePage) {
+        promise = NstSvcTaskFactory.getByFilter(NST_TASK_STATUS.CREATED_BY_ME, null, vm.taskSetting.skip, vm.taskSetting.limit);
+      } else if (vm.isAssignedToMePage) {
+        promise = NstSvcTaskFactory.getByFilter(NST_TASK_STATUS.ASSIGNED_TO_ME, null, vm.taskSetting.skip, vm.taskSetting.limit);
+      } else if (vm.isCreatedByMePage) {
+        promise = NstSvcTaskFactory.getByFilter(NST_TASK_STATUS.CREATED_BY_ME, null, vm.taskSetting.skip, vm.taskSetting.limit);
+      } else if (vm.isWatchlistPage) {
+        promise = NstSvcTaskFactory.getByFilter(NST_TASK_STATUS.WATCHED, null, vm.taskSetting.skip, vm.taskSetting.limit);
+      }
 
       promise.then(function (tasks) {
         vm.reachedTheEnd = tasks.length < vm.taskSetting.limit;
