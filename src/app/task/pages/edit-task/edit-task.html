@@ -31,8 +31,8 @@
                     <use xlink:href="/assets/icons/nst-icn24.svg#more"></use>
                   </svg>
                 </div>
-        <div class="error-handler" ng-if="ctrlEditTask.model.title.length > (ctrlEditTask.titleLengthLimit - 10)">
-          {{ctrlEditTask.model.title.length | localize}} / {{ctrlEditTask.titleLengthLimit | localize}}
+        <div class="error-handler" ng-if="ctrlEditTask.model.title.length > (ctrlEditTask.model.titleLengthLimit - 10)">
+          {{ctrlEditTask.model.title.length | localize}} / {{ctrlEditTask.model.titleLengthLimit | localize}}
         </div>
       </div>
       <label for="task-title" ng-class="{'focus' : ctrlEditTask.titleFocus}">
