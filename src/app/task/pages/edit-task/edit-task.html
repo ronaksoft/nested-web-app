@@ -1,15 +1,15 @@
 <div class="bg-compose" ng-click="ctrlEditTask.backDropClick();"></div>
 <div class="task-related-parent overflow-task-view">
-  <a>
-    <svg class="_16svg" ng-if="ctrlEditTask.model.isRelated">
+  <a ng-if="ctrlEditTask.model.isRelated">
+    <svg class="_16svg">
       <use xlink:href="/assets/icons/nst-icn16.svg#chain"></use>
     </svg>
     iOS New Design
   </a>
-  <div class="devider"></div>
+  <div class="devider" ng-if="ctrlEditTask.model.isRelated"></div>
 </div>
 <div class="task-creator overflow-task-view">
-  <svg class="_16svg" ng-if="ctrlEditTask.model.isRelated">
+  <svg class="_16svg">
     <use xlink:href="/assets/icons/nst-icn16.svg#line-star"></use>
   </svg>
   <h2 ng-if="!ctrlEditTask.model.isRelated">
@@ -296,14 +296,14 @@
 </div>
 
 <div class="task-related overflow-task-view">
-  <a>
-    <svg class="_16svg" ng-if="ctrlEditTask.isRelated">
+  <a ng-repeat="task in ctrlEditTask.relatedTasks">
+    <svg class="_16svg">
       <use xlink:href="/assets/icons/nst-icn16.svg#chain"></use>
     </svg>
-    iOS New Design
+    {{task.title}}
   </a>
   <a class="create-task">
-    <svg class="_16svg" ng-if="ctrlEditTask.isRelated">
+    <svg class="_16svg">
       <use xlink:href="/assets/icons/nst-icn16.svg#cross"></use>
     </svg>
     <translate>Create a related Task</translate>
