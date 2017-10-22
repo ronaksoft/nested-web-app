@@ -115,20 +115,26 @@
       vm.tasks.push.apply(vm.tasks, items);
     }
 
+    function fillThePage() {
+      if (vm.firstTimeLoading && !vm.reachedTheEnd) {
+        $timeout(function () {
+          if (!isPageFilled()) {
+            loadMoreTasks();
+            fillThePage();
+          } else {
+            vm.firstTimeLoading = false;
+          }
+        }, 100);
+      }
+    }
+
     function loadTasks() {
       getTasks().then(function (tasks) {
         mergeTask(tasks);
         vm.taskSetting.skip = vm.tasks.length;
 
         // to full fill page at first loading
-        if (vm.firstTimeLoading) {
-          vm.firstTimeLoading = false;
-          $timeout(function () {
-            if (!isPageFilled()) {
-              loadMoreTasks();
-            }
-          }, 100);
-        }
+        fillThePage();
       });
     }
 
