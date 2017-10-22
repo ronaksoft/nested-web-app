@@ -22,7 +22,6 @@
         var haveNext = false
 
         function start(v) {
-          console.log(element, v)
           if ( haveNext ){
             element.next().remove();
           }

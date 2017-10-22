@@ -15,6 +15,7 @@
       scope: {},
       bindToController: {
         attachmentsData: '=',
+        editMood: '=',
         removeItems: '='
       }
     };

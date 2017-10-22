@@ -12,7 +12,7 @@
 
     vm.taskId = '';
     vm.mode = 'edit';
-    vm.editMood = false;
+    vm.editMood = true;
     vm.backDropClick = backDropClick;
 
     function backDropClick() {

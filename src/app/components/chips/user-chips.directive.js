@@ -16,6 +16,7 @@
         userId: '=',
         candidate: '=?',
         index: '=?',
+        removable: '=?',
         onRemove: '='
       },
       link: function (scope, element) {
@@ -42,7 +43,7 @@
         }
 
         scope.clearItem = function (){
-          if (_.isFunction(scope.onRemove)) {
+          if (_.isFunction(scope.onRemove) && scope.removable != false) {
             scope.onRemove(scope.index);
           }
         }

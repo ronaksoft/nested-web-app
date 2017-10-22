@@ -62,18 +62,21 @@
     }
     &:hover {
         border-color: #ACB0B4;
-        .user-avatar-16 {
-            &::after {
-                display: none;
-            }
-            img {
-                display: none;
-            }
-            svg {
-                display: block;
-                fill: $color-force;
+        &.removable {
+            .user-avatar-16 {
+                &::after {
+                    display: none;
+                }
+                img {
+                    display: none;
+                }
+                svg {
+                    display: block;
+                    fill: $color-force;
+                }
             }
         }
+        
     }
 }
 .place-chips-wrapper {

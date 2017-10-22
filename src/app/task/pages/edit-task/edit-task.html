@@ -103,7 +103,7 @@
         </h3>
         <ul class="todo-list ng-class:{'focus': ctrlEditTask.todoFocus}">
           <task-todo todos-data="ctrlEditTask.model.todos" todo-focus="ctrlEditTask.todoFocus" todo-placeholder="{{ctrlEditTask.todoPlaceholder}}"
-            remove-items="ctrlEditTask.removeTodoItems" todo-focus-me="ctrlEditTask.assigneeTodoTrigger"></task-todo>
+            remove-items="ctrlEditTask.removeTodoItems" todo-focus-me="ctrlEditTask.assigneeTodoTrigger" edit-mood="ctrlEditTask.editMood"></task-todo>
           </li>
         </ul>
       </div>
@@ -127,7 +127,7 @@
       <div class="_difv _fw">
         <h3>Attachments</h3>
         <div class="attachments-badge-wrapper">
-          <task-attachment attachments-data="ctrlEditTask.model.attachments" remove-items="ctrlEditTask.removeAttachmentItems" ng-click="ctrlEditTask.attachmentFocus = true"></task-attachment>
+          <task-attachment attachments-data="ctrlEditTask.model.attachments" remove-items="ctrlEditTask.removeAttachmentItems" ng-click="ctrlEditTask.attachmentFocus = true" edit-mood="ctrlEditTask.editMood"></task-attachment>
         </div>
       </div>
       <label ng-class="{'focus': ctrlEditTask.attachmentFocus}">
@@ -157,7 +157,7 @@
         </h3>
         <div class="task-input-wrapper ng-class:{'focus': ctrlEditTask.watcherFocus}">
           <task-assignee assignees-data="ctrlEditTask.model.watchers" assignee-focus="ctrlEditTask.watcherFocus" assignee-with-candidate="false"
-            assignee-placeholder="{{ctrlEditTask.watcherPlaceholder}}" remove-items="ctrlEditTask.removeWatcherItems" assignee-exclude="{{ctrlEditTask.user.id}}"></task-assignee>
+            assignee-placeholder="{{ctrlEditTask.watcherPlaceholder}}" edit-mood="ctrlEditTask.editMood" remove-items="ctrlEditTask.removeWatcherItems" assignee-exclude="{{ctrlEditTask.user.id}}"></task-assignee>
         </div>
       </div>
       <label ng-class="{'focus': ctrlEditTask.watcherFocus}">
@@ -186,7 +186,7 @@
         </h3>
         <div class="task-input-wrapper ng-class:{'focus': ctrlEditTask.labelFocus}">
           <task-label labels-data="ctrlEditTask.model.labels" label-focus="ctrlEditTask.labelFocus" label-placeholder="{{ctrlEditTask.labelPlaceholder}}"
-            remove-items="ctrlEditTask.removeLabelItems"></task-label>
+            remove-items="ctrlEditTask.removeLabelItems" edit-mood="ctrlEditTask.editMood"></task-label>
         </div>
       </div>
       <label ng-class="{'focus': ctrlEditTask.labelFocus}">

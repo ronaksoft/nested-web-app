@@ -15,6 +15,7 @@
         focus: '=todoFocus',
         add: '=todoAdd',
         remove: '=todoRemove',
+        editMood: '=',
         placeholder: '@placeholder',
         focusMe: '=todoFocusMe'
       },
