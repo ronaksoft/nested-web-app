@@ -14,13 +14,12 @@
         status: '=status',
         progress: '=progress'
       },
-      link: function ($scope) {
-        console.log($scope.status);
+      link: function ($scope, element) {
         $scope.statuses = NST_TASK_PROGRESS_ICON;
         if ($scope.status === NST_TASK_PROGRESS_ICON.ASSIGNED_PROGRESS && $scope.progress !== undefined) {
           var ratio = ($scope.progress/100)*57;
           setTimeout(function () {
-            angular.element('.task-progress-icon svg.progress circle').css('stroke-dasharray', ratio + ' 60');
+            element.find('.task-progress-icon svg.progress circle').css('stroke-dasharray', ratio + ' 60');
           }, 1000);
         }
       }

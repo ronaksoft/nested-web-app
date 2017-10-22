@@ -259,7 +259,9 @@
           deferred.resolve(attachment);
           return deferred.promise;
         }).catch(function (error) {
-          toastr.error(NstSvcTranslation.get('An error has occured in uploading the file!'));
+          if (_.findIndex(vm.attachments.viewModels, {id: attachment.id}) > -1) {
+            toastr.error(NstSvcTranslation.get('An error has occurred in uploading the file!'));
+          }
           deferred.reject(error);
         });
 

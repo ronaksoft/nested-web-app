@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   angular
@@ -7,7 +7,7 @@
 
   function taskGlanceController($rootScope, $scope, _, $state, NstSvcTaskFactory, NST_TASK_STATUS) {
     var vm = this;
-    // var eventReferences = [];
+    var eventReferences = [];
 
     // vm.user = NstSvcAuth.user;
     vm.taskSetting = {
@@ -34,5 +34,19 @@
         taskId: id
       });
     }
+
+    eventReferences.push($rootScope.$on('task-created', function () {
+      vm.taskSetting.limit = 8;
+      vm.taskSetting.skip = 0;
+      loadTasks();
+    }));
+
+    $scope.$on('$destroy', function () {
+      _.forEach(eventReferences, function (canceler) {
+        if (_.isFunction(canceler)) {
+          canceler();
+        }
+      });
+    });
   }
 })();

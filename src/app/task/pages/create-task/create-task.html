@@ -51,9 +51,9 @@
              ng-model="ctrlCreateTask.model.dueDate" data-config="ctrlCreateTask.datePickerconfig"
              g-formatted-picked-date="gfdate" g-picked-date="gdate" ng-jalaali-flat-datepicker>
     </div>
-    <label for="task-due" ng-class="{'focus': ctrlCreateTask.dueDateFocus, 'no-hover': ctrlCreateTask.dueDate == null}">
-      <div class="_24svg _df _jcc _aic" translate-attrs="data-uib-tooltip"
-      data-uib-tooltip="Remove Due Time" data-tooltip-placement="top-center auto" data-tooltip-append-to-body="false">
+    <label for="task-due" ng-class="{'focus': ctrlCreateTask.dueDateFocus, 'no-hover': ctrlCreateTask.model.dueDate == null}">
+      <div class="_24svg _df _jcc _aic" translate-attrs="data-uib-tooltip" data-uib-tooltip="Remove Due Time"
+           data-tooltip-placement="top-center auto" data-tooltip-append-to-body="false" data-tooltip-enable="ctrlCreateTask.model.dueDate != null">
         <svg class="_16svg static-item">
           <use xlink:href="/assets/icons/nst-icn16.svg#finish-flag"></use>
         </svg>

@@ -36,6 +36,8 @@
           return NST_TASK_PROGRESS_ICON.COMPLETED;
         case 0x06:
           return NST_TASK_PROGRESS_ICON.HOLD;
+        case 0x07:
+          return NST_TASK_PROGRESS_ICON.OVERDUE;
       }
     }
 

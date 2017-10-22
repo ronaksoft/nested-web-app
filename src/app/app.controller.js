@@ -134,15 +134,28 @@
 
     function restoreLastState() {
       var last = null;
+      var lastGroup = '';
       if (_.isArray($rootScope.stateHistory) && _.size($rootScope.stateHistory) > 0) {
         // restore to find a primary route
         while ($rootScope.stateHistory.length > 0) {
           last = $rootScope.stateHistory.pop();
+          if (last.state.options && last.state.options.group) {
+            lastGroup = last.state.options.group;
+          }
           if (last.state.options && last.state.options.primary && last.state.name !== $state.current.name) {
             $rootScope.stateHistory.push(last);
             return last;
           }
         }
+      }
+
+      if ($rootScope.stateHistory.length === 0 && lastGroup === 'task') {
+        console.log('here');
+        return {
+          default: true,
+          state: $state.get('app.task.glance'),
+          params: {}
+        };
       }
 
       // return the default state if could not find any primary route
