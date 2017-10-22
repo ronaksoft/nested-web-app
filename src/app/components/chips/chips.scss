@@ -12,6 +12,7 @@
     border-width: 1px ;
     border-style: solid ;
     border-color: #DDDFE0;
+    transition: all $animation-dur;
     box-shadow: 0 2px 4px $color-breeze-new;
     .user-avatar-16 {
         margin: 0 6px;
@@ -30,6 +31,7 @@
         border-color: $color-solid;
         span {
             color: $color-white;
+            transition: all $animation-dur;
         }
         .user-avatar-16 {
             margin: 0 6px;
@@ -88,6 +90,7 @@
     border-style: solid;
     border-width: 1px;
     border-color: #DDDFE0;
+    transition: all $animation-dur;
     box-shadow: 0 2px 4px $color-breeze-new;
     .place-picture {
         img {

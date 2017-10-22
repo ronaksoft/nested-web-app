@@ -6,6 +6,9 @@
     max-height: 100%;
 }
 .task-form {
+    svg {
+        transition: all $animation-dur;
+    }
     .auto-height-item ,
     .const-height-item {
         > label {
@@ -40,19 +43,22 @@
     }
 
     .auto-height-item {
-        padding-top: 12px;
+        // padding-top: 12px;
         flex-direction: row-reverse;
         display: flex;
         width: 100%;
         textarea,
         input {
-            margin-top: 2px;
+            margin-top: 6px;
         }
         label img {
             margin-top: 2px;
         }
         label ._16svg {
             margin-top: 4px;
+        }
+        label ._24svg {
+            margin-top: 8px;
         }
     }
     .const-height-item {
@@ -77,6 +83,7 @@
         flex-wrap: wrap;
         margin: 0 8px;
         border-bottom: 1px solid transparent!important;
+        transition: all $animation-dur;
         task-assignee,
         task-label {
           display: flex;
@@ -135,14 +142,13 @@
         }
     }
     h3 {
-        margin: 0;
         width: 100%;
         display: flex;
         font-size: 13px;
         font-weight: bold;
         line-height: 18px;
         padding: 0 8px;
-        margin-top: 2px;
+        margin: 16px 0 0;
     }
     .auto-height-item > label ,
     .const-height-item > label {
@@ -192,18 +198,21 @@
     .task-assignee,
     .task-watcher {
         min-height: 48px;
-        padding-top: 8px;
+        .task-input-wrapper {
+            padding-top: 8px;
+        }
         label {
             // padding-top: 4px;
             overflow: hidden;
             img {
-                margin: 2px 0 0 0;
+                margin: 10px 0 0 0;
             }
         }
         .task-input-wrapper {
             align-items: center;
         }
         input {
+            margin-top: 0;
             height: 19px;
             font-size: 14px;
             line-height: 19px;
@@ -212,13 +221,13 @@
             min-width: 120px;
             align-self: center;
             flex: 1;
-            min-height: 30px;
+            min-height: 32px;
         }
     }
     .task-due {
         height: 48px;
         input {
-            height: 18px;
+            height: 24px;
             font-size: 13px;
             line-height: 18px;
         }
@@ -241,6 +250,7 @@
     }
     .task-description {
         min-height: 64px;
+        padding-top: 12px;
         textarea {
             height: 24px;
             // overflow: hidden;
@@ -260,11 +270,20 @@
             &.focus {
                 border-bottom: 1px solid $color-gale!important;
             }
+            .task-input-wrapper {
+                label svg {
+                    margin-top: 8px;
+                }
+            }
         }
     }
     .task-labels {
+        .task-input-wrapper {
+            padding-top: 4px;
+        }
         input {
-            height: 19px;
+            height: 23px;
+            margin-bottom: 5px;
             font-size: 13px;
             line-height: 19px;
             display: flex;
@@ -272,6 +291,7 @@
             min-width: 120px;
             align-self: center;
             flex: 1;
+            margin-top: 0;
         }
     }
     .task-attachment {
@@ -294,7 +314,7 @@
     }
     .todo-list {
         list-style: none;
-        margin: 8px 0;
+        // margin: 8px 0;
         label {
             max-width: calc(100% - 8px);
         }
