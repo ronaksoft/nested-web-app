@@ -19,7 +19,7 @@
   </h2>
 </div>
 <div class="edit-task">
-  <div class="task-form">
+  <div class="task-form ng-class:{'edit-mood': ctrlEditTask.editMood}">
     <div class="task-title auto-height-item">
       <div class="task-input-wrapper ng-class:{'focus': ctrlEditTask.titleFocus, 'error' : (ctrlEditTask.model.title.length > ctrlEditTask.model.titleLengthLimit)}">
       <textarea type="text" class="no-style gale-holder create-task-input" placeholder="{{ctrlEditTask.titlePlaceholder}}"
@@ -208,7 +208,7 @@
       </div>
     </label>
     </div>
-    <div class="task-binder ng-class:{'is-open': ctrlEditTask.isOpenBinder}">
+    <div class="task-binder ng-class:{'is-open': ctrlEditTask.isOpenBinder}" ng-if="ctrlEditTask.editMood">
       <div class="task-binders">
         <div class="task-binder-butn" ng-click="ctrlEditTask.openBinder()">
           <svg class="_16svg">
