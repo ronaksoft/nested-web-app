@@ -39,7 +39,7 @@
       title:  '',
       assignees: [],
       dueDate: null,
-      desc: '',
+      description: '',
       todos: [],
       attachments: [],
       watchers: [],
@@ -129,7 +129,7 @@
         }
 
         if (task.description !== undefined && _.trim(task.description).length > 0) {
-          vm.model.desc = task.description;
+          vm.model.description = task.description;
           vm.enableDescription = true;
         }
 
