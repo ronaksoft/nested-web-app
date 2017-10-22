@@ -15,22 +15,22 @@
   <h2 ng-if="!ctrlEditTask.model.isRelated">
     <translate>created by</translate> <b>{{ctrlEditTask.model.assignor.fullName}}</b></h2>
   <h2 ng-if="ctrlEditTask.model.isRelated">
-    <b>{{ctrlEditTask.model.assignor.fullName}}</b>&nbsp; <translate>created this related task.</translate>
+    <b>{{ctrlEditTask.model.assignor.fullName}}</b>&nbsp;
+    <translate>created this related task.</translate>
   </h2>
 </div>
 <div class="edit-task">
   <div class="task-form ng-class:{'edit-mood': ctrlEditTask.editMood}">
     <div class="task-title auto-height-item">
       <div class="task-input-wrapper ng-class:{'focus': ctrlEditTask.titleFocus, 'error' : (ctrlEditTask.model.title.length > ctrlEditTask.model.titleLengthLimit)}">
-      <textarea type="text" class="no-style gale-holder create-task-input" placeholder="{{ctrlEditTask.titlePlaceholder}}"
-                id="task-title" ng-focus="ctrlEditTask.titleFocus = true"
-                ng-blur="ctrlEditTask.titleFocus = false" resize-textarea ng-model="ctrlEditTask.model.title"
-                enter-key="ctrlEditTask.enterSubjectTask()" prevent-shift-enter="true"></textarea>
-                <div class="task-menu-options">
-                  <svg class="_24svg">
-                    <use xlink:href="/assets/icons/nst-icn24.svg#more"></use>
-                  </svg>
-                </div>
+        <textarea type="text" class="no-style gale-holder create-task-input" placeholder="{{ctrlEditTask.titlePlaceholder}}" id="task-title" uneditable="{{!ctrlEditTask.editMood}}"
+          ng-focus="ctrlEditTask.titleFocus = true" ng-blur="ctrlEditTask.titleFocus = false" resize-textarea ng-model="ctrlEditTask.model.title"
+          enter-key="ctrlEditTask.enterSubjectTask()" prevent-shift-enter="true"></textarea>
+        <div class="task-menu-options">
+          <svg class="_24svg">
+            <use xlink:href="/assets/icons/nst-icn24.svg#more"></use>
+          </svg>
+        </div>
         <div class="error-handler" ng-if="ctrlEditTask.model.title.length > (ctrlEditTask.model.titleLengthLimit - 10)">
           {{ctrlEditTask.model.title.length | localize}} / {{ctrlEditTask.model.titleLengthLimit | localize}}
         </div>
