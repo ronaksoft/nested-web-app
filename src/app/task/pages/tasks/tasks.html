@@ -10,47 +10,45 @@
         <translate>Glance</translate>
         <hr>
       </h2>
-      <h5 class="list-head large error"><translate>Overdue Tasks</translate></h5>
-      <ul class="list-ul overdue">
-        <li class="medium">
+      <h5 class="list-head large error" ng-if="ctrl.overDueTasks.length > 0 && ctrl.isGlancePage"><translate>Overdue Tasks</translate></h5>
+      <ul class="list-ul overdue" ng-if="ctrl.overDueTasks.length > 0 && ctrl.isGlancePage">
+        <li class="medium" ng-repeat="task in ctrl.overDueTasks">
           <div class="list-li-icon">
-            <svg class="_32svg _df">
-              <use xlink:href="/assets/icons/nst-task-icn32.svg#overdue"></use>
-            </svg>
+            <task-progress-icon status="'overdue'" progress="0"></task-progress-icon>
           </div>
           <div class="list-li-body">
-            <span>iOS Full Assets</span>
+            <span>{{task.title}}</span>
           </div>
           <div class="list-li-extra">
-            <span>45 days ago</span>
+            <span ng-if="task.dueDate !== undefined">{{task.dueDate | passed}}</span>
           </div>
         </li>
       </ul>
-      <h5 class="list-head large pending"><translate>You’ve been Candidated to do this…</translate></h5>
-      <ul class="list-ul candidate">
-        <li class="large">
+      <h5 class="list-head large pending" ng-if="ctrl.pendingTasks.length > 0 && ctrl.isGlancePage"><translate>You’ve been Candidated to do this…</translate></h5>
+      <ul class="list-ul candidate" ng-if="ctrl.pendingTasks.length > 0 && ctrl.isGlancePage">
+        <li class="large" ng-repeat="task in ctrl.pendingTasks">
           <div class="list-li-icon">
-            <svg class="_32svg _df">
-              <use xlink:href="/assets/icons/nst-task-icn32.svg#candidate"></use>
-            </svg>
+            <task-progress-icon status="'not-assigned'" progress="0"></task-progress-icon>
           </div>
           <div class="list-li-body">
-            <span>iOS Full Assets</span>
+            <span>{{task.title}}</span>
             <p>
-              <tranlate>from <b>{{'ali'}}</b> to you & <b>2 others.</b></tranlate>
+              <tranlate>from</tranlate>
+              <b user-detail="task.assignor">{{task.assignor.fullName}}</b>
+              <tranlate> to you</tranlate>
             </p>
           </div>
           <div class="list-li-extra">
-            <span>1 days left</span>
+            <span ng-if="task.dueDate !== undefined">{{task.dueDate | date: 'full' | localize}}</span>
           </div>
           <div class="list-li-buttons">
-            <input type="button" class="butn butn-red secondary" value="I can’t" translate-attrs="value">
-            <input type="button" class="butn butn-pending" value="I do this" translate-attrs="value">
+            <input ng-click="ctrl.acceptTask(task.id)" type="button" class="butn butn-red secondary" value="I can’t" translate-attrs="value">
+            <input ng-click="ctrl.declineTask(task.id)" type="button" class="butn butn-pending" value="I do this" translate-attrs="value">
           </div>
         </li>
       </ul>
       <h5 class="list-head large upcoming"><translate>Upcomings</translate></h5>
-      <ul class="list-ul upcoming">
+      <ul class="list-ul upcoming" id="task-container">
         <li class="large" ng-repeat="task in ctrl.tasks">
           <div class="list-li-icon">
             <task-progress-icon status="ctrl.getTaskIcon(task.status, (task.todos.length > 0? 0: -1))" progress="50"></task-progress-icon>
@@ -67,10 +65,17 @@
             </p>
           </div>
           <div class="list-li-extra">
-            <span>{{task.dueDate | date: 'YYYY/MM/DD' | localize }}</span>
+            <span ng-if="task.dueDate !== undefined">{{task.dueDate | date: 'full' | localize }}</span>
           </div>
         </li>
       </ul>
+      <div class="_db _tac">
+        <!-- TODO: Ali check the loading -->
+        <div class="_difh _jcc nst-mood-cheerful no-gutter nst-margin-24 _pr" ng-show="ctrl.loading">
+          <div class="nst-loading"></div>
+        </div>
+      </div>
+      <div class="nst-marginbtm-32"></div>
     </div>
   </section>
   <!-- content plus

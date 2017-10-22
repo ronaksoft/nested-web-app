@@ -150,7 +150,6 @@
       }
 
       if ($rootScope.stateHistory.length === 0 && lastGroup === 'task') {
-        console.log('here');
         return {
           default: true,
           state: $state.get('app.task.glance'),

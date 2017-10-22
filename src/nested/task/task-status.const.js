@@ -14,6 +14,7 @@
       CANCELED: 0x03,
       REJECTED: 0x04,
       COMPLETED: 0x05,
-      HOLD: 0x06
+      HOLD: 0x06,
+      OVERDUE: 0x07
     });
 })();

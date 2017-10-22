@@ -11,19 +11,48 @@
     .state('app.task', {
       url: '/task',
       abstract: true,
-      templateUrl: 'app/task/pages/glance/task-glance.html',
-      controller: 'taskGlanceController',
+      templateUrl: 'app/task/pages/tasks/tasks.html',
+      controller: 'tasksController',
       controllerAs: 'ctrl'
     })
     .state('app.task.glance',{
       url: '/glance',
-      templateUrl: 'app/task/pages/glance/task-glance.html',
-      controller: 'taskGlanceController',
+      templateUrl: 'app/task/pages/tasks/tasks.html',
+      controller: 'tasksController',
       controllerAs: 'ctrl',
       options: {
         group: 'task',
-        primary: true,
-        fullscreen: true
+        primary: true
+      }
+    })
+    .state('app.task.assigned_to_me',{
+      url: '/assigned_to_me',
+      templateUrl: 'app/task/pages/tasks/tasks.html',
+      controller: 'tasksController',
+      controllerAs: 'ctrl',
+      options: {
+        group: 'task',
+        primary: true
+      }
+    })
+    .state('app.task.created_by_me',{
+      url: '/created_by_me',
+      templateUrl: 'app/task/pages/tasks/tasks.html',
+      controller: 'tasksController',
+      controllerAs: 'ctrl',
+      options: {
+        group: 'task',
+        primary: true
+      }
+    })
+    .state('app.task.watchlist',{
+      url: '/watchlist',
+      templateUrl: 'app/task/pages/tasks/tasks.html',
+      controller: 'tasksController',
+      controllerAs: 'ctrl',
+      options: {
+        group: 'task',
+        primary: true
       }
     })
     .state('app.task.edit',{
