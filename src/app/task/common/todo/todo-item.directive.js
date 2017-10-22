@@ -33,14 +33,14 @@
           }
         };
 
-        var lastValue = $scope.data.value;
+        var lastText = $scope.data.text;
         $scope.inputKeyUp = function (event) {
-          if (event.keyCode === 8 && lastValue === '') {
+          if (event.keyCode === 8 && lastText === '') {
             if (_.isFunction($scope.remove)) {
               $scope.remove($scope.data.id);
             }
           }
-          lastValue = $scope.data.value;
+          lastText = $scope.data.text;
         };
       }
     };

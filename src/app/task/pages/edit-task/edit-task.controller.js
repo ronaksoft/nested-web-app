@@ -15,7 +15,7 @@
     vm.backDropClick = backDropClick;
 
     function backDropClick() {
-      
+
       $scope.$dismiss();
     }
     vm.isOpenBinder = false;
@@ -114,6 +114,7 @@
 
     function getTask(id) {
       NstSvcTaskFactory.get(id).then(function (task) {
+        console.log(task);
         vm.model.title = task.title;
         vm.model.assignor = task.assignor;
 
