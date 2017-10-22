@@ -64,6 +64,7 @@
     vm.postSenderIsCurrentUser = false;
     vm.haveAnyLabelAcess = true; // TODO Read this from label cache
     vm.totalRecipients = [];
+    vm.canGoLastState = true;
 
     isPlaceFeed();
     $scope.$parent.$parent.affixObserver = 1;
@@ -90,6 +91,9 @@
      */
     function replyAll($event) {
       $event.preventDefault();
+      if (isPostView()) {
+        $scope.$parent.$parent.$dismiss(true);
+      }
       $state.go('app.compose-reply-all', {
         postId: vm.post.id
       }, {
@@ -104,6 +108,9 @@
      */
     function forward($event) {
       $event.preventDefault();
+      if (isPostView()) {
+        $scope.$parent.$parent.$dismiss(true);
+      }
       $state.go('app.compose-forward', {
         postId: vm.post.id
       }, {
@@ -118,6 +125,9 @@
      */
     function replyToSender($event) {
       $event.preventDefault();
+      if (isPostView()) {
+        $scope.$parent.$parent.$dismiss(true);
+      }
       $state.go('app.compose-reply-sender', {
         postId: vm.post.id
       }, {
@@ -805,9 +815,9 @@
         $timeout.cancel(focusOnSentTimeout);
       }
 
-      _.forEach(eventReferences, function (cenceler) {
-        if (_.isFunction(cenceler)) {
-          cenceler();
+      _.forEach(eventReferences, function (canceler) {
+        if (_.isFunction(canceler)) {
+          canceler();
         }
       });
     });
