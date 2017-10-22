@@ -4,6 +4,7 @@
 .create-task {
     padding: 10px 16px 0 16px;
     max-height: 100%;
+    position: relative;
 }
 .task-form {
     svg {
@@ -180,15 +181,26 @@
         textarea {
             font-size: 20px;
             font-weight: bold;
+            width: auto;
+            flex: 1;
             height: 28px;
             margin-top: 6px;
             overflow: hidden;
         }
         .task-input-wrapper {
+            display: flex;
             align-self: center;
         }
         label {
             padding-top: 6px;
+        }
+        .task-menu-options {
+            padding-top: 8px;
+            opacity: .4;
+            transition: opacity $animation-dur;
+            &:hover {
+                opacity: 1;
+            }
         }
         .task-progress-icon {
             transform: scale(1.5, 1.5);

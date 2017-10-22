@@ -1,3 +1,4 @@
+<div class="bg-compose" ng-click="ctrlEditTask.backDropClick();"></div>
 <div class="task-related-parent overflow-task-view">
   <a>
     <svg class="_16svg" ng-if="ctrlEditTask.isRelated">
@@ -25,6 +26,11 @@
                 id="task-title" ng-focus="ctrlEditTask.titleFocus = true"
                 ng-blur="ctrlEditTask.titleFocus = false" resize-textarea ng-model="ctrlEditTask.title"
                 enter-key="ctrlEditTask.enterSubjectTask()" prevent-shift-enter="true"></textarea>
+                <div class="task-menu-options">
+                  <svg class="_24svg">
+                    <use xlink:href="/assets/icons/nst-icn24.svg#more"></use>
+                  </svg>
+                </div>
         <div class="error-handler" ng-if="ctrlEditTask.title.length > (ctrlEditTask.titleLengthLimit - 10)">
           {{ctrlEditTask.title.length | localize}} / {{ctrlEditTask.titleLengthLimit | localize}}
         </div>

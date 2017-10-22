@@ -15,7 +15,11 @@
     vm.datePickerconfig = {
       allowFuture: true
     };
-
+    vm.backDropClick = backDropClick;
+    function backDropClick() {
+      
+      $scope.$dismiss();
+    }
     vm.title = '';
     vm.titleFocus = false;
     vm.titlePlaceholder = NstSvcTranslation.get('Enter a Task Title');

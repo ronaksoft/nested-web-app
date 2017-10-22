@@ -261,6 +261,9 @@ body.modal-open-attachment-view.compose-modal {
   #editor-btn-quick {
     display: none;
   }
+  .bg-compose {
+    background-color: $color-modal-bg;
+  }
   .modal-content {
     background-color: transparent;
     height: 0;
@@ -326,14 +329,6 @@ body.modal-open-attachment-view.compose-modal {
       // min-height: 28px;
       // transform: translateY(-8px)
     }
-  }
-  .bg-compose {
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: $color-modal-bg;
   }
   .compose-wrapper {
     width: 100%;
@@ -472,13 +467,6 @@ body.modal-open-attachment-view.compose-modal {
       // height: 29px;
     }
   }
-  .bg-compose {
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-  }
 
   & + div{
     background-color: transparent;
@@ -505,13 +493,6 @@ body.modal-open-attachment-view.compose-modal {
     box-shadow: none;
     border-radius: 0;
     border: none;
-  }
-  .bg-compose {
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
   }
 
   & + div{
@@ -927,4 +908,12 @@ div.modal .attach-place {
 
 .modal.in:not([size="compose"]) + .modal.in[size="compose"] + .modal-backdrop.comdrop {
   display: block;
+}
+
+.bg-compose {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
 }

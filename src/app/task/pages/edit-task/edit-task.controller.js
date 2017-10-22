@@ -13,7 +13,12 @@
     vm.titleLengthLimit = 64;
     vm.taskId = '';
     vm.mode = 'edit';
+    vm.backDropClick = backDropClick;
     /** Ali */
+    function backDropClick() {
+      
+      $scope.$dismiss();
+    }
     vm.isOpenBinder = false;
     vm.isRelated = true;
 
