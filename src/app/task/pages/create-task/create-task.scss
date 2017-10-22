@@ -15,17 +15,18 @@
             position: relative;
             svg {
                 position: absolute;
+                transition: all $animation-dur;
             }
             .hover-item {
-                visibility: hidden;
+                display: none;
             }
             &:not(.no-hover) {
               &:hover {
                 .hover-item {
-                  visibility: visible;
+                  display: block;
                 }
                 .static-item {
-                  visibility: hidden;
+                  display: none;
                 }
               }
             }

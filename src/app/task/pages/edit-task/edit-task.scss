@@ -34,7 +34,7 @@
                         }
                     }
                     .task-binder-tooltip {
-                        visibility: visible;
+                        display: flex;
                     }
                     &:hover {
                         > .task-binder-butn {
@@ -62,8 +62,7 @@
                     transform: translateX(-50%);
                     height: 128px;
                     opacity: 0;
-                    visibility: hidden;
-                    display: flex;
+                    display: none;
                     color: $color-solid;
                     justify-content: center;
                     align-items: center;

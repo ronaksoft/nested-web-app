@@ -66,17 +66,14 @@
           id="task-due" ng-focus="ctrlEditTask.dueDateFocus = true" ng-blur="ctrlEditTask.dueDateFocus = false" ng-model="ctrlEditTask.dueDate"
           data-config="ctrlEditTask.datePickerconfig" g-formatted-picked-date="gfdate" g-picked-date="gdate" ng-jalaali-flat-datepicker>
       </div>
-      <label for="task-due" ng-class="{'focus': ctrlEditTask.dueDateFocus, 'no-hover': ctrlEditTask.dueDate == null}">
-      <div class="_24svg _df _jcc" translate-attrs="data-uib-tooltip"
-      data-uib-tooltip="Remove Due Time" data-tooltip-placement="top-center auto" data-tooltip-append-to-body="false">
+      <label for="task-due" ng-class="{'focus': ctrlEditTask.dueDateFocus}" class="no-hover">
+      <div class="_24svg _df _jcc">
         <svg class="_16svg static-item">
           <use xlink:href="/assets/icons/nst-icn16.svg#finish-flag"></use>
         </svg>
-        <svg class="_16svg force hover-item" ng-if="true && ctrlEditTask.dueDate != null" ng-click="ctrlEditTask.removeDueDate()">
+        <svg class="_16svg force hover-item" ng-if="ctrlEditTask.dueDate != null" ng-click="ctrlEditTask.removeDueDate()"  translate-attrs="data-uib-tooltip"
+        data-uib-tooltip="Remove Due Time" data-tooltip-placement="top-center auto" data-tooltip-append-to-body="true">
           <use xlink:href="/assets/icons/nst-icn16.svg#bin"></use>
-        </svg>
-        <svg class="_16svg force hover-item" ng-if="false">
-          <use xlink:href="/assets/icons/nst-icn16.svg#negative-xcross"></use>
         </svg>
       </div>
     </label>
@@ -104,16 +101,17 @@
           </li>
         </ul>
       </div>
-      <label ng-class="{'focus': ctrlEditTask.todoFocus, 'no-hover': ctrlEditTask.todosData.length === 0}">
-      <div class="_24svg _df _jcc" data-uib-tooltip="Remove To-Do list" data-tooltip-placement="top-center auto"
-           data-tooltip-append-to-body="true" data-tooltip-enable="ctrlEditTask.todosData.length > 0">
+      <label ng-class="{'focus': ctrlEditTask.todoFocus}">
+      <div class="_24svg _df _jcc">
         <svg class="_16svg static-item">
           <use xlink:href="/assets/icons/nst-icn16.svg#bullet-list"></use>
         </svg>
-        <svg class="_16svg force hover-item" ng-if="true && ctrlEditTask.todosData.length > 0" ng-click="ctrlEditTask.removeTodos()">
+        <svg class="_16svg force hover-item" ng-if="ctrlEditTask.todosData.length > 0" ng-click="ctrlEditTask.removeTodos()" data-uib-tooltip="Clear To-Do list" data-tooltip-placement="top-center auto"
+          data-tooltip-append-to-body="true">
           <use xlink:href="/assets/icons/nst-icn16.svg#bin"></use>
         </svg>
-        <svg class="_16svg force hover-item" ng-if="false">
+        <svg class="_16svg force hover-item" ng-if="ctrlEditTask.todosData.length === 0" ng-click="ctrlEditTask.enableTodo = false" data-uib-tooltip="Remove To-Do list" data-tooltip-placement="top-center auto"
+        data-tooltip-append-to-body="true" >
           <use xlink:href="/assets/icons/nst-icn16.svg#negative-xcross"></use>
         </svg>
       </div>
@@ -126,18 +124,21 @@
           <task-attachment attachments-data="ctrlEditTask.attachmentsData" remove-items="ctrlEditTask.removeAttachmentItems" ng-click="ctrlEditTask.attachmentFocus = true"></task-attachment>
         </div>
       </div>
-      <label ng-class="{'focus': ctrlEditTask.attachmentFocus, 'no-hover': ctrlEditTask.attachmentsData.length === 0}">
-      <div class="_24svg _df _jcc" data-uib-tooltip="Remove All Attachments"
-           data-tooltip-placement="top-center auto"
-           data-tooltip-append-to-body="true" data-tooltip-enable="ctrlEditTask.attachmentsData.length > 0">
+      <label ng-class="{'focus': ctrlEditTask.attachmentFocus}">
+      <div class="_24svg _df _jcc">
         <svg class="_16svg static-item">
           <use xlink:href="/assets/icons/nst-icn16.svg#attach"></use>
         </svg>
-        <svg class="_16svg force hover-item" ng-if="true && ctrlEditTask.attachmentsData.length > 0"
-             ng-click="ctrlEditTask.removeAttachments()">
+        <svg class="_16svg force hover-item" ng-if="ctrlEditTask.attachmentsData.length > 0"
+             ng-click="ctrlEditTask.removeAttachments()" data-uib-tooltip="Clear All Attachments"
+             data-tooltip-placement="top-center auto" translate-attrs=""
+             data-tooltip-append-to-body="true">
           <use xlink:href="/assets/icons/nst-icn16.svg#bin"></use>
         </svg>
-        <svg class="_16svg force hover-item" ng-if="false">
+        <svg class="_16svg force hover-item" ng-if="ctrlEditTask.attachmentsData.length === 0" ng-click="ctrlEditTask.enableAttachment = false"
+        data-uib-tooltip="Remove Attachments"
+        data-tooltip-placement="top-center auto" translate-attrs=""
+        data-tooltip-append-to-body="true">
           <use xlink:href="/assets/icons/nst-icn16.svg#negative-xcross"></use>
         </svg>
       </div>
@@ -153,18 +154,20 @@
             assignee-placeholder="{{ctrlEditTask.watcherPlaceholder}}" remove-items="ctrlEditTask.removeWatcherItems" assignee-exclude="{{ctrlEditTask.user.id}}"></task-assignee>
         </div>
       </div>
-      <label ng-class="{'focus': ctrlEditTask.watcherFocus, 'no-hover': ctrlEditTask.watchersData.length === 0}">
-      <div class="_24svg _df _jcc" data-uib-tooltip="Remove All Attachments"
-           data-tooltip-placement="top-center auto"
-           data-tooltip-append-to-body="true" data-tooltip-enable="ctrlEditTask.watchersData.length > 0">
+      <label ng-class="{'focus': ctrlEditTask.watcherFocus}">
+      <div class="_24svg _df _jcc">
         <svg class="_16svg static-item">
           <use xlink:href="/assets/icons/nst-icn16.svg#person"></use>
         </svg>
-        <svg class="_16svg force hover-item" ng-if="true && ctrlEditTask.watchersData.length > 0"
+        <svg class="_16svg force hover-item" ng-if="ctrlEditTask.watchersData.length > 0" data-uib-tooltip="Clear All Watchers"
+          data-tooltip-placement="top-center auto" translate-attrs="data-uib-tooltip"
+          data-tooltip-append-to-body="true"
              ng-click="ctrlEditTask.removeWatchers()">
           <use xlink:href="/assets/icons/nst-icn16.svg#bin"></use>
         </svg>
-        <svg class="_16svg force hover-item" ng-if="false">
+        <svg class="_16svg force hover-item" ng-if="ctrlEditTask.watchersData.length === 0" data-uib-tooltip="Remove Watchers"
+        data-tooltip-placement="top-center auto" translate-attrs="data-uib-tooltip"
+        data-tooltip-append-to-body="true" ng-click="ctrlEditTask.enableWatcher = false">
           <use xlink:href="/assets/icons/nst-icn16.svg#negative-xcross"></use>
         </svg>
       </div>
@@ -180,18 +183,20 @@
             remove-items="ctrlEditTask.removeLabelItems"></task-label>
         </div>
       </div>
-      <label ng-class="{'focus': ctrlEditTask.labelFocus, 'no-hover': ctrlEditTask.labelsData.length === 0}">
-      <div class="_24svg _df _jcc" data-uib-tooltip="Remove All Watchers"
-           data-tooltip-placement="top-center auto"
-           data-tooltip-append-to-body="true" data-tooltip-enable="ctrlEditTask.labelsData.length > 0">
+      <label ng-class="{'focus': ctrlEditTask.labelFocus}">
+      <div class="_24svg _df _jcc">
         <svg class="_16svg static-item">
           <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
         </svg>
-        <svg class="_16svg force hover-item" ng-if="true && ctrlEditTask.labelsData.length > 0"
-             ng-click="ctrlEditTask.removeLabels()">
+        <svg class="_16svg force hover-item" ng-if="ctrlEditTask.labelsData.length > 0"
+             ng-click="ctrlEditTask.removeLabels()" data-uib-tooltip="Clear All Watchers"
+             data-tooltip-placement="top-center auto" translate-attrs="data-uib-tooltip"
+             data-tooltip-append-to-body="true">
           <use xlink:href="/assets/icons/nst-icn16.svg#bin"></use>
         </svg>
-        <svg class="_16svg force hover-item" ng-if="false">
+        <svg class="_16svg force hover-item" ng-if="ctrlEditTask.labelsData.length === 0" data-uib-tooltip="Remove All Watchers"
+        data-tooltip-placement="top-center auto" ng-click="ctrlEditTask.enableLabel = false"
+        data-tooltip-append-to-body="true" translate-attrs="data-uib-tooltip">
           <use xlink:href="/assets/icons/nst-icn16.svg#negative-xcross"></use>
         </svg>
       </div>
