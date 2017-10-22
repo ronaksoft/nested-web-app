@@ -11,6 +11,7 @@
 
     function Task() {
       this.id = undefined;
+      this.status = undefined;
       this.assignor = undefined;
       this.assignee = undefined;
       this.candidates = undefined;

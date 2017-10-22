@@ -9,6 +9,7 @@
       ASSIGNED_CHECKLIST: 'assigned-checklist',
       ASSIGNED_PROGRESS: 'assigned-progress',
       COMPLETED: 'completed',
+      CANCELED: 'canceled',
       HOLD: 'hold',
       REJECTED: 'rejected',
       OVERDUE: 'overdue'

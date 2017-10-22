@@ -39,6 +39,7 @@
       var task = new NstTask();
 
       task.id = data._id;
+      task.status = data.status;
       task.assignor = NstSvcUserFactory.parseTinyUser(data.assignor);
       if (data.assignee) {
         task.assignee = NstSvcUserFactory.parseTinyUser(data.assignee);
