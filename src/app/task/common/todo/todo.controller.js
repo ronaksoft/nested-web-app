@@ -19,9 +19,9 @@
 
     vm.temp = {
       id: -parseInt(_.uniqueId()),
-      value: '',
-      weight: 1,
-      checked: false
+      text: '',
+      checked: false,
+      weight: 1
     };
 
     vm.addTodo = addTodo;
@@ -29,17 +29,17 @@
     vm.removeItems = removeItems;
 
     function addTodo() {
-      // if (_.findIndex(vm.todosData, {value: vm.temp.value}) > -1) {
+      // if (_.findIndex(vm.todosData, {text: vm.temp.text}) > -1) {
       //   toastr.warning(NstSvcTranslation.get('This todo already exists!'));
       //   return;
       // }
-      if (_.trim(vm.temp.value).length > 0) {
+      if (_.trim(vm.temp.text).length === 0) {
         toastr.warning(NstSvcTranslation.get('Please enter a title'));
         return;
       }
       vm.todosData.push(Object.assign({}, vm.temp));
       vm.temp.id = -parseInt(_.uniqueId());
-      vm.temp.value = '';
+      vm.temp.text = '';
       vm.temp.checked = false;
     }
 

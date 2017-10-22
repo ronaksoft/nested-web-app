@@ -53,7 +53,7 @@
       <ul class="list-ul upcoming">
         <li class="large" ng-repeat="task in ctrl.tasks">
           <div class="list-li-icon">
-            <task-progress-icon status="'assigned-progress'" progress="50"></task-progress-icon>
+            <task-progress-icon status="ctrl.getTaskIcon(task.status, (task.todos.length > 0? 0: -1))" progress="50"></task-progress-icon>
           </div>
           <div class="list-li-body">
             <a ng-click="ctrl.editTask(task.id)">

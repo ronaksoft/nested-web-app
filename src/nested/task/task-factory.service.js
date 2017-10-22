@@ -18,6 +18,7 @@
     TaskFactory.prototype = new NstBaseFactory();
     TaskFactory.prototype.constructor = TaskFactory;
     TaskFactory.prototype.parseTask = parseTask;
+    TaskFactory.prototype.parseTaskTodo = parseTaskTodo;
     TaskFactory.prototype.create = create;
     TaskFactory.prototype.addAttachment = addAttachment;
     TaskFactory.prototype.removeAttachment = removeAttachment;
@@ -32,6 +33,7 @@
     TaskFactory.prototype.getMany = getMany;
 
     function parseTask(data) {
+      var factory = this;
       if (!(data && data._id)) {
         return null;
       }
@@ -52,6 +54,11 @@
       task.title = data.title;
       task.dueDate = data.dueDate;
       task.description = data.description;
+      if (data.todos) {
+        task.todos = _.map(data.todos, function (item) {
+          return factory.parseTaskTodo(item);
+        });
+      }
       if (data.attachments) {
         task.attachments = _.map(data.attachments, NstSvcAttachmentFactory.parseAttachment);
       }
@@ -69,6 +76,26 @@
       task.counters = data.counters;
 
       return task;
+    }
+
+    function parseTaskTodo(data) {
+      if (!(data && data._id)) {
+        return null;
+      }
+
+      var todo = {
+        id: undefined,
+        text: undefined,
+        checked: undefined,
+        weight: undefined
+      };
+
+      todo.id = data._id;
+      todo.text = data.txt;
+      todo.checked = data.done;
+      todo.weight = data.weight;
+
+      return todo;
     }
 
     function getCommaSeparate(data) {

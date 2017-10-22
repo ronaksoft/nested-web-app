@@ -5,7 +5,7 @@
     .module('ronak.nested.web.task')
     .controller('taskGlanceController', taskGlanceController);
 
-  function taskGlanceController($rootScope, $scope, _, $state, NstSvcTaskFactory, NST_TASK_STATUS) {
+  function taskGlanceController($rootScope, $scope, _, $state, NstSvcTaskFactory, NST_TASK_STATUS, NstSvcTaskUtility) {
     var vm = this;
     var eventReferences = [];
 
@@ -20,6 +20,7 @@
     loadTasks();
 
     vm.editTask = editTask;
+    vm.getTaskIcon = NstSvcTaskUtility.getTaskIcon;
 
     function loadTasks() {
       NstSvcTaskFactory.getByFilter(NST_TASK_STATUS.CREATED_BY_ME, null, vm.taskSetting.skip, vm.taskSetting.limit).then(function (tasks) {
@@ -38,6 +39,7 @@
     eventReferences.push($rootScope.$on('task-created', function () {
       vm.taskSetting.limit = 8;
       vm.taskSetting.skip = 0;
+      vm.tasks = [];
       loadTasks();
     }));
 
