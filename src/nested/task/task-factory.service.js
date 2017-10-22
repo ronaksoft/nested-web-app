@@ -19,15 +19,27 @@
     TaskFactory.prototype.constructor = TaskFactory;
     TaskFactory.prototype.parseTask = parseTask;
     TaskFactory.prototype.parseTaskTodo = parseTaskTodo;
+
     TaskFactory.prototype.create = create;
+
     TaskFactory.prototype.addAttachment = addAttachment;
     TaskFactory.prototype.removeAttachment = removeAttachment;
+
     TaskFactory.prototype.addComment = addComment;
     TaskFactory.prototype.removeComment = removeComment;
+
     TaskFactory.prototype.addLabel = addLabel;
     TaskFactory.prototype.removeLabel = removeLabel;
+
     TaskFactory.prototype.addTodo = addTodo;
     TaskFactory.prototype.removeTodo = removeTodo;
+    TaskFactory.prototype.updateTodo = updateTodo;
+
+    TaskFactory.prototype.addWatcher = addWatcher;
+    TaskFactory.prototype.removeWatcher = removeWatcher;
+
+    TaskFactory.prototype.taskUpdate = taskUpdate;
+
     TaskFactory.prototype.getByFilter = getByFilter;
     TaskFactory.prototype.get = get;
     TaskFactory.prototype.getMany = getMany;
@@ -196,10 +208,10 @@
       });
     }
 
-    function addTodo(task_id, title, weight) {
+    function addTodo(task_id, text, weight) {
       return NstSvcServer.request('task/add_todo', {
         task_id: task_id,
-        txt: title,
+        txt: text,
         weight: weight
       });
     }
@@ -208,6 +220,39 @@
       return NstSvcServer.request('task/remove_todo', {
         task_id: task_id,
         todo_id: todo_id
+      });
+    }
+
+    function updateTodo(task_id, todo_id, checked, text, weight) {
+      return NstSvcServer.request('task/update_todo', {
+        task_id: task_id,
+        todo_id: todo_id,
+        txt: text,
+        weight: weight,
+        done: checked
+      });
+    }
+
+    function addWatcher(task_id, watcher_id) {
+      return NstSvcServer.request('task/add_watcher', {
+        task_id: task_id,
+        watcher_id: watcher_id
+      });
+    }
+
+    function removeWatcher(task_id, watcher_id) {
+      return NstSvcServer.request('task/remove_watcher', {
+        task_id: task_id,
+        watcher_id: watcher_id
+      });
+    }
+
+    function taskUpdate(task_id, title, desc, dueDate) {
+      return NstSvcServer.request('task/update', {
+        task_id: task_id,
+        title: title,
+        desc: desc,
+        due_date: dueDate
       });
     }
 
