@@ -70,7 +70,7 @@
       <img width="32" class="attach-badge-img" alt="" ng-src="{{getThumbnail(item)}}"
         ng-srcset="{{getThumbnail(item, '@2x')}}" height="32" ng-if="item.type !== 'image' && item.type !== 'gif'"/>
       <div class="attach-badge">
-        <span class="_txe">{{item.filename | lowercase}}</span>
+        <span class="_txe">{{item.filename ? item.filename : item.name+ '.' + item.extension | lowercase}}</span>
       </div>
     </a>
   </li>

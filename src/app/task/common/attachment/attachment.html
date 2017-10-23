@@ -1,7 +1,7 @@
 <nst-attachments-editable-bar mode="'badge'" items="ctlAttachment.attachments.viewModels" ng-if="ctlAttachment.editMood" on-item-delete="ctlAttachment.attachments.detach"></nst-attachments-editable-bar>
 <nst-attachments-preview-bar mode="'badge'" items="ctlAttachment.attachments.viewModels" ng-if="!ctlAttachment.editMood" on-item-click=""></nst-attachments-preview-bar>
 
-<a class="attachment-plus ng-class:{'active': ctlAttachment.openPopover}"  ng-click="ctlAttachment.openPopover =! ctlAttachment.openPopover" ng-if="ctlAssignee.editMood"
+<a class="attachment-plus ng-class:{'active': ctlAttachment.openPopover}"  ng-click="ctlAttachment.openPopover =! ctlAttachment.openPopover" ng-if="ctlAttachment.editMood"
    data-popover-class="files-menu-popover" move-add-attachment-element data-popover-append-to-body="true" uib-popover-template="'app/task/common/attachment/popovers/add-attachment-popover.html'"
    data-popover-trigger="focus" data-popover-placement="auto {{$root._direction === 'rtl'? 'left': 'right'}}" data-popover-is-open="ctlAttachment.openPopover">
   <svg class="_16svg ng-class:{'_r45': ctlAttachment.openPopover}">
