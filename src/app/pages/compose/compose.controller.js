@@ -1294,9 +1294,7 @@
           attachment.cancelUpload();
           resolve(attachment);
         } else { // the store is uploaded and it should be removed from server
-          NstSvcAttachmentFactory.remove(attachment.id).then(function () {
-            resolve(attachment);
-          }).catch(reject);
+          resolve(attachment);
         }
       }).then(function (attachment) {
         $scope.compose.post.removeAttachment(attachment);

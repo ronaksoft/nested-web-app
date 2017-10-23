@@ -290,7 +290,7 @@
             }
             break;
           default:
-            NstSvcAttachmentFactory.remove(attachment.id);
+            // TODO remove attachment
             break;
         }
         vm.attachments.size.uploaded -= vmAttachment.uploadedSize;

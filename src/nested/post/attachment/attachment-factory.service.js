@@ -14,7 +14,6 @@
      */
     var service = {
       parseAttachment: parseAttachment,
-      remove: remove,
       createAttachmentModel: createAttachmentModel,
       getOne: getOne
     };
@@ -61,18 +60,6 @@
       return attachment;
     }
 
-    function remove(attachmentId, postId) {
-      var defer = $q.defer();
-
-      NstSvcServer.request('attachment/remove', {
-        post_id: postId,
-        attachment_id: attachmentId
-      }).then(function () {
-        defer.resolve(attachmentId);
-      }).catch(defer.reject);
-
-      return defer.promise;
-    }
 
     function createAttachmentModel() {
       return new NstAttachment();
