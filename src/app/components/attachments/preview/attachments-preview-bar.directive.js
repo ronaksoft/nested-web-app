@@ -15,15 +15,16 @@
         onItemClick: '=',
         items: '=',
         mode: '=',
-        badge: '=',
         postId: '=',
         sender: '='
       },
       link: function (scope, ele) {
         scope.internalMode = NST_ATTACHMENTS_PREVIEW_BAR_MODE.AUTO;
         scope.overFlowLeft = scope.overFlowRight = false;
+        scope.getThumbnail = getThumbnail;
         scope.items = setOrder(scope.items, NST_ATTACHMENTS_PREVIEW_BAR_ORDER.order);
         scope.flexDiv = 16;
+        scope.badge = false;
         scope.scrollDis = 140;
         scope.NST_FILE_TYPE = NST_FILE_TYPE;
         scope.cardWidth = angular.element('.attachments-card').width();
@@ -33,11 +34,11 @@
 
         if (modeIsValid(scope.mode)) {
           scope.internalMode = scope.mode;
+        } else {
+          scope.internalMode = NST_ATTACHMENTS_PREVIEW_BAR_MODE.THUMBNAIL
         }
-
-
-        if (scope.internalMode === NST_ATTACHMENTS_PREVIEW_BAR_MODE.AUTO) {
-          scope.internalMode = scope.badge ? NST_ATTACHMENTS_PREVIEW_BAR_MODE.BADGE : NST_ATTACHMENTS_PREVIEW_BAR_MODE.THUMBNAIL;
+        if (scope.mode === NST_ATTACHMENTS_PREVIEW_BAR_MODE.BADGE) {
+          scope.badge = true;
         }
 
         if (!scope.badge  && scope.items.length === 1 &&
@@ -109,33 +110,34 @@
           // scope.flexTwoWidth = scale * (unkHeight * imgTwoRatio);
         }
 
-
-        $timeout(function () {
-          scope.scrollWrp = ele.children().next();
-          // var leftArrow = ele.children().first();
-          // var rightArrow = ele.children().next().next();
-
-          checkScroll(scope.scrollWrp[0]);
-
-          scope.scrollWrp.scroll(function () {
-            checkScroll(scope.scrollWrp[0]);
-          });
-
-          // rightArrow.mousedown(function () {
-          //   scrollPower('right');
-          // });
-          // rightArrow.mouseup(function () {
-          //   stopScrollPower();
-          // });
-          //
-          // leftArrow.mousedown(function () {
-          //   scrollPower('left');
-          // });
-          // leftArrow.mouseup(function () {
-          //   stopScrollPower();
-          // });
-
-        }, 100);
+        if (!scope.badge) {
+          $timeout(function () {
+              scope.scrollWrp = ele.children().next();
+              // var leftArrow = ele.children().first();
+              // var rightArrow = ele.children().next().next();
+              
+              checkScroll(scope.scrollWrp[0]);
+              
+              scope.scrollWrp.scroll(function () {
+                checkScroll(scope.scrollWrp[0]);
+              });
+              
+            // rightArrow.mousedown(function () {
+            //   scrollPower('right');
+            // });
+            // rightArrow.mouseup(function () {
+            //   stopScrollPower();
+            // });
+            //
+            // leftArrow.mousedown(function () {
+            //   scrollPower('left');
+            // });
+            // leftArrow.mouseup(function () {
+            //   stopScrollPower();
+            // });
+  
+          }, 100);
+        }
 
 
         // interaction functions
@@ -145,6 +147,43 @@
           }
         };
 
+        function getThumbnail(item, size) {
+          if(item.thumbnail && item.thumbnail.length > 0) {
+            return item.thumbnail
+          } else {
+            if (item.type ===  NST_FILE_TYPE.AUDIO || item.type ===  NST_FILE_TYPE.VIDEO) {
+              if (size){
+                return '/assets/icons/ph_small_attachment_media@2x.png';
+              } else {
+                return '/assets/icons/ph_small_attachment_media.png';
+              }
+            } else if(item.type ===  NST_FILE_TYPE.ARCHIVE) {
+              if (size){
+                return '/assets/icons/ph_small_attachment_zip@2x.png';
+              } else {
+                return '/assets/icons/ph_small_attachment_zip.png';
+              }
+            } else if(item.type ===  NST_FILE_TYPE.DOCUMENT) {
+              if (size){
+                return '/assets/icons/ph_small_attachment_document@2x.png';
+              } else {
+                return '/assets/icons/ph_small_attachment_document.png';
+              }
+            } else if(item.type ===  NST_FILE_TYPE.PDF) {
+              if (size){
+                return '/assets/icons/ph_small_attachment_pdf@2x.png';
+              } else {
+                return '/assets/icons/ph_small_attachment_pdf.png';
+              }
+            } else {
+              if (size){
+                return '/assets/icons/ph_small_attachment_other@2x.png';
+              } else {
+                return '/assets/icons/ph_small_attachment_other.png';
+              }
+            }
+          }
+        }
 
         scope.download = function (item) {
           if (item.downloadUrl) {

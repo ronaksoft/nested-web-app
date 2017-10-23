@@ -23,9 +23,11 @@
         var borderLeftArray=[],borderRightArray=[];
         scope.scrollDis = 140;
 
-        if (modeIsValid(attributes.mode)) {
-          scope.internalMode = attributes.mode;
+        if (modeIsValid(scope.mode)) {
+          console.log(scope.mode);
+          scope.internalMode = scope.mode;
         }
+        console.log(scope.internalMode);
 
 
         $timeout(function () {
