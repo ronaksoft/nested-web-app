@@ -25,6 +25,7 @@
     };
 
     vm.addTodo = addTodo;
+    vm.updateTodo = updateTodo;
     vm.removeTodo = removeTodo;
     vm.removeItems = removeItems;
 
@@ -41,6 +42,13 @@
       vm.temp.id = -parseInt(_.uniqueId());
       vm.temp.text = '';
       vm.temp.checked = false;
+    }
+
+    function updateTodo(id) {
+      var index = _.findIndex(vm.todosData, {id: id});
+      if (_.isFunction(vm.updateItem)) {
+        vm.updateItem(index, vm.todosData[index]);
+      }
     }
 
     function removeTodo(id) {

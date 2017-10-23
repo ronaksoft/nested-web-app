@@ -122,12 +122,6 @@
       vm.removeLabelItems.call();
     }
 
-    function getTodoTransform(todos) {
-      return _.map(todos, function (todo) {
-        return btoa(todo.text) + ';' + todo.weight;
-      }).join(',');
-    }
-
     function isDisabled() {
       var response = NstSvcTaskUtility.validateTask(vm.model);
       return !response.valid;
@@ -153,7 +147,7 @@
           task.description = vm.model.description;
         }
         if (vm.model.todos.length > 0) {
-          task.todos = getTodoTransform(vm.model.todos);
+          task.todos = NstSvcTaskUtility.getTodoTransform(vm.model.todos);
         }
         if (vm.model.attachments.length > 0) {
           task.attachments = vm.model.attachments;
