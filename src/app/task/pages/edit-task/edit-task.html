@@ -285,12 +285,12 @@
       </h3>
     </div>
     <div class="task-comments-container">
-      <div class="no-comments-holder">
+      <div class="no-comments-holder" ng-if="ctrlEditTask.taskActivities.length === 0">
         <img class="_db" width="128" width="128" src="/assets/icons/ph_empt_comment.png" srcset="/assets/icons/ph_empt_comment@2x.png"
         />
         <translate>Post a comment to start a discussion.<br><b>@Mention</b> someone to notify them.</translate>
       </div>
-      <comments-board comments="[]" limit="0" post-id="'taskId'" total-comments-count="0" on-comment-sent="" has-comment-remove-access="false"></comments-board>
+      <comments-board comments="ctrlEditTask.taskActivities" limit="0" task-id="ctrlEditTask.taskId" total-comments-count="ctrlEditTask.model.counters.comments + ctrlEditTask.model.counters.updates" on-comment-sent="" has-comment-remove-access="false"></comments-board>
     </div>
   </div>
 </div>

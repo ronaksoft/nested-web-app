@@ -6,7 +6,7 @@
     .controller('CommentsBoardController', CommentsBoardController);
 
   function CommentsBoardController($timeout, $scope, $sce, $q, $state, $location, $anchorScroll,
-                                   NstSvcAuth,NstSvcDate, NstSvcCommentFactory, NstUtility, NstSvcTranslation,
+                                   NstSvcAuth,NstSvcDate, NstSvcCommentFactory, NstUtility, NstSvcTranslation, NstSvcTaskFactory,
                                    moment, toastr, NstSvcLogger, _) {
     var vm = this;
 
@@ -37,28 +37,33 @@
     vm.unreadCommentsCount = 0;
     vm.showRemoved = false;
 
-
     (function () {
       vm.hasOlderComments = vm.totalCommentsCount > vm.comments.length;
-      var key = $scope.$on('post-load-new-comments', function (event, data) {
-        if (data.postId === vm.postId) {
-          if (data.scrollIntoView) {
-            loadRecentComments(data.scrollIntoView);
-          } else {
-            loadRecentComments();
-          }
-        }
-      });
-
-      if($state.current.name === 'app.message'){
-        vm.comments = [];
-        loadMoreComments();
+      if(vm.taskId) {
+        console.log(vm.taskId)
       }
+      if(vm.postId) {
+        var key = $scope.$on('post-load-new-comments', function (event, data) {
+          if (data.postId === vm.postId) {
+            if (data.scrollIntoView) {
+              loadRecentComments(data.scrollIntoView);
+            } else {
+              loadRecentComments();
+            }
+          }
+        });
+        pageEventKeys.push(key);
+        if($state.current.name === 'app.message'){
+          vm.comments = [];
+          loadMoreComments();
+        }
+      }
+
+      vm.commentBoardId = vm.postId || vm.taskId;
 
       vm.lastComment = findLastComment(vm.comments);
       vm.hasAnyRemoved = _.some(vm.comments, 'removedById');
 
-      pageEventKeys.push(key);
       vm.user = NstSvcAuth.user;
     })();
 
@@ -78,14 +83,14 @@
       return date;
     }
 
-    function getRecentComments(postId, settings) {
+    function getRecentComments(settings) {
       var deferred = $q.defer();
       var result = {
         comments : [],
         maybeMoreComments : null
       };
       vm.commentLoadProgress = true;
-      NstSvcCommentFactory.getCommentsAfter(postId, settings).then(function (comments) {
+      NstSvcCommentFactory.getCommentsAfter(vm.postId, settings).then(function (comments) {
         result.comments = comments;
         result.maybeMoreComments = (comments.length === settings.limit);
         deferred.resolve(result);
@@ -101,7 +106,7 @@
         limit : 30
       };
 
-      getRecentComments(vm.postId, settings).then(function (result) {
+      getRecentComments(settings).then(function (result) {
         var newComments = reorderComments(result.comments);
         vm.comments = vm.comments.concat(newComments);
         vm.lastComment = findLastComment(vm.comments);
@@ -150,7 +155,7 @@
 
     function allowToRemoveComment(comment) {
       return vm.hasCommentRemoveAccess ||
-        (comment.sender.id === vm.user.id && vm.isInFirstDay(comment));
+        (comment.sender && comment.sender.id === vm.user.id && vm.isInFirstDay(comment));
     }
 
     function isInFirstDay(comment) {
@@ -190,30 +195,44 @@
 
 
       vm.isSendingComment = true;
+      
+      if(vm.postId) {
+        NstSvcCommentFactory.addComment(vm.postId, body).then(function (comment){
+          addCommentCallback(comment)
+        }).catch(function() {
+          toastr.error(NstSvcTranslation.get('Sorry, an error has occured in sending your comment'));
+        });
+      } else {
+        NstSvcTaskFactory.addComment(vm.taskId, body).then(function (comment){
+          addCommentCallback(comment)
+        }).catch(function() {
+          toastr.error(NstSvcTranslation.get('Sorry, an error has occured in sending your comment'));
+        });
+      }
 
-      NstSvcCommentFactory.addComment(vm.postId, body).then(function(comment) {
 
+      function addCommentCallback(comment) {
         if (!_.some(vm.comments, {
-            id: comment.id
-          })) {
-          vm.commentBoardLimit++;
-          vm.comments.push(comment);
-        }
+          id: comment.id
+        })) {
+        vm.commentBoardLimit++;
+        vm.comments.push(comment);
+      }
 
-        e.currentTarget.value = '';
-        vm.isSendingComment = false;
-        if (focusOnSentTimeout) {
-          $timeout.cancel(focusOnSentTimeout);
-        }
+      e.currentTarget.value = '';
+      vm.isSendingComment = false;
+      if (focusOnSentTimeout) {
+        $timeout.cancel(focusOnSentTimeout);
+      }
 
-        focusOnSentTimeout = $timeout(function() {
-          e.currentTarget.focus();
-        }, 10);
+      focusOnSentTimeout = $timeout(function() {
+        e.currentTarget.focus();
+      }, 10);
+      if(typeof vm.onCommentSent === 'function') {
         vm.onCommentSent(comment);
-        resizeTextare(e.target);
-      }).catch(function() {
-        toastr.error(NstSvcTranslation.get('Sorry, an error has occured in sending your comment'));
-      });
+      }
+      resizeTextare(e.target);
+      }
     }
 
     /**

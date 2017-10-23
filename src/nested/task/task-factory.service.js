@@ -264,14 +264,14 @@
 
       return this.sentinel.watch(function () {
 
-        NstSvcServer.request('task/get_by_filter', {
+        NstSvcServer.request('task/get_activities', {
           task_id: taskId,
           only_comments: onlyComments,
           details: true,
           skip: skip,
           limit: limit
-        }).then(function (activities) {
-          deferred.resolve(activities);
+        }).then(function (data) {
+          deferred.resolve(data.activities);
         }).catch(deferred.reject);
 
         return deferred.promise;

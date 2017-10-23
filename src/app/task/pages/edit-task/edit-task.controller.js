@@ -33,6 +33,7 @@
     (function () {
       vm.taskId = $stateParams.taskId;
       getTask(vm.taskId);
+      getActivities(vm.taskId);
     })();
 
     vm.model = {
@@ -40,6 +41,7 @@
       titleLengthLimit: 64,
       assignor: null,
       status: null,
+      counters: {},
       title:  '',
       assignees: [],
       dueDate: null,
@@ -51,6 +53,8 @@
     };
 
     vm.modelBackUp = Object.assign({}, vm.model);
+
+    vm.taskActivities = [];
 
     vm.backDropClick = backDropClick;
     vm.showMoreOption = false;
@@ -120,6 +124,7 @@
       NstSvcTaskFactory.get(id).then(function (task) {
         vm.model.title = task.title;
         vm.model.assignor = task.assignor;
+        vm.model.counters = task.counters;
 
         if (task.assignee !== undefined) {
           vm.model.assignees = {
@@ -174,6 +179,11 @@
         $timeout(function () {
           dataInit = true;
         }, 100);
+      });
+    }
+    function getActivities(id) {
+      NstSvcTaskFactory.getActivities(id, false, 0, 16).then(function (acts) {
+        vm.taskActivities = acts;
       });
     }
 
