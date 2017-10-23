@@ -65,7 +65,7 @@
             </p>
           </div>
           <div class="list-li-extra">
-            <span ng-if="task.dueDate !== undefined">{{task.dueDate | date: 'full' | localize }}</span>
+            <span ng-if="task.dueDate !== undefined">{{task.dueDate | left }}</span>
           </div>
         </li>
       </ul>
