@@ -12,6 +12,7 @@
     vm.titleLengthLimit = 64;
     vm.showMoreOption = false;
     vm.user = NstSvcAuth.user;
+    vm.editMood = true;
     vm.datePickerconfig = {
       allowFuture: true
     };

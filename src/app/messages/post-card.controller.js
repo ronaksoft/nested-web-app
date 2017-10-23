@@ -316,7 +316,6 @@
           showTrustedBody();
         }
         ++$scope.$parent.$parent.affixObserver;
-        SvcCardCtrlAffix.change();
       }).catch(function () {
         toastr.error(NstSvcTranslation.get('An error occured while tying to show the post full body.'));
       }).finally(function () {
@@ -339,9 +338,6 @@
         var scrollOnCollapseCase = document.documentElement.clientHeight < elParentH;
         var postCollaspeTimeout = scrollOnCollapseCase ? 300 : 0;
         if (scrollOnCollapseCase) {
-          $timeout(function () {
-            SvcCardCtrlAffix.change();
-          }, 300)
           $('html, body').animate({
             scrollTop: postCardOffTOp
           }, 300, 'swing', function () {});
@@ -353,7 +349,6 @@
       } else {
         vm.body = vm.post.body;
         vm.isExpanded = false;
-        SvcCardCtrlAffix.change();
       }
 
 
