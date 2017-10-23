@@ -14,7 +14,7 @@
 
     vm.taskId = '';
     vm.mode = 'edit';
-    vm.editMood = true;
+    vm.editMode = true;
 
     vm.isOpenBinder = false;
 
@@ -114,6 +114,8 @@
 
     vm.getTaskIcon = NstSvcTaskUtility.getTaskIcon;
 
+    var dataInit = false;
+
     function getTask(id) {
       NstSvcTaskFactory.get(id).then(function (task) {
         vm.model.title = task.title;
@@ -168,6 +170,10 @@
         }
 
         vm.modelBackUp = Object.assign({}, vm.model);
+
+        $timeout(function () {
+          dataInit = true;
+        }, 100);
       });
     }
 
@@ -230,7 +236,7 @@
     var updateDebouncer = _.debounce(updateTask, 1000);
 
     function updateTitle(text) {
-      if (vm.model.title !== text) {
+      if (vm.model.title === text) {
         return;
       }
       taskUpdateModel.title = text;
@@ -238,7 +244,7 @@
     }
 
     function updateDescription(text) {
-      if (vm.model.description !== text) {
+      if (vm.model.description === text) {
         return;
       }
       taskUpdateModel.description = text;
@@ -246,6 +252,9 @@
     }
 
     function updateDueDate(date) {
+      if (vm.model.dueDate === date) {
+        return;
+      }
       taskUpdateModel.dueDate = new Date(date).getTime();
       updateDebouncer.call();
     }
@@ -253,18 +262,46 @@
     $scope.$watch(function () {
       return vm.model.dueDate;
     }, function (newVal) {
-      if (vm.model.dueDate !== vm.modelBackUp.dueDate) {
+      if (dataInit) {
         updateDueDate(newVal);
       }
     }, true);
 
     function updateTask() {
-      console.log('update');
       NstSvcTaskFactory.taskUpdate(vm.taskId, taskUpdateModel.title, taskUpdateModel.description, taskUpdateModel.dueDate).then(function () {
         vm.modelBackUp = Object.assign({}, vm.model);
       }).catch(function (error) {
         console.log(error);
       });
+    }
+
+    function getNormalValue(data) {
+      if (data.hasOwnProperty('data')) {
+        return data.data;
+      }
+      return data;
+    }
+
+    $scope.$watch(function () {
+      return vm.model.assignees;
+    }, function (newVal) {
+      if (dataInit) {
+        updateAssignee(getNormalValue(newVal));
+      }
+    }, true);
+
+    function updateAssignee(assignees) {
+      var oldData = getNormalValue(vm.modelBackUp.assignees)
+      var newItems = _.differenceBy(assignees, oldData, 'id');
+      var removedItems = _.differenceBy(oldData, assignees, 'id');
+
+      var promises = [];
+      if (newItems.length > 0) {
+        promises.push(newItems);
+      }
+      if (removedItems.length > 0) {
+        promises.push(removedItems);
+      }
     }
 
     var focusInit = true;
