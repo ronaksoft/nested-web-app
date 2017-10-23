@@ -6,13 +6,15 @@
     .controller('NotificationsController', NotificationsController);
 
   function NotificationsController(_, $q, $state, $scope, $log, $rootScope, $uibModal,
-                                   NST_NOTIFICATION_TYPE, NST_NOTIFICATION_EVENT, NstSvcInvitationFactory,
-                                   NstSvcNotificationFactory, NstSvcInteractionTracker, NstSvcDate) {
+    NST_NOTIFICATION_TYPE, NST_NOTIFICATION_EVENT, NstSvcInvitationFactory,
+    NstSvcNotificationFactory, NstSvcInteractionTracker, NstSvcDate) {
     var vm = this;
     vm.NST_NOTIFICATION_TYPE = NST_NOTIFICATION_TYPE;
     var pageItemsCount = 12;
-    vm.notifications = NstSvcNotificationFactory.getLoadedNotification() || [];
+    vm.postNotifications = NstSvcNotificationFactory.getLoadedNotification() || [];
+    vm.taskNotifications = [];
 
+    vm.changeTab = changeTab;
     vm.markAllSeen = markAllSeen;
     vm.loadMore = loadBefore;
     vm.openNotificationsModal = openNotificationsModal;
@@ -21,13 +23,20 @@
     vm.error = null;
     vm.selectedView = 1;
     vm.isModal = $scope.$resolve && $scope.$resolve.isModal;
+    vm.taskCounts = 0;
+    vm.postCounts = 0;
 
     //initialize
     NstSvcNotificationFactory.resetCounter();
-    if (vm.notifications.length === 0) {
+    if (vm.postNotifications.length === 0) {
       loadBefore();
     } else {
       loadAfter();
+    }
+
+    function changeTab(v) {
+      console.log('aaaaaa', v)
+      vm.selectedView = parseInt(v);
     }
 
     var closePopover = function () {
@@ -54,7 +63,7 @@
       var deferred = $q.defer();
 
       NstSvcNotificationFactory.markAsSeen().then(function () {
-        markAllItemsAsSeen(vm.notifications);
+        markAllItemsAsSeen(vm.postNotifications);
         deferred.resolve();
       }).catch(deferred.reject);
 
@@ -72,16 +81,15 @@
       var deferred = $q.defer();
       vm.error = false;
       vm.loading = true;
-      NstSvcNotificationFactory.getNotifications(
-        {
-          before: before,
-          after: after,
-          limit: limit
-        }).then(function (notifications) {
+      NstSvcNotificationFactory.getNotifications({
+        before: before,
+        after: after,
+        limit: limit
+      }).then(function (notifications) {
 
         if (notifications) {
-          var notifs = _.concat(notifications, vm.notifications);
-          vm.notifications = _.orderBy(_.uniqBy(notifs, 'id'), [function (notif) {
+          var notifs = _.concat(notifications, vm.postNotifications);
+          vm.postNotifications = _.orderBy(_.uniqBy(notifs, 'id'), [function (notif) {
             if (notif.type === NST_NOTIFICATION_TYPE.COMMENT)
               return notif.lastUpdate.getTime();
 
@@ -89,7 +97,7 @@
           }], ['desc']);
         }
 
-        NstSvcNotificationFactory.storeLoadedNotification(vm.notifications);
+        NstSvcNotificationFactory.storeLoadedNotification(vm.postNotifications);
 
         if (notifications.length < limit && !vm.loadingAfter) {
           vm.reached = true;
@@ -97,7 +105,7 @@
         vm.loadingBefore = false;
         vm.loadingAfter = false;
 
-        deferred.resolve(vm.notifications);
+        deferred.resolve(vm.postNotifications);
       }).catch(function (error) {
         $log.error(error);
         vm.error = true;
@@ -111,26 +119,26 @@
 
     function loadBefore() {
       vm.loadingBefore = true;
-      var lastItem = _.last(vm.notifications);
+      var lastItem = _.last(vm.postNotifications);
       return loadNotification(lastItem ? lastItem.lastUpdate ? lastItem.lastUpdate.getTime() : lastItem.date.getTime() : NstSvcDate.now());
     }
 
     function loadAfter() {
       vm.loadingAfter = true;
-      var firstItem = _.first(vm.notifications);
+      var firstItem = _.first(vm.postNotifications);
       return loadNotification(null, firstItem.date.getTime());
     }
 
     function onClickMention(notification, $event) {
       markAsSeen(notification);
-      if(vm.isModal) {
+      if (vm.isModal) {
         closeModal();
       } else {
         closePopover();
       }
 
       switch (notification.type) {
-        case NST_NOTIFICATION_TYPE.INVITE :
+        case NST_NOTIFICATION_TYPE.INVITE:
           $event.preventDefault();
           return showInvitationModal(notification);
         case NST_NOTIFICATION_TYPE.COMMENT:
@@ -151,16 +159,23 @@
     }
 
     function showInvitationModal(notification) {
-      $rootScope.$broadcast(NST_NOTIFICATION_EVENT.OPEN_INVITATION_MODAL, { invitationId: notification.invitation.id });
+      $rootScope.$broadcast(NST_NOTIFICATION_EVENT.OPEN_INVITATION_MODAL, {
+        invitationId: notification.invitation.id
+      });
     }
 
-
     function viewPost(postId) {
-      $state.go('app.message', {postId: postId}, {notify: false});
+      $state.go('app.message', {
+        postId: postId
+      }, {
+        notify: false
+      });
     }
 
     function openPlace(placeId) {
-      $state.go('app.place-messages',{placeId : placeId});
+      $state.go('app.place-messages', {
+        placeId: placeId
+      });
     }
 
     function openNotificationsModal() {
@@ -172,15 +187,17 @@
         controllerAs: 'ctlNotifications',
         backdropClass: 'taskBackDrop',
         resolve: {
-          isModal: function() {
+          isModal: function () {
             return true
           }
         }
       })
     }
 
-    vm.showinvitationModal =  function (id) {
-      $rootScope.$broadcast(NST_NOTIFICATION_EVENT.OPEN_INVITATION_MODAL, {notificationId : id});
+    vm.showinvitationModal = function (id) {
+      $rootScope.$broadcast(NST_NOTIFICATION_EVENT.OPEN_INVITATION_MODAL, {
+        notificationId: id
+      });
       // NstSvcInvitationFactory.get(id).then(function (invitation) {
       //   $uibModal.open({
       //     animation: false,
@@ -202,7 +219,7 @@
 
       //     if (result) { // Accept the Invitation
       //       return NstSvcInvitationFactory.accept(id).then(function (invitation) {
-              
+
       //       });
       //     } else { // Decline the Invitation
       //       return NstSvcInvitationFactory.decline(id);
