@@ -40,6 +40,8 @@
 
     TaskFactory.prototype.taskUpdate = taskUpdate;
 
+    TaskFactory.prototype.getActivities = getActivities;
+
     TaskFactory.prototype.getByFilter = getByFilter;
     TaskFactory.prototype.get = get;
     TaskFactory.prototype.getMany = getMany;
@@ -165,95 +167,115 @@
       }, 'task-create-' + task.title);
     }
 
-    function addAttachment(task_id, universal_id) {
+    function addAttachment(taskId, universalId) {
       return NstSvcServer.request('task/add_attachment', {
-        task_id: task_id,
-        universal_id: universal_id
+        task_id: taskId,
+        universal_id: universalId
       });
     }
 
-    function removeAttachment(task_id, universal_id) {
+    function removeAttachment(taskId, universalId) {
       return NstSvcServer.request('task/remove_attachment', {
-        task_id: task_id,
-        universal_id: universal_id
+        task_id: taskId,
+        universal_id: universalId
       });
     }
 
-    function addComment(task_id, comment) {
+    function addComment(taskId, comment) {
       return NstSvcServer.request('task/add_comment', {
-        task_id: task_id,
+        task_id: taskId,
         txt: comment
       });
     }
 
-    function removeComment(task_id, activity_id) {
+    function removeComment(taskId, activityId) {
       return NstSvcServer.request('task/remove_comment', {
-        task_id: task_id,
-        activity_id: activity_id
+        task_id: taskId,
+        activity_id: activityId
       });
     }
 
-    function addLabel(task_id, label_id, label_name) {
+    function addLabel(taskId, labelId, labelName) {
       return NstSvcServer.request('task/add_label', {
-        task_id: task_id,
-        label_id: label_id,
-        label_name: label_name
+        task_id: taskId,
+        label_id: labelId,
+        label_name: labelName
       });
     }
 
-    function removeLabel(task_id, label_id) {
+    function removeLabel(taskId, labelId) {
       return NstSvcServer.request('task/remove_label', {
-        task_id: task_id,
-        label_id: label_id
+        task_id: taskId,
+        label_id: labelId
       });
     }
 
-    function addTodo(task_id, text, weight) {
+    function addTodo(taskId, text, weight) {
       return NstSvcServer.request('task/add_todo', {
-        task_id: task_id,
+        task_id: taskId,
         txt: text,
         weight: weight
       });
     }
 
-    function removeTodo(task_id, todo_id) {
+    function removeTodo(taskId, todoId) {
       return NstSvcServer.request('task/remove_todo', {
-        task_id: task_id,
-        todo_id: todo_id
+        task_id: taskId,
+        todo_id: todoId
       });
     }
 
-    function updateTodo(task_id, todo_id, checked, text, weight) {
+    function updateTodo(taskId, todoId, checked, text, weight) {
       return NstSvcServer.request('task/update_todo', {
-        task_id: task_id,
-        todo_id: todo_id,
+        task_id: taskId,
+        todo_id: todoId,
         txt: text,
         weight: weight,
         done: checked
       });
     }
 
-    function addWatcher(task_id, watcher_id) {
+    function addWatcher(taskId, watcherId) {
       return NstSvcServer.request('task/add_watcher', {
-        task_id: task_id,
-        watcher_id: watcher_id
+        task_id: taskId,
+        watcher_id: watcherId
       });
     }
 
-    function removeWatcher(task_id, watcher_id) {
+    function removeWatcher(taskId, watcherId) {
       return NstSvcServer.request('task/remove_watcher', {
-        task_id: task_id,
-        watcher_id: watcher_id
+        task_id: taskId,
+        watcher_id: watcherId
       });
     }
 
-    function taskUpdate(task_id, title, desc, dueDate) {
+    function taskUpdate(taskId, title, desc, dueDate) {
       return NstSvcServer.request('task/update', {
-        task_id: task_id,
+        task_id: taskId,
         title: title,
         desc: desc,
         due_date: dueDate
       });
+    }
+
+    function getActivities(taskId, onlyComments, skip, limit) {
+      var factory = this;
+      var deferred = $q.defer();
+
+      return this.sentinel.watch(function () {
+
+        NstSvcServer.request('task/get_by_filter', {
+          task_id: taskId,
+          only_comments: onlyComments,
+          details: true,
+          skip: skip,
+          limit: limit
+        }).then(function (activities) {
+          deferred.resolve(activities);
+        }).catch(deferred.reject);
+
+        return deferred.promise;
+      }, 'task-get-activities' + taskId + (skip || '0') + (limit || ''));
     }
 
     function getByFilter(filter, statusFilter, skip, limit) {
