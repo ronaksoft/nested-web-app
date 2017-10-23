@@ -23,7 +23,7 @@
   <div class="task-form ng-class:{'edit-mode': ctrlEditTask.editMode}">
     <div class="task-title auto-height-item">
       <div class="task-input-wrapper ng-class:{'focus': ctrlEditTask.titleFocus, 'error' : (ctrlEditTask.model.title.length > ctrlEditTask.model.titleLengthLimit)}">
-        <textarea type="text" class="no-style gale-holder create-task-input" placeholder="{{ctrlEditTask.titlePlaceholder}}" id="task-title" uneditable="{{!ctrlEditTask.editMood}}"
+        <textarea type="text" class="no-style gale-holder create-task-input" placeholder="{{ctrlEditTask.titlePlaceholder}}" id="task-title" uneditable="{{!ctrlEditTask.editMode}}"
           ng-focus="ctrlEditTask.titleFocus = true" ng-blur="ctrlEditTask.titleFocus = false; ctrlEditTask.updateTitle(ctrlEditTask.model.title);" resize-textarea ng-model="ctrlEditTask.model.title"
           enter-key="ctrlEditTask.enterSubjectTask(); ctrlEditTask.updateTitle(ctrlEditTask.model.title);" prevent-shift-enter="true"></textarea>
         <div class="task-menu-options">
@@ -69,7 +69,7 @@
     <div class="task-due const-height-item">
       <div class="task-input-wrapper ng-class:{'focus': ctrlEditTask.dueDateFocus}">
         <input type="text" class="no-style gale-holder create-task-input" translate-attrs="placeholder" placeholder="{{ctrlEditTask.dueDatePlaceholder}}"
-          id="task-due" uneditable="{{!ctrlEditTask.editMood}}" ng-focus="ctrlEditTask.dueDateFocus = true" ng-blur="ctrlEditTask.dueDateFocus = false" ng-model="ctrlEditTask.model.dueDate"
+          id="task-due" uneditable="{{!ctrlEditTask.editMode}}" ng-focus="ctrlEditTask.dueDateFocus = true" ng-blur="ctrlEditTask.dueDateFocus = false" ng-model="ctrlEditTask.model.dueDate"
           data-config="ctrlEditTask.datePickerconfig" g-formatted-picked-date="gfdate" g-picked-date="gdate" ng-jalaali-flat-datepicker>
       </div>
       <label for="task-due" ng-class="{'focus': ctrlEditTask.dueDateFocus}" class="no-hover">
@@ -88,7 +88,7 @@
       <div class="task-input-wrapper ng-class:{'focus': ctrlEditTask.descriptionFocus}">
         <textarea class="no-style gale-holder create-task-input" ng-model="ctrlEditTask.model.description" ng-focus="ctrlEditTask.descriptionFocus = true"
           ng-blur="ctrlEditTask.descriptionFocus = false; ctrlEditTask.updateDescription(ctrlEditTask.model.description);" enter-key="ctrlEditTask.enterDescriptionTask(); ctrlEditTask.updateDescription(ctrlEditTask.model.description);" placeholder="{{ctrlEditTask.descriptionPlaceholder}}"
-          id="task-description" resize-textarea uneditable="{{!ctrlEditTask.editMood}}"></textarea>
+          id="task-description" resize-textarea uneditable="{{!ctrlEditTask.editMode}}"></textarea>
       </div>
       <label for="task-description" ng-class="{'focus': ctrlEditTask.descriptionFocus}">
       <svg class="_16svg">
@@ -208,7 +208,7 @@
       </div>
     </label>
     </div>
-    <div class="task-binder ng-class:{'is-open': ctrlEditTask.isOpenBinder}" ng-if="ctrlEditTask.editMood">
+    <div class="task-binder ng-class:{'is-open': ctrlEditTask.isOpenBinder}" ng-if="ctrlEditTask.editMode">
       <div class="task-binders">
         <div class="task-binder-butn" ng-click="ctrlEditTask.openBinder()">
           <svg class="_16svg">
