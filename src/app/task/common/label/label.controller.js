@@ -80,15 +80,32 @@
           /*var text = */vm.labels.pop();
           vm.labelsData.pop();
           // vm.labelInput = text.substr(0, text.length - 1);
+          vm.labelInput = '';
         }
       }
       inputLastValue = vm.labelInput;
     }
 
-     function removeItems () {
+    function removeItems () {
        vm.labels = [];
        vm.labelsData = [];
        vm.mentionLabelsData = [];
+    }
+
+    $scope.$watch(function () {
+      return vm.labelsData;
+    }, function (newVal) {
+      if (newVal.hasOwnProperty('init') && newVal.init === true) {
+        initData(newVal.data);
+      }
+    });
+
+    function initData(labels) {
+      vm.labels = _.map(labels, function (label) {
+        return label.id;
+      });
+      vm.labelsData = labels.slice(0);
+      vm.mentionLabelsData = labels.slice(0);
     }
   }
 })();

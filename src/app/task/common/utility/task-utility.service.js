@@ -14,6 +14,7 @@
     TaskUtility.prototype.constructor = TaskUtility;
     TaskUtility.prototype.getTaskIcon = getTaskIcon;
     TaskUtility.prototype.validateTask = validateTask;
+    TaskUtility.prototype.getTodoTransform = getTodoTransform;
 
     function getTaskIcon(status, progress) {
       switch (status) {
@@ -66,6 +67,12 @@
         errors: errors,
         attachment: isAttachmentValid
       }
+    }
+
+    function getTodoTransform(todos) {
+      return _.map(todos, function (todo) {
+        return btoa(todo.text) + ';' + todo.weight;
+      }).join(',');
     }
 
     return new TaskUtility();

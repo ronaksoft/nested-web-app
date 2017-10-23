@@ -6,7 +6,7 @@
     .controller('EditTaskController', EditTaskController);
 
   /** @ngInject */
-  function EditTaskController($q, $timeout, $scope, $state, $rootScope, $stateParams, NstSvcAuth, _, toastr, NstSvcTranslation, NstTask, NST_ATTACHMENT_STATUS, NstUtility, NstSvcTaskFactory, NstSvcTaskUtility) {
+  function EditTaskController($q, $, $timeout, $scope, $state, $rootScope, $stateParams, NstSvcAuth, _, toastr, NstSvcTranslation, NstTask, NST_ATTACHMENT_STATUS, NstUtility, NstSvcTaskFactory, NstSvcTaskUtility) {
     var vm = this;
     // var eventReferences = [];
 
@@ -52,7 +52,11 @@
       labels: []
     };
 
-    vm.modelBackUp = Object.assign({}, vm.model);
+    function backItUp() {
+      vm.modelBackUp = $.extend(true, {}, vm.model);
+    }
+
+    backItUp();
 
     vm.taskActivities = [];
 
@@ -99,6 +103,7 @@
     vm.todoPlaceholder = NstSvcTranslation.get('+ Add a to-do');
     vm.removeTodos = removeTodos;
     vm.enableTodo = false;
+    vm.updateTodo = updateTodo;
 
     vm.attachmentFocus = false;
     vm.removeAttachments = removeAttachments;
@@ -170,11 +175,14 @@
         }
 
         if (task.labels !== undefined) {
-          vm.model.labels = task.labels;
+          vm.model.labels = {
+            init: true,
+            data: task.labels
+          };
           vm.enableLabel = true;
         }
 
-        vm.modelBackUp = Object.assign({}, vm.model);
+        backItUp();
 
         $timeout(function () {
           dataInit = true;
@@ -279,10 +287,10 @@
 
     function updateTask() {
       NstSvcTaskFactory.taskUpdate(vm.taskId, taskUpdateModel.title, taskUpdateModel.description, taskUpdateModel.dueDate).then(function () {
-        vm.modelBackUp = Object.assign({}, vm.model);
-      }).catch(function (error) {
+        backItUp();
+      })/*.catch(function (error) {
         console.log(error);
-      });
+      })*/;
     }
 
     function getNormalValue(data) {
@@ -301,7 +309,7 @@
     }, true);
 
     function updateAssignee(assignees) {
-      var oldData = getNormalValue(vm.modelBackUp.assignees)
+      var oldData = getNormalValue(vm.modelBackUp.assignees);
       var newItems = _.differenceBy(assignees, oldData, 'id');
       var removedItems = _.differenceBy(oldData, assignees, 'id');
 
@@ -311,6 +319,166 @@
       }
       if (removedItems.length > 0) {
         promises.push(removedItems);
+      }
+
+      //backItUp();
+    }
+
+    $scope.$watch(function () {
+      return vm.model.todos;
+    }, function (newVal) {
+      if (dataInit && vm.model.todos.length !== vm.modelBackUp.todos.length) {
+        updateTodos(getNormalValue(newVal));
+      }
+    }, true);
+
+    function updateTodos(todos) {
+      var oldData = getNormalValue(vm.modelBackUp.todos);
+      var newItems = _.differenceBy(todos, oldData, 'id');
+      var removedItems = _.differenceBy(oldData, todos, 'id');
+      var promises = [];
+
+      if (newItems.length > 0) {
+        _.forEach(newItems, function (item) {
+          promises.push(NstSvcTaskFactory.addTodo(vm.taskId, item.text, item.weight));
+        });
+      }
+
+      if (removedItems.length > 0) {
+        _.forEach(removedItems, function (item) {
+          promises.push(NstSvcTaskFactory.removeTodo(vm.taskId, item.id));
+        });
+      }
+
+      if (newItems.length > 0 || removedItems.length > 0) {
+        $q.all(promises).then(function () {
+          vm.modelBackUp.todos = vm.model.todos.slice(0);
+        });
+      }
+    }
+
+    function updateTodo(index, data) {
+      if (vm.modelBackUp.todos[index].text === data.text) {
+        return;
+      }
+      NstSvcTaskFactory.updateTodo(vm.taskId, data.id, data.checked, data.text, data.weight).then(function () {
+        vm.modelBackUp.todos[index] = data;
+      });
+    }
+
+    $scope.$watch(function () {
+      return vm.model.attachments;
+    }, function (newVal) {
+      if (dataInit) {
+        updateAttachments(getNormalValue(newVal));
+      }
+    }, true);
+
+    function updateAttachments(attachments) {
+      var oldData = getNormalValue(vm.modelBackUp.attachments);
+      var newItems = _.differenceBy(attachments, oldData, 'id');
+      //to ensure attachments are uploaded completely
+      newItems = _.filter(newItems, function (item) {
+        return item.status === NST_ATTACHMENT_STATUS.ATTACHED;
+      });
+      var removedItems = _.differenceBy(oldData, attachments, 'id');
+
+      var ids;
+      if (newItems.length > 0) {
+        ids = _.map(newItems, function (item) {
+          return item.id;
+        }).join(',');
+        NstSvcTaskFactory.addAttachment(vm.taskId, ids).then(function () {
+          vm.modelBackUp.attachments.push.apply(vm.modelBackUp.attachments, newItems);
+        });
+      }
+
+      if (removedItems.length > 0) {
+        ids = _.map(removedItems, function (item) {
+          return item.id;
+        }).join(',');
+        NstSvcTaskFactory.removeAttachment(vm.taskId, ids).then(function () {
+          _.forEach(removedItems, function (item) {
+            var index = _.findIndex(vm.modelBackUp.attachments, {
+              'id': item.id
+            });
+            if (index > -1) {
+              vm.modelBackUp.attachments.splice(index, 1);
+            }
+          });
+        });
+      }
+    }
+
+    $scope.$watch(function () {
+      return vm.model.watchers;
+    }, function (newVal) {
+      if (dataInit) {
+        updateWatcher(getNormalValue(newVal));
+      }
+    }, true);
+
+    function updateWatcher(watchers) {
+      var oldData = getNormalValue(vm.modelBackUp.watchers);
+      var newItems = _.differenceBy(watchers, oldData, 'id');
+      var removedItems = _.differenceBy(oldData, watchers, 'id');
+      var promises = [];
+      var ids;
+
+      if (newItems.length > 0) {
+        ids = _.map(newItems, function (item) {
+          return item.id;
+        }).join(',');
+        promises.push(NstSvcTaskFactory.addWatcher(vm.taskId, ids));
+      }
+
+      if (removedItems.length > 0) {
+        ids = _.map(removedItems, function (item) {
+          return item.id;
+        }).join(',');
+        promises.push(NstSvcTaskFactory.removeWatcher(vm.taskId, ids));
+      }
+
+      if (newItems.length > 0 || removedItems.length > 0) {
+        $q.all(promises).then(function () {
+          vm.modelBackUp.watchers = vm.model.watchers.slice(0);
+        });
+      }
+    }
+
+    $scope.$watch(function () {
+      return vm.model.labels;
+    }, function (newVal) {
+      if (dataInit) {
+        updateLabels(getNormalValue(newVal));
+      }
+    }, true);
+
+    function updateLabels(labels) {
+      var oldData = getNormalValue(vm.modelBackUp.labels);
+      var newItems = _.differenceBy(labels, oldData, 'id');
+      var removedItems = _.differenceBy(oldData, labels, 'id');
+      var promises = [];
+      var ids;
+
+      if (newItems.length > 0) {
+        ids = _.map(newItems, function (item) {
+          return item.id;
+        }).join(',');
+        promises.push(NstSvcTaskFactory.addLabel(vm.taskId, ids));
+      }
+
+      if (removedItems.length > 0) {
+        ids = _.map(removedItems, function (item) {
+          return item.id;
+        }).join(',');
+        promises.push(NstSvcTaskFactory.removeLabel(vm.taskId, ids));
+      }
+
+      if (newItems.length > 0 || removedItems.length > 0) {
+        $q.all(promises).then(function () {
+          vm.modelBackUp.labels = vm.model.labels.slice(0);
+        });
       }
     }
 
