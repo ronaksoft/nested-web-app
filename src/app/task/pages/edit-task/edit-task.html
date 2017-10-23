@@ -279,7 +279,8 @@
     <div class="log-filter">
       <h3 data-popover-class="white-pop task-logs-filter-popover" data-popover-append-to-body="false" uib-popover-template="'app/task/common/popovers/task-logs-filter-popover.html'"
         data-popover-placement="auto bottom-left">
-        <translate>Comments & History</translate>
+        <translate ng-if="!ctrlEditTask.onlyComments">Comments & History</translate>
+        <translate ng-if="ctrlEditTask.onlyComments">Comments</translate>
         <svg class="_16svg">
           <use xlink:href="/assets/icons/nst-icn16.svg#arrow"></use>
         </svg>

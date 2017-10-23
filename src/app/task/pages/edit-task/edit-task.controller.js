@@ -15,6 +15,7 @@
     vm.taskId = '';
     vm.mode = 'edit';
     vm.editMode = true;
+    vm.onlyComments = true;
 
     vm.isOpenBinder = false;
 
