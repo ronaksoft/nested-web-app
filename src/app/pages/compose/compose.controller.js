@@ -71,15 +71,6 @@
       vm.modalId = $scope.$resolve.modalId;
     }
 
-    /**
-     * Call this function if some thing changed the position of post cards
-     */
-    function changeAffixes() {
-      NstSvcLogger.debug4('Compose | Rearrange the the items in affixer post service :');
-      SvcCardCtrlAffix.change();
-    }
-
-    vm.changeAffixesDebounce = _.debounce(changeAffixes, 1000);
 
     /*****************************
      *** Controller Properties ***
@@ -115,11 +106,6 @@
         total: 0
       }
     };
-    $scope.$watch(function () {
-      return vm.model.body
-    }, function () {
-      return vm.changeAffixesDebounce();
-    });
 
     $scope.$watch(function () {
       return vm.attachments.viewModels
@@ -443,7 +429,6 @@
     function subjectKeyDown(e) {
       NstSvcLogger.debug4('Compose | User types in subject');
       vm.mouseIn = true;
-      vm.changeAffixesDebounce();
       if (e.which == 13) {
         NstSvcLogger.debug4('Compose | User pressed Enter on subject and focus will goes on the compose body');
         e.preventDefault();

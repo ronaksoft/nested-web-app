@@ -6,28 +6,30 @@
     .directive('scrollDispatch', hideTips);
 
   /** @ngInject */
-  function hideTips(SvcCardCtrlAffix, $, wdtEmojiBundle, _, $rootScope) {
+  function hideTips(SvcCardCtrlAffix, $, wdtEmojiBundle, _, $rootScope, $log) {
     return {
       link: function ($scope, $element) {
-        var removePopovers = _.throttle(remover, 64)
-        var check = _.throttle(SvcCardCtrlAffix.check, 64)
-        var scroll = SvcCardCtrlAffix.scroll
+        var removePopovers = _.throttle(remover, 64);
+        var check = _.throttle(SvcCardCtrlAffix.check, 64);
+        var reachEndThrottle = _.throttle(ReachEnd, 256);
+        var scroll = SvcCardCtrlAffix.scroll;
+
         $(window).scroll(function () {
           var scrollTop = this.pageYOffset;
-
-          if(scrollTop < 300) {
+          var scrollHeight = $('body').height();
+          if (scrollTop < 300) {
             // Affix block
             affixBlocks(scrollTop)
-          } else if(scrollTop + this.innerHeight >$('body').height() * 0.9) {
+          }
+          if (scrollTop > loadMoreScrollProperValue(this.innerHeight, scrollHeight)) {
             // Reach end dispatcher
-            ReachEnd();
+            reachEndThrottle();
           }
           check(scrollTop);
           scroll(scrollTop);
-          
+
           //hide tips
           removePopovers()
-          // Reach end check
         });
 
         function remover() {
@@ -39,8 +41,18 @@
           }
         }
 
-        function affixBlocks(scrollTop){
-          $rootScope.affixBlocks.forEach(function (block){
+        function loadMoreScrollProperValue(frameHeight, scrollHeight){
+          if ( scrollHeight < 25 * frameHeight) {
+            // console.log(11);
+            return (scrollHeight - frameHeight) * 0.9;
+          } else {
+            // console.log(222);
+            return scrollHeight - 2 * frameHeight;
+          }
+        }
+
+        function affixBlocks(scrollTop) {
+          $rootScope.affixBlocks.forEach(function (block) {
             if (!block.fixed && scrollTop > block.topOffset) {
               block.el.css('position', 'fixed');
               block.el.css('transform', 'translateX(-50%)');
@@ -57,6 +69,7 @@
             }
           })
         }
+
         function removeFix(block) {
           block.el.css('position', '');
           block.el.css('top', '');
@@ -76,6 +89,7 @@
         }
 
         function ReachEnd() {
+          $log.debug('Reached the end of body')
           $rootScope.$broadcast('scroll-reached-bottom');
         }
 

@@ -24,14 +24,6 @@
     var navH = 80;
     obj.scrollPos = 0;
 
-    $(window).resize(function () {
-      obj.change();
-    });
-
-    obj.add = function (el) {
-      $rootScope.cardCtrls.push(el);
-      resetService();
-    };
     obj.reset = function () {
       if ($rootScope.cardCtrls.length > 0) {
         $rootScope.inViewPost = {
@@ -39,18 +31,29 @@
           index: 0
         };
         obj.orderItems();
-        obj.checkInViewIndex(win[0].scrollY);
+        obj.findInViewIndex(win[0].scrollY);
       }
     };
 
     var resetService = _.throttle(obj.reset, 512);
+
+    /**
+     * @property affixElement
+     * 
+     * @param {object} el 
+     */
+    obj.add = function (el) {
+      $rootScope.cardCtrls.push(el);
+      resetService();
+    };
+
     obj.orderItems = function () {
       $rootScope.cardCtrls.sort(function (a, b) {
         return $('#post-card-' + a.id).parent().offset().top - $('#post-card-' + b.id).parent().offset().top
       });
     };
 
-    obj.checkInViewIndex = function (Ypos) {
+    obj.findInViewIndex = function (Ypos) {
       var i = 0;
       var topItems = $rootScope.cardCtrls.filter(function (e, index) {
         var postCard = $('#post-card-' + e.id).parent();
@@ -75,34 +78,11 @@
       } else {
         $rootScope.inViewPost.enabled = false
       }
-      console.log('checkInViewIndex', $rootScope.inViewPost)
+      // console.log('findInViewIndex', $rootScope.inViewPost)
     };
 
     obj.measurement = function (v) {
       navH = v;
-    };
-
-    obj.change = function () {
-      // var buff = $rootScope.cardCtrls.slice(0);
-      // winH = win.height();
-      // $rootScope.cardCtrls = [];
-      // if (!buff) return;
-      // $timeout(function () {
-      //   buff.forEach(function (b) {
-      //     var el = {
-      //       el: b.el,
-      //       id: b.id,
-      //       topOff: b.el.parent().offset().top,
-      //       cardH: b.el.parent().children().first().height(),
-      //       fullH: b.el.parent().height(),
-      //       leftOff: b.el.parent().offset().left,
-      //       fixed: b.fixed
-      //     };
-      //     obj.add(el);
-      //   });
-      //   obj.orderItems();
-      // }, 100);
-
     };
 
     obj.check = function (Ypos) {
@@ -214,26 +194,36 @@
       if ( $rootScope.cardCtrls.length === 0) {
         return
       }
-      var thisEl = $rootScope.cardCtrls[obj.affixView.index];
-      if (thisEl) {
-        var thisElement = $('#post-card-' + thisEl.id).parent();
+      var e = $rootScope.cardCtrls[obj.affixView.index];
+      if (e) {
+        var thisElement = $('#post-card-' + e.id).parent();
         var thisElementPostCardOffTop = thisElement.offset().top;
         var thisElementPostCardheight = thisElement.children().first().height();
       }
-      var e = $rootScope.cardCtrls[obj.affixView.index];
-      if (!e.fixed && thisElementPostCardheight > winH && Ypos + MobTopOff > thisElementPostCardOffTop - (48 + navH) && Ypos < thisElementPostCardheight + thisElementPostCardOffTop - (104 + navH)) {
+      if (
+        !e.fixed &&
+        thisElementPostCardheight > winH &&
+        Ypos + MobTopOff > thisElementPostCardOffTop - (48 + navH) &&
+        Ypos < thisElementPostCardheight + thisElementPostCardOffTop - (104 + navH)
+      ) {
         e.fixed = true;
         e.el.css('position', 'fixed');
         e.el.css('top', 72 + navH + MobTopOff + 'px');
         if ($rootScope._direction !== 'rtl') e.el.css('left', e.leftOff + 'px');
         if ($rootScope._direction === 'rtl') e.el.css('right', e.leftOff + 'px');
-      } else if (Ypos + MobTopOff < thisElementPostCardOffTop - (48 + navH) && e.fixed) {
+      } else if (
+        e.fixed &&
+        Ypos + MobTopOff < thisElementPostCardOffTop - (48 + navH)
+      ) {
         e.fixed = false;
         e.el.css('position', '');
         e.el.css('top', '');
         e.el.css('left', '');
         e.el.css('right', '');
-      } else if (Ypos > thisElementPostCardheight + thisElementPostCardOffTop - (104 + navH) && e.fixed) {
+      } else if (
+        e.fixed &&
+        Ypos > thisElementPostCardheight + thisElementPostCardOffTop - (104 + navH)
+      ) {
         e.fixed = false;
         e.el.css('position', 'absolute');
         e.el.css('top', thisElementPostCardheight - 32 + 'px');
