@@ -15,11 +15,12 @@
 
     vm.markAllSeen = markAllSeen;
     vm.loadMore = loadBefore;
+    vm.openNotificationsModal = openNotificationsModal;
     vm.loadNew = loadAfter;
     vm.onClickMention = onClickMention;
     vm.error = null;
     vm.selectedView = 1;
-
+    vm.isModal = $scope.$resolve && $scope.$resolve.isModal;
 
     //initialize
     NstSvcNotificationFactory.resetCounter();
@@ -31,6 +32,9 @@
 
     var closePopover = function () {
       $scope.$emit('close-mention');
+    };
+    var closeModal = function () {
+      $scope.$dismiss();
     };
 
     function markAsSeen(notification) {
@@ -119,7 +123,11 @@
 
     function onClickMention(notification, $event) {
       markAsSeen(notification);
-      closePopover();
+      if(vm.isModal) {
+        closeModal();
+      } else {
+        closePopover();
+      }
 
       switch (notification.type) {
         case NST_NOTIFICATION_TYPE.INVITE :
@@ -153,6 +161,22 @@
 
     function openPlace(placeId) {
       $state.go('app.place-messages',{placeId : placeId});
+    }
+
+    function openNotificationsModal() {
+      $uibModal.open({
+        animation: false,
+        size: 'notifications',
+        templateUrl: 'app/notification/notification-modal.html',
+        controller: 'NotificationsController',
+        controllerAs: 'ctlNotifications',
+        backdropClass: 'taskBackDrop',
+        resolve: {
+          isModal: function() {
+            return true
+          }
+        }
+      })
     }
 
     vm.showinvitationModal =  function (id) {

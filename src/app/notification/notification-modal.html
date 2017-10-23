@@ -1,11 +1,16 @@
-<div class="notification-wrapper popover-wrapper" ng-controller="NotificationsController as ctlNotifications">
+<div class="notification-wrapper">
   <div class="head-line">
+    <div class="close-mention">
+      <svg class="_24svg fill-solid" ng-click="$dismiss()">
+        <use xlink:href="/assets/icons/nst-icn24.svg#xcross"></use>
+      </svg>
+    </div>
     <a class="subject _df _fw">
       <translate>Notifications</translate>
     </a>
     <div class="icon" ng-click="ctlNotifications.markAllSeen()">
-      <svg class="_16svg fill-solid" ng-click="ctlNotifications.markAllSeen()">
-        <use xlink:href="/assets/icons/nst-icn16.svg#list-check"></use>
+      <svg class="_24svg fill-solid" ng-click="ctlNotifications.markAllSeen()">
+        <use xlink:href="/assets/icons/nst-icn24.svg#list-check"></use>
       </svg>
     </div>
   </div>
@@ -27,7 +32,7 @@
   <div iscroll="" class="iscroll-wrapper">
     <ul class="notif-ul" class="iscroll-scroller">
       <li class="_fw _jcc _df margin-top-10" ng-if="ctlNotifications.loadingAfter">
-        <div class="nst-loading sm"></div>
+        <div class="nst-loading"></div>
       </li>
       <li class="_tac" ng-if="ctlNotifications.notifications.length == 0 && !ctlNotifications.loadingBefore"><translate>No Notifications</translate></li>
       <li ng-repeat="notif in ctlNotifications.notifications track by notif.id"
@@ -116,9 +121,9 @@
         </a>
       </li>
 
-      <li class="more-mentions" ng-click="ctlNotifications.openNotificationsModal();$event.stopPropagation();"
+      <li class="more-mentions" ng-click="ctlNotifications.loadMore();$event.stopPropagation();"
         ng-if="!ctlNotifications.reached && !ctlNotifications.loadingBefore">
-        <translate ng-if="!ctlMentions.error" ng-show="!ctlNotifications.reached">Show Notifications History</translate>
+        <translate ng-if="!ctlMentions.error" ng-show="!ctlNotifications.reached">Load more...</translate>
         <translate ng-if="ctlMentions.error" ng-show="!ctlNotifications.reached">Try again...</translate>
       </li>
       <li class="more-mentions notif-ul-loading"
