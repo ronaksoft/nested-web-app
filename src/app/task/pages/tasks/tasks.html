@@ -41,7 +41,7 @@
             </p>
           </div>
           <div class="list-li-extra">
-            <span ng-if="task.dueDate !== undefined">{{task.dueDate | date: 'full' | localize}}</span>
+            <span ng-if="task.dueDate !== undefined">{{task.dueDate | passed}}</span>
           </div>
           <div class="list-li-buttons">
             <input ng-click="ctrl.acceptTask(task.id)" type="button" class="butn butn-red secondary" value="I can’t" translate-attrs="value">
