@@ -2,7 +2,7 @@
     svg {
         transition: all $animation-dur;
     }
-    &.edit-mood {
+    &.edit-mode {
         .auto-height-item ,
         .const-height-item {
             > label {
@@ -118,7 +118,7 @@
                 color: #0079F2;
             }
         }
-        
+
         &.error {
             textarea {
                 color: $color-force;

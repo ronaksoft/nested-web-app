@@ -18,7 +18,7 @@
         assigneeFocus: '=',
         assigneeWithCandidate: '=',
         assigneePlaceholder: '@',
-        editMood: '=',
+        editMode: '=',
         removeItems: '=',
         initData: '=',
         assigneeFocusMe: '=',

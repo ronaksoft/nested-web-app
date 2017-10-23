@@ -110,9 +110,9 @@
     function initData(users) {
       vm.assignees = _.map(users, function (user) {
         return user.id;
-      }).join(',');
-      vm.assigneesData = users;
-      vm.mentionAssigneesData = users;
+      });
+      vm.assigneesData = users.slice(0);
+      vm.mentionAssigneesData = users.slice(0);
     }
   }
 })();

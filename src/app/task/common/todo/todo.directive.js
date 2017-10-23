@@ -18,7 +18,7 @@
         todoFocus: '=',
         todoPlaceholder: '@',
         removeItems: '=',
-        editMood: '=',
+        editMode: '=',
         todoFocusMe: '='
       }
     };

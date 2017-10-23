@@ -10,15 +10,12 @@
     var vm = this;
     // var eventReferences = [];
 
+    vm.user = NstSvcAuth.user;
+
     vm.taskId = '';
     vm.mode = 'edit';
-    vm.editMood = true;
-    vm.backDropClick = backDropClick;
+    vm.editMode = true;
 
-    function backDropClick() {
-
-      $scope.$dismiss();
-    }
     vm.isOpenBinder = false;
 
     vm.openBinder = openBinder;
@@ -53,8 +50,10 @@
       labels: []
     };
 
+    vm.modelBackUp = Object.assign({}, vm.model);
+
+    vm.backDropClick = backDropClick;
     vm.showMoreOption = false;
-    vm.user = NstSvcAuth.user;
     vm.datePickerconfig = {
       allowFuture: true
     };
@@ -62,6 +61,7 @@
     vm.title = '';
     vm.titleFocus = false;
     vm.titlePlaceholder = NstSvcTranslation.get('Enter a Task Title');
+    vm.updateTitle = updateTitle;
 
     vm.assigneeFocusTrigger = 0;
     vm.assigneeTodoTrigger = 0;
@@ -86,9 +86,10 @@
     vm.removeDueDate = removeDueDate;
     vm.enableDue = false;
 
-    vm.descFocus = false;
-    vm.descPlaceholder = NstSvcTranslation.get('+ Add a Description...');
+    vm.descriptionFocus = false;
+    vm.descriptionPlaceholder = NstSvcTranslation.get('+ Add a Description...');
     vm.enableDescription = false;
+    vm.updateDescription = updateDescription;
 
     vm.todoFocus = false;
     vm.todoPlaceholder = NstSvcTranslation.get('+ Add a to-do');
@@ -112,6 +113,8 @@
     vm.isDisabled = isDisabled;
 
     vm.getTaskIcon = NstSvcTaskUtility.getTaskIcon;
+
+    var dataInit = false;
 
     function getTask(id) {
       NstSvcTaskFactory.get(id).then(function (task) {
@@ -140,7 +143,7 @@
           vm.enableDescription = true;
         }
 
-        if (task.todos !== undefined) {
+        if (task.todos !== undefined && task.todos.length > 0) {
           vm.model.todos = task.todos;
           vm.enableTodo = true;
         }
@@ -165,6 +168,12 @@
           vm.model.labels = task.labels;
           vm.enableLabel = true;
         }
+
+        vm.modelBackUp = Object.assign({}, vm.model);
+
+        $timeout(function () {
+          dataInit = true;
+        }, 100);
       });
     }
 
@@ -214,13 +223,94 @@
       return !response.valid;
     }
 
+    function backDropClick() {
+      $scope.$dismiss();
+    }
+
+    var taskUpdateModel = {
+      title: null,
+      description: null,
+      dueDate: null
+    };
+
+    var updateDebouncer = _.debounce(updateTask, 1000);
+
+    function updateTitle(text) {
+      if (vm.model.title === text) {
+        return;
+      }
+      taskUpdateModel.title = text;
+      updateDebouncer.call();
+    }
+
+    function updateDescription(text) {
+      if (vm.model.description === text) {
+        return;
+      }
+      taskUpdateModel.description = text;
+      updateDebouncer.call();
+    }
+
+    function updateDueDate(date) {
+      if (vm.model.dueDate === date) {
+        return;
+      }
+      taskUpdateModel.dueDate = new Date(date).getTime();
+      updateDebouncer.call();
+    }
+
+    $scope.$watch(function () {
+      return vm.model.dueDate;
+    }, function (newVal) {
+      if (dataInit) {
+        updateDueDate(newVal);
+      }
+    }, true);
+
+    function updateTask() {
+      NstSvcTaskFactory.taskUpdate(vm.taskId, taskUpdateModel.title, taskUpdateModel.description, taskUpdateModel.dueDate).then(function () {
+        vm.modelBackUp = Object.assign({}, vm.model);
+      }).catch(function (error) {
+        console.log(error);
+      });
+    }
+
+    function getNormalValue(data) {
+      if (data.hasOwnProperty('data')) {
+        return data.data;
+      }
+      return data;
+    }
+
+    $scope.$watch(function () {
+      return vm.model.assignees;
+    }, function (newVal) {
+      if (dataInit) {
+        updateAssignee(getNormalValue(newVal));
+      }
+    }, true);
+
+    function updateAssignee(assignees) {
+      var oldData = getNormalValue(vm.modelBackUp.assignees)
+      var newItems = _.differenceBy(assignees, oldData, 'id');
+      var removedItems = _.differenceBy(oldData, assignees, 'id');
+
+      var promises = [];
+      if (newItems.length > 0) {
+        promises.push(newItems);
+      }
+      if (removedItems.length > 0) {
+        promises.push(removedItems);
+      }
+    }
+
     var focusInit = true;
     $scope.$watch(function () {
       return {
         titleFocus: vm.titleFocus,
         assigneeFocus: vm.assigneeFocus,
         dueDateFocus: vm.dueDateFocus,
-        descFocus: vm.descFocus,
+        descriptionFocus: vm.descriptionFocus,
         todoFocus: vm.todoFocus,
         attachmentFocus: vm.attachmentFocus,
         watcherFocus: vm.watcherFocus,

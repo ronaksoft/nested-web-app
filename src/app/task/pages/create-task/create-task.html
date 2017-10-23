@@ -1,5 +1,5 @@
 <div class="bg-compose" ng-click="ctrlCreateTask.backDropClick();"></div>
-<div class="create-task task-form edit-mood">
+<div class="create-task task-form edit-mode">
   <div class="task-title auto-height-item">
     <div class="task-input-wrapper ng-class:{'focus': ctrlCreateTask.titleFocus, 'error' : (ctrlCreateTask.model.title.length > ctrlCreateTask.model.titleLengthLimit)}">
       <textarea type="text" class="no-style gale-holder create-task-input" placeholder="{{ctrlCreateTask.titlePlaceholder}}"
@@ -17,7 +17,7 @@
   <div class="task-assignee auto-height-item">
     <div class="task-input-wrapper ng-class:{'focus' : ctrlCreateTask.assigneeFocus}">
       <task-assignee assignees-data="ctrlCreateTask.model.assignees" assignee-focus="ctrlCreateTask.assigneeFocus"
-                     assignee-with-candidate="true" assignee-placeholder="{{ctrlCreateTask.assigneePlaceholder}}" edit-mood="ctrlCreateTask.editMood"
+                     assignee-with-candidate="true" assignee-placeholder="{{ctrlCreateTask.assigneePlaceholder}}" edit-mode="ctrlCreateTask.editMode"
                      remove-items="ctrlCreateTask.removeAssigneesItems" assignee-focus-me="ctrlCreateTask.assigneeFocusTrigger"></task-assignee>
       <div ng-if="ctrlCreateTask.assigneeFocus != true && ctrlCreateTask.model.assignees.length == 1" ng-click="ctrlCreateTask.assigneeFocus = true;"
            class="unfocused-input"
@@ -83,7 +83,7 @@
         </h3>
         <ul class="todo-list ng-class:{'focus': ctrlCreateTask.todoFocus}">
           <task-todo todos-data="ctrlCreateTask.model.todos" todo-focus="ctrlCreateTask.todoFocus" todo-placeholder="{{ctrlCreateTask.todoPlaceholder}}"
-                     remove-items="ctrlCreateTask.removeTodoItems" todo-focus-me="ctrlCreateTask.assigneeTodoTrigger" edit-mood="ctrlCreateTask.editMood"></task-todo>
+                     remove-items="ctrlCreateTask.removeTodoItems" todo-focus-me="ctrlCreateTask.assigneeTodoTrigger" edit-mode="ctrlCreateTask.editMode"></task-todo>
           </li>
         </ul>
       </div>
@@ -103,7 +103,7 @@
       <div class="_difv _fw">
         <h3>Attachments</h3>
         <div class="attachments-badge-wrapper">
-          <task-attachment attachments-data="ctrlCreateTask.model.attachments" edit-mood="ctrlCreateTask.editMood"
+          <task-attachment attachments-data="ctrlCreateTask.model.attachments" edit-mode="ctrlCreateTask.editMode"
                            remove-items="ctrlCreateTask.removeAttachmentItems" ng-click="ctrlCreateTask.attachmentFocus = true"></task-attachment>
         </div>
       </div>
@@ -127,7 +127,7 @@
           <translate>Watchers</translate>
         </h3>
         <div class="task-input-wrapper ng-class:{'focus': ctrlCreateTask.watcherFocus}">
-          <task-assignee assignees-data="ctrlCreateTask.model.watchers" assignee-focus="ctrlCreateTask.watcherFocus" edit-mood="ctrlCreateTask.editMood"
+          <task-assignee assignees-data="ctrlCreateTask.model.watchers" assignee-focus="ctrlCreateTask.watcherFocus" edit-mode="ctrlCreateTask.editMode"
                          assignee-with-candidate="false" assignee-placeholder="{{ctrlCreateTask.watcherPlaceholder}}"
                          remove-items="ctrlCreateTask.removeWatcherItems" assignee-exclude="{{ctrlCreateTask.user.id}}"></task-assignee>
         </div>
@@ -152,7 +152,7 @@
           <translate>Labels</translate>
         </h3>
         <div class="task-input-wrapper ng-class:{'focus': ctrlCreateTask.labelFocus}">
-          <task-label labels-data="ctrlCreateTask.model.labels" label-focus="ctrlCreateTask.labelFocus" edit-mood="ctrlCreateTask.editMood"
+          <task-label labels-data="ctrlCreateTask.model.labels" label-focus="ctrlCreateTask.labelFocus" edit-mode="ctrlCreateTask.editMode"
                       label-placeholder="{{ctrlCreateTask.labelPlaceholder}}" remove-items="ctrlCreateTask.removeLabelItems"></task-label>
         </div>
       </div>
