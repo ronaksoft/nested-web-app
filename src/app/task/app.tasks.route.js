@@ -11,14 +11,14 @@
     .state('app.task', {
       url: '/task',
       abstract: true,
-      templateUrl: 'app/task/pages/tasks/tasks.html',
-      controller: 'tasksController',
+      templateUrl: 'app/task/common/abstract/task-abstract.html',
+      controller: 'TaskAbstractController',
       controllerAs: 'ctrl'
     })
     .state('app.task.glance',{
       url: '/glance',
       templateUrl: 'app/task/pages/tasks/tasks.html',
-      controller: 'tasksController',
+      controller: 'TasksController',
       controllerAs: 'ctrl',
       options: {
         group: 'task',
@@ -28,7 +28,7 @@
     .state('app.task.assigned_to_me',{
       url: '/assigned_to_me',
       templateUrl: 'app/task/pages/tasks/tasks.html',
-      controller: 'tasksController',
+      controller: 'TasksController',
       controllerAs: 'ctrl',
       options: {
         group: 'task',
@@ -38,7 +38,7 @@
     .state('app.task.created_by_me',{
       url: '/created_by_me',
       templateUrl: 'app/task/pages/tasks/tasks.html',
-      controller: 'tasksController',
+      controller: 'TasksController',
       controllerAs: 'ctrl',
       options: {
         group: 'task',
@@ -48,7 +48,7 @@
     .state('app.task.watchlist',{
       url: '/watchlist',
       templateUrl: 'app/task/pages/tasks/tasks.html',
-      controller: 'tasksController',
+      controller: 'TasksController',
       controllerAs: 'ctrl',
       options: {
         group: 'task',
@@ -68,7 +68,7 @@
           animation: false,
           size: 'edit-task',
           templateUrl: 'app/task/pages/edit-task/edit-task.html',
-          controller: 'editTaskController',
+          controller: 'EditTaskController',
           controllerAs: 'ctrlEditTask',
           backdropClass: 'taskBackDrop'
         }).result.catch(function () {

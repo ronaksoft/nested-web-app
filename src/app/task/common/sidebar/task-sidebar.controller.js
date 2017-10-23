@@ -17,28 +17,11 @@
           animation: false,
           size: 'create-task',
           templateUrl: 'app/task/pages/create-task/create-task.html',
-          controller: 'createTaskController',
+          controller: 'CreateTaskController',
           controllerAs: 'ctrlCreateTask',
           backdropClass: 'taskBackDrop'
         })
       }
-
-      function editTask() {
-        $uibModal.open({
-          animation: false,
-          size: 'edit-task',
-          templateUrl: 'app/task/pages/edit-task/edit-task.html',
-          controller: 'editTaskController',
-          controllerAs: 'ctrlEditTask',
-          backdropClass: 'taskBackDrop'
-        }).result.catch(function () {
-          $rootScope.goToLastState(true);
-        });
-      }
-
-      // eventReferences.push($rootScope.$on('open-task', function () {
-      //   editTask();
-      // }));
 
       $scope.$on('$destroy', function () {
         _.forEach(eventReferences, function (canceler) {

@@ -3,9 +3,9 @@
 
   angular
     .module('ronak.nested.web.task')
-    .controller('tasksController', tasksController);
+    .controller('TasksController', TasksController);
 
-  function tasksController($rootScope, $scope, _, $state, NstSvcTaskFactory, NST_TASK_STATUS, NstSvcTaskUtility, $timeout) {
+  function TasksController($rootScope, $scope, _, $state, NstSvcTaskFactory, NST_TASK_STATUS, NstSvcTaskUtility, $timeout) {
     var vm = this;
     var eventReferences = [];
 
@@ -160,6 +160,8 @@
     function editTask(id) {
       $state.go('app.task.edit', {
         taskId: id
+      }, {
+        notify: false
       });
     }
 

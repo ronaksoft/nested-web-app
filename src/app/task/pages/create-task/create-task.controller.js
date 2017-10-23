@@ -3,10 +3,10 @@
 
   angular
     .module('ronak.nested.web.task')
-    .controller('createTaskController', createTaskController);
+    .controller('CreateTaskController', CreateTaskController);
 
   /** @ngInject */
-  function createTaskController($q, $timeout, $scope, $rootScope, NstSvcAuth, NstSvcTaskFactory, _, toastr, NstSvcTranslation, NstTask, NST_ATTACHMENT_STATUS, NstUtility, NstSvcTaskUtility) {
+  function CreateTaskController($q, $timeout, $scope, $rootScope, NstSvcAuth, NstSvcTaskFactory, _, toastr, NstSvcTranslation, NstTask, NST_ATTACHMENT_STATUS, NstUtility, NstSvcTaskUtility) {
     var vm = this;
     // var eventReferences = [];
     vm.titleLengthLimit = 64;

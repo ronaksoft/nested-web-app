@@ -264,7 +264,7 @@
 
         NstSvcServer.request('task/get_by_filter', {
           filter: filter,
-          status_filter: statusFilter,
+          status_filter: String(statusFilter),
           skip: skip,
           limit: limit
         }).then(function (data) {

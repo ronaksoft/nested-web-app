@@ -3,10 +3,10 @@
 
   angular
     .module('ronak.nested.web.task')
-    .controller('editTaskController', editTaskController);
+    .controller('EditTaskController', EditTaskController);
 
   /** @ngInject */
-  function editTaskController($q, $timeout, $scope, $state, $rootScope, $stateParams, NstSvcAuth, _, toastr, NstSvcTranslation, NstTask, NST_ATTACHMENT_STATUS, NstUtility, NstSvcTaskFactory, NstSvcTaskUtility) {
+  function EditTaskController($q, $timeout, $scope, $state, $rootScope, $stateParams, NstSvcAuth, _, toastr, NstSvcTranslation, NstTask, NST_ATTACHMENT_STATUS, NstUtility, NstSvcTaskFactory, NstSvcTaskUtility) {
     var vm = this;
     // var eventReferences = [];
 
