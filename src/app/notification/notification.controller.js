@@ -35,7 +35,6 @@
     }
 
     function changeTab(v) {
-      console.log('aaaaaa', v)
       vm.selectedView = parseInt(v);
     }
 

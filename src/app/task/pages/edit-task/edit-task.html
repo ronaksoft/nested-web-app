@@ -26,7 +26,8 @@
         <textarea type="text" class="no-style gale-holder create-task-input" placeholder="{{ctrlEditTask.titlePlaceholder}}" id="task-title" uneditable="{{!ctrlEditTask.editMode}}"
           ng-focus="ctrlEditTask.titleFocus = true" ng-blur="ctrlEditTask.titleFocus = false; ctrlEditTask.updateTitle(ctrlEditTask.model.title);" resize-textarea ng-model="ctrlEditTask.model.title"
           enter-key="ctrlEditTask.enterSubjectTask(); ctrlEditTask.updateTitle(ctrlEditTask.model.title);" prevent-shift-enter="true"></textarea>
-        <div class="task-menu-options">
+        <div class="task-menu-options" data-popover-class="white-pop task-logs-filter-popover" data-popover-append-to-body="false" uib-popover-template="'app/task/common/popovers/task-more-options-popover.html'"
+        data-popover-placement="auto bottom-right">
           <svg class="_24svg">
             <use xlink:href="/assets/icons/nst-icn24.svg#more"></use>
           </svg>
