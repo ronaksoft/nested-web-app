@@ -36,6 +36,8 @@
               <tranlate>from</tranlate>
               <b user-detail="task.assignor">{{task.assignor.fullName}}</b>
               <tranlate> to you</tranlate>
+              <translate ng-if="task.candidates.length == 2">& <b>1 other</b></translate>
+              <translate ng-if="task.candidates.length > 2">& {{task.candidates.length - 1}} others</translate>
             </p>
           </div>
           <div class="list-li-extra">
