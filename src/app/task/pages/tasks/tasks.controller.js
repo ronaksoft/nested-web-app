@@ -49,7 +49,7 @@
           vm.isCreatedByMePage = true;
           break;
         case 'app.task.watchlist':
-          vm.isCreatedByMePage = true;
+          vm.isWatchlistPage = true;
           break;
         case 'app.task.custom_filter':
           vm.isCustomFilterPage = true;

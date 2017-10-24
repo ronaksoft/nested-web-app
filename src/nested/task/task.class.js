@@ -23,6 +23,7 @@
       this.watchers = undefined;
       this.labels = undefined;
       this.counters = undefined;
+      this.access = undefined;
     }
 
     return Task;

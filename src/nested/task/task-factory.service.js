@@ -8,7 +8,7 @@
   /** @ngInject */
   function NstSvcTaskFactory($q, _,
                              NstBaseFactory, NstSvcServer, NstSvcUserFactory, NstCollector, NstSvcGlobalCache, NstSvcAttachmentFactory,
-                             NstTask, NstSvcLabelFactory, NST_SRV_ERROR) {
+                             NstTask, NstSvcLabelFactory, NST_SRV_ERROR, NST_TASK_ACCESS) {
 
     function TaskFactory() {
       this.collector = new NstCollector('task', this.getMany);
@@ -19,6 +19,7 @@
     TaskFactory.prototype.constructor = TaskFactory;
     TaskFactory.prototype.parseTask = parseTask;
     TaskFactory.prototype.parseTaskTodo = parseTaskTodo;
+    TaskFactory.prototype.parseTaskAccess = parseTaskAccess;
 
     TaskFactory.prototype.create = create;
 
@@ -91,6 +92,8 @@
       }
       task.counters = data.counters;
 
+      task.access = factory.parseTaskAccess(data.access);
+
       return task;
     }
 
@@ -112,6 +115,55 @@
       todo.weight = data.weight;
 
       return todo;
+    }
+
+
+    var taskAccessMap = {};
+    taskAccessMap[NST_TASK_ACCESS.PICK_TASK] = ['pickTask'];
+    taskAccessMap[NST_TASK_ACCESS.READ_TASK] = ['readTask'];
+    taskAccessMap[NST_TASK_ACCESS.PICK_TASK] = ['pickTask'];
+    taskAccessMap[NST_TASK_ACCESS.UPDATE_TASK] = ['updateTask'];
+    taskAccessMap[NST_TASK_ACCESS.DELETE_TASK] = ['deleteTask'];
+    taskAccessMap[NST_TASK_ACCESS.ADD_CANDIDATE] = ['addCandidate', 'removeCandidate'];
+    taskAccessMap[NST_TASK_ACCESS.CHANGE_ASSIGNEE] = ['changeAssignee'];
+    taskAccessMap[NST_TASK_ACCESS.CHANGE_PRIORITY] = ['changePriority'];
+    taskAccessMap[NST_TASK_ACCESS.LABEL] = ['label'];
+    taskAccessMap[NST_TASK_ACCESS.ADD_LABEL] = ['addLabel'];
+    taskAccessMap[NST_TASK_ACCESS.REMOVE_LABEL] = ['removeLabel'];
+    taskAccessMap[NST_TASK_ACCESS.COMMENT] = ['addComment', 'removeComment'];
+    taskAccessMap[NST_TASK_ACCESS.ADD_ATTACHMENT] = ['addAttachment'];
+    taskAccessMap[NST_TASK_ACCESS.REMOVE_ATTACHMENT] = ['removeAttachment'];
+    taskAccessMap[NST_TASK_ACCESS.ADD_WATCHER] = ['addWatcher'];
+    taskAccessMap[NST_TASK_ACCESS.REMOVE_WATCHER] = ['removeWatcher'];
+
+    function parseTaskAccess(data) {
+      var access = {
+        pickTask: false,
+        readTask: false,
+        updateTask: false,
+        deleteTask: false,
+        addCandidate: false,
+        removeCandidate: false,
+        changeAssignee: false,
+        changePriority: false,
+        label: false,
+        addLabel: false,
+        removeLabel: false,
+        addComment: false,
+        removeComment: false,
+        addAttachment: false,
+        removeAttachment: false,
+        addWatcher: false,
+        removeWatcher: false
+      };
+
+      _.forEach(data, function (item) {
+        _.forEach(taskAccessMap[item], function (key) {
+          access[key] = true;
+        });
+      });
+
+      return access;
     }
 
     function getCommaSeparate(data) {

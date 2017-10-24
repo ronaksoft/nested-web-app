@@ -8,10 +8,10 @@
   class="status candidate" translate-inner>candidates:</span>
 <div user-chips user-id="assignee"
      candidate="(ctlAssignee.assigneesData.length > 1) && ctlAssignee.assigneeWithCandidate == true"
-     on-remove="ctlAssignee.removeAssigneeChip" index="assignee" removable="ctlAssignee.editMode"
+     on-remove="ctlAssignee.removeAssigneeChip" index="assignee" removable="ctlAssignee.removeItem"
      ng-repeat="assignee in ctlAssignee.assigneesData" ng-if="ctlAssignee.assigneeWithCandidate == false || (ctlAssignee.assigneeFocus == true && ctlAssignee.assigneeWithCandidate == true)"></div>
-<input nst-mention-user nst-mention-list="ctlAssignee.assignees" nst-mention-data="ctlAssignee.mentionAssigneesData" type="text"
+<input nst-mention-user nst-mention-list="ctlAssignee.assignees" nst-mention-data="ctlAssignee.mentionAssigneesData" nst-mention-clicked="ctlAssignee.addIt" type="text"
        class="no-style gale-holder create-task-input" placeholder="{{ctlAssignee.assigneePlaceholder}}"
        id="task-assignee" ng-focus="ctlAssignee.assigneeFocus = true" ng-model="ctlAssignee.assigneeInput"
        ng-keydown="ctlAssignee.assigneeKeyDown($event)" ng-keyup="ctlAssignee.assigneeKeyUp($event)"
-       ng-if="(ctlAssignee.assigneeFocus == true || ctlAssignee.assigneesData.length == 0) && ctlAssignee.editMode == true" focus-me="{{ctlAssignee.assigneeFocusMe}}">
+       ng-show="(ctlAssignee.assigneeFocus == true || ctlAssignee.assigneesData.length == 0) && ctlAssignee.addItem == true" focus-me="{{ctlAssignee.assigneeFocusMe}}">

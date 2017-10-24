@@ -22,8 +22,17 @@
     vm.mentionLabelsData = [];
     vm.labelKeyUp = labelKeyUp;
     vm.labelKeyDown = labelKeyDown;
+    vm.addIt = addIt;
     vm.removeLabelChip = removeLabelChip;
     vm.removeItems = removeItems;
+
+    if (vm.addItem === undefined) {
+      vm.addItem = true;
+    }
+
+    if (vm.removeItem === undefined) {
+      vm.removeItem = true;
+    }
 
     function removeRedundantLabels(labels, labelsData) {
       var tempList = [];
@@ -49,6 +58,9 @@
     }
 
     function removeLabelChip(id) {
+      if (vm.removeItem !== true) {
+        return;
+      }
       if (_.isObject(id)) {
         id = id.title;
       }
@@ -63,14 +75,24 @@
     }
 
     function labelKeyDown(event) {
-      if (event.keyCode === 13) {
-        _.forEach(parseMentionData(vm.labelInput), function (item) {
-          vm.labels.push(item);
-        });
-        vm.labels = _.uniq(vm.labels);
-        vm.labelsData = removeRedundantLabels(vm.labels, vm.mentionLabelsData);
-        vm.labelInput = '';
+      if (vm.addItem && event.keyCode === 13) {
       }
+    }
+
+    function addIt() {
+      addLabelChip();
+    }
+
+    function addLabelChip() {
+      if (vm.addItem !== true) {
+        return;
+      }
+      _.forEach(parseMentionData(vm.labelInput), function (item) {
+        vm.labels.push(item);
+      });
+      vm.labels = _.uniq(vm.labels);
+      vm.labelsData = removeRedundantLabels(vm.labels, vm.mentionLabelsData);
+      vm.labelInput = '';
     }
 
     var inputLastValue = '';
