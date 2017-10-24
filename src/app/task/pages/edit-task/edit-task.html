@@ -20,7 +20,7 @@
   </h2>
 </div>
 <div class="edit-task">
-  <div class="task-form ng-class:{'edit-mode': ctrlEditTask.model.access.updateTask}">
+  <div class="task-form ng-class:{'edit-mode': ctrlEditTask.model.access.updateTask, '_opz' : ctrlEditTask.loading}">
     <div class="task-title auto-height-item">
       <div class="task-input-wrapper ng-class:{'focus': ctrlEditTask.titleFocus, 'error' : (ctrlEditTask.model.title.length > ctrlEditTask.model.titleLengthLimit)}">
         <textarea type="text" class="no-style gale-holder create-task-input" placeholder="{{ctrlEditTask.titlePlaceholder}}" id="task-title" uneditable="{{!ctrlEditTask.model.access.updateTask}}"
@@ -279,6 +279,7 @@
       <div class="binder-tip"></div>
     </div>
   </div>
+  <div class="nst-loading absolute" ng-if="ctrlEditTask.loading"></div>
   <div class="task-comments">
     <div class="log-filter">
       <h3 data-popover-class="white-pop task-logs-filter-popover" data-popover-append-to-body="false" uib-popover-template="'app/task/common/popovers/task-logs-filter-popover.html'"

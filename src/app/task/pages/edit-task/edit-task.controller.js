@@ -16,6 +16,7 @@
     vm.mode = 'edit';
     vm.editMode = true;
     vm.onlyComments = true;
+    vm.loading = true;
 
     vm.isOpenBinder = false;
 
@@ -129,8 +130,6 @@
 
     function getTask(id) {
       NstSvcTaskFactory.get(id).then(function (task) {
-        console.log(task);
-
         vm.model.title = task.title;
         vm.model.assignor = task.assignor;
         vm.model.counters = task.counters;
@@ -191,6 +190,7 @@
 
         $timeout(function () {
           dataInit = true;
+          vm.loading = false;
         }, 100);
       });
     }
