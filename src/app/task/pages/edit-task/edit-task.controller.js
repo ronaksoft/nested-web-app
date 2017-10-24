@@ -107,6 +107,7 @@
     vm.removeTodos = removeTodos;
     vm.enableTodo = false;
     vm.updateTodo = updateTodo;
+    vm.checkTodo = checkTodo;
 
     vm.attachmentFocus = false;
     vm.removeAttachments = removeAttachments;
@@ -370,6 +371,15 @@
       }
       NstSvcTaskFactory.updateTodo(vm.taskId, data.id, data.checked, data.text, data.weight).then(function () {
         vm.modelBackUp.todos[index] = data;
+      });
+    }
+
+    function checkTodo(index, data) {
+      if (vm.modelBackUp.todos[index].checked === data.checked) {
+        return;
+      }
+      NstSvcTaskFactory.updateTodo(vm.taskId, data.id, data.checked).then(function () {
+        vm.modelBackUp.todos[index].checked = data.checked;
       });
     }
 

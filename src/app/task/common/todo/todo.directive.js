@@ -19,6 +19,7 @@
         todoPlaceholder: '@',
         removeItems: '=',
         updateItem: '=',
+        checkItem: '=',
         addItem: '=?',
         removeItem: '=?',
         todoFocusMe: '='

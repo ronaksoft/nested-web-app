@@ -1,5 +1,5 @@
 <li>
-  <input class="_fr" type="checkbox" id="todo{{data.id}}" ng-model="data.checked"/>
+  <input class="_fr" type="checkbox" id="todo{{data.id}}" ng-model="data.checked" ng-change="checkChanged()"/>
   <div class="_fw todo task-input-wrapper">
     <label for="todo{{data.id}}">
       <svg class="_16svg _df" ng-if="!data.checked">
