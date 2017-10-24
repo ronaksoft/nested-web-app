@@ -163,7 +163,7 @@
 
       _.forEach(data, function (item) {
         _.forEach(taskAccessMap[item], function (key) {
-          access[key] = false;
+          access[key] = true;
         });
       });
 

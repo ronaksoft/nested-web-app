@@ -4,6 +4,7 @@
   angular.module('ronak.nested.web.components.notification').constant('NST_NOTIFICATION_TYPE', {
 
     //MAIL
+    NOTIFICATION_SUBJECT_POST: 0x01,
     MENTION: 0x001,
     COMMENT: 0x002,
     INVITE: 0x003,
@@ -22,6 +23,7 @@
     LABEL_JOINED: 0x014,
 
     //TASK
+    NOTIFICATION_SUBJECT_TASK: 0x02,
     TASK_MENTION: 0x101,
     TASK_COMMENT: 0x102,
     TASK_ASSIGNED: 0x103,
@@ -30,7 +32,10 @@
     TASK_ADD_TO_WATCHERS: 0x106,
     TASK_DUE_TIME_UPDATED: 0x107,
     TASK_OVER_DUE: 0x108,
-    TASK_TITLE_UPDATED: 0x109
-
+    TASK_TITLE_UPDATED: 0x109,
+    TASK_UPDATED: 0x110,
+    TASK_REJECTED: 0x111,
+    TASK_ACCEPTED: 0x112,
+    TASK_COMPLETED: 0x113
   });
 })();
