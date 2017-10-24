@@ -15,6 +15,10 @@
       REJECTED: 0x04,
       COMPLETED: 0x05,
       HOLD: 0x06,
-      OVERDUE: 0x07
+      OVERDUE: 0x07,
+
+      ACCEPT: 'accept',
+      DECLINE: 'reject',
+      RESIGN: 'resign'
     });
 })();

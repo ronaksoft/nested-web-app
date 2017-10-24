@@ -5,7 +5,7 @@
     .module('ronak.nested.web.task')
     .controller('TasksController', TasksController);
 
-  function TasksController($rootScope, $scope, _, $state, NstSvcTaskFactory, NST_TASK_STATUS, NstSvcTaskUtility, $timeout) {
+  function TasksController($rootScope, $scope, _, $state, NstSvcTaskFactory, NST_TASK_STATUS, NstSvcTaskUtility, $timeout, toastr, NstSvcTranslation, NstUtility) {
     var vm = this;
     var eventReferences = [];
 
@@ -23,6 +23,8 @@
     vm.isWatchlistPage = false;
     vm.isCustomFilterPage = false;
     vm.editTask = editTask;
+    vm.acceptTask = acceptTask;
+    vm.declineTask = declineTask;
     vm.getTaskIcon = NstSvcTaskUtility.getTaskIcon;
 
     vm.overDueTasks = [];
@@ -162,6 +164,26 @@
         taskId: id
       }, {
         notify: false
+      });
+    }
+
+    function acceptTask(id) {
+      NstSvcTaskFactory.respond(id, NST_TASK_STATUS.ACCEPT).then(function () {
+        var index = _.findIndex(vm.pendingTasks, {id: id});
+        toastr.error(NstSvcTranslation.get(NstUtility.string.replaceByIndex('You\'ve accepted {0}\'s task'), 0, vm.pendingTasks[index].assignor.fullName));
+        vm.pendingTasks.splice(index, 1);
+      }).catch(function () {
+        toastr.error(NstSvcTranslation.get('Something went wrong!'));
+      });
+    }
+
+    function declineTask(id) {
+      NstSvcTaskFactory.respond(id, NST_TASK_STATUS.DECLINE).then(function () {
+        var index = _.findIndex(vm.pendingTasks, {id: id});
+        toastr.warning(NstSvcTranslation.get(NstUtility.string.replaceByIndex('You\'ve declined {0}\'s task'), 0, vm.pendingTasks[index].assignor.fullName));
+        vm.pendingTasks.splice(index, 1);
+      }).catch(function () {
+        toastr.error(NstSvcTranslation.get('Something went wrong!'));
       });
     }
 

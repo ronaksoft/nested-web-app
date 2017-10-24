@@ -41,6 +41,8 @@
 
     TaskFactory.prototype.taskUpdate = taskUpdate;
 
+    TaskFactory.prototype.respond = respond;
+
     TaskFactory.prototype.getActivities = getActivities;
 
     TaskFactory.prototype.getByFilter = getByFilter;
@@ -122,7 +124,7 @@
     taskAccessMap[NST_TASK_ACCESS.PICK_TASK] = ['pickTask'];
     taskAccessMap[NST_TASK_ACCESS.READ_TASK] = ['readTask'];
     taskAccessMap[NST_TASK_ACCESS.PICK_TASK] = ['pickTask'];
-    taskAccessMap[NST_TASK_ACCESS.UPDATE_TASK] = ['updateTask'];
+    taskAccessMap[NST_TASK_ACCESS.UPDATE_TASK] = ['updateTask', 'addTodo', 'removeTodo'];
     taskAccessMap[NST_TASK_ACCESS.DELETE_TASK] = ['deleteTask'];
     taskAccessMap[NST_TASK_ACCESS.ADD_CANDIDATE] = ['addCandidate', 'removeCandidate'];
     taskAccessMap[NST_TASK_ACCESS.CHANGE_ASSIGNEE] = ['changeAssignee'];
@@ -131,7 +133,7 @@
     taskAccessMap[NST_TASK_ACCESS.ADD_LABEL] = ['addLabel'];
     taskAccessMap[NST_TASK_ACCESS.REMOVE_LABEL] = ['removeLabel'];
     taskAccessMap[NST_TASK_ACCESS.COMMENT] = ['addComment', 'removeComment'];
-    taskAccessMap[NST_TASK_ACCESS.ADD_ATTACHMENT] = ['addAttachment'];
+    taskAccessMap[NST_TASK_ACCESS.ADD_ATTACHMENT] = ['addAttachments'];
     taskAccessMap[NST_TASK_ACCESS.REMOVE_ATTACHMENT] = ['removeAttachment'];
     taskAccessMap[NST_TASK_ACCESS.ADD_WATCHER] = ['addWatcher'];
     taskAccessMap[NST_TASK_ACCESS.REMOVE_WATCHER] = ['removeWatcher'];
@@ -154,7 +156,9 @@
         addAttachment: false,
         removeAttachment: false,
         addWatcher: false,
-        removeWatcher: false
+        removeWatcher: false,
+        addTodo: false,
+        removeTodo: false
       };
 
       _.forEach(data, function (item) {
@@ -307,6 +311,14 @@
         title: title,
         desc: desc,
         due_date: dueDate
+      });
+    }
+
+    function respond(taskId, response, reason) {
+      return NstSvcServer.request('task/respond', {
+        task_id: taskId,
+        response: response,
+        reason: reason
       });
     }
 

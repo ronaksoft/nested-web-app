@@ -134,6 +134,7 @@
         vm.model.title = task.title;
         vm.model.assignor = task.assignor;
         vm.model.counters = task.counters;
+        vm.model.access = task.access;
 
         if (task.assignee !== undefined) {
           vm.model.assignees = {
@@ -349,9 +350,10 @@
       }
 
       if (removedItems.length > 0) {
-        _.forEach(removedItems, function (item) {
-          promises.push(NstSvcTaskFactory.removeTodo(vm.taskId, item.id));
-        });
+        var ids = _.map(removedItems, function (item) {
+          return item.id;
+        }).join(',');
+        promises.push(NstSvcTaskFactory.removeTodo(vm.taskId, ids));
       }
 
       if (newItems.length > 0 || removedItems.length > 0) {
