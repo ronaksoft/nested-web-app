@@ -86,6 +86,7 @@
           before: settings.before,
           after: settings.after
         }).then(function (data) {
+          console.log(data);
           var notificationPromises = _.map(data.notifications, function (notif) {
             switch (notif.type) {
               case NST_NOTIFICATION_TYPE.MENTION:
@@ -120,6 +121,21 @@
               case NST_NOTIFICATION_TYPE.LABEL_REQUEST_CREATED:
               case NST_NOTIFICATION_TYPE.LABEL_JOINED:
                 return parseLabelNotification(notif);
+
+              case NST_NOTIFICATION_TYPE.TASK_MENTION:
+              case NST_NOTIFICATION_TYPE.TASK_COMMENT:
+              case NST_NOTIFICATION_TYPE.TASK_ASSIGNED:
+              case NST_NOTIFICATION_TYPE.TASK_ASSIGNEE_CHANGED:
+              case NST_NOTIFICATION_TYPE.TASK_ADD_TO_CANDIDATES:
+              case NST_NOTIFICATION_TYPE.TASK_ADD_TO_WATCHERS:
+              case NST_NOTIFICATION_TYPE.TASK_DUE_TIME_UPDATED:
+              case NST_NOTIFICATION_TYPE.TASK_OVER_DUE:
+              case NST_NOTIFICATION_TYPE.TASK_TITLE_UPDATED:
+              case NST_NOTIFICATION_TYPE.TASK_UPDATED:
+              case NST_NOTIFICATION_TYPE.TASK_REJECTED:
+              case NST_NOTIFICATION_TYPE.TASK_ACCEPTED:
+              case NST_NOTIFICATION_TYPE.TASK_COMPLETED:
+                break;
 
             }
           });
