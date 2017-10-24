@@ -170,7 +170,7 @@
     function acceptTask(id) {
       NstSvcTaskFactory.respond(id, NST_TASK_STATUS.ACCEPT).then(function () {
         var index = _.findIndex(vm.pendingTasks, {id: id});
-        toastr.error(NstSvcTranslation.get(NstUtility.string.replaceByIndex('You\'ve accepted {0}\'s task'), 0, vm.pendingTasks[index].assignor.fullName));
+        toastr.success(NstSvcTranslation.get(String('You\'ve accepted {0}\'s task').replace('{0}', vm.pendingTasks[index].assignor.fullName)));
         vm.pendingTasks.splice(index, 1);
       }).catch(function () {
         toastr.error(NstSvcTranslation.get('Something went wrong!'));
@@ -180,7 +180,7 @@
     function declineTask(id) {
       NstSvcTaskFactory.respond(id, NST_TASK_STATUS.DECLINE).then(function () {
         var index = _.findIndex(vm.pendingTasks, {id: id});
-        toastr.warning(NstSvcTranslation.get(NstUtility.string.replaceByIndex('You\'ve declined {0}\'s task'), 0, vm.pendingTasks[index].assignor.fullName));
+        toastr.warning(NstSvcTranslation.get(String('You\'ve declined {0}\'s task').replace('{0}', vm.pendingTasks[index].assignor.fullName)));
         vm.pendingTasks.splice(index, 1);
       }).catch(function () {
         toastr.error(NstSvcTranslation.get('Something went wrong!'));
