@@ -37,6 +37,13 @@
             flex: style.flex,
             fontWeight: style.fontWeight,
             marginTop: style.marginTop,
+            marginBottom: style.marginBottom,
+            marginLeft: style.marginLeft,
+            marginRight: style.marginRight,
+            paddingTop: style.paddingTop,
+            paddingBottom: style.paddingBottom,
+            paddingLeft: style.paddingLeft,
+            paddingRight: style.paddingRight,
             width: style.width
           }
 
