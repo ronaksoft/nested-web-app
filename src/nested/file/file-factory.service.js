@@ -182,7 +182,7 @@
      * @param postId
      * @returns {promise}
      */
-    FileFactory.prototype.getDownloadToken = function (attachmentId, placeId, postId) {
+    FileFactory.prototype.getDownloadToken = function (attachmentId, placeId, postId, taskId) {
       var deferred = $q.defer();
       var tokenKey = generateTokenKey(attachmentId);
       var tokenObj = createToken(factory.getToken(tokenKey));
@@ -190,7 +190,7 @@
         deferred.resolve(tokenObj);
       } else {
         factory.tokenCache.remove(tokenKey);
-        requestNewDownloadToken(attachmentId, placeId, postId).then(function (newToken) {
+        requestNewDownloadToken(attachmentId, placeId, postId, taskId).then(function (newToken) {
           factory.setToken(tokenKey, newToken.toString());
           deferred.resolve(newToken);
         }).catch(deferred.reject);
@@ -208,7 +208,7 @@
      * @param postId
      * @returns {promise}
      */
-    function requestNewDownloadToken(attachmentId, placeId, postId) {
+    function requestNewDownloadToken(attachmentId, placeId, postId, taskId) {
       var defer = $q.defer();
 
       var requestData = {
@@ -221,6 +221,10 @@
 
       if (postId) {
         requestData.post_id = postId;
+      }
+
+      if (taskId) {
+        requestData.task_id = taskId;
       }
 
       NstSvcServer.request('file/get_download_token', requestData).then(function (data) {

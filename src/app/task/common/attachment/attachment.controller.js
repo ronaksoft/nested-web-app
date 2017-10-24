@@ -15,9 +15,10 @@
     .controller('TaskAttachmentController', TaskAttachmentController);
 
   function TaskAttachmentController($scope, _, $uibModal, $q, NstSvcAuth, NST_ATTACHMENT_STATUS, NstSvcAttachmentMap, $timeout,
-                                    toastr, NstSvcTranslation, NstUtility, NstSvcLogger, NstSvcAttachmentFactory, NstSvcSystemConstants,
-                                    NST_CONFIG, $log, NST_FILE_TYPE, NstPicture, NstSvcFileType, NstSvcStore, NST_STORE_UPLOAD_TYPE) {
+    toastr, NstSvcTranslation, NstUtility, NstSvcLogger, NstSvcAttachmentFactory, NstSvcSystemConstants,
+    NST_CONFIG, $log, NST_FILE_TYPE, NstPicture, NstSvcFileType, NstSvcStore, NST_STORE_UPLOAD_TYPE) {
     var vm = this;
+    var eventReferences = [];
 
     if (vm.addItem === undefined) {
       vm.addItem = true;
@@ -58,6 +59,52 @@
     $scope.$watch(function () {
       return vm.attachments.viewModels
     }, updateTotalAttachmentsRatio, true);
+
+
+
+    vm.open = function (vmAttachment) {
+      eventReferences.push($scope.$emit('post-attachment-viewed', {
+        taskID: vm.taskId
+      }));
+      // $('body').addClass('attach-modal');
+      var modal = $uibModal.open({
+        animation: false,
+        templateUrl: 'app/components/attachments/view/single/main.html',
+        controller: 'AttachmentViewController',
+        controllerAs: 'ctlAttachmentView',
+        windowClass: '_oh',
+        openedClass: ' modal-open-attachment-view attach-modal',
+        backdropClass: 'attachmdrop',
+        size: 'full',
+        resolve: {
+          fileViewerItem: function () {
+            return vmAttachment;
+          },
+          fileViewerItems: function () {
+            return vm.attachments.viewModels;
+          },
+          fileId: function () {
+            return null;
+          },
+          fileIds: function () {
+            return null;
+          },
+          currentPlaceId: function () {
+            return null;
+          },
+          currentPostId: function () {
+            return null;
+          },
+          currentTaskId: function () {
+            return vm.taskId;
+          }
+        }
+      }).result.catch(function () {
+        // $('body').removeClass('attach-modal');
+      });
+
+      return modal.result;
+    };
 
     function updateTotalAttachmentsRatio(items) {
       if (!vm.minimize) {
@@ -115,8 +162,7 @@
       }
 
       for (var i = 0; i < files.length; i++) {
-        vm.attachments.attach(files[i], type).then(function () {
-        });
+        vm.attachments.attach(files[i], type).then(function () {});
       }
       event.currentTarget.value = "";
     });
@@ -269,7 +315,9 @@
           deferred.resolve(attachment);
           return deferred.promise;
         }).catch(function (error) {
-          if (_.findIndex(vm.attachments.viewModels, {id: attachment.id}) > -1) {
+          if (_.findIndex(vm.attachments.viewModels, {
+              id: attachment.id
+            }) > -1) {
             toastr.error(NstSvcTranslation.get('An error has occurred in uploading the file!'));
           }
           deferred.reject(error);
@@ -322,8 +370,7 @@
       var dt = event.dataTransfer;
       var files = dt.files;
       for (var i = 0; i < files.length; i++) {
-        vm.attachments.attach(files[i]).then(function () {
-        });
+        vm.attachments.attach(files[i]).then(function () {});
       }
     }
 
@@ -354,5 +401,12 @@
       vm.attachments.size.total += _.sum(_.map(attachments, 'size'));
       vm.attachments.size.uploaded += _.sum(_.map(attachments, 'size'));
     }
+    $scope.$on('$destroy', function () {
+      _.forEach(eventReferences, function (cenceler) {
+        if (_.isFunction(cenceler)) {
+          cenceler();
+        }
+      });
+    });
   }
 })();

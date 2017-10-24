@@ -279,6 +279,9 @@
           },
           currentPostId: function () {
             return null;
+          },
+          currentTaskId: function () {
+            return null;
           }
         }
       });

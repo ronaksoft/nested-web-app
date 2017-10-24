@@ -17,6 +17,7 @@
         attachmentsData: '=',
         addItem: '=?',
         removeItem: '=?',
+        taskId: '=?',
         removeItems: '='
       }
     };

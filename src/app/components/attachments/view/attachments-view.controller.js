@@ -48,6 +48,9 @@
           },
           currentPostId: function () {
             return vm.postId;
+          },
+          currentTaskId: function () {
+            return null;
           }
         }
       }).result.catch(function(){

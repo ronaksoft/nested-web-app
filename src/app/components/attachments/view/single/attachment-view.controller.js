@@ -10,7 +10,7 @@
                                     NST_FILE_TYPE, NST_STORE_ROUTE,
                                     NstVmFile,
                                     NstSvcFileFactory, NstSvcStore, NstSvcTranslation,
-                                    fileId, fileViewerItem, fileIds, fileViewerItems, currentPlaceId, currentPostId) {
+                                    fileId, fileViewerItem, fileIds, fileViewerItems, currentPlaceId, currentPostId, currentTaskId) {
     var vm = this;
 
     vm.attachments = {
@@ -170,7 +170,7 @@
       var deferred = $q.defer();
       vm.status.tokenLoadProgress = true;
 
-      NstSvcFileFactory.getDownloadToken(id, currentPlaceId, currentPostId).then(deferred.resolve).catch(deferred.reject).finally(function () {
+      NstSvcFileFactory.getDownloadToken(id, currentPlaceId, currentPostId, currentTaskId).then(deferred.resolve).catch(deferred.reject).finally(function () {
         vm.status.tokenLoadProgress = false;
       });
 
