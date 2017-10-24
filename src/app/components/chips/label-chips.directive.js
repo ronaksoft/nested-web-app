@@ -16,10 +16,15 @@
         labelId: '=',
         selectable: '=?',
         index: '=?',
-        onRemove: '='
+        onRemove: '=',
+        removable: '=?',
       },
       link: function (scope, element) {
         scope.isSelected = false;
+
+        if (scope.removable === undefined) {
+          scope.removable = true;
+        }
 
         var template = angular.element($templateCache.get('label-chips.html'));
         if (_.isObject(scope.labelId)) {
@@ -29,9 +34,9 @@
           NstSvcLabelFactory.get(scope.labelId).then(function (label) {
             scope.label = label;
             init();
-          }).catch(function (e) {
+          })/*.catch(function (e) {
             console.log(e)
-          })
+          })*/;
         }
 
         function init() {
@@ -40,7 +45,7 @@
         }
 
         scope.selectChip = function () {
-          if ( scope.selectable ) {            
+          if ( scope.selectable ) {
             scope.isSelected = true;
           }
         };
@@ -58,7 +63,7 @@
         $document.on('click', onDocumentClick);
 
         scope.removeChip = function (e) {
-          if (_.isFunction(scope.onRemove) && (scope.label.public || scope.label.isMember)) {
+          if (_.isFunction(scope.onRemove) && (scope.label.public || scope.label.isMember) && scope.removable === true) {
             scope.onRemove( typeof scope.index !== 'undefined' ? scope.index : scope.labelId);
             e.preventDefault();
             e.stopPropagation();

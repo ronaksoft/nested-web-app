@@ -43,10 +43,10 @@
         }
 
         scope.clearItem = function (){
-          if (_.isFunction(scope.onRemove) && scope.removable != false) {
+          if (_.isFunction(scope.onRemove) && scope.removable !== false) {
             scope.onRemove(scope.index);
           }
-        }
+        };
 
         scope.selectChip = function () {
           scope.isSelected = true;
