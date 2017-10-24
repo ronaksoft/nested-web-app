@@ -133,7 +133,7 @@
     taskAccessMap[NST_TASK_ACCESS.ADD_LABEL] = ['addLabel'];
     taskAccessMap[NST_TASK_ACCESS.REMOVE_LABEL] = ['removeLabel'];
     taskAccessMap[NST_TASK_ACCESS.COMMENT] = ['addComment', 'removeComment'];
-    taskAccessMap[NST_TASK_ACCESS.ADD_ATTACHMENT] = ['addAttachments'];
+    taskAccessMap[NST_TASK_ACCESS.ADD_ATTACHMENT] = ['addAttachment'];
     taskAccessMap[NST_TASK_ACCESS.REMOVE_ATTACHMENT] = ['removeAttachment'];
     taskAccessMap[NST_TASK_ACCESS.ADD_WATCHER] = ['addWatcher'];
     taskAccessMap[NST_TASK_ACCESS.REMOVE_WATCHER] = ['removeWatcher'];
@@ -163,7 +163,7 @@
 
       _.forEach(data, function (item) {
         _.forEach(taskAccessMap[item], function (key) {
-          access[key] = true;
+          access[key] = false;
         });
       });
 
