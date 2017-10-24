@@ -6,7 +6,7 @@
     <svg class="_16svg" ng-if="(label.public || label.isMember) && removable">
       <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
     </svg>
-    <svg class="_16svg closer" ng-if="(!label.public && !label.isMember) && !removable">
+    <svg class="_16svg closer" ng-if="(!label.public && !label.isMember) || !removable">
       <use xlink:href="/assets/icons/nst-icn16.svg#lock"></use>
     </svg>
   </div>
