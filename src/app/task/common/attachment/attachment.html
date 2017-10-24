@@ -1,4 +1,4 @@
-<nst-attachments-editable-bar mode="'badge'" items="ctlAttachment.attachments.viewModels" ng-if="ctlAttachment.removeItem" on-item-delete="ctlAttachment.attachments.detach"></nst-attachments-editable-bar>
+<nst-attachments-editable-bar mode="'badge'" items="ctlAttachment.attachments.viewModels" ng-if="ctlAttachment.removeItem" on-item-delete="ctlAttachment.attachments.detach" on-item-click="ctlAttachment.open"></nst-attachments-editable-bar>
 <nst-attachments-preview-bar mode="'badge'" items="ctlAttachment.attachments.viewModels" ng-if="!ctlAttachment.removeItem" on-item-click="ctlAttachment.open"></nst-attachments-preview-bar>
 
 <a class="attachment-plus ng-class:{'active': ctlAttachment.openPopover}"  ng-click="ctlAttachment.openPopover =! ctlAttachment.openPopover" ng-if="ctlAttachment.addItem"
