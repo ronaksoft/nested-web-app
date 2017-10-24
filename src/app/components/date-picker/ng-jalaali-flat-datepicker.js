@@ -42,7 +42,8 @@
 
   function ngJalaaliFlatDatepickerProvider() {
     var options = {
-      dateFormat: 'jYYYY/jMM/jDD hh:mm a',
+      dateFormat: 'YYYY/MM/DD hh:mm a',
+      jalaliDateFormat: 'jYYYY/jMM/jDD hh:mm a',
       gregorianDateFormat: 'YYYY/MM/DD hh:mm a',
       minDate: null,
       dropDownYears: 10,
@@ -124,6 +125,9 @@
 
         // scope.config = _.extend(ngJalaaliFDP.getOptions(), scope.config)
         scope.config = angular.extend(ngJalaaliFDP.options, scope.config);
+        if(jalali) {
+          scope.config.dateFormat = scope.config.jalaliDateFormat
+        }
         if (angular.isDefined(scope.config.minDate)) {
           moment(scope.config.minDate).subtract(1, 'day');
         }
