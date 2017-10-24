@@ -56,7 +56,7 @@
     <div class="_fw _difc">
       <h4 class="_df _fn" ng-if="!ctlPostCard.FIT" user-detail="ctlPostCard.post.sender">{{::ctlPostCard.post.sender.fullName}}</h4>
       <!-- First Interactive time -->
-      <h4 class="_df _fn" ng-if="ctlPostCard.FIT"><span>{{::ctlPostCard.post.sender.fullName}}</span></h4>
+      <h4 class="_df _fn" ng-if="ctlPostCard.FIT"><span>{{::ctlPostCard.post.sender.fullName}}</span>{{ctlPostCard.post.id}}</h4>
       <div class="_df _fw"></div>
 
       <a class="_df _fn post-card-time" ng-if="!ctlPostCard.FIT" ng-click="ctlPostCard.viewFull($event); ctlPostCard.markAsRead(); _track('post card','open post view : click date');"
