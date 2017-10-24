@@ -14,7 +14,8 @@
       controllerAs: 'ctlCommentBody',
       replace: true,
       bindToController: {
-        comment: '='
+        comment: '=',
+        commentBoardId: '='
       }
     };
   }

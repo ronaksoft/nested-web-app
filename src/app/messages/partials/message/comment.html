@@ -14,7 +14,7 @@
   <div ng-repeat="comment in ctrl.comments | limitTo : ctrl.commentBoardLimit * -1  | orderBy:'timestamp'" id="comment-{{comment.id}}"
     class="ng-class:{'new-comment-animation' : comment.isNew && comment.sender.id !== ctrl.user.id}">
     <div class="post-card-comments _difh _fw _wrb" ng-class="{ 'removed-comment' : comment.removedById }">
-      <nst-comment-body comment="comment"></nst-comment-body>
+      <nst-comment-body comment="comment" comment-board-id="ctrl.commentBoardId"></nst-comment-body>
       <script type="text/ng-template" id="remove-cm-tooltip.html">
         <translate>Remove</translate>
       </script>

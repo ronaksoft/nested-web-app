@@ -139,7 +139,6 @@
       }).orderBy('timestamp', 'asc').value();
     }
 
-
     function removeComment(comment) {
       if (vm.commentRemoveProgress) {
         return;
