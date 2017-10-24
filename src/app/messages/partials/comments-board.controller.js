@@ -46,9 +46,9 @@
         var key = $scope.$on('post-load-new-comments', function (event, data) {
           if (data.postId === vm.postId) {
             if (data.scrollIntoView) {
-              loadRecentComments(data.scrollIntoView);
+              loadRecentComments(data.news, data.scrollIntoView);
             } else {
-              loadRecentComments();
+              loadRecentComments(data.news);
             }
           }
         });
@@ -100,13 +100,16 @@
       return deferred.promise;
     }
 
-    function loadRecentComments(scrollIntoView) {
+    function loadRecentComments(news, scrollIntoView) {
       var settings = {
         date : getLastCommentDate(vm.comments),
         limit : 30
       };
 
       getRecentComments(settings).then(function (result) {
+        result.comments.forEach(function(cm) {
+          cm.isNew = true
+        })
         var newComments = reorderComments(result.comments);
         vm.comments = vm.comments.concat(newComments);
         vm.lastComment = findLastComment(vm.comments);

@@ -6,7 +6,7 @@
     .directive('scrollDispatch', hideTips);
 
   /** @ngInject */
-  function hideTips(SvcCardCtrlAffix, $, wdtEmojiBundle, _, $rootScope, $log) {
+  function hideTips(SvcCardCtrlAffix, $, wdtEmojiBundle, _, $rootScope, $log, $window) {
     return {
       link: function ($scope, $element) {
         var removePopovers = _.throttle(remover, 64);
@@ -14,7 +14,7 @@
         var reachEndThrottle = _.throttle(ReachEnd, 256);
         var scroll = SvcCardCtrlAffix.scroll;
 
-        $(window).scroll(function () {
+        angular.element($window).bind("scroll", function() {
           var scrollTop = this.pageYOffset;
           var scrollHeight = $('body').height();
           if (scrollTop < 300) {

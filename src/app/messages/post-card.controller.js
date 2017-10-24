@@ -501,7 +501,8 @@
     function loadNewComments($event, scrollIntoView) {
       if ($event) $event.preventDefault();
       var data = {
-        postId: vm.post.id
+        postId: vm.post.id,
+        news: unreadCommentIds
       }
       if (scrollIntoView) {
         data.scrollIntoView = true;
@@ -663,18 +664,22 @@
       if (vm.post.id !== data.activity.post.id) {
         return;
       }
-
+      newCommentIds.push(data.activity.id);
+      
       var senderIsCurrentUser = (NstSvcAuth.user.id === data.activity.actor.id);
       if (senderIsCurrentUser) {
         loadNewComments();
-        if (!_.includes(newCommentIds, data.activity.id)) {
-          newCommentIds.push(data.activity.id);
+        // if (!_.includes(newCommentIds, data.activity.id)) {
           // vm.post.counters.comments++;
-        }
+        // }
       } else {
         if (!_.includes(unreadCommentIds, data.activity.id)) {
           vm.unreadCommentsCount++;
           unreadCommentIds.push(data.activity.id);
+        }
+        if($rootScope.inViewPost.id === vm.post.id) {
+          loadNewComments();
+          unreadCommentIds = [];
         }
       }
     }));
@@ -685,6 +690,19 @@
      */
     eventReferences.push($rootScope.$on('post-read-all', function () {
       vm.post.read = true;
+    }));
+
+    /**
+     * Event listener for read all posts
+     * and updates the model
+     */
+    eventReferences.push($rootScope.$watch(function() {
+      return $rootScope.inViewPost
+    }, function(v) {
+      if (unreadCommentIds.length > 0 && v.id === vm.post.id) {
+        loadNewComments();
+        unreadCommentIds = [];
+      }
     }));
 
 

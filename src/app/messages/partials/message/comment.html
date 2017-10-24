@@ -11,7 +11,8 @@
   <!--<a ng-if="ctrl.hasAnyRemoved && ctrl.showRemoved" href="javascript:void(0);" ng-click="ctrl.showRemoved = false; _track('post card', 'hide removed comments');">Hide removed comments</a>-->
 </div>
 <div class="comments-container">
-  <div ng-repeat="comment in ctrl.comments | limitTo : ctrl.commentBoardLimit * -1  | orderBy:'timestamp'" id="comment-{{comment.id}}">
+  <div ng-repeat="comment in ctrl.comments | limitTo : ctrl.commentBoardLimit * -1  | orderBy:'timestamp'" id="comment-{{comment.id}}"
+    class="ng-class:{'new-comment-animation' : comment.isNew && comment.sender.id !== ctrl.user.id}">
     <div class="post-card-comments _difh _fw _wrb" ng-class="{ 'removed-comment' : comment.removedById }">
       <nst-comment-body comment="comment"></nst-comment-body>
       <script type="text/ng-template" id="remove-cm-tooltip.html">

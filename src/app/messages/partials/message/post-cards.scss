@@ -589,6 +589,7 @@ post-card {
   align-items: flex-start;
   padding: 8px 16px 0 0px;
   position: relative;
+  transform-origin: top center;
   &:hover {
     .delete-comment {
       opacity: 1;
@@ -689,6 +690,9 @@ post-card {
   }
 }
 
+.new-comment-animation {
+  animation: new-comment-hot 3s ease-in forwards;
+}
 .comments-load {
   height: 40px;
   align-items: center;

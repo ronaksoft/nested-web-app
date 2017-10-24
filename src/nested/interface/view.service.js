@@ -128,8 +128,10 @@
       }
       // Offset of first post card to top ( always should remove it from Ypos for proper compute )
       var firstOffset = $('#post-card-' + $rootScope.cardCtrls[0].id).parent().offset().top;
-      applyPostInView(Ypos, scrollDown, firstOffset);
-      applyAffixCard(Ypos, scrollDown, firstOffset);
+      $timeout(function (){
+        applyPostInView(Ypos, scrollDown, firstOffset);
+        applyAffixCard(Ypos, scrollDown, firstOffset);
+      })
 
     };
 
