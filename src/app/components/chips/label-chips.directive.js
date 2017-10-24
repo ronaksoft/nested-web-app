@@ -17,7 +17,7 @@
         selectable: '=?',
         index: '=?',
         onRemove: '=',
-        removable: '=?',
+        removable: '=?'
       },
       link: function (scope, element) {
         scope.isSelected = false;
