@@ -22,8 +22,17 @@
     vm.mentionAssigneesData = [];
     vm.assigneeKeyDown = assigneeKeyDown;
     vm.assigneeKeyUp = assigneeKeyUp;
+    vm.addIt = addIt;
     vm.removeAssigneeChip = removeAssigneeChip;
     vm.removeItems = removeItems;
+
+    if (vm.addItem === undefined) {
+      vm.addItem = true;
+    }
+
+    if (vm.removeItem === undefined) {
+      vm.removeItem = true;
+    }
 
     (function () {
       if (vm.assigneeExclude !== undefined) {
@@ -57,6 +66,9 @@
     }
 
     function removeAssigneeChip(id) {
+      if (vm.removeItem !== true) {
+        return;
+      }
       if (_.isObject(id)) {
         id = id.id;
       }
@@ -71,19 +83,30 @@
     }
 
     function assigneeKeyDown(event) {
-      if (event.keyCode === 13) {
-        _.forEach(parseMentionData(vm.assigneeInput), function (item) {
-          vm.assignees.push(item);
-        });
-        vm.assignees = _.uniq(vm.assignees);
-        vm.assigneesData = removeRedundantAssignees(vm.assignees, vm.mentionAssigneesData);
-        vm.assigneeInput = '';
+      if (vm.addItem && event.keyCode === 13) {
+        addAssigneeChip();
       }
+    }
+
+    function addIt() {
+      addAssigneeChip();
+    }
+
+    function addAssigneeChip() {
+      if (vm.addItem !== true) {
+        return;
+      }
+      _.forEach(parseMentionData(vm.assigneeInput), function (item) {
+        vm.assignees.push(item);
+      });
+      vm.assignees = _.uniq(vm.assignees);
+      vm.assigneesData = removeRedundantAssignees(vm.assignees, vm.mentionAssigneesData);
+      vm.assigneeInput = '';
     }
 
     var inputLastValue = '';
     function assigneeKeyUp(event) {
-      if (event.keyCode === 8 && inputLastValue === '') {
+      if (vm.removeItem && event.keyCode === 8 && inputLastValue === '') {
         if (vm.assignees.length > 0 && vm.assigneesData.length > 0) {
           var text = vm.assignees.pop();
           vm.assigneesData.pop();

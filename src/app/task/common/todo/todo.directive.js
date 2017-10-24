@@ -19,7 +19,8 @@
         todoPlaceholder: '@',
         removeItems: '=',
         updateItem: '=',
-        editMode: '=',
+        addItem: '=?',
+        removeItem: '=?',
         todoFocusMe: '='
       }
     };

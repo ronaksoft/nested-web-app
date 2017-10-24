@@ -8,7 +8,8 @@
         restrict: 'A',
         scope: {
           selectedList: '=nstMentionList',
-          dataList: '=nstMentionData'
+          dataList: '=nstMentionData',
+          itemClicked: '=nstMentionClicked'
         },
         link: function (scope, _element) {
 
@@ -77,6 +78,7 @@
                       scope.dataList = _.uniqBy(scope.dataList, 'id');
                     }
                     var elm = angular.element($li);
+                    $timeout(scope.itemClicked, 10);
                     return key + elm.attr('data-id').trim() + ',';
                   },
                   remoteFilter: function (query, callback) {

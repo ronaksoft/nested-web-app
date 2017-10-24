@@ -5,7 +5,7 @@
     .module('ronak.nested.web.task')
     .controller('TasksController', TasksController);
 
-  function TasksController($rootScope, $scope, _, $state, NstSvcTaskFactory, NST_TASK_STATUS, NstSvcTaskUtility, $timeout) {
+  function TasksController($rootScope, $scope, _, $state, NstSvcTaskFactory, NST_TASK_STATUS, NstSvcTaskUtility, $timeout, toastr, NstSvcTranslation, NstUtility) {
     var vm = this;
     var eventReferences = [];
 
@@ -23,6 +23,8 @@
     vm.isWatchlistPage = false;
     vm.isCustomFilterPage = false;
     vm.editTask = editTask;
+    vm.acceptTask = acceptTask;
+    vm.declineTask = declineTask;
     vm.getTaskIcon = NstSvcTaskUtility.getTaskIcon;
 
     vm.overDueTasks = [];
@@ -49,7 +51,7 @@
           vm.isCreatedByMePage = true;
           break;
         case 'app.task.watchlist':
-          vm.isCreatedByMePage = true;
+          vm.isWatchlistPage = true;
           break;
         case 'app.task.custom_filter':
           vm.isCustomFilterPage = true;
@@ -162,6 +164,26 @@
         taskId: id
       }, {
         notify: false
+      });
+    }
+
+    function acceptTask(id) {
+      NstSvcTaskFactory.respond(id, NST_TASK_STATUS.ACCEPT).then(function () {
+        var index = _.findIndex(vm.pendingTasks, {id: id});
+        toastr.success(NstSvcTranslation.get(String('You\'ve accepted {0}\'s task').replace('{0}', vm.pendingTasks[index].assignor.fullName)));
+        vm.pendingTasks.splice(index, 1);
+      }).catch(function () {
+        toastr.error(NstSvcTranslation.get('Something went wrong!'));
+      });
+    }
+
+    function declineTask(id) {
+      NstSvcTaskFactory.respond(id, NST_TASK_STATUS.DECLINE).then(function () {
+        var index = _.findIndex(vm.pendingTasks, {id: id});
+        toastr.warning(NstSvcTranslation.get(String('You\'ve declined {0}\'s task').replace('{0}', vm.pendingTasks[index].assignor.fullName)));
+        vm.pendingTasks.splice(index, 1);
+      }).catch(function () {
+        toastr.error(NstSvcTranslation.get('Something went wrong!'));
       });
     }
 

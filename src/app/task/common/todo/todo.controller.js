@@ -29,6 +29,14 @@
     vm.removeTodo = removeTodo;
     vm.removeItems = removeItems;
 
+    if (vm.addItem === undefined) {
+      vm.addItem = true;
+    }
+
+    if (vm.removeItem === undefined) {
+      vm.removeItem = true;
+    }
+
     function addTodo() {
       // if (_.findIndex(vm.todosData, {text: vm.temp.text}) > -1) {
       //   toastr.warning(NstSvcTranslation.get('This todo already exists!'));
@@ -52,6 +60,9 @@
     }
 
     function removeTodo(id) {
+      if (vm.removeItem !== true) {
+        return;
+      }
       var index = _.findIndex(vm.todosData, {id: id});
       if (index > -1) {
         vm.todosData.splice(index, 1);

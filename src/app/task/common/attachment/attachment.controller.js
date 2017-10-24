@@ -19,6 +19,14 @@
                                     NST_CONFIG, $log, NST_FILE_TYPE, NstPicture, NstSvcFileType, NstSvcStore, NST_STORE_UPLOAD_TYPE) {
     var vm = this;
 
+    if (vm.addItem === undefined) {
+      vm.addItem = true;
+    }
+
+    if (vm.removeItem === undefined) {
+      vm.removeItem = true;
+    }
+
     vm.openPopover = false;
 
     var systemConstants = {};
@@ -32,6 +40,9 @@
     })();
 
     vm.addUploadedAttachs = addUploadedAttachs;
+    vm.placeFiles = placeFiles;
+    vm.dodrop = dodrop;
+    vm.removeItems = removeItems;
     vm.attachmentsIsUploading = [];
     vm.attachments = {
       elementId: 'attach',
@@ -43,7 +54,6 @@
       }
     };
 
-    vm.placeFiles = placeFiles;
 
     $scope.$watch(function () {
       return vm.attachments.viewModels
@@ -305,7 +315,7 @@
      * this function add file/files into attachments model
      * @param {any} event
      */
-    vm.dodrop = function (event) {
+    function dodrop(event) {
       NstSvcLogger.debug4('Compose | dropped some files :');
       event.preventDefault();
       event.stopPropagation();
@@ -315,14 +325,14 @@
         vm.attachments.attach(files[i]).then(function () {
         });
       }
-    };
+    }
 
-    vm.removeItems = function () {
+    function removeItems() {
       var cloneAttachments = Object.assign({}, vm.attachmentsData);
       _.forEach(cloneAttachments, function (attachment) {
         vm.attachments.detach(attachment);
       });
-    };
+    }
 
     $scope.$watch(function () {
       return vm.attachmentsData;

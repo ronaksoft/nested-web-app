@@ -50,7 +50,8 @@
       todos: [],
       attachments: [],
       watchers: [],
-      labels: []
+      labels: [],
+      access: null
     };
 
     function backItUp() {
@@ -128,9 +129,12 @@
 
     function getTask(id) {
       NstSvcTaskFactory.get(id).then(function (task) {
+        console.log(task);
+
         vm.model.title = task.title;
         vm.model.assignor = task.assignor;
         vm.model.counters = task.counters;
+        vm.model.access = task.access;
 
         if (task.assignee !== undefined) {
           vm.model.assignees = {
@@ -255,7 +259,7 @@
     var updateDebouncer = _.debounce(updateTask, 1000);
 
     function updateTitle(text) {
-      if (vm.model.title === text) {
+      if (vm.modelBackUp.title === text) {
         return;
       }
       taskUpdateModel.title = text;
@@ -263,7 +267,7 @@
     }
 
     function updateDescription(text) {
-      if (vm.model.description === text) {
+      if (vm.modelBackUp.description === text) {
         return;
       }
       taskUpdateModel.description = text;
@@ -271,7 +275,7 @@
     }
 
     function updateDueDate(date) {
-      if (vm.model.dueDate === date) {
+      if (vm.modelBackUp.dueDate === date) {
         return;
       }
       taskUpdateModel.dueDate = new Date(date).getTime();
@@ -346,9 +350,10 @@
       }
 
       if (removedItems.length > 0) {
-        _.forEach(removedItems, function (item) {
-          promises.push(NstSvcTaskFactory.removeTodo(vm.taskId, item.id));
-        });
+        var ids = _.map(removedItems, function (item) {
+          return item.id;
+        }).join(',');
+        promises.push(NstSvcTaskFactory.removeTodo(vm.taskId, ids));
       }
 
       if (newItems.length > 0 || removedItems.length > 0) {
