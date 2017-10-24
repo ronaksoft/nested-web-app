@@ -17,10 +17,10 @@
         remove: '=todoRemove',
         editMode: '=',
         placeholder: '@placeholder',
-        focusMe: '=todoFocusMe'
+        focusMe: '=todoFocusMe',
+        check: '=todoCheck'
       },
       link: function ($scope) {
-        $scope.data.checked = false;
 
         if ($scope.focus) {
           $scope.focus = false;
@@ -42,6 +42,10 @@
             }
           }
           lastText = $scope.data.text;
+        };
+
+        $scope.checkChanged = function () {
+          $scope.check($scope.data.id);
         };
       }
     };

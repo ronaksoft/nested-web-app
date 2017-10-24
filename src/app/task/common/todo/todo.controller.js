@@ -26,6 +26,7 @@
 
     vm.addTodo = addTodo;
     vm.updateTodo = updateTodo;
+    vm.checkTodo = checkTodo;
     vm.removeTodo = removeTodo;
     vm.removeItems = removeItems;
 
@@ -56,6 +57,13 @@
       var index = _.findIndex(vm.todosData, {id: id});
       if (_.isFunction(vm.updateItem)) {
         vm.updateItem(index, vm.todosData[index]);
+      }
+    }
+
+    function checkTodo(id) {
+      var index = _.findIndex(vm.todosData, {id: id});
+      if (_.isFunction(vm.checkItem)) {
+        vm.checkItem(index, vm.todosData[index]);
       }
     }
 
