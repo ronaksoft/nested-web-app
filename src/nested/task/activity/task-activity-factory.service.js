@@ -18,7 +18,6 @@
 
     ActivityFactory.prototype.get = get;
     ActivityFactory.prototype.getAfter = getAfter;
-    ActivityFactory.prototype.getRecent = getRecent;
     ActivityFactory.prototype.parseActivity = parseActivity;
 
     var factory = new ActivityFactory();
@@ -44,6 +43,7 @@
           return parseComment(data);
         case NST_TASK_EVENT_ACTION.TITLE_CHANGED:
         case NST_TASK_EVENT_ACTION.DESC_CHANGED:
+        case NST_TASK_EVENT_ACTION.STATUS_CHANGED:
           return parseTask(data);
         case NST_TASK_EVENT_ACTION.CANDIDATE_ADDED:
         case NST_TASK_EVENT_ACTION.CANDIDATE_REMOVED:
@@ -53,9 +53,7 @@
         case NST_TASK_EVENT_ACTION.TODO_CHANGED:
         case NST_TASK_EVENT_ACTION.TODO_DONE:
         case NST_TASK_EVENT_ACTION.TODO_UNDONE:
-          return parseTask(data);
-        case NST_TASK_EVENT_ACTION.STATUS_CHANGED:
-          return parseStatus(data);
+          return parseTodo(data);
         case NST_TASK_EVENT_ACTION.LABEL_ADDED:
         case NST_TASK_EVENT_ACTION.LABEL_REMOVED:
           return parseLabel(data);
@@ -69,6 +67,10 @@
       }
     }
 
+    function parseDefault(activity, data) {
+
+    }
+
     function parseWatcher(data) {
       var activity = new NstActivity();
 
@@ -76,6 +78,9 @@
       activity.type = data.action;
       activity.date = data.timestamp;
       activity.actor = NstSvcUserFactory.parseTinyUser(data.actor);
+      activity.watchers = _.map(data.watchers, function (item) {
+        return NstSvcUserFactory.parseTinyUser(item);
+      });
 
       return activity;
     }
@@ -87,6 +92,7 @@
       activity.type = data.action;
       activity.date = data.timestamp;
       activity.actor = NstSvcUserFactory.parseTinyUser(data.actor);
+      activity.attachments = _.map(data.attachments, NstSvcAttachmentFactory.parseAttachment);
 
       return activity;
     }
@@ -98,6 +104,13 @@
       activity.type = data.action;
       activity.date = data.timestamp;
       activity.actor = NstSvcUserFactory.parseTinyUser(data.actor);
+      activity.comment = {
+        id: data._id,
+        body: data.comment_text,
+        timestamp: data.timestamp,
+        sender: activity.actor,
+        removedById: null
+      };
 
       return activity;
     }
@@ -109,6 +122,11 @@
       activity.type = data.action;
       activity.date = data.timestamp;
       activity.actor = NstSvcUserFactory.parseTinyUser(data.actor);
+      if (data.title) {
+        activity.task = {
+          title: data.title
+        };
+      }
 
       return activity;
     }
@@ -120,17 +138,23 @@
       activity.type = data.action;
       activity.date = data.timestamp;
       activity.actor = NstSvcUserFactory.parseTinyUser(data.actor);
+      activity.candidates = _.map(data.candidates, function (item) {
+        return NstSvcUserFactory.parseTinyUser(item);
+      });
 
       return activity;
     }
 
-    function parseStatus(data) {
+    function parseTodo(data) {
       var activity = new NstActivity();
 
       activity.id = data._id;
       activity.type = data.action;
       activity.date = data.timestamp;
       activity.actor = NstSvcUserFactory.parseTinyUser(data.actor);
+      activity.todo = {
+        text: data.todo_text
+      };
 
       return activity;
     }
@@ -147,6 +171,7 @@
     }
 
     function parseDueDate(data) {
+      console.log('parseDueDate', data);
       var activity = new NstActivity();
 
       activity.id = data._id;
@@ -163,16 +188,16 @@
         var deferred = $q.defer();
 
         NstSvcServer.request('task/get_activities', {
+          task_id: settings.id,
+          details: true,
+          only_comments: settings.onlyComment,
           limit: settings.limit || 32,
           before: settings.before,
-          after: settings.after,
-          filter: settings.filter || 'all',
-          place_id: settings.placeId,
-          details: true
+          after: settings.after
         }, function (cachedResponse) {
-          if (_.isFunction(cacheHandler) && cachedResponse) {
-            cacheHandler(_.map(cachedResponse.activities, parseActivity));
-          }
+          // if (_.isFunction(cacheHandler) && cachedResponse) {
+          //   cacheHandler(_.map(cachedResponse.activities, parseActivity));
+          // }
         }).then(function (response) {
 
           deferred.resolve(_.map(response.activities, parseActivity));
@@ -180,24 +205,24 @@
         }).catch(deferred.reject);
 
         return deferred.promise;
-      }, 'getTaskActivities', settings.placeId);
+      }, 'getTaskActivities', settings.id);
     }
 
     function get(settings, cacheHandler) {
       return getActivities({
+        id: settings.id,
         limit: settings.limit,
-        placeId: settings.placeId,
         before: settings.date,
-        filter: settings.filter
+        onlyComment: settings.onlyComment
       }, cacheHandler);
     }
 
     function getAfter(settings) {
       return getActivities({
+        id: settings.id,
         limit: settings.limit,
-        placeId: settings.placeId,
         after: settings.date,
-        filter: settings.filter
+        onlyComment: settings.onlyComment
       });
     }
   }

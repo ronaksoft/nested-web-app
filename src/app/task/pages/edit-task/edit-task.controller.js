@@ -6,7 +6,9 @@
     .controller('EditTaskController', EditTaskController);
 
   /** @ngInject */
-  function EditTaskController($q, $, $timeout, $scope, $state, $rootScope, $stateParams, NstSvcAuth, _, toastr, NstSvcTranslation, NstTask, NST_ATTACHMENT_STATUS, NstUtility, NstSvcTaskFactory, NstSvcTaskUtility) {
+  function EditTaskController($q, $, $timeout, $scope, $state, $rootScope, $stateParams,
+                              NstSvcAuth, _, toastr, NstSvcTranslation, NstTask, NST_ATTACHMENT_STATUS,
+                              NstUtility, NstSvcTaskFactory, NstSvcTaskUtility, NstSvcTaskActivityFactory) {
     var vm = this;
     // var eventReferences = [];
 
@@ -17,6 +19,7 @@
     vm.editMode = true;
     vm.onlyComments = true;
     vm.loading = true;
+    vm.activityCount = 0;
 
     vm.isOpenBinder = false;
 
@@ -35,7 +38,6 @@
     (function () {
       vm.taskId = $stateParams.taskId;
       getTask(vm.taskId);
-      getActivities(vm.taskId);
     })();
 
     vm.model = {
@@ -149,9 +151,11 @@
           };
         }
 
-        if (task.dueDate !== undefined) {
+        if (task.dueDate !== undefined && task.dueDate !== 0) {
           vm.model.dueDate = new Date(task.dueDate);
           // vm.enableDue = true;
+        } else {
+          vm.model.dueDate = null;
         }
 
         if (task.description !== undefined && _.trim(task.description).length > 0) {
@@ -194,11 +198,6 @@
           dataInit = true;
           vm.loading = false;
         }, 100);
-      });
-    }
-    function getActivities(id) {
-      NstSvcTaskFactory.getActivities(id, false, 0, 16).then(function (acts) {
-        vm.taskActivities = acts;
       });
     }
 
@@ -280,7 +279,11 @@
       if (vm.modelBackUp.dueDate === date) {
         return;
       }
-      taskUpdateModel.dueDate = new Date(date).getTime();
+      if (date === null) {
+        taskUpdateModel.dueDate = 0;
+      } else {
+        taskUpdateModel.dueDate = new Date(date).getTime();
+      }
       updateDebouncer.call();
     }
 
