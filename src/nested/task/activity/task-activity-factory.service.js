@@ -8,7 +8,7 @@
   function NstSvcTaskActivityFactory($q, _,
     NST_ACTIVITY_FILTER, NST_TASK_EVENT_ACTION,
     NstSvcServer, NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcCommentFactory, NstSvcActivityCacheFactory,
-    NstBaseFactory, NstSvcLogger, NstActivity, NstSvcLabelFactory, NstUtility, NstSvcAttachmentFactory) {
+    NstBaseFactory, NstSvcLogger, NstTaskActivity, NstSvcLabelFactory, NstUtility, NstSvcAttachmentFactory) {
 
 
     function ActivityFactory() {}
@@ -68,16 +68,17 @@
     }
 
     function parseDefault(activity, data) {
-
-    }
-
-    function parseWatcher(data) {
-      var activity = new NstActivity();
-
       activity.id = data._id;
       activity.type = data.action;
       activity.date = data.timestamp;
       activity.actor = NstSvcUserFactory.parseTinyUser(data.actor);
+    }
+
+    function parseWatcher(data) {
+      var activity = new NstTaskActivity();
+
+      parseDefault(activity, data);
+
       activity.watchers = _.map(data.watchers, function (item) {
         return NstSvcUserFactory.parseTinyUser(item);
       });
@@ -86,42 +87,39 @@
     }
 
     function parseAttachment(data) {
-      var activity = new NstActivity();
+      var activity = new NstTaskActivity();
 
-      activity.id = data._id;
-      activity.type = data.action;
-      activity.date = data.timestamp;
-      activity.actor = NstSvcUserFactory.parseTinyUser(data.actor);
+      parseDefault(activity, data);
+
       activity.attachments = _.map(data.attachments, NstSvcAttachmentFactory.parseAttachment);
 
       return activity;
     }
 
     function parseComment(data) {
-      var activity = new NstActivity();
+      var activity = new NstTaskActivity();
 
-      activity.id = data._id;
-      activity.type = data.action;
-      activity.date = data.timestamp;
-      activity.actor = NstSvcUserFactory.parseTinyUser(data.actor);
+      parseDefault(activity, data);
+
       activity.comment = {
         id: data._id,
         body: data.comment_text,
         timestamp: data.timestamp,
         sender: activity.actor,
-        removedById: null
+        removedById: null,
+        attachment_id: ''
       };
+
+      console.log('comment', activity);
 
       return activity;
     }
 
     function parseTask(data) {
-      var activity = new NstActivity();
+      var activity = new NstTaskActivity();
 
-      activity.id = data._id;
-      activity.type = data.action;
-      activity.date = data.timestamp;
-      activity.actor = NstSvcUserFactory.parseTinyUser(data.actor);
+      parseDefault(activity, data);
+
       if (data.title) {
         activity.task = {
           title: data.title
@@ -132,12 +130,10 @@
     }
 
     function parseCandidate(data) {
-      var activity = new NstActivity();
+      var activity = new NstTaskActivity();
 
-      activity.id = data._id;
-      activity.type = data.action;
-      activity.date = data.timestamp;
-      activity.actor = NstSvcUserFactory.parseTinyUser(data.actor);
+      parseDefault(activity, data);
+
       activity.candidates = _.map(data.candidates, function (item) {
         return NstSvcUserFactory.parseTinyUser(item);
       });
@@ -146,12 +142,10 @@
     }
 
     function parseTodo(data) {
-      var activity = new NstActivity();
+      var activity = new NstTaskActivity();
 
-      activity.id = data._id;
-      activity.type = data.action;
-      activity.date = data.timestamp;
-      activity.actor = NstSvcUserFactory.parseTinyUser(data.actor);
+      parseDefault(activity, data);
+
       activity.todo = {
         text: data.todo_text
       };
@@ -160,24 +154,19 @@
     }
 
     function parseLabel(data) {
-      var activity = new NstActivity();
+      var activity = new NstTaskActivity();
 
-      activity.id = data._id;
-      activity.type = data.action;
-      activity.date = data.timestamp;
-      activity.actor = NstSvcUserFactory.parseTinyUser(data.actor);
+      parseDefault(activity, data);
 
       return activity;
     }
 
     function parseDueDate(data) {
-      console.log('parseDueDate', data);
-      var activity = new NstActivity();
+      var activity = new NstTaskActivity();
 
-      activity.id = data._id;
-      activity.type = data.action;
-      activity.date = data.timestamp;
-      activity.actor = NstSvcUserFactory.parseTinyUser(data.actor);
+      parseDefault(activity, data);
+
+      activity.dueDate = data.due_date;
 
       return activity;
     }
