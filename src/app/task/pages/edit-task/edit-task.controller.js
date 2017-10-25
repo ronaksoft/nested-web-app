@@ -20,6 +20,7 @@
     vm.onlyComments = true;
     vm.loading = true;
     vm.activityCount = 0;
+    vm.activityPopover = false;
 
     vm.isOpenBinder = false;
 

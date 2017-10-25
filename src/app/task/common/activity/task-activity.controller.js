@@ -24,13 +24,18 @@
       getActivities(vm.taskId);
     })();
 
+    var init = false;
     $timeout(function () {
-      $scope.$watch(function () {
-        return vm.onlyComments;
-      }, function () {
-        getActivities(vm.taskId)
-      });
+      init = true;
     }, 1000);
+
+    $scope.$watch(function () {
+      return vm.onlyComments;
+    }, function () {
+      if (init) {
+        getActivities(vm.taskId)
+      }
+    });
 
     function getActivities(id) {
       vm.activities = [];
