@@ -118,7 +118,7 @@
         if ( newComments.length > 0 && newComments[0].id && scrollIntoView) {
           // $location.hash('comment-' + newComments[0].id);
           // $anchorScroll();
-          
+
           setTimeout(function () {
             // $('.uib-wrapper-post-view').animate({
             //   scrollTop: $('#' + 'comment-' + newComments[0].id).offset().top
@@ -126,7 +126,7 @@
             // });
             document.querySelector('#' + 'comment-' + newComments[0].id).scrollIntoView({ behavior: 'smooth' });
           }, 256)
-       
+
         }
       }).catch(function (error) {
         NstSvcLogger.error(error);
@@ -174,6 +174,7 @@
       el.style.height = '';
       el.style.height = el.scrollHeight + "px";
     }
+
     /**
      * send - add the comment to the list of the post comments
      *
@@ -197,7 +198,7 @@
 
 
       vm.isSendingComment = true;
-      
+
       if(vm.postId) {
         NstSvcCommentFactory.addComment(vm.postId, body).then(function (comment){
           addCommentCallback(comment)

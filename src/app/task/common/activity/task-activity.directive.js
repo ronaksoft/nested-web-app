@@ -17,7 +17,7 @@
       controllerAs: 'ctrl',
       bindToController: {
         taskId: '=',
-        onlyComment: '=',
+        onlyComments: '=',
         totalCommentsCount : '=',
         onCommentSent : '=',
         hasCommentRemoveAccess : '=',

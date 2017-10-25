@@ -27,13 +27,14 @@
         class="task-input-wrapper ng-class:{'focus': ctrlEditTask.titleFocus, 'error' : (ctrlEditTask.model.title.length > ctrlEditTask.model.titleLengthLimit)}">
         <textarea type="text" class="no-style gale-holder create-task-input"
                   placeholder="{{ctrlEditTask.titlePlaceholder}}" id="task-title"
-                  uneditable="{{!ctrlEditTask.model.access.updateTask}}"
                   ng-focus="ctrlEditTask.titleFocus = true"
                   ng-blur="ctrlEditTask.titleFocus = false; ctrlEditTask.updateTitle(ctrlEditTask.model.title);"
                   resize-textarea ng-model="ctrlEditTask.model.title"
                   enter-key="ctrlEditTask.enterSubjectTask(); ctrlEditTask.updateTitle(ctrlEditTask.model.title);"
                   prevent-shift-enter="true"></textarea>
-        <div class="task-menu-options" data-popover-class="white-pop task-logs-filter-popover"
+        <div ng-if="ctrlEditTask.model.access.deleteTask"
+             class="task-menu-options"
+             data-popover-class="white-pop task-logs-filter-popover"
              data-popover-append-to-body="false"
              uib-popover-template="'app/task/common/popovers/task-more-options-popover.html'"
              data-popover-placement="auto bottom-right">
@@ -89,11 +90,12 @@
       <div class="task-input-wrapper ng-class:{'focus': ctrlEditTask.dueDateFocus}">
         <input type="text" class="no-style gale-holder create-task-input" translate-attrs="placeholder"
                placeholder="{{ctrlEditTask.dueDatePlaceholder}}"
-               id="task-due" uneditable="{{ctrlEditTask.model.access.updateTask? 'false': 'true'}}"
+               id="task-due"
                ng-focus="ctrlEditTask.dueDateFocus = true" ng-blur="ctrlEditTask.dueDateFocus = false"
                ng-model="ctrlEditTask.model.dueDate"
                data-config="ctrlEditTask.datePickerconfig" g-formatted-picked-date="gfdate" g-picked-date="gdate"
-               ng-jalaali-flat-datepicker>
+               ng-jalaali-flat-datepicker
+        >
       </div>
       <label for="task-due"
              ng-class="{'focus': ctrlEditTask.dueDateFocus, 'no-hover': (ctrlEditTask.model.access.updateTask != true || ctrlEditTask.model.dueDate == null)}">
@@ -119,7 +121,7 @@
                   enter-key="ctrlEditTask.enterDescriptionTask(); ctrlEditTask.updateDescription(ctrlEditTask.model.description);"
                   placeholder="{{ctrlEditTask.descriptionPlaceholder}}"
                   id="task-description" resize-textarea
-                  uneditable="{{!ctrlEditTask.model.access.updateTask}}"></textarea>
+                  uneditable="{{ctrlEditTask.model.access.updateTask? 'false': 'true'}}"></textarea>
       </div>
       <label for="task-description" ng-class="{'focus': ctrlEditTask.descriptionFocus}">
         <svg class="_16svg">
@@ -365,7 +367,7 @@
         />
         <translate>Post a comment to start a discussion.<br><b>@Mention</b> someone to notify them.</translate>
       </div>
-      <nst-task-activity task-id="ctrlEditTask.taskId" only-comment="false" task-id="ctrlEditTask.taskId" activity-count="ctrlEditTask.activityCount"
+      <nst-task-activity task-id="ctrlEditTask.taskId" only-comments="ctrlEditTask.onlyComments" task-id="ctrlEditTask.taskId" activity-count="ctrlEditTask.activityCount"
                       total-comments-count="ctrlEditTask.model.counters.comments + ctrlEditTask.model.counters.updates"
                       on-comment-sent="" has-comment-remove-access="false"></nst-task-activity>
     </div>

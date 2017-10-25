@@ -8,7 +8,7 @@
   /** @ngInject */
   function EditTaskController($q, $, $timeout, $scope, $state, $rootScope, $stateParams,
                               NstSvcAuth, _, toastr, NstSvcTranslation, NstTask, NST_ATTACHMENT_STATUS,
-                              NstUtility, NstSvcTaskFactory, NstSvcTaskUtility, NstSvcTaskActivityFactory) {
+                              NstUtility, NstSvcTaskFactory, NstSvcTaskUtility) {
     var vm = this;
     // var eventReferences = [];
 
@@ -59,6 +59,18 @@
 
     function backItUp() {
       vm.modelBackUp = $.extend(true, {}, vm.model);
+      if (vm.modelBackUp.attachments.hasOwnProperty('init')) {
+        vm.modelBackUp.attachments = vm.modelBackUp.attachments.data;
+      }
+      if (vm.modelBackUp.assignees.hasOwnProperty('init')) {
+        vm.modelBackUp.assignees = vm.modelBackUp.assignees.data;
+      }
+      if (vm.modelBackUp.watchers.hasOwnProperty('init')) {
+        vm.modelBackUp.watchers = vm.modelBackUp.watchers.data;
+      }
+      if (vm.modelBackUp.labels.hasOwnProperty('init')) {
+        vm.modelBackUp.labels = vm.modelBackUp.labels.data;
+      }
     }
 
     backItUp();
@@ -133,7 +145,6 @@
 
     function getTask(id) {
       NstSvcTaskFactory.get(id).then(function (task) {
-        console.log(task);
         vm.model.title = task.title;
         vm.model.assignor = task.assignor;
         vm.model.counters = task.counters;
@@ -192,11 +203,10 @@
           vm.enableLabel = true;
         }
 
-        backItUp();
-
         $timeout(function () {
           dataInit = true;
           vm.loading = false;
+          backItUp();
         }, 100);
       });
     }
@@ -260,7 +270,7 @@
     var updateDebouncer = _.debounce(updateTask, 1000);
 
     function updateTitle(text) {
-      if (vm.modelBackUp.title === text) {
+      if (vm.modelBackUp.title === text || !vm.model.access.updateTask) {
         return;
       }
       taskUpdateModel.title = text;
@@ -268,7 +278,7 @@
     }
 
     function updateDescription(text) {
-      if (vm.modelBackUp.description === text) {
+      if (vm.modelBackUp.description === text || !vm.model.access.updateTask) {
         return;
       }
       taskUpdateModel.description = text;
@@ -276,7 +286,7 @@
     }
 
     function updateDueDate(date) {
-      if (vm.modelBackUp.dueDate === date) {
+      if (vm.modelBackUp.dueDate === date || !vm.model.access.updateTask) {
         return;
       }
       if (date === null) {
@@ -318,6 +328,12 @@
       }
     }, true);
 
+    function getCommaSeparate(items) {
+      return _.map(items, function (item) {
+        return item.id;
+      }).join(',');
+    }
+
     function updateAssignee(assignees) {
       var oldData = getNormalValue(vm.modelBackUp.assignees);
       var newItems = _.differenceBy(assignees, oldData, 'id');
@@ -325,13 +341,17 @@
 
       var promises = [];
       if (newItems.length > 0) {
-        promises.push(newItems);
+        promises.push(NstSvcTaskFactory.addCandidate(vm.taskId, getCommaSeparate(newItems)));
       }
       if (removedItems.length > 0) {
-        promises.push(removedItems);
+        promises.push(NstSvcTaskFactory.removeCandidate(vm.taskId, getCommaSeparate(removedItems)));
       }
 
-      //backItUp();
+      if (newItems.length > 0 || removedItems.length > 0) {
+        $q.all(promises).then(function () {
+          vm.modelBackUp.assignees = vm.model.assignees.slice(0);
+        });
+      }
     }
 
     $scope.$watch(function () {
@@ -355,10 +375,7 @@
       }
 
       if (removedItems.length > 0) {
-        var ids = _.map(removedItems, function (item) {
-          return item.id;
-        }).join(',');
-        promises.push(NstSvcTaskFactory.removeTodo(vm.taskId, ids));
+        promises.push(NstSvcTaskFactory.removeTodo(vm.taskId, getCommaSeparate(removedItems)));
       }
 
       if (newItems.length > 0 || removedItems.length > 0) {
@@ -403,21 +420,14 @@
       });
       var removedItems = _.differenceBy(oldData, attachments, 'id');
 
-      var ids;
       if (newItems.length > 0) {
-        ids = _.map(newItems, function (item) {
-          return item.id;
-        }).join(',');
-        NstSvcTaskFactory.addAttachment(vm.taskId, ids).then(function () {
+        NstSvcTaskFactory.addAttachment(vm.taskId, getCommaSeparate(newItems)).then(function () {
           vm.modelBackUp.attachments.push.apply(vm.modelBackUp.attachments, newItems);
         });
       }
 
       if (removedItems.length > 0) {
-        ids = _.map(removedItems, function (item) {
-          return item.id;
-        }).join(',');
-        NstSvcTaskFactory.removeAttachment(vm.taskId, ids).then(function () {
+        NstSvcTaskFactory.removeAttachment(vm.taskId, getCommaSeparate(removedItems)).then(function () {
           _.forEach(removedItems, function (item) {
             var index = _.findIndex(vm.modelBackUp.attachments, {
               'id': item.id
@@ -443,20 +453,13 @@
       var newItems = _.differenceBy(watchers, oldData, 'id');
       var removedItems = _.differenceBy(oldData, watchers, 'id');
       var promises = [];
-      var ids;
 
       if (newItems.length > 0) {
-        ids = _.map(newItems, function (item) {
-          return item.id;
-        }).join(',');
-        promises.push(NstSvcTaskFactory.addWatcher(vm.taskId, ids));
+        promises.push(NstSvcTaskFactory.addWatcher(vm.taskId, getCommaSeparate(newItems)));
       }
 
       if (removedItems.length > 0) {
-        ids = _.map(removedItems, function (item) {
-          return item.id;
-        }).join(',');
-        promises.push(NstSvcTaskFactory.removeWatcher(vm.taskId, ids));
+        promises.push(NstSvcTaskFactory.removeWatcher(vm.taskId, getCommaSeparate(removedItems)));
       }
 
       if (newItems.length > 0 || removedItems.length > 0) {
@@ -479,20 +482,13 @@
       var newItems = _.differenceBy(labels, oldData, 'id');
       var removedItems = _.differenceBy(oldData, labels, 'id');
       var promises = [];
-      var ids;
 
       if (newItems.length > 0) {
-        ids = _.map(newItems, function (item) {
-          return item.id;
-        }).join(',');
-        promises.push(NstSvcTaskFactory.addLabel(vm.taskId, ids));
+        promises.push(NstSvcTaskFactory.addLabel(vm.taskId, getCommaSeparate(newItems)));
       }
 
       if (removedItems.length > 0) {
-        ids = _.map(removedItems, function (item) {
-          return item.id;
-        }).join(',');
-        promises.push(NstSvcTaskFactory.removeLabel(vm.taskId, ids));
+        promises.push(NstSvcTaskFactory.removeLabel(vm.taskId, getCommaSeparate(removedItems)));
       }
 
       if (newItems.length > 0 || removedItems.length > 0) {

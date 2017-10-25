@@ -6,7 +6,7 @@
     .directive('taskActivityItem', taskActivityItem);
 
   /** @ngInject */
-  function taskActivityItem(NST_TASK_EVENT_ACTION, NstUtility, $) {
+  function taskActivityItem(NST_TASK_EVENT_ACTION, NST_TASK_STATUS, NstUtility, $) {
     return {
       restrict: 'E',
       transclude : true,
@@ -15,14 +15,18 @@
         taskId: '='
       },
       link: function (scope) {
-        scope.commentCnst = NST_TASK_EVENT_ACTION.COMMENT;
+        scope.actions = NST_TASK_EVENT_ACTION;
+        scope.statuses = NST_TASK_STATUS;
         scope.baseTplUrl = 'app/task/common/activity/partials/base.html';
         switch (scope.activity.type) {
+          case NST_TASK_EVENT_ACTION.STATUS_CHANGED:
+            scope.tplUrl = 'app/task/common/activity/partials/status-changed.html';
+            break;
           case NST_TASK_EVENT_ACTION.WATCHER_ADDED:
             scope.tplUrl = 'app/task/common/activity/partials/watcher-added.html';
             break;
           case NST_TASK_EVENT_ACTION.WATCHER_REMOVED:
-            scope.tplUrl = 'app/task/common/activity/partials/watcher-remove.html';
+            scope.tplUrl = 'app/task/common/activity/partials/watcher-removed.html';
             break;
           case NST_TASK_EVENT_ACTION.ATTACHMENT_ADDED:
             scope.tplUrl = 'app/task/common/activity/partials/attachment-added.html';
@@ -75,7 +79,7 @@
         }
       },
       template: function () {
-        return '<div data-ng-include="baseTplUrl" data-ng-init="commentConst = commentCnst" class="task-activity"></div>';
+        return '<div data-ng-include="baseTplUrl" class="task-activity"></div>';
       }
     };
   }

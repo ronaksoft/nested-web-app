@@ -73,11 +73,26 @@
         task.dueDate = data.due_date;
       }
       task.description = data.description;
+
+
       if (data.todos) {
         task.todos = _.map(data.todos, function (item) {
           return factory.parseTaskTodo(item);
         });
+
+        var total = task.todos.length;
+        var done = 0;
+        _.forEach(task.todos, function (item) {
+          if (item.checked) {
+            done++;
+          }
+        });
+
+        if (total > 0) {
+          task.progress = Math.ceil((done/total) * 100);
+        }
       }
+
       if (data.attachments) {
         task.attachments = _.map(data.attachments, NstSvcAttachmentFactory.parseAttachment);
       }

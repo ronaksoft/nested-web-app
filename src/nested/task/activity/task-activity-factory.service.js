@@ -43,8 +43,9 @@
           return parseComment(data);
         case NST_TASK_EVENT_ACTION.TITLE_CHANGED:
         case NST_TASK_EVENT_ACTION.DESC_CHANGED:
-        case NST_TASK_EVENT_ACTION.STATUS_CHANGED:
           return parseTask(data);
+        case NST_TASK_EVENT_ACTION.STATUS_CHANGED:
+          return parseTaskStatus(data);
         case NST_TASK_EVENT_ACTION.CANDIDATE_ADDED:
         case NST_TASK_EVENT_ACTION.CANDIDATE_REMOVED:
           return parseCandidate(data);
@@ -110,8 +111,6 @@
         attachment_id: ''
       };
 
-      console.log('comment', activity);
-
       return activity;
     }
 
@@ -125,6 +124,18 @@
           title: data.title
         };
       }
+
+      return activity;
+    }
+
+    function parseTaskStatus(data) {
+      var activity = new NstTaskActivity();
+
+      parseDefault(activity, data);
+
+      activity.task = {
+        status: data.status
+      };
 
       return activity;
     }
@@ -179,7 +190,7 @@
         NstSvcServer.request('task/get_activities', {
           task_id: settings.id,
           details: true,
-          only_comments: settings.onlyComment,
+          only_comments: settings.onlyComments,
           limit: settings.limit || 32,
           before: settings.before,
           after: settings.after
@@ -202,7 +213,7 @@
         id: settings.id,
         limit: settings.limit,
         before: settings.date,
-        onlyComment: settings.onlyComment
+        onlyComments: settings.onlyComments
       }, cacheHandler);
     }
 
@@ -211,7 +222,7 @@
         id: settings.id,
         limit: settings.limit,
         after: settings.date,
-        onlyComment: settings.onlyComment
+        onlyComments: settings.onlyComments
       });
     }
   }

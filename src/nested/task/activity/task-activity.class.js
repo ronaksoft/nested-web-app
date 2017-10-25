@@ -7,7 +7,7 @@
 
   function NstTaskActivity() {
 
-    function Activity() {
+    function TaskActivity() {
 
       this.id = null;
       this.type = null;
@@ -17,10 +17,10 @@
 
     }
 
-    Activity.prototype = {};
-    Activity.prototype.constructor = Activity;
+    TaskActivity.prototype = {};
+    TaskActivity.prototype.constructor = TaskActivity;
 
-    return Activity;
+    return TaskActivity;
 
   }
 
