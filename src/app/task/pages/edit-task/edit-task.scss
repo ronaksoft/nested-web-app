@@ -121,15 +121,26 @@
     }
     .task-comments {
         width: 280px;
+        max-height: 100%;
+        overflow: hidden;
         background-color: #EEEFEF;
         border-radius: 0 6px 6px 0;
-        flex-direction: column;
-        display: flex;
-        justify-content: flex-start;
-        align-items: stretch;
-        align-content: stretch;
+        .task-comments-inner {
+            width: 280px;
+            flex-direction: column;
+            display: flex;
+            height: 100%;
+            overflow: hidden;
+            position: absolute;
+            right: 0;
+            top: 0;
+            justify-content: flex-start;
+            align-items: stretch;
+            align-content: stretch;
+        }
         .log-filter {
             height: 40px;
+            flex: none;
             display: flex;
             align-items: center;
             padding: 0 10px;
@@ -175,10 +186,16 @@
                 height: 100%;
             }
             .comments-container {
+                overflow: auto;
                 display: flex;
                 flex-direction: column;
                 height: calc(100% - 48px);
             }
+        }
+        nst-task-activity {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
         }
     }
 }
