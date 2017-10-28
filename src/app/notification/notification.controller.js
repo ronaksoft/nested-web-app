@@ -22,7 +22,7 @@
     vm.loadNew = loadAfter;
     vm.onClickMention = onClickMention;
     vm.error = null;
-    vm.selectedView = 1;
+    vm.selectedView = $state.current.options.group === 'task'? 2: 1;
     vm.isModal = $scope.$resolve && $scope.$resolve.isModal;
     vm.taskCounts = 0;
     vm.postCounts = 0;
