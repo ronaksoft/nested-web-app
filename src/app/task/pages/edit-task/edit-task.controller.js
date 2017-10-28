@@ -28,12 +28,14 @@
     vm.bindRow = bindRow;
 
     function openBinder() {
-      vm.isOpenBinder =! vm.isOpenBinder;
+      vm.isOpenBinder = !vm.isOpenBinder;
     }
+
     function bindRow(key) {
       vm[key] = true;
       vm.isOpenBinder = false;
     }
+
     //
 
     (function () {
@@ -46,8 +48,9 @@
       titleLengthLimit: 64,
       assignor: null,
       status: null,
+      progress: -1,
       counters: {},
-      title:  '',
+      title: '',
       assignees: [],
       dueDate: null,
       description: '',
@@ -101,8 +104,8 @@
     };
 
     vm.assignor = null;
-    vm.commentSent = function (){
-      console.log('comment sent');
+    vm.commentSent = function () {
+      // console.log('comment sent');
     };
 
     vm.assigneeFocus = false;
@@ -149,6 +152,9 @@
 
     function getTask(id) {
       NstSvcTaskFactory.get(id).then(function (task) {
+        console.log(task);
+        vm.model.status = task.status;
+        vm.model.progress = task.progress;
         vm.model.title = task.title;
         vm.model.assignor = task.assignor;
         vm.model.counters = task.counters;
@@ -516,7 +522,7 @@
       };
     }, function (newVal, oldVal) {
       if (focusInit) {
-        $timeout(function() {
+        $timeout(function () {
           focusInit = false;
           handleFocus(newVal, oldVal);
         });
@@ -525,7 +531,7 @@
       }
     }, true);
 
-    function handleFocus (newVal, oldVal) {
+    function handleFocus(newVal, oldVal) {
       for (var i in newVal) {
         if (newVal[i] === oldVal[i]) {
           vm[i] = false;

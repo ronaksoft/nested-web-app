@@ -11,7 +11,8 @@
     var vm = this;
     vm.NST_NOTIFICATION_TYPE = NST_NOTIFICATION_TYPE;
     var pageItemsCount = 12;
-    vm.postNotifications = NstSvcNotificationFactory.getLoadedNotification() || [];
+    vm.notifications = NstSvcNotificationFactory.getLoadedNotification() || [];
+    vm.postNotifications = [];
     vm.taskNotifications = [];
 
     vm.changeTab = changeTab;
@@ -28,7 +29,7 @@
 
     //initialize
     NstSvcNotificationFactory.resetCounter();
-    if (vm.postNotifications.length === 0) {
+    if (vm.notifications.length === 0) {
       loadBefore();
     } else {
       loadAfter();
@@ -62,7 +63,7 @@
       var deferred = $q.defer();
 
       NstSvcNotificationFactory.markAsSeen().then(function () {
-        markAllItemsAsSeen(vm.postNotifications);
+        markAllItemsAsSeen(vm.notifications);
         deferred.resolve();
       }).catch(deferred.reject);
 
@@ -87,16 +88,16 @@
       }).then(function (notifications) {
 
         if (notifications) {
-          var notifs = _.concat(notifications, vm.postNotifications);
-          vm.postNotifications = _.orderBy(_.uniqBy(notifs, 'id'), [function (notif) {
-            if (notif.type === NST_NOTIFICATION_TYPE.COMMENT)
-              return notif.lastUpdate.getTime();
-
-            return notif.date.getTime();
-          }], ['desc']);
+          var notifs = _.concat(notifications, vm.notifications);
+          vm.notifications = sortNotification(notifs);
         }
 
-        NstSvcNotificationFactory.storeLoadedNotification(vm.postNotifications);
+        NstSvcNotificationFactory.storeLoadedNotification(vm.notifications);
+
+        var temp = separateNotifications(vm.notifications);
+
+        vm.postNotifications = temp.post;
+        vm.taskNotifications = temp.task;
 
         if (notifications.length < limit && !vm.loadingAfter) {
           vm.reached = true;
@@ -104,7 +105,7 @@
         vm.loadingBefore = false;
         vm.loadingAfter = false;
 
-        deferred.resolve(vm.postNotifications);
+        deferred.resolve(vm.notifications);
       }).catch(function (error) {
         $log.error(error);
         vm.error = true;
@@ -118,14 +119,46 @@
 
     function loadBefore() {
       vm.loadingBefore = true;
-      var lastItem = _.last(vm.postNotifications);
+      var lastItem = _.last(vm.notifications);
       return loadNotification(lastItem ? lastItem.lastUpdate ? lastItem.lastUpdate.getTime() : lastItem.date.getTime() : NstSvcDate.now());
     }
 
     function loadAfter() {
       vm.loadingAfter = true;
-      var firstItem = _.first(vm.postNotifications);
+      var firstItem = _.first(vm.notifications);
       return loadNotification(null, firstItem.date.getTime());
+    }
+
+    function separateNotifications(notifications) {
+      var task = [];
+      var post = [];
+      _.forEach(notifications, function (item) {
+        if (item.isTask) {
+          if (!item.isSeen) {
+            vm.taskCounts++;
+          }
+          task.push(item);
+        } else {
+          if (!item.isSeen) {
+            vm.postCounts++;
+          }
+          post.push(item);
+        }
+      });
+      return {
+        task: task,
+        post: post
+      };
+    }
+
+    function sortNotification(notifications) {
+      return _.orderBy(_.uniqBy(notifications, 'id'), [function (notif) {
+        if (notif.type === NST_NOTIFICATION_TYPE.COMMENT) {
+          return notif.lastUpdate.getTime();
+        }
+
+        return notif.date.getTime();
+      }], ['desc']);
     }
 
     function onClickMention(notification, $event) {
@@ -154,6 +187,21 @@
           return openPlace(notification.place.id);
         case NST_NOTIFICATION_TYPE.NEW_SESSION:
           return;
+        case NST_NOTIFICATION_TYPE.TASK_MENTION:
+        case NST_NOTIFICATION_TYPE.TASK_COMMENT:
+        case NST_NOTIFICATION_TYPE.TASK_ASSIGNEE_CHANGED:
+        case NST_NOTIFICATION_TYPE.TASK_ADD_TO_CANDIDATES:
+        case NST_NOTIFICATION_TYPE.TASK_ADD_TO_WATCHERS:
+        case NST_NOTIFICATION_TYPE.TASK_DUE_TIME_UPDATED:
+        case NST_NOTIFICATION_TYPE.TASK_TITLE_UPDATED:
+        case NST_NOTIFICATION_TYPE.TASK_UPDATED:
+        case NST_NOTIFICATION_TYPE.TASK_ASSIGNED:
+        case NST_NOTIFICATION_TYPE.TASK_OVER_DUE:
+        case NST_NOTIFICATION_TYPE.TASK_REJECTED:
+        case NST_NOTIFICATION_TYPE.TASK_ACCEPTED:
+        case NST_NOTIFICATION_TYPE.TASK_COMPLETED:
+          $event.preventDefault();
+          return viewTask(notification.task.id);
       }
     }
 
@@ -163,17 +211,25 @@
       });
     }
 
-    function viewPost(postId) {
+    function viewPost(id) {
       $state.go('app.message', {
-        postId: postId
+        postId: id
       }, {
         notify: false
       });
     }
 
-    function openPlace(placeId) {
+    function openPlace(id) {
       $state.go('app.place-messages', {
-        placeId: placeId
+        placeId: id
+      });
+    }
+
+    function viewTask(id) {
+      $state.go('app.task.edit', {
+        taskId: id
+      }, {
+        notify: false
       });
     }
 

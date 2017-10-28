@@ -1,19 +1,8 @@
 <div class="notif-li-container">
-  <div class="_fn">
-    <div class="user-avatar-24">
-      <img initial-avatar="{{::notification.actor.id}}" picture="{{::notification.actor | avatar}}" name="{{::notification.actor.fullName}}"
-        data-width="24" data-height="24" data-radius="24" class="account-initials-24" data-word-count="2" data-font-size="12"
-      />
-    </div>
-  </div>
+  <div class="_fn" ng-include="'/app/notification/common/picture.html'"></div>
   <div class="_difh f1 _fn bottom-border">
     <div class="notif-li-body">
-      <div class="notif-li-subject">
-          <span><b class="_fw _db _txe">{{::notification.actor.fullName}}</b></span>
-          <div class="mention-date _fn" data-uib-tooltip="{{notification.date | date : 'full' | localize}}" data-tooltip-append-to-body="true" data-tooltip-placement="top auto">
-            {{notification.date | passed | localize}}
-          </div>
-      </div>
+      <div class="notif-li-subject" ng-include="'/app/notification/common/name.html'"></div>
       <p translate-inner>Your request for <b>{{::notification.label.title | scapeRevSpace}}</b> label was created</p>
     </div>
     <svg class="_df _fn _16svg">

@@ -6,7 +6,7 @@
     .service('NstSvcNotificationFactory', NstSvcNotificationFactory);
 
   function NstSvcNotificationFactory(_, $q, $rootScope,
-                                     NstSvcServer, NstSvcUserFactory, NstSvcPostFactory, NstSvcCommentFactory, NstSvcAuth,
+                                     NstSvcServer, NstSvcUserFactory, NstSvcPostFactory, NstSvcCommentFactory, NstSvcAuth, NstNotification,
                                      NstBaseFactory, NstMention, NstSvcInvitationFactory, NstSvcPlaceFactory, NstSvcLabelFactory,
                                      NST_AUTH_EVENT, NST_NOTIFICATION_EVENT, NST_NOTIFICATION_TYPE, NST_SRV_PUSH_CMD, NST_INVITATION_EVENT) {
     function NotificationFactory() {
@@ -88,6 +88,7 @@
         }).then(function (data) {
           console.log(data);
           var notificationPromises = _.map(data.notifications, function (notif) {
+
             switch (notif.type) {
               case NST_NOTIFICATION_TYPE.MENTION:
                 return parseMention(notif);
@@ -120,22 +121,30 @@
               case NST_NOTIFICATION_TYPE.LABEL_REQUEST_REJECTED:
               case NST_NOTIFICATION_TYPE.LABEL_REQUEST_CREATED:
               case NST_NOTIFICATION_TYPE.LABEL_JOINED:
-                return parseLabelNotification(notif);
+                return parseLabel(notif);
 
               case NST_NOTIFICATION_TYPE.TASK_MENTION:
+                return parseTaskMention(notif);
               case NST_NOTIFICATION_TYPE.TASK_COMMENT:
-              case NST_NOTIFICATION_TYPE.TASK_ASSIGNED:
+                return parseTaskComment(notif);
               case NST_NOTIFICATION_TYPE.TASK_ASSIGNEE_CHANGED:
+                return parseTaskAssignedChanged(notif);
               case NST_NOTIFICATION_TYPE.TASK_ADD_TO_CANDIDATES:
+                return parseTaskAddToCandidate(notif);
               case NST_NOTIFICATION_TYPE.TASK_ADD_TO_WATCHERS:
+                return parseTaskAddToWatchers(notif);
               case NST_NOTIFICATION_TYPE.TASK_DUE_TIME_UPDATED:
-              case NST_NOTIFICATION_TYPE.TASK_OVER_DUE:
+                return parseTaskDueTimeUpdated(notif);
               case NST_NOTIFICATION_TYPE.TASK_TITLE_UPDATED:
+                return parseTaskTitleUpdated(notif);
               case NST_NOTIFICATION_TYPE.TASK_UPDATED:
+                return parseTaskUpdated(notif);
+              case NST_NOTIFICATION_TYPE.TASK_ASSIGNED:
+              case NST_NOTIFICATION_TYPE.TASK_OVER_DUE:
               case NST_NOTIFICATION_TYPE.TASK_REJECTED:
               case NST_NOTIFICATION_TYPE.TASK_ACCEPTED:
               case NST_NOTIFICATION_TYPE.TASK_COMPLETED:
-                break;
+                return parseTaskStatus(notif);
 
             }
           });
@@ -186,7 +195,7 @@
           }).catch(defer.reject);
 
         return defer.promise;
-      }, "getNotificationsCount");
+      }, 'getNotificationsCount');
     }
 
     function markAsSeen(notificationIds) {
@@ -194,13 +203,13 @@
       return this.sentinel.watch(function () {
         var defer = $q.defer();
 
-        var ids = "";
+        var ids = '';
         if (_.isString(notificationIds)) {
           ids = notificationIds;
         } else if (_.isArray(notificationIds)) {
-          ids = _.join(notificationIds, ",");
+          ids = _.join(notificationIds, ',');
         } else {
-          ids = "all";
+          ids = 'all';
         }
 
         NstSvcServer.request('notification/mark_as_read', {
@@ -213,7 +222,7 @@
         }).catch(defer.reject);
 
         return defer.promise;
-      }, "markAsSeen");
+      }, 'markAsSeen');
     }
 
     function resetCounter() {
@@ -225,7 +234,7 @@
         }).catch(defer.reject);
 
         return defer.promise;
-      }, "resetCounter");
+      }, 'resetCounter');
     }
 
     /*****************
@@ -244,11 +253,28 @@
      **    Parsers    **
      *****************/
 
-    function parseMention(data) {
-      var mention = new NstMention();
+    function parseDefault(data) {
       if (!data._id) {
-        throw 'Could not find _id in the notification raw object.';
+        return null;
       }
+      var notification = new NstNotification();
+
+      notification.id = data._id;
+      notification.isSeen = data.read;
+      notification.actor = NstSvcUserFactory.parseTinyUser(data.actor);
+      notification.date = new Date(data.timestamp);
+      notification.type = data.type;
+
+      if (data.subject === NST_NOTIFICATION_TYPE.NOTIFICATION_SUBJECT_TASK) {
+        notification.isTask = true;
+      }
+
+      return notification;
+    }
+
+    function parseMention(data) {
+      var notification = parseDefault(data);
+      var mention = new NstMention();
 
       mention.id = data._id;
       mention.commentId = data.comment_id;
@@ -260,141 +286,199 @@
         id: data.post_id
       };
 
-      return {
-        id: data._id,
-        isSeen: data.read,
-        date: new Date(data.timestamp),
-        mention: mention,
-        type: data.type
-      };
+      notification.mention = mention;
+
+      return notification;
     }
 
     function parsePromote(data) {
-      return {
-        id: data._id,
-        isSeen: data.read,
-        date: new Date(data.timestamp),
-        actor: NstSvcUserFactory.parseTinyUser(data.actor),
-        member: data.account !== undefined? NstSvcUserFactory.parseTinyUser(data.account): null,
-        place: NstSvcPlaceFactory.parseTinyPlace(data.place),
-        type: data.type
-      }
+      var notification = parseDefault(data);
+
+      notification.member = data.account !== undefined? NstSvcUserFactory.parseTinyUser(data.account): null;
+      notification.place = NstSvcPlaceFactory.parseTinyPlace(data.place);
+
+      return notification;
     }
 
 
     function parsePlaceSettingsChanged(data) {
-      return {
-        id: data._id,
-        isSeen: data.read,
-        date: new Date(data.timestamp),
-        actor: NstSvcUserFactory.parseTinyUser(data.actor),
-        place: NstSvcPlaceFactory.parseTinyPlace(data.place),
-        type: data.type
-      }
+      var notification = parseDefault(data);
+
+      notification.place = NstSvcPlaceFactory.parseTinyPlace(data.place);
+
+      return notification;
     }
 
     function parseInvitation(data) {
-      return {
-        id: data._id,
-        isSeen: data.read,
-        date: new Date(data.timestamp),
-        actor: NstSvcUserFactory.parseTinyUser(data.actor),
-        place: NstSvcPlaceFactory.parseTinyPlace(data.place),
-        invitation: {
-          id: data.invite_id
-        },
-        type: data.type
+      var notification = parseDefault(data);
+
+      notification.place = NstSvcPlaceFactory.parseTinyPlace(data.place);
+      notification.invitation = {
+        id: data.invite_id
       };
+
+      return notification;
     }
 
     function parseInvitationResponse(data) {
-      return {
-        id: data._id,
-        isSeen: data.read,
-        date: new Date(data.timestamp),
-        actor: NstSvcUserFactory.parseTinyUser(data.actor),
-        place: NstSvcPlaceFactory.parseTinyPlace(data.place),
-        invitation: {
-          id: data.invite_id
-        },
-        type: data.type
+      var notification = parseDefault(data);
+
+      notification.place = NstSvcPlaceFactory.parseTinyPlace(data.place);
+      notification.invitation = {
+        id: data.invite_id
       };
+
+      return notification;
     }
 
 
     function parseYouJoined(data) {
-      return {
-        id: data._id,
-        isSeen: data.read,
-        date: new Date(data.timestamp),
-        place: NstSvcPlaceFactory.parseTinyPlace(data.place),
-        adder: NstSvcUserFactory.parseTinyUser(data.actor),
-        type: data.type
-      };
+      var notification = parseDefault(data);
+
+      notification.place = NstSvcPlaceFactory.parseTinyPlace(data.place);
+
+      return notification;
     }
 
-    function parseComment(notif) {
-      if (notif.data && notif.others.length > 0) {
+    function parseComment(data) {
+      var notification = parseDefault(data);
+
+      notification.comment = NstSvcCommentFactory.parseComment(data.comment);
+      notification.post = {
+        id: data.post_id
+      };
+      notification.lastUpdate = new Date(data.last_update);
+
+      if (data.data && data.others.length > 0) {
         var countOfMappedUsers = 1;
-        var users = _.map(notif.others.splice(1, 4), function (user) {
+        notification.users = _.map(data.others.splice(1, 4), function (user) {
           countOfMappedUsers++;
           return NstSvcUserFactory.parseTinyUser(user);
         });
-        return {
-          id: notif._id,
-          isSeen: notif.read,
-          date: new Date(notif.timestamp),
-          lastUpdate: new Date(notif.last_update),
-          post: {
-            id: notif.post_id
-          },
-          comment: NstSvcCommentFactory.parseComment(notif.comment),
-          actor: NstSvcUserFactory.parseTinyUser(notif.actor),
-          users: users,
-          otherUsersCount: notif.data.others.length - countOfMappedUsers < 1 ? 0 : notif.data.others.length - countOfMappedUsers,
-          type: notif.type
-        }
+        notification.otherUsersCount = data.data.others.length - countOfMappedUsers < 1? 0: data.data.others.length - countOfMappedUsers;
       } else {
-        return {
-          id: notif._id,
-          isSeen: notif.read,
-          date: new Date(notif.timestamp),
-          lastUpdate: new Date(notif.last_update),
-          post: {
-            id: notif.post_id
-          },
-          comment: NstSvcCommentFactory.parseComment(notif.comment),
-          actor: NstSvcUserFactory.parseTinyUser(notif.actor),
-          users: [],
-          otherUsersCount: 0,
-          type: notif.type
-        }
+        notification.users = [];
+        notification.otherUsersCount = 0;
       }
+
+      return notification;
     }
 
     function parseNewSession(data) {
-      return {
-        id: data._id,
-        isSeen: data.read,
-        date: new Date(data.timestamp),
-        actor: NstSvcUserFactory.parseTinyUser(data.actor),
-        type: data.type,
-        from : data.client_id.split("_").join(" ")
-      };
+      var notification = parseDefault(data);
+
+      notification.from = data.client_id.split('_').join(' ');
+
+      return notification;
     }
 
-    function parseLabelNotification(data) {
-      return {
-        id: data._id,
-        isSeen: data.read,
-        date: new Date(data.timestamp),
-        // account: NstSvcUserFactory.parseTinyUser(data.account),
-        account: data.account ? NstSvcUserFactory.parseTinyUser(data.account) : '',
-        actor: NstSvcUserFactory.parseTinyUser(data.actor),
-        label: NstSvcLabelFactory.parseLabel(data.label),
-        place: NstSvcPlaceFactory.parseTinyPlace(data.place),
-        type: data.type
-      }
+    function parseLabel(data) {
+      var notification = parseDefault(data);
+
+      notification.place = NstSvcPlaceFactory.parseTinyPlace(data.place);
+      notification.account = data.account? NstSvcUserFactory.parseTinyUser(data.account): '';
+      notification.label = NstSvcLabelFactory.parseLabel(data.label);
+
+      return notification;
+    }
+
+    function parseTaskMention(data) {
+      console.log('parseTaskMention', data);
+      var notification = parseDefault(data);
+
+      notification.task = {
+        id: data.task_id
+      };
+
+      return notification;
+    }
+
+    function parseTaskComment(data) {
+      console.log('parseTaskComment', data);
+      var notification = parseDefault(data);
+
+      notification.task = {
+        id: data.task_id
+      };
+
+      return notification;
+    }
+
+    function parseTaskAssignedChanged(data) {
+      console.log('parseTaskAssignedChanged', data);
+      var notification = parseDefault(data);
+
+      notification.task = {
+        id: data.task_id
+      };
+
+      return notification;
+    }
+
+    function parseTaskAddToCandidate(data) {
+      console.log('parseTaskAddToCandidate', data);
+      var notification = parseDefault(data);
+
+      notification.task = {
+        id: data.task_id
+      };
+
+      return notification;
+    }
+
+    function parseTaskAddToWatchers(data) {
+      console.log('parseTaskAddToWatchers', data);
+      var notification = parseDefault(data);
+
+      notification.task = {
+        id: data.task_id
+      };
+
+      return notification;
+    }
+
+    function parseTaskDueTimeUpdated(data) {
+      console.log('parseTaskDueTimeUpdated', data);
+      var notification = parseDefault(data);
+
+      notification.task = {
+        id: data.task_id
+      };
+
+      return notification;
+    }
+
+    function parseTaskTitleUpdated(data) {
+      console.log('parseTaskTitleUpdated', data);
+      var notification = parseDefault(data);
+
+      notification.task = {
+        id: data.task_id
+      };
+
+      return notification;
+    }
+
+    function parseTaskUpdated(data) {
+      console.log('parseTaskUpdated', data);
+      var notification = parseDefault(data);
+
+      notification.task = {
+        id: data.task_id
+      };
+
+      return notification;
+    }
+
+    function parseTaskStatus(data) {
+      console.log('parseTaskStatus', data);
+      var notification = parseDefault(data);
+
+      notification.task = {
+        id: data.task_id
+      };
+
+      return notification;
     }
   }
 })();
