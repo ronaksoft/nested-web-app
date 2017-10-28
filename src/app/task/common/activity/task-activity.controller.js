@@ -84,6 +84,7 @@
       vm.isSendingComment = true;
 
       NstSvcTaskFactory.addComment(vm.taskId, body).then(function (activityId) {
+        vm.activityCount++;
         addActivityCallback(activityId, body);
       }).catch(function () {
         toastr.error(NstSvcTranslation.get('Sorry, an error has occurred in sending your comment'));
