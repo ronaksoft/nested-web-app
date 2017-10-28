@@ -186,10 +186,17 @@
                 height: 100%;
             }
             .comments-container {
-                overflow: auto;
                 display: flex;
                 flex-direction: column;
                 height: calc(100% - 48px);
+                &.iscroll-off {
+                    overflow: auto;
+                }
+                &.iscroll-on {
+                    .iscroll-scroller {
+                        position: absolute;
+                    }
+                }
             }
         }
         nst-task-activity {

@@ -1,8 +1,10 @@
-<div class="comments-container">
-  <div ng-repeat="activity in ctrl.activities | orderBy: 'date'" id="comment-{{activity.id}}">
-    <task-activity-item activity="activity" task-id="ctrl.taskId" ng-if="activity.type != ctrl.activityTypes.COMMENT"></task-activity-item>
-    <div class="post-card-comments _difh _fw _wrb" ng-if="activity.type == ctrl.activityTypes.COMMENT">
-      <nst-comment-body comment="activity.comment" comment-board-id="ctrl.taskId"></nst-comment-body>
+<div class="comments-container iscroll-wrapper" iscroll iscroll-instance="scrollInstance" id="task-activity-scroll">
+  <div class="iscroll-scroller">
+    <div ng-repeat="activity in ctrl.activities | orderBy: 'date'" id="comment-{{activity.id}}">
+      <task-activity-item activity="activity" task-id="ctrl.taskId" ng-if="activity.type != ctrl.activityTypes.COMMENT"></task-activity-item>
+      <div class="post-card-comments _difh _fw _wrb" ng-if="activity.type == ctrl.activityTypes.COMMENT">
+        <nst-comment-body comment="activity.comment" comment-board-id="ctrl.taskId"></nst-comment-body>
+      </div>
     </div>
   </div>
 </div>

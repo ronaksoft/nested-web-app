@@ -317,7 +317,7 @@
           </svg>
         </h3>
       </div>
-      <div class="task-comments-container">
+      <div class="task-comments-container visible-scrollbar">
         <div class="no-comments-holder" ng-if="ctrlEditTask.activityCount === 0">
           <img class="_db" width="128" width="128" src="/assets/icons/ph_empt_comment.png" srcset="/assets/icons/ph_empt_comment@2x.png"
           />
@@ -325,7 +325,7 @@
         </div>
         <nst-task-activity task-id="ctrlEditTask.taskId" only-comments="ctrlEditTask.onlyComments" task-id="ctrlEditTask.taskId"
           activity-count="ctrlEditTask.activityCount" total-comments-count="ctrlEditTask.model.counters.comments + ctrlEditTask.model.counters.updates"
-          on-comment-sent="" has-comment-remove-access="false"></nst-task-activity>
+          on-comment-sent="ctrlEditTask.commentSent" has-comment-remove-access="false"></nst-task-activity>
       </div>
     </div>
   </div>

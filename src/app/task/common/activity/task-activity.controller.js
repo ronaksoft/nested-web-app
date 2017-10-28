@@ -19,6 +19,9 @@
     vm.activityTypes = NST_TASK_EVENT_ACTION;
 
     vm.activities = [];
+    $scope.scrollInstance = {
+      maxScrollY : 0
+    };
 
     (function () {
       getActivities(vm.taskId);
@@ -36,6 +39,24 @@
         getActivities(vm.taskId)
       }
     });
+    $scope.$watch(function () {
+      return window.nativeScroll ? $('#task-activity-scroll')[0].scrollHeight : $scope.scrollInstance.maxScrollY;
+    }, function () {
+      scrollEnd();
+    });
+    $timeout(function (){
+      scrollEnd()
+    }, 100)
+
+    function scrollEnd(){
+      if (window.nativeScroll) {
+        $('#task-activity-scroll').scrollTop($('#task-activity-scroll')[0].scrollHeight);
+      } else {
+        if($scope.scrollInstance.maxScrollY - 100 < $scope.scrollInstance.y || $scope.scrollInstance.y === 0){
+          $scope.scrollInstance.scrollTo(0, $scope.scrollInstance.maxScrollY)
+        }
+      }
+    }
 
     function getActivities(id) {
       vm.activities = [];

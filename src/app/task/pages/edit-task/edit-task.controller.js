@@ -101,6 +101,9 @@
     };
 
     vm.assignor = null;
+    vm.commentSent = function (){
+      console.log('comment sent');
+    };
 
     vm.assigneeFocus = false;
     vm.assigneeIcon = 'no-assignee';
