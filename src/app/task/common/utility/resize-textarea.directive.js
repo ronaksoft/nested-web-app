@@ -12,6 +12,7 @@
       link: function (scope, $el) {
         var el = $el[0];
         var eventDebounce = _.debounce(resize, 10);
+        eventDebounce();
         el.addEventListener('keydown', eventDebounce);
         function resize() {
           var ele = $el[0];
