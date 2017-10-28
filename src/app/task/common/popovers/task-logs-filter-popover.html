@@ -1,4 +1,4 @@
-<a class="_df list-items _aic ng-class:{'active' : ctrlEditTask.onlyComments}" ng-click="ctrlEditTask.onlyComments =! ctrlEditTask.onlyComments">
+<a class="_df list-items _aic ng-class:{'active' : ctrlEditTask.onlyComments}" ng-click="ctrlEditTask.onlyComments = true;ctrlEditTask.activityPopover = false;">
     <span>
         <translate>Comments</translate>
     </span>
@@ -6,7 +6,7 @@
         <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
     </svg>
 </a>
-<a class="_df list-items _aic ng-class:{'active' : !ctrlEditTask.onlyComments}" ng-click="ctrlEditTask.onlyComments =! ctrlEditTask.onlyComments">
+<a class="_df list-items _aic ng-class:{'active' : !ctrlEditTask.onlyComments}" ng-click="ctrlEditTask.onlyComments = false;ctrlEditTask.activityPopover = false;">
     <span>
         <translate>Comments & History</translate>
     </span>

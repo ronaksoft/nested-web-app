@@ -38,21 +38,25 @@
             <task-progress-icon status="'overdue'" progress="0"></task-progress-icon>
           </div>
           <div class="list-li-body">
-            <span>{{task.title}}</span>
+            <a ng-click="ctrl.editTask(task.id)">
+              <span>{{task.title}}</span>
+            </a>
           </div>
           <div class="list-li-extra">
             <span ng-if="task.dueDate !== undefined">{{task.dueDate | passed}}</span>
           </div>
         </li>
       </ul>
-      <h5 class="list-head large pending" ng-if="ctrl.pendingTasks.length > 0 && ctrl.isGlancePage"><translate>You’ve been Candidated to do this…</translate></h5>
+      <h5 class="list-head large pending" ng-if="ctrl.pendingTasks.length > 0 && ctrl.isGlancePage"><translate>You’ve been Candidated to do this...</translate></h5>
       <ul class="list-ul candidate" ng-if="ctrl.pendingTasks.length > 0 && ctrl.isGlancePage">
         <li class="large" ng-repeat="task in ctrl.pendingTasks">
           <div class="list-li-icon">
             <task-progress-icon status="'not-assigned'" progress="0"></task-progress-icon>
           </div>
           <div class="list-li-body">
-            <span>{{task.title}}</span>
+            <a ng-click="ctrl.editTask(task.id)">
+              <span>{{task.title}}</span>
+            </a>
             <p>
               <tranlate>from</tranlate>
               <b user-detail="task.assignor">{{task.assignor.fullName}}</b>
@@ -65,8 +69,8 @@
             <span ng-if="task.dueDate !== undefined">{{task.dueDate | passed}}</span>
           </div>
           <div class="list-li-buttons">
-            <input ng-click="ctrl.acceptTask(task.id)" type="button" class="butn butn-red secondary" value="I can’t" translate-attrs="value">
-            <input ng-click="ctrl.declineTask(task.id)" type="button" class="butn butn-pending" value="I do this" translate-attrs="value">
+            <input ng-click="ctrl.declineTask(task.id)" type="button" class="butn butn-red secondary" value="I can’t" translate-attrs="value">
+            <input ng-click="ctrl.acceptTask(task.id)" type="button" class="butn butn-pending" value="I do this" translate-attrs="value">
           </div>
         </li>
       </ul>
@@ -74,7 +78,7 @@
       <ul class="list-ul upcoming" id="task-container">
         <li class="large" ng-repeat="task in ctrl.tasks">
           <div class="list-li-icon">
-            <task-progress-icon status="ctrl.getTaskIcon(task.status, (task.todos.length > 0? 0: -1))" progress="50"></task-progress-icon>
+            <task-progress-icon status="ctrl.getTaskIcon(task.status, task.progress)" progress="task.progress"></task-progress-icon>
           </div>
           <div class="list-li-body">
             <a ng-click="ctrl.editTask(task.id)">
@@ -83,7 +87,7 @@
             <p ng-if="task.assignee !== undefined">
               <translate>from</translate> <span user-detail="task.assignor">{{task.assignor.fullName}}</span> <translate>to</translate> <span user-detail="task.assignee">{{task.assignee.fullName}}</span>
             </p>
-            <p ng-if="task.candidates !== undefined">
+            <p ng-if="task.candidates !== undefined && task.assignee === undefined">
               <translate>from</translate> <span user-detail="task.assignor">{{task.assignor.fullName}}</span> <translate>to</translate> <span user-detail="task.candidates[0]">{{task.candidates[0].fullName}}</span>
             </p>
           </div>

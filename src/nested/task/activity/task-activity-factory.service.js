@@ -8,7 +8,7 @@
   function NstSvcTaskActivityFactory($q, _,
     NST_ACTIVITY_FILTER, NST_TASK_EVENT_ACTION,
     NstSvcServer, NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcCommentFactory, NstSvcActivityCacheFactory,
-    NstBaseFactory, NstSvcLogger, NstActivity, NstSvcLabelFactory, NstUtility, NstSvcAttachmentFactory) {
+    NstBaseFactory, NstSvcLogger, NstTaskActivity, NstSvcLabelFactory, NstUtility, NstSvcAttachmentFactory) {
 
 
     function ActivityFactory() {}
@@ -18,7 +18,6 @@
 
     ActivityFactory.prototype.get = get;
     ActivityFactory.prototype.getAfter = getAfter;
-    ActivityFactory.prototype.getRecent = getRecent;
     ActivityFactory.prototype.parseActivity = parseActivity;
 
     var factory = new ActivityFactory();
@@ -45,6 +44,8 @@
         case NST_TASK_EVENT_ACTION.TITLE_CHANGED:
         case NST_TASK_EVENT_ACTION.DESC_CHANGED:
           return parseTask(data);
+        case NST_TASK_EVENT_ACTION.STATUS_CHANGED:
+          return parseTaskStatus(data);
         case NST_TASK_EVENT_ACTION.CANDIDATE_ADDED:
         case NST_TASK_EVENT_ACTION.CANDIDATE_REMOVED:
           return parseCandidate(data);
@@ -53,9 +54,7 @@
         case NST_TASK_EVENT_ACTION.TODO_CHANGED:
         case NST_TASK_EVENT_ACTION.TODO_DONE:
         case NST_TASK_EVENT_ACTION.TODO_UNDONE:
-          return parseTask(data);
-        case NST_TASK_EVENT_ACTION.STATUS_CHANGED:
-          return parseStatus(data);
+          return parseTodo(data);
         case NST_TASK_EVENT_ACTION.LABEL_ADDED:
         case NST_TASK_EVENT_ACTION.LABEL_REMOVED:
           return parseLabel(data);
@@ -69,90 +68,116 @@
       }
     }
 
-    function parseWatcher(data) {
-      var activity = new NstActivity();
-
+    function parseDefault(activity, data) {
       activity.id = data._id;
       activity.type = data.action;
       activity.date = data.timestamp;
       activity.actor = NstSvcUserFactory.parseTinyUser(data.actor);
+    }
+
+    function parseWatcher(data) {
+      var activity = new NstTaskActivity();
+
+      parseDefault(activity, data);
+
+      activity.watchers = _.map(data.watchers, function (item) {
+        return NstSvcUserFactory.parseTinyUser(item);
+      });
 
       return activity;
     }
 
     function parseAttachment(data) {
-      var activity = new NstActivity();
+      var activity = new NstTaskActivity();
 
-      activity.id = data._id;
-      activity.type = data.action;
-      activity.date = data.timestamp;
-      activity.actor = NstSvcUserFactory.parseTinyUser(data.actor);
+      parseDefault(activity, data);
+
+      activity.attachments = _.map(data.attachments, NstSvcAttachmentFactory.parseAttachment);
 
       return activity;
     }
 
     function parseComment(data) {
-      var activity = new NstActivity();
+      var activity = new NstTaskActivity();
 
-      activity.id = data._id;
-      activity.type = data.action;
-      activity.date = data.timestamp;
-      activity.actor = NstSvcUserFactory.parseTinyUser(data.actor);
+      parseDefault(activity, data);
+
+      activity.comment = {
+        id: data._id,
+        body: data.comment_text,
+        timestamp: data.timestamp,
+        sender: activity.actor,
+        removedById: null,
+        attachment_id: ''
+      };
 
       return activity;
     }
 
     function parseTask(data) {
-      var activity = new NstActivity();
+      var activity = new NstTaskActivity();
 
-      activity.id = data._id;
-      activity.type = data.action;
-      activity.date = data.timestamp;
-      activity.actor = NstSvcUserFactory.parseTinyUser(data.actor);
+      parseDefault(activity, data);
+
+      if (data.title) {
+        activity.task = {
+          title: data.title
+        };
+      }
+
+      return activity;
+    }
+
+    function parseTaskStatus(data) {
+      var activity = new NstTaskActivity();
+
+      parseDefault(activity, data);
+
+      activity.task = {
+        status: data.status
+      };
 
       return activity;
     }
 
     function parseCandidate(data) {
-      var activity = new NstActivity();
+      var activity = new NstTaskActivity();
 
-      activity.id = data._id;
-      activity.type = data.action;
-      activity.date = data.timestamp;
-      activity.actor = NstSvcUserFactory.parseTinyUser(data.actor);
+      parseDefault(activity, data);
+
+      activity.candidates = _.map(data.candidates, function (item) {
+        return NstSvcUserFactory.parseTinyUser(item);
+      });
 
       return activity;
     }
 
-    function parseStatus(data) {
-      var activity = new NstActivity();
+    function parseTodo(data) {
+      var activity = new NstTaskActivity();
 
-      activity.id = data._id;
-      activity.type = data.action;
-      activity.date = data.timestamp;
-      activity.actor = NstSvcUserFactory.parseTinyUser(data.actor);
+      parseDefault(activity, data);
+
+      activity.todo = {
+        text: data.todo_text
+      };
 
       return activity;
     }
 
     function parseLabel(data) {
-      var activity = new NstActivity();
+      var activity = new NstTaskActivity();
 
-      activity.id = data._id;
-      activity.type = data.action;
-      activity.date = data.timestamp;
-      activity.actor = NstSvcUserFactory.parseTinyUser(data.actor);
+      parseDefault(activity, data);
 
       return activity;
     }
 
     function parseDueDate(data) {
-      var activity = new NstActivity();
+      var activity = new NstTaskActivity();
 
-      activity.id = data._id;
-      activity.type = data.action;
-      activity.date = data.timestamp;
-      activity.actor = NstSvcUserFactory.parseTinyUser(data.actor);
+      parseDefault(activity, data);
+
+      activity.dueDate = data.due_date;
 
       return activity;
     }
@@ -163,16 +188,16 @@
         var deferred = $q.defer();
 
         NstSvcServer.request('task/get_activities', {
+          task_id: settings.id,
+          details: true,
+          only_comments: settings.onlyComments,
           limit: settings.limit || 32,
           before: settings.before,
-          after: settings.after,
-          filter: settings.filter || 'all',
-          place_id: settings.placeId,
-          details: true
+          after: settings.after
         }, function (cachedResponse) {
-          if (_.isFunction(cacheHandler) && cachedResponse) {
-            cacheHandler(_.map(cachedResponse.activities, parseActivity));
-          }
+          // if (_.isFunction(cacheHandler) && cachedResponse) {
+          //   cacheHandler(_.map(cachedResponse.activities, parseActivity));
+          // }
         }).then(function (response) {
 
           deferred.resolve(_.map(response.activities, parseActivity));
@@ -180,24 +205,24 @@
         }).catch(deferred.reject);
 
         return deferred.promise;
-      }, 'getTaskActivities', settings.placeId);
+      }, 'getTaskActivities', settings.id);
     }
 
     function get(settings, cacheHandler) {
       return getActivities({
+        id: settings.id,
         limit: settings.limit,
-        placeId: settings.placeId,
         before: settings.date,
-        filter: settings.filter
+        onlyComments: settings.onlyComments
       }, cacheHandler);
     }
 
     function getAfter(settings) {
       return getActivities({
+        id: settings.id,
         limit: settings.limit,
-        placeId: settings.placeId,
         after: settings.date,
-        filter: settings.filter
+        onlyComments: settings.onlyComments
       });
     }
   }

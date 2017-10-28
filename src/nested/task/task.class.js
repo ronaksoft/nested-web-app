@@ -24,6 +24,7 @@
       this.labels = undefined;
       this.counters = undefined;
       this.access = undefined;
+      this.progress = -1;
     }
 
     return Task;

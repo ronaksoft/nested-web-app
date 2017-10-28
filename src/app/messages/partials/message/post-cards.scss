@@ -690,6 +690,9 @@ post-card {
   }
 }
 
+.task-activity .post-card-comments p strong, .post-card-comments p strong span {
+  max-width: 130px;
+}
 .new-comment-animation {
   animation: new-comment-hot 3s ease-in forwards;
 }

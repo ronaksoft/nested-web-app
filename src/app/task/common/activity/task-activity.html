@@ -1,0 +1,17 @@
+<div class="comments-container">
+  <div ng-repeat="activity in ctrl.activities | orderBy: 'date'" id="comment-{{activity.id}}">
+    <task-activity-item activity="activity" task-id="ctrl.taskId" ng-if="activity.type != ctrl.activityTypes.COMMENT"></task-activity-item>
+    <div class="post-card-comments _difh _fw _wrb" ng-if="activity.type == ctrl.activityTypes.COMMENT">
+      <nst-comment-body comment="activity.comment" comment-board-id="ctrl.taskId"></nst-comment-body>
+    </div>
+  </div>
+</div>
+<div class="post-card-comment-input _df">
+  <div class="user-avatar-24" user-detail="ctrl.user.id">
+    <img initial-avatar="{{ctrl.user.id}}" name="{{ctrl.user.fullName}}" picture="{{ctrl.user | avatar}}"
+      data-width="24" data-height="24" data-radius="13" class="account-initials-24 _df" data-word-count="2" data-font-size="8"/>
+  </div>
+  <textarea type="text" nst-mention data-ng-model="ctrl.tempComment"  auto-dir="ctrl.tempComment"
+         class="_fw wdt-emoji-bundle-enabled" placeholder="write your comment..." ng-keydown="ctrl.sendComment($event)"
+         ng-disabled="ctrl.isSendingComment" max-length="1024"  translate-attrs="placeholder" emoji-init='.wdt-emoji-bundle-enabled'/>
+</div>

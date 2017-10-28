@@ -1,13 +1,12 @@
 <div class="_df _fw">
-  <div class="user-avatar-24" user-detail="comment.sender">
+  <div class="user-avatar-24" user-detail="ctlCommentBody.comment.sender">
     <img initial-avatar="{{ctlCommentBody.comment.sender.id}}" name="{{ctlCommentBody.comment.sender.fullName}}" picture="{{ctlCommentBody.comment.sender | avatar}}" data-width="24" data-height="24" data-radius="13" class="account-initials-24 _df" data-word-count="2" data-font-size="8"/>
   </div>
   <div class="text _df _fw">
-    <p class="_fw" auto-dir="comment.body">
+    <p class="_fw" auto-dir="ctlCommentBody.comment.body">
       <span class="_df _fn time" data-uib-tooltip="{{ctlCommentBody.comment.timestamp | date : 'full' | localize}}" data-tooltip-append-to-body="true" data-tooltip-placement="top auto">{{ctlCommentBody.comment.timestamp | passed | localize}}</span>
-      <strong class="_fl" user-detail="comment.sender">{{ctlCommentBody.comment.sender.fullName}}:&nbsp;</strong>
-      <!--<span is-two-line class="_fl" ng-bind-html="to_trusted(ctlCommentBody.comment.body | link | nstPopover | plainToHtml)"></span>-->
-      <span is-two-line class="_fl" ng-if="comment.attachment_id.length === 0">
+      <strong class="_fl" user-detail="ctlCommentBody.comment.sender">{{ctlCommentBody.comment.sender.fullName}}:&nbsp;</strong>
+      <span is-two-line class="_fl" ng-if="ctlCommentBody.comment.attachment_id.length == 0">
         <abbr ng-repeat="part in ctlCommentBody.parts">
           <br ng-if="part.type == 'linebreak'" />
           <abbr ng-if="part.type == 'mention'" class="nst-user-popover" user-detail="part.user" style="display: inline-block;direction: ltr;">{{part.word}}</abbr>
@@ -15,14 +14,14 @@
         </abbr>
       </span>
 
-      <span ng-if="comment.attachment_id.length > 0" ng-click="ctlCommentBody.playVocie(comment)">
+      <span ng-if="ctlCommentBody.comment.attachment_id.length > 0" ng-click="ctlCommentBody.ctlCommentBody.playVocie(comment)">
         Play Voice
       </span>
       <!-- <i ng-if="ctlCommentBody.comment.body === '' && !ctlCommentBody.comment.removedBy">
         (<translate>removed</translate>)
       </i> -->
       <i ng-if="ctlCommentBody.comment.removedById" class="comment-removed-by">
-        (<translate>removed by <span user-detail="comment.removedById">{{ctlCommentBody.comment.removedById}}</span></translate>)
+        (<translate>removed by <span user-detail="ctlCommentBody.comment.removedById">{{ctlCommentBody.comment.removedById}}</span></translate>)
       </i>
     </p>
   </div>
