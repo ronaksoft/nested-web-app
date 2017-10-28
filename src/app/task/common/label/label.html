@@ -2,5 +2,5 @@
      ng-repeat="label in ctlLabel.labelsData" removable="ctlLabel.removeItem"></div>
 <input nst-mention-label nst-mention-list="ctlLabel.labels" nst-mention-data="ctlLabel.mentionLabelsData" nst-mention-clicked="ctlLabel.addIt" type="text"
        class="no-style gale-holder create-task-input" placeholder="{{ctlLabel.labelPlaceholder}}"
-       ng-focus="ctlLabel.labelFocus = true" ng-model="ctlLabel.labelInput" uneditable="{{!ctlLabel.editMode}}"
+       ng-focus="ctlLabel.labelFocus = true" ng-model="ctlLabel.labelInput" uneditable="{{!ctlLabel.addItem}}"
        ng-keydown="ctlLabel.labelKeyDown($event)" ng-keyup="ctlLabel.labelKeyUp($event)" ng-if="ctlLabel.addItem == true">
