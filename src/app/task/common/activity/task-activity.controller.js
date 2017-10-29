@@ -54,6 +54,8 @@
         id: vm.taskId
       };
       vm.activities = [];
+      vm.isLoading = false;
+      vm.haveMore = true;
     }
 
     function getActivities() {
