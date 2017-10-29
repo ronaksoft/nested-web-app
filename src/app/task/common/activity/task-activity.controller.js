@@ -9,7 +9,7 @@
                                   NstSvcAuth, NstSvcTaskFactory, NstSvcTranslation, toastr, NstTaskActivity, NstSvcUserFactory) {
     var vm = this;
     var eventReferences = [];
-    var setting = {};
+    vm.setting = {};
     $scope.loadMore = getActivities;
     vm.isLoading = false;
     vm.haveMore = true;
@@ -48,7 +48,7 @@
     });
 
     function reset() {
-      setting = {
+      vm.setting = {
         limit: 16,
         skip: 0,
         id: vm.taskId
@@ -61,10 +61,10 @@
         return;
       }
       vm.isLoading = true;
-      setting.onlyComments = vm.onlyComments;
-      NstSvcTaskActivityFactory.get(setting).then(function (activities) {
-        vm.haveMore = activities.length === setting.limit;
-        setting.skip += activities.length;
+      vm.setting.onlyComments = vm.onlyComments;
+      NstSvcTaskActivityFactory.get(vm.setting).then(function (activities) {
+        vm.haveMore = activities.length === vm.setting.limit;
+        vm.setting.skip += activities.length;
         var tempActs = vm.activities;
         Array.prototype.unshift.apply(tempActs, activities);
         _.unionBy(tempActs, 'id');
@@ -74,7 +74,7 @@
         $scope.scrollEnd();
       });
     }
-    
+
     vm.isSendingComment = false;
     var focusOnSentTimeout = null;
 
