@@ -47,10 +47,6 @@
       }
     });
 
-    $timeout(function (){
-      $scope.scrollEnd(true)
-    }, 100)
-
     function reset() {
       setting = {
         limit: 16,
@@ -75,12 +71,10 @@
         vm.activities = tempActs;
         vm.activityCount = vm.activities.length;
         vm.isLoading = false;
+        $scope.scrollEnd();
       });
     }
-    $timeout(function(){
-      getActivities();
-    },10000)
-
+    
     vm.isSendingComment = false;
     var focusOnSentTimeout = null;
 
