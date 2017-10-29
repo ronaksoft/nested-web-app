@@ -12,16 +12,28 @@
 
       vm.createTask = createTask;
 
-      function createTask() {
+      function createTask(id) {
+        if (id === undefined) {
+          id = null;
+        }
         $uibModal.open({
           animation: false,
           size: 'create-task',
           templateUrl: 'app/task/pages/create-task/create-task.html',
           controller: 'CreateTaskController',
           controllerAs: 'ctrlCreateTask',
-          backdropClass: 'taskBackDrop'
-        })
+          backdropClass: 'taskBackDrop',
+          resolve: {
+            modalData: {
+              relatedTaskId: id
+            }
+          }
+        });
       }
+
+      eventReferences.push($rootScope.$on('create-related-task', function (event, id) {
+        createTask(id);
+      }));
 
       $scope.$on('$destroy', function () {
         _.forEach(eventReferences, function (canceler) {

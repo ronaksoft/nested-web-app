@@ -107,6 +107,12 @@
           return NstSvcLabelFactory.parseLabel(item);
         });
       }
+      if (data.related_to) {
+        task.relatedTask = {
+          id: data.related_to._id,
+          title: data.related_to.title
+        };
+      }
       task.counters = data.counters;
 
       task.access = factory.parseTaskAccess(data.access);
@@ -226,6 +232,10 @@
 
       if (task.labels) {
         params.label_id = getCommaSeparate(task.labels);
+      }
+
+      if (task.relatedTask) {
+        params.related_to = task.relatedTask;
       }
 
       return this.sentinel.watch(function () {

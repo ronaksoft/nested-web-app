@@ -6,7 +6,9 @@
     .controller('CreateTaskController', CreateTaskController);
 
   /** @ngInject */
-  function CreateTaskController($q, $timeout, $scope, $rootScope, NstSvcAuth, NstSvcTaskFactory, _, toastr, NstSvcTranslation, NstTask, NST_ATTACHMENT_STATUS, NstUtility, NstSvcTaskUtility) {
+  function CreateTaskController($q, $timeout, $scope, $rootScope, NstSvcAuth, NstSvcTaskFactory, _, toastr,
+                                NstSvcTranslation, NstTask, NST_ATTACHMENT_STATUS, NstUtility, NstSvcTaskUtility,
+                                modalData) {
     var vm = this;
     // var eventReferences = [];
     vm.titleLengthLimit = 64;
@@ -18,7 +20,6 @@
     };
     vm.backDropClick = backDropClick;
     function backDropClick() {
-
       $scope.$dismiss();
     }
 
@@ -157,6 +158,9 @@
         }
         if (vm.model.labels.length > 0) {
           task.labels = vm.model.labels;
+        }
+        if (modalData.relatedTaskId  !== null) {
+          task.relatedTask = modalData.relatedTaskId;
         }
         NstSvcTaskFactory.create(task).then(function () {
           toastr.success(NstSvcTranslation.get('Task created successfully!'));
