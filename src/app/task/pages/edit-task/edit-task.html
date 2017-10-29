@@ -12,9 +12,8 @@
   <svg class="_16svg">
     <use xlink:href="/assets/icons/nst-icn16.svg#line-star"></use>
   </svg>
-  <h2 ng-if="ctrlEditTask.model.isRelated">
-    <b>{{ctrlEditTask.model.assignor.fullName}}</b>&nbsp;
-    <translate>created this related task.</translate>
+  <h2>
+    <translate>created by</translate> <b>{{ctrlEditTask.model.assignor.fullName}}</b>
   </h2>
 </div>
 <div class="edit-task">
