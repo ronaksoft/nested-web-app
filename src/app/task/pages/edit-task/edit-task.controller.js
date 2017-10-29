@@ -26,6 +26,7 @@
 
     vm.openBinder = openBinder;
     vm.bindRow = bindRow;
+    vm.editTask = editTask;
 
     function openBinder() {
       vm.isOpenBinder = !vm.isOpenBinder;
@@ -34,6 +35,14 @@
     function bindRow(key) {
       vm[key] = true;
       vm.isOpenBinder = false;
+    }
+
+    function editTask(id) {
+      $state.go('app.task.edit', {
+        taskId: id
+      }, {
+        notify: false
+      });
     }
 
     //

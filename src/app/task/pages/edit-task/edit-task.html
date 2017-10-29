@@ -1,6 +1,6 @@
 <div class="bg-compose" ng-click="ctrlEditTask.backDropClick();"></div>
 <div class="task-related-parent overflow-task-view">
-  <a ng-if="ctrlEditTask.model.isRelated">
+  <a ng-if="ctrlEditTask.model.isRelated" ng-click="ctrlEditTask.taskEdit(ctrlEditTask.model.relatedTask.id)" >
     <svg class="_16svg">
       <use xlink:href="/assets/icons/nst-icn16.svg#chain"></use>
     </svg>
@@ -12,9 +12,8 @@
   <svg class="_16svg">
     <use xlink:href="/assets/icons/nst-icn16.svg#line-star"></use>
   </svg>
-  <h2 ng-if="ctrlEditTask.model.isRelated">
-    <b>{{ctrlEditTask.model.assignor.fullName}}</b>&nbsp;
-    <translate>created this related task.</translate>
+  <h2>
+    <translate>created by</translate> <b>{{ctrlEditTask.model.assignor.fullName}}</b>
   </h2>
 </div>
 <div class="edit-task">
