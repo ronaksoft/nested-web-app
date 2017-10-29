@@ -18,14 +18,13 @@
           }
         },10);
         function handleScroll(){
+          $timeout.cancel(interval);
           if ( window.nativeScroll) {
-            if (el[0].scrollTop < 5) {
-              console.log('aaaaa', el[0].scrollTop)
+            if (el[0].scrollTop < 1) {
               scope.loadMore();
             }
           } else {
-            if (this.y > -5) {
-              console.log('aaaaa', this.y)
+            if (this.y > -1) {
               scope.loadMore();
             }
           }
@@ -33,7 +32,7 @@
         }
         
         scope.$on('$destroy', function () {
-            $timeout.cancel(interval);
+            // $timeout.cancel(interval);
             if ( window.nativeScroll) {
               el[0].removeEventListener('scroll',handleScroll)
             } else {

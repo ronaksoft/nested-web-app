@@ -9,13 +9,19 @@
                                   NstSvcAuth, NstSvcTaskFactory, NstSvcTranslation, toastr, NstTaskActivity, NstSvcUserFactory) {
     var vm = this;
     var eventReferences = [];
+    var setting = {};
+    $scope.loadMore = getActivities;
+    vm.isLoading = false;
+    vm.haveMore = true;
+
+    reset();
 
     vm.sendComment = sendComment;
 
     $timeout(function () {
       vm.user = NstSvcAuth.user;
     }, 100);
-
+    $scope.scrollEnd = function(){}; // will Assigned by directive stickBottomScroll
     vm.activityTypes = NST_TASK_EVENT_ACTION;
 
     vm.activities = [];
@@ -24,7 +30,7 @@
     };
 
     (function () {
-      getActivities(vm.taskId);
+      getActivities();
     })();
 
     var init = false;
@@ -35,40 +41,45 @@
     $scope.$watch(function () {
       return vm.onlyComments;
     }, function () {
+      reset();
       if (init) {
-        getActivities(vm.taskId)
+        getActivities()
       }
     });
-    $scope.$watch(function () {
-      return window.nativeScroll ? $('#task-activity-scroll')[0].scrollHeight : $scope.scrollInstance.maxScrollY;
-    }, function () {
-      scrollEnd();
-    });
+
     $timeout(function (){
-      scrollEnd()
+      $scope.scrollEnd(true)
     }, 100)
 
-    function scrollEnd(){
-      if (window.nativeScroll) {
-        $('#task-activity-scroll').scrollTop($('#task-activity-scroll')[0].scrollHeight);
-      } else {
-        if($scope.scrollInstance.maxScrollY - 100 < $scope.scrollInstance.y || $scope.scrollInstance.y === 0){
-          $scope.scrollInstance.scrollTo(0, $scope.scrollInstance.maxScrollY)
-        }
-      }
+    function reset() {
+      setting = {
+        limit: 16,
+        skip: 0,
+        id: vm.taskId
+      };
+      vm.activities = [];
     }
 
-    function getActivities(id) {
-      vm.activities = [];
-      var setting = {
-        id: id,
-        onlyComments: vm.onlyComments
-      };
+    function getActivities() {
+      if(vm.isLoading || !vm.haveMore) {
+        return;
+      }
+      vm.isLoading = true;
+      setting.onlyComments = vm.onlyComments;
       NstSvcTaskActivityFactory.get(setting).then(function (activities) {
-        vm.activities = activities;
+        vm.haveMore = activities.length === setting.limit;
+        setting.skip += activities.length;
+        var tempActs = vm.activities;
+        Array.prototype.unshift.apply(tempActs, activities);
+        _.unionBy(tempActs, 'id');
+        vm.activities = tempActs;
         vm.activityCount = vm.activities.length;
+        vm.isLoading = false;
       });
     }
+    $timeout(function(){
+      getActivities();
+    },10000)
 
     vm.isSendingComment = false;
     var focusOnSentTimeout = null;
@@ -133,6 +144,7 @@
             attachment_id: ''
           };
           vm.activities.push(activity);
+          $scope.scrollEnd()
         }
 
         e.currentTarget.value = '';

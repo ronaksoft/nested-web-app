@@ -102,9 +102,11 @@
           if (scope.onItemClick) {
             scope.onItemClick(item);
           }
-          $timeout(function () {
-            checkScroll(scope.scrollWrp[0]);
-          }, 500);
+          if (!scope.badge) {
+            $timeout(function () {
+              checkScroll(scope.scrollWrp[0]);
+            }, 500);
+          }
         };
 
         scope.onDelete = function (item) {

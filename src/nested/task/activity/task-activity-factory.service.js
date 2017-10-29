@@ -184,7 +184,7 @@
 
     function getActivities(settings, cacheHandler) {
       return factory.sentinel.watch(function () {
-
+        console.log('settings',settings);
         var deferred = $q.defer();
 
         NstSvcServer.request('task/get_activities', {
@@ -192,6 +192,7 @@
           details: true,
           only_comments: settings.onlyComments,
           limit: settings.limit || 32,
+          skip: settings.skip || 0,
           before: settings.before,
           after: settings.after
         }, function (cachedResponse) {
@@ -212,6 +213,7 @@
       return getActivities({
         id: settings.id,
         limit: settings.limit,
+        skip: settings.skip,
         before: settings.date,
         onlyComments: settings.onlyComments
       }, cacheHandler);

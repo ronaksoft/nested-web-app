@@ -1,5 +1,7 @@
-<div class="comments-container iscroll-wrapper" iscroll iscroll-instance="scrollInstance" id="task-activity-scroll">
+<div class="comments-container iscroll-wrapper" iscroll iscroll-instance="scrollInstance" stick-bottom-scroll
+  load-more-top>
   <div class="iscroll-scroller">
+    <div class="nst-loading absolute" ng-if="ctrl.isLoading"></div>
     <div ng-repeat="activity in ctrl.activities | orderBy: 'date'" id="comment-{{activity.id}}">
       <task-activity-item activity="activity" task-id="ctrl.taskId" ng-if="activity.type != ctrl.activityTypes.COMMENT"></task-activity-item>
       <div class="post-card-comments _difh _fw _wrb" ng-if="activity.type == ctrl.activityTypes.COMMENT">
