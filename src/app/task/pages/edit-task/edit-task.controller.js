@@ -149,12 +149,13 @@
     vm.getTaskIcon = NstSvcTaskUtility.getTaskIcon;
 
     var dataInit = false;
+    var isUpdated = false;
 
     function getTask(id) {
       NstSvcTaskFactory.get(id).then(function (task) {
-        console.log(task);
         vm.model.status = task.status;
         vm.model.progress = task.progress;
+
         vm.model.title = task.title;
         vm.model.assignor = task.assignor;
         vm.model.counters = task.counters;
@@ -318,6 +319,7 @@
     function updateTask() {
       NstSvcTaskFactory.taskUpdate(vm.taskId, taskUpdateModel.title, taskUpdateModel.description, taskUpdateModel.dueDate).then(function () {
         backItUp();
+        isUpdated = true;
       })/*.catch(function (error) {
         console.log(error);
       })*/;
@@ -360,6 +362,7 @@
       if (newItems.length > 0 || removedItems.length > 0) {
         $q.all(promises).then(function () {
           vm.modelBackUp.assignees = vm.model.assignees.slice(0);
+          isUpdated = true;
         });
       }
     }
@@ -391,6 +394,7 @@
       if (newItems.length > 0 || removedItems.length > 0) {
         $q.all(promises).then(function () {
           vm.modelBackUp.todos = vm.model.todos.slice(0);
+          isUpdated = true;
         });
       }
     }
@@ -401,6 +405,7 @@
       }
       NstSvcTaskFactory.updateTodo(vm.taskId, data.id, data.checked, data.text, data.weight).then(function () {
         vm.modelBackUp.todos[index] = data;
+        isUpdated = true;
       });
     }
 
@@ -410,6 +415,7 @@
       }
       NstSvcTaskFactory.updateTodo(vm.taskId, data.id, data.checked).then(function () {
         vm.modelBackUp.todos[index].checked = data.checked;
+        isUpdated = true;
       });
     }
 
@@ -433,6 +439,7 @@
       if (newItems.length > 0) {
         NstSvcTaskFactory.addAttachment(vm.taskId, getCommaSeparate(newItems)).then(function () {
           vm.modelBackUp.attachments.push.apply(vm.modelBackUp.attachments, newItems);
+          isUpdated = true;
         });
       }
 
@@ -446,6 +453,7 @@
               vm.modelBackUp.attachments.splice(index, 1);
             }
           });
+          isUpdated = true;
         });
       }
     }
@@ -475,6 +483,7 @@
       if (newItems.length > 0 || removedItems.length > 0) {
         $q.all(promises).then(function () {
           vm.modelBackUp.watchers = vm.model.watchers.slice(0);
+          isUpdated = true;
         });
       }
     }
@@ -504,6 +513,7 @@
       if (newItems.length > 0 || removedItems.length > 0) {
         $q.all(promises).then(function () {
           vm.modelBackUp.labels = vm.model.labels.slice(0);
+          isUpdated = true;
         });
       }
     }
@@ -540,7 +550,9 @@
     }
 
     $scope.$on('$destroy', function () {
-      console.log('destroy');
+      if (isUpdated) {
+        $rootScope.$broadcast('task-updated', vm.taskId);
+      }
     });
   }
 })();
