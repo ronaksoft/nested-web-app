@@ -49,7 +49,7 @@
     .const-height-item {
         > label {
             position: relative;
-            svg {
+            svg:not(.progress) {
                 position: absolute;
                 left: 50%;
                 top: 0;

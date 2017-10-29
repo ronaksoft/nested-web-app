@@ -49,11 +49,11 @@
       </ul>
       <h5 class="list-head large pending" ng-if="ctrl.pendingTasks.length > 0 && ctrl.isGlancePage"><translate>You’ve been Candidated to do this...</translate></h5>
       <ul class="list-ul candidate" ng-if="ctrl.pendingTasks.length > 0 && ctrl.isGlancePage">
-        <li class="large" ng-repeat="task in ctrl.pendingTasks" ng-click="ctrl.editTask(task.id)">
+        <li class="large" ng-repeat="task in ctrl.pendingTasks">
           <div class="list-li-icon">
             <task-progress-icon status="'not-assigned'" progress="0"></task-progress-icon>
           </div>
-          <div class="list-li-body">
+          <div class="list-li-body" ng-click="ctrl.editTask(task.id)">
             <a>
               <span>{{task.title}}</span>
             </a>

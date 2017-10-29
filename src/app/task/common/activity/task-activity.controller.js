@@ -9,7 +9,7 @@
                                   NstSvcAuth, NstSvcTaskFactory, NstSvcTranslation, toastr, NstTaskActivity, NstSvcUserFactory) {
     var vm = this;
     var eventReferences = [];
-    var setting = {};
+    vm.setting = {};
     $scope.loadMore = getActivities;
     vm.isLoading = false;
     vm.haveMore = true;
@@ -47,17 +47,15 @@
       }
     });
 
-    $timeout(function (){
-      $scope.scrollEnd(true)
-    }, 100)
-
     function reset() {
-      setting = {
+      vm.setting = {
         limit: 16,
         skip: 0,
         id: vm.taskId
       };
       vm.activities = [];
+      vm.isLoading = false;
+      vm.haveMore = true;
     }
 
     function getActivities() {
@@ -65,21 +63,19 @@
         return;
       }
       vm.isLoading = true;
-      setting.onlyComments = vm.onlyComments;
-      NstSvcTaskActivityFactory.get(setting).then(function (activities) {
-        vm.haveMore = activities.length === setting.limit;
-        setting.skip += activities.length;
+      vm.setting.onlyComments = vm.onlyComments;
+      NstSvcTaskActivityFactory.get(vm.setting).then(function (activities) {
+        vm.haveMore = activities.length === vm.setting.limit;
+        vm.setting.skip += activities.length;
         var tempActs = vm.activities;
         Array.prototype.unshift.apply(tempActs, activities);
         _.unionBy(tempActs, 'id');
         vm.activities = tempActs;
         vm.activityCount = vm.activities.length;
         vm.isLoading = false;
+        $scope.scrollEnd();
       });
     }
-    $timeout(function(){
-      getActivities();
-    },10000)
 
     vm.isSendingComment = false;
     var focusOnSentTimeout = null;

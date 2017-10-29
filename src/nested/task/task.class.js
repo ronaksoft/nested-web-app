@@ -25,6 +25,7 @@
       this.counters = undefined;
       this.access = undefined;
       this.progress = -1;
+      this.relatedTask = undefined;
     }
 
     return Task;
