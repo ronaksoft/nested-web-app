@@ -166,7 +166,7 @@
 
         function getToken(id) {
           var deferred = $q.defer();
-            NstSvcFileFactory.getDownloadToken(id, null, scope.postId).then(deferred.resolve).catch(deferred.reject).finally(function () {
+            NstSvcFileFactory.getDownloadToken(id, scope.postId).then(deferred.resolve).catch(deferred.reject).finally(function () {
           });
 
           return deferred.promise;
