@@ -4,7 +4,7 @@
     <svg class="_16svg">
       <use xlink:href="/assets/icons/nst-icn16.svg#chain"></use>
     </svg>
-    iOS New Design
+    {{ctrlEditTask.model.relatedTask.title}}
   </a>
   <div class="devider" ng-if="ctrlEditTask.model.isRelated"></div>
 </div>
@@ -12,9 +12,6 @@
   <svg class="_16svg">
     <use xlink:href="/assets/icons/nst-icn16.svg#line-star"></use>
   </svg>
-  <h2 ng-if="!ctrlEditTask.model.isRelated">
-    <translate>created by</translate>
-    <b>{{ctrlEditTask.model.assignor.fullName}}</b></h2>
   <h2 ng-if="ctrlEditTask.model.isRelated">
     <b>{{ctrlEditTask.model.assignor.fullName}}</b>&nbsp;
     <translate>created this related task.</translate>
@@ -337,7 +334,7 @@
     </svg>
     {{task.title}}
   </a>
-  <a class="create-task">
+  <a class="create-task" ng-click="ctrlEditTask.createRelatedTask();">
     <svg class="_16svg">
       <use xlink:href="/assets/icons/nst-icn16.svg#cross"></use>
     </svg>

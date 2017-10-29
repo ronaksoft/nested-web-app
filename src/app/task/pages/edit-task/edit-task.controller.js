@@ -45,6 +45,7 @@
 
     vm.model = {
       isRelated: false,
+      relatedTask: null,
       titleLengthLimit: 64,
       assignor: null,
       status: null,
@@ -214,6 +215,11 @@
           vm.enableLabel = true;
         }
 
+        if (task.relatedTask !== undefined) {
+          vm.model.isRelated = true;
+          vm.model.relatedTask = task.relatedTask;
+        }
+
         $timeout(function () {
           dataInit = true;
           vm.loading = false;
@@ -222,6 +228,7 @@
       });
     }
 
+    vm.createRelatedTask = createRelatedTask;
 
     function removeAssignees() {
       vm.removeAssigneeItems.call();
@@ -516,6 +523,11 @@
           isUpdated = true;
         });
       }
+    }
+
+    function createRelatedTask() {
+      $rootScope.$broadcast('create-related-task', vm.taskId);
+      $scope.$dismiss();
     }
 
     var focusInit = true;
