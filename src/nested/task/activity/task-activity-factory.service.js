@@ -184,7 +184,6 @@
 
     function getActivities(settings, cacheHandler) {
       return factory.sentinel.watch(function () {
-        console.log('settings',settings);
         var deferred = $q.defer();
 
         NstSvcServer.request('task/get_activities', {

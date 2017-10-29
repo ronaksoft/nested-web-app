@@ -37,12 +37,10 @@
       vm.isOpenBinder = false;
     }
 
+    var gotoTask = null;
     function editTask(id) {
-      $state.go('app.task.edit', {
-        taskId: id
-      }, {
-        notify: false
-      });
+      $scope.$dismiss();
+      gotoTask = id;
     }
 
     //
@@ -573,6 +571,13 @@
     $scope.$on('$destroy', function () {
       if (isUpdated) {
         $rootScope.$broadcast('task-updated', vm.taskId);
+      }
+      if (gotoTask !== null) {
+        $state.go('app.task.edit', {
+          taskId: gotoTask
+        }, {
+          notify: false
+        });
       }
     });
   }

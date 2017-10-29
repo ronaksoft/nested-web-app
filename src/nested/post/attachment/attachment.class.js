@@ -33,6 +33,8 @@
       this.height = null;
 
       this.post = null;
+
+      this.postId = null;
     }
 
     Attachment.prototype.hasThumbnail = function (size) {
