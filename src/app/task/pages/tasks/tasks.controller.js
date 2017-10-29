@@ -75,6 +75,13 @@
       vm.tasks.unshift.apply(vm.tasks, newItems);
     }
 
+    function replaceTask(id) {
+      var index = _.findIndex(vm.tasks, {id: id});
+      NstSvcTaskFactory.get(id).then(function (task) {
+        vm.tasks[index] = task;
+      });
+    }
+
     function getOverdueTasks() {
       NstSvcTaskFactory.getByFilter(NST_TASK_STATUS.ASSIGNED_TO_ME, NST_TASK_STATUS.OVERDUE).then(function (tasks) {
         vm.overDueTasks = tasks;
@@ -198,6 +205,10 @@
 
     eventReferences.push($rootScope.$on('scroll-reached-bottom', function () {
       loadMoreTasks();
+    }));
+
+    eventReferences.push($rootScope.$on('task-updated', function (event, id) {
+      replaceTask(id);
     }));
 
     $scope.$on('$destroy', function () {

@@ -33,12 +33,12 @@
       </h2>
       <h5 class="list-head large error" ng-if="ctrl.overDueTasks.length > 0 && ctrl.isGlancePage"><translate>Overdue Tasks</translate></h5>
       <ul class="list-ul overdue" ng-if="ctrl.overDueTasks.length > 0 && ctrl.isGlancePage">
-        <li class="medium" ng-repeat="task in ctrl.overDueTasks">
+        <li class="medium" ng-repeat="task in ctrl.overDueTasks" ng-click="ctrl.editTask(task.id)">
           <div class="list-li-icon">
             <task-progress-icon status="'overdue'" progress="0"></task-progress-icon>
           </div>
           <div class="list-li-body">
-            <a ng-click="ctrl.editTask(task.id)">
+            <a>
               <span>{{task.title}}</span>
             </a>
           </div>
@@ -49,12 +49,12 @@
       </ul>
       <h5 class="list-head large pending" ng-if="ctrl.pendingTasks.length > 0 && ctrl.isGlancePage"><translate>You’ve been Candidated to do this...</translate></h5>
       <ul class="list-ul candidate" ng-if="ctrl.pendingTasks.length > 0 && ctrl.isGlancePage">
-        <li class="large" ng-repeat="task in ctrl.pendingTasks">
+        <li class="large" ng-repeat="task in ctrl.pendingTasks" ng-click="ctrl.editTask(task.id)">
           <div class="list-li-icon">
             <task-progress-icon status="'not-assigned'" progress="0"></task-progress-icon>
           </div>
           <div class="list-li-body">
-            <a ng-click="ctrl.editTask(task.id)">
+            <a>
               <span>{{task.title}}</span>
             </a>
             <p>
@@ -76,12 +76,12 @@
       </ul>
       <h5 class="list-head large upcoming"><translate>Upcomings</translate></h5>
       <ul class="list-ul upcoming" id="task-container">
-        <li class="large" ng-repeat="task in ctrl.tasks">
+        <li class="large" ng-repeat="task in ctrl.tasks" ng-click="ctrl.editTask(task.id)">
           <div class="list-li-icon">
             <task-progress-icon status="ctrl.getTaskIcon(task.status, task.progress)" progress="task.progress"></task-progress-icon>
           </div>
           <div class="list-li-body">
-            <a ng-click="ctrl.editTask(task.id)">
+            <a>
               <span>{{task.title}}</span>
             </a>
             <p ng-if="task.assignee !== undefined">

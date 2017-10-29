@@ -40,7 +40,7 @@
         </div>
       </div>
       <label for="task-title" ng-class="{'focus' : ctrlEditTask.titleFocus}">
-        <task-progress-icon status="ctrlEditTask.getTaskIcon(ctrlEditTask.model.status, ctrlEditTask.model.progress)" progress="task.progress"></task-progress-icon>
+        <task-progress-icon status="ctrlEditTask.getTaskIcon(ctrlEditTask.model.status, ctrlEditTask.model.progress)" progress="ctrlEditTask.model.progress"></task-progress-icon>
       </label>
     </div>
     <div class="task-assignee auto-height-item">

@@ -17,7 +17,7 @@
   function CommentBodyController($scope, $sce, $q, $filter, _, NstSvcFileFactory, NstSvcAttachmentFactory, SvcMiniPlayer, NstSvcStore
                                 ,NST_STORE_ROUTE, toastr) {
     var vm = this;
-    vm.playVocie = playVocie;
+    vm.playVoice = playVoice;
 
     vm.parts = [];
 
@@ -90,7 +90,7 @@
       return deferred.promise;
     }
 
-    function playVocie(comment) {
+    function playVoice(comment) {
       NstSvcAttachmentFactory.getOne(comment.attachment_id).then( function(attachment) {
         getToken(attachment.id).then(function (token) {
           attachment.src = NstSvcStore.resolveUrl(NST_STORE_ROUTE.VIEW, attachment.id, token);
