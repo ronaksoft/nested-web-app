@@ -228,7 +228,7 @@
 
       var determiner;
       if (scrollDown) {
-        if (obj.affixView.index === $rootScope.cardCtrls.length){
+        if (obj.affixView.index === $rootScope.cardCtrls.length - 1){
           return;
         }
         var nextIndex = obj.affixView.index + 1;
@@ -260,6 +260,9 @@
     return obj;
     function getElementProps(index){
       var nextItem = $rootScope.cardCtrls[index];
+      if(!nextItem) {
+        return;
+      }
       var nextElement = $('#post-card-' + nextItem.id).parent();
       return {
         id: nextItem.id,

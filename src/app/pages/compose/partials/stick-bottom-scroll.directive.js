@@ -14,7 +14,6 @@
         scope.scrollEnd = scrollFn
         
         function scrollFn(forced){
-          console.log('scrollFn', forced);
           if ( window.nativeScroll) {
             if (el[0].clientHeight + el[0].scrollTop > el[0].scrollHeight - constant || forced) {
               $('.focus-handler').focus();
