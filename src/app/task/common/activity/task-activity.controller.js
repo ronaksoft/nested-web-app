@@ -140,7 +140,7 @@
             attachment_id: ''
           };
           vm.activities.push(activity);
-          $scope.scrollEnd()
+          $scope.scrollEnd(true);
         }
 
         e.currentTarget.value = '';

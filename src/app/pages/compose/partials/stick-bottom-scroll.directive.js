@@ -10,7 +10,8 @@
       restrict: 'A',
       link: function (scope, el) {
         var constant = 200;
-        scope.scrollEnd = _.debounce(scrollFn, 128)
+        // scope.scrollEnd = _.debounce(scrollFn, 128)
+        scope.scrollEnd = scrollFn
         
         function scrollFn(forced){
           console.log('scrollFn', forced);
