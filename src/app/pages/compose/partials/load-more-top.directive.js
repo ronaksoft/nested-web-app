@@ -3,7 +3,7 @@
 
   angular
     .module('ronak.nested.web.components')
-    .directive('loadMore', loadMore);
+    .directive('loadMoreTop', loadMore);
 
   function loadMore($timeout) {
     return {
@@ -19,12 +19,14 @@
         },10);
         function handleScroll(){
           if ( window.nativeScroll) {
-            if (el[0].clientHeight + el[0].scrollTop> .9 * el[0].scrollHeight) {
-              scope.ctrl.loadMore();
+            if (el[0].scrollTop < 5) {
+              console.log('aaaaa', el[0].scrollTop)
+              scope.loadMore();
             }
           } else {
-            if (this.wrapperHeight - this.y > .9 * this.scrollerHeight) {
-              scope.ctrl.loadMore();
+            if (this.y > -5) {
+              console.log('aaaaa', this.y)
+              scope.loadMore();
             }
           }
           
