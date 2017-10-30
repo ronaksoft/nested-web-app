@@ -49,7 +49,7 @@
         <input type="text" class="no-style gale-holder create-task-input" translate-attrs="placeholder" placeholder="{{ctrlCreateTask.dueDatePlaceholder}}"
           id="task-due" ng-focus="ctrlCreateTask.dueDateFocus = true" ng-blur="ctrlCreateTask.dueDateFocus = false" ng-model="ctrlCreateTask.model.dueDate"
           data-config="ctrlCreateTask.datePickerconfig" g-formatted-picked-date="gfdate" g-picked-date="gdate" ng-jalaali-flat-datepicker
-          have-time="ctrlCreateTask.model.haveTime">
+          have-time="ctrlCreateTask.model.hasDueTime">
       </div>
       <label for="task-due" ng-class="{'focus': ctrlCreateTask.dueDateFocus, 'no-hover': ctrlCreateTask.model.dueDate == null}">
             <div class="_24svg _df _jcc _aic" translate-attrs="data-uib-tooltip" data-uib-tooltip="Remove Due Time"
@@ -85,7 +85,7 @@
           </h3>
           <ul class="todo-list ng-class:{'focus': ctrlCreateTask.todoFocus}">
             <task-todo todos-data="ctrlCreateTask.model.todos" todo-focus="ctrlCreateTask.todoFocus" todo-placeholder="{{ctrlCreateTask.todoPlaceholder}}"
-              remove-items="ctrlCreateTask.removeTodoItems" todo-focus-me="ctrlCreateTask.assigneeTodoTrigger" edit-mode="ctrlCreateTask.editMode"></task-todo>
+              remove-items="ctrlCreateTask.removeTodoItems" todo-focus-me="ctrlCreateTask.assigneeTodoTrigger" edit-mode="ctrlCreateTask.editMode" enable-check="false"></task-todo>
             </li>
           </ul>
         </div>
@@ -183,19 +183,16 @@
       <a class="_df _fw" ng-if="ctrlCreateTask.showMoreOption" ng-click="ctrlCreateTask.showMoreOption =! ctrlCreateTask.showMoreOption">
         <translate>Hide options</translate>
       </a>
-      <a class="_df _fw" ng-click="ctrlCreateTask.minimizeModal()">
-        <translate>minimize</translate>
-      </a>
     </div>
   </div>
-  <div ng-if="ctrlCreateTask.minimize" class="minimize-container compose_{{ctrlCreateTask.modalId}}">
+  <div ng-if="ctrlCreateTask.minimize" class="minimize-container task_{{ctrlCreateTask.modalId}}">
       <div ng-progressbar="{{ctrlCreateTask.minimizeData.progress}}" progressbar-mode="Line"></div>
       <div class="minimize-info">
         <div class="minimize-text">
-          <translate>{{ctrlCreateTask.minimizeData.uploadedItems}} of {{ctrlCreateTask.minimizeData.totalItems}} file(s) uploaded</translate>
+          <translate>uploading task data...</translate>
         </div>
         <div class="minimize-abort">
-          <svg class="_16svg" ng-click="ctrlCreateTask.abortBackgroundCompose()">
+          <svg class="_16svg" ng-click="ctrlCreateTask.abortBackgroundCreateTask()">
             <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
           </svg>
         </div>

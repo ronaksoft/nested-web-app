@@ -17,6 +17,7 @@
       this.candidates = undefined;
       this.title = undefined;
       this.dueDate = undefined;
+      this.hasDueTime = false;
       this.description = '';
       this.todos = undefined;
       this.attachments = undefined;

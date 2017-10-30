@@ -61,6 +61,7 @@
       task.title = data.title;
       if (data.due_date) {
         task.dueDate = data.due_date;
+        task.hasDueTime = data.due_data_has_clock;
       }
       task.description = data.description;
 
@@ -226,6 +227,7 @@
 
       if (task.relatedTask) {
         params.related_to = task.relatedTask;
+        params.due_data_has_clock = task.hasDueTime;
       }
 
       return this.sentinel.watch(function () {
@@ -320,12 +322,13 @@
       });
     }
 
-    function taskUpdate(taskId, title, desc, dueDate) {
+    function taskUpdate(taskId, title, desc, dueDate, hasDueTime) {
       return NstSvcServer.request('task/update', {
         task_id: taskId,
         title: title,
         desc: desc,
-        due_date: dueDate
+        due_date: dueDate,
+        due_date_has_clock: hasDueTime
       });
     }
 
