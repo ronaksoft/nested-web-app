@@ -15,6 +15,7 @@
     vm.showMoreOption = false;
     vm.user = NstSvcAuth.user;
     vm.minimize = false;
+    vm.minimizeModal = minimizeModal;
     vm.editMode = true;
     vm.datePickerconfig = {
       allowFuture: true

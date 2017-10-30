@@ -239,7 +239,7 @@
         templateUrl: 'app/task/pages/create-task/create-task.html',
         controller: 'CreateTaskController',
         controllerAs: 'ctrlCreateTask',
-        backdropClass: 'taskBackDrop',
+        backdropClass: 'comdrop',
         openedClass: 'modal-open compose-modal active-compose',
         resolve: {
           modalData: {
