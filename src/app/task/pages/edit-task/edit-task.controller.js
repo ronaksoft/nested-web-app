@@ -8,12 +8,13 @@
   /** @ngInject */
   function EditTaskController($q, $, $timeout, $scope, $state, $rootScope, $stateParams,
                               NstSvcAuth, _, toastr, NstSvcTranslation, NstTask, NST_ATTACHMENT_STATUS,
-                              NstUtility, NstSvcTaskFactory, NstSvcTaskUtility) {
+                              NstUtility, NstSvcTaskFactory, NstSvcTaskUtility, NST_TASK_STATUS) {
     var vm = this;
     // var eventReferences = [];
 
     vm.user = NstSvcAuth.user;
 
+    vm.taskStatuses = NST_TASK_STATUS;
     vm.taskId = '';
     vm.mode = 'edit';
     vm.editMode = true;
@@ -236,6 +237,7 @@
     }
 
     vm.createRelatedTask = createRelatedTask;
+    vm.setStatus = setStatus;
 
     function removeAssignees() {
       vm.removeAssigneeItems.call();
@@ -535,6 +537,17 @@
     function createRelatedTask() {
       $rootScope.$broadcast('create-related-task', vm.taskId);
       $scope.$dismiss();
+    }
+
+    function setStatus(status) {
+      if (vm.modelBackUp.status === status) {
+        return;
+      }
+      NstSvcTaskFactory.setStatus(vm.taskId, status).then(function () {
+        vm.model.status = status;
+        vm.modelBackUp.status = status;
+        isUpdated = true;
+      });
     }
 
     var focusInit = true;
