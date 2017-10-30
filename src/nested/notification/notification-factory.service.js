@@ -383,7 +383,6 @@
     }
 
     function parseTaskMention(data) {
-      console.log('parseTaskMention', data);
       var notification = parseDefault(data);
 
       notification.task = {
@@ -394,7 +393,6 @@
     }
 
     function parseTaskComment(data) {
-      console.log('parseTaskComment', data);
       var notification = parseDefault(data);
 
       notification.task = {
@@ -405,7 +403,6 @@
     }
 
     function parseTaskAssignedChanged(data) {
-      console.log('parseTaskAssignedChanged', data);
       var notification = parseDefault(data);
 
       notification.task = {
@@ -416,7 +413,6 @@
     }
 
     function parseTaskAddToCandidate(data) {
-      console.log('parseTaskAddToCandidate', data);
       var notification = parseDefault(data);
 
       notification.task = {
@@ -427,7 +423,6 @@
     }
 
     function parseTaskAddToWatchers(data) {
-      console.log('parseTaskAddToWatchers', data);
       var notification = parseDefault(data);
 
       notification.task = {
@@ -438,7 +433,6 @@
     }
 
     function parseTaskDueTimeUpdated(data) {
-      console.log('parseTaskDueTimeUpdated', data);
       var notification = parseDefault(data);
 
       notification.task = {
@@ -449,7 +443,6 @@
     }
 
     function parseTaskTitleUpdated(data) {
-      console.log('parseTaskTitleUpdated', data);
       var notification = parseDefault(data);
 
       notification.task = {
@@ -460,7 +453,6 @@
     }
 
     function parseTaskUpdated(data) {
-      console.log('parseTaskUpdated', data);
       var notification = parseDefault(data);
 
       notification.task = {
@@ -471,7 +463,6 @@
     }
 
     function parseTaskStatus(data) {
-      console.log('parseTaskStatus', data);
       var notification = parseDefault(data);
 
       notification.task = {

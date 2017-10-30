@@ -84,7 +84,7 @@
     }
     function getToken(id) {
       var deferred = $q.defer();
-        NstSvcFileFactory.getDownloadToken(id, null, vm.commentBoardId).then(deferred.resolve).catch(deferred.reject).finally(function () {
+        NstSvcFileFactory.getDownloadToken(id, vm.commentBoardId).then(deferred.resolve).catch(deferred.reject).finally(function () {
       });
 
       return deferred.promise;

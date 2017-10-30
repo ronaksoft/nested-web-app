@@ -20,30 +20,21 @@
     TaskFactory.prototype.parseTask = parseTask;
     TaskFactory.prototype.parseTaskTodo = parseTaskTodo;
     TaskFactory.prototype.parseTaskAccess = parseTaskAccess;
-
     TaskFactory.prototype.create = create;
-
     TaskFactory.prototype.addAttachment = addAttachment;
     TaskFactory.prototype.removeAttachment = removeAttachment;
-
     TaskFactory.prototype.addComment = addComment;
     TaskFactory.prototype.removeComment = removeComment;
-
     TaskFactory.prototype.addLabel = addLabel;
     TaskFactory.prototype.removeLabel = removeLabel;
-
     TaskFactory.prototype.addTodo = addTodo;
     TaskFactory.prototype.removeTodo = removeTodo;
     TaskFactory.prototype.updateTodo = updateTodo;
-
     TaskFactory.prototype.addWatcher = addWatcher;
     TaskFactory.prototype.removeWatcher = removeWatcher;
-
     TaskFactory.prototype.taskUpdate = taskUpdate;
-
     TaskFactory.prototype.respond = respond;
     TaskFactory.prototype.setStatus = setStatus;
-
     TaskFactory.prototype.getByFilter = getByFilter;
     TaskFactory.prototype.get = get;
     TaskFactory.prototype.getMany = getMany;
@@ -70,6 +61,7 @@
       task.title = data.title;
       if (data.due_date) {
         task.dueDate = data.due_date;
+        task.hasDueTime = data.due_data_has_clock;
       }
       task.description = data.description;
 
@@ -235,6 +227,7 @@
 
       if (task.relatedTask) {
         params.related_to = task.relatedTask;
+        params.due_data_has_clock = task.hasDueTime;
       }
 
       return this.sentinel.watch(function () {
@@ -329,12 +322,13 @@
       });
     }
 
-    function taskUpdate(taskId, title, desc, dueDate) {
+    function taskUpdate(taskId, title, desc, dueDate, hasDueTime) {
       return NstSvcServer.request('task/update', {
         task_id: taskId,
         title: title,
         desc: desc,
-        due_date: dueDate
+        due_date: dueDate,
+        due_date_has_clock: hasDueTime
       });
     }
 

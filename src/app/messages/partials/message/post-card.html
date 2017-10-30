@@ -60,7 +60,7 @@
       <div class="_df _fw"></div>
 
       <a class="_df _fn post-card-time" ng-if="!ctlPostCard.FIT" ng-click="ctlPostCard.viewFull($event); ctlPostCard.markAsRead(); _track('post card','open post view : click date');"
-        data-uib-tooltip="{{::ctlPostCard.post.timestamp | date : 'full' | localize}}" data-tooltip-append-to-body="true" data-tooltip-placement="auto left">
+        data-uib-tooltip="{{::ctlPostCard.post.timestamp | date : 'full' | localize}}" data-tooltip-append-to-body="false" data-tooltip-placement="auto left">
         <span ng-if="!ctlPostCard.chainView">{{::ctlPostCard.post.timestamp | passed | localize }}</span>
         <span ng-if="ctlPostCard.chainView">{{::ctlPostCard.post.timestamp | date : 'full' | localize}}</span>
       </a>

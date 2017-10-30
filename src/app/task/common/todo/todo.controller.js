@@ -17,6 +17,10 @@
   function TaskTodoController($scope, _, toastr, NstSvcTranslation) {
     var vm = this;
 
+    if (vm.enableCheck === undefined) {
+      vm.enableCheck = true;
+    }
+
     vm.temp = {
       id: -parseInt(_.uniqueId()),
       text: '',

@@ -155,11 +155,18 @@
     }
 
     function request(id, title, code) {
-      return NstSvcServer.request('label/request', {
-        label_id: id,
-        title: title,
-        code: code
-      });
+      if(id) {
+        return NstSvcServer.request('label/request', {
+          label_id: id,
+          title: title,
+          code: code
+        });
+      } else {
+        return NstSvcServer.request('label/request', {
+          title: title,
+          code: code
+        });
+      }
     }
 
     function updateRequest(id, status) {

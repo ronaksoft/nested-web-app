@@ -64,7 +64,7 @@
                 min-width: 90px;
             }
         }
-        .list-li-body > span {
+        .list-li-body > a:first-of-type {
             color: $color-bg-pending;
         }
     }

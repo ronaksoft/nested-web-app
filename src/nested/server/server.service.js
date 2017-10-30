@@ -102,6 +102,9 @@
                 case NST_SRV_PUSH_CMD.SYNC_NOTIFICATION:
                   server.dispatchEvent(new CustomEvent(NST_SRV_PUSH_CMD.SYNC_NOTIFICATION, {detail: message.data}));
                   break;
+                case NST_SRV_PUSH_CMD.SYNC_TASK_ACTIVITY:
+                  server.dispatchEvent(new CustomEvent(NST_SRV_PUSH_CMD.SYNC_TASK_ACTIVITY, {detail: message.data}));
+                  break;
               }
               break;
 

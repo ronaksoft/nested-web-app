@@ -56,12 +56,6 @@
     };
 
 
-    $scope.$watch(function () {
-      return vm.attachments.viewModels
-    }, updateTotalAttachmentsRatio, true);
-
-
-
     vm.open = function (vmAttachment) {
       eventReferences.push($scope.$emit('post-attachment-viewed', {
         taskID: vm.taskId
@@ -106,32 +100,6 @@
       return modal.result;
     };
 
-    function updateTotalAttachmentsRatio(items) {
-      if (!vm.minimize) {
-        return;
-      }
-      var totalSize = 0;
-      var uploadedSize = 0;
-      var totalItems = items.length;
-      var uploadedItems = 0;
-      _.forEach(items, function (item) {
-        totalSize += item.size;
-        uploadedSize += item.uploadedSize;
-        if (item.size === item.uploadedSize) {
-          uploadedItems++;
-        }
-      });
-      vm.minimizeData.progress = parseFloat(uploadedSize / totalSize);
-      vm.minimizeData.totalItems = totalItems;
-      vm.minimizeData.uploadedItems = uploadedItems;
-      if (totalItems > 0) {
-        if (items.length === uploadedItems) {
-          $timeout(function () {
-            vm.send();
-          }, 100);
-        }
-      }
-    }
 
     /**
      * Opens the placeFiles modal

@@ -67,7 +67,7 @@
       title: '',
       assignees: [],
       dueDate: null,
-      haveTime: false,
+      hasDueTime: false,
       description: '',
       todos: [],
       attachments: [],
@@ -162,6 +162,7 @@
 
     function getTask(id) {
       NstSvcTaskFactory.get(id).then(function (task) {
+        console.log(task);
         vm.model.status = task.status;
         vm.model.progress = task.progress;
 
@@ -184,6 +185,7 @@
 
         if (task.dueDate !== undefined && task.dueDate !== 0) {
           vm.model.dueDate = new Date(task.dueDate);
+          vm.model.hasDueTime = task.hasDueTime;
           // vm.enableDue = true;
         } else {
           vm.model.dueDate = null;
@@ -291,7 +293,8 @@
     var taskUpdateModel = {
       title: null,
       description: null,
-      dueDate: null
+      dueDate: null,
+      hasDueTime: null
     };
 
     var updateDebouncer = _.debounce(updateTask, 1000);
@@ -312,7 +315,7 @@
       updateDebouncer.call();
     }
 
-    function updateDueDate(date) {
+    function updateDueDate(date, hasDueTime) {
       if (vm.modelBackUp.dueDate === date || !vm.model.access.updateTask) {
         return;
       }
@@ -320,20 +323,24 @@
         taskUpdateModel.dueDate = 0;
       } else {
         taskUpdateModel.dueDate = new Date(date).getTime();
+        taskUpdateModel.hasDueTime = hasDueTime;
       }
       updateDebouncer.call();
     }
 
     $scope.$watch(function () {
-      return vm.model.dueDate;
+      return {
+        time: vm.model.dueDate,
+        hasTime: vm.model.hasDueTime
+      };
     }, function (newVal) {
       if (dataInit) {
-        updateDueDate(newVal);
+        updateDueDate(newVal.time, newVal.hasTime);
       }
     }, true);
 
     function updateTask() {
-      NstSvcTaskFactory.taskUpdate(vm.taskId, taskUpdateModel.title, taskUpdateModel.description, taskUpdateModel.dueDate).then(function () {
+      NstSvcTaskFactory.taskUpdate(vm.taskId, taskUpdateModel.title, taskUpdateModel.description, taskUpdateModel.dueDate, taskUpdateModel.hasDueTime).then(function () {
         backItUp();
         isUpdated = true;
       })/*.catch(function (error) {

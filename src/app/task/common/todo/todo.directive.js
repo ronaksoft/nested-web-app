@@ -22,7 +22,8 @@
         checkItem: '=',
         addItem: '=?',
         removeItem: '=?',
-        todoFocusMe: '='
+        todoFocusMe: '=',
+        enableCheck: '=?'
       }
     };
   }

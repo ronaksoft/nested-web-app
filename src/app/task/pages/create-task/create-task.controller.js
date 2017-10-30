@@ -7,13 +7,16 @@
 
   /** @ngInject */
   function CreateTaskController($q, $timeout, $scope, $rootScope, NstSvcAuth, NstSvcTaskFactory, _, toastr,
-                                NstSvcTranslation, NstTask, NST_ATTACHMENT_STATUS, NstUtility, NstSvcTaskUtility,
+                                NstSvcTranslation, NstTask, NST_ATTACHMENT_STATUS, NstUtility, NstSvcTaskUtility, NstSvcStore,
                                 modalData) {
     var vm = this;
     // var eventReferences = [];
     vm.titleLengthLimit = 64;
     vm.showMoreOption = false;
     vm.user = NstSvcAuth.user;
+    vm.minimize = false;
+    vm.minimizeModal = minimizeModal;
+    vm.abortBackgroundCreateTask = abortBackgroundCreateTask;
     vm.editMode = true;
     vm.datePickerconfig = {
       allowFuture: true
@@ -33,7 +36,7 @@
       title:  '',
       assignees: [],
       dueDate: null,
-      haveTime: false,
+      hasTime: false,
       desc: '',
       todos: [],
       attachments: [],
@@ -86,6 +89,13 @@
     vm.create = create;
 
 
+    function minimizeModal() {
+      vm.minimize = true;
+      $('body').removeClass('active-compose');
+      $('html').removeClass('_oh');
+      $rootScope.$broadcast('minimize-background-modal');
+    }
+
     function removeAssignees() {
       vm.removeAssigneeItems.call();
     }
@@ -128,7 +138,7 @@
 
     function isDisabled() {
       var response = NstSvcTaskUtility.validateTask(vm.model);
-      return !response.valid;
+      return !((response.validWithoutAttachment && vm.model.attachments.length > 0) || response.valid);
     }
 
     function create() {
@@ -172,7 +182,34 @@
           toastr.error(NstSvcTranslation.get('Something went wrong!'));
         });
         closeModal();
+      } else if (response.validWithoutAttachment && vm.model.attachments.length > 0) {
+        minimizeModal();
       }
+    }
+
+    $scope.$watch(function () {
+      return vm.model.attachments
+    }, updateTotalAttachmentsRatio, true);
+
+    function updateTotalAttachmentsRatio() {
+      if (!vm.minimize) {
+        return;
+      }
+      if (NstSvcTaskUtility.validateTask(vm.model).valid) {
+        $timeout(function () {
+          vm.create();
+        }, 100);
+      }
+    }
+
+    function abortBackgroundCreateTask() {
+      _.forEach(vm.model.attachments.requests, function (request) {
+        if (request) {
+          NstSvcStore.cancelUpload(request);
+        }
+      });
+      vm.model.attachments = [];
+      $scope.$dismiss();
     }
 
     function closeModal() {

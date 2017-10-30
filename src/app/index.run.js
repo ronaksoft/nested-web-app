@@ -56,6 +56,14 @@
         .success(function(tplContent){
         $templateCache.put("label-chips.html",tplContent);
     });
+    $http.get('/app/notification/common/picture.html', {cache: $templateCache})
+        .success(function(tplContent){
+        $templateCache.put('/app/notification/common/picture.html',tplContent);
+    });
+    $http.get('/app/notification/common/name.html', {cache: $templateCache})
+        .success(function(tplContent){
+        $templateCache.put('/app/notification/common/name.html',tplContent);
+    });
 
   }
 })();

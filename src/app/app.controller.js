@@ -239,7 +239,8 @@
         templateUrl: 'app/task/pages/create-task/create-task.html',
         controller: 'CreateTaskController',
         controllerAs: 'ctrlCreateTask',
-        backdropClass: 'taskBackDrop',
+        backdropClass: 'comdrop',
+        openedClass: 'modal-open compose-modal active-compose',
         resolve: {
           modalData: {
             relatedTaskId: id,
@@ -270,7 +271,7 @@
           if (item.type === 'compose') {
             $('.minimize-container.compose_' + item.id).parent().css('transform', 'translateX(' + (item.order * -160) + 'px)');
           } else if (item.type === 'task') {
-
+            $('.minimize-container.task_' + item.id).parent().css('transform', 'translateX(' + (item.order * -160) + 'px)');
           }
         });
       }, 100);
