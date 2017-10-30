@@ -23,7 +23,12 @@
     vm.activityPopover = false;
 
     vm.isOpenBinder = false;
+    vm.showMoreOption = false;
+    vm.datePickerconfig = {
+      allowFuture: true
+    };
 
+    vm.backDropClick = backDropClick;
     vm.openBinder = openBinder;
     vm.bindRow = bindRow;
     vm.editTask = editTask;
@@ -88,12 +93,6 @@
     backItUp();
 
     vm.taskActivities = [];
-
-    vm.backDropClick = backDropClick;
-    vm.showMoreOption = false;
-    vm.datePickerconfig = {
-      allowFuture: true
-    };
 
     vm.title = '';
     vm.titleFocus = false;
