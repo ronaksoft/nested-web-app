@@ -240,6 +240,7 @@
         controller: 'CreateTaskController',
         controllerAs: 'ctrlCreateTask',
         backdropClass: 'taskBackDrop',
+        openedClass: 'modal-open compose-modal active-compose',
         resolve: {
           modalData: {
             relatedTaskId: id,

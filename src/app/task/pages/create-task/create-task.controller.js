@@ -14,6 +14,7 @@
     vm.titleLengthLimit = 64;
     vm.showMoreOption = false;
     vm.user = NstSvcAuth.user;
+    vm.minimize = false;
     vm.editMode = true;
     vm.datePickerconfig = {
       allowFuture: true
@@ -84,6 +85,15 @@
 
     vm.isDisabled = isDisabled;
     vm.create = create;
+
+    
+    function minimizeModal() {
+      vm.minimize =! vm.minimize;
+      $rootScope.goToLastState(true);
+      $('body').removeClass('active-compose');
+      $('html').removeClass('_oh');
+      $rootScope.$broadcast('minimize-background-modal');
+    }
 
 
     function removeAssignees() {
