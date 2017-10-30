@@ -8,6 +8,7 @@
       CREATED_BY_ME: 'created_by_me',
       WATCHED: 'watched',
       CANDIDATE: 'candidate',
+      GLANCE: 'glance',
 
       NO_ASSIGNED: 0x01,
       ASSIGNED: 0x02,

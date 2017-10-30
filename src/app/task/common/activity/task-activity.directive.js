@@ -11,7 +11,7 @@
   function TaskActivity() {
     return {
       restrict: 'E',
-      scope:{},
+      scope: {},
       templateUrl: 'app/task/common/activity/task-activity.html',
       controller: 'TaskActivityController',
       controllerAs: 'ctrl',

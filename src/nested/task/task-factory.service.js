@@ -20,30 +20,21 @@
     TaskFactory.prototype.parseTask = parseTask;
     TaskFactory.prototype.parseTaskTodo = parseTaskTodo;
     TaskFactory.prototype.parseTaskAccess = parseTaskAccess;
-
     TaskFactory.prototype.create = create;
-
     TaskFactory.prototype.addAttachment = addAttachment;
     TaskFactory.prototype.removeAttachment = removeAttachment;
-
     TaskFactory.prototype.addComment = addComment;
     TaskFactory.prototype.removeComment = removeComment;
-
     TaskFactory.prototype.addLabel = addLabel;
     TaskFactory.prototype.removeLabel = removeLabel;
-
     TaskFactory.prototype.addTodo = addTodo;
     TaskFactory.prototype.removeTodo = removeTodo;
     TaskFactory.prototype.updateTodo = updateTodo;
-
     TaskFactory.prototype.addWatcher = addWatcher;
     TaskFactory.prototype.removeWatcher = removeWatcher;
-
     TaskFactory.prototype.taskUpdate = taskUpdate;
-
     TaskFactory.prototype.respond = respond;
     TaskFactory.prototype.setStatus = setStatus;
-
     TaskFactory.prototype.getByFilter = getByFilter;
     TaskFactory.prototype.get = get;
     TaskFactory.prototype.getMany = getMany;

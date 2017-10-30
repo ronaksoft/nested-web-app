@@ -5,20 +5,29 @@
     .service('NstSvcTaskActivityFactory', NstSvcTaskActivityFactory);
 
   /** @ngInject */
-  function NstSvcTaskActivityFactory($q, _,
-    NST_ACTIVITY_FILTER, NST_TASK_EVENT_ACTION,
-    NstSvcServer, NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcCommentFactory, NstSvcActivityCacheFactory,
-    NstBaseFactory, NstSvcLogger, NstTaskActivity, NstSvcLabelFactory, NstUtility, NstSvcAttachmentFactory) {
+  function NstSvcTaskActivityFactory($q, $rootScope, _, NST_TASK_EVENT_ACTION, NstSvcServer, NstSvcUserFactory,
+                                     NstBaseFactory, NstTaskActivity, NstSvcLabelFactory, NstCollector,
+                                     NstUtility, NstSvcAttachmentFactory, NST_SRV_PUSH_CMD) {
 
 
-    function ActivityFactory() {}
+    function ActivityFactory() {
+      this.collector = new NstCollector('task_activity', this.getManyActivity);
+      NstSvcServer.addEventListener(NST_SRV_PUSH_CMD.SYNC_TASK_ACTIVITY, function (event) {
+        var data = event.detail;
+        $rootScope.$broadcast(NST_TASK_EVENT_ACTION.TASK_ACTIVITY, {
+          type: data.action,
+          taskId: data.task_id
+        });
+      });
+    }
 
     ActivityFactory.prototype = new NstBaseFactory();
     ActivityFactory.prototype.constructor = ActivityFactory;
-
     ActivityFactory.prototype.get = get;
     ActivityFactory.prototype.getAfter = getAfter;
     ActivityFactory.prototype.parseActivity = parseActivity;
+    ActivityFactory.prototype.getActivity = getActivity;
+    ActivityFactory.prototype.getManyActivity = getManyActivity;
 
     var factory = new ActivityFactory();
     return factory;
@@ -225,6 +234,45 @@
         after: settings.date,
         onlyComments: settings.onlyComments
       });
+    }
+
+    function getActivity(id) {
+      var factory = this;
+      var deferred = $q.defer();
+
+      this.collector.add(id).then(function (data) {
+        deferred.resolve(factory.parseActivity(data));
+      }).catch(function (error) {
+        deferred.reject(error);
+      });
+
+      return deferred.promise;
+    }
+
+    function getManyActivity(ids) {
+      var defer = $q.defer();
+      var joinedIds = ids.join(',');
+      if (!joinedIds) {
+        defer.reject(null);
+      } else {
+        NstSvcServer.request('task/get_many_activities', {
+          activity_id: joinedIds,
+          details: true
+        }).then(function (data) {
+
+          var not_access = _.differenceWith(ids, data.tasks, function (i, b) {
+            return i === b._id;
+          });
+
+          defer.resolve({
+            idKey: '_id',
+            resolves: data.tasks,
+            rejects: not_access
+          });
+        }).catch(defer.reject);
+      }
+
+      return defer.promise;
     }
   }
 })();
