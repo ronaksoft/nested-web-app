@@ -39,8 +39,14 @@
   &:hover {
     background-color: $color-bg-hover-item;
   }
-  &.active {
-    // background-color: $color-bg-active-item;
+  &.active ,
+  &.active span {
+    color: $color-sense-wire;
+    fill: $color-sense-wire;
+    svg ,
+    svg.item-check {
+      fill: $color-sense-wire;
+    }
   }
   &.red-item,
   &.red-item span {
@@ -48,6 +54,24 @@
     fill: $color-force;
     svg {
       fill: $color-force;
+    }
+  }
+  &.pending-wire-item.active,
+  &.pending-wire-item.active span {
+    color: $color-bg-pending-wire;
+    fill: $color-bg-pending-wire;
+    svg ,
+    svg.item-check {
+      fill: $color-bg-pending-wire;
+    }
+  }
+  &.shine-item.active,
+  &.shine-item.active span {
+    color: $color-shine-wire;
+    fill: $color-shine-wire;
+    svg ,
+    svg.item-check {
+      fill: $color-shine-wire;
     }
   }
   &.red-item:hover,
