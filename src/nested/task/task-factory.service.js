@@ -104,6 +104,14 @@
           title: data.related_to.title
         };
       }
+      if (data.related_tasks) {
+        task.childTasks = _.map(data.related_tasks, function (item) {
+          return {
+            id: item._id,
+            title: item.title
+          };
+        });
+      }
       task.counters = data.counters;
 
       task.access = factory.parseTaskAccess(data.access);

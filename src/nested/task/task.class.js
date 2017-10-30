@@ -27,6 +27,7 @@
       this.access = undefined;
       this.progress = -1;
       this.relatedTask = undefined;
+      this.childTasks = undefined;
     }
 
     return Task;
