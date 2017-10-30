@@ -510,7 +510,6 @@
     }, true);
 
     function updateLabels(labels) {
-      console.log(labels);
       var oldData = getNormalValue(vm.modelBackUp.labels);
       var newItems = _.differenceBy(labels, oldData, 'id');
       var removedItems = _.differenceBy(oldData, labels, 'id');
