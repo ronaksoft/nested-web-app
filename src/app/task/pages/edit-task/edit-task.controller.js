@@ -59,6 +59,7 @@
     vm.model = {
       isRelated: false,
       relatedTask: null,
+      childTasks: [],
       titleLengthLimit: 64,
       assignor: null,
       status: null,
@@ -228,6 +229,10 @@
         if (task.relatedTask !== undefined) {
           vm.model.isRelated = true;
           vm.model.relatedTask = task.relatedTask;
+        }
+
+        if (task.childTasks !== undefined) {
+          vm.model.childTasks = task.childTasks;
         }
 
         $timeout(function () {
