@@ -44,8 +44,6 @@
     TaskFactory.prototype.respond = respond;
     TaskFactory.prototype.setStatus = setStatus;
 
-    TaskFactory.prototype.getActivities = getActivities;
-
     TaskFactory.prototype.getByFilter = getByFilter;
     TaskFactory.prototype.get = get;
     TaskFactory.prototype.getMany = getMany;
