@@ -82,40 +82,34 @@
     }
 
     function create(title, code, isPublic) {
-      return this.sentinel.watch(function () {
-        return NstSvcServer.request('label/create', {
-          title: title,
-          code: code,
-          is_public: isPublic
-        }).then(function (result) {
-          var label = new NstLabel();
+      return NstSvcServer.request('label/create', {
+        title: title,
+        code: code,
+        is_public: isPublic
+      }).then(function (result) {
+        var label = new NstLabel();
 
-          label.id = result.label_id;
-          label.title = title;
-          label.code = code;
-          label.isPublic = isPublic;
+        label.id = result.label_id;
+        label.title = title;
+        label.code = code;
+        label.isPublic = isPublic;
 
-          return $q.resolve(label);
-        });
-      }, 'label-create-' + title);
+        return $q.resolve(label);
+      });
     }
 
     function update(id, title, code) {
-      return this.sentinel.watch(function () {
-        return NstSvcServer.request('label/update', {
-          label_id: id,
-          title: title,
-          code: code
-        });
-      }, 'label-update-' + id);
+      return NstSvcServer.request('label/update', {
+        label_id: id,
+        title: title,
+        code: code
+      });
     }
 
     function remove(id) {
-      return this.sentinel.watch(function () {
-        return NstSvcServer.request('label/remove', {
-          label_id: id
-        });
-      }, 'label-remove-' + id);
+      return NstSvcServer.request('label/remove', {
+        label_id: id
+      });
     }
 
     function search(keyword, filter, skip, limit, cacheHandler) {
@@ -161,30 +155,24 @@
     }
 
     function request(id, title, code) {
-      return this.sentinel.watch(function () {
-        return NstSvcServer.request('label/request', {
-          label_id: id,
-          title: title,
-          code: code
-        });
-      }, 'label-request-' + (id || title));
+      return NstSvcServer.request('label/request', {
+        label_id: id,
+        title: title,
+        code: code
+      });
     }
 
     function updateRequest(id, status) {
-      return this.sentinel.watch(function () {
-        return NstSvcServer.request('label/update_request', {
-          request_id: id,
-          status: status
-        });
-      }, 'label-request-update' + id + status);
+      return NstSvcServer.request('label/update_request', {
+        request_id: id,
+        status: status
+      });
     }
 
     function cancelRequest(id) {
-      return this.sentinel.watch(function () {
-        return NstSvcServer.request('label/remove_request', {
-          request_id: id
-        });
-      }, 'label-remove-request' + id + status);
+      return NstSvcServer.request('label/remove_request', {
+        request_id: id
+      });
     }
 
     function getMembers(labelId, skip, limit) {
@@ -201,21 +189,17 @@
     }
 
     function addMember(labelId, accountId) {
-      return this.sentinel.watch(function () {
-        return NstSvcServer.request('label/add_member', {
-          label_id: labelId,
-          account_id: accountId
-        });
-      }, 'label-add-member-' + labelId + '-' + accountId);
+      return NstSvcServer.request('label/add_member', {
+        label_id: labelId,
+        account_id: accountId
+      });
     }
 
     function removeMember(labelId, accountId) {
-      return this.sentinel.watch(function () {
-        return NstSvcServer.request('label/remove_member', {
-          label_id: labelId,
-          account_id: accountId
-        });
-      }, 'label-remove-member-' + labelId + '-' + accountId);
+      return NstSvcServer.request('label/remove_member', {
+        label_id: labelId,
+        account_id: accountId
+      });
     }
 
     function getMany(ids) {

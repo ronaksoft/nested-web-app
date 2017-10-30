@@ -14,6 +14,7 @@
         data: '=todoData',
         focus: '=todoFocus',
         add: '=todoAdd',
+        update: '=todoUpdate',
         remove: '=todoRemove',
         editMode: '=',
         placeholder: '@placeholder',
@@ -46,6 +47,12 @@
 
         $scope.checkChanged = function () {
           $scope.check($scope.data.id);
+        };
+
+        $scope.inputBlur = function () {
+          if (_.isFunction($scope.update)) {
+            $scope.update($scope.data.id);
+          }
         };
       }
     };

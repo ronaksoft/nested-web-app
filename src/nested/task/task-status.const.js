@@ -19,10 +19,6 @@
 
       ACCEPT: 'accept',
       DECLINE: 'reject',
-      RESIGN: 'resign',
-
-      STATUS_COMPLETED: 'TASK_STATUS_COMPLETED',
-      STATUS_HOLD: 'TASK_STATUS_HOLD',
-      STATUS_CANCELED: 'TASK_STATUS_CANCELED'
+      RESIGN: 'resign'
     });
 })();

@@ -16,23 +16,11 @@
         if (id === undefined) {
           id = null;
         }
-        $uibModal.open({
-          animation: false,
-          size: 'create-task',
-          templateUrl: 'app/task/pages/create-task/create-task.html',
-          controller: 'CreateTaskController',
-          controllerAs: 'ctrlCreateTask',
-          backdropClass: 'taskBackDrop',
-          resolve: {
-            modalData: {
-              relatedTaskId: id
-            }
-          }
-        });
+        $rootScope.$broadcast('open-create-task', id);
       }
 
       eventReferences.push($rootScope.$on('create-related-task', function (event, id) {
-        createTask(id);
+        $rootScope.$broadcast('open-create-task', id);
       }));
 
       $scope.$on('$destroy', function () {

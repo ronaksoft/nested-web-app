@@ -74,7 +74,7 @@
           </div>
         </li>
       </ul>
-      <h5 class="list-head large upcoming"><translate>Upcomings</translate></h5>
+      <h5 class="list-head large upcoming" ng-if="ctrl.isGlancePage"><translate>Upcomings</translate></h5>
       <ul class="list-ul upcoming" id="task-container">
         <li class="large" ng-repeat="task in ctrl.tasks" ng-click="ctrl.editTask(task.id)">
           <div class="list-li-icon">

@@ -1,5 +1,6 @@
 <li>
-  <input class="_fr" type="checkbox" id="todo{{data.id}}" ng-model="data.checked" ng-change="checkChanged()" ng-disabled="!editMode" />
+  <input class="_fr" type="checkbox" id="todo{{data.id}}" ng-model="data.checked" ng-change="checkChanged()"
+         ng-disabled="!editMode"/>
   <div class="_fw todo task-input-wrapper">
     <label for="todo{{data.id}}">
       <svg class="_16svg _df" ng-if="!data.checked">
@@ -14,6 +15,7 @@
               ng-keyup="inputKeyUp($event)" uneditable="{{!editMode}}"
               enter-key prevent-shift-enter="false"
               ng-focus="focus = true" focus-me="{{focusMe}}"
+              ng-blur="inputBlur($event)"
               placeholder="{{placeholder}}" resize-textarea></textarea>
   </div>
 </li>

@@ -196,12 +196,12 @@
       event.preventDefault();
     });
 
-    var composeModals = [];
+    var backgroundModals = [];
     var maxModals = 3;
 
     eventReferences.push($rootScope.$on('open-compose', function () {
-      if (composeModals.length >= maxModals) {
-        toastr.error(NstSvcTranslation.get(NstUtility.string.format('You cannot have more than {0} active compose modals.', maxModals)));
+      if (backgroundModals.length >= maxModals) {
+        toastr.error(NstSvcTranslation.get(NstUtility.string.format('You cannot have more than {0} active background modals.', maxModals)));
         $rootScope.goToLastState(true);
         return;
       }
@@ -220,26 +220,58 @@
       }).result.catch(function () {
         $rootScope.goToLastState(true);
       });
-      composeModals.push({
+      backgroundModals.push({
         id: uid,
-        order: composeModals.length
+        order: backgroundModals.length,
+        type: 'compose'
       });
     }));
 
-    eventReferences.push($rootScope.$on('minimize-compose', function () {
-      repositionMinimizedComposeModals();
+    eventReferences.push($rootScope.$on('open-create-task', function (event, id) {
+      if (backgroundModals.length >= maxModals) {
+        toastr.error(NstSvcTranslation.get(NstUtility.string.format('You cannot have more than {0} active background modals.', maxModals)));
+        return;
+      }
+      var uid = parseInt(_.uniqueId());
+      $uibModal.open({
+        animation: false,
+        size: 'create-task',
+        templateUrl: 'app/task/pages/create-task/create-task.html',
+        controller: 'CreateTaskController',
+        controllerAs: 'ctrlCreateTask',
+        backdropClass: 'taskBackDrop',
+        resolve: {
+          modalData: {
+            relatedTaskId: id,
+            modalId: uid
+          }
+        }
+      });
+      backgroundModals.push({
+        id: uid,
+        order: backgroundModals.length,
+        type: 'task'
+      });
     }));
 
-    eventReferences.push($rootScope.$on('close-compose', function (e, data) {
-      var index = _.findIndex(composeModals, data.id, 'id');
-      composeModals.splice(index, 1);
-      repositionMinimizedComposeModals();
+    eventReferences.push($rootScope.$on('minimize-background-modal', function () {
+      repositionMinimizedBackgroundModals();
     }));
 
-    function repositionMinimizedComposeModals() {
+    eventReferences.push($rootScope.$on('close-background-modal', function (e, data) {
+      var index = _.findIndex(backgroundModals, data.id, 'id');
+      backgroundModals.splice(index, 1);
+      repositionMinimizedBackgroundModals();
+    }));
+
+    function repositionMinimizedBackgroundModals() {
       setTimeout(function () {
-        _.forEach(composeModals, function (item) {
-          $('.minimize-container.compose_' + item.id).parent().css('transform', 'translateX(' + (item.order * -160) + 'px)');
+        _.forEach(backgroundModals, function (item) {
+          if (item.type === 'compose') {
+            $('.minimize-container.compose_' + item.id).parent().css('transform', 'translateX(' + (item.order * -160) + 'px)');
+          } else if (item.type === 'task') {
+
+          }
         });
       }, 100);
     }
@@ -249,9 +281,9 @@
     };
 
     $scope.$on('$destroy', function () {
-      _.forEach(eventReferences, function (cenceler) {
-        if (_.isFunction(cenceler)) {
-          cenceler();
+      _.forEach(eventReferences, function (canceler) {
+        if (_.isFunction(canceler)) {
+          canceler();
         }
       });
       windowClickEvent.off();
