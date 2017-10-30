@@ -23,6 +23,8 @@
       $scope.$dismiss();
     }
 
+    vm.modalId = modalData.modalId;
+
     vm.model = {
       isRelated: false,
       titleLengthLimit: 64,
@@ -208,7 +210,9 @@
     }
 
     $scope.$on('$destroy', function () {
-      console.log('destroy');
+      $rootScope.$broadcast('close-background-modal', {
+        id: vm.modalId
+      });
     });
   }
 })();

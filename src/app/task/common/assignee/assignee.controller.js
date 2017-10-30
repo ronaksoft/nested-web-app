@@ -14,7 +14,7 @@
     .module('ronak.nested.web.task')
     .controller('TaskAssigneeController', TaskAssigneeController);
 
-  function TaskAssigneeController($scope, $q, NstSvcUserFactory, _) {
+  function TaskAssigneeController($scope, _) {
     var vm = this;
 
     vm.assigneeInput = '';
