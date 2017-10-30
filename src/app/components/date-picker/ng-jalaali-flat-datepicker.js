@@ -42,8 +42,11 @@
 
   function ngJalaaliFlatDatepickerProvider() {
     var options = {
+      dateOnlyFormat: 'YYYY/MM/DD',
       dateFormat: 'YYYY/MM/DD hh:mm a',
-      jalaliDateFormat: 'jYYYY/jMM/jDD hh:mm a',
+      dateTimeFormat: 'YYYY/MM/DD hh:mm a',
+      jalaliDateFormat: 'jYYYY/jMM/jDD',
+      jalaliDateTimeFormat: 'jYYYY/jMM/jDD hh:mm a',
       gregorianDateFormat: 'YYYY/MM/DD hh:mm a',
       minDate: null,
       dropDownYears: 10,
@@ -87,17 +90,33 @@
       require: 'ngModel',
       scope: {
         config: '=?',
+        haveTime: '=?',
         gPickedDate: '=?gregorianPickedDate',
         gFormattedPickedDate: '=?gregorianFormattedPickedDate',
         isJalali: '=?isJalali'
       },
       link: function (scope, element, attrs, ngModel) {
         var jalali = true;
-        scope.addTime = false;
         var timeInputElement, timeInputElementEvent;
-        scope.defaultTime = new Date().toString().substr(16, 5);
-        scope.time = scope.defaultTime;
+        setTimeFromTimeStamp();
+        setViewTime();
         var farsi = false;
+        scope.$watch('haveTime', function(v){
+          if(v) {
+            scope.config.dateFormat = jalali ? scope.config.jalaliDateTimeFormat : scope.config.dateTimeFormat
+          } else {
+            scope.config.dateFormat = jalali ? scope.config.jalaliDateFormat : scope.config.dateOnlyFormat
+          }
+        })
+
+        function setViewTime(v){
+          if(scope.haveTime) {
+            scope.selectedTime = v ? v : scope.time
+          } else {
+            scope.selectedTime = null
+          }
+        }
+
         if (NstSvcI18n.selectedCalendar === 'gregorian') {
           jalali = false;
         }
@@ -195,11 +214,17 @@
         }, function (value) {
           if (value) {
             dateSelected = scope.calendarCursor = moment(value);
-            scope.defaultTime = new Date(value).toString().substr(16, 5);
-            scope.time = scope.defaultTime;
-            setTime(scope.time);
+            setTimeFromTimeStamp(value)
+            setViewTime(value);
           }
         });
+
+        function setTimeFromTimeStamp(value){
+          var d = value ? new Date(value) : new Date();
+          scope.defaultTime = d.toString().substr(16, 5);
+          scope.time = scope.defaultTime;
+          setTime(scope.time);
+        }
 
         scope.$watch('calendarCursor', function (val) {
           //scope.$apply(function() {
@@ -313,24 +338,19 @@
 
           timeInputElement = angular.element(element).parents('.ng-flat-datepicker-wrapper').find('input.time-input');
           timeInputElementEvent = timeInputElement.on('change', function (event) {
-            if (event.target.value.length > 0) {
-              scope.time = event.target.value
+            if(event.target.value && event.target.value.length > 0) {
+              scope.haveTime = true;
+              scope.$apply(function () {
+                setTime(event.target.value);
+              });
             } else {
-              scope.addTime = false;
-              scope.defaultTime = new Date().toString().substr(16, 5);
-              scope.time = scope.time;
+              scope.haveTime = false;
             }
-            scope.$apply(function () {
-              setTime(scope.time);
-            });
             ngModel.$setViewValue(moment(scope.calendarCursor).format(scope.config.dateFormat));
             ngModel.$render();
           });
         }
 
-        scope.addTimeActivator = function () {
-          scope.addTime = true;
-        }
 
         function setTime(time) {
           scope.calendarCursor = moment(scope.calendarCursor).hour(parseInt(time.substr(0, 2))).minute(parseInt(time.substr(3, 2)));

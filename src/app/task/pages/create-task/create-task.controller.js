@@ -31,6 +31,7 @@
       title:  '',
       assignees: [],
       dueDate: null,
+      haveTime: false,
       desc: '',
       todos: [],
       attachments: [],

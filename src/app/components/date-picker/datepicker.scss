@@ -1,4 +1,4 @@
-$width: 190px;
+$width: 191px;
 $header-h: 42px;
 $table-padding: 8px;
 $font-color: #384146;
@@ -236,9 +236,27 @@ $default-color: $color-sense-wire;
         color: $color-sense-wire;
         text-align: center;
         justify-content: center;
-        padding-left: 32px;
+        padding-left: 0;
         letter-spacing: 2px;
         margin: 0!important;
+    }
+    input::-webkit-input-placeholder {
+        color: $color-gale-new;
+        font-size: 13px;
+        font-weight: bold;
+        letter-spacing: 1px;
+    }
+    input:-moz-placeholder {
+        color: $color-gale-new;
+        font-size: 13px;
+        font-weight: bold;
+        letter-spacing: 1px;
+    }
+    input::-moz-placeholder {
+        color: $color-gale-new;
+        font-size: 13px;
+        font-weight: bold;
+        letter-spacing: 1px;
     }
     .add-time-butn {
         display: flex;
@@ -246,6 +264,8 @@ $default-color: $color-sense-wire;
         background-color: $color-white;
         justify-content: center;
         position: absolute;
+        left: 0;
+        top: 0;
         height: 100%;
         align-items: center;
         z-index: 1;
@@ -258,7 +278,8 @@ $default-color: $color-sense-wire;
     svg {
         fill: $color-gale-new;
         z-index: 2;
-        position: absolute;
+        // position: absolute;
+        flex: none;
     }
 }
 

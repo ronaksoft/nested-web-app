@@ -38,11 +38,10 @@
             </tr>
         </tbody>
     </table>
-    <div class="input-time" ng-click="addTimeActivator();$event.stopPropagation()">
+    <div class="input-time" ng-click="$event.stopPropagation()">
         <svg class="_16svg _df">
             <use xlink:href="/assets/icons/nst-icn16.svg#alarm-clock"></use>
         </svg>
-        <div ng-show="!addTime" class="add-time-butn"><translate>+ Add Time</translate></div>
-        <input type="time" ng-value="defaultTime" class="time-input">
+        <input type="time" ng-value="selectedTime" class="time-input" placeholder="+ Add Time" translate-attrs="placeholder">
     </div>
 </div>

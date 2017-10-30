@@ -90,7 +90,7 @@
                id="task-due" ng-focus="ctrlEditTask.dueDateFocus = true" ng-blur="ctrlEditTask.dueDateFocus = false"
                ng-model="ctrlEditTask.model.dueDate"
                data-config="ctrlEditTask.datePickerconfig" g-formatted-picked-date="gfdate" g-picked-date="gdate"
-               ng-jalaali-flat-datepicker>
+               ng-jalaali-flat-datepicker have-time="ctrlEditTask.model.haveTime">
       </div>
       <label for="task-due"
              ng-class="{'focus': ctrlEditTask.dueDateFocus, 'no-hover': (ctrlEditTask.model.access.updateTask != true || ctrlEditTask.model.dueDate == null)}">

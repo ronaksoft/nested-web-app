@@ -58,7 +58,7 @@
              placeholder="{{ctrlCreateTask.dueDatePlaceholder}}"
              id="task-due" ng-focus="ctrlCreateTask.dueDateFocus = true" ng-blur="ctrlCreateTask.dueDateFocus = false"
              ng-model="ctrlCreateTask.model.dueDate" data-config="ctrlCreateTask.datePickerconfig"
-             g-formatted-picked-date="gfdate" g-picked-date="gdate" ng-jalaali-flat-datepicker>
+             g-formatted-picked-date="gfdate" g-picked-date="gdate" ng-jalaali-flat-datepicker have-time="ctrlCreateTask.model.haveTime">
     </div>
     <label for="task-due"
            ng-class="{'focus': ctrlCreateTask.dueDateFocus, 'no-hover': ctrlCreateTask.model.dueDate == null}">

@@ -66,6 +66,7 @@
       title: '',
       assignees: [],
       dueDate: null,
+      haveTime: false,
       description: '',
       todos: [],
       attachments: [],
