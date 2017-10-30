@@ -917,6 +917,9 @@ div.modal .attach-place {
   width: 100%;
   height: 100%;
 }
+.taskBackDrop {
+  background-color: transparentize($color-solid, 1 - .94);
+}
 
 .minimize-container {
   transition: all 0.3s;
