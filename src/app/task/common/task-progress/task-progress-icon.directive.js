@@ -23,7 +23,7 @@
             var ratio = ($scope.progress/100)*57;
             $timeout(function () {
               element.find('.task-progress-icon svg.progress circle').css('stroke-dasharray', ratio + ' 60');
-            }, 1000);
+            }, 300);
           }
         }
 

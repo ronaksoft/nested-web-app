@@ -1,8 +1,8 @@
 <h6><translate>Status:</translate></h6>
-<a class="_df list-items _aic active">
+<a class="list-items pending-wire-item _aic" ng-class="{'active': ctrlEditTask.model.status == ctrlEditTask.taskStatuses.ASSIGNED}" ng-click="ctrlEditTask.setStatus(ctrlEditTask.taskStatuses.ASSIGNED);">
   <div>
     <svg class="_16svg">
-      <use xlink:href="/assets/icons/nst-icn16.svg#circle"></use>
+      <use xlink:href="/assets/icons/nst-icn16.svg#task-in-progress"></use>
     </svg>
   </div>
   <span>
@@ -12,10 +12,10 @@
       <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
   </svg>
 </a>
-<a class="_df list-items _aic">
+<a class="list-items shine-item _aic" ng-class="{'active': ctrlEditTask.model.status == ctrlEditTask.taskStatuses.HOLD}" ng-click="ctrlEditTask.setStatus(ctrlEditTask.taskStatuses.HOLD);">
   <div>
     <svg class="_16svg">
-      <use xlink:href="/assets/icons/nst-icn16.svg#pause"></use>
+      <use xlink:href="/assets/icons/nst-icn16.svg#task-hold"></use>
     </svg>
   </div>
   <span>
@@ -25,10 +25,10 @@
       <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
   </svg>
 </a>
-<a class="_df list-items _aic">
+<a class="list-items _aic" ng-class="{'active': ctrlEditTask.model.status == ctrlEditTask.taskStatuses.COMPLETED}" ng-click="ctrlEditTask.setStatus(ctrlEditTask.taskStatuses.COMPLETED);">
   <div>
     <svg class="_16svg">
-      <use xlink:href="/assets/icons/nst-icn16.svg#bin"></use>
+      <use xlink:href="/assets/icons/nst-icn16.svg#task-completed"></use>
     </svg>
   </div>
   <span>
@@ -39,7 +39,7 @@
   </svg>
 </a>
 <div class="line-popover"></div>
-<a class="_df list-items _aic">
+<a class="list-items _aic" ng-click="ctrlEditTask.createRelatedTask();">
   <div>
     <svg class="_16svg">
       <use xlink:href="/assets/icons/nst-icn16.svg#chain"></use>
@@ -52,7 +52,7 @@
       <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
   </svg>
 </a>
-<a class="_df list-items _aic">
+<a class="list-items _aic" ng-click="ctrlEditTask.deleteTask();">
   <div>
     <svg class="_16svg">
       <use xlink:href="/assets/icons/nst-icn16.svg#bin"></use>
@@ -61,7 +61,4 @@
   <span>
     <translate>Delete</translate>
   </span>
-  <svg class="_16svg item-check">
-      <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
-  </svg>
 </a>

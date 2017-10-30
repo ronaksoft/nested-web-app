@@ -1306,9 +1306,9 @@
     function minimizeModal() {
       vm.minimize =! vm.minimize;
       $rootScope.goToLastState(true);
-      $('body').removeClass("active-compose");
-      $('html').removeClass("_oh");
-      $rootScope.$broadcast('minimize-compose');
+      $('body').removeClass('active-compose');
+      $('html').removeClass('_oh');
+      $rootScope.$broadcast('minimize-background-modal');
     }
 
     /**
@@ -1403,12 +1403,12 @@
 
     // $('.wdt-emoji-popup.open').removeClass('open');
     $scope.$on('$destroy', function () {
-      $rootScope.$broadcast('close-compose', {
+      $rootScope.$broadcast('close-background-modal', {
         id: vm.modalId
       });
-      setTimeout(function (){
-        $('body').removeClass("active-compose");
-      },64);
+      setTimeout(function () {
+        $('body').removeClass('active-compose');
+      }, 64);
       window.onbeforeunload = null;
       $('.wdt-emoji-popup.open').removeClass('open');
       NstSvcLogger.debug4('Compose | Compose id destroyed :');

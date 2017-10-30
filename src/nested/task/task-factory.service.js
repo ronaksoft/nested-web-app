@@ -42,8 +42,7 @@
     TaskFactory.prototype.taskUpdate = taskUpdate;
 
     TaskFactory.prototype.respond = respond;
-
-    TaskFactory.prototype.getActivities = getActivities;
+    TaskFactory.prototype.setStatus = setStatus;
 
     TaskFactory.prototype.getByFilter = getByFilter;
     TaskFactory.prototype.get = get;
@@ -347,24 +346,19 @@
       });
     }
 
-    function getActivities(taskId, onlyComments, skip, limit) {
-      var factory = this;
-      var deferred = $q.defer();
-
-      return this.sentinel.watch(function () {
-
-        NstSvcServer.request('task/get_activities', {
-          task_id: taskId,
-          only_comments: onlyComments,
-          details: true,
-          skip: skip,
-          limit: limit
-        }).then(function (data) {
-          deferred.resolve(data.activities);
-        }).catch(deferred.reject);
-
-        return deferred.promise;
-      }, 'task-get-activities' + taskId + (skip || '0') + (limit || ''));
+    /**
+     * Task set status
+     *
+     * @param  {int}      taskId
+     * @param  {string}   status [STATUS_COMPLETED, STATUS_HOLD, STATUS_CANCELED]
+     *
+     * @returns {Promise}
+     */
+    function setStatus(taskId, status) {
+      return NstSvcServer.request('task/set_status', {
+        task_id: taskId,
+        status: status
+      });
     }
 
     function getByFilter(filter, statusFilter, skip, limit) {
