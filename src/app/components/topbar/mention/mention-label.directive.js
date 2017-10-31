@@ -9,9 +9,15 @@
         scope: {
           selectedList: '=nstMentionList',
           dataList: '=nstMentionData',
-          itemClicked: '=nstMentionClicked'
+          itemClicked: '=nstMentionClicked',
+          myLabel: '=?'
         },
         link: function (scope, _element) {
+
+          var filter = NST_LABEL_SEARCH_FILTER.ALL;
+          if (scope.myLabel !== undefined && scope.myLabel === true) {
+            filter = NST_LABEL_SEARCH_FILTER.MY_LABELS;
+          }
 
           appendMention(_element, '');
 
@@ -82,7 +88,7 @@
                     return key + elm.attr('data-id').trim() + ',';
                   },
                   remoteFilter: function (query, callback) {
-                    NstSvcLabelFactory.search(query, NST_LABEL_SEARCH_FILTER.MY_LABELS).then(function (labels) {
+                    NstSvcLabelFactory.search(query, filter).then(function (labels) {
                       var uniqueLabels = _.unionBy(labels, 'id');
                       if (_.isArray(scope.selectedList)) {
                         var list = _.map(scope.selectedList, function (item) {
