@@ -61,6 +61,14 @@
             }
         }
     }
+    .const-height-item {
+        > label {
+            svg:not(.progress) {
+                top: 50%;
+                transform: translate(-50%,-50%);
+            }
+        }
+    }
 
     .auto-height-item {
         // padding-top: 12px;
