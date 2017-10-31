@@ -65,7 +65,7 @@
             </div>
           </label>
     </div>
-    <div class="task-more-options ng-class:{'visible' : ctrlCreateTask.showMoreOption}">
+    <div class="task-more-options" resize-height-animation="{{ctrlCreateTask.showMoreOption}}">
       <div class="task-description auto-height-item">
         <div class="task-input-wrapper ng-class:{'focus': ctrlCreateTask.descFocus}">
           <textarea class="no-style gale-holder create-task-input" ng-model="ctrlCreateTask.model.description" ng-focus="ctrlCreateTask.descFocus = true"

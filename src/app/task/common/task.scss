@@ -290,8 +290,8 @@
         }
     }
     .task-more-options {
-        max-height: 0;
-        overflow: hidden;
+        // max-height: 0;
+        // overflow: hidden;
         width: 100%;
         transition: $animation-dur max-height ease-in-out;
         &.visible {
