@@ -20,6 +20,10 @@
 
       ACCEPT: 'accept',
       DECLINE: 'reject',
-      RESIGN: 'resign'
+      RESIGN: 'resign',
+
+      STATE_COMPLETE: 'complete',
+      STATE_HOLD: 'hold',
+      STATE_IN_PROGRESS: 'hold'
     });
 })();
