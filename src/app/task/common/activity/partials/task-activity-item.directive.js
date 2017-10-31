@@ -6,7 +6,7 @@
     .directive('taskActivityItem', taskActivityItem);
 
   /** @ngInject */
-  function taskActivityItem(NST_TASK_EVENT_ACTION, NST_TASK_STATUS, NstUtility, $) {
+  function taskActivityItem(NST_TASK_EVENT_ACTION, NST_TASK_STATUS, NstUtility, $, NstSvcAuth) {
     return {
       restrict: 'E',
       transclude : true,
@@ -18,6 +18,7 @@
         scope.actions = NST_TASK_EVENT_ACTION;
         scope.statuses = NST_TASK_STATUS;
         scope.baseTplUrl = 'app/task/common/activity/partials/base.html';
+        scope.user = NstSvcAuth.user;
         switch (scope.activity.type) {
           case NST_TASK_EVENT_ACTION.STATUS_CHANGED:
             scope.tplUrl = 'app/task/common/activity/partials/status-changed.html';
