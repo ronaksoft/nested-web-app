@@ -557,6 +557,18 @@
     }
 
     function setState(state) {
+      var status;
+      switch (state) {
+        case NST_TASK_STATUS.STATE_COMPLETE:
+          state = NST_TASK_STATUS.COMPLETED;
+          break;
+        case NST_TASK_STATUS.STATE_HOLD:
+          state = NST_TASK_STATUS.HOLD;
+          break;
+        default:
+          status = NST_TASK_STATUS.ASSIGNED;
+          break;
+      }
       if (vm.modelBackUp.status === status) {
         return;
       }
