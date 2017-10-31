@@ -183,6 +183,7 @@
         height: 22px;
         position: relative;
         @include align-center();
+        border-radius: 2px 0 0 2px;
         svg {
             position: absolute;
         }

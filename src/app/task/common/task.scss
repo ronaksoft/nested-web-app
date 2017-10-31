@@ -71,7 +71,7 @@
     }
 
     .auto-height-item {
-        // padding-top: 12px;
+        padding-top: 8px;
         flex-direction: row-reverse;
         display: flex;
         width: 100%;
@@ -86,7 +86,7 @@
             margin-top: 8px;
         }
         label ._24svg {
-            margin-top: 8px;
+            margin-top: 4px;
         }
     }
     .const-height-item {
@@ -96,7 +96,7 @@
         width: 100%;
         textarea,
         input {
-            margin-top: 6px;
+            // margin-top: 6px;
         }
         .task-input-wrapper {
             align-self: center;
@@ -105,9 +105,10 @@
     .task-input-wrapper {
         display: flex;
         position: relative;
-        width: calc(100% - 64px);
+        // width: calc(100% - 64px);
+        width: calc(100% - 24px);
         align-self: flex-start;
-        padding: 0 0 6px;
+        // padding: 0 0 6px;
         flex-wrap: wrap;
         margin: 0 8px;
         border-bottom: 1px solid transparent!important;
@@ -174,7 +175,7 @@
         font-weight: bold;
         line-height: 18px;
         padding: 0 8px;
-        margin: 16px 0 0;
+        margin: 12px 0 0;
     }
     .auto-height-item > label ,
     .const-height-item > label {
@@ -240,14 +241,23 @@
     .task-watcher {
         min-height: 48px;
         .task-input-wrapper {
-            padding-top: 8px;
+            // padding-top: 8px;
             align-items: center;
         }
         label {
             // padding-top: 4px;
             overflow: hidden;
             img {
-                margin: 10px 0 0 0;
+                margin: 6px 0 0 0;
+            }
+            .account-initials-24 {
+                min-width: 20px;
+                min-height: 20px;
+                height: 20px;
+                height: 20px;
+            }
+            ._32svg {
+                transform: scale(.5,.5)
             }
         }
         input {
