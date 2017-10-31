@@ -24,7 +24,7 @@
           return date.format(NstSvcCalendarTranslation.get('HH:mm'));
         }
 
-        var yesterday = moment(current).startOf('day').subtract(1, 'days');
+        var yesterday = moment(current).startOf('day');
         if (date.isSameOrAfter(yesterday)) {
           return date.format(NstSvcCalendarTranslation.get('[Yesterday] HH:mm'));
         }
