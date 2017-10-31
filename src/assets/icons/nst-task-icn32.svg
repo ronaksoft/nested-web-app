@@ -16,7 +16,7 @@
 </g>
 <g id="in-progress-simple">
 	<rect id="space_1_" style="fill:none;" width="32" height="32"/>
-	<path style="fill:#0079F2;" d="M25,16c0,4.971-4.029,9-9,9s-9-4.029-9-9s4.029-9,9-9S25,11.029,25,16z M16,9c-3.866,0-7,3.134-7,7
+	<path style="fill:#0079F2;opacity:.4;" d="M25,16c0,4.971-4.029,9-9,9s-9-4.029-9-9s4.029-9,9-9S25,11.029,25,16z M16,9c-3.866,0-7,3.134-7,7
 		s3.134,7,7,7s7-3.134,7-7S19.866,9,16,9z"/>
 </g>
 <g id="in-progress-with-todo">
