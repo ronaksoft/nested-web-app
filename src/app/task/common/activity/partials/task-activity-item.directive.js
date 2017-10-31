@@ -77,6 +77,9 @@
           case NST_TASK_EVENT_ACTION.DUE_DATE_REMOVED:
             scope.tplUrl = 'app/task/common/activity/partials/due-date-removed.html';
             break;
+          case NST_TASK_EVENT_ACTION.CREATED:
+            scope.tplUrl = 'app/task/common/activity/partials/created.html';
+            break;
         }
       },
       template: function () {
