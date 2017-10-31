@@ -161,7 +161,7 @@
         }).catch(defer.reject);
 
         return defer.promise;
-      }, "getNotifications");
+      }, 'getNotifications');
     }
 
     function removeNotification(id) {
