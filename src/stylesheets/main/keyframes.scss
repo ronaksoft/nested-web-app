@@ -265,3 +265,12 @@
     }
   }
   
+  @keyframes attachment-progress-rtl {
+    from {
+      -webkit-transform: translateX(0);
+    }
+    to { 
+      -webkit-transform: translateX(-24px);
+    }
+  }
+  

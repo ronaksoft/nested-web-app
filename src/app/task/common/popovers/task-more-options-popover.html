@@ -1,5 +1,5 @@
 <h6><translate>Status:</translate></h6>
-<a class="list-items pending-wire-item _aic" ng-class="{'active': ctrlEditTask.model.status == ctrlEditTask.taskStatuses.ASSIGNED}" ng-click="ctrlEditTask.setStatus(ctrlEditTask.taskStatuses.ASSIGNED);">
+<a class="list-items pending-wire-item _aic" ng-class="{'active': !(ctrlEditTask.model.status == ctrlEditTask.taskStatuses.HOLD || ctrlEditTask.model.status == ctrlEditTask.taskStatuses.COMPLETED)}" ng-click="ctrlEditTask.setState(ctrlEditTask.taskStatuses.STATE_IN_PROGRESS);">
   <div>
     <svg class="_16svg">
       <use xlink:href="/assets/icons/nst-icn16.svg#task-in-progress"></use>
@@ -12,7 +12,7 @@
       <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
   </svg>
 </a>
-<a class="list-items shine-item _aic" ng-class="{'active': ctrlEditTask.model.status == ctrlEditTask.taskStatuses.HOLD}" ng-click="ctrlEditTask.setStatus(ctrlEditTask.taskStatuses.HOLD);">
+<a class="list-items shine-item _aic" ng-class="{'active': ctrlEditTask.model.status == ctrlEditTask.taskStatuses.HOLD}" ng-click="ctrlEditTask.setState(ctrlEditTask.taskStatuses.STATE_HOLD);">
   <div>
     <svg class="_16svg">
       <use xlink:href="/assets/icons/nst-icn16.svg#task-hold"></use>
@@ -25,7 +25,7 @@
       <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
   </svg>
 </a>
-<a class="list-items _aic" ng-class="{'active': ctrlEditTask.model.status == ctrlEditTask.taskStatuses.COMPLETED}" ng-click="ctrlEditTask.setStatus(ctrlEditTask.taskStatuses.COMPLETED);">
+<a class="list-items _aic" ng-class="{'active': ctrlEditTask.model.status == ctrlEditTask.taskStatuses.COMPLETED}" ng-click="ctrlEditTask.setState(ctrlEditTask.taskStatuses.STATE_COMPLETE);">
   <div>
     <svg class="_16svg">
       <use xlink:href="/assets/icons/nst-icn16.svg#task-completed"></use>

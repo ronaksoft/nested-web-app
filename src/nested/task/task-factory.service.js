@@ -23,6 +23,8 @@
     TaskFactory.prototype.create = create;
     TaskFactory.prototype.addAttachment = addAttachment;
     TaskFactory.prototype.removeAttachment = removeAttachment;
+    TaskFactory.prototype.addCandidate = addCandidate;
+    TaskFactory.prototype.removeCandidate = removeCandidate;
     TaskFactory.prototype.addComment = addComment;
     TaskFactory.prototype.removeComment = removeComment;
     TaskFactory.prototype.addLabel = addLabel;
@@ -35,6 +37,7 @@
     TaskFactory.prototype.taskUpdate = taskUpdate;
     TaskFactory.prototype.respond = respond;
     TaskFactory.prototype.setStatus = setStatus;
+    TaskFactory.prototype.setState = setState;
     TaskFactory.prototype.getByFilter = getByFilter;
     TaskFactory.prototype.get = get;
     TaskFactory.prototype.getMany = getMany;
@@ -262,6 +265,20 @@
       });
     }
 
+    function addCandidate(taskId, candidateId) {
+      return NstSvcServer.request('task/add_candidate', {
+        task_id: taskId,
+        candidate_id: candidateId
+      });
+    }
+
+    function removeCandidate(taskId, candidateId) {
+      return NstSvcServer.request('task/remove_candidate', {
+        task_id: taskId,
+        candidate_id: candidateId
+      });
+    }
+
     function addComment(taskId, comment) {
       return NstSvcServer.request('task/add_comment', {
         task_id: taskId,
@@ -348,18 +365,25 @@
       });
     }
 
-    /**
-     * Task set status
-     *
-     * @param  {int}      taskId
-     * @param  {string}   status [STATUS_COMPLETED, STATUS_HOLD, STATUS_CANCELED]
-     *
-     * @returns {Promise}
-     */
     function setStatus(taskId, status) {
       return NstSvcServer.request('task/set_status', {
         task_id: taskId,
         status: status
+      });
+    }
+
+    /**
+     * Task set state
+     *
+     * @param  {int}      taskId
+     * @param  {string}   state [STATE_COMPLETED, STATE_HOLD, STATE_IN_PROGRESS]
+     *
+     * @returns {Promise}
+     */
+    function setState(taskId, state) {
+      return NstSvcServer.request('task/set_state', {
+        task_id: taskId,
+        state: state
       });
     }
 

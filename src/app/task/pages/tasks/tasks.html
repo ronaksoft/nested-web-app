@@ -65,7 +65,7 @@
               <translate ng-if="task.candidates.length > 2">& {{task.candidates.length - 1}} others</translate>
             </p>
           </div>
-          <div class="list-li-extra" data-uib-tooltip="{{task.dueDate | date : 'full' | localize}}" data-tooltip-append-to-body="false" data-tooltip-placement="{{$root._direction == 'rtl' ? 'top-left' : 'top-right'}}">
+          <div class="list-li-extra" data-uib-tooltip="{{task.dueDate | date : 'full' | localize}}" data-tooltip-append-to-body="true" data-tooltip-placement="{{$root._direction == 'rtl' ? 'top-left' : 'top-right'}}">
             <span ng-if="task.dueDate !== undefined">{{task.dueDate | passed}}</span>
           </div>
           <div class="list-li-buttons">

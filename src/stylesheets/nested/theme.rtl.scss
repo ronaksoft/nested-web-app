@@ -1062,6 +1062,81 @@ body[dir="rtl"] {
     margin-left: 32px;
     margin-right: 0;
   }
+  .task-area h2 ._16svg {
+    transform-origin: right center;
+  }
+  .edit-task .task-comments .task-comments-inner {
+    right: auto;
+    left: 0;
+  }
+  .edit-task .task-form {
+    padding: 12px 16px 36px 4px;
+    .task-binder {
+      right: auto;
+      left: 0;
+       .task-binders {
+        margin: 0 0 16px 16px;
+      }
+      &.is-open .task-binders .task-binder-butn {
+        margin-left: 0;
+        margin-right: 8px;
+      }
+    }
+  }
+  .ng-flat-datepicker-arrow.ng-flat-datepicker-arrow-left svg {
+    transform: rotate(0);
+  }
+  .ng-flat-datepicker-arrow.ng-flat-datepicker-arrow-right svg {
+    -webkit-transform: rotate(-180deg);
+    transform: rotate(-180deg);
+  }
+  .user-chips-wrapper {
+    padding-right: 0;
+    padding-left: 5px;
+    margin-right: 0;
+    margin-left: 4px;
+  }
+  .label-chips-wrapper .label-edge {
+    transform: scale(-1, 1);
+  }
+  nst-attachments-editable-bar ul.badge-bar li a:not(.attdl) img, nst-attachments-preview-bar ul.badge-bar li a:not(.attdl) img {
+    margin-left: 0;
+    margin-right: 4px;
+  }
+  nst-attachments-editable-bar ul.badge-bar li, nst-attachments-preview-bar ul.badge-bar li {
+    margin: 3px 0 3px 6px;
+  }
+  nst-attachments-editable-bar ul.badge-bar li .attdl.del, nst-attachments-preview-bar ul.badge-bar li .attdl.del {
+    left: auto;
+    right: -4px;
+  }
+  nst-attachments-editable-bar ul.badge-bar li .uploadprogress,
+  nst-attachments-preview-bar ul.badge-bar li .uploadprogress {
+    right: auto;
+    left: 0;
+    div {
+      right: auto;
+      left: 0;
+      animation-name: attachment-progress-rtl;
+    }
+  }
+  .edit-task {
+    .nst-loading {
+      left: calc(50% + 140px);
+    }
+  }
+  .list-ul .list-li-extra + .list-li-buttons {
+    margin-left: 0;
+    margin-right: 8px;
+  }
+  .list-ul .list-li-buttons > * {
+    margin-right: 8px;
+    margin-left: 0;
+  }
+  .list-ul li::after {
+    right: auto;
+    left: 0;
+  }
 }
 
 body[dir="ltr"] {

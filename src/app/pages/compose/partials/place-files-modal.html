@@ -58,7 +58,7 @@
                 <div dir="{{$root._direction}}" class="_jcc _df _aic _fw" ng-if="ctrl.places.length === 0 && ctrl.files.length === 0 && !ctrl.initialStart && !ctrl.isLoading"><translate>No File or place</translate></div>
             </ul>
         </div>
-        <div class="nst-loading" ng-if="ctrl.isLoading"></div>
+        <div class="nst-loading absolute" ng-if="ctrl.isLoading"></div>
     </div>
     <div class="modal-f">
         <input type="button" ng-click="ctrl.closePopover()"  value="Discard" class="butn butn-white secondary">

@@ -36,10 +36,10 @@
               <use xlink:href="/assets/icons/nst-icn24.svg#ask-wire"></use>
             </svg>
             <img initial-avatar="{{ctrlCreateTask.assigneeIcon}}" name="{{ctrlCreateTask.assigneeIcon}}"
-                 picture="{{ctrlCreateTask.assigneeIcon | avatar : 'x32'}}" data-width="24" data-height="24"
-                 data-radius="40" class="account-initials-24 _df" data-word-count="2" data-font-size="13"
+                 picture="{{ctrlCreateTask.assigneeIcon | avatar : 'x32'}}" data-width="20" data-height="20"
+                 data-radius="40" class="account-initials-20 _df" data-word-count="2" data-font-size="13"
                  ng-if="ctrlCreateTask.assigneeIcon != 'no-assignee' && ctrlCreateTask.assigneeIcon != 'candidate'"/>
-            <svg class="_24svg" ng-if="ctrlCreateTask.assigneeIcon == 'candidate'">
+            <svg class="_32svg" ng-if="ctrlCreateTask.assigneeIcon == 'candidate'">
               <use xlink:href="/assets/icons/nst-task-icn32.svg#candidate"></use>
             </svg>
           </label>
@@ -65,7 +65,7 @@
             </div>
           </label>
     </div>
-    <div class="task-more-options ng-class:{'visible' : ctrlCreateTask.showMoreOption}">
+    <div class="task-more-options" resize-height-animation="{{ctrlCreateTask.showMoreOption}}">
       <div class="task-description auto-height-item">
         <div class="task-input-wrapper ng-class:{'focus': ctrlCreateTask.descFocus}">
           <textarea class="no-style gale-holder create-task-input" ng-model="ctrlCreateTask.model.description" ng-focus="ctrlCreateTask.descFocus = true"

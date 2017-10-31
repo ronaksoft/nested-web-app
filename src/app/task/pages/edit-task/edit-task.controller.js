@@ -160,6 +160,7 @@
 
     var dataInit = false;
     var isUpdated = false;
+    vm.isInCandidateMode = false;
 
     function getTask(id) {
       NstSvcTaskFactory.get(id).then(function (task) {
@@ -182,6 +183,7 @@
             init: true,
             data: task.candidates
           };
+          vm.isInCandidateMode = true;
         }
 
         if (task.dueDate !== undefined && task.dueDate !== 0) {
@@ -244,10 +246,11 @@
     }
 
     vm.createRelatedTask = createRelatedTask;
-    vm.setStatus = setStatus;
+    vm.setState = setState;
 
     function removeAssignees() {
       vm.removeAssigneeItems.call();
+      // toastr.success('fd')
     }
 
     function getAssigneeIcon(data) {
@@ -271,19 +274,71 @@
     }
 
     function removeTodos() {
-      vm.removeTodoItems.call();
+      if (vm.model.todos.length === 0) {
+        vm.enableTodo = false;
+      } else {
+        NstSvcTaskUtility.promptModal({
+          title: NstSvcTranslation.get('Remove All To-Dos'),
+          body: NstSvcTranslation.get('Are you sure?'),
+          confirmText: NstSvcTranslation.get('Yes'),
+          confirmColor: 'red',
+          cancelText: NstSvcTranslation.get('Cancel')
+        }).then(function () {
+          vm.removeTodoItems.call();
+          vm.enableTodo = false;
+        });
+      }
     }
 
     function removeAttachments() {
-      vm.removeAttachmentItems.call();
+      if (vm.model.attachments.length === 0) {
+        vm.enableAttachment = false;
+      } else {
+        NstSvcTaskUtility.promptModal({
+          title: NstSvcTranslation.get('Remove All Attachments'),
+          body: NstSvcTranslation.get('Are you sure?'),
+          confirmText: NstSvcTranslation.get('Yes'),
+          confirmColor: 'red',
+          cancelText: NstSvcTranslation.get('Cancel')
+        }).then(function () {
+          vm.removeAttachmentItems.call();
+          vm.enableAttachment = false;
+        });
+      }
     }
 
     function removeWatchers() {
-      vm.removeWatcherItems.call();
+      if (vm.model.watchers.length === 0) {
+        vm.enableWatcher = false;
+      } else {
+        NstSvcTaskUtility.promptModal({
+          title: NstSvcTranslation.get('Remove All Watchers'),
+          body: NstSvcTranslation.get('Are you sure?'),
+          confirmText: NstSvcTranslation.get('Yes'),
+          confirmColor: 'red',
+          cancelText: NstSvcTranslation.get('Cancel')
+        }).then(function () {
+          vm.removeWatcherItems.call();
+          vm.enableWatcher = false;
+        });
+      }
     }
 
     function removeLabels() {
-      vm.removeLabelItems.call();
+      if (vm.model.labels.length === 0) {
+        vm.enableLabel = false;
+      } else {
+        NstSvcTaskUtility.promptModal({
+          title: NstSvcTranslation.get('Remove All Labels'),
+          body: NstSvcTranslation.get('Are you sure?'),
+          confirmText: NstSvcTranslation.get('Yes'),
+          confirmColor: 'red',
+          cancelText: NstSvcTranslation.get('Cancel')
+        }).then(function () {
+          vm.removeLabelItems.call();
+          vm.enableLabel = false;
+        });
+      }
     }
 
     function isDisabled() {
@@ -375,6 +430,9 @@
     }
 
     function updateAssignee(assignees) {
+      if (!vm.isInCandidateMode) {
+        return;
+      }
       var oldData = getNormalValue(vm.modelBackUp.assignees);
       var newItems = _.differenceBy(assignees, oldData, 'id');
       var removedItems = _.differenceBy(oldData, assignees, 'id');
@@ -551,11 +609,23 @@
       $scope.$dismiss();
     }
 
-    function setStatus(status) {
+    function setState(state) {
+      var status;
+      switch (state) {
+        case NST_TASK_STATUS.STATE_COMPLETE:
+          status = NST_TASK_STATUS.COMPLETED;
+          break;
+        case NST_TASK_STATUS.STATE_HOLD:
+          status = NST_TASK_STATUS.HOLD;
+          break;
+        default:
+          status = NST_TASK_STATUS.ASSIGNED;
+          break;
+      }
       if (vm.modelBackUp.status === status) {
         return;
       }
-      NstSvcTaskFactory.setStatus(vm.taskId, status).then(function () {
+      NstSvcTaskFactory.setState(vm.taskId, state).then(function () {
         vm.model.status = status;
         vm.modelBackUp.status = status;
         isUpdated = true;
