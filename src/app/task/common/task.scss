@@ -75,7 +75,7 @@
             margin-top: 2px;
         }
         label ._16svg {
-            margin-top: 4px;
+            margin-top: 8px;
         }
         label ._24svg {
             margin-top: 8px;
@@ -225,7 +225,7 @@
         .task-progress-icon {
             transform: scale(1.5, 1.5);
             transform-origin: top center;
-            opacity: .4!important;
+            // opacity: .4!important;
         }
     }
     .task-assignee,
