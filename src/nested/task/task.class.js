@@ -17,6 +17,7 @@
       this.candidates = undefined;
       this.title = undefined;
       this.dueDate = undefined;
+      this.hasDueTime = false;
       this.description = '';
       this.todos = undefined;
       this.attachments = undefined;
@@ -26,6 +27,7 @@
       this.access = undefined;
       this.progress = -1;
       this.relatedTask = undefined;
+      this.childTasks = undefined;
     }
 
     return Task;

@@ -99,7 +99,7 @@
       var promise;
 
       if (vm.isGlancePage) {
-        promise = NstSvcTaskFactory.getByFilter(NST_TASK_STATUS.CREATED_BY_ME, null, vm.taskSetting.skip, vm.taskSetting.limit);
+        promise = NstSvcTaskFactory.getByFilter(NST_TASK_STATUS.GLANCE, null, vm.taskSetting.skip, vm.taskSetting.limit);
       } else if (vm.isAssignedToMePage) {
         promise = NstSvcTaskFactory.getByFilter(NST_TASK_STATUS.ASSIGNED_TO_ME, null, vm.taskSetting.skip, vm.taskSetting.limit);
       } else if (vm.isCreatedByMePage) {

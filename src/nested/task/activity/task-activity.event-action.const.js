@@ -4,6 +4,8 @@
   angular
     .module('ronak.nested.web.task')
     .constant('NST_TASK_EVENT_ACTION', {
+      TASK_ACTIVITY: 'task-activity',
+
       WATCHER_ADDED: 0x0001,
       WATCHER_REMOVED: 0x0002,
       ATTACHMENT_ADDED: 0x0003,

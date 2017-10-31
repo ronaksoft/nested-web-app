@@ -5,10 +5,11 @@
     .module('ronak.nested.web.task')
     .controller('TaskActivityController', TaskActivityController);
 
-  function TaskActivityController($timeout, $scope, _, $q, $state, NstSvcTaskActivityFactory, NST_TASK_EVENT_ACTION,
-                                  NstSvcAuth, NstSvcTaskFactory, NstSvcTranslation, toastr, NstTaskActivity, NstSvcUserFactory) {
+  function TaskActivityController($timeout, $scope, $rootScope, _, $q, $state, NstSvcTaskActivityFactory, NST_TASK_EVENT_ACTION,
+                                  NstSvcAuth, NstSvcTaskFactory, NstSvcTranslation, toastr, NstTaskActivity, NstSvcUserFactory, NstSvcDate) {
     var vm = this;
     var eventReferences = [];
+    var latestActivityTimestamp = -1;
     vm.setting = {};
     $scope.loadMore = getActivities;
     vm.isLoading = false;
@@ -21,7 +22,7 @@
     $timeout(function () {
       vm.user = NstSvcAuth.user;
     }, 100);
-    $scope.scrollEnd = function(){}; // will Assigned by directive stickBottomScroll
+    $scope.scrollEnd = function() {}; // will Assigned by directive stickBottomScroll
     vm.activityTypes = NST_TASK_EVENT_ACTION;
 
     vm.activities = [];
@@ -53,13 +54,22 @@
         skip: 0,
         id: vm.taskId
       };
+      latestActivityTimestamp = -1;
       vm.activities = [];
       vm.isLoading = false;
       vm.haveMore = true;
     }
 
+    function findLatestTimestamp(activities) {
+      _.map(activities, function (activity) {
+        if (activity.date > latestActivityTimestamp) {
+          latestActivityTimestamp = activity.date;
+        }
+      });
+    }
+
     function getActivities() {
-      if(vm.isLoading || !vm.haveMore) {
+      if (vm.isLoading || !vm.haveMore) {
         return;
       }
       vm.isLoading = true;
@@ -67,10 +77,9 @@
       NstSvcTaskActivityFactory.get(vm.setting).then(function (activities) {
         vm.haveMore = activities.length === vm.setting.limit;
         vm.setting.skip += activities.length;
-        var tempActs = vm.activities;
-        Array.prototype.unshift.apply(tempActs, activities);
-        _.unionBy(tempActs, 'id');
-        vm.activities = tempActs;
+        findLatestTimestamp(activities);
+        vm.activities.unshift.apply(vm.activities, activities)
+        vm.activities = _.unionBy(vm.activities, 'id');
         vm.activityCount = vm.activities.length;
         vm.isLoading = false;
         $scope.scrollEnd();
@@ -129,7 +138,7 @@
           var activity = new NstTaskActivity();
           activity.id = activityId.id;
           activity.type = NST_TASK_EVENT_ACTION.COMMENT;
-          activity.date = new Date().getTime();
+          activity.date = NstSvcDate.now();
           activity.actor = vm.user;
           activity.comment = {
             id: activityId.id,
@@ -139,7 +148,7 @@
             removedById: null,
             attachment_id: ''
           };
-          vm.activities.push(activity);
+          // vm.activities.push(activity);
           $scope.scrollEnd(true);
         }
 
@@ -158,15 +167,6 @@
         }
         resizeTextare(e.target);
       }
-    }
-
-    function createCommentActivity(comment) {
-      var activity = new NstTaskActivity();
-      activity.id = comment.id;
-      activity.type = NST_TASK_EVENT_ACTION.COMMENT;
-      activity.date = comment.timestamp;
-      activity.actor = NstSvcUserFactory.parseTinyUser(comment.sender);
-      activity.comment = comment;
     }
 
     /**
@@ -188,6 +188,40 @@
     function extractCommentBody(e) {
       return e.currentTarget.value.trim();
     }
+
+    function taskActivityHandler(event, data) {
+      if (vm.taskId !== data.taskId) {
+        return;
+      }
+      getRecentActivities();
+    }
+
+    function getRecentActivities() {
+      if (latestActivityTimestamp === -1) {
+        getActivities();
+      } else {
+        var params = {
+          id: vm.taskId,
+          limit: 16,
+          date: latestActivityTimestamp,
+          onlyComments: vm.onlyComments
+        };
+        vm.isLoading = true;
+        NstSvcTaskActivityFactory.getAfter(params).then(function (activities) {
+          findLatestTimestamp(activities);
+          vm.activities.push.apply(vm.activities, activities);
+          vm.activities = _.unionBy(vm.activities, 'id');
+          vm.activityCount = vm.activities.length;
+          vm.isLoading = false;
+          $scope.scrollEnd();
+          if (activities.length === 16) {
+            $timeout(getRecentActivities, 100);
+          }
+        });
+      }
+    }
+
+    eventReferences.push($rootScope.$on(NST_TASK_EVENT_ACTION.TASK_ACTIVITY, taskActivityHandler));
 
     $scope.$on('$destroy', function () {
       _.forEach(eventReferences, function (canceler) {

@@ -32,7 +32,7 @@
                     prevent-shift-enter="true"
                     uneditable="{{ctrlEditTask.model.access.updateTask? 'false': 'true'}}"
           ></textarea>
-          <div ng-if="ctrlEditTask.model.access.deleteTask" class="task-menu-options"
+          <div ng-if="ctrlEditTask.model.access.updateTask" class="task-menu-options"
                data-popover-class="white-pop task-logs-filter-popover"
                data-popover-append-to-body="false"
                uib-popover-template="'app/task/common/popovers/task-more-options-popover.html'"
@@ -94,7 +94,7 @@
                  id="task-due" ng-focus="ctrlEditTask.dueDateFocus = true" ng-blur="ctrlEditTask.dueDateFocus = false"
                  ng-model="ctrlEditTask.model.dueDate"
                  data-config="ctrlEditTask.datePickerconfig" g-formatted-picked-date="gfdate" g-picked-date="gdate"
-                 ng-jalaali-flat-datepicker have-time="ctrlEditTask.model.haveTime"
+                 ng-jalaali-flat-datepicker have-time="ctrlEditTask.model.hasDueTime"
                  uneditable="{{ctrlEditTask.model.access.updateTask? 'false': 'true'}}"
           >
         </div>
@@ -380,7 +380,7 @@
 </div>
 
 <div class="task-related overflow-task-view">
-  <a ng-repeat="task in ctrlEditTask.relatedTasks">
+  <a ng-repeat="task in ctrlEditTask.model.childTasks" ng-click="ctrlEditTask.editTask(task.id)">
     <svg class="_16svg">
       <use xlink:href="/assets/icons/nst-icn16.svg#chain"></use>
     </svg>

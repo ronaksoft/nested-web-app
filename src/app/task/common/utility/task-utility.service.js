@@ -59,12 +59,15 @@
           break;
         }
       }
+      var attachmentError = [];
       if (!isAttachmentValid) {
-        errors.push(NstSvcTranslation.get('Please wait till attachments upload completely'));
+        attachmentError.push(NstSvcTranslation.get('Please wait till attachments upload completely'));
       }
       return {
-        valid: errors.length === 0,
+        valid: (errors.length === 0 && isAttachmentValid),
+        validWithoutAttachment: errors.length === 0,
         errors: errors,
+        attachmentError: attachmentError,
         attachment: isAttachmentValid
       }
     }

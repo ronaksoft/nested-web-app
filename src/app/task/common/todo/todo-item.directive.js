@@ -19,7 +19,8 @@
         editMode: '=',
         placeholder: '@placeholder',
         focusMe: '=todoFocusMe',
-        check: '=todoCheck'
+        check: '=todoCheck',
+        enableCheck: '=enableCheck'
       },
       link: function ($scope) {
 
