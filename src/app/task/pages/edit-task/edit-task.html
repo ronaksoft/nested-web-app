@@ -36,7 +36,7 @@
                data-popover-class="white-pop task-logs-filter-popover"
                data-popover-append-to-body="false"
                uib-popover-template="'app/task/common/popovers/task-more-options-popover.html'"
-               data-popover-placement="auto bottom-right">
+               data-popover-placement="auto bottom-{{$root._direction === 'rtl' ? 'left' : 'right'}}">
             <svg class="_24svg">
               <use xlink:href="/assets/icons/nst-icn24.svg#more"></use>
             </svg>
@@ -274,7 +274,13 @@
         </label>
       </div>
       <div class="task-binder ng-class:{'is-open': ctrlEditTask.isOpenBinder}"
-           ng-if="ctrlEditTask.model.access.updateTask">
+           ng-if="
+            ctrlEditTask.model.access.updateTask && (
+              !ctrlEditTask.enableWatcher ||
+              !ctrlEditTask.enableAttachment || 
+              !ctrlEditTask.enableTodo ||
+              !ctrlEditTask.enableDescription||
+              !ctrlEditTask.enableLabel)">
         <div class="task-binders">
           <div class="task-binder-butn" ng-click="ctrlEditTask.openBinder()">
             <svg class="_16svg">
