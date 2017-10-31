@@ -71,6 +71,7 @@
     }
 
     function markAllItemsAsSeen(items) {
+      countNotifications(vm.notifications);
       _.forEach(items, function (item) {
         item.isSeen = true;
       });
@@ -127,6 +128,22 @@
       vm.loadingAfter = true;
       var firstItem = _.first(vm.notifications);
       return loadNotification(null, firstItem.date.getTime());
+    }
+
+    function countNotifications(notifications) {
+      vm.taskCounts = 0;
+      vm.postCounts = 0;
+      _.forEach(notifications, function (item) {
+        if (item.isTask) {
+          if (!item.isSeen) {
+            vm.taskCounts++;
+          }
+        } else {
+          if (!item.isSeen) {
+            vm.postCounts++;
+          }
+        }
+      });
     }
 
     function separateNotifications(notifications) {

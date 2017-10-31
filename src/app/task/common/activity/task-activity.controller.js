@@ -198,6 +198,7 @@
 
     function getRecentActivities() {
       if (latestActivityTimestamp === -1) {
+        vm.haveMore = true;
         getActivities();
       } else {
         var params = {
