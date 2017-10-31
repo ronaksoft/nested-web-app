@@ -160,6 +160,7 @@
 
     var dataInit = false;
     var isUpdated = false;
+    vm.isInCandidateMode = false;
 
     function getTask(id) {
       NstSvcTaskFactory.get(id).then(function (task) {
@@ -182,6 +183,7 @@
             init: true,
             data: task.candidates
           };
+          vm.isInCandidateMode = true;
         }
 
         if (task.dueDate !== undefined && task.dueDate !== 0) {
@@ -244,7 +246,7 @@
     }
 
     vm.createRelatedTask = createRelatedTask;
-    vm.setStatus = setStatus;
+    vm.setState = setState;
 
     function removeAssignees() {
       vm.removeAssigneeItems.call();
@@ -375,6 +377,9 @@
     }
 
     function updateAssignee(assignees) {
+      if (!vm.isInCandidateMode) {
+        return;
+      }
       var oldData = getNormalValue(vm.modelBackUp.assignees);
       var newItems = _.differenceBy(assignees, oldData, 'id');
       var removedItems = _.differenceBy(oldData, assignees, 'id');
@@ -551,11 +556,23 @@
       $scope.$dismiss();
     }
 
-    function setStatus(status) {
+    function setState(state) {
+      var status;
+      switch (state) {
+        case NST_TASK_STATUS.STATE_COMPLETE:
+          state = NST_TASK_STATUS.COMPLETED;
+          break;
+        case NST_TASK_STATUS.STATE_HOLD:
+          state = NST_TASK_STATUS.HOLD;
+          break;
+        default:
+          status = NST_TASK_STATUS.ASSIGNED;
+          break;
+      }
       if (vm.modelBackUp.status === status) {
         return;
       }
-      NstSvcTaskFactory.setStatus(vm.taskId, status).then(function () {
+      NstSvcTaskFactory.setState(vm.taskId, state).then(function () {
         vm.model.status = status;
         vm.modelBackUp.status = status;
         isUpdated = true;

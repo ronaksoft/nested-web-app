@@ -58,8 +58,8 @@
                          assignee-placeholder="{{ctrlEditTask.assigneePlaceholder}}"
                          remove-items="ctrlEditTask.removeAssigneeItems"
                          assignee-focus-me="ctrlEditTask.assigneeFocusTrigger"
-                         add-item="ctrlEditTask.model.access.updateTask"
-                         remove-item="ctrlEditTask.model.access.updateTask"></task-assignee>
+                         add-item="ctrlEditTask.model.access.updateTask && ctrlEditTask.isInCandidateMode"
+                         remove-item="ctrlEditTask.model.access.updateTask && ctrlEditTask.isInCandidateMode"></task-assignee>
           <div ng-if="ctrlEditTask.assigneeFocus != true && ctrlEditTask.model.assignees.length == 1"
                ng-click="ctrlEditTask.assigneeFocus = true;"
                class="unfocused-input" translate-inner>Assigned to <b user-detail="ctrlEditTask.model.assignees[0]"><translate>{{ctrlEditTask.user.id === ctrlEditTask.model.assignees[0].id? 'Me': ctrlEditTask.model.assignees[0].fullName}}</translate></b>
