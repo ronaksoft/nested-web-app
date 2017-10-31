@@ -250,6 +250,7 @@
 
     function removeAssignees() {
       vm.removeAssigneeItems.call();
+      // toastr.success('fd')
     }
 
     function getAssigneeIcon(data) {
@@ -273,19 +274,71 @@
     }
 
     function removeTodos() {
-      vm.removeTodoItems.call();
+      if (vm.model.todos.length === 0) {
+        vm.enableTodo = false;
+      } else {
+        NstSvcTaskUtility.promptModal({
+          title: NstSvcTranslation.get('Remove All To-Dos'),
+          body: NstSvcTranslation.get('Are you sure?'),
+          confirmText: NstSvcTranslation.get('Yes'),
+          confirmColor: 'red',
+          cancelText: NstSvcTranslation.get('Cancel')
+        }).then(function () {
+          vm.removeTodoItems.call();
+          vm.enableTodo = false;
+        });
+      }
     }
 
     function removeAttachments() {
-      vm.removeAttachmentItems.call();
+      if (vm.model.attachments.length === 0) {
+        vm.enableAttachment = false;
+      } else {
+        NstSvcTaskUtility.promptModal({
+          title: NstSvcTranslation.get('Remove All Attachments'),
+          body: NstSvcTranslation.get('Are you sure?'),
+          confirmText: NstSvcTranslation.get('Yes'),
+          confirmColor: 'red',
+          cancelText: NstSvcTranslation.get('Cancel')
+        }).then(function () {
+          vm.removeAttachmentItems.call();
+          vm.enableAttachment = false;
+        });
+      }
     }
 
     function removeWatchers() {
-      vm.removeWatcherItems.call();
+      if (vm.model.watchers.length === 0) {
+        vm.enableWatcher = false;
+      } else {
+        NstSvcTaskUtility.promptModal({
+          title: NstSvcTranslation.get('Remove All Watchers'),
+          body: NstSvcTranslation.get('Are you sure?'),
+          confirmText: NstSvcTranslation.get('Yes'),
+          confirmColor: 'red',
+          cancelText: NstSvcTranslation.get('Cancel')
+        }).then(function () {
+          vm.removeWatcherItems.call();
+          vm.enableWatcher = false;
+        });
+      }
     }
 
     function removeLabels() {
-      vm.removeLabelItems.call();
+      if (vm.model.labels.length === 0) {
+        vm.enableLabel = false;
+      } else {
+        NstSvcTaskUtility.promptModal({
+          title: NstSvcTranslation.get('Remove All Labels'),
+          body: NstSvcTranslation.get('Are you sure?'),
+          confirmText: NstSvcTranslation.get('Yes'),
+          confirmColor: 'red',
+          cancelText: NstSvcTranslation.get('Cancel')
+        }).then(function () {
+          vm.removeLabelItems.call();
+          vm.enableLabel = false;
+        });
+      }
     }
 
     function isDisabled() {
@@ -560,10 +613,10 @@
       var status;
       switch (state) {
         case NST_TASK_STATUS.STATE_COMPLETE:
-          state = NST_TASK_STATUS.COMPLETED;
+          status = NST_TASK_STATUS.COMPLETED;
           break;
         case NST_TASK_STATUS.STATE_HOLD:
-          state = NST_TASK_STATUS.HOLD;
+          status = NST_TASK_STATUS.HOLD;
           break;
         default:
           status = NST_TASK_STATUS.ASSIGNED;

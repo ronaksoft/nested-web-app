@@ -59,6 +59,10 @@
 
     function updateTodo(id) {
       var index = _.findIndex(vm.todosData, {id: id});
+      if (_.trim(vm.todosData[index].text).length === 0) {
+        toastr.warning(NstSvcTranslation.get('Please enter a title'));
+        return;
+      }
       if (_.isFunction(vm.updateItem)) {
         vm.updateItem(index, vm.todosData[index]);
       }

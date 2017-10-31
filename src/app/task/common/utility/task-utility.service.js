@@ -6,7 +6,7 @@
     .service('NstSvcTaskUtility', NstSvcTaskUtility);
 
   /** @ngInject */
-  function NstSvcTaskUtility($q, _, NST_TASK_PROGRESS_ICON, NstSvcTranslation, NstUtility, NST_ATTACHMENT_STATUS) {
+  function NstSvcTaskUtility($q, _, NST_TASK_PROGRESS_ICON, NstSvcTranslation, NstUtility, NST_ATTACHMENT_STATUS, $uibModal) {
 
     function TaskUtility() {
     }
@@ -15,6 +15,7 @@
     TaskUtility.prototype.getTaskIcon = getTaskIcon;
     TaskUtility.prototype.validateTask = validateTask;
     TaskUtility.prototype.getTodoTransform = getTodoTransform;
+    TaskUtility.prototype.promptModal = promptModal;
 
     function getTaskIcon(status, progress) {
       switch (status) {
@@ -73,9 +74,30 @@
     }
 
     function getTodoTransform(todos) {
-      return _.map(todos, function (todo) {
+      return _.map(_.filter(todos, function (todo) {
+        return (_.trim(todo.text) > 0);
+      }) , function (todo) {
         return btoa(todo.text) + ';' + todo.weight;
       }).join(',');
+    }
+
+    function promptModal(options) {
+      return $uibModal.open({
+        animation: false,
+        templateUrl: 'app/label/partials/label-confirm-modal.html',
+        controller: 'labelConfirmModalController',
+        controllerAs: 'confirmModal',
+        size: 'sm',
+        resolve: {
+          modalSetting: {
+            title: options.title,
+            body: options.body,
+            confirmText: options.confirmText,
+            confirmColor: options.confirmColor,
+            cancelText: options.cancelText
+          }
+        }
+      }).result;
     }
 
     return new TaskUtility();

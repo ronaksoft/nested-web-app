@@ -24,6 +24,6 @@
 
       STATE_COMPLETE: 'complete',
       STATE_HOLD: 'hold',
-      STATE_IN_PROGRESS: 'hold'
+      STATE_IN_PROGRESS: 'in_progress'
     });
 })();
