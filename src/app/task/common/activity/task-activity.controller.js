@@ -82,7 +82,7 @@
         vm.activities = _.unionBy(vm.activities, 'id');
         vm.activityCount = vm.activities.length;
         vm.isLoading = false;
-        $scope.scrollEnd();
+        // $scope.scrollEnd();
       });
     }
 
@@ -149,7 +149,7 @@
             attachment_id: ''
           };
           // vm.activities.push(activity);
-          $scope.scrollEnd(true);
+          // $scope.scrollEnd(true);
         }
 
         e.currentTarget.value = '';
@@ -213,7 +213,7 @@
           vm.activities = _.unionBy(vm.activities, 'id');
           vm.activityCount = vm.activities.length;
           vm.isLoading = false;
-          $scope.scrollEnd();
+          // $scope.scrollEnd();
           if (activities.length === 16) {
             $timeout(getRecentActivities, 100);
           }
