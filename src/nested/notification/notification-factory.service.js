@@ -84,7 +84,8 @@
           skip: settings.skip || 0,
           limit: settings.limit || 12,
           before: settings.before,
-          after: settings.after
+          after: settings.after,
+          only_unread: settings.onlyUnread
         }).then(function (data) {
           var notificationPromises = _.map(data.notifications, function (notif) {
 

@@ -20,14 +20,14 @@
        ng-class="{'active' : ctlNotifications.selectedView === 1}">
       <span class="_pr">
         <translate>Post</translate>
-        <div class="unread-notif-badge" ng-if="ctlNotifications.taskCounts > 0">{{ctlNotifications.postCounts | localize}}</div>
+        <div class="unread-notif-badge" ng-if="ctlNotifications.postCounts > 0">{{ctlNotifications.postCounts | localize}}</div>
       </span>
     </a>
     <a class="_df _fw _jcc _aic" ng-click="ctlNotifications.changeTab(2)"
        ng-class="{'active' : ctlNotifications.selectedView === 2}">
         <span class="_pr">
           <translate>Task</translate>
-          <div class="unread-notif-badge" ng-if="ctlNotifications.postCounts > 0">{{ctlNotifications.taskCounts | localize}}</div>
+          <div class="unread-notif-badge" ng-if="ctlNotifications.taskCounts > 0">{{ctlNotifications.taskCounts | localize}}</div>
         </span>
     </a>
   </div>
@@ -36,8 +36,8 @@
       <li class="_fw _jcc _df margin-top-10" ng-if="ctlNotifications.loadingAfter">
         <div class="nst-loading"></div>
       </li>
-      <li class="_tac" ng-if="ctlNotifications.notifications.length == 0 && !ctlNotifications.loadingBefore">
-        <translate>No Notifications</translate>
+      <li class="nst-padding-10 _tac" ng-if="ctlNotifications.notifications.length == 0 && !ctlNotifications.loadingBefore">
+        <translate>No Unread Notifications</translate>
       </li>
       <li ng-repeat="notif in ctlNotifications.postNotifications track by notif.id"
           ng-if="ctlNotifications.selectedView === 1"

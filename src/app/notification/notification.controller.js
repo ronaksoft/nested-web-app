@@ -11,7 +11,12 @@
     var vm = this;
     vm.NST_NOTIFICATION_TYPE = NST_NOTIFICATION_TYPE;
     var pageItemsCount = 12;
-    vm.notifications = NstSvcNotificationFactory.getLoadedNotification() || [];
+    vm.isModal = $scope.$resolve && $scope.$resolve.isModal;
+    if (vm.isModal) {
+      vm.notifications = [];
+    } else {
+      vm.notifications = NstSvcNotificationFactory.getLoadedNotification() || [];
+    }
     vm.postNotifications = [];
     vm.taskNotifications = [];
 
@@ -23,16 +28,19 @@
     vm.onClickMention = onClickMention;
     vm.error = null;
     vm.selectedView = $state.current.options.group === 'task'? 2: 1;
-    vm.isModal = $scope.$resolve && $scope.$resolve.isModal;
     vm.taskCounts = 0;
     vm.postCounts = 0;
 
     //initialize
     NstSvcNotificationFactory.resetCounter();
-    if (vm.notifications.length === 0) {
-      loadBefore();
+    if (vm.isModal) {
+      loadAll();
     } else {
-      loadAfter();
+      if (vm.notifications.length === 0) {
+        loadBefore();
+      } else {
+        loadAfter();
+      }
     }
 
     function changeTab(v) {
@@ -82,18 +90,24 @@
       var deferred = $q.defer();
       vm.error = false;
       vm.loading = true;
-      NstSvcNotificationFactory.getNotifications({
+      var setting = {
         before: before,
         after: after,
         limit: limit
-      }).then(function (notifications) {
+      };
+      if (!vm.isModal) {
+        setting.onlyUnread = true;
+      }
+      NstSvcNotificationFactory.getNotifications(setting).then(function (notifications) {
 
         if (notifications) {
           var notifs = _.concat(notifications, vm.notifications);
           vm.notifications = sortNotification(notifs);
         }
 
-        NstSvcNotificationFactory.storeLoadedNotification(vm.notifications);
+        if (!vm.isModal) {
+          NstSvcNotificationFactory.storeLoadedNotification(vm.notifications);
+        }
 
         var temp = separateNotifications(vm.notifications);
 
@@ -128,6 +142,11 @@
       vm.loadingAfter = true;
       var firstItem = _.first(vm.notifications);
       return loadNotification(null, firstItem.date.getTime());
+    }
+
+    function loadAll() {
+      vm.loadingAfter = true;
+      return loadNotification();
     }
 
     function countNotifications(notifications) {
