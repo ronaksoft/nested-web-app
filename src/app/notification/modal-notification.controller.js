@@ -37,6 +37,7 @@
     }
 
     function onClickMention(notification, $event) {
+      closeModal();
       switch (notification.type) {
         case NST_NOTIFICATION_TYPE.INVITE:
           $event.preventDefault();
@@ -73,7 +74,6 @@
           $event.preventDefault();
           return viewTask(notification.task.id);
       }
-      closeModal();
     }
 
     function showInvitationModal(notification) {
