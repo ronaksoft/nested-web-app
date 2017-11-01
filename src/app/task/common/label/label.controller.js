@@ -124,7 +124,7 @@
 
     function initData(labels) {
       vm.labels = _.map(labels, function (label) {
-        return label.id;
+        return label.title;
       });
       vm.labelsData = labels.slice(0);
       vm.mentionLabelsData = labels.slice(0);

@@ -3,15 +3,21 @@
   angular
     .module('ronak.nested.web.components.mention')
     .directive('nstMentionLabel', function (_, $rootScope, $timeout, $window, SvcRTL,
-                                            NstSvcLabelFactory, NstSvcTranslation) {
+                                            NstSvcLabelFactory, NstSvcTranslation, NST_LABEL_SEARCH_FILTER) {
       return {
         restrict: 'A',
         scope: {
           selectedList: '=nstMentionList',
           dataList: '=nstMentionData',
-          itemClicked: '=nstMentionClicked'
+          itemClicked: '=nstMentionClicked',
+          myLabel: '=?'
         },
         link: function (scope, _element) {
+
+          var filter = NST_LABEL_SEARCH_FILTER.ALL;
+          if (scope.myLabel !== undefined && scope.myLabel === true) {
+            filter = NST_LABEL_SEARCH_FILTER.MY_LABELS;
+          }
 
           appendMention(_element, '');
 
@@ -82,7 +88,7 @@
                     return key + elm.attr('data-id').trim() + ',';
                   },
                   remoteFilter: function (query, callback) {
-                    NstSvcLabelFactory.search(query).then(function (labels) {
+                    NstSvcLabelFactory.search(query, filter).then(function (labels) {
                       var uniqueLabels = _.unionBy(labels, 'id');
                       if (_.isArray(scope.selectedList)) {
                         var list = _.map(scope.selectedList, function (item) {

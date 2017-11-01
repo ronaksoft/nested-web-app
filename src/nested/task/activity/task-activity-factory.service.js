@@ -52,6 +52,7 @@
           return parseComment(data);
         case NST_TASK_EVENT_ACTION.TITLE_CHANGED:
         case NST_TASK_EVENT_ACTION.DESC_CHANGED:
+        case NST_TASK_EVENT_ACTION.CREATED:
           return parseTask(data);
         case NST_TASK_EVENT_ACTION.STATUS_CHANGED:
           return parseTaskStatus(data);

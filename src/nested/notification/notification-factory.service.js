@@ -86,7 +86,6 @@
           before: settings.before,
           after: settings.after
         }).then(function (data) {
-          console.log(data);
           var notificationPromises = _.map(data.notifications, function (notif) {
 
             switch (notif.type) {
@@ -162,7 +161,7 @@
         }).catch(defer.reject);
 
         return defer.promise;
-      }, "getNotifications");
+      }, 'getNotifications');
     }
 
     function removeNotification(id) {
