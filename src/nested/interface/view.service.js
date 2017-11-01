@@ -199,6 +199,9 @@
         }
         var nextIndex = $rootScope.inViewPost.index + 1;
         var nextElement = getElementProps(nextIndex);
+        if(!nextElement) {
+          return;
+        }
         nextDeterminer = nextElement.postCardOffTop + nextElement.postCardheight - firstOffset;
         if (nextDeterminer < Ypos + winH && nextDeterminer > Ypos) {
           return $rootScope.inViewPost = {
