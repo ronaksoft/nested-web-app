@@ -3,9 +3,10 @@
 
   angular
     .module('ronak.nested.web.components.date')
-    .filter('left', function(moment, NstSvcTranslation, NstSvcCalendarTranslation, NstSvcDate, NstUtility) {
+    .filter('leftDate', function(moment, NstSvcTranslation, NstSvcCalendarTranslation, NstSvcDate, NstUtility) {
 
-      var dateFilter = function(date) {
+      var dateFilter = function(date, args) {
+        var haveTime = args && args === 'time'
 
         var current = NstSvcDate.now();
 
@@ -26,12 +27,16 @@
 
         var today = moment(current).startOf('day').add(1, 'days');
         if (date.isSameOrBefore(today)) {
-          return date.format(NstSvcCalendarTranslation.get('[Today at] HH:mm'));
+          return haveTime ?
+          date.format(NstSvcCalendarTranslation.get('[Today at] HH:mm')) :
+          date.format(NstSvcCalendarTranslation.get('[Today]')) ;
         }
 
         var tommorrow = moment(current).startOf('day').add(2, 'days');
         if (date.isSameOrBefore(tommorrow)) {
-          return date.format(NstSvcCalendarTranslation.get('[Tommorow at] HH:mm'));
+          return haveTime ? 
+          date.format(NstSvcCalendarTranslation.get('[Tommorow at] HH:mm')) :
+          date.format(NstSvcCalendarTranslation.get('[Tommorow]'));
         }
 
         var thisMonth = moment(current).startOf('minute').add(30, 'days');
