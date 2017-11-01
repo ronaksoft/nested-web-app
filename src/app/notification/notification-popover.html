@@ -4,7 +4,7 @@
       <translate>Notifications</translate>
     </a>
     <div class="icon" ng-click="ctlNotifications.markAllSeen()">
-      <svg class="_16svg fill-solid" ng-click="ctlNotifications.markAllSeen()">
+      <svg class="_16svg fill-solid">
         <use xlink:href="/assets/icons/nst-icn16.svg#list-check"></use>
       </svg>
     </div>
@@ -39,7 +39,7 @@
           ng-click="ctlNotifications.onClickMention(notif, $event);" ng-include="'notif-items-template.html'"></li>
       <li ng-repeat="notif in ctlNotifications.taskNotifications track by notif.id"
           ng-if="ctlNotifications.selectedView === 2"
-          ng-click="ctlNotifications.onClickMention(notif, $event);" ng-include="'task-notif-items-template.html'"></li>
+          ng-click="ctlNotifications.onClickMention(notif, $event);" ng-include="'notif-items-template.html'"></li>
 
       <li class="more-mentions" ng-click="ctlNotifications.openNotificationsModal();$event.stopPropagation();"
           ng-if="!ctlNotifications.reached && !ctlNotifications.loadingBefore && ctlMentions.error">
@@ -113,8 +113,6 @@
      class="notif-li ng-class:{'seen' : notif.isSeen}"
      ng-include="'/app/notification/partials/label-created.html'" ng-init="notification = notif">
   </a>
-</script>
-<script type="text/ng-template" id="task-notif-items-template.html">
   <div ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.TASK_MENTION"
        class="notif-li ng-class:{'seen' : notif.isSeen}" ng-include="'/app/notification/task-partials/mention.html'"
        ng-init="notification = notif">

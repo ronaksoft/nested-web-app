@@ -1,0 +1,24 @@
+<div iscroll="" class="iscroll-wrapper">
+  <ul class="notif-ul" class="iscroll-scroller">
+    <li class="_fw _jcc _df margin-top-10" ng-if="ctlNotifications.loadingAfter">
+      <div class="nst-loading"></div>
+    </li>
+    <li class="nst-padding-10 _tac" ng-if="ctlNotifications.notifications.length == 0 && !ctlNotifications.loadingBefore">
+      <translate>No Notifications</translate>
+    </li>
+    <li ng-repeat="notif in ctlNotifications.notifications track by notif.id"
+        ng-click="ctlNotifications.itemClick(notif, $event);" ng-include="'notif-items-template.html'"></li>
+
+    <li class="more-mentions" ng-click="ctlNotifications.loadMore();$event.stopPropagation();"
+        ng-if="!ctlNotifications.reached && !ctlNotifications.loadingBefore">
+      <translate ng-if="!ctlNotifications.error" ng-show="!ctlNotifications.reached">Load more...</translate>
+      <translate ng-if="ctlNotifications.error" ng-show="!ctlNotifications.reached">Try again...</translate>
+    </li>
+    <li class="more-mentions notif-ul-loading"
+        ng-if="!ctlNotifications.reached && ctlNotifications.loadingBefore && !ctlNotifications.error">
+      <div class="_fw _jcc _df margin-top-10 _pr">
+        <div class="nst-loading sm"></div>
+      </div>
+    </li>
+  </ul>
+</div>

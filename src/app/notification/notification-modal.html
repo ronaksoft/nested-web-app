@@ -9,7 +9,7 @@
       <translate>Notifications</translate>
     </a>
     <div class="icon" ng-click="ctlNotifications.markAllSeen()">
-      <svg class="_24svg fill-solid" ng-click="ctlNotifications.markAllSeen()">
+      <svg class="_24svg fill-solid">
         <use xlink:href="/assets/icons/nst-icn24.svg#list-check"></use>
       </svg>
     </div>
@@ -17,46 +17,20 @@
 
   <div class="_difh settings-tab">
     <a class="_df _fw _jcc _aic" ng-click="ctlNotifications.changeTab(1)"
-       ng-class="{'active' : ctlNotifications.selectedView === 1}">
+       ng-class="{'active': ctlNotifications.selectedView === 1}">
       <span class="_pr">
         <translate>Post</translate>
         <div class="unread-notif-badge" ng-if="ctlNotifications.postCounts > 0">{{ctlNotifications.postCounts | localize}}</div>
       </span>
     </a>
     <a class="_df _fw _jcc _aic" ng-click="ctlNotifications.changeTab(2)"
-       ng-class="{'active' : ctlNotifications.selectedView === 2}">
+       ng-class="{'active': ctlNotifications.selectedView === 2}">
         <span class="_pr">
           <translate>Task</translate>
           <div class="unread-notif-badge" ng-if="ctlNotifications.taskCounts > 0">{{ctlNotifications.taskCounts | localize}}</div>
         </span>
     </a>
   </div>
-  <div iscroll="" class="iscroll-wrapper">
-    <ul class="notif-ul" class="iscroll-scroller">
-      <li class="_fw _jcc _df margin-top-10" ng-if="ctlNotifications.loadingAfter">
-        <div class="nst-loading"></div>
-      </li>
-      <li class="nst-padding-10 _tac" ng-if="ctlNotifications.notifications.length == 0 && !ctlNotifications.loadingBefore">
-        <translate>No Unread Notifications</translate>
-      </li>
-      <li ng-repeat="notif in ctlNotifications.postNotifications track by notif.id"
-          ng-if="ctlNotifications.selectedView === 1"
-          ng-click="ctlNotifications.onClickMention(notif, $event);" ng-include="'notif-items-template.html'"></li>
-      <li ng-repeat="notif in ctlNotifications.taskNotifications track by notif.id"
-          ng-if="ctlNotifications.selectedView === 2"
-          ng-click="ctlNotifications.onClickMention(notif, $event);" ng-include="'task-notif-items-template.html'"></li>
-
-      <li class="more-mentions" ng-click="ctlNotifications.loadMore();$event.stopPropagation();"
-          ng-if="!ctlNotifications.reached && !ctlNotifications.loadingBefore">
-        <translate ng-if="!ctlMentions.error" ng-show="!ctlNotifications.reached">Load more...</translate>
-        <translate ng-if="ctlMentions.error" ng-show="!ctlNotifications.reached">Try again...</translate>
-      </li>
-      <li class="more-mentions notif-ul-loading"
-          ng-if="!ctlNotifications.reached && ctlNotifications.loadingBefore && !ctlNotifications.error">
-        <div class="_fw _jcc _df margin-top-10 _pr">
-          <div class="nst-loading sm"></div>
-        </div>
-      </li>
-    </ul>
-  </div>
+  <notification-list ng-show="ctlNotifications.selectedView === 1" notif-filter="'post'" notif-count="ctlNotifications.postCounts" notif-click="ctlNotifications.onClickMention" notif-mark-all="ctlNotifications.postMarkAllSeenFunc"></notification-list>
+  <notification-list ng-show="ctlNotifications.selectedView === 2" notif-filter="'task'" notif-count="ctlNotifications.taskCounts" notif-click="ctlNotifications.onClickMention" notif-mark-all="ctlNotifications.taskMarkAllSeenFunc"></notification-list>
 </div>

@@ -85,7 +85,8 @@
           limit: settings.limit || 12,
           before: settings.before,
           after: settings.after,
-          only_unread: settings.onlyUnread
+          only_unread: settings.onlyUnread,
+          subject: settings.filter
         }).then(function (data) {
           var notificationPromises = _.map(data.notifications, function (notif) {
 
@@ -162,7 +163,7 @@
         }).catch(defer.reject);
 
         return defer.promise;
-      }, 'getNotifications');
+      }, 'getNotifications' + settings.filter);
     }
 
     function removeNotification(id) {
