@@ -142,6 +142,11 @@
       position: relative;
       width: 100%;
       padding: 8px 0 0 16px;
+      .unread-badge {
+        position: absolute;
+        left: 8px;
+        top: 24px;
+      }
       .notif-li-body {
         display: inline-flex;
         flex-direction: column;
@@ -219,6 +224,11 @@
     }
     &.seen {
       // background-color: #f5f5f5;
+      .notif-li-container {
+        .unread-badge {
+          opacity: 0;
+        }
+      }
     }
     &.seen:hover {
       background-color: $color-bg;
