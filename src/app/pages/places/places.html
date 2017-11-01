@@ -1,0 +1,76 @@
+<div class="places-modal">
+  <div class="modal-head">
+    <div class="_df" ng-click="$dismiss();">
+      <svg class="_24svg">
+        <use xlink:href="/assets/icons/nst-icn24.svg#xcross"></use>
+      </svg>
+    </div>
+    <h4 translate-inner>My Places</h4>
+  </div>
+  <div class="filter-bar">
+    <div class="filter-bar-inner">
+      <div class="toolbar ng-class:{'selcted-mode' : ctrl.selectedPlaces.length > 0}" ng-mouseleave="popoverSortShow = false">
+        <div class="search-files" ng-show="ctrl.selectedPlaces.length == 0">
+          <input type="text" placeholder="type to search…" ng-model="ctrl.keyword" ng-change="ctrl.search(ctrl.keyword);" translate-attrs="placeholder"
+            focus-me="{{ctrl.searchTrigg}}" />
+          <svg class="_16svg" ng-click="ctrl.searchFunc()" ng-show="ctrl.keyword.length === 0">
+            <use xlink:href="/assets/icons/nst-icn16.svg#search"></use>
+          </svg>
+          <svg class="_16svg" ng-click="ctrl.keyword = ''" ng-show="ctrl.keyword.length > 0">
+            <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
+          </svg>
+        </div>
+        <svg class="default-mode-butn _16svg _df _fn" ng-if=" ctrl.selectedPlaces.length > 0" ng-click="ctrl.unselectAll();">
+          <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
+        </svg>
+        <p class="_df _fn" ng-if="ctrl.selectedPlaces.length > 0">
+          <translate ng-if="ctrl.selectedPlaces.length > 0">{{ctrl.selectedPlaces.length}} Place Selected</translate>
+        </p>
+        <p class="_df _fw"></p>
+        <div class="_df _fn _aic filter-bar-popover-button" ng-if="ctrl.selectedPlaces.length > 0 " ng-click="ctrl.addMember();">
+          <translate>Add Member</translate>
+          <svg class="_16svg _df">
+            <use xlink:href="/assets/icons/nst-icn16.svg#cross"></use>
+          </svg>
+        </div>
+        <div class="_df _fn _aic filter-bar-popover-button" ng-if="ctrl.selectedPlaces.length > 0 " ng-click="ctrl.leave();ctrl.unselectAll()">
+          <translate>Leave</translate>
+          <svg class="_16svg _df">
+            <use xlink:href="/assets/icons/nst-icn16.svg#exit"></use>
+          </svg>
+        </div>
+        <div class="_df _fn filter-bar-popover-button" ng-if="ctrl.selectedPlaces.length > 0 " ng-click="ctrl.delete();ctrl.unselectAll()">
+          <translate>Delete</translate>
+          <svg class="_16svg _df">
+            <use xlink:href="/assets/icons/nst-icn16.svg#bin"></use>
+          </svg>
+        </div>
+        <div ng-show="ctrl.selectedPlaces.length == 0" ng-mouseenter="popoverSortShow = true" ng-click="ctrl.placesSetting.relationView =! ctrl.placesSetting.relationView"
+          data-popover-class="white-pop messages-sort-popover" uib-popover-template="'app/pages/places/partials/view-setting_popover.html'"
+          data-popover-placement="bottom-center" data-popover-is-open="popoverSortShow" class="filter-bar-popover-button _fn">
+          <translate class="_df" ng-if="ctrl.placesSetting.relationView">Relation View</translate>
+          <translate class="_df" ng-if="!ctrl.placesSetting.relationView">Absolute View</translate>
+          <svg class="icon-filter _df">
+            <use xlink:href="/assets/icons/nst-icn16.svg#sort"></use>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-body" ui-sortable="ctrl.sortableOptions" ng-model="ctrl.places">
+    <div class="places-head">
+      <translate class="_fw">Places</translate>
+      <translate>Notifications</translate>
+      <translate>Show in Feed</translate>
+    </div>
+    <ul class="places place-ul iscroll-wrapper" iscroll class="iscroll-wrapper" iscroll-instance="scrollInstance">
+      <li ng-repeat="place in ctrl.places" data-ng-include="'app/pages/places/partials/places-place-item.html'"
+      onload="place = place"></li>
+    </ul>
+  </div>
+  <div class="modal-footer">
+    <h5>
+      You’re member in <b>48</b> places and manager of <b>14</b> places.
+    </h5>
+  </div>
+</div>

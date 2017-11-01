@@ -1,0 +1,81 @@
+<a class="place-item">
+  <div class="dragger">
+    <svg class="_16svg">
+      <use xlink:href="/assets/icons/nst-icn16.svg#dotted-grip"></use>
+    </svg>
+  </div>
+  <div class="children-arrow ng-class:{'open' : place.isExpanded}" ng-click="place.isExpanded =! place.isExpanded;">
+    <svg class="_16svg" ng-if="place.children.length > 0">
+      <use xlink:href="/assets/icons/nst-icn16.svg#arrow"></use>
+    </svg>
+  </div>
+  <div class="place-item-inner">
+    <img ng-src="{{place.picture}}" />
+    <div class="place-info">
+      <cite>
+        <svg class="_16svg">
+            <use xlink:href="/assets/icons/nst-icn16.svg#crown"></use>
+        </svg>
+        {{ place.name }}
+      </cite>
+      <span>{{ place.id }}</span>
+    </div>
+    <div class="place-extra">
+      <input type="button" class="butn butn-green secondary" value="Add Member">
+      <svg class="_16svg" ng-show="place.isGrandPlace">
+        <use xlink:href="/assets/icons/nst-icn16.svg#places"></use>
+      </svg>
+      <svg class="_16svg" ng-show="!place.isGrandPlace && !place.privacy.locked">
+        <use xlink:href="/assets/icons/nst-icn16.svg#window"></use>
+      </svg>
+      <svg class="_16svg" ng-show="!place.isGrandPlace && place.privacy.locked">
+        <use xlink:href="/assets/icons/nst-icn16.svg#brick-wall"></use>
+      </svg>
+      <!-- Privacy -->
+      <svg class="_16svg" ng-show="place.privacy.receptive == 'off' &&  place.policy.add_post == 'creators'">
+        <use xlink:href="/assets/icons/nst-icn16.svg#manager"></use>
+      </svg>
+      <svg class="_16svg" ng-show="place.privacy.receptive == 'off' && place.policy.add_post == 'everyone'">
+        <use xlink:href="/assets/icons/nst-icn16.svg#manager-member"></use>
+      </svg>
+      <svg class="_16svg" ng-show="place.privacy.receptive == 'internal'">
+        <use xlink:href="/assets/icons/nst-icn16.svg#team"></use>
+      </svg>
+      <svg class="_16svg" ng-show="place.privacy.receptive == 'external'">
+        <use xlink:href="/assets/icons/nst-icn16.svg#earth"></use>
+      </svg>
+      <!-- Seacrch -->
+      <svg class="_16svg" ng-show="place.searchable">
+        <use xlink:href="/assets/icons/nst-icn16.svg#search"></use>
+      </svg>
+    </div>
+    <div class="place-notification">
+      <svg class="svg-hover _24svg" ng-click="ctlFullNavbar.toggleNotification()" ng-show="!place.notificationStatus">
+        <use xlink:href="/assets/icons/nst-icn24.svg#bell-muted"></use>
+      </svg>
+      <svg class="_24svg fill-sense-wire" ng-click="ctlFullNavbar.toggleNotification()" ng-show="place.notificationStatus">
+        <use xlink:href="/assets/icons/nst-icn24.svg#bell-ringed"></use>
+      </svg>
+    </div>
+    <div class="place-show-feed">
+      <div class="place-switch sm _fn">
+        <input type="checkbox" name="checkbox_id" id="Searchable" data-ng-model="plcae.searchable" ng-change="ctrl.updateSearchable(place.id,place.searchable)"
+          ng-disabled="false">
+        <label for="Searchable">
+            <div class="circle" switch-drag="plcae.searchable" size="'sm'"></div>
+        </label>
+        <label for="Searchable"></label>
+      </div>
+    </div>
+    <div class="place-more-option">
+      <svg class="_24svg">
+        <use xlink:href="/assets/icons/nst-icn24.svg#more"></use>
+      </svg>
+    </div>
+  </div>
+</a>
+
+<ul class="place-childs place-ul" ng-if="place.children.length > 0 && place.isExpanded">
+    <li ng-repeat="child in place.children" data-ng-include="'app/pages/places/partials/places-place-item.html'"
+        onload="place = child"></li>
+</ul>
