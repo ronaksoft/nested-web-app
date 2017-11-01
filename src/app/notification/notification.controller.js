@@ -217,6 +217,8 @@
         case NST_NOTIFICATION_TYPE.TASK_REJECTED:
         case NST_NOTIFICATION_TYPE.TASK_ACCEPTED:
         case NST_NOTIFICATION_TYPE.TASK_COMPLETED:
+        case NST_NOTIFICATION_TYPE.TASK_HOLD:
+        case NST_NOTIFICATION_TYPE.TASK_IN_PROGRESS:
           $event.preventDefault();
           return viewTask(notification.task.id);
       }

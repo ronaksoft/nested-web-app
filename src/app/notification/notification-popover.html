@@ -157,4 +157,12 @@
        class="notif-li ng-class:{'seen' : notif.isSeen}" ng-include="'/app/notification/task-partials/completed.html'"
        ng-init="notification = notif">
   </div>
+  <div ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.TASK_HOLD"
+       class="notif-li ng-class:{'seen' : notif.isSeen}" ng-include="'/app/notification/task-partials/hold.html'"
+       ng-init="notification = notif">
+  </div>
+  <div ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.TASK_IN_PROGRESS"
+       class="notif-li ng-class:{'seen' : notif.isSeen}" ng-include="'/app/notification/task-partials/in-progress.html'"
+       ng-init="notification = notif">
+  </div>
 </script>

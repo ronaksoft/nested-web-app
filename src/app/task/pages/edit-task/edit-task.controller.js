@@ -619,15 +619,15 @@
           status = NST_TASK_STATUS.HOLD;
           break;
         default:
-          status = NST_TASK_STATUS.ASSIGNED;
+          status = null;
           break;
       }
       if (vm.modelBackUp.status === status) {
         return;
       }
-      NstSvcTaskFactory.setState(vm.taskId, state).then(function () {
-        vm.model.status = status;
-        vm.modelBackUp.status = status;
+      NstSvcTaskFactory.setState(vm.taskId, state).then(function (data) {
+        vm.model.status = data.new_status;
+        vm.modelBackUp.status = data.new_status;
         isUpdated = true;
       });
     }
