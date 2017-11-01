@@ -31,8 +31,8 @@
       <li class="_fw _jcc _aic _df margin-top-10" ng-if="ctlNotifications.loadingAfter">
         <div class="nst-loading sm"></div>
       </li>
-      <li class="_tac" ng-if="ctlNotifications.notifications.length == 0 && !ctlNotifications.loadingBefore">
-        <translate>No Notifications</translate>
+      <li class="nst-padding-10 _tac" ng-if="ctlNotifications.notifications.length == 0 && !ctlNotifications.loadingBefore">
+        <translate>No Unread Notifications</translate>
       </li>
       <li ng-repeat="notif in ctlNotifications.postNotifications track by notif.id"
           ng-if="ctlNotifications.selectedView === 1"
@@ -42,8 +42,7 @@
           ng-click="ctlNotifications.onClickMention(notif, $event);" ng-include="'task-notif-items-template.html'"></li>
 
       <li class="more-mentions" ng-click="ctlNotifications.openNotificationsModal();$event.stopPropagation();"
-          ng-if="!ctlNotifications.reached && !ctlNotifications.loadingBefore">
-        <translate ng-if="!ctlMentions.error" ng-show="!ctlNotifications.reached">Show Notifications History</translate>
+          ng-if="!ctlNotifications.reached && !ctlNotifications.loadingBefore && ctlMentions.error">
         <translate ng-if="ctlMentions.error" ng-show="!ctlNotifications.reached">Try again...</translate>
       </li>
       <li class="more-mentions notif-ul-loading"
@@ -51,6 +50,9 @@
         <div class="_fw _jcc _df margin-top-10 _pr">
           <div class="nst-loading sm"></div>
         </div>
+      </li>
+      <li class="more-mentions" ng-click="ctlNotifications.openNotificationsModal();$event.stopPropagation();">
+        <translate>Show Notifications History</translate>
       </li>
     </ul>
   </div>
