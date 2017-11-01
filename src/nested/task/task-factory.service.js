@@ -38,6 +38,7 @@
     TaskFactory.prototype.respond = respond;
     TaskFactory.prototype.setStatus = setStatus;
     TaskFactory.prototype.setState = setState;
+    TaskFactory.prototype.remove = remove;
     TaskFactory.prototype.getByFilter = getByFilter;
     TaskFactory.prototype.get = get;
     TaskFactory.prototype.getMany = getMany;
@@ -384,6 +385,12 @@
       return NstSvcServer.request('task/set_state', {
         task_id: taskId,
         state: state
+      });
+    }
+
+    function remove(taskId) {
+      return NstSvcServer.request('task/remove', {
+        task_id: taskId
       });
     }
 

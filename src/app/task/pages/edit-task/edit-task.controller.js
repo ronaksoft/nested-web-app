@@ -247,6 +247,7 @@
 
     vm.createRelatedTask = createRelatedTask;
     vm.setState = setState;
+    vm.remove = remove;
 
     function removeAssignees() {
       vm.removeAssigneeItems.call();
@@ -629,6 +630,22 @@
         vm.model.status = data.new_status;
         vm.modelBackUp.status = data.new_status;
         isUpdated = true;
+      });
+    }
+
+    function remove() {
+      NstSvcTaskUtility.promptModal({
+        title: NstSvcTranslation.get('Remove Task'),
+        body: NstSvcTranslation.get('Are you sure?'),
+        confirmText: NstSvcTranslation.get('Yes'),
+        confirmColor: 'red',
+        cancelText: NstSvcTranslation.get('Cancel')
+      }).then(function () {
+        NstSvcTaskFactory.remove(vm.taskId).then(function () {
+          toastr.success(NstSvcTranslation.get(String('Task {name} removed successfully').replace('{name}', '"' + vm.model.title + '"')));
+          isUpdated = true;
+          $scope.$dismiss();
+        });
       });
     }
 

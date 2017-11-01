@@ -79,6 +79,8 @@
       var index = _.findIndex(vm.tasks, {id: id});
       NstSvcTaskFactory.get(id).then(function (task) {
         vm.tasks[index] = task;
+      }).catch(function () {
+        vm.tasks.splice(index, 1);
       });
     }
 
