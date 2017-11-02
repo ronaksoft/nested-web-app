@@ -217,9 +217,16 @@
                         input {
                             margin-right: 20px;
                             opacity: 0;
+                            transition: opacity $animation-dur;
                         }
-                        svg {
+                        i {
+                            width: 16px;
+                            height: 16px;
+                            display: flex;
+                            flex: none;
                             margin: 0 4px;
+                            opacity: .4;
+                            transition: opacity $animation-dur;
                         }
                     }
                     .place-notification {
@@ -246,7 +253,8 @@
                         background-color: #F6F6F7;
                         transition: all $animation-dur;
                         .place-extra {
-                            input {
+                            input,
+                            i {
                                 opacity: 1;
                             }
                         }

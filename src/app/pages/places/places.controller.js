@@ -403,11 +403,15 @@
        * @returns
        */
       function createTreeItem(place, children, isExpanded, isActive, depth) {
+        console.log(place);
         var picture = place.hasPicture() ? place.picture.getUrl('x32') : ABSENT_PLACE_PICTURE_URL;
         return {
           id: place.id,
           name: place.name,
           picture: picture,
+          privacy: place.privacy,
+          accesses: place.accesses,
+          policy: place.policy,
           children: children,
           hasChildren: children && children.length > 0,
           hasUnseen: hasUnseen(place, vm.myPlacesUnreadPosts),

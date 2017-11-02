@@ -1,6 +1,7 @@
 <a class="place-item">
   <div class="place-selector">
-    <input ng-model="place.isSelected" ng-change="ctrl.toggleSelectPlace(place.id)" class="_fr" type="checkbox" id="cb-{{place.id}}" name="selector" />
+    <input ng-model="place.isSelected" ng-change="ctrl.toggleSelectPlace(place.id)" class="_fr" type="checkbox" id="cb-{{place.id}}"
+      name="selector" />
     <label class="_fw setting left-box checkbox-label _asc" for="cb-{{place.id}}"></label>
   </div>
   <div class="dragger">
@@ -19,7 +20,7 @@
     <img ng-src="{{place.picture}}" />
     <div class="place-info">
       <cite>
-        <svg class="_16svg">
+        <svg class="_16svg" ng-if="place.accesses.indexOf('C') > -1">
             <use xlink:href="/assets/icons/nst-icn16.svg#crown"></use>
         </svg>
         {{ place.name }}
@@ -27,33 +28,39 @@
       <span>{{ place.id }}</span>
     </div>
     <div class="place-extra">
-      <input type="button" class="butn butn-green secondary" value="Add Member">
-      <svg class="_16svg" ng-show="place.isGrandPlace">
-        <use xlink:href="/assets/icons/nst-icn16.svg#places"></use>
-      </svg>
-      <svg class="_16svg" ng-show="!place.isGrandPlace && !place.privacy.locked">
-        <use xlink:href="/assets/icons/nst-icn16.svg#window"></use>
-      </svg>
-      <svg class="_16svg" ng-show="!place.isGrandPlace && place.privacy.locked">
-        <use xlink:href="/assets/icons/nst-icn16.svg#brick-wall"></use>
-      </svg>
+      <input type="button" class="butn butn-green secondary" value="Add Member" ng-if="place.accesses.indexOf('AM') > -1">
+      <i>
+        <svg class="_16svg" ng-if="place.isGrandPlace">
+            <use xlink:href="/assets/icons/nst-icn16.svg#places"></use>
+        </svg>
+        <svg class="_16svg" ng-if="!place.isGrandPlace && !place.privacy.locked">
+            <use xlink:href="/assets/icons/nst-icn16.svg#window"></use>
+        </svg>
+        <svg class="_16svg" ng-if="!place.isGrandPlace && place.privacy.locked">
+            <use xlink:href="/assets/icons/nst-icn16.svg#brick-wall"></use>
+        </svg>
+      </i>
       <!-- Privacy -->
-      <svg class="_16svg" ng-show="place.privacy.receptive == 'off' &&  place.policy.add_post == 'creators'">
-        <use xlink:href="/assets/icons/nst-icn16.svg#manager"></use>
-      </svg>
-      <svg class="_16svg" ng-show="place.privacy.receptive == 'off' && place.policy.add_post == 'everyone'">
-        <use xlink:href="/assets/icons/nst-icn16.svg#manager-member"></use>
-      </svg>
-      <svg class="_16svg" ng-show="place.privacy.receptive == 'internal'">
-        <use xlink:href="/assets/icons/nst-icn16.svg#team"></use>
-      </svg>
-      <svg class="_16svg" ng-show="place.privacy.receptive == 'external'">
-        <use xlink:href="/assets/icons/nst-icn16.svg#earth"></use>
-      </svg>
+      <i>
+        <svg class="_16svg" ng-if="place.privacy.receptive == 'off' && place.policy.add_post == 'creators'">
+            <use xlink:href="/assets/icons/nst-icn16.svg#manager"></use>
+        </svg>
+        <svg class="_16svg" ng-if="place.privacy.receptive == 'off' && place.policy.add_post == 'everyone'">
+            <use xlink:href="/assets/icons/nst-icn16.svg#manager-member"></use>
+        </svg>
+        <svg class="_16svg" ng-if="place.privacy.receptive == 'internal'">
+            <use xlink:href="/assets/icons/nst-icn16.svg#team"></use>
+        </svg>
+        <svg class="_16svg" ng-if="place.privacy.receptive == 'external'">
+            <use xlink:href="/assets/icons/nst-icn16.svg#earth"></use>
+        </svg>
+      </i>
       <!-- Seacrch -->
-      <svg class="_16svg" ng-show="place.searchable">
-        <use xlink:href="/assets/icons/nst-icn16.svg#search"></use>
-      </svg>
+      <i>
+        <svg class="_16svg" ng-if="place.privacy.search">
+            <use xlink:href="/assets/icons/nst-icn16.svg#search"></use>
+        </svg>
+      </i>
     </div>
     <div class="place-notification">
       <svg class="svg-hover _24svg" ng-click="ctlFullNavbar.toggleNotification()" ng-show="!place.notificationStatus">
