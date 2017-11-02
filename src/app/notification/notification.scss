@@ -30,6 +30,9 @@
     .notif-li {
       .notif-li-container {
         padding: 8px 0 0 0;
+        .unread-badge {
+          opacity: 0!important;
+        }
       }
     }
   }

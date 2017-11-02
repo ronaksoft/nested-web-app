@@ -181,8 +181,14 @@
         var index = _.findIndex(vm.pendingTasks, {id: id});
         toastr.success(NstSvcTranslation.get(String('You\'ve accepted {0}\'s task').replace('{0}', vm.pendingTasks[index].assignor.fullName)));
         vm.pendingTasks.splice(index, 1);
-      }).catch(function () {
-        toastr.error(NstSvcTranslation.get('Something went wrong!'));
+      }).catch(function (err) {
+
+        if (err.code === 1) {
+          toastr.error(NstSvcTranslation.get('Task already assigned.'));
+        } else {
+          toastr.error(NstSvcTranslation.get('Something went wrong!'));
+        }
+        // TODO Remove item from collection
       });
     }
 
