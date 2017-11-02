@@ -1,8 +1,14 @@
 <a class="place-item">
+  <div class="place-selector">
+    <input ng-model="place.isSelected" ng-change="ctrl.toggleSelectPlace(place.id)" class="_fr" type="checkbox" id="cb-{{place.id}}" name="selector" />
+    <label class="_fw setting left-box checkbox-label _asc" for="cb-{{place.id}}"></label>
+  </div>
   <div class="dragger">
     <svg class="_16svg">
       <use xlink:href="/assets/icons/nst-icn16.svg#dotted-grip"></use>
     </svg>
+  </div>
+  <div data-ng-repeat="i in ctrl.range(place.depth)" class="filler">
   </div>
   <div class="children-arrow ng-class:{'open' : place.isExpanded}" ng-click="place.isExpanded =! place.isExpanded;">
     <svg class="_16svg" ng-if="place.children.length > 0">
@@ -75,7 +81,6 @@
   </div>
 </a>
 
-<ul class="place-childs place-ul" ng-if="place.children.length > 0 && place.isExpanded">
-    <li ng-repeat="child in place.children" data-ng-include="'app/pages/places/partials/places-place-item.html'"
-        onload="place = child"></li>
+<ul class="place-childs place-ul ng-class:{'is-open' : place.isExpanded}" ng-if="place.children.length > 0">
+  <li ng-repeat="child in place.children" data-ng-include="'app/pages/places/partials/places-place-item.html'" onload="place = child"></li>
 </ul>

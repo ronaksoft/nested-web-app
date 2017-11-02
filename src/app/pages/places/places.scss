@@ -48,9 +48,27 @@
                 padding: 0  4px;
             }
         }
+        h6 {
+            margin: 0;
+            line-height: 24px;
+        }
+        .list-items {
+            height: 40px;
+            @include hover(.72, 1);
+            &.active {
+                opacity: 1;
+            }
+            b {
+                line-height: 19px;
+            }
+        }
+        .popover {
+            width: 256px;
+        }
     }
     .modal-body {
         flex: 1;
+        position: relative;
         overflow: hidden;
         .places-head {
             height: 48px;
@@ -71,19 +89,68 @@
                 text-align: unset;
             }
         }
-        .places {
+        .places-loading {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            background-color: $color-white;
+            z-index: 2;
+            visibility: hidden;
+            &.is-open {
+                animation-name: places-loading;
+                animation-duration: 1s;
+                animation-timing-function: linear;
+                animation-iteration-count: 1;
+                animation-fill-mode: forwards;
+                animation-play-state: running;
+            }
+        }
+        .places-list {
             height: calc(100% - 48px);
-            overflow: auto;
+        }
+        .places {
             list-style: none;
+            &.relation-view {
+                li {
+                    .place-item {
+                        .filler {
+                            width: 32px;
+                        }
+                        .place-selector {
+                            opacity: 0;
+                        }
+                    }
+                }
+            }
+            &:not(.relation-view) {
+                li {
+                    .place-item {
+                        .dragger ,
+                        .children-arrow {
+                            opacity: 0!important;
+                        }
+                    }
+                }
+                .place-childs {
+                    display: block;
+                }
+            }
             li {
                 display: block;
-                li {
-                    padding-left: 32px;
-                }
                 .place-item {
                     display: flex;
                     height: 64px;
+                    position: relative;
                     align-items: center;
+                    .filler {
+                        width: 0;
+                        transition: width $animation-dur;
+                        display: flex;
+                        flex: none;
+                        height: 100%;
+                    }
                     .dragger {
                         display: flex;
                         margin: 0 4px;
@@ -92,11 +159,22 @@
                     .children-arrow {
                         display: flex;
                         transform: rotatez(0);
+                        width: 16px;
                         @include hover(.4, 1);
                         transition: all $animation-dur;
                         &.open {
                             transform: rotatez(180deg);
                         }
+                    }
+                    .place-selector {
+                        width: 24px;
+                        position: absolute;
+                        top:  24px;
+                        left: 16px;
+                        display: flex;
+                        transition: all $animation-dur;
+                        opacity: 1;
+                        justify-content: center;
                     }
                     .place-item-inner {
                         display: flex;
@@ -138,6 +216,7 @@
                         margin: 0 4px;
                         input {
                             margin-right: 20px;
+                            opacity: 0;
                         }
                         svg {
                             margin: 0 4px;
@@ -163,6 +242,21 @@
                         @include hover(.4, 1);
                         margin: 0 16px;
                     }
+                    &:hover {
+                        background-color: #F6F6F7;
+                        transition: all $animation-dur;
+                        .place-extra {
+                            input {
+                                opacity: 1;
+                            }
+                        }
+                    }
+                }
+            }
+            .place-childs {
+                display: none;
+                &.is-open {
+                    display: block;
                 }
             }
         }

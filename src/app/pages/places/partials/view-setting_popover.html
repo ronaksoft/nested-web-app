@@ -1,6 +1,81 @@
-<div id="setting" class="popup-panel">
-    <h6><translate>Sort by</translate></h6>
-    <a class="list-items ng-class:{'active' : ctrl.placesSetting.relationView}" ng-click="ctrl.placesSetting.relationView = true"><translate>Relation View</translate></a>
-    <a class="list-items ng-class:{'active' : !ctrl.placesSetting.relationView}" ng-click="ctrl.placesSetting.relationView = false"><translate>Absolute View</translate></a>
-</div>
-      
+<a class="list-items ng-class:{'active' : ctrl.placesSetting.relationView}" ng-click="ctrl.showLoading();ctrl.placesSetting.relationView = true">
+  <div>
+    <svg class="_16svg">
+      <use xlink:href="/assets/icons/nst-icn16.svg#task-in-progress"></use>
+    </svg>
+  </div>
+  <translate>Relation View</translate>
+  <svg class="_16svg item-check">
+    <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
+  </svg>
+</a>
+<a class="list-items ng-class:{'active' : !ctrl.placesSetting.relationView}" ng-click="ctrl.showLoading();ctrl.placesSetting.relationView = false">
+  <div>
+    <svg class="_16svg">
+      <use xlink:href="/assets/icons/nst-icn16.svg#task-in-progress"></use>
+    </svg>
+  </div>
+  <translate>Absolute View</translate>
+  <svg class="_16svg item-check">
+    <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
+  </svg>
+</a>
+<div class="line-popover"></div>
+<h6>
+  <translate>Filter by:</translate>
+</h6>
+<a class="list-items">
+  <div>
+    <svg class="_16svg">
+      <use xlink:href="/assets/icons/nst-icn16.svg#task-in-progress"></use>
+    </svg>
+  </div>
+  <translate><b>type:</b> Grand Places</translate>
+  <svg class="_16svg item-check">
+    <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
+  </svg>
+</a>
+<a class="list-items">
+  <div>
+    <svg class="_16svg">
+      <use xlink:href="/assets/icons/nst-icn16.svg#task-in-progress"></use>
+    </svg>
+  </div>
+  <translate><b>type:</b> Private Places</translate>
+  <svg class="_16svg item-check">
+    <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
+  </svg>
+</a>
+<a class="list-items">
+  <div>
+    <svg class="_16svg">
+      <use xlink:href="/assets/icons/nst-icn16.svg#task-in-progress"></use>
+    </svg>
+  </div>
+  <translate><b>type:</b> Common Places</translate>
+  <svg class="_16svg item-check">
+    <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
+  </svg>
+</a>
+<a class="list-items">
+  <div>
+    <svg class="_16svg">
+      <use xlink:href="/assets/icons/nst-icn16.svg#task-in-progress"></use>
+    </svg>
+  </div>
+  <translate><b>privacy:</b> Recieving Emails</translate>
+  <svg class="_16svg item-check">
+    <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
+  </svg>
+</a>
+<a class="list-items">
+  <div>
+    <svg class="_16svg">
+      <use xlink:href="/assets/icons/nst-icn16.svg#task-in-progress"></use>
+    </svg>
+  </div>
+  <translate><b>roll:</b> Manager</translate>
+  <svg class="_16svg item-check">
+    <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
+  </svg>
+</a>

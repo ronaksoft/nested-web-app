@@ -50,23 +50,28 @@
           data-popover-placement="bottom-center" data-popover-is-open="popoverSortShow" class="filter-bar-popover-button _fn">
           <translate class="_df" ng-if="ctrl.placesSetting.relationView">Relation View</translate>
           <translate class="_df" ng-if="!ctrl.placesSetting.relationView">Absolute View</translate>
-          <svg class="icon-filter _df">
+          <svg class="_16svg _df">
             <use xlink:href="/assets/icons/nst-icn16.svg#sort"></use>
           </svg>
         </div>
       </div>
     </div>
   </div>
-  <div class="modal-body" ui-sortable="ctrl.sortableOptions" ng-model="ctrl.places">
+  <div class="modal-body">
     <div class="places-head">
       <translate class="_fw">Places</translate>
       <translate>Notifications</translate>
       <translate>Show in Feed</translate>
     </div>
-    <ul class="places place-ul iscroll-wrapper" iscroll class="iscroll-wrapper" iscroll-instance="scrollInstance">
-      <li ng-repeat="place in ctrl.places" data-ng-include="'app/pages/places/partials/places-place-item.html'"
-      onload="place = place"></li>
-    </ul>
+    <div class="places-loading ng-class:{'is-open' : ctrl.isLoading}">
+        <div class="nst-loading absolute"></div>
+    </div>
+    <div class="places-list iscroll-wrapper" iscroll class="iscroll-wrapper" iscroll-instance="scrollInstance">
+        <ul class="places place-ul iscroll-scroller ng-class:{'relation-view' : ctrl.placesSetting.relationView}" ui-sortable="ctrl.sortableOptions" ng-model="ctrl.places">
+            <li ng-repeat="place in ctrl.places" data-ng-include="'app/pages/places/partials/places-place-item.html'"
+            onload="place = place"></li>
+        </ul>
+    </div>
   </div>
   <div class="modal-footer">
     <h5>
