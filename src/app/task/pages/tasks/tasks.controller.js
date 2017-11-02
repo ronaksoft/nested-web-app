@@ -184,10 +184,11 @@
       }).catch(function (err) {
 
         if (err.code === 1) {
-          toastr.error(NstSvcTranslation.get('Task is already assigned.'));
+          toastr.error(NstSvcTranslation.get('Task already assigned.'));
         } else {
           toastr.error(NstSvcTranslation.get('Something went wrong!'));
         }
+        // TODO Remove item from collection
       });
     }
 
