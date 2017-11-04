@@ -11,12 +11,7 @@
     var vm = this;
     vm.NST_NOTIFICATION_TYPE = NST_NOTIFICATION_TYPE;
     var pageItemsCount = 12;
-    vm.isModal = $scope.$resolve && $scope.$resolve.isModal;
-    if (vm.isModal) {
-      vm.notifications = [];
-    } else {
-      vm.notifications = NstSvcNotificationFactory.getLoadedNotification() || [];
-    }
+    vm.notifications = /*NstSvcNotificationFactory.getLoadedNotification() ||*/ [];
     vm.postNotifications = [];
     vm.taskNotifications = [];
 
@@ -33,14 +28,10 @@
 
     //initialize
     NstSvcNotificationFactory.resetCounter();
-    if (vm.isModal) {
-      loadAll();
+    if (vm.notifications.length === 0) {
+      loadBefore();
     } else {
-      if (vm.notifications.length === 0) {
-        loadBefore();
-      } else {
-        loadAfter();
-      }
+      loadAfter();
     }
 
     function changeTab(v) {
@@ -49,9 +40,6 @@
 
     var closePopover = function () {
       $scope.$emit('close-mention');
-    };
-    var closeModal = function () {
-      $scope.$dismiss();
     };
 
     function markAsSeen(notification) {
@@ -93,11 +81,9 @@
       var setting = {
         before: before,
         after: after,
-        limit: limit
+        limit: limit,
+        onlyUnread: true
       };
-      if (!vm.isModal) {
-        setting.onlyUnread = true;
-      }
       NstSvcNotificationFactory.getNotifications(setting).then(function (notifications) {
 
         if (notifications) {
@@ -105,9 +91,7 @@
           vm.notifications = sortNotification(notifs);
         }
 
-        if (!vm.isModal) {
-          NstSvcNotificationFactory.storeLoadedNotification(vm.notifications);
-        }
+        // NstSvcNotificationFactory.storeLoadedNotification(vm.notifications);
 
         var temp = separateNotifications(vm.notifications);
 
@@ -142,11 +126,6 @@
       vm.loadingAfter = true;
       var firstItem = _.first(vm.notifications);
       return loadNotification(null, firstItem.date.getTime());
-    }
-
-    function loadAll() {
-      vm.loadingAfter = true;
-      return loadNotification();
     }
 
     function countNotifications(notifications) {
@@ -199,11 +178,7 @@
 
     function onClickMention(notification, $event) {
       markAsSeen(notification);
-      if (vm.isModal) {
-        closeModal();
-      } else {
-        closePopover();
-      }
+      closePopover();
 
       switch (notification.type) {
         case NST_NOTIFICATION_TYPE.INVITE:
@@ -223,10 +198,12 @@
           return openPlace(notification.place.id);
         case NST_NOTIFICATION_TYPE.NEW_SESSION:
           return;
+        case NST_NOTIFICATION_TYPE.TASK_ADD_TO_CANDIDATES:
+          $event.preventDefault();
+          return viewGlance();
         case NST_NOTIFICATION_TYPE.TASK_MENTION:
         case NST_NOTIFICATION_TYPE.TASK_COMMENT:
         case NST_NOTIFICATION_TYPE.TASK_ASSIGNEE_CHANGED:
-        case NST_NOTIFICATION_TYPE.TASK_ADD_TO_CANDIDATES:
         case NST_NOTIFICATION_TYPE.TASK_ADD_TO_WATCHERS:
         case NST_NOTIFICATION_TYPE.TASK_DUE_TIME_UPDATED:
         case NST_NOTIFICATION_TYPE.TASK_TITLE_UPDATED:
@@ -263,6 +240,10 @@
       });
     }
 
+    function viewGlance() {
+      $state.go('app.task.glance', {});
+    }
+
     function viewTask(id) {
       $state.go('app.task.edit', {
         taskId: id
@@ -278,12 +259,7 @@
         templateUrl: 'app/notification/notification-modal.html',
         controller: 'ModalNotificationsController',
         controllerAs: 'ctlNotifications',
-        backdropClass: 'taskBackDrop',
-        resolve: {
-          isModal: function () {
-            return true
-          }
-        }
+        backdropClass: 'taskBackDrop'
       })
     }
 

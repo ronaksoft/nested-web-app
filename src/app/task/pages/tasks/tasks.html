@@ -68,7 +68,7 @@
           </div>
           <div class="list-li-extra" data-uib-tooltip-template="'task-date-time.html'" data-tooltip-append-to-body="true" data-tooltip-placement="{{$root._direction == 'rtl' ? 'top-left' : 'top-right'}}">
               <span ng-if="task.dueDate !== undefined && !task.hasDueTime">{{task.dueDate | leftDate }}</span>
-              <span ng-if="task.dueDate !== undefined && task.hasDueTime">{{task.dueDate | leftDate : 'time' }}</span>
+              <span ng-if="task.dueDate !== undefined && task.hasDueTime">{{task.dueDate | leftDate: 'time' }}</span>
           </div>
           <div class="list-li-buttons">
             <input ng-click="ctrl.declineTask(task.id)" type="button" class="butn butn-red secondary" value="I can’t" translate-attrs="value">
