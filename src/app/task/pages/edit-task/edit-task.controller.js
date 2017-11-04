@@ -571,6 +571,9 @@
         $q.all(promises).then(function () {
           vm.modelBackUp.watchers = vm.model.watchers.slice(0);
           isUpdated = true;
+          if (_.findIndex(removedItems, {id: vm.user.id}) > -1) {
+            $scope.$dismiss();
+          }
         });
       }
     }

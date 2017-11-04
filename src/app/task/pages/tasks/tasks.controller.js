@@ -78,7 +78,11 @@
     function replaceTask(id) {
       var index = _.findIndex(vm.tasks, {id: id});
       NstSvcTaskFactory.get(id).then(function (task) {
-        vm.tasks[index] = task;
+        if (vm.isWatchlistPage && _.findIndex(task.watchers, {id: vm.user.id}) > -1) {
+          vm.tasks.splice(index, 1);
+        } else {
+          vm.tasks[index] = task;
+        }
       }).catch(function () {
         vm.tasks.splice(index, 1);
       });

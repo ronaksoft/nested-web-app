@@ -23,7 +23,8 @@
         removeItems: '=',
         initData: '=',
         assigneeFocusMe: '=',
-        assigneeExclude: '@'
+        assigneeExclude: '@',
+        removeMyself: '=?'
       }
     };
   }
