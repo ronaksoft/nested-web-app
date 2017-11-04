@@ -110,7 +110,7 @@
             scope.config.dateFormat = jalali ? scope.config.jalaliDateFormat : scope.config.dateOnlyFormat
           }
         })
-        
+
         var template = angular.element($templateCache.get('datepicker.html'));
 
         var dateSelected = '';
@@ -289,7 +289,7 @@
             scope.pickerDisplayed = false;
           }
         };
-        
+
         scope.executeDueDateUpdate = function (action) {
           if (action === 'abort') {
             scope.haveTime = false;
