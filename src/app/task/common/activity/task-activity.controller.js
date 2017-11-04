@@ -82,7 +82,6 @@
         vm.activities = _.unionBy(vm.activities, 'id');
         vm.activityCount = vm.activities.length;
         vm.isLoading = false;
-        // $scope.scrollEnd();
       });
     }
 
