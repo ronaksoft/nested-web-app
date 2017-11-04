@@ -110,7 +110,6 @@
             scope.config.dateFormat = jalali ? scope.config.jalaliDateFormat : scope.config.dateOnlyFormat
           }
         })
-
         
         var template = angular.element($templateCache.get('datepicker.html'));
 
@@ -302,7 +301,7 @@
             scope.initialTime = scope.selectedTime;
             setTime(scope.selectedTime);
           }
-          console.log(scope.haveTime, scope.selectedTime);
+          // console.log(scope.haveTime, scope.selectedTime);
         }
 
         /**
