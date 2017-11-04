@@ -63,6 +63,7 @@
         .input-buttons {
             display: flex;
             flex: none;
+            align-self: flex-start;
             margin-right: - 4px;
             > * {
                 flex: none;
