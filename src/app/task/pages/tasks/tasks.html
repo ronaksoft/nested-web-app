@@ -7,28 +7,29 @@
         <svg class="_16svg _df _scl2">
           <use xlink:href="/assets/icons/nst-icn16.svg#glance"></use>
         </svg>
-        <translate>Glance</translate>
+        <a><translate>Glance</translate></a>
         <hr>
       </h2>
       <h2 ng-if="ctrl.isAssignedToMePage">
         <svg class="_16svg _df _scl2">
           <use xlink:href="/assets/icons/nst-icn16.svg#internal"></use>
         </svg>
-        <translate>Assigned to me</translate>
+        <a ui-sref="app.task.assigned_to_me()" ui-sref-active="active"><translate>Assigned to me</translate></a>
+        <a ui-sref="app.task.assigned_to_me()" ui-sref-active="active"><translate>Completed</translate></a>
         <hr>
       </h2>
       <h2 ng-if="ctrl.isCreatedByMePage">
         <svg class="_16svg _df _scl2">
           <use xlink:href="/assets/icons/nst-icn16.svg#external"></use>
         </svg>
-        <translate>Created by me</translate>
+        <a><translate>Created by me</translate></a>
         <hr>
       </h2>
       <h2 ng-if="ctrl.isWatchlistPage">
         <svg class="_16svg _df _scl2">
           <use xlink:href="/assets/icons/nst-icn16.svg#ragged-list"></use>
         </svg>
-        <translate>Watchlist</translate>
+        <a><translate>Watchlist</translate></a>
         <hr>
       </h2>
       <h5 class="list-head large error" ng-if="ctrl.overDueTasks.length > 0 && ctrl.isGlancePage"><translate>Overdue Tasks</translate></h5>
