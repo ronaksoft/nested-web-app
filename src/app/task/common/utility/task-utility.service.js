@@ -75,8 +75,8 @@
 
     function getTodoTransform(todos) {
       return _.map(_.filter(todos, function (todo) {
-        return (_.trim(todo.text) > 0);
-      }) , function (todo) {
+        return _.trim(todo.text).length > 0;
+      }), function (todo) {
         return btoa(todo.text) + ';' + todo.weight;
       }).join(',');
     }

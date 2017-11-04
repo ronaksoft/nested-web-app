@@ -14,22 +14,24 @@
         <svg class="_16svg _df _scl2">
           <use xlink:href="/assets/icons/nst-icn16.svg#internal"></use>
         </svg>
-        <a ui-sref="app.task.assigned_to_me()" ui-sref-active="active"><translate>Assigned to me</translate></a>
-        <a ui-sref="app.task.assigned_to_me()" ui-sref-active="active"><translate>Completed</translate></a>
+        <a ui-sref="app.task.assigned_to_me({filter: 'normal'})" ui-sref-active="active"><translate>Assigned to me</translate></a>
+        <a ui-sref="app.task.assigned_to_me({filter: 'completed'})" ui-sref-active="active"><translate>Completed</translate></a>
         <hr>
       </h2>
       <h2 ng-if="ctrl.isCreatedByMePage">
         <svg class="_16svg _df _scl2">
           <use xlink:href="/assets/icons/nst-icn16.svg#external"></use>
         </svg>
-        <a><translate>Created by me</translate></a>
+        <a ui-sref="app.task.created_by_me({filter: 'normal'})" ui-sref-active="active"><translate>Created by me</translate></a>
+        <a ui-sref="app.task.created_by_me({filter: 'completed'})" ui-sref-active="active"><translate>Completed</translate></a>
         <hr>
       </h2>
       <h2 ng-if="ctrl.isWatchlistPage">
         <svg class="_16svg _df _scl2">
           <use xlink:href="/assets/icons/nst-icn16.svg#ragged-list"></use>
         </svg>
-        <a><translate>Watchlist</translate></a>
+        <a ui-sref="app.task.watchlist({filter: 'normal'})" ui-sref-active="active"><translate>Watchlist</translate></a>
+        <a ui-sref="app.task.watchlist({filter: 'completed'})" ui-sref-active="active"><translate>Completed</translate></a>
         <hr>
       </h2>
       <h5 class="list-head large error" ng-if="ctrl.overDueTasks.length > 0 && ctrl.isGlancePage"><translate>Overdue Tasks</translate></h5>
