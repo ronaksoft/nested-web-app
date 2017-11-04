@@ -188,7 +188,8 @@
       if (thisEl) {
         thisDeterminer = thisEl.postCardOffTop + thisEl.postCardheight - firstOffset;
         if (thisDeterminer < Ypos + winH && thisDeterminer > Ypos ) {
-          return $rootScope.inViewPost.enabled = true; // FIXME it stops applying to first item in view
+          // return $rootScope.inViewPost.enabled = true; // FIXME it stops applying to first item in view
+          $rootScope.inViewPost.enabled = true;
         } else {
           $rootScope.inViewPost.enabled = false;
         }
