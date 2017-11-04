@@ -301,7 +301,7 @@
             scope.initialTime = scope.selectedTime;
             setTime(scope.selectedTime);
           }
-          // console.log(scope.haveTime, scope.selectedTime);
+          console.log(scope.haveTime, scope.selectedTime);
         }
 
         /**

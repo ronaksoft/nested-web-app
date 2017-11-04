@@ -105,7 +105,10 @@ select,option {
   color: $color-solid;
 }
 .ui-select-multiple.ui-select-bootstrap {
-  .ui-select-match-item {
+  .ui-select-match-item ,
+  .ui-select-match-item:hover ,
+  .ui-select-match-item:active ,
+  .ui-select-match-item:focus {
     background-color: transparent;
     border-radius: 0;
     color: $color-solid;
