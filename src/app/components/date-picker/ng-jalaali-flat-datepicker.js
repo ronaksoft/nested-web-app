@@ -300,6 +300,7 @@
             scope.haveTime = true;
             setViewTime(scope.selectedTime);
             scope.initialTime = scope.selectedTime;
+            setTime(scope.selectedTime);
           }
           console.log(scope.haveTime, scope.selectedTime);
         }
