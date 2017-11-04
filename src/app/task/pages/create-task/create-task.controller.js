@@ -161,7 +161,9 @@
           task.description = vm.model.description;
         }
         if (vm.model.todos.length > 0) {
+          console.log(vm.model.todos);
           task.todos = NstSvcTaskUtility.getTodoTransform(vm.model.todos);
+          console.log(task.todos);
         }
         if (vm.model.attachments.length > 0) {
           task.attachments = vm.model.attachments;

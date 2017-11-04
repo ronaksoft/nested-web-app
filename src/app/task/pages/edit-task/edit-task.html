@@ -58,8 +58,8 @@
                          assignee-placeholder="{{ctrlEditTask.assigneePlaceholder}}"
                          remove-items="ctrlEditTask.removeAssigneeItems"
                          assignee-focus-me="ctrlEditTask.assigneeFocusTrigger"
-                         add-item="ctrlEditTask.model.access.updateTask && ctrlEditTask.isInCandidateMode"
-                         remove-item="ctrlEditTask.model.access.updateTask && ctrlEditTask.isInCandidateMode"></task-assignee>
+                         add-item="ctrlEditTask.model.access.updateTask"
+                         remove-item="ctrlEditTask.model.access.updateTask"></task-assignee>
           <div class="input-buttons" ng-if="ctrlEditTask.assigneeFocus && ctrlEditTask.assigneeChanged">
             <div class="discard-changes">
               <svg class="_16svg" ng-click="ctrlEditTask.executeAssigneeUpdate('abort')">
@@ -257,13 +257,11 @@
         </label>
       </div>
       <div class="task-binder ng-class:{'is-open': ctrlEditTask.isOpenBinder}"
-           ng-if="
-            ctrlEditTask.model.access.updateTask && (
-              !ctrlEditTask.enableWatcher ||
-              !ctrlEditTask.enableAttachment ||
-              !ctrlEditTask.enableTodo ||
-              !ctrlEditTask.enableDescription||
-              !ctrlEditTask.enableLabel)">
+           ng-if="((!ctrlEditTask.enableWatcher && ctrlEditTask.model.access.addLabel) ||
+              (!ctrlEditTask.enableAttachment && ctrlEditTask.model.access.addAttachment) ||
+              (!ctrlEditTask.enableTodo && ctrlEditTask.model.access.addTodo)||
+              (!ctrlEditTask.enableDescription && ctrlEditTask.model.access.updateTask) ||
+              (!ctrlEditTask.enableLabel && ctrlEditTask.model.access.addLabel))">
         <div class="task-binders">
           <div class="task-binder-butn" ng-click="ctrlEditTask.openBinder()">
             <svg class="_16svg">
@@ -280,7 +278,7 @@
             <svg class="_16svg">
               <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
             </svg>
-            <translate>Add labels</translate>
+            <translate>Add Labels</translate>
           </div>
           <div class="task-binder-butn" ng-if="!ctrlEditTask.enableWatcher && ctrlEditTask.model.access.addWatcher"
                ng-click="ctrlEditTask.bindRow('enableWatcher')">

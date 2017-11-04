@@ -41,7 +41,7 @@
         <span class="_txe">{{item.name + '.' + item.extension | lowercase}}</span>
       </div>
     </a>
-    <a href="javascript:void(0);" ng-click="onDelete(item)" class="attdl del">
+    <a href="javascript:void(0);" ng-click="onDelete(item)" class="attdl del" ng-if="removeItem">
       <svg class="_16svg">
         <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
       </svg>
