@@ -29,7 +29,8 @@
       if ($rootScope.cardCtrls.length > 0) {
         $rootScope.inViewPost = {
           id: $rootScope.cardCtrls[0].id,
-          index: 0
+          index: 0,
+          enabled: true
         };
         obj.orderItems();
         obj.findAffixIndex(win[0].scrollY);
@@ -59,8 +60,9 @@
       var i = 0;
       var topItems = $rootScope.cardCtrls.filter(function (e, index) {
         var postCard = getElementProps(index);
-        var firstOffset = $('#post-card-' + $rootScope.cardCtrls[0].id).parent().offset().top;
-        var determiner = postCard.postCardOffTop + postCard.postCardheight - firstOffset;
+        // var firstOffset = $('#post-card-' + $rootScope.cardCtrls[0].id).parent().offset().top;
+        var firstOffset = 136;
+        var determiner = postCard.postCardOffTop + postCard.postCardheight - firstOffset - 32 - 48;
         if (determiner < Ypos + winH) {
           i = index
           return true;
@@ -127,7 +129,8 @@
         return;
       }
       // Offset of first post card to top ( always should remove it from Ypos for proper compute )
-      var firstOffset = $('#post-card-' + $rootScope.cardCtrls[0].id).parent().offset().top;
+      // var firstOffset = $('#post-card-' + $rootScope.cardCtrls[0].id).parent().offset().top;
+      var firstOffset = 136;
       $timeout(function (){
         applyPostInView(Ypos, scrollDown, firstOffset);
         applyAffixCard(Ypos, scrollDown, firstOffset);
@@ -186,9 +189,10 @@
       // measurement for post view is end of the post
       var thisDeterminer, nextDeterminer, prvDeterminer;
       if (thisEl) {
-        thisDeterminer = thisEl.postCardOffTop + thisEl.postCardheight - firstOffset;
+        thisDeterminer = thisEl.postCardOffTop + thisEl.postCardheight - firstOffset - 32 - 48;
         if (thisDeterminer < Ypos + winH && thisDeterminer > Ypos ) {
-          return $rootScope.inViewPost.enabled = true; // FIXME it stops applying to first item in view
+          // return $rootScope.inViewPost.enabled = true; // FIXME it stops applying to first item in view
+          $rootScope.inViewPost.enabled = true;
         } else {
           $rootScope.inViewPost.enabled = false;
         }

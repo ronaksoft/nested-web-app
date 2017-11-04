@@ -21,6 +21,14 @@
       vm.enableCheck = true;
     }
 
+    if (vm.addItem === undefined) {
+      vm.addItem = true;
+    }
+
+    if (vm.removeItem === undefined) {
+      vm.removeItem = true;
+    }
+
     vm.temp = {
       id: -parseInt(_.uniqueId()),
       text: '',
@@ -33,14 +41,6 @@
     vm.checkTodo = checkTodo;
     vm.removeTodo = removeTodo;
     vm.removeItems = removeItems;
-
-    if (vm.addItem === undefined) {
-      vm.addItem = true;
-    }
-
-    if (vm.removeItem === undefined) {
-      vm.removeItem = true;
-    }
 
     function addTodo() {
       // if (_.findIndex(vm.todosData, {text: vm.temp.text}) > -1) {
