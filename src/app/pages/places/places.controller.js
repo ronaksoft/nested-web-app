@@ -10,7 +10,7 @@
                                _, toastr,
                                NST_DEFAULT, NST_AUTH_EVENT, NST_INVITATION_EVENT, NST_CONFIG, NST_KEY, deviceDetector, NST_PLACE_ACCESS, NST_SRV_ERROR,
                                NST_EVENT_ACTION, NST_USER_EVENT, NST_NOTIFICATION_EVENT, NST_SRV_EVENT, NST_NOTIFICATION_TYPE, NST_PLACE_EVENT, NST_POST_EVENT,
-                               NstSvcAuth, NstSvcServer, NstSvcLogger, NstSvcNotification, NstSvcTranslation,
+                               NstSvcAuth, NstSvcServer, NstSvcLogger, NstSvcNotification, NstSvcTranslation, NST_PLACE_MEMBER_TYPE,
                                NstSvcNotificationSync, NstSvcPlaceFactory, NstSvcInvitationFactory, NstUtility, NstSvcUserFactory, NstSvcSidebar,
                                NstSvcKeyFactory, NstSvcPostDraft, NstSvcGlobalCache) {
       var vm = this;
@@ -22,6 +22,7 @@
       vm.showLoading = showLoading;
       vm.selectedPlaces = [];
       vm.keyword = '';
+      vm.openAddMemberModal = openAddMemberModal;
       vm.placesSetting = {
         relationView : true
       }
@@ -118,6 +119,43 @@
       function getPlaceId() {
         return vm.selectedPlaceId;
       }
+
+      
+    /**
+     * Represents add member to place modal
+     * @param {any} $event
+     */
+    function openAddMemberModal(placeId) {
+      NstSvcPlaceFactory.get(placeId).then(function (place) {
+        vm.placeModal = place;
+        var role = NST_PLACE_MEMBER_TYPE.KEY_HOLDER;
+        var modal = $uibModal.open({
+          animation: false,
+          templateUrl: 'app/pages/places/settings/place-add-member.html',
+          controller: 'PlaceAddMemberController',
+          controllerAs: 'addMemberCtrl',
+          size: 'sm',
+          resolve: {
+            chosenRole: function () {
+              return role;
+            },
+            currentPlace: function () {
+              return vm.placeModal;
+            },
+            newPlace: false,
+            mode: function () {
+              return false
+            },
+            isForGrandPlace: function () {
+              return undefined
+            }
+          }
+        });
+
+        modal.result.then();
+      });
+
+    }
 
       function rebuildMyPlacesTree(placeId) {
         getMyPlaces(true).then(function(places) {
