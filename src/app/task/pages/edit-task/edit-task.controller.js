@@ -122,6 +122,7 @@
     vm.assigneeIcon = 'no-assignee';
     vm.assigneePlaceholder = NstSvcTranslation.get('Add assignee or candidates');
     vm.removeAssignees = removeAssignees;
+    vm.executeAssigneeUpdate = executeAssigneeUpdate;
 
     vm.dueDateFocus = false;
     vm.dueDatePlaceholder = NstSvcTranslation.get('+ Set a due time (optional)');
@@ -430,6 +431,11 @@
       }).join(',');
     }
 
+    vm.assigneeChanged = false;
+    var assigneeUpdateData = {
+      new: [],
+      remove: []
+    };
     function updateAssignee(assignees) {
       if (!vm.isInCandidateMode) {
         return;
@@ -437,20 +443,38 @@
       var oldData = getNormalValue(vm.modelBackUp.assignees);
       var newItems = _.differenceBy(assignees, oldData, 'id');
       var removedItems = _.differenceBy(oldData, assignees, 'id');
-
-      var promises = [];
-      if (newItems.length > 0) {
-        promises.push(NstSvcTaskFactory.addCandidate(vm.taskId, getCommaSeparate(newItems)));
-      }
-      if (removedItems.length > 0) {
-        promises.push(NstSvcTaskFactory.removeCandidate(vm.taskId, getCommaSeparate(removedItems)));
-      }
-
+      assigneeUpdateData.new = newItems;
+      assigneeUpdateData.remove = removedItems;
       if (newItems.length > 0 || removedItems.length > 0) {
-        $q.all(promises).then(function () {
-          vm.modelBackUp.assignees = vm.model.assignees.slice(0);
-          isUpdated = true;
-        });
+        vm.assigneeChanged = true;
+      } else {
+        vm.assigneeChanged = true;
+      }
+      // executeUpdateAssignee(newItems, removedItems);
+    }
+
+    function executeAssigneeUpdate(action) {
+      if (action === 'abort') {
+        vm.model.assignees = vm.modelBackUp.assignees.slice(0);
+        assigneeUpdateData.new = [];
+        assigneeUpdateData.remove = [];
+      } else if (action === 'confirm') {
+        var promises = [];
+        if (assigneeUpdateData.new.length > 0) {
+          promises.push(NstSvcTaskFactory.addCandidate(vm.taskId, getCommaSeparate(assigneeUpdateData.new)));
+        }
+        if (assigneeUpdateData.remove.length > 0) {
+          promises.push(NstSvcTaskFactory.removeCandidate(vm.taskId, getCommaSeparate(assigneeUpdateData.remove)));
+        }
+
+        if (assigneeUpdateData.new.length > 0 || assigneeUpdateData.remove.length > 0) {
+          $q.all(promises).then(function () {
+            vm.modelBackUp.assignees = vm.model.assignees.slice(0);
+            assigneeUpdateData.new = [];
+            assigneeUpdateData.remove = [];
+            isUpdated = true;
+          });
+        }
       }
     }
 
