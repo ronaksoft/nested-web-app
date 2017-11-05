@@ -1140,7 +1140,11 @@ body[dir="rtl"] {
   .edit-task .task-comments .log-filter .popover {
     left: auto!important;
     right: 10px;
-}
+  }
+  .notification-wrapper .settings-tab .unread-notif-badge {
+    right: auto;
+    left: -14px;
+  }
 }
 
 body[dir="ltr"] {
