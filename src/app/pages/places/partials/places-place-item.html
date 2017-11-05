@@ -1,6 +1,6 @@
 <a class="place-item">
-  <div class="place-selector">
-    <input ng-model="place.isSelected" ng-change="ctrl.toggleSelectPlace(place.id)" class="_fr" type="checkbox" id="cb-{{place.id}}"
+  <div class="place-selector" ng-click="ctrl.toggleSelectPlace(place)" >
+    <input ng-model="place.isSelected"class="_fr" type="checkbox" id="cb-{{place.id}}"
       name="selector" />
     <label class="_fw setting left-box checkbox-label _asc" for="cb-{{place.id}}"></label>
   </div>

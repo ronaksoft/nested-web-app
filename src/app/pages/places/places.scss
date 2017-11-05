@@ -129,7 +129,7 @@
                     .place-item {
                         .dragger ,
                         .children-arrow {
-                            opacity: 0!important;
+                            visibility: hidden!important;
                         }
                     }
                 }

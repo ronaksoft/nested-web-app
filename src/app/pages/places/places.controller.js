@@ -20,6 +20,8 @@
       var myPlaceIds = [];
       vm.isLoading = true;
       vm.showLoading = showLoading;
+      vm.toggleSelectPlace = toggleSelectPlace;
+      vm.unselectAll = unselectAll;
       vm.selectedPlaces = [];
       vm.keyword = '';
       vm.openAddMemberModal = openAddMemberModal;
@@ -45,6 +47,23 @@
         $timeout(function (){
           vm.isLoading = false;
         }, 1000)
+      }
+
+      function toggleSelectPlace(place){
+        place.isSelected =! place.isSelected;
+        var placeIndex = vm.selectedPlaces.indexOf(place);
+        if( placeIndex > -1){
+          vm.selectedPlaces.splice(placeIndex, 1);
+        } else {
+          vm.selectedPlaces.push(place);
+        }
+      }
+
+      function unselectAll(){
+        vm.selectedPlaces.forEach(function(place){
+          place.isSelected = false;
+        });
+        vm.selectedPlaces = [];
       }
 
       /*****************************
@@ -90,7 +109,6 @@
         $q.all([getMyPlacesOrder(), getMyPlaces()]).then(function(results) {
           myPlaceOrders = results[0];
           vm.places = createTree(results[1], myPlaceOrders, vm.expandedPlaces, vm.selectedPlaceId);
-          console.log('getMyPlaces', vm.places);
           loadMyPlacesUnreadPostsCount();
         });
 
@@ -463,6 +481,7 @@
           privacy: place.privacy,
           accesses: place.accesses,
           isGrandPlace: isGrandPlace,
+          isSelected: false,
           notificationStatus: notificationEnabled(place.id),
           bookmarkedStatus: isInBookmarks(place.id),
           policy: place.policy,
