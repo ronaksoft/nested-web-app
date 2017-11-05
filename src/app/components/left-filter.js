@@ -22,19 +22,19 @@
           var daysDiff = overdue.diff(date, 'days');
           var hoursDiff = overdue.diff(date, 'hours');
           if (daysDiff > 1) {
-            return NstSvcTranslation.get(NstUtility.string.format('{0} days have passed', daysDiff));
+            return NstSvcTranslation.get(NstUtility.string.format('{0} days ago', daysDiff));
           }
           if (daysDiff > 0) {
-            return NstSvcTranslation.get(NstUtility.string.format('{0} day has passed', daysDiff));
+            return NstSvcTranslation.get(NstUtility.string.format('{0} day ago', daysDiff));
           }
           if (daysDiff === 0 && haveTime && hoursDiff > 1) {
-            return NstSvcTranslation.get(NstUtility.string.format('{0} hours have passed', hoursDiff));
+            return NstSvcTranslation.get(NstUtility.string.format('{0} hours ago', hoursDiff));
           }
           if (daysDiff === 0 && haveTime && hoursDiff > 0) {
-            return NstSvcTranslation.get(NstUtility.string.format('{0} hour has passed', hoursDiff));
+            return NstSvcTranslation.get(NstUtility.string.format('{0} hour ago', hoursDiff));
           }
           if (daysDiff === 0 && haveTime && hoursDiff === 0) {
-            return NstSvcTranslation.get(NstUtility.string.format('about one hour has passed', hoursDiff));
+            return NstSvcTranslation.get(NstUtility.string.format('about one hour ago', hoursDiff));
           }
           return NstSvcTranslation.get('Time is passed!');
           
