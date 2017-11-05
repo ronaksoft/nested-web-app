@@ -1137,6 +1137,10 @@ body[dir="rtl"] {
     right: auto;
     left: 0;
   }
+  .edit-task .task-comments .log-filter .popover {
+    left: auto!important;
+    right: 10px;
+}
 }
 
 body[dir="ltr"] {
