@@ -21,11 +21,20 @@
         if (date.isSameOrBefore(overdue)) {
           var daysDiff = overdue.diff(date, 'days');
           var hoursDiff = overdue.diff(date, 'hours');
-          if (daysDiff !== 0) {
-            return NstSvcTranslation.get(NstUtility.string.format('{0} days has passed', daysDiff));
+          if (daysDiff > 1) {
+            return NstSvcTranslation.get(NstUtility.string.format('{0} days have passed', daysDiff));
           }
-          if (daysDiff === 0 && haveTime) {
-            return NstSvcTranslation.get(NstUtility.string.format('{0} hours has passed', hoursDiff));
+          if (daysDiff > 0) {
+            return NstSvcTranslation.get(NstUtility.string.format('{0} day has passed', daysDiff));
+          }
+          if (daysDiff === 0 && haveTime && hoursDiff > 1) {
+            return NstSvcTranslation.get(NstUtility.string.format('{0} hours have passed', hoursDiff));
+          }
+          if (daysDiff === 0 && haveTime && hoursDiff > 0) {
+            return NstSvcTranslation.get(NstUtility.string.format('{0} hour has passed', hoursDiff));
+          }
+          if (daysDiff === 0 && haveTime && hoursDiff === 0) {
+            return NstSvcTranslation.get(NstUtility.string.format('about one hour has passed', hoursDiff));
           }
           return NstSvcTranslation.get('Time is passed!');
           
