@@ -21,7 +21,6 @@
               var documentDir = $('body').attr('dir');
               var containerWidth = $(obj.$el[0]).find('.atwho-view').width();
               var direction = obj.$inputor.context.style.direction;
-
               if (documentDir === 'ltr') {
                 if (direction === 'rtl') {
                   offset.left = ($window.innerWidth - offset.left) - containerWidth + 10;
@@ -30,7 +29,7 @@
                 if (direction === 'ltr') {
                   offset.left = (offset.left - containerWidth) + 5;
                 } else {
-                  offset.left = ($window.innerWidth - offset.left) - containerWidth + 10;
+                  offset.left = ($window.innerWidth - offset.left) - 10;
                 }
               }
             }

@@ -6,7 +6,7 @@
     .service('NstSvcTaskUtility', NstSvcTaskUtility);
 
   /** @ngInject */
-  function NstSvcTaskUtility($q, _, NST_TASK_PROGRESS_ICON, NstSvcTranslation, NstUtility, NST_ATTACHMENT_STATUS, $uibModal) {
+  function NstSvcTaskUtility($q, _, NST_TASK_PROGRESS_ICON, NstSvcTranslation, NstUtility, NST_ATTACHMENT_STATUS, $uibModal, $timeout) {
 
     function TaskUtility() {
     }
@@ -16,6 +16,7 @@
     TaskUtility.prototype.validateTask = validateTask;
     TaskUtility.prototype.getTodoTransform = getTodoTransform;
     TaskUtility.prototype.promptModal = promptModal;
+    TaskUtility.prototype.getValidUser = getValidUser;
 
     function getTaskIcon(status, progress) {
       switch (status) {
@@ -98,6 +99,24 @@
           }
         }
       }).result;
+    }
+
+    function getValidUser(vm, userFn) {
+      var validUser = undefined;
+      getUser();
+      function retry() {
+        $timeout(function () {
+          getUser();
+        }, 200);
+      }
+      function getUser() {
+        validUser = userFn.user;
+        if (validUser === undefined) {
+          retry();
+        } else {
+          vm.user = validUser;
+        }
+      }
     }
 
     return new TaskUtility();

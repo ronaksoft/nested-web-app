@@ -677,7 +677,7 @@
           vm.unreadCommentsCount++;
           unreadCommentIds.push(data.activity.id);
         }
-        if($rootScope.inViewPost.id === vm.post.id) {
+        if($rootScope.inViewPost.id === vm.post.id || isPostView()) {
           loadNewComments();
           unreadCommentIds = [];
         }

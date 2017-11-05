@@ -446,10 +446,8 @@
     .factory('datesCalculator', datesCalculator);
 
   function datesCalculator(moment, NstSvcI18n) {
-    var jalali = true;
-    if (NstSvcI18n.selectedCalendar === "gregorian") {
-      jalali = false;
-    }
+    var jalali = NstSvcI18n.selectedCalendar !== 'gregorian';
+    var farsi = NstSvcI18n.selectedLocale === 'fa-IR';
 
     /**
      * List all years for the select
@@ -476,8 +474,12 @@
      */
     function getDaysNames() {
       var daysNameList = [];
-      for (var i = 0; i < 7; i++) {
-        daysNameList.push(moment().weekday(i).format(jalali ? 'dd' : 'ddd'));
+      if(farsi) {
+        daysNameList = moment.weekdaysMin();
+      } else {
+        for (var i = 0; i < 7; i++) {
+          daysNameList.push(moment().weekday(i).format(jalali ? 'dd' : 'ddd'));
+        }
       }
       return daysNameList;
     }

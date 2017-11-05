@@ -51,9 +51,20 @@
     };
 
     obj.orderItems = function () {
+      this.persisItems();
       $rootScope.cardCtrls.sort(function (a, b) {
         return $('#post-card-' + a.id).parent().offset().top - $('#post-card-' + b.id).parent().offset().top
       });
+      // console.log('orderItems', $rootScope.cardCtrls)
+    };
+
+    obj.persisItems = function () {
+      angular.forEach($rootScope.cardCtrls,function(b){
+        if(!b || !$('#post-card-' + b.id).parent().offset()){
+          $rootScope.cardCtrls.splice($rootScope.cardCtrls.indexOf(b), 1);
+        }
+        return;
+      })
     };
 
     obj.findInViewCardIndex = function (Ypos) {
@@ -71,7 +82,13 @@
         }
       });
       var lastIndex = topItems.length - 1;
-      var item = topItems[lastIndex]
+      var item;
+      if(Ypos === 0) {
+        item = topItems[0];
+        i = 0;
+      } else {
+        item = topItems[lastIndex]
+      }
       if (item) {
         $rootScope.inViewPost = {
           index: i,
@@ -81,7 +98,7 @@
       } else {
         $rootScope.inViewPost.enabled = false
       }
-      // console.log('findAffixIndex', $rootScope.inViewPost)
+      // console.log('findInViewCardIndex', $rootScope.inViewPost)
     };
     obj.findAffixIndex = function (Ypos) {
       var i = 0;

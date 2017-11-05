@@ -1137,6 +1137,21 @@ body[dir="rtl"] {
     right: auto;
     left: 0;
   }
+  .edit-task .task-comments .log-filter .popover {
+    left: auto!important;
+    right: 10px;
+  }
+  .notification-wrapper .settings-tab .unread-notif-badge {
+    right: auto;
+    left: -14px;
+  }
+  .modal .modal-compose .compose-modal-footer .butn-green, .modal .modal-compose .compose-modal-footer .butn-login {
+    width: 120px;
+  }
+  .wdt-emoji-picker {
+    right: auto;
+    left: 12px;
+  }
 }
 
 body[dir="ltr"] {

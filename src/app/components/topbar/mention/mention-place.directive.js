@@ -28,7 +28,7 @@
                 if (direction === 'ltr') {
                   offset.left = (offset.left - containerWidth) + 5;
                 } else {
-                  offset.left = ($window.innerWidth - offset.left) - containerWidth + 10;
+                  offset.left = ($window.innerWidth - offset.left) - 10;
                 }
               }
             }
