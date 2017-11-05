@@ -217,7 +217,7 @@
                         input {
                             margin-right: 20px;
                             opacity: 0;
-                            transition: opacity $animation-dur;
+                            transition: none;
                         }
                         i {
                             width: 16px;
@@ -251,7 +251,6 @@
                     }
                     &:hover {
                         background-color: #F6F6F7;
-                        transition: all $animation-dur;
                         .place-extra {
                             input,
                             i {
