@@ -148,6 +148,7 @@
     "Choose your username:": "انتخاب نام کاربری",
     "Comments": "نظرات",
     "Comments & History": "نظرات و تاریخ",
+    "Comments and History": "فعالیت‌ و نظرها",
     "Completed": "پایان‌یافته",
     "Compose": "نوشتن",
     "Confirm": "تایید",
@@ -361,8 +362,8 @@
     "Please wait till attachments upload completely": "لطفاً تا بارگذاری کامل پیوست‌ها منتظر بمانید",
     "Please wait...": "لطفاً منتظر بمانید...",
     "Plus, this Place can receive emails.": "همچنین، این Place قادر به دریافت ایمیل است.",
-    "Post": "پست",
     "Post a comment to start a discussion.<br><b>@Mention</b> someone to notify them.": "برای شروع یک گفت‌وگو نظر بگذارید. با اشاره به <br><b> فرد را مطلع کنید.",
+    "Posts": "پست",
     "Posts from:": "پست از:",
     "Preview": "نمایش",
     "Privacy": "حریم خصوصی",
@@ -484,7 +485,6 @@
     "Suggested:": "پیشنهادی",
     "Surname": "نام خانوادگی",
     "Surname is required": " نام خانوادگی را وارد کنید.",
-    "Task": "کار",
     "Task already assigned.": "کاری که قبلاً سپرده‌شده",
     "Task created successfully!": "کار با موفقیت ایجاد شد !",
     "Task title shouldnt be more than {0} characters": "تعداد حروف عنوان کار نباید از {0} بیشتر باشد",
@@ -522,6 +522,7 @@
     "This post contains blocked images.": "نمایش تصاویر این پست با تایید شما امکان‌پذیر است.",
     "This todo already exists!": "این کار انجام دادنی، هم‌چنان موجود است!",
     "This username is already taken.": "این نام کاربری قبلاً  ثبت شده است.",
+    "Time is passed!": "زمان گذشت!",
     "To confirm and proceed with deleting this Place, please type below the Place ID:": "برای تایید و ادامه‌ی فرآیند حذف این Place، لطفاً شناسه‌ی Place را وارد کنید.",
     "To create an account with Nested, please enter your phone number.": "برای ساخت حساب کاربری نستد، لطفاً شماره‌ی تلفن همراه خود را وارد کنید.",
     "To enter in your account, you must change your password.": "پیش‌از ورود به حساب کاربری، باید رمز عبور خود را تغییر دهید.",
@@ -602,7 +603,7 @@
     "You have to delete all the sub-Places within, before removing this Place.": "برای پاک کردن این Place، ابتدا باید تمام Placeهای زیر مجموعه را پاک کنید.\r\n",
     "You haven't any task until next year!<br>Enjoy your freedom &#x1F60A;": "شما تا سال آینده هیچ کاری ندارید!<br> از آزادی‌تان لذت ببرید😊",
     "You just can create sub Places only in closed Places": "فقط در private place امکان ساخت place زیرمجموعه وجود دارد.",
-    "You&#x2019;ve been Candidated to do this...": "شما برای انجام این... نامزد شده‌اید",
+    "You've been Candidated to do this...": "شما برای انجام این... نامزد شده‌اید",
     "You're disconnected from the server,": "ارتباط شما با سرور قطع شد",
     "You've changed your password successfully.": "رمز عبور شما با موفقیت تغییر کرد.",
     "You've entered a wrong code": "کد امنیتی وارد شده، اشتباه است.",
