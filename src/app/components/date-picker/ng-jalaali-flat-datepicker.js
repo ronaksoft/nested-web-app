@@ -96,11 +96,13 @@
         isJalali: '=?isJalali'
       },
       link: function (scope, element, attrs, ngModel) {
-        var jalali = true;
+        var firstStart = true;
+        var jalali = NstSvcI18n.selectedCalendar !== 'gregorian';
+        var farsi = NstSvcI18n.selectedLocale === 'fa-IR';
         var timeInputElement, timeInputElementEvent;
         setTimeFromTimeStamp();
         setViewTime();
-        var farsi = false;
+        scope.inheritTime = scope.haveTime;
         scope.$watch('haveTime', function(v){
           if(v) {
             scope.config.dateFormat = jalali ? scope.config.jalaliDateTimeFormat : scope.config.dateTimeFormat
@@ -109,20 +111,6 @@
           }
         })
 
-        function setViewTime(v){
-          if(scope.haveTime) {
-            scope.selectedTime = v ? v : scope.time
-          } else {
-            scope.selectedTime = null
-          }
-        }
-
-        if (NstSvcI18n.selectedCalendar === 'gregorian') {
-          jalali = false;
-        }
-        if (NstSvcI18n.selectedLocale === 'fa-IR') {
-          farsi = true;
-        }
         var template = angular.element($templateCache.get('datepicker.html'));
 
         var dateSelected = '';
@@ -195,16 +183,6 @@
 
         ngModel.$formatters.push(function (value) {
           if (value) {
-            var daysDiff = moment(value).diff(moment.utc(), 'days');
-            if (daysDiff === -1) {
-              return "دیروز";
-            }
-            else if (daysDiff === 0) {
-              return "امروز";
-            }
-            else if (daysDiff === 1) {
-              return "فردا";
-            }
             return moment(value).format(scope.config.dateFormat);
           }
         });
@@ -215,16 +193,9 @@
           if (value) {
             dateSelected = scope.calendarCursor = moment(value);
             setTimeFromTimeStamp(value)
-            setViewTime(value);
+            setViewTime(value.toString().substr(16, 5));
           }
         });
-
-        function setTimeFromTimeStamp(value){
-          var d = value ? new Date(value) : new Date();
-          scope.defaultTime = d.toString().substr(16, 5);
-          scope.time = scope.defaultTime;
-          setTime(scope.time);
-        }
 
         scope.$watch('calendarCursor', function (val) {
           //scope.$apply(function() {
@@ -319,6 +290,20 @@
           }
         };
 
+        scope.executeDueDateUpdate = function (action) {
+          if (action === 'abort') {
+            scope.haveTime = false;
+            scope.time = scope.initialTime;
+            setViewTime(scope.initialTime);
+          } else if (action === 'confirm') {
+            scope.haveTime = true;
+            setViewTime(scope.selectedTime);
+            scope.initialTime = scope.selectedTime;
+            setTime(scope.selectedTime);
+          }
+          // console.log(scope.haveTime, scope.selectedTime);
+        }
+
         /**
          * Init the directive
          * @return {}
@@ -334,26 +319,20 @@
             scope.calendarCursor = ngModel.$modelValue;
           }
 
-          setTime(scope.time);
-
+          // Event listener for input time
           timeInputElement = angular.element(element).parents('.ng-flat-datepicker-wrapper').find('input.time-input');
           timeInputElementEvent = timeInputElement.on('change', function (event) {
             if(event.target.value && event.target.value.length > 0) {
-              scope.haveTime = true;
+              scope.inheritTime = true;
               scope.$apply(function () {
                 setTime(event.target.value);
               });
             } else {
-              scope.haveTime = false;
+              scope.inheritTime = false;
             }
             ngModel.$setViewValue(moment(scope.calendarCursor).format(scope.config.dateFormat));
             ngModel.$render();
           });
-        }
-
-
-        function setTime(time) {
-          scope.calendarCursor = moment(scope.calendarCursor).hour(parseInt(time.substr(0, 2))).minute(parseInt(time.substr(3, 2)));
         }
 
         /**
@@ -418,6 +397,31 @@
               scope.currentWeeks[wIndex][dIndex].isSelected = false;
             });
           });
+        }
+
+        function setTimeFromTimeStamp(value){
+          var d = value ? new Date(value) : new Date();
+          scope.defaultTime = d.toString().substr(16, 5);
+          scope.time = scope.defaultTime;
+          setTime(scope.time);
+        }
+
+        function setTime(time) {
+          if (typeof time === 'string' && scope.haveTime) {
+            scope.calendarCursor = moment(scope.calendarCursor).hour(parseInt(time.substr(0, 2))).minute(parseInt(time.substr(3, 2)));
+          }
+        }
+
+        function setViewTime(v){
+          if(scope.inheritTime) {
+            scope.selectedTime = v ? v : scope.time
+          } else {
+            scope.selectedTime = null
+          }
+          if (firstStart) {
+            scope.initialTime = scope.selectedTime;
+            firstStart = false;
+          }
         }
 
         scope.$on('$destroy', function () {

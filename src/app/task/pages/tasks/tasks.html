@@ -7,28 +7,31 @@
         <svg class="_16svg _df _scl2">
           <use xlink:href="/assets/icons/nst-icn16.svg#glance"></use>
         </svg>
-        <translate>Glance</translate>
+        <a><translate>Glance</translate></a>
         <hr>
       </h2>
       <h2 ng-if="ctrl.isAssignedToMePage">
         <svg class="_16svg _df _scl2">
           <use xlink:href="/assets/icons/nst-icn16.svg#internal"></use>
         </svg>
-        <translate>Assigned to me</translate>
+        <a ui-sref="app.task.assigned_to_me({filter: 'normal'})" ui-sref-active="active"><translate>Assigned to me</translate></a>
+        <a ui-sref="app.task.assigned_to_me({filter: 'completed'})" ui-sref-active="active"><translate>Completed</translate></a>
         <hr>
       </h2>
       <h2 ng-if="ctrl.isCreatedByMePage">
         <svg class="_16svg _df _scl2">
           <use xlink:href="/assets/icons/nst-icn16.svg#external"></use>
         </svg>
-        <translate>Created by me</translate>
+        <a ui-sref="app.task.created_by_me({filter: 'normal'})" ui-sref-active="active"><translate>Created by me</translate></a>
+        <a ui-sref="app.task.created_by_me({filter: 'completed'})" ui-sref-active="active"><translate>Completed</translate></a>
         <hr>
       </h2>
       <h2 ng-if="ctrl.isWatchlistPage">
         <svg class="_16svg _df _scl2">
           <use xlink:href="/assets/icons/nst-icn16.svg#ragged-list"></use>
         </svg>
-        <translate>Watchlist</translate>
+        <a ui-sref="app.task.watchlist({filter: 'normal'})" ui-sref-active="active"><translate>Watchlist</translate></a>
+        <a ui-sref="app.task.watchlist({filter: 'completed'})" ui-sref-active="active"><translate>Completed</translate></a>
         <hr>
       </h2>
       <h5 class="list-head large error" ng-if="ctrl.overDueTasks.length > 0 && ctrl.isGlancePage"><translate>Overdue Tasks</translate></h5>
@@ -99,6 +102,13 @@
           </div>
         </li>
       </ul>
+      
+      <div ng-if="(ctrl.isGlancePage && ctrl.tasks.length === 0 && ctrl.pendingTasks.length === 0 && ctrl.pendingTasks.overDueTasks.length === 0) ||
+      (!ctrl.isGlancePage && ctrl.tasks.length === 0)"
+        class="_fn empty-place-holder">
+        <img class="_db" width="256" width="256" src="/assets/icons/ph_empt_task.png" srcset="/assets/icons/ph_empt_task@2x.png" />
+        <translate>You haven't any task until next year!</br>Enjoy your freedom 😊</translate>
+      </div>
       <div class="_db _tac">
         <!-- TODO: Ali check the loading -->
         <div class="_difh _jcc nst-mood-cheerful no-gutter nst-margin-24 _pr" ng-show="ctrl.loading">

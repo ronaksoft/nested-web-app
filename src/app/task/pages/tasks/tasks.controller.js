@@ -78,7 +78,13 @@
     function replaceTask(id) {
       var index = _.findIndex(vm.tasks, {id: id});
       NstSvcTaskFactory.get(id).then(function (task) {
-        vm.tasks[index] = task;
+        if (vm.isWatchlistPage && _.findIndex(task.watchers, {id: vm.user.id}) > -1) {
+          vm.tasks.splice(index, 1);
+        } if (vm.isAssignedToMePage && task.assignees.id !== vm.user.id) {
+          vm.tasks.splice(index, 1);
+        } else {
+          vm.tasks[index] = task;
+        }
       }).catch(function () {
         vm.tasks.splice(index, 1);
       });
@@ -99,15 +105,46 @@
     function getTasks() {
       vm.loading = true;
       var promise;
-
+      var isCompelted = false;
+      if ($state.params && $state.params.filter === 'completed') {
+        isCompelted = true;
+      }
+      var statusFilter = [];
       if (vm.isGlancePage) {
         promise = NstSvcTaskFactory.getByFilter(NST_TASK_STATUS.GLANCE, null, vm.taskSetting.skip, vm.taskSetting.limit);
       } else if (vm.isAssignedToMePage) {
-        promise = NstSvcTaskFactory.getByFilter(NST_TASK_STATUS.ASSIGNED_TO_ME, null, vm.taskSetting.skip, vm.taskSetting.limit);
+        if (isCompelted) {
+          statusFilter.push(NST_TASK_STATUS.COMPLETED);
+        } else {
+          statusFilter.push(NST_TASK_STATUS.ASSIGNED);
+          statusFilter.push(NST_TASK_STATUS.HOLD);
+          statusFilter.push(NST_TASK_STATUS.OVERDUE);
+        }
+        promise = NstSvcTaskFactory.getByFilter(NST_TASK_STATUS.ASSIGNED_TO_ME, statusFilter.join(','), vm.taskSetting.skip, vm.taskSetting.limit);
       } else if (vm.isCreatedByMePage) {
-        promise = NstSvcTaskFactory.getByFilter(NST_TASK_STATUS.CREATED_BY_ME, null, vm.taskSetting.skip, vm.taskSetting.limit);
+        if (isCompelted) {
+          statusFilter.push(NST_TASK_STATUS.COMPLETED);
+        } else {
+          statusFilter.push(NST_TASK_STATUS.NO_ASSIGNED);
+          statusFilter.push(NST_TASK_STATUS.ASSIGNED);
+          statusFilter.push(NST_TASK_STATUS.CANCELED);
+          statusFilter.push(NST_TASK_STATUS.REJECTED);
+          statusFilter.push(NST_TASK_STATUS.HOLD);
+          statusFilter.push(NST_TASK_STATUS.OVERDUE);
+        }
+        promise = NstSvcTaskFactory.getByFilter(NST_TASK_STATUS.CREATED_BY_ME, statusFilter.join(','), vm.taskSetting.skip, vm.taskSetting.limit);
       } else if (vm.isWatchlistPage) {
-        promise = NstSvcTaskFactory.getByFilter(NST_TASK_STATUS.WATCHED, null, vm.taskSetting.skip, vm.taskSetting.limit);
+        if (isCompelted) {
+          statusFilter.push(NST_TASK_STATUS.COMPLETED);
+        } else {
+          statusFilter.push(NST_TASK_STATUS.NO_ASSIGNED);
+          statusFilter.push(NST_TASK_STATUS.ASSIGNED);
+          statusFilter.push(NST_TASK_STATUS.CANCELED);
+          statusFilter.push(NST_TASK_STATUS.REJECTED);
+          statusFilter.push(NST_TASK_STATUS.HOLD);
+          statusFilter.push(NST_TASK_STATUS.OVERDUE);
+        }
+        promise = NstSvcTaskFactory.getByFilter(NST_TASK_STATUS.WATCHED, statusFilter.join(','), vm.taskSetting.skip, vm.taskSetting.limit);
       }
 
       promise.then(function (tasks) {

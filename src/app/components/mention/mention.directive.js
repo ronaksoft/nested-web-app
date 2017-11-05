@@ -53,7 +53,8 @@
           function appendMention(element) {
 
             var enableAccountMention = attrs.nstMention ? attrs.nstMention.indexOf(userKey) > -1 ? true : false : true;
-            var enablePlaceMention = attrs.nstMention ? attrs.nstMention.indexOf(placeKey) > -1 ? true : false : true;
+            // var enablePlaceMention = attrs.nstMention ? attrs.nstMention.indexOf(placeKey) > -1 ? true : false : true;
+            var enablePlaceMention = false;
             var enableLabelMention = (attrs.mentionEnableLabel !== undefined);
 
             var mentionTemplate =

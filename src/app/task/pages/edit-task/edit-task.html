@@ -58,8 +58,20 @@
                          assignee-placeholder="{{ctrlEditTask.assigneePlaceholder}}"
                          remove-items="ctrlEditTask.removeAssigneeItems"
                          assignee-focus-me="ctrlEditTask.assigneeFocusTrigger"
-                         add-item="ctrlEditTask.model.access.updateTask && ctrlEditTask.isInCandidateMode"
-                         remove-item="ctrlEditTask.model.access.updateTask && ctrlEditTask.isInCandidateMode"></task-assignee>
+                         add-item="ctrlEditTask.model.access.updateTask"
+                         remove-item="ctrlEditTask.model.access.updateTask"></task-assignee>
+          <div class="input-buttons" ng-if="ctrlEditTask.assigneeFocus && ctrlEditTask.assigneeChanged">
+            <div class="discard-changes">
+              <svg class="_16svg" ng-click="ctrlEditTask.executeAssigneeUpdate('abort')">
+                <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
+              </svg>
+            </div>
+            <div class="submit-changes" ng-click="ctrlEditTask.executeAssigneeUpdate('confirm')">
+              <svg class="_16svg">
+                <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
+              </svg>
+            </div>
+          </div>
           <div ng-if="ctrlEditTask.assigneeFocus != true && ctrlEditTask.model.assignees.length == 1"
                ng-click="ctrlEditTask.assigneeFocus = true;"
                class="unfocused-input" translate-inner>Assigned to <b user-detail="ctrlEditTask.model.assignees[0]"><translate>{{ctrlEditTask.user.id === ctrlEditTask.model.assignees[0].id? 'Me': ctrlEditTask.model.assignees[0].fullName}}</translate></b>
@@ -81,7 +93,7 @@
                picture="{{ctrlEditTask.assigneeIcon | avatar : 'x32'}}" data-width="20" data-height="20"
                data-radius="40" class="account-initials-20 _df" data-word-count="2" data-font-size="13"
                ng-if="ctrlEditTask.assigneeIcon != 'no-assignee' && ctrlEditTask.assigneeIcon != 'candidate'"/>
-          <svg class="_24svg" ng-if="ctrlEditTask.assigneeIcon == 'candidate'">
+          <svg class="_32svg" ng-if="ctrlEditTask.assigneeIcon == 'candidate'">
             <use xlink:href="/assets/icons/nst-task-icn32.svg#candidate"></use>
           </svg>
         </label>
@@ -245,13 +257,11 @@
         </label>
       </div>
       <div class="task-binder ng-class:{'is-open': ctrlEditTask.isOpenBinder}"
-           ng-if="
-            ctrlEditTask.model.access.updateTask && (
-              !ctrlEditTask.enableWatcher ||
-              !ctrlEditTask.enableAttachment ||
-              !ctrlEditTask.enableTodo ||
-              !ctrlEditTask.enableDescription||
-              !ctrlEditTask.enableLabel)">
+           ng-if="((!ctrlEditTask.enableWatcher && ctrlEditTask.model.access.addLabel) ||
+              (!ctrlEditTask.enableAttachment && ctrlEditTask.model.access.addAttachment) ||
+              (!ctrlEditTask.enableTodo && ctrlEditTask.model.access.addTodo)||
+              (!ctrlEditTask.enableDescription && ctrlEditTask.model.access.updateTask) ||
+              (!ctrlEditTask.enableLabel && ctrlEditTask.model.access.addLabel))">
         <div class="task-binders">
           <div class="task-binder-butn" ng-click="ctrlEditTask.openBinder()">
             <svg class="_16svg">
@@ -268,7 +278,7 @@
             <svg class="_16svg">
               <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
             </svg>
-            <translate>Add labels</translate>
+            <translate>Add Labels</translate>
           </div>
           <div class="task-binder-butn" ng-if="!ctrlEditTask.enableWatcher && ctrlEditTask.model.access.addWatcher"
                ng-click="ctrlEditTask.bindRow('enableWatcher')">

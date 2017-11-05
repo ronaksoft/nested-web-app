@@ -25,6 +25,7 @@
     TaskFactory.prototype.removeAttachment = removeAttachment;
     TaskFactory.prototype.addCandidate = addCandidate;
     TaskFactory.prototype.removeCandidate = removeCandidate;
+    TaskFactory.prototype.updateAssignee = updateAssignee;
     TaskFactory.prototype.addComment = addComment;
     TaskFactory.prototype.removeComment = removeComment;
     TaskFactory.prototype.addLabel = addLabel;
@@ -277,6 +278,13 @@
       return NstSvcServer.request('task/remove_candidate', {
         task_id: taskId,
         candidate_id: candidateId
+      });
+    }
+
+    function updateAssignee(taskId, accountId) {
+      return NstSvcServer.request('task/update_assignee', {
+        task_id: taskId,
+        account_id: accountId
       });
     }
 

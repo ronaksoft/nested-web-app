@@ -13,9 +13,13 @@
         onItemDelete: '=',
         onItemClick: '=',
         items: '=',
-        mode: '='
+        mode: '=',
+        removeItem: '=?'
       },
       link: function (scope, ele, attributes) {
+        if (scope.removeItem === undefined) {
+          scope.removeItem = true;
+        }
         scope.overFlowLeft = scope.overFlowRight = false;
         scope.getThumbnail = getThumbnail;
         scope.badge = false;

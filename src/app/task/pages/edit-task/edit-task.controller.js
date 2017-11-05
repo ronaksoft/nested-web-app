@@ -121,7 +121,9 @@
     vm.assigneeFocus = false;
     vm.assigneeIcon = 'no-assignee';
     vm.assigneePlaceholder = NstSvcTranslation.get('Add assignee or candidates');
+    vm.assigneeChanged = false;
     vm.removeAssignees = removeAssignees;
+    vm.executeAssigneeUpdate = executeAssigneeUpdate;
 
     vm.dueDateFocus = false;
     vm.dueDatePlaceholder = NstSvcTranslation.get('+ Set a due time (optional)');
@@ -160,7 +162,7 @@
 
     var dataInit = false;
     var isUpdated = false;
-    vm.isInCandidateMode = false;
+    // vm.isInCandidateMode = false;
 
     function getTask(id) {
       NstSvcTaskFactory.get(id).then(function (task) {
@@ -183,7 +185,7 @@
             init: true,
             data: task.candidates
           };
-          vm.isInCandidateMode = true;
+          // vm.isInCandidateMode = true;
         }
 
         if (task.dueDate !== undefined && task.dueDate !== 0) {
@@ -431,25 +433,24 @@
     }
 
     function updateAssignee(assignees) {
-      if (!vm.isInCandidateMode) {
+      if (!vm.model.access.updateTask) {
         return;
       }
       var oldData = getNormalValue(vm.modelBackUp.assignees);
       var newItems = _.differenceBy(assignees, oldData, 'id');
       var removedItems = _.differenceBy(oldData, assignees, 'id');
+      vm.assigneeChanged = (newItems.length > 0 || removedItems.length > 0) && assignees.length > 0;
+    }
 
-      var promises = [];
-      if (newItems.length > 0) {
-        promises.push(NstSvcTaskFactory.addCandidate(vm.taskId, getCommaSeparate(newItems)));
-      }
-      if (removedItems.length > 0) {
-        promises.push(NstSvcTaskFactory.removeCandidate(vm.taskId, getCommaSeparate(removedItems)));
-      }
-
-      if (newItems.length > 0 || removedItems.length > 0) {
-        $q.all(promises).then(function () {
+    function executeAssigneeUpdate(action) {
+      if (action === 'abort') {
+        vm.model.assignees = vm.modelBackUp.assignees.slice(0);
+        vm.assigneeFocus = false;
+      } else if (action === 'confirm') {
+        NstSvcTaskFactory.updateAssignee(vm.taskId, getCommaSeparate(vm.model.assignees)).then(function () {
           vm.modelBackUp.assignees = vm.model.assignees.slice(0);
           isUpdated = true;
+          vm.assigneeFocus = false;
         });
       }
     }
@@ -571,6 +572,9 @@
         $q.all(promises).then(function () {
           vm.modelBackUp.watchers = vm.model.watchers.slice(0);
           isUpdated = true;
+          if (_.findIndex(removedItems, {id: vm.user.id}) > -1) {
+            $scope.$dismiss();
+          }
         });
       }
     }

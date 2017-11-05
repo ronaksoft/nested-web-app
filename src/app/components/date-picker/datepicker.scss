@@ -275,6 +275,9 @@ $default-color: $color-sense-wire;
             font-weight: bold;
         }
     }
+    .discard-changes {
+        margin: 0 4px 0 0!important;
+    }
     svg {
         fill: $color-gale-new;
         z-index: 2;
