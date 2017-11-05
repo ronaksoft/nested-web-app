@@ -395,7 +395,7 @@
           var isExpanded = isItemExpanded(item, expandedPlaces, selectedId);
           var children = getChildren(item, places, expandedPlaces, selectedId, depth + 1);
 
-          stack.push(createTreeItem(item, children, isExpanded, isActive, depth));
+          stack.push(createTreeItem(item, false, children, isExpanded, isActive, depth));
 
           return stack;
         }, []).sortBy(['name']).value();
@@ -424,10 +424,24 @@
           // finds the place children
           var children = getChildren(place, places, expandedPlaces, selectedId, 1);
 
-          return createTreeItem(place, children, isExpanded, isActive, 0);
+          return createTreeItem(place, true, children, isExpanded, isActive, 0);
         }).sortBy(function(place) {
           return orders[place.id];
         }).value();
+      }
+
+      function isInBookmarks(placeId){
+        return NstSvcPlaceFactory.getFavoritesPlaces().then(function (bookmaks) {
+          // console.log(bookmaks);
+          return bookmaks.indexOf(placeId) > -1
+        });
+      }
+
+      function notificationEnabled(placeId){
+        return NstSvcPlaceFactory.getNotificationOption(placeId).then(function (status) {
+          // console.log(status);
+          return status;
+        });
       }
 
       /**
@@ -440,15 +454,17 @@
        * @param {any} depth
        * @returns
        */
-      function createTreeItem(place, children, isExpanded, isActive, depth) {
-        console.log(place);
+      function createTreeItem(place, isGrandPlace, children, isExpanded, isActive, depth) {
         var picture = place.hasPicture() ? place.picture.getUrl('x32') : ABSENT_PLACE_PICTURE_URL;
-        return {
+        var placeModel = {
           id: place.id,
           name: place.name,
           picture: picture,
           privacy: place.privacy,
           accesses: place.accesses,
+          isGrandPlace: isGrandPlace,
+          notificationStatus: notificationEnabled(place.id),
+          bookmarkedStatus: isInBookmarks(place.id),
           policy: place.policy,
           children: children,
           hasChildren: children && children.length > 0,
@@ -457,7 +473,9 @@
           isExpanded: isExpanded,
           isActive: isActive,
           depth: depth
-        };
+        }
+        console.log(placeModel);
+        return placeModel;
       }
 
       /**
