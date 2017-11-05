@@ -5,11 +5,14 @@
     .module('ronak.nested.web.task')
     .controller('TasksController', TasksController);
 
-  function TasksController($rootScope, $scope, _, $state, NstSvcTaskFactory, NST_TASK_STATUS, NstSvcTaskUtility, $timeout, toastr, NstSvcTranslation, NstUtility) {
+  function TasksController($rootScope, $scope, _, $state, NstSvcTaskFactory, NST_TASK_STATUS,
+                           NstSvcTaskUtility, $timeout, toastr, NstSvcTranslation, NstSvcAuth) {
     var vm = this;
     var eventReferences = [];
 
-    // vm.user = NstSvcAuth.user;
+    vm.user = undefined;
+    NstSvcTaskUtility.getValidUser(vm, NstSvcAuth);
+
     vm.loading = true;
     vm.firstTimeLoading = true;
     vm.taskSetting = {
@@ -80,7 +83,7 @@
       NstSvcTaskFactory.get(id).then(function (task) {
         if (vm.isWatchlistPage && _.findIndex(task.watchers, {id: vm.user.id}) > -1) {
           vm.tasks.splice(index, 1);
-        } if (vm.isAssignedToMePage && task.assignees.id !== vm.user.id) {
+        } if (vm.isAssignedToMePage && task.assignee.id !== vm.user.id) {
           vm.tasks.splice(index, 1);
         } else {
           vm.tasks[index] = task;
