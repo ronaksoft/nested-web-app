@@ -89,7 +89,14 @@
 
     function assigneeKeyDown(event) {
       if (vm.addItem && event.keyCode === 13) {
+        if (vm.assigneeInput === '' && _.isFunction(vm.onKeyDown)) {
+          vm.onKeyDown(13);
+        }
         addAssigneeChip();
+      } else if (event.keyCode === 27) {
+        if (_.isFunction(vm.onKeyDown)) {
+          vm.onKeyDown(27);
+        }
       }
     }
 
