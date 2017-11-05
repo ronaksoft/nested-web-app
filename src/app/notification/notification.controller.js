@@ -10,7 +10,7 @@
     NstSvcNotificationFactory, NstSvcInteractionTracker, NstSvcDate) {
     var vm = this;
     vm.NST_NOTIFICATION_TYPE = NST_NOTIFICATION_TYPE;
-    var pageItemsCount = 12;
+    var pageItemsCount = 24;
     vm.notifications = /*NstSvcNotificationFactory.getLoadedNotification() ||*/ [];
     vm.postNotifications = [];
     vm.taskNotifications = [];
@@ -42,6 +42,8 @@
       $scope.$emit('close-mention');
     };
 
+    var debounceCount = _.debounce(countNotifications, 100);
+
     function markAsSeen(notification) {
       var deferred = $q.defer();
 
@@ -67,10 +69,10 @@
     }
 
     function markAllItemsAsSeen(items) {
-      countNotifications(vm.notifications);
       _.forEach(items, function (item) {
         item.isSeen = true;
       });
+      debounceCount();
     }
 
     function loadNotification(before, after) {
@@ -128,10 +130,10 @@
       return loadNotification(null, firstItem.date.getTime());
     }
 
-    function countNotifications(notifications) {
+    function countNotifications() {
       vm.taskCounts = 0;
       vm.postCounts = 0;
-      _.forEach(notifications, function (item) {
+      _.forEach(vm.notifications, function (item) {
         if (item.isTask) {
           if (!item.isSeen) {
             vm.taskCounts++;
