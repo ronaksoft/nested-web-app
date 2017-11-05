@@ -51,7 +51,7 @@
           </div>
         </li>
       </ul>
-      <h5 class="list-head large pending" ng-if="ctrl.pendingTasks.length > 0 && ctrl.isGlancePage"><translate>You’ve been Candidated to do this...</translate></h5>
+      <h5 class="list-head large pending" ng-if="ctrl.pendingTasks.length > 0 && ctrl.isGlancePage"><translate>You've been Candidated to do this...</translate></h5>
       <ul class="list-ul candidate" ng-if="ctrl.pendingTasks.length > 0 && ctrl.isGlancePage">
         <li class="large" ng-repeat="task in ctrl.pendingTasks">
           <div class="list-li-icon">
@@ -102,7 +102,7 @@
           </div>
         </li>
       </ul>
-      
+
       <div ng-if="(ctrl.isGlancePage && ctrl.tasks.length === 0 && ctrl.pendingTasks.length === 0 && ctrl.pendingTasks.overDueTasks.length === 0) ||
       (!ctrl.isGlancePage && ctrl.tasks.length === 0)"
         class="_fn empty-place-holder">

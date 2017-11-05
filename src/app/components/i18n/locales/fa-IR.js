@@ -603,7 +603,7 @@
     "You have to delete all the sub-Places within, before removing this Place.": "برای پاک کردن این Place، ابتدا باید تمام Placeهای زیر مجموعه را پاک کنید.\r\n",
     "You haven't any task until next year!<br>Enjoy your freedom &#x1F60A;": "شما تا سال آینده هیچ کاری ندارید!<br> از آزادی‌تان لذت ببرید😊",
     "You just can create sub Places only in closed Places": "فقط در private place امکان ساخت place زیرمجموعه وجود دارد.",
-    "You&#x2019;ve been Candidated to do this...": "شما برای انجام این... نامزد شده‌اید",
+    "You've been Candidated to do this...": "شما برای انجام این... نامزد شده‌اید",
     "You're disconnected from the server,": "ارتباط شما با سرور قطع شد",
     "You've changed your password successfully.": "رمز عبور شما با موفقیت تغییر کرد.",
     "You've entered a wrong code": "کد امنیتی وارد شده، اشتباه است.",
