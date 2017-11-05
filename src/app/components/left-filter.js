@@ -22,22 +22,22 @@
           var daysDiff = overdue.diff(date, 'days');
           var hoursDiff = overdue.diff(date, 'hours');
           if (daysDiff > 1) {
-            return NstSvcTranslation.get(NstUtility.string.format('{0} days ago', daysDiff));
+            return NstUtility.string.format(NstSvcTranslation.get('{0} days ago'), daysDiff);
           }
           if (daysDiff > 0) {
-            return NstSvcTranslation.get(NstUtility.string.format('{0} day ago', daysDiff));
+            return NstUtility.string.format(NstSvcTranslation.get('{0} day ago'), daysDiff);
           }
           if (daysDiff === 0 && haveTime && hoursDiff > 1) {
-            return NstSvcTranslation.get(NstUtility.string.format('{0} hours ago', hoursDiff));
+            return NstUtility.string.format(NstSvcTranslation.get('{0} hours ago'), hoursDiff);
           }
           if (daysDiff === 0 && haveTime && hoursDiff > 0) {
-            return NstSvcTranslation.get(NstUtility.string.format('{0} hour ago', hoursDiff));
+            return NstUtility.string.format(NstSvcTranslation.get('{0} hour ago'), hoursDiff);
           }
           if (daysDiff === 0 && haveTime && hoursDiff === 0) {
-            return NstSvcTranslation.get(NstUtility.string.format('about one hour ago', hoursDiff));
+            return NstUtility.string.format(NstSvcTranslation.get('about one hour ago'), hoursDiff);
           }
           return NstSvcTranslation.get('Time is passed!');
-          
+
         }
 
         var justNow = moment(current).startOf('minute').add(1, 'minutes');
@@ -62,7 +62,7 @@
         var thisMonth = moment(current).startOf('minute').add(30, 'days');
         if (date.isSameOrBefore(thisMonth)) {
           // TODO  why add 1 days ?
-          return NstSvcTranslation.get(NstUtility.string.format('{0} days left', date.add(1, 'days').diff(justNow, 'days')));
+          return NstUtility.string.format(NstSvcTranslation.get('{0} days left'), date.add(1, 'days').diff(justNow, 'days'));
         }
 
         var thisYear = moment(current).startOf('year');
@@ -71,7 +71,7 @@
         }
 
         return date.format(NstSvcCalendarTranslation.get('DD[/]MM[/]YYYY'));
-      }
+      };
 
       dateFilter.$stateful = true;
 
