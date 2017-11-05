@@ -689,7 +689,7 @@
        * Listen to closing notification popover event
        */
       $scope.$on('close-mention', function () {
-        vm.mentionOpen = false;
+        vm.notifOpen = false;
       });
 
       function scrollEndSearch() {
