@@ -123,8 +123,10 @@
     vm.assigneeIcon = 'no-assignee';
     vm.assigneePlaceholder = NstSvcTranslation.get('Add assignee or candidates');
     vm.assigneeChanged = false;
+    vm.assigneeLoading = false;
     vm.removeAssignees = removeAssignees;
     vm.executeAssigneeUpdate = executeAssigneeUpdate;
+    vm.assigneeKeyDown = assigneeKeyDown;
 
     vm.dueDateFocus = false;
     vm.dueDatePlaceholder = NstSvcTranslation.get('+ Set a due time (optional)');
@@ -444,15 +446,29 @@
     }
 
     function executeAssigneeUpdate(action) {
+      if (vm.assigneeLoading) {
+        return;
+      }
       if (action === 'abort') {
         vm.model.assignees = vm.modelBackUp.assignees.slice(0);
         vm.assigneeFocus = false;
       } else if (action === 'confirm') {
+        vm.assigneeLoading = true;
         NstSvcTaskFactory.updateAssignee(vm.taskId, getCommaSeparate(vm.model.assignees)).then(function () {
           vm.modelBackUp.assignees = vm.model.assignees.slice(0);
           isUpdated = true;
           vm.assigneeFocus = false;
+          vm.assigneeChanged = false;
+          vm.assigneeLoading = false;
         });
+      }
+    }
+
+    function assigneeKeyDown(keyCode) {
+      if (keyCode === 27) {
+        executeAssigneeUpdate('abort');
+      } else if (keyCode === 13) {
+        executeAssigneeUpdate('confirm');
       }
     }
 

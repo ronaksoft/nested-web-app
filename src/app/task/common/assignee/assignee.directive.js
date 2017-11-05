@@ -24,7 +24,8 @@
         initData: '=',
         assigneeFocusMe: '=',
         assigneeExclude: '@',
-        removeMyself: '=?'
+        removeMyself: '=?',
+        onKeyDown: '=?'
       }
     };
   }

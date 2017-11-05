@@ -23,10 +23,6 @@
     vm.user = undefined;
     NstSvcTaskUtility.getValidUser(vm, NstSvcAuth);
 
-    $timeout(function () {
-      console.log(vm.user);
-    }, 2000);
-
     $scope.scrollEnd = function() {}; // will Assigned by directive stickBottomScroll
     vm.activityTypes = NST_TASK_EVENT_ACTION;
 
