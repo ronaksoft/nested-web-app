@@ -1,0 +1,14 @@
+<div class="_df _fw voice-comment ng-class:{'is-play': vm.isPlay}" ng-click="ctlCommentVoice.playVoice(comment)">
+    <div class="play-voice _16svg" ng-click="vm.isPlay =! vm.isPlay">
+        <svg class="_16svg">
+            <use xlink:href="/assets/icons/nst-icn16.svg#play"></use>
+        </svg>
+        <svg class="_16svg">
+            <use xlink:href="/assets/icons/nst-icn16.svg#pause"></use>
+        </svg>
+    </div>
+    <div class="trailer-voice"></div>
+    <div class="time-voice">
+        {{ctlCommentVoice.voice.meta.duration}}
+    </div>
+</div>
