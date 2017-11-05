@@ -5,8 +5,9 @@
     .module('ronak.nested.web.task')
     .controller('TaskActivityController', TaskActivityController);
 
-  function TaskActivityController($timeout, $scope, $rootScope, _, $q, $state, NstSvcTaskActivityFactory, NST_TASK_EVENT_ACTION,
-                                  NstSvcAuth, NstSvcTaskFactory, NstSvcTranslation, toastr, NstTaskActivity, NstSvcUserFactory, NstSvcDate) {
+  function TaskActivityController($timeout, $scope, $rootScope, _, $q, $state, NstSvcTaskActivityFactory,
+                                  NST_TASK_EVENT_ACTION, NstSvcAuth, NstSvcTaskFactory, NstSvcTranslation,
+                                  toastr, NstTaskActivity, NstSvcUserFactory, NstSvcDate, NstSvcTaskUtility) {
     var vm = this;
     var eventReferences = [];
     var latestActivityTimestamp = -1;
@@ -19,9 +20,13 @@
 
     vm.sendComment = sendComment;
 
+    vm.user = undefined;
+    NstSvcTaskUtility.getValidUser(vm, NstSvcAuth);
+
     $timeout(function () {
-      vm.user = NstSvcAuth.user;
-    }, 100);
+      console.log(vm.user);
+    }, 2000);
+
     $scope.scrollEnd = function() {}; // will Assigned by directive stickBottomScroll
     vm.activityTypes = NST_TASK_EVENT_ACTION;
 
