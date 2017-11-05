@@ -13,10 +13,22 @@
         if (!moment.isMoment(date)) {
           date = moment(date);
         }
+        if (!haveTime) {
+          date = moment(date).startOf('day');
+        }
 
         var overdue = moment(current).startOf('minute');
         if (date.isSameOrBefore(overdue)) {
+          var daysDiff = overdue.diff(date, 'days');
+          var hoursDiff = overdue.diff(date, 'hours');
+          if (daysDiff !== 0) {
+            return NstSvcTranslation.get(NstUtility.string.format('{0} days has passed', daysDiff));
+          }
+          if (daysDiff === 0 && haveTime) {
+            return NstSvcTranslation.get(NstUtility.string.format('{0} hours has passed', hoursDiff));
+          }
           return NstSvcTranslation.get('Time is passed!');
+          
         }
 
         var justNow = moment(current).startOf('minute').add(1, 'minutes');
