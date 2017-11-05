@@ -74,14 +74,19 @@
           </div>
           <div ng-if="ctrlEditTask.assigneeFocus != true && ctrlEditTask.model.assignees.length == 1"
                ng-click="ctrlEditTask.assigneeFocus = true;"
-               class="unfocused-input" translate-inner>Assigned to <b user-detail="ctrlEditTask.model.assignees[0]"><translate>{{ctrlEditTask.user.id === ctrlEditTask.model.assignees[0].id? 'Me': ctrlEditTask.model.assignees[0].fullName}}</translate></b>
+               class="unfocused-input" translate-inner>Assigned to <b user-detail="ctrlEditTask.model.assignees[0]">
+                 <translate ng-if="ctrlEditTask.user.id === ctrlEditTask.model.assignees[0].id">Me</translate>
+                 <span ng-if="ctrlEditTask.user.id !== ctrlEditTask.model.assignees[0].id">{{ctrlEditTask.model.assignees[0].fullName}}</span></b>
           </div>
           <div ng-if="ctrlEditTask.assigneeFocus != true && ctrlEditTask.model.assignees.length > 1"
                ng-click="ctrlEditTask.assigneeFocus = true;"
                class="unfocused-input candidates">
             <translate>Candidates:</translate>
             <span ng-repeat="assignee in ctrlEditTask.model.assignees">
-              <b user-detail="assignee"><translate>{{ctrlEditTask.user.id === assignee.id? 'Me': assignee.fullName}}</translate></b>{{ctrlEditTask.model.assignees.length - 2 == $index? ' & ': (ctrlEditTask.model.assignees.length - 2 > $index? ', ': '')}}
+              <b user-detail="assignee">
+                <translate ng-if="ctrlEditTask.user.id === assignee.id">Me</translate>
+                <span ng-if="ctrlEditTask.user.id !== assignee.id">{{assignee.fullName}}</span>
+              </b>{{ctrlEditTask.model.assignees.length - 2 == $index? ' & ': (ctrlEditTask.model.assignees.length - 2 > $index? ', ': '')}}
             </span>
           </div>
         </div>
@@ -101,7 +106,7 @@
       <div ng-if="ctrlEditTask.model.access.updateTask == true || ctrlEditTask.model.dueDate != null"
            class="task-due const-height-item">
         <div class="task-input-wrapper ng-class:{'focus': ctrlEditTask.dueDateFocus}">
-          <input type="text" class="no-style gale-holder create-task-input" translate-attrs="placeholder"
+          <input type="text" class="no-style gale-holder create-task-input"
                  placeholder="{{ctrlEditTask.dueDatePlaceholder}}"
                  id="task-due" ng-focus="ctrlEditTask.dueDateFocus = true" ng-blur="ctrlEditTask.dueDateFocus = false"
                  ng-model="ctrlEditTask.model.dueDate"
