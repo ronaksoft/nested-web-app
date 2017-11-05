@@ -12,7 +12,8 @@
     var vm = this;
     // var eventReferences = [];
 
-    vm.user = NstSvcAuth.user;
+    vm.user = undefined;
+    NstSvcTaskUtility.getValidUser(vm, NstSvcAuth);
 
     vm.taskStatuses = NST_TASK_STATUS;
     vm.taskId = '';
