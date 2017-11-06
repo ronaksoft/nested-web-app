@@ -16,7 +16,7 @@
    * @example <ng-datepicker></ng-datepicker>
    */
 
-  ngJalaaliFlatDatepickerDirective.$inject = ["$templateCache", "$compile", "$document", "datesCalculator", "ngJalaaliFDP", "moment", "NstSvcI18n"];
+  ngJalaaliFlatDatepickerDirective.$inject = ["$templateCache", "$compile", "$document", "datesCalculator", "ngJalaaliFDP", "moment", "NstSvcI18n", "NstSvcTranslation", "_"];
   angular
     .module('ngJalaaliFlatDatepicker', ["ronak.nested.web.components.i18n"])
     .filter('persianDate', PersianDateFilter)
@@ -73,7 +73,7 @@
   }
 
 
-  function ngJalaaliFlatDatepickerDirective($templateCache, $compile, $document, datesCalculator, ngJalaaliFDP, moment, NstSvcI18n) {
+  function ngJalaaliFlatDatepickerDirective($templateCache, $compile, $document, datesCalculator, ngJalaaliFDP, moment, NstSvcI18n, NstSvcTranslation, _) {
     /*function parseConfig (config) {
         var temp = angular.fromJson(config);
         if (typeof(temp.minDate) == 'undefined') {
@@ -109,7 +109,7 @@
           } else {
             scope.config.dateFormat = jalali ? scope.config.jalaliDateFormat : scope.config.dateOnlyFormat
           }
-        })
+        });
 
         var template = angular.element($templateCache.get('datepicker.html'));
 
@@ -177,7 +177,12 @@
                 return moment().add(1, 'day');
               }
             }
-            return moment(value, scope.config.dateFormat);
+            console.log(value, moment(value, scope.config.dateFormat));
+            if(!jalali && farsi){
+              return moment(value);
+            } else {
+              return moment(value, scope.config.dateFormat);
+            }
           }
         });
 
@@ -191,7 +196,9 @@
           return ngModel.$modelValue;
         }, function (value) {
           if (value) {
+            console.log(value, moment(value), moment(value).format(scope.config.dateFormat));
             dateSelected = scope.calendarCursor = moment(value);
+            console.log(dateSelected);
             setTimeFromTimeStamp(value)
             setViewTime(value.toString().substr(16, 5));
           }
@@ -282,7 +289,14 @@
           if (day.isSelectable && !day.isFuture || (scope.config.allowFuture && day.isFuture)) {
             resetSelectedDays();
             day.isSelected = true;
-            ngModel.$setViewValue(moment(day.date).format(scope.config.dateFormat));
+            var vw = moment(day.date).format(scope.config.dateFormat);
+            if(!jalali && farsi){
+              vw = moment(day.date);
+            } else {
+              vw = moment(day.date).format(scope.config.dateFormat);
+            }
+            console.log(vw);
+            ngModel.$setViewValue(vw);
             ngModel.$render();
             scope.gPickedDate = moment(day.date);
             scope.gFormattedPickedDate = moment(day.date).format(scope.config.gregorianDateFormat);
