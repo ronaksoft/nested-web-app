@@ -66,17 +66,7 @@
         getList()
       }
 
-      function barClick(e) {
-        var barWidth = e.currentTarget.clientWidth;
-        var x;
-
-
-        if ( $rootScope._direction !== 'rtl') {
-          x = e.clientX - $(e.currentTarget).offset().left;
-        } else {
-          x = e.clientX - $(e.currentTarget).offset().left - barWidth;
-        }
-        var newRatio = Math.abs(x / barWidth);
+      function barClick(newRatio) {
         var setTime = vm.currentTime.duration * newRatio;
         vm.currentTime.ratio = newRatio;
         SvcMiniPlayer.seekTo(setTime);
