@@ -12,7 +12,7 @@
                                  NST_EVENT_ACTION, NST_USER_EVENT, NST_NOTIFICATION_EVENT, NST_SRV_EVENT, NST_NOTIFICATION_TYPE, NST_PLACE_EVENT, NST_POST_EVENT,
                                  NstSvcAuth, NstSvcServer, NstSvcLogger, NstSvcNotification, NstSvcTranslation, NST_PLACE_MEMBER_TYPE,
                                  NstSvcNotificationSync, NstSvcPlaceFactory, NstSvcInvitationFactory, NstUtility, NstSvcUserFactory, NstSvcSidebar,
-                                 NstSvcKeyFactory, NstSvcPostDraft, NstSvcGlobalCache) {
+                                 NstSvcKeyFactory, NstSvcPostDraft) {
     var vm = this;
     var eventReferences = [];
     var myPlaceOrders = {};
@@ -31,29 +31,41 @@
 
     vm.sortUpdateHandler  = sortUpdateHandler;
     function sortUpdateHandler() {
-      console.log(JSON.stringify(createSortedList(vm.places)));
-      console.log(_.map(vm.places, function (item) {
-        return item.id;
-      }).join(','));
+      setMyPlacesOrder(JSON.stringify(createSortedList(vm.places))).then(function () {
+        toastr.success(NstSvcTranslation.get('Places sorting updated'));
+      }).catch(function () {
+        toastr.error(NstSvcTranslation.get('Something went wrong!'));
+      });
+    }
+
+    function mapWithKey(items) {
+      var list = {};
+      for (var i in items) {
+        for (var key in items[i]) {
+          list[key] = items[i][key];
+        }
+      }
+      return list;
     }
 
     function createSortedList(places) {
       var order = 0;
-      return _.map(places, function (item) {
+      return mapWithKey(_.map(places, function (item) {
         order++;
         return getSortedInfo(item, order);
-      });
+      }));
     }
 
     function getSortedInfo(subPlace, order) {
       var subOrder = 0;
       var output = {};
-      output[subPlace.id] = order;
+      output[subPlace.id] = {};
+      output[subPlace.id].o = order;
       if (subPlace.children && subPlace.children.length > 0) {
-        output.s = _.map(subPlace.children, function (item) {
+        output[subPlace.id].s = mapWithKey(_.map(subPlace.children, function (item) {
           subOrder++;
           return getSortedInfo(item, subOrder);
-        });
+        }));
       }
       return output
     }
@@ -105,19 +117,11 @@
     vm.onPlaceClick = onPlaceClick;
     vm.openCreatePlaceModal = openCreatePlaceModal;
     vm.openCreateSubplaceModal = openCreateSubplaceModal;
-    vm.updateExpanded = updateExpanded;
     vm.expandedPlaces = [];
     vm.myPlacesUnreadPosts = {};
     vm.myPlacesHasUnseenChildren = [];
-    vm.isChildrenUnseen = isChildrenUnseen;
-    vm.canCreateClosedPlace = false;
-    vm.canCreateOpenPlace = false;
-    vm.canCreateGrandPlace = false;
     vm.noAccessCreatingMessage = '';
     vm.selectedPlaceName = '';
-
-    var storedExpandedPlacesService = [];
-    var storedExpandedPlacesKey = '_savedExpandedPlaces';
 
     initialize();
 
@@ -126,19 +130,10 @@
      *****************************/
 
     function initialize() {
-      storedExpandedPlacesService = NstSvcGlobalCache.createProvider('sidebar_expanded_places');
-      var expandedPlacesData = storedExpandedPlacesService.get(storedExpandedPlacesKey);
-      if (expandedPlacesData !== null && _.isObject(expandedPlacesData)) {
-        for (var key in expandedPlacesData) {
-          if (key !== '__exp') {
-            vm.expandedPlaces.push(expandedPlacesData[key]);
-          }
-        }
-      }
-      $q.all([getMyPlacesOrder(), getMyPlaces()]).then(function (results) {
+      vm.expandedPlaces = [];
+      $q.all([getMyPlacesOrder(), getMyPlaces(true)]).then(function (results) {
         myPlaceOrders = results[0];
         vm.places = createTree(results[1], myPlaceOrders, vm.expandedPlaces, vm.selectedPlaceId);
-        loadMyPlacesUnreadPostsCount();
       });
 
       loadCurrentUser();
@@ -204,76 +199,11 @@
 
     }
 
-    function rebuildMyPlacesTree(placeId) {
-      getMyPlaces(true).then(function (places) {
-        vm.places = createTree(places, myPlaceOrders, vm.expandedPlaces, placeId || vm.selectedPlaceId);
-        loadMyPlacesUnreadPostsCount();
-      });
-    }
-
     function loadCurrentUser() {
-      vm.canCreateGrandPlace = false;
-      vm.canCreateOpenPlace = false;
-      vm.canCreateClosedPlace = false;
-
-      vm.selectedPlaceId = $stateParams.placeId;
-
-      if (vm.selectedPlaceId) {
-        $q.all([
-          NstSvcPlaceFactory.get(vm.selectedPlaceId, true),
-          NstSvcUserFactory.getCurrent(true)
-        ]).then(function (results) {
-          if (_.size(results) === 2 && _.every(results)) {
-            vm.selectedPlaceName = results[0].name;
-            var hasAddPlaceAccess = results[0].hasAccess(NST_PLACE_ACCESS.ADD_PLACE);
-            var canAddMore = results[0].canAddSubPlace();
-            if (!hasAddPlaceAccess) {
-              vm.noAccessCreatingMessage = NstSvcTranslation.get('You have no access create sub Places here.');
-            }
-            if (!canAddMore) {
-              vm.noAccessCreatingMessage = NstSvcTranslation.get('You have reached the creation limit.');
-            }
-            if (!results[0].privacy.locked && !NstUtility.place.isGrand(results[0].id)) {
-              vm.noAccessCreatingMessage = NstSvcTranslation.get('You just can create sub Places only in closed Places');
-            }
-
-            vm.canCreateClosedPlace = hasAddPlaceAccess
-              && results[0].privacy.locked
-              && canAddMore;
-            vm.canCreateOpenPlace = hasAddPlaceAccess
-              && results[0].privacy.locked
-              && canAddMore
-              && NstUtility.place.isGrand(results[0].id)
-              && results[0].id !== results[1].id;
-            vm.canCreateGrandPlace = results[1].limits.grand_places > 0;
-            // vm.canCreateGrandPlace = currentUser.limits.grand_places > 0;
-
-            vm.user = results[1];
-            // vm.notificationsCount = results[1].unreadNotificationsCount;
-          }
-        });
-      } else {
-        NstSvcUserFactory.getCurrent(true).then(function (user) {
-          vm.canCreateGrandPlace = user.limits.grand_places > 0;
-          vm.user = user;
-        });
-      }
-    }
-
-    function loadMyPlacesUnreadPostsCount() {
-
-      return NstSvcPlaceFactory.getPlacesUnreadPostsCount(myPlaceIds, false).then(function (places) {
-        var total = 0;
-        vm.myPlacesUnreadPosts = {};
-
-        _.forEach(places, function (item) {
-          vm.myPlacesUnreadPosts[item.place_id] = item.count;
-          total += item.count;
-        });
-
-        updateUnseenParents();
-
-        $rootScope.$emit('unseen-activity-notify', total);
+      vm.selectedPlaceId = null;
+      NstSvcUserFactory.getCurrent(true).then(function (user) {
+        vm.canCreateGrandPlace = user.limits.grand_places > 0;
+        vm.user = user;
       });
     }
 
@@ -318,7 +248,7 @@
      * @returns {object}
      */
     function getMyPlacesOrder() {
-      return NstSvcKeyFactory.get(NST_KEY.GENERAL_SETTING_PLACE_ORDER).then(function (result) {
+      return NstSvcKeyFactory.get(NST_KEY.GENERAL_NEW_SETTING_PLACE_ORDER).then(function (result) {
         if (result) {
           return JSON.parse(result);
         }
@@ -326,6 +256,9 @@
       });
     }
 
+    function setMyPlacesOrder(data) {
+      return NstSvcKeyFactory.set(NST_KEY.GENERAL_NEW_SETTING_PLACE_ORDER, data);
+    }
 
     vm.range = function (num) {
       var seq = [];
@@ -335,40 +268,6 @@
 
       return seq;
     };
-
-    /*****************************
-     *****  Event Listeners   ****
-     *****************************/
-
-    /**
-     * Event listener for `NST_PLACE_EVENT.UPDATED`
-     */
-    eventReferences.push($rootScope.$on(NST_PLACE_EVENT.UPDATED, function () {
-      rebuildMyPlacesTree();
-    }));
-
-    /**
-     * Event listener for `NST_PLACE_EVENT.PICTURE_CHANGED`
-     */
-    eventReferences.push($rootScope.$on(NST_PLACE_EVENT.PICTURE_CHANGED, function () {
-      rebuildMyPlacesTree();
-    }));
-
-    /**
-     * Event listener for `NST_PLACE_EVENT.REMOVED`
-     */
-    eventReferences.push($rootScope.$on(NST_PLACE_EVENT.REMOVED, function () {
-      rebuildMyPlacesTree();
-    }));
-
-
-    $scope.$on('$destroy', function () {
-      _.forEach(eventReferences, function (canceler) {
-        if (_.isFunction(canceler)) {
-          canceler();
-        }
-      });
-    });
 
     /**
      * Returns true if the given Place is a child of the provided parent Place ID
@@ -414,10 +313,11 @@
      * @param {any} expandedPlaces
      * @param {any} selectedId
      * @param {any} depth
+     * @param {any} orders
      * @returns
      */
-    function getChildren(place, places, expandedPlaces, selectedId, depth) {
-      return _.chain(places).sortBy(['id']).reduce(function (stack, item) {
+    function getChildren(place, places, expandedPlaces, selectedId, depth, orders) {
+      var chain = _.chain(places).sortBy(['id']).reduce(function (stack, item) {
         // The child does not belong to the Place
         if (!isChild(place.id, item)) {
           return stack;
@@ -438,12 +338,28 @@
 
         var isActive = (item.id === selectedId);
         var isExpanded = isItemExpanded(item, expandedPlaces, selectedId);
-        var children = getChildren(item, places, expandedPlaces, selectedId, depth + 1);
+        var children = getChildren(item, places, expandedPlaces, selectedId, depth + 1, getOrder(orders, place.id));
 
         stack.push(createTreeItem(item, false, children, isExpanded, isActive, depth));
 
         return stack;
-      }, []).sortBy(['name']).value();
+      }, []);
+
+      if (orders !== null) {
+        return chain.sortBy(function (place) {
+          return orders[place.id]? orders[place.id].o: 1;
+        }).value();
+      } else {
+        return chain.sortBy(['name']).value();
+      }
+    }
+
+    function getOrder(order, id) {
+      if (order && order[id] && order[id].s) {
+        return order[id].s;
+      } else {
+        return null;
+      }
     }
 
     /**
@@ -464,10 +380,10 @@
       }).map(function (place) {
         var isActive = (place.id === selectedId);
         var isExpanded = isItemExpanded(place, expandedPlaces, selectedId);
-        var children = getChildren(place, places, expandedPlaces, selectedId, 1);
+        var children = getChildren(place, places, expandedPlaces, selectedId, 1, getOrder(orders, place.id));
         return createTreeItem(place, true, children, isExpanded, isActive, 0);
       }).sortBy(function (place) {
-        return orders[place.id];
+        return orders[place.id]? orders[place.id].o: 1;
       }).value();
     }
 
@@ -491,8 +407,8 @@
         accesses: place.accesses,
         isGrandPlace: isGrandPlace,
         isSelected: false,
-        notificationStatus: false, //TODO
-        bookmarkedStatus: false, //TODO
+        notificationStatus: place.notification,
+        favorite: place.favorite, //TODO
         policy: place.policy,
         children: children,
         hasChildren: children && children.length > 0,
@@ -532,72 +448,6 @@
      */
     function hasUnseen(place, myPlacesUnreadPosts) {
       return place.unreadPosts > 0 || myPlacesUnreadPosts[place.id] > 0;
-    }
-
-    /**
-     * Updates expanded places
-     *
-     * @param {any} placeId
-     * @param {any} expanded
-     */
-    function updateExpanded(placeId, expanded) {
-      var index = vm.expandedPlaces.indexOf(placeId);
-      if (expanded && index === -1) {
-        vm.expandedPlaces.push(placeId);
-      } else if (!expanded && index !== -1) {
-        vm.expandedPlaces.splice(index, 1);
-      }
-      storeExpandedPlaces(vm.expandedPlaces);
-    }
-
-    function storeExpandedPlaces(expandedPlaces) {
-      storedExpandedPlacesService.set(storedExpandedPlacesKey, expandedPlaces, {
-        expiration: new Date().setFullYear(new Date().getFullYear() + 1)
-      });
-    }
-
-    function removeLastChildFromPlace(id) {
-      var parts = id.split('.');
-      parts.pop();
-      return parts.join('.');
-    }
-
-    function appendChildToParent(items, index, list) {
-      if (index < 2) {
-        return;
-      }
-      _.forEach(items[index], function (item) {
-        if (items[index - 1] === undefined) {
-          items[index - 1] = [];
-        }
-        var parent = removeLastChildFromPlace(item);
-        list.push(parent);
-        items[index - 1].push(parent);
-      });
-    }
-
-    function updateUnseenParents() {
-      var list = [];
-      _.forEach(vm.myPlacesUnreadPosts, function (item, key) {
-        if (item > 0) {
-          var parts = key.split('.');
-          if (list[parts.length] === undefined) {
-            list[parts.length] = [];
-          }
-          list[parts.length].push(key);
-        }
-      });
-      // list.reverse();
-      var hasUnseenChildrenList = [];
-      _.forEachRight(list, function (item, key) {
-        appendChildToParent(list, key, hasUnseenChildrenList);
-      });
-      hasUnseenChildrenList = _.union(hasUnseenChildrenList);
-      vm.myPlacesHasUnseenChildren = hasUnseenChildrenList;
-    }
-
-    function isChildrenUnseen(id) {
-      return vm.myPlacesHasUnseenChildren.indexOf(id) > -1;
     }
 
   }
