@@ -25,6 +25,8 @@
     vm.selectedPlaces = [];
     vm.keyword = '';
     vm.openAddMemberModal = openAddMemberModal;
+    vm.toggleNotification = toggleNotification;
+    vm.toggleShowInFeed = toggleShowInFeed;
     vm.placesSetting = {
       relationView: true
     };
@@ -360,6 +362,28 @@
       } else {
         return null;
       }
+    }
+
+    /**
+     * Toggles the notification property of place
+     * @returns {boolean}
+     */
+    function toggleNotification(place) {
+      place.notificationStatus = !place.notificationStatus;
+      NstSvcPlaceFactory.setNotificationOption(place.id, place.notificationStatus).catch(function () {
+        place.notificationStatus = !place.notificationStatus;
+      });
+    }
+
+    /**
+     * Toggles the notification property of place
+     * @returns {boolean}
+     */
+    function toggleShowInFeed(place) {
+      place.favorite = !place.favorite;
+      NstSvcPlaceFactory.setBookmarkOption(place.id, place.favorite).catch(function () {
+        place.favorite = !place.favorite;
+      });
     }
 
     /**

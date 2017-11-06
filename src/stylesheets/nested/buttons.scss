@@ -512,7 +512,11 @@ input[type="checkbox"].inpsw[disabled]:checked + label + label  {
     border-top-right-radius: 8px;
     border-bottom-right-radius: 8px;
   }
-
+  input[type="checkbox"]:checked + label  {
+    .circle {
+      transform: translateX(18px);
+    }
+  }
 }
 
 .inline-date-picker {
