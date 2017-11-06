@@ -380,6 +380,9 @@
      * @returns {boolean}
      */
     function toggleShowInFeed(place) {
+      if(place.id === vm.user.id) {
+        return;
+      }
       place.favorite = !place.favorite;
       NstSvcPlaceFactory.setBookmarkOption(place.id, place.favorite).catch(function () {
         place.favorite = !place.favorite;

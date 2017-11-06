@@ -73,7 +73,7 @@
     <div class="place-show-feed">
       <div class="place-switch sm _fn" ng-click="ctrl.toggleShowInFeed(place)">
         <input type="checkbox" name="checkbox_id" id="fav-{{place.id}}" data-ng-model="place.favorite"
-          ng-disabled="false">
+          ng-disabled="ctrl.user.id === place.id">
         <label for="fav-{{place.id}}">
             <div class="circle" switch-drag="place.favorite" size="'sm'"></div>
         </label>

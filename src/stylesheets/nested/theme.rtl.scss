@@ -1152,6 +1152,9 @@ body[dir="rtl"] {
     right: auto;
     left: 12px;
   }
+  .place-switch.sm input[type="checkbox"]:checked + label .circle {
+    transform: translateX(-18px);
+  }
 }
 
 body[dir="ltr"] {
