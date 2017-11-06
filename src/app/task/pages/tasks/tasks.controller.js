@@ -90,6 +90,16 @@
         }
       }).catch(function () {
         vm.tasks.splice(index, 1);
+        if (vm.isGlancePage) {
+          var overDueIndex = _.findIndex(vm.overDueTasks, {id: id});
+          if (overDueIndex > -1) {
+            vm.overDueTasks.splice(overDueIndex, 1);
+          }
+          var pendingIndex = _.findIndex(vm.pendingTasks, {id: id});
+          if (pendingIndex > -1) {
+            vm.pendingTasks.splice(pendingIndex, 1);
+          }
+        }
       });
     }
 
