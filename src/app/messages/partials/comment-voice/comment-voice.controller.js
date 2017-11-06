@@ -14,18 +14,23 @@
     .module('ronak.nested.web.message')
     .controller('CommentVoiceController', CommentVoiceController);
 
-  function CommentVoiceController($scope, $sce, $q, $filter, _, NstSvcFileFactory, NstSvcAttachmentFactory, SvcMiniPlayer, NstSvcStore, NST_STORE_ROUTE, toastr) {
+  function CommentVoiceController($scope, $sce, $q, $filter, _, NstSvcFileFactory, NstSvcAttachmentFactory,
+        SvcMiniPlayer, NstSvcStore, NST_STORE_ROUTE, toastr, moment) {
     var vm = this;
     vm.playVoice = playVoice;
+    vm.barClick = barClick;
     vm.voice;
-
+    vm.currentTime = {
+      time: 0,
+      duration: 100,
+      ratio: 0
+    };
     vm.parts = [];
 
     init();
 
     function init() {
       NstSvcAttachmentFactory.getOne(vm.comment.attachment_id).then(function (attachment) {
-        console.log(attachment);
         vm.voice = attachment;
       })
     }
@@ -43,11 +48,18 @@
         vm.voice.isVoice = vm.voice.uploadType === "VOICE";
         vm.voice.isPlayed = true;
         vm.voice.sender = vm.comment.sender;
-        console.log(vm.voice);
+        SvcMiniPlayer.addTrack(vm.voice);
       }).catch(function () {
         toastr.error('Sorry, An error has occured while playing the audio');
       });
     }
+    
+    function barClick(newRatio) {
+      var setTime = vm.currentTime.duration * newRatio;
+      vm.currentTime.ratio = newRatio;
+      SvcMiniPlayer.seekTo(setTime);
+    }
+    
     $scope.to_trusted = function (html_code) {
       return $sce.trustAsHtml(html_code);
     };

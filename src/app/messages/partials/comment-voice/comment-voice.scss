@@ -18,9 +18,10 @@
     .trailer-voice {
         display: flex;
         width: 100%;
-        height: 2px;
-        margin: 0 8px;
-        background: $color-breeze;
+        height: 24px;
+        .bg-bar {
+            background: $color-solid;
+        }
     }
     .time-voice {
         display: flex;
@@ -44,8 +45,15 @@
             }
         }
         .trailer-voice {
-            background: $color-gale-white;
-        }.time-voice {
+            .bg-bar {
+                background: $color-gale-white;
+                opacity: 1;
+            }
+            .played-bar {
+                background: $color-white;
+            }
+        }
+        .time-voice {
             color: $color-hurri-white;
         }
     }

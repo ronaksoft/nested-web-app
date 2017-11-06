@@ -77,7 +77,7 @@ $color-attachment-shadow : rgba(20,20,20,.64);
 // white color with different opacities
 $color-hurri-white : transparentize($color-white, 1 - .72);
 $color-gale-white : transparentize($color-white, 1 - .4);
-$color-64-white : transparentize($color-white, 1 - .4);
+$color-64-white : transparentize($color-white, 1 - .64);
 
 // Font sizes
 $font-size-xxsmall: 10px;
