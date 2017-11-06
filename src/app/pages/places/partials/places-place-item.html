@@ -72,10 +72,10 @@
     </div>
     <div class="place-show-feed">
       <div class="place-switch sm _fn">
-        <input type="checkbox" name="checkbox_id" id="Searchable" data-ng-model="plcae.searchable" ng-change="ctrl.updateSearchable(place.id,place.searchable)"
+        <input type="checkbox" name="checkbox_id" id="Searchable" data-ng-model="place.favorite" ng-change="ctrl.updateSearchable(place.id, place.favorite)"
           ng-disabled="false">
         <label for="Searchable">
-            <div class="circle" switch-drag="plcae.searchable" size="'sm'"></div>
+            <div class="circle" switch-drag="place.favorite" size="'sm'"></div>
         </label>
         <label for="Searchable"></label>
       </div>
@@ -87,7 +87,6 @@
     </div>
   </div>
 </a>
-
-<ul class="place-childs place-ul ng-class:{'is-open' : place.isExpanded}" ng-if="place.children.length > 0">
+<ul class="place-childs place-ul ng-class:{'is-open' : place.isExpanded}" ng-if="place.children.length > 0" ui-sortable="ctrl.sortableOptions" ng-model="place.children" ui-sortable-stop="ctrl.sortUpdateHandler">
   <li ng-repeat="child in place.children" data-ng-include="'app/pages/places/partials/places-place-item.html'" onload="place = child"></li>
 </ul>
