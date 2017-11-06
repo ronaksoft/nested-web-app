@@ -590,7 +590,7 @@
     "You can't create any additional Places.": " امکان ساخت Place دیگری وجود ندارد.",
     "You declined this invitation.": "عدم پذیرش دعوت‌نامه",
     "You don't have any messages.": "هیچ پستی ندارید.",
-    "You don't have any task until next year!<br>Enjoy your free time &#x1F60A;": "شما تا سال آینده کاری ندارید <br> از وقت آزاد خود لذت ببرید 😊",
+    "You don't have any task until next year!<br>Enjoy your free time": "شما تا سال آینده کاری ندارید <br> از وقت آزاد خود لذت ببرید",
     "You don't have any unread messages.": "شما هیچ پست نخوانده‌ای ندارید .",
     "You don't have the required access to enter this Place!": " عدم اجازه‌ی ورود به Place !",
     "You has not access to see members of this place!": "امکان مشاهده‌ی اعضای این Place برای شما وجود ندارد.",
