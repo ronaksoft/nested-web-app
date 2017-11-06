@@ -5,7 +5,6 @@
     .module('ronak.nested.web.components.i18n')
     .constant('NST_LOCALE_EN_US', {
       "\n        Managers and Members of &#x201D;{{ctrl.createdPlace.name}}&#x201D; can share posts and All &#x201D;{{ctrl.grandPlace.name}}&#x201D; Members can view and comment on the posts of this Place.\n      ": "Managers and Members of ”{{ctrl.createdPlace.name}}” can share posts and all the ”{{ctrl.grandPlace.name}}” Members can view and comment on the posts of this Place.",
-      "<a>{{ ::notification.joined.sender.fullName }}</a><br>\n          <small>is now on nested</small>": "<a>{{ ::notification.joined.sender.fullName }}</a><br> <small> is now on Nested</small>",
       "Account Settings": "Account settings",
       "All &#x201D;{{ctrl.createdPlace.name}}&#x201D; members can share posts with this Place.": "All ”{{ctrl.createdPlace.name}}” Members can share posts with this Place.",
       "Alright": "Okay",
@@ -133,6 +132,7 @@
       "Your place created successfully but an error has occurred in uploading the Place photo.": "Your Place has been created successfully, but an error has occurred in uploading the Place photo.",
       "Your post will be removed from {{ctrl.place.name}} Place.": "This post will be removed from {{ctrl.place.name}} place .",
       "Your settings saved.": "Your settings have been saved. ",
+      "_Posts": "Posts",
       "alphanumeric and dash(-) only": "alphanumeric and dash (-) only",
       "checking...": "Checking...",
       "created here": "created this",

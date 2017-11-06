@@ -90,6 +90,16 @@
         }
       }).catch(function () {
         vm.tasks.splice(index, 1);
+        if (vm.isGlancePage) {
+          var overDueIndex = _.findIndex(vm.overDueTasks, {id: id});
+          if (overDueIndex > -1) {
+            vm.overDueTasks.splice(overDueIndex, 1);
+          }
+          var pendingIndex = _.findIndex(vm.pendingTasks, {id: id});
+          if (pendingIndex > -1) {
+            vm.pendingTasks.splice(pendingIndex, 1);
+          }
+        }
       });
     }
 
@@ -219,8 +229,9 @@
     function acceptTask(id) {
       NstSvcTaskFactory.respond(id, NST_TASK_STATUS.ACCEPT).then(function () {
         var index = _.findIndex(vm.pendingTasks, {id: id});
-        toastr.success(NstSvcTranslation.get(String('You\'ve accepted {0}\'s task').replace('{0}', vm.pendingTasks[index].assignor.fullName)));
+        toastr.success(String(NstSvcTranslation.get('You\'ve accepted {0}\'s task')).replace('{0}', vm.pendingTasks[index].assignor.fullName));
         vm.pendingTasks.splice(index, 1);
+        editTask(id);
       }).catch(function (err) {
 
         if (err.code === 1) {
@@ -235,7 +246,7 @@
     function declineTask(id) {
       NstSvcTaskFactory.respond(id, NST_TASK_STATUS.DECLINE).then(function () {
         var index = _.findIndex(vm.pendingTasks, {id: id});
-        toastr.warning(NstSvcTranslation.get(String('You\'ve declined {0}\'s task').replace('{0}', vm.pendingTasks[index].assignor.fullName)));
+        toastr.warning(String(NstSvcTranslation.get('You\'ve declined {0}\'s task')).replace('{0}', vm.pendingTasks[index].assignor.fullName));
         vm.pendingTasks.splice(index, 1);
       }).catch(function () {
         toastr.error(NstSvcTranslation.get('Something went wrong!'));
@@ -245,7 +256,11 @@
     /*
      * Events
      */
-    eventReferences.push($rootScope.$on('task-created', function () {
+    eventReferences.push($rootScope.$on('task-created', function (event, data) {
+      $state.go('app.task.created_by_me');
+      $timeout(function () {
+        editTask(data.id);
+      });
       vm.taskSetting.limit = 8;
       vm.taskSetting.skip = 0;
       loadTasks();
