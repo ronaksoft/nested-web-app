@@ -111,9 +111,9 @@
           <input type="text" class="no-style gale-holder create-task-input"
                  placeholder="{{ctrlEditTask.dueDatePlaceholder}}"
                  id="task-due" ng-focus="ctrlEditTask.dueDateFocus = true" ng-blur="ctrlEditTask.dueDateFocus = false"
-                 ng-model="ctrlEditTask.model.dueDate"
+                 ng-model="ctrlEditTask.model.dueDateText"
                  data-config="ctrlEditTask.datePickerconfig" g-formatted-picked-date="gfdate" g-picked-date="gdate"
-                 ng-jalaali-flat-datepicker have-time="ctrlEditTask.model.hasDueTime"
+                 ng-jalaali-flat-datepicker have-time="ctrlEditTask.model.hasDueTime" timestamp-model="ctrlEditTask.model.dueDate"
                  uneditable="{{ctrlEditTask.model.access.updateTask? 'false': 'true'}}"
           >
         </div>
