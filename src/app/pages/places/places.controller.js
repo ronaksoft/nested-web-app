@@ -10,7 +10,7 @@
                                _, toastr,
                                NST_DEFAULT, NST_AUTH_EVENT, NST_INVITATION_EVENT, NST_CONFIG, NST_KEY, deviceDetector, NST_PLACE_ACCESS, NST_SRV_ERROR,
                                NST_EVENT_ACTION, NST_USER_EVENT, NST_NOTIFICATION_EVENT, NST_SRV_EVENT, NST_NOTIFICATION_TYPE, NST_PLACE_EVENT, NST_POST_EVENT,
-                               NstSvcAuth, NstSvcServer, NstSvcLogger, NstSvcNotification, NstSvcTranslation,
+                               NstSvcAuth, NstSvcServer, NstSvcLogger, NstSvcNotification, NstSvcTranslation, NST_PLACE_MEMBER_TYPE,
                                NstSvcNotificationSync, NstSvcPlaceFactory, NstSvcInvitationFactory, NstUtility, NstSvcUserFactory, NstSvcSidebar,
                                NstSvcKeyFactory, NstSvcPostDraft, NstSvcGlobalCache) {
       var vm = this;
@@ -20,8 +20,11 @@
       var myPlaceIds = [];
       vm.isLoading = true;
       vm.showLoading = showLoading;
+      vm.toggleSelectPlace = toggleSelectPlace;
+      vm.unselectAll = unselectAll;
       vm.selectedPlaces = [];
       vm.keyword = '';
+      vm.openAddMemberModal = openAddMemberModal;
       vm.placesSetting = {
         relationView : true
       }
@@ -44,6 +47,23 @@
         $timeout(function (){
           vm.isLoading = false;
         }, 1000)
+      }
+
+      function toggleSelectPlace(place){
+        place.isSelected =! place.isSelected;
+        var placeIndex = vm.selectedPlaces.indexOf(place);
+        if( placeIndex > -1){
+          vm.selectedPlaces.splice(placeIndex, 1);
+        } else {
+          vm.selectedPlaces.push(place);
+        }
+      }
+
+      function unselectAll(){
+        vm.selectedPlaces.forEach(function(place){
+          place.isSelected = false;
+        });
+        vm.selectedPlaces = [];
       }
 
       /*****************************
@@ -89,7 +109,6 @@
         $q.all([getMyPlacesOrder(), getMyPlaces()]).then(function(results) {
           myPlaceOrders = results[0];
           vm.places = createTree(results[1], myPlaceOrders, vm.expandedPlaces, vm.selectedPlaceId);
-          console.log('getMyPlaces', vm.places);
           loadMyPlacesUnreadPostsCount();
         });
 
@@ -118,6 +137,43 @@
       function getPlaceId() {
         return vm.selectedPlaceId;
       }
+
+      
+    /**
+     * Represents add member to place modal
+     * @param {any} $event
+     */
+    function openAddMemberModal(placeId) {
+      NstSvcPlaceFactory.get(placeId).then(function (place) {
+        vm.placeModal = place;
+        var role = NST_PLACE_MEMBER_TYPE.KEY_HOLDER;
+        var modal = $uibModal.open({
+          animation: false,
+          templateUrl: 'app/pages/places/settings/place-add-member.html',
+          controller: 'PlaceAddMemberController',
+          controllerAs: 'addMemberCtrl',
+          size: 'sm',
+          resolve: {
+            chosenRole: function () {
+              return role;
+            },
+            currentPlace: function () {
+              return vm.placeModal;
+            },
+            newPlace: false,
+            mode: function () {
+              return false
+            },
+            isForGrandPlace: function () {
+              return undefined
+            }
+          }
+        });
+
+        modal.result.then();
+      });
+
+    }
 
       function rebuildMyPlacesTree(placeId) {
         getMyPlaces(true).then(function(places) {
@@ -357,7 +413,7 @@
           var isExpanded = isItemExpanded(item, expandedPlaces, selectedId);
           var children = getChildren(item, places, expandedPlaces, selectedId, depth + 1);
 
-          stack.push(createTreeItem(item, children, isExpanded, isActive, depth));
+          stack.push(createTreeItem(item, false, children, isExpanded, isActive, depth));
 
           return stack;
         }, []).sortBy(['name']).value();
@@ -386,10 +442,24 @@
           // finds the place children
           var children = getChildren(place, places, expandedPlaces, selectedId, 1);
 
-          return createTreeItem(place, children, isExpanded, isActive, 0);
+          return createTreeItem(place, true, children, isExpanded, isActive, 0);
         }).sortBy(function(place) {
           return orders[place.id];
         }).value();
+      }
+
+      function isInBookmarks(placeId){
+        return NstSvcPlaceFactory.getFavoritesPlaces().then(function (bookmaks) {
+          // console.log(bookmaks);
+          return bookmaks.indexOf(placeId) > -1
+        });
+      }
+
+      function notificationEnabled(placeId){
+        return NstSvcPlaceFactory.getNotificationOption(placeId).then(function (status) {
+          // console.log(status);
+          return status;
+        });
       }
 
       /**
@@ -402,15 +472,18 @@
        * @param {any} depth
        * @returns
        */
-      function createTreeItem(place, children, isExpanded, isActive, depth) {
-        console.log(place);
+      function createTreeItem(place, isGrandPlace, children, isExpanded, isActive, depth) {
         var picture = place.hasPicture() ? place.picture.getUrl('x32') : ABSENT_PLACE_PICTURE_URL;
-        return {
+        var placeModel = {
           id: place.id,
           name: place.name,
           picture: picture,
           privacy: place.privacy,
           accesses: place.accesses,
+          isGrandPlace: isGrandPlace,
+          isSelected: false,
+          notificationStatus: notificationEnabled(place.id),
+          bookmarkedStatus: isInBookmarks(place.id),
           policy: place.policy,
           children: children,
           hasChildren: children && children.length > 0,
@@ -419,7 +492,9 @@
           isExpanded: isExpanded,
           isActive: isActive,
           depth: depth
-        };
+        }
+        console.log(placeModel);
+        return placeModel;
       }
 
       /**

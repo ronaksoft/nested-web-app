@@ -1,6 +1,6 @@
 <a class="place-item">
-  <div class="place-selector">
-    <input ng-model="place.isSelected" ng-change="ctrl.toggleSelectPlace(place.id)" class="_fr" type="checkbox" id="cb-{{place.id}}"
+  <div class="place-selector" ng-click="ctrl.toggleSelectPlace(place)" >
+    <input ng-model="place.isSelected"class="_fr" type="checkbox" id="cb-{{place.id}}"
       name="selector" />
     <label class="_fw setting left-box checkbox-label _asc" for="cb-{{place.id}}"></label>
   </div>
@@ -28,7 +28,7 @@
       <span>{{ place.id }}</span>
     </div>
     <div class="place-extra">
-      <input type="button" class="butn butn-green secondary" value="Add Member" ng-if="place.accesses.indexOf('AM') > -1">
+      <input ng-click="ctrl.openAddMemberModal(place.id)" type="button" class="butn butn-green secondary" value="Add Member" ng-if="place.accesses.indexOf('AM') > -1">
       <i>
         <svg class="_16svg" ng-if="place.isGrandPlace">
             <use xlink:href="/assets/icons/nst-icn16.svg#places"></use>
