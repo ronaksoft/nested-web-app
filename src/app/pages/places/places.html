@@ -9,7 +9,7 @@
   </div>
   <div class="filter-bar">
     <div class="filter-bar-inner">
-      <div class="toolbar ng-class:{'selcted-mode' : ctrl.selectedPlaces.length > 0}" ng-mouseleave="popoverSortShow = false">
+      <div class="toolbar ng-class:{'selcted-mode': ctrl.selectedPlaces.length > 0}" ng-mouseleave="popoverSortShow = false">
         <div class="search-files" ng-show="ctrl.selectedPlaces.length == 0">
           <input type="text" placeholder="type to search…" ng-model="ctrl.keyword" ng-change="ctrl.search(ctrl.keyword);" translate-attrs="placeholder"
             focus-me="{{ctrl.searchTrigg}}" />
@@ -67,7 +67,7 @@
         <div class="nst-loading absolute"></div>
     </div>
     <div class="places-list iscroll-wrapper" iscroll class="iscroll-wrapper" iscroll-instance="scrollInstance">
-        <ul class="places place-ul iscroll-scroller ng-class:{'relation-view' : ctrl.placesSetting.relationView}" ui-sortable="ctrl.sortableOptions" ng-model="ctrl.places">
+        <ul class="places place-ul iscroll-scroller ng-class:{'relation-view' : ctrl.placesSetting.relationView}" ui-sortable="ctrl.sortableOptions" ng-model="ctrl.places" ui-sortable-stop="ctrl.sortUpdateHandler">
             <li ng-repeat="place in ctrl.places" data-ng-include="'app/pages/places/partials/places-place-item.html'"
             onload="place = place"></li>
         </ul>
