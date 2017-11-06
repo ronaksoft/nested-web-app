@@ -672,7 +672,7 @@
     "created by": "ساخته شده توسط",
     "created here": "اینجا را ساخت.",
     "created here.": "اینجا را ساخت.",
-    "created the task": "شما را در  <b>{{notification.place.name}} (#{{notification.place.id}})</b> تنزل داد.",
+    "created the task": "کار را ساخت",
     "demoted you in <b>{{notification.place.name}} (#{{notification.place.id}})</b>.": "شما را در <b>{{notification.place.name}} (#{{notification.place.id}})</b>تنزل داد.",
     "description": "شرح",
     "do you want to discard uploading file(s)?": "فرایند بارگذاری لغو می‌شود، آیا مطمئن هستید؟",
