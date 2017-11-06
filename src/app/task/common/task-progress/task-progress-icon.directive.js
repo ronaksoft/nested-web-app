@@ -20,7 +20,7 @@
 
         function drawPie() {
           if ($scope.status === NST_TASK_PROGRESS_ICON.ASSIGNED_PROGRESS && $scope.progress !== undefined) {
-            var ratio = ($scope.progress/100)*57;
+            var ratio = ($scope.progress/100)*56.4;
             $timeout(function () {
               element.find('.task-progress-icon svg.progress circle').css('stroke-dasharray', ratio + ' 60');
             }, 300);
