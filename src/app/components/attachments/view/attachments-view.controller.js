@@ -27,7 +27,7 @@
         controller: 'AttachmentViewController',
         controllerAs: 'ctlAttachmentView',
         windowClass: '_oh',
-        openedClass : ' modal-open attach-modal',
+        openedClass : ' modal-open-attachment-view attach-modal',
         backdropClass : 'attachmdrop',
         size: 'full',
         resolve: {
@@ -48,6 +48,9 @@
           },
           currentPostId: function () {
             return vm.postId;
+          },
+          currentTaskId: function () {
+            return null;
           }
         }
       }).result.catch(function(){

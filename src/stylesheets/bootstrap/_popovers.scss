@@ -54,7 +54,7 @@
     border-bottom: 1px solid $color-fillbox;;
   }
   h6 {
-    color: $color-wind;
+    color: $color-gale-new;
     @extend .nst-font-xsmall;
     line-height: 13px;
     font-weight: 400;
@@ -72,26 +72,6 @@
   hr {
     border-color: $color-fillbox;
     margin: 8px 0;
-  }
-  a,label {
-    color: $color-storm;
-    font-weight: 400;
-    @extend .nst-font-medium;
-    line-height: 17px;
-    display: inline-flex;
-    flex-direction: row;
-    div {
-      flex: none;
-      display: flex;
-      align-items: center;
-      &:last-of-type {
-        margin-left: 8px;
-      }
-      &:first-of-type {
-        margin-left: 0;
-        margin-right: 8px;
-      }
-    }
   }
 }
 

@@ -1,0 +1,9 @@
+// avatars border
+
+@mixin hover($init, $hover) {
+  opacity: $init;
+  transition: opacity $animation-dur;
+  &:hover {
+    opacity: $hover;
+  }
+}

@@ -1,22 +1,12 @@
-<div class="mention">
-  <div class="_fn">
-    <div class="user-avatar-32">
-      <img ng-if="notification.joined.sender" initial-avatar="{{::notification.joined.sender.id}}"
-           picture="{{::notification.mention.comment.sender | avatar}}" name="{{::notification.joined.sender.fullName}}"
-           data-width="32" data-height="32" data-radius="32" class="account-initials-32" data-word-count="2"
-           data-font-size="12"/>
-    </div>
-  </div>
+<div class="notif-li-container">
+  <div class="unread-badge"></div>
+  <div class="_fn" ng-include="'/app/notification/common/picture.html'"></div>
   <div class="_difh f1 _fn bottom-border">
-    <div class="_difv f1">
+    <div class="notif-li-body">
+      <div class="notif-li-subject" ng-include="'/app/notification/common/name.html'"></div>
       <p>
-        <!--<a>{{ ::notification.mention.comment.sender.fullName }} </a> mentioned you on <b>{{notification.mention.post.subject}}</b>:<br>-->
-        <translate><a>{{::notification.joined.sender.fullName}}</a><br>
-          <small>is now on nested</small></translate>
+        <transplate>is now on nested</transplate>
       </p>
-    </div>
-    <div class="mention-date _fn" data-uib-tooltip="{{notification.date | date : 'full' | localize}}" data-tooltip-append-to-body="true" data-tooltip-placement="top auto">
-      {{notification.date | passed | localize}}
     </div>
     <svg class="_df _fn _16svg">
       <use xlink:href="/assets/icons/nst-icn16.svg#atsign"></use>

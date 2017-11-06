@@ -10,7 +10,7 @@
                                     NST_FILE_TYPE, NST_STORE_ROUTE,
                                     NstVmFile,
                                     NstSvcFileFactory, NstSvcStore, NstSvcTranslation,
-                                    fileId, fileViewerItem, fileIds, fileViewerItems, currentPlaceId, currentPostId) {
+                                    fileId, fileViewerItem, fileIds, fileViewerItems, currentPlaceId, currentPostId, currentTaskId) {
     var vm = this;
 
     vm.attachments = {
@@ -137,7 +137,7 @@
       if (vm.attachments.current.type === NST_FILE_TYPE.PDF) {
         vm.attachments.current.show = false;
 
-        getToken(vm.attachments.current.id).then(function (token) {
+        getToken(vm.attachments.current.id, vm.attachments.current.postId).then(function (token) {
           vm.attachments.current.viewUrl = $sce.trustAsResourceUrl(
             encodeURI(NstSvcStore.resolveUrl(NST_STORE_ROUTE.VIEW, vm.attachments.current.id, token)));
 
@@ -147,7 +147,7 @@
       } else if(vm.attachments.current.type === NST_FILE_TYPE.DOCUMENT) {
         vm.attachments.current.show = false;
 
-        getToken(vm.attachments.current.id).then(function (token) {
+        getToken(vm.attachments.current.id, vm.attachments.current.postId).then(function (token) {
           vm.attachments.current.viewUrl = $sce.trustAsResourceUrl('//docs.google.com/viewer?embedded=true&url=' +
             encodeURI(NstSvcStore.resolveUrl(NST_STORE_ROUTE.DOWNLOAD, vm.attachments.current.id, token)));
 
@@ -155,22 +155,26 @@
           toastr.error('Sorry, An error has occured while trying to load the file');
         });
       } else if (vm.attachments.current.extension === 'gif'){
-        getToken(vm.attachments.current.id).then(function (token) {
+        getToken(vm.attachments.current.id, vm.attachments.current.postId).then(function (token) {
           vm.attachments.current.preview = encodeURI(NstSvcStore.resolveUrl(NST_STORE_ROUTE.DOWNLOAD, vm.attachments.current.id, token));
         });
       } else {
-        getToken(vm.attachments.current.id).then(function (token) {
+        getToken(vm.attachments.current.id, vm.attachments.current.postId).then(function (token) {
           vm.attachments.current.viewUrl = encodeURI(NstSvcStore.resolveUrl(NST_STORE_ROUTE.VIEW, vm.attachments.current.id, token));
         });
       }
     }
 
 
-    function getToken(id) {
+    function getToken(id, postId) {
       var deferred = $q.defer();
       vm.status.tokenLoadProgress = true;
 
-      NstSvcFileFactory.getDownloadToken(id, currentPlaceId, currentPostId).then(deferred.resolve).catch(deferred.reject).finally(function () {
+      if (currentPostId !== null) {
+        postId = currentPostId;
+      }
+
+      NstSvcFileFactory.getDownloadToken(id, postId, currentTaskId).then(deferred.resolve).catch(deferred.reject).finally(function () {
         vm.status.tokenLoadProgress = false;
       });
 
@@ -213,7 +217,7 @@
         return;
       }
 
-      getToken(item.id).then(function (token) {
+      getToken(item.id, item.postId).then(function (token) {
         item.downloadUrl = NstSvcStore.resolveUrl(NST_STORE_ROUTE.DOWNLOAD, item.id, token);
         item.viewUrl = NstSvcStore.resolveUrl(NST_STORE_ROUTE.VIEW, item.id, token);
 
@@ -229,7 +233,7 @@
         return;
       }
 
-      getToken(item.id).then(function (token) {
+      getToken(item.id, item.postId).then(function (token) {
         item.downloadUrl = NstSvcStore.resolveUrl(NST_STORE_ROUTE.DOWNLOAD, item.id, token);
         item.viewUrl = NstSvcStore.resolveUrl(NST_STORE_ROUTE.VIEW, item.id, token);
 

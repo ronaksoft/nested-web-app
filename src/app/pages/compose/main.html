@@ -1,4 +1,4 @@
-<div ng-if="!ctlCompose.minimize" class="bg-compose" ng-click="ctlCompose.backDropClick();"></div>
+<div ng-if="!ctlCompose.minimize && !ctlCompose.quickMode" class="bg-compose" ng-click="ctlCompose.backDropClick();"></div>
 <div class="_pr _fw ng-class:{'minimize' : ctlCompose.minimize}" id="compose-box" compose-drop>
   <div ng-if="!ctlCompose.minimize" class="compose-wrapper ng-class:{'attached' : ctlCompose.attachments.viewModels.length > 0}"
     ng-mouseleave="ctlCompose.mouseIn = false" ng-mouseenter="ctlCompose.mouseIn = true">
@@ -16,11 +16,11 @@
     <div class="compose-modal-body _difv _fw ng-class:{'scrolled' : ctlCompose.collapse}">
       <p class="_df _fn" ng-if="!ctlCompose.quickMode"><b><translate>Share With</translate></b></p>
       <div ng-if="!ctlCompose.quickMode && ctlCompose.targetLimit" class="_df _fw input-select-match">
-        <ui-select minimum-input-length="4" multiple limit="{{ctlCompose.targetLimit}}"  class="address-input _dib" autofocus focus-on="focus-rec" focus-checker
+        <ui-select minimum-input-length="4" multiple limit="{{ctlCompose.targetLimit}}" class="address-input _dib" autofocus focus-on="focus-rec" focus-checker
                    id="compose-recipient-input" on-select="ctlCompose.emitItemsAnalytics()" on-remove="ctlCompose.emitItemsAnalytics()"
                    data-ng-model="ctlCompose.model.recipients">
           <ui-select-match placeholder="{{::ctlCompose.inputPlaceHolderLabel}}" compose-match-item class="match-items">
-            <div class="selected-innter " ng-class="{'isEmail' : $item.isEmail,'error' : !$item.isValid}">
+            <!-- <div class="selected-innter " ng-class="{'isEmail' : $item.isEmail,'error' : !$item.isValid}">
               <span class="place-img" ng-if="!$item.isEmail">
                 <img ng-src="{{$item.picture}}"/>
               </span>
@@ -30,8 +30,8 @@
                   </svg>
                 </span>
               <span class="place-name">{{$item.name}}</span>
-            </div>
-
+            </div> -->
+            <div place-chips place-id="$item" is-email="$item.isEmail" on-remove="$selectMultiple.removeChoice" index="$index" on-select="" selectable="true"></div>
           </ui-select-match>
           <ui-select-choices refresh="ctlCompose.search.fn($select.search)"
                              refresh-delay="0"
@@ -49,7 +49,7 @@
         <!-- <div> -->
           <section class="_difc _fw _fn">
             <input id="compose-subject" class="compose-subject-input _fw wdt-emoji-bundle-enabled" name="subject" value="{{ctlCompose.model.subject}}" ng-focus="ctlCompose.focusBox()" ng-blur="ctlCompose.blurBox()" ng-keydown="ctlCompose.subjectKeyDown($event)"
-            placeholder="{{ ctlCompose.focus || ctlCompose.attachments.viewModels.length > 0 || !ctlCompose.quickMode ? ctlCompose.translations.title1 : ctlCompose.translations.title2}}" data-ng-model="ctlCompose.model.subject" auto-dir="ctlCompose.model.subject" translate-attrs="placeholder" autocomplete="off">
+            placeholder="{{ ctlCompose.focus || ctlCompose.attachments.viewModels.length > 0 || !ctlCompose.quickMode ? ctlCompose.translations.title1 : ctlCompose.translations.title2}}" data-ng-model="ctlCompose.model.subject" auto-dir="ctlCompose.model.subject" autocomplete="off">
           </section>
 
           <section class="nst-compose-message anim-q _wrb ng-class:{'focused' : ctlCompose.focus || ctlCompose.attachments.viewModels.length > 0,'empty' : ctlCompose.model.body.length == 0, 'notfirst' : ctlCompose.firstUp}" id="editor-txt">
@@ -66,7 +66,7 @@
 
     <div class="compose-attachment-bar _dif" data-ng-show="ctlCompose.attachments.viewModels.length > 0">
       <div class="_fw _pr">
-        <nst-attachments-editable-bar mode="thumbnail" items="ctlCompose.attachments.viewModels" on-item-delete="ctlCompose.attachments.detach"></nst-attachments-editable-bar>
+        <nst-attachments-editable-bar mode="'thumbnail'" items="ctlCompose.attachments.viewModels" on-item-delete="ctlCompose.attachments.detach"></nst-attachments-editable-bar>
       </div>
       <div class="attach _df">
         <input id="attach" type="file" multiple on-file-change="ctlCompose.attachments.fileSelected"/>
@@ -114,9 +114,9 @@
         </div>
       </div>
       <div class="quick-btns">
-        <input type="button" ng-click="ctlCompose.clear()" class="butn-white" ng-if="ctlCompose.pending" value="Discard" ng-if="ctlCompose.quickMode" translate-attrs="value">
-        <input type="button" ng-click="ctlCompose.send()" class="butn-green" ng-if="!ctlCompose.pending" value="Share" translate-attrs="value">
-        <input type="button" class="butn-green" ng-if="ctlCompose.pending" disabled value="Sending..." translate-attrs="value">
+        <input type="button" ng-click="ctlCompose.clear()" class="butn butn-white secondary" ng-if="ctlCompose.pending" value="Discard" ng-if="ctlCompose.quickMode" translate-attrs="value">
+        <input type="button" ng-click="ctlCompose.send()" class="butn butn-green" ng-if="!ctlCompose.pending" value="Share" translate-attrs="value">
+        <input type="button" class="butn butn-green" ng-if="ctlCompose.pending" disabled value="Sending..." translate-attrs="value">
       </div>
 
     </div>

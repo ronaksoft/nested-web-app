@@ -2,7 +2,8 @@
   'forward-card': ctlPostCard.isForwarded,
   'reply-card': ctlPostCard.isReplyed,
   'unread' : !ctlPostCard.post.read,
-  'ribbon' : ctlPostCard.isRibbon }">
+  'ribbon' : ctlPostCard.isRibbon }"
+  id="{{'post-card-' + ctlPostCard.post.id}}">
 
   <section class="collapse-view" ng-if="ctlPostCard.isRibbon && ctlPostCard.ribbonEnabled" ng-click="ctlPostCard.switchToPostCard();">
     <div class="user-avatar-24" user-detail="ctlPostCard.post.sender" user-id="ctlPostCard.post.sender.id">
@@ -55,11 +56,11 @@
     <div class="_fw _difc">
       <h4 class="_df _fn" ng-if="!ctlPostCard.FIT" user-detail="ctlPostCard.post.sender">{{::ctlPostCard.post.sender.fullName}}</h4>
       <!-- First Interactive time -->
-      <h4 class="_df _fn" ng-if="ctlPostCard.FIT"><span>{{::ctlPostCard.post.sender.fullName}}</span></h4>
+      <h4 class="_df _fn" ng-if="ctlPostCard.FIT"><span>{{::ctlPostCard.post.sender.fullName}}</span>{{ctlPostCard.post.id}}</h4>
       <div class="_df _fw"></div>
 
       <a class="_df _fn post-card-time" ng-if="!ctlPostCard.FIT" ng-click="ctlPostCard.viewFull($event); ctlPostCard.markAsRead(); _track('post card','open post view : click date');"
-        data-uib-tooltip="{{::ctlPostCard.post.timestamp | date : 'full' | localize}}" data-tooltip-append-to-body="true" data-tooltip-placement="auto left">
+        data-uib-tooltip="{{::ctlPostCard.post.timestamp | date : 'full' | localize}}" data-tooltip-append-to-body="false" data-tooltip-placement="auto left">
         <span ng-if="!ctlPostCard.chainView">{{::ctlPostCard.post.timestamp | passed | localize }}</span>
         <span ng-if="ctlPostCard.chainView">{{::ctlPostCard.post.timestamp | date : 'full' | localize}}</span>
       </a>
@@ -135,11 +136,13 @@
     <nst-attachments-view class="_fw" post-id="ctlPostCard.post.id" sender="ctlPostCard.post.sender" attachments="ctlPostCard.post.attachments"></nst-attachments-view>
   </section>
   <section class="post-labels" ng-if="ctlPostCard.post.labels.length > 0 && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
-    <span data-ng-repeat="label in ctlPostCard.post.labels track by $index" ng-click="ctlPostCard.labelClick(label.title);" class="color-lbl-bg-{{label.code}}">
+    <!-- <span data-ng-repeat="label in ctlPostCard.post.labels track by $index" ng-click="ctlPostCard.labelClick(label.title);" class="color-lbl-bg-{{label.code}}">
         {{ label.title | scapeRevSpace}}
-    </span>
+    </span> -->
+    <div label-chips label-id="label" on-remove="ctlLabel.removeLabelChip"
+      ng-repeat="label in ctlPostCard.post.labels track by $index" ng-click="ctlPostCard.labelClick(label.title);"></div>
     <a ng-if="!ctlPostCard.FIT && ctlPostCard.haveAnyLabelAcess" add-label added-labels="ctlPostCard.post.labels" after-add-label="ctlPostCard.addLabels"
-       data-uib-tooltip-template="'add-label-tooltip.html'" class="cursor-pointer" data-tooltip-append-to-body="true" data-tooltip-placement="auto top"
+       data-uib-tooltip="Labels" class="cursor-pointer" data-tooltip-append-to-body="true" data-tooltip-placement="auto top" translate-attrs="data-uib-tooltip"
        ng-click="ctlPostCard.markAsRead();"
     >
       <svg class="_16svg _r90">
@@ -194,7 +197,7 @@
     </a>
 
     <div class="post-icons _fw _df" ng-if="!ctlPostCard.FIT">
-      <a id="test-forward" data-uib-tooltip-template="'forward-uib-tooltip.html'" data-tooltip-append-to-body="true" data-tooltip-placement="auto top"
+      <a id="test-forward" data-uib-tooltip="Forward" data-tooltip-append-to-body="true" data-tooltip-placement="auto top" translate-attrs="data-uib-tooltip"
         ui-sref="app.compose-forward({ postId: ctlPostCard.post.id })" ng-click="ctlPostCard.forward($event); ctlPostCard.markAsRead(); _track('post card', 'forward : toolbar');"
         class="icon _df">
         <div class="forward-post">
@@ -203,7 +206,7 @@
           </svg>
         </div>
       </a>
-      <a id="test-reply" class="icon _df" data-uib-tooltip-template="'reply-to-all-uib-tooltip.html'" data-tooltip-append-to-body="true"
+      <a id="test-reply" class="icon _df" data-uib-tooltip="Reply" data-tooltip-append-to-body="true" translate-attrs="data-uib-tooltip"
         data-tooltip-placement="auto top" ng-click="ctlPostCard.replyAll($event); ctlPostCard.markAsRead(); _track('post card', 'reply all : toolbar');"
         ui-sref="app.compose-reply-all({ postId: ctlPostCard.post.id })">
         <div class="reply-post">
@@ -212,10 +215,10 @@
           </svg>
         </div>
       </a>
-      <div ng-click="$event.stopPropagation()" class="cursor-pointer margin-r_5 icon _df" data-uib-tooltip-template="'more-uib-tooltip.html'"
+      <div ng-click="$event.stopPropagation()" class="cursor-pointer margin-r_5 icon _df" data-uib-tooltip="More options"
         data-tooltip-append-to-body="true" data-tooltip-placement="auto top" popover-class="white-pop post-card-moreo-ptions"
         data-popover-placement="{{$root._direction == 'ltr' ? 'left auto' : 'right auto'}}" data-uib-popover-template="'app/messages/partials/popovers/post-card-more-option.html'"
-        data-popover-append-to-body="true" translate-attrs="data-uib-tooltip" ng-click="_track('post card', 'more options : toolbar');">
+        data-popover-append-to-body="true" translate-attrs="data-uib-tooltip" ng-click="_track('post card', 'more options' : toolbar);">
         <div class="more">
           <svg class="svg-hover _24svg">
             <use xlink:href="/assets/icons/nst-icn24.svg#more"></use>
@@ -239,14 +242,14 @@
   observe="yes" after-content="697" top="64" container=".modal" fixed-top="true">
 
   <a ng-click="ctlPostCard.replyAll($event);ctlPostCard.markAsRead(); _track('post card', 'reply : add-on');" ui-sref="app.compose-reply-all({ postId: ctlPostCard.post.id })"
-    data-uib-tooltip-template="'reply-to-all-uib-tooltip.html'" data-tooltip-append-to-body="true" data-tooltip-placement="auto top">
+    data-uib-tooltip-template="Reply" data-tooltip-append-to-body="true" translate-attrs="data-uib-tooltip" data-tooltip-placement="auto top">
     <svg class="mirror">
       <use xlink:href="/assets/icons/nst-icn24.svg#reply"></use>
     </svg>
   </a>
 
   <a ui-sref="app.compose-forward({ postId: ctlPostCard.post.id })" ng-click="ctlPostCard.forward($event);ctlPostCard.markAsRead(); _track('post card', 'forward : add-on');"
-    data-uib-tooltip-template="'forward-uib-tooltip.html'" data-tooltip-append-to-body="true" data-tooltip-placement="auto top">
+    data-uib-tooltip-template="Forward" data-tooltip-append-to-body="true" translate-attrs="data-uib-tooltip" data-tooltip-placement="auto top">
     <svg>
       <use xlink:href="/assets/icons/nst-icn24.svg#forward"></use>
     </svg>
@@ -258,10 +261,9 @@
   </a>
 
   <a ng-if="ctlPostCard.addOn" popover-class="white-pop popover-white-nst-activity-places" data-tooltip-append-to-body="true"
-    data-tooltip-placement="auto top" data-uib-tooltip-template="'more-uib-tooltip.html'" data-popover-placement="bottom-left auto"
+    data-tooltip-placement="auto top" data-uib-tooltip="More options" data-popover-placement="bottom-left auto"
     ng-click=" _track('post card', 'more options');" data-uib-popover-template="'app/messages/partials/popovers/post-card-more-option.html'"
     data-popover-append-to-body="true" translate-attrs="data-uib-tooltip,data-uib-popover">
-
     <svg class="_r90">
       <use xlink:href="/assets/icons/nst-icn20.svg#more"></use>
     </svg>
@@ -303,8 +305,7 @@
 
 </div>
 
-<div class="card-control" affix-post ng-if="!ctlPostCard.FIT && !ctlPostCard.chainView">
-
+<div class="card-control" post-affix-injector ng-if="!ctlPostCard.FIT && !ctlPostCard.chainView">
   <svg class="_16svg pendfill" ng-click="ctlPostCard.markAsRead();ctlPostCard.expand();" ng-if="!ctlPostCard.post.read">
     <use xlink:href="/assets/icons/nst-icn16.svg#circle"></use>
   </svg>
@@ -317,23 +318,12 @@
     <use xlink:href="/assets/icons/nst-icn16.svg#open-message"></use>
   </svg>
   <div class="_16svg" ng-show="ctlPostCard.expandProgress && ctlPostCard.post.ellipsis">
-    <div class="nst-loading nst-loading-size-16  _fr"></div>
+    <div class="nst-loading xsm"></div>
   </div>
 </div>
 
 <div class="post-card-wire" ng-if="!ctlPostCard.chainView"></div>
-<script type="text/ng-template" id="more-uib-tooltip.html">
-  <translate>More options</translate>
-</script>
-<script type="text/ng-template" id="reply-to-all-uib-tooltip.html">
-  <translate>Reply</translate>
-</script>
-<script type="text/ng-template" id="forward-uib-tooltip.html">
-  <translate>Forward</translate>
-</script>
-<script type="text/ng-template" id="add-label-tooltip.html">
-  <translate>Labels</translate>
-</script>
+
 <script type="text/ng-template" id="morePlaces-uib-tooltip.html">
   <ul>
     <li data-ng-repeat="place in ctlPostCard.totalRecipients" ng-if="$index >= 3">

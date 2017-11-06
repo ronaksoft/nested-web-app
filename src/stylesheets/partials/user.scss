@@ -14,10 +14,10 @@
 }
 
 @for $i from 1 through 32 {
-  .account-initials-#{$i * 8} {
-    width: #{$i * 8}px;
-    height: #{$i * 8}px;
-    line-height: #{$i * 8 - 1}px;
+  .account-initials-#{$i * 4} {
+    width: #{$i * 4}px;
+    height: #{$i * 4}px;
+    line-height: #{$i * 4 - 1}px;
     font-size: #{$i * 3}px;
   }
 }

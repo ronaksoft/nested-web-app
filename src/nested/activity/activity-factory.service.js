@@ -8,7 +8,7 @@
   function NstSvcActivityFactory($q, _,
     NST_ACTIVITY_FILTER, NST_EVENT_ACTION,
     NstSvcServer, NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcCommentFactory, NstSvcActivityCacheFactory,
-    NstBaseFactory, NstSvcLogger, NstActivity, NstSvcLabelFactory, NstUtility) {
+    NstBaseFactory, NstSvcLogger, NstActivity, NstSvcLabelFactory, NstUtility, NstSvcAttachmentFactory) {
 
 
     function ActivityFactory() {}
@@ -80,8 +80,9 @@
       activity.place = NstSvcPlaceFactory.parseTinyPlace(data.place);
       activity.post = {
         id: data.post_id,
-        body: data.post_preview,
-        subject: data.post_subject
+        body: data.post.preview,
+        subject: data.post.subject,
+        attachments: _.map(data.post.post_attachments, NstSvcAttachmentFactory.parseAttachment)
       };
       activity.places = data.places;
 
@@ -184,7 +185,7 @@
       activity.id = data._id;
       activity.type = data.action;
       activity.date = data.timestamp;
-      activity.label = NstSvcLabelFactory.parse(data.label);
+      activity.label = NstSvcLabelFactory.parseLabel(data.label);
       activity.actor = NstSvcUserFactory.parseTinyUser(data.actor);
       activity.post = {
         id: data.post_id,
@@ -203,7 +204,7 @@
       activity.id = data._id;
       activity.type = data.action;
       activity.date = data.timestamp;
-      activity.label = NstSvcLabelFactory.parse(data.label);
+      activity.label = NstSvcLabelFactory.parseLabel(data.label);
       activity.actor = NstSvcUserFactory.parseTinyUser(data.actor);
       activity.post = {
         id: data.post_id,

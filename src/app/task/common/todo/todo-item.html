@@ -1,0 +1,21 @@
+<li>
+  <input class="_fr" type="checkbox" id="todo{{data.id}}" ng-model="data.checked" ng-change="checkChanged()"
+         ng-disabled="!(editMode && enableCheck)"/>
+  <div class="_fw todo task-input-wrapper">
+    <label for="todo{{data.id}}">
+      <svg class="_16svg _df" ng-if="!data.checked">
+        <use xlink:href="/assets/icons/nst-icn16.svg#todo-undone"></use>
+      </svg>
+      <svg class="_16svg _df" ng-if="data.checked">
+        <use xlink:href="/assets/icons/nst-icn16.svg#todo-done"></use>
+      </svg>
+    </label>
+    <textarea class="no-style gale-holder create-task-input f1"
+              ng-model="data.text" ng-keydown="inputKeyDown($event)"
+              ng-keyup="inputKeyUp($event)" uneditable="{{!editMode}}"
+              enter-key prevent-shift-enter="false"
+              ng-focus="focus = true" focus-me="{{focusMe}}"
+              ng-blur="inputBlur($event)"
+              placeholder="{{placeholder}}" resize-textarea></textarea>
+  </div>
+</li>

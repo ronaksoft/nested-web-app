@@ -1,0 +1,79 @@
+<div class="sidebar _df">
+  <div class="sidebar-container">
+    <!-- sidebar navigator
+     ====================-->
+    <a class="side-menu-item large" ng-click="ctrl.createTask()">
+      <div class="item-icon">
+        <div>
+          <svg class="_16svg">
+            <use xlink:href="/assets/icons/nst-icn16.svg#checked-box"></use>
+          </svg>
+        </div>
+      </div>
+      <div class="item-desc">
+        <translate>Create New Task</translate>
+      </div>
+    </a>
+    <a class="side-menu-item" ui-sref="app.task.glance()" ui-sref-active="isSelected">
+      <span class="item-icon" active-group="message">
+        <svg class="_16svg">
+          <use xlink:href="/assets/icons/nst-icn16.svg#glance"></use>
+        </svg>
+      </span>
+      <div class="item-desc">
+        <translate>Glance</translate>
+      </div>
+    </a>
+    <!-- sidebar places
+     ====================-->
+    <div class="side-scroll-list-wrapper _fw">
+      <div class="side-scroll-list-head _df">
+        <translate class="_df _fw">Tasks</translate>
+      </div>
+      <div iscroll class="iscroll-wrapper" iscroll-instance="scrollInstance">
+        <div class="side-tasks-filter-list iscroll-scroller">
+            <a class="side-menu-item" ui-sref="app.task.assigned_to_me()" ui-sref-active="isSelected">
+              <span class="item-icon" active-group="message">
+                <svg class="_16svg">
+                  <use xlink:href="/assets/icons/nst-icn16.svg#internal"></use>
+                </svg>
+              </span>
+              <div class="item-desc">
+                <translate>Assigned to me</translate>
+              </div>
+            </a>
+            <a class="side-menu-item" ui-sref="app.task.created_by_me()" ui-sref-active="isSelected">
+              <span class="item-icon" active-group="message">
+                <svg class="_16svg">
+                  <use xlink:href="/assets/icons/nst-icn16.svg#external"></use>
+                </svg>
+              </span>
+              <div class="item-desc">
+                <translate>Created by me</translate>
+              </div>
+            </a>
+            <a class="side-menu-item" ui-sref="app.task.watchlist()" ui-sref-active="isSelected">
+              <span class="item-icon" active-group="message">
+                <svg class="_16svg">
+                  <use xlink:href="/assets/icons/nst-icn16.svg#ragged-list"></use>
+                </svg>
+              </span>
+              <div class="item-desc">
+                <translate>Watchlist</translate>
+              </div>
+            </a>
+            <!-- <a class="side-menu-item create-filter">
+              <span class="item-icon" active-group="message">
+                <svg class="_16svg">
+                  <use xlink:href="/assets/icons/nst-icn16.svg#filter-plus"></use>
+                </svg>
+              </span>
+              <div class="item-desc">
+                <translate>Create Custom Filter</translate>
+              </div>
+            </a> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

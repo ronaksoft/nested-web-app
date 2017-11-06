@@ -19,7 +19,7 @@
   /** @ngInject */
   function NstSvcSync(_, $rootScope,
     NST_SRV_PUSH_CMD, NST_EVENT_ACTION,
-    NstObservableObject, NstServerError,NstSvcDate,
+    NstObservableObject, NstServerError, NstSvcDate,
     NstSvcServer, NstSvcActivityFactory, NstSvcLogger) {
 
     var OPEN_ALL_CHANNEL = '_all_';

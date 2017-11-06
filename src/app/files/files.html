@@ -1,5 +1,4 @@
 <div class="nst-content _tr content-wrapper" ng-init="showFilters = false;">
-  <scroll-change-handler reached-bottom="ctlFiles.loadMore"></scroll-change-handler>
   <section class="_fw content">
     <nst-navbar class="places-navbar" data-ng-model="navbar" place-id="{{ctlFiles.currentPlace.id}}" show-place-id="ctlFiles.showPlaceId"
       nav-title="{{ctlFiles.currentPlace.id?ctlFiles.currentPlace.name: ctlFiles.navTitle}}" nav-picture-url="{{ctlFiles.currentPlace.id ? ctlFiles.currentPlace.picture.getUrl('x128') : '' }}"
@@ -85,23 +84,7 @@
         <translate>Load more ...</translate>
       </div>
       <div class="_difh nst-mood-cheerful no-gutter nst-margin-24" ng-if="ctlFiles.filesLoadProgress">
-        <div class="loading">
-          <div class="animation">
-            <div class="circle one"></div>
-          </div>
-          <div class="animation">
-            <div class="circle two"></div>
-          </div>
-          <div class="animation">
-            <div class="circle three"></div>
-          </div>
-          <div class="animation">
-            <div class="circle four"></div>
-          </div>
-          <div class="animation">
-            <div class="circle five"></div>
-          </div>
-        </div>
+        <div class="nst-loading"></div>
       </div>
       <div class="nst-margin-24" ng-if="ctlFiles.hasNextPage || loadFilesError">
         <p class="text-center nst-mood-storm" ng-if="!ctlFiles.hasNextPage && !ctlFiles.filesLoadProgress">

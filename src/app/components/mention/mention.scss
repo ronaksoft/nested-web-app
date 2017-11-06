@@ -1,5 +1,6 @@
 .atwho-view {
-  margin-top: 30px;
+  border: none;
+  box-shadow: 0 8px 16px $color-wind-new;
   .cur {
     background: #E7FBf0;
     color: #333 ;
@@ -20,18 +21,20 @@
     li {
       display: flex;
       flex-direction: row;
-      padding: 5px 10px;
+      padding: 0;
       border-bottom:0;
       min-width: 235px;
+      align-items: center;
       cursor: pointer;
       > div {
-        flex-direction: column;
+        align-items: center;
+        border-bottom: 1px solid $color-breeze-5-new;
       }
-      .place-picture-32 {
-        width: 32px;
-        height: 32px;
+      .place-picture-16 {
+        width: 16px;
+        height: 16px;
         border-radius: 3px;
-        margin-right: 8px;
+        margin: 0 8px;
       }
     }
   }

@@ -107,7 +107,7 @@
   <h5 class="list-head">
     <translate>Labels</translate>
   </h5>
-  <div iscroll load-more iscroll-instance="scrollInstance" class="iscroll-wrapper">
+  <div iscroll load-more iscroll-instance="scrollInstance" class="iscroll-wrapper f1">
     <ul class="iscroll-scroller labels _df" ng-show="ctrl.labels.length > 0">
       <li ng-repeat="label in ctrl.labels track by $index" class="_fn">
         <hr/>
@@ -142,10 +142,12 @@
           </svg>
         </div>
       </li>
-      
-      <li class="_fn nst-mood-cheerful _jcc" ng-click="ctrl.searchKeyUp()">
+      <li class="_fn nst-mood-cheerful _jcc" ng-if="ctrl.haveMore" ng-click="ctrl.searchKeyUp()">
         <translate>Load More...</translate>
       </li>
+      <div class="_difh _jcc nst-mood-cheerful no-gutter nst-margin-24 _pr" ng-if="ctrl.loading">
+        <div class="nst-loading"></div>
+      </div>
     </ul>
     <div ng-if="ctrl.labels.length === 0" class="_fn empty-place-holder">
       <img class="_db" width="256" width="256" src="/assets/icons/ph_labels.png" srcset="/assets/icons/ph_labels@2x.png" />

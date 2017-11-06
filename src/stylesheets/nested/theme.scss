@@ -10,6 +10,15 @@ h5.list-head {
     width: calc(100% + 16px);
     display: flex;
     margin: 8px -8px;
+    &.large {
+      line-height: 32px;
+      margin: 8px 16px;
+      padding: 0 8px;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 8px;
+      width: calc(100% - 32px);
+    }
     span {
         flex: none;
     }
@@ -21,8 +30,96 @@ h5.list-head {
         align-items: center;
         color: $color-solid-64;
     }
+    &.error {
+      color: $color-force;
+      background-color: transparentize($color-force, 1 - .16);
+    }
+    &.pending {
+      color: $color-bg-pending;
+      background-color: transparentize($color-bg-pending, 1 - .04);
+    }
 }
 
+.list-ul {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  li {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    padding: 0 24px;
+    position: relative;
+    &::after{
+      position: absolute;
+      content: '';
+      bottom: 0;
+      right: 0;
+      width: calc(100% - 64px);
+      height: 1px;
+      background-color: $color-breeze-5-new;
+    }
+    &:last-of-type::after {
+      display: none;
+    }
+  }
+  .list-li-icon {
+    width: 32px;
+    height: 32px;
+    flex: none;
+    @include align-center();
+  }
+  .list-li-body {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    margin: 0 10px;
+    > a:first-of-type ,
+    > span:first-of-type {
+      font-size: 14px;
+      line-height: 19px;
+      font-weight: bold;
+      color: $color-solid;
+      margin-bottom: 4px;
+    }
+    p {
+      font-size: 13px;
+      margin: 0;
+      color: $color-solid-80;
+    }
+  }
+  .list-li-extra {
+    display: flex;
+    flex: none;
+    font-size: 13px;
+    color: $color-solid;
+    flex-direction: column;
+    & + .list-li-buttons {
+      margin-left: 8px;
+    }
+  }
+  .list-li-buttons {
+    display: flex;
+    flex: none;
+    font-size: 14px;
+    > * {
+      margin-left: 8px;
+      margin-right: 0;
+    }
+  }
+}
+
+li {
+  &.small {
+    height: 32px;
+  }
+  &.medium {
+    height: 48px;
+  }
+  &.large {
+    height: 72px;
+  }
+}
 
 .user-option-slider {
     height: 72px;

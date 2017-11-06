@@ -355,7 +355,7 @@
       post.isTrusted = data.is_trusted;
       post.labels = _.map(data.post_labels, function (item) {
         NstSvcLabelFactory.set(item);
-        return NstSvcLabelFactory.parse(item);
+        return NstSvcLabelFactory.parseLabel(item);
       });
 
 

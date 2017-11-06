@@ -6,38 +6,78 @@
 
 .list-items {
   height: 30px;
-  padding: 5px 10px;
-  width: 100%;
-  //color: $color-storm;
+  padding: 0 10px;
+  width: 100%; //color: $color-storm;
   color: $color-solid;
   fill: $color-solid;
+  display: flex;
+  align-items: center;
   transition: background-color $animation-dur;
+  > div {
+    flex: none;
+    display: flex;
+    align-items: center;
+    // &:last-of-type {
+    //   margin-left: 8px;
+    // }
+    &:first-of-type {
+      margin-left: 0;
+      margin-right: 8px;
+    }
+  }
   span {
     color: $color-solid;
     fill: $color-solid;
     line-height: 1.4;
+    height: 16px;
   }
-  span,label,a {
+  span,
+  label,
+  a {
     transition-duration: $animation-dur;
-    transition-property: background-color,color;
+    transition-property: background-color, color;
   }
   &:hover {
     background-color: $color-bg-hover-item;
   }
-  &.active{
-    background-color: $color-bg-active-item;
+  &.active ,
+  &.active span {
+    color: $color-sense-wire;
+    fill: $color-sense-wire;
+    svg ,
+    svg.item-check {
+      fill: $color-sense-wire;
+    }
   }
-  &.red-item ,
-  &.red-item span{
+  &.red-item,
+  &.red-item span {
     color: $color-force;
     fill: $color-force;
     svg {
       fill: $color-force;
     }
   }
+  &.pending-wire-item.active,
+  &.pending-wire-item.active span {
+    color: $color-bg-pending-wire;
+    fill: $color-bg-pending-wire;
+    svg ,
+    svg.item-check {
+      fill: $color-bg-pending-wire;
+    }
+  }
+  &.shine-item.active,
+  &.shine-item.active span {
+    color: $color-shine-wire;
+    fill: $color-shine-wire;
+    svg ,
+    svg.item-check {
+      fill: $color-shine-wire;
+    }
+  }
   &.red-item:hover,
   &.force:hover {
-    background-color: rgba(255,100,100,.04);
+    background-color: rgba(255, 100, 100, .04);
   }
 }
 
@@ -46,14 +86,77 @@
   padding: 5px 10px;
   margin-right: 4px;
   .text-wrap {
-    flex:1;
+    flex: 1;
     flex-direction: column;
-    align-items:flex-start !important;
-    margin:6px 0 0 0 !important;
+    align-items: flex-start !important;
+    margin: 6px 0 0 0 !important;
     width: calc(100% - 48px);
     .place-name {
       margin: 0;
       padding: 0;
+    }
+  }
+}
+
+.user-suggets-mention {
+  height: 32px;
+  img {
+    width: 16px;
+    height: 16px;
+    margin: 0 8px;
+  }
+  div {
+    height: 100%;
+    width: 100%;
+    display: flex;
+  }
+  span+span {
+    padding: 0 8px;
+    font-size: 12px;
+  }
+  span:first-of-type {
+    font-size: 13px;
+  }
+}
+
+.place-suggets-mention {
+  height: 32px;
+  img {
+    width: 16px;
+    height: 16px;
+    margin: 0 8px;
+  }
+  div {
+    height: 100%;
+    display: flex;
+    width: 100%;
+    span+span {
+      padding: 0 8px;
+      font-size: 12px;
+    }
+    span:first-of-type {
+      font-size: 13px;
+    }
+  }
+}
+
+.label-suggets-mention {
+  height: 32px;
+  svg {
+    width: 16px;
+    height: 16px;
+    margin: 0 8px;
+  }
+  div {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    span+span {
+      font-size: 12px;
+      padding: 0 8px;
+    }
+    span:first-of-type {
+      font-size: 13px;
     }
   }
 }

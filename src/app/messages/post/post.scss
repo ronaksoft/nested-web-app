@@ -204,4 +204,7 @@ body > .uib-wrapper-post-view:first-child {
   & + div {
     z-index: 998!important;
   }
+  & + div + .taskBackDrop {
+    z-index: 997!important;
+  }
 }

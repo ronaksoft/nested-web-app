@@ -20,7 +20,8 @@
       bindToController: {
         comments: '=',
         limit: '=',
-        postId: '=',
+        postId: '=?',
+        taskId: '=?',
         totalCommentsCount : '=',
         onCommentSent : '=',
         hasCommentRemoveAccess : '='

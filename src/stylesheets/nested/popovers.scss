@@ -3,16 +3,33 @@
   margin-top: -6px;
 }
 
-// #menu.popover-content {
-//   padding: 0;
-// }
-
-// #menu.popup-panel {
-//   max-width: 238px;
-//   margin: 0;
-//   padding: 0;
-// }
-
+.popover.white-pop {
+  border: none;
+  box-shadow: 0 0 16px $color-wind-new;
+  border-radius: 4px;
+  padding: 0;
+  .popover-content {
+    .item-check {
+      display: none;
+      fill: $color-sense-wire;
+    }
+    .active {
+      span {
+        font-weight: bold;
+      }
+      .item-check {
+        display: flex;
+      }
+    }
+    > * > span {
+      min-height: 22px;
+      width: 100%;
+    }
+  }
+}
+.task-logs-filter-popover {
+  min-width: 192px;
+}
 .popover-white + .popover {
   max-width: 320px;
   min-width: 319px;
@@ -120,6 +137,7 @@
   align-items: center;
   .id-name-user {
     justify-content: center;
+    align-items: flex-start;
     height: 40px;
     width: calc(100% - 32px);
     padding-left: 4px;
@@ -133,19 +151,20 @@
 
 //mention popover
 .popover.notifications-popover {
-  min-width: 360px;
-  max-width: 360px;
+  min-width: 280px;
+  max-width: 280px;
   max-height: 480px;
+  padding: 0;
   transition: height $animation-dur;
   height: auto;
   z-index: 1029;
   top: 52px!important;
   // bottom: 40px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  box-shadow: 0 24px 32px $color-solid-48;
   //position: absolute;
   //z-index: 35;
   background-color: $color-white;
-  border: 1px solid #CED9D3;
+  border: none;
   border-radius: 4px;
   &.navnot {
     top: 56px!important;
@@ -175,19 +194,7 @@
     height: 100%;
   }
   >div.arrow {
-    width: 16px;
-    height: 16px;
-    border-style: solid;
-    border-color: #CED9D3;
-    background-color: #f0f5f2;
-    margin: 0;
-    display: flex;
-    top: 50%;
-    transform: translateY(-50%) rotateZ(-45deg);
-    border-width: 1px 1px 0 0;
-    z-index: -1;
-    top: -1px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    display: none;
   }
   > .popover-inner {
     z-index: 2;

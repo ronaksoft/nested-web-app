@@ -11,6 +11,9 @@
 .modal-open {
   overflow: hidden;
 }
+.modal-open-attachment-view {
+  overflow: hidden;
+}
 
 // Container that the modal scrolls within
 .modal {
@@ -47,7 +50,8 @@
     //@include translate(0, 0)
   }
 }
-.modal-open .modal {
+.modal-open .modal ,
+.modal-open-attachment-view .modal {
   overflow-x: hidden;
   overflow-y: auto;
 }

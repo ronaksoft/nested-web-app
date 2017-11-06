@@ -11,8 +11,8 @@
       link: function (scope, el) {
         
         var interval = $timeout(function(){
-          if ( window.nativeScroll) {
-            el[0].addEventListener('scroll',handleScroll)
+          if (window.nativeScroll) {
+            el[0].addEventListener('scroll', handleScroll)
           } else {
             scope.scrollInstance.on('scroll', handleScroll);
           }

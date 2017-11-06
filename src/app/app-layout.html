@@ -3,7 +3,8 @@
   <div class="maincontainer _fw" ng-class="{'navtiny' : navView,'sideNotiny' : ctlApp.viewSettings.sidebar.collapsed,'noSide':ctlApp.viewSettings.sidebar.hidden}">
     <nst-sidebar ng-if="isMainLayout" class="sidebar-directive ng-animate-disabled">
     </nst-sidebar>
-    <scroll-change-observer ng-if="isMainLayout"></scroll-change-observer>
+    <nst-task-sidebar ng-if="isTaskLayout && !isMainLayout" class="sidebar-directive ng-animate-disabled">
+    </nst-task-sidebar>
     <div class="nst-container" ui-view></div>
     <!-- <nst- ng-hide="ctlApp.viewSettings.sidebar.hidden" collapsed="ctlApp.viewSettings.sidebar.collapsed"
         class="_fn _fh ng-animate-disabled">
@@ -30,8 +31,8 @@
     </div>
     <div class="wdt-emoji-scroll-wrapper">
       <input id="wdt-emoji-search" type="text" placeholder="Search">
-      <div iscroll="" class="iscroll-wrapper _fh">
-        <div id="wdt-emoji-menu-items" class="iscroll-scroller">
+      <div iscroll="" class="iscroll-wrapper _fh" id="wdt-emoji-menu-items">
+        <div class="iscroll-scroller">
           <h3 id="wdt-emoji-search-result-title">
             <translate>Search Results</translate>
           </h3>

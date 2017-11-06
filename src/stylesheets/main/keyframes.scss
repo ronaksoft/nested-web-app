@@ -167,6 +167,27 @@
       width: 1.25em;
     }
   }
+  @keyframes new-comment-hot {
+    0% {
+      background-color: transparent;
+      height: 0;
+      padding: 0px;
+      margin: -1px;
+      opacity: 0;
+    }
+    20% {
+      opacity: 1;
+      height: auto;
+      padding: 1px;
+      margin: -1px -1px 0 0;
+    }
+    75% {
+      background-color: $color-sense-50;
+    }
+    100% {
+      background-color: transparent;
+    }
+  }
   @keyframes activity-item-hot {
     from {
       max-height: 0;
@@ -226,12 +247,30 @@
   }
   @keyframes more-recipient-badge {
     0% {
-      transform: scale(.5,.5);
+      transform: scale(.5,.5) translateY(1px);;
     }
     20% {
-      transform: scale(1,1);
+      transform: scale(1,1) translateY(1px);;
     }
     100% {
-      transform: scale(1,1);
+      transform: scale(1,1) translateY(1px);;
     }
   }
+  @keyframes attachment-progress {
+    from {
+      -webkit-transform: translateX(0);
+    }
+    to { 
+      -webkit-transform: translateX(24px);
+    }
+  }
+  
+  @keyframes attachment-progress-rtl {
+    from {
+      -webkit-transform: translateX(0);
+    }
+    to { 
+      -webkit-transform: translateX(-24px);
+    }
+  }
+  

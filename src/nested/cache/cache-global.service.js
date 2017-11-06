@@ -25,7 +25,7 @@
 
     /**
      * Clears all application cache (memory/localStorage)
-     * 
+     *
      */
     GlobalCache.prototype.flush = function () {
       _.forIn(this.providers, function(value) {
@@ -37,9 +37,8 @@
 
     /**
      * Creates an instance of NstSvcCacheProvider and registers the instance
-     * 
-     * @param {any} namespace 
-     * @returns 
+     *
+     * @returns
      */
     GlobalCache.prototype.createProvider = function (namespace) {
       return this.providers[namespace] = new NstSvcCacheProvider(namespace);

@@ -10,8 +10,8 @@
         <select name="gender" ng-model="gender" ng-options="item.key as item.title for item in ctrl.genders" class="form-control" required></select>
       </div>
       <div class="_df _fw change-setting-modal-footer">
-        <div class="butn-white" ng-click="$dismiss('discard')"><translate>Discard</translate></div>
-        <input type="submit" class="butn-green" id="change-save" ng-disabled="ctrl.updateProgress" value="Save" translate-attrs="value"></input>
+        <div class="butn butn-white secondary" ng-click="$dismiss('discard')"><translate>Discard</translate></div>
+        <input type="submit" class="butn butn-green" id="change-save" ng-disabled="ctrl.updateProgress" value="Save" translate-attrs="value"></input>
       </div>
     </form>
   </div>

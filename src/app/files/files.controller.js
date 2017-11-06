@@ -258,7 +258,7 @@
         controller: 'AttachmentViewController',
         controllerAs: 'ctlAttachmentView',
         backdropClass: 'attachmdrop',
-        openedClass : ' modal-open attach-modal',
+        openedClass : ' modal-open-attachment-view attach-modal',
         windowClass: '_oh',
         size: 'full',
         resolve: {
@@ -278,6 +278,9 @@
             return vm.currentPlaceId;
           },
           currentPostId: function () {
+            return null;
+          },
+          currentTaskId: function () {
             return null;
           }
         }
@@ -364,7 +367,9 @@
     function composeWithAttachments() {
       $state.go('app.compose', {attachments: vm.selectedFiles}, {notify: false});
     }
-
+    eventReferences.push($scope.$on('scroll-reached-bottom', function () {
+      vm.loadMore()
+    }));
     $scope.$on('$destroy', function () {
       _.forEach(eventReferences, function (canceler) {
         if (_.isFunction(canceler)) {

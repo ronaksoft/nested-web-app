@@ -29,7 +29,8 @@
     vm.searchThis = searchThis;
     vm.changeTab = changeTab;
     vm.selectedView = 0;
-    vm.searchKeyUp = _.debounce(searchLabel, 512);
+    vm.loading = false;
+    vm.searchKeyUp = _.debounce(searchLabel, 128);
     vm.loadMore = vm.searchKeyUp;
     vm.translation = {
       pending: NstSvcTranslation.get('Pending Requests'),
@@ -52,9 +53,10 @@
       if (vm.oldKeyword !== vm.keyword) {
         restoreDefault();
       }
-      if (!vm.haveMore) {
+      if (!vm.haveMore || vm.loading) {
         return;
       }
+      vm.loading = true;
       var filter = (vm.labelManager && vm.selectedView === 0 ? NST_LABEL_SEARCH_FILTER.ALL : NST_LABEL_SEARCH_FILTER.MY_PRIVATES);
       if (vm.keyword.length > 0) {
         var keyword = $filter('scapeSpace')(vm.keyword);
@@ -64,6 +66,7 @@
           vm.oldKeyword = vm.keyword;
           vm.haveMore = labels.length === vm.setting.limit;
           vm.setting.skip += labels.length;
+          vm.loading = false;
         });
       } else {
         NstSvcLabelFactory.search(null, filter, vm.setting.skip, vm.setting.limit, function(cachedLabels) {
@@ -73,6 +76,7 @@
           vm.oldKeyword = vm.keyword;
           vm.haveMore = labels.length === vm.setting.limit;
           vm.setting.skip += labels.length;
+          vm.loading = false;
         });
       }
     }

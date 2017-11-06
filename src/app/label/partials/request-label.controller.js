@@ -51,7 +51,7 @@
     }
 
     function searchLabel() {
-      if (vm.keyword.length > 1) {
+      if (vm.keyword.length > 0) {
         NstSvcLabelFactory.search(vm.keyword, NST_LABEL_SEARCH_FILTER.PRIVATES).then(function (result) {
           vm.suggests = result;
         });
@@ -90,13 +90,13 @@
         labelService = NstSvcLabelFactory.request(vm.label.id);
       }
       labelService.then(function () {
-        toastr.success(NstSvcTranslation.get("Your request submited successfully."));
+        toastr.success(NstSvcTranslation.get('Your request submitted successfully.'));
         $uibModalInstance.close(true);
       }).catch(function(error) {
         if (error.code === 5) {
-          toastr.warning(NstSvcTranslation.get("Label request already exists!"));
+          toastr.warning(NstSvcTranslation.get('Label request already exists!'));
         } else {
-          toastr.error(NstSvcTranslation.get("Something went wrong."));
+          toastr.error(NstSvcTranslation.get('Something went wrong.'));
         }
       }).finally(function () {
         vm.disabled = false;

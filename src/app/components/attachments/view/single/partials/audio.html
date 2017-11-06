@@ -11,10 +11,5 @@
   <audio player-event-handler class="video-js vjs-default-skin" controls preload="auto" vjs-video vjs-media="mediaToggle" vjs-setup="options">
   </audio>
 </div>
-<div class="loading white"  ng-if="!mediaToggle.sources[0].src">
-  <div class="animation"><div class="circle one"></div></div>
-  <div class="animation"><div class="circle two"></div></div>
-  <div class="animation"><div class="circle three"></div></div>
-  <div class="animation"><div class="circle four"></div></div>
-  <div class="animation"><div class="circle five"></div></div>
-</div>
+
+<div class="nst-loading white absolute" ng-if="!mediaToggle.sources[0].src"></div>

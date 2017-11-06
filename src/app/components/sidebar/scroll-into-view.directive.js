@@ -24,7 +24,6 @@
             }
           })
         }, 100);
-
         function scroller(el) {
           var parentListItem = $(el).parents($attr.scrollIntoView)[0]
           if (!parentListItem) {

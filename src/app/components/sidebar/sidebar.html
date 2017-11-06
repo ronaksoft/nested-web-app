@@ -1,8 +1,8 @@
 <div class="sidebar _df">
-  <div class="sidebar-wrapper">
+  <div class="sidebar-container">
     <!-- sidebar navigator
      ====================-->
-    <a class="side-menu-item" id="compose" ng-click="ctlSidebar.compose($event);">
+    <a class="side-menu-item large" ng-click="ctlSidebar.compose($event);">
       <div class="item-icon">
         <div class="unreadPlace" ng-if="ctlSidebar.hasDraft">
           <svg class="pendfill">
@@ -51,13 +51,13 @@
     </a>
     <!-- sidebar places
      ====================-->
-    <div class="side-places-wrapper _fw">
-      <div class="side-places-head _df">
+    <div class="side-scroll-list-wrapper _fw">
+      <div class="side-scroll-list-head _df">
         <translate class="_df _fw">Places</translate>
-        <div class="_df _aic _jcc _fn ng-class:{'disabled' : !ctlSidebar.canCreateClosedPlace && !ctlSidebar.canCreateGrandPlace && !ctlSidebar.canCreateOpenPlace}"
+        <div class="side-scroll-list-head-button ng-class:{'disabled' : !ctlSidebar.canCreateClosedPlace && !ctlSidebar.canCreateGrandPlace && !ctlSidebar.canCreateOpenPlace}"
           data-popover-class="white-pop create-place-popover" data-popover-append-to-body="false" uib-popover-template="'app/components/sidebar/partials/create-place-popover.html'"
           data-popover-trigger="focus" data-popover-placement="auto bottom-{{$root._direction === 'rtl' ? 'left' : 'right'}}"
-          data-popover-enable="{{!ctlSidebar.canCreateClosedPlace && !ctlSidebar.canCreateGrandPlace && !ctlSidebar.canCreateOpenPlace ? false : true}}"          
+          data-popover-enable="{{!ctlSidebar.canCreateClosedPlace && !ctlSidebar.canCreateGrandPlace && !ctlSidebar.canCreateOpenPlace ? false : true}}"
           data-uib-tooltip-template="'cannot-create-place.html'"
           data-tooltip-append-to-body="true"
           data-tooltip-enable="{{!ctlSidebar.canCreateClosedPlace && !ctlSidebar.canCreateGrandPlace && !ctlSidebar.canCreateOpenPlace ? true : false}}"
@@ -68,14 +68,14 @@
         </div>
       </div>
       <div iscroll class="iscroll-wrapper" iscroll-instance="scrollInstance" scroll-into-view=".side-grand-place-item">
-        <div class="places iscroll-scroller" sidebar-scrollbar>
-          <ul class="side-place-border-selector">
+        <div class="side-places-list iscroll-scroller" add-scope-scroll-top>
+          <ul class="places-tree-parent">
             <li class="side-grand-place-item" ng-repeat="place in ctlSidebar.places" data-ng-include="'app/components/sidebar/place.html'"
               onload="place = place"></li>
           </ul>
-          <ul class="side-invites" data-ng-if="ctlSidebar.invitations.length > 0 ">
+          <ul class="invitations-list" data-ng-if="ctlSidebar.invitations.length > 0 ">
             <li class="side-invite-item" ng-repeat="invitaion in ctlSidebar.invitations">
-              <a href="javascript:void(0);" ng-click="ctlSidebar.invitation.showModal(invitaion.id)" class="side-invite-item-inner">
+              <a href="javascript:void(0);" ng-click="ctlSidebar.invitation.showModal(invitaion.id)" class="side-invite-item-container">
                 <div class="side-invite-item-image">
                   <img class="" ng-src="{{invitaion.place | picture : 'x32'}}" />
                 </div>
@@ -115,18 +115,6 @@
   </div>
 </div>
 
-<script type="text/ng-template" id="compose-uib-tooltip.html">
-  <translate>Compose</translate>
-</script>
-<script type="text/ng-template" id="feed-uib-tooltip.html">
-  <translate>Feed</translate>
-</script>
-<script type="text/ng-template" id="bookmark-uib-tooltip.html">
-  <translate>Bookmarked Posts</translate>
-</script>
-<script type="text/ng-template" id="sent-uib-tooltip.html">
-  <translate>Shared by me</translate>
-</script>
 <script type="text/ng-template" id="cannot-create-place.html">
   <translate>You have no access to create any more grand places</translate>
   <br>

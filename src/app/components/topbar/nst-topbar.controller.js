@@ -23,6 +23,8 @@
       }
       var vm = this;
       var eventReferences = [];
+      vm.isPostLayout = false;
+      vm.isTaskLayout = false;
       vm.APP_VERSION = NST_CONFIG.APP_VERSION;
       vm.BUILD_VERSION = NST_CONFIG.BUILD_VERSION;
       vm.searchPlaceholder = NstSvcTranslation.get('Search...');
@@ -88,12 +90,20 @@
       vm.chips = [];
       vm.isSearch = isSearch;
       vm.advancedSearchIt = advancedSearchIt;
+      vm.datePickerconfig = {
+        allowFuture: false
+      };
 
       vm.translation = {
         submit: NstSvcTranslation.get('Submit')
       };
 
       var searchQuery;
+
+      function checkLayouts() {
+        vm.isPostLayout = $state.current.options && $state.current.options.group !== 'settings' && $state.current.options.group !== 'task';
+        vm.isTaskLayout = $state.current.options && $state.current.options.group === 'task';
+      }
 
       (function () {
         vm.adminArea = '';
@@ -103,10 +113,13 @@
           vm.adminArea = location.protocol + '//' + NST_CONFIG.ADMIN_DOMAIN + (NST_CONFIG.ADMIN_PORT ? ':' + NST_CONFIG.ADMIN_PORT : '');
         }
 
+        checkLayouts();
+
         initQuery(true);
         $rootScope.$on('$stateChangeSuccess', function () {
           initQuery(false);
           isSearch();
+          checkLayouts();
         });
         NstSvcUserFactory.getCurrent().then(function(user) {
           vm.user = user;
@@ -676,7 +689,7 @@
        * Listen to closing notification popover event
        */
       $scope.$on('close-mention', function () {
-        vm.mentionOpen = false;
+        vm.notifOpen = false;
       });
 
       function scrollEndSearch() {

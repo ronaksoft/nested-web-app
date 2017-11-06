@@ -20,12 +20,12 @@
   </div>
 
   <div class="_difh nst-marginbtm-16 text-center _fw">
-    <input type="button" class="_df butn-white _jcc lftbtn" nst-disable-for-btn id="resend" seconds="10" ng-click="ctrl.resend()" value="Resend" translate-attrs="value">
-    <input type="button" class="_df butn-white _jcc rghbtn btn" nst-disable-for-btn seconds="90" ng-click="ctrl.callMe()" value="Call" translate-attrs="value">
+    <input type="button" class="_df butn butn-white secondary _jcc lftbtn" nst-disable-for-btn id="resend" seconds="10" ng-click="ctrl.resend()" value="Resend" translate-attrs="value">
+    <input type="button" class="_df butn butn-white secondary _jcc rghbtn btn" nst-disable-for-btn seconds="90" ng-click="ctrl.callMe()" value="Call" translate-attrs="value">
   </div>
 
   <div class="text-center">
-    <input type="submit" value="Verifing..." ng-if="ctrl.verificationProgress" ng-disabled="phoneVerifyForm.verification_code.$invalid" class="butn-green butn-lg butn-login nstbtn _fwi" translate-attrs="value">
-    <input type="submit" value="Verify" ng-if="!ctrl.verificationProgress" ng-disabled="phoneVerifyForm.verification_code.$invalid" class="butn-green butn-lg butn-login nstbtn _fwi" translate-attrs="value">
+    <input type="submit" value="Verifing..." ng-if="ctrl.verificationProgress" ng-disabled="phoneVerifyForm.verification_code.$invalid" class="butn butn-green butn-lg butn-login nstbtn _fwi" translate-attrs="value">
+    <input type="submit" value="Verify" ng-if="!ctrl.verificationProgress" ng-disabled="phoneVerifyForm.verification_code.$invalid" class="butn butn-green butn-lg butn-login nstbtn _fwi" translate-attrs="value">
   </div>
 </form>

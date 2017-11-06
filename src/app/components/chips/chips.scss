@@ -1,0 +1,263 @@
+.user-chips-wrapper {
+    max-width: 180px;
+    display: flex;
+    align-items: center;
+    flex: none;
+    margin-right: 4px;
+    margin-bottom: 4px;
+    padding-right: 5px;
+    height: 28px;
+    border-radius: 4px;
+    overflow: hidden;
+    border-width: 1px ;
+    border-style: solid ;
+    border-color: #DDDFE0;
+    transition: all $animation-dur;
+    box-shadow: 0 2px 4px $color-breeze-new;
+    .user-avatar-16 {
+        margin: 0 6px;
+        svg {
+            display: none;
+        }
+    }
+    span {
+        max-width: 148px;
+        line-height: 26px;
+        font-size: 13px;
+        color: $color-solid;
+    }
+    &.isSelected {
+        background-color: $color-solid;
+        border-color: $color-solid;
+        span {
+            color: $color-white;
+            transition: all $animation-dur;
+        }
+        .user-avatar-16 {
+            margin: 0 6px;
+            svg {
+                fill: $color-white;
+            }
+        }
+        &:hover {
+            border-color: $color-solid;
+            .user-avatar-16 {
+                svg {
+                    fill: $color-white;
+                }
+            }
+        }
+        &.isCandidate {
+            background-color: #0079F2;
+            &:hover {
+                border-color: #0079F2;
+            }
+        }
+    }
+    &.isCandidate {
+        border-color: #0079F2;
+        &:hover {
+            border-color: #004DA6;
+        }
+    }
+    &:hover {
+        border-color: #ACB0B4;
+        &.removable {
+            .user-avatar-16 {
+                &::after {
+                    display: none;
+                }
+                img {
+                    display: none;
+                }
+                svg {
+                    display: block;
+                    fill: $color-force;
+                }
+            }
+        }
+
+    }
+}
+.place-chips-wrapper {
+    max-width: 240px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    flex: none;
+    margin-right: 4px;
+    padding-right: 22px;
+    height: 28px;
+    border-radius: 4px;
+    overflow: hidden;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #DDDFE0;
+    transition: all $animation-dur;
+    box-shadow: 0 2px 4px $color-breeze-new;
+    .place-picture {
+        img {
+            border-radius: 4px 0 0 4px;
+            width: 26px;
+            height: 26px;
+            display: inline-flex;
+            flex: none;
+        }
+        img.email-holder {
+            border-radius: 12px;
+            width: 22px;
+            // margin-left: 3px;
+            height: 22px;
+
+        }
+    }
+    span {
+        max-width: 182px;
+        line-height: 26px;
+        font-size: 14px;
+        margin: 0 4px;
+        color: $color-solid;
+    }
+    .clear {
+        position: absolute;
+        right: 6px;
+        svg {
+            fill: $color-solid;
+            opacity: .4;
+        }
+    }
+    &.isSelected {
+        background-color: $color-solid;
+        border-color: $color-solid;
+        span {
+            color: $color-white;
+        }
+        .clear {
+            svg {
+                fill: $color-white;
+            }
+        }
+        &:hover {
+            .clear {
+                svg {
+                    fill: $color-white;
+                    opacity: 1;
+                }
+            }
+        }
+    }
+    &.isEmail {
+        border-radius: 14px;
+        .place-picture {
+            margin-left: 3px;
+            width: 22px;
+            height: 22px;
+            img {
+                border-radius: 14px;
+                width: 22px;
+                height: 22px;
+            }
+        }
+    }
+    &:hover {
+        border-color: #ACB0B4;
+        .clear {
+            svg {
+                fill: $color-force;
+                opacity: 1;
+            }
+        }
+    }
+}
+.label-chips-wrapper {
+    max-width: 128px;
+    display: flex;
+    align-items: center;
+    flex: none;
+    height: 22px;
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 0 5px 5px 0;
+    .label-edge {
+        width: 18px;
+        height: 22px;
+        position: relative;
+        @include align-center();
+        border-radius: 2px 0 0 2px;
+        svg {
+            position: absolute;
+        }
+        svg:last-child {
+            display: none;
+            fill: $color-white;
+        }
+    }
+    &:not(:hover) {
+        .label-edge {
+            background-color: transparent;
+            background: transparent!important;
+        }
+        box-shadow: none;
+    }
+    &:not(.isSelected) {
+        box-shadow: none;
+    }
+    &:not(.access) {
+        .label-edge {
+            background: transparent!important;
+            background-color: transparent;
+        }
+    }
+    span {
+        max-width: 102px;
+        line-height: 22px;
+        font-size: 12px;
+        padding: 0 4px;
+        color: $color-white;
+    }
+    .clear {
+        svg {
+            fill: $color-solid;
+            opacity: .4;
+        }
+    }
+    &.isSelected {
+        span {
+            background-color: $color-solid;
+            background: $color-solid!important;
+        }
+        .label-edge {
+            path {
+                fill: $color-solid;
+            }
+            .closer path {
+                fill: $color-white;
+            }
+        }
+        &:hover {
+            .label-edge {
+                background-color: $color-solid;
+                background: $color-solid!important;
+            }
+        }
+    }
+    &:hover {
+        &.access {
+            .label-edge {
+                svg:first-child {
+                    display: none;
+                }
+                svg:last-child {
+                    display: block;
+                    fill: $color-white;
+                }
+            }
+        }
+        .clear {
+            svg {
+                fill: $color-force;
+                opacity: 1;
+            }
+        }
+    }
+}

@@ -1,0 +1,36 @@
+<div class="notification-wrapper">
+  <div class="head-line">
+    <div class="close-mention">
+      <svg class="_24svg fill-solid" ng-click="$dismiss()">
+        <use xlink:href="/assets/icons/nst-icn24.svg#xcross"></use>
+      </svg>
+    </div>
+    <a class="subject _df _fw">
+      <translate>Notifications</translate>
+    </a>
+    <div class="icon" ng-click="ctlNotifications.markAllSeen()">
+      <svg class="_24svg fill-solid">
+        <use xlink:href="/assets/icons/nst-icn24.svg#list-check"></use>
+      </svg>
+    </div>
+  </div>
+
+  <div class="_difh settings-tab">
+    <a class="_df _fw _jcc _aic" ng-click="ctlNotifications.changeTab(1)"
+       ng-class="{'active': ctlNotifications.selectedView === 1}">
+      <span class="_pr">
+        <translate>Posts</translate>
+        <div class="unread-notif-badge" ng-if="ctlNotifications.postCounts > 0">{{ctlNotifications.postCounts | localize}}</div>
+      </span>
+    </a>
+    <a class="_df _fw _jcc _aic" ng-click="ctlNotifications.changeTab(2)"
+       ng-class="{'active': ctlNotifications.selectedView === 2}">
+        <span class="_pr">
+          <translate>Tasks</translate>
+          <div class="unread-notif-badge" ng-if="ctlNotifications.taskCounts > 0">{{ctlNotifications.taskCounts | localize}}</div>
+        </span>
+    </a>
+  </div>
+  <notification-list ng-show="ctlNotifications.selectedView === 1" notif-filter="'post'" notif-count="ctlNotifications.postCounts" notif-click="ctlNotifications.onClickMention" notif-mark-all="ctlNotifications.postMarkAllSeenFunc"></notification-list>
+  <notification-list ng-show="ctlNotifications.selectedView === 2" notif-filter="'task'" notif-count="ctlNotifications.taskCounts" notif-click="ctlNotifications.onClickMention" notif-mark-all="ctlNotifications.taskMarkAllSeenFunc"></notification-list>
+</div>

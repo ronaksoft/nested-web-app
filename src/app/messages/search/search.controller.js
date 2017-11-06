@@ -6,13 +6,14 @@
     .controller('SearchController', SearchController);
 
   /** @ngInject */
-  function SearchController($log, _, $stateParams, $state,
+  function SearchController($log, _, $stateParams, $state, $scope,
                             NST_DEFAULT, NstSvcPostFactory,
                             NstSearchQuery) {
     var vm = this;
     var limit = 8;
     var skip = 0;
 
+    var eventReferences = [];
     vm.searchParams = [];
     vm.reachedTheEnd = false;
     vm.loading = false;
@@ -157,14 +158,17 @@
         $state.go(NST_DEFAULT.STATE);
       }
     }
+    eventReferences.push($scope.$on('scroll-reached-bottom', function () {
+      vm.loadMore()
+    }));
 
-    // $(window).scroll(function (e) {
-    //   var element = e.currentTarget;
-    //   if (element.pageYOffset + element.innerHeight === $('body').height()) {
-    //     $log.debug("load more");
-    //     vm.loadMore();
-    //   }
-    // });
+    $scope.$on('$destroy', function () {
+      _.forEach(eventReferences, function (canceler) {
+        if (_.isFunction(canceler)) {
+          canceler();
+        }
+      });
+    });
   }
 
 })();

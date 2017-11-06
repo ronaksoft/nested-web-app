@@ -20,7 +20,6 @@
     };
 
     $rootScope.navView = false;
-    $rootScope.cardCtrls = [];
     $rootScope.staticNav = true;
     $rootScope.topNavOpen = false;
     $rootScope._direction = NstSvcI18n.getLocale()._direction || "ltr";
@@ -49,7 +48,8 @@
 
     };
 
-    $scope.isMainLayout = $state.current.options && $state.current.options.group !== 'settings';
+    $scope.isMainLayout = $state.current.options && $state.current.options.group !== 'settings' && $state.current.options.group !== 'task';
+    $scope.isTaskLayout = $state.current.options && $state.current.options.group === 'task';
 
     checkToBeAuthenticated($state.current, $stateParams);
 
@@ -108,12 +108,19 @@
     }));
 
     eventReferences.push($rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
-      $scope.isMainLayout = toState.options && toState.options.group !== 'settings';
+      resetUITemporaryData()
+      $scope.isMainLayout = toState.options && toState.options.group !== 'settings' && toState.options.group !== 'task';
+      $scope.isTaskLayout = toState.options && toState.options.group === 'task';
       $('.wdt-emoji-popup.open').removeClass('open');
       // $rootScope.$broadcast('reload-counters');
       checkToBeAuthenticated(toState, toParams, event);
-      scrollTopBody();
     }));
+
+    function resetUITemporaryData() {
+      $rootScope.cardCtrls = [];
+      $rootScope.affixBlocks = [];
+      $window.scrollTo(0, 0);
+    }
 
     function checkToBeAuthenticated(state, stateParams, event) {
       if (!NstSvcAuth.isInAuthorization() && _.startsWith(state.name, "app.")) {
@@ -125,21 +132,29 @@
       }
     }
 
-    function scrollTopBody() {
-      $window.scrollTo(0, 0);
-    }
-
     function restoreLastState() {
       var last = null;
+      var lastGroup = '';
       if (_.isArray($rootScope.stateHistory) && _.size($rootScope.stateHistory) > 0) {
         // restore to find a primary route
         while ($rootScope.stateHistory.length > 0) {
           last = $rootScope.stateHistory.pop();
+          if (last.state.options && last.state.options.group) {
+            lastGroup = last.state.options.group;
+          }
           if (last.state.options && last.state.options.primary && last.state.name !== $state.current.name) {
             $rootScope.stateHistory.push(last);
             return last;
           }
         }
+      }
+
+      if ($rootScope.stateHistory.length === 0 && lastGroup === 'task') {
+        return {
+          default: true,
+          state: $state.get('app.task.glance'),
+          params: {}
+        };
       }
 
       // return the default state if could not find any primary route
@@ -181,12 +196,12 @@
       event.preventDefault();
     });
 
-    var composeModals = [];
+    var backgroundModals = [];
     var maxModals = 3;
 
     eventReferences.push($rootScope.$on('open-compose', function () {
-      if (composeModals.length >= maxModals) {
-        toastr.error(NstSvcTranslation.get(NstUtility.string.format('You cannot have more than {0} active compose modals.', maxModals)));
+      if (backgroundModals.length >= maxModals) {
+        toastr.error(NstSvcTranslation.get(NstUtility.string.format('You cannot have more than {0} active background modals.', maxModals)));
         $rootScope.goToLastState(true);
         return;
       }
@@ -205,26 +220,59 @@
       }).result.catch(function () {
         $rootScope.goToLastState(true);
       });
-      composeModals.push({
+      backgroundModals.push({
         id: uid,
-        order: composeModals.length
+        order: backgroundModals.length,
+        type: 'compose'
       });
     }));
 
-    eventReferences.push($rootScope.$on('minimize-compose', function () {
-      repositionMinimizedComposeModals();
+    eventReferences.push($rootScope.$on('open-create-task', function (event, id) {
+      if (backgroundModals.length >= maxModals) {
+        toastr.error(NstSvcTranslation.get(NstUtility.string.format('You cannot have more than {0} active background modals.', maxModals)));
+        return;
+      }
+      var uid = parseInt(_.uniqueId());
+      $uibModal.open({
+        animation: false,
+        size: 'create-task',
+        templateUrl: 'app/task/pages/create-task/create-task.html',
+        controller: 'CreateTaskController',
+        controllerAs: 'ctrlCreateTask',
+        backdropClass: 'comdrop',
+        openedClass: 'modal-open compose-modal active-compose',
+        resolve: {
+          modalData: {
+            relatedTaskId: id,
+            modalId: uid
+          }
+        }
+      });
+      backgroundModals.push({
+        id: uid,
+        order: backgroundModals.length,
+        type: 'task'
+      });
     }));
 
-    eventReferences.push($rootScope.$on('close-compose', function (e, data) {
-      var index = _.findIndex(composeModals, data.id, 'id');
-      composeModals.splice(index, 1);
-      repositionMinimizedComposeModals();
+    eventReferences.push($rootScope.$on('minimize-background-modal', function () {
+      repositionMinimizedBackgroundModals();
     }));
 
-    function repositionMinimizedComposeModals() {
+    eventReferences.push($rootScope.$on('close-background-modal', function (e, data) {
+      var index = _.findIndex(backgroundModals, data.id, 'id');
+      backgroundModals.splice(index, 1);
+      repositionMinimizedBackgroundModals();
+    }));
+
+    function repositionMinimizedBackgroundModals() {
       setTimeout(function () {
-        _.forEach(composeModals, function (item) {
-          $('.minimize-container.compose_' + item.id).parent().css('transform', 'translateX(' + (item.order * -160) + 'px)');
+        _.forEach(backgroundModals, function (item) {
+          if (item.type === 'compose') {
+            $('.minimize-container.compose_' + item.id).parent().css('transform', 'translateX(' + (item.order * -160) + 'px)');
+          } else if (item.type === 'task') {
+            $('.minimize-container.task_' + item.id).parent().css('transform', 'translateX(' + (item.order * -160) + 'px)');
+          }
         });
       }, 100);
     }
@@ -234,9 +282,9 @@
     };
 
     $scope.$on('$destroy', function () {
-      _.forEach(eventReferences, function (cenceler) {
-        if (_.isFunction(cenceler)) {
-          cenceler();
+      _.forEach(eventReferences, function (canceler) {
+        if (_.isFunction(canceler)) {
+          canceler();
         }
       });
       windowClickEvent.off();

@@ -13,7 +13,7 @@
 
       <div class="move-head">
         <div class="move-from">
-          <translate>Currenct Place</translate>
+          <translate>Current Place</translate>
           <img ng-src="{{::ctrl.selectedPlace | picture}}">
           <p>{{::ctrl.selectedPlace.name}}</p>
           <span>
@@ -51,8 +51,8 @@
     </div>
 
     <div class="modal-footer">
-      <input ng-if="!ctrl.targetPlace" type="button" class="butn-green _fw _db" value="Move to ..." translate-attrs="value" disabled/>
-      <input ng-if="ctrl.targetPlace" type="submit" class="butn-green _fw _db" ng-value="ctrl.getMoveButtonLabel(ctrl.targetPlace.name)"/>
+      <input ng-if="!ctrl.targetPlace" type="button" class="butn butn-green _fw _db" value="Move to ..." translate-attrs="value" disabled/>
+      <input ng-if="ctrl.targetPlace" type="submit" class="butn butn-green _fw _db" ng-value="ctrl.getMoveButtonLabel(ctrl.targetPlace.name)"/>
     </div>
   </form>
 </div>

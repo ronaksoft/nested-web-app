@@ -16,7 +16,7 @@
         </div>
     </div>
     <div class="modal-b">
-        <div load-more iscroll class="iscroll-wrapper" ng-if="!ctrl.isLoadingPlaces">
+        <div load-more iscroll iscroll-instance="scrollInstance" class="iscroll-wrapper" ng-if="!ctrl.isLoadingPlaces">
             <ul class="iscroll-scroller">
                 <li dir="{{$root._direction}}" class="place ng-class:{'disabledItem' : ctrl.selectedFiles.length > 0}" ng-repeat="place in ctrl.places" ng-click="ctrl.placeClick(place.id, place.name)">
                     <div class="place-logo">
@@ -58,17 +58,11 @@
                 <div dir="{{$root._direction}}" class="_jcc _df _aic _fw" ng-if="ctrl.places.length === 0 && ctrl.files.length === 0 && !ctrl.initialStart && !ctrl.isLoading"><translate>No File or place</translate></div>
             </ul>
         </div>
-        <div class="loading" ng-if="ctrl.isLoading">
-            <div class="animation"><div class="circle one"></div></div>
-            <div class="animation"><div class="circle two"></div></div>
-            <div class="animation"><div class="circle three"></div></div>
-            <div class="animation"><div class="circle four"></div></div>
-            <div class="animation"><div class="circle five"></div></div>
-        </div>
+        <div class="nst-loading absolute" ng-if="ctrl.isLoading"></div>
     </div>
     <div class="modal-f">
-        <input type="button" ng-click="ctrl.closePopover()"  value="Discard" class="butn-white">
-        <input type="button" ng-if="ctrl.selectedFiles.length> 0" ng-click="ctrl.addToCompose()" value="Attach" class="butn-green">
-        <input ng-if="ctrl.selectedFiles.length === 0" type="button" disabled value="Attach" class="butn-green">
+        <input type="button" ng-click="ctrl.closePopover()"  value="Discard" class="butn butn-white secondary">
+        <input type="button" ng-if="ctrl.selectedFiles.length> 0" ng-click="ctrl.addToCompose()" value="Attach" class="butn butn-green">
+        <input ng-if="ctrl.selectedFiles.length === 0" type="button" disabled value="Attach" class="butn butn-green">
     </div>
 </div>

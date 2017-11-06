@@ -1,16 +1,43 @@
 .butn {
   @include user-select(none);
-  background-color: $color-sense;
-  font-size: $font-size-medium;
+  border-width: 1px;
+  border-style: solid;
+  font-size: 14px;
   font-weight: bold;
-  border: 1px solid $color-sense-wire;
   color: $color-white;
-  height: 40px;
-  border-radius: $border-radius-large;
+  height: 32px;
+  border-radius: 2px;
+  flex: none;
   line-height: 1.33333;
-  &:focus {
-    border: 2px solid $color-solid;
+  text-align: center;
+  transition: all $animation-dur;
+  justify-content: center;
+  align-items: center;
+  min-width: 80px;
+  padding: 0 16px;
+  a,span {
+    color: $color-white;
+    white-space: nowrap;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
+  }
+  &:hover:disabled,
+  &:focus:disabled,
+  &:disabled{
+    cursor: not-allowed;
+    border-color: #DDDFE0;
+    text-decoration: none;
     box-shadow: none;
+    background-color: #DDDFE0;
+    color: #ACB0B4;
+    a,span {
+      color: #ACB0B4;
+    }
+  }
+  &.secondary:disabled {
+    box-shadow: none;
+    background-color: $color-white!important;
   }
 }
 
@@ -22,54 +49,64 @@
 
 .butn-green{
   background-color: $color-sense;
-  border: 1px solid $color-sense-wire;
-  border-radius: $border-radius-butn;
-  flex: none;
-  text-decoration: none;
+  border-color: $color-sense-wire;
   color: $color-white;
-  text-align: center;
-  transition: all $animation-dur;
-  justify-content: center;
-  align-items: center;
-  @include user-select(none);
-  font-weight: bold;
-  a,span {
-    //margin: 4px 0;
-    color: $color-white;
-    white-space: nowrap;
-    font-size: $font-size-large;
-    font-weight: bold;
-    text-decoration: none;
-  }
+  box-shadow: 0 2px 4px rgba(1, 177, 89, .32);
   &:hover {
-    background-color: $color-sense-wire;
-    text-decoration: none;
+    border-color: $color-sense;
     color: $color-white;
+    box-shadow: 0 4px 8px rgba(1, 177, 89, .32);
     a,span{
       color: $color-white;
-      text-decoration: none;
     }
   }
   &:focus {
-    background-color: $color-sense;
+    background-color: $color-sense-wire;
+    border-color: $color-sense-wire;
+    box-shadow: 0 1px 2px rgba(1, 177, 89, .32);
+  }
+  &.secondary {
+    background-color: $color-white!important;
+    color: $color-sense-wire;
+    a, span {
+      color: $color-sense-wire;
+    }
   }
 }
 
-.butn-green:disabled{
-  opacity: .5;
-  cursor: not-allowed;
-  text-decoration: none;
-}
+/**
+  *********************************
+  *        Blue btn              *
+  *********************************
+*/
 
-.butn-green-nav{
-  margin: 5px;
-  height: 32px;
-  display: inline-block;
-  font-size: $font-size-medium;
-  font-weight: 600;
-  padding: 5px 16px 5px 16px;
-  //width: 128px;
-  @extend .butn-green;
+.butn-pending{
+  background-color: $color-bg-pending;
+  border-color: $color-bg-pending-wire;
+  color: $color-white;
+  box-shadow: 0 2px 4px rgba(0, 77, 166, .32);
+  a,span {
+    color: $color-white;
+  }
+  &:hover {
+    border-color: $color-bg-pending;
+    box-shadow: 0 4px 8px rgba(0, 77, 166, .32);
+    a,span{
+      color: $color-white;
+    }
+  }
+  &:focus {
+    box-shadow: 0 1px 2px rgba(0, 77, 166, .32);
+    background-color: $color-bg-pending-wire;
+    border-color: $color-bg-pending-wire;
+  }
+  &.secondary {
+    background-color: $color-white!important;
+    color: $color-bg-pending-wire;
+    a, span {
+      color: $color-bg-pending-wire;
+    }
+  }
 }
 
 /**
@@ -80,39 +117,31 @@
 
 .butn-red{
   background-color: $color-force;
-  border: 1px solid $color-force-wire;
-  border-radius: $border-radius-butn;
+  border-color: $color-force-wire;
   margin: 0 5px;
-  //width: 128px;
-  flex: none;
-  font-weight: bold;
-  text-decoration: none;
-  transition: all $animation-dur;
-  @include user-select(none);
+  box-shadow: 0 2px 4px rgba(230, 0, 38, .32);
   a,span{
-    //margin: 4px 0;
     color: $color-white;
-    white-space: nowrap;
-    font-size: $font-size-large;
-    font-weight: bold;
-    text-decoration: none;
   }
   &:hover {
-    background-color: $color-force-wire;
+    box-shadow: 0 4px 8px rgba(230, 0, 38, .32);
+    border-color: $color-force;
     a,span{
       color: $color-white;
-      text-decoration: none;
     }
   }
   &:focus{
-    background-color: $color-force;
+    box-shadow: 0 1px 2px rgba(230, 0, 38, .32);
+    background-color: $color-force-wire;
+    border-color: $color-force-wire;
   }
-}
-
-.butn-red:disabled{
-  opacity: .5;
-  cursor: not-allowed;
-  text-decoration: none;
+  &.secondary {
+    background-color: $color-white!important;
+    color: $color-force-wire;
+    a, span {
+      color: $color-force-wire;
+    }
+  }
 }
 
 /**
@@ -122,42 +151,40 @@
 */
 
 .butn-white{
-  border: 1px solid $color-breeze;
-  background-color: $color-white;
-  border-radius: $border-radius-butn;
-  color: $color-storm;
+  border-color: rgb(35, 38, 41);
+  background-color: rgb(50, 61, 71);
+  color: $color-white;
+  box-shadow: 0 2px 4px rgba(35, 38, 41, .32);
   margin: 0 5px;
-  font-weight: bold;
-  flex: none;
-  text-decoration: none;
-  transition: all $animation-dur;
-  @include user-select(none);
   a,span{
-    transition: color $animation-dur;
-    //margin: 4px 0;
-    color: $color-new-hurricane;
-    white-space: nowrap;
-    //font-size: $font-size-large;
-    font-weight: bold;
+    color: $color-white;
   }
   &:hover{
-    background-color: $color-calm;
+    background-color: rgb(50, 61, 71);
+    border-color: rgb(50, 61, 71);
+    color: $color-white;
+    box-shadow: 0 4px 8px rgba(35, 38, 41, .32);
     a,span{
-      color: $color-storm;
+      color: $color-white
     }
   }
   &:focus{
-    background-color: $color-breeze;
+    background-color: $color-white;
     color: $color-white;
+    box-shadow: 0 1px 2px rgba(35, 38, 41, .32);
+    background-color: rgb(35, 38, 41);
+    border-color: rgb(35, 38, 41);
     a,span {
-      color: $color-white;
+      color: $color-white
     }
   }
-}
-.butn-white:disabled {
-  opacity: .5;
-  background-color: $color-calm;
-  cursor: not-allowed;
+  &.secondary {
+    background-color: $color-white!important;
+    color: rgb(35, 38, 41);
+    a, span {
+      color: rgb(35, 38, 41);
+    }
+  }
 }
 
 /**
@@ -174,6 +201,7 @@
 .butn-login {
   width: 100%;
   margin: 0;
+  height: 40px;
   @extend .butn-green;
 }
 
@@ -489,5 +517,62 @@ input[type="checkbox"].inpsw[disabled]:checked + label + label  {
     display: flex;
     width: 16px;
     flex: none;
+  }
+}
+
+
+.arrow-toggle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color .2s;
+  border-radius: 4px;
+  width: 28px;
+  height: 28px;
+  .unread-on-arrow {
+    width: 6px;
+    height: 6px;
+    margin-top: -2px;
+    border-radius: 100%;
+    background-color: $color-bg-pending;
+  }
+  &:hover {
+    svg {
+      opacity: 1;
+    }
+    background-color: $color-bg-hover-item;
+  }
+  &:active {
+    opacity: 1;
+    background-color: $color-bg-active-item;
+  }
+  label {
+    width: 12px;
+    height: 12px;
+    transition: all $animation-dur;
+  }
+}
+
+
+.attachment-plus {
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  margin: 3px 0 0;
+  border: 1px solid $color-breeze-new;
+  background-color: $color-white;
+  transition: all $animation-dur;
+  @include align-center();
+  svg {
+    transition: transform $animation-dur;
+  }
+  &:hover {
+    background-color: $color-breeze-new;
+    border: 1px solid transparent;
+
+  }
+  &.active {
+    background-color: $color-wind-new;
+    border: 1px solid transparent;
   }
 }

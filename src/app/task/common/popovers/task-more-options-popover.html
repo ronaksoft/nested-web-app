@@ -1,0 +1,64 @@
+<h6><translate>Status:</translate></h6>
+<a class="list-items pending-wire-item _aic" ng-class="{'active': !(ctrlEditTask.model.status == ctrlEditTask.taskStatuses.HOLD || ctrlEditTask.model.status == ctrlEditTask.taskStatuses.COMPLETED)}" ng-click="ctrlEditTask.setState(ctrlEditTask.taskStatuses.STATE_IN_PROGRESS);">
+  <div>
+    <svg class="_16svg">
+      <use xlink:href="/assets/icons/nst-icn16.svg#task-in-progress"></use>
+    </svg>
+  </div>
+  <span>
+    <translate>In Progress</translate>
+  </span>
+  <svg class="_16svg item-check">
+      <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
+  </svg>
+</a>
+<a class="list-items shine-item _aic" ng-class="{'active': ctrlEditTask.model.status == ctrlEditTask.taskStatuses.HOLD}" ng-click="ctrlEditTask.setState(ctrlEditTask.taskStatuses.STATE_HOLD);">
+  <div>
+    <svg class="_16svg">
+      <use xlink:href="/assets/icons/nst-icn16.svg#task-hold"></use>
+    </svg>
+  </div>
+  <span>
+    <translate>Hold</translate>
+  </span>
+  <svg class="_16svg item-check">
+      <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
+  </svg>
+</a>
+<a class="list-items _aic" ng-class="{'active': ctrlEditTask.model.status == ctrlEditTask.taskStatuses.COMPLETED}" ng-click="ctrlEditTask.setState(ctrlEditTask.taskStatuses.STATE_COMPLETE);">
+  <div>
+    <svg class="_16svg">
+      <use xlink:href="/assets/icons/nst-icn16.svg#task-completed"></use>
+    </svg>
+  </div>
+  <span>
+    <translate>Completed</translate>
+  </span>
+  <svg class="_16svg item-check">
+      <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
+  </svg>
+</a>
+<div class="line-popover"></div>
+<a class="list-items _aic" ng-click="ctrlEditTask.createRelatedTask();">
+  <div>
+    <svg class="_16svg">
+      <use xlink:href="/assets/icons/nst-icn16.svg#chain"></use>
+    </svg>
+  </div>
+  <span>
+    <translate>Create a related Task</translate>
+  </span>
+  <svg class="_16svg item-check">
+      <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
+  </svg>
+</a>
+<a class="list-items _aic" ng-click="ctrlEditTask.remove();" ng-if="ctrlEditTask.model.access.deleteTask">
+  <div>
+    <svg class="_16svg">
+      <use xlink:href="/assets/icons/nst-icn16.svg#bin"></use>
+    </svg>
+  </div>
+  <span>
+    <translate>Delete</translate>
+  </span>
+</a>

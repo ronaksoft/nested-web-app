@@ -268,6 +268,9 @@
         addNewActivity(data.activity);
       }));
     });
+    eventReferences.push($scope.$on('scroll-reached-bottom', function () {
+      vm.loadMore()
+    }));
 
     // Request new activities everytime the socket reconnects to server
     NstSvcServer.addEventListener(NST_SRV_EVENT.RECONNECT, function () {

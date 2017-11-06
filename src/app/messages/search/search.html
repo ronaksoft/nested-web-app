@@ -1,5 +1,4 @@
 <div class="nst-content _tr content-wrapper">
-  <scroll-change-handler reached-bottom="ctlSearch.loadMore"></scroll-change-handler>
   <section class="content nst-marginbtm-28">
     <nst-navbar data-ng-model="navbar" ready-to-show="ctlSearch.currentPlaceLoaded" ready-to-anime="true" query="ctlSearch.queryString"
       search-on-keypress="ctlSearch.searchOnEnterKeyPressed" force-search="ctlSearch.forceSearch" remove-last-chip="ctlSearch.removeLastChip"></nst-navbar>
@@ -29,12 +28,7 @@
         <translate>An error has occurred. Please <a href class="nst-mood-cheerful" data-ng-click="ctlSearch.loadMore()">try again...</a></translate>
       </p>
       <div class="_difh nst-mood-cheerful no-gutter" ng-if="ctlSearch.loading">
-        <div class="col-xs-6">
-          <div class="nst-loading nst-loading-size-16  _fr"></div>
-        </div>
-        <div class="col-xs-6 nst-marginbtm-4">
-          <translate>Loading...</translate>
-        </div>
+        <div class="nst-loading"></div>
       </div>
     </div>
     <div class="nst-marginbtm-32"></div>

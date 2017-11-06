@@ -105,21 +105,24 @@ select,option {
   color: $color-solid;
 }
 .ui-select-multiple.ui-select-bootstrap {
-  .ui-select-match-item {
+  .ui-select-match-item ,
+  .ui-select-match-item:hover ,
+  .ui-select-match-item:active ,
+  .ui-select-match-item:focus {
     background-color: transparent;
     border-radius: 0;
     color: $color-solid;
     padding: 0;
-    height: 30px;
+    height: 28px;
     margin: 0!important;
     border-width: 0;
     span {
-      line-height: 28px!important;
-      padding: 0;
-      height: 28px;
-      font-size: 14px;
-      white-space: nowrap;
-      @extend ._txe;
+      // line-height: 28px!important;
+      // padding: 0;
+      // height: 28px;
+      // font-size: 14px;
+      // white-space: nowrap;
+      // @extend ._txe;
     }
     .close {
       line-height: 30px;
@@ -221,6 +224,26 @@ select,option {
       }
     }
     &:active,&:focus{
+      .place-chips-wrapper {
+        background-color: $color-solid;
+        border-color: $color-solid;
+        span {
+            color: $color-white;
+        }
+        .clear {
+            svg {
+                fill: $color-white;
+            }
+        }
+        &:hover {
+            .clear {
+                svg {
+                    fill: $color-white;
+                    opacity: 1;
+                }
+            }
+        }
+      }
       div.selected-innter {
         border-color: $color-sense;
         background: linear-gradient(to bottom, #8AEBB4, #8AEBB4 100%);
@@ -245,20 +268,20 @@ select,option {
     }
   }
   .label-items .ui-select-match-item {
-    background-color: transparent;
-    border-radius: 0;
-    color: $color-white;
-    padding: 0;
-    height: 28px;
-    margin: 0!important;
-    border-width: 0;
+    // background-color: transparent;
+    // border-radius: 0;
+    // color: $color-white;
+    // padding: 0;
+    // height: 28px;
+    // margin: 0!important;
+    // border-width: 0;
     span {
-      line-height: 28px!important;
-      padding: 0;
-      height: 28px;
-      font-size: 14px;
-      white-space: nowrap;
-      @extend ._txe;
+      // line-height: 28px!important;
+      // padding: 0;
+      // height: 28px;
+      // font-size: 14px;
+      // white-space: nowrap;
+      // @extend ._txe;
     }
     .close {
       display: none;
@@ -319,33 +342,33 @@ select,option {
       .close {
         color: $color-white;
       }
-      .color-lbl-bg-A {
-        box-shadow: 0 0 8px #8895A1;
-      }
+      // .color-lbl-bg-A {
+      //   box-shadow: 0 0 8px #8895A1;
+      // }
 
-      .color-lbl-bg-B {
-        box-shadow: 0 0 8px #60BF70;
-      }
+      // .color-lbl-bg-B {
+      //   box-shadow: 0 0 8px #60BF70;
+      // }
 
-      .color-lbl-bg-C {
-        box-shadow: 0 0 8px #EBC246;
-      }
+      // .color-lbl-bg-C {
+      //   box-shadow: 0 0 8px #EBC246;
+      // }
 
-      .color-lbl-bg-D {
-        box-shadow: 0 0 8px #F26161;
-      }
+      // .color-lbl-bg-D {
+      //   box-shadow: 0 0 8px #F26161;
+      // }
 
-      .color-lbl-bg-E {
-        box-shadow: 0 0 8px #8669BF;
-      }
+      // .color-lbl-bg-E {
+      //   box-shadow: 0 0 8px #8669BF;
+      // }
 
-      .color-lbl-bg-F {
-        box-shadow: 0 0 8px #508EE6;
-      }
+      // .color-lbl-bg-F {
+      //   box-shadow: 0 0 8px #508EE6;
+      // }
 
-      .color-lbl-bg-G {
-        box-shadow: 0 0 8px #6CD9D9;
-      }
+      // .color-lbl-bg-G {
+      //   box-shadow: 0 0 8px #6CD9D9;
+      // }
     }
   }
 }

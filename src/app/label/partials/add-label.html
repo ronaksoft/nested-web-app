@@ -14,7 +14,7 @@
     <ui-select minimum-input-length="4" multiple limit="{{ctrl.targetLimit}}" always-show-list class="label-search _difv" focus-on='SetFocus'
         data-ng-model="ctrl.selectedLabels" on-select="ctrl.updatedRecipient(true, $item)" on-remove="ctrl.updatedRecipient(false, $item)">
         <ui-select-match placeholder="{{::ctrl.labelSelectPlaceHolder}}" class="label-items">
-            <div class="selected-innter color-lbl-bg-{{$item.code}} ng-class:{'locked' : !$item.public && !$item.isMember}">
+            <!-- <div class="selected-innter color-lbl-bg-{{$item.code}} ng-class:{'locked' : !$item.public && !$item.isMember}">
                 <svg class="_16svg _fn fill-white" ng-if="!$item.public && !$item.isMember">
                     <use xlink:href="/assets/icons/nst-icn16.svg#lock"></use>
                 </svg>
@@ -23,7 +23,8 @@
                     <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
                 </svg>
                 <span>{{$item.title | scapeRevSpace}}</span>
-            </div>
+            </div> -->
+            <div label-chips label-id="$item" on-remove="$selectMultiple.removeChoice" index="$index" on-select="" selectable="true"></div>
         </ui-select-match>
         <!--{{$select.open = true;""}}-->
         <ui-select-choices refresh="ctrl.searchFn($select.search)" position="down"
@@ -40,6 +41,6 @@
         <translate ng-if="ctrl.haveMore" ng-click="ctrl.load()">Show more...</translate>
     </div>
     <div class="modal-footer">
-        <input type="button" class="butn-green" ng-disabled="!ctrl.firstTouch || ctrl.selectedLabels.length > 10" value="Done" ng-click="ctrl.submitLabels();" translate-attrs="value">
+        <input type="button" class="butn butn-green" ng-disabled="!ctrl.firstTouch || ctrl.selectedLabels.length > 10" value="Done" ng-click="ctrl.submitLabels();" translate-attrs="value">
     </div>
 </div>

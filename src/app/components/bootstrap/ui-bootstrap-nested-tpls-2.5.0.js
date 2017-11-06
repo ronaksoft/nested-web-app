@@ -2074,7 +2074,7 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
               } else {
                 observers.push(
                   attrs.$observe(ttType, function(val) {
-                    ttScope.content = val;
+                    ttScope.content = angular.element(document.body).injector().get('NstSvcTranslation').get(val);
                     if (!val && ttScope.isOpen) {
                       hide();
                     } else {

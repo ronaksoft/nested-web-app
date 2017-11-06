@@ -11,7 +11,7 @@
                                NST_DEFAULT, NST_AUTH_EVENT, NST_INVITATION_EVENT, NST_CONFIG, NST_KEY, deviceDetector, NST_PLACE_ACCESS, NST_SRV_ERROR,
                                NST_EVENT_ACTION, NST_USER_EVENT, NST_NOTIFICATION_EVENT, NST_SRV_EVENT, NST_NOTIFICATION_TYPE, NST_PLACE_EVENT, NST_POST_EVENT,
                                NstSvcAuth, NstSvcServer, NstSvcLogger, NstSvcNotification, NstSvcTranslation,
-                               NstSvcNotificationSync, NstSvcPlaceFactory, NstSvcInvitationFactory, NstUtility, NstSvcUserFactory, NstSvcSidebar, NstSvcNotificationFactory,
+                               NstSvcNotificationSync, NstSvcPlaceFactory, NstSvcInvitationFactory, NstUtility, NstSvcUserFactory, NstSvcSidebar,
                                NstSvcKeyFactory, NstSvcPostDraft, NstSvcGlobalCache) {
       var vm = this;
       var eventReferences = [];
@@ -335,8 +335,8 @@
 
 
       function scrollTop() {
-        if (_.isFunction($scope.scrollTopPlaces)) {
-          $scope.scrollTopPlaces();
+        if (_.isFunction($scope.scrollToTop)) {
+          $scope.scrollToTop();
         }
       }
 

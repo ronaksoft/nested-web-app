@@ -64,6 +64,8 @@
       };
 
       vm.quickMessageAccess = false;
+
+      vm.scrollChange = scrollChange;
       // Listen for when the dnd has been configured.
       var eventReferences = [];
       (function () {
@@ -369,6 +371,10 @@
           replacePosts(posts);
         });
       }
+
+      eventReferences.push($scope.$on('scroll-reached-bottom', function () {
+        vm.loadMore()
+      }));
 
       eventReferences.push($scope.$on('post-select', function (event, data) {
         if (vm.tempBanPlaces) {
@@ -784,6 +790,10 @@
         eventReferences.push($rootScope.$on('reload-counters', function () {
           loadUnreadPostsCount();
         }));
+
+        function scrollChange() {
+          // console.log(window.scrollY);
+        }
 
         $scope.$on('$destroy', function () {
           if (CITHandler) {

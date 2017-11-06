@@ -41,4 +41,22 @@
       </tr>
     </tbody>
   </table>
+  <div class="input-time" ng-click="$event.stopPropagation()">
+      <svg class="_16svg _df">
+          <use xlink:href="/assets/icons/nst-icn16.svg#alarm-clock"></use>
+      </svg>
+      <input type="time" ng-value="selectedTime" class="time-input" placeholder="+ Add Time" translate-attrs="placeholder">
+      <div class="input-buttons" ng-if="selectedTime != initialTime">
+        <div class="discard-changes">
+          <svg class="_16svg" ng-click="executeDueDateUpdate('abort')">
+            <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
+          </svg>
+        </div>
+        <div class="submit-changes" ng-click="executeDueDateUpdate('confirm')">
+          <svg class="_16svg">
+            <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
+          </svg>
+        </div>
+      </div>
+  </div>
 </div>

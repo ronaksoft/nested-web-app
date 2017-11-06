@@ -71,15 +71,6 @@
       vm.modalId = $scope.$resolve.modalId;
     }
 
-    /**
-     * Call this function if some thing changed the position of post cards
-     */
-    function changeAffixes() {
-      NstSvcLogger.debug4('Compose | Rearrange the the items in affixer post service :');
-      SvcCardCtrlAffix.change();
-    }
-
-    vm.changeAffixesDebounce = _.debounce(changeAffixes, 1000);
 
     /*****************************
      *** Controller Properties ***
@@ -115,11 +106,6 @@
         total: 0
       }
     };
-    $scope.$watch(function () {
-      return vm.model.body
-    }, function () {
-      return vm.changeAffixesDebounce();
-    });
 
     $scope.$watch(function () {
       return vm.attachments.viewModels
@@ -443,7 +429,6 @@
     function subjectKeyDown(e) {
       NstSvcLogger.debug4('Compose | User types in subject');
       vm.mouseIn = true;
-      vm.changeAffixesDebounce();
       if (e.which == 13) {
         NstSvcLogger.debug4('Compose | User pressed Enter on subject and focus will goes on the compose body');
         e.preventDefault();
@@ -1309,9 +1294,7 @@
           attachment.cancelUpload();
           resolve(attachment);
         } else { // the store is uploaded and it should be removed from server
-          NstSvcAttachmentFactory.remove(attachment.id).then(function () {
-            resolve(attachment);
-          }).catch(reject);
+          resolve(attachment);
         }
       }).then(function (attachment) {
         $scope.compose.post.removeAttachment(attachment);
@@ -1323,9 +1306,9 @@
     function minimizeModal() {
       vm.minimize =! vm.minimize;
       $rootScope.goToLastState(true);
-      $('body').removeClass("active-compose");
-      $('html').removeClass("_oh");
-      $rootScope.$broadcast('minimize-compose');
+      $('body').removeClass('active-compose');
+      $('html').removeClass('_oh');
+      $rootScope.$broadcast('minimize-background-modal');
     }
 
     /**
@@ -1420,12 +1403,12 @@
 
     // $('.wdt-emoji-popup.open').removeClass('open');
     $scope.$on('$destroy', function () {
-      $rootScope.$broadcast('close-compose', {
+      $rootScope.$broadcast('close-background-modal', {
         id: vm.modalId
       });
-      setTimeout(function (){
-        $('body').removeClass("active-compose");
-      },64);
+      setTimeout(function () {
+        $('body').removeClass('active-compose');
+      }, 64);
       window.onbeforeunload = null;
       $('.wdt-emoji-popup.open').removeClass('open');
       NstSvcLogger.debug4('Compose | Compose id destroyed :');

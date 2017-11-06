@@ -215,6 +215,37 @@ input[type="checkbox"]:checked:hover + label.setting {
   background-position-x: right;
   background-position-y: -32px;
 }
+// todo checkbox
+label.todo  {
+  display: flex;
+  line-height: 16px!important;
+  font-size: $font-size-small;
+}
+
+// input[type="checkbox"]:disabled + label.setting {
+//   background-position-x: right;
+//   background-position-y: -48px;
+// }
+
+// input[type="checkbox"]:hover + label.setting {
+//   background-position-x: right;
+//   background-position-y: -80px;
+// }
+
+input[type="checkbox"]:checked + label.todo {
+  text-decoration: line-through;
+  color: $color-gale;
+}
+
+// input[type="checkbox"]:checked:disabled + label.setting {
+//   background-position-x: right;
+//   background-position-y: 0;
+// }
+
+input[type="checkbox"]:checked:hover + label.todo {
+  background-position-x: right;
+  background-position-y: -32px;
+}
 
 // 
 input[type="radio"] + label{
@@ -237,4 +268,56 @@ input[type="radio"]:checked + label {
 }
 input[type="radio"]:checked:disabled + label {
   background-position: left -128px;
+}
+textarea.no-style ,
+textarea.no-style:hover ,
+textarea.no-style:focus ,
+input[type="text"].no-style ,
+input[type="text"].no-style:hover ,
+input[type="text"].no-style:focus {
+  border: none;
+  box-shadow: none;
+}
+
+
+.gale-holder:-moz-placeholder {
+  color: $color-gale-new;
+}
+.gale-holder::-moz-placeholder {
+  color: $color-gale-new;
+}
+.gale-holder:-ms-input-placeholder {
+  color: $color-gale-new;
+}
+.gale-holder::-webkit-input-placeholder {
+  color: $color-gale-new;
+}
+
+
+.input-buttons {
+  display: flex;
+  flex: none;
+  align-self: flex-start;
+  margin-right: -4px;
+  margin-top: 3px;
+  > * {
+      flex: none;
+      width: 24px;
+      height: 24px;
+      @include align-center();
+  }
+  .discard-changes {
+      margin: 0 12px;
+      fill: $color-solid;
+      @include hover(.64, 1);
+  }
+  .submit-changes {
+    background: $color-sense;
+    border: 1px solid $color-sense-wire;
+    box-shadow: 0px 2px 4px rgba(0, 180, 90, 0.32);
+    border-radius: 4px;
+    svg {
+      fill: $color-white;
+    }
+  }
 }

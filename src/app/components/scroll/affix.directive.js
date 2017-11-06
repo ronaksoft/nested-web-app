@@ -1,9 +1,9 @@
 (function () {
   'use strict';
 
-  angular
-    .module('ronak.nested.web.components.scroll')
-    .directive('affixer', onScroll);
+  // angular
+  //   .module('ronak.nested.web.components.scroll')
+  //   .directive('affixer', onScroll);
 
   /** @ngInject */
   function onScroll($window,$rootScope,$timeout, $, _) {

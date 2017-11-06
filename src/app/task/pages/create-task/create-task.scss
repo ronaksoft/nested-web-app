@@ -1,0 +1,33 @@
+.bg-compose.bg-task {
+    background-color: transparentize($color-solid, 1 - .94);
+    z-index: 0;
+}
+.create-task-container {
+    position: relative;
+    margin: 0 auto;
+    top: 80px;
+    background-color: $color-white;
+    width: 472px;
+    min-height: 120px;
+    box-shadow: 0 32px 64px $color-solid;
+    // max-height: calc(100vh - 160px);
+    // overflow: hidden;
+    border-radius: 6px;
+    &.minimize {
+        top: auto;
+        right: 10px;
+        bottom: 0;
+        width: 150px;
+        position: fixed;
+        height: 30px;
+        min-height: 0;
+    }
+}
+.create-task {
+    padding: 10px 16px 0 16px;
+    max-height: 100%;
+    position: relative;
+    &.task-form h3 {
+        margin: 8px 0 0;
+    }
+}

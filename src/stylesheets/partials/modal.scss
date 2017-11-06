@@ -1,4 +1,5 @@
-body.modal-open {
+body.modal-open ,
+body.modal-open-attachment-view {
   min-width: auto;
   overflow : hidden;
   .modal {
@@ -226,7 +227,8 @@ body.modal-open {
   }
 
 }
-body.modal-open.compose-modal {
+body.modal-open.compose-modal ,
+body.modal-open-attachment-view.compose-modal {
   // &.active-compose {
 
   // }
@@ -259,6 +261,9 @@ body.modal-open.compose-modal {
   #editor-btn-quick {
     display: none;
   }
+  .bg-compose {
+    background-color: $color-modal-bg;
+  }
   .modal-content {
     background-color: transparent;
     height: 0;
@@ -275,30 +280,6 @@ body.modal-open.compose-modal {
       max-height: calc(100vh - 160px);
       border-radius: 4px;
       margin: auto;
-      .minimize-container {
-        transition: all 0.3s;
-        div[ng-progressbar] {
-          transform: scaleY(0.4);
-          transform-origin: 50% 0;
-        }
-        .minimize-info {
-          display: flex;
-          .minimize-abort {
-            flex: 1;
-            width: 20px;
-            > svg {
-              margin: -2px 0 0 -8px;
-            }
-          }
-          .minimize-text {
-            flex: auto;
-            padding: 0 5px 5px;
-            margin: -2px 0 0 0;
-            font-size: 12px;
-            text-align: center;
-          }
-        }
-      }
       &.minimize {
         top: auto;
         right: 10px;
@@ -318,19 +299,12 @@ body.modal-open.compose-modal {
       left: 48px;
       bottom: 48px;
     }
-    .ui-select-multiple.ui-select-bootstrap input.ui-select-search ,
-    .ui-select-multiple.ui-select-bootstrap {
+    .ui-select-multiple.ui-select-bootstrap input.ui-select-search{
       padding: 0;
-      // height: 29px;
+      margin: 0;
+      // min-height: 28px;
+      // transform: translateY(-8px)
     }
-  }
-  .bg-compose {
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: $color-modal-bg;
   }
   .compose-wrapper {
     width: 100%;
@@ -434,6 +408,93 @@ body.modal-open.compose-modal {
     padding: 0 16px;
     align-items: center;
     display: flex;
+  }
+
+  & + div{
+    background-color: transparent;
+  }
+
+}
+
+.modal .modal-notifications {
+  width: 100%;
+  height: 100%;
+  min-width: 100%;
+  overflow-x: auto;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  background-color: transparent;
+  border-radius: 0!important;
+  margin: 0;
+  .modal-content {
+    position: relative;
+    top: 32px;
+    background-color: $color-white;
+    width: 480px;
+    min-height: 120px;
+    padding-top: 34px;
+    box-shadow: 0 32px 64px $color-solid;
+    // overflow: hidden;
+    border-radius: 6px 6px 0 0;
+    .ui-select-multiple.ui-select-bootstrap input.ui-select-search ,
+    .ui-select-multiple.ui-select-bootstrap {
+      padding: 0;
+      // height: 29px;
+    }
+  }
+
+  & + div{
+    background-color: transparent;
+  }
+
+}
+.modal .modal-create-task {
+  width: 100%;
+  height: 100%;
+  min-width: 100%;
+  overflow-x: auto;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  background-color: transparent;
+  border-radius: 0!important;
+  margin: 0;
+  .modal-content {
+    box-shadow: none;
+    background-color: transparent;
+    .ui-select-multiple.ui-select-bootstrap input.ui-select-search ,
+    .ui-select-multiple.ui-select-bootstrap {
+      padding: 0;
+      // height: 29px;
+    }
+  }
+
+  & + div{
+    background-color: transparent;
+  }
+
+}
+.modal .modal-edit-task {
+  width: 100%;
+  height: 100%;
+  min-width: 100%;
+  overflow-x: auto;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  background-color: transparent;
+  border-radius: 0!important;
+  margin: 0;
+  .modal-content {
+    position: relative;
+    top: 8px;
+    background-color: transparent;
+    width: 752px;
+    min-height: 120px;
+    box-shadow: none;
+    border-radius: 0;
+    border: none;
   }
 
   & + div{
@@ -684,17 +745,10 @@ body.modal-open.compose-modal {
     }
     button {
       width: 100%;
-      transition: .2s all ease;
       margin: 54px 0 24px;
       line-height: 30px;
       font-size: 18px;
       font-weight: 700;
-      @extend .butn-green;
-      &:disabled {
-        opacity: 0.5;
-        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
-        filter: alpha(opacity=50);
-      }
     }
     button.submit {
       width: 100%!important;
@@ -856,4 +910,40 @@ div.modal .attach-place {
 
 .modal.in:not([size="compose"]) + .modal.in[size="compose"] + .modal-backdrop.comdrop {
   display: block;
+}
+
+.bg-compose {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+.taskBackDrop {
+  background-color: transparentize($color-solid, 1 - .94);
+}
+
+.minimize-container {
+  transition: all 0.3s;
+  div[ng-progressbar] {
+    transform: scaleY(0.4);
+    transform-origin: 50% 0;
+  }
+  .minimize-info {
+    display: flex;
+    .minimize-abort {
+      flex: none;
+      width: 20px;
+      > svg {
+        margin: -2px 0 0 -8px;
+      }
+    }
+    .minimize-text {
+      flex: auto;
+      padding: 0 5px 5px;
+      margin: -2px 0 0 0;
+      font-size: 12px;
+      text-align: center;
+    }
+  }
 }

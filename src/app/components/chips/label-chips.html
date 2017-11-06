@@ -1,0 +1,16 @@
+<div class="label-chips-wrapper color-lbl-shadow-{{label.code}} ng-class:{'isSelected': isSelected, 'access': selectable}" ng-click="selectChip();">
+  <div class="label-edge color-lbl-bg-{{label.code}}" ng-click="removeChip($event);">
+    <svg class="_fh _fw _df _fn color-lbl-{{label.code}}">
+      <use xlink:href="/assets/icons/label-chips.svg#label-edge"></use>
+    </svg>
+    <svg class="_16svg" ng-if="(label.public || label.isMember) && removable">
+      <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
+    </svg>
+    <svg class="_16svg closer" ng-if="(!label.public && !label.isMember) || !removable">
+      <use xlink:href="/assets/icons/nst-icn16.svg#lock"></use>
+    </svg>
+  </div>
+  <span class="_txe color-lbl-bg-{{label.code}}">
+        {{label.title}}
+    </span>
+</div>
