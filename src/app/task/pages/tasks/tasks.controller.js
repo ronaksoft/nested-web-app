@@ -90,6 +90,16 @@
         }
       }).catch(function () {
         vm.tasks.splice(index, 1);
+        if (vm.isGlancePage) {
+          var overDueIndex = _.findIndex(vm.overDueTasks, {id: id});
+          if (overDueIndex > -1) {
+            vm.overDueTasks.splice(overDueIndex, 1);
+          }
+          var pendingIndex = _.findIndex(vm.pendingTasks, {id: id});
+          if (pendingIndex > -1) {
+            vm.pendingTasks.splice(pendingIndex, 1);
+          }
+        }
       });
     }
 
@@ -246,8 +256,11 @@
     /*
      * Events
      */
-    eventReferences.push($rootScope.$on('task-created', function () {
+    eventReferences.push($rootScope.$on('task-created', function (event, data) {
       $state.go('app.task.created_by_me');
+      $timeout(function () {
+        editTask(data.id);
+      });
       vm.taskSetting.limit = 8;
       vm.taskSetting.skip = 0;
       loadTasks();
