@@ -30,6 +30,7 @@
     vm.changeTab = changeTab;
     vm.selectedView = 0;
     vm.loading = false;
+    vm.firstTimeLoading = true;
     vm.searchKeyUp = _.debounce(searchLabel, 128);
     vm.loadMore = vm.searchKeyUp;
     vm.translation = {
@@ -67,6 +68,7 @@
           vm.haveMore = labels.length === vm.setting.limit;
           vm.setting.skip += labels.length;
           vm.loading = false;
+          vm.firstTimeLoading = false;
         });
       } else {
         NstSvcLabelFactory.search(null, filter, vm.setting.skip, vm.setting.limit, function(cachedLabels) {
@@ -77,6 +79,7 @@
           vm.haveMore = labels.length === vm.setting.limit;
           vm.setting.skip += labels.length;
           vm.loading = false;
+          vm.firstTimeLoading = false;
         });
       }
     }
@@ -102,6 +105,7 @@
       vm.setting.skip = 0;
       vm.labels = [];
       vm.haveMore = true;
+      vm.firstTimeLoading = false;
       ++vm.goUpwardVal;
     }
 

@@ -48,15 +48,15 @@
         var today = moment(current).startOf('day').add(1, 'days');
         if (date.isSameOrBefore(today)) {
           return haveTime ?
-            date.format(NstSvcCalendarTranslation.get('[Today at] HH:mm')) :
-            date.format(NstSvcCalendarTranslation.get('[Today]'));
+            date.format(NstSvcTranslation.get('[Today at] HH:mm')) :
+            date.format(NstSvcTranslation.get('[Today]'));
         }
 
         var tommorrow = moment(current).startOf('day').add(2, 'days');
         if (date.isSameOrBefore(tommorrow)) {
           return haveTime ?
-            date.format(NstSvcCalendarTranslation.get('[Tomorrow at] HH:mm')) :
-            date.format(NstSvcCalendarTranslation.get('[Tomorrow]'));
+            date.format(NstSvcTranslation.get('[Tomorrow at] HH:mm')) :
+            date.format(NstSvcTranslation.get('[Tomorrow]'));
         }
 
         var thisMonth = moment(current).startOf('minute').add(30, 'days');
