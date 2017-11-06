@@ -48,7 +48,7 @@
       //   return;
       // }
       if (_.trim(vm.temp.text).length === 0) {
-        toastr.warning(NstSvcTranslation.get('Please enter a title'));
+        // toastr.warning(NstSvcTranslation.get('Please enter a title'));
         return;
       }
       vm.todosData.push(Object.assign({}, vm.temp));
@@ -60,7 +60,7 @@
     function updateTodo(id) {
       var index = _.findIndex(vm.todosData, {id: id});
       if (_.trim(vm.todosData[index].text).length === 0) {
-        toastr.warning(NstSvcTranslation.get('Please enter a title'));
+        // toastr.warning(NstSvcTranslation.get('Please enter a title'));
         return;
       }
       if (_.isFunction(vm.updateItem)) {
