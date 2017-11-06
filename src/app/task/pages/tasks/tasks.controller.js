@@ -14,6 +14,7 @@
     NstSvcTaskUtility.getValidUser(vm, NstSvcAuth);
 
     vm.loading = true;
+    vm.firstStart = true;
     vm.firstTimeLoading = true;
     vm.taskSetting = {
       limit: 8,
