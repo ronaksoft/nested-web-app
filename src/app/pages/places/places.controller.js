@@ -471,20 +471,6 @@
       }).value();
     }
 
-    function isInBookmarks(placeId) {
-      return NstSvcPlaceFactory.getFavoritesPlaces().then(function (bookmaks) {
-        // console.log(bookmaks);
-        return bookmaks.indexOf(placeId) > -1
-      });
-    }
-
-    function notificationEnabled(placeId) {
-      return NstSvcPlaceFactory.getNotificationOption(placeId).then(function (status) {
-        // console.log(status);
-        return status;
-      });
-    }
-
     /**
      * Creates an instance of tree item
      *
