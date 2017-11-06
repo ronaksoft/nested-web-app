@@ -8,7 +8,7 @@
   class="status candidate" translate-inner>candidates:</span>
 <div user-chips user-id="assignee"
      candidate="(ctlAssignee.assigneesData.length > 1) && ctlAssignee.assigneeWithCandidate == true"
-     on-remove="ctlAssignee.removeAssigneeChip" index="assignee" removable="ctlAssignee.removeItem"
+     on-remove="ctlAssignee.removeAssigneeChip" index="assignee" removable="ctlAssignee.removeItem || assignee.id == ctlAssignee.user.id"
      ng-repeat="assignee in ctlAssignee.assigneesData" ng-if="ctlAssignee.assigneeWithCandidate == false || (ctlAssignee.assigneeFocus == true && ctlAssignee.assigneeWithCandidate == true)"></div>
 <input nst-mention-user nst-mention-list="ctlAssignee.assignees" nst-mention-data="ctlAssignee.mentionAssigneesData" nst-mention-clicked="ctlAssignee.addIt" type="text"
        class="no-style gale-holder create-task-input" placeholder="{{ctlAssignee.assigneePlaceholder}}"

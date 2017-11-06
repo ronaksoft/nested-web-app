@@ -14,9 +14,10 @@
     .module('ronak.nested.web.task')
     .controller('TaskAssigneeController', TaskAssigneeController);
 
-  function TaskAssigneeController($scope, _) {
+  function TaskAssigneeController($scope, _, NstSvcAuth) {
     var vm = this;
 
+    vm.user = NstSvcAuth.user;
     vm.assigneeInput = '';
     vm.assignees = [];
     vm.mentionAssigneesData = [];
@@ -32,6 +33,10 @@
 
     if (vm.removeItem === undefined) {
       vm.removeItem = true;
+    }
+
+    if (vm.removeMyself === undefined) {
+      vm.removeMyself = false;
     }
 
     (function () {
@@ -66,11 +71,11 @@
     }
 
     function removeAssigneeChip(id) {
-      if (vm.removeItem !== true) {
-        return;
-      }
       if (_.isObject(id)) {
         id = id.id;
+      }
+      if (!(vm.removeItem === true || id === vm.user.id)) {
+        return;
       }
       var index = _.indexOf(vm.assignees, id);
       if (index > -1) {
@@ -84,7 +89,14 @@
 
     function assigneeKeyDown(event) {
       if (vm.addItem && event.keyCode === 13) {
+        if (vm.assigneeInput === '' && _.isFunction(vm.onKeyDown)) {
+          vm.onKeyDown(13);
+        }
         addAssigneeChip();
+      } else if (event.keyCode === 27) {
+        if (_.isFunction(vm.onKeyDown)) {
+          vm.onKeyDown(27);
+        }
       }
     }
 

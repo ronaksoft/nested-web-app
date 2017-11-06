@@ -30,7 +30,7 @@
       <span class="nst-mood-gale" ng-if="!session.browser">{{ session.sk }}</span>
     </div>
     <div class="_difv _fn _pr text-right">
-      <translate class="nst-mood-gale">{{session.date | passed | localize}}</translate>
+      <span class="nst-mood-gale">{{session.date | passed | localize}}</span>
       <translate class="current-session nst-mood-cheerful" ng-if="session.isCurrent">Current Session</translate>
       <span>
         <a ng-click="ctrl.terminate(session.sk)" ng-if="!session.isCurrent" class="force cursor-pointer _df _aic">

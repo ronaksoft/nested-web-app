@@ -77,6 +77,8 @@
         width: 100%;
         textarea,
         input {
+            overflow-y: auto;
+            overflow-x: hidden;
             margin-top: 6px;
         }
         label img {
@@ -118,7 +120,7 @@
           display: flex;
           position: relative;
           flex-wrap: wrap;
-          width: 100%;
+          flex: 1;
         }
         .status {
             font-size: 12px;
@@ -324,7 +326,7 @@
         .task-input-wrapper {
             padding-top: 4px;
         }
-        input {
+        input[type="text"] {
             height: 23px;
             margin-bottom: 5px;
             font-size: 13px;
@@ -332,6 +334,7 @@
             display: flex;
             width: auto;
             min-width: 120px;
+            padding: 0;
             align-self: center;
             flex: 1;
             margin-top: 0;

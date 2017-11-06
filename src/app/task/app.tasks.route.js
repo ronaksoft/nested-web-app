@@ -26,7 +26,10 @@
       }
     })
     .state('app.task.assigned_to_me',{
-      url: '/assigned_to_me',
+      url: '/assigned_to_me/:filter',
+      params: {
+        filter: 'normal'
+      },
       templateUrl: 'app/task/pages/tasks/tasks.html',
       controller: 'TasksController',
       controllerAs: 'ctrl',
@@ -36,7 +39,10 @@
       }
     })
     .state('app.task.created_by_me',{
-      url: '/created_by_me',
+      url: '/created_by_me/:filter',
+      params: {
+        filter: 'normal'
+      },
       templateUrl: 'app/task/pages/tasks/tasks.html',
       controller: 'TasksController',
       controllerAs: 'ctrl',
@@ -46,7 +52,10 @@
       }
     })
     .state('app.task.watchlist',{
-      url: '/watchlist',
+      url: '/watchlist/:filter',
+      params: {
+        filter: 'normal'
+      },
       templateUrl: 'app/task/pages/tasks/tasks.html',
       controller: 'TasksController',
       controllerAs: 'ctrl',

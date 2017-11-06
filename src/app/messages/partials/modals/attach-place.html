@@ -11,7 +11,7 @@
 
   <div class="modal-body">
     <ui-select minimum-input-length="4" multiple limit="10" class="_df _fw" data-ng-model="ctrl.selectedTargets">
-      <ui-select-match placeholder="{{ctrl.inputPlaceholder}}" translate-attrs="placeholder">
+      <ui-select-match placeholder="{{ctrl.inputPlaceholder}}">
         <div place-chips place-id="$item.id" is-email="false" on-remove="$selectMultiple.removeChoice" index="$index" on-select="" selectable="true"></div>        
       </ui-select-match>
       <ui-select-choices refresh="ctrl.searchPlace($select.search)" refresh-delay="0" repeat="place as place in (ctrl.resultTargets | filter: $select.search ) track by $index">

@@ -5,11 +5,14 @@
     .module('ronak.nested.web.task')
     .controller('TasksController', TasksController);
 
-  function TasksController($rootScope, $scope, _, $state, NstSvcTaskFactory, NST_TASK_STATUS, NstSvcTaskUtility, $timeout, toastr, NstSvcTranslation, NstUtility) {
+  function TasksController($rootScope, $scope, _, $state, NstSvcTaskFactory, NST_TASK_STATUS,
+                           NstSvcTaskUtility, $timeout, toastr, NstSvcTranslation, NstSvcAuth) {
     var vm = this;
     var eventReferences = [];
 
-    // vm.user = NstSvcAuth.user;
+    vm.user = undefined;
+    NstSvcTaskUtility.getValidUser(vm, NstSvcAuth);
+
     vm.loading = true;
     vm.firstTimeLoading = true;
     vm.taskSetting = {
@@ -78,7 +81,13 @@
     function replaceTask(id) {
       var index = _.findIndex(vm.tasks, {id: id});
       NstSvcTaskFactory.get(id).then(function (task) {
-        vm.tasks[index] = task;
+        if (vm.isWatchlistPage && _.findIndex(task.watchers, {id: vm.user.id}) > -1) {
+          vm.tasks.splice(index, 1);
+        } if (vm.isAssignedToMePage && task.assignee.id !== vm.user.id) {
+          vm.tasks.splice(index, 1);
+        } else {
+          vm.tasks[index] = task;
+        }
       }).catch(function () {
         vm.tasks.splice(index, 1);
       });
@@ -99,15 +108,46 @@
     function getTasks() {
       vm.loading = true;
       var promise;
-
+      var isCompelted = false;
+      if ($state.params && $state.params.filter === 'completed') {
+        isCompelted = true;
+      }
+      var statusFilter = [];
       if (vm.isGlancePage) {
         promise = NstSvcTaskFactory.getByFilter(NST_TASK_STATUS.GLANCE, null, vm.taskSetting.skip, vm.taskSetting.limit);
       } else if (vm.isAssignedToMePage) {
-        promise = NstSvcTaskFactory.getByFilter(NST_TASK_STATUS.ASSIGNED_TO_ME, null, vm.taskSetting.skip, vm.taskSetting.limit);
+        if (isCompelted) {
+          statusFilter.push(NST_TASK_STATUS.COMPLETED);
+        } else {
+          statusFilter.push(NST_TASK_STATUS.ASSIGNED);
+          statusFilter.push(NST_TASK_STATUS.HOLD);
+          statusFilter.push(NST_TASK_STATUS.OVERDUE);
+        }
+        promise = NstSvcTaskFactory.getByFilter(NST_TASK_STATUS.ASSIGNED_TO_ME, statusFilter.join(','), vm.taskSetting.skip, vm.taskSetting.limit);
       } else if (vm.isCreatedByMePage) {
-        promise = NstSvcTaskFactory.getByFilter(NST_TASK_STATUS.CREATED_BY_ME, null, vm.taskSetting.skip, vm.taskSetting.limit);
+        if (isCompelted) {
+          statusFilter.push(NST_TASK_STATUS.COMPLETED);
+        } else {
+          statusFilter.push(NST_TASK_STATUS.NO_ASSIGNED);
+          statusFilter.push(NST_TASK_STATUS.ASSIGNED);
+          statusFilter.push(NST_TASK_STATUS.CANCELED);
+          statusFilter.push(NST_TASK_STATUS.REJECTED);
+          statusFilter.push(NST_TASK_STATUS.HOLD);
+          statusFilter.push(NST_TASK_STATUS.OVERDUE);
+        }
+        promise = NstSvcTaskFactory.getByFilter(NST_TASK_STATUS.CREATED_BY_ME, statusFilter.join(','), vm.taskSetting.skip, vm.taskSetting.limit);
       } else if (vm.isWatchlistPage) {
-        promise = NstSvcTaskFactory.getByFilter(NST_TASK_STATUS.WATCHED, null, vm.taskSetting.skip, vm.taskSetting.limit);
+        if (isCompelted) {
+          statusFilter.push(NST_TASK_STATUS.COMPLETED);
+        } else {
+          statusFilter.push(NST_TASK_STATUS.NO_ASSIGNED);
+          statusFilter.push(NST_TASK_STATUS.ASSIGNED);
+          statusFilter.push(NST_TASK_STATUS.CANCELED);
+          statusFilter.push(NST_TASK_STATUS.REJECTED);
+          statusFilter.push(NST_TASK_STATUS.HOLD);
+          statusFilter.push(NST_TASK_STATUS.OVERDUE);
+        }
+        promise = NstSvcTaskFactory.getByFilter(NST_TASK_STATUS.WATCHED, statusFilter.join(','), vm.taskSetting.skip, vm.taskSetting.limit);
       }
 
       promise.then(function (tasks) {
@@ -179,8 +219,9 @@
     function acceptTask(id) {
       NstSvcTaskFactory.respond(id, NST_TASK_STATUS.ACCEPT).then(function () {
         var index = _.findIndex(vm.pendingTasks, {id: id});
-        toastr.success(NstSvcTranslation.get(String('You\'ve accepted {0}\'s task').replace('{0}', vm.pendingTasks[index].assignor.fullName)));
+        toastr.success(String(NstSvcTranslation.get('You\'ve accepted {0}\'s task')).replace('{0}', vm.pendingTasks[index].assignor.fullName));
         vm.pendingTasks.splice(index, 1);
+        editTask(id);
       }).catch(function (err) {
 
         if (err.code === 1) {
@@ -195,7 +236,7 @@
     function declineTask(id) {
       NstSvcTaskFactory.respond(id, NST_TASK_STATUS.DECLINE).then(function () {
         var index = _.findIndex(vm.pendingTasks, {id: id});
-        toastr.warning(NstSvcTranslation.get(String('You\'ve declined {0}\'s task').replace('{0}', vm.pendingTasks[index].assignor.fullName)));
+        toastr.warning(String(NstSvcTranslation.get('You\'ve declined {0}\'s task')).replace('{0}', vm.pendingTasks[index].assignor.fullName));
         vm.pendingTasks.splice(index, 1);
       }).catch(function () {
         toastr.error(NstSvcTranslation.get('Something went wrong!'));
@@ -206,6 +247,7 @@
      * Events
      */
     eventReferences.push($rootScope.$on('task-created', function () {
+      $state.go('app.task.created_by_me');
       vm.taskSetting.limit = 8;
       vm.taskSetting.skip = 0;
       loadTasks();

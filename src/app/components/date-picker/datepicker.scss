@@ -231,7 +231,6 @@ $default-color: $color-sense-wire;
         width: 100%;
         font-size: 13px;
         font-weight: bold;
-        margin: 0;
         border: none;
         color: $color-sense-wire;
         text-align: center;
@@ -274,6 +273,9 @@ $default-color: $color-sense-wire;
             font-size: 13px;
             font-weight: bold;
         }
+    }
+    .discard-changes {
+        margin: 0 4px 0 0!important;
     }
     svg {
         fill: $color-gale-new;

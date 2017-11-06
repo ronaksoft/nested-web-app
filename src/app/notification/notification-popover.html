@@ -14,14 +14,14 @@
     <a class="_df _fw _jcc _aic" ng-click="ctlNotifications.changeTab(1)"
        ng-class="{'active': ctlNotifications.selectedView === 1}">
       <span class="_pr">
-        <translate>Post</translate>
+        <translate>Posts</translate>
         <div class="unread-notif-badge" ng-if="ctlNotifications.postCounts > 0">{{ctlNotifications.postCounts | localize}}</div>
       </span>
     </a>
     <a class="_df _fw _jcc _aic" ng-click="ctlNotifications.changeTab(2)"
        ng-class="{'active': ctlNotifications.selectedView === 2}">
         <span class="_pr">
-          <translate>Task</translate>
+          <translate>Tasks</translate>
           <div class="unread-notif-badge" ng-if="ctlNotifications.taskCounts > 0">{{ctlNotifications.taskCounts | localize}}</div>
         </span>
     </a>
