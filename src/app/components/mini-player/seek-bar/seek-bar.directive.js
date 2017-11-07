@@ -48,11 +48,9 @@
               updateCurrentTime(e.pageX);
             }
         };
-        
+
         var updateCurrentTime = function (x) {
           var percentage;
-          //if only volume have specificed
-          //then direct update volume
           var position = x - $(scope.bar).offset().left
           percentage = 100 * position / scope.bar.clientWidth;
       
