@@ -90,5 +90,5 @@
   </div>
 </a>
 <ul class="place-childs place-ul ng-class:{'is-open' : place.isExpanded}" ng-if="place.children.length > 0" ui-sortable="ctrl.sortableOptions" ng-model="place.children" ui-sortable-stop="ctrl.sortUpdateHandler">
-  <li ng-repeat="child in place.children" data-ng-include="'app/pages/places/partials/places-place-item.html'" onload="place = child"></li>
+  <li ng-repeat="child in place.children" ng-class="{'hide': (!ctrl.placesSetting.relationView && !ctrl.visiblePlaces[child.id])}" data-ng-include="'app/pages/places/partials/places-place-item.html'" onload="place = child"></li>
 </ul>

@@ -123,6 +123,7 @@
     vm.user = NstSvcAuth.user;
     vm.stateParams = $stateParams;
     vm.invitation = {};
+    var absolutePlaces = [];
     vm.places = [];
     vm.onPlaceClick = onPlaceClick;
     vm.openCreatePlaceModal = openCreatePlaceModal;
@@ -132,6 +133,28 @@
     vm.myPlacesHasUnseenChildren = [];
     vm.noAccessCreatingMessage = '';
     vm.selectedPlaceName = '';
+    vm.visiblePlaces = [];
+    vm.search = search;
+
+    function search(event, keyword, filter) {
+      if (event.keyCode === 13) {
+        keyword = _.trim(keyword);
+        keyword = keyword.toLowerCase();
+        _.forEach(absolutePlaces, function (item) {
+          if (keyword.length === 0) {
+            vm.visiblePlaces[item.id] = true;
+          } else {
+            console.log(keyword, item.sId, item.sId.includes(keyword));
+            if (item.name.includes(keyword) || item.sId.includes(keyword)) {
+              vm.visiblePlaces[item.id] = true;
+            } else {
+              vm.visiblePlaces[item.id] = false;
+            }
+          }
+        });
+        vm.placesSetting.relationView = false;
+      }
+    }
 
     initialize();
 
@@ -144,6 +167,14 @@
       $q.all([getMyPlacesOrder(), getMyPlaces(true)]).then(function (results) {
         myPlaceOrders = results[0];
         vm.places = createTree(results[1], myPlaceOrders, vm.expandedPlaces, vm.selectedPlaceId);
+        _.forEach(results[1], function (item) {
+          vm.visiblePlaces[item.id] = true;
+          absolutePlaces.push({
+            id: item.id,
+            name: item.id.toLowerCase(),
+            sId: item.id.toLowerCase()
+          });
+        });
       });
 
       loadCurrentUser();

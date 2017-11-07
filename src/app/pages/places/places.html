@@ -11,7 +11,7 @@
     <div class="filter-bar-inner">
       <div class="toolbar ng-class:{'selcted-mode': ctrl.selectedPlaces.length > 0}" ng-mouseleave="popoverSortShow = false">
         <div class="search-files" ng-show="ctrl.selectedPlaces.length == 0">
-          <input type="text" placeholder="type to search…" ng-model="ctrl.keyword" ng-change="ctrl.search(ctrl.keyword);" translate-attrs="placeholder"
+          <input type="text" placeholder="type to search…" ng-model="ctrl.keyword" ng-keyup="ctrl.search($event, ctrl.keyword);" translate-attrs="placeholder"
             focus-me="{{ctrl.searchTrigg}}" />
           <svg class="_16svg" ng-click="ctrl.searchFunc()" ng-show="ctrl.keyword.length === 0">
             <use xlink:href="/assets/icons/nst-icn16.svg#search"></use>
@@ -59,7 +59,7 @@
   </div>
   <div class="modal-body">
     <div class="places-head">
-      <translate class="_fw">Places</translate>
+      <span class="_fw" translate-inner >Places</span>
       <translate>Notifications</translate>
       <translate>Show in Feed</translate>
     </div>
@@ -67,10 +67,10 @@
         <div class="nst-loading absolute"></div>
     </div>
     <div class="places-list iscroll-wrapper" iscroll class="iscroll-wrapper" iscroll-instance="scrollInstance">
-        <ul class="places place-ul iscroll-scroller ng-class:{'relation-view' : ctrl.placesSetting.relationView}" ui-sortable="ctrl.sortableOptions" ng-model="ctrl.places" ui-sortable-stop="ctrl.sortUpdateHandler">
-            <li ng-repeat="place in ctrl.places" data-ng-include="'app/pages/places/partials/places-place-item.html'"
-            onload="place = place"></li>
-        </ul>
+      <ul class="places place-ul iscroll-scroller ng-class:{'relation-view': ctrl.placesSetting.relationView}" ui-sortable="ctrl.sortableOptions" ng-model="ctrl.places" ui-sortable-stop="ctrl.sortUpdateHandler">
+          <li ng-repeat="place in ctrl.places" ng-class="{'hide': (!ctrl.placesSetting.relationView && !ctrl.visiblePlaces[place.id])}" data-ng-include="'app/pages/places/partials/places-place-item.html'"
+          onload="place = place"></li>
+      </ul>
     </div>
   </div>
   <div class="modal-footer">
