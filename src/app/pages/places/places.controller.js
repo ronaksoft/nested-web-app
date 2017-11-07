@@ -182,7 +182,7 @@
           vm.visiblePlaces[item.id] = true;
           absolutePlaces.push({
             id: item.id,
-            name: item.id.toLowerCase(),
+            name: item.name.toLowerCase(),
             sId: item.id.toLowerCase()
           });
         });
