@@ -12,7 +12,7 @@
     NST_EVENT_ACTION, NST_USER_EVENT, NST_NOTIFICATION_EVENT, NST_SRV_EVENT, NST_NOTIFICATION_TYPE, NST_PLACE_EVENT, NST_POST_EVENT,
     NstSvcAuth, NstSvcServer, NstSvcLogger, NstSvcNotification, NstSvcTranslation, NST_PLACE_MEMBER_TYPE,
     NstSvcNotificationSync, NstSvcPlaceFactory, NstSvcInvitationFactory, NstUtility, NstSvcUserFactory, NstSvcSidebar,
-    NstSvcKeyFactory, NstSvcPostDraft) {
+    NstSvcKeyFactory) {
     var vm = this;
     var eventReferences = [];
     var myPlaceOrders = {};
@@ -34,6 +34,7 @@
     vm.isGrandPlace = isGrandPlace;
     vm.isPersonal = isPersonal;
     vm.isSubPersonal = isSubPersonal;
+    vm.addMemberMulti = addMemberMulti;
     vm.placesSetting = {
       relationView: true
     };
@@ -364,8 +365,9 @@
      * add members to multi places
      */
     function addMemberMulti() {
-      NstSvcPlaceFactory.get(placeId).then(function (place) {
-        vm.placeModal = place;
+      var selectedIds = vm.selectedPlaces.map(function(place){
+        return place.id
+      })
         var role = NST_PLACE_MEMBER_TYPE.KEY_HOLDER;
         var modal = $uibModal.open({
           animation: false,
@@ -378,7 +380,7 @@
               return role;
             },
             currentPlace: function () {
-              return vm.placeModal;
+              return selectedIds;
             },
             newPlace: false,
             mode: function () {
@@ -391,7 +393,6 @@
         });
 
         modal.result.then();
-      });
       angular.forEach(vm.selectedPlaces, function (id) {})
 
     }
