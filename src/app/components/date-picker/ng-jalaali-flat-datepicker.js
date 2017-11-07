@@ -102,13 +102,15 @@
         setTimeFromTimeStamp();
         // setViewTime();
         scope.inheritTime = scope.haveTime;
+
         function reformatTime(haveTime) {
           if (haveTime) {
-            scope.config.dateFormat = jalali? scope.config.jalaliDateTimeFormat: scope.config.dateTimeFormat
+            scope.config.dateFormat = jalali ? scope.config.jalaliDateTimeFormat : scope.config.dateTimeFormat
           } else {
-            scope.config.dateFormat = jalali? scope.config.jalaliDateFormat: scope.config.dateOnlyFormat
+            scope.config.dateFormat = jalali ? scope.config.jalaliDateFormat : scope.config.dateOnlyFormat
           }
         }
+
         scope.$watch('haveTime', function (haveTime) {
           reformatTime(haveTime);
         });
@@ -292,15 +294,12 @@
 
         function trimNumber(number) {
           number = String(number);
-          return number.length <= 1? '0' + number: number;
+          return number.length <= 1 ? '0' + number : number;
         }
 
         function getInputTime(hour, minute) {
-          if(hour > 23 || minute > 59) {
-            return '23:59'
-          }
-          if(hour < 0 || minute < 0) {
-            return '23:59'
+          if (hour > 23 || hour < 0 || minute > 59 || minute < 0) {
+            return '00:00';
           }
           hour = trimNumber(hour);
           minute = trimNumber(minute);
