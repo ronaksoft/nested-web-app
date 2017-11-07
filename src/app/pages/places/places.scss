@@ -1,4 +1,5 @@
 .modal-960 {
+    margin: 0;
     .modal-content {
         width: 960px;
         background-color: $color-white;
@@ -119,7 +120,7 @@
                             width: 32px;
                         }
                         .place-selector {
-                            opacity: 0;
+                            visibility: hidden;
                         }
                     }
                 }
@@ -173,7 +174,7 @@
                         left: 16px;
                         display: flex;
                         transition: all $animation-dur;
-                        opacity: 1;
+                        visibility: visible;
                         justify-content: center;
                     }
                     .place-item-inner {
@@ -248,6 +249,9 @@
                         flex: none;
                         @include hover(.4, 1);
                         margin: 0 16px;
+                        align-items: center;
+                        align-self: center;
+                        display: flex;
                     }
                     &:hover {
                         background-color: #F6F6F7;

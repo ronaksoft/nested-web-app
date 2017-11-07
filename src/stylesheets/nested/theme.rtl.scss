@@ -1155,6 +1155,10 @@ body[dir="rtl"] {
   .place-switch.sm input[type="checkbox"]:checked + label .circle {
     transform: translateX(-18px);
   }
+  .places-modal .modal-body .places li .place-item .place-extra input {
+    margin-left: 20px;
+    margin-right: 0;
+  }
 }
 
 body[dir="ltr"] {
