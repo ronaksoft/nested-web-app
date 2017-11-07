@@ -1,7 +1,7 @@
 (function () {
   'use strict';
   angular.module('ronak.nested.web.components.i18n').constant('NST_LOCALE_FA_IR', {
-    "_direction": "rtl",
+    "_direction":"rtl",
     "0": "۰",
     "1": "۱",
     "2": "۲",
@@ -26,6 +26,7 @@
     "+ Add a to-do": "افزودن انجام دادنی",
     "+ Set a due time (optional)": "+ تعیین زمان سر رسید ( دلبخواه )",
     ",": "،",
+    "00": "۰۰",
     "1 new comment": "۱ دیدگاه جدید",
     "1 week": "۱ هفته",
     "2 weeks": "۲ هفته",
@@ -361,7 +362,7 @@
     "Please wait till attachments upload completely": "لطفاً تا بارگذاری کامل پیوست‌ها منتظر بمانید",
     "Please wait...": "لطفاً منتظر بمانید...",
     "Plus, this Place can receive emails.": "همچنین، این Place قادر به دریافت ایمیل است.",
-    "Post a comment to start a discussion.<br><b>@Mention</b> someone to notify them.": "برای شروع یک گفت‌وگو نظر بگذارید. با اشاره به <br><b> فرد را مطلع کنید.",
+    "Post a comment to start a discussion.<br><b>@Mention</b> someone to notify them.": "برای شروع یک گفت‌وگو نظر بگذارید.<br> با  <b>@اشاره</b> به فرد را مطلع کنید.",
     "Posts from:": "پست از:",
     "Preview": "نمایش",
     "Privacy": "حریم خصوصی",
@@ -486,6 +487,7 @@
     "Task already assigned.": "کاری که قبلاً سپرده‌شده",
     "Task created successfully!": "کار با موفقیت ایجاد شد !",
     "Task title shouldnt be more than {0} characters": "تعداد حروف عنوان کار نباید از {0} بیشتر باشد",
+    "Task {name} removed successfully": "کار {name} با موفقت حذف شد",
     "Tasks": "کارها",
     "Terminate Session": "بستن دستگاه",
     "Terms": "شرایط و قوانین",
@@ -660,6 +662,7 @@
     "changed '{{act.todo.text}}' To-Do": "'{{act.todo.text}} انجام‌دادنی تغییر کرد",
     "changed '{{act.todo.text}}' To-Do to done": "{{act.todo.text}} انجام‌دادنی به انجام شد تغییر کرد",
     "changed '{{act.todo.text}}' To-Do to undone": "{{act.todo.text}} انجام‌دادنی به انجام نشده تغییر کرد",
+    "changed assignee to <b user-detail=\"act.assignee\">{{act.assignee.fullName}}</b>": "گماشته را به <b user-detail=\"act.assignee\">{{act.assignee.fullName}}</b> تغییر داد",
     "changed the Due Date to '{{act.dueDate | date: 'full'}}'": "تاریخ سررسید به {{act.dueDate | date: 'full'}} تغییر کرد",
     "changed the description": "شرح تغییر کرد",
     "changed the settings of <b>{{notification.place.name}} (#{{notification.place.id}})</b>.": "تنظیمات <b>{{notification.place.name}} (#{{notification.place.id}})</b>تغییر کرد.",
