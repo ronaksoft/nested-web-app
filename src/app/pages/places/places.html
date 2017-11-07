@@ -27,19 +27,19 @@
           <translate ng-if="ctrl.selectedPlaces.length > 0">{{ctrl.selectedPlaces.length}} Place Selected</translate>
         </p>
         <p class="_df _fw"></p>
-        <div class="_df _fn _aic filter-bar-popover-button" ng-if="ctrl.selectedPlaces.length > 0 " ng-click="ctrl.addMember();">
+        <div class="_df _fn _aic filter-bar-popover-button" ng-if="ctrl.selectedPlaces.length > 0 " ng-click="ctrl.addMemberMulti();">
           <translate>Add Member</translate>
           <svg class="_16svg _df">
             <use xlink:href="/assets/icons/nst-icn16.svg#cross"></use>
           </svg>
         </div>
-        <div class="_df _fn _aic filter-bar-popover-button" ng-if="ctrl.selectedPlaces.length > 0 " ng-click="ctrl.leave();ctrl.unselectAll()">
+        <div class="_df _fn _aic filter-bar-popover-button" ng-if="ctrl.selectedPlaces.length > 0 " ng-click="ctrl.leaveMulti();ctrl.unselectAll()">
           <translate>Leave</translate>
           <svg class="_16svg _df">
             <use xlink:href="/assets/icons/nst-icn16.svg#exit"></use>
           </svg>
         </div>
-        <div class="_df _fn filter-bar-popover-button" ng-if="ctrl.selectedPlaces.length > 0 " ng-click="ctrl.delete();ctrl.unselectAll()">
+        <div class="_df _fn filter-bar-popover-button" ng-if="ctrl.selectedPlaces.length > 0 " ng-click="ctrl.confirmToRemoveMulti();ctrl.unselectAll()">
           <translate>Delete</translate>
           <svg class="_16svg _df">
             <use xlink:href="/assets/icons/nst-icn16.svg#bin"></use>

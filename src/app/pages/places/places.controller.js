@@ -7,12 +7,12 @@
 
   /** @ngInject */
   function PlacesModalController($q, $scope, $state, $stateParams, $uibModal, $rootScope, $timeout,
-                                 _, toastr,
-                                 NST_DEFAULT, NST_AUTH_EVENT, NST_INVITATION_EVENT, NST_CONFIG, NST_KEY, deviceDetector, NST_PLACE_ACCESS, NST_SRV_ERROR,
-                                 NST_EVENT_ACTION, NST_USER_EVENT, NST_NOTIFICATION_EVENT, NST_SRV_EVENT, NST_NOTIFICATION_TYPE, NST_PLACE_EVENT, NST_POST_EVENT,
-                                 NstSvcAuth, NstSvcServer, NstSvcLogger, NstSvcNotification, NstSvcTranslation, NST_PLACE_MEMBER_TYPE,
-                                 NstSvcNotificationSync, NstSvcPlaceFactory, NstSvcInvitationFactory, NstUtility, NstSvcUserFactory, NstSvcSidebar,
-                                 NstSvcKeyFactory, NstSvcPostDraft) {
+    _, toastr,
+    NST_DEFAULT, NST_AUTH_EVENT, NST_INVITATION_EVENT, NST_CONFIG, NST_KEY, deviceDetector, NST_PLACE_ACCESS, NST_SRV_ERROR,
+    NST_EVENT_ACTION, NST_USER_EVENT, NST_NOTIFICATION_EVENT, NST_SRV_EVENT, NST_NOTIFICATION_TYPE, NST_PLACE_EVENT, NST_POST_EVENT,
+    NstSvcAuth, NstSvcServer, NstSvcLogger, NstSvcNotification, NstSvcTranslation, NST_PLACE_MEMBER_TYPE,
+    NstSvcNotificationSync, NstSvcPlaceFactory, NstSvcInvitationFactory, NstUtility, NstSvcUserFactory, NstSvcSidebar,
+    NstSvcKeyFactory, NstSvcPostDraft) {
     var vm = this;
     var eventReferences = [];
     var myPlaceOrders = {};
@@ -27,11 +27,14 @@
     vm.openAddMemberModal = openAddMemberModal;
     vm.toggleNotification = toggleNotification;
     vm.toggleShowInFeed = toggleShowInFeed;
+    vm.confirmToRemoveMulti = confirmToRemoveMulti;
+    vm.leaveMulti = leaveMulti;
     vm.placesSetting = {
       relationView: true
     };
 
-    vm.sortUpdateHandler  = sortUpdateHandler;
+    vm.sortUpdateHandler = sortUpdateHandler;
+
     function sortUpdateHandler() {
       setMyPlacesOrder(JSON.stringify(createSortedList(vm.places))).then(function () {
         toastr.success(NstSvcTranslation.get('Places sorting updated'));
@@ -149,9 +152,19 @@
      */
     function openCreateSubplaceModal($event, style) {
       if (style === 'open') {
-        $state.go('app.place-create', {placeId: getPlaceId(), isOpenPlace: true}, {notify: false});
+        $state.go('app.place-create', {
+          placeId: getPlaceId(),
+          isOpenPlace: true
+        }, {
+          notify: false
+        });
       } else {
-        $state.go('app.place-create', {placeId: getPlaceId(), isClosePlace: true}, {notify: false});
+        $state.go('app.place-create', {
+          placeId: getPlaceId(),
+          isClosePlace: true
+        }, {
+          notify: false
+        });
       }
       $event.preventDefault();
     }
@@ -236,7 +249,9 @@
      * warning modal if the user reached the create place limit
      */
     function openCreatePlaceModal() {
-      $state.go('app.place-create', {}, {notify: false});
+      $state.go('app.place-create', {}, {
+        notify: false
+      });
     }
 
 
@@ -280,6 +295,123 @@
      */
     function isChild(parentId, place) {
       return place && place.id && place.id.indexOf(parentId + '.') === 0;
+    }
+
+
+    /**
+     * @function
+     * add members to multi places
+     */
+    function addMemberMulti() {
+      NstSvcPlaceFactory.get(placeId).then(function (place) {
+        vm.placeModal = place;
+        var role = NST_PLACE_MEMBER_TYPE.KEY_HOLDER;
+        var modal = $uibModal.open({
+          animation: false,
+          templateUrl: 'app/pages/places/settings/place-add-member.html',
+          controller: 'PlaceAddMemberController',
+          controllerAs: 'addMemberCtrl',
+          size: 'sm',
+          resolve: {
+            chosenRole: function () {
+              return role;
+            },
+            currentPlace: function () {
+              return vm.placeModal;
+            },
+            newPlace: false,
+            mode: function () {
+              return false
+            },
+            isForGrandPlace: function () {
+              return undefined
+            }
+          }
+        });
+
+        modal.result.then();
+      });
+      angular.forEach(vm.selectedPlaces, function (id) {})
+
+    }
+
+    /**
+     * @function
+     * leave the place with showing results
+     */
+    function leaveMulti() {
+      angular.forEach(vm.selectedPlaces, function (id) {
+        NstSvcPlaceFactory.leave(id).then(function () {
+          // TODO remove items
+        }).catch(function (error) {
+          if (error.code === NST_SRV_ERROR.ACCESS_DENIED) {
+            switch (error.message[0]) {
+              case 'last_creator':
+                toastr.error(NstSvcTranslation.get('You are the only one left!'));
+                break;
+              case 'parent_creator':
+                toastr.error(NstUtility.string.format(NstSvcTranslation.get('You are not allowed to leave the Place because you are the creator of its highest-ranking Place ({0}).'), vm.place.parent.name));
+                break;
+              case 'cannot_leave_some_subplaces':
+                toastr.error(NstSvcTranslation.get('You can not leave here, because you are the manager of one of its sub-places.'));
+                break;
+              default:
+                toastr.error(NstSvcTranslation.get("An error has happened before leaving this place"));
+                break;
+            }
+
+            return;
+          }
+
+          toastr.error(NstSvcTranslation.get("An error has happened before leaving this place"));
+        });
+      })
+
+    }
+
+
+    /**
+     * Represents the prompt modal for deleting place
+     */
+    function confirmToRemoveMulti() {
+
+      $uibModal.open({
+        animation: false,
+        templateUrl: 'app/pages/places/settings/place-delete.html',
+        controller: 'PlaceRemoveConfirmController',
+        controllerAs: 'removeCtrl',
+        size: 'sm',
+        resolve: {
+          selectedPlace: function () {
+            return null;
+          },
+          selectedPlaces: function () {
+            return vm.selectedPlaces;
+          }
+        }
+      }).result.then(function () {
+        angular.forEach(vm.selectedPlaces, function (id) {
+          remove(id);
+        });
+
+      });
+
+    }
+
+    /**
+     * deletes the place also shows the results of the api
+     */
+    function remove(id) {
+
+      NstSvcPlaceFactory.remove(id).then(function () {
+        toastr.success(NstUtility.string.format(NstSvcTranslation.get("Place {0} was removed successfully."), id));
+      }).catch(function (error) {
+        if (error.code === NST_SRV_ERROR.ACCESS_DENIED && error.message[0] === "remove_children_first") {
+          toastr.error(NstSvcTranslation.get("You have to delete all the sub-Places within, before removing this Place."));
+        } else {
+          toastr.error(NstSvcTranslation.get("An error has occurred in removing this Place."));
+        }
+      });
     }
 
     /**
@@ -349,7 +481,7 @@
 
       if (orders !== null) {
         return chain.sortBy(function (place) {
-          return orders[place.id]? orders[place.id].o: 1;
+          return orders[place.id] ? orders[place.id].o : 1;
         }).value();
       } else {
         return chain.sortBy(['name']).value();
@@ -380,7 +512,7 @@
      * @returns {boolean}
      */
     function toggleShowInFeed(place) {
-      if(place.id === vm.user.id) {
+      if (place.id === vm.user.id) {
         return;
       }
       place.favorite = !place.favorite;
@@ -410,7 +542,7 @@
         var children = getChildren(place, places, expandedPlaces, selectedId, 1, getOrder(orders, place.id));
         return createTreeItem(place, true, children, isExpanded, isActive, 0);
       }).sortBy(function (place) {
-        return orders[place.id]? orders[place.id].o: 1;
+        return orders[place.id] ? orders[place.id].o : 1;
       }).value();
     }
 

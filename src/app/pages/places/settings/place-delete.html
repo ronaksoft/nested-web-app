@@ -6,7 +6,7 @@
         <div class="_df closebut" ng-click="$dismiss();"><img src="../assets/icons/close.svg"></div>
       </div>
     <div class="_difv _fw">
-      <div ng-if="!nextStep" class="_fw _df">
+      <div ng-if="!removeCtrl.places && !nextStep" class="_fw _df">
         <img data-ng-if="removeCtrl.place.picture.thumbnails.x128.url.download" class="account-initials-64" ng-src="{{removeCtrl.place.picture.thumbnails.x128.url.download}}"/>
         <div data-ng-if="!removeCtrl.place.picture.thumbnails.x128.url.download" class="account-initials-64 _dib">{{removeCtrl.place.name | initials:2}}</div>
         <div class="_dib">
@@ -14,16 +14,19 @@
           <h5 class="nst-mood-storm">{{removeCtrl.place.id + '@' + removeCtrl.domain}}</h5>
         </div>
       </div>
-      <p ng-if="!nextStep" class="_df nst-mood-storm modal-detail"><translate>By deleting place, you are agreeing to erase all Place data permanently. Are you sure you want to do this?</translate></p>
-      <div ng-if="nextStep" class="_fw _difv _jcc nst-mood-storm modal-detail">
+      <p ng-if="!removeCtrl.places && !nextStep" class="_df nst-mood-storm modal-detail"><translate>By deleting place, you are agreeing to erase all Place data permanently. Are you sure you want to do this?</translate></p>
+      <div ng-if="!removeCtrl.places && nextStep" class="_fw _difv _jcc nst-mood-storm modal-detail">
         <span class="df nst-mood-storm small"><translate>Enter your place ID</translate></span>
         <input class="_df form-control" name="placeIdInput" ng-model="removeCtrl.placeIdInput" ng-change="removeCtrl.validateInput()" placeholder="Place ID" translate-attrs="placeholder" focus-me enter-press="removeCtrl.remove();">
         <span class="_df"><translate>To confirm and proceed with deleting this Place, please type below the Place ID:</translate></span><a class="_df">{{removeCtrl.place.id}}</a>
       </div>
+      <p ng-if="removeCtrl.places" class="_df nst-mood-storm modal-detail">
+        <translate>By deleting these places, you are agreeing to erase all Place data permanently. Are you sure you want to do this?</translate>
+      </p>      
       <div class="_difh _jcc">
         <div class="_difh _fw modal-buttons" data-ng-init="lockmodal = false">
           <div class="butn butn-white secondary _jcc _df" ng-click="$dismiss();"><a class="_df"><translate>Cancel</translate></a></div>
-          <div ng-hide="nextStep" class="butn butn-red _jcc _df" ng-click="nextStep =! nextStep; focusInput=true"><a class="_df"><translate>Delete</translate></a></div>
+          <div ng-hide="removeCtrl.places || nextStep" class="butn butn-red _jcc _df" ng-click="nextStep =! nextStep; focusInput=true"><a class="_df"><translate>Delete</translate></a></div>
          <input type="button" ng-if="nextStep" data-ng-disabled="!removeCtrl.validateInput()" class="butn butn-red _tac _db" ng-click="$close();" value="Delete" translate-attrs="value">
         </div>
       </div>
