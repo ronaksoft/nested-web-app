@@ -235,6 +235,24 @@
   min-width: 220px
 }
 
+.place-item-options-popover {
+  width: 276px!important;
+  .popover-content{
+    .list-items {
+      padding-left: 8px;
+      padding-right: 8px;
+      div:first-of-type {
+        margin-left: 4px;
+        margin-right: 12px;
+      }
+      div.top-user-avatar-24 {
+        margin-left: 0;
+        margin-right: 8px;
+      }
+    }
+  }
+}
+
 .navbar-popover {
   width: 276px!important;
   .popover-content{

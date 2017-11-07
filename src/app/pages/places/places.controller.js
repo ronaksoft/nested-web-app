@@ -24,11 +24,16 @@
     vm.unselectAll = unselectAll;
     vm.selectedPlaces = [];
     vm.keyword = '';
+    vm.openSettingsModal = openSettingsModal;
     vm.openAddMemberModal = openAddMemberModal;
     vm.toggleNotification = toggleNotification;
     vm.toggleShowInFeed = toggleShowInFeed;
     vm.confirmToRemoveMulti = confirmToRemoveMulti;
     vm.leaveMulti = leaveMulti;
+    vm.checkAccess = checkAccess;
+    vm.isGrandPlace = isGrandPlace;
+    vm.isPersonal = isPersonal;
+    vm.isSubPersonal = isSubPersonal;
     vm.placesSetting = {
       relationView: true
     };
@@ -297,6 +302,21 @@
       return place && place.id && place.id.indexOf(parentId + '.') === 0;
     }
 
+    /**
+     * Checks the current place is personal place or not
+     * @returns {boolean}
+     */
+    function isPersonal(id) {
+      return NstSvcAuth.user.id == id
+    }
+
+    /**
+     * Checks the current place is subplace of personal place or not
+     * @returns {boolean}
+     */
+    function isSubPersonal(id) {
+      return NstSvcAuth.user.id == id.split('.')[0];
+    }
 
     /**
      * @function
@@ -437,6 +457,34 @@
       }
 
       return false;
+    }
+
+    
+    function openSettingsModal($event, id) {
+      $event.preventDefault();
+      $state.go('app.place-settings', {placeId: id}, {notify: false});
+    }
+    
+    /**
+     * Checks the current place is personal place or not
+     * @returns {boolean}
+     */
+    function isGrandPlace(id) {
+      return id.split('.').length === 1;
+    }
+    
+    function checkAccess(id) {
+      var deferred = $q.defer();
+      
+      NstSvcPlaceFactory.get(id).then(function (place) {
+        deferred.resolve({
+          allowedToAddMember : place.hasAccess(NST_PLACE_ACCESS.ADD_MEMBERS),
+          allowedToAddPlace : place.hasAccess(NST_PLACE_ACCESS.ADD_PLACE),
+          allowedToRemovePlace : place.hasAccess(NST_PLACE_ACCESS.REMOVE_PLACE)
+        })
+      });
+      return deferred.promise;
+      
     }
 
     /**
