@@ -1,8 +1,8 @@
-<a class="place-item">
+<a class="place-item" ng-class="{'hide': (!ctrl.placesSetting.relationView && !ctrl.visiblePlaces[place.id])}">
   <div class="place-selector" ng-click="ctrl.toggleSelectPlace(place)" >
-    <input ng-model="place.isSelected"class="_fr" type="checkbox" id="cb-{{place.id}}"
+    <input ng-model="place.isSelected"class="_fr" type="checkbox" id="cb-{{ctrl.escapeDot(place.id)}}"
       name="selector" />
-    <label class="_fw setting left-box checkbox-label _asc" for="cb-{{place.id}}"></label>
+    <label class="_fw setting left-box checkbox-label _asc" for="cb-{{ctrl.escapeDot(place.id)}}"></label>
   </div>
   <div class="dragger">
     <svg class="_16svg">
@@ -72,12 +72,12 @@
     </div>
     <div class="place-show-feed">
       <div class="place-switch sm _fn" ng-click="ctrl.toggleShowInFeed(place)">
-        <input type="checkbox" name="checkbox_id" id="fav-{{place.id}}" data-ng-model="place.favorite"
+        <input type="checkbox" name="checkbox_id" id="fav-{{ctrl.escapeDot(place.id)}}" data-ng-model="place.favorite"
           ng-disabled="ctrl.user.id === place.id">
-        <label for="fav-{{place.id}}">
+        <label for="fav-{{ctrl.escapeDot(place.id)}}">
             <div class="circle" switch-drag="place.favorite" size="'sm'"></div>
         </label>
-        <label for="fav-{{place.id}}"></label>
+        <label for="fav-{{ctrl.escapeDot(place.id)}}"></label>
       </div>
     </div>
     <div class="place-more-option" data-popover-class="white-pop place-item-options-popover" data-popover-append-to-body="false" uib-popover-template="'app/pages/places/partials/place-item-more-option.html'"

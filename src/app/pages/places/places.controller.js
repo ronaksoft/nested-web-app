@@ -123,6 +123,7 @@
     vm.user = NstSvcAuth.user;
     vm.stateParams = $stateParams;
     vm.invitation = {};
+    var absolutePlaces = [];
     vm.places = [];
     vm.onPlaceClick = onPlaceClick;
     vm.openCreatePlaceModal = openCreatePlaceModal;
@@ -132,6 +133,38 @@
     vm.myPlacesHasUnseenChildren = [];
     vm.noAccessCreatingMessage = '';
     vm.selectedPlaceName = '';
+    vm.visiblePlaces = [];
+    vm.search = search;
+    vm.escapeDot = escapeDot;
+
+    function escapeDot(text) {
+      return text.split('.').join('_');
+    }
+
+    function search(event, keyword, filter) {
+      var hasKeyword = !(keyword === undefined);
+      var hasFilter = !(filter === undefined);
+      if (event.keyCode === 13) {
+        keyword = _.trim(keyword);
+        keyword = keyword.toLowerCase();
+        unselectAll();
+        _.forEach(absolutePlaces, function (item) {
+          if (keyword.length === 0) {
+            vm.visiblePlaces[item.id] = true;
+          } else {
+            var visible = true;
+            if (hasKeyword && !(item.name.includes(keyword) || item.sId.includes(keyword))) {
+              visible = false;
+            }
+            if (hasFilter && !(item.name.includes(keyword) || item.sId.includes(keyword))) {
+              visible = false;
+            }
+            vm.visiblePlaces[item.id] = visible;
+          }
+        });
+        vm.placesSetting.relationView = false;
+      }
+    }
 
     initialize();
 
@@ -144,6 +177,14 @@
       $q.all([getMyPlacesOrder(), getMyPlaces(true)]).then(function (results) {
         myPlaceOrders = results[0];
         vm.places = createTree(results[1], myPlaceOrders, vm.expandedPlaces, vm.selectedPlaceId);
+        _.forEach(results[1], function (item) {
+          vm.visiblePlaces[item.id] = true;
+          absolutePlaces.push({
+            id: item.id,
+            name: item.id.toLowerCase(),
+            sId: item.id.toLowerCase()
+          });
+        });
       });
 
       loadCurrentUser();
@@ -459,12 +500,12 @@
       return false;
     }
 
-    
+
     function openSettingsModal($event, id) {
       $event.preventDefault();
       $state.go('app.place-settings', {placeId: id}, {notify: false});
     }
-    
+
     /**
      * Checks the current place is personal place or not
      * @returns {boolean}
@@ -472,10 +513,10 @@
     function isGrandPlace(id) {
       return id.split('.').length === 1;
     }
-    
+
     function checkAccess(id) {
       var deferred = $q.defer();
-      
+
       NstSvcPlaceFactory.get(id).then(function (place) {
         deferred.resolve({
           allowedToAddMember : place.hasAccess(NST_PLACE_ACCESS.ADD_MEMBERS),
@@ -484,7 +525,7 @@
         })
       });
       return deferred.promise;
-      
+
     }
 
     /**
