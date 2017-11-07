@@ -45,6 +45,7 @@
     }
 
     var gotoTask = null;
+
     function editTask(id) {
       $scope.$dismiss();
       gotoTask = id;
@@ -166,6 +167,7 @@
 
     var dataInit = false;
     var isUpdated = false;
+
     // vm.isInCandidateMode = false;
 
     function getTask(id) {
@@ -193,7 +195,7 @@
         }
 
         if (task.dueDate !== undefined && task.dueDate !== 0) {
-          vm.model.dueDate = task.dueDate/1000;
+          vm.model.dueDate = task.dueDate / 1000;
           vm.model.hasDueTime = task.hasDueTime;
           // vm.enableDue = true;
         } else {
@@ -407,7 +409,7 @@
     }, true);
 
     function updateTask() {
-      NstSvcTaskFactory.taskUpdate(vm.taskId, taskUpdateModel.title, taskUpdateModel.description, taskUpdateModel.dueDate*1000, taskUpdateModel.hasDueTime).then(function () {
+      NstSvcTaskFactory.taskUpdate(vm.taskId, taskUpdateModel.title, taskUpdateModel.description, (taskUpdateModel.dueDate === null ? null : taskUpdateModel.dueDate * 1000), taskUpdateModel.hasDueTime).then(function () {
         backItUp();
         isUpdated = true;
       })/*.catch(function (error) {

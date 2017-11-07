@@ -257,8 +257,7 @@
   width: 216px!important;
   .popover-content{
     .list-items {
-      padding-left: 8px;
-      padding-right: 8px;
+      padding: 4px 8px;
       height: auto;
       min-height: 30px;
       &:hover {
@@ -276,6 +275,7 @@
         font-size: 14px;
         color: $color-solid;
         line-height: 18px;
+        height: auto
       }
       aside {
         white-space: nowrap;

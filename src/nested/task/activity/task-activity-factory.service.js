@@ -71,9 +71,10 @@
         case NST_TASK_EVENT_ACTION.DUE_DATE_UPDATED:
         case NST_TASK_EVENT_ACTION.DUE_DATE_REMOVED:
           return parseDueDate(data);
+          case NST_TASK_EVENT_ACTION.ASSIGNEE_CHANGED:
+          return parseAssigneeChanged(data);
 
         default:
-          NstSvcLogger.error('The provided activity type is not supported:' + data.action);
           return null;
       }
     }
@@ -188,6 +189,16 @@
       parseDefault(activity, data);
 
       activity.dueDate = data.due_date;
+
+      return activity;
+    }
+
+    function parseAssigneeChanged(data) {
+      var activity = new NstTaskActivity();
+
+      parseDefault(activity, data);
+
+      activity.assignee = NstSvcUserFactory.parseTinyUser(data.assignee);
 
       return activity;
     }
