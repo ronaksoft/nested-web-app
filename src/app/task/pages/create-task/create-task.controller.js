@@ -35,6 +35,7 @@
       status: null,
       title:  '',
       assignees: [],
+      dueDateText: null,
       dueDate: null,
       hasDueTime: false,
       desc: '',
@@ -155,7 +156,7 @@
           task.candidates = vm.model.assignees;
         }
         if (vm.model.dueDate !== null) {
-          task.dueDate = new Date(vm.model.dueDate).getTime();
+          task.dueDate = vm.model.dueDate*1000;
         }
         if (_.trim(vm.model.description).length > 0) {
           task.description = vm.model.description;

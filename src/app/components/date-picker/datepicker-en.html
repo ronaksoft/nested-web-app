@@ -45,17 +45,17 @@
       <svg class="_16svg _df">
           <use xlink:href="/assets/icons/nst-icn16.svg#alarm-clock"></use>
       </svg>
-      <input type="number" class="time-input" placeholder="00" translate-attrs="placeholder" max="23" min="0">
+      <input ng-model="timeHour" type="number" class="time-input" placeholder="00" translate-attrs="placeholder" max="23" min="0">
       <span>:</span>
-      <input type="number" class="time-input" placeholder="00" translate-attrs="placeholder" max="60" min="0">
+      <input ng-model="timeMinute" type="number" class="time-input" placeholder="00" translate-attrs="placeholder" max="60" min="0">
       <!-- <input type="time" ng-value="selectedTime" class="time-input" placeholder="+ Add Time" translate-attrs="placeholder"> -->
       <div class="input-buttons">
-        <div class="discard-changes">
-          <svg class="_16svg" ng-click="executeDueDateUpdate('abort')">
+        <div class="discard-changes" ng-click="setTime(false);">
+          <svg class="_16svg">
             <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
           </svg>
         </div>
-        <div class="submit-changes" ng-click="executeDueDateUpdate('confirm')">
+        <div class="submit-changes" ng-click="setTime(true);">
           <svg class="_16svg">
             <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
           </svg>

@@ -68,6 +68,7 @@
       counters: {},
       title: '',
       assignees: [],
+      dueDateText: null,
       dueDate: null,
       hasDueTime: false,
       description: '',
@@ -192,7 +193,7 @@
         }
 
         if (task.dueDate !== undefined && task.dueDate !== 0) {
-          vm.model.dueDate = new Date(task.dueDate);
+          vm.model.dueDate = task.dueDate/1000;
           vm.model.hasDueTime = task.hasDueTime;
           // vm.enableDue = true;
         } else {
@@ -388,7 +389,7 @@
       if (date === null) {
         taskUpdateModel.dueDate = 0;
       } else {
-        taskUpdateModel.dueDate = new Date(date).getTime();
+        taskUpdateModel.dueDate = date;
         taskUpdateModel.hasDueTime = hasDueTime;
       }
       updateDebouncer.call();
@@ -406,7 +407,7 @@
     }, true);
 
     function updateTask() {
-      NstSvcTaskFactory.taskUpdate(vm.taskId, taskUpdateModel.title, taskUpdateModel.description, taskUpdateModel.dueDate, taskUpdateModel.hasDueTime).then(function () {
+      NstSvcTaskFactory.taskUpdate(vm.taskId, taskUpdateModel.title, taskUpdateModel.description, taskUpdateModel.dueDate*1000, taskUpdateModel.hasDueTime).then(function () {
         backItUp();
         isUpdated = true;
       })/*.catch(function (error) {
