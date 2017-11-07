@@ -30,11 +30,11 @@
     vm.toggleShowInFeed = toggleShowInFeed;
     vm.confirmToRemoveMulti = confirmToRemoveMulti;
     vm.leaveMulti = leaveMulti;
-    vm.checkAccess = checkAccess;
     vm.isGrandPlace = isGrandPlace;
     vm.isPersonal = isPersonal;
     vm.isSubPersonal = isSubPersonal;
     vm.addMemberMulti = addMemberMulti;
+    vm.placesLength = 0;
     vm.placesSetting = {
       relationView: true
     };
@@ -126,6 +126,9 @@
     vm.invitation = {};
     var absolutePlaces = [];
     vm.places = [];
+    vm.forbiddenAddPlaces = [];
+    vm.forbiddenDeletePlaces = [];
+    vm.forbiddenLeavePlaces = [];
     vm.onPlaceClick = onPlaceClick;
     vm.openCreatePlaceModal = openCreatePlaceModal;
     vm.openCreateSubplaceModal = openCreateSubplaceModal;
@@ -177,6 +180,7 @@
       vm.expandedPlaces = [];
       $q.all([getMyPlacesOrder(), getMyPlaces(true)]).then(function (results) {
         myPlaceOrders = results[0];
+        vm.placesLength = results[1].length;
         vm.places = createTree(results[1], myPlaceOrders, vm.expandedPlaces, vm.selectedPlaceId);
         _.forEach(results[1], function (item) {
           vm.visiblePlaces[item.id] = true;
@@ -515,20 +519,6 @@
       return id.split('.').length === 1;
     }
 
-    function checkAccess(id) {
-      var deferred = $q.defer();
-
-      NstSvcPlaceFactory.get(id).then(function (place) {
-        deferred.resolve({
-          allowedToAddMember : place.hasAccess(NST_PLACE_ACCESS.ADD_MEMBERS),
-          allowedToAddPlace : place.hasAccess(NST_PLACE_ACCESS.ADD_PLACE),
-          allowedToRemovePlace : place.hasAccess(NST_PLACE_ACCESS.REMOVE_PLACE)
-        })
-      });
-      return deferred.promise;
-
-    }
-
     /**
      * Filters the place children
      *
@@ -623,6 +613,7 @@
      */
     function createTree(places, orders, expandedPlaces, selectedId) {
       myPlaceIds = [];
+      console.log(places);
       return _.chain(places).filter(function (place) {
         myPlaceIds.push(place.id);
         return place.id && place.id.indexOf('.') === -1;
@@ -665,7 +656,12 @@
         childrenHasUnseen: anyChildrenHasUnseen(place, children, vm.myPlacesUnreadPosts),
         isExpanded: isExpanded,
         isActive: isActive,
-        depth: depth
+        depth: depth,
+        permitions: {
+          allowedToAddMember : place.accesses.indexOf(NST_PLACE_ACCESS.ADD_MEMBERS) > -1,
+          allowedToAddPlace : place.accesses.indexOf(NST_PLACE_ACCESS.ADD_PLACE) > -1,
+          allowedToRemovePlace : place.accesses.indexOf(NST_PLACE_ACCESS.REMOVE_PLACE) > -1
+        }
       };
       return placeModel;
     }
