@@ -1,4 +1,4 @@
 <span ng-if="act.candidates.length == 1 && act.actor.id != act.candidates[0].id" translate-inner>removed '<b user-detail="act.candidates[0]">{{act.candidates[0].fullName}}</b>' from candidates</span>
 <span ng-if="act.candidates.length == 1 && act.actor.id == act.candidates[0].id" translate-inner>rejected the task</span>
-<span ng-if="act.candidates.length > 1" translate-inner>removed <b class="name-item" ng-repeat="candidate in act.candidates">"{{candidate.fullName}}" </b> as candidates</span>
+<span ng-if="act.candidates.length > 1" translate-inner>removed <span ng-repeat="candidate in act.candidates"><b class="name-item">"{{candidate.fullName}}"</b><span ng-if="$index != act.candidates.length">{{$index == (act.candidates.length)? '&': ','}}</span></span> from candidates</span>
 
