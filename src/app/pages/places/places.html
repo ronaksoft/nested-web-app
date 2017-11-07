@@ -68,7 +68,7 @@
     </div>
     <div class="places-list iscroll-wrapper" iscroll class="iscroll-wrapper" iscroll-instance="scrollInstance">
       <ul class="places place-ul iscroll-scroller ng-class:{'relation-view': ctrl.placesSetting.relationView}" ui-sortable="ctrl.sortableOptions" ng-model="ctrl.places" ui-sortable-stop="ctrl.sortUpdateHandler">
-          <li ng-repeat="place in ctrl.places" ng-class="{'hide': (!ctrl.placesSetting.relationView && !ctrl.visiblePlaces[place.id])}" data-ng-include="'app/pages/places/partials/places-place-item.html'"
+          <li ng-repeat="place in ctrl.places" data-ng-include="'app/pages/places/partials/places-place-item.html'"
           onload="place = place"></li>
       </ul>
     </div>
