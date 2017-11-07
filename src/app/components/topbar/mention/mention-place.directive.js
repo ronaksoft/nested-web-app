@@ -18,8 +18,8 @@
             try {
               var documentDir = $('body').attr('dir');
               var containerWidth = $(obj.$el[0]).find('.atwho-view').width();
-              var direction = obj.$inputor.context.style.direction;
-              var inputObj = $(obj.$inputor.context);
+              var direction = obj.$inputor[0].style.direction;
+              var inputWidth = obj.$inputor[0].offsetWidth;
 
               if (documentDir === 'ltr') {
                 if (direction === 'rtl') {
@@ -29,7 +29,7 @@
                 if (direction === 'ltr') {
                   offset.left = (offset.left - containerWidth) + 5;
                 } else {
-                  offset.left = offset.left + inputObj.width() - containerWidth - 5;
+                  offset.left = offset.left + inputWidth - containerWidth - 15;
                 }
               }
 
