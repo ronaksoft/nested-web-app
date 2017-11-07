@@ -16,19 +16,56 @@
         currentTime: '='
       },
       link: function (scope) {
-        scope.barSeeker = function (e) {
+        // scope.barSeeker = function (e) {
 
-          var barWidth = e.currentTarget.clientWidth;
-          var x;
+        //   var barWidth = e.currentTarget.clientWidth;
+        //   var x;
 
-          if ($rootScope._direction !== 'rtl') {
-            x = e.clientX - $(e.currentTarget).offset().left;
-          } else {
-            x = e.clientX - $(e.currentTarget).offset().left - barWidth;
+        //   if ($rootScope._direction !== 'rtl') {
+        //     x = e.clientX - $(e.currentTarget).offset().left;
+        //   } else {
+        //     x = e.clientX - $(e.currentTarget).offset().left - barWidth;
+        //   }
+        //   var newRatio = Math.abs(x / barWidth);
+        //   scope.barClick(newRatio)
+        // }
+        scope.bar;
+        var volumeDrag = false;
+
+        scope.mousedown = function (e) {
+            volumeDrag = true;
+            scope.bar = e.currentTarget;
+            updateCurrentTime(e.pageX);
+        };
+        scope.mouseup = function (e) {
+            if (volumeDrag) {
+                volumeDrag = false;
+                updateCurrentTime(e.pageX);
+            }
+        };
+        scope.mousemove = function (e) {
+            if (volumeDrag) {
+              updateCurrentTime(e.pageX);
+            }
+        };
+        
+        var updateCurrentTime = function (x) {
+          var percentage;
+          //if only volume have specificed
+          //then direct update volume
+          var position = x - $(scope.bar).offset().left
+          percentage = 100 * position / scope.bar.clientWidth;
+      
+          if (percentage > 100) {
+              percentage = 100;
           }
-          var newRatio = Math.abs(x / barWidth);
-          scope.barClick(newRatio)
-        }
+          if (percentage < 0) {
+              percentage = 0;
+          }
+          scope.currentTime.ratio = percentage / 100;
+          scope.barClick(percentage / 100)
+      
+      };
       }
     };
   }
