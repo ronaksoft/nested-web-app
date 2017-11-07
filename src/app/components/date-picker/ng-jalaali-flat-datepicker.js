@@ -296,6 +296,12 @@
         }
 
         function getInputTime(hour, minute) {
+          if(hour > 23 || minute > 59) {
+            return '23:59'
+          }
+          if(hour < 0 || minute < 0) {
+            return '23:59'
+          }
           hour = trimNumber(hour);
           minute = trimNumber(minute);
           return hour + ':' + minute;
