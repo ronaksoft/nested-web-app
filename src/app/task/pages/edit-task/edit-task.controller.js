@@ -663,7 +663,7 @@
         cancelText: NstSvcTranslation.get('Cancel')
       }).then(function () {
         NstSvcTaskFactory.remove(vm.taskId).then(function () {
-          toastr.success(NstSvcTranslation.get(String('Task {name} removed successfully').replace('{name}', '"' + vm.model.title + '"')));
+          toastr.success(NstSvcTranslation.get('Task {name} removed successfully').replace('{name}', '"' + vm.model.title + '"'));
           isUpdated = true;
           $scope.$dismiss();
         });
