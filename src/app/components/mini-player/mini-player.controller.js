@@ -88,7 +88,7 @@
       $scope.$apply(function () {
         var data = SvcMiniPlayer.getList();
         vm.playList = data.items;
-        if (data.isVoiceComment && vm.displayState === 0 && vm.playList.length > 0) {
+        if (!data.isVoiceComment && vm.displayState === 0 && vm.playList.length > 0) {
           vm.displayState = 1;
         } else if (data.isVoiceComment) {
           vm.displayState = 0;
