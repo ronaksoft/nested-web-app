@@ -95,8 +95,11 @@
     </div>
   </div>
   <div class="modal-footer">
-    <h5>
-      You’re member in <b>{{ctrl.placesLength}}</b> places and manager of <b>{{ctrl.managerInPlaces}}</b> places.
+    <h5 ng-if="ctrl.keyword.length === 0">
+      You’re member in <b>{{ctrl.placesLength}}</b> Places and manager of <b>{{ctrl.managerInPlaces}}</b> places.
+    </h5>
+    <h5 ng-if="ctrl.keyword.length > 0">
+      We’ve found <b>{{ctrl.searchResult}}</b> Places.
     </h5>
   </div>
 </div>

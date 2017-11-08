@@ -36,6 +36,7 @@
     vm.addMemberMulti = addMemberMulti;
     vm.placesLength = 0;
     vm.managerInPlaces = 0;
+    vm.searchResult = 0;
     vm.placesSetting = {
       relationView: true
     };
@@ -197,6 +198,7 @@
     }
 
     function search(keyword, filter) {
+      vm.searchResult = 0;
       if(vm.placesSetting.relationView) {
         vm.showLoading();
       }
@@ -224,7 +226,9 @@
           visible = true;
         } else {
           visible = true;
+          vm.searchResult++;
           if (hasKeyword && !(item.name.includes(keyword) || item.sId.includes(keyword))) {
+            vm.searchResult--;
             visible = false;
           }
         }

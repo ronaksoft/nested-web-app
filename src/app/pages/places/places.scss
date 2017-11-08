@@ -71,7 +71,7 @@
         }
     }
     .modal-body {
-        flex: 1;
+        max-height: calc(100vh - 210px);
         position: relative;
         overflow: hidden;
         .places-head {
