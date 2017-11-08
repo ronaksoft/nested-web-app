@@ -20,10 +20,12 @@
 
       audioDOM.onended = function () {
         that.currentStatus = 'end';
-        callIfValid(that.statusChangedRef, {
-          status: that.currentStatus,
-          id: playing,
-          playlist: that.playlistName
+        _.forEach(that.statusChangedRef, function (item) {
+          callIfValid(item.fn, {
+            status: that.currentStatus,
+            id: playing,
+            playlist: that.playlistName
+          });
         });
         that.broadcastStatus('');
       };
@@ -32,7 +34,8 @@
     MiniPlayer.prototype.constructor = MiniPlayer;
     MiniPlayer.prototype.startInterval = startInterval;
     MiniPlayer.prototype.stopInterval = stopInterval;
-    MiniPlayer.playlistName = null;
+    MiniPlayer.prototype.playlistName = null;
+    MiniPlayer.prototype.isVoiceComment = null;
     MiniPlayer.prototype.setPlaylist = setPlaylist;
     MiniPlayer.prototype.addTrack = addTrack;
     MiniPlayer.prototype.play = play;
@@ -40,12 +43,12 @@
     MiniPlayer.prototype.next = next;
     MiniPlayer.prototype.prev = prev;
     MiniPlayer.prototype.seekTo = seekTo;
-    MiniPlayer.timeChangedRef = null;
+    MiniPlayer.prototype.timeChangedRef = [];
     MiniPlayer.prototype.timeChanged = timeChanged;
-    MiniPlayer.listUpdatedRef = null;
+    MiniPlayer.prototype.listUpdatedRef = [];
     MiniPlayer.prototype.listUpdated = listUpdated;
     MiniPlayer.currentStatus = 'pause';
-    MiniPlayer.statusChangedRef = null;
+    MiniPlayer.prototype.statusChangedRef = [];
     MiniPlayer.prototype.statusChanged = statusChanged;
     MiniPlayer.prototype.removeAll = removeAll;
     MiniPlayer.prototype.getCurrent = getCurrent;
@@ -64,10 +67,12 @@
       var that = this;
       audioInterval = setInterval(function () {
         if (!audioDOM.paused) {
-          callIfValid(that.timeChangedRef, {
-            time: audioDOM.currentTime,
-            duration: audioDOM.duration,
-            ratio: (audioDOM.currentTime / audioDOM.duration)
+          _.forEach(that.timeChangedRef, function (item) {
+            callIfValid(item.fn, {
+              time: audioDOM.currentTime,
+              duration: audioDOM.duration,
+              ratio: (audioDOM.currentTime / audioDOM.duration)
+            });
           });
         }
       }, 500);
@@ -80,33 +85,50 @@
       }
     }
 
-    function setPlaylist(name) {
+    function setPlaylist(name, isVoiceComment) {
       if (name !== this.playlistName) {
         this.removeAll();
       }
       this.playlistName = name;
+      if (isVoiceComment === undefined) {
+        isVoiceComment = false;
+      }
+      this.isVoiceComment = isVoiceComment;
     }
 
-    function addTrack(item, sender) {
+    function sortList(list) {
+      return _.sortBy(list, 'order');
+    }
+
+    function addTrack(item, sender, order) {
       var alreadyCreated = audioObjs.find(function (element) {
         return element.id === item.id;
       });
 
       if (!alreadyCreated) {
-        if (sender !== null) {
+        if (sender !== undefined || sender !== null) {
           item = _.merge(item, {
             sender: sender
           });
         }
+        item = _.merge(item, {
+          order: (order !== undefined)? order: -1
+        });
         audioObjs.push(item);
-        callIfValid(this.listUpdatedRef);
+        audioObjs = sortList(audioObjs);
+        _.forEach(this.listUpdatedRef, function (item) {
+          callIfValid(item.fn);
+        });
       }
 
       this.currentStatus = 'add';
-      callIfValid(this.statusChangedRef, {
-        status: this.currentStatus,
-        id: item.id,
-        playlist: this.playlistName
+      var that = this;
+      _.forEach(this.statusChangedRef, function (item) {
+        callIfValid(item.fn, {
+          status: that.currentStatus,
+          id: item.id,
+          playlist: that.playlistName
+        });
       });
 
       if (item.isPlayed) {
@@ -117,7 +139,7 @@
     function play(id) {
       if (playing !== null) {
         var playingItem = this.getCurrent();
-        this.pause(playingItem.item.id);
+        this.pause((playingItem.item !== undefined)? playingItem.item.id: null);
       }
       this.startInterval();
       var noIdFlag = false;
@@ -130,18 +152,27 @@
       var index = _.findIndex(audioObjs, function (o) {
         return o.id === id
       });
+      if (index === -1) {
+        return;
+      }
       if (!noIdFlag) {
-        audioDOM.src = audioObjs[index].src;
-        audioDOM.load();
+        if (audioDOM.src !== audioObjs[index].src) {
+          audioDOM.src = audioObjs[index].src;
+          audioDOM.load();
+        }
       }
       setTimeout(function () {
         audioDOM.play();
       }, 100);
       this.currentStatus = 'play';
-      callIfValid(this.statusChangedRef, {
-        status: this.currentStatus,
-        id: id,
-        playlist: this.playlistName
+
+      var that = this;
+      _.forEach(this.statusChangedRef, function (item) {
+        callIfValid(item.fn, {
+          status: that.currentStatus,
+          id: id,
+          playlist: that.playlistName
+        });
       });
       this.broadcastStatus(id);
     }
@@ -150,10 +181,13 @@
       this.stopInterval();
       audioDOM.pause();
       this.currentStatus = 'pause';
-      callIfValid(this.statusChangedRef, {
-        status: this.currentStatus,
-        id: id,
-        playlist: this.playlistName
+      var that = this;
+      _.forEach(this.statusChangedRef, function (item) {
+        callIfValid(item.fn, {
+          status: that.currentStatus,
+          id: id,
+          playlist: that.playlistName
+        });
       });
       this.broadcastStatus('');
     }
@@ -169,10 +203,13 @@
       }
       var id = audioObjs[index].id;
       this.currentStatus = 'next';
-      callIfValid(this.statusChangedRef, {
-        status: this.currentStatus,
-        id: id,
-        playlist: this.playlistName
+      var that = this;
+      _.forEach(this.statusChangedRef, function (item) {
+        callIfValid(item.fn, {
+          status: that.currentStatus,
+          id: id,
+          playlist: that.playlistName
+        });
       });
       this.play(id);
     }
@@ -188,10 +225,13 @@
       }
       var id = audioObjs[index].id;
       this.currentStatus = 'prev';
-      callIfValid(this.statusChangedRef, {
-        status: this.currentStatus,
-        id: id,
-        playlist: this.playlistName
+      var that = this;
+      _.forEach(this.statusChangedRef, function (item) {
+        callIfValid(item.fn, {
+          status: that.currentStatus,
+          id: id,
+          playlist: that.playlistName
+        });
       });
       this.play(id);
     }
@@ -202,23 +242,52 @@
       }
       audioDOM.currentTime = sec;
       this.currentStatus = 'seek';
-      callIfValid(this.statusChangedRef, {
-        status: this.currentStatus,
-        time: sec,
-        id: playing,
-        playlist: this.playlistName
+      var that = this;
+      _.forEach(this.statusChangedRef, function (item) {
+        callIfValid(item.fn, {
+          status: that.currentStatus,
+          time: sec,
+          id: playing,
+          playlist: that.playlistName
+        });
       });
+    }
+
+    function unbindFn(list, id) {
+      var index = _.findIndex(list, {id: id});
+      if (index > -1) {
+        list.splice(index, 1);
+      }
     }
 
     function timeChanged(callback) {
       if (_.isFunction(callback)) {
-        this.timeChangedRef = callback;
+        var id = _.uniqueId();
+        var fnRef = this.timeChangedRef;
+        fnRef.push({
+          id: id,
+          fn: callback
+        });
+
+        return function () {
+          var tempId = id;
+          unbindFn(fnRef, tempId);
+        };
       }
     }
 
     function statusChanged(callback) {
       if (_.isFunction(callback)) {
-        this.statusChangedRef = callback;
+        var id = _.uniqueId();
+        var fnRef = this.statusChangedRef;
+        fnRef.push({
+          id: id,
+          fn: callback
+        });
+        return function () {
+          var tempId = id;
+          unbindFn(fnRef, tempId);
+        };
       }
     }
 
@@ -227,10 +296,13 @@
       audioObjs = [];
       playing = null;
       this.currentStatus = 'pause';
-      callIfValid(this.statusChangedRef, {
-        status: this.currentStatus,
-        id: null,
-        playlist: this.playlistName
+      var that = this;
+      _.forEach(this.statusChangedRef, function (item) {
+        callIfValid(item.fn, {
+          status: that.currentStatus,
+          id: null,
+          playlist: that.playlistName
+        });
       });
       this.broadcastStatus('');
     }
@@ -252,12 +324,26 @@
 
     function listUpdated(callback) {
       if (_.isFunction(callback)) {
-        this.listUpdatedRef = callback;
+        var id = _.uniqueId();
+        var fnRef = this.listUpdatedRef;
+        fnRef.push({
+          id: id,
+          fn: callback
+        });
+
+        return function () {
+          var tempId = id;
+          unbindFn(fnRef, tempId);
+        };
       }
     }
 
     function getList() {
-      return audioObjs;
+      return {
+        items: audioObjs,
+        name: this.playlistName,
+        isVoiceComment: this.isVoiceComment
+      };
     }
 
     function callIfValid() {
