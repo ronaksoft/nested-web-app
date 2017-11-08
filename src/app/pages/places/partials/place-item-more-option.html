@@ -1,6 +1,6 @@
 <a class="_df list-items _aic"
    ui-sref="app.settings.profile"
-   ng-if="ctrl.isPersonal(plcae.id)">
+   ng-if="ctrl.isPersonal(place.id)">
   <div class="top-user-avatar-24">
     <img initial-avatar="{{ctrl.user.id}}" name="{{ctrl.user.fullName}}" picture="{{ctrl.user | avatar}}" data-width="24" data-height="24" data-radius="12" class="account-initials-24" data-word-count="2" data-font-size="12"/>
   </div>
@@ -8,7 +8,7 @@
 </a>
 <a class="_df list-items _aic"
    ui-sref="app.place-settings({ placeId : place.id })"
-   ng-if="!ctrl.isPersonal(plcae.id)"
+   ng-if="!ctrl.isPersonal(place.id)"
    ng-click="ctrl.openSettingsModal($event, place.id)">
   <div>
     <svg class="_16svg">
@@ -18,7 +18,7 @@
   <span><translate>Place Settings</translate></span>
 </a>
 <hr ng-if="ctrl.allowedToAddPlace">
-<a ng-if="ctrl.isGrandPlace(place.id) && place.permitions.allowedToAddPlace"
+<a ng-if="ctrl.isGrandPlace(place.id) && place.permitions.allowedToCreatePlace"
    class="_df list-items _aic" ui-sref="app.place-create({ placeId : ctrl.getPlaceId() })"
    ng-click="ctrl.openCreateSubplaceModal($event,'open')">
   <div>
@@ -30,7 +30,7 @@
 </a>
 <a class="_df list-items _aic" ui-sref="app.place-create({ placeId : ctrl.getPlaceId() })"
    ng-click="ctrl.openCreateSubplaceModal($event,'close')"
-   ng-if="place.permitions.allowedToAddPlace">
+   ng-if="place.permitions.allowedToCreatePlace">
   <div>
     <svg class="_16svg">
       <use xlink:href="/assets/icons/nst-icn16.svg#brick-wall"></use>
@@ -40,8 +40,7 @@
 </a>
 <!-- <hr ng-if="!ctrl.isPersonal() && (ctrl.allowedToRemovePlace || ctrl.place.privacy.locked)"> -->
 <a class="_df red-item list-items _aic"
-   ng-if="!ctrl.isPersonal(plcae.id) && place.privacy.locked &&
-   (!place.permition.allowedToRemovePlace || (place.permition.allowedToRemovePlace && place.counters.creators > 1))"
+   ng-if="!ctrl.isPersonal(place.id) && place.privacy.locked && !place.permition.allowedToLeavePlace"
    ng-click="ctrl.confirmToLeave()">
   <div>
     <svg class="_16svg">
@@ -50,8 +49,8 @@
   </div>
   <span><translate>Leave</translate></span>
 </a>
-<a class="_df red-item list-items _aic"
-   ng-if="!ctrl.isSubPersonal(place.id) && !ctrl.isPersonal(plcae.id) && place.permition.allowedToRemovePlace"
+<!-- <a class="_df red-item list-items _aic"
+   ng-if="!ctrl.isSubPersonal(place.id) && !ctrl.isPersonal(place.id) && place.permition.allowedToRemovePlace"
    ng-click="ctrl.confirmToRemove()">
   <div>
     <svg class="_16svg">
@@ -59,8 +58,8 @@
     </svg>
   </div>
   <span><translate>Leave and Delete</translate></span>
-</a>
-<a class="_df red-item list-items _aic" ng-if="ctrl.isSubPersonal(place.id) && place.permition.allowedToRemovePlace"
+</a> -->
+<a class="_df red-item list-items _aic" ng-if="place.permition.allowedToRemovePlace"
    ng-click="ctrl.confirmToRemove(place.id)">
   <div>
     <svg class="_16svg">
