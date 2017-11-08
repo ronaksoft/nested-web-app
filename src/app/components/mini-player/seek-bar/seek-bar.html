@@ -2,6 +2,5 @@
   ng-mousedown="mousedown($event)" ng-mousemove="mousemove($event)" ng-mouseup="mouseup($event)">
   <div class="bg-bar"></div>
   <div class="played-bar" ng-click="$event.preventDefault()" style="transform: scaleX({{currentTime.ratio}})"></div>
-  <div class="player-dragger" ng-click="$event.stopPropagation()" ng-if="$root._direction !== 'rtl'" style="left: {{currentTime.ratio * 100}}%"></div>
-  <div class="player-dragger" ng-click="$event.stopPropagation()" ng-if="$root._direction === 'rtl'" style="right: {{currentTime.ratio * 100}}%"></div>
+  <div class="player-dragger" ng-click="$event.stopPropagation()" style="left: {{currentTime.ratio * 100}}%"></div>
 </div>
