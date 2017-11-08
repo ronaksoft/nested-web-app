@@ -156,8 +156,10 @@
         return;
       }
       if (!noIdFlag) {
-        audioDOM.src = audioObjs[index].src;
-        audioDOM.load();
+        if (audioDOM.src !== audioObjs[index].src) {
+          audioDOM.src = audioObjs[index].src;
+          audioDOM.load();
+        }
       }
       setTimeout(function () {
         audioDOM.play();
