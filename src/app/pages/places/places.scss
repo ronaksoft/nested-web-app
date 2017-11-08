@@ -53,6 +53,18 @@
             margin: 0;
             line-height: 24px;
         }
+        .toolbar.unread-mode {
+            .list-items {
+                svg {
+                    fill: $color-solid;
+                }
+                &.active {
+                    svg {
+                        fill: $color-sense-wire;
+                    }
+                }
+            }
+        }
         .list-items {
             height: 40px;
             @include hover(.72, 1);
@@ -64,6 +76,15 @@
             }
             b {
                 line-height: 19px;
+            }
+            svg {
+                fill: $color-solid;
+                opacity: 1;
+            }
+            &.active {
+                svg {
+                    fill: $color-sense-wire;
+                }
             }
         }
         .popover {

@@ -63,7 +63,7 @@
         </div>
         <div ng-show="ctrl.selectedPlaces.length == 0" ng-mouseenter="popoverSortShow = true" ng-click="ctrl.placesSetting.relationView =! ctrl.placesSetting.relationView"
           data-popover-class="white-pop messages-sort-popover" uib-popover-template="'app/pages/places/partials/view-setting_popover.html'"
-          data-popover-placement="bottom-center" data-popover-is-open="popoverSortShow" class="filter-bar-popover-button _fn">
+          data-popover-placement="bottom-center" data-popover-is-open="true || popoverSortShow" class="filter-bar-popover-button _fn">
           <translate class="_df" ng-if="ctrl.placesSetting.relationView && !ctrl.filter">Relation View</translate>
           <translate class="_df" ng-if="!ctrl.placesSetting.relationView && !ctrl.filter">Absolute View</translate>
           <translate class="_df" ng-if="ctrl.filter && ctrl.filter === 'grand'"><b>type:</b> Grand Places</translate>
