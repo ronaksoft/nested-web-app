@@ -20,7 +20,7 @@
     <img ng-src="{{place.picture}}" />
     <div class="place-info">
       <cite>
-        <svg class="_16svg" ng-if="place.accesses.indexOf('C') > -1">
+        <svg class="_16svg" ng-if="place.isManager">
             <use xlink:href="/assets/icons/nst-icn16.svg#crown"></use>
         </svg>
         {{ place.name }}

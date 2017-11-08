@@ -35,6 +35,7 @@
     vm.isSubPersonal = isSubPersonal;
     vm.addMemberMulti = addMemberMulti;
     vm.placesLength = 0;
+    vm.managerInPlaces = 0;
     vm.placesSetting = {
       relationView: true
     };
@@ -101,13 +102,59 @@
       }, 1000)
     }
 
+    var reasonDocs = [
+      NstSvcTranslation.get('personl place'),
+      NstSvcTranslation.get('place policy'),
+      NstSvcTranslation.get('you cant remove this place')
+    ]
+
+    function removeFromTemp(array, placeId){
+      var itemIndex = null;
+      var isBanned = vm[array].find(function(i, index){
+        if (i.id === placeId){
+          itemIndex = index
+          return true
+        } else {
+          return false
+        }
+      });
+      if(isBanned){
+        vm[array].splice(itemIndex, 1)
+      }
+    }
+
+    function selectPlace(place) {
+      vm.selectedPlaces.push(place);
+      if(!place.permitions.allowedToAddMember) {
+        vm.forbiddenAddPlaces.push({
+          id: place.id,
+          reason: place.id == vm.user.id ?  reasonDocs[0] : reasonDocs[1]
+        })
+      }
+      if(!place.permitions.allowedToLeavePlace) {
+        vm.forbiddenLeavePlaces.push({
+          id: place.id,
+          reason: ''
+        })
+      }
+      if(!place.permitions.allowedToRemovePlace) {
+        vm.forbiddenDeletePlaces.push({
+          id: place.id,
+          reason: reasonDocs[2]
+        });
+      }
+    }
+
     function toggleSelectPlace(place) {
       place.isSelected = !place.isSelected;
       var placeIndex = vm.selectedPlaces.indexOf(place);
       if (placeIndex > -1) {
         vm.selectedPlaces.splice(placeIndex, 1);
+        removeFromTemp('forbiddenAddPlaces', place.id);
+        removeFromTemp('forbiddenLeavePlaces', place.id);
+        removeFromTemp('forbiddenDeletePlaces', place.id);
       } else {
-        vm.selectedPlaces.push(place);
+        selectPlace(place);
       }
     }
 
@@ -116,6 +163,9 @@
         place.isSelected = false;
       });
       vm.selectedPlaces = [];
+      vm.forbiddenAddPlaces = [];
+      vm.forbiddenDeletePlaces = [];
+      vm.forbiddenLeavePlaces = [];
     }
 
     /*****************************
@@ -369,6 +419,9 @@
      * add members to multi places
      */
     function addMemberMulti() {
+      if(vm.forbiddenAddPlaces.length > 0){
+        return;
+      }
       var selectedIds = vm.selectedPlaces.map(function(place){
         return place.id
       })
@@ -406,6 +459,9 @@
      * leave the place with showing results
      */
     function leaveMulti() {
+      if(vm.forbiddenLeavePlaces.length > 0){
+        return;
+      }
       angular.forEach(vm.selectedPlaces, function (id) {
         NstSvcPlaceFactory.leave(id).then(function () {
           // TODO remove items
@@ -440,7 +496,9 @@
      * Represents the prompt modal for deleting place
      */
     function confirmToRemoveMulti() {
-
+      if(vm.forbiddenDeletePlaces.length > 0){
+        return;
+      }
       $uibModal.open({
         animation: false,
         templateUrl: 'app/pages/places/settings/place-delete.html',
@@ -613,7 +671,7 @@
      */
     function createTree(places, orders, expandedPlaces, selectedId) {
       myPlaceIds = [];
-      console.log(places);
+      // console.log(places);
       return _.chain(places).filter(function (place) {
         myPlaceIds.push(place.id);
         return place.id && place.id.indexOf('.') === -1;
@@ -639,6 +697,10 @@
      */
     function createTreeItem(place, isGrandPlace, children, isExpanded, isActive, depth) {
       var picture = place.hasPicture() ? place.picture.getUrl('x32') : ABSENT_PLACE_PICTURE_URL;
+      var isManager = place.accesses.indexOf('C') > -1;
+      if(isManager){
+        vm.managerInPlaces++;
+      }
       var placeModel = {
         id: place.id,
         name: place.name,
@@ -646,6 +708,7 @@
         privacy: place.privacy,
         accesses: place.accesses,
         isGrandPlace: isGrandPlace,
+        isManager: isManager,
         isSelected: false,
         notificationStatus: place.notification,
         favorite: place.favorite, //TODO
@@ -659,7 +722,7 @@
         depth: depth,
         permitions: {
           allowedToAddMember : place.accesses.indexOf(NST_PLACE_ACCESS.ADD_MEMBERS) > -1,
-          allowedToAddPlace : place.accesses.indexOf(NST_PLACE_ACCESS.ADD_PLACE) > -1,
+          allowedToLeavePlace : place.accesses.indexOf('FIXME') > -1,
           allowedToRemovePlace : place.accesses.indexOf(NST_PLACE_ACCESS.REMOVE_PLACE) > -1
         }
       };

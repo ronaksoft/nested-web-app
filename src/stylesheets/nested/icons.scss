@@ -97,6 +97,9 @@
   svg {
     margin: 0 8px; 
   }
+  &.disabled {
+    opacity: .3
+  }
 }
 .filter-bar-popover-button-right {
   margin-right: 28px;

@@ -27,19 +27,19 @@
           <translate ng-if="ctrl.selectedPlaces.length > 0">{{ctrl.selectedPlaces.length}} Place Selected</translate>
         </p>
         <p class="_df _fw"></p>
-        <div class="_df _fn _aic filter-bar-popover-button" ng-if="ctrl.selectedPlaces.length > 0 " ng-click="ctrl.addMemberMulti();">
+        <div class="_df _fn _aic filter-bar-popover-button ng-class:{'disabled' : ctrl.forbiddenAddPlaces.length > 0}" ng-if="ctrl.selectedPlaces.length > 0 " ng-click="ctrl.addMemberMulti();">
           <translate>Add Member</translate>
           <svg class="_16svg _df">
             <use xlink:href="/assets/icons/nst-icn16.svg#cross"></use>
           </svg>
         </div>
-        <div class="_df _fn _aic filter-bar-popover-button" ng-if="ctrl.selectedPlaces.length > 0 " ng-click="ctrl.leaveMulti();ctrl.unselectAll()">
+        <div class="_df _fn _aic filter-bar-popover-button ng-class:{'disabled' : ctrl.forbiddenLeavePlaces.length > 0}" ng-if="ctrl.selectedPlaces.length > 0 " ng-click="ctrl.leaveMulti();ctrl.unselectAll()">
           <translate>Leave</translate>
           <svg class="_16svg _df">
             <use xlink:href="/assets/icons/nst-icn16.svg#exit"></use>
           </svg>
         </div>
-        <div class="_df _fn filter-bar-popover-button" ng-if="ctrl.selectedPlaces.length > 0 " ng-click="ctrl.confirmToRemoveMulti();ctrl.unselectAll()">
+        <div class="_df _fn filter-bar-popover-button ng-class:{'disabled' : ctrl.forbiddenDeletePlaces.length > 0}" ng-if="ctrl.selectedPlaces.length > 0 " ng-click="ctrl.confirmToRemoveMulti();ctrl.unselectAll()">
           <translate>Delete</translate>
           <svg class="_16svg _df">
             <use xlink:href="/assets/icons/nst-icn16.svg#bin"></use>
@@ -75,7 +75,7 @@
   </div>
   <div class="modal-footer">
     <h5>
-      You’re member in <b>{{ctrl.placesLength}}</b> places and manager of <b>14</b> places.
+      You’re member in <b>{{ctrl.placesLength}}</b> places and manager of <b>{{ctrl.managerInPlaces}}</b> places.
     </h5>
   </div>
 </div>
