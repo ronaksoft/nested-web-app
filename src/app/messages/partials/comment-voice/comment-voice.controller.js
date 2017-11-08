@@ -14,7 +14,7 @@
     .module('ronak.nested.web.message')
     .controller('CommentVoiceController', CommentVoiceController);
 
-  function CommentVoiceController($scope, $sce, $q, $filter, _, NstSvcFileFactory, NstSvcAttachmentFactory,
+  function CommentVoiceController($scope, $rootScope, $sce, $q, $filter, _, NstSvcFileFactory, NstSvcAttachmentFactory,
                                   SvcMiniPlayer, NstSvcStore, NST_STORE_ROUTE, toastr) {
 
     var eventReferences = [];
@@ -22,8 +22,9 @@
     vm.playVoice = playVoice;
     vm.barClick = barClick;
     var currentPlayingId = -1;
+    var downloadToken = null;
     vm.playStatus = false;
-    vm.voice = {};
+    vm.voice = null;
     vm.currentTime = {
       time: 0,
       duration: 100,
@@ -33,35 +34,59 @@
 
     init();
 
+    eventReferences.push($rootScope.$on('play-voice-comment', function (event, data) {
+      addToPlayer(data);
+    }));
+
     function init() {
       NstSvcAttachmentFactory.getOne(vm.comment.attachmentId).then(function (attachment) {
         vm.voice = attachment;
-        addToPlaylist();
-      })
+      });
+    }
+
+    function addToPlayer(data) {
+      currentPlayingId = data.voiceId;
+      SvcMiniPlayer.setPlaylist('voice-comment-' + data.postId, true);
+      addToPlaylist(data.voiceId);
     }
 
     function getToken(id) {
       var deferred = $q.defer();
-      NstSvcFileFactory.getDownloadToken(id, vm.commentBoardId).then(deferred.resolve).catch(deferred.reject);
+
+      NstSvcFileFactory.getDownloadToken(id, vm.commentBoardId).then(function(token) {
+        downloadToken = token;
+        deferred.resolve(downloadToken);
+      }).catch(deferred.reject);
 
       return deferred.promise;
     }
 
-    function addToPlaylist() {
-      getToken(vm.voice.id).then(function (token) {
-        vm.voice.src = NstSvcStore.resolveUrl(NST_STORE_ROUTE.VIEW, vm.voice.id, token);
-        vm.voice.isVoice = vm.voice.uploadType === 'VOICE';
-        vm.voice.isPlayed = false;
-        vm.voice.sender = vm.comment.sender;
+    function addToPlaylist(voiceId) {
+      if (downloadToken === null) {
+        getToken(vm.voice.id).then(function (token) {
+          vm.voice.src = NstSvcStore.resolveUrl(NST_STORE_ROUTE.VIEW, vm.voice.id, token);
+          vm.voice.isVoice = vm.voice.uploadType === 'VOICE';
+          vm.voice.isPlayed = (voiceId === vm.voice.id);
+          vm.voice.sender = vm.comment.sender;
+          SvcMiniPlayer.addTrack(vm.voice, vm.comment.sender, vm.comment.timestamp);
+        }).catch(function () {
+          toastr.error('Sorry, An error has occurred while playing the audio');
+        });
+      } else {
+        vm.voice.isPlayed = (voiceId === vm.voice.id);
         SvcMiniPlayer.addTrack(vm.voice, vm.comment.sender, vm.comment.timestamp);
-      }).catch(function () {
-        toastr.error('Sorry, An error has occurred while playing the audio');
-      });
+      }
     }
 
     function playVoice() {
+      if (vm.voice === null) {
+        return;
+      }
       if (!vm.playStatus) {
-        SvcMiniPlayer.play(vm.voice.id);
+        $rootScope.$broadcast('play-voice-comment', {
+          postId: vm.commentBoardId,
+          voiceId: vm.comment.attachmentId
+        });
       } else {
         SvcMiniPlayer.pause();
       }
@@ -87,14 +112,11 @@
         currentPlayingId = result.id;
       }
 
-      if (currentPlayingId !== vm.voice.id) {
-        return;
+      if (result.status === 'play' || result.status === 'pause' || result.status === 'end') {
+        vm.playStatus = (result.status === 'play' && currentPlayingId === vm.voice.id);
       }
 
-      vm.playStatus = result.status === 'play';
-
-      if (result.status === 'play' || result.status === 'pause') {
-      } else if (result.status === 'end') {
+      if (currentPlayingId === vm.voice.id && result.status === 'end') {
         $scope.$apply(function () {
           vm.currentTime = {
             time: 0,

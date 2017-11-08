@@ -34,7 +34,8 @@
     MiniPlayer.prototype.constructor = MiniPlayer;
     MiniPlayer.prototype.startInterval = startInterval;
     MiniPlayer.prototype.stopInterval = stopInterval;
-    MiniPlayer.playlistName = null;
+    MiniPlayer.prototype.playlistName = null;
+    MiniPlayer.prototype.isVoiceComment = null;
     MiniPlayer.prototype.setPlaylist = setPlaylist;
     MiniPlayer.prototype.addTrack = addTrack;
     MiniPlayer.prototype.play = play;
@@ -84,11 +85,15 @@
       }
     }
 
-    function setPlaylist(name) {
+    function setPlaylist(name, isVoiceComment) {
       if (name !== this.playlistName) {
         this.removeAll();
       }
       this.playlistName = name;
+      if (isVoiceComment === undefined) {
+        isVoiceComment = false;
+      }
+      this.isVoiceComment = isVoiceComment;
     }
 
     function sortList(list) {
@@ -134,7 +139,7 @@
     function play(id) {
       if (playing !== null) {
         var playingItem = this.getCurrent();
-        this.pause(playingItem.item.id);
+        this.pause((playingItem.item !== undefined)? playingItem.item.id: null);
       }
       this.startInterval();
       var noIdFlag = false;
@@ -147,6 +152,9 @@
       var index = _.findIndex(audioObjs, function (o) {
         return o.id === id
       });
+      if (index === -1) {
+        return;
+      }
       if (!noIdFlag) {
         audioDOM.src = audioObjs[index].src;
         audioDOM.load();
@@ -329,7 +337,11 @@
     }
 
     function getList() {
-      return audioObjs;
+      return {
+        items: audioObjs,
+        name: this.playlistName,
+        isVoiceComment: this.isVoiceComment
+      };
     }
 
     function callIfValid() {

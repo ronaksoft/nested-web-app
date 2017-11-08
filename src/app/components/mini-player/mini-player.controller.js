@@ -86,9 +86,12 @@
 
     function getList() {
       $scope.$apply(function () {
-        vm.playList = SvcMiniPlayer.getList();
-        if (vm.displayState === 0 && vm.playList.length > 0) {
+        var data = SvcMiniPlayer.getList();
+        vm.playList = data.items;
+        if (data.isVoiceComment && vm.displayState === 0 && vm.playList.length > 0) {
           vm.displayState = 1;
+        } else if (data.isVoiceComment) {
+          vm.displayState = 0;
         }
       });
     }
