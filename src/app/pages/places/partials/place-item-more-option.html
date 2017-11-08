@@ -11,8 +11,8 @@
 </a>
 <hr ng-if="ctrl.allowedToAddPlace">
 <a ng-if="ctrl.isGrandPlace(place.id) && place.permitions.allowedToCreatePlace"
-   class="_df list-items _aic" ui-sref="app.place-create({ placeId : ctrl.getPlaceId() })"
-   ng-click="ctrl.openCreateSubplaceModal($event,'open')">
+   class="_df list-items _aic" ui-sref="app.place-create({ placeId : place.id })"
+   ng-click="ctrl.openCreateSubplaceModal($event, 'open',  place.id)">
   <div>
     <svg class="_16svg">
       <use xlink:href="/assets/icons/nst-icn16.svg#window"></use>
@@ -20,8 +20,8 @@
   </div>
   <span><translate>Create an Open Place</translate></span>
 </a>
-<a class="_df list-items _aic" ui-sref="app.place-create({ placeId : ctrl.getPlaceId() })"
-   ng-click="ctrl.openCreateSubplaceModal($event,'close')"
+<a class="_df list-items _aic" ui-sref="app.place-create({ placeId : place.id })"
+   ng-click="ctrl.openCreateSubplaceModal($event, 'close',  place.id)"
    ng-if="place.permitions.allowedToCreatePlace">
   <div>
     <svg class="_16svg">

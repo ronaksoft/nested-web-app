@@ -272,17 +272,17 @@
      * @param {event} $event
      * @param {sting} style - common place or private place
      */
-    function openCreateSubplaceModal($event, style) {
+    function openCreateSubplaceModal($event, style, id) {
       if (style === 'open') {
         $state.go('app.place-create', {
-          placeId: getPlaceId(),
+          placeId:id,
           isOpenPlace: true
         }, {
           notify: false
         });
       } else {
         $state.go('app.place-create', {
-          placeId: getPlaceId(),
+          placeId: id,
           isClosePlace: true
         }, {
           notify: false
