@@ -35,7 +35,7 @@
     vm.place = null;
     vm.toggleBookmark = toggleBookmark;
     vm.toggleNotification = toggleNotification;
-    vm.openCreateSubplaceModal = openCreateSubplaceModal;s
+    vm.openCreateSubplaceModal = openCreateSubplaceModal;
     vm.openAddMemberModal = openAddMemberModal;
     vm.openSettingsModal = openSettingsModal;
     vm.confirmToRemove = confirmToRemove;
@@ -201,7 +201,7 @@
       return vm.placeId;
     }
 
-    
+
     function scrollTopBody() {
       $("html, body").animate({ scrollTop: 0 }, "fast");
     }
