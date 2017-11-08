@@ -297,7 +297,24 @@
           return number.length <= 1 ? '0' + number : number;
         }
 
+        function validateNumber(number, min, max) {
+          number = parseInt(number);
+          if (isNaN(number)) {
+            return min;
+          } else {
+            if (number < min) {
+              number = min;
+            }
+            if (number > max) {
+              number = max;
+            }
+            return number;
+          }
+        }
+
         function getInputTime(hour, minute) {
+          hour = validateNumber(hour, 0, 23);
+          minute = validateNumber(minute, 0, 59);
           if (hour > 23 || hour < 0 || minute > 59 || minute < 0) {
             return '00:00';
           }
@@ -305,6 +322,20 @@
           minute = trimNumber(minute);
           return hour + ':' + minute;
         }
+
+        scope.$watch('timeHour', function (newVal) {
+          var temp = validateNumber(newVal, 0, 23);
+          if (temp !== newVal) {
+            scope.timeHour = temp;
+          }
+        });
+
+        scope.$watch('timeMinute', function (newVal) {
+          var temp = validateNumber(newVal, 0, 59);
+          if (temp !== newVal) {
+            scope.timeMinute = temp;
+          }
+        });
 
         scope.setTime = function (add) {
           var inputTime;

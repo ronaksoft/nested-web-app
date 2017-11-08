@@ -160,3 +160,14 @@
     }
   }
 }
+.name-item {
+  &::after{
+    content: ", ";
+    display: inline;
+  }
+  &:last-of-type {
+    &::after{
+      display: none;
+    }
+  }
+}
