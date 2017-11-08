@@ -59,6 +59,9 @@
             &.active {
                 opacity: 1;
             }
+            span {
+                line-height: 22px;
+            }
             b {
                 line-height: 19px;
             }
@@ -101,7 +104,7 @@
             visibility: hidden;
             &.is-open {
                 animation-name: places-loading;
-                animation-duration: 1s;
+                animation-duration: 0.512s;
                 animation-timing-function: linear;
                 animation-iteration-count: 1;
                 animation-fill-mode: forwards;

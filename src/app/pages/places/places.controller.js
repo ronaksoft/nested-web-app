@@ -99,7 +99,7 @@
       vm.isLoading = true;
       $timeout(function () {
         vm.isLoading = false;
-      }, 1000)
+      }, 512)
     }
 
     function removeFromTemp(array, placeId) {
