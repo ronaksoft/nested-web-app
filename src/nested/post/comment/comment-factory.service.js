@@ -231,7 +231,7 @@
       }
 
       var comment = new NstComment();
-      comment.attachment_id = data.attachment_id;
+      comment.attachmentId = data.attachment_id;
       comment.id = data._id;
       comment.sender = NstSvcUserFactory.parseTinyUser(data.sender);
       NstSvcUserFactory.set(data.sender);

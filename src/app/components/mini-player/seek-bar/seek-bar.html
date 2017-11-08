@@ -1,4 +1,4 @@
-<div class="player-handler"
+<div class="player-handler" ng-class="{'no-transition': (volumeDrag || !isPlaying)}"
   ng-mousedown="mousedown($event)" ng-mousemove="mousemove($event)" ng-mouseup="mouseup($event)">
   <div class="bg-bar"></div>
   <div class="played-bar" ng-click="$event.preventDefault()" style="transform: scaleX({{currentTime.ratio}})"></div>

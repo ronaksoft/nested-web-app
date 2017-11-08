@@ -21,7 +21,7 @@
       audioDOM.onended = function () {
         that.currentStatus = 'end';
         _.forEach(that.statusChangedRef, function (item) {
-          callIfValid(item, {
+          callIfValid(item.fn, {
             status: that.currentStatus,
             id: playing,
             playlist: that.playlistName
@@ -42,12 +42,12 @@
     MiniPlayer.prototype.next = next;
     MiniPlayer.prototype.prev = prev;
     MiniPlayer.prototype.seekTo = seekTo;
-    MiniPlayer.timeChangedRef = [];
+    MiniPlayer.prototype.timeChangedRef = [];
     MiniPlayer.prototype.timeChanged = timeChanged;
-    MiniPlayer.listUpdatedRef = [];
+    MiniPlayer.prototype.listUpdatedRef = [];
     MiniPlayer.prototype.listUpdated = listUpdated;
     MiniPlayer.currentStatus = 'pause';
-    MiniPlayer.statusChangedRef = [];
+    MiniPlayer.prototype.statusChangedRef = [];
     MiniPlayer.prototype.statusChanged = statusChanged;
     MiniPlayer.prototype.removeAll = removeAll;
     MiniPlayer.prototype.getCurrent = getCurrent;
@@ -67,7 +67,7 @@
       audioInterval = setInterval(function () {
         if (!audioDOM.paused) {
           _.forEach(that.timeChangedRef, function (item) {
-            callIfValid(item, {
+            callIfValid(item.fn, {
               time: audioDOM.currentTime,
               duration: audioDOM.duration,
               ratio: (audioDOM.currentTime / audioDOM.duration)
@@ -91,27 +91,35 @@
       this.playlistName = name;
     }
 
-    function addTrack(item, sender) {
+    function sortList(list) {
+      return _.sortBy(list, 'order');
+    }
+
+    function addTrack(item, sender, order) {
       var alreadyCreated = audioObjs.find(function (element) {
         return element.id === item.id;
       });
 
       if (!alreadyCreated) {
-        if (sender !== null) {
+        if (sender !== undefined || sender !== null) {
           item = _.merge(item, {
             sender: sender
           });
         }
+        item = _.merge(item, {
+          order: (order !== undefined)? order: -1
+        });
         audioObjs.push(item);
+        audioObjs = sortList(audioObjs);
         _.forEach(this.listUpdatedRef, function (item) {
-          callIfValid(item);
+          callIfValid(item.fn);
         });
       }
 
       this.currentStatus = 'add';
       var that = this;
       _.forEach(this.statusChangedRef, function (item) {
-        callIfValid(item, {
+        callIfValid(item.fn, {
           status: that.currentStatus,
           id: item.id,
           playlist: that.playlistName
@@ -150,7 +158,7 @@
 
       var that = this;
       _.forEach(this.statusChangedRef, function (item) {
-        callIfValid(item, {
+        callIfValid(item.fn, {
           status: that.currentStatus,
           id: id,
           playlist: that.playlistName
@@ -165,7 +173,7 @@
       this.currentStatus = 'pause';
       var that = this;
       _.forEach(this.statusChangedRef, function (item) {
-        callIfValid(item, {
+        callIfValid(item.fn, {
           status: that.currentStatus,
           id: id,
           playlist: that.playlistName
@@ -187,7 +195,7 @@
       this.currentStatus = 'next';
       var that = this;
       _.forEach(this.statusChangedRef, function (item) {
-        callIfValid(item, {
+        callIfValid(item.fn, {
           status: that.currentStatus,
           id: id,
           playlist: that.playlistName
@@ -209,7 +217,7 @@
       this.currentStatus = 'prev';
       var that = this;
       _.forEach(this.statusChangedRef, function (item) {
-        callIfValid(item, {
+        callIfValid(item.fn, {
           status: that.currentStatus,
           id: id,
           playlist: that.playlistName
@@ -226,7 +234,7 @@
       this.currentStatus = 'seek';
       var that = this;
       _.forEach(this.statusChangedRef, function (item) {
-        callIfValid(item, {
+        callIfValid(item.fn, {
           status: that.currentStatus,
           time: sec,
           id: playing,
@@ -266,7 +274,6 @@
           id: id,
           fn: callback
         });
-
         return function () {
           var tempId = id;
           unbindFn(fnRef, tempId);
@@ -281,7 +288,7 @@
       this.currentStatus = 'pause';
       var that = this;
       _.forEach(this.statusChangedRef, function (item) {
-        callIfValid(item, {
+        callIfValid(item.fn, {
           status: that.currentStatus,
           id: null,
           playlist: that.playlistName

@@ -238,6 +238,7 @@
         position: absolute;
         top: 11px;
         left: 0;
+        transition: all 0.5s linear;
     }
     .bg-bar {
         opacity: .16;
@@ -256,6 +257,12 @@
         background-color: $color-white;
         box-shadow: 0 0 4px $color-solid;
         margin-left: -6px;
-        left: 0;
+        transition: all 0.5s linear;
+    }
+    &.no-transition {
+      .played-bar,
+      .player-dragger {
+        transition: none;
+      }
     }
 }

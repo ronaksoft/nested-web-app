@@ -1,5 +1,5 @@
-<div class="_df _fw voice-comment ng-class:{'is-play': ctlCommentVoice.isPlay}" ng-click="ctlCommentVoice.playVoice(comment)">
-    <div class="play-voice _16svg" ng-click="ctlCommentVoice.isPlay =! ctlCommentVoice.isPlay">
+<div class="_df _fw voice-comment ng-class:{'is-play': ctlCommentVoice.playStatus}" >
+    <div class="play-voice _16svg" ng-click="ctlCommentVoice.playVoice(comment)">
         <svg class="_16svg">
             <use xlink:href="/assets/icons/nst-icn16.svg#play"></use>
         </svg>
@@ -8,7 +8,7 @@
         </svg>
     </div>
     <div class="trailer-voice">
-        <seek-bar bar-click="ctlCommentVoice.barClick" current-time="ctlCommentVoice.currentTime"></seek-bar>
+        <seek-bar bar-click="ctlCommentVoice.barClick" current-time="ctlCommentVoice.currentTime" is-playing="ctlCommentVoice.playStatus"></seek-bar>
     </div>
     <div class="time-voice">
         {{ctlCommentVoice.voice.meta.duration | duration | localize}}
