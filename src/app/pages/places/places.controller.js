@@ -102,45 +102,39 @@
       }, 1000)
     }
 
-    var reasonDocs = [
-      NstSvcTranslation.get('personl place'),
-      NstSvcTranslation.get('place policy'),
-      NstSvcTranslation.get('you cant remove this place')
-    ]
-
-    function removeFromTemp(array, placeId){
+    function removeFromTemp(array, placeId) {
       var itemIndex = null;
-      var isBanned = vm[array].find(function(i, index){
-        if (i.id === placeId){
+      var isBanned = vm[array].find(function (i, index) {
+        if (i.id === placeId) {
           itemIndex = index
           return true
         } else {
           return false
         }
       });
-      if(isBanned){
+      if (isBanned) {
         vm[array].splice(itemIndex, 1)
       }
     }
 
     function selectPlace(place) {
       vm.selectedPlaces.push(place);
-      if(!place.permitions.allowedToAddMember) {
+      if (!place.permitions.allowedToAddMember) {
         vm.forbiddenAddPlaces.push({
           id: place.id,
-          reason: place.id == vm.user.id ?  reasonDocs[0] : reasonDocs[1]
+          name: place.name
         })
       }
-      if(!place.permitions.allowedToLeavePlace) {
+      if (!place.permitions.allowedToLeavePlace) {
         vm.forbiddenLeavePlaces.push({
           id: place.id,
-          reason: ''
+          name: place.name
         })
       }
-      if(!place.permitions.allowedToRemovePlace) {
+      if (!place.permitions.allowedToRemovePlace) {
         vm.forbiddenDeletePlaces.push({
           id: place.id,
-          reason: reasonDocs[2]
+          name: place.name
         });
       }
     }
@@ -189,35 +183,52 @@
     vm.selectedPlaceName = '';
     vm.visiblePlaces = [];
     vm.search = search;
+    vm.searchKeydown = searchKeydown;
     vm.escapeDot = escapeDot;
+    vm.filter = null;
 
     function escapeDot(text) {
       return text.split('.').join('_');
     }
 
-    function search(event, keyword, filter) {
+    function searchKeydown(event) {
+      if (event.keyCode === 13) {
+        search(vm.keyword)
+      }
+    }
+
+    function search(keyword, filter) {
       var hasKeyword = !(keyword === undefined);
       var hasFilter = !(filter === undefined);
-      if (event.keyCode === 13) {
-        keyword = _.trim(keyword);
-        keyword = keyword.toLowerCase();
-        unselectAll();
-        _.forEach(absolutePlaces, function (item) {
-          if (keyword.length === 0) {
-            vm.visiblePlaces[item.id] = true;
-          } else {
-            var visible = true;
-            if (hasKeyword && !(item.name.includes(keyword) || item.sId.includes(keyword))) {
-              visible = false;
-            }
-            if (hasFilter && !(item.name.includes(keyword) || item.sId.includes(keyword))) {
-              visible = false;
-            }
-            vm.visiblePlaces[item.id] = visible;
+      keyword = _.trim(keyword);
+      keyword = keyword.toLowerCase();
+      unselectAll();
+      _.forEach(absolutePlaces, function (item) {
+        var visible;
+        vm.filter = null;
+        if (hasFilter) {
+          visible = false;
+          vm.filter = filter;
+          if (
+            (filter === 'grand' && item.isGrandPlace) ||
+            (filter === 'private' && !item.isGrandPlace && item.isPrivatePlace) ||
+            (filter === 'common' && !item.isGrandPlace && !item.isPrivatePlace) ||
+            (filter === 'email' && item.isEmailReceptive) ||
+            (filter === 'manager' && item.isManager)
+          ) {
+            visible = true;
           }
-        });
-        vm.placesSetting.relationView = false;
-      }
+        } else if (keyword.length === 0) {
+          visible = true;
+        } else {
+          visible = true;
+          if (hasKeyword && !(item.name.includes(keyword) || item.sId.includes(keyword))) {
+            visible = false;
+          }
+        }
+        vm.visiblePlaces[item.id] = visible;
+      });
+      vm.placesSetting.relationView = false;
     }
 
     initialize();
@@ -237,7 +248,11 @@
           absolutePlaces.push({
             id: item.id,
             name: item.name.toLowerCase(),
-            sId: item.id.toLowerCase()
+            sId: item.id.toLowerCase(),
+            isGrandPlace: isGrandPlace(item.id),
+            isPrivatePlace: item.privacy.locked,
+            isEmailReceptive: item.privacy.receptive === "external",
+            isManager: item.accesses.indexOf('C') > -1
           });
         });
       });
@@ -419,37 +434,37 @@
      * add members to multi places
      */
     function addMemberMulti() {
-      if(vm.forbiddenAddPlaces.length > 0){
+      if (vm.forbiddenAddPlaces.length > 0) {
         return;
       }
-      var selectedIds = vm.selectedPlaces.map(function(place){
+      var selectedIds = vm.selectedPlaces.map(function (place) {
         return place.id
       })
-        var role = NST_PLACE_MEMBER_TYPE.KEY_HOLDER;
-        var modal = $uibModal.open({
-          animation: false,
-          templateUrl: 'app/pages/places/settings/place-add-member.html',
-          controller: 'PlaceAddMemberController',
-          controllerAs: 'addMemberCtrl',
-          size: 'sm',
-          resolve: {
-            chosenRole: function () {
-              return role;
-            },
-            currentPlace: function () {
-              return selectedIds;
-            },
-            newPlace: false,
-            mode: function () {
-              return false
-            },
-            isForGrandPlace: function () {
-              return undefined
-            }
+      var role = NST_PLACE_MEMBER_TYPE.KEY_HOLDER;
+      var modal = $uibModal.open({
+        animation: false,
+        templateUrl: 'app/pages/places/settings/place-add-member.html',
+        controller: 'PlaceAddMemberController',
+        controllerAs: 'addMemberCtrl',
+        size: 'sm',
+        resolve: {
+          chosenRole: function () {
+            return role;
+          },
+          currentPlace: function () {
+            return selectedIds;
+          },
+          newPlace: false,
+          mode: function () {
+            return false
+          },
+          isForGrandPlace: function () {
+            return undefined
           }
-        });
+        }
+      });
 
-        modal.result.then();
+      modal.result.then();
       angular.forEach(vm.selectedPlaces, function (id) {})
 
     }
@@ -459,7 +474,7 @@
      * leave the place with showing results
      */
     function leaveMulti() {
-      if(vm.forbiddenLeavePlaces.length > 0){
+      if (vm.forbiddenLeavePlaces.length > 0) {
         return;
       }
       angular.forEach(vm.selectedPlaces, function (id) {
@@ -496,7 +511,7 @@
      * Represents the prompt modal for deleting place
      */
     function confirmToRemoveMulti() {
-      if(vm.forbiddenDeletePlaces.length > 0){
+      if (vm.forbiddenDeletePlaces.length > 0) {
         return;
       }
       $uibModal.open({
@@ -566,7 +581,11 @@
 
     function openSettingsModal($event, id) {
       $event.preventDefault();
-      $state.go('app.place-settings', {placeId: id}, {notify: false});
+      $state.go('app.place-settings', {
+        placeId: id
+      }, {
+        notify: false
+      });
     }
 
     /**
@@ -698,7 +717,7 @@
     function createTreeItem(place, isGrandPlace, children, isExpanded, isActive, depth) {
       var picture = place.hasPicture() ? place.picture.getUrl('x32') : ABSENT_PLACE_PICTURE_URL;
       var isManager = place.accesses.indexOf('C') > -1;
-      if(isManager){
+      if (isManager) {
         vm.managerInPlaces++;
       }
       var placeModel = {
@@ -721,9 +740,9 @@
         isActive: isActive,
         depth: depth,
         permitions: {
-          allowedToAddMember : place.accesses.indexOf(NST_PLACE_ACCESS.ADD_MEMBERS) > -1,
-          allowedToLeavePlace : place.accesses.indexOf('FIXME') > -1,
-          allowedToRemovePlace : place.accesses.indexOf(NST_PLACE_ACCESS.REMOVE_PLACE) > -1
+          allowedToAddMember: place.accesses.indexOf(NST_PLACE_ACCESS.ADD_MEMBERS) > -1,
+          allowedToLeavePlace: place.accesses.indexOf('FIXME') > -1,
+          allowedToRemovePlace: place.accesses.indexOf(NST_PLACE_ACCESS.REMOVE_PLACE) > -1
         }
       };
       return placeModel;
