@@ -126,7 +126,7 @@
           name: place.name
         })
       }
-      if (!place.permitions.allowedToLeavePlace) {
+      if (vm.isPersonal(place.id) || vm.isSubPersonal(place.id)) {
         vm.forbiddenLeavePlaces.push({
           id: place.id,
           name: place.name
@@ -747,7 +747,6 @@
         depth: depth,
         permitions: {
           allowedToAddMember: place.accesses.indexOf(NST_PLACE_ACCESS.ADD_MEMBERS) > -1,
-          allowedToLeavePlace: place.accesses.indexOf('FIXME') > -1,
           allowedToCreatePlace: place.accesses.indexOf(NST_PLACE_ACCESS.ADD_PLACE) > -1,
           allowedToRemovePlace: place.accesses.indexOf(NST_PLACE_ACCESS.REMOVE_PLACE) > -1
         }

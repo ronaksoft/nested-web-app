@@ -32,7 +32,7 @@
 </a>
 <!-- <hr ng-if="!ctrl.isPersonal() && (ctrl.allowedToRemovePlace || ctrl.place.privacy.locked)"> -->
 <a class="_df red-item list-items _aic"
-   ng-if="!ctrl.isPersonal(place.id) && place.privacy.locked && !place.permition.allowedToLeavePlace"
+   ng-if="!ctrl.isPersonal(place.id) && place.privacy.locked && !ctrl.isSubPersonal(place.id)"
    ng-click="ctrl.confirmToLeave()">
   <div>
     <svg class="_16svg">
