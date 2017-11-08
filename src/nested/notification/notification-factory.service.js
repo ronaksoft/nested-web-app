@@ -15,17 +15,17 @@
 
       $rootScope.$on(NST_AUTH_EVENT.AUTHORIZE, function () {
         if (NstSvcAuth.user.unreadNotificationCount) {
-          $rootScope.$broadcast(NST_NOTIFICATION_EVENT.UPDATE, { count: NstSvcAuth.user.unreadNotificationCount });
+          $rootScope.$broadcast(NST_NOTIFICATION_EVENT.UPDATE, {count: NstSvcAuth.user.unreadNotificationCount});
         } else {
           that.getNotificationsCount().then(function (count) {
-            $rootScope.$broadcast(NST_NOTIFICATION_EVENT.UPDATE, { count: count });
+            $rootScope.$broadcast(NST_NOTIFICATION_EVENT.UPDATE, {count: count});
           });
         }
       });
 
       NstSvcServer.addEventListener(NST_SRV_PUSH_CMD.SYNC_NOTIFICATION, function () {
         that.getNotificationsCount().then(function (count) {
-          $rootScope.$broadcast(NST_NOTIFICATION_EVENT.UPDATE, { count: count });
+          $rootScope.$broadcast(NST_NOTIFICATION_EVENT.UPDATE, {count: count});
         });
       });
 
@@ -61,9 +61,10 @@
       _.forEach(notifications, function (item) {
         if (item.type === NST_NOTIFICATION_TYPE.INVITE) {
           hasInvite = true;
-        } /*else if (item.type === NST_NOTIFICATION_TYPE.INVITE_RESPOND) {
-          hasInviteRespond = true;
-        }*/
+        }
+        /*else if (item.type === NST_NOTIFICATION_TYPE.INVITE_RESPOND) {
+                 hasInviteRespond = true;
+               }*/
       });
 
       if (hasInvite) {
@@ -217,7 +218,7 @@
           notification_id: ids
         }).then(function () {
           factory.getNotificationsCount().then(function (count) {
-            $rootScope.$broadcast(NST_NOTIFICATION_EVENT.UPDATE, { count: count });
+            $rootScope.$broadcast(NST_NOTIFICATION_EVENT.UPDATE, {count: count});
           }).catch(defer.reject);
           defer.resolve();
         }).catch(defer.reject);
@@ -230,7 +231,7 @@
       return this.sentinel.watch(function () {
         var defer = $q.defer();
         NstSvcServer.request('notification/reset_counter', {}).then(function () {
-          $rootScope.$broadcast(NST_NOTIFICATION_EVENT.UPDATE, { count: 0 });
+          $rootScope.$broadcast(NST_NOTIFICATION_EVENT.UPDATE, {count: 0});
           defer.resolve();
         }).catch(defer.reject);
 
@@ -295,7 +296,7 @@
     function parsePromote(data) {
       var notification = parseDefault(data);
 
-      notification.member = data.account !== undefined? NstSvcUserFactory.parseTinyUser(data.account): null;
+      notification.member = data.account !== undefined ? NstSvcUserFactory.parseTinyUser(data.account) : null;
       notification.place = NstSvcPlaceFactory.parseTinyPlace(data.place);
 
       return notification;
@@ -356,7 +357,7 @@
           countOfMappedUsers++;
           return NstSvcUserFactory.parseTinyUser(user);
         });
-        notification.otherUsersCount = data.data.others.length - countOfMappedUsers < 1? 0: data.data.others.length - countOfMappedUsers;
+        notification.otherUsersCount = data.data.others.length - countOfMappedUsers < 1 ? 0 : data.data.others.length - countOfMappedUsers;
       } else {
         notification.users = [];
         notification.otherUsersCount = 0;
@@ -368,7 +369,7 @@
     function parseNewSession(data) {
       var notification = parseDefault(data);
 
-      notification.from = data.client_id.split('_').join(' ');
+      notification.from = (data.client_id !== undefined && _.isString(data.client_id))? data.client_id.split('_').join(' '): '';
 
       return notification;
     }
@@ -377,7 +378,7 @@
       var notification = parseDefault(data);
 
       notification.place = NstSvcPlaceFactory.parseTinyPlace(data.place);
-      notification.account = data.account? NstSvcUserFactory.parseTinyUser(data.account): '';
+      notification.account = data.account ? NstSvcUserFactory.parseTinyUser(data.account) : '';
       notification.label = NstSvcLabelFactory.parseLabel(data.label);
 
       return notification;

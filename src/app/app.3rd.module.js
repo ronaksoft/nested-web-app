@@ -20,7 +20,7 @@
       'ngAnimate',
       'froala',
       'angular-google-analytics',
-      'as.sortable',
+      'ui.sortable',
       'vjs.video',
       'perfectScrollbar',
       'angular-iscroll',

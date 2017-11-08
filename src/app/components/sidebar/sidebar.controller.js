@@ -95,8 +95,9 @@
       }
 
       function rebuildMyPlacesTree(placeId) {
-        getMyPlaces(true).then(function(places) {
-          vm.places = createTree(places, myPlaceOrders, vm.expandedPlaces, placeId || vm.selectedPlaceId);
+        $q.all([getMyPlacesOrder(), getMyPlaces(true)]).then(function(results) {
+          myPlaceOrders = results[0];
+          vm.places = createTree(results[1], myPlaceOrders, vm.expandedPlaces, placeId || vm.selectedPlaceId);
           loadMyPlacesUnreadPostsCount();
         });
       }
@@ -262,6 +263,23 @@
       };
 
       /**
+       * @function
+       * open places manager with full controll on them
+       * @returns
+       */
+      vm.openPlaces = function () {
+          $uibModal.open({
+            animation: false,
+            size: '960',
+            templateUrl: 'app/pages/places/places.html',
+            controller: 'PlacesModalController',
+            controllerAs: 'ctrl'
+          }).result.then(function (result) {
+          }).catch(function (e) {
+          });
+      };
+
+      /**
        * Triggers on clicking place clicking
        * @param {any} event
        * @param {any} place
@@ -324,7 +342,7 @@
        * @returns {object}
        */
       function getMyPlacesOrder() {
-        return NstSvcKeyFactory.get(NST_KEY.GENERAL_SETTING_PLACE_ORDER).then(function (result) {
+        return NstSvcKeyFactory.get(NST_KEY.GENERAL_NEW_SETTING_PLACE_ORDER).then(function (result) {
           if (result) {
             return JSON.parse(result);
           }
@@ -463,6 +481,10 @@
         dispatchTopbarEvent();
       }));
 
+      eventReferences.push($rootScope.$on('places-sorting-updated', function () {
+        rebuildMyPlacesTree();
+      }));
+
       /**
        * Event listener for `NST_NOTIFICATION_TYPE.INVITE`
        */
@@ -570,10 +592,11 @@
        * @param {any} expandedPlaces
        * @param {any} selectedId
        * @param {any} depth
+       * @param {any} orders
        * @returns
        */
-      function getChildren(place, places, expandedPlaces, selectedId, depth) {
-        return _.chain(places).sortBy(['id']).reduce(function (stack, item) {
+      function getChildren(place, places, expandedPlaces, selectedId, depth, orders) {
+        var chain = _.chain(places).sortBy(['id']).reduce(function (stack, item) {
           // The child does not belong to the Place
           if (!isChild(place.id, item)) {
             return stack;
@@ -594,12 +617,28 @@
 
           var isActive = (item.id === selectedId);
           var isExpanded = isItemExpanded(item, expandedPlaces, selectedId);
-          var children = getChildren(item, places, expandedPlaces, selectedId, depth + 1);
+          var children = getChildren(item, places, expandedPlaces, selectedId, depth + 1, getOrder(orders, place.id));
 
           stack.push(createTreeItem(item, children, isExpanded, isActive, depth));
 
           return stack;
-        }, []).sortBy(['name']).value();
+        }, []);
+
+        if (orders !== null) {
+          return chain.sortBy(function (place) {
+            return orders[place.id]? orders[place.id].o: 1;
+          }).value();
+        } else {
+          return chain.sortBy(['name']).value();
+        }
+      }
+
+      function getOrder(order, id) {
+        if (order && order[id] && order[id].s) {
+          return order[id].s;
+        } else {
+          return null;
+        }
       }
 
       /**
@@ -623,11 +662,11 @@
           var isActive = (place.id === selectedId);
           var isExpanded = isItemExpanded(place, expandedPlaces, selectedId);
           // finds the place children
-          var children = getChildren(place, places, expandedPlaces, selectedId, 1);
+          var children = getChildren(place, places, expandedPlaces, selectedId, 1, getOrder(orders, place.id));
 
-          return createTreeItem(place, children, isExpanded, isActive, 0);
+          return createTreeItem(place, children, isExpanded, isActive, 0, getOrder(orders, place.id));
         }).sortBy(function(place) {
-          return orders[place.id];
+          return orders[place.id]? orders[place.id].o: 1;
         }).value();
       }
 

@@ -35,7 +35,7 @@
     vm.place = null;
     vm.toggleBookmark = toggleBookmark;
     vm.toggleNotification = toggleNotification;
-    vm.openCreateSubplaceModal = openCreateSubplaceModal;
+    vm.openCreateSubplaceModal = openCreateSubplaceModal;s
     vm.openAddMemberModal = openAddMemberModal;
     vm.openSettingsModal = openSettingsModal;
     vm.confirmToRemove = confirmToRemove;
@@ -531,6 +531,9 @@
           resolve: {
             selectedPlace: function () {
               return vm.place;
+            },
+            selectedPlaces: function () {
+              return null;
             }
           }
         }).result.then(function () {

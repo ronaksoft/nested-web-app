@@ -1,0 +1,81 @@
+<a class="list-items ng-class:{'active' : ctrl.placesSetting.relationView}" ng-click="ctrl.placesSetting.relationView = true; ctrl.placesSetting.filter = null">
+  <div>
+    <svg class="_16svg mirror">
+      <use xlink:href="/assets/icons/nst-icn16.svg#places-relation"></use>
+    </svg>
+  </div>
+  <translate>Relation View</translate>
+  <svg class="_16svg item-check">
+    <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
+  </svg>
+</a>
+<a class="list-items ng-class:{'active' : !ctrl.placesSetting.relationView && !ctrl.placesSetting.filter}" ng-click="ctrl.placesSetting.relationView = false">
+  <div>
+    <svg class="_16svg">
+      <use xlink:href="/assets/icons/nst-icn16.svg#list-view"></use>
+    </svg>
+  </div>
+  <translate>Absolute View</translate>
+  <svg class="_16svg item-check">
+    <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
+  </svg>
+</a>
+<div class="line-popover"></div>
+<h6>
+  <translate>Filter by:</translate>
+</h6>
+<a class="list-items ng-class:{'active' : ctrl.placesSetting.filter === 'grand'}" ng-click="ctrl.search('', 'grand')">
+  <div>
+    <svg class="_16svg">
+      <use xlink:href="/assets/icons/nst-icn16.svg#places"></use>
+    </svg>
+  </div>
+  <translate><b>type:</b> Grand Places</translate>
+  <svg class="_16svg item-check">
+    <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
+  </svg>
+</a>
+<a class="list-items ng-class:{'active' : ctrl.placesSetting.filter === 'private'}" ng-click="ctrl.search('', 'private')">
+  <div>
+    <svg class="_16svg">
+      <use xlink:href="/assets/icons/nst-icn16.svg#brick-wall"></use>
+    </svg>
+  </div>
+  <translate><b>type:</b> Private Places</translate>
+  <svg class="_16svg item-check">
+    <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
+  </svg>
+</a>
+<a class="list-items ng-class:{'active' : ctrl.placesSetting.filter === 'common'}" ng-click="ctrl.search('', 'common')">
+  <div>
+    <svg class="_16svg">
+      <use xlink:href="/assets/icons/nst-icn16.svg#window"></use>
+    </svg>
+  </div>
+  <translate><b>type:</b> Common Places</translate>
+  <svg class="_16svg item-check">
+    <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
+  </svg>
+</a>
+<a class="list-items ng-class:{'active' : ctrl.placesSetting.filter === 'email'}" ng-click="ctrl.search('', 'email')">
+  <div>
+    <svg class="_16svg">
+      <use xlink:href="/assets/icons/nst-icn16.svg#earth"></use>
+    </svg>
+  </div>
+  <translate><b>privacy:</b> Recieving Emails</translate>
+  <svg class="_16svg item-check">
+    <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
+  </svg>
+</a>
+<a class="list-items ng-class:{'active' : ctrl.placesSetting.filter === 'manager'}" ng-click="ctrl.search('', 'manager')">
+  <div>
+    <svg class="_16svg">
+      <use xlink:href="/assets/icons/nst-icn16.svg#crown"></use>
+    </svg>
+  </div>
+  <translate><b>roll:</b> Manager</translate>
+  <svg class="_16svg item-check">
+    <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
+  </svg>
+</a>

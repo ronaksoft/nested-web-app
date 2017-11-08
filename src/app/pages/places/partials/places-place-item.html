@@ -1,0 +1,94 @@
+<a class="place-item" ng-class="{'hide': (!ctrl.placesSetting.relationView && !ctrl.visiblePlaces[place.id])}">
+  <div class="place-selector" ng-click="ctrl.toggleSelectPlace(place)" >
+    <input ng-model="place.isSelected"class="_fr" type="checkbox" id="cb-{{ctrl.escapeDot(place.id)}}"
+      name="selector" />
+    <label class="_fw setting left-box checkbox-label _asc" for="cb-{{ctrl.escapeDot(place.id)}}"></label>
+  </div>
+  <div class="dragger">
+    <svg class="_16svg">
+      <use xlink:href="/assets/icons/nst-icn16.svg#dotted-grip"></use>
+    </svg>
+  </div>
+  <div data-ng-repeat="i in ctrl.range(place.depth)" class="filler">
+  </div>
+  <div class="children-arrow ng-class:{'open' : place.isExpanded}" ng-click="place.isExpanded =! place.isExpanded;">
+    <svg class="_16svg" ng-if="place.children.length > 0">
+      <use xlink:href="/assets/icons/nst-icn16.svg#arrow"></use>
+    </svg>
+  </div>
+  <div class="place-item-inner">
+    <img ng-src="{{place.picture}}" />
+    <div class="place-info">
+      <cite>
+        <svg class="_16svg" ng-if="place.isManager">
+            <use xlink:href="/assets/icons/nst-icn16.svg#crown"></use>
+        </svg>
+        {{ place.name }}
+      </cite>
+      <span>{{ place.id }}</span>
+    </div>
+    <div class="place-extra">
+      <input ng-click="ctrl.openAddMemberModal(place.id)" type="button" class="butn butn-green secondary" value="Add Member" ng-if="place.accesses.indexOf('AM') > -1">
+      <i>
+        <svg class="_16svg" ng-if="place.isGrandPlace">
+            <use xlink:href="/assets/icons/nst-icn16.svg#places"></use>
+        </svg>
+        <svg class="_16svg" ng-if="!place.isGrandPlace && !place.privacy.locked">
+            <use xlink:href="/assets/icons/nst-icn16.svg#window"></use>
+        </svg>
+        <svg class="_16svg" ng-if="!place.isGrandPlace && place.privacy.locked">
+            <use xlink:href="/assets/icons/nst-icn16.svg#brick-wall"></use>
+        </svg>
+      </i>
+      <!-- Privacy -->
+      <i>
+        <svg class="_16svg" ng-if="place.privacy.receptive == 'off' && place.policy.add_post == 'creators'">
+            <use xlink:href="/assets/icons/nst-icn16.svg#manager"></use>
+        </svg>
+        <svg class="_16svg" ng-if="place.privacy.receptive == 'off' && place.policy.add_post == 'everyone'">
+            <use xlink:href="/assets/icons/nst-icn16.svg#manager-member"></use>
+        </svg>
+        <svg class="_16svg" ng-if="place.privacy.receptive == 'internal'">
+            <use xlink:href="/assets/icons/nst-icn16.svg#team"></use>
+        </svg>
+        <svg class="_16svg" ng-if="place.privacy.receptive == 'external'">
+            <use xlink:href="/assets/icons/nst-icn16.svg#earth"></use>
+        </svg>
+      </i>
+      <!-- Seacrch -->
+      <i>
+        <svg class="_16svg" ng-if="place.privacy.search">
+            <use xlink:href="/assets/icons/nst-icn16.svg#search"></use>
+        </svg>
+      </i>
+    </div>
+    <div class="place-notification">
+      <svg class="svg-hover _24svg" ng-click="ctrl.toggleNotification(place)" ng-show="!place.notificationStatus">
+        <use xlink:href="/assets/icons/nst-icn24.svg#bell-muted"></use>
+      </svg>
+      <svg class="_24svg fill-sense-wire" ng-click="ctrl.toggleNotification(place)" ng-show="place.notificationStatus">
+        <use xlink:href="/assets/icons/nst-icn24.svg#bell-ringed"></use>
+      </svg>
+    </div>
+    <div class="place-show-feed">
+      <div class="place-switch sm _fn" ng-click="ctrl.toggleShowInFeed(place)">
+        <input type="checkbox" name="checkbox_id" id="fav-{{ctrl.escapeDot(place.id)}}" data-ng-model="place.favorite"
+          ng-disabled="ctrl.user.id === place.id">
+        <label for="fav-{{ctrl.escapeDot(place.id)}}">
+            <div class="circle" switch-drag="place.favorite" size="'sm'"></div>
+        </label>
+        <label for="fav-{{ctrl.escapeDot(place.id)}}"></label>
+      </div>
+    </div>
+    <div class="place-more-option" data-popover-class="white-pop place-item-options-popover" data-popover-append-to-body="false" uib-popover-template="'app/pages/places/partials/place-item-more-option.html'"
+    data-popover-popup-close-delay="100" data-popover-trigger="focus" data-popover-placement="auto {{ $root._direction == 'rtl' ? 'bottom-left' : 'bottom-right'}}" data-uib-tooltip="More options" translate-attrs="data-uib-tooltip"
+    data-tooltip-append-to-body="true" data-tooltip-placement="{{ $root._direction == 'rtl' ? 'left-top' : 'right-top'}} auto">
+      <svg class="_24svg">
+        <use xlink:href="/assets/icons/nst-icn24.svg#more"></use>
+      </svg>
+    </div>
+  </div>
+</a>
+<ul class="place-childs place-ul ng-class:{'is-open' : place.isExpanded}" ng-if="place.children.length > 0" ui-sortable="ctrl.sortableOptions" ng-model="place.children" ui-sortable-stop="ctrl.sortUpdateHandler">
+  <li ng-repeat="child in place.children" data-ng-include="'app/pages/places/partials/places-place-item.html'" onload="place = child"></li>
+</ul>

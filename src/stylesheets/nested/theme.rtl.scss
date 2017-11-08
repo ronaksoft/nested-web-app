@@ -1163,6 +1163,17 @@ body[dir="rtl"] {
       margin-right: 4px;
     }
   }
+  .place-switch.sm input[type="checkbox"]:checked + label .circle {
+    transform: translateX(-18px);
+  }
+  .places-modal .modal-body .places li .place-item .place-extra input {
+    margin-left: 20px;
+    margin-right: 0;
+  }
+  .places-modal .modal-body .places li .place-item .place-selector {
+    left: auto;
+    right: 16px;
+  }
 }
 
 body[dir="ltr"] {

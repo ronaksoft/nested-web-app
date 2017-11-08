@@ -324,6 +324,9 @@
         resolve: {
           selectedPlace: function() {
             return vm.place;
+          },
+          selectedPlaces: function () {
+            return null;
           }
         }
       }).result.then(function() {
