@@ -161,6 +161,9 @@
   }
 }
 .name-item {
+  span {
+    font-weight: bold!important;
+  }
   &::after{
     content: ", ";
     display: inline;

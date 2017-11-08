@@ -177,8 +177,8 @@
 
     function parseLabel(data) {
       var activity = new NstTaskActivity();
-
       parseDefault(activity, data);
+      activity.labels = data.labels;
 
       return activity;
     }
