@@ -1152,6 +1152,17 @@ body[dir="rtl"] {
     right: auto;
     left: 12px;
   }
+  .notif-ul .notif-li .notif-li-container {
+    padding: 8px 16px 0 0;
+    .unread-badge {
+      left: auto;
+      right: 8px;
+    }
+    .bottom-border>svg {
+      margin-left: 16px;
+      margin-right: 4px;
+    }
+  }
 }
 
 body[dir="ltr"] {
