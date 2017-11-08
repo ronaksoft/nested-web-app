@@ -183,6 +183,7 @@
     vm.selectedPlaceName = '';
     vm.visiblePlaces = [];
     vm.search = search;
+    var searchDebounce = _.throttle(search, 16);
     vm.searchKeydown = searchKeydown;
     vm.escapeDot = escapeDot;
     vm.filter = null;
@@ -191,13 +192,14 @@
       return text.split('.').join('_');
     }
 
-    function searchKeydown(event) {
-      if (event.keyCode === 13) {
-        search(vm.keyword)
-      }
+    function searchKeydown() {
+      searchDebounce(vm.keyword);
     }
 
     function search(keyword, filter) {
+      if(vm.placesSetting.relationView) {
+        vm.showLoading();
+      }
       var hasKeyword = !(keyword === undefined);
       var hasFilter = !(filter === undefined);
       keyword = _.trim(keyword);

@@ -11,7 +11,7 @@
     <div class="filter-bar-inner">
       <div class="toolbar ng-class:{'selcted-mode': ctrl.selectedPlaces.length > 0, 'unread-mode' : ctrl.filter}" ng-mouseleave="popoverSortShow = false">
         <div class="search-files" ng-show="ctrl.selectedPlaces.length == 0">
-          <input type="text" placeholder="type to search…" ng-model="ctrl.keyword" ng-keyup="ctrl.searchKeydown($event);" translate-attrs="placeholder"
+          <input type="text" placeholder="type to search…" ng-model="ctrl.keyword" ng-change="ctrl.searchKeydown();" translate-attrs="placeholder"
             focus-me="{{ctrl.searchTrigg}}" />
           <svg class="_16svg" ng-show="ctrl.keyword.length === 0">
             <use xlink:href="/assets/icons/nst-icn16.svg#search"></use>
