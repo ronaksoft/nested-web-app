@@ -95,8 +95,9 @@
       }
 
       function rebuildMyPlacesTree(placeId) {
-        getMyPlaces(true).then(function(places) {
-          vm.places = createTree(places, myPlaceOrders, vm.expandedPlaces, placeId || vm.selectedPlaceId);
+        $q.all([getMyPlacesOrder(), getMyPlaces(true)]).then(function(results) {
+          myPlaceOrders = results[0];
+          vm.places = createTree(results[1], myPlaceOrders, vm.expandedPlaces, placeId || vm.selectedPlaceId);
           loadMyPlacesUnreadPostsCount();
         });
       }
@@ -478,6 +479,10 @@
       eventReferences.push($rootScope.$on(NST_NOTIFICATION_EVENT.OPEN_INVITATION_MODAL, function (e, data) {
         vm.invitation.showModal(data.notificationId);
         dispatchTopbarEvent();
+      }));
+
+      eventReferences.push($rootScope.$on('places-sorting-updated', function () {
+        rebuildMyPlacesTree();
       }));
 
       /**

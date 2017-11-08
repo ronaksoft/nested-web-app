@@ -9,7 +9,7 @@
   </div>
   <div class="filter-bar">
     <div class="filter-bar-inner">
-      <div class="toolbar ng-class:{'selcted-mode': ctrl.selectedPlaces.length > 0, 'unread-mode' : ctrl.filter}" ng-mouseleave="popoverSortShow = false">
+      <div class="toolbar ng-class:{'selcted-mode': ctrl.selectedPlaces.length > 0, 'unread-mode' : ctrl.placesSetting.filter}" ng-mouseleave="popoverSortShow = false">
         <div class="search-files" ng-show="ctrl.selectedPlaces.length == 0">
           <input type="text" placeholder="type to search…" ng-model="ctrl.keyword" ng-change="ctrl.searchKeydown();" translate-attrs="placeholder"
             focus-me="{{ctrl.searchTrigg}}" />
@@ -64,13 +64,13 @@
         <div ng-show="ctrl.selectedPlaces.length == 0" ng-mouseenter="popoverSortShow = true" ng-click="ctrl.placesSetting.relationView =! ctrl.placesSetting.relationView"
           data-popover-class="white-pop messages-sort-popover" uib-popover-template="'app/pages/places/partials/view-setting_popover.html'"
           data-popover-placement="bottom-center" data-popover-is-open="popoverSortShow" class="filter-bar-popover-button _fn">
-          <translate class="_df" ng-if="ctrl.placesSetting.relationView && !ctrl.filter">Relation View</translate>
-          <translate class="_df" ng-if="!ctrl.placesSetting.relationView && !ctrl.filter">Absolute View</translate>
-          <translate class="_df" ng-if="ctrl.filter && ctrl.filter === 'grand'"><b>type:</b> Grand Places</translate>
-          <translate class="_df" ng-if="ctrl.filter && ctrl.filter === 'private'"><b>type:</b> Private Places</translate>
-          <translate class="_df" ng-if="ctrl.filter && ctrl.filter === 'common'"><b>type:</b> Common Places</translate>
-          <translate class="_df" ng-if="ctrl.filter && ctrl.filter === 'email'"><b>privacy:</b> Recieving Emails</translate>
-          <translate class="_df" ng-if="ctrl.filter && ctrl.filter === 'manager'"><b>roll:</b> Manager</translate>
+          <translate class="_df" ng-if="ctrl.placesSetting.relationView && !ctrl.placesSetting.filter">Relation View</translate>
+          <translate class="_df" ng-if="!ctrl.placesSetting.relationView && !ctrl.placesSetting.filter">Absolute View</translate>
+          <translate class="_df" ng-if="ctrl.placesSetting.filter && ctrl.placesSetting.filter === 'grand'"><b>type:</b> Grand Places</translate>
+          <translate class="_df" ng-if="ctrl.placesSetting.filter && ctrl.placesSetting.filter === 'private'"><b>type:</b> Private Places</translate>
+          <translate class="_df" ng-if="ctrl.placesSetting.filter && ctrl.placesSetting.filter === 'common'"><b>type:</b> Common Places</translate>
+          <translate class="_df" ng-if="ctrl.placesSetting.filter && ctrl.placesSetting.filter === 'email'"><b>privacy:</b> Recieving Emails</translate>
+          <translate class="_df" ng-if="ctrl.placesSetting.filter && ctrl.placesSetting.filter === 'manager'"><b>roll:</b> Manager</translate>
           <svg class="_16svg _df">
             <use xlink:href="/assets/icons/nst-icn16.svg#sort"></use>
           </svg>

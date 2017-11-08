@@ -38,13 +38,23 @@
     vm.managerInPlaces = 0;
     vm.searchResult = 0;
     vm.placesSetting = {
-      relationView: true
+      relationView: true,
+      filter: null
     };
+
+    $scope.$watch(function () {
+      return vm.placesSetting;
+    }, function () {
+      showLoading();
+    }, true);
 
     vm.sortUpdateHandler = sortUpdateHandler;
 
+    var sortingUpated = false;
+
     function sortUpdateHandler() {
       setMyPlacesOrder(JSON.stringify(createSortedList(vm.places))).then(function () {
+        sortingUpated = true;
         toastr.success(NstSvcTranslation.get('Places sorting updated'));
       }).catch(function () {
         toastr.error(NstSvcTranslation.get('Something went wrong!'));
@@ -187,7 +197,6 @@
     var searchDebounce = _.throttle(search, 16);
     vm.searchKeydown = searchKeydown;
     vm.escapeDot = escapeDot;
-    vm.filter = null;
 
     function escapeDot(text) {
       return text.split('.').join('_');
@@ -209,10 +218,10 @@
       unselectAll();
       _.forEach(absolutePlaces, function (item) {
         var visible;
-        vm.filter = null;
+        vm.placesSetting.filter = null;
         if (hasFilter) {
           visible = false;
-          vm.filter = filter;
+          vm.placesSetting.filter = filter;
           if (
             (filter === 'grand' && item.isGrandPlace) ||
             (filter === 'private' && !item.isGrandPlace && item.isPrivatePlace) ||
@@ -783,5 +792,10 @@
       return place.unreadPosts > 0 || myPlacesUnreadPosts[place.id] > 0;
     }
 
+    $scope.$on('$destroy', function () {
+      if (sortingUpated) {
+        $rootScope.$broadcast('places-sorting-updated');
+      }
+    });
   }
 })();

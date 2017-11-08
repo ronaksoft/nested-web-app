@@ -1,4 +1,4 @@
-<a class="list-items ng-class:{'active' : ctrl.placesSetting.relationView}" ng-click="ctrl.showLoading();ctrl.placesSetting.relationView = true; ctrl.filter = null">
+<a class="list-items ng-class:{'active' : ctrl.placesSetting.relationView}" ng-click="ctrl.placesSetting.relationView = true; ctrl.placesSetting.filter = null">
   <div>
     <svg class="_16svg mirror">
       <use xlink:href="/assets/icons/nst-icn16.svg#places-relation"></use>
@@ -9,7 +9,7 @@
     <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
   </svg>
 </a>
-<a class="list-items ng-class:{'active' : !ctrl.placesSetting.relationView && !ctrl.filter}" ng-click="ctrl.showLoading();ctrl.placesSetting.relationView = false">
+<a class="list-items ng-class:{'active' : !ctrl.placesSetting.relationView && !ctrl.placesSetting.filter}" ng-click="ctrl.placesSetting.relationView = false">
   <div>
     <svg class="_16svg">
       <use xlink:href="/assets/icons/nst-icn16.svg#list-view"></use>
@@ -24,7 +24,7 @@
 <h6>
   <translate>Filter by:</translate>
 </h6>
-<a class="list-items ng-class:{'active' : ctrl.filter === 'grand'}" ng-click="ctrl.showLoading();ctrl.search('', 'grand')">
+<a class="list-items ng-class:{'active' : ctrl.placesSetting.filter === 'grand'}" ng-click="ctrl.search('', 'grand')">
   <div>
     <svg class="_16svg">
       <use xlink:href="/assets/icons/nst-icn16.svg#places"></use>
@@ -35,7 +35,7 @@
     <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
   </svg>
 </a>
-<a class="list-items ng-class:{'active' : ctrl.filter === 'private'}" ng-click="ctrl.showLoading();ctrl.search('', 'private')">
+<a class="list-items ng-class:{'active' : ctrl.placesSetting.filter === 'private'}" ng-click="ctrl.search('', 'private')">
   <div>
     <svg class="_16svg">
       <use xlink:href="/assets/icons/nst-icn16.svg#brick-wall"></use>
@@ -46,7 +46,7 @@
     <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
   </svg>
 </a>
-<a class="list-items ng-class:{'active' : ctrl.filter === 'common'}" ng-click="ctrl.showLoading();ctrl.search('', 'common')">
+<a class="list-items ng-class:{'active' : ctrl.placesSetting.filter === 'common'}" ng-click="ctrl.search('', 'common')">
   <div>
     <svg class="_16svg">
       <use xlink:href="/assets/icons/nst-icn16.svg#window"></use>
@@ -57,7 +57,7 @@
     <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
   </svg>
 </a>
-<a class="list-items ng-class:{'active' : ctrl.filter === 'email'}" ng-click="ctrl.showLoading();ctrl.search('', 'email')">
+<a class="list-items ng-class:{'active' : ctrl.placesSetting.filter === 'email'}" ng-click="ctrl.search('', 'email')">
   <div>
     <svg class="_16svg">
       <use xlink:href="/assets/icons/nst-icn16.svg#earth"></use>
@@ -68,7 +68,7 @@
     <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
   </svg>
 </a>
-<a class="list-items ng-class:{'active' : ctrl.filter === 'manager'}" ng-click="ctrl.showLoading();ctrl.search('', 'manager')">
+<a class="list-items ng-class:{'active' : ctrl.placesSetting.filter === 'manager'}" ng-click="ctrl.search('', 'manager')">
   <div>
     <svg class="_16svg">
       <use xlink:href="/assets/icons/nst-icn16.svg#crown"></use>
