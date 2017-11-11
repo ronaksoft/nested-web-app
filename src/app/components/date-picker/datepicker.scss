@@ -284,6 +284,16 @@ $default-color: $color-sense-wire;
         // position: absolute;
         flex: none;
     }
+    .add-time-toggler {
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        @include align-center();
+        color: $color-sense-wire;
+        background-color: $color-white;
+    }
 }
 
 

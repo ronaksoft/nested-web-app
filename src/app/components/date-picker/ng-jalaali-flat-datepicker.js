@@ -101,7 +101,7 @@
         var farsi = NstSvcI18n.selectedLocale === 'fa-IR';
         setTimeFromTimeStamp();
         // setViewTime();
-        scope.inheritTime = scope.haveTime;
+        scope.showTime = scope.haveTime;
 
         function reformatTime(haveTime) {
           if (haveTime) {
