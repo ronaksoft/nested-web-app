@@ -48,7 +48,7 @@
       <div class="wdt-emoji-picker-parent compose-scroll-wrapper">
         <!-- <div> -->
           <section class="_difc _fw _fn">
-            <input id="compose-subject" class="compose-subject-input _fw wdt-emoji-bundle-enabled" name="subject" value="{{ctlCompose.model.subject}}" ng-focus="ctlCompose.focusBox()" ng-blur="ctlCompose.blurBox()" ng-keydown="ctlCompose.subjectKeyDown($event)"
+            <input id="compose-subject" class="compose-subject-input _fw wdt-emoji-bundle-enabled" name="subject" value="{{ctlCompose.model.subject}}" ng-focus="ctlCompose.focusBox()" ng-blur="ctlCompose.blurBox()" ng-keydown="ctlCompose.subjectKeyDown($event)" nst-suggest-emoji
             placeholder="{{ ctlCompose.focus || ctlCompose.attachments.viewModels.length > 0 || !ctlCompose.quickMode ? ctlCompose.translations.title1 : ctlCompose.translations.title2}}" data-ng-model="ctlCompose.model.subject" auto-dir="ctlCompose.model.subject" autocomplete="off">
           </section>
 

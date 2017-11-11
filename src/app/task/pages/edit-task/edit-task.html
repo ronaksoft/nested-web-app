@@ -29,7 +29,7 @@
                     ng-blur="ctrlEditTask.titleFocus = false; ctrlEditTask.updateTitle(ctrlEditTask.model.title);"
                     resize-textarea ng-model="ctrlEditTask.model.title"
                     enter-key="ctrlEditTask.enterSubjectTask(); ctrlEditTask.updateTitle(ctrlEditTask.model.title);"
-                    prevent-shift-enter="true"
+                    prevent-shift-enter="true" nst-suggest-emoji auto-dir="ctrlEditTask.model.title"
                     uneditable="{{ctrlEditTask.model.access.updateTask? 'false': 'true'}}"
           ></textarea>
           <div ng-if="ctrlEditTask.model.access.updateTask" class="task-menu-options"
@@ -136,7 +136,7 @@
       <div class="task-description auto-height-item" ng-if="ctrlEditTask.enableDescription">
         <div class="task-input-wrapper ng-class:{'focus': ctrlEditTask.descriptionFocus}">
           <textarea class="no-style gale-holder create-task-input" ng-model="ctrlEditTask.model.description"
-                    ng-focus="ctrlEditTask.descriptionFocus = true"
+                    ng-focus="ctrlEditTask.descriptionFocus = true" nst-suggest-emoji
                     ng-blur="ctrlEditTask.descriptionFocus = false; ctrlEditTask.updateDescription(ctrlEditTask.model.description);"
                     enter-key="ctrlEditTask.enterDescriptionTask(); ctrlEditTask.updateDescription(ctrlEditTask.model.description);"
                     placeholder="{{ctrlEditTask.descriptionPlaceholder}}" id="task-description" resize-textarea

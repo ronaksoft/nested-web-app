@@ -14,7 +14,7 @@
         '\u0621-\u0629\u0630-\u0639\u0641-\u0654]'
       ].join(),
       rtlPunctuations = '(،|؟|«|»|؛|٬)',
-      ltrPunctuations = '(\\.|:|\\!|\\-|\\[|\\]|\\(|\\)|/)';
+      ltrPunctuations = '(\\.|\\!|\\-|\\[|\\]|\\(|\\)|/)';
 
 
     function combineRegExps() {
