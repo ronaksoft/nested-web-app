@@ -16,6 +16,7 @@
       SUBJECT: 'subject:',
       ATTACHMENT: 'attachment:',
       WITHIN: 'within:',
+      EMOJI: ':',
       DATE: 'date:'
     });
 })();
