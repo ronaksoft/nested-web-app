@@ -51,6 +51,8 @@
         currentPlace = results;
         search();
       });
+    } else {
+      search(currentPlace);
     }
 
     checkUserLimitPlace();
@@ -120,9 +122,13 @@
       if (newPlace !== undefined && newPlace === true) {
         $scope.$close(vm.selectedUsers);
       } else {
-        angular.forEach(currentPlace, function (place) {
-          addUser(place, vm.selectedUsers);
-        })
+        if (isMulti){
+          angular.forEach(currentPlace, function (place) {
+            addUser(place, vm.selectedUsers);
+          })
+        } else {
+          addUser(currentPlace, vm.selectedUsers);
+        }
       }
     }
 
@@ -130,9 +136,13 @@
       if (newPlace !== undefined && newPlace === true) {
         $scope.$close(vm.selectedUsers);
       } else {
-        angular.forEach(currentPlace, function (place) {
-          inviteUsers(place, vm.selectedUsers);
-        })
+        if (isMulti){
+          angular.forEach(currentPlace, function (place) {
+            inviteUsers(place, vm.selectedUsers);
+          })
+        } else {
+          inviteUsers(currentPlace, vm.selectedUsers);
+        }
       }
     }
 
