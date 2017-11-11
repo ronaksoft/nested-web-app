@@ -119,7 +119,7 @@
         timestamp: data.timestamp,
         sender: activity.actor,
         removedById: null,
-        attachment_id: ''
+        attachmentId: ''
       };
 
       return activity;
