@@ -1,0 +1,8 @@
+<div class="comment-voice-recorder" ng-if="ctrlRecorder.support">
+  <div class="recorder-eqo" ng-class="{'active': ctrlRecorder.recording}" style="{{ctrlRecorder.getEqo(ctrlRecorder.eqo)}}"></div>
+  <div class="recorder" ng-mousedown="ctrlRecorder.start()" ng-mouseup="ctrlRecorder.stop($event)" ng-class="{'active': ctrlRecorder.recording}">
+    <svg class="_16svg">
+      <use xlink:href="/assets/icons/nst-icn16.svg#microphone-wire"></use>
+    </svg>
+  </div>
+</div>
