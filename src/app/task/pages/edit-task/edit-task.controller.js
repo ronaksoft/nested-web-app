@@ -385,7 +385,7 @@
     }
 
     function updateDueDate(date, hasDueTime) {
-      if (vm.modelBackUp.dueDate === date || !vm.model.access.updateTask) {
+      if ((vm.modelBackUp.dueDate === date && vm.modelBackUp.hasDueTime === hasDueTime) || !vm.model.access.updateTask) {
         return;
       }
       if (date === null) {

@@ -361,6 +361,7 @@
           ngModel.$setViewValue(vw);
           ngModel.$render();
           scope.pickerDisplayed = false;
+          scope.timestampModel = temp.unix();
         };
 
         /**
@@ -378,7 +379,7 @@
             scope.calendarCursor = moment.unix(scope.timestampModel);
             scope.timeHour = scope.calendarCursor.hours();
             scope.timeMinute = scope.calendarCursor.minutes();
-
+            reformatTime(scope.haveTime);
             var vw;
             var temp = moment(scope.calendarCursor);
             vw = temp.format(scope.config.dateFormat);

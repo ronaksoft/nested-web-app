@@ -1,6 +1,6 @@
 <span translate-inner ng-if="act.task.status == statuses.NO_ASSIGNED">changed the task Status to 'Not Assigned'</span>
-<span translate-inner ng-if="act.task.status == statuses.ASSIGNED && user.id === act.actor.id">picked the task</span>
-<span translate-inner ng-if="act.task.status == statuses.ASSIGNED && user.id !== act.actor.id">changed the task Status to 'Assigned'</span>
+<span translate-inner ng-if="act.task.status == statuses.ASSIGNED">picked the task</span>
+<!--<span translate-inner ng-if="act.task.status == statuses.ASSIGNED && user.id !== act.actor.id">changed the task Status to 'Assigned'</span>-->
 <span translate-inner ng-if="act.task.status == statuses.CANCELED">changed the task Status to 'Canceled'</span>
 <span translate-inner ng-if="act.task.status == statuses.REJECTED">changed the task Status to 'Rejected'</span>
 <span translate-inner ng-if="act.task.status == statuses.COMPLETED">changed the task Status to 'Completed'</span>
