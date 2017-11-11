@@ -93,6 +93,7 @@
     }
     .modal-body {
         max-height: calc(100vh - 210px);
+        height: 100%;
         position: relative;
         overflow: hidden;
         .places-head {
