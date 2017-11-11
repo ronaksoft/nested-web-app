@@ -492,8 +492,8 @@
       if (vm.forbiddenLeavePlaces.length > 0) {
         return;
       }
-      angular.forEach(vm.selectedPlaces, function (id) {
-        NstSvcPlaceFactory.leave(id).then(function () {
+      angular.forEach(vm.selectedPlaces, function (place) {
+        NstSvcPlaceFactory.leave(place.id).then(function () {
           // TODO remove items
         }).catch(function (error) {
           if (error.code === NST_SRV_ERROR.ACCESS_DENIED) {
