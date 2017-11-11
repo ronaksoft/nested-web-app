@@ -832,6 +832,16 @@
       });
     }
 
+    eventReferences.push($rootScope.$on(NST_PLACE_EVENT.ROOT_ADDED, function () {
+      loadPlacesDebounce();
+    }));
+
+    eventReferences.push($rootScope.$on(NST_PLACE_EVENT.SUB_ADDED, function () {
+      loadPlacesDebounce();
+    }));
+
+    /**
+
     /**
      * Checks both the Place model and myPlacesUnreadPosts to find whether the Place has unseen posts or not
      *
@@ -847,6 +857,11 @@
       if (sortingUpated) {
         $rootScope.$broadcast('places-sorting-updated');
       }
+      _.forEach(eventReferences, function (canceler) {
+        if (_.isFunction(canceler)) {
+          canceler();
+        }
+      });
     });
   }
 })();
