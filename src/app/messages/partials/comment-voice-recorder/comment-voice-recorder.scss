@@ -1,0 +1,45 @@
+nst-voice-comment-recorder {
+  .comment-voice-recorder {
+    position: absolute;
+    top: 50%;
+    right: 30px;
+    width: 30px;
+    height: 30px;
+    transform: translate(0, -50%);
+    .recorder {
+      position: absolute;
+      height: 18px;
+      width: 18px;
+      border-radius: 100%;
+      transform: translate(-50%, -50%);
+      top: 50%;
+      left: 50%;
+      background-color: $color-white;
+      display: flex;
+      justify-content: center;
+      svg {
+        fill: $color-sense;
+        display: flex;
+      }
+      &.active {
+        background-color: transparent;
+        svg {
+          fill: $color-white;
+        }
+      }
+    }
+    .recorder-eqo {
+      position: absolute;
+      height: 15px;
+      width: 15px;
+      border-radius: 100%;
+      transform: translate(-50%, -50%);
+      top: 50%;
+      left: 50%;
+      background-color: rgba($color-sense, 0.6);
+      &.active {
+        transition: all 0.1s;
+      }
+    }
+  }
+}
