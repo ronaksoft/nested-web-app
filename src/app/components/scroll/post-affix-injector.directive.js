@@ -6,7 +6,7 @@
     .directive('postAffixInjector', affixPost);
 
   /** @ngInject */
-  function affixPost(SvcCardCtrlAffix) {
+  function affixPost(SvcCardCtrlAffix, $timeout) {
     return {
       restrict: 'A',
       link: function ($scope, $element) {
@@ -18,7 +18,9 @@
           id: $scope.$parent.ctlPostCard.post.id,
           fixed : false
         };
-        SvcCardCtrlAffix.add(el);
+        $timeout(function(){
+          SvcCardCtrlAffix.add(el);
+        }, 100)
       }
     };
   }

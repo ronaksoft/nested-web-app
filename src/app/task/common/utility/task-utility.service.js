@@ -6,7 +6,7 @@
     .service('NstSvcTaskUtility', NstSvcTaskUtility);
 
   /** @ngInject */
-  function NstSvcTaskUtility($q, _, NST_TASK_PROGRESS_ICON, NstSvcTranslation, NstUtility, NST_ATTACHMENT_STATUS, $uibModal) {
+  function NstSvcTaskUtility($q, _, NST_TASK_PROGRESS_ICON, NstSvcTranslation, NstUtility, NST_ATTACHMENT_STATUS, $uibModal, $timeout) {
 
     function TaskUtility() {
     }
@@ -16,6 +16,7 @@
     TaskUtility.prototype.validateTask = validateTask;
     TaskUtility.prototype.getTodoTransform = getTodoTransform;
     TaskUtility.prototype.promptModal = promptModal;
+    TaskUtility.prototype.getValidUser = getValidUser;
 
     function getTaskIcon(status, progress) {
       switch (status) {
@@ -73,11 +74,21 @@
       }
     }
 
+    function b64EncodeUnicode(str) {
+      // first we use encodeURIComponent to get percent-encoded UTF-8,
+      // then we convert the percent encodings into raw bytes which
+      // can be fed into btoa.
+      return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
+        function toSolidBytes(match, p1) {
+          return String.fromCharCode('0x' + p1);
+        }));
+    }
+
     function getTodoTransform(todos) {
       return _.map(_.filter(todos, function (todo) {
-        return (_.trim(todo.text) > 0);
-      }) , function (todo) {
-        return btoa(todo.text) + ';' + todo.weight;
+        return _.trim(todo.text).length > 0;
+      }), function (todo) {
+        return b64EncodeUnicode(todo.text) + ';' + todo.weight;
       }).join(',');
     }
 
@@ -98,6 +109,24 @@
           }
         }
       }).result;
+    }
+
+    function getValidUser(vm, userFn) {
+      var validUser = undefined;
+      getUser();
+      function retry() {
+        $timeout(function () {
+          getUser();
+        }, 200);
+      }
+      function getUser() {
+        validUser = userFn.user;
+        if (validUser === undefined) {
+          retry();
+        } else {
+          vm.user = validUser;
+        }
+      }
     }
 
     return new TaskUtility();

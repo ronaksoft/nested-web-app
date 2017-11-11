@@ -12,7 +12,8 @@
     var vm = this;
     // var eventReferences = [];
 
-    vm.user = NstSvcAuth.user;
+    vm.user = undefined;
+    NstSvcTaskUtility.getValidUser(vm, NstSvcAuth);
 
     vm.taskStatuses = NST_TASK_STATUS;
     vm.taskId = '';
@@ -44,6 +45,7 @@
     }
 
     var gotoTask = null;
+
     function editTask(id) {
       $scope.$dismiss();
       gotoTask = id;
@@ -67,6 +69,7 @@
       counters: {},
       title: '',
       assignees: [],
+      dueDateText: null,
       dueDate: null,
       hasDueTime: false,
       description: '',
@@ -121,7 +124,11 @@
     vm.assigneeFocus = false;
     vm.assigneeIcon = 'no-assignee';
     vm.assigneePlaceholder = NstSvcTranslation.get('Add assignee or candidates');
+    vm.assigneeChanged = false;
+    vm.assigneeLoading = false;
     vm.removeAssignees = removeAssignees;
+    vm.executeAssigneeUpdate = executeAssigneeUpdate;
+    vm.assigneeKeyDown = assigneeKeyDown;
 
     vm.dueDateFocus = false;
     vm.dueDatePlaceholder = NstSvcTranslation.get('+ Set a due time (optional)');
@@ -160,7 +167,8 @@
 
     var dataInit = false;
     var isUpdated = false;
-    vm.isInCandidateMode = false;
+
+    // vm.isInCandidateMode = false;
 
     function getTask(id) {
       NstSvcTaskFactory.get(id).then(function (task) {
@@ -183,11 +191,11 @@
             init: true,
             data: task.candidates
           };
-          vm.isInCandidateMode = true;
+          // vm.isInCandidateMode = true;
         }
 
         if (task.dueDate !== undefined && task.dueDate !== 0) {
-          vm.model.dueDate = new Date(task.dueDate);
+          vm.model.dueDate = task.dueDate / 1000;
           vm.model.hasDueTime = task.hasDueTime;
           // vm.enableDue = true;
         } else {
@@ -383,7 +391,7 @@
       if (date === null) {
         taskUpdateModel.dueDate = 0;
       } else {
-        taskUpdateModel.dueDate = new Date(date).getTime();
+        taskUpdateModel.dueDate = date;
         taskUpdateModel.hasDueTime = hasDueTime;
       }
       updateDebouncer.call();
@@ -401,7 +409,7 @@
     }, true);
 
     function updateTask() {
-      NstSvcTaskFactory.taskUpdate(vm.taskId, taskUpdateModel.title, taskUpdateModel.description, taskUpdateModel.dueDate, taskUpdateModel.hasDueTime).then(function () {
+      NstSvcTaskFactory.taskUpdate(vm.taskId, taskUpdateModel.title, taskUpdateModel.description, (taskUpdateModel.dueDate === null ? null : taskUpdateModel.dueDate * 1000), taskUpdateModel.hasDueTime).then(function () {
         backItUp();
         isUpdated = true;
       })/*.catch(function (error) {
@@ -431,26 +439,39 @@
     }
 
     function updateAssignee(assignees) {
-      if (!vm.isInCandidateMode) {
+      if (!vm.model.access.updateTask) {
         return;
       }
       var oldData = getNormalValue(vm.modelBackUp.assignees);
       var newItems = _.differenceBy(assignees, oldData, 'id');
       var removedItems = _.differenceBy(oldData, assignees, 'id');
+      vm.assigneeChanged = (newItems.length > 0 || removedItems.length > 0) && assignees.length > 0;
+    }
 
-      var promises = [];
-      if (newItems.length > 0) {
-        promises.push(NstSvcTaskFactory.addCandidate(vm.taskId, getCommaSeparate(newItems)));
+    function executeAssigneeUpdate(action) {
+      if (vm.assigneeLoading) {
+        return;
       }
-      if (removedItems.length > 0) {
-        promises.push(NstSvcTaskFactory.removeCandidate(vm.taskId, getCommaSeparate(removedItems)));
-      }
-
-      if (newItems.length > 0 || removedItems.length > 0) {
-        $q.all(promises).then(function () {
+      if (action === 'abort') {
+        vm.model.assignees = vm.modelBackUp.assignees.slice(0);
+        vm.assigneeFocus = false;
+      } else if (action === 'confirm') {
+        vm.assigneeLoading = true;
+        NstSvcTaskFactory.updateAssignee(vm.taskId, getCommaSeparate(vm.model.assignees)).then(function () {
           vm.modelBackUp.assignees = vm.model.assignees.slice(0);
           isUpdated = true;
+          vm.assigneeFocus = false;
+          vm.assigneeChanged = false;
+          vm.assigneeLoading = false;
         });
+      }
+    }
+
+    function assigneeKeyDown(keyCode) {
+      if (keyCode === 27) {
+        executeAssigneeUpdate('abort');
+      } else if (keyCode === 13) {
+        executeAssigneeUpdate('confirm');
       }
     }
 
@@ -571,6 +592,9 @@
         $q.all(promises).then(function () {
           vm.modelBackUp.watchers = vm.model.watchers.slice(0);
           isUpdated = true;
+          if (_.findIndex(removedItems, {id: vm.user.id}) > -1) {
+            $scope.$dismiss();
+          }
         });
       }
     }
@@ -642,7 +666,7 @@
         cancelText: NstSvcTranslation.get('Cancel')
       }).then(function () {
         NstSvcTaskFactory.remove(vm.taskId).then(function () {
-          toastr.success(NstSvcTranslation.get(String('Task {name} removed successfully').replace('{name}', '"' + vm.model.title + '"')));
+          toastr.success(NstSvcTranslation.get('Task {name} removed successfully').replace('{name}', '"' + vm.model.title + '"'));
           isUpdated = true;
           $scope.$dismiss();
         });

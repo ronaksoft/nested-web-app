@@ -8,14 +8,14 @@
   <label class="_fw setting _asc" for="comments"><translate>Show in Feed</translate></label>
 </a>
 <hr ng-if="ctlFullNavbar.user.id !== ctlFullNavbar.getPlaceId()">
-<a class="_df list-items _aic"
+<!-- <a class="_df list-items _aic"
    ui-sref="app.settings.profile"
    ng-if="ctlFullNavbar.isPersonal()">
   <div class="top-user-avatar-24">
     <img initial-avatar="{{ctlFullNavbar.user.id}}" name="{{ctlFullNavbar.user.fullName}}" picture="{{ctlFullNavbar.user | avatar}}" data-width="24" data-height="24" data-radius="12" class="account-initials-24" data-word-count="2" data-font-size="12"/>
   </div>
   <span><translate>Profile Settings</translate></span>
-</a>
+</a> -->
 <a class="_df list-items _aic"
    ui-sref="app.place-settings({ placeId : ctlFullNavbar.getPlaceId() })"
    ng-if="!ctlFullNavbar.isPersonal()"
@@ -72,8 +72,7 @@
 </a>
 <hr ng-if="!ctlFullNavbar.isPersonal() && (ctlFullNavbar.allowedToRemovePlace || ctlFullNavbar.place.privacy.locked)">
 <a class="_df red-item list-items _aic"
-   ng-if="!ctlFullNavbar.isPersonal() && !ctlFullNavbar.isSubPersonal() && ctlFullNavbar.place.privacy.locked &&
-   (!ctlFullNavbar.allowedToRemovePlace || (ctlFullNavbar.allowedToRemovePlace && ctlFullNavbar.place.counters.creators > 1))"
+   ng-if="!ctlFullNavbar.isPersonal() && !ctlFullNavbar.isSubPersonal()"
    ng-click="ctlFullNavbar.confirmToLeave()">
   <div>
     <svg class="_16svg">

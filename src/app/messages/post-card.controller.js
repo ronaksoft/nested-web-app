@@ -665,7 +665,7 @@
         return;
       }
       newCommentIds.push(data.activity.id);
-      
+
       var senderIsCurrentUser = (NstSvcAuth.user.id === data.activity.actor.id);
       if (senderIsCurrentUser) {
         loadNewComments();
@@ -677,7 +677,7 @@
           vm.unreadCommentsCount++;
           unreadCommentIds.push(data.activity.id);
         }
-        if($rootScope.inViewPost.id === vm.post.id) {
+        if($rootScope.inViewPost.id === vm.post.id || isPostView()) {
           loadNewComments();
           unreadCommentIds = [];
         }
@@ -819,21 +819,6 @@
       }
     })();
 
-    /**
-     * clear event registers, timeout anad intervals on
-     * destroying controller
-     */
-    $scope.$on('$destroy', function () {
-      if (focusOnSentTimeout) {
-        $timeout.cancel(focusOnSentTimeout);
-      }
-
-      _.forEach(eventReferences, function (canceler) {
-        if (_.isFunction(canceler)) {
-          canceler();
-        }
-      });
-    });
 
     /**
      * add / remove labels of post
@@ -1000,6 +985,22 @@
         }
       }
     }
+
+    /**
+     * clear event registers, timeout anad intervals on
+     * destroying controller
+     */
+    $scope.$on('$destroy', function () {
+      if (focusOnSentTimeout) {
+        $timeout.cancel(focusOnSentTimeout);
+      }
+
+      _.forEach(eventReferences, function (canceler) {
+        if (_.isFunction(canceler)) {
+          canceler();
+        }
+      });
+    });
   }
 
 })();

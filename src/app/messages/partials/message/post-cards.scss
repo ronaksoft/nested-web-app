@@ -432,6 +432,7 @@ post-card {
     margin-right: 16px;
     color: $color-breeze;
     flex: none;
+    white-space: nowrap;
     &:hover {
       box-shadow: none;
     }

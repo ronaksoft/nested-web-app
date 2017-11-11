@@ -79,7 +79,8 @@
         labels: '',
         hasAttachment: false,
         within: '1',
-        date: ''
+        date: 0,
+        dateText: null
       };
       vm.getLimit = getLimit;
       vm.resultCount = 0;
@@ -200,7 +201,7 @@
         }
         try {
           if (searchQuery.getDate() !== '') {
-            vm.advancedSearch.date = new Date(parseInt(searchQuery.getDate()) * 1000).toString();
+            vm.advancedSearch.date = searchQuery.getDate()/1000;
           }
         } catch (e) {
           vm.advancedSearch.date = '';
@@ -676,7 +677,7 @@
 
         try {
           searchQuery.setWithin(this.advancedSearch.within);
-          searchQuery.setDate(this.advancedSearch.date.unix());
+          searchQuery.setDate(this.advancedSearch.date*1000);
         } catch (e) {
           searchQuery.setWithin('-1');
         }
@@ -689,7 +690,7 @@
        * Listen to closing notification popover event
        */
       $scope.$on('close-mention', function () {
-        vm.mentionOpen = false;
+        vm.notifOpen = false;
       });
 
       function scrollEndSearch() {

@@ -10,7 +10,7 @@
             <img initial-avatar="{{::user.id}}" name="{{::user.fullName}}"
                   picture="{{::user | avatar}}"
                   data-width="18" data-height="18" data-radius="16" class="account-initials-16" data-word-count="2"
-                  data-font-size="12"/>
+                  data-font-size="10"/>
           </div>
           <div class="more-actors" ng-if="notification.otherUsersCount">
             +{{notification.otherUsersCount}}
@@ -20,10 +20,6 @@
           {{notification.date | passed | localize}}
         </div>
       </div>
-      <p auto-dir="notification.comment.body">
-        {{::notification.comment.body | truncate}}
-        <div ng-if="notification.comment.removedById">comment has removed</div>
-      </p>
       <p ng-if="notification.users.length > 0">
           <span class="sender">
             <b class="_txe">{{notification.actor.fullName}}</b>
@@ -50,6 +46,10 @@
             <translate ng-if="notification.otherUsersCount == 1">other</translate>
           </span>
           <translate>commented on your post</translate>.
+      </p>
+      <p auto-dir="notification.comment.body">
+        {{::notification.comment.body | truncate}}
+      <div ng-if="notification.comment.removedById">comment has removed</div>
       </p>
     </div>
     <svg class="_df _fn _16svg">

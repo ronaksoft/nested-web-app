@@ -55,12 +55,7 @@
                 ng-if="ctrl.isVoice"/>
             </div>
             <div class="_difv _fw _jcc">
-                <div class="player-handler" ng-click="ctrl.barClick($event)">
-                    <div class="bg-bar"></div>
-                    <div class="played-bar" ng-click="$event.preventDefault()" style="transform: scaleX({{ctrl.currentTime.ratio}})"></div>
-                    <div class="player-dragger" ng-click="$event.stopPropagation()" ng-if="$root._direction !== 'rtl'" style="left: {{ctrl.currentTime.ratio * 100}}%"></div>
-                    <div class="player-dragger" ng-click="$event.stopPropagation()" ng-if="$root._direction === 'rtl'" style="right: {{ctrl.currentTime.ratio * 100}}%"></div>
-                </div>
+                <seek-bar bar-click="ctrl.barClick" current-time="ctrl.currentTime" is-playing="ctrl.playStatus"></seek-bar>
                 <span ng-click="ctrl.gotoPost()" class="_wrb" ng-if="!ctrl.isVoice">{{ctrl.currentPlay.item.filename}}</span>
                 <span ng-click="ctrl.gotoPost()" class="_wrb" ng-if="ctrl.isVoice">{{ctrl.currentPlay.item.sender.fullName}}</span>
             </div>
@@ -103,7 +98,7 @@
         </div>
         <div class="player-list iscroll-wrapper ng-class:{'expand' : ctrl.displayState !== 2}" iscroll="">
             <ul class="iscroll-scroller">
-                <li ng-repeat="track in ctrl.playList" ng-click="ctrl.play(track.id)">
+                <li ng-repeat="track in ctrl.playList | orderBy: 'order':false" ng-click="ctrl.play(track.id)">
                     <div class="poster ng-class:{'user-avatar-52' : track.isVoice}">
                         <img ng-src="{{track.thumbnail || '/assets/icons/ph_music.png'}}" alt="" ng-if="!track.isVoice">
                         <img ng-if="track.isVoice" initial-avatar="{{track.sender.id}}" name="{{track.sender.fullName}}" picture="{{track.sender | avatar}}"

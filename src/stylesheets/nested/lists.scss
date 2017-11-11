@@ -5,7 +5,7 @@
 */
 
 .list-items {
-  height: 30px;
+  height: 32px;
   padding: 0 10px;
   width: 100%; //color: $color-storm;
   color: $color-solid;
@@ -157,6 +157,20 @@
     }
     span:first-of-type {
       font-size: 13px;
+    }
+  }
+}
+.name-item {
+  span {
+    font-weight: bold!important;
+  }
+  &::after{
+    content: ", ";
+    display: inline;
+  }
+  &:last-of-type {
+    &::after{
+      display: none;
     }
   }
 }

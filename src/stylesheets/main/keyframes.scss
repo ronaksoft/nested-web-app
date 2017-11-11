@@ -274,3 +274,20 @@
     }
   }
   
+  
+  @keyframes places-loading {
+    0% {
+      visibility: visible;
+      opacity: .92;
+    }
+    30% { 
+      opacity: .92;
+    }
+    80% { 
+      opacity: .92;
+    }
+    100% { 
+      opacity: 0.92;
+    }
+  }
+  

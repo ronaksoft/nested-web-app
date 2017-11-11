@@ -19,6 +19,15 @@
     Utility.prototype.date = NstUtilDate;
     Utility.prototype.place = NstUtilPlace;
 
+    Utility.prototype.hexToDec = function (hex) {
+      var result = 0, digitValue;
+      hex = hex.toLowerCase();
+      for (var i = 0; i < hex.length; i++) {
+        digitValue = '0123456789abcdefgh'.indexOf(hex[i]);
+        result = result * 16 + digitValue;
+      }
+      return result;
+    };
 
     return new Utility();
   }

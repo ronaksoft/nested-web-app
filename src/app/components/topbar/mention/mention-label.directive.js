@@ -25,19 +25,22 @@
             try {
               var documentDir = $('body').attr('dir');
               var containerWidth = $(obj.$el[0]).find('.atwho-view').width();
-              var direction = obj.$inputor.context.style.direction;
+              var direction = obj.$inputor[0].style.direction;
+              var inputWidth = obj.$inputor[0].offsetWidth;
 
               if (documentDir === 'ltr') {
                 if (direction === 'rtl') {
-                  offset.left = ($window.innerWidth - offset.left) - containerWidth + 10;
+                  offset.left = ($window.innerWidth - offset.left) - containerWidth + 5;
                 }
               } else {
                 if (direction === 'ltr') {
                   offset.left = (offset.left - containerWidth) + 5;
                 } else {
-                  offset.left = ($window.innerWidth - offset.left) - containerWidth + 10;
+                  offset.left = offset.left + inputWidth - containerWidth - 15;
                 }
               }
+
+              return true;
             }
             catch (e) {
               return offset;

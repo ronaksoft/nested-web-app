@@ -1,1 +1,2 @@
-<span translate-inner>added a Label</span>
+<span translate-inner ng-if="activity.labels.length === 1">added <b>{{activity.labels[0].title}}</b> Label</span>
+<span translate-inner ng-if="activity.labels.length > 1">added <span ng-repeat="label in activity.labels"><b class="name-item">'{{label.title}}'</b><span ng-if="$index < activity.labels.length - 1">{{$index == (activity.labels.length - 2)? ' &': ','}} </span></span> Labels</span>

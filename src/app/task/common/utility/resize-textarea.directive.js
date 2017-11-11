@@ -17,7 +17,9 @@
         function resize() {
           var ele = $el[0];
           ele.style.height = '';
-          ele.style.height = ele.scrollHeight + "px";
+          if(ele.scrollHeight > 0) {
+            ele.style.height = ele.scrollHeight + "px";
+          }
         }
         scope.$on('$destroy', function () {
           eventDebounce.cancel();

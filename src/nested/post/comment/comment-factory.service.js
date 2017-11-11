@@ -9,7 +9,7 @@
                                 _,
                                 NST_COMMENT_EVENT, NST_SRV_ERROR,
                                 NstSvcServer, NstCollector, NstSvcUserFactory, NstPicture, NstUtility, NstSvcGlobalCache,
-                                NstComment, NstTinyUser, NstBaseFactory, NstSvcAttachmentFactory) {
+                                NstComment, NstTinyUser, NstBaseFactory) {
 
     function CommentFactory() {
       this.collector = new NstCollector('post', this.getManyComment);
@@ -231,7 +231,7 @@
       }
 
       var comment = new NstComment();
-      comment.attachment_id = data.attachment_id;
+      comment.attachmentId = data.attachment_id;
       comment.id = data._id;
       comment.sender = NstSvcUserFactory.parseTinyUser(data.sender);
       NstSvcUserFactory.set(data.sender);

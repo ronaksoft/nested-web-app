@@ -46,10 +46,10 @@
     </div>
     <div class="task-due const-height-item">
       <div class="task-input-wrapper ng-class:{'focus': ctrlCreateTask.dueDateFocus}">
-        <input type="text" class="no-style gale-holder create-task-input" translate-attrs="placeholder" placeholder="{{ctrlCreateTask.dueDatePlaceholder}}"
-          id="task-due" ng-focus="ctrlCreateTask.dueDateFocus = true" ng-blur="ctrlCreateTask.dueDateFocus = false" ng-model="ctrlCreateTask.model.dueDate"
+        <input type="text" class="no-style gale-holder create-task-input" placeholder="{{ctrlCreateTask.dueDatePlaceholder}}"
+          id="task-due" ng-focus="ctrlCreateTask.dueDateFocus = true" ng-blur="ctrlCreateTask.dueDateFocus = false" ng-model="ctrlCreateTask.model.dueDateText"
           data-config="ctrlCreateTask.datePickerconfig" g-formatted-picked-date="gfdate" g-picked-date="gdate" ng-jalaali-flat-datepicker
-          have-time="ctrlCreateTask.model.hasDueTime">
+          have-time="ctrlCreateTask.model.hasDueTime" timestamp-model="ctrlCreateTask.model.dueDate">
       </div>
       <label for="task-due" ng-class="{'focus': ctrlCreateTask.dueDateFocus, 'no-hover': ctrlCreateTask.model.dueDate == null}">
             <div class="_24svg _df _jcc _aic" translate-attrs="data-uib-tooltip" data-uib-tooltip="Remove Due Time"
@@ -104,7 +104,7 @@
       </div>
       <div class="task-attachment auto-height-item">
         <div class="_difv _fw">
-          <h3>Attachments</h3>
+          <h3><translate>Attachments</translate></h3>
           <div class="attachments-badge-wrapper">
             <task-attachment attachments-data="ctrlCreateTask.model.attachments" edit-mode="ctrlCreateTask.editMode" remove-items="ctrlCreateTask.removeAttachmentItems"
               ng-click="ctrlCreateTask.attachmentFocus = true"></task-attachment>

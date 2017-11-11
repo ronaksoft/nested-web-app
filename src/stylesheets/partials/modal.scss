@@ -461,6 +461,8 @@ body.modal-open-attachment-view.compose-modal {
   border-radius: 0!important;
   margin: 0;
   .modal-content {
+    box-shadow: none;
+    background-color: transparent;
     .ui-select-multiple.ui-select-bootstrap input.ui-select-search ,
     .ui-select-multiple.ui-select-bootstrap {
       padding: 0;
@@ -930,7 +932,7 @@ div.modal .attach-place {
   .minimize-info {
     display: flex;
     .minimize-abort {
-      flex: 1;
+      flex: none;
       width: 20px;
       > svg {
         margin: -2px 0 0 -8px;

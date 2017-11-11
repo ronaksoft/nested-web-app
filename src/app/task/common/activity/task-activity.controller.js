@@ -5,8 +5,9 @@
     .module('ronak.nested.web.task')
     .controller('TaskActivityController', TaskActivityController);
 
-  function TaskActivityController($timeout, $scope, $rootScope, _, $q, $state, NstSvcTaskActivityFactory, NST_TASK_EVENT_ACTION,
-                                  NstSvcAuth, NstSvcTaskFactory, NstSvcTranslation, toastr, NstTaskActivity, NstSvcUserFactory, NstSvcDate) {
+  function TaskActivityController($timeout, $scope, $rootScope, _, $q, $state, NstSvcTaskActivityFactory,
+                                  NST_TASK_EVENT_ACTION, NstSvcAuth, NstSvcTaskFactory, NstSvcTranslation,
+                                  toastr, NstTaskActivity, NstSvcUserFactory, NstSvcDate, NstSvcTaskUtility) {
     var vm = this;
     var eventReferences = [];
     var latestActivityTimestamp = -1;
@@ -19,9 +20,9 @@
 
     vm.sendComment = sendComment;
 
-    $timeout(function () {
-      vm.user = NstSvcAuth.user;
-    }, 100);
+    vm.user = undefined;
+    NstSvcTaskUtility.getValidUser(vm, NstSvcAuth);
+
     $scope.scrollEnd = function() {}; // will Assigned by directive stickBottomScroll
     vm.activityTypes = NST_TASK_EVENT_ACTION;
 
@@ -82,7 +83,6 @@
         vm.activities = _.unionBy(vm.activities, 'id');
         vm.activityCount = vm.activities.length;
         vm.isLoading = false;
-        // $scope.scrollEnd();
       });
     }
 
@@ -146,7 +146,7 @@
             timestamp: activity.date,
             sender: activity.actor,
             removedById: null,
-            attachment_id: ''
+            attachmentId: ''
           };
           // vm.activities.push(activity);
           // $scope.scrollEnd(true);

@@ -59,7 +59,6 @@
         case NST_NOTIFICATION_TYPE.TASK_MENTION:
         case NST_NOTIFICATION_TYPE.TASK_COMMENT:
         case NST_NOTIFICATION_TYPE.TASK_ASSIGNEE_CHANGED:
-        case NST_NOTIFICATION_TYPE.TASK_ADD_TO_CANDIDATES:
         case NST_NOTIFICATION_TYPE.TASK_ADD_TO_WATCHERS:
         case NST_NOTIFICATION_TYPE.TASK_DUE_TIME_UPDATED:
         case NST_NOTIFICATION_TYPE.TASK_TITLE_UPDATED:
@@ -73,6 +72,8 @@
         case NST_NOTIFICATION_TYPE.TASK_IN_PROGRESS:
           $event.preventDefault();
           return viewTask(notification.task.id);
+        case NST_NOTIFICATION_TYPE.TASK_ADD_TO_CANDIDATES:
+          return;
       }
     }
 

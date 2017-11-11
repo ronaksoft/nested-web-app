@@ -697,6 +697,8 @@
       place.counters = placeData.counters;
       place.limits = placeData.limits;
       place.accesses = placeData.access;
+      place.notification = placeData.notification;
+      place.favorite = placeData.favorite;
 
       return place;
     };
