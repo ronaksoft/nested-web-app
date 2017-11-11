@@ -70,7 +70,7 @@
         <div class="task-input-wrapper ng-class:{'focus': ctrlCreateTask.descFocus}">
           <textarea class="no-style gale-holder create-task-input" ng-model="ctrlCreateTask.model.description" ng-focus="ctrlCreateTask.descFocus = true"
             ng-blur="ctrlCreateTask.descFocus = false" enter-key="ctrlCreateTask.enterDescriptionTask()" placeholder="{{ctrlCreateTask.descPlaceholder}}"
-            id="task-description" resize-textarea></textarea>
+            id="task-description" resize-textarea auto-dir="ctrlCreateTask.model.description"></textarea>
         </div>
         <label for="task-description" ng-class="{'focus': ctrlCreateTask.descFocus}">
               <svg class="_16svg">

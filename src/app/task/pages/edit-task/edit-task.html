@@ -140,7 +140,7 @@
                     ng-blur="ctrlEditTask.descriptionFocus = false; ctrlEditTask.updateDescription(ctrlEditTask.model.description);"
                     enter-key="ctrlEditTask.enterDescriptionTask(); ctrlEditTask.updateDescription(ctrlEditTask.model.description);"
                     placeholder="{{ctrlEditTask.descriptionPlaceholder}}" id="task-description" resize-textarea
-                    uneditable="{{ctrlEditTask.model.access.updateTask? 'false': 'true'}}"></textarea>
+                    uneditable="{{ctrlEditTask.model.access.updateTask? 'false': 'true'}}" auto-dir="ctrlEditTask.model.description"></textarea>
         </div>
         <label for="task-description" ng-class="{'focus': ctrlEditTask.descriptionFocus}">
           <svg class="_16svg">
