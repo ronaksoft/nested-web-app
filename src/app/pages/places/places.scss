@@ -124,6 +124,12 @@
             background-color: $color-white;
             z-index: 5;
             visibility: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            .nst-loading {
+                display: none;
+            }
             &.is-open {
                 animation-name: places-loading;
                 animation-duration: 0.512s;
@@ -131,6 +137,9 @@
                 animation-iteration-count: 1;
                 animation-fill-mode: forwards;
                 animation-play-state: running;
+                .nst-loading {
+                    display: block;
+                }
             }
         }
         .places-list {
