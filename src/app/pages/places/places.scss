@@ -121,7 +121,7 @@
             top: 0;
             bottom: 0;
             background-color: $color-white;
-            z-index: 2;
+            z-index: 5;
             visibility: hidden;
             &.is-open {
                 animation-name: places-loading;
