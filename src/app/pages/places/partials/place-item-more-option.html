@@ -10,7 +10,7 @@
   <span><translate>Place Settings</translate></span>
 </a>
 <hr ng-if="ctrl.allowedToAddPlace">
-<a ng-if="ctrl.isGrandPlace(place.id) && place.permitions.allowedToCreatePlace"
+<a ng-if="ctrl.isGrandPlace(place.id) && !ctrl.isPersonal(place.id)&& place.permitions.allowedToCreatePlace"
    class="_df list-items _aic" ui-sref="app.place-create({ placeId : place.id })"
    ng-click="ctrl.openCreateSubplaceModal($event, 'open',  place.id)">
   <div>
@@ -32,8 +32,8 @@
 </a>
 <!-- <hr ng-if="!ctrl.isPersonal() && (ctrl.allowedToRemovePlace || ctrl.place.privacy.locked)"> -->
 <a class="_df red-item list-items _aic"
-   ng-if="!ctrl.isPersonal(place.id) && place.privacy.locked && !ctrl.isSubPersonal(place.id)"
-   ng-click="ctrl.confirmToLeave()">
+   ng-if="!ctrl.isPersonal(place.id) && !ctrl.isSubPersonal(place.id)"
+   ng-click="ctrl.confirmToLeave(place.id)">
   <div>
     <svg class="_16svg">
       <use xlink:href="/assets/icons/nst-icn16.svg#exit"></use>

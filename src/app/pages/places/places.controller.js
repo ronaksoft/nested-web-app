@@ -29,6 +29,7 @@
     vm.toggleNotification = toggleNotification;
     vm.toggleShowInFeed = toggleShowInFeed;
     vm.confirmToRemoveMulti = confirmToRemoveMulti;
+    vm.confirmToLeave = confirmToLeave;
     vm.leaveMulti = leaveMulti;
     vm.isGrandPlace = isGrandPlace;
     vm.isPersonal = isPersonal;
@@ -254,23 +255,7 @@
 
     function initialize() {
       vm.expandedPlaces = [];
-      $q.all([getMyPlacesOrder(), getMyPlaces(true)]).then(function (results) {
-        myPlaceOrders = results[0];
-        vm.placesLength = results[1].length;
-        vm.places = createTree(results[1], myPlaceOrders, vm.expandedPlaces, vm.selectedPlaceId);
-        _.forEach(results[1], function (item) {
-          vm.visiblePlaces[item.id] = true;
-          absolutePlaces.push({
-            id: item.id,
-            name: item.name.toLowerCase(),
-            sId: item.id.toLowerCase(),
-            isGrandPlace: isGrandPlace(item.id),
-            isPrivatePlace: item.privacy.locked,
-            isEmailReceptive: item.privacy.receptive === "external",
-            isManager: item.accesses.indexOf('C') > -1
-          });
-        });
-      });
+      loadPlaces();
 
       loadCurrentUser();
 
@@ -484,6 +469,27 @@
 
     }
 
+    
+    /**
+     * Represents the prompt modal for leaving place action
+     */
+    function confirmToLeave(id) {
+      $uibModal.open({
+        animation: false,
+        templateUrl: 'app/pages/places/settings/place-leave-confirm.html',
+        size: 'sm',
+        controller: 'PlaceLeaveConfirmController',
+        controllerAs: 'leaveCtrl',
+        resolve: {
+          selectedPlace: function () {
+            return id;
+          }
+        }
+      }).result.then(function () {
+        leavePlace(id);
+      });
+    }
+
     /**
      * @function
      * leave the place with showing results
@@ -493,33 +499,78 @@
         return;
       }
       angular.forEach(vm.selectedPlaces, function (place) {
-        NstSvcPlaceFactory.leave(place.id).then(function () {
-          // TODO remove items
-        }).catch(function (error) {
-          if (error.code === NST_SRV_ERROR.ACCESS_DENIED) {
-            switch (error.message[0]) {
-              case 'last_creator':
-                toastr.error(NstSvcTranslation.get('You are the only one left!'));
-                break;
-              case 'parent_creator':
-                toastr.error(NstUtility.string.format(NstSvcTranslation.get('You are not allowed to leave the Place because you are the creator of its highest-ranking Place ({0}).'), vm.place.parent.name));
-                break;
-              case 'cannot_leave_some_subplaces':
-                toastr.error(NstSvcTranslation.get('You can not leave here, because you are the manager of one of its sub-places.'));
-                break;
-              default:
-                toastr.error(NstSvcTranslation.get("An error has happened before leaving this place"));
-                break;
-            }
-
-            return;
-          }
-
-          toastr.error(NstSvcTranslation.get("An error has happened before leaving this place"));
-        });
+        leavePlace(place.id);
       })
 
     }
+
+    function leavePlace(id) {
+      NstSvcPlaceFactory.leave(id).then(function () {
+        toastr.success(NstUtility.string.format(NstSvcTranslation.get("Left from {0} successfully."), id));
+        loadPlacesDebounce();
+      }).catch(function (error) {
+        console.log(error, NST_SRV_ERROR.ACCESS_DENIED);
+        if (error.code === NST_SRV_ERROR.ACCESS_DENIED) {
+          switch (error.message[0]) {
+            case 'you_are_not_member':
+              toastr.error(NstSvcTranslation.get('You are not member of this Place!'));
+              loadPlacesDebounce();
+              break;
+            case 'last_creator':
+              toastr.error(NstSvcTranslation.get('You are the only one left!'));
+              break;
+            case 'parent_creator':
+              toastr.error(NstUtility.string.format(NstSvcTranslation.get('You are not allowed to leave the Place because you are the creator of its highest-ranking Place ({0}).'), vm.place.parent.name));
+              break;
+            case 'cannot_leave_some_subplaces':
+              toastr.error(NstSvcTranslation.get('You can not leave here, because you are the manager of one of its sub-places.'));
+              break;
+            default:
+              toastr.error(NstSvcTranslation.get("An error has happened before leaving this place"));
+              break;
+          }
+
+          return;
+        }
+        if (error.code === NST_SRV_ERROR.INVALID) {
+          switch (error.message[0]) {
+            case 'you_are_not_member':
+              toastr.error(NstUtility.string.format(NstSvcTranslation.get("You are not member of {0}. sometimes it happens because of leaving open Places which is not allowed."), error.query.data.place_id));
+              loadPlacesDebounce();
+              break;
+            default:
+              toastr.error(NstSvcTranslation.get("An error has happened before leaving this place"));
+              break;
+          }
+
+          return;
+        }
+
+        toastr.error(NstSvcTranslation.get("An error has happened before leaving this place"));
+      });
+    }
+
+    function loadPlaces() {
+      $q.all([getMyPlacesOrder(), getMyPlaces(true)]).then(function (results) {
+        myPlaceOrders = results[0];
+        vm.placesLength = results[1].length;
+        vm.places = createTree(results[1], myPlaceOrders, vm.expandedPlaces, vm.selectedPlaceId);
+        _.forEach(results[1], function (item) {
+          vm.visiblePlaces[item.id] = true;
+          absolutePlaces.push({
+            id: item.id,
+            name: item.name.toLowerCase(),
+            sId: item.id.toLowerCase(),
+            isGrandPlace: isGrandPlace(item.id),
+            isPrivatePlace: item.privacy.locked,
+            isEmailReceptive: item.privacy.receptive === "external",
+            isManager: item.accesses.indexOf('C') > -1
+          });
+        });
+      });
+    }
+
+    var loadPlacesDebounce = _.debounce(loadPlaces, 128);
 
 
     /**
