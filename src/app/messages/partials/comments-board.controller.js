@@ -24,6 +24,7 @@
     vm.removeComment = removeComment;
     vm.allowToRemoveComment = allowToRemoveComment;
     vm.sendComment = sendComment;
+    vm.sendVoiceComment = sendVoiceComment;
     vm.hasOlderComments = null;
     vm.commentBoardIsRolled = null;
     vm.isSendingComment = false;
@@ -182,7 +183,6 @@
      */
     function sendComment(e) {
 
-
       var element = angular.element(e.target);
 
       resizeTextare(e.target);
@@ -199,16 +199,16 @@
 
       vm.isSendingComment = true;
 
-      if(vm.postId) {
-        NstSvcCommentFactory.addComment(vm.postId, body).then(function (comment){
+      if (vm.postId) {
+        NstSvcCommentFactory.addComment(vm.postId, body).then(function (comment) {
           addCommentCallback(comment)
-        }).catch(function() {
+        }).catch(function () {
           toastr.error(NstSvcTranslation.get('Sorry, an error has occured in sending your comment'));
         });
       } else {
-        NstSvcTaskFactory.addComment(vm.taskId, body).then(function (comment){
+        NstSvcTaskFactory.addComment(vm.taskId, body).then(function (comment) {
           addCommentCallback(comment)
-        }).catch(function() {
+        }).catch(function () {
           toastr.error(NstSvcTranslation.get('Sorry, an error has occured in sending your comment'));
         });
       }
@@ -216,27 +216,53 @@
 
       function addCommentCallback(comment) {
         if (!_.some(vm.comments, {
-          id: comment.id
-        })) {
-        vm.commentBoardLimit++;
-        vm.comments.push(comment);
-      }
+            id: comment.id
+          })) {
+          vm.commentBoardLimit++;
+          vm.comments.push(comment);
+        }
 
-      e.currentTarget.value = '';
-      vm.isSendingComment = false;
-      if (focusOnSentTimeout) {
-        $timeout.cancel(focusOnSentTimeout);
-      }
+        e.currentTarget.value = '';
+        vm.isSendingComment = false;
+        if (focusOnSentTimeout) {
+          $timeout.cancel(focusOnSentTimeout);
+        }
 
-      focusOnSentTimeout = $timeout(function() {
-        e.currentTarget.focus();
-      }, 10);
-      if(typeof vm.onCommentSent === 'function') {
-        vm.onCommentSent(comment);
-      }
-      resizeTextare(e.target);
+        focusOnSentTimeout = $timeout(function () {
+          e.currentTarget.focus();
+        }, 10);
+        if (typeof vm.onCommentSent === 'function') {
+          vm.onCommentSent(comment);
+        }
+        resizeTextare(e.target);
       }
     }
+
+    //TODO: merge with sendComment
+    function sendVoiceComment(attachmentId) {
+      vm.isSendingComment = true;
+
+      if (vm.postId) {
+        NstSvcCommentFactory.addComment(vm.postId, '', attachmentId).then(function (comment) {
+          // addCommentCallback(comment)
+          vm.isSendingComment = false;
+        }).catch(function () {
+          toastr.error(NstSvcTranslation.get('Sorry, an error has occurred in sending your comment'));
+          vm.isSendingComment = false;
+        });
+      } else {
+        NstSvcTaskFactory.addComment(vm.taskId, '', attachmentId).then(function (comment) {
+          // addCommentCallback(comment)
+          vm.isSendingComment = false;
+        }).catch(function () {
+          toastr.error(NstSvcTranslation.get('Sorry, an error has occurred in sending your comment'));
+          vm.isSendingComment = false;
+        });
+      }
+
+    }
+
+
 
     /**
      * sendKeyIsPressed - check whether the pressed key is Enter or not

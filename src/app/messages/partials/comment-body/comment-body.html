@@ -10,7 +10,7 @@
             data-tooltip-append-to-body="true" data-tooltip-placement="top auto">{{ctlCommentBody.comment.timestamp | passed | localize}}</span>
       <strong class="_fl"
               user-detail="ctlCommentBody.comment.sender">{{ctlCommentBody.comment.sender.fullName}}:&nbsp;</strong>
-      <span is-two-line class="_fl" ng-if="ctlCommentBody.comment.attachmentId.length == 0">
+      <span is-two-line class="_fl" ng-if="ctlCommentBody.comment.attachmentId.length == 0 && !ctlCommentBody.comment.removedById">
         <abbr ng-repeat="part in ctlCommentBody.parts">
           <br ng-if="part.type == 'linebreak'"/>
           <abbr ng-if="part.type == 'mention'" class="nst-user-popover" user-detail="part.user"
@@ -19,7 +19,7 @@
         </abbr>
       </span>
 
-      <nst-voice-comment ng-if="ctlCommentBody.comment.attachmentId.length > 0"
+      <nst-voice-comment ng-if="ctlCommentBody.comment.attachmentId.length > 0 && !ctlCommentBody.comment.removedById"
                          comment="ctlCommentBody.comment" comment-board-id="ctlCommentBody.commentBoardId">
       </nst-voice-comment>
       <i ng-if="ctlCommentBody.comment.removedById" class="comment-removed-by">

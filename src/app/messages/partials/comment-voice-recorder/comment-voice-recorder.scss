@@ -18,8 +18,13 @@ nst-voice-comment-recorder {
       display: flex;
       justify-content: center;
       svg {
-        fill: $color-sense;
+        fill: $color-grey;
         display: flex;
+      }
+      &:hover {
+        svg {
+          fill: $color-grey-text;
+        }
       }
       &.active {
         background-color: transparent;
@@ -30,8 +35,8 @@ nst-voice-comment-recorder {
     }
     .recorder-eqo {
       position: absolute;
-      height: 15px;
-      width: 15px;
+      height: 18px;
+      width: 18px;
       border-radius: 100%;
       transform: translate(-50%, -50%);
       top: 50%;

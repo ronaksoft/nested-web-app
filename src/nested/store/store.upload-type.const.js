@@ -10,6 +10,7 @@
       IMAGE: 'image',
       VIDEO: 'video',
       PLACE_PIC: 'place_pic',
-      PROFILE_PIC: 'profile_pic'
+      PROFILE_PIC: 'profile_pic',
+      VOICE: 'voice'
     });
 })();

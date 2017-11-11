@@ -14,51 +14,69 @@
     .module('ronak.nested.web.message')
     .controller('CommentVoiceRecorderController', CommentVoiceRecorderController);
 
-  function CommentVoiceRecorderController($scope, $interval, $rootScope, $timeout, SvcRecorder, toastr) {
+  function CommentVoiceRecorderController($scope, $interval, $rootScope, $timeout, SvcRecorder, toastr, NstSvcStore, NstSvcAuth, NST_STORE_UPLOAD_TYPE) {
 
     var eventReferences = [];
     var vm = this;
 
     vm.support = false;
     vm.recording = false;
+    vm.recorded = false;
     vm.start = start;
     vm.stop = stop;
     vm.getEqo = getEqo;
     vm.eqo = 0;
-    var interval;
 
     var eqoSetting = {
-      min: 15,
+      min: 18,
       max: 40
     };
 
-    $timeout(function () {
-      init();
-    }, 100);
+    init();
 
-    function init() {
-      $scope.$apply(function () {
-        vm.support = SvcRecorder.support;
-      });
+    function logoUploadProgress(event) {
+      // var logoUploadedRatio = parseInt((event.loaded / event.total) * 75);
+      // console.log(event);
     }
 
-    function startInterval() {
-      $interval.cancel(interval);
-      interval = $interval(function () {
-        vm.eqo = Math.floor(Math.random() * 100);
-      }, 100);
+    function init() {
+      vm.support = SvcRecorder.support;
+
+      eventReferences.push(SvcRecorder.volumeChanged(function (data) {
+        if (!vm.recording) {
+          return;
+        }
+        $scope.$apply(function () {
+          vm.eqo = data.volume;
+        });
+      }));
+
+      eventReferences.push(SvcRecorder.voiceReady(function (data) {
+        if (!vm.recorded) {
+          return;
+        }
+
+        var request = NstSvcStore.uploadWithProgress(data.file, logoUploadProgress,
+          NST_STORE_UPLOAD_TYPE.VOICE, NstSvcAuth.lastSessionKey);
+
+        request.finished().then(function (response) {
+          vm.sendHandler(response.data.universal_id);
+          vm.recorded = false;
+        });
+      }));
     }
 
     function start() {
       vm.recording = true;
-      startInterval();
       SvcRecorder.record();
     }
 
-    function stop(event) {
-      console.log(event);
+    function stop() {
+      if (!vm.recording) {
+        return;
+      }
       vm.recording = false;
-      $interval.cancel(interval);
+      vm.recorded = true;
       vm.eqo = 0;
       SvcRecorder.stop();
     }
