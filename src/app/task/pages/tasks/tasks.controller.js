@@ -236,6 +236,10 @@
       }).catch(function (err) {
 
         if (err.code === 1) {
+          var pendingIndex = _.findIndex(vm.pendingTasks, {id: id});
+          if (pendingIndex > -1) {
+            vm.pendingTasks.splice(pendingIndex, 1);
+          }
           toastr.error(NstSvcTranslation.get('Task already assigned.'));
         } else {
           toastr.error(NstSvcTranslation.get('Something went wrong!'));
