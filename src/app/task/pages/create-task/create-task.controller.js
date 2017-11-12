@@ -23,7 +23,26 @@
     };
     vm.backDropClick = backDropClick;
     function backDropClick() {
-      $scope.$dismiss();
+      if (vm.model.dueDate !== null ||
+          _.trim(vm.model.title).length !== 0 ||
+          _.trim(vm.model.desc).length !== 0 ||
+          vm.model.assignees.length !== 0 ||
+          vm.model.todos.length !== 0 ||
+          vm.model.attachments.length !== 0 ||
+          vm.model.watchers.length !== 0 ||
+          vm.model.labels.length !== 0) {
+        NstSvcTaskUtility.promptModal({
+          title: NstSvcTranslation.get('Closing creating task modal'),
+          body: NstSvcTranslation.get('Are you sure? <br>All the filled data will be lost'),
+          confirmText: NstSvcTranslation.get('Yes'),
+          confirmColor: 'red',
+          cancelText: NstSvcTranslation.get('Cancel')
+        }).then(function () {
+          $scope.$dismiss();
+        });
+      } else {
+        $scope.$dismiss();
+      }
     }
 
     vm.modalId = modalData.modalId;
