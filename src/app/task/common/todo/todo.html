@@ -1,4 +1,10 @@
-<task-todo-item todo-add="ctlTodo.updateTodo" todo-update="ctlTodo.updateTodo" todo-check="ctlTodo.checkTodo" todo-remove="ctlTodo.removeTodo" todo-focus="" todo-data="todo" placeholder="{{ctlTodo.todoPlaceholder}}"
-                ng-repeat="todo in ctlTodo.todosData" edit-mode="ctlTodo.removeItem" enable-check="ctlTodo.enableCheck"></task-todo-item>
-<task-todo-item ng-if="ctlTodo.addItem == true" todo-add="ctlTodo.addTodo" todo-update="ctlTodo.addTodo" todo-focus="ctlTodo.todoFocus" todo-data="ctlTodo.temp"
-                placeholder="{{ctlTodo.todoPlaceholder}}" todo-focus-me="ctlTodo.todoFocusMe" edit-mode="true" enable-check="false"></task-todo-item>
+<task-todo-item todo-add="ctlTodo.updateTodo" todo-update="ctlTodo.updateTodo"
+                todo-check="ctlTodo.checkTodo" todo-remove="ctlTodo.removeTodo"
+                todo-focus="" todo-data="todo" placeholder="{{ctlTodo.todoPlaceholder}}"
+                todo-focus-me="todo.focusTrigger" ng-repeat="todo in ctlTodo.todosData"
+                edit-mode="ctlTodo.removeItem" enable-check="ctlTodo.enableCheck"></task-todo-item>
+<task-todo-item ng-if="ctlTodo.addItem == true" todo-add="ctlTodo.addTodo"
+                todo-update="ctlTodo.addTodo" todo-remove="ctlTodo.previousTodo"
+                todo-focus="ctlTodo.todoFocus" todo-data="ctlTodo.temp"
+                placeholder="{{ctlTodo.todoPlaceholder}}" todo-focus-me="ctlTodo.todoFocusMe"
+                edit-mode="true" enable-check="false"></task-todo-item>

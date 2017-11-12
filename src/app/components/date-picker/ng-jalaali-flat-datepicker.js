@@ -360,7 +360,9 @@
           scope.gFormattedPickedDate = temp.format(scope.config.gregorianDateFormat);
           ngModel.$setViewValue(vw);
           ngModel.$render();
-          scope.pickerDisplayed = false;
+          if (add) {
+            scope.pickerDisplayed = false;
+          }
           scope.timestampModel = temp.unix();
         };
 
