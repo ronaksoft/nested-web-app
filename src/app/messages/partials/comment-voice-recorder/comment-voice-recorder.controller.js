@@ -82,9 +82,10 @@
         return;
       }
       vm.recording = false;
-      vm.recorded = true;
       vm.eqo = 0;
-      SvcRecorder.stop();
+      if (SvcRecorder.stop()) {
+        vm.recorded = true;
+      }
     }
 
     function getEqo(eqo) {

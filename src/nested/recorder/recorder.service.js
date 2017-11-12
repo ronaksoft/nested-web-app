@@ -152,9 +152,10 @@
 
     function stop() {
       if (!service.canRecord || !recording) {
-        return;
+        return false;
       }
       mediaRecorder.stop();
+      return true;
     }
 
     function unbindFn(list, id) {

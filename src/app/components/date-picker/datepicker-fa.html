@@ -39,7 +39,7 @@
       </tr>
     </tbody>
   </table>
-  <div class="input-time" ng-click="$event.stopPropagation()">
+  <div class="input-time">
     <svg class="_16svg _df">
       <use xlink:href="/assets/icons/nst-icn16.svg#alarm-clock"></use>
     </svg>
@@ -58,8 +58,8 @@
         </svg>
       </div>
     </div>
-    <div class="add-time-toggler" ng-hide="showTime" ng-click="showTime = true;">
-      <translate>+ Add time</translate>
+    <div class="add-time-toggler" ng-hide="showTime">
+      <span ng-click="showTime = true;" translate-inner>+ Add time</span>
     </div>
   </div>
 </div>

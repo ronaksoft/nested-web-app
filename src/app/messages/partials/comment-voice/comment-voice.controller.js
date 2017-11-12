@@ -15,7 +15,7 @@
     .controller('CommentVoiceController', CommentVoiceController);
 
   function CommentVoiceController($scope, $rootScope, $sce, $q, $filter, _, NstSvcFileFactory, NstSvcAttachmentFactory,
-                                  SvcMiniPlayer, NstSvcStore, NST_STORE_ROUTE, toastr) {
+                                  SvcMiniPlayer, NstSvcStore, NST_STORE_ROUTE, toastr, NstSvcTranslation) {
 
     var eventReferences = [];
     var vm = this;
@@ -23,6 +23,7 @@
     vm.barClick = barClick;
     var currentPlayingId = -1;
     var downloadToken = null;
+    vm.fileCorrupted = false;
     vm.playStatus = false;
     vm.voice = null;
     vm.currentTime = {
@@ -34,13 +35,12 @@
 
     init();
 
-    eventReferences.push($rootScope.$on('play-voice-comment', function (event, data) {
-      addToPlayer(data);
-    }));
-
     function init() {
       NstSvcAttachmentFactory.getOne(vm.comment.attachmentId).then(function (attachment) {
         vm.voice = attachment;
+        eventHandlers();
+      }).catch(function () {
+        vm.fileCorrupted = true;
       });
     }
 
@@ -79,6 +79,10 @@
     }
 
     function playVoice() {
+      if (vm.fileCorrupted) {
+        toastr.warning(NstSvcTranslation.get('Voice comment file is corrupted!'));
+        return;
+      }
       if (vm.voice === null) {
         return;
       }
@@ -98,34 +102,40 @@
       SvcMiniPlayer.seekTo(setTime);
     }
 
-    eventReferences.push(SvcMiniPlayer.timeChanged(function (t) {
-      if (currentPlayingId !== vm.voice.id) {
-        return;
-      }
-      $scope.$apply(function () {
-        vm.currentTime = t;
-      });
-    }));
+    function eventHandlers() {
+      eventReferences.push($rootScope.$on('play-voice-comment', function (event, data) {
+        addToPlayer(data);
+      }));
 
-    eventReferences.push(SvcMiniPlayer.statusChanged(function (result) {
-      if (result.status === 'play' || result.status === 'end') {
-        currentPlayingId = result.id;
-      }
-
-      if (result.status === 'play' || result.status === 'pause' || result.status === 'end') {
-        vm.playStatus = (result.status === 'play' && currentPlayingId === vm.voice.id);
-      }
-
-      if (currentPlayingId === vm.voice.id && result.status === 'end') {
+      eventReferences.push(SvcMiniPlayer.timeChanged(function (t) {
+        if (currentPlayingId !== vm.voice.id) {
+          return;
+        }
         $scope.$apply(function () {
-          vm.currentTime = {
-            time: 0,
-            ratio: 1
-          };
+          vm.currentTime = t;
         });
-        SvcMiniPlayer.next();
-      }
-    }));
+      }));
+
+      eventReferences.push(SvcMiniPlayer.statusChanged(function (result) {
+        if (result.status === 'play' || result.status === 'end') {
+          currentPlayingId = result.id;
+        }
+
+        if (result.status === 'play' || result.status === 'pause' || result.status === 'end') {
+          vm.playStatus = (result.status === 'play' && currentPlayingId === vm.voice.id);
+        }
+
+        if (currentPlayingId === vm.voice.id && result.status === 'end') {
+          $scope.$apply(function () {
+            vm.currentTime = {
+              time: 0,
+              ratio: 1
+            };
+          });
+          SvcMiniPlayer.next();
+        }
+      }));
+    }
 
     $scope.to_trusted = function (html_code) {
       return $sce.trustAsHtml(html_code);
