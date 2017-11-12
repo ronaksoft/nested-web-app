@@ -5,7 +5,7 @@
     .service('SvcRecorder', SvcRecorder);
 
   /** @ngInject */
-  function SvcRecorder($rootScope, _) {
+  function SvcRecorder($rootScope, _, deviceDetector) {
 
     var interval;
     var constraints = {
@@ -55,7 +55,7 @@
         var source = audioCtx.createMediaStreamSource(stream);
         var analyser = audioCtx.createAnalyser();
         analyser.smoothingTimeConstant = 0.3;
-        analyser.fftSize = 2048;
+        analyser.fftSize = 1024;
         source.connect(analyser);
         bufferLength = analyser.frequencyBinCount;
         dataArray = new Uint8Array(bufferLength);
@@ -78,6 +78,7 @@
     }
 
     var onSuccess = function (stream) {
+      recording = true;
       service.canRecord = true;
       localStream = stream;
       //stopping the stream
@@ -118,7 +119,7 @@
       navigator.getUserMedia = navigator.getUserMedia ||
         navigator.webkitGetUserMedia ||
         navigator.mozGetUserMedia;
-      if (navigator.getUserMedia) {
+      if (navigator.getUserMedia && deviceDetector.browser !== 'safari') {
         this.support = true;
       }
     }
@@ -150,7 +151,7 @@
     }
 
     function stop() {
-      if (!service.canRecord) {
+      if (!service.canRecord || !recording) {
         return;
       }
       mediaRecorder.stop();

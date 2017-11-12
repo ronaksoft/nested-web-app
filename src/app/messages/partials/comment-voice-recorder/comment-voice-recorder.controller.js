@@ -67,12 +67,18 @@
     }
 
     function start() {
+      if (vm.recording || vm.recorded) {
+        if (vm.recording) {
+          vm.stop(true);
+        }
+        return;
+      }
       vm.recording = true;
       SvcRecorder.record();
     }
 
-    function stop() {
-      if (!vm.recording) {
+    function stop(force) {
+      if (!vm.recording && force !== true) {
         return;
       }
       vm.recording = false;

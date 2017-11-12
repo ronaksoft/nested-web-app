@@ -6,13 +6,10 @@
     .controller('PlacesModalController', PlacesModalController);
 
   /** @ngInject */
-  function PlacesModalController($q, $scope, $state, $stateParams, $uibModal, $rootScope, $timeout,
-    _, toastr,
-    NST_DEFAULT, NST_AUTH_EVENT, NST_INVITATION_EVENT, NST_CONFIG, NST_KEY, deviceDetector, NST_PLACE_ACCESS, NST_SRV_ERROR,
-    NST_EVENT_ACTION, NST_USER_EVENT, NST_NOTIFICATION_EVENT, NST_SRV_EVENT, NST_NOTIFICATION_TYPE, NST_PLACE_EVENT, NST_POST_EVENT,
-    NstSvcAuth, NstSvcServer, NstSvcLogger, NstSvcNotification, NstSvcTranslation, NST_PLACE_MEMBER_TYPE,
-    NstSvcNotificationSync, NstSvcPlaceFactory, NstSvcInvitationFactory, NstUtility, NstSvcUserFactory, NstSvcSidebar,
-    NstSvcKeyFactory) {
+  function PlacesModalController($q, $scope, $state, $stateParams, $uibModal, $rootScope, $timeout, _, toastr,
+                                 NST_KEY, NST_PLACE_ACCESS, NST_SRV_ERROR, NST_PLACE_EVENT,
+                                 NstSvcAuth, NstSvcTranslation, NST_PLACE_MEMBER_TYPE, NstSvcPlaceFactory, NstUtility,
+                                 NstSvcUserFactory, NstSvcSidebar, NstSvcKeyFactory) {
     var vm = this;
     var eventReferences = [];
     var myPlaceOrders = {};
@@ -490,7 +487,7 @@
 
     }
 
-    
+
     /**
      * Represents the prompt modal for leaving place action
      */
