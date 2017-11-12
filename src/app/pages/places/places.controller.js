@@ -617,29 +617,41 @@
         places.sort(function (a, b) {
           return (a.id.split('.').length > b.id.split('.').length ? -1 : 1);
         });
-        angular.forEach(places, function (place) {
-          remove(place.id);
-        });
+        removeMulti(places, 0);
         vm.unselectAll();
 
       });
 
     }
 
+    function removeMulti(places, index){
+      var place = places[index];
+      remove(place.id).then(function(){
+        if(index < places.length - 1) {
+          removeMulti(places, index + 1)
+        }
+      });
+    }
+
     /**
      * deletes the place also shows the results of the api
      */
     function remove(id) {
-
+      var deferred = $q.defer();
+    
       NstSvcPlaceFactory.remove(id).then(function () {
         toastr.success(NstUtility.string.format(NstSvcTranslation.get("Place {0} was removed successfully."), id));
+        loadPlacesDebounce();
+        deferred.resolve()
       }).catch(function (error) {
         if (error.code === NST_SRV_ERROR.ACCESS_DENIED && error.message[0] === "remove_children_first") {
           toastr.error(NstSvcTranslation.get("You have to delete all the sub-Places within, before removing this Place."));
         } else {
           toastr.error(NstSvcTranslation.get("An error has occurred in removing this Place."));
         }
+        deferred.reject()
       });
+      return deferred.promise;
     }
 
     /**
