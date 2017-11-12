@@ -396,6 +396,10 @@
         params.post_id = settings.postId;
       }
 
+      if (settings.taskId) {
+        params.task_id = settings.taskId;
+      }
+
       settings = _.defaults(settings, defaultSettings);
       return this.sentinel.watch(function () {
         NstSvcServer.request('search/accounts' + area, params).then(function (data) {
