@@ -65,27 +65,29 @@
             .atwho({
               at: key,
               searchKey: 'searchField',
-              maxLen: 10,
-              startWithSpace: true,
+              maxLen: 24,
+              startWithSpace: false,
               limit: 5,
               displayTpl: template,
               callbacks: {
                 beforeInsert: function (value, $li) {
                   var elm = angular.element($li);
-                  return elm.attr('data-emoji').trim();
+                  return elm.attr('data-emoji').trim().replace(/ /gi, "");
                 },
                 remoteFilter: function (query, callback) {
                   window.wdtEmojiBundle.fillPickerPopup();
-                  window.wdtEmojiBundle.search(query, callb)
+                  query = query.replace(/-/gi, " ");
+                  window.wdtEmojiBundle.search(query, 5, callb);
 
                   function callb(arr) {
 
                     var items = _.map(arr, function (emoji) {
+                      var name = emoji.dataset.wdtEmojiName.toLowerCase().replace(/ /gi, "-");
                       return {
                         id: emoji.dataset.wdtEmojiOrder,
                         emoji: emoji.dataset.wdtEmojiShortname,
-                        name: emoji.dataset.wdtEmojiName,
-                        searchField: emoji.dataset.wdtEmojiName
+                        name: name,
+                        searchField: name
                       }
                     });
                     callback(items);

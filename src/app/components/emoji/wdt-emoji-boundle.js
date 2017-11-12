@@ -788,7 +788,7 @@
    * @param q
    * @returns {boolean}
    */
-  wdtEmojiBundle.search = function (q, callback) {
+  wdtEmojiBundle.search = function (q, limit, callback) {
     
     var forSuggest = typeof callback === 'function';
     var suggestedEmojies = [];
@@ -825,10 +825,12 @@
     for (var i = 0; i < emojiList.length; i++) {
       var emo = emojiList[i];
       var sst = emo.dataset.wdtEmojiName + ' ' + emo.dataset.wdtEmojiShortnames;
-
       removeClass(emo, 'not-matched');
       if (sst.match(new RegExp(q, "gi"))) {
-        suggestedEmojies.push(emo);
+        // TODO: best resaults ?!
+        if(suggestedEmojies.length < limit) {
+          suggestedEmojies.push(emo);
+        }
         found++;
       } else {
         addClass(emo, 'not-matched');
