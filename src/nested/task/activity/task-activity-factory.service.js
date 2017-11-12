@@ -189,6 +189,7 @@
       parseDefault(activity, data);
 
       activity.dueDate = data.due_date;
+      activity.hasDueTime = data.due_date_has_clock;
 
       return activity;
     }
