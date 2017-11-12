@@ -43,6 +43,9 @@
       filter: null
     };
 
+    vm.grandSelectable = true;
+    vm.subSelectable = true;
+
     $scope.$watch(function () {
       return vm.placesSetting;
     }, function () {
@@ -152,14 +155,30 @@
     }
 
     function toggleSelectPlace(place) {
+      if((place.isGrandPlace && !vm.grandSelectable) || (!place.isGrandPlace && !vm.subSelectable)){
+        return;
+      }
       place.isSelected = !place.isSelected;
       var placeIndex = vm.selectedPlaces.indexOf(place);
       if (placeIndex > -1) {
+        if(vm.selectedPlaces.length === 1) {
+          vm.grandSelectable = true;
+          vm.subSelectable = true;
+        }
         vm.selectedPlaces.splice(placeIndex, 1);
         removeFromTemp('forbiddenAddPlaces', place.id);
         removeFromTemp('forbiddenLeavePlaces', place.id);
         removeFromTemp('forbiddenDeletePlaces', place.id);
       } else {
+        if(vm.selectedPlaces.length === 0) {
+          if(isGrandPlace(place.id)) {
+            vm.grandSelectable = true;
+            vm.subSelectable = false;
+          } else {
+            vm.grandSelectable = false;
+            vm.subSelectable = true;
+          }
+        }
         selectPlace(place);
       }
     }
@@ -172,6 +191,8 @@
       vm.forbiddenAddPlaces = [];
       vm.forbiddenDeletePlaces = [];
       vm.forbiddenLeavePlaces = [];
+      vm.grandSelectable = true;
+      vm.subSelectable = true;
     }
 
     /*****************************
@@ -509,7 +530,6 @@
         toastr.success(NstUtility.string.format(NstSvcTranslation.get("Left from {0} successfully."), id));
         loadPlacesDebounce();
       }).catch(function (error) {
-        console.log(error, NST_SRV_ERROR.ACCESS_DENIED);
         if (error.code === NST_SRV_ERROR.ACCESS_DENIED) {
           switch (error.message[0]) {
             case 'you_are_not_member':
@@ -595,9 +615,15 @@
           }
         }
       }).result.then(function () {
-        angular.forEach(vm.selectedPlaces, function (id) {
-          remove(id);
+        //handle children parent remove order
+        var places = vm.selectedPlaces.slice(0);
+        places.sort(function (a, b) {
+          return (a.id.split('.').length > b.id.split('.').length ? -1 : 1);
         });
+        angular.forEach(places, function (place) {
+          remove(place.id);
+        });
+        vm.unselectAll();
 
       });
 
@@ -839,8 +865,6 @@
     eventReferences.push($rootScope.$on(NST_PLACE_EVENT.SUB_ADDED, function () {
       loadPlacesDebounce();
     }));
-
-    /**
 
     /**
      * Checks both the Place model and myPlacesUnreadPosts to find whether the Place has unseen posts or not

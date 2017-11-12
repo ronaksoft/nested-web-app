@@ -1,1 +1,287 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="4332 526 16 192"><defs><style>.a{opacity:0.16;}.a,.g{fill:url(#a);}.b,.d,.e,.i{fill:none;}.b,.e{stroke:#323d47;}.b{opacity:0.48;}.c{fill:#14d769;}.d{stroke:#fff;stroke-miterlimit:10;stroke-width:2px;}.e{opacity:0.24;}.f{fill:#323d47;opacity:0.12;}.g{opacity:0.08;}.h{stroke:none;}</style><linearGradient id="a" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox"><stop offset="0" stop-color="#323d47" stop-opacity="0"/><stop offset="1" stop-color="#323d47"/></linearGradient></defs><g transform="translate(-304 16)"><g transform="translate(-247 12)"><g transform="translate(4812 510)"><rect class="a" width="16" height="16" rx="8" transform="translate(71 100)"/><g class="b" transform="translate(71 100)"><rect class="h" width="16" height="16" rx="8"/><rect class="i" x="0.5" y="0.5" width="15" height="15" rx="7.5"/></g><rect class="c" width="10" height="10" rx="5" transform="translate(74 103)"/></g><g transform="translate(4812 382)"><rect class="c" width="16" height="16" rx="3" transform="translate(71 132)"/><rect class="a" width="16" height="16" rx="3" transform="translate(71 132)"/><g class="b" transform="translate(71 132)"><rect class="h" width="16" height="16" rx="3"/><rect class="i" x="0.5" y="0.5" width="15" height="15" rx="2.5"/></g><path class="d" d="M13,5,6,12,3,9" transform="translate(71 131.5)"/></g><g transform="translate(4832 366)"><rect class="c" width="16" height="16" rx="3" transform="translate(51 132)"/><path class="d" d="M13,5,6,12,3,9" transform="translate(51 131.5)"/><g class="e" transform="translate(51 132)"><rect class="h" width="16" height="16" rx="3"/><rect class="i" x="0.5" y="0.5" width="15" height="15" rx="2.5"/></g></g><g transform="translate(4792 526)"><g class="b" transform="translate(91 100)"><rect class="h" width="16" height="16" rx="8"/><rect class="i" x="0.5" y="0.5" width="15" height="15" rx="7.5"/></g><rect class="c" width="10" height="10" rx="5" transform="translate(94 103)"/><rect class="f" width="16" height="16" rx="8" transform="translate(91 100)"/></g><g transform="translate(4792 398)"><rect class="c" width="16" height="16" rx="3" transform="translate(91 132)"/><g class="b" transform="translate(91 132)"><rect class="h" width="16" height="16" rx="3"/><rect class="i" x="0.5" y="0.5" width="15" height="15" rx="2.5"/></g><path class="d" d="M13,5,6,12,3,9" transform="translate(91 131.5)"/><rect class="f" width="16" height="16" rx="3" transform="translate(91 132)"/></g><g transform="translate(4752 430)"><rect class="g" width="16" height="16" rx="3" transform="translate(131 132)"/><g class="b" transform="translate(131 132)"><rect class="h" width="16" height="16" rx="3"/><rect class="i" x="0.5" y="0.5" width="15" height="15" rx="2.5"/></g></g><g transform="translate(4752 558)"><rect class="g" width="16" height="16" rx="8" transform="translate(131 100)"/><g class="b" transform="translate(131 100)"><rect class="h" width="16" height="16" rx="8"/><rect class="i" x="0.5" y="0.5" width="15" height="15" rx="7.5"/></g></g><g transform="translate(4772 542)"><g class="e" transform="translate(111 100)"><rect class="h" width="16" height="16" rx="8"/><rect class="i" x="0.5" y="0.5" width="15" height="15" rx="7.5"/></g></g><g transform="translate(4772 414)"><g class="e" transform="translate(111 132)"><rect class="h" width="16" height="16" rx="3"/><rect class="i" x="0.5" y="0.5" width="15" height="15" rx="2.5"/></g></g><g transform="translate(4732 574)"><g class="b" transform="translate(151 100)"><rect class="h" width="16" height="16" rx="8"/><rect class="i" x="0.5" y="0.5" width="15" height="15" rx="7.5"/></g><rect class="f" width="16" height="16" rx="8" transform="translate(151 100)"/></g><g transform="translate(4732 446)"><g class="b" transform="translate(151 132)"><rect class="h" width="16" height="16" rx="3"/><rect class="i" x="0.5" y="0.5" width="15" height="15" rx="2.5"/></g><rect class="f" width="16" height="16" rx="3" transform="translate(151 132)"/></g><g transform="translate(4832 494)"><rect class="c" width="10" height="10" rx="5" transform="translate(54 103)"/><g class="e" transform="translate(51 100)"><rect class="h" width="16" height="16" rx="8"/><rect class="i" x="0.5" y="0.5" width="15" height="15" rx="7.5"/></g></g></g></g></svg>
+<svg width="16" height="256" viewBox="0 0 16 256" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <title>radiobuttons-checkbox</title>
+  <desc>Created using Figma</desc>
+  <g id="Canvas" transform="translate(175 -292)">
+    <clipPath id="clip-0" clip-rule="evenodd">
+      <path d="M -175 292L -159 292L -159 548L -175 548L -175 292Z" fill="#FFFFFF" />
+    </clipPath>
+    <g id="radiobuttons-checkbox" clip-path="url(#clip-0)">
+      <g id="Elements / Radio &#38; Checkbox/ radiobuttonuncheckeddisable">
+        <g id="Rectangle" opacity="0.16">
+          <mask id="mask0_outline_ins">
+            <use xlink:href="#path0_fill" fill="white" transform="translate(-175 532)" />
+          </mask>
+          <g mask="url(#mask0_outline_ins)">
+            <use xlink:href="#path1_stroke_2x" transform="translate(-175 532)" fill="#323D47" />
+          </g>
+        </g>
+        <g id="Rectangle" opacity="0.16">
+          <use xlink:href="#path0_fill" transform="translate(-175 532)" fill="#323D47" />
+        </g>
+      </g>
+      <g id="Elements / Radio &#38; Checkbox/ radiobuttoncheckeddisable">
+        <g id="Rectangle" opacity="0.16">
+          <use xlink:href="#path2_fill" transform="translate(-172 519)" fill="#14D769" />
+        </g>
+        <g id="Rectangle" opacity="0.16">
+          <mask id="mask1_outline_ins">
+            <use xlink:href="#path0_fill" fill="white" transform="translate(-175 516)" />
+          </mask>
+          <g mask="url(#mask1_outline_ins)">
+            <use xlink:href="#path1_stroke_2x" transform="translate(-175 516)" fill="#323D47" />
+          </g>
+        </g>
+        <g id="Rectangle" opacity="0.16">
+          <use xlink:href="#path0_fill" transform="translate(-175 516)" fill="#323D47" />
+        </g>
+      </g>
+      <g id="Elements / Radio &#38; Checkbox/ checkboxuncheckeddisable">
+        <g id="Rectangle" opacity="0.16">
+          <mask id="mask2_outline_ins">
+            <use xlink:href="#path3_fill" fill="white" transform="translate(-175 500)" />
+          </mask>
+          <g mask="url(#mask2_outline_ins)">
+            <use xlink:href="#path4_stroke_2x" transform="translate(-175 500)" fill="#323D47" />
+          </g>
+        </g>
+        <g id="Rectangle" opacity="0.16">
+          <use xlink:href="#path3_fill" transform="translate(-175 500)" fill="#323D47" />
+        </g>
+      </g>
+      <g id="Elements / Radio &#38; Checkbox/ checkboxcheckeddisable">
+        <g id="Rectangle" opacity="0.16">
+          <use xlink:href="#path3_fill" transform="translate(-175 484)" fill="#14D769" />
+        </g>
+        <g id="Vector">
+          <use xlink:href="#path5_fill" transform="translate(-172.707 487.793)" fill="#FFFFFF" />
+        </g>
+        <g id="Rectangle" opacity="0.16">
+          <mask id="mask3_outline_ins">
+            <use xlink:href="#path3_fill" fill="white" transform="translate(-175 484)" />
+          </mask>
+          <g mask="url(#mask3_outline_ins)">
+            <use xlink:href="#path4_stroke_2x" transform="translate(-175 484)" fill="#323D47" />
+          </g>
+        </g>
+        <g id="Rectangle" opacity="0.16">
+          <use xlink:href="#path3_fill" transform="translate(-175 484)" fill="#323D47" />
+        </g>
+      </g>
+      <g id="Elements / Radio &#38; Checkbox/ radiobuttonuncheckedmousedown">
+        <g id="Rectangle" opacity="0.12">
+          <use xlink:href="#path0_fill" transform="translate(-175 468)" fill="#323D47" />
+        </g>
+        <g id="Rectangle">
+          <mask id="mask4_outline_ins">
+            <use xlink:href="#path0_fill" fill="white" transform="translate(-175 468)" />
+          </mask>
+          <g mask="url(#mask4_outline_ins)">
+            <use xlink:href="#path1_stroke_2x" transform="translate(-175 468)" fill="#323D47" />
+          </g>
+        </g>
+      </g>
+      <g id="Elements / Radio &#38; Checkbox/ radiobuttonuncheckedrollover">
+        <g id="Rectangle" opacity="0.08">
+          <use xlink:href="#path0_fill" transform="translate(-175 452)" fill="url(#paint13_linear)" />
+        </g>
+        <g id="Rectangle" opacity="0.16">
+          <use xlink:href="#path0_fill" transform="translate(-175 452)" fill="url(#paint14_linear)" />
+        </g>
+        <g id="Rectangle" opacity="0.72">
+          <mask id="mask5_outline_ins">
+            <use xlink:href="#path0_fill" fill="white" transform="translate(-175 452)" />
+          </mask>
+          <g mask="url(#mask5_outline_ins)">
+            <use xlink:href="#path1_stroke_2x" transform="translate(-175 452)" fill="#323D47" />
+          </g>
+        </g>
+      </g>
+      <g id="Elements / Radio &#38; Checkbox/ radiobuttonunchecked">
+        <g id="Rectangle" opacity="0.4">
+          <mask id="mask6_outline_ins">
+            <use xlink:href="#path0_fill" fill="white" transform="translate(-175 436)" />
+          </mask>
+          <g mask="url(#mask6_outline_ins)">
+            <use xlink:href="#path1_stroke_2x" transform="translate(-175 436)" fill="#323D47" />
+          </g>
+        </g>
+      </g>
+      <g id="Elements / Radio &#38; Checkbox/ radiobuttoncheckedmousedown">
+        <g id="Rectangle">
+          <use xlink:href="#path2_fill" transform="translate(-172 423)" fill="#14D769" />
+        </g>
+        <g id="Rectangle">
+          <mask id="mask7_outline_ins">
+            <use xlink:href="#path0_fill" fill="white" transform="translate(-175 420)" />
+          </mask>
+          <g mask="url(#mask7_outline_ins)">
+            <use xlink:href="#path1_stroke_2x" transform="translate(-175 420)" fill="#323D47" />
+          </g>
+        </g>
+        <g id="Rectangle" opacity="0.12">
+          <use xlink:href="#path0_fill" transform="translate(-175 420)" fill="#323D47" />
+        </g>
+      </g>
+      <g id="Elements / Radio &#38; Checkbox/ radiobuttoncheckedrollover">
+        <g id="Rectangle">
+          <use xlink:href="#path2_fill" transform="translate(-172 407)" fill="#14D769" />
+        </g>
+        <g id="Rectangle" opacity="0.16">
+          <use xlink:href="#path0_fill" transform="translate(-175 404)" fill="url(#paint21_linear)" />
+        </g>
+        <g id="Rectangle" opacity="0.72">
+          <mask id="mask8_outline_ins">
+            <use xlink:href="#path0_fill" fill="white" transform="translate(-175 404)" />
+          </mask>
+          <g mask="url(#mask8_outline_ins)">
+            <use xlink:href="#path1_stroke_2x" transform="translate(-175 404)" fill="#323D47" />
+          </g>
+        </g>
+      </g>
+      <g id="Elements / Radio &#38; Checkbox/ radiobuttonchecked">
+        <g id="Rectangle">
+          <use xlink:href="#path2_fill" transform="translate(-172 391)" fill="#14D769" />
+        </g>
+        <g id="Rectangle">
+          <mask id="mask9_outline_ins">
+            <use xlink:href="#path0_fill" fill="white" transform="translate(-175 388)" />
+          </mask>
+          <g mask="url(#mask9_outline_ins)">
+            <use xlink:href="#path1_stroke_2x" transform="translate(-175 388)" fill="#00B45A" />
+          </g>
+        </g>
+      </g>
+      <g id="Elements / Radio &#38; Checkbox/ checkboxuncheckedmousedown">
+        <g id="Rectangle" opacity="0.12">
+          <use xlink:href="#path3_fill" transform="translate(-175 372)" fill="#323D47" />
+        </g>
+        <g id="Rectangle">
+          <mask id="mask10_outline_ins">
+            <use xlink:href="#path3_fill" fill="white" transform="translate(-175 372)" />
+          </mask>
+          <g mask="url(#mask10_outline_ins)">
+            <use xlink:href="#path4_stroke_2x" transform="translate(-175 372)" fill="#323D47" />
+          </g>
+        </g>
+      </g>
+      <g id="Elements / Radio &#38; Checkbox/ checkboxuncheckedrollover">
+        <g id="Rectangle" opacity="0.08">
+          <use xlink:href="#path3_fill" transform="translate(-175 356)" fill="url(#paint27_linear)" />
+        </g>
+        <g id="Rectangle" opacity="0.16">
+          <use xlink:href="#path3_fill" transform="translate(-175 356)" fill="url(#paint28_linear)" />
+        </g>
+        <g id="Rectangle" opacity="0.72">
+          <mask id="mask11_outline_ins">
+            <use xlink:href="#path3_fill" fill="white" transform="translate(-175 356)" />
+          </mask>
+          <g mask="url(#mask11_outline_ins)">
+            <use xlink:href="#path4_stroke_2x" transform="translate(-175 356)" fill="#323D47" />
+          </g>
+        </g>
+      </g>
+      <g id="Elements / Radio &#38; Checkbox/ checkboxunchecked">
+        <g id="Rectangle" opacity="0.4">
+          <mask id="mask12_outline_ins">
+            <use xlink:href="#path3_fill" fill="white" transform="translate(-175 340)" />
+          </mask>
+          <g mask="url(#mask12_outline_ins)">
+            <use xlink:href="#path4_stroke_2x" transform="translate(-175 340)" fill="#323D47" />
+          </g>
+        </g>
+      </g>
+      <g id="Elements / Radio &#38; Checkbox/ checkboxcheckedmousedown">
+        <g id="Rectangle">
+          <use xlink:href="#path3_fill" transform="translate(-175 324)" fill="#14D769" />
+        </g>
+        <g id="Vector">
+          <use xlink:href="#path5_fill" transform="translate(-172.707 327.793)" fill="#FFFFFF" />
+        </g>
+        <g id="Rectangle">
+          <mask id="mask13_outline_ins">
+            <use xlink:href="#path3_fill" fill="white" transform="translate(-175 324)" />
+          </mask>
+          <g mask="url(#mask13_outline_ins)">
+            <use xlink:href="#path4_stroke_2x" transform="translate(-175 324)" fill="#323D47" />
+          </g>
+        </g>
+        <g id="Rectangle" opacity="0.12">
+          <use xlink:href="#path3_fill" transform="translate(-175 324)" fill="#323D47" />
+        </g>
+      </g>
+      <g id="Elements / Radio &#38; Checkbox/ checkboxcheckedrollover">
+        <g id="Rectangle">
+          <use xlink:href="#path3_fill" transform="translate(-175 308)" fill="#14D769" />
+        </g>
+        <g id="Vector">
+          <use xlink:href="#path5_fill" transform="translate(-172.707 311.793)" fill="#FFFFFF" />
+        </g>
+        <g id="Rectangle" opacity="0.16">
+          <use xlink:href="#path3_fill" transform="translate(-175 308)" fill="url(#paint37_linear)" />
+        </g>
+        <g id="Rectangle" opacity="0.72">
+          <mask id="mask14_outline_ins">
+            <use xlink:href="#path3_fill" fill="white" transform="translate(-175 308)" />
+          </mask>
+          <g mask="url(#mask14_outline_ins)">
+            <use xlink:href="#path4_stroke_2x" transform="translate(-175 308)" fill="#323D47" />
+          </g>
+        </g>
+      </g>
+      <g id="Elements / Radio &#38; Checkbox/ checkboxchecked">
+        <g id="Rectangle">
+          <use xlink:href="#path3_fill" transform="translate(-175 292)" fill="#14D769" />
+        </g>
+        <g id="Vector">
+          <use xlink:href="#path5_fill" transform="translate(-172.707 295.793)" fill="#FFFFFF" />
+        </g>
+        <g id="Rectangle" opacity="0.24">
+          <mask id="mask15_outline_ins">
+            <use xlink:href="#path3_fill" fill="white" transform="translate(-175 292)" />
+          </mask>
+          <g mask="url(#mask15_outline_ins)">
+            <use xlink:href="#path4_stroke_2x" transform="translate(-175 292)" fill="#323D47" />
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+  <defs>
+    <linearGradient id="paint13_linear" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(9.79717e-16 16 -16 9.79717e-16 16 -9.79717e-16)">
+      <stop offset="0" stop-color="#323D47" stop-opacity="0" />
+      <stop offset="1" stop-color="#323D47" />
+    </linearGradient>
+    <linearGradient id="paint14_linear" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(9.79717e-16 16 -16 9.79717e-16 16 -9.79717e-16)">
+      <stop offset="0" stop-color="#323D47" stop-opacity="0" />
+      <stop offset="1" stop-color="#323D47" />
+    </linearGradient>
+    <linearGradient id="paint21_linear" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(9.79717e-16 16 -16 9.79717e-16 16 -9.79717e-16)">
+      <stop offset="0" stop-color="#323D47" stop-opacity="0" />
+      <stop offset="1" stop-color="#323D47" />
+    </linearGradient>
+    <linearGradient id="paint27_linear" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(9.79717e-16 16 -16 9.79717e-16 16 -9.79717e-16)">
+      <stop offset="0" stop-color="#323D47" stop-opacity="0" />
+      <stop offset="1" stop-color="#323D47" />
+    </linearGradient>
+    <linearGradient id="paint28_linear" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(9.79717e-16 16 -16 9.79717e-16 16 -9.79717e-16)">
+      <stop offset="0" stop-color="#323D47" stop-opacity="0" />
+      <stop offset="1" stop-color="#323D47" />
+    </linearGradient>
+    <linearGradient id="paint37_linear" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(9.79717e-16 16 -16 9.79717e-16 16 -9.79717e-16)">
+      <stop offset="0" stop-color="#323D47" stop-opacity="0" />
+      <stop offset="1" stop-color="#323D47" />
+    </linearGradient>
+    <path id="path0_fill" d="M 0 8C 0 3.58172 3.58172 0 8 0C 12.4183 0 16 3.58172 16 8C 16 12.4183 12.4183 16 8 16C 3.58172 16 0 12.4183 0 8Z"
+    />
+    <path id="path1_stroke_2x" d="M 8 -1C 3.02944 -1 -1 3.02944 -1 8L 1 8C 1 4.13401 4.13401 1 8 1L 8 -1ZM 8 1C 11.866 1 15 4.13401 15 8L 17 8C 17 3.02944 12.9706 -1 8 -1L 8 1ZM 15 8C 15 11.866 11.866 15 8 15L 8 17C 12.9706 17 17 12.9706 17 8L 15 8ZM 8 15C 4.13401 15 1 11.866 1 8L -1 8C -1 12.9706 3.02944 17 8 17L 8 15Z"
+    />
+    <path id="path2_fill" d="M 0 5C 0 2.23858 2.23858 0 5 0C 7.76142 0 10 2.23858 10 5C 10 7.76142 7.76142 10 5 10C 2.23858 10 0 7.76142 0 5Z"
+    />
+    <path id="path3_fill" d="M 0 3C 0 1.34315 1.34315 0 3 0L 13 0C 14.6569 0 16 1.34315 16 3L 16 13C 16 14.6569 14.6569 16 13 16L 3 16C 1.34315 16 0 14.6569 0 13L 0 3Z"
+    />
+    <path id="path4_stroke_2x" d="M 3 1L 13 1L 13 -1L 3 -1L 3 1ZM 15 3L 15 13L 17 13L 17 3L 15 3ZM 13 15L 3 15L 3 17L 13 17L 13 15ZM 1 13L 1 3L -1 3L -1 13L 1 13ZM 3 -1C 0.790861 -1 -1 0.790861 -1 3L 1 3C 1 1.89543 1.89543 1 3 1L 3 -1ZM 13 1C 14.1046 1 15 1.89543 15 3L 17 3C 17 0.790861 15.2091 -1 13 -1L 13 1ZM 15 13C 15 14.1046 14.1046 15 13 15L 13 17C 15.2091 17 17 15.2091 17 13L 15 13ZM 3 15C 1.89543 15 1 14.1046 1 13L -1 13C -1 15.2091 0.790861 17 3 17L 3 15Z"
+    />
+    <path id="path5_fill" fill-rule="evenodd" d="M 3.70711 6.29289L 10 0L 11.4142 1.41421L 3.70711 9.12132L 0 5.41421L 1.41421 4L 3.70711 6.29289Z"
+    />
+  </defs>
+</svg>

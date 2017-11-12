@@ -1,7 +1,7 @@
 <a class="place-item" ng-class="{'hide': (!ctrl.placesSetting.relationView && !ctrl.visiblePlaces[place.id])}">
   <div class="place-selector" ng-click="ctrl.toggleSelectPlace(place)" >
-    <input ng-model="place.isSelected"class="_fr" type="checkbox" id="cb-{{ctrl.escapeDot(place.id)}}"
-      name="selector" />
+    <input ng-model="place.isSelected" class="_fr" type="checkbox" id="cb-{{ctrl.escapeDot(place.id)}}"
+      name="selector" ng-disabled="(place.isGrandPlace && !ctrl.grandSelectable) || (!place.isGrandPlace && !ctrl.subSelectable)"/>
     <label class="_fw setting left-box checkbox-label _asc" for="cb-{{ctrl.escapeDot(place.id)}}"></label>
   </div>
   <div class="dragger">

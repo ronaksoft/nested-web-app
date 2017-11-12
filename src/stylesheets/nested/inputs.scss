@@ -181,10 +181,10 @@ label.setting  {
   min-width: 17px;
   padding: 0 17px 0 0!important;
   font-size: $font-size-small;
-  background-size: 16px 192px;
+  background-size: 16px 256px;
   background-repeat: no-repeat;
   background-position-x: right;
-  background-position-y: -64px;
+  background-position-y: -48px;
   &.left-box {
     background-position-x: left!important;
     padding: 0 0 0 24px!important;
@@ -193,25 +193,41 @@ label.setting  {
 
 input[type="checkbox"]:disabled + label.setting {
   background-position-x: right;
-  background-position-y: -48px;
+  background-position-y: -208px;
+}
+input[type="checkbox"]:checked:disabled + label.setting {
+  background-position-x: right;
+  background-position-y: -192px;
+}
+input[type="checkbox"]:disabled:hover + label.setting {
+  background-position-x: right;
+  background-position-y: -208px;
+}
+input[type="checkbox"]:checked:disabled:hover + label.setting {
+  background-position-x: right;
+  background-position-y: -192px;
 }
 
+
 input[type="checkbox"]:hover + label.setting {
+  background-position-x: right;
+  background-position-y: -64px;
+}
+input[type="checkbox"]:active + label.setting {
   background-position-x: right;
   background-position-y: -80px;
 }
 
 input[type="checkbox"]:checked + label.setting {
   background-position-x: right;
-  background-position-y: -16px;
-}
-
-input[type="checkbox"]:checked:disabled + label.setting {
-  background-position-x: right;
   background-position-y: 0;
 }
 
 input[type="checkbox"]:checked:hover + label.setting {
+  background-position-x: right;
+  background-position-y: -16px;
+}
+input[type="checkbox"]:checked:hover:active + label.setting {
   background-position-x: right;
   background-position-y: -32px;
 }

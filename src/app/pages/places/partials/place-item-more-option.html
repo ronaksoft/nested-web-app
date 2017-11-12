@@ -10,7 +10,7 @@
   <span><translate>Place Settings</translate></span>
 </a>
 <hr ng-if="ctrl.allowedToAddPlace">
-<a ng-if="ctrl.isGrandPlace(place.id) && !ctrl.isPersonal(place.id)&& place.permitions.allowedToCreatePlace"
+<!-- <a ng-if="ctrl.isGrandPlace(place.id) && !ctrl.isPersonal(place.id)&& place.permitions.allowedToCreatePlace"
    class="_df list-items _aic" ui-sref="app.place-create({ placeId : place.id })"
    ng-click="ctrl.openCreateSubplaceModal($event, 'open',  place.id)">
   <div>
@@ -19,7 +19,7 @@
     </svg>
   </div>
   <span><translate>Create an Open Place</translate></span>
-</a>
+</a> -->
 <a class="_df list-items _aic" ui-sref="app.place-create({ placeId : place.id })"
    ng-click="ctrl.openCreateSubplaceModal($event, 'close',  place.id)"
    ng-if="place.permitions.allowedToCreatePlace">
@@ -28,7 +28,7 @@
       <use xlink:href="/assets/icons/nst-icn16.svg#brick-wall"></use>
     </svg>
   </div>
-  <span><translate>Create a Closed Place</translate></span>
+  <span><translate>Create a sub Place</translate></span>
 </a>
 <!-- <hr ng-if="!ctrl.isPersonal() && (ctrl.allowedToRemovePlace || ctrl.place.privacy.locked)"> -->
 <a class="_df red-item list-items _aic"

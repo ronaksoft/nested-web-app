@@ -50,7 +50,7 @@
   <translate ng-if="!ctlFullNavbar.isGrandPlace">Add Members</translate>
 </a>
 <hr ng-if="ctlFullNavbar.allowedToAddPlace">
-<a ng-if="ctlFullNavbar.isGrandPlace && !ctlFullNavbar.isPersonal() && ctlFullNavbar.allowedToAddPlace"
+<!-- <a ng-if="ctlFullNavbar.isGrandPlace && !ctlFullNavbar.isPersonal() && ctlFullNavbar.allowedToAddPlace"
    class="_df list-items _aic" ui-sref="app.place-create({ placeId : ctlFullNavbar.getPlaceId() })"
    ng-click="ctlFullNavbar.openCreateSubplaceModal($event,'open')">
   <div>
@@ -59,7 +59,7 @@
     </svg>
   </div>
   <span><translate>Create an Open Place</translate></span>
-</a>
+</a> -->
 <a class="_df list-items _aic" ui-sref="app.place-create({ placeId : ctlFullNavbar.getPlaceId() })"
    ng-click="ctlFullNavbar.openCreateSubplaceModal($event,'close')"
    ng-if="ctlFullNavbar.allowedToAddPlace">
@@ -68,7 +68,7 @@
       <use xlink:href="/assets/icons/nst-icn16.svg#brick-wall"></use>
     </svg>
   </div>
-  <span><translate>Create a Closed Place</translate></span>
+  <span><translate>Create a sub Place</translate></span>
 </a>
 <hr ng-if="!ctlFullNavbar.isPersonal() && (ctlFullNavbar.allowedToRemovePlace || ctlFullNavbar.place.privacy.locked)">
 <a class="_df red-item list-items _aic"
