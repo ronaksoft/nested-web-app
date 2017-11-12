@@ -8,10 +8,12 @@
     <translate data-ng-if="!addMemberCtrl.isGrandPlace">Add Members</translate>
     <translate data-ng-if="addMemberCtrl.isGrandPlace">Invite new Members</translate>
   </h4>
-  <ui-select multiple class="add-user-modal-input _fn _df"
+  <ui-select multiple class="add-user-modal-input _fn _df" theme="bootstrap"
     data-ng-model="addMemberCtrl.selectedUsers" limit="{{addMemberCtrl.limit}}"
-    autofocus="true" always-show-list on-select="addMemberCtrl.search('')">
+    autofocus="true" focus-me="true" on-select="addMemberCtrl.search('')">
+    {{$select.open = true; ""}}
     <ui-select-match placeholder="{{::addMemberCtrl.searchPlaceholder}}">
+      {{$select.open = true; ""}}
       <!-- <div class="selected-innter">
         <span class="place-img">
           <img initial-avatar="{{$item.id}}" picture="{{$item | avatar}}"
