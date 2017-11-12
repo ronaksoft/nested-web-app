@@ -180,7 +180,6 @@
       if (data.action !== NST_EVENT_ACTION.LABEL_ADD) {
         throw Error(NstUtility.string.format('The provided activity is not of {0} type.', NST_EVENT_ACTION.LABEL_ADD));
       }
-      console.log(data);
       var activity = new NstActivity();
       activity.id = data._id;
       activity.type = data.action;
