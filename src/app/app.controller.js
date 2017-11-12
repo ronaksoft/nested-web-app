@@ -6,7 +6,7 @@
     .controller('AppController', AppController);
 
   /** @ngInject */
-  function AppController($scope, $window, $rootScope, $state, $stateParams, $interval, toastr,
+  function AppController($scope, $window, $rootScope, $state, $stateParams, $interval, toastr, $location,
                          deviceDetector, NstSvcInteractionTracker, $uibModal, NstSvcTranslation, NstUtility,
                          NST_DEFAULT, NST_AUTH_EVENT, NST_SRV_EVENT, NST_NOTIFICATION_EVENT, NST_CONFIG,
                          NstSvcServer, NstSvcAuth, NstSvcLogger, NstSvcI18n, _, NstSvcNotificationFactory, $) {
@@ -78,7 +78,10 @@
     });
 
     eventReferences.push($rootScope.$on(NST_AUTH_EVENT.AUTHORIZE_FAIL, function () {
-      $state.go('public.signin');
+      console.log('auth fail')
+      $state.go('app.signout');
+      // todo : makeit works in a other way
+      $window.location.reload()
     }));
 
     eventReferences.push($rootScope.$on(NST_NOTIFICATION_EVENT.EXTERNAL_PUSH_ACTION, function (e, data) {
