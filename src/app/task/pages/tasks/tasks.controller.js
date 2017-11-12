@@ -244,7 +244,6 @@
         } else {
           toastr.error(NstSvcTranslation.get('Something went wrong!'));
         }
-        // TODO Remove item from collection
       });
     }
 

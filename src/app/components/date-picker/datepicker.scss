@@ -290,6 +290,7 @@ $default-color: $color-sense-wire;
         top: 0;
         right: 0;
         bottom: 0;
+        z-index: 3;
         @include align-center();
         color: $color-sense-wire;
         background-color: $color-white;
