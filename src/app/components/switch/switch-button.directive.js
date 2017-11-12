@@ -15,9 +15,9 @@
       },
       link: function (scope, $element) {
 
-        var width = scope.size === 'sm' ? 30 : 52
-        var mid = scope.size === 'sm' ? 16 : 32
-        var offSet = scope.size === 'sm' ? 2 : 4
+        var width = scope.size === 'sm' ? 30 : 45
+        var mid = scope.size === 'sm' ? 16 : 24
+        var offSet = scope.size === 'sm' ? 2 : 3
 
         var checkbox = $element.parent().parent().find('input');
 

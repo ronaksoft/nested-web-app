@@ -104,10 +104,10 @@ body[dir="rtl"] {
   }
   .place-switch input+label .circle {
     right: 0;
-    transform: translateX(-4px);
+    transform: translateX(-3px);
   }
   .place-switch input[type="checkbox"]:checked+label .circle {
-    transform: translateX(-52px);
+    transform: translateX(-45px);
   }
   #create-place .create-place-checkbox:checked+label {
     background-position: 100% -16px;

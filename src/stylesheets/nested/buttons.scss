@@ -386,7 +386,7 @@ input[type="checkbox"].inpsw[disabled]:checked + label + label  {
 
 
 .place-switch {
-  width: 80px;
+  width: 72px;
   height: 32px;
   border-radius: 16px;
   //background-color: $color-sense;
@@ -406,7 +406,7 @@ input[type="checkbox"].inpsw[disabled]:checked + label + label  {
     width: 50%;
     align-items: center;
     transition: all $animation-dur;
-    border: 1px solid #F0F0F0;
+    border: 1px solid $color-solid-24;
     b {
       color: $color-solid-30;
       font-weight: 400;
@@ -432,9 +432,8 @@ input[type="checkbox"].inpsw[disabled]:checked + label + label  {
       display: flex;
       transition: all $animation-dur cubic-bezier(.25,.8,.25,1);
       left: 0;
-      transform: translateX(4px);
-      box-shadow: 0 2px 4px $color-breeze;
-      border: 1px solid $color-breeze-50
+      transform: translateX(3px);
+      border: 1px solid $color-solid-24;
     }
   }
   input + label + label {
@@ -453,7 +452,7 @@ input[type="checkbox"].inpsw[disabled]:checked + label + label  {
     .circle {
       background-color: #F0F0F0;
       //left: 52px;
-      transform: translateX(52px);
+      transform: translateX(45px);
     }
   }
 
@@ -479,21 +478,31 @@ input[type="checkbox"].inpsw[disabled]:checked + label + label  {
 
   //disabled
   // OFF
-  input[disabled] + label,
   input[disabled]:checked + label,
-  input[disabled]:checked + label + label,
+  input[disabled]:checked + label + label{
+    background-color: rgba(0, 180, 90, 0.4);
+    border-color: rgba(0, 180, 90, 0.4);
+  }
+  input[disabled] + label,
   input[disabled] + label + label{
-    background-color: #E6E6E6;
-    border-color: rgba(120,120,120,.2);
+    background-color: $color-breeze-5-new;
+    border-color: $color-breeze-5-new;
     b {
-      color: $color-border-pics;
+      color: $color-gale-new;
     }
     .circle {
-      background-color: #FAFAFA;
+      background-color: $color-white;
+      background: $color-white;
       box-shadow: none;
+      border-color: $color-white;
     }
   }
 
+  &:hover {
+    .circle {
+      box-shadow: 0 4px 8px $color-gale-new;
+    }
+  }
 }
 .place-switch.sm {
   width: 32px;
