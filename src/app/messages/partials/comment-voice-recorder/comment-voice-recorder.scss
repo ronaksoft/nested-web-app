@@ -48,3 +48,11 @@ nst-voice-comment-recorder {
     }
   }
 }
+body[dir="rtl"] {
+  nst-voice-comment-recorder {
+    .comment-voice-recorder {
+      right: auto;
+      left: 30px;
+    }
+  }
+}
