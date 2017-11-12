@@ -33,7 +33,8 @@
       id: -parseInt(_.uniqueId()),
       text: '',
       checked: false,
-      weight: 1
+      weight: 1,
+      focusTrigger: 0
     };
 
     vm.addTodo = addTodo;
@@ -41,6 +42,8 @@
     vm.checkTodo = checkTodo;
     vm.removeTodo = removeTodo;
     vm.removeItems = removeItems;
+
+    vm.previousTodo = previousTodo;
 
     function addTodo() {
       // if (_.findIndex(vm.todosData, {text: vm.temp.text}) > -1) {
@@ -82,11 +85,18 @@
       var index = _.findIndex(vm.todosData, {id: id});
       if (index > -1) {
         vm.todosData.splice(index, 1);
+        vm.todoFocusMe++;
       }
     }
 
     function removeItems () {
       vm.todosData = [];
+    }
+
+    function previousTodo() {
+      if (vm.todosData.length > 0) {
+        vm.todosData[vm.todosData.length - 1].focusTrigger++;
+      }
     }
   }
 })();
