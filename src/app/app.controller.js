@@ -220,13 +220,12 @@
         resolve: {
           modalId: uid
         }
-      }).result.catch(function () {
-        $rootScope.goToLastState(true);
       });
       backgroundModals.push({
         id: uid,
         order: backgroundModals.length,
-        type: 'compose'
+        type: 'compose',
+        minimize: false
       });
     }));
 
@@ -254,27 +253,37 @@
       backgroundModals.push({
         id: uid,
         order: backgroundModals.length,
-        type: 'task'
+        type: 'task',
+        minimize: false
       });
     }));
 
-    eventReferences.push($rootScope.$on('minimize-background-modal', function () {
-      repositionMinimizedBackgroundModals();
+    eventReferences.push($rootScope.$on('minimize-background-modal', function (e, data) {
+      var index = _.findIndex(backgroundModals, {id: data.id});
+      if (index > -1) {
+        backgroundModals[index].minimize = true;
+        repositionMinimizedBackgroundModals();
+      }
     }));
 
     eventReferences.push($rootScope.$on('close-background-modal', function (e, data) {
-      var index = _.findIndex(backgroundModals, data.id, 'id');
-      backgroundModals.splice(index, 1);
-      repositionMinimizedBackgroundModals();
+      var index = _.findIndex(backgroundModals, {id: data.id});
+      if (index > -1) {
+        if ($scope.isMainLayout && backgroundModals[index].type === 'compose' && !backgroundModals[index].minimize) {
+          $rootScope.goToLastState(true);
+        }
+        backgroundModals.splice(index, 1);
+        repositionMinimizedBackgroundModals();
+      }
     }));
 
     function repositionMinimizedBackgroundModals() {
       setTimeout(function () {
         _.forEach(backgroundModals, function (item) {
           if (item.type === 'compose') {
-            $('.minimize-container.compose_' + item.id).parent().css('transform', 'translateX(' + (item.order * -160) + 'px)');
+            $('.minimize-container.compose_' + item.id).parent().css('transform', 'translateX(' + (item.order * -190) + 'px)');
           } else if (item.type === 'task') {
-            $('.minimize-container.task_' + item.id).parent().css('transform', 'translateX(' + (item.order * -160) + 'px)');
+            $('.minimize-container.task_' + item.id).parent().css('transform', 'translateX(' + (item.order * -190) + 'px)');
           }
         });
       }, 100);

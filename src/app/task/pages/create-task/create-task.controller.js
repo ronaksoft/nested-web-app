@@ -113,7 +113,9 @@
       vm.minimize = true;
       $('body').removeClass('active-compose');
       $('html').removeClass('_oh');
-      $rootScope.$broadcast('minimize-background-modal');
+      $rootScope.$broadcast('minimize-background-modal', {
+        id: vm.modalId
+      });
     }
 
     function removeAssignees() {
