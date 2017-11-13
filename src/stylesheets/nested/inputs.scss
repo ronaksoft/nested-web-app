@@ -272,18 +272,31 @@ input[type="radio"] + label{
     min-width: 17px;
     height: 16px;
     font-size: $font-size-small;
-    background-size: 16px 192px;
+    background-size: 16px 256px;
     background-position: left -144px;
     background-repeat: no-repeat;
 }
-input[type="radio"]:disabled + label {
+input[type="radio"]:hover + label {
+  background-position: left -160px;
+}
+input[type="radio"]:active + label {
   background-position: left -176px;
 }
+
 input[type="radio"]:checked + label {
   background-position: left -96px;
 }
-input[type="radio"]:checked:disabled + label {
+input[type="radio"]:checked:hover + label {
+  background-position: left -112px;
+}
+input[type="radio"]:checked:active + label {
   background-position: left -128px;
+}
+input[type="radio"]:disabled + label {
+  background-position: left -240px;
+}
+input[type="radio"]:checked:disabled + label {
+  background-position: left -224px;
 }
 textarea.no-style ,
 textarea.no-style:hover ,
