@@ -499,7 +499,7 @@
     "Suggested:": "پیشنهادی",
     "Surname": "نام خانوادگی",
     "Surname is required": " نام خانوادگی را وارد کنید.",
-    "Task already assigned.": "کاری که قبلاً سپرده‌شده",
+    "Task already assigned.": "کار در حال حاضر گماشته شده است .",
     "Task created successfully!": "کار با موفقیت ایجاد شد !",
     "Task title shouldnt be more than {0} characters": "تعداد حروف عنوان کار نباید از {0} بیشتر باشد",
     "Task {name} removed successfully": "کار {name} با موفقت حذف شد",
