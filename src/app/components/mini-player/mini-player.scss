@@ -91,40 +91,6 @@
                 height: 36px;
             }
         }
-        .player-handler {
-            margin: 0 12px;
-            height: 24px;
-            position: relative;
-            .bg-bar ,
-            .played-bar {
-                height: 2px;
-                width: 100%;
-                background-color: $color-white;
-                border-radius: 1px;
-                position: absolute;
-                top: 11px;
-                left: 0;
-            }
-            .bg-bar {
-                opacity: .16;
-            }
-            .played-bar {
-                transform-origin: left center;
-                transform: scaleX(.5);
-            }
-            .player-dragger {
-                position: absolute;
-                left: 0;
-                top: 6px;
-                width: 12px;
-                height: 12px;
-                border-radius: 10px;
-                background-color: $color-white;
-                box-shadow: 0 0 4px $color-solid;
-                margin-left: -6px;
-                left: 0;
-            }
-        }
         span {
             line-height: 18px;
             font-size: 12px;
@@ -254,5 +220,49 @@
     .mini-player-move {
       transform: rotate(45deg);
       cursor: ew-resize;
+    }
+}
+
+
+.player-handler {
+    margin: 0 12px;
+    width: 100%;
+    height: 24px;
+    position: relative;
+    .bg-bar ,
+    .played-bar {
+        height: 2px;
+        width: 100%;
+        background-color: $color-white;
+        border-radius: 1px;
+        position: absolute;
+        top: 11px;
+        left: 0;
+        transition: all 0.5s linear;
+    }
+    .bg-bar {
+        opacity: .16;
+    }
+    .played-bar {
+        transform-origin: left center;
+        transform: scaleX(.5);
+    }
+    .player-dragger {
+        position: absolute;
+        left: 0;
+        top: 6px;
+        width: 12px;
+        height: 12px;
+        border-radius: 10px;
+        background-color: $color-white;
+        box-shadow: 0 0 4px $color-solid;
+        margin-left: -6px;
+        transition: all 0.5s linear;
+    }
+    &.no-transition {
+      .played-bar,
+      .player-dragger {
+        transition: none;
+      }
     }
 }

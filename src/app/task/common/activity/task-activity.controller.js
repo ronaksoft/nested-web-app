@@ -146,7 +146,7 @@
             timestamp: activity.date,
             sender: activity.actor,
             removedById: null,
-            attachment_id: ''
+            attachmentId: ''
           };
           // vm.activities.push(activity);
           // $scope.scrollEnd(true);

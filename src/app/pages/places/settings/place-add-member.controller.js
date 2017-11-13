@@ -6,11 +6,11 @@
     .controller('PlaceAddMemberController', PlaceAddMemberController);
 
   /** @ngInject */
-  function PlaceAddMemberController($scope, $log, $rootScope,
-                                    NST_USER_SEARCH_AREA,
-                                    NstSvcUserFactory, NstSvcTranslation, NstUtility,
-                                    NST_PLACE_MEMBER_TYPE, NstSvcPlaceFactory, toastr,
-                                    _, currentPlace, mode, isForGrandPlace, newPlace, NstSvcAuth) {
+  function PlaceAddMemberController($scope, $q, $log, $rootScope,
+    NST_USER_SEARCH_AREA,
+    NstSvcUserFactory, NstSvcTranslation, NstUtility,
+    NST_PLACE_MEMBER_TYPE, NstSvcPlaceFactory, toastr,
+    _, currentPlace, mode, isForGrandPlace, newPlace, NstSvcAuth) {
     var vm = this;
     var defaultSearchResultCount = 10;
     var eventReferences = [];
@@ -23,23 +23,39 @@
     vm.add = add;
     vm.invite = invite;
     vm.query = '';
-
-    checkUserLimitPlace();
-    search();
-
-
+    var isMulti = angular.isArray(currentPlace);
     if (isForGrandPlace === true) {
       vm.isGrandPlace = true;
     } else if (isForGrandPlace === false) {
       vm.isGrandPlace = false;
     } else {
-      if (currentPlace.id.split('.').length > 1) {
-        vm.isGrandPlace = false;
+      if (!isMulti) {
+        if (currentPlace.id.split('.').length > 1) {
+          vm.isGrandPlace = false;
+        } else {
+          vm.isGrandPlace = true;
+        }
       } else {
-        vm.isGrandPlace = true;
+        if (currentPlace[0].split('.').length > 1) {
+          vm.isGrandPlace = false;
+        } else {
+          vm.isGrandPlace = true;
+        }
       }
+
+    }
+    if (isMulti) {
+      $q.all(currentPlace.map(function (id) {
+        return NstSvcPlaceFactory.get(id);
+      })).then(function (results) {
+        currentPlace = results;
+        search();
+      });
+    } else {
+      search(currentPlace);
     }
 
+    checkUserLimitPlace();
 
     if (vm.isGrandPlace) {
       vm.searchPlaceholder = NstSvcTranslation.get("Name, email or phone number...");
@@ -53,50 +69,66 @@
         query: query,
         // role is no longer supported
         // role: chosenRole,
-        placeId: currentPlace.id,
         limit: calculateSearchLimit()
       };
+      if (!isMulti) {
 
-      if (mode === 'offline-mode' && isForGrandPlace) {
-        delete  settings.placeId;
+        settings.placeId = currentPlace.id;
       }
 
+      if (mode === 'offline-mode' && isForGrandPlace) {
+        delete settings.placeId;
+      }
       var newPlaceFlag = false;
       if (newPlace !== undefined && newPlace === true) {
         newPlaceFlag = true;
       }
 
-      NstSvcUserFactory.search(settings, (newPlaceFlag? NST_USER_SEARCH_AREA.ACCOUNTS: (vm.isGrandPlace || isForGrandPlace) ? NST_USER_SEARCH_AREA.INVITE : NST_USER_SEARCH_AREA.ADD))
-        .then(function (users) {
-          users = _.unionBy(users, 'id');
-          vm.users = _.differenceBy(users, vm.selectedUsers, 'id');
-          vm.users = _.differenceBy(vm.users, [vm.currentUser], 'id');
-          if (_.isString(query)
-            && _.size(query) >= 4
-            && _.indexOf(query, " ") === -1
-            && !_.some(vm.users, { id : query })) {
-
-            if (vm.isGrandPlace || isForGrandPlace) {
-              var initProfile = NstSvcUserFactory.parseTinyUser({
-                _id: settings.query,
-                fname: settings.query
-              });
-              vm.users.push(initProfile);
-            }
-
-          }
-          vm.query = query;
-        })
+      NstSvcUserFactory.search(settings, (newPlaceFlag || isMulti ?
+          NST_USER_SEARCH_AREA.ACCOUNTS :
+          (vm.isGrandPlace || isForGrandPlace) ?
+          NST_USER_SEARCH_AREA.INVITE :
+          NST_USER_SEARCH_AREA.ADD))
+        .then(searchCallBack)
         .catch(function (error) {
           $log.debug(error);
         });
+
+      function searchCallBack(users) {
+        users = _.unionBy(users, 'id');
+        vm.users = _.differenceBy(users, vm.selectedUsers, 'id');
+        vm.users = _.differenceBy(vm.users, [vm.currentUser], 'id');
+        if (_.isString(query) &&
+          _.size(query) >= 4 &&
+          _.indexOf(query, " ") === -1 &&
+          !_.some(vm.users, {
+            id: query
+          })) {
+
+          if (vm.isGrandPlace || isForGrandPlace) {
+            var initProfile = NstSvcUserFactory.parseTinyUser({
+              _id: settings.query,
+              fname: settings.query
+            });
+            vm.users.push(initProfile);
+          }
+
+        }
+        vm.query = query;
+      }
     }
 
     function add() {
       if (newPlace !== undefined && newPlace === true) {
         $scope.$close(vm.selectedUsers);
       } else {
-        addUser(currentPlace, vm.selectedUsers);
+        if (isMulti){
+          angular.forEach(currentPlace, function (place) {
+            addUser(place, vm.selectedUsers);
+          })
+        } else {
+          addUser(currentPlace, vm.selectedUsers);
+        }
       }
     }
 
@@ -104,7 +136,13 @@
       if (newPlace !== undefined && newPlace === true) {
         $scope.$close(vm.selectedUsers);
       } else {
-        inviteUsers(currentPlace, vm.selectedUsers)
+        if (isMulti){
+          angular.forEach(currentPlace, function (place) {
+            inviteUsers(place, vm.selectedUsers);
+          })
+        } else {
+          inviteUsers(currentPlace, vm.selectedUsers);
+        }
       }
     }
 
@@ -116,8 +154,7 @@
      */
     function dispatchUserAdded(place, user) {
       eventReferences.push($rootScope.$emit(
-        'member-added',
-        {
+        'member-added', {
           place: place,
           member: user
         }
@@ -139,8 +176,8 @@
           _.forEach(result.addedUsers, dispatcher);
         });
         // notify the user about the result of adding
-        if (_.size(result.rejectedUsers) === 0
-          && _.size(result.addedUsers) > 0) {
+        if (_.size(result.rejectedUsers) === 0 &&
+          _.size(result.addedUsers) > 0) {
           toastr.success(NstUtility.string.format(NstSvcTranslation.get('All selected users have been invited to place {0} successfully.'), place.name));
         } else {
           var names = null;
@@ -178,8 +215,8 @@
           _.forEach(result.addedUsers, dispatcher);
         });
         // notify the user about the result of adding
-        if (_.size(result.rejectedUsers) === 0
-          && _.size(result.addedUsers) > 0) {
+        if (_.size(result.rejectedUsers) === 0 &&
+          _.size(result.addedUsers) > 0) {
           toastr.success(NstUtility.string.format(NstSvcTranslation.get('All selected users have been added to place {0} successfully.'), place.name));
         } else {
           var names = null;
@@ -215,10 +252,16 @@
     }
 
     function checkUserLimitPlace() {
-      var previousUsers = mode === 'offline-mode' ? 0 : currentPlace.counters.creators + currentPlace.counters.key_holders;
+      if (!isMulti) {
+        var previousUsers = mode === 'offline-mode' ?
+          0 :
+          currentPlace.counters.creators + currentPlace.counters.key_holders;
 
-      // fixme :: read limit from config
-      vm.limit = 10000 - previousUsers;
+        // fixme :: read limit from config
+        vm.limit = 10000 - previousUsers;
+      } else {
+        vm.limit = 1000;
+      }
     }
   }
 })();

@@ -46,8 +46,8 @@
             </a>
           </div>
           <div class="list-li-extra" data-uib-tooltip-template="'task-date-time.html'" data-tooltip-append-to-body="false" data-tooltip-placement="{{$root._direction == 'rtl' ? 'top-left' : 'top-right'}}">
-              <span ng-if="task.dueDate !== undefined && !task.hasDueTime">{{task.dueDate | leftDate }}</span>
-              <span ng-if="task.dueDate !== undefined && task.hasDueTime">{{task.dueDate | leftDate : 'time' }}</span>
+              <span ng-if="task.dueDate !== undefined && !task.hasDueTime">{{task.dueDate | leftDate | localize}}</span>
+              <span ng-if="task.dueDate !== undefined && task.hasDueTime">{{task.dueDate | leftDate : 'time' | localize}}</span>
           </div>
         </li>
       </ul>
@@ -71,8 +71,8 @@
             </p>
           </div>
           <div class="list-li-extra" data-uib-tooltip-template="'task-date-time.html'" data-tooltip-append-to-body="true" data-tooltip-placement="{{$root._direction == 'rtl' ? 'top-left' : 'top-right'}}">
-              <span ng-if="task.dueDate !== undefined && !task.hasDueTime">{{task.dueDate | leftDate }}</span>
-              <span ng-if="task.dueDate !== undefined && task.hasDueTime">{{task.dueDate | leftDate: 'time' }}</span>
+              <span ng-if="task.dueDate !== undefined && !task.hasDueTime">{{task.dueDate | leftDate | localize}}</span>
+              <span ng-if="task.dueDate !== undefined && task.hasDueTime">{{task.dueDate | leftDate: 'time' | localize}}</span>
           </div>
           <div class="list-li-buttons">
             <input ng-click="ctrl.declineTask(task.id)" type="button" class="butn butn-red secondary" value="I can’t" translate-attrs="value">
@@ -98,17 +98,16 @@
             </p>
           </div>
           <div class="list-li-extra" data-uib-tooltip-template="'task-date-time.html'" data-tooltip-append-to-body="false" data-tooltip-placement="{{$root._direction == 'rtl' ? 'top-left' : 'top-right'}}">
-              <span ng-if="task.dueDate !== undefined && !task.hasDueTime">{{task.dueDate | leftDate }}</span>
-              <span ng-if="task.dueDate !== undefined && task.hasDueTime">{{task.dueDate | leftDate : 'time' }}</span>
+              <span ng-if="task.dueDate !== undefined && !task.hasDueTime">{{task.dueDate | leftDate | localize}}</span>
+              <span ng-if="task.dueDate !== undefined && task.hasDueTime">{{task.dueDate | leftDate : 'time' | localize}}</span>
           </div>
         </li>
       </ul>
-
-      <div class="_fn empty-place-holder" ng-if="!ctrl.firstTimeLoading &&
+      <div class="_fn empty-place-holder" ng-if="!ctrl.firstTimeLoading && (
       (ctrl.isGlancePage && ctrl.tasks.length === 0 && ctrl.pendingTasks.length === 0 && ctrl.overDueTasks.length === 0) ||
-      (!ctrl.isGlancePage && ctrl.tasks.length === 0)">
+      (!ctrl.isGlancePage && ctrl.tasks.length === 0))">
         <img class="_db" width="256" width="256" src="/assets/icons/ph_empt_task.png" srcset="/assets/icons/ph_empt_task@2x.png" />
-        <translate>You don't have any task until next year!</br>Enjoy your free time 😊</translate>
+        <translate>You don't have any task until next year!</br>Enjoy your free time</translate> <span>😊</span>
       </div>
       <div class="_db _tac">
         <!-- TODO: Ali check the loading -->

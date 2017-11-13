@@ -95,8 +95,11 @@
       'app/task/common/activity/partials/label-added.html',
       'app/task/common/activity/partials/label-removed.html',
       'app/task/common/activity/partials/due-date-updated.html',
-      'app/task/common/activity/partials/due-date-removed.html'
-    ]
+      'app/task/common/activity/partials/due-date-removed.html',
+      'app/task/common/activity/partials/created.html',
+      'app/task/common/activity/partials/assignee-changed.html'
+    ];
+
     cacheTaskActs.forEach(function (tpl) {
       $http.get(tpl, {
         cache: $templateCache

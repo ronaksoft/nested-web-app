@@ -17,7 +17,6 @@
   function CommentBodyController($scope, $sce, $q, $filter, _, NstSvcFileFactory, NstSvcAttachmentFactory, SvcMiniPlayer, NstSvcStore
                                 ,NST_STORE_ROUTE, toastr) {
     var vm = this;
-    vm.playVoice = playVoice;
 
     vm.parts = [];
 
@@ -82,28 +81,7 @@
       });
       return trimmedWords;
     }
-    function getToken(id) {
-      var deferred = $q.defer();
-        NstSvcFileFactory.getDownloadToken(id, vm.commentBoardId).then(deferred.resolve).catch(deferred.reject).finally(function () {
-      });
 
-      return deferred.promise;
-    }
-
-    function playVoice(comment) {
-      NstSvcAttachmentFactory.getOne(comment.attachment_id).then( function(attachment) {
-        getToken(attachment.id).then(function (token) {
-          attachment.src = NstSvcStore.resolveUrl(NST_STORE_ROUTE.VIEW, attachment.id, token);
-          attachment.isVoice = attachment.uploadType === "VOICE";
-          attachment.isPlayed = true;
-          attachment.sender = comment.sender;
-          SvcMiniPlayer.setPlaylist(vm.commentBoardId);
-          SvcMiniPlayer.addTrack(attachment);
-        }).catch(function () {
-          toastr.error('Sorry, An error has occured while playing the audio');
-        });
-      })
-    }
     $scope.to_trusted = function (html_code) {
       return $sce.trustAsHtml(html_code);
     };

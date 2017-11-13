@@ -1,1 +1,1 @@
-<span translate-inner>changed the Due Date to '{{act.dueDate | date: 'full'}}'</span>
+<span translate-inner>changed the Due Date to '{{act.dueDate | date: (act.hasDueTime? 'full': 'full-only-date') | localize}}'</span>

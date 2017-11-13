@@ -69,12 +69,12 @@
     self.emoji.img_set = this.defaults.emojiType;
     self.emoji.use_sheet = false;
     self.emoji.supports_css = true;
-    self.emoji.img_sets['apple']['sheet'] = this.defaults.emojiSheets.apple;
-    self.emoji.img_sets['google']['sheet'] = this.defaults.emojiSheets.google;
-    self.emoji.img_sets['twitter']['sheet'] = this.defaults.emojiSheets.twitter;
-    self.emoji.img_sets['emojione']['sheet'] = this.defaults.emojiSheets.emojione;
-    self.emoji.img_sets['facebook']['sheet'] = this.defaults.emojiSheets.facebook;
-    self.emoji.img_sets['messenger']['sheet'] = this.defaults.emojiSheets.messenger;
+    // self.emoji.img_sets['apple']['sheet'] = this.defaults.emojiSheets.apple;
+    // self.emoji.img_sets['google']['sheet'] = this.defaults.emojiSheets.google;
+    // self.emoji.img_sets['twitter']['sheet'] = this.defaults.emojiSheets.twitter;
+    // self.emoji.img_sets['emojione']['sheet'] = this.defaults.emojiSheets.emojione;
+    // self.emoji.img_sets['facebook']['sheet'] = this.defaults.emojiSheets.facebook;
+    // self.emoji.img_sets['messenger']['sheet'] = this.defaults.emojiSheets.messenger;
 
     self.selector = selector;
     wdtEmojiBundle.callback = callback;
@@ -454,18 +454,18 @@
         for (i = 0; i < emojiList.length; i++) {
           var em = emojiLists[i];
 
-          if (em.has_img_apple || em.has_img_emojione || em.has_img_google || em.has_img_twitter || em.has_img_facebook || em.has_img_messenger) {
+          // if (em.has_img_apple || em.has_img_emojione || em.has_img_google || em.has_img_twitter || em.has_img_facebook || em.has_img_messenger) {
             var emojiLink = document.createElement('a');
 
             addClass(emojiLink, 'wdt-emoji');
             addClass(emojiLink, wdtEmojiBundle.getRandomPickerColor());
 
-            emojiLink.dataset.hasImgApple = em.has_img_apple;
-            emojiLink.dataset.hasImgEmojione = em.has_img_emojione;
-            emojiLink.dataset.hasImgGoogle = em.has_img_google;
-            emojiLink.dataset.hasImgTwitter = em.has_img_twitter;
-            emojiLink.dataset.hasImgFacebook = em.has_img_facebook;
-            emojiLink.dataset.hasImgMessenger = em.has_img_messenger;
+            // emojiLink.dataset.hasImgApple = em.has_img_apple;
+            // emojiLink.dataset.hasImgEmojione = em.has_img_emojione;
+            // emojiLink.dataset.hasImgGoogle = em.has_img_google;
+            // emojiLink.dataset.hasImgTwitter = em.has_img_twitter;
+            // emojiLink.dataset.hasImgFacebook = em.has_img_facebook;
+            // emojiLink.dataset.hasImgMessenger = em.has_img_messenger;
             emojiLink.dataset.wdtEmojiName = em.name;
             if (emojiLink.dataset.wdtEmojiShortnames) emojiLink.dataset.wdtEmojiShortnames = em.short_names.join(': :');
             emojiLink.dataset.wdtEmojiShortname = em.short_name;
@@ -474,7 +474,7 @@
             emojiLink.innerHTML = self.emoji.replace_colons(em.short_name);
 
             emojiListDiv.appendChild(emojiLink);
-          }
+          // }
         }
 
         emojiSection.appendChild(emojiTitle);
@@ -545,18 +545,18 @@
           for (i = 0; i < emojiList.length; i++) {
             var em = emojiList[i];
 
-            if (em.has_img_apple || em.has_img_emojione || em.has_img_google || em.has_img_twitter || em.has_img_facebook || em.has_img_messenger) {
+            // if (em.has_img_apple || em.has_img_emojione || em.has_img_google || em.has_img_twitter || em.has_img_facebook || em.has_img_messenger) {
               var emojiLink = document.createElement('a');
 
               addClass(emojiLink, 'wdt-emoji');
               addClass(emojiLink, wdtEmojiBundle.getRandomPickerColor());
 
-              emojiLink.dataset.hasImgApple = em.has_img_apple;
-              emojiLink.dataset.hasImgEmojione = em.has_img_emojione;
-              emojiLink.dataset.hasImgGoogle = em.has_img_google;
-              emojiLink.dataset.hasImgTwitter = em.has_img_twitter;
-              emojiLink.dataset.hasImgFacebook = em.has_img_facebook;
-              emojiLink.dataset.hasImgMessenger = em.has_img_messenger;
+              // emojiLink.dataset.hasImgApple = em.has_img_apple;
+              // emojiLink.dataset.hasImgEmojione = em.has_img_emojione;
+              // emojiLink.dataset.hasImgGoogle = em.has_img_google;
+              // emojiLink.dataset.hasImgTwitter = em.has_img_twitter;
+              // emojiLink.dataset.hasImgFacebook = em.has_img_facebook;
+              // emojiLink.dataset.hasImgMessenger = em.has_img_messenger;
               emojiLink.dataset.wdtEmojiName = em.name;
               if (emojiLink.dataset.wdtEmojiShortnames) emojiLink.dataset.wdtEmojiShortnames = em.short_names.join(': :');
               emojiLink.dataset.wdtEmojiShortname = em.short_name;
@@ -565,7 +565,7 @@
               emojiLink.innerHTML = self.emoji.replace_colons(em.short_name);
 
               emojiListDiv.appendChild(emojiLink);
-            }
+            // }
           }
           emojiSection.appendChild(emojiTitle);
           emojiSection.appendChild(emojiListDiv);
@@ -661,12 +661,12 @@
     live('click', '.wdt-emoji-list a.wdt-emoji', function (event) {
       var selection = getSelection(wdtEmojiBundle.input);
       var recentObj = {
-          has_img_apple : this.dataset.hasImgApple == 'true',
-          has_img_emojione : this.dataset.hasImgEmojione == 'true',
-          has_img_facebook : this.dataset.hasImgFacebook == 'true',
-          has_img_google : this.dataset.hasImgGoogle == 'true',
-          has_img_messenger : this.dataset.hasImgMessenger == 'true',
-          has_img_twitter : this.dataset.hasImgTwitter == 'true',
+          // has_img_apple : this.dataset.hasImgApple == 'true',
+          // has_img_emojione : this.dataset.hasImgEmojione == 'true',
+          // has_img_facebook : this.dataset.hasImgFacebook == 'true',
+          // has_img_google : this.dataset.hasImgGoogle == 'true',
+          // has_img_messenger : this.dataset.hasImgMessenger == 'true',
+          // has_img_twitter : this.dataset.hasImgTwitter == 'true',
           name : this.dataset.wdtEmojiName,
           sort_order : parseInt(this.dataset.wdtEmojiOrder),
           short_name : this.dataset.wdtEmojiShortname,
@@ -788,7 +788,11 @@
    * @param q
    * @returns {boolean}
    */
-  wdtEmojiBundle.search = function (q) {
+  wdtEmojiBundle.search = function (q, limit, callback) {
+    
+    var forSuggest = typeof callback === 'function';
+    var suggestedEmojies = [];
+        
 
     var sections = wdtEmojiBundle.popup.querySelector('.wdt-emoji-sections'),
       searchResultH3 = wdtEmojiBundle.popup.querySelector('#wdt-emoji-search-result-title'),
@@ -803,22 +807,43 @@
       removeClassAll('.wdt-emoji-section', 'wdt-inline');
       removeClassAll('.wdt-emoji-list', 'wdt-inline');
       removeClassAll('.wdt-emoji-section h3', 'wdt-search-on');
+      if(forSuggest) {
+        var recetEmojies = wdtEmojiBundle.defaults.recent.map(function(emoj){
+          return {
+            dataset: {
+              wdtEmojiOrder: emoj.sort_order,
+              wdtEmojiShortname: emoj.short_name,
+              wdtEmojiName: emoj.name
+            }
+          }
+        })
+        callback(recetEmojies);
+      }
       return false;
     }
 
     for (var i = 0; i < emojiList.length; i++) {
       var emo = emojiList[i];
       var sst = emo.dataset.wdtEmojiName + ' ' + emo.dataset.wdtEmojiShortnames;
-
       removeClass(emo, 'not-matched');
       if (sst.match(new RegExp(q, "gi"))) {
+        // TODO: best resaults ?!
+        if(suggestedEmojies.length < limit) {
+          suggestedEmojies.push(emo);
+        }
         found++;
       } else {
         addClass(emo, 'not-matched');
       }
 
     }
-
+    
+    if(forSuggest) {
+      if(suggestedEmojies.length > 0) {
+        return callback(suggestedEmojies);
+      }
+    }
+    
     addClass(searchResultH3, 'wdt-show');
     addClassAll('.wdt-emoji-section', 'wdt-inline');
     addClassAll('.wdt-emoji-list', 'wdt-inline');
@@ -867,6 +892,7 @@
   /**
    * On the fly emoji type changer apple, google, twitter, emojione
    * @param changeType
+   * @deprecated
    */
   wdtEmojiBundle.changeType = function (changeType) {
     var nextSheet = wdtEmojiBundle.defaults.emojiSheets[changeType],

@@ -36,7 +36,7 @@
               color: style.color,
               fontSize: style.fontSize,
               height: style.height,
-              lineHeight: style.height,
+              lineHeight: style.lineheight,
               display: 'flex',
               flex: style.flex,
               fontWeight: style.fontWeight,

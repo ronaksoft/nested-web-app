@@ -227,8 +227,9 @@ $default-color: $color-sense-wire;
     padding: 12px;
     align-items: center;
     position: relative;
+    direction: ltr;
     input {
-        width: 100%;
+        width: 48px;
         font-size: 13px;
         font-weight: bold;
         border: none;
@@ -282,6 +283,17 @@ $default-color: $color-sense-wire;
         z-index: 2;
         // position: absolute;
         flex: none;
+    }
+    .add-time-toggler {
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 3;
+        @include align-center();
+        color: $color-sense-wire;
+        background-color: $color-white;
     }
 }
 

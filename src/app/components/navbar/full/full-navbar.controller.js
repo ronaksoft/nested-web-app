@@ -201,7 +201,7 @@
       return vm.placeId;
     }
 
-    
+
     function scrollTopBody() {
       $("html, body").animate({ scrollTop: 0 }, "fast");
     }
@@ -531,6 +531,9 @@
           resolve: {
             selectedPlace: function () {
               return vm.place;
+            },
+            selectedPlaces: function () {
+              return null;
             }
           }
         }).result.then(function () {

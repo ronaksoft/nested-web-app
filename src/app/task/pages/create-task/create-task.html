@@ -5,7 +5,7 @@
       <div class="task-input-wrapper ng-class:{'focus': ctrlCreateTask.titleFocus, 'error' : (ctrlCreateTask.model.title.length > ctrlCreateTask.model.titleLengthLimit)}">
         <textarea type="text" class="no-style gale-holder create-task-input" placeholder="{{ctrlCreateTask.titlePlaceholder}}" id="task-title"
           ng-focus="ctrlCreateTask.titleFocus = true" ng-blur="ctrlCreateTask.titleFocus = false" resize-textarea ng-model="ctrlCreateTask.model.title"
-          enter-key="ctrlCreateTask.enterSubjectTask()" prevent-shift-enter="true"></textarea>
+          enter-key="ctrlCreateTask.enterSubjectTask()" prevent-shift-enter="true" auto-dir="ctrlCreateTask.model.title" nst-suggest-emoji></textarea>
         <div class="error-handler" ng-if="ctrlCreateTask.model.title.length > (ctrlCreateTask.model.titleLengthLimit - 10)">
           {{ctrlCreateTask.model.title.length | localize}} / {{ctrlCreateTask.model.titleLengthLimit | localize}}
         </div>
@@ -47,9 +47,9 @@
     <div class="task-due const-height-item">
       <div class="task-input-wrapper ng-class:{'focus': ctrlCreateTask.dueDateFocus}">
         <input type="text" class="no-style gale-holder create-task-input" placeholder="{{ctrlCreateTask.dueDatePlaceholder}}"
-          id="task-due" ng-focus="ctrlCreateTask.dueDateFocus = true" ng-blur="ctrlCreateTask.dueDateFocus = false" ng-model="ctrlCreateTask.model.dueDate"
+          id="task-due" ng-focus="ctrlCreateTask.dueDateFocus = true" ng-blur="ctrlCreateTask.dueDateFocus = false" ng-model="ctrlCreateTask.model.dueDateText"
           data-config="ctrlCreateTask.datePickerconfig" g-formatted-picked-date="gfdate" g-picked-date="gdate" ng-jalaali-flat-datepicker
-          have-time="ctrlCreateTask.model.hasDueTime">
+          have-time="ctrlCreateTask.model.hasDueTime" timestamp-model="ctrlCreateTask.model.dueDate">
       </div>
       <label for="task-due" ng-class="{'focus': ctrlCreateTask.dueDateFocus, 'no-hover': ctrlCreateTask.model.dueDate == null}">
             <div class="_24svg _df _jcc _aic" translate-attrs="data-uib-tooltip" data-uib-tooltip="Remove Due Time"
@@ -70,7 +70,7 @@
         <div class="task-input-wrapper ng-class:{'focus': ctrlCreateTask.descFocus}">
           <textarea class="no-style gale-holder create-task-input" ng-model="ctrlCreateTask.model.description" ng-focus="ctrlCreateTask.descFocus = true"
             ng-blur="ctrlCreateTask.descFocus = false" enter-key="ctrlCreateTask.enterDescriptionTask()" placeholder="{{ctrlCreateTask.descPlaceholder}}"
-            id="task-description" resize-textarea></textarea>
+            id="task-description" resize-textarea auto-dir="ctrlCreateTask.model.description" nst-suggest-emoji></textarea>
         </div>
         <label for="task-description" ng-class="{'focus': ctrlCreateTask.descFocus}">
               <svg class="_16svg">
@@ -104,7 +104,7 @@
       </div>
       <div class="task-attachment auto-height-item">
         <div class="_difv _fw">
-          <h3>Attachments</h3>
+          <h3><translate>Attachments</translate></h3>
           <div class="attachments-badge-wrapper">
             <task-attachment attachments-data="ctrlCreateTask.model.attachments" edit-mode="ctrlCreateTask.editMode" remove-items="ctrlCreateTask.removeAttachmentItems"
               ng-click="ctrlCreateTask.attachmentFocus = true"></task-attachment>

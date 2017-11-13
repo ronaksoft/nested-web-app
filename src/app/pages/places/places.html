@@ -1,0 +1,126 @@
+<div class="places-modal">
+  <div class="modal-head">
+    <div class="_df" ng-click="$dismiss();">
+      <svg class="_24svg">
+        <use xlink:href="/assets/icons/nst-icn24.svg#xcross"></use>
+      </svg>
+    </div>
+    <h4 translate-inner>My Places</h4>
+  </div>
+  <div class="filter-bar">
+    <div class="filter-bar-inner">
+      <div class="toolbar ng-class:{'selcted-mode': ctrl.selectedPlaces.length > 0, 'unread-mode' : ctrl.placesSetting.filter}" ng-mouseleave="popoverSortShow = false">
+        <div class="search-files" ng-show="ctrl.selectedPlaces.length == 0">
+          <input type="text" placeholder="type to search…" ng-model="ctrl.keyword" ng-change="ctrl.searchKeydown();" translate-attrs="placeholder"
+            focus-me="{{ctrl.searchTrigg}}" />
+          <svg class="_16svg" ng-show="ctrl.keyword.length === 0">
+            <use xlink:href="/assets/icons/nst-icn16.svg#search"></use>
+          </svg>
+          <svg class="_16svg" ng-click="ctrl.keyword = ''" ng-show="ctrl.keyword.length > 0">
+            <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
+          </svg>
+        </div>
+        <svg class="default-mode-butn _16svg _df _fn" ng-if=" ctrl.selectedPlaces.length > 0" ng-click="ctrl.unselectAll();">
+          <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
+        </svg>
+        <p class="_df _fn" ng-if="ctrl.selectedPlaces.length > 0">
+          <translate ng-if="ctrl.selectedPlaces.length === 1">{{ctrl.selectedPlaces.length}} Place Selected</translate>
+          <translate ng-if="ctrl.selectedPlaces.length > 1">{{ctrl.selectedPlaces.length}} Places Selected</translate>
+        </p>
+        <p class="_df _fw"></p>
+        <div class="_df _fn _aic filter-bar-popover-button ng-class:{'disabled' : ctrl.forbiddenAddPlaces.length > 0}"
+            ng-if="ctrl.selectedPlaces.length > 0 " ng-click="ctrl.addMemberMulti();"
+            data-tooltip-class="red-tooltip" data-tooltip-append-to-body="true"
+            data-tooltip-placement="auto top"
+            data-tooltip-enable="{{ctrl.forbiddenAddPlaces.length > 0}}"
+            data-uib-tooltip-template="'add-member-forbidden-tooltip.html'">
+          <translate>Add Member</translate>
+          <svg class="_16svg _df">
+            <use xlink:href="/assets/icons/nst-icn16.svg#cross"></use>
+          </svg>
+        </div>
+        <div class="_df _fn _aic filter-bar-popover-button ng-class:{'disabled' : ctrl.forbiddenLeavePlaces.length > 0}"
+            ng-if="ctrl.selectedPlaces.length > 0 " ng-click="ctrl.leaveMulti();ctrl.unselectAll()"
+            data-tooltip-class="red-tooltip" data-tooltip-append-to-body="true"
+            data-tooltip-placement="auto top"
+            data-tooltip-enable="{{ctrl.forbiddenLeavePlaces.length > 0}}"
+            data-uib-tooltip-template="'leave-forbidden-tooltip.html'">
+          <translate>Leave</translate>
+          <svg class="_16svg _df">
+            <use xlink:href="/assets/icons/nst-icn16.svg#exit"></use>
+          </svg>
+        </div>
+        <div class="_df _fn filter-bar-popover-button ng-class:{'disabled' : ctrl.forbiddenDeletePlaces.length > 0}"
+            ng-if="ctrl.selectedPlaces.length > 0 " ng-click="ctrl.confirmToRemoveMulti();"
+            data-tooltip-class="red-tooltip" data-tooltip-append-to-body="true"
+            data-tooltip-placement="auto top"
+            data-tooltip-enable="{{ctrl.forbiddenDeletePlaces.length > 0}}"
+            data-uib-tooltip-template="'delete-forbidden-tooltip.html'">
+          <translate>Delete</translate>
+          <svg class="_16svg _df">
+            <use xlink:href="/assets/icons/nst-icn16.svg#bin"></use>
+          </svg>
+        </div>
+        <div ng-show="ctrl.selectedPlaces.length == 0" ng-mouseenter="popoverSortShow = true" ng-click="ctrl.placesSetting.relationView =! ctrl.placesSetting.relationView"
+          data-popover-class="white-pop messages-sort-popover" uib-popover-template="'app/pages/places/partials/view-setting_popover.html'"
+          data-popover-placement="bottom-center" data-popover-is-open="popoverSortShow" class="filter-bar-popover-button _fn">
+          <translate class="_df" ng-if="ctrl.placesSetting.relationView && !ctrl.placesSetting.filter">Relation View</translate>
+          <translate class="_df" ng-if="!ctrl.placesSetting.relationView && !ctrl.placesSetting.filter">Absolute View</translate>
+          <translate class="_df" ng-if="ctrl.placesSetting.filter && ctrl.placesSetting.filter === 'grand'"><b>type:</b> Grand Places</translate>
+          <translate class="_df" ng-if="ctrl.placesSetting.filter && ctrl.placesSetting.filter === 'private'"><b>type:</b> Private Places</translate>
+          <translate class="_df" ng-if="ctrl.placesSetting.filter && ctrl.placesSetting.filter === 'common'"><b>type:</b> Common Places</translate>
+          <translate class="_df" ng-if="ctrl.placesSetting.filter && ctrl.placesSetting.filter === 'email'"><b>privacy:</b> Recieving Emails</translate>
+          <translate class="_df" ng-if="ctrl.placesSetting.filter && ctrl.placesSetting.filter === 'manager'"><b>roll:</b> Manager</translate>
+          <svg class="_16svg _df">
+            <use xlink:href="/assets/icons/nst-icn16.svg#sort"></use>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-body">
+    <div class="places-head">
+      <span class="_fw" translate-inner >Places</span>
+      <translate>Notifications</translate>
+      <translate>Show in Feed</translate>
+    </div>
+    <div class="places-loading ng-class:{'is-open' : ctrl.isLoading}">
+      <div class="nst-loading"></div>
+    </div>
+    <div class="places-list iscroll-wrapper" iscroll class="iscroll-wrapper" iscroll-instance="scrollInstance">
+      <ul class="places place-ul iscroll-scroller ng-class:{'relation-view': ctrl.placesSetting.relationView}" ui-sortable="ctrl.sortableOptions" ng-model="ctrl.places" ui-sortable-stop="ctrl.sortUpdateHandler">
+          <li ng-repeat="place in ctrl.places" data-ng-include="'app/pages/places/partials/places-place-item.html'"
+          onload="place = place"></li>
+      </ul>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <h5 ng-if="ctrl.keyword.length === 0">
+      You’re member in <b>{{ctrl.placesLength}}</b> Places and manager of <b>{{ctrl.managerInPlaces}}</b> places.
+    </h5>
+    <h5 ng-if="ctrl.keyword.length > 0">
+      We’ve found <b>{{ctrl.searchResult}}</b> Places.
+    </h5>
+  </div>
+</div>
+<script type="text/ng-template" id="add-member-forbidden-tooltip.html">
+  <translate>You have no access to add members in:</translate>
+  <br>
+  <cite ng-repeat="place in ctrl.forbiddenAddPlaces">
+    {{place.name}}
+  </cite>
+</script>
+<script type="text/ng-template" id="leave-forbidden-tooltip.html">
+  <translate>You can't leave from:</translate>
+  <br>
+  <cite ng-repeat="place in ctrl.forbiddenLeavePlaces">
+    {{place.name}}
+  </cite>
+</script>
+<script type="text/ng-template" id="delete-forbidden-tooltip.html">
+  <translate>You have no access to delete:</translate>
+  <br>
+  <cite ng-repeat="place in ctrl.forbiddenDeletePlaces">
+    {{place.name}}<br>
+  </cite>
+</script>

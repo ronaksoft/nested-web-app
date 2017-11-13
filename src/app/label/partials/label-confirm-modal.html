@@ -5,7 +5,7 @@
       <div class="_df" ng-click="$dismiss()"><img src="../assets/icons/close.svg"></div>
     </div>
     <div class="_difv _fw">
-      <p class="_df nst-mood-storm modal-detail">{{confirmModal.body}}</p>
+      <p class="_df nst-mood-storm modal-detail" ng-bind-html="confirmModal.body"></p>
       <div class="_difh _jcc">
         <div class="_difh _fw modal-buttons" data-ng-init="lockmodal = false">
           <div class="butn-{{confirmModal.cancelColor}} secondary _jcc _df" ng-click="$dismiss()"><a class="_df">{{confirmModal.cancelText}}</a></div>

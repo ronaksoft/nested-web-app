@@ -6,7 +6,7 @@
     .controller('AppController', AppController);
 
   /** @ngInject */
-  function AppController($scope, $window, $rootScope, $state, $stateParams, $interval, toastr,
+  function AppController($scope, $window, $rootScope, $state, $stateParams, $interval, toastr, $location,
                          deviceDetector, NstSvcInteractionTracker, $uibModal, NstSvcTranslation, NstUtility,
                          NST_DEFAULT, NST_AUTH_EVENT, NST_SRV_EVENT, NST_NOTIFICATION_EVENT, NST_CONFIG,
                          NstSvcServer, NstSvcAuth, NstSvcLogger, NstSvcI18n, _, NstSvcNotificationFactory, $) {
@@ -78,7 +78,10 @@
     });
 
     eventReferences.push($rootScope.$on(NST_AUTH_EVENT.AUTHORIZE_FAIL, function () {
-      $state.go('public.signin');
+      console.log('auth fail')
+      $state.go('app.signout');
+      // todo : makeit works in a other way
+      $window.location.reload()
     }));
 
     eventReferences.push($rootScope.$on(NST_NOTIFICATION_EVENT.EXTERNAL_PUSH_ACTION, function (e, data) {
@@ -98,9 +101,9 @@
     }));
 
     eventReferences.push($rootScope.$on(NST_AUTH_EVENT.CHANGE_PASSWORD, function () {
-      if($state.current.name.indexOf('public.change-password') === -1)
-      $state.go('public.change-password');
-
+      if ($state.current.name.indexOf('public.change-password') === -1) {
+        $state.go('public.change-password');
+      }
     }));
 
     eventReferences.push($rootScope.$on(NST_AUTH_EVENT.SESSION_EXPIRE, function () {
@@ -217,13 +220,12 @@
         resolve: {
           modalId: uid
         }
-      }).result.catch(function () {
-        $rootScope.goToLastState(true);
       });
       backgroundModals.push({
         id: uid,
         order: backgroundModals.length,
-        type: 'compose'
+        type: 'compose',
+        minimize: false
       });
     }));
 
@@ -251,27 +253,37 @@
       backgroundModals.push({
         id: uid,
         order: backgroundModals.length,
-        type: 'task'
+        type: 'task',
+        minimize: false
       });
     }));
 
-    eventReferences.push($rootScope.$on('minimize-background-modal', function () {
-      repositionMinimizedBackgroundModals();
+    eventReferences.push($rootScope.$on('minimize-background-modal', function (e, data) {
+      var index = _.findIndex(backgroundModals, {id: data.id});
+      if (index > -1) {
+        backgroundModals[index].minimize = true;
+        repositionMinimizedBackgroundModals();
+      }
     }));
 
     eventReferences.push($rootScope.$on('close-background-modal', function (e, data) {
-      var index = _.findIndex(backgroundModals, data.id, 'id');
-      backgroundModals.splice(index, 1);
-      repositionMinimizedBackgroundModals();
+      var index = _.findIndex(backgroundModals, {id: data.id});
+      if (index > -1) {
+        if ($scope.isMainLayout && backgroundModals[index].type === 'compose' && !backgroundModals[index].minimize) {
+          $rootScope.goToLastState(true);
+        }
+        backgroundModals.splice(index, 1);
+        repositionMinimizedBackgroundModals();
+      }
     }));
 
     function repositionMinimizedBackgroundModals() {
       setTimeout(function () {
         _.forEach(backgroundModals, function (item) {
           if (item.type === 'compose') {
-            $('.minimize-container.compose_' + item.id).parent().css('transform', 'translateX(' + (item.order * -160) + 'px)');
+            $('.minimize-container.compose_' + item.id).parent().css('transform', 'translateX(' + (item.order * -190) + 'px)');
           } else if (item.type === 'task') {
-            $('.minimize-container.task_' + item.id).parent().css('transform', 'translateX(' + (item.order * -160) + 'px)');
+            $('.minimize-container.task_' + item.id).parent().css('transform', 'translateX(' + (item.order * -190) + 'px)');
           }
         });
       }, 100);

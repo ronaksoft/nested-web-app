@@ -35,9 +35,13 @@
   }
   form .placeID {
     //background-color: $color-calm;
-    margin-bottom: 16px;
+    padding: 0 8px;
+    margin: 0 -8px 16px;
     &.not-val {
       border: 1px solid $color-force;
+      .field {
+        border-bottom: 1px solid $color-force-wire;
+    }
     }
   }
   p {

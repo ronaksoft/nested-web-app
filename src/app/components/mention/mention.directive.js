@@ -3,20 +3,22 @@
   angular
     .module('ronak.nested.web.components.mention')
     .directive('nstMention', function (_, $rootScope, $timeout, $window, $,
-                                       NST_USER_SEARCH_AREA, NstSvcAuth, NstSvcTranslation, SvcRTL,
-                                       NstSvcUserFactory, NstSvcPlaceFactory, NstSvcLabelFactory, NstVmPlace,
-                                       NstVmUser, NST_SEARCH_QUERY_PREFIX) {
+      NST_USER_SEARCH_AREA, NstSvcAuth, NstSvcTranslation, SvcRTL,
+      NstSvcUserFactory, NstSvcPlaceFactory, NstSvcLabelFactory, NstVmPlace,
+      NstVmUser, NST_SEARCH_QUERY_PREFIX) {
       return {
         restrict: 'A',
         link: function (scope, _element, attrs) {
           var userKey = NST_SEARCH_QUERY_PREFIX.USER;
           var placeKey = NST_SEARCH_QUERY_PREFIX.PLACE;
           var labelKey = NST_SEARCH_QUERY_PREFIX.NEW_LABEL;
+          var emojiKey = NST_SEARCH_QUERY_PREFIX.EMOJI;
 
           if (attrs.mentionNewMethod !== undefined) {
             userKey = NST_SEARCH_QUERY_PREFIX.NEW_USER;
             placeKey = NST_SEARCH_QUERY_PREFIX.NEW_PLACE;
             labelKey = NST_SEARCH_QUERY_PREFIX.NEW_LABEL;
+            emojiKey = NST_SEARCH_QUERY_PREFIX.EMOJI;
           }
 
           if (attrs.uiTinymce) {
@@ -44,8 +46,7 @@
                   offset.left = ($window.innerWidth - offset.left) - 5;
                 }
               }
-            }
-            catch (e) {
+            } catch (e) {
               return offset;
             }
           }
@@ -53,6 +54,7 @@
           function appendMention(element) {
 
             var enableAccountMention = attrs.nstMention ? attrs.nstMention.indexOf(userKey) > -1 ? true : false : true;
+            var enableEmojiMention = attrs.nstMention ? attrs.emojiInit ? true : false : true;
             // var enablePlaceMention = attrs.nstMention ? attrs.nstMention.indexOf(placeKey) > -1 ? true : false : true;
             var enablePlaceMention = false;
             var enableLabelMention = (attrs.mentionEnableLabel !== undefined);
@@ -69,6 +71,25 @@
               "<div class='_difv'>" +
               "<span class='_df list-unstyled text-center teammate-name  nst-mood-solid text-name'>  ${name}</span>" +
               "<span class='_df nst-mood-storm nst-font-small'>${id}</span>" +
+              "</div>" +
+              "</li>";
+
+            var labelTemplate =
+              "<li data-id='${id}' class='_difv'>" +
+              "<svg class='_24svg mirror _fn label-initials-32 mCS_img_loaded _df color-lbl-${code}'>" +
+              "<use xlink:href='/assets/icons/nst-icn24.svg#tag'></use>" +
+              "</svg>" +
+              "<div class='_difv'>" +
+              "<span class='_df list-unstyled text-center teammate-name  nst-mood-solid text-name'>  ${name}</span>" +
+              "<span class='_df nst-mood-storm nst-font-small'>${type}</span>" +
+              "</div>" +
+              "</li>";
+
+              var emojiTemplate =
+              "<li data-id='${id}' data-emoji='${emoji}' class='_difv suggest-emoji'>" +
+              "<span> ${emoji} </span>" +
+              "<div>" +
+              "<span class='_df list-unstyled _fw nst-mood-solid'><span class='_db _fw _txe' dir='ltr'>${name}</span></span>" +
               "</div>" +
               "</li>";
 
@@ -107,7 +128,16 @@
                       if (attrs.placeId) {
                         searchSettings.placeId = attrs.placeId;
                       }
-                      NstSvcUserFactory.search(searchSettings, attrs.postId ? NST_USER_SEARCH_AREA.MENTION : NST_USER_SEARCH_AREA.ACCOUNTS).then(function (users) {
+                      if (attrs.taskId) {
+                        searchSettings.taskId = attrs.taskId;
+                      }
+                      var searchArea = NST_USER_SEARCH_AREA.ACCOUNTS;
+                      if (attrs.placeId) {
+                        searchArea = NST_USER_SEARCH_AREA.MENTION;
+                      } else if (attrs.taskId) {
+                        searchArea = NST_USER_SEARCH_AREA.TASK_MENTION;
+                      }
+                      NstSvcUserFactory.search(searchSettings, searchArea).then(function (users) {
                         var uniqueUsers = _.unionBy(users, 'id');
                         var items = [];
                         _.map(uniqueUsers, function (item) {
@@ -123,15 +153,14 @@
                           items.push({
                             id: obj.id,
                             name: obj.name,
-                            dir : SvcRTL.rtl.test(obj.name[0]) ? 'rtl' : 'ltr',
-                            avatar: obj.avatar == "" ? avatarElement[0].currentSrc : obj.avatar,
+                            dir: SvcRTL.rtl.test(obj.name[0]) ? 'rtl' : 'ltr',
+                            avatar: obj.avatar === "" ? avatarElement[0].currentSrc : obj.avatar,
                             alias: obj.id === NstSvcAuth.user.id ? NstSvcTranslation.get('Me') : '',
                             searchField: [obj.id, obj.name].join(' ')
                           })
                         });
                         callback(items);
-                      }).catch(function () {
-                      });
+                      }).catch(function () {});
                     },
                     beforeReposition: function (offset) {
                       repositionModal(offset, this);
@@ -177,16 +206,6 @@
                 });
             }
 
-            var labelTemplate =
-              "<li data-id='${id}' class='_difv'>" +
-              "<svg class='_24svg mirror _fn label-initials-32 mCS_img_loaded _df color-lbl-${code}'>" +
-              "<use xlink:href='/assets/icons/nst-icn24.svg#tag'></use>" +
-              "</svg>" +
-              "<div class='_difv'>" +
-              "<span class='_df list-unstyled text-centerteammate-name  nst-mood-solid text-name'>  ${name}</span>" +
-              "<span class='_df nst-mood-storm nst-font-small'>${type}</span>" +
-              "</div>" +
-              "</li>";
 
             if (enableLabelMention) {
               element
@@ -216,8 +235,7 @@
                           })
                         });
                         callback(items);
-                      }).catch(function () {
-                      });
+                      }).catch(function () {});
                     },
                     beforeReposition: function (offset) {
                       repositionModal(offset, this);
@@ -226,6 +244,44 @@
                 });
             }
 
+            if (enableEmojiMention) {
+              element
+                .atwho({
+                  at: emojiKey,
+                  searchKey: 'searchField',
+                  maxLen: 24,
+                  startWithSpace: false,
+                  limit: 5,
+                  displayTpl: emojiTemplate,
+                  callbacks: {
+                    beforeInsert: function (value, $li) {
+                      var elm = angular.element($li);
+                      return elm.attr('data-emoji').trim();
+                    },
+                    remoteFilter: function (query, callback) {
+                      window.wdtEmojiBundle.fillPickerPopup();
+                      query = query.replace(/-/gi, " ");
+                      window.wdtEmojiBundle.search(query, 5, callb);
+
+                      function callb(arr) {
+                        var items = _.map(arr, function (emoji) {
+                          var name = emoji.dataset.wdtEmojiName.toLowerCase().replace(/ /gi, "-");
+                          return {
+                            id: emoji.dataset.wdtEmojiOrder,
+                            emoji: emoji.dataset.wdtEmojiShortname,
+                            name: name,
+                            searchField: name
+                          }
+                        });
+                        callback(items);
+                      }
+                    },
+                    beforeReposition: function (offset) {
+                      repositionModal(offset, this);
+                    }
+                  }
+                });
+            }
 
             //remove useless atwho-container tag after change a state
             $rootScope.$on('$stateChangeSuccess', function () {

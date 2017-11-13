@@ -180,7 +180,6 @@
       if (data.action !== NST_EVENT_ACTION.LABEL_ADD) {
         throw Error(NstUtility.string.format('The provided activity is not of {0} type.', NST_EVENT_ACTION.LABEL_ADD));
       }
-
       var activity = new NstActivity();
       activity.id = data._id;
       activity.type = data.action;
@@ -188,7 +187,7 @@
       activity.label = NstSvcLabelFactory.parseLabel(data.label);
       activity.actor = NstSvcUserFactory.parseTinyUser(data.actor);
       activity.post = {
-        id: data.post_id,
+        id: data.post._id,
         subject: data.post_subject
       };
 
@@ -207,7 +206,7 @@
       activity.label = NstSvcLabelFactory.parseLabel(data.label);
       activity.actor = NstSvcUserFactory.parseTinyUser(data.actor);
       activity.post = {
-        id: data.post_id,
+        id: data.post._id,
         subject: data.post_subject
       };
 

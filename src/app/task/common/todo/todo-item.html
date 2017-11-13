@@ -13,9 +13,9 @@
     <textarea class="no-style gale-holder create-task-input f1"
               ng-model="data.text" ng-keydown="inputKeyDown($event)"
               ng-keyup="inputKeyUp($event)" uneditable="{{!editMode}}"
-              enter-key prevent-shift-enter="false"
+              enter-key prevent-shift-enter="false" auto-dir="data.text"
               ng-focus="focus = true" focus-me="{{focusMe}}"
-              ng-blur="inputBlur($event)"
+              ng-blur="inputBlur($event)" nst-suggest-emoji
               placeholder="{{placeholder}}" resize-textarea></textarea>
   </div>
 </li>

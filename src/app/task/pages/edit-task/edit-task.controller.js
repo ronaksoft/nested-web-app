@@ -45,6 +45,7 @@
     }
 
     var gotoTask = null;
+
     function editTask(id) {
       $scope.$dismiss();
       gotoTask = id;
@@ -68,6 +69,7 @@
       counters: {},
       title: '',
       assignees: [],
+      dueDateText: null,
       dueDate: null,
       hasDueTime: false,
       description: '',
@@ -165,6 +167,7 @@
 
     var dataInit = false;
     var isUpdated = false;
+
     // vm.isInCandidateMode = false;
 
     function getTask(id) {
@@ -192,7 +195,7 @@
         }
 
         if (task.dueDate !== undefined && task.dueDate !== 0) {
-          vm.model.dueDate = new Date(task.dueDate);
+          vm.model.dueDate = task.dueDate / 1000;
           vm.model.hasDueTime = task.hasDueTime;
           // vm.enableDue = true;
         } else {
@@ -382,13 +385,13 @@
     }
 
     function updateDueDate(date, hasDueTime) {
-      if (vm.modelBackUp.dueDate === date || !vm.model.access.updateTask) {
+      if ((vm.modelBackUp.dueDate === date && vm.modelBackUp.hasDueTime === hasDueTime) || !vm.model.access.updateTask) {
         return;
       }
       if (date === null) {
         taskUpdateModel.dueDate = 0;
       } else {
-        taskUpdateModel.dueDate = new Date(date).getTime();
+        taskUpdateModel.dueDate = date;
         taskUpdateModel.hasDueTime = hasDueTime;
       }
       updateDebouncer.call();
@@ -406,7 +409,7 @@
     }, true);
 
     function updateTask() {
-      NstSvcTaskFactory.taskUpdate(vm.taskId, taskUpdateModel.title, taskUpdateModel.description, taskUpdateModel.dueDate, taskUpdateModel.hasDueTime).then(function () {
+      NstSvcTaskFactory.taskUpdate(vm.taskId, taskUpdateModel.title, taskUpdateModel.description, (taskUpdateModel.dueDate === null ? null : taskUpdateModel.dueDate * 1000), taskUpdateModel.hasDueTime).then(function () {
         backItUp();
         isUpdated = true;
       })/*.catch(function (error) {
@@ -663,7 +666,7 @@
         cancelText: NstSvcTranslation.get('Cancel')
       }).then(function () {
         NstSvcTaskFactory.remove(vm.taskId).then(function () {
-          toastr.success(NstSvcTranslation.get(String('Task {name} removed successfully').replace('{name}', '"' + vm.model.title + '"')));
+          toastr.success(NstSvcTranslation.get('Task {name} removed successfully').replace('{name}', '"' + vm.model.title + '"'));
           isUpdated = true;
           $scope.$dismiss();
         });

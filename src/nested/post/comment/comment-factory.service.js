@@ -9,7 +9,7 @@
                                 _,
                                 NST_COMMENT_EVENT, NST_SRV_ERROR,
                                 NstSvcServer, NstCollector, NstSvcUserFactory, NstPicture, NstUtility, NstSvcGlobalCache,
-                                NstComment, NstTinyUser, NstBaseFactory, NstSvcAttachmentFactory) {
+                                NstComment, NstTinyUser, NstBaseFactory) {
 
     function CommentFactory() {
       this.collector = new NstCollector('post', this.getManyComment);
@@ -131,10 +131,11 @@
      *
      * @param  {NstPost}   post      the post
      * @param  {String}    content   comment body
+     * @param  {String}    attachmentId   attachment id
      *
      * @returns {Promise}             the comment
      */
-    function addComment(postId, content) {
+    function addComment(postId, content, attachmentId) {
       return factory.sentinel.watch(function () {
         var deferred = $q.defer();
 
@@ -143,7 +144,8 @@
         } else {
           NstSvcServer.request('post/add_comment', {
             post_id: postId,
-            txt: content
+            txt: content,
+            attachment_id: attachmentId
           }).then(function (data) {
             var commentId = data.comment_id;
             return getComment(commentId, postId);
@@ -231,7 +233,7 @@
       }
 
       var comment = new NstComment();
-      comment.attachment_id = data.attachment_id;
+      comment.attachmentId = data.attachment_id;
       comment.id = data._id;
       comment.sender = NstSvcUserFactory.parseTinyUser(data.sender);
       NstSvcUserFactory.set(data.sender);

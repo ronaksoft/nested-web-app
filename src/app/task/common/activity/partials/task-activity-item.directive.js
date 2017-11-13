@@ -80,6 +80,9 @@
           case NST_TASK_EVENT_ACTION.CREATED:
             scope.tplUrl = 'app/task/common/activity/partials/created.html';
             break;
+          case NST_TASK_EVENT_ACTION.ASSIGNEE_CHANGED:
+            scope.tplUrl = 'app/task/common/activity/partials/assignee-changed.html';
+            break;
         }
       },
       template: function () {

@@ -93,9 +93,10 @@
                     flex: none;
                     justify-content: center;
                     align-items: center;
-                    transition: all $animation-dur ease-out;
-                    z-index: 1;
-                    opacity: .3;
+                    transition: all $animation-dur ease-in-out;
+                    z-index: 3;
+                    opacity: 0;
+                    background-color: $color-solid;
                     margin-left: 0;
                     &:first-child {
                         max-width: 30px;
@@ -103,9 +104,11 @@
                         transform-origin: center center;
                         transform: rotateZ(0);
                         opacity: 1!important;
+                        background-color: transparent;
                     }
                     &:last-child {
                         margin-left: 0;
+                        z-index: 1;
                     }
                     &:hover {
                         & + .task-binder-tooltip {

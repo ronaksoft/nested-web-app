@@ -5,6 +5,7 @@
     height: 82px;
     box-shadow: 0 24px 32px $color-solid-48;
     max-width: none;
+    z-index: 2000;
     background-color: transparent;
     .popover-content {
         padding: 0;

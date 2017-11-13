@@ -8,7 +8,7 @@
   <span><translate>Create a Grand Place</translate></span>
 </a>
 <hr ng-if="ctlSidebar.canCreateGrandPlace && (ctlSidebar.canCreateOpenPlace || ctlSidebar.canCreateClosedPlace)">
-<a class="_df list-items _aic" ng-if="ctlSidebar.canCreateOpenPlace" ng-click="ctlSidebar.openCreateSubplaceModal($event,'open');">
+<!-- <a class="_df list-items _aic" ng-if="ctlSidebar.canCreateOpenPlace" ng-click="ctlSidebar.openCreateSubplaceModal($event,'open');">
   <div>
     <svg class="_16svg">
       <use xlink:href="/assets/icons/nst-icn16.svg#window"></use>
@@ -18,7 +18,7 @@
     <translate>Create an Open Place</translate>
     <aside><translate>nest in</translate>&nbsp;<b>{{ctlSidebar.selectedPlaceName}}</b></aside>
   </span>
-</a>
+</a> -->
 <a class="_df list-items _aic" ng-if="ctlSidebar.canCreateClosedPlace" ng-click="ctlSidebar.openCreateSubplaceModal($event,'close');">
   <div>
     <svg class="_16svg">
@@ -26,7 +26,7 @@
     </svg>
   </div>
   <span class="_difv">
-    <translate>Create a Closed Place</translate>
+    <translate>Create a Private Place</translate>
     <aside><translate>nest in</translate>&nbsp;<b>{{ctlSidebar.selectedPlaceName}}</b></aside>
   </span>
 </a>

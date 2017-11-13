@@ -23,7 +23,26 @@
     };
     vm.backDropClick = backDropClick;
     function backDropClick() {
-      $scope.$dismiss();
+      if (vm.model.dueDate !== null ||
+          _.trim(vm.model.title).length !== 0 ||
+          _.trim(vm.model.desc).length !== 0 ||
+          vm.model.assignees.length !== 0 ||
+          vm.model.todos.length !== 0 ||
+          vm.model.attachments.length !== 0 ||
+          vm.model.watchers.length !== 0 ||
+          vm.model.labels.length !== 0) {
+        NstSvcTaskUtility.promptModal({
+          title: NstSvcTranslation.get('Closing creating task modal'),
+          body: NstSvcTranslation.get('Are you sure? <br>All the filled data will be lost'),
+          confirmText: NstSvcTranslation.get('Yes'),
+          confirmColor: 'red',
+          cancelText: NstSvcTranslation.get('Cancel')
+        }).then(function () {
+          $scope.$dismiss();
+        });
+      } else {
+        $scope.$dismiss();
+      }
     }
 
     vm.modalId = modalData.modalId;
@@ -35,6 +54,7 @@
       status: null,
       title:  '',
       assignees: [],
+      dueDateText: null,
       dueDate: null,
       hasDueTime: false,
       desc: '',
@@ -93,7 +113,9 @@
       vm.minimize = true;
       $('body').removeClass('active-compose');
       $('html').removeClass('_oh');
-      $rootScope.$broadcast('minimize-background-modal');
+      $rootScope.$broadcast('minimize-background-modal', {
+        id: vm.modalId
+      });
     }
 
     function removeAssignees() {
@@ -155,7 +177,7 @@
           task.candidates = vm.model.assignees;
         }
         if (vm.model.dueDate !== null) {
-          task.dueDate = new Date(vm.model.dueDate).getTime();
+          task.dueDate = vm.model.dueDate*1000;
         }
         if (_.trim(vm.model.description).length > 0) {
           task.description = vm.model.description;
@@ -175,9 +197,11 @@
         if (modalData.relatedTaskId  !== null) {
           task.relatedTask = modalData.relatedTaskId;
         }
-        NstSvcTaskFactory.create(task).then(function () {
+        NstSvcTaskFactory.create(task).then(function (data) {
           toastr.success(NstSvcTranslation.get('Task created successfully!'));
-          $rootScope.$broadcast('task-created');
+          $rootScope.$broadcast('task-created', {
+            id: data.task.id
+          });
         }).catch(function () {
           toastr.error(NstSvcTranslation.get('Something went wrong!'));
         });
@@ -191,8 +215,9 @@
       return vm.model.attachments
     }, updateTotalAttachmentsRatio, true);
 
+    var createInBackground = true;
     function updateTotalAttachmentsRatio() {
-      if (!vm.minimize) {
+      if (!vm.minimize || !createInBackground) {
         return;
       }
       if (NstSvcTaskUtility.validateTask(vm.model).valid) {
@@ -208,6 +233,7 @@
           NstSvcStore.cancelUpload(request);
         }
       });
+      createInBackground = false;
       vm.model.attachments = [];
       $scope.$dismiss();
     }

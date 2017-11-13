@@ -463,6 +463,32 @@
 
         return deferred.promise;
       }, "setBookmarkOption", id);
+    };
+
+    var whiteSpaceRegEx = /\s/;
+    function moveExactToViewPort(places, keyword) {
+      if (_.isString(keyword) && keyword.length > 0 && !whiteSpaceRegEx.test(keyword)) {
+        var index = _.findIndex(places, {'_id': keyword});
+        var item = {};
+        if (index === -1) {
+          item = {
+            _id: keyword,
+            name: keyword,
+            description: '',
+            place: null,
+            access: []
+          };
+          if (places.length > 5) {
+            places.splice(4, 0, item);
+          } else {
+            places.push(item);
+          }
+        } else if (index >= 5) {
+          item = places[index];
+          places.splice(index, 0);
+          places.splice(4, 0, item);
+        }
+      }
     }
 
     PlaceFactory.prototype.searchForCompose = function (keyword, limit) {
@@ -475,14 +501,12 @@
           limit: limit || 10
         }).then(function (response) {
 
-          var places = [];
-          _.forEach(response.places, function (place) {
-            factory.set(place);
-            places.push(factory.parseTinyPlace(place));
-          });
-
+          var places = response.places;
+          moveExactToViewPort(places, keyword);
           deferred.resolve({
-            places: places,
+            places: _.map(places, function (item) {
+              return factory.parseTinyPlace(item);
+            }),
             recipients: response.recipients
           });
         }).catch(deferred.reject);
@@ -697,6 +721,8 @@
       place.counters = placeData.counters;
       place.limits = placeData.limits;
       place.accesses = placeData.access;
+      place.notification = placeData.notification;
+      place.favorite = placeData.favorite;
 
       return place;
     };

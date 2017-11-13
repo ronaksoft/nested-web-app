@@ -43,7 +43,12 @@
       attachment.id = data._id;
       attachment.filename = data.filename;
       attachment.mimetype = data.mimetype;
+      attachment.uploadTime = data.upload_time;
       attachment.uploadType = data.upload_type;
+      attachment.meta = data.meta;
+      if(attachment.meta && attachment.meta.duration) {
+        attachment.meta.duration = attachment.meta.duration / 1000000
+      }
 
       attachment.height = data.height || 0;
       attachment.width = data.width || 0;

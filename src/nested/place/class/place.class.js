@@ -21,6 +21,10 @@
 
       this.unreadPosts = null;
 
+      this.notification = undefined;
+
+      this.favorite = undefined;
+
       NstTinyPlace.call(this);
     }
 

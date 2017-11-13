@@ -33,7 +33,8 @@
       id: -parseInt(_.uniqueId()),
       text: '',
       checked: false,
-      weight: 1
+      weight: 1,
+      focusTrigger: 0
     };
 
     vm.addTodo = addTodo;
@@ -42,13 +43,15 @@
     vm.removeTodo = removeTodo;
     vm.removeItems = removeItems;
 
+    vm.previousTodo = previousTodo;
+
     function addTodo() {
       // if (_.findIndex(vm.todosData, {text: vm.temp.text}) > -1) {
       //   toastr.warning(NstSvcTranslation.get('This todo already exists!'));
       //   return;
       // }
       if (_.trim(vm.temp.text).length === 0) {
-        toastr.warning(NstSvcTranslation.get('Please enter a title'));
+        // toastr.warning(NstSvcTranslation.get('Please enter a title'));
         return;
       }
       vm.todosData.push(Object.assign({}, vm.temp));
@@ -60,7 +63,7 @@
     function updateTodo(id) {
       var index = _.findIndex(vm.todosData, {id: id});
       if (_.trim(vm.todosData[index].text).length === 0) {
-        toastr.warning(NstSvcTranslation.get('Please enter a title'));
+        // toastr.warning(NstSvcTranslation.get('Please enter a title'));
         return;
       }
       if (_.isFunction(vm.updateItem)) {
@@ -82,11 +85,18 @@
       var index = _.findIndex(vm.todosData, {id: id});
       if (index > -1) {
         vm.todosData.splice(index, 1);
+        vm.todoFocusMe++;
       }
     }
 
     function removeItems () {
       vm.todosData = [];
+    }
+
+    function previousTodo() {
+      if (vm.todosData.length > 0) {
+        vm.todosData[vm.todosData.length - 1].focusTrigger++;
+      }
     }
   }
 })();

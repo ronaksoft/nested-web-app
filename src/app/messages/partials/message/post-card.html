@@ -56,7 +56,7 @@
     <div class="_fw _difc">
       <h4 class="_df _fn" ng-if="!ctlPostCard.FIT" user-detail="ctlPostCard.post.sender">{{::ctlPostCard.post.sender.fullName}}</h4>
       <!-- First Interactive time -->
-      <h4 class="_df _fn" ng-if="ctlPostCard.FIT"><span>{{::ctlPostCard.post.sender.fullName}}</span>{{ctlPostCard.post.id}}</h4>
+      <h4 class="_df _fn" ng-if="ctlPostCard.FIT"><span>{{::ctlPostCard.post.sender.fullName}}</span></h4>
       <div class="_df _fw"></div>
 
       <a class="_df _fn post-card-time" ng-if="!ctlPostCard.FIT" ng-click="ctlPostCard.viewFull($event); ctlPostCard.markAsRead(); _track('post card','open post view : click date');"
@@ -140,7 +140,7 @@
         {{ label.title | scapeRevSpace}}
     </span> -->
     <div label-chips label-id="label" on-remove="ctlLabel.removeLabelChip"
-      ng-repeat="label in ctlPostCard.post.labels track by $index" ng-click="ctlPostCard.labelClick(label.title);"></div>
+      ng-repeat="label in ctlPostCard.post.labels track by label.id" ng-click="ctlPostCard.labelClick(label.title);"></div>
     <a ng-if="!ctlPostCard.FIT && ctlPostCard.haveAnyLabelAcess" add-label added-labels="ctlPostCard.post.labels" after-add-label="ctlPostCard.addLabels"
        data-uib-tooltip="Labels" class="cursor-pointer" data-tooltip-append-to-body="true" data-tooltip-placement="auto top" translate-attrs="data-uib-tooltip"
        ng-click="ctlPostCard.markAsRead();"

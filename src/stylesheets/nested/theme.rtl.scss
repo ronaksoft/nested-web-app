@@ -104,10 +104,10 @@ body[dir="rtl"] {
   }
   .place-switch input+label .circle {
     right: 0;
-    transform: translateX(-4px);
+    transform: translateX(-3px);
   }
   .place-switch input[type="checkbox"]:checked+label .circle {
-    transform: translateX(-52px);
+    transform: translateX(-45px);
   }
   #create-place .create-place-checkbox:checked+label {
     background-position: 100% -16px;
@@ -156,10 +156,6 @@ body[dir="rtl"] {
   .footer-panel select {
     background: transparent;
   }
-  .post-card .post-head {
-    padding-right: 0;
-    padding-left: 24px;
-  }
   .compose-subject-input {
     direction: rtl;
   }
@@ -172,32 +168,6 @@ body[dir="rtl"] {
       left: 4px;
       right: auto;
     }
-  }
-  .post-card .post-head>div:first-child {
-    padding: 0 6px 0 2px;
-  }
-  post-card .chain-stats {
-    left: auto;
-    right: 0;
-    transform: translate3d(100%, 0, 0);
-    border-left: none;
-    border-right: 1px solid gainsboro;
-    >div {
-      direction: ltr;
-      transform: translate3d(100%, 0, 0);
-    }
-    svg,
-    .squ {
-      transform: translate3d(-50%, 0, 0);
-    }
-  }
-  post-card .chain-forward {
-    right: auto;
-    left: 0;
-    transform: translate3d(-100%, 0, 0);
-    border-left-width: 1px;
-    border-right-width: 0;
-    border-radius: 4px 0 0 4px;
   }
   .nst-navbar .nav-access {
     right: auto;
@@ -235,14 +205,6 @@ body[dir="rtl"] {
   }
   .post-card-comment-input textarea {
     padding: 5px 8px 5px 28px;
-  }
-  post-card {
-    .wdt-emoji-picker {
-      left: 15px;
-      right: auto;
-      width: 16px;
-      height: 16px;
-    }
   }
   nst-navbar .nav-item-butn span {
     margin-left: 0;
@@ -292,10 +254,6 @@ body[dir="rtl"] {
     margin-right: 0;
     margin-left: 20px;
   }
-  .post-card .post-head .pin-post {
-    left: 4px;
-    right: auto;
-  }
   .user-wrapper img {
     margin-left: 8px;
     margin-right: 0;
@@ -315,13 +273,6 @@ body[dir="rtl"] {
     right: auto;
     left: 24px;
   }
-  post-card .chain-stats>div>* {
-    direction: rtl;
-  }
-  .post-card .post-card-time {
-    padding-left: 8px;
-    padding-right: 0;
-  }
   .user-avatar-64 {
     margin-right: 0;
     margin-left: 8px;
@@ -337,11 +288,6 @@ body[dir="rtl"] {
   .comments-load a {
     //margin-left : 0;
     //margin-right: 32px;
-  }
-  post-card .card-control {
-    left: auto;
-    right: 0;
-    transform: translateX(100%);
   }
   .files-types-images {
     margin: 0 7px 0 0;
@@ -476,9 +422,6 @@ body[dir="rtl"] {
     padding-right: 4px;
     padding-left: 0;
   }
-  .post-card .post-places svg {
-    margin: -4px -4px -3px 4px;
-  }
   .badge-invite {
     left: auto;
     right: 24px;
@@ -516,25 +459,6 @@ body[dir="rtl"] {
   }
   #wdt-emoji-menu-header {
     padding: 4px 7px 0 0;
-  }
-  .post-card-comments p {
-    strong {
-      direction: rtl;
-    }
-    span {
-      float: right;
-      padding: 0;
-    }
-    .time {
-      float: left;
-      margin-left: 0;
-      margin-right: 4px
-    }
-  }
-  .post-card-comments p.LTR-text {
-    span {
-      padding: 0;
-    }
   } // .post-card-comments p.RTL-text {
   //   strong {
   //     direction: rtl;
@@ -788,10 +712,9 @@ body[dir="rtl"] {
     margin-right: 0;
     margin-left: 8px;
   }
-  .post-labels span {
-    margin-right: 0;
-    margin-left: 6px;
-  }
+  .label-chips-wrapper {
+    margin: 0 0 5px 5px;
+}
   .popover-white-nst-msg {
     left: -1px!important;
     right: auto;
@@ -825,13 +748,13 @@ body[dir="rtl"] {
   }
   .mini-player .player .player-handler .bg-bar,
   .mini-player .player .player-handler .played-bar {
-    left: auto;
-    right: 0;
-    transform-origin: right center;
+    // left: auto;
+    // right: 0;
+    // transform-origin: right center;
   }
   .mini-player .player .player-handler .player-dragger {
-    left: auto;
-    right: 0;
+    // left: auto;
+    // right: 0;
   }
   .mini-player .player-ribbon a {
     margin-left: 0;
@@ -870,10 +793,6 @@ body[dir="rtl"] {
   }
   .mini-player .player-buttons-wrapper .remain-time {
     justify-content: flex-end;
-  }
-  .post-card .post-head .img {
-    margin-right: 0;
-    margin-left: 4px;
   }
   .vjs-has-started .vjs-control-bar {
     left: auto;
@@ -1028,6 +947,25 @@ body[dir="rtl"] {
     padding-right: 0;
     padding-left: 6px;
   }
+  .post-card-comments p {
+    strong {
+      direction: rtl;
+    }
+    span {
+      float: right;
+      padding: 0;
+    }
+    .time {
+      float: left;
+      margin-left: 0;
+      margin-right: 4px
+    }
+  }
+  .post-card-comments p.LTR-text {
+    span {
+      padding: 0;
+    }
+  }
   .sidebar-container .unreadPlace {
     right: auto;
     left: 0;
@@ -1151,6 +1089,28 @@ body[dir="rtl"] {
   .wdt-emoji-picker {
     right: auto;
     left: 12px;
+  }
+  .notif-ul .notif-li .notif-li-container {
+    padding: 8px 16px 0 0;
+    .unread-badge {
+      left: auto;
+      right: 8px;
+    }
+    .bottom-border>svg {
+      margin-left: 16px;
+      margin-right: 4px;
+    }
+  }
+  .place-switch.sm input[type="checkbox"]:checked + label .circle {
+    transform: translateX(-18px);
+  }
+  .places-modal .modal-body .places li .place-item .place-extra input {
+    margin-left: 20px;
+    margin-right: 0;
+  }
+  .places-modal .modal-body .places li .place-item .place-selector {
+    left: auto;
+    right: 16px;
   }
 }
 

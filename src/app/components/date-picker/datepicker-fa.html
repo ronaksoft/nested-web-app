@@ -39,12 +39,14 @@
       </tr>
     </tbody>
   </table>
-  <div class="input-time" ng-click="$event.stopPropagation()">
+  <div class="input-time">
     <svg class="_16svg _df">
       <use xlink:href="/assets/icons/nst-icn16.svg#alarm-clock"></use>
     </svg>
-    <input type="time" ng-value="selectedTime" class="time-input" placeholder="+ Add Time" translate-attrs="placeholder">
-    <div class="input-buttons" ng-if="selectedTime != initialTime">
+    <input ng-model="timeHour" type="number" class="time-input" placeholder="00" translate-attrs="placeholder" max="23" min="0">
+    <span>:</span>
+    <input ng-model="timeMinute" type="number" class="time-input" placeholder="00" translate-attrs="placeholder" max="59" min="0">    <div class="input-buttons" ng-if="selectedTime != initialTime">
+    <div class="input-buttons">
       <div class="discard-changes">
         <svg class="_16svg" ng-click="executeDueDateUpdate('abort')">
           <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
@@ -55,6 +57,9 @@
           <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
         </svg>
       </div>
+    </div>
+    <div class="add-time-toggler" ng-hide="showTime">
+      <span ng-click="showTime = true;" translate-inner>+ Add time</span>
     </div>
   </div>
 </div>
