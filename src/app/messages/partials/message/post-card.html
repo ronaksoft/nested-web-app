@@ -140,7 +140,7 @@
         {{ label.title | scapeRevSpace}}
     </span> -->
     <div label-chips label-id="label" on-remove="ctlLabel.removeLabelChip"
-      ng-repeat="label in ctlPostCard.post.labels track by $index" ng-click="ctlPostCard.labelClick(label.title);"></div>
+      ng-repeat="label in ctlPostCard.post.labels track by label.id" ng-click="ctlPostCard.labelClick(label.title);"></div>
     <a ng-if="!ctlPostCard.FIT && ctlPostCard.haveAnyLabelAcess" add-label added-labels="ctlPostCard.post.labels" after-add-label="ctlPostCard.addLabels"
        data-uib-tooltip="Labels" class="cursor-pointer" data-tooltip-append-to-body="true" data-tooltip-placement="auto top" translate-attrs="data-uib-tooltip"
        ng-click="ctlPostCard.markAsRead();"
