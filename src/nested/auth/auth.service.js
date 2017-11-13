@@ -274,6 +274,9 @@
           service.register(id, credentials.password).then(function (response) {
             service.setState(NST_AUTH_STATE.AUTHORIZED);
             service.authorize(response).then(deferred.resolve);
+            if (response.account.flags.force_password_change) {
+              $rootScope.$broadcast(NST_AUTH_EVENT.CHANGE_PASSWORD);
+            }
           }).catch(function (error) {
             service.unregister(NST_UNREGISTER_REASON.AUTH_FAIL).then(function () {
               deferred.reject(error);
@@ -313,6 +316,9 @@
           NstSvcClient.setDid(service.lastDeviceId);
 
           service.authorize(response).then(deferred.resolve);
+          if (response.account.flags.force_password_change) {
+            $rootScope.$broadcast(NST_AUTH_EVENT.CHANGE_PASSWORD);
+          }
         }).catch(function (error) {
           $log.debug('Auth | Recall Error: ', error);
 
