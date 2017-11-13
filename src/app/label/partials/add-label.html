@@ -11,9 +11,11 @@
             /{{10 | localize}}
         </p>
     </h4>
-    <ui-select minimum-input-length="4" multiple limit="{{ctrl.targetLimit}}" always-show-list class="label-search _difv" focus-on='SetFocus'
+    <ui-select minimum-input-length="4" multiple limit="{{ctrl.targetLimit}}" class="label-search _difv" focus-on='SetFocus'
         data-ng-model="ctrl.selectedLabels" on-select="ctrl.updatedRecipient(true, $item)" on-remove="ctrl.updatedRecipient(false, $item)">
+        {{$select.open = true; ""}}
         <ui-select-match placeholder="{{::ctrl.labelSelectPlaceHolder}}" class="label-items">
+            {{$select.open = true; ""}}
             <!-- <div class="selected-innter color-lbl-bg-{{$item.code}} ng-class:{'locked' : !$item.public && !$item.isMember}">
                 <svg class="_16svg _fn fill-white" ng-if="!$item.public && !$item.isMember">
                     <use xlink:href="/assets/icons/nst-icn16.svg#lock"></use>
