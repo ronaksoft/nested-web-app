@@ -213,8 +213,9 @@
       return vm.model.attachments
     }, updateTotalAttachmentsRatio, true);
 
+    var createInBackground = true;
     function updateTotalAttachmentsRatio() {
-      if (!vm.minimize) {
+      if (!vm.minimize || !createInBackground) {
         return;
       }
       if (NstSvcTaskUtility.validateTask(vm.model).valid) {
@@ -230,6 +231,7 @@
           NstSvcStore.cancelUpload(request);
         }
       });
+      createInBackground = false;
       vm.model.attachments = [];
       $scope.$dismiss();
     }
