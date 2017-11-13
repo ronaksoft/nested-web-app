@@ -7,7 +7,7 @@
 
   function AttachPlaceController( $uibModalInstance, toastr, _,
     NstSvcPostFactory, NstSvcPlaceFactory, NstSvcTranslation, NstUtility,
-    NstTinyPlace,
+    NstTinyPlace, NstVmSelectTag,
     postId, postPlaces) {
 
     var vm = this;
@@ -62,7 +62,9 @@
       vm.searchPlaceProgress = true;
 
       NstSvcPlaceFactory.searchForCompose(keyword, limit).then(function (result) {
-        vm.resultTargets = _.chain(result.places).differenceBy(postPlaces, 'id').uniqBy('id').take(10).value();
+        vm.resultTargets = _.chain(result.places).differenceBy(postPlaces, 'id').uniqBy('id').take(10).map(function (place) {
+          return new NstVmSelectTag(place);
+        }).value();
 
         if (_.isString(keyword)
           && _.size(keyword) >= 4
