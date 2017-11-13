@@ -712,10 +712,9 @@ body[dir="rtl"] {
     margin-right: 0;
     margin-left: 8px;
   }
-  .post-labels span {
-    margin-right: 0;
-    margin-left: 6px;
-  }
+  .label-chips-wrapper {
+    margin: 0 0 5px 5px;
+}
   .popover-white-nst-msg {
     left: -1px!important;
     right: auto;
