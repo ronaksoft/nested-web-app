@@ -930,7 +930,9 @@ div.modal .attach-place {
 .modal:not(.compose-modal-element):not(.task-modal-element) + .modal.in.task-modal-element + .modal.in.task-modal-element + .modal.in.task-modal-element + .modal-backdrop.taskdrop {
   display: block;
 }
+.modal.compose-modal-element + .modal-backdrop.taskdrop ,
 .modal.compose-modal-element + .modal-backdrop.comdrop ,
+.modal.task-modal-element + .modal-backdrop.comdrop ,
 .modal.task-modal-element + .modal-backdrop.taskdrop {
   display: none;
 }
