@@ -44,6 +44,7 @@
       return vm.onlyComments;
     }, function () {
       reset();
+      $scope.isScrolled = false;
       if (init) {
         getActivities()
       }

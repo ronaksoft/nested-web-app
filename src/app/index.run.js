@@ -74,6 +74,12 @@
     .success(function (tplContent) {
       $templateCache.put('/app/notification/common/name.html', tplContent);
     });
+    $http.get('app/messages/partials/message/comment.html', {
+      cache: $templateCache
+    })
+    .success(function (tplContent) {
+      $templateCache.put('app/messages/partials/message/comment.html', tplContent);
+    });
 
     var cacheTaskActs = [
       'app/task/common/activity/partials/base.html',
