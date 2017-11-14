@@ -39,12 +39,12 @@
               $rootScope.goToLastState(true);
             }
           });
-        }],
-        onExit: function($uibModalStack) {
-          if ($uibModalStack) {
-            $uibModalStack.dismissAll();
-          }
-        }
+        }]
+        // onExit: function($uibModal) {
+        //   if ($uibModalStack) {
+        //     $uibModal.dismiss();
+        //   }
+        // }
       })
       .state('app.messages-bookmarked', {
         url: '/bookmarks',

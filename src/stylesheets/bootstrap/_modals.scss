@@ -96,7 +96,11 @@
   animation: appearence-2 .38s cubic-bezier(0.1,0.8,0.6,1) forwards normal;
   &.comdrop {
     background-color: $color-modal-bg;
-    display: none;
+    // display: none;
+  }
+  &.taskdrop {
+    background-color: $color-modal-bg;
+    // display: none;
   }
   &.attachmdrop {
     animation: appearence .38s cubic-bezier(0.1,0.8,0.6,1) forwards normal;

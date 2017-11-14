@@ -212,10 +212,12 @@
       $uibModal.open({
         animation: false,
         backdropClass: 'comdrop',
+        windowClass: 'compose-modal-element',
+        // windowTopClass: 'windowTopClass ',
+        openedClass: 'modal-open compose-modal',
         size: 'compose',
         templateUrl: 'app/pages/compose/main.html',
         controller: 'ComposeController',
-        openedClass: 'modal-open compose-modal active-compose',
         controllerAs: 'ctlCompose',
         resolve: {
           modalId: uid
@@ -241,8 +243,9 @@
         templateUrl: 'app/task/pages/create-task/create-task.html',
         controller: 'CreateTaskController',
         controllerAs: 'ctrlCreateTask',
-        backdropClass: 'comdrop',
-        openedClass: 'modal-open compose-modal active-compose',
+        backdropClass: 'taskdrop',
+        openedClass: 'modal-open task-modal',
+        windowClass: 'task-modal-element',
         resolve: {
           modalData: {
             relatedTaskId: id,
@@ -279,11 +282,11 @@
 
     function repositionMinimizedBackgroundModals() {
       setTimeout(function () {
-        _.forEach(backgroundModals, function (item) {
+        _.forEach(backgroundModals, function (item, index) {
           if (item.type === 'compose') {
-            $('.minimize-container.compose_' + item.id).parent().css('transform', 'translateX(' + (item.order * -190) + 'px)');
+            $('.minimize-container.compose_' + item.id).parent().css('transform', 'translateX(' + (index * -190) + 'px)');
           } else if (item.type === 'task') {
-            $('.minimize-container.task_' + item.id).parent().css('transform', 'translateX(' + (item.order * -190) + 'px)');
+            $('.minimize-container.task_' + item.id).parent().css('transform', 'translateX(' + (index * -190) + 'px)');
           }
         });
       }, 100);

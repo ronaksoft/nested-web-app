@@ -27,19 +27,19 @@
           $state.go('app.message', { postId : vmPost.id, model : vmPost }, { notify : false});
         };
 
-        $element.click(function (event) {
-          var style=document.createElement('style');
-          style.type='text/css';
-          if(style.styleSheet){
-            style.styleSheet.cssText='.modal {transform-origin: '+ event.clientX +'px ' + event.clientY + 'px}';
-          }else{
-            style.appendChild(document.createTextNode('.modal {transform-origin: '+ event.clientX +'px ' + event.clientY + 'px}'));
-          }
-          document.getElementsByTagName('head')[0].appendChild(style);
-          $timeout(function () {
-            document.getElementsByTagName('head')[0].removeChild(style);
-          },4000)
-        })
+        // $element.click(function (event) {
+        //   var style=document.createElement('style');
+        //   style.type='text/css';
+        //   if(style.styleSheet){
+        //     style.styleSheet.cssText='.modal {transform-origin: '+ event.clientX +'px ' + event.clientY + 'px}';
+        //   }else{
+        //     style.appendChild(document.createTextNode('.modal {transform-origin: '+ event.clientX +'px ' + event.clientY + 'px}'));
+        //   }
+        //   document.getElementsByTagName('head')[0].appendChild(style);
+        //   $timeout(function () {
+        //     document.getElementsByTagName('head')[0].removeChild(style);
+        //   },4000)
+        // })
       }
 
       return directive;

@@ -15,7 +15,7 @@
         tab : 'info'
       },
       onEnter: ['$rootScope', '$stateParams', '$state', '$uibModal', '$uibModalStack', function($rootScope, $stateParams, $state, $uibModal, $uibModalStack) {
-        $uibModalStack.dismissAll();
+        // $uibModalStack.dismissAll();
 
          $uibModal.open({
           animation: false,

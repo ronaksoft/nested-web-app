@@ -218,7 +218,7 @@
 
             if (vm.ultimateSaveDraft) {
               setTimeout(function () {
-                $('body').removeClass("active-compose");
+                // $('body').removeClass("active-compose");
               }, 64);
 
               $('html').removeClass("_oh");
@@ -248,12 +248,12 @@
                 }
 
                 vm.finish = true;
-                $uibModalStack.dismissAll();
+                $scope.$dismiss();
               });
 
             } else {
               setTimeout(function () {
-                $('body').removeClass("active-compose");
+                // $('body').removeClass("active-compose");
               }, 64);
 
               $('html').removeClass("_oh");
@@ -1462,7 +1462,7 @@
         function minimizeModal() {
           vm.minimize = !vm.minimize;
           $rootScope.goToLastState(true);
-          $('body').removeClass('active-compose');
+          $('.compose-modal-element').addClass('minimized-compose');
           $('html').removeClass('_oh');
           $rootScope.$broadcast('minimize-background-modal', {
             id: vm.modalId
@@ -1566,7 +1566,8 @@
             id: vm.modalId
           });
           setTimeout(function () {
-            $('body').removeClass('active-compose');
+            // console.log('destroy');
+            // $('.compose-modal-element').removeClass('minimized-compose');
           }, 64);
           window.onbeforeunload = null;
           $('.wdt-emoji-popup.open').removeClass('open');

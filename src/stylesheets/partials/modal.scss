@@ -227,25 +227,29 @@ body.modal-open-attachment-view {
   }
 
 }
-body.modal-open.compose-modal ,
+body.compose-modal ,
 body.modal-open-attachment-view.compose-modal {
   // &.active-compose {
 
   // }
-  .modal {
+  .modal:not(.uib-wrapper-post-view) {
     overflow: visible;
   }
-  &:not(.active-compose) {
-    overflow: auto;
-    .modal,
-    .modal .modal-compose {
-      width: 10px;
-      height: 10px;
-      min-height: 0;
-      min-width: 0;
-    }
-  }
 
+}
+.compose-modal-element.minimized-compose ,
+.task-modal-element.minimized-task {
+  overflow: auto;
+  &,
+  .modal-compose {
+    width: 10px;
+    height: 10px;
+    min-height: 0;
+    min-width: 0;
+  }
+  .modal-backdrop.comdrop {
+    display: none;
+  }
 }
 .modal .modal-compose {
   width: 100%;
@@ -462,6 +466,8 @@ body.modal-open-attachment-view.compose-modal {
   margin: 0;
   .modal-content {
     box-shadow: none;
+    padding: 80px 0;
+    min-height: 100vh;
     background-color: transparent;
     .ui-select-multiple.ui-select-bootstrap input.ui-select-search ,
     .ui-select-multiple.ui-select-bootstrap {
@@ -908,9 +914,29 @@ div.modal .attach-place {
   }
 }
 
-.modal.in:not([size="compose"]) + .modal.in[size="compose"] + .modal-backdrop.comdrop {
+.modal:not(.compose-modal-element):not(.task-modal-element) + .modal.in.compose-modal-element + .modal-backdrop.comdrop ,
+.modal:not(.compose-modal-element):not(.task-modal-element) + .modal.in.task-modal-element + .modal-backdrop.taskdrop ,
+.modal:not(.compose-modal-element):not(.task-modal-element) + .modal.in.compose-modal-element + .modal.in.compose-modal-element + .modal-backdrop.comdrop ,
+.modal:not(.compose-modal-element):not(.task-modal-element) + .modal.in.task-modal-element + .modal.in.task-modal-element + .modal-backdrop.taskdrop ,
+.modal:not(.compose-modal-element):not(.task-modal-element) + .modal.in.compose-modal-element + .modal.in.task-modal-element + .modal-backdrop.comdrop ,
+.modal:not(.compose-modal-element):not(.task-modal-element) + .modal.in.task-modal-element + .modal.in.compose-modal-element + .modal-backdrop.taskdrop ,
+.modal:not(.compose-modal-element):not(.task-modal-element) + .modal.in.compose-modal-element + .modal.in.compose-modal-element + .modal.in.compose-modal-element + .modal-backdrop.comdrop,
+.modal:not(.compose-modal-element):not(.task-modal-element) + .modal.in.compose-modal-element + .modal.in.task-modal-element + .modal.in.compose-modal-element + .modal-backdrop.comdrop ,
+.modal:not(.compose-modal-element):not(.task-modal-element) + .modal.in.compose-modal-element + .modal.in.compose-modal-element + .modal.in.task-modal-element + .modal-backdrop.comdrop ,
+.modal:not(.compose-modal-element):not(.task-modal-element) + .modal.in.compose-modal-element + .modal.in.task-modal-element + .modal.in.task-modal-element + .modal-backdrop.comdrop ,
+.modal:not(.compose-modal-element):not(.task-modal-element) + .modal.in.task-modal-element + .modal.in.compose-modal-element + .modal.in.task-modal-element + .modal-backdrop.taskdrop ,
+.modal:not(.compose-modal-element):not(.task-modal-element) + .modal.in.task-modal-element + .modal.in.task-modal-element + .modal.in.compose-modal-element + .modal-backdrop.taskdrop ,
+.modal:not(.compose-modal-element):not(.task-modal-element) + .modal.in.task-modal-element + .modal.in.task-modal-element + .modal.in.compose-modal-element + .modal-backdrop.taskdrop ,
+.modal:not(.compose-modal-element):not(.task-modal-element) + .modal.in.task-modal-element + .modal.in.task-modal-element + .modal.in.task-modal-element + .modal-backdrop.taskdrop {
   display: block;
 }
+.modal.compose-modal-element + .modal-backdrop.taskdrop ,
+.modal.compose-modal-element + .modal-backdrop.comdrop ,
+.modal.task-modal-element + .modal-backdrop.comdrop ,
+.modal.task-modal-element + .modal-backdrop.taskdrop {
+  display: none;
+}
+
 
 .bg-compose {
   position: fixed;

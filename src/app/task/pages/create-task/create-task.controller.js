@@ -111,7 +111,7 @@
 
     function minimizeModal() {
       vm.minimize = true;
-      $('body').removeClass('active-compose');
+      $('.task-modal-element').addClass('minimized-task');
       $('html').removeClass('_oh');
       $rootScope.$broadcast('minimize-background-modal', {
         id: vm.modalId

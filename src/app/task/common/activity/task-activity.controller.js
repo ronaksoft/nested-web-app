@@ -44,6 +44,7 @@
       return vm.onlyComments;
     }, function () {
       reset();
+      $scope.isScrolled = false;
       if (init) {
         getActivities()
       }
@@ -191,6 +192,9 @@
 
     function taskActivityHandler(event, data) {
       if (vm.taskId !== data.taskId) {
+        return;
+      }
+      if (data.type !== NST_TASK_EVENT_ACTION.COMMENT && vm.onlyComments) {
         return;
       }
       getRecentActivities();
