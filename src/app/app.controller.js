@@ -282,11 +282,11 @@
 
     function repositionMinimizedBackgroundModals() {
       setTimeout(function () {
-        _.forEach(backgroundModals, function (item) {
+        _.forEach(backgroundModals, function (item, index) {
           if (item.type === 'compose') {
-            $('.minimize-container.compose_' + item.id).parent().css('transform', 'translateX(' + (item.order * -190) + 'px)');
+            $('.minimize-container.compose_' + item.id).parent().css('transform', 'translateX(' + (index * -190) + 'px)');
           } else if (item.type === 'task') {
-            $('.minimize-container.task_' + item.id).parent().css('transform', 'translateX(' + (item.order * -190) + 'px)');
+            $('.minimize-container.task_' + item.id).parent().css('transform', 'translateX(' + (index * -190) + 'px)');
           }
         });
       }, 100);
