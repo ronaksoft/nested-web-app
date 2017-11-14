@@ -122,19 +122,16 @@
                         query: query,
                         limit: 5
                       };
+                      var searchArea = NST_USER_SEARCH_AREA.ACCOUNTS;
                       if (attrs.postId) {
                         searchSettings.postId = attrs.postId;
+                        searchArea = NST_USER_SEARCH_AREA.MENTION;
                       }
                       if (attrs.placeId) {
                         searchSettings.placeId = attrs.placeId;
                       }
                       if (attrs.taskId) {
                         searchSettings.taskId = attrs.taskId;
-                      }
-                      var searchArea = NST_USER_SEARCH_AREA.ACCOUNTS;
-                      if (attrs.placeId) {
-                        searchArea = NST_USER_SEARCH_AREA.MENTION;
-                      } else if (attrs.taskId) {
                         searchArea = NST_USER_SEARCH_AREA.TASK_MENTION;
                       }
                       NstSvcUserFactory.search(searchSettings, searchArea).then(function (users) {
