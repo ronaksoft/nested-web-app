@@ -29,6 +29,7 @@
     vm.backToChain = backToChain;
 
     (function () {
+      $('html').addClass("_oh");
       markPostAsRead(vm.postId);
       vm.expandProgress = true;
       load(vm.postId).then(function (posts) {
@@ -146,6 +147,7 @@
     });
 
     $scope.$on('$destroy', function () {
+      $('html').removeClass("_oh");
       NstSvcSync.closeChannel(vm.syncId);
       _.forEach(eventReferences, function (canceler) {
         if (_.isFunction(canceler)) {

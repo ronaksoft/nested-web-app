@@ -212,10 +212,12 @@
       $uibModal.open({
         animation: false,
         backdropClass: 'comdrop',
+        windowClass: 'compose-modal-element',
+        // windowTopClass: 'windowTopClass ',
+        openedClass: 'modal-open compose-modal',
         size: 'compose',
         templateUrl: 'app/pages/compose/main.html',
         controller: 'ComposeController',
-        openedClass: 'modal-open compose-modal active-compose',
         controllerAs: 'ctlCompose',
         resolve: {
           modalId: uid
@@ -241,8 +243,9 @@
         templateUrl: 'app/task/pages/create-task/create-task.html',
         controller: 'CreateTaskController',
         controllerAs: 'ctrlCreateTask',
-        backdropClass: 'comdrop',
-        openedClass: 'modal-open compose-modal active-compose',
+        backdropClass: 'taskdrop',
+        openedClass: 'modal-open task-modal',
+        windowClass: 'task-modal-element',
         resolve: {
           modalData: {
             relatedTaskId: id,

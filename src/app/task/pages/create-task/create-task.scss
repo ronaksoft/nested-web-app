@@ -1,11 +1,11 @@
 .bg-compose.bg-task {
     background-color: transparentize($color-solid, 1 - .94);
     z-index: 0;
+    position: absolute;
 }
 .create-task-container {
     position: relative;
-    margin: 0 auto 80px;
-    top: 80px;
+    margin: 0 auto;
     background-color: $color-white;
     width: 472px;
     min-height: 120px;
@@ -17,7 +17,7 @@
         top: auto;
         right: 10px;
         bottom: 0;
-        width: 150px;
+        width: 180px;
         position: fixed;
         height: 30px;
         margin: 0;
