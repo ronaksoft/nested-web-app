@@ -101,9 +101,9 @@
     }));
 
     eventReferences.push($rootScope.$on(NST_AUTH_EVENT.CHANGE_PASSWORD, function () {
-      if($state.current.name.indexOf('public.change-password') === -1)
-      $state.go('public.change-password');
-
+      if ($state.current.name.indexOf('public.change-password') === -1) {
+        $state.go('public.change-password');
+      }
     }));
 
     eventReferences.push($rootScope.$on(NST_AUTH_EVENT.SESSION_EXPIRE, function () {
