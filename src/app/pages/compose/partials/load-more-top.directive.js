@@ -5,46 +5,41 @@
     .module('ronak.nested.web.components')
     .directive('loadMoreTop', loadMore);
 
-  function loadMore($timeout) {
+  function loadMore($timeout, _) {
     return {
       restrict: 'A',
       link: function (scope, el) {
         scope.isScrolled = false;
         var timeout = $timeout(function () {
           if (window.nativeScroll) {
-            el[0].addEventListener('scroll', handleScroll)
-            el[0].dispatchEvent(new Event('scroll'))
+            el[0].addEventListener('scroll', handleScrollThr)
+            // el[0].dispatchEvent(new Event('scroll'))
           } else {
-            scope.scrollInstance.on('scroll', handleScroll);
-            handleScroll()
+            scope.scrollInstance.on('scroll', handleScrollThr);
           }
+          handleScrollThr()
 
-        }, 10);
-        var timeoutDispatchEvent = $timeout(function () {
-          if (window.nativeScroll) {
-            el[0].dispatchEvent(new Event('scroll'))
-          } else {
-            handleScroll()
-          }
-
-        }, 1024);
+        }, 1);
+        
+        scope.$on('$includeContentLoaded', function() {
+          handleScrollDeb()
+        });
+        var handleScrollThr = _.throttle(handleScroll, 512)
+        var handleScrollDeb = _.debounce(handleScroll, 512)
 
         function handleScroll() {
-
           if (window.nativeScroll) {
-            if (el[0].scrollTop < 1) {
+            if (el[0].scrollTop === 0 && scope.isScrolled) {
               scope.loadMore();
               scope.isScrolled = false;
-            } else {
-              scope.$apply(function (){
-                scope.isScrolled = true;
-              });
+            } else if(el[0].scrollTop !== 0 && !scope.isScrolled) {
+              scope.isScrolled = true;
             }
           } else {
-            if (scope.scrollInstance.y > -1) {
+            if (scope.scrollInstance.y === 0 && scope.isScrolled) {
               scope.loadMore();
               scope.isScrolled = false;
-            } else {
+            } else if(!scope.isScrolled && scope.scrollInstance.y !== 0) {
               scope.$apply(function (){
                 scope.isScrolled = true;
               });
@@ -54,11 +49,10 @@
 
         scope.$on('$destroy', function () {
           $timeout.cancel(timeout);
-          $timeout.cancel(timeoutDispatchEvent);
           if (window.nativeScroll) {
-            el[0].removeEventListener('scroll', handleScroll)
+            el[0].removeEventListener('scroll', handleScrollThr)
           } else {
-            scope.scrollInstance.off('scroll', handleScroll);
+            scope.scrollInstance.off('scroll', handleScrollThr);
           }
         });
 

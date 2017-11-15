@@ -45,6 +45,7 @@
     }, function () {
       reset();
       $scope.isScrolled = false;
+      vm.firstLoading = true;
       if (init) {
         getActivities()
       }
@@ -84,6 +85,7 @@
         vm.activities = _.unionBy(vm.activities, 'id');
         vm.activityCount = vm.activities.length;
         vm.isLoading = false;
+        vm.firstLoading = false;
       });
     }
 

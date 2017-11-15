@@ -5,7 +5,7 @@
     .module('ronak.nested.web.task')
     .controller('TasksController', TasksController);
 
-  function TasksController($rootScope, $scope, _, $state, NstSvcTaskFactory, NST_TASK_STATUS,
+  function TasksController($rootScope, $window, $scope, _, $state, NstSvcTaskFactory, NST_TASK_STATUS,
                            NstSvcTaskUtility, $timeout, toastr, NstSvcTranslation, NstSvcAuth) {
     var vm = this;
     var eventReferences = [];

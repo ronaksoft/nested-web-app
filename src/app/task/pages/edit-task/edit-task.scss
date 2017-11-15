@@ -205,6 +205,10 @@
                 }
                 &.iscroll-on {
                     .iscroll-scroller {
+                        > div {
+                            animation: appearence $animation-dur forwards;
+                            min-height: 39px;
+                        }
                         position: absolute;
                     }
                 }

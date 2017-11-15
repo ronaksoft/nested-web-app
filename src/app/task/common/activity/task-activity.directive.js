@@ -16,6 +16,7 @@
       controller: 'TaskActivityController',
       controllerAs: 'ctrl',
       bindToController: {
+        firstLoading: '=?',
         taskId: '=',
         onlyComments: '=',
         totalCommentsCount : '=',

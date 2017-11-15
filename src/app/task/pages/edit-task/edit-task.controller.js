@@ -21,6 +21,7 @@
     vm.editMode = true;
     vm.onlyComments = true;
     vm.loading = true;
+    vm.firstLoading = true;
     vm.activityCount = 0;
     vm.activityPopover = false;
 

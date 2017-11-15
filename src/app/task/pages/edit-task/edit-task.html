@@ -356,13 +356,14 @@
         </h3>
       </div>
       <div class="task-comments-container visible-scrollbar">
-        <div class="no-comments-holder" ng-if="ctrlEditTask.activityCount === 0">
+        <div class="no-comments-holder" ng-if="!ctrlEditTask.firstLoading && ctrlEditTask.activityCount === 0">
           <img class="_db" width="128" width="128" src="/assets/icons/ph_empt_comment.png"
                srcset="/assets/icons/ph_empt_comment@2x.png"
           />
           <translate>Post a comment to start a discussion.<br><b>@Mention</b> someone to notify them.</translate>
         </div>
         <nst-task-activity only-comments="ctrlEditTask.onlyComments"
+                           first-loading="ctrlEditTask.firstLoading"
                            task-id="ctrlEditTask.taskId"
                            activity-count="ctrlEditTask.activityCount"
                            total-comments-count="ctrlEditTask.model.counters.comments + ctrlEditTask.model.counters.updates"
