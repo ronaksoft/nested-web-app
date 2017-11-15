@@ -20,11 +20,19 @@
         function scrollFn(forced) {
           if (window.nativeScroll) {
             if (el[0].clientHeight + el[0].scrollTop > el[0].scrollHeight - constant || forced) {
-              $('.focus-handler').focus();
-              if(document.activeElement){
-                $(document.activeElement).focus();
-              }
+              console.log('scroll end');
+              var tagName = document.activeElement.tagName.toLowerCase();
+              console.log(tagName);
+              console.log( $('.focus-handler').offset().top, el.offset().top);
+              el[0].scrollTop = $('.focus-handler').offset().top - el.offset().top;
+              // if(tagName === 'input' || tagName === 'textarea'){
+              //   $('.focus-handler').blur().focus();
+              //   $(document.activeElement).blur().focus();
+              // } else {
+              //   $('.focus-handler').blur().focus();
+              // }
               timer1 = $timeout(function (){
+                console.log(el[0].clientHeight , el[0].scrollTop , el[0].scrollHeight, el[0].clientHeight + el[0].scrollTop !== el[0].scrollHeigh);
                 if(el[0].clientHeight + el[0].scrollTop !== el[0].scrollHeight) {
                   scrollFn(forced)
                 }
