@@ -251,6 +251,9 @@
           vm.loading = false;
           backItUp();
         }, 100);
+      }).catch(function () {
+        toastr.error(NstSvcTranslation.get("You don't have access to this task or it's been removed!"));
+        $scope.$dismiss();
       });
     }
 
