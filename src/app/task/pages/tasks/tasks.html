@@ -103,6 +103,7 @@
           </div>
         </li>
       </ul>
+
       <div class="_fn empty-place-holder" ng-if="!ctrl.firstTimeLoading && (
       (ctrl.isGlancePage && ctrl.tasks.length === 0 && ctrl.pendingTasks.length === 0 && ctrl.overDueTasks.length === 0) ||
       (!ctrl.isGlancePage && ctrl.tasks.length === 0))">
@@ -111,7 +112,7 @@
       </div>
       <div class="_db _tac">
         <!-- TODO: Ali check the loading -->
-        <div class="_difh _jcc nst-mood-cheerful no-gutter nst-margin-24 _pr" ng-show="ctrl.loading">
+        <div class="_difh _jcc nst-mood-cheerful no-gutter nst-margin-24 _pr" ng-if="ctrl.loading">
           <div class="nst-loading"></div>
         </div>
       </div>

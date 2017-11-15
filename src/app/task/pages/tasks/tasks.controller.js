@@ -193,6 +193,7 @@
     function loadTasks() {
       getTasks().then(function (tasks) {
         mergeTask(tasks);
+        vm.firstTimeLoading = false;
         vm.taskSetting.skip = vm.tasks.length;
 
         // to full fill page at first loading
