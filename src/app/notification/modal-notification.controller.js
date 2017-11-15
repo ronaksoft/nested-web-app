@@ -15,7 +15,7 @@
     vm.markAllSeen = markAllSeen;
     vm.onClickMention = onClickMention;
     vm.error = null;
-    vm.selectedView = $state.current.options.group === 'task'? 2: 1;
+    vm.selectedView = $state.current.options.group === 'task' ? 2 : 1;
     vm.taskCounts = 0;
     vm.postCounts = 0;
 
@@ -56,6 +56,9 @@
           return openPlace(notification.place.id);
         case NST_NOTIFICATION_TYPE.NEW_SESSION:
           return;
+        case NST_NOTIFICATION_TYPE.TASK_ADD_TO_CANDIDATES:
+          $event.preventDefault();
+          return;
         case NST_NOTIFICATION_TYPE.TASK_MENTION:
         case NST_NOTIFICATION_TYPE.TASK_COMMENT:
         case NST_NOTIFICATION_TYPE.TASK_ASSIGNEE_CHANGED:
@@ -72,8 +75,6 @@
         case NST_NOTIFICATION_TYPE.TASK_IN_PROGRESS:
           $event.preventDefault();
           return viewTask(notification.task.id);
-        case NST_NOTIFICATION_TYPE.TASK_ADD_TO_CANDIDATES:
-          return;
       }
     }
 
@@ -84,7 +85,7 @@
     }
 
     function gotoFeedBefore(callback) {
-      if ($state.current.options && ($state.current.options.group === 'task' || $state.current.options.group === 'settings')) {
+      if (!$state.current.options || ($state.current.options && ($state.current.options.group === 'task' || $state.current.options.group === 'settings'))) {
         $state.go('app.messages-favorites');
         $timeout(callback, 1000);
       } else {
