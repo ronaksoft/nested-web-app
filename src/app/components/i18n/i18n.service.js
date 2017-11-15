@@ -24,7 +24,7 @@
    * @param {any} $location
    * @returns
    */
-  function NstSvcI18n(_, NstSvcI18nStorage, moment, $location, NstSvcKeyFactory, NST_KEY, toastr, $window) {
+  function NstSvcI18n(_, NstSvcI18nStorage, moment, $location, NstSvcKeyFactory, NST_KEY, toastr, $window, $q) {
     function I18n() {
       var that = this;
       that.locales = {};
@@ -58,29 +58,9 @@
       this.selectedCalendar = localStorage.getItem('ronak.nested.web.calendar') || routedCalendar || defaultCalendar;
       this.selectedLocale = NstSvcI18nStorage.get('locale') || routedLocale || defaultLocale;
       initCalandLocale();
-      NstSvcKeyFactory.get(NST_KEY.GENERAL_SETTING_I18N).then(function (val){
-        if(!val || val.length == 0) {
-          return
-        }
-        var settings = JSON.parse(val);
-        var reloadFlag = false
-        if (settings && settings.locale.length > 0){
-          if ( that.selectedLocale !== settings.locale ) {
-            that.setLocale(settings.locale);
-            reloadFlag = true
-          }
-        }
-        if (settings && settings.calendar.length > 0){
-          if ( that.selectedCalendar !== settings.calendar ) {
-            that.setCalendar(settings.calendar)
-            reloadFlag = true
-          }
-        }
-        if(reloadFlag) {
-          toastr.success('Applying calender and locale settings...');
-          setTimeout(function(){
-            $window.location.reload();
-          },100)
+      this.checkSettings().then(function (v) {
+        if(v) {
+          $window.location.reload();
         }
       })
 
@@ -99,6 +79,39 @@
       }
 
     }
+
+    /**
+     * Adds a new locale to the list
+     *
+     * @param {any} key
+     * @param {any} dictionary
+     */
+    I18n.prototype.checkSettings = function () {
+      var deferred = $q.defer();
+      var that = this;
+      NstSvcKeyFactory.get(NST_KEY.GENERAL_SETTING_I18N).then(function (val){
+        if(!val || val.length == 0) {
+          return
+        }
+        var settings = JSON.parse(val);
+        var reloadFlag = false
+        if (settings && settings.locale.length > 0){
+          if ( that.selectedLocale !== settings.locale ) {
+            that.setLocale(settings.locale);
+            reloadFlag = true
+          }
+        }
+        if (settings && settings.calendar.length > 0){
+          if ( that.selectedCalendar !== settings.calendar ) {
+            that.setCalendar(settings.calendar)
+            reloadFlag = true
+          }
+        }
+        deferred.resolve(reloadFlag)
+      }).catch(deferred.reject);
+
+      return deferred.promise;
+    };
 
     /**
      * Adds a new locale to the list
