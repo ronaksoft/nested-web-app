@@ -12,6 +12,12 @@
         width: 50%;
         margin-bottom: 32px
     }
+    .iscroll-wrapper {
+        max-height: 325px;
+        .iscroll-scroller {
+            display: table;
+        }
+    }
 }
 .user-wrapper {
     img {
