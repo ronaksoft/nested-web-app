@@ -45,9 +45,11 @@
     }
 
     function addToPlayer(data) {
-      currentPlayingId = data.voiceId;
-      SvcMiniPlayer.setPlaylist('voice-comment-' + data.postId, true);
-      addToPlaylist(data.voiceId);
+      if (data.postId === vm.commentBoardId) {
+        currentPlayingId = data.voiceId;
+        SvcMiniPlayer.setPlaylist('voice-comment-' + vm.commentBoardId, true);
+        addToPlaylist(data.voiceId);
+      }
     }
 
     function getToken(id) {
