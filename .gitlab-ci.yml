@@ -23,6 +23,7 @@ build:desktop:
     - npm rebuild node-sass
     - ./node_modules/.bin/gulp build --mode=production --ver=$CI_PIPELINE_ID
     - mkdir -p $BUILD_DIR/desktop
+    - ls ./dist/production/app
     - cp -r ./dist/production/* $BUILD_DIR/desktop
     - cp ./lws.config.js $BUILD_DIR/desktop
     - mkdir -p $BUILD_DIR/bin
