@@ -47,7 +47,7 @@
         if (server.stream) {
           server.stream.close();
         }
-        if (!webSocketUrl){
+        if (!webSocketUrl) {
           server.revertConfigs();
         }
         server.stream = NstSvcConnectionMonitor.start(webSocketUrl ? webSocketUrl : url);
@@ -211,16 +211,15 @@
 
       loadConfigFromRemote(domainName ? domainName : NST_CONFIG.DOMAIN)
         .then(function (remoteConfig) {
+          var configs = parseConfigFromRemote(remoteConfig);
 
-          NST_CONFIG.WEBSOCKET.URL = remoteConfig.cyrus.ws[0];
-          NST_CONFIG.REGISTER.URL = remoteConfig.cyrus.http[0];
-          NST_CONFIG.STORE.URL = remoteConfig.xerxes.http[0];
+          NST_CONFIG.WEBSOCKET.URL = configs.websocket;
+          NST_CONFIG.REGISTER.URL = configs.register;
+          NST_CONFIG.STORE.URL = configs.store;
 
 
-          if (remoteConfig.admin) {
-            var addr = remoteConfig.admin.http[0].split(':');
-            NST_CONFIG.ADMIN_DOMAIN = [addr[0], addr[1]].join(':');
-            NST_CONFIG.ADMIN_PORT = addr[2];
+          if (configs.admin !== '') {
+            NST_CONFIG.ADMIN_URL = configs.admin;
           }
 
           server.init(NST_CONFIG.WEBSOCKET.URL);
@@ -253,9 +252,12 @@
 
       loadConfigFromRemote(domainName)
         .then(function (remoteConfig) {
-            NST_CONFIG.WEBSOCKET.URL = remoteConfig.cyrus.ws[0];
-            NST_CONFIG.REGISTER.URL = remoteConfig.cyrus.http[0];
-            NST_CONFIG.STORE.URL = remoteConfig.xerxes.http[0];
+            var configs = parseConfigFromRemote(remoteConfig);
+
+            NST_CONFIG.WEBSOCKET.URL = configs.websocket;
+            NST_CONFIG.REGISTER.URL = configs.register;
+            NST_CONFIG.STORE.URL = configs.store;
+
             if (server.stream.url === NST_CONFIG.WEBSOCKET.URL && domainName === server.remoteDomain) {
               deferred.resolve();
             } else {
@@ -281,18 +283,18 @@
     };
 
     function parseConfigFromRemote(data) {
-      var values = data.values;
       var cyrus = [];
       var xerxes = [];
       var admin = [];
-      _.forEach(values, function (configs) {
+      _.forEach(data, function (configs) {
         var config = configs.split(';');
         _.forEach(config, function (item) {
-          if (_.startsWith(item, 'cyrus')) {
+          if (_.startsWith(item, 'cyrus:')) {
             cyrus.push(item);
-          } else if (_.startsWith(item, 'xerxes')) {
+          } else if (_.startsWith(item, 'xerxes:')) {
             xerxes.push(item);
-          } if (_.startsWith(item, 'admin')) {
+          }
+          if (_.startsWith(item, 'admin:')) {
             admin.push(item);
           }
         });
@@ -311,9 +313,9 @@
         }
       });
       xerxesUrl = getCompleteUrl(parseConfigData(xerxes[0]));
-      if (admin.length > 0) {
-        adminUrl = getCompleteUrl(parseConfigData(admin[0]));
-      }
+      // if (admin.length > 0) {
+      //   adminUrl = getCompleteUrl(parseConfigData(admin[0]));
+      // }
 
       return {
         websocket: cyrusWsUrl,
@@ -334,7 +336,7 @@
     }
 
     function getCompleteUrl(config) {
-      return config.protocol + '://' + config.url + '/' + config.port;
+      return config.protocol + '://' + config.url + ':' + config.port;
     }
 
     Server.prototype.constructor = Server;
@@ -543,8 +545,9 @@
 
     function loadConfigFromRemote(domainName) {
       NST_CONFIG.DOMAIN = domainName;
-      var ajax = new NstHttp(location.protocol + "//" + location.host + '/getConfig/' + domainName);
-      // var ajax = new NstHttp('https://npc.nested.me/dns/discovery/' + domainName + 'ferfer');
+      // var ajax = new NstHttp(location.protocol + "//" + location.host + '/getConfig/' + domainName);
+      var ajax = new NstHttp('https://npc.nested.me/dns/discover/' + domainName);
+      // var ajax = new NstHttp('https://npc.nested.me/dns/discover/nested.me');
       return ajax.get();
     }
 

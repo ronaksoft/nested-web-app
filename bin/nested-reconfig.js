@@ -3,7 +3,7 @@ const fs = require('fs');
 const config = {
     SSL_DIR: '/ronak/',
     WORKING_DIR: process.cwd(),
-    SCRIPT_DIR: process.cwd() + '/scripts/',
+    SCRIPT_DIRS: [process.cwd() + '/scripts/', process.cwd() + '/admin/', process.cwd() + '/m/js/'],
     TMP_DIR: process.cwd() + '/nestedConfig/',
     PUBLIC_CERT: process.env['WEBAPP_PUBLIC_KEY'],
     PRIVATE_CERT: process.env['WEBAPP_PRIVATE_KEY'],
@@ -41,7 +41,7 @@ const newConfig = {
     DISABLE_FCM: process.env['DISABLE_FCM'] || defaultConfig.DISABLE_FCM
 };
 
-function isConfigApplyed() {
+function isConfigApplied() {
     if (!fs.existsSync(config.TMP_DIR)) {
         fs.mkdirSync(config.TMP_DIR);
         return false
@@ -84,10 +84,14 @@ function copyDefaultFiles(files) {
 }
 
 function getListOfScripts() {
-    let files = fs.readdirSync(config.SCRIPT_DIR);
-    return files.filter(function (file) {
-        return file.substr(-3) === '.js';
-    })
+  let allFiles = [];
+  config.SCRIPT_DIRS.forEach(function (dir) {
+    let files = fs.readdirSync(dir);
+    allFiles.push.apply(allFiles, files.filter(function (file) {
+      return file.substr(-3) === '.js';
+    }));
+  });
+  return allFiles;
 }
 
 function replaceConfigAndStore(file) {
@@ -115,7 +119,7 @@ if (!config.HTTP_PORT) {
     process.env['NST_ADDR_PORT'] = 80;
 }
 
-if (!isConfigApplyed()) {
+if (!isConfigApplied()) {
     let files = getListOfScripts();
     return copyDefaultFiles(files)
         .then(() => {
