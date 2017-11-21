@@ -4,6 +4,8 @@ cd ./../webapp
 echo "Directory changed to (`pwd`)"
 node /bin/nested-reconfig.js
 sleep 1
+cd /bin
+
 if [ -n "${NST_ADDR_PORT}" ]; then
     echo "";
 else
