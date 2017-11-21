@@ -7,6 +7,7 @@ RUN apk update
 RUN apk add ca-certificates
 RUN apk add gettext
 RUN apk add nginx
+RUN apk add openrc --no-cache
 EXPOSE 80
 EXPOSE 443
 
