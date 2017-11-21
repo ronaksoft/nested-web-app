@@ -51,7 +51,7 @@ build:mobile:
     - npm install
     - npm run build:prod
     - mkdir -p $BUILD_DIR/webapp/m
-    - cp -a ./build/m $BUILD_DIR/webapp/m
+    - cp -a ./build/m $BUILD_DIR/webapp
   artifacts:
     untracked: true
     expire_in: 1 hour
