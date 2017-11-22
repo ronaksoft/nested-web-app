@@ -30,5 +30,3 @@ else
 fi
 
 export DOLLAR='$';
-
-#rc-service nginx start;
