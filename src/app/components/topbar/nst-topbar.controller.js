@@ -107,12 +107,12 @@
       }
 
       (function () {
-        vm.adminArea = '';
-        if (NST_CONFIG.ADMIN_URL.length > 0) {
-          vm.adminArea = NST_CONFIG.ADMIN_URL;
-        } else {
-          vm.adminArea = location.protocol + '//' + NST_CONFIG.ADMIN_DOMAIN + (NST_CONFIG.ADMIN_PORT ? ':' + NST_CONFIG.ADMIN_PORT : '');
-        }
+        vm.adminArea = '/admin';
+        // if (NST_CONFIG.ADMIN_URL.length > 0) {
+        //   vm.adminArea = NST_CONFIG.ADMIN_URL;
+        // } else {
+        //   vm.adminArea = location.protocol + '//' + NST_CONFIG.ADMIN_DOMAIN + (NST_CONFIG.ADMIN_PORT ? ':' + NST_CONFIG.ADMIN_PORT : '');
+        // }
 
         checkLayouts();
 

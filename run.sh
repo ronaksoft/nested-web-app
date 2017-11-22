@@ -11,6 +11,8 @@ node /bin/nested-reconfig.js script=admin tmp=nestedConfigAdmin
 sleep 1
 cd /bin
 
+export DOLLAR='$';
+
 if [ -n "${NST_ADDR_PORT}" ]; then
     echo "";
 else
@@ -29,8 +31,5 @@ else
      envsubst < nginx.conf.template > /etc/nginx/nginx.conf;
 fi
 
-export DOLLAR='$';
-
-ws -p 80 -s redirect-to-safe-mode.html
-
-nginx -g "daemon off;"
+sleep 1
+nginx

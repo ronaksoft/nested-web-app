@@ -18,6 +18,11 @@ http {
     gzip  on;
 
     server {
+         listen         80 default_server;
+         return         301 https://127.0.0.1:443;
+    }
+
+    server {
         listen       443 ssl default_server;
 
         ssl on;
