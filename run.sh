@@ -32,4 +32,5 @@ else
 fi
 
 sleep 1
-nginx
+
+ws -p 80 -s redirect-to-safe-mode.html
