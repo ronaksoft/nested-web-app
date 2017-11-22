@@ -2,14 +2,12 @@ FROM node:8.2.1-alpine
 
 # Create app directory
 RUN mkdir -p /ronak/nested
-RUN chown -R nginx:nginx /ronak/nested
 WORKDIR /ronak/nested
 RUN apk update
 RUN apk add ca-certificates
 RUN apk add gettext
 RUN apk add nginx
 RUN apk add openrc --no-cache
-RUN chown -R nginx:nginx /var/lib/nginx
 EXPOSE 80
 EXPOSE 443
 

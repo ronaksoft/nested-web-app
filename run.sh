@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+chown -R nginx:nginx /ronak/nested/webapp
+chown -R nginx:nginx /var/lib/nginx
+
 cd /ronak/nested/webapp
 echo "Directory changed to (`pwd`)"
 node /bin/nested-reconfig.js script=scripts tmp=nestedConfig
