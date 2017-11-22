@@ -1,7 +1,6 @@
 FROM node:8.2.1-alpine
 
 # Create app directory
-RUN adduser -D -u 1000 -g 'nginx' nginx
 RUN mkdir -p /ronak/nested
 RUN chown -R nginx:nginx /ronak/nested
 WORKDIR /ronak/nested
