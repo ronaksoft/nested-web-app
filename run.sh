@@ -31,4 +31,4 @@ fi
 
 export DOLLAR='$';
 
-rc-service nginx start;
+#rc-service nginx start;
