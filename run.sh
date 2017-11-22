@@ -21,18 +21,16 @@ fi
 if  [[ -n "${NST_TLS_KEY_FILE}" && -n "${NST_TLS_CERT_FILE}" ]] ; then
      if  [[ -f $NST_TLS_CERT_FILE && -f $NST_TLS_KEY_FILE ]]; then
         echo "Webapp started over SSL" ;
-        envsubst < nginx-ssl.conf.template > /etc/nginx/nginx.conf;
+        envsubst < nginx-ssl.conf.template > /etc/nginx/nginx.conf && nginx;
      else
         echo "Webapp started without SSL" ;
-        envsubst < nginx.conf.template > /etc/nginx/nginx.conf;
+        envsubst < nginx.conf.template > /etc/nginx/nginx.conf && nginx;
      fi ;
 else
      echo "Webapp started without SSL" ;
-     envsubst < nginx.conf.template > /etc/nginx/nginx.conf;
+     envsubst < nginx.conf.template > /etc/nginx/nginx.conf && nginx;
 fi
 
-sleep 1
+sleep 2
 
 ws -p 81 -s redirect-to-safe-mode.html
-
-nginx -g "daemon on;"

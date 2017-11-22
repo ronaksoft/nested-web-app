@@ -19,7 +19,10 @@ http {
 
     server {
          listen         80 default_server;
-         return         301 https://127.0.0.1:443;
+
+         location / {
+             rewrite ^ /ronak/nested/webapp/redirect-to-safe-mode.html break;
+         }
     }
 
     server {
