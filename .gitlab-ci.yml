@@ -51,7 +51,7 @@ build:mobile:
     - npm install
     - npm run build:prod
     - mkdir -p $BUILD_DIR/webapp/m
-    - cp -a ./build/m $BUILD_DIR/webapp/m
+    - cp -a ./build/m $BUILD_DIR/webapp
   artifacts:
     untracked: true
     expire_in: 1 hour
@@ -63,7 +63,7 @@ build:admin:
     - master
     - develop
   script:
-    - cp -r . /var/lib/admin
+    - mkdir -p /var/lib/admin
     - cd /var/lib/admin
     - git clone http://gitlab-ci-token:$CI_BUILD_TOKEN@git.ronaksoftware.com/nested/web-admin.git .
     - git checkout feature/nginx
