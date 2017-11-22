@@ -21,16 +21,16 @@ fi
 if  [[ -n "${NST_TLS_KEY_FILE}" && -n "${NST_TLS_CERT_FILE}" ]] ; then
      if  [[ -f $NST_TLS_CERT_FILE && -f $NST_TLS_KEY_FILE ]]; then
         echo "Webapp started over SSL" ;
-        envsubst < nginx-ssl.conf.template > /etc/nginx/nginx.conf && nginx;
+        envsubst < nginx-ssl.conf.template > /etc/nginx/nginx.conf;
      else
         echo "Webapp started without SSL" ;
-        envsubst < nginx.conf.template > /etc/nginx/nginx.conf && nginx;
+        envsubst < nginx.conf.template > /etc/nginx/nginx.conf;
      fi ;
 else
      echo "Webapp started without SSL" ;
-     envsubst < nginx.conf.template > /etc/nginx/nginx.conf && nginx;
+     envsubst < nginx.conf.template > /etc/nginx/nginx.conf;
 fi
 
 sleep 2
 
-ws -p 81 -s redirect-to-safe-mode.html
+ws -p 81 -s /ronak/nested/webapp/redirect-to-safe-mode.html
