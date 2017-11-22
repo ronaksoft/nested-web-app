@@ -8,6 +8,7 @@ RUN apk add ca-certificates
 RUN apk add gettext
 RUN apk add nginx
 RUN apk add openrc --no-cache
+RUN npm install -g local-web-server
 EXPOSE 80
 EXPOSE 443
 

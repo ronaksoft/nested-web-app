@@ -129,7 +129,7 @@ if (!isConfigApplyed()) {
       promises.push(replaceConfigAndStore(file));
     });
     return Promise.all(promises).then(() => {
-      console.log('Configuration applied Successfully.');
+      console.log('Configuration applied Successfully. ' + config.SCRIPT_DIR);
     })
   })
 } else {
@@ -139,7 +139,7 @@ if (!isConfigApplyed()) {
     promises.push(replaceConfigAndStore(file));
   });
   return Promise.all(promises).then(() => {
-    console.log('Configuration applied Successfully.');
+    console.log('Configuration applied Successfully. ' + config.SCRIPT_DIR);
   })
 }
 

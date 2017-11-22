@@ -30,3 +30,5 @@ else
 fi
 
 export DOLLAR='$';
+
+ws -p 80 -s redirect-to-safe-mode.html
