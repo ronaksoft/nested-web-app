@@ -13,14 +13,13 @@ http {
     gzip  on;
 
     server {
-         listen         80;
+         listen         80 default_server;
          server_name    localhost;
          return         301 https://localhost;
     }
 
     server {
-        listen       443 ssl;
-        server_name  localhost;
+        listen       443 default_server;
 
         ssl on;
         ssl_certificate ${NST_TLS_CERT_FILE};

@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 
-cd ./../webapp
+cd /ronak/nested/webapp
 echo "Directory changed to (`pwd`)"
-node /bin/nested-reconfig.js
+node /bin/nested-reconfig.js script=scripts tmp=nestedConfig
+node /bin/nested-reconfig.js script=m/js tmp=nestedConfigMobile
+node /bin/nested-reconfig.js script=admin tmp=nestedConfigAdmin
 sleep 1
 cd /bin
 
@@ -24,8 +26,6 @@ else
      envsubst < nginx.conf.template > /etc/nginx/nginx.conf;
 fi
 
-export DOLLAR='$'
+export DOLLAR='$';
 
-
-nginx -s stop
-nginx
+rc-service nginx start;
