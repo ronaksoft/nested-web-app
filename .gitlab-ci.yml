@@ -66,6 +66,7 @@ build:admin:
     - mkdir -p /var/lib/admin
     - cd /var/lib/admin
     - git clone http://gitlab-ci-token:$CI_BUILD_TOKEN@git.ronaksoftware.com/nested/web-admin.git .
+    - git fetch origin feature/nginx
     - git checkout feature/nginx
     - npm install
     - jspm install

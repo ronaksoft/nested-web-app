@@ -33,4 +33,6 @@ fi
 
 sleep 1
 
-ws -p 80 -s redirect-to-safe-mode.html
+ws -p 81 -s redirect-to-safe-mode.html
+
+nginx -g "daemon on;"
