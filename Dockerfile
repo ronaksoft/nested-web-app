@@ -15,7 +15,8 @@ COPY ./bin/nested-reconfig.js /bin/nested-reconfig.js
 COPY ./bin/nginx.conf.template /bin/nginx.conf.template
 COPY ./bin/nginx-ssl.conf.template /bin/nginx-ssl.conf.template
 COPY ./run.sh .
-CMD  /bin/sh run.sh && nginx
+RUN chmod +x run.sh
+CMD  /bin/sh run.sh
 
 # Install app dependencies
 COPY ./build/webapp /ronak/nested/webapp

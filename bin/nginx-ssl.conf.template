@@ -21,7 +21,8 @@ http {
          listen         80 default_server;
 
          location / {
-             rewrite ^ /ronak/nested/webapp/redirect-to-safe-mode.html break;
+             root   /ronak/nested/webapp;
+             index  redirect-to-safe-mode.html;
          }
     }
 

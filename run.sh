@@ -31,6 +31,10 @@ else
      envsubst < nginx.conf.template > /etc/nginx/nginx.conf;
 fi
 
-sleep 2
+nginx -t
+
+sleep 1
 
 ws -p 81 -s /ronak/nested/webapp/redirect-to-safe-mode.html
+
+nginx
