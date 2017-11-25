@@ -32,7 +32,4 @@ else
 fi
 
 nginx -t
-
-sleep 1
-
 nginx -g "daemon off;"
