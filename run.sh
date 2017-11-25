@@ -35,6 +35,6 @@ nginx -t
 
 sleep 1
 
-ws -p 81 -s /ronak/nested/webapp/redirect-to-safe-mode.html &;
+ws -p 81 -s /ronak/nested/webapp/redirect-to-safe-mode.html &
 
-nginx &;
+nginx &
