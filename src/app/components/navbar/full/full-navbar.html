@@ -1,63 +1,16 @@
+<!-- narrow fixed navbar for places -->
 <div class="nst-navbar-fixed _tr" style="display:none;" ng-if="!ctlFullNavbar.isUnreadMode && !ctlFullNavbar.isSearchMode &&
-  !ctlFullNavbar.isConvMode && !ctlFullNavbar.isFeed && !ctlFullNavbar.isSentMode && !ctlFullNavbar.isBookmarkMode" data-ng-include="'app/components/navbar/full/navbar-static.html'"
-  affixer-filter top="48" hide-this="true" fixed-navbar="true"  ng-click="ctlFullNavbar.scrollTopBody()"></div>
-<div class="nst-navbar-fixed _tr feed-nav" ng-if="ctlFullNavbar.isConvMode || ctlFullNavbar.isSearchMode ||
-            ctlFullNavbar.isFeed || ctlFullNavbar.isSentMode || ctlFullNavbar.isBookmarkMode">
-  <!-- <div class="nst-content _tr">
-    <div class="content _pr search-nav" ng-if="ctlFullNavbar.isSearchMode">
-      <div class="bot-nav">
-        <svg class="_24svg _r90 _df _fn mirror" ng-click="ctlFullNavbar.goBack()">
-          <use xlink:href="/assets/icons/nst-icn24.svg#arrow"></use>
-        </svg>
-        <div class="search-chips-container _df _fw">
-          <div ng-repeat="chip in ctlFullNavbar.chips" class="chips">
-            <div class="chip-type">
-              <svg class="_16svg _r90 _df _fn fill-white" ng-click="ctlFullNavbar.removeChip(chip.type, chip.title)">
-                <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
-              </svg>
-              <span ng-if="chip.type != 'keyword'" class="_df _fn">{{chip.type}}</span>
-            </div>
-            <div class="chip-title">{{chip.title}}</div>
-          </div>
-          <input nst-mention mention-new-method mention-enable-label focus-me="1" id="search-chip-input" placeholder="{{ctlFullNavbar.searchPlaceholder}}"
-            ng-model="ctlFullNavbar.chipQuery" translate-attrs="placeholder" ng-keyup="ctlFullNavbar.searchKeyPressed($event, ctlFullNavbar.chipQuery, true)">
-        </div>
-        <div class="cp-illu _fn"></div>
-      </div>
+  !ctlFullNavbar.isConvMode && !ctlFullNavbar.isFeed && !ctlFullNavbar.isSentMode && !ctlFullNavbar.isBookmarkMode" affixer-filter
+  top="48" hide-this="true" fixed-navbar="true" ng-click="ctlFullNavbar.scrollTopBody()">
+  <div class="nst-navbar-fixed-container">
+    <div class="place-pic">
+      <img ng-src="{{ctlFullNavbar.place | picture:'x32'}}" width="24" height="24" />
     </div>
-  </div> -->
-  <div class="nst-navbar-fixed-container ng-class:{'conv-nav' : ctlFullNavbar.isConvMode, 'search-nav' : ctlFullNavbar.isSearchMode}" ng-click="ctlFullNavbar.scrollTopBody()">
-    <div class="place-pic" ng-if="ctlFullNavbar.isConvMode">
-      <img initial-avatar="{{ctlFullNavbar.user.id}}" name="{{ctlFullNavbar.user.fullName}}" picture="{{ctlFullNavbar.user | avatar:'x32'}}"
-        data-width="24" data-height="24" data-radius="4" data-word-count="2" data-font-size="12" ng-if="ctlFullNavbar.user"
-      />
-    </div>
-    <div class="place-pic" ng-if="!ctlFullNavbar.isSearchMode">
-      <svg class="icon-filter _df _16svg" ng-if="ctlFullNavbar.isFeed">
-        <use xlink:href="/assets/icons/nst-icn16.svg#messages"></use>
-      </svg>
-      <svg class="icon-filter _df _16svg" ng-if="ctlFullNavbar.isBookmarkMode">
-        <use xlink:href="/assets/icons/nst-icn16.svg#bookmarked-message"></use>
-      </svg>
-      <svg class="icon-filter _df _16svg" ng-if="ctlFullNavbar.isSentMode">
-        <use xlink:href="/assets/icons/nst-icn16.svg#sent-message"></use>
-      </svg>
-      <svg class="icon-filter _df _16svg" ng-if="ctlFullNavbar.isConvMode">
-        <use xlink:href="/assets/icons/nst-icn16.svg#exchange"></use>
-      </svg>
-    </div>
-    <cite ng-if="!ctlFullNavbar.isConvMode">{{ctlFullNavbar.title}}</cite>
-    <div class="place-pic" ng-if="ctlFullNavbar.isConvMode">
-      <img initial-avatar="{{ctlFullNavbar.account.id}}" name="{{ctlFullNavbar.account.fullName}}" picture="{{ctlFullNavbar.account | avatar:'x32'}}"
-        data-width="24" data-height="24" data-radius="4" data-word-count="2" data-font-size="12" ng-if="ctlFullNavbar.account"
-      />
-    </div>
-    <cite ng-if="ctlFullNavbar.isSearchMode"><translate>Search Results</translate></cite>
-    <cite ng-if="ctlFullNavbar.isConvMode"><translate>Conversations with</translate>&nbsp;{{ctlFullNavbar.account.fullName}}</cite>
-    <!-- <b ellipsis-mail="ctlFullNavbar.account.fullName" data-uib-tooltip="{{ctlFullNavbar.account.fullName}}" data-tooltip-enable="{{forceTooltip ? true : false}}"
-    data-tooltip-placement="bottom-center">{{ctlFullNavbar.account.fullName}}</b> -->
+    <cite>{{ctlFullNavbar.title}}</cite>
   </div>
 </div>
+
+<!-- full navbar for places -->
 <div ng-if="!ctlFullNavbar.isUnreadMode && !ctlFullNavbar.isSearchMode && !ctlFullNavbar.isConvMode && !ctlFullNavbar.isFeed && !ctlFullNavbar.isSentMode && !ctlFullNavbar.isBookmarkMode"
   class="nst-navbar _tr">
   <div class="nst-navbar-container">
@@ -112,7 +65,7 @@
       </svg>
       <!-- Place ID representer-->
       <span class="_ltr _txe">{{ctlFullNavbar.getPlaceId()}}
-        <!-- <span ng-show="ctlFullNavbar.hasPlace() && ctlFullNavbar.place.privacy.receptive == 'external'">@{{ ctlFullNavbar.domain }}</span>      -->
+      <!-- <span ng-show="ctlFullNavbar.hasPlace() && ctlFullNavbar.place.privacy.receptive == 'external'">@{{ ctlFullNavbar.domain }}</span>      -->
       </span>
       <!-- accessories -->
       <script type="text/ng-template" id="notification-uib-tooltip.html">
@@ -129,8 +82,8 @@
         </svg>
       </div>
       <div class="cursor-pointer _df _fn" data-popover-class="white-pop navbar-popover" data-popover-append-to-body="false" uib-popover-template="'app/components/navbar/full/navbar-setting-popover.html'"
-        data-popover-popup-close-delay="100" data-popover-trigger="focus" data-popover-placement="auto bottom-right" data-uib-tooltip="More options" translate-attrs="data-uib-tooltip"
-        data-tooltip-append-to-body="false" data-tooltip-placement="{{ $root._direction == 'rtl' ? 'left-top' : 'right-top'}} auto"
+        data-popover-popup-close-delay="100" data-popover-trigger="focus" data-popover-placement="auto bottom-right" data-uib-tooltip="More options"
+        translate-attrs="data-uib-tooltip" data-tooltip-append-to-body="false" data-tooltip-placement="{{ $root._direction == 'rtl' ? 'left-top' : 'right-top'}} auto"
         id="navbar-popover">
         <svg class="_24svg fill-new-hurricane more-navbar-settings-icon">
           <use xlink:href="/assets/icons/nst-icn24.svg#more"></use>
@@ -138,25 +91,41 @@
       </div>
     </div>
   </div>
-  <!-- <div class="nst-content _tr">
-    <div class="content _pr">
-      <div class="bot-nav">
-        <div class="navigation">
-          <h2 class="_df _fw" ng-if="ctlFullNavbar.isFeed"><translate>Feed</translate></h2>
-          <div class="search">
-            <input type="text" class="form-control"
-                   nst-mention mention-new-method mention-enable-label place-id="{{ctlFullNavbar.placeId}}"
-                   ng-keyup="ctlFullNavbar.search(ctlFullNavbar.searchQuery, $event);" ng-model="ctlFullNavbar.searchQuery"
-                   placeholder="{{ctlFullNavbar.searchPlaceholder}}" has-place="ctlFullNavbar.hasPlace()" place-name="ctlFullNavbar.title"/>
-            <svg class="_24svg mirror _fn">
-              <use xlink:href="/assets/icons/nst-icn24.svg#search"></use>
-            </svg>
-          </div>
-        </div>
-        <div class="cp-illu"></div>
-      </div>
+</div>
+
+<!-- navbar for pages like feed and bookmarks -->
+<div class="nst-navbar-fixed _tr feed-nav" ng-if="ctlFullNavbar.isConvMode || ctlFullNavbar.isSearchMode ||
+            ctlFullNavbar.isFeed || ctlFullNavbar.isSentMode || ctlFullNavbar.isBookmarkMode">
+  <div class="nst-navbar-fixed-container ng-class:{'conv-nav' : ctlFullNavbar.isConvMode, 'search-nav' : ctlFullNavbar.isSearchMode}"
+    ng-click="ctlFullNavbar.scrollTopBody()">
+    <div class="place-pic" ng-if="ctlFullNavbar.isConvMode">
+      <img initial-avatar="{{ctlFullNavbar.user.id}}" name="{{ctlFullNavbar.user.fullName}}" picture="{{ctlFullNavbar.user | avatar:'x32'}}"
+        data-width="24" data-height="24" data-radius="4" data-word-count="2" data-font-size="12" ng-if="ctlFullNavbar.user"
+      />
     </div>
-  </div> -->
+    <div class="place-pic" ng-if="!ctlFullNavbar.isSearchMode">
+      <svg class="icon-filter _df _16svg" ng-if="ctlFullNavbar.isFeed">
+        <use xlink:href="/assets/icons/nst-icn16.svg#messages"></use>
+      </svg>
+      <svg class="icon-filter _df _16svg" ng-if="ctlFullNavbar.isBookmarkMode">
+        <use xlink:href="/assets/icons/nst-icn16.svg#bookmarked-message"></use>
+      </svg>
+      <svg class="icon-filter _df _16svg" ng-if="ctlFullNavbar.isSentMode">
+        <use xlink:href="/assets/icons/nst-icn16.svg#sent-message"></use>
+      </svg>
+      <svg class="icon-filter _df _16svg" ng-if="ctlFullNavbar.isConvMode">
+        <use xlink:href="/assets/icons/nst-icn16.svg#exchange"></use>
+      </svg>
+    </div>
+    <cite ng-if="!ctlFullNavbar.isConvMode">{{ctlFullNavbar.title}}</cite>
+    <div class="place-pic" ng-if="ctlFullNavbar.isConvMode">
+      <img initial-avatar="{{ctlFullNavbar.account.id}}" name="{{ctlFullNavbar.account.fullName}}" picture="{{ctlFullNavbar.account | avatar:'x32'}}"
+        data-width="24" data-height="24" data-radius="4" data-word-count="2" data-font-size="12" ng-if="ctlFullNavbar.account"
+      />
+    </div>
+    <cite ng-if="ctlFullNavbar.isSearchMode"><translate>Search Results</translate></cite>
+    <cite ng-if="ctlFullNavbar.isConvMode"><translate>Conversations with</translate>&nbsp;{{ctlFullNavbar.account.fullName}}</cite>
+  </div>
 </div>
 
 <scroll-roller roll-upward="ctlFullNavbar.rollToTop"></scroll-roller>
