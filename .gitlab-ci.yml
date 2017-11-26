@@ -22,14 +22,14 @@ build:desktop:
     - bower install
     - npm rebuild node-sass
     - ./node_modules/.bin/gulp build --mode=production --ver=$CI_PIPELINE_ID
-    - mkdir -p $BUILD_DIR/desktop
-    - cp -r ./dist/production/* $BUILD_DIR/desktop
-    - cp ./lws.config.js $BUILD_DIR/desktop
+    - mkdir -p $BUILD_DIR/webapp
+    - cp -r ./dist/production/* $BUILD_DIR/webapp
+    - cp ./lws.config.js $BUILD_DIR/webapp
     - mkdir -p $BUILD_DIR/bin
     - cp -a ./bin/. $BUILD_DIR/bin
     - find . -type f -not -name \*.html -exec rm -rf {} \;
     - rm -rf ./src/index.html
-    - cp -a ./src/. $BUILD_DIR/desktop
+    - cp -a ./src/. $BUILD_DIR/webapp
 
   artifacts:
     untracked: true
@@ -50,11 +50,30 @@ build:mobile:
     - cd /var/lib/mobile
     - npm install
     - npm run build:prod
-    - mkdir -p $BUILD_DIR/mobile
-    - cp ./package.json $BUILD_DIR/mobile
-    - cp -a ./node_modules $BUILD_DIR/mobile
-    - cp -a ./src $BUILD_DIR/mobile
-    - cp -a ./build $BUILD_DIR/mobile/build
+    - mkdir -p $BUILD_DIR/webapp/m
+    - cp -a ./build/m $BUILD_DIR/webapp
+  artifacts:
+    untracked: true
+    expire_in: 1 hour
+
+build:admin:
+  stage: build
+  image: theotherjim/node-gulp-jspm
+  only:
+    - master
+    - develop
+  script:
+    - mkdir -p /var/lib/admin
+    - cd /var/lib/admin
+    - git clone http://gitlab-ci-token:$CI_BUILD_TOKEN@git.ronaksoftware.com/nested/web-admin.git .
+    - git fetch origin feature/nginx
+    - git checkout feature/nginx
+    - npm install
+    - jspm install
+    - ./node_modules/.bin/gulp build
+    - mkdir -p $BUILD_DIR/webapp/admin
+    - cp -r ./dist/* $BUILD_DIR/webapp/admin
+
   artifacts:
     untracked: true
     expire_in: 1 hour
@@ -74,6 +93,7 @@ deploy:production:
   dependencies:
     - build:mobile
     - build:desktop
+    - build:admin
 
 
 deploy:develop:
@@ -92,6 +112,7 @@ deploy:develop:
   dependencies:
     - build:mobile
     - build:desktop
+    - build:admin
 
 
 deploy:business:

@@ -778,14 +778,14 @@
           }
         }
 
-        $scope.$watch(function () {
-          return vm.unreadCount
-        }, function () {
-          if (vm.unreadCount === 0) {
-            vm.exitUnseenMode();
-            vm.isUnreadMode = false;
-          }
-        });
+        // $scope.$watch(function () {
+        //   return vm.unreadCount
+        // }, function () {
+        //   if (vm.unreadCount === 0) {
+        //     vm.exitUnseenMode();
+        //     vm.isUnreadMode = false;
+        //   }
+        // });
 
         eventReferences.push($rootScope.$on('reload-counters', function () {
           loadUnreadPostsCount();
