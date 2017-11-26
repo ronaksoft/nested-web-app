@@ -19,7 +19,7 @@
   <div class="place-item-inner">
     <img ng-src="{{place.picture}}" />
     <div class="place-info">
-      <cite>
+      <cite ng-click="ctrl.goToPlace(place.id)">
         <svg class="_16svg" ng-if="place.isManager">
             <use xlink:href="/assets/icons/nst-icn16.svg#crown"></use>
         </svg>

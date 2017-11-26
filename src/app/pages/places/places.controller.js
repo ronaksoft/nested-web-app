@@ -16,6 +16,7 @@
     var ABSENT_PLACE_PICTURE_URL = '/assets/icons/absents_place.svg';
     var myPlaceIds = [];
     vm.isLoading = true;
+    vm.goToPlace = goToPlace;
     vm.showLoading = showLoading;
     vm.toggleSelectPlace = toggleSelectPlace;
     vm.unselectAll = unselectAll;
@@ -386,6 +387,15 @@
       $state.go('app.place-create', {}, {
         notify: false
       });
+    }
+
+    /**
+     * Represents the create place modal modal also shows a
+     * warning modal if the user reached the create place limit
+     */
+    function goToPlace(placeId) {
+      $scope.$dismiss();
+      $state.go('app.place-messages', {placeId: placeId});
     }
 
 
