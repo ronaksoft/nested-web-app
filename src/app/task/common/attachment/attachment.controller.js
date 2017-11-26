@@ -57,6 +57,9 @@
 
 
     vm.open = function (vmAttachment) {
+      if(!vm.taskId) {
+        return;
+      }
       eventReferences.push($scope.$emit('post-attachment-viewed', {
         taskID: vm.taskId
       }));
