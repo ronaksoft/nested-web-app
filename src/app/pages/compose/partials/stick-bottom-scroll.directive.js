@@ -24,7 +24,8 @@
               // var tagName = document.activeElement.tagName.toLowerCase();
               // console.log(tagName);
               // console.log( $('.focus-handler').offset().top, el.offset().top);
-              el[0].scrollTop = $('.focus-handler').offset().top;
+              // el[0].scrollTop = $('.focus-handler').offset().top + 200;
+              el[0].scrollTop = el[0].scrollHeight;
               // if(tagName === 'input' || tagName === 'textarea'){
               //   $('.focus-handler').blur().focus();
               //   $(document.activeElement).blur().focus();
