@@ -85,8 +85,8 @@
         NstSvcGlobalCache.flush();
         NstSvcRequestCacheFactory.flush();
         NstSvcPostDraft.reset();
-          // TODO check local and language settings
-        NstSvcI18n.checkSettings().then(function(v){
+        // TODO check local and language settings
+        NstSvcI18n.checkSettings().then(function (v) {
           if (v) {
             $window.location.reload();
           } else {
@@ -97,7 +97,7 @@
             }
             vm.progress = false;
           }
-        }).catch(function (){
+        }).catch(function () {
           if ($stateParams.back) {
             goToBackUrl();
           } else {

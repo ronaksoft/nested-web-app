@@ -59,7 +59,7 @@
       this.selectedLocale = NstSvcI18nStorage.get('locale') || routedLocale || defaultLocale;
       initCalandLocale();
       this.checkSettings().then(function (v) {
-        if(v) {
+        if (v) {
           $window.location.reload();
         }
       })
@@ -89,20 +89,21 @@
     I18n.prototype.checkSettings = function () {
       var deferred = $q.defer();
       var that = this;
-      NstSvcKeyFactory.get(NST_KEY.GENERAL_SETTING_I18N).then(function (val){
-        if(!val || val.length == 0) {
-          return
+      NstSvcKeyFactory.get(NST_KEY.GENERAL_SETTING_I18N).then(function (val) {
+        if (!val || val.length == 0) {
+          deferred.reject();
+          return;
         }
         var settings = JSON.parse(val);
         var reloadFlag = false
-        if (settings && settings.locale.length > 0){
-          if ( that.selectedLocale !== settings.locale ) {
+        if (settings && settings.locale.length > 0) {
+          if (that.selectedLocale !== settings.locale) {
             that.setLocale(settings.locale);
             reloadFlag = true
           }
         }
-        if (settings && settings.calendar.length > 0){
-          if ( that.selectedCalendar !== settings.calendar ) {
+        if (settings && settings.calendar.length > 0) {
+          if (that.selectedCalendar !== settings.calendar) {
             that.setCalendar(settings.calendar)
             reloadFlag = true
           }
@@ -150,8 +151,8 @@
      */
     I18n.prototype.setLocale = function (key) {
       NstSvcKeyFactory.set(NST_KEY.GENERAL_SETTING_I18N, JSON.stringify({
-        locale : key,
-        calendar : this.selectedCalendar
+        locale: key,
+        calendar: this.selectedCalendar
       }));
       var name = key || this.selectedLocale;
       if (_.has(this.locales, name)) {
@@ -174,12 +175,12 @@
      */
     I18n.prototype.setCalendar = function (name) {
       NstSvcKeyFactory.set(NST_KEY.GENERAL_SETTING_I18N, JSON.stringify({
-        locale : this.selectedLocale,
-        calendar : name
+        locale: this.selectedLocale,
+        calendar: name
       }));
       localStorage.setItem('ronak.nested.web.calendar', name);
       this.selectedCalendar = name;
-      moment.locale((name === 'jalali'? 'fa': 'en-US'));
+      moment.locale((name === 'jalali' ? 'fa' : 'en-US'));
     };
 
     /**
