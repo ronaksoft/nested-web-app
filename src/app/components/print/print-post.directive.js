@@ -25,7 +25,7 @@
                     var mywindow = window.open('', '_blank', 'height=' + window.innerHeight + ',width=' + window.innerWidth + ',scrollbars=no,menubar=no,toolbar=no,location=no,status=no,titlebar=no');
 
                     // mywindow.document.write('<html dir="rtl"><head><title>Nested Print</title>');
-                    mywindow.document.write('<html><head><title>Nested Print</title>');
+                    mywindow.document.write('<html><head><title>' + window.location.origin + '/#/message/' + post.id + '</title>');
                     mywindow.document.write('<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">');
                     mywindow.document.write('<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">');
                     mywindow.document.write('<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css">');
