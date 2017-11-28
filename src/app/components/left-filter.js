@@ -14,9 +14,9 @@
           date = moment(date);
         }
         if (!haveTime) {
-          date = moment(date).startOf('day');
+          date = moment(date).startOf('day').add(23, 'hours').add(59, 'minutes');
         }
-
+        // console.log(date, date.format(NstSvcTranslation.get('YYYY MM DD HH:mm')));
         var overdue = moment(current).startOf('minute');
         if (date.isSameOrBefore(overdue)) {
           var daysDiff = overdue.diff(date, 'days');
@@ -44,9 +44,10 @@
         if (date.isSameOrBefore(justNow)) {
           return NstSvcTranslation.get('Less than a minute');
         }
-
         var today = moment(current).startOf('day').add(1, 'days');
+        // console.log(date, moment(current).startOf('day'), today, today.format(NstSvcTranslation.get('YYYY MM DD HH:mm')));
         if (date.isSameOrBefore(today)) {
+          // console.log('is today')
           return haveTime ?
             date.format(NstSvcTranslation.get('[Today at] HH:mm')) :
             date.format(NstSvcTranslation.get('[Today]'));
