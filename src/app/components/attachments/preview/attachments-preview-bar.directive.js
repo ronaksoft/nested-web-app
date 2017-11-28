@@ -25,6 +25,7 @@
         scope.items = setOrder(scope.items, NST_ATTACHMENTS_PREVIEW_BAR_ORDER.order);
         scope.flexDiv = 16;
         scope.badge = false;
+        scope.print = false;
         scope.scrollDis = 140;
         scope.NST_FILE_TYPE = NST_FILE_TYPE;
         scope.cardWidth = angular.element('.attachments-card').width();
@@ -40,8 +41,11 @@
         if (scope.mode === NST_ATTACHMENTS_PREVIEW_BAR_MODE.BADGE) {
           scope.badge = true;
         }
-
-        if (!scope.badge  && scope.items.length === 1 &&
+        if (scope.mode === NST_ATTACHMENTS_PREVIEW_BAR_MODE.PRINT) {
+          scope.print = true;
+          // scope.cardWidth = 1200
+        }
+        if (!scope.badge && scope.items.length === 1 &&
           (scope.items[0].type === NST_FILE_TYPE.IMAGE || scope.items[0].type === NST_FILE_TYPE.GIF ||
           scope.items[0].uploadType === 'VIDEO' ) && scope.items[0].hasPreview) {
           scope.internalMode = NST_ATTACHMENTS_PREVIEW_BAR_MODE.THUMBNAIL_ONLY_IMAGE;
@@ -110,7 +114,7 @@
           // scope.flexTwoWidth = scale * (unkHeight * imgTwoRatio);
         }
 
-        if (!scope.badge) {
+        if (!scope.badge && !scope.print) {
           $timeout(function () {
               scope.scrollWrp = ele.children().next();
               // var leftArrow = ele.children().first();

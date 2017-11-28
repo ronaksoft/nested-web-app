@@ -7,6 +7,7 @@
       AUTO: 'auto',
       BADGE: 'badge',
       THUMBNAIL: 'thumbnail',
+      PRINT: 'print',
       THUMBNAIL_ONLY_IMAGE: 'onlyimg',
       THUMBNAIL_TWO_IMAGE: 'twoimg'
     });

@@ -1,4 +1,4 @@
-<i ng-click="goLeft();$event.stopPropagation()" ng-if="internalMode != 'badge'" ng-class="{'_opz' : !overFlowLeft}">
+<i ng-click="goLeft();$event.stopPropagation()" ng-if="internalMode != 'badge' && mode != 'print'" ng-class="{'_opz' : !overFlowLeft}">
   <svg>
     <use xlink:href="/assets/icons/nst-icn24.svg#arrow-up"></use>
   </svg>
@@ -63,6 +63,20 @@
   </li>
 </ul>
 
+<ul ng-if="internalMode == 'print'" class="print-bar">
+  <li ng-repeat="item in items">
+    <a href="javascript:void(0);">
+      <img width="40" class="attach-badge-img" ng-src="{{item.thumbnail}}" height="40" ng-if="item.type === 'image' || item.type === 'gif'"/>
+      <img width="40" class="attach-badge-img" ng-src="{{getThumbnail(item)}}"
+        ng-srcset="{{getThumbnail(item, '@2x')}}" height="40" ng-if="item.type !== 'image' && item.type !== 'gif'"/>
+      <div class="attach-detail">
+        <span class="_txe"><b>{{item.filename ? item.filename : item.name + '.' + item.extension | lowercase}}</b>
+        <br/>{{item.size | bytes:2}}</span>
+      </div>
+    </a>
+  </li>
+</ul>
+
 <ul ng-if="internalMode == 'badge'" class="badge-bar">
   <li ng-repeat="item in items">
     <a href="javascript:void(0);" ng-click="onClick(item)">
@@ -79,7 +93,7 @@
   <div class="_df _jcc" style="width: {{wrpWidth}}px; height: {{wrpHeight}}px; overflow: hidden">
     <div class="_df" style="width: {{width}}px; height: {{height}}px; overflow: hidden;position:relative;" ng-click="onClick(items[0]);">
       <img ng-src="{{items[0].picture.getUrl('preview')}}" />
-      <div class="download-img" ng-click="download(items[0]);$event.stopPropagation();">
+      <div class="download-img" ng-click="download(items[0]);$event.stopPropagation();" ng-if="mode !== 'print'">
         <svg class="_16svg">
           <use xlink:href="/assets/icons/nst-icn16.svg#downloads"></use>
         </svg>
@@ -100,7 +114,7 @@
   <div style="width: calc({{scaleOne}}% - 8px);height: {{constHeight}}px;position:relative">
     <img style="width: 100%;height: 100%" ng-src="{{items[0].picture.getUrl('preview')}}" ng-click="onClick(items[0]);$event.stopPropagation()"
     />
-    <a class="download-img" ng-click="download(items[0]);$event.stopPropagation();">
+    <a class="download-img" ng-click="download(items[0]);$event.stopPropagation();"  ng-if="mode !== 'print'">
       <svg class="_16svg">
         <use xlink:href="/assets/icons/nst-icn16.svg#downloads"></use>
       </svg>
@@ -122,7 +136,7 @@
     <img style="width: 100%;height: 100%;object-fit: cover" ng-src="{{items[1].picture.getUrl('preview')}}" ng-click="onClick(items[1]);$event.stopPropagation()"
     />
 
-    <a class="download-img" ng-click="download(items[1]);$event.stopPropagation();">
+    <a class="download-img" ng-click="download(items[1]);$event.stopPropagation();" ng-if="mode !== 'print'">
       <svg class="_16svg">
         <use xlink:href="/assets/icons/nst-icn16.svg#downloads"></use>
       </svg>
@@ -137,7 +151,7 @@
     </span>
   </div>
 </div>
-<i ng-click="goRight();$event.stopPropagation()" ng-if="internalMode != 'badge'" ng-class="{'_opz' : !overFlowRight}">
+<i ng-click="goRight();$event.stopPropagation()" ng-if="internalMode != 'badge' && mode != 'print'" ng-class="{'_opz' : !overFlowRight}">
   <svg>
     <use xlink:href="/assets/icons/nst-icn24.svg#arrow"></use>
   </svg>
