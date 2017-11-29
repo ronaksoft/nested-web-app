@@ -23,8 +23,11 @@
                     var compiledHtml = $compile(htmlTpl)(newscope)[0];
                     // console.log(post, compiledHtml);
                     var mywindow = window.open('', '_blank', 'height=' + window.innerHeight + ',width=' + window.innerWidth + ',scrollbars=no,menubar=no,toolbar=no,location=no,status=no,titlebar=no');
-
-                    // mywindow.document.write('<html dir="rtl"><head><title>Nested Print</title>');
+                    console.log(mywindow);
+                    if (mywindow == undefined){
+                      return alert('Please disable your popup blocker');
+                    }
+                    mywindow.document.write('<html dir="rtl"><head><title>Nested Print</title>');
                     mywindow.document.write('<html><head><title>' + window.location.origin + '/#/message/' + post.id + '</title>');
                     mywindow.document.write('<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">');
                     mywindow.document.write('<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">');
@@ -35,7 +38,7 @@
                     mywindow.document.write('</style>');
                     mywindow.document.write('</head><body>');
                     mywindow.document.body.appendChild(compiledHtml);
-                    mywindow.document.write('</body></html>');
+                    mywindow.document.write('<body></html>');
                     mywindow.focus();
                     $(mywindow.document).ready(function() {
                         //The Timeout is ONLY to make Safari work, but it still works with FF, IE & Chrome.
