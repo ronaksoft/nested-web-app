@@ -1,6 +1,6 @@
 (function() {
     'use strict';
-  
+
     angular
       .module('ronak.nested.web.components')
       .directive('printPost', function ($timeout, $http, $compile, $q) {
@@ -21,9 +21,7 @@
                     var newscope = scope.$new();
                     newscope.post = post;
                     var compiledHtml = $compile(htmlTpl)(newscope)[0];
-                    // console.log(post, compiledHtml);
                     var mywindow = window.open('', '_blank', 'height=' + window.innerHeight + ',width=' + window.innerWidth + ',scrollbars=no,menubar=no,toolbar=no,location=no,status=no,titlebar=no');
-                    console.log(mywindow);
                     if (mywindow == undefined){
                       return alert('Please disable your popup blocker');
                     }
@@ -46,18 +44,18 @@
                             mywindow.print();
                             mywindow.close();
                         }, 200)
-                     });                    
+                     });
                 });
               }
           }
         };
       });
-      function getPropertyByKeyPath(targetObj, keyPath, tries) { 
+      function getPropertyByKeyPath(targetObj, keyPath, tries) {
         var keys = keyPath.split('.');
         if(!tries) {
             tries = 0;
         }
-        if(keys.length == 0) return undefined; 
+        if(keys.length == 0) return undefined;
         if(!targetObj.hasOwnProperty(keys[0]) && tries < 6) {
             ++tries;
             return getPropertyByKeyPath(targetObj.$parent, keyPath, tries)
@@ -75,4 +73,3 @@
        return subObject;
       }
   })();
-  
