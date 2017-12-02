@@ -13,7 +13,7 @@
         </div>
         <!-- <span>{{post.id}}</span> -->
         <span class="subject" auto-dir="post.subject">{{post.subject}}</span>
-        <span class="body" auto-dir="post.body? post.body: post.preview" ng-bind-html="(post.body? post.body: post.preview) | trustAsHtml"></span> 
+        <span class="body" auto-dir="post.body? post.body: post.preview" ng-bind-html="(post.body? post.body: post.preview) | trustAsHtml"></span>
         <span class="from" translate-inner ng-if="post.attachments.length > 0">Attachments:</span>
         <div class="attachments" ng-if="post.attachments.length > 0">
             <nst-attachments-preview-bar items="post.attachments" mode="'print'" post-id="post.id"
@@ -23,7 +23,7 @@
             <translate class="places-label">shared with:</translate>
             <span data-ng-repeat="place in ctlPostCard.totalRecipients">
                 <a dir="ltr">
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>{{place.name}}</b><{{place.id}}>
+                  <b>{{place.name}}</b>&lt;{{place.id}}&gt;
                 </a>
             </span>
         </div>
@@ -49,5 +49,5 @@
                 </g>
             </svg>
         </div>
-    </div>       
+    </div>
 </div>
