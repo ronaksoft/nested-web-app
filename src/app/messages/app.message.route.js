@@ -46,6 +46,20 @@
         //   }
         // }
       })
+      .state('print', {
+        url: '/print/:postId',
+        params: {
+          postId: NST_DEFAULT.STATE_PARAM,
+          model : null,
+          trusted: false
+        },
+        options: {
+          group: 'print'
+        },
+        templateUrl: 'app/messages/print/print.html',
+        controller: 'PrintController',
+        controllerAs: 'ctlPost',
+      })
       .state('app.messages-bookmarked', {
         url: '/bookmarks',
         templateUrl: 'app/messages/messages.html',
