@@ -27,7 +27,7 @@ build:desktop:
     - cp ./lws.config.js $BUILD_DIR/webapp
     - mkdir -p $BUILD_DIR/bin
     - cp -a ./bin/. $BUILD_DIR/bin
-    - find . -type f -not -name \*.html -exec rm -rf {} \;
+    - find . -type f -not -name \*.html -not -name print.css -exec rm -rf {} \;
     - rm -rf ./src/index.html
     - cp -a ./src/. $BUILD_DIR/webapp
 
