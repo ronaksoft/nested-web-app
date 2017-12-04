@@ -1,5 +1,5 @@
 .print-container {
-    position: fixed;
+    position: absolute;
     top: 0;
     background-color: #fff;
     bottom: 0;
@@ -20,7 +20,7 @@
     min-width: 600px;
     width: 100%;
     margin: auto;
-    .from {
+    .print-from {
         font-size: 12px;
         line-height: 15px;
         opacity: .4;

@@ -22,14 +22,14 @@
             </div>
             <div class="print-places">
                 <translate class="print-places-label">shared with:</translate>
-                <span data-ng-repeat="place in ctlPost.message.places">
+                <span data-ng-repeat="place in ctlPost.message.places track by place.id">
                     <a dir="ltr">
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>{{place.name}}</b>&lt;{{place.id}}&gt;
                     </a>
                 </span>
-                <span data-ng-repeat="email in ctlPost.message.recipients">
+                <span data-ng-repeat="email in ctlPost.message.recipients track by $index">
                     <a dir="ltr">
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>{{email}}</b>>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>{{email}}</b>
                     </a>
                 </span>
             </div>

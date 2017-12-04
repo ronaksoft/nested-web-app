@@ -6,8 +6,8 @@
     .controller('PrintController', PrintController);
 
   /** @ngInject */
-  function PrintController($q, $scope, $rootScope, $stateParams,
-                          _, toastr, NstSvcPostFactory, NstUtility, NstSvcLogger, NstSvcPostInteraction, NstSvcTranslation, NstSvcSync) {
+  function PrintController($scope, $stateParams,
+                          _, toastr, NstSvcPostFactory, NstSvcPostInteraction, NstSvcTranslation, NstSvcSync) {
     var vm = this;
 
     /*****************************
@@ -31,15 +31,17 @@
 
 
     function load(postId) {
-      vm.expandProgressId = postId;
       NstSvcPostFactory.get(postId, true).then(function (post) {
         vm.message = post;
         var imgRegex = new RegExp('<img(.*?)source=[\'|"](.*?)[\'|"](.*?)>', 'g');
         var resources = post.resources;
-        vm.message.body = post.body.replace(imgRegex, function (m, p1, p2, p3) {
-          var src = resources[p2];
-          return "<img" + p1 + "src='" + src + "' " + p3 + ">"
-        });
+        var body = post.body || post.preview;
+        if (body.length > 0) {
+          vm.message.body = body.replace(imgRegex, function (m, p1, p2, p3) {
+            var src = resources[p2];
+            return "<img" + p1 + "src='" + src + "' " + p3 + ">"
+          });
+        }
       }).catch(function () {
         toastr.error(NstSvcTranslation.get('An error occured while tying to show the post full body.'));
       }).finally(function (){
