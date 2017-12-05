@@ -6,7 +6,7 @@
     .service('NstSvcAuth', NstSvcAuth);
 
   /** @ngInject */
-  function NstSvcAuth(_, $cookies, $q, $log, $rootScope,
+  function NstSvcAuth(_, $cookies, $q, $log, $rootScope, $timeout,
                       NstSvcServer, NstSvcUserFactory, NstSvcPlaceFactory, NstSvcLogger, NstSvcI18n, NstSvcClient,
                       NstSvcDate, NstSvcGlobalCache,
                       NST_SRV_EVENT, NST_SRV_RESPONSE_STATUS, NST_SRV_ERROR, NST_UNREGISTER_REASON, NST_CONFIG,
@@ -275,7 +275,9 @@
             service.setState(NST_AUTH_STATE.AUTHORIZED);
             service.authorize(response).then(deferred.resolve);
             if (response.account.flags.force_password_change) {
-              $rootScope.$broadcast(NST_AUTH_EVENT.CHANGE_PASSWORD);
+              $timeout(function () {
+                $rootScope.$broadcast(NST_AUTH_EVENT.CHANGE_PASSWORD);
+              }, 100);
             }
           }).catch(function (error) {
             service.unregister(NST_UNREGISTER_REASON.AUTH_FAIL).then(function () {
