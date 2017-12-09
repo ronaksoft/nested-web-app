@@ -92,12 +92,12 @@ function getListOfScripts() {
 function replaceConfigAndStore(file) {
   return new Promise((res) => {
     let content = fs.readFileSync(config.TMP_DIR + file);
-    let newContent = content.toString().replace(defaultConfig.WS_CYRUS, newConfig.WS_CYRUS)
-      .replace(defaultConfig.HTTP_CYRUS, newConfig.HTTP_CYRUS)
+    let newContent = content.toString().replace(new RegExp(defaultConfig.WS_CYRUS, 'ig'), newConfig.WS_CYRUS)
+      .replace(new RegExp(defaultConfig.HTTP_CYRUS, 'ig'), newConfig.HTTP_CYRUS)
       .replace(new RegExp(defaultConfig.XERXES, 'ig'), newConfig.XERXES)
       .replace(new RegExp(defaultConfig.GOOGLE_ANALYTICS_TOKEN, 'ig'), newConfig.GOOGLE_ANALYTICS_TOKEN)
       .replace(defaultConfig.UPLOAD_SIZE_LIMIT, newConfig.UPLOAD_SIZE_LIMIT)
-      .replace(defaultConfig.DOMAIN, newConfig.DOMAIN)
+      .replace(new RegExp(defaultConfig.DOMAIN, 'ig'), newConfig.DOMAIN)
       .replace(defaultConfig.ADMIN_DOMAIN, newConfig.ADMIN_DOMAIN)
       .replace(defaultConfig.ADMIN_PORT, newConfig.ADMIN_PORT)
       .replace(defaultConfig.ADMIN_URL, newConfig.ADMIN_URL)

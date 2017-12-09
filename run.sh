@@ -8,6 +8,7 @@ echo "Directory changed to (`pwd`)"
 node /bin/nested-reconfig.js script=scripts tmp=nestedConfig
 node /bin/nested-reconfig.js script=m/js tmp=nestedConfigMobile
 node /bin/nested-reconfig.js script=admin tmp=nestedConfigAdmin
+node /bin/nested-reconfig.js script=admin/maps tmp=nestedConfigAdminMap
 sleep 1
 cd /bin
 
