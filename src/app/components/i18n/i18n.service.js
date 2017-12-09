@@ -58,11 +58,12 @@
       this.selectedCalendar = localStorage.getItem('ronak.nested.web.calendar') || routedCalendar || defaultCalendar;
       this.selectedLocale = NstSvcI18nStorage.get('locale') || routedLocale || defaultLocale;
       initCalandLocale();
-      this.checkSettings().then(function (v) {
-        if (v) {
-          $window.location.reload();
-        }
-      })
+      // this.checkSettings().then(function (v) {
+      //   console.log('checkSettings 18n', v)
+      //   if (v) {
+      //     // $window.location.reload();
+      //   }
+      // })
 
       function initCalandLocale() {
         if (that.selectedCalendar === "jalali") {
@@ -95,11 +96,14 @@
           return;
         }
         var settings = JSON.parse(val);
-        var reloadFlag = false
+        var reloadFlag = false;
+        console.log(settings.locale, that.selectedLocale, settings);
         if (settings && settings.locale.length > 0) {
+          console.log(that.selectedLocale, settings.locale);
           if (that.selectedLocale !== settings.locale) {
             that.setLocale(settings.locale);
             reloadFlag = true
+            console.log(reloadFlag);
           }
         }
         if (settings && settings.calendar.length > 0) {
@@ -108,6 +112,7 @@
             reloadFlag = true
           }
         }
+        console.log(reloadFlag);
         deferred.resolve(reloadFlag)
       }).catch(deferred.reject);
 
