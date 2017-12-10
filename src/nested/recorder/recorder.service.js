@@ -95,7 +95,7 @@
       visualize(stream);
       mediaRecorder.start();
 
-      mediaRecorder.onstop = function (e) {
+      mediaRecorder.onstop = function () {
         var blob = new Blob(chunks, {'type': 'audio/webm;'});
         chunks = [];
         localStream.stop();

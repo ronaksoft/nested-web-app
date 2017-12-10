@@ -24,7 +24,7 @@
       NstUtility, NstSvcTranslation, NstSvcModal, NstSvcPostDraft,
       NstSvcUserFactory, NstSvcLogger, NstSvcAuth,
       NstTinyPlace, NstVmSelectTag, NstPicture,
-      NstPostDraft, NstPost, $, NST_SEARCH_QUERY_PREFIX) {
+      NstPostDraft, NstPost, $, NST_SEARCH_QUERY_PREFIX, $window) {
       var vm = this;
       vm.modalId = '';
       vm.quickMode = false;
@@ -1443,7 +1443,7 @@
          * @param {any} attachment
          */
         $scope.deleteAttachment = function (attachment) {
-          new $q(function (resolve, reject) {
+          new $q(function (resolve) {
             if (attachment.status === NST_ATTACHMENT_STATUS.UPLOADING) {
               // abort the pending upload request
               attachment.cancelUpload();

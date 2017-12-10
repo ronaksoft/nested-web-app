@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   angular
@@ -6,7 +6,7 @@
     .controller('CommentsBoardController', CommentsBoardController);
 
   function CommentsBoardController($timeout, $scope, $sce, $q, $state, $location, $anchorScroll,
-                                   NstSvcAuth,NstSvcDate, NstSvcCommentFactory, NstUtility, NstSvcTranslation, NstSvcTaskFactory,
+                                   NstSvcAuth, NstSvcDate, NstSvcCommentFactory, NstUtility, NstSvcTranslation, NstSvcTaskFactory,
                                    moment, toastr, NstSvcLogger, _) {
     var vm = this;
 
@@ -40,10 +40,7 @@
 
     (function () {
       vm.hasOlderComments = vm.totalCommentsCount > vm.comments.length;
-      if(vm.taskId) {
-        console.log(vm.taskId)
-      }
-      if(vm.postId) {
+      if (vm.postId) {
         var key = $scope.$on('post-load-new-comments', function (event, data) {
           if (data.postId === vm.postId) {
             if (data.scrollIntoView) {
@@ -54,7 +51,7 @@
           }
         });
         pageEventKeys.push(key);
-        if($state.current.name === 'app.message'){
+        if ($state.current.name === 'app.message') {
           vm.comments = [];
           loadMoreComments();
         }
@@ -87,8 +84,8 @@
     function getRecentComments(settings) {
       var deferred = $q.defer();
       var result = {
-        comments : [],
-        maybeMoreComments : null
+        comments: [],
+        maybeMoreComments: null
       };
       vm.commentLoadProgress = true;
       NstSvcCommentFactory.getCommentsAfter(vm.postId, settings).then(function (comments) {
@@ -103,12 +100,12 @@
 
     function loadRecentComments(news, scrollIntoView) {
       var settings = {
-        date : getLastCommentDate(vm.comments),
-        limit : 30
+        date: getLastCommentDate(vm.comments),
+        limit: 30
       };
 
       getRecentComments(settings).then(function (result) {
-        result.comments.forEach(function(cm) {
+        result.comments.forEach(function (cm) {
           cm.isNew = true
         })
         var newComments = reorderComments(result.comments);
@@ -116,7 +113,7 @@
         vm.lastComment = findLastComment(vm.comments);
         vm.hasAnyRemoved = _.some(vm.comments, 'removedById');
         vm.commentBoardLimit = 30;
-        if ( newComments.length > 0 && newComments[0].id && scrollIntoView) {
+        if (newComments.length > 0 && newComments[0].id && scrollIntoView) {
           // $location.hash('comment-' + newComments[0].id);
           // $anchorScroll();
 
@@ -125,7 +122,7 @@
             //   scrollTop: $('#' + 'comment-' + newComments[0].id).offset().top
             // }, 800, function(){
             // });
-            document.querySelector('#' + 'comment-' + newComments[0].id).scrollIntoView({ behavior: 'smooth' });
+            document.querySelector('#' + 'comment-' + newComments[0].id).scrollIntoView({behavior: 'smooth'});
           }, 256)
 
         }
@@ -136,7 +133,7 @@
 
     function reorderComments(comments) {
       return _.chain(comments).filter(function (comment) {
-        return !_.some(vm.comments, { id : comment.id });
+        return !_.some(vm.comments, {id: comment.id});
       }).orderBy('timestamp', 'asc').value();
     }
 
@@ -145,13 +142,13 @@
         return;
       }
       vm.commentRemoveProgress = true;
-      NstSvcCommentFactory.removeComment(vm.postId, comment).then(function() {
+      NstSvcCommentFactory.removeComment(vm.postId, comment).then(function () {
         NstUtility.collection.dropById(vm.comments, comment.id);
-        var canceler = $scope.$emit('comment-removed', { postId : vm.postId, commentId : comment.id });
+        var canceler = $scope.$emit('comment-removed', {postId: vm.postId, commentId: comment.id});
         pageEventKeys.push(canceler);
-      }).catch(function() {
+      }).catch(function () {
         toastr.error(NstSvcTranslation.get('Sorry, an error has occured while removing your comment'));
-      }).finally(function() {
+      }).finally(function () {
         vm.commentRemoveProgress = false;
       });
     }
@@ -171,6 +168,7 @@
      * @param  {Event}  e   keypress event handler
      */
     var resizeTextare = _.debounce(resize, 100);
+
     function resize(el) {
       el.style.height = '';
       el.style.height = el.scrollHeight + "px";
@@ -243,7 +241,7 @@
       vm.isSendingComment = true;
 
       if (vm.postId) {
-        NstSvcCommentFactory.addComment(vm.postId, '', attachmentId).then(function (comment) {
+        NstSvcCommentFactory.addComment(vm.postId, '', attachmentId).then(function (/*comment*/) {
           // addCommentCallback(comment)
           vm.isSendingComment = false;
         }).catch(function () {
@@ -251,7 +249,7 @@
           vm.isSendingComment = false;
         });
       } else {
-        NstSvcTaskFactory.addComment(vm.taskId, '', attachmentId).then(function (comment) {
+        NstSvcTaskFactory.addComment(vm.taskId, '', attachmentId).then(function (/*comment*/) {
           // addCommentCallback(comment)
           vm.isSendingComment = false;
         }).catch(function () {
@@ -261,7 +259,6 @@
       }
 
     }
-
 
 
     /**
@@ -330,7 +327,7 @@
       NstSvcCommentFactory.retrieveComments(vm.postId, {
         date: date,
         limit: commentsSettings.limit
-      }).then(function(comments) {
+      }).then(function (comments) {
 
         vm.hasOlderComments = comments.length >= commentsSettings.limit;
         var orderedItems = reorderComments(comments);
@@ -339,7 +336,7 @@
         vm.lastComment = findLastComment(vm.comments);
 
         clearCommentBoardLimit();
-      }).catch(function() {
+      }).catch(function () {
         toastr.error('Sorry, an error has occured while loading older comments');
       });
     }

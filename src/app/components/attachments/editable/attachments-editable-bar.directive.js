@@ -16,7 +16,7 @@
         mode: '=',
         removeItem: '=?'
       },
-      link: function (scope, ele, attributes) {
+      link: function (scope, ele) {
         if (scope.removeItem === undefined) {
           scope.removeItem = true;
         }

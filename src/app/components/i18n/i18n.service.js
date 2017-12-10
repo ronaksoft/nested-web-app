@@ -97,22 +97,18 @@
         }
         var settings = JSON.parse(val);
         var reloadFlag = false;
-        console.log(settings.locale, that.selectedLocale, settings);
         if (settings && settings.locale.length > 0) {
-          console.log(that.selectedLocale, settings.locale);
           if (that.selectedLocale !== settings.locale) {
             that.setLocale(settings.locale);
-            reloadFlag = true
-            console.log(reloadFlag);
+            reloadFlag = true;
           }
         }
         if (settings && settings.calendar.length > 0) {
           if (that.selectedCalendar !== settings.calendar) {
-            that.setCalendar(settings.calendar)
-            reloadFlag = true
+            that.setCalendar(settings.calendar);
+            reloadFlag = true;
           }
         }
-        console.log(reloadFlag);
         deferred.resolve(reloadFlag)
       }).catch(deferred.reject);
 

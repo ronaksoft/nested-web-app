@@ -58,7 +58,7 @@
         },
         templateUrl: 'app/messages/print/print.html',
         controller: 'PrintController',
-        controllerAs: 'ctlPost',
+        controllerAs: 'ctlPost'
       })
       .state('app.messages-bookmarked', {
         url: '/bookmarks',

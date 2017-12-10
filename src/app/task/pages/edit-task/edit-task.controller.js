@@ -173,7 +173,6 @@
 
     function getTask(id) {
       NstSvcTaskFactory.get(id).then(function (task) {
-        console.log(task);
         vm.model.status = task.status;
         vm.model.progress = task.progress;
 
