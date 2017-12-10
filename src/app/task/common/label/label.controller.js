@@ -75,8 +75,8 @@
     }
 
     function labelKeyDown(event) {
-      if (vm.addItem && event.keyCode === 13) {
-      }
+      // if (vm.addItem && event.keyCode === 13) {
+      // }
     }
 
     function addIt() {

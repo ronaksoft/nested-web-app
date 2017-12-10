@@ -304,13 +304,13 @@
       $event.preventDefault();
     }
 
-    /**
-     * return the current place id
-     * @returns string
-     */
-    function getPlaceId() {
-      return vm.selectedPlaceId;
-    }
+    // /**
+    //  * return the current place id
+    //  * @returns string
+    //  */
+    // function getPlaceId() {
+    //   return vm.selectedPlaceId;
+    // }
 
 
     /**
@@ -493,7 +493,7 @@
       });
 
       modal.result.then();
-      angular.forEach(vm.selectedPlaces, function (id) {})
+      // angular.forEach(vm.selectedPlaces, function (id) {})
 
     }
 
@@ -648,7 +648,7 @@
      */
     function remove(id) {
       var deferred = $q.defer();
-    
+
       NstSvcPlaceFactory.remove(id).then(function () {
         toastr.success(NstUtility.string.format(NstSvcTranslation.get("Place {0} was removed successfully."), id));
         loadPlacesDebounce();

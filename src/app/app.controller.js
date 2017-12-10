@@ -78,10 +78,9 @@
     });
 
     eventReferences.push($rootScope.$on(NST_AUTH_EVENT.AUTHORIZE_FAIL, function () {
-      console.log('auth fail')
       $state.go('app.signout');
       // todo : makeit works in a other way
-      $window.location.reload()
+      $window.location.reload();
     }));
 
     eventReferences.push($rootScope.$on(NST_NOTIFICATION_EVENT.EXTERNAL_PUSH_ACTION, function (e, data) {

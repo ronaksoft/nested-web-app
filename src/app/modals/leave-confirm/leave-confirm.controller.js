@@ -5,7 +5,7 @@
     .module('ronak.nested.web.components')
     .controller('LeaveConfirmController', LeaveConfirmController);
 
-  function LeaveConfirmController($scope, $uibModalInstance, $uibModalStack) {
+  function LeaveConfirmController($scope) {
     var vm = this;
 
     vm.ok = function () {

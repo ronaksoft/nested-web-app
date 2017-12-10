@@ -6,8 +6,7 @@
     .controller('ModalNotificationsController', ModalNotificationsController);
 
   function ModalNotificationsController(_, $q, $state, $scope, $rootScope, $timeout,
-                                        NST_NOTIFICATION_TYPE, NST_NOTIFICATION_EVENT,
-                                        NstSvcNotificationFactory) {
+                                        NST_NOTIFICATION_TYPE, NstSvcNotificationFactory, NST_NOTIFICATION_EVENT) {
     var vm = this;
     vm.NST_NOTIFICATION_TYPE = NST_NOTIFICATION_TYPE;
 

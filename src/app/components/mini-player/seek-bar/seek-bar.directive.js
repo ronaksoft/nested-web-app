@@ -6,7 +6,7 @@
     .directive('seekBar', seekBar);
 
   /** @ngInject */
-  function seekBar($rootScope) {
+  function seekBar() {
     return {
       restrict: 'E',
       replace: true,

@@ -73,7 +73,7 @@
   }
 
 
-  function ngJalaaliFlatDatepickerDirective($templateCache, $compile, $document, datesCalculator, ngJalaaliFDP, moment, NstSvcI18n, NstSvcTranslation, _) {
+  function ngJalaaliFlatDatepickerDirective($templateCache, $compile, $document, datesCalculator, ngJalaaliFDP, moment, NstSvcI18n) {
     /*function parseConfig (config) {
         var temp = angular.fromJson(config);
         if (typeof(temp.minDate) == 'undefined') {

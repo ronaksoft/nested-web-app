@@ -1,15 +1,15 @@
 (function () {
-    
+
       'use strict';
-    
+
       angular
         .module('ronak.nested.web.components')
         .directive('placeChips', placeChips);
-    
-    
+
+
       function placeChips($templateCache, $log, $compile, $document, datesCalculator, ngJalaaliFDP, moment, NstSvcI18n,
         NstSvcPlaceFactory, _) {
-    
+
         return {
           restrict: 'A',
           scope: {
@@ -20,7 +20,7 @@
             index: '=',
             onRemove: '='
           },
-          link: function (scope, element, attrs) {
+          link: function (scope, element) {
             scope.isSelected = false;
             scope.removePermission = typeof scope.onRemove === 'function'
             var template = angular.element($templateCache.get('place-chips.html'));
@@ -40,11 +40,11 @@
              * @return {}
              */
             function init() {
-    
+
               $compile(template)(scope);
               element.html(template);
             }
-    
+
             scope.selectChip = function (){
               if ( !scope.selectable ) {
                 return;
@@ -76,10 +76,9 @@
             element.on('$destroy', function () {
               $document.off('click', onDocumentClick);
             });
-    
+
           }
         };
       }
-    
+
     })();
-    
