@@ -828,25 +828,33 @@
     function addLabels(items) {
       var removeItems = _.difference(vm.post.labels, items);
       var addItems = _.difference(items, vm.post.labels);
-      addItems.forEach(function (o) {
-        var id = o._id || o.id;
-        NstSvcPostFactory.addLabel(vm.post.id, id).then(function () {
-          // console.log(o);
-          // vm.post.labels.push(o);
-        });
-      });
       removeItems.forEach(function (o) {
         var id = o._id || o.id;
         NstSvcPostFactory.removeLabel(vm.post.id, id).then(function () {
-          // _.remove(vm.post.labels, function(n) {
-          //   var id1 =  n.id || n._id;
-          //   var id2 =  o.id || o._id;
-          //   console.log(id1, id2);
-          //   return id1 === id2
-          // });
+          _.remove(vm.post.labels, function(n) {
+            var id1 =  n.id || n._id;
+            var id2 =  o.id || o._id;
+            // console.log(id1, id2);
+            return id1 === id2
+          });
+        }).catch(function(e){
+          toastr.error(NstSvcTranslation.get('an error occuered in removing label')); 
         });
       });
-      vm.post.labels = items;
+      addItems.forEach(function (o) {
+        var id = o._id || o.id;
+        NstSvcPostFactory.addLabel(vm.post.id, id).then(function () {
+          vm.post.labels.push(o);
+        }).catch(function(e){
+          // console.log(arguments)
+          if(e.code === 6) {
+            toastr.error(NstSvcTranslation.get('You can\'t add more labels due to Admin configuration'));            
+          } else {
+            toastr.error(NstSvcTranslation.get('an error occuered in adding labels')); 
+          }
+        });
+      });
+      // vm.post.labels = items;
     }
 
     /**
