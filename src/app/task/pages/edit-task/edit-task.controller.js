@@ -54,11 +54,6 @@
 
     //
 
-    (function () {
-      vm.taskId = $stateParams.taskId;
-      getTask(vm.taskId);
-    })();
-
     vm.model = {
       isRelated: false,
       relatedTask: null,
@@ -169,82 +164,94 @@
     var dataInit = false;
     var isUpdated = false;
 
+    (function () {
+      vm.taskId = $stateParams.taskId;
+      getTask(vm.taskId);
+    })();
+
     // vm.isInCandidateMode = false;
 
+    function importTaskData(task) {
+      vm.model.status = task.status;
+      vm.model.progress = task.progress;
+
+      vm.model.title = task.title;
+      vm.model.assignor = task.assignor;
+      vm.model.counters = task.counters;
+      vm.model.access = task.access;
+
+      if (task.assignee !== undefined) {
+        vm.model.assignees = {
+          init: true,
+          data: [task.assignee]
+        };
+      } else if (task.candidates !== undefined) {
+        vm.model.assignees = {
+          init: true,
+          data: task.candidates
+        };
+        // vm.isInCandidateMode = true;
+      }
+
+      if (task.dueDate !== undefined && task.dueDate !== 0) {
+        vm.model.dueDate = task.dueDate / 1000;
+        vm.model.hasDueTime = task.hasDueTime;
+        // vm.enableDue = true;
+      } else {
+        vm.model.dueDate = null;
+      }
+
+      if (task.description !== undefined && _.trim(task.description).length > 0) {
+        vm.model.description = task.description;
+        vm.enableDescription = true;
+      }
+
+      if (task.todos !== undefined && task.todos.length > 0) {
+        vm.model.todos = task.todos;
+        vm.enableTodo = true;
+      }
+
+      if (task.attachments !== undefined) {
+        vm.model.attachments = {
+          init: true,
+          data: task.attachments
+        };
+        vm.enableAttachment = true;
+      }
+
+      if (task.watchers !== undefined) {
+        vm.model.watchers = {
+          init: true,
+          data: task.watchers
+        };
+        vm.enableWatcher = true;
+      }
+
+      if (task.labels !== undefined) {
+        vm.model.labels = {
+          init: true,
+          data: task.labels
+        };
+        vm.enableLabel = true;
+      }
+
+      if (task.relatedTask !== undefined) {
+        vm.model.isRelated = true;
+        vm.model.relatedTask = task.relatedTask;
+      }
+
+      if (task.childTasks !== undefined) {
+        vm.model.childTasks = task.childTasks;
+      }
+    }
+
     function getTask(id) {
-      NstSvcTaskFactory.get(id).then(function (task) {
-        vm.model.status = task.status;
-        vm.model.progress = task.progress;
-
-        vm.model.title = task.title;
-        vm.model.assignor = task.assignor;
-        vm.model.counters = task.counters;
-        vm.model.access = task.access;
-
-        if (task.assignee !== undefined) {
-          vm.model.assignees = {
-            init: true,
-            data: [task.assignee]
-          };
-        } else if (task.candidates !== undefined) {
-          vm.model.assignees = {
-            init: true,
-            data: task.candidates
-          };
-          // vm.isInCandidateMode = true;
-        }
-
-        if (task.dueDate !== undefined && task.dueDate !== 0) {
-          vm.model.dueDate = task.dueDate / 1000;
-          vm.model.hasDueTime = task.hasDueTime;
-          // vm.enableDue = true;
-        } else {
-          vm.model.dueDate = null;
-        }
-
-        if (task.description !== undefined && _.trim(task.description).length > 0) {
-          vm.model.description = task.description;
-          vm.enableDescription = true;
-        }
-
-        if (task.todos !== undefined && task.todos.length > 0) {
-          vm.model.todos = task.todos;
-          vm.enableTodo = true;
-        }
-
-        if (task.attachments !== undefined) {
-          vm.model.attachments = {
-            init: true,
-            data: task.attachments
-          };
-          vm.enableAttachment = true;
-        }
-
-        if (task.watchers !== undefined) {
-          vm.model.watchers = {
-            init: true,
-            data: task.watchers
-          };
-          vm.enableWatcher = true;
-        }
-
-        if (task.labels !== undefined) {
-          vm.model.labels = {
-            init: true,
-            data: task.labels
-          };
-          vm.enableLabel = true;
-        }
-
-        if (task.relatedTask !== undefined) {
-          vm.model.isRelated = true;
-          vm.model.relatedTask = task.relatedTask;
-        }
-
-        if (task.childTasks !== undefined) {
-          vm.model.childTasks = task.childTasks;
-        }
-
+      NstSvcTaskFactory.get(id, function (task) {
+        importTaskData(task);
+        vm.loading = false;
+      }).then(function (task) {
+        vm.loading = false;
+        importTaskData(task);
         $timeout(function () {
           dataInit = true;
           vm.loading = false;

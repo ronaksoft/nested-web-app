@@ -41,6 +41,11 @@
     TaskFactory.prototype.setState = setState;
     TaskFactory.prototype.remove = remove;
     TaskFactory.prototype.getByFilter = getByFilter;
+    TaskFactory.prototype.handleCachedResponse = handleCachedResponse;
+    TaskFactory.prototype.parseCachedModel = parseCachedModel;
+    TaskFactory.prototype.transformToCacheModel = transformToCacheModel;
+    TaskFactory.prototype.getCachedSync = getCachedSync;
+    TaskFactory.prototype.set = set;
     TaskFactory.prototype.get = get;
     TaskFactory.prototype.getMany = getMany;
 
@@ -402,44 +407,153 @@
       });
     }
 
-    function getByFilter(filter, statusFilter, skip, limit) {
+    function getByFilter(options, cacheHandler) {
       var factory = this;
       var deferred = $q.defer();
 
-      return this.sentinel.watch(function () {
+      if (options.statusFilter) {
+        options.status_filter = String(options.statusFilter);
+      }
 
-        NstSvcServer.request('task/get_by_filter', {
-          filter: filter,
-          status_filter: String(statusFilter),
-          skip: skip,
-          limit: limit
-        }).then(function (data) {
+      return this.sentinel.watch(function () {
+        NstSvcServer.request('task/get_by_filter', options, _.partial(handleCachedResponse, cacheHandler)).then(function (data) {
           deferred.resolve(_.map(data.tasks, function (task) {
+            factory.set(task);
             return factory.parseTask(task);
           }));
         }).catch(deferred.reject);
 
         return deferred.promise;
-      }, 'task-get-by-filter' + filter + statusFilter);
+      }, 'task-get-by-filter' + options.filter + options.statusFilter);
     }
 
-    function get(id) {
+    function handleCachedResponse(cacheHandler, cachedResponse) {
+      if (cachedResponse && _.isFunction(cacheHandler)) {
+        var cachedPosts = _.map(cachedResponse.tasks, function (task) {
+          return factory.getCachedSync(task._id);
+        });
+        cacheHandler(_.compact(cachedPosts));
+      }
+    }
+
+    function parseCachedModel(data) {
+      var factory = this;
+      if (!data) {
+        return null;
+      }
+
+      var task = new NstTask();
+
+      task.id = data._id;
+      task.status = data.status;
+      task.assignor = NstSvcUserFactory.getCachedSync(data.assignor);
+      if (data.assignee) {
+        task.assignee = NstSvcUserFactory.getCachedSync(data.assignee);
+      }
+      if (data.candidates) {
+        task.candidates = _.map(data.candidates, function (item) {
+          return NstSvcUserFactory.getCachedSync(item);
+        });
+      }
+      task.title = data.title;
+      if (data.due_date) {
+        task.dueDate = data.due_date;
+        task.hasDueTime = data.due_data_has_clock;
+      }
+      task.description = data.description;
+
+      if (data.todos) {
+        task.todos = _.map(data.todos, function (item) {
+          return factory.parseTaskTodo(item);
+        });
+
+        var total = task.todos.length;
+        var done = 0;
+        _.forEach(task.todos, function (item) {
+          if (item.checked) {
+            done++;
+          }
+        });
+
+        if (total > 0) {
+          task.progress = Math.ceil((done/total) * 100);
+        }
+      }
+
+      if (data.attachments) {
+        task.attachments = _.map(data.attachments, NstSvcAttachmentFactory.parseAttachment);
+      }
+      if (data.watchers) {
+        task.watchers = _.map(data.watchers, function (item) {
+          return NstSvcUserFactory.getCachedSync(item);
+        });
+      }
+      if (data.labels) {
+        task.labels = _.map(data.labels, function (item) {
+          return NstSvcLabelFactory.getCachedSync(item);
+        });
+      }
+      if (data.related_to) {
+        task.relatedTask = {
+          id: data.related_to._id,
+          title: data.related_to.title
+        };
+      }
+      if (data.related_tasks) {
+        task.childTasks = _.map(data.related_tasks, function (item) {
+          return {
+            id: item._id,
+            title: item.title
+          };
+        });
+      }
+      task.counters = data.counters;
+
+      task.access = factory.parseTaskAccess(data.access);
+
+      return task;
+    }
+
+    function getCachedSync(id) {
+      return this.parseCachedModel(this.cache.get(id));
+    }
+
+    function transformToCacheModel(data) {
+      var copy = _.clone(data);
+      copy.assignor = data.assignor ? data.assignor._id : null;
+      copy.assignee = data.assignee ? data.assignee._id : null;
+      copy.candidates = data.candidates ? _.map(data.candidates, '_id') : null;
+      copy.watchers = data.watchers ? _.map(data.watchers, '_id') : null;
+      copy.labels = _.map(data.labels, '_id');
+
+      return copy;
+    }
+
+    function set(data) {
+      if (data && data._id) {
+        this.cache.set(data._id, this.transformToCacheModel(data));
+      }
+    }
+
+    function get(id, cachedResponse) {
       var factory = this;
       var deferred = $q.defer();
 
-      // var cachedLabel = this.getCachedSync(id);
-      // if (cachedLabel) {
-      //   deferred.resolve(cachedLabel);
-      // }
+      if (_.isFunction(cachedResponse)) {
+        var cachedTask = this.getCachedSync(id);
+        if (cachedTask) {
+          cachedResponse(cachedTask);
+        }
+      }
 
       this.collector.add(id).then(function (data) {
-        // factory.set(data);
+        factory.set(data);
         deferred.resolve(factory.parseTask(data));
       }).catch(function (error) {
         switch (error.code) {
           case NST_SRV_ERROR.ACCESS_DENIED:
           case NST_SRV_ERROR.UNAVAILABLE:
-            // factory.cache.remove(id);
+            factory.cache.remove(id);
             break;
         }
         deferred.reject(error);
@@ -473,6 +587,7 @@
       return defer.promise;
     }
 
-    return new TaskFactory();
+    var factory = new TaskFactory();
+    return factory;
   }
 })();
