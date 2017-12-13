@@ -6,7 +6,6 @@
 #PostView {
   //border: 1px solid $color-breeze;
   //border-radius: $border-radius-large;
-  background-color: #FAFAFA;
   margin-bottom: 64px;
   padding: 0;
   //animation: post-view .5s ease-out .12s forwards normal;
@@ -151,8 +150,8 @@
   left: 0;
   right: 0;
   height: 56px;
-  background-color: $color-white;
-  border-bottom: 1px solid $color-border;
+  background-color: $color-modal-bg;
+  border-bottom: 1px solid transparent;
   display: flex;
   align-items: center;
   flex-direction: row;
@@ -166,7 +165,11 @@
     height: 100%;
   }
   vr {
+    background-color: transparent;
     height: 48px;
+  }
+  svg {
+    fill: $color-white;
   }
   .nst-content.second-view .content {
     display: flex;

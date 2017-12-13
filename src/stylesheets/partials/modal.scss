@@ -585,7 +585,7 @@ body.modal-open-attachment-view.compose-modal {
     min-height: calc(100% - 56px);
     margin-top: 56px;
     min-width: 1024px;
-    background-color: #FAFAFA;
+    background-color: $color-modal-bg;
     display: block;
     flex-direction: column;
     position: relative;
