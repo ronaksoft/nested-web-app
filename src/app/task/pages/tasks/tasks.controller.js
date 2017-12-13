@@ -29,6 +29,7 @@
     vm.editTask = editTask;
     vm.acceptTask = acceptTask;
     vm.declineTask = declineTask;
+    vm.statuses = NST_TASK_STATUS;
     vm.getTaskIcon = NstSvcTaskUtility.getTaskIcon;
 
     vm.overDueTasks = [];

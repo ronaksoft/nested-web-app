@@ -1,0 +1,41 @@
+<div class="bg-compose" ng-click="ctrlFilter.backDropClick();" reposition-bg></div>
+<div class="task-filter">
+    <h2><translate>Create Custom Filter</translate></h2>
+    <div class="task-filter-inner">
+        <div class="filter-name">
+            <label for="filterName"><translate>Filter Name</translate></label>
+            <input type="text" id="filterName">
+            <p>Choose a name according to your Filtering items, it will helps you to find them easer</p>
+        </div>
+        <div class="filter-conditions">
+            <label><translate>Conditions</translate></label>
+            <div class="condition-row">
+                <div class="col1">
+                    <select name="gender" class="form-control condition-select" required
+                        ng-options="item.key as item.title for item in ctrlFilter.conditions"></select>   
+                </div>                 
+                <div class="col1">
+                    <select name="gender" class="form-control condition-select" required
+                        ng-options="item.key as item.title for item in ctrlFilter.conditions"></select>   
+                </div>                 
+                <div class="col2">
+                    <!-- <select name="gender" class="form-control condition-select" required
+                        ng-options="item.key as item.title for item in ctrlFilter.conditions"></select> -->
+                    <input type="text" class="_fw" placeholder="Type Name or Username"/>
+                </div>
+            </div>
+            <button class="butn butn-green secondary _jcc _df add-condition">
+                <translate>Add New Condition</translate>
+            </button>  
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="butn butn-white secondary _jcc _df">
+            <translate>Discard</translate>
+        </button>
+        <button class="butn butn-green _jcc _df">
+            <translate>Create Filter</translate>
+        </button>                
+    </div>
+</div>
+<img id="apfuwlaoesgtoeukwlao" style="cursor:pointer"  onclick="window.open('https://logo.samandehi.ir/Verify.aspx?id=54084&p=dshwaodsobpdmcsiaods',  'Popup','toolbar=no, scrollbars=no, location=no, statusbar=no,  menubar=no, resizable=0, width=450, height=630, top=30')"  alt="logo-samandehi"  src="https://logo.samandehi.ir/logo.aspx?id=54084&p=ujynshwllymaaqgwshwl"/>

@@ -1,0 +1,68 @@
+.task-filter {
+    background: $color-white;
+    box-shadow: 0px 32px 64px $color-solid;
+    border-radius: 6px;
+    h2 {
+        line-height: 28px;
+        height: 72px;
+        padding: 24px 24px 20px;
+    }
+    p {
+        font-size: 13px;
+        opacity: 0.8;
+    }
+    label {
+        font-size: 13px;
+        color: $color-solid;
+        font-weight: bold;
+        margin: 0 0 6px;
+        opacity: 0.8;
+    }
+    .task-filter-inner {
+        padding: 24px 48px 0;
+        .filter-name {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 24px;
+            p {
+                padding: 4px 6px;
+                margin: 0;
+            }
+        }
+        .condition-row {
+            height: 40px;
+            display: flex;
+            margin-bottom: 8px;
+            select {
+                height: 40px;
+                display: flex;
+                flex: none;
+            }
+            input {
+                min-width: 92px;
+            }
+        }
+        .add-condition {
+            width: auto!important;
+            margin-bottom: 16px;
+        }
+    }
+    .condition-select {
+
+    }
+    .modal-footer {
+        padding: 16px;
+        display: flex;
+        justify-content: flex-end;
+    }
+    .col1 {
+        width: 156px;
+        margin-right: 8px;
+    }
+    .col2 {
+        width: 320px;
+    }
+    .butn {
+        height: 40px;
+    }
+}

@@ -1,0 +1,14 @@
+<li class="medium" ng-click="ctrl.editTask(task.id)">
+  <div class="list-li-icon">
+    <task-progress-icon status="'overdue'" progress="0"></task-progress-icon>
+  </div>
+  <div class="list-li-body">
+    <a>
+        <span>{{task.title}}</span>
+      </a>
+  </div>
+  <div class="list-li-extra" data-uib-tooltip-template="'task-date-time.html'" data-tooltip-append-to-body="false" data-tooltip-placement="{{$root._direction == 'rtl' ? 'top-left' : 'top-right'}}">
+    <span ng-if="task.dueDate !== undefined && !task.hasDueTime">{{task.dueDate | leftDate | localize}}</span>
+    <span ng-if="task.dueDate !== undefined && task.hasDueTime">{{task.dueDate | leftDate : 'time' | localize}}</span>
+  </div>
+</li>

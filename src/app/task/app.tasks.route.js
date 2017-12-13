@@ -75,7 +75,7 @@
       onEnter: ['$rootScope', '$uibModal', function ($rootScope, $uibModal) {
         $uibModal.open({
           animation: false,
-          size: 'edit-task',
+          size: 'task modal-edit-task',
           templateUrl: 'app/task/pages/edit-task/edit-task.html',
           controller: 'EditTaskController',
           controllerAs: 'ctrlEditTask',
