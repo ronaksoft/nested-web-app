@@ -154,18 +154,18 @@
             </p>
           </div>
           <div class="list-li-extra">
-            <div ng-if="taask.description.length > 0" data-tooltip-placement="{{$root._direction == 'rtl' ? 'top-left' : 'top-right'}}"
-              data-uib-tooltip="'task-description.html'" data-tooltip-append-to-body="false" class="task-detail-item">
+            <div ng-if="task.description.length > 0" data-tooltip-placement="{{$root._direction == 'rtl' ? 'top-left' : 'top-right'}}"
+              data-uib-tooltip-template="'task-description.html'" data-tooltip-append-to-body="true" class="task-detail-item">
               <svg class="_16svg _df" class="task-detail-item">
                 <use xlink:href="/assets/icons/nst-icn16.svg#petition"></use>
               </svg>
               <span></span>
             </div>
-            <div ng-if="taask.todos.length > 0" class="task-detail-item">
+            <div ng-if="task.todos.length > 0" class="task-detail-item">
               <svg class="_16svg _df">
                 <use xlink:href="/assets/icons/nst-icn16.svg#bullet-list"></use>
               </svg>
-              <span>{{taask.todos.length}}</span>
+              <span>{{task.todos.length}}</span>
             </div>
             <div ng-if="task.counters.attachments > 0" class="task-detail-item">
               <svg class="_16svg _df">
@@ -173,13 +173,15 @@
               </svg>
               <span>{{task.counters.attachments}}</span>
             </div>
-            <div ng-if="task.counters.watchers > 0" class="task-detail-item">
+            <div ng-if="task.counters.watchers > 0" class="task-detail-item" data-tooltip-placement="{{$root._direction == 'rtl' ? 'top-left' : 'top-right'}}"
+                data-uib-tooltip-template="'task-watchers.html'" data-tooltip-append-to-body="true">
               <svg class="_16svg _df">
                 <use xlink:href="/assets/icons/nst-icn16.svg#person"></use>
               </svg>
               <span>{{task.counters.watchers}}</span>
             </div>
-            <div ng-if="task.counters.labels > 0" class="task-detail-item">
+            <div ng-if="task.counters.labels > 0" class="task-detail-item" data-tooltip-placement="{{$root._direction == 'rtl' ? 'top-left' : 'top-right'}}"
+                data-uib-tooltip-template="'task-labels.html'" data-tooltip-append-to-body="true">
               <svg class="_16svg _df">
                 <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
               </svg>
@@ -229,5 +231,17 @@
 <script type="text/ng-template" id="task-description.html">
   <span>
     {{task.description}}
+  </span>
+</script>
+
+<script type="text/ng-template" id="task-watchers.html">
+  <span ng-repeat="watcher in task.watchers">
+    {{watcher.fullName}}</br>
+  </span>
+</script>
+
+<script type="text/ng-template" id="task-labels.html">
+  <span ng-repeat="label in task.labels">
+    {{label.title}}</br>
   </span>
 </script>

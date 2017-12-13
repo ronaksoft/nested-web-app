@@ -9,7 +9,15 @@
         </div>
         <div class="filter-conditions">
             <label><translate>Conditions</translate></label>
-            <div class="condition-row">
+            <div class="_pr" ng-repeat="item in ctrlFilter.items">
+                <div class="remove-row force" ng-click="ctrlFilter.removeRow($index)">
+                    <svg class="_16svg">
+                    <use xlink:href="/assets/icons/nst-icn16.svg#bin"></use>
+                    </svg>
+                </div>
+                <condition-item  model="item" index="$index"></condition-item>
+            </div>
+            <!-- <div class="condition-row">
                 <div class="col1">
                     <select name="gender" class="form-control condition-select" required
                         ng-options="item.key as item.title for item in ctrlFilter.conditions"></select>   
@@ -19,12 +27,10 @@
                         ng-options="item.key as item.title for item in ctrlFilter.conditions"></select>   
                 </div>                 
                 <div class="col2">
-                    <!-- <select name="gender" class="form-control condition-select" required
-                        ng-options="item.key as item.title for item in ctrlFilter.conditions"></select> -->
                     <input type="text" class="_fw" placeholder="Type Name or Username"/>
                 </div>
-            </div>
-            <button class="butn butn-green secondary _jcc _df add-condition">
+            </div> -->
+            <button class="butn butn-green secondary _jcc _df add-condition" ng-click="ctrlFilter.addRow();">
                 <translate>Add New Condition</translate>
             </button>  
         </div>

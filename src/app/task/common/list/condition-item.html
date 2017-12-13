@@ -1,0 +1,15 @@
+<div class="condition-row">
+  <div class="col1">
+    <select name="gender" ng-model="model.condition" class="form-control condition-select" required
+      ng-options="item.key as item.title for item in conditions"></select>
+  </div>
+  <div class="col1">
+    <select name="gender" ng-model="model.equivalent" class="form-control condition-select" required
+      ng-options="item.key as item.title for item in equivalents"></select>
+  </div>
+  <div class="col2">
+    <!-- <select name="gender" class="form-control condition-select" required
+            ng-options="item.key as item.title for item in ctrlFilter.conditions"></select> -->
+    <input type="text" ng-model="model.value" class="_fw" placeholder="Type Name or Username" />
+  </div>
+</div>

@@ -31,6 +31,7 @@
         }
         .condition-row {
             height: 40px;
+            position: relative;
             display: flex;
             margin-bottom: 8px;
             select {
@@ -45,6 +46,14 @@
         .add-condition {
             width: auto!important;
             margin-bottom: 16px;
+        }
+        .remove-row {
+            position: absolute;
+            width: 32px;
+            left: -40px;
+            top: 4px;
+            @include align-center();
+            height: 32px;
         }
     }
     .condition-select {
