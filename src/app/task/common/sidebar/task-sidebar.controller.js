@@ -19,6 +19,7 @@
       $rootScope.$broadcast('open-create-task', id);
     }
 
+    // TODO : consider callback and updating sidebar items
     function openCustomFilterModal() {
       $uibModal.open({
         animation: false,

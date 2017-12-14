@@ -118,12 +118,12 @@
               <span>{{task.title}}</span>
             </a>
             <p ng-if="task.status === ctrl.statuses.ASSIGNED && ctrl.isAssignedToMePage">
-              <translate>from</translate> <span user-detail="task.assignor">{{task.assignor.fullName}}</span>
+              <translate>from</translate> <b><span user-detail="task.assignor">{{task.assignor.fullName}}</span></b>
               <span ng-if="task.dueDate !== undefined && !task.hasDueTime"> • {{task.dueDate | leftDate | localize}}</span>
               <span ng-if="task.dueDate !== undefined && task.hasDueTime"> • {{task.dueDate | leftDate : 'time' | localize}}</span>
             </p>
             <p ng-if="task.status === ctrl.statuses.ASSIGNED && ctrl.isCreatedByMePage">
-              <translate>to</translate> <span user-detail="task.assignee">{{task.assignee.fullName}}</span>
+              <translate>to</translate> <b><span user-detail="task.assignee">{{task.assignee.fullName}}</span></b>
               <span ng-if="task.dueDate !== undefined && !task.hasDueTime"> • {{task.dueDate | leftDate | localize}}</span>
               <span ng-if="task.dueDate !== undefined && task.hasDueTime"> • {{task.dueDate | leftDate : 'time' | localize}}</span>
             </p>
@@ -150,7 +150,8 @@
               <translate>waiting for candidates response.</translate>
             </p>
             <p ng-if="task.status === ctrl.statuses.COMPLETED">
-              <translate>Completed on {{task.dueDate | date : 'short' | localize}} by {{task.assignee.fullName}}</translate>
+              <!-- TODO : Time of finish -->
+              <translate>Completed on {{task.dueDate | date : 'short' | localize}} by</translate> <b>{{task.assignee.fullName}}</b>
             </p>
           </div>
           <div class="list-li-extra">

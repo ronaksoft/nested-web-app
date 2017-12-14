@@ -14,7 +14,9 @@
       scope: {
         model: '='
       },
-      link: function ($scope) {
+      link: function ($scope, $el) {
+        $scope.statusFilter = false;
+        $scope.timeFilter = false;
         var eq1 = [{
             key: 'is',
             title: NstSvcTranslation.get("is")
@@ -36,6 +38,38 @@
           {
             key: 'isNext',
             title: NstSvcTranslation.get("is next")
+          }
+        ]
+        $scope.timeOptions = [
+          {
+            key: 'day',
+            title: NstSvcTranslation.get("Day")
+          },
+          {
+            key: 'week',
+            title: NstSvcTranslation.get("Week")
+          },
+          {
+            key: 'month',
+            title: NstSvcTranslation.get("Month")
+          },
+          {
+            key: 'year',
+            title: NstSvcTranslation.get("Year")
+          }
+        ]
+        $scope.statusOptions = [
+          {
+            key: 'progress',
+            title: NstSvcTranslation.get("In Progress")
+          },
+          {
+            key: 'hold',
+            title: NstSvcTranslation.get("Hold")
+          },
+          {
+            key: 'overdue',
+            title: NstSvcTranslation.get("Over Due")
           }
         ]
         $scope.equivalents = eq1;
@@ -65,22 +99,38 @@
           },
         ];
         $scope.$watch('model.condition', function (condition) {
-          updateEq(condition)
+          conditionChanged(condition);
+          var input = $el.find('input');
+          if (input) {
+            input.focus()
+          }
         })
 
-        function updateEq(condition) {
-          if (
-            condition === $scope.conditions[0].key ||
-            condition === $scope.conditions[1].key ||
-            condition === $scope.conditions[2].key ||
-            condition === $scope.conditions[4].key
-          ) {
-            $scope.equivalents = eq1;
-          } else if (condition === $scope.conditions[3].key) {
-            $scope.equivalents = eq2;
-          } else if (condition === $scope.conditions[5].key) {
-            $scope.equivalents = eq3;
+        function conditionChanged(condition) {
+          switch (condition) {
+            case $scope.conditions[3].key:
+              $scope.equivalents = eq2;
+              $scope.statusFilter = true;
+              $scope.timeFilter = false;
+              break;
+            case $scope.conditions[5].key:
+              $scope.equivalents = eq3;
+              $scope.timeFilter = true;
+              $scope.statusFilter = false;
+              break;
+            case $scope.conditions[0].key:
+            case $scope.conditions[1].key:
+            case $scope.conditions[2].key:
+            case $scope.conditions[4].key:
+            default:
+              $scope.equivalents = eq1;
+              $scope.timeFilter = false;
+              $scope.statusFilter = false;
+              break;
           }
+          $scope.model.status = $scope.statusOptions[0].key
+          $scope.model.time = $scope.timeOptions[0].key
+          $scope.model.equivalent = $scope.equivalents[0].key;
         }
       }
     };

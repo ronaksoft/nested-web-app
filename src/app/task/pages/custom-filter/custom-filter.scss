@@ -36,8 +36,6 @@
             margin-bottom: 8px;
             select {
                 height: 40px;
-                display: flex;
-                flex: none;
             }
             input {
                 min-width: 92px;
@@ -70,6 +68,16 @@
     }
     .col2 {
         width: 320px;
+        display: flex;
+        input,select {
+            display: flex;
+            flex: 1;
+            width: auto;
+            margin-right: 8px;
+        }
+        > *:last-child {
+            margin-right: 0;
+        }
     }
     .butn {
         height: 40px;

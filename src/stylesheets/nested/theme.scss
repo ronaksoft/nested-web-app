@@ -62,6 +62,9 @@ h5.list-head {
     &:last-of-type::after {
       display: none;
     }
+    &:hover {
+      background-color: $color-bg-hover-item;
+    }
   }
   .list-li-icon {
     width: 32px;
@@ -90,7 +93,6 @@ h5.list-head {
       margin: 0;
       opacity: .8;
       b {
-        font-weight: normal;
         color: $color-solid;
       }
     }

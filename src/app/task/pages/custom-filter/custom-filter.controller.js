@@ -11,22 +11,27 @@
     vm.backDropClick = backDropClick;
     vm.addRow = addRow;
     vm.removeRow = removeRow;
-
-
-    vm.items = [{
+    var sampleModel = {
       condition: 'assigne',
       equivalent: 'is',
       value: ''
-    }];
+    }
+
+    vm.items = [];
+    addRow();
+    // $scope.$watch(function (){
+    //     return vm.items;
+    // }, function(n){
+    //     console.log(n)
+    // })
 
     function backDropClick() {
       $scope.$dismiss();
     }
 
     function addRow() {
-      vm.items.push({
-        conditions: 'assigne'
-      });
+      var clone = _.clone(sampleModel);
+      vm.items.push(clone);
     }
 
     function removeRow(i) {
