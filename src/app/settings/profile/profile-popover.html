@@ -26,7 +26,6 @@
 <a class="_df list-items _aic" ng-click="ctrlTopBar.closeProfile()" ui-sref="app.place-compose({ placeId: 'feedback@nested.me'})" ui-sref-opts="{notify: false}">
   <translate>Send a feedback</translate>
 </a>
-{{ctrlTopBar.user | json}}
 <a ng-if="ctrlTopBar.user.authority.admin" class="_df list-items _aic" target="_blank" href="{{ctrlTopBar.adminArea}}">
   <translate>Admin area</translate>
 </a>
