@@ -26,10 +26,12 @@
       searchPrefixLocale.user = NST_SEARCH_QUERY_PREFIX.NEW_USER;
       searchPrefixLocale.place = NST_SEARCH_QUERY_PREFIX.NEW_PLACE;
       searchPrefixLocale.label = NST_SEARCH_QUERY_PREFIX.NEW_LABEL;
+      searchPrefixLocale.to = NST_SEARCH_QUERY_PREFIX.NEW_TO;
     } else {
       searchPrefixLocale.user = NST_SEARCH_QUERY_PREFIX.NEW_USER_FA;
       searchPrefixLocale.place = NST_SEARCH_QUERY_PREFIX.NEW_PLACE_FA;
       searchPrefixLocale.label = NST_SEARCH_QUERY_PREFIX.NEW_LABEL_FA;
+      searchPrefixLocale.to = NST_SEARCH_QUERY_PREFIX.NEW_TO_FA;
     }
 
     SearchQuery.prototype = new NstObject();
@@ -39,6 +41,7 @@
       this.places = [];
       this.users = [];
       this.labels = [];
+      this.tos = [];
       this.otherKeywords = [];
       this.before = null;
       this.after = null;
@@ -47,7 +50,8 @@
         places: [],
         users: [],
         labels: [],
-        keywords: []
+        keywords: [],
+        tos: []
       };
 
       this.prefixes = {
