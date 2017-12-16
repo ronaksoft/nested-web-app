@@ -113,7 +113,8 @@
     </section>
     <section class="init-from-suggests" ng-if="ctrlTopBar.suggestion.accounts.length > 0 && ctrlTopBar.defaultSearch == true">
       <h5 class="list-head">
-        <translate>Posts from:</translate>
+        <span ng-if="!ctrlTopBar.isTask()" translate-inner>Posts from:</span>
+        <span ng-if="ctrlTopBar.isTask()" translate-inner>Tasks from:</span>
       </h5>
       <ul class="suggest-list horizental">
         <li ng-repeat="account in ctrlTopBar.suggestion.accounts | limitTo: 6" ng-click="ctrlTopBar.addChip(account.id, 'account');">

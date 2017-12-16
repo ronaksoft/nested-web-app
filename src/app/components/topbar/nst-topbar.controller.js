@@ -35,6 +35,7 @@
       vm.toggleAdvancedSearch = toggleAdvancedSearch;
       vm.empty = empty;
       vm.isEmpty = isEmpty;
+      vm.isTask = isTask;
       vm.query = '';
       vm.newQuery = '';
       vm.excludedQuery = '';
