@@ -48,6 +48,7 @@
     TaskFactory.prototype.set = set;
     TaskFactory.prototype.get = get;
     TaskFactory.prototype.getMany = getMany;
+    TaskFactory.prototype.search = search;
 
     function parseTask(data) {
       var factory = this;
@@ -585,6 +586,29 @@
       }
 
       return defer.promise;
+    }
+
+    function search(params, limit, skip) {
+      var factory = this;
+      var parameters = {
+        assigner_id: params.assignors,
+        assignee_id: params.assignees,
+        label_title: params.labels,
+        keyword: params.keywords,
+        has_attachment: params.hasAttachment,
+        limit: limit || 8,
+        skip: skip || 0
+      };
+      var defer = $q.defer();
+      return factory.sentinel.watch(function () {
+        NstSvcServer.request('search/tasks', parameters).then(function (result) {
+          console.log(result);
+          defer.resolve(_.map(result.tasks, function(task) {
+            return factory.parseTask(task);
+          }));
+        }).catch(defer.reject);
+        return defer.promise;
+      }, 'searchTask');
     }
 
     var factory = new TaskFactory();
