@@ -85,6 +85,21 @@
         });
       }]
     })
+    .state('app.task.search', {
+      url: '/search/:search/:advanced',
+      params: {
+        search: NST_DEFAULT.STATE_PARAM,
+        advanced: 'false'
+      },
+      reloadOnSearch: false,
+      templateUrl: 'app/task/pages/search/search.html',
+      controller: 'SearchController',
+      controllerAs: 'ctlSearch',
+      options: {
+        group: 'task',
+        primary: true
+      }
+    })
 
   }
 
