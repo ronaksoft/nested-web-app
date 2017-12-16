@@ -155,6 +155,21 @@
         </li>
       </ul>
     </section>
+    <section class="from-suggests" ng-if="ctrlTopBar.suggestion.tos.length > 0 && ctrlTopBar.defaultSearch == false">
+      <h5 class="list-head">
+        <translate>to:</translate>
+      </h5>
+      <ul class="suggest-list">
+        <li ng-repeat="to in ctrlTopBar.suggestion.tos | limitTo: ctrlTopBar.getLimit('tos')" ng-class="{'selected': to._selected}" ng-click="ctrlTopBar.addChip(to.id, 'to');">
+          <div class="profile-user-avatar-32 icon icon-circ">
+            <img initial-avatar="sample" name="sample" picture="{{to | avatar : 'x32'}}" data-width="32" data-height="32"
+                 data-radius="30" class="account-initials-32 _df" data-word-count="2" data-font-size="16" />
+          </div>
+          <a auto-dir="account.firstName" class="_txe title" data-ng-bind-html="to.firstName | highlight: ctrlTopBar.excludedQuery"></a>
+          <span dir="ltr" data-ng-bind-html="to.id | highlight: ctrlTopBar.excludedQuery"></span>
+        </li>
+      </ul>
+    </section>
     <section class="label-suggests" ng-if="ctrlTopBar.suggestion.labels.length > 0">
       <h5 class="list-head" ng-if="ctrlTopBar.defaultSearch == true">
         <translate>Has Label:</translate>
@@ -179,8 +194,10 @@
     <input ng-model="ctrlTopBar.advancedSearch.keywords" id="advanced-search-keyword" class="advanced-search-text-input" type="text">
     <label for="advanced-search-from"><translate>from:</translate></label>
     <input nst-mention-user ng-model="ctrlTopBar.advancedSearch.users" id="advanced-search-from" class="advanced-search-text-input" type="text">
-    <label for="advanced-search-in"><translate>in:</translate></label>
-    <input nst-mention-place ng-model="ctrlTopBar.advancedSearch.places" id="advanced-search-in" class="advanced-search-text-input" type="text">
+    <label for="advanced-search-in" ng-if="!ctrlTopBar.isTask()"><translate>in:</translate></label>
+    <input nst-mention-place ng-model="ctrlTopBar.advancedSearch.places" id="advanced-search-in" class="advanced-search-text-input" type="text" ng-if="!ctrlTopBar.isTask()">
+    <label for="advanced-search-to" ng-if="ctrlTopBar.isTask()"><translate>to:</translate></label>
+    <input nst-mention-place ng-model="ctrlTopBar.advancedSearch.tos" id="advanced-search-to" class="advanced-search-text-input" type="text" ng-if="ctrlTopBar.isTask()">
     <label for="advanced-search-subject"><translate>subject:</translate></label>
     <input ng-model="ctrlTopBar.advancedSearch.subject" id="advanced-search-subject" class="advanced-search-text-input" type="text">
     <label for="advanced-search-label"><translate>label:</translate></label>

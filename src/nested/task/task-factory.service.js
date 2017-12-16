@@ -602,7 +602,6 @@
       var defer = $q.defer();
       return factory.sentinel.watch(function () {
         NstSvcServer.request('search/tasks', parameters).then(function (result) {
-          console.log(result);
           defer.resolve(_.map(result.tasks, function(task) {
             return factory.parseTask(task);
           }));
