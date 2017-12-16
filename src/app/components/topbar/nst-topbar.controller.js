@@ -134,6 +134,10 @@
         // });
       })();
 
+      function isTask() {
+        return ($state.current.options && $state.current.options.group === 'task');
+      }
+
       function initQuery(init) {
         if (init) {
           if (vm.isSearch()) {
@@ -232,7 +236,7 @@
       }
 
       function isSearch() {
-        return $state.current.name === 'app.search';
+        return $state.current.name === 'app.search' || $state.current.name === 'app.task.search';
       }
 
       function toggleSearchModal(force) {
@@ -360,7 +364,11 @@
               break;
           }
         }
-        $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toString()), advanced: 'false'});
+        if (isTask()) {
+          $state.go('app.task.search', {search: NstSearchQuery.encode(searchQuery.toString()), advanced: 'false'});
+        } else {
+          $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toString()), advanced: 'false'});
+        }
         vm.toggleSearchModal(false);
         vm.selectedItem = -1
       }
@@ -369,7 +377,11 @@
         if (lastQuery === '') {
           searchQuery.setQuery(vm.query, '');
           searchQuery.removeLastItem();
-          $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toString()), advanced: 'false'});
+          if (isTask()) {
+            $state.go('app.task.search', {search: NstSearchQuery.encode(searchQuery.toString()), advanced: 'false'});
+          } else {
+            $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toString()), advanced: 'false'});
+          }
           vm.toggleSearchModal(false);
         }
       }
@@ -626,7 +638,11 @@
             searchQuery.addLabel(id);
             break;
         }
-        $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toString()), advanced: 'false'});
+        if (isTask()) {
+          $state.go('app.task.search', {search: NstSearchQuery.encode(searchQuery.toString()), advanced: 'false'});
+        } else {
+          $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toString()), advanced: 'false'});
+        }
         vm.toggleSearchModal(false);
         vm.queryType = 'other';
       }
@@ -651,7 +667,11 @@
             searchQuery.removeKeyword(name);
             break;
         }
-        $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toString()), advanced: 'false'});
+        if (isTask()) {
+          $state.go('app.task.search', {search: NstSearchQuery.encode(searchQuery.toString()), advanced: 'false'});
+        } else {
+          $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toString()), advanced: 'false'});
+        }
         if (vm.searchModalOpen) {
           vm.toggleSearchModal(false);
         }
@@ -663,7 +683,11 @@
         } else {
           searchQuery.setQuery(query);
         }
-        $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toString()), advanced: 'false'});
+        if (isTask()) {
+          $state.go('app.task.search', {search: NstSearchQuery.encode(searchQuery.toString()), advanced: 'false'});
+        } else {
+          $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toString()), advanced: 'false'});
+        }
         vm.toggleSearchModal(false);
       }
 
@@ -681,8 +705,11 @@
         } catch (e) {
           searchQuery.setWithin('-1');
         }
-
-        $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toAdvancedString()), advanced: 'true'});
+        if (isTask()) {
+          $state.go('app.task.search', {search: NstSearchQuery.encode(searchQuery.toAdvancedString()), advanced: 'true'});
+        } else {
+          $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toAdvancedString()), advanced: 'true'});
+        }
         vm.toggleSearchModal(false);
       }
 
