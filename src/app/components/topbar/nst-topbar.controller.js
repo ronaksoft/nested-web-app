@@ -125,8 +125,9 @@
           isSearch();
           checkLayouts();
         });
-        NstSvcUserFactory.getCurrent().then(function(user) {
+        NstSvcUserFactory.getCurrent(true).then(function(user) {
           vm.user = user;
+          console.log(user);
           if (user.authority.labelEditor) {
             requestLabelCounter();
           }
