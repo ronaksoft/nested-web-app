@@ -29,7 +29,7 @@
    * @param {any} NstSvcTranslation
    */
   function LoginController($window, $state, $stateParams, md5, $location,
-                           NST_DEFAULT, NST_SRV_ERROR, _,
+                           NST_DEFAULT, NST_SRV_ERROR, _, NstHttp,
                            NstSvcAuth, NstSvcTranslation, NstSvcGlobalCache, NstSvcRequestCacheFactory, NstSvcPostDraft, NstSvcI18n) {
     var vm = this;
 
@@ -46,6 +46,7 @@
       text: ''
     };
     vm.progress = false;
+    vm.activeRegister = false;
 
     /*****************************
      ***** Initialization ****
@@ -56,6 +57,15 @@
       if (NstSvcAuth.isInAuthorization()) {
         $state.go(NST_DEFAULT.STATE);
       }
+      vm.loadConstantsProgress = true;
+      new NstHttp('', {
+        cmd: 'system/get_int_constants',
+        data: {}
+      }).post().then(function(result) {
+        vm.activeRegister = result.data.register_mode === 1;
+      }).finally(function() {
+        vm.loadConstantsProgress = false;
+      });
     })();
 
     /*****************************
