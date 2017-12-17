@@ -1,0 +1,17 @@
+<div class="condition-row">
+  <div class="col1">
+    <select name="condition" ng-model="model.condition" class="form-control condition-select" required
+      ng-options="item.key as item.title for item in conditions"></select>
+  </div>
+  <div class="col1">
+    <select name="equivalent" ng-model="model.equivalent" class="form-control condition-select" required
+      ng-options="item.key as item.title for item in equivalents"></select>
+  </div>
+  <div class="col2">
+    <input ng-if="!statusFilter" type="text" ng-model="model.value" class="_fw" placeholder="Type Name or Username" />
+    <select ng-if="timeFilter" name="time" ng-model="model.time" class="form-control condition-select" required
+            ng-options="item.key as item.title for item in timeOptions"></select>
+    <select ng-if="statusFilter" name="status" ng-model="model.status" class="form-control condition-select" required
+            ng-options="item.key as item.title for item in statusOptions"></select>
+  </div>
+</div>

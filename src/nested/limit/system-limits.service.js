@@ -23,7 +23,7 @@
       if (that.loaded) {
         deferred.resolve(that.limits);
       } else {
-        NstSvcServer.request('admin/get_int_constants', {}).then(function (result) {
+        NstSvcServer.request('system/get_int_constants', {}).then(function (result) {
           that.limits = result;
           deferred.resolve(that.limits);
         }).catch(function (error) {

@@ -5,9 +5,8 @@
     .module('ronak.nested.web.notification')
     .controller('ModalNotificationsController', ModalNotificationsController);
 
-  function ModalNotificationsController(_, $q, $state, $scope, $rootScope,
-                                        NST_NOTIFICATION_TYPE, NST_NOTIFICATION_EVENT,
-                                        NstSvcNotificationFactory) {
+  function ModalNotificationsController(_, $q, $state, $scope, $rootScope, $timeout,
+                                        NST_NOTIFICATION_TYPE, NstSvcNotificationFactory, NST_NOTIFICATION_EVENT) {
     var vm = this;
     vm.NST_NOTIFICATION_TYPE = NST_NOTIFICATION_TYPE;
 
@@ -15,7 +14,7 @@
     vm.markAllSeen = markAllSeen;
     vm.onClickMention = onClickMention;
     vm.error = null;
-    vm.selectedView = $state.current.options.group === 'task'? 2: 1;
+    vm.selectedView = $state.current.options.group === 'task' ? 2 : 1;
     vm.taskCounts = 0;
     vm.postCounts = 0;
 
@@ -56,6 +55,9 @@
           return openPlace(notification.place.id);
         case NST_NOTIFICATION_TYPE.NEW_SESSION:
           return;
+        case NST_NOTIFICATION_TYPE.TASK_ADD_TO_CANDIDATES:
+          $event.preventDefault();
+          return;
         case NST_NOTIFICATION_TYPE.TASK_MENTION:
         case NST_NOTIFICATION_TYPE.TASK_COMMENT:
         case NST_NOTIFICATION_TYPE.TASK_ASSIGNEE_CHANGED:
@@ -72,8 +74,6 @@
         case NST_NOTIFICATION_TYPE.TASK_IN_PROGRESS:
           $event.preventDefault();
           return viewTask(notification.task.id);
-        case NST_NOTIFICATION_TYPE.TASK_ADD_TO_CANDIDATES:
-          return;
       }
     }
 
@@ -83,25 +83,49 @@
       });
     }
 
+    function gotoFeedBefore(callback) {
+      if (!$state.current.options || ($state.current.options && ($state.current.options.group === 'task' || $state.current.options.group === 'settings'))) {
+        $state.go('app.messages-favorites');
+        $timeout(callback, 1000);
+      } else {
+        callback();
+      }
+    }
+
     function viewPost(id) {
-      $state.go('app.message', {
-        postId: id
-      }, {
-        notify: false
+      gotoFeedBefore(function () {
+        $state.go('app.message', {
+          postId: id
+        }, {
+          notify: false
+        });
       });
     }
 
     function openPlace(id) {
-      $state.go('app.place-messages', {
-        placeId: id
+      gotoFeedBefore(function () {
+        $state.go('app.place-messages', {
+          placeId: id
+        });
       });
     }
 
+    function gotoTaskGlanceBefore(callback) {
+      if ($state.current.options && $state.current.options.group !== 'task') {
+        $state.go('app.task.glance');
+        $timeout(callback, 1000);
+      } else {
+        callback();
+      }
+    }
+
     function viewTask(id) {
-      $state.go('app.task.edit', {
-        taskId: id
-      }, {
-        notify: false
+      gotoTaskGlanceBefore(function () {
+        $state.go('app.task.edit', {
+          taskId: id
+        }, {
+          notify: false
+        });
       });
     }
 

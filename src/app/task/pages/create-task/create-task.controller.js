@@ -178,6 +178,7 @@
         }
         if (vm.model.dueDate !== null) {
           task.dueDate = vm.model.dueDate*1000;
+          task.hasDueTime = vm.model.hasDueTime;
         }
         if (_.trim(vm.model.description).length > 0) {
           task.description = vm.model.description;

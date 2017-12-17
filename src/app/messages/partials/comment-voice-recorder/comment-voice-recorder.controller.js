@@ -14,7 +14,7 @@
     .module('ronak.nested.web.message')
     .controller('CommentVoiceRecorderController', CommentVoiceRecorderController);
 
-  function CommentVoiceRecorderController($scope, $interval, $rootScope, $timeout, SvcRecorder, toastr, NstSvcStore, NstSvcAuth, NST_STORE_UPLOAD_TYPE) {
+  function CommentVoiceRecorderController($scope, $interval, $rootScope, $timeout, SvcRecorder, toastr, NstSvcStore, NstSvcAuth, NST_STORE_UPLOAD_TYPE, _) {
 
     var eventReferences = [];
     var vm = this;
@@ -34,7 +34,7 @@
 
     init();
 
-    function logoUploadProgress(event) {
+    function logoUploadProgress(/*event*/) {
       // var logoUploadedRatio = parseInt((event.loaded / event.total) * 75);
       // console.log(event);
     }
@@ -95,7 +95,7 @@
       if (eqo > 100) {
         eqo = 100;
       }
-      var radius = (eqo/100) * (eqoSetting.max - eqoSetting.min) + eqoSetting.min;
+      var radius = (eqo / 100) * (eqoSetting.max - eqoSetting.min) + eqoSetting.min;
       return 'height:' + radius + 'px;width:' + radius + 'px';
     }
 

@@ -204,7 +204,7 @@
       return activity;
     }
 
-    function getActivities(settings, cacheHandler) {
+    function getActivities(settings/*, cacheHandler*/) {
       return factory.sentinel.watch(function () {
         var deferred = $q.defer();
 
@@ -216,7 +216,7 @@
           skip: settings.skip || 0,
           before: settings.before,
           after: settings.after
-        }, function (cachedResponse) {
+        }, function (/*cachedResponse*/) {
           // if (_.isFunction(cacheHandler) && cachedResponse) {
           //   cacheHandler(_.map(cachedResponse.activities, parseActivity));
           // }

@@ -7,7 +7,7 @@
 
     /** @ngInject */
     function MessagesController($rootScope, $stateParams, $state, $scope, $uibModal, _, $timeout,
-      moment, toastr,
+      moment, toastr, SvcScrollSaver,
       NST_MESSAGES_SORT_OPTION, NST_DEFAULT, NST_EVENT_ACTION, NST_PLACE_ACCESS, NST_POST_EVENT,
       NstSvcPostFactory, NstSvcPlaceFactory, NstUtility, NstSvcAuth, NstSvcSync, NstSvcModal,
       NstSvcTranslation, SvcCardCtrlAffix, NstSvcUserFactory, NST_SRV_ERROR) {
@@ -332,6 +332,7 @@
           }
           vm.FIT = false;
           mergePosts(posts);
+          restoreScroll();
         }).catch(function (error) {
           if (error.code === NST_SRV_ERROR.ACCESS_DENIED && error.message && error.message[0] === 'password_change') {
             return;
@@ -778,14 +779,14 @@
           }
         }
 
-        $scope.$watch(function () {
-          return vm.unreadCount
-        }, function () {
-          if (vm.unreadCount === 0) {
-            vm.exitUnseenMode();
-            vm.isUnreadMode = false;
-          }
-        });
+        // $scope.$watch(function () {
+        //   return vm.unreadCount
+        // }, function () {
+        //   if (vm.unreadCount === 0) {
+        //     vm.exitUnseenMode();
+        //     vm.isUnreadMode = false;
+        //   }
+        // });
 
         eventReferences.push($rootScope.$on('reload-counters', function () {
           loadUnreadPostsCount();
@@ -795,7 +796,20 @@
           // console.log(window.scrollY);
         }
 
+        function saveScroll() {
+          if ($state.current.options && $state.current.options.alias === 'savescroll') {
+            SvcScrollSaver.store();
+          }
+        }
+
+        function restoreScroll() {
+          if ($state.current.options && $state.current.options.alias === 'savescroll') {
+            SvcScrollSaver.restore($state.current.url)
+          }
+        }
+
         $scope.$on('$destroy', function () {
+          saveScroll();
           if (CITHandler) {
             $timeout.cancel(CITHandler);
           }

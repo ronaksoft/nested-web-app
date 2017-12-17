@@ -29,8 +29,8 @@
    * @param {any} NstSvcTranslation
    */
   function LoginController($window, $state, $stateParams, md5, $location,
-                           NST_DEFAULT, NST_SRV_ERROR, _,
-                           NstSvcAuth, NstSvcTranslation, NstSvcGlobalCache, NstSvcRequestCacheFactory, NstSvcPostDraft) {
+                           NST_DEFAULT, NST_SRV_ERROR, _, NstHttp,
+                           NstSvcAuth, NstSvcTranslation, NstSvcGlobalCache, NstSvcRequestCacheFactory, NstSvcPostDraft, NstSvcI18n) {
     var vm = this;
 
     /*****************************
@@ -46,6 +46,7 @@
       text: ''
     };
     vm.progress = false;
+    vm.activeRegister = false;
 
     /*****************************
      ***** Initialization ****
@@ -56,6 +57,15 @@
       if (NstSvcAuth.isInAuthorization()) {
         $state.go(NST_DEFAULT.STATE);
       }
+      vm.loadConstantsProgress = true;
+      new NstHttp('', {
+        cmd: 'system/get_int_constants',
+        data: {}
+      }).post().then(function(result) {
+        vm.activeRegister = result.data.register_mode === 1;
+      }).finally(function() {
+        vm.loadConstantsProgress = false;
+      });
     })();
 
     /*****************************
@@ -85,11 +95,26 @@
         NstSvcGlobalCache.flush();
         NstSvcRequestCacheFactory.flush();
         NstSvcPostDraft.reset();
-        if ($stateParams.back) {
-          goToBackUrl();
-        } else {
-          $state.go(NST_DEFAULT.STATE);
-        }
+        // TODO check local and language settings
+        NstSvcI18n.checkSettings().then(function (v) {
+          if (v) {
+            $window.location.reload();
+          } else {
+            if ($stateParams.back) {
+              goToBackUrl();
+            } else {
+              $state.go(NST_DEFAULT.STATE);
+            }
+            vm.progress = false;
+          }
+        }).catch(function () {
+          if ($stateParams.back) {
+            goToBackUrl();
+          } else {
+            $state.go(NST_DEFAULT.STATE);
+          }
+          vm.progress = false;
+        })
 
       }).catch(function (error) {
         vm.password = '';
@@ -105,9 +130,8 @@
           vm.message.text = NstSvcTranslation.get('An error occurred in login. Please try again later');
         }
 
-      }).finally(function () {
         vm.progress = false;
-      });
+      })
     };
 
     /*****************************

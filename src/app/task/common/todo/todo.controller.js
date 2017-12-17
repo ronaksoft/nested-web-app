@@ -14,7 +14,7 @@
     .module('ronak.nested.web.task')
     .controller('TaskTodoController', TaskTodoController);
 
-  function TaskTodoController($scope, _, toastr, NstSvcTranslation) {
+  function TaskTodoController($scope, _) {
     var vm = this;
 
     if (vm.enableCheck === undefined) {

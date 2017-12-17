@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function SearchController($log, _, $stateParams, $state, $scope,
-                            NST_DEFAULT, NstSvcPostFactory,
+                            NST_DEFAULT, NstSvcPostFactory, NstSvcTaskFactory,
                             NstSearchQuery) {
     var vm = this;
     var limit = 8;
@@ -58,10 +58,18 @@
       vm.messages.length = 0;
       var query = new NstSearchQuery(queryString);
       vm.searchParams = query.getSearchParams();
-      $state.go('app.search', getRouteParams(query)).then(function () {
-        skip = 0;
-        searchMessages();
-      });
+      if (!isTask()) {
+        $state.go('app.search', getRouteParams(query)).then(function () {
+          skip = 0;
+          searchMessages();
+        });
+      } else {
+        console.log('hey');
+        $state.go('app.task.search', getRouteParams(query)).then(function () {
+          skip = 0;
+          searchMessages();
+        });
+      }
     }
 
     function getUriQuery() {
@@ -73,10 +81,14 @@
       vm.loadMessageError = false;
       vm.reachedTheEnd = false;
 
-      if (isAdvanced()) {
-        advancedSearch();
+      if (isTask()) {
+        taskSearch(isAdvanced());
       } else {
-        normalSearch();
+        if (isAdvanced()) {
+          advancedSearch();
+        } else {
+          normalSearch();
+        }
       }
     }
 
@@ -138,8 +150,42 @@
       });
     }
 
+    function taskSearch(advanced) {
+      var params = {
+        assignors: vm.searchParams.users.join(','),
+        assignees: vm.searchParams.tos.join(','),
+        labels: vm.searchParams.labels.join(','),
+        keywords: vm.searchParams.keywords.join(' ')
+      };
+      if (advanced === true) {
+        params = _.merge(params, {
+          hasAttachment: vm.searchParams.hasAttachment,
+        });
+      }
+      NstSvcTaskFactory.search(
+        params,
+        limit,
+        skip).then(function (posts) {
+        _.forEach(posts, function (message) {
+          if (!_.some(vm.messages, {id: message.id})) {
+            vm.messages.push(message);
+          }
+        });
+        vm.noResult = vm.messages.length === 0;
+        vm.reachedTheEnd = vm.messages.length > 0 && posts.length < limit;
+        vm.loading = false;
+      }).catch(function () {
+        vm.loadMessageError = true;
+        vm.loading = false;
+      });
+    }
+
     function isAdvanced() {
       return ($stateParams.advanced === 'true');
+    }
+
+    function isTask() {
+      return ($state.current.options && $state.current.options.group === 'task');
     }
 
     function loadMore() {

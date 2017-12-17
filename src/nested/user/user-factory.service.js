@@ -302,6 +302,7 @@
       }
 
       userAuthority.labelEditor = data.label_editor;
+      userAuthority.admin = data.admin;
 
       return userAuthority;
     };

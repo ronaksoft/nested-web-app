@@ -13,13 +13,13 @@
       width: 18px;
       transform: rotate(-90deg);
       border-radius: 50%;
-    }
-    circle {
-      fill: transparent;
-      stroke: #0079F2;
-      stroke-width: 18px;
-      stroke-dasharray: 0 60;
-      transition: stroke-dasharray .3s ease;
+      circle {
+        fill: transparent;
+        stroke: #0079F2;
+        stroke-width: 18px;
+        stroke-dasharray: 0 60;
+        transition: stroke-dasharray .3s ease;
+      }
     }
   }
 }

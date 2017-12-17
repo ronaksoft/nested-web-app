@@ -16,6 +16,7 @@
     var ABSENT_PLACE_PICTURE_URL = '/assets/icons/absents_place.svg';
     var myPlaceIds = [];
     vm.isLoading = true;
+    vm.goToPlace = goToPlace;
     vm.showLoading = showLoading;
     vm.toggleSelectPlace = toggleSelectPlace;
     vm.unselectAll = unselectAll;
@@ -303,13 +304,13 @@
       $event.preventDefault();
     }
 
-    /**
-     * return the current place id
-     * @returns string
-     */
-    function getPlaceId() {
-      return vm.selectedPlaceId;
-    }
+    // /**
+    //  * return the current place id
+    //  * @returns string
+    //  */
+    // function getPlaceId() {
+    //   return vm.selectedPlaceId;
+    // }
 
 
     /**
@@ -386,6 +387,15 @@
       $state.go('app.place-create', {}, {
         notify: false
       });
+    }
+
+    /**
+     * Represents the create place modal modal also shows a
+     * warning modal if the user reached the create place limit
+     */
+    function goToPlace(placeId) {
+      $scope.$dismiss();
+      $state.go('app.place-messages', {placeId: placeId});
     }
 
 
@@ -483,7 +493,7 @@
       });
 
       modal.result.then();
-      angular.forEach(vm.selectedPlaces, function (id) {})
+      // angular.forEach(vm.selectedPlaces, function (id) {})
 
     }
 
@@ -638,7 +648,7 @@
      */
     function remove(id) {
       var deferred = $q.defer();
-    
+
       NstSvcPlaceFactory.remove(id).then(function () {
         toastr.success(NstUtility.string.format(NstSvcTranslation.get("Place {0} was removed successfully."), id));
         loadPlacesDebounce();

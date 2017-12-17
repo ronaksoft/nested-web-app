@@ -7,34 +7,50 @@
         <svg class="_16svg _df _scl2">
           <use xlink:href="/assets/icons/nst-icn16.svg#glance"></use>
         </svg>
-        <a><translate>Glance</translate></a>
+        <a>
+          <translate>Glance</translate>
+        </a>
         <hr>
       </h2>
       <h2 ng-if="ctrl.isAssignedToMePage">
         <svg class="_16svg _df _scl2">
           <use xlink:href="/assets/icons/nst-icn16.svg#internal"></use>
         </svg>
-        <a ui-sref="app.task.assigned_to_me({filter: 'normal'})" ui-sref-active="active"><translate>Assigned to me</translate></a>
-        <a ui-sref="app.task.assigned_to_me({filter: 'completed'})" ui-sref-active="active"><translate>Completed</translate></a>
+        <a ui-sref="app.task.assigned_to_me({filter: 'normal'})" ui-sref-active="active">
+          <translate>Assigned to me</translate>
+        </a>
+        <a ui-sref="app.task.assigned_to_me({filter: 'completed'})" ui-sref-active="active">
+          <translate>Completed</translate>
+        </a>
         <hr>
       </h2>
       <h2 ng-if="ctrl.isCreatedByMePage">
         <svg class="_16svg _df _scl2">
           <use xlink:href="/assets/icons/nst-icn16.svg#external"></use>
         </svg>
-        <a ui-sref="app.task.created_by_me({filter: 'normal'})" ui-sref-active="active"><translate>Created by me</translate></a>
-        <a ui-sref="app.task.created_by_me({filter: 'completed'})" ui-sref-active="active"><translate>Completed</translate></a>
+        <a ui-sref="app.task.created_by_me({filter: 'normal'})" ui-sref-active="active">
+          <translate>Created by me</translate>
+        </a>
+        <a ui-sref="app.task.created_by_me({filter: 'completed'})" ui-sref-active="active">
+          <translate>Completed</translate>
+        </a>
         <hr>
       </h2>
       <h2 ng-if="ctrl.isWatchlistPage">
         <svg class="_16svg _df _scl2">
           <use xlink:href="/assets/icons/nst-icn16.svg#ragged-list"></use>
         </svg>
-        <a ui-sref="app.task.watchlist({filter: 'normal'})" ui-sref-active="active"><translate>Watchlist</translate></a>
-        <a ui-sref="app.task.watchlist({filter: 'completed'})" ui-sref-active="active"><translate>Completed</translate></a>
+        <a ui-sref="app.task.watchlist({filter: 'normal'})" ui-sref-active="active">
+          <translate>Watchlist</translate>
+        </a>
+        <a ui-sref="app.task.watchlist({filter: 'completed'})" ui-sref-active="active">
+          <translate>Completed</translate>
+        </a>
         <hr>
       </h2>
-      <h5 class="list-head large error" ng-if="ctrl.overDueTasks.length > 0 && ctrl.isGlancePage"><translate>Overdue Tasks</translate></h5>
+      <h5 class="list-head large error" ng-if="ctrl.overDueTasks.length > 0 && ctrl.isGlancePage">
+        <translate>Overdue Tasks</translate>
+      </h5>
       <ul class="list-ul overdue" ng-if="ctrl.overDueTasks.length > 0 && ctrl.isGlancePage">
         <li class="medium" ng-repeat="task in ctrl.overDueTasks" ng-click="ctrl.editTask(task.id)">
           <div class="list-li-icon">
@@ -46,13 +62,17 @@
             </a>
           </div>
           <div class="list-li-extra" data-uib-tooltip-template="'task-date-time.html'" data-tooltip-append-to-body="false" data-tooltip-placement="{{$root._direction == 'rtl' ? 'top-left' : 'top-right'}}">
-              <span ng-if="task.dueDate !== undefined && !task.hasDueTime">{{task.dueDate | leftDate | localize}}</span>
-              <span ng-if="task.dueDate !== undefined && task.hasDueTime">{{task.dueDate | leftDate : 'time' | localize}}</span>
+            <span ng-if="task.dueDate !== undefined && !task.hasDueTime">{{task.dueDate | leftDate | localize}}</span>
+            <span ng-if="task.dueDate !== undefined && task.hasDueTime">{{task.dueDate | leftDate : 'time' | localize}}</span>
           </div>
         </li>
       </ul>
-      <h5 class="list-head large pending" ng-if="ctrl.pendingTasks.length > 1 && ctrl.isGlancePage"><translate>You've been Candidated to do these...</translate></h5>
-      <h5 class="list-head large pending" ng-if="ctrl.pendingTasks.length === 1 && ctrl.isGlancePage"><translate>You've been Candidated to do this...</translate></h5>
+      <h5 class="list-head large pending" ng-if="ctrl.pendingTasks.length > 1 && ctrl.isGlancePage">
+        <translate>You've been Candidated to do these...</translate>
+      </h5>
+      <h5 class="list-head large pending" ng-if="ctrl.pendingTasks.length === 1 && ctrl.isGlancePage">
+        <translate>You've been Candidated to do this...</translate>
+      </h5>
       <ul class="list-ul candidate" ng-if="ctrl.pendingTasks.length > 0 && ctrl.isGlancePage">
         <li class="large" ng-repeat="task in ctrl.pendingTasks">
           <div class="list-li-icon">
@@ -71,8 +91,8 @@
             </p>
           </div>
           <div class="list-li-extra" data-uib-tooltip-template="'task-date-time.html'" data-tooltip-append-to-body="true" data-tooltip-placement="{{$root._direction == 'rtl' ? 'top-left' : 'top-right'}}">
-              <span ng-if="task.dueDate !== undefined && !task.hasDueTime">{{task.dueDate | leftDate | localize}}</span>
-              <span ng-if="task.dueDate !== undefined && task.hasDueTime">{{task.dueDate | leftDate: 'time' | localize}}</span>
+            <span ng-if="task.dueDate !== undefined && !task.hasDueTime">{{task.dueDate | leftDate | localize}}</span>
+            <span ng-if="task.dueDate !== undefined && task.hasDueTime">{{task.dueDate | leftDate: 'time' | localize}}</span>
           </div>
           <div class="list-li-buttons">
             <input ng-click="ctrl.declineTask(task.id)" type="button" class="butn butn-red secondary" value="I can’t" translate-attrs="value">
@@ -80,38 +100,23 @@
           </div>
         </li>
       </ul>
-      <h5 class="list-head large upcoming" ng-if="ctrl.isGlancePage"><translate>Upcomings</translate></h5>
+      <h5 class="list-head large upcoming" ng-if="ctrl.isGlancePage">
+        <translate>Upcomings</translate>
+      </h5>
       <ul class="list-ul upcoming" id="task-container">
-        <li class="large" ng-repeat="task in ctrl.tasks" ng-click="ctrl.editTask(task.id)">
-          <div class="list-li-icon">
-            <task-progress-icon status="ctrl.getTaskIcon(task.status, task.progress)" progress="task.progress"></task-progress-icon>
-          </div>
-          <div class="list-li-body">
-            <a>
-              <span>{{task.title}}</span>
-            </a>
-            <p ng-if="task.assignee !== undefined">
-              <translate>from</translate> <span user-detail="task.assignor">{{task.assignor.fullName}}</span> <translate>to</translate> <span user-detail="task.assignee">{{task.assignee.fullName}}</span>
-            </p>
-            <p ng-if="task.candidates !== undefined && task.assignee === undefined">
-              <translate>from</translate> <span user-detail="task.assignor">{{task.assignor.fullName}}</span> <translate>to</translate> <span user-detail="task.candidates[0]">{{task.candidates[0].fullName}}</span>
-            </p>
-          </div>
-          <div class="list-li-extra" data-uib-tooltip-template="'task-date-time.html'" data-tooltip-append-to-body="false" data-tooltip-placement="{{$root._direction == 'rtl' ? 'top-left' : 'top-right'}}">
-              <span ng-if="task.dueDate !== undefined && !task.hasDueTime">{{task.dueDate | leftDate | localize}}</span>
-              <span ng-if="task.dueDate !== undefined && task.hasDueTime">{{task.dueDate | leftDate : 'time' | localize}}</span>
-          </div>
-        </li>
+        <task-view-item ng-repeat="task in ctrl.tasks"></task-view-item>
       </ul>
+
       <div class="_fn empty-place-holder" ng-if="!ctrl.firstTimeLoading && (
       (ctrl.isGlancePage && ctrl.tasks.length === 0 && ctrl.pendingTasks.length === 0 && ctrl.overDueTasks.length === 0) ||
       (!ctrl.isGlancePage && ctrl.tasks.length === 0))">
-        <img class="_db" width="256" width="256" src="/assets/icons/ph_empt_task.png" srcset="/assets/icons/ph_empt_task@2x.png" />
+        <img class="_db" width="256" width="256" src="/assets/icons/ph_empt_task.png" srcset="/assets/icons/ph_empt_task@2x.png"
+        />
         <translate>You don't have any task until next year!</br>Enjoy your free time</translate> <span>😊</span>
       </div>
       <div class="_db _tac">
         <!-- TODO: Ali check the loading -->
-        <div class="_difh _jcc nst-mood-cheerful no-gutter nst-margin-24 _pr" ng-show="ctrl.loading">
+        <div class="_difh _jcc nst-mood-cheerful no-gutter nst-margin-24 _pr" ng-if="ctrl.loading">
           <div class="nst-loading"></div>
         </div>
       </div>
@@ -131,4 +136,22 @@
   <div ng-if="!task.hasDueTime">
     {{task.dueDate | date : 'full-only-date' | localize}}
   </div>
+</script>
+
+<script type="text/ng-template" id="task-description.html">
+  <span>
+    {{task.description}}
+  </span>
+</script>
+
+<script type="text/ng-template" id="task-watchers.html">
+  <span ng-repeat="watcher in task.watchers">
+    {{watcher.fullName}}</br>
+  </span>
+</script>
+
+<script type="text/ng-template" id="task-labels.html">
+  <span ng-repeat="label in task.labels">
+    {{label.title}}</br>
+  </span>
 </script>

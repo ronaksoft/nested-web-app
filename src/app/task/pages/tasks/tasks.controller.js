@@ -5,7 +5,7 @@
     .module('ronak.nested.web.task')
     .controller('TasksController', TasksController);
 
-  function TasksController($rootScope, $scope, _, $state, NstSvcTaskFactory, NST_TASK_STATUS,
+  function TasksController($rootScope, $window, $scope, _, $state, NstSvcTaskFactory, NST_TASK_STATUS,
                            NstSvcTaskUtility, $timeout, toastr, NstSvcTranslation, NstSvcAuth) {
     var vm = this;
     var eventReferences = [];
@@ -29,6 +29,7 @@
     vm.editTask = editTask;
     vm.acceptTask = acceptTask;
     vm.declineTask = declineTask;
+    vm.statuses = NST_TASK_STATUS;
     vm.getTaskIcon = NstSvcTaskUtility.getTaskIcon;
 
     vm.overDueTasks = [];
@@ -105,15 +106,32 @@
     }
 
     function getOverdueTasks() {
-      NstSvcTaskFactory.getByFilter(NST_TASK_STATUS.ASSIGNED_TO_ME, NST_TASK_STATUS.OVERDUE).then(function (tasks) {
+    //   filter: filter,
+    //     status_filter: String(statusFilter),
+    //     skip: skip,
+    //     limit: limit
+    // }
+      NstSvcTaskFactory.getByFilter({
+          filter: NST_TASK_STATUS.ASSIGNED_TO_ME,
+          statusFilter: NST_TASK_STATUS.OVERDUE}, function (tasks) {
+        vm.overDueTasks = tasks;
+      }).then(function (tasks) {
         vm.overDueTasks = tasks;
       });
     }
 
     function getPendingTasks() {
-      NstSvcTaskFactory.getByFilter(NST_TASK_STATUS.CANDIDATE, NST_TASK_STATUS.NO_ASSIGNED).then(function (tasks) {
+      NstSvcTaskFactory.getByFilter({
+        filter: NST_TASK_STATUS.CANDIDATE,
+        statusFilter: NST_TASK_STATUS.NO_ASSIGNED}, function (tasks) {
+        vm.pendingTasks = tasks;
+      }).then(function (tasks) {
         vm.pendingTasks = tasks;
       });
+    }
+
+    function importCachedTasks(tasks) {
+      mergeTask(tasks);
     }
 
     function getTasks() {
@@ -125,7 +143,12 @@
       }
       var statusFilter = [];
       if (vm.isGlancePage) {
-        promise = NstSvcTaskFactory.getByFilter(NST_TASK_STATUS.GLANCE, null, vm.taskSetting.skip, vm.taskSetting.limit);
+        promise = NstSvcTaskFactory.getByFilter({
+          filter: NST_TASK_STATUS.GLANCE,
+          statusFilter: null,
+          skip: vm.taskSetting.skip,
+          limit: vm.taskSetting.limit
+        }, importCachedTasks);
       } else if (vm.isAssignedToMePage) {
         if (isCompelted) {
           statusFilter.push(NST_TASK_STATUS.COMPLETED);
@@ -134,7 +157,12 @@
           statusFilter.push(NST_TASK_STATUS.HOLD);
           statusFilter.push(NST_TASK_STATUS.OVERDUE);
         }
-        promise = NstSvcTaskFactory.getByFilter(NST_TASK_STATUS.ASSIGNED_TO_ME, statusFilter.join(','), vm.taskSetting.skip, vm.taskSetting.limit);
+        promise = NstSvcTaskFactory.getByFilter({
+          filter: NST_TASK_STATUS.ASSIGNED_TO_ME,
+          statusFilter: statusFilter.join(','),
+          skip: vm.taskSetting.skip,
+          limit: vm.taskSetting.limit
+        }, importCachedTasks);
       } else if (vm.isCreatedByMePage) {
         if (isCompelted) {
           statusFilter.push(NST_TASK_STATUS.COMPLETED);
@@ -146,7 +174,12 @@
           statusFilter.push(NST_TASK_STATUS.HOLD);
           statusFilter.push(NST_TASK_STATUS.OVERDUE);
         }
-        promise = NstSvcTaskFactory.getByFilter(NST_TASK_STATUS.CREATED_BY_ME, statusFilter.join(','), vm.taskSetting.skip, vm.taskSetting.limit);
+        promise = NstSvcTaskFactory.getByFilter({
+          filter: NST_TASK_STATUS.CREATED_BY_ME,
+          statusFilter: statusFilter.join(','),
+          skip: vm.taskSetting.skip,
+          limit: vm.taskSetting.limit
+        }, importCachedTasks);
       } else if (vm.isWatchlistPage) {
         if (isCompelted) {
           statusFilter.push(NST_TASK_STATUS.COMPLETED);
@@ -158,7 +191,12 @@
           statusFilter.push(NST_TASK_STATUS.HOLD);
           statusFilter.push(NST_TASK_STATUS.OVERDUE);
         }
-        promise = NstSvcTaskFactory.getByFilter(NST_TASK_STATUS.WATCHED, statusFilter.join(','), vm.taskSetting.skip, vm.taskSetting.limit);
+        promise = NstSvcTaskFactory.getByFilter({
+          filter: NST_TASK_STATUS.WATCHED,
+          statusFilter: statusFilter.join(','),
+          skip: vm.taskSetting.skip,
+          limit: vm.taskSetting.limit
+        }, importCachedTasks);
       }
 
       promise.then(function (tasks) {
@@ -193,6 +231,7 @@
     function loadTasks() {
       getTasks().then(function (tasks) {
         mergeTask(tasks);
+        vm.firstTimeLoading = false;
         vm.taskSetting.skip = vm.tasks.length;
 
         // to full fill page at first loading

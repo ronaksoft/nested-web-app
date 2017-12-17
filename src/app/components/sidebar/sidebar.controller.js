@@ -274,8 +274,8 @@
             templateUrl: 'app/pages/places/places.html',
             controller: 'PlacesModalController',
             controllerAs: 'ctrl'
-          }).result.then(function (result) {
-          }).catch(function (e) {
+          }).result.then(function () {
+          }).catch(function () {
           });
       };
 

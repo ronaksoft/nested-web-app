@@ -77,33 +77,33 @@
 }
 @keyframes loading-first-circ {
   0% {
-    transform: scale(.5,.5);
+    transform: scale3d(.5,.5,1) translateZ(1px);
     opacity: 1;
   }
   50% {
-    transform: scale(.25,.25);
+    transform: scale3d(.25,.25,1) translateZ(1px);
     opacity: 0;
   }
   100% {
-    transform: scale(.25,.25);
+    transform: scale3d(.25,.25,1) translateZ(1px);
     opacity: 0;
   }
 }
 @keyframes loading-second-circ {
   0% {
-    transform: scale(1,1);
+    transform: scale3d(1,1,1) translateZ(1px);
     opacity: 0;
   }
   25% {
-    transform: scale(1,1);
+    transform: scale3d(1,1,1) translateZ(1px);
     opacity: 0;
   }
   75% {
-    transform: scale(.5,.5);
+    transform: scale3d(.5,.5,1) translateZ(1px);
     opacity: 1;
   }
   100% {
-    transform: scale(.5,.5);
+    transform: scale3d(.5,.5,1) translateZ(1px);
     opacity: 1;
   }
 }
@@ -218,8 +218,8 @@
     background-color: $color-white;
     }
   }
-  &::before,
-  &::after {
+  &::after,
+  &::before {
     content: ' ';
     left: 0;
     top: 0;
@@ -228,11 +228,16 @@
     height: 100%;
     border-radius: 24px;
     background-color: $color-sense;
-  }
-  &::before {
-    animation: loading-first-circ 1s ease-in 0s infinite normal running;
+    transform-origin: center;
+    perspective: 1000;
+    backface-visibility: hidden;
+    will-change: transform;
+    // transform: translateZ(0);
   }
   &::after {
-    animation: loading-second-circ 1s ease-in 0s infinite normal running;
+    animation: loading-first-circ 1s linear 0s infinite normal running;
+  }
+  &::before {
+    animation: loading-second-circ 1s linear 0s infinite normal running;
   }
 }

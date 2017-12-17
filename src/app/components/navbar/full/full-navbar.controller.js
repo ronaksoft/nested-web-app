@@ -29,6 +29,7 @@
     vm.getActivityUrl = getActivityUrl;
     vm.getFilesUrl = getFilesUrl;
     vm.getSettingsUrl = getSettingsUrl;
+    vm.copyToClipboard = copyToClipboard;
     vm.search = search;
     vm.rollUpward = rollUpward;
     vm.rollToTop = false;
@@ -78,6 +79,15 @@
           title: item.id
         };
       });
+    }
+
+    function copyToClipboard(text) {
+      var inp = document.createElement('input');
+      document.body.appendChild(inp);
+      inp.value = text;
+      inp.select();
+      document.execCommand('copy', false);
+      inp.remove();
     }
 
     /**

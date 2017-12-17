@@ -62,11 +62,15 @@ h5.list-head {
     &:last-of-type::after {
       display: none;
     }
+    &:hover {
+      background-color: $color-bg-hover-item;
+    }
   }
   .list-li-icon {
     width: 32px;
     height: 32px;
     flex: none;
+    transform: translateY(-10px);
     @include align-center();
   }
   .list-li-body {
@@ -74,18 +78,23 @@ h5.list-head {
     width: 100%;
     flex-direction: column;
     margin: 0 10px;
+    color: $color-solid;
     > a:first-of-type ,
     > span:first-of-type {
-      font-size: 14px;
-      line-height: 19px;
-      font-weight: bold;
       color: $color-solid;
+      font-weight: bold;
+      font-size: 14px;
+      line-height: 20px;
+      font-weight: bold;
       margin-bottom: 4px;
     }
     p {
       font-size: 13px;
       margin: 0;
-      color: $color-solid-80;
+      opacity: .8;
+      b {
+        color: $color-solid;
+      }
     }
   }
   .list-li-extra {
@@ -93,9 +102,29 @@ h5.list-head {
     flex: none;
     font-size: 13px;
     color: $color-solid;
-    flex-direction: column;
+    justify-content: flex-end;
     & + .list-li-buttons {
       margin-left: 8px;
+    }
+    .task-detail-item {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      transform: translateY(-10px);
+      svg {
+        margin: 0 12px;
+        fill: $color-gale;
+      }
+      span {
+        color: $color-solid-64;
+        width: 100%;
+        left: 0;
+        text-align: center;
+        bottom: 0;
+        font-size: 13px;
+        transform: translateY(22px);
+        position: absolute;
+      }
     }
   }
   .list-li-buttons {
@@ -108,7 +137,36 @@ h5.list-head {
     }
   }
 }
-
+.overdue li,
+li.overdue{
+  background-image: url("../assets/icons/horizontal_stripes_force.png");
+  background-repeat: repeat;
+}
+.candidate li,
+li.candidate{
+  background-image: url("../assets/icons/horizontal_stripes_pending.png");
+  background-repeat: repeat;
+}
+.completed li,
+li.completed{
+  background-image: url("../assets/icons/horizontal_stripes_solid.png");
+  background-repeat: repeat;
+}
+.rejected li,
+li.rejected {
+  
+}
+@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
+  .overdue li{
+    background-image: url("../assets/icons/horizontal_stripes_force@2x.png");
+  }
+  .candidate li{
+    background-image: url("../assets/icons/horizontal_stripes_pending@2x.png");
+  }
+  .complete li{
+    background-image: url("../assets/icons/horizontal_stripes_solid@2x.png");
+  }
+}
 li {
   &.small {
     height: 32px;

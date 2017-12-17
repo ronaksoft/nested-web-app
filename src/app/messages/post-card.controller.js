@@ -15,10 +15,10 @@
     .controller('PostCardController', PostCardController);
 
   function PostCardController($state, $log, $timeout, $stateParams, $rootScope, $scope, $uibModal, $location, $anchorScroll,
-    _, toastr,
-    NST_EVENT_ACTION, NST_PLACE_ACCESS, NST_POST_EVENT, SvcCardCtrlAffix,
-    NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory, NstSearchQuery, NstSvcModal,
-    NstSvcAuth, NstUtility, NstSvcPostInteraction, NstSvcTranslation, NstSvcLogger, $) {
+                              _, toastr,
+                              NST_EVENT_ACTION, NST_PLACE_ACCESS, NST_POST_EVENT, SvcCardCtrlAffix,
+                              NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory, NstSearchQuery, NstSvcModal,
+                              NstSvcAuth, NstUtility, NstSvcPostInteraction, NstSvcTranslation, NstSvcLogger, $) {
     var vm = this;
 
     var newCommentIds = [],
@@ -340,7 +340,8 @@
         if (scrollOnCollapseCase) {
           $('html, body').animate({
             scrollTop: postCardOffTOp
-          }, 300, 'swing', function () {});
+          }, 300, 'swing', function () {
+          });
         }
         $timeout(function () {
           vm.isExpanded = false;
@@ -415,7 +416,8 @@
             return vm.post.id;
           }
         }
-      }).result.then(function () {});
+      }).result.then(function () {
+      });
     }
 
     /**
@@ -630,7 +632,7 @@
     $scope.$on('selected-length-change', function (e, v) {
       if (v.selectedPosts.length > 0) {
         vm.isCheckedForce = true;
-        if(v.selectAll) {
+        if (v.selectAll) {
           vm.setIsCheckedWatchOffTemporary = true;
           $timeout(function () {
             vm.setIsCheckedWatchOffTemporary = false
@@ -670,7 +672,7 @@
       if (senderIsCurrentUser) {
         loadNewComments();
         // if (!_.includes(newCommentIds, data.activity.id)) {
-          // vm.post.counters.comments++;
+        // vm.post.counters.comments++;
         // }
       } else {
         if (!_.includes(unreadCommentIds, data.activity.id)) {
@@ -678,7 +680,7 @@
           unreadCommentIds.push(data.activity.id);
         }
         // if($rootScope.inViewPost.id === vm.post.id || isPostView()) {
-        if(isPostView()) {
+        if (isPostView()) {
           loadNewComments();
           unreadCommentIds = [];
         }
@@ -697,9 +699,9 @@
      * Event listener for read all posts
      * and updates the model
      */
-    eventReferences.push($rootScope.$watch(function() {
+    eventReferences.push($rootScope.$watch(function () {
       return $rootScope.inViewPost
-    }, function(v) {
+    }, function (v) {
       if (unreadCommentIds.length > 0 && v.id === vm.post.id) {
         loadNewComments();
         unreadCommentIds = [];
@@ -765,7 +767,7 @@
 
       vm.goTo = function (posId) {
         // $location.hash(posId);
-        document.querySelector('#' + posId).scrollIntoView({ behavior: 'smooth' });
+        document.querySelector('#' + posId).scrollIntoView({behavior: 'smooth'});
         // $anchorScroll();
       }
 
@@ -828,25 +830,33 @@
     function addLabels(items) {
       var removeItems = _.difference(vm.post.labels, items);
       var addItems = _.difference(items, vm.post.labels);
-      addItems.forEach(function (o) {
-        var id = o._id || o.id;
-        NstSvcPostFactory.addLabel(vm.post.id, id).then(function () {
-          // console.log(o);
-          // vm.post.labels.push(o);
-        });
-      });
       removeItems.forEach(function (o) {
         var id = o._id || o.id;
         NstSvcPostFactory.removeLabel(vm.post.id, id).then(function () {
-          // _.remove(vm.post.labels, function(n) {
-          //   var id1 =  n.id || n._id;
-          //   var id2 =  o.id || o._id;
-          //   console.log(id1, id2);
-          //   return id1 === id2
-          // });
+          _.remove(vm.post.labels, function (n) {
+            var id1 = n.id || n._id;
+            var id2 = o.id || o._id;
+            // console.log(id1, id2);
+            return id1 === id2
+          });
+        }).catch(function () {
+          toastr.error(NstSvcTranslation.get('an error occuered in removing label'));
         });
       });
-      vm.post.labels = items;
+      addItems.forEach(function (o) {
+        var id = o._id || o.id;
+        NstSvcPostFactory.addLabel(vm.post.id, id).then(function () {
+          vm.post.labels.push(o);
+        }).catch(function (e) {
+          // console.log(arguments)
+          if (e.code === 6) {
+            toastr.error(NstSvcTranslation.get('You can\'t add more labels due to Admin configuration'));
+          } else {
+            toastr.error(NstSvcTranslation.get('an error occuered in adding labels'));
+          }
+        });
+      });
+      // vm.post.labels = items;
     }
 
     /**
@@ -896,6 +906,7 @@
       }
       return false;
     }
+
     /**
      * Checks the current state is post view page or not
      * @returns {boolean}

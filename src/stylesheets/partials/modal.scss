@@ -189,7 +189,7 @@ body.modal-open-attachment-view {
   a{
     font-weight: bold;
     color: $color-solid;
-    user-select: all;
+    user-select: text;
   }
   .small{
     font-weight: 100;
@@ -481,7 +481,7 @@ body.modal-open-attachment-view.compose-modal {
   }
 
 }
-.modal .modal-edit-task {
+.modal .modal-task {
   width: 100%;
   height: 100%;
   min-width: 100%;
@@ -507,6 +507,18 @@ body.modal-open-attachment-view.compose-modal {
     background-color: transparent;
   }
 
+}
+.modal .modal-edit-task {
+  .modal-content {
+    top: 8px;
+    width: 752px;
+  }
+}
+.modal .modal-custom-filter {
+  .modal-content {
+    top: 74px;
+    width: 744px;
+  }
 }
 .fullCompose .modal .modal-compose  {
   height: 100%;
@@ -772,7 +784,7 @@ body.modal-open-attachment-view.compose-modal {
     aside{
       width: 100%;
       line-height: 16px;
-      color: $color-black16;
+      color: $color-solid-24;
       font-size: 13px;
       font-weight: 400;
       padding: 7px 0;

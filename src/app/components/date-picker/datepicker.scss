@@ -111,7 +111,8 @@ $default-color: $color-sense-wire;
                         }
                         &.isToday {
                             color: #1b1b1b;
-                            font-weight: 700;
+                            background-color: $color-breeze-new;
+                            font-weight: 900;
                         }
                         &.isSelected {
                             background-color: $color-sense-wire;

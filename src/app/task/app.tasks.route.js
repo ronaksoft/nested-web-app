@@ -75,7 +75,7 @@
       onEnter: ['$rootScope', '$uibModal', function ($rootScope, $uibModal) {
         $uibModal.open({
           animation: false,
-          size: 'edit-task',
+          size: 'task modal-edit-task',
           templateUrl: 'app/task/pages/edit-task/edit-task.html',
           controller: 'EditTaskController',
           controllerAs: 'ctrlEditTask',
@@ -84,6 +84,21 @@
           $rootScope.goToLastState(true);
         });
       }]
+    })
+    .state('app.task.search', {
+      url: '/search/:search/:advanced',
+      params: {
+        search: NST_DEFAULT.STATE_PARAM,
+        advanced: 'false'
+      },
+      reloadOnSearch: false,
+      templateUrl: 'app/task/pages/search/search.html',
+      controller: 'SearchController',
+      controllerAs: 'ctlSearch',
+      options: {
+        group: 'task',
+        primary: true
+      }
     })
 
   }

@@ -38,7 +38,10 @@
     padding: 0 8px;
     margin: 0 -8px 16px;
     &.not-val {
-      border: 1px solid $color-force;
+      // border: 1px solid $color-force;
+      #PlaceID{
+        color: $color-force-wire;
+      }
       .field {
         border-bottom: 1px solid $color-force-wire;
     }
@@ -103,8 +106,10 @@
   font-size: 13px;
   font-weight: 400;
   padding-top: 16px;
-  span span {
-    color: $color-black004;
+  &.not-val{
+    span {
+      color: $color-force-wire;
+    }
   }
 }
 .receive-opt {

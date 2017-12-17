@@ -7,16 +7,18 @@
       <p ng-if="nextStep" class="_df _fw force">
         <translate>Confirm to delete this Place</translate>
       </p>
-      <div class="_df closebut" ng-click="$dismiss();"><img src="../assets/icons/close.svg"></div>
+      <div class="_df closebut" ng-click="$dismiss();">
+        <svg class="_24svg">
+          <use xlink:href="/assets/icons/nst-icn24.svg#xcross"></use>
+        </svg>
+      </div>
     </div>
     <div class="_difv _fw">
       <div ng-if="!removeCtrl.places && !nextStep" class="_fw _df">
-        <img data-ng-if="removeCtrl.place.picture.thumbnails.x128.url.download" class="account-initials-64" ng-src="{{removeCtrl.place.picture.thumbnails.x128.url.download}}"
-        />
-        <div data-ng-if="!removeCtrl.place.picture.thumbnails.x128.url.download" class="account-initials-64 _dib">{{removeCtrl.place.name | initials:2}}</div>
+        <img width="64" height="64" ng-src="{{removeCtrl.place | picture:'x64'}}" alt="{{::removeCtrl.place.name}}">
         <div class="_dib">
           <h4>{{removeCtrl.place.name || 'empty'}}</h4>
-          <h5 class="nst-mood-storm">{{removeCtrl.place.id + '@' + removeCtrl.domain}}</h5>
+          <h5 class="nst-mood-storm">{{removeCtrl.place.id}}</h5>
         </div>
       </div>
       <p ng-if="!removeCtrl.places && !nextStep" class="_df nst-mood-storm modal-detail">

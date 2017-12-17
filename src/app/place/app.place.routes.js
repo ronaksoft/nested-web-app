@@ -14,7 +14,7 @@
         placeId: NST_DEFAULT.STATE_PARAM,
         tab : 'info'
       },
-      onEnter: ['$rootScope', '$stateParams', '$state', '$uibModal', '$uibModalStack', function($rootScope, $stateParams, $state, $uibModal, $uibModalStack) {
+      onEnter: ['$rootScope', '$stateParams', '$state', '$uibModal', function($rootScope, $stateParams, $state, $uibModal) {
         // $uibModalStack.dismissAll();
 
          $uibModal.open({

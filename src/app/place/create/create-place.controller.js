@@ -296,8 +296,10 @@
     }
 
     function save() {
-      vm.submitted = true;
-      createPlace(vm.place);
+      if(!vm.submitted) {
+        createPlace(vm.place);
+        vm.submitted = true;
+      }
     }
 
     function createPlace(model) {
@@ -338,6 +340,8 @@
           } else {
             toastr.error(NstSvcTranslation.get('Sorry, An error has occured while creating the place.'));
           }
+        }).finally(function(){
+          vm.submitted = false;
         });
     }
 

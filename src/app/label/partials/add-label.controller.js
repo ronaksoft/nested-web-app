@@ -6,7 +6,7 @@
     .controller('addLabelController', addLabelController);
 
   function addLabelController($timeout, $scope, $uibModalInstance, NstSvcTranslation,
-                              _, NstSvcLabelFactory, NST_LABEL_SEARCH_FILTER, argv) {
+                              _, NstSvcLabelFactory, NST_LABEL_SEARCH_FILTER, NstSvcSystemConstants, argv) {
 
     var vm = this;
     vm.labelSelectPlaceHolder = NstSvcTranslation.get('Select from below or type label name');
@@ -31,6 +31,7 @@
         }
       }) : [];
     vm.firstTouch = false;
+    vm.addLabelLimit;
     var defaultLimit = 8;
     vm.setting = {
       skip: 0,
@@ -69,6 +70,11 @@
       });
     }
     function load() {
+      NstSvcSystemConstants.get().then(function (result) {
+        vm.addLabelLimit = result.post_max_labels;
+      }).catch(function () {
+        vm.addLabelLimit = 10;
+      });
       vm.searchFn('');
     }
     function restoreDefault() {

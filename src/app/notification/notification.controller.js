@@ -5,9 +5,9 @@
     .module('ronak.nested.web.notification')
     .controller('NotificationsController', NotificationsController);
 
-  function NotificationsController(_, $q, $state, $scope, $log, $rootScope, $uibModal,
-    NST_NOTIFICATION_TYPE, NST_NOTIFICATION_EVENT, NstSvcInvitationFactory,
-    NstSvcNotificationFactory, NstSvcInteractionTracker, NstSvcDate) {
+  function NotificationsController(_, $q, $state, $scope, $log, $rootScope, $uibModal, $timeout,
+                                   NST_NOTIFICATION_TYPE, NST_NOTIFICATION_EVENT,
+                                   NstSvcNotificationFactory, NstSvcInteractionTracker, NstSvcDate) {
     var vm = this;
     vm.NST_NOTIFICATION_TYPE = NST_NOTIFICATION_TYPE;
     var pageItemsCount = 24;
@@ -202,7 +202,7 @@
           return;
         case NST_NOTIFICATION_TYPE.TASK_ADD_TO_CANDIDATES:
           $event.preventDefault();
-          return viewGlance();
+          return;
         case NST_NOTIFICATION_TYPE.TASK_MENTION:
         case NST_NOTIFICATION_TYPE.TASK_COMMENT:
         case NST_NOTIFICATION_TYPE.TASK_ASSIGNEE_CHANGED:
@@ -228,29 +228,49 @@
       });
     }
 
+    function gotoFeedBefore(callback) {
+      if (!$state.current.options || ($state.current.options && ($state.current.options.group === 'task' || $state.current.options.group === 'settings'))) {
+        $state.go('app.messages-favorites');
+        $timeout(callback, 1000);
+      } else {
+        callback();
+      }
+    }
+
     function viewPost(id) {
-      $state.go('app.message', {
-        postId: id
-      }, {
-        notify: false
+      gotoFeedBefore(function () {
+        $state.go('app.message', {
+          postId: id
+        }, {
+          notify: false
+        });
       });
     }
 
     function openPlace(id) {
-      $state.go('app.place-messages', {
-        placeId: id
+      gotoFeedBefore(function () {
+        $state.go('app.place-messages', {
+          placeId: id
+        });
       });
     }
 
-    function viewGlance() {
-      $state.go('app.task.glance', {});
+    function gotoTaskGlanceBefore(callback) {
+      if ($state.current.options && $state.current.options.group !== 'task') {
+        $state.go('app.task.glance');
+        $timeout(callback, 1000);
+      } else {
+        callback();
+      }
     }
 
     function viewTask(id) {
-      $state.go('app.task.edit', {
-        taskId: id
-      }, {
-        notify: false
+      gotoTaskGlanceBefore(function () {
+        $state.go('app.task.edit', {
+          taskId: id
+        }, {
+          notify: false
+        });
       });
     }
 

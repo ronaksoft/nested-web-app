@@ -1,17 +1,19 @@
 #!/usr/bin/env bash
 
-echo "Starting Web Servers "
-node /bin/dns-discovery.js &
+chown -R nginx:nginx /ronak/nested/webapp
+chown -R nginx:nginx /var/lib/nginx
 
-cd mobile
+cd /ronak/nested/webapp
 echo "Directory changed to (`pwd`)"
-echo "Starting Mobile App"
-node ./build/server.js &
-
-cd ./../desktop
-echo "Directory changed to (`pwd`)"
-node /bin/nested-reconfig.js
+node /bin/nested-reconfig.js script=scripts tmp=nestedConfig
+node /bin/nested-reconfig.js script=m/js tmp=nestedConfigMobile
+node /bin/nested-reconfig.js script=admin tmp=nestedConfigAdmin
+node /bin/nested-reconfig.js script=admin/maps tmp=nestedConfigAdminMap
 sleep 1
+cd /bin
+
+export DOLLAR='$';
+
 if [ -n "${NST_ADDR_PORT}" ]; then
     echo "";
 else
@@ -20,13 +22,15 @@ fi
 if  [[ -n "${NST_TLS_KEY_FILE}" && -n "${NST_TLS_CERT_FILE}" ]] ; then
      if  [[ -f $NST_TLS_CERT_FILE && -f $NST_TLS_KEY_FILE ]]; then
         echo "Webapp started over SSL" ;
-        ws -p 80 -s redirect-to-safe-mode.html -c lws.config.js  -v &
-        ws -p 443 --cert $NST_TLS_CERT_FILE --key $NST_TLS_KEY_FILE -c lws.config.js -v --ciphers="ECDHE-RSA-AES256-SHA:AES256-SHA:RC4-SHA:RC4:HIGH:!MD5:!aNULL:!EDH:!AESGCM" --secure-protocol=TLSv1_2_method;
+        envsubst < nginx-ssl.conf.template > /etc/nginx/nginx.conf;
      else
         echo "Webapp started without SSL" ;
-        ws -p 80 -c lws.config.js -v;
+        envsubst < nginx.conf.template > /etc/nginx/nginx.conf;
      fi ;
 else
      echo "Webapp started without SSL" ;
-     ws -p 80 -c lws.config.js -v;
+     envsubst < nginx.conf.template > /etc/nginx/nginx.conf;
 fi
+
+nginx -t
+nginx -g "daemon off;"

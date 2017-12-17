@@ -25,7 +25,7 @@
            ng-change="ctrl.setId(ctrl.place.name);" placeholder="Marketing Development" required/>
   </div>
 
-  <label class="input-lab" for="PlaceID">
+  <label class="input-lab ng-class:{'not-val' : !ctrl.placeIdIsFullAvailable}" for="PlaceID">
     <translate>Place ID</translate>
   </label>
   <div class="placeID ng-class:{'not-val' : !ctrl.placeIdIsFullAvailable}">
@@ -40,6 +40,7 @@
       </svg>
     </div>
     <aside>
+      <span ng-if="!ctrl.placeIdIsFullAvailable"><translate class="force">This ID is already taken!</translate><br><br></span>
       <translate>The Place will be identified by this unique address. You <b>can't</b> change the Place ID after
         creating the Place, so choose wisely!
       </translate>

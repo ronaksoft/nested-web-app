@@ -14,8 +14,7 @@
     .module('ronak.nested.web.message')
     .controller('CommentBodyController', CommentBodyController);
 
-  function CommentBodyController($scope, $sce, $q, $filter, _, NstSvcFileFactory, NstSvcAttachmentFactory, SvcMiniPlayer, NstSvcStore
-                                ,NST_STORE_ROUTE, toastr) {
+  function CommentBodyController($scope, $sce, $q, $filter, _) {
     var vm = this;
 
     vm.parts = [];

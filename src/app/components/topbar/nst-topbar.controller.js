@@ -16,10 +16,12 @@
         searchPrefixLocale.user = NST_SEARCH_QUERY_PREFIX.NEW_USER;
         searchPrefixLocale.place = NST_SEARCH_QUERY_PREFIX.NEW_PLACE;
         searchPrefixLocale.label = NST_SEARCH_QUERY_PREFIX.NEW_LABEL;
+        searchPrefixLocale.to = NST_SEARCH_QUERY_PREFIX.NEW_TO;
       } else {
         searchPrefixLocale.user = NST_SEARCH_QUERY_PREFIX.NEW_USER_FA;
         searchPrefixLocale.place = NST_SEARCH_QUERY_PREFIX.NEW_PLACE_FA;
         searchPrefixLocale.label = NST_SEARCH_QUERY_PREFIX.NEW_LABEL_FA;
+        searchPrefixLocale.to = NST_SEARCH_QUERY_PREFIX.NEW_TO_FA;
       }
       var vm = this;
       var eventReferences = [];
@@ -35,6 +37,7 @@
       vm.toggleAdvancedSearch = toggleAdvancedSearch;
       vm.empty = empty;
       vm.isEmpty = isEmpty;
+      vm.isTask = isTask;
       vm.query = '';
       vm.newQuery = '';
       vm.excludedQuery = '';
@@ -51,24 +54,28 @@
         histories: [],
         places: [],
         accounts: [],
-        labels: []
+        labels: [],
+        tos: []
       };
       vm.suggestion = {
         histories: [],
         places: [],
         accounts: [],
-        labels: []
+        labels: [],
+        tos: []
       };
       vm.limits = {
         exact: {
           places: 6,
           accounts: 6,
-          labels: 6
+          labels: 6,
+          tos: 6
         },
         all: {
           places: 3,
           accounts: 3,
-          labels: 3
+          labels: 3,
+          tos: 3
         }
       };
       vm.advancedSearch = {
@@ -77,6 +84,7 @@
         places: '',
         subject: '',
         labels: '',
+        tos: '',
         hasAttachment: false,
         within: '1',
         date: 0,
@@ -107,12 +115,7 @@
       }
 
       (function () {
-        vm.adminArea = '';
-        if (NST_CONFIG.ADMIN_URL.length > 0) {
-          vm.adminArea = NST_CONFIG.ADMIN_URL;
-        } else {
-          vm.adminArea = location.protocol + '//' + NST_CONFIG.ADMIN_DOMAIN + (NST_CONFIG.ADMIN_PORT ? ':' + NST_CONFIG.ADMIN_PORT : '');
-        }
+        vm.adminArea = '/admin';
 
         checkLayouts();
 
@@ -125,7 +128,7 @@
         NstSvcUserFactory.getCurrent().then(function(user) {
           vm.user = user;
           if (user.authority.labelEditor) {
-            requsetLabelCounter();
+            requestLabelCounter();
           }
         });
         // NstSvcSuggestionFactory.search('').then(function (result) {
@@ -133,6 +136,10 @@
         //   vm.suggestion = Object.assign({}, vm.defaultSuggestion);
         // });
       })();
+
+      function isTask() {
+        return ($state.current.options && $state.current.options.group === 'task');
+      }
 
       function initQuery(init) {
         if (init) {
@@ -176,7 +183,7 @@
         },100);
       }
 
-      function requsetLabelCounter() {
+      function requestLabelCounter() {
         NstSvcLabelFactory.getRequests().then(function (result) {
           vm.requestedLabels = result.length;
         });
@@ -188,6 +195,7 @@
         vm.advancedSearch.places = searchQuery.getPlaces();
         vm.advancedSearch.subject = searchQuery.getSubject();
         vm.advancedSearch.labels = searchQuery.getLabels();
+        vm.advancedSearch.tos = searchQuery.getTos();
         vm.advancedSearch.hasAttachment = searchQuery.getHasAttachment();
         vm.advancedSearch.within = searchQuery.getWithin();
         if (vm.advancedSearch.users.length > 0) {
@@ -218,6 +226,7 @@
           places: '',
           subject: '',
           labels: '',
+          tos: '',
           hasAttachment: false,
           within: '1',
           date: ''
@@ -232,7 +241,7 @@
       }
 
       function isSearch() {
-        return $state.current.name === 'app.search';
+        return $state.current.name === 'app.search' || $state.current.name === 'app.task.search';
       }
 
       function toggleSearchModal(force) {
@@ -335,6 +344,7 @@
             resetSelected(vm.suggestion.accounts);
             resetSelected(vm.suggestion.places);
             resetSelected(vm.suggestion.labels);
+            resetSelected(vm.suggestion.tos);
           }
           return true;
         } else {
@@ -358,9 +368,16 @@
             case 'label':
               searchQuery.addLabel(item.data.title);
               break;
+            case 'to':
+              searchQuery.addTo(item.data.id);
+              break;
           }
         }
-        $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toString()), advanced: 'false'});
+        if (isTask()) {
+          $state.go('app.task.search', {search: NstSearchQuery.encode(searchQuery.toString()), advanced: 'false'});
+        } else {
+          $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toString()), advanced: 'false'});
+        }
         vm.toggleSearchModal(false);
         vm.selectedItem = -1
       }
@@ -369,7 +386,11 @@
         if (lastQuery === '') {
           searchQuery.setQuery(vm.query, '');
           searchQuery.removeLastItem();
-          $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toString()), advanced: 'false'});
+          if (isTask()) {
+            $state.go('app.task.search', {search: NstSearchQuery.encode(searchQuery.toString()), advanced: 'false'});
+          } else {
+            $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toString()), advanced: 'false'});
+          }
           vm.toggleSearchModal(false);
         }
       }
@@ -380,7 +401,8 @@
         var typeMap = {
           user: searchPrefixLocale.user,
           place: searchPrefixLocale.place,
-          label: searchPrefixLocale.label
+          label: searchPrefixLocale.label,
+          to: searchPrefixLocale.to
         };
         if (vm.queryType === 'other') {
           index = words.lastIndexOf(vm.excludedQuery);
@@ -412,6 +434,11 @@
         } else {
           count += vm.suggestion.labels.length;
         }
+        if (vm.suggestion.tos.length > getLimit('tos')) {
+          count += getLimit('tos');
+        } else {
+          count += vm.suggestion.tos.length;
+        }
         return count;
       }
 
@@ -440,10 +467,17 @@
         } else {
           labelCount = vm.suggestion.labels.length;
         }
+        var toCount = 0;
+        if (vm.suggestion.tos.length > getLimit('tos')) {
+          toCount = getLimit('tos');
+        } else {
+          toCount = vm.suggestion.tos.length;
+        }
 
         resetSelected(vm.suggestion.accounts);
         resetSelected(vm.suggestion.places);
         resetSelected(vm.suggestion.labels);
+        resetSelected(vm.suggestion.tos);
 
         if (index >= 0 && index < accountCount) {
           return {
@@ -455,9 +489,14 @@
             data: vm.suggestion.places[index - accountCount],
             type: 'place'
           }
-        } else if (index >= accountCount + placeCount && index < accountCount + placeCount + labelCount) {
+        } else if (index >= accountCount && index < accountCount + placeCount + toCount) {
           return {
-            data: vm.suggestion.labels[index - (accountCount + placeCount)],
+            data: vm.suggestion.tos[index - (accountCount + placeCount)],
+            type: 'to'
+          }
+        } else if (index >= accountCount + placeCount + toCount && index < accountCount + placeCount + toCount + labelCount) {
+          return {
+            data: vm.suggestion.labels[index - (accountCount + placeCount + toCount)],
             type: 'label'
           }
         }
@@ -468,16 +507,19 @@
           places: [],
           accounts: [],
           labels: [],
+          tos: [],
           history: []
         };
         var params = searchQuery.getSearchParams();
-        var places = _.map(params.places, function (item) {
-          return {
-            id: item
-          };
-        });
-        if (data.places !== undefined) {
-          result.places = _.differenceBy(_.uniqBy(data.places, 'id'), places, 'id');
+        if (!isTask()) {
+          var places = _.map(params.places, function (item) {
+            return {
+              id: item
+            };
+          });
+          if (data.places !== undefined) {
+            result.places = _.differenceBy(_.uniqBy(data.places, 'id'), places, 'id');
+          }
         }
         var users = _.map(params.users, function (item) {
           return {
@@ -486,6 +528,14 @@
         });
         if (data.accounts !== undefined) {
           result.accounts = _.differenceBy(_.uniqBy(data.accounts, 'id'), users, 'id');
+        }
+        var tos = _.map(params.tos, function (item) {
+          return {
+            id: item
+          };
+        });
+        if (data.tos !== undefined) {
+          result.tos = _.differenceBy(_.uniqBy(data.tos, 'id'), tos, 'id');
         }
         var labels = _.map(params.labels, function (item) {
           return {
@@ -507,6 +557,7 @@
         var placePrefix = searchPrefixLocale.place;
         var userPrefix = searchPrefixLocale.user;
         var labelPrefix = searchPrefixLocale.label;
+        var toPrefix = searchPrefixLocale.to;
 
         var word = query;
         var type = 'other';
@@ -523,6 +574,9 @@
             } else if (_.startsWith(match[0], labelPrefix)) {
               word = _.replace(match[0], labelPrefix, '');
               type = 'label';
+            } else if (_.startsWith(match[0], toPrefix)) {
+              word = _.replace(match[0], toPrefix, '');
+              type = 'to';
             }
           }
         } while (match);
@@ -551,7 +605,7 @@
 
           vm.excludedQuery = result.word;
           vm.queryType = result.type;
-
+          var settings;
           switch (result.type) {
             case 'place':
               NstSvcPlaceFactory.searchForCompose(result.word).then(function (result) {
@@ -561,12 +615,23 @@
               });
               break;
             case 'user':
-              var settings = {
+              settings = {
                 query: result.word,
                 limit: 6
               };
               NstSvcUserFactory.search(settings, NST_USER_SEARCH_AREA.ACCOUNTS).then(function (result) {
                 vm.suggestion = getUniqueItems({accounts: result});
+                vm.resultCount = countItems();
+                vm.selectedItem = -1;
+              });
+              break;
+            case 'to':
+              settings = {
+                query: result.word,
+                limit: 6
+              };
+              NstSvcUserFactory.search(settings, NST_USER_SEARCH_AREA.ACCOUNTS).then(function (result) {
+                vm.suggestion = getUniqueItems({tos: result});
                 vm.resultCount = countItems();
                 vm.selectedItem = -1;
               });
@@ -600,6 +665,7 @@
           'place': searchPrefixLocale.place,
           'user': searchPrefixLocale.user,
           'label': searchPrefixLocale.label,
+          'to': searchPrefixLocale.to,
           'keyword': NST_SEARCH_QUERY_PREFIX.KEYWORD
         };
         params = _.filter(params, function (item) {
@@ -625,8 +691,15 @@
           case 'label':
             searchQuery.addLabel(id);
             break;
+          case 'to':
+            searchQuery.addTo(id);
+            break;
         }
-        $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toString()), advanced: 'false'});
+        if (isTask()) {
+          $state.go('app.task.search', {search: NstSearchQuery.encode(searchQuery.toString()), advanced: 'false'});
+        } else {
+          $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toString()), advanced: 'false'});
+        }
         vm.toggleSearchModal(false);
         vm.queryType = 'other';
       }
@@ -647,11 +720,18 @@
           case searchPrefixLocale.label:
             searchQuery.removeLabel(name);
             break;
+          case searchPrefixLocale.to:
+            searchQuery.removeTo(name);
+            break;
           case NST_SEARCH_QUERY_PREFIX.KEYWORD:
             searchQuery.removeKeyword(name);
             break;
         }
-        $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toString()), advanced: 'false'});
+        if (isTask()) {
+          $state.go('app.task.search', {search: NstSearchQuery.encode(searchQuery.toString()), advanced: 'false'});
+        } else {
+          $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toString()), advanced: 'false'});
+        }
         if (vm.searchModalOpen) {
           vm.toggleSearchModal(false);
         }
@@ -663,7 +743,11 @@
         } else {
           searchQuery.setQuery(query);
         }
-        $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toString()), advanced: 'false'});
+        if (isTask()) {
+          $state.go('app.task.search', {search: NstSearchQuery.encode(searchQuery.toString()), advanced: 'false'});
+        } else {
+          $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toString()), advanced: 'false'});
+        }
         vm.toggleSearchModal(false);
       }
 
@@ -673,6 +757,7 @@
         searchQuery.setPlaces(this.advancedSearch.places);
         searchQuery.setSubject(this.advancedSearch.subject);
         searchQuery.setLabels(this.advancedSearch.labels);
+        searchQuery.setTos(this.advancedSearch.tos);
         searchQuery.setHasAttachment(this.advancedSearch.hasAttachment);
 
         try {
@@ -681,8 +766,11 @@
         } catch (e) {
           searchQuery.setWithin('-1');
         }
-
-        $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toAdvancedString()), advanced: 'true'});
+        if (isTask()) {
+          $state.go('app.task.search', {search: NstSearchQuery.encode(searchQuery.toAdvancedString()), advanced: 'true'});
+        } else {
+          $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toAdvancedString()), advanced: 'true'});
+        }
         vm.toggleSearchModal(false);
       }
 
@@ -751,7 +839,7 @@
       }));
 
       eventReferences.push($rootScope.$on('label-request-status-changed', function () {
-        requsetLabelCounter();
+        requestLabelCounter();
       }));
 
       $scope.$on('$destroy', function () {

@@ -24,7 +24,7 @@
       NstUtility, NstSvcTranslation, NstSvcModal, NstSvcPostDraft,
       NstSvcUserFactory, NstSvcLogger, NstSvcAuth,
       NstTinyPlace, NstVmSelectTag, NstPicture,
-      NstPostDraft, NstPost, $, NST_SEARCH_QUERY_PREFIX) {
+      NstPostDraft, NstPost, $, NST_SEARCH_QUERY_PREFIX, $window) {
       var vm = this;
       vm.modalId = '';
       vm.quickMode = false;
@@ -742,14 +742,14 @@
           if (!atleastOne) {
             errors.push({
               name: 'mandatory',
-              message: 'One of Post Body, Subject or Attachment is Mandatory'
+              message: NstSvcTranslation.get('One of Post Body, Subject or Attachment is Mandatory')
             });
           }
 
           if (model.recipients.length === 0) {
             errors.push({
               name: 'recipients',
-              message: 'No Recipients are Specified'
+              message: NstSvcTranslation.get('No Recipients are Specified')
             });
           }
 
@@ -758,7 +758,7 @@
               if (NST_ATTACHMENT_STATUS.ATTACHED != model.attachments[k].status) {
                 errors.push({
                   name: 'attachments',
-                  message: 'Attachment uploading has not been finished yet'
+                  message: NstSvcTranslation.get('Attachment uploading has not been finished yet')
                 });
               }
             }
@@ -1443,7 +1443,7 @@
          * @param {any} attachment
          */
         $scope.deleteAttachment = function (attachment) {
-          new $q(function (resolve, reject) {
+          new $q(function (resolve) {
             if (attachment.status === NST_ATTACHMENT_STATUS.UPLOADING) {
               // abort the pending upload request
               attachment.cancelUpload();

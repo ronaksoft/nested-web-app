@@ -1,6 +1,7 @@
 <div class="control-bar _df _aic">
   <div class="attach-close" ng-click="$dismiss()">
-    <svg class="_24svg _df _fn">
+    <svg class="_24svg _df _fn" data-uib-tooltip="Close!" data-tooltip-placement="bottom auto" translate-attrs="data-uib-tooltip"
+    data-tooltip-append-to-body="true">
       <use xlink:href="/assets/icons/nst-icn24.svg#xcross"></use>
     </svg>
   </div>
@@ -9,24 +10,28 @@
     <span class="filename" ng-if="ctlAttachmentView.attachments.current.type != 'image'">{{ctlAttachmentView.attachments.current.size | bytes:0}}</span>
     <span class="filename" ng-if="ctlAttachmentView.attachments.current.type === 'image'">Original Image: {{ctlAttachmentView.attachments.current.size | bytes:0}}, {{ctlAttachmentView.attachments.current.width}}×{{ctlAttachmentView.attachments.current.height}}</span>
   </div>
-  <a class="nav-btn" ng-href="{{ctlAttachmentView.attachments.current.viewUrl}}" target="_blank">
+  <a class="nav-btn" ng-href="{{ctlAttachmentView.attachments.current.viewUrl}}" target="_blank"
+    data-uib-tooltip="Open in new tab" data-tooltip-placement="bottom auto" translate-attrs="data-uib-tooltip" data-tooltip-append-to-body="true">
     <svg class="_24svg _df _fn">
       <use xlink:href="/assets/icons/nst-icn24.svg#open-in-new"></use>
     </svg>
   </a>
-  <div class="nav-btn" ng-click="ctlAttachmentView.download(ctlAttachmentView.attachments.current);">
+  <div class="nav-btn" ng-click="ctlAttachmentView.download(ctlAttachmentView.attachments.current);"
+    data-uib-tooltip="Download" data-tooltip-placement="bottom auto" translate-attrs="data-uib-tooltip" data-tooltip-append-to-body="true">
     <svg class="_24svg _df _fn">
       <use xlink:href="/assets/icons/nst-icn24.svg#downloads"></use>
     </svg>
   </div>
-  <div class="nav-btn" ng-click="ctlAttachmentView.compose()">
+  <div class="nav-btn" ng-click="ctlAttachmentView.compose()"
+    data-uib-tooltip="Forward" data-tooltip-placement="bottom auto" translate-attrs="data-uib-tooltip" data-tooltip-append-to-body="true">
     <svg class="_24svg _df _fn">
       <use xlink:href="/assets/icons/nst-icn24.svg#forward"></use>
     </svg>
   </div>
   <div class="nav-divid" data-ng-if="ctlAttachmentView.attachments.collection.length > 1"></div>
   <div class="nav-btn attach-bar-menu" data-ng-if="ctlAttachmentView.attachments.collection.length > 1"
-       ng-click="ctlAttachmentView.showBar()">
+       ng-click="ctlAttachmentView.showBar()"
+       data-uib-tooltip="Attachments list" data-tooltip-placement="bottom auto" translate-attrs="data-uib-tooltip" data-tooltip-append-to-body="true">
     <svg class="_24svg _df _fn">
       <use xlink:href="/assets/icons/nst-icn24.svg#side-bar"></use>
     </svg>
@@ -35,13 +40,13 @@
 <div class="attachment-image-show ng-class:{'loaded' : ctlAttachmentView.loaded}">
 </div>
 <div data-ng-if="ctlAttachmentView.attachments.collection.length > 1" class="attachment-pager prev"
-     data-ng-click="ctlAttachmentView.goPrevious()">
+     data-ng-click="ctlAttachmentView.goPrevious()" data-uib-tooltip="Previous attachment" data-tooltip-placement="bottom auto" translate-attrs="data-uib-tooltip" data-tooltip-append-to-body="true">
   <svg class="_24svg _df _fn">
     <use xlink:href="/assets/icons/nst-icn24.svg#arrow"></use>
   </svg>
 </div>
 <div data-ng-if="ctlAttachmentView.attachments.collection.length > 1" class="attachment-pager next"
-     data-ng-click="ctlAttachmentView.goNext()">
+     data-ng-click="ctlAttachmentView.goNext()" data-uib-tooltip="Next attahment" data-tooltip-placement="bottom auto" translate-attrs="data-uib-tooltip" data-tooltip-append-to-body="true">
   <svg class="_24svg _df _fn">
     <use xlink:href="/assets/icons/nst-icn24.svg#arrow"></use>
   </svg>

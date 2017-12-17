@@ -6,7 +6,7 @@
     .controller('TaskAbstractController', TaskAbstractController);
 
   function TaskAbstractController($rootScope, $scope, _) {
-    var vm = this;
+    // var vm = this;
     var eventReferences = [];
 
     $scope.$on('$destroy', function () {

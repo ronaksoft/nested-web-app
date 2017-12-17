@@ -26,6 +26,16 @@
   <label class="_fw setting _asc nmarg" for="comments"><translate style="overflow:visible;">Recieve notifications</translate></label>
 </a>
 
+<!-- <a class="_df list-items _aic _fw cursor-pointer" print-post='ctlPostCard.post'> -->
+<a class="_df list-items _aic _fw cursor-pointer" ui-sref="print({ postId: ctlPostCard.post.id })" target="_blank">
+  <div class="_aic _df">
+    <svg class="_16svg">
+      <use xlink:href="/assets/icons/nst-icn16.svg#printer"></use>
+    </svg>
+  </div>
+  <span><translate>Print</translate></span>
+</a>
+
 <a ng-if="ctlPostCard.haveAnyLabelAcess || ctlPostCard.currentUserIsSender" class="_df list-items _aic _fw cursor-pointer"
    add-label added-labels="ctlPostCard.post.labels" after-add-label="ctlPostCard.addLabels"
    ng-click="ctlPostCard.markAsRead()">
