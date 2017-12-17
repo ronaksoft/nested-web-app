@@ -68,7 +68,8 @@
         options: {
           primary: true,
           group: 'bookmarked',
-          feed : true
+          feed: true,
+          alias: 'savescroll'
         }
       })
       .state('app.messages-favorites', {
@@ -80,7 +81,8 @@
           primary: true,
           group: 'message',
           feed : true,
-          favoritePlace : true
+          favoritePlace : true,
+          alias: 'savescroll'
         }
       })
       .state('app.messages-favorites-sorted', {
@@ -94,7 +96,8 @@
         options: {
           primary: true,
           group: 'message',
-          feed : true
+          feed: true,
+          alias: 'savescroll'
         }
       })
       .state('app.messages-sent', {
@@ -104,7 +107,8 @@
         controllerAs: 'ctrl',
         options: {
           primary: true,
-          group: 'sent'
+          group: 'sent',
+          alias: 'savescroll'
         }
       })
       .state('app.place-messages', {
@@ -117,7 +121,8 @@
         controllerAs: 'ctrl',
         options: {
           primary: true,
-          group: 'posts'
+          group: 'posts',
+          alias: 'savescroll'
         }
       })
       .state('app.place-messages-unread', {
@@ -125,8 +130,9 @@
         templateUrl: 'app/messages/messages.html',
         controller: 'MessagesController',
         controllerAs: 'ctrl',
-        options : {
-          group : 'message'
+        options: {
+          group: 'message',
+          alias: 'savescroll'
         }
       })
       .state('app.place-messages-sorted', {
@@ -140,7 +146,8 @@
         controllerAs: 'ctrl',
         options: {
           primary: true,
-          group: 'message'
+          group: 'message',
+          alias: 'savescroll'
         }
       });
 
