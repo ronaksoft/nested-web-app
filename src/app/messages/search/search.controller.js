@@ -81,12 +81,11 @@
       vm.loadMessageError = false;
       vm.reachedTheEnd = false;
 
-
-      if (isAdvanced()) {
-        advancedSearch();
+      if (isTask()) {
+        taskSearch(isAdvanced());
       } else {
-        if (isTask()) {
-          taskNormalSearch();
+        if (isAdvanced()) {
+          advancedSearch();
         } else {
           normalSearch();
         }
@@ -151,12 +150,18 @@
       });
     }
 
-    function taskNormalSearch() {
+    function taskSearch(advanced) {
       var params = {
-        assignors: vm.searchParams.places.join(','),
+        assignors: vm.searchParams.users.join(','),
+        assignees: vm.searchParams.tos.join(','),
         labels: vm.searchParams.labels.join(','),
         keywords: vm.searchParams.keywords.join(' ')
       };
+      if (advanced === true) {
+        params = _.merge(params, {
+          hasAttachment: vm.searchParams.hasAttachment,
+        });
+      }
       NstSvcTaskFactory.search(
         params,
         limit,

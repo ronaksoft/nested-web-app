@@ -1,27 +1,37 @@
 <div class="nst-content _tr content-wrapper">
-  <section class="content nst-marginbtm-28">
-    <div class="task-area">
-      {{ctlSearch.messages | json}}
-    </div>
-
-    <div class="nst-margin-24 text-center" ng-if="ctlSearch.reachedTheEnd || ctlSearch.loadMessageError || ctlSearch.loading || ctlSearch.noResult">
-      <p class="nst-mood-storm" ng-if="ctlSearch.noResult">
-        <translate>No results found!</translate>
-      </p>
-      <p class="nst-mood-storm" ng-if="ctlSearch.reachedTheEnd">
-        <translate>No more messages here!</translate>
-      </p>
-      <p class="nst-mood-storm" ng-if="ctlSearch.loadMessageError">
-        <translate>An error has occurred. Please <a href class="nst-mood-cheerful" data-ng-click="ctlSearch.loadMore()">try again...</a></translate>
-      </p>
-      <div class="_difh nst-mood-cheerful no-gutter" ng-if="ctlSearch.loading">
-        <div class="nst-loading"></div>
+    <section class="content nst-marginbtm-28">
+      <div class="task-area">
+        <h2>
+          <svg class="_16svg _df _scl2">
+            <use xlink:href="/assets/icons/nst-icn16.svg#checked-box"></use>
+          </svg>
+          <a>
+            <translate>Search results</translate>
+          </a>
+          <hr>
+        </h2>
+        <div class="list-ul">
+            <task-view-item ng-repeat="task in ctlSearch.messages"></task-view-item>
+        </div>
+        <div class="nst-margin-24 text-center" ng-if="ctlSearch.reachedTheEnd || ctlSearch.loadMessageError || ctlSearch.loading || ctlSearch.noResult">
+          <p class="nst-mood-storm" ng-if="ctlSearch.noResult">
+            <translate>No results found!</translate>
+          </p>
+          <p class="nst-mood-storm" ng-if="ctlSearch.reachedTheEnd">
+            <translate>No more Tasks here!</translate>
+          </p>
+          <p class="nst-mood-storm" ng-if="ctlSearch.loadMessageError">
+            <translate>An error has occurred. Please <a href class="nst-mood-cheerful" data-ng-click="ctlSearch.loadMore()">try again...</a></translate>
+          </p>
+          <div class="_difh nst-mood-cheerful no-gutter" ng-if="ctlSearch.loading">
+            <div class="nst-loading"></div>
+          </div>
+        </div>
+        <div class="nst-marginbtm-32"></div>
       </div>
-    </div>
-    <div class="nst-marginbtm-32"></div>
-  </section>
-  <div class="content-plus">
-    <div class="content-plus-inner">
+    </section>
+    <div class="content-plus">
+      <div class="content-plus-inner">
         <div>
           <div class="name">
             <span class="nst-text-bold"><translate>Search Tips</translate></span>
@@ -47,6 +57,7 @@
             </div>
           </div>
         </div>
+      </div>
     </div>
   </div>
-</div>
+  
