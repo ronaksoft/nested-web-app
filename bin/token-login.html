@@ -218,16 +218,16 @@
     },
     http: function (cmd, params, callback) {
       var http = new XMLHttpRequest();
-      var url = 'https://webapp.ronaksoftware.com:83/';
+      var url = 'https://webapp.ronaksoftware.com:81/';
       var parameters = {
         cmd: cmd,
         data: params
       };
       http.open('POST', url, true);
-      http.setRequestHeader('Content-type', 'text/plain;charset=UTF-8');
-      http.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-      http.setRequestHeader('Access-Control-Allow-Origin', location.host);
-      http.setRequestHeader('origin', location.host);
+      http.setRequestHeader('accept', 'application/json');
+      // http.setRequestHeader('Access-Control-Allow-Origin', location.host);
+      // http.setRequestHeader('origin', location.host);
+      // http.setRequestHeader('origin', 'ronaksoftware.com');
       http.onreadystatechange = function () {
         if (http.readyState === 4 && http.status === 200) {
           if (typeof callback === 'function') {
