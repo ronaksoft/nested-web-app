@@ -136,55 +136,55 @@
     @font-face {
       font-family: 'OpenSans';
       font-weight: 300;
-      src: url(style/fonts/OpenSans/OpenSans-Light.eot?) format("eot"),
-      url(style/fonts/OpenSans/OpenSans-Light.ttf) format("truetype"),
-      url(style/fonts/OpenSans/OpenSans-Light.woff) format("woff"),
-      url(style/fonts/OpenSans/OpenSans-Light.woff2) format("woff2")
+      src: url(/style/fonts/OpenSans/OpenSans-Light.eot?) format("eot"),
+      url(/style/fonts/OpenSans/OpenSans-Light.ttf) format("truetype"),
+      url(/style/fonts/OpenSans/OpenSans-Light.woff) format("woff"),
+      url(/style/fonts/OpenSans/OpenSans-Light.woff2) format("woff2")
     }
 
     @font-face {
       font-family: 'OpenSans';
       font-weight: 400;
-      src: url(style/fonts/OpenSans/OpenSans-Regular.eot?) format("eot"),
-      url(style/fonts/OpenSans/OpenSans-Regular.ttf) format("truetype"),
-      url(style/fonts/OpenSans/OpenSans-Regular.woff) format("woff"),
-      url(style/fonts/OpenSans/OpenSans-Regular.woff2) format("woff2")
+      src: url(/style/fonts/OpenSans/OpenSans-Regular.eot?) format("eot"),
+      url(/style/fonts/OpenSans/OpenSans-Regular.ttf) format("truetype"),
+      url(/style/fonts/OpenSans/OpenSans-Regular.woff) format("woff"),
+      url(/style/fonts/OpenSans/OpenSans-Regular.woff2) format("woff2")
     }
 
     @font-face {
       font-family: 'OpenSans';
       font-weight: 700;
-      src: url(style/fonts/OpenSans/OpenSans-Bold.eot?) format("eot"),
-      url(style/fonts/OpenSans/OpenSans-Bold.ttf) format("truetype"),
-      url(style/fonts/OpenSans/OpenSans-Bold.woff) format("woff"),
-      url(style/fonts/OpenSans/OpenSans-Bold.woff2) format("woff2")
+      src: url(/style/fonts/OpenSans/OpenSans-Bold.eot?) format("eot"),
+      url(/style/fonts/OpenSans/OpenSans-Bold.ttf) format("truetype"),
+      url(/style/fonts/OpenSans/OpenSans-Bold.woff) format("woff"),
+      url(/style/fonts/OpenSans/OpenSans-Bold.woff2) format("woff2")
     }
 
     @font-face {
       font-family: 'YekanBakh';
       font-weight: 300;
-      src: url(style/fonts/YekanBakh/YekanBakhNestedWeb-Light.eot?) format("eot"),
-      url(style/fonts/YekanBakh/YekanBakhNestedWeb-Light.ttf) format("truetype"),
-      url(style/fonts/YekanBakh/YekanBakhNestedWeb-Light.woff) format("woff"),
-      url(style/fonts/YekanBakh/YekanBakhNestedWeb-Light.woff2) format("woff2")
+      src: url(/style/fonts/YekanBakh/YekanBakhNestedWeb-Light.eot?) format("eot"),
+      url(/style/fonts/YekanBakh/YekanBakhNestedWeb-Light.ttf) format("truetype"),
+      url(/style/fonts/YekanBakh/YekanBakhNestedWeb-Light.woff) format("woff"),
+      url(/style/fonts/YekanBakh/YekanBakhNestedWeb-Light.woff2) format("woff2")
     }
 
     @font-face {
       font-family: 'YekanBakh';
       font-weight: 400;
-      src: url(style/fonts/YekanBakh/YekanBakhNestedWeb-Regular.eot?) format("eot"),
-      url(style/fonts/YekanBakh/YekanBakhNestedWeb-Regular.ttf) format("truetype"),
-      url(style/fonts/YekanBakh/YekanBakhNestedWeb-Regular.woff) format("woff"),
-      url(style/fonts/YekanBakh/YekanBakhNestedWeb-Regular.woff2) format("woff2")
+      src: url(/style/fonts/YekanBakh/YekanBakhNestedWeb-Regular.eot?) format("eot"),
+      url(/style/fonts/YekanBakh/YekanBakhNestedWeb-Regular.ttf) format("truetype"),
+      url(/style/fonts/YekanBakh/YekanBakhNestedWeb-Regular.woff) format("woff"),
+      url(/style/fonts/YekanBakh/YekanBakhNestedWeb-Regular.woff2) format("woff2")
     }
 
     @font-face {
       font-family: 'YekanBakh';
       font-weight: 700;
-      src: url(style/fonts/YekanBakh/YekanBakhNestedWeb-Bold.eot?) format("eot"),
-      url(style/fonts/YekanBakh/YekanBakhNestedWeb-Bold.ttf) format("truetype"),
-      url(style/fonts/YekanBakh/YekanBakhNestedWeb-Bold.woff) format("woff"),
-      url(style/fonts/YekanBakh/YekanBakhNestedWeb-Bold.woff2) format("woff2")
+      src: url(/style/fonts/YekanBakh/YekanBakhNestedWeb-Bold.eot?) format("eot"),
+      url(/style/fonts/YekanBakh/YekanBakhNestedWeb-Bold.ttf) format("truetype"),
+      url(/style/fonts/YekanBakh/YekanBakhNestedWeb-Bold.woff) format("woff"),
+      url(/style/fonts/YekanBakh/YekanBakhNestedWeb-Bold.woff2) format("woff2")
     }
 
     form {
@@ -201,8 +201,8 @@
 <Form>
   <h1>Choose New Password</h1>
   <img src=""/>
-  <h2>Welcome To nested</h2>
-  <h3>Welcome To nested</h3>
+  <h2 id="name">Welcome To nested</h2>
+  <h3 id="id">Welcome To nested</h3>
   <p>Welcome To nested</p>
   <input name="password" type="password" placeholder="enter new password"/>
   <input name="re-password" type="password" placeholder="re-enter your password"/>
@@ -211,10 +211,17 @@
 </body>
 <script type="text/javascript">
   var nst = {
+    domain: 'ronaksoftware.com',
     init: function () {
-      nst.http('client/get_server_details', {}, function (data) {
+      nst.http('account/get_by_token', {
+        token: '150165DDA0CA5E36O5XJYBORORDQ'
+      }, function (data) {
         console.log(data);
       });
+    },
+    fillUserData: function (data) {
+      document.getElementById('name').innerText(data.fname + ' ' + data.lname);
+      document.getElementById('id').innerText(data._id + '@' + nst.domain);
     },
     http: function (cmd, params, callback) {
       var http = new XMLHttpRequest();
@@ -225,13 +232,10 @@
       };
       http.open('POST', url, true);
       http.setRequestHeader('accept', 'application/json');
-      // http.setRequestHeader('Access-Control-Allow-Origin', location.host);
-      // http.setRequestHeader('origin', location.host);
-      // http.setRequestHeader('origin', 'ronaksoftware.com');
       http.onreadystatechange = function () {
         if (http.readyState === 4 && http.status === 200) {
           if (typeof callback === 'function') {
-            callback(JSON.parse(http.responseText));
+            callback(JSON.parse(http.responseText).data);
           }
         }
       };
