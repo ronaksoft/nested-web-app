@@ -245,7 +245,7 @@
         server.remoteMode = true;
       } else {
         domainName = server.defaultConfigs.DOMAIN;
-        server.revertConfigs()
+        server.revertConfigs();
         server.remoteDomain = domain;
         server.remoteMode = true;
       }
