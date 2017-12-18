@@ -198,16 +198,16 @@
     <input nst-mention-place ng-model="ctrlTopBar.advancedSearch.places" id="advanced-search-in" class="advanced-search-text-input" type="text" ng-if="!ctrlTopBar.isTask()">
     <label for="advanced-search-to" ng-if="ctrlTopBar.isTask()"><translate>to:</translate></label>
     <input nst-mention-place ng-model="ctrlTopBar.advancedSearch.tos" id="advanced-search-to" class="advanced-search-text-input" type="text" ng-if="ctrlTopBar.isTask()">
-    <label for="advanced-search-subject"><translate>subject:</translate></label>
-    <input ng-model="ctrlTopBar.advancedSearch.subject" id="advanced-search-subject" class="advanced-search-text-input" type="text">
+    <label for="advanced-search-subject" ng-if="!ctrlTopBar.isTask()"><translate>subject:</translate></label>
+    <input ng-model="ctrlTopBar.advancedSearch.subject" id="advanced-search-subject" class="advanced-search-text-input" type="text" ng-if="!ctrlTopBar.isTask()">
     <label for="advanced-search-label"><translate>label:</translate></label>
     <input nst-mention-label ng-model="ctrlTopBar.advancedSearch.labels" id="advanced-search-label" class="advanced-search-text-input" type="text">
 
     <input ng-model="ctrlTopBar.advancedSearch.hasAttachment" class="_fr" type="checkbox" id="attachment" name="attachment" />
     <label class="_fw setting left-box checkbox-label _asc" for="attachment"><translate>Has attachment</translate></label>
 
-    <label><translate>Date within</translate></label>
-    <div class="_difh _aic _fw">
+    <label ng-if="!ctrlTopBar.isTask()"><translate>Date within</translate></label>
+    <div ng-if="!ctrlTopBar.isTask()" class="_difh _aic _fw">
       <select ng-model="ctrlTopBar.advancedSearch.within" class="_df">
         <option value="1"><translate>1 week</translate></option>
         <option value="2"><translate>2 weeks</translate></option>
