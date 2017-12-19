@@ -9,6 +9,7 @@ node /bin/nested-reconfig.js script=scripts tmp=nestedConfig
 node /bin/nested-reconfig.js script=m/js tmp=nestedConfigMobile
 node /bin/nested-reconfig.js script=admin tmp=nestedConfigAdmin
 node /bin/nested-reconfig.js script=admin/maps tmp=nestedConfigAdminMap
+node /bin/nested-reconfig.js script=t tmp=nestedConfigT
 sleep 1
 cd /bin
 
