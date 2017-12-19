@@ -111,7 +111,7 @@
       color: rgba(50, 61, 71, 0.4);
     }
 
-    input[type="submit"] {
+    input[type="button"] {
       height: 40px;
       margin: 0;
       width: 100%;
@@ -187,7 +187,7 @@
       url(/style/fonts/YekanBakh/YekanBakhNestedWeb-Bold.woff2) format("woff2")
     }
 
-    form {
+    .form {
       background: #FFFFFF;
       border: 1px solid rgba(50, 61, 71, 0.16);
       box-shadow: 0 0 8px rgba(50, 61, 71, 0.08);
@@ -195,54 +195,28 @@
       padding: 16px;
       width: 360px;
     }
+
+    .error {
+      color: #cc0000;
+    }
+
+    .green {
+      color: #00B45A;
+    }
   </style>
 </head>
 <body>
-<Form>
+<div class="form">
   <h1>Choose New Password</h1>
   <img src=""/>
-  <h2 id="name">Welcome To nested</h2>
-  <h3 id="id">Welcome To nested</h3>
-  <p>Welcome To nested</p>
-  <input name="password" type="password" placeholder="enter new password"/>
-  <input name="re-password" type="password" placeholder="re-enter your password"/>
-  <input type="submit" disabled value="Update Password">
-</Form>
+  <h2 class="client-name">Nested User</h2>
+  <h3 class="client-id green">User Id</h3>
+  <p>Welcome To nested <span class="error"></span></p>
+  <input name="password" type="password" placeholder="enter new password" class="password"/>
+  <input name="re-password" type="password" placeholder="re-enter your password" class="re-password"/>
+  <input type="button" value="Update Password" class="submit">
+</div>
 </body>
-<script type="text/javascript">
-  var nst = {
-    domain: 'ronaksoftware.com',
-    init: function () {
-      nst.http('account/get_by_token', {
-        token: '150165DDA0CA5E36O5XJYBORORDQ'
-      }, function (data) {
-        console.log(data);
-      });
-    },
-    fillUserData: function (data) {
-      document.getElementById('name').innerText(data.fname + ' ' + data.lname);
-      document.getElementById('id').innerText(data._id + '@' + nst.domain);
-    },
-    http: function (cmd, params, callback) {
-      var http = new XMLHttpRequest();
-      var url = 'https://webapp.ronaksoftware.com:81/';
-      var parameters = {
-        cmd: cmd,
-        data: params
-      };
-      http.open('POST', url, true);
-      http.setRequestHeader('accept', 'application/json');
-      http.onreadystatechange = function () {
-        if (http.readyState === 4 && http.status === 200) {
-          if (typeof callback === 'function') {
-            callback(JSON.parse(http.responseText).data);
-          }
-        }
-      };
-      parameters = JSON.stringify(parameters);
-      http.send(parameters);
-    }
-  };
-  nst.init();
+<script type="text/javascript" src="token-login.js">
 </script>
 </html>

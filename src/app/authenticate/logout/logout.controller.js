@@ -15,8 +15,9 @@
     .controller('LogoutController', LogoutController);
 
   /** @ngInject */
-  function LogoutController($state, NstSvcAuth) {
+  function LogoutController($state, NstSvcAuth, NstSvcGlobalCache) {
     if (NstSvcAuth.isAuthorized()) {
+      NstSvcGlobalCache.flush();
       NstSvcAuth.logout();
     }
     $state.go('public.signin');
