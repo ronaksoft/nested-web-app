@@ -217,7 +217,8 @@ var MD5 = function (string) {
 };
 
 var nst = {
-  domain: 'ronaksoftware.com',
+  domain: '_DOMAIN_',
+  cyrus: '_WS_CYRUS_CYRUS_URL_CONF_',
   token: '',
   user: {},
   enable: true,
@@ -283,12 +284,12 @@ var nst = {
   },
   http: function (cmd, params, callback, catchCallback) {
     var http = new XMLHttpRequest();
-    var url = 'https://webapp.ronaksoftware.com:81/';
+    // var url = 'https://webapp.ronaksoftware.com:81/';
     var parameters = {
       cmd: cmd,
       data: params
     };
-    http.open('POST', url, true);
+    http.open('POST', nst.cyrus, true);
     http.setRequestHeader('accept', 'application/json');
     http.onreadystatechange = function () {
       if (http.readyState === 4 && http.status === 200) {
