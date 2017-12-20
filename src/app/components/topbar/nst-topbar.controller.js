@@ -120,14 +120,13 @@
         checkLayouts();
 
         initQuery(true);
-        $rootScope.$on('$stateChangeSuccess', function () {
+        eventReferences.push($rootScope.$on('$stateChangeSuccess', function () {
           initQuery(false);
           isSearch();
           checkLayouts();
-        });
+        }));
         NstSvcUserFactory.getCurrent(true).then(function(user) {
           vm.user = user;
-          console.log(user);
           if (user.authority.labelEditor) {
             requestLabelCounter();
           }

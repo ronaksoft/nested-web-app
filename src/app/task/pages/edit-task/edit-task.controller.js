@@ -250,6 +250,7 @@
         importTaskData(task);
         vm.loading = false;
       }).then(function (task) {
+        console.log(task);
         vm.loading = false;
         importTaskData(task);
         $timeout(function () {
