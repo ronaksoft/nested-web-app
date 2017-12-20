@@ -60,33 +60,33 @@
         <svg class="_16svg _df">
           <use xlink:href="/assets/icons/nst-icn16.svg#bullet-list"></use>
         </svg>
-        <span>{{task.todos.length}}</span>
+        <span>{{task.todos.length | localize}}</span>
       </div>
       <div ng-if="task.counters.attachments > 0" class="task-detail-item">
         <svg class="_16svg _df">
           <use xlink:href="/assets/icons/nst-icn16.svg#attach"></use>
         </svg>
-        <span>{{task.counters.attachments}}</span>
+        <span>{{task.counters.attachments | localize}}</span>
       </div>
       <div ng-if="task.counters.watchers > 0" class="task-detail-item" data-tooltip-placement="{{$root._direction == 'rtl' ? 'top-left' : 'top-right'}}"
           data-uib-tooltip-template="'task-watchers.html'" data-tooltip-append-to-body="true">
         <svg class="_16svg _df">
           <use xlink:href="/assets/icons/nst-icn16.svg#person"></use>
         </svg>
-        <span>{{task.counters.watchers}}</span>
+        <span>{{task.counters.watchers | localize}}</span>
       </div>
       <div ng-if="task.counters.labels > 0" class="task-detail-item" data-tooltip-placement="{{$root._direction == 'rtl' ? 'top-left' : 'top-right'}}"
           data-uib-tooltip-template="'task-labels.html'" data-tooltip-append-to-body="true">
         <svg class="_16svg _df">
           <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
         </svg>
-        <span>{{task.counters.labels}}</span>
+        <span>{{task.counters.labels | localize}}</span>
       </div>
       <div ng-if="task.counters.comments > 0" class="task-detail-item">
         <svg class="_16svg _df">
           <use xlink:href="/assets/icons/nst-icn16.svg#comments"></use>
         </svg>
-        <span>{{task.counters.comments}}</span>
+        <span>{{task.counters.comments | localize}}</span>
       </div>
     </div>
   </li>
