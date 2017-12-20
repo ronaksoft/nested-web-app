@@ -6,7 +6,7 @@
     .controller('EditTaskController', EditTaskController);
 
   /** @ngInject */
-  function EditTaskController($q, $, $timeout, $scope, $state, $rootScope, $stateParams,
+  function EditTaskController($q, $, $timeout, $scope, $state, $rootScope, $stateParams, NstSearchQuery,
                               NstSvcAuth, _, toastr, NstSvcTranslation, NstTask, NST_ATTACHMENT_STATUS,
                               NstUtility, NstSvcTaskFactory, NstSvcTaskUtility, NST_TASK_STATUS) {
     var vm = this;
@@ -156,6 +156,7 @@
     vm.labelPlaceholder = NstSvcTranslation.get('Add labels...');
     vm.removeLabels = removeLabels;
     vm.enableLabel = false;
+    vm.labelClick = labelClick;
 
     vm.isDisabled = isDisabled;
 
@@ -712,6 +713,18 @@
           vm[i] = false;
         }
       }
+    }
+
+    function labelClick(data) {
+      $scope.$dismiss();
+
+      $timeout(function () {
+        var searchQuery = new NstSearchQuery('');
+        searchQuery.addLabel(data.title);
+        $state.go('app.task.search', {
+          search: NstSearchQuery.encode(searchQuery.toString())
+        });
+      }, 200);
     }
 
     $scope.$on('$destroy', function () {

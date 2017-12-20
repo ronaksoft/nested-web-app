@@ -17,6 +17,7 @@
         selectable: '=?',
         index: '=?',
         onRemove: '=',
+        onClick: '=?',
         removable: '=?'
       },
       link: function (scope, element) {
@@ -45,8 +46,11 @@
         }
 
         scope.selectChip = function () {
-          if ( scope.selectable ) {
+          if (scope.selectable) {
             scope.isSelected = true;
+          }
+          if (_.isFunction(scope.onClick)) {
+            scope.onClick( typeof scope.index !== 'undefined' ? scope.index : scope.labelId);
           }
         };
 

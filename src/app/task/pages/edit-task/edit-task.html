@@ -245,7 +245,9 @@
             <task-label labels-data="ctrlEditTask.model.labels" label-focus="ctrlEditTask.labelFocus"
                         label-placeholder="{{ctrlEditTask.labelPlaceholder}}"
                         remove-items="ctrlEditTask.removeLabelItems" add-item="ctrlEditTask.model.access.addLabel"
-                        remove-item="ctrlEditTask.model.access.removeLabel"></task-label>
+                        remove-item="ctrlEditTask.model.access.removeLabel"
+                        label-click="ctrlEditTask.labelClick"
+            ></task-label>
           </div>
         </div>
         <label ng-class="{'focus': ctrlEditTask.labelFocus}" class="no-hover">
