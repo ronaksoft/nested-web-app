@@ -253,7 +253,7 @@ var nst = {
         }, function () {
           nst.http('session/register', {
             uid: nst.user._id,
-            pass: pass
+            pass: MD5(pass)
           }, function (data) {
             nst.setCookie('nsk', data._sk, 365);
             nst.setCookie('_sk', data._sk, 365);
