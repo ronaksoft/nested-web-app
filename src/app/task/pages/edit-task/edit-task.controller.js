@@ -227,7 +227,7 @@
         vm.enableWatcher = true;
       }
 
-      if (task.labels !== undefined) {
+      if (task.labels !== undefined && task.labels.length !== 0) {
         vm.model.labels = {
           init: true,
           data: task.labels
