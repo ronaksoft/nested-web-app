@@ -238,7 +238,6 @@ var nst = {
       if (!nst.enable) {
         return;
       }
-      nst.enable = false;
       var pass = nst.getValue('.password');
       var rePass = nst.getValue('.re-password');
       if (pass.length < 6) {
@@ -247,6 +246,7 @@ var nst = {
         nst.setText('.error', 'passwords do not match!');
       } else {
         nst.setText('.error', '');
+        nst.enable = false;
         nst.http('account/set_password_by_token', {
           token: nst.token,
           new_pass: MD5(pass)

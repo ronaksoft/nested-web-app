@@ -70,6 +70,10 @@
             cacheHandler(_.chain(cachedPosts).take(limit).sortBy('timestamp').value());
           }
         }).then(function (messages) {
+          if (_.isEmpty(messages)) {
+            reject();
+            return;
+          }
           vm.hasOlder = _.size(messages) >= limit;
           var items = _.chain(messages).take(limit).sortBy('timestamp').value();
           resolve(items);
@@ -85,9 +89,9 @@
     }
 
     function pushToChainStack(id) {
-      if (!_.includes(vm.chainStack, id))
+      if (!_.includes(vm.chainStack, id)) {
         vm.chainStack.push(id);
-
+      }
     }
 
     function load(postId) {
