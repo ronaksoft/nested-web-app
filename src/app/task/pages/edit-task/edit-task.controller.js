@@ -52,8 +52,6 @@
       gotoTask = id;
     }
 
-    //
-
     vm.model = {
       isRelated: false,
       relatedTask: null,
@@ -212,7 +210,7 @@
         vm.enableTodo = true;
       }
 
-      if (task.attachments !== undefined) {
+      if (task.attachments !== undefined && task.attachments.length > 0) {
         vm.model.attachments = {
           init: true,
           data: task.attachments
@@ -220,7 +218,7 @@
         vm.enableAttachment = true;
       }
 
-      if (task.watchers !== undefined) {
+      if (task.watchers !== undefined && task.watchers.length > 0) {
         vm.model.watchers = {
           init: true,
           data: task.watchers
@@ -228,7 +226,7 @@
         vm.enableWatcher = true;
       }
 
-      if (task.labels !== undefined && task.labels.length !== 0) {
+      if (task.labels !== undefined && task.labels.length > 0) {
         vm.model.labels = {
           init: true,
           data: task.labels
@@ -248,10 +246,12 @@
 
     function getTask(id) {
       NstSvcTaskFactory.get(id, function (task) {
+        console.log(task);
         importTaskData(task);
         vm.loading = false;
       }).then(function (task) {
         vm.loading = false;
+        console.log(task);
         importTaskData(task);
         $timeout(function () {
           dataInit = true;
@@ -270,7 +270,6 @@
 
     function removeAssignees() {
       vm.removeAssigneeItems.call();
-      // toastr.success('fd')
     }
 
     function getAssigneeIcon(data) {
