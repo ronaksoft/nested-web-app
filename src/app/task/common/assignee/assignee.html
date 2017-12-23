@@ -12,6 +12,6 @@
      ng-repeat="assignee in ctlAssignee.assigneesData" ng-if="ctlAssignee.assigneeWithCandidate == false || (ctlAssignee.assigneeFocus == true && ctlAssignee.assigneeWithCandidate == true)"></div>
 <input nst-mention-user nst-mention-list="ctlAssignee.assignees" nst-mention-data="ctlAssignee.mentionAssigneesData" nst-mention-clicked="ctlAssignee.addIt" type="text"
        class="no-style gale-holder create-task-input" placeholder="{{ctlAssignee.assigneePlaceholder}}"
-       id="task-assignee" ng-focus="ctlAssignee.assigneeFocus = true" ng-model="ctlAssignee.assigneeInput"
-       ng-keydown="ctlAssignee.assigneeKeyDown($event)" ng-keyup="ctlAssignee.assigneeKeyUp($event)"
+       id="task-assignee" focus-me="{{ctlAssignee.assigneeFocus}}" ng-model="ctlAssignee.assigneeInput"
+       ng-keydown="ctlAssignee.assigneeKeyDown($event)" ng-keyup="ctlAssignee.assigneeKeyUp($event)" ng-blur="ctlLabel.initiateFocus()"
        ng-if="((ctlAssignee.assigneeFocus == true || ctlAssignee.assigneeWithCandidate == false) || ctlAssignee.assigneesData.length == 0) && ctlAssignee.addItem == true" focus-me="{{ctlAssignee.assigneeFocusMe}}">

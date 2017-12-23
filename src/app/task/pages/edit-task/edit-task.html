@@ -135,7 +135,7 @@
       </div>
       <div class="task-description auto-height-item" ng-if="ctrlEditTask.enableDescription">
         <div class="task-input-wrapper ng-class:{'focus': ctrlEditTask.descriptionFocus}">
-          <textarea class="no-style gale-holder create-task-input" ng-model="ctrlEditTask.model.description"
+          <textarea class="no-style gale-holder create-task-input" focus-me="{{ctrlEditTask.descriptionFocus}}" ng-model="ctrlEditTask.model.description"
                     ng-focus="ctrlEditTask.descriptionFocus = true" nst-suggest-emoji
                     ng-blur="ctrlEditTask.descriptionFocus = false; ctrlEditTask.updateDescription(ctrlEditTask.model.description);"
                     enter-key="ctrlEditTask.enterDescriptionTask(); ctrlEditTask.updateDescription(ctrlEditTask.model.description);"
@@ -248,13 +248,12 @@
                         remove-item="ctrlEditTask.model.access.removeLabel"></task-label>
           </div>
         </div>
-        <label ng-class="{'focus': ctrlEditTask.labelFocus}" class="no-hover">
+        <label ng-class="{'focus': ctrlEditTask.labelFocus, 'no-hover': ctrlEditTask.model.access.removeLabel !== true}">
           <div class="_24svg _df _jcc _pr">
             <svg class="_16svg static-item">
               <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
             </svg>
-            <svg class="_16svg force hover-item"
-                 ng-if="ctrlEditTask.model.access.removeLabel == true"
+            <svg class="_16svg force hover-item" ng-if="ctrlEditTask.model.access.removeLabel == true"
                  ng-click="ctrlEditTask.removeLabels()" data-uib-tooltip="Clear All Labels"
                  data-tooltip-placement="top-center auto" translate-attrs="data-uib-tooltip"
                  data-tooltip-append-to-body="true">

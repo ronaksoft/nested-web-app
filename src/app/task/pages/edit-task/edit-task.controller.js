@@ -35,14 +35,36 @@
     vm.openBinder = openBinder;
     vm.bindRow = bindRow;
     vm.editTask = editTask;
+    vm.initiateFocus = initiateFocus;
 
     function openBinder() {
       vm.isOpenBinder = !vm.isOpenBinder;
     }
 
+    function initiateFocus() {
+      vm.assigneeFocus = false;
+      vm.dueDateFocus = false;
+      vm.descriptionFocus = false;
+      vm.todoFocus = false;
+      vm.attachmentFocus = false;
+      vm.labelFocus = false;
+      vm.watcherFocus = false;
+    }
+    initiateFocus();
+
     function bindRow(key) {
       vm[key] = true;
       vm.isOpenBinder = false;
+      initiateFocus();
+      try {
+        var newKey = key.replace('enable', '').toLowerCase(),
+            firstChar = newKey[0],
+            firstCharLowerCase = newKey[0].toLowerCase();
+        newKey = newKey.replace(firstChar, firstCharLowerCase);
+        vm[newKey + 'Focus'] = true;
+      } catch (e) {
+
+      }
     }
 
     var gotoTask = null;
@@ -117,7 +139,6 @@
       // console.log('comment sent');
     };
 
-    vm.assigneeFocus = false;
     vm.assigneeIcon = 'no-assignee';
     vm.assigneePlaceholder = NstSvcTranslation.get('Add assignee or candidates');
     vm.assigneeChanged = false;
@@ -126,33 +147,27 @@
     vm.executeAssigneeUpdate = executeAssigneeUpdate;
     vm.assigneeKeyDown = assigneeKeyDown;
 
-    vm.dueDateFocus = false;
     vm.dueDatePlaceholder = NstSvcTranslation.get('+ Set a due time (optional)');
     vm.removeDueDate = removeDueDate;
     vm.enableDue = false;
 
-    vm.descriptionFocus = false;
     vm.descriptionPlaceholder = NstSvcTranslation.get('+ Add a Description...');
     vm.enableDescription = false;
     vm.updateDescription = updateDescription;
 
-    vm.todoFocus = false;
     vm.todoPlaceholder = NstSvcTranslation.get('+ Add a to-do');
     vm.removeTodos = removeTodos;
     vm.enableTodo = false;
     vm.updateTodo = updateTodo;
     vm.checkTodo = checkTodo;
 
-    vm.attachmentFocus = false;
     vm.removeAttachments = removeAttachments;
     vm.enableAttachment = false;
 
-    vm.watcherFocus = false;
     vm.watcherPlaceholder = NstSvcTranslation.get('Add peoples who wants to follow task...');
     vm.removeWatchers = removeWatchers;
     vm.enableWatcher = false;
 
-    vm.labelFocus = false;
     vm.labelPlaceholder = NstSvcTranslation.get('Add labels...');
     vm.removeLabels = removeLabels;
     vm.enableLabel = false;
@@ -293,6 +308,7 @@
     }
 
     function removeTodos() {
+      initiateFocus();
       if (vm.model.todos.length === 0) {
         vm.enableTodo = false;
       } else {
@@ -310,6 +326,7 @@
     }
 
     function removeAttachments() {
+      initiateFocus();
       if (vm.model.attachments.length === 0) {
         vm.enableAttachment = false;
       } else {
@@ -327,6 +344,7 @@
     }
 
     function removeWatchers() {
+      initiateFocus();
       if (vm.model.watchers.length === 0) {
         vm.enableWatcher = false;
       } else {
@@ -344,6 +362,7 @@
     }
 
     function removeLabels() {
+      initiateFocus();
       if (vm.model.labels.length === 0) {
         vm.enableLabel = false;
       } else {
