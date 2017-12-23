@@ -6,7 +6,7 @@
     .controller('EditTaskController', EditTaskController);
 
   /** @ngInject */
-  function EditTaskController($q, $, $timeout, $scope, $state, $rootScope, $stateParams,
+  function EditTaskController($q, $, $timeout, $scope, $state, $rootScope, $stateParams, NstSearchQuery,
                               NstSvcAuth, _, toastr, NstSvcTranslation, NstTask, NST_ATTACHMENT_STATUS,
                               NstUtility, NstSvcTaskFactory, NstSvcTaskUtility, NST_TASK_STATUS) {
     var vm = this;
@@ -73,8 +73,6 @@
       $scope.$dismiss();
       gotoTask = id;
     }
-
-    //
 
     vm.model = {
       isRelated: false,
@@ -171,6 +169,7 @@
     vm.labelPlaceholder = NstSvcTranslation.get('Add labels...');
     vm.removeLabels = removeLabels;
     vm.enableLabel = false;
+    vm.labelClick = labelClick;
 
     vm.isDisabled = isDisabled;
 
@@ -226,7 +225,7 @@
         vm.enableTodo = true;
       }
 
-      if (task.attachments !== undefined) {
+      if (task.attachments !== undefined && task.attachments.length > 0) {
         vm.model.attachments = {
           init: true,
           data: task.attachments
@@ -234,7 +233,7 @@
         vm.enableAttachment = true;
       }
 
-      if (task.watchers !== undefined) {
+      if (task.watchers !== undefined && task.watchers.length > 0) {
         vm.model.watchers = {
           init: true,
           data: task.watchers
@@ -242,7 +241,7 @@
         vm.enableWatcher = true;
       }
 
-      if (task.labels !== undefined && task.labels.length !== 0) {
+      if (task.labels !== undefined && task.labels.length > 0) {
         vm.model.labels = {
           init: true,
           data: task.labels
@@ -262,10 +261,12 @@
 
     function getTask(id) {
       NstSvcTaskFactory.get(id, function (task) {
+        console.log(task);
         importTaskData(task);
         vm.loading = false;
       }).then(function (task) {
         vm.loading = false;
+        console.log(task);
         importTaskData(task);
         $timeout(function () {
           dataInit = true;
@@ -284,7 +285,6 @@
 
     function removeAssignees() {
       vm.removeAssigneeItems.call();
-      // toastr.success('fd')
     }
 
     function getAssigneeIcon(data) {
@@ -731,6 +731,18 @@
           vm[i] = false;
         }
       }
+    }
+
+    function labelClick(data) {
+      $scope.$dismiss();
+
+      $timeout(function () {
+        var searchQuery = new NstSearchQuery('');
+        searchQuery.addLabel(data.title);
+        $state.go('app.task.search', {
+          search: NstSearchQuery.encode(searchQuery.toString())
+        });
+      }, 200);
     }
 
     $scope.$on('$destroy', function () {

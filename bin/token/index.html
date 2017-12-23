@@ -1,6 +1,7 @@
 <html>
 <head>
-  <title>Welcome To nested</title>
+  <title>nested</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
   <style>
     html, body, div, span, applet, object, iframe,
     h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -136,55 +137,55 @@
     @font-face {
       font-family: 'OpenSans';
       font-weight: 300;
-      src: url(/style/fonts/OpenSans/OpenSans-Light.eot?) format("eot"),
-      url(/style/fonts/OpenSans/OpenSans-Light.ttf) format("truetype"),
-      url(/style/fonts/OpenSans/OpenSans-Light.woff) format("woff"),
-      url(/style/fonts/OpenSans/OpenSans-Light.woff2) format("woff2")
+      src: url(/assets/fonts/OpenSans/OpenSans-Light.eot?) format("eot"),
+      url(/assets/fonts/OpenSans/OpenSans-Light.ttf) format("truetype"),
+      url(/assets/fonts/OpenSans/OpenSans-Light.woff) format("woff"),
+      url(/assets/fonts/OpenSans/OpenSans-Light.woff2) format("woff2")
     }
 
     @font-face {
       font-family: 'OpenSans';
       font-weight: 400;
-      src: url(/style/fonts/OpenSans/OpenSans-Regular.eot?) format("eot"),
-      url(/style/fonts/OpenSans/OpenSans-Regular.ttf) format("truetype"),
-      url(/style/fonts/OpenSans/OpenSans-Regular.woff) format("woff"),
-      url(/style/fonts/OpenSans/OpenSans-Regular.woff2) format("woff2")
+      src: url(/assets/fonts/OpenSans/OpenSans-Regular.eot?) format("eot"),
+      url(/assets/fonts/OpenSans/OpenSans-Regular.ttf) format("truetype"),
+      url(/assets/fonts/OpenSans/OpenSans-Regular.woff) format("woff"),
+      url(/assets/fonts/OpenSans/OpenSans-Regular.woff2) format("woff2")
     }
 
     @font-face {
       font-family: 'OpenSans';
       font-weight: 700;
-      src: url(/style/fonts/OpenSans/OpenSans-Bold.eot?) format("eot"),
-      url(/style/fonts/OpenSans/OpenSans-Bold.ttf) format("truetype"),
-      url(/style/fonts/OpenSans/OpenSans-Bold.woff) format("woff"),
-      url(/style/fonts/OpenSans/OpenSans-Bold.woff2) format("woff2")
+      src: url(/assets/fonts/OpenSans/OpenSans-Bold.eot?) format("eot"),
+      url(/assets/fonts/OpenSans/OpenSans-Bold.ttf) format("truetype"),
+      url(/assets/fonts/OpenSans/OpenSans-Bold.woff) format("woff"),
+      url(/assets/fonts/OpenSans/OpenSans-Bold.woff2) format("woff2")
     }
 
     @font-face {
       font-family: 'YekanBakh';
       font-weight: 300;
-      src: url(/style/fonts/YekanBakh/YekanBakhNestedWeb-Light.eot?) format("eot"),
-      url(/style/fonts/YekanBakh/YekanBakhNestedWeb-Light.ttf) format("truetype"),
-      url(/style/fonts/YekanBakh/YekanBakhNestedWeb-Light.woff) format("woff"),
-      url(/style/fonts/YekanBakh/YekanBakhNestedWeb-Light.woff2) format("woff2")
+      src: url(/assets/fonts/YekanBakh/YekanBakhNestedWeb-Light.eot?) format("eot"),
+      url(/assets/fonts/YekanBakh/YekanBakhNestedWeb-Light.ttf) format("truetype"),
+      url(/assets/fonts/YekanBakh/YekanBakhNestedWeb-Light.woff) format("woff"),
+      url(/assets/fonts/YekanBakh/YekanBakhNestedWeb-Light.woff2) format("woff2")
     }
 
     @font-face {
       font-family: 'YekanBakh';
       font-weight: 400;
-      src: url(/style/fonts/YekanBakh/YekanBakhNestedWeb-Regular.eot?) format("eot"),
-      url(/style/fonts/YekanBakh/YekanBakhNestedWeb-Regular.ttf) format("truetype"),
-      url(/style/fonts/YekanBakh/YekanBakhNestedWeb-Regular.woff) format("woff"),
-      url(/style/fonts/YekanBakh/YekanBakhNestedWeb-Regular.woff2) format("woff2")
+      src: url(/assets/fonts/YekanBakh/YekanBakhNestedWeb-Regular.eot?) format("eot"),
+      url(/assets/fonts/YekanBakh/YekanBakhNestedWeb-Regular.ttf) format("truetype"),
+      url(/assets/fonts/YekanBakh/YekanBakhNestedWeb-Regular.woff) format("woff"),
+      url(/assets/fonts/YekanBakh/YekanBakhNestedWeb-Regular.woff2) format("woff2")
     }
 
     @font-face {
       font-family: 'YekanBakh';
       font-weight: 700;
-      src: url(/style/fonts/YekanBakh/YekanBakhNestedWeb-Bold.eot?) format("eot"),
-      url(/style/fonts/YekanBakh/YekanBakhNestedWeb-Bold.ttf) format("truetype"),
-      url(/style/fonts/YekanBakh/YekanBakhNestedWeb-Bold.woff) format("woff"),
-      url(/style/fonts/YekanBakh/YekanBakhNestedWeb-Bold.woff2) format("woff2")
+      src: url(/assets/fonts/YekanBakh/YekanBakhNestedWeb-Bold.eot?) format("eot"),
+      url(/assets/fonts/YekanBakh/YekanBakhNestedWeb-Bold.ttf) format("truetype"),
+      url(/assets/fonts/YekanBakh/YekanBakhNestedWeb-Bold.woff) format("woff"),
+      url(/assets/fonts/YekanBakh/YekanBakhNestedWeb-Bold.woff2) format("woff2")
     }
 
     .form {
@@ -203,12 +204,24 @@
     .green {
       color: #00B45A;
     }
+
+    @media screen and (max-width: 600px){
+      body {
+        background-color: #fff;
+        align-items: flex-start;
+      }
+      .form {
+        border: none;
+        box-shadow: none;
+        width: 100%;
+      }
+    }
   </style>
 </head>
 <body>
 <div class="form">
   <h1>Choose New Password</h1>
-  <img src=""/>
+  <img src="/assets/icons/ph_user.png"/>
   <h2 class="client-name">Nested User</h2>
   <h3 class="client-id green">User Id</h3>
   <p>Welcome To nested <span class="error"></span></p>

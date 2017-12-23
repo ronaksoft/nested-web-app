@@ -24,6 +24,7 @@
     vm.labelKeyDown = labelKeyDown;
     vm.addIt = addIt;
     vm.removeLabelChip = removeLabelChip;
+    vm.labelClickChip = labelClickChip;
     vm.removeItems = removeItems;
 
     if (vm.addItem === undefined) {
@@ -71,6 +72,12 @@
       index = _.findIndex(vm.labelsData, {title: id});
       if (index > -1) {
         vm.labelsData.splice(index, 1);
+      }
+    }
+
+    function labelClickChip(id) {
+      if (_.isFunction(vm.labelClick)) {
+        vm.labelClick(id);
       }
     }
 

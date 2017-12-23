@@ -223,6 +223,7 @@ var nst = {
   user: {},
   enable: true,
   init: function () {
+    nst.reconfigCyrus();
     nst.token = window.location.search.split('?')[1];
     nst.http('account/get_by_token', {
       token: nst.token
@@ -252,7 +253,7 @@ var nst = {
         }, function () {
           nst.http('session/register', {
             uid: nst.user._id,
-            pass: pass
+            pass: MD5(pass)
           }, function (data) {
             nst.setCookie('nsk', data._sk, 365);
             nst.setCookie('_sk', data._sk, 365);
@@ -268,6 +269,14 @@ var nst = {
         });
       }
     });
+  },
+  reconfigCyrus: function () {
+    var url = nst.cyrus.split('://');
+    if (url[0] === 'wss') {
+      nst.cyrus = 'https://' + url[1];
+    } else {
+      nst.cyrus = 'http://' + url[1];
+    }
   },
   getValue: function (elem) {
     return document.querySelector(elem).value;
