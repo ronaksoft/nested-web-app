@@ -42,6 +42,7 @@
     vm.checkTodo = checkTodo;
     vm.removeTodo = removeTodo;
     vm.removeItems = removeItems;
+    vm.addAfterTodo = addAfterTodo;
 
     vm.previousTodo = previousTodo;
 
@@ -96,6 +97,23 @@
     function previousTodo() {
       if (vm.todosData.length > 0) {
         vm.todosData[vm.todosData.length - 1].focusTrigger++;
+      }
+    }
+
+    function addAfterTodo(id) {
+      var index = _.findIndex(vm.todosData, {id: id});
+      if (index > -1) {
+        if (_.trim(vm.todosData[index].text).length === 0) {
+          return;
+        }
+        vm.todosData.splice(index + 1, 0, {
+          id: -parseInt(_.uniqueId()),
+          text: '',
+          checked: false,
+          weight: 1,
+          focusTrigger: 0
+        });
+        vm.todosData[index + 1].focusTrigger++;
       }
     }
   }
