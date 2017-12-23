@@ -261,12 +261,10 @@
 
     function getTask(id) {
       NstSvcTaskFactory.get(id, function (task) {
-        console.log(task);
         importTaskData(task);
         vm.loading = false;
       }).then(function (task) {
         vm.loading = false;
-        console.log(task);
         importTaskData(task);
         $timeout(function () {
           dataInit = true;
@@ -516,20 +514,24 @@
       var oldData = getNormalValue(vm.modelBackUp.todos);
       var newItems = _.differenceBy(todos, oldData, 'id');
       var removedItems = _.differenceBy(oldData, todos, 'id');
-      var promises = [];
+      var removePromises = [];
 
       if (newItems.length > 0) {
         _.forEach(newItems, function (item) {
-          promises.push(NstSvcTaskFactory.addTodo(vm.taskId, item.text, item.weight));
+          NstSvcTaskFactory.addTodo(vm.taskId, item.text, item.weight).then(function (data) {
+            var index = _.findIndex(vm.model.todos, {
+              'id': item.id
+            });
+            vm.model.todos[index].id = data.todo_id;
+            vm.modelBackUp.todos = vm.model.todos.slice(0);
+            isUpdated = true;
+          });
         });
       }
 
       if (removedItems.length > 0) {
-        promises.push(NstSvcTaskFactory.removeTodo(vm.taskId, getCommaSeparate(removedItems)));
-      }
-
-      if (newItems.length > 0 || removedItems.length > 0) {
-        $q.all(promises).then(function () {
+        removePromises.push(NstSvcTaskFactory.removeTodo(vm.taskId, getCommaSeparate(removedItems)));
+        $q.all(removePromises).then(function () {
           vm.modelBackUp.todos = vm.model.todos.slice(0);
           isUpdated = true;
         });
@@ -537,9 +539,6 @@
     }
 
     function updateTodo(index, data) {
-      if (vm.modelBackUp.todos[index].text === data.text) {
-        return;
-      }
       NstSvcTaskFactory.updateTodo(vm.taskId, data.id, data.checked, data.text, data.weight).then(function () {
         vm.modelBackUp.todos[index] = data;
         isUpdated = true;
@@ -547,9 +546,6 @@
     }
 
     function checkTodo(index, data) {
-      if (vm.modelBackUp.todos[index].checked === data.checked) {
-        return;
-      }
       NstSvcTaskFactory.updateTodo(vm.taskId, data.id, data.checked).then(function () {
         vm.modelBackUp.todos[index].checked = data.checked;
         isUpdated = true;

@@ -1,10 +1,10 @@
 (function () {
     'use strict';
-  
+
     angular
       .module('ronak.nested.web.task')
       .directive('taskViewItem', taskViewItem);
-  
+
     /** @ngInject */
     function taskViewItem($state, NST_TASK_STATUS, NstSvcTaskUtility) {
       return {
@@ -47,11 +47,10 @@
                 });
             },
             getTaskIcon: NstSvcTaskUtility.getTaskIcon
-          }
+          };
           setLocationFlag();
         }
       };
     }
-  
+
   })();
-  
