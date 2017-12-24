@@ -86,7 +86,11 @@
       var index = _.findIndex(vm.todosData, {id: id});
       if (index > -1) {
         vm.todosData.splice(index, 1);
-        vm.todoFocusMe++;
+        if (index > 0) {
+          vm.todosData[index - 1].focusTrigger++
+        } else {
+          vm.todoFocusMe++;
+        }
       }
     }
 
