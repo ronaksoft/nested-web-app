@@ -198,6 +198,7 @@
   font-size: $font-size-large;
   line-height: 1.33333;
 }
+
 .butn-login {
   width: 100%;
   margin: 0;
@@ -297,13 +298,11 @@ input[type="checkbox"].inpsw[disabled]:checked + label + label  {
   background-color: $color-white;
 }
 
-
 /**
   *********************************
   *          radio btns           *
   *********************************
 */
-
 .switch {
   input[type="radio"] {
     opacity: 0;
@@ -358,7 +357,6 @@ input[type="checkbox"].inpsw[disabled]:checked + label + label  {
     }
   }
 
-
   input[type="radio"] + label  {
     box-sizing: border-box;
     border-color: $color-breeze;
@@ -383,7 +381,6 @@ input[type="checkbox"].inpsw[disabled]:checked + label + label  {
     color: $color-wind;
   }
 }
-
 
 .place-switch {
   width: 72px;
@@ -504,6 +501,7 @@ input[type="checkbox"].inpsw[disabled]:checked + label + label  {
     }
   }
 }
+
 .place-switch.sm {
   width: 32px;
   height: 16px;
@@ -552,7 +550,6 @@ input[type="checkbox"].inpsw[disabled]:checked + label + label  {
   }
 }
 
-
 .arrow-toggle {
   display: flex;
   justify-content: center;
@@ -584,7 +581,6 @@ input[type="checkbox"].inpsw[disabled]:checked + label + label  {
     transition: all $animation-dur;
   }
 }
-
 
 .attachment-plus {
   width: 40px;

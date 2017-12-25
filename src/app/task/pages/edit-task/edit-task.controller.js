@@ -36,9 +36,16 @@
     vm.bindRow = bindRow;
     vm.editTask = editTask;
     vm.initiateFocus = initiateFocus;
+    vm.setFocus = setFocus;
 
     function openBinder() {
       vm.isOpenBinder = !vm.isOpenBinder;
+    }
+
+    function setFocus(item) {
+      console.log('setFocus', item);
+      initiateFocus();
+      vm[item + 'Focus'] = true;
     }
 
     function initiateFocus() {
@@ -699,27 +706,27 @@
     }
 
     var focusInit = true;
-    $scope.$watch(function () {
-      return {
-        titleFocus: vm.titleFocus,
-        assigneeFocus: vm.assigneeFocus,
-        dueDateFocus: vm.dueDateFocus,
-        descriptionFocus: vm.descriptionFocus,
-        todoFocus: vm.todoFocus,
-        attachmentFocus: vm.attachmentFocus,
-        watcherFocus: vm.watcherFocus,
-        labelFocus: vm.labelFocus
-      };
-    }, function (newVal, oldVal) {
-      if (focusInit) {
-        $timeout(function () {
-          focusInit = false;
-          handleFocus(newVal, oldVal);
-        });
-      } else {
-        focusInit = true;
-      }
-    }, true);
+    // $scope.$watch(function () {
+    //   return {
+    //     titleFocus: vm.titleFocus,
+    //     assigneeFocus: vm.assigneeFocus,
+    //     dueDateFocus: vm.dueDateFocus,
+    //     descriptionFocus: vm.descriptionFocus,
+    //     todoFocus: vm.todoFocus,
+    //     attachmentFocus: vm.attachmentFocus,
+    //     watcherFocus: vm.watcherFocus,
+    //     labelFocus: vm.labelFocus
+    //   };
+    // }, function (newVal, oldVal) {
+    //   if (focusInit) {
+    //     $timeout(function () {
+    //       focusInit = false;
+    //       handleFocus(newVal, oldVal);
+    //     });
+    //   } else {
+    //     focusInit = true;
+    //   }
+    // }, true);
 
     function handleFocus(newVal, oldVal) {
       for (var i in newVal) {

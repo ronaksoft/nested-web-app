@@ -53,11 +53,9 @@
       </div>
       <div class="task-assignee auto-height-item">
         <div class="task-input-wrapper ng-class:{'focus' : ctrlEditTask.assigneeFocus}">
-          <task-assignee assignees-data="ctrlEditTask.model.assignees" assignee-focus="ctrlEditTask.assigneeFocus"
-                         assignee-with-candidate="true"
-                         assignee-placeholder="{{ctrlEditTask.assigneePlaceholder}}"
+          <task-assignee assignees-data="ctrlEditTask.model.assignees" element-focus="ctrlEditTask.assigneeFocus"
+                         assignee-with-candidate="true" assignee-placeholder="{{ctrlEditTask.assigneePlaceholder}}"
                          remove-items="ctrlEditTask.removeAssigneeItems"
-                         assignee-focus-me="ctrlEditTask.assigneeFocusTrigger"
                          add-item="ctrlEditTask.model.access.updateTask"
                          remove-item="ctrlEditTask.model.access.updateTask"
                          on-key-down="ctrlEditTask.assigneeKeyDown"
@@ -110,7 +108,7 @@
         <div class="task-input-wrapper ng-class:{'focus': ctrlEditTask.dueDateFocus}">
           <input type="text" class="no-style gale-holder create-task-input"
                  placeholder="{{ctrlEditTask.dueDatePlaceholder}}"
-                 id="task-due" ng-focus="ctrlEditTask.dueDateFocus = true" ng-blur="ctrlEditTask.dueDateFocus = false"
+                 id="task-due" ng-focus="ctrlEditTask.setFocus('dueDate')" ng-blur="ctrlEditTask.dueDateFocus = false"
                  ng-model="ctrlEditTask.model.dueDateText"
                  data-config="ctrlEditTask.datePickerconfig" g-formatted-picked-date="gfdate" g-picked-date="gdate"
                  ng-jalaali-flat-datepicker have-time="ctrlEditTask.model.hasDueTime" timestamp-model="ctrlEditTask.model.dueDate"
@@ -135,9 +133,9 @@
       </div>
       <div class="task-description auto-height-item" ng-if="ctrlEditTask.enableDescription">
         <div class="task-input-wrapper ng-class:{'focus': ctrlEditTask.descriptionFocus}">
-          <textarea class="no-style gale-holder create-task-input" focus-me="{{ctrlEditTask.descriptionFocus}}" ng-model="ctrlEditTask.model.description"
-                    ng-focus="ctrlEditTask.descriptionFocus = true" nst-suggest-emoji
-                    ng-blur="ctrlEditTask.descriptionFocus = false; ctrlEditTask.updateDescription(ctrlEditTask.model.description);"
+          <textarea class="no-style gale-holder create-task-input" ng-model="ctrlEditTask.model.description"
+                    ng-focus="ctrlEditTask.setFocus('description')" nst-suggest-emoji focus-me="{{ctrlEditTask.descriptionFocus}}"
+                    ng-blur="ctrlEditTask.updateDescription(ctrlEditTask.model.description);ctrlEditTask.descriptionFocus = false"
                     enter-key="ctrlEditTask.enterDescriptionTask(); ctrlEditTask.updateDescription(ctrlEditTask.model.description);"
                     placeholder="{{ctrlEditTask.descriptionPlaceholder}}" id="task-description" resize-textarea
                     uneditable="{{ctrlEditTask.model.access.updateTask? 'false': 'true'}}" auto-dir="ctrlEditTask.model.description"></textarea>
@@ -211,7 +209,7 @@
             <translate>Watchers</translate>
           </h3>
           <div class="task-input-wrapper ng-class:{'focus': ctrlEditTask.watcherFocus}">
-            <task-assignee assignees-data="ctrlEditTask.model.watchers" assignee-focus="ctrlEditTask.watcherFocus"
+            <task-assignee assignees-data="ctrlEditTask.model.watchers" element-focus="ctrlEditTask.watcherFocus"
                            assignee-with-candidate="false"
                            assignee-placeholder="{{ctrlEditTask.watcherPlaceholder}}"
                            remove-items="ctrlEditTask.removeWatcherItems" assignee-exclude="{{ctrlEditTask.user.id}}"
