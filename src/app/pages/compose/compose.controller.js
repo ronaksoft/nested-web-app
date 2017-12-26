@@ -49,6 +49,7 @@
       vm.cmdVPress = false;
       vm.isRetinaDisplay = isRetinaDisplay();
       vm.targetLimit;
+      ;
       vm.ultimateSaveDraft = false;
       vm.attachmentsIsUploading = [];
       vm.abortBackgroundCompose = abortBackgroundCompose;
@@ -64,7 +65,9 @@
         totalItems: 0,
         uploadedItems: 0
       };
-
+      $timeout(function (){
+        vm.subjectElement = document.querySelector('#compose-subject');
+      },10)
       $scope.scrollInstance;
 
       if ($scope.$resolve !== undefined && $scope.$resolve.modalId !== undefined) {
@@ -417,7 +420,7 @@
 
       NstSvcSidebar.setOnItemClick(onPlaceSelected);
 
-      vm.subjectKeyDown = _.debounce(subjectKeyDown, 128)
+      vm.subjectKeyDown = _.debounce(subjectKeyDown, 128);
       vm.search.fn = _.debounce(vm.searchRecipients, 128);
 
       /**
@@ -426,6 +429,8 @@
        */
       function subjectKeyDown(e) {
         NstSvcLogger.debug4('Compose | User types in subject');
+        vm.subjectElement = e.currentTarget;
+        // vm.model.subject = e.currentTarget.value;
         vm.mouseIn = true;
         if (e.which == 13) {
           NstSvcLogger.debug4('Compose | User pressed Enter on subject and focus will goes on the compose body');
@@ -836,7 +841,8 @@
                 return i.id
               });
               var post = new NstPost();
-              post.subject = vm.model.subject;
+              console.log(vm.subjectElement);
+              post.subject = vm.subjectElement.value;
               post.body = vm.model.body;
               post.contentType = 'text/html';
               post.attachments = vm.model.attachments;
