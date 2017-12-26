@@ -11,11 +11,12 @@
     vm.backDropClick = backDropClick;
     vm.addRow = addRow;
     vm.removeRow = removeRow;
+    vm.createFilter = createFilter;
     var sampleModel = {
-      condition: 'assigne',
+      condition: 'assignee',
       equivalent: 'is',
-      value: ''
-    }
+      time: '',
+    };
 
     vm.items = [];
     addRow();
@@ -36,6 +37,10 @@
 
     function removeRow(i) {
       vm.items.splice(i, 1);
+    }
+
+    function createFilter() {
+      console.log(vm.items);
     }
   }
 })();

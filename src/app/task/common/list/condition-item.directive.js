@@ -15,8 +15,14 @@
         model: '='
       },
       link: function ($scope, $el) {
-        $scope.statusFilter = false;
-        $scope.timeFilter = false;
+        $scope.data = {
+          user: '',
+          label: '',
+          keyword: '',
+          unit: 'day',
+          range: 1,
+          status: 'progress'
+        };
         var eq1 = [{
             key: 'is',
             title: NstSvcTranslation.get("is")
@@ -24,13 +30,13 @@
           {
             key: 'isAny',
             title: NstSvcTranslation.get("in any of")
-          },
-        ]
+          }
+        ];
         var eq2 = [{
             key: 'is',
             title: NstSvcTranslation.get("is")
           }
-        ]
+        ];
         var eq3 = [{
             key: 'is',
             title: NstSvcTranslation.get("is")
@@ -39,7 +45,7 @@
             key: 'isNext',
             title: NstSvcTranslation.get("is next")
           }
-        ]
+        ];
         $scope.timeOptions = [
           {
             key: 'day',
@@ -57,7 +63,7 @@
             key: 'year',
             title: NstSvcTranslation.get("Year")
           }
-        ]
+        ];
         $scope.statusOptions = [
           {
             key: 'progress',
@@ -71,15 +77,15 @@
             key: 'overdue',
             title: NstSvcTranslation.get("Over Due")
           }
-        ]
+        ];
         $scope.equivalents = eq1;
         $scope.conditions = [{
-            key: 'assigne',
-            title: NstSvcTranslation.get("Assigne")
+            key: 'assignee',
+            title: NstSvcTranslation.get("Assignee")
           },
           {
             key: 'assignor',
-            title: NstSvcTranslation.get(" Assignor")
+            title: NstSvcTranslation.get("Assignor")
           },
           {
             key: 'label',
@@ -96,27 +102,24 @@
           {
             key: 'dueTime',
             title: NstSvcTranslation.get("Due Time")
-          },
+          }
         ];
+
         $scope.$watch('model.condition', function (condition) {
           conditionChanged(condition);
           var input = $el.find('input');
           if (input) {
             input.focus()
           }
-        })
+        });
 
         function conditionChanged(condition) {
           switch (condition) {
             case $scope.conditions[3].key:
               $scope.equivalents = eq2;
-              $scope.statusFilter = true;
-              $scope.timeFilter = false;
               break;
             case $scope.conditions[5].key:
               $scope.equivalents = eq3;
-              $scope.timeFilter = true;
-              $scope.statusFilter = false;
               break;
             case $scope.conditions[0].key:
             case $scope.conditions[1].key:
@@ -124,14 +127,22 @@
             case $scope.conditions[4].key:
             default:
               $scope.equivalents = eq1;
-              $scope.timeFilter = false;
-              $scope.statusFilter = false;
               break;
           }
-          $scope.model.status = $scope.statusOptions[0].key
-          $scope.model.time = $scope.timeOptions[0].key
+          $scope.model.status = $scope.statusOptions[0].key;
+          $scope.model.time = $scope.timeOptions[0].key;
           $scope.model.equivalent = $scope.equivalents[0].key;
         }
+
+        $scope.$watch(function () {
+          return $scope.data;
+        }, function (newVal) {
+          if (newVal.user.indexOf(',') > -1) {
+            var users = newVal.user.split(',');
+            users = users[users.length - 2];
+            $scope.data.user = users.replace(/\s/g, '') + ', ';
+          }
+        }, true);
       }
     };
   }

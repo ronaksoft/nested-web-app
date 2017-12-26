@@ -428,6 +428,26 @@
       }, 'task-get-by-filter' + options.filter + options.statusFilter);
     }
 
+    function getByCustomFilter(options) {
+      var factory = this;
+      var deferred = $q.defer();
+
+      if (options.statusFilter) {
+        options.status_filter = String(options.statusFilter);
+      }
+
+      return this.sentinel.watch(function () {
+        NstSvcServer.request('task/get_by_custom_filter', options).then(function (data) {
+          deferred.resolve(_.map(data.tasks, function (task) {
+            factory.set(task);
+            return factory.parseTask(task);
+          }));
+        }).catch(deferred.reject);
+
+        return deferred.promise;
+      }, 'task-get-by-custom-filter');
+    }
+
     function handleCachedResponse(cacheHandler, cachedResponse) {
       if (cachedResponse && _.isFunction(cacheHandler)) {
         var cachedPosts = _.map(cachedResponse.tasks, function (task) {

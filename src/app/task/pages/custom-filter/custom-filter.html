@@ -15,19 +15,19 @@
                     <use xlink:href="/assets/icons/nst-icn16.svg#bin"></use>
                     </svg>
                 </div>
-                <condition-item  model="item" index="$index"></condition-item>
+                <condition-item model="item" index="$index"></condition-item>
             </div>
             <button class="butn butn-green secondary _jcc _df add-condition" ng-click="ctrlFilter.addRow();">
                 <translate>Add New Condition</translate>
-            </button>  
+            </button>
         </div>
     </div>
     <div class="modal-footer">
         <button class="butn butn-white secondary _jcc _df" ng-click="ctrlFilter.backDropClick();">
             <translate>Discard</translate>
         </button>
-        <button class="butn butn-green _jcc _df" ng-disabled="">
+        <button class="butn butn-green _jcc _df" ng-disabled="" ng-click="ctrlFilter.createFilter();">
             <translate>Create Filter</translate>
-        </button>                
+        </button>
     </div>
 </div>
