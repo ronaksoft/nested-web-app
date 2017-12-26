@@ -4,9 +4,6 @@
     "APP_VERSION": "4.3.1",
     "BUILD_VERSION": "_BUILD_VERSION_",
     "DOMAIN": "_DOMAIN_",
-    "ADMIN_DOMAIN": "_ADMIN_DOMAIN_",
-    "ADMIN_PORT": "_ADMIN_PORT_",
-    "ADMIN_URL": "_ADMIN_URL_",
     "LOG": {
       "LEVEL": 1,
       "GATEWAY": {
