@@ -17,6 +17,8 @@
     TaskUtility.prototype.getTodoTransform = getTodoTransform;
     TaskUtility.prototype.promptModal = promptModal;
     TaskUtility.prototype.getValidUser = getValidUser;
+    TaskUtility.prototype.b64EncodeUnicode = b64EncodeUnicode;
+    TaskUtility.prototype.b64DecodeUnicode = b64DecodeUnicode;
 
     function getTaskIcon(status, progress) {
       switch (status) {
@@ -82,6 +84,12 @@
         function toSolidBytes(match, p1) {
           return String.fromCharCode('0x' + p1);
         }));
+    }
+
+    function b64DecodeUnicode(str) {
+      return decodeURIComponent(Array.prototype.map.call(atob(str), function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(''));
     }
 
     function getTodoTransform(todos) {

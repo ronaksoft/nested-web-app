@@ -83,9 +83,10 @@
 
       setFilters(customFilters).then(function () {
         if (vm.id === -1) {
-          toastr.success(NstSvcTranslation.get('Custom filter updated'));
-        } else {
           toastr.success(NstSvcTranslation.get('Custom filter has been created'));
+          vm.id = customFilters.length + 1;
+        } else {
+          toastr.success(NstSvcTranslation.get('Custom filter updated'));
         }
       }).catch(function () {
         toastr.error(NstSvcTranslation.get('Something went wrong!'));
@@ -113,23 +114,23 @@
         val: ''
       };
 
-      switch (data.conditions) {
+      switch (data.condition) {
         case NST_CUSTOM_FILTER.CONDITION_STATUS:
-          out.val = data.status;
+          out.val = data.data.status;
           break;
         case NST_CUSTOM_FILTER.CONDITION_ASSIGNOR:
         case NST_CUSTOM_FILTER.CONDITION_ASSIGNEE:
-          out.val = data.user;
+          out.val = data.data.user;
           break;
         case NST_CUSTOM_FILTER.CONDITION_LABEL:
-          out.val = data.label;
+          out.val = data.data.label;
           break;
         case NST_CUSTOM_FILTER.CONDITION_KEYWORD:
-          out.val = data.keyword;
+          out.val = data.data.keyword;
           break;
         case NST_CUSTOM_FILTER.CONDITION_DUE_TIME:
-          out.val = getDays(data.range, data.unit);
-          out.tmp = data.range + '|' + data.unit;
+          out.val = getDays(data.data.range, data.data.unit);
+          out.tmp = data.data.range + '|' + data.data.unit;
           break;
       }
 
@@ -138,33 +139,38 @@
 
     function parseData(data) {
       var out = {
-        user: '',
-        label: '',
-        keyword: '',
-        unit: NST_CUSTOM_FILTER.UNIT_DAY,
-        range: 1,
-        status: NST_CUSTOM_FILTER.STATUS_PROGRESS
+        condition: data.con,
+        equivalent: data.eq,
+        data: {
+          user: '',
+          label: '',
+          keyword: '',
+          unit: NST_CUSTOM_FILTER.UNIT_DAY,
+          range: 1,
+          status: NST_CUSTOM_FILTER.STATUS_PROGRESS
+        }
       };
+
       var tmp = '';
 
-      switch (data.conditions) {
+      switch (data.con) {
         case NST_CUSTOM_FILTER.CONDITION_STATUS:
-          out.status = data.val;
+          out.data.status = data.val;
           break;
         case NST_CUSTOM_FILTER.CONDITION_ASSIGNOR:
         case NST_CUSTOM_FILTER.CONDITION_ASSIGNEE:
-          out.user = data.val;
+          out.data.user = data.val;
           break;
         case NST_CUSTOM_FILTER.CONDITION_LABEL:
-          out.label = data.val;
+          out.data.label = data.val;
           break;
         case NST_CUSTOM_FILTER.CONDITION_KEYWORD:
-          out.keyword = data.val;
+          out.data.keyword = data.val;
           break;
         case NST_CUSTOM_FILTER.CONDITION_DUE_TIME:
           tmp = data.tmp.split('|');
-          out.range = parseInt(data.tmp[0]);
-          out.unit = data.tmp[1];
+          out.data.range = parseInt(data.tmp[0]);
+          out.data.unit = data.tmp[1];
           break;
       }
 

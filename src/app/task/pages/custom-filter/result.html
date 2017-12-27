@@ -1,0 +1,65 @@
+<div class="nst-content _tr content-wrapper">
+  <!-- contents
+            ==============-->
+  <section class="content">
+    <div class="task-area">
+      <h2>
+        <svg class="_16svg _df _scl2">
+          <use xlink:href="/assets/icons/nst-icn16.svg#filter"></use>
+        </svg>
+        <a>
+          <translate>{{ctrl.name}}</translate>
+        </a>
+        <hr>
+      </h2>
+      <ul class="list-ul upcoming" id="task-container">
+        <task-view-item ng-repeat="task in ctrl.tasks"></task-view-item>
+      </ul>
+
+      <div class="_fn empty-place-holder" ng-if="!ctrl.firstTimeLoading && (
+      (ctrl.isGlancePage && ctrl.tasks.length === 0 && ctrl.pendingTasks.length === 0 && ctrl.overDueTasks.length === 0) ||
+      (!ctrl.isGlancePage && ctrl.tasks.length === 0))">
+        <img class="_db" width="256" width="256" src="/assets/icons/ph_empt_task.png" srcset="/assets/icons/ph_empt_task@2x.png"
+        />
+        <translate>You don't have any task until next year!</br>Enjoy your free time</translate> <span>😊</span>
+      </div>
+      <div class="_db _tac">
+        <div class="_difh _jcc nst-mood-cheerful no-gutter nst-margin-24 _pr" ng-if="ctrl.loading">
+          <div class="nst-loading"></div>
+        </div>
+      </div>
+      <div class="nst-marginbtm-32"></div>
+    </div>
+  </section>
+  <!-- content plus
+            ==============-->
+  <div class="content-plus illu">
+  </div>
+</div>
+
+<script type="text/ng-template" id="task-date-time.html">
+  <div ng-if="task.hasDueTime">
+    {{task.dueDate | date : 'full' | localize}}
+  </div>
+  <div ng-if="!task.hasDueTime">
+    {{task.dueDate | date : 'full-only-date' | localize}}
+  </div>
+</script>
+
+<script type="text/ng-template" id="task-description.html">
+  <span>
+    {{task.description}}
+  </span>
+</script>
+
+<script type="text/ng-template" id="task-watchers.html">
+  <span ng-repeat="watcher in task.watchers">
+    {{watcher.fullName}}</br>
+  </span>
+</script>
+
+<script type="text/ng-template" id="task-labels.html">
+  <span ng-repeat="label in task.labels">
+    {{label.title}}</br>
+  </span>
+</script>

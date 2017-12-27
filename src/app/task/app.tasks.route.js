@@ -99,6 +99,18 @@
         group: 'task',
         primary: true
       }
+    }).state('app.task.custom_filter',{
+      url: '/custom_filter/:id',
+      params: {
+        filter: '-'
+      },
+      templateUrl: 'app/task/pages/custom-filter/result.html',
+      controller: 'TaskCustomFilterController',
+      controllerAs: 'ctrl',
+      options: {
+        group: 'task',
+        primary: true
+      }
     })
 
   }

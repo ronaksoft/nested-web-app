@@ -62,6 +62,16 @@
                 <translate>Watchlist</translate>
               </div>
             </a>
+            <a class="side-menu-item" ui-sref="app.task.custom_filter({id: filter.id})" ui-sref-active="isSelected" ng-repeat="filter in ctrl.customFilters">
+              <span class="item-icon" active-group="message">
+                <svg class="_16svg">
+                  <use xlink:href="/assets/icons/nst-icn16.svg#filter"></use>
+                </svg>
+              </span>
+              <div class="item-desc">
+                <translate>{{filter.name}}</translate>
+              </div>
+            </a>
             <a class="side-menu-item create-filter" ng-click="ctrl.openCustomFilterModal()">
               <span class="item-icon" active-group="message">
                 <svg class="_16svg">

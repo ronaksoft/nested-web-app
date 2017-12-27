@@ -6,11 +6,18 @@
     .controller('TaskSidebarController', TaskSidebarController);
 
   /** @ngInject */
-  function TaskSidebarController($q, $scope, $state, $stateParams, _, $uibModal, $rootScope) {
+  function TaskSidebarController($q, $scope, $state, $stateParams, _, $uibModal, $rootScope, NstSvcKeyFactory, NST_CUSTOM_FILTER) {
     var vm = this;
     var eventReferences = [];
     vm.openCustomFilterModal = openCustomFilterModal
     vm.createTask = createTask;
+    vm.customFilters = [];
+
+    (function () {
+      getCustomFilters().then(function (data) {
+        vm.customFilters = data;
+      });
+    })();
 
     function createTask(id) {
       if (id === undefined) {
@@ -29,6 +36,15 @@
         controllerAs: 'ctrlFilter',
         backdropClass: 'taskBackDrop'
       })
+    }
+
+    function getCustomFilters() {
+      return NstSvcKeyFactory.get(NST_CUSTOM_FILTER.KEY_NAME).then(function (result) {
+        if (result) {
+          return JSON.parse(result);
+        }
+        return [];
+      });
     }
 
     eventReferences.push($rootScope.$on('create-related-task', function (event, id) {
