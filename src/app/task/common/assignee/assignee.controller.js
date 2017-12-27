@@ -14,7 +14,7 @@
     .module('ronak.nested.web.task')
     .controller('TaskAssigneeController', TaskAssigneeController);
 
-  function TaskAssigneeController($scope, _, NstSvcAuth) {
+  function TaskAssigneeController($scope, _, NstSvcAuth, $timeout) {
     var vm = this;
 
     vm.user = NstSvcAuth.user;
@@ -26,6 +26,7 @@
     vm.addIt = addIt;
     vm.removeAssigneeChip = removeAssigneeChip;
     vm.removeItems = removeItems;
+    vm.unFocus = unFocus;
 
     if (vm.addItem === undefined) {
       vm.addItem = true;
@@ -47,7 +48,11 @@
         });
       }
     })();
-
+    function unFocus() {
+      $timeout(function(){
+        vm.elementFocus = false
+      }, 100)
+    }
     function removeRedundantAssignees(assignees, assigneesData) {
       var tempList = [];
       _.forEach(assignees, function (label) {

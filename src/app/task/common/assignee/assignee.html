@@ -13,5 +13,5 @@
 <input nst-mention-user nst-mention-list="ctlAssignee.assignees" nst-mention-data="ctlAssignee.mentionAssigneesData" nst-mention-clicked="ctlAssignee.addIt" type="text"
        class="no-style gale-holder create-task-input" placeholder="{{ctlAssignee.assigneePlaceholder}}"
        id="task-assignee" ng-focus="ctlAssignee.elementFocus = true" focus-me="{{ctlAssignee.elementFocus}}" ng-model="ctlAssignee.assigneeInput"
-       ng-keydown="ctlAssignee.assigneeKeyDown($event)" ng-keyup="ctlAssignee.assigneeKeyUp($event)" ng-blur="ctlAssignee.elementFocus = false"
+       ng-keydown="ctlAssignee.assigneeKeyDown($event)" ng-keyup="ctlAssignee.assigneeKeyUp($event)" ng-blur="ctlAssignee.unFocus($event)"
        ng-if="((ctlAssignee.elementFocus == true || ctlAssignee.assigneeWithCandidate == false) || ctlAssignee.assigneesData.length == 0) && ctlAssignee.addItem == true">

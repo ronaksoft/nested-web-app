@@ -43,7 +43,6 @@
     }
 
     function setFocus(item) {
-      console.log('setFocus', item);
       initiateFocus();
       vm[item + 'Focus'] = true;
     }
@@ -705,28 +704,23 @@
       });
     }
 
-    var focusInit = true;
-    // $scope.$watch(function () {
-    //   return {
-    //     titleFocus: vm.titleFocus,
-    //     assigneeFocus: vm.assigneeFocus,
-    //     dueDateFocus: vm.dueDateFocus,
-    //     descriptionFocus: vm.descriptionFocus,
-    //     todoFocus: vm.todoFocus,
-    //     attachmentFocus: vm.attachmentFocus,
-    //     watcherFocus: vm.watcherFocus,
-    //     labelFocus: vm.labelFocus
-    //   };
-    // }, function (newVal, oldVal) {
-    //   if (focusInit) {
-    //     $timeout(function () {
-    //       focusInit = false;
-    //       handleFocus(newVal, oldVal);
-    //     });
-    //   } else {
-    //     focusInit = true;
-    //   }
-    // }, true);
+    $scope.$watch(function () {
+      return {
+        titleFocus: vm.titleFocus,
+        assigneeFocus: vm.assigneeFocus,
+        dueDateFocus: vm.dueDateFocus,
+        descriptionFocus: vm.descriptionFocus,
+        todoFocus: vm.todoFocus,
+        attachmentFocus: vm.attachmentFocus,
+        watcherFocus: vm.watcherFocus,
+        labelFocus: vm.labelFocus
+      };
+    }, function (newVal, oldVal) {
+      
+      if (_.countBy(Object.values(newVal))['true'] > 1) {
+        vm.todoFocus = false;
+      }
+    }, true);
 
     function handleFocus(newVal, oldVal) {
       for (var i in newVal) {

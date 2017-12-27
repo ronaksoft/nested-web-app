@@ -55,11 +55,8 @@
         <div class="task-input-wrapper ng-class:{'focus' : ctrlEditTask.assigneeFocus}">
           <task-assignee assignees-data="ctrlEditTask.model.assignees" element-focus="ctrlEditTask.assigneeFocus"
                          assignee-with-candidate="true" assignee-placeholder="{{ctrlEditTask.assigneePlaceholder}}"
-                         remove-items="ctrlEditTask.removeAssigneeItems"
-                         add-item="ctrlEditTask.model.access.updateTask"
-                         remove-item="ctrlEditTask.model.access.updateTask"
-                         on-key-down="ctrlEditTask.assigneeKeyDown"
-          ></task-assignee>
+                         remove-items="ctrlEditTask.removeAssigneeItems" add-item="ctrlEditTask.model.access.updateTask"
+                         remove-item="ctrlEditTask.model.access.updateTask" on-key-down="ctrlEditTask.assigneeKeyDown"></task-assignee>
           <div class="input-buttons" ng-if="ctrlEditTask.assigneeFocus && ctrlEditTask.assigneeChanged">
             <div class="discard-changes">
               <svg class="_16svg" ng-click="ctrlEditTask.executeAssigneeUpdate('abort')">

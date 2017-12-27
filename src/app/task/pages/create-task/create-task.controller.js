@@ -78,30 +78,23 @@
       vm.assigneeTodoTrigger++;
     };
 
-    vm.assigneeFocus = false;
     vm.assigneeIcon = 'no-assignee';
     vm.assigneePlaceholder = NstSvcTranslation.get('Add assignee or candidates');
     vm.removeAssignees = removeAssignees;
 
-    vm.dueDateFocus = false;
     vm.dueDatePlaceholder = NstSvcTranslation.get('+ Set a due time (optional)');
     vm.removeDueDate = removeDueDate;
 
-    vm.descFocus = false;
     vm.descPlaceholder = NstSvcTranslation.get('+ Add a Description...');
 
-    vm.todoFocus = false;
     vm.todoPlaceholder = NstSvcTranslation.get('+ Add a to-do');
     vm.removeTodos = removeTodos;
 
-    vm.attachmentFocus = false;
     vm.removeAttachments = removeAttachments;
 
-    vm.watcherFocus = false;
     vm.watcherPlaceholder = NstSvcTranslation.get('Add peoples who wants to follow task...');
     vm.removeWatchers = removeWatchers;
 
-    vm.labelFocus = false;
     vm.labelPlaceholder = NstSvcTranslation.get('Add labels...');
     vm.removeLabels = removeLabels;
 
@@ -243,36 +236,39 @@
       $scope.$dismiss();
     }
 
-    var focusInit = true;
+    function setFocus(item) {
+      initiateFocus();
+      vm[item + 'Focus'] = true;
+    }
+
+    function initiateFocus() {
+      vm.assigneeFocus = false;
+      vm.dueDateFocus = false;
+      vm.descriptionFocus = false;
+      vm.todoFocus = false;
+      vm.attachmentFocus = false;
+      vm.labelFocus = false;
+      vm.watcherFocus = false;
+    }
+    initiateFocus();
     $scope.$watch(function () {
       return {
         titleFocus: vm.titleFocus,
         assigneeFocus: vm.assigneeFocus,
         dueDateFocus: vm.dueDateFocus,
-        descFocus: vm.descFocus,
+        descriptionFocus: vm.descriptionFocus,
         todoFocus: vm.todoFocus,
         attachmentFocus: vm.attachmentFocus,
         watcherFocus: vm.watcherFocus,
         labelFocus: vm.labelFocus
       };
     }, function (newVal, oldVal) {
-      if (focusInit) {
-        $timeout(function () {
-          focusInit = false;
-          handleFocus(newVal, oldVal);
-        });
-      } else {
-        focusInit = true;
+      
+      if (_.countBy(Object.values(newVal))['true'] > 1) {
+        vm.todoFocus = false;
       }
     }, true);
 
-    function handleFocus(newVal, oldVal) {
-      for (var i in newVal) {
-        if (newVal[i] === oldVal[i]) {
-          vm[i] = false;
-        }
-      }
-    }
 
     $scope.$on('$destroy', function () {
       $rootScope.$broadcast('close-background-modal', {
