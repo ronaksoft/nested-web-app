@@ -9,14 +9,13 @@
   function TaskSidebarController($q, $scope, $state, $stateParams, _, $uibModal, $rootScope, NstSvcKeyFactory, NST_CUSTOM_FILTER) {
     var vm = this;
     var eventReferences = [];
-    vm.openCustomFilterModal = openCustomFilterModal
+    vm.openCustomFilterModal = openCustomFilterModal;
     vm.createTask = createTask;
     vm.customFilters = [];
 
     (function () {
-      getCustomFilters().then(function (data) {
-        vm.customFilters = data;
-      });
+      getCustomFilters(true);
+      getCustomFilters(false);
     })();
 
     function createTask(id) {
@@ -27,28 +26,43 @@
     }
 
     // TODO : consider callback and updating sidebar items
-    function openCustomFilterModal() {
+    function openCustomFilterModal(id) {
+      id = id || -1;
       $uibModal.open({
         animation: false,
         size: 'task modal-custom-filter',
         templateUrl: 'app/task/pages/custom-filter/custom-filter.html',
         controller: 'CustomFilterController',
         controllerAs: 'ctrlFilter',
-        backdropClass: 'taskBackDrop'
+        backdropClass: 'taskBackDrop',
+        resolve: {
+          modalData: {
+            id: id
+          }
+        }
       })
     }
 
-    function getCustomFilters() {
-      return NstSvcKeyFactory.get(NST_CUSTOM_FILTER.KEY_NAME).then(function (result) {
+    function getCustomFilters(cache) {
+      NstSvcKeyFactory.get(NST_CUSTOM_FILTER.KEY_NAME, cache).then(function (result) {
         if (result) {
-          return JSON.parse(result);
+          vm.customFilters = JSON.parse(result);
         }
-        return [];
       });
     }
 
     eventReferences.push($rootScope.$on('create-related-task', function (event, id) {
       $rootScope.$broadcast('open-create-task', id);
+    }));
+
+    eventReferences.push($rootScope.$on('open-task-custom-filter', function (event, data) {
+      console.log(data);
+      openCustomFilterModal(data.id);
+    }));
+
+
+    eventReferences.push($rootScope.$on('task-custom-filter-updated', function () {
+      getCustomFilters(true);
     }));
 
     $scope.$on('$destroy', function () {

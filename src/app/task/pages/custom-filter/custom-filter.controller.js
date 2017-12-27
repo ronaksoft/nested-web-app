@@ -16,6 +16,7 @@
     vm.addRow = addRow;
     vm.removeRow = removeRow;
     vm.createFilter = createFilter;
+    vm.inProgress = false;
     var sampleModel = {
       condition: NST_CUSTOM_FILTER.CONDITION_ASSIGNEE,
       equivalent: NST_CUSTOM_FILTER.LOGIC_AND,
@@ -32,11 +33,15 @@
     vm.items = [];
 
     (function () {
+      if ($scope.$resolve !== undefined && $scope.$resolve.modalData !== undefined) {
+        vm.id = $scope.$resolve.modalData.id;
+      }
+      vm.inProgress = true;
       getFilters().then(function (data) {
         console.log(data);
         customFilters = data;
         if (vm.id === -1) {
-          addRow();
+          addRow(0);
         } else {
           var index = getFilterIndex();
           vm.name = customFilters[index].name;
@@ -44,6 +49,7 @@
             return parseData(filter);
           });
         }
+        vm.inProgress = false;
       });
     })();
 
@@ -51,9 +57,31 @@
       $scope.$dismiss();
     }
 
-    function addRow() {
+    function addRow(index) {
+      if (vm.items.length >= 6) {
+        return;
+      }
+      index = index || vm.items.length;
       var clone = _.cloneDeep(sampleModel);
+      clone.condition = getNewCondition(index);
       vm.items.push(clone);
+    }
+
+    var conditions = [
+      NST_CUSTOM_FILTER.CONDITION_ASSIGNEE,
+      NST_CUSTOM_FILTER.CONDITION_ASSIGNOR,
+      NST_CUSTOM_FILTER.CONDITION_LABEL,
+      NST_CUSTOM_FILTER.CONDITION_STATUS,
+      NST_CUSTOM_FILTER.CONDITION_KEYWORD,
+      NST_CUSTOM_FILTER.CONDITION_DUE_TIME
+    ];
+
+    function getNewCondition(index) {
+      var selectedConditions = _.map(vm.items, function (item) {
+        return item.condition;
+      });
+      selectedConditions = selectedConditions.slice(0, index);
+      return _.difference(conditions, selectedConditions)[0];
     }
 
     function removeRow(i) {
@@ -65,6 +93,7 @@
     }
 
     function createFilter() {
+      vm.inProgress = true;
       var index = getFilterIndex();
       if (index > -1) {
         customFilters[index].name = vm.name;
@@ -84,12 +113,16 @@
       setFilters(customFilters).then(function () {
         if (vm.id === -1) {
           toastr.success(NstSvcTranslation.get('Custom filter has been created'));
-          vm.id = customFilters.length + 1;
+          vm.id = customFilters.length;
         } else {
           toastr.success(NstSvcTranslation.get('Custom filter updated'));
         }
+        $rootScope.$broadcast('task-custom-filter-updated');
       }).catch(function () {
         toastr.error(NstSvcTranslation.get('Something went wrong!'));
+      }).finally(function () {
+        vm.inProgress = false;
+        $scope.$dismiss();
       });
     }
 

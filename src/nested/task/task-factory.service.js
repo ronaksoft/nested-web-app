@@ -41,6 +41,7 @@
     TaskFactory.prototype.setState = setState;
     TaskFactory.prototype.remove = remove;
     TaskFactory.prototype.getByFilter = getByFilter;
+    TaskFactory.prototype.getByCustomFilter = getByCustomFilter;
     TaskFactory.prototype.handleCachedResponse = handleCachedResponse;
     TaskFactory.prototype.parseCachedModel = parseCachedModel;
     TaskFactory.prototype.transformToCacheModel = transformToCacheModel;
@@ -428,7 +429,7 @@
       }, 'task-get-by-filter' + options.filter + options.statusFilter);
     }
 
-    function getByCustomFilter(options) {
+    function getByCustomFilter(options, cacheHandler) {
       var factory = this;
       var deferred = $q.defer();
 
@@ -437,7 +438,7 @@
       }
 
       return this.sentinel.watch(function () {
-        NstSvcServer.request('task/get_by_custom_filter', options).then(function (data) {
+        NstSvcServer.request('task/get_by_custom_filter', options, _.partial(handleCachedResponse, cacheHandler)).then(function (data) {
           deferred.resolve(_.map(data.tasks, function (task) {
             factory.set(task);
             return factory.parseTask(task);

@@ -12,7 +12,9 @@
       replace: true,
       templateUrl: 'app/task/common/list/condition-item.html',
       scope: {
-        model: '='
+        model: '=',
+        selectedItems: '=',
+        index: '='
       },
       link: function ($scope, $el) {
         $scope.conConst = NST_CUSTOM_FILTER;
@@ -118,6 +120,16 @@
               break;
           }
         }
+
+        $scope.getConditions = function () {
+          var selectedConditions = _.map($scope.selectedItems, function (item) {
+            return {
+              key: item.condition
+            };
+          });
+          selectedConditions = selectedConditions.slice(0, $scope.index);
+          return _.differenceBy($scope.conditions, selectedConditions, 'key');
+        };
       }
     };
   }

@@ -49,7 +49,6 @@
       vm.cmdVPress = false;
       vm.isRetinaDisplay = isRetinaDisplay();
       vm.targetLimit;
-      ;
       vm.ultimateSaveDraft = false;
       vm.attachmentsIsUploading = [];
       vm.abortBackgroundCompose = abortBackgroundCompose;

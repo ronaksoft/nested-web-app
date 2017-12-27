@@ -16,9 +16,9 @@
                     <use xlink:href="/assets/icons/nst-icn16.svg#bin"></use>
                     </svg>
                 </div>
-                <condition-item model="item" index="$index"></condition-item>
+                <condition-item model="item" index="$index" selected-items="ctrlFilter.items"></condition-item>
             </div>
-            <button class="butn butn-green secondary _jcc _df add-condition" ng-click="ctrlFilter.addRow();">
+            <button class="butn butn-green secondary _jcc _df add-condition" ng-click="ctrlFilter.addRow();" ng-if="ctrlFilter.items.length < 6">
                 <translate>Add New Condition</translate>
             </button>
         </div>
@@ -27,8 +27,9 @@
         <button class="butn butn-white secondary _jcc _df" ng-click="ctrlFilter.backDropClick();">
             <translate>Discard</translate>
         </button>
-        <button class="butn butn-green _jcc _df" ng-disabled="" ng-click="ctrlFilter.createFilter();">
-            <translate>Create Filter</translate>
+        <button class="butn butn-green _jcc _df" ng-disabled="(ctrlFilter.name === '' || ctrlFilter.inProgress === true)" ng-click="ctrlFilter.createFilter();">
+            <span translate-inner ng-if="ctrlFilter.id == -1">Create Filter</span>
+            <span translate-inner ng-if="ctrlFilter.id != -1">Update Filter</span>
         </button>
     </div>
 </div>

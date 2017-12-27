@@ -14,7 +14,6 @@
     KeyFactory.prototype = new NstBaseFactory();
     KeyFactory.prototype.constructor = KeyFactory;
     KeyFactory.prototype.get = get;
-    KeyFactory.prototype.getCache = getCache;
     KeyFactory.prototype.set = set;
     KeyFactory.prototype.setCache = setCache;
     KeyFactory.prototype.parseCache = parseCache;
@@ -24,7 +23,14 @@
     var factory = new KeyFactory();
     return factory;
 
-    function get(key) {
+    function get(key, cache) {
+      if (cache === true) {
+        var cachedData = this.parseCache(key);
+        if (cachedData) {
+          return $q.resolve(cachedData);
+        }
+      }
+
       return factory.sentinel.watch(function () {
         var deferred = $q.defer();
         NstSvcServer.request('client/read_key', {
@@ -39,15 +45,6 @@
 
         return deferred.promise;
       }, "read" + key);
-    }
-
-    function getCache(key) {
-      var cachedData = this.parseCache(key);
-      if (cachedData) {
-        return $q.resolve(cachedData);
-      }
-
-      return get(key);
     }
 
     function setCache(data) {

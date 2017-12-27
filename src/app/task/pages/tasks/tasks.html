@@ -48,6 +48,22 @@
         </a>
         <hr>
       </h2>
+      <h2 ng-if="ctrl.isCustomFilterPage">
+        <svg class="_16svg _df _scl2">
+          <use xlink:href="/assets/icons/nst-icn16.svg#filter"></use>
+        </svg>
+        <a class="_fw">
+          <translate>{{ctrl.customFilterName}}</translate>
+        </a>
+        <div class="more-option" data-popover-class="white-pop place-item-options-popover" data-popover-append-to-body="true" uib-popover-template="'app/task/pages/tasks/partials/custom-filter-more-option.html'"
+             data-popover-popup-close-delay="100" data-popover-trigger="focus" data-popover-placement="auto {{$root._direction == 'rtl' ? 'bottom-left' : 'bottom-right'}}" data-uib-tooltip="More options" translate-attrs="data-uib-tooltip"
+             data-tooltip-append-to-body="true" data-tooltip-placement="{{$root._direction == 'rtl' ? 'left-top' : 'right-top'}} auto" popover-is-open="ctrl.customFilterPopover">
+          <svg class="_24svg">
+            <use xlink:href="/assets/icons/nst-icn24.svg#more"></use>
+          </svg>
+        </div>
+        <hr>
+      </h2>
       <h5 class="list-head large error" ng-if="ctrl.overDueTasks.length > 0 && ctrl.isGlancePage">
         <translate>Overdue Tasks</translate>
       </h5>
