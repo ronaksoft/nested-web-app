@@ -6,7 +6,7 @@
     .directive('conditionItem', conditionItem);
 
   /** @ngInject */
-  function conditionItem(NstSvcTranslation) {
+  function conditionItem(NstSvcTranslation, NST_CUSTOM_FILTER) {
     return {
       restrict: 'E',
       replace: true,
@@ -15,93 +15,81 @@
         model: '='
       },
       link: function ($scope, $el) {
-        $scope.data = {
-          user: '',
-          label: '',
-          keyword: '',
-          unit: 'day',
-          range: 1,
-          status: 'progress'
-        };
+        $scope.conConst = NST_CUSTOM_FILTER;
         var eq1 = [{
-            key: 'is',
-            title: NstSvcTranslation.get("is")
+            key: NST_CUSTOM_FILTER.LOGIC_AND,
+            title: NstSvcTranslation.get('is')
           },
           {
-            key: 'isAny',
-            title: NstSvcTranslation.get("in any of")
-          }
-        ];
-        var eq2 = [{
-            key: 'is',
-            title: NstSvcTranslation.get("is")
+            key: NST_CUSTOM_FILTER.LOGIC_OR,
+            title: NstSvcTranslation.get('in any of')
           }
         ];
         var eq3 = [{
-            key: 'is',
-            title: NstSvcTranslation.get("is")
+            key: NST_CUSTOM_FILTER.LOGIC_IS,
+            title: NstSvcTranslation.get('is')
           },
           {
-            key: 'isNext',
-            title: NstSvcTranslation.get("is next")
+            key: NST_CUSTOM_FILTER.LOGIC_IS_NEXT,
+            title: NstSvcTranslation.get('is next')
           }
         ];
         $scope.timeOptions = [
           {
-            key: 'day',
-            title: NstSvcTranslation.get("Day")
+            key: NST_CUSTOM_FILTER.UNIT_DAY,
+            title: NstSvcTranslation.get('Day')
           },
           {
-            key: 'week',
-            title: NstSvcTranslation.get("Week")
+            key: NST_CUSTOM_FILTER.UNIT_WEEK,
+            title: NstSvcTranslation.get('Week')
           },
           {
-            key: 'month',
-            title: NstSvcTranslation.get("Month")
+            key: NST_CUSTOM_FILTER.UNIT_MONTH,
+            title: NstSvcTranslation.get('Month')
           },
           {
-            key: 'year',
-            title: NstSvcTranslation.get("Year")
+            key: NST_CUSTOM_FILTER.UNIT_YEAR,
+            title: NstSvcTranslation.get('Year')
           }
         ];
         $scope.statusOptions = [
           {
-            key: 'progress',
-            title: NstSvcTranslation.get("In Progress")
+            key: NST_CUSTOM_FILTER.STATUS_PROGRESS,
+            title: NstSvcTranslation.get('In Progress')
           },
           {
-            key: 'hold',
-            title: NstSvcTranslation.get("Hold")
+            key: NST_CUSTOM_FILTER.STATUS_HOLD,
+            title: NstSvcTranslation.get('Hold')
           },
           {
-            key: 'overdue',
-            title: NstSvcTranslation.get("Over Due")
+            key: NST_CUSTOM_FILTER.STATUS_OVERDUE,
+            title: NstSvcTranslation.get('Over Due')
           }
         ];
         $scope.equivalents = eq1;
         $scope.conditions = [{
-            key: 'assignee',
-            title: NstSvcTranslation.get("Assignee")
+            key: NST_CUSTOM_FILTER.CONDITION_ASSIGNEE,
+            title: NstSvcTranslation.get('Assignee')
           },
           {
-            key: 'assignor',
-            title: NstSvcTranslation.get("Assignor")
+            key: NST_CUSTOM_FILTER.CONDITION_ASSIGNOR,
+            title: NstSvcTranslation.get('Assignor')
           },
           {
-            key: 'label',
-            title: NstSvcTranslation.get("Label")
+            key: NST_CUSTOM_FILTER.CONDITION_LABEL,
+            title: NstSvcTranslation.get('Label')
           },
           {
-            key: 'status',
-            title: NstSvcTranslation.get("Status")
+            key: NST_CUSTOM_FILTER.CONDITION_STATUS,
+            title: NstSvcTranslation.get('Status')
           },
           {
-            key: 'keyword',
-            title: NstSvcTranslation.get("Keyword")
+            key: NST_CUSTOM_FILTER.CONDITION_KEYWORD,
+            title: NstSvcTranslation.get('Keyword')
           },
           {
-            key: 'dueTime',
-            title: NstSvcTranslation.get("Due Time")
+            key: NST_CUSTOM_FILTER.CONDITION_DUE_TIME,
+            title: NstSvcTranslation.get('Due Time')
           }
         ];
 
@@ -115,34 +103,21 @@
 
         function conditionChanged(condition) {
           switch (condition) {
-            case $scope.conditions[3].key:
-              $scope.equivalents = eq2;
-              break;
-            case $scope.conditions[5].key:
-              $scope.equivalents = eq3;
-              break;
-            case $scope.conditions[0].key:
-            case $scope.conditions[1].key:
-            case $scope.conditions[2].key:
-            case $scope.conditions[4].key:
-            default:
+            case NST_CUSTOM_FILTER.CONDITION_LABEL:
               $scope.equivalents = eq1;
               break;
+            case NST_CUSTOM_FILTER.CONDITION_DUE_TIME:
+              $scope.equivalents = eq3;
+              break;
+            case NST_CUSTOM_FILTER.CONDITION_ASSIGNEE:
+            case NST_CUSTOM_FILTER.CONDITION_ASSIGNOR:
+            case NST_CUSTOM_FILTER.CONDITION_KEYWORD:
+            case NST_CUSTOM_FILTER.CONDITION_STATUS:
+            default:
+              $scope.equivalents = [];
+              break;
           }
-          $scope.model.status = $scope.statusOptions[0].key;
-          $scope.model.time = $scope.timeOptions[0].key;
-          $scope.model.equivalent = $scope.equivalents[0].key;
         }
-
-        $scope.$watch(function () {
-          return $scope.data;
-        }, function (newVal) {
-          if (newVal.user.indexOf(',') > -1) {
-            var users = newVal.user.split(',');
-            users = users[users.length - 2];
-            $scope.data.user = users.replace(/\s/g, '') + ', ';
-          }
-        }, true);
       }
     };
   }

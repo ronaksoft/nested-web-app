@@ -3,18 +3,18 @@
     <select name="condition" ng-model="model.condition" class="form-control condition-select" required
       ng-options="item.key as item.title for item in conditions"></select>
   </div>
-  <div class="col1" ng-if="model.condition == 'label' || model.condition == 'dueTime'">
+  <div class="col1" ng-if="model.condition == conConst.CONDITION_LABEL|| model.condition == conConst.CONDITION_DUE_TIME">
     <select name="equivalent" ng-model="model.equivalent" class="form-control condition-select" required
       ng-options="item.key as item.title for item in equivalents"></select>
   </div>
   <div class="col2">
-    <input ng-if="model.condition == 'assignee' || model.condition == 'assignor'" type="text" ng-model="data.user" class="_fw" nst-mention-user placeholder="Type Name or Username" />
-    <input ng-if="model.condition == 'label'" type="text" ng-model="data.label" class="_fw" nst-mention-label placeholder="Type Label Name" />
-    <input ng-if="model.condition == 'keyword'" type="text" ng-model="data.keyword" class="_fw" placeholder="Type Keyword" />
-    <input ng-if="model.condition == 'dueTime'" type="number" ng-model="data.range" min="1" max="99" class="_fw" placeholder="Type Keyword" />
-    <select ng-if="model.condition == 'dueTime'" name="time" ng-model="data.unit" class="form-control condition-select" required
+    <input ng-if="model.condition == conConst.CONDITION_ASSIGNEE || model.condition == conConst.CONDITION_ASSIGNOR" type="text" ng-model="model.data.user" class="_fw" nst-mention-user placeholder="Type Name or Username" />
+    <input ng-if="model.condition == conConst.CONDITION_LABEL" type="text" ng-model="model.data.label" class="_fw" nst-mention-label placeholder="Type Label Name" />
+    <input ng-if="model.condition == conConst.CONDITION_KEYWORD" type="text" ng-model="model.data.keyword" class="_fw" placeholder="Type Keyword" />
+    <input ng-if="model.condition == conConst.CONDITION_DUE_TIME" type="number" ng-model="model.data.range" min="1" max="99" class="_fw" placeholder="Type Keyword" />
+    <select ng-if="model.condition == conConst.CONDITION_DUE_TIME" name="time" ng-model="model.data.unit" class="form-control condition-select" required
             ng-options="item.key as item.title for item in timeOptions"></select>
-    <select ng-if="model.condition == 'status'" name="status" ng-model="data.status" class="form-control condition-select" required
+    <select ng-if="model.condition == conConst.CONDITION_STATUS" name="status" ng-model="model.data.status" class="form-control condition-select" required
             ng-options="item.key as item.title for item in statusOptions"></select>
   </div>
 </div>
