@@ -67,7 +67,7 @@
         margin-right: 8px;
     }
     .col2 {
-        width: 320px;
+        flex: 1;
         display: flex;
         input,select {
             display: flex;
@@ -81,5 +81,11 @@
     }
     .butn {
         height: 40px;
+    }
+}
+body[dir="rtl"] {
+    .task-filter .col1 {
+        margin-right: 0;
+        margin-left: 8px;
     }
 }
