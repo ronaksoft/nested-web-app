@@ -77,6 +77,7 @@
         }
         > *:last-child {
             margin-right: 0;
+            margin-left: 0;
         }
     }
     .butn {
@@ -94,6 +95,17 @@ body[dir="rtl"] {
         .task-filter-inner .remove-row {
             left: auto;
             right: -40px;
+        }
+    }
+}
+body[dir="rtl"],
+body[dir="ltr"] {
+    .task-filter {
+        .col2 {
+            > *:last-child {
+                margin-right: 0;
+                margin-left: 0;
+            }
         }
     }
 }
