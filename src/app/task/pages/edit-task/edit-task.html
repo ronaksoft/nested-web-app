@@ -25,7 +25,7 @@
           class="task-input-wrapper ng-class:{'focus': ctrlEditTask.titleFocus, 'error' : (ctrlEditTask.model.title.length > ctrlEditTask.model.titleLengthLimit)}">
           <textarea type="text" class="no-style gale-holder create-task-input"
                     placeholder="{{ctrlEditTask.titlePlaceholder}}" id="task-title"
-                    ng-focus="ctrlEditTask.titleFocus = true"
+                    ng-focus="ctrlEditTask.setFocus('title')"
                     ng-blur="ctrlEditTask.titleFocus = false; ctrlEditTask.updateTitle(ctrlEditTask.model.title);"
                     resize-textarea ng-model="ctrlEditTask.model.title"
                     enter-key="ctrlEditTask.enterSubjectTask(); ctrlEditTask.updateTitle(ctrlEditTask.model.title);"

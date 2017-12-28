@@ -4,7 +4,7 @@
     <div class="task-title auto-height-item">
       <div class="task-input-wrapper ng-class:{'focus': ctrlCreateTask.titleFocus, 'error' : (ctrlCreateTask.model.title.length > ctrlCreateTask.model.titleLengthLimit)}">
         <textarea type="text" class="no-style gale-holder create-task-input" placeholder="{{ctrlCreateTask.titlePlaceholder}}" id="task-title"
-          ng-focus="ctrlCreateTask.titleFocus = true" ng-blur="ctrlCreateTask.titleFocus = false" resize-textarea ng-model="ctrlCreateTask.model.title"
+          ng-focus="ctrlCreateTask.setFocus('title')" ng-blur="ctrlCreateTask.titleFocus = false" resize-textarea ng-model="ctrlCreateTask.model.title"
           enter-key="ctrlCreateTask.enterSubjectTask()" prevent-shift-enter="true" auto-dir="ctrlCreateTask.model.title" nst-suggest-emoji></textarea>
         <div class="error-handler" ng-if="ctrlCreateTask.model.title.length > (ctrlCreateTask.model.titleLengthLimit - 10)">
           {{ctrlCreateTask.model.title.length | localize}} / {{ctrlCreateTask.model.titleLengthLimit | localize}}
@@ -47,7 +47,7 @@
     <div class="task-due const-height-item">
       <div class="task-input-wrapper ng-class:{'focus': ctrlCreateTask.dueDateFocus}">
         <input type="text" class="no-style gale-holder create-task-input" placeholder="{{ctrlCreateTask.dueDatePlaceholder}}"
-          id="task-due" ng-focus="ctrlCreateTask.dueDateFocus = true" ng-blur="ctrlCreateTask.dueDateFocus = false" ng-model="ctrlCreateTask.model.dueDateText"
+          id="task-due" ng-focus="ctrlCreateTask.setFocus('dueDate')" ng-blur="ctrlCreateTask.dueDateFocus = false" ng-model="ctrlCreateTask.model.dueDateText"
           data-config="ctrlCreateTask.datePickerconfig" g-formatted-picked-date="gfdate" g-picked-date="gdate" ng-jalaali-flat-datepicker
           have-time="ctrlCreateTask.model.hasDueTime" timestamp-model="ctrlCreateTask.model.dueDate">
       </div>
@@ -68,9 +68,9 @@
     <div class="task-more-options" resize-height-animation="{{ctrlCreateTask.showMoreOption}}">
       <div class="task-description auto-height-item">
         <div class="task-input-wrapper ng-class:{'focus': ctrlCreateTask.descriptionFocus}">
-          <textarea class="no-style gale-holder create-task-input" ng-model="ctrlCreateTask.model.description" ng-focus="ctrlCreateTask.descriptionFocus = true"
+          <textarea class="no-style gale-holder create-task-input" ng-model="ctrlCreateTask.model.description"
             ng-blur="ctrlCreateTask.descriptionFocus = false" enter-key="ctrlCreateTask.enterDescriptionTask()" placeholder="{{ctrlCreateTask.descPlaceholder}}"
-            id="task-description" resize-textarea auto-dir="ctrlCreateTask.model.description" nst-suggest-emoji></textarea>
+            id="task-description" resize-textarea auto-dir="ctrlCreateTask.model.description" nst-suggest-emoji ng-focus="ctrlCreateTask.setFocus('description')"></textarea>
         </div>
         <label for="task-description" ng-class="{'focus': ctrlCreateTask.descriptionFocus}">
               <svg class="_16svg">

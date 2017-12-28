@@ -22,6 +22,7 @@
       allowFuture: true
     };
     vm.backDropClick = backDropClick;
+    vm.setFocus = setFocus;
     function backDropClick() {
       if (vm.model.dueDate !== null ||
           _.trim(vm.model.title).length !== 0 ||
@@ -64,7 +65,6 @@
       labels: []
     };
 
-    vm.titleFocus = false;
     vm.titlePlaceholder = NstSvcTranslation.get('Enter a Task Title');
 
     vm.assigneeFocusTrigger = 0;
@@ -237,18 +237,23 @@
     }
 
     function setFocus(item) {
+      console.log(vm[k]);
+      var k = item + 'Focus';
       initiateFocus();
-      vm[item + 'Focus'] = true;
+      vm[k] = true;
+      console.log(vm[k]);
     }
 
     function initiateFocus() {
       vm.assigneeFocus = false;
+      console.log('initiateFocus', vm.assigneeFocus);
       vm.dueDateFocus = false;
       vm.descriptionFocus = false;
       vm.todoFocus = false;
       vm.attachmentFocus = false;
       vm.labelFocus = false;
       vm.watcherFocus = false;
+      vm.titleFocus = false;
     }
     initiateFocus();
     $scope.$watch(function () {

@@ -50,7 +50,7 @@
     })();
     function unFocus() {
       $timeout(function(){
-        vm.elementFocus = false
+        // vm.elementFocus = false
       }, 100)
     }
     function removeRedundantAssignees(assignees, assigneesData) {
