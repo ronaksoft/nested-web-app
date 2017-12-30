@@ -808,6 +808,7 @@
        * @returns
        */
       vm.send = function () {
+        vm.model.subject = vm.subjectElement.value;
         if (vm.pending) {
           return;
         }
@@ -841,7 +842,7 @@
               });
               var post = new NstPost();
               console.log(vm.subjectElement);
-              post.subject = vm.subjectElement.value;
+              post.subject = vm.model.subject;;
               post.body = vm.model.body;
               post.contentType = 'text/html';
               post.attachments = vm.model.attachments;
