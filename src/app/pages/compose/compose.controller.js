@@ -1517,6 +1517,7 @@
           vm.attachments.viewModels = [];
           vm.model.attachments = [];
           vm.model.attachfiles = {};
+          vm.subjectElement.value = '';
           vm.model.subject = '';
           vm.model.body = '';
           vm.model.forwardedFrom = null;
