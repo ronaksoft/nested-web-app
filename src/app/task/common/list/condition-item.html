@@ -8,10 +8,10 @@
       ng-options="item.key as item.title for item in equivalents"></select>
   </div>
   <div class="col2">
-    <input ng-if="model.condition == conConst.CONDITION_ASSIGNEE || model.condition == conConst.CONDITION_ASSIGNOR" type="text" ng-model="model.data.user" class="_fw" nst-mention-user placeholder="Type Name or Username" />
-    <input ng-if="model.condition == conConst.CONDITION_LABEL" type="text" ng-model="model.data.label" class="_fw" nst-mention-label placeholder="Type Label Name" />
-    <input ng-if="model.condition == conConst.CONDITION_KEYWORD" type="text" ng-model="model.data.keyword" class="_fw" placeholder="Type Keyword" />
-    <input ng-if="model.condition == conConst.CONDITION_DUE_TIME" type="number" ng-model="model.data.range" min="1" max="99" class="_fw" placeholder="Type Keyword" />
+    <input ng-if="model.condition == conConst.CONDITION_ASSIGNEE || model.condition == conConst.CONDITION_ASSIGNOR" type="text" ng-model="model.data.user" class="_fw" nst-mention-user placeholder="Type Name or Username" translate-attrs="placeholder"/>
+    <input ng-if="model.condition == conConst.CONDITION_LABEL" type="text" ng-model="model.data.label" class="_fw" nst-mention-label placeholder="Type Label Name" translate-attrs="placeholder"/>
+    <input ng-if="model.condition == conConst.CONDITION_KEYWORD" type="text" ng-model="model.data.keyword" class="_fw" placeholder="Type Keyword" translate-attrs="placeholder"/>
+    <input ng-if="model.condition == conConst.CONDITION_DUE_TIME" type="number" ng-model="model.data.range" min="1" max="99" class="_fw" placeholder="Type Keyword" translate-attrs="placeholder"/>
     <select ng-if="model.condition == conConst.CONDITION_DUE_TIME" name="time" ng-model="model.data.unit" class="form-control condition-select" required
             ng-options="item.key as item.title for item in timeOptions"></select>
     <select ng-if="model.condition == conConst.CONDITION_STATUS" name="status" ng-model="model.data.status" class="form-control condition-select" required

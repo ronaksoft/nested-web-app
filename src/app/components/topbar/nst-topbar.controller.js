@@ -118,7 +118,6 @@
         vm.adminArea = '/admin';
 
         checkLayouts();
-
         initQuery(true);
         eventReferences.push($rootScope.$on('$stateChangeSuccess', function () {
           initQuery(false);
@@ -168,10 +167,7 @@
           getAdvancedSearchParams();
           vm.newQuery = searchQuery.getAllKeywords();
           if (_.trim(vm.newQuery).length === 0) {
-            NstSvcSuggestionFactory.search('').then(function (result) {
-              vm.defaultSuggestion = getUniqueItems(result);
-              vm.suggestion = Object.assign({}, vm.defaultSuggestion);
-            });
+            vm.suggestion = Object.assign({}, vm.defaultSuggestion);
           }
         } else {
           vm.toggleSearchModal(false);
@@ -587,14 +583,10 @@
         };
       }
 
-      function getSuggestions(query) {
+      function getSuggestions(query, all) {
         if (_.trim(query).length === 0) {
           vm.defaultSearch = true;
-          vm.suggestion = vm.defaultSuggestion;
-          NstSvcSuggestionFactory.search('').then(function (result) {
-            vm.defaultSuggestion = getUniqueItems(result);
-            vm.suggestion = Object.assign({}, vm.defaultSuggestion);
-          });
+          vm.suggestion = Object.assign({}, vm.defaultSuggestion);
         }
         else {
           vm.defaultSearch = false;

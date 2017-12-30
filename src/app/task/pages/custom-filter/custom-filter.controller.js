@@ -92,6 +92,14 @@
       return _.findIndex(customFilters, {id: vm.id});
     }
 
+    function getLastId() {
+      if (customFilters.length > 0) {
+        return customFilters[customFilters.length - 1].id;
+      } else {
+        return 0;
+      }
+    }
+
     function createFilter() {
       vm.inProgress = true;
       var index = getFilterIndex();
@@ -102,7 +110,7 @@
         });
       } else {
         customFilters.push({
-          id: customFilters.length + 1,
+          id: getLastId() + 1,
           name: vm.name,
           filters: _.map(vm.items, function (item) {
             return transformData(item);
@@ -113,7 +121,7 @@
       setFilters(customFilters).then(function () {
         if (vm.id === -1) {
           toastr.success(NstSvcTranslation.get('Custom filter has been created'));
-          vm.id = customFilters.length;
+          vm.id = getLastId();
         } else {
           toastr.success(NstSvcTranslation.get('Custom filter updated'));
         }
