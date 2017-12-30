@@ -1,11 +1,12 @@
 <div class="bg-compose" ng-click="ctrlFilter.backDropClick();" reposition-bg></div>
 <div class="task-filter">
-    <h2><translate>Create Custom Filter</translate></h2>
+    <h2 ng-if="ctrlFilter.id == -1"><translate>Create Custom Filter</translate></h2>
+    <h2 ng-if="ctrlFilter.id != -1"><translate>Update '{{ctrlFilter.name}}' Filter</translate></h2>
     <div class="task-filter-inner">
         <div class="filter-name">
             <label for="filterName"><translate>Filter Name</translate></label>
-            <input type="text" id="filterName">
-            <p>Choose a name according to your Filtering items, it will helps you to find them easer</p>
+            <input type="text" id="filterName" ng-model="ctrlFilter.name">
+            <p translate-inner>Choose a name according to your Filtering items, it will helps you to find them easier</p>
         </div>
         <div class="filter-conditions">
             <label><translate>Conditions</translate></label>
@@ -15,19 +16,20 @@
                     <use xlink:href="/assets/icons/nst-icn16.svg#bin"></use>
                     </svg>
                 </div>
-                <condition-item  model="item" index="$index"></condition-item>
+                <condition-item model="item" index="$index" selected-items="ctrlFilter.items"></condition-item>
             </div>
-            <button class="butn butn-green secondary _jcc _df add-condition" ng-click="ctrlFilter.addRow();">
+            <button class="butn butn-green secondary _jcc _df add-condition" ng-click="ctrlFilter.addRow();" ng-if="ctrlFilter.items.length < 6">
                 <translate>Add New Condition</translate>
-            </button>  
+            </button>
         </div>
     </div>
     <div class="modal-footer">
         <button class="butn butn-white secondary _jcc _df" ng-click="ctrlFilter.backDropClick();">
             <translate>Discard</translate>
         </button>
-        <button class="butn butn-green _jcc _df" ng-disabled="">
-            <translate>Create Filter</translate>
-        </button>                
+        <button class="butn butn-green _jcc _df" ng-disabled="(ctrlFilter.name === '' || ctrlFilter.inProgress === true)" ng-click="ctrlFilter.createFilter();">
+            <span translate-inner ng-if="ctrlFilter.id == -1">Create Filter</span>
+            <span translate-inner ng-if="ctrlFilter.id != -1">Update Filter</span>
+        </button>
     </div>
 </div>

@@ -118,16 +118,14 @@
         vm.adminArea = '/admin';
 
         checkLayouts();
-
         initQuery(true);
-        $rootScope.$on('$stateChangeSuccess', function () {
+        eventReferences.push($rootScope.$on('$stateChangeSuccess', function () {
           initQuery(false);
           isSearch();
           checkLayouts();
-        });
+        }));
         NstSvcUserFactory.getCurrent(true).then(function(user) {
           vm.user = user;
-          console.log(user);
           if (user.authority.labelEditor) {
             requestLabelCounter();
           }
@@ -169,10 +167,7 @@
           getAdvancedSearchParams();
           vm.newQuery = searchQuery.getAllKeywords();
           if (_.trim(vm.newQuery).length === 0) {
-            NstSvcSuggestionFactory.search('').then(function (result) {
-              vm.defaultSuggestion = getUniqueItems(result);
-              vm.suggestion = Object.assign({}, vm.defaultSuggestion);
-            });
+            vm.suggestion = Object.assign({}, vm.defaultSuggestion);
           }
         } else {
           vm.toggleSearchModal(false);
@@ -588,14 +583,10 @@
         };
       }
 
-      function getSuggestions(query) {
+      function getSuggestions(query, all) {
         if (_.trim(query).length === 0) {
           vm.defaultSearch = true;
-          vm.suggestion = vm.defaultSuggestion;
-          NstSvcSuggestionFactory.search('').then(function (result) {
-            vm.defaultSuggestion = getUniqueItems(result);
-            vm.suggestion = Object.assign({}, vm.defaultSuggestion);
-          });
+          vm.suggestion = Object.assign({}, vm.defaultSuggestion);
         }
         else {
           vm.defaultSearch = false;

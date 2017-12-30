@@ -6,7 +6,7 @@
     .controller('RegisterController', RegisterController);
 
   /** @ngInject */
-  function RegisterController($scope, $state, NST_DEFAULT, NstSvcAuth, $stateParams, _) {
+  function RegisterController($scope, $state, NST_DEFAULT, NstSvcAuth, $stateParams, _, NstSvcGlobalCache) {
     var vm = this;
     vm.phoneSubmittedEventKey = 'register-phone-submitted';
     vm.codeVerifiedEventKey = 'register-code-verified';
@@ -52,6 +52,7 @@
 
     eventReferences.push($scope.$on(vm.completedEventKey, function(event, data) {
       if (data.credentials) {
+        NstSvcGlobalCache.flush();
         NstSvcAuth.login(data.credentials, true).then(function() {
           return $state.go(NST_DEFAULT.STATE);
         }).catch(function() {

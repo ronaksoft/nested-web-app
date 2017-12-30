@@ -535,6 +535,9 @@
             }
             .label-items {
                 height: 30px;
+                > span {
+                    display: unset;
+                }
             }
             .dropdown-menu {
                 box-shadow: none;

@@ -6,7 +6,7 @@
     .controller('EditTaskController', EditTaskController);
 
   /** @ngInject */
-  function EditTaskController($q, $, $timeout, $scope, $state, $rootScope, $stateParams,
+  function EditTaskController($q, $, $timeout, $scope, $state, $rootScope, $stateParams, NstSearchQuery,
                               NstSvcAuth, _, toastr, NstSvcTranslation, NstTask, NST_ATTACHMENT_STATUS,
                               NstUtility, NstSvcTaskFactory, NstSvcTaskUtility, NST_TASK_STATUS) {
     var vm = this;
@@ -35,14 +35,42 @@
     vm.openBinder = openBinder;
     vm.bindRow = bindRow;
     vm.editTask = editTask;
+    vm.initiateFocus = initiateFocus;
+    vm.setFocus = setFocus;
 
     function openBinder() {
       vm.isOpenBinder = !vm.isOpenBinder;
     }
 
+    function setFocus(item) {
+      initiateFocus();
+      vm[item + 'Focus'] = true;
+    }
+
+    function initiateFocus() {
+      vm.assigneeFocus = false;
+      vm.dueDateFocus = false;
+      vm.descriptionFocus = false;
+      vm.todoFocus = false;
+      vm.attachmentFocus = false;
+      vm.labelFocus = false;
+      vm.watcherFocus = false;
+    }
+    initiateFocus();
+
     function bindRow(key) {
       vm[key] = true;
       vm.isOpenBinder = false;
+      initiateFocus();
+      try {
+        var newKey = key.replace('enable', '').toLowerCase(),
+            firstChar = newKey[0],
+            firstCharLowerCase = newKey[0].toLowerCase();
+        newKey = newKey.replace(firstChar, firstCharLowerCase);
+        vm[newKey + 'Focus'] = true;
+      } catch (e) {
+
+      }
     }
 
     var gotoTask = null;
@@ -51,8 +79,6 @@
       $scope.$dismiss();
       gotoTask = id;
     }
-
-    //
 
     vm.model = {
       isRelated: false,
@@ -117,7 +143,6 @@
       // console.log('comment sent');
     };
 
-    vm.assigneeFocus = false;
     vm.assigneeIcon = 'no-assignee';
     vm.assigneePlaceholder = NstSvcTranslation.get('Add assignee or candidates');
     vm.assigneeChanged = false;
@@ -126,36 +151,31 @@
     vm.executeAssigneeUpdate = executeAssigneeUpdate;
     vm.assigneeKeyDown = assigneeKeyDown;
 
-    vm.dueDateFocus = false;
     vm.dueDatePlaceholder = NstSvcTranslation.get('+ Set a due time (optional)');
     vm.removeDueDate = removeDueDate;
     vm.enableDue = false;
 
-    vm.descriptionFocus = false;
     vm.descriptionPlaceholder = NstSvcTranslation.get('+ Add a Description...');
     vm.enableDescription = false;
     vm.updateDescription = updateDescription;
 
-    vm.todoFocus = false;
     vm.todoPlaceholder = NstSvcTranslation.get('+ Add a to-do');
     vm.removeTodos = removeTodos;
     vm.enableTodo = false;
     vm.updateTodo = updateTodo;
     vm.checkTodo = checkTodo;
 
-    vm.attachmentFocus = false;
     vm.removeAttachments = removeAttachments;
     vm.enableAttachment = false;
 
-    vm.watcherFocus = false;
     vm.watcherPlaceholder = NstSvcTranslation.get('Add peoples who wants to follow task...');
     vm.removeWatchers = removeWatchers;
     vm.enableWatcher = false;
 
-    vm.labelFocus = false;
     vm.labelPlaceholder = NstSvcTranslation.get('Add labels...');
     vm.removeLabels = removeLabels;
     vm.enableLabel = false;
+    vm.labelClick = labelClick;
 
     vm.isDisabled = isDisabled;
 
@@ -211,7 +231,7 @@
         vm.enableTodo = true;
       }
 
-      if (task.attachments !== undefined) {
+      if (task.attachments !== undefined && task.attachments.length > 0) {
         vm.model.attachments = {
           init: true,
           data: task.attachments
@@ -219,7 +239,7 @@
         vm.enableAttachment = true;
       }
 
-      if (task.watchers !== undefined) {
+      if (task.watchers !== undefined && task.watchers.length > 0) {
         vm.model.watchers = {
           init: true,
           data: task.watchers
@@ -227,7 +247,7 @@
         vm.enableWatcher = true;
       }
 
-      if (task.labels !== undefined) {
+      if (task.labels !== undefined && task.labels.length > 0) {
         vm.model.labels = {
           init: true,
           data: task.labels
@@ -269,7 +289,6 @@
 
     function removeAssignees() {
       vm.removeAssigneeItems.call();
-      // toastr.success('fd')
     }
 
     function getAssigneeIcon(data) {
@@ -293,6 +312,7 @@
     }
 
     function removeTodos() {
+      initiateFocus();
       if (vm.model.todos.length === 0) {
         vm.enableTodo = false;
       } else {
@@ -310,6 +330,7 @@
     }
 
     function removeAttachments() {
+      initiateFocus();
       if (vm.model.attachments.length === 0) {
         vm.enableAttachment = false;
       } else {
@@ -327,6 +348,7 @@
     }
 
     function removeWatchers() {
+      initiateFocus();
       if (vm.model.watchers.length === 0) {
         vm.enableWatcher = false;
       } else {
@@ -344,6 +366,7 @@
     }
 
     function removeLabels() {
+      initiateFocus();
       if (vm.model.labels.length === 0) {
         vm.enableLabel = false;
       } else {
@@ -497,20 +520,24 @@
       var oldData = getNormalValue(vm.modelBackUp.todos);
       var newItems = _.differenceBy(todos, oldData, 'id');
       var removedItems = _.differenceBy(oldData, todos, 'id');
-      var promises = [];
+      var removePromises = [];
 
       if (newItems.length > 0) {
         _.forEach(newItems, function (item) {
-          promises.push(NstSvcTaskFactory.addTodo(vm.taskId, item.text, item.weight));
+          NstSvcTaskFactory.addTodo(vm.taskId, item.text, item.weight).then(function (data) {
+            var index = _.findIndex(vm.model.todos, {
+              'id': item.id
+            });
+            vm.model.todos[index].id = data.todo_id;
+            vm.modelBackUp.todos = vm.model.todos.slice(0);
+            isUpdated = true;
+          });
         });
       }
 
       if (removedItems.length > 0) {
-        promises.push(NstSvcTaskFactory.removeTodo(vm.taskId, getCommaSeparate(removedItems)));
-      }
-
-      if (newItems.length > 0 || removedItems.length > 0) {
-        $q.all(promises).then(function () {
+        removePromises.push(NstSvcTaskFactory.removeTodo(vm.taskId, getCommaSeparate(removedItems)));
+        $q.all(removePromises).then(function () {
           vm.modelBackUp.todos = vm.model.todos.slice(0);
           isUpdated = true;
         });
@@ -518,9 +545,6 @@
     }
 
     function updateTodo(index, data) {
-      if (vm.modelBackUp.todos[index].text === data.text) {
-        return;
-      }
       NstSvcTaskFactory.updateTodo(vm.taskId, data.id, data.checked, data.text, data.weight).then(function () {
         vm.modelBackUp.todos[index] = data;
         isUpdated = true;
@@ -528,9 +552,6 @@
     }
 
     function checkTodo(index, data) {
-      if (vm.modelBackUp.todos[index].checked === data.checked) {
-        return;
-      }
       NstSvcTaskFactory.updateTodo(vm.taskId, data.id, data.checked).then(function () {
         vm.modelBackUp.todos[index].checked = data.checked;
         isUpdated = true;
@@ -683,7 +704,6 @@
       });
     }
 
-    var focusInit = true;
     $scope.$watch(function () {
       return {
         titleFocus: vm.titleFocus,
@@ -696,13 +716,9 @@
         labelFocus: vm.labelFocus
       };
     }, function (newVal, oldVal) {
-      if (focusInit) {
-        $timeout(function () {
-          focusInit = false;
-          handleFocus(newVal, oldVal);
-        });
-      } else {
-        focusInit = true;
+      
+      if (_.countBy(Object.values(newVal))['true'] > 1) {
+        vm.todoFocus = false;
       }
     }, true);
 
@@ -712,6 +728,18 @@
           vm[i] = false;
         }
       }
+    }
+
+    function labelClick(data) {
+      $scope.$dismiss();
+
+      $timeout(function () {
+        var searchQuery = new NstSearchQuery('');
+        searchQuery.addLabel(data.title);
+        $state.go('app.task.search', {
+          search: NstSearchQuery.encode(searchQuery.toString())
+        });
+      }, 200);
     }
 
     $scope.$on('$destroy', function () {

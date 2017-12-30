@@ -41,6 +41,7 @@
     TaskFactory.prototype.setState = setState;
     TaskFactory.prototype.remove = remove;
     TaskFactory.prototype.getByFilter = getByFilter;
+    TaskFactory.prototype.getByCustomFilter = getByCustomFilter;
     TaskFactory.prototype.handleCachedResponse = handleCachedResponse;
     TaskFactory.prototype.parseCachedModel = parseCachedModel;
     TaskFactory.prototype.transformToCacheModel = transformToCacheModel;
@@ -426,6 +427,26 @@
 
         return deferred.promise;
       }, 'task-get-by-filter' + options.filter + options.statusFilter);
+    }
+
+    function getByCustomFilter(options, cacheHandler) {
+      var factory = this;
+      var deferred = $q.defer();
+
+      if (options.statusFilter) {
+        options.status_filter = String(options.statusFilter);
+      }
+
+      return this.sentinel.watch(function () {
+        NstSvcServer.request('task/get_by_custom_filter', options, _.partial(handleCachedResponse, cacheHandler)).then(function (data) {
+          deferred.resolve(_.map(data.tasks, function (task) {
+            factory.set(task);
+            return factory.parseTask(task);
+          }));
+        }).catch(deferred.reject);
+
+        return deferred.promise;
+      }, 'task-get-by-custom-filter');
     }
 
     function handleCachedResponse(cacheHandler, cachedResponse) {

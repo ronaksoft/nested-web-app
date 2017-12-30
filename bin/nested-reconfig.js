@@ -9,9 +9,6 @@ const config = {
   PRIVATE_CERT: process.env['WEBAPP_PRIVATE_KEY'],
   HTTP_PORT: process.env['NST_ADDR_PORT'],
   DOMAIN: process.env['NST_DOMAIN'],
-  ADMIN_DOMAIN: process.env['NST_ADMIN_DOMAIN'],
-  ADMIN_PORT: process.env['NST_ADMIN_PORT'],
-  ADMIN_URL: process.env['NST_ADMIN_URL'],
   DISABLE_FCM: process.env['DISABLE_FCM']
 };
 
@@ -21,9 +18,6 @@ const defaultConfig = {
   XERXES: "_XERXES_URL_CONF_",
   GOOGLE_ANALYTICS_TOKEN: "UA-80877772-5",
   DOMAIN: "_DOMAIN_",
-  ADMIN_DOMAIN: "_ADMIN_DOMAIN_",
-  ADMIN_PORT: "_ADMIN_PORT_",
-  ADMIN_URL: "_ADMIN_URL_",
   UPLOAD_SIZE_LIMIT: 104857600,
   DISABLE_FCM: "_DISABLE_FCM_"
 };
@@ -35,9 +29,6 @@ const newConfig = {
   GOOGLE_ANALYTICS_TOKEN: process.env['NST_GOOGLE_ANALYTICS_TOKEN'] || '-',
   UPLOAD_SIZE_LIMIT: process.env['NST_UPLOAD_SIZE_LIMIT'] || defaultConfig.UPLOAD_SIZE_LIMIT,
   DOMAIN: process.env['NST_DOMAIN'] || "nested.me",
-  ADMIN_DOMAIN: process.env['NST_ADMIN_DOMAIN'] || "admin.nested.me",
-  ADMIN_PORT: process.env['NST_ADMIN_PORT'] || "80",
-  ADMIN_URL: process.env['NST_ADMIN_URL'] || "",
   DISABLE_FCM: process.env['DISABLE_FCM'] || defaultConfig.DISABLE_FCM
 };
 
@@ -98,9 +89,6 @@ function replaceConfigAndStore(file) {
       .replace(new RegExp(defaultConfig.GOOGLE_ANALYTICS_TOKEN, 'ig'), newConfig.GOOGLE_ANALYTICS_TOKEN)
       .replace(defaultConfig.UPLOAD_SIZE_LIMIT, newConfig.UPLOAD_SIZE_LIMIT)
       .replace(new RegExp(defaultConfig.DOMAIN, 'ig'), newConfig.DOMAIN)
-      .replace(defaultConfig.ADMIN_DOMAIN, newConfig.ADMIN_DOMAIN)
-      .replace(defaultConfig.ADMIN_PORT, newConfig.ADMIN_PORT)
-      .replace(defaultConfig.ADMIN_URL, newConfig.ADMIN_URL)
       .replace(defaultConfig.DISABLE_FCM, newConfig.DISABLE_FCM);
 
     fs.writeFileSync(config.SCRIPT_DIR + file, newContent);

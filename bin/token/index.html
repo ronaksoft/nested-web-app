@@ -1,0 +1,235 @@
+<html>
+<head>
+  <title>nested</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+  <style>
+    html, body, div, span, applet, object, iframe,
+    h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+    a, abbr, acronym, address, big, cite, code,
+    del, dfn, em, img, ins, kbd, q, s, samp,
+    small, strike, strong, sub, sup, tt, var,
+    b, u, i, center,
+    dl, dt, dd, ol, ul, li,
+    fieldset, form, label, legend,
+    table, caption, tbody, tfoot, thead, tr, th, td,
+    article, aside, canvas, details, embed,
+    figure, figcaption, footer, header, hgroup,
+    menu, nav, output, ruby, section, summary,
+    time, mark, audio, video {
+      margin: 0;
+      padding: 0;
+      border: 0;
+      font-size: 100%;
+      font: inherit;
+      vertical-align: baseline;
+    }
+
+    /* HTML5 display-role reset for older browsers */
+    article, aside, details, figcaption, figure,
+    footer, header, hgroup, menu, nav, section {
+      display: block;
+    }
+
+    body {
+      font-family: "YekanBakh", "OpenSans";
+      line-height: 1;
+      color: #323D47;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #E5E5E5;
+    }
+
+    h1 {
+      font-size: 24px;
+      margin: 8px 0 0;
+      line-height: 33px;
+    }
+
+    img {
+      width: 64px;
+      height: 64px;
+      background-image: url('/assets/icons/ph_user.png');
+      display: block;
+      border-radius: 64px;
+      margin: 32px auto 8px;
+      border: 2px solid #FFFFFF;
+      box-shadow: 0px 8px 16px rgba(50, 61, 71, 0.08);
+    }
+
+    h2 {
+      line-height: 22px;
+      font-weight: bold;
+      text-align: center;
+      margin: 0;
+      font-size: 16px;
+    }
+
+    h3 {
+      text-align: center;
+      margin: 4px 0 0;
+      line-height: 20px;
+      font-size: 14px;
+    }
+
+    p {
+      font-size: 14px;
+      line-height: 1.4;
+      margin: 16px 0;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      border-radius: 4px;
+      height: 40px;
+      width: 100%;
+      background: #FFFFFF;
+      border: 1px solid #DDDFE0;
+      font-size: 16px;
+      padding: 0 8px;
+      margin-bottom: 16px;
+      outline: none;
+    }
+
+    input[type="text"]:focus,
+    input[type="password"]:focus {
+      border: 1px solid #6A727A;
+      box-shadow: 0px 1px 4px rgba(50, 61, 71, 0.16);
+    }
+
+    input:-moz-placeholder {
+      font-size: 16px;
+      color: rgba(50, 61, 71, 0.4);
+    }
+
+    input::-moz-placeholder {
+      font-size: 16px;
+      color: rgba(50, 61, 71, 0.4);
+    }
+
+    input::-webkit-input-placeholder {
+      font-size: 16px;
+      color: rgba(50, 61, 71, 0.4);
+    }
+
+    input[type="button"] {
+      height: 40px;
+      margin: 0;
+      width: 100%;
+      background: #14D769;
+      border: 1px solid #00B45A;
+      box-shadow: 0px 2px 4px rgba(0, 180, 90, 0.32);
+      border-radius: 3px;
+      color: #FFFFFF;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    input[type="submit"]:hover {
+      border: 1px solid #14D769;
+    }
+
+    input[type="submit"]:active {
+      background: #00B45A;
+      border: 1px solid #00B45A;
+    }
+
+    @font-face {
+      font-family: 'OpenSans';
+      font-weight: 300;
+      src: url(/assets/fonts/OpenSans/OpenSans-Light.eot?) format("eot"),
+      url(/assets/fonts/OpenSans/OpenSans-Light.ttf) format("truetype"),
+      url(/assets/fonts/OpenSans/OpenSans-Light.woff) format("woff"),
+      url(/assets/fonts/OpenSans/OpenSans-Light.woff2) format("woff2")
+    }
+
+    @font-face {
+      font-family: 'OpenSans';
+      font-weight: 400;
+      src: url(/assets/fonts/OpenSans/OpenSans-Regular.eot?) format("eot"),
+      url(/assets/fonts/OpenSans/OpenSans-Regular.ttf) format("truetype"),
+      url(/assets/fonts/OpenSans/OpenSans-Regular.woff) format("woff"),
+      url(/assets/fonts/OpenSans/OpenSans-Regular.woff2) format("woff2")
+    }
+
+    @font-face {
+      font-family: 'OpenSans';
+      font-weight: 700;
+      src: url(/assets/fonts/OpenSans/OpenSans-Bold.eot?) format("eot"),
+      url(/assets/fonts/OpenSans/OpenSans-Bold.ttf) format("truetype"),
+      url(/assets/fonts/OpenSans/OpenSans-Bold.woff) format("woff"),
+      url(/assets/fonts/OpenSans/OpenSans-Bold.woff2) format("woff2")
+    }
+
+    @font-face {
+      font-family: 'YekanBakh';
+      font-weight: 300;
+      src: url(/assets/fonts/YekanBakh/YekanBakhNestedWeb-Light.eot?) format("eot"),
+      url(/assets/fonts/YekanBakh/YekanBakhNestedWeb-Light.ttf) format("truetype"),
+      url(/assets/fonts/YekanBakh/YekanBakhNestedWeb-Light.woff) format("woff"),
+      url(/assets/fonts/YekanBakh/YekanBakhNestedWeb-Light.woff2) format("woff2")
+    }
+
+    @font-face {
+      font-family: 'YekanBakh';
+      font-weight: 400;
+      src: url(/assets/fonts/YekanBakh/YekanBakhNestedWeb-Regular.eot?) format("eot"),
+      url(/assets/fonts/YekanBakh/YekanBakhNestedWeb-Regular.ttf) format("truetype"),
+      url(/assets/fonts/YekanBakh/YekanBakhNestedWeb-Regular.woff) format("woff"),
+      url(/assets/fonts/YekanBakh/YekanBakhNestedWeb-Regular.woff2) format("woff2")
+    }
+
+    @font-face {
+      font-family: 'YekanBakh';
+      font-weight: 700;
+      src: url(/assets/fonts/YekanBakh/YekanBakhNestedWeb-Bold.eot?) format("eot"),
+      url(/assets/fonts/YekanBakh/YekanBakhNestedWeb-Bold.ttf) format("truetype"),
+      url(/assets/fonts/YekanBakh/YekanBakhNestedWeb-Bold.woff) format("woff"),
+      url(/assets/fonts/YekanBakh/YekanBakhNestedWeb-Bold.woff2) format("woff2")
+    }
+
+    .form {
+      background: #FFFFFF;
+      border: 1px solid rgba(50, 61, 71, 0.16);
+      box-shadow: 0 0 8px rgba(50, 61, 71, 0.08);
+      border-radius: 4px;
+      padding: 16px;
+      width: 360px;
+    }
+
+    .error {
+      color: #cc0000;
+    }
+
+    .green {
+      color: #00B45A;
+    }
+
+    @media screen and (max-width: 600px){
+      body {
+        background-color: #fff;
+        align-items: flex-start;
+      }
+      .form {
+        border: none;
+        box-shadow: none;
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="form">
+  <h1>Choose New Password</h1>
+  <img src="/assets/icons/ph_user.png"/>
+  <h2 class="client-name">Nested User</h2>
+  <h3 class="client-id green">User Id</h3>
+  <p>Welcome To nested <span class="error"></span></p>
+  <input name="password" type="password" placeholder="enter new password" class="password"/>
+  <input name="re-password" type="password" placeholder="re-enter your password" class="re-password"/>
+  <input type="button" value="Update Password" class="submit">
+</div>
+</body>
+<script type="text/javascript" src="token-login.js">
+</script>
+</html>

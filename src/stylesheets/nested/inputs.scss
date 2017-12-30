@@ -1,5 +1,6 @@
 input[type="text"],
-input[type="password"] {
+input[type="password"],
+input[type="number"] {
   height: 40px;
   padding: 3px 3px 3px 10px;
   border: 1px solid $color-border;
@@ -162,7 +163,7 @@ input::-moz-placeholder {
   white-space: nowrap;
   overflow: hidden;
 }
-input:-moz-placeholder { 
+input:-moz-placeholder {
     text-overflow: ellipsis!important;
     white-space: nowrap;
     overflow: hidden;
@@ -172,7 +173,7 @@ input::-webkit-input-placeholder {
     white-space: nowrap;
     overflow: hidden;
 }
-// 
+//
 label.setting  {
   display: inline-block;
   background-image: url('../assets/icons/radiobuttons-checkbox.svg');
@@ -263,7 +264,7 @@ input[type="checkbox"]:checked:hover + label.todo {
   background-position-y: -32px;
 }
 
-// 
+//
 input[type="radio"] + label{
     padding-left: 20px;
     margin: 0 40px 0 0;

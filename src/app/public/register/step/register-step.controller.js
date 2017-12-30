@@ -105,12 +105,10 @@
         .catch(function () {
           toastr.error("An error happened while creating your account.");
         }).finally(function () {
-          vm.registerProgress = false;
         });
 
       }).catch(function () {
         toastr.error(NstSvcTranslation.get('Sorry, an error has occured while checking your username.'));
-      }).finally(function () {
         vm.registerProgress = false;
       });
 

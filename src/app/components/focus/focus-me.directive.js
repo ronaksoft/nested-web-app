@@ -10,7 +10,7 @@
           triggerWatcherCleaner = scope.$watch(function (){
             return attrs.focusMe;
           }, function(val) {
-            if (val && val != 0) {
+            if (val == 'true') {
               element[0].focus();
             }
           });

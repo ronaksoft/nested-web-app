@@ -15,14 +15,13 @@
       scope: {},
       bindToController: {
         assigneesData: '=',
-        assigneeFocus: '=',
+        elementFocus: '=',
         assigneeWithCandidate: '=',
         assigneePlaceholder: '@',
         addItem: '=?',
         removeItem: '=?',
         removeItems: '=',
         initData: '=',
-        assigneeFocusMe: '=',
         assigneeExclude: '@',
         removeMyself: '=?',
         onKeyDown: '=?'
