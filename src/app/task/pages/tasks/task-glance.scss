@@ -95,6 +95,14 @@
                 color: $color-bg-pending;
             }
         }
+        .list-li-extra {
+            svg {
+                fill: $color-bg-pending;
+            }
+            span {
+                color: $color-bg-pending;
+            }
+        }
         .list-li-buttons {
             >input {
                 min-width: 90px;

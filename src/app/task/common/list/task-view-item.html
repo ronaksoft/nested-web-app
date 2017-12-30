@@ -1,7 +1,8 @@
 <li class="large ng-class:{
     'overdue' : task.status === ctrl.statuses.OVERDUE,
     'completed' : task.status === ctrl.statuses.COMPLETED,
-    'candidate' : task.status === ctrl.statuses.NO_ASSIGNED}"
+    'rejected' : task.status === ctrl.statuses.REJECTED,
+    'candidate' : task.status === ctrl.statuses.NO_ASSIGNED && task.candidates.length > 0}"
     ng-click="ctrl.editTask(task.id)">
     <div class="list-li-icon">
       <task-progress-icon status="ctrl.getTaskIcon(task.status, task.progress)" progress="task.progress"></task-progress-icon>
@@ -11,25 +12,13 @@
       <a>
         <span>{{task.title}}</span>
       </a>
-      <p ng-if="task.status === ctrl.statuses.ASSIGNED && ctrl.isAssignedToMePage">
-        <translate>from</translate> <b><span user-detail="task.assignor">{{task.assignor.fullName}}</span></b>
-        <span ng-if="task.dueDate !== undefined && !task.hasDueTime"> • {{task.dueDate | leftDate | localize}}</span>
-        <span ng-if="task.dueDate !== undefined && task.hasDueTime"> • {{task.dueDate | leftDate : 'time' | localize}}</span>
-      </p>
-      <p ng-if="task.status === ctrl.statuses.ASSIGNED && ctrl.isCreatedByMePage">
-        <translate>to</translate> <b><span user-detail="task.assignee">{{task.assignee.fullName}}</span></b>
-        <span ng-if="task.dueDate !== undefined && !task.hasDueTime"> • {{task.dueDate | leftDate | localize}}</span>
-        <span ng-if="task.dueDate !== undefined && task.hasDueTime"> • {{task.dueDate | leftDate : 'time' | localize}}</span>
-      </p>
-      <p ng-if="task.status === ctrl.statuses.ASSIGNED && ctrl.isWatchlistPage">
-        <translate>from</translate> <b><span user-detail="task.assignor">{{task.assignor.fullName}}</span></b> 
-        <translate>to</translate > <b><span user-detail="task.assignee">{{task.assignee.fullName}}</span></b> 
-        <span ng-if="task.dueDate !== undefined && !task.hasDueTime"> • {{task.dueDate | leftDate | localize}}</span>
-        <span ng-if="task.dueDate !== undefined && task.hasDueTime"> • {{task.dueDate | leftDate : 'time' | localize}}</span>
-      </p>
-      <p ng-if="task.status === ctrl.statuses.OVERDUE">
-        <translate>from</translate> <b><span user-detail="task.assignor">{{task.assignor.fullName}}</span></b> 
-        <translate>to</translate > <b><span user-detail="task.assignee">{{task.assignee.fullName}}</span></b> 
+      <p ng-if="task.status === ctrl.statuses.OVERDUE || task.status === ctrl.statuses.ASSIGNED || task.status === ctrl.statuses.HOLD">
+        <translate ng-if="!ctrl.isCreatedByMePage && task.assignee">from</translate> <b ng-if="!ctrl.isCreatedByMePage && task.assignee"><span user-detail="task.assignor">{{task.assignor.fullName}}</span></b> 
+        <translate ng-if="!ctrl.isAssignedToMePage && task.assignee">to</translate>
+        <b ng-if="!ctrl.isAssignedToMePage && task.assignee"><span user-detail="task.assignee">{{task.assignee.fullName}}</span></b>
+        <translate ng-if="!ctrl.isAssignedToMePage && !task.assignee && task.candidates.length > 0">waiting for <b data-tooltip-placement="top"
+          data-uib-tooltip-template="'task-candidates.html'" data-tooltip-append-to-body="true">candidates</b> response.</translate>
+        <translate ng-if="!ctrl.isAssignedToMePage && !task.assignee && (!task.candidates || task.candidates.length === 0)">task have no assignee or condidate</translate>
         <span ng-if="task.dueDate !== undefined && !task.hasDueTime"> • {{task.dueDate | leftDate | localize}}</span>
         <span ng-if="task.dueDate !== undefined && task.hasDueTime"> • {{task.dueDate | leftDate : 'time' | localize}}</span>
       </p>
@@ -40,12 +29,14 @@
       <p ng-if="task.status === ctrl.statuses.REJECTED">
         <translate>All candidates rejected task.</translate>
       </p>
-      <p ng-if="task.status === ctrl.statuses.NO_ASSIGNED">
+      <p ng-if="task.status === ctrl.statuses.NO_ASSIGNED && task.candidates.length > 0">
         <translate>waiting for candidates response.</translate>
       </p>
+      <p ng-if="task.status === ctrl.statuses.NO_ASSIGNED && (!task.candidates || task.candidates.length === 0)">
+        <translate>task have no assignee or condidate</translate>
+      </p>
       <p ng-if="task.status === ctrl.statuses.COMPLETED">
-        <!-- TODO : Time of finish -->
-        <translate>Completed on {{task.dueDate | date : 'short' | localize}} by</translate> <b>{{task.assignee.fullName}}</b>
+        <translate>Completed on {{task.dueDate | date : 'short' | localize}} by</translate> <b>{{task.assignee.fullName || task.assignor.fullName}}</b>
       </p>
     </div>
     <div class="list-li-extra">
