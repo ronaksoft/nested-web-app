@@ -525,13 +525,15 @@
         if (data.accounts !== undefined) {
           result.accounts = _.differenceBy(_.uniqBy(data.accounts, 'id'), users, 'id');
         }
-        var tos = _.map(params.tos, function (item) {
-          return {
-            id: item
-          };
-        });
-        if (data.tos !== undefined) {
-          result.tos = _.differenceBy(_.uniqBy(data.tos, 'id'), tos, 'id');
+        if (isTask()) {
+          var tos = _.map(params.tos, function (item) {
+            return {
+              id: item
+            };
+          });
+          if (data.tos !== undefined) {
+            result.tos = _.differenceBy(_.uniqBy(data.tos, 'id'), tos, 'id');
+          }
         }
         var labels = _.map(params.labels, function (item) {
           return {

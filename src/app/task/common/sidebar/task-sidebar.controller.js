@@ -56,7 +56,6 @@
     }));
 
     eventReferences.push($rootScope.$on('open-task-custom-filter', function (event, data) {
-      console.log(data);
       openCustomFilterModal(data.id);
     }));
 
