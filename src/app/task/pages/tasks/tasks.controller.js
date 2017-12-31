@@ -18,6 +18,15 @@
     vm.openCustomFilterModal = openCustomFilterModal;
     vm.removeCustomFilter = removeCustomFilter;
 
+    vm.tasks = [];
+    vm.loading = true;
+    vm.firstStart = true;
+    vm.firstTimeLoading = true;
+    vm.taskSetting = {
+      limit: 8,
+      skip: 0
+    };
+
     vm.user = undefined;
     NstSvcTaskUtility.getValidUser(vm, NstSvcAuth);
 
@@ -103,14 +112,6 @@
       });
     }
 
-    vm.loading = true;
-    vm.firstStart = true;
-    vm.firstTimeLoading = true;
-    vm.taskSetting = {
-      limit: 8,
-      skip: 0
-    };
-
     vm.isGlancePage = false;
     vm.isAssignedToMePage = false;
     vm.isCreatedByMePage = false;
@@ -124,7 +125,6 @@
 
     vm.overDueTasks = [];
     vm.pendingTasks = [];
-    vm.tasks = [];
 
     setLocationFlag();
     if (!vm.isCustomFilterPage) {
