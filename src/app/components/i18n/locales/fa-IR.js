@@ -294,6 +294,7 @@
     "Invitation": "دعوت از ",
     "Invitation to {0}": "دعوت به {0}",
     "Invitation to {0} by {1}.": "دعوت به {0} توسط {1}.",
+    "Invite": "دعوت",
     "Invite Member": "دعوت عضو",
     "Invite Members": "دعوت اعضا",
     "Invite new Members": "دعوت اعضای جدید",
