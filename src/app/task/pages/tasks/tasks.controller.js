@@ -31,6 +31,7 @@
     })();
 
     function loadCustomFilteredTasks() {
+      vm.taskSetting.skip = 0;
       vm.tasks = [];
       vm.customFilterId = parseInt($state.params.id);
       getCustomFilters(true).then(function (data) {
