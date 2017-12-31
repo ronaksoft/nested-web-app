@@ -23,18 +23,26 @@
 
     (function () {
       if ($state.current.name === 'app.task.custom_filter' && $state.params && $state.params.id) {
-        vm.customFilterId = parseInt($state.params.id);
-        getCustomFilters(true).then(function (data) {
-          customFilters = data;
-          var index = getFilterIndex();
-          if (index > -1) {
-            vm.customFilterName = customFilters[index].name;
-            vm.customFilterItems = customFilters[index].filters;
-            loadTasks();
-          }
-        });
+        loadCustomFilteredTasks();
+        eventReferences.push($rootScope.$on('task-custom-filter-updated', function () {
+          loadCustomFilteredTasks();
+        }));
       }
     })();
+
+    function loadCustomFilteredTasks() {
+      vm.tasks = [];
+      vm.customFilterId = parseInt($state.params.id);
+      getCustomFilters(true).then(function (data) {
+        customFilters = data;
+        var index = getFilterIndex();
+        if (index > -1) {
+          vm.customFilterName = customFilters[index].name;
+          vm.customFilterItems = customFilters[index].filters;
+          loadTasks();
+        }
+      });
+    }
 
     function getFilterIndex() {
       return _.findIndex(customFilters, {id: vm.customFilterId});
