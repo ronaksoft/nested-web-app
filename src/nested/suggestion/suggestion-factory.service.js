@@ -33,6 +33,8 @@
         return NstSvcUserFactory.parseTinyUser(member);
       });
 
+      suggestion.tos = _.cloneDeep(suggestion.accounts);
+
       suggestion.labels = _.map(data.labels, function (item) {
         NstSvcLabelFactory.set(item);
         return NstSvcLabelFactory.parseLabel(item);
