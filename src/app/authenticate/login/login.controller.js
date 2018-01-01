@@ -28,7 +28,7 @@
    * @param {any} NstSvcAuth
    * @param {any} NstSvcTranslation
    */
-  function LoginController($window, $state, $stateParams, md5, $location,
+  function LoginController($window, $state, $stateParams, md5, $location, NST_CONFIG,
                            NST_DEFAULT, NST_SRV_ERROR, _, NstHttp, $scope, $rootScope,
                            NstSvcAuth, NstSvcTranslation, NstSvcGlobalCache, NstSvcRequestCacheFactory, NstSvcPostDraft, NstSvcI18n) {
 
@@ -80,6 +80,7 @@
       var data = localStorage.getItem('ronak.nested.company.constants');
       if (data) {
         vm.companyConstant = JSON.parse(data);
+        vm.companyConstant.logo = NST_CONFIG.STORE.URL + '/pic/' + vm.companyConstant.logo
       }
     }
     /*****************************
