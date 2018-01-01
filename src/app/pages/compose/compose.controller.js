@@ -841,7 +841,6 @@
                 return i.id
               });
               var post = new NstPost();
-              console.log(vm.subjectElement);
               post.subject = vm.model.subject;;
               post.body = vm.model.body;
               post.contentType = 'text/html';
