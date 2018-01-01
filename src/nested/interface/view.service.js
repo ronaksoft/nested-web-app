@@ -38,6 +38,17 @@
       }
     };
 
+    obj.remove = function (id) {
+      var card = _.find($rootScope.cardCtrls, function(o, index){
+        return o.id === id
+      });
+      if (card) {
+        var index = $rootScope.cardCtrls.indexOf(card);
+        $rootScope.cardCtrls.splice(index, 1);
+        obj.reset();
+      }
+    };
+
     var resetService = _.throttle(obj.reset, 512);
 
     /**

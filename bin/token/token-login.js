@@ -235,6 +235,7 @@ var nst = {
     });
 
     document.querySelector('.submit').addEventListener('click', function () {
+      var element = document.querySelector('.submit');
       if (!nst.enable) {
         return;
       }
@@ -247,6 +248,7 @@ var nst = {
       } else {
         nst.setText('.error', '');
         nst.enable = false;
+        element.disabled = true;
         nst.http('account/set_password_by_token', {
           token: nst.token,
           new_pass: MD5(pass)
@@ -261,11 +263,14 @@ var nst = {
             nst.setCookie('_ss', data._ss, 365);
             window.location = '/';
             nst.enable = true;
+            element.disabled = false;
           }, function () {
             nst.enable = true;
+            element.disabled = false;
           });
         }, function () {
           nst.enable = true;
+          document.querySelector('.submit').disabled = false;
         });
       }
     });
