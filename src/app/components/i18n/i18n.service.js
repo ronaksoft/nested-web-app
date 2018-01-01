@@ -160,7 +160,6 @@
       } else {
         throw Error('Locale "' + key + '" does not exist.');
       }
-
     };
 
     /**
