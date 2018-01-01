@@ -29,8 +29,10 @@
    * @param {any} NstSvcTranslation
    */
   function LoginController($window, $state, $stateParams, md5, $location,
-                           NST_DEFAULT, NST_SRV_ERROR, _, NstHttp,
+                           NST_DEFAULT, NST_SRV_ERROR, _, NstHttp, $scope, $rootScope,
                            NstSvcAuth, NstSvcTranslation, NstSvcGlobalCache, NstSvcRequestCacheFactory, NstSvcPostDraft, NstSvcI18n) {
+
+    var eventReferences = [];
     var vm = this;
 
     /*****************************
@@ -47,6 +49,7 @@
     };
     vm.progress = false;
     vm.activeRegister = false;
+    vm.companyConstant = null;
 
     /*****************************
      ***** Initialization ****
@@ -66,8 +69,19 @@
       }).finally(function() {
         vm.loadConstantsProgress = false;
       });
+
+      loadCompanyConstants();
+      eventReferences.push($rootScope.$on('company-constants-loaded', function () {
+        loadCompanyConstants();
+      }));
     })();
 
+    function loadCompanyConstants() {
+      var data = localStorage.getItem('ronak.nested.company.constants');
+      if (data) {
+        vm.companyConstant = JSON.parse(data);
+      }
+    }
     /*****************************
      ***** Controller Methods ****
      *****************************/
@@ -146,5 +160,13 @@
       var url = $window.decodeURIComponent($stateParams.back);
       $location.url(_.trimStart(url, "#"));
     }
+
+    $scope.$on('$destroy', function () {
+      _.forEach(eventReferences, function (canceler) {
+        if (_.isFunction(canceler)) {
+          canceler();
+        }
+      });
+    });
   }
 })();

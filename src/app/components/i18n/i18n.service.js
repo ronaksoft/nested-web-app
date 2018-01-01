@@ -24,7 +24,7 @@
    * @param {any} $location
    * @returns
    */
-  function NstSvcI18n(_, NstSvcI18nStorage, moment, $location, NstSvcKeyFactory, NST_KEY, toastr, $window, $q, NstHttp) {
+  function NstSvcI18n(_, NstSvcI18nStorage, moment, $location, $rootScope, NstSvcKeyFactory, NST_KEY, toastr, $window, $q, NST_CONFIG, NstHttp) {
     function I18n() {
       var that = this;
       that.locales = {};
@@ -49,22 +49,29 @@
       };
 
       var localLocale = NstSvcI18nStorage.get('locale');
-      if (!localLocale) {
-        var ajax = new NstHttp('',
-          {
-            cmd: 'system/get_string_constants',
-            data: {}
-          });
 
-        ajax.post().then(function (data) {
-          if (data && data.data) {
-            NstSvcI18nStorage.set('locale', languages[data.data.system_lang]);
-            if (data.data.system_lang !== 'en') {
-              window.location.reload();
-            }
-          }
+      var ajax = new NstHttp('',
+        {
+          cmd: 'system/get_string_constants',
+          data: {}
         });
-      }
+
+      ajax.post().then(function (data) {
+        if (data && data.data) {
+          NstSvcI18nStorage.set('locale', languages[data.data.system_lang]);
+          var companyDetails = {
+            name: data.data.company_name,
+            desc: data.data.company_desc,
+            logo: data.data.company_logo
+          };
+          localStorage.setItem('ronak.nested.company.constants', JSON.stringify(companyDetails));
+          if (!localLocale && languages[data.data.system_lang] !== languages[NST_CONFIG.DEFAULT_LOCALE]) {
+            window.location.reload();
+          }
+          $rootScope.$broadcast('company-constants-loaded');
+        }
+      });
+
 
       var defaultLocale = "en-US";
       var defaultCalendar = "gregorian";

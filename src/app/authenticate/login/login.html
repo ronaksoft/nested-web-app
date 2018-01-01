@@ -7,6 +7,11 @@
       </svg>
       Change phone number</a>
     <div id="panel-signin" class="panel" ng-if="!ctlLogin.loadConstantsProgress">
+      <div ng-if="ctlLogin.companyConstant">
+        <img src="{{ctlLogin.companyConstant.logo}}" ng-if="ctlLogin.companyConstant.logo !== ''">
+        <div ng-if="ctlLogin.companyConstant.name !== ''">{{ctlLogin.companyConstant.name}}</div>
+        <div ng-if="ctlLogin.companyConstant.desc !== ''">{{ctlLogin.companyConstant.desc}}</div>
+      </div>
       <div class="panel-heading">
         <p class="nst-font-xxlarge _df _fw nmarg">
           <translate>Sign in</translate>
@@ -38,7 +43,7 @@
 
             <div class="row nst-vb">
               <div class="text-left _hf">
-                
+
               </div>
               <a class="_hf text-right nst-mood-cheerful " ui-sref="public.recover-password"><translate>Forgot Password?</translate></a>
             </div>
