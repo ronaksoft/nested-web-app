@@ -24,7 +24,7 @@
    * @param {any} $location
    * @returns
    */
-  function NstSvcI18n(_, NstSvcI18nStorage, moment, $location, NstSvcKeyFactory, NST_KEY, toastr, $window, $q) {
+  function NstSvcI18n(_, NstSvcI18nStorage, moment, $location, NstSvcKeyFactory, NST_KEY, toastr, $window, $q, NstHttp) {
     function I18n() {
       var that = this;
       that.locales = {};
@@ -48,12 +48,30 @@
         "en-US": "gregorian"
       };
 
+      var localLocale = NstSvcI18nStorage.get('locale');
+      if (!localLocale) {
+        var ajax = new NstHttp('',
+          {
+            cmd: 'system/get_string_constants',
+            data: {}
+          });
+
+        ajax.post().then(function (data) {
+          if (data && data.data) {
+            NstSvcI18nStorage.set('locale', languages[data.data.system_lang]);
+            if (data.data.system_lang !== 'en') {
+              window.location.reload();
+            }
+          }
+        });
+      }
+
       var defaultLocale = "en-US";
       var defaultCalendar = "gregorian";
       var routedLocale = languages[findLanguage("lang")];
       var routedCalendar = calendars[findLanguage("lang")];
       if (routedLocale) {
-        NstSvcI18nStorage.set('locale', routedLocale)
+        NstSvcI18nStorage.set('locale', routedLocale);
       }
       this.selectedCalendar = localStorage.getItem('ronak.nested.web.calendar') || routedCalendar || defaultCalendar;
       this.selectedLocale = NstSvcI18nStorage.get('locale') || routedLocale || defaultLocale;
