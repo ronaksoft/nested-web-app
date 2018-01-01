@@ -4,6 +4,7 @@
     "APP_VERSION" : "-3.5.3.5",
     "BUILD_VERSION" : "_BUILD_VERSION_",
     "DOMAIN" : "_DOMAIN_",
+    "DEFAULT_LOCALE": "en",
     "SHOW_FOOTER": "false",
     "LOG": {
       "LEVEL": 4,
