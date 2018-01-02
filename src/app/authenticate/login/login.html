@@ -7,10 +7,13 @@
       </svg>
       Change phone number</a>
     <div id="panel-signin" class="panel" ng-if="!ctlLogin.loadConstantsProgress">
-      <div ng-if="ctlLogin.companyConstant">
+      <div class="company-detail" ng-if="ctlLogin.companyConstant">
+        <div class="company-image-filter">
+          <img src="{{ctlLogin.companyConstant.logo}}" ng-if="ctlLogin.companyConstant.logo !== ''">
+        </div>
         <img src="{{ctlLogin.companyConstant.logo}}" ng-if="ctlLogin.companyConstant.logo !== ''">
-        <div ng-if="ctlLogin.companyConstant.name !== ''">{{ctlLogin.companyConstant.name}}</div>
-        <div ng-if="ctlLogin.companyConstant.desc !== ''">{{ctlLogin.companyConstant.desc}}</div>
+        <h1 ng-if="ctlLogin.companyConstant.name !== ''">{{ctlLogin.companyConstant.name}}</h1>
+        <p ng-if="ctlLogin.companyConstant.desc !== ''">{{ctlLogin.companyConstant.desc}}</p>
       </div>
       <div class="panel-heading">
         <p class="nst-font-xxlarge _df _fw nmarg">
