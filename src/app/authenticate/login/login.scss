@@ -43,6 +43,7 @@
       font-size: 14px;
       z-index: 2;
       line-height: 19px;
+      padding: 4px 16px;
     }
     .company-image-filter {
       position: absolute;
@@ -50,14 +51,15 @@
       z-index: 1;
       height: 100%;
       overflow: hidden;
-      display: flex;
-      justify-content: center;
       top: 0;
       left: 0;
       img {
+        position: absolute;
+        top: 50%;
+        left: 50%;
         width: 128px;
         height: 128px;
-        transform: scale(7.5,7.5);
+        transform: translate(-50%, -50%) scale(3, 3);
         transform-origin: center center;
         filter: blur(16px) brightness(76%);
         z-index: 1;

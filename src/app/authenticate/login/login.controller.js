@@ -81,7 +81,9 @@
       var data = _.cloneDeep(window.companyConstants);
       if (data) {
         vm.companyConstant = data;
-        vm.companyConstant.logo = NST_CONFIG.STORE.URL + '/pic/' + vm.companyConstant.logo;
+        if (vm.companyConstant.logo !== '') {
+          vm.companyConstant.logo = NST_CONFIG.STORE.URL + '/pic/' + vm.companyConstant.logo;
+        }
       }
     }
     /*****************************
