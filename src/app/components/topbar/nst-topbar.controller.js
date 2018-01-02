@@ -102,6 +102,7 @@
       vm.datePickerconfig = {
         allowFuture: false
       };
+      vm.companyConstant = null;
 
       vm.translation = {
         submit: NstSvcTranslation.get('Submit')
@@ -134,7 +135,19 @@
         //   vm.defaultSuggestion = getUniqueItems(result);
         //   vm.suggestion = Object.assign({}, vm.defaultSuggestion);
         // });
+        loadCompanyConstants();
+        eventReferences.push($rootScope.$on('company-constants-loaded', function () {
+          loadCompanyConstants();
+        }));
       })();
+
+      function loadCompanyConstants() {
+        var data = window.companyConstants;
+        if (data) {
+          vm.companyConstant = _.cloneDeep(window.companyConstants);
+          vm.companyConstant.logo = NST_CONFIG.STORE.URL + '/pic/' + vm.companyConstant.logo
+        }
+      }
 
       function isTask() {
         return ($state.current.options && $state.current.options.group === 'task');

@@ -64,7 +64,7 @@
             desc: data.data.company_desc,
             logo: data.data.company_logo
           };
-          localStorage.setItem('ronak.nested.company.constants', JSON.stringify(companyDetails));
+          window.companyConstants = companyDetails;
           if (!localLocale && languages[data.data.system_lang] !== languages[NST_CONFIG.DEFAULT_LOCALE]) {
             window.location.reload();
           }

@@ -29,7 +29,7 @@
    * @param {any} NstSvcTranslation
    */
   function LoginController($window, $state, $stateParams, md5, $location, NST_CONFIG,
-                           NST_DEFAULT, NST_SRV_ERROR, _, NstHttp, $scope, $rootScope,
+                           NST_DEFAULT, NST_SRV_ERROR, _, NstHttp, $scope, $rootScope, $timeout,
                            NstSvcAuth, NstSvcTranslation, NstSvcGlobalCache, NstSvcRequestCacheFactory, NstSvcPostDraft, NstSvcI18n) {
 
     var eventReferences = [];
@@ -78,10 +78,10 @@
     })();
 
     function loadCompanyConstants() {
-      var data = localStorage.getItem('ronak.nested.company.constants');
+      var data = _.cloneDeep(window.companyConstants);
       if (data) {
-        vm.companyConstant = JSON.parse(data);
-        vm.companyConstant.logo = NST_CONFIG.STORE.URL + '/pic/' + vm.companyConstant.logo
+        vm.companyConstant = data;
+        vm.companyConstant.logo = NST_CONFIG.STORE.URL + '/pic/' + vm.companyConstant.logo;
       }
     }
     /*****************************
