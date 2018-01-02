@@ -14,26 +14,30 @@
     display: flex;
     align-items: center;
     position: relative;
-    img {
+    >img {
       width: 64px;
       height: 64px;
       margin-top: 16px;
       object-fit: cover;
+      z-index: 2;
     }
     h1 {
       font-size: 24px;
       font-weight: bold;
       line-height: 33px;
       margin: 16px 0;
+      z-index: 2;
     }
     p {
       margin-bottom: 16px;
       font-size: 14px;
+      z-index: 2;
       line-height: 19px;
     }
     .company-image-filter {
       position: absolute;
       width: 100%;
+      z-index: 1;
       height: 100%;
       overflow: hidden;
       display: flex;
