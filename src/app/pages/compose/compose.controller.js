@@ -841,7 +841,6 @@
                 return i.id
               });
               var post = new NstPost();
-              console.log(vm.subjectElement);
               post.subject = vm.model.subject;;
               post.body = vm.model.body;
               post.contentType = 'text/html';
@@ -1243,9 +1242,10 @@
         undo: true,
         refreshAfterCallback: true,
         callback: function () {
+          console.log('hey');
           changeDirection.apply(this, ['rtl', 'right']);
         }
-      })
+      });
 
       $.FroalaEditor.RegisterCommand('leftToRight', {
         title: 'LTR',
@@ -1256,7 +1256,7 @@
         callback: function () {
           changeDirection.apply(this, ['ltr', 'left']);
         }
-      })
+      });
 
       /**
        * Configs for Froala editor

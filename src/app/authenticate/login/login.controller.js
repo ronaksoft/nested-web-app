@@ -28,9 +28,11 @@
    * @param {any} NstSvcAuth
    * @param {any} NstSvcTranslation
    */
-  function LoginController($window, $state, $stateParams, md5, $location,
-                           NST_DEFAULT, NST_SRV_ERROR, _, NstHttp,
+  function LoginController($window, $state, $stateParams, md5, $location, NST_CONFIG,
+                           NST_DEFAULT, NST_SRV_ERROR, _, NstHttp, $scope, $rootScope, $timeout,
                            NstSvcAuth, NstSvcTranslation, NstSvcGlobalCache, NstSvcRequestCacheFactory, NstSvcPostDraft, NstSvcI18n) {
+
+    var eventReferences = [];
     var vm = this;
 
     /*****************************
@@ -47,6 +49,7 @@
     };
     vm.progress = false;
     vm.activeRegister = false;
+    vm.companyConstant = null;
 
     /*****************************
      ***** Initialization ****
@@ -64,10 +67,25 @@
       }).post().then(function(result) {
         vm.activeRegister = result.data.register_mode === 1;
       }).finally(function() {
+        notifyLoadedLogin()
         vm.loadConstantsProgress = false;
       });
+
+      loadCompanyConstants();
+      eventReferences.push($rootScope.$on('company-constants-loaded', function () {
+        loadCompanyConstants();
+      }));
     })();
 
+    function loadCompanyConstants() {
+      var data = _.cloneDeep(window.companyConstants);
+      if (data) {
+        vm.companyConstant = data;
+        if (vm.companyConstant.logo !== '') {
+          vm.companyConstant.logo = NST_CONFIG.STORE.URL + '/pic/' + vm.companyConstant.logo;
+        }
+      }
+    }
     /*****************************
      ***** Controller Methods ****
      *****************************/
@@ -137,7 +155,9 @@
     /*****************************
      ***** Internal Methods ****
      *****************************/
-
+    function notifyLoadedLogin() {
+      $rootScope.$emit('login-loaded');
+    }
     /**
      * Navigates to the return url or default state
      *
@@ -146,5 +166,13 @@
       var url = $window.decodeURIComponent($stateParams.back);
       $location.url(_.trimStart(url, "#"));
     }
+
+    $scope.$on('$destroy', function () {
+      _.forEach(eventReferences, function (canceler) {
+        if (_.isFunction(canceler)) {
+          canceler();
+        }
+      });
+    });
   }
 })();

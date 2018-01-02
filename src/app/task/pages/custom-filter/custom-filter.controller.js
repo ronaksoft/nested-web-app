@@ -38,7 +38,6 @@
       }
       vm.inProgress = true;
       getFilters().then(function (data) {
-        console.log(data);
         customFilters = data;
         if (vm.id === -1) {
           addRow(0);
@@ -122,6 +121,7 @@
         if (vm.id === -1) {
           toastr.success(NstSvcTranslation.get('Custom filter has been created'));
           vm.id = getLastId();
+          $state.go('app.task.custom_filter', {id: vm.id});
         } else {
           toastr.success(NstSvcTranslation.get('Custom filter updated'));
         }

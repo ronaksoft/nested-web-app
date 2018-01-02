@@ -18,23 +18,41 @@
     vm.openCustomFilterModal = openCustomFilterModal;
     vm.removeCustomFilter = removeCustomFilter;
 
+    vm.tasks = [];
+    vm.loading = true;
+    vm.firstStart = true;
+    vm.firstTimeLoading = true;
+    vm.taskSetting = {
+      limit: 8,
+      skip: 0
+    };
+
     vm.user = undefined;
     NstSvcTaskUtility.getValidUser(vm, NstSvcAuth);
 
     (function () {
       if ($state.current.name === 'app.task.custom_filter' && $state.params && $state.params.id) {
-        vm.customFilterId = parseInt($state.params.id);
-        getCustomFilters(true).then(function (data) {
-          customFilters = data;
-          var index = getFilterIndex();
-          if (index > -1) {
-            vm.customFilterName = customFilters[index].name;
-            vm.customFilterItems = customFilters[index].filters;
-            loadTasks();
-          }
-        });
+        loadCustomFilteredTasks();
+        eventReferences.push($rootScope.$on('task-custom-filter-updated', function () {
+          loadCustomFilteredTasks();
+        }));
       }
     })();
+
+    function loadCustomFilteredTasks() {
+      vm.taskSetting.skip = 0;
+      vm.tasks = [];
+      vm.customFilterId = parseInt($state.params.id);
+      getCustomFilters(true).then(function (data) {
+        customFilters = data;
+        var index = getFilterIndex();
+        if (index > -1) {
+          vm.customFilterName = customFilters[index].name;
+          vm.customFilterItems = customFilters[index].filters;
+          loadTasks();
+        }
+      });
+    }
 
     function getFilterIndex() {
       return _.findIndex(customFilters, {id: vm.customFilterId});
@@ -94,14 +112,6 @@
       });
     }
 
-    vm.loading = true;
-    vm.firstStart = true;
-    vm.firstTimeLoading = true;
-    vm.taskSetting = {
-      limit: 8,
-      skip: 0
-    };
-
     vm.isGlancePage = false;
     vm.isAssignedToMePage = false;
     vm.isCreatedByMePage = false;
@@ -115,7 +125,6 @@
 
     vm.overDueTasks = [];
     vm.pendingTasks = [];
-    vm.tasks = [];
 
     setLocationFlag();
     if (!vm.isCustomFilterPage) {

@@ -486,9 +486,9 @@
       vm.post.isTrusted = true;
     }
 
-    function alwaysTrust() {
+    function alwaysTrust(trustDomain) {
       showTrustedBody();
-      NstSvcUserFactory.trustEmail(vm.post.sender.id).then(function () {
+      NstSvcUserFactory.trustEmail(vm.post.sender.id, trustDomain).then(function () {
         vm.post.isTrusted = true;
       }).catch(function () {
         toastr.error(NstSvcTranslation.get('An error has occured in trusting the sender'));

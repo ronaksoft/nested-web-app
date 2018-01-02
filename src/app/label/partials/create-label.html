@@ -1,18 +1,18 @@
 <div class="label-sm-modal">
-    <h4>Create a Label</h4>
-    <Label>Label Name</Label>
+    <h4 translate-inner>Create a Label</h4>
+    <Label translate-inner>Label Name</Label>
     <input ng-model="createCtrl.title" type="text">
-    <Label>Label Color</Label>
+    <Label translate-inner>Label Color</Label>
     <!--<input type="text" class="label-color">-->
     <div class="_pr _fw label-color">
         <select name="lang" ng-model="createCtrl.code">
-            <option value="A">- Default -</option>
-            <option value="B">Green</option>
-            <option value="C">Yellow</option>
-            <option value="D">Red</option>
-            <option value="E">Purple</option>
-            <option value="F">Blue</option>
-            <option value="G">Aquamarine</option>
+            <option value="A" translate-inner>- Default -</option>
+            <option value="B" translate-inner>Green</option>
+            <option value="C" translate-inner>Yellow</option>
+            <option value="D" translate-inner>Red</option>
+            <option value="E" translate-inner>Purple</option>
+            <option value="F" translate-inner>Blue</option>
+            <option value="G" translate-inner>Aquamarine</option>
         </select>
         <svg class="_16svg mirror _fn color-lbl-{{createCtrl.code}}">
             <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
@@ -47,7 +47,7 @@
         <translate>All users on your company can use this label.</translate>
     </div>
     <div class="modal-footer">
-        <input type="button" ng-click="$dismiss()"  value="Discard" class="butn butn-white secondary">
-        <input type="button" ng-disabled="createCtrl.isNotValid()" ng-click="createCtrl.createLabel()" value="Create" class="butn butn-green">
+        <input type="button" ng-click="$dismiss()"  value="Discard" translate-attrs="value" class="butn butn-white secondary">
+        <input type="button" ng-disabled="createCtrl.isNotValid()" ng-click="createCtrl.createLabel()" value="Create" translate-attrs="value" class="butn butn-green">
     </div>
 </div>
