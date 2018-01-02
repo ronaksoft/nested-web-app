@@ -65,7 +65,8 @@
           };
           if (!localLocale ) {
             NstSvcI18nStorage.set('locale', languages[data.data.system_lang]);
-            if (languages[data.data.system_lang] !== languages[NST_CONFIG.DEFAULT_LOCALE]) {
+            var defLang = languages[NST_CONFIG.DEFAULT_LOCALE] || "en-US";
+            if (languages[data.data.system_lang] !== defLang) {
               window.location.reload();
             }
           }
