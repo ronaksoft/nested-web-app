@@ -63,9 +63,11 @@
 
     NstSvcServer.addEventListener(NST_SRV_EVENT.CONNECT, function () {
       vm.disconnected = false;
-      vm.showLoadingScreen = false;
     });
 
+    eventReferences.push($rootScope.$on('login-loaded', function () {
+      vm.showLoadingScreen = false;
+    }));
     NstSvcServer.addEventListener(NST_SRV_EVENT.UNINITIALIZE, function () {
       vm.disconnected = true;
     });
@@ -82,6 +84,8 @@
       // todo : makeit works in a other way
       $window.location.reload();
     }));
+
+    
 
     eventReferences.push($rootScope.$on(NST_NOTIFICATION_EVENT.EXTERNAL_PUSH_ACTION, function (e, data) {
       switch (data.action) {

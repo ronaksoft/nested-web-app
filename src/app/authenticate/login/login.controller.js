@@ -67,6 +67,7 @@
       }).post().then(function(result) {
         vm.activeRegister = result.data.register_mode === 1;
       }).finally(function() {
+        notifyLoadedLogin()
         vm.loadConstantsProgress = false;
       });
 
@@ -152,7 +153,9 @@
     /*****************************
      ***** Internal Methods ****
      *****************************/
-
+    function notifyLoadedLogin() {
+      $rootScope.$emit('login-loaded');
+    }
     /**
      * Navigates to the return url or default state
      *
