@@ -48,6 +48,22 @@
         </a>
         <hr>
       </h2>
+      <h2 ng-if="ctrl.isCustomFilterPage">
+        <svg class="_16svg _df _scl2">
+          <use xlink:href="/assets/icons/nst-icn16.svg#filter"></use>
+        </svg>
+        <a class="_fw">
+          <span>{{ctrl.customFilterName}}</span>
+        </a>
+        <div class="more-option" data-popover-class="white-pop place-item-options-popover" data-popover-append-to-body="true" uib-popover-template="'app/task/pages/tasks/partials/custom-filter-more-option.html'"
+             data-popover-popup-close-delay="100" data-popover-trigger="focus" data-popover-placement="auto {{$root._direction == 'rtl' ? 'bottom-left' : 'bottom-right'}}" data-uib-tooltip="More options" translate-attrs="data-uib-tooltip"
+             data-tooltip-append-to-body="true" data-tooltip-placement="{{$root._direction == 'rtl' ? 'left-top' : 'right-top'}} auto" popover-is-open="ctrl.customFilterPopover">
+          <svg class="_24svg">
+            <use xlink:href="/assets/icons/nst-icn24.svg#more"></use>
+          </svg>
+        </div>
+        <hr>
+      </h2>
       <h5 class="list-head large error" ng-if="ctrl.overDueTasks.length > 0 && ctrl.isGlancePage">
         <translate>Overdue Tasks</translate>
       </h5>
@@ -104,7 +120,25 @@
         <translate>Upcomings</translate>
       </h5>
       <ul class="list-ul upcoming" id="task-container">
-        <task-view-item ng-repeat="task in ctrl.tasks"></task-view-item>
+        <task-view-item ng-if="!ctrl.isGlancePage" ng-repeat="task in ctrl.tasks"></task-view-item>
+        <li ng-if="ctrl.isGlancePage" class="large" ng-repeat="task in ctrl.tasks" ng-click="ctrl.editTask(task.id)">
+          <div class="list-li-icon">
+            <task-progress-icon status="ctrl.getTaskIcon(task.status, task.progress)" progress="task.progress"></task-progress-icon>
+          </div>
+          <div class="list-li-body">
+            <a>
+              <span>{{task.title}}</span>
+            </a>
+            <p>
+              <translate>from</translate> <b><span user-detail="task.assignor">{{task.assignor.fullName}}</span></b>
+              <translate>to</translate > <b><span user-detail="task.assignee">{{task.assignee.fullName}}</span></b>
+            </p>
+          </div>
+          <div class="list-li-extra" data-uib-tooltip-template="'task-date-time.html'" data-tooltip-append-to-body="false" data-tooltip-placement="{{$root._direction == 'rtl' ? 'top-left' : 'top-right'}}">
+            <span ng-if="task.dueDate !== undefined && !task.hasDueTime">{{task.dueDate | leftDate | localize}}</span>
+            <span ng-if="task.dueDate !== undefined && task.hasDueTime">{{task.dueDate | leftDate : 'time' | localize}}</span>
+          </div>
+        </li>
       </ul>
 
       <div class="_fn empty-place-holder" ng-if="!ctrl.firstTimeLoading && (
@@ -115,7 +149,6 @@
         <translate>You don't have any task until next year!</br>Enjoy your free time</translate> <span>😊</span>
       </div>
       <div class="_db _tac">
-        <!-- TODO: Ali check the loading -->
         <div class="_difh _jcc nst-mood-cheerful no-gutter nst-margin-24 _pr" ng-if="ctrl.loading">
           <div class="nst-loading"></div>
         </div>
@@ -153,5 +186,11 @@
 <script type="text/ng-template" id="task-labels.html">
   <span ng-repeat="label in task.labels">
     {{label.title}}</br>
+  </span>
+</script>
+
+<script type="text/ng-template" id="task-candidates.html">
+  <span ng-repeat="candidate in task.candidates">
+    {{candidate.fullName}}</br>
   </span>
 </script>

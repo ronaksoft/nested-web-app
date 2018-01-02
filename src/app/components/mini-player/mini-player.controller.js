@@ -6,7 +6,7 @@
     .controller('MiniPlyerController', MiniPlyerController);
 
   /** @ngInject */
-  function MiniPlyerController($scope, $rootScope, $state, _, SvcMiniPlayer) {
+  function MiniPlyerController($scope, $rootScope, $state, _, SvcMiniPlayer, $timeout) {
     var eventReferences = [];
     var vm = this;
     vm.displayState = 0;
@@ -55,6 +55,9 @@
             ratio: 1
           };
         });
+        $timeout(function () {
+          next();
+        }, 200);
       }
     }));
 

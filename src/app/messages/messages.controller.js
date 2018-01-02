@@ -7,7 +7,7 @@
 
     /** @ngInject */
     function MessagesController($rootScope, $stateParams, $state, $scope, $uibModal, _, $timeout,
-      moment, toastr, SvcScrollSaver,
+      moment, toastr, SvcScrollSaver, $location,
       NST_MESSAGES_SORT_OPTION, NST_DEFAULT, NST_EVENT_ACTION, NST_PLACE_ACCESS, NST_POST_EVENT,
       NstSvcPostFactory, NstSvcPlaceFactory, NstUtility, NstSvcAuth, NstSvcSync, NstSvcModal,
       NstSvcTranslation, SvcCardCtrlAffix, NstSvcUserFactory, NST_SRV_ERROR) {
@@ -153,6 +153,7 @@
             } else { //retract it
               NstUtility.collection.dropById(vm.messages, message.id);
             }
+            SvcCardCtrlAffix.remove(data.postId);
           }
         }));
 
@@ -804,7 +805,7 @@
 
         function restoreScroll() {
           if ($state.current.options && $state.current.options.alias === 'savescroll') {
-            SvcScrollSaver.restore($state.current.url)
+            SvcScrollSaver.restore($location.$$url)
           }
         }
 

@@ -102,6 +102,7 @@
       vm.datePickerconfig = {
         allowFuture: false
       };
+      vm.companyConstant = null;
 
       vm.translation = {
         submit: NstSvcTranslation.get('Submit')
@@ -118,14 +119,13 @@
         vm.adminArea = '/admin';
 
         checkLayouts();
-
         initQuery(true);
-        $rootScope.$on('$stateChangeSuccess', function () {
+        eventReferences.push($rootScope.$on('$stateChangeSuccess', function () {
           initQuery(false);
           isSearch();
           checkLayouts();
-        });
-        NstSvcUserFactory.getCurrent().then(function(user) {
+        }));
+        NstSvcUserFactory.getCurrent(true).then(function(user) {
           vm.user = user;
           if (user.authority.labelEditor) {
             requestLabelCounter();
@@ -135,7 +135,21 @@
         //   vm.defaultSuggestion = getUniqueItems(result);
         //   vm.suggestion = Object.assign({}, vm.defaultSuggestion);
         // });
+        loadCompanyConstants();
+        eventReferences.push($rootScope.$on('company-constants-loaded', function () {
+          loadCompanyConstants();
+        }));
       })();
+
+      function loadCompanyConstants() {
+        var data = window.companyConstants;
+        if (data) {
+          vm.companyConstant = _.cloneDeep(window.companyConstants);
+          if (vm.companyConstant.logo !== '') {
+            vm.companyConstant.logo = NST_CONFIG.STORE.URL + '/pic/' + vm.companyConstant.logo;
+          }
+        }
+      }
 
       function isTask() {
         return ($state.current.options && $state.current.options.group === 'task');
@@ -168,10 +182,7 @@
           getAdvancedSearchParams();
           vm.newQuery = searchQuery.getAllKeywords();
           if (_.trim(vm.newQuery).length === 0) {
-            NstSvcSuggestionFactory.search('').then(function (result) {
-              vm.defaultSuggestion = getUniqueItems(result);
-              vm.suggestion = Object.assign({}, vm.defaultSuggestion);
-            });
+            vm.suggestion = Object.assign({}, vm.defaultSuggestion);
           }
         } else {
           vm.toggleSearchModal(false);
@@ -529,13 +540,15 @@
         if (data.accounts !== undefined) {
           result.accounts = _.differenceBy(_.uniqBy(data.accounts, 'id'), users, 'id');
         }
-        var tos = _.map(params.tos, function (item) {
-          return {
-            id: item
-          };
-        });
-        if (data.tos !== undefined) {
-          result.tos = _.differenceBy(_.uniqBy(data.tos, 'id'), tos, 'id');
+        if (isTask()) {
+          var tos = _.map(params.tos, function (item) {
+            return {
+              id: item
+            };
+          });
+          if (data.tos !== undefined) {
+            result.tos = _.differenceBy(_.uniqBy(data.tos, 'id'), tos, 'id');
+          }
         }
         var labels = _.map(params.labels, function (item) {
           return {
@@ -587,14 +600,10 @@
         };
       }
 
-      function getSuggestions(query) {
+      function getSuggestions(query, all) {
         if (_.trim(query).length === 0) {
           vm.defaultSearch = true;
-          vm.suggestion = vm.defaultSuggestion;
-          NstSvcSuggestionFactory.search('').then(function (result) {
-            vm.defaultSuggestion = getUniqueItems(result);
-            vm.suggestion = Object.assign({}, vm.defaultSuggestion);
-          });
+          vm.suggestion = Object.assign({}, vm.defaultSuggestion);
         }
         else {
           vm.defaultSearch = false;

@@ -4,9 +4,8 @@
     "APP_VERSION" : "3.5.3.5",
     "BUILD_VERSION" : "_BUILD_VERSION_",
     "DOMAIN" : "_DOMAIN_",
-    "ADMIN_DOMAIN" : "webapp.ronaksoftware.com",
-    "ADMIN_PORT" : "8080",
-    "ADMIN_URL" : "_ADMIN_URL_",
+    "DEFAULT_LOCALE": "DEFAULT_LOCALE",
+    "SHOW_FOOTER": "_SHOW_FOOTER_",
     "LOG": {
       "LEVEL": 3,
       "GATEWAY": {

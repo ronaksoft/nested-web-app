@@ -1,12 +1,11 @@
 {
   "NST_CONFIG": {
     "APP_CLIENT_ID": "WEB_APP",
-    "APP_VERSION": "3.9.3",
+    "APP_VERSION": "4.3.1.3",
     "BUILD_VERSION": "_BUILD_VERSION_",
     "DOMAIN": "_DOMAIN_",
-    "ADMIN_DOMAIN": "_ADMIN_DOMAIN_",
-    "ADMIN_PORT": "_ADMIN_PORT_",
-    "ADMIN_URL": "_ADMIN_URL_",
+    "DEFAULT_LOCALE": "DEFAULT_LOCALE",
+    "SHOW_FOOTER": "_SHOW_FOOTER_",
     "LOG": {
       "LEVEL": 1,
       "GATEWAY": {

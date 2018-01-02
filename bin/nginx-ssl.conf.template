@@ -27,11 +27,7 @@ http {
 
     server {
          listen         80 default_server;
-
-         location / {
-             root   /ronak/nested/webapp;
-             index  redirect-to-safe-mode.html;
-         }
+         return         301 https://${DOLLAR}host${DOLLAR}request_uri;
     }
 
     server {

@@ -1112,6 +1112,19 @@ body[dir="rtl"] {
     left: auto;
     right: 16px;
   }
+  .place-chips-wrapper {
+    margin-right: 0;
+    padding-right: 0;
+    margin-left: 4px;
+    padding-left: 22px;
+    .clear {
+      right: auto;
+      left: 6px;
+    }
+    .place-picture img {
+      border-radius: 0 4px 4px 0;
+    }
+  }
 }
 
 body[dir="ltr"] {

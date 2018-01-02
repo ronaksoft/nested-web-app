@@ -22,7 +22,7 @@
         </span>
         <span class="place-name">{{$item.fullName}}</span>
       </div> -->
-      <div user-chips user-id="$item.id" on-remove="$selectMultiple.removeChoice" index="$index" on-select="" removable="true"></div>        
+      <div user-chips user-id="$item.id" on-remove="$selectMultiple.removeChoice" index="$index" on-select="" removable="true"></div>
     </ui-select-match>
     <ui-select-choices refresh="addMemberCtrl.search($select.search)" refresh-delay="0"
                         repeat="user in (addMemberCtrl.users | filter: $select.search) track by user.id" >
@@ -41,7 +41,7 @@
     </div>
   </div>
   <div class="m-footer _df _fw">
-    <input type="button" class="butn butn-green" data-ng-if="addMemberCtrl.isGrandPlace" ng-disabled="addMemberCtrl.selectedUsers.length === 0" value="Invite" ng-click="addMemberCtrl.invite();" id="invite"/>
-    <input type="button" class="butn butn-green" data-ng-if="!addMemberCtrl.isGrandPlace" ng-disabled="addMemberCtrl.selectedUsers.length === 0" value="Add" ng-click="addMemberCtrl.add();" id="add"/>
+    <input type="button" class="butn butn-green" data-ng-if="addMemberCtrl.isGrandPlace" ng-disabled="addMemberCtrl.selectedUsers.length === 0" translate-attrs="value" value="Invite" ng-click="addMemberCtrl.invite();" id="invite"/>
+    <input type="button" class="butn butn-green" data-ng-if="!addMemberCtrl.isGrandPlace" ng-disabled="addMemberCtrl.selectedUsers.length === 0" translate-attrs="value" value="Add" ng-click="addMemberCtrl.add();" id="add"/>
   </div>
 </div>

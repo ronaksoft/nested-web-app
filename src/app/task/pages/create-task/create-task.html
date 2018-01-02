@@ -4,7 +4,7 @@
     <div class="task-title auto-height-item">
       <div class="task-input-wrapper ng-class:{'focus': ctrlCreateTask.titleFocus, 'error' : (ctrlCreateTask.model.title.length > ctrlCreateTask.model.titleLengthLimit)}">
         <textarea type="text" class="no-style gale-holder create-task-input" placeholder="{{ctrlCreateTask.titlePlaceholder}}" id="task-title"
-          ng-focus="ctrlCreateTask.titleFocus = true" ng-blur="ctrlCreateTask.titleFocus = false" resize-textarea ng-model="ctrlCreateTask.model.title"
+          ng-focus="ctrlCreateTask.setFocus('title')" ng-blur="ctrlCreateTask.titleFocus = false" resize-textarea ng-model="ctrlCreateTask.model.title"
           enter-key="ctrlCreateTask.enterSubjectTask()" prevent-shift-enter="true" auto-dir="ctrlCreateTask.model.title" nst-suggest-emoji></textarea>
         <div class="error-handler" ng-if="ctrlCreateTask.model.title.length > (ctrlCreateTask.model.titleLengthLimit - 10)">
           {{ctrlCreateTask.model.title.length | localize}} / {{ctrlCreateTask.model.titleLengthLimit | localize}}
@@ -18,7 +18,7 @@
     </div>
     <div class="task-assignee auto-height-item">
       <div class="task-input-wrapper ng-class:{'focus' : ctrlCreateTask.assigneeFocus}">
-        <task-assignee assignees-data="ctrlCreateTask.model.assignees" assignee-focus="ctrlCreateTask.assigneeFocus" assignee-with-candidate="true"
+        <task-assignee assignees-data="ctrlCreateTask.model.assignees" element-focus="ctrlCreateTask.assigneeFocus" assignee-with-candidate="true"
           assignee-placeholder="{{ctrlCreateTask.assigneePlaceholder}}" edit-mode="ctrlCreateTask.editMode" remove-items="ctrlCreateTask.removeAssigneesItems"
           assignee-focus-me="ctrlCreateTask.assigneeFocusTrigger"></task-assignee>
         <div ng-if="ctrlCreateTask.assigneeFocus != true && ctrlCreateTask.model.assignees.length == 1" ng-click="ctrlCreateTask.assigneeFocus = true;"
@@ -47,7 +47,7 @@
     <div class="task-due const-height-item">
       <div class="task-input-wrapper ng-class:{'focus': ctrlCreateTask.dueDateFocus}">
         <input type="text" class="no-style gale-holder create-task-input" placeholder="{{ctrlCreateTask.dueDatePlaceholder}}"
-          id="task-due" ng-focus="ctrlCreateTask.dueDateFocus = true" ng-blur="ctrlCreateTask.dueDateFocus = false" ng-model="ctrlCreateTask.model.dueDateText"
+          id="task-due" ng-focus="ctrlCreateTask.setFocus('dueDate')" ng-blur="ctrlCreateTask.dueDateFocus = false" ng-model="ctrlCreateTask.model.dueDateText"
           data-config="ctrlCreateTask.datePickerconfig" g-formatted-picked-date="gfdate" g-picked-date="gdate" ng-jalaali-flat-datepicker
           have-time="ctrlCreateTask.model.hasDueTime" timestamp-model="ctrlCreateTask.model.dueDate">
       </div>
@@ -67,12 +67,12 @@
     </div>
     <div class="task-more-options" resize-height-animation="{{ctrlCreateTask.showMoreOption}}">
       <div class="task-description auto-height-item">
-        <div class="task-input-wrapper ng-class:{'focus': ctrlCreateTask.descFocus}">
-          <textarea class="no-style gale-holder create-task-input" ng-model="ctrlCreateTask.model.description" ng-focus="ctrlCreateTask.descFocus = true"
-            ng-blur="ctrlCreateTask.descFocus = false" enter-key="ctrlCreateTask.enterDescriptionTask()" placeholder="{{ctrlCreateTask.descPlaceholder}}"
-            id="task-description" resize-textarea auto-dir="ctrlCreateTask.model.description" nst-suggest-emoji></textarea>
+        <div class="task-input-wrapper ng-class:{'focus': ctrlCreateTask.descriptionFocus}">
+          <textarea class="no-style gale-holder create-task-input" ng-model="ctrlCreateTask.model.description"
+            ng-blur="ctrlCreateTask.descriptionFocus = false" enter-key="ctrlCreateTask.enterDescriptionTask()" placeholder="{{ctrlCreateTask.descPlaceholder}}"
+            id="task-description" resize-textarea auto-dir="ctrlCreateTask.model.description" nst-suggest-emoji ng-focus="ctrlCreateTask.setFocus('description')"></textarea>
         </div>
-        <label for="task-description" ng-class="{'focus': ctrlCreateTask.descFocus}">
+        <label for="task-description" ng-class="{'focus': ctrlCreateTask.descriptionFocus}">
               <svg class="_16svg">
                 <use xlink:href="/assets/icons/nst-icn16.svg#petition"></use>
               </svg>
@@ -130,7 +130,7 @@
             <translate>Watchers</translate>
           </h3>
           <div class="task-input-wrapper ng-class:{'focus': ctrlCreateTask.watcherFocus}">
-            <task-assignee assignees-data="ctrlCreateTask.model.watchers" assignee-focus="ctrlCreateTask.watcherFocus" edit-mode="ctrlCreateTask.editMode"
+            <task-assignee assignees-data="ctrlCreateTask.model.watchers" element-focus="ctrlCreateTask.watcherFocus" edit-mode="ctrlCreateTask.editMode"
               assignee-with-candidate="false" assignee-placeholder="{{ctrlCreateTask.watcherPlaceholder}}" remove-items="ctrlCreateTask.removeWatcherItems"
               assignee-exclude="{{ctrlCreateTask.user.id}}"></task-assignee>
           </div>

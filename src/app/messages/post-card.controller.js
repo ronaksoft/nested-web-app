@@ -486,9 +486,9 @@
       vm.post.isTrusted = true;
     }
 
-    function alwaysTrust() {
+    function alwaysTrust(trustDomain) {
       showTrustedBody();
-      NstSvcUserFactory.trustEmail(vm.post.sender.id).then(function () {
+      NstSvcUserFactory.trustEmail(vm.post.sender.id, trustDomain).then(function () {
         vm.post.isTrusted = true;
       }).catch(function () {
         toastr.error(NstSvcTranslation.get('An error has occured in trusting the sender'));
@@ -840,7 +840,7 @@
             return id1 === id2
           });
         }).catch(function () {
-          toastr.error(NstSvcTranslation.get('an error occuered in removing label'));
+          toastr.error(NstSvcTranslation.get('an error occurred in removing label'));
         });
       });
       addItems.forEach(function (o) {
@@ -850,9 +850,9 @@
         }).catch(function (e) {
           // console.log(arguments)
           if (e.code === 6) {
-            toastr.error(NstSvcTranslation.get('You can\'t add more labels due to Admin configuration'));
+            toastr.error(NstSvcTranslation.get('You cannot add more labels due to Admin configuration'));
           } else {
-            toastr.error(NstSvcTranslation.get('an error occuered in adding labels'));
+            toastr.error(NstSvcTranslation.get('an error occurred in adding labels'));
           }
         });
       });

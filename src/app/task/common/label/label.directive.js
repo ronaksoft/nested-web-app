@@ -19,7 +19,8 @@
         addItem: '=?',
         removeItem: '=?',
         labelPlaceholder: '@',
-        removeItems: '='
+        removeItems: '=',
+        labelClick: '=?'
       }
     };
   }

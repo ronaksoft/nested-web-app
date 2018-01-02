@@ -11,7 +11,7 @@
       restrict: 'E',
       templateUrl: 'app/task/common/sidebar/task-sidebar.html',
       controller: 'TaskSidebarController',
-      controllerAs: 'ctrl'
+      controllerAs: 'sidebarCtrl'
     };
   }
 })();
