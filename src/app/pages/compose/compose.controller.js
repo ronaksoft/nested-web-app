@@ -1242,9 +1242,10 @@
         undo: true,
         refreshAfterCallback: true,
         callback: function () {
+          console.log('hey');
           changeDirection.apply(this, ['rtl', 'right']);
         }
-      })
+      });
 
       $.FroalaEditor.RegisterCommand('leftToRight', {
         title: 'LTR',
@@ -1255,7 +1256,7 @@
         callback: function () {
           changeDirection.apply(this, ['ltr', 'left']);
         }
-      })
+      });
 
       /**
        * Configs for Froala editor

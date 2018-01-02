@@ -58,15 +58,16 @@
 
       ajax.post().then(function (data) {
         if (data && data.data) {
-          NstSvcI18nStorage.set('locale', languages[data.data.system_lang]);
-          var companyDetails = {
+          window.companyConstants = {
             name: data.data.company_name,
             desc: data.data.company_desc,
             logo: data.data.company_logo
           };
-          window.companyConstants = companyDetails;
-          if (!localLocale && languages[data.data.system_lang] !== languages[NST_CONFIG.DEFAULT_LOCALE]) {
-            window.location.reload();
+          if (!localLocale ) {
+            NstSvcI18nStorage.set('locale', languages[data.data.system_lang]);
+            if (languages[data.data.system_lang] !== languages[NST_CONFIG.DEFAULT_LOCALE]) {
+              window.location.reload();
+            }
           }
           $rootScope.$broadcast('company-constants-loaded');
         }
