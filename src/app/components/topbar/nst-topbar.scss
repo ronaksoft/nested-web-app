@@ -175,6 +175,11 @@
         background-color: $color-gale
       }
     }
+    .company-logo {
+      img {
+        border-radius: 4px;
+      }
+    }
     ._20svg {
       opacity: .4
     }
