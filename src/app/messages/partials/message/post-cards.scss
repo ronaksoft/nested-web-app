@@ -23,58 +23,76 @@ post-card {
     right: 0;
     transform: translate3d(100%,0,0);
     border-radius: 0 4px 4px 0;
-    background-color: #F0F0F0;
+    background-color: $color-super-solid;
     border: 1px solid rgba(0, 0, 0, .04);
     border-left-width: 0;
     flex-direction: column;
     align-items: center;
+    padding: 8px 0;
     > a {
       display: flex;
       flex: 1;
       width: 100%;
-      height: 32px;
+      height: 
+      40px;
       justify-content: center;
       align-items: center;
     }
     svg {
-      fill: $color-gale;
+      fill: $color-gale-white;
       width: 24px;
       height: 24px;
     }
   }
   .chain-stats {
     width: 24px;
-    height: 105%;
+    height: 100%;
     position: absolute;
     top: 0;
     left: 0;
     transform: translate3d(-100%,0,0);
     border-radius: 0 4px 4px 0;
-    border-left: 1px solid $color-border;
+    border-left: 1px solid rgba(255, 255, 255, .08);
     flex-direction: column;
     > div {
-      height: 32px;
+      height: 24px;
+      margin-top: 8px;
       width: 100%;
       direction: rtl;
       flex-direction: row;
       display: inline-flex;
+      background-color: $color-solid; 
       justify-content: flex-start;
       align-items: center;
       transform: translate3d(-100%,0,0);
+      position: relative;
       > * {
         direction: ltr;
         display: inline-table;
       }
+      svg {
+        position: absolute;
+        right: 0;
+      }
     }
     span {
       white-space: nowrap;
-      padding: 0 2px;
+      padding: 0 15px;
+      color: $color-white;
+      font-size: 11px;
+      text-align: right;
+      span {
+        padding: 0;
+      }
     }
     svg {
       transform: translate3d(50%,0,0);
-      width: 16px;
-      height: 16px;
       flex: none;
+      fill: $color-white;
+      opacity: .24;
+    }
+    ._24svg {
+      opacity: 1;
     }
     .circ {
       transform: translate3d(50%,0,0);
@@ -115,14 +133,17 @@ post-card {
 
 .post-card {
   //margin-top: 32px;
-  //border-radius: 2px;
   position: relative;
   box-shadow: 0 5px 12px 2px rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
   //box-shadow: 0 10px 6px -6px rgba(119,123,121,.4);
   z-index: 1;
   background-color: $color-white;
   overflow: visible;
-  transition: all $animation-dur;
+  // transition: all $animation-dur;
+  &.have-comment {
+    border-radius: 6px 6px 0 0;
+  }
   .icon .forward-post,
   .icon .more,
   .icon .reply-post,
@@ -165,6 +186,7 @@ post-card {
     >div:first-child {
       min-width: 16px;
       padding: 0 2px 0 6px;
+      flex: none;
     }
     .select-card {
       position: absolute;
@@ -215,13 +237,13 @@ post-card {
       }
     }
     .post-card-time {
-      font-size: $font-size-xsmall;
+      font-size: 13px;
       cursor: pointer!important;
-      @include text-hover()
+      color: $color-gale-new;
     }
     h4 span {
       margin: 0;
-      font-size: 16px;
+      font-size: 14px;
       line-height: 1.4;
       font-weight: 400;
       color: $color-solid;
@@ -376,21 +398,50 @@ post-card {
     }
   }
   .collapse-view {
-    height: 32px;
+    height: 40px;
     display: inline-flex;
+    border-radius: 6px;
     flex-direction: row;
     align-items: center;
-    background-color: #F5F5F5;
-    border-bottom: 1px solid $color-border;
+    padding: 0;
+    background-color: #EEEFEF;
+    .post-chain-status {
+      width: 28px;
+      height: 16px;
+      padding: 0 6px;
+    }
+    .user-avatar-24 {
+      width: 36px;
+      &::after {
+        left: 6px;
+      }
+    }
+    strong {
+      font-size: 11px;
+      font-weight: bold;
+      color: $color-solid;
+      padding: 0 8px;
+    }
     p {
       margin: 0;
       font-size: 13px;
-      color: $color-gale;
+      padding: 0 8px;
+      color: $color-solid;
       @extend ._txe;
+    }
+    .icon {
+      fill: black;
+      position: relative;
+      svg {
+        use {
+          transform: scale(.8, .8);
+        }
+      }
     }
   }
   &.ribbon {
-    margin-bottom: -3px;
+    background-color: transparent;
+    box-shadow: 0px 32px 64px $color-super-solid;
   }
 }
 .post-places {
@@ -489,7 +540,7 @@ post-card {
     fill: $color-force;
   }
   .del-access {
-    padding-right: 16px;
+    // padding-right: 16px;
     svg {
       display: inline-block;
     }
@@ -572,15 +623,14 @@ post-card {
 }
 
 .post-card-comment {
-  width: calc(100% - 32px);
+  width: 100%;
   position: relative;
-  margin: auto;
+  box-shadow: 0 5px 12px 2px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   background-color: #F5F5F5;
-  border: solid 1px $color-border;
-  border-top-width: 0;
-  z-index: 0;
+  border-top: 1px solid $color-calm-solid;
+  z-index: 1;
   border-radius: 0 0 4px 4px;
   //overflow: hidden;
   comments-board > .ng-scope:first-child {
@@ -820,14 +870,6 @@ post-card {
 }
 .no-replied-or-forwarded {
   margin-top: 24px;
-}
-.post-back {
-  line-height: 24px;
-  padding-bottom: 8px;
-  fill: $color-gale;
-  spam {
-    color: $color-gale;
-  }
 }
 
 

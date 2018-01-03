@@ -24,6 +24,38 @@
       min-height: 108px;
     }
   }
+  .post-area {
+    padding: 0;
+    post-card {
+      .post-card {
+        box-shadow: 0px 32px 64px $color-super-solid;
+        margin-bottom: 8px;
+        &:not(.ribbon) {
+          margin-bottom: 0;
+        }
+      }
+      .post-card-comment {
+        box-shadow: 0px 32px 64px $color-super-solid;
+        margin-bottom: 8px;
+      }
+      &:last-of-type {
+        .post-card {
+          margin: 0;
+        }
+      }
+      &:first-of-type {
+        .chain-stats::after {
+          content: '';
+          position: absolute;
+          left: -1px;
+          width: 1px;
+          background-color: $color-solid;
+          top:0;
+          height: 12px;
+        }
+      }
+    }
+  }
   #PostTime {
     top: 0;
     right: 0;
@@ -148,9 +180,7 @@
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  height: 56px;
-  background-color: $color-modal-bg;
+  width: 80px;
   border-bottom: 1px solid transparent;
   display: flex;
   align-items: center;
@@ -160,9 +190,9 @@
     margin: 0 24px;
   }
   .closebut {
-    margin: 0;
-    width: 56px;
-    height: 100%;
+    margin: 24px;
+    width: 32px;
+    height: 32px;
   }
   vr {
     background-color: transparent;
@@ -170,6 +200,8 @@
   }
   svg {
     fill: $color-white;
+    transform: scale(1.25, 1.25);
+    transform-origin: center center;
   }
   .nst-content.second-view .content {
     display: flex;
@@ -177,7 +209,7 @@
   }
 }
 .chain-sub {
-  height: 88px;
+  // height: 88px;
   justify-content: center;
   display: flex;
   align-items: flex-end;
@@ -201,6 +233,15 @@
   fill: #999999;
   stroke: #FAFAFA;
   background-color: #FAFAFA;
+}
+
+.post-back {
+  line-height: 24px;
+  padding-bottom: 8px;
+  fill: $color-gale-white;
+  span {
+    color: $color-gale-white;
+  }
 }
 body > .uib-wrapper-post-view:first-child {
   // z-index: 999!important;
