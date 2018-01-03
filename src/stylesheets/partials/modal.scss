@@ -593,11 +593,13 @@ body.modal-open-attachment-view.compose-modal {
   height: 100%;
   overflow: initial;
   margin: 0!important;
+  background-color: transparent;
   .modal-content {
     min-height: calc(100% - 56px);
-    margin-top: 56px;
+    box-shadow: none;
+    margin-top: 80px;
     min-width: 1024px;
-    background-color: #FAFAFA;
+    background-color: transparent;
     display: block;
     flex-direction: column;
     position: relative;
@@ -606,7 +608,9 @@ body.modal-open-attachment-view.compose-modal {
     border-radius: 0;
   }
 }
-
+body.modal-open .modal.uib-wrapper-post-view {
+  background-color: $color-modal-bg;
+}
 .modal-head {
   p {
     font-size: 18px;
