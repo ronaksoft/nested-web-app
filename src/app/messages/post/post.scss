@@ -252,3 +252,27 @@ body > .uib-wrapper-post-view:first-child {
     z-index: 997!important;
   }
 }
+body[dir="rtl"] {
+  .post-navbar {
+    left: auto;
+    right: 0;
+  }
+  #PostView {
+    .post-area {
+      post-card{
+        .chain-stats{
+          > div svg {
+            left: 0;
+            right: auto;
+          }
+        }
+        &:first-of-type .chain-stats{
+          &::after {
+            left: auto;
+            right: -1px;
+          }
+        }
+      }
+    }
+  }
+}
