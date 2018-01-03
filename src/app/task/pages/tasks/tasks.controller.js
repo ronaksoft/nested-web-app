@@ -5,14 +5,20 @@
     .module('ronak.nested.web.task')
     .controller('TasksController', TasksController);
 
-  function TasksController($rootScope, $window, $scope, _, $state, NstSvcTaskFactory, NST_TASK_STATUS,
-                           NstSvcTaskUtility, $timeout, toastr, NstSvcTranslation, NstSvcAuth) {
+  function TasksController($rootScope, $window, $scope, _, $state, NstSvcTaskFactory, NST_TASK_STATUS, $uibModal,
+                           NstSvcTaskUtility, $timeout, toastr, NstSvcTranslation, NstSvcAuth, NstSvcKeyFactory, NST_CUSTOM_FILTER) {
     var vm = this;
     var eventReferences = [];
+    var customFilters = [];
 
-    vm.user = undefined;
-    NstSvcTaskUtility.getValidUser(vm, NstSvcAuth);
+    vm.customFilterId = '';
+    vm.customFilterName = '';
+    vm.customFilterItems = '';
+    vm.customFilterPopover = false;
+    vm.openCustomFilterModal = openCustomFilterModal;
+    vm.removeCustomFilter = removeCustomFilter;
 
+    vm.tasks = [];
     vm.loading = true;
     vm.firstStart = true;
     vm.firstTimeLoading = true;
@@ -20,6 +26,91 @@
       limit: 8,
       skip: 0
     };
+
+    vm.user = undefined;
+    NstSvcTaskUtility.getValidUser(vm, NstSvcAuth);
+
+    (function () {
+      if ($state.current.name === 'app.task.custom_filter' && $state.params && $state.params.id) {
+        loadCustomFilteredTasks();
+        eventReferences.push($rootScope.$on('task-custom-filter-updated', function () {
+          loadCustomFilteredTasks();
+        }));
+      }
+    })();
+
+    function loadCustomFilteredTasks() {
+      vm.taskSetting.skip = 0;
+      vm.tasks = [];
+      vm.customFilterId = parseInt($state.params.id);
+      getCustomFilters(true).then(function (data) {
+        customFilters = data;
+        var index = getFilterIndex();
+        if (index > -1) {
+          vm.customFilterName = customFilters[index].name;
+          vm.customFilterItems = customFilters[index].filters;
+          loadTasks();
+        }
+      });
+    }
+
+    function getFilterIndex() {
+      return _.findIndex(customFilters, {id: vm.customFilterId});
+    }
+
+    function getCustomFilters(cache) {
+      return NstSvcKeyFactory.get(NST_CUSTOM_FILTER.KEY_NAME, cache).then(function (result) {
+        if (result) {
+          return JSON.parse(result);
+        }
+        return [];
+      });
+    }
+
+    function openCustomFilterModal(id) {
+      vm.customFilterPopover = false;
+      $rootScope.$broadcast('open-task-custom-filter', {id: id});
+    }
+
+    function removeCustomFilter(id) {
+      vm.customFilterPopover = false;
+      $uibModal.open({
+        animation: false,
+        templateUrl: 'app/label/partials/label-confirm-modal.html',
+        controller: 'labelConfirmModalController',
+        controllerAs: 'confirmModal',
+        size: 'sm',
+        resolve: {
+          modalSetting: {
+            title: NstSvcTranslation.get('Delete custom filter'),
+            body: NstSvcTranslation.get('Are you sure you want to delete this custom filter?'),
+            confirmText: NstSvcTranslation.get('Delete'),
+            confirmColor: 'red',
+            cancelText: NstSvcTranslation.get('Cancel')
+          }
+        }
+      }).result.then(function () {
+        var tempList = [];
+        getCustomFilters(false).then(function (data) {
+          tempList = data;
+          var index = _.findIndex(tempList, {id: id});
+          if (index > -1) {
+            tempList.splice(index, 1);
+            return NstSvcKeyFactory.set(NST_CUSTOM_FILTER.KEY_NAME, JSON.stringify(tempList)).then(function() {
+              toastr.success(NstSvcTranslation.get('Custom filter successfully deleted'));
+              $rootScope.$broadcast('task-custom-filter-updated');
+              $state.go('app.task.glance');
+            }).catch(function () {
+              toastr.error(NstSvcTranslation.get('Something went wrong!'));
+            });
+          } else {
+            toastr.warning(NstSvcTranslation.get('Custom filter not found!'));
+          }
+        }).catch(function () {
+          toastr.error(NstSvcTranslation.get('Something went wrong!'));
+        });
+      });
+    }
 
     vm.isGlancePage = false;
     vm.isAssignedToMePage = false;
@@ -29,14 +120,16 @@
     vm.editTask = editTask;
     vm.acceptTask = acceptTask;
     vm.declineTask = declineTask;
+    vm.statuses = NST_TASK_STATUS;
     vm.getTaskIcon = NstSvcTaskUtility.getTaskIcon;
 
     vm.overDueTasks = [];
     vm.pendingTasks = [];
-    vm.tasks = [];
 
     setLocationFlag();
-    loadTasks();
+    if (!vm.isCustomFilterPage) {
+      loadTasks();
+    }
     if (vm.isGlancePage) {
       getOverdueTasks();
       getPendingTasks();
@@ -105,15 +198,32 @@
     }
 
     function getOverdueTasks() {
-      NstSvcTaskFactory.getByFilter(NST_TASK_STATUS.ASSIGNED_TO_ME, NST_TASK_STATUS.OVERDUE).then(function (tasks) {
+    //   filter: filter,
+    //     status_filter: String(statusFilter),
+    //     skip: skip,
+    //     limit: limit
+    // }
+      NstSvcTaskFactory.getByFilter({
+          filter: NST_TASK_STATUS.ASSIGNED_TO_ME,
+          statusFilter: NST_TASK_STATUS.OVERDUE}, function (tasks) {
+        vm.overDueTasks = tasks;
+      }).then(function (tasks) {
         vm.overDueTasks = tasks;
       });
     }
 
     function getPendingTasks() {
-      NstSvcTaskFactory.getByFilter(NST_TASK_STATUS.CANDIDATE, NST_TASK_STATUS.NO_ASSIGNED).then(function (tasks) {
+      NstSvcTaskFactory.getByFilter({
+        filter: NST_TASK_STATUS.CANDIDATE,
+        statusFilter: NST_TASK_STATUS.NO_ASSIGNED}, function (tasks) {
+        vm.pendingTasks = tasks;
+      }).then(function (tasks) {
         vm.pendingTasks = tasks;
       });
+    }
+
+    function importCachedTasks(tasks) {
+      mergeTask(tasks);
     }
 
     function getTasks() {
@@ -125,7 +235,12 @@
       }
       var statusFilter = [];
       if (vm.isGlancePage) {
-        promise = NstSvcTaskFactory.getByFilter(NST_TASK_STATUS.GLANCE, null, vm.taskSetting.skip, vm.taskSetting.limit);
+        promise = NstSvcTaskFactory.getByFilter({
+          filter: NST_TASK_STATUS.GLANCE,
+          statusFilter: null,
+          skip: vm.taskSetting.skip,
+          limit: vm.taskSetting.limit
+        }, importCachedTasks);
       } else if (vm.isAssignedToMePage) {
         if (isCompelted) {
           statusFilter.push(NST_TASK_STATUS.COMPLETED);
@@ -134,7 +249,12 @@
           statusFilter.push(NST_TASK_STATUS.HOLD);
           statusFilter.push(NST_TASK_STATUS.OVERDUE);
         }
-        promise = NstSvcTaskFactory.getByFilter(NST_TASK_STATUS.ASSIGNED_TO_ME, statusFilter.join(','), vm.taskSetting.skip, vm.taskSetting.limit);
+        promise = NstSvcTaskFactory.getByFilter({
+          filter: NST_TASK_STATUS.ASSIGNED_TO_ME,
+          statusFilter: statusFilter.join(','),
+          skip: vm.taskSetting.skip,
+          limit: vm.taskSetting.limit
+        }, importCachedTasks);
       } else if (vm.isCreatedByMePage) {
         if (isCompelted) {
           statusFilter.push(NST_TASK_STATUS.COMPLETED);
@@ -146,7 +266,12 @@
           statusFilter.push(NST_TASK_STATUS.HOLD);
           statusFilter.push(NST_TASK_STATUS.OVERDUE);
         }
-        promise = NstSvcTaskFactory.getByFilter(NST_TASK_STATUS.CREATED_BY_ME, statusFilter.join(','), vm.taskSetting.skip, vm.taskSetting.limit);
+        promise = NstSvcTaskFactory.getByFilter({
+          filter: NST_TASK_STATUS.CREATED_BY_ME,
+          statusFilter: statusFilter.join(','),
+          skip: vm.taskSetting.skip,
+          limit: vm.taskSetting.limit
+        }, importCachedTasks);
       } else if (vm.isWatchlistPage) {
         if (isCompelted) {
           statusFilter.push(NST_TASK_STATUS.COMPLETED);
@@ -158,7 +283,19 @@
           statusFilter.push(NST_TASK_STATUS.HOLD);
           statusFilter.push(NST_TASK_STATUS.OVERDUE);
         }
-        promise = NstSvcTaskFactory.getByFilter(NST_TASK_STATUS.WATCHED, statusFilter.join(','), vm.taskSetting.skip, vm.taskSetting.limit);
+        promise = NstSvcTaskFactory.getByFilter({
+          filter: NST_TASK_STATUS.WATCHED,
+          statusFilter: statusFilter.join(','),
+          skip: vm.taskSetting.skip,
+          limit: vm.taskSetting.limit
+        }, importCachedTasks);
+      } else if (vm.isCustomFilterPage) {
+        var params = getCustomFilterParams(vm.customFilterItems);
+        params = _.merge(params, {
+          skip: vm.taskSetting.skip,
+          limit: vm.taskSetting.limit
+        });
+        promise = NstSvcTaskFactory.getByCustomFilter(params, importCachedTasks);
       }
 
       promise.then(function (tasks) {
@@ -170,6 +307,54 @@
       });
 
       return promise;
+    }
+
+    function getNormCommaSeparated(str) {
+      str = str.split(',');
+      str = _.filter(_.map(str, function (item) {
+        return _.trim(item);
+      }), function (item) {
+        return item.length > 1;
+      });
+      return str.join(',');
+    }
+
+    function getCustomFilterParams(filters) {
+      var params = {};
+      var statusFilter = [];
+      for (var i in filters) {
+        switch (filters[i].con) {
+          case NST_CUSTOM_FILTER.CONDITION_STATUS:
+            statusFilter = [];
+            if (filters[i].val === NST_CUSTOM_FILTER.STATUS_OVERDUE) {
+              statusFilter.push(NST_TASK_STATUS.OVERDUE);
+            } else if (filters[i].val === NST_CUSTOM_FILTER.STATUS_HOLD) {
+              statusFilter.push(NST_TASK_STATUS.HOLD);
+            } else {
+              statusFilter.push(NST_TASK_STATUS.NO_ASSIGNED);
+              statusFilter.push(NST_TASK_STATUS.ASSIGNED);
+            }
+            params.status_filter = statusFilter.join(',');
+            break;
+          case NST_CUSTOM_FILTER.CONDITION_ASSIGNOR:
+            params.assignor_id = getNormCommaSeparated(filters[i].val);
+            break;
+          case NST_CUSTOM_FILTER.CONDITION_ASSIGNEE:
+            params.assignee_id = getNormCommaSeparated(filters[i].val);
+            break;
+          case NST_CUSTOM_FILTER.CONDITION_LABEL:
+            params.label_title = getNormCommaSeparated(filters[i].val);
+            params['label.logic'] = filters[i].eq === NST_CUSTOM_FILTER.LOGIC_AND? 'and': 'or';
+            break;
+          case NST_CUSTOM_FILTER.CONDITION_KEYWORD:
+            params.keyword = filters[i].val;
+            break;
+          case NST_CUSTOM_FILTER.CONDITION_DUE_TIME:
+            params.due_data_until = filters[i].val;
+            break;
+        }
+      }
+      return params;
     }
 
     function appendTasks(tasks) {

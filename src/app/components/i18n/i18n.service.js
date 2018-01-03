@@ -24,7 +24,7 @@
    * @param {any} $location
    * @returns
    */
-  function NstSvcI18n(_, NstSvcI18nStorage, moment, $location, NstSvcKeyFactory, NST_KEY, toastr, $window, $q) {
+  function NstSvcI18n(_, NstSvcI18nStorage, moment, $location, $rootScope, NstSvcKeyFactory, NST_KEY, toastr, $window, $q, NST_CONFIG, NstHttp) {
     function I18n() {
       var that = this;
       that.locales = {};
@@ -48,12 +48,39 @@
         "en-US": "gregorian"
       };
 
+      var localLocale = NstSvcI18nStorage.get('locale');
+
+      var ajax = new NstHttp('',
+        {
+          cmd: 'system/get_string_constants',
+          data: {}
+        });
+
+      ajax.post().then(function (data) {
+        if (data && data.data) {
+          window.companyConstants = {
+            name: data.data.company_name,
+            desc: data.data.company_desc,
+            logo: data.data.company_logo
+          };
+          if (!localLocale ) {
+            NstSvcI18nStorage.set('locale', languages[data.data.system_lang]);
+            var defLang = languages[NST_CONFIG.DEFAULT_LOCALE] || "en-US";
+            if (languages[data.data.system_lang] !== defLang) {
+              window.location.reload();
+            }
+          }
+          $rootScope.$broadcast('company-constants-loaded');
+        }
+      });
+
+
       var defaultLocale = "en-US";
       var defaultCalendar = "gregorian";
       var routedLocale = languages[findLanguage("lang")];
       var routedCalendar = calendars[findLanguage("lang")];
       if (routedLocale) {
-        NstSvcI18nStorage.set('locale', routedLocale)
+        NstSvcI18nStorage.set('locale', routedLocale);
       }
       this.selectedCalendar = localStorage.getItem('ronak.nested.web.calendar') || routedCalendar || defaultCalendar;
       this.selectedLocale = NstSvcI18nStorage.get('locale') || routedLocale || defaultLocale;
@@ -142,7 +169,6 @@
       } else {
         throw Error('Locale "' + key + '" does not exist.');
       }
-
     };
 
     /**

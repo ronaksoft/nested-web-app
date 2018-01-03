@@ -53,16 +53,27 @@
         }
     }
     .overdue {
-        svg {
-            fill: $color-force;
+        li .list-li-icon {
+            transform: translateY(0);
         }
-        .list-li-extra > span:first-of-type {
-            color: $color-force;
-            font-size: 13px;
+        .list-li-body {
+            > a:first-of-type,
+            > span:first-of-type,
+            > p ,
+            > p b{
+                color: $color-force;
+            }
         }
-        .list-li-body > span:first-of-type {
-            margin-bottom: 0;
-            color: $color-force;
+        li .list-li-body a {
+            margin: 0;
+        }
+        .list-li-extra {
+            svg {
+                fill: $color-force;
+            }
+            span {
+                color: $color-force;
+            }
         }
         li {
             &::after {
@@ -72,9 +83,24 @@
     }
     .candidate {
         .list-li-icon {
-            transform: translateY(-10px);
             svg {
                 fill: $color-bg-pending;
+            }
+        }
+        .list-li-body {
+            > a:first-of-type,
+            > span:first-of-type,
+            > p ,
+            > p b{
+                color: $color-bg-pending;
+            }
+        }
+        .list-li-extra {
+            svg {
+                fill: $color-bg-pending;
+            }
+            span {
+                color: $color-bg-pending;
             }
         }
         .list-li-buttons {
@@ -82,8 +108,23 @@
                 min-width: 90px;
             }
         }
-        .list-li-body > a:first-of-type {
-            color: $color-bg-pending;
+    }
+    .rejected {
+        .list-li-body {
+            > a:first-of-type,
+            > span:first-of-type,
+            > p ,
+            > p b{
+                color: $color-shine-wire;
+            }
+        }
+    }
+    .completed {
+        .list-li-body {
+            > a:first-of-type {
+                text-decoration: line-through;
+                opacity: 0.64;
+            }
         }
     }
     .upcoming {

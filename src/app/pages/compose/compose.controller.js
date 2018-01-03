@@ -64,7 +64,9 @@
         totalItems: 0,
         uploadedItems: 0
       };
-
+      $timeout(function (){
+        vm.subjectElement = document.querySelector('#compose-subject');
+      },10)
       $scope.scrollInstance;
 
       if ($scope.$resolve !== undefined && $scope.$resolve.modalId !== undefined) {
@@ -417,7 +419,7 @@
 
       NstSvcSidebar.setOnItemClick(onPlaceSelected);
 
-      vm.subjectKeyDown = _.debounce(subjectKeyDown, 128)
+      vm.subjectKeyDown = _.debounce(subjectKeyDown, 128);
       vm.search.fn = _.debounce(vm.searchRecipients, 128);
 
       /**
@@ -426,6 +428,8 @@
        */
       function subjectKeyDown(e) {
         NstSvcLogger.debug4('Compose | User types in subject');
+        vm.subjectElement = e.currentTarget;
+        // vm.model.subject = e.currentTarget.value;
         vm.mouseIn = true;
         if (e.which == 13) {
           NstSvcLogger.debug4('Compose | User pressed Enter on subject and focus will goes on the compose body');
@@ -804,6 +808,7 @@
        * @returns
        */
       vm.send = function () {
+        vm.model.subject = vm.subjectElement.value;
         if (vm.pending) {
           return;
         }
@@ -836,7 +841,7 @@
                 return i.id
               });
               var post = new NstPost();
-              post.subject = vm.model.subject;
+              post.subject = vm.model.subject;;
               post.body = vm.model.body;
               post.contentType = 'text/html';
               post.attachments = vm.model.attachments;
@@ -1237,9 +1242,10 @@
         undo: true,
         refreshAfterCallback: true,
         callback: function () {
+          console.log('hey');
           changeDirection.apply(this, ['rtl', 'right']);
         }
-      })
+      });
 
       $.FroalaEditor.RegisterCommand('leftToRight', {
         title: 'LTR',
@@ -1250,7 +1256,7 @@
         callback: function () {
           changeDirection.apply(this, ['ltr', 'left']);
         }
-      })
+      });
 
       /**
        * Configs for Froala editor
@@ -1511,6 +1517,7 @@
           vm.attachments.viewModels = [];
           vm.model.attachments = [];
           vm.model.attachfiles = {};
+          vm.subjectElement.value = '';
           vm.model.subject = '';
           vm.model.body = '';
           vm.model.forwardedFrom = null;

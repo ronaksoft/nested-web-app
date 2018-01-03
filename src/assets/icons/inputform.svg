@@ -1,1 +1,98 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="32" height="192" viewBox="0 0 32 192"><defs><style>.a,.b,.d,.g,.i,.j{fill:none;stroke-miterlimit:10;}.a,.b{stroke:#000;stroke-width:4px;}.a{filter:url(#b);}.b{filter:url(#d);}.c{mask:url(#a);}.d,.i{stroke:#ced9d3;}.e{fill:#ced9d3;}.f{mask:url(#c);}.g,.j{stroke:#869d91;}.h{fill:#869d91;}.i,.j{stroke-width:2px;}</style><filter id="b" x="5.66" y="5.66" width="20.69" height="20.69" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-color="#fff" result="bg"/><feBlend in="SourceGraphic" in2="bg"/></filter><mask id="a" x="5.66" y="5.66" width="20.69" height="20.69" maskUnits="userSpaceOnUse"><line class="a" x1="7.07" y1="24.93" x2="24.93" y2="7.07"/></mask><filter id="d" x="5.66" y="37.66" width="20.69" height="20.69" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-color="#fff" result="bg"/><feBlend in="SourceGraphic" in2="bg"/></filter><mask id="c" x="5.66" y="37.66" width="20.69" height="20.69" maskUnits="userSpaceOnUse"><line class="b" x1="7.07" y1="56.93" x2="24.93" y2="39.07"/></mask></defs><title>Source</title><g class="c"><path class="d" d="M24.9,16C23.48,19.52,20,21.5,16,21.5s-7.48-2-8.9-5.5C8.52,12.48,12,10.5,16,10.5S23.48,12.48,24.9,16Z"/><path class="e" d="M16,13a3,3,0,1,1-3,3,3,3,0,0,1,3-3m0-1a4,4,0,1,0,4,4,4,4,0,0,0-4-4h0Z"/></g><line class="d" x1="7.07" y1="24.93" x2="24.93" y2="7.07"/><g class="f"><path class="g" d="M24.9,48C23.48,51.52,20,53.5,16,53.5s-7.48-2-8.9-5.5C8.52,44.48,12,42.5,16,42.5S23.48,44.48,24.9,48Z"/><path class="h" d="M16,45a3,3,0,1,1-3,3,3,3,0,0,1,3-3m0-1a4,4,0,1,0,4,4,4,4,0,0,0-4-4h0Z"/></g><line class="g" x1="7.07" y1="56.93" x2="24.93" y2="39.07"/><path class="d" d="M24.9,80C23.48,83.52,20,85.5,16,85.5s-7.48-2-8.9-5.5C8.52,76.48,12,74.5,16,74.5S23.48,76.48,24.9,80Z"/><path class="e" d="M16,77a3,3,0,1,1-3,3,3,3,0,0,1,3-3m0-1a4,4,0,1,0,4,4,4,4,0,0,0-4-4h0Z"/><path class="g" d="M24.9,112c-1.43,3.52-4.87,5.5-8.9,5.5s-7.48-2-8.9-5.5c1.43-3.52,4.87-5.5,8.9-5.5S23.48,108.48,24.9,112Z"/><path class="h" d="M16,109a3,3,0,1,1-3,3,3,3,0,0,1,3-3m0-1a4,4,0,1,0,4,4,4,4,0,0,0-4-4h0Z"/><polyline class="i" points="28 148 24 152 20 148"/><polyline class="i" points="20 140 24 136 28 140"/><polyline class="j" points="28 180 24 184 20 180"/><polyline class="j" points="20 172 24 168 28 172"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="32" height="192" viewBox="0 0 32 192">
+  <defs>
+    <style>
+      .a,
+      .b,
+      .d,
+      .g,
+      .i,
+      .j {
+        fill: none;
+        stroke-miterlimit: 10;
+      }
+
+      .a,
+      .b {
+        stroke: #000;
+        stroke-width: 4px;
+      }
+
+      .a {
+        filter: url(#b);
+      }
+
+      .b {
+        filter: url(#d);
+      }
+
+      .c {
+        mask: url(#a);
+      }
+
+      .d,
+      .i {
+        stroke: #ced9d3;
+      }
+
+      .e {
+        fill: #ced9d3;
+      }
+
+      .f {
+        mask: url(#c);
+      }
+
+      .g,
+      .j {
+        stroke: #869d91;
+      }
+
+      .h {
+        fill: #869d91;
+      }
+
+      .i,
+      .j {
+        stroke-width: 2px;
+      }
+
+    </style>
+    <filter id="b" x="5.66" y="5.66" width="20.69" height="20.69" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feFlood flood-color="#fff" result="bg" />
+      <feBlend in="SourceGraphic" in2="bg" />
+    </filter>
+    <mask id="a" x="5.66" y="5.66" width="20.69" height="20.69" maskUnits="userSpaceOnUse">
+      <line class="a" x1="7.07" y1="24.93" x2="24.93" y2="7.07" />
+    </mask>
+    <filter id="d" x="5.66" y="37.66" width="20.69" height="20.69" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feFlood flood-color="#fff" result="bg" />
+      <feBlend in="SourceGraphic" in2="bg" />
+    </filter>
+    <mask id="c" x="5.66" y="37.66" width="20.69" height="20.69" maskUnits="userSpaceOnUse">
+      <line class="b" x1="7.07" y1="56.93" x2="24.93" y2="39.07" />
+    </mask>
+  </defs>
+  <title>Source</title>
+  <g class="c">
+    <path stroke-miterlimit="10" fill="none" stroke="#ced9d3" d="M24.9,16C23.48,19.52,20,21.5,16,21.5s-7.48-2-8.9-5.5C8.52,12.48,12,10.5,16,10.5S23.48,12.48,24.9,16Z"
+    />
+    <path class="e" d="M16,13a3,3,0,1,1-3,3,3,3,0,0,1,3-3m0-1a4,4,0,1,0,4,4,4,4,0,0,0-4-4h0Z" />
+  </g>
+  <line stroke-miterlimit="10" fill="none" stroke="#ced9d3" x1="7.07" y1="24.93" x2="24.93" y2="7.07" />
+  <g class="f">
+    <path stroke="#869d91" stroke-miterlimit="10" fill="none" d="M24.9,48C23.48,51.52,20,53.5,16,53.5s-7.48-2-8.9-5.5C8.52,44.48,12,42.5,16,42.5S23.48,44.48,24.9,48Z"
+    />
+    <path class="h" d="M16,45a3,3,0,1,1-3,3,3,3,0,0,1,3-3m0-1a4,4,0,1,0,4,4,4,4,0,0,0-4-4h0Z" />
+  </g>
+  <line stroke="#869d91" stroke-miterlimit="10" fill="none" x1="7.07" y1="56.93" x2="24.93" y2="39.07" />
+  <path stroke-miterlimit="10" fill="none" stroke="#ced9d3" d="M24.9,80C23.48,83.52,20,85.5,16,85.5s-7.48-2-8.9-5.5C8.52,76.48,12,74.5,16,74.5S23.48,76.48,24.9,80Z"
+  />
+  <path fill="#ced9d3" d="M16,77a3,3,0,1,1-3,3,3,3,0,0,1,3-3m0-1a4,4,0,1,0,4,4,4,4,0,0,0-4-4h0Z" />
+  <path stroke="#869d91" stroke-miterlimit="10" fill="none" d="M24.9,112c-1.43,3.52-4.87,5.5-8.9,5.5s-7.48-2-8.9-5.5c1.43-3.52,4.87-5.5,8.9-5.5S23.48,108.48,24.9,112Z"
+  />
+  <path fill="#869d91" d="M16,109a3,3,0,1,1-3,3,3,3,0,0,1,3-3m0-1a4,4,0,1,0,4,4,4,4,0,0,0-4-4h0Z" />
+  <polyline stroke-miterlimit="10" stroke-width="2px" fill="none" stroke="#ced9d3" points="28 148 24 152 20 148" />
+  <polyline stroke-miterlimit="10" stroke-width="2px" fill="none" stroke="#ced9d3" points="20 140 24 136 28 140" />
+  <polyline stroke="#869d91" stroke-miterlimit="10" fill="none" stroke-width="2px" points="28 180 24 184 20 180" />
+  <polyline stroke="#869d91" stroke-miterlimit="10" fill="none" stroke-width="2px" points="20 172 24 168 28 172" />
+</svg>

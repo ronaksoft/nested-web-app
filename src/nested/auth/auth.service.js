@@ -14,6 +14,7 @@
                       NstObservableObject) {
 
     var USER_STATUS_STORAGE_NAME = 'nested.user_status';
+    var NST_SERVER_DOMAIN = 'nested.server.domain';
 
     function Auth(user) {
       var service = this;
@@ -267,6 +268,7 @@
         domain = credentials.username.split('@')[1];
       } else {
         id = credentials.username;
+        localStorage.removeItem(NST_SERVER_DOMAIN);
       }
 
       NstSvcServer.reinit(domain)

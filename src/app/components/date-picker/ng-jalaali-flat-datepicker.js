@@ -522,6 +522,8 @@
       var daysNameList = [];
       if (farsi) {
         daysNameList = moment.weekdaysMin();
+        daysNameList.unshift(daysNameList[daysNameList.length - 1]);
+        daysNameList.splice(7, 1);
       } else {
         for (var i = 0; i < 7; i++) {
           daysNameList.push(moment().weekday(i).format(jalali ? 'dd' : 'ddd'));

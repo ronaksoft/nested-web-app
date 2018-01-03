@@ -302,6 +302,7 @@
       }
 
       userAuthority.labelEditor = data.label_editor;
+      userAuthority.admin = data.admin;
 
       return userAuthority;
     };
@@ -423,10 +424,11 @@
 
     }
 
-    UserFactory.prototype.trustEmail = function (email) {
+    UserFactory.prototype.trustEmail = function (email, trustDomain) {
       return this.sentinel.watch(function () {
         return NstSvcServer.request('account/trust_email', {
-          email_addr: email
+          email_addr: email,
+          domain: trustDomain
         });
       }, 'trustEmail');
     }

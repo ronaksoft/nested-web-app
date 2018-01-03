@@ -1,18 +1,26 @@
 <div class="_fhw">
   <div class="nst-vc">
     <div id="Logo"></div>
-    <a class="_fw visibility-hidden">
+    <!-- <a class="_fw visibility-hidden">
       <svg class="_24svg _r90 mirror">
         <use xlink:href="/assets/icons/nst-icn24.svg#arrow"></use>
       </svg>
-      Change phone number</a>
+      Change phone number</a> -->
     <div id="panel-signin" class="panel">
+      <div class="company-detail" ng-if="ctlLogin.companyConstant" bg-check="{{ctlLogin.companyConstant.logo}}">
+        <div class="company-image-filter">
+          <img src="{{ctlLogin.companyConstant.logo}}" ng-if="ctlLogin.companyConstant.logo !== ''">
+        </div>
+        <img src="{{ctlLogin.companyConstant.logo}}" ng-if="ctlLogin.companyConstant.logo !== ''">
+        <h1 ng-if="ctlLogin.companyConstant.name !== ''">{{ctlLogin.companyConstant.name}}</h1>
+        <p ng-if="ctlLogin.companyConstant.desc !== ''">{{ctlLogin.companyConstant.desc}}</p>
+      </div>
       <div class="panel-heading">
         <p class="nst-font-xxlarge _df _fw nmarg">
           <translate>Sign in</translate>
         </p>
 
-        <p class="nst-mood-calm nst-font-medium _df _fn nmarg">
+        <p class="nst-mood-calm nst-font-medium _df _fn nmarg" ng-if="ctlLogin.activeRegister">
           <translate>or</translate>
           <a class="nst-mood-cheerful" ui-sref="public.register">&nbsp;<translate>Create an account</translate></a>
         </p>
@@ -38,7 +46,7 @@
 
             <div class="row nst-vb">
               <div class="text-left _hf">
-                
+
               </div>
               <a class="_hf text-right nst-mood-cheerful " ui-sref="public.recover-password"><translate>Forgot Password?</translate></a>
             </div>
@@ -47,6 +55,11 @@
 
       </div>
     </div>
+    <!-- <div id="panel-signin" class="panel" ng-if="ctlLogin.loadConstantsProgress">
+        <div class="_df _fw _fh _jcc _aic f1">
+            <div class="nst-loading"></div>
+        </div>
+    </div> -->
     <p class="response warn">
       <a class="{{ctlLogin.message.class}} testing_err" data-ng-if="ctlLogin.message.fill" data-ng-bind="ctlLogin.message.text"></a>
     </p>

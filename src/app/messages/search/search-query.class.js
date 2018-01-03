@@ -26,10 +26,12 @@
       searchPrefixLocale.user = NST_SEARCH_QUERY_PREFIX.NEW_USER;
       searchPrefixLocale.place = NST_SEARCH_QUERY_PREFIX.NEW_PLACE;
       searchPrefixLocale.label = NST_SEARCH_QUERY_PREFIX.NEW_LABEL;
+      searchPrefixLocale.to = NST_SEARCH_QUERY_PREFIX.NEW_TO;
     } else {
       searchPrefixLocale.user = NST_SEARCH_QUERY_PREFIX.NEW_USER_FA;
       searchPrefixLocale.place = NST_SEARCH_QUERY_PREFIX.NEW_PLACE_FA;
       searchPrefixLocale.label = NST_SEARCH_QUERY_PREFIX.NEW_LABEL_FA;
+      searchPrefixLocale.to = NST_SEARCH_QUERY_PREFIX.NEW_TO_FA;
     }
 
     SearchQuery.prototype = new NstObject();
@@ -39,6 +41,7 @@
       this.places = [];
       this.users = [];
       this.labels = [];
+      this.tos = [];
       this.otherKeywords = [];
       this.before = null;
       this.after = null;
@@ -47,13 +50,15 @@
         places: [],
         users: [],
         labels: [],
-        keywords: []
+        keywords: [],
+        tos: []
       };
 
       this.prefixes = {
         user: NST_SEARCH_QUERY_PREFIX.NEW_USER,
         place: NST_SEARCH_QUERY_PREFIX.NEW_PLACE,
         label: NST_SEARCH_QUERY_PREFIX.NEW_LABEL,
+        to: NST_SEARCH_QUERY_PREFIX.NEW_TO,
         subject: NST_SEARCH_QUERY_PREFIX.SUBJECT,
         attachment: NST_SEARCH_QUERY_PREFIX.ATTACHMENT,
         within: NST_SEARCH_QUERY_PREFIX.WITHIN,
@@ -89,6 +94,10 @@
         that.addLabel(item.id, item.order);
       });
 
+      Array.prototype.concat(result.tos, secondaryResult.tos).forEach(function (item) {
+        that.addTo(item.id, item.order);
+      });
+
       this.subject = result.subject;
       this.hasAttachment = result.hasAttachment;
       this.within = result.within;
@@ -110,10 +119,12 @@
       var userRe = new RegExp(searchPrefixLocale.user, 'g');
       var placeRe = new RegExp(searchPrefixLocale.place, 'g');
       var labelRe = new RegExp(searchPrefixLocale.label, 'g');
+      var toRe = new RegExp(searchPrefixLocale.to, 'g');
 
       str = str.replace(userRe, this.prefixes.user);
       str = str.replace(placeRe, this.prefixes.place);
       str = str.replace(labelRe, this.prefixes.label);
+      str = str.replace(toRe, this.prefixes.to);
 
       return str;
     };
@@ -122,6 +133,7 @@
       var places = [];
       var users = [];
       var labels = [];
+      var tos = [];
       var keywords = [];
       var subject = '';
       var hasAttachment = false;
@@ -159,6 +171,11 @@
             id: _.trim(_.replace(word, that.prefixes.label, ''), '"'),
             order: that.order
           });
+        } else if (_.startsWith(word, that.prefixes.to)) {
+          tos.push({
+            id: _.replace(word, that.prefixes.to, ''),
+            order: that.order
+          });
         } else if (_.startsWith(word, that.prefixes.subject)) {
           subject = _.trim(_.replace(word, that.prefixes.subject, ''), '"');
         } else if (_.startsWith(word, that.prefixes.attachment)) {
@@ -182,6 +199,7 @@
         places: places,
         users: users,
         labels: labels,
+        tos: tos,
         keywords: keywords,
         subject: subject,
         hasAttachment: hasAttachment,
@@ -201,6 +219,8 @@
           stringList.push(this.prefixes.user + items[i].id);
         } else if (items[i].type === 'label') {
           stringList.push(this.prefixes.label + '"' + items[i].id + '"');
+        } else if (items[i].type === 'to') {
+          stringList.push(this.prefixes.to + items[i].id);
         } else {
           stringList.push(items[i].id);
         }
@@ -342,6 +362,41 @@
       }).join(',');
     };
 
+    SearchQuery.prototype.addTo = function (user, order) {
+      if (!checkValidity(user)) {
+        return;
+      }
+      if (order === null || order === undefined) {
+        order = ++this.order;
+      }
+      if (!_.find(this.tos, {id: user})) {
+        this.tos.push({
+          id: user,
+          order: order
+        });
+      }
+    };
+
+    SearchQuery.prototype.removeTo = function (user) {
+      _.remove(this.tos, function (item) {
+        return user === item.id;
+      });
+    };
+
+    SearchQuery.prototype.setTos = function (users) {
+      users = users.replace(/, /g, ',');
+      users = users.split(',');
+      for (var i in users) {
+        this.addTo(users[i]);
+      }
+    };
+
+    SearchQuery.prototype.getTos = function () {
+      return _.map(this.tos, function (item) {
+        return item.id;
+      }).join(',');
+    };
+
     SearchQuery.prototype.addOtherKeyword = function (keyword, order) {
       if (!checkValidity(keyword)) {
         return;
@@ -429,6 +484,9 @@
         labels: _.map(this.labels, function (item) {
           return item.id;
         }),
+        tos: _.map(this.tos, function (item) {
+          return item.id;
+        }),
         keywords: _.map(this.otherKeywords, function (item) {
           return item.id;
         }),
@@ -466,6 +524,14 @@
         });
       }
 
+      for (i = 0; i < this.tos.length; i++) {
+        tempList.push({
+          id: this.tos[i].id,
+          order: this.tos[i].order,
+          type: 'to'
+        });
+      }
+
       for (i = 0; i < this.otherKeywords.length; i++) {
         tempList.push({
           id: this.otherKeywords[i].id,
@@ -494,6 +560,9 @@
             break;
           case 'label':
             this.removeLabel(item.id);
+            break;
+          case 'to':
+            this.removeTo(item.id);
             break;
           case 'keyword':
             this.removeKeyword(item.id);
