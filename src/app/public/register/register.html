@@ -1,6 +1,5 @@
 <div class="_fhw">
   <div class="nst-vc ng-scope">
-    <div id="Logo"></div>
     <a class="_fw" ng-show="ctrl.step == 1" ui-sref="public.signin">
       <svg class="_24svg _r90 mirror">
         <use xlink:href="/assets/icons/nst-icn24.svg#arrow"></use>
@@ -32,5 +31,6 @@
         <register-step ng-if="ctrl.step == 3" verification-id="ctrl.verificationId" phone="ctrl.phone" on-completed="{{::ctrl.completedEventKey}}" country-code="ctrl.code"></register-step>
       </div>
     </div>
+    <div id="Logo"></div>
   </div>
 </div>
