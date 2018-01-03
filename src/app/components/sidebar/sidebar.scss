@@ -542,7 +542,7 @@ ul ul>li:last-child {
 .side-tasks-filter-list {
   padding: 0 6px;
   .side-menu-item {
-    margin-top: 8px;
+    // margin-top: 8px;
   }
   .item-desc {
     >span:first-of-type {
@@ -554,7 +554,6 @@ ul ul>li:last-child {
     }
   }
   .create-filter {
-    margin-top: 16px;
     @include hover(.6, 1);
   }
 }
