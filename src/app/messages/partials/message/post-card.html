@@ -263,7 +263,7 @@
 </section>
 
 <div class="chain-forward" ng-if="ctlPostCard.chainView && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)" affixer-post-view="{{ctlPostCard.addOn}}"
-  observe="yes" after-content="697" top="64" container=".modal" fixed-top="true">
+  observe="yes" after-content="697" top="8" container=".modal" fixed-top="true"  key="{{ctlPostCard.post.id + 'ctr'}}">
 
   <a ng-click="ctlPostCard.replyAll($event);ctlPostCard.markAsRead(); _track('post card', 'reply : add-on');" ui-sref="app.compose-reply-all({ postId: ctlPostCard.post.id })"
     data-uib-tooltip-template="Reply" data-tooltip-append-to-body="true" translate-attrs="data-uib-tooltip" data-tooltip-placement="auto top">
@@ -295,7 +295,7 @@
 </div>
 
 <div class="chain-stats" ng-if="ctlPostCard.chainView" observe="yes" affixer-post-view="{{ctlPostCard.addOn}}" parent-mode='true'
-  after-content="697" top="64" container=".modal" fixed-top="true" rtl-right-auto="true">
+  after-content="697" top="0" container=".modal" fixed-top="true" rtl-right-auto="true" key="{{ctlPostCard.post.id + 'stats'}}">
   <div ng-if="!ctlPostCard.addOn">
     <!-- <div class="circ ng-class:{'blue' : ctlPostCard.post.isReplyed, 'green' : ctlPostCard.post.isForwarded}"></div> -->
     <svg class="_16svg">

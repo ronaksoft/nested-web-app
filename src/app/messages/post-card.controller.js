@@ -67,7 +67,12 @@
     vm.canGoLastState = true;
 
     isPlaceFeed();
-    $scope.$parent.$parent.affixObserver = 1;
+    notifyObser()
+    function notifyObser() {
+      if($scope.$parent.$parent.$parent.affixObserver || $scope.$parent.$parent.$parent.affixObserver === 0) {
+        ++$scope.$parent.$parent.$parent.affixObserver;
+      }
+    }
 
     vm.getPlacesWithRemoveAccess = getPlacesWithRemoveAccess;
     vm.getPlacesWithControlAccess = getPlacesWithControlAccess;
@@ -315,7 +320,7 @@
         if (vm.post.isTrusted || !post.resources || Object.keys(post.resources).length == 0) {
           showTrustedBody();
         }
-        ++$scope.$parent.$parent.affixObserver;
+        notifyObser();
       }).catch(function () {
         toastr.error(NstSvcTranslation.get('An error occured while tying to show the post full body.'));
       }).finally(function () {
@@ -869,7 +874,7 @@
         postId: vm.post.id
       });
       eventReferences.push(reference);
-      ++$scope.$parent.$parent.affixObserver;
+      notifyObser();
     }
 
     /**
