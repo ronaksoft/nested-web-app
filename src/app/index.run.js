@@ -43,6 +43,13 @@
 
     });
     $templateCache.put("directives/toast/toast2.html", "<div class=\"{{toastClass}} {{toastType}}\" ng-click=\"tapToast()\"><div ng-switch on=\"allowHtml\" class=\"_df _fn\"><div ng-switch-default ng-if=\"title\" class=\"{{titleClass}}\" aria-label=\"{{title}}\">{{title}}</div><div ng-switch-default class=\"{{messageClass}}\" aria-label=\"{{message}}\">{{message}}</div><div ng-switch-when=\"true\" ng-if=\"title\" class=\"{{titleClass}}\" ng-bind-html=\"title\"></div><div ng-switch-when=\"true\" class=\"{{messageClass}}\" ng-bind-html=\"message\"></div><div ng-if=\"extraData.undo\" class=\"{{messageClass}} undo-butn\" ng-click=\"extraData.undo()\">Undo</div></div><progress-bar ng-if=\"progressBar\"></progress-bar></div>");
+    // pan zoom
+    $http.get('app/components/attachments/panzoom/nst-panzoom.html', {
+        cache: $templateCache
+      })
+      .success(function (tplContent) {
+        $templateCache.put("nst-panzoom.html", tplContent);
+      });
 
     $http.get('app/components/chips/user-chips.html', {
         cache: $templateCache

@@ -5,7 +5,7 @@
     .module('ronak.nested.web.components.attachment')
     .directive('nstPanzoom', NstPanzoom);
 
-  function NstPanzoom(NST_FILE_TYPE, _, $timeout, NstSvcLogger) {
+  function NstPanzoom(NST_FILE_TYPE, _, $timeout, NstSvcLogger, $compile, $templateCache) {
     return {
       restrict: 'A',
       scope: {
@@ -17,12 +17,9 @@
           return;
         }
         var eventReferences = [];
-        var template =
-          '<div class="nst-panzoom-container">' +
-            '<div class="nst-panzoom-item" rel="reset"><span class="unfilled-rect"></span></div>' +
-            '<div class="nst-panzoom-item" rel="in">+</div>' +
-            '<div class="nst-panzoom-item" rel="out">-</div>' +
-          '</div>';
+        var template = angular.element($templateCache.get('nst-panzoom.html'));
+        // $compile(template)($scope);
+        // console.log(template);
         $element.parents($scope.containerClass).append(template);
 
         $element.addClass('cursor-pan');
