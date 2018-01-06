@@ -19,5 +19,8 @@
         var parser = dom.parseFromString(linked,'text/html');
         return parser.body.innerHTML;
       };
+    }])
+    .filter('unsafe', ['$sce', function ($sce) {
+      return $sce.trustAsHtml;
     }]);
 })();

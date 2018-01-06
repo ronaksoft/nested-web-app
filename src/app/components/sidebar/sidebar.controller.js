@@ -617,7 +617,7 @@
 
           var isActive = (item.id === selectedId);
           var isExpanded = isItemExpanded(item, expandedPlaces, selectedId);
-          var children = getChildren(item, places, expandedPlaces, selectedId, depth + 1, getOrder(orders, place.id));
+          var children = getChildren(item, places, expandedPlaces, selectedId, depth + 1, getOrder(orders, item.id));
 
           stack.push(createTreeItem(item, children, isExpanded, isActive, depth));
 
