@@ -221,19 +221,18 @@
     </a>
 
     <div class="post-icons _fw _df" ng-if="!ctlPostCard.FIT">
-      <a id="test-forward" data-uib-tooltip="Forward" data-tooltip-append-to-body="true" data-tooltip-placement="auto top" translate-attrs="data-uib-tooltip"
-        ui-sref="app.compose-forward({ postId: ctlPostCard.post.id })" ng-click="ctlPostCard.forward($event); ctlPostCard.markAsRead(); _track('post card', 'forward : toolbar');"
-        class="icon _df">
-        <div class="forward-post">
+      <a id="test-forward" class="icon _df">
+        <div class="forward-post" data-uib-tooltip="Forward" data-tooltip-append-to-body="true" data-tooltip-placement="auto top" translate-attrs="data-uib-tooltip"
+        ui-sref="app.compose-forward({ postId: ctlPostCard.post.id })" ng-click="ctlPostCard.forward($event); ctlPostCard.markAsRead(); _track('post card', 'forward : toolbar');">
           <svg class="svg-hover _24svg">
             <use xlink:href="/assets/icons/nst-icn24.svg#forward"></use>
           </svg>
         </div>
       </a>
-      <a id="test-reply" class="icon _df" data-uib-tooltip="Reply" data-tooltip-append-to-body="true" translate-attrs="data-uib-tooltip"
+      <a id="test-reply" class="icon _df">
+        <div class="reply-post" data-uib-tooltip="Reply" data-tooltip-append-to-body="true" translate-attrs="data-uib-tooltip"
         data-tooltip-placement="auto top" ng-click="ctlPostCard.replyAll($event); ctlPostCard.markAsRead(); _track('post card', 'reply all : toolbar');"
         ui-sref="app.compose-reply-all({ postId: ctlPostCard.post.id })">
-        <div class="reply-post">
           <svg class="svg-hover _24svg mirror">
             <use xlink:href="/assets/icons/nst-icn24.svg#reply"></use>
           </svg>
