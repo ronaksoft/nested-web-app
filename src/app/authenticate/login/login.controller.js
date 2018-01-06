@@ -28,7 +28,7 @@
    * @param {any} NstSvcAuth
    * @param {any} NstSvcTranslation
    */
-  function LoginController($window, $state, $stateParams, md5, $location, NST_CONFIG,
+  function LoginController($window, $state, $stateParams, md5, $location, NST_CONFIG, $sce,
                            NST_DEFAULT, NST_SRV_ERROR, _, NstHttp, $scope, $rootScope, $timeout,
                            NstSvcAuth, NstSvcTranslation, NstSvcGlobalCache, NstSvcRequestCacheFactory, NstSvcPostDraft, NstSvcI18n) {
 
