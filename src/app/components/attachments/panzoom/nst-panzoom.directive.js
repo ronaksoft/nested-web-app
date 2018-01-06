@@ -25,6 +25,7 @@
         $element.addClass('cursor-pan');
 
         var zoom = 1.0;
+        var rotate = 0;
         var pan = {
           x: 0,
           y: 0
@@ -54,6 +55,15 @@
           pan.y = 0;
           origin.x = 50;
           origin.y = 50;
+          rotate = 0;
+          applyChanges(true);
+        }));
+        eventReferences.push(toolsElem.find('.nst-panzoom-item[rel="rotate"]').on('click', function () {
+          rotate += 90;
+          applyChanges(true);
+        }));
+        eventReferences.push(toolsElem.find('.nst-panzoom-item[rel="rotatec"]').on('click', function () {
+          rotate -= 90;
           applyChanges(true);
         }));
         eventReferences.push($element.on('mousedown', function (e) {
@@ -121,7 +131,7 @@
               $element.css('transition', 'none');
             }, 200);
           }
-          $element.css('transform', 'scale(' + zoom + ') translate(' + (pan.x/zoom) + 'px, ' + (pan.y/zoom) + 'px)');
+          $element.css('transform', 'scale(' + zoom + ') translate(' + (pan.x/zoom) + 'px, ' + (pan.y/zoom) + 'px) rotate(' + rotate + 'deg)');
           // $element.css('transform-origin', origin.x + '% ' + origin.y + '%');
         }
 
