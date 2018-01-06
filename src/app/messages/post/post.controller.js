@@ -6,7 +6,7 @@
     .controller('PostController', PostController);
 
   /** @ngInject */
-  function PostController($q, $scope, $rootScope, $stateParams, $uibModalInstance,
+  function PostController($q, $scope, $rootScope, $stateParams, $uibModalInstance, $interval,
                           _, toastr, NstSvcPostFactory, NstUtility, NstSvcLogger, NstSvcPostInteraction, NstSvcTranslation, NstSvcSync,
                           selectedPostId) {
     var vm = this;
@@ -27,7 +27,6 @@
 
     vm.loadMore = loadMore;
     vm.backToChain = backToChain;
-
     (function () {
       $('html').addClass("_oh");
       markPostAsRead(vm.postId);
@@ -47,20 +46,30 @@
           vm.extendedId = data.postId;
         }
       }));
-
+      $scope.affixObserver = 0;
       eventReferences.push($scope.$on('post-view-target-changed', function (event, data) {
         vm.postId = data.postId;
 
         var indexOfPost = _.findIndex(vm.messages, function (msg) {
           return msg.id === vm.postId;
         });
-
-        vm.messages.splice(indexOfPost + 1);
-
-        load(data.postId);
+        vm.messages.forEach(function(i,index) {
+          if (index > indexOfPost) {
+            i.hide = true;
+          }
+        })
+        // vm.messages.splice(indexOfPost + 1);
+        if(indexOfPost > -1) {
+          vm.messages[indexOfPost].hide = false;
+          vm.extendedId = data.postId;
+          console.log('pushToChainStack');
+          pushToChainStack(data.postId);
+        } else {
+          load(data.postId);
+        }
+        $scope.affixObserver++;
       }));
     })();
-
     function loadChainMessages(postId, limit, cacheHandler) {
       var max = limit + 1;
       vm.loadProgressId = true;
@@ -158,6 +167,10 @@
           canceler();
         }
       });
+      // Object.keys(window.affixerListenersPostView).forEach(function(k) {
+      //   $('.modal')[0].removeEventListener('scroll', window.affixerListenersPostView[k]);
+      // });
+      window.affixerListenersPostView = {};
     });
   }
 

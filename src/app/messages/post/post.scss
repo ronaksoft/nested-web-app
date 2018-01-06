@@ -6,7 +6,6 @@
 #PostView {
   //border: 1px solid $color-breeze;
   //border-radius: $border-radius-large;
-  background-color: #FAFAFA;
   margin-bottom: 64px;
   padding: 0;
   //animation: post-view .5s ease-out .12s forwards normal;
@@ -23,6 +22,38 @@
     .attachments-card {
       position: relative;
       min-height: 108px;
+    }
+  }
+  .post-area {
+    padding: 0;
+    post-card {
+      .post-card {
+        box-shadow: 0px 32px 64px $color-super-solid;
+        margin-bottom: 8px;
+        &:not(.ribbon) {
+          margin-bottom: 0;
+        }
+      }
+      .post-card-comment {
+        box-shadow: 0px 32px 64px $color-super-solid;
+        margin-bottom: 8px;
+      }
+      &:last-of-type {
+        .post-card {
+          margin: 0;
+        }
+      }
+      &:first-of-type {
+        .chain-stats::after {
+          content: '';
+          position: absolute;
+          left: -1px;
+          width: 1px;
+          background-color: $color-solid;
+          top:0;
+          height: 12px;
+        }
+      }
     }
   }
   #PostTime {
@@ -149,10 +180,8 @@
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  height: 56px;
-  background-color: $color-white;
-  border-bottom: 1px solid $color-border;
+  width: 80px;
+  border-bottom: 1px solid transparent;
   display: flex;
   align-items: center;
   flex-direction: row;
@@ -161,12 +190,18 @@
     margin: 0 24px;
   }
   .closebut {
-    margin: 0;
-    width: 56px;
-    height: 100%;
+    margin: 24px;
+    width: 32px;
+    height: 32px;
   }
   vr {
+    background-color: transparent;
     height: 48px;
+  }
+  svg {
+    fill: $color-white;
+    transform: scale(1.25, 1.25);
+    transform-origin: center center;
   }
   .nst-content.second-view .content {
     display: flex;
@@ -174,7 +209,7 @@
   }
 }
 .chain-sub {
-  height: 88px;
+  // height: 88px;
   justify-content: center;
   display: flex;
   align-items: flex-end;
@@ -199,6 +234,15 @@
   stroke: #FAFAFA;
   background-color: #FAFAFA;
 }
+
+.post-back {
+  line-height: 24px;
+  padding-bottom: 8px;
+  fill: $color-gale-white;
+  span {
+    color: $color-gale-white;
+  }
+}
 body > .uib-wrapper-post-view:first-child {
   // z-index: 999!important;
   & + div {
@@ -206,5 +250,29 @@ body > .uib-wrapper-post-view:first-child {
   }
   & + div + .taskBackDrop {
     z-index: 997!important;
+  }
+}
+body[dir="rtl"] {
+  .post-navbar {
+    left: auto;
+    right: 0;
+  }
+  #PostView {
+    .post-area {
+      post-card{
+        .chain-stats{
+          > div svg {
+            left: 0;
+            right: auto;
+          }
+        }
+        &:first-of-type .chain-stats{
+          &::after {
+            left: auto;
+            right: -1px;
+          }
+        }
+      }
+    }
   }
 }

@@ -8,10 +8,10 @@
     <div id="panel-signin" class="panel">
       <div class="company-detail" ng-if="ctlLogin.companyConstant">
         <div class="company-image-filter">
-          <img src="{{ctlLogin.companyConstant.logo}}" ng-if="ctlLogin.companyConstant.logo !== ''">
+          <img ng-src="{{ctlLogin.companyConstant.logo}}" ng-if="ctlLogin.companyConstant.logo !== ''">
           <div class="gradient-layer"></div>
         </div>
-        <img src="{{ctlLogin.companyConstant.logo}}" ng-if="ctlLogin.companyConstant.logo !== ''">
+        <img ng-src="{{ctlLogin.companyConstant.logo}}" ng-if="ctlLogin.companyConstant.logo !== ''">
         <h1 ng-if="ctlLogin.companyConstant.name !== ''">{{ctlLogin.companyConstant.name}}</h1>
         <p ng-if="ctlLogin.companyConstant.desc !== ''">{{ctlLogin.companyConstant.desc}}</p>
       </div>

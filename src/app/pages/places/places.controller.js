@@ -52,11 +52,11 @@
 
     vm.sortUpdateHandler = sortUpdateHandler;
 
-    var sortingUpated = false;
+    var sortingUpdated = false;
 
     function sortUpdateHandler() {
       setMyPlacesOrder(JSON.stringify(createSortedList(vm.places))).then(function () {
-        sortingUpated = true;
+        sortingUpdated = true;
         toastr.success(NstSvcTranslation.get('Places sorting updated'));
       }).catch(function () {
         toastr.error(NstSvcTranslation.get('Something went wrong!'));
@@ -897,7 +897,7 @@
     }
 
     $scope.$on('$destroy', function () {
-      if (sortingUpated) {
+      if (sortingUpdated) {
         $rootScope.$broadcast('places-sorting-updated');
       }
       _.forEach(eventReferences, function (canceler) {
