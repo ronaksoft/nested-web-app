@@ -897,6 +897,12 @@ body[dir="rtl"] {
     .post-places svg {
       margin: -4px -4px -3px 4px;
     }
+    .post-footer {
+      a.icon>div {
+        margin-right: 0;
+        margin-left: 12px;
+      }
+    }
   }
   post-card {
     .card-control {

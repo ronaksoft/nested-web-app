@@ -608,9 +608,6 @@ body.modal-open-attachment-view.compose-modal {
     border-radius: 0;
   }
 }
-body.modal-open .modal.uib-wrapper-post-view {
-  background-color: $color-modal-bg;
-}
 .modal-head {
   p {
     font-size: 18px;
@@ -962,7 +959,7 @@ div.modal .attach-place {
   height: 100%;
 }
 .taskBackDrop {
-  background-color: transparentize($color-solid, 1 - .94);
+  background-color: $color-modal-bg;
 }
 
 .minimize-container {
