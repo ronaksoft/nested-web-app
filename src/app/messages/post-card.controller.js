@@ -973,9 +973,17 @@
 
       searchQuery.addLabel(title);
 
-      $state.go('app.search', {
-        search: NstSearchQuery.encode(searchQuery.toString())
-      });
+      var timeout = 0;
+      if (isPostView()) {
+        timeout = 100;
+        $scope.$parent.$parent.$dismiss(true);
+      }
+
+      $timeout(function () {
+        $state.go('app.search', {
+          search: NstSearchQuery.encode(searchQuery.toString())
+        });
+      }, timeout);
     }
 
     function copyToClipboard(text) {
