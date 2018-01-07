@@ -37,6 +37,7 @@
       this.bodyIsTrivial = true;
       this.noComment = false;
       this.isTrusted = true;
+      this.iframeUrl = undefined;
     }
 
     Post.prototype.getTrustedBody = function () {
