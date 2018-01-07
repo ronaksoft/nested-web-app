@@ -138,7 +138,7 @@
       <div mail-resizer ng-if="ctlPostCard.post.isTrusted" ng-bind-html="ctlPostCard.body | trustAsHtml"></div>
     </div>
   </section>
-  <section ng-if="ctlPostCard.isExpanded">
+  <section ng-if="ctlPostCard.isExpanded && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
     <div ng-if="(!ctlPostCard.expandProgress && ctlPostCard.post.ellipsis && !ctlPostCard.addOn) && ctlPostCard.isExpanded">
       <a ng-click="ctlPostCard.collapse($event); _track('post card', 'show less');" class="show-more"><span>-</span>
         <translate>Show less</translate>
