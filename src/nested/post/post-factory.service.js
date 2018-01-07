@@ -202,6 +202,10 @@
         return NstSvcCommentFactory.parseComment(comment);
       });
 
+      if (data.iframe_url) {
+        post.iframeUrl = data.iframe_url;
+      }
+
       return post;
     }
 
@@ -382,6 +386,10 @@
       post.comments = _.map(data.post_comments, function(comment) {
         return NstSvcCommentFactory.parseComment(comment);
       });
+
+      if (data.iframe_url) {
+        post.iframeUrl = data.iframe_url;
+      }
 
       return post;
     }

@@ -11,7 +11,8 @@ const config = {
   DOMAIN: process.env['NST_DOMAIN'],
   DISABLE_FCM: process.env['DISABLE_FCM'],
   DEFAULT_LOCALE: process.env['DEFAULT_LOCALE'],
-  SHOW_FOOTER: process.env['SHOW_FOOTER']
+  SHOW_FOOTER: process.env['SHOW_FOOTER'],
+  IFRAME_ENABLE: process.env['IFRAME_ENABLE']
 };
 
 const defaultConfig = {
@@ -23,7 +24,8 @@ const defaultConfig = {
   UPLOAD_SIZE_LIMIT: 104857600,
   DISABLE_FCM: "_DISABLE_FCM_",
   DEFAULT_LOCALE: "_DEFAULT_LOCALE_",
-  SHOW_FOOTER: "_SHOW_FOOTER_"
+  SHOW_FOOTER: "_SHOW_FOOTER_",
+  IFRAME_ENABLE: "_IFRAME_ENABLE_"
 };
 
 const newConfig = {
@@ -35,7 +37,8 @@ const newConfig = {
   DOMAIN: process.env['NST_DOMAIN'] || "nested.me",
   DISABLE_FCM: process.env['DISABLE_FCM'] || defaultConfig.DISABLE_FCM,
   DEFAULT_LOCALE: process.env['DEFAULT_LOCALE'] || defaultConfig.DEFAULT_LOCALE,
-  SHOW_FOOTER: process.env['SHOW_FOOTER'] || defaultConfig.SHOW_FOOTER
+  SHOW_FOOTER: process.env['SHOW_FOOTER'] || defaultConfig.SHOW_FOOTER,
+  IFRAME_ENABLE: process.env['IFRAME_ENABLE'] || defaultConfig.IFRAME_ENABLE
 };
 
 function isConfigApplyed() {
@@ -97,7 +100,8 @@ function replaceConfigAndStore(file) {
       .replace(new RegExp(defaultConfig.DOMAIN, 'ig'), newConfig.DOMAIN)
       .replace(defaultConfig.DISABLE_FCM, newConfig.DISABLE_FCM)
       .replace(defaultConfig.DEFAULT_LOCALE, newConfig.DEFAULT_LOCALE)
-      .replace(defaultConfig.SHOW_FOOTER, newConfig.SHOW_FOOTER);
+      .replace(defaultConfig.SHOW_FOOTER, newConfig.SHOW_FOOTER)
+      .replace(defaultConfig.IFRAME_ENABLE, newConfig.IFRAME_ENABLE);
 
     fs.writeFileSync(config.SCRIPT_DIR + file, newContent);
     res();
