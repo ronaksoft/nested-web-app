@@ -155,6 +155,10 @@
     </div>
   </div>
 
+  <section ng-if="ctlPostCard.post.iframe_url.length > 0 && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)" class="post-iframe">
+    <iframe ng-src="{{ctlPostCard.post.iframe_url}}" scrolling="auto"></iframe>
+  </section>
+
   <section data-ng-if="!ctlPostCard.FIT && ctlPostCard.post.attachments.length > 0 && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)"
     class="attachments-card">
     <nst-attachments-view class="_fw" post-id="ctlPostCard.post.id" sender="ctlPostCard.post.sender" attachments="ctlPostCard.post.attachments"></nst-attachments-view>
