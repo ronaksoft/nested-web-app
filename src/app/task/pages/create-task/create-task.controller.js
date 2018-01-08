@@ -238,11 +238,9 @@
     }
 
     function setFocus(item) {
-      console.log(vm[k]);
       var k = item + 'Focus';
       initiateFocus();
       vm[k] = true;
-      console.log(vm[k]);
     }
 
     function initiateFocus() {
@@ -269,7 +267,7 @@
         watcherFocus: vm.watcherFocus,
         labelFocus: vm.labelFocus
       };
-    }, function (newVal, oldVal) {
+    }, function (newVal) {
 
       if (_.countBy(Object.values(newVal))['true'] > 1) {
         vm.todoFocus = false;

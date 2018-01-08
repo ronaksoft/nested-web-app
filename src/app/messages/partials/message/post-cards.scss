@@ -33,7 +33,7 @@ post-card {
       display: flex;
       flex: 1;
       width: 100%;
-      height: 
+      height:
       40px;
       justify-content: center;
       align-items: center;
@@ -60,7 +60,7 @@ post-card {
       direction: rtl;
       flex-direction: row;
       display: inline-flex;
-      background-color: $color-solid; 
+      background-color: $color-solid;
       justify-content: flex-start;
       align-items: center;
       transform: translate3d(-100%,0,0);
@@ -303,6 +303,9 @@ post-card {
   }
   .post-iframe {
     width: 100%;
+    iframe {
+      width: 100%;
+    }
   }
   .attachments-card {
     position: relative;

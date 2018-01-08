@@ -5,7 +5,7 @@
   'ribbon' : ctlPostCard.isRibbon && ctlPostCard.ribbonEnabled,
   'have-comment' : !ctlPostCard.hideComments && !ctlPostCard.post.noComment && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)}"
   id="{{'post-card-' + ctlPostCard.post.id}}">
-  
+
   <section class="collapse-view" ng-if="ctlPostCard.isRibbon && ctlPostCard.ribbonEnabled" ng-click="ctlPostCard.switchToPostCard();">
     <div class="post-chain-status">
       <a ng-if="ctlPostCard.isForwarded" class="icon">
@@ -155,8 +155,8 @@
     </div>
   </div>
 
-  <section ng-if="ctlPostCard.post.iframe_url.length > 0 && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)" class="post-iframe">
-    <iframe ng-src="{{ctlPostCard.post.iframe_url}}" scrolling="auto"></iframe>
+  <section ng-if="ctlPostCard.post.iframeUrl.length > 0 && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)" class="post-iframe">
+    <iframe ng-src="{{ctlPostCard.mergePostCardVariable(ctlPostCard.post.iframeUrl)}}" scrolling="auto"></iframe>
   </section>
 
   <section data-ng-if="!ctlPostCard.FIT && ctlPostCard.post.attachments.length > 0 && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)"
