@@ -20,11 +20,11 @@
         $scope.conConst = NST_CUSTOM_FILTER;
         var eq1 = [{
             key: NST_CUSTOM_FILTER.LOGIC_AND,
-            title: NstSvcTranslation.get('is')
+            title: NstSvcTranslation.get('contain all of')
           },
           {
             key: NST_CUSTOM_FILTER.LOGIC_OR,
-            title: NstSvcTranslation.get('in any of')
+            title: NstSvcTranslation.get('contain any of')
           }
         ];
         var eq3 = [{
