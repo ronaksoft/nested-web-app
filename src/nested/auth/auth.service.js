@@ -18,7 +18,6 @@
 
     function Auth(user) {
       var service = this;
-
       this.user = user;
       this.state = NST_AUTH_STATE.UNAUTHORIZED;
       this.lastSessionKey = null;
@@ -62,7 +61,6 @@
     Auth.prototype = new NstObservableObject();
     Auth.prototype.constructor = Auth;
 
-
     /**
      * setLastUserKeys - Set sk (session key) and ss (session secret) of last authorized user
      *
@@ -73,7 +71,6 @@
       this.lastSessionKey = sk;
       this.lastSessionSecret = ss;
     }
-
 
     /**
      * setAppCookies - Set the application cookies. Iterates over the enumerable
@@ -95,7 +92,6 @@
         $cookies.put(key, value, cookieOptions);
       });
     }
-
 
     /**
      * Auth.prototype.setUserCookie - Set the authorized user cookie
@@ -122,14 +118,12 @@
       }), cookieOptions);
     }
 
-
     /**
      * Auth.prototype.removeUserCookie - Remove the authenticated user cookie
      */
     Auth.prototype.removeUserCookie = function () {
       $cookies.remove('user');
     }
-
 
     /**
      * Auth.prototype.removeAppCookies - Remove all the app cookies
@@ -413,7 +407,6 @@
         this.reconnect();
       }
     };
-
 
     Auth.prototype.parseSession = function (session) {
 

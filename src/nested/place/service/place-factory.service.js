@@ -373,6 +373,28 @@
       }, "updatePicture", id);
     };
 
+    PlaceFactory.prototype.removePicture = function (id) {
+      var factory = this;
+
+      return factory.sentinel.watch(function () {
+        var deferred = $q.defer();
+
+
+          NstSvcServer.request('place/set_picture', {
+            place_id: id
+          }).then(function (response) {
+            factory.cache.remove(id);
+            factory.get(id, true).then(function (place) {
+              $rootScope.$broadcast(NST_PLACE_EVENT.PICTURE_CHANGED, {placeId: place.id, place: place});
+            });
+
+            deferred.resolve(response);
+          }).catch(deferred.reject);
+
+        return deferred.promise;
+      }, "removePicture", id);
+    };
+
     PlaceFactory.prototype.removeCache = function (id) {
       this.cache.remove(id);
     };

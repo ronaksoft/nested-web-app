@@ -17,7 +17,7 @@
   function PlaceSettingsController($scope, $stateParams, $q, $state, $rootScope,
     $timeout, $uibModal, $uibModalInstance, toastr, _,
     NST_PLACE_POLICY_OPTION, NST_STORE_UPLOAD_TYPE, NST_PLACE_ACCESS, NST_SRV_ERROR,
-    NST_PLACE_MEMBER_TYPE, NST_PLACE_TYPE, NST_DEFAULT, NST_PLACE_EVENT,
+    NST_PLACE_MEMBER_TYPE, NST_PLACE_TYPE, NST_DEFAULT, NST_PLACE_EVENT, NstSvcUserFactory,
     NstSvcStore, NstSvcAuth, NstSvcPlaceFactory, NstUtility, NstSvcLogger, NstSvcTranslation, NstSvcModal,
     NstPicture, NstEntityTracker) {
     var vm = this;
@@ -53,49 +53,52 @@
     (function() {
       vm.placeId = $stateParams.placeId;
       vm.tab = $stateParams.tab || 'info';
-      vm.user = NstSvcAuth.user;
       $scope.selectedView = vm.tab === 'members' ? 1 : 0;
 
       // do not allow user to view her personal place settings
       // and redirect her to Profile Settings page instead
-      if (vm.placeId === vm.user.id) {
-        timeoutReferences.push($timeout(function () {
-          $uibModalInstance.close();
-          $state.go('app.settings.profile');
-          toastr.info(NstSvcTranslation.get("You can modify your profile settings here"));
-        }, 1));
-        return;
-      }
-      // Loads the place an its accesses
-      loadPlace(vm.placeId).then(function(result) {
-        if (result.accesses.hasReadAccess) {
-          vm.place = result.place;
-          vm.accesses = result.accesses;
-          vm.placeType = getPlaceType(vm.place);
-        } else {
-          // The place was found but the user does not have READ access
+
+      NstSvcUserFactory.getCurrent().then(function(user) {
+        vm.user = user;
+
+        if (vm.placeId === vm.user.id) {
           timeoutReferences.push($timeout(function () {
             $uibModalInstance.close();
-            $state.go(NST_DEFAULT.STATE);
-            toastr.error(NstUtility.string.format(NstSvcTranslation.get("Either <b>{0}</b> doesn't exist, or you don't have the permit to enter the Place."), result.place.id));
+            $state.go('app.settings.profile');
+            toastr.info(NstSvcTranslation.get("You can modify your profile settings here"));
           }, 1));
+          return;
         }
-
-      }).catch(function(error) {
-        switch (error.code) {
-          // The place does not exist and the user must be navigated through
-          // the app default state
-          case NST_SRV_ERROR.UNAVAILABLE:
+        // Loads the place an its accesses
+        loadPlace(vm.placeId).then(function(result) {
+          if (result.accesses.hasReadAccess) {
+            vm.place = result.place;
+            vm.accesses = result.accesses;
+            vm.placeType = getPlaceType(vm.place);
+          } else {
+            // The place was found but the user does not have READ access
             timeoutReferences.push($timeout(function () {
               $uibModalInstance.close();
               $state.go(NST_DEFAULT.STATE);
-              toastr.error(NstUtility.string.format(NstSvcTranslation.get("Either <b>{0}</b> doesn't exist, or you don't have the permit to enter the Place."), vm.placeId));
+              toastr.error(NstUtility.string.format(NstSvcTranslation.get("Either <b>{0}</b> doesn't exist, or you don't have the permit to enter the Place."), result.place.id));
             }, 1));
-            break;
-          default:
-            toastr.error(NstSvcTranslation.get("An error has occured while loading the place settings."));
-            break;
-        }
+          }
+        }).catch(function(error) {
+          switch (error.code) {
+            // The place does not exist and the user must be navigated through
+            // the app default state
+            case NST_SRV_ERROR.UNAVAILABLE:
+              timeoutReferences.push($timeout(function () {
+                $uibModalInstance.close();
+                $state.go(NST_DEFAULT.STATE);
+                toastr.error(NstUtility.string.format(NstSvcTranslation.get("Either <b>{0}</b> doesn't exist, or you don't have the permit to enter the Place."), vm.placeId));
+              }, 1));
+              break;
+            default:
+              toastr.error(NstSvcTranslation.get("An error has occured while loading the place settings."));
+              break;
+          }
+        });
       });
 
       eventReferences.push($rootScope.$on('member-removed', function (event, data) {
@@ -132,10 +135,10 @@
       if (NstUtility.place.isGrand(place.id)) {
 
         return NST_PLACE_TYPE.GRAND;
-      } else if (NstUtility.place.getGrandId(place.id) === NstSvcAuth.user.id) {
+      } else if (NstUtility.place.getGrandId(place.id) === vm.user.id) {
 
         return NST_PLACE_TYPE.SUB_PERSONAL;
-      } else if (place.id === NstSvcAuth.user.id) {
+      } else if (place.id === vm.user.id) {
 
         return NST_PLACE_TYPE.PERSONAL;
       } else if (place.privacy.locked) {
@@ -371,12 +374,14 @@
      *
      */
     function removePicture() {
-      NstSvcModal.confirm(NstSvcTranslation.get("Confirm"), NstSvcTranslation.get("Please make sure before removing the place picture.")).then(function() {
-        NstSvcPlaceFactory.updatePicture(vm.place.id, "").then(function () {
-          vm.place.picture = null;
-        }).catch(function () {
-          toastr.error(NstSvcTranslation.get("An error occured while removing the place picture"));
-        });
+      NstSvcModal.confirm(NstSvcTranslation.get("Confirm"), NstSvcTranslation.get("Please make sure before removing the place picture.")).then(function(result) {
+        if(result) {
+          NstSvcPlaceFactory.removePicture(vm.place.id).then(function () {
+            vm.place.picture = null;
+          }).catch(function () {
+            toastr.error(NstSvcTranslation.get("An error occured while removing the place picture"));
+          });
+        }
       });
     }
 
