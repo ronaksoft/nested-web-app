@@ -222,7 +222,7 @@
         }).result.then(function (croppedFile) {
           vm.logoFile = croppedFile;
 
-          var request = NstSvcStore.uploadWithProgress(vm.logoFile, logoUploadProgress, NST_STORE_UPLOAD_TYPE.PLACE_PIC, NstSvcAuth.lastSessionKey);
+          var request = NstSvcStore.uploadWithProgress(vm.logoFile, logoUploadProgress, NST_STORE_UPLOAD_TYPE.PLACE_PIC, NstSvcAuth.lastSessionKey, true);
           
           request.getPromise().then(function (result) {
 

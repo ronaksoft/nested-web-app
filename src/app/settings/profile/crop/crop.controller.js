@@ -36,16 +36,21 @@
         vm.height = img.height;
       };
 
-      $scope.$watch(function () {
-        return vm.cropedImage;
-      }, function () {
-        if (vm.cropedImage) {
-          var file = dataURItoFile(vm.cropedImage,'profile_image');
-          vm.uploadedImage = file;
-        }
-      });
+      // $scope.$watch(function () {
+      //   return vm.cropedImage;
+      // }, function () {
+      //   if (vm.cropedImage) {
+      //     var file = dataURItoBlob(vm.cropedImage,'profile_image');
+      //     vm.uploadedImage = file;
+      //   }
+      // });
 
       vm.accept = function () {
+        if (vm.cropedImage) {
+          var file = dataURItoBlob(vm.cropedImage);
+          vm.uploadedImage = file;
+          vm.uploadedImage.name = argv.file.name || 'pic.jpg';
+        }
         $uibModalInstance.close(vm.uploadedImage);
       };
 
@@ -73,6 +78,26 @@
         }
 
         return new File([ia], filename + '.' +  mimeString.split('/')[1], {type: mimeString});
+
+      }
+
+      function dataURItoBlob(dataURI) {
+        var byteString;
+        if (dataURI.split(',')[0].indexOf('base64') >= 0)
+            byteString = atob(dataURI.split(',')[1]);
+        else
+            byteString = unescape(dataURI.split(',')[1]);
+    
+        // separate out the mime component
+        var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+    
+        // write the bytes of the string to a typed array
+        var ia = new Uint8Array(byteString.length);
+        for (var i = 0; i < byteString.length; i++) {
+            ia[i] = byteString.charCodeAt(i);
+        }
+    
+        return new Blob([ia], {type:mimeString});
 
       }
 

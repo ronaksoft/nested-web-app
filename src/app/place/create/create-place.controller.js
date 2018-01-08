@@ -400,7 +400,7 @@
         deferred.resolve();
         return deferred.promise;
       }
-      var request = NstSvcStore.uploadWithProgress(vm.logoFile, logoUploadProgress, NST_STORE_UPLOAD_TYPE.PLACE_PIC, NstSvcAuth.lastSessionKey);
+      var request = NstSvcStore.uploadWithProgress(vm.logoFile, logoUploadProgress, NST_STORE_UPLOAD_TYPE.PLACE_PIC, NstSvcAuth.lastSessionKey, true);
 
       request.getPromise().then(function (result) {
         NstSvcPlaceFactory.updatePicture(vm.place.id, result.data.universal_id).then(function () {
