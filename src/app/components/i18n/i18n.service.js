@@ -66,7 +66,8 @@
           if (!localLocale ) {
             NstSvcI18nStorage.set('locale', languages[data.data.system_lang]);
             var defLang = languages[NST_CONFIG.DEFAULT_LOCALE] || "en-US";
-            if (languages[data.data.system_lang] !== defLang) {
+            var serverLang = languages[data.data.system_lang] || "en-US";
+            if (serverLang !== defLang) {
               window.location.reload();
             }
           }
