@@ -10,41 +10,41 @@
     return {
       restrict: 'A',
       link: function ($scope, $element, $attrs) {
-
         var win = angular.element($window);
         var topOffset = 0;
         var container = $attrs.container ? $($attrs.container)[0] : win;
         var rightAuto = $attrs.rtlRightAuto || false;
+        var key = $attrs.key || '';
 
-        applier();
+        var applierDeb = _.debounce(applier, 512);
+        applierDeb();
+
         if ($attrs.observe) {
-          $scope.$watch(function () {
-            return $scope.$parent.$parent.$parent.affixObserver;
-          }, function () {
+          var onwatchChanged = $scope.$watch(function () {
+            return $scope.$parent.$parent.$parent.$parent.affixObserver;
+          }, function (v) {
             return $timeout(function () {
-              applier()
-            }, 500);
+              applierDeb();
+            }, 420);
           });
         }
 
         function resizeF() {
-          applier();
+          applierDeb();
         }
 
         win.on("resize", resizeF);
+        
 
         function applier() {
-
-          if (window.affixerListenersPostView && window.affixerListenersPostView.length > 0) {
-            window.affixerListenersPostView.forEach(function (item) {
-              window.removeEventListener("scroll", item);
-            });
+          if (window.affixerListenersPostView && window.affixerListenersPostView[key]) {
+            container.removeEventListener("scroll", affixerListenersPostView[key]);
+            delete affixerListenersPostView[key];
           }
 
           if ($attrs.affixerPostView === 'false' || $attrs.affixerPostView === false) return;
           removeFix();
-          var top = $element[0].offsetTop + $element.parent()[0].offsetTop + 58 || 0;
-
+          var top = $element[0].offsetTop + $element.parent()[0].offsetTop + 80 || 0;
           topOffset = top - parseInt($attrs.top);
           var offLeft = $element.offset().left || 0;
 
@@ -72,6 +72,7 @@
 
 
           function affixElement() {
+            // console.log(topOffset);
             if (!fixed && container.scrollTop > topOffset) {
               $element.css('position', 'fixed');
               $element.css('top', parseInt(top) + 'px');
@@ -90,12 +91,13 @@
           container.addEventListener("scroll", affixElement);
 
           if (!window.affixerListenersPostView) {
-            window.affixerListenersPostView = [];
+            window.affixerListenersPostView = {};
           }
-          window.affixerListenersPostView.push(affixElement);
+          window.affixerListenersPostView[key] = affixElement;
 
           $scope.$on('$destroy', function () {
-            container.removeEventListener('scroll', affixElement);
+            container.removeEventListener('scroll', affixElement, $element);
+            if(onwatchChanged){onwatchChanged();}
           })
         }
       }

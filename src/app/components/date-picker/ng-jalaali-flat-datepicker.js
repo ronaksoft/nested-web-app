@@ -289,6 +289,8 @@
             scope.gFormattedPickedDate = moment(day.date).format(scope.config.gregorianDateFormat);
             scope.pickerDisplayed = false;
             scope.timestampModel = tempMoment.unix();
+            scope.calendarCursor = tempMoment;
+            dateSelected = tempMoment;
           }
         };
 

@@ -64,12 +64,13 @@ $color-wind-new : transparentize($color-solid, 1 - .32);
 $color-solid-24 : transparentize($color-solid, 1 - .24);
 $color-breeze-new : transparentize($color-solid, 1 - .16);
 $color-breeze-5-new : transparentize($color-solid, 1 - .08);
+$color-calm-solid : transparentize($color-solid, 1 - .04);
 
 
 $color-bg-hover-item : transparentize($color-solid, 1 - .12);
 $color-bg-active-item :$color-breeze-new;
 
-$color-modal-bg: transparentize($color-solid, 1 - .94);
+$color-modal-bg: transparentize($color-solid, 1 - .98);
 
 $color-attachment-drop-bg : rgba(20,20,20,.92);
 $color-attachment-shadow : rgba(20,20,20,.64);

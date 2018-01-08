@@ -9,7 +9,10 @@ const config = {
   PRIVATE_CERT: process.env['WEBAPP_PRIVATE_KEY'],
   HTTP_PORT: process.env['NST_ADDR_PORT'],
   DOMAIN: process.env['NST_DOMAIN'],
-  DISABLE_FCM: process.env['DISABLE_FCM']
+  DISABLE_FCM: process.env['DISABLE_FCM'],
+  DEFAULT_LOCALE: process.env['DEFAULT_LOCALE'],
+  SHOW_FOOTER: process.env['SHOW_FOOTER'],
+  IFRAME_ENABLE: process.env['IFRAME_ENABLE']
 };
 
 const defaultConfig = {
@@ -19,7 +22,10 @@ const defaultConfig = {
   GOOGLE_ANALYTICS_TOKEN: "UA-80877772-5",
   DOMAIN: "_DOMAIN_",
   UPLOAD_SIZE_LIMIT: 104857600,
-  DISABLE_FCM: "_DISABLE_FCM_"
+  DISABLE_FCM: "_DISABLE_FCM_",
+  DEFAULT_LOCALE: "_DEFAULT_LOCALE_",
+  SHOW_FOOTER: "_SHOW_FOOTER_",
+  IFRAME_ENABLE: "_IFRAME_ENABLE_"
 };
 
 const newConfig = {
@@ -29,7 +35,10 @@ const newConfig = {
   GOOGLE_ANALYTICS_TOKEN: process.env['NST_GOOGLE_ANALYTICS_TOKEN'] || '-',
   UPLOAD_SIZE_LIMIT: process.env['NST_UPLOAD_SIZE_LIMIT'] || defaultConfig.UPLOAD_SIZE_LIMIT,
   DOMAIN: process.env['NST_DOMAIN'] || "nested.me",
-  DISABLE_FCM: process.env['DISABLE_FCM'] || defaultConfig.DISABLE_FCM
+  DISABLE_FCM: process.env['DISABLE_FCM'] || defaultConfig.DISABLE_FCM,
+  DEFAULT_LOCALE: process.env['DEFAULT_LOCALE'] || defaultConfig.DEFAULT_LOCALE,
+  SHOW_FOOTER: process.env['SHOW_FOOTER'] || defaultConfig.SHOW_FOOTER,
+  IFRAME_ENABLE: process.env['IFRAME_ENABLE'] || defaultConfig.IFRAME_ENABLE
 };
 
 function isConfigApplyed() {
@@ -89,7 +98,10 @@ function replaceConfigAndStore(file) {
       .replace(new RegExp(defaultConfig.GOOGLE_ANALYTICS_TOKEN, 'ig'), newConfig.GOOGLE_ANALYTICS_TOKEN)
       .replace(defaultConfig.UPLOAD_SIZE_LIMIT, newConfig.UPLOAD_SIZE_LIMIT)
       .replace(new RegExp(defaultConfig.DOMAIN, 'ig'), newConfig.DOMAIN)
-      .replace(defaultConfig.DISABLE_FCM, newConfig.DISABLE_FCM);
+      .replace(defaultConfig.DISABLE_FCM, newConfig.DISABLE_FCM)
+      .replace(defaultConfig.DEFAULT_LOCALE, newConfig.DEFAULT_LOCALE)
+      .replace(defaultConfig.SHOW_FOOTER, newConfig.SHOW_FOOTER)
+      .replace(defaultConfig.IFRAME_ENABLE, newConfig.IFRAME_ENABLE);
 
     fs.writeFileSync(config.SCRIPT_DIR + file, newContent);
     res();

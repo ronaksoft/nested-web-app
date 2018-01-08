@@ -1,15 +1,23 @@
 <div class="_fhw">
   <div class="nst-vc">
-    <div id="Logo"></div>
-    <a class="_fw visibility-hidden">
+    <!-- <a class="_fw visibility-hidden">
       <svg class="_24svg _r90 mirror">
         <use xlink:href="/assets/icons/nst-icn24.svg#arrow"></use>
       </svg>
-      Change phone number</a>
-    <div id="panel-signin" class="panel" ng-if="!ctlLogin.loadConstantsProgress">
+      Change phone number</a> -->
+    <div id="panel-signin" class="panel">
+      <div class="company-detail" ng-if="ctlLogin.companyConstant">
+        <div class="company-image-filter">
+          <img ng-src="{{ctlLogin.companyConstant.logo}}" ng-if="ctlLogin.companyConstant.logo !== ''">
+          <div class="gradient-layer"></div>
+        </div>
+        <img ng-src="{{ctlLogin.companyConstant.logo}}" ng-if="ctlLogin.companyConstant.logo !== ''">
+        <h1 ng-if="ctlLogin.companyConstant.name !== ''">{{ctlLogin.companyConstant.name}}</h1>
+        <p ng-if="ctlLogin.companyConstant.desc !== ''" ng-bind-html="ctlLogin.companyConstant.desc | unsafe"></p>
+      </div>
       <div class="panel-heading">
         <p class="nst-font-xxlarge _df _fw nmarg">
-          <translate>Sign in</translate>
+          <b><translate>Sign in</translate></b>
         </p>
 
         <p class="nst-mood-calm nst-font-medium _df _fn nmarg" ng-if="ctlLogin.activeRegister">
@@ -21,12 +29,12 @@
       <div  class="panel-body">
         <form accept-charset="UTF-8" name="loginForm" data-ng-submit="submitted = true; ctlLogin.auth(loginForm.$valid)" novalidate>
           <fieldset>
-            <div class="form-group" ng-class="{ 'has-error' : loginForm.username.$error.required && submitted}">
+            <div class="form-group" ng-class="{ 'has-error' : (loginForm.username.$error.required || ctlLogin.message.class.length > 0) && submitted}">
               <input type="text" class="form-control" placeholder="Username" name="username" auto-dir="ctlLogin.username"
                      data-ng-model="ctlLogin.username" translate-attrs="placeholder" required/>
             </div>
 
-            <div class="form-group has-feedback" ng-class="{ 'has-error' : loginForm.password.$error.required && submitted }" data-ng-model="show">
+            <div class="form-group has-feedback" ng-class="{ 'has-error' : (loginForm.username.$error.required || ctlLogin.message.class.length > 0) && submitted }" data-ng-model="show">
               <input class="form-control" data-ng-model="ctlLogin.password" placeholder="Password" translate-attrs="placeholder" name="password" data-ng-init="show = true" type="{{show ? 'password' : 'text'}}" required/>
               <i class="nst-ico-eye-slash form-control-feedback {{show ? 'nst-ico-eye-slash' : 'nst-ico-eye'}}" data-ng-click="show = !show"></i>
             </div>
@@ -37,23 +45,22 @@
             </div>
 
             <div class="row nst-vb">
-              <div class="text-left _hf">
-                
-              </div>
-              <a class="_hf text-right nst-mood-cheerful " ui-sref="public.recover-password"><translate>Forgot Password?</translate></a>
+              <a class="_fw text-center nst-mood-cheerful " ui-sref="public.recover-password"><translate>Forgot Password?</translate></a>
             </div>
           </fieldset>
         </form>
 
       </div>
     </div>
-    <div id="panel-signin" class="panel" ng-if="ctlLogin.loadConstantsProgress">
+    <!-- <div id="panel-signin" class="panel" ng-if="ctlLogin.loadConstantsProgress">
         <div class="_df _fw _fh _jcc _aic f1">
             <div class="nst-loading"></div>
         </div>
-    </div>
-    <p class="response warn">
-      <a class="{{ctlLogin.message.class}} testing_err" data-ng-if="ctlLogin.message.fill" data-ng-bind="ctlLogin.message.text"></a>
+    </div> -->
+    <div id="Logo"></div>
+
+    <p class="response warn" data-ng-if="ctlLogin.message.fill">
+      <a class="{{ctlLogin.message.class}} testing_err" data-ng-bind="ctlLogin.message.text"></a>
     </p>
   </div>
 </div>

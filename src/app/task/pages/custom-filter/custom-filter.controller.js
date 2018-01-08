@@ -17,6 +17,7 @@
     vm.removeRow = removeRow;
     vm.createFilter = createFilter;
     vm.inProgress = false;
+    vm.isValid = isValid;
     var sampleModel = {
       condition: NST_CUSTOM_FILTER.CONDITION_ASSIGNEE,
       equivalent: NST_CUSTOM_FILTER.LOGIC_AND,
@@ -38,7 +39,6 @@
       }
       vm.inProgress = true;
       getFilters().then(function (data) {
-        console.log(data);
         customFilters = data;
         if (vm.id === -1) {
           addRow(0);
@@ -116,12 +116,17 @@
             return transformData(item);
           })
         });
+        if (customFilters.length > 20) {
+          toastr.error(NstSvcTranslation.get('Maximum limit for custom filter is 20!'));
+          return;
+        }
       }
 
       setFilters(customFilters).then(function () {
         if (vm.id === -1) {
           toastr.success(NstSvcTranslation.get('Custom filter has been created'));
           vm.id = getLastId();
+          $state.go('app.task.custom_filter', {id: vm.id});
         } else {
           toastr.success(NstSvcTranslation.get('Custom filter updated'));
         }
@@ -229,6 +234,20 @@
 
     function setFilters(data) {
       return NstSvcKeyFactory.set(NST_CUSTOM_FILTER.KEY_NAME, JSON.stringify(data));
+    }
+
+    function isValid() {
+      if (vm.name !== '' && vm.inProgress === false) {
+        var invalidCount = _.filter(_.map(vm.items, function (item) {
+          return transformData(item);
+        }), function (item) {
+          return _.trim(item.val) === '';
+        }).length;
+        if (invalidCount === 0) {
+          return true;
+        }
+      }
+      return false;
     }
   }
 })();

@@ -30,38 +30,43 @@
       <div class="side-scroll-list-head _df">
         <translate class="_df _fw">Tasks</translate>
       </div>
+      <div class="iscroll-wrapper side-tasks-filter-list">
+          <a class="side-menu-item" ui-sref="app.task.assigned_to_me()" ui-sref-active="isSelected">
+            <span class="item-icon" active-group="message">
+              <svg class="_16svg">
+                <use xlink:href="/assets/icons/nst-icn16.svg#internal"></use>
+              </svg>
+            </span>
+            <div class="item-desc">
+              <translate>Assigned to me</translate>
+            </div>
+          </a>
+          <a class="side-menu-item" ui-sref="app.task.created_by_me()" ui-sref-active="isSelected">
+            <span class="item-icon" active-group="message">
+              <svg class="_16svg">
+                <use xlink:href="/assets/icons/nst-icn16.svg#external"></use>
+              </svg>
+            </span>
+            <div class="item-desc">
+              <translate>Created by me</translate>
+            </div>
+          </a>
+          <a class="side-menu-item" ui-sref="app.task.watchlist()" ui-sref-active="isSelected">
+            <span class="item-icon" active-group="message">
+              <svg class="_16svg">
+                <use xlink:href="/assets/icons/nst-icn16.svg#ragged-list"></use>
+              </svg>
+            </span>
+            <div class="item-desc">
+              <translate>Watchlist</translate>
+            </div>
+          </a>
+      </div>
+      <div class="side-scroll-list-head _df">
+        <translate class="_df _fw">Filters</translate>
+      </div>
       <div iscroll class="iscroll-wrapper" iscroll-instance="scrollInstance">
         <div class="side-tasks-filter-list iscroll-scroller">
-            <a class="side-menu-item" ui-sref="app.task.assigned_to_me()" ui-sref-active="isSelected">
-              <span class="item-icon" active-group="message">
-                <svg class="_16svg">
-                  <use xlink:href="/assets/icons/nst-icn16.svg#internal"></use>
-                </svg>
-              </span>
-              <div class="item-desc">
-                <translate>Assigned to me</translate>
-              </div>
-            </a>
-            <a class="side-menu-item" ui-sref="app.task.created_by_me()" ui-sref-active="isSelected">
-              <span class="item-icon" active-group="message">
-                <svg class="_16svg">
-                  <use xlink:href="/assets/icons/nst-icn16.svg#external"></use>
-                </svg>
-              </span>
-              <div class="item-desc">
-                <translate>Created by me</translate>
-              </div>
-            </a>
-            <a class="side-menu-item" ui-sref="app.task.watchlist()" ui-sref-active="isSelected">
-              <span class="item-icon" active-group="message">
-                <svg class="_16svg">
-                  <use xlink:href="/assets/icons/nst-icn16.svg#ragged-list"></use>
-                </svg>
-              </span>
-              <div class="item-desc">
-                <translate>Watchlist</translate>
-              </div>
-            </a>
             <a class="side-menu-item" ui-sref="app.task.custom_filter({id: filter.id})" ui-sref-active="isSelected" ng-repeat="filter in sidebarCtrl.customFilters">
               <span class="item-icon" active-group="message">
                 <svg class="_16svg">

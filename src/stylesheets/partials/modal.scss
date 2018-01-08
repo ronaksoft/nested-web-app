@@ -593,11 +593,13 @@ body.modal-open-attachment-view.compose-modal {
   height: 100%;
   overflow: initial;
   margin: 0!important;
+  background-color: transparent;
   .modal-content {
-    min-height: calc(100% - 56px);
-    margin-top: 56px;
+    min-height: calc(100% - 80px);
+    box-shadow: none;
+    margin-top: 80px;
     min-width: 1024px;
-    background-color: #FAFAFA;
+    background-color: transparent;
     display: block;
     flex-direction: column;
     position: relative;
@@ -606,7 +608,6 @@ body.modal-open-attachment-view.compose-modal {
     border-radius: 0;
   }
 }
-
 .modal-head {
   p {
     font-size: 18px;
@@ -958,7 +959,7 @@ div.modal .attach-place {
   height: 100%;
 }
 .taskBackDrop {
-  background-color: transparentize($color-solid, 1 - .94);
+  background-color: $color-modal-bg;
 }
 
 .minimize-container {

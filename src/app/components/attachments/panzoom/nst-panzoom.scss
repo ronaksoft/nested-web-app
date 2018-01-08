@@ -1,11 +1,13 @@
+$panzoom-bg : black;
+$panzoom-border : $color-solid;
 .nst-panzoom-container {
   position: fixed;
   bottom: 10px;
   right: 10px;
-  height: 90px;
+  height: 150px;
   width: 30px;
-  background-color: #484848;
-  box-shadow: 0 0 1px rgba(255, 255, 255, 0.58);
+  background-color: $panzoom-bg;
+  box-shadow: 0 0 1px $panzoom-border;
   border-radius: 3px;
   font-size: 20px;
   font-weight: 200;
@@ -14,14 +16,14 @@
     height: 30px;
     width: 30px;
     line-height: 30px;
-    color: #fff;
+    color: $color-gale-white;
     text-align: center;
-    border-bottom: 1px solid #999;
+    border-bottom: 1px solid $panzoom-border;
     cursor: pointer;
     background-color: transparent;
     transition: all $animation-dur;
     &:hover {
-      background-color: #666;
+      background-color: lighten($panzoom-bg, 16%);
     }
     &:last-of-type {
       border-bottom-color: transparent;
@@ -30,7 +32,10 @@
       display: inline-block;
       height: 13px;
       width: 15px;
-      border: 2px solid #fff;
+      border: 2px solid $color-gale-white;
+    }
+    svg {
+      fill: $color-gale-white;
     }
   }
 }

@@ -23,6 +23,7 @@
     };
     vm.backDropClick = backDropClick;
     vm.setFocus = setFocus;
+
     function backDropClick() {
       if (vm.model.dueDate !== null ||
           _.trim(vm.model.title).length !== 0 ||
@@ -237,16 +238,13 @@
     }
 
     function setFocus(item) {
-      console.log(vm[k]);
       var k = item + 'Focus';
       initiateFocus();
       vm[k] = true;
-      console.log(vm[k]);
     }
 
     function initiateFocus() {
       vm.assigneeFocus = false;
-      console.log('initiateFocus', vm.assigneeFocus);
       vm.dueDateFocus = false;
       vm.descriptionFocus = false;
       vm.todoFocus = false;
@@ -255,7 +253,9 @@
       vm.watcherFocus = false;
       vm.titleFocus = false;
     }
+
     initiateFocus();
+
     $scope.$watch(function () {
       return {
         titleFocus: vm.titleFocus,
@@ -267,13 +267,12 @@
         watcherFocus: vm.watcherFocus,
         labelFocus: vm.labelFocus
       };
-    }, function (newVal, oldVal) {
-      
+    }, function (newVal) {
+
       if (_.countBy(Object.values(newVal))['true'] > 1) {
         vm.todoFocus = false;
       }
     }, true);
-
 
     $scope.$on('$destroy', function () {
       $rootScope.$broadcast('close-background-modal', {

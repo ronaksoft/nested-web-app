@@ -15,16 +15,13 @@
       .controller('ComposeController', ComposeController);
 
     /** @ngInject */
-    function ComposeController($q, $rootScope, $state, $stateParams, $scope, $log, $timeout, $uibModalStack,
-      _, toastr,
-      NST_SRV_ERROR, NST_PATTERN, NST_CONFIG, NST_DEFAULT, NST_ATTACHMENT_STATUS, NST_STORE_UPLOAD_TYPE,
-      NST_FILE_TYPE, SvcCardCtrlAffix,
-      NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcStore,
-      NstSvcFileType, NstSvcAttachmentMap, NstSvcSidebar, NstSvcSystemConstants,
-      NstUtility, NstSvcTranslation, NstSvcModal, NstSvcPostDraft,
-      NstSvcUserFactory, NstSvcLogger, NstSvcAuth,
-      NstTinyPlace, NstVmSelectTag, NstPicture,
-      NstPostDraft, NstPost, $, NST_SEARCH_QUERY_PREFIX, $window) {
+    function ComposeController($q, $rootScope, $state, $stateParams, $scope, $log, $timeout, $uibModalStack, _, toastr,
+                               SvcRTL, NST_SRV_ERROR, NST_PATTERN, NST_CONFIG, NST_DEFAULT, NST_ATTACHMENT_STATUS,
+                               NST_STORE_UPLOAD_TYPE, NST_FILE_TYPE, SvcCardCtrlAffix, NstSvcAttachmentFactory,
+                               NstSvcPlaceFactory, NstSvcPostFactory, NstSvcStore, NstSvcFileType, NstSvcAttachmentMap,
+                               NstSvcSidebar, NstSvcSystemConstants, NstUtility, NstSvcTranslation, NstSvcModal,
+                               NstSvcPostDraft, NstSvcUserFactory, NstSvcLogger, NstSvcAuth, NstTinyPlace,
+                               NstVmSelectTag, NstPicture, NstPostDraft, NstPost, $, NST_SEARCH_QUERY_PREFIX, $window) {
       var vm = this;
       vm.modalId = '';
       vm.quickMode = false;
@@ -841,7 +838,6 @@
                 return i.id
               });
               var post = new NstPost();
-              console.log(vm.subjectElement);
               post.subject = vm.model.subject;;
               post.body = vm.model.body;
               post.contentType = 'text/html';
@@ -1146,7 +1142,7 @@
         }
 
         this.selection.restore();
-      }
+      };
 
       // Define a text icon called imageIcon.
       $.FroalaEditor.DefineIcon('align-justify', {
@@ -1245,7 +1241,7 @@
         callback: function () {
           changeDirection.apply(this, ['rtl', 'right']);
         }
-      })
+      });
 
       $.FroalaEditor.RegisterCommand('leftToRight', {
         title: 'LTR',
@@ -1256,7 +1252,19 @@
         callback: function () {
           changeDirection.apply(this, ['ltr', 'left']);
         }
-      })
+      });
+
+      function checkFroalaDirection(editor) {
+        var el = editor.selection.element();
+        var text = $(el).text();
+        if (SvcRTL.rtl.test(text)) {
+          changeDirection.apply(editor, ['rtl', 'right']);
+        } else {
+          changeDirection.apply(editor, ['ltr', 'left']);
+        }
+      }
+
+      var directionChecker = _.debounce(checkFroalaDirection, 512);
 
       /**
        * Configs for Froala editor
@@ -1297,7 +1305,9 @@
             vm.focusBody = false;
           },
           'froalaEditor.keydown': function (e, editor, je) {
-            if (vm.quickMode) return
+            if (vm.quickMode) {
+              return;
+            }
             var el = editor.selection.element();
             if (el && je.which === 91) {
               vm.cmdPress = true;
@@ -1311,7 +1321,10 @@
             }
           },
           'froalaEditor.keyup': function (e, editor, je) {
-            if (vm.quickMode) return
+            directionChecker(editor);
+            if (vm.quickMode) {
+              return;
+            }
             var el = editor.selection.element();
             if (el && (je.which === 13 || vm.cmdVPress)) {
               el.scrollIntoView({
@@ -1324,7 +1337,6 @@
           }
         }
       };
-
 
       function repositionModal(offset, obj) {
         try {

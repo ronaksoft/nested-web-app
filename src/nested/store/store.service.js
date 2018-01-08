@@ -167,7 +167,7 @@
       return request;
     };
 
-    Store.prototype.uploadWithProgress = function (file, onProgress, type, sessionKey) {
+    Store.prototype.uploadWithProgress = function (file, onProgress, type, sessionKey, isBlob) {
       type = type || NST_STORE_UPLOAD_TYPE.FILE;
 
       var action = 'upload/' + type;
@@ -184,8 +184,7 @@
       for (var k in q) {
         q[k] || issues.push(k);
       }
-
-      if (issues.length > 0) {
+      if (issues.length > 0 && !isBlob) {
         request.setStatus(NST_REQ_STATUS.CANCELLED);
         request.finish(new NstResponse(NST_RES_STATUS.FAILURE, {
           err_code: NST_SRV_ERROR.INVALID,
@@ -194,7 +193,6 @@
 
         return request;
       }
-
       var reqId = generateReqId('upload/' + type, file.name);
       request.setStatus(NST_REQ_STATUS.QUEUED);
       request.setData(angular.extend(request.getData(), {reqId: reqId}));
@@ -208,12 +206,13 @@
         return deferred.promise;
       }).then(function (token) {
         var formData = new FormData();
-
-        formData.append('file', file);
-
         var deferred = $q.defer();
-
         var xhr = NstHttp.createCORSRequest('POST');
+        if (isBlob) {
+          formData.append('blob', file, file.name);
+        } else {
+          formData.append('file', file);
+        }
 
         if (xhr) {
           var url = '{storeUrl}/upload/{type}/{sk}/{token}'

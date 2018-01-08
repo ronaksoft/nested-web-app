@@ -27,7 +27,7 @@
         <button class="butn butn-white secondary _jcc _df" ng-click="ctrlFilter.backDropClick();">
             <translate>Discard</translate>
         </button>
-        <button class="butn butn-green _jcc _df" ng-disabled="(ctrlFilter.name === '' || ctrlFilter.inProgress === true)" ng-click="ctrlFilter.createFilter();">
+        <button class="butn butn-green _jcc _df" ng-disabled="!ctrlFilter.isValid()" ng-click="ctrlFilter.createFilter();">
             <span translate-inner ng-if="ctrlFilter.id == -1">Create Filter</span>
             <span translate-inner ng-if="ctrlFilter.id != -1">Update Filter</span>
         </button>

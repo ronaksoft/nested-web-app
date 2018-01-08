@@ -14,6 +14,7 @@
       this.labels = undefined;
       this.places = undefined;
       this.histories = undefined;
+      this.tos = undefined;
     }
 
     return Suggestion;

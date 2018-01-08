@@ -52,11 +52,24 @@
 
     vm.sortUpdateHandler = sortUpdateHandler;
 
-    var sortingUpated = false;
+    var sortingUpdated = false;
+
+    function print(data, depth) {
+      _.forEach(data, function (item, key) {
+        var strDepth = '';
+        for (var i = 0; i < depth; i++) {
+          strDepth += '___ ';
+        }
+        console.log(strDepth, item.o + ' ' + key);
+        if (item.s) {
+          print(item.s, depth + 1);
+        }
+      });
+    }
 
     function sortUpdateHandler() {
       setMyPlacesOrder(JSON.stringify(createSortedList(vm.places))).then(function () {
-        sortingUpated = true;
+        sortingUpdated = true;
         toastr.success(NstSvcTranslation.get('Places sorting updated'));
       }).catch(function () {
         toastr.error(NstSvcTranslation.get('Something went wrong!'));
@@ -409,7 +422,7 @@
      * @returns {object}
      */
     function getMyPlacesOrder() {
-      return NstSvcKeyFactory.get(NST_KEY.GENERAL_NEW_SETTING_PLACE_ORDER).then(function (result) {
+      return NstSvcKeyFactory.get(NST_KEY.GENERAL_NEW_SETTING_PLACE_ORDER, true).then(function (result) {
         if (result) {
           return JSON.parse(result);
         }
@@ -580,6 +593,7 @@
     function loadPlaces() {
       $q.all([getMyPlacesOrder(), getMyPlaces(true)]).then(function (results) {
         myPlaceOrders = results[0];
+        // print(myPlaceOrders, 0);
         vm.placesLength = results[1].length;
         vm.places = createTree(results[1], myPlaceOrders, vm.expandedPlaces, vm.selectedPlaceId);
         _.forEach(results[1], function (item) {
@@ -598,7 +612,6 @@
     }
 
     var loadPlacesDebounce = _.debounce(loadPlaces, 128);
-
 
     /**
      * Represents the prompt modal for deleting place
@@ -740,7 +753,7 @@
 
         var isActive = (item.id === selectedId);
         var isExpanded = isItemExpanded(item, expandedPlaces, selectedId);
-        var children = getChildren(item, places, expandedPlaces, selectedId, depth + 1, getOrder(orders, place.id));
+        var children = getChildren(item, places, expandedPlaces, selectedId, depth + 1, getOrder(orders, item.id));
 
         stack.push(createTreeItem(item, false, children, isExpanded, isActive, depth));
 
@@ -897,7 +910,7 @@
     }
 
     $scope.$on('$destroy', function () {
-      if (sortingUpated) {
+      if (sortingUpdated) {
         $rootScope.$broadcast('places-sorting-updated');
       }
       _.forEach(eventReferences, function (canceler) {

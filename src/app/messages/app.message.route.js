@@ -38,7 +38,7 @@
             if (result !== true) {
               $rootScope.goToLastState(true);
             }
-          });
+          })
         }]
         // onExit: function($uibModal) {
         //   if ($uibModalStack) {

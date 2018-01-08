@@ -1,7 +1,17 @@
 <label class="_df list-items _aic" for="placeLogo" ng-if="ctrl.accesses.hasControlAccess" ng-click="$('#placeLogo').click();">
+  <div>
+    <svg class="_16svg">
+      <use xlink:href="/assets/icons/nst-icn16.svg#replace"></use>
+    </svg>
+  </div>
   <translate>Change Place Picture</translate>
 </label>
-<a class="_df list-items _aic" ng-if="ctrl.accesses.hasControlAccess" ng-click="ctrl.removePicture();">
+<a class="_df list-items _aic" ng-if="ctrl.accesses.hasControlAccess && ctrl.place.picture.x32.length > 0" ng-click="ctrl.removePicture();">
+  <div>
+    <svg class="_16svg">
+      <use xlink:href="/assets/icons/nst-icn16.svg#bin"></use>
+    </svg>
+  </div>
   <translate>Remove Place Picture</translate>
 </a>
 <hr ng-if="ctrl.accesses.hasControlAccess">

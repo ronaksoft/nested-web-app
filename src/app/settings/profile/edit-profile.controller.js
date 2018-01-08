@@ -234,66 +234,48 @@
     function setImage(event) {
       vm.uploadedFile = event.currentTarget.files[0];
       updateLogoProgressBar(0);
-      if ($rootScope.deviceDetector.browser === 'safari') {
-        // Uploads the selected image
-        var request = NstSvcStore.uploadWithProgress(vm.uploadedFile, logoUploadProgress,
-          NST_STORE_UPLOAD_TYPE.PROFILE_PIC, NstSvcAuth.lastSessionKey);
+      $uibModal.open({
+        animation: false,
+        size: 'no-miss crop',
+        templateUrl: 'app/settings/profile/crop/change-pic.modal.html',
+        controller: 'CropController',
+        resolve: {
+          argv: {
+            file: vm.uploadedFile
+          }
+        },
+        controllerAs: 'ctlCrop'
+      }).result.then(function (croppedFile) {
+        vm.uploadedFile = croppedFile;
+        var reader = new FileReader();
+        reader.onload = function (event) {
+          $timeout(function () {
+            // DIsplays the cropped image before upload starts
+            vm.picture = event.target.result;
+            // Uploads the cropped image
+            var request = NstSvcStore.uploadWithProgress(vm.uploadedFile, logoUploadProgress,
+              NST_STORE_UPLOAD_TYPE.PROFILE_PIC, NstSvcAuth.lastSessionKey, true);
 
-        request.finished().then(function (response) {
-          // Sets picture as the user profile avatar
-          updateLogoProgressBar(87);
-          return NstSvcUserFactory.updatePicture(vm.model.id, response.data.universal_id);
-        }).then(function (user) {
-          // Updates the model
-          vm.model.picture = user.picture;
-          // And updates the authenticated user model in `NstSvcAuth`
-          NstSvcAuth.setUser(user);
-          updateLogoProgressBar(100);
-        });
-      } else {
-        $uibModal.open({
-          animation: false,
-          size: 'no-miss crop',
-          templateUrl: 'app/settings/profile/crop/change-pic.modal.html',
-          controller: 'CropController',
-          resolve: {
-            argv: {
-              file: vm.uploadedFile
-            }
-          },
-          controllerAs: 'ctlCrop'
-        }).result.then(function (croppedFile) {
-          vm.uploadedFile = croppedFile;
-          var reader = new FileReader();
-          reader.onload = function (event) {
-            $timeout(function () {
-              // DIsplays the cropped image before upload starts
-              vm.picture = event.target.result;
-              // Uploads the cropped image
-              var request = NstSvcStore.uploadWithProgress(vm.uploadedFile, logoUploadProgress,
-                NST_STORE_UPLOAD_TYPE.PROFILE_PIC, NstSvcAuth.lastSessionKey);
-
-              request.finished().then(function (response) {
-                // Sets picture as the user profile avatar
-                updateLogoProgressBar(87);
-                return NstSvcUserFactory.updatePicture(vm.model.id, response.data.universal_id);
-              }).then(function (user) {
-                // Updates the model
-                vm.model.picture = user.picture;
-                // And updates the authenticated user model in `NstSvcAuth`
-                updateLogoProgressBar(100);
-                NstSvcAuth.setUser(user);
-              });
-
-
+            request.finished().then(function (response) {
+              // Sets picture as the user profile avatar
+              updateLogoProgressBar(100);
+              return NstSvcUserFactory.updatePicture(vm.model.id, response.data.universal_id);
+            }).then(function (user) {
+              // Updates the model
+              vm.model.picture = user.picture;
+              // And updates the authenticated user model in `NstSvcAuth`
+              updateLogoProgressBar(0);
+              NstSvcAuth.setUser(user);
             });
-          };
-          reader.readAsDataURL(croppedFile);
-        }).catch(function () {
-          event.target.value = '';
-        });
 
-      }
+
+          });
+        };
+        reader.readAsArrayBuffer(croppedFile);
+      }).catch(function () {
+        event.target.value = '';
+      });
+
     }
 
     /**

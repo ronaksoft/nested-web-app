@@ -15,7 +15,7 @@
     .controller('PostCardController', PostCardController);
 
   function PostCardController($state, $log, $timeout, $stateParams, $rootScope, $scope, $uibModal, $location, $anchorScroll,
-                              _, toastr,
+                              _, toastr, $sce,
                               NST_EVENT_ACTION, NST_PLACE_ACCESS, NST_POST_EVENT, SvcCardCtrlAffix,
                               NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory, NstSearchQuery, NstSvcModal,
                               NstSvcAuth, NstUtility, NstSvcPostInteraction, NstSvcTranslation, NstSvcLogger, $) {
@@ -65,9 +65,15 @@
     vm.haveAnyLabelAcess = true; // TODO Read this from label cache
     vm.totalRecipients = [];
     vm.canGoLastState = true;
+    vm.mergePostCardVariable = mergePostCardVariable;
 
     isPlaceFeed();
-    $scope.$parent.$parent.affixObserver = 1;
+    notifyObser();
+    function notifyObser() {
+      if($scope.$parent.$parent.$parent.affixObserver || $scope.$parent.$parent.$parent.affixObserver === 0) {
+        ++$scope.$parent.$parent.$parent.affixObserver;
+      }
+    }
 
     vm.getPlacesWithRemoveAccess = getPlacesWithRemoveAccess;
     vm.getPlacesWithControlAccess = getPlacesWithControlAccess;
@@ -315,7 +321,7 @@
         if (vm.post.isTrusted || !post.resources || Object.keys(post.resources).length == 0) {
           showTrustedBody();
         }
-        ++$scope.$parent.$parent.affixObserver;
+        notifyObser();
       }).catch(function () {
         toastr.error(NstSvcTranslation.get('An error occured while tying to show the post full body.'));
       }).finally(function () {
@@ -486,9 +492,9 @@
       vm.post.isTrusted = true;
     }
 
-    function alwaysTrust() {
+    function alwaysTrust(trustDomain) {
       showTrustedBody();
-      NstSvcUserFactory.trustEmail(vm.post.sender.id).then(function () {
+      NstSvcUserFactory.trustEmail(vm.post.sender.id, trustDomain).then(function () {
         vm.post.isTrusted = true;
       }).catch(function () {
         toastr.error(NstSvcTranslation.get('An error has occured in trusting the sender'));
@@ -869,7 +875,7 @@
         postId: vm.post.id
       });
       eventReferences.push(reference);
-      ++$scope.$parent.$parent.affixObserver;
+      notifyObser();
     }
 
     /**
@@ -968,9 +974,17 @@
 
       searchQuery.addLabel(title);
 
-      $state.go('app.search', {
-        search: NstSearchQuery.encode(searchQuery.toString())
-      });
+      var timeout = 0;
+      if (isPostView()) {
+        timeout = 100;
+        $scope.$parent.$parent.$dismiss(true);
+      }
+
+      $timeout(function () {
+        $state.go('app.search', {
+          search: NstSearchQuery.encode(searchQuery.toString())
+        });
+      }, timeout);
     }
 
     function copyToClipboard(text) {
@@ -996,6 +1010,23 @@
           NstSvcModal.error(NstSvcTranslation.get("Error"), NstSvcTranslation.get("Either this Place doesn't exist, or you don't have the permit to enter the Place."));
         }
       }
+    }
+
+    function mergePostCardVariable(url) {
+      var userId = NstSvcAuth.user.id;
+      var msgId = vm.post.id;
+      var urlPostFix = '';
+      if (url.indexOf('#') > -1) {
+        url = url.split('#');
+        urlPostFix = '#' + url[1];
+        url = url[0];
+      }
+      if (url.indexOf('?') > -1) {
+        url += '&nst_uid=' + userId + '&nst_mid=' + msgId;
+      } else {
+        url += '?nst_uid=' + userId + '&nst_mid=' + msgId;
+      }
+      return $sce.trustAsResourceUrl(url + urlPostFix);
     }
 
     /**

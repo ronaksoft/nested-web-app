@@ -5,7 +5,7 @@
     .module('ronak.nested.web.components.attachment')
     .directive('nstPanzoom', NstPanzoom);
 
-  function NstPanzoom(NST_FILE_TYPE, _, $timeout, NstSvcLogger) {
+  function NstPanzoom(NST_FILE_TYPE, _, $timeout, NstSvcLogger, $compile, $templateCache) {
     return {
       restrict: 'A',
       scope: {
@@ -17,17 +17,15 @@
           return;
         }
         var eventReferences = [];
-        var template =
-          '<div class="nst-panzoom-container">' +
-            '<div class="nst-panzoom-item" rel="reset"><span class="unfilled-rect"></span></div>' +
-            '<div class="nst-panzoom-item" rel="in">+</div>' +
-            '<div class="nst-panzoom-item" rel="out">-</div>' +
-          '</div>';
+        var template = angular.element($templateCache.get('nst-panzoom.html'));
+        // $compile(template)($scope);
+        // console.log(template);
         $element.parents($scope.containerClass).append(template);
 
         $element.addClass('cursor-pan');
 
         var zoom = 1.0;
+        var rotate = 0;
         var pan = {
           x: 0,
           y: 0
@@ -57,6 +55,15 @@
           pan.y = 0;
           origin.x = 50;
           origin.y = 50;
+          rotate = 0;
+          applyChanges(true);
+        }));
+        eventReferences.push(toolsElem.find('.nst-panzoom-item[rel="rotate"]').on('click', function () {
+          rotate += 90;
+          applyChanges(true);
+        }));
+        eventReferences.push(toolsElem.find('.nst-panzoom-item[rel="rotatec"]').on('click', function () {
+          rotate -= 90;
           applyChanges(true);
         }));
         eventReferences.push($element.on('mousedown', function (e) {
@@ -124,7 +131,7 @@
               $element.css('transition', 'none');
             }, 200);
           }
-          $element.css('transform', 'scale(' + zoom + ') translate(' + (pan.x/zoom) + 'px, ' + (pan.y/zoom) + 'px)');
+          $element.css('transform', 'scale(' + zoom + ') translate(' + (pan.x/zoom) + 'px, ' + (pan.y/zoom) + 'px) rotate(' + rotate + 'deg)');
           // $element.css('transform-origin', origin.x + '% ' + origin.y + '%');
         }
 

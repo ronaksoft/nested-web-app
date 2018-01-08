@@ -223,6 +223,7 @@
 
       if (task.dueDate) {
         params.due_date = task.dueDate;
+        params.due_date_has_clock = task.hasDueTime;
       }
 
       if (task.description) {

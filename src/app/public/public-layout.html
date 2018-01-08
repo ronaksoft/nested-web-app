@@ -5,13 +5,13 @@
     <li>
       <a href=""></a>
     </li>
-    <li>
+    <li ng-if="ctlPublic.showFooter">
       <a href="https://nested.me/" ng-if="$root._direction == 'ltr'" target="_blank">About  ؟نستدان؟</a>
       <a href="https://nested.me/" ng-if="_direction == 'rtl'" target="_blank">درباره ؟نستدفا؟</a>
     </li>
-    <li><a href="https://help.nested.me/nested_privacy_policy/" target="_blank"><translate>Privacy</translate></a></li>
-    <li><a href="https://help.nested.me/terms/index.html" target="_blank"><translate>Terms</translate></a></li>
-    <li><a href="https://help.nested.me/" target="_blank"><translate>Help</translate></a></li>
+    <li ng-if="ctlPublic.showFooter"><a href="https://help.nested.me/nested_privacy_policy/" target="_blank"><translate>Privacy</translate></a></li>
+    <li ng-if="ctlPublic.showFooter"><a href="https://help.nested.me/terms/index.html" target="_blank"><translate>Terms</translate></a></li>
+    <li ng-if="ctlPublic.showFooter"><a href="https://help.nested.me/" target="_blank"><translate>Help</translate></a></li>
   </ul>
   <div class="_df _fn _pr">
     <select class="_df _fn" name="lang" id="lang" ng-model="ctlPublic.currentLocale" ng-change="ctlPublic.setLocale(ctlPublic.currentLocale)">

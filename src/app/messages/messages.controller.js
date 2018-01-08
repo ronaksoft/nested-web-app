@@ -153,6 +153,7 @@
             } else { //retract it
               NstUtility.collection.dropById(vm.messages, message.id);
             }
+            SvcCardCtrlAffix.remove(data.postId);
           }
         }));
 
