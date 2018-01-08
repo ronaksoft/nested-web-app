@@ -15,7 +15,7 @@
     .controller('PostCardController', PostCardController);
 
   function PostCardController($state, $log, $timeout, $stateParams, $rootScope, $scope, $uibModal, $location, $anchorScroll,
-                              _, toastr,
+                              _, toastr, $sce,
                               NST_EVENT_ACTION, NST_PLACE_ACCESS, NST_POST_EVENT, SvcCardCtrlAffix,
                               NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory, NstSearchQuery, NstSvcModal,
                               NstSvcAuth, NstUtility, NstSvcPostInteraction, NstSvcTranslation, NstSvcLogger, $) {
@@ -65,9 +65,10 @@
     vm.haveAnyLabelAcess = true; // TODO Read this from label cache
     vm.totalRecipients = [];
     vm.canGoLastState = true;
+    vm.mergePostCardVariable = mergePostCardVariable;
 
     isPlaceFeed();
-    notifyObser()
+    notifyObser();
     function notifyObser() {
       if($scope.$parent.$parent.$parent.affixObserver || $scope.$parent.$parent.$parent.affixObserver === 0) {
         ++$scope.$parent.$parent.$parent.affixObserver;
@@ -1009,6 +1010,23 @@
           NstSvcModal.error(NstSvcTranslation.get("Error"), NstSvcTranslation.get("Either this Place doesn't exist, or you don't have the permit to enter the Place."));
         }
       }
+    }
+
+    function mergePostCardVariable(url) {
+      var userId = NstSvcAuth.user.id;
+      var msgId = vm.post.id;
+      var urlPostFix = '';
+      if (url.indexOf('#') > -1) {
+        url = url.split('#');
+        urlPostFix = '#' + url[1];
+        url = url[0];
+      }
+      if (url.indexOf('?') > -1) {
+        url += '&nst_uid=' + userId + '&nst_mid=' + msgId;
+      } else {
+        url += '?nst_uid=' + userId + '&nst_mid=' + msgId;
+      }
+      return $sce.trustAsResourceUrl(url + urlPostFix);
     }
 
     /**
