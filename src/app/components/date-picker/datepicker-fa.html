@@ -47,12 +47,12 @@
     <span>:</span>
     <input ng-model="timeMinute" type="number" class="time-input" placeholder="00" translate-attrs="placeholder" max="59" min="0">
     <div class="input-buttons">
-      <div class="discard-changes">
-        <svg class="_16svg" ng-click="executeDueDateUpdate('abort')">
+      <div class="discard-changes" ng-click="setTime(false);showTime = false">
+        <svg class="_16svg">
           <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
         </svg>
       </div>
-      <div class="submit-changes" ng-click="executeDueDateUpdate('confirm')">
+      <div class="submit-changes" ng-click="setTime(true);">
         <svg class="_16svg">
           <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
         </svg>
