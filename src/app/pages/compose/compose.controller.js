@@ -1257,14 +1257,15 @@
       function checkFroalaDirection(editor) {
         var el = editor.selection.element();
         var text = $(el).text();
-        if (SvcRTL.rtl.test(text)) {
+        text = SvcRTL.clear(text);
+        if (SvcRTL.rtl(text)) {
           changeDirection.apply(editor, ['rtl', 'right']);
         } else {
           changeDirection.apply(editor, ['ltr', 'left']);
         }
       }
 
-      var directionChecker = _.debounce(checkFroalaDirection, 512);
+      var directionChecker = _.throttle(checkFroalaDirection, 512);
 
       /**
        * Configs for Froala editor

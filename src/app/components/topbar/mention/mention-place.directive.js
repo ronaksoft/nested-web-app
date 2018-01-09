@@ -98,7 +98,7 @@
                           id: obj.id,
                           name: obj.id,
                           title: obj.name,
-                          dir : SvcRTL.rtl.test(obj.name[0]) ? 'rtl' : 'ltr',
+                          dir : SvcRTL.rtl(obj.name[0]) ? 'rtl' : 'ltr',
                           avatar: obj.avatar,
                           searchField: [obj.id, obj.name].join(' ')
                         })
