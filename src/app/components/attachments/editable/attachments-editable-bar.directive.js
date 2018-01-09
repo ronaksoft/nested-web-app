@@ -5,7 +5,7 @@
     .module('ronak.nested.web.components.attachment')
     .directive('nstAttachmentsEditableBar', AttachmentsEditableBar);
 
-  function AttachmentsEditableBar(NST_ATTACHMENTS_EDITABLE_BAR_MODE, $timeout, $interval, _, $, NST_FILE_TYPE) {
+  function AttachmentsEditableBar(NST_ATTACHMENTS_EDITABLE_BAR_MODE, $timeout, $interval, _, $, NST_FILE_TYPE, $rootScope) {
     return {
       restrict: 'E',
       templateUrl: 'app/components/attachments/editable/main.html',
@@ -149,6 +149,7 @@
         };
 
         function checkScroll(el) {
+          // console.log('checkScroll', el.clientWidth < el.scrollWidth, el.scrollLeft, el.clientWidth, el.clientWidth);
           if (el.clientWidth < el.scrollWidth && el.scrollLeft == 0) {
             scope.overFlowRight = true;
             scope.overFlowLeft = false;
@@ -170,8 +171,19 @@
           var borderLeftArrayTemp = [];
           var borderRightArrayTemp = [];
           for (var i = 0; i < childs.length; i++) {
-            borderLeftArrayTemp.push(childs[i].offsetLeft - 16);
-            borderRightArrayTemp.push(childs[i].offsetLeft + childs[i].offsetWidth - 16)
+            var paddingSize = (i + 1) === childs.length ? 0 : 16
+            var leftborderPosition = childs[i].offsetLeft + el.scrollLeft - paddingSize;
+            var paddingSize2 = $rootScope._direction === 'rtl' ? 0 : 16;
+            borderLeftArrayTemp.push(leftborderPosition);
+            borderRightArrayTemp.push(childs[i].offsetLeft + childs[i].offsetWidth + el.scrollLeft - paddingSize2);
+            if($rootScope._direction === 'rtl') {
+              borderLeftArrayTemp.sort(function (a,b) {
+                return a - b;
+              })
+              borderRightArrayTemp.sort(function (a,b) {
+                return a - b;
+              })
+            }
           }
 
           //using temp to prevent bug in counting duration

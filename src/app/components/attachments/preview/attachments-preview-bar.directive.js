@@ -207,14 +207,6 @@
           });
         };
 
-        function getToken(id) {
-          var deferred = $q.defer();
-            NstSvcFileFactory.getDownloadToken(id, scope.postId).then(deferred.resolve).catch(deferred.reject).finally(function () {
-          });
-
-          return deferred.promise;
-        }
-
         scope.goLeft = function () {
           // var k = makeid();
           // count[k] = 0;
@@ -332,11 +324,12 @@
         }*/
 
         function checkScroll(el) {
-          if (el.clientWidth < el.scrollWidth && el.scrollLeft == 0) {
+          // console.log('checkScroll', el.clientWidth < el.scrollWidth, el.scrollLeft, el.clientWidth, el.scrollWidth, el.clientWidth < el.scrollWidth && el.scrollLeft == 0, el.clientWidth + el.scrollLeft >= el.scrollWidth && el.clientWidth < el.scrollWidth);
+          if (el.clientWidth < el.scrollWidth && el.scrollLeft < 5) {
             scope.overFlowRight = true;
             scope.overFlowLeft = false;
             // return stopScrollPower()
-          } else if (el.clientWidth + el.scrollLeft >= el.scrollWidth && el.clientWidth < el.scrollWidth) {
+          } else if (el.clientWidth + el.scrollLeft >= el.scrollWidth - 10 && el.clientWidth < el.scrollWidth) {
             scope.overFlowRight = false;
             scope.overFlowLeft = true;
             // return stopScrollPower()
@@ -380,6 +373,13 @@
           return numb - filter[filter.length - 1]
         }
 
+        function getToken(id) {
+          var deferred = $q.defer();
+            NstSvcFileFactory.getDownloadToken(id, scope.postId).then(deferred.resolve).catch(deferred.reject).finally(function () {
+          });
+
+          return deferred.promise;
+        }
         // function scrollPower(dir) {
         //   pwTimeout = $timeout(function () {
         //     if (dir == 'right') {
