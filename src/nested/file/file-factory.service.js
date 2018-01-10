@@ -108,9 +108,8 @@
         file.thumbnail = file.hasThumbnail("") ? file.picture.getUrl("x128") : '';
       }
 
-
       return file;
-    }
+    };
 
     FileFactory.prototype.recentFiles = function (skip, limit, cacheHandler) {
       var that = this;
