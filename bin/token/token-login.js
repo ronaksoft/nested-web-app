@@ -230,6 +230,9 @@ var nst = {
     }, function (data) {
       nst.fillUserData(data);
       nst.user = data;
+      if (data.flags.force_password_change === false) {
+        window.location = '/';
+      }
     }, function () {
       alert('token has been expired');
     });
