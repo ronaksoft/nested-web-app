@@ -5,8 +5,8 @@
     .module('ronak.nested.web.user')
     .service('NstSvcUserFactory', NstSvcUserFactory);
 
-  function NstSvcUserFactory($q, md5, _, $rootScope,
-                             NstSvcServer, NstSvcGlobalCache,
+  function NstSvcUserFactory($q, md5, _, $rootScope, NST_AUTH_EVENT,
+                             NstSvcServer, NstSvcGlobalCache, $timeout,
                              NST_USER_SEARCH_AREA, NST_USER_EVENT, NST_SRV_ERROR,
                              NstBaseFactory, NstTinyUser, NstUser, NstUserAuthority, NstPicture, NstPlace, NstCollector) {
     function UserFactory() {
@@ -126,6 +126,11 @@
         return NstSvcServer.request('account/get', {}).then(function (account) {
           factory.currentUser = account._id || account.id;
           factory.cache.set(factory.currentUser, account);
+          if (account.flags.force_password_change) {
+            $timeout(function () {
+              $rootScope.$broadcast(NST_AUTH_EVENT.CHANGE_PASSWORD);
+            }, 100);
+          }
           return $q.resolve(factory.parseUser(account));
         });
       }, 'getCurrent');
