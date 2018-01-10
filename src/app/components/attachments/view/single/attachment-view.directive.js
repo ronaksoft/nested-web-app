@@ -151,7 +151,7 @@
             });
         }
 
-
+        console.log(scope.attachment);
         var resizeIt = _.debounce(scope.sizeDetect, 500);
         angular.element($window).on('resize', resizeIt(scope.attachment.width, scope.attachment.height));
         scope.$on('$destroy', function () {
