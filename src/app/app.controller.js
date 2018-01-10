@@ -24,13 +24,13 @@
     $rootScope.topNavOpen = false;
     $rootScope._direction = NstSvcI18n.getLocale()._direction || "ltr";
     $rootScope.deviceDetector = deviceDetector;
-    if ( deviceDetector.os_version === 'windows-xp'
+    if (deviceDetector.os_version === 'windows-xp'
       || deviceDetector.os_version === 'windows-7'
       || deviceDetector.os_version === 'windows-8'
-      || deviceDetector.os === 'linux' ) {
-        $('body').addClass('notSupportEmo');
+      || deviceDetector.os === 'linux') {
+      $('body').addClass('notSupportEmo');
     }
-    if ( deviceDetector.browser === 'safari') {
+    if (deviceDetector.browser === 'safari') {
       var style = document.createElement('style');
       style.type = 'text/css';
       style.innerHTML = '._100vw { width: 100%;!important; }';
@@ -85,7 +85,6 @@
       $window.location.reload();
     }));
 
-    
 
     eventReferences.push($rootScope.$on(NST_NOTIFICATION_EVENT.EXTERNAL_PUSH_ACTION, function (e, data) {
       switch (data.action) {
@@ -137,6 +136,14 @@
         $state.go('public.signin-back', {back: $window.encodeURIComponent($state.href(state.name, stateParams))});
       }
     }
+
+    $rootScope.getLastState = function () {
+      var length = $rootScope.stateHistory.length;
+      if (length > 2) {
+        return $rootScope.stateHistory[length - 2].state.name;
+      }
+      return null;
+    };
 
     function restoreLastState() {
       var last = null;
