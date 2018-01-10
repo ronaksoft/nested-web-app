@@ -16,6 +16,7 @@
         items: '=',
         mode: '=',
         postId: '=',
+        markRead: '=?',
         sender: '='
       },
       link: function (scope, ele) {
@@ -258,6 +259,9 @@
         scope.attachmentCount = 0;
 
         scope.playAudio = function (item) {
+          if(scope.markRead) {
+            scope.markRead();
+          }
           if (item.isPlayed) {
             return SvcMiniPlayer.pause();
           }
