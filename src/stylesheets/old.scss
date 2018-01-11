@@ -54,7 +54,16 @@
     fill: $color-hurricane;
   }
 }
-
+@media only screen and (max-width: 500px) {
+  .nst-vc {
+    padding-top: 0;
+    padding-bottom: 80px;
+    > a {
+      position: relative;
+      transform: none;
+    }
+  }
+}
 .nst-arrow {
   background: url('../assets/icons/arrow.svg') no-repeat;
   height: 25px;

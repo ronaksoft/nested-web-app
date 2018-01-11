@@ -560,7 +560,7 @@ post-card {
     fill: $color-force;
   }
   .del-access {
-    // padding-right: 16px;
+    padding-right: 16px;
     svg {
       display: inline-block;
     }
@@ -966,8 +966,8 @@ body[dir="rtl"] {
   }
   .post-places {
     .del-access {
-      // padding-right: 0;
-      // padding-left: 17px;
+      padding-right: 0;
+      padding-left: 17px;
     }
   }
 }
