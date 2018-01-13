@@ -364,7 +364,9 @@
                            activity-count="ctrlEditTask.activityCount"
                            total-comments-count="ctrlEditTask.model.counters.comments + ctrlEditTask.model.counters.updates"
                            on-comment-sent="ctrlEditTask.commentSent"
-                           has-comment-remove-access="false"></nst-task-activity>
+                           has-comment-remove-access="false"
+                           is-creator="(vm.user.id === vm.task.assignor.id? true: false)"
+        ></nst-task-activity>
       </div>
     </div>
   </div>

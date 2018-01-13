@@ -15,7 +15,10 @@
       replace: true,
       bindToController: {
         comment: '=',
-        commentBoardId: '='
+        commentBoardId: '=',
+        commentRemove: '=?',
+        isTask: '=?',
+        isCreator: '=?'
       }
     };
   }

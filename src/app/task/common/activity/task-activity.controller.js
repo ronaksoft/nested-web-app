@@ -19,6 +19,7 @@
     reset();
 
     vm.sendComment = sendComment;
+    vm.removeCommentRef = removeCommentRef;
 
     vm.user = undefined;
     NstSvcTaskUtility.getValidUser(vm, NstSvcAuth);
@@ -97,7 +98,7 @@
      *
      * @param  {Event}  e   keypress event handler
      */
-    var resizeTextare = _.debounce(resize, 100);
+    var resizeTextarea = _.debounce(resize, 100);
 
     function resize(el) {
       el.style.height = '';
@@ -109,7 +110,7 @@
         return;
       }
       var element = angular.element(e.target);
-      resizeTextare(e.target);
+      resizeTextarea(e.target);
 
       if (!sendKeyIsPressed(e) || element.attr('mention') === 'true') {
         return;
@@ -168,7 +169,7 @@
         if (typeof vm.onCommentSent === 'function') {
           vm.onCommentSent(activity);
         }
-        resizeTextare(e.target);
+        resizeTextarea(e.target);
       }
     }
 
@@ -224,6 +225,18 @@
           if (activities.length === 16) {
             $timeout(getRecentActivities, 100);
           }
+        });
+      }
+    }
+
+    function removeCommentRef(id) {
+      var index = _.findIndex(vm.activities, {id: id});
+      if (index > -1) {
+        NstSvcTaskFactory.removeComment(vm.taskId, id).then(function () {
+          vm.activities.splice(index, 1);
+          vm.activityCount = vm.activities.length;
+        }).catch(function () {
+          toastr.error(NstSvcTranslation.get('An error has occurred while removing the comment.'));
         });
       }
     }

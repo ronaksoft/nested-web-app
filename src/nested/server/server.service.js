@@ -313,10 +313,6 @@
         }
       });
       xerxesUrl = getCompleteUrl(parseConfigData(xerxes[0]));
-      // if (admin.length > 0) {
-      //   adminUrl = getCompleteUrl(parseConfigData(admin[0]));
-      // }
-
       return {
         websocket: cyrusWsUrl,
         register: cyrusHttpUrl,

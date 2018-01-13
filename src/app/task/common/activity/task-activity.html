@@ -1,13 +1,18 @@
-<div class="comments-container iscroll-wrapper" ng-class="{'is-scrolled' : isScrolled}" iscroll iscroll-instance="scrollInstance" stick-bottom-scroll
-  load-more-top>
+<div class="comments-container iscroll-wrapper" ng-class="{'is-scrolled' : isScrolled}" iscroll
+     iscroll-instance="scrollInstance" stick-bottom-scroll
+     load-more-top>
   <div class="iscroll-scroller">
     <div class="nst-loading absolute" ng-if="ctrl.isLoading"></div>
     <div ng-repeat="activity in ctrl.activities | orderBy: 'date'" id="comment-{{activity.id}}">
-      <task-activity-item activity="activity" task-id="ctrl.taskId" ng-if="activity.type != ctrl.activityTypes.COMMENT"></task-activity-item>
+      <task-activity-item activity="activity" task-id="ctrl.taskId"
+                          ng-if="activity.type != ctrl.activityTypes.COMMENT"></task-activity-item>
       <div class="post-card-comments _difh _fw _wrb" ng-if="activity.type == ctrl.activityTypes.COMMENT">
-        <nst-comment-body comment="activity.comment" comment-board-id="ctrl.taskId"></nst-comment-body>
+        <nst-comment-body comment="activity.comment" comment-board-id="ctrl.taskId"
+                          comment-remove="ctrl.removeCommentRef" is-task="true"
+                          is-creator="ctrl.isCreator"></nst-comment-body>
       </div>
-      <input type="text" ng-if="$last" class="focus-handler" ng-init="scrollEnd(ctrl.activities.length <= ctrl.setting.limit)">
+      <input type="text" ng-if="$last" class="focus-handler"
+             ng-init="scrollEnd(ctrl.activities.length <= ctrl.setting.limit)">
       <!-- <input type="text" ng-if="$last" class="focus-handler"> -->
     </div>
   </div>
@@ -15,11 +20,15 @@
 <div class="post-card-comment-input _df _fn">
   <div class="user-avatar-24" user-detail="ctrl.user.id">
     <img initial-avatar="{{ctrl.user.id}}" name="{{ctrl.user.fullName}}" picture="{{ctrl.user | avatar}}"
-      data-width="24" data-height="24" data-radius="13" class="account-initials-24 _df" data-word-count="2" data-font-size="8"/>
+         data-width="24" data-height="24" data-radius="13" class="account-initials-24 _df" data-word-count="2"
+         data-font-size="8"/>
   </div>
-  <textarea type="text" nst-mention task-id="{{ctrl.taskId}}" data-ng-model="ctrl.tempComment"  auto-dir="ctrl.tempComment"
-         class="_fw wdt-emoji-bundle-enabled" placeholder="write your comment..." ng-keydown="ctrl.sendComment($event)"
-         ng-disabled="ctrl.isSendingComment" max-length="1024"  translate-attrs="placeholder" emoji-init='.wdt-emoji-bundle-enabled'/>
+  <textarea type="text" nst-mention task-id="{{ctrl.taskId}}" data-ng-model="ctrl.tempComment"
+            auto-dir="ctrl.tempComment"
+            class="_fw wdt-emoji-bundle-enabled" placeholder="write your comment..."
+            ng-keydown="ctrl.sendComment($event)"
+            ng-disabled="ctrl.isSendingComment" max-length="1024" translate-attrs="placeholder"
+            emoji-init='.wdt-emoji-bundle-enabled'/>
 </div>
 
 <script type="text/ng-template" id="remove-cm-tooltip.html">
