@@ -43,7 +43,6 @@
     vm.removeTodo = removeTodo;
     vm.removeItems = removeItems;
     vm.addAfterTodo = addAfterTodo;
-
     vm.previousTodo = previousTodo;
 
     function addTodo() {
@@ -87,7 +86,7 @@
       if (index > -1) {
         vm.todosData.splice(index, 1);
         if (index > 0) {
-          vm.todosData[index - 1].focusTrigger++
+          vm.todosData[index - 1].focusTrigger++;
         } else {
           vm.todoFocusMe++;
         }
@@ -108,6 +107,10 @@
       var index = _.findIndex(vm.todosData, {id: id});
       if (index > -1) {
         if (_.trim(vm.todosData[index].text).length === 0) {
+          return;
+        }
+        if (vm.todosData.length - 1 <= index) {
+          vm.todoFocusMe++;
           return;
         }
         vm.todosData.splice(index + 1, 0, {

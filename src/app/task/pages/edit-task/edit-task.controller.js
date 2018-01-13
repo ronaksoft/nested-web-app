@@ -556,6 +556,24 @@
         vm.modelBackUp.todos[index].checked = data.checked;
         isUpdated = true;
       });
+
+      var doneItems = _.filter(vm.model.todos, function (item) {
+        return item.checked === true;
+      });
+
+      vm.model.progress = Math.ceil((doneItems.length/vm.model.todos.length) * 100);
+
+      if (doneItems.length === vm.model.todos.length) {
+        NstSvcTaskUtility.promptModal({
+          title: NstSvcTranslation.get('Set as Completed'),
+          body: NstSvcTranslation.get('All Todos are done, do you want to set this task as Completed?'),
+          confirmText: NstSvcTranslation.get('Yes'),
+          confirmColor: 'green',
+          cancelText: NstSvcTranslation.get('No')
+        }).then(function () {
+          vm.setState(vm.taskStatuses.STATE_COMPLETE);
+        });
+      }
     }
 
     $scope.$watch(function () {
@@ -716,7 +734,7 @@
         labelFocus: vm.labelFocus
       };
     }, function (newVal, oldVal) {
-      
+
       if (_.countBy(Object.values(newVal))['true'] > 1) {
         vm.todoFocus = false;
       }

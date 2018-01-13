@@ -5,12 +5,10 @@
     .module('ronak.nested.web.components.attachment')
     .controller('AttachmentViewController', AttachmentViewController);
 
-  function AttachmentViewController($q, $, $sce, $state, _,
-                                    hotkeys, toastr,
-                                    NST_FILE_TYPE, NST_STORE_ROUTE,
-                                    NstVmFile,
-                                    NstSvcFileFactory, NstSvcStore, NstSvcTranslation,
-                                    fileId, fileViewerItem, fileIds, fileViewerItems, currentPlaceId, currentPostId, currentTaskId) {
+  function AttachmentViewController($q, $, $sce, $state, $timeout, $scope, _, hotkeys, toastr, NST_FILE_TYPE,
+                                    NST_STORE_ROUTE, NstVmFile, NstSvcFileFactory, NstSvcStore, NstSvcTranslation,
+                                    fileId, fileViewerItem, fileIds, fileViewerItems, currentPlaceId, currentPostId,
+                                    currentTaskId) {
     var vm = this;
 
     vm.attachments = {
@@ -22,6 +20,7 @@
         request: undefined
       }
     };
+
     vm.status = {
       postLoadProgress: false,
       tokenLoadProgress: false,
@@ -39,6 +38,7 @@
     vm.barOpen = false;
     $('body').removeClass('attachs-bar-active');
     vm.getIndex = getIndex;
+    vm.openRelatedPost = openRelatedPost;
 
     (function () {
 
@@ -242,6 +242,13 @@
       }).catch(function () {
         toastr.error(NstSvcTranslation.get('Sorry, An error has occured while trying to load the file'));
       });
+    }
+
+    function openRelatedPost(id) {
+      $scope.$dismiss();
+      $timeout(function () {
+        $state.go('app.message', {postId: id});
+      }, 200);
     }
   }
 })();

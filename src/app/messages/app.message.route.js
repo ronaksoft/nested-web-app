@@ -36,7 +36,20 @@
             }
           }).result.catch(function(result) {
             if (result !== true) {
-              $rootScope.goToLastState(true);
+              switch ($rootScope.getLastState()) {
+                case 'app.messages-favorites':
+                case 'app.messages-favorites-sorted':
+                case 'app.messages-bookmarked':
+                case 'app.messages-sent':
+                case 'app.messages-sent-sorted':
+                case 'app.place-messages-unread':
+                case 'app.place-messages-unread-sorted':
+                  $rootScope.goToLastState(true);
+                  break;
+                default:
+                  $rootScope.goToLastState(false);
+                  break;
+              }
             }
           })
         }]

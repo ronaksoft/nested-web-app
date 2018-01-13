@@ -3,7 +3,7 @@
     "APP_CLIENT_ID": "WEBAPP_DEVELOPMENT",
     "APP_VERSION" : "-3.5.3.5",
     "BUILD_VERSION" : "_BUILD_VERSION_",
-    "DOMAIN" : "_DOMAIN_",
+    "DOMAIN" : "ronaksoftware.com",
     "DEFAULT_LOCALE": "en",
     "SHOW_FOOTER": "true",
     "LOG": {

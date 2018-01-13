@@ -142,15 +142,14 @@
 
         scope.docPreview = function () {
           scope.previewSetting[scope.attachment.type] = true;
-        }
+        };
 
         scope.docAlwaysPreview = function () {
           scope.previewSetting[scope.attachment.type] = true;
           NstSvcKeyFactory.set(NST_KEY.WEBAPP_SETTING_DOCUMENT_PREVIEW, JSON.stringify(scope.previewSetting))
             .then(function () {
             });
-        }
-
+        };
 
         var resizeIt = _.debounce(scope.sizeDetect, 500);
         angular.element($window).on('resize', resizeIt(scope.attachment.width, scope.attachment.height));

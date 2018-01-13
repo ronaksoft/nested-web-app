@@ -150,7 +150,7 @@
                           items.push({
                             id: obj.id,
                             name: obj.name,
-                            dir: SvcRTL.rtl.test(obj.name[0]) ? 'rtl' : 'ltr',
+                            dir: SvcRTL.rtl(obj.name[0]) ? 'rtl' : 'ltr',
                             avatar: obj.avatar === "" ? avatarElement[0].currentSrc : obj.avatar,
                             alias: obj.id === NstSvcAuth.user.id ? NstSvcTranslation.get('Me') : '',
                             searchField: [obj.id, obj.name].join(' ')

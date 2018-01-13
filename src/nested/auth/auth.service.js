@@ -249,7 +249,7 @@
       if (this.state === NST_AUTH_STATE.AUTHORIZING) return;
 
       localStorage.setItem(USER_STATUS_STORAGE_NAME, state);
-    }
+    };
 
     Auth.prototype.login = function (credentials, remember) {
       var service = this,
@@ -258,7 +258,7 @@
         id = null;
 
       if (credentials.username.indexOf('@') > 1) {
-        id = credentials.username.split('@')[0]
+        id = credentials.username.split('@')[0];
         domain = credentials.username.split('@')[1];
       } else {
         id = credentials.username;

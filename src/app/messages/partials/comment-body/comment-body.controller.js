@@ -14,10 +14,20 @@
     .module('ronak.nested.web.message')
     .controller('CommentBodyController', CommentBodyController);
 
-  function CommentBodyController($scope, $sce, $q, $filter, _) {
+  function CommentBodyController($scope, $sce, $q, $filter, _, NstSvcAuth) {
     var vm = this;
 
+    vm.user = NstSvcAuth.user;
+    vm.removeItem = removeItem;
     vm.parts = [];
+
+    if (vm.isTask === undefined) {
+      vm.isTask = false;
+    }
+
+    if (vm.isCreator === undefined) {
+      vm.isCreator = false;
+    }
 
     init();
 
@@ -28,7 +38,6 @@
 
     function applyFilters(text) {
       var html = $filter('plainToHtml')(text);
-      // html = $filter('plainToHtml')(html);
       return html;
     }
 
@@ -79,6 +88,12 @@
         word: otherText
       });
       return trimmedWords;
+    }
+
+    function removeItem(id) {
+      if (_.isFunction(vm.commentRemove)) {
+        vm.commentRemove(id);
+      }
     }
 
     $scope.to_trusted = function (html_code) {

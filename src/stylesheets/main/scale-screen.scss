@@ -1,0 +1,27 @@
+
+@media screen and ( max-width: 1100px ){
+    .place-head-holder-2, .place-head, .modal-full-height-center .modal-content > div {
+      transform: none!important;
+      margin-left: 0!important;
+      left: 272px!important;
+    }
+    body.modal-open {
+      min-width: 1024px!important;
+    }
+    nst-navbar, .top-bar {
+      width: 100%!important;
+    //   display: block!important;
+      backface-visibility: hidden;
+    }
+    .panel-profile-setting {
+      max-width: unset!important;
+      width: calc(100% - 280px)!important;
+    }
+    .filter-bar .filter-bar-inner, .nst-navbar-fixed {
+      left: 240px!important;
+      transform: none!important;
+    }
+    .side-scroll-list-wrapper .iscroll-wrapper, .sidebar-directive, .side-scroll-list-wrapper, .fav-contacts {
+      max-height: none!important;
+    }
+}

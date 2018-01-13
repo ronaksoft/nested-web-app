@@ -19,10 +19,11 @@
 */
 body,
 html {
-  -webkit-overflow-scrolling: touch;
+  // -webkit-overflow-scrolling: touch;
   //height: 100%;
   min-width: 240px;
   overflow-x: hidden;
+  scroll-behavior: smooth;
 }
 html {
   height: 100%;

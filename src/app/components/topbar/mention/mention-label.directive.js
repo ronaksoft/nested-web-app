@@ -107,7 +107,7 @@
                           id: item.title,
                           type: item.public ? NstSvcTranslation.get('everyone') : NstSvcTranslation.get('specific users'),
                           name: item.title,
-                          dir : SvcRTL.rtl.test(item.title[0]) ? 'rtl' : 'ltr',
+                          dir : SvcRTL.rtl(item.title[0]) ? 'rtl' : 'ltr',
                           code: item.code,
                           searchField: [item.id, item.title].join(' ')
                         })

@@ -5,7 +5,7 @@
   </svg>
 </i>
 
-<ul ng-if="internalMode == 'thumbnail'" class="thumbnail-bar">
+<ul ng-if="internalMode == 'thumbnail'" class="thumbnail-bar" mousewheel-horizental>
   <li ng-repeat="item in items" ng-class="item.isUploaded ? '_df' : '_df uploading'">
     <a class="_dib" href="javascript:void(0);" ng-click="onClick(item)">
       <img style="width: {{item.widthResized}}px" ng-if="item.type === 'image' || item.type === 'gif'" class="attach-thumbnail-img" alt="" ng-src="{{item.thumbnail}}" height="96" width="item.widthResized" ng-show="item.widthResized > 0" />

@@ -10,16 +10,21 @@
       return {
         restrict: 'A',
         link: function (scope, $element) {
-          $timeout(function (){
-            if($element[0].scrollWidth > $element[0].clientWidth){
+          var listener = scope.$watch(function () {
+            return $element[0].scrollWidth;
+          }, function (newVal) {
+            if(newVal > $element[0].clientWidth){
               if(!window.nativeScroll) {
                 $($element[0]).mousewheel(function(event, delta) {
                   this.scrollLeft -= (delta * 30);
                   event.preventDefault();
                 });
               } 
-            }          
-          }, 56)
+            }
+          });
+          scope.$on('$destroy', function () {
+            listener();
+          });
           
         }
       };

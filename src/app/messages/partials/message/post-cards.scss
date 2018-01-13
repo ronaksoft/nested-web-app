@@ -37,8 +37,14 @@ post-card {
       40px;
       justify-content: center;
       align-items: center;
+      &:hover {
+        svg {
+          fill: $color-white;
+        }
+      }
     }
     svg {
+      transition: fill $animation-dur;
       fill: $color-gale-white;
       width: 24px;
       height: 24px;
@@ -60,11 +66,18 @@ post-card {
       direction: rtl;
       flex-direction: row;
       display: inline-flex;
-      background-color: $color-solid;
       justify-content: flex-start;
       align-items: center;
       transform: translate3d(-100%,0,0);
       position: relative;
+      &:before {
+        content: ' ';
+        position: absolute;
+        width: 1px;
+        height: 24px;
+        opacity: .98;
+        background-color: $color-solid;
+      }
       > * {
         direction: ltr;
         display: inline-table;
@@ -129,11 +142,13 @@ post-card {
     flex-direction: column;
   }
 }
-
+.post-card-shadow {
+  box-shadow: 0 5px 12px 2px rgba(0, 0, 0, 0.1);
+  width: 100%;
+}
 .post-card {
   //margin-top: 32px;
   position: relative;
-  box-shadow: 0 5px 12px 2px rgba(0, 0, 0, 0.1);
   border-radius: 6px;
   //box-shadow: 0 10px 6px -6px rgba(119,123,121,.4);
   z-index: 1;
@@ -545,7 +560,7 @@ post-card {
     fill: $color-force;
   }
   .del-access {
-    // padding-right: 16px;
+    padding-right: 16px;
     svg {
       display: inline-block;
     }
@@ -630,7 +645,6 @@ post-card {
 .post-card-comment {
   width: 100%;
   position: relative;
-  box-shadow: 0 5px 12px 2px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   background-color: #F5F5F5;

@@ -22,7 +22,8 @@
         totalCommentsCount : '=',
         onCommentSent : '=',
         hasCommentRemoveAccess : '=',
-        activityCount: '='
+        activityCount: '=',
+        isCreator: '=?'
       }
     };
   }
