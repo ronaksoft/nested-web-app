@@ -1019,6 +1019,7 @@
       var userId = NstSvcAuth.user || {id: '_'};
       userId = userId.id;
       var msgId = vm.post.id;
+      var app = NST_CONFIG.DOMAIN;
       var urlPostFix = '';
       if (url.indexOf('#') > -1) {
         url = url.split('#');
@@ -1026,9 +1027,9 @@
         url = url[0];
       }
       if (url.indexOf('?') > -1) {
-        url += '&nst_uid=' + userId + '&nst_mid=' + msgId;
+        url += '&nst_uid=' + userId + '&nst_mid=' + msgId + '&nst_app=' + app;
       } else {
-        url += '?nst_uid=' + userId + '&nst_mid=' + msgId;
+        url += '?nst_uid=' + userId + '&nst_mid=' + msgId + '&nst_app=' + app;
       }
       return $sce.trustAsResourceUrl(url + urlPostFix);
     }
