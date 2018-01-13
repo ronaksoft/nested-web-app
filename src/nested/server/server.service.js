@@ -39,6 +39,7 @@
       server.authorized = false;
       server.remoteMode = false;
       server.remoteDomain = null;
+      server.domain = null;
       server.queue = {};
       NstObservableObject.call(server);
 
@@ -217,10 +218,7 @@
           NST_CONFIG.REGISTER.URL = configs.register;
           NST_CONFIG.STORE.URL = configs.store;
 
-
-          if (configs.admin !== '') {
-            NST_CONFIG.ADMIN_URL = configs.admin;
-          }
+          server.domain = domainName || NST_CONFIG.DOMAIN;
 
           server.init(NST_CONFIG.WEBSOCKET.URL);
 
@@ -247,7 +245,7 @@
         domainName = server.defaultConfigs.DOMAIN;
         server.revertConfigs();
         server.remoteDomain = domain;
-        server.remoteMode = true;
+        server.remoteMode = false;
       }
 
       loadConfigFromRemote(domainName)
@@ -258,10 +256,11 @@
             NST_CONFIG.REGISTER.URL = configs.register;
             NST_CONFIG.STORE.URL = configs.store;
 
-            if (server.stream.url === NST_CONFIG.WEBSOCKET.URL && domainName === server.remoteDomain) {
+            if (domainName === server.domain) {
               deferred.resolve();
             } else {
               server.init(NST_CONFIG.WEBSOCKET.URL);
+              server.domain = domainName;
               var checkReady = setInterval(function () {
                 localStorage.setItem(NST_SERVER_DOMAIN, domain ? domain : NST_CONFIG.DOMAIN);
                 clearInterval(checkReady);
@@ -272,6 +271,7 @@
         )
         .catch(function () {
           server.init(server.defaultConfigs.WEBSOCKET_URL);
+          server.domain = domainName;
           var checkReady = setInterval(function () {
             localStorage.setItem(NST_SERVER_DOMAIN, domain ? domain : NST_CONFIG.DOMAIN);
             clearInterval(checkReady);

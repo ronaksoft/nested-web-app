@@ -15,7 +15,7 @@
     .controller('PostCardController', PostCardController);
 
   function PostCardController($state, $log, $timeout, $stateParams, $rootScope, $scope, $uibModal, $location, $anchorScroll,
-                              _, toastr, $sce,
+                              _, toastr, $sce, NstSvcTaskUtility,
                               NST_EVENT_ACTION, NST_PLACE_ACCESS, NST_POST_EVENT, SvcCardCtrlAffix,
                               NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory, NstSearchQuery, NstSvcModal,
                               NstSvcAuth, NstUtility, NstSvcPostInteraction, NstSvcTranslation, NstSvcLogger, $) {
@@ -25,6 +25,9 @@
       unreadCommentIds = [],
       focusOnSentTimeout = null,
       eventReferences = [];
+
+    vm.user = undefined;
+    NstSvcTaskUtility.getValidUser(vm, NstSvcAuth);
 
     vm.remove = _.partial(remove, vm.post);
     vm.toggleRemoveFrom = toggleRemoveFrom;
@@ -1013,7 +1016,8 @@
     }
 
     function mergePostCardVariable(url) {
-      var userId = NstSvcAuth.user.id;
+      var userId = NstSvcAuth.user || {id: '_'};
+      userId = userId.id;
       var msgId = vm.post.id;
       var urlPostFix = '';
       if (url.indexOf('#') > -1) {
