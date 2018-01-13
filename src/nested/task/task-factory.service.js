@@ -147,6 +147,7 @@
       todo.text = data.txt;
       todo.checked = data.done;
       todo.weight = data.weight;
+      todo.focusTrigger = 0;
 
       return todo;
     }

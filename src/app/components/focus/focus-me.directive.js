@@ -11,7 +11,15 @@
             return attrs.focusMe;
           }, function(val) {
             if (val == 'true' || parseInt(val) > 0) {
-              element[0].focus();
+              var el = element[0];
+              el.focus();
+              if (typeof el.selectionStart == "number") {
+                el.selectionStart = el.selectionEnd = el.value.length;
+              } else if (typeof el.createTextRange != "undefined") {
+                var range = el.createTextRange();
+                range.collapse(false);
+                range.select();
+              }
             }
           });
           scope.$on('$destroy', function () {
