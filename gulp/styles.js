@@ -12,25 +12,34 @@ var wiredep = require('wiredep').stream;
 var _ = require('lodash');
 
 gulp.task('styles-reload', ['styles'], function() {
-  return buildStyles()
+  return buildStyles(true)
     .pipe(browserSync.stream());
 });
 
 gulp.task('styles', function() {
   buildTinyMceStyle();
-  return buildStyles();
+  return buildStyles(true);
 });
 
-var buildStyles = function() {
+var buildStyles = function(dark) {
   var sassOptions = {
     style: 'expanded'
   };
 
-  var injectFiles = gulp.src([
+  var files = [];
+  if (dark === true) {
+    files.push(path.join(conf.paths.src, '/theme/dark-vars.scss'));
+  } else {
+    files.push(path.join(conf.paths.src, '/theme/vars.scss'));
+  }
+
+  files.push.apply(files, [
     path.join(conf.paths.src, '/stylesheets/**/*.scss'),
     path.join(conf.paths.src, '/app/**/*.scss'),
     path.join('!' + conf.paths.src, '/app/index.scss')
-  ], { read: false });
+  ]);
+
+  var injectFiles = gulp.src(files, { read: false });
 
   var injectOptions = {
     transform: function(filePath) {
@@ -43,8 +52,15 @@ var buildStyles = function() {
   };
 
 
+  var dist;
+  if (dark === true) {
+    dist = path.join(conf.paths.src, '/app/dark-index.scss');
+  } else {
+    dist = path.join(conf.paths.src, '/app/index.scss');
+  }
+
   return gulp.src([
-    path.join(conf.paths.src, '/app/index.scss')
+    dist
   ])
     .pipe($.inject(injectFiles, injectOptions))
     .pipe(wiredep(_.extend({}, conf.wiredep)))
