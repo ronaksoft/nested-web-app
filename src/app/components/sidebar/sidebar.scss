@@ -11,7 +11,7 @@
   width: $sidebar-width - (2 * $sidebar-padding);
   margin: 16px $sidebar-padding 0 $sidebar-padding;
   padding: $sidebar-inner-padding $sidebar-inner-padding 0 $sidebar-inner-padding;
-  background-color: #FAFAFA;
+  background-color: $sidebar-bg-color;
   border-radius: 4px;
   border: 1px solid $color-breeze-new;
   flex: none;

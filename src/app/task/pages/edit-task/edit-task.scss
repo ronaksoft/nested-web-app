@@ -129,7 +129,7 @@
         width: 280px;
         max-height: 100%;
         overflow: hidden;
-        background-color: #EEEFEF;
+        background-color: $color-breeze-light;
         border-radius: 0 6px 6px 0;
         .task-comments-inner {
             width: 280px;
@@ -177,10 +177,10 @@
             span {
                 font-size: 13px;
                 transform: translateY(-24px);
-                color: #ACB0B4;
+                color: $color-gale;
                 text-align: center;
                 b {
-                    color: #6A727A;
+                    color: $color-hurricane;
                 }
             }
         }
@@ -260,10 +260,10 @@
     a {
         height: 32px;
         align-items: center;
-        display: flex; 
+        display: flex;
         color: $color-white;
         width: 100%;
-        padding: 0 8px;        
+        padding: 0 8px;
     }
 }
 .task-creator {

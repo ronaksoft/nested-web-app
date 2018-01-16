@@ -26,20 +26,20 @@ var buildStyles = function(dark) {
     style: 'expanded'
   };
 
-  var files = [];
-  if (dark === true) {
-    files.push(path.join(conf.paths.src, '/theme/dark-vars.scss'));
-  } else {
-    files.push(path.join(conf.paths.src, '/theme/vars.scss'));
-  }
+  // var files = [];
+  // if (dark === true) {
+  //   files.push(path.join(conf.paths.src, '/theme/dark-vars.scss'));
+  // } else {
+  //   files.push(path.join(conf.paths.src, '/theme/vars.scss'));
+  // }
+  //
+  // files.push.apply(files, );
 
-  files.push.apply(files, [
+  var injectFiles = gulp.src([
     path.join(conf.paths.src, '/stylesheets/**/*.scss'),
     path.join(conf.paths.src, '/app/**/*.scss'),
     path.join('!' + conf.paths.src, '/app/index.scss')
-  ]);
-
-  var injectFiles = gulp.src(files, { read: false });
+  ], { read: false });
 
   var injectOptions = {
     transform: function(filePath) {
@@ -52,15 +52,15 @@ var buildStyles = function(dark) {
   };
 
 
-  var dist;
-  if (dark === true) {
-    dist = path.join(conf.paths.src, '/app/dark-index.scss');
-  } else {
-    dist = path.join(conf.paths.src, '/app/index.scss');
-  }
+  // var dist;
+  // if (dark === true) {
+  //   dist = path.join(conf.paths.src, '/app/dark-index.scss');
+  // } else {
+  //   dist = path.join(conf.paths.src, '/app/index.scss');
+  // }
 
   return gulp.src([
-    dist
+    path.join(conf.paths.src, '/app/index.scss')
   ])
     .pipe($.inject(injectFiles, injectOptions))
     .pipe(wiredep(_.extend({}, conf.wiredep)))

@@ -2,18 +2,18 @@
   border: none;
   box-shadow: 0 8px 16px $color-wind-new;
   .cur {
-    background: #E7FBf0;
-    color: #333 ;
+    background: $color-breeze;
+    color: $color-solid ;
     small {
-      color: #333;
+      color: $color-solid;
     }
     strong {
-      color: #333;
+      color: $color-solid;
       font-weight: bold;
     }
   }
   strong {
-    color: #333;
+    color: $color-solid;
   }
   ul {
     display: flex;

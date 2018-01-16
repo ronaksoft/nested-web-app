@@ -9,6 +9,7 @@
   justify-content: center;
   align-items: center;
 }
+
 .filedetails {
   width: 100%;
   padding: 0 36px;
@@ -17,6 +18,7 @@
     max-width: calc(100% - 288px);
   }
 }
+
 .attachments-list {
   position: absolute;
   left: 0;
@@ -25,10 +27,12 @@
   width: 100px;
   opacity: 0;
 }
+
 .attachments-list:hover {
   opacity: .85;
   transition: $animation-dur;
 }
+
 .downloadprogress {
   position: absolute;
   display: flex;
@@ -38,6 +42,7 @@
   top: 45%;
   z-index: 20;
 }
+
 .img-thumb-view {
   filter: blur(2px);
   opacity: .8;
@@ -54,12 +59,12 @@
   align-items: center;
   justify-content: center;
   transition: transform $animation-dur ease-in;
-  transform: translate3d(0,0,0);
+  transform: translate3d(0, 0, 0);
   #preview-thumb {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate3d(-50%,-50%,0)
+    transform: translate3d(-50%, -50%, 0)
   }
   & > * {
     //max-height: calc(100vh - 244px);
@@ -104,6 +109,7 @@
     background-color: $color-white;
   }
 }
+
 .image-box-preview {
   left: 0;
   right: 0;
@@ -112,6 +118,7 @@
   min-width: 240px;
 
 }
+
 p.filename {
   white-space: nowrap;
   overflow: hidden;
@@ -121,6 +128,7 @@ p.filename {
   padding: 0;
   margin: 0;
 }
+
 span.filename {
   white-space: nowrap;
   overflow: hidden;
@@ -131,7 +139,8 @@ span.filename {
   margin: 0;
   color: $color-gale-white;
 }
-.audioplayer{
+
+.audioplayer {
   height: 50px;
 }
 
@@ -141,8 +150,9 @@ span.filename {
   height: 68px;
   width: 300px;
 }
+
 #PostView {
-  .nst-arrow-rotated-270,.nst-arrow-rotated-90{
+  .nst-arrow-rotated-270, .nst-arrow-rotated-90 {
     width: 15px;
     height: 30px;
     justify-content: center;
@@ -151,13 +161,14 @@ span.filename {
 }
 
 .nst-preview-footer .nst-nav-butn-breeze,
-#PostView .nst-arrow-rotated-270,#PostView .nst-arrow-rotated-90{
+#PostView .nst-arrow-rotated-270, #PostView .nst-arrow-rotated-90 {
   height: 30px;
   flex: none;
 }
-.nst-preview-footer .nst-nav-butn-breeze{
+
+.nst-preview-footer .nst-nav-butn-breeze {
   align-items: center;
-  margin:0 8px;
+  margin: 0 8px;
   padding: 2px 6px;
   direction: ltr;
 }
@@ -172,6 +183,7 @@ span.filename {
   line-height: 1px;
   padding-left: 10px;
 }
+
 .control-bar {
   position: fixed;
   top: 0;
@@ -183,7 +195,7 @@ span.filename {
   background-color: black;
   box-shadow: 0 16px 32px $color-attachment-shadow;
   color: $color-hurri-white;
-  transition: right $animation-dur ease-in,left $animation-dur ease-in;
+  transition: right $animation-dur ease-in, left $animation-dur ease-in;
   svg {
     fill: transparentize($color-white, 1 - .72);
   }
@@ -195,7 +207,7 @@ span.filename {
     flex: none;
     justify-content: center;
     align-items: center;
-    &:hover,&.active {
+    &:hover, &.active {
       border-radius: 8px;
       background-color: transparentize($color-white, 1 - .08);
     }
@@ -207,12 +219,13 @@ span.filename {
     width: 0;
     height: 32px;
     border-right: 1px solid black;
-    border-left: 1px solid rgba(255,255,255,.08);
+    border-left: 1px solid rgba(255, 255, 255, .08);
     align-self: center;
     margin: 0 24px;
   }
 }
-.attachment-image-show{
+
+.attachment-image-show {
   display: flex;
   transition: transform $animation-dur ease-in;
   justify-content: center;
@@ -234,8 +247,8 @@ span.filename {
     background-size: contain;
     position: absolute;
     background-repeat: no-repeat;
-    transition: opacity .2ss;
-    transform: scale(1.1,1.1);
+    transition: opacity .2 ss;
+    transform: scale(1.1, 1.1);
     transform-origin: center center;
     &::before {
       z-index: -1;
@@ -271,7 +284,8 @@ span.filename {
   }
 
 }
-.attachment-aud-show{
+
+.attachment-aud-show {
   display: flex;
   transition: transform $animation-dur ease-in;
   justify-content: center;
@@ -286,7 +300,8 @@ span.filename {
     visibility: hidden
   }
 }
-.attachment-vid-show{
+
+.attachment-vid-show {
   display: flex;
   transition: transform $animation-dur ease-in;
   justify-content: center;
@@ -298,6 +313,7 @@ span.filename {
   box-shadow: 0 16px 32px $color-attachment-shadow;
 
 }
+
 .attachment-doc-show {
   width: 320px;
   height: 320px;
@@ -307,7 +323,7 @@ span.filename {
   overflow: hidden;
   color: $color-gale-white;
   transition: transform $animation-dur ease-in;
-  transform: translate3d(0,0,0);
+  transform: translate3d(0, 0, 0);
   .thumb {
     height: 196px;
     width: 100%;
@@ -323,7 +339,7 @@ span.filename {
   .butns {
     height: 32px;
     display: flex;
-    >div {
+    > div {
       border: 1px solid $color-white;
       color: $color-white;
       width: 50%;
@@ -345,12 +361,13 @@ span.filename {
     text-align: center;
   }
   & + iframe {
-    width: calc( 100vw - 128px)!important;
-    transform: translate3d(0,0,0);
-    height: calc( 100vh - 64px)!important;
+    width: calc(100vw - 128px) !important;
+    transform: translate3d(0, 0, 0);
+    height: calc(100vh - 64px) !important;
     transition: width $animation-dur ease-in;
   }
 }
+
 .preview-box {
   object {
     width: 100vw;
@@ -362,6 +379,7 @@ span.filename {
     z-index: 1;
   }
 }
+
 .attachment-pager {
   position: fixed;
   width: 56px;
@@ -380,30 +398,31 @@ span.filename {
   }
   &.next {
     transition: right $animation-dur ease-in;
-    right : 0;
+    right: 0;
     border-radius: 8px 0 0 8px;
     svg {
-      transform: scale(2,2) rotateZ(-90deg);
+      transform: scale(2, 2) rotateZ(-90deg);
     }
   }
   &.prev {
-    left : 0;
+    left: 0;
     border-radius: 0 8px 8px 0;
     svg {
-      transform: scale(2,2) rotateZ(90deg);
+      transform: scale(2, 2) rotateZ(90deg);
     }
   }
   &:hover {
     opacity: 1;
   }
 }
+
 .attachs-bar {
   position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
   width: 240px;
-  background-color: #292929;
+  background-color: $color-super-solid;
   z-index: 28;
   transform: translateX(100%);
   box-shadow: 0 0 54px $color-attachment-shadow;
@@ -414,7 +433,7 @@ span.filename {
     font-weight: bold;
     color: $color-white;
     padding: 0 16px;
-    margin:0;
+    margin: 0;
   }
   .iscroll-wrapper {
     max-height: calc(100% - 64px);
@@ -445,18 +464,19 @@ span.filename {
     }
   }
 }
+
 .attachs-bar-active {
   .control-bar {
-    right:240px;
+    right: 240px;
   }
   .nst-preview-pic-mode {
-    transform: translate3d(-120px,0,0);
+    transform: translate3d(-120px, 0, 0);
   }
   .attachs-bar {
     transform: translateX(0);
   }
   .attachment-pager.next {
-    right:240px;
+    right: 240px;
   }
   .attach-bar-menu {
     border-radius: 8px;
@@ -464,10 +484,11 @@ span.filename {
   }
   .attachment-doc-show {
     & + iframe {
-      width: calc( 100vw - 368px)!important;
+      width: calc(100vw - 368px) !important;
     }
   }
 }
+
 .attachment-tiny-thumb {
   width: 32px;
   margin: 0 12px;
@@ -481,18 +502,22 @@ span.filename {
   color: $color-attachments-other;
   border-radius: 2px;
 }
+
 .tiny-thumb-type-archive {
   border: 1px solid $color-attachments-zip;
   color: $color-attachments-zip;
 }
+
 .tiny-thumb-type-document {
   border: 1px solid $color-attachments-document;
   color: $color-attachments-document;
 }
+
 .tiny-thumb-type-pdf {
   border: 1px solid $color-attachments-pdf;
   color: $color-attachments-pdf;
 }
+
 .tiny-thumb-type-audio {
   border: 1px solid $color-attachments-media;
   color: $color-attachments-media;

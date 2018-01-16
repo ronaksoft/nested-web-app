@@ -194,7 +194,7 @@ nst-navbar {
         }
       }
       p {
-        color: #869D91;
+        color: $color-cool-smoke;
         line-height: 16px;
         font-size: 13px;
         font-weight: 400;
@@ -364,7 +364,7 @@ nst-navbar {
   position: absolute;
   top: 48px;
   z-index: 77;
-  background-color: #F0F0F0; // border-radius: 0 0 8px 8px;
+  background-color: $color-calm; // border-radius: 0 0 8px 8px;
   // box-shadow: 0 4px 16px $color-breeze-new;
   width: calc(100vw - 480px);
   max-width: 880px;

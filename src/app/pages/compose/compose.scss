@@ -183,7 +183,6 @@
 }
 
 #compose-recipient-input  .ui-select-choices {
-   padding: 0;
    max-height: 250px;
    width: calc(100% - 32px);
    left: 16px;
@@ -351,7 +350,7 @@
   transform-origin: center center;
   color: $color-solid;
   vertical-align: top;
-  background: #ebebeb; /* Old browsers */
+  background: $color-breeze-light; /* Old browsers */
   background: -moz-linear-gradient(top, #ebebeb 0%, #d6d6d6 100%); /* FF3.6-15 */
   background: -webkit-linear-gradient(top, #ebebeb 0%,#d6d6d6 100%); /* Chrome10-25,Safari5.1-6 */
   background: linear-gradient(to bottom, #ebebeb 0%,#d6d6d6 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */

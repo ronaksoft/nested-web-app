@@ -234,11 +234,11 @@ nst-attachments-preview-bar {
         }
       }
       a:not(.attdl) {
-        height: 40px;  
+        height: 40px;
         max-width: 240px;
         border-radius: 4px;
         border: 1px solid #DDDFE0;
-        background-color: #F6F6F7;
+        background-color: $color-calm;
         display: flex;
         align-items: center;
         img {

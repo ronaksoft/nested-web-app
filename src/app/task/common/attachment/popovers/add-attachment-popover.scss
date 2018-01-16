@@ -14,7 +14,6 @@
     }
 }
 .files-menu {
-    background-color: $color-white;
     display: flex;
     flex-direction: row;
     width: 424px;
@@ -23,7 +22,7 @@
     overflow: hidden;
     height: 82px;
     padding: 8px;
-    background-color: #323D47;
+    background-color: $color-solid;
     align-items: center;
     label {
         margin-bottom: 0;
