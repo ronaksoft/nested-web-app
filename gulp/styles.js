@@ -12,33 +12,25 @@ var wiredep = require('wiredep').stream;
 var _ = require('lodash');
 
 gulp.task('styles-reload', ['styles'], function() {
-  return buildStyles(true)
+  return buildStyles()
     .pipe(browserSync.stream());
 });
 
 gulp.task('styles', function() {
   buildTinyMceStyle();
-  return buildStyles(true);
+  return buildStyles();
 });
 
-var buildStyles = function(dark) {
+var buildStyles = function() {
   var sassOptions = {
     style: 'expanded'
   };
 
-  // var files = [];
-  // if (dark === true) {
-  //   files.push(path.join(conf.paths.src, '/theme/dark-vars.scss'));
-  // } else {
-  //   files.push(path.join(conf.paths.src, '/theme/vars.scss'));
-  // }
-  //
-  // files.push.apply(files, );
-
   var injectFiles = gulp.src([
     path.join(conf.paths.src, '/stylesheets/**/*.scss'),
     path.join(conf.paths.src, '/app/**/*.scss'),
-    path.join('!' + conf.paths.src, '/app/index.scss')
+    path.join('!' + conf.paths.src, '/app/index.scss'),
+    path.join('!' + conf.paths.src, '/app/index-dark.scss')
   ], { read: false });
 
   var injectOptions = {
@@ -51,16 +43,9 @@ var buildStyles = function(dark) {
     addRootSlash: false
   };
 
-
-  // var dist;
-  // if (dark === true) {
-  //   dist = path.join(conf.paths.src, '/app/dark-index.scss');
-  // } else {
-  //   dist = path.join(conf.paths.src, '/app/index.scss');
-  // }
-
   return gulp.src([
-    path.join(conf.paths.src, '/app/index.scss')
+    path.join(conf.paths.src, '/app/index.scss'),
+    path.join(conf.paths.src, '/app/index-dark.scss')
   ])
     .pipe($.inject(injectFiles, injectOptions))
     .pipe(wiredep(_.extend({}, conf.wiredep)))
