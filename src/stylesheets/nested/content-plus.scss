@@ -20,13 +20,13 @@
   .content-plus-inner > div {
     display: inline-flex;
     flex-direction: column;
-    background-color: $color-white;
+    background-color: $sidebar-bg-color;
     width: 100%;
     flex: none;
     margin-top: 16px;
     padding: 1px 0 0 0;
     z-index: 15;
-    border: 1px solid #e6e6e6;
+    border: 1px solid $color-breeze-new;
     position: relative;
     justify-content: space-between;
     border-radius: 3px;
@@ -118,7 +118,7 @@
         }
       }
       &:hover {
-        background-color: $color-sense-5;
+        background-color: $color-breeze-5-new;
         cursor: pointer;
         transition: .2s;
       }
@@ -131,7 +131,7 @@
   .name {
     color: $color-new-hurricane;
     font-size: 10px;
-    font-weight: 600; 
+    font-weight: 600;
     padding: 0 8px;
     border-radius: 3px 3px 0 0;
     line-height: 30px;

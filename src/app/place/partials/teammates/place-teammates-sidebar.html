@@ -2,7 +2,7 @@
   <div class="name" ng-click="ctlTeammates.openMemberModal()">
     <translate>{{ctlTeammates.place.counters.key_holders + ctlTeammates.place.counters.creators | localize }} Members</translate>
   </div>
-  <div class="recent-container _fw _df _fn _bgwhite">
+  <div class="recent-container _fw _df _fn">
     <div class="avatars" ng-if="!ctlTeammates.loading">
       <div class="_difh" ng-repeat="teammate in ctlTeammates.teammates | limitTo : ctlTeammates.limit track by teammate.id">
         <div class="user-avatar-32" user-detail="teammate">

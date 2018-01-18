@@ -153,7 +153,7 @@ post-card {
   border-radius: 6px;
   //box-shadow: 0 10px 6px -6px rgba(119,123,121,.4);
   z-index: 1;
-  background-color: $color-white;
+  background-color: $color-bg-postcard;
   overflow: visible;
   // transition: all $animation-dur;
   &.have-comment {
@@ -512,8 +512,7 @@ post-card {
     }
   }
   > span {
-    margin-bottom: 6px;
-    background-color: white;
+    background-color: $color-bg-postcard;
     border-radius: 4px;
     line-height: 32px;
     margin-right: 16px;
