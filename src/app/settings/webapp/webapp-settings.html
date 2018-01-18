@@ -7,6 +7,22 @@
 
 <div class="webapp-setting">
     <div class="form-group _difv _fw">
+      <label class="input-lab _fw"><b><translate>Theme</translate></b></label>
+      <div class="field _difh _fw">
+        <div class="_df _fw srchp"><translate>Night mood</translate></div>
+        <div class="place-switch _fn">
+          <input type="checkbox" name="nightMood" id="nightMood" data-ng-model="ctrl.nightMood" ng-change="ctrl.updateThemeSettings()">
+          <label for="nightMood">
+            <b><translate>Yes</translate></b>
+            <div class="circle" switch-drag="ctrl.nightMood"></div>
+          </label>
+          <label for="nightMood">
+            <b><translate>No</translate></b>
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="form-group _difv _fw">
       <label class="input-lab _fw"><b><translate>Attachments</translate></b></label>
       <div class="field _difh _fw">
         <div class="_df _fw srchp"><translate>Always preview on DOC files</translate></div>
