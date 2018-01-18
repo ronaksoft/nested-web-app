@@ -7,287 +7,200 @@
 @keyframes appearence {
     from {opacity: 0;}
     to {opacity: 1;}
+}
+@keyframes appearence-2 {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+@keyframes modal-dialog {
+  0% {
+    transform: scale(0,0);
   }
-  @keyframes appearence-2 {
-    from {opacity: 0;}
-    to {opacity: 1;}
+  100% {
+    transform: scale(1,1);
   }
-  @keyframes svgadd {
-    from {
-      opacity: 0;
-      //transform: rotateZ(0deg);
-    }
-    to {
-      opacity: 1;
-      //transform: rotateZ(45deg);
-    }
+}
+@keyframes modal-dialog2 {
+  0% {
+    transform: scale(1,1);
   }
-  @keyframes modal-dialog {
-    0% {
-      transform: scale(0,0);
-    }
-    100% {
-      transform: scale(1,1);
-    }
+  100% {
+    transform: scale(0,0);
   }
-  @keyframes modal-dialog2 {
-    0% {
-      transform: scale(1,1);
-    }
-    100% {
-      transform: scale(0,0);
-    }
+}
+@keyframes post-view {
+  0% {
+    background-color: transparent;
   }
-  @keyframes post-view {
-    0% {
-      background-color: transparent;
-    }
-    100% {
-      background-color: $color-white;
-    }
+  100% {
+    background-color: $color-white;
   }
-  @keyframes side-anim-detail {
-    0% {
-      width: $sidebar-width-tiny;
-    }
-    100% {
-      width: $sidebar-width;
-      z-index: 4;
-    }
+}
+@keyframes appearenceOp {
+  from {opacity: 0;}
+  to {opacity: .5;}
+}
+@keyframes app-tr {
+  0% {
+    opacity: 0;
+    left: -40px;
   }
-  @keyframes side-anim {
-    from {
-      transform: scaleX(0);
-    }
-    to {
-      transform: scaleX(1);
-    }
+  90% {
+    opacity: 1;
+    left: 0;
   }
-  @keyframes side-anim-places {
-    from {
-      width: $sidebar-width-tiny;
-    }
-    to {
-      width: $sidebar-width;
-    }
+  100% {
+    opacity: .8;
+    left: 0;
   }
-  @keyframes replace-wire {
-    from {
-      left: 0;
-    }
-    to {
-      left: 50%;
-    }
+}
+@keyframes off-right {
+  0% {
+    left: -4px;
   }
-  @keyframes replace-wire-full {
-    from {
-      left: 50%;
-    }
-    to {
-      left: calc(100% - 12px);
-    }
+  100% {
+    left: 0;
   }
-  @keyframes appearenceOp {
-    from {opacity: 0;}
-    to {opacity: .5;}
+}
+@keyframes post-comment {
+  0% {
+    top: -100px;
+    height: 1px;
+    opacity: 0;
   }
-  @keyframes fadeoutcom {
-    from {z-index: 20;}
-    to {z-index: -10;}
+  100% {
+    top: 0;
+    height: auto;
+    opacity: 1;
   }
-  @keyframes grow-htb {
-    0% {height: 0;}
-    80% {height: 120%}
-    100% {height: 100%;}
+}
+@keyframes fadein {
+  from {
+    opacity:0;
   }
-  @keyframes app-tr {
-    0% {
-      opacity: 0;
-      left: -40px;
-    }
-    90% {
-      opacity: 1;
-      left: 0;
-    }
-    100% {
-      opacity: .8;
-      left: 0;
-    }
+  to {
+    opacity:1;
   }
-  @keyframes off-right {
-    0% {
-      left: -4px;
-    }
-    100% {
-      left: 0;
-    }
+}
+@keyframes ellipsis {
+  to {
+    width: 1.25em;
   }
-  @keyframes grow-full {
-    0% {
-      width: 0;
-      height: 0;
-    }
-    30% {
-      width: 80%;
-      height: 80%;
-    }
-    100% {
-      width: 100%;
-      height: 100%;
-    }
+}
+@keyframes new-comment-hot {
+  0% {
+    background-color: transparent;
+    max-height: 0;
+    opacity: 0;
   }
-  @keyframes post-comment {
-    0% {
-      top: -100px;
-      height: 1px;
-      opacity: 0;
-    }
-    100% {
-      top: 0;
-      height: auto;
-      opacity: 1;
-    }
+  20% {
+    opacity: 1;
+    max-height: 300px;
   }
-  @keyframes fadein {
-    from {
-      opacity:0;
-    }
-    to {
-      opacity:1;
-    }
+  45% {
+    background-color: rgba(0, 121, 242, .16);
   }
-  @keyframes ellipsis {
-    to {
-      width: 1.25em;
-    }
+  75% {
+    background-color: rgba(0, 121, 242, .16);
   }
-  
-  @-webkit-keyframes ellipsis {
-    to {
-      width: 1.25em;
-    }
+  100% {
+    max-height: none;
+    background-color: transparent;
   }
-  @keyframes new-comment-hot {
-    0% {
-      background-color: transparent;
-      max-height: 0;
-      opacity: 0;
-    }
-    20% {
-      opacity: 1;
-      max-height: 300px;
-    }
-    45% {
-      background-color: rgba(0, 121, 242, .16);
-    }
-    75% {
-      background-color: rgba(0, 121, 242, .16);
-    }
-    100% {
-      max-height: none;
-      background-color: transparent;
-    }
+}
+@keyframes activity-item-hot {
+  from {
+    max-height: 0;
   }
-  @keyframes activity-item-hot {
-    from {
-      max-height: 0;
-    }
-    to {
-      max-height: 64px;
-    }
+  to {
+    max-height: 64px;
   }
-  
-  @keyframes activity-item-normal {
-    from {
-      background-color: $hot-bg-color;
-    }
-    to {
-      background-color: $color-white;
-    }
+}
+
+@keyframes activity-item-normal {
+  from {
+    background-color: $hot-bg-color;
   }
-  
-  @keyframes recent-activity-item-hot {
-    from {
-      max-height: 0;
-      background-color: $hot-bg-color;
-    }
-    to {
-      max-height: 512px;
-      background-color: $hot-bg-color;
-    }
+  to {
+    background-color: $color-white;
   }
-  
-  @keyframes recent-activity-item-normal {
-    from {
-      background-color: $hot-bg-color;
-    }
-    to {
-      background-color: $color-white;
-    }
+}
+
+@keyframes recent-activity-item-hot {
+  from {
+    max-height: 0;
+    background-color: $hot-bg-color;
   }
-  
-  // @keyframes spin {
-  //   0% { transform: rotate(0deg); }
-  //   100% { transform: rotate(360deg); }
-  // }
-  @keyframes down-slip {
-    0% { max-height: 0;}
-    100% { opacity: 1;
-      max-height: 2500px;}
+  to {
+    max-height: 512px;
+    background-color: $hot-bg-color;
   }
-  @keyframes remove-max-height {
-    0% { max-height: 0;}
-    90% { max-height: 500px;}
-    100% { max-height: none;}
+}
+
+@keyframes recent-activity-item-normal {
+  from {
+    background-color: $hot-bg-color;
   }
-  @keyframes remove-max-height-rev {
-    0% { max-height: none;}
-    10% { max-height: 500px;}
-    100% { max-height: 0;}
+  to {
+    background-color: $color-white;
   }
-  @keyframes more-recipient-badge {
-    0% {
-      transform: scale(.5,.5) translateY(1px);;
-    }
-    20% {
-      transform: scale(1,1) translateY(1px);;
-    }
-    100% {
-      transform: scale(1,1) translateY(1px);;
-    }
+}
+
+// @keyframes spin {
+//   0% { transform: rotate(0deg); }
+//   100% { transform: rotate(360deg); }
+// }
+@keyframes remove-max-height {
+  0% { max-height: 0;}
+  90% { max-height: 500px;}
+  100% { max-height: none;}
+}
+@keyframes remove-max-height-rev {
+  0% { max-height: none;}
+  10% { max-height: 500px;}
+  100% { max-height: 0;}
+}
+@keyframes more-recipient-badge {
+  0% {
+    transform: scale(.5,.5) translateY(1px);;
   }
-  @keyframes attachment-progress {
-    from {
-      -webkit-transform: translateX(0);
-    }
-    to { 
-      -webkit-transform: translateX(24px);
-    }
+  20% {
+    transform: scale(1,1) translateY(1px);;
   }
-  
-  @keyframes attachment-progress-rtl {
-    from {
-      -webkit-transform: translateX(0);
-    }
-    to { 
-      -webkit-transform: translateX(-24px);
-    }
+  100% {
+    transform: scale(1,1) translateY(1px);;
   }
-  
-  
-  @keyframes places-loading {
-    0% {
-      visibility: visible;
-      opacity: .92;
-    }
-    30% { 
-      opacity: .92;
-    }
-    80% { 
-      opacity: .92;
-    }
-    100% { 
-      opacity: 0.92;
-    }
+}
+@keyframes attachment-progress {
+  from {
+    -webkit-transform: translateX(0);
   }
-  
+  to { 
+    -webkit-transform: translateX(24px);
+  }
+}
+
+@keyframes attachment-progress-rtl {
+  from {
+    -webkit-transform: translateX(0);
+  }
+  to { 
+    -webkit-transform: translateX(-24px);
+  }
+}
+
+@keyframes places-loading {
+  0% {
+    visibility: visible;
+    opacity: .92;
+  }
+  30% { 
+    opacity: .92;
+  }
+  80% { 
+    opacity: .92;
+  }
+  100% { 
+    opacity: 0.92;
+  }
+}
