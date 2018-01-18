@@ -22,7 +22,7 @@ $color-grey-text: #808080;
 $color-hover-comment: #DAF2E4;
 $hot-bg-color: cornsilk;
 $color-cool-smoke: rgba(136,149,161,1);
-
+$color-white-revesable: $color-white;
 
 $color-sense: rgba(20, 215, 105, 1);
 $color-sense-wire: rgba(0, 180, 90, 1);
@@ -170,3 +170,8 @@ $color-aquamarine: rgba(108,217,217,1);
 
 // z-indexes
 $sidebar-zindex: 56;
+
+
+// theme vars
+$task-color-bg :$color-white;
+$sidebar-large-item-bg-color :$color-white;

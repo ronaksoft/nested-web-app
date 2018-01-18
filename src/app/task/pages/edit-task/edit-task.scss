@@ -4,7 +4,7 @@
     min-height: 480px;
     display: flex;
     position: relative;
-    background-color: $color-white;
+    background-color: $task-color-bg;
     box-shadow: 0 32px 64px $color-super-solid;
     border-radius: 6px;
     overflow: hidden;
@@ -23,7 +23,7 @@
             justify-content: flex-end;
             align-items: flex-end;
             height: 48px;
-            background-color: rgba(255,255,255,.8);
+            // background-color: rgba(255,255,255,.8);
             &.is-open {
                 width: 100%;
                 height: 100%;
@@ -96,6 +96,7 @@
                     transition: all $animation-dur ease-in-out;
                     z-index: 3;
                     opacity: 0;
+                    border-radius: 6px;
                     background-color: $color-solid;
                     margin-left: 0;
                     &:first-child {
@@ -116,7 +117,7 @@
                         }
                     }
                     svg {
-                        fill: $color-white;
+                        fill: $color-white-revesable;
                     }
                 }
             }

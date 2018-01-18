@@ -22,10 +22,10 @@ $color-grey-text: #808080;
 $color-hover-comment: #DAF2E4;
 $hot-bg-color: cornsilk;
 $color-cool-smoke: rgba(136,149,161,1);
+$color-white-revesable: #323D47;
 
-
-$color-sense: rgba(20, 215, 105, 1);
-$color-sense-wire: rgba(0, 180, 90, 1);
+$color-sense: rgba(0, 180, 90, 1);
+$color-sense-wire: rgba(20, 215, 105, 1);
 $color-sense-5: #f3fdf7;
 $color-sense-50: #83d8ad;
 $color-force: #ff3344;
@@ -75,7 +75,7 @@ $color-calm-solid: transparentize($color-solid, 1 - .04);
 $color-bg-hover-item: transparentize($color-solid, 1 - .12);
 $color-bg-active-item: $color-breeze-new;
 
-$color-modal-bg: transparentize($color-solid, 1 - .98);
+$color-modal-bg: rgba(50, 61, 71, .98);
 
 $color-attachment-drop-bg: rgba(20,20,20,.92);
 $color-attachment-shadow: rgba(20,20,20,.64);
@@ -170,3 +170,8 @@ $color-aquamarine: rgba(108,217,217,1);
 
 // z-indexes
 $sidebar-zindex: 56;
+
+
+// theme vars
+$task-color-bg: $color-bg-postcard;
+$sidebar-large-item-bg-color: $color-black
