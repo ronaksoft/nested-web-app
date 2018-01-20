@@ -9,6 +9,6 @@
       GENERAL_NEW_SETTING_PLACE_ORDER: 'general.new.setting.place-order',
       WEBAPP_SETTING_RECENT_EMOJI: 'webapp.setting.recent-emoji',
       WEBAPP_SETTING_DOCUMENT_PREVIEW: 'webapp.setting.document-preview', // open document with 3th services (google)
-      WEBAPP_SETTING_THEME_DARK_MOOD: 'webapp.setting.theme-dark-mood' // open document with 3th services (google)
+      WEBAPP_SETTING_THEME_NIGHT_MODE: 'webapp.setting.theme-night-mode'
     });
 })();
