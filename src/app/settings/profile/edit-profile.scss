@@ -2,7 +2,7 @@
   width: 256px;
   float: left;
   border-radius: 4px;
-  background-color: $task-color-bg;
+  background-color: $contrast-bg-color;
   border: 1px solid $color-breeze-light;
   margin-right: 24px;
   flex-direction: column;
@@ -55,7 +55,7 @@
   float: left;
   width: calc(100vw - 280px);
   text-decoration: none;
-  background-color: $task-color-bg;
+  background-color: $contrast-bg-color;
   border: 1px solid $color-breeze-light;
   border-radius: 4px;
   margin-top: 28px;

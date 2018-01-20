@@ -173,10 +173,11 @@ $sidebar-zindex: 56;
 
 
 // theme vars
-$task-color-bg: $color-bg-postcard;
+$contrast-bg-color: $color-bg-postcard;
 $sidebar-large-item-bg-color: $color-black;
 $box-shadow-color: rgba(0, 0, 0, 0.1);
 $box-shadow-color-bold: rgba(0, 0, 0, 0.1);
 $color-solid: $color-new-hurricane;
 $logo-holder-color: $color-bg-nested;
+$contrast-border-color: lighten($contrast-bg-color, 15%);
 $mini-player-bg-color: $color-pending-wire;
