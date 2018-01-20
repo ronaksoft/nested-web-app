@@ -5,7 +5,7 @@
 
 .popover.white-pop {
   border: none;
-  box-shadow: 0 0 16px $color-wind-new;
+  box-shadow: 0 0 16px lighten($box-shadow-color-bold, 50%);
   border-radius: 4px;
   padding: 0;
   .popover-content {

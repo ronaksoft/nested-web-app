@@ -160,7 +160,7 @@
     }
   }
   &:active {
-    background-color: color-bg-active-item;
+    background-color: $color-bg-active-item;
   }
   &.isSelected{
     background-color: $color-solid-24;
