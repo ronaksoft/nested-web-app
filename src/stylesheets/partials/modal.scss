@@ -744,7 +744,6 @@ body.modal-open-attachment-view.compose-modal {
     }
     h2 {
       flex: none;
-      color: $color-black;
       letter-spacing: -1px;
       line-height: 38px;
       font-size: 32px;
@@ -765,7 +764,7 @@ body.modal-open-attachment-view.compose-modal {
       width: 96px;
       height: 96px;
       border-radius: 9px;
-      box-shadow: 0 4px 16px $color-black16;
+      box-shadow: 0 4px 16px $box-shadow-color;
       overflow: hidden;
       img {
         width: 100%;
@@ -791,6 +790,7 @@ body.modal-open-attachment-view.compose-modal {
       padding: 6px;
       transition: all .2s;
       margin-bottom: 10px;
+      background-color: $contrast-bg-color-secondary !important;
     }
     aside{
       width: 100%;
