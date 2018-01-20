@@ -18,34 +18,30 @@
     function I18n() {
       var that = this;
 
-      this.selectedTheme = NstSvcViewStorage.get('nightMood') || false;
+      this.selectedTheme = NstSvcViewStorage.get('nightMode') || false;
 
 
     }
 
     I18n.prototype.getTheme = function () {
       var deferred = $q.defer();
-      NstSvcKeyFactory.get(NST_KEY.WEBAPP_SETTING_THEME_DARK_MOOD).then(deferred.resolve).catch(deferred.reject);
+      NstSvcKeyFactory.get(NST_KEY.WEBAPP_SETTING_THEME_NIGHT_MODE).then(deferred.resolve).catch(deferred.reject);
       return deferred.promise;
     };
 
     I18n.prototype.setTheme = function (val) {
       var deferred = $q.defer();
-      NstSvcViewStorage.set('nightMood', val);
-
-      NstSvcKeyFactory.set(NST_KEY.WEBAPP_SETTING_THEME_DARK_MOOD, '' + val).then(deferred.resolve);
-
+      NstSvcViewStorage.set('nightMode', val);
+      NstSvcKeyFactory.set(NST_KEY.WEBAPP_SETTING_THEME_NIGHT_MODE, '' + val).then(deferred.resolve);
       return deferred.promise;
-      
     };
 
     I18n.prototype.applyTheme = function () {
-      console.log('aapply');
-      this.getTheme().then(function(theme){
-        if ( theme.length > 0 && theme == "true") {
-          $('html').attr("theme", "dark");
+      this.getTheme().then(function (theme) {
+        if (theme.length > 0 && theme == "true") {
+          $('html').attr('theme', 'dark');
         } else {
-          $('html').attr("theme", "normal");
+          $('html').attr('theme', 'normal');
         }
       })
     };
