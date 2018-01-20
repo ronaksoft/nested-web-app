@@ -2,8 +2,8 @@
   width: 256px;
   float: left;
   border-radius: 4px;
-  background-color: $color-white;
-  border: 1px solid #E6E6E6;
+  background-color: $task-color-bg;
+  border: 1px solid $color-breeze-light;
   margin-right: 24px;
   flex-direction: column;
   flex: none;
@@ -55,8 +55,8 @@
   float: left;
   width: calc(100vw - 280px);
   text-decoration: none;
-  background-color: $color-white;
-  border: 1px solid #E6E6E6;
+  background-color: $task-color-bg;
+  border: 1px solid $color-breeze-light;
   border-radius: 4px;
   margin-top: 28px;
   padding: 0 16px;
@@ -71,6 +71,7 @@
       cursor: default;
       p {
         font-weight: 600;
+        color: $color-new-hurricane;
       }
       a.force {
         position: absolute;
@@ -134,11 +135,11 @@
   }
   label {
     font-weight: 400;
-    color: $color-storm;
     min-height: 12px;
     font-size: $font-size-small;
     line-height: 15px;
     margin-bottom: 8px;
+    color: $color-new-hurricane;
   }
   input,select {
     //margin: 12px 0;

@@ -35,15 +35,44 @@ $fa-font-path: "../../bower_components/font-awesome/fonts/";
   }
 }
 
-input,textarea  {
-  color: $color-white;
-  background-color: transparent;
-}
 /**
  *  Do not remove the comments below. It's the markers used by gulp-inject to inject
  *  all your sass files automatically
  */
 html[theme="dark"] {
+  input[type="text"],
+  input[type="password"],
+  input[type="number"],
+  textarea,
+  #compose-subject {
+    color: $color-comment !important;
+    background-color: transparent;
+  }
+  #compose-subject {
+    border: none !important;
+    &:focus,
+    &:active {
+      border: none !important;
+    }
+  }
+  select {
+    background: url("../assets/icons/inputform.svg") no-repeat 98% -124px, linear-gradient(to bottom, $sidebar-bg-color, $sidebar-bg-color 100%) !important;
+    &:hover {
+      background: none !important;
+    }
+  }
+  input[type="radio"] + label{
+    color: $color-new-hurricane;
+  }
+  .form-control {
+    background-color: $sidebar-bg-color !important;
+  }
+  .dropdown-menu {
+    background-color: $sidebar-bg-color !important;
+  }
+  ._16svg, ._24svg {
+    fill: $color-new-hurricane;
+  }
   // injector
   // endinjector
 }

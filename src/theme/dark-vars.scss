@@ -51,11 +51,11 @@ $color-calm: transparentize($color-bg-postcard, 1 - .8);
 $color-breeze: #DDDFE0;
 $color-breeze-50: #EEEFEF;
 $color-wind: rgba($color-solid, 0.4);
-$color-gale: rgba(0,0,0,.4);
+$color-gale: rgba(255,255,255,.4);
 $color-gale-original: #ACB0B4;
 $color-storm: transparentize($color-black, 1 - .48);
 $color-hurricane:  #6A727A;
-$color-breeze-light: #EEEFEF;
+$color-breeze-light: $color-super-solid;
 $color-border-pics: transparentize($color-black, 1 - .2);
 $color-black-24: transparentize($color-black, 1 - .24);
 
@@ -174,4 +174,8 @@ $sidebar-zindex: 56;
 
 // theme vars
 $task-color-bg: $color-bg-postcard;
-$sidebar-large-item-bg-color: $color-black
+$sidebar-large-item-bg-color: $color-black;
+$box-shadow-color: rgba(0, 0, 0, 0.1);
+$box-shadow-color-bold: rgba(0, 0, 0, 0.1);
+$color-solid: $color-new-hurricane;
+$logo-holder-color: $color-bg-nested;

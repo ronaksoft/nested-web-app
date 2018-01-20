@@ -12,7 +12,7 @@
         width: 472px;
         padding: 12px 4px 36px 16px;
         position: relative;
-        box-shadow: 0 0 16px $color-breeze-5-new;
+        box-shadow: 0 0 16px lighten($box-shadow-color, 50%);
         .task-binder {
             position: absolute;
             right: 0;
@@ -130,7 +130,7 @@
         width: 280px;
         max-height: 100%;
         overflow: hidden;
-        background-color: $color-breeze-light;
+        background-color: $color-bg-nested;
         border-radius: 0 6px 6px 0;
         .task-comments-inner {
             width: 280px;
@@ -160,6 +160,7 @@
                 font-weight: bold;
                 align-items: center;
                 display: flex;
+                color: $color-solid;
                 svg {
                     margin: 0 4px;
                     fill: $color-solid;

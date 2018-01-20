@@ -277,7 +277,7 @@ body.modal-open-attachment-view.compose-modal {
     #compose-box {
       position: relative;
       top: 150px;
-      background-color: $color-white;
+      background-color: $sidebar-bg-color;
       width: 632px;
       min-height: 480px;
       max-height: calc(100vh - 160px);
@@ -315,7 +315,7 @@ body.modal-open-attachment-view.compose-modal {
     max-height: calc(100vh - 160px);
     // height: 100%;
     position: relative;
-    box-shadow: 0 16px 32px $color-gale;
+    box-shadow: 0 16px 32px $box-shadow-color-bold;
     .fr-box.fr-basic .fr-element {
       min-height: 100px;
     }
@@ -351,7 +351,7 @@ body.modal-open-attachment-view.compose-modal {
     justify-content: flex-start;
     position: absolute;
     svg {
-      fill: $color-black-24;
+      //fill: $color-black-24;
       transition: fill $animation-dur;
       &:hover {
         fill: $color-black;
@@ -728,8 +728,8 @@ body.modal-open-attachment-view.compose-modal {
     overflow-y: auto;
     background-color: transparent;
     > div {
-      background-color: $color-white;
-      box-shadow: 0 0px 24px $color-solid;
+      background-color: $sidebar-bg-color;
+      box-shadow: 0 0 24px $box-shadow-color;
       max-width: 480px;
       min-height: 100vh;
       left: 50vw;
@@ -739,6 +739,7 @@ body.modal-open-attachment-view.compose-modal {
       width: 100%;
       display: flex;
       flex-direction: column;
+      color: $color-solid;
     }
     h2 {
       flex: none;
@@ -807,6 +808,7 @@ body.modal-open-attachment-view.compose-modal {
       margin: 10px 0 8px 0;
       border-bottom: 1px solid $color-black004;
       align-items: center;
+      color: $color-solid;
       input {
         box-shadow: none;
         border: none;

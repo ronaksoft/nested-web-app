@@ -1,3 +1,13 @@
+.ui-select-container {
+  input[type="text"] {
+    &:focus {
+      border-color: transparent !important;
+    }
+  }
+}
+input {
+  background-color: transparent;
+}
 input[type="text"],
 input[type="password"],
 input[type="number"] {

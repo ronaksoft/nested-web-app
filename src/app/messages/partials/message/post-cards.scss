@@ -143,7 +143,7 @@ post-card {
 }
 
 .post-card-shadow {
-  box-shadow: 0 5px 12px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 5px 12px 2px $box-shadow-color;
   width: 100%;
 }
 
@@ -425,7 +425,7 @@ post-card {
     flex-direction: row;
     align-items: center;
     padding: 0;
-    background-color: $color-breeze-light;
+    background-color: $sidebar-bg-color;
     .post-chain-status {
       width: 28px;
       height: 16px;

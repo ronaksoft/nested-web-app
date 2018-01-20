@@ -20,7 +20,6 @@
   .content-plus-inner > div {
     display: inline-flex;
     flex-direction: column;
-    background-color: $sidebar-bg-color;
     width: 100%;
     flex: none;
     margin-top: 16px;
@@ -31,6 +30,7 @@
     justify-content: space-between;
     border-radius: 3px;
     height: auto!important;
+    background-color: $sidebar-bg-color;
     //height: 100%;
     .recent-item:last-of-type {
       .activity-item .body {
@@ -156,6 +156,7 @@
     flex: none;
     //background-color: #fff;
     z-index: 4;
+    background-color: $sidebar-bg-color;
     .avatars.expanded{
       max-height: calc(100vh - 273px);
     }
@@ -189,7 +190,7 @@
           height: 16px;
           border-radius: 20px;
           border: 2px solid $color-solid;
-          background-color: $color-white;
+          background-color: $logo-holder-color;
           top: -4px;
           right: 0;
           svg {
