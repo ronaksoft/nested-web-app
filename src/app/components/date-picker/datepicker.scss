@@ -1,7 +1,6 @@
 $width: 191px;
 $header-h: 42px;
 $table-padding: 8px;
-$font-color: #384146;
 $default-color: $color-sense-wire;
 
 .ng-flat-datepicker-wrapper {
@@ -19,7 +18,7 @@ $default-color: $color-sense-wire;
     transform-origin: top;
     width: $width;
     position: absolute;
-    background-color: white;
+    background-color: $color-white-revesable;
     z-index: 3000;
     top: 40px;
     box-shadow: 1px 1px 7px 0px rgba(37, 53, 50, 0.37);
@@ -80,7 +79,7 @@ $default-color: $color-sense-wire;
                         line-height: 24px;
                         // padding-bottom: $table-padding;
                         border-bottom: 1px solid #d8d8d8;
-                        color: $font-color;
+                        color: $color-solid;
                         font-weight: bold;
                         font-size: 11px;
                     }
@@ -92,11 +91,11 @@ $default-color: $color-sense-wire;
                 td {
                     width:  ($width - (2 * $table-padding))/7;
                     text-align: center;
-                    background-color: white;
+                    background-color: $color-white-revesable;
                     font-size: 12px;
                     display: inline-block;
                     cursor: default;
-                    color: $font-color;
+                    color: $color-solid;
                     user-select: none;
                     &.day-item,
                     &.disabled {
@@ -105,9 +104,9 @@ $default-color: $color-sense-wire;
                         line-height: ($width - (2 * $table-padding))/7;
                         cursor: pointer;
                         border-radius: 3px;
-                        color: lighten($font-color, 35%);
+                        color: lighten($color-solid, 35%);
                         &.day {
-                            color: $font-color;
+                            color: $color-solid;
                         }
                         &.isToday {
                             color: #1b1b1b;
@@ -122,13 +121,13 @@ $default-color: $color-sense-wire;
                             }
                         }
                         &.isInMonth {
-                            color: $font-color;
+                            color: $color-solid;
                         }
                         &.isDisabled {
                             cursor: default;
-                            color: lighten($font-color, 65%);
+                            color: lighten($color-solid, 65%);
                             &:hover {
-                                color: lighten($font-color, 65%) !important;
+                                color: lighten($color-solid, 65%) !important;
                                 background-color: transparent;
                             }
                         }
@@ -294,7 +293,7 @@ $default-color: $color-sense-wire;
         z-index: 3;
         @include align-center();
         color: $color-sense-wire;
-        background-color: $color-white;
+        background-color: $color-white-revesable;
     }
 }
 

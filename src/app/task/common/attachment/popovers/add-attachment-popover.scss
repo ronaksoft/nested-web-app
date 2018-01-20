@@ -3,7 +3,7 @@
     padding: 0;
     width: 424px;
     height: 82px;
-    box-shadow: 0 24px 32px $color-solid-48;
+    box-shadow: 0 24px 32px transparentize($color-solid-irreversable, 1 - .48);;
     max-width: none;
     z-index: 2000;
     background-color: transparent;
@@ -22,7 +22,7 @@
     overflow: hidden;
     height: 82px;
     padding: 8px;
-    background-color: $color-solid;
+    background-color: $color-solid-irreversable;
     align-items: center;
     label {
         margin-bottom: 0;

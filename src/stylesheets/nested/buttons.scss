@@ -588,7 +588,7 @@ input[type="checkbox"].inpsw[disabled]:checked + label + label  {
   border-radius: 4px;
   margin: 3px 0 0;
   border: 1px solid $color-breeze-new;
-  background-color: $color-white;
+  background-color: $color-white-revesable;
   transition: all $animation-dur;
   @include align-center();
   svg {
