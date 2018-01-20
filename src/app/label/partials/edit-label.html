@@ -63,7 +63,7 @@
     </div>
     <p ng-if="ctrl.holderType == 'all'" class="holders-all-msg">All users on your company can use this label.</p>
     <div class="modal-footer">
-      <input type="button" ng-click="$dismiss()"  value="Discard" class="butn butn-white secondary">
-      <input type="button" ng-disabled="ctrl.isNotValid()" ng-click="ctrl.editLabel()" value="Apply" class="butn butn-green">
+      <input type="button" ng-click="$dismiss()" translate-attrs='value' value="Discard" class="butn butn-white secondary">
+      <input type="button" ng-disabled="ctrl.isNotValid()" translate-attrs='value' ng-click="ctrl.editLabel()" value="Apply" class="butn butn-green">
     </div>
 </div>
