@@ -2,7 +2,7 @@
   display: block;
   flex-direction: column;
   width: 100%;
-  background-color: $color-white;
+  background-color: $contrast-bg-color;
   border-radius: 4px;
   &.popover-wrapper {
     max-height: 476px;
@@ -120,6 +120,7 @@
   list-style: none;
   flex: 1;
   transition: height $animation-dur;
+  color: $color-new-hurricane;
   .notif-ul-loading {
     padding-bottom: 24px;
   }

@@ -434,11 +434,11 @@ body.modal-open-attachment-view.compose-modal {
   .modal-content {
     position: relative;
     top: 32px;
-    background-color: $color-white;
+    background-color: $contrast-bg-color;
     width: 480px;
     min-height: 120px;
     padding-top: 34px;
-    box-shadow: 0 32px 64px $color-solid;
+    box-shadow: 0 32px 64px $box-shadow-color-bold;
     // overflow: hidden;
     border-radius: 6px 6px 0 0;
     .ui-select-multiple.ui-select-bootstrap input.ui-select-search ,
