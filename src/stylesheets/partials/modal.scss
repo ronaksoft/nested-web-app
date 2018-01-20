@@ -127,13 +127,14 @@ body.modal-open-attachment-view {
 }
 
 .mini-modal {
-  border: 1px solid $color-breeze;
+  border: 1px solid $contrast-border-color;
   border-radius: 6px;
-  background-color: $color-white;
+  background-color: $contrast-bg-color;
   padding: 24px;
   width: 510px;
   max-width: 100%;
   height: auto;
+  color: $color-new-hurricane;
   @include user-select(none);
   .butn-white {
     width: 125px;

@@ -57,7 +57,7 @@ $color-breeze-50: #EEEFEF;
 $color-wind: rgba($color-solid, 0.4);
 $color-gale: rgba(255,255,255,.4);
 $color-gale-original: #ACB0B4;
-$color-storm: transparentize($color-black, 1 - .48);
+$color-storm: transparentize($color-solid, 1 - .48);
 $color-hurricane:  #6A727A;
 $color-breeze-light: $color-super-solid;
 $color-border-pics: transparentize($color-black, 1 - .2);
