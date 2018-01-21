@@ -74,8 +74,8 @@ post-card {
         position: absolute;
         width: 1px;
         height: 24px;
-        opacity: .98;
-        background-color: $color-modal-bg;
+        // opacity: .98;
+        background-color: $color-solid-irreversable;
       }
       > * {
         direction: ltr;
