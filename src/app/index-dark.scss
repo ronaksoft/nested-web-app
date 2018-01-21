@@ -73,6 +73,12 @@ html[theme="dark"] {
   ._16svg, ._24svg, ._32svg {
     fill: $color-new-hurricane;
   }
+  .post-body .external-mail-bg-white {
+    background-color: $color-white;
+    div {
+      color: $color-solid-irreversable;
+    }
+  }
   // injector
   // endinjector
 }
