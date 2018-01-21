@@ -56,9 +56,9 @@ html[theme="dark"] {
     }
   }
   select {
-    background: url("../assets/icons/inputform.svg") no-repeat 98% -124px, linear-gradient(to bottom, $sidebar-bg-color, $sidebar-bg-color 100%) !important;
+    // background: url("../assets/icons/inputform.svg") no-repeat 98% -124px, linear-gradient(to bottom, $sidebar-bg-color, $sidebar-bg-color 100%) !important;
     &:hover {
-      background: none !important;
+      // background: none !important;
     }
   }
   input[type="radio"] + label{
