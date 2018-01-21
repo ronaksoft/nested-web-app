@@ -111,6 +111,9 @@
     max-width: 352px;
     margin-left: auto;
     margin-right: auto;
+    input[type="password"] {
+      background-color: $color-bg-nested !important;
+    }
     .field {
       border-bottom: 1px solid $color-black008;
       font-size: 18px;

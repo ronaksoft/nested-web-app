@@ -1,6 +1,7 @@
 .atwho-view {
   border: none;
-  box-shadow: 0 8px 16px $color-wind-new;
+  box-shadow: 0 8px 16px $box-shadow-color;
+  background: $contrast-bg-color !important;
   .cur {
     background: $color-breeze;
     color: $color-solid ;

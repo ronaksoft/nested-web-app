@@ -6,7 +6,7 @@
       ready-to-anime="true"></nst-navbar>
     <div class="filter-bar">
       <div class="filter-bar-inner" affixer-filter top="96">
-        <div class="toolbar ng-class:{'selcted-mode' : ctlFiles.selectedFiles.length > 0,'unread-mode' : !(ctlFiles.selectedFileType.label === 'all' || ctlFiles.selectedFileType.label === 'همه موارد')}"
+        <div class="toolbar ng-class:{'selected-mode' : ctlFiles.selectedFiles.length > 0,'unread-mode' : !(ctlFiles.selectedFileType.label === 'all' || ctlFiles.selectedFileType.label === 'همه موارد')}"
           ng-mouseleave="showFilters = false;">
           <div class="search-files" ng-show="ctlFiles.selectedFiles.length == 0">
             <input type="text" placeholder="Search in files" ng-model="ctlFiles.keyword" ng-change="ctlFiles.search(ctlFiles.keyword);"

@@ -38,7 +38,7 @@
       });
 
       NstViewService.getTheme().then(function (v) {
-        vm.nightMode = (v == 'true');
+        vm.nightMode = (v === 'yes');
       });
     })();
 

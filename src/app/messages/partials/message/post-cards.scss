@@ -277,6 +277,9 @@ post-card {
       fill: $color-border;
       &.pinned {
         fill: $color-force;
+        svg {
+          fill: $color-force;
+        }
       }
     }
   }
@@ -305,7 +308,6 @@ post-card {
       -webkit-transform-origin-y: 0px;
       margin-left: 0;
       transform-origin: 0 0;
-      width: 100%;
       //max-width: 100%;
       a {
         color: $color-sense-wire;

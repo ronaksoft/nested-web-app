@@ -1129,6 +1129,9 @@ body[dir="rtl"] {
       border-radius: 0 4px 4px 0;
     }
   }
+  .file-list ul li.checked .checkbox div {
+    border-width: 0;
+  }
 }
 
 body[dir="ltr"] {

@@ -421,9 +421,9 @@ nst-attachments-preview-bar {
 .download-img {
   width: 48px;
   height: 28px;
-  background-color: $color-white;
+  background-color: $contrast-bg-color;
   border-radius: 2px;
-  box-shadow: 0 2px 4px $color-gale;
+  box-shadow: 0 2px 4px $box-shadow-color;
   display: flex;
   position: absolute;
   align-items: center;
