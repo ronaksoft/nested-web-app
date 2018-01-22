@@ -18,7 +18,7 @@
     </div>
 
     <input id="uid" aria-invalid="false" class="form-control" name="nested_username" type="text" ng-model="ctrl.username" tabindex="1" placeholder="john-doe" translate-attrs="placeholder" ng-change="ctrl.validateUsername(ctrl.username, registrationForm.nested_username.$touched);"
-        ng-blur="ctrl.validateUsername(ctrl.username, !registrationForm.nested_username.$touched);" required autofocus autocomplete="off" maxlength="64" ng-model-options='{ debounce: 512 }' />
+        ng-blur="ctrl.validateUsername(ctrl.username, !registrationForm.nested_username.$touched);" required focus-me="true" autocomplete="off" maxlength="64" ng-model-options='{ debounce: 512 }' />
 
     <ul ng-if="!registrationForm.nested_username.$error.required && ctrl.usernameErrors.length > 0" class="use-ng-animate username-errors-list nst-mood-lively">
       <li ng-repeat="error in ctrl.usernameErrors" ng-bind-html="error"></li>
