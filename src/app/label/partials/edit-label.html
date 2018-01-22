@@ -13,19 +13,13 @@
             </svg>
         </div>
     </h4>
-    <Label>Label Name</Label>
+    <Label><translate>Label Name</translate></Label>
     <input ng-model="ctrl.title" type="text">
-    <Label>Label Color</Label>
+    <Label><translate>Label Color</translate></Label>
     <!--<input type="text" class="label-color">-->
     <div class="_pr _fw label-color marginbtm">
         <select name="lang" ng-model="ctrl.code">
-            <option selected value="A">- Default -</option>
-            <option value="B">Green</option>
-            <option value="C">Yellow</option>
-            <option value="D">Red</option>
-            <option value="E">Purple</option>
-            <option value="F">Blue</option>
-            <option value="G">Aquamarine</option>
+            <option ng-repeat="color in ctrl.labelColors" value="{{color.code}}">{{color.label}}</option>
         </select>
         <svg class="_16svg mirror _fn color-lbl-{{ctrl.code}}">
             <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
@@ -61,7 +55,7 @@
             </li>
         </ul>
     </div>
-    <p ng-if="ctrl.holderType == 'all'" class="holders-all-msg">All users on your company can use this label.</p>
+    <p ng-if="ctrl.holderType == 'all'" class="holders-all-msg" translate-inner>All users on your company can use this label.</p>
     <div class="modal-footer">
       <input type="button" ng-click="$dismiss()" translate-attrs='value' value="Discard" class="butn butn-white secondary">
       <input type="button" ng-disabled="ctrl.isNotValid()" translate-attrs='value' ng-click="ctrl.editLabel()" value="Apply" class="butn butn-green">
