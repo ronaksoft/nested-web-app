@@ -120,6 +120,9 @@
       return vm.recording;
     }, function (newVal) {
       timerHandler(newVal);
+      if (vm.isRecording !== undefined) {
+        vm.isRecording = newVal;
+      }
     });
 
     $scope.$on('$destroy', function () {
