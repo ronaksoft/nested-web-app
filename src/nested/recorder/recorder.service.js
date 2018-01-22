@@ -22,6 +22,9 @@
     var bufferLength;
     var dataArray;
     var recording = false;
+    var isResetting = false;
+
+    var reset = _.debounce(resetDebounce, 100);
 
     function blobToFile(blob, fileName) {
       return new File([blob], fileName, {type: 'audio/webm', lastModified: Date.now(), duration: 10000000});
@@ -101,6 +104,10 @@
         localStream.stop();
         clearInterval(interval);
         recording = false;
+        if (isResetting) {
+          isResetting = false;
+          return;
+        }
         var fileName = 'VOC_' + (new Date().getTime()) + '.ogg';
         var file = blobToFile(blob, fileName);
         _.forEach(service.voiceReadyRef, function (item) {
@@ -133,6 +140,7 @@
     Recorder.prototype.volumeChanged = volumeChanged;
     Recorder.prototype.voiceReadyRef = [];
     Recorder.prototype.voiceReady = voiceReady;
+    Recorder.prototype.reset = reset;
 
     var service = new Recorder();
     return service;
@@ -194,6 +202,13 @@
           var tempId = id;
           unbindFn(fnRef, tempId);
         };
+      }
+    }
+
+    function resetDebounce() {
+      if (recording) {
+        isResetting = true;
+        mediaRecorder.stop();
       }
     }
 
