@@ -106,13 +106,14 @@
   <section ng-if="(!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
     <div class="_bggray nst-mood-lively _fw" ng-if="!ctlPostCard.post.isTrusted && ctlPostCard.isExpanded">
       <translate>This post contains blocked images.</translate>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       <a class="nst-mood-hurricane" ng-click="ctlPostCard.showTrustedBody(); _track('post card','show trusted body');">
         <translate>Show Images</translate>
       </a>
-      &nbsp;
+      </br>
       <a class="nst-mood-hurricane" ng-click="ctlPostCard.alwaysTrust(); _track('post card','always trust');">
         <translate>Always trust the sender</translate>
-      </a>
+      </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       <a class="nst-mood-hurricane" ng-click="ctlPostCard.alwaysTrust(true); _track('post card','always trust');">
         <translate>Always trust this Domain</translate>
       </a>

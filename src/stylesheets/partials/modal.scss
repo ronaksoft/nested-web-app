@@ -800,7 +800,7 @@ body.modal-open-attachment-view.compose-modal {
     button.submit {
       width: 100% !important;
     }
-    input {
+    input:not(.butn) {
       width: 100%;
       min-height: 28px;
       /*color: $color-solid;*/
