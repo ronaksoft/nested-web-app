@@ -61,6 +61,11 @@ html[theme="dark"] {
       // background: none !important;
     }
   }
+  body[dir="rtl"] {
+    select {
+      background: url("../assets/icons/inputform.svg") no-repeat -2% -124px, linear-gradient(to bottom, $sidebar-bg-color, $sidebar-bg-color 100%) !important;
+    }
+  }
   input[type="radio"] + label{
     color: $color-new-hurricane;
   }
@@ -78,6 +83,9 @@ html[theme="dark"] {
     div {
       color: $color-solid-irreversable;
     }
+  }
+  .post-card, .post-card-shadow {
+    box-shadow: 0 8px 16px $box-shadow-color !important;
   }
   // injector
   // endinjector
