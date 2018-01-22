@@ -572,7 +572,7 @@
     function loadConfigFromRemote(domainName, planB) {
       NST_CONFIG.DOMAIN = domainName;
       var ajax;
-      if (!planB) {
+      if (planB) {
         ajax = new NstHttp(location.protocol + "//" + location.host + '/getConfig/' + domainName);
       } else {
         ajax = new NstHttp('https://npc.nested.me/dns/discover/' + domainName);
