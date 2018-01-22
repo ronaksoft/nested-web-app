@@ -100,6 +100,7 @@
     }
 
     $scope.$on('$destroy', function () {
+      SvcRecorder.reset();
       _.forEach(eventReferences, function (canceler) {
         if (_.isFunction(canceler)) {
           canceler();
