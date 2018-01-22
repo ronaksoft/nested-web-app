@@ -221,11 +221,23 @@
           server.domain = domainName || NST_CONFIG.DOMAIN;
 
           server.init(NST_CONFIG.WEBSOCKET.URL);
-
         })
         .catch(function () {
-          server.revertConfigs();
-          server.init();
+          loadConfigFromRemote(domainName ? domainName : NST_CONFIG.DOMAIN, true)
+            .then(function (remoteConfig) {
+              var configs = parseConfigFromRemote(remoteConfig);
+
+              NST_CONFIG.WEBSOCKET.URL = configs.websocket;
+              NST_CONFIG.REGISTER.URL = configs.register;
+              NST_CONFIG.STORE.URL = configs.store;
+
+              server.domain = domainName || NST_CONFIG.DOMAIN;
+
+              server.init(NST_CONFIG.WEBSOCKET.URL);
+            }).catch(function () {
+            server.revertConfigs();
+            server.init();
+          });
         });
 
     }
@@ -261,22 +273,40 @@
             } else {
               server.init(NST_CONFIG.WEBSOCKET.URL);
               server.domain = domainName;
-              var checkReady = setInterval(function () {
+              setTimeout(function () {
                 localStorage.setItem(NST_SERVER_DOMAIN, domain ? domain : NST_CONFIG.DOMAIN);
-                clearInterval(checkReady);
                 deferred.resolve();
               }, 500);
             }
           }
         )
         .catch(function () {
-          server.init(server.defaultConfigs.WEBSOCKET_URL);
-          server.domain = domainName;
-          var checkReady = setInterval(function () {
-            localStorage.setItem(NST_SERVER_DOMAIN, domain ? domain : NST_CONFIG.DOMAIN);
-            clearInterval(checkReady);
-            deferred.resolve();
-          }, 500);
+          loadConfigFromRemote(domainName, true)
+            .then(function (remoteConfig) {
+              var configs = parseConfigFromRemote(remoteConfig);
+
+              NST_CONFIG.WEBSOCKET.URL = configs.websocket;
+              NST_CONFIG.REGISTER.URL = configs.register;
+              NST_CONFIG.STORE.URL = configs.store;
+
+              if (domainName === server.domain) {
+                deferred.resolve();
+              } else {
+                server.init(NST_CONFIG.WEBSOCKET.URL);
+                server.domain = domainName;
+                setTimeout(function () {
+                  localStorage.setItem(NST_SERVER_DOMAIN, domain ? domain : NST_CONFIG.DOMAIN);
+                  deferred.resolve();
+                }, 500);
+              }
+            }).catch(function () {
+              server.init(server.defaultConfigs.WEBSOCKET_URL);
+              server.domain = domainName;
+              setTimeout(function () {
+                localStorage.setItem(NST_SERVER_DOMAIN, domain ? domain : NST_CONFIG.DOMAIN);
+                deferred.resolve();
+              }, 500);
+          });
         });
 
       return deferred.promise;
@@ -539,10 +569,14 @@
       NST_CONFIG.DOMAIN = this.defaultConfigs.DOMAIN;
     };
 
-    function loadConfigFromRemote(domainName) {
+    function loadConfigFromRemote(domainName, planB) {
       NST_CONFIG.DOMAIN = domainName;
-      // var ajax = new NstHttp(location.protocol + "//" + location.host + '/getConfig/' + domainName);
-      var ajax = new NstHttp('https://npc.nested.me/dns/discover/' + domainName);
+      var ajax;
+      if (!planB) {
+        ajax = new NstHttp(location.protocol + "//" + location.host + '/getConfig/' + domainName);
+      } else {
+        ajax = new NstHttp('https://npc.nested.me/dns/discover/' + domainName);
+      }
       // var ajax = new NstHttp('https://npc.nested.me/dns/discover/nested.me');
       return ajax.get();
     }
