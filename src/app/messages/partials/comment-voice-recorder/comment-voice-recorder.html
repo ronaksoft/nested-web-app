@@ -12,3 +12,7 @@
     <div class="nst-loading sm"></div>
   </div>
 </div>
+<div class="comment-voice-timer" ng-if="ctrlRecorder.recording || ctrlRecorder.recorded">
+  <div class="comment-voice-blinker" ng-class="{'recording': ctrlRecorder.recording}"></div>
+  <div class="comment-voice-timer-text">{{ctrlRecorder.timerCounter | durationToTime | localize}}</div>
+</div>

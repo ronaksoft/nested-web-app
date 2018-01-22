@@ -26,6 +26,7 @@
     vm.stop = stop;
     vm.getEqo = getEqo;
     vm.eqo = 0;
+    vm.timerCounter = 0;
 
     var eqoSetting = {
       min: 18,
@@ -62,6 +63,10 @@
         request.finished().then(function (response) {
           vm.sendHandler(response.data.universal_id);
           vm.recorded = false;
+          vm.timerCounter = 0;
+        }).catch(function () {
+          vm.recorded = false;
+          vm.timerCounter = 0;
         });
       }));
     }
@@ -98,6 +103,24 @@
       var radius = (eqo / 100) * (eqoSetting.max - eqoSetting.min) + eqoSetting.min;
       return 'height:' + radius + 'px;width:' + radius + 'px';
     }
+
+    var timerInterval;
+
+    function timerHandler(recording) {
+      $interval.cancel(timerInterval);
+      if (recording === true && vm.timerCounter === 0) {
+        vm.timerCounter = 0;
+        timerInterval = $interval(function () {
+          vm.timerCounter++;
+        }, 1000);
+      }
+    }
+
+    $scope.$watch(function () {
+      return vm.recording;
+    }, function (newVal) {
+      timerHandler(newVal);
+    });
 
     $scope.$on('$destroy', function () {
       _.forEach(eventReferences, function (canceler) {
