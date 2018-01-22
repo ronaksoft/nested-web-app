@@ -803,6 +803,11 @@ post-card {
 .post-card-comment-input {
   align-items: center;
   padding-right: 6px;
+  &.hide-emoji {
+    .wdt-emoji-picker {
+      display: none;
+    }
+  }
   textarea {
     margin: 8px 0;
     min-height: 32px;

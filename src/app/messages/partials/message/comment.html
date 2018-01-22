@@ -33,13 +33,13 @@
     </div>
   </div>
 </div>
-<div class="post-card-comment-input _df">
+<div class="post-card-comment-input _df" ng-class="{'hide-emoji': ctrl.isRecording}">
   <div class="user-avatar-24" user-detail="ctrl.user.id">
     <img initial-avatar="{{ctrl.user.id}}" name="{{ctrl.user.fullName}}" picture="{{ctrl.user | avatar}}"
       data-width="24" data-height="24" data-radius="13" class="account-initials-24 _df" data-word-count="2" data-font-size="8"/>
   </div>
-  <!--<nst-voice-comment-recorder send-handler="ctrl.sendVoiceComment"></nst-voice-comment-recorder>-->
+  <nst-voice-comment-recorder send-handler="ctrl.sendVoiceComment" is-recording="ctrl.isRecording" ng-show="!ctrl.post.newComment || ctrl.post.newComment.length === 0"></nst-voice-comment-recorder>
   <textarea type="text" nst-mention post-id="{{ctrl.postId}}" data-ng-model="ctrl.post.newComment"  auto-dir="ctrl.post.newComment"
          class="_fw wdt-emoji-bundle-enabled" placeholder="write your comment..." ng-keydown="ctrl.sendComment($event)"
-         ng-disabled="ctrl.isSendingComment" max-length="1024"  translate-attrs="placeholder" emoji-init='.wdt-emoji-bundle-enabled'/>
+         ng-disabled="ctrl.isSendingComment || ctrl.isRecording" max-length="1024"  translate-attrs="placeholder" emoji-init='.wdt-emoji-bundle-enabled'/>
 </div>
