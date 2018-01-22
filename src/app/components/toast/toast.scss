@@ -52,7 +52,7 @@
     .toast-message,
     .toast-close-button,
     .undo-butn {
-      color: $color-solid;
+      color: $color-solid-irreversable;
     }
   }
 }
@@ -60,7 +60,7 @@
 .toast-message {
   font-size: 13px;
   line-height: 20px;
-  color: $color-white;
+  color: $color-white-revesable;
   white-space: nowrap;
 }
 

@@ -126,7 +126,7 @@
   }
 }
 
-@keyframes recent-activity-item-hot {
+@keyframes recent-activity-item-hot-light {
   from {
     max-height: 0;
     background-color: $hot-bg-color;
@@ -136,6 +136,16 @@
     background-color: $hot-bg-color;
   }
 }
+@keyframes recent-activity-item-hot-dark {
+  from {
+    max-height: 0;
+    background-color: $hot-bg-color-dark;
+  }
+  to {
+    max-height: 512px;
+    background-color: $hot-bg-color-dark;
+  }
+}
 
 @keyframes recent-activity-item-normal {
   from {
@@ -143,6 +153,15 @@
   }
   to {
     background-color: $color-white;
+  }
+}
+
+@keyframes recent-activity-item-normal-dark {
+  from {
+    background-color: $hot-bg-color-dark;
+  }
+  to {
+    background-color: $color-white-revesable-super;
   }
 }
 

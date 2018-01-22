@@ -89,4 +89,11 @@ html[theme="dark"] {
   }
   // injector
   // endinjector
+  .activity-recent {
+    .recent-container {
+      .recent-item.hot.ng-enter {
+        animation: recent-activity-item-hot-dark 0.75s ease-in forwards, recent-activity-item-normal-dark 0.75s 4s ease-out forwards;
+      }
+    }
+  }
 }
