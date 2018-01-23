@@ -35,11 +35,11 @@
             var tonight = moment(current).startOf('day').add(1, 'days');
             var lastNight = moment(current).startOf('day');
             if (date.isSameOrBefore(lastNight)) {
-              return date.format(NstSvcTranslation.get('Yesterday'))
+              return date.format(NstSvcTranslation.get('[Yesterday at] HH:mm'))
             } else if (date.isSameOrBefore(tonight)){
               return date.format(NstSvcTranslation.get('[Today at] HH:mm'))
             } else {
-              return date.format(NstSvcTranslation.get('Tomorrow'))
+              return date.format(NstSvcTranslation.get('[Tomorrow at] HH:mm'))
             }
           } else if(diffDateMin > 0) {
             return NstUtility.string.format(NstSvcTranslation.get('{0} ' + (diffDateMin > 1 ? 'minutes' : 'minute') + str), diffDateMin);
