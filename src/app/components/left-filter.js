@@ -29,17 +29,17 @@
               diffDateHour = Math.floor(diffDate / (1000 * 60 * 60)),
               diffDateMin = Math.floor(diffDate / (1000 * 60));
 
-          if(diffDateDay > 0) {
+          if(diffDateDay > 1 || diffDateDay === 1 && haveTime) {
             return NstUtility.string.format(NstSvcTranslation.get('{0} ' + (diffDateDay > 1 ? 'days' : 'day') + str), diffDateDay);
           } else if(diffDateHour > 0) {
             var tonight = moment(current).startOf('day').add(1, 'days');
             var lastNight = moment(current).startOf('day');
             if (date.isSameOrBefore(lastNight)) {
-              return date.format(NstSvcTranslation.get(haveTime ? '[Yesterday at] HH:mm' : 'Yesterday'))
+              return date.format(NstSvcTranslation.get(haveTime ? '[Yesterday at] HH:mm' : '[Yesterday]'))
             } else if (date.isSameOrBefore(tonight)){
-              return date.format(NstSvcTranslation.get(haveTime ? '[Today at] HH:mm' : 'Today'))
+              return date.format(NstSvcTranslation.get(haveTime ? '[Today at] HH:mm' : '[Today]'))
             } else {
-              return date.format(NstSvcTranslation.get(haveTime? '[Tomorrow at] HH:mm': 'Tomorrow'))
+              return date.format(NstSvcTranslation.get(haveTime? '[Tomorrow at] HH:mm': '[Tomorrow]'))
             }
           } else if(diffDateMin > 0) {
             return NstUtility.string.format(NstSvcTranslation.get('{0} ' + (diffDateMin > 1 ? 'minutes' : 'minute') + str), diffDateMin);
