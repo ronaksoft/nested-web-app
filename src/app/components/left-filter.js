@@ -32,7 +32,12 @@
           if(diffDateDay > 0) {
             return NstUtility.string.format(NstSvcTranslation.get('{0} ' + (diffDateDay > 1 ? 'days' : 'day') + str), diffDateDay);
           } else if(diffDateHour > 0) {
-            return NstUtility.string.format(NstSvcTranslation.get('{0} ' + (diffDateHour > 1 ? 'hours' : 'hour') + str), diffDateHour);
+            var tonight = moment(current).startOf('day').add(1, 'days');
+            if (date.isSameOrBefore(tonight)) {
+              return NstUtility.string.format(NstSvcTranslation.get('{0} ' + (diffDateHour > 1 ? 'hours' : 'hour') + str), diffDateHour);
+            } else {
+              return date.format(NstSvcTranslation.get('[Tomorrow at] HH:mm'))
+            }
           } else if(diffDateMin > 0) {
             return NstUtility.string.format(NstSvcTranslation.get('{0} ' + (diffDateMin > 1 ? 'minutes' : 'minute') + str), diffDateMin);
           } else {
