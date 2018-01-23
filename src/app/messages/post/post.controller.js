@@ -6,9 +6,10 @@
     .controller('PostController', PostController);
 
   /** @ngInject */
-  function PostController($q, $scope, $rootScope, $stateParams, $uibModalInstance, $interval,
+  function PostController($q, $scope, $rootScope, $stateParams, $uibModalInstance, $interval, SvcRecorder,
                           _, toastr, NstSvcPostFactory, NstUtility, NstSvcLogger, NstSvcPostInteraction, NstSvcTranslation, NstSvcSync,
                           selectedPostId) {
+    SvcRecorder.stop(true);
     var vm = this;
     var defaultLimit = 8;
     var eventReferences = [];
