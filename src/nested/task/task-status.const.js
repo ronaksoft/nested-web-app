@@ -25,6 +25,7 @@
 
       STATE_COMPLETE: 'complete',
       STATE_HOLD: 'hold',
-      STATE_IN_PROGRESS: 'in_progress'
+      STATE_IN_PROGRESS: 'in_progress',
+      STATE_FAILED: 'failed'
     });
 })();

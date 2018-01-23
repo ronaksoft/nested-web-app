@@ -248,6 +248,7 @@
           statusFilter.push(NST_TASK_STATUS.ASSIGNED);
           statusFilter.push(NST_TASK_STATUS.HOLD);
           statusFilter.push(NST_TASK_STATUS.OVERDUE);
+          statusFilter.push(NST_TASK_STATUS.FAILED);
         }
         promise = NstSvcTaskFactory.getByFilter({
           filter: NST_TASK_STATUS.ASSIGNED_TO_ME,
@@ -265,6 +266,7 @@
           statusFilter.push(NST_TASK_STATUS.REJECTED);
           statusFilter.push(NST_TASK_STATUS.HOLD);
           statusFilter.push(NST_TASK_STATUS.OVERDUE);
+          statusFilter.push(NST_TASK_STATUS.FAILED);
         }
         promise = NstSvcTaskFactory.getByFilter({
           filter: NST_TASK_STATUS.CREATED_BY_ME,
@@ -282,6 +284,7 @@
           statusFilter.push(NST_TASK_STATUS.REJECTED);
           statusFilter.push(NST_TASK_STATUS.HOLD);
           statusFilter.push(NST_TASK_STATUS.OVERDUE);
+          statusFilter.push(NST_TASK_STATUS.FAILED);
         }
         promise = NstSvcTaskFactory.getByFilter({
           filter: NST_TASK_STATUS.WATCHED,
