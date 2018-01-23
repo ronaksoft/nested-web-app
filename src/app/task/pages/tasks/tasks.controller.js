@@ -229,9 +229,9 @@
     function getTasks() {
       vm.loading = true;
       var promise;
-      var isCompelted = false;
+      var isCompleted = false;
       if ($state.params && $state.params.filter === 'completed') {
-        isCompelted = true;
+        isCompleted = true;
       }
       var statusFilter = [];
       if (vm.isGlancePage) {
@@ -242,7 +242,7 @@
           limit: vm.taskSetting.limit
         }, importCachedTasks);
       } else if (vm.isAssignedToMePage) {
-        if (isCompelted) {
+        if (isCompleted) {
           statusFilter.push(NST_TASK_STATUS.COMPLETED);
         } else {
           statusFilter.push(NST_TASK_STATUS.ASSIGNED);
@@ -257,7 +257,7 @@
           limit: vm.taskSetting.limit
         }, importCachedTasks);
       } else if (vm.isCreatedByMePage) {
-        if (isCompelted) {
+        if (isCompleted) {
           statusFilter.push(NST_TASK_STATUS.COMPLETED);
         } else {
           statusFilter.push(NST_TASK_STATUS.NO_ASSIGNED);
@@ -275,7 +275,7 @@
           limit: vm.taskSetting.limit
         }, importCachedTasks);
       } else if (vm.isWatchlistPage) {
-        if (isCompelted) {
+        if (isCompleted) {
           statusFilter.push(NST_TASK_STATUS.COMPLETED);
         } else {
           statusFilter.push(NST_TASK_STATUS.NO_ASSIGNED);
