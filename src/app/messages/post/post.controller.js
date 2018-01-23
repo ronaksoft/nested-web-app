@@ -62,7 +62,6 @@
         if(indexOfPost > -1) {
           vm.messages[indexOfPost].hide = false;
           vm.extendedId = data.postId;
-          console.log('pushToChainStack');
           pushToChainStack(data.postId);
         } else {
           load(data.postId);
