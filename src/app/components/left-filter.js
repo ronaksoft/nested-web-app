@@ -33,8 +33,11 @@
             return NstUtility.string.format(NstSvcTranslation.get('{0} ' + (diffDateDay > 1 ? 'days' : 'day') + str), diffDateDay);
           } else if(diffDateHour > 0) {
             var tonight = moment(current).startOf('day').add(1, 'days');
-            if (date.isSameOrBefore(tonight)) {
-              return NstUtility.string.format(NstSvcTranslation.get('{0} ' + (diffDateHour > 1 ? 'hours' : 'hour') + str), diffDateHour);
+            var lastNight = moment(current).startOf('day');
+            if (date.isSameOrBefore(lastNight)) {
+              return date.format(NstSvcTranslation.get('[Yesterday at] HH:mm'))
+            } else if (date.isSameOrBefore(tonight)){
+              return date.format(NstSvcTranslation.get('[Today at] HH:mm'))
             } else {
               return date.format(NstSvcTranslation.get('[Tomorrow at] HH:mm'))
             }
