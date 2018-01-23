@@ -12,7 +12,8 @@
       CANCELED: 'canceled',
       HOLD: 'hold',
       REJECTED: 'rejected',
-      OVERDUE: 'overdue'
+      OVERDUE: 'overdue',
+      FAILED: 'failed'
     });
 })();
 

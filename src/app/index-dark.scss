@@ -69,19 +69,19 @@ html[theme="dark"] {
   input[type="radio"] + label{
     color: $color-new-hurricane;
   }
-  .form-control {
+  .form-control:not(.label-search) {
     background-color: $sidebar-bg-color !important;
   }
   .dropdown-menu {
     background-color: $sidebar-bg-color !important;
   }
-  ._16svg, ._24svg, ._32svg {
+  ._16svg, ._24svg, ._32svg, ._20svg {
     fill: $color-new-hurricane;
   }
   .post-body .external-mail-bg-white {
     background-color: $color-white;
     div {
-      color: $color-solid-irreversable;
+      color: $color-solid-irreversible;
     }
   }
   .post-card, .post-card-shadow {
@@ -89,4 +89,11 @@ html[theme="dark"] {
   }
   // injector
   // endinjector
+  .activity-recent {
+    .recent-container {
+      .recent-item.hot.ng-enter {
+        animation: recent-activity-item-hot-dark 0.75s ease-in forwards, recent-activity-item-normal-dark 0.75s 4s ease-out forwards;
+      }
+    }
+  }
 }
