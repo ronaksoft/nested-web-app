@@ -7,8 +7,8 @@
       function strictParse(twelvehour, string) {
         var match = string && string.trim().match(
           twelvehour ?
-          /^(\d{1,2}):(\d{1,2})\s*(AM|PM)$/i :
-          /^(\d{1,2}):(\d{1,2})$/
+            /^(\d{1,2}):(\d{1,2})\s*(AM|PM)$/i :
+            /^(\d{1,2}):(\d{1,2})$/
         );
 
         if (!match) {
@@ -59,7 +59,7 @@
     })
 
     .value('clockpickerDefaultOptions', {
-      twelvehour: false,
+      twelvehour: true,
       autoclose: false,
       donetext: 'Apply',
       afterShow: function(e) {

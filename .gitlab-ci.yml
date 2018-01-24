@@ -18,7 +18,7 @@ build:desktop:
     - ls ./node_modules
     - apk add --update python build-base
     - npm install -g bower
-    - npm installx
+    - npm install
     - bower install
     - npm rebuild node-sass
     - ./node_modules/.bin/gulp build --mode=production --ver=$CI_PIPELINE_ID

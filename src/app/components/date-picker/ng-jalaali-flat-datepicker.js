@@ -127,9 +127,18 @@
         var today = moment();
 
         //time
-        scope.timeHM = '00:00';
+        var inited = false;
         scope.timeHour = 0;
         scope.timeMinute = 0;
+        scope.clockPickerTime = moment().hour(23).minute(59);
+
+        scope.$watch('clockPickerTime', function (newVal) {
+          if (inited) {
+            scope.timeHour = newVal.hours();
+            scope.timeMinute = newVal.minutes();
+            console.log(newVal);
+          }
+        });
 
         /*
          * returns start year based on configuration
@@ -329,8 +338,7 @@
           }
           hour = trimNumber(hour);
           minute = trimNumber(minute);
-          // return hour + ':' + minute;
-          return scope.timeHM;
+          return hour + ':' + minute;
         }
 
         scope.$watch('timeHour', function (newVal) {
@@ -391,7 +399,9 @@
             scope.calendarCursor = moment.unix(scope.timestampModel);
             scope.timeHour = scope.calendarCursor.hours();
             scope.timeMinute = scope.calendarCursor.minutes();
-            scope.timeHM = scope.timeHour + ':' + scope.timeMinute;
+            if (scope.haveTime) {
+              scope.clockPickerTime = scope.calendarCursor;
+            }
             reformatTime(scope.haveTime);
             var vw;
             var temp = moment(scope.calendarCursor);
@@ -403,6 +413,9 @@
             dateSelected = temp;
           }
 
+          setTimeout(function () {
+            inited = true;
+          }, 1000);
         }
 
         /**

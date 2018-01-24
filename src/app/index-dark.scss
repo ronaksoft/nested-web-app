@@ -69,7 +69,7 @@ html[theme="dark"] {
   input[type="radio"] + label{
     color: $color-new-hurricane;
   }
-  .form-control {
+  .form-control:not(.label-search) {
     background-color: $sidebar-bg-color !important;
   }
   .dropdown-menu {
@@ -81,7 +81,7 @@ html[theme="dark"] {
   .post-body .external-mail-bg-white {
     background-color: $color-white;
     div {
-      color: $color-solid-irreversable;
+      color: $color-solid-irreversible;
     }
   }
   .post-card, .post-card-shadow {
