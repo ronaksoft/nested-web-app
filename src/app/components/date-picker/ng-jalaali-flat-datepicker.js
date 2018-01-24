@@ -121,6 +121,7 @@
         var today = moment();
 
         //time
+        scope.timeHM = '00:00';
         scope.timeHour = 0;
         scope.timeMinute = 0;
 
@@ -322,7 +323,8 @@
           }
           hour = trimNumber(hour);
           minute = trimNumber(minute);
-          return hour + ':' + minute;
+          // return hour + ':' + minute;
+          return scope.timeHM;
         }
 
         scope.$watch('timeHour', function (newVal) {
@@ -383,6 +385,7 @@
             scope.calendarCursor = moment.unix(scope.timestampModel);
             scope.timeHour = scope.calendarCursor.hours();
             scope.timeMinute = scope.calendarCursor.minutes();
+            scope.timeHM = scope.timeHour + ':' + scope.timeMinute;
             reformatTime(scope.haveTime);
             var vw;
             var temp = moment(scope.calendarCursor);
