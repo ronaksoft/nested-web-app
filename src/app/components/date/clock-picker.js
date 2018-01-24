@@ -7,8 +7,8 @@
       function strictParse(twelvehour, string) {
         var match = string && string.trim().match(
           twelvehour ?
-          /^(\d{1,2}):(\d{1,2})\s*(AM|PM)$/i :
-          /^(\d{1,2}):(\d{1,2})$/
+            /^(\d{1,2}):(\d{1,2})\s*(AM|PM)$/i :
+            /^(\d{1,2}):(\d{1,2})$/
         );
 
         if (!match) {
@@ -59,25 +59,24 @@
     })
 
     .value('clockpickerDefaultOptions', {
-      twelvehour: false,
+      twelvehour: true,
       autoclose: false,
       donetext: 'ok',
-      afterShow: function(e) {
+      afterShow: function (e) {
         var datepicker = $('.ng-flat-datepicker');
         $('.clockpicker-popover').on('click', function (e) {
-            console.log('vvv', e, 'adasdasd');
-            e.preventDefault();
-            e.stopImmediatePropagation();
-            return e.stopPropagation();
+          e.preventDefault();
+          e.stopImmediatePropagation();
+          return e.stopPropagation();
         });
-        
-        if(datepicker[0]) {
-            $('.clockpicker-popover').appendTo(datepicker);
+
+        if (datepicker[0]) {
+          $('.clockpicker-popover').appendTo(datepicker);
         }
         // $('.clockpicker-popover').on("click", preventer);
       },
-      beforeHide: function() {
-          
+      beforeHide: function () {
+
         // $('.clockpicker-popover').off();
       }
     })

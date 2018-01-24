@@ -75,6 +75,15 @@
       fill: $color-shine-wire;
     }
   }
+  &.numb-item.active,
+  &.numb-item.active span {
+    color: #6d6d6d;
+    fill: #6d6d6d;
+    svg ,
+    svg.item-check {
+      fill: #6d6d6d;
+    }
+  }
   &.red-item:hover,
   &.force:hover {
     background-color: rgba(255, 100, 100, .04);
