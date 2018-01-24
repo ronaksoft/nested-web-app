@@ -61,31 +61,27 @@
     .value('clockpickerDefaultOptions', {
       twelvehour: false,
       autoclose: false,
-      donetext: 'ok',
+      donetext: 'Apply',
       afterShow: function(e) {
         var datepicker = $('.ng-flat-datepicker');
         $('.clockpicker-popover').on('click', function (e) {
-            console.log('vvv', e, 'adasdasd');
             e.preventDefault();
             e.stopImmediatePropagation();
             return e.stopPropagation();
         });
-        
+
         if(datepicker[0]) {
             $('.clockpicker-popover').appendTo(datepicker);
         }
-        // $('.clockpicker-popover').on("click", preventer);
       },
       beforeHide: function() {
-          
-        // $('.clockpicker-popover').off();
+        $('.clockpicker-popover').off();
       }
     })
 
     .directive('lngClockpicker', ['clockpickerService', 'clockpickerDefaultOptions', 'moment', '$timeout', 'detectUtils', function (clockpickerService, clockpickerDefaultOptions, moment, $timeout, detectUtils) {
 
       function link(scope, element, attr, ngModel) {
-
         var options = angular.extend({}, clockpickerDefaultOptions, scope.$eval(attr.lngClockpickerOptions));
 
         var isMobile = false;

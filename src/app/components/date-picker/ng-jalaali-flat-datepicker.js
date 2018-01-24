@@ -73,7 +73,7 @@
   }
 
 
-  function ngJalaaliFlatDatepickerDirective($templateCache, $compile, $document, datesCalculator, ngJalaaliFDP, moment, NstSvcI18n) {
+  function ngJalaaliFlatDatepickerDirective($templateCache, $compile, $document, datesCalculator, ngJalaaliFDP, moment, NstSvcI18n, NstSvcTranslation) {
     /*function parseConfig (config) {
         var temp = angular.fromJson(config);
         if (typeof(temp.minDate) == 'undefined') {
@@ -102,6 +102,12 @@
         setTimeFromTimeStamp();
         // setViewTime();
         scope.showTime = scope.haveTime;
+
+        scope.clockOpts = {
+          donetext: NstSvcTranslation.get('Apply'),
+          twelvehour: true
+        };
+    
 
         function reformatTime(haveTime) {
           if (haveTime) {
