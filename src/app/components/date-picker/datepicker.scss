@@ -337,7 +337,7 @@ $default-color: $color-sense-wire;
 .clockpicker-popover.popover {
   background-color: $color-bg-nested;
   .clockpicker-am-pm-block {
-    margin: -20px 0 -2px;
+    margin: -20px 0 25px;
     display: block;
     .btn {
       position: relative;
@@ -355,6 +355,10 @@ $default-color: $color-sense-wire;
         background-color: darken($contrast-bg-color, 20%);
       }
     }
+    .am-button {
+      margin: 0;
+      float: left;
+    }
     .pm-button {
       margin: 0;
       float: right;
@@ -363,6 +367,7 @@ $default-color: $color-sense-wire;
   .popover-title, .popover-content {
     background-color: $color-bg-nested;
     border-color: $contrast-border-color;
+    direction: ltr;
   }
   .clockpicker-button {
     margin: 0 2% 5px;
