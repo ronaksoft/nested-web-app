@@ -3,18 +3,18 @@
   box-shadow: 0 8px 16px $box-shadow-color;
   background: $contrast-bg-color !important;
   .cur {
-    background: $color-breeze;
-    color: $color-solid ;
+    background: $color-breeze-5-new;
+    color: $color-new-hurricane;
     small {
-      color: $color-solid;
+      color: $color-new-hurricane;
     }
     strong {
-      color: $color-solid;
+      color: $color-new-hurricane;
       font-weight: bold;
     }
   }
   strong {
-    color: $color-solid;
+    color: $color-new-hurricane;
   }
   ul {
     display: flex;
@@ -23,7 +23,7 @@
       display: flex;
       flex-direction: row;
       padding: 0;
-      border-bottom:0;
+      border-bottom: 0;
       min-width: 235px;
       align-items: center;
       cursor: pointer;

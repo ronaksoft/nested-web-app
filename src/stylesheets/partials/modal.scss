@@ -748,7 +748,7 @@ body.modal-open-attachment-view.compose-modal {
     overflow-y: auto;
     background-color: transparent;
     > div {
-      background-color: $sidebar-bg-color;
+      background-color: $contrast-bg-color;
       box-shadow: 0 0 24px $box-shadow-color;
       max-width: 480px;
       min-height: 100vh;

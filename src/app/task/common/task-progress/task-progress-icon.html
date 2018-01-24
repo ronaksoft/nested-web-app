@@ -27,6 +27,9 @@
   <svg ng-if="status === statuses.OVERDUE" class="_32svg _df">
     <use xlink:href="/assets/icons/nst-task-icn32.svg#overdue"></use>
   </svg>
+  <svg ng-if="status === statuses.FAILED" class="_32svg _df">
+    <use xlink:href="/assets/icons/nst-task-icn32.svg#failed"></use>
+  </svg>
 </div>
 <script type="text/ng-template" id="task-progress-icon-uib-tooltip.html">
   <span ng-if="status === statuses.NOT_ASSIGNED" translate-inner>Not assigned</span>
@@ -37,4 +40,5 @@
   <span ng-if="status === statuses.HOLD" translate-inner>Hold</span>
   <span ng-if="status === statuses.REJECTED" translate-inner>Rejected</span>
   <span ng-if="status === statuses.OVERDUE" translate-inner>Overdue</span>
+  <span ng-if="status === statuses.FAILED" translate-inner>Failed</span>
 </script>

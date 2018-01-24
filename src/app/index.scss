@@ -40,7 +40,7 @@ $fa-font-path: "../../bower_components/font-awesome/fonts/";
  *  all your sass files automatically
  */
 html[theme="normal"] {
-  .form-control {
+  .form-control:not(.label-search) {
     background-color: $sidebar-bg-color !important;
   }
   // injector

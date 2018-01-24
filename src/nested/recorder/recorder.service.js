@@ -141,6 +141,7 @@
     Recorder.prototype.voiceReadyRef = [];
     Recorder.prototype.voiceReady = voiceReady;
     Recorder.prototype.reset = reset;
+    Recorder.prototype.isRecording = isRecording;
 
     var service = new Recorder();
     return service;
@@ -158,7 +159,11 @@
       return true;
     }
 
-    function stop() {
+    function stop(skip) {
+      if (skip === true) {
+        resetDebounce();
+        recording = false;
+      }
       if (!service.canRecord || !recording) {
         return false;
       }
@@ -210,6 +215,10 @@
         isResetting = true;
         mediaRecorder.stop();
       }
+    }
+
+    function isRecording() {
+      return recording;
     }
 
     function callIfValid() {
