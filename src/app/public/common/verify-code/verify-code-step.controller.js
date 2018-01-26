@@ -32,7 +32,7 @@
    * @param {any} $q
    * @param {any} NstSvcTranslation
    */
-  function VerifyCodeStepController($scope, md5, _, toastr, NST_DEFAULT, NST_PATTERN, NstSvcAuth, NstHttp, $q, NstSvcTranslation) {
+  function VerifyCodeStepController($scope, md5, _, toastr, NST_DEFAULT, NST_PATTERN, NstSvcAuth, NstHttp, $q, NstSvcTranslation, $timeout) {
     var vm = this;
 
     vm.nextStep = nextStep;
@@ -89,7 +89,9 @@
 
       return deferred.promise;
     }
-
+    $timeout(function() {
+      vm.ready = true;
+    }, 100)
     /**
      * Resends the verification code via SMS and notifies the user
      *

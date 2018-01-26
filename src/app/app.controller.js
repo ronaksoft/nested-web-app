@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function AppController($scope, $window, $rootScope, $state, $stateParams, $interval, toastr, $location,
-                         deviceDetector, NstSvcInteractionTracker, $uibModal, NstSvcTranslation, NstUtility,
+                         deviceDetector, NstSvcInteractionTracker, $uibModal, NstSvcTranslation, NstUtility, NstViewService,
                          NST_DEFAULT, NST_AUTH_EVENT, NST_SRV_EVENT, NST_NOTIFICATION_EVENT, NST_CONFIG,
                          NstSvcServer, NstSvcAuth, NstSvcLogger, NstSvcI18n, _, NstSvcNotificationFactory, $) {
     var vm = this;
@@ -18,7 +18,7 @@
       sidebar: {collapsed: true},
       navbar: {collapsed: false}
     };
-
+    NstViewService.applyTheme();
     $rootScope.navView = false;
     $rootScope.staticNav = true;
     $rootScope.topNavOpen = false;

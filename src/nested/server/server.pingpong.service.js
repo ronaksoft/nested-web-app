@@ -33,7 +33,7 @@
     PingPong.prototype.start = function () {
       if (this.getPingPongStatus() && this.getPingPongInterval()) return;
 
-      callConected.bind(this)();
+      callConnected.bind(this)();
       this.setPingPongStatus(true);
       var service = this;
 
@@ -83,7 +83,7 @@
 
       NstSvcLogger.debug2("WS PINGPONG | delay : " + (NstSvcDate.now() - parseInt(pong.split("/")[1])));
 
-      callConected.bind(this)();
+      callConnected.bind(this)();
       if (!this.pingPongStatus) {
         // callDisconnected.bind(this)();
       }
@@ -105,15 +105,15 @@
 
     PingPong.prototype.onConnected = function (action) {
       this.onConnectedHandler = action;
-    }
+    };
 
     PingPong.prototype.onDisconnected = function (action) {
       this.onDisconnectedHandler = action;
-    }
+    };
 
     return PingPong;
 
-    function callConected() {
+    function callConnected() {
       if (_.isFunction(this.onConnectedHandler)) {
         this.onConnectedHandler();
       }

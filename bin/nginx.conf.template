@@ -34,7 +34,7 @@ http {
         }
 
         location /getConfig/ {
-            proxy_pass https://npc.nested.me/dns/discover/;
+            proxy_pass http://localhost:5000/;
         }
     }
 }

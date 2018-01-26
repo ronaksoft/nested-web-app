@@ -6,9 +6,10 @@
     .controller('PostController', PostController);
 
   /** @ngInject */
-  function PostController($q, $scope, $rootScope, $stateParams, $uibModalInstance, $interval,
+  function PostController($q, $scope, $rootScope, $stateParams, $uibModalInstance, $interval, SvcRecorder,
                           _, toastr, NstSvcPostFactory, NstUtility, NstSvcLogger, NstSvcPostInteraction, NstSvcTranslation, NstSvcSync,
                           selectedPostId) {
+    SvcRecorder.stop(true);
     var vm = this;
     var defaultLimit = 8;
     var eventReferences = [];
@@ -62,7 +63,6 @@
         if(indexOfPost > -1) {
           vm.messages[indexOfPost].hide = false;
           vm.extendedId = data.postId;
-          console.log('pushToChainStack');
           pushToChainStack(data.postId);
         } else {
           load(data.postId);

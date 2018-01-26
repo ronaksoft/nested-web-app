@@ -26,7 +26,7 @@
   input:hover ,
   input:focus {
     width: 320px;
-    background-color: $color-white;
+    background-color: $contrast-bg-color;
   }
   input:hover + svg,
   input:focus + svg{
@@ -48,15 +48,16 @@
   height: 100%;
   flex-direction: column;
   display: flex;
-  box-shadow: 0 4px 8px $color-breeze-new;
+  box-shadow: 0 4px 8px $box-shadow-color;
+  background-color: $sidebar-bg-color;
   .file-list-header {
     height: 48px;
     display: flex; //margin-top: 25px;
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid $color-calm;
     svg {
       width: 23px;
       height: 20px;
-      fill: #C8C8C8;
+      fill: $color-solid-30;
     }
     &:hover {
       color: $color-solid;
@@ -105,7 +106,7 @@
     .header-name {
       z-index: 2;
       flex-grow: 1;
-      color: #C8C8C8;
+      color: $color-solid-30;
       font-size: 13px;
       font-weight: 200;
       align-items: center;
@@ -118,7 +119,7 @@
     }
     .header-date {
       width: 128px;
-      color: #C8C8C8;
+      color: $color-solid-30;
       font-size: 13px;
       align-items: center;
       display: flex;
@@ -130,7 +131,7 @@
     }
     .header-size {
       width: 79px;
-      color: #C8C8C8;
+      color: $color-solid-30;
       font-size: 13px;
       font-weight: 200;
       align-items: center;
@@ -265,7 +266,7 @@
     .file-list-item {
 
       #files-time {
-        color: #C8C8C8;
+        color: $color-solid-30;
       }
     }
   }
@@ -285,7 +286,7 @@ li.j-selected {
 
 .total-files-size {
   @extend .nst-font-medium;
-  color: #808080;
+  color: $color-solid-30;
   margin-left: 10px;
 }
 
@@ -335,25 +336,25 @@ li.file-list-container {
 }
 
 .file-badge-pdf {
-  border-color: #FA0032;
-  background: linear-gradient(lighten(#FA0032, 40), $color-white);
-  color: #FA0032;
+  border-color: $color-attachments-pdf;
+  background: linear-gradient(lighten($color-attachments-pdf, 40), $color-white);
+  color: $color-attachments-pdf;
   margin-top: 8px;
   font-weight: bold;
 }
 
 .file-badge-archive {
-  border-color: #5A28BE;
-  background: linear-gradient(lighten(#5A28BE, 40), $color-white);
-  color: #5A28BE;
+  border-color: $color-attachments-zip;
+  background: linear-gradient(lighten($color-attachments-zip, 40), $color-white);
+  color: $color-attachments-zip;
   margin-top: 8px;
   font-weight: bold;
 }
 
 .file-badge-document {
-  border-color: #148CF0;
-  background: linear-gradient(lighten(#148CF0, 40), $color-white);
-  color: #148CF0;
+  border-color: $color-attachments-document;
+  background: linear-gradient(lighten($color-attachments-document, 40), $color-white);
+  color: $color-attachments-document;
   margin-top: 8px;
   font-weight: bold;
 }
@@ -361,17 +362,17 @@ li.file-list-container {
 .file-badge-audio,
 .file-badge-video,
 .file-badge-image {
-  border-color: #3CC882;
-  background: linear-gradient(lighten(#3CC882, 40), $color-white);
-  color: #3CC882;
+  border-color: $color-attachments-media;
+  background: linear-gradient(lighten($color-attachments-media, 40), $color-white);
+  color: $color-attachments-media;
   margin-top: 8px;
   font-weight: bold;
 }
 
 .popover-files {
   width: 150px;
-  background: #FFFFFF;
-  border-color: #ced9d3;
+  background: $color-white;
+  border-color: $color-solid-30;
   padding: 8px 0;
 }
 

@@ -16,21 +16,22 @@
   .content-plus-inner {
     position: fixed;
     width: 224px;
+    color: $color-new-hurricane;
   }
   .content-plus-inner > div {
     display: inline-flex;
     flex-direction: column;
-    background-color: $color-white;
     width: 100%;
     flex: none;
     margin-top: 16px;
     padding: 1px 0 0 0;
     z-index: 15;
-    border: 1px solid #e6e6e6;
+    border: 1px solid $color-breeze-new;
     position: relative;
     justify-content: space-between;
     border-radius: 3px;
     height: auto!important;
+    background-color: $sidebar-bg-color;
     //height: 100%;
     .recent-item:last-of-type {
       .activity-item .body {
@@ -88,7 +89,7 @@
         margin-left: 10px;
         padding-top: 4px;
         padding-bottom: 6px;
-        border-bottom: 1px solid $color-breeze;
+        border-bottom: 1px solid $contrast-border-color;
         span {
           font-size: $font-size-xxsmall;
           line-height: 12px;
@@ -118,7 +119,7 @@
         }
       }
       &:hover {
-        background-color: $color-sense-5;
+        background-color: $color-breeze-5-new;
         cursor: pointer;
         transition: .2s;
       }
@@ -131,7 +132,7 @@
   .name {
     color: $color-new-hurricane;
     font-size: 10px;
-    font-weight: 600; 
+    font-weight: 600;
     padding: 0 8px;
     border-radius: 3px 3px 0 0;
     line-height: 30px;
@@ -156,6 +157,7 @@
     flex: none;
     //background-color: #fff;
     z-index: 4;
+    background-color: $sidebar-bg-color;
     .avatars.expanded{
       max-height: calc(100vh - 273px);
     }
@@ -189,7 +191,7 @@
           height: 16px;
           border-radius: 20px;
           border: 2px solid $color-solid;
-          background-color: $color-white;
+          background-color: $logo-holder-color;
           top: -4px;
           right: 0;
           svg {

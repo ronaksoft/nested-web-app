@@ -106,13 +106,14 @@
   <section ng-if="(!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
     <div class="_bggray nst-mood-lively _fw" ng-if="!ctlPostCard.post.isTrusted && ctlPostCard.isExpanded">
       <translate>This post contains blocked images.</translate>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       <a class="nst-mood-hurricane" ng-click="ctlPostCard.showTrustedBody(); _track('post card','show trusted body');">
         <translate>Show Images</translate>
       </a>
-      &nbsp;
+      </br>
       <a class="nst-mood-hurricane" ng-click="ctlPostCard.alwaysTrust(); _track('post card','always trust');">
         <translate>Always trust the sender</translate>
-      </a>
+      </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       <a class="nst-mood-hurricane" ng-click="ctlPostCard.alwaysTrust(true); _track('post card','always trust');">
         <translate>Always trust this Domain</translate>
       </a>
@@ -120,7 +121,7 @@
   </section>
 
   <section class="post-body _wrb {{ctlPostCard.post.contentType == 'text/plain' ? 'pre' : ''}}"
-    ng-if="!ctlPostCard.loading && ctlPostCard.post.preview.length > 0 && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)
+    ng-if="!ctlPostCard.loading && (ctlPostCard.post.preview.length > 0 || ctlPostCard.post.body.length > 0) && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)
     && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)"
     auto-dir="ctlPostCard.post.preview">
 
@@ -134,9 +135,9 @@
         <translate>Show more...</translate>
       </a>
     </div>
-    <div ng-if="ctlPostCard.isExpanded" class="_fw">
-      <div mail-resizer ng-if="!ctlPostCard.post.isTrusted " ng-bind-html="ctlPostCard.body | trustAsHtml"></div>
-      <div mail-resizer ng-if="ctlPostCard.post.isTrusted" ng-bind-html="ctlPostCard.body | trustAsHtml"></div>
+    <div ng-if="ctlPostCard.isExpanded" class="_fw  ng-class:{'external-mail-bg-white' : !ctlPostCard.post.internal && ctlPostCard.post.contentType === 'text/html'}">
+      <div mail-resizer ng-if="!ctlPostCard.post.isTrusted " ng-bind-html="(ctlPostCard.body || ctlPostCard.post.body) | trustAsHtml"></div>
+      <div mail-resizer ng-if="ctlPostCard.post.isTrusted" ng-bind-html="(ctlPostCard.body || ctlPostCard.post.body) | trustAsHtml"></div>
     </div>
   </section>
   <section ng-if="ctlPostCard.isExpanded && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">

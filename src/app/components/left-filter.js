@@ -1,82 +1,59 @@
 (function () {
-  'use strict';
+    'use strict';
+  
+    angular
+      .module('ronak.nested.web.components.date')
+      .filter('leftDate', function (moment, NstSvcTranslation, NstSvcCalendarTranslation, NstSvcDate, NstUtility) {
+  
+        var dateFilter = function (date, args) {
+          var haveTime = args && args === 'time';
+          var current = NstSvcDate.now();
 
-  angular
-    .module('ronak.nested.web.components.date')
-    .filter('leftDate', function (moment, NstSvcTranslation, NstSvcCalendarTranslation, NstSvcDate, NstUtility) {
-
-      var dateFilter = function (date, args) {
-        var haveTime = args && args === 'time';
-
-        var current = NstSvcDate.now();
-
-        if (!moment.isMoment(date)) {
-          date = moment(date);
-        }
-        if (!haveTime) {
-          date = moment(date).startOf('day').add(23, 'hours').add(59, 'minutes');
-        }
-        // console.log(date, date.format(NstSvcTranslation.get('YYYY MM DD HH:mm')));
-        var overdue = moment(current).startOf('minute');
-        if (date.isSameOrBefore(overdue)) {
-          var daysDiff = overdue.diff(date, 'days');
-          var hoursDiff = overdue.diff(date, 'hours');
-          if (daysDiff > 1) {
-            return NstUtility.string.format(NstSvcTranslation.get('{0} days ago'), daysDiff);
+          if (!moment.isMoment(date)) {
+            date = moment(date);
           }
-          if (daysDiff > 0) {
-            return NstUtility.string.format(NstSvcTranslation.get('{0} day ago'), daysDiff);
+
+          if (!haveTime) {
+            date = moment(date).startOf('day').add(23, 'hours').add(59, 'minutes');
           }
-          if (daysDiff === 0 && haveTime && hoursDiff > 1) {
-            return NstUtility.string.format(NstSvcTranslation.get('{0} hours ago'), hoursDiff);
+  
+          var diffDate = date.diff(moment(current));
+          var str = ' left';
+
+          if (diffDate < 0) {
+            diffDate = diffDate * -1;
+            str = ' ago';
           }
-          if (daysDiff === 0 && haveTime && hoursDiff > 0) {
-            return NstUtility.string.format(NstSvcTranslation.get('{0} hour ago'), hoursDiff);
+
+          var diffDateDay = Math.floor(diffDate / (1000 * 60 * 60 * 24)),
+              diffDateHour = Math.floor(diffDate / (1000 * 60 * 60)),
+              diffDateMin = Math.floor(diffDate / (1000 * 60));
+
+          if(diffDateDay > 1 || diffDateDay === 1 && haveTime) {
+            return NstUtility.string.format(NstSvcTranslation.get('{0} ' + (diffDateDay > 1 ? 'days' : 'day') + str), diffDateDay);
+          } else if(diffDateHour > 0) {
+            var tonight = moment(current).startOf('day').add(1, 'days');
+            var lastNight = moment(current).startOf('day');
+            if (date.isSameOrBefore(lastNight)) {
+              return date.format(NstSvcTranslation.get(haveTime ? '[Yesterday at] HH:mm' : '[Yesterday]'))
+            } else if (date.isSameOrBefore(tonight)){
+              return date.format(NstSvcTranslation.get(haveTime ? '[Today at] HH:mm' : '[Today]'))
+            } else {
+              return date.format(NstSvcTranslation.get(haveTime? '[Tomorrow at] HH:mm': '[Tomorrow]'))
+            }
+          } else if(diffDateMin > 0) {
+            return NstUtility.string.format(NstSvcTranslation.get('{0} ' + (diffDateMin > 1 ? 'minutes' : 'minute') + str), diffDateMin);
+          } else {
+            return NstSvcTranslation.get('Less than a minute');
           }
-          if (daysDiff === 0 && haveTime && hoursDiff === 0) {
-            return NstUtility.string.format(NstSvcTranslation.get('about one hour ago'), hoursDiff);
-          }
-          return NstSvcTranslation.get('Time is passed!');
 
-        }
-
-        var justNow = moment(current).startOf('minute').add(1, 'minutes');
-        if (date.isSameOrBefore(justNow)) {
-          return NstSvcTranslation.get('Less than a minute');
-        }
-        var today = moment(current).startOf('day').add(1, 'days');
-        // console.log(date, moment(current).startOf('day'), today, today.format(NstSvcTranslation.get('YYYY MM DD HH:mm')));
-        if (date.isSameOrBefore(today)) {
-          // console.log('is today')
-          return haveTime ?
-            date.format(NstSvcTranslation.get('[Today at] HH:mm')) :
-            date.format(NstSvcTranslation.get('[Today]'));
-        }
-
-        var tommorrow = moment(current).startOf('day').add(2, 'days');
-        if (date.isSameOrBefore(tommorrow)) {
-          return haveTime ?
-            date.format(NstSvcTranslation.get('[Tomorrow at] HH:mm')) :
-            date.format(NstSvcTranslation.get('[Tomorrow]'));
-        }
-
-        var thisMonth = moment(current).startOf('minute').add(30, 'days');
-        if (date.isSameOrBefore(thisMonth)) {
-          // TODO  why add 1 days ?
-          return NstUtility.string.format(NstSvcTranslation.get('{0} days left'), date.add(1, 'days').diff(justNow, 'days'));
-        }
-
-        var thisYear = moment(current).startOf('year');
-        if (date.isSameOrBefore(thisYear)) {
-          return date.format(NstSvcCalendarTranslation.get('MMM DD'));
-        }
-
-        return date.format(NstSvcCalendarTranslation.get('DD[/]MM[/]YYYY'));
-      };
-
-      dateFilter.$stateful = true;
-
-      return dateFilter;
-    });
-
-})();
+          return date.format(NstSvcCalendarTranslation.get('DD[/]MM[/]YYYY'));
+        };
+  
+        dateFilter.$stateful = true;
+  
+        return dateFilter;
+      });
+  
+  })();
+  

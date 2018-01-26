@@ -216,9 +216,9 @@
           eventReferences.push($scope.$on('modal.closing', function (event) {
 
             if (vm.ultimateSaveDraft) {
-              setTimeout(function () {
+              // setTimeout(function () {
                 // $('body').removeClass("active-compose");
-              }, 64);
+              // }, 64);
 
               $('html').removeClass("_oh");
               saveDraft();
@@ -309,6 +309,7 @@
        * Create a draft model and fill it up by compose model
        */
       function saveDraft() {
+        fillSubjectModel();
         NstSvcLogger.debug4('Compose | Saving post model as draft');
         var draft = new NstPostDraft();
         draft.subject = vm.model.subject;
@@ -805,7 +806,7 @@
        * @returns
        */
       vm.send = function () {
-        vm.model.subject = vm.subjectElement.value;
+        fillSubjectModel();
         if (vm.pending) {
           return;
         }
@@ -943,6 +944,10 @@
 
         });
       };
+
+      function fillSubjectModel() {
+        vm.model.subject = vm.subjectElement.value;
+      }
 
       /*****************************
        *****  Controller Logic  ****

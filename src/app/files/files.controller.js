@@ -231,12 +231,15 @@
           vm.files = cachedFiles;
           vm.filesLoadProgress = false;
         }).then(function (fileItems) {
-        merge(fileItems);
+          merge(fileItems);
 
-        vm.hasNextPage = fileItems.length === vm.settings.limit;
-        vm.settings.skip = vm.files.length;
+          vm.hasNextPage = fileItems.length === vm.settings.limit;
+          vm.settings.skip = vm.files.length;
 
-        vm.loadFilesError = false;
+          vm.loadFilesError = false;
+          if(fileItems.length === 0 && vm.settings.keyword.length > 0) {
+            toastr.warning(NstSvcTranslation.get('we didnt find what you are looking for'));
+          }
       }).catch(function () {
         toastr.error(NstSvcTranslation.get('An error has occurred while retrieving files.'));
         vm.loadFilesError = true;

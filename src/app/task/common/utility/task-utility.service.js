@@ -6,7 +6,7 @@
     .service('NstSvcTaskUtility', NstSvcTaskUtility);
 
   /** @ngInject */
-  function NstSvcTaskUtility($q, _, NST_TASK_PROGRESS_ICON, NstSvcTranslation, NstUtility, NST_ATTACHMENT_STATUS, $uibModal, $timeout) {
+  function NstSvcTaskUtility($q, _, NST_TASK_PROGRESS_ICON, NST_TASK_STATUS, NstSvcTranslation, NstUtility, NST_ATTACHMENT_STATUS, $uibModal, $timeout) {
 
     function TaskUtility() {
     }
@@ -23,9 +23,9 @@
     function getTaskIcon(status, progress) {
       switch (status) {
         default:
-        case 0x01:
+        case NST_TASK_STATUS.NO_ASSIGNED:
           return NST_TASK_PROGRESS_ICON.NOT_ASSIGNED;
-        case 0x02:
+        case NST_TASK_STATUS.ASSIGNED:
           if (progress < 0) {
             return NST_TASK_PROGRESS_ICON.ASSIGNED_NO_CHECKLIST;
           } else if (progress === 0) {
@@ -33,16 +33,18 @@
           } else {
             return NST_TASK_PROGRESS_ICON.ASSIGNED_PROGRESS;
           }
-        case 0x03:
+        case NST_TASK_STATUS.CANCELED:
           return NST_TASK_PROGRESS_ICON.CANCELED;
-        case 0x04:
+        case NST_TASK_STATUS.REJECTED:
           return NST_TASK_PROGRESS_ICON.REJECTED;
-        case 0x05:
+        case NST_TASK_STATUS.COMPLETED:
           return NST_TASK_PROGRESS_ICON.COMPLETED;
-        case 0x06:
+        case NST_TASK_STATUS.HOLD:
           return NST_TASK_PROGRESS_ICON.HOLD;
-        case 0x07:
+        case NST_TASK_STATUS.OVERDUE:
           return NST_TASK_PROGRESS_ICON.OVERDUE;
+        case NST_TASK_STATUS.FAILED:
+          return NST_TASK_PROGRESS_ICON.FAILED;
       }
     }
 
@@ -87,7 +89,7 @@
     }
 
     function b64DecodeUnicode(str) {
-      return decodeURIComponent(Array.prototype.map.call(atob(str), function(c) {
+      return decodeURIComponent(Array.prototype.map.call(atob(str), function (c) {
         return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
       }).join(''));
     }
@@ -122,11 +124,13 @@
     function getValidUser(vm, userFn) {
       var validUser = undefined;
       getUser();
+
       function retry() {
         $timeout(function () {
           getUser();
         }, 200);
       }
+
       function getUser() {
         validUser = userFn.user;
         if (validUser === undefined) {

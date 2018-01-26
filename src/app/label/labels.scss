@@ -19,6 +19,7 @@
             padding: 0 16px;
             font-weight: 400;
             margin: 0;
+            color: $color-new-hurricane;
         }
     }
     .search-label {
@@ -31,7 +32,7 @@
             margin: 0;
             padding-left: 32px;
             border-color: $color-breeze-new;
-            &::focus {
+            &:focus {
                 border-width: 1px;
             }
         }
@@ -103,6 +104,7 @@
             li {
                 height: 48px;
                 padding: 0 16px;
+                color: $color-new-hurricane;
                 .icon {
                     padding: 16px 16px 0 0;
                     width: 32px;
@@ -515,7 +517,7 @@
         }
         .label-search {
             padding: 0 4px;
-            /*height: 307px;*/
+            height: 307px;
             >div:first-child {
                 border-bottom: 1px solid $color-solid;
                 margin-bottom: 24px;

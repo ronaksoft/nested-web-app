@@ -26,7 +26,7 @@
    * @param {any} NstSvcTranslation
    * @param {any} toastr
    */
-  function SubmitPhoneStepController($scope, NstHttp, $q, NstSvcTranslation, toastr, _, phoneUtils) {
+  function SubmitPhoneStepController($scope, NstHttp, $q, NstSvcTranslation, toastr, _, phoneUtils, $timeout) {
     var vm = this;
 
     // This phone number is for test purpose only and you wont receive any verification code or call.
@@ -68,10 +68,12 @@
         });
       }
 
-      vm.ready = true;
 
     })();
 
+    $timeout(function() {
+      vm.ready = true;
+    }, 100)
     vm.submitPhoneNumber = function (isValid) {
       vm.submitted = true;
       if (!isValid) {

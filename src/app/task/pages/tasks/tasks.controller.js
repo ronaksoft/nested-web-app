@@ -229,9 +229,9 @@
     function getTasks() {
       vm.loading = true;
       var promise;
-      var isCompelted = false;
+      var isCompleted = false;
       if ($state.params && $state.params.filter === 'completed') {
-        isCompelted = true;
+        isCompleted = true;
       }
       var statusFilter = [];
       if (vm.isGlancePage) {
@@ -242,12 +242,13 @@
           limit: vm.taskSetting.limit
         }, importCachedTasks);
       } else if (vm.isAssignedToMePage) {
-        if (isCompelted) {
+        if (isCompleted) {
           statusFilter.push(NST_TASK_STATUS.COMPLETED);
         } else {
           statusFilter.push(NST_TASK_STATUS.ASSIGNED);
           statusFilter.push(NST_TASK_STATUS.HOLD);
           statusFilter.push(NST_TASK_STATUS.OVERDUE);
+          statusFilter.push(NST_TASK_STATUS.FAILED);
         }
         promise = NstSvcTaskFactory.getByFilter({
           filter: NST_TASK_STATUS.ASSIGNED_TO_ME,
@@ -256,7 +257,7 @@
           limit: vm.taskSetting.limit
         }, importCachedTasks);
       } else if (vm.isCreatedByMePage) {
-        if (isCompelted) {
+        if (isCompleted) {
           statusFilter.push(NST_TASK_STATUS.COMPLETED);
         } else {
           statusFilter.push(NST_TASK_STATUS.NO_ASSIGNED);
@@ -265,6 +266,7 @@
           statusFilter.push(NST_TASK_STATUS.REJECTED);
           statusFilter.push(NST_TASK_STATUS.HOLD);
           statusFilter.push(NST_TASK_STATUS.OVERDUE);
+          statusFilter.push(NST_TASK_STATUS.FAILED);
         }
         promise = NstSvcTaskFactory.getByFilter({
           filter: NST_TASK_STATUS.CREATED_BY_ME,
@@ -273,7 +275,7 @@
           limit: vm.taskSetting.limit
         }, importCachedTasks);
       } else if (vm.isWatchlistPage) {
-        if (isCompelted) {
+        if (isCompleted) {
           statusFilter.push(NST_TASK_STATUS.COMPLETED);
         } else {
           statusFilter.push(NST_TASK_STATUS.NO_ASSIGNED);
@@ -282,6 +284,7 @@
           statusFilter.push(NST_TASK_STATUS.REJECTED);
           statusFilter.push(NST_TASK_STATUS.HOLD);
           statusFilter.push(NST_TASK_STATUS.OVERDUE);
+          statusFilter.push(NST_TASK_STATUS.FAILED);
         }
         promise = NstSvcTaskFactory.getByFilter({
           filter: NST_TASK_STATUS.WATCHED,

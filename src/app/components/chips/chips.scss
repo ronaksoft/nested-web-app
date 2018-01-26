@@ -11,7 +11,7 @@
     overflow: hidden;
     border-width: 1px ;
     border-style: solid ;
-    border-color: #DDDFE0;
+    border-color: $color-breeze;
     transition: all $animation-dur;
     box-shadow: 0 2px 4px $color-breeze-new;
     .user-avatar-16 {
@@ -48,20 +48,20 @@
             }
         }
         &.isCandidate {
-            background-color: #0079F2;
+            background-color: $color-pending;
             &:hover {
-                border-color: #0079F2;
+                border-color: $color-pending-wire;
             }
         }
     }
     &.isCandidate {
-        border-color: #0079F2;
+        border-color: $color-pending;
         &:hover {
-            border-color: #004DA6;
+            border-color: $color-pending-wire;
         }
     }
     &:hover {
-        border-color: #ACB0B4;
+        border-color: $color-gale-original;
         &.removable {
             .user-avatar-16 {
                 &::after {
@@ -92,7 +92,7 @@
     overflow: hidden;
     border-style: solid;
     border-width: 1px;
-    border-color: #DDDFE0;
+    border-color: $color-breeze;
     transition: all $animation-dur;
     box-shadow: 0 2px 4px $color-breeze-new;
     .place-picture {
@@ -160,7 +160,7 @@
         }
     }
     &:hover {
-        border-color: #ACB0B4;
+        border-color: $color-gale-original;
         .clear {
             svg {
                 fill: $color-force;

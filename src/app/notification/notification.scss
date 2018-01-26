@@ -2,7 +2,7 @@
   display: block;
   flex-direction: column;
   width: 100%;
-  background-color: #fff;
+  background-color: $contrast-bg-color;
   border-radius: 4px;
   &.popover-wrapper {
     max-height: 476px;
@@ -11,7 +11,7 @@
       flex: 1;
       height: 100%;
     }
-    .head-line { 
+    .head-line {
       padding: 0 8px;
       .subject {
         font-size: 10px;
@@ -120,6 +120,7 @@
   list-style: none;
   flex: 1;
   transition: height $animation-dur;
+  color: $color-new-hurricane;
   .notif-ul-loading {
     padding-bottom: 24px;
   }

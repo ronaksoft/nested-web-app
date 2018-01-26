@@ -26,6 +26,37 @@
     vm.editLabel = editLabel;
     vm.removeLabel = removeLabel;
 
+    vm.labelColors = [
+      {
+        code: "A",
+        label: NstSvcTranslation.get("- Default -")
+      },
+      {
+        code: "B",
+        label: NstSvcTranslation.get("Green")
+      },
+      {
+        code: "C",
+        label: NstSvcTranslation.get("Yellow")
+      },
+      {
+        code: "D",
+        label: NstSvcTranslation.get("Red")
+      },
+      {
+        code: "E",
+        label: NstSvcTranslation.get("Purple")
+      },
+      {
+        code: "F",
+        label: NstSvcTranslation.get("Blue")
+      },
+      {
+        code: "G",
+        label: NstSvcTranslation.get("Aquamarine")
+      },
+    ];
+
     if (argv.label) {
       init(argv.label);
     }

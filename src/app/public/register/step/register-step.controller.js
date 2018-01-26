@@ -57,12 +57,15 @@
      * @param {any} formIsValid
      */
     vm.register = function(formIsValid) {
+      if (vm.registerProgress) {
+        return;
+      }
 
       vm.submitted = true;
       vm.registerProgress = true;
-
       validateUsername(vm.username, true).then(function (errors) {
         if (errors.length > 0 || !formIsValid) {
+          vm.registerProgress = false;
           return;
         }
 
@@ -105,6 +108,7 @@
         .catch(function () {
           toastr.error("An error happened while creating your account.");
         }).finally(function () {
+          vm.registerProgress = false;          
         });
 
       }).catch(function () {

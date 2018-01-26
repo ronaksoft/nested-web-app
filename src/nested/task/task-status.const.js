@@ -17,6 +17,7 @@
       COMPLETED: 0x05,
       HOLD: 0x06,
       OVERDUE: 0x07,
+      FAILED: 0x08,
 
       ACCEPT: 'accept',
       DECLINE: 'reject',
@@ -24,6 +25,7 @@
 
       STATE_COMPLETE: 'complete',
       STATE_HOLD: 'hold',
-      STATE_IN_PROGRESS: 'in_progress'
+      STATE_IN_PROGRESS: 'in_progress',
+      STATE_FAILED: 'failed'
     });
 })();

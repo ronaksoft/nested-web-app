@@ -73,7 +73,7 @@
   }
 
 
-  function ngJalaaliFlatDatepickerDirective($templateCache, $compile, $document, datesCalculator, ngJalaaliFDP, moment, NstSvcI18n) {
+  function ngJalaaliFlatDatepickerDirective($templateCache, $compile, $document, datesCalculator, ngJalaaliFDP, moment, NstSvcI18n, NstSvcTranslation) {
     /*function parseConfig (config) {
         var temp = angular.fromJson(config);
         if (typeof(temp.minDate) == 'undefined') {
@@ -103,6 +103,12 @@
         // setViewTime();
         scope.showTime = scope.haveTime;
 
+        scope.clockOpts = {
+          donetext: NstSvcTranslation.get('Apply'),
+          twelvehour: true
+        };
+    
+
         function reformatTime(haveTime) {
           if (haveTime) {
             scope.config.dateFormat = jalali ? scope.config.jalaliDateTimeFormat : scope.config.dateTimeFormat
@@ -121,8 +127,18 @@
         var today = moment();
 
         //time
+        var inited = false;
         scope.timeHour = 0;
         scope.timeMinute = 0;
+        scope.clockPickerTime = moment().hour(23).minute(59);
+
+        scope.$watch('clockPickerTime', function (newVal) {
+          if (inited) {
+            scope.timeHour = newVal.hours();
+            scope.timeMinute = newVal.minutes();
+            console.log(newVal);
+          }
+        });
 
         /*
          * returns start year based on configuration
@@ -383,6 +399,9 @@
             scope.calendarCursor = moment.unix(scope.timestampModel);
             scope.timeHour = scope.calendarCursor.hours();
             scope.timeMinute = scope.calendarCursor.minutes();
+            if (scope.haveTime) {
+              scope.clockPickerTime = scope.calendarCursor;
+            }
             reformatTime(scope.haveTime);
             var vw;
             var temp = moment(scope.calendarCursor);
@@ -394,6 +413,9 @@
             dateSelected = temp;
           }
 
+          setTimeout(function () {
+            inited = true;
+          }, 1000);
         }
 
         /**

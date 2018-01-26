@@ -1,3 +1,4 @@
+
 /**
   *********************************
   *     Variables                 *
@@ -7,7 +8,7 @@
 $color-black: rgba(0,0,0,1);
 $color-solid: #323D47;
 $color-super-solid: #232629;
-$color-solid-30: #c0c3c6;
+$color-solid-30: #C0C3C6;
 $color-solid-60: #838a90;
 $color-white: #FFFFFF;
 $color-white-transparentize: #8B8C8E;
@@ -18,8 +19,7 @@ $color-border: rgb(220,220,220);
 $color-grey: rgb(192,192,192);
 $color-grey-text: #808080;
 $color-hover-comment: #DAF2E4;
-$hot-bg-color: cornsilk;
-$color-cool-smoke : rgba(136,149,161,1);
+$color-cool-smoke: rgba(136,149,161,1);
 
 
 $color-sense: rgba(20, 215, 105, 1);
@@ -30,8 +30,10 @@ $color-force: #ff3344;
 $color-force-wire: #e60026;
 $color-shine: #ffcc33;
 $color-shine-wire: #e6ac00;
-$color-bg-pending: #0079f2;
-$color-bg-pending-wire: #004da6;
+$color-pending: #0079f2;
+$color-bg-pending: $color-pending;
+$color-pending-wire: #004da6;
+$color-bg-pending-wire: $color-pending-wire;
 $color-forward: rgba(50, 70, 165, 1);
 $color-reply: rgb(110,215,180);
 
@@ -43,42 +45,43 @@ $color-fillbox: #f0f5f2;
 $color-badge: #a0e8b8;
 
 // Black with different opacities
-$color-calm: transparentize($color-black, 1 - .04);
-$color-breeze: transparentize($color-black, 1 - .16);
-$color-breeze-50: transparentize($color-black, 1 - .08);
-$color-wind: transparentize($color-black, 1 - .32);
-$color-gale: transparentize($color-black, 1 - .4);
+$color-calm: #F6F6F7;
+$color-breeze: #DDDFE0;
+$color-breeze-50: #EEEFEF;
+$color-wind: rgba($color-solid, 0.4);
+$color-gale: rgba(0,0,0,.4);
+$color-gale-original: #ACB0B4;
 $color-storm: transparentize($color-black, 1 - .48);
-$color-hurricane:  transparentize($color-black, 1 - .72);
-$color-breeze-light: $color-breeze-50;
+$color-hurricane:  #6A727A;
+$color-breeze-light: #EEEFEF;
 $color-border-pics: transparentize($color-black, 1 - .2);
 $color-black-24: transparentize($color-black, 1 - .24);
 
 // Solid color with different opacities
-$color-solid-80 : transparentize($color-solid, 1 - .8);
-$color-new-hurricane : transparentize($color-solid, 1 - .72);
-$color-solid-64 :  transparentize($color-solid, 1 - .64);
-$color-solid-48 : transparentize($color-solid, 1 - .48);
-$color-gale-new : transparentize($color-solid, 1 - .4);
-$color-wind-new : transparentize($color-solid, 1 - .32);
-$color-solid-24 : transparentize($color-solid, 1 - .24);
-$color-breeze-new : transparentize($color-solid, 1 - .16);
-$color-breeze-5-new : transparentize($color-solid, 1 - .08);
-$color-calm-solid : transparentize($color-solid, 1 - .04);
+$color-solid-80: transparentize($color-solid, 1 - .8);
+$color-new-hurricane: transparentize($color-solid, 1 - .72);
+$color-solid-64:  transparentize($color-solid, 1 - .64);
+$color-solid-48: transparentize($color-solid, 1 - .48);
+$color-gale-new: transparentize($color-solid, 1 - .4);
+$color-wind-new: transparentize($color-solid, 1 - .32);
+$color-solid-24: transparentize($color-solid, 1 - .24);
+$color-breeze-new: transparentize($color-solid, 1 - .16);
+$color-breeze-5-new: transparentize($color-solid, 1 - .08);
+$color-calm-solid: transparentize($color-solid, 1 - .04);
 
 
-$color-bg-hover-item : transparentize($color-solid, 1 - .12);
-$color-bg-active-item :$color-breeze-new;
+$color-bg-hover-item: transparentize($color-solid, 1 - .12);
+$color-bg-active-item: $color-breeze-new;
 
 $color-modal-bg: transparentize($color-solid, 1 - .98);
 
-$color-attachment-drop-bg : rgba(20,20,20,.92);
-$color-attachment-shadow : rgba(20,20,20,.64);
+$color-attachment-drop-bg: rgba(20,20,20,.92);
+$color-attachment-shadow: rgba(20,20,20,.64);
 
 // white color with different opacities
-$color-hurri-white : transparentize($color-white, 1 - .72);
-$color-gale-white : transparentize($color-white, 1 - .4);
-$color-64-white : transparentize($color-white, 1 - .64);
+$color-hurri-white: transparentize($color-white, 1 - .72);
+$color-gale-white: transparentize($color-white, 1 - .4);
+$color-64-white: transparentize($color-white, 1 - .64);
 
 // Font sizes
 $font-size-xxsmall: 10px;
@@ -120,6 +123,7 @@ $sidebar-inner-padding: 6px;
 $sidebar-width-tiny: 64px;
 $sidebar-width-plus: $sidebar-width - $sidebar-width-tiny;
 $sidebar-color: $color-super-solid;
+$sidebar-bg-color: #FAFAFA;
 $sidebar-bg-hover-color: $color-solid;
 $sidebar-place-bg-hover-color: #F0F0F0;
 
@@ -143,24 +147,24 @@ $color-black004: $color-calm;
 $color-black008: $color-breeze-50;
 $color-black04: $color-gale;
 $color-black16: $color-breeze;
-$color-comment : #444444;
+$color-comment: #444444;
 
 
 // Attachments color
-$color-attachments-document : rgba(40,120,205,1);
-$color-attachments-pdf : rgba(205,40,40,1);
-$color-attachments-media : rgba(40,205,150,1);
-$color-attachments-zip : rgba(80,45,150,1);
-$color-attachments-other : rgba(40,40,40,1);
+$color-attachments-document: #2878CD;
+$color-attachments-pdf: #CD2828;
+$color-attachments-media: #28CD96;
+$color-attachments-zip: #502D96;
+$color-attachments-other: #282828;
 
 //labels:
-$color-kiwi : rgba(90,191,112,1);
-$color-apricot : rgba(235,194,70,1);
-$color-grapefruit : rgba(242,97,97,1);
-$color-grape : rgba(134,105,191,1);
-$color-blueberry : rgba(80,142,230,1);
-$color-aquamarine : rgba(108,217,217,1);
+$color-kiwi: rgba(90,191,112,1);
+$color-apricot: rgba(235,194,70,1);
+$color-grapefruit: rgba(242,97,97,1);
+$color-grape: rgba(134,105,191,1);
+$color-blueberry: rgba(80,142,230,1);
+$color-aquamarine: rgba(108,217,217,1);
 
 
 // z-indexes
-$sidebar-zindex : 56;
+$sidebar-zindex: 56;

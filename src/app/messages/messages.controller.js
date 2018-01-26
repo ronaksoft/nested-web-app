@@ -92,6 +92,11 @@
 
         eventReferences.push($rootScope.$on(NST_POST_EVENT.READ, function () {
           loadUnreadPostsCount();
+          if(vm.isUnreadMode) {
+            if(!_.some(vm.messages, {read : false})) {
+              vm.isUnreadMode = false;
+            } 
+          }
         }));
 
         eventReferences.push($rootScope.$on('post-read-all', function () {
