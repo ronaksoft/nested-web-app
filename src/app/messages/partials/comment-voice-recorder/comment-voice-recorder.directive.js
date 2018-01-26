@@ -15,7 +15,8 @@
       bindToController: {
         comment: '=',
         commentBoardId: '=',
-        sendHandler: '=?'
+        sendHandler: '=?',
+        isRecording: '=?'
       }
     };
   }

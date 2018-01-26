@@ -13,7 +13,7 @@
     <!-- <div class="filter-bar" ng-if="!ctrl.isbookmarkedsMode && !ctrl.isSent && !(ctrl.isUnreadMode && ctrl.unreadCount == 0) ">  -->
     <div class="filter-bar" ng-if="!ctrl.isBookmark && !ctrl.isSent">
       <div class="filter-bar-inner" affixer-filter top="96">
-        <div class="toolbar ng-class:{'selcted-mode' : ctrl.selectedPosts.length > 0, 'unread-mode' : ctrl.isUnreadMode}" ng-mouseleave="popoverSortShow = false">
+        <div class="toolbar ng-class:{'selected-mode' : ctrl.selectedPosts.length > 0, 'unread-mode' : ctrl.isUnreadMode}" ng-mouseleave="popoverSortShow = false">
           <svg class="default-mode-butn _16svg _df _fn" ng-if="ctrl.isUnreadMode || ctrl.selectedPosts.length > 0" ng-click="ctrl.exitUnseenMode();ctrl.unselectAll();">
             <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
           </svg>
@@ -202,7 +202,7 @@
           </div>
           <fav-contacts></fav-contacts>
         </div>
-        <div id="members" iscroll class="iscroll-wrapper" ng-if="ctrl.isPlaceMessage && ctrl.currentPlaceId && !ctrl.isPersonal">
+        <div id="members" ng-if="ctrl.isPlaceMessage && ctrl.currentPlaceId && !ctrl.isPersonal">
           <nst-place-teammates-sidebar grand-place="ctrl.currentPlaceId" place-id="ctrl.currentPlaceId"></nst-place-teammates-sidebar>
         </div>
         <div id="cp1" ng-show="!ctrl.isBookmark && !ctrl.isSent && ctrl.currentPlaceId">

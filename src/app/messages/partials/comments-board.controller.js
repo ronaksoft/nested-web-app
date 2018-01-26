@@ -37,6 +37,7 @@
     vm.isInFirstDay = isInFirstDay;
     vm.unreadCommentsCount = 0;
     vm.showRemoved = false;
+    vm.isRecording = false;
 
     (function () {
       vm.hasOlderComments = vm.totalCommentsCount > vm.comments.length;

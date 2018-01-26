@@ -30,8 +30,6 @@
 
 .filter-bar {
   height: 48px;
-  display: inline-flex;
-  position: relative;
   flex: none;
   position: relative;
   width: 100%;
@@ -41,15 +39,14 @@
     background-color: $color-bg-nested;
     z-index: 22;
     height: 48px;
-    padding-top: 8px;    
+    padding-top: 8px;
     display: flex;
-    max-width: 720px;
     // position: fixed;
     max-width: 880px;
     min-width: 544px;
     width: calc(100vw - 480px);
     top: 96px;
-    left:50vw;
+    left: 50vw;
     .toolbar {
       width: 100%;
       max-width: 720px;
@@ -70,22 +67,22 @@
         }
       }
       .devider {
-         height: 24px;
-         width: 1px;
-         background-color: $color-black;
-         opacity: .16;
-         display: flex;
-         flex: none;
-         margin: 0 8px;
+        height: 24px;
+        width: 1px;
+        background-color: $color-black;
+        opacity: .16;
+        display: flex;
+        flex: none;
+        margin: 0 8px;
       }
       p {
         margin-right: 4px;
       }
-      > span ,
+      > span,
       > * > span {
         color: $color-solid;
         opacity: .72;
-        font-size: 12px; 
+        font-size: 12px;
       }
       b span {
         opacity: 1;
@@ -95,21 +92,21 @@
         fill: $color-solid;
         opacity: .72;
       }
-      &.unread-mode ,
-      &.selcted-mode  {
-        > span ,
+      &.unread-mode,
+      &.selected-mode {
+        > span,
         > * > span {
-          color: $color-white;
+          color: $contrast-bg-color;
         }
         svg {
-          fill: $color-white;
+          fill: $contrast-bg-color;
         }
       }
-      &.unread-mode  {
+      &.unread-mode {
         background-color: $color-bg-pending;
         border: 1px solid $color-bg-pending;
       }
-      &.selcted-mode {
+      &.selected-mode {
         background-color: $color-solid;
         border: 1px solid $color-solid;
       }
@@ -128,14 +125,14 @@
   }
   p {
     margin: 0;
-    span{
+    span {
       margin: 0 8px;
     }
     a {
       white-space: nowrap;
       font-size: 12px;
       color: $color-new-hurricane;
-      font-size: 12px; 
+      font-size: 12px;
     }
   }
   .icon-filter {
@@ -149,6 +146,7 @@
     opacity: .08;
   }
 }
+
 .tool-bar {
   height: 42px;
   display: inline-flex;

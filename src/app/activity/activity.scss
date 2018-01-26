@@ -13,7 +13,7 @@
   margin-right: auto;
   padding-top: 16px;
   min-height: calc(100% - 114px);
-  box-shadow: 0 4px 8px $color-breeze-new;
+  box-shadow: 0 4px 8px $box-shadow-color;
 }
 .activities-list {
   min-height: 100%;
@@ -122,7 +122,7 @@
 }
 
 .activity-content {
-  border-bottom: 1px solid $color-breeze;
+  border-bottom: 1px solid $contrast-border-color;
   padding: 6px 5px;
   width: 100%;
   max-width: calc(100% - 200px);
@@ -141,6 +141,7 @@
   float: left;
   position: relative;
   padding-top: 1px;
+  color: $color-new-hurricane;
 }
 .places-activity-icon {
   margin-top: 8px;

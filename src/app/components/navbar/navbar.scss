@@ -194,7 +194,7 @@ nst-navbar {
         }
       }
       p {
-        color: #869D91;
+        color: $color-cool-smoke;
         line-height: 16px;
         font-size: 13px;
         font-weight: 400;
@@ -275,14 +275,13 @@ nst-navbar {
   justify-content: center;
   width: 100%;
   display: flex;
-  width: 100%;
   max-width: 720px; // height: $navbar-height;
   height: calc(100% - 24px);
   margin: 16px auto 8px auto;
   z-index: 88;
   position: relative;
-  background-color: $color-white;
-  box-shadow: 0 4px 16px $color-breeze-new;
+  background-color: $contrast-bg-color;
+  box-shadow: 0 4px 16px $box-shadow-color;
   border-radius: 8px;
   .nst-navbar-container {
     display: flex;
@@ -303,6 +302,7 @@ nst-navbar {
     height: 100%;
     flex-direction: column;
     cite {
+      color: $color-solid;
       margin: 12px 0 9px 0;
       font-size: 20px;
       font-weight: bold;
@@ -310,7 +310,6 @@ nst-navbar {
       max-width: 240px;
     }
     .navigation {
-      background-color: $color-white;
       display: inline-flex;
       flex-direction: row; //right: 0;
       width: 100%;
@@ -364,7 +363,7 @@ nst-navbar {
   position: absolute;
   top: 48px;
   z-index: 77;
-  background-color: #F0F0F0; // border-radius: 0 0 8px 8px;
+  background-color: $color-bg-nested; // border-radius: 0 0 8px 8px;
   // box-shadow: 0 4px 16px $color-breeze-new;
   width: calc(100vw - 480px);
   max-width: 880px;

@@ -234,11 +234,11 @@ nst-attachments-preview-bar {
         }
       }
       a:not(.attdl) {
-        height: 40px;  
+        height: 40px;
         max-width: 240px;
         border-radius: 4px;
         border: 1px solid #DDDFE0;
-        background-color: #F6F6F7;
+        background-color: $color-calm;
         display: flex;
         align-items: center;
         img {
@@ -421,9 +421,9 @@ nst-attachments-preview-bar {
 .download-img {
   width: 48px;
   height: 28px;
-  background-color: $color-white;
+  background-color: $contrast-bg-color;
   border-radius: 2px;
-  box-shadow: 0 2px 4px $color-gale;
+  box-shadow: 0 2px 4px $box-shadow-color;
   display: flex;
   position: absolute;
   align-items: center;
@@ -456,7 +456,7 @@ nst-attachments-preview-bar {
     padding-bottom: 42px;
     p {
       font-size: 13px;
-      color: $color-solid;
+      color: #323D47;
       line-height: 16px;
       padding-bottom: 4px;
       overflow: hidden;

@@ -4,7 +4,7 @@ post-card {
   flex-direction: column;
   align-items: center;
   position: relative;
-  max-width: calc(720px - 64px)!important;
+  max-width: calc(720px - 64px) !important;
   //z-index: 600;
   &:last-child {
     .post-card-wire {
@@ -21,7 +21,7 @@ post-card {
     position: absolute;
     top: 8px;
     right: 0;
-    transform: translate3d(100%,0,0);
+    transform: translate3d(100%, 0, 0);
     border-radius: 0 4px 4px 0;
     background-color: $color-super-solid;
     border: 1px solid rgba(0, 0, 0, .04);
@@ -33,8 +33,7 @@ post-card {
       display: flex;
       flex: 1;
       width: 100%;
-      height:
-      40px;
+      height: 40px;
       justify-content: center;
       align-items: center;
       &:hover {
@@ -56,7 +55,7 @@ post-card {
     position: absolute;
     top: 0;
     left: 0;
-    transform: translate3d(-100%,0,0);
+    transform: translate3d(-100%, 0, 0);
     border-left: 1px solid rgba(255, 255, 255, .08);
     flex-direction: column;
     > div {
@@ -68,15 +67,15 @@ post-card {
       display: inline-flex;
       justify-content: flex-start;
       align-items: center;
-      transform: translate3d(-100%,0,0);
+      transform: translate3d(-100%, 0, 0);
       position: relative;
       &:before {
         content: ' ';
         position: absolute;
         width: 1px;
         height: 24px;
-        opacity: .98;
-        background-color: $color-solid;
+        // opacity: .98;
+        background-color: $color-solid-irreversible;
       }
       > * {
         direction: ltr;
@@ -98,7 +97,7 @@ post-card {
       }
     }
     svg {
-      transform: translate3d(50%,0,0);
+      transform: translate3d(50%, 0, 0);
       flex: none;
       fill: $color-white;
       opacity: .24;
@@ -107,13 +106,13 @@ post-card {
       opacity: 1;
     }
     .circ {
-      transform: translate3d(50%,0,0);
+      transform: translate3d(50%, 0, 0);
       display: flex;
       width: 12px;
       height: 12px;
       border: 1px solid;
       border-radius: 24px;
-      background-color: #F6F6F6;
+      background-color: $color-calm;
       border-color: $color-solid;
       &.blue {
         border-color: $color-reply;
@@ -126,8 +125,8 @@ post-card {
       transform: translate3d(-4px, 0, 0);
       width: 12px;
       height: 12px;
-      background-color: #DBDBDB;
-      border: 1px solid #fafafa;
+      background-color: $color-breeze;
+      border: 1px solid $color-calm;
       border-radius: 1px;
     }
   }
@@ -136,23 +135,25 @@ post-card {
     width: 24px;
     left: 0;
     top: 24px;
-    transform: translate3d(-100%,0,0);
+    transform: translate3d(-100%, 0, 0);
     display: flex;
     align-items: center;
     flex-direction: column;
   }
 }
+
 .post-card-shadow {
-  box-shadow: 0 5px 12px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 5px 12px 2px $box-shadow-color;
   width: 100%;
 }
+
 .post-card {
   //margin-top: 32px;
   position: relative;
   border-radius: 6px;
   //box-shadow: 0 10px 6px -6px rgba(119,123,121,.4);
   z-index: 1;
-  background-color: $color-white;
+  background-color: $color-bg-postcard;
   overflow: visible;
   // transition: all $animation-dur;
   &.have-comment {
@@ -172,7 +173,7 @@ post-card {
     // .icon .more svg {
     //   fill: black;
     // }
-    .icon .post-is-forwarded{
+    .icon .post-is-forwarded {
       svg {
         fill: $color-forward;
       }
@@ -183,7 +184,7 @@ post-card {
       }
     }
   }
-  >section {
+  > section {
     display: inline-flex;
     width: 100%;
     padding: 0 24px;
@@ -197,7 +198,7 @@ post-card {
     flex: none;
     padding-left: 0;
     position: relative;
-    >div:first-child {
+    > div:first-child {
       min-width: 16px;
       padding: 0 2px 0 6px;
       flex: none;
@@ -252,7 +253,7 @@ post-card {
     }
     .post-card-time {
       font-size: 13px;
-      cursor: pointer!important;
+      cursor: pointer !important;
       color: $color-gale-new;
     }
     h4 span {
@@ -276,6 +277,9 @@ post-card {
       fill: $color-border;
       &.pinned {
         fill: $color-force;
+        svg {
+          fill: $color-force;
+        }
       }
     }
   }
@@ -286,7 +290,7 @@ post-card {
 
   .post-body {
     font-size: 14px;
-    color: #808080;
+    color: $color-solid;
     //word-spacing: .3em;
     font-weight: 400;
     margin: 0 0 16px 0;
@@ -294,23 +298,22 @@ post-card {
     overflow-x: auto;
     overflow-y: hidden;
     padding: 0 24px;
-    ul,ol {
+    ul, ol {
       margin: 0 16px;
     }
-    >div > [mail-resizer] {
+    > div > [mail-resizer] {
       width: 100%;
-      color: #808080;
+      color: $color-post-body;
       -webkit-transform-origin-x: 0px;
       -webkit-transform-origin-y: 0px;
       margin-left: 0;
       transform-origin: 0 0;
-      width: 100%;
       //max-width: 100%;
       a {
         color: $color-sense-wire;
         &:hover {
           color: $color-sense;
-          text-decoration: underline!important;
+          text-decoration: underline !important;
         }
       }
     }
@@ -367,7 +370,7 @@ post-card {
         color: $color-solid;
       }
       svg {
-        fill: $color-border;
+        fill: $color-breeze;
       }
     }
     .post-icons {
@@ -424,7 +427,7 @@ post-card {
     flex-direction: row;
     align-items: center;
     padding: 0;
-    background-color: #EEEFEF;
+    background-color: $sidebar-bg-color;
     .post-chain-status {
       width: 28px;
       height: 16px;
@@ -464,6 +467,7 @@ post-card {
     box-shadow: 0px 32px 64px $color-super-solid;
   }
 }
+
 .post-places {
   margin: 8px 0;
   flex-wrap: wrap;
@@ -489,7 +493,6 @@ post-card {
         position: absolute;
         right: 0;
         top: 12px;
-        background-color: $color-white;
       }
     }
     .tooltip {
@@ -510,8 +513,7 @@ post-card {
     }
   }
   > span {
-    margin-bottom: 6px;
-    background-color: white;
+    background-color: $color-bg-postcard;
     border-radius: 4px;
     line-height: 32px;
     margin-right: 16px;
@@ -571,6 +573,7 @@ post-card {
     }
   }
 }
+
 .post-labels {
   flex-wrap: wrap;
   flex: none;
@@ -618,7 +621,7 @@ post-card {
 
 .post-card-place-avatar {
   margin-left: 8px;
-  @include avatar(32px,32px,10%);
+  @include avatar(32px, 32px, 10%);
 }
 
 .post-card .post-attachments {
@@ -647,7 +650,7 @@ post-card {
   position: relative;
   display: flex;
   flex-direction: column;
-  background-color: #F5F5F5;
+  background-color: $color-calm;
   border-top: 1px solid $color-calm-solid;
   z-index: 1;
   border-radius: 0 0 4px 4px;
@@ -687,7 +690,7 @@ post-card {
     text-overflow: ellipsis;
     float: left;
   }
-  p,p span {
+  p, p span {
     font-size: $font-size-small;
     font-weight: 400;
     color: $color-comment;
@@ -714,7 +717,7 @@ post-card {
     }
   }
   abbr span {
-    float: none!important;
+    float: none !important;
   }
   .time {
     //padding-top: 4px;
@@ -765,9 +768,11 @@ post-card {
 .task-activity .post-card-comments p strong, .post-card-comments p strong span {
   max-width: 130px;
 }
+
 .new-comment-animation {
   animation: new-comment-hot 3s ease-in forwards;
 }
+
 .comments-load {
   height: 40px;
   align-items: center;
@@ -798,6 +803,11 @@ post-card {
 .post-card-comment-input {
   align-items: center;
   padding-right: 6px;
+  &.hide-emoji {
+    .wdt-emoji-picker {
+      display: none;
+    }
+  }
   textarea {
     margin: 8px 0;
     min-height: 32px;
@@ -811,6 +821,7 @@ post-card {
     overflow-y: auto;
     font-size: $font-size-small;
     border: solid 1px rgba(0, 0, 0, .2);
+    background-color: $contrast-bg-color;
     &:focus {
       border: solid 1px rgba(0, 0, 0, .2);
     }
@@ -873,24 +884,25 @@ post-card {
 }
 
 .new-comments-count {
-  color: #009CFA !important;
+  color: $color-pending !important;
   &:hover {
     cursor: pointer;
   }
   svg {
-    fill: #009CFA !important;
+    fill: $color-pending !important;
   }
 }
+
 .show-more {
   span {
-    color: #00b45a;
+    color: $color-sense-wire;
     font-size: 14px
   }
 }
+
 .no-replied-or-forwarded {
   margin-top: 24px;
 }
-
 
 // RTL
 body[dir="rtl"] {
@@ -898,7 +910,7 @@ body[dir="rtl"] {
     .post-head {
       padding-right: 0;
       padding-left: 24px;
-      >div:first-child {
+      > div:first-child {
         padding: 0 6px 0 2px;
       }
       .pin-post {
@@ -918,7 +930,7 @@ body[dir="rtl"] {
       margin: -4px -4px -3px 4px;
     }
     .post-footer {
-      a.icon>div {
+      a.icon > div {
         margin-right: 0;
         margin-left: 12px;
       }
@@ -936,10 +948,10 @@ body[dir="rtl"] {
       transform: translate3d(100%, 0, 0);
       border-left: none;
       border-right: 1px solid gainsboro;
-      >div {
+      > div {
         direction: ltr;
         transform: translate3d(100%, 0, 0);
-        >* {
+        > * {
           direction: rtl;
         }
       }

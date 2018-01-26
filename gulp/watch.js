@@ -17,7 +17,8 @@ gulp.task('watch', ['inject'], function () {
   gulp.watch([
     path.join(conf.paths.src, '/app/**/*.css'),
     path.join(conf.paths.src, '/app/**/*.scss'),
-    path.join(conf.paths.src, '/stylesheets/**/*.scss')
+    path.join(conf.paths.src, '/stylesheets/**/*.scss'),
+    path.join(conf.paths.src, '/theme/*.scss')
   ], function(event) {
     if(isOnlyChange(event)) {
       gulp.start('styles-reload');

@@ -26,8 +26,8 @@
     <div class="nst-marginbtm-16 _difh _fw _pr margin-t-5 border-number _ltr">
       <i class="plus">+</i>
       <i class="sep">|</i>
-      <input type="text" name="country_code" class="pre-number" maxlength="4" minlength="1" ng-model="ctrl.countryCode" allow-only-number ng-change="ctrl.validatePhone();" dir="ltr">
-      <input type="text" name="phone_number" class="number _fw" maxlength="15" minlength="1" ng-model="ctrl.phone" allow-only-number ng-change="ctrl.validatePhone();" focus-me="ctrl.ready">
+      <input type="text" name="country_code" class="pre-number" maxlength="4" minlength="1" ng-model="ctrl.countryCode" allow-only-number ng-change="ctrl.validatePhone();" dir="ltr" focus-me="{{ctrl.ready}}">
+      <input type="text" name="phone_number" class="number _fw" maxlength="15" minlength="1" ng-model="ctrl.phone" allow-only-number ng-change="ctrl.validatePhone();">
     </div>
   </div>
   <div class="form-action">

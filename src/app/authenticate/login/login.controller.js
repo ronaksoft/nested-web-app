@@ -29,7 +29,7 @@
    * @param {any} NstSvcTranslation
    */
   function LoginController($window, $state, $stateParams, md5, $location, NST_CONFIG, $sce,
-                           NST_DEFAULT, NST_SRV_ERROR, _, NstHttp, $scope, $rootScope, $timeout,
+                           NST_DEFAULT, NST_SRV_ERROR, _, NstHttp, $scope, $rootScope, $timeout, NstViewService,
                            NstSvcAuth, NstSvcTranslation, NstSvcGlobalCache, NstSvcRequestCacheFactory, NstSvcPostDraft, NstSvcI18n) {
 
     var eventReferences = [];
@@ -133,7 +133,7 @@
           }
           vm.progress = false;
         })
-
+        NstViewService.applyTheme();
       }).catch(function (error) {
         vm.password = '';
 

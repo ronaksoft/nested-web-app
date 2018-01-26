@@ -3,6 +3,9 @@
 chown -R nginx:nginx /ronak/nested/webapp
 chown -R nginx:nginx /var/lib/nginx
 
+echo "Starting Web Servers "
+node /bin/dns-discovery.js &
+
 cd /ronak/nested/webapp
 echo "Directory changed to (`pwd`)"
 node /bin/nested-reconfig.js script=scripts tmp=nestedConfig

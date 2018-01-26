@@ -1,15 +1,15 @@
 .bg-compose.bg-task {
-    background-color: transparentize($color-solid, 1 - .94);
+    background-color: $color-modal-bg;
     z-index: 0;
     position: absolute;
 }
 .create-task-container {
     position: relative;
     margin: 0 auto;
-    background-color: $color-white;
+    background-color: $color-white-revesable-super;
     width: 472px;
     min-height: 120px;
-    box-shadow: 0 32px 64px $color-solid;
+    box-shadow: 0 32px 64px $color-solid-to-super;
     // max-height: calc(100vh - 160px);
     // overflow: hidden;
     border-radius: 6px;

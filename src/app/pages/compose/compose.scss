@@ -178,17 +178,16 @@
   max-height: 300px;
   box-sizing: content-box;
   margin-bottom: 24px;
-  border-bottom: 1px solid $color-border;
+  border-bottom: 1px solid $contrast-border-color;
   transition: max-height $animation-dur;
 }
 
 #compose-recipient-input  .ui-select-choices {
-   padding: 0;
    max-height: 250px;
    width: calc(100% - 32px);
    left: 16px;
-   border: 1px solid $color-breeze;
-   box-shadow: 0 8px 16px $color-breeze;
+   border: 1px solid $contrast-border-color;
+   box-shadow: 0 8px 16px $box-shadow-color-bold;
    border-radius: 0;
    top: calc(100% + 2px);
    padding: 8px 0;
@@ -351,7 +350,7 @@
   transform-origin: center center;
   color: $color-solid;
   vertical-align: top;
-  background: #ebebeb; /* Old browsers */
+  background: $color-breeze-light; /* Old browsers */
   background: -moz-linear-gradient(top, #ebebeb 0%, #d6d6d6 100%); /* FF3.6-15 */
   background: -webkit-linear-gradient(top, #ebebeb 0%,#d6d6d6 100%); /* Chrome10-25,Safari5.1-6 */
   background: linear-gradient(to bottom, #ebebeb 0%,#d6d6d6 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */

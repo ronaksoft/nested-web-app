@@ -18,7 +18,7 @@
         options: {
           group: 'message'
         },
-        onEnter: ['$rootScope', '$stateParams', '$state', '$uibModal', function($rootScope, $stateParams, $state, $uibModal) {
+        onEnter: ['$rootScope', '$stateParams', '$state', '$uibModal', 'NST_PAGE', function($rootScope, $stateParams, $state, $uibModal, NST_PAGE) {
            $uibModal.open({
             animation: false,
             templateUrl: 'app/messages/post/post.html',
@@ -36,19 +36,10 @@
             }
           }).result.catch(function(result) {
             if (result !== true) {
-              switch ($rootScope.getLastState()) {
-                case 'app.messages-favorites':
-                case 'app.messages-favorites-sorted':
-                case 'app.messages-bookmarked':
-                case 'app.messages-sent':
-                case 'app.messages-sent-sorted':
-                case 'app.place-messages-unread':
-                case 'app.place-messages-unread-sorted':
-                  $rootScope.goToLastState(true);
-                  break;
-                default:
-                  $rootScope.goToLastState(false);
-                  break;
+              if (NST_PAGE.MESSAGES.indexOf($rootScope.getLastState()) > -1) {
+                $rootScope.goToLastState(true);
+              } else {
+                $rootScope.goToLastState(false);
               }
             }
           })

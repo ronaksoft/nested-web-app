@@ -9,9 +9,9 @@
         height: 32px;
         margin-bottom: 8px;
         display: flex;
-        background-color: $color-solid;
+        background-color: $mini-player-bg-color;
         border-radius: 8px;
-        box-shadow: 0 4px 16px $color-solid-64;
+        box-shadow: 0 4px 16px $box-shadow-color-bold;
         padding: 8px;
         .sound-poster {
             overflow: hidden;
@@ -72,12 +72,12 @@
     }
     .mini-player-inner {
         display: flex;
-        background-color: $color-solid;
+        background-color: $mini-player-bg-color;
         border-top-left-radius: 8px;
         border-top-right-radius: 8px;
         flex-direction: column;
         min-height: 88px;
-        box-shadow: 0 4px 16px $color-solid-64;
+        box-shadow: 0 4px 16px $box-shadow-color-bold;
     }
     .player {
         height: 54px;

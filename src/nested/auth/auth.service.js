@@ -193,6 +193,9 @@
       };
 
 
+      $timeout(function () {
+        $rootScope.$broadcast('reload-counters');
+      }, 500);
       return NstSvcServer.request('session/recall', payload);
     };
 

@@ -79,8 +79,9 @@ body[data-wdt-emoji-bundle='apple'] .wdt-emoji[data-has-img-apple='false'] {
 
 .wdt-emoji-popup.open {
   visibility: visible;
-
   opacity: 1;
+  transform: scale(0.7) translateY(10px);
+  transform-origin: top center;
 }
 
 #wdt-emoji-menu-header {

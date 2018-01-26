@@ -3,7 +3,7 @@
     padding: 0;
     width: 424px;
     height: 82px;
-    box-shadow: 0 24px 32px $color-solid-48;
+    box-shadow: 0 24px 32px transparentize($color-solid-irreversible, 1 - .48);;
     max-width: none;
     z-index: 2000;
     background-color: transparent;
@@ -14,7 +14,6 @@
     }
 }
 .files-menu {
-    background-color: $color-white;
     display: flex;
     flex-direction: row;
     width: 424px;
@@ -23,7 +22,7 @@
     overflow: hidden;
     height: 82px;
     padding: 8px;
-    background-color: #323D47;
+    background-color: $color-solid-irreversible;
     align-items: center;
     label {
         margin-bottom: 0;

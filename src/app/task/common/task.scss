@@ -129,7 +129,7 @@
             min-width: 74px;
             line-height: 32px;
             &.candidate {
-                color: #0079F2;
+                color: $color-pending;
             }
         }
 
@@ -155,17 +155,17 @@
         .unfocused-input {
             font-size: 14px;
             padding: 4px 0;
-            color: #333;
+            color: $color-solid;
             min-height: 32px;
             width: 100%;
             line-height: 24px;
             b {
-                color: #323D47;
+                color: $color-solid;
             }
             &.candidates {
-                color: #0079F2;
+                color: $color-pending;
                 b {
-                    color: #0079F2;
+                    color: $color-pending;
                 }
             }
         }
@@ -178,6 +178,7 @@
         line-height: 18px;
         padding: 0 8px;
         margin: 12px 0 0;
+        color: $color-solid;
     }
     .auto-height-item > label ,
     .const-height-item > label {

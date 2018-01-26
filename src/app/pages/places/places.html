@@ -9,7 +9,7 @@
   </div>
   <div class="filter-bar">
     <div class="filter-bar-inner">
-      <div class="toolbar ng-class:{'selcted-mode': ctrl.selectedPlaces.length > 0, 'unread-mode' : ctrl.placesSetting.filter}" ng-mouseleave="popoverSortShow = false">
+      <div class="toolbar ng-class:{'selected-mode': ctrl.selectedPlaces.length > 0, 'unread-mode' : ctrl.placesSetting.filter}" ng-mouseleave="popoverSortShow = false">
         <div class="search-files" ng-show="ctrl.selectedPlaces.length == 0">
           <input type="text" placeholder="type to search…" ng-model="ctrl.keyword" ng-change="ctrl.searchKeydown();" translate-attrs="placeholder"
             focus-me="{{ctrl.searchTrigg}}" />

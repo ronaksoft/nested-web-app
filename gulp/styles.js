@@ -29,7 +29,8 @@ var buildStyles = function() {
   var injectFiles = gulp.src([
     path.join(conf.paths.src, '/stylesheets/**/*.scss'),
     path.join(conf.paths.src, '/app/**/*.scss'),
-    path.join('!' + conf.paths.src, '/app/index.scss')
+    path.join('!' + conf.paths.src, '/app/index.scss'),
+    path.join('!' + conf.paths.src, '/app/index-dark.scss')
   ], { read: false });
 
   var injectOptions = {
@@ -42,9 +43,9 @@ var buildStyles = function() {
     addRootSlash: false
   };
 
-
   return gulp.src([
-    path.join(conf.paths.src, '/app/index.scss')
+    path.join(conf.paths.src, '/app/index.scss'),
+    path.join(conf.paths.src, '/app/index-dark.scss')
   ])
     .pipe($.inject(injectFiles, injectOptions))
     .pipe(wiredep(_.extend({}, conf.wiredep)))

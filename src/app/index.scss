@@ -1,4 +1,5 @@
-@import "../stylesheets/main/vars";
+@import "../theme/font";
+@import "../theme/vars";
 
 /**
  *  If you want to override some bootstrap variables, you have to change values here.
@@ -38,5 +39,10 @@ $fa-font-path: "../../bower_components/font-awesome/fonts/";
  *  Do not remove the comments below. It's the markers used by gulp-inject to inject
  *  all your sass files automatically
  */
-// injector
-// endinjector
+html[theme="normal"] {
+  .form-control:not(.label-search) {
+    background-color: $sidebar-bg-color !important;
+  }
+  // injector
+  // endinjector
+}
