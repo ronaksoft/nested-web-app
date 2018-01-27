@@ -25,7 +25,9 @@
             // Reach end dispatcher
             reachEndThrottle();
           }
-          check(scrollTop);
+          try {
+            check(scrollTop);
+          } catch (e) {}
           scroll(scrollTop);
 
           //hide tips

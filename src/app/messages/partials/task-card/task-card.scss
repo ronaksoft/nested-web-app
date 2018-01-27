@@ -3,7 +3,7 @@ task-card {
   position: relative;
   display: flex;
   max-width: calc(720px - 64px) !important;
-  margin-bottom: 8px;
+  padding-bottom: 8px;
   .task-card {
     height: 48px;
     display: flex;
