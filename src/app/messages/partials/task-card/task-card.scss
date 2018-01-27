@@ -13,6 +13,12 @@ task-card {
     border-radius: 6px;
     background-color: $contrast-bg-color;
     padding: 0 24px;
+    span {
+        font-weight: bold;
+        font-size: 13px;
+        color: $color-solid;
+        padding: 0 4px;
+    }
   }
   .chain-stats {
     width: 24px;

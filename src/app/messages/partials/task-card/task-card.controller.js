@@ -19,6 +19,13 @@
       var vm = this;
       vm.statuses = NST_TASK_PROGRESS_ICON;
 
+      vm.goToTask = function() {
+        return $state.go('app.task.edit', {
+          taskId: vm.task.id
+        }, {
+          notify: false
+        });
+      }
     }
   
   })();
