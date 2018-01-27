@@ -61,7 +61,7 @@
 
       task.id = data._id;
       task.status = data.status;
-      if (task.assignor) {
+      if (data.assignor) {
         task.assignor = NstSvcUserFactory.parseTinyUser(data.assignor);
       }
       if (data.assignee) {
