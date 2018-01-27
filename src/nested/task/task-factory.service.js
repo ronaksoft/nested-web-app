@@ -476,7 +476,9 @@
 
       task.id = data._id;
       task.status = data.status;
-      task.assignor = NstSvcUserFactory.getCachedSync(data.assignor);
+      if (data.assignor) {
+        task.assignor = NstSvcUserFactory.getCachedSync(data.assignor);
+      }
       if (data.assignee) {
         task.assignee = NstSvcUserFactory.getCachedSync(data.assignee);
       }
