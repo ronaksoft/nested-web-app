@@ -414,3 +414,7 @@ select,option {
   color: $color-solid;
   border-radius: 10px;
 }
+
+.ui-select-choices-row:hover {
+  background-color: $color-bg-public-pages;
+}

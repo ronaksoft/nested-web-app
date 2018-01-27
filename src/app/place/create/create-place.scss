@@ -96,6 +96,15 @@
  .place-head-holder {
    height: 204px;
  }
+ #PlaceDes {
+  width: 100%;
+  min-height: 28px;
+  /*color: $color-solid;*/
+  @extend .nst-font-large;
+  font-weight: 400;
+  padding: 6px;
+  margin-bottom: 10px;
+ }
 }
 
 
