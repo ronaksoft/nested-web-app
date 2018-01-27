@@ -395,6 +395,7 @@
     }
 
     function parseTaskComment(data) {
+      console.log(data);
       var notification = parseDefault(data);
 
       notification.task = {
