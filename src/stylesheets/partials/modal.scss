@@ -800,15 +800,15 @@ body.modal-open-attachment-view.compose-modal {
     button.submit {
       width: 100% !important;
     }
-    input:not(.butn){
-      width: 100%;
-      min-height: 28px;
-      /*color: $color-solid;*/
-      @extend .nst-font-large;
-      font-weight: 400;
-      padding: 6px;
-      margin-bottom: 10px;
-    }
+    // input:not(.butn){
+    //   width: 100%;
+    //   min-height: 28px;
+    //   /*color: $color-solid;*/
+    //   @extend .nst-font-large;
+    //   font-weight: 400;
+    //   padding: 6px;
+    //   margin-bottom: 10px;
+    // }
     input:not(.ui-select-search) {
       transition: all .2s;
     }

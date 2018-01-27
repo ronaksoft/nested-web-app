@@ -72,6 +72,9 @@ html[theme="dark"] {
   .form-control:not(.label-search) {
     background-color: $sidebar-bg-color !important;
   }
+  .form-control.label-search {
+    background-color: transparent;
+  }
   .dropdown-menu {
     background-color: $sidebar-bg-color !important;
   }
