@@ -152,8 +152,26 @@
       }
 
       function loadMyPlacesUnreadPostsCount() {
+        if (myPlaceIds.length === 0) {
+          return;
+        }
+        var list = _.cloneDeep(myPlaceIds);
+        var parts = [];
+        var partLen = 90;
+        for (var i = 0; i < Math.ceil(list.length / partLen); i++) {
+          parts[i] = list.slice(i * partLen, (i + 1) * partLen);
+        }
 
-        return NstSvcPlaceFactory.getPlacesUnreadPostsCount(myPlaceIds, false).then(function(places) {
+        var promises = [];
+        for (var i = 0; i < parts.length; i++) {
+          promises.push(NstSvcPlaceFactory.getPlacesUnreadPostsCount(parts[i], false));
+        }
+
+        $q.all(promises).then(function(arrResult) {
+          var places = [];
+          for (var i = 0; i < arrResult.length; i++) {
+            places = places.concat(arrResult[i]);
+          }
           var total = 0;
           vm.myPlacesUnreadPosts = {};
 
