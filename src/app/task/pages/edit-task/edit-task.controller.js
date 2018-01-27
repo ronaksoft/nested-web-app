@@ -679,7 +679,7 @@
     }
 
     function createRelatedTask() {
-      $rootScope.$broadcast('create-related-task', vm.taskId);
+      $rootScope.$broadcast('create-related-task', {id: vm.taskId});
       $scope.$dismiss();
     }
 

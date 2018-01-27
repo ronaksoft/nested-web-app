@@ -241,7 +241,7 @@
       });
     }));
 
-    eventReferences.push($rootScope.$on('open-create-task', function (event, id) {
+    eventReferences.push($rootScope.$on('open-create-task', function (event, data) {
       if (backgroundModals.length >= maxModals) {
         toastr.error(NstSvcTranslation.get(NstUtility.string.format('You cannot have more than {0} active background modals.', maxModals)));
         return;
@@ -258,7 +258,8 @@
         windowClass: 'task-modal-element',
         resolve: {
           modalData: {
-            relatedTaskId: id,
+            relatedTaskId: data.relatedTaskId,
+            relatedPostId: data.relatedPostId,
             modalId: uid
           }
         }

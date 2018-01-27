@@ -38,6 +38,7 @@
       this.noComment = false;
       this.isTrusted = true;
       this.iframeUrl = undefined;
+      this.relatedTasks = undefined;
     }
 
     Post.prototype.getTrustedBody = function () {

@@ -192,6 +192,9 @@
         if (modalData.relatedTaskId  !== null) {
           task.relatedTask = modalData.relatedTaskId;
         }
+        if (modalData.relatedPostId  !== null) {
+          task.relatedPost = modalData.relatedPostId;
+        }
         NstSvcTaskFactory.create(task).then(function (data) {
           toastr.success(NstSvcTranslation.get('Task created successfully!'));
           $rootScope.$broadcast('task-created', {

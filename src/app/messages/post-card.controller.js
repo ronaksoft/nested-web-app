@@ -47,6 +47,7 @@
     vm.toggleRecieveNotification = toggleRecieveNotification;
     vm.seenBy = seenBy;
     vm.move = move;
+    vm.createRelatedTask = createRelatedTask;
     vm.watched = false;
     vm.toggleMoveTo = toggleMoveTo;
     vm.untrustSender = untrustSender;
@@ -473,6 +474,19 @@
         });
         NstUtility.collection.replaceById(vm.post.places, result.fromPlace.id, result.toPlace);
       });
+    }
+
+    /**
+     * creates a related task
+     */
+    function createRelatedTask() {
+      $state.go('app.task.glance');
+      if (isPostView()) {
+        $scope.$parent.$parent.$dismiss(true);
+      }
+      $timeout(function () {
+        $rootScope.$broadcast('create-related-task-from-post', {id: vm.post.id});
+      }, 500);
     }
 
     /**

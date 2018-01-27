@@ -22,7 +22,7 @@
       if (id === undefined) {
         id = null;
       }
-      $rootScope.$broadcast('open-create-task', id);
+      $rootScope.$broadcast('open-create-task', {relatedTaskId: id});
     }
 
     // TODO : consider callback and updating sidebar items
@@ -51,8 +51,12 @@
       });
     }
 
-    eventReferences.push($rootScope.$on('create-related-task', function (event, id) {
-      $rootScope.$broadcast('open-create-task', id);
+    eventReferences.push($rootScope.$on('create-related-task', function (event, data) {
+      $rootScope.$broadcast('open-create-task', {relatedTaskId: data.id});
+    }));
+
+    eventReferences.push($rootScope.$on('create-related-task-from-post', function (event, data) {
+      $rootScope.$broadcast('open-create-task', {relatedPostId: data.id});
     }));
 
     eventReferences.push($rootScope.$on('open-task-custom-filter', function (event, data) {

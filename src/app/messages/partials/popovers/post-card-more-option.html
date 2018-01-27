@@ -126,6 +126,17 @@
 
 <div class="line-popover" ng-if="ctlPostCard.currentUserIsSender"></div>
 
+<a ng-click="$event.stopPropagation(); ctlPostCard.createRelatedTask();"
+   class="_df list-items _aic _fw">
+  <div class="_aic _df">
+    <svg class="_16svg">
+      <use xlink:href="/assets/icons/nst-icn16.svg#checked-box"></use>
+    </svg>
+  </div>
+  <span><translate>Create a related task</translate></span>
+</a>
+
+<div class="line-popover"></div>
 
 <a class="_df list-items _aic _fw cursor-pointer"
    ng-if="ctlPostCard.hasPlacesWithControlAccess()"

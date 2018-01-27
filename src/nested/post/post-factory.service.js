@@ -9,7 +9,7 @@
     _, md5,
     NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory,
     NstSvcCommentFactory, NstUtility, NstSvcGlobalCache,
-    NstPost, NstBaseFactory, NstCollector,
+    NstPost, NstBaseFactory, NstCollector, NstSvcTaskFactory,
     NST_MESSAGES_SORT_OPTION, NST_SRV_ERROR, NST_CONFIG, NST_POST_EVENT, NstSvcLabelFactory) {
 
     function PostFactory() {
@@ -161,6 +161,9 @@
       post.places = _.map(data.post_places, function (placeId) {
         return NstSvcPlaceFactory.getCachedSync(placeId);
       });
+      post.tasks = _.map(data.related_tasks, function (taskId) {
+        return NstSvcTaskFactory.getCachedSync(taskId);
+      });
       // Make sure the post places were found successfully
       if (!_.every(post.places)) {
         this.cache.remove(data._id);
@@ -213,6 +216,7 @@
       var copy = _.clone(post);
       copy.sender = post.sender ? post.sender._id : null;
       copy.post_places = _.map(post.post_places, '_id');
+      copy.related_tasks = _.map(post.related_tasks, '_id');
       copy.post_labels = _.map(post.post_labels, '_id');
 
       return copy;
@@ -335,6 +339,10 @@
       post.places = _.map(data.post_places, function(place) {
         NstSvcPlaceFactory.set(place);
         return NstSvcPlaceFactory.parseTinyPlace(place);
+      });
+      post.relatedTasks = _.map(data.related_tasks, function(task) {
+        NstSvcTaskFactory.set(task);
+        return NstSvcTaskFactory.parseTask(task);
       });
       post.read = data.post_read;
       post.recipients = (data.post_recipients === null? []: data.post_recipients);
