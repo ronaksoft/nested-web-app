@@ -87,7 +87,7 @@ html[theme="dark"] {
       color: $color-solid-irreversible;
     }
   }
-  .post-card, .post-card-shadow {
+  .post-card, .post-card-shadow, .task-card {
     box-shadow: 0 8px 16px $box-shadow-color !important;
   }
   // injector

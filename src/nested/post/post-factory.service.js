@@ -161,8 +161,8 @@
       post.places = _.map(data.post_places, function (placeId) {
         return NstSvcPlaceFactory.getCachedSync(placeId);
       });
-      post.tasks = _.map(data.related_tasks, function (taskId) {
-        return NstSvcTaskFactory.getCachedSync(taskId);
+      post.tasks = _.map(data.related_tasks, function (task) {
+        return NstSvcTaskFactory.parseTask(task);
       });
       // Make sure the post places were found successfully
       if (!_.every(post.places)) {
@@ -216,7 +216,6 @@
       var copy = _.clone(post);
       copy.sender = post.sender ? post.sender._id : null;
       copy.post_places = _.map(post.post_places, '_id');
-      copy.related_tasks = _.map(post.related_tasks, '_id');
       copy.post_labels = _.map(post.post_labels, '_id');
 
       return copy;
@@ -298,7 +297,7 @@
     }
 
     function pin(id) {
-      NstSvcServer.request('post/pin', {
+      NstSvcServer.request('post/add_to_bookmarks', {
         post_id: id
       }).then(function () {
         factory.cache.remove(id);
@@ -310,7 +309,7 @@
     }
 
     function unpin(id) {
-      NstSvcServer.request('post/unpin', {
+      NstSvcServer.request('post/remove_from_bookmarks', {
         post_id: id
       }).then(function () {
         factory.cache.remove(id);
@@ -341,7 +340,6 @@
         return NstSvcPlaceFactory.parseTinyPlace(place);
       });
       post.relatedTasks = _.map(data.related_tasks, function(task) {
-        NstSvcTaskFactory.set(task);
         return NstSvcTaskFactory.parseTask(task);
       });
       post.read = data.post_read;
