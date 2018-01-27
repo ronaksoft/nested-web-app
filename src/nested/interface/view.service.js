@@ -63,9 +63,13 @@
 
     obj.orderItems = function () {
       this.persisItems();
-      $rootScope.cardCtrls.sort(function (a, b) {
-        return $('#post-card-' + a.id).parent().offset().top - $('#post-card-' + b.id).parent().offset().top
-      });
+      try {
+        $rootScope.cardCtrls.sort(function (a, b) {
+          return $('#post-card-' + a.id).parent().offset().top - $('#post-card-' + b.id).parent().offset().top
+        });
+      } catch (error) {
+        
+      }
       // console.log('orderItems', $rootScope.cardCtrls)
     };
 
