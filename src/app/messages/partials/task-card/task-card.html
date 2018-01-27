@@ -1,0 +1,12 @@
+<div class="task-card" ng-click="ctlTaskCard.goToTask()">
+    <task-progress-icon status="ctlTaskCard.statuses.ASSIGNED_NO_CHECKLIST" progress="-1"></task-progress-icon>        
+  <!-- <span>{{ctlTaskCard.statuses | json}}</span> -->
+  <span>{{ctlTaskCard.task.title}}</span>
+</div>
+<div class="chain-stats">
+  <div ng-if="!ctlPostCard.addOn">
+    <svg class="_16svg">
+      <use xlink:href="/assets/icons/nst-icn16.svg#checked-box"></use>
+    </svg>
+  </div>
+</div>

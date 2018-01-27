@@ -6,6 +6,9 @@ post-card {
   position: relative;
   max-width: calc(720px - 64px) !important;
   //z-index: 600;
+  &:last-of-type {
+    padding-bottom: 64px;
+  }
   &:last-child {
     .post-card-wire {
       display: none

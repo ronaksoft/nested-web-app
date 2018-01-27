@@ -1,0 +1,108 @@
+task-card {
+  width: 100%;
+  position: relative;
+  display: flex;
+  max-width: calc(720px - 64px) !important;
+  margin-bottom: 8px;
+  .task-card {
+    height: 48px;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    box-shadow: 0px 32px 64px $color-super-solid;
+    border-radius: 6px;
+    background-color: $contrast-bg-color;
+    padding: 0 24px;
+    span {
+        font-weight: bold;
+        font-size: 13px;
+        color: $color-solid;
+        padding: 0 4px;
+    }
+  }
+  .chain-stats {
+    width: 24px;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translate3d(-100%, 0, 0);
+    border-left: 1px solid rgba(255, 255, 255, .08);
+    flex-direction: column;
+    >div {
+      height: 24px;
+      margin-top: 8px;
+      width: 100%;
+      direction: rtl;
+      flex-direction: row;
+      display: inline-flex;
+      justify-content: flex-start;
+      align-items: center;
+      transform: translate3d(-100%, 0, 0);
+      position: relative;
+      &:before {
+        content: ' ';
+        position: absolute;
+        width: 1px;
+        height: 24px; // opacity: .98;
+        background-color: $color-solid-irreversible;
+      }
+      >* {
+        direction: ltr;
+        display: inline-table;
+      }
+      svg {
+        position: absolute;
+        right: 0;
+      }
+    }
+    span {
+      white-space: nowrap;
+      padding: 0 15px;
+      color: $color-white;
+      font-size: 11px;
+      text-align: right;
+      span {
+        padding: 0;
+      }
+    }
+    svg {
+      transform: translate3d(50%, 0, 0);
+      flex: none;
+      fill: $color-white;
+      opacity: .24;
+    }
+    ._24svg {
+      opacity: 1;
+    }
+    .circ {
+      transform: translate3d(50%, 0, 0);
+      display: flex;
+      width: 12px;
+      height: 12px;
+      border: 1px solid;
+      border-radius: 24px;
+      background-color: $color-calm;
+      border-color: $color-solid;
+      &.blue {
+        border-color: $color-reply;
+      }
+      &.green {
+        border-color: $color-forward;
+      }
+    }
+    .squ {
+      transform: translate3d(-4px, 0, 0);
+      width: 12px;
+      height: 12px;
+      background-color: $color-breeze;
+      border: 1px solid $color-calm;
+      border-radius: 1px;
+    }
+  }
+  &:last-of-type {
+    .chain-stats {
+        max-height: 24px;
+    }
+  }
+}
