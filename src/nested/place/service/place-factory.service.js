@@ -962,6 +962,40 @@
       });
     };
 
+    PlaceFactory.prototype.pinPost = function (placeId, postId) {
+      var id = placeId + "-" + postId;
+
+      return this.sentinel.watch(function () {
+        var deferred = $q.defer();
+
+        NstSvcServer.request('place/pin_post', {
+          place_id: placeId,
+          post_id: postId
+        }).then(function () {
+          deferred.resolve();
+        }).catch(deferred.reject);
+
+        return deferred.promise;
+      }, id);
+    };
+
+    PlaceFactory.prototype.unpinPost = function (placeId, postId) {
+      var id = placeId + "-" + postId;
+
+      return this.sentinel.watch(function () {
+        var deferred = $q.defer();
+
+        NstSvcServer.request('place/unpin_post', {
+          place_id: placeId,
+          post_id: postId
+        }).then(function () {
+          deferred.resolve();
+        }).catch(deferred.reject);
+
+        return deferred.promise;
+      }, id);
+    };
+
     return new PlaceFactory();
   }
 })();
