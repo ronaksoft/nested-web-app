@@ -745,8 +745,7 @@
       place.accesses = placeData.access;
       place.notification = placeData.notification;
       place.favorite = placeData.favorite;
-      place.pinned_posts = placeData.
-       || [];
+      place.pinned_posts = placeData.pinned_posts || [];
 
       return place;
     };
