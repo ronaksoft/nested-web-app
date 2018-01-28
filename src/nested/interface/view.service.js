@@ -149,7 +149,11 @@
 
     obj.check = function (Ypos) {
       if (Ypos + 200 < obj.oldNumbers || Ypos - 200 > obj.oldNumbers) {
-        obj.findAffixIndex(Ypos);
+        try {
+          obj.findAffixIndex(Ypos);
+        } catch (error) {
+          
+        }
         obj.findInViewCardIndex(Ypos);
       }
       obj.oldNumbers = Ypos;
@@ -303,11 +307,20 @@
         return;
       }
       var nextElement = $('#post-card-' + nextItem.id).parent();
-      return {
-        id: nextItem.id,
-        postCardOffTop: nextElement.offset().top,
-        postCardheight: nextElement.height(),
-        postCardfullHeight: nextElement.children().first().height()
+      try {
+        return {
+          id: nextItem.id,
+          postCardOffTop: nextElement.offset().top,
+          postCardheight: nextElement.height(),
+          postCardfullHeight: nextElement.children().first().height()
+        }
+      } catch (error) {
+        return {
+          id: nextItem.id,
+          postCardOffTop: 99999,
+          postCardheight: 0,
+          postCardfullHeight: 0
+        }
       }
     }
   }

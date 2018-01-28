@@ -27,8 +27,8 @@
           }
           try {
             check(scrollTop);
+            scroll(scrollTop);
           } catch (e) {}
-          scroll(scrollTop);
 
           //hide tips
           removePopovers()
