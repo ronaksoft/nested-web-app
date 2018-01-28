@@ -1,12 +1,12 @@
-<!--<div class="_df list-items _aic _fw" ng-click="ctlPostCard.toggleRecieveNotification()">
+<div class="_df list-items _aic _fw" ng-click="ctlPostCard.togglePinPost()" ng-if="ctlPostCard.thisPlace">
   <div>
-    <svg class="_16svg _df _fn">
-      <use xlink:href="/assets/icons/nst-icn16.svg#bell"></use>
+    <svg class="_16svg _df _fn _r90">
+      <use xlink:href="/assets/icons/nst-icn16.svg#exchange"></use>
     </svg>
   </div>
-  <span class="_fw setting _asc" ng-if="!ctlPostCard.watched">	&nbsp;<translate>Turn On Notifications</translate></span>
-  <span class="_fw setting _asc" ng-if="ctlPostCard.watched">	&nbsp;<translate>Turn Off Notifications</translate></span>
-</div>-->
+  <span class="_fw setting _asc" ng-if="!ctlPostCard.isPinned"><translate>Pin Post to Place</translate></span>
+  <span class="_fw setting _asc" ng-if="ctlPostCard.isPinned"><translate>Unpin Post from Place</translate></span>
+</div>
 <a class="_df list-items _aic _fw" ui-sref="app.message({ postId : ctlPostCard.post.id })"
    ng-click="ctlPostCard.viewFull($event)">
   <div class="_aic _df">

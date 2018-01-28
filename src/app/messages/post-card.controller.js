@@ -14,7 +14,7 @@
     .module('ronak.nested.web.message')
     .controller('PostCardController', PostCardController);
 
-  function PostCardController($state, $log, $timeout, $stateParams, $rootScope, $scope, $uibModal, $location, $anchorScroll,
+  function PostCardController($state, $q, $log, $timeout, $stateParams, $rootScope, $scope, $uibModal, $location, $anchorScroll,
                               _, toastr, $sce, NstSvcTaskUtility, NST_CONFIG,
                               NST_EVENT_ACTION, NST_PLACE_ACCESS, NST_POST_EVENT, SvcCardCtrlAffix,
                               NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory, NstSearchQuery, NstSvcModal,
@@ -49,6 +49,7 @@
     vm.move = move;
     vm.createRelatedTask = createRelatedTask;
     vm.watched = false;
+    vm.isPinned = false;
     vm.toggleMoveTo = toggleMoveTo;
     vm.untrustSender = untrustSender;
     vm.alwaysTrust = alwaysTrust;
@@ -70,6 +71,7 @@
     vm.totalRecipients = [];
     vm.canGoLastState = true;
     vm.mergePostCardVariable = mergePostCardVariable;
+    vm.togglePinPost = setPin;
 
     isPlaceFeed();
     notifyObser();
@@ -218,6 +220,34 @@
           vm.post.pinned = !setBookmark;
         }
       }
+    }
+
+    function isPinnedPost(postId){
+      var deferred = $q.defer();      
+      NstSvcPlaceFactory.get(vm.thisPlace).then(function(place){
+        deferred.resolve(place.pinned_posts && place.pinned_posts.indexOf(postId) > -1);
+      }).catch(deferred.reject);
+      return deferred.promise;
+    }
+
+    /**
+     * @function
+     * add/remove post to pinned post of place
+     * @borrows NstSvcPostFactory
+     */
+    function setPin() {
+      var postId = vm.post.id;
+      vm.isPinned = !vm.isPinned;
+      if (vm.isPinned) {
+        NstSvcPlaceFactory.pinPost(vm.thisPlace, postId).catch(function () {
+          vm.isPinned = !vm.isPinned;
+        });
+      } else {
+        NstSvcPlaceFactory.unpinPost(vm.thisPlace, postId).catch(function () {
+          vm.isPinned = !vm.isPinned;
+        });
+      }
+
     }
 
     /**
@@ -843,6 +873,10 @@
           vm.post.attachments = post.attachments;
         });
       }
+
+      isPinnedPost(vm.post.id).then(function(isPinned){
+        vm.isPinned = isPinned;
+      });
     })();
 
 

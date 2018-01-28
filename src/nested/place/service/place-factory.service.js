@@ -745,6 +745,8 @@
       place.accesses = placeData.access;
       place.notification = placeData.notification;
       place.favorite = placeData.favorite;
+      place.pinned_posts = placeData.
+       || [];
 
       return place;
     };
@@ -994,7 +996,7 @@
 
         return deferred.promise;
       }, id);
-    };
+    }
 
     return new PlaceFactory();
   }

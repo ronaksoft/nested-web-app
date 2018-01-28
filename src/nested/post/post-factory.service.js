@@ -105,7 +105,7 @@
         }).then(function (dataObj) {
           defer.resolve({
             idKey: '_id',
-            resolves: dataObj.posts,
+            resolves: dataObj.posts.map(parsePost),
             rejects: dataObj.no_access
           });
         }).catch(defer.reject);

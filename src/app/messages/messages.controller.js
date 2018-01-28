@@ -21,6 +21,7 @@
       // Consistently Interactive Time Handler
       var CITHandler = null;
       vm.messages = [];
+      vm.pinned_posts = [];
       vm.hotMessagesCount = 0;
       vm.selectedPosts = [];
       // First Interactive Time
@@ -724,6 +725,11 @@
             vm.currentPlace = place;
             vm.quickMessageAccess = place.hasAccess(NST_PLACE_ACCESS.WRITE_POST);
             vm.placeRemoveAccess = place.hasAccess(NST_PLACE_ACCESS.REMOVE_POST);
+            if(place.pinned_posts.length > 0) {
+                NstSvcPostFactory.getMany(place.pinned_posts).then(function(posts) {
+                  vm.pinned_posts = posts.resolves;
+                })
+            }
             try {
               vm.sholocawPlaceId = !_.includes(['off', 'internal'], place.privacy.receptive);
             } catch (e) {
@@ -731,7 +737,7 @@
             }
           });
         }
-
+        console.log(NstSvcAuth.user);
         function reloadPlace() {
           if (!vm.currentPlaceId) {
             return;
