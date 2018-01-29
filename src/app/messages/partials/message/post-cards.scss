@@ -273,7 +273,7 @@ post-card {
       left: 0 !important;
       transform: translateY(-90%);
     }
-    .pin-post {
+    .bookmark-post {
       position: absolute;
       top: 0;
       right: 4px;
@@ -283,6 +283,16 @@ post-card {
         svg {
           fill: $color-force;
         }
+      }
+    }
+    .pinned-post {
+      position: absolute;
+      top: -5px;
+      left: -4px;
+      @include hover(.72, 1);
+      // transform: rotateY(180deg);
+      svg {
+        fill: $color-force;
       }
     }
   }
@@ -907,6 +917,10 @@ post-card {
   margin-top: 24px;
 }
 
+.pinned-post {
+  margin-top: 4px;
+}
+
 // RTL
 body[dir="rtl"] {
   .post-card {
@@ -916,7 +930,7 @@ body[dir="rtl"] {
       > div:first-child {
         padding: 0 6px 0 2px;
       }
-      .pin-post {
+      .bookmark-post {
         left: 4px;
         right: auto;
       }
