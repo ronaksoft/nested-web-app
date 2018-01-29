@@ -112,11 +112,11 @@
           <use xlink:href="/assets/icons/nst-icn24.svg#bookmark-wire"></use>
         </svg>
       </div>
-      <div class="pinned-post" ng-if="ctlPostCard.post.pinned">
+      <!-- <div class="pinned-post" ng-if="ctlPostCard.post.pinned">
         <svg class="_16svg">
           <use xlink:href="/assets/icons/nst-icn16.svg#pin"></use>
         </svg>
-      </div>
+      </div> -->
     </section>
 
     <section ng-if="ctlPostCard.post.subject.length > 0 && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)"
@@ -373,6 +373,7 @@
       <use xlink:href="/assets/icons/nst-icn16.svg#message"></use>
     </svg>
   </div>
+
   <div ng-if="ctlPostCard.addOn" class="no-replied-or-forwarded"
        ng-click="ctlPostCard.goTo('post-subject-' + ctlPostCard.post.id)">
     <svg class="_24svg">
@@ -431,6 +432,9 @@
   <div class="_16svg" ng-show="ctlPostCard.expandProgress && ctlPostCard.post.ellipsis">
     <div class="nst-loading xsm"></div>
   </div>
+  <svg ng-if="ctlPostCard.post.pinned" class="_16svg nst-icn-gry pinned-post">
+    <use xlink:href="/assets/icons/nst-icn16.svg#pin"></use>
+  </svg>
 </div>
 
 <div class="post-card-wire" ng-if="!ctlPostCard.chainView"></div>

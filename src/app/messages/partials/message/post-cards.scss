@@ -290,7 +290,7 @@ post-card {
       top: -5px;
       left: -4px;
       @include hover(.72, 1);
-      transform: rotateY(180deg);
+      // transform: rotateY(180deg);
       svg {
         fill: $color-force;
       }
@@ -915,6 +915,10 @@ post-card {
 
 .no-replied-or-forwarded {
   margin-top: 24px;
+}
+
+.pinned-post {
+  margin-top: 4px;
 }
 
 // RTL
