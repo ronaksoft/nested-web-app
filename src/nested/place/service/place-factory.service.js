@@ -111,7 +111,7 @@
       });
 
       return deferred.promise;
-    }
+    };
 
     PlaceFactory.prototype.getWithNoCache = function (id) {
 
@@ -133,7 +133,7 @@
       });
 
       return deferred.promise;
-    }
+    };
 
     PlaceFactory.prototype.getFresh = function (id) {
       this.cache.remove(id);
@@ -144,7 +144,7 @@
         factory.set(data);
         return $q.resolve(factory.parsePlace(data));
       });
-    }
+    };
 
     PlaceFactory.prototype.getSafe = function (id, normal) {
       var factory = this;
@@ -155,7 +155,7 @@
           resolve(null);
         });
       });
-    }
+    };
 
     PlaceFactory.prototype.getMany = function (id) {
       var joinedIds = id.join(',');
@@ -172,7 +172,7 @@
 
     PlaceFactory.prototype.getCachedSync = function (id) {
       return this.parseCachedModel(this.cache.get(id));
-    }
+    };
 
     /**
      *
@@ -745,7 +745,7 @@
       place.accesses = placeData.access;
       place.notification = placeData.notification;
       place.favorite = placeData.favorite;
-      place.pinned_posts = placeData.pinned_posts || [];
+      place.pinnedPosts = placeData.pinned_posts || [];
 
       return place;
     };
@@ -945,7 +945,7 @@
 
         return deferred.promise;
       }, "getPlacesWithCreatorFilter");
-    }
+    };
 
     PlaceFactory.prototype.getRecentlyVisitedPlace = function (cacheHandler) {
       var factory = this;
@@ -995,7 +995,7 @@
 
         return deferred.promise;
       }, id);
-    }
+    };
 
     return new PlaceFactory();
   }

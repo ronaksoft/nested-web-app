@@ -49,7 +49,6 @@
     vm.move = move;
     vm.createRelatedTask = createRelatedTask;
     vm.watched = false;
-    vm.isPinned = false;
     vm.toggleMoveTo = toggleMoveTo;
     vm.untrustSender = untrustSender;
     vm.alwaysTrust = alwaysTrust;
@@ -203,28 +202,24 @@
      * @borrows NstSvcPostFactory
      */
     function setBookmark(setBookmark) {
-      vm.post.pinned = setBookmark;
+      vm.post.bookmarked = setBookmark;
       if (setBookmark) {
         try {
           NstSvcPostFactory.pin(vm.post.id).catch(function () {
-            vm.post.pinned = !setBookmark;
+            vm.post.bookmarked = !setBookmark;
           });
         } catch (e) {
-          vm.post.pinned = !setBookmark;
+          vm.post.bookmarked = !setBookmark;
         }
       } else {
         try {
           NstSvcPostFactory.unpin(vm.post.id).catch(function () {
-            vm.post.pinned = !setBookmark;
+            vm.post.bookmarked = !setBookmark;
           });
         } catch (e) {
-          vm.post.pinned = !setBookmark;
+          vm.post.bookmarked = !setBookmark;
         }
       }
-    }
-
-    function isPinnedPost(){
-      vm.isPinned = vm.placeRoute.pinned_posts && vm.placeRoute.pinned_posts.indexOf(vm.post.id) > -1;
     }
 
     /**
@@ -233,18 +228,23 @@
      * @borrows NstSvcPostFactory
      */
     function setPin() {
-      var postId = vm.post.id;
-      vm.isPinned = !vm.isPinned;
-      if (vm.isPinned) {
-        NstSvcPlaceFactory.pinPost(vm.thisPlace, postId).catch(function () {
-          vm.isPinned = !vm.isPinned;
+      if (!vm.post.pinned) {
+        NstSvcPlaceFactory.pinPost(vm.thisPlace, vm.post.id).then(function () {
+          vm.post.pinned = true;
+          $rootScope.$broadcast('pin-to-place-toggled', {
+            pinned: true,
+            id: vm.post.id
+          });
         });
       } else {
-        NstSvcPlaceFactory.unpinPost(vm.thisPlace, postId).catch(function () {
-          vm.isPinned = !vm.isPinned;
+        NstSvcPlaceFactory.unpinPost(vm.thisPlace, vm.post.id).then(function () {
+          vm.post.pinned = false;
+          $rootScope.$broadcast('pin-to-place-toggled', {
+            pinned: false,
+            id: vm.post.id
+          });
         });
       }
-
     }
 
     /**
@@ -599,7 +599,7 @@
      */
     eventReferences.push($rootScope.$on(NST_POST_EVENT.BOOKMARKED, function (e, data) {
       if (data.postId === vm.post.id) {
-        vm.post.pinned = true;
+        vm.post.bookmarked = true;
       }
     }));
 
@@ -609,7 +609,7 @@
      */
     eventReferences.push($rootScope.$on(NST_POST_EVENT.UNBOOKMARKED, function (e, data) {
       if (data.postId === vm.post.id) {
-        vm.post.pinned = false;
+        vm.post.bookmarked = false;
       }
     }));
 
@@ -870,14 +870,13 @@
           vm.post.attachments = post.attachments;
         });
       }
-      
-      
+
+
       NstSvcPlaceFactory.get(vm.thisPlace).then(function(place){
         vm.placeRoute = place;
         vm.isPlaceManager = place.accesses.indexOf(NST_PLACE_ACCESS.CONTROL) > -1;
-        isPinnedPost();
       })
-      
+
     })();
 
 

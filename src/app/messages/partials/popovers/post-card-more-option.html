@@ -1,12 +1,12 @@
-<div class="_df list-items _aic _fw" ng-click="ctlPostCard.togglePinPost()" ng-if="(ctlPostCard.thisPlace && ctlPostCard.isPlaceManager) || ctlPostCard.user.authority.admin">
-  {{ctlPostCard.thisPlace | json}}
+<div class="_df list-items _aic _fw" ng-click="ctlPostCard.togglePinPost()"
+     ng-if="(ctlPostCard.thisPlace && (ctlPostCard.isPlaceManager || ctlPostCard.user.authority.admin))">
   <div>
     <svg class="_16svg _df _fn _r90">
       <use xlink:href="/assets/icons/nst-icn16.svg#exchange"></use>
     </svg>
   </div>
-  <span class="_fw setting _asc" ng-if="!ctlPostCard.isPinned"><translate>Pin Post to Place</translate></span>
-  <span class="_fw setting _asc" ng-if="ctlPostCard.isPinned"><translate>Unpin Post from Place</translate></span>
+  <span class="_fw setting _asc" ng-if="!ctlPostCard.post.pinned"><translate>Pin Post to Place</translate></span>
+  <span class="_fw setting _asc" ng-if="ctlPostCard.post.pinned"><translate>Unpin Post from Place</translate></span>
 </div>
 <a class="_df list-items _aic _fw" ui-sref="app.message({ postId : ctlPostCard.post.id })"
    ng-click="ctlPostCard.viewFull($event)">
@@ -24,7 +24,9 @@
     </svg>
   </div>
   <input class="_fr" type="checkbox" id="comments" name="comments" ng-checked="ctlPostCard.watched"/>
-  <label class="_fw setting _asc nmarg" for="comments"><translate style="overflow:visible;">Recieve notifications</translate></label>
+  <label class="_fw setting _asc nmarg" for="comments">
+    <translate style="overflow:visible;">Recieve notifications</translate>
+  </label>
 </a>
 
 <!-- <a class="_df list-items _aic _fw cursor-pointer" print-post='ctlPostCard.post'> -->
@@ -37,7 +39,8 @@
   <span><translate>Print</translate></span>
 </a>
 
-<a ng-if="ctlPostCard.haveAnyLabelAcess || ctlPostCard.currentUserIsSender" class="_df list-items _aic _fw cursor-pointer"
+<a ng-if="ctlPostCard.haveAnyLabelAcess || ctlPostCard.currentUserIsSender"
+   class="_df list-items _aic _fw cursor-pointer"
    add-label added-labels="ctlPostCard.post.labels" after-add-label="ctlPostCard.addLabels"
    ng-click="ctlPostCard.markAsRead()">
   <div class="_aic _df">
@@ -48,7 +51,8 @@
   <span><translate>Labels</translate></span>
 </a>
 
-<a ng-if="!ctlPostCard.post.internal && ctlPostCard.post.isTrusted" class="list-items _difh" ng-click="ctlPostCard.untrustSender()">
+<a ng-if="!ctlPostCard.post.internal && ctlPostCard.post.isTrusted" class="list-items _difh"
+   ng-click="ctlPostCard.untrustSender()">
   <div>
     <svg class="_16svg _df _fn">
       <use xlink:href="/assets/icons/nst-icn16.svg#bell"></use>

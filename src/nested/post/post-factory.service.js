@@ -156,7 +156,7 @@
       post.forwardFromId = data.forward_from;
       post.internal = data.internal;
       post.lastUpdate = data.last_update;
-      post.pinned = data.pinned;
+      post.bookmarked = data.pinned;
       post.attachments = _.map(data.post_attachments, NstSvcAttachmentFactory.parseAttachment);
       post.places = _.map(data.post_places, function (placeId) {
         return NstSvcPlaceFactory.getCachedSync(placeId);
@@ -333,7 +333,7 @@
       post.forwardFromId = data.forward_from;
       post.internal = data.internal;
       post.lastUpdate = data.last_update;
-      post.pinned = data.pinned;
+      post.bookmarked = data.pinned;
       post.attachments = _.map(data.post_attachments, NstSvcAttachmentFactory.parseAttachment);
       post.places = _.map(data.post_places, function(place) {
         NstSvcPlaceFactory.set(place);
