@@ -9,6 +9,7 @@
     $('[data-lng-clockpicker]').val(hoursView.text() + ':' + minutesView.text() + ' ' + amPmBlock.text());
     $('[data-lng-clockpicker]').trigger('input');
   }
+
   angular.module('ronak.nested.web.components')
 
     .factory('clockpickerService', function () {
@@ -82,10 +83,10 @@
         if(datepicker[0]) {
             $('.clockpicker-popover').appendTo(datepicker);
         }
-        $('.clockpicker-button').on('click', clickOnDone);
+        $('.btn-block.clockpicker-button').on('mousedown', clickOnDone);
       },
       beforeHide: function() {
-        $('.clockpicker-button').off('click', clickOnDone);
+        $('.clockpicker-button').off('mousedown', clickOnDone);
         $('.clockpicker-popover').off();
       }
     })
@@ -118,23 +119,23 @@
 
         var parseViewValue = clockpickerService.parseTime.bind(null, isMobile && options.nativeOnMobile, options.twelvehour);
 
-        scope.$watch(function () {
-          return ngModel.$modelValue && ngModel.$modelValue.unix && ngModel.$modelValue.unix();
-        }, function () {
-          ngModel.$viewValue = ngModel.$formatters.reduceRight(function (prev, formatter) {
-            return formatter(prev);
-          }, ngModel.$modelValue);
+        // scope.$watch(function () {
+        //   return ngModel.$modelValue && ngModel.$modelValue.unix && ngModel.$modelValue.unix();
+        // }, function () {
+        //   ngModel.$viewValue = ngModel.$formatters.reduceRight(function (prev, formatter) {
+        //     return formatter(prev);
+        //   }, ngModel.$modelValue);
 
-          ngModel.$render();
-        });
+        //   ngModel.$render();
+        // });
 
-        element.blur(function () {
-          ngModel.$valid && element.val(getModelValue().local().format(formatTime));
-        });
+        // element.blur(function () {
+        //   ngModel.$valid && element.val(getModelValue().local().format(formatTime));
+        // });
 
-        ngModel.$render = function (val) {
-          element.val(ngModel.$viewValue || '');
-        };
+        // ngModel.$render = function (val) {
+        //   element.val(ngModel.$viewValue || '');
+        // };
 
         ngModel.$parsers.push(function (val) {
           var time = parseViewValue(val);
