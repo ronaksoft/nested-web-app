@@ -58,7 +58,6 @@
     vm.loadNewComments = loadNewComments;
     vm.isPostView = isPostView();
 
-    vm.user = NstSvcAuth.user;
     vm.expandProgress = false;
     vm.body = null;
     vm.chainView = false;

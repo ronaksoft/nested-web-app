@@ -677,6 +677,9 @@
     function initPinnedPost() {
       if (vm.pinnedPosts.length > 0) {
         NstSvcPostFactory.getMany(vm.pinnedPosts).then(function (posts) {
+          posts = _.map(posts, function(post) {
+            return NstSvcPostFactory.parsePost(post);
+          });
           var newItems = _.differenceBy(posts.resolves, vm.messages, 'id');
           var pinnedPosts = [];
           _.forEachRight(vm.messages, function (post, index) {
