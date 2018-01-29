@@ -57,8 +57,8 @@ html[theme="dark"] {
   }
   select {
     // background: url("../assets/icons/inputform.svg") no-repeat 98% -124px, linear-gradient(to bottom, $sidebar-bg-color, $sidebar-bg-color 100%) !important;
-    &:hover {
-      // background: none !important;
+    option {
+      background-color: $color-super-solid
     }
   }
   body[dir="rtl"] {
