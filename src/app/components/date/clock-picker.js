@@ -1,5 +1,14 @@
 (function () {
   'use strict';
+  
+  function clickOnDone() {
+    var popover = $('.clockpicker-popover'),
+    hoursView = popover.find('.clockpicker-span-hours'),
+    minutesView = popover.find('.clockpicker-span-minutes'),
+    amPmBlock = popover.find('.clockpicker-span-am-pm');
+    $('[data-lng-clockpicker]').val(hoursView.text() + ':' + minutesView.text() + ' ' + amPmBlock.text());
+    $('[data-lng-clockpicker]').trigger('input');
+  }
   angular.module('ronak.nested.web.components')
 
     .factory('clockpickerService', function () {
@@ -73,8 +82,10 @@
         if(datepicker[0]) {
             $('.clockpicker-popover').appendTo(datepicker);
         }
+        $('.clockpicker-button').on('click', clickOnDone);
       },
       beforeHide: function() {
+        $('.clockpicker-button').off('click', clickOnDone);
         $('.clockpicker-popover').off();
       }
     })
@@ -162,4 +173,5 @@
         link: link
       };
     }]);
+
 })();
