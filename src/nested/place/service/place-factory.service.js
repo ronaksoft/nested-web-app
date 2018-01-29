@@ -114,16 +114,18 @@
     };
 
     PlaceFactory.prototype.getWithNoCache = function (id) {
-
+      var factory = this;
       var deferred = $q.defer();
       // collects all requests for place and send them all using getMany
       this.collector.add(id).then(function (data) {
-        deferred.resolve(data);
+        factory.set(data);
+        deferred.resolve(factory.parsePlace(data));
       }).catch(function (error) {
         switch (error.code) {
           case NST_SRV_ERROR.ACCESS_DENIED:
           case NST_SRV_ERROR.UNAVAILABLE:
             deferred.resolve();
+            factory.cache.remove(id);
             break;
 
           default:

@@ -216,7 +216,7 @@ post-card {
       align-items: center;
       height: 100%;
       opacity: 0;
-      background-color: $color-white;
+      background-color: $contrast-bg-color;
       transition: opacity 0.15s;
       &.selected {
         opacity: 1;

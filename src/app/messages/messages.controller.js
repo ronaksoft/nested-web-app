@@ -660,7 +660,7 @@
         return;
       }
 
-      NstSvcPlaceFactory.get(vm.currentPlaceId, true).then(function (place) {
+      NstSvcPlaceFactory.getWithNoCache(vm.currentPlaceId).then(function (place) {
         vm.currentPlace = place;
         vm.quickMessageAccess = place.hasAccess(NST_PLACE_ACCESS.WRITE_POST);
         vm.placeRemoveAccess = place.hasAccess(NST_PLACE_ACCESS.REMOVE_POST);
