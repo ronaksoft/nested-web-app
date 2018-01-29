@@ -16,7 +16,7 @@
   @include reset-text;
   font-size: $font-size-base;
 
-  background-color: $contrast-bg-color;
+  background-color: $color-white-to-black;
   background-clip: padding-box;
   border: 1px solid $popover-border-color;
   border-radius: $border-radius-large 0 $border-radius-large $border-radius-large;
