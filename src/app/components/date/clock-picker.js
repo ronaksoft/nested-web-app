@@ -74,7 +74,7 @@
       donetext: 'Apply',
       afterShow: function(e) {
         var datepicker = $('.ng-flat-datepicker');
-        $('.clockpicker-popover').on('click', function (e) {
+        $('.clockpicker-popover').on('mousedown', function (e) {
             e.preventDefault();
             e.stopImmediatePropagation();
             return e.stopPropagation();
@@ -86,7 +86,7 @@
         $('.btn-block.clockpicker-button').on('mousedown', clickOnDone);
       },
       beforeHide: function() {
-        $('.clockpicker-button').off('mousedown', clickOnDone);
+        // $('.btn-block.clockpicker-button').off('mousedown', clickOnDone);
         $('.clockpicker-popover').off();
       }
     })
@@ -119,23 +119,23 @@
 
         var parseViewValue = clockpickerService.parseTime.bind(null, isMobile && options.nativeOnMobile, options.twelvehour);
 
-        // scope.$watch(function () {
-        //   return ngModel.$modelValue && ngModel.$modelValue.unix && ngModel.$modelValue.unix();
-        // }, function () {
-        //   ngModel.$viewValue = ngModel.$formatters.reduceRight(function (prev, formatter) {
-        //     return formatter(prev);
-        //   }, ngModel.$modelValue);
+        scope.$watch(function () {
+          return ngModel.$modelValue && ngModel.$modelValue.unix && ngModel.$modelValue.unix();
+        }, function () {
+          ngModel.$viewValue = ngModel.$formatters.reduceRight(function (prev, formatter) {
+            return formatter(prev);
+          }, ngModel.$modelValue);
 
-        //   ngModel.$render();
-        // });
+          ngModel.$render();
+        });
 
-        // element.blur(function () {
-        //   ngModel.$valid && element.val(getModelValue().local().format(formatTime));
-        // });
+        element.blur(function () {
+          ngModel.$valid && element.val(getModelValue().local().format(formatTime));
+        });
 
-        // ngModel.$render = function (val) {
-        //   element.val(ngModel.$viewValue || '');
-        // };
+        ngModel.$render = function (val) {
+          element.val(ngModel.$viewValue || '');
+        };
 
         ngModel.$parsers.push(function (val) {
           var time = parseViewValue(val);
