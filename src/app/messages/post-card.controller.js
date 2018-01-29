@@ -59,6 +59,7 @@
     vm.loadNewComments = loadNewComments;
     vm.isPostView = isPostView();
 
+    vm.user = NstSvcAuth.user;
     vm.expandProgress = false;
     vm.body = null;
     vm.chainView = false;
@@ -222,12 +223,8 @@
       }
     }
 
-    function isPinnedPost(postId){
-      var deferred = $q.defer();      
-      NstSvcPlaceFactory.get(vm.thisPlace).then(function(place){
-        deferred.resolve(place.pinned_posts && place.pinned_posts.indexOf(postId) > -1);
-      }).catch(deferred.reject);
-      return deferred.promise;
+    function isPinnedPost(){
+      vm.isPinned = vm.placeRoute.pinned_posts && vm.placeRoute.pinned_posts.indexOf(vm.post.id) > -1;
     }
 
     /**
@@ -873,10 +870,14 @@
           vm.post.attachments = post.attachments;
         });
       }
-
-      isPinnedPost(vm.post.id).then(function(isPinned){
-        vm.isPinned = isPinned;
-      });
+      
+      
+      NstSvcPlaceFactory.get(vm.thisPlace).then(function(place){
+        vm.placeRoute = place;
+        vm.isPlaceManager = place.accesses.indexOf(NST_PLACE_ACCESS.CONTROL) > -1;
+        isPinnedPost();
+      })
+      
     })();
 
 

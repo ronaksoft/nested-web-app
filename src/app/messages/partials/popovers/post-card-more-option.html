@@ -1,4 +1,5 @@
-<div class="_df list-items _aic _fw" ng-click="ctlPostCard.togglePinPost()" ng-if="ctlPostCard.thisPlace">
+<div class="_df list-items _aic _fw" ng-click="ctlPostCard.togglePinPost()" ng-if="(ctlPostCard.thisPlace && ctlPostCard.isPlaceManager) || ctlPostCard.user.authority.admin">
+  {{ctlPostCard.thisPlace | json}}
   <div>
     <svg class="_16svg _df _fn _r90">
       <use xlink:href="/assets/icons/nst-icn16.svg#exchange"></use>
