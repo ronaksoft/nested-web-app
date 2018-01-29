@@ -287,9 +287,10 @@ post-card {
     }
     .pinned-post {
       position: absolute;
-      top: -8px;
-      left: 8px;
+      top: -5px;
+      left: -4px;
       @include hover(.72, 1);
+      transform: rotateY(180deg);
       svg {
         fill: $color-force;
       }
