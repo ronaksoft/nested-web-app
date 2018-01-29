@@ -224,7 +224,7 @@
     }
 
     function isPinnedPost(){
-      vm.isPinned = vm.placeRoute.pinned_posts && vm.placeRoute.pinned_posts.indexOf(vm.post.id) > -1;
+      vm.isPinned = vm.placeRoute && vm.placeRoute.pinned_posts && vm.placeRoute.pinned_posts.indexOf(vm.post.id) > -1;
     }
 
     /**
@@ -876,7 +876,7 @@
         vm.placeRoute = place;
         vm.isPlaceManager = place.accesses.indexOf(NST_PLACE_ACCESS.CONTROL) > -1;
         isPinnedPost();
-      })
+      });
       
     })();
 
