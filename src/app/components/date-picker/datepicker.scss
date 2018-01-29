@@ -18,7 +18,7 @@ $default-color: $color-sense-wire;
   transform-origin: top;
   width: $width;
   position: absolute;
-  background-color: $color-white-revesable;
+  background-color: $color-white-to-black;
   z-index: 3000;
   top: 40px;
   box-shadow: 1px 1px 7px 0px rgba(37, 53, 50, 0.37);
@@ -91,7 +91,7 @@ $default-color: $color-sense-wire;
         td {
           width: ($width - (2 * $table-padding))/7;
           text-align: center;
-          background-color: $color-white-revesable;
+          background-color: $color-white-to-black;
           font-size: 12px;
           display: inline-block;
           cursor: default;
@@ -297,7 +297,7 @@ $default-color: $color-sense-wire;
     z-index: 3;
     @include align-center();
     color: $color-sense-wire;
-    background-color: $color-white-revesable;
+    background-color: $color-white-to-black;
   }
 }
 
