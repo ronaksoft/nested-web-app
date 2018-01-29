@@ -273,7 +273,7 @@ post-card {
       left: 0 !important;
       transform: translateY(-90%);
     }
-    .pin-post {
+    .bookmark-post {
       position: absolute;
       top: 0;
       right: 4px;
@@ -283,6 +283,15 @@ post-card {
         svg {
           fill: $color-force;
         }
+      }
+    }
+    .pinned-post {
+      position: absolute;
+      top: -8px;
+      left: 8px;
+      @include hover(.72, 1);
+      svg {
+        fill: $color-force;
       }
     }
   }
@@ -916,7 +925,7 @@ body[dir="rtl"] {
       > div:first-child {
         padding: 0 6px 0 2px;
       }
-      .pin-post {
+      .bookmark-post {
         left: 4px;
         right: auto;
       }

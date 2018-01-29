@@ -103,13 +103,18 @@
           <span ng-if="ctlPostCard.chainView">{{::ctlPostCard.post.timestamp | date : 'full' | localize}}</span>
         </a>
       </div>
-      <div class="pin-post ng-class:{'pinned' : ctlPostCard.post.bookmarked}"
+      <div class="bookmark-post ng-class:{'pinned' : ctlPostCard.post.bookmarked}"
            ng-click="ctlPostCard.markAsRead();ctlPostCard.setBookmark(!ctlPostCard.post.bookmarked); _track('post card',ctlPostCard.post.bookmarked ? 'bookmark remove' : 'bookmark add');">
         <svg class="_24svg" data-ng-if="ctlPostCard.post.bookmarked">
           <use xlink:href="/assets/icons/nst-icn24.svg#bookmark"></use>
         </svg>
         <svg class="_24svg" data-ng-if="!ctlPostCard.post.bookmarked">
           <use xlink:href="/assets/icons/nst-icn24.svg#bookmark-wire"></use>
+        </svg>
+      </div>
+      <div class="pinned-post" ng-if="ctlPostCard.post.pinned">
+        <svg class="_16svg">
+          <use xlink:href="/assets/icons/nst-icn16.svg#pin"></use>
         </svg>
       </div>
     </section>
