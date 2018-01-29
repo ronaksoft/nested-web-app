@@ -83,6 +83,8 @@ a .ui-select-choises-row-inner {
 .ui-select-multiple.ui-select-bootstrap {
   width: 100%;
   border: none;
+  padding: 0;
+  height: auto;
   box-shadow: none;
   > div {
     max-width: 100%;
