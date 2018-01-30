@@ -73,7 +73,7 @@
   }
 
 
-  function ngJalaaliFlatDatepickerDirective($templateCache, $compile, $document, datesCalculator, ngJalaaliFDP, moment, NstSvcI18n, NstSvcTranslation) {
+  function ngJalaaliFlatDatepickerDirective($templateCache, $compile, $document, datesCalculator, ngJalaaliFDP, moment, NstSvcI18n, NstSvcTranslation, $timeout) {
     /*function parseConfig (config) {
         var temp = angular.fromJson(config);
         if (typeof(temp.minDate) == 'undefined') {
@@ -101,7 +101,10 @@
         var farsi = NstSvcI18n.selectedLocale === 'fa-IR';
         setTimeFromTimeStamp();
         // setViewTime();
-        scope.showTime = scope.haveTime || false;
+        scope.showTime = false;
+        if (scope.haveTime) {
+          scope.showTime = scope.haveTime;
+        }
 
         scope.clockOpts = {
           donetext: NstSvcTranslation.get('Apply'),
@@ -136,6 +139,16 @@
           if (inited) {
             scope.timeHour = newVal.hours();
             scope.timeMinute = newVal.minutes();
+            scope.setTime(true);
+          }
+        });
+
+        scope.$watch('timestampModel', function (newVal) {
+          if (inited) {
+            if (newVal === 0) {
+              ngModel.$setViewValue(null);
+              ngModel.$render();
+            }
           }
         });
 
