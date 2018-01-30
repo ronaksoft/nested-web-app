@@ -51,7 +51,8 @@
 
               },
               onRelease:function() {
-                if(isRTL) {
+                $timeout(function () {
+                  if(isRTL) {
                     if (Draggable.get($element).x > midX) {
                       scope.model = false;
                     } else {
@@ -65,6 +66,7 @@
                     }
                   }
                   $element.css({transform: ''});
+                }, 10)
               }
             });
             $element.css({transform: ''});
