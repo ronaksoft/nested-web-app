@@ -103,7 +103,9 @@
     }
 
     function promptModal(options) {
-      return $uibModal.open({
+      var deferred = $q.defer();
+
+      $uibModal.open({
         animation: false,
         templateUrl: 'app/label/partials/label-confirm-modal.html',
         controller: 'labelConfirmModalController',
@@ -118,7 +120,15 @@
             cancelText: options.cancelText
           }
         }
-      }).result;
+      }).result.then(function (result) {
+        if (result) {
+          deferred.resolve();
+        } else {
+          deferred.reject();
+        }
+      });
+
+      return deferred.promise;
     }
 
     function getValidUser(vm, userFn) {

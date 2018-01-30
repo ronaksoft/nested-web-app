@@ -6,16 +6,19 @@
     .controller('TaskSidebarController', TaskSidebarController);
 
   /** @ngInject */
-  function TaskSidebarController($q, $scope, $state, $stateParams, _, $uibModal, $rootScope, NstSvcKeyFactory, NST_CUSTOM_FILTER) {
+  function TaskSidebarController($q, $scope, $state, $stateParams, _, $uibModal, $rootScope, NstSvcKeyFactory, NstSvcTaskDraft, NST_CUSTOM_FILTER) {
     var vm = this;
     var eventReferences = [];
     vm.openCustomFilterModal = openCustomFilterModal;
     vm.createTask = createTask;
     vm.customFilters = [];
+    vm.hasDraft = false;
 
     (function () {
       getCustomFilters(true);
       getCustomFilters(false);
+
+      vm.hasDraft = NstSvcTaskDraft.has();
     })();
 
     function createTask(id) {
@@ -63,9 +66,12 @@
       openCustomFilterModal(data.id);
     }));
 
-
     eventReferences.push($rootScope.$on('task-custom-filter-updated', function () {
       getCustomFilters(true);
+    }));
+
+    eventReferences.push($rootScope.$on('task-draft-change', function () {
+      vm.hasDraft = NstSvcTaskDraft.has();
     }));
 
     $scope.$on('$destroy', function () {

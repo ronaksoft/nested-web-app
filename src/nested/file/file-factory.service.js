@@ -207,8 +207,8 @@
      * @private
      *
      * @param attachmentId
-     * @param placeId
      * @param postId
+     * @param taskId
      * @returns {promise}
      */
     function requestNewDownloadToken(attachmentId, postId, taskId) {
