@@ -46,8 +46,8 @@
       attachment.uploadTime = data.upload_time;
       attachment.uploadType = data.upload_type;
       attachment.meta = data.meta;
-      if(attachment.meta && attachment.meta.duration) {
-        attachment.meta.duration = attachment.meta.duration / 1000000
+      if (attachment.meta && attachment.meta.duration) {
+        attachment.meta.duration = attachment.meta.duration / 1000
       }
 
       attachment.height = data.height || 0;
