@@ -5,7 +5,7 @@
     .service('SvcCardCtrlAffix', SvcCardCtrlAffix);
 
   /** @ngInject */
-  function SvcCardCtrlAffix($rootScope, $window, deviceDetector, $timeout, $, _) {
+  function SvcCardCtrlAffix($rootScope, $window, deviceDetector, $timeout, $, _, $log) {
     var obj = {};
 
     $rootScope.inViewPost = {
@@ -68,6 +68,7 @@
           return $('#post-card-' + a.id).parent().offset().top - $('#post-card-' + b.id).parent().offset().top
         });
       } catch (error) {
+        $log.error(error)
         
       }
       // console.log('orderItems', $rootScope.cardCtrls)
@@ -152,7 +153,7 @@
         try {
           obj.findAffixIndex(Ypos);
         } catch (error) {
-          
+          $log.error(error)
         }
         obj.findInViewCardIndex(Ypos);
       }
@@ -315,6 +316,7 @@
           postCardfullHeight: nextElement.children().first().height()
         }
       } catch (error) {
+        $log.error(error)
         return {
           id: nextItem.id,
           postCardOffTop: 99999,

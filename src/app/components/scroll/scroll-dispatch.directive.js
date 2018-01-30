@@ -28,7 +28,9 @@
           try {
             check(scrollTop);
             scroll(scrollTop);
-          } catch (e) {}
+          } catch (e) {
+            $log.error(error)
+          }
 
           //hide tips
           removePopovers()
