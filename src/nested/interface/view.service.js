@@ -5,7 +5,7 @@
     .service('SvcCardCtrlAffix', SvcCardCtrlAffix);
 
   /** @ngInject */
-  function SvcCardCtrlAffix($rootScope, $window, deviceDetector, $timeout, $, _) {
+  function SvcCardCtrlAffix($rootScope, $window, deviceDetector, $timeout, $, _, $log) {
     var obj = {};
 
     $rootScope.inViewPost = {
@@ -63,9 +63,14 @@
 
     obj.orderItems = function () {
       this.persisItems();
-      $rootScope.cardCtrls.sort(function (a, b) {
-        return $('#post-card-' + a.id).parent().offset().top - $('#post-card-' + b.id).parent().offset().top
-      });
+      try {
+        $rootScope.cardCtrls.sort(function (a, b) {
+          return $('#post-card-' + a.id).parent().offset().top - $('#post-card-' + b.id).parent().offset().top
+        });
+      } catch (error) {
+        $log.error(error)
+        
+      }
       // console.log('orderItems', $rootScope.cardCtrls)
     };
 
@@ -145,7 +150,11 @@
 
     obj.check = function (Ypos) {
       if (Ypos + 200 < obj.oldNumbers || Ypos - 200 > obj.oldNumbers) {
-        obj.findAffixIndex(Ypos);
+        try {
+          obj.findAffixIndex(Ypos);
+        } catch (error) {
+          $log.error(error)
+        }
         obj.findInViewCardIndex(Ypos);
       }
       obj.oldNumbers = Ypos;
@@ -299,11 +308,21 @@
         return;
       }
       var nextElement = $('#post-card-' + nextItem.id).parent();
-      return {
-        id: nextItem.id,
-        postCardOffTop: nextElement.offset().top,
-        postCardheight: nextElement.height(),
-        postCardfullHeight: nextElement.children().first().height()
+      try {
+        return {
+          id: nextItem.id,
+          postCardOffTop: nextElement.offset().top,
+          postCardheight: nextElement.height(),
+          postCardfullHeight: nextElement.children().first().height()
+        }
+      } catch (error) {
+        $log.error(error)
+        return {
+          id: nextItem.id,
+          postCardOffTop: 99999,
+          postCardheight: 0,
+          postCardfullHeight: 0
+        }
       }
     }
   }

@@ -57,8 +57,8 @@ html[theme="dark"] {
   }
   select {
     // background: url("../assets/icons/inputform.svg") no-repeat 98% -124px, linear-gradient(to bottom, $sidebar-bg-color, $sidebar-bg-color 100%) !important;
-    &:hover {
-      // background: none !important;
+    option {
+      background-color: $color-super-solid
     }
   }
   body[dir="rtl"] {
@@ -72,6 +72,9 @@ html[theme="dark"] {
   .form-control:not(.label-search) {
     background-color: $sidebar-bg-color !important;
   }
+  .form-control.label-search {
+    background-color: transparent;
+  }
   .dropdown-menu {
     background-color: $sidebar-bg-color !important;
   }
@@ -84,7 +87,7 @@ html[theme="dark"] {
       color: $color-solid-irreversible;
     }
   }
-  .post-card, .post-card-shadow {
+  .post-card, .post-card-shadow, .task-card {
     box-shadow: 0 8px 16px $box-shadow-color !important;
   }
   // injector

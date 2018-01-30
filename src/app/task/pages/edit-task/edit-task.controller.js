@@ -308,7 +308,7 @@
     }, true);
 
     function removeDueDate() {
-      vm.model.dueDate = null;
+      vm.model.dueDate = 0;
     }
 
     function removeTodos() {
@@ -399,7 +399,7 @@
       hasDueTime: null
     };
 
-    var updateDebouncer = _.debounce(updateTask, 1000);
+    var updateDebouncer = _.debounce(updateTask, 512);
 
     function updateTitle(text) {
       if (vm.modelBackUp.title === text || !vm.model.access.updateTask) {
@@ -679,7 +679,7 @@
     }
 
     function createRelatedTask() {
-      $rootScope.$broadcast('create-related-task', vm.taskId);
+      $rootScope.$broadcast('create-related-task', {id: vm.taskId});
       $scope.$dismiss();
     }
 

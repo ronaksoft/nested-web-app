@@ -6,7 +6,7 @@
     .controller('CreateTaskController', CreateTaskController);
 
   /** @ngInject */
-  function CreateTaskController($q, $timeout, $scope, $rootScope, NstSvcAuth, NstSvcTaskFactory, _, toastr,
+  function CreateTaskController($q, $timeout, $scope, $rootScope, NstSvcAuth, NstSvcTaskFactory, _, toastr, NstSvcTaskDraft,
                                 NstSvcTranslation, NstTask, NST_ATTACHMENT_STATUS, NstUtility, NstSvcTaskUtility, NstSvcStore,
                                 modalData) {
     var vm = this;
@@ -27,7 +27,7 @@
     function backDropClick() {
       if (vm.model.dueDate !== null ||
           _.trim(vm.model.title).length !== 0 ||
-          _.trim(vm.model.desc).length !== 0 ||
+          _.trim(vm.model.description).length !== 0 ||
           vm.model.assignees.length !== 0 ||
           vm.model.todos.length !== 0 ||
           vm.model.attachments.length !== 0 ||
@@ -35,15 +35,98 @@
           vm.model.labels.length !== 0) {
         NstSvcTaskUtility.promptModal({
           title: NstSvcTranslation.get('Closing creating task modal'),
-          body: NstSvcTranslation.get('Are you sure? <br>All the filled data will be lost'),
-          confirmText: NstSvcTranslation.get('Yes'),
+          body: NstSvcTranslation.get('By discarding this task, you will lose your draft. Are you sure you want to discard?'),
+          confirmText: NstSvcTranslation.get('Discard'),
           confirmColor: 'red',
-          cancelText: NstSvcTranslation.get('Cancel')
+          cancelText: NstSvcTranslation.get('Draft')
         }).then(function () {
+          discardDraft();
+          $scope.$dismiss();
+        }).catch(function () {
+          saveDraft();
           $scope.$dismiss();
         });
       } else {
         $scope.$dismiss();
+      }
+    }
+
+    function saveDraft() {
+      var draft = {
+        title:  vm.model.title,
+        assignees: vm.model.assignees,
+        dueDate: vm.model.dueDate,
+        hasDueTime: vm.model.hasDueTime,
+        description: vm.model.description,
+        todos: vm.model.todos,
+        attachments: vm.model.attachments,
+        watchers: vm.model.watchers,
+        labels: vm.model.labels
+      };
+      NstSvcTaskDraft.save(draft);
+      $rootScope.$broadcast('task-draft-change');
+    }
+
+    function discardDraft() {
+      NstSvcTaskDraft.discard();
+      $rootScope.$broadcast('task-draft-change');
+    }
+
+    function loadDraft() {
+      var task = NstSvcTaskDraft.get();
+      if (!task) {
+        return;
+      }
+      if (task.title) {
+        vm.model.title = task.title;
+      }
+
+      if (task.assignees) {
+        vm.model.assignees = {
+          init: true,
+          data: task.assignees
+        };
+      }
+
+      if (task.dueDate && task.dueDate !== 0) {
+        vm.model.dueDate = task.dueDate;
+        vm.model.hasDueTime = task.hasDueTime;
+      } else {
+        vm.model.dueDate = null;
+      }
+
+      if (task.description && _.trim(task.description).length > 0) {
+        vm.model.description = task.description;
+        vm.showMoreOption = true;
+      }
+
+      if (task.todos && task.todos.length > 0) {
+        vm.model.todos = task.todos;
+        vm.showMoreOption = true;
+      }
+
+      if (task.attachments && task.attachments.length > 0) {
+        vm.model.attachments = {
+          init: true,
+          data: task.attachments
+        };
+        vm.showMoreOption = true;
+      }
+
+      if (task.watchers && task.watchers.length > 0) {
+        vm.model.watchers = {
+          init: true,
+          data: task.watchers
+        };
+        vm.showMoreOption = true;
+      }
+
+      if (task.labels && task.labels.length > 0) {
+        vm.model.labels = {
+          init: true,
+          data: task.labels
+        };
+        vm.showMoreOption = true;
       }
     }
 
@@ -59,12 +142,14 @@
       dueDateText: null,
       dueDate: null,
       hasDueTime: false,
-      desc: '',
+      description: '',
       todos: [],
       attachments: [],
       watchers: [],
       labels: []
     };
+
+    loadDraft();
 
     vm.titlePlaceholder = NstSvcTranslation.get('Enter a Task Title');
 
@@ -192,8 +277,12 @@
         if (modalData.relatedTaskId  !== null) {
           task.relatedTask = modalData.relatedTaskId;
         }
+        if (modalData.relatedPostId  !== null) {
+          task.relatedPost = modalData.relatedPostId;
+        }
         NstSvcTaskFactory.create(task).then(function (data) {
           toastr.success(NstSvcTranslation.get('Task created successfully!'));
+          discardDraft();
           $rootScope.$broadcast('task-created', {
             id: data.task.id
           });

@@ -49,6 +49,7 @@
       };
 
       var localLocale = NstSvcI18nStorage.get('locale');
+      var localCalendar = localStorage.getItem('ronak.nested.web.calendar');
 
       var ajax = new NstHttp('',
         {
@@ -83,8 +84,8 @@
       if (routedLocale) {
         NstSvcI18nStorage.set('locale', routedLocale);
       }
-      this.selectedCalendar = localStorage.getItem('ronak.nested.web.calendar') || routedCalendar || defaultCalendar;
-      this.selectedLocale = NstSvcI18nStorage.get('locale') || routedLocale || defaultLocale;
+      this.selectedCalendar = localCalendar || routedCalendar || defaultCalendar;
+      this.selectedLocale = localLocale || routedLocale || defaultLocale;
       initCalandLocale();
       // this.checkSettings().then(function (v) {
       //   console.log('checkSettings 18n', v)

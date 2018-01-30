@@ -545,26 +545,26 @@
       /**
        * Event listener for `reload-counters`
        */
-      $rootScope.$on('reload-counters', function () {
+      eventReferences.push($rootScope.$on('reload-counters', function () {
         NstSvcLogger.debug('Retrieving mentions count right after focus.');
         NstSvcLogger.debug('Retrieving the grand place unreads count right after focus.');
         loadMyPlacesUnreadPostsCount();
-      });
+      }));
 
       /**
        * Event listener for `draft-change`
        */
-      $scope.$on('draft-change', function () {
+      eventReferences.push($rootScope.$on('draft-change', function () {
         vm.hasDraft = NstSvcPostDraft.has();
-      });
+      }));
 
-      $scope.$on('$destroy', function () {
+      eventReferences.push($scope.$on('$destroy', function () {
         _.forEach(eventReferences, function (canceler) {
           if (_.isFunction(canceler)) {
             canceler();
           }
         });
-      });
+      }));
 
       /**
        * Returns true if the given Place is a child of the provided parent Place ID

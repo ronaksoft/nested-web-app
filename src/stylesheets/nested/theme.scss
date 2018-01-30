@@ -154,7 +154,7 @@ li.completed{
 }
 .rejected li,
 li.rejected {
-  
+
 }
 @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
   .overdue li{
@@ -195,7 +195,7 @@ li {
       }
     }
     &:hover {
-      background-color: $color-breeze-5-new;
+      background-color: $li-hover-color;
       .user-more-opt {
         fill: $color-solid;
       }

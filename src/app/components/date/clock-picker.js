@@ -1,5 +1,15 @@
 (function () {
   'use strict';
+
+  function clickOnDone() {
+    var popover = $('.clockpicker-popover'),
+      hoursView = popover.find('.clockpicker-span-hours'),
+      minutesView = popover.find('.clockpicker-span-minutes'),
+      amPmBlock = popover.find('.clockpicker-span-am-pm');
+    $('[data-lng-clockpicker]').val(hoursView.text() + ':' + minutesView.text() + ' ' + amPmBlock.text());
+    $('[data-lng-clockpicker]').trigger('input');
+  }
+
   angular.module('ronak.nested.web.components')
 
     .factory('clockpickerService', function () {
@@ -62,19 +72,21 @@
       twelvehour: true,
       autoclose: false,
       donetext: 'Apply',
-      afterShow: function(e) {
+      afterShow: function (e) {
         var datepicker = $('.ng-flat-datepicker');
-        $('.clockpicker-popover').on('click', function (e) {
-            e.preventDefault();
-            e.stopImmediatePropagation();
-            return e.stopPropagation();
+        $('.clockpicker-popover').on('mousedown', function (e) {
+          e.preventDefault();
+          e.stopImmediatePropagation();
+          return e.stopPropagation();
         });
 
-        if(datepicker[0]) {
-            $('.clockpicker-popover').appendTo(datepicker);
+        if (datepicker[0]) {
+          $('.clockpicker-popover').appendTo(datepicker);
         }
+        $('.btn-block.clockpicker-button').on('mousedown', clickOnDone);
       },
-      beforeHide: function() {
+      beforeHide: function () {
+        // $('.btn-block.clockpicker-button').off('mousedown', clickOnDone);
         $('.clockpicker-popover').off();
       }
     })
@@ -162,4 +174,5 @@
         link: link
       };
     }]);
+
 })();

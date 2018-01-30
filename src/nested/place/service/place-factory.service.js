@@ -111,19 +111,21 @@
       });
 
       return deferred.promise;
-    }
+    };
 
     PlaceFactory.prototype.getWithNoCache = function (id) {
-
+      var factory = this;
       var deferred = $q.defer();
       // collects all requests for place and send them all using getMany
       this.collector.add(id).then(function (data) {
-        deferred.resolve(data);
+        factory.set(data);
+        deferred.resolve(factory.parsePlace(data));
       }).catch(function (error) {
         switch (error.code) {
           case NST_SRV_ERROR.ACCESS_DENIED:
           case NST_SRV_ERROR.UNAVAILABLE:
             deferred.resolve();
+            factory.cache.remove(id);
             break;
 
           default:
@@ -133,7 +135,7 @@
       });
 
       return deferred.promise;
-    }
+    };
 
     PlaceFactory.prototype.getFresh = function (id) {
       this.cache.remove(id);
@@ -144,7 +146,7 @@
         factory.set(data);
         return $q.resolve(factory.parsePlace(data));
       });
-    }
+    };
 
     PlaceFactory.prototype.getSafe = function (id, normal) {
       var factory = this;
@@ -155,7 +157,7 @@
           resolve(null);
         });
       });
-    }
+    };
 
     PlaceFactory.prototype.getMany = function (id) {
       var joinedIds = id.join(',');
@@ -172,7 +174,7 @@
 
     PlaceFactory.prototype.getCachedSync = function (id) {
       return this.parseCachedModel(this.cache.get(id));
-    }
+    };
 
     /**
      *
@@ -745,6 +747,7 @@
       place.accesses = placeData.access;
       place.notification = placeData.notification;
       place.favorite = placeData.favorite;
+      place.pinnedPosts = placeData.pinned_posts || [];
 
       return place;
     };
@@ -944,7 +947,7 @@
 
         return deferred.promise;
       }, "getPlacesWithCreatorFilter");
-    }
+    };
 
     PlaceFactory.prototype.getRecentlyVisitedPlace = function (cacheHandler) {
       var factory = this;
@@ -960,6 +963,40 @@
       }).then(function (data) {
         return $q.resolve(_.map(data.places, factory.parsePlace));
       });
+    };
+
+    PlaceFactory.prototype.pinPost = function (placeId, postId) {
+      var id = placeId + "-" + postId;
+
+      return this.sentinel.watch(function () {
+        var deferred = $q.defer();
+
+        NstSvcServer.request('place/pin_post', {
+          place_id: placeId,
+          post_id: postId
+        }).then(function () {
+          deferred.resolve();
+        }).catch(deferred.reject);
+
+        return deferred.promise;
+      }, id);
+    };
+
+    PlaceFactory.prototype.unpinPost = function (placeId, postId) {
+      var id = placeId + "-" + postId;
+
+      return this.sentinel.watch(function () {
+        var deferred = $q.defer();
+
+        NstSvcServer.request('place/unpin_post', {
+          place_id: placeId,
+          post_id: postId
+        }).then(function () {
+          deferred.resolve();
+        }).catch(deferred.reject);
+
+        return deferred.promise;
+      }, id);
     };
 
     return new PlaceFactory();

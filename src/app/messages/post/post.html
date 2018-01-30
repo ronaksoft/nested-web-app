@@ -40,12 +40,14 @@
           comment-board="msg.id == ctlPost.postId"
           add-on="msg.id == ctlPost.postId">
         </post-card>
+        <task-card
+          data-ng-repeat="task in ctlPost.messages[ctlPost.messages.length - 1].relatedTasks track by task.id" task="task"></task-card>
       </div>
     </div>
   </section>
 </div>
+<!-- Post Close -->
 <div class="post-navbar">
-  <!--<div id="Logo"></div>-->
   <div class="_df _32svg closebut _df _aic _jcc" ng-click="$dismiss()">
     <svg class="_24svg">
       <use xlink:href="/assets/icons/nst-icn24.svg#xcross"></use>

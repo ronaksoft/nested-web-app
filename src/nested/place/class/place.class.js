@@ -25,6 +25,8 @@
 
       this.favorite = undefined;
 
+      this.pinnedPosts = undefined;
+
       NstTinyPlace.call(this);
     }
 
@@ -33,7 +35,7 @@
 
     Place.prototype.canAddSubPlace = function() {
       return this.limits && this.counters && this.counters.childs < this.limits.childs;
-    }
+    };
 
     return Place;
   }

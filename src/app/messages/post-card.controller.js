@@ -14,7 +14,7 @@
     .module('ronak.nested.web.message')
     .controller('PostCardController', PostCardController);
 
-  function PostCardController($state, $log, $timeout, $stateParams, $rootScope, $scope, $uibModal, $location, $anchorScroll,
+  function PostCardController($state, $q, $log, $timeout, $stateParams, $rootScope, $scope, $uibModal, $location, $anchorScroll,
                               _, toastr, $sce, NstSvcTaskUtility, NST_CONFIG,
                               NST_EVENT_ACTION, NST_PLACE_ACCESS, NST_POST_EVENT, SvcCardCtrlAffix,
                               NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory, NstSearchQuery, NstSvcModal,
@@ -47,6 +47,7 @@
     vm.toggleRecieveNotification = toggleRecieveNotification;
     vm.seenBy = seenBy;
     vm.move = move;
+    vm.createRelatedTask = createRelatedTask;
     vm.watched = false;
     vm.toggleMoveTo = toggleMoveTo;
     vm.untrustSender = untrustSender;
@@ -69,6 +70,7 @@
     vm.totalRecipients = [];
     vm.canGoLastState = true;
     vm.mergePostCardVariable = mergePostCardVariable;
+    vm.togglePinPost = setPin;
 
     isPlaceFeed();
     notifyObser();
@@ -199,23 +201,48 @@
      * @borrows NstSvcPostFactory
      */
     function setBookmark(setBookmark) {
-      vm.post.pinned = setBookmark;
+      vm.post.bookmarked = setBookmark;
       if (setBookmark) {
         try {
           NstSvcPostFactory.pin(vm.post.id).catch(function () {
-            vm.post.pinned = !setBookmark;
+            vm.post.bookmarked = !setBookmark;
           });
         } catch (e) {
-          vm.post.pinned = !setBookmark;
+          vm.post.bookmarked = !setBookmark;
         }
       } else {
         try {
           NstSvcPostFactory.unpin(vm.post.id).catch(function () {
-            vm.post.pinned = !setBookmark;
+            vm.post.bookmarked = !setBookmark;
           });
         } catch (e) {
-          vm.post.pinned = !setBookmark;
+          vm.post.bookmarked = !setBookmark;
         }
+      }
+    }
+
+    /**
+     * @function
+     * add/remove post to pinned post of place
+     * @borrows NstSvcPostFactory
+     */
+    function setPin() {
+      if (!vm.post.pinned) {
+        NstSvcPlaceFactory.pinPost(vm.thisPlace, vm.post.id).then(function () {
+          vm.post.pinned = true;
+          $rootScope.$broadcast('pin-to-place-toggled', {
+            pinned: true,
+            id: vm.post.id
+          });
+        });
+      } else {
+        NstSvcPlaceFactory.unpinPost(vm.thisPlace, vm.post.id).then(function () {
+          vm.post.pinned = false;
+          $rootScope.$broadcast('pin-to-place-toggled', {
+            pinned: false,
+            id: vm.post.id
+          });
+        });
       }
     }
 
@@ -476,6 +503,19 @@
     }
 
     /**
+     * creates a related task
+     */
+    function createRelatedTask() {
+      $state.go('app.task.glance');
+      if (isPostView()) {
+        $scope.$parent.$parent.$dismiss(true);
+      }
+      $timeout(function () {
+        $rootScope.$broadcast('create-related-task-from-post', {id: vm.post.id});
+      }, 500);
+    }
+
+    /**
      * @deprecated
      */
     function toggleMoveTo(show) {
@@ -558,7 +598,7 @@
      */
     eventReferences.push($rootScope.$on(NST_POST_EVENT.BOOKMARKED, function (e, data) {
       if (data.postId === vm.post.id) {
-        vm.post.pinned = true;
+        vm.post.bookmarked = true;
       }
     }));
 
@@ -568,7 +608,7 @@
      */
     eventReferences.push($rootScope.$on(NST_POST_EVENT.UNBOOKMARKED, function (e, data) {
       if (data.postId === vm.post.id) {
-        vm.post.pinned = false;
+        vm.post.bookmarked = false;
       }
     }));
 
@@ -829,6 +869,13 @@
           vm.post.attachments = post.attachments;
         });
       }
+
+
+      NstSvcPlaceFactory.get(vm.thisPlace).then(function(place){
+        vm.placeRoute = place;
+        vm.isPlaceManager = place.accesses.indexOf(NST_PLACE_ACCESS.CONTROL) > -1;
+      })
+
     })();
 
 

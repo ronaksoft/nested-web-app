@@ -28,6 +28,7 @@
       this.progress = -1;
       this.relatedTask = undefined;
       this.childTasks = undefined;
+      this.relatedPost = undefined;
     }
 
     return Task;

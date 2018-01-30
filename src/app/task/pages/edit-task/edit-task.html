@@ -22,7 +22,7 @@
     <div ng-if="!ctrlEditTask.loading">
       <div class="task-title auto-height-item">
         <div
-          class="task-input-wrapper ng-class:{'focus': ctrlEditTask.titleFocus, 'error' : (ctrlEditTask.model.title.length > ctrlEditTask.model.titleLengthLimit)}">
+          class="task-input-wrapper ng-class:{'focus': ctrlEditTask.titleFocus}">
           <textarea type="text" class="no-style gale-holder create-task-input"
                     placeholder="{{ctrlEditTask.titlePlaceholder}}" id="task-title"
                     ng-focus="ctrlEditTask.setFocus('title')"
@@ -41,10 +41,10 @@
               <use xlink:href="/assets/icons/nst-icn24.svg#more"></use>
             </svg>
           </div>
-          <div class="error-handler"
+          <!-- <div class="error-handler"
                ng-if="ctrlEditTask.model.title.length > (ctrlEditTask.model.titleLengthLimit - 10)">
             {{ctrlEditTask.model.title.length | localize}} / {{ctrlEditTask.model.titleLengthLimit | localize}}
-          </div>
+          </div> -->
         </div>
         <label for="task-title" ng-class="{'focus' : ctrlEditTask.titleFocus}">
           <task-progress-icon status="ctrlEditTask.getTaskIcon(ctrlEditTask.model.status, ctrlEditTask.model.progress)"
@@ -112,8 +112,7 @@
                  uneditable="{{ctrlEditTask.model.access.updateTask? 'false': 'true'}}"
           >
         </div>
-        <label for="task-due"
-               ng-class="{'focus': ctrlEditTask.dueDateFocus, 'no-hover': (ctrlEditTask.model.access.updateTask != true || ctrlEditTask.model.dueDate == null)}">
+        <label ng-class="{'focus': ctrlEditTask.dueDateFocus, 'no-hover': (ctrlEditTask.model.access.updateTask != true || ctrlEditTask.model.dueDate == null)}">
           <div class="_24svg _df _jcc">
             <svg class="_16svg static-item">
               <use xlink:href="/assets/icons/nst-icn16.svg#finish-flag"></use>

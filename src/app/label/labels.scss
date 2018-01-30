@@ -38,6 +38,7 @@
         }
         i {
             position: absolute;
+            height: 16px;
             top: calc(50% - 8px);
             left: 8px;
             opacity: .4;
@@ -526,6 +527,13 @@
                 padding: 0;
                 border-radius: 0;
                 height: 32px;
+                // width: 100%;
+                // min-height: 28px;
+                // /*color: $color-solid;*/
+                // @extend .nst-font-large;
+                // font-weight: 400;
+                // padding: 6px;
+                // margin-bottom: 10px;
             }
             input::-moz-placeholder {
                 font-size: 14px;

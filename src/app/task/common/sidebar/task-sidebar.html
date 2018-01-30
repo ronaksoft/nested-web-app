@@ -5,6 +5,11 @@
     <a class="side-menu-item large" ng-click="sidebarCtrl.createTask()">
       <div class="item-icon">
         <div>
+          <div class="unreadPlace" ng-if="sidebarCtrl.hasDraft">
+            <svg class="pendfill">
+              <use xlink:href="/assets/icons/nst-icn24.svg#unread-circle"></use>
+            </svg>
+          </div>
           <svg class="_16svg">
             <use xlink:href="/assets/icons/nst-icn16.svg#checked-box"></use>
           </svg>

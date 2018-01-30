@@ -6,7 +6,7 @@
 // Base class
 .panel {
   //margin: auto;
-  box-shadow: 0 0 16px 0 rgba(71, 97, 82, 0.15);
+  box-shadow: 0 0 16px 0 $panel-shadow;
   border-radius: 8px;
   border: 1px solid $color-breeze;
   padding: 16px;

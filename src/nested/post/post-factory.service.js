@@ -9,7 +9,7 @@
     _, md5,
     NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory,
     NstSvcCommentFactory, NstUtility, NstSvcGlobalCache,
-    NstPost, NstBaseFactory, NstCollector,
+    NstPost, NstBaseFactory, NstCollector, NstSvcTaskFactory,
     NST_MESSAGES_SORT_OPTION, NST_SRV_ERROR, NST_CONFIG, NST_POST_EVENT, NstSvcLabelFactory) {
 
     function PostFactory() {
@@ -156,10 +156,13 @@
       post.forwardFromId = data.forward_from;
       post.internal = data.internal;
       post.lastUpdate = data.last_update;
-      post.pinned = data.pinned;
+      post.bookmarked = data.pinned;
       post.attachments = _.map(data.post_attachments, NstSvcAttachmentFactory.parseAttachment);
       post.places = _.map(data.post_places, function (placeId) {
         return NstSvcPlaceFactory.getCachedSync(placeId);
+      });
+      post.tasks = _.map(data.related_tasks, function (task) {
+        return NstSvcTaskFactory.parseTask(task);
       });
       // Make sure the post places were found successfully
       if (!_.every(post.places)) {
@@ -294,7 +297,7 @@
     }
 
     function pin(id) {
-      NstSvcServer.request('post/pin', {
+      NstSvcServer.request('post/add_to_bookmarks', {
         post_id: id
       }).then(function () {
         factory.cache.remove(id);
@@ -306,7 +309,7 @@
     }
 
     function unpin(id) {
-      NstSvcServer.request('post/unpin', {
+      NstSvcServer.request('post/remove_from_bookmarks', {
         post_id: id
       }).then(function () {
         factory.cache.remove(id);
@@ -330,11 +333,14 @@
       post.forwardFromId = data.forward_from;
       post.internal = data.internal;
       post.lastUpdate = data.last_update;
-      post.pinned = data.pinned;
+      post.bookmarked = data.pinned;
       post.attachments = _.map(data.post_attachments, NstSvcAttachmentFactory.parseAttachment);
       post.places = _.map(data.post_places, function(place) {
         NstSvcPlaceFactory.set(place);
         return NstSvcPlaceFactory.parseTinyPlace(place);
+      });
+      post.relatedTasks = _.map(data.related_tasks, function(task) {
+        return NstSvcTaskFactory.parseTask(task);
       });
       post.read = data.post_read;
       post.recipients = (data.post_recipients === null? []: data.post_recipients);

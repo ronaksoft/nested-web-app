@@ -5,16 +5,20 @@
     &.edit-mode {
         .auto-height-item ,
         .const-height-item {
-            > label {
-                &:not(.no-hover) {
-                  &:hover {
+            &:hover {
+                label.no-hover {
                     .hover-item {
-                      display: block;
+                        display: none;
                     }
                     .static-item {
-                      display: none;
+                        display: block;
                     }
-                  }
+                }
+                .hover-item {
+                    display: block;
+                }
+                .static-item {
+                    display: none;
                 }
             }
             &:hover {

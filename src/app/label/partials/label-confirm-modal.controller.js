@@ -19,5 +19,9 @@
     vm.confirm = function () {
       $uibModalInstance.close(true);
     };
+
+    vm.discard = function () {
+      $uibModalInstance.close(false);
+    };
   }
 })();

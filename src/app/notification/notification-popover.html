@@ -118,6 +118,10 @@
        class="notif-li ng-class:{'seen': notif.isSeen}" ng-include="'/app/notification/task-partials/mention.html'"
        ng-init="notification = notif">
   </div>
+  <div ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.TASK_COMMENT"
+       class="notif-li ng-class:{'seen': notif.isSeen}" ng-include="'/app/notification/task-partials/comment.html'"
+       ng-init="notification = notif">
+  </div>
   <div ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.TASK_ASSIGNED"
        class="notif-li ng-class:{'seen': notif.isSeen}" ng-include="'/app/notification/task-partials/assigned.html'"
        ng-init="notification = notif">

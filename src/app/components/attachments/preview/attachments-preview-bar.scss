@@ -191,14 +191,14 @@ nst-attachments-preview-bar {
       position: relative;
       &.uploading {
         a:not(.attdl) {
-          background-color: $color-white;
+          background-color: $contrast-border-color;
           border: 1px solid rgba(0, 121, 242 , .4);
           box-shadow: 0 2px 4px rgba(0, 121, 242 , .16);
         }
       }
       &.failed {
         a:not(.attdl) {
-          background-color: $color-white;
+          background-color: $contrast-border-color;
           border: 1px solid rgba(255, 51, 68, .4);
           box-shadow: 0 2px 4px rgba(255, 51, 68, .16);
           span {
@@ -237,7 +237,7 @@ nst-attachments-preview-bar {
         height: 40px;
         max-width: 240px;
         border-radius: 4px;
-        border: 1px solid #DDDFE0;
+        border: 1px solid $contrast-border-color;
         background-color: $color-calm;
         display: flex;
         align-items: center;
@@ -257,7 +257,7 @@ nst-attachments-preview-bar {
           display: block;
         }
         &:hover {
-          box-shadow: 0 2px 4px $color-breeze;
+          box-shadow: 0 2px 4px $contrast-border-color;
         }
       }
       .attdl.del {
@@ -477,7 +477,6 @@ nst-attachments-preview-bar {
     margin-bottom: 2px;
     flex-direction: row;
     align-items: flex-end;
-    padding-right: 48px;
     font-size: 16px;
     line-height: 21px;
     padding: 6px 16px 16px 16px;

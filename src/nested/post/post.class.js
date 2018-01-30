@@ -19,7 +19,8 @@
       this.forwardFromId = undefined;
       this.internal = undefined;
       this.lastUpdate = undefined;
-      this.pinned = undefined;
+      this.bookmarked = undefined;
+      this.pinned = false;
       this.attachments = undefined;
       this.places = undefined;
       this.read = undefined;
@@ -38,6 +39,7 @@
       this.noComment = false;
       this.isTrusted = true;
       this.iframeUrl = undefined;
+      this.relatedTasks = undefined;
     }
 
     Post.prototype.getTrustedBody = function () {

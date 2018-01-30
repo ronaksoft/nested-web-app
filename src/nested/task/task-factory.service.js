@@ -61,7 +61,9 @@
 
       task.id = data._id;
       task.status = data.status;
-      task.assignor = NstSvcUserFactory.parseTinyUser(data.assignor);
+      if (data.assignor) {
+        task.assignor = NstSvcUserFactory.parseTinyUser(data.assignor);
+      }
       if (data.assignee) {
         task.assignee = NstSvcUserFactory.parseTinyUser(data.assignee);
       }
@@ -250,6 +252,10 @@
       if (task.relatedTask) {
         params.related_to = task.relatedTask;
         params.due_data_has_clock = task.hasDueTime;
+      }
+
+      if (task.relatedPost) {
+        params.related_post = task.relatedPost;
       }
 
       return this.sentinel.watch(function () {
@@ -470,7 +476,9 @@
 
       task.id = data._id;
       task.status = data.status;
-      task.assignor = NstSvcUserFactory.getCachedSync(data.assignor);
+      if (data.assignor) {
+        task.assignor = NstSvcUserFactory.getCachedSync(data.assignor);
+      }
       if (data.assignee) {
         task.assignee = NstSvcUserFactory.getCachedSync(data.assignee);
       }

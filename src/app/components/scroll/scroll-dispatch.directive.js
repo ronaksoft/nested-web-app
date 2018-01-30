@@ -25,8 +25,12 @@
             // Reach end dispatcher
             reachEndThrottle();
           }
-          check(scrollTop);
-          scroll(scrollTop);
+          try {
+            check(scrollTop);
+            scroll(scrollTop);
+          } catch (e) {
+            $log.error(error)
+          }
 
           //hide tips
           removePopovers()
