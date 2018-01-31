@@ -168,12 +168,13 @@
               if( childs.length > 1 ) {
                for ( var i = 0; i < childs.length - 1; i++) {
   
+                console.log(itemsW, childs[i].offsetWidth);
                  if ( !overflowed ) {
-                   itemsW += childs[i].offsetWidth + 4;
+                   itemsW += childs[i].offsetWidth;
                    lastIndex = i;
                  }
-  
-                 if ( itemsW + 36 > containerW ) {
+                 
+                 if ( itemsW + 32 > containerW ) {
                     overflowed = true;
                  }
   
