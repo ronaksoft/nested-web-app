@@ -186,10 +186,8 @@
       activity.date = data.timestamp;
       activity.label = NstSvcLabelFactory.parseLabel(data.label);
       activity.actor = NstSvcUserFactory.parseTinyUser(data.actor);
-      activity.post = {
-        id: data.post._id,
-        subject: data.post_subject
-      };
+      activity.place = NstSvcPlaceFactory.parseTinyPlace(data.place);
+      activity.post = NstSvcPostFactory.parsePost(data.post);
 
       return activity;
     }
@@ -205,10 +203,8 @@
       activity.date = data.timestamp;
       activity.label = NstSvcLabelFactory.parseLabel(data.label);
       activity.actor = NstSvcUserFactory.parseTinyUser(data.actor);
-      activity.post = {
-        id: data.post._id,
-        subject: data.post_subject
-      };
+      activity.place = NstSvcPlaceFactory.parseTinyPlace(data.place);
+      activity.post = NstSvcPostFactory.parsePost(data.post);
 
       return activity;
     }
