@@ -16,22 +16,13 @@
     <div class="compose-modal-body _difv _fw ng-class:{'scrolled' : ctlCompose.collapse}">
       <p class="_df _fn" ng-if="!ctlCompose.quickMode"><b><translate>Share With</translate></b></p>
       <div ng-if="!ctlCompose.quickMode" class="_df _fw input-select-match">
-        <suggest-picker config="ctlCompose.suggestPickerConfig" selecteds="ctlCompose.model.recipients" suggests="ctlCompose.search.results" keyword='ctlCompose.keyword'></suggest-picker>
-        <ui-select ng-if="false" minimum-input-length="1" multiple limit="{{ctlCompose.targetLimit}}" class="address-input _dib" autofocus focus-on="focus-rec" focus-checker
+        <suggest-picker config="ctlCompose.suggestPickerConfig" selecteds="ctlCompose.model.recipients"
+          suggests="ctlCompose.search.results" keyword='ctlCompose.keyword' request-more="ctlCompose.searchMore"
+          focus-checker></suggest-picker>
+        <!-- <ui-select minimum-input-length="1" multiple limit="{{ctlCompose.targetLimit}}" class="address-input _dib" autofocus focus-on="focus-rec" focus-checker
                    id="compose-recipient-input" on-select="ctlCompose.emitItemsAnalytics()" on-remove="ctlCompose.emitItemsAnalytics()"
                    data-ng-model="ctlCompose.model.recipients">
           <ui-select-match placeholder="{{::ctlCompose.inputPlaceHolderLabel}}" compose-match-item class="match-items">
-            <!-- <div class="selected-innter " ng-class="{'isEmail' : $item.isEmail,'error' : !$item.isValid}">
-              <span class="place-img" ng-if="!$item.isEmail">
-                <img ng-src="{{$item.picture}}"/>
-              </span>
-              <span class="place-img" ng-if="$item.isEmail && !$item.isValid">
-                  <svg>
-                    <use xlink:href="/assets/icons/nst-icn16.svg#exclamation-mark"></use>
-                  </svg>
-                </span>
-              <span class="place-name">{{$item.name}}</span>
-            </div> -->
             <div place-chips place-id="$item" is-email="$item.isEmail" on-remove="$selectMultiple.removeChoice" index="$index" on-select="" selectable="true"></div>
           </ui-select-match>
           <ui-select-choices refresh="ctlCompose.search.fn($select.search)"
@@ -39,7 +30,7 @@
                              repeat="place as place in ctlCompose.search.results track by $index">
             
           </ui-select-choices>
-        </ui-select>
+        </ui-select> -->
       </div>
       <div class="wdt-emoji-picker-parent compose-scroll-wrapper">
         <!-- <div> -->

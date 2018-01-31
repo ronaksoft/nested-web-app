@@ -4,11 +4,16 @@
   angular
     .module('ronak.nested.web.components')
     .value('suggestPickerDefaultOptions', {
-      limit: 0,
-      mode: 'place'
+      limit : 10,
+      suggestsLimit: 10,
+      singleRow: false,
+      placeholder: '',
+      mode: 'place',
+      alwaysVisible: false
     })
-    .controller('suggestPickerController', function ($timeout, $scope, _) {
+    .controller('suggestPickerController', function ($timeout, $scope, _, suggestPickerDefaultOptions) {
       $scope.tempFocusInc = 0;
+      $scope.clearSuggests = [];
       resetState();
 
       $scope.keydown = function (e) {
@@ -42,7 +47,7 @@
 
       $scope.selectItem = function (index) {
         var item = $scope.clearSuggests[index];
-        if (!item) {
+        if (!item || $scope.selecteds.length >= $scope.options.limit) {
           return;
         }
         $scope.selecteds.push(item);
@@ -50,14 +55,24 @@
         $scope.keyword = '';
         ++$scope.tempFocusInc;
         resetState();
+        if(typeof $scope.requestMore === 'function') {
+          $scope.requestMore();
+        }
+        if($scope.options.singleRow) {
+          $scope.emitItemsAnalytics();
+        }
       }
 
       $scope.removeItem = function (index) {
         var item = $scope.selecteds[index];
-        if (index > -1 && item){
-          $scope.clearSuggests.push(item);
-          $scope.selecteds.splice(index, 1);
-          resetState();
+        if (index < 0 || !item){
+          return;
+        }
+        $scope.clearSuggests.unshift(item);
+        $scope.selecteds.splice(index, 1);
+        resetState();
+        if($scope.options.singleRow) {
+          $scope.emitItemsAnalytics();
         }
       }
 
@@ -70,7 +85,11 @@
 
       // todo: Remove on destroy
       $scope.$watch('suggests', function (sug) {
+        var oldL = $scope.clearSuggests.length;
         $scope.clearSuggests = _.differenceBy(sug, $scope.selecteds, 'id');
+        if (oldL < $scope.clearSuggests.length) {
+          $scope.state.activeSuggestItem = 0;
+        }
       });
 
       /**
@@ -111,7 +130,7 @@
         }
       }
     })
-    .directive('suggestPicker', function ($timeout, $, suggestPickerDefaultOptions) {
+    .directive('suggestPicker', function ($timeout, $, _, suggestPickerDefaultOptions) {
       return {
         restrict: 'E',
         controller: 'suggestPickerController',
@@ -125,9 +144,47 @@
           suggests: '=',
           keyword: '=',
           alwaysShow: '=?',
+          requestMore: '=?',
         },
         link: function ($scope, $element) {
-          var options = angular.extend({}, suggestPickerDefaultOptions, $scope.config);
+          var containerW, itemsW = 0, overflowed = false, lastIndex = 0;
+          $scope.options = angular.extend({}, suggestPickerDefaultOptions, $scope.config);          
+          $scope.emitItemsAnalytics = _.debounce(getSizes, 128);
+          $timeout($scope.emitItemsAnalytics, 2);
+          /**
+           * @function
+           * for ui treatments
+           * this function collapse the recipients box into one line and adds 
+           * an element called `more-recipient-badge` at the end of first line
+           */
+          function getSizes(){
+            // remove `more-recipient-badge` element 
+            $('#more-recipient-badge').remove();
+            itemsW = 0;
+            overflowed = false;
+            containerW = $element.width();;
+            var childs = $element.find('.suggest-picker-area').children();
+            $timeout(function(){
+              if( childs.length > 1 ) {
+               for ( var i = 0; i < childs.length - 1; i++) {
+  
+                 if ( !overflowed ) {
+                   itemsW += childs[i].offsetWidth + 4;
+                   lastIndex = i;
+                 }
+  
+                 if ( itemsW + 36 > containerW ) {
+                    overflowed = true;
+                 }
+  
+              }
+              if( overflowed ) {
+                var x = childs.length - 1 - lastIndex;
+                $element.children().children().eq(lastIndex - 1).after('<span id="more-recipient-badge">+' + x + '</span>');
+              }
+            }}, 2);
+  
+          }
         }
       }
     });

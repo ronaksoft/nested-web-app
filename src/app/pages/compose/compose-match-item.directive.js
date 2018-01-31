@@ -55,7 +55,7 @@
               var x = childs.length - lastIndex;
               ele.children().eq(lastIndex - 1).after('<span id="more-recipient-badge">+' + x + '</span>');
             }
-          }},2);
+          }}, 2);
 
         }
 
