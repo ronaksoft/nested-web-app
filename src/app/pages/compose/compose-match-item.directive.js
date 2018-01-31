@@ -17,13 +17,6 @@
   function composeMatchItem($timeout, $) {
     return {
       restrict: 'A',
-      scope: {
-        onItemClick: '=',
-        items: '=',
-        mode: '=',
-        badge: '=',
-        postId: '='
-      },
       link: function (scope, ele) {
         $timeout(getSizes,0);
         var containerW, itemsW = 0, overflowed = false, lastIndex = 0;
@@ -44,7 +37,8 @@
           overflowed = false;
           containerW = ele.parent().parent()[0].offsetWidth;
           var childs = ele.children();
-          $timeout(function(){if ( childs.length > 0 ) {
+          $timeout(function(){
+            if( childs.length > 0 ) {
              for ( var i = 0; i < childs.length; i++) {
 
                if ( !overflowed ) {
@@ -57,7 +51,7 @@
                }
 
             }
-            if ( overflowed ) {
+            if( overflowed ) {
               var x = childs.length - lastIndex;
               ele.children().eq(lastIndex - 1).after('<span id="more-recipient-badge">+' + x + '</span>');
             }

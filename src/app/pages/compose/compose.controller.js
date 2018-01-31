@@ -24,10 +24,14 @@
                                NstVmSelectTag, NstPicture, NstPostDraft, NstPost, $, NST_SEARCH_QUERY_PREFIX, $window) {
       var vm = this;
       vm.modalId = '';
+      vm.keyword = '';
       vm.quickMode = false;
       vm.focus = false;
       vm.collapse = false;
       vm.mouseIn = false;
+      vm.suggestPickerConfig = {
+        limit : 10,
+      };
       var eventReferences = [];
       var systemConstants = {};
       // vm.makeChangeForWatchers = 0;
@@ -105,10 +109,10 @@
           total: 0
         }
       };
-
       $scope.$watch(function () {
         return vm.attachments.viewModels
       }, updateTotalAttachmentsRatio, true);
+
 
       function updateTotalAttachmentsRatio(items) {
         if (!vm.minimize) {
@@ -420,6 +424,11 @@
       vm.subjectKeyDown = _.debounce(subjectKeyDown, 128);
       vm.search.fn = _.debounce(vm.searchRecipients, 128);
 
+      $scope.$watch(function () {
+        return vm.keyword
+      }, function(keyword){return vm.search.fn(keyword);}, true);
+
+      vm.search.fn('');
       /**
        * Triggers when any key pressed in subject input
        * @param {any} e
@@ -458,6 +467,7 @@
        * @returns
        */
       function searchRecipients(query) {
+        query = query || vm.keyword;
         NstSvcLogger.debug4('Compose | Search recipients with query : ', query);
 
         // var initPlace = new NstVmSelectTag({

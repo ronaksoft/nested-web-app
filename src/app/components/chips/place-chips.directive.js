@@ -17,6 +17,7 @@
             isEmail: '=',
             selectable: '=?',
             onSelect: '=',
+            isSelected: '@?',
             index: '=',
             onRemove: '='
           },
@@ -46,15 +47,14 @@
             }
 
             scope.selectChip = function (){
-              if ( !scope.selectable ) {
-                return;
-              }
-                scope.isSelected = true;
+              if ( scope.selectable ) {
                 try {
                   scope.onSelect(scope.placeId);
+                  scope.isSelected = true;
                 } catch(e) {
-                  $log.debug('The item is selectable but have no registered function')
+                  $log.debug('The item is selectable but have no registered function', e)
                 }
+              }
             }
             scope.clearItem = function (){
               scope.onRemove(scope.index);

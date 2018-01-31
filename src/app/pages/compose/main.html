@@ -16,7 +16,8 @@
     <div class="compose-modal-body _difv _fw ng-class:{'scrolled' : ctlCompose.collapse}">
       <p class="_df _fn" ng-if="!ctlCompose.quickMode"><b><translate>Share With</translate></b></p>
       <div ng-if="!ctlCompose.quickMode" class="_df _fw input-select-match">
-        <ui-select minimum-input-length="1" multiple limit="{{ctlCompose.targetLimit}}" class="address-input _dib" autofocus focus-on="focus-rec" focus-checker
+        <suggest-picker config="ctlCompose.suggestPickerConfig" selecteds="ctlCompose.model.recipients" suggests="ctlCompose.search.results" keyword='ctlCompose.keyword'></suggest-picker>
+        <ui-select ng-if="false" minimum-input-length="1" multiple limit="{{ctlCompose.targetLimit}}" class="address-input _dib" autofocus focus-on="focus-rec" focus-checker
                    id="compose-recipient-input" on-select="ctlCompose.emitItemsAnalytics()" on-remove="ctlCompose.emitItemsAnalytics()"
                    data-ng-model="ctlCompose.model.recipients">
           <ui-select-match placeholder="{{::ctlCompose.inputPlaceHolderLabel}}" compose-match-item class="match-items">
@@ -36,12 +37,7 @@
           <ui-select-choices refresh="ctlCompose.search.fn($select.search)"
                              refresh-delay="0"
                              repeat="place as place in ctlCompose.search.results track by $index">
-            <div class="place-initials-32">
-              <img ng-src="{{place.picture}}"/>
-            </div>
-            <span class="_fn _df" auto-dir="place.name" data-ng-bind-html="place.name | highlight: $select.search"></span>
-            <span class="_fw _df" ></span>
-            <span class="nst-font-10 _vat _df" dir="ltr" data-ng-bind-html="place.id | highlight: $select.search"></span>
+            
           </ui-select-choices>
         </ui-select>
       </div>
