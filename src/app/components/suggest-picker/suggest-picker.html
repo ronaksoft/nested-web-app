@@ -1,0 +1,23 @@
+<div class="suggest-picker">
+    <div class="suggest-picker-area">
+        <div ng-repeat="selected in selecteds track by selected.id">
+            <div place-chips place-id="selected" on-select="activeSelectItem" is-selected="{{$index === state.activeSelectedItem}}"
+                on-remove="removeItem" selectable="true" index="$index" is-email="selected.isEmail"></div>            
+        </div>
+        <input type="text" ng-model="keyword" ng-keydown="keydown($event);" focus-me="{{tempFocusInc}}" placeholder="{{options.placeholder}}"
+            ng-focus="visible = true">
+    </div>
+    <div class="suggest-picker-suggests ng-class:{'show' : options.alwaysVisible || visible}" ng-if="clearSuggests.length > 0">
+        <div ng-repeat="suggest in clearSuggests track by suggest.id" ng-class="{'active': state.activeSuggestItem === $index}"
+            class="suggest-row" ng-click="selectItem($index)">
+            <a>
+                <div class="place-initials-32">
+                    <img ng-src="{{suggest.picture}}"/>
+                </div>
+                <span class="_fn _df" auto-dir="suggest.name" data-ng-bind-html="suggest.name | highlight: $select.search"></span>
+                <span class="_fw _df"></span>
+                <span class="nst-font-10 _vat _df" dir="ltr" data-ng-bind-html="suggest.id | highlight: $select.search"></span>
+            </a>
+        </div>
+    </div>
+</div>

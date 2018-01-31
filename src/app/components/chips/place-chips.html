@@ -1,4 +1,4 @@
-<div class="place-chips-wrapper ng-class:{'isSelected' : isSelected, 'isEmail' : isEmail}" ng-click="selectChip();">
+<div class="place-chips-wrapper" ng-class="{'isEmail': isEmail, 'isSelected': isSelected == 'true' || isSelected == true}" ng-click="selectChip();">
   <div class="place-picture">
     <img ng-src="{{place.picture || '/assets/icons/ph_email.png'}}"
         ng-if="!isEmail" class="_df" />

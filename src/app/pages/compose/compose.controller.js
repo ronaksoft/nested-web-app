@@ -24,10 +24,17 @@
                                NstVmSelectTag, NstPicture, NstPostDraft, NstPost, $, NST_SEARCH_QUERY_PREFIX, $window) {
       var vm = this;
       vm.modalId = '';
+      vm.keyword = '';
       vm.quickMode = false;
       vm.focus = false;
       vm.collapse = false;
       vm.mouseIn = false;
+      vm.suggestPickerConfig = {
+        limit : 10,
+        suggestsLimit: 10,
+        singleRow: true,
+        placeholder: NstSvcTranslation.get("Enter a Place name or a Nested address...")
+      };
       var eventReferences = [];
       var systemConstants = {};
       // vm.makeChangeForWatchers = 0;
@@ -48,6 +55,7 @@
       vm.targetLimit;
       vm.ultimateSaveDraft = false;
       vm.attachmentsIsUploading = [];
+      vm.searchMore = searchMore;
       vm.abortBackgroundCompose = abortBackgroundCompose;
       vm.translations = {
         title1: NstSvcTranslation.get('Add a title'),
@@ -105,10 +113,10 @@
           total: 0
         }
       };
-
       $scope.$watch(function () {
         return vm.attachments.viewModels
       }, updateTotalAttachmentsRatio, true);
+
 
       function updateTotalAttachmentsRatio(items) {
         if (!vm.minimize) {
@@ -183,7 +191,6 @@
         if ($stateParams.attachments && $stateParams.attachments.length > 0) {
           vm.addUploadedAttachs($stateParams.attachments);
         }
-        vm.inputPlaceHolderLabel = NstSvcTranslation.get("Enter a Place name or a Nested address...");
 
         /**
          * Register an event for handling the draft feature
@@ -420,6 +427,11 @@
       vm.subjectKeyDown = _.debounce(subjectKeyDown, 128);
       vm.search.fn = _.debounce(vm.searchRecipients, 128);
 
+      $scope.$watch(function () {
+        return vm.keyword
+      }, function(keyword){return vm.search.fn(keyword);}, true);
+
+      vm.search.fn('');
       /**
        * Triggers when any key pressed in subject input
        * @param {any} e
@@ -451,13 +463,19 @@
         }
       };
 
+      function searchMore() {
+        vm.suggestPickerConfig.suggestsLimit++;
+        return searchRecipients(vm.keyword);
+      }
 
       /**
        * Search for recipients by given query and appending them into results array
        * @param {any} query
        * @returns
        */
-      function searchRecipients(query) {
+      function searchRecipients(query, limit) {
+        query = query || vm.keyword;
+        limit = limit || vm.suggestPickerConfig.suggestsLimit;
         NstSvcLogger.debug4('Compose | Search recipients with query : ', query);
 
         // var initPlace = new NstVmSelectTag({
@@ -470,7 +488,7 @@
         // }
 
 
-        return NstSvcPlaceFactory.searchForCompose(query).then(function (results) {
+        return NstSvcPlaceFactory.searchForCompose(query, limit).then(function (results) {
           NstSvcLogger.debug4('Compose | Searched recipients for binding them in html', results);
           // var oldItems = vm.search.results.length;
           var newItemsChips = _.chain(results.places).uniqBy('id').map(function (place) {
