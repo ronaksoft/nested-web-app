@@ -8,7 +8,7 @@
  * Date of review:         -
  */
 
-(function() {
+(function () {
   'use strict';
 
   angular
@@ -16,8 +16,8 @@
     .controller('RecentActivityController', RecentActivityController);
 
   function RecentActivityController($q, _, $rootScope, $scope, $state, $stateParams, $timeout,
-    NstSvcActivityFactory, NstSvcServer, NstSvcLogger,
-    NstSvcPlaceFactory, NST_PLACE_ACCESS, NST_SRV_EVENT, NST_EVENT_ACTION) {
+                                    NstSvcActivityFactory, NstSvcServer, NstSvcLogger,
+                                    NstSvcPlaceFactory, NST_PLACE_ACCESS, NST_SRV_EVENT, NST_EVENT_ACTION) {
     var vm = this;
     var eventReferences = [];
     vm.activities = [];
@@ -45,6 +45,7 @@
         // Listens to $rootScope and adds a new activity to the list
         _.forEach(NST_EVENT_ACTION, function (action) {
           eventReferences.push($rootScope.$on(action, function (e, data) {
+            console.log('activity', data);
             addNewActivity(data.activity);
           }));
         });
@@ -52,8 +53,9 @@
     }
 
     function openActivity() {
-      $state.go('app.place-activity', { placeId : vm.settings.placeId });
+      $state.go('app.place-activity', {placeId: vm.settings.placeId});
     }
+
     /**
      * Retrieves and binds the recent activities
      *
@@ -79,8 +81,8 @@
       var removedItems = _.differenceBy(vm.activities, activities, 'id');
 
       // first omit the removed items; The items that are no longer exist in fresh activities
-      _.forEach(removedItems, function(item) {
-        var index = _.findIndex(vm.activities, { 'id': item.id });
+      _.forEach(removedItems, function (item) {
+        var index = _.findIndex(vm.activities, {'id': item.id});
         if (index > -1) {
           vm.activities.splice(index, 1);
         }
@@ -106,19 +108,29 @@
      * @param {any} activity
      */
     function addNewActivity(activity) {
-      if (!_.some(vm.activities, { id : activity.id })) {
-        if (vm.activities.length >= vm.count){
+      console.log('case1');
+      if (!_.some(vm.activities, {id: activity.id})) {
+        console.log('case2');
+        if (vm.activities.length >= vm.count) {
           // TODO: Do not pop an old activity if the hot one does not belongs to the place
           vm.activities.pop();
+          console.log('case3');
         }
         activity.isHot = true;
         // TODO: Sometimes a comment leakes! I've added || activity.type == NST_EVENT_ACTION.COMMENT_ADD
         // to prevent the leakage. But I'm not sure!
-        if (activity.type == NST_EVENT_ACTION.POST_ADD || activity.type == NST_EVENT_ACTION.COMMENT_ADD) {
-          if(activityBelongsToPlace(activity)){
+        if (
+          activity.type === NST_EVENT_ACTION.POST_ADD ||
+          activity.type === NST_EVENT_ACTION.COMMENT_ADD ||
+          activity.type === NST_EVENT_ACTION.LABEL_ADD ||
+          activity.type === NST_EVENT_ACTION.LABEL_REMOVE) {
+          console.log('case46');
+          if (activityBelongsToPlace(activity)) {
+            console.log('case4');
             vm.activities.unshift(activity);
           }
-        }else{
+        } else {
+          console.log('case5');
           vm.activities.unshift(activity);
         }
       }
