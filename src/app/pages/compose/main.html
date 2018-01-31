@@ -18,7 +18,7 @@
       <div ng-if="!ctlCompose.quickMode" class="_df _fw input-select-match">
         <suggest-picker config="ctlCompose.suggestPickerConfig" selecteds="ctlCompose.model.recipients"
           suggests="ctlCompose.search.results" keyword='ctlCompose.keyword' request-more="ctlCompose.searchMore"
-          focus-checker></suggest-picker>
+          ng-click="ctlCompose.collapse = false"></suggest-picker>
         <!-- <ui-select minimum-input-length="1" multiple limit="{{ctlCompose.targetLimit}}" class="address-input _dib" autofocus focus-on="focus-rec" focus-checker
                    id="compose-recipient-input" on-select="ctlCompose.emitItemsAnalytics()" on-remove="ctlCompose.emitItemsAnalytics()"
                    data-ng-model="ctlCompose.model.recipients">

@@ -23,7 +23,6 @@
 
         scope.$on('compose-add-item',getSizes);
 
-
         /**
          * @function
          * for ui treatments

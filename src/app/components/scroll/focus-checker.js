@@ -10,13 +10,16 @@
     return {
       restrict: 'A',
       link: function ($scope, $element) {
-        $element.bind('click change', function() {
-          if ( $scope.ctlCompose.collapse ) {
-            $scope.$emit('focus-rec');
-          }
-           $scope.ctlCompose.collapse = false;
+
+        $element.on('click', checker);
+
+        $scope.$on('$destroy', function () {
+          $element.off('click', checker);
         });
 
+        function checker() {
+          $scope.$parent.$parent.ctlCompose.collapse = false;
+        }
       }
     };
   }
