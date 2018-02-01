@@ -34,6 +34,9 @@
           if ($scope.keyword === '' && $scope.state.activeSelectedItem < 0) {
             $scope.state.activeSelectedItem = $scope.selecteds.length - 1;
           }
+        } else if(e.which === 27) {
+          $scope.visible = false;
+          return e.stopPropagation();
         } else if(e.which === 37) {
           decreaseActiveSelectedIndex();
         } else if(e.which === 38) {
@@ -42,6 +45,9 @@
           increaseActiveSelectedIndex();
         } else if(e.which === 40) {
           increaseActiveIndex();
+        }
+        if(!$scope.visible) {
+          $scope.visible = true;
         }
       }
 
@@ -130,7 +136,7 @@
         }
       }
     })
-    .directive('suggestPicker', function ($timeout, $, _, suggestPickerDefaultOptions) {
+    .directive('suggestPicker', function ($timeout, $, _, suggestPickerDefaultOptions, $window) {
       return {
         restrict: 'E',
         controller: 'suggestPickerController',
@@ -186,6 +192,14 @@
             }}, 2);
   
           }
+
+          
+          $window.addEventListener("mousedown", closePopover);
+
+            function closePopover(e) {
+              $scope.visible = $element[0].contains(e.target.parentNode) || $element[0].contains(e.target);
+            }
+      
         }
       }
     });
