@@ -5,7 +5,7 @@
                 on-remove="removeItem" selectable="true" index="$index" is-email="selected.isEmail"></div>            
         </div>
         <input type="text" ng-model="keyword" ng-keydown="keydown($event);" focus-me="{{tempFocusInc}}" placeholder="{{options.placeholder}}"
-            ng-focus="visible = true">
+            ng-focus="visible = true" class="suggest-picker-input">
     </div>
     <div class="suggest-picker-suggests ng-class:{'show' : options.alwaysVisible || visible}" ng-if="clearSuggests.length > 0">
         <div ng-repeat="suggest in clearSuggests track by suggest.id" ng-class="{'active': state.activeSuggestItem === $index}"

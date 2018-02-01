@@ -13,7 +13,7 @@
         return {
           restrict: 'A',
           scope: {
-            placeId: '=',
+            place: '=placeId',
             isEmail: '=',
             selectable: '=?',
             onSelect: '=',
@@ -23,13 +23,13 @@
           },
           link: function (scope, element) {
             scope.isSelected = false;
+            scope.visibleInput = false;
             scope.removePermission = typeof scope.onRemove === 'function'
             var template = angular.element($templateCache.get('place-chips.html'));
-            if (_.isObject(scope.placeId)) {
-              scope.place = scope.placeId;
+            if (_.isObject(scope.place)) {
               init()
             } else {
-              NstSvcPlaceFactory.get(scope.placeId, false).then(function(place){
+              NstSvcPlaceFactory.get(scope.place, false).then(function(place){
                 scope.place = place;
                 init();
               }).catch(function(e){
@@ -67,6 +67,14 @@
                 scope.isSelected = false;
               }
             };
+
+            scope.keyDown = function (e) {
+              console.log(e);
+              if(e.which === 13) {
+                scope.visibleInput = false;
+              }
+            };
+
             $document.on('click', onDocumentClick);
             scope.closeChip = function (){
               if (typeof scope.onClear === 'function') {

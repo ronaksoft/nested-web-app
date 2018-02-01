@@ -1,11 +1,14 @@
-<div class="place-chips-wrapper" ng-class="{'isEmail': isEmail, 'isSelected': isSelected == 'true' || isSelected == true}" ng-click="selectChip();">
+<div class="place-chips-wrapper" ng-class="{'isEmail': isEmail, 'isSelected': isSelected == 'true' || isSelected == true}"
+  ng-click="selectChip();visibleInput = true">
   <div class="place-picture">
     <img ng-src="{{place.picture || '/assets/icons/ph_email.png'}}"
         ng-if="!isEmail" class="_df" />
     <img class="email-holder" src="/assets/icons/ph_email.png" ng-if="isEmail"/>
   </div>
-  <span class="_txe">
-    {{place.name}}
+  <input class="place-chips-label no-style" ng-if="visibleInput && isEmail && removePermission" class="_txe"
+    ng-model="place.id" focus-me="{{visibleInput}}" ng-keydown="keyDown($event)" />
+  <span class="place-chips-label _txe" ng-if="!visibleInput || !isEmail || !removePermission">
+    {{isEmail ? place.id : place.name}}
   </span>
   <div class="clear" ng-if="removePermission" ng-click="clearItem();">
     <svg class="_16svg _df _fn">

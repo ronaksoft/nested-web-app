@@ -111,12 +111,18 @@
 
         }
     }
-    span {
+    .place-chips-label {
         max-width: 182px;
         line-height: 26px;
         font-size: 14px;
         margin: 0 4px;
+        width: auto;
         color: $color-solid;
+    }
+    input.no-style {
+        border: none;
+        padding: 0;
+        box-shadow: none;
     }
     .clear {
         position: absolute;
@@ -129,7 +135,7 @@
     &.isSelected {
         background-color: $color-solid;
         border-color: $color-solid;
-        span {
+        .place-chips-label {
             color: $color-white;
         }
         .clear {
