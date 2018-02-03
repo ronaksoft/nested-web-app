@@ -91,13 +91,13 @@
       }
 
       // todo: Remove on destroy
-      $scope.$watch('suggests', function (sug) {
+      eventReferences.push($scope.$watch('suggests', function (sug) {
         var oldL = $scope.clearSuggests.length;
         $scope.clearSuggests = _.differenceBy(sug, $scope.selecteds, 'id');
         if (oldL < $scope.clearSuggests.length) {
           $scope.state.activeSuggestItem = 0;
         }
-      })
+      }));
 
       /**
        * Reset / Initialize view states
@@ -168,6 +168,7 @@
           $scope.options = angular.extend({}, suggestPickerDefaultOptions, $scope.config);
           $scope.emitItemsAnalytics = _.debounce(getSizes, 128);
           $timeout($scope.emitItemsAnalytics, 2);
+
           /**
            * @function
            * for ui treatments
@@ -206,10 +207,13 @@
 
           $window.addEventListener("mousedown", closePopover);
 
+          $scope.$on('$destroy', function () {
+            $window.removeEventListener("mousedown", closePopover);
+          });
+
           function closePopover(e) {
             $scope.visible = $element[0].contains(e.target.parentNode) || $element[0].contains(e.target);
           }
-
         }
       }
     });
