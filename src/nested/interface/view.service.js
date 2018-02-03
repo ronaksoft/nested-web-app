@@ -53,8 +53,8 @@
 
     /**
      * @property affixElement
-     * 
-     * @param {object} el 
+     *
+     * @param {object} el
      */
     obj.add = function (el) {
       $rootScope.cardCtrls.push(el);
@@ -65,11 +65,15 @@
       this.persisItems();
       try {
         $rootScope.cardCtrls.sort(function (a, b) {
-          return $('#post-card-' + a.id).parent().offset().top - $('#post-card-' + b.id).parent().offset().top
+          var postCardA = $('#post-card-' + a.id);
+          var postCardB = $('#post-card-' + b.id);
+          if (postCardA.length === 0 || postCardB.length === 0) {
+            return 0;
+          }
+          return postCardA.parent().offset().top - postCardB.parent().offset().top
         });
       } catch (error) {
         $log.error(error)
-        
       }
       // console.log('orderItems', $rootScope.cardCtrls)
     };
@@ -250,7 +254,7 @@
             id: nextElement.id,
             enabled: true
           }
-        } 
+        }
       } else {
         if ($rootScope.inViewPost.index > 0) {
           var prvIndex = $rootScope.inViewPost.index - 1;
@@ -297,10 +301,10 @@
           }
         }
       }
-    
+
       // console.log(obj.affixView);
     }
-    
+
     return obj;
     function getElementProps(index){
       var nextItem = $rootScope.cardCtrls[index];
