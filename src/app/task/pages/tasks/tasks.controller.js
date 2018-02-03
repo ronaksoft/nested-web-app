@@ -5,7 +5,7 @@
     .module('ronak.nested.web.task')
     .controller('TasksController', TasksController);
 
-  function TasksController($rootScope, $window, $scope, _, $state, NstSvcTaskFactory, NST_TASK_STATUS, $uibModal,
+  function TasksController($rootScope, $q, $window, $scope, _, $state, NstSvcTaskFactory, NST_TASK_STATUS, $uibModal,
                            NstSvcTaskUtility, $timeout, toastr, NstSvcTranslation, NstSvcAuth, NstSvcKeyFactory, NST_CUSTOM_FILTER) {
     var vm = this;
     var eventReferences = [];
@@ -158,16 +158,16 @@
 
     function mergeTask(tasks) {
       var newItems = _.differenceBy(tasks, vm.tasks, 'id');
-      // var removedItems = _.differenceBy(vm.tasks, tasks, 'id');
-      //
-      // _.forEach(removedItems, function (item) {
-      //   var index = _.findIndex(vm.tasks, {
-      //     'id': item.id
-      //   });
-      //   if (index > -1) {
-      //     vm.tasks.splice(index, 1);
-      //   }
-      // });
+      var removedItems = _.differenceBy(vm.tasks, tasks, 'id');
+
+      _.forEach(removedItems, function (item) {
+        var index = _.findIndex(vm.tasks, {
+          'id': item.id
+        });
+        if (index > -1) {
+          vm.tasks.splice(index, 1);
+        }
+      });
 
       vm.tasks.unshift.apply(vm.tasks, newItems);
     }
@@ -198,11 +198,6 @@
     }
 
     function getOverdueTasks() {
-    //   filter: filter,
-    //     status_filter: String(statusFilter),
-    //     skip: skip,
-    //     limit: limit
-    // }
       NstSvcTaskFactory.getByFilter({
           filter: NST_TASK_STATUS.ASSIGNED_TO_ME,
           statusFilter: NST_TASK_STATUS.OVERDUE}, function (tasks) {
@@ -223,24 +218,29 @@
     }
 
     function importCachedTasks(tasks) {
-      mergeTask(tasks);
+      appendTasks(tasks);
     }
 
     function getTasks() {
       vm.loading = true;
+      console.log('getTasks');
       var promise;
       var isCompleted = false;
       if ($state.params && $state.params.filter === 'completed') {
         isCompleted = true;
       }
       var statusFilter = [];
+      var importFromCache = undefined;
+      if (vm.taskSetting.skip === 0) {
+        importFromCache = importCachedTasks;
+      }
       if (vm.isGlancePage) {
         promise = NstSvcTaskFactory.getByFilter({
           filter: NST_TASK_STATUS.GLANCE,
           statusFilter: null,
           skip: vm.taskSetting.skip,
           limit: vm.taskSetting.limit
-        }, importCachedTasks);
+        }, importFromCache);
       } else if (vm.isAssignedToMePage) {
         if (isCompleted) {
           statusFilter.push(NST_TASK_STATUS.COMPLETED);
@@ -255,7 +255,7 @@
           statusFilter: statusFilter.join(','),
           skip: vm.taskSetting.skip,
           limit: vm.taskSetting.limit
-        }, importCachedTasks);
+        }, importFromCache);
       } else if (vm.isCreatedByMePage) {
         if (isCompleted) {
           statusFilter.push(NST_TASK_STATUS.COMPLETED);
@@ -273,7 +273,7 @@
           statusFilter: statusFilter.join(','),
           skip: vm.taskSetting.skip,
           limit: vm.taskSetting.limit
-        }, importCachedTasks);
+        }, importFromCache);
       } else if (vm.isWatchlistPage) {
         if (isCompleted) {
           statusFilter.push(NST_TASK_STATUS.COMPLETED);
@@ -291,7 +291,7 @@
           statusFilter: statusFilter.join(','),
           skip: vm.taskSetting.skip,
           limit: vm.taskSetting.limit
-        }, importCachedTasks);
+        }, importFromCache);
       } else if (vm.isCustomFilterPage) {
         var params = getCustomFilterParams(vm.customFilterItems);
         params = _.merge(params, {
@@ -369,8 +369,11 @@
       if (vm.firstTimeLoading && !vm.reachedTheEnd) {
         $timeout(function () {
           if (!isPageFilled()) {
-            loadMoreTasks();
-            fillThePage();
+            loadMoreTasks(true).then(function () {
+              fillThePage();
+            }).catch(function () {
+              vm.firstTimeLoading = false;
+            });
           } else {
             vm.firstTimeLoading = false;
           }
@@ -381,7 +384,7 @@
     function loadTasks() {
       getTasks().then(function (tasks) {
         mergeTask(tasks);
-        vm.firstTimeLoading = false;
+        // vm.firstTimeLoading = false;
         vm.taskSetting.skip = vm.tasks.length;
 
         // to full fill page at first loading
@@ -389,14 +392,19 @@
       });
     }
 
-    function loadMoreTasks() {
-      if (vm.loading && !vm.reachedTheEnd) {
-        return;
+    function loadMoreTasks(force) {
+      if ((vm.loading || vm.reachedTheEnd) && force !== true) {
+        return $q.resolve();
       }
+      var deferred = $q.defer();
       getTasks().then(function (tasks) {
         appendTasks(tasks);
         vm.taskSetting.skip = vm.tasks.length;
+        deferred.resolve();
+      }).catch(function () {
+        deferred.reject();
       });
+      return deferred.promise;
     }
 
     function isPageFilled() {
@@ -460,6 +468,7 @@
     }));
 
     eventReferences.push($rootScope.$on('scroll-reached-bottom', function () {
+      console.log('scroll-reached-bottom');
       loadMoreTasks();
     }));
 
