@@ -10,7 +10,7 @@
             ng-focus="visible = true" class="suggest-picker-input">
     </div>
     <div class="suggest-picker-suggests ng-class:{'show' : options.alwaysVisible || visible}" ng-if="clearSuggests.length > 0">
-        <div ng-repeat="suggest in clearSuggests track by suggest.id | limitTo: options.suggestsLimit" ng-class="{'active': state.activeSuggestItem === $index}"
+        <div ng-repeat="suggest in clearSuggests track by suggest.id | limitTo: parseInt(options.suggestsLimit)" ng-class="{'active': state.activeSuggestItem === $index}"
             class="suggest-row {{options.mode}}" ng-click="selectItem($index)">
             <a ng-if="options.mode === 'place'">
                 <div class="place-initials-32">
