@@ -52,7 +52,6 @@
       vm.cmdPress = false;
       vm.cmdVPress = false;
       vm.isRetinaDisplay = isRetinaDisplay();
-      vm.targetLimit;
       vm.ultimateSaveDraft = false;
       vm.attachmentsIsUploading = [];
       vm.searchMore = searchMore;
@@ -275,10 +274,11 @@
          */
         NstSvcSystemConstants.get().then(function (result) {
             systemConstants = result;
-            vm.targetLimit = systemConstants.post_max_targets || 10;
+            vm.suggestPickerConfig.limit = systemConstants.post_max_targets || 10
+            // vm.targetLimit = systemConstants.post_max_targets || 10;
           })
           .catch(function () {
-            vm.targetLimit = 10;
+            vm.suggestPickerConfig.limit = 10
           });
       })();
 
