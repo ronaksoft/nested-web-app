@@ -49,8 +49,8 @@
             scope.selectChip = function (){
               if ( scope.selectable ) {
                 try {
-                  scope.onSelect(scope.placeId);
                   scope.isSelected = true;
+                  scope.onSelect(scope.place);
                 } catch(e) {
                   $log.debug('The item is selectable but have no registered function', e)
                 }
@@ -69,7 +69,6 @@
             };
 
             scope.keyDown = function (e) {
-              console.log(e);
               if(e.which === 13) {
                 scope.visibleInput = false;
               }

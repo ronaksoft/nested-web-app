@@ -19,18 +19,6 @@
         <suggest-picker config="ctlCompose.suggestPickerConfig" selecteds="ctlCompose.model.recipients"
           suggests="ctlCompose.search.results" keyword='ctlCompose.keyword' request-more="ctlCompose.searchMore"
           ng-click="ctlCompose.collapse = false"></suggest-picker>
-        <!-- <ui-select minimum-input-length="1" multiple limit="{{ctlCompose.targetLimit}}" class="address-input _dib" autofocus focus-on="focus-rec" focus-checker
-                   id="compose-recipient-input" on-select="ctlCompose.emitItemsAnalytics()" on-remove="ctlCompose.emitItemsAnalytics()"
-                   data-ng-model="ctlCompose.model.recipients">
-          <ui-select-match placeholder="{{::ctlCompose.inputPlaceHolderLabel}}" compose-match-item class="match-items">
-            <div place-chips place-id="$item" is-email="$item.isEmail" on-remove="$selectMultiple.removeChoice" index="$index" on-select="" selectable="true"></div>
-          </ui-select-match>
-          <ui-select-choices refresh="ctlCompose.search.fn($select.search)"
-                             refresh-delay="0"
-                             repeat="place as place in ctlCompose.search.results track by $index">
-            
-          </ui-select-choices>
-        </ui-select> -->
       </div>
       <div class="wdt-emoji-picker-parent compose-scroll-wrapper">
         <!-- <div> -->

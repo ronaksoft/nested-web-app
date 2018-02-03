@@ -4,7 +4,7 @@
   angular
     .module('ronak.nested.web.components')
     .value('suggestPickerDefaultOptions', {
-      limit : 10,
+      limit: 10,
       suggestsLimit: 10,
       singleRow: false,
       placeholder: '',
@@ -18,15 +18,15 @@
 
       $scope.keydown = function (e) {
         // Enter/ return key
-        if(e.which === 13) {
-          if($scope.clearSuggests.length > 0) {
+        if (e.which === 13) {
+          if ($scope.clearSuggests.length > 0) {
             var index = $scope.state.activeSuggestItem;
             $scope.selectItem(index);
           }
           // Backspace key
-        } else if(e.which === 8) {
+        } else if (e.which === 8) {
           var index = $scope.state.activeSelectedItem;
-          if (index > -1 && $scope.selecteds[index]){
+          if (index > -1 && $scope.selecteds[index]) {
             $scope.removeItem(index);
             $scope.state.activeSelectedItem = index;
             decreaseActiveSelectedIndex();
@@ -34,19 +34,19 @@
           if ($scope.keyword === '' && $scope.state.activeSelectedItem < 0) {
             $scope.state.activeSelectedItem = $scope.selecteds.length - 1;
           }
-        } else if(e.which === 27) {
+        } else if (e.which === 27) {
           $scope.visible = false;
           return e.stopPropagation();
-        } else if(e.which === 37) {
+        } else if (e.which === 37) {
           decreaseActiveSelectedIndex();
-        } else if(e.which === 38) {
+        } else if (e.which === 38) {
           decreaseActiveIndex();
-        } else if(e.which === 39) {
+        } else if (e.which === 39) {
           increaseActiveSelectedIndex();
-        } else if(e.which === 40) {
+        } else if (e.which === 40) {
           increaseActiveIndex();
         }
-        if(!$scope.visible) {
+        if (!$scope.visible) {
           $scope.visible = true;
         }
       }
@@ -61,29 +61,30 @@
         $scope.keyword = '';
         ++$scope.tempFocusInc;
         resetState();
-        if(typeof $scope.requestMore === 'function') {
+        if (typeof $scope.requestMore === 'function') {
           $scope.requestMore();
         }
-        if($scope.options.singleRow) {
+        if ($scope.options.singleRow) {
           $scope.emitItemsAnalytics();
         }
       }
 
       $scope.removeItem = function (index) {
         var item = $scope.selecteds[index];
-        if (index < 0 || !item){
+        if (index < 0 || !item) {
           return;
         }
         $scope.clearSuggests.unshift(item);
         $scope.selecteds.splice(index, 1);
         resetState();
-        if($scope.options.singleRow) {
+        if ($scope.options.singleRow) {
           $scope.emitItemsAnalytics();
         }
       }
 
       $scope.activeSelectItem = function (place) {
-        var index = _.findIndex($scope.selecteds, function(p){
+        console.log(place);
+        var index = _.findIndex($scope.selecteds, function (p) {
           return p.id === place.id
         })
         $scope.state.activeSelectedItem = index;
@@ -110,28 +111,28 @@
 
       function increaseActiveIndex() {
         $scope.state.activeSuggestItem++;
-        if($scope.state.activeSuggestItem === $scope.clearSuggests.length) {
+        if ($scope.state.activeSuggestItem === $scope.clearSuggests.length) {
           $scope.state.activeSuggestItem = 0;
         }
       }
 
       function decreaseActiveIndex() {
         $scope.state.activeSuggestItem--;
-        if($scope.state.activeSuggestItem < 0) {
+        if ($scope.state.activeSuggestItem < 0) {
           $scope.state.activeSuggestItem = $scope.clearSuggests.length - 1;
         }
       }
 
       function increaseActiveSelectedIndex() {
         $scope.state.activeSelectedItem++;
-        if($scope.state.activeSelectedItem === $scope.selecteds.length) {
+        if ($scope.state.activeSelectedItem === $scope.selecteds.length) {
           $scope.state.activeSelectedItem = 0;
         }
       }
 
       function decreaseActiveSelectedIndex() {
         $scope.state.activeSelectedItem--;
-        if($scope.state.activeSelectedItem < 0) {
+        if ($scope.state.activeSelectedItem < 0) {
           $scope.state.activeSelectedItem = $scope.selecteds.length - 1;
         }
       }
@@ -153,8 +154,10 @@
           requestMore: '=?',
         },
         link: function ($scope, $element) {
-          var containerW, itemsW = 0, overflowed = false, lastIndex = 0;
-          $scope.options = angular.extend({}, suggestPickerDefaultOptions, $scope.config);          
+          var containerW, itemsW = 0,
+            overflowed = false,
+            lastIndex = 0;
+          $scope.options = angular.extend({}, suggestPickerDefaultOptions, $scope.config);
           $scope.emitItemsAnalytics = _.debounce(getSizes, 128);
           $timeout($scope.emitItemsAnalytics, 2);
           /**
@@ -163,43 +166,42 @@
            * this function collapse the recipients box into one line and adds 
            * an element called `more-recipient-badge` at the end of first line
            */
-          function getSizes(){
+          function getSizes() {
             // remove `more-recipient-badge` element 
             $('#more-recipient-badge').remove();
             itemsW = 0;
             overflowed = false;
             containerW = $element.width();;
             var childs = $element.find('.suggest-picker-area').children();
-            $timeout(function(){
-              if( childs.length > 1 ) {
-               for ( var i = 0; i < childs.length - 1; i++) {
-  
-                console.log(itemsW, childs[i].offsetWidth);
-                 if ( !overflowed ) {
-                   itemsW += childs[i].offsetWidth;
-                   lastIndex = i;
-                 }
-                 
-                 if ( itemsW + 32 > containerW ) {
+            $timeout(function () {
+              if (childs.length > 1) {
+                for (var i = 0; i < childs.length - 1; i++) {
+
+                  if (!overflowed) {
+                    itemsW += childs[i].offsetWidth;
+                    lastIndex = i;
+                  }
+
+                  if (itemsW + 32 > containerW) {
                     overflowed = true;
-                 }
-  
+                  }
+
+                }
+                if (overflowed) {
+                  var x = childs.length - 1 - lastIndex;
+                  $element.children().children().eq(lastIndex - 1).after('<span id="more-recipient-badge">+' + x + '</span>');
+                }
               }
-              if( overflowed ) {
-                var x = childs.length - 1 - lastIndex;
-                $element.children().children().eq(lastIndex - 1).after('<span id="more-recipient-badge">+' + x + '</span>');
-              }
-            }}, 2);
-  
+            }, 2);
+
           }
 
-          
           $window.addEventListener("mousedown", closePopover);
 
-            function closePopover(e) {
-              $scope.visible = $element[0].contains(e.target.parentNode) || $element[0].contains(e.target);
-            }
-      
+          function closePopover(e) {
+            $scope.visible = $element[0].contains(e.target.parentNode) || $element[0].contains(e.target);
+          }
+
         }
       }
     });
