@@ -75,6 +75,25 @@
         background-color: transparentize($color-sense, 1 - .08);
         color: $color-new-hurricane;
       }
+      &.user {
+        display: inline-flex;
+        flex-direction: row;
+        height: 48px;
+        width: calc(33.3% - 12px);
+        margin-bottom: 12px;
+        margin-right: 12px;
+        a {
+          display: inline-flex !important;
+          flex-direction: row;
+          height: 48px;
+          width: 100%;
+          padding: 8px 4px;
+        }
+        &:hover {
+          background-color: $color-sense-5;
+          cursor: pointer;
+        }
+      }
     }
     &.show {
         visibility: visible

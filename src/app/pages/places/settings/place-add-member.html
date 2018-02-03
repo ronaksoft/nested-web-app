@@ -2,46 +2,23 @@
   <h4>
     <div class="_df" ng-click="$dismiss();">
       <svg class="_24svg _fn">
-          <use xlink:href="/assets/icons/nst-icn24.svg#xcross"></use>
+        <use xlink:href="/assets/icons/nst-icn24.svg#xcross"></use>
       </svg>
     </div>
     <translate data-ng-if="!addMemberCtrl.isGrandPlace">Add Members</translate>
     <translate data-ng-if="addMemberCtrl.isGrandPlace">Invite new Members</translate>
   </h4>
-  <ui-select multiple class="add-user-modal-input _fn _df" theme="bootstrap"
-    data-ng-model="addMemberCtrl.selectedUsers" limit="{{addMemberCtrl.limit}}"
-    autofocus="true" focus-me="true" on-select="addMemberCtrl.search('')">
-    {{$select.open = true; ""}}
-    <ui-select-match placeholder="{{::addMemberCtrl.searchPlaceholder}}">
-      {{$select.open = true; ""}}
-      <!-- <div class="selected-innter">
-        <span class="place-img">
-          <img initial-avatar="{{$item.id}}" picture="{{$item | avatar}}"
-                data-width="24" data-height="24" data-radius="2"
-                data-word-count="2" data-font-size="12" name="{{$item.fullName}}"/>
-        </span>
-        <span class="place-name">{{$item.fullName}}</span>
-      </div> -->
-      <div user-chips user-id="$item.id" on-remove="$selectMultiple.removeChoice" index="$index" on-select="" removable="true"></div>
-    </ui-select-match>
-    <ui-select-choices refresh="addMemberCtrl.search($select.search)" refresh-delay="0"
-                        repeat="user in (addMemberCtrl.users | filter: $select.search) track by user.id" >
-      <img initial-avatar="{{user.id}}" name="{{user.fullName}}" picture="{{user| avatar:'x64'}}" data-width="32"
-      data-height="32" data-radius="24" class="account-initials-32 _df" data-word-count="2" data-font-size="16"/>
-      <div class="_difv">
-        <!--todo:: | highlight: $select.search in persian name-->
-        <span auto-dir="user.fullName"><span class="_txe _fw" data-ng-bind-html="user.fullName"></span></span>
-        <small class="_df">@{{user.id}}</small>
-      </div>
-    </ui-select-choices>
-  </ui-select>
+  <suggest-picker config="addMemberCtrl.suggestPickerConfig" selecteds="addMemberCtrl.selectedUsers" class="add-user-modal-input"
+    suggests="addMemberCtrl.users" keyword='addMemberCtrl.query' request-more="addMemberCtrl.searchMore"></suggest-picker>
   <div class="modal-body">
     <div class="_fw suggests">
       <translate>Suggested:</translate>
     </div>
   </div>
   <div class="m-footer _df _fw">
-    <input type="button" class="butn butn-green" data-ng-if="addMemberCtrl.isGrandPlace" ng-disabled="addMemberCtrl.selectedUsers.length === 0" translate-attrs="value" value="Invite" ng-click="addMemberCtrl.invite();" id="invite"/>
-    <input type="button" class="butn butn-green" data-ng-if="!addMemberCtrl.isGrandPlace" ng-disabled="addMemberCtrl.selectedUsers.length === 0" translate-attrs="value" value="Add" ng-click="addMemberCtrl.add();" id="add"/>
+    <input type="button" class="butn butn-green" data-ng-if="addMemberCtrl.isGrandPlace" ng-disabled="addMemberCtrl.selectedUsers.length === 0"
+      translate-attrs="value" value="Invite" ng-click="addMemberCtrl.invite();" id="invite" />
+    <input type="button" class="butn butn-green" data-ng-if="!addMemberCtrl.isGrandPlace" ng-disabled="addMemberCtrl.selectedUsers.length === 0"
+      translate-attrs="value" value="Add" ng-click="addMemberCtrl.add();" id="add" />
   </div>
 </div>

@@ -83,7 +83,6 @@
       }
 
       $scope.activeSelectItem = function (place) {
-        console.log(place);
         var index = _.findIndex($scope.selecteds, function (p) {
           return p.id === place.id
         })
