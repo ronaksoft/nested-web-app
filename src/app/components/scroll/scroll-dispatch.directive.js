@@ -23,9 +23,7 @@
           }
           if (scrollTop > loadMoreScrollProperValue(this.innerHeight, scrollHeight)) {
             // Reach end dispatcher
-            $timeout(function () {
-              reachEndThrottle();
-            }, 10);
+            reachEndThrottle();
           }
           try {
             check(scrollTop);
@@ -95,7 +93,9 @@
         }
 
         function ReachEnd() {
-          $rootScope.$broadcast('scroll-reached-bottom');
+          $timeout(function () {
+            $rootScope.$broadcast('scroll-reached-bottom');
+          }, 10);
         }
 
       }

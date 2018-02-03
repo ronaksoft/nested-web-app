@@ -223,7 +223,6 @@
 
     function getTasks() {
       vm.loading = true;
-      console.log('getTasks');
       var promise;
       var isCompleted = false;
       if ($state.params && $state.params.filter === 'completed') {
@@ -468,7 +467,6 @@
     }));
 
     eventReferences.push($rootScope.$on('scroll-reached-bottom', function () {
-      console.log('scroll-reached-bottom');
       loadMoreTasks();
     }));
 
