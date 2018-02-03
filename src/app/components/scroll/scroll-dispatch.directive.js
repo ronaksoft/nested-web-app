@@ -6,15 +6,15 @@
     .directive('scrollDispatch', hideTips);
 
   /** @ngInject */
-  function hideTips(SvcCardCtrlAffix, $, wdtEmojiBundle, _, $rootScope, $log, $window) {
+  function hideTips(SvcCardCtrlAffix, $, wdtEmojiBundle, _, $rootScope, $log, $window, $timeout) {
     return {
       link: function ($scope, $element) {
         var removePopovers = _.throttle(remover, 64);
         var check = _.throttle(SvcCardCtrlAffix.check, 64);
-        var reachEndThrottle = _.throttle(ReachEnd, 256);
+        var reachEndThrottle = _.throttle(ReachEnd, 128);
         var scroll = SvcCardCtrlAffix.scroll;
 
-        angular.element($window).bind("scroll", function() {
+        angular.element($window).bind("scroll", function () {
           var scrollTop = this.pageYOffset;
           var scrollHeight = $('body').height();
           if (scrollTop < 300) {
@@ -23,7 +23,9 @@
           }
           if (scrollTop > loadMoreScrollProperValue(this.innerHeight, scrollHeight)) {
             // Reach end dispatcher
-            reachEndThrottle();
+            $timeout(function () {
+              reachEndThrottle();
+            }, 10);
           }
           try {
             check(scrollTop);
@@ -45,8 +47,8 @@
           }
         }
 
-        function loadMoreScrollProperValue(frameHeight, scrollHeight){
-          if ( scrollHeight < 25 * frameHeight) {
+        function loadMoreScrollProperValue(frameHeight, scrollHeight) {
+          if (scrollHeight < 25 * frameHeight) {
             // console.log(11);
             return (scrollHeight - frameHeight) * 0.9;
           } else {
@@ -93,7 +95,6 @@
         }
 
         function ReachEnd() {
-          $log.debug('Reached the end of body')
           $rootScope.$broadcast('scroll-reached-bottom');
         }
 
