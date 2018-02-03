@@ -10,19 +10,29 @@
 
     var vm = this;
     vm.code = 'A';
-    vm.userSelectPlaceHolder = NstSvcTranslation.get('Enter username or user-id');
     vm.holderType = 'all';
+    var eventReferences = [];
     vm.specificHolders = [];
+    vm.searchMore = searchMore;
     vm.title = '';
-
+    vm.suggestPickerConfig = {
+      limit : 100,
+      suggestsLimit: 8,
+      singleRow: false,
+      mode: 'user',
+      placeholder: NstSvcTranslation.get('Enter username or user-id')
+    };
     var defaultSearchResultCount = 9;
     vm.users = [];
     vm.search = _.debounce(search, 512);
     vm.query = '';
-    vm.limit = 100;
 
     vm.isNotValid = isNotValid;
     vm.createLabel = createLabel;
+
+    eventReferences.push($scope.$watch(function () {
+      return vm.query
+    }, function(keyword){return vm.search(keyword)}, true));
 
     function isNotValid() {
       if (vm.title.length <= 1) {
@@ -33,9 +43,14 @@
       return false;
     }
 
+    function searchMore() {
+      vm.suggestPickerConfig.suggestsLimit++;
+      return vm.search(vm.query);
+    }
+
     function search(query) {
       var settings = {
-        query: query,
+        query: query || vm.query,
         limit: calculateSearchLimit()
       };
 
@@ -90,6 +105,15 @@
         }
       });
     }
+
+    $scope.$on('$destroy', function () {
+      _.forEach(eventReferences, function (canceler) {
+        if (_.isFunction(canceler)) {
+          canceler();
+        }
+      });
+
+    });
   }
 
 })();

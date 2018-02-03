@@ -4,13 +4,12 @@
   width: 100%;
   position: relative;
   .suggest-picker-area {
-    display: flex;
-    // min-height: 48px;
+    display: flex; // min-height: 48px;
     flex-wrap: wrap;
     padding-top: 4px;
-    > * {
-        height: 30px;
-        margin-bottom: 4px;
+    >* {
+      height: 30px;
+      margin-bottom: 4px;
     }
     .suggest-picker-input {
       border: none;
@@ -22,8 +21,8 @@
       &:focus {
         border: none;
         box-shadow: none;
-        & + div {
-            visibility: visible
+        &+div {
+          visibility: visible
         }
       }
     }
@@ -94,9 +93,24 @@
           cursor: pointer;
         }
       }
+      &.label {
+        height: 30px;
+        a {
+          padding: 8px 0;
+          padding: 0;
+          line-height: 16px;
+          >._vat {
+              padding:  0 8px;
+          }
+          >span {
+            font-size: 13px;
+            display: unset;
+          }
+        }
+      }
     }
     &.show {
-        visibility: visible
+      visibility: visible
     }
   }
 }

@@ -14,6 +14,7 @@
     .controller('suggestPickerController', function ($timeout, $scope, _, suggestPickerDefaultOptions) {
       $scope.tempFocusInc = 0;
       $scope.clearSuggests = [];
+      var eventReferences = [];
       resetState();
 
       $scope.keydown = function (e) {
@@ -96,7 +97,7 @@
         if (oldL < $scope.clearSuggests.length) {
           $scope.state.activeSuggestItem = 0;
         }
-      });
+      })
 
       /**
        * Reset / Initialize view states
@@ -135,6 +136,14 @@
           $scope.state.activeSelectedItem = $scope.selecteds.length - 1;
         }
       }
+
+      $scope.$on('$destroy', function () {
+        _.forEach(eventReferences, function (cenceler) {
+          if (_.isFunction(cenceler)) {
+            cenceler();
+          }
+        });
+      });
     })
     .directive('suggestPicker', function ($timeout, $, _, suggestPickerDefaultOptions, $window) {
       return {

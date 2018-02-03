@@ -60,7 +60,7 @@
 
     function searchMore() {
       vm.suggestPickerConfig.suggestsLimit++;
-      return search(vm.query);
+      return vm.search(vm.query);
     }
 
     function search(query) {

@@ -519,7 +519,7 @@
         .label-search {
             padding: 0 4px;
             height: 307px;
-            >div:first-child {
+            >.suggest-picker {
                 border-bottom: 1px solid $color-solid;
                 margin-bottom: 24px;
             }
@@ -527,13 +527,6 @@
                 padding: 0;
                 border-radius: 0;
                 height: 32px;
-                // width: 100%;
-                // min-height: 28px;
-                // /*color: $color-solid;*/
-                // @extend .nst-font-large;
-                // font-weight: 400;
-                // padding: 6px;
-                // margin-bottom: 10px;
             }
             input::-moz-placeholder {
                 font-size: 14px;
@@ -543,36 +536,19 @@
                 font-size: 14px;
                 color: $color-solid-24;
             }
-            .label-items {
-                height: 30px;
-                > span {
-                    display: unset;
-                }
-            }
-            .dropdown-menu {
-                box-shadow: none;
-                position: relative;
-                border: none;
-                padding: 0;
-                top: 0;
-                left: 0;
-                max-height: 256px;
-                height: 256px;
-                display: block!important;
-            }
             .label-chips-wrapper {
                 margin: 3px 5px 3px 0;
             }
         }
-        .ui-select-bootstrap .ui-select-choices-row > a {
-            padding: 8px 0;
-            line-height: 16px;
-            >._vat {
-                padding:  0 8px;
-            }
-            span {
-                font-size: 13px;
-            }
+        .suggest-picker-suggests {
+            box-shadow: none;
+            display: flex!important;
+            flex-direction: column;
+            width: 100%;
+            left: 0;
+            border: none;
+            padding: 0;
+            max-height: 256px;
         }
         .load-more-labels {
             height: 32px;

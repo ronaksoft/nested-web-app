@@ -17,7 +17,9 @@
         selectable: '=?',
         index: '=?',
         onRemove: '=',
+        isSelected: '@?',
         onClick: '=?',
+        onSelect: '=',
         removable: '=?'
       },
       link: function (scope, element) {
@@ -49,8 +51,8 @@
           if (scope.selectable) {
             scope.isSelected = true;
           }
-          if (_.isFunction(scope.onClick)) {
-            scope.onClick( typeof scope.index !== 'undefined' ? scope.index : scope.labelId);
+          if (_.isFunction(scope.onSelect)) {
+            scope.onSelect( typeof scope.index !== 'undefined' ? scope.index : scope.labelId);
           }
         };
 

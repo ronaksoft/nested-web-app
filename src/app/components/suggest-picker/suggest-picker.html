@@ -5,6 +5,8 @@
                 on-remove="removeItem" selectable="true" index="$index" is-email="selected.isEmail"></div>            
             <div ng-if="options.mode === 'user'" user-chips user-id="selected.id" on-remove="removeItem" index="$index" on-select="activeSelectItem"
                 is-selected="{{$index === state.activeSelectedItem}}" removable="true"></div>
+            <div ng-if="options.mode === 'label'" label-chips label-id="selected.id" on-remove="removeItem" index="$index" on-select="activeSelectItem"
+                is-selected="{{$index === state.activeSelectedItem}}" removable="true" selectable="true"></div>
         </div>
         <input type="text" ng-model="keyword" ng-keydown="keydown($event);" focus-me="{{tempFocusInc}}" placeholder="{{options.placeholder}}"
             ng-focus="visible = true" class="suggest-picker-input">
@@ -25,9 +27,15 @@
                     data-height="32" data-radius="24" class="account-initials-32 _df" data-word-count="2" data-font-size="16"/>
                 <div class="_difv">
                     <!--todo:: | highlight: $select.search in persian name-->
-                    <span auto-dir="suggest.fullName"><span class="_txe _fw" data-ng-bind-html="suggest.name | highlight: $select.search"></span></span>
+                    <span auto-dir="suggest.fullName"><span class="_txe _fw" data-ng-bind-html="suggest.fullName | highlight: $select.search"></span></span>
                     <small class="_df" data-ng-bind-html="suggest.id | highlight: $select.search"></small>
                 </div>
+            </a>
+            <a ng-if="options.mode === 'label'">
+                <svg class="_16svg mirror _fn color-lbl-{{suggest.code}}">
+                    <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
+                </svg>
+                <span class="_vat _df" auto-dir="suggest.title" data-ng-bind-html="(suggest.title | scapeRevSpace) | highlight: $select.search"></span>
             </a>
         </div>
     </div>

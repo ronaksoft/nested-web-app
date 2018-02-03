@@ -427,9 +427,9 @@
       vm.subjectKeyDown = _.debounce(subjectKeyDown, 128);
       vm.search.fn = _.debounce(vm.searchRecipients, 128);
 
-      $scope.$watch(function () {
+      eventReferences.push($scope.$watch(function () {
         return vm.keyword
-      }, function(keyword){return vm.search.fn(keyword);}, true);
+      }, function(keyword){return vm.search.fn(keyword);}, true));
 
       vm.search.fn('');
       /**
