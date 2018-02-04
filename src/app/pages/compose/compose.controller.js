@@ -522,6 +522,11 @@
               name: query
             });
             vm.search.results.unshift(initPlace);
+          } else if (query && query.length > 0) {
+            var index = _.findIndex(vm.search.results, { 'id': query });
+            var it = vm.search.results[index];
+            vm.search.results.splice(index, 1);
+            vm.search.results.unshift(it);
           }
 
         }).catch(function () {
