@@ -1569,7 +1569,7 @@
          * this function add file/files into attachments model
          * @param {any} event
          */
-        vm.dodrop = function (event) {
+        vm.dodropFile = function (event) {
           NstSvcLogger.debug4('Compose | dropped some files :');
           event.preventDefault();
           event.stopPropagation();
@@ -1577,6 +1577,25 @@
           var files = dt.files;
           for (var i = 0; i < files.length; i++) {
             vm.attachments.attach(files[i]).then(function () {});
+          }
+
+        };
+
+        /**
+         * @event
+         * Triggers on drop event
+         * this function add multimedia files into attachments model
+         * @param {any} event
+         */
+        vm.dodropMultimedia = function (event) {
+          NstSvcLogger.debug4('Compose | dropped some files :');
+          event.preventDefault();
+          event.stopPropagation();
+          var dt = event.dataTransfer;
+          var files = dt.files;
+          for (var i = 0; i < files.length; i++) {
+            var type = getStoreType(files[i]);
+            vm.attachments.attach(files[i], type).then(function () {});
           }
 
         };

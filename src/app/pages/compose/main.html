@@ -1,5 +1,5 @@
 <div ng-if="!ctlCompose.minimize && !ctlCompose.quickMode" class="bg-compose" ng-click="ctlCompose.backDropClick();"></div>
-<div class="_pr _fw ng-class:{'minimize' : ctlCompose.minimize}" id="compose-box" compose-drop>
+<div class="_pr _fw ng-class:{'minimize' : ctlCompose.minimize}" id="compose-box">
   <div ng-if="!ctlCompose.minimize" class="compose-wrapper ng-class:{'attached' : ctlCompose.attachments.viewModels.length > 0}"
     ng-mouseleave="ctlCompose.mouseIn = false" ng-mouseenter="ctlCompose.mouseIn = true">
     <div class="modal-head" ng-if="!ctlCompose.quickMode">
@@ -96,6 +96,12 @@
 
     </div>
 
+  </div>
+  <div class="dnd">
+      <div class="file" compose-drop="file"></div>
+  </div>
+  <div class="dnd">
+      <div class="multimedia" compose-drop="media"></div>
   </div>
   <div ng-if="ctlCompose.minimize" class="minimize-container compose_{{ctlCompose.modalId}}">
     <div ng-progressbar="{{ctlCompose.minimizeData.progress}}" progressbar-mode="Line"></div>
