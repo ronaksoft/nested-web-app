@@ -25,10 +25,10 @@
             <a ng-if="options.mode === 'user'">
                 <img initial-avatar="{{suggest.id}}" name="{{suggest.fullName}}" picture="{{suggest| avatar:'x64'}}" data-width="32"
                     data-height="32" data-radius="24" class="account-initials-32 _df" data-word-count="2" data-font-size="16"/>
-                <div class="_difv">
+                <div class="_difv _oh" style="width: calc(100% - 40px)">
                     <!--todo:: | highlight: $select.search in persian name-->
-                    <span auto-dir="suggest.fullName"><span class="_txe _fw" data-ng-bind-html="suggest.fullName | highlight: $select.search"></span></span>
-                    <small class="_df" data-ng-bind-html="suggest.id | highlight: $select.search"></small>
+                    <span auto-dir="suggest.fullName"><span class="_txe _fw _wrb _db" data-ng-bind-html="suggest.fullName | highlight: $select.search"></span></span>
+                    <small class="_df _wrb" data-ng-bind-html="suggest.id | highlight: $select.search"></small>
                 </div>
             </a>
             <a ng-if="options.mode === 'label'">
