@@ -37,6 +37,7 @@
           }
         } else if (e.which === 27) {
           $scope.visible = false;
+          e.target.blur();
           return e.stopPropagation();
         } else if (e.which === 37) {
           if($rootScope._direction === 'rtl') {
