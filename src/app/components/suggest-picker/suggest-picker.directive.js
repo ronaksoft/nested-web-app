@@ -46,7 +46,7 @@
             decreaseActiveSelectedIndex();
           }
         } else if (e.which === 38) {
-          decreaseActiveIndex();
+          decreaseActiveIndex(e.target);
         } else if (e.which === 39) {
           if($rootScope._direction === 'ltr') {
             increaseActiveSelectedIndex();
@@ -54,7 +54,7 @@
             decreaseActiveSelectedIndex();
           }
         } else if (e.which === 40) {
-          increaseActiveIndex();
+          increaseActiveIndex(e.target);
         }
         if (!$scope.visible) {
           $scope.visible = true;
@@ -119,18 +119,36 @@
         }
       }
 
-      function increaseActiveIndex() {
+      function increaseActiveIndex(el) {
         $scope.state.activeSuggestItem++;
         if ($scope.state.activeSuggestItem === $scope.clearSuggests.length) {
           $scope.state.activeSuggestItem = 0;
         }
+        try {
+          if ($scope.state.activeSuggestItem % 5 === 0) {
+            var suggestArea = $(el).parent().parent().find('.suggest-picker-suggests').children().eq($scope.state.activeSuggestItem);
+            suggestArea[0].scrollIntoView({
+              behavior: "smooth",
+              block: "start"
+            });
+          }
+        } catch(e){}
       }
 
-      function decreaseActiveIndex() {
+      function decreaseActiveIndex(el) {
         $scope.state.activeSuggestItem--;
         if ($scope.state.activeSuggestItem < 0) {
           $scope.state.activeSuggestItem = $scope.clearSuggests.length - 1;
         }
+        try {
+          if ($scope.state.activeSuggestItem % 4 === 0) {
+            var suggestArea = $(el).parent().parent().find('.suggest-picker-suggests').children().eq($scope.state.activeSuggestItem);
+            suggestArea[0].scrollIntoView({
+              behavior: "smooth",
+              block: "end"
+            })
+          }
+        } catch(e){}
       }
 
       function increaseActiveSelectedIndex() {
