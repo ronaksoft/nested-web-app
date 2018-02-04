@@ -11,7 +11,7 @@
       mode: 'place',
       alwaysVisible: false
     })
-    .controller('suggestPickerController', function ($timeout, $scope, _, suggestPickerDefaultOptions) {
+    .controller('suggestPickerController', function ($timeout, $scope, _, suggestPickerDefaultOptions, toastr, NstSvcTranslation, $rootScope) {
       $scope.tempFocusInc = 0;
       $scope.clearSuggests = [];
       var eventReferences = [];
@@ -39,11 +39,19 @@
           $scope.visible = false;
           return e.stopPropagation();
         } else if (e.which === 37) {
-          decreaseActiveSelectedIndex();
+          if($rootScope._direction === 'rtl') {
+            increaseActiveSelectedIndex();
+          } else {
+            decreaseActiveSelectedIndex();
+          }
         } else if (e.which === 38) {
           decreaseActiveIndex();
         } else if (e.which === 39) {
-          increaseActiveSelectedIndex();
+          if($rootScope._direction === 'ltr') {
+            increaseActiveSelectedIndex();
+          } else {
+            decreaseActiveSelectedIndex();
+          }
         } else if (e.which === 40) {
           increaseActiveIndex();
         }
@@ -55,6 +63,7 @@
       $scope.selectItem = function (index) {
         var item = $scope.clearSuggests[index];
         if (!item || $scope.selecteds.length >= $scope.options.limit) {
+          toastr.warning(NstSvcTranslation.get("Limit is :") + " " + $scope.options.limit)
           return;
         }
         $scope.selecteds.push(item);
