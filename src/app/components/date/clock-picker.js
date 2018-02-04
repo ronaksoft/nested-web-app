@@ -84,10 +84,27 @@
           $('.clockpicker-popover').appendTo(datepicker);
         }
         $('.btn-block.clockpicker-button').on('mousedown', clickOnDone);
+        var amBtnObj = $('.clockpicker-am-pm-block .am-button');
+        var pmBtnObj = $('.clockpicker-am-pm-block .pm-button');
+        if ($('.clockpicker-span-am-pm').text().toLowerCase() === 'pm') {
+          pmBtnObj.addClass('btn-active');
+        } else {
+          amBtnObj.addClass('btn-active');
+        }
+        amBtnObj.on('click', function () {
+          pmBtnObj.removeClass('btn-active');
+          $(this).addClass('btn-active');
+        });
+        pmBtnObj.on('click', function () {
+          amBtnObj.removeClass('btn-active');
+          $(this).addClass('btn-active');
+        });
       },
       beforeHide: function () {
         // $('.btn-block.clockpicker-button').off('mousedown', clickOnDone);
         $('.clockpicker-popover').off();
+        $('.clockpicker-am-pm-block .am-button').off();
+        $('.clockpicker-am-pm-block .pm-button').off();
       }
     })
 
