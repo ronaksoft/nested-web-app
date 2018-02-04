@@ -688,7 +688,8 @@ body.modal-open-attachment-view.compose-modal {
     bottom: -48px;
     width: 100%;
     left: 0;
-    background-color: $color-white;
+    background-color: transparent;
+    right: 0;
   }
   input {
     padding-left: 0;
