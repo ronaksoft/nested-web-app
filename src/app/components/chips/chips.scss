@@ -190,12 +190,12 @@
         position: relative;
         @include align-center();
         border-radius: 2px 0 0 2px;
-        svg {
-            position: absolute;
-        }
         svg:last-child {
+            position: absolute;
             display: none;
-            fill: $color-white;
+            fill: #fff;
+            width: 16px;
+            height: 16px;
         }
     }
     &:not(:hover) {
@@ -221,12 +221,9 @@
         font-size: 12px;
         padding: 0 4px;
         color: $color-white;
-    }
-    .clear {
-        svg {
-            fill: $color-solid;
-            opacity: .4;
-        }
+        display: block;
+        white-space: nowrap;
+        text-overflow: ellipsis;
     }
     &.isSelected {
         span {
@@ -258,12 +255,6 @@
                     display: block;
                     fill: $color-white;
                 }
-            }
-        }
-        .clear {
-            svg {
-                fill: $color-force;
-                opacity: 1;
             }
         }
     }
