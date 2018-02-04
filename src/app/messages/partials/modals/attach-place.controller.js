@@ -9,7 +9,7 @@
     NstSvcPostFactory, NstSvcPlaceFactory, NstSvcTranslation, NstUtility,
     NstTinyPlace, NstVmSelectTag,
     postId, postPlaces) {
-
+    var eventReferences = [];
     var vm = this;
     vm.keyword = '';
     vm.suggestPickerConfig = {
