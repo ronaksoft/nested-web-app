@@ -1127,6 +1127,13 @@ body[dir="rtl"] {
     }
     .place-picture img {
       border-radius: 0 4px 4px 0;
+      &.email-holder {
+        border-radius: 24px;
+      }
+    }
+    &.isEmail .place-picture {
+      margin-left: 0;
+      margin-right: 3px;
     }
   }
   .file-list ul li.checked .checkbox div {

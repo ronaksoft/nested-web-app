@@ -427,7 +427,7 @@
         taskUpdateModel.dueDate = date;
         taskUpdateModel.hasDueTime = hasDueTime;
       }
-      updateDebouncer.call();
+      updateTask();
     }
 
     $scope.$watch(function () {

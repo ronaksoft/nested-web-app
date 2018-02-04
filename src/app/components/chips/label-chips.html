@@ -1,5 +1,7 @@
 <div class="label-chips-wrapper color-lbl-shadow-{{label.code}} {{isSelected == 'true' || isSelected == true ? 'isSelected' : ''}}
-  {{selectable ? 'access' : ''}}" ng-click="selectChip();">
+  {{selectable ? 'access' : ''}}" ng-click="selectChip();" data-uib-tooltip="{{label.title}}"
+  data-tooltip-enable="{{forceTooltip ? true : false}}" data-tooltip-placement="bottom auto"
+  data-tooltip-append-to-body="true">
   <div class="label-edge color-lbl-bg-{{label.code}}" ng-click="removeChip($event);">
     <svg class="_fh _fw _df _fn color-lbl-{{label.code}}">
       <use xlink:href="/assets/icons/label-chips.svg#label-edge"></use>
@@ -11,7 +13,7 @@
       <use xlink:href="/assets/icons/nst-icn16.svg#lock"></use>
     </svg>
   </div>
-  <span class="_txe color-lbl-bg-{{label.code}}">
+  <span class="_txe color-lbl-bg-{{label.code}}" data-ellipsis>
     {{label.title}}
   </span>
 </div>
