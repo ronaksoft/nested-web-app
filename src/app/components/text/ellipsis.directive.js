@@ -17,10 +17,12 @@
        * @param  {type} places list of places to be shown
        */
       scope.$parent.forceTooltip = false;
+      scope.forceTooltip = false;
 
       $timeout(function () {
         if (element[0].clientWidth < element[0].scrollWidth) {
           scope.$parent.forceTooltip = true;
+          scope.forceTooltip = true;
         }
       },100);
     }
