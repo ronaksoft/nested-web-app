@@ -73,7 +73,6 @@
         }
       }).then(function (data) {
         me.setStatus(NST_RES_STATUS.SUCCESS);
-        console.log(data)
         deferred.resolve(data.data);
       }).catch(function (error) {
         me.setStatus(NST_RES_STATUS.FAILURE);
