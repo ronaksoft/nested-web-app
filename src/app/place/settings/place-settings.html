@@ -28,10 +28,10 @@
           <use xlink:href="/assets/icons/nst-icn16.svg#window"></use>
         </svg>
       </i>
-      <span>{{ctrl.place.id}}</span>
-      <a ng-if="ctrl.placeType == NST_PLACE_TYPE.PRIVATE || ctrl.placeType == NST_PLACE_TYPE.SUB_PERSONAL"><translate>Private Place</translate></a>
-      <a ng-if="ctrl.placeType == NST_PLACE_TYPE.COMMON"><translate>Common Place</translate></a>
-      <a ng-if="ctrl.placeType == NST_PLACE_TYPE.GRAND"><translate>Grand Place</translate></a>
+      <span ng-click="$event.stopPropagation();$event.preventDefault();">{{ctrl.place.id}}</span>
+      <a ng-if="ctrl.placeType == NST_PLACE_TYPE.PRIVATE || ctrl.placeType == NST_PLACE_TYPE.SUB_PERSONAL" ng-click="$event.stopPropagation()"><translate>Private Place</translate></a>
+      <a ng-if="ctrl.placeType == NST_PLACE_TYPE.COMMON" ng-click="$event.stopPropagation()"><translate>Common Place</translate></a>
+      <a ng-if="ctrl.placeType == NST_PLACE_TYPE.GRAND" ng-click="$event.stopPropagation()"><translate>Grand Place</translate></a>
     </label>
 
   </div>
