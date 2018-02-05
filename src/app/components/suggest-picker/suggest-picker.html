@@ -12,8 +12,8 @@
             ng-click="visible = true" class="suggest-picker-input">
     </div>
     <div class="suggest-picker-suggests {{options.alwaysVisible || visible ? 'show' : ''}}" ng-if="clearSuggests.length > 0">
-        <div ng-repeat="suggest in clearSuggests track by suggest.id | limitTo: parseInt(options.suggestsLimit)" ng-class="{'active': state.activeSuggestItem === $index}"
-            class="suggest-row {{options.mode}}" ng-click="selectItem($index)">
+        <div ng-repeat="suggest in clearSuggests track by suggest.id | limitTo: parseInt(options.suggestsLimit)"
+            class="suggest-row {{options.mode}}" ng-click="selectItem($index)" ng-class="{'active': state.activeSuggestItem === $index}">
             <a ng-if="options.mode === 'place'">
                 <div class="place-initials-32">
                     <img ng-src="{{suggest.picture}}"/>
