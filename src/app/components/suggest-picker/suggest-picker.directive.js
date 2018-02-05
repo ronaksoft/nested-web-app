@@ -64,7 +64,7 @@
       $scope.selectItem = function (index) {
         var item = $scope.clearSuggests[index];
         if (!item || $scope.selecteds.length >= $scope.options.limit) {
-          toastr.warning(NstSvcTranslation.get("Limit is :") + " " + $scope.options.limit)
+          toastr.warning(NstUtility.string.format(NstSvcTranslation.get('You can have maximum {0} attached places!'), $scope.options.limit);
           return;
         }
         $scope.selecteds.push(item);
@@ -195,11 +195,11 @@
           /**
            * @function
            * for ui treatments
-           * this function collapse the recipients box into one line and adds 
+           * this function collapse the recipients box into one line and adds
            * an element called `more-recipient-badge` at the end of first line
            */
           function getSizes() {
-            // remove `more-recipient-badge` element 
+            // remove `more-recipient-badge` element
             $('#more-recipient-badge').remove();
             itemsW = 0;
             overflowed = false;
