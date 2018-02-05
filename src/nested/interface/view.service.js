@@ -164,10 +164,14 @@
     // console.log('findAffixIndex', $rootScope.inViewPost)
     }
 
+    // reasign navigation height
     obj.measurement = function (v) {
       navH = v
     }
 
+    /**
+     * finds next and previoust post card from array
+     */
     obj.check = function (Ypos) {
       if (Ypos + 200 < obj.oldNumbers || Ypos - 200 > obj.oldNumbers) {
         try {
@@ -194,6 +198,9 @@
       })
     }
 
+    /**
+     * affix the in view post card element !
+     */
     obj.scroll = function (Ypos) {
       if ($rootScope.cardCtrls.length === 0) {
         return
@@ -210,8 +217,7 @@
         Ypos < thisElementPostCardheight + thisElementPostCardOffTop - (104 + navH)
       ) {
         e.fixed = true
-        e.el.css('position', 'fixed')
-        e.el.css('top', 72 + navH + MobTopOff + 'px')
+        e.el.css({'position': 'fixed', 'top': 72 + navH + MobTopOff + 'px'})
         if ($rootScope._direction !== 'rtl') e.el.css('left', e.leftOff + 'px')
         if ($rootScope._direction === 'rtl') e.el.css('right', e.leftOff + 'px')
       } else if (
@@ -219,19 +225,40 @@
         Ypos + MobTopOff < thisElementPostCardOffTop - (48 + navH)
       ) {
         e.fixed = false
-        e.el.css('position', '')
-        e.el.css('top', '')
-        e.el.css('left', '')
-        e.el.css('right', '')
+        e.el.css({'position': '', 'top': '', 'left': '', 'right': ''});
       } else if (
         e.fixed &&
         Ypos > thisElementPostCardheight + thisElementPostCardOffTop - (104 + navH)
       ) {
         e.fixed = false
-        e.el.css('position', 'absolute')
-        e.el.css('top', thisElementPostCardheight - 32 + 'px')
-        e.el.css('left', '')
-        e.el.css('right', '')
+        e.el.css({'position': 'absolute', 'top': thisElementPostCardheight - 32 + 'px', 'left': '', 'right': ''});
+      }
+    }
+
+
+    return obj;
+
+    function getElementProps (index) {
+      var nextItem = $rootScope.cardCtrls[index]
+      if (!nextItem) {
+        return
+      }
+      var nextElement = $('#post-card-' + nextItem.id).parent()
+      try {
+        return {
+          id: nextItem.id,
+          postCardOffTop: nextElement.offset().top,
+          postCardheight: nextElement.height(),
+          postCardfullHeight: nextElement.children().first().height()
+        }
+      } catch (error) {
+        $log.error(error)
+        return {
+          id: nextItem.id,
+          postCardOffTop: 99999,
+          postCardheight: 0,
+          postCardfullHeight: 0
+        }
       }
     }
 
@@ -309,33 +336,6 @@
             id: prvElement.id,
             index: prvIndex
           }
-        }
-      }
-
-    // console.log(obj.affixView)
-    }
-
-    return obj
-    function getElementProps (index) {
-      var nextItem = $rootScope.cardCtrls[index]
-      if (!nextItem) {
-        return
-      }
-      var nextElement = $('#post-card-' + nextItem.id).parent()
-      try {
-        return {
-          id: nextItem.id,
-          postCardOffTop: nextElement.offset().top,
-          postCardheight: nextElement.height(),
-          postCardfullHeight: nextElement.children().first().height()
-        }
-      } catch (error) {
-        $log.error(error)
-        return {
-          id: nextItem.id,
-          postCardOffTop: 99999,
-          postCardheight: 0,
-          postCardfullHeight: 0
         }
       }
     }
