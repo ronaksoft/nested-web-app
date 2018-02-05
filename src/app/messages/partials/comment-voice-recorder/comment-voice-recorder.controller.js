@@ -61,7 +61,7 @@
           NST_STORE_UPLOAD_TYPE.VOICE, NstSvcAuth.lastSessionKey);
 
         request.finished().then(function (response) {
-          vm.sendHandler(response.data.universal_id);
+          vm.sendHandler(response.data.files[0].universal_id);
           vm.recorded = false;
           vm.timerCounter = 0;
         }).catch(function () {
