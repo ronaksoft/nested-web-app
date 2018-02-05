@@ -109,9 +109,6 @@
           $scope.state.activeSuggestItem = 0;
         }
       }));
-      eventReferences.push($scope.$watch('visible', function (ss) {
-        console.log(ss)
-      }));
 
       /**
        * Reset / Initialize view states
