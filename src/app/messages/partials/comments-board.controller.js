@@ -38,6 +38,9 @@
     vm.unreadCommentsCount = 0;
     vm.showRemoved = false;
     vm.isRecording = false;
+    vm.post = {
+      newComment: ''
+    };
 
     (function () {
       vm.hasOlderComments = vm.totalCommentsCount > vm.comments.length;
@@ -200,15 +203,19 @@
 
       if (vm.postId) {
         NstSvcCommentFactory.addComment(vm.postId, body).then(function (comment) {
-          addCommentCallback(comment)
+          addCommentCallback(comment);
+          vm.post.newComment = '';
         }).catch(function () {
-          toastr.error(NstSvcTranslation.get('Sorry, an error has occured in sending your comment'));
+          toastr.error(NstSvcTranslation.get('Sorry, an error has occurred in sending your comment'));
+          vm.post.newComment = '';
         });
       } else {
         NstSvcTaskFactory.addComment(vm.taskId, body).then(function (comment) {
-          addCommentCallback(comment)
+          addCommentCallback(comment);
+          vm.post.newComment = '';
         }).catch(function () {
-          toastr.error(NstSvcTranslation.get('Sorry, an error has occured in sending your comment'));
+          toastr.error(NstSvcTranslation.get('Sorry, an error has occurred in sending your comment'));
+          vm.post.newComment = '';
         });
       }
 
@@ -245,17 +252,21 @@
         NstSvcCommentFactory.addComment(vm.postId, '', attachmentId).then(function (/*comment*/) {
           // addCommentCallback(comment)
           vm.isSendingComment = false;
+          vm.post.newComment = '';
         }).catch(function () {
           toastr.error(NstSvcTranslation.get('Sorry, an error has occurred in sending your comment'));
           vm.isSendingComment = false;
+          vm.post.newComment = '';
         });
       } else {
         NstSvcTaskFactory.addComment(vm.taskId, '', attachmentId).then(function (/*comment*/) {
           // addCommentCallback(comment)
           vm.isSendingComment = false;
+          vm.post.newComment = '';
         }).catch(function () {
           toastr.error(NstSvcTranslation.get('Sorry, an error has occurred in sending your comment'));
           vm.isSendingComment = false;
+          vm.post.newComment = '';
         });
       }
 

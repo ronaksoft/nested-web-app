@@ -45,7 +45,7 @@
          data-font-size="8"/>
   </div>
   <nst-voice-comment-recorder send-handler="ctrl.sendVoiceComment" is-recording="ctrl.isRecording"
-                              ng-show="ctrl.post.newComment === undefined || ctrl.post.newComment.length === 0"></nst-voice-comment-recorder>
+                              ng-show="!ctrl.post.newComment || ctrl.post.newComment.length === 0"></nst-voice-comment-recorder>
   <textarea type="text" nst-mention post-id="{{ctrl.postId}}" data-ng-model="ctrl.post.newComment"
             auto-dir="ctrl.post.newComment"
             class="_fw wdt-emoji-bundle-enabled" placeholder="write your comment..."
