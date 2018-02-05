@@ -64,7 +64,7 @@
       $scope.selectItem = function (index) {
         var item = $scope.clearSuggests[index];
         if (!item || $scope.selecteds.length >= $scope.options.limit) {
-          toastr.warning(NstUtility.string.format(NstSvcTranslation.get('You can have maximum {0} attached places!'), $scope.options.limit);
+          toastr.warning(NstUtility.string.format(NstSvcTranslation.get('You can have maximum {0} attached places!'), $scope.options.limit));
           return;
         }
         $scope.selecteds.push(item);
@@ -189,7 +189,7 @@
             overflowed = false,
             lastIndex = 0;
           $scope.options = angular.extend({}, suggestPickerDefaultOptions, $scope.config);
-          $scope.tempFocusInc = $scope.options.autoFocus ? 1 : 0;          
+          $scope.tempFocusInc = $scope.options.autoFocus ? 1 : 0;
           $scope.emitItemsAnalytics = _.debounce(getSizes, 128);
           $timeout($scope.emitItemsAnalytics, 2);
 
