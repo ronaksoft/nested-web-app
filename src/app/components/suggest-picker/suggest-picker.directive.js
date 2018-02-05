@@ -25,6 +25,7 @@
         if (e.which === 13) {
           if ($scope.clearSuggests.length > 0) {
             var index = $scope.state.activeSuggestItem;
+            e.preventDefault();
             return $scope.selectItem(index);
           }
           // Backspace key
@@ -38,6 +39,8 @@
           if ($scope.keyword === '' && $scope.state.activeSelectedItem < 0) {
             $scope.state.activeSelectedItem = $scope.selecteds.length - 1;
           }
+        } else if (e.which === 9) {
+          $scope.visible = false;
         } else if (e.which === 27) {
           $scope.visible = false;
           e.target.blur();
