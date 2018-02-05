@@ -53,7 +53,8 @@
     </svg>
     <input type="text" data-ng-model="clockPickerTime" data-lng-clockpicker data-lng-clockpicker-options='clockOpts'>
     <div class="input-buttons">
-      <div class="discard-changes" ng-click="setTime(false);showTime = false">
+      <div class="discard-changes" ng-click="setTime(false);showTime = false" data-uib-tooltip="Remove time..."
+      data-tooltip-placement="right auto" data-tooltip-append-to-body="true">
         <svg class="_16svg">
           <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
         </svg>

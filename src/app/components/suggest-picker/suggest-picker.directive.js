@@ -6,13 +6,13 @@
     .value('suggestPickerDefaultOptions', {
       limit: 10,
       suggestsLimit: 10,
+      autoFocus: false,
       singleRow: false,
       placeholder: '',
       mode: 'place',
       alwaysVisible: false
     })
     .controller('suggestPickerController', function ($timeout, $scope, _, suggestPickerDefaultOptions, toastr, NstSvcTranslation, $rootScope) {
-      $scope.tempFocusInc = 0;
       $scope.clearSuggests = [];
       var eventReferences = [];
       resetState();
@@ -189,6 +189,7 @@
             overflowed = false,
             lastIndex = 0;
           $scope.options = angular.extend({}, suggestPickerDefaultOptions, $scope.config);
+          $scope.tempFocusInc = $scope.options.autoFocus ? 1 : 0;          
           $scope.emitItemsAnalytics = _.debounce(getSizes, 128);
           $timeout($scope.emitItemsAnalytics, 2);
 
