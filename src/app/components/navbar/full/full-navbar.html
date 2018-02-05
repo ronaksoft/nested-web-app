@@ -64,7 +64,9 @@
         <use xlink:href="/assets/icons/nst-icn16.svg#earth"></use>
       </svg>
       <!-- Place ID representer-->
-      <span class="_ltr _txe" ng-click="ctlFullNavbar.copyToClipboard(ctlFullNavbar.getPlaceId())">{{ctlFullNavbar.getPlaceId()}}
+      <span class="_ltr _txe" ng-if="ctlFullNavbar.placeId" ng-click="ctlFullNavbar.copyToClipboard(ctlFullNavbar.placeId)" data-uib-tooltip="{{ctlFullNavbar.placeId}}"
+        data-tooltip-enable="{{forceTooltip ? true : false}}" data-tooltip-placement="top auto"
+        data-tooltip-append-to-body="true" data-ellipsis>{{ctlFullNavbar.placeId}}
       <!-- <span ng-show="ctlFullNavbar.hasPlace() && ctlFullNavbar.place.privacy.receptive == 'external'">@{{ ctlFullNavbar.domain }}</span>      -->
       </span>
       <!-- accessories -->
