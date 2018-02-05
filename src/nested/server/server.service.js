@@ -345,7 +345,7 @@
       xerxesUrl = getCompleteUrl(parseConfigData(xerxes[0]));
       return {
         websocket: cyrusWsUrl + '/api',
-        register: cyrusHttpUrl,
+        register: cyrusHttpUrl  + '/api',
         store: cyrusHttpUrl + '/file', //xerxesUrl,
         admin: adminUrl
       }
