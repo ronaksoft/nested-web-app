@@ -6,7 +6,7 @@
     .controller('TasksController', TasksController);
 
   function TasksController($rootScope, $q, $window, $scope, _, $state, NstSvcTaskFactory, NST_TASK_STATUS, $uibModal,
-                           NstSvcTaskUtility, $timeout, toastr, NstSvcTranslation, NstSvcAuth, NstSvcKeyFactory, NST_CUSTOM_FILTER) {
+                           NstSvcTaskUtility, $timeout, toastr, NstSvcTranslation, NstSvcAuth, NstSvcKeyFactory, NST_CUSTOM_FILTER, NST_TASK_EVENT_ACTION) {
     var vm = this;
     var eventReferences = [];
     var customFilters = [];
@@ -472,6 +472,10 @@
 
     eventReferences.push($rootScope.$on('task-updated', function (event, id) {
       replaceTask(id);
+    }));
+
+    eventReferences.push($rootScope.$on(NST_TASK_EVENT_ACTION.TASK_ACTIVITY, function (event, data) {
+      console.log(data);
     }));
 
     $scope.$on('$destroy', function () {
