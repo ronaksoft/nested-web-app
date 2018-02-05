@@ -18,11 +18,14 @@
       resetState();
 
       $scope.keydown = function (e) {
+        if (!$scope.visible) {
+          $scope.visible = true;
+        }
         // Enter/ return key
         if (e.which === 13) {
           if ($scope.clearSuggests.length > 0) {
             var index = $scope.state.activeSuggestItem;
-            $scope.selectItem(index);
+            return $scope.selectItem(index);
           }
           // Backspace key
         } else if (e.which === 8) {
@@ -56,9 +59,6 @@
         } else if (e.which === 40) {
           increaseActiveIndex(e.target);
         }
-        if (!$scope.visible) {
-          $scope.visible = true;
-        }
       }
 
       $scope.selectItem = function (index) {
@@ -78,6 +78,7 @@
         if ($scope.options.singleRow) {
           $scope.emitItemsAnalytics();
         }
+        $scope.visible = false;
       }
 
       $scope.removeItem = function (index) {
@@ -108,6 +109,9 @@
           $scope.state.activeSuggestItem = 0;
         }
       }));
+      eventReferences.push($scope.$watch('visible', function (ss) {
+        console.log(ss)
+      }));
 
       /**
        * Reset / Initialize view states
@@ -125,13 +129,10 @@
           $scope.state.activeSuggestItem = 0;
         }
         try {
-          if ($scope.state.activeSuggestItem % 5 === 0) {
             var suggestArea = $(el).parent().parent().find('.suggest-picker-suggests').children().eq($scope.state.activeSuggestItem);
             suggestArea[0].scrollIntoView({
-              behavior: "smooth",
-              block: "start"
+              behavior: "smooth"
             });
-          }
         } catch(e){}
       }
 
@@ -141,13 +142,10 @@
           $scope.state.activeSuggestItem = $scope.clearSuggests.length - 1;
         }
         try {
-          if ($scope.state.activeSuggestItem % 4 === 0) {
             var suggestArea = $(el).parent().parent().find('.suggest-picker-suggests').children().eq($scope.state.activeSuggestItem);
             suggestArea[0].scrollIntoView({
-              behavior: "smooth",
-              block: "end"
+              behavior: "smooth"
             })
-          }
         } catch(e){}
       }
 
@@ -233,13 +231,13 @@
 
           }
 
-          $window.addEventListener("mousedown", closePopover);
+          $window.addEventListener("mousedown", closePopoverDetector);
 
           $scope.$on('$destroy', function () {
-            $window.removeEventListener("mousedown", closePopover);
+            $window.removeEventListener("mousedown", closePopoverDetector);
           });
 
-          function closePopover(e) {
+          function closePopoverDetector(e) {
             $scope.visible = $element[0].contains(e.target.parentNode) || $element[0].contains(e.target);
           }
         }
