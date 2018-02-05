@@ -748,14 +748,15 @@
      * Event listener for read all posts
      * and updates the model
      */
-    eventReferences.push($rootScope.$watch(function () {
-      return $rootScope.inViewPost
-    }, function (v) {
-      if (unreadCommentIds.length > 0 && v.id === vm.post.id) {
-        loadNewComments();
-        unreadCommentIds = [];
-      }
-    }));
+    // Uncomment for automatic loading comments
+    // eventReferences.push($rootScope.$watch(function () {
+    //   return $rootScope.inViewPost
+    // }, function (v) {
+    //   if (unreadCommentIds.length > 0 && v.id === vm.post.id) {
+    //     loadNewComments();
+    //     unreadCommentIds = [];
+    //   }
+    // }));
 
 
     // initializing

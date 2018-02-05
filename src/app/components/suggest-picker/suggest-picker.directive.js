@@ -6,13 +6,13 @@
     .value('suggestPickerDefaultOptions', {
       limit: 10,
       suggestsLimit: 10,
+      autoFocus: false,
       singleRow: false,
       placeholder: '',
       mode: 'place',
       alwaysVisible: false
     })
     .controller('suggestPickerController', function ($timeout, $scope, _, suggestPickerDefaultOptions, toastr, NstSvcTranslation, $rootScope) {
-      $scope.tempFocusInc = 0;
       $scope.clearSuggests = [];
       var eventReferences = [];
       resetState();
@@ -25,6 +25,7 @@
         if (e.which === 13) {
           if ($scope.clearSuggests.length > 0) {
             var index = $scope.state.activeSuggestItem;
+            e.preventDefault();
             return $scope.selectItem(index);
           }
           // Backspace key
@@ -38,6 +39,8 @@
           if ($scope.keyword === '' && $scope.state.activeSelectedItem < 0) {
             $scope.state.activeSelectedItem = $scope.selecteds.length - 1;
           }
+        } else if (e.which === 9) {
+          $scope.visible = false;
         } else if (e.which === 27) {
           $scope.visible = false;
           e.target.blur();
@@ -64,7 +67,7 @@
       $scope.selectItem = function (index) {
         var item = $scope.clearSuggests[index];
         if (!item || $scope.selecteds.length >= $scope.options.limit) {
-          toastr.warning(NstSvcTranslation.get("Limit is :") + " " + $scope.options.limit)
+          toastr.warning(NstUtility.string.format(NstSvcTranslation.get('You can have maximum {0} attached places!'), $scope.options.limit));
           return;
         }
         $scope.selecteds.push(item);
@@ -189,17 +192,18 @@
             overflowed = false,
             lastIndex = 0;
           $scope.options = angular.extend({}, suggestPickerDefaultOptions, $scope.config);
+          $scope.tempFocusInc = $scope.options.autoFocus ? 1 : 0;
           $scope.emitItemsAnalytics = _.debounce(getSizes, 128);
           $timeout($scope.emitItemsAnalytics, 2);
 
           /**
            * @function
            * for ui treatments
-           * this function collapse the recipients box into one line and adds 
+           * this function collapse the recipients box into one line and adds
            * an element called `more-recipient-badge` at the end of first line
            */
           function getSizes() {
-            // remove `more-recipient-badge` element 
+            // remove `more-recipient-badge` element
             $('#more-recipient-badge').remove();
             itemsW = 0;
             overflowed = false;

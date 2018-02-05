@@ -28,7 +28,7 @@
     <input ng-if="ctrl.selectedTargets.length == 0 && !ctrl.attachProgress" type="button" class="butn butn-green _fw _df" value="Enter a Place Name or Address" translate-attrs="value" disabled/>
     <input ng-if="ctrl.selectedTargets.length == 1 && !ctrl.attachProgress" type="submit" class="butn butn-green _fw _df" value="Attach the Place" translate-attrs="value"/>
     <input ng-if="ctrl.selectedTargets.length > 1 && !ctrl.attachProgress" type="submit" class="butn butn-green _fw _df" ng-value="ctrl.getAttachButtonLabel(ctrl.selectedTargets.length)" translate-attrs="value"/>
-    <input ng-if="ctrl.attachProgress" type="button" class="butn butn-green _fw _df" value="Attaching..." translate-attrs="value" disabled/>
+    <input ng-if="ctrl.attachProgress" type="button" class="butn butn-green _fw _df" value="Attaching..." translate-attrs="value" disabled tabindex="2"/>
   </div>
   </form>
 </div>

@@ -136,6 +136,12 @@ $default-color: $color-sense-wire;
       }
     }
   }
+  .apply-butn {
+    width: calc(100% - 16px)!important;
+    margin: 0 8px 8px;
+    height: 32px;
+    line-height: 29px;
+  }
 }
 
 .ng-flat-datepicker-arrow {
@@ -226,14 +232,14 @@ $default-color: $color-sense-wire;
 }
 
 .input-time {
-  height: 56px;
+  height: 40px;
   display: flex;
-  padding: 12px;
+  padding: 4px 12px;
   align-items: center;
   position: relative;
   direction: ltr;
   input {
-    width: 104px;
+    width: 132px;
     font-size: 13px;
     font-weight: bold;
     border: none;
@@ -281,6 +287,9 @@ $default-color: $color-sense-wire;
   }
   .discard-changes {
     margin: 0 4px 0 0 !important;
+    svg {
+      fill: $color-force;
+    }
   }
   svg {
     fill: $color-gale-new;

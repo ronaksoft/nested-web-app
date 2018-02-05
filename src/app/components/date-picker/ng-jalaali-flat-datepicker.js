@@ -16,9 +16,9 @@
    * @example <ng-datepicker></ng-datepicker>
    */
 
-  ngJalaaliFlatDatepickerDirective.$inject = ["$templateCache", "$compile", "$document", "datesCalculator", "ngJalaaliFDP", "moment", "NstSvcI18n", "NstSvcTranslation", "_"];
+  ngJalaaliFlatDatepickerDirective.$inject = ['$templateCache', '$compile', '$document', 'datesCalculator', 'ngJalaaliFDP', 'moment', 'NstSvcI18n', 'NstSvcTranslation', '_'];
   angular
-    .module('ngJalaaliFlatDatepicker', ["ronak.nested.web.components.i18n"])
+    .module('ngJalaaliFlatDatepicker', ['ronak.nested.web.components.i18n'])
     .filter('persianDate', PersianDateFilter)
     .provider('ngJalaaliFDP', ngJalaaliFlatDatepickerProvider)
     .directive('ngJalaaliFlatDatepicker', ngJalaaliFlatDatepickerDirective);
@@ -36,7 +36,7 @@
       if (format == null || format == 'shortDate') {
         format = 'jYYYY/jMM/jDD';
       }
-      return (fromNow ? input.fromNow() + " " : "") + input.format(format);
+      return (fromNow ? input.fromNow() + ' ' : '') + input.format(format);
     };
   }
 
@@ -99,6 +99,8 @@
       link: function (scope, element, attrs, ngModel) {
         var jalali = NstSvcI18n.selectedCalendar !== 'gregorian';
         var farsi = NstSvcI18n.selectedLocale === 'fa-IR';
+        var datePickerObj;
+        scope.timestampModelTemp = 0;
         setTimeFromTimeStamp();
         // setViewTime();
         scope.showTime = false;
@@ -146,6 +148,7 @@
         scope.$watch('timestampModel', function (newVal) {
           if (inited) {
             if (newVal === 0) {
+              scope.calendarCursor = null;
               ngModel.$setViewValue(null);
               ngModel.$render();
             }
@@ -178,7 +181,7 @@
           moment(scope.config.maxDate).add(1, 'day');
         }
         if (!angular.isDefined(scope.config.gregorianDateFormat)) {
-          scope.config.gregorianDateFormat = scope.config.dateFormat.replace(/j/g, "");
+          scope.config.gregorianDateFormat = scope.config.dateFormat.replace(/j/g, '');
         }
 
         // Data
@@ -203,13 +206,13 @@
         ngModel.$parsers.push(function (value) {
           if (value) {
             if (angular.isString(value)) {
-              if (value.toLowerCase() === "today" || value === "امروز") {
+              if (value.toLowerCase() === 'today' || value === 'امروز') {
                 return moment();
               }
-              if (value.toLowerCase() === "yesterday" || value === "دیروز") {
+              if (value.toLowerCase() === 'yesterday' || value === 'دیروز') {
                 return moment().subtract(1, 'day');
               }
-              if (value.toLowerCase() === "tomorrow" || value === "فردا") {
+              if (value.toLowerCase() === 'tomorrow' || value === 'فردا') {
                 return moment().add(1, 'day');
               }
             }
@@ -229,25 +232,8 @@
           //});
         });
 
-        /**
-         * ClickOutside, handle all clicks outside the DatePicker when visible
-         */
-        element.bind('click', function () {
-          scope.$apply(function () {
-            scope.pickerDisplayed = true;
-            $document.on('click', onDocumentClick);
-          });
-        });
-
-        function onDocumentClick(e) {
-          if (template !== e.target && !template[0].contains(e.target) && e.target !== element[0]) {
-            $document.off('click', onDocumentClick);
-            scope.$apply(function () {
-              scope.calendarCursor = dateSelected ? dateSelected : today;
-              scope.pickerDisplayed = scope.showMonthsList = scope.showYearsList = false;
-            });
-          }
-        }
+        var documentClickRef;
+        scope.insideDatePicker = true;
 
         init();
 
@@ -309,14 +295,15 @@
             resetSelectedDays();
             day.isSelected = true;
             var tempMoment = moment(day.date);
-            var vw;
-            vw = tempMoment.format(scope.config.dateFormat);
-            ngModel.$setViewValue(vw);
-            ngModel.$render();
+            // var vw;
+            // vw = tempMoment.format(scope.config.dateFormat);
+            // ngModel.$setViewValue(vw);
+            // ngModel.$render();
             scope.gPickedDate = moment(day.date);
             scope.gFormattedPickedDate = moment(day.date).format(scope.config.gregorianDateFormat);
-            scope.pickerDisplayed = false;
-            scope.timestampModel = tempMoment.unix();
+            // scope.pickerDisplayed = false;
+            // scope.timestampModel = tempMoment.unix();
+            scope.timestampModelTemp = tempMoment.unix();
             scope.calendarCursor = tempMoment;
             dateSelected = tempMoment;
           }
@@ -384,16 +371,26 @@
           setTime(inputTime);
           // setViewTime(inputTime);
           var temp = moment(scope.calendarCursor);
-          var vw;
-          vw = temp.format(scope.config.dateFormat);
+          // var vw;
+          // vw = temp.format(scope.config.dateFormat);
           scope.gPickedDate = temp;
           scope.gFormattedPickedDate = temp.format(scope.config.gregorianDateFormat);
+          // ngModel.$setViewValue(vw);
+          // ngModel.$render();
+          // if (add) {
+          //   scope.pickerDisplayed = false;
+          // }
+          scope.timestampModelTemp = temp.unix();
+        };
+
+        scope.applyDate = function () {
+          var temp = moment(scope.calendarCursor);
+          var vw;
+          vw = temp.format(scope.config.dateFormat);
           ngModel.$setViewValue(vw);
           ngModel.$render();
-          if (add) {
-            scope.pickerDisplayed = false;
-          }
-          scope.timestampModel = temp.unix();
+          scope.timestampMode = scope.timestampModelTemp;
+          scope.pickerDisplayed = false;
         };
 
         /**
@@ -401,13 +398,47 @@
          * @return {}
          */
         function init() {
+          element.bind('click', function () {
+            if (!scope.pickerDisplayed) {
+              scope.$apply(function () {
+                scope.pickerDisplayed = true;
+                scope.insideDatePicker = true;
+              });
+              setTimeout(function () {
+                scope.$apply(function () {
+                  scope.insideDatePicker = false;
+                });
+              }, 100);
+            }
+          });
+
+          documentClickRef = $document.on('click', function () {
+            if (!scope.insideDatePicker && scope.pickerDisplayed) {
+              scope.$apply(function () {
+                scope.calendarCursor = dateSelected ? dateSelected : today;
+                scope.pickerDisplayed = scope.showMonthsList = scope.showYearsList = false;
+              });
+            }
+          });
 
           element.wrap('<div class="ng-flat-datepicker-wrapper"></div>');
 
           $compile(template)(scope);
           element.after(template);
 
+          datePickerObj = angular.element('.ng-flat-datepicker-wrapper .ng-flat-datepicker');
+          datePickerObj.bind('mouseenter', function () {
+            scope.$apply(function () {
+              scope.insideDatePicker = true;
+            });
+          }).bind('mouseleave', function () {
+            scope.$apply(function () {
+              scope.insideDatePicker = false;
+            });
+          });
+
           if (scope.timestampModel !== null && scope.timestampModel > 0) {
+            scope.timestampModelTemp = scope.timestampModel;
             scope.calendarCursor = moment.unix(scope.timestampModel);
             scope.timeHour = scope.calendarCursor.hours();
             scope.timeMinute = scope.calendarCursor.minutes();
@@ -508,6 +539,7 @@
         }
 
         scope.$on('$destroy', function () {
+          documentClickRef.off();
         });
       }
     };
@@ -576,9 +608,9 @@
 
 })();
 
-angular.module("ngJalaaliFlatDatepicker").run(["$templateCache", "$http", "NstSvcI18n", "$rootScope", function ($templateCache, $http, NstSvcI18n) {
+angular.module('ngJalaaliFlatDatepicker').run(['$templateCache', '$http', 'NstSvcI18n', '$rootScope', function ($templateCache, $http, NstSvcI18n) {
   var html;
-  if (NstSvcI18n.selectedCalendar === "gregorian") {
+  if (NstSvcI18n.selectedCalendar === 'gregorian') {
     // if ($rootScope._direction === 'ltr') {
     html = 'app/components/date-picker/datepicker-en.html';
   } else {
@@ -586,6 +618,6 @@ angular.module("ngJalaaliFlatDatepicker").run(["$templateCache", "$http", "NstSv
   }
   $http.get(html, {cache: $templateCache})
     .success(function (tplContent) {
-      $templateCache.put("datepicker.html", tplContent);
+      $templateCache.put('datepicker.html', tplContent);
     });
 }]);

@@ -16,7 +16,8 @@
       limit : 10,
       suggestsLimit: 16,
       singleRow: false,
-      alwaysVisible: true,
+      alwaysVisible: false,
+      autoFocus: true,
       placeholder: NstSvcTranslation.get('Enter a Place name or a Nested address...')
     };
     vm.getAttachButtonLabel = getAttachButtonLabel;

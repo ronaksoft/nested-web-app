@@ -93,7 +93,7 @@ function replaceConfigAndStore(file) {
   return new Promise((res) => {
     let content = fs.readFileSync(config.TMP_DIR + file);
     let newContent = content.toString().replace(new RegExp(defaultConfig.WS_CYRUS, 'ig'), newConfig.WS_CYRUS + '/api')
-      .replace(new RegExp(defaultConfig.HTTP_CYRUS, 'ig'), newConfig.HTTP_CYRUS)
+      .replace(new RegExp(defaultConfig.HTTP_CYRUS, 'ig'), newConfig.HTTP_CYRUS + '/api')
       .replace(new RegExp(defaultConfig.XERXES, 'ig'), newConfig.HTTP_CYRUS + '/file')
       .replace(new RegExp(defaultConfig.GOOGLE_ANALYTICS_TOKEN, 'ig'), newConfig.GOOGLE_ANALYTICS_TOKEN)
       .replace(defaultConfig.UPLOAD_SIZE_LIMIT, newConfig.UPLOAD_SIZE_LIMIT)
