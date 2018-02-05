@@ -25,7 +25,7 @@
     },
     "REGISTER": {
       "AJAX": {
-        "URL": "https://webapp.ronaksoftware.com:81"
+        "URL": "https://webapp.ronaksoftware.com:81/api"
       }
     },
     "GOOGLE_ANALYTICS_TOKEN": "UA-92612481-1",

@@ -45,7 +45,6 @@
         // Listens to $rootScope and adds a new activity to the list
         _.forEach(NST_EVENT_ACTION, function (action) {
           eventReferences.push($rootScope.$on(action, function (e, data) {
-            console.log('activity', data);
             addNewActivity(data.activity);
           }));
         });
@@ -108,13 +107,10 @@
      * @param {any} activity
      */
     function addNewActivity(activity) {
-      console.log('case1');
       if (!_.some(vm.activities, {id: activity.id})) {
-        console.log('case2');
         if (vm.activities.length >= vm.count) {
           // TODO: Do not pop an old activity if the hot one does not belongs to the place
           vm.activities.pop();
-          console.log('case3');
         }
         activity.isHot = true;
         // TODO: Sometimes a comment leakes! I've added || activity.type == NST_EVENT_ACTION.COMMENT_ADD
@@ -124,13 +120,10 @@
           activity.type === NST_EVENT_ACTION.COMMENT_ADD ||
           activity.type === NST_EVENT_ACTION.LABEL_ADD ||
           activity.type === NST_EVENT_ACTION.LABEL_REMOVE) {
-          console.log('case46');
           if (activityBelongsToPlace(activity)) {
-            console.log('case4');
             vm.activities.unshift(activity);
           }
         } else {
-          console.log('case5');
           vm.activities.unshift(activity);
         }
       }

@@ -73,7 +73,7 @@
   }
 
 
-  function ngJalaaliFlatDatepickerDirective($templateCache, $compile, $document, datesCalculator, ngJalaaliFDP, moment, NstSvcI18n, NstSvcTranslation, $timeout) {
+  function ngJalaaliFlatDatepickerDirective($templateCache, $compile, $document, datesCalculator, ngJalaaliFDP, moment, NstSvcI18n, NstSvcTranslation, _) {
     /*function parseConfig (config) {
         var temp = angular.fromJson(config);
         if (typeof(temp.minDate) == 'undefined') {
@@ -101,6 +101,7 @@
         var farsi = NstSvcI18n.selectedLocale === 'fa-IR';
         var datePickerObj;
         scope.timestampModelTemp = 0;
+        scope.haveTimeTemp = false;
         setTimeFromTimeStamp();
         // setViewTime();
         scope.showTime = false;
@@ -358,16 +359,16 @@
           var inputTime;
           if (add) {
             inputTime = getInputTime(scope.timeHour, scope.timeMinute);
-            scope.haveTime = true;
+            scope.haveTimeTemp = true;
             scope.inheritTime = true;
             scope.initialTime = inputTime;
           } else {
             inputTime = '00:00';
-            scope.haveTime = false;
+            scope.haveTimeTemp = false;
             scope.inheritTime = false;
             scope.time = inputTime;
           }
-          reformatTime(scope.haveTime);
+          reformatTime(scope.haveTimeTemp);
           setTime(inputTime);
           // setViewTime(inputTime);
           var temp = moment(scope.calendarCursor);
@@ -389,7 +390,8 @@
           vw = temp.format(scope.config.dateFormat);
           ngModel.$setViewValue(vw);
           ngModel.$render();
-          scope.timestampMode = scope.timestampModelTemp;
+          scope.timestampModel = _.cloneDeep(scope.timestampModelTemp);
+          scope.haveTime = _.cloneDeep(scope.haveTimeTemp);
           scope.pickerDisplayed = false;
         };
 
@@ -438,10 +440,11 @@
           });
 
           if (scope.timestampModel !== null && scope.timestampModel > 0) {
-            scope.timestampModelTemp = scope.timestampModel;
+            scope.timestampModelTemp = _.cloneDeep(scope.timestampModel);
             scope.calendarCursor = moment.unix(scope.timestampModel);
             scope.timeHour = scope.calendarCursor.hours();
             scope.timeMinute = scope.calendarCursor.minutes();
+            scope.haveTimeTemp = _.cloneDeep(scope.haveTime);
             if (scope.haveTime) {
               scope.clockPickerTime = scope.calendarCursor;
             }
