@@ -5,7 +5,7 @@
     .module('ronak.nested.web.task')
     .controller('TasksController', TasksController);
 
-  function TasksController($rootScope, $q, $window, $scope, _, $state, NstSvcTaskFactory, NST_TASK_STATUS, $uibModal,
+  function TasksController($rootScope, $q, $window, $scope, _, $state, NstSvcTaskFactory, NST_TASK_STATUS, $uibModal, NstSvcTaskActivityFactory,
                            NstSvcTaskUtility, $timeout, toastr, NstSvcTranslation, NstSvcAuth, NstSvcKeyFactory, NST_CUSTOM_FILTER, NST_TASK_EVENT_ACTION) {
     var vm = this;
     var eventReferences = [];
@@ -474,9 +474,31 @@
       replaceTask(id);
     }));
 
+    // update with sync-t section
+    var toBeUpdatedBySyncItems = [];
+    var syncUpdateThrottle = _.throttle(syncUpdate, 512);
+    function syncUpdate() {
+      toBeUpdatedBySyncItems = _.uniq(toBeUpdatedBySyncItems);
+      var taskItems = _.intersectionBy(_.map(toBeUpdatedBySyncItems, function (item) {
+        return {
+          id: item
+        };
+      }), vm.tasks, 'id');
+      _.forEach(taskItems, function (item) {
+        NstSvcTaskFactory.get(item.id).then(function (task) {
+          var index = _.findIndex(vm.tasks, {id: task.id});
+          vm.tasks[index] = task;
+        });
+      });
+      toBeUpdatedBySyncItems = [];
+    }
+    console.log('NST_TASK_EVENT_ACTION.TASK_ACTIVITY');
     eventReferences.push($rootScope.$on(NST_TASK_EVENT_ACTION.TASK_ACTIVITY, function (event, data) {
-      console.log(data);
+      console.log('sync-t');
+      toBeUpdatedBySyncItems.push(data.taskId);
+      syncUpdateThrottle();
     }));
+    // end of update with sync-t section
 
     $scope.$on('$destroy', function () {
       _.forEach(eventReferences, function (canceler) {
