@@ -57,6 +57,9 @@
         } else if (e.which === 38) {
           decreaseActiveIndex(e.target);
         } else if (e.which === 39) {
+          if ($scope.keyword.length > 0) {
+            return;
+          }
           if($rootScope._direction === 'ltr') {
             increaseActiveSelectedIndex();
           } else {
