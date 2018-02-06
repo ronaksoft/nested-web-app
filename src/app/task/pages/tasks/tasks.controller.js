@@ -492,9 +492,7 @@
       });
       toBeUpdatedBySyncItems = [];
     }
-    console.log('NST_TASK_EVENT_ACTION.TASK_ACTIVITY');
     eventReferences.push($rootScope.$on(NST_TASK_EVENT_ACTION.TASK_ACTIVITY, function (event, data) {
-      console.log('sync-t');
       toBeUpdatedBySyncItems.push(data.taskId);
       syncUpdateThrottle();
     }));

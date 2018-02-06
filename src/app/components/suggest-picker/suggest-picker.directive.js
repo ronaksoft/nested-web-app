@@ -129,11 +129,12 @@
           $scope.state.activeSuggestItem = 0;
         }
         try {
-            var suggestArea = $(el).parent().parent().find('.suggest-picker-suggests').children().eq($scope.state.activeSuggestItem);
-            suggestArea[0].scrollIntoView({
-              behavior: "smooth"
-            });
-        } catch(e){}
+            // var suggestArea = $(el).parent().parent().find('.suggest-picker-suggests').children().eq($scope.state.activeSuggestItem);
+            // suggestArea[0].scrollIntoView({
+            //   behavior: "smooth"
+            // });
+            ensureHighlightVisible();
+        } catch(e){console.log(e)}
       }
 
       function decreaseActiveIndex(el) {
@@ -142,11 +143,12 @@
           $scope.state.activeSuggestItem = $scope.clearSuggests.length - 1;
         }
         try {
-            var suggestArea = $(el).parent().parent().find('.suggest-picker-suggests').children().eq($scope.state.activeSuggestItem);
-            suggestArea[0].scrollIntoView({
-              behavior: "smooth"
-            })
-        } catch(e){}
+            // var suggestArea = $(el).parent().parent().find('.suggest-picker-suggests').children().eq($scope.state.activeSuggestItem);
+            // suggestArea[0].scrollIntoView({
+            //   behavior: "smooth"
+            // })
+            ensureHighlightVisible();
+        } catch(e){console.log(e)}
       }
 
       function increaseActiveSelectedIndex() {
@@ -160,6 +162,25 @@
         $scope.state.activeSelectedItem--;
         if ($scope.state.activeSelectedItem < 0) {
           $scope.state.activeSelectedItem = $scope.selecteds.length - 1;
+        }
+      }
+
+      // See https://github.com/ivaynberg/select2/blob/3.4.6/select2.js#L1431
+      function ensureHighlightVisible() {
+        var container = $('.suggest-picker-suggests');
+        var choices = container.children();
+        if (choices.length < 1 || $scope.state.activeSuggestItem < 0) {
+          return;
+        }
+    
+        var highlighted = choices[$scope.state.activeSuggestItem];
+        var posY = highlighted.offsetTop + highlighted.clientHeight - container[0].scrollTop;
+        var height = container[0].offsetHeight;
+    
+        if (posY > height) {
+          container[0].scrollTop += posY - height;
+        } else if (posY < highlighted.clientHeight) {
+          container[0].scrollTop -= highlighted.clientHeight - posY;
         }
       }
 
