@@ -399,14 +399,14 @@
       hasDueTime: null
     };
 
-    var updateDebouncer = _.debounce(updateTask, 512);
+    // var updateDebouncer = _.debounce(updateTask, 256);
 
     function updateTitle(text) {
       if (vm.modelBackUp.title === text || !vm.model.access.updateTask) {
         return;
       }
       taskUpdateModel.title = text;
-      updateDebouncer.call();
+      updateTask();
     }
 
     function updateDescription(text) {
@@ -414,7 +414,7 @@
         return;
       }
       taskUpdateModel.description = text;
-      updateDebouncer.call();
+      updateTask();
     }
 
     function updateDueDate(date, hasDueTime) {
