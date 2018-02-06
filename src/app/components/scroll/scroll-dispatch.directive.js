@@ -17,10 +17,10 @@
         angular.element($window).bind("scroll", function () {
           var scrollTop = this.pageYOffset;
           var scrollHeight = $('body').height();
-          if (scrollTop < 300) {
+          // if (scrollTop < 300) {
             // Affix block
             affixBlocks(scrollTop)
-          }
+          // }
           if (scrollTop > loadMoreScrollProperValue(this.innerHeight, scrollHeight)) {
             // Reach end dispatcher
             reachEndThrottle();
