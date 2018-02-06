@@ -46,6 +46,9 @@
           e.target.blur();
           return e.stopPropagation();
         } else if (e.which === 37) {
+          if ($scope.keyword.length > 0) {
+            return;
+          }
           if($rootScope._direction === 'rtl') {
             increaseActiveSelectedIndex();
           } else {
@@ -260,7 +263,9 @@
           });
 
           function closePopoverDetector(e) {
-            $scope.visible = $element[0].contains(e.target.parentNode) || $element[0].contains(e.target);
+            $timeout(function(){
+              $scope.visible = $element[0].contains(e.target.parentNode) || $element[0].contains(e.target);
+            })
           }
         }
       }
