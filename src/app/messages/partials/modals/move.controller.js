@@ -17,17 +17,34 @@
     vm.setTargetPlace = setTargetPlace;
     vm.getMoveButtonLabel = getMoveButtonLabel;
     vm.resultTargets = [];
+    var eventReferences = [];
     vm.searchProgress = false;
     vm.replaceProgress = false;
     vm.targetPlace = null;
     vm.ready = false;
+    resetState();
+    search(postPlaces, selectedPlace, 3, "");
     $timeout(function () {
       vm.ready = true;
     }, 500);
 
-    (function () {
-      search(postPlaces, selectedPlace, 3, "");
-    })();
+
+    vm.keydown = function (e) {
+      // Enter/ return key
+      if (e.which === 13) {
+        console.log(vm.resultTargets, vm.state.activeSuggestItem);
+        if (vm.resultTargets.length > 0) {
+          var index = vm.state.activeSuggestItem;
+          e.preventDefault();
+          console.log(vm.resultTargets[index]);
+          return setTargetPlace(vm.resultTargets[index]);
+        }
+      } else if (e.which === 38) {
+        decreaseActiveIndex();
+      } else if (e.which === 40) {
+        increaseActiveIndex();
+      }
+    }
 
     function search(postPlaces, selectedPlace, limit, keyword) {
       vm.searchPlaceProgress = true;
@@ -43,6 +60,7 @@
       }).catch(function () {
         vm.resultTargets = [];
       }).finally(function () {
+        resetState();
         vm.searchPlaceProgress = false;
       });
     }
@@ -109,6 +127,30 @@
 
     function getMoveButtonLabel(name) {
       return NstUtility.string.format(NstSvcTranslation.get("Move to {0}"), name);
+    }
+
+    /**
+     * Reset / Initialize view states
+     */
+    function resetState() {
+      vm.state = {
+        activeSuggestItem: 0,
+        activeSelectedItem: -1
+      }
+    }
+
+    function increaseActiveIndex() {
+      vm.state.activeSuggestItem++;
+      if (vm.state.activeSuggestItem === vm.resultTargets.length) {
+        vm.state.activeSuggestItem = 0;
+      }
+    }
+
+    function decreaseActiveIndex() {
+      vm.state.activeSuggestItem--;
+      if (vm.state.activeSuggestItem < 0) {
+        vm.state.activeSuggestItem = vm.resultTargets.length - 1;
+      }
     }
   }
 
