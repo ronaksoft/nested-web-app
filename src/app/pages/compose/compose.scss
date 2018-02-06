@@ -288,7 +288,10 @@
 }
 .label-butn {
   line-height: 24px;
-  margin-right: 16px;
+  margin-right: 6px;
+  & + div {
+    margin-right: 8px
+  }
   svg {
     margin-left: 4px;
   }
