@@ -27,7 +27,7 @@
             return $timeout(function () {
               applierDeb();
             }, 420);
-          });
+          }));
         }
 
         function resizeF() {
