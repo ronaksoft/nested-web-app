@@ -224,6 +224,7 @@
         location.href = item.downloadUrl;
       }).catch(function () {
         // TODO : close the attachment view
+        $scope.$dismiss();
         toastr.error(NstSvcTranslation.get('Sorry, An error has occured while trying to load the file'));
       });
     }

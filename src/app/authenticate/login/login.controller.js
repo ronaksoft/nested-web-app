@@ -114,7 +114,6 @@
         NstSvcRequestCacheFactory.flush();
         NstSvcPostDraft.reset();
         NstSvcTaskDraft.reset();
-        // TODO check local and language settings
         NstSvcI18n.checkSettings().then(function (v) {
           if (v) {
             $window.location.reload();
