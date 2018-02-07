@@ -16,6 +16,7 @@
     var eventReferences = [];
 
     vm.currentUser = NstSvcAuth.user;
+    vm.searchMore = searchMore;
     vm.isTeammateMode = true;
     vm.selectedUsers = [];
     vm.users = [];
@@ -52,25 +53,24 @@
         search();
       });
     } else {
-      search(currentPlace);
+      search();
     }
 
     checkUserLimitPlace();
 
-    if (vm.isGrandPlace) {
-      vm.searchPlaceholder = NstSvcTranslation.get("Name, email or phone number...");
-    } else {
-      vm.searchPlaceholder = NstSvcTranslation.get("Name or ID...");
+    function searchMore() {
+      vm.suggestPickerConfig.suggestsLimit++;
+      return vm.search(vm.query);
     }
 
     function search(query) {
-
       var settings = {
-        query: query,
+        query: query || vm.query,
         // role is no longer supported
         // role: chosenRole,
         limit: calculateSearchLimit()
       };
+
       if (!isMulti) {
 
         settings.placeId = currentPlace.id;
@@ -98,11 +98,11 @@
         users = _.unionBy(users, 'id');
         vm.users = _.differenceBy(users, vm.selectedUsers, 'id');
         vm.users = _.differenceBy(vm.users, [vm.currentUser], 'id');
-        if (_.isString(query) &&
-          _.size(query) >= 4 &&
-          _.indexOf(query, " ") === -1 &&
+        if (_.isString(settings.query) &&
+          _.size(settings.query) >= 4 &&
+          _.indexOf(settings.query, " ") === -1 &&
           !_.some(vm.users, {
-            id: query
+            id: settings.query
           })) {
 
           if (vm.isGrandPlace || isForGrandPlace) {
@@ -114,15 +114,19 @@
           }
 
         }
-        vm.query = query;
+        // vm.query = settings.query;
       }
     }
+    
+    $scope.$watch(function () {
+      return vm.query
+    }, function(keyword){return vm.search(keyword)}, true);
 
     function add() {
       if (newPlace !== undefined && newPlace === true) {
         $scope.$close(vm.selectedUsers);
       } else {
-        if (isMulti){
+        if (isMulti) {
           angular.forEach(currentPlace, function (place) {
             addUser(place, vm.selectedUsers);
           })
@@ -136,7 +140,7 @@
       if (newPlace !== undefined && newPlace === true) {
         $scope.$close(vm.selectedUsers);
       } else {
-        if (isMulti){
+        if (isMulti) {
           angular.forEach(currentPlace, function (place) {
             inviteUsers(place, vm.selectedUsers);
           })
@@ -262,6 +266,15 @@
       } else {
         vm.limit = 1000;
       }
+
+      vm.suggestPickerConfig = {
+        limit: vm.limit,
+        suggestsLimit: 9,
+        mode: 'user',
+        singleRow: false,
+        alwaysVisible: true,
+        placeholder: vm.isGrandPlace ? NstSvcTranslation.get("Name, email or phone number...") : NstSvcTranslation.get("Name or ID...")
+      };
     }
   }
 })();

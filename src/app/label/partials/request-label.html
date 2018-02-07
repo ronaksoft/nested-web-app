@@ -3,7 +3,8 @@
         <translate>Request a Label</translate>
     </h4>
     <div class="req-modal-input ng-class:{'_oh' : requestCtrl.editColor}">
-        <input type="text" ng-model="requestCtrl.keyword" placeholder="{{requestCtrl.labelSelectPlaceHolder}}" data-ng-keyup="requestCtrl.inputKeyUpHandler();">
+        <input type="text" ng-model="requestCtrl.keyword" placeholder="{{requestCtrl.labelSelectPlaceHolder}}" data-ng-keyup="requestCtrl.inputKeyUpHandler();"
+        class="_fw">
         <div class="color-btn" ng-click="requestCtrl.editCode = true" ng-if="requestCtrl.newLabel">
             <svg class="_16svg _fn color-lbl-{{requestCtrl.label.code}}">
                 <use xlink:href="/assets/icons/nst-icn16.svg#gear"></use>

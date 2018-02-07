@@ -5,20 +5,27 @@
     .module('ronak.nested.web.message')
     .controller('AttachPlaceController', AttachPlaceController);
 
-  function AttachPlaceController( $uibModalInstance, toastr, _,
+  function AttachPlaceController( $scope, $uibModalInstance, toastr, _,
     NstSvcPostFactory, NstSvcPlaceFactory, NstSvcTranslation, NstUtility,
     NstTinyPlace, NstVmSelectTag,
     postId, postPlaces) {
-
+    var eventReferences = [];
     var vm = this;
-    var POST_PLACE_LIMIT = 10;
-    var PLACE_SUGGEST_LIMIT = 16;
+    vm.keyword = '';
+    vm.suggestPickerConfig = {
+      limit : 10,
+      suggestsLimit: 16,
+      singleRow: false,
+      alwaysVisible: false,
+      autoFocus: true,
+      placeholder: NstSvcTranslation.get('Enter a Place name or a Nested address...')
+    };
     vm.getAttachButtonLabel = getAttachButtonLabel;
+    vm.searchMore = searchMore;
     vm.postPlaces = postPlaces;
-    vm.attachPlaces = _.partial(attachPlaces, postId, postPlaces, POST_PLACE_LIMIT);
-    vm.searchPlace = _.partial(searchPlace, postPlaces, PLACE_SUGGEST_LIMIT);
+    vm.attachPlaces = _.partial(attachPlaces, postId, postPlaces, vm.suggestPickerConfig.limit);
+    vm.searchPlace = _.partial(searchPlace, postPlaces, vm.suggestPickerConfig.suggestsLimit);
     vm.selectedTargets = [];
-    vm.inputPlaceholder = NstSvcTranslation.get('Enter a Place name or a Nested address...');
 
     function attachPlaces(postId, postPlaces, limit, places) {
       vm.attachProgress = true;
@@ -58,22 +65,22 @@
       });
     }
 
-    function searchPlace(postPlaces, limit, keyword) {
+    function searchPlace(postPlaces, limit) {
       vm.searchPlaceProgress = true;
 
-      NstSvcPlaceFactory.searchForCompose(keyword, limit).then(function (result) {
+      NstSvcPlaceFactory.searchForCompose(vm.keyword, limit).then(function (result) {
         vm.resultTargets = _.chain(result.places).differenceBy(postPlaces, 'id').uniqBy('id').take(10).map(function (place) {
           return new NstVmSelectTag(place);
         }).value();
 
-        if (_.isString(keyword)
-          && _.size(keyword) >= 4
-          && _.indexOf(keyword, " ") === -1
-          && !_.some(vm.resultTargets, { id : keyword })) {
+        if (_.isString(vm.keyword)
+          && _.size(vm.keyword) >= 4
+          && _.indexOf(vm.keyword, " ") === -1
+          && !_.some(vm.resultTargets, { id : vm.keyword })) {
 
             var initPlace = new NstTinyPlace();
-            initPlace.id = keyword;
-            initPlace.name = keyword;
+            initPlace.id = vm.keyword;
+            initPlace.name = vm.keyword;
             vm.resultTargets.push(initPlace);
         }
       }).catch(function () {
@@ -87,9 +94,26 @@
       return _.size(oldPlaces) + _.size(newPlaces) > limit;
     }
 
+    function searchMore() {
+      vm.suggestPickerConfig.suggestsLimit++;
+      return vm.searchPlace(vm.postPlaces, vm.suggestPickerConfig.limit);
+    }
+
+    eventReferences.push($scope.$watch(function () {
+      return vm.keyword
+    }, function(keyword){return vm.searchPlace(vm.postPlaces, vm.suggestPickerConfig.limit)}, true));
+
     function getAttachButtonLabel(count) {
       return NstUtility.string.format(NstSvcTranslation.get("Attach {0} Places"), count);
     }
+
+    $scope.$on('$destroy', function () {
+      _.forEach(eventReferences, function (cenceler) {
+        if (_.isFunction(cenceler)) {
+          cenceler();
+        }
+      });
+    });
   }
 
 })();

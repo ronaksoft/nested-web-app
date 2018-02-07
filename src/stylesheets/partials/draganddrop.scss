@@ -1,22 +1,61 @@
 
-body.drag-enter #compose-box:after {
-  content: "Drop files ...";
+.dnd {
+  display: none;
+}
+body.drag-enter {
+  .quick-message-wrp .quick-message-inner .quick-message .compose-scroll-wrapper {
+    min-height: 500px;
+  }
+}
+body.drag-enter .dnd{
+  width: 100%;
+  min-height: 200px;
+  height: calc(50% - 8px);
+  position: absolute;
+  left:0;
+  top: 0;
+  z-index: 10;
+  display: block;
+}
+body.drag-enter .dnd + .dnd {
+  bottom: 0;
+  top: auto;
+}
+body.drag-enter .dnd .file, 
+body.drag-enter .dnd .multimedia{
   width: 100%;
   height: 100%;
   pointer-events: none;
-  display: inline-block;
-  position: absolute;
   background-color: rgba(71,97,82,.1);
-  top:0;
-  left:0;
-  color: $color-hurricane;
-  text-decoration: none;
-  font-weight: normal;
-  font-size: 20px;
-  line-height: 400px;
-  text-align: center;
   border: 10px dashed $color-hurricane;
+  position: relative;
   box-sizing: border-box;
+  &:after {
+    position: absolute;
+    left: 0;
+    top:0;
+    width: 100%;
+    color: $color-hurricane;
+    text-decoration: none;
+    font-weight: normal;
+    font-size: 20px;
+    text-align: center;
+    line-height: 200px;
+  }
+}
+body.drag-enter .dnd .file {
+  margin-bottom: 16px;
+  &:after {
+    content: "Drop files ...";
+  }
+}
+
+body.drag-enter .dnd .multimedia {
+  top: auto;
+  bottom: 0;
+  &:after {
+    content: "Drop Multimedias ...";
+  }
 }
 
 .event-dragover .droplet {

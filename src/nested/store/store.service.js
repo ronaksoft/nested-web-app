@@ -246,7 +246,7 @@
             if (200 == event.target.status) {
               var httpData = JSON.parse(event.target.response);
               var data = httpData.data;
-              var response = new NstResponse(NST_RES_STATUS.SUCCESS, data[0]);
+              var response = new NstResponse(NST_RES_STATUS.SUCCESS, data.files[0]);
 
               switch (httpData.status) {
                 case "ok":

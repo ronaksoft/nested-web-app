@@ -8,15 +8,17 @@
 
 
   function userChips($templateCache, $compile, $document, _,
-                     NstSvcUserFactory) {
+                     NstSvcUserFactory, $log) {
 
     return {
       restrict: 'A',
       scope: {
         userId: '=',
+        onSelect: '=?',
         candidate: '=?',
         index: '=?',
         removable: '=?',
+        isSelected: '@?',
         onRemove: '='
       },
       link: function (scope, element) {
@@ -49,7 +51,13 @@
         };
 
         scope.selectChip = function () {
-          scope.isSelected = true;
+          console.log('selectChip');
+          try {
+            scope.isSelected = true;
+            scope.onSelect(scope.user);
+          } catch(e) {
+            $log.debug('The item is selectable but have no registered function', e)
+          }
         };
 
         scope.unselectChip = function () {

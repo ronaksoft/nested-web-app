@@ -1,0 +1,42 @@
+<div class="suggest-picker">
+    <div class="suggest-picker-area">
+        <div ng-repeat="selected in selecteds track by selected.id">
+            <div ng-if="options.mode === 'place'" place-chips place-id="selected" on-select="activeSelectItem" is-selected="{{$index === state.activeSelectedItem}}"
+                on-remove="removeItem" selectable="true" index="$index" is-email="selected.isEmail"></div>            
+            <div ng-if="options.mode === 'user'" user-chips user-id="selected.id" on-remove="removeItem" index="$index" on-select="activeSelectItem"
+                is-selected="{{$index === state.activeSelectedItem}}" removable="true"></div>
+            <div ng-if="options.mode === 'label'" label-chips label-id="selected.id" on-remove="removeItem" index="$index" on-select="activeSelectItem"
+                is-selected="{{$index === state.activeSelectedItem}}" removable="true" selectable="true"></div>
+        </div>
+        <input type="text" ng-model="keyword" ng-keydown="keydown($event);" focus-me="{{tempFocusInc}}" placeholder="{{options.placeholder}}"
+            ng-click="visible = true" class="suggest-picker-input">
+    </div>
+    <div class="suggest-picker-suggests {{options.alwaysVisible || visible ? 'show' : ''}}" ng-if="clearSuggests.length > 0">
+        <div ng-repeat="suggest in clearSuggests track by suggest.id | limitTo: parseInt(options.suggestsLimit)"
+            class="suggest-row {{options.mode}}" ng-click="selectItem($index)" ng-class="{'active': state.activeSuggestItem === $index}">
+            <a ng-if="options.mode === 'place'">
+                <div class="place-initials-32">
+                    <img ng-src="{{suggest.picture}}"/>
+                </div>
+                <span class="_fn _df" auto-dir="suggest.name" data-ng-bind-html="suggest.name | highlight: $select.search"></span>
+                <span class="_fw _df"></span>
+                <span class="nst-font-10 _vat _df" dir="ltr" data-ng-bind-html="suggest.id | highlight: $select.search"></span>
+            </a>
+            <a ng-if="options.mode === 'user'">
+                <img initial-avatar="{{suggest.id}}" name="{{suggest.fullName}}" picture="{{suggest| avatar:'x64'}}" data-width="32"
+                    data-height="32" data-radius="24" class="account-initials-32 _df" data-word-count="2" data-font-size="16"/>
+                <div class="_difv _oh" style="width: calc(100% - 40px)">
+                    <!--todo:: | highlight: $select.search in persian name-->
+                    <span auto-dir="suggest.fullName"><span class="_txe _fw _wrb _db" data-ng-bind-html="suggest.fullName | highlight: $select.search"></span></span>
+                    <small class="_df _wrb" data-ng-bind-html="suggest.id | highlight: $select.search"></small>
+                </div>
+            </a>
+            <a ng-if="options.mode === 'label'">
+                <svg class="_16svg mirror _fn color-lbl-{{suggest.code}}">
+                    <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
+                </svg>
+                <span class="_vat _df" auto-dir="suggest.title" data-ng-bind-html="(suggest.title | scapeRevSpace) | highlight: $select.search"></span>
+            </a>
+        </div>
+    </div>
+</div>

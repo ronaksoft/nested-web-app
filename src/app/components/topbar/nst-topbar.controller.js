@@ -146,7 +146,7 @@
       if (data) {
         vm.companyConstant = _.cloneDeep(window.companyConstants);
         if (vm.companyConstant.logo !== '') {
-          vm.companyConstant.logo = NST_CONFIG.STORE.URL + '/pic/' + vm.companyConstant.logo;
+          vm.companyConstant.logo = NST_CONFIG.STORE.URL + '/view/x/' + vm.companyConstant.logo;
         }
       }
     }

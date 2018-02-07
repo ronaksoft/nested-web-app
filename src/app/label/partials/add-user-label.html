@@ -7,24 +7,8 @@
     </div>
     <translate>Add Holders</translate>
   </h4>
-  <ui-select multiple class="add-user-modal-input _fn _df"
-    data-ng-model="addHolderCtrl.selectedUsers" limit="{{addHolderCtrl.limit}}"
-    autofocus="true" on-select="addHolderCtrl.search('')">
-    <ui-select-match placeholder="{{::addHolderCtrl.searchPlaceholder}}">
-      <div user-chips user-id="$item.id" on-remove="$selectMultiple.removeChoice" index="$index" on-select="" selectable="true"></div>
-    </ui-select-match>
-    {{$select.open = true; ""}}
-    <ui-select-choices refresh="addHolderCtrl.search($select.search)" refresh-delay="0"
-                        repeat="user in (addHolderCtrl.users | filter: $select.search) | limitTo: 9 track by user.id" >
-      <img initial-avatar="{{user.id}}" name="{{user.fullName}}" picture="{{user| avatar:'x64'}}" data-width="32" data-height="32"
-      data-radius="24" class="account-initials-32 _df" data-word-count="2" data-font-size="16"/>
-      <div class="_difv">
-        <!--todo:: | highlight: $select.search in persian name-->
-        <span auto-dir="user.fullName"><span class="_txe _fw" data-ng-bind-html="user.fullName"></span></span>
-        <small class="_df">@{{user.id}}</small>
-      </div>
-    </ui-select-choices>
-  </ui-select>
+  <suggest-picker config="addHolderCtrl.suggestPickerConfig" selecteds="addHolderCtrl.selectedUsers" class="add-user-modal-input"
+    suggests="addHolderCtrl.users" keyword='addHolderCtrl.query' request-more="addHolderCtrl.searchMore"></suggest-picker>
   <div class="modal-body">
     <div class="_fw suggests">
       <translate>Suggested:</translate>

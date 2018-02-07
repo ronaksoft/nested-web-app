@@ -14,12 +14,20 @@
     var defaultSearchResultCount = 9;
 
     vm.lastSelectedUsers = [];
+    vm.searchMore = searchMore;
     vm.selectedUsers = [];
     vm.users = [];
     vm.search = _.debounce(search, 512);
     vm.add = add;
     vm.query = '';
-    vm.limit = 100;
+    vm.suggestPickerConfig = {
+      limit: 100,
+      suggestsLimit: 9,
+      mode: 'user',
+      singleRow: false,
+      alwaysVisible: true,
+      placeholder: vm.isGrandPlace ? NstSvcTranslation.get("Name, email or phone number...") : NstSvcTranslation.get("Name or ID...")
+    };
     vm.searchPlaceholder = NstSvcTranslation.get('Add Holders');
 
     if (argv.selectedUser) {
@@ -27,6 +35,11 @@
     }
 
     search();
+
+    function searchMore() {
+      vm.suggestPickerConfig.suggestsLimit++;
+      return vm.search(vm.query);
+    }
 
     function add() {
       $scope.$close(vm.selectedUsers);

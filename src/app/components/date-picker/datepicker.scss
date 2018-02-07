@@ -136,6 +136,12 @@ $default-color: $color-sense-wire;
       }
     }
   }
+  .apply-butn {
+    width: calc(100% - 16px)!important;
+    margin: 0 8px 8px;
+    height: 32px;
+    line-height: 29px;
+  }
 }
 
 .ng-flat-datepicker-arrow {
@@ -189,7 +195,7 @@ $default-color: $color-sense-wire;
     transform: translateX(-25%);
     min-width: 80px;
     background-color: rgb(240, 240, 240);
-    z-index: 1;
+    z-index: 6;
     span {
       padding-top: 6px;
       padding-bottom: 5px;
@@ -226,14 +232,14 @@ $default-color: $color-sense-wire;
 }
 
 .input-time {
-  height: 56px;
+  height: 40px;
   display: flex;
-  padding: 12px;
+  padding: 4px 12px;
   align-items: center;
   position: relative;
   direction: ltr;
   input {
-    width: 104px;
+    width: 132px;
     font-size: 13px;
     font-weight: bold;
     border: none;
@@ -281,6 +287,9 @@ $default-color: $color-sense-wire;
   }
   .discard-changes {
     margin: 0 4px 0 0 !important;
+    svg {
+      fill: $color-force;
+    }
   }
   svg {
     fill: $color-gale-new;
@@ -336,6 +345,9 @@ $default-color: $color-sense-wire;
 
 .clockpicker-popover.popover {
   background-color: $color-white-to-black;
+  .clockpicker-span-am-pm {
+    margin: 0 5px;
+  }
   .clockpicker-am-pm-block {
     margin: -20px 0 25px;
     display: block;
@@ -346,13 +358,15 @@ $default-color: $color-sense-wire;
       width: 30px;
       padding: 0;
       line-height: 30px;
-      background-color: $contrast-bg-color;
+      background-color: $color-white-to-black;
       color: $color-hurricane;
       border-color: $contrast-bg-color;
       z-index: 100;
       &:focus,
-      &:active {
-        background-color: darken($contrast-bg-color, 20%);
+      &:active,
+      &.btn-active {
+        background-color: $color-solid;
+        color: $color-white-to-black;
       }
     }
     .am-button {
@@ -369,15 +383,34 @@ $default-color: $color-sense-wire;
     border-color: $contrast-border-color;
     direction: ltr;
   }
-  .clockpicker-button {
+  .btn-block.clockpicker-button {
+    font-size: 14px;
+    font-weight: bold;
+    background-color: $color-sense;
+    border-color: $color-sense-wire;
+    color: $color-white;
+    box-shadow: 0 2px 4px rgba(1, 177, 89, .32);
     margin: 0 2% 5px;
     width: 96%;
-    background-color: $contrast-bg-color;
-    color: $color-hurricane;
-    border-color: $contrast-border-color;
-    &:focus,
-    &:active {
-      background-color: darken($contrast-bg-color, 20%);
+    &:hover {
+      border-color: $color-sense;
+      color: $color-white;
+      box-shadow: 0 4px 8px rgba(1, 177, 89, .32);
+      a,span{
+        color: $color-white;
+      }
+    }
+    &:focus {
+      background-color: $color-sense-wire;
+      border-color: $color-sense-wire;
+      box-shadow: 0 1px 2px rgba(1, 177, 89, .32);
+    }
+    &.secondary {
+      background-color: $color-white!important;
+      color: $color-sense-wire;
+      a, span {
+        color: $color-sense-wire;
+      }
     }
   }
   .clockpicker-plate {

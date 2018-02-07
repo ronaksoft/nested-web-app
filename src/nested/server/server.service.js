@@ -344,9 +344,9 @@
       });
       xerxesUrl = getCompleteUrl(parseConfigData(xerxes[0]));
       return {
-        websocket: cyrusWsUrl,
-        register: cyrusHttpUrl,
-        store: xerxesUrl,
+        websocket: cyrusWsUrl + '/api',
+        register: cyrusHttpUrl  + '/api',
+        store: cyrusHttpUrl + '/file', //xerxesUrl,
         admin: adminUrl
       }
     }

@@ -9,19 +9,26 @@
                               _, NstSvcLabelFactory, NST_LABEL_SEARCH_FILTER, NstSvcSystemConstants, argv) {
 
     var vm = this;
-    vm.labelSelectPlaceHolder = NstSvcTranslation.get('Select from below or type label name');
-    vm.targetLimit = 100;
     vm.haveMore = true;
     vm.searchFn = _.debounce(search, 100);
+    vm.keyword = '';
     vm.oldKeyword = '';
+    var eventReferences = [];
     vm.loading = false;
-    vm.updatedRecipient = updatedRecipient;
+    vm.loaded = false;
     vm.search = {
       results: []
     };
+    vm.suggestPickerConfig = {
+      limit : 100,
+      suggestsLimit: 8,
+      singleRow: false,
+      mode: 'label',
+      alwaysVisible: true,
+      placeholder: NstSvcTranslation.get('Select from below or type label name')
+    };
     vm.goDownward = false;
-    vm.load = load;
-    vm.clear = clear;
+    vm.searchMore = searchMore;
     vm.selectedLabels = argv.addedLabels.length > 0 ?
       _.clone(argv.addedLabels).sort(function (a, b) {
         if (!a.public && !a.is_member && (b.is_member || b.public)) {
@@ -32,68 +39,93 @@
       }) : [];
     vm.firstTouch = false;
     vm.addLabelLimit;
-    var defaultLimit = 8;
     vm.setting = {
       skip: 0,
-      limit: defaultLimit + vm.selectedLabels.length,
+      limit: vm.suggestPickerConfig.suggestsLimit + vm.selectedLabels.length,
       filter: NST_LABEL_SEARCH_FILTER.MY_LABELS
     };
-
-    vm.load();
-
     vm.submitLabels = function (){
       $uibModalInstance.close(vm.selectedLabels);
     };
 
+    $timeout(function(){
+      vm.searchFn('');
+
+      eventReferences.push($scope.$watch(function () {
+        return vm.keyword
+      }, function(keyword){return vm.searchFn(keyword)}, true));
+
+      var initFlag = false
+      eventReferences.push($scope.$watch(function () {
+        return vm.selectedLabels.length
+      }, function(val){
+        if (initFlag) {
+          vm.firstTouch = true;
+        }
+        initFlag = true;
+      }));
+    }, 128)
+
+    loadConstants();
+
     function search(keyword){
       if (typeof keyword !== 'string' || vm.loading) return;
-
+      
       vm.loading = true;
       if ( keyword !== vm.oldKeyword) {
         restoreDefault();
       }
       NstSvcLabelFactory.search(keyword, vm.setting.filter, vm.setting.skip, vm.setting.limit).then(function (items){
-
         var sameItems = _.intersectionBy(items, vm.selectedLabels, 'title');
-        var newItems = _.difference(items, sameItems).splice(0, defaultLimit);
-
+        var newItems = _.difference(items, sameItems).splice(0, vm.suggestPickerConfig.suggestsLimit);
         vm.search.results.push.apply(vm.search.results, newItems);
-
         vm.setting.skip += items.length - (vm.selectedLabels.length - sameItems.length);
         vm.oldKeyword = keyword;
         vm.haveMore = vm.setting.limit === items.length;
         vm.loading = false;
-
+        vm.loaded = true;
         $timeout(function() {
           vm.goDownward = true;
         },100)
       });
     }
-    function load() {
+
+    function loadConstants() {
       NstSvcSystemConstants.get().then(function (result) {
         vm.addLabelLimit = result.post_max_labels;
       }).catch(function () {
         vm.addLabelLimit = 10;
       });
-      vm.searchFn('');
     }
+
     function restoreDefault() {
       vm.setting.skip = 0;
       vm.search.results = [];
       vm.haveMore = true;
     }
-    function updatedRecipient() {
-      vm.firstTouch = true;
-      $scope.$broadcast('SetFocus');
+
+    // function clear(item) {
+    //   vm.firstTouch = true;
+    //   _.remove(vm.selectedLabels, function (o) {
+    //     return item.id === o.id;
+    //   });
+    //   vm.search.results.push(item);
+    //   vm.search.results = _.uniqBy(vm.search.results, 'id');
+    // }
+
+    function searchMore() {
+      vm.suggestPickerConfig.suggestsLimit++;
+      return vm.searchFn(vm.keyword);
     }
-    function clear(item) {
-      vm.firstTouch = true;
-      _.remove(vm.selectedLabels, function (o) {
-        return item.id === o.id;
+
+    $scope.$on('$destroy', function () {
+      _.forEach(eventReferences, function (canceler) {
+        if (_.isFunction(canceler)) {
+          canceler();
+        }
       });
-      vm.search.results.push(item);
-      vm.search.results = _.uniqBy(vm.search.results, 'id');
-    }
+
+    });
   }
 
 })();

@@ -93,6 +93,7 @@
         this.data,
         function (data) {
           me.setStatus(NST_RES_STATUS.SUCCESS);
+          console.log(data)
           deferred.resolve(data.data);
         },
         function (error) {
@@ -143,7 +144,7 @@
           var deferred = $q.defer();
 
           var data = httpData.data;
-          var response = new NstResponse(NST_RES_STATUS.SUCCESS, data);
+          var response = new NstResponse(NST_RES_STATUS.SUCCESS, data.files[0]);
           deferred.resolve(response);
 
           return deferred.promise;
@@ -215,7 +216,7 @@
           xhr.onload = function (event) {
             if (200 == event.target.status) {
               var data = event.target.response;
-              var response = new NstResponse(NST_RES_STATUS.SUCCESS, data);
+              var response = new NstResponse(NST_RES_STATUS.SUCCESS, data.files[0]);
               deferred.resolve(response);
             } else {
               // TODO: Catch here

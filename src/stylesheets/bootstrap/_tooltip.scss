@@ -74,8 +74,10 @@
   }
   &.top-right .tooltip-arrow {
     bottom: 0;
-    left: $tooltip-arrow-width;
-    margin-bottom: -$tooltip-arrow-width;
+    // left: $tooltip-arrow-width;
+    left: $tooltip-arrow-width + 2px;
+    // margin-bottom: -$tooltip-arrow-width;
+    margin-bottom: 0;
     border-width: $tooltip-arrow-width $tooltip-arrow-width 0;
     border-top-color: $tooltip-arrow-color;
   }

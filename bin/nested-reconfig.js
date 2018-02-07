@@ -31,7 +31,7 @@ const defaultConfig = {
 const newConfig = {
   WS_CYRUS: process.env['NST_WS_CYRUS_URL'] || defaultConfig.WS_CYRUS,
   HTTP_CYRUS: process.env['NST_HTTP_CYRUS_URL'] || defaultConfig.HTTP_CYRUS,
-  XERXES: process.env['NST_XERXES_URL'] || defaultConfig.XERXES,
+  XERXES: process.env['NST_HTTP_CYRUS_URL'] || defaultConfig.XERXES,
   GOOGLE_ANALYTICS_TOKEN: process.env['NST_GOOGLE_ANALYTICS_TOKEN'] || '-',
   UPLOAD_SIZE_LIMIT: process.env['NST_UPLOAD_SIZE_LIMIT'] || defaultConfig.UPLOAD_SIZE_LIMIT,
   DOMAIN: process.env['NST_DOMAIN'] || "nested.me",
@@ -92,9 +92,9 @@ function getListOfScripts() {
 function replaceConfigAndStore(file) {
   return new Promise((res) => {
     let content = fs.readFileSync(config.TMP_DIR + file);
-    let newContent = content.toString().replace(new RegExp(defaultConfig.WS_CYRUS, 'ig'), newConfig.WS_CYRUS)
-      .replace(new RegExp(defaultConfig.HTTP_CYRUS, 'ig'), newConfig.HTTP_CYRUS)
-      .replace(new RegExp(defaultConfig.XERXES, 'ig'), newConfig.XERXES)
+    let newContent = content.toString().replace(new RegExp(defaultConfig.WS_CYRUS, 'ig'), newConfig.WS_CYRUS + '/api')
+      .replace(new RegExp(defaultConfig.HTTP_CYRUS, 'ig'), newConfig.HTTP_CYRUS + '/api')
+      .replace(new RegExp(defaultConfig.XERXES, 'ig'), newConfig.HTTP_CYRUS + '/file')
       .replace(new RegExp(defaultConfig.GOOGLE_ANALYTICS_TOKEN, 'ig'), newConfig.GOOGLE_ANALYTICS_TOKEN)
       .replace(defaultConfig.UPLOAD_SIZE_LIMIT, newConfig.UPLOAD_SIZE_LIMIT)
       .replace(new RegExp(defaultConfig.DOMAIN, 'ig'), newConfig.DOMAIN)

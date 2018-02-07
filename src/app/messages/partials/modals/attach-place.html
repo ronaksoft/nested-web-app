@@ -10,19 +10,8 @@
   </div>
 
   <div class="modal-body">
-    <ui-select minimum-input-length="4" multiple limit="10" class="_df _fw" data-ng-model="ctrl.selectedTargets">
-      <ui-select-match placeholder="{{ctrl.inputPlaceholder}}">
-        <div place-chips place-id="$item" is-email="false" on-remove="$selectMultiple.removeChoice" index="$index" on-select="" selectable="true"></div>
-        
-      </ui-select-match>
-      <ui-select-choices refresh="ctrl.searchPlace($select.search)" refresh-delay="0" repeat="place as place in (ctrl.resultTargets | filter: $select.search ) track by $index">
-        <img class="account-initials-32" ng-src="{{place | picture: 'x64'}}" />
-        <span class="_fw" data-ng-bind-html="place.name | highlight: $select.search"></span>
-        <br/>
-        <span class="nst-font-10 _vat margin-l-50">{{place.id}}</span>
-      </ui-select-choices>
-    </ui-select>
-
+    <suggest-picker config="ctrl.suggestPickerConfig" selecteds="ctrl.selectedTargets"
+      suggests="ctrl.resultTargets" keyword='ctrl.keyword' request-more="ctrl.searchMore"></suggest-picker>
     <div class="_difv _fw post-places">
       <p class="_fw places-label">
         <translate>You already shared this post with following Places:</translate>
@@ -39,7 +28,7 @@
     <input ng-if="ctrl.selectedTargets.length == 0 && !ctrl.attachProgress" type="button" class="butn butn-green _fw _df" value="Enter a Place Name or Address" translate-attrs="value" disabled/>
     <input ng-if="ctrl.selectedTargets.length == 1 && !ctrl.attachProgress" type="submit" class="butn butn-green _fw _df" value="Attach the Place" translate-attrs="value"/>
     <input ng-if="ctrl.selectedTargets.length > 1 && !ctrl.attachProgress" type="submit" class="butn butn-green _fw _df" ng-value="ctrl.getAttachButtonLabel(ctrl.selectedTargets.length)" translate-attrs="value"/>
-    <input ng-if="ctrl.attachProgress" type="button" class="butn butn-green _fw _df" value="Attaching..." translate-attrs="value" disabled/>
+    <input ng-if="ctrl.attachProgress" type="button" class="butn butn-green _fw _df" value="Attaching..." translate-attrs="value" disabled tabindex="2"/>
   </div>
   </form>
 </div>
