@@ -214,6 +214,7 @@
 
     function scrollTopBody() {
       $("html, body").animate({ scrollTop: 0 }, "fast");
+      $rootScope.$broadcast('post-scroll-to-top');
     }
 
     /**

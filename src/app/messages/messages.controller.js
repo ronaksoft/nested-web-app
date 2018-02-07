@@ -678,7 +678,7 @@
     function initPinnedPost() {
       if (vm.pinnedPosts.length > 0) {
         NstSvcPostFactory.getMany(vm.pinnedPosts).then(function (posts) {
-          posts = _.map(posts, function(post) {
+          posts = _.map(posts, function (post) {
             return NstSvcPostFactory.parsePost(post);
           });
           var newItems = _.differenceBy(posts.resolves, vm.messages, 'id');
@@ -782,15 +782,48 @@
     }
 
     var checkHeavyPerformanceEnable = false;
+
+    eventReferences.push($rootScope.$on('post-scroll-to-top'), function () {
+      for (var i = 0; i < vm.messages.length; i++) {
+        vm.messages[i].visible = true;
+      }
+    });
+
     function checkHeavyPerformance() {
-      if (!checkHeavyPerformanceEnable && vm.messages.length > 5) {
-        console.log('checkHeavyPerformance');
+      if (!checkHeavyPerformanceEnable && vm.messages.length > 50) {
         checkHeavyPerformanceEnable = true;
         eventReferences.push($scope.$watch(function () {
           return $rootScope.inViewPost;
-        }, function (newVal) {
-          console.log(newVal);
+        }, function (item) {
+          hideOutboundPost(item);
         }));
+      }
+    }
+
+    var postRang = 20;
+
+    function hideOutboundPost(item) {
+      var index = _.findIndex(vm.messages, {id: item.id});
+      var bottomBound;
+      var topBound;
+      bottomBound = index - (postRang / 2);
+      if (bottomBound < 0) {
+        bottomBound = 0;
+      }
+      topBound = index + (postRang / 2);
+      if (topBound > vm.messages.length - 1) {
+        topBound = vm.messages.length - 1;
+      }
+      for (var i = 0; i < bottomBound; i++) {
+        SvcCardCtrlAffix.remove(vm.messages[i].id);
+        vm.messages[i].visible = false;
+      }
+      for (var i = topBound + 1; i < vm.messages.length; i++) {
+        SvcCardCtrlAffix.remove(vm.messages[i].id);
+        vm.messages[i].visible = false;
+      }
+      for (var i = bottomBound; i < topBound; i++) {
+        vm.messages[i].visible = true;
       }
     }
 
