@@ -1319,7 +1319,9 @@
             }, true);
           },
           'froalaEditor.focus': function () {
-            vm.focusBody = true;
+            $timeout(function(){
+              vm.focusBody = true;
+            });
             vm.emojiTarget = 'body';
             vm.focus = true;
             vm.collapse = true;
