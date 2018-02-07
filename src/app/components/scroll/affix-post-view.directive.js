@@ -6,10 +6,11 @@
     .directive('affixerPostView', onScroll);
 
   /** @ngInject */
-  function onScroll($window, $timeout, $) {
+  function onScroll($window, $timeout, $, _) {
     return {
       restrict: 'A',
       link: function ($scope, $element, $attrs) {
+        var eventReferences = [];
         var win = angular.element($window);
         var topOffset = 0;
         var container = $attrs.container ? $($attrs.container)[0] : win;
@@ -20,7 +21,7 @@
         applierDeb();
 
         if ($attrs.observe) {
-          var onwatchChanged = $scope.$watch(function () {
+          eventReferences.push($scope.$watch(function () {
             return $scope.$parent.$parent.$parent.$parent.affixObserver;
           }, function (v) {
             return $timeout(function () {
@@ -34,7 +35,7 @@
         }
 
         win.on("resize", resizeF);
-        
+
 
         function applier() {
           if (window.affixerListenersPostView && window.affixerListenersPostView[key]) {
@@ -97,7 +98,11 @@
 
           $scope.$on('$destroy', function () {
             container.removeEventListener('scroll', affixElement, $element);
-            if(onwatchChanged){onwatchChanged();}
+            _.forEach(eventReferences, function (canceler) {
+              if (_.isFunction(canceler)) {
+                canceler();
+              }
+            });
           })
         }
       }

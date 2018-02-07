@@ -613,6 +613,7 @@
       promise.then(function (posts) {
         vm.reachedTheEnd = posts.length < settings.limit;
         vm.noMessages = vm.messages.length === 0 && posts.length === 0;
+        checkHeavyPerformance();
       }).catch(function () {
         vm.error = true;
       }).finally(function () {
@@ -780,6 +781,18 @@
       }
     }
 
+    var checkHeavyPerformanceEnable = false;
+    function checkHeavyPerformance() {
+      if (!checkHeavyPerformanceEnable && vm.messages.length > 5) {
+        console.log('checkHeavyPerformance');
+        checkHeavyPerformanceEnable = true;
+        eventReferences.push($scope.$watch(function () {
+          return $rootScope.inViewPost;
+        }, function (newVal) {
+          console.log(newVal);
+        }));
+      }
+    }
 
     // $timeout(function () {
     //   SvcCardCtrlAffix.remove(vm.messages[1].id);

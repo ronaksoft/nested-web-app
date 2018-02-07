@@ -97,6 +97,7 @@
         timestampModel: '='
       },
       link: function (scope, element, attrs, ngModel) {
+        var eventReferences = [];
         var jalali = NstSvcI18n.selectedCalendar !== 'gregorian';
         var farsi = NstSvcI18n.selectedLocale === 'fa-IR';
         var datePickerObj;
@@ -123,9 +124,9 @@
           }
         }
 
-        scope.$watch('haveTime', function (haveTime) {
+        eventReferences.push(scope.$watch('haveTime', function (haveTime) {
           reformatTime(haveTime);
-        });
+        }));
 
         var template = angular.element($templateCache.get('datepicker.html'));
 
@@ -138,15 +139,15 @@
         scope.timeMinute = 0;
         scope.clockPickerTime = moment().hour(23).minute(59);
 
-        scope.$watch('clockPickerTime', function (newVal) {
+        eventReferences.push(scope.$watch('clockPickerTime', function (newVal) {
           if (inited) {
             scope.timeHour = newVal.hours();
             scope.timeMinute = newVal.minutes();
             scope.setTime(true);
           }
-        });
+        }));
 
-        scope.$watch('timestampModel', function (newVal) {
+        eventReferences.push(scope.$watch('timestampModel', function (newVal) {
           if (inited) {
             if (newVal === 0) {
               scope.calendarCursor = null;
@@ -154,7 +155,7 @@
               ngModel.$render();
             }
           }
-        });
+        }));
 
         /*
          * returns start year based on configuration
@@ -227,11 +228,11 @@
           }
         });
 
-        scope.$watch('calendarCursor', function (val) {
+        eventReferences.push(scope.$watch('calendarCursor', function (val) {
           //scope.$apply(function() {
           scope.currentWeeks = getWeeks(val);
           //});
-        });
+        }));
 
         var documentClickRef;
         scope.insideDatePicker = true;
@@ -341,19 +342,19 @@
           return hour + ':' + minute;
         }
 
-        scope.$watch('timeHour', function (newVal) {
+        eventReferences.push(scope.$watch('timeHour', function (newVal) {
           var temp = validateNumber(newVal, 0, 23);
           if (temp !== newVal) {
             scope.timeHour = temp;
           }
-        });
+        }));
 
-        scope.$watch('timeMinute', function (newVal) {
+        eventReferences.push(scope.$watch('timeMinute', function (newVal) {
           var temp = validateNumber(newVal, 0, 59);
           if (temp !== newVal) {
             scope.timeMinute = temp;
           }
-        });
+        }));
 
         scope.setTime = function (add) {
           var inputTime;
@@ -543,7 +544,13 @@
 
         scope.$on('$destroy', function () {
           documentClickRef.off();
+          _.forEach(eventReferences, function (canceler) {
+            if (_.isFunction(canceler)) {
+              canceler();
+            }
+          });
         });
+
       }
     };
   }

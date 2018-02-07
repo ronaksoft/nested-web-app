@@ -16,8 +16,8 @@
 
   function CommentVoiceRecorderController($scope, $interval, $rootScope, $timeout, SvcRecorder, toastr, NstSvcStore, NstSvcAuth, NST_STORE_UPLOAD_TYPE, _) {
 
-    var eventReferences = [];
     var vm = this;
+    var eventReferences = [];
 
     vm.support = false;
     vm.recording = false;
@@ -116,14 +116,14 @@
       }
     }
 
-    $scope.$watch(function () {
+    eventReferences.push($scope.$watch(function () {
       return vm.recording;
     }, function (newVal) {
       timerHandler(newVal);
       if (vm.isRecording !== undefined) {
         vm.isRecording = newVal;
       }
-    });
+    }));
 
     $scope.$on('$destroy', function () {
       SvcRecorder.reset();

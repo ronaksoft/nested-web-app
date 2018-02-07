@@ -15,6 +15,7 @@
         progress: '=progress'
       },
       link: function ($scope, element) {
+        var eventReferences = [];
         var drawDebounce = _.debounce(drawPie, 100);
         $scope.statuses = NST_TASK_PROGRESS_ICON;
 
@@ -28,8 +29,16 @@
         }
 
         drawDebounce();
-        $scope.$watch('progress', function () {
+        eventReferences.push($scope.$watch('progress', function () {
           drawDebounce();
+        }));
+
+        $scope.$on('$destroy', function () {
+          _.forEach(eventReferences, function (canceler) {
+            if (_.isFunction(canceler)) {
+              canceler();
+            }
+          });
         });
       }
     };

@@ -3,26 +3,35 @@
 
   angular
     .module('ronak.nested.web.components')
-    .directive('initials', function () {
+    .directive('initials', function (_) {
       return {
         scope: {
           initials: '=',
           url: '='
         },
         link: function (scope, element) {
-          scope.$watch('initials', function (val) {
+          var eventReferences = [];
+          eventReferences.push(scope.$watch('initials', function (val) {
             element.initial({
               name: val
             });
-          });
+          }));
 
-          scope.$watch('url', function (newVal, oldVal, scope) {
+          eventReferences.push(scope.$watch('url', function (newVal, oldVal, scope) {
             if (newVal) {
               element.initial({
                 name: scope.initials,
                 src: newVal
               });
             }
+          }));
+
+          scope.$on('$destroy', function () {
+            _.forEach(eventReferences, function (canceler) {
+              if (_.isFunction(canceler)) {
+                canceler();
+              }
+            });
           });
         }
       };

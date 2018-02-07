@@ -32,6 +32,7 @@
         autoLocate: '='
       },
       link: function($scope, $element, $attrs) {
+        var eventReferences = [];
         $scope.countries = _.map(NST_COUNTRIES_ATLAS, function(country) {
           return {
             id: country[1],
@@ -57,17 +58,17 @@
           }], ['desc']).value();
         }
 
-        $scope.$watch('selected', function (newValue) {
+        eventReferences.push($scope.$watch('selected', function (newValue) {
           $scope.$emit('country-select-changed', newValue);
-        });
+        }));
 
-        $scope.$watch('selectedCountryCode', function (newValue) {
+        eventReferences.push($scope.$watch('selectedCountryCode', function (newValue) {
           if (newValue) {
             if (!$scope.selected || ($scope.selected && $scope.selected.code !== _.toNumber(newValue))) {
               setSelectedCountryByCode(newValue);
             }
           }
-        });
+        }));
 
         if ($attrs.initialCountry) {
           setSelectedCountryById($attrs.initialCountry);
@@ -100,6 +101,14 @@
         function setSelectedCountryByCode(code) {
           $scope.selected = _.find($scope.countries, { code : _.toNumber(code) });
         }
+
+        $scope.$on('$destroy', function () {
+          _.forEach(eventReferences, function (canceler) {
+            if (_.isFunction(canceler)) {
+              canceler();
+            }
+          });
+        });
       }
 
     };

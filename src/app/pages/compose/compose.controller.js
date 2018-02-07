@@ -112,9 +112,9 @@
           total: 0
         }
       };
-      $scope.$watch(function () {
+      eventReferences.push($scope.$watch(function () {
         return vm.attachments.viewModels
-      }, updateTotalAttachmentsRatio, true);
+      }, updateTotalAttachmentsRatio, true));
 
 
       function updateTotalAttachmentsRatio(items) {

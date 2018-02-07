@@ -5,19 +5,28 @@
     .module('ronak.nested.web.components.validation')
     .directive('matchTo', matchTo);
 
-  function matchTo() {
+  function matchTo(_) {
     return {
       require: 'ngModel',
       scope: {
         originalValue: '=matchTo'
       },
       link: function(scope, element, attributes, ngModel) {
+        var eventReferences = [];
         ngModel.$validators.matchTo = function(modelValue) {
           return modelValue === scope.originalValue;
         };
 
-        scope.$watch("originalValue", function() {
+        eventReferences.push(scope.$watch('originalValue', function() {
           ngModel.$validate();
+        }));
+
+        scope.$on('$destroy', function () {
+          _.forEach(eventReferences, function (canceler) {
+            if (_.isFunction(canceler)) {
+              canceler();
+            }
+          });
         });
       }
     };

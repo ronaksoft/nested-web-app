@@ -7,10 +7,10 @@
 
   /** @ngInject */
   function PlaceAddMemberController($scope, $q, $log, $rootScope,
-    NST_USER_SEARCH_AREA,
-    NstSvcUserFactory, NstSvcTranslation, NstUtility,
-    NST_PLACE_MEMBER_TYPE, NstSvcPlaceFactory, toastr,
-    _, currentPlace, mode, isForGrandPlace, newPlace, NstSvcAuth) {
+                                    NST_USER_SEARCH_AREA,
+                                    NstSvcUserFactory, NstSvcTranslation, NstUtility,
+                                    NST_PLACE_MEMBER_TYPE, NstSvcPlaceFactory, toastr,
+                                    _, currentPlace, mode, isForGrandPlace, newPlace, NstSvcAuth) {
     var vm = this;
     var defaultSearchResultCount = 10;
     var eventReferences = [];
@@ -85,8 +85,8 @@
       }
 
       NstSvcUserFactory.search(settings, (newPlaceFlag || isMulti ?
-          NST_USER_SEARCH_AREA.ACCOUNTS :
-          (vm.isGrandPlace || isForGrandPlace) ?
+        NST_USER_SEARCH_AREA.ACCOUNTS :
+        (vm.isGrandPlace || isForGrandPlace) ?
           NST_USER_SEARCH_AREA.INVITE :
           NST_USER_SEARCH_AREA.ADD))
         .then(searchCallBack)
@@ -117,10 +117,12 @@
         // vm.query = settings.query;
       }
     }
-    
-    $scope.$watch(function () {
+
+    eventReferences.push($scope.$watch(function () {
       return vm.query
-    }, function(keyword){return vm.search(keyword)}, true);
+    }, function (keyword) {
+      return vm.search(keyword)
+    }, true));
 
     function add() {
       if (newPlace !== undefined && newPlace === true) {
@@ -157,12 +159,12 @@
      * @param {any} user
      */
     function dispatchUserAdded(place, user) {
-      eventReferences.push($rootScope.$emit(
+      $rootScope.$emit(
         'member-added', {
           place: place,
           member: user
         }
-      ));
+      );
     }
 
     /**
@@ -257,11 +259,9 @@
 
     function checkUserLimitPlace() {
       if (!isMulti) {
-        var previousUsers = mode === 'offline-mode' ?
-          0 :
-          currentPlace.counters.creators + currentPlace.counters.key_holders;
+        var previousUsers = mode === 'offline-mode' ? 0 : currentPlace.counters.creators + currentPlace.counters.key_holders;
 
-        // fixme :: read limit from config
+        // TODO: read limit from config
         vm.limit = 10000 - previousUsers;
       } else {
         vm.limit = 1000;
@@ -276,5 +276,13 @@
         placeholder: vm.isGrandPlace ? NstSvcTranslation.get("Name, email or phone number...") : NstSvcTranslation.get("Name or ID...")
       };
     }
+
+    $scope.$on('$destroy', function () {
+      _.forEach(eventReferences, function (canceler) {
+        if (_.isFunction(canceler)) {
+          canceler();
+        }
+      });
+    });
   }
 })();

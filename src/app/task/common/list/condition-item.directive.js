@@ -17,6 +17,7 @@
         index: '='
       },
       link: function ($scope, $el) {
+        var eventReferences = [];
         $scope.conConst = NST_CUSTOM_FILTER;
         var eq1 = [{
             key: NST_CUSTOM_FILTER.LOGIC_AND,
@@ -95,13 +96,13 @@
           }
         ];
 
-        $scope.$watch('model.condition', function (condition) {
+        eventReferences.push($scope.$watch('model.condition', function (condition) {
           conditionChanged(condition);
           var input = $el.find('input');
           if (input) {
             input.focus()
           }
-        });
+        }));
 
         function conditionChanged(condition) {
           switch (condition) {
@@ -130,6 +131,14 @@
           selectedConditions = selectedConditions.slice(0, $scope.index);
           return _.differenceBy($scope.conditions, selectedConditions, 'key');
         };
+
+        $scope.$on('$destroy', function () {
+          _.forEach(eventReferences, function (canceler) {
+            if (_.isFunction(canceler)) {
+              canceler();
+            }
+          });
+        });
       }
     };
   }

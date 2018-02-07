@@ -1,28 +1,31 @@
-(function() {
+(function () {
   'use strict';
 
   angular
     .module('ronak.nested.web.components')
-    .directive('initialAvatar', function ($) {
+    .directive('initialAvatar', function ($, _) {
       return {
         scope: {
-          initialAvatar : '@',
-          name : '@',
-          picture : '@',
-          width : '@',
-          height : '@'
+          initialAvatar: '@',
+          name: '@',
+          picture: '@',
+          width: '@',
+          height: '@'
         },
-        link: function ($scope, $element,$attrs) {
-          initialize($scope.initialAvatar,$scope.name,$scope.picture);
-          var watcher = $scope.$watchGroup(["initialAvatar", "name", "picture"], function (newValues) {
-            initialize(newValues[0],newValues[1], newValues[2]);
-          });
+        link: function ($scope, $element, $attrs) {
+          var eventReferences = [];
+          initialize($scope.initialAvatar, $scope.name, $scope.picture);
+          eventReferences.push($scope.$watchGroup(["initialAvatar", "name", "picture"], function (newValues) {
+            initialize(newValues[0], newValues[1], newValues[2]);
+          }));
 
 
           function initialize(id, name, picture) {
-            var abbr,finalColor;
-            if( name ) {
-              abbr = name.split(' ').slice(0, 2).map(function(item){return item[0]}).join('');
+            var abbr, finalColor;
+            if (name) {
+              abbr = name.split(' ').slice(0, 2).map(function (item) {
+                return item[0]
+              }).join('');
             } else {
               abbr = 'U';
             }
@@ -42,31 +45,31 @@
             };
 
             var cobj = $('<text text-anchor="middle"></text>').attr({
-                'y': '50%',
-                'x': '50%',
-                'dy' : '0.35em',
-                'pointer-events':'auto',
-                'fill': settings.textColor,
-                'font-family': settings.fontFamily
+              'y': '50%',
+              'x': '50%',
+              'dy': '0.35em',
+              'pointer-events': 'auto',
+              'fill': settings.textColor,
+              'font-family': settings.fontFamily
             }).html(c).css({
-                'font-weight': settings.fontWeight,
-                'font-size': settings.fontSize +'px'
+              'font-weight': settings.fontWeight,
+              'font-size': settings.fontSize + 'px'
             });
 
             var colorIndex = getIndexStr(id);
             finalColor = colors[colorIndex];
 
             var svg = $('<svg></svg>').attr({
-                'xmlns': 'http://www.w3.org/2000/svg',
-                'pointer-events':'none',
-                'width': settings.width,
-                'height': settings.height
+              'xmlns': 'http://www.w3.org/2000/svg',
+              'pointer-events': 'none',
+              'width': settings.width,
+              'height': settings.height
             }).css({
-                'background-color': finalColor,
-                'width': settings.width+'px',
-                'height': settings.height+'px',
-                'border-radius': settings.radius+'px',
-                '-moz-border-radius': settings.radius+'px'
+              'background-color': finalColor,
+              'width': settings.width + 'px',
+              'height': settings.height + 'px',
+              'border-radius': settings.radius + 'px',
+              '-moz-border-radius': settings.radius + 'px'
             });
             svg.append(cobj);
             var svgHtml = window.btoa(unescape(encodeURIComponent($('<div>').append(svg.clone()).html())));
@@ -76,7 +79,7 @@
                 'src', picture
               );
             } else {
-               $element.attr(
+              $element.attr(
                 'src', 'data:image/svg+xml;base64,' + svgHtml
               );
             }
@@ -91,23 +94,29 @@
             return getInitialValue(value);
 
           }
+
           function getInitialValue(value) {
-              var sum = 0;
+            var sum = 0;
 
-              while (value > 0) {
-                  sum = sum + value % 10;
-                  value = value / 10;
-              }
+            while (value > 0) {
+              sum = sum + value % 10;
+              value = value / 10;
+            }
 
-              if (sum < 16) {
-                  return Math.floor(sum);
-              } else {
-                  return getInitialValue(sum);
-              }
+            if (sum < 16) {
+              return Math.floor(sum);
+            } else {
+              return getInitialValue(sum);
+            }
 
           }
+
           $scope.$on('$destroy', function () {
-            watcher();
+            _.forEach(eventReferences, function (canceler) {
+              if (_.isFunction(canceler)) {
+                canceler();
+              }
+            });
           });
         }
       };

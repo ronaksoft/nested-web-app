@@ -17,6 +17,7 @@
         removeItem: '=?'
       },
       link: function (scope, ele) {
+        var eventReferences = [];
         if (scope.removeItem === undefined) {
           scope.removeItem = true;
         }
@@ -49,7 +50,7 @@
               checkScroll(scope.scrollWrp[0]);
             });
             checkImageRatio();
-            scope.$watch(function () {
+            eventReferences.push(scope.$watch(function () {
               return scope.items.length;
             }, function () {
               $timeout(function () {
@@ -60,7 +61,7 @@
                 checkScroll(scope.scrollWrp[0]);
                 checkArrays(scope.scrollWrp[0]);
               }, 1000);
-            });
+            }));
           }, 100);
         }
 
@@ -215,6 +216,14 @@
           });
           return numb - filter[filter.length - 1]
         }
+
+        scope.$on('$destroy', function () {
+          _.forEach(eventReferences, function (canceler) {
+            if (_.isFunction(canceler)) {
+              canceler();
+            }
+          });
+        });
       }
     };
 

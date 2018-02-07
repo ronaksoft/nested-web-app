@@ -642,7 +642,7 @@
      * Raise event for select/unselect post
      * `Messages` page and other posts listens to this
      */
-    $scope.$watch(function () {
+    eventReferences.push($scope.$watch(function () {
       return vm.isChecked;
     }, function () {
       if (!vm.setIsCheckedWatchOffTemporary) {
@@ -651,16 +651,16 @@
           isChecked: vm.isChecked
         });
       }
-    });
+    }));
 
     /**
      * assigned variables used in html rendering
      */
-    $scope.$watch(function () {
+    eventReferences.push($scope.$watch(function () {
       return vm.post.places;
     }, function () {
       createTotalPostRecipients()
-    });
+    }));
 
     function createTotalPostRecipients() {
       var concatArray = vm.post.places.slice(0);
@@ -678,7 +678,7 @@
     /**
      * Listen to the selected posts of app for changing the checkbox display method
      */
-    $scope.$on('selected-length-change', function (e, v) {
+    eventReferences.push($scope.$on('selected-length-change', function (e, v) {
       if (v.selectedPosts.length > 0) {
         vm.isCheckedForce = true;
         if (v.selectAll) {
@@ -703,7 +703,7 @@
       //       vm.isChecked = false;
       //     }
       // }
-    });
+    }));
 
     /**
      * Event handler new comment add push and Checks

@@ -178,11 +178,11 @@
         if (choices.length < 1 || $scope.state.activeSuggestItem < 0) {
           return;
         }
-    
+
         var highlighted = choices[$scope.state.activeSuggestItem];
         var posY = highlighted.offsetTop + highlighted.clientHeight - container[0].scrollTop;
         var height = container[0].offsetHeight;
-    
+
         if (posY > height) {
           container[0].scrollTop += posY - height;
         } else if (posY < highlighted.clientHeight) {
@@ -191,9 +191,9 @@
       }
 
       $scope.$on('$destroy', function () {
-        _.forEach(eventReferences, function (cenceler) {
-          if (_.isFunction(cenceler)) {
-            cenceler();
+        _.forEach(eventReferences, function (canceler) {
+          if (_.isFunction(canceler)) {
+            canceler();
           }
         });
       });

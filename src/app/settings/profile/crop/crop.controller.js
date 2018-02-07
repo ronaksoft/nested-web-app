@@ -9,7 +9,7 @@
       /*****************************
        *** Controller Properties ***
        *****************************/
-
+      var eventReferences = [];
       vm.uploadedImage = argv.file;
       vm.type = argv.type || 'circle';
       vm.uploadedImageURL = '';
@@ -22,13 +22,13 @@
       };
       reader.readAsDataURL(vm.uploadedImage);
 
-      $scope.$watch(function () {
+      eventReferences.push($scope.$watch(function () {
         return vm.ready;
       }, function () {
         if (vm.ready) {
           vm.uploadedImageURL = reader.result;
         }
-      });
+      }));
       vm.calc = function () {
         var img = new Image();
         img.src = vm.uploadedImageURL;
@@ -87,19 +87,26 @@
             byteString = atob(dataURI.split(',')[1]);
         else
             byteString = unescape(dataURI.split(',')[1]);
-    
+
         // separate out the mime component
         var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
-    
+
         // write the bytes of the string to a typed array
         var ia = new Uint8Array(byteString.length);
         for (var i = 0; i < byteString.length; i++) {
             ia[i] = byteString.charCodeAt(i);
         }
-    
-        return new Blob([ia], {type:mimeString});
 
+        return new Blob([ia], {type:mimeString});
       }
+
+      $scope.$on('$destroy', function () {
+        _.forEach(eventReferences, function (canceler) {
+          if (_.isFunction(canceler)) {
+            canceler();
+          }
+        });
+      });
 
     })
 })();
