@@ -40,6 +40,8 @@
       this.isTrusted = true;
       this.iframeUrl = undefined;
       this.relatedTasks = undefined;
+      this.visible = true;
+      this.affix = {};
     }
 
     Post.prototype.getTrustedBody = function () {

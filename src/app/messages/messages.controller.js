@@ -780,6 +780,19 @@
       }
     }
 
+
+    // $timeout(function () {
+    //   SvcCardCtrlAffix.remove(vm.messages[1].id);
+    //   SvcCardCtrlAffix.remove(vm.messages[2].id);
+    //   vm.messages[1].visible = false;
+    //   vm.messages[2].visible = false;
+    //
+    //   // $timeout(function () {
+    //   //   vm.messages[1].visible = true;
+    //   //   vm.messages[2].visible = true;
+    //   // }, 3000);
+    // }, 3000);
+
     $scope.$on('$destroy', function () {
       saveScroll();
       if (CITHandler) {

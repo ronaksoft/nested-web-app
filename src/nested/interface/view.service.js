@@ -39,7 +39,7 @@
         obj.findAffixIndex(win[0].scrollY);
         obj.findInViewCardIndex(win[0].scrollY);
       }
-    }
+    };
 
     // Remove a card from list
     obj.remove = function (id) {
@@ -47,13 +47,13 @@
         return o.id === id;
       });
       if (card) {
-        var index = $rootScope.cardCtrls.indexOf(card)
-        $rootScope.cardCtrls.splice(index, 1)
+        var index = $rootScope.cardCtrls.indexOf(card);
+        $rootScope.cardCtrls.splice(index, 1);
         obj.reset();
-      };
-    }
+      }
+    };
 
-    var resetService = _.throttle(obj.reset, 512)
+    var resetService = _.throttle(obj.reset, 512);
 
     /**
      * @property affixElement
@@ -63,7 +63,8 @@
     obj.add = function (el) {
       $rootScope.cardCtrls.push(el);
       resetService();
-    }
+      return $rootScope.cardCtrls[$rootScope.cardCtrls.length - 1];
+    };
 
     // Order cards array by their position
     obj.orderItems = function () {
@@ -81,7 +82,7 @@
         $log.error(error);
       }
       // console.log('orderItems', $rootScope.cardCtrls)
-    }
+    };
 
     // clears items that does not exits
     obj.persisItems = function () {
@@ -90,8 +91,8 @@
           $rootScope.cardCtrls.splice($rootScope.cardCtrls.indexOf(b), 1);
         }
         return;
-      })
-    }
+      });
+    };
 
     /**
      * finds in view post card
@@ -105,12 +106,12 @@
         var firstOffset = 136;
         var determiner = postCard.postCardOffTop + postCard.postCardheight - firstOffset - 32 - 48;
         if (determiner < Ypos + winH) {
-          i = index
+          i = index;
           return true;
         } else {
           return false;
         }
-      })
+      });
       var lastIndex = topItems.length - 1;
       var item;
       if (Ypos === 0) {
@@ -129,7 +130,7 @@
         $rootScope.inViewPost.enabled = false;
       }
       // console.log('findInViewCardIndex', $rootScope.inViewPost)
-    }
+    };
 
     obj.findAffixIndex = function (Ypos) {
       var i = 0;
@@ -144,7 +145,7 @@
         } else {
           return false;
         }
-      })
+      });
       var lastIndex = topItems.length - 1;
       var item = topItems[lastIndex];
 
@@ -157,7 +158,7 @@
         $rootScope.inViewPost.enabled = false;
       }
       // console.log('findAffixIndex', $rootScope.inViewPost)
-    }
+    };
 
     // reasign navigation height
     obj.measurement = function (v) {
@@ -191,7 +192,7 @@
         applyPostInView(Ypos, scrollDown, firstOffset);
         applyAffixCard(Ypos, scrollDown, firstOffset);
       })
-    }
+    };
 
     /**
      * affix the in view post card element !
@@ -228,7 +229,7 @@
         e.fixed = false
         e.el.css({'position': 'absolute', 'top': thisElementPostCardheight - 32 + 'px', 'left': '', 'right': ''});
       }
-    }
+    };
 
 
     function getElementProps(index) {
@@ -263,7 +264,7 @@
       // measurement for post view is end of the post
       var thisDeterminer, nextDeterminer, prvDeterminer;
       if (thisEl) {
-        thisDeterminer = thisEl.postCardOffTop + thisEl.postCardheight - firstOffset - 32 - 48
+        thisDeterminer = thisEl.postCardOffTop + thisEl.postCardheight - firstOffset - 32 - 48;
         if (thisDeterminer < Ypos + winH && thisDeterminer > Ypos) {
           // return $rootScope.inViewPost.enabled = true // FIXME it stops applying to first item in view
           $rootScope.inViewPost.enabled = true;
@@ -275,12 +276,12 @@
         if ($rootScope.inViewPost.index === $rootScope.cardCtrls.length) {
           return;
         }
-        var nextIndex = $rootScope.inViewPost.index + 1
-        var nextElement = getElementProps(nextIndex)
+        var nextIndex = $rootScope.inViewPost.index + 1;
+        var nextElement = getElementProps(nextIndex);
         if (!nextElement) {
           return;
         }
-        nextDeterminer = nextElement.postCardOffTop + nextElement.postCardheight - firstOffset
+        nextDeterminer = nextElement.postCardOffTop + nextElement.postCardheight - firstOffset;
         if (nextDeterminer < Ypos + winH && nextDeterminer > Ypos) {
           return $rootScope.inViewPost = {
             index: nextIndex,
