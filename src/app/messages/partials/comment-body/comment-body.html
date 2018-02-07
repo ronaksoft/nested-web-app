@@ -33,6 +33,7 @@
         (<translate>removed by <span user-detail="ctlCommentBody.comment.removedById">{{ctlCommentBody.comment.removedById}}</span>
         </translate>)
       </i>
+      <span class="failed-send" ng-if="ctlCommentBody.comment.isFailed" ng-click="ctlCommentBody.retrySendComment(ctlCommentBody.comment)">Not sent - Retry</span>
     </p>
   </div>
 </div>
