@@ -32,11 +32,9 @@
     vm.keydown = function (e) {
       // Enter/ return key
       if (e.which === 13) {
-        console.log(vm.resultTargets, vm.state.activeSuggestItem);
         if (vm.resultTargets.length > 0) {
           var index = vm.state.activeSuggestItem;
           e.preventDefault();
-          console.log(vm.resultTargets[index]);
           return setTargetPlace(vm.resultTargets[index]);
         }
       } else if (e.which === 38) {
