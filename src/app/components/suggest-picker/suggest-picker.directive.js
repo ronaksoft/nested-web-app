@@ -12,7 +12,7 @@
       mode: 'place',
       alwaysVisible: false
     })
-    .controller('suggestPickerController', function ($timeout, $scope, _, suggestPickerDefaultOptions, toastr, NstSvcTranslation, $rootScope) {
+    .controller('suggestPickerController', function ($timeout, $scope, _, suggestPickerDefaultOptions, toastr, NstSvcTranslation, $rootScope, NstUtility) {
       $scope.clearSuggests = [];
       var eventReferences = [];
       resetState();
