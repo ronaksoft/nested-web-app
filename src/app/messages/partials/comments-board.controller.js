@@ -368,7 +368,8 @@
     }
 
     function commentBoardNeedsRolling() {
-      return vm.commentBoardIsRolled === false && vm.comments.length > 3;
+      return vm.comments.length > 3;
+      // return vm.commentBoardIsRolled === false && vm.comments.length > 3;
     }
 
     function loadMoreComments() {
