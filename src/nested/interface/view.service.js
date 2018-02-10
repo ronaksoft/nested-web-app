@@ -202,7 +202,10 @@
       }
       var e = $rootScope.cardCtrls[obj.affixView.index]
       if (e) {
-        var thisElement = $('#post-card-' + e.id).parent()
+        var thisElement = $('#post-card-' + e.id).parent();
+        if (!thisElement.length) {
+          return;
+        }
         var thisElementPostCardOffTop = thisElement.offset().top
         var thisElementPostCardheight = thisElement.children().first().height()
       }
@@ -237,6 +240,9 @@
         return;
       }
       var nextElement = $('#post-card-' + nextItem.id).parent();
+      if (!nextElement.length) {
+        return;
+      }
       try {
         return {
           id: nextItem.id,
@@ -331,6 +337,7 @@
           };
         }
       }
+      console.log(obj.affixView);
     }
     return obj;
   }

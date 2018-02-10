@@ -29,7 +29,7 @@
             check(scrollTop);
             scroll(scrollTop);
           } catch (e) {
-            $log.error(error)
+            $log.error(e)
           }
 
           //hide tips

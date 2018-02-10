@@ -160,6 +160,7 @@
         });
 
         if (message) {
+          SvcCardCtrlAffix.remove(data.postId);
           loadUnreadPostsCount();
           reloadPlace();
 
@@ -177,7 +178,6 @@
           } else { //retract it
             NstUtility.collection.dropById(vm.messages, message.id);
           }
-          SvcCardCtrlAffix.remove(data.postId);
         }
       }));
 
