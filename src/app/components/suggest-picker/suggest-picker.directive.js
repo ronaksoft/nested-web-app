@@ -41,6 +41,10 @@
           }
         } else if (e.which === 9) {
           $scope.visible = false;
+          if ($scope.clearSuggests.length > 0) {
+            var index = $scope.state.activeSuggestItem;
+            return $scope.selectItem(index);
+          }
         } else if (e.which === 27) {
           $scope.visible = false;
           e.target.blur();
