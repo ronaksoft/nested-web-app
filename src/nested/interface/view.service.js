@@ -337,7 +337,6 @@
           };
         }
       }
-      console.log(obj.affixView);
     }
     return obj;
   }
