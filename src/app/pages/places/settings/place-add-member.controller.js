@@ -99,7 +99,7 @@
         vm.users = _.differenceBy(users, vm.selectedUsers, 'id');
         vm.users = _.differenceBy(vm.users, [vm.currentUser], 'id');
         if (_.isString(settings.query) &&
-          _.size(settings.query) >= 4 &&
+          _.size(settings.query) >= 0 &&
           _.indexOf(settings.query, " ") === -1 &&
           !_.some(vm.users, {
             id: settings.query
