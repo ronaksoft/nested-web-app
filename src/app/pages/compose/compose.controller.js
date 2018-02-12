@@ -490,22 +490,10 @@
 
         return NstSvcPlaceFactory.searchForCompose(query, limit).then(function (results) {
           NstSvcLogger.debug4('Compose | Searched recipients for binding them in html', results);
-          // var oldItems = vm.search.results.length;
           var newItemsChips = _.chain(results.places).uniqBy('id').map(function (place) {
             return new NstVmSelectTag(place);
           }).value();
           vm.search.results = newItemsChips;
-          // newItemsChips.forEach(function (item, index) {
-          //   if (vm.search.results[index]) {
-          //     vm.search.results[index] = item
-          //   } else {
-          //     vm.search.results.push(item)
-          //   }
-          // });
-          // if (oldItems > newItemsChips.length) {
-          //   vm.search.results.splice(newItemsChips.length, oldItems - newItemsChips.length)
-          // }
-
           _.forEach(results.recipients, function (recipient) {
             var tag = new NstVmSelectTag({
               id: recipient,
@@ -513,6 +501,8 @@
             });
             vm.search.results.push(tag);
           });
+
+          vm.search.results = _.chain(vm.search.results).uniqBy('id').value();
 
           if (!_.some(vm.search.results, {
               'id': query
@@ -1319,7 +1309,9 @@
             }, true);
           },
           'froalaEditor.focus': function () {
-            vm.focusBody = true;
+            $timeout(function(){
+              vm.focusBody = true;
+            });
             vm.emojiTarget = 'body';
             vm.focus = true;
             vm.collapse = true;

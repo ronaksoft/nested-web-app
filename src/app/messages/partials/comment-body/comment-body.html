@@ -33,6 +33,10 @@
         (<translate>removed by <span user-detail="ctlCommentBody.comment.removedById">{{ctlCommentBody.comment.removedById}}</span>
         </translate>)
       </i>
+      <span class="failed-send" ng-if="ctlCommentBody.comment.isFailed" ng-click="ctlCommentBody.retrySendComment(ctlCommentBody.comment)">Not sent - Retry</span>
+      <span class="_pr" ng-if="ctlCommentBody.comment.isSending">
+        <div class="nst-loading absolute" ng-if="ctlCommentBody.comment.isSending"></div>
+      </span>
     </p>
   </div>
 </div>

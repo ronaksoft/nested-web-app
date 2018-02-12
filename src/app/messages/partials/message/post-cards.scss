@@ -761,6 +761,11 @@ post-card {
       opacity: 1;
     }
   }
+  .failed-send {
+    color: $color-force;
+    font-weight: bold;
+    margin: 0 8px;
+  }
   &.sticky {
     padding-top: 0;
     .text {

@@ -118,18 +118,24 @@
       }));
 
       eventReferences.push($rootScope.$on(NST_EVENT_ACTION.POST_ADD, function (e, data) {
+        // TODO : is feed ?!
         if (vm.isFeed) {
           load();
         }
         if (postMustBeShown(data.activity)) {
           // The current user is the sender
-          // vm.messages.unshift(data.activity.post);
           NstSvcPostFactory.get(data.activity.post.id).then(function (message) {
             vm.messages.unshift(message);
           });
         } else if (mustBeAddedToHotPosts(data.activity)) {
           // someone else sent the post
-          vm.hotMessagesCount = vm.hotMessagesCount + 1;
+          if ($rootScope.inViewPost && $rootScope.inViewPost.index === 0) {
+            NstSvcPostFactory.get(data.activity.post.id).then(function (message) {
+              vm.messages.unshift(message);
+            });
+          } else {
+            vm.hotMessagesCount = vm.hotMessagesCount + 1;
+          }
         }
         loadUnreadPostsCount();
         reloadPlace();
@@ -154,6 +160,7 @@
         });
 
         if (message) {
+          SvcCardCtrlAffix.remove(data.postId);
           loadUnreadPostsCount();
           reloadPlace();
 
@@ -171,7 +178,6 @@
           } else { //retract it
             NstUtility.collection.dropById(vm.messages, message.id);
           }
-          SvcCardCtrlAffix.remove(data.postId);
         }
       }));
 
