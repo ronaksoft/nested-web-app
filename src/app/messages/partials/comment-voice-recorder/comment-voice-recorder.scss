@@ -1,11 +1,10 @@
 nst-voice-comment-recorder {
   .comment-voice-recorder {
     position: absolute;
-    top: 50%;
+    top: 10px;
     right: 30px;
     width: 30px;
     height: 30px;
-    transform: translate(0, -50%);
     .recorder {
       position: absolute;
       height: 18px;
