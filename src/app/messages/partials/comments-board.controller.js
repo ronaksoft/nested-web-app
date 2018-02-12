@@ -245,7 +245,7 @@
         }
         focusOnSentTimeout = $timeout(function () {
             e.currentTarget.focus();
-        }, 10);
+        }, 2);
       }, 10);
 
       if (vm.postId) {

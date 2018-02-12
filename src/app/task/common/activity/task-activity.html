@@ -9,7 +9,7 @@
       <div class="post-card-comments _difh _fw _wrb" ng-if="activity.type == ctrl.activityTypes.COMMENT">
         <nst-comment-body comment="activity.comment" comment-board-id="ctrl.taskId"
                           comment-remove="ctrl.removeCommentRef" is-task="true"
-                          is-creator="ctrl.isCreator"></nst-comment-body>
+                          is-creator="ctrl.isCreator" retry-send-comment="ctrl.retrySendComment"></nst-comment-body>
       </div>
       <input type="text" ng-if="$last" class="focus-handler"
              ng-init="scrollEnd(ctrl.activities.length <= ctrl.setting.limit)">
