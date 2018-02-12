@@ -1,8 +1,11 @@
 <div class="_df _fw">
   <div class="user-avatar-24">
+    <span class="_pa _fw _fh" ng-if="ctlCommentBody.comment.isSending">
+      <div class="nst-loading absolute xsm" ng-if="ctlCommentBody.comment.isSending"></div>
+    </span>
     <img initial-avatar="{{ctlCommentBody.comment.sender.id}}" name="{{ctlCommentBody.comment.sender.fullName}}"
          picture="{{ctlCommentBody.comment.sender | avatar}}" data-width="24" data-height="24" data-radius="13"
-         class="account-initials-24 _df" data-word-count="2" data-font-size="8"/>
+         class="account-initials-24 _df" data-word-count="2" data-font-size="8" ng-if="!ctlCommentBody.comment.isSending"/>
     <div class="delete-comment" ng-click="ctlCommentBody.removeItem(ctlCommentBody.comment.id);" ng-if="ctlCommentBody.isTask && (ctlCommentBody.isCreator || ctlCommentBody.user.id === ctlCommentBody.comment.sender.id)">
       <svg class="_16svg" data-tooltip-append-to-body="true"
           data-uib-tooltip-template="'remove-cm-tooltip.html'"
@@ -34,9 +37,6 @@
         </translate>)
       </i>
       <span class="failed-send" ng-if="ctlCommentBody.comment.isFailed" ng-click="ctlCommentBody.retrySendComment(ctlCommentBody.comment)">Not sent - Retry</span>
-      <span class="_pr" ng-if="ctlCommentBody.comment.isSending">
-        <div class="nst-loading absolute" ng-if="ctlCommentBody.comment.isSending"></div>
-      </span>
     </p>
   </div>
 </div>
