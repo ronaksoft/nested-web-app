@@ -214,6 +214,7 @@
 
     function scrollTopBody() {
       $("html, body").animate({ scrollTop: 0 }, "fast");
+      $rootScope.$broadcast('post-scroll-to-top');
     }
 
     /**
@@ -385,8 +386,7 @@
     }
 
 
-    $scope.$watch(
-      function () {
+    eventReferences.push($scope.$watch(function () {
         return vm.placeId
       },
       function () {
@@ -419,7 +419,7 @@
           }
         }
       }
-    );
+    ));
 
     /**
      * Triggers when in search input any key being pressed
@@ -604,9 +604,9 @@
     }));
 
     $scope.$on('$destroy', function () {
-      _.forEach(eventReferences, function (cenceler) {
-        if (_.isFunction(cenceler)) {
-          cenceler();
+      _.forEach(eventReferences, function (canceler) {
+        if (_.isFunction(canceler)) {
+          canceler();
         }
       });
     });

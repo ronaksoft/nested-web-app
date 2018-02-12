@@ -69,6 +69,7 @@
     }
 
     function link($scope, $element, $attrs) {
+      var eventReferences = [];
       // Reads all settings from the provided attributes
       var customSettings = {
         wheelSpeed : readNumberValue($attrs.wheelSpeed),
@@ -151,7 +152,7 @@
       }
 
       // Goes upward when the attribute value changes
-      $scope.$watch('goUpward', function (newValue) {
+      eventReferences.push($scope.$watch('goUpward', function (newValue) {
         if (newValue) {
           if (settings.scrollAnimate) {
             Ps.update(container);
@@ -168,10 +169,10 @@
             $scope.goUpward = false;
           }
         }
-      });
+      }));
 
       // Goes downward when the attribute value changes
-      $scope.$watch('goDownward', function (newValue) {
+      eventReferences.push($scope.$watch('goDownward', function (newValue) {
         if (newValue) {
           if (settings.scrollAnimate) {
             Ps.update(container);
@@ -189,12 +190,16 @@
           }
 
         }
-      });
+      }));
 
       $scope.$on('$destroy', function () {
         Ps.destroy(container);
+        _.forEach(eventReferences, function (canceler) {
+          if (_.isFunction(canceler)) {
+            canceler();
+          }
+        });
       });
-
     }
   }
 

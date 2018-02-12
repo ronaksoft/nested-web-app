@@ -5,18 +5,25 @@
     .module('ronak.nested.web.components.text')
     .directive('maxLength', maxLengthHighlight);
 
-  function maxLengthHighlight() {
+  function maxLengthHighlight(_) {
     return {
       restrict: 'A',
       link: function (scope ,element, attrs) {
+        var eventReferences = [];
         function highlight() {
-          var maxLength = parseInt(attrs.maxLength);
-          return maxLength;
+          return parseInt(attrs.maxLength);
         }
-        scope.$watch(function(){
+        eventReferences.push(scope.$watch(function(){
           return element.text().length;
         },function () {
           highlight(element.text());
+        }));
+        scope.$on('$destroy', function () {
+          _.forEach(eventReferences, function (canceler) {
+            if (_.isFunction(canceler)) {
+              canceler();
+            }
+          });
         });
       }
     };

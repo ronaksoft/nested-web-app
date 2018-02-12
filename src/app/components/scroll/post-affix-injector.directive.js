@@ -9,18 +9,26 @@
   function affixPost(SvcCardCtrlAffix, $timeout) {
     return {
       restrict: 'A',
+      scope: {
+        postRef: '='
+      },
       link: function ($scope, $element) {
         var el = {
-          el : $element,
-          // cardH : $element.parent().children().first().height(),
-          // fullH : $element.parent().height(),
-          leftOff : $element.parent().offset().left,
+          el: $element,
+          // cardH: 0, //$element.parent().children().first().height(),
+          fullH: 0, //$element.parent().height(),
+          leftOff: $element.parent().offset().left,
           id: $scope.$parent.ctlPostCard.post.id,
-          fixed : false
+          fixed: false
         };
-        $timeout(function(){
-          SvcCardCtrlAffix.add(el);
-        }, 100)
+        var item = {};
+        $timeout(function () {
+          item = SvcCardCtrlAffix.add(el);
+        }, 100);
+        $timeout(function () {
+          item.fullH = $element.parent().height() + 64;
+          $scope.postRef.affix = item;
+        }, 500);
       }
     };
   }

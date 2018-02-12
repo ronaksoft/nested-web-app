@@ -17,6 +17,8 @@
    */
   function webappSettingsController(_, $scope, $rootScope, toastr, NstSvcAuth, NstSvcKeyFactory, NST_KEY, NstSvcViewStorage, NstViewService) {
     var vm = this;
+    var eventReferences = [];
+
     vm.previewSetting = {};
     vm.nightMode = false;
 
@@ -45,13 +47,13 @@
      * Updates preview settings in Cyrus client storage
      *
      */
-    $scope.$watch(function(){
+    eventReferences.push($scope.$watch(function(){
       return vm.nightMode;
     }, function(val){
       NstViewService.setTheme(val).then(function () {
         NstViewService.applyTheme();
       });
-    })
+    }));
     /**
      * Updates preview settings in Cyrus client storage
      *
@@ -60,6 +62,13 @@
       NstSvcKeyFactory.set(NST_KEY.WEBAPP_SETTING_DOCUMENT_PREVIEW, JSON.stringify(vm.previewSetting));
     }
 
+    $scope.$on('$destroy', function () {
+      _.forEach(eventReferences, function (canceler) {
+        if (_.isFunction(canceler)) {
+          canceler();
+        }
+      });
+    });
 
   }
 })();

@@ -4,6 +4,8 @@ task-card {
   display: flex;
   max-width: calc(720px - 64px) !important;
   padding-bottom: 8px;
+  margin-left: auto;
+  margin-right: auto;
   .task-card {
     height: 48px;
     display: flex;

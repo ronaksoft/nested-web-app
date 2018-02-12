@@ -16,6 +16,7 @@
 
   function TaskAssigneeController($scope, _, NstSvcAuth, $timeout) {
     var vm = this;
+    var eventReferences = [];
 
     vm.user = NstSvcAuth.user;
     vm.assigneeInput = '';
@@ -139,13 +140,13 @@
       vm.mentionAssigneesData = [];
     }
 
-    $scope.$watch(function () {
+    eventReferences.push($scope.$watch(function () {
       return vm.assigneesData;
     }, function (newVal) {
       if (newVal.hasOwnProperty('init') && newVal.init === true) {
         initData(newVal.data);
       }
-    });
+    }));
 
     function initData(users) {
       vm.assignees = _.map(users, function (user) {
@@ -154,5 +155,13 @@
       vm.assigneesData = users.slice(0);
       vm.mentionAssigneesData = users.slice(0);
     }
+
+    $scope.$on('$destroy', function () {
+      _.forEach(eventReferences, function (canceler) {
+        if (_.isFunction(canceler)) {
+          canceler();
+        }
+      });
+    });
   }
 })();

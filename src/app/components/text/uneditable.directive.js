@@ -5,23 +5,23 @@
     .module('ronak.nested.web.components.text')
     .directive('uneditable', uneditable);
 
-  function uneditable($timeout) {
+  function uneditable($timeout, _) {
     return {
       restrict: 'A',
       require: 'ngModel',
       link: function (scope, element, attrs, ngModel) {
-
+        var eventReferences = [];
         $timeout(init, 100);
 
         function init() {
           if (attrs.uneditable !== 'true') {
             return
           }
-          scope.$watch(function () {
+          eventReferences.push(scope.$watch(function () {
             return ngModel.$viewValue || $(element[0]).val()
           }, function (v) {
             if (angular.isDefined(v)) return start(v);
-          });
+          }));
 
           var haveNext = false;
 
@@ -61,6 +61,14 @@
             element.after(newSpan);
           }
         }
+
+        scope.$on('$destroy', function () {
+          _.forEach(eventReferences, function (canceler) {
+            if (_.isFunction(canceler)) {
+              canceler();
+            }
+          });
+        });
       }
     };
   }

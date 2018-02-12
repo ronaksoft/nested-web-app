@@ -14,6 +14,7 @@
         value : '=selectedValue'
       },
       link: function (scope ,element, attrs) {
+        var eventReferences = [];
         scope.validationEnabled = _.has(attrs, "validationEnabled");
         var momentValue = moment(scope.value, "YYYY-MM-DD");
         if (scope.value && momentValue.isValid()) {
@@ -64,11 +65,11 @@
           }
         }, 300));
 
-        scope.$watch('year', _.debounce(function(newValue) {
+        eventReferences.push(scope.$watch('year', _.debounce(function(newValue) {
           if (newValue) {
             scope.months = createMonthsList(newValue, scope.min, scope.max);
           }
-        }, 300));
+        }, 300)));
 
 
         function setValue(year, month, day) {
@@ -83,6 +84,11 @@
         scope.$on('$destroy', function () {
           allSelectWatch();
           yearMonthWatcher();
+          _.forEach(eventReferences, function (canceler) {
+            if (_.isFunction(canceler)) {
+              canceler();
+            }
+          });
         });
       }
     };

@@ -44,11 +44,11 @@
     vm.grandSelectable = true;
     vm.subSelectable = true;
 
-    $scope.$watch(function () {
+    eventReferences.push($scope.$watch(function () {
       return vm.placesSetting;
     }, function () {
       showLoading();
-    }, true);
+    }, true));
 
     vm.sortUpdateHandler = sortUpdateHandler;
 

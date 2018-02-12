@@ -619,6 +619,7 @@
       promise.then(function (posts) {
         vm.reachedTheEnd = posts.length < settings.limit;
         vm.noMessages = vm.messages.length === 0 && posts.length === 0;
+        checkHeavyPerformance();
       }).catch(function () {
         vm.error = true;
       }).finally(function () {
@@ -683,7 +684,7 @@
     function initPinnedPost() {
       if (vm.pinnedPosts.length > 0) {
         NstSvcPostFactory.getMany(vm.pinnedPosts).then(function (posts) {
-          posts = _.map(posts, function(post) {
+          posts = _.map(posts, function (post) {
             return NstSvcPostFactory.parsePost(post);
           });
           var newItems = _.differenceBy(posts.resolves, vm.messages, 'id');
@@ -785,6 +786,63 @@
         SvcScrollSaver.restore($location.$$url)
       }
     }
+
+    var checkHeavyPerformanceEnable = false;
+    var postRang = 20;
+
+    eventReferences.push($rootScope.$on('post-scroll-to-top', function () {
+      for (var i = 0; i < postRang / 2; i++) {
+        vm.messages[i].visible = true;
+      }
+    }));
+
+    function checkHeavyPerformance() {
+      if (!checkHeavyPerformanceEnable && vm.messages.length > 50) {
+        checkHeavyPerformanceEnable = true;
+        eventReferences.push($scope.$watch(function () {
+          return $rootScope.inViewPost;
+        }, function (item) {
+          hideOutboundPost(item);
+        }));
+      }
+    }
+
+    function hideOutboundPost(item) {
+      var index = _.findIndex(vm.messages, {id: item.id});
+      var bottomBound;
+      var topBound;
+      bottomBound = index - (postRang / 2);
+      if (bottomBound < 0) {
+        bottomBound = 0;
+      }
+      topBound = index + (postRang / 2);
+      if (topBound > vm.messages.length - 1) {
+        topBound = vm.messages.length - 1;
+      }
+      for (var i = 0; i < bottomBound; i++) {
+        SvcCardCtrlAffix.remove(vm.messages[i].id);
+        vm.messages[i].visible = false;
+      }
+      for (var i = topBound + 1; i < vm.messages.length; i++) {
+        SvcCardCtrlAffix.remove(vm.messages[i].id);
+        vm.messages[i].visible = false;
+      }
+      for (var i = bottomBound; i < topBound; i++) {
+        vm.messages[i].visible = true;
+      }
+    }
+
+    // $timeout(function () {
+    //   SvcCardCtrlAffix.remove(vm.messages[1].id);
+    //   SvcCardCtrlAffix.remove(vm.messages[2].id);
+    //   vm.messages[1].visible = false;
+    //   vm.messages[2].visible = false;
+    //
+    //   // $timeout(function () {
+    //   //   vm.messages[1].visible = true;
+    //   //   vm.messages[2].visible = true;
+    //   // }, 3000);
+    // }, 3000);
 
     $scope.$on('$destroy', function () {
       saveScroll();

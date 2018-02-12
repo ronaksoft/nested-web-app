@@ -6,11 +6,13 @@
     .directive('resizeHeightAnimation', resizeHeight);
 
   /** @ngInject */
-  function resizeHeight() {
+  function resizeHeight(_) {
     return {
       restrict: 'A',
       link: function (scope, $el, att) {
-        scope.$watch(function () {
+        var eventReferences = [];
+
+        eventReferences.push(scope.$watch(function () {
           return att.resizeHeightAnimation
         }, function (v) {
           if (v != 'true') {
@@ -18,8 +20,15 @@
           } else {
             $el.slideToggle();
           }
+        }));
 
-        })
+        scope.$on('$destroy', function () {
+          _.forEach(eventReferences, function (canceler) {
+            if (_.isFunction(canceler)) {
+              canceler();
+            }
+          });
+        });
 
       }
     };

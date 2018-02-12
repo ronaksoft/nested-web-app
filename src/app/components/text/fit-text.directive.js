@@ -1,14 +1,15 @@
-(function() {
+(function () {
   'use strict';
 
   angular
     .module('ronak.nested.web.components')
     .directive('fitText', fitText);
 
-  function fitText() {
+  function fitText(_) {
     return {
       restrict: 'A',
-      link: function (scope ,$element) {
+      link: function (scope, $element) {
+        var eventReferences = [];
 
         function resizer() {
           var $quote = $element;
@@ -26,15 +27,19 @@
           }
         }
 
-        scope.$watch(function () {
-
+        eventReferences.push(scope.$watch(function () {
           return $element.text().length
-        },function () {
+        }, function () {
           resizer()
-        })
+        }));
 
-
-
+        scope.$on('$destroy', function () {
+          _.forEach(eventReferences, function (canceler) {
+            if (_.isFunction(canceler)) {
+              canceler();
+            }
+          });
+        });
       }
     };
   }

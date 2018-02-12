@@ -415,7 +415,7 @@
 
 </div>
 
-<div class="card-control" post-affix-injector ng-if="!ctlPostCard.FIT && !ctlPostCard.chainView">
+<div class="card-control" post-affix-injector post-ref="ctlPostCard.post" ng-if="!ctlPostCard.FIT && !ctlPostCard.chainView">
   <svg class="_16svg pendfill" ng-click="ctlPostCard.markAsRead();ctlPostCard.expand();" ng-if="!ctlPostCard.post.read">
     <use xlink:href="/assets/icons/nst-icn16.svg#circle"></use>
   </svg>

@@ -41,7 +41,7 @@
       init = true;
     }, 1000);
 
-    $scope.$watch(function () {
+    eventReferences.push($scope.$watch(function () {
       return vm.onlyComments;
     }, function () {
       reset();
@@ -50,7 +50,7 @@
       if (init) {
         getActivities()
       }
-    });
+    }));
 
     function reset() {
       vm.setting = {
