@@ -377,6 +377,8 @@
             vm.firstTimeLoading = false;
           }
         }, 100);
+      } else {
+        vm.firstTimeLoading = false;
       }
     }
 
