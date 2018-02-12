@@ -14,11 +14,9 @@
         scope.scrollEnd = scrollFn;
         var timer1 = null;
         scope.$on('$includeContentLoaded', function() {
-          console.log('$includeContentLoaded');
           scrollEndDeb();
         });
         scope.$on('scroll-handler', function() {
-          console.log('scroll-handler');
           scrollEndDeb();
         });
         // console.log('00');
