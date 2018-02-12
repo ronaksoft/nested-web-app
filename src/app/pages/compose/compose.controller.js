@@ -502,22 +502,7 @@
             vm.search.results.push(tag);
           });
 
-          vm.search.results = _.chain(vm.search.results).uniqBy('id').value();
-
-          if (!_.some(vm.search.results, {
-              'id': query
-            }) && query && query.length > 0) {
-            var initPlace = new NstVmSelectTag({
-              id: query,
-              name: query
-            });
-            vm.search.results.unshift(initPlace);
-          } else if (query && query.length > 0) {
-            var index = _.findIndex(vm.search.results, { 'id': query });
-            var it = vm.search.results[index];
-            vm.search.results.splice(index, 1);
-            vm.search.results.unshift(it);
-          }
+          // vm.search.results = _.chain(vm.search.results).uniqBy('id').value();
 
         }).catch(function () {
           vm.search.results = [];

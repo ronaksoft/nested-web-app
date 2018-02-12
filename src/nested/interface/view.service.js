@@ -201,13 +201,13 @@
       if ($rootScope.cardCtrls.length === 0) {
         return
       }
-      var e = $rootScope.cardCtrls[obj.affixView.index]
+      var e = $rootScope.cardCtrls[obj.affixView.index];
       if (e) {
         var thisElement = $('#post-card-' + e.id).parent();
         if (!thisElement.length) {
           return;
         }
-        var thisElementPostCardOffTop = thisElement.offset().top
+        var thisElementPostCardOffTop = thisElement.offset().top;
         var thisElementPostCardheight = thisElement.children().first().height()
       }
       if (!e.fixed &&
@@ -215,7 +215,7 @@
         Ypos + MobTopOff > thisElementPostCardOffTop - (48 + navH) &&
         Ypos < thisElementPostCardheight + thisElementPostCardOffTop - (104 + navH)
       ) {
-        e.fixed = true
+        e.fixed = true;
         e.el.css({'position': 'fixed', 'top': 72 + navH + MobTopOff + 'px'})
         if ($rootScope._direction !== 'rtl') e.el.css('left', e.leftOff + 'px')
         if ($rootScope._direction === 'rtl') e.el.css('right', e.leftOff + 'px')
@@ -223,13 +223,13 @@
         e.fixed &&
         Ypos + MobTopOff < thisElementPostCardOffTop - (48 + navH)
       ) {
-        e.fixed = false
+        e.fixed = false;
         e.el.css({'position': '', 'top': '', 'left': '', 'right': ''});
       } else if (
         e.fixed &&
         Ypos > thisElementPostCardheight + thisElementPostCardOffTop - (104 + navH)
       ) {
-        e.fixed = false
+        e.fixed = false;
         e.el.css({'position': 'absolute', 'top': thisElementPostCardheight - 32 + 'px', 'left': '', 'right': ''});
       }
     };

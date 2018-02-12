@@ -791,7 +791,7 @@
     var postRang = 20;
 
     eventReferences.push($rootScope.$on('post-scroll-to-top', function () {
-      for (var i = 0; i < postRang / 2; i++) {
+      for (var i = 0; i < postRang / 2 || i < vm.messages.length; i++) {
         vm.messages[i].visible = true;
       }
     }));
