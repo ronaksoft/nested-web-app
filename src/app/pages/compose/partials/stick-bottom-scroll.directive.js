@@ -10,19 +10,21 @@
       restrict: 'A',
       link: function (scope, el) {
         var constant = 200;
-        var scrollEndDeb = _.debounce(scrollFn, 128)
+        var scrollEndDeb = _.debounce(scrollFn, 128);
         scope.scrollEnd = scrollFn;
         var timer1 = null;
         scope.$on('$includeContentLoaded', function() {
+          console.log('$includeContentLoaded');
           scrollEndDeb();
         });
         scope.$on('scroll-handler', function() {
+          console.log('scroll-handler');
           scrollEndDeb();
         });
         // console.log('00');
         function scrollFn(forced) {
           if (window.nativeScroll) {
-            if (el[0].clientHeight + el[0].scrollTop > el[0].scrollHeight - constant || forced) {
+            if (el[0].clientHeight + el[0].scrollTop < el[0].scrollHeight - constant || forced) {
               // console.log('scroll end');
               // var tagName = document.activeElement.tagName.toLowerCase();
               // console.log(tagName);
