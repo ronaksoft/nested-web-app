@@ -9,6 +9,7 @@
                                   NST_TASK_EVENT_ACTION, NstSvcAuth, NstSvcTaskFactory, NstSvcTranslation,
                                   toastr, NstTaskActivity, NstSvcUserFactory, NstSvcDate, NstSvcTaskUtility) {
     var vm = this;
+    $scope.fullFilled = true;
     var eventReferences = [];
     var latestActivityTimestamp = -1;
     vm.setting = {};
@@ -72,7 +73,6 @@
     }
 
     function getActivities() {
-      console.log($scope.fullFilled)
       if (vm.isLoading || !vm.haveMore) {
         return;
       }
@@ -92,7 +92,7 @@
           if (!$scope.fullFilled) {
             getActivities();
           }
-        }, 528)
+        }, 1024)
       });
     }
 
