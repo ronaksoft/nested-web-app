@@ -139,6 +139,7 @@
       <div class="_fw" data-ng-repeat="msg in ctrl.messages track by msg.id" ng-style="{height: (msg.visible? 'auto': msg.affix.fullH + 'px')}">
         <post-card class="_fw"  post="msg" scroll-to-view id="{{::msg.id}}" ng-if="!msg.tempHide && msg.visible"
                    postinplace="ctrl.currentPlaceId" has-remove-access="ctrl.placeRemoveAccess" add-on="false" comment-board="true" first-interactive-time="ctrl.FIT"></post-card>
+        <div id="{{'post-card-' + msg.id}}" class="_fh _fw" ng-if="!msg.visible"></div>
       </div>
     </div>
 

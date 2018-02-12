@@ -166,7 +166,7 @@
     }
 
     /**
-     * finds next and previoust post card from array
+     * finds next and previous post card from array
      */
     obj.check = function (Ypos) {
       if (Ypos + 200 < obj.oldNumbers || Ypos - 200 > obj.oldNumbers) {

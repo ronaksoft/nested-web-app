@@ -788,12 +788,13 @@
     }
 
     var checkHeavyPerformanceEnable = false;
+    var postRang = 20;
 
-    eventReferences.push($rootScope.$on('post-scroll-to-top'), function () {
-      for (var i = 0; i < vm.messages.length; i++) {
+    eventReferences.push($rootScope.$on('post-scroll-to-top', function () {
+      for (var i = 0; i < postRang / 2; i++) {
         vm.messages[i].visible = true;
       }
-    });
+    }));
 
     function checkHeavyPerformance() {
       if (!checkHeavyPerformanceEnable && vm.messages.length > 50) {
@@ -805,8 +806,6 @@
         }));
       }
     }
-
-    var postRang = 20;
 
     function hideOutboundPost(item) {
       var index = _.findIndex(vm.messages, {id: item.id});
