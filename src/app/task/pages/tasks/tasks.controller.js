@@ -384,8 +384,7 @@
       getTasks().then(function (tasks) {
         mergeTask(tasks);
         // vm.firstTimeLoading = false;
-        vm.taskSetting.skip = vm.tasks.length;
-
+        vm.taskSetting.skip += vm.taskSetting.limit;
         // to full fill page at first loading
         fillThePage();
       });
@@ -398,7 +397,7 @@
       var deferred = $q.defer();
       getTasks().then(function (tasks) {
         appendTasks(tasks);
-        vm.taskSetting.skip = vm.tasks.length;
+        vm.taskSetting.skip += vm.taskSetting.limit;
         deferred.resolve();
       }).catch(function () {
         deferred.reject();
