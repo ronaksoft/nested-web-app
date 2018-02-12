@@ -22,12 +22,16 @@
         }, 1);
         
         scope.$on('$includeContentLoaded', function() {
-          handleScrollDeb()
+          handleScrollDeb();
+        });
+        scope.$on('scroll-handler', function() {
+          handleScrollDeb();
         });
         var handleScrollThr = _.throttle(handleScroll, 512)
         var handleScrollDeb = _.debounce(handleScroll, 512)
 
         function handleScroll() {
+          scope.fullFilled = el[0].scrollTop > 0 || el[0].scrollHeight > el.height();
           if (window.nativeScroll) {
             if (el[0].scrollTop === 0 && scope.isScrolled) {
               scope.loadMore();

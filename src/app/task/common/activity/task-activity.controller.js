@@ -33,9 +33,7 @@
       maxScrollY : 0
     };
 
-    (function () {
-      getActivities();
-    })();
+    (getActivities)();
 
     var init = false;
     $timeout(function () {
@@ -74,6 +72,7 @@
     }
 
     function getActivities() {
+      console.log($scope.fullFilled)
       if (vm.isLoading || !vm.haveMore) {
         return;
       }
@@ -88,6 +87,12 @@
         vm.activityCount = vm.activities.length;
         vm.isLoading = false;
         vm.firstLoading = false;
+        $scope.$broadcast('scroll-handler', {});
+        $timeout(function(){
+          if (!$scope.fullFilled) {
+            getActivities();
+          }
+        }, 528)
       });
     }
 

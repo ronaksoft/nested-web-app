@@ -16,6 +16,9 @@
         scope.$on('$includeContentLoaded', function() {
           scrollEndDeb();
         });
+        scope.$on('scroll-handler', function() {
+          scrollEndDeb();
+        });
         // console.log('00');
         function scrollFn(forced) {
           if (window.nativeScroll) {
