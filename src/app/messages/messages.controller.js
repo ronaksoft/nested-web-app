@@ -776,9 +776,9 @@
     }
 
     function saveScroll() {
-      if ($state.current.options && $state.current.options.alias === 'savescroll') {
-        SvcScrollSaver.store();
-      }
+      // if ($state.current.options && $state.current.options.alias === 'savescroll') {
+      SvcScrollSaver.store();
+      // }
     }
 
     function restoreScroll() {
