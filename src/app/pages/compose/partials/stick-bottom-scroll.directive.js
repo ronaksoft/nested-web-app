@@ -11,18 +11,13 @@
       link: function (scope, el) {
         var constant = 200;
         var scrollEndDeb = _.debounce(scrollFn, 128);
-        scope.scrollEnd = scrollFn;
+        scope.scrollEnd = scrollEndDeb;
         var timer1 = null;
-        scope.$on('$includeContentLoaded', function() {
-          console.log('$includeContentLoaded');
-          scrollEndDeb();
-        });
         scope.$on('scroll-handler', function() {
-          console.log('scroll-handler');
-          scrollEndDeb();
+          scrollEndDeb(false, scope.scrollBotDis);
         });
         // console.log('00');
-        function scrollFn(forced) {
+        function scrollFn(forced, scrollBotDis) {
           if (window.nativeScroll) {
             if (el[0].clientHeight + el[0].scrollTop < el[0].scrollHeight - constant || forced) {
               // console.log('scroll end');
@@ -30,32 +25,39 @@
               // console.log(tagName);
               // console.log( $('.focus-handler').offset().top, el.offset().top);
               // el[0].scrollTop = $('.focus-handler').offset().top + 200;
-              el[0].scrollTop = el[0].scrollHeight;
+              el[0].scrollTop = scrollBotDis
+              ? el[0].scrollHeight - scrollBotDis - el.height()
+              : el[0].scrollHeight;
               // if(tagName === 'input' || tagName === 'textarea'){
               //   $('.focus-handler').blur().focus();
               //   $(document.activeElement).blur().focus();
               // } else {
               //   $('.focus-handler').blur().focus();
               // }
-              timer1 = $timeout(function (){
-                // console.log(el[0].clientHeight , el[0].scrollTop , el[0].scrollHeight, el[0].clientHeight + el[0].scrollTop !== el[0].scrollHeigh);
-                if(el[0].clientHeight + el[0].scrollTop !== el[0].scrollHeight) {
-                  scrollFn(forced)
-                }
-              },256)
+
+              if (forced && !scrollBotDis) {
+                timer1 = $timeout(function (){
+                  if(el[0].clientHeight + el[0].scrollTop !== el[0].scrollHeight) {
+                    scrollFn(forced)
+                  }
+                },256)
+              }
             }
-            // scope.isScrolled = scope.scrollInstance.y > 0;
           } else {
-            if (scope.scrollInstance.maxScrollY + constant > scope.scrollInstance.y || forced) {
-              scope.scrollInstance.refresh();
+            scope.scrollInstance.refresh();
+            if (scrollBotDis) {
+              scope.scrollInstance.scrollTo(0, scope.scrollInstance.maxScrollY - scrollBotDis);
+            } else {
               scope.scrollInstance.scrollToElement(document.querySelector('.focus-handler'));
+            }
+            if (forced && !scrollBotDis) {
               timer1 = $timeout(function (){
                 if(scope.scrollInstance.y !== scope.scrollInstance.maxScrollY) {
                   scrollFn(forced)
                 }
               }, 256)
             }
-            // scope.isScrolled = scope.scrollInstance.y < 0;
+            // if (scope.scrollInstance.maxScrollY + constant > scope.scrollInstance.y || forced) {  }
           }
 
         }

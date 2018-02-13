@@ -20,10 +20,7 @@
           handleScrollThr()
 
         }, 1);
-        
-        scope.$on('$includeContentLoaded', function() {
-          handleScrollDeb();
-        });
+
         scope.$on('scroll-handler', function() {
           handleScrollDeb();
         });
@@ -39,6 +36,7 @@
             } else if(el[0].scrollTop !== 0 && !scope.isScrolled) {
               scope.isScrolled = true;
             }
+            scope.scrollBotDis = el[0].scrollHeight - el[0].scrollTop - el.height();
           } else {
             if (scope.scrollInstance.y === 0 && scope.isScrolled) {
               scope.loadMore();
@@ -48,6 +46,7 @@
                 scope.isScrolled = true;
               });
             }
+            scope.scrollBotDis = scope.scrollInstance.maxScrollY - scope.scrollInstance.y;
           }
         }
 

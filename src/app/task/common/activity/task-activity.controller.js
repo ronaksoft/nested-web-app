@@ -16,6 +16,7 @@
     $scope.loadMore = getActivities;
     vm.isLoading = false;
     vm.haveMore = true;
+    vm.initiateScroll = true;
 
     reset();
 
@@ -26,7 +27,7 @@
     vm.user = undefined;
     NstSvcTaskUtility.getValidUser(vm, NstSvcAuth);
 
-    $scope.scrollEnd = function() {}; // will Assigned by directive stickBottomScroll
+    $scope.scrollEnd = function() {}; // will be Overrided by directive stickBottomScroll
     vm.activityTypes = NST_TASK_EVENT_ACTION;
 
     vm.activities = [];
