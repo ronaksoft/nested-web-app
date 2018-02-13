@@ -90,6 +90,9 @@ html[theme="dark"] {
   .post-card, .post-card-shadow, .task-card {
     box-shadow: 0 8px 16px $box-shadow-color !important;
   }
+  .edit-task {
+    border: 1px solid $contrast-bg-color;
+  }
   // injector
   // endinjector
   .activity-recent {

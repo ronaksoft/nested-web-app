@@ -315,3 +315,10 @@
         color: $color-sense;
     }
 }
+body[dir="rtl"] {
+    .edit-task {
+        .task-comments {
+            border-radius: 6px 0 0 6px;
+        }
+    }
+}
