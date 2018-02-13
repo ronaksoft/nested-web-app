@@ -11,9 +11,9 @@
                           comment-remove="ctrl.removeCommentRef" is-task="true"
                           is-creator="ctrl.isCreator" retry-send-comment="ctrl.retrySendComment"></nst-comment-body>
       </div>
-      <input type="text" ng-if="$last" class="focus-handler">
-      <!-- <input type="text" ng-if="$last" class="focus-handler"
-      ng-init="scrollEnd(ctrl.activities.length <= ctrl.setting.limit)"> -->
+      <!-- <input type="text" ng-if="$last" class="focus-handler"> -->
+      <input type="text" ng-if="$last" class="focus-handler"
+        ng-init="scrollEnd(ctrl.activities.length <= ctrl.setting.limit)">
     </div>
   </div>
 </div>
