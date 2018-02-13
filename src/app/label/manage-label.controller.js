@@ -188,7 +188,7 @@
       }).result.then(function () {
         callRemoveLabelPromises().then(function () {
           vm.selectedItems = [];
-          toastr.success(NstSvcTranslation.get("Selected labels removed successfully."));
+          toastr.success(NstSvcTranslation.get('Selected labels removed successfully.'));
         });
       });
     }
@@ -225,10 +225,10 @@
           removeRequest(id);
           restoreDefault();
           searchLabel();
-          toastr.success(NstSvcTranslation.get("Request declined successfully."));
+          toastr.success(NstSvcTranslation.get('Request declined successfully.'));
           $rootScope.$emit('label-request-status-changed');
         }).catch(function () {
-          toastr.error(NstSvcTranslation.get("Something went wrong."));
+          toastr.error(NstSvcTranslation.get('Something went wrong.'));
         });
       });
     }
@@ -238,10 +238,10 @@
         removeRequest(id);
         restoreDefault();
         searchLabel();
-        toastr.success(NstSvcTranslation.get("Request accepted successfully."));
+        toastr.success(NstSvcTranslation.get('Request accepted successfully.'));
         $rootScope.$emit('label-request-status-changed');
       }).catch(function () {
-        toastr.error(NstSvcTranslation.get("Something went wrong."));
+        toastr.error(NstSvcTranslation.get('Something went wrong.'));
       });
     }
 
@@ -264,9 +264,9 @@
       }).result.then(function () {
         NstSvcLabelFactory.cancelRequest(id).then(function () {
           removeRequest(id);
-          toastr.success(NstSvcTranslation.get("Your request has been withdrawn successfully."));
+          toastr.success(NstSvcTranslation.get('Your request has been withdrawn successfully.'));
         }).catch(function () {
-          toastr.error(NstSvcTranslation.get("Something went wrong."));
+          toastr.error(NstSvcTranslation.get('Something went wrong.'));
         });
       });
     }
