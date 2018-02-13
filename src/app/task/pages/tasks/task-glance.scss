@@ -127,6 +127,14 @@
             }
         }
     }
+    .failed {
+        .list-li-body {
+            > a:first-of-type {
+                text-decoration: line-through;
+                opacity: 0.64;
+            }
+        }
+    }
     .upcoming {
         .list-li-icon {
             transform: translateY(-10px);
