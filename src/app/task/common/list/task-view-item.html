@@ -2,6 +2,7 @@
     'overdue' : task.status === ctrl.statuses.OVERDUE,
     'completed' : task.status === ctrl.statuses.COMPLETED,
     'rejected' : task.status === ctrl.statuses.REJECTED,
+    'failed' : task.status === ctrl.statuses.FAILED,
     'candidate' : task.status === ctrl.statuses.NO_ASSIGNED && task.candidates.length > 0}"
     ng-click="ctrl.editTask(task.id)">
     <div class="list-li-icon">
