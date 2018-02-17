@@ -220,8 +220,6 @@ function NstSvcNotification($q, $window, _, $state, $rootScope,
             case NST_NOTIFICATION_TYPE.PROMOTED:
               service.broadcastOpenPlace(body.payload.place_id, body.payload.notification_id);
               break;
-            case NST_NOTIFICATION_TYPE.INVITE:
-              break;
           }
         }
         if (body.payload.type === "a") {
@@ -264,20 +262,6 @@ function NstSvcNotification($q, $window, _, $state, $rootScope,
             body: notificationObject.comment.body
           }
         };
-      case NST_NOTIFICATION_TYPE.INVITE :
-        return {
-          title: NstUtility.string.format(
-            NstSvcTranslation.get("Invitation to {0}"),
-            notificationObject.place.name),
-          onclick: function () {
-            // $state.go('app.message', {postId: notificationObject.postId});
-          },
-          options: {
-            body: NstUtility.string.format(
-              NstSvcTranslation.get("by {0}"),
-              notificationObject.inviter.fullName)
-          }
-        }
     }
   }
 

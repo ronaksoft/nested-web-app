@@ -5,8 +5,7 @@
         <use xlink:href="/assets/icons/nst-icn24.svg#xcross"></use>
       </svg>
     </div>
-    <translate data-ng-if="!addMemberCtrl.isGrandPlace">Add Members</translate>
-    <translate data-ng-if="addMemberCtrl.isGrandPlace">Invite new Members</translate>
+    <translate >Add Members</translate>
   </h4>
   <suggest-picker config="addMemberCtrl.suggestPickerConfig" selecteds="addMemberCtrl.selectedUsers" class="add-user-modal-input"
     suggests="addMemberCtrl.users" keyword='addMemberCtrl.query' request-more="addMemberCtrl.searchMore"></suggest-picker>
@@ -16,9 +15,7 @@
     </div>
   </div>
   <div class="m-footer _df _fw">
-    <input type="button" class="butn butn-green" data-ng-if="addMemberCtrl.isGrandPlace" ng-disabled="addMemberCtrl.selectedUsers.length === 0"
-      translate-attrs="value" value="Invite" ng-click="addMemberCtrl.invite();" id="invite" />
-    <input type="button" class="butn butn-green" data-ng-if="!addMemberCtrl.isGrandPlace" ng-disabled="addMemberCtrl.selectedUsers.length === 0"
+    <input type="button" class="butn butn-green" ng-disabled="addMemberCtrl.selectedUsers.length === 0"
       translate-attrs="value" value="Add" ng-click="addMemberCtrl.add();" id="add" />
   </div>
 </div>

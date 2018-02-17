@@ -587,29 +587,6 @@
 
     };
 
-    PlaceFactory.prototype.inviteUser = function (place, users) {
-      var deferred = $q.defer();
-      var userIds = _.isArray(users)
-        ? _.join(_.map(users, 'id'), ',')
-        : users;
-
-      NstSvcServer.request('place/invite_member', {
-        place_id: place.id,
-        member_id: userIds
-      }).then(function (result) {
-        var notAddedIds = result.invalid_ids || [];
-        var addedUsers = _.reject(users, function (user) {
-          return _.includes(notAddedIds, user.id);
-        });
-        deferred.resolve({
-          addedUsers: addedUsers,
-          rejectedUsers: _.differenceBy(users, addedUsers, 'id')
-        });
-      }).catch(deferred.reject);
-
-      return deferred.promise;
-
-    }
 
     PlaceFactory.prototype.removeMember = function (placeId, memberId) {
       var factory = this;

@@ -8,7 +8,7 @@
   /** @ngInject */
   function PlaceMemberItemController($scope, $log, toastr,
     NstSvcModal, NstUtility,
-    NstSvcPlaceFactory, NstSvcInvitationFactory, NstSvcTranslation, NstSvcLogger, NstSvcAuth,
+    NstSvcPlaceFactory, NstSvcTranslation, NstSvcLogger, NstSvcAuth,
     NST_SRV_ERROR) {
     var vm = this;
 
@@ -108,7 +108,7 @@
     }
 
     function removeMember() {
-      return vm.member.isPending() ? NstSvcInvitationFactory.revoke(vm.member.InvitationId) : NstSvcPlaceFactory.removeMember(vm.place.id, vm.member.id);
+      return NstSvcPlaceFactory.removeMember(vm.place.id, vm.member.id);
     }
   }
 })();

@@ -28,7 +28,6 @@
    * @param {any} NST_PLACE_MEMBER_TYPE
    * @param {any} NST_SRV_ERROR
    * @param {any} NstSvcPlaceFactory
-   * @param {any} NstSvcInvitationFactory
    * @param {any} NstVmMemberItem
    * @param {any} NstSvcAuth
    * @param {any} NstSvcModal
@@ -38,7 +37,7 @@
    */
   function PlaceMemberSettingsController( $q, $uibModal, toastr, $scope, $rootScope,
                                          NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_SRV_ERROR,
-                                         NstSvcPlaceFactory, NstSvcInvitationFactory, NstVmMemberItem,
+                                         NstSvcPlaceFactory, NstVmMemberItem,
                                          NstSvcAuth, NstSvcModal,
                                          NstUtility, NstSvcTranslation, NstSvcLogger, _) {
 
@@ -219,33 +218,6 @@
         deferred.resolve({
           keyHolders: []
         });
-      }
-
-      return deferred.promise;
-    }
-
-    /**
-     * Retrieves the place pending invitations with the specified limit and skip. The function returns an
-     * empty array if the user does not have the required permissions
-     *
-     * @param {any} placeId
-     * @param {any} limit
-     * @param {any} skip
-     * @param {any} access
-     * @returns
-     */
-    function getPendings(placeId, limit, skip, access) {
-      var deferred = $q.defer();
-      if (limit > 0 && access) {
-        NstSvcInvitationFactory.getPlacePendingInvitations(placeId, limit, skip).then(function (invitations) {
-          var pendings = _.map(invitations, function (item) {
-            return new NstVmMemberItem(item, 'pending_key_holder');
-          });
-
-          deferred.resolve(pendings);
-        }).catch(deferred.reject);
-      } else {
-        deferred.resolve([]);
       }
 
       return deferred.promise;
@@ -556,13 +528,13 @@
     }
 
     /**
-     * Removes the member or Revokes the invitation based on the given item type
+     * Removes the member
      *
      * @param {any} member
      * @returns
      */
     function removeMember(member) {
-      return member.isPending() ? NstSvcInvitationFactory.revoke(member.InvitationId) : NstSvcPlaceFactory.removeMember(vm.place.id, member.id);
+      return NstSvcPlaceFactory.removeMember(vm.place.id, member.id)
     }
 
     // Listens to member-removed event and removes the given member from the list

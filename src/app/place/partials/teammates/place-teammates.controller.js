@@ -67,23 +67,6 @@
       pendingsCount: 0
     };
 
-    // Listens to notifications of INVITE_RESPOND type and Adds the user who has joined the place
-    // by accepting the invitation
-    eventReferences.push($rootScope.$on(NST_NOTIFICATION_TYPE.INVITE_RESPOND, function (event, data) {
-      if (vm.placeId === data.invitation.place.id) {
-        NstSvcPlaceFactory.get(vm.placeId, true).then(function (place) {
-          vm.place = place;
-        });
-
-        if (vm.teammates.length < vm.teammatesSettings.limit) {
-          NstSvcUserFactory.get(data.invitation.invitee.id).then(function (user) {
-            vm.teammates.push(new NstVmMemberItem(user, NST_PLACE_MEMBER_TYPE.KEY_HOLDER))
-          });
-
-          addedMembersTracker.track(data.invitation.invitee.id);
-        }
-      }
-    }));
 
     // Listens to 'member-removed' event and reloads the place members
     eventReferences.push($rootScope.$on('member-removed', function (event, data) {

@@ -78,12 +78,6 @@
         function insertItems() {
           placesArray = [];
 
-          if (scope.ctlSidebar.invitations) {
-            for (var i = 0; i < scope.ctlSidebar.invitations.length; i++) {
-              placesArray.push(0);
-            }
-          }
-
           for (i = 0; i < scope.ctlSidebar.places.length; i++) {
             if (scope.ctlSidebar.placesNotifCountObject[scope.ctlSidebar.places[i].id]) {
               placesArray.push(1);

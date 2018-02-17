@@ -211,7 +211,6 @@
      *****************************/
     vm.user = NstSvcAuth.user;
     vm.stateParams = $stateParams;
-    vm.invitation = {};
     var absolutePlaces = [];
     vm.places = [];
     vm.forbiddenAddPlaces = [];

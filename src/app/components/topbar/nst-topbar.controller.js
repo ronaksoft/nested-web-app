@@ -796,11 +796,7 @@
       }
     }
 
-    /**
-     * @function getInvitations
-     * Gets invitations
-     * @returns {Promise}
-     */
+
     function loadNotificationsCount() {
       NstSvcNotificationFactory.getNotificationsCount().then(function (count) {
         vm.notificationsCount = count;

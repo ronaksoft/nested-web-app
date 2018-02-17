@@ -8,10 +8,10 @@
     /** @ngInject */
     function SidebarController($q, $scope, $state, $stateParams, $uibModal, $rootScope,
                                _, toastr,
-                               NST_DEFAULT, NST_AUTH_EVENT, NST_INVITATION_EVENT, NST_CONFIG, NST_KEY, deviceDetector, NST_PLACE_ACCESS, NST_SRV_ERROR,
+                               NST_DEFAULT, NST_AUTH_EVENT, NST_CONFIG, NST_KEY, deviceDetector, NST_PLACE_ACCESS, NST_SRV_ERROR,
                                NST_EVENT_ACTION, NST_USER_EVENT, NST_NOTIFICATION_EVENT, NST_SRV_EVENT, NST_NOTIFICATION_TYPE, NST_PLACE_EVENT, NST_POST_EVENT,
                                NstSvcAuth, NstSvcServer, NstSvcLogger, NstSvcNotification, NstSvcTranslation,
-                               NstSvcNotificationSync, NstSvcPlaceFactory, NstSvcInvitationFactory, NstUtility, NstSvcUserFactory, NstSvcSidebar,
+                               NstSvcNotificationSync, NstSvcPlaceFactory, NstUtility, NstSvcUserFactory, NstSvcSidebar,
                                NstSvcKeyFactory, NstSvcPostDraft, NstSvcGlobalCache) {
       var vm = this;
       var eventReferences = [];
@@ -24,7 +24,6 @@
        *****************************/
       vm.user = NstSvcAuth.user;
       vm.stateParams = $stateParams;
-      vm.invitation = {};
       vm.places = [];
       vm.onPlaceClick = onPlaceClick;
       vm.openCreatePlaceModal = openCreatePlaceModal;
@@ -67,7 +66,6 @@
         });
 
         loadCurrentUser();
-        loadInvitations();
 
         vm.hasDraft = NstSvcPostDraft.has();
       }
@@ -202,86 +200,6 @@
 
       /**
        * @function
-       * Represents the invitation prompt modal
-       * @param {any} id
-       * @param {boolean} openOtherInvitations
-       * @returns
-       */
-      vm.invitation.showModal = function (id, openOtherInvitations) {
-        NstSvcInvitationFactory.get(id).then(function (invitation) {
-          $uibModal.open({
-            animation: false,
-            size: 'sm',
-            templateUrl: 'app/components/sidebar/invitation/decide-modal.html',
-            controller: 'InvitationController',
-            controllerAs: 'ctrlInvitation',
-            resolve: {
-              argv: {
-                invitation: invitation
-              }
-            }
-          }).result.then(function (result) {
-            for (var k in vm.invitations) {
-              if (id == vm.invitations[k].id) {
-                vm.invitations.splice(k, 1);
-              }
-            }
-
-            if (result) { // Accept the Invitation
-              return NstSvcInvitationFactory.accept(id).then(function (invitation) {
-                rebuildMyPlacesTree(invitation.place.id);
-
-                if (openOtherInvitations) {
-                  var checkDisplayInvitationModal = true;
-                  vm.invitations.map(function (invite) {
-                    if (checkDisplayInvitationModal && NstSvcInvitationFactory.storeDisplayedInvitations(invite.id)) {
-                      checkDisplayInvitationModal = false;
-                      vm.invitation.showModal(invite.id, true);
-                    } else {
-                      setTimeout(function () {
-                        $state.go('app.place-messages', { placeId: invitation.place.id});
-                      }, 100);
-                    }
-                  });
-
-                }
-                else {
-                  setTimeout(function () {
-                    $state.go('app.place-messages', { placeId: invitation.place.id});
-                  }, 100);
-                }
-              });
-            } else { // Decline the Invitation
-              return NstSvcInvitationFactory.decline(id);
-            }
-            // if (openOtherInvitations) {
-            //   var checkDisplayInvitationModal = true;
-            //   vm.invitations.map(function (invite) {
-            //     if (checkDisplayInvitationModal && NstSvcInvitationFactory.storeDisplayedInvitations(invite.id)) {
-            //       checkDisplayInvitationModal = false;
-            //       vm.invitation.showModal(invite.id, true);
-            //     }
-            //   });
-            // }
-          }).catch(function (e) {
-            if ( e.code === NST_SRV_ERROR.LIMIT_REACHED) {
-              toastr.error(NstSvcTranslation.get('The Place members limit is reached'));
-            }
-            if (openOtherInvitations) {
-              var checkDisplayInvitationModal = true;
-              vm.invitations.map(function (invite) {
-                if (checkDisplayInvitationModal && NstSvcInvitationFactory.storeDisplayedInvitations(invite.id)) {
-                  checkDisplayInvitationModal = false;
-                  vm.invitation.showModal(invite.id, true);
-                }
-              });
-            }
-          });
-        });
-      };
-
-      /**
-       * @function
        * open places manager with full controll on them
        * @returns
        */
@@ -322,23 +240,6 @@
         $state.go('app.place-create', {}, {notify: false});
       }
 
-
-      function loadInvitations() {
-        NstSvcInvitationFactory.getAll().then(function (invitations) {
-          if (invitations.length > 0) {
-            vm.invitations = invitations;
-            var checkDisplayInvitationModal = true;
-            vm.invitations.map(function (invite) {
-              if (checkDisplayInvitationModal && NstSvcInvitationFactory.storeDisplayedInvitations(invite.id)) {
-                checkDisplayInvitationModal = false;
-                vm.invitation.showModal(invite.id, true);
-              }
-            });
-          }
-        }).catch(function () {
-          throw 'SIDEBAR | invitation can not init'
-        });
-      }
 
       /*****************************
        *****    Change urls   ****
@@ -402,16 +303,6 @@
       function dispatchTopbarEvent() {
         $rootScope.$emit('topbar-notification-changed');
       }
-
-      eventReferences.push($rootScope.$on(NST_INVITATION_EVENT.ADD, function () {
-        loadInvitations();
-        dispatchTopbarEvent();
-      }));
-
-      eventReferences.push($rootScope.$on(NST_INVITATION_EVENT.ACCEPT, function () {
-        loadInvitations();
-        dispatchTopbarEvent();
-      }));
 
       eventReferences.push($rootScope.$on(NST_PLACE_EVENT.ROOT_ADDED, function (e, data) {
         rebuildMyPlacesTree(data.place.id);
@@ -491,42 +382,8 @@
         loadMyPlacesUnreadPostsCount();
       }));
 
-      /**
-       * Event listener for `NST_NOTIFICATION_EVENT.OPEN_INVITATION_MODAL`
-       */
-      eventReferences.push($rootScope.$on(NST_NOTIFICATION_EVENT.OPEN_INVITATION_MODAL, function (e, data) {
-        vm.invitation.showModal(data.notificationId);
-        dispatchTopbarEvent();
-      }));
-
       eventReferences.push($rootScope.$on('places-sorting-updated', function () {
         rebuildMyPlacesTree();
-      }));
-
-      /**
-       * Event listener for `NST_NOTIFICATION_TYPE.INVITE`
-       */
-      eventReferences.push($rootScope.$on(NST_NOTIFICATION_TYPE.INVITE, function () {
-        NstSvcInvitationFactory.getAll().then(function (invitations) {
-          //FIXME:: Check last invitation
-
-          var lastInvitation = _.pullAllBy(invitations, vm.invitation, 'id')[0];
-
-
-          if (!lastInvitation) return;
-
-          NstSvcNotification.push(
-            NstUtility.string.format(
-              NstSvcTranslation.get("Invitation to {0} by {1}."),
-              lastInvitation.place.name,
-              lastInvitation.inviter.name),
-            function () {
-              vm.invitation.showModal(lastInvitation.id)
-            })
-        }).catch(function () {
-          throw 'SIDEBAR | invitation push can not init'
-        });
-        dispatchTopbarEvent();
       }));
 
       /**
@@ -535,10 +392,6 @@
       NstSvcServer.addEventListener(NST_SRV_EVENT.RECONNECT, function () {
         NstSvcLogger.debug('Retrieving mentions count right after reconnecting.');
         NstSvcLogger.debug('Retrieving the grand place unreads count right after reconnecting.');
-        NstSvcLogger.debug('Retrieving invitations right after reconnecting.');
-        NstSvcInvitationFactory.getAll().then(function (result) {
-          vm.invitations = result;
-        });
 
       });
 

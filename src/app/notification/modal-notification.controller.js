@@ -40,7 +40,7 @@
       switch (notification.type) {
         case NST_NOTIFICATION_TYPE.INVITE:
           $event.preventDefault();
-          return showInvitationModal(notification);
+          return;
         case NST_NOTIFICATION_TYPE.COMMENT:
           $event.preventDefault();
           return viewPost(notification.post.id);
@@ -75,12 +75,6 @@
           $event.preventDefault();
           return viewTask(notification.task.id);
       }
-    }
-
-    function showInvitationModal(notification) {
-      $rootScope.$broadcast(NST_NOTIFICATION_EVENT.OPEN_INVITATION_MODAL, {
-        invitationId: notification.invitation.id
-      });
     }
 
     function gotoFeedBefore(callback) {
@@ -128,12 +122,6 @@
         });
       });
     }
-
-    vm.showinvitationModal = function (id) {
-      $rootScope.$broadcast(NST_NOTIFICATION_EVENT.OPEN_INVITATION_MODAL, {
-        notificationId: id
-      });
-    };
 
   }
 

@@ -7,8 +7,8 @@
 
   function NstSvcNotificationFactory(_, $q, $rootScope,
                                      NstSvcServer, NstSvcUserFactory, NstSvcPostFactory, NstSvcCommentFactory, NstSvcAuth, NstNotification,
-                                     NstBaseFactory, NstMention, NstSvcInvitationFactory, NstSvcPlaceFactory, NstSvcLabelFactory,
-                                     NST_AUTH_EVENT, NST_NOTIFICATION_EVENT, NST_NOTIFICATION_TYPE, NST_SRV_PUSH_CMD, NST_INVITATION_EVENT) {
+                                     NstBaseFactory, NstMention, NstSvcPlaceFactory, NstSvcLabelFactory,
+                                     NST_AUTH_EVENT, NST_NOTIFICATION_EVENT, NST_NOTIFICATION_TYPE, NST_SRV_PUSH_CMD) {
     function NotificationFactory() {
       var that = this;
       that.count = 0;
@@ -45,7 +45,6 @@
     NotificationFactory.prototype.getLoadedNotification = getLoadedNotification;
     NotificationFactory.prototype.markAsSeen = markAsSeen;
     NotificationFactory.prototype.resetCounter = resetCounter;
-    NotificationFactory.prototype.checkIfHasInvitation = checkIfHasInvitation;
 
 
     var factory = new NotificationFactory();
@@ -54,27 +53,6 @@
     /*****************
      **   Methods   **
      *****************/
-
-    function checkIfHasInvitation(notifications) {
-      var hasInvite = false;
-      // var hasInviteRespond = false;
-      _.forEach(notifications, function (item) {
-        if (item.type === NST_NOTIFICATION_TYPE.INVITE) {
-          hasInvite = true;
-        }
-        /*else if (item.type === NST_NOTIFICATION_TYPE.INVITE_RESPOND) {
-                 hasInviteRespond = true;
-               }*/
-      });
-
-      if (hasInvite) {
-        $rootScope.$broadcast(NST_INVITATION_EVENT.ADD);
-      }
-
-      // if (hasInviteRespond) {
-      //   $rootScope.$broadcast(NST_INVITATION_EVENT.ACCEPT);
-      // }
-    }
 
     function getNotifications(settings) {
       return this.sentinel.watch(function () {
@@ -96,12 +74,8 @@
                 return parseMention(notif);
 
               case NST_NOTIFICATION_TYPE.INVITE:
-                if (notif.invite_id !== undefined)
-                  return parseInvitation(notif);
-                break;
               case NST_NOTIFICATION_TYPE.INVITE_RESPOND:
-                if (notif.invite_id !== undefined)
-                  return parseInvitationResponse(notif);
+                  return notif;
                 break;
               case NST_NOTIFICATION_TYPE.COMMENT:
                 return parseComment(notif);
@@ -158,7 +132,6 @@
             }
             return hasData;
           });
-          factory.checkIfHasInvitation(notifications);
           defer.resolve(notifications);
 
         }).catch(defer.reject);
@@ -310,29 +283,6 @@
 
       return notification;
     }
-
-    function parseInvitation(data) {
-      var notification = parseDefault(data);
-
-      notification.place = NstSvcPlaceFactory.parseTinyPlace(data.place);
-      notification.invitation = {
-        id: data.invite_id
-      };
-
-      return notification;
-    }
-
-    function parseInvitationResponse(data) {
-      var notification = parseDefault(data);
-
-      notification.place = NstSvcPlaceFactory.parseTinyPlace(data.place);
-      notification.invitation = {
-        id: data.invite_id
-      };
-
-      return notification;
-    }
-
 
     function parseYouJoined(data) {
       var notification = parseDefault(data);
