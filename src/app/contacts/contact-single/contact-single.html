@@ -22,15 +22,15 @@
 
       <div class="contact-actions">
         <div ng-click="ctrl.toggleFavorite()" ng-if="ctrl.contact.isContact">
-          <svg class="_24svg _df fill-gale">
-            <use ng-if="!ctrl.contact.isFavorite" xlink:href="/assets/icons/nst-icn24.svg#star-wire"></use>
-            <!-- TODO : Change icon-->
-            <use ng-if="ctrl.contact.isFavorite" xlink:href="/assets/icons/nst-icn24.svg#star"></use>
+          <svg class="_24svg _df fill-gale" ng-if="!ctrl.contact.isFavorite" >
+            <use xlink:href="/assets/icons/nst-icn24.svg#star-wire"></use>
+          </svg>
+          <svg class="_24svg _df fill-gale" ng-if="ctrl.contact.isFavorite" >
+            <use  xlink:href="/assets/icons/nst-icn24.svg#star"></use>
           </svg>
         </div>
         <div ng-if="!ctrl.contact.isContact" ng-click="ctrl.add()">
           <svg class="_24svg _df fill-gale" ng-if="true">
-            <!-- TODO : Change icon-->
             <use xlink:href="/assets/icons/nst-icn24.svg#cross"></use>
           </svg>
         </div>
