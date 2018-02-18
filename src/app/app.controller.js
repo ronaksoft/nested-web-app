@@ -13,6 +13,8 @@
     var vm = this;
     var eventReferences = [];
 
+    var lastCounterUpdate = 0;
+
     vm.showLoadingScreen = true;
     vm.viewSettings = {
       sidebar: {collapsed: true},
@@ -304,7 +306,11 @@
     }
 
     $window.onfocus = function () {
-      $rootScope.$broadcast('reload-counters');
+      var currentTimestamp = new Date().getTime();
+      if (currentTimestamp - lastCounterUpdate > 5000) {
+        $rootScope.$broadcast('reload-counters');
+      }
+      lastCounterUpdate = currentTimestamp;
     };
 
     $scope.$on('$destroy', function () {
