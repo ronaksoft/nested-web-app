@@ -125,10 +125,14 @@
     function editLabel() {
       var title = $filter('scapeSpace')(vm.title);
       NstSvcLabelFactory.update(vm.id, title, vm.code).then(function () {
-        callHolderPromises().then(function () {
+        return callHolderPromises().then(function () {
           toastr.success(NstSvcTranslation.get("Label modified successfully."));
+          $uibModalInstance.close(true);
+        }).catch(function (error) {
+          if (error.code === 6) {
+            toastr.error(NstSvcTranslation.get("Label holders Limit is reached, remove some members and try again."));
+          }
         });
-        $uibModalInstance.close(true);
       }).catch(function (error) {
         if (error.code === 5) {
           toastr.warning(NstSvcTranslation.get("Label already exists!"));

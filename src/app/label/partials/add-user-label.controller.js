@@ -13,6 +13,7 @@
 
     var defaultSearchResultCount = 9;
 
+    var eventReferences = [];
     vm.lastSelectedUsers = [];
     vm.searchMore = searchMore;
     vm.selectedUsers = [];
@@ -36,6 +37,10 @@
 
     search();
 
+    eventReferences.push($scope.$watch(function () {
+      return vm.query
+    }, function(query){return search(query);}, true));
+  
     function searchMore() {
       vm.suggestPickerConfig.suggestsLimit++;
       return vm.search(vm.query);
@@ -68,7 +73,6 @@
             });
             vm.users.push(initProfile);
           }
-          vm.query = query;
         })
         .catch(function () {
         });
@@ -77,6 +81,16 @@
     function calculateSearchLimit() {
       return defaultSearchResultCount + vm.selectedUsers.length;
     }
+    
+    // $('.wdt-emoji-popup.open').removeClass('open');
+    $scope.$on('$destroy', function () {
+      _.forEach(eventReferences, function (canceler) {
+        if (_.isFunction(canceler)) {
+          canceler();
+        }
+      });
+
+    });
   }
 
 })();
