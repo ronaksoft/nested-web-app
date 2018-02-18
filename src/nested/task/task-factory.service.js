@@ -459,10 +459,10 @@
 
     function handleCachedResponse(cacheHandler, cachedResponse) {
       if (cachedResponse && _.isFunction(cacheHandler)) {
-        var cachedPosts = _.map(cachedResponse.tasks, function (task) {
+        var cachedTasks = _.map(cachedResponse.tasks, function (task) {
           return factory.getCachedSync(task._id);
         });
-        cacheHandler(_.compact(cachedPosts));
+        cacheHandler(_.compact(cachedTasks));
       }
     }
 
