@@ -7,7 +7,7 @@
   margin-right: 24px;
   flex-direction: column;
   flex: none;
-  max-height: 280px;
+  max-height: 306px;
   margin-top: 28px;
   h5 {
     font-size: 12px;
@@ -126,6 +126,10 @@
         }
       }
     }
+  }
+  p.descrip {
+    font-size: 12px;
+    padding-top: 8px;
   }
   .profile-name {
     font-weight: 300;

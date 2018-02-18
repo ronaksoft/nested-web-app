@@ -74,6 +74,16 @@
         group : 'settings',
         fullscreen : true
       }
+    })
+    .state('app.settings.apps',{
+      url: '/apps',
+      templateUrl: 'app/settings/apps/manage-apps.html',
+      controller: 'SelectLanguageController',
+      controllerAs: 'ctrl',
+      options : {
+        group : 'settings',
+        fullscreen : true
+      }
     });
 
   }
