@@ -112,9 +112,9 @@
           total: 0
         }
       };
-      $scope.$watch(function () {
+      eventReferences.push($scope.$watch(function () {
         return vm.attachments.viewModels
-      }, updateTotalAttachmentsRatio, true);
+      }, updateTotalAttachmentsRatio, true));
 
 
       function updateTotalAttachmentsRatio(items) {
@@ -490,22 +490,10 @@
 
         return NstSvcPlaceFactory.searchForCompose(query, limit).then(function (results) {
           NstSvcLogger.debug4('Compose | Searched recipients for binding them in html', results);
-          // var oldItems = vm.search.results.length;
           var newItemsChips = _.chain(results.places).uniqBy('id').map(function (place) {
             return new NstVmSelectTag(place);
           }).value();
           vm.search.results = newItemsChips;
-          // newItemsChips.forEach(function (item, index) {
-          //   if (vm.search.results[index]) {
-          //     vm.search.results[index] = item
-          //   } else {
-          //     vm.search.results.push(item)
-          //   }
-          // });
-          // if (oldItems > newItemsChips.length) {
-          //   vm.search.results.splice(newItemsChips.length, oldItems - newItemsChips.length)
-          // }
-
           _.forEach(results.recipients, function (recipient) {
             var tag = new NstVmSelectTag({
               id: recipient,
@@ -514,20 +502,7 @@
             vm.search.results.push(tag);
           });
 
-          if (!_.some(vm.search.results, {
-              'id': query
-            }) && query && query.length > 0) {
-            var initPlace = new NstVmSelectTag({
-              id: query,
-              name: query
-            });
-            vm.search.results.unshift(initPlace);
-          } else if (query && query.length > 0) {
-            var index = _.findIndex(vm.search.results, { 'id': query });
-            var it = vm.search.results[index];
-            vm.search.results.splice(index, 1);
-            vm.search.results.unshift(it);
-          }
+          // vm.search.results = _.chain(vm.search.results).uniqBy('id').value();
 
         }).catch(function () {
           vm.search.results = [];
@@ -1319,7 +1294,9 @@
             }, true);
           },
           'froalaEditor.focus': function () {
-            vm.focusBody = true;
+            $timeout(function(){
+              vm.focusBody = true;
+            });
             vm.emojiTarget = 'body';
             vm.focus = true;
             vm.collapse = true;

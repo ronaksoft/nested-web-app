@@ -352,13 +352,13 @@
       });
     }
 
-    $scope.$watch(function () {
+    eventReferences.push($scope.$watch(function () {
       return vm.attachmentsData;
     }, function (newVal) {
       if (newVal.hasOwnProperty('init') && newVal.init === true) {
         initData(newVal.data);
       }
-    });
+    }));
 
     function initData(attachments) {
       vm.attachmentsData = attachments;
@@ -373,9 +373,9 @@
       vm.attachments.size.uploaded += _.sum(_.map(attachments, 'size'));
     }
     $scope.$on('$destroy', function () {
-      _.forEach(eventReferences, function (cenceler) {
-        if (_.isFunction(cenceler)) {
-          cenceler();
+      _.forEach(eventReferences, function (canceler) {
+        if (_.isFunction(canceler)) {
+          canceler();
         }
       });
     });

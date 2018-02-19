@@ -429,16 +429,10 @@
       });
 
       if (hasAnyOtherTeammate) {
-        return vm.isCreateGrandPlaceMode
-          ? inviteUsers(vm.place, vm.teammates)
-          : addUsers(vm.place, vm.teammates);
+        return addUsers(vm.place, vm.teammates);
       }
 
       return $q.resolve();
-    }
-
-    function inviteUsers(place, users) {
-      return NstSvcPlaceFactory.inviteUser(place, users);
     }
 
     function addUsers(place, users) {
@@ -580,9 +574,9 @@
     }
 
     $scope.$on('$destroy', function () {
-      _.forEach(eventReferences, function (cenceler) {
-        if (_.isFunction(cenceler)) {
-          cenceler();
+      _.forEach(eventReferences, function (canceler) {
+        if (_.isFunction(canceler)) {
+          canceler();
         }
       });
     });

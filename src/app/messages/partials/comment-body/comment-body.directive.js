@@ -16,6 +16,7 @@
       bindToController: {
         comment: '=',
         commentBoardId: '=',
+        retrySendComment: '=?',
         commentRemove: '=?',
         isTask: '=?',
         isCreator: '=?'

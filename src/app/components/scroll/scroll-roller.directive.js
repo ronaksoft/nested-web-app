@@ -28,6 +28,7 @@
     }
 
     function link($scope, $attrs) {
+      var eventReferences = [];
       var customSettings = {
         animated : checkBooleanValue($attrs.animated),
         speed : readNumberValue($attrs.speed),
@@ -38,7 +39,7 @@
 
       var container = $($attrs.container || 'html, body');
 
-      var rollUpwardCleaner = $scope.$watch('rollUpward', function (newValue) {
+      eventReferences.push($scope.$watch('rollUpward', function (newValue) {
         if (newValue) {
           if (settings.animated) {
             container.animate({
@@ -50,9 +51,9 @@
             container.scrollTop(0);
           }
         }
-      });
+      }));
 
-      var rollDownwardCleaner = $scope.$watch('rollDownward', function (newValue) {
+      eventReferences.push($scope.$watch('rollDownward', function (newValue) {
         if (newValue) {
           var height = container.prop('scrollHeight');
           if (settings.animated) {
@@ -66,11 +67,14 @@
           }
 
         }
-      });
+      }));
 
       $scope.$on('$destroy', function () {
-        rollDownwardCleaner();
-        rollUpwardCleaner();
+        _.forEach(eventReferences, function (canceler) {
+          if (_.isFunction(canceler)) {
+            canceler();
+          }
+        });
       });
     }
   }

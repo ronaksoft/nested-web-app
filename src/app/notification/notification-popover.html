@@ -81,13 +81,9 @@
        class="notif-li ng-class:{'seen': notif.isSeen}"
        ng-include="'/app/notification/partials/demote.html'" ng-init="notification = notif">
   </div>
-  <div ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.INVITE"
-       class="notif-li ng-class:{'seen': notif.isSeen}"
-       ng-include="'/app/notification/partials/invite.html'" ng-init="notification = notif">
-  </div>
-  <div ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.INVITE_RESPOND"
-       class="notif-li ng-class:{'seen': notif.isSeen}"
-       ng-include="'/app/notification/partials/invite-response.html'" ng-init="notification = notif">
+  <div ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.INVITE || notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.INVITE_RESPOND"
+       class="notif-li ng-class:{'seen': notif.isSeen}" ng-init="notification = notif">
+       DEPRECATED
   </div>
   <div ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.YOU_JOINED"
        ui-sref="app.place-messages({ placeId : notif.place.id })"

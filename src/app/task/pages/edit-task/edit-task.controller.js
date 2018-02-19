@@ -10,7 +10,7 @@
                               NstSvcAuth, _, toastr, NstSvcTranslation, NstTask, NST_ATTACHMENT_STATUS,
                               NstUtility, NstSvcTaskFactory, NstSvcTaskUtility, NST_TASK_STATUS) {
     var vm = this;
-    // var eventReferences = [];
+    var eventReferences = [];
 
     vm.user = undefined;
     NstSvcTaskUtility.getValidUser(vm, NstSvcAuth);
@@ -301,11 +301,11 @@
       }
     }
 
-    $scope.$watch(function () {
+    eventReferences.push($scope.$watch(function () {
       return vm.model.assignees;
     }, function (newVal) {
       getAssigneeIcon(newVal);
-    }, true);
+    }, true));
 
     function removeDueDate() {
       vm.model.dueDate = 0;
@@ -430,7 +430,7 @@
       updateTask();
     }
 
-    $scope.$watch(function () {
+    eventReferences.push($scope.$watch(function () {
       return {
         time: vm.model.dueDate,
         hasTime: vm.model.hasDueTime
@@ -439,7 +439,7 @@
       if (dataInit) {
         updateDueDate(newVal.time, newVal.hasTime);
       }
-    }, true);
+    }, true));
 
     function updateTask() {
       NstSvcTaskFactory.taskUpdate(vm.taskId, taskUpdateModel.title, taskUpdateModel.description, (taskUpdateModel.dueDate === null ? null : taskUpdateModel.dueDate * 1000), taskUpdateModel.hasDueTime).then(function () {
@@ -457,13 +457,13 @@
       return data;
     }
 
-    $scope.$watch(function () {
+    eventReferences.push($scope.$watch(function () {
       return vm.model.assignees;
     }, function (newVal) {
       if (dataInit) {
         updateAssignee(getNormalValue(newVal));
       }
-    }, true);
+    }, true));
 
     function getCommaSeparate(items) {
       return _.map(items, function (item) {
@@ -508,13 +508,13 @@
       }
     }
 
-    $scope.$watch(function () {
+    eventReferences.push($scope.$watch(function () {
       return vm.model.todos;
     }, function (newVal) {
       if (dataInit && vm.model.todos.length !== vm.modelBackUp.todos.length) {
         updateTodos(getNormalValue(newVal));
       }
-    }, true);
+    }, true));
 
     function updateTodos(todos) {
       var oldData = getNormalValue(vm.modelBackUp.todos);
@@ -576,13 +576,13 @@
       }
     }
 
-    $scope.$watch(function () {
+    eventReferences.push($scope.$watch(function () {
       return vm.model.attachments;
     }, function (newVal) {
       if (dataInit) {
         updateAttachments(getNormalValue(newVal));
       }
-    }, true);
+    }, true));
 
     function updateAttachments(attachments) {
       var oldData = getNormalValue(vm.modelBackUp.attachments);
@@ -615,13 +615,13 @@
       }
     }
 
-    $scope.$watch(function () {
+    eventReferences.push($scope.$watch(function () {
       return vm.model.watchers;
     }, function (newVal) {
       if (dataInit) {
         updateWatcher(getNormalValue(newVal));
       }
-    }, true);
+    }, true));
 
     function updateWatcher(watchers) {
       var oldData = getNormalValue(vm.modelBackUp.watchers);
@@ -648,13 +648,13 @@
       }
     }
 
-    $scope.$watch(function () {
+    eventReferences.push($scope.$watch(function () {
       return vm.model.labels;
     }, function (newVal) {
       if (dataInit) {
         updateLabels(getNormalValue(newVal));
       }
-    }, true);
+    }, true));
 
     function updateLabels(labels) {
       var oldData = getNormalValue(vm.modelBackUp.labels);
@@ -722,7 +722,7 @@
       });
     }
 
-    $scope.$watch(function () {
+    eventReferences.push($scope.$watch(function () {
       return {
         titleFocus: vm.titleFocus,
         assigneeFocus: vm.assigneeFocus,
@@ -738,7 +738,7 @@
       if (_.countBy(Object.values(newVal))['true'] > 1) {
         vm.todoFocus = false;
       }
-    }, true);
+    }, true));
 
     function handleFocus(newVal, oldVal) {
       for (var i in newVal) {
@@ -771,6 +771,11 @@
           notify: false
         });
       }
+      _.forEach(eventReferences, function (canceler) {
+        if (_.isFunction(canceler)) {
+          canceler();
+        }
+      });
     });
   }
 })();

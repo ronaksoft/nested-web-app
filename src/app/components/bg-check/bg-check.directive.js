@@ -1,29 +1,29 @@
-(function() {
+(function () {
   'use strict';
 
   angular
     .module('ronak.nested.web.components')
-    .directive('bgCheck', function(NstSvcLogger, $) {
+    .directive('bgCheck', function (NstSvcLogger, $, _) {
       return {
         restrict: 'A',
-        link: function(scope, element, $attrs) {
-
-          scope.$watch(function () {
+        link: function (scope, element, $attrs) {
+          var eventReferences = [];
+          eventReferences.push(scope.$watch(function () {
             return $attrs.bgCheck
-          },function (newValue) {
-            if(newValue){
+          }, function (newValue) {
+            if (newValue) {
               ChangeColorBaseOnBrightness(newValue)
             }
-          });
+          }));
 
           function ChangeColorBaseOnBrightness(Url) {
             var xhr = new XMLHttpRequest();
             xhr.responseType = 'blob';
-            xhr.onload = function() {
+            xhr.onload = function () {
               var reader = new FileReader();
-              reader.onloadend = function() {
-                getImageBrightness(reader.result,function(brightness) {
-                  NstSvcLogger.debug('place pic brightness' , brightness);
+              reader.onloadend = function () {
+                getImageBrightness(reader.result, function (brightness) {
+                  NstSvcLogger.debug('place pic brightness', brightness);
                   if (brightness < 130) {
                     $(element).addClass('dark')
                   } else {
@@ -40,7 +40,8 @@
             xhr.setRequestHeader('Access-Control-Allow-Origin', location.host);
             xhr.send();
           }
-          function getImageBrightness(imageSrc,callback) {
+
+          function getImageBrightness(imageSrc, callback) {
             var img = document.createElement("img");
             img.src = imageSrc;
             img.style.display = "none";
@@ -48,7 +49,7 @@
 
             var colorSum = 0;
 
-            img.onload = function() {
+            img.onload = function () {
               // create canvas
               var canvas = document.createElement("CANVAS");
 
@@ -56,27 +57,34 @@
               canvas.height = this.height;
 
               var ctx = canvas.getContext("2d");
-              ctx.drawImage(this,0,0);
+              ctx.drawImage(this, 0, 0);
 
 
-
-              var imageData = ctx.getImageData(0,0,canvas.width,canvas.height);
+              var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
               var data = imageData.data;
-              var r,g,b,avg;
+              var r, g, b, avg;
 
-              for(var x = 0, len = data.length; x < len; x+=4) {
+              for (var x = 0, len = data.length; x < len; x += 4) {
                 r = data[x];
-                g = data[x+1];
-                b = data[x+2];
+                g = data[x + 1];
+                b = data[x + 2];
 
-                avg = Math.floor((r+g+b)/3);
+                avg = Math.floor((r + g + b) / 3);
                 colorSum += avg;
               }
 
-              var brightness = Math.floor(colorSum / (this.width*this.height));
+              var brightness = Math.floor(colorSum / (this.width * this.height));
               callback(brightness);
             }
           }
+
+          scope.$on('$destroy', function () {
+            _.forEach(eventReferences, function (canceler) {
+              if (_.isFunction(canceler)) {
+                canceler();
+              }
+            });
+          });
         }
       }
     });

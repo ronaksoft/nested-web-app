@@ -135,7 +135,7 @@ body.modal-open-attachment-view {
   max-width: 100%;
   height: auto;
   color: $color-new-hurricane;
-  @include user-select(none);
+  // @include user-select(none);
   .butn-white {
     width: 125px;
     height: 32px;
@@ -189,7 +189,7 @@ body.modal-open-attachment-view {
   a {
     font-weight: bold;
     color: $color-solid;
-    user-select: text;
+    user-select: all;
   }
   .small {
     font-weight: 100;
@@ -358,7 +358,7 @@ body.modal-open-attachment-view.compose-modal {
       //fill: $color-black-24;
       transition: fill $animation-dur;
       &:hover {
-        fill: $color-black;
+        fill: $color-new-hurricane;
       }
     }
   }

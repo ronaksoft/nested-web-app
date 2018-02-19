@@ -12,61 +12,80 @@
       mode: 'place',
       alwaysVisible: false
     })
-    .controller('suggestPickerController', function ($timeout, $scope, _, suggestPickerDefaultOptions, toastr, NstSvcTranslation, $rootScope) {
+    .controller('suggestPickerController', function ($timeout, $scope, _, suggestPickerDefaultOptions, toastr, NstSvcTranslation, $rootScope, NstUtility) {
       $scope.clearSuggests = [];
       var eventReferences = [];
       resetState();
 
       $scope.keydown = function (e) {
-        if (!$scope.visible) {
+        if (e.which === 13 && !$scope.visible) {
+          return;
+        } else {
           $scope.visible = true;
         }
-        // Enter/ return key
-        if (e.which === 13) {
-          if ($scope.clearSuggests.length > 0) {
-            var index = $scope.state.activeSuggestItem;
-            e.preventDefault();
-            return $scope.selectItem(index);
-          }
-          // Backspace key
-        } else if (e.which === 8) {
-          var index = $scope.state.activeSelectedItem;
-          if (index > -1 && $scope.selecteds[index]) {
-            $scope.removeItem(index);
-            $scope.state.activeSelectedItem = index;
-            decreaseActiveSelectedIndex();
-          }
-          if ($scope.keyword === '' && $scope.state.activeSelectedItem < 0) {
-            $scope.state.activeSelectedItem = $scope.selecteds.length - 1;
-          }
-        } else if (e.which === 9) {
-          $scope.visible = false;
-        } else if (e.which === 27) {
-          $scope.visible = false;
-          e.target.blur();
-          return e.stopPropagation();
-        } else if (e.which === 37) {
-          if ($scope.keyword.length > 0) {
-            return;
-          }
-          if($rootScope._direction === 'rtl') {
-            increaseActiveSelectedIndex();
-          } else {
-            decreaseActiveSelectedIndex();
-          }
-        } else if (e.which === 38) {
-          decreaseActiveIndex(e.target);
-        } else if (e.which === 39) {
-          if ($scope.keyword.length > 0) {
-            return;
-          }
-          if($rootScope._direction === 'ltr') {
-            increaseActiveSelectedIndex();
-          } else {
-            decreaseActiveSelectedIndex();
-          }
-        } else if (e.which === 40) {
-          increaseActiveIndex(e.target);
+        switch (e.which) {
+          case 13:
+            // Enter/ return key
+            if ($scope.clearSuggests.length > 0) {
+              var index = $scope.state.activeSuggestItem;
+              e.preventDefault();
+              return $scope.selectItem(index);
+            }
+            break;
+          case 8:
+            // Backspace key
+            var index = $scope.state.activeSelectedItem;
+            if (index > -1 && $scope.selecteds[index]) {
+              $scope.removeItem(index);
+              $scope.state.activeSelectedItem = index;
+              decreaseActiveSelectedIndex();
+            }
+            if ($scope.keyword === '' && $scope.state.activeSelectedItem < 0) {
+              $scope.state.activeSelectedItem = $scope.selecteds.length - 1;
+            }
+            break;
+          case 9:
+            // Tab key
+            $scope.visible = false;
+            if ($scope.clearSuggests.length > 0) {
+              var index = $scope.state.activeSuggestItem;
+              return $scope.selectItem(index);
+            }
+            break;
+          case 27:
+            $scope.visible = false;
+            e.target.blur();
+            return e.stopPropagation();
+            break;
+          case 37:
+            if ($scope.keyword.length > 0) {
+              return;
+            }
+            if($rootScope._direction === 'rtl') {
+              increaseActiveSelectedIndex();
+            } else {
+              decreaseActiveSelectedIndex();
+            }
+            break;
+          case 38:
+            decreaseActiveIndex(e.target);
+            break;
+          case 39:
+            if ($scope.keyword.length > 0) {
+              return;
+            }
+            if($rootScope._direction === 'ltr') {
+              increaseActiveSelectedIndex();
+            } else {
+              decreaseActiveSelectedIndex();
+            }
+            break;
+          case 40:
+            increaseActiveIndex(e.target);
+            break;
+        
+          default:
+            break;
         }
       }
 
@@ -178,11 +197,11 @@
         if (choices.length < 1 || $scope.state.activeSuggestItem < 0) {
           return;
         }
-    
+
         var highlighted = choices[$scope.state.activeSuggestItem];
         var posY = highlighted.offsetTop + highlighted.clientHeight - container[0].scrollTop;
         var height = container[0].offsetHeight;
-    
+
         if (posY > height) {
           container[0].scrollTop += posY - height;
         } else if (posY < highlighted.clientHeight) {
@@ -191,9 +210,9 @@
       }
 
       $scope.$on('$destroy', function () {
-        _.forEach(eventReferences, function (cenceler) {
-          if (_.isFunction(cenceler)) {
-            cenceler();
+        _.forEach(eventReferences, function (canceler) {
+          if (_.isFunction(canceler)) {
+            canceler();
           }
         });
       });

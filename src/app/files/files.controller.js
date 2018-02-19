@@ -198,7 +198,7 @@
 
       // first omit the removed items; The items that are no longer exist in fresh newFiles
       _.forEach(removedItems, function (item) {
-        var index = _.findIndex(vm.files, { 'id': item.id });
+        var index = _.findIndex(vm.files, {'id': item.id});
         if (index > -1) {
           vm.files.splice(index, 1);
         }
@@ -227,19 +227,19 @@
         vm.settings.filter,
         vm.settings.keyword,
         vm.settings.skip,
-        vm.settings.limit, function(cachedFiles) {
+        vm.settings.limit, function (cachedFiles) {
           vm.files = cachedFiles;
           vm.filesLoadProgress = false;
         }).then(function (fileItems) {
-          merge(fileItems);
+        merge(fileItems);
 
-          vm.hasNextPage = fileItems.length === vm.settings.limit;
-          vm.settings.skip = vm.files.length;
+        vm.hasNextPage = fileItems.length === vm.settings.limit;
+        vm.settings.skip = vm.files.length;
 
-          vm.loadFilesError = false;
-          if(fileItems.length === 0 && vm.settings.keyword.length > 0) {
-            toastr.warning(NstSvcTranslation.get('we didnt find what you are looking for'));
-          }
+        vm.loadFilesError = false;
+        if (vm.keyword.length > 0 && fileItems.length === 0) {
+          toastr.warning(NstSvcTranslation.get('we didnt find what you are looking for'));
+        }
       }).catch(function () {
         toastr.error(NstSvcTranslation.get('An error has occurred while retrieving files.'));
         vm.loadFilesError = true;
@@ -261,7 +261,7 @@
         controller: 'AttachmentViewController',
         controllerAs: 'ctlAttachmentView',
         backdropClass: 'attachmdrop',
-        openedClass : ' modal-open-attachment-view attach-modal',
+        openedClass: ' modal-open-attachment-view attach-modal',
         windowClass: '_oh',
         size: 'full',
         resolve: {
@@ -310,18 +310,18 @@
         vm.settings.keyword,
         vm.settings.skip,
         vm.settings.limit).then(function (fileItems) {
-          append(fileItems);
+        append(fileItems);
 
-          vm.hasNextPage = fileItems.length === vm.settings.limit;
-          vm.settings.skip += fileItems.length;
+        vm.hasNextPage = fileItems.length === vm.settings.limit;
+        vm.settings.skip += fileItems.length;
 
-          vm.loadFilesError = false;
-        }).catch(function () {
-          toastr.error(NstSvcTranslation.get('An error has occurred while retrieving files.'));
-          vm.loadFilesError = true;
-        }).finally(function () {
-          vm.filesLoadProgress = false;
-        });
+        vm.loadFilesError = false;
+      }).catch(function () {
+        toastr.error(NstSvcTranslation.get('An error has occurred while retrieving files.'));
+        vm.loadFilesError = true;
+      }).finally(function () {
+        vm.filesLoadProgress = false;
+      });
     }
 
     /**
@@ -335,8 +335,8 @@
       vm.totalSelectedFileSize = _.sum(sizes);
     }
 
-    function toggleSelect(item){
-      if ( item.isSelected ) {
+    function toggleSelect(item) {
+      if (item.isSelected) {
         unselectFile(item)
       } else {
         selectFile(item)
@@ -344,14 +344,14 @@
       calculateSize();
     }
 
-    function unselectFile(item){
-      _.remove(vm.selectedFiles, function(file) {
+    function unselectFile(item) {
+      _.remove(vm.selectedFiles, function (file) {
         return item.id === file.id
       });
       item.isSelected = false;
     }
 
-    function selectFile(item){
+    function selectFile(item) {
       vm.selectedFiles.push(item);
       item.isSelected = true;
     }
@@ -370,6 +370,7 @@
     function composeWithAttachments() {
       $state.go('app.compose', {attachments: vm.selectedFiles}, {notify: false});
     }
+
     eventReferences.push($scope.$on('scroll-reached-bottom', function () {
       vm.loadMore()
     }));

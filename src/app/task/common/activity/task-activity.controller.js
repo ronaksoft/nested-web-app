@@ -9,22 +9,25 @@
                                   NST_TASK_EVENT_ACTION, NstSvcAuth, NstSvcTaskFactory, NstSvcTranslation,
                                   toastr, NstTaskActivity, NstSvcUserFactory, NstSvcDate, NstSvcTaskUtility) {
     var vm = this;
+    $scope.fullFilled = true;
     var eventReferences = [];
     var latestActivityTimestamp = -1;
     vm.setting = {};
     $scope.loadMore = getActivities;
     vm.isLoading = false;
     vm.haveMore = true;
+    vm.initiateScroll = true;
 
     reset();
 
     vm.sendComment = sendComment;
+    vm.retrySendComment = retrySendComment;
     vm.removeCommentRef = removeCommentRef;
 
     vm.user = undefined;
     NstSvcTaskUtility.getValidUser(vm, NstSvcAuth);
 
-    $scope.scrollEnd = function() {}; // will Assigned by directive stickBottomScroll
+    $scope.scrollEnd = function() {}; // will be Overrided by directive stickBottomScroll
     vm.activityTypes = NST_TASK_EVENT_ACTION;
 
     vm.activities = [];
@@ -32,16 +35,14 @@
       maxScrollY : 0
     };
 
-    (function () {
-      getActivities();
-    })();
+    (getActivities)();
 
     var init = false;
     $timeout(function () {
       init = true;
     }, 1000);
 
-    $scope.$watch(function () {
+    eventReferences.push($scope.$watch(function () {
       return vm.onlyComments;
     }, function () {
       reset();
@@ -50,7 +51,7 @@
       if (init) {
         getActivities()
       }
-    });
+    }));
 
     function reset() {
       vm.setting = {
@@ -87,6 +88,12 @@
         vm.activityCount = vm.activities.length;
         vm.isLoading = false;
         vm.firstLoading = false;
+        $scope.$broadcast('scroll-handler', {});
+        $timeout(function(){
+          if (!$scope.fullFilled) {
+            getActivities();
+          }
+        }, 1024)
       });
     }
 
@@ -106,9 +113,9 @@
     }
 
     function sendComment(e) {
-      if (vm.isSendingComment) {
-        return;
-      }
+      // if (vm.isSendingComment) {
+      //   return;
+      // }
       var element = angular.element(e.target);
       resizeTextarea(e.target);
 
@@ -121,58 +128,82 @@
       if (body.length === 0) {
         return;
       }
+      
+      var activity = new NstTaskActivity();
+      var id =  (Math.random() * 10000).toFixed();
+      activity.id = id;
+      activity.type = NST_TASK_EVENT_ACTION.COMMENT;
+      activity.date = NstSvcDate.now();
+      activity.actor = NstSvcAuth.user;
+      activity.comment = {
+        id: id,
+        body: body,
+        timestamp: NstSvcDate.now(),
+        sender: NstSvcAuth.user,
+        removedById: null,
+        attachmentId: '',
+        isSending: true
+      };
+      vm.activityCount++;
 
-      vm.isSendingComment = true;
+      if (!_.some(vm.activities, {
+        id: activity.id
+      })) {
+        // if (typeof vm.onCommentSent === 'function') {
+        //   vm.onCommentSent(activity);
+        // } else {
+          vm.activities.push(activity);
+        // }
+      }
 
-      NstSvcTaskFactory.addComment(vm.taskId, body).then(function (activityId) {
-        vm.activityCount++;
-        addActivityCallback(activityId, body);
-      }).catch(function () {
-        toastr.error(NstSvcTranslation.get('Sorry, an error has occurred in sending your comment'));
-      });
-
-      function addActivityCallback(activityId, commentBody) {
-        if (!_.isObject(vm.user)) {
-          vm.user = NstSvcAuth.user;
-        }
-        //TODO
-        if (!_.some(vm.activities, {
-            id: activityId
-          })) {
-          var activity = new NstTaskActivity();
-          activity.id = activityId.id;
-          activity.type = NST_TASK_EVENT_ACTION.COMMENT;
-          activity.date = NstSvcDate.now();
-          activity.actor = vm.user;
-          activity.comment = {
-            id: activityId.id,
-            body: commentBody,
-            timestamp: activity.date,
-            sender: activity.actor,
-            removedById: null,
-            attachmentId: ''
-          };
-          // vm.activities.push(activity);
-          // $scope.scrollEnd(true);
-        }
-
+      $timeout(function(){
         e.currentTarget.value = '';
-        vm.isSendingComment = false;
-
+        resizeTextarea(e.target);
         if (focusOnSentTimeout) {
           $timeout.cancel(focusOnSentTimeout);
         }
-
         focusOnSentTimeout = $timeout(function () {
-          e.currentTarget.focus();
-        }, 10);
-        if (typeof vm.onCommentSent === 'function') {
-          vm.onCommentSent(activity);
+            e.currentTarget.focus();
+        }, 2);
+      }, 10);
+
+      NstSvcTaskFactory.addComment(vm.taskId, body).then(function (activityId) {
+        // $scope.scrollEnd(true);
+        var index = _.findIndex(vm.activities, {id: activity.id});
+        if (index > -1) {
+          vm.activities[index].id = activityId;
+          vm.activities[index].comment.id = activityId;
+          vm.activities[index].comment.isSending = false;
         }
-        resizeTextarea(e.target);
-      }
+      }).catch(function () {
+        var index = _.findIndex(vm.activities, {id: activity.id});
+        if (index > -1) {
+          vm.activities[index].comment.isSending = false;
+          vm.activities[index].comment.isFailed = true;
+        }
+        toastr.error(NstSvcTranslation.get('Sorry, an error has occurred in sending your comment'));
+      });
     }
 
+    
+    function retrySendComment(commentModel) {
+      NstSvcTaskFactory.addComment(vm.taskId, commentModel.body).then(function (activityId) {
+        var index = _.findIndex(vm.activities, {id: commentModel.id});
+        if (index > -1) {
+          vm.activities[index].id = activityId;
+          vm.activities[index].comment.id = activityId;
+          vm.activities[index].comment.isSending = false;
+          vm.activities[index].comment.isFailed = false;
+        }
+      }).catch(function () {
+        var index = _.findIndex(vm.activities, {id: commentModel.id});
+        if (index > -1) {
+          vm.activities[index].comment.isSending = false;
+          vm.activities[index].comment.isFailed = true;
+        }
+        toastr.error(NstSvcTranslation.get('Sorry, an error has occurred in sending your comment'));
+      });
+    }
     /**
      * sendKeyIsPressed - check whether the pressed key is Enter or not
      *
@@ -217,7 +248,10 @@
         vm.isLoading = true;
         NstSvcTaskActivityFactory.getAfter(params).then(function (activities) {
           findLatestTimestamp(activities);
-          vm.activities.push.apply(vm.activities, activities);
+          var newActs = _.filter(activities, function(act) {
+            return act.actor.id !== NstSvcAuth.user.id
+          });
+          vm.activities.push.apply(vm.activities, newActs);
           vm.activities = _.unionBy(vm.activities, 'id');
           vm.activityCount = vm.activities.length;
           vm.isLoading = false;

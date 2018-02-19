@@ -14,12 +14,12 @@
       },
       replace: true,
       link: function (scope) {
+        var eventReferences = [];
         scope.scaleVal = 1;
 
-
-        scope.$watch('sideBarOpen', function () {
+        eventReferences.push(scope.$watch('sideBarOpen', function () {
           scope.resize();
-        });
+        }));
 
         scope.resize = function () {
           // 240 is Width of sidepanel
@@ -40,21 +40,21 @@
             '<div class="animation"><div class="circle five"></div></div></div>');
         });
 
-        scope.$watch(function () {
+        eventReferences.push(scope.$watch(function () {
           return scope.attachment.viewUrl
         }, function () {
           // setTimeout(function () {
           update(scope);
           // }, 0);
-        });
+        }));
 
-        scope.$watch(function () {
+        eventReferences.push(scope.$watch(function () {
           return scope.attachment
         }, function () {
           // setTimeout(function () {
           update(scope);
           // }, 0);
-        });
+        }));
 
         scope.videoConfig = function () {
           scope.mediaToggle = {
@@ -155,6 +155,14 @@
         angular.element($window).on('resize', resizeIt(scope.attachment.width, scope.attachment.height));
         scope.$on('$destroy', function () {
           angular.element($window).off('resize', resizeIt(scope.attachment.width, scope.attachment.height));
+        });
+
+        scope.$on('$destroy', function () {
+          _.forEach(eventReferences, function (canceler) {
+            if (_.isFunction(canceler)) {
+              canceler();
+            }
+          });
         });
       },
       template: '<div class="nst-preview-pic-mode" data-ng-include="tplUrl" data-ng-init="attachment = attachment"></div>'

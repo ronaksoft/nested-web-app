@@ -29,6 +29,7 @@
     vm.commentBoardIsRolled = null;
     vm.isSendingComment = false;
     vm.hasAnyRemoved = false;
+    vm.retrySendComment = retrySendComment;
     vm.commentBoardLimit = commentBoardMin;
     vm.showOlderComments = showOlderComments;
     vm.limitCommentBoard = limitCommentBoard;
@@ -36,6 +37,7 @@
     vm.commentBoardNeedsRolling = commentBoardNeedsRolling;
     vm.isInFirstDay = isInFirstDay;
     vm.unreadCommentsCount = 0;
+    vm.sendCommentCount = 1;
     vm.showRemoved = false;
     vm.isRecording = false;
     vm.post = {
@@ -45,16 +47,11 @@
     (function () {
       vm.hasOlderComments = vm.totalCommentsCount > vm.comments.length;
       if (vm.postId) {
-        var key = $scope.$on('post-load-new-comments', function (event, data) {
-          if (data.postId === vm.postId) {
-            if (data.scrollIntoView) {
-              loadRecentComments(data.news, data.scrollIntoView);
-            } else {
-              loadRecentComments(data.news);
-            }
+        pageEventKeys.push($scope.$on('post-load-new-comments', function (event, data) {
+          if (data.postId === vm.postId && data.news.length > 0) {
+            loadRecentComments(data.news, data.scrollIntoView);
           }
-        });
-        pageEventKeys.push(key);
+        }));
         if ($state.current.name === 'app.message') {
           vm.comments = [];
           loadMoreComments();
@@ -178,6 +175,22 @@
       el.style.height = el.scrollHeight + "px";
     }
 
+    function retrySendComment(commentModel) {
+      if (vm.postId) {
+        NstSvcCommentFactory.addComment(vm.postId, commentModel.body).then(function (comment) {
+          addCommentCallback(comment, commentModel);
+        }).catch(function () {
+          addCommentFailedCallback(commentModel);
+        });
+      } else {
+        NstSvcTaskFactory.addComment(vm.taskId, body).then(function (comment) {
+          addCommentCallback(comment, commentModel);
+        }).catch(function () {
+          addCommentFailedCallback(commentModel);
+        });
+      }
+    }
+
     /**
      * send - add the comment to the list of the post comments
      *
@@ -198,49 +211,74 @@
         return;
       }
 
+      // vm.isSendingComment = true;
 
-      vm.isSendingComment = true;
+      var commentModel = {
+        attachmentId: '',
+        body: body,
+        _id: vm.sendCommentCount,
+        removed: false,
+        removedBy: '',
+        removedById: '',
+        sender: vm.user,
+        senderId: '',
+        timestamp: Date.now()
+      };
 
-      if (vm.postId) {
-        NstSvcCommentFactory.addComment(vm.postId, body).then(function (comment) {
-          addCommentCallback(comment);
-          vm.post.newComment = '';
-        }).catch(function () {
-          toastr.error(NstSvcTranslation.get('Sorry, an error has occurred in sending your comment'));
-          vm.post.newComment = '';
-        });
-      } else {
-        NstSvcTaskFactory.addComment(vm.taskId, body).then(function (comment) {
-          addCommentCallback(comment);
-          vm.post.newComment = '';
-        }).catch(function () {
-          toastr.error(NstSvcTranslation.get('Sorry, an error has occurred in sending your comment'));
-          vm.post.newComment = '';
-        });
+      commentModel.isSending = true;
+      vm.sendCommentCount++;
+      vm.commentBoardLimit++;
+
+      if (!_.some(vm.comments, {
+        id: commentModel.id
+      })) {
+        commentModel.indexInComments = vm.comments.length
+        vm.comments.push(commentModel);
       }
 
-
-      function addCommentCallback(comment) {
-        if (!_.some(vm.comments, {
-            id: comment.id
-          })) {
-          vm.commentBoardLimit++;
-          vm.comments.push(comment);
-        }
-
+      $timeout(function(){
+        vm.post.newComment = '';
         e.currentTarget.value = '';
-        vm.isSendingComment = false;
+        resizeTextare(e.target);
         if (focusOnSentTimeout) {
           $timeout.cancel(focusOnSentTimeout);
         }
-
         focusOnSentTimeout = $timeout(function () {
-          e.currentTarget.focus();
-        }, 10);
-        if (typeof vm.onCommentSent === 'function') {
-          vm.onCommentSent(comment);
-        }
-        resizeTextare(e.target);
+            e.currentTarget.focus();
+        }, 2);
+      }, 10);
+
+      if (vm.postId) {
+        NstSvcCommentFactory.addComment(vm.postId, body).then(function (comment) {
+          addCommentCallback(comment, commentModel);
+        }).catch(function () {
+          addCommentFailedCallback(commentModel);
+        });
+      } else {
+        NstSvcTaskFactory.addComment(vm.taskId, body).then(function (comment) {
+          addCommentCallback(comment, commentModel);
+        }).catch(function () {
+          addCommentFailedCallback(commentModel);
+        });
+      }
+    }
+
+    function addCommentFailedCallback(commentModel) {
+      vm.comments[commentModel.indexInComments].isSending = false;
+      vm.comments[commentModel.indexInComments].isFailed = true;
+      toastr.error(NstSvcTranslation.get('Sorry, an error has occurred in sending your comment'));
+    }
+
+    function addCommentCallback(comment, commentModel) {
+      if (!_.some(vm.comments, {
+          id: comment.id
+        })) {
+          vm.comments[commentModel.indexInComments] = comment;
+      }
+      // vm.isSendingComment = false;
+
+      if (typeof vm.onCommentSent === 'function') {
+        vm.onCommentSent(comment);
       }
     }
 
@@ -249,8 +287,10 @@
       vm.isSendingComment = true;
 
       if (vm.postId) {
-        NstSvcCommentFactory.addComment(vm.postId, '', attachmentId).then(function (/*comment*/) {
+        NstSvcCommentFactory.addComment(vm.postId, '', attachmentId).then(function (comment) {
+          // console.log(comment);
           // addCommentCallback(comment)
+          vm.comments.push(comment);
           vm.isSendingComment = false;
           vm.post.newComment = '';
         }).catch(function () {
@@ -259,8 +299,9 @@
           vm.post.newComment = '';
         });
       } else {
-        NstSvcTaskFactory.addComment(vm.taskId, '', attachmentId).then(function (/*comment*/) {
+        NstSvcTaskFactory.addComment(vm.taskId, '', attachmentId).then(function (comment) {
           // addCommentCallback(comment)
+          vm.comments.push(comment);
           vm.isSendingComment = false;
           vm.post.newComment = '';
         }).catch(function () {
@@ -330,7 +371,8 @@
     }
 
     function commentBoardNeedsRolling() {
-      return vm.commentBoardIsRolled === false && vm.comments.length > 3;
+      return vm.comments.length > 3;
+      // return vm.commentBoardIsRolled === false && vm.comments.length > 3;
     }
 
     function loadMoreComments() {

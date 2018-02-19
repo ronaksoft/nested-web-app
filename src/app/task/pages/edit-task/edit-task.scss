@@ -197,6 +197,11 @@
                 top: 32px;
                 left: 50%;
             }
+            .user-avatar-24 {
+                .nst-loading {
+                    top: 50%;
+                }
+            }
             .comments-container {
                 display: flex;
                 flex-direction: column;
@@ -215,7 +220,7 @@
                     }
                 }
                 &.is-scrolled {
-                    box-shadow: inset 0 0 16px $color-solid-24;
+                    box-shadow: inset 0 0 16px $box-shadow-color;
                 }
             }
             .focus-handler {
@@ -308,5 +313,12 @@
             fill: $color-sense;
         }
         color: $color-sense;
+    }
+}
+body[dir="rtl"] {
+    .edit-task {
+        .task-comments {
+            border-radius: 6px 0 0 6px;
+        }
     }
 }

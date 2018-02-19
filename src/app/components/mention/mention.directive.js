@@ -9,6 +9,7 @@
       return {
         restrict: 'A',
         link: function (scope, _element, attrs) {
+          var eventReferences = [];
           var userKey = NST_SEARCH_QUERY_PREFIX.USER;
           var placeKey = NST_SEARCH_QUERY_PREFIX.PLACE;
           var labelKey = NST_SEARCH_QUERY_PREFIX.NEW_LABEL;
@@ -22,9 +23,9 @@
           }
 
           if (attrs.uiTinymce) {
-            scope.$watch('activeEditorElement', function () {
+            eventReferences.push(scope.$watch('activeEditorElement', function () {
               appendMention(angular.element(scope.activeEditorElement))
-            });
+            }));
           } else {
             appendMention(_element)
           }
@@ -284,8 +285,15 @@
             $rootScope.$on('$stateChangeSuccess', function () {
               angular.element(".atwho-container").remove();
             });
-
           }
+
+          scope.$on('$destroy', function () {
+            _.forEach(eventReferences, function (canceler) {
+              if (_.isFunction(canceler)) {
+                canceler();
+              }
+            });
+          });
         }
       }
     })

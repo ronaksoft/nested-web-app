@@ -7,10 +7,10 @@
 
   /** @ngInject */
   function PlaceAddMemberController($scope, $q, $log, $rootScope,
-    NST_USER_SEARCH_AREA,
-    NstSvcUserFactory, NstSvcTranslation, NstUtility,
-    NST_PLACE_MEMBER_TYPE, NstSvcPlaceFactory, toastr,
-    _, currentPlace, mode, isForGrandPlace, newPlace, NstSvcAuth) {
+                                    NST_USER_SEARCH_AREA,
+                                    NstSvcUserFactory, NstSvcTranslation, NstUtility,
+                                    NST_PLACE_MEMBER_TYPE, NstSvcPlaceFactory, toastr,
+                                    _, currentPlace, mode, isForGrandPlace, newPlace, NstSvcAuth) {
     var vm = this;
     var defaultSearchResultCount = 10;
     var eventReferences = [];
@@ -22,7 +22,6 @@
     vm.users = [];
     vm.search = _.debounce(search, 512);
     vm.add = add;
-    vm.invite = invite;
     vm.query = '';
     var isMulti = angular.isArray(currentPlace);
     if (isForGrandPlace === true) {
@@ -85,10 +84,8 @@
       }
 
       NstSvcUserFactory.search(settings, (newPlaceFlag || isMulti ?
-          NST_USER_SEARCH_AREA.ACCOUNTS :
-          (vm.isGrandPlace || isForGrandPlace) ?
-          NST_USER_SEARCH_AREA.INVITE :
-          NST_USER_SEARCH_AREA.ADD))
+        NST_USER_SEARCH_AREA.ACCOUNTS :
+        NST_USER_SEARCH_AREA.ADD))
         .then(searchCallBack)
         .catch(function (error) {
           $log.debug(error);
@@ -99,7 +96,7 @@
         vm.users = _.differenceBy(users, vm.selectedUsers, 'id');
         vm.users = _.differenceBy(vm.users, [vm.currentUser], 'id');
         if (_.isString(settings.query) &&
-          _.size(settings.query) >= 4 &&
+          _.size(settings.query) >= 0 &&
           _.indexOf(settings.query, " ") === -1 &&
           !_.some(vm.users, {
             id: settings.query
@@ -117,10 +114,12 @@
         // vm.query = settings.query;
       }
     }
-    
-    $scope.$watch(function () {
+
+    eventReferences.push($scope.$watch(function () {
       return vm.query
-    }, function(keyword){return vm.search(keyword)}, true);
+    }, function (keyword) {
+      return vm.search(keyword)
+    }, true));
 
     function add() {
       if (newPlace !== undefined && newPlace === true) {
@@ -136,19 +135,6 @@
       }
     }
 
-    function invite() {
-      if (newPlace !== undefined && newPlace === true) {
-        $scope.$close(vm.selectedUsers);
-      } else {
-        if (isMulti) {
-          angular.forEach(currentPlace, function (place) {
-            inviteUsers(place, vm.selectedUsers);
-          })
-        } else {
-          inviteUsers(currentPlace, vm.selectedUsers);
-        }
-      }
-    }
 
     /**
      * Emits 'member-added' event with the given place and user
@@ -157,59 +143,12 @@
      * @param {any} user
      */
     function dispatchUserAdded(place, user) {
-      eventReferences.push($rootScope.$emit(
+      $rootScope.$emit(
         'member-added', {
           place: place,
           member: user
         }
-      ));
-    }
-
-    /**
-     * Invite members to grand place
-     * and displays the error and successful toastr
-     * @param {object} place
-     * @param {array[object]} users
-     */
-    function inviteUsers(place, users) {
-      NstSvcPlaceFactory.inviteUser(place, users).then(function (result) {
-
-        // dispatch the required events
-        NstSvcPlaceFactory.get(place.id, true).then(function (newPlace) {
-          var dispatcher = _.partial(dispatchUserAdded, newPlace);
-          _.forEach(result.addedUsers, dispatcher);
-        });
-        // notify the user about the result of adding
-        if (_.size(result.rejectedUsers) === 0 &&
-          _.size(result.addedUsers) > 0) {
-          toastr.success(NstUtility.string.format(NstSvcTranslation.get('All selected users have been invited to place {0} successfully.'), place.name));
-        } else {
-          var names = null;
-          var message = null;
-
-          // there are users that we were not able to invite them
-          if (_.size(result.rejectedUsers) > 0) {
-            names = _(result.rejectedUsers).map(function (user) {
-              return NstUtility.string.format('{0} (@{1})', user.fullName, user.id);
-            }).join('<br/>');
-            message = NstSvcTranslation.get('We are not able to invite these users to the place:');
-            toastr.warning(message + '<br/>' + names);
-          }
-
-          //there are some users that were invited successfully
-          if (_.size(result.addedUsers) > 0) {
-            names = _(result.addedUsers).map(function (user) {
-              return NstUtility.string.format('{0} (@{1})', user.fullName, user.id);
-            }).join('<br/>');
-            message = NstSvcTranslation.get('These users have been invited:');
-            toastr.success(message + '<br/>' + names);
-          }
-        }
-        $scope.$close(result.addedUsers);
-      }).catch(function () {
-        toastr.warning(NstSvcTranslation.get('An error has occured while inviting the user(s) to the place!'));
-        $scope.$close([]);
-      });
+      );
     }
 
     function addUser(place, users) {
@@ -257,11 +196,9 @@
 
     function checkUserLimitPlace() {
       if (!isMulti) {
-        var previousUsers = mode === 'offline-mode' ?
-          0 :
-          currentPlace.counters.creators + currentPlace.counters.key_holders;
+        var previousUsers = mode === 'offline-mode' ? 0 : currentPlace.counters.creators + currentPlace.counters.key_holders;
 
-        // fixme :: read limit from config
+        // TODO: read limit from config
         vm.limit = 10000 - previousUsers;
       } else {
         vm.limit = 1000;
@@ -276,5 +213,13 @@
         placeholder: vm.isGrandPlace ? NstSvcTranslation.get("Name, email or phone number...") : NstSvcTranslation.get("Name or ID...")
       };
     }
+
+    $scope.$on('$destroy', function () {
+      _.forEach(eventReferences, function (canceler) {
+        if (_.isFunction(canceler)) {
+          canceler();
+        }
+      });
+    });
   }
 })();

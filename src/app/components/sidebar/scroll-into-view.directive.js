@@ -6,14 +6,15 @@
     .directive('scrollIntoView', fn);
 
   /** @ngInject */
-  function fn($timeout) {
+  function fn($timeout, _) {
     return {
       restrict: 'A',
       link: function ($scope, $el, $attr) {
         var timeout;
+        var eventReferences = [];
 
         $timeout(function () {
-          $scope.$watch(function () {
+          eventReferences.push($scope.$watch(function () {
             return $scope.ctlSidebar.scrollIntoViewEvent;
           }, function (n) {
             if (n && n.currentTarget) {
@@ -22,7 +23,7 @@
                 scroller(n.currentTarget);
               }, 300)
             }
-          })
+          }));
         }, 100);
         function scroller(el) {
           var parentListItem = $(el).parents($attr.scrollIntoView)[0]
@@ -44,7 +45,13 @@
           }
         }
 
-
+        $scope.$on('$destroy', function () {
+          _.forEach(eventReferences, function (canceler) {
+            if (_.isFunction(canceler)) {
+              canceler();
+            }
+          });
+        });
       }
     };
   }

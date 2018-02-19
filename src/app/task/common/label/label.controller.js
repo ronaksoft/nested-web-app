@@ -17,6 +17,8 @@
   function TaskLabelController($scope, _) {
     var vm = this;
 
+    var eventReferences = [];
+
     vm.labelInput = '';
     vm.labels = [];
     vm.mentionLabelsData = [];
@@ -121,13 +123,13 @@
        vm.mentionLabelsData = [];
     }
 
-    $scope.$watch(function () {
+    eventReferences.push($scope.$watch(function () {
       return vm.labelsData;
     }, function (newVal) {
       if (newVal.hasOwnProperty('init') && newVal.init === true) {
         initData(newVal.data);
       }
-    });
+    }));
 
     function initData(labels) {
       vm.labels = _.map(labels, function (label) {
@@ -136,5 +138,13 @@
       vm.labelsData = labels.slice(0);
       vm.mentionLabelsData = labels.slice(0);
     }
+
+    $scope.$on('$destroy', function () {
+      _.forEach(eventReferences, function (canceler) {
+        if (_.isFunction(canceler)) {
+          canceler();
+        }
+      });
+    });
   }
 })();

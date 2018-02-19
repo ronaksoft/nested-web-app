@@ -81,17 +81,6 @@
             <li class="side-grand-place-item" ng-repeat="place in ctlSidebar.places" data-ng-include="'app/components/sidebar/place.html'"
               onload="place = place"></li>
           </ul>
-          <ul class="invitations-list" data-ng-if="ctlSidebar.invitations.length > 0 ">
-            <li class="side-invite-item" ng-repeat="invitaion in ctlSidebar.invitations">
-              <a href="javascript:void(0);" ng-click="ctlSidebar.invitation.showModal(invitaion.id)" class="side-invite-item-container">
-                <div class="side-invite-item-image">
-                  <img class="" ng-src="{{invitaion.place | picture : 'x32'}}" />
-                </div>
-                <span class="_txe" data-ng-bind="::invitaion.place.name" data-ellipsis></span>
-                &nbsp;<translate>Invitation</translate>
-              </a>
-            </li>
-          </ul>
         </div>
       </div>
     </div>

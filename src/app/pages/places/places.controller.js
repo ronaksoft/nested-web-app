@@ -44,11 +44,11 @@
     vm.grandSelectable = true;
     vm.subSelectable = true;
 
-    $scope.$watch(function () {
+    eventReferences.push($scope.$watch(function () {
       return vm.placesSetting;
     }, function () {
       showLoading();
-    }, true);
+    }, true));
 
     vm.sortUpdateHandler = sortUpdateHandler;
 
@@ -211,7 +211,6 @@
      *****************************/
     vm.user = NstSvcAuth.user;
     vm.stateParams = $stateParams;
-    vm.invitation = {};
     var absolutePlaces = [];
     vm.places = [];
     vm.forbiddenAddPlaces = [];

@@ -243,11 +243,11 @@
       } else if (vm.isAssignedToMePage) {
         if (isCompleted) {
           statusFilter.push(NST_TASK_STATUS.COMPLETED);
+          statusFilter.push(NST_TASK_STATUS.FAILED);
         } else {
           statusFilter.push(NST_TASK_STATUS.ASSIGNED);
           statusFilter.push(NST_TASK_STATUS.HOLD);
           statusFilter.push(NST_TASK_STATUS.OVERDUE);
-          statusFilter.push(NST_TASK_STATUS.FAILED);
         }
         promise = NstSvcTaskFactory.getByFilter({
           filter: NST_TASK_STATUS.ASSIGNED_TO_ME,
@@ -258,6 +258,7 @@
       } else if (vm.isCreatedByMePage) {
         if (isCompleted) {
           statusFilter.push(NST_TASK_STATUS.COMPLETED);
+          statusFilter.push(NST_TASK_STATUS.FAILED);
         } else {
           statusFilter.push(NST_TASK_STATUS.NO_ASSIGNED);
           statusFilter.push(NST_TASK_STATUS.ASSIGNED);
@@ -265,7 +266,6 @@
           statusFilter.push(NST_TASK_STATUS.REJECTED);
           statusFilter.push(NST_TASK_STATUS.HOLD);
           statusFilter.push(NST_TASK_STATUS.OVERDUE);
-          statusFilter.push(NST_TASK_STATUS.FAILED);
         }
         promise = NstSvcTaskFactory.getByFilter({
           filter: NST_TASK_STATUS.CREATED_BY_ME,
@@ -276,6 +276,7 @@
       } else if (vm.isWatchlistPage) {
         if (isCompleted) {
           statusFilter.push(NST_TASK_STATUS.COMPLETED);
+          statusFilter.push(NST_TASK_STATUS.FAILED);
         } else {
           statusFilter.push(NST_TASK_STATUS.NO_ASSIGNED);
           statusFilter.push(NST_TASK_STATUS.ASSIGNED);
@@ -283,7 +284,6 @@
           statusFilter.push(NST_TASK_STATUS.REJECTED);
           statusFilter.push(NST_TASK_STATUS.HOLD);
           statusFilter.push(NST_TASK_STATUS.OVERDUE);
-          statusFilter.push(NST_TASK_STATUS.FAILED);
         }
         promise = NstSvcTaskFactory.getByFilter({
           filter: NST_TASK_STATUS.WATCHED,
@@ -377,6 +377,8 @@
             vm.firstTimeLoading = false;
           }
         }, 100);
+      } else {
+        vm.firstTimeLoading = false;
       }
     }
 
@@ -384,8 +386,7 @@
       getTasks().then(function (tasks) {
         mergeTask(tasks);
         // vm.firstTimeLoading = false;
-        vm.taskSetting.skip = vm.tasks.length;
-
+        vm.taskSetting.skip += vm.taskSetting.limit;
         // to full fill page at first loading
         fillThePage();
       });
@@ -398,7 +399,7 @@
       var deferred = $q.defer();
       getTasks().then(function (tasks) {
         appendTasks(tasks);
-        vm.taskSetting.skip = vm.tasks.length;
+        vm.taskSetting.skip += vm.taskSetting.limit;
         deferred.resolve();
       }).catch(function () {
         deferred.reject();

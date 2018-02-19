@@ -108,7 +108,7 @@
         .catch(function () {
           toastr.error("An error happened while creating your account.");
         }).finally(function () {
-          vm.registerProgress = false;          
+          vm.registerProgress = false;
         });
 
       }).catch(function () {
@@ -234,9 +234,9 @@
     }
 
     $scope.$on('$destroy', function() {
-      _.forEach(eventReferences, function(cenceler) {
-        if (_.isFunction(cenceler)) {
-          cenceler();
+      _.forEach(eventReferences, function(canceler) {
+        if (_.isFunction(canceler)) {
+          canceler();
         }
       });
     });

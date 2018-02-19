@@ -1139,6 +1139,10 @@ body[dir="rtl"] {
   .file-list ul li.checked .checkbox div {
     border-width: 0;
   }
+  .label-sm-modal .holders li {
+    padding-right: 0;
+    padding-left: 24px;
+  }
 }
 
 body[dir="ltr"] {

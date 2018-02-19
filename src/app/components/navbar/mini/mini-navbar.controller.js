@@ -8,8 +8,8 @@
   /** @ngInject */
   function MiniNavbarController($q, $state, $stateParams, $rootScope, $scope,
                                 NST_AUTH_EVENT, NST_DEFAULT,
-                                NstSvcAuth, NstSvcPlaceFactory, NstSvcInvitationFactory,
-                                NstVmUser, NstVmPlace, NstVmInvitation, _) {
+                                NstSvcAuth, NstSvcPlaceFactory,
+                                NstVmUser, NstVmPlace, _) {
     var vm = this;
     var eventReferences = [];
     vm.mentionOpen = false;
@@ -19,7 +19,6 @@
      *****************************/
 
     vm.stateParams = $stateParams;
-    vm.invitation = {};
     vm.urls = {
       unfiltered: $state.href(getUnfilteredState()),
       compose: $state.href(getComposeState(), { placeId: vm.stateParams.placeId || NST_DEFAULT.STATE_PARAM }),
@@ -77,10 +76,9 @@
      *****  Controller Logic  ****
      *****************************/
 
-    $q.all([getUser(), getMyPlaces(), getInvitations()]).then(function (resolvedSet) {
+    $q.all([getUser(), getMyPlaces()]).then(function (resolvedSet) {
       vm.user = mapUser(resolvedSet[0]);
       vm.places = mapPlaces(resolvedSet[1]);
-      vm.invitations = mapInvitations(resolvedSet[2]);
       fixUrls();
     });
 
@@ -174,10 +172,6 @@
       return NstSvcPlaceFactory.getMyTinyPlaces();
     }
 
-    function getInvitations() {
-      return NstSvcInvitationFactory.getAll();
-    }
-
     /*****************************
      *****     Map Methods    ****
      *****************************/
@@ -188,10 +182,6 @@
 
     function mapPlace(placeModel, depth) {
       return new NstVmPlace(placeModel, depth);
-    }
-
-    function mapInvitation(invitationModel) {
-      return new NstVmInvitation(invitationModel);
     }
 
     function mapPlaces(placeModels, depth) {
@@ -211,10 +201,6 @@
 
         return place;
       });
-    }
-
-    function mapInvitations(invitationModels) {
-      return invitationModels.map(mapInvitation);
     }
 
 
@@ -281,9 +267,9 @@
      *****************************/
 
      $scope.$on('$destroy', function () {
-       _.forEach(eventReferences, function (cenceler) {
-         if (_.isFunction(cenceler)) {
-           cenceler();
+       _.forEach(eventReferences, function (canceler) {
+         if (_.isFunction(canceler)) {
+           canceler();
          }
        });
      });

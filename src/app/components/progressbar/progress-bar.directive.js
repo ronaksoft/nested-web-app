@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   angular
@@ -12,9 +12,12 @@
           mode: '@progressbarMode'
         },
         link: function (scope, element) {
+          var eventReferences = [];
           var constructor = progressBar.Line;
           if (scope.mode) {
-            var qMode = String(scope.mode).toLowerCase().split('').map(function (v, i) { return 0 == i ? v.toUpperCase() : v; }).join('');
+            var qMode = String(scope.mode).toLowerCase().split('').map(function (v, i) {
+              return 0 == i ? v.toUpperCase() : v;
+            }).join('');
             if (modeIsValid(qMode)) {
               constructor = progressBar[qMode];
             }
@@ -27,8 +30,17 @@
             easing: 'easeInOut',
             duration: 1400
           });
-          scope.$watch('ngProgressbar', function (newVal) {
+
+          eventReferences.push(scope.$watch('ngProgressbar', function (newVal) {
             progressbar.animate(Number(newVal));
+          }));
+
+          scope.$on('$destroy', function () {
+            _.forEach(eventReferences, function (canceler) {
+              if (_.isFunction(canceler)) {
+                canceler();
+              }
+            });
           });
         }
       };

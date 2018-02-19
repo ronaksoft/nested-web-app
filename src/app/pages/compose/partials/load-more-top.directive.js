@@ -20,14 +20,15 @@
           handleScrollThr()
 
         }, 1);
-        
-        scope.$on('$includeContentLoaded', function() {
-          handleScrollDeb()
+
+        scope.$on('scroll-handler', function() {
+          handleScrollDeb();
         });
         var handleScrollThr = _.throttle(handleScroll, 512)
         var handleScrollDeb = _.debounce(handleScroll, 512)
 
         function handleScroll() {
+          scope.fullFilled = el[0].scrollTop > 0 || el[0].scrollHeight > el.height();
           if (window.nativeScroll) {
             if (el[0].scrollTop === 0 && scope.isScrolled) {
               scope.loadMore();
@@ -35,6 +36,7 @@
             } else if(el[0].scrollTop !== 0 && !scope.isScrolled) {
               scope.isScrolled = true;
             }
+            scope.scrollBotDis = el[0].scrollHeight - el[0].scrollTop - el.height();
           } else {
             if (scope.scrollInstance.y === 0 && scope.isScrolled) {
               scope.loadMore();
@@ -44,6 +46,7 @@
                 scope.isScrolled = true;
               });
             }
+            scope.scrollBotDis = scope.scrollInstance.maxScrollY - scope.scrollInstance.y;
           }
         }
 

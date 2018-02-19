@@ -86,7 +86,8 @@
 
 .content iframe {
   height: calc(100vh - 336px)!important;
-  min-height: 100px
+  min-height: 100px;
+  background-color: $color-white;
 }
 
 .compose-subject-input {

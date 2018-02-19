@@ -108,9 +108,10 @@
       }
     })
 
-    .directive('lngClockpicker', ['clockpickerService', 'clockpickerDefaultOptions', 'moment', '$timeout', 'detectUtils', function (clockpickerService, clockpickerDefaultOptions, moment, $timeout, detectUtils) {
+    .directive('lngClockpicker', ['clockpickerService', 'clockpickerDefaultOptions', 'moment', '$timeout', 'detectUtils', '_', function (clockpickerService, clockpickerDefaultOptions, moment, $timeout, detectUtils, _) {
 
       function link(scope, element, attr, ngModel) {
+        var eventReferences = [];
         var options = angular.extend({}, clockpickerDefaultOptions, scope.$eval(attr.lngClockpickerOptions));
 
         var isMobile = false;
@@ -136,7 +137,7 @@
 
         var parseViewValue = clockpickerService.parseTime.bind(null, isMobile && options.nativeOnMobile, options.twelvehour);
 
-        scope.$watch(function () {
+        eventReferences.push(scope.$watch(function () {
           return ngModel.$modelValue && ngModel.$modelValue.unix && ngModel.$modelValue.unix();
         }, function () {
           ngModel.$viewValue = ngModel.$formatters.reduceRight(function (prev, formatter) {
@@ -144,7 +145,7 @@
           }, ngModel.$modelValue);
 
           ngModel.$render();
-        });
+        }));
 
         element.blur(function () {
           ngModel.$valid && element.val(getModelValue().local().format(formatTime));
@@ -182,6 +183,14 @@
           return (element.is(':focus') && isSameTime) ?
             ngModel.$viewValue :
             localMomentDate.format(formatTime);
+        });
+
+        scope.$on('$destroy', function () {
+          _.forEach(eventReferences, function (canceler) {
+            if (_.isFunction(canceler)) {
+              canceler();
+            }
+          });
         });
       }
 

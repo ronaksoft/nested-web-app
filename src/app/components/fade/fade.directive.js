@@ -18,6 +18,7 @@
         restrict: 'A',
         scope: {},
         link: function(scope, element, attrs) {
+          var eventReferences = [];
           // configure options
           var passedOptions = scope.$eval(attrs.jqOptions);
 
@@ -42,7 +43,7 @@
           // watch the trigger
           var jqElm = $(element);
 
-          scope.$watch(function () {
+          eventReferences.push(scope.$watch(function () {
             return attrs.show;
           }, function() {
             var value = eval(attrs.show);
@@ -59,6 +60,14 @@
                 }
               }, delay);
             }
+          }));
+
+          scope.$on('$destroy', function () {
+            _.forEach(eventReferences, function (canceler) {
+              if (_.isFunction(canceler)) {
+                canceler();
+              }
+            });
           });
         }
       }

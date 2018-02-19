@@ -30,7 +30,7 @@
         margin: 0;
       }
       input, select {
-        background-color: $color-bg-nested;
+        background-color: $color-white-to-black;
       }
     }
     .condition-row {
@@ -40,11 +40,11 @@
       margin-bottom: 8px;
       select {
         height: 40px;
-        background: url("../assets/icons/inputform.svg") no-repeat 98% -124px, linear-gradient(to bottom, $color-bg-nested, $color-bg-nested 100%) !important;
+        background: url("../assets/icons/inputform.svg") no-repeat 98% -124px, linear-gradient(to bottom, $color-white-to-black, $color-calm 100%) !important;
       }
       input {
         min-width: 92px;
-        background-color: $color-bg-nested;
+        background-color: $color-white-to-black;
       }
     }
     .add-condition {

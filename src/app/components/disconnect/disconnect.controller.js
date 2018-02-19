@@ -6,8 +6,9 @@
     .controller('DisconnectController', DisconnectController);
 
   /** @ngInject */
-  function DisconnectController($scope, NstSvcConnectionMonitor, moment, $interval) {
+  function DisconnectController($scope, NstSvcConnectionMonitor, moment, $interval, _) {
     var vm = this;
+    var eventReferences = [];
 
     vm.retry = retry;
     var counter = null;
@@ -16,7 +17,7 @@
       NstSvcConnectionMonitor.reconnect();
     }
 
-    $scope.$watch(function () {
+    eventReferences.push($scope.$watch(function () {
       return vm.isDisconnected;
     }, function (newValue) {
       if (newValue) {
@@ -30,11 +31,19 @@
         // disable the counter
         $interval.cancel(counter);
       }
-    });
+    }));
 
     NstSvcConnectionMonitor.onReconnecting = function (data) {
       vm.nextRetryTime = moment.duration(data.time).seconds();
     };
+
+    $scope.$on('$destroy', function () {
+      _.forEach(eventReferences, function (canceler) {
+        if (_.isFunction(canceler)) {
+          canceler();
+        }
+      });
+    });
 
   }
 })();

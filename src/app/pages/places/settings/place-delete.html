@@ -30,7 +30,7 @@
           placeholder="Place ID" translate-attrs="placeholder" focus-me enter-press="removeCtrl.remove();">
         <span class="_df"><translate>To confirm and proceed with deleting this Place, please type below the Place ID:</translate></span>
         <a
-          class="_df">{{removeCtrl.place.id}}</a>
+          class="_df" style="user-select:all;">{{removeCtrl.place.id}}</a>
       </div>
       <p ng-if="removeCtrl.places" class="_df nst-mood-storm modal-detail">
         <translate>By deleting these places, you are agreeing to erase all Place data permanently. Are you sure you want to do this?</translate>

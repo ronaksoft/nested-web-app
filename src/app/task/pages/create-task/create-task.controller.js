@@ -10,7 +10,8 @@
                                 NstSvcTranslation, NstTask, NST_ATTACHMENT_STATUS, NstUtility, NstSvcTaskUtility, NstSvcStore,
                                 modalData) {
     var vm = this;
-    // var eventReferences = [];
+    var eventReferences = [];
+
     vm.titleLengthLimit = 64;
     vm.showMoreOption = false;
     vm.user = NstSvcAuth.user;
@@ -211,11 +212,11 @@
       }
     }
 
-    $scope.$watch(function () {
+    eventReferences.push($scope.$watch(function () {
       return vm.model.assignees;
     }, function (newVal) {
       getAssigneeIcon(newVal);
-    }, true);
+    }, true));
 
     function removeDueDate() {
       vm.model.dueDate = null;
@@ -295,9 +296,9 @@
       }
     }
 
-    $scope.$watch(function () {
+    eventReferences.push($scope.$watch(function () {
       return vm.model.attachments
-    }, updateTotalAttachmentsRatio, true);
+    }, updateTotalAttachmentsRatio, true));
 
     var createInBackground = true;
     function updateTotalAttachmentsRatio() {
@@ -345,7 +346,7 @@
 
     initiateFocus();
 
-    $scope.$watch(function () {
+    eventReferences.push($scope.$watch(function () {
       return {
         titleFocus: vm.titleFocus,
         assigneeFocus: vm.assigneeFocus,
@@ -357,15 +358,19 @@
         labelFocus: vm.labelFocus
       };
     }, function (newVal) {
-
       if (_.countBy(Object.values(newVal))['true'] > 1) {
         vm.todoFocus = false;
       }
-    }, true);
+    }, true));
 
     $scope.$on('$destroy', function () {
       $rootScope.$broadcast('close-background-modal', {
         id: vm.modalId
+      });
+      _.forEach(eventReferences, function (canceler) {
+        if (_.isFunction(canceler)) {
+          canceler();
+        }
       });
     });
   }

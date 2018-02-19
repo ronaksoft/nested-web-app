@@ -154,9 +154,9 @@
 
     // Removes all event listeners
     $scope.$on('$destroy', function () {
-      _.forEach(eventReferences, function (cenceler) {
-        if (_.isFunction(cenceler)) {
-          cenceler();
+      _.forEach(eventReferences, function (canceler) {
+        if (_.isFunction(canceler)) {
+          canceler();
         }
       });
     });
