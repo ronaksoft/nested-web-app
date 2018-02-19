@@ -1,0 +1,23 @@
+<div class="places-modal apps-modal">
+    <div class="modal-head">
+        <div class="_df" ng-click="$dismiss();">
+        <svg class="_24svg">
+            <use xlink:href="/assets/icons/nst-icn24.svg#xcross"></use>
+        </svg>
+        </div>
+        <h4 translate-inner>Create token</h4>
+    </div>
+    <div class="modal-body">
+        <input placeholder="Search apps" ng-model="ctrl.query" type="text">
+        <ul class="list-apps" ng-if="ctrl.apps.length > 0">
+            <li ng-repeat="app in ctrl.apps track by app.id" ng-class="{'selected': app.id === ctrl.selectedApp}">
+                <img ng-src="{{app.iconLargeUrl}}" alt="">
+                <h3>{{app.name}}</h3>
+                <cite>{{app.developer}}</cite>
+                <button class="butn butn-green secondary" ng-if="!app.token" ng-click="ctrl.selectApp(app.id)">Create Token</button>
+                <button class="butn butn-green" ng-class="ctrl.copyToClipboard(app.token)" ng-if="app.token">Copy Token</button>
+            </li>
+        </ul>
+        <div ng-if="ctrl.apps.length === 0 && !ctrl.intiatlLoading"><translate>No app has been registered in this Nested</translate></div>
+    </div>
+</div>

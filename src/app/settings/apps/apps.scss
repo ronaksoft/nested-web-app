@@ -1,0 +1,56 @@
+.list-my-apps {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 8px 0;
+    li {
+        display: flex;
+        height: 48px;
+        align-items: center;
+        img {
+            width: 32px;
+            border-radius: 2px;
+            flex: none;
+            overflow: hidden;
+            height: 32px;
+        }
+        cite {
+            white-space: nowrap;
+            flex: none;
+            padding: 0 8px;
+            font-size: 14px;
+        }
+    }
+}
+
+.list-apps {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    padding: 8px;
+    height: auto;
+    li {
+        display: flex;
+        width: 256px;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 256px;
+        img {
+            display: flex;
+            width: 128px;
+            height: 128px;
+        }
+    }
+}
+.app-generate {
+    margin: 16px auto;
+    width: 128px;
+    line-height: 30px;
+}
+
+.apps-modal {
+    .modal-body {
+        padding: 0 16px;
+    }
+}

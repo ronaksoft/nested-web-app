@@ -26,6 +26,7 @@
       'ronak.nested.web.config',
       'ronak.nested.web.3rd',
       'ronak.nested.web.task',
+      'ronak.nested.web.app',
       'ng.deviceDetector'
     ]);
 })();

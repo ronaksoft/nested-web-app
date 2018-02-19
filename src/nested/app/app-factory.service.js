@@ -31,7 +31,6 @@
     AppFactory.prototype.set = set;
     AppFactory.prototype.get = get;
     AppFactory.prototype.getMany = getMany;
-    AppFactory.prototype.search = search;
 
     function parseApp(data) {
       var factory = this;
@@ -66,7 +65,18 @@
     }
 
     function getAllTokens() {
-      return NstSvcServer.request('app/get_tokens', {});
+      var deferred = $q.defer();
+      NstSvcServer.request('app/get_tokens', {})
+        .then(function(data){
+          deferred.resolve(_.map(data.app_tokens, function(app) {
+            return {
+              token: app._id,
+              app: parseApp(app.app)
+            }
+          }));
+        })
+        .catch(deferred.reject);
+      return deferred.promise;
     }
 
     function register(model) {
@@ -194,8 +204,8 @@
       var defer = $q.defer();
       return factory.sentinel.watch(function () {
         NstSvcServer.request('search/apps', parameters).then(function (result) {
-          defer.resolve(_.map(result.tasks, function(task) {
-            return factory.parseApp(task);
+          defer.resolve(_.map(result.apps, function(app) {
+            return factory.parseApp(app);
           }));
         }).catch(defer.reject);
         return defer.promise;

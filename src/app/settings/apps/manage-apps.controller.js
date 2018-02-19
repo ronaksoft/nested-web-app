@@ -1,13 +1,3 @@
-/**
- * @file src/app/settings/password/change-password.controller.js
- * @author Soroush Torkzadeh <sorousht@nested.me>
- * @description The user changes his/her password
- * Documented by:          Soroush Torkzadeh <sorousht@nested.me>
- * Date of documentation:  2017-08-01
- * Reviewed by:            -
- * Date of review:         -
- */
-
 (function() {
   'use strict';
 
@@ -15,10 +5,57 @@
     .module('ronak.nested.web.settings')
     .controller('ManageAppsController', ManageAppsController);
 
-  function ManageAppsController(toastr,
-    NstSvcUserFactory,
+  function ManageAppsController(toastr, $uibModal,
+    NstSvcUserFactory, NstSvcAppFactory,
     NST_SRV_ERROR, NstSvcTranslation) {
     var vm = this;
+    vm.query = '';
+    vm.limit = 16;
+    vm.skip = 0;
+    vm.apps = [];
+    vm.remove = remove;
+    vm.copyToClipboard = copyToClipboard;
+    
+    (myApps)();
 
+    vm.addApplication = function () {
+      $uibModal.open({
+        animation: false,
+        size: '960',
+        templateUrl: 'app/settings/apps/partials/create-token.html',
+        controller: 'CreateTokenController',
+        controllerAs: 'ctrl'
+      }).result.then(function () {
+      }).catch(function () {
+      });
+    };
+
+    function search() {
+      NstSvcAppFactory.search(vm.query, vm.limit, vm.skip).then(function(apps){
+        vm.apps = apps;
+        vm.skip += apps.length;
+      });
+    }
+
+    function myApps() {
+      NstSvcAppFactory.getAllTokens().then(function(apps){
+        vm.apps = apps
+      });
+    }
+
+    function copyToClipboard(text) {
+      var inp = document.createElement('input');
+      document.body.appendChild(inp);
+      inp.value = text;
+      inp.select();
+      document.execCommand('copy', false);
+      inp.remove();
+    }
+
+    function remove(token) {
+      NstSvcAppFactory.revokeToken(token).then(function(){
+        _.remove(vm.apps, {token: token})
+      });
+    }
   }
 })();
