@@ -36,10 +36,24 @@
         align-items: center;
         justify-content: center;
         height: 256px;
+        border-radius: 8px;
         img {
             display: flex;
             width: 128px;
             height: 128px;
+        }
+        h3 {
+            font-size: 16px;
+            margin: 8px 0 4px;
+        }
+        cite {
+            margin: 0;
+            font-size: 13px;
+            display: flex;
+            font-weight: bold;
+        }
+        &.integrated {
+            background-color: transparentize($color-sense, 1 - .08);
         }
     }
 }
