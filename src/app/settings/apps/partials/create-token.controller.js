@@ -2,10 +2,10 @@
   'use strict';
 
   angular
-    .module('ronak.nested.web.settings')
+    .module('ronak.nested.web.app')
     .controller('CreateTokenController', CreateTokenController);
 
-  function CreateTokenController($scope, toastr, NstSvcAppFactory, NST_SRV_ERROR, NstSvcTranslation) {
+  function CreateTokenController($scope, toastr, NstSvcAppFactory, NstSvcTranslation, myApps) {
     var vm = this;
     vm.tokenName = '';
     vm.apps = [];
@@ -25,8 +25,7 @@
     function search(query) {
       NstSvcAppFactory.search(query || vm.query, vm.limit, vm.skip).then(function (apps) {
         vm.intiatlLoading = false;
-        vm.apps = apps;
-        vm.skip += apps.length;
+        insertAppsInView(apps);
       });
     }
 
@@ -49,6 +48,18 @@
         inp.select();
         document.execCommand('copy', false);
         inp.remove();
+    }
+    function insertAppsInView(items) {
+        vm.apps = [];
+        items.forEach(function (app) {
+            var item = _.find(myApps, function(napp){
+                return napp.app.id == app.id;
+            });
+            if (item) {
+                app.token = item.token
+            }
+            vm.apps.push(app);
+        })
     }
     $scope.$on('$destroy', function () {
       _.forEach(eventReferences, function (canceler) {

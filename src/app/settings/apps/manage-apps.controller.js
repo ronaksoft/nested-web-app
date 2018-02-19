@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('ronak.nested.web.settings')
+    .module('ronak.nested.web.app')
     .controller('ManageAppsController', ManageAppsController);
 
   function ManageAppsController(toastr, $uibModal,
@@ -24,10 +24,13 @@
         size: '960',
         templateUrl: 'app/settings/apps/partials/create-token.html',
         controller: 'CreateTokenController',
+        resolve: {
+          myApps: function () {
+            return vm.apps;
+          }
+        },
         controllerAs: 'ctrl'
-      }).result.then(function () {
-      }).catch(function () {
-      });
+      }).result.then(myApps).catch(myApps);
     };
 
     function search() {

@@ -8,8 +8,8 @@
         <h4 translate-inner>Create token</h4>
     </div>
     <div class="modal-body">
-        <input placeholder="Search apps" ng-model="ctrl.query" type="text">
-        <ul class="list-apps" ng-if="ctrl.apps.length > 0">
+        <input placeholder="Search apps" ng-model="ctrl.query" type="text" focus-me="1">
+        <ul class="list-apps">
             <li ng-repeat="app in ctrl.apps track by app.id" ng-class="{'integrated': app.token}">
                 <img ng-src="{{app.iconLargeUrl}}" alt="">
                 <p> 
@@ -21,7 +21,7 @@
             </li>
         </ul>
         <div class="modal-footer">
-          <h5 ng-if="ctrl.apps.length === 0 && !ctrl.intiatlLoading && ctrl.query.length == 0"><translate>No app has been registered in this Nested</translate></h5>
+          <h5 ng-if="ctrl.apps.length === 0 && !ctrl.intiatlLoading && ctrl.query.length == 0"><translate>No app has been registered in this Nested, Contact with admin</translate></h5>
           <h5 ng-if="ctrl.apps.length === 0 && !ctrl.intiatlLoading && ctrl.query.length > 0"><translate>No results for "{{ctrl.query}}"</translate></h5>
         </div>
     </div>
