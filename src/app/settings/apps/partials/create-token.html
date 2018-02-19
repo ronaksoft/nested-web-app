@@ -17,7 +17,7 @@
                     <translate>by {{app.developer}}</translate>
                 </p>
                 <button class="butn butn-green secondary" ng-if="!app.token" ng-click="ctrl.selectApp(app.id)">Create Token</button>
-                <button class="butn butn-green" ng-class="ctrl.copyToClipboard(app.token)" ng-if="app.token">Copy Token</button>
+                <button class="butn butn-green" ng-click="ctrl.copyToClipboard(app.token)" ng-if="app.token">Copy Token</button>
             </li>
         </ul>
         <div class="modal-footer">
