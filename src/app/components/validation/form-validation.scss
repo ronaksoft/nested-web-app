@@ -14,3 +14,8 @@
     font-weight: 200
   }
 }
+input.ng-invalid.ng-touched, input.ng-invalid.ng-touched:focus, {
+  border: 2px solid $color-force-wire !important;
+  box-shadow: none !important;
+  color: $color-force-wire !important;
+}

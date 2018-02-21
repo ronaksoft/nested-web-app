@@ -1,0 +1,44 @@
+<form name='addHook' novalidate class="places-modal create-hook" ng-submit="ctrl.createHook()">
+    <div class="modal-head">
+        <!-- <div class="_df" ng-click="$dismiss();">
+        <svg class="_24svg">
+            <use xlink:href="/assets/icons/nst-icn24.svg#xcross"></use>
+        </svg>
+        </div> -->
+        <h4 translate-inner>Create a hook</h4>
+    </div>
+    <div class="modal-body">
+        <label>
+            <translate>Which one of following events you want to add a hook</translate>
+        </label>
+        <select ng-model="ctrl.model.eventType" class="_df" ng-if="ctrl.hookType == '1'">
+            <option ng-value="ctrl.NST_HOOK_EVENT_TYPE.HOOK_EVENT_TYPE_PLACE_NEW_POST"><translate>New Post</translate></option>
+            <option ng-value="ctrl.NST_HOOK_EVENT_TYPE.HOOK_EVENT_TYPE_PLACE_NEW_POST_COMMENT"><translate>New Comment</translate></option>
+            <option ng-value="ctrl.NST_HOOK_EVENT_TYPE.HOOK_EVENT_TYPE_PLACE_NEW_MEMBER"><translate>New Member joined</translate></option>
+            <option ng-value="ctrl.NST_HOOK_EVENT_TYPE.HOOK_EVENT_TYPE_ACCOUNT_TASK_ASSIGNED"><translate>New Task assigned to you</translate></option>
+        </select>
+        <label for="name">
+            <translate>name</translate> <small>(optional)</small>
+        </label>
+        <input ng-model="ctrl.model.name" name="name" id="name" type="text">
+        <label for="url">
+            <translate>URL</translate> <small>(eg: https://example.com/nested-hook)</small>
+        </label>
+        <input
+            ng-model="ctrl.model.url" id="url" name="url" type="text" required url-validator
+            ng-class="{
+                'has-error': addHook.url.$invalid
+            }">
+        <label for="id" ng-class="{'_opz': ctrl.model.eventType == ctrl.NST_HOOK_EVENT_TYPE.HOOK_EVENT_TYPE_ACCOUNT_TASK_ASSIGNED || !ctrl.model.eventType}">
+            <translate>Place id</translate> <small>(you must be manager)</small>
+        </label>
+        <input ng-class="{
+                '_opz': ctrl.model.eventType == ctrl.NST_HOOK_EVENT_TYPE.HOOK_EVENT_TYPE_ACCOUNT_TASK_ASSIGNED || !ctrl.model.eventType,
+                'has-error': addHook.url.$valid
+            }" place-validator ng-model="ctrl.model.id" id="id" type="text">
+    </div>
+    <div class="modal-footer">
+        <input class="butn butn-white secondary" type="button" value="Discard" ng-click="$dismiss()" translate-attrs="value"/>
+        <input class="butn butn-green" type="submit" value="Save" translate-attrs="value"/>
+    </div>
+</form>

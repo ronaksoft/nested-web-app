@@ -164,6 +164,11 @@
       return NstSvcServer.request('place/get_many', {
         place_id: joinedIds
       }).then(function (data) {
+        if(data.places.length === 0) {
+          return $q.reject({
+            code: 3,
+          });
+        }
         return $q.resolve({
           idKey: '_id',
           resolves: data.places,
