@@ -990,3 +990,12 @@ div.modal .attach-place {
     }
   }
 }
+
+.modal-unclosable {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .modal-content {
+    width: auto;
+  }
+}

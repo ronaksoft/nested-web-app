@@ -18,7 +18,7 @@
     vm.addHook = function () {
       $uibModal.open({
         animation: false,
-        size: 'sm',
+        size: 'unclosable',
         templateUrl: 'app/settings/hooks/partials/add-hook.html',
         controller: 'AddHookController',
         controllerAs: 'ctrl'
