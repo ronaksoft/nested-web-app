@@ -5,7 +5,7 @@
     .module('ronak.nested.web.app')
     .controller('CreateTokenController', CreateTokenController);
 
-  function CreateTokenController($scope, toastr, NstSvcAppFactory, NstSvcTranslation, myApps) {
+  function CreateTokenController($scope, toastr, NstSvcAppFactory, NstSvcTranslation, $uibModal, myApps) {
     var vm = this;
     vm.tokenName = '';
     vm.apps = [];
@@ -40,6 +40,21 @@
             item.loading = false;
         });
     }
+
+    vm.copyToken = function (app) {
+      $uibModal.open({
+        animation: false,
+        size: 'sm',
+        templateUrl: 'app/settings/apps/partials/copy-token.html',
+        controller: 'CopyTokenController',
+        resolve: {
+          app: function () {
+            return app;
+          }
+        },
+        controllerAs: 'ctrl'
+      });
+    };
 
     function copyToClipboard(text) {
         var inp = document.createElement('input');

@@ -13,6 +13,7 @@
             flex: none;
             overflow: hidden;
             height: 32px;
+            object-fit: contain;
         }
         cite {
             white-space: nowrap;
@@ -39,6 +40,7 @@
         border-radius: 8px;
         img {
             display: flex;
+            object-fit: contain;
             width: 128px;
             height: 128px;
         }
@@ -66,5 +68,35 @@
 .apps-modal {
     .modal-body {
         padding: 0 16px;
+    }
+}
+
+.copy-token-modal {
+    width: 480px;
+    height: 200px;
+    padding: 8px 16px;
+    .modal-head {
+        display: flex;
+        align-items: center;
+        height: 64px;
+        h4 {
+            padding: 0 16px;
+            font-size: 18px;
+        }
+    }
+    .modal-body {
+        label {
+            font-weight: bold;
+            color: $color-hurricane;
+            display: flex;
+            width: 100%;
+            margin-top: 16px;
+            margin-bottom: 4px;
+        }
+        .token-holder {
+            font-size: 11px;
+            color: $color-gale;
+            user-select: all;
+        }
     }
 }

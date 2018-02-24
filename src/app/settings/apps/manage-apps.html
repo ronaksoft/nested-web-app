@@ -1,5 +1,5 @@
 <div class="profile-section">
-  <svg class="_16svg">
+  <svg class="_16svg _fn">
     <use xlink:href="/assets/icons/nst-icn16.svg#integration"></use>
   </svg>
   <translate>Applications</translate>
@@ -17,9 +17,9 @@
     <img ng-src="{{item.app.iconSmallUrl}}" alt="{{item.app.developer}}">
     <cite class="_txe">{{item.app.name}}</cite>
     <div class="_df _fw"></div>
-    <div class="_32svg _df _aic _jcc _fn">
+    <div class="_32svg _df _aic _jcc _fn" ng-click="ctrl.copyToken(item)">
         <svg class="_16svg" data-uib-tooltip="Copy token" data-tooltip-placement="top auto"
-          data-tooltip-append-to-body="true" ng-click="ctrl.copyToClipboard(item.token)">
+          data-tooltip-append-to-body="true">
             <use xlink:href="/assets/icons/nst-icn16.svg#copy"></use>
         </svg>
     </div>
@@ -32,5 +32,5 @@
   </li>
 </ul>
 <div class="inner-panel" ng-if="ctrl.apps.length === 0" ng-click="ctrl.addApplication()">
-  <div class="butn butn-green app-generate">Get Start</div>
+  <div class="butn butn-green app-generate _df">Get Started</div>
 </div>

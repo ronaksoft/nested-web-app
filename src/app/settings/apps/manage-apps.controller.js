@@ -33,6 +33,23 @@
       }).result.then(myApps).catch(myApps);
     };
 
+    vm.copyToken = function (app) {
+      var appModel = app.app;
+      appModel.token = app.token;
+      $uibModal.open({
+        animation: false,
+        size: 'sm',
+        templateUrl: 'app/settings/apps/partials/copy-token.html',
+        controller: 'CopyTokenController',
+        resolve: {
+          app: function () {
+            return appModel;
+          }
+        },
+        controllerAs: 'ctrl'
+      });
+    };
+
     function search() {
       NstSvcAppFactory.search(vm.query, vm.limit, vm.skip).then(function(apps){
         vm.apps = apps;
