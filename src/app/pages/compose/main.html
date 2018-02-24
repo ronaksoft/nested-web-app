@@ -18,7 +18,7 @@
       <div ng-if="!ctlCompose.quickMode" class="_df _fw input-select-match">
         <suggest-picker config="ctlCompose.suggestPickerConfig" selecteds="ctlCompose.model.recipients"
           suggests="ctlCompose.search.results" keyword='ctlCompose.keyword' request-more="ctlCompose.searchMore"
-          ng-click="ctlCompose.collapse = false"></suggest-picker>
+          ng-click="ctlCompose.collapse = false" on-focus="ctlCompose.expand"></suggest-picker>
       </div>
       <div class="wdt-emoji-picker-parent compose-scroll-wrapper">
         <!-- <div> -->

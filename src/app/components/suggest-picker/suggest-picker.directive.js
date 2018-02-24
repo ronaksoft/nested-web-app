@@ -232,6 +232,7 @@
           keyword: '=',
           alwaysShow: '=?',
           requestMore: '=?',
+          onFocus: '=?',
         },
         link: function ($scope, $element) {
           var containerW, itemsW = 0,
