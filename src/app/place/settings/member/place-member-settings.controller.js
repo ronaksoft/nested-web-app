@@ -124,14 +124,6 @@
         vm.teammatesSettings.skip = vm.teammatesSettings.pendingsCount;
 
         teammates.push.apply(teammates, result.keyHolders);
-        return getPendings(placeId, vm.teammatesSettings.limit, vm.teammatesSettings.skip, accessToSeePendings);
-      }).then(function (pendings) {
-        vm.teammatesSettings.pendingsCount += pendings.length;
-        pageCounts.pendings = pendings.length;
-
-        teammates.push.apply(teammates, pendings);
-
-
         deferred.resolve(teammates);
       }).catch(deferred.reject);
 
@@ -292,7 +284,7 @@
             return new NstVmMemberItem(member, NST_PLACE_MEMBER_TYPE.KEY_HOLDER);
           }));
         }
-        
+
       });
     }
 

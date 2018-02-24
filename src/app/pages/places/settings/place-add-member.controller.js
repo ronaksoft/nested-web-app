@@ -42,7 +42,6 @@
           vm.isGrandPlace = true;
         }
       }
-
     }
     if (isMulti) {
       $q.all(currentPlace.map(function (id) {
@@ -83,7 +82,7 @@
         newPlaceFlag = true;
       }
 
-      NstSvcUserFactory.search(settings, (newPlaceFlag || isMulti ?
+      NstSvcUserFactory.search(settings, (newPlaceFlag || isMulti || vm.isGrandPlace?
         NST_USER_SEARCH_AREA.ACCOUNTS :
         NST_USER_SEARCH_AREA.ADD))
         .then(searchCallBack)
