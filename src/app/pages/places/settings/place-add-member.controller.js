@@ -102,14 +102,6 @@
             id: settings.query
           })) {
 
-          if (vm.isGrandPlace || isForGrandPlace) {
-            var initProfile = NstSvcUserFactory.parseTinyUser({
-              _id: settings.query,
-              fname: settings.query
-            });
-            vm.users.push(initProfile);
-          }
-
         }
         // vm.query = settings.query;
       }
