@@ -33,10 +33,7 @@
                     addedLabels: $scope.addedLabels
                   }
                 }
-            }).result.then(function(items){
-              // console.log(items);
-              $scope.afterAddLabel(items);
-            })
+            }).result.then($scope.afterAddLabel)
         }
         $scope.$on('$destroy', function () {
           $element[0].removeEventListener("click", onClickHandler);

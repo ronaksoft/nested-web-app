@@ -1,0 +1,32 @@
+<div class="places-modal apps-modal">
+    <div class="modal-head">
+        <div class="_df" ng-click="$dismiss();">
+        <svg class="_24svg">
+            <use xlink:href="/assets/icons/nst-icn24.svg#xcross"></use>
+        </svg>
+        </div>
+        <h4 translate-inner>Create token</h4>
+    </div>
+    <div class="modal-body">
+        <input placeholder="Search apps" ng-model="ctrl.query" type="text" focus-me="1">
+        <ul class="list-apps">
+            <li ng-repeat="app in ctrl.apps track by app.id" ng-class="{'integrated': app.token}">
+                <img ng-src="{{app.iconLargeUrl}}" alt="">
+                <p> 
+                    <h3>{{app.name}}</h3>
+                    <translate>by {{app.developer}}</translate>
+                </p>
+                <button class="butn butn-green secondary" ng-if="!app.token" ng-click="ctrl.selectApp(app.id)">Create Token</button>
+                <button class="butn butn-green" ng-click="ctrl.copyToken(app)" ng-if="app.token">
+                    <svg class="_24svg fill-white">
+                        <use xlink:href="/assets/icons/nst-icn24.svg#heavy-check"></use>
+                    </svg>
+                </button>
+            </li>
+        </ul>
+        <div class="modal-footer">
+          <h5 ng-if="ctrl.apps.length === 0 && !ctrl.intiatlLoading && ctrl.query.length == 0"><translate>No app has been registered in this Nested, Contact with admin</translate></h5>
+          <h5 ng-if="ctrl.apps.length === 0 && !ctrl.intiatlLoading && ctrl.query.length > 0"><translate>No results for "{{ctrl.query}}"</translate></h5>
+        </div>
+    </div>
+</div>

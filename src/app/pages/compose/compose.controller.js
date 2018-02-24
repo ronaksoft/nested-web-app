@@ -44,6 +44,7 @@
       vm.searchRecipients = searchRecipients;
       vm.backDropClick = backDropClick;
       vm.minimizeModal = minimizeModal;
+      vm.expand = expand;
       vm.emojiTarget = 'title';
       vm.haveComment = true;
       vm.focusBody = false;
@@ -1461,7 +1462,9 @@
         /*****************************
          *****    Other Methods   ****
          *****************************/
-
+        function expand() {
+          vm.collapse = false
+        }
         /**
          * Delete attachment or cancel on uploading files
          * @param {any} attachment

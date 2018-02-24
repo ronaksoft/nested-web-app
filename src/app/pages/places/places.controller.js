@@ -351,7 +351,7 @@
               return false
             },
             isForGrandPlace: function () {
-              return undefined
+              return vm.isGrandPlace(placeId);
             }
           }
         });

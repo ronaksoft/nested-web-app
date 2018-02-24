@@ -167,12 +167,12 @@
         }, 2);
       }, 10);
 
-      NstSvcTaskFactory.addComment(vm.taskId, body).then(function (activityId) {
+      NstSvcTaskFactory.addComment(vm.taskId, body).then(function (res) {
         // $scope.scrollEnd(true);
         var index = _.findIndex(vm.activities, {id: activity.id});
         if (index > -1) {
-          vm.activities[index].id = activityId;
-          vm.activities[index].comment.id = activityId;
+          vm.activities[index].id = res.activity_id;
+          vm.activities[index].comment.id = res.activity_id;
           vm.activities[index].comment.isSending = false;
         }
       }).catch(function () {

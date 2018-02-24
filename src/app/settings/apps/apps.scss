@@ -1,0 +1,102 @@
+.list-my-apps {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 8px 0;
+    li {
+        display: flex;
+        height: 48px;
+        align-items: center;
+        img {
+            width: 32px;
+            border-radius: 2px;
+            flex: none;
+            overflow: hidden;
+            height: 32px;
+            object-fit: contain;
+        }
+        cite {
+            white-space: nowrap;
+            flex: none;
+            padding: 0 8px;
+            font-size: 14px;
+        }
+    }
+}
+
+.list-apps {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    padding: 8px;
+    height: auto;
+    li {
+        display: flex;
+        width: 256px;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 256px;
+        border-radius: 8px;
+        img {
+            display: flex;
+            object-fit: contain;
+            width: 128px;
+            height: 128px;
+        }
+        h3 {
+            font-size: 16px;
+            margin: 8px 0 4px;
+        }
+        cite {
+            margin: 0;
+            font-size: 13px;
+            display: flex;
+            font-weight: bold;
+        }
+        &.integrated {
+            background-color: transparentize($color-sense, 1 - .08);
+        }
+    }
+}
+.app-generate {
+    margin: 16px auto;
+    width: 128px;
+    line-height: 30px;
+}
+
+.apps-modal {
+    .modal-body {
+        padding: 0 16px;
+    }
+}
+
+.copy-token-modal {
+    width: 480px;
+    height: 200px;
+    padding: 8px 16px;
+    .modal-head {
+        display: flex;
+        align-items: center;
+        height: 64px;
+        h4 {
+            padding: 0 16px;
+            font-size: 18px;
+        }
+    }
+    .modal-body {
+        label {
+            font-weight: bold;
+            color: $color-hurricane;
+            display: flex;
+            width: 100%;
+            margin-top: 16px;
+            margin-bottom: 4px;
+        }
+        .token-holder {
+            font-size: 11px;
+            color: $color-gale;
+            user-select: all;
+        }
+    }
+}

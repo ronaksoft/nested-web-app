@@ -1,0 +1,36 @@
+<div class="profile-section">
+  <svg class="_16svg _fn">
+    <use xlink:href="/assets/icons/nst-icn16.svg#integration"></use>
+  </svg>
+  <translate>Applications</translate>
+  <div class="_df _fw"></div>
+  <div class="_32svg _df _jcc _aic" ng-click="ctrl.addApplication()">
+    <svg class="_16svg fill-sense-wire" data-uib-tooltip="Add applications to your account" data-tooltip-placement="top auto"
+      data-tooltip-append-to-body="true">
+        <use xlink:href="/assets/icons/nst-icn16.svg#cross"></use>
+    </svg>
+  </div>
+</div>
+<p class="descrip"><translate>These are the apps that can access your ؟نستدان؟ account.</translate> <a><translate>Learn more.</translate></a></p>
+<ul class="list-my-apps" ng-if="ctrl.apps.length > 0">
+  <li ng-repeat="item in ctrl.apps track by $index">
+    <img ng-src="{{item.app.iconSmallUrl}}" alt="{{item.app.developer}}">
+    <cite class="_txe">{{item.app.name}}</cite>
+    <div class="_df _fw"></div>
+    <div class="_32svg _df _aic _jcc _fn" ng-click="ctrl.copyToken(item)">
+        <svg class="_16svg" data-uib-tooltip="Copy token" data-tooltip-placement="top auto"
+          data-tooltip-append-to-body="true">
+            <use xlink:href="/assets/icons/nst-icn16.svg#copy"></use>
+        </svg>
+    </div>
+    <div class="_32svg _df _aic _jcc _fn">
+        <svg class="_16svg force" data-uib-tooltip="Remove app" data-tooltip-placement="top auto"
+          data-tooltip-append-to-body="true" ng-click="ctrl.remove(item.token)">
+            <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
+        </svg>
+    </div>
+  </li>
+</ul>
+<div class="inner-panel" ng-if="ctrl.apps.length === 0" ng-click="ctrl.addApplication()">
+  <div class="butn butn-green app-generate _df">Get Started</div>
+</div>

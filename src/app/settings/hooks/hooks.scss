@@ -1,0 +1,56 @@
+.create-hook {
+    width: 480px;
+    background-color: $color-white;
+    border-radius: 6px;
+    padding: 0 16px;
+    label {
+        margin: 16px 0 4px;
+        span {
+            color: $color-gale;
+            font-size: 13px;
+            font-weight: 400;
+        }
+        small {
+            font-size: 11px;
+            color: $color-solid-24;
+        }
+    }
+    select {
+        padding: 0 8px;
+        height: 40px;
+    }
+    .modal-footer {
+        justify-content: flex-end;
+    }
+}
+.list-my-hooks {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 8px 0;
+    list-style: none;
+    li {
+        height: 48px;
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid $color-border;
+        padding-bottom: 8px;
+        .hook-icon {
+            flex: none;
+            opacity: .24;
+        }
+        strong {
+            margin: 0 8px;
+            flex: none;
+            max-width: 250px;
+        }
+        small {
+            color: $color-gale;
+            margin: 0 4px;
+            flex: none;
+        }
+        &:last-of-type {
+            border: none;
+        }
+    }
+}

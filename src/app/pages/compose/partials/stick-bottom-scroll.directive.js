@@ -49,7 +49,9 @@
             if (scrollBotDis) {
               scope.scrollInstance.scrollTo(0, scope.scrollInstance.maxScrollY - scrollBotDis);
             } else if (scope.scrollInstance.maxScrollY > scope.scrollInstance.y - constant || forced) {
-              scope.scrollInstance.scrollToElement(document.querySelector('.focus-handler'));
+              if(document.querySelector('.focus-handler')) {
+                scope.scrollInstance.scrollToElement(document.querySelector('.focus-handler'));
+              }
               if (forced) {
                 timer1 = $timeout(function () {
                   if (scope.scrollInstance.y !== scope.scrollInstance.maxScrollY) {

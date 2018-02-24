@@ -47,7 +47,7 @@
           case 9:
             // Tab key
             $scope.visible = false;
-            if ($scope.clearSuggests.length > 0) {
+            if ($scope.clearSuggests.length > 0 && $scope.keyword.length > 0) {
               var index = $scope.state.activeSuggestItem;
               return $scope.selectItem(index);
             }
@@ -232,6 +232,7 @@
           keyword: '=',
           alwaysShow: '=?',
           requestMore: '=?',
+          onFocus: '=?',
         },
         link: function ($scope, $element) {
           var containerW, itemsW = 0,

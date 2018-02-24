@@ -363,6 +363,32 @@
       return user;
     };
 
+    var whiteSpaceRegEx = /\s/;
+    function moveExactToViewPort(users, keyword) {
+      if (_.isString(keyword) && keyword.length > 0 && !whiteSpaceRegEx.test(keyword)) {
+        var index = _.findIndex(users, {'_id': keyword});
+        var item = {};
+        if (index === -1) {
+          item = {
+            _id: keyword,
+            name: keyword,
+            description: '',
+            place: null,
+            access: []
+          };
+          if (users.length > 5) {
+            users.splice(4, 0, item);
+          } else {
+            users.push(item);
+          }
+        } else if (index >= 5) {
+          item = users[index];
+          users.splice(index, 0);
+          users.splice(4, 0, item);
+        }
+      }
+    }
+
     UserFactory.prototype.search = function (settings, area) {
 
       if (area === undefined) {
@@ -409,6 +435,9 @@
       settings = _.defaults(settings, defaultSettings);
       return this.sentinel.watch(function () {
         NstSvcServer.request('search/accounts' + area, params).then(function (data) {
+          if (area === NST_USER_SEARCH_AREA.ACCOUNTS) {
+            moveExactToViewPort(data.accounts, params.keyword);
+          }
           var users = _.map(data.accounts, function (account) {
             return factory.parseTinyUser(account);
           });

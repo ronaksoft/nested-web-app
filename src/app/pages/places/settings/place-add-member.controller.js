@@ -42,7 +42,6 @@
           vm.isGrandPlace = true;
         }
       }
-
     }
     if (isMulti) {
       $q.all(currentPlace.map(function (id) {
@@ -83,7 +82,7 @@
         newPlaceFlag = true;
       }
 
-      NstSvcUserFactory.search(settings, (newPlaceFlag || isMulti ?
+      NstSvcUserFactory.search(settings, (newPlaceFlag || isMulti || vm.isGrandPlace?
         NST_USER_SEARCH_AREA.ACCOUNTS :
         NST_USER_SEARCH_AREA.ADD))
         .then(searchCallBack)
@@ -101,14 +100,6 @@
           !_.some(vm.users, {
             id: settings.query
           })) {
-
-          if (vm.isGrandPlace || isForGrandPlace) {
-            var initProfile = NstSvcUserFactory.parseTinyUser({
-              _id: settings.query,
-              fname: settings.query
-            });
-            vm.users.push(initProfile);
-          }
 
         }
         // vm.query = settings.query;

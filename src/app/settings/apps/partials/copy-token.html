@@ -1,0 +1,32 @@
+<div class="copy-token-modal">
+    <div class="modal-head">
+        <div class="_df" ng-click="$dismiss();">
+            <svg class="_24svg">
+                <use xlink:href="/assets/icons/nst-icn24.svg#xcross"></use>
+            </svg>
+        </div>
+        <h4 translate-inner>Copy "{{ctrl.app.name}}" app token</h4>
+    </div>
+    <div class="modal-body">
+        <div class="app-row-detail">
+            <label translate-inner><translate>Token</translate>:</label>
+            <div class="_df _fw">
+                    <span class="token-holder _df _fw">{{ctrl.app.token}}</span>
+                    <svg class="_16svg _fn _df" data-uib-tooltip="Copy token" data-tooltip-placement="top auto"
+                        data-tooltip-append-to-body="true" ng-click="ctrl.copyToClipboard(ctrl.app.token)">
+                        <use xlink:href="/assets/icons/nst-icn16.svg#copy"></use>
+                    </svg>
+            </div>
+        </div>
+        <div class="app-row-detail">
+            <label translate-inner><translate>App Id</translate>:</label>
+            <div class="_df _fw">
+                    <span class="token-holder _df _fw">{{ctrl.app.id}}</span>
+                    <svg class="_16svg" data-uib-tooltip="Copy app id" data-tooltip-placement="top auto"
+                        data-tooltip-append-to-body="true" ng-click="ctrl.copyToClipboard(ctrl.app.id)">
+                        <use xlink:href="/assets/icons/nst-icn16.svg#copy"></use>
+                    </svg>
+            </div>
+        </div>
+    </div>
+</div>

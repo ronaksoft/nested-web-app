@@ -1,0 +1,51 @@
+<div class="profile-section">
+  <svg class="_16svg _fn">
+    <use xlink:href="/assets/icons/nst-icn16.svg#webhook"></use>
+  </svg>
+  <translate class="_fn">Account web hooks</translate>
+  <div class="_df _fw"></div>
+  <div class="_32svg _df _jcc _aic" ng-click="ctrl.addHook()">
+    <svg class="_16svg fill-sense-wire" data-uib-tooltip="Create a webhook" data-tooltip-placement="top auto"
+      data-tooltip-append-to-body="true">
+        <use xlink:href="/assets/icons/nst-icn16.svg#cross"></use>
+    </svg>
+  </div>
+</div>
+<p class="descrip"><translate>Your specified api will be triggered on the folowing situations.</translate> <a><translate>Learn more.</translate></a></p>
+<ul class="list-my-hooks" ng-if="ctrl.hooks.length > 0">
+  <li ng-repeat="item in ctrl.hooks track by $index">
+    <svg class="_16svg hook-icon" data-uib-tooltip="new message" data-tooltip-placement="top auto" data-tooltip-append-to-body="true"
+        ng-if="item.eventType === ctrl.NST_HOOK_EVENT_TYPE.HOOK_EVENT_TYPE_PLACE_NEW_POST">
+        <use xlink:href="/assets/icons/nst-icn16.svg#message"></use>
+    </svg>
+    <svg class="_16svg hook-icon" data-uib-tooltip="new comment" data-tooltip-placement="top auto" data-tooltip-append-to-body="true"
+        ng-if="item.eventType === ctrl.NST_HOOK_EVENT_TYPE.HOOK_EVENT_TYPE_PLACE_NEW_POST_COMMENT">
+        <use xlink:href="/assets/icons/nst-icn16.svg#comment"></use>
+    </svg>
+    <svg class="_16svg hook-icon" data-uib-tooltip="new member joined" data-tooltip-placement="top auto" data-tooltip-append-to-body="true"
+        ng-if="item.eventType === ctrl.NST_HOOK_EVENT_TYPE.HOOK_EVENT_TYPE_PLACE_NEW_MEMBER">
+        <use xlink:href="/assets/icons/nst-icn16.svg#member"></use>
+    </svg>
+    <svg class="_16svg hook-icon" data-uib-tooltip="new tasks" data-tooltip-placement="top auto" data-tooltip-append-to-body="true"
+        ng-if="item.eventType === ctrl.NST_HOOK_EVENT_TYPE.HOOK_EVENT_TYPE_ACCOUNT_TASK_ASSIGNED">
+        <use xlink:href="/assets/icons/nst-icn16.svg#checked-box"></use>
+    </svg>
+    <strong class="_txe">{{item.name}}</strong>
+    <small>
+        <translate>by:</translate> <span>{{item.setBy}}</span>
+    </small>
+    <small>
+        <translate>in related to:</translate> <span>{{item.anchorId}}</span>
+    </small>
+    <div class="_fw"></div>
+    <div class="_32svg _df _aic _jcc _fn">
+        <svg class="_16svg force" data-uib-tooltip="Remove" data-tooltip-placement="top auto"
+          data-tooltip-append-to-body="true" ng-click="ctrl.remove(item.id)">
+            <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
+        </svg>
+    </div>
+  </li>
+</ul>
+<div class="inner-panel" ng-if="ctrl.hooks.length === 0" ng-click="ctrl.addHook()">
+  <div class="butn butn-green app-generate">Get Started</div>
+</div>

@@ -74,6 +74,26 @@
         group : 'settings',
         fullscreen : true
       }
+    })
+    .state('app.settings.webhooks',{
+      url: '/webhooks',
+      templateUrl: 'app/settings/hooks/manage-hooks.html',
+      controller: 'ManageHooksController',
+      controllerAs: 'ctrl',
+      options : {
+        group : 'settings',
+        fullscreen : true
+      }
+    })
+    .state('app.settings.apps',{
+      url: '/apps',
+      templateUrl: 'app/settings/apps/manage-apps.html',
+      controller: 'ManageAppsController',
+      controllerAs: 'ctrl',
+      options : {
+        group : 'settings',
+        fullscreen : true
+      }
     });
 
   }

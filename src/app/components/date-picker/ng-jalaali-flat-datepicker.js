@@ -234,7 +234,6 @@
           //});
         }));
 
-        var documentClickRef;
         scope.insideDatePicker = true;
 
         init();
@@ -415,14 +414,15 @@
             }
           });
 
-          documentClickRef = $document.on('click', function () {
+          $document.on('click', documentClick);
+          function documentClick() {
             if (!scope.insideDatePicker && scope.pickerDisplayed) {
               scope.$apply(function () {
                 scope.calendarCursor = dateSelected ? dateSelected : today;
                 scope.pickerDisplayed = scope.showMonthsList = scope.showYearsList = false;
               });
             }
-          });
+          }
 
           element.wrap('<div class="ng-flat-datepicker-wrapper"></div>');
 
@@ -543,7 +543,7 @@
         }
 
         scope.$on('$destroy', function () {
-          documentClickRef.off();
+          $document.off('click', documentClick);
           _.forEach(eventReferences, function (canceler) {
             if (_.isFunction(canceler)) {
               canceler();
