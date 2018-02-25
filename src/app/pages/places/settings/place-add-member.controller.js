@@ -118,10 +118,18 @@
       } else {
         if (isMulti) {
           angular.forEach(currentPlace, function (place) {
-            addUser(place, vm.selectedUsers);
+            if (vm.isGrandPlace) {
+              inviteUsers(place, vm.selectedUsers);
+            } else {
+              addUser(place, vm.selectedUsers);
+            }
           })
         } else {
-          addUser(currentPlace, vm.selectedUsers);
+          if (vm.isGrandPlace) {
+            inviteUsers(currentPlace, vm.selectedUsers);
+          } else {
+            addUser(currentPlace, vm.selectedUsers);
+          }
         }
       }
     }
@@ -140,6 +148,53 @@
           member: user
         }
       );
+    }
+
+    /**
+     * Invite members to grand place
+     * and displays the error and successful toastr
+     * @param {object} place
+     * @param {array[object]} users
+     */
+    function inviteUsers(place, users) {
+      NstSvcPlaceFactory.inviteUser(place, users).then(function (result) {
+
+        // dispatch the required events
+        NstSvcPlaceFactory.get(place.id, true).then(function (newPlace) {
+          var dispatcher = _.partial(dispatchUserAdded, newPlace);
+          _.forEach(result.addedUsers, dispatcher);
+        });
+        // notify the user about the result of adding
+        if (_.size(result.rejectedUsers) === 0 &&
+          _.size(result.addedUsers) > 0) {
+          toastr.success(NstUtility.string.format(NstSvcTranslation.get('All selected users have been invited to place {0} successfully.'), place.name));
+        } else {
+          var names = null;
+          var message = null;
+
+          // there are users that we were not able to invite them
+          if (_.size(result.rejectedUsers) > 0) {
+            names = _(result.rejectedUsers).map(function (user) {
+              return NstUtility.string.format('{0} (@{1})', user.fullName, user.id);
+            }).join('<br/>');
+            message = NstSvcTranslation.get('We are not able to invite these users to the place:');
+            toastr.warning(message + '<br/>' + names);
+          }
+
+          //there are some users that were invited successfully
+          if (_.size(result.addedUsers) > 0) {
+            names = _(result.addedUsers).map(function (user) {
+              return NstUtility.string.format('{0} (@{1})', user.fullName, user.id);
+            }).join('<br/>');
+            message = NstSvcTranslation.get('These users have been invited:');
+            toastr.success(message + '<br/>' + names);
+          }
+        }
+        $scope.$close(result.addedUsers);
+      }).catch(function () {
+        toastr.warning(NstSvcTranslation.get('An error has occured while inviting the user(s) to the place!'));
+        $scope.$close([]);
+      });
     }
 
     function addUser(place, users) {
