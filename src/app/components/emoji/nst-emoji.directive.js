@@ -7,7 +7,7 @@
       return {
         restrict: 'A',
         link: function (scope, element, attrs) {
-          NstSvcKeyFactory.get(NST_KEY.WEBAPP_SETTING_RECENT_EMOJI).then(function (recentItems) {
+          NstSvcKeyFactory.get(NST_KEY.WEBAPP_SETTING_RECENT_EMOJI, true).then(function (recentItems) {
             var recent = recentItems ? recentItems.split('|').map(function (item) {
               return JSON.parse(item);
             }) : [{
