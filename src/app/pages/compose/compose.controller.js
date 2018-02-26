@@ -1174,6 +1174,36 @@
         ALT: 'link',
         template: 'image'
       });
+      $.FroalaEditor.DefineIcon('linkStyle', {
+        SRC: vm.isRetinaDisplay ? '/assets/icons/editor/link@2x.png' : '/assets/icons/editor/link.png',
+        ALT: 'link',
+        template: 'image'
+      });
+      $.FroalaEditor.DefineIcon('linkOpen', {
+        SRC: vm.isRetinaDisplay ? '/assets/icons/editor/open-link.png' : '/assets/icons/editor/open-link.png',
+        ALT: 'open link',
+        template: 'image'
+      });
+      $.FroalaEditor.DefineIcon('linkEdit', {
+        SRC: vm.isRetinaDisplay ? '/assets/icons/editor/link@2x.png' : '/assets/icons/editor/link.png',
+        ALT: 'link',
+        template: 'image'
+      });
+      $.FroalaEditor.DefineIcon('linkList', {
+        SRC: vm.isRetinaDisplay ? '/assets/icons/editor/link@2x.png' : '/assets/icons/editor/link.png',
+        ALT: 'link',
+        template: 'image'
+      });
+      $.FroalaEditor.DefineIcon('linkBack', {
+        SRC: vm.isRetinaDisplay ? '/assets/icons/editor/link@2x.png' : '/assets/icons/editor/link.png',
+        ALT: 'link',
+        template: 'image'
+      });
+      $.FroalaEditor.DefineIcon('linkRemove', {
+        SRC: vm.isRetinaDisplay ? '/assets/icons/editor/link-remove.png' : '/assets/icons/editor/link-remove.png',
+        ALT: 'remove link',
+        template: 'image'
+      });
       $.FroalaEditor.DefineIcon('eraser', {
         SRC: vm.isRetinaDisplay ? '/assets/icons/editor/eraser@2x.png' : '/assets/icons/editor/eraser.png',
         ALT: 'eraser',
