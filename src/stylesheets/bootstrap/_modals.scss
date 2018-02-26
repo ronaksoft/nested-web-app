@@ -66,8 +66,8 @@
 // Actual modal
 .modal-content {
   position: relative;
-  background-color: $modal-content-bg;
-  border: 1px solid $modal-content-fallback-border-color; //old browsers fallback (ie8 etc)
+  background-color: $contrast-bg-color;
+  //border: 1px solid $modal-content-fallback-border-color; //old browsers fallback (ie8 etc)
   border: 1px solid $modal-content-border-color;
   border-radius: $border-radius-large;
   @include box-shadow(0px 0px 32px 0px rgba(0, 0, 0, .2));
@@ -92,7 +92,7 @@
   bottom: 0;
   left: 0;
   z-index: $zindex-modal-background;
-  background-color: $color-modal-bg;
+  background-color: $contrast-bg-color;
   animation: appearence-2 .38s cubic-bezier(0.1,0.8,0.6,1) forwards normal;
   &.comdrop {
     background-color: $color-modal-bg;

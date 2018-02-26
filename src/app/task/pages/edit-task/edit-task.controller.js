@@ -85,6 +85,7 @@
       relatedTask: null,
       childTasks: [],
       titleLengthLimit: 64,
+      descriptionLengthLimit: 511,
       assignor: null,
       status: null,
       progress: -1,

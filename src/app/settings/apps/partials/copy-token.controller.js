@@ -8,7 +8,6 @@
   function CopyTokenController($scope, toastr, NstSvcAppFactory, NstSvcTranslation, app) {
     var vm = this;
     vm.app = app;
-    console.log(app);
 
     vm.copyToClipboard = copyToClipboard;
     function copyToClipboard(text) {
