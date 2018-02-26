@@ -44,7 +44,7 @@
         }).catch(deferred.reject);
 
         return deferred.promise;
-      }, "read" + key);
+      }, 'read' + key);
     }
 
     function setCache(data) {
@@ -80,7 +80,7 @@
         }).catch(deferred.reject);
 
         return deferred.promise;
-      }, "save" + key);
+      }, 'save' + key);
     }
 
     function remove(key) {
@@ -94,7 +94,7 @@
         }).catch(deferred.reject);
 
         return deferred.promise;
-      }, "remove" + key);
+      }, 'remove' + key);
     }
 
   }
