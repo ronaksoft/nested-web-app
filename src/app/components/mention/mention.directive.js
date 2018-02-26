@@ -259,9 +259,7 @@
                     remoteFilter: function (query, callback) {
                       window.wdtEmojiBundle.fillPickerPopup();
                       query = query.replace(/-/gi, " ");
-                      window.wdtEmojiBundle.search(query, 5, callb);
-
-                      function callb(arr) {
+                      window.wdtEmojiBundle.search(query, 5, function (arr) {
                         var items = _.map(arr, function (emoji) {
                           var name = emoji.dataset.wdtEmojiName.toLowerCase().replace(/ /gi, "-");
                           return {
@@ -272,7 +270,7 @@
                           }
                         });
                         callback(items);
-                      }
+                      });
                     },
                     beforeReposition: function (offset) {
                       repositionModal(offset, this);
