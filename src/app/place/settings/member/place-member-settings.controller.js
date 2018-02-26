@@ -35,7 +35,7 @@
    * @param {any} NstSvcTranslation
    * @param {any} NstSvcLogger
    */
-  function PlaceMemberSettingsController( $q, $uibModal, toastr, $scope, $rootScope,
+  function PlaceMemberSettingsController($q, $uibModal, toastr, $scope, $rootScope,
                                          NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_SRV_ERROR,
                                          NstSvcPlaceFactory, NstVmMemberItem,
                                          NstSvcAuth, NstSvcModal,
@@ -486,13 +486,11 @@
               selectedCreatorsCalculator();
               selectedKeyHoldersCalculator();
 
-              if (!member.isPending()) {
-                NstSvcPlaceFactory.set(newPlace);
-                $scope.$emit('member-removed', {
-                  member: member,
-                  place: newPlace
-                });
-              }
+              NstSvcPlaceFactory.set(newPlace);
+              $scope.$emit('member-removed', {
+                member: member,
+                place: newPlace
+              });
 
             }).catch(function (error) {
               if (error.code === NST_SRV_ERROR.ACCESS_DENIED) {
@@ -512,6 +510,7 @@
               }
 
               toastr.error(NstUtility.string.format(NstSvcTranslation.get('An error has occurred while trying to remove the member')));
+              console.log(error);
             });
           });
         }
