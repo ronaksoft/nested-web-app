@@ -614,7 +614,7 @@
 
       return deferred.promise;
 
-    }
+    };
 
     PlaceFactory.prototype.removeMember = function (placeId, memberId) {
       var factory = this;

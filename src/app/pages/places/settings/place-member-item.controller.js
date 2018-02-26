@@ -61,13 +61,13 @@
 
         if (!result) return;
 
-        if (!vm.member.isPending || !vm.place){
+       /* if (!vm.place){
           $scope.$emit('member-removed', {
             member : vm.member,
             place: vm.place
           });
           return;
-        }
+        }*/
 
         removeMember().then(function () {
           return NstSvcPlaceFactory.get(vm.place.id);
