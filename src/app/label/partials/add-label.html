@@ -13,10 +13,10 @@
     </h4>
     <div class="label-search">
         <suggest-picker config="ctrl.suggestPickerConfig" selecteds="ctrl.selectedLabels" ng-if="ctrl.loaded"
-            suggests="ctrl.search.results" keyword='ctrl.keyword' request-more="ctrl.searchMore"></suggest-picker>
+            suggests="ctrl.search.results" keyword='ctrl.keyword' request-more="ctrl.searchMore" suggests-updated="ctrl.suggestsUpdated"></suggest-picker>
     </div>
     <div class="load-more-labels">
-        <translate ng-if="ctrl.haveMore" ng-click="ctrl.load()">Show more...</translate>
+        <translate ng-if="ctrl.haveMore" ng-click="ctrl.searchFn(ctrl.keyword)">Show more...</translate>
     </div>
     <div class="modal-footer">
         <input type="button" class="butn butn-green" ng-disabled="!ctrl.firstTouch || ctrl.selectedLabels.length > ctrl.addLabelLimit" value="Done" ng-click="ctrl.submitLabels();" translate-attrs="value">

@@ -14,6 +14,8 @@
     vm.keyword = '';
     vm.oldKeyword = '';
     var eventReferences = [];
+    // WIll over ride by children
+    vm.suggestsUpdated = function(){};
     vm.loading = false;
     vm.loaded = false;
     vm.search = {
@@ -53,8 +55,8 @@
 
       eventReferences.push($scope.$watch(function () {
         return vm.keyword
-      }, function(keyword){return vm.searchFn(keyword)}, true));
-
+      }, vm.searchFn, true));
+      
       var initFlag = false
       eventReferences.push($scope.$watch(function () {
         return vm.selectedLabels.length
@@ -84,6 +86,7 @@
         vm.haveMore = vm.setting.limit === items.length;
         vm.loading = false;
         vm.loaded = true;
+        vm.suggestsUpdated();
         $timeout(function() {
           vm.goDownward = true;
         },100)
