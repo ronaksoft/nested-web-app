@@ -29,7 +29,7 @@
       vm.focus = false;
       vm.collapse = false;
       vm.mouseIn = false;
-      var signatureDevider = '<hr data-role="nst-sign" style="border-style: dashed; width: 80px;">'
+      var signatureDivider = '<hr data-role="nst-sign" style="border-style: dashed; width: 80px;">'
       vm.suggestPickerConfig = {
         limit : 10,
         suggestsLimit: 10,
@@ -287,7 +287,7 @@
             var res = JSON.parse(v);
             vm.signature = res.data;
             if (res.active) {
-              vm.model.body += (vm.model.body.length ? '' : '<br>') + signatureDevider + vm.signature;
+              vm.model.body += (vm.model.body.length ? '' : '<br>') + signatureDivider + vm.signature;
             }
           }
         });
@@ -296,7 +296,7 @@
       function removeSign() {
         var body = vm.model.body;
         if(body) {
-          var indexSignature = body.search(signatureDevider);
+          var indexSignature = body.search(signatureDivider);
           if (indexSignature) {
             body = body.slice(0, indexSignature);
             if (body === '<div data-empty="true"><br></div>') {
