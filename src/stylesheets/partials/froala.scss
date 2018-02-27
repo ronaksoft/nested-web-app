@@ -65,3 +65,12 @@
     overflow: visible;
   }
 }
+
+.fr-toolbar .fr-command.fr-btn span.fr-sr-only, .fr-popup .fr-command.fr-btn span.fr-sr-only {
+  padding: 0 4px;
+  min-width: 80px;
+  margin: 0 4px;
+}
+.fr-view table td, .fr-view table th {
+  border-color: transparent;
+}
