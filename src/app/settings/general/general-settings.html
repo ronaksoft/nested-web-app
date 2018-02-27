@@ -1,0 +1,32 @@
+<div class="profile-section">
+  <svg class="_16svg _fn">
+    <use xlink:href="/assets/icons/nst-icn16.svg#gear"></use>
+  </svg>
+  <translate>General</translate>
+</div>
+<div class="webapp-setting">
+  <div class="form-group _difv _fw">
+    <label class="input-lab _fw"><b><translate>Signature</translate></b></label>
+    <div class="field _difh _fw">
+      <div class="_df _fw srchp">
+        <translate>Active:</translate>
+      </div>
+      <div class="place-switch _fn">
+        <input type="checkbox" name="signature" id="signature" data-ng-model="ctrl.signatureActive">
+        <label for="signature">
+            <b><translate>Yes</translate></b>
+            <div class="circle" switch-drag="ctrl.signatureActive"></div>
+          </label>
+        <label for="signature">
+            <b><translate>No</translate></b>
+          </label>
+      </div>
+    </div>
+  </div>
+  <div ng-if="ctrl.signatureActive" class="compose-wrapper" >
+      <textarea id="compose-froala" froala="ctrl.froalaOpts" ng-model="ctrl.model"></textarea>
+      <div class="editor-butns-wrapper" id="editor-btn"></div>      
+      <button class="butn butn-green full-width" ng-if="ctrl.touched" ng-click="ctrl.save()"><translate>Save</translate></button>
+  </div>
+
+</div>

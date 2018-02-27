@@ -109,6 +109,7 @@
      * Pass the `addToCompose` function to the new modal
      */
     function placeFiles() {
+      vm.openPopover = false;
       $uibModal.open({
         animation: false,
         // backdropClass: 'comdrop',

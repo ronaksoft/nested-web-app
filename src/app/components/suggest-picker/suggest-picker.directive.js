@@ -129,14 +129,7 @@
         $scope.state.activeSelectedItem = index;
       }
 
-      // todo: Remove on destroy
-      eventReferences.push($scope.$watch('suggests', function (sug) {
-        var oldL = $scope.clearSuggests.length;
-        $scope.clearSuggests = _.differenceBy(sug, $scope.selecteds, 'id');
-        if (oldL < $scope.clearSuggests.length) {
-          $scope.state.activeSuggestItem = 0;
-        }
-      }));
+
 
       /**
        * Reset / Initialize view states
@@ -209,13 +202,6 @@
         }
       }
 
-      $scope.$on('$destroy', function () {
-        _.forEach(eventReferences, function (canceler) {
-          if (_.isFunction(canceler)) {
-            canceler();
-          }
-        });
-      });
     })
     .directive('suggestPicker', function ($timeout, $, _, suggestPickerDefaultOptions, $window) {
       return {
@@ -228,6 +214,7 @@
         scope: {
           config: '=?',
           selecteds: '=',
+          suggestsUpdated: '=?',
           suggests: '=',
           keyword: '=',
           alwaysShow: '=?',
@@ -237,12 +224,27 @@
         link: function ($scope, $element) {
           var containerW, itemsW = 0,
             overflowed = false,
-            lastIndex = 0;
+            lastIndex = 0,
+            eventReferences = [];
           $scope.options = angular.extend({}, suggestPickerDefaultOptions, $scope.config);
           $scope.tempFocusInc = $scope.options.autoFocus ? 1 : 0;
           $scope.emitItemsAnalytics = _.debounce(getSizes, 128);
           $timeout($scope.emitItemsAnalytics, 2);
 
+          // Override parent fn
+          $scope.suggestsUpdated = function() {
+            optimiseSuggests($scope.suggests)
+          };
+
+          eventReferences.push($scope.$watch('suggests', optimiseSuggests));
+          
+          function optimiseSuggests(sug) {
+            var oldL = $scope.clearSuggests.length;
+            $scope.clearSuggests = _.differenceBy(sug, $scope.selecteds, 'id');
+            if (oldL < $scope.clearSuggests.length) {
+              $scope.state.activeSuggestItem = 0;
+            }
+          }
           /**
            * @function
            * for ui treatments
@@ -282,6 +284,11 @@
           $window.addEventListener("mousedown", closePopoverDetector);
 
           $scope.$on('$destroy', function () {
+            _.forEach(eventReferences, function (canceler) {
+              if (_.isFunction(canceler)) {
+                canceler();
+              }
+            });
             $window.removeEventListener("mousedown", closePopoverDetector);
           });
 
