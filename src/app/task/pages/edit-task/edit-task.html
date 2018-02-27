@@ -124,7 +124,7 @@
         </label>
       </div>
       <div class="task-description auto-height-item" ng-if="ctrlEditTask.enableDescription">
-        <div class="task-input-wrapper ng-class:{'focus': ctrlEditTask.descriptionFocus, 'error' : (ctrlEditTask.model.description.length > ctrlEditTask.descriptionLengthLimit)}}">
+        <div class="task-input-wrapper ng-class:{'focus': ctrlEditTask.descriptionFocus, 'error' : (ctrlEditTask.model.description.length > ctrlEditTask.descriptionLengthLimit)}">
           <textarea class="no-style gale-holder create-task-input" ng-model="ctrlEditTask.model.description"
                     ng-focus="ctrlEditTask.setFocus('description')" nst-suggest-emoji focus-me="{{ctrlEditTask.descriptionFocus}}"
                     ng-blur="ctrlEditTask.updateDescription(ctrlEditTask.model.description);ctrlEditTask.descriptionFocus = false"
