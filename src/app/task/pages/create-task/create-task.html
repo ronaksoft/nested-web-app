@@ -71,6 +71,10 @@
           <textarea class="no-style gale-holder create-task-input" ng-model="ctrlCreateTask.model.description"
             ng-blur="ctrlCreateTask.descriptionFocus = false" enter-key="ctrlCreateTask.enterDescriptionTask()" placeholder="{{ctrlCreateTask.descPlaceholder}}"
             id="task-description" resize-textarea auto-dir="ctrlCreateTask.model.description" nst-suggest-emoji ng-focus="ctrlCreateTask.setFocus('description')"></textarea>
+          <div class="error-handler _ltr"
+               ng-if="ctrlCreateTask.model.description.length > (ctrlCreateTask.descriptionLengthLimit - 10)" ng-class="{'nst-error-msg': (ctrlCreateTask.model.description.length > ctrlCreateTask.descriptionLengthLimit)}">
+            {{ctrlCreateTask.model.description.length | localize}} / {{ctrlCreateTask.descriptionLengthLimit | localize}}
+          </div>
         </div>
         <label for="task-description" ng-class="{'focus': ctrlCreateTask.descriptionFocus}">
               <svg class="_16svg">
