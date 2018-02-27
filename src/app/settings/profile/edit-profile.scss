@@ -316,9 +316,12 @@ form.inner-panel {
     visibility: visible;
   }
   .compose-wrapper {
-    background-color: $color-breeze-50;
+    background-color: $color-breeze-5-new;
     padding: 8px;
     margin-bottom: 16px;
+  }
+  ul {
+    list-style-position: inside;
   }
 }
 

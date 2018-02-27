@@ -86,6 +86,9 @@
         'froalaEditor.keyup': function (e, editor, je) {
           directionChecker(editor);
           vm.touched = true;
+        },
+        'froalaEditor.focus': function (e, editor, je) {
+          vm.touched = true;
         }
       }
     };

@@ -29,7 +29,7 @@
       vm.focus = false;
       vm.collapse = false;
       vm.mouseIn = false;
-      var signatureDevider = '<hr style="opacity: .64;">'
+      var signatureDevider = '<hr data-role="nst-sign" style="border-style: dashed; width: 80px;">'
       vm.suggestPickerConfig = {
         limit : 10,
         suggestsLimit: 10,
