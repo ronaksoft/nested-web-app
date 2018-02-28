@@ -387,9 +387,10 @@
        */
       function shouldSaveDraft() {
         var body = removeSign();
+        fillSubjectModel();
         NstSvcLogger.debug4('Compose | is this model need to be save in draft ?!');
         return _.size(_.trim(vm.model.subject)) > 0 ||
-          _.size(_.trim(body)) ||
+          _.size(_.trim(body)) > 0 ||
           _.size(vm.model.attachments) > 0 ||
           _.size(vm.model.recipients) > 0;
       }
@@ -399,9 +400,10 @@
        */
       function shouldSaveDraftQuick() {
         var body = removeSign();
+        fillSubjectModel();
         NstSvcLogger.debug4('Compose | is this model need to be save in draft ?!');
         return _.size(_.trim(vm.model.subject)) > 0 ||
-          _.size(_.trim(body)) ||
+          _.size(_.trim(body)) > 0 ||
           _.size(vm.model.attachments) > 0;
       }
 
