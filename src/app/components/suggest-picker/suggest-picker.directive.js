@@ -12,30 +12,65 @@
       mode: 'place',
       alwaysVisible: false
     })
-    .controller('suggestPickerController', function ($timeout, $scope, _, suggestPickerDefaultOptions, toastr, NstSvcTranslation, $rootScope, NstUtility) {
+    .controller('suggestPickerController', function ($timeout, $scope, _, suggestPickerDefaultOptions, toastr, NstSvcTranslation, $rootScope, NstUtility, NstVmSelectTag) {
       $scope.clearSuggests = [];
       var eventReferences = [];
+      var oldkeyword = '';
       resetState();
 
-      $scope.keydown = function (e) {
+      function addKeyItem(value) {
+        if ($scope.selecteds.length >= $scope.options.limit) {
+          toastr.warning(NstUtility.string.format(NstSvcTranslation.get('You can have maximum {0} attached places!'), $scope.options.limit));
+          return;
+        }
+        var item = new NstVmSelectTag({
+          id: value,
+          name: value
+        });
+        $scope.selecteds.push(item);
+        $scope.keyword = '';
+        ++$scope.tempFocusInc;
+        resetState();
+        if (typeof $scope.requestMore === 'function') {
+          $scope.requestMore();
+        }
+        if ($scope.options.singleRow) {
+          $scope.emitItemsAnalytics();
+        }
+        $scope.visible = false;
+      }
+
+      $scope.keyup = function (e) {
         if (e.which === 13 && !$scope.visible) {
           return;
         } else {
           $scope.visible = true;
         }
+        var value = e.currentTarget.value;
+        if (value && value !== oldkeyword) {
+          $scope.updatedItems = false;
+        }
+        oldkeyword = value;
+        if ($scope.state.activeSuggestItem >= $scope.clearSuggests.length) {
+          $scope.state.activeSuggestItem = 0
+        }
         switch (e.which) {
           case 13:
             // Enter/ return key
             if ($scope.clearSuggests.length > 0) {
-              var index = $scope.state.activeSuggestItem;
-              e.preventDefault();
-              return $scope.selectItem(index);
+              if ($scope.updatedItems) {
+                var index = $scope.state.activeSuggestItem;
+                e.preventDefault();
+                return $scope.selectItem(index);
+              } else {
+                return addKeyItem(value)
+              }
             }
             break;
           case 8:
             // Backspace key
             var index = $scope.state.activeSelectedItem;
-            if (index > -1 && $scope.selecteds[index]) {
+            if (index > -1 && $scope.selecteds[index] && $scope.keyword.length === 0) {
               $scope.removeItem(index);
               $scope.state.activeSelectedItem = index;
               decreaseActiveSelectedIndex();
@@ -129,14 +164,7 @@
         $scope.state.activeSelectedItem = index;
       }
 
-      // todo: Remove on destroy
-      eventReferences.push($scope.$watch('suggests', function (sug) {
-        var oldL = $scope.clearSuggests.length;
-        $scope.clearSuggests = _.differenceBy(sug, $scope.selecteds, 'id');
-        if (oldL < $scope.clearSuggests.length) {
-          $scope.state.activeSuggestItem = 0;
-        }
-      }));
+
 
       /**
        * Reset / Initialize view states
@@ -209,13 +237,6 @@
         }
       }
 
-      $scope.$on('$destroy', function () {
-        _.forEach(eventReferences, function (canceler) {
-          if (_.isFunction(canceler)) {
-            canceler();
-          }
-        });
-      });
     })
     .directive('suggestPicker', function ($timeout, $, _, suggestPickerDefaultOptions, $window) {
       return {
@@ -228,6 +249,7 @@
         scope: {
           config: '=?',
           selecteds: '=',
+          suggestsUpdated: '=?',
           suggests: '=',
           keyword: '=',
           alwaysShow: '=?',
@@ -237,12 +259,28 @@
         link: function ($scope, $element) {
           var containerW, itemsW = 0,
             overflowed = false,
-            lastIndex = 0;
+            lastIndex = 0,
+            eventReferences = [];
           $scope.options = angular.extend({}, suggestPickerDefaultOptions, $scope.config);
           $scope.tempFocusInc = $scope.options.autoFocus ? 1 : 0;
           $scope.emitItemsAnalytics = _.debounce(getSizes, 128);
           $timeout($scope.emitItemsAnalytics, 2);
 
+          // Override parent fn
+          $scope.suggestsUpdated = function() {
+            optimiseSuggests($scope.suggests)
+          };
+
+          eventReferences.push($scope.$watch('suggests', optimiseSuggests));
+          
+          function optimiseSuggests(sug) {
+            var oldL = $scope.clearSuggests.length;
+            $scope.clearSuggests = _.differenceBy(sug, $scope.selecteds, 'id');
+            $scope.updatedItems = true;
+            if (oldL < $scope.clearSuggests.length) {
+              $scope.state.activeSuggestItem = 0;
+            }
+          }
           /**
            * @function
            * for ui treatments
@@ -282,6 +320,11 @@
           $window.addEventListener("mousedown", closePopoverDetector);
 
           $scope.$on('$destroy', function () {
+            _.forEach(eventReferences, function (canceler) {
+              if (_.isFunction(canceler)) {
+                canceler();
+              }
+            });
             $window.removeEventListener("mousedown", closePopoverDetector);
           });
 

@@ -7,7 +7,7 @@
   margin-right: 24px;
   flex-direction: column;
   flex: none;
-  max-height: 338px;
+  max-height: 370px;
   margin-top: 28px;
   h5 {
     font-size: 12px;
@@ -308,6 +308,20 @@ form.inner-panel {
   margin-top: 16px;
   span {
     line-height: 32px;
+  }
+}
+.webapp-setting {
+  .editor-butns-wrapper {
+    opacity: 1;
+    visibility: visible;
+  }
+  .compose-wrapper {
+    background-color: $color-breeze-5-new;
+    padding: 8px;
+    margin-bottom: 16px;
+  }
+  ul {
+    list-style-position: inside;
   }
 }
 

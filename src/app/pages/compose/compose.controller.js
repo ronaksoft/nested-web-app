@@ -17,10 +17,10 @@
     /** @ngInject */
     function ComposeController($q, $rootScope, $state, $stateParams, $scope, $log, $timeout, $uibModalStack, _, toastr,
                                SvcRTL, NST_SRV_ERROR, NST_PATTERN, NST_CONFIG, NST_DEFAULT, NST_ATTACHMENT_STATUS,
-                               NST_STORE_UPLOAD_TYPE, NST_FILE_TYPE, SvcCardCtrlAffix, NstSvcAttachmentFactory,
+                               NST_STORE_UPLOAD_TYPE, NST_FILE_TYPE, SvcCardCtrlAffix, NstSvcAttachmentFactory, NST_KEY,
                                NstSvcPlaceFactory, NstSvcPostFactory, NstSvcStore, NstSvcFileType, NstSvcAttachmentMap,
                                NstSvcSidebar, NstSvcSystemConstants, NstUtility, NstSvcTranslation, NstSvcModal,
-                               NstSvcPostDraft, NstSvcUserFactory, NstSvcLogger, NstSvcAuth, NstTinyPlace,
+                               NstSvcPostDraft, NstSvcUserFactory, NstSvcLogger, NstSvcAuth, NstTinyPlace, NstSvcKeyFactory,
                                NstVmSelectTag, NstPicture, NstPostDraft, NstPost, $, NST_SEARCH_QUERY_PREFIX, $window) {
       var vm = this;
       vm.modalId = '';
@@ -29,6 +29,7 @@
       vm.focus = false;
       vm.collapse = false;
       vm.mouseIn = false;
+      var signatureDivider = '<hr data-role="nst-sign" style="border-style: dashed; width: 80px;">'
       vm.suggestPickerConfig = {
         limit : 10,
         suggestsLimit: 10,
@@ -52,7 +53,6 @@
       vm.filesPopver = false;
       vm.cmdPress = false;
       vm.cmdVPress = false;
-      vm.isRetinaDisplay = isRetinaDisplay();
       vm.ultimateSaveDraft = false;
       vm.attachmentsIsUploading = [];
       vm.searchMore = searchMore;
@@ -201,7 +201,7 @@
           NstSvcLogger.debug4('Compose | insert place id as recipient in quick post');
           addRecipients($stateParams.placeId);
           eventReferences.push($scope.$on('$stateChangeStart', function (event, toState, toParams) {
-            var confirm = _.size(_.trim(vm.model.subject)) > 0 || _.size(_.trim(vm.model.body)) || _.size(vm.model.attachments) > 0;
+            var confirm = shouldSaveDraftQuick();
             if (confirm && !vm.finish) {
               event.preventDefault();
 
@@ -221,7 +221,6 @@
 
           NstSvcLogger.debug4('Compose | compose is in modal');
           eventReferences.push($scope.$on('modal.closing', function (event) {
-
             if (vm.ultimateSaveDraft) {
               // setTimeout(function () {
                 // $('body').removeClass("active-compose");
@@ -274,15 +273,39 @@
          * Determines the limits of sending post
          */
         NstSvcSystemConstants.get().then(function (result) {
-            systemConstants = result;
-            vm.suggestPickerConfig.limit = systemConstants.post_max_targets || 10
-            // vm.targetLimit = systemConstants.post_max_targets || 10;
-          })
-          .catch(function () {
-            vm.suggestPickerConfig.limit = 10
-          });
+          systemConstants = result;
+          vm.suggestPickerConfig.limit = systemConstants.post_max_targets || 10
+          // vm.targetLimit = systemConstants.post_max_targets || 10;
+        })
+        .catch(function () {
+          vm.suggestPickerConfig.limit = 10
+        });
+
+        // Loads the settings which are stored in Cyrus client storage
+        NstSvcKeyFactory.get(NST_KEY.GENERAL_SETTING_SIGNATURE).then(function (v) {
+          if (v.length > 0) {
+            var res = JSON.parse(v);
+            vm.signature = res.data;
+            if (res.active) {
+              vm.model.body += (vm.model.body.length ? '' : '<br>') + signatureDivider + vm.signature;
+            }
+          }
+        });
       })();
 
+      function removeSign() {
+        var body = vm.model.body;
+        if(body) {
+          var indexSignature = body.search(signatureDivider);
+          if (indexSignature) {
+            body = body.slice(0, indexSignature);
+            if (body === '<div data-empty="true"><br></div>') {
+              body = '';
+            }
+          }
+        }
+        return body;
+      }
       vm.addLabels = function (items) {
         vm.model.labels = items;
       }
@@ -321,7 +344,7 @@
         NstSvcLogger.debug4('Compose | Saving post model as draft');
         var draft = new NstPostDraft();
         draft.subject = vm.model.subject;
-        draft.body = vm.model.body;
+        draft.body = removeSign();
         draft.attachments = _.map(vm.model.attachments, 'id');
         draft.recipients = vm.model.recipients;
         NstSvcPostDraft.save(draft);
@@ -363,11 +386,25 @@
        * TODO Soroosh
        */
       function shouldSaveDraft() {
+        var body = removeSign();
+        fillSubjectModel();
         NstSvcLogger.debug4('Compose | is this model need to be save in draft ?!');
         return _.size(_.trim(vm.model.subject)) > 0 ||
-          _.size(_.trim(vm.model.body)) ||
+          _.size(_.trim(body)) > 0 ||
           _.size(vm.model.attachments) > 0 ||
           _.size(vm.model.recipients) > 0;
+      }
+
+      /**
+       * TODO Soroosh
+       */
+      function shouldSaveDraftQuick() {
+        var body = removeSign();
+        fillSubjectModel();
+        NstSvcLogger.debug4('Compose | is this model need to be save in draft ?!');
+        return _.size(_.trim(vm.model.subject)) > 0 ||
+          _.size(_.trim(body)) > 0 ||
+          _.size(vm.model.attachments) > 0;
       }
 
       /*****************************
@@ -1148,145 +1185,6 @@
         this.selection.restore();
       };
 
-      // Define a text icon called imageIcon.
-      $.FroalaEditor.DefineIcon('align-justify', {
-        SRC: vm.isRetinaDisplay ? '/assets/icons/editor/align-justify@2x.png' : '/assets/icons/editor/align-justify.png',
-        ALT: 'align justify',
-        template: 'image'
-      });
-      $.FroalaEditor.DefineIcon('align-center', {
-        SRC: vm.isRetinaDisplay ? '/assets/icons/editor/align-center@2x.png' : '/assets/icons/editor/align-center.png',
-        ALT: 'align center',
-        template: 'image'
-      });
-      $.FroalaEditor.DefineIcon('align-right', {
-        SRC: vm.isRetinaDisplay ? '/assets/icons/editor/align-right@2x.png' : '/assets/icons/editor/align-right.png',
-        ALT: 'align right',
-        template: 'image'
-      });
-      $.FroalaEditor.DefineIcon('align-left', {
-        SRC: vm.isRetinaDisplay ? '/assets/icons/editor/align-left@2x.png' : '/assets/icons/editor/align-left.png',
-        ALT: 'align-left',
-        template: 'image'
-      });
-      $.FroalaEditor.DefineIcon('insertLink', {
-        SRC: vm.isRetinaDisplay ? '/assets/icons/editor/link@2x.png' : '/assets/icons/editor/link.png',
-        ALT: 'link',
-        template: 'image'
-      });
-      $.FroalaEditor.DefineIcon('linkStyle', {
-        SRC: vm.isRetinaDisplay ? '/assets/icons/editor/link@2x.png' : '/assets/icons/editor/link.png',
-        ALT: 'link',
-        template: 'image'
-      });
-      $.FroalaEditor.DefineIcon('linkOpen', {
-        SRC: vm.isRetinaDisplay ? '/assets/icons/editor/open-link.png' : '/assets/icons/editor/open-link.png',
-        ALT: 'open link',
-        template: 'image'
-      });
-      $.FroalaEditor.DefineIcon('linkEdit', {
-        SRC: vm.isRetinaDisplay ? '/assets/icons/editor/link@2x.png' : '/assets/icons/editor/link.png',
-        ALT: 'link',
-        template: 'image'
-      });
-      $.FroalaEditor.DefineIcon('linkList', {
-        SRC: vm.isRetinaDisplay ? '/assets/icons/editor/link@2x.png' : '/assets/icons/editor/link.png',
-        ALT: 'link',
-        template: 'image'
-      });
-      $.FroalaEditor.DefineIcon('linkBack', {
-        SRC: vm.isRetinaDisplay ? '/assets/icons/editor/link@2x.png' : '/assets/icons/editor/link.png',
-        ALT: 'link',
-        template: 'image'
-      });
-      $.FroalaEditor.DefineIcon('linkRemove', {
-        SRC: vm.isRetinaDisplay ? '/assets/icons/editor/link-remove.png' : '/assets/icons/editor/link-remove.png',
-        ALT: 'remove link',
-        template: 'image'
-      });
-      $.FroalaEditor.DefineIcon('eraser', {
-        SRC: vm.isRetinaDisplay ? '/assets/icons/editor/eraser@2x.png' : '/assets/icons/editor/eraser.png',
-        ALT: 'eraser',
-        template: 'image'
-      });
-      $.FroalaEditor.DefineIcon('formatUL', {
-        SRC: vm.isRetinaDisplay ? '/assets/icons/editor/list-ul@2x.png' : '/assets/icons/editor/list-ul.png',
-        ALT: 'unordered list',
-        template: 'image'
-      });
-      $.FroalaEditor.DefineIcon('paragraph-rtl', {
-        SRC: vm.isRetinaDisplay ? '/assets/icons/editor/paragraph-rtl@2x.png' : '/assets/icons/editor/paragraph-rtl.png',
-        ALT: 'rtl',
-        template: 'image'
-      });
-      $.FroalaEditor.DefineIcon('paragraph-ltr', {
-        SRC: vm.isRetinaDisplay ? '/assets/icons/editor/paragraph-ltr@2x.png' : '/assets/icons/editor/paragraph-ltr.png',
-        ALT: 'ltr',
-        template: 'image'
-      });
-      $.FroalaEditor.DefineIcon('formatOL', {
-        SRC: vm.isRetinaDisplay ? '/assets/icons/editor/list-ol@2x.png' : '/assets/icons/editor/list-ol.png',
-        ALT: 'order list',
-        template: 'image'
-      });
-      $.FroalaEditor.DefineIcon('strikeThrough', {
-        SRC: vm.isRetinaDisplay ? '/assets/icons/editor/strikethrough@2x.png' : '/assets/icons/editor/strikethrough.png',
-        ALT: 'strikethrough',
-        template: 'image'
-      });
-      $.FroalaEditor.DefineIcon('bold', {
-        SRC: vm.isRetinaDisplay ? '/assets/icons/editor/bold@2x.png' : '/assets/icons/editor/bold.png',
-        ALT: 'bold',
-        template: 'image'
-      });
-      $.FroalaEditor.DefineIcon('italic', {
-        SRC: vm.isRetinaDisplay ? '/assets/icons/editor/italic@2x.png' : '/assets/icons/editor/italic.png',
-        ALT: 'italic',
-        template: 'image'
-      });
-      $.FroalaEditor.DefineIcon('underline', {
-        SRC: vm.isRetinaDisplay ? '/assets/icons/editor/underline@2x.png' : '/assets/icons/editor/underline.png',
-        ALT: 'underline',
-        template: 'image'
-      });
-      $.FroalaEditor.DefineIcon('fontSize', {
-        SRC: vm.isRetinaDisplay ? '/assets/icons/editor/fontsize@2x.png' : '/assets/icons/editor/fontsize.png',
-        ALT: 'fontsize',
-        template: 'image'
-      });
-      $.FroalaEditor.DefineIcon('color', {
-        SRC: vm.isRetinaDisplay ? '/assets/icons/editor/color@2x.png' : '/assets/icons/editor/color.png',
-        ALT: 'color',
-        template: 'image'
-      });
-
-      // $.FroalaEditor.RegisterCommand('bold', {
-      //   title: 'Bold',
-      //   icon: 'bold'
-      // });
-      // $.FroalaEditor.ICON_DEFAULT_TEMPLATE = 'material_design';
-
-      $.FroalaEditor.RegisterCommand('rightToLeft', {
-        title: 'RTL',
-        icon: 'paragraph-rtl',
-        focus: true,
-        undo: true,
-        refreshAfterCallback: true,
-        callback: function () {
-          changeDirection.apply(this, ['rtl', 'right']);
-        }
-      });
-
-      $.FroalaEditor.RegisterCommand('leftToRight', {
-        title: 'LTR',
-        icon: 'paragraph-ltr',
-        focus: true,
-        undo: true,
-        // refreshAfterCallback: true,
-        callback: function () {
-          changeDirection.apply(this, ['ltr', 'left']);
-        }
-      });
 
       function checkFroalaDirection(editor) {
         var el = editor.selection.element();
@@ -1526,17 +1424,6 @@
           });
         }
 
-        /**
-         * Checks the screen is retina
-         * needed for rendering proper icons
-         * @returns {boolean}
-         */
-        function isRetinaDisplay() {
-          if (window.matchMedia) {
-            var mq = window.matchMedia("only screen and (min--moz-device-pixel-ratio: 1.3), only screen and (-o-min-device-pixel-ratio: 2.6/2), only screen and (-webkit-min-device-pixel-ratio: 1.3), only screen  and (min-device-pixel-ratio: 1.3), only screen and (min-resolution: 1.3dppx)");
-            return (mq && mq.matches || (window.devicePixelRatio > 1));
-          }
-        }
 
         /**
          * Add selected place as recipients of post
@@ -1642,10 +1529,10 @@
           $rootScope.$broadcast('close-background-modal', {
             id: vm.modalId
           });
-          setTimeout(function () {
+          // setTimeout(function () {
             // console.log('destroy');
             // $('.compose-modal-element').removeClass('minimized-compose');
-          }, 64);
+          // }, 64);
           window.onbeforeunload = null;
           $('.wdt-emoji-popup.open').removeClass('open');
           NstSvcLogger.debug4('Compose | Compose id destroyed :');
