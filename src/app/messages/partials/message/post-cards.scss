@@ -316,6 +316,11 @@ post-card {
     ul, ol {
       margin: 0 16px;
     }
+    hr {
+      margin: 20px 0;
+      width: 100%;
+      border-color: $color-breeze-new;
+    }
     > div > [mail-resizer] {
       width: 100%;
       color: $color-post-body;

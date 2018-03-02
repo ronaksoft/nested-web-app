@@ -216,25 +216,26 @@
       var commentModel = {
         attachmentId: '',
         body: body,
-        _id: vm.sendCommentCount,
+        id: vm.sendCommentCount,
         removed: false,
         removedBy: '',
         removedById: '',
         sender: vm.user,
         senderId: '',
-        timestamp: Date.now()
+        timestamp: Date.now(),
+        indexInComments: vm.comments.length
       };
 
       commentModel.isSending = true;
       vm.sendCommentCount++;
       vm.commentBoardLimit++;
 
-      if (!_.some(vm.comments, {
-        id: commentModel.id
-      })) {
-        commentModel.indexInComments = vm.comments.length
-        vm.comments.push(commentModel);
-      }
+      // if (!_.some(vm.comments, {
+      //   id: commentModel._id
+      // })) {
+      // }
+
+      vm.comments.push(commentModel);
 
       $timeout(function(){
         vm.post.newComment = '';
@@ -264,8 +265,11 @@
     }
 
     function addCommentFailedCallback(commentModel) {
-      vm.comments[commentModel.indexInComments].isSending = false;
-      vm.comments[commentModel.indexInComments].isFailed = true;
+        var index = _.findIndex(vm.comments, {id: commentModel.id});
+        if (index > -1) {
+          vm.comments[index].isSending = false;
+          vm.comments[index].isFailed = true;
+        }
       toastr.error(NstSvcTranslation.get('Sorry, an error has occurred in sending your comment'));
     }
 
@@ -273,7 +277,8 @@
       if (!_.some(vm.comments, {
           id: comment.id
         })) {
-          vm.comments[commentModel.indexInComments] = comment;
+          var index = _.findIndex(vm.comments, {id: commentModel.id});
+          vm.comments[index] = comment;
       }
       // vm.isSendingComment = false;
 

@@ -13,6 +13,7 @@
     var eventReferences = [];
 
     vm.titleLengthLimit = 64;
+    vm.descriptionLengthLimit = 511;
     vm.showMoreOption = false;
     vm.user = NstSvcAuth.user;
     vm.minimize = false;

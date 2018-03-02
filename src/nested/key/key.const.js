@@ -5,6 +5,7 @@
     .module('ronak.nested.web')
     .constant('NST_KEY', {
       GENERAL_SETTING_I18N: 'general.setting.i18n',
+      GENERAL_SETTING_SIGNATURE: 'general.setting.signature',
       GENERAL_SETTING_PLACE_ORDER: 'general.setting.place-order',
       GENERAL_NEW_SETTING_PLACE_ORDER: 'general.new.setting.place-order',
       WEBAPP_SETTING_RECENT_EMOJI: 'webapp.setting.recent-emoji',
