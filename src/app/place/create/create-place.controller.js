@@ -18,7 +18,7 @@
     var vm = this;
     var eventReferences = [];
 
-    var placeIdRegex = /^[A-Za-z][A-Za-z0-9-]*$/;
+    var placeIdRegex = /^[a-zA-Z](?!.*([-_])\1{1})(?!.*-_)(?!.*_-)[a-zA-Z0-9-_]{0,30}[a-zA-Z0-9]$/;
 
     vm.hasParentPlace = null;
     vm.step = 1;
