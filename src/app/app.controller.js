@@ -23,11 +23,11 @@
     NstSvcSystem.getLicense().then(function(license){
       vm.leftDays = moment.duration(moment(license.expire_date).diff(moment(new Date()))).asDays().toFixed();
       if (vm.leftDays < 7 && vm.leftDays > 0) {
-        toastr.warning(NstSvcTranslation.get(NstUtility.string.format('Your license will expire in {0} days', vm.leftDays)), '', {
+        toastr.warning(NstSvcTranslation.get(NstUtility.string.format('Your license will expire in {0} days', vm.leftDays)));
+      } else if (vm.leftDays < 1) {
+        toastr.error(NstSvcTranslation.get('Your license is expired, All data will be removed.'), '', {
           timeOut: 9999999
         });
-      } else if (vm.leftDays < 1) {
-        toastr.error(NstSvcTranslation.get('Your license is expired, your all information will be removed.'));
 
       }
     });
