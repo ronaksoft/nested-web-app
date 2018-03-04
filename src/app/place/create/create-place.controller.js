@@ -429,10 +429,16 @@
       });
 
       if (hasAnyOtherTeammate) {
-        return addUsers(vm.place, vm.teammates);
+        return vm.isCreateGrandPlaceMode
+        ? inviteUsers(vm.place, vm.teammates)
+        : addUsers(vm.place, vm.teammates);
       }
 
       return $q.resolve();
+    }
+
+    function inviteUsers(place, users) {
+      return NstSvcPlaceFactory.inviteUser(place, users);
     }
 
     function addUsers(place, users) {

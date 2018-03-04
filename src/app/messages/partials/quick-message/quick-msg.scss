@@ -133,6 +133,10 @@
       }
       .compose-modal-footer {
         display: flex;
+        overflow: hidden;
+        &.focused {
+          overflow: visible;
+        }
       }
       input[type='button'] {
         min-width: 80px;
