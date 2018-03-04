@@ -35,7 +35,6 @@
         });
       }
 
-
       return deferred.promise;
     }
 
