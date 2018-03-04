@@ -2,21 +2,22 @@
   'use strict';
   angular
     .module('ronak.nested.web')
-    .service('NstSvcSystemConstants', NstSvcSystemConstants);
+    .service('NstSvcSystem', NstSvcSystem);
 
   /** @ngInject */
-  function NstSvcSystemConstants($q, _, NstSvcServer, NstBaseFactory, NstSvcLogger) {
+  function NstSvcSystem($q, _, NstSvcServer, NstBaseFactory, NstSvcLogger) {
 
 
-    function SystemConstants() {
+    function System() {
       this.limits = {};
       this.loaded = false;
+      this.license = null;
     }
 
-    SystemConstants.prototype = new NstBaseFactory();
-    SystemConstants.prototype.constructor = SystemConstants;
+    System.prototype = new NstBaseFactory();
+    System.prototype.constructor = System;
 
-    SystemConstants.prototype.get = function () {
+    System.prototype.getConstants = function () {
       var deferred = $q.defer();
       var that = this;
 
@@ -38,6 +39,28 @@
       return deferred.promise;
     }
 
-    return new SystemConstants();
+    System.prototype.getLicense = function () {
+      var deferred = $q.defer();
+      var that = this;
+
+      if (that.license) {
+        deferred.resolve(that.license);
+      } else {
+        NstSvcServer.request('system/get_license', {}).then(function (result) {
+          that.license = result.license;
+          deferred.resolve(that.license);
+        }).catch(function (error) {
+          NstSvcLogger.error('Could not retrieve system license!', error);
+          deferred.reject(error);
+        }).finally(function () {
+          that.license = null;
+        });
+      }
+
+
+      return deferred.promise;
+    }
+
+    return new System();
   }
 })();

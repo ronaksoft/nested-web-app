@@ -6,9 +6,9 @@
     .controller('AppController', AppController);
 
   /** @ngInject */
-  function AppController($scope, $window, $rootScope, $state, $stateParams, $interval, toastr, $location,
+  function AppController($scope, $window, $rootScope, $state, $stateParams, $interval, toastr, $location, moment,
                          deviceDetector, NstSvcInteractionTracker, $uibModal, NstSvcTranslation, NstUtility, NstViewService,
-                         NST_DEFAULT, NST_AUTH_EVENT, NST_SRV_EVENT, NST_NOTIFICATION_EVENT, NST_CONFIG,
+                         NST_DEFAULT, NST_AUTH_EVENT, NST_SRV_EVENT, NST_NOTIFICATION_EVENT, NST_CONFIG, NstSvcSystem,
                          NstSvcServer, NstSvcAuth, NstSvcLogger, NstSvcI18n, _, NstSvcNotificationFactory, $) {
     var vm = this;
     var eventReferences = [];
@@ -20,9 +20,19 @@
       sidebar: {collapsed: true},
       navbar: {collapsed: false}
     };
+    NstSvcSystem.getLicense().then(function(license){
+      vm.leftDays = moment.duration(moment(license.expire_date).diff(moment(new Date()))).asDays().toFixed();
+      if (vm.leftDays < 7 && vm.leftDays > 0) {
+        toastr.warning(NstSvcTranslation.get(NstUtility.string.format('Your license will expire in {0} days', vm.leftDays)), '', {
+          timeOut: 9999999
+        });
+      } else if (vm.leftDays < 1) {
+        toastr.error(NstSvcTranslation.get('Your license is expired, your all information will be removed.'));
+
+      }
+    });
     NstViewService.applyTheme();
     $rootScope.navView = false;
-    $rootScope.staticNav = true;
     $rootScope.topNavOpen = false;
     $rootScope._direction = NstSvcI18n.getLocale()._direction || "ltr";
     $rootScope.deviceDetector = deviceDetector;

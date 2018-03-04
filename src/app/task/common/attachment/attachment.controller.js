@@ -15,7 +15,7 @@
     .controller('TaskAttachmentController', TaskAttachmentController);
 
   function TaskAttachmentController($scope, _, $uibModal, $q, NstSvcAuth, NST_ATTACHMENT_STATUS, NstSvcAttachmentMap, $timeout,
-    toastr, NstSvcTranslation, NstUtility, NstSvcLogger, NstSvcAttachmentFactory, NstSvcSystemConstants,
+    toastr, NstSvcTranslation, NstUtility, NstSvcLogger, NstSvcAttachmentFactory, NstSvcSystem,
     NST_CONFIG, $log, NST_FILE_TYPE, NstPicture, NstSvcFileType, NstSvcStore, NST_STORE_UPLOAD_TYPE) {
     var vm = this;
     var eventReferences = [];
@@ -33,7 +33,7 @@
     var systemConstants = {};
 
     (function () {
-      NstSvcSystemConstants.get().then(function (result) {
+      NstSvcSystem.getConstants().then(function (result) {
         systemConstants = result;
       }).catch(function () {
         vm.targetLimit = 10;
