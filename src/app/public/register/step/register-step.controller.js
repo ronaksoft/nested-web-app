@@ -100,6 +100,8 @@
               toastr.warning(NstSvcTranslation.get("This username is already taken."));
             } else if (data.data.err_code === 5 && data.data.items[0] === 'phone') {
               toastr.warning(NstSvcTranslation.get("This phonenumber is already used."));
+            } else if (data.data.err_code === 6) {
+              toastr.error(NstSvcTranslation.get('Nested Service License maximum active user is reached out!'));          
             } else {
               toastr.error(NstSvcTranslation.get("Sorry, an error has occurred in creating your account. Please contact us."));
             }
@@ -111,7 +113,10 @@
           vm.registerProgress = false;
         });
 
-      }).catch(function () {
+      }).catch(function (err) {
+        if(err && err.err_code && err.err_code === 6) {
+          toastr.error(NstSvcTranslation.get('Nested Service License maximum active user is reached out!'));    
+        }
         toastr.error(NstSvcTranslation.get('Sorry, an error has occured while checking your username.'));
         vm.registerProgress = false;
       });
