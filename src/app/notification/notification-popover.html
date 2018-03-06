@@ -150,6 +150,10 @@
        class="notif-li ng-class:{'seen': notif.isSeen}" ng-include="'/app/notification/task-partials/updated.html'"
        ng-init="notification = notif">
   </div>
+  <div ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.TASK_TITLE_UPDATED"
+       class="notif-li ng-class:{'seen': notif.isSeen}" ng-include="'/app/notification/task-partials/updated.html'"
+       ng-init="notification = notif">
+  </div>
   <div ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.TASK_REJECTED"
        class="notif-li ng-class:{'seen': notif.isSeen}" ng-include="'/app/notification/task-partials/rejected.html'"
        ng-init="notification = notif">

@@ -6,7 +6,7 @@
     .controller('addLabelController', addLabelController);
 
   function addLabelController($timeout, $scope, $uibModalInstance, NstSvcTranslation,
-                              _, NstSvcLabelFactory, NST_LABEL_SEARCH_FILTER, NstSvcSystemConstants, argv) {
+                              _, NstSvcLabelFactory, NST_LABEL_SEARCH_FILTER, NstSvcSystem, argv) {
 
     var vm = this;
     vm.haveMore = true;
@@ -94,7 +94,7 @@
     }
 
     function loadConstants() {
-      NstSvcSystemConstants.get().then(function (result) {
+      NstSvcSystem.getConstants().then(function (result) {
         vm.addLabelLimit = result.post_max_labels;
       }).catch(function () {
         vm.addLabelLimit = 10;
