@@ -115,7 +115,9 @@
           return (cm.id + '').length < 10;
         });
         var newCommentsFromOthers = _.filter(newComments, function(cm){
-          return !_.some(sentComments, {body: cm.body})
+          return !_.some(sentComments, function(sentCm){
+            return sentCm.body === cm.body && sentCm.sender.id === cm.sender.id;
+          })
         });
         vm.comments = vm.comments.concat(newCommentsFromOthers);
         vm.lastComment = findLastComment(vm.comments);
