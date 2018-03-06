@@ -121,7 +121,7 @@
       .nst-compose-message .cke_contents.cke_reset {
         min-height: 0;
       }
-      .nst-compose-message,.compose-modal-footer {
+      .nst-compose-message {
         overflow: hidden;
         display: flex;
         // max-height: 0;
@@ -129,6 +129,13 @@
         &.focused {
           // max-height: 2500px;
           // overflow: visible;
+        }
+      }
+      .compose-modal-footer {
+        display: flex;
+        overflow: hidden;
+        &.focused {
+          overflow: visible;
         }
       }
       input[type='button'] {

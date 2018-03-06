@@ -19,7 +19,7 @@
                                SvcRTL, NST_SRV_ERROR, NST_PATTERN, NST_CONFIG, NST_DEFAULT, NST_ATTACHMENT_STATUS,
                                NST_STORE_UPLOAD_TYPE, NST_FILE_TYPE, SvcCardCtrlAffix, NstSvcAttachmentFactory, NST_KEY,
                                NstSvcPlaceFactory, NstSvcPostFactory, NstSvcStore, NstSvcFileType, NstSvcAttachmentMap,
-                               NstSvcSidebar, NstSvcSystemConstants, NstUtility, NstSvcTranslation, NstSvcModal,
+                               NstSvcSidebar, NstSvcSystem, NstUtility, NstSvcTranslation, NstSvcModal,
                                NstSvcPostDraft, NstSvcUserFactory, NstSvcLogger, NstSvcAuth, NstTinyPlace, NstSvcKeyFactory,
                                NstVmSelectTag, NstPicture, NstPostDraft, NstPost, $, NST_SEARCH_QUERY_PREFIX, $window) {
       var vm = this;
@@ -272,7 +272,7 @@
         /**
          * Determines the limits of sending post
          */
-        NstSvcSystemConstants.get().then(function (result) {
+        NstSvcSystem.getConstants().then(function (result) {
           systemConstants = result;
           vm.suggestPickerConfig.limit = systemConstants.post_max_targets || 10
           // vm.targetLimit = systemConstants.post_max_targets || 10;

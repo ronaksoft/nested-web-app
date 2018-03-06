@@ -6,7 +6,7 @@
     .service('NstSvcAuth', NstSvcAuth);
 
   /** @ngInject */
-  function NstSvcAuth(_, $cookies, $q, $log, $rootScope, $timeout,
+  function NstSvcAuth(_, $cookies, $q, $log, $rootScope, $timeout, toastr,
                       NstSvcServer, NstSvcUserFactory, NstSvcPlaceFactory, NstSvcLogger, NstSvcI18n, NstSvcClient,
                       NstSvcDate, NstSvcGlobalCache,
                       NST_SRV_EVENT, NST_SRV_RESPONSE_STATUS, NST_SRV_ERROR, NST_UNREGISTER_REASON, NST_CONFIG,
@@ -320,6 +320,11 @@
           if (response.account.flags.force_password_change) {
             $rootScope.$broadcast(NST_AUTH_EVENT.CHANGE_PASSWORD);
           }
+          if (response.license_expired) {
+            toastr.error(NstSvcTranslation.get('Nested Service license has been expired.'), '', {
+              timeOut: 9999999
+            });
+          }            
         }).catch(function (error) {
           $log.debug('Auth | Recall Error: ', error);
 

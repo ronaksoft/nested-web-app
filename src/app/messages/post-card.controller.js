@@ -15,7 +15,7 @@
     .controller('PostCardController', PostCardController);
 
   function PostCardController($state, $q, $log, $timeout, $stateParams, $rootScope, $scope, $uibModal, $location, $anchorScroll,
-                              _, toastr, $sce, NstSvcTaskUtility, NST_CONFIG,
+                              _, toastr, $sce, NstSvcTaskUtility, NST_CONFIG, NstSvcI18n,
                               NST_EVENT_ACTION, NST_PLACE_ACCESS, NST_POST_EVENT, SvcCardCtrlAffix,
                               NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory, NstSearchQuery, NstSvcModal,
                               NstSvcAuth, NstUtility, NstSvcPostInteraction, NstSvcTranslation, NstSvcLogger, $) {
@@ -1075,10 +1075,11 @@
         url = url[0];
       }
       if (url.indexOf('?') > -1) {
-        url += '&nst_uid=' + userId + '&nst_mid=' + msgId + '&nst_app=' + app;
+        url += '&';
       } else {
-        url += '?nst_uid=' + userId + '&nst_mid=' + msgId + '&nst_app=' + app;
+        url += '?';
       }
+      url += 'nst_user=' + userId + '&nst_mid=' + msgId + '&nst_app=' + app + '&nst_locale=' + NstSvcI18n.selectedLocale;
       return $sce.trustAsResourceUrl(url + urlPostFix);
     }
 
