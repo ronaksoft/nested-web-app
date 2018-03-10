@@ -94,6 +94,16 @@
         group : 'settings',
         fullscreen : true
       }
+    })
+    .state('app.settings.general',{
+      url: '/general',
+      templateUrl: 'app/settings/general/general-settings.html',
+      controller: 'GeneralSettingsController',
+      controllerAs: 'ctrl',
+      options : {
+        group : 'settings',
+        fullscreen : true
+      }
     });
 
   }
