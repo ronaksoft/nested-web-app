@@ -876,7 +876,7 @@
               });
               var post = new NstPost();
               post.subject = vm.model.subject;;
-              post.body = vm.model.body;
+              post.body = (vm.model.body + '').replace(signatureDivider, '');
               post.contentType = 'text/html';
               post.attachments = vm.model.attachments;
               post.forwardFrom = vm.model.forwardedFrom;
@@ -885,7 +885,6 @@
               post.labels = postLabelsIds.join(',');
               post.noComment = !vm.model.comment;
               post.places = [];
-
               NstSvcLogger.debug4('Compose | Post the post to the server :', post);
 
               NstSvcPostFactory.send(post).then(function (response) {

@@ -17,6 +17,7 @@
       this.removedById = undefined;
       this.removedBy = undefined;
       this.removed = undefined;
+      this.attachmentId = undefined;
     }
 
     return Comment;

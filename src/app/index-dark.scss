@@ -81,12 +81,6 @@ html[theme="dark"] {
   ._16svg, ._24svg, ._32svg, ._20svg {
     fill: $color-new-hurricane;
   }
-  .post-body .external-mail-bg-white {
-    background-color: $color-white;
-    div {
-      color: $color-solid-irreversible;
-    }
-  }
   .post-card, .post-card-shadow, .task-card {
     box-shadow: 0 8px 16px $box-shadow-color !important;
   }
@@ -100,6 +94,16 @@ html[theme="dark"] {
       .recent-item.hot.ng-enter {
         animation: recent-activity-item-hot-dark 0.75s ease-in forwards, recent-activity-item-normal-dark 0.75s 4s ease-out forwards;
       }
+    }
+  }
+  .post-body-external-mail {
+    background-color: $color-white;
+  }
+  .post-card .post-body .external-mail-bg-white [mail-resizer] {
+    background-color: $color-white;
+    color: $color-solid-irreversible;
+    div {
+      color: $color-solid-irreversible;
     }
   }
 }

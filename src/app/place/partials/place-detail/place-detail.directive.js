@@ -115,6 +115,12 @@
             }
           };
 
+          $scope.messagePlace = function ($event) {
+            $scope.deletePopoversAll();
+            $event.preventDefault();
+            $state.go('app.place-compose', {placeId: $scope.placeId}, {notify: false});
+          }
+
           $scope.viewContact = function () {
             if ($scope.isAvailable) {
               $timeout.cancel($scope.timer);
