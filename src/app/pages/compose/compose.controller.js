@@ -1237,7 +1237,6 @@
             vm.collapse = true;
           },
           'froalaEditor.blur': function () {
-            console.log('froalaEditor.blur');
             vm.focusBody = false;
           },
           'froalaEditor.commands.after': function (e, editor, cmd) {
