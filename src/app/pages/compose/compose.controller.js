@@ -1208,9 +1208,10 @@
         tabSpaces: 4,
         toolbarBottom: true,
         placeholderText: vm.translations.body,
-        pluginsEnabled: ['colors', 'fontSize', 'fontFamily', 'link', 'url', 'wordPaste', 'lists', 'align', 'codeBeautifier'],
+        pluginsEnabled: ['colors', 'fontSize', 'fontFamily', 'link', 'url', 'wordPaste', 'lists', 'align', 'codeBeautifier', 'codeView', 'codeBeautifier'],
         fontSize: ['8', '10', '14', '18', '22'],
-        toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'fontSize', '|', 'color', 'align', 'formatOL', 'formatUL', 'insertLink', '|', 'leftToRight', 'rightToLeft'],
+        toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'fontSize', '|', 'color', 'align', 'formatOL',
+          'formatUL', 'insertLink', '|', 'leftToRight', 'rightToLeft', 'html'],
         events: {
           'froalaEditor.initialized': function (e, editor) {
             editor.$el.atwho(config);
@@ -1236,7 +1237,13 @@
             vm.collapse = true;
           },
           'froalaEditor.blur': function () {
+            console.log('froalaEditor.blur');
             vm.focusBody = false;
+          },
+          'froalaEditor.commands.after': function (e, editor, cmd) {
+            if (cmd === 'html') {
+              vm.focusBody = true;
+            }
           },
           'froalaEditor.keydown': function (e, editor, je) {
             if (vm.quickMode) {

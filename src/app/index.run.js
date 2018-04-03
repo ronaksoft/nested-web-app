@@ -126,6 +126,11 @@
         ALT: 'color',
         template: 'image'
       });
+      $.FroalaEditor.DefineIcon('html', {
+        SRC: '/assets/icons/editor/html.png',
+        ALT: ' html ',
+        template: 'image'
+      });
 
       // $.FroalaEditor.RegisterCommand('bold', {
       //   title: 'Bold',
@@ -154,6 +159,27 @@
           changeDirection.apply(this, ['ltr', 'left']);
         }
       });
+
+
+      /**
+       * Applies the direction ( rtl, ltr ) to the editor elements
+       * @param {any} dir
+       * @param {any} align
+       */
+      var changeDirection = function (dir, align) {
+        this.selection.save();
+        var elements = this.selection.blocks();
+        for (var i = 0; i < elements.length; i++) {
+          var element = elements[i];
+          if (element != this.$el.get(0)) {
+            $(element)
+              .css('direction', dir)
+              .css('text-align', align);
+          }
+        }
+
+        this.selection.restore();
+      };
 
     $rootScope.modals = {};
     if (deviceDetector.os !== 'mac') {
