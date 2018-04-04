@@ -761,6 +761,7 @@
     }
 
     function advancedSearchIt() {
+      searchQuery.reset();
       searchQuery.setAllKeywords(this.advancedSearch.keywords);
       searchQuery.setUsers(this.advancedSearch.users);
       searchQuery.setPlaces(this.advancedSearch.places);
