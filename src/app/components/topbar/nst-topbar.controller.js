@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function TopBarController($q, $, $scope, $timeout, $state, $stateParams, $uibModal,
-                            $rootScope, NST_SEARCH_QUERY_PREFIX, _, NstSvcTranslation,
+                            $rootScope, NST_SEARCH_QUERY_PREFIX, _, NstSvcTranslation, NstViewService,
                             NstSvcSuggestionFactory, NstSvcLabelFactory, NstSvcI18n, NstSvcTaskUtility,
                             NstSvcUserFactory, NstSvcNotificationFactory, NST_USER_SEARCH_AREA, SvcRecorder,
                             NstSvcPlaceFactory, NstSearchQuery, NST_CONFIG, NST_USER_EVENT, NST_NOTIFICATION_EVENT) {
@@ -25,6 +25,7 @@
     }
     var vm = this;
     var eventReferences = [];
+    vm.nightMode = false;    
     vm.isPostLayout = false;
     vm.isTaskLayout = false;
     vm.APP_VERSION = NST_CONFIG.APP_VERSION;
@@ -135,11 +136,24 @@
       //   vm.defaultSuggestion = getUniqueItems(result);
       //   vm.suggestion = Object.assign({}, vm.defaultSuggestion);
       // });
+      
+      NstViewService.getTheme().then(function (v) {
+        vm.nightMode = (v === 'yes');
+      });
+
       loadCompanyConstants();
       eventReferences.push($rootScope.$on('company-constants-loaded', function () {
         loadCompanyConstants();
       }));
     })();
+
+    eventReferences.push($scope.$watch(function(){
+      return vm.nightMode;
+    }, function(val){
+      NstViewService.setTheme(val).then(function () {
+        NstViewService.applyTheme();
+      });
+    }));
 
     function loadCompanyConstants() {
       var data = window.companyConstants;

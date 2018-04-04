@@ -12,6 +12,19 @@
 <a class="_df list-items _aic" ui-sref="app.settings.profile" ng-click="ctrlTopBar.closeProfile(); _track('sidebar', 'view profile');">
   <translate>Profile Settings</translate>
 </a>
+<a class="_df list-items _aic" ng-click="ctrlTopBar.nightMode =! ctrlTopBar.nightMode">
+  <translate>Night mode</translate>
+  <div class="place-switch sm _fn">
+    <input type="checkbox" name="nightMode" id="nightMode" data-ng-model="ctrlTopBar.nightMode">
+    <label for="nightMode">
+      <b></b>
+      <div class="circle" switch-drag="ctrlTopBar.nightMode"></div>
+    </label>
+    <label for="nightMode">
+      <b></b>
+    </label>
+  </div>
+</a>
 <hr class="line-popover">
 <!--<a class="_df list-items _aic">-->
   <!--<translate>Install apps</translate>-->
