@@ -162,7 +162,7 @@
         </a>
       </div>
       <div ng-if="ctlPostCard.isExpanded"
-           class="_fw  ng-class:{'external-mail-bg-white' : !ctlPostCard.post.internal && ctlPostCard.post.contentType === 'text/html'}">
+           class="_fw  ng-class:{'external-mail-bg-white' : ctlPostCard.post.contentType === 'text/html'}">
         <div mail-resizer ng-if="!ctlPostCard.post.isTrusted "
              ng-bind-html="(ctlPostCard.body || ctlPostCard.post.body) | trustAsHtml"></div>
         <div mail-resizer ng-if="ctlPostCard.post.isTrusted"
