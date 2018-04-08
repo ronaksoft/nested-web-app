@@ -185,6 +185,7 @@
       var deferred = $q.defer();
 
       vm.filesLoadProgress = true;
+      // Todo : check the function seems not working !
       NstSvcFileFactory.getPlaceFiles(ids).then(function (files) {
         deferred.resolve(files);
       }).catch(function () {
@@ -200,6 +201,7 @@
       var deferred = $q.defer();
 
       vm.fileLoadProgress = true;
+      // Todo : check the function seems not working !
       NstSvcFileFactory.getPlaceFiles([id]).then(function (files) {
         deferred.resolve(files[0]);
       }).catch(function () {
