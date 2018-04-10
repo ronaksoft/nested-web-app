@@ -465,6 +465,16 @@
       return this.date;
     };
 
+    SearchQuery.prototype.reset = function () {
+      this.places = [];
+      this.users = [];
+      this.labels = [];
+      this.tos = [];
+      this.otherKeywords = [];
+      this.before = null;
+      this.after = null;
+    };
+
     SearchQuery.encode = function (queryString) {
       return encodeURIComponent(queryString);
     };

@@ -65,7 +65,9 @@
     overflow: visible;
   }
 }
-
+.fr-tooltip.fr-visible {
+  padding: 0 4px;
+}
 .fr-toolbar .fr-command.fr-btn span.fr-sr-only, .fr-popup .fr-command.fr-btn span.fr-sr-only {
   padding: 0 4px;
   min-width: 80px;

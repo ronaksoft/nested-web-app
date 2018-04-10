@@ -145,13 +145,13 @@
     </section>
 
     <section class="post-body _wrb {{ctlPostCard.post.contentType == 'text/plain' ? 'pre' : ''}}"
-             ng-if="!ctlPostCard.loading && (ctlPostCard.post.preview.length > 0 || ctlPostCard.post.body.length > 0) && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)
+             ng-if="!ctlPostCard.loading && (ctlPostCard.post.preview.length > 0 || ctlPostCard.post.body.length > 0 || ctlPostCard.body.length > 0) && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)
     && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)"
              auto-dir="ctlPostCard.post.preview">
 
       <div ng-if="!ctlPostCard.isExpanded" class="_fw">
         <span ng-if="!ctlPostCard.FIT"
-              ng-bind-html="(ctlPostCard.post.preview? ctlPostCard.post.preview: ctlPostCard.post.body) | trustAsHtml"></span>
+              ng-bind-html="(ctlPostCard.post.preview.length > 0? ctlPostCard.post.preview: ctlPostCard.post.body ? ctlPostCard.post.body : ctlPostCard.body) | trustAsHtml"></span>
         <!-- First Interactive time -->
         <span ng-if="ctlPostCard.FIT" ng-bind-html="ctlPostCard.post.preview"></span>
         <a ng-click="ctlPostCard.expand(); _track('post card', 'show more');"
@@ -162,7 +162,7 @@
         </a>
       </div>
       <div ng-if="ctlPostCard.isExpanded"
-           class="_fw  ng-class:{'external-mail-bg-white' : !ctlPostCard.post.internal && ctlPostCard.post.contentType === 'text/html'}">
+           class="_fw  ng-class:{'external-mail-bg-white' : ctlPostCard.post.contentType === 'text/html'}">
         <div mail-resizer ng-if="!ctlPostCard.post.isTrusted "
              ng-bind-html="(ctlPostCard.body || ctlPostCard.post.body) | trustAsHtml"></div>
         <div mail-resizer ng-if="ctlPostCard.post.isTrusted"
