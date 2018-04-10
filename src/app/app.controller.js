@@ -32,7 +32,6 @@
     // });
     NstViewService.applyTheme();
     $rootScope.navView = false;
-    $rootScope.topNavOpen = false;
     $rootScope._direction = NstSvcI18n.getLocale()._direction || "ltr";
     $rootScope.deviceDetector = deviceDetector;
     if (deviceDetector.os_version === 'windows-xp'
@@ -207,7 +206,6 @@
       }
 
       var addr = $(event.target).attr('href').substr(7);
-      //TODO:: check domain base on config
       if (
         addr.split('@')[1] &&
         (addr.split('@')[1] === NST_CONFIG.DOMAIN )) {

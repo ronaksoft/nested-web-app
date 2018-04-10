@@ -13,15 +13,6 @@
     localStorageServiceProvider
       .setPrefix('ronak.nested.web');
 
-    window.actionsGC = [];
-    window.addEventListener("beforeunload", function () {
-      window.actionsGC.forEach(function(fun) {
-        if (typeof fun === 'function') {
-          fun();
-        }
-      });
-      return;
-    });
     // Enable log
     $logProvider.debugEnabled(true);
 
@@ -90,11 +81,6 @@
     });
 
     $animateProvider.classNameFilter(/use-ng-animate/);
-
-
-    //Config ui-select-choices
-    // force to open in down
-    // uiSelectConfig.dropdownPosition = 'down';
 
     // TODO: Disable it in development mode
     $compileProvider.debugInfoEnabled(false);

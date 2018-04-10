@@ -14,8 +14,6 @@
 
     var vm = this;
 
-    $rootScope.topNavOpen = false;
-
     var DEFAULT_MESSAGES_COUNT = 8,
       defaultSortOption = NST_MESSAGES_SORT_OPTION.LATEST_MESSAGES;
     // Consistently Interactive Time Handler
