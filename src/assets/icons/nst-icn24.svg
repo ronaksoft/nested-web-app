@@ -44,7 +44,7 @@
 </g>
 <g id="forward">
 	<rect id="space_42_" x="0" style="fill:none;" width="24" height="24"/>
-	<polygon id="XMLID_7_" points="5,10 12.5,2.5 20,10 15,10 12.5,21 10,10 	"/>
+	<polygon points="5,10 12.5,2.5 20,10 15,10 12.5,21 10,10"/>
 </g>
 <g id="reply">
 	<rect id="space_41_" x="0" style="fill:none;" width="24" height="24"/>
