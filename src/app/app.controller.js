@@ -31,6 +31,14 @@
     //   }
     // });
     NstViewService.applyTheme();
+
+    if (localStorage.getItem('nested.debug_mode') === 'true') {
+      window.debugMode = true;
+    } else {
+      window.debugMode = false;
+      localStorage.removeItem('nested.debug_mode_log');
+    }
+
     $rootScope.navView = false;
     $rootScope.topNavOpen = false;
     $rootScope._direction = NstSvcI18n.getLocale()._direction || "ltr";
