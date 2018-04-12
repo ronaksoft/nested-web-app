@@ -16,7 +16,9 @@
             class="suggest-row {{options.mode}}" ng-click="selectItem($index)" ng-class="{'active': state.activeSuggestItem === $index}">
             <a ng-if="options.mode === 'place'">
                 <div class="place-initials-32">
-                    <img ng-src="{{suggest.picture}}"/>
+                    <img ng-if="suggest.picture.x64 === undefined" ng-src="{{suggest.picture}}"/>
+                    <img ng-if="suggest.picture.x64 === ''" ng-src="{{suggest.picture | picture:'x64'}}"/>
+                    <img ng-if="suggest.picture.x64" ng-src="{{suggest.picture | picture:'x64'}}" alt="{{::suggest.name}}"/>
                 </div>
                 <span class="_fn _df" auto-dir="suggest.name" data-ng-bind-html="suggest.name | highlight: $select.search"></span>
                 <span class="_fw _df"></span>

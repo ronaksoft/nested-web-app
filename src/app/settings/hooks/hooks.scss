@@ -22,6 +22,9 @@
     .modal-footer {
         justify-content: flex-end;
     }
+    .modal-body {
+        overflow: visible;
+    }
 }
 .list-my-hooks {
     display: flex;
