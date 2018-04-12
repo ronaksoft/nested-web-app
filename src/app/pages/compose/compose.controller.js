@@ -15,7 +15,7 @@
       .controller('ComposeController', ComposeController);
 
     /** @ngInject */
-    function ComposeController($q, $rootScope, $state, $stateParams, $scope, $log, $timeout, $uibModalStack, _, toastr,
+    function ComposeController($q, $rootScope, $state, $stateParams, $scope, $log, $timeout, $uibModalStack, _, toastr, $interval,
                                SvcRTL, NST_SRV_ERROR, NST_PATTERN, NST_CONFIG, NST_DEFAULT, NST_ATTACHMENT_STATUS,
                                NST_STORE_UPLOAD_TYPE, NST_FILE_TYPE, SvcCardCtrlAffix, NstSvcAttachmentFactory, NST_KEY,
                                NstSvcPlaceFactory, NstSvcPostFactory, NstSvcStore, NstSvcFileType, NstSvcAttachmentMap,
@@ -29,6 +29,7 @@
       vm.focus = false;
       vm.collapse = false;
       vm.mouseIn = false;
+      var autoSaveDraft;
       var signatureDivider = '<hr data-role="nst-sign" style="border-style: dashed; width: 80px;">'
       vm.suggestPickerConfig = {
         limit : 10,
@@ -218,7 +219,6 @@
           /**
            * Prevents from closing window
            */
-
           NstSvcLogger.debug4('Compose | compose is in modal');
           eventReferences.push($scope.$on('modal.closing', function (event) {
             if (vm.ultimateSaveDraft) {
@@ -257,14 +257,15 @@
               });
 
             } else {
-              setTimeout(function () {
-                // $('body').removeClass("active-compose");
-              }, 64);
-
               $('html').removeClass("_oh");
             }
           }));
 
+          autoSaveDraft = $interval(function() {
+            if (shouldSaveDraft()) {
+              saveDraft();
+            }
+          }, 4000);
         }
 
         openDraft();
@@ -293,7 +294,7 @@
         });
       })();
 
-      function removeSign() {
+      function getBodyWithoutSign() {
         var body = vm.model.body;
         if(body) {
           var indexSignature = body.search(signatureDivider);
@@ -344,7 +345,7 @@
         NstSvcLogger.debug4('Compose | Saving post model as draft');
         var draft = new NstPostDraft();
         draft.subject = vm.model.subject;
-        draft.body = removeSign();
+        draft.body = getBodyWithoutSign();
         draft.attachments = _.map(vm.model.attachments, 'id');
         draft.recipients = vm.model.recipients;
         NstSvcPostDraft.save(draft);
@@ -386,7 +387,7 @@
        * TODO Soroosh
        */
       function shouldSaveDraft() {
-        var body = removeSign();
+        var body = getBodyWithoutSign();
         fillSubjectModel();
         NstSvcLogger.debug4('Compose | is this model need to be save in draft ?!');
         return _.size(_.trim(vm.model.subject)) > 0 ||
@@ -399,7 +400,7 @@
        * TODO Soroosh
        */
       function shouldSaveDraftQuick() {
-        var body = removeSign();
+        var body = getBodyWithoutSign();
         fillSubjectModel();
         NstSvcLogger.debug4('Compose | is this model need to be save in draft ?!');
         return _.size(_.trim(vm.model.subject)) > 0 ||
@@ -1531,6 +1532,7 @@
 
         // $('.wdt-emoji-popup.open').removeClass('open');
         $scope.$on('$destroy', function () {
+          $interval.cancel(autoSaveDraft);
           $rootScope.$broadcast('close-background-modal', {
             id: vm.modalId
           });
