@@ -7,7 +7,7 @@
 
   function CommentsBoardController($timeout, $scope, $sce, $q, $state, $location, $anchorScroll,
                                    NstSvcAuth, NstSvcDate, NstSvcCommentFactory, NstUtility, NstSvcTranslation, NstSvcTaskFactory,
-                                   moment, toastr, NstSvcLogger, _) {
+                                   moment, toastr, NstSvcLogger, _, NstSvcModal) {
     var vm = this;
 
     var commentBoardMin = 3,
@@ -152,14 +152,20 @@
         return;
       }
       vm.commentRemoveProgress = true;
-      NstSvcCommentFactory.removeComment(vm.postId, comment).then(function () {
-        NstUtility.collection.dropById(vm.comments, comment.id);
-        var canceler = $scope.$emit('comment-removed', {postId: vm.postId, commentId: comment.id});
-        pageEventKeys.push(canceler);
-      }).catch(function () {
-        toastr.error(NstSvcTranslation.get('Sorry, an error has occured while removing your comment'));
-      }).finally(function () {
-        vm.commentRemoveProgress = false;
+      NstSvcModal.confirm(NstSvcTranslation.get("Confirm"), NstSvcTranslation.get("Are you sure to remove this comment?")).then(function (result) {
+        if (result) {
+          NstSvcCommentFactory.removeComment(vm.postId, comment).then(function () {
+            NstUtility.collection.dropById(vm.comments, comment.id);
+            var canceler = $scope.$emit('comment-removed', {postId: vm.postId, commentId: comment.id});
+            pageEventKeys.push(canceler);
+          }).catch(function () {
+            toastr.error(NstSvcTranslation.get('Sorry, an error has occured while removing your comment'));
+          }).finally(function () {
+            vm.commentRemoveProgress = false;
+          });
+        } else {
+          vm.commentRemoveProgress = false;
+        }
       });
     }
 

@@ -7,7 +7,7 @@
 
   function TaskActivityController($timeout, $scope, $rootScope, _, $q, $state, NstSvcTaskActivityFactory,
                                   NST_TASK_EVENT_ACTION, NstSvcAuth, NstSvcTaskFactory, NstSvcTranslation,
-                                  toastr, NstTaskActivity, NstSvcUserFactory, NstSvcDate, NstSvcTaskUtility) {
+                                  toastr, NstTaskActivity, NstSvcUserFactory, NstSvcDate, NstSvcTaskUtility, NstSvcModal) {
     var vm = this;
     $scope.fullFilled = true;
     var eventReferences = [];
@@ -266,11 +266,15 @@
     function removeCommentRef(id) {
       var index = _.findIndex(vm.activities, {id: id});
       if (index > -1) {
-        NstSvcTaskFactory.removeComment(vm.taskId, id).then(function () {
-          vm.activities.splice(index, 1);
-          vm.activityCount = vm.activities.length;
-        }).catch(function () {
-          toastr.error(NstSvcTranslation.get('An error has occurred while removing the comment.'));
+        NstSvcModal.confirm(NstSvcTranslation.get("Confirm"), NstSvcTranslation.get("Are you sure to remove this comment?")).then(function (result) {
+          if (result) {
+            NstSvcTaskFactory.removeComment(vm.taskId, id).then(function () {
+              vm.activities.splice(index, 1);
+              vm.activityCount = vm.activities.length;
+            }).catch(function () {
+              toastr.error(NstSvcTranslation.get('An error has occurred while removing the comment.'));
+            });
+          }
         });
       }
     }
