@@ -5,17 +5,21 @@
     .module('ronak.nested.web.app')
     .controller('GeneralSettingsController', GeneralSettingsController);
 
-  function GeneralSettingsController($scope, toastr, $uibModal, $timeout,
-    NstSvcUserFactory, NstSvcAppFactory, NstSvcKeyFactory, NST_KEY,
-    NST_SRV_ERROR, NstSvcTranslation, SvcRTL) {
+  function GeneralSettingsController($rootScope, $scope, toastr, $uibModal, $timeout,
+    NstSvcUserFactory, NstSvcAppFactory, NstSvcKeyFactory, NST_KEY, NstSvcTaskUtility, NstSvcAuth,
+    NST_SRV_ERROR, NstSvcTranslation, SvcRTL, NST_CONFIG) {
     var vm = this;
     var eventReferences = [];
     var firstload = true;
+    vm.user = undefined;
+    NstSvcTaskUtility.getValidUser(vm, NstSvcAuth);
     vm.touched = false;
     vm.signatureActive = false;
     vm.save = save;
     vm.savedModel = '';
     vm.model = '';
+    vm.debugMode = window.debugMode;
+    vm.downloadLogs = downloadLogs;
 
     (function () {
 
@@ -33,8 +37,12 @@
 
 
     eventReferences.push($scope.$watch(function () {
+      return vm.debugMode;
+    }, setDebugMode));
+
+    eventReferences.push($scope.$watch(function () {
       return vm.signatureActive;
-    }, active))
+    }, active));
 
     function checkFroalaDirection(editor) {
       var el = editor.selection.element();
@@ -105,7 +113,7 @@
       })).then(saveRes).catch(function(e){
         toastr.warning(NstSvcTranslation.get('An error occoured') + ' ' + NstSvcTranslation.get('code:') + e.code);
       });
-      
+
     }
 
     function active(active) {
@@ -118,8 +126,24 @@
       })).catch(function(e){
         toastr.warning(NstSvcTranslation.get('An error occoured') + ' ' + NstSvcTranslation.get('code:') + e.code);
       });
-
     }
+
+    function setDebugMode(active) {
+      localStorage.setItem('nested.debug_mode', active? 'true': 'false');
+      window.debugMode = active;
+    }
+
+    function downloadLogs() {
+      var content = localStorage.getItem('nested.debug_mode_log');
+      var app = NST_CONFIG.DOMAIN;
+      app = app.split('.').join('');
+      var a = document.createElement('a');
+      var file = new Blob([content], {type: 'text/plain'});
+      a.href = URL.createObjectURL(file);
+      a.download = 'dlog_' + vm.user.id + '_' +  app + '_' + (new Date().getTime()) + '.txt';
+      a.click();
+    }
+
     $scope.$on('$destroy', function () {
       _.forEach(eventReferences, function (canceler) {
         if (_.isFunction(canceler)) {

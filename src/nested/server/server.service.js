@@ -420,6 +420,18 @@
           $rootScope.$broadcast(NST_AUTH_EVENT.CHANGE_PASSWORD, {detail: {reason: NST_SRV_ERROR.ACCESS_DENIED}});
         }
 
+        if (window.debugMode) {
+          var serveFailedLogs = [];
+          var logs = localStorage.getItem('nested.debug_mode_log');
+          if (logs) {
+            serveFailedLogs = JSON.parse(logs);
+          }
+          serveFailedLogs.push({
+            req: action,
+            error: response.getData()
+          });
+          localStorage.setItem('nested.debug_mode_log', JSON.stringify(serveFailedLogs));
+        }
 
         return $q.reject(new NstServerError(
           new NstServerQuery(action, data),
