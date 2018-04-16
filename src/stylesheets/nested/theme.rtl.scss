@@ -1143,6 +1143,9 @@ body[dir="rtl"] {
     padding-right: 0;
     padding-left: 24px;
   }
+  [mail-resizer] {
+    transform-origin: top right;
+  }
 }
 
 body[dir="ltr"] {
@@ -1160,6 +1163,9 @@ body[dir="ltr"] {
     .time {
       float: right;
     }
+  }
+  [mail-resizer] {
+    transform-origin: top left;
   }
 }
 
