@@ -14,7 +14,6 @@
     vm.markAllSeen = markAllSeen;
     vm.onClickMention = onClickMention;
     vm.error = null;
-    console.log(argv);
     vm.selectedView = argv.selectedView;
     // vm.selectedView = $state.current.options.group === 'task' ? 2 : 1;
     vm.taskCounts = 0;

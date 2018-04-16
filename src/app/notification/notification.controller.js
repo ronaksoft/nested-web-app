@@ -76,7 +76,6 @@
     }
 
     function loadNotification(before, after) {
-      console.log('loadNotification', before, after);
       var limit = pageItemsCount;
       var deferred = $q.defer();
       vm.error = false;
@@ -120,14 +119,12 @@
     }
 
     function loadBefore() {
-      console.log('loadBefore');
       vm.loadingBefore = true;
       var lastItem = _.last(vm.notifications);
       return loadNotification(lastItem ? lastItem.lastUpdate ? lastItem.lastUpdate.getTime() : lastItem.date.getTime() : NstSvcDate.now());
     }
 
     function loadAfter() {
-      console.log('loadAfter');
       vm.loadingAfter = true;
       var firstItem = _.first(vm.notifications);
       return loadNotification(null, firstItem.date.getTime());
