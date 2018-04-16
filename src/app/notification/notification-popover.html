@@ -42,6 +42,15 @@
           ng-if="ctlNotifications.selectedView === 2"
           ng-click="ctlNotifications.onClickMention(notif, $event);" ng-include="'notif-items-template.html'"></li>
 
+      <li ng-if="ctlNotifications.selectedView === 1 && ctlNotifications.postNotifications.length === 0 &&
+        !ctlNotifications.loadingBefore && !ctlNotifications.loadingBefore" class="more-mentions">
+        <translate>No unread notification</translate>
+      </li>
+      <li ng-if="ctlNotifications.selectedView === 2 && ctlNotifications.taskNotifications.length === 0 &&
+        !ctlNotifications.loadingBefore && !ctlNotifications.loadingBefore" class="more-mentions">
+        <translate>No unread notification</translate>
+      </li>
+
       <li class="more-mentions" ng-click="ctlNotifications.openNotificationsModal();$event.stopPropagation();"
           ng-if="!ctlNotifications.reached && !ctlNotifications.loadingBefore && ctlMentions.error">
         <translate ng-if="ctlMentions.error" ng-show="!ctlNotifications.reached">Try again...</translate>
