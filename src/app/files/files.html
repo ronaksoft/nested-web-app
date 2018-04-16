@@ -81,6 +81,10 @@
         <translate ng-if="ctlFiles.keyword.length === 0">There are no files here yet...</translate>
         <translate ng-if="ctlFiles.keyword.length > 0">There are no files with "{{ctlFiles.keyword}}" title...</translate>
       </div>
+      <div class="text-center margin-top-10 nst-mood-storm _fw" ng-if="ctlFiles.files.length == 0 && !ctlFiles.filesLoadProgress &&
+        !(ctlFiles.selectedFileType.label === 'all' || ctlFiles.selectedFileType.label === 'همه موارد')">
+        <translate ng-if="ctlFiles.keyword.length === 0">There are no {{ctlFiles.selectedFileType.label}} files here yet...</translate>
+      </div>
       <div ng-click="ctlFiles.loadMore()" class="text-center margin-top-10 nst-mood-storm" ng-if="ctlFiles.files.length > 0 && !ctlFiles.filesLoadProgress && ctlFiles.hasNextPage">
         <translate>Load more ...</translate>
       </div>
