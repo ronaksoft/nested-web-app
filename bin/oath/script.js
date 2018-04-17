@@ -218,94 +218,166 @@ var MD5 = function (string) {
 
 var nst = {
   domain: '_DOMAIN_',
-  cyrus: '_WS_CYRUS_CYRUS_URL_CONF_',
+  cyrus: 'wss://webapp.ronaksoftware.com:81', //'_WS_CYRUS_CYRUS_URL_CONF_',
+  xerxes: '', //'_WS_CYRUS_CYRUS_URL_CONF_',
   token: '',
   user: {},
   enable: true,
+  c: {
+    sk: null,
+    ss: null
+  },
   init: function () {
     nst.reconfigCyrus();
+    nst.c.sk = nst.getCookie('nsk') || nst.getCookie('_sk') || null;
+    nst.c.ss = nst.getCookie('nss') || nst.getCookie('_ss') || null;
     nst.token = window.location.search.split('?')[1];
-    nst.http('account/get_by_token', {
-      token: nst.token
-    }, function (data) {
-      nst.fillUserData(data);
-      nst.user = data;
-      if (data.flags.force_password_change === false) {
-        window.location = '/';
-      }
-    }, function () {
-      alert('token has been expired');
+
+    if (nst.c.sk && nst.c.ss) {
+      nst.http('account/get', {
+      }, function (data) {
+        nst.fillUserData(data);
+      }, function () {
+        nst.switchToLogin();
+      });
+    } else {
+      nst.switchToLogin();
+    }
+
+    document.querySelector('.login-to-other').addEventListener('click', function () {
+      nst.switchToLogin();
     });
 
-    document.querySelector('.submit').addEventListener('click', function () {
-      var element = document.querySelector('.submit');
-      if (!nst.enable) {
-        return;
-      }
-      var pass = nst.getValue('.password');
-      var rePass = nst.getValue('.re-password');
-      if (pass.length < 6) {
-        nst.setText('.error', 'password must be at least 6 characters!');
-      } else if (pass !== rePass) {
-        nst.setText('.error', 'passwords do not match!');
-      } else {
-        nst.setText('.error', '');
-        nst.enable = false;
-        element.disabled = true;
-        nst.http('account/set_password_by_token', {
-          token: nst.token,
-          new_pass: MD5(pass)
-        }, function () {
-          nst.http('session/register', {
-            uid: nst.user._id,
-            pass: MD5(pass)
-          }, function (data) {
-            nst.setCookie('nsk', data._sk, 365);
-            nst.setCookie('_sk', data._sk, 365);
-            nst.setCookie('nss', data._ss, 365);
-            nst.setCookie('_ss', data._ss, 365);
-            window.location = '/';
-            nst.enable = true;
-            element.disabled = false;
-          }, function () {
-            nst.enable = true;
-            element.disabled = false;
-          });
-        }, function () {
-          nst.enable = true;
-          document.querySelector('.submit').disabled = false;
-        });
-      }
+    document.querySelector('.sign-in form').addEventListener('submit', function (event) {
+      event.preventDefault();
     });
+
+    document.querySelector('.js-login').addEventListener('click', function () {
+      var user =  document.querySelector('.sign-in form input[name="username"]').value;
+      var pass =  document.querySelector('.sign-in form input[name="password"]').value;
+      nst.login(user, pass);
+    });
+
+    // document.querySelector('.submit').addEventListener('click', function () {
+    //   var element = document.querySelector('.submit');
+    //   if (!nst.enable) {
+    //     return;
+    //   }
+    //   var pass = nst.getValue('.password');
+    //   var rePass = nst.getValue('.re-password');
+    //   if (pass.length < 6) {
+    //     nst.setText('.error', 'password must be at least 6 characters!');
+    //   } else if (pass !== rePass) {
+    //     nst.setText('.error', 'passwords do not match!');
+    //   } else {
+    //     nst.setText('.error', '');
+    //     nst.enable = false;
+    //     element.disabled = true;
+    //     nst.http('account/set_password_by_token', {
+    //       token: nst.token,
+    //       new_pass: MD5(pass)
+    //     }, function () {
+    //       nst.http('session/register', {
+    //         uid: nst.user._id,
+    //         pass: MD5(pass)
+    //       }, function (data) {
+    //         nst.setCookie('nsk', data._sk, 365);
+    //         nst.setCookie('_sk', data._sk, 365);
+    //         nst.setCookie('nss', data._ss, 365);
+    //         nst.setCookie('_ss', data._ss, 365);
+    //         window.location = '/';
+    //         nst.enable = true;
+    //         element.disabled = false;
+    //       }, function () {
+    //         nst.enable = true;
+    //         element.disabled = false;
+    //       });
+    //     }, function () {
+    //       nst.enable = true;
+    //       document.querySelector('.submit').disabled = false;
+    //     });
+    //   }
+    // });
   },
   reconfigCyrus: function () {
     var url = nst.cyrus.split('://');
     if (url[0] === 'wss') {
       nst.cyrus = 'https://' + url[1] + '/api';
+      nst.xerxes = 'https://' + url[1] + '/file';
     } else {
       nst.cyrus = 'http://' + url[1] + '/api';
+      nst.xerxes = 'http://' + url[1] + '/file';
     }
   },
   getValue: function (elem) {
     return document.querySelector(elem).value;
   },
   fillUserData: function (data) {
-    nst.setText('.client-name', data.fname + ' ' + data.lname);
-    nst.setText('.client-id', data._id + '@' + nst.domain);
+    nst.addClass('.panel-body .page', 'hide');
+    nst.removeClass('.panel-body .page.select-account', 'hide');
+    nst.setAttr('.user-logo img', 'src', nst.getImage(data.picture));
+    nst.setText('.user-name', data.fname + ' ' + data.lname);
+    nst.setText('.user-id', data._id + '@' + nst.domain);
   },
   setText: function (elem, text) {
     var elems = document.querySelectorAll(elem);
-    for (var i in elems) {
+    for (var i = 0; i < elems.length; i++) {
       elems[i].innerHTML = text;
     }
   },
+  setAttr: function (elem, name, text) {
+    var elems = document.querySelectorAll(elem);
+    for (var i = 0; i < elems.length; i++) {
+      elems[i].setAttribute(name, text);
+    }
+  },
+  addClass: function (elem, text) {
+    var elems = document.querySelectorAll(elem);
+    for (var i = 0; i < elems.length; i++) {
+      elems[i].classList.add(text);
+    }
+  },
+  removeClass: function (elem, text) {
+    var elems = document.querySelectorAll(elem);
+    for (var i = 0; i < elems.length; i++) {
+      elems[i].classList.remove(text);
+    }
+  },
+  getImage: function (data) {
+    return data.x64 === '' ? '/public/image/absents_place.svg' : (nst.xerxes + '/view/x/' + data.x64);
+  },
+  switchToLogin: function () {
+    nst.addClass('.panel-body .page', 'hide');
+    nst.removeClass('.panel-body .page.sign-in', 'hide');
+  },
+  login: function (user, pass) {
+    nst.http('session/register', {
+      uid: user,
+      pass: MD5(pass)
+    }, function (data) {
+      nst.addClass('.sign-in .error', 'hide');
+      nst.c.sk = data._sk;
+      nst.c.ss = data._ss;
+      nst.fillUserData(data.account);
+    }, function () {
+      nst.removeClass('.sign-in .error', 'hide');
+    });
+  },
   http: function (cmd, params, callback, catchCallback) {
     var http = new XMLHttpRequest();
-    // var url = 'https://webapp.ronaksoftware.com:81/';
+    // var url = 'https://webapp.ronaksoftware.com:81/'
     var parameters = {
+      _ss: nst.c.ss,
+      _sk: nst.c.sk,
       cmd: cmd,
       data: params
     };
+
+    if (cmd === 'session/register' || cmd === 'session/recall') {
+      delete parameters['_sk'];
+      delete parameters['_ss'];
+    }
+
     http.open('POST', nst.cyrus, true);
     http.setRequestHeader('accept', 'application/json');
     http.onreadystatechange = function () {
@@ -341,4 +413,3 @@ var nst = {
     }
   }
 };
-nst.init();
