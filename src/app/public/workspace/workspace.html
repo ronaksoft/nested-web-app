@@ -14,9 +14,10 @@
         <form accept-charset="UTF-8" name="loginForm" data-ng-submit="submitted = true;" novalidate>
           <fieldset>
             <p>Enter your Nested workspace URL to sign in.</p>
-            <div class="form-group" ng-class="{ 'has-error' : (loginForm.username.$error.required || ctrl.message.class.length > 0) && submitted}">
-              <input type="text" class="form-control" placeholder="web.nested.me/" name="workspace"
-                     data-ng-model="ctrl.workspace" translate-attrs="placeholder" required/>
+            <div class="nested-selector" ng-class="{ 'has-error' : (loginForm.workspace.$error.required || ctrl.message.class.length > 0) && submitted}">
+              <label for="workspace">web.nested.me/</label>
+              <input type="text" class="no-style" placeholder="" name="workspace" id="workspace" nst-workspace auto-focus
+                      data-ng-model="ctrl.workspace" translate-attrs="placeholder" required focus-me="ctrl.focusCount" autocomplete="off"/>
             </div>
 
             <div class="form-group">
@@ -24,12 +25,12 @@
               <input ng-if="ctrl.progress" class="butn butn-green butn-lg butn-login" value="Wait..." type="submit" translate-attrs="value" disabled/>
             </div>
 
-            <div class="row nst-vb _jcc">
+            <!-- <div class="row nst-vb _jcc">
               <p class="nmarg">
                 <span>Don’t have one?</span>&nbsp;
                 <a class="_fw text-center nst-mood-cheerful" ui-sref="public.register-nested"><translate>Create your own here</translate></a>
               </p>
-            </div>
+            </div> -->
           </fieldset>
         </form>
 

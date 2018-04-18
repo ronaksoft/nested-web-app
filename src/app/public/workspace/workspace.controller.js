@@ -10,6 +10,7 @@
     var eventReferences = [];
     var vm = this;
     vm.progress = false;
+    vm.focusCount = 1;
 
     $scope.$on('$destroy', function () {
       _.forEach(eventReferences, function (canceler) {
