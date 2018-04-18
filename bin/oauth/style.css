@@ -492,15 +492,26 @@ input[type=password]:focus {
 
 .user .user-name {
   position: relative;
-  font-size: 14px;
+  font-size: 16px;
   z-index: 2;
 }
 
 .user .user-id {
   position: relative;
   color: rgba(0, 0, 0, .4);
-  font-size: 12px;
+  font-size: 13px;
   direction: ltr;
+  z-index: 2;
+}
+
+.user .user-desc {
+  position: relative;
+  color: #333;
+  font-size: 14px;
+  line-height: 1.5em;
+  direction: ltr;
+  text-align: left;
+  padding: 5px 10px 0;
   z-index: 2;
 }
 

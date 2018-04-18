@@ -218,11 +218,18 @@ var MD5 = function (string) {
 
 var nst = {
   domain: '_DOMAIN_',
-  cyrus: 'wss://webapp.ronaksoftware.com:81', //'_WS_CYRUS_CYRUS_URL_CONF_',
-  xerxes: '', //'_WS_CYRUS_CYRUS_URL_CONF_',
-  token: '',
+  selectedDomain: '',
+  cyrus: '_WS_CYRUS_CYRUS_URL_CONF_',
+  xerxes: '',
+  oauth: {
+    clientId: '',
+    redirectUri: '',
+    scope: 'read',
+    token: ''
+  },
   user: {},
   enable: true,
+  nestedConfigs: [],
   c: {
     sk: null,
     ss: null
@@ -231,11 +238,14 @@ var nst = {
     nst.reconfigCyrus();
     nst.c.sk = nst.getCookie('nsk') || nst.getCookie('_sk') || null;
     nst.c.ss = nst.getCookie('nss') || nst.getCookie('_ss') || null;
-    nst.token = window.location.search.split('?')[1];
+    var params = nst.getUrlParams();
+    nst.oauth.clientId = params['client_id'];
+    nst.oauth.redirectUri = params['redirect_uri'];
+    nst.oauth.scope = params['scope'];
+    nst.oauth.token = params['token'];
 
     if (nst.c.sk && nst.c.ss) {
-      nst.http('account/get', {
-      }, function (data) {
+      nst.http('account/get', {}, function (data) {
         nst.fillUserData(data);
       }, function () {
         nst.switchToLogin();
@@ -253,51 +263,28 @@ var nst = {
     });
 
     document.querySelector('.js-login').addEventListener('click', function () {
-      var user =  document.querySelector('.sign-in form input[name="username"]').value;
-      var pass =  document.querySelector('.sign-in form input[name="password"]').value;
+      var user = document.querySelector('.sign-in form input[name="username"]').value;
+      var pass = document.querySelector('.sign-in form input[name="password"]').value;
       nst.login(user, pass);
     });
 
-    // document.querySelector('.submit').addEventListener('click', function () {
-    //   var element = document.querySelector('.submit');
-    //   if (!nst.enable) {
-    //     return;
-    //   }
-    //   var pass = nst.getValue('.password');
-    //   var rePass = nst.getValue('.re-password');
-    //   if (pass.length < 6) {
-    //     nst.setText('.error', 'password must be at least 6 characters!');
-    //   } else if (pass !== rePass) {
-    //     nst.setText('.error', 'passwords do not match!');
-    //   } else {
-    //     nst.setText('.error', '');
-    //     nst.enable = false;
-    //     element.disabled = true;
-    //     nst.http('account/set_password_by_token', {
-    //       token: nst.token,
-    //       new_pass: MD5(pass)
-    //     }, function () {
-    //       nst.http('session/register', {
-    //         uid: nst.user._id,
-    //         pass: MD5(pass)
-    //       }, function (data) {
-    //         nst.setCookie('nsk', data._sk, 365);
-    //         nst.setCookie('_sk', data._sk, 365);
-    //         nst.setCookie('nss', data._ss, 365);
-    //         nst.setCookie('_ss', data._ss, 365);
-    //         window.location = '/';
-    //         nst.enable = true;
-    //         element.disabled = false;
-    //       }, function () {
-    //         nst.enable = true;
-    //         element.disabled = false;
-    //       });
-    //     }, function () {
-    //       nst.enable = true;
-    //       document.querySelector('.submit').disabled = false;
-    //     });
-    //   }
-    // });
+    document.querySelector('.js-get-access').addEventListener('click', function () {
+      nst.switchToAccess();
+    });
+
+    document.querySelector('.js-confirm-access').addEventListener('click', function () {
+        nst.confirmAccess();
+    });
+  },
+  getUrlParams: function () {
+    var params = window.location.search.split('?')[1];
+    params = params.split('&');
+    var parts = [];
+    params.forEach(function (part) {
+      var items = decodeURIComponent(part).split('=');
+      parts[items[0]] = items[1];
+    });
+    return parts;
   },
   reconfigCyrus: function () {
     var url = nst.cyrus.split('://');
@@ -313,11 +300,12 @@ var nst = {
     return document.querySelector(elem).value;
   },
   fillUserData: function (data) {
+    nst.user = data;
     nst.addClass('.panel-body .page', 'hide');
     nst.removeClass('.panel-body .page.select-account', 'hide');
     nst.setAttr('.user-logo img', 'src', nst.getImage(data.picture));
     nst.setText('.user-name', data.fname + ' ' + data.lname);
-    nst.setText('.user-id', data._id + '@' + nst.domain);
+    nst.setText('.user-id', data._id + '@' + nst.selectedDomain);
   },
   setText: function (elem, text) {
     var elems = document.querySelectorAll(elem);
@@ -350,7 +338,48 @@ var nst = {
     nst.addClass('.panel-body .page', 'hide');
     nst.removeClass('.panel-body .page.sign-in', 'hide');
   },
+  switchToAccess: function () {
+    var access = nst.oauth.scope.split(',');
+    access = access.map(function (item) {
+      return '-<b>' + item + '</b>';
+    }).join('<br>');
+    nst.setText('.user-desc', 'client_id: <b>' + nst.oauth.clientId + '</b> wants these access(es):<br>' + access + '<br> Do you allow?');
+    nst.addClass('.panel-body .page', 'hide');
+    nst.removeClass('.panel-body .page.access-account', 'hide');
+  },
+  confirmAccess: function () {
+    nst.http('app/create_token', {
+      app_id: nst.oauth.clientId
+    }, function (app) {
+      var parameters = {
+        token: nst.oauth.token,
+        app_id: nst.oauth.clientId,
+        app_token: app.token,
+        app_domain: nst.selectedDomain,
+        username: nst.user._id,
+        fname: nst.user.fname,
+        lname: nst.user.lname,
+        email: nst.user.email
+      };
+      nst.xhr({
+        method: 'POST',
+        async: true
+      }, nst.oauth.redirectUri, parameters, function (data) {
+        console.log(data);
+        if (data.status === 'ok') {
+          window.close();
+        }
+      });
+    });
+  },
   login: function (user, pass) {
+    user = user.split('@');
+    var domain = user[1];
+    user = user[0];
+    var config = nst.getServerInfo(domain);
+    nst.cyrus = config.cyrus;
+    nst.xerxes = config.xerxes;
+    nst.selectedDomain = config.domain;
     nst.http('session/register', {
       uid: user,
       pass: MD5(pass)
@@ -362,6 +391,71 @@ var nst = {
     }, function () {
       nst.removeClass('.sign-in .error', 'hide');
     });
+  },
+  getServerInfo: function (domain) {
+    if (domain === undefined) {
+      if (!nst.nestedConfigs.hasOwnProperty(nst.domain)) {
+        nst.nestedConfigs[domain] = {
+          cyrus: nst.xerxes,
+          xerxes: nst.cyrus,
+          domain: nst.domain
+        };
+      }
+      return nst.nestedConfigs[domain];
+    } else {
+      if (nst.nestedConfigs.hasOwnProperty(domain)) {
+        return nst.nestedConfigs[domain];
+      }
+      var remote = nst.xhr({
+        method: 'GET',
+        async: false
+      }, 'https://npc.nested.me/dns/discover/' + domain);
+      var config = nst.parseConfigFromRemote(remote.data, domain);
+      nst.nestedConfigs[domain] = config;
+      return config;
+    }
+  },
+  parseConfigFromRemote: function (data, domain) {
+    var cyrus = [];
+    var xerxes = [];
+    data.forEach(function (configs, key1) {
+      var config = configs.split(';');
+      config.forEach(function (item, key2) {
+        if (item.indexOf('cyrus:') === 0) {
+          cyrus.push(item);
+        } else if (item.indexOf('xerxes:') === 0) {
+          xerxes.push(item);
+        }
+      });
+    });
+    var cyrusHttpUrl = '';
+    var cyrusWsUrl = '';
+    var config = {};
+    cyrus.forEach(function (item, key3) {
+      config = nst.parseConfigData(item);
+      if (config.protocol === 'http' || config.protocol === 'https') {
+        cyrusHttpUrl = nst.getCompleteUrl(config);
+      } else if (config.protocol === 'ws' || config.protocol === 'wss') {
+        cyrusWsUrl = nst.getCompleteUrl(config);
+      }
+    });
+    return {
+      cyrus: cyrusHttpUrl + '/api',
+      xerxes: cyrusHttpUrl + '/file',
+      domain: domain
+    }
+  },
+  parseConfigData: function (data) {
+    var items = data.split(':');
+    return {
+      name: items[0],
+      protocol: items[1],
+      port: items[2],
+      url: items[3]
+    };
+  },
+  getCompleteUrl: function (config) {
+    return config.protocol + '://' + config.url + ':' + config.port;
   },
   http: function (cmd, params, callback, catchCallback) {
     var http = new XMLHttpRequest();
@@ -396,6 +490,46 @@ var nst = {
     };
     parameters = JSON.stringify(parameters);
     http.send(parameters);
+  },
+  xhr: function (config, url, params, callback, catchCallback) {
+    var http = new XMLHttpRequest();
+    var async = config.async === undefined ? true : config.async;
+    var method = config.method || 'GET';
+    http.open(method, url, async);
+    http.setRequestHeader('accept', 'application/json');
+    if (async) {
+      http.onreadystatechange = function () {
+        if (http.readyState === 4 && http.status === 200) {
+          var data = JSON.parse(http.responseText);
+          if (data.status === 'ok') {
+            if (typeof callback === 'function') {
+              callback(data);
+            }
+          } else {
+            if (typeof catchCallback === 'function') {
+              catchCallback(data);
+            }
+          }
+        }
+      };
+    }
+    var formData = new FormData();
+    if (params && method === 'POST') {
+      formData = new FormData();
+      for (var key in params) {
+        formData.append(key, params[key]);
+      }
+    } else {
+      formData = null;
+    }
+    http.send(formData);
+    if (!async) {
+      if (http.status === 200) {
+        return JSON.parse(http.responseText);
+      } else {
+        return null;
+      }
+    }
   },
   setCookie: function (cname, cvalue, exdays) {
     var d = new Date();
