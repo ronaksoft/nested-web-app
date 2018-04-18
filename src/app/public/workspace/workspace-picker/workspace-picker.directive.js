@@ -17,15 +17,8 @@
   
             function repositionModal(offset, obj) {
               try {
-                var documentDir = $('body').attr('dir');
-                var containerWidth = $(obj.$el[0]).parent().width();
                 var inputWidth = obj.$inputor[0].offsetWidth;
-  
-                if (documentDir === 'ltr') {
-                    offset.left = $window.innerWidth - offset.left - 96;
-                } else {
-                    offset.left = offset.left + inputWidth - containerWidth - 15;
-                }
+                offset.left = $window.innerWidth - offset.left - 96;
                 return true;
               }
               catch (e) {
@@ -38,8 +31,8 @@
               var template =
                 "<li data-id='${id}' class='_difv workspace-suggets'>" +
                 "<img src='${src}' width='16' height='16'/>" +
-                "<div>" +
-                "<span class='_df list-unstyled text-centerteammate-name _fw nst-mood-solid text-name'><span class='_db _fw _txe'>${name}</span></span>" +
+                "<div class='_df _f1 _fw _fh'>" +
+                "<span class='_df list-unstyled _fw nst-mood-solid text-name'><span class='_db _fw _txe'>${name}</span></span>" +
                 "<span class='_df _fn nst-mood-storm'><span class='_db _txe'>${id}</span></span>" +
                 "</div>" +
                 "</li>";
@@ -61,6 +54,7 @@
                   maxLen: 10,
                   startWithSpace: false,
                   limit: 5,
+                  displayTimeout: 320220,
                   displayTpl: template,
                   callbacks: {
                     beforeInsert: function (value, $li) {
