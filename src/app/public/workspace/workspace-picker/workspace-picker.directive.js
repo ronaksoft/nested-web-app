@@ -17,8 +17,10 @@
   
             function repositionModal(offset, obj) {
               try {
-                var inputWidth = obj.$inputor[0].offsetWidth;
-                offset.left = $window.innerWidth - offset.left - 96;
+                // var containerWidth = $(obj.$el[0]).find('.atwho-view').width();
+                // offset.left = $window.innerWidth - offset.left - 96;
+                offset.left = _element.offset().left - 52;
+                offset.top = _element.offset().top + 39;
                 return true;
               }
               catch (e) {
@@ -54,7 +56,7 @@
                   maxLen: 10,
                   startWithSpace: false,
                   limit: 5,
-                  displayTimeout: 320220,
+                  displayTimeout: 300,
                   displayTpl: template,
                   callbacks: {
                     beforeInsert: function (value, $li) {
