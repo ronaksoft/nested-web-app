@@ -478,6 +478,7 @@ input[type=password]:focus {
   border-radius: 50%;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
   background-color: #f9f7f7;
+  margin: 0 0 10px;
   z-index: 2;
   overflow: hidden;
 }
@@ -516,4 +517,14 @@ input[type=password]:focus {
 .user .user-btn {
   position: relative;
   z-index: 2;
+}
+
+.nested-bottom-logo {
+  margin: 15px 0 10px;
+  text-align: center;
+  height: 25px;
+}
+
+.nested-bottom-logo img {
+  height: 100%;
 }

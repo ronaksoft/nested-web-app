@@ -337,7 +337,7 @@ var nst = {
     }
   },
   getImage: function (data) {
-    return data.x128 === '' ? '/public/image/absents_place.svg' : (nst.xerxes + '/view/x/' + data.x128);
+    return data.x128 === '' ? '/assets/icons/absents_place.svg' : (nst.xerxes + '/view/x/' + data.x128);
   },
   switchToLogin: function () {
     nst.addClass('.panel-body .page', 'hide');
