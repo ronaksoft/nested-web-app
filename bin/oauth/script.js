@@ -289,12 +289,14 @@ var nst = {
   },
   reconfigCyrus: function () {
     var url = nst.cyrus.split('://');
+    var host = url[1].split('/api');
+    host = host.join('');
     if (url[0] === 'wss') {
-      nst.cyrus = 'https://' + url[1] + '/api';
-      nst.xerxes = 'https://' + url[1] + '/file';
+      nst.cyrus = 'https://' + host + '/api';
+      nst.xerxes = 'https://' + host + '/file';
     } else {
-      nst.cyrus = 'http://' + url[1] + '/api';
-      nst.xerxes = 'http://' + url[1] + '/file';
+      nst.cyrus = 'http://' + host + '/api';
+      nst.xerxes = 'http://' + host + '/file';
     }
   },
   getValue: function (elem) {
