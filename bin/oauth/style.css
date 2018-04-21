@@ -1,4 +1,3 @@
-/*
 @font-face {
   font-family: 'OpenSans';
   font-weight: 300;
@@ -52,7 +51,7 @@
   url(/assets/fonts/YekanBakh/YekanBakhNestedWeb-Bold.woff) format("woff"),
   url(/assets/fonts/YekanBakh/YekanBakhNestedWeb-Bold.woff2) format("woff2")
 }
-*/
+
 
 html {
   line-height: 1.15;
@@ -318,7 +317,6 @@ input {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  height: 48px;
   align-items: center;
   border-top-right-radius: 3px;
   border-top-left-radius: 3px;
@@ -461,7 +459,7 @@ input[type=password]:focus {
 .user:before {
   position: absolute;
   content: '';
-  top: 35px;
+  top: 50px;
   right: 0;
   bottom: 0;
   left: 0;
@@ -474,8 +472,8 @@ input[type=password]:focus {
 .user .user-logo {
   position: relative;
   display: inline-block;
-  height: 70px;
-  width: 70px;
+  height: 100px;
+  width: 100px;
   border: 3px solid #fff;
   border-radius: 50%;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);

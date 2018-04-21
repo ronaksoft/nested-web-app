@@ -236,6 +236,7 @@ var nst = {
   },
   init: function () {
     nst.reconfigCyrus();
+    nst.selectedDomain = nst.domain;
     nst.c.sk = nst.getCookie('nsk') || nst.getCookie('_sk') || null;
     nst.c.ss = nst.getCookie('nss') || nst.getCookie('_ss') || null;
     var params = nst.getUrlParams();
@@ -303,9 +304,11 @@ var nst = {
     nst.user = data;
     nst.addClass('.panel-body .page', 'hide');
     nst.removeClass('.panel-body .page.select-account', 'hide');
+    nst.addClass('.js-login-header', 'hide');
     nst.setAttr('.user-logo img', 'src', nst.getImage(data.picture));
     nst.setText('.user-name', data.fname + ' ' + data.lname);
     nst.setText('.user-id', data._id + '@' + nst.selectedDomain);
+    nst.removeGlobalError();
   },
   setText: function (elem, text) {
     var elems = document.querySelectorAll(elem);
@@ -332,25 +335,30 @@ var nst = {
     }
   },
   getImage: function (data) {
-    return data.x64 === '' ? '/public/image/absents_place.svg' : (nst.xerxes + '/view/x/' + data.x64);
+    return data.x128 === '' ? '/public/image/absents_place.svg' : (nst.xerxes + '/view/x/' + data.x128);
   },
   switchToLogin: function () {
     nst.addClass('.panel-body .page', 'hide');
     nst.removeClass('.panel-body .page.sign-in', 'hide');
+    nst.removeClass('.js-login-header', 'hide');
+    nst.removeGlobalError();
   },
   switchToAccess: function () {
     var access = nst.oauth.scope.split(',');
     access = access.map(function (item) {
       return '-<b>' + item + '</b>';
     }).join('<br>');
-    nst.setText('.user-desc', 'client_id: <b>' + nst.oauth.clientId + '</b> wants these access(es):<br>' + access + '<br> Do you allow?');
+    nst.setText('.user-desc', 'client_id: <b>' + nst.oauth.clientId + '</b> wants these permission(s):<br>' + access + '<br> Do you allow?');
     nst.addClass('.panel-body .page', 'hide');
     nst.removeClass('.panel-body .page.access-account', 'hide');
+    nst.addClass('.js-login-header', 'hide');
+    nst.removeGlobalError();
   },
   confirmAccess: function () {
     nst.http('app/create_token', {
       app_id: nst.oauth.clientId
     }, function (app) {
+      nst.removeGlobalError();
       var parameters = {
         token: nst.oauth.token,
         app_id: nst.oauth.clientId,
@@ -365,12 +373,24 @@ var nst = {
         method: 'POST',
         async: true
       }, nst.oauth.redirectUri, parameters, function (data) {
-        console.log(data);
         if (data.status === 'ok') {
           window.close();
+        } else {
+          console.log(data);
+          nst.setGlobalError(data.data);
         }
       });
+    }, function () {
+      nst.setGlobalError('can\'t create token for this app, contact your admin!');
     });
+  },
+  setGlobalError: function (text) {
+    nst.setText('.js-global-error', text);
+    nst.removeClass('.js-global-error', 'hide');
+  },
+  removeGlobalError: function () {
+    nst.setText('.js-global-error', '');
+    nst.addClass('.js-global-error', 'hide');
   },
   login: function (user, pass) {
     user = user.split('@');
@@ -499,15 +519,15 @@ var nst = {
     http.setRequestHeader('accept', 'application/json');
     if (async) {
       http.onreadystatechange = function () {
-        if (http.readyState === 4 && http.status === 200) {
-          var data = JSON.parse(http.responseText);
-          if (data.status === 'ok') {
+        if (http.readyState === 4) {
+          if (http.status === 200) {
+            var data = JSON.parse(http.responseText);
             if (typeof callback === 'function') {
               callback(data);
             }
           } else {
             if (typeof catchCallback === 'function') {
-              catchCallback(data);
+              catchCallback(http.statusText);
             }
           }
         }
