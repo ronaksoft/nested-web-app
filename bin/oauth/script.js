@@ -274,7 +274,7 @@ var nst = {
     });
 
     document.querySelector('.js-confirm-access').addEventListener('click', function () {
-        nst.confirmAccess();
+      nst.confirmAccess();
     });
   },
   getUrlParams: function () {
@@ -355,6 +355,15 @@ var nst = {
     nst.removeClass('.panel-body .page.access-account', 'hide');
     nst.addClass('.js-login-header', 'hide');
     nst.removeGlobalError();
+  },
+  isTokenForAppExist: function (appId) {
+    nst.http('app/create_token', {
+    }, function (data) {
+      var tokens = data.app_tokens;
+      for (var i = 0 ; i < tokens.length; i++) {
+
+      }
+    });
   },
   confirmAccess: function () {
     nst.http('app/create_token', {
