@@ -28,7 +28,7 @@
    * @param {any} NstSvcAuth
    * @param {any} NstSvcTranslation
    */
-  function LoginController($window, $state, $stateParams, md5, $location, NST_CONFIG, $sce,
+  function LoginController($window, $state, $stateParams, md5, $location, NST_CONFIG, $sce, toastr, NstSvcServer,
                            NST_DEFAULT, NST_SRV_ERROR, _, NstHttp, $scope, $rootScope, $timeout, NstViewService, NstSvcTaskDraft,
                            NstSvcAuth, NstSvcTranslation, NstSvcGlobalCache, NstSvcRequestCacheFactory, NstSvcPostDraft, NstSvcI18n) {
 
@@ -51,9 +51,35 @@
     vm.activeRegister = false;
     vm.companyConstant = null;
 
+    // Workspace initialization
+    var mandatoryDomain = '';
+    if ($stateParams.hasOwnProperty('domain')) {
+      NstSvcServer.setDomain($stateParams.domain).then(function () {
+        mandatoryDomain = '@' + $stateParams.domain;
+        var ajax = new NstHttp(NST_CONFIG.REGISTER.AJAX.URL,
+          {
+            cmd: 'system/get_string_constants',
+            data: {}
+          });
+        ajax.post().then(function (data) {
+          if (data && data.data) {
+            window.companyConstants = {
+              name: data.data.company_name,
+              desc: data.data.company_desc,
+              logo: data.data.company_logo
+            };
+            $rootScope.$broadcast('company-constants-loaded');
+          }
+        });
+      }).catch(function () {
+        toastr.error(NstSvcTranslation.get('Invalid domain'));
+      });
+    }
+
     /*****************************
      ***** Initialization ****
      *****************************/
+
 
     (function () {
       // Navigates to the default state if the user has already been authenticated before
@@ -67,7 +93,7 @@
       }).post().then(function(result) {
         vm.activeRegister = result.data.register_mode === 1;
       }).finally(function() {
-        notifyLoadedLogin()
+        notifyLoadedLogin();
         vm.loadConstantsProgress = false;
       });
 
@@ -105,7 +131,7 @@
       vm.message.fill = false;
 
       var credentials = {
-        username: _.toLower(vm.username),
+        username: _.toLower(vm.username) + mandatoryDomain,
         password: md5.createHash(vm.password)
       };
 
