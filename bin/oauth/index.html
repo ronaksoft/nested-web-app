@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sign in to nested</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="nst-vc">
+  <div id="panel-oath" class="panel">
+    <div class="panel-heading text-center">
+      <p class="nst-font-xxlarge _df _fw nmarg js-login-header">
+        <span>Sign in</span>
+      </p>
+      <div class="error hide js-global-error">
+      </div>
+    </div>
+    <div class="panel-body">
+      <div class="page access-account hide">
+        <div class="user">
+          <div class="user-logo">
+            <img src="">
+          </div>
+          <div class="user-name"></div>
+          <div class="user-id"></div>
+          <div class="user-desc">
+          </div>
+          <div class="user-btn">
+            <div class="form-group">
+              <input class="butn butn-green butn-lg butn-login js-confirm-access" value="Proceed" type="button">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="page select-account hide">
+        <div class="user">
+          <div class="user-logo">
+            <img src="">
+          </div>
+          <div class="user-name"></div>
+          <div class="user-id"></div>
+          <div class="user-btn">
+            <div class="form-group">
+              <input class="butn butn-green butn-lg butn-login js-get-access" value="Get access" type="button">
+            </div>
+          </div>
+        </div>
+        <div class="row nst-vb">
+          <a class="_fw text-center nst-mood-cheerful login-to-other" href="#"><span>Login to a different account</span></a>
+        </div>
+      </div>
+      <div class="page sign-in hide">
+        <form accept-charset="UTF-8" method="post" name="loginForm" novalidate="">
+          <fieldset>
+            <div class="form-group">
+              <input type="text"
+                     class="form-control"
+                     placeholder="Username" name="username" required="" style="direction: ltr;">
+            </div>
+            <div class="form-group">
+              <input class="form-control _dir-ltr"
+                     placeholder="Password" name="password" type="password" required="">
+              <i class="nst-ico-eye-slash form-control-feedback nst-ico-eye-slash"></i>
+            </div>
+            <div class="error hide">
+              Username or password is wrong!
+            </div>
+            <div class="form-group">
+              <input class="butn butn-green butn-lg butn-login js-login" value="Sign in" type="submit">
+            </div>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="nested-bottom-logo">
+    <a href="https://nested.me" target="_blank" title="nested">
+      <img alt="nested" src="/assets/icons/Nested_Logo.svg">
+    </a>
+  </div>
+</div>
+<script type="text/javascript" src="script.js"></script>
+<script>
+  nst.init();
+</script>
+</body>
+</html>

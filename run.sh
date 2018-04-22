@@ -12,6 +12,7 @@ node /bin/nested-reconfig.js script=scripts tmp=nestedConfig
 node /bin/nested-reconfig.js script=m/js tmp=nestedConfigMobile
 node /bin/nested-reconfig.js script=admin tmp=nestedConfigAdmin
 node /bin/nested-reconfig.js script=t tmp=nestedConfigT
+node /bin/nested-reconfig.js script=oauth tmp=nestedConfigOauth
 sleep 1
 cd /bin
 
