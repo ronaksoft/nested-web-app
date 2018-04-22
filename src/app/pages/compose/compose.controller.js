@@ -300,7 +300,8 @@
           var indexSignature = body.search(signatureDivider);
           if (indexSignature) {
             body = body.slice(0, indexSignature);
-            if (body === '<div data-empty="true"><br></div>') {
+            if (body === '<div data-empty="true"><br></div>' || 
+                body === '<div><br></div>') {
               body = '';
             }
           }
