@@ -5,7 +5,7 @@
     .module('ronak.nested.web.user')
     .controller('workspaceController', workspaceController);
 
-  function workspaceController($scope, $state, _) {
+  function workspaceController($scope, $state, _, toastr, NstSvcTranslation, NstSvcServer) {
 
     var eventReferences = [];
     var vm = this;
@@ -15,7 +15,11 @@
     vm.submitForm = submitForm;
 
     function submitForm() {
-      $state.go('public.domain-redirect', {domain: vm.workspace});
+      NstSvcServer.setDomain(vm.workspace).then(function () {
+        $state.go('public.domain-redirect', {domain: vm.workspace});
+      }).catch(function () {
+        toastr.error(NstSvcTranslation.get('Invalid domain'));
+      });
     }
 
     $scope.$on('$destroy', function () {
