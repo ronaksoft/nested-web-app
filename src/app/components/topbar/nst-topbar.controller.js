@@ -153,7 +153,7 @@
       NstViewService.setTheme(val).then(function () {
         NstViewService.applyTheme();
         $rootScope.$broadcast('toggle-theme', {
-          dark: val,
+          dark: val
         })
       });
     }));

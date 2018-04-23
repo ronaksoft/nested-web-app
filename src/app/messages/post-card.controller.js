@@ -15,7 +15,7 @@
     .controller('PostCardController', PostCardController);
 
   function PostCardController($state, $q, $log, $timeout, $stateParams, $rootScope, $scope, $uibModal, $location, $anchorScroll,
-                              _, toastr, $sce, NstSvcTaskUtility, NST_CONFIG, NstSvcI18n,
+                              _, toastr, $sce, NstSvcTaskUtility, NST_CONFIG, NstSvcI18n, NstSvcViewStorage,
                               NST_EVENT_ACTION, NST_PLACE_ACCESS, NST_POST_EVENT, SvcCardCtrlAffix,
                               NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory, NstSearchQuery, NstSvcModal,
                               NstSvcAuth, NstUtility, NstSvcPostInteraction, NstSvcTranslation, NstSvcLogger, $) {
@@ -57,6 +57,7 @@
     vm.labelClick = labelClick;
     vm.loadNewComments = loadNewComments;
     vm.isPostView = isPostView();
+    vm.iframeId = '';
 
     vm.expandProgress = false;
     vm.body = null;
@@ -95,11 +96,18 @@
       var msgId = vm.post.id;
       var app = NST_CONFIG.DOMAIN;
       var locale = NstSvcI18n.selectedLocale;
+      var darkMode = NstSvcViewStorage.get('nightMode');
+      if (darkMode == false || darkMode === 'no') {
+        darkMode = false;
+      } else {
+        darkMode = true;
+      }
       return {
         userId: userId,
         msgId: msgId,
         app: app,
-        locale: locale
+        locale: locale,
+        dark: darkMode
       }
     }
 
@@ -111,11 +119,18 @@
       return JSON.stringify(msg);
     }
 
+    var iframeOnMessage;
+
     if (vm.post.iframeUrl) {
+      if (isPostView()) {
+        vm.iframeId = 'iframe-' + vm.post.id + '-post-view';
+      } else {
+        vm.iframeId = 'iframe-' + vm.post.id;
+      }
       $timeout(function () {
-        vm.post.iframeObj = document.getElementById('iframe-' + vm.post.id);
+        vm.post.iframeObj = document.getElementById(vm.iframeId);
         var userData = getUserData();
-        window.addEventListener('message', function (e) {
+        iframeOnMessage = function (e) {
           var data = JSON.parse(e.data);
           if (data.url === vm.post.iframeUrl) {
             switch (data.cmd) {
@@ -130,9 +145,10 @@
                 break;
             }
           }
-        });
+        };
+        window.addEventListener('message', iframeOnMessage);
         eventReferences.push($rootScope.$on('toggle-theme', function (event, data) {
-          console.log(data);
+          vm.post.iframeObj.contentWindow.postMessage(sendIframeMessage('setTheme', data), '*');
         }));
       }, 500);
     }
@@ -1141,6 +1157,9 @@
         $timeout.cancel(focusOnSentTimeout);
       }
 
+      if (iframeOnMessage) {
+        window.removeEventListener('message', iframeOnMessage)
+      }
       _.forEach(eventReferences, function (canceler) {
         if (_.isFunction(canceler)) {
           canceler();
