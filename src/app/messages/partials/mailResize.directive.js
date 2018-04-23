@@ -16,7 +16,7 @@
         //TODO: remove Time out and start after loading all contents ( img s )
         $timeout(function () {
           var stndSize = elem.parents('post-card').width() - 48 || 600;
-          var cardWidth = elem.width();
+          var cardWidth = elem.children().first().width();
 
           if (cardWidth >= stndSize && cardWidth < 900) {
             var ratio = stndSize / cardWidth;
