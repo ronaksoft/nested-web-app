@@ -35,7 +35,7 @@
    * @param {any} NstSvcTranslation
    * @param {any} NstSvcLogger
    */
-  function PlaceMemberSettingsController($q, $uibModal, toastr, $scope, $rootScope,
+  function PlaceMemberSettingsController($q, $uibModal, toastr, $scope, $rootScope, $state,
                                          NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_SRV_ERROR,
                                          NstSvcPlaceFactory, NstVmMemberItem,
                                          NstSvcAuth, NstSvcModal,
@@ -54,6 +54,7 @@
     vm.promote = promote;
     vm.demote = demote;
     vm.remove = remove;
+    vm.openMemberModal = openMemberModal;
 
     vm.teammates = [];
     vm.selectedMates = {};
@@ -75,6 +76,7 @@
     vm.hasControlAccess = vm.place.hasAccess(NST_PLACE_ACCESS.CONTROL);
     vm.isGrandPlace = vm.place.id.split('.').length === 1 ? true : false;
 
+    vm.sidebarLimit = vm.hasAddMembersAccess ? 14 : 15;
     (function () {
 
       loadTeammates(vm.place.id,
@@ -128,6 +130,14 @@
       }).catch(deferred.reject);
 
       return deferred.promise;
+    }
+
+    /**
+     * Opens place-settings page and shows members tab by default
+     *
+     */
+    function openMemberModal() {
+      $state.go('app.place-settings', { placeId : vm.place.id, tab : 'members' }, { notify : false });
     }
 
     /**
@@ -257,7 +267,7 @@
         size: 'sm',
         resolve: {
           chosenRole: function () {
-            return role;
+            return role || NST_PLACE_MEMBER_TYPE.KEY_HOLDER;
           },
           currentPlace: function () {
             return vm.place;

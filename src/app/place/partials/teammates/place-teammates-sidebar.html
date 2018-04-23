@@ -1,10 +1,10 @@
 <div class="teammates">
-  <div class="name" ng-click="ctlTeammates.openMemberModal()">
-    <translate>{{ctlTeammates.place.counters.key_holders + ctlTeammates.place.counters.creators | localize }} Members</translate>
+  <div class="name" ng-click="ctrl.openMemberModal()">
+    <translate>{{ctrl.place.counters.creators + ctrl.place.counters.key_holders | localize }} Members</translate>
   </div>
   <div class="recent-container _fw _df _fn">
-    <div class="avatars" ng-if="!ctlTeammates.loading">
-      <div class="_difh" ng-repeat="teammate in ctlTeammates.teammates | limitTo : ctlTeammates.limit track by teammate.id">
+    <div class="avatars" ng-if="!ctrl.teammatesLoadProgress">
+      <div class="_difh" ng-repeat="teammate in ctrl.teammates | limitTo : ctrl.sidebarLimit track by teammate.id">
         <div class="user-avatar-32" user-detail="teammate">
         <img initial-avatar="{{teammate.id}}" picture="{{teammate | avatar : 'x32'}}" data-width="32" data-height="32"
              data-radius="40" class="account-initials-32 _df" data-word-count="2" data-font-size="14" name="{{teammate.fullName}}"/>
@@ -20,14 +20,14 @@
       <script type="text/ng-template" id="add-member-uib-tooltip.html">
         <translate>add</translate>
       </script>
-      <div class="sidebar-add-member" ng-if="ctlTeammates.hasAddMembersAccess" ng-click="ctlTeammates.addMember()"
+      <div class="sidebar-add-member" ng-if="ctrl.hasAddMembersAccess" ng-click="ctrl.addMember()"
            data-tooltip-placement="top" data-uib-tooltip-template="'add-member-uib-tooltip.html'">
         <svg>
           <use xlink:href="/assets/icons/nst-icn20.svg#cross"></use>
         </svg>
       </div>
     </div>
-    <div class="recent-container _fw _df _jcc _fn" ng-if="ctlTeammates.loading">
+    <div class="recent-container _fw _df _jcc _fn" ng-if="ctrl.teammatesLoadProgress">
       <div class="nst-mood-cheerful no-gutter nst-margin-24">
         <div class="nst-loading"></div>
       </div>
