@@ -12,9 +12,9 @@
 (function () {
   'use strict';
 
-  angular
-    .module('ronak.nested.web.place')
-    .controller('placeTeammatesController', placeTeammatesController);
+  // angular
+  //   .module('ronak.nested.web.place')
+  //   .controller('placeTeammatesController', placeTeammatesController);
 
   /** @ngInject */
   /**
@@ -46,7 +46,6 @@
       keyHoldersCount: 0,
       pendingsCount: 0
     };
-
 
     // Listens to 'member-removed' event and reloads the place members
     eventReferences.push($rootScope.$on('member-removed', function (event, data) {

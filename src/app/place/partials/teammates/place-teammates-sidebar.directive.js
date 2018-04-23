@@ -1,8 +1,8 @@
 (function() {
   'use strict';
 
-  angular.module('ronak.nested.web.place')
-    .directive('nstPlaceTeammatesSidebar', nstPlaceTeammatesSidebar);
+  // angular.module('ronak.nested.web.place')
+  //   .directive('nstPlaceTeammatesSidebar', nstPlaceTeammatesSidebar);
 
   function nstPlaceTeammatesSidebar() {
     var directive = {
