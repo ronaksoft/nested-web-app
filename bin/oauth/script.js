@@ -494,6 +494,7 @@ var nst = {
     var parameters = {
       _ss: nst.c.ss,
       _sk: nst.c.sk,
+      _cid: 'web_oauth',
       cmd: cmd,
       data: params
     };
