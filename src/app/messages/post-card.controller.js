@@ -74,8 +74,9 @@
 
     isPlaceFeed();
     notifyObser();
+
     function notifyObser() {
-      if($scope.$parent.$parent.$parent.affixObserver || $scope.$parent.$parent.$parent.affixObserver === 0) {
+      if ($scope.$parent.$parent.$parent.affixObserver || $scope.$parent.$parent.$parent.affixObserver === 0) {
         ++$scope.$parent.$parent.$parent.affixObserver;
       }
     }
@@ -87,6 +88,54 @@
     vm.hasHiddenCommentAccess = hasPlacesWithControlAccess();
 
     vm.goToPlace = goToPlace;
+
+    function getUserData() {
+      var userId = NstSvcAuth.user || {id: '_'};
+      userId = userId.id;
+      var msgId = vm.post.id;
+      var app = NST_CONFIG.DOMAIN;
+      var locale = NstSvcI18n.selectedLocale;
+      return {
+        userId: userId,
+        msgId: msgId,
+        app: app,
+        locale: locale
+      }
+    }
+
+    function sendIframeMessage(cmd, data) {
+      var msg = {
+        cmd: cmd,
+        data: data
+      };
+      return JSON.stringify(msg);
+    }
+
+    if (vm.post.iframeUrl) {
+      $timeout(function () {
+        vm.post.iframeObj = document.getElementById('iframe-' + vm.post.id);
+        var userData = getUserData();
+        window.addEventListener('message', function (e) {
+          var data = JSON.parse(e.data);
+          if (data.url === vm.post.iframeUrl) {
+            switch (data.cmd) {
+              case 'getInfo':
+                vm.post.iframeObj.contentWindow.postMessage(sendIframeMessage('setInfo', userData), '*');
+                break;
+              case 'setSize':
+                // vm.post.iframeObj.style.width = data.data.width + 'px';
+                vm.post.iframeObj.style.cssText = 'height: ' + data.data.height + 'px !important';
+                break;
+              default:
+                break;
+            }
+          }
+        });
+        eventReferences.push($rootScope.$on('toggle-theme', function (event, data) {
+          console.log(data);
+        }));
+      }, 500);
+    }
 
     /**
      * Checks post card is in chains view
@@ -872,7 +921,7 @@
       }
 
 
-      NstSvcPlaceFactory.get(vm.thisPlace).then(function(place){
+      NstSvcPlaceFactory.get(vm.thisPlace).then(function (place) {
         vm.placeRoute = place;
         vm.isPlaceManager = place.accesses.indexOf(NST_PLACE_ACCESS.CONTROL) > -1;
       })
