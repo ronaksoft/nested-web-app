@@ -55,24 +55,28 @@
     var mandatoryDomain = '';
     if ($stateParams.hasOwnProperty('domain')) {
       NstSvcServer.setDomain($stateParams.domain).then(function () {
-        mandatoryDomain = '@' + $stateParams.domain;
-        var ajax = new NstHttp(NST_CONFIG.REGISTER.AJAX.URL,
-          {
-            cmd: 'system/get_string_constants',
-            data: {}
-          });
-        ajax.post().then(function (data) {
-          if (data && data.data) {
-            window.companyConstants = {
-              name: data.data.company_name,
-              desc: data.data.company_desc,
-              logo: data.data.company_logo
-            };
-            $rootScope.$broadcast('company-constants-loaded');
-          }
-        });
+        setNestedInfo();
       }).catch(function () {
         toastr.error(NstSvcTranslation.get('Invalid domain'));
+      });
+    }
+
+    function setNestedInfo() {
+      mandatoryDomain = '@' + $stateParams.domain;
+      var ajax = new NstHttp(NST_CONFIG.REGISTER.AJAX.URL,
+        {
+          cmd: 'system/get_string_constants',
+          data: {}
+        });
+      ajax.post().then(function (data) {
+        if (data && data.data) {
+          window.companyConstants = {
+            name: data.data.company_name,
+            desc: data.data.company_desc,
+            logo: data.data.company_logo
+          };
+          $rootScope.$broadcast('company-constants-loaded');
+        }
       });
     }
 
