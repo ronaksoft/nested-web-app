@@ -51,6 +51,7 @@
     vm.haveComment = true;
     vm.focusBody = false;
     vm.minimize = false;
+    vm.editPost = false;
     vm.filesPopver = false;
     vm.cmdPress = false;
     vm.cmdVPress = false;
@@ -1036,6 +1037,27 @@
                 vm.attachments.size.uploaded += vm.model.attachments[k].size;
               }
               vm.model.forwardedFrom = post;
+            });
+          }
+        }
+        break;
+
+      case 'app.compose-edit':
+        if ($stateParams.postId) {
+          if (NST_DEFAULT.STATE_PARAM == $stateParams.postId) {
+            $state.go('app.compose');
+          } else {
+            getPost($stateParams.postId).then(function (post) {
+              vm.model.subject = post.subject;
+              vm.model.body = post.getTrustedBody();
+              vm.model.attachments = post.attachments;
+              for (var k in vm.model.attachments) {
+                vm.model.attachments[k].status = NST_ATTACHMENT_STATUS.ATTACHED;
+                vm.attachments.viewModels.push(NstSvcAttachmentMap.toEditableAttachmentItem(vm.model.attachments[k]));
+                vm.attachments.size.total += vm.model.attachments[k].size;
+                vm.attachments.size.uploaded += vm.model.attachments[k].size;
+              }
+              vm.editPost = true;
             });
           }
         }
