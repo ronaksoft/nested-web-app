@@ -24,6 +24,7 @@
     PostFactory.prototype.getMany = getMany;
     PostFactory.prototype.read = read;
     PostFactory.prototype.send = send;
+    PostFactory.prototype.edit = edit;
     PostFactory.prototype.remove = remove;
     PostFactory.prototype.retract = retract;
     PostFactory.prototype.getSentMessages = getSentMessages;
@@ -263,6 +264,44 @@
         post.id = response.post_id;
 
         deferred.resolve({post: post, noPermitPlaces: response.no_permit_places}, response.no_permit_places);
+      }).catch(deferred.reject);
+
+      return deferred.promise;
+    }
+
+    /**
+     * anonymous function - edits the post
+     *
+     * @param  {id} string post id
+     * @param  {subject} string post subject
+     * @param  {body} string post body
+     *
+     * @returns {Promise} the post
+     */
+    function edit(id, subject, body) {
+      var deferred = $q.defer();
+
+      var params = {
+        targets: '',
+        content_type: post.contentType,
+        subject: post.subject,
+        body: post.body,
+        label_id: post.labels,
+        no_comment : post.noComment
+      };
+
+      if (post.attachments) {
+        params.attaches = post.attachments.map(
+          function (attachment) {
+            return attachment.id;
+          }
+        ).join(',');
+      }
+
+      NstSvcServer.request('post/edit', params).then(function (response) {
+        post.id = response.post_id;
+
+        deferred.resolve({post: post});
       }).catch(deferred.reject);
 
       return deferred.promise;
