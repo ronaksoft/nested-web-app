@@ -282,27 +282,12 @@
       var deferred = $q.defer();
 
       var params = {
-        targets: '',
-        content_type: post.contentType,
-        subject: post.subject,
-        body: post.body,
-        label_id: post.labels,
-        no_comment : post.noComment
+        post_id: id,
+        subject: subject,
+        body: body
       };
 
-      if (post.attachments) {
-        params.attaches = post.attachments.map(
-          function (attachment) {
-            return attachment.id;
-          }
-        ).join(',');
-      }
-
-      NstSvcServer.request('post/edit', params).then(function (response) {
-        post.id = response.post_id;
-
-        deferred.resolve({post: post});
-      }).catch(deferred.reject);
+      NstSvcServer.request('post/edit', params).then(deferred.resolve).catch(deferred.reject);
 
       return deferred.promise;
     }

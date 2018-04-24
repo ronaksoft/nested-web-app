@@ -1018,20 +1018,11 @@
             vm.focus = false;
             vm.model.saving = true;
 
-            var postLabelsIds = vm.model.labels.map(function (i) {
-              return i.id
-            });
-            var post = new NstPost();
-            post.subject = vm.model.subject;;
-            post.body = (vm.model.body + '').replace(signatureDivider, '');
-            post.contentType = 'text/html';
-            post.attachments = vm.model.attachments;
-            post.places = [];
-            NstSvcLogger.debug4('Compose | Post the post to the server :', post);
+            NstSvcLogger.debug4('Compose | Post the edited post to the server :');
 
-            NstSvcPostFactory.send(post).then(function (response) {
+            NstSvcPostFactory.edit(vm.editPostId, vm.model.subject, (vm.model.body + '').replace(signatureDivider, '')).then(function (response) {
 
-              NstSvcLogger.debug4('Compose | Sent post succesfully');
+              NstSvcLogger.debug4('Compose | Edit post succesfully');
               deferred.resolve(response);
             }).catch(function (error) {
               NstSvcLogger.debug4('Compose | Didnt send post succesfully');
@@ -1050,21 +1041,17 @@
         vm.model.saving = false;
         vm.model.saved = true;
         vm.finish = true;
-
-        // All target places have received the message
-        if (response.noPermitPlaces.length === 0) {
-          NstSvcLogger.debug4('Compose | Post Edited');
-          toastr.success(NstSvcTranslation.get('Your message has been successfully edited.'));
-          NstSvcPostFactory.get(response.post.id).then(function (res) {
-            $rootScope.$emit('post-quick', res);
-          });
-          if ($('body').hasClass('fullCompose')) {
-            vm.fullCompose()
-          }
-          discardDraft();
-          $scope.$dismiss();
-
+        console.log(response);
+        NstSvcLogger.debug4('Compose | Post Edited');
+        toastr.success(NstSvcTranslation.get('Your message has been successfully edited.'));
+        NstSvcPostFactory.get(vm.editPostId).then(function (res) {
+          $rootScope.$emit('post-quick', res);
+        });
+        if ($('body').hasClass('fullCompose')) {
+          vm.fullCompose()
         }
+        discardDraft();
+        $scope.$dismiss();
 
         return $q(function (res) {
           res(response);
@@ -1151,6 +1138,7 @@
       case 'app.compose-edit':
         if ($stateParams.postId) {
           vm.editPost = true;
+          vm.editPostId = $stateParams.postId;
           if (NST_DEFAULT.STATE_PARAM == $stateParams.postId) {
             $state.go('app.compose');
           } else {
