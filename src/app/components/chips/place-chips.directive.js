@@ -62,7 +62,9 @@
             }
             scope.unselectChip = function (){
               scope.isSelected = false;
-              scope.onDeselect();
+              if (typeof scope.onDeselect === 'function') {
+                scope.onDeselect();
+              }
             }
             var onDocumentClick = function (event) {
               if (element[0] !== event.target) {

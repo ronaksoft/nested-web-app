@@ -290,7 +290,7 @@
         if (v.length > 0) {
           var res = JSON.parse(v);
           vm.signature = res.data;
-          if (res.active) {
+          if (res.active && !vm.editPost) {
             vm.model.body += (vm.model.body.length ? '' : '<br>') + signatureDivider + vm.signature;
           }
         }
@@ -988,6 +988,112 @@
       });
     };
 
+    vm.edit = function () {
+      fillSubjectModel();
+      if (vm.pending) {
+        return;
+      }
+
+      vm.pending = true;
+
+      NstSvcLogger.debug4('Compose | Start sending compose');
+      return (function () {
+        var deferred = $q.defer();
+
+        if (vm.model.saving) {
+          NstSvcLogger.debug4('Compose | Stop resending compose');
+          // Already is being sent process error
+          deferred.reject([{
+            name: 'saving',
+            message: 'Already is being sent'
+          }]);
+        } else {
+          NstSvcLogger.debug4('Compose | Compose model is valid ?!');
+          if (vm.model.check() && vm.model.isUploading()) {
+            discardDraft();
+            vm.minimizeModal();
+            deferred.reject([]);
+          } else if (vm.model.check() && !vm.model.isUploading()) {
+            NstSvcLogger.debug4('Compose | Compose model is valid');
+            vm.focus = false;
+            vm.model.saving = true;
+
+            var postLabelsIds = vm.model.labels.map(function (i) {
+              return i.id
+            });
+            var post = new NstPost();
+            post.subject = vm.model.subject;;
+            post.body = (vm.model.body + '').replace(signatureDivider, '');
+            post.contentType = 'text/html';
+            post.attachments = vm.model.attachments;
+            post.places = [];
+            NstSvcLogger.debug4('Compose | Post the post to the server :', post);
+
+            NstSvcPostFactory.send(post).then(function (response) {
+
+              NstSvcLogger.debug4('Compose | Sent post succesfully');
+              deferred.resolve(response);
+            }).catch(function (error) {
+              NstSvcLogger.debug4('Compose | Didnt send post succesfully');
+              deferred.reject([error]);
+            });
+          } else {
+            NstSvcLogger.debug4('Compose | Compose model is not valid');
+            deferred.reject(vm.model.errors);
+          }
+        }
+
+        return deferred.promise;
+      })().then(function (response) {
+        vm.pending = false;
+        NstSvcLogger.debug4('Compose | Change some flags back to the normal mode after sending Post');
+        vm.model.saving = false;
+        vm.model.saved = true;
+        vm.finish = true;
+
+        // All target places have received the message
+        if (response.noPermitPlaces.length === 0) {
+          NstSvcLogger.debug4('Compose | Post Edited');
+          toastr.success(NstSvcTranslation.get('Your message has been successfully edited.'));
+          NstSvcPostFactory.get(response.post.id).then(function (res) {
+            $rootScope.$emit('post-quick', res);
+          });
+          if ($('body').hasClass('fullCompose')) {
+            vm.fullCompose()
+          }
+          discardDraft();
+          $scope.$dismiss();
+
+        }
+
+        return $q(function (res) {
+          res(response);
+        });
+      }).catch(function (errors) {
+        vm.pending = false;
+        NstSvcLogger.debug4('Compose | Unsent Post Reasons :', errors);
+        vm.model.saving = false;
+        if (errors.length > 0) {
+          toastr.error(errors.filter(
+            function (v) {
+              return !!v.message;
+            }
+          ).map(
+            function (v, i) {
+              return String(Number(i) + 1) + '. ' + v.message;
+            }
+          ).join("<br/>"));
+
+          $log.debug('Compose | Error Occurred: ', errors);
+        }
+
+        return $q(function (res, rej) {
+          rej(errors);
+        });
+
+      });
+    };
+
     function fillSubjectModel() {
       vm.model.subject = vm.subjectElement.value;
     }
@@ -1044,6 +1150,7 @@
 
       case 'app.compose-edit':
         if ($stateParams.postId) {
+          vm.editPost = true;
           if (NST_DEFAULT.STATE_PARAM == $stateParams.postId) {
             $state.go('app.compose');
           } else {
@@ -1057,7 +1164,23 @@
                 vm.attachments.size.total += vm.model.attachments[k].size;
                 vm.attachments.size.uploaded += vm.model.attachments[k].size;
               }
-              vm.editPost = true;
+
+              var places = post.places;
+              for (var k in places) {
+                var place = places[k];
+                vm.model.recipients.push(new NstVmSelectTag(place));
+              }
+
+              var recipients = post.recipients;
+              for (var j in recipients) {
+                var tag = new NstVmSelectTag({
+                  id: recipients[j],
+                  name: recipients[j]
+                });
+
+                vm.model.recipients.push(tag);
+              }
+
             });
           }
         }

@@ -91,6 +91,16 @@
 <!--</a>-->
 <div class="line-popover" ng-if="ctlPostCard.currentUserIsSender || ctlPostCard.placesWithRemoveAccess.length > 0 || ctlPostCard.post.wipeAccess || ctlPostCard.hasPlacesWithControlAccess()"></div>
 
+<a ng-if="ctlPostCard.post.wipeAccess" ui-sref="app.compose-edit({ postId: ctlPostCard.post.id })"
+  ng-click="$event.stopPropagation();" class="_df list-items _aic _fw" ui-sref-opts="{notify: false}">
+    <div class="_aic _df">
+      <svg class="_16svg">
+        <use xlink:href="/assets/icons/nst-icn16.svg#pencil"></use>
+      </svg>
+    </div>
+    <span><translate>Edit</translate></span>
+  </a>
+  
 <a class="_df list-items _aic _fw" ng-click="ctlPostCard.attachPlace();" ng-if="ctlPostCard.currentUserIsSender">
   <div class="_aic _df">
     <svg class="_16svg">
@@ -157,7 +167,6 @@
     </svg>
   </div>
 </a>
-
 
 <a ng-if="ctlPostCard.post.wipeAccess" ng-click="$event.stopPropagation(); ctlPostCard.retract();" class="_df list-items _aic _fw red-item">
   <div class="_aic _df">

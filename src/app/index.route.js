@@ -61,6 +61,21 @@
           }, 10);
         }]
       })
+      .state('app.compose-edit', {
+        url: '/compose/edit/:postId',
+        params: {
+          postId: NST_DEFAULT.STATE_PARAM,
+          attachments: []
+        },
+        options: {
+          group: 'compose'
+        },
+        onEnter: ['$rootScope', function ($rootScope) {
+          setTimeout(function () {
+            $rootScope.$broadcast('open-compose');
+          }, 10);
+        }]
+      })
       .state('app.compose-forward', {
         url: '/forward/:postId',
         params: {

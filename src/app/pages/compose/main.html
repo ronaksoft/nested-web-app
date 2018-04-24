@@ -14,11 +14,19 @@
       </svg>
     </div>
     <div class="compose-modal-body _difv _fw ng-class:{'scrolled' : ctlCompose.collapse}">
-      <p class="_df _fn" ng-if="!ctlCompose.quickMode"><b><translate>Share With</translate></b></p>
-      <div ng-if="!ctlCompose.quickMode" class="_df _fw input-select-match">
+      <p class="_df _fn" ng-if="!ctlCompose.quickMode">
+        <b ng-if="!ctlCompose.editPost"><translate>Share With</translate></b>
+        <b ng-if="ctlCompose.editPost"><translate>Shared With</translate></b>
+      </p>
+      <div ng-if="!ctlCompose.quickMode && !ctlCompose.editPost" class="_df _fw input-select-match">
         <suggest-picker config="ctlCompose.suggestPickerConfig" selecteds="ctlCompose.model.recipients"
           suggests="ctlCompose.search.results" keyword='ctlCompose.keyword' request-more="ctlCompose.searchMore"
           ng-click="ctlCompose.collapse = false" on-focus="ctlCompose.expand"></suggest-picker>
+      </div>
+      <div ng-if="ctlCompose.editPost" class="_df _fw input-select-match">
+          <div ng-repeat="recipient in ctlCompose.model.recipients track by recipient.id" place-chips place-id="recipient"
+            is-selected="false" selectable="false" index="$index" is-email="recipient.isEmail"></div>            
+    
       </div>
       <div class="wdt-emoji-picker-parent compose-scroll-wrapper">
         <!-- <div> -->
@@ -53,6 +61,7 @@
         <label class="_df _fn cursor-pointer" class="cursor-pointer margin-r_5 icon _df"
            popover-class="white-pop files-modal {{ctlCompose.quickMode ? 'quick' : 'modal-view'}}"
            ng-click="ctlCompose.filesPopver = true"
+           ng-if="!ctlCompose.editPost"
            data-popover-is-open="ctlCompose.filesPopver"
            data-popover-placement="{{ctlCompose.quickMode ?
             $root._direction === 'rtl' ? 'left-center auto' : 'right-center auto' :
@@ -71,7 +80,7 @@
           <div class="body" emoji-init=".fr-element" compose-emoji="true" ng-show="ctlCompose.emojiTarget != 'title';"></div>
         </div>
         <div class="_df f1"></div>
-        <div class="_pr _df _fn label-butn" add-label added-labels="ctlCompose.model.labels" after-add-label="ctlCompose.addLabels">
+        <div ng-if="!ctlCompose.editPost" class="_pr _df _fn label-butn" add-label added-labels="ctlCompose.model.labels" after-add-label="ctlCompose.addLabels">
           <span ng-if="ctlCompose.model.labels.length > 0">
             +{{ctlCompose.model.labels.length}}
           </span>
@@ -79,7 +88,7 @@
             <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
           </svg>
         </div>
-        <div class="_pr _df _fn">
+        <div class="_pr _df _fn" ng-if="!ctlCompose.editPost">
           <svg class="_16svg _asc" popover-class="white-pop post-card-moreo-ptions compose-options"
             data-popover-placement="{{$root._direction == 'ltr' ? 'left auto' : 'right auto'}}"
             data-uib-popover-template="'app/pages/compose/partials/compose-settings.html'"
@@ -90,8 +99,10 @@
       </div>
       <div class="quick-btns">
         <input type="button" ng-click="ctlCompose.clear()" class="butn butn-white secondary" ng-if="ctlCompose.pending" value="Discard" ng-if="ctlCompose.quickMode" translate-attrs="value">
-        <input type="button" ng-click="ctlCompose.send()" class="butn butn-green" ng-if="!ctlCompose.pending" value="Share" translate-attrs="value">
-        <input type="button" class="butn butn-green" ng-if="ctlCompose.pending" disabled value="Sending..." translate-attrs="value">
+        <input type="button" ng-click="ctlCompose.send()" class="butn butn-green" ng-if="!ctlCompose.pending && !ctlCompose.editPost" value="Share" translate-attrs="value">
+        <input type="button" class="butn butn-green" ng-if="ctlCompose.pending && !ctlCompose.editPost" disabled value="Sending..." translate-attrs="value">
+        <input type="button" ng-click="ctlCompose.edit()" ng-if="!ctlCompose.pending  && ctlCompose.editPost" class="butn butn-green" value="Save" translate-attrs="value">
+        <input type="button" ng-if="ctlCompose.pending && ctlCompose.editPost" class="butn butn-green" disabled value="Saving..." translate-attrs="value">
       </div>
 
     </div>
