@@ -333,6 +333,12 @@ input {
   display: table;
 }
 
+.panel-body p {
+  opacity: .64;
+  color: #323D47;
+  margin: 0 0 10px;
+}
+
 .panel .form-group {
   margin: 0;
 }
@@ -347,8 +353,13 @@ input {
   border-radius: 3px;
   background-color: rgba(230, 0, 0, 0.1);
   padding: 1px 5px;
+  margin: 0 16px 10px;
   color: #f34f4f;
   font-size: 12px;
+}
+
+.panel form .error {
+  margin: 0;
 }
 
 .nst-mood-cheerful {

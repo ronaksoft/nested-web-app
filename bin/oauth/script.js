@@ -255,22 +255,29 @@ var nst = {
       nst.switchToLogin();
     }
 
-    document.querySelector('.login-to-other').addEventListener('click', function () {
-      nst.switchToLogin();
+    document.querySelector('.js-change-workspace').addEventListener('click', function () {
+      nst.switchToWorkspace();
+    });
+
+    document.querySelector('.js-login-to-other').addEventListener('click', function () {
+      nst.switchToWorkspace();
+    });
+
+    document.querySelector('.workspace form').addEventListener('submit', function (event) {
+      event.preventDefault();
+      var domain = document.querySelector('.workspace form input[name="domain"]').value;
+      nst.setWorkspace(domain);
     });
 
     document.querySelector('.sign-in form').addEventListener('submit', function (event) {
       event.preventDefault();
-    });
-
-    document.querySelector('.js-login').addEventListener('click', function () {
       var user = document.querySelector('.sign-in form input[name="username"]').value;
       var pass = document.querySelector('.sign-in form input[name="password"]').value;
       nst.login(user, pass);
     });
 
     document.querySelector('.js-get-access').addEventListener('click', function () {
-      nst.switchToAccess();
+      nst.checkToken();
     });
 
     document.querySelector('.js-confirm-access').addEventListener('click', function () {
@@ -307,6 +314,7 @@ var nst = {
     nst.addClass('.panel-body .page', 'hide');
     nst.removeClass('.panel-body .page.select-account', 'hide');
     nst.addClass('.js-login-header', 'hide');
+    nst.addClass('.js-workspace-header', 'hide');
     nst.setAttr('.user-logo img', 'src', nst.getImage(data.picture));
     nst.setText('.user-name', data.fname + ' ' + data.lname);
     nst.setText('.user-id', data._id + '@' + nst.selectedDomain);
@@ -339,10 +347,26 @@ var nst = {
   getImage: function (data) {
     return data.x128 === '' ? '/assets/icons/absents_place.svg' : (nst.xerxes + '/view/x/' + data.x128);
   },
+  focusIt: function (query) {
+    var objs = document.querySelectorAll(query + ' input');
+    if (objs) {
+      objs[0].focus();
+    }
+  },
+  switchToWorkspace: function () {
+    nst.addClass('.panel-body .page', 'hide');
+    nst.removeClass('.panel-body .page.workspace', 'hide');
+    nst.removeClass('.js-workspace-header', 'hide');
+    nst.addClass('.js-login-header', 'hide');
+    nst.focusIt('.panel-body .page.workspace');
+    nst.removeGlobalError();
+  },
   switchToLogin: function () {
     nst.addClass('.panel-body .page', 'hide');
     nst.removeClass('.panel-body .page.sign-in', 'hide');
+    nst.addClass('.js-workspace-header', 'hide');
     nst.removeClass('.js-login-header', 'hide');
+    nst.focusIt('.panel-body .page.sign-in');
     nst.removeGlobalError();
   },
   switchToAccess: function () {
@@ -354,15 +378,16 @@ var nst = {
     nst.addClass('.panel-body .page', 'hide');
     nst.removeClass('.panel-body .page.access-account', 'hide');
     nst.addClass('.js-login-header', 'hide');
+    nst.addClass('.js-workspace-header', 'hide');
     nst.removeGlobalError();
   },
-  isTokenForAppExist: function (appId) {
-    nst.http('app/create_token', {
-    }, function (data) {
-      var tokens = data.app_tokens;
-      for (var i = 0 ; i < tokens.length; i++) {
-
-      }
+  checkToken: function () {
+    nst.http('app/has_token', {
+      app_id: nst.oauth.clientId
+    }, function () {
+      nst.confirmAccess();
+    }, function () {
+      nst.switchToAccess();
     });
   },
   confirmAccess: function () {
@@ -387,7 +412,6 @@ var nst = {
         if (data.status === 'ok') {
           window.close();
         } else {
-          console.log(data);
           nst.setGlobalError(data.data);
         }
       });
@@ -402,6 +426,19 @@ var nst = {
   removeGlobalError: function () {
     nst.setText('.js-global-error', '');
     nst.addClass('.js-global-error', 'hide');
+  },
+  setWorkspace: function (domain) {
+    var config = nst.getServerInfo(domain);
+    if (config) {
+      nst.cyrus = config.cyrus;
+      nst.xerxes = config.xerxes;
+      nst.selectedDomain = config.domain;
+      nst.domain = config.domain;
+      nst.removeGlobalError();
+      nst.switchToLogin();
+    } else {
+      nst.setGlobalError('Domain is invalid');
+    }
   },
   login: function (user, pass) {
     user = user.split('@');
@@ -426,13 +463,13 @@ var nst = {
   getServerInfo: function (domain) {
     if (domain === undefined) {
       if (!nst.nestedConfigs.hasOwnProperty(nst.domain)) {
-        nst.nestedConfigs[domain] = {
-          cyrus: nst.xerxes,
-          xerxes: nst.cyrus,
+        nst.nestedConfigs[nst.domain] = {
+          cyrus: nst.cyrus,
+          xerxes: nst.xerxes,
           domain: nst.domain
         };
       }
-      return nst.nestedConfigs[domain];
+      return nst.nestedConfigs[nst.domain];
     } else {
       if (nst.nestedConfigs.hasOwnProperty(domain)) {
         return nst.nestedConfigs[domain];
@@ -441,6 +478,9 @@ var nst = {
         method: 'GET',
         async: false
       }, 'https://npc.nested.me/dns/discover/' + domain);
+      if (!remote) {
+        return null;
+      }
       var config = nst.parseConfigFromRemote(remote.data, domain);
       nst.nestedConfigs[domain] = config;
       return config;
@@ -554,13 +594,17 @@ var nst = {
     } else {
       formData = null;
     }
-    http.send(formData);
-    if (!async) {
-      if (http.status === 200) {
-        return JSON.parse(http.responseText);
-      } else {
-        return null;
+    try {
+      http.send(formData);
+      if (!async) {
+        if (http.status === 200) {
+          return JSON.parse(http.responseText);
+        } else {
+          return null;
+        }
       }
+    } catch(e) {
+      return null;
     }
   },
   setCookie: function (cname, cvalue, exdays) {
