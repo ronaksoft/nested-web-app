@@ -131,6 +131,9 @@
         vm.post.iframeObj = document.getElementById(vm.iframeId);
         var userData = getUserData();
         iframeOnMessage = function (e) {
+          if (vm.post.iframeUrl.indexOf(e.origin) === -1) {
+            return;
+          }
           var data = JSON.parse(e.data);
           if (data.url === vm.post.iframeUrl) {
             switch (data.cmd) {
