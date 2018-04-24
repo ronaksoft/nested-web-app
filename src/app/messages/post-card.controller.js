@@ -657,6 +657,13 @@
       vm.unreadCommentsCount = 0;
     }));
 
+    eventReferences.push($rootScope.$on('post-update', function (e, data) {
+      console.log(data.id !== vm.post.id);
+      if (data.id !== vm.post.id) return;
+
+      vm.post = data;
+    }));
+
     /**
      * Event handler for bookmarking post
      * set the value to the model

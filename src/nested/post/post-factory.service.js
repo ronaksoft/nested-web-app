@@ -63,11 +63,11 @@
      *
      * @returns {Promise}      the post
      */
-    function get(id, fullBody) {
+    function get(id, fullBody, force) {
       var factory = this;
 
       var cachedPlace = this.getCachedSync(id);
-      if (cachedPlace) {
+      if (cachedPlace && !force) {
         // If a post with full body was requested, then the post ellipsis should be false
         if (!fullBody || (fullBody && !cachedPlace.ellipsis)) {
           return $q.resolve(cachedPlace);

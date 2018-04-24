@@ -921,9 +921,9 @@
         if (response.noPermitPlaces.length === 0) {
           NstSvcLogger.debug4('Compose | Post Sent successfully to all places');
           toastr.success(NstSvcTranslation.get('Your message has been successfully sent.'));
-          NstSvcPostFactory.get(response.post.id).then(function (res) {
-            $rootScope.$emit('post-quick', res);
-          });
+          // NstSvcPostFactory.get(response.post.id).then(function (res) {
+          //   $rootScope.$emit('post-quick', res);
+          // });
           // TODO check dismissAll
           // $uibModalStack.dismissAll();
           if (vm.quickMode) {
@@ -942,9 +942,9 @@
         } else {
           NstSvcLogger.debug4('Compose | Checking no permited places and warn to the user via toastr');
           toastr.warning(NstUtility.string.format(NstSvcTranslation.get('Your message was sent, but {0} did not received that!'), response.noPermitPlaces.join(', ')));
-          NstSvcPostFactory.get(response.post.id).then(function (res) {
-            $rootScope.$emit('post-quick', res);
-          });
+          // NstSvcPostFactory.get(response.post.id).then(function (res) {
+          //   $rootScope.$emit('post-quick', res);
+          // });
 
           NstSvcLogger.debug4('Compose | Change states and models back to the normal mode after sending Post');
           // TODO check dismissAll
@@ -1041,11 +1041,10 @@
         vm.model.saving = false;
         vm.model.saved = true;
         vm.finish = true;
-        console.log(response);
         NstSvcLogger.debug4('Compose | Post Edited');
         toastr.success(NstSvcTranslation.get('Your message has been successfully edited.'));
-        NstSvcPostFactory.get(vm.editPostId).then(function (res) {
-          $rootScope.$emit('post-quick', res);
+        NstSvcPostFactory.get(vm.editPostId, null, true).then(function (res) {
+          $rootScope.$emit('post-update', res);
         });
         if ($('body').hasClass('fullCompose')) {
           vm.fullCompose()
