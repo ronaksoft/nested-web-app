@@ -15,7 +15,7 @@
     .controller('PostCardController', PostCardController);
 
   function PostCardController($state, $q, $log, $timeout, $stateParams, $rootScope, $scope, $uibModal, $location, $anchorScroll,
-                              _, toastr, $sce, NstSvcTaskUtility, NST_CONFIG, NstSvcI18n, NstSvcViewStorage,
+                              _, toastr, $sce, NstSvcTaskUtility, NST_CONFIG, NstSvcI18n, NstSvcViewStorage, md5,
                               NST_EVENT_ACTION, NST_PLACE_ACCESS, NST_POST_EVENT, SvcCardCtrlAffix,
                               NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory, NstSearchQuery, NstSvcModal,
                               NstSvcAuth, NstUtility, NstSvcPostInteraction, NstSvcTranslation, NstSvcLogger, $) {
@@ -116,7 +116,20 @@
         cmd: cmd,
         data: data
       };
+      var hash = md5.createHash(JSON.stringify(msg));
+      msg.hash = hash;
       return JSON.stringify(msg);
+    }
+
+    function isHashValid(data) {
+      var packetHash = data.hash;
+      delete data.hash;
+      var hash = md5.createHash(JSON.stringify(data));
+      if (hash === packetHash) {
+        return true;
+      } else {
+        return false;
+      }
     }
 
     var iframeOnMessage;
@@ -135,6 +148,9 @@
             return;
           }
           var data = JSON.parse(e.data);
+          if (!isHashValid(data)) {
+            return
+          }
           if (data.url === vm.post.iframeUrl) {
             switch (data.cmd) {
               case 'getInfo':
