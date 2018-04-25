@@ -19,6 +19,21 @@
         controllerAs: 'ctrl',
         templateUrl: 'app/public/register/register.html'
       })
+      .state('public.workspace', {
+        url: '/workspace',
+        controller: 'workspaceController',
+        controllerAs: 'ctrl',
+        templateUrl: 'app/public/workspace/workspace.html'
+      })
+      .state('public.domain-redirect', {
+        url: '/d/:domain',
+        params: {
+          domain: 'nested.me'
+        },
+        controller: 'LoginController',
+        controllerAs: 'ctlLogin',
+        templateUrl: 'app/authenticate/login/login.html'
+      })
       .state('public.recover-password', {
         url: '/recover/password',
         controller: 'RecoverPasswordController',

@@ -10,7 +10,9 @@
         if (model && model.hasPicture && model.hasPicture()) {
           return model.picture.getUrl(size);
         }
-
+        if (model && model.x32 && model.x32.length > 0) {
+          return model.getUrl(size);
+        }
         return '/assets/icons/absents_place.svg';
       }
 

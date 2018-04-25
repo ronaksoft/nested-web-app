@@ -281,9 +281,9 @@ var nst = {
   reconfigCyrus: function () {
     var url = nst.cyrus.split('://');
     if (url[0] === 'wss') {
-      nst.cyrus = 'https://' + url[1];
+      nst.cyrus = 'https://' + url[1] + '/api';
     } else {
-      nst.cyrus = 'http://' + url[1];
+      nst.cyrus = 'http://' + url[1] + '/api';
     }
   },
   getValue: function (elem) {

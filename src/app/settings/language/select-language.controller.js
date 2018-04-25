@@ -21,13 +21,21 @@
    * @param {any} $scope
    * @param {any} NstSvcI18n
    */
-  function SelectLanguageController($scope, NstSvcI18n) {
+  function SelectLanguageController($scope, $window, NstSvcI18n) {
     var vm = this;
-    // selected locale (We use 'locale' instaed of language in code but 'language' is usually used in UI)
-    vm.locale = NstSvcI18n.selectedLocale;
-    vm.calendar = NstSvcI18n.selectedCalendar;
     vm.changeLocale = changeLocale;
     vm.changeCalendar = changeCalendar;
+    vm.locale = NstSvcI18n.selectedLocale;
+    vm.calendar = NstSvcI18n.selectedCalendar;
+    // selected locale (We use 'locale' instaed of language in code but 'language' is usually used in UI)
+
+    (function() {
+      NstSvcI18n.checkSettings().then(function(needChange) {
+        if (needChange) {
+          $window.location.reload();
+        }
+      });
+    })();
 
     /**
      * Selects a locale and emits `show-loading` event to display the loading page.

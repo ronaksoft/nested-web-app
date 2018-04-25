@@ -60,11 +60,6 @@
       initChips(params);
     }
 
-    (function (){
-      // TODO : Not working any more
-      vm.admin_area = NST_CONFIG.ADMIN_DOMAIN + (NST_CONFIG.ADMIN_PORT ? ':' + NST_CONFIG.ADMIN_PORT : '');
-    })()
-
     function initChips(params) {
       vm.chips = [];
       var types = {

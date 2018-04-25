@@ -5,15 +5,20 @@
     .module('ronak.nested.web.place')
     .directive('placeMemberSettings', function () {
       return {
-        templateUrl: 'app/place/settings/member/place-member-settings.html',
+        restrict: 'AE',
+        replace: true,
         controller: 'PlaceMemberSettingsController',
         controllerAs: 'ctrl',
         bindToController: true,
         scope: {
           place: '=',
-          access: '='
+          access: '=?',
+          viewMode: '=?'
         },
-        link: function () {
+        templateUrl: function(elem, attrs) {
+            return attrs.viewMode === 'content-plus'
+            ? 'app/place/partials/teammates/place-teammates-sidebar.html'
+            : 'app/place/settings/member/place-member-settings.html';
         }
       };
     });

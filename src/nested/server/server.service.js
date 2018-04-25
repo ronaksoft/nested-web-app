@@ -15,6 +15,7 @@
 
     var NST_SERVER_DOMAIN = 'nested.server.domain';
 
+    var server;
     function Server(url, configs) {
       this.defaultConfigs = {
         streamTimeout: 500000,
@@ -24,12 +25,10 @@
         WEBSOCKET_URL: NST_CONFIG.WEBSOCKET.URL,
         REGISTER_URL: NST_CONFIG.REGISTER.AJAX.URL,
         STORE_URL: NST_CONFIG.STORE.URL,
-        ADMIN_DOMAIN: NST_CONFIG.ADMIN_DOMAIN,
-        ADMIN_PORT: NST_CONFIG.ADMIN_PORT,
         DOMAIN: NST_CONFIG.DOMAIN
       };
 
-      var server = this;
+      server = this;
 
       server.configs = angular.extend(server.defaultConfigs, configs);
       server.sesKey = '';
@@ -420,6 +419,18 @@
           $rootScope.$broadcast(NST_AUTH_EVENT.CHANGE_PASSWORD, {detail: {reason: NST_SRV_ERROR.ACCESS_DENIED}});
         }
 
+        if (window.debugMode) {
+          var serveFailedLogs = [];
+          var logs = localStorage.getItem('nested.debug_mode_log');
+          if (logs) {
+            serveFailedLogs = JSON.parse(logs);
+          }
+          serveFailedLogs.push({
+            req: action,
+            error: response.getData()
+          });
+          localStorage.setItem('nested.debug_mode_log', JSON.stringify(serveFailedLogs));
+        }
 
         return $q.reject(new NstServerError(
           new NstServerQuery(action, data),
@@ -560,12 +571,9 @@
     };
 
     Server.prototype.revertConfigs = function () {
-
       NST_CONFIG.WEBSOCKET.URL = this.defaultConfigs.WEBSOCKET_URL;
       NST_CONFIG.STORE.URL = this.defaultConfigs.STORE_URL;
       NST_CONFIG.REGISTER.AJAX.URL = this.defaultConfigs.REGISTER_URL;
-      NST_CONFIG.ADMIN_DOMAIN = this.defaultConfigs.ADMIN_DOMAIN;
-      NST_CONFIG.ADMIN_PORT = this.defaultConfigs.ADMIN_PORT;
       NST_CONFIG.DOMAIN = this.defaultConfigs.DOMAIN;
     };
 
@@ -580,6 +588,42 @@
       // var ajax = new NstHttp('https://npc.nested.me/dns/discover/nested.me');
       return ajax.get();
     }
+
+    function setConfig(config, domain) {
+      var configs = parseConfigFromRemote(config);
+      NST_CONFIG.WEBSOCKET.URL = configs.websocket;
+      NST_CONFIG.REGISTER.AJAX.URL = configs.register;
+      NST_CONFIG.STORE.URL = configs.store;
+      NST_CONFIG.DOMAIN = domain;
+
+      // Set default config
+      server.defaultConfigs.WEBSOCKET_URL = NST_CONFIG.WEBSOCKET.URL;
+      server.defaultConfigs.STORE_URL = NST_CONFIG.STORE.URL ;
+      server.defaultConfigs.REGISTER_URL = NST_CONFIG.REGISTER.AJAX.URL;
+      server.defaultConfigs.DOMAIN = NST_CONFIG.DOMAIN;
+
+      // Set default domain
+      localStorage.setItem(NST_SERVER_DOMAIN, domain);
+    }
+
+    Server.prototype.setDomain = function (domain) {
+      var deferred = $q.defer();
+      loadConfigFromRemote(domain)
+        .then(function (remoteConfig) {
+          setConfig(remoteConfig, domain);
+          deferred.resolve();
+        })
+        .catch(function () {
+          loadConfigFromRemote(domain, true)
+            .then(function (remoteConfig) {
+              setConfig(remoteConfig, domain);
+              deferred.resolve();
+            }).catch(function () {
+            deferred.reject();
+          });
+        });
+      return deferred.promise;
+    };
 
     return new Server(NST_CONFIG.WEBSOCKET.URL, {
       requestTimeout: NST_CONFIG.WEBSOCKET.TIMEOUT,

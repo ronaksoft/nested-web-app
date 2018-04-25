@@ -17,6 +17,7 @@
             isEmail: '=',
             selectable: '=?',
             onSelect: '=',
+            onDeselect: '=?',
             isSelected: '@?',
             index: '=',
             onRemove: '='
@@ -61,10 +62,13 @@
             }
             scope.unselectChip = function (){
               scope.isSelected = false;
+              if (typeof scope.onDeselect === 'function') {
+                scope.onDeselect();
+              }
             }
             var onDocumentClick = function (event) {
               if (element[0] !== event.target) {
-                scope.isSelected = false;
+                scope.unselectChip();
               }
             };
 

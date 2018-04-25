@@ -12,34 +12,14 @@
 (function () {
   'use strict';
 
-  angular
-    .module('ronak.nested.web.place')
-    .controller('placeTeammatesController', placeTeammatesController);
+  // angular
+  //   .module('ronak.nested.web.place')
+  //   .controller('placeTeammatesController', placeTeammatesController);
 
   /** @ngInject */
   /**
    * Retrieves a Place key-holders and creators. The user is able to add/invite others
    *
-   * @param {any} $scope
-   * @param {any} $q
-   * @param {any} $state
-   * @param {any} $stateParams
-   * @param {any} $uibModal
-   * @param {any} toastr
-   * @param {any} _
-   * @param {any} $rootScope
-   * @param {any} NstSvcPlaceFactory
-   * @param {any} NstUtility
-   * @param {any} NstSvcAuth
-   * @param {any} NstSvcUserFactory
-   * @param {any} NstSvcTranslation
-   * @param {any} NstVmMemberItem
-   * @param {any} NST_SRV_ERROR
-   * @param {any} NST_NOTIFICATION_TYPE
-   * @param {any} NstEntityTracker
-   * @param {any} NST_PLACE_ACCESS
-   * @param {any} NST_PLACE_MEMBER_TYPE
-   * @param {any} NstSvcLogger
    */
   function placeTeammatesController($scope, $q, $state, $stateParams, $uibModal, toastr, _, $rootScope,
                                     NstSvcPlaceFactory, NstUtility, NstSvcUserFactory, NstSvcTranslation,
@@ -66,7 +46,6 @@
       keyHoldersCount: 0,
       pendingsCount: 0
     };
-
 
     // Listens to 'member-removed' event and reloads the place members
     eventReferences.push($rootScope.$on('member-removed', function (event, data) {
@@ -274,10 +253,6 @@
       return deferred.promise;
     }
 
-    function readyAffix() {
-      $rootScope.$emit('affixCheck');
-    }
-
     /**
      * Retrieves the place key-holders with the given limit and skip
      *
@@ -308,6 +283,9 @@
       return deferred.promise;
     }
 
+    function readyAffix() {
+      $rootScope.$emit('affixCheck');
+    }
 
     $scope.$on('$destroy', function () {
       if (addMemberListenerKey) {

@@ -39,6 +39,7 @@
       this.noComment = false;
       this.isTrusted = true;
       this.iframeUrl = undefined;
+      this.iframeObj = undefined;
       this.relatedTasks = undefined;
       this.visible = true;
       this.affix = {};

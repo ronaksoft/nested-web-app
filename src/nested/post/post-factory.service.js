@@ -24,6 +24,7 @@
     PostFactory.prototype.getMany = getMany;
     PostFactory.prototype.read = read;
     PostFactory.prototype.send = send;
+    PostFactory.prototype.edit = edit;
     PostFactory.prototype.remove = remove;
     PostFactory.prototype.retract = retract;
     PostFactory.prototype.getSentMessages = getSentMessages;
@@ -62,11 +63,11 @@
      *
      * @returns {Promise}      the post
      */
-    function get(id, fullBody) {
+    function get(id, fullBody, force) {
       var factory = this;
 
       var cachedPlace = this.getCachedSync(id);
-      if (cachedPlace) {
+      if (cachedPlace && !force) {
         // If a post with full body was requested, then the post ellipsis should be false
         if (!fullBody || (fullBody && !cachedPlace.ellipsis)) {
           return $q.resolve(cachedPlace);
@@ -264,6 +265,29 @@
 
         deferred.resolve({post: post, noPermitPlaces: response.no_permit_places}, response.no_permit_places);
       }).catch(deferred.reject);
+
+      return deferred.promise;
+    }
+
+    /**
+     * anonymous function - edits the post
+     *
+     * @param  {id} string post id
+     * @param  {subject} string post subject
+     * @param  {body} string post body
+     *
+     * @returns {Promise} the post
+     */
+    function edit(id, subject, body) {
+      var deferred = $q.defer();
+
+      var params = {
+        post_id: id,
+        subject: subject,
+        body: body
+      };
+
+      NstSvcServer.request('post/edit', params).then(deferred.resolve).catch(deferred.reject);
 
       return deferred.promise;
     }

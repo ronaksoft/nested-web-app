@@ -30,12 +30,15 @@
                 'has-error': addHook.url.$invalid
             }">
         <label for="id" ng-class="{'_opz': ctrl.model.eventType == ctrl.NST_HOOK_EVENT_TYPE.HOOK_EVENT_TYPE_ACCOUNT_TASK_ASSIGNED || !ctrl.model.eventType}">
-            <translate>Place id</translate> <small>(you must be manager)</small>
+            <translate>Place</translate> <small>(you must be manager)</small>
         </label>
-        <input ng-class="{
+        <suggest-picker config="ctrl.suggestPickerConfig" selecteds="ctrl.selecteds" ng-class="{
+            '_opz': ctrl.model.eventType == ctrl.NST_HOOK_EVENT_TYPE.HOOK_EVENT_TYPE_ACCOUNT_TASK_ASSIGNED || !ctrl.model.eventType,
+            }" suggests="ctrl.suggests" keyword='ctrl.keyword' request-more="ctrl.searchMore" suggests-updated="ctrl.suggestsUpdated"></suggest-picker>
+        <!-- <input ng-class="{
                 '_opz': ctrl.model.eventType == ctrl.NST_HOOK_EVENT_TYPE.HOOK_EVENT_TYPE_ACCOUNT_TASK_ASSIGNED || !ctrl.model.eventType,
                 'has-error': addHook.url.$valid
-            }" place-validator ng-model="ctrl.model.id" id="id" type="text">
+            }" place-validator ng-model="ctrl.model.id" id="id" type="text"> -->
     </div>
     <div class="modal-footer">
         <input class="butn butn-white secondary" type="button" value="Discard" ng-click="$dismiss()" translate-attrs="value"/>

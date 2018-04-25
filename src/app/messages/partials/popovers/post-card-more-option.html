@@ -1,15 +1,13 @@
-<div class="_df list-items _aic _fw" ng-click="ctlPostCard.togglePinPost()"
-     ng-if="(ctlPostCard.thisPlace && (ctlPostCard.isPlaceManager || ctlPostCard.user.authority.admin))">
-  <div>
+<a class="_df list-items _aic _fw" ng-click="ctlPostCard.togglePinPost()" ng-if="(ctlPostCard.thisPlace && (ctlPostCard.isPlaceManager || ctlPostCard.user.authority.admin))">
+  <div class="_aic _df">
     <svg class="_16svg _df _fn">
       <use xlink:href="/assets/icons/nst-icn16.svg#pin"></use>
     </svg>
   </div>
   <span class="_fw setting _asc" ng-if="!ctlPostCard.post.pinned"><translate>Pin</translate></span>
   <span class="_fw setting _asc" ng-if="ctlPostCard.post.pinned"><translate>Unpin</translate></span>
-</div>
-<a class="_df list-items _aic _fw" ui-sref="app.message({ postId : ctlPostCard.post.id })"
-   ng-click="ctlPostCard.viewFull($event)">
+</a>
+<a class="_df list-items _aic _fw" ui-sref="app.message({ postId : ctlPostCard.post.id })" ng-click="ctlPostCard.viewFull($event)">
   <div class="_aic _df">
     <svg class="_16svg">
       <use xlink:href="/assets/icons/nst-icn16.svg#expand"></use>
@@ -23,7 +21,7 @@
       <use xlink:href="/assets/icons/nst-icn16.svg#bell"></use>
     </svg>
   </div>
-  <input class="_fr" type="checkbox" id="comments" name="comments" ng-checked="ctlPostCard.watched"/>
+  <input class="_fr" type="checkbox" id="comments" name="comments" ng-checked="ctlPostCard.watched" />
   <label class="_fw setting _asc nmarg" for="comments">
     <translate style="overflow:visible;">Recieve notifications</translate>
   </label>
@@ -39,10 +37,8 @@
   <span><translate>Print</translate></span>
 </a>
 
-<a ng-if="ctlPostCard.haveAnyLabelAcess || ctlPostCard.currentUserIsSender"
-   class="_df list-items _aic _fw cursor-pointer"
-   add-label added-labels="ctlPostCard.post.labels" after-add-label="ctlPostCard.addLabels"
-   ng-click="ctlPostCard.markAsRead()">
+<a ng-if="ctlPostCard.haveAnyLabelAcess || ctlPostCard.currentUserIsSender" class="_df list-items _aic _fw cursor-pointer"
+  add-label added-labels="ctlPostCard.post.labels" after-add-label="ctlPostCard.addLabels" ng-click="ctlPostCard.markAsRead()">
   <div class="_aic _df">
     <svg class="_16svg">
       <use xlink:href="/assets/icons/nst-icn16.svg#tag"></use>
@@ -51,8 +47,7 @@
   <span><translate>Labels</translate></span>
 </a>
 
-<a ng-if="!ctlPostCard.post.internal && ctlPostCard.post.isTrusted" class="list-items _difh"
-   ng-click="ctlPostCard.untrustSender()">
+<a ng-if="!ctlPostCard.post.internal && ctlPostCard.post.isTrusted" class="list-items _difh" ng-click="ctlPostCard.untrustSender()">
   <div>
     <svg class="_16svg _df _fn">
       <use xlink:href="/assets/icons/nst-icn16.svg#bell"></use>
@@ -61,9 +56,8 @@
   <translate>Untrust sender</translate>
 </a>
 <div class="line-popover" ng-if="!ctlPostCard.chainView"></div>
-<a class="_df list-items _aic _fw"
-   ng-click="ctlPostCard.replyAll($event); ctlPostCard.markAsRead(); _track('post card', 'reply all : toolbar');"
-   ui-sref="app.compose-reply-all({ postId: ctlPostCard.post.id })">
+<a class="_df list-items _aic _fw" ng-click="ctlPostCard.replyAll($event); ctlPostCard.markAsRead(); _track('post card', 'reply all : toolbar');"
+  ui-sref="app.compose-reply-all({ postId: ctlPostCard.post.id })">
   <div class="_aic _df">
     <svg class="_16svg mirror">
       <use xlink:href="/assets/icons/nst-icn16.svg#reply"></use>
@@ -71,8 +65,7 @@
   </div>
   <span><translate>Reply</translate></span>
 </a>
-<a class="_df list-items _aic _fw" ng-click="ctlPostCard.replyToSender($event);"
-   ui-sref="app.compose-reply-sender({ postId: ctlPostCard.post.id })">
+<a class="_df list-items _aic _fw" ng-click="ctlPostCard.replyToSender($event);" ui-sref="app.compose-reply-sender({ postId: ctlPostCard.post.id })">
   <div class="_aic _df">
     <svg class="_16svg mirror">
       <use xlink:href="/assets/icons/nst-icn16.svg#reply"></use>
@@ -80,8 +73,7 @@
   </div>
   <span><translate>Reply to sender</translate></span>
 </a>
-<a class="_df list-items _aic _fw" ui-sref="app.compose-forward({ postId: ctlPostCard.post.id })"
-   ng-click="ctlPostCard.forward($event); ctlPostCard.markAsRead(); _track('post card', 'forward : toolbar');">
+<a class="_df list-items _aic _fw" ui-sref="app.compose-forward({ postId: ctlPostCard.post.id })" ng-click="ctlPostCard.forward($event); ctlPostCard.markAsRead(); _track('post card', 'forward : toolbar');">
   <div class="_aic _df">
     <svg class="_16svg mirror">
       <use xlink:href="/assets/icons/nst-icn16.svg#forward"></use>
@@ -97,9 +89,18 @@
 <!--</div>-->
 <!--<span><translate>Print</translate></span>-->
 <!--</a>-->
-<div class="line-popover"
-     ng-if="ctlPostCard.currentUserIsSender || ctlPostCard.placesWithRemoveAccess.length > 0 || ctlPostCard.post.wipeAccess || ctlPostCard.hasPlacesWithControlAccess()"></div>
+<div class="line-popover" ng-if="ctlPostCard.currentUserIsSender || ctlPostCard.placesWithRemoveAccess.length > 0 || ctlPostCard.post.wipeAccess || ctlPostCard.hasPlacesWithControlAccess()"></div>
 
+<a ng-if="ctlPostCard.post.wipeAccess" ui-sref="app.compose-edit({ postId: ctlPostCard.post.id })"
+  ng-click="$event.stopPropagation();" class="_df list-items _aic _fw" ui-sref-opts="{notify: false}">
+    <div class="_aic _df">
+      <svg class="_16svg">
+        <use xlink:href="/assets/icons/nst-icn16.svg#pencil"></use>
+      </svg>
+    </div>
+    <span><translate>Edit</translate></span>
+  </a>
+  
 <a class="_df list-items _aic _fw" ng-click="ctlPostCard.attachPlace();" ng-if="ctlPostCard.currentUserIsSender">
   <div class="_aic _df">
     <svg class="_16svg">
@@ -118,21 +119,9 @@
   <span><translate>Seen by...</translate></span>
 </a>
 
-<a ng-if="ctlPostCard.post.wipeAccess"
-   ng-click="$event.stopPropagation(); ctlPostCard.retract();"
-   class="_df list-items _aic _fw red-item">
-  <div class="_aic _df">
-    <svg class="_16svg">
-      <use xlink:href="/assets/icons/nst-icn16.svg#retract"></use>
-    </svg>
-  </div>
-  <span><translate>Retract</translate></span>
-</a>
-
 <div class="line-popover" ng-if="ctlPostCard.currentUserIsSender"></div>
 
-<a ng-click="$event.stopPropagation(); ctlPostCard.createRelatedTask();"
-   class="_df list-items _aic _fw">
+<a ng-click="$event.stopPropagation(); ctlPostCard.createRelatedTask();" class="_df list-items _aic _fw">
   <div class="_aic _df">
     <svg class="_16svg">
       <use xlink:href="/assets/icons/nst-icn16.svg#checked-box"></use>
@@ -143,16 +132,10 @@
 
 <div class="line-popover"></div>
 
-<a class="_df list-items _aic _fw cursor-pointer"
-   ng-if="ctlPostCard.hasPlacesWithControlAccess()"
-   popover-class="white-pop"
-   data-popover-placement="{{$root._direction == 'ltr' ? 'right-center auto' : 'left-center auto'}}"
-   data-uib-popover-template="'app/messages/partials/popovers/move-to.html'"
-   data-popover-append-to-body="false"
-   translate-attrs="data-uib-popover"
-   data-popover-is-open="ctlPostCard.showMoveTo"
-   ng-mouseover="ctlPostCard.toggleMoveTo(true)"
-   ng-mouseleave="ctlPostCard.toggleMoveTo(false)">
+<a class="_df list-items _aic _fw cursor-pointer" ng-if="ctlPostCard.hasPlacesWithControlAccess()" popover-class="white-pop"
+  data-popover-placement="{{$root._direction == 'ltr' ? 'right-center auto' : 'left-center auto'}}" data-uib-popover-template="'app/messages/partials/popovers/move-to.html'"
+  data-popover-append-to-body="false" translate-attrs="data-uib-popover" data-popover-is-open="ctlPostCard.showMoveTo" ng-mouseover="ctlPostCard.toggleMoveTo(true)"
+  ng-mouseleave="ctlPostCard.toggleMoveTo(false)">
 
   <div class="_aic _df">
     <svg class="_16svg">
@@ -166,17 +149,11 @@
     </svg>
   </div>
 </a>
-<a class="_df list-items _aic _fw red-item cursor-pointer"
-   ng-if="ctlPostCard.placesWithRemoveAccess.length > 0 &&
-   !( ctlPostCard.post.wipeAccess && ctlPostCard.post.places.length == 1 && ctlPostCard.post.recipients.length == 0 )"
-   popover-class="white-pop"
-   data-popover-placement="{{$root._direction == 'ltr' ? 'right-center auto' : 'left-center auto'}}"
-   data-uib-popover-template="'app/messages/partials/popovers/remove-from.html'"
-   data-popover-append-to-body="true"
-   translate-attrs="data-uib-popover"
-   data-popover-is-open="ctlPostCard.showRemoveFrom"
-   ng-mouseover="ctlPostCard.toggleRemoveFrom(true)"
-   ng-mouseleave="ctlPostCard.toggleRemoveFrom(false)">
+<a class="_df list-items _aic _fw red-item cursor-pointer" ng-if="ctlPostCard.placesWithRemoveAccess.length > 0 &&
+   !( ctlPostCard.post.wipeAccess && ctlPostCard.post.places.length == 1 && ctlPostCard.post.recipients.length == 0 )" popover-class="white-pop"
+  data-popover-placement="{{$root._direction == 'ltr' ? 'right-center auto' : 'left-center auto'}}" data-uib-popover-template="'app/messages/partials/popovers/remove-from.html'"
+  data-popover-append-to-body="true" translate-attrs="data-uib-popover" data-popover-is-open="ctlPostCard.showRemoveFrom" ng-mouseover="ctlPostCard.toggleRemoveFrom(true)"
+  ng-mouseleave="ctlPostCard.toggleRemoveFrom(false)">
 
   <div class="_aic _df">
     <svg class="_16svg">
@@ -189,4 +166,13 @@
       <use xlink:href="/assets/icons/nst-icn16.svg#arrow"></use>
     </svg>
   </div>
+</a>
+
+<a ng-if="ctlPostCard.post.wipeAccess" ng-click="$event.stopPropagation(); ctlPostCard.retract();" class="_df list-items _aic _fw red-item">
+  <div class="_aic _df">
+    <svg class="_16svg">
+      <use xlink:href="/assets/icons/nst-icn16.svg#retract"></use>
+    </svg>
+  </div>
+  <span><translate>Retract</translate></span>
 </a>

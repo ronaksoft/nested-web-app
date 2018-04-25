@@ -8,7 +8,7 @@
   /** @ngInject */
   function NstSvcAuth(_, $cookies, $q, $log, $rootScope, $timeout, toastr,
                       NstSvcServer, NstSvcUserFactory, NstSvcPlaceFactory, NstSvcLogger, NstSvcI18n, NstSvcClient,
-                      NstSvcDate, NstSvcGlobalCache,
+                      NstSvcDate, NstSvcGlobalCache, NstSvcTranslation,
                       NST_SRV_EVENT, NST_SRV_RESPONSE_STATUS, NST_SRV_ERROR, NST_UNREGISTER_REASON, NST_CONFIG,
                       NST_AUTH_EVENT, NST_AUTH_STATE,
                       NstObservableObject) {
@@ -218,7 +218,12 @@
 
         default:
           service.user = null;
+
+          var debugMode = localStorage.getItem('nested.debug_mode');
+          var debugModeLog = localStorage.getItem('nested.debug_mode_log');
           localStorage.clear();
+          localStorage.setItem('nested.debug_mode', debugMode);
+          localStorage.setItem('nested.debug_mode_log', debugModeLog);
 
           this.setState(NST_AUTH_STATE.UNAUTHORIZED);
 
@@ -324,7 +329,7 @@
             toastr.error(NstSvcTranslation.get('Nested Service license has been expired.'), '', {
               timeOut: 9999999
             });
-          }            
+          }
         }).catch(function (error) {
           $log.debug('Auth | Recall Error: ', error);
 

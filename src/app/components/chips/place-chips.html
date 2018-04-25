@@ -1,8 +1,9 @@
 <div class="place-chips-wrapper" ng-class="{'isEmail': isEmail, 'isSelected': isSelected == 'true' || isSelected == true}"
   ng-click="selectChip();visibleInput = true">
   <div class="place-picture">
-    <img ng-src="{{place.picture || '/assets/icons/ph_email.png'}}"
-        ng-if="!isEmail" class="_df" />
+    <img ng-if="place.picture.x64 === undefined" ng-src="{{place.picture}}" ng-if="!isEmail" class="_df"/>
+    <img ng-if="place.picture.x64 === ''" ng-src="{{place.picture | picture:'x64'}}" ng-if="!isEmail" class="_df"/>
+    <img ng-if="place.picture.x64" ng-src="{{place.picture | picture:'x64'}}" alt="{{::place.name}}" ng-if="!isEmail" class="_df"/>
     <img class="email-holder" src="/assets/icons/ph_email.png" ng-if="isEmail"/>
   </div>
   <input class="place-chips-label no-style" ng-if="visibleInput && isEmail && removePermission" class="_txe"

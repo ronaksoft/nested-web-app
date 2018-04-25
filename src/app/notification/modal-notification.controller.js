@@ -6,7 +6,7 @@
     .controller('ModalNotificationsController', ModalNotificationsController);
 
   function ModalNotificationsController(_, $q, $state, $scope, $rootScope, $timeout,
-                                        NST_NOTIFICATION_TYPE, NstSvcNotificationFactory, NST_NOTIFICATION_EVENT) {
+                                        NST_NOTIFICATION_TYPE, NstSvcNotificationFactory, NST_NOTIFICATION_EVENT, argv) {
     var vm = this;
     vm.NST_NOTIFICATION_TYPE = NST_NOTIFICATION_TYPE;
 
@@ -14,7 +14,8 @@
     vm.markAllSeen = markAllSeen;
     vm.onClickMention = onClickMention;
     vm.error = null;
-    vm.selectedView = $state.current.options.group === 'task' ? 2 : 1;
+    vm.selectedView = argv.selectedView;
+    // vm.selectedView = $state.current.options.group === 'task' ? 2 : 1;
     vm.taskCounts = 0;
     vm.postCounts = 0;
 

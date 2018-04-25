@@ -155,17 +155,17 @@
         <!-- First Interactive time -->
         <span ng-if="ctlPostCard.FIT" ng-bind-html="ctlPostCard.post.preview"></span>
         <a ng-click="ctlPostCard.expand(); _track('post card', 'show more');"
-           ng-if="(!ctlPostCard.expandProgress && ctlPostCard.post.ellipsis && !ctlPostCard.addOn) && !ctlPostCard.isExpanded"
+           ng-if="!ctlPostCard.expandProgress && ctlPostCard.post.ellipsis && !ctlPostCard.addOn"
            class="show-more">
           <span>-</span>
           <translate>Show more...</translate>
         </a>
       </div>
-      <div ng-if="ctlPostCard.isExpanded"
-           class="_fw  ng-class:{'external-mail-bg-white' : ctlPostCard.post.contentType === 'text/html'}">
-        <div mail-resizer ng-if="!ctlPostCard.post.isTrusted "
+      <div ng-if="ctlPostCard.isExpanded" mail-resizer
+           class=" ng-class:{'external-mail-bg-white' : ctlPostCard.post.contentType === 'text/html'}">
+        <div ng-if="!ctlPostCard.post.isTrusted "
              ng-bind-html="(ctlPostCard.body || ctlPostCard.post.body) | trustAsHtml"></div>
-        <div mail-resizer ng-if="ctlPostCard.post.isTrusted"
+        <div ng-if="ctlPostCard.post.isTrusted"
              ng-bind-html="(ctlPostCard.body || ctlPostCard.post.body) | trustAsHtml"></div>
       </div>
     </section>
@@ -189,7 +189,7 @@
 
     <section ng-if="ctlPostCard.post.iframeUrl.length > 0 && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)"
              class="post-iframe">
-      <iframe ng-src="{{ctlPostCard.mergePostCardVariable(ctlPostCard.post.iframeUrl)}}" scrolling="auto"></iframe>
+      <iframe ng-src="{{ctlPostCard.mergePostCardVariable(ctlPostCard.post.iframeUrl)}}" scrolling="auto" id="{{ctlPostCard.iframeId}}"></iframe>
     </section>
 
     <section

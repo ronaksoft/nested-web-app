@@ -275,7 +275,12 @@
         templateUrl: 'app/notification/notification-modal.html',
         controller: 'ModalNotificationsController',
         controllerAs: 'ctlNotifications',
-        backdropClass: 'taskBackDrop'
+        backdropClass: 'taskBackDrop',
+        resolve: {
+          argv: {
+            selectedView: vm.selectedView,
+          }
+        }
       })
     }
 

@@ -79,19 +79,6 @@
               $scope.state.activeSelectedItem = $scope.selecteds.length - 1;
             }
             break;
-          case 9:
-            // Tab key
-            $scope.visible = false;
-            if ($scope.clearSuggests.length > 0 && $scope.keyword.length > 0) {
-              var index = $scope.state.activeSuggestItem;
-              return $scope.selectItem(index);
-            }
-            break;
-          case 27:
-            $scope.visible = false;
-            e.target.blur();
-            return e.stopPropagation();
-            break;
           case 37:
             if ($scope.keyword.length > 0) {
               return;
@@ -123,17 +110,52 @@
             break;
         }
       }
+      $scope.keyDown = function (e) {
+        switch (e.which) {
+          case 9:
+            // Tab key
+            $scope.visible = false;
+            if ($scope.clearSuggests.length > 0 && $scope.keyword.length > 0) {
+              var index = $scope.state.activeSuggestItem;
+              // active this line to select item on tab key if and only if the input box is filled
+              // return $scope.selectItem(index);
+            }
+            break;
+          case 27:
+            $scope.visible = false;
+            e.target.blur();
+            return e.stopPropagation();
+            break;
+          default:
+            break;
+        }
+      }
+      $scope.checkLimitWarn = function () {
+        toastr.warning(NstUtility.string.format(NstSvcTranslation.get('You can have maximum {0} attached places!'), $scope.options.limit));
+      }
 
       $scope.selectItem = function (index) {
         var item = $scope.clearSuggests[index];
-        if (!item || $scope.selecteds.length >= $scope.options.limit) {
-          toastr.warning(NstUtility.string.format(NstSvcTranslation.get('You can have maximum {0} attached places!'), $scope.options.limit));
-          return;
+        if (!item) {
+          return $scope.checkLimitWarn();
         }
-        $scope.selecteds.push(item);
+        var ind = $scope.state.activeSelectedItem;
+        if ($scope.state.activeSelectedItem > -1) {
+          $scope.removeItem(ind);
+          if ($scope.selecteds.length >= $scope.options.limit) {
+            return $scope.checkLimitWarn();
+          }
+          $scope.selecteds.splice(ind, 0, item);
+        } else {
+          if ($scope.selecteds.length >= $scope.options.limit) {
+            return $scope.checkLimitWarn();
+          }
+          $scope.selecteds.push(item);
+        }
         $scope.clearSuggests.splice(index, 1);
         $scope.keyword = '';
-        ++$scope.tempFocusInc;
+        // active this line to prevent close suggests after select item via click
+        // ++$scope.tempFocusInc;
         resetState();
         if (typeof $scope.requestMore === 'function') {
           $scope.requestMore();
@@ -164,7 +186,9 @@
         $scope.state.activeSelectedItem = index;
       }
 
-
+      $scope.deactiveSelectItem = function (place) {
+        $scope.state.activeSelectedItem = -2;
+      }
 
       /**
        * Reset / Initialize view states
@@ -330,7 +354,10 @@
 
           function closePopoverDetector(e) {
             $timeout(function(){
-              $scope.visible = $element[0].contains(e.target.parentNode) || $element[0].contains(e.target);
+              if ($element[0].contains(e.target.parentNode) || $element[0].contains(e.target)) {
+              } else {
+                $scope.visible = false;
+              }
             })
           }
         }

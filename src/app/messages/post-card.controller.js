@@ -15,8 +15,8 @@
     .controller('PostCardController', PostCardController);
 
   function PostCardController($state, $q, $log, $timeout, $stateParams, $rootScope, $scope, $uibModal, $location, $anchorScroll,
-                              _, toastr, $sce, NstSvcTaskUtility, NST_CONFIG, NstSvcI18n,
-                              NST_EVENT_ACTION, NST_PLACE_ACCESS, NST_POST_EVENT, SvcCardCtrlAffix,
+                              _, toastr, $sce, NstSvcTaskUtility, NST_CONFIG, NstSvcI18n, NstSvcViewStorage, md5,
+                              NST_EVENT_ACTION, NST_PLACE_ACCESS, NST_POST_EVENT, SvcCardCtrlAffix, NstSvcAppFactory,
                               NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory, NstSearchQuery, NstSvcModal,
                               NstSvcAuth, NstUtility, NstSvcPostInteraction, NstSvcTranslation, NstSvcLogger, $) {
     var vm = this;
@@ -57,6 +57,7 @@
     vm.labelClick = labelClick;
     vm.loadNewComments = loadNewComments;
     vm.isPostView = isPostView();
+    vm.iframeId = '';
 
     vm.expandProgress = false;
     vm.body = null;
@@ -74,8 +75,9 @@
 
     isPlaceFeed();
     notifyObser();
+
     function notifyObser() {
-      if($scope.$parent.$parent.$parent.affixObserver || $scope.$parent.$parent.$parent.affixObserver === 0) {
+      if ($scope.$parent.$parent.$parent.affixObserver || $scope.$parent.$parent.$parent.affixObserver === 0) {
         ++$scope.$parent.$parent.$parent.affixObserver;
       }
     }
@@ -87,6 +89,116 @@
     vm.hasHiddenCommentAccess = hasPlacesWithControlAccess();
 
     vm.goToPlace = goToPlace;
+
+    function getUserData() {
+      var user = NstSvcAuth.user || {id: '_'};
+      var msgId = vm.post.id;
+      var app = NST_CONFIG.DOMAIN;
+      var locale = NstSvcI18n.selectedLocale;
+      var darkMode = NstSvcViewStorage.get('nightMode');
+      if (darkMode == false || darkMode === 'no') {
+        darkMode = false;
+      } else {
+        darkMode = true;
+      }
+      return {
+        userId: user.id,
+        email: user.email,
+        fname: user.firstName,
+        lname: user.lastName,
+        msgId: msgId,
+        app: app,
+        locale: locale,
+        dark: darkMode
+      }
+    }
+
+    function createHash(data) {
+      var str = JSON.stringify(data);
+      str = encodeURIComponent(str).split('%').join('');
+      return md5.createHash(str);
+    }
+
+    function sendIframeMessage(cmd, data) {
+      var msg = {
+        cmd: cmd,
+        data: data
+      };
+      var hash = createHash(msg);
+      msg.hash = hash;
+      vm.post.iframeObj.contentWindow.postMessage(JSON.stringify(msg), '*');
+    }
+
+    function isHashValid(data) {
+      var packetHash = data.hash;
+      delete data.hash;
+      var hash = createHash(data);
+      if (hash === packetHash) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+    var iframeOnMessage;
+
+    if (vm.post.iframeUrl) {
+      if (isPostView()) {
+        vm.iframeId = 'iframe-' + vm.post.id + '-post-view';
+      } else {
+        vm.iframeId = 'iframe-' + vm.post.id;
+      }
+      $timeout(function () {
+        vm.post.iframeObj = document.getElementById(vm.iframeId);
+        var userData = getUserData();
+        iframeOnMessage = function (e) {
+          if (vm.post.iframeUrl.indexOf(e.origin) === -1) {
+            return;
+          }
+          var data = JSON.parse(e.data);
+          if (!isHashValid(data)) {
+            return
+          }
+          if (data.url === vm.post.iframeUrl) {
+            switch (data.cmd) {
+              case 'getInfo':
+                sendIframeMessage('setInfo', userData);
+                break;
+              case 'setSize':
+                // vm.post.iframeObj.style.width = data.data.width + 'px';
+                vm.post.iframeObj.style.cssText = 'height: ' + data.data.height + 'px !important';
+                break;
+              case 'setNotif':
+                if (['success', 'info', 'warning', 'error'].indexOf(data.data.type) > -1) {
+                  toastr[data.data.type](data.data.message);
+                }
+                break;
+              case 'createToken':
+                NstSvcAppFactory.createToken(data.data.clientId).then(function (res) {
+                  sendIframeMessage('setLoginInfo', {
+                    token: data.data.token,
+                    appToken: res.token,
+                    appDomain: userData.app,
+                    username: userData.userId,
+                    fname: userData.fname,
+                    lname: userData.lname,
+                    email: userData.email
+                  });
+                }).catch(function () {
+                  toastr.warning(NstSvcTranslation.get('Can not create token for app: {0}').replace('{0}', data.data.clientId));
+                });
+                break;
+              default:
+                break;
+            }
+          }
+        };
+        window.addEventListener('message', iframeOnMessage);
+        eventReferences.push($rootScope.$on('toggle-theme', function (event, data) {
+          vm.post.iframeObj.contentWindow.postMessage(sendIframeMessage('setTheme', data), '*');
+        }));
+      }, 500);
+    }
 
     /**
      * Checks post card is in chains view
@@ -592,6 +704,12 @@
       vm.unreadCommentsCount = 0;
     }));
 
+    eventReferences.push($rootScope.$on('post-update', function (e, data) {
+      if (data.id !== vm.post.id) return;
+
+      vm.post = data;
+    }));
+
     /**
      * Event handler for bookmarking post
      * set the value to the model
@@ -872,7 +990,7 @@
       }
 
 
-      NstSvcPlaceFactory.get(vm.thisPlace).then(function(place){
+      NstSvcPlaceFactory.get(vm.thisPlace).then(function (place) {
         vm.placeRoute = place;
         vm.isPlaceManager = place.accesses.indexOf(NST_PLACE_ACCESS.CONTROL) > -1;
       })
@@ -1092,6 +1210,9 @@
         $timeout.cancel(focusOnSentTimeout);
       }
 
+      if (iframeOnMessage) {
+        window.removeEventListener('message', iframeOnMessage)
+      }
       _.forEach(eventReferences, function (canceler) {
         if (_.isFunction(canceler)) {
           canceler();
