@@ -21,6 +21,7 @@
     AppFactory.prototype.createToken = createToken;
     AppFactory.prototype.revokeToken = revokeToken;
     AppFactory.prototype.getAllTokens = getAllTokens;
+    AppFactory.prototype.hasToken = hasToken;
     AppFactory.prototype.register = register;
     AppFactory.prototype.remove = remove;
     AppFactory.prototype.search = search;
@@ -77,6 +78,12 @@
         })
         .catch(deferred.reject);
       return deferred.promise;
+    }
+
+    function hasToken(appId) {
+      return NstSvcServer.request('app/has_token', {
+        app_id: appId
+      });
     }
 
     function register(model) {
