@@ -275,7 +275,7 @@ input {
 }
 
 .hide {
-  display: none;
+  display: none !important;
 }
 
 .nst-vc {
@@ -333,6 +333,12 @@ input {
   display: table;
 }
 
+.panel-body p {
+  opacity: .64;
+  color: #323D47;
+  margin: 0 0 10px;
+}
+
 .panel .form-group {
   margin: 0;
 }
@@ -347,8 +353,13 @@ input {
   border-radius: 3px;
   background-color: rgba(230, 0, 0, 0.1);
   padding: 1px 5px;
+  margin: 0 16px 10px;
   color: #f34f4f;
   font-size: 12px;
+}
+
+.panel form .error {
+  margin: 0;
 }
 
 .nst-mood-cheerful {
@@ -527,4 +538,88 @@ input[type=password]:focus {
 
 .nested-bottom-logo img {
   height: 100%;
+}
+
+.panel .company-detail {
+  position: relative;
+  width: 100%;
+  flex-direction: column;
+  display: flex;
+  align-items: center;
+  border-radius: 4px 4px 0 0;
+  overflow: hidden;
+  position: relative;
+  z-index: 10;
+}
+
+.panel .company-detail .company-image-filter {
+  position: absolute;
+  width: 100%;
+  z-index: 1;
+  height: 100%;
+  overflow: hidden;
+  top: 0;
+  left: 0;
+  filter: blur(16px);
+}
+
+.panel .company-detail .company-image-filter img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 128px;
+  height: 128px;
+  transform: translate(-50%,-50%) scale(3,3);
+  transform-origin: center center;
+  z-index: 1;
+}
+
+.panel .company-detail > img {
+  width: 64px;
+  height: 64px;
+  margin-top: 16px;
+  object-fit: cover;
+  border-radius: 4px;
+  box-shadow: 0 8px 16px rgba(50,61,71,.08);
+  z-index: 2;
+}
+
+.panel .company-detail h1 {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 33px;
+  margin: 16px 0;
+  z-index: 2;
+}
+
+.panel .company-detail p {
+  margin: 0 0 16px;
+  font-size: 14px;
+  z-index: 2;
+  line-height: 19px;
+  padding: 4px 16px;
+  opacity: 1;
+}
+
+.panel .company-detail .company-image-filter .gradient-layer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom,#FFF,rgba(255,255,255,.2));
+  z-index: 2;
+}
+
+@media screen and (max-width: 600px ) {
+  body, .nst-vc {
+    background-color: #fff !important;
+    padding: 0 !important;
+  }
+  .panel {
+    box-shadow: none;
+    max-width: none !important;
+    width: 100% !important;
+    border-bottom: 1px solid #efefef !important;
+  }
 }

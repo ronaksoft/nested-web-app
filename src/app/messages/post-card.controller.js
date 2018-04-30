@@ -15,8 +15,8 @@
     .controller('PostCardController', PostCardController);
 
   function PostCardController($state, $q, $log, $timeout, $stateParams, $rootScope, $scope, $uibModal, $location, $anchorScroll,
-                              _, toastr, $sce, NstSvcTaskUtility, NST_CONFIG, NstSvcI18n, NstSvcViewStorage,
-                              NST_EVENT_ACTION, NST_PLACE_ACCESS, NST_POST_EVENT, SvcCardCtrlAffix,
+                              _, toastr, $sce, NstSvcTaskUtility, NST_CONFIG, NstSvcI18n, NstSvcViewStorage, md5,
+                              NST_EVENT_ACTION, NST_PLACE_ACCESS, NST_POST_EVENT, SvcCardCtrlAffix, NstSvcAppFactory,
                               NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory, NstSearchQuery, NstSvcModal,
                               NstSvcAuth, NstUtility, NstSvcPostInteraction, NstSvcTranslation, NstSvcLogger, $) {
     var vm = this;
@@ -91,8 +91,7 @@
     vm.goToPlace = goToPlace;
 
     function getUserData() {
-      var userId = NstSvcAuth.user || {id: '_'};
-      userId = userId.id;
+      var user = NstSvcAuth.user || {id: '_'};
       var msgId = vm.post.id;
       var app = NST_CONFIG.DOMAIN;
       var locale = NstSvcI18n.selectedLocale;
@@ -103,7 +102,10 @@
         darkMode = true;
       }
       return {
-        userId: userId,
+        userId: user.id,
+        email: user.email,
+        fname: user.firstName,
+        lname: user.lastName,
         msgId: msgId,
         app: app,
         locale: locale,
@@ -111,12 +113,31 @@
       }
     }
 
+    function createHash(data) {
+      var str = JSON.stringify(data);
+      str = encodeURIComponent(str).split('%').join('');
+      return md5.createHash(str);
+    }
+
     function sendIframeMessage(cmd, data) {
       var msg = {
         cmd: cmd,
         data: data
       };
-      return JSON.stringify(msg);
+      var hash = createHash(msg);
+      msg.hash = hash;
+      vm.post.iframeObj.contentWindow.postMessage(JSON.stringify(msg), '*');
+    }
+
+    function isHashValid(data) {
+      var packetHash = data.hash;
+      delete data.hash;
+      var hash = createHash(data);
+      if (hash === packetHash) {
+        return true;
+      } else {
+        return false;
+      }
     }
 
     var iframeOnMessage;
@@ -131,15 +152,41 @@
         vm.post.iframeObj = document.getElementById(vm.iframeId);
         var userData = getUserData();
         iframeOnMessage = function (e) {
+          if (vm.post.iframeUrl.indexOf(e.origin) === -1) {
+            return;
+          }
           var data = JSON.parse(e.data);
+          if (!isHashValid(data)) {
+            return
+          }
           if (data.url === vm.post.iframeUrl) {
             switch (data.cmd) {
               case 'getInfo':
-                vm.post.iframeObj.contentWindow.postMessage(sendIframeMessage('setInfo', userData), '*');
+                sendIframeMessage('setInfo', userData);
                 break;
               case 'setSize':
                 // vm.post.iframeObj.style.width = data.data.width + 'px';
                 vm.post.iframeObj.style.cssText = 'height: ' + data.data.height + 'px !important';
+                break;
+              case 'setNotif':
+                if (['success', 'info', 'warning', 'error'].indexOf(data.data.type) > -1) {
+                  toastr[data.data.type](data.data.message);
+                }
+                break;
+              case 'createToken':
+                NstSvcAppFactory.createToken(data.data.clientId).then(function (res) {
+                  sendIframeMessage('setLoginInfo', {
+                    token: data.data.token,
+                    appToken: res.token,
+                    appDomain: userData.app,
+                    username: userData.userId,
+                    fname: userData.fname,
+                    lname: userData.lname,
+                    email: userData.email
+                  });
+                }).catch(function () {
+                  toastr.warning(NstSvcTranslation.get('Can not create token for app: {0}').replace('{0}', data.data.clientId));
+                });
                 break;
               default:
                 break;

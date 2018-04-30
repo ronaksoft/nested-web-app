@@ -3,19 +3,48 @@
 <head>
   <meta charset="UTF-8">
   <title>Sign in to nested</title>
-  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link rel="stylesheet" href="style.css?1">
 </head>
 <body>
 <div class="nst-vc">
   <div id="panel-oath" class="panel">
+    <div class="company-detail hide">
+      <div class="company-image-filter">
+        <img>
+        <div class="gradient-layer"></div>
+      </div>
+      <img>
+      <h1></h1>
+      <p></p>
+    </div>
     <div class="panel-heading text-center">
-      <p class="nst-font-xxlarge _df _fw nmarg js-login-header">
+      <p class="nst-font-xxlarge _df _fw nmarg js-login-header hide">
         <span>Sign in</span>
       </p>
-      <div class="error hide js-global-error">
-      </div>
+      <p class="nst-font-xxlarge _df _fw nmarg js-workspace-header hide">
+        <span>Sign in to your workspace</span>
+      </p>
+    </div>
+    <div class="error hide js-global-error">
     </div>
     <div class="panel-body">
+      <div class="page workspace hide">
+        <form accept-charset="UTF-8" method="post" novalidate="">
+          <fieldset>
+            <p>Enter your Domain to sign in.</p>
+            <div class="form-group">
+              <input type="text"
+                     class="form-control"
+                     placeholder="Enter your Domain" name="domain" required=""
+                     style="direction: ltr;">
+            </div>
+          </fieldset>
+          <div class="form-group">
+            <input class="butn butn-green butn-lg butn-login" value="Sign in" type="submit">
+          </div>
+        </form>
+      </div>
       <div class="page access-account hide">
         <div class="user">
           <div class="user-logo">
@@ -46,7 +75,8 @@
           </div>
         </div>
         <div class="row nst-vb">
-          <a class="_fw text-center nst-mood-cheerful login-to-other" href="#"><span>Login to a different account</span></a>
+          <a class="_fw text-center nst-mood-cheerful js-login-to-other"
+             href="#"><span>Login to a different account</span></a>
         </div>
       </div>
       <div class="page sign-in hide">
@@ -70,6 +100,9 @@
             </div>
           </fieldset>
         </form>
+        <div class="row nst-vb">
+          <a class="_fw text-center nst-mood-cheerful js-change-workspace" href="#"><span>Change workspace</span></a>
+        </div>
       </div>
     </div>
   </div>
