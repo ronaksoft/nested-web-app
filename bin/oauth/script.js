@@ -225,7 +225,8 @@ var nst = {
     clientId: '',
     redirectUri: '',
     scope: 'read',
-    token: ''
+    token: '',
+    appRedirect: null
   },
   user: {},
   enable: true,
@@ -244,6 +245,7 @@ var nst = {
     nst.oauth.redirectUri = params['redirect_uri'];
     nst.oauth.scope = params['scope'];
     nst.oauth.token = params['token'];
+    nst.oauth.appRedirect = params['app_redirect'] || null;
 
     if (nst.c.sk && nst.c.ss) {
       nst.http('account/get', {}, function (data) {
@@ -417,7 +419,11 @@ var nst = {
         async: true
       }, nst.oauth.redirectUri, parameters, function (data) {
         if (data.status === 'ok') {
-          window.close();
+          if (nst.oauth.appRedirect) {
+            window.location.href = nst.oauth.appRedirect;
+          } else {
+            window.close();
+          }
         } else {
           nst.setGlobalError(data.data);
         }
