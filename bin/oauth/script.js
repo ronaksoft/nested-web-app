@@ -225,7 +225,8 @@ var nst = {
     clientId: '',
     redirectUri: '',
     scope: 'read',
-    token: ''
+    token: '',
+    appRedirect: null
   },
   user: {},
   enable: true,
@@ -244,6 +245,7 @@ var nst = {
     nst.oauth.redirectUri = params['redirect_uri'];
     nst.oauth.scope = params['scope'];
     nst.oauth.token = params['token'];
+    nst.oauth.appRedirect = params['app_redirect'] || null;
 
     if (nst.c.sk && nst.c.ss) {
       nst.http('account/get', {}, function (data) {
@@ -318,6 +320,7 @@ var nst = {
     nst.setAttr('.user-logo img', 'src', nst.getImage(data.picture));
     nst.setText('.user-name', data.fname + ' ' + data.lname);
     nst.setText('.user-id', data._id + '@' + nst.selectedDomain);
+    nst.addClass('.company-detail', 'hide');
     nst.removeGlobalError();
   },
   setText: function (elem, text) {
@@ -359,14 +362,19 @@ var nst = {
     nst.removeClass('.js-workspace-header', 'hide');
     nst.addClass('.js-login-header', 'hide');
     nst.focusIt('.panel-body .page.workspace');
+    nst.addClass('.company-detail', 'hide');
     nst.removeGlobalError();
   },
-  switchToLogin: function () {
+  switchToLogin: function (data) {
     nst.addClass('.panel-body .page', 'hide');
     nst.removeClass('.panel-body .page.sign-in', 'hide');
     nst.addClass('.js-workspace-header', 'hide');
     nst.removeClass('.js-login-header', 'hide');
     nst.focusIt('.panel-body .page.sign-in');
+    nst.setAttr('.company-detail img', 'src', nst.xerxes + '/view/x/' + data.company_logo);
+    nst.setText('.company-detail h1', data.company_name);
+    nst.setText('.company-detail p', data.company_desc);
+    nst.removeClass('.company-detail', 'hide');
     nst.removeGlobalError();
   },
   switchToAccess: function () {
@@ -379,6 +387,7 @@ var nst = {
     nst.removeClass('.panel-body .page.access-account', 'hide');
     nst.addClass('.js-login-header', 'hide');
     nst.addClass('.js-workspace-header', 'hide');
+    nst.addClass('.company-detail', 'hide');
     nst.removeGlobalError();
   },
   checkToken: function () {
@@ -410,7 +419,11 @@ var nst = {
         async: true
       }, nst.oauth.redirectUri, parameters, function (data) {
         if (data.status === 'ok') {
-          window.close();
+          if (nst.oauth.appRedirect) {
+            window.location.href = nst.oauth.appRedirect;
+          } else {
+            window.close();
+          }
         } else {
           nst.setGlobalError(data.data);
         }
@@ -435,7 +448,9 @@ var nst = {
       nst.selectedDomain = config.domain;
       nst.domain = config.domain;
       nst.removeGlobalError();
-      nst.switchToLogin();
+      nst.http('system/get_string_constants', {}, function (data) {
+          nst.switchToLogin(data);
+      });
     } else {
       nst.setGlobalError('Domain is invalid');
     }
@@ -539,7 +554,7 @@ var nst = {
       data: params
     };
 
-    if (cmd === 'session/register' || cmd === 'session/recall') {
+    if (['session/recall', 'session/register', 'system/get_string_constants'].indexOf(cmd) > -1) {
       delete parameters['_sk'];
       delete parameters['_ss'];
     }
