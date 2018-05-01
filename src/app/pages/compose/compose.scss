@@ -85,9 +85,9 @@
  */
 
 .content iframe {
-  height: calc(100vh - 336px)!important;
+  height: calc(100vh - 336px);
   min-height: 100px;
-  background-color: $color-white;
+  background-color: $color-bg-postcard;
 }
 
 .compose-subject-input {
