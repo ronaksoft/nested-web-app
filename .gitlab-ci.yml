@@ -15,13 +15,12 @@ build:desktop:
   script:
     - cp -a ./. /var/lib/desktop
     - cd /var/lib/desktop
-    - ls
     - ls ./node_modules
     - apk add --update python build-base
     - npm install -g bower
     - npm install
     - bower install
-    - cp -a ./modified_components/* ./bower_components/
+    - yes | cp -rf ./modified_components/* ./bower_components/
     - npm rebuild node-sass
     - ./node_modules/.bin/gulp build --mode=production --ver=$CI_PIPELINE_ID
     - mkdir -p $BUILD_DIR/webapp
