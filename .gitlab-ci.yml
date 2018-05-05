@@ -20,7 +20,7 @@ build:desktop:
     - npm install -g bower
     - npm install
     - bower install
-    - yes | cp -rf ./modified_components/* ./bower_components/
+    - cp -f ./modified_components/* ./bower_components/
     - npm rebuild node-sass
     - ./node_modules/.bin/gulp build --mode=production --ver=$CI_PIPELINE_ID
     - mkdir -p $BUILD_DIR/webapp
