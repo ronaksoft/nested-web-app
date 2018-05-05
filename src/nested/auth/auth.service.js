@@ -326,7 +326,7 @@
             $rootScope.$broadcast(NST_AUTH_EVENT.CHANGE_PASSWORD);
           }
           if (response.license_expired) {
-            toastr.error(NstSvcTranslation.get('Nested Service license has been expired.'), '', {
+            toastr.error(NstSvcTranslation.get('Nested License Service has been expired.'), '', {
               timeOut: 9999999
             });
           }
