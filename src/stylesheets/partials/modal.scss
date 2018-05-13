@@ -696,7 +696,7 @@ body.modal-open-attachment-view.compose-modal {
   }
 }
 
-.modal-full-height-center {
+.modal-full-height-center, [size="full-height-center"] .modal-dialog {
   display: flex;
   position: fixed;
   opacity: 0.98;

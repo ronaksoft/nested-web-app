@@ -556,16 +556,21 @@ body[dir="rtl"] {
   .place-head.setting-head h3 {
     margin: 0 16px 0 0;
   }
-  .modal-full-height-center .modal-content h2 span {
-    margin-left: 0;
-    margin-right: 16px;
-  }
-  .modal-full-height-center .modal-content>div {
-    right: 50vw;
-    margin-right: -240px;
-    left: 0;
-    margin-left: 0;
-  }
+  .modal-full-height-center, [size="full-height-center"] .modal-dialog{
+    .modal-content h2 span {
+      margin-left: 0;
+      margin-right: 16px;
+    }
+    .modal-content>div {
+      right: 50vw;
+      margin-right: -240px;
+      left: 0;
+      margin-left: 0;
+    }
+    .modal-content select {
+      padding: 0 32px 0 8px;
+    }
+  } 
   .remove-from-places span {
     padding-right: 0;
     padding-left: 16px;
@@ -686,9 +691,6 @@ body[dir="rtl"] {
   .label-sm-modal .label-color svg {
     left: 0;
     right: 12px;
-  }
-  .modal-full-height-center .modal-content select {
-    padding: 0 32px 0 8px;
   }
   input[type="radio"]+label {
     margin: 0 0 0 40px;
