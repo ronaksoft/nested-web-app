@@ -6,7 +6,7 @@
 
   /** @ngInject */
   function NstSvcActivityFactory($q, _,
-    NST_ACTIVITY_FILTER, NST_EVENT_ACTION,
+    NST_ACTIVITY_FILTER, NST_PLACE_EVENT_ACTION,
     NstSvcServer, NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcCommentFactory, NstSvcActivityCacheFactory,
     NstBaseFactory, NstSvcLogger, NstActivity, NstSvcLabelFactory, NstUtility, NstSvcAttachmentFactory) {
 
@@ -34,31 +34,31 @@
       }
 
       switch (data.action) {
-        case NST_EVENT_ACTION.MEMBER_REMOVE:
+        case NST_PLACE_EVENT_ACTION.MEMBER_REMOVE:
           return parseMemberRemove(data);
-        case NST_EVENT_ACTION.MEMBER_JOIN:
+        case NST_PLACE_EVENT_ACTION.MEMBER_JOIN:
           return parseMemberJoin(data);
 
-        case NST_EVENT_ACTION.PLACE_ADD:
+        case NST_PLACE_EVENT_ACTION.PLACE_ADD:
           return parsePlaceAdd(data);
 
-        case NST_EVENT_ACTION.COMMENT_ADD:
+        case NST_PLACE_EVENT_ACTION.COMMENT_ADD:
           return parseAddComment(data);
-        case NST_EVENT_ACTION.COMMENT_REMOVE:
+        case NST_PLACE_EVENT_ACTION.COMMENT_REMOVE:
           return parseRemoveComment(data);
 
-        case NST_EVENT_ACTION.LABEL_ADD:
+        case NST_PLACE_EVENT_ACTION.LABEL_ADD:
           return parseAddLabel(data);
-        case NST_EVENT_ACTION.LABEL_REMOVE:
+        case NST_PLACE_EVENT_ACTION.LABEL_REMOVE:
           return parseRemoveLabel(data);
 
-        case NST_EVENT_ACTION.POST_ADD:
+        case NST_PLACE_EVENT_ACTION.POST_ADD:
           return parsePostAdd(data);
-        case NST_EVENT_ACTION.POST_ATTACH_PLACE:
+        case NST_PLACE_EVENT_ACTION.POST_ATTACH_PLACE:
           return parsePostAttachPlace(data);
-        case NST_EVENT_ACTION.POST_MOVE:
+        case NST_PLACE_EVENT_ACTION.POST_MOVE:
           return parsePostMove(data);
-        case NST_EVENT_ACTION.POST_REMOVE_PLACE:
+        case NST_PLACE_EVENT_ACTION.POST_REMOVE_PLACE:
           return parsePostRemovePlace(data);
         default:
           NstSvcLogger.error('The provided activity type is not supported:' + data.action);
@@ -67,8 +67,8 @@
     }
 
     function parsePostAdd(data) {
-      if (data.action !== NST_EVENT_ACTION.POST_ADD) {
-        throw Error(NstUtility.string.format('The provided activity is not of {0} type.', NST_EVENT_ACTION.POST_ADD));
+      if (data.action !== NST_PLACE_EVENT_ACTION.POST_ADD) {
+        throw Error(NstUtility.string.format('The provided activity is not of {0} type.', NST_PLACE_EVENT_ACTION.POST_ADD));
       }
 
       var activity = new NstActivity();
@@ -90,8 +90,8 @@
     }
 
     function parsePostRemovePlace(data) {
-      if (data.action !== NST_EVENT_ACTION.POST_REMOVE_PLACE) {
-        throw Error(NstUtility.string.format('The provided activity is not of {0} type.', NST_EVENT_ACTION.POST_REMOVE_PLACE));
+      if (data.action !== NST_PLACE_EVENT_ACTION.POST_REMOVE_PLACE) {
+        throw Error(NstUtility.string.format('The provided activity is not of {0} type.', NST_PLACE_EVENT_ACTION.POST_REMOVE_PLACE));
       }
 
       var activity = new NstActivity();
@@ -111,8 +111,8 @@
     }
 
     function parsePostAttachPlace(data) {
-      if (data.action !== NST_EVENT_ACTION.POST_ATTACH_PLACE) {
-        throw Error(NstUtility.string.format('The provided activity is not of {0} type.', NST_EVENT_ACTION.POST_ATTACH_PLACE));
+      if (data.action !== NST_PLACE_EVENT_ACTION.POST_ATTACH_PLACE) {
+        throw Error(NstUtility.string.format('The provided activity is not of {0} type.', NST_PLACE_EVENT_ACTION.POST_ATTACH_PLACE));
       }
 
       var activity = new NstActivity();
@@ -132,8 +132,8 @@
     }
 
     function parsePostMove(data) {
-      if (data.action !== NST_EVENT_ACTION.POST_MOVE) {
-        throw Error(NstUtility.string.format('The provided activity is not of {0} type.', NST_EVENT_ACTION.POST_MOVE));
+      if (data.action !== NST_PLACE_EVENT_ACTION.POST_MOVE) {
+        throw Error(NstUtility.string.format('The provided activity is not of {0} type.', NST_PLACE_EVENT_ACTION.POST_MOVE));
       }
 
       var activity = new NstActivity();
@@ -154,8 +154,8 @@
     }
 
     function parseAddComment(data) {
-      if (data.action !== NST_EVENT_ACTION.COMMENT_ADD) {
-        throw Error(NstUtility.string.format('The provided activity is not of {0} type.', NST_EVENT_ACTION.COMMENT_ADD));
+      if (data.action !== NST_PLACE_EVENT_ACTION.COMMENT_ADD) {
+        throw Error(NstUtility.string.format('The provided activity is not of {0} type.', NST_PLACE_EVENT_ACTION.COMMENT_ADD));
       }
 
       var activity = new NstActivity();
@@ -177,8 +177,8 @@
     }
 
     function parseAddLabel(data) {
-      if (data.action !== NST_EVENT_ACTION.LABEL_ADD) {
-        throw Error(NstUtility.string.format('The provided activity is not of {0} type.', NST_EVENT_ACTION.LABEL_ADD));
+      if (data.action !== NST_PLACE_EVENT_ACTION.LABEL_ADD) {
+        throw Error(NstUtility.string.format('The provided activity is not of {0} type.', NST_PLACE_EVENT_ACTION.LABEL_ADD));
       }
       var activity = new NstActivity();
       activity.id = data._id;
@@ -193,8 +193,8 @@
     }
 
     function parseRemoveLabel(data) {
-      if (data.action !== NST_EVENT_ACTION.LABEL_REMOVE) {
-        throw Error(NstUtility.string.format('The provided activity is not of {0} type.', NST_EVENT_ACTION.LABEL_REMOVE));
+      if (data.action !== NST_PLACE_EVENT_ACTION.LABEL_REMOVE) {
+        throw Error(NstUtility.string.format('The provided activity is not of {0} type.', NST_PLACE_EVENT_ACTION.LABEL_REMOVE));
       }
 
       var activity = new NstActivity();
@@ -210,8 +210,8 @@
     }
 
     function parseRemoveComment(data) {
-      if (data.action !== NST_EVENT_ACTION.COMMENT_REMOVE) {
-        throw Error(NstUtility.string.format('The provided activity is not of {0} type.', NST_EVENT_ACTION.COMMENT_REMOVE));
+      if (data.action !== NST_PLACE_EVENT_ACTION.COMMENT_REMOVE) {
+        throw Error(NstUtility.string.format('The provided activity is not of {0} type.', NST_PLACE_EVENT_ACTION.COMMENT_REMOVE));
       }
 
       var activity = new NstActivity();
@@ -230,8 +230,8 @@
     }
 
     function parseMemberRemove(data) {
-      if (data.action !== NST_EVENT_ACTION.MEMBER_REMOVE) {
-        throw Error(NstUtility.string.format('The provided activity is not of {0} type.', NST_EVENT_ACTION.MEMBER_REMOVE));
+      if (data.action !== NST_PLACE_EVENT_ACTION.MEMBER_REMOVE) {
+        throw Error(NstUtility.string.format('The provided activity is not of {0} type.', NST_PLACE_EVENT_ACTION.MEMBER_REMOVE));
       }
 
       var activity = new NstActivity();
@@ -247,8 +247,8 @@
     }
 
     function parseMemberJoin(data) {
-      if (data.action !== NST_EVENT_ACTION.MEMBER_JOIN) {
-        throw Error(NstUtility.string.format('The provided activity is not of {0} type.', NST_EVENT_ACTION.MEMBER_JOIN));
+      if (data.action !== NST_PLACE_EVENT_ACTION.MEMBER_JOIN) {
+        throw Error(NstUtility.string.format('The provided activity is not of {0} type.', NST_PLACE_EVENT_ACTION.MEMBER_JOIN));
       }
 
       var activity = new NstActivity();
@@ -263,8 +263,8 @@
     }
 
     function parsePlaceAdd(data) {
-      if (data.action !== NST_EVENT_ACTION.PLACE_ADD) {
-        throw Error(NstUtility.string.format('The provided activity is not of {0} type.', NST_EVENT_ACTION.PLACE_ADD));
+      if (data.action !== NST_PLACE_EVENT_ACTION.PLACE_ADD) {
+        throw Error(NstUtility.string.format('The provided activity is not of {0} type.', NST_PLACE_EVENT_ACTION.PLACE_ADD));
       }
 
       var activity = new NstActivity();

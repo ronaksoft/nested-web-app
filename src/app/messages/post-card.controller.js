@@ -15,8 +15,8 @@
     .controller('PostCardController', PostCardController);
 
   function PostCardController($state, $q, $log, $timeout, $stateParams, $rootScope, $scope, $uibModal, $location, $anchorScroll,
-                              _, toastr, $sce, NstSvcTaskUtility, NST_CONFIG, NstSvcI18n, NstSvcViewStorage, md5,
-                              NST_EVENT_ACTION, NST_PLACE_ACCESS, NST_POST_EVENT, SvcCardCtrlAffix, NstSvcAppFactory,
+                              _, toastr, $sce, NstSvcTaskUtility, NST_CONFIG, NstSvcI18n, NstSvcViewStorage, md5, NstSvcPostActivityFactory,
+                              NST_PLACE_EVENT_ACTION, NST_POST_EVENT_ACTION, NST_PLACE_ACCESS, NST_POST_EVENT, SvcCardCtrlAffix, NstSvcAppFactory,
                               NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory, NstSearchQuery, NstSvcModal,
                               NstSvcAuth, NstUtility, NstSvcPostInteraction, NstSvcTranslation, NstSvcLogger, $) {
     var vm = this;
@@ -828,9 +828,8 @@
      * the activity belongs to this post for further actions or not
      * (need more document)
      */
-    eventReferences.push($rootScope.$on(NST_EVENT_ACTION.COMMENT_ADD, function (e, data) {
-
-      if (vm.post.id !== data.activity.post.id) {
+    eventReferences.push($rootScope.$on(NST_POST_EVENT_ACTION.SYNC_POST_ACTIVITY, function (e, data) {
+      if (vm.post.id !== data.postId) {
         return;
       }
       newCommentIds.push(data.activity.id);

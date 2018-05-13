@@ -5,7 +5,7 @@
     .service('NstSvcActivityCacheFactory', NstSvcActivityCacheFactory);
 
   /** @ngInject */
-  function NstSvcActivityCacheFactory(NST_EVENT_ACTION,
+  function NstSvcActivityCacheFactory(NST_PLACE_EVENT_ACTION,
     NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcCommentFactory, NstSvcLabelFactory,
     NstSvcLogger, NstActivity) {
 
@@ -30,31 +30,31 @@
       }
 
       switch (data.action) {
-        case NST_EVENT_ACTION.MEMBER_REMOVE:
+        case NST_PLACE_EVENT_ACTION.MEMBER_REMOVE:
           return parseMemberRemoveCached(data);
-        case NST_EVENT_ACTION.MEMBER_JOIN:
+        case NST_PLACE_EVENT_ACTION.MEMBER_JOIN:
           return parseMemberJoinCached(data);
 
-        case NST_EVENT_ACTION.PLACE_ADD:
+        case NST_PLACE_EVENT_ACTION.PLACE_ADD:
           return parsePlaceAddCached(data);
 
-        case NST_EVENT_ACTION.COMMENT_ADD:
-          return parseAddCommentCached(data);
-        case NST_EVENT_ACTION.COMMENT_REMOVE:
-          return parseRemoveCommentCached(data);
+        // case NST_PLACE_EVENT_ACTION.COMMENT_ADD:
+        //   return parseAddCommentCached(data);
+        // case NST_PLACE_EVENT_ACTION.COMMENT_REMOVE:
+        //   return parseRemoveCommentCached(data);
+        //
+        // case NST_PLACE_EVENT_ACTION.LABEL_ADD:
+        //   return parseAddLabelCached(data);
+        // case NST_PLACE_EVENT_ACTION.LABEL_REMOVE:
+        //   return parseRemoveLabelCached(data);
 
-        case NST_EVENT_ACTION.LABEL_ADD:
-          return parseAddLabelCached(data);
-        case NST_EVENT_ACTION.LABEL_REMOVE:
-          return parseRemoveLabelCached(data);
-
-        case NST_EVENT_ACTION.POST_ADD:
+        case NST_PLACE_EVENT_ACTION.POST_ADD:
           return parsePostAddCached(data);
-        case NST_EVENT_ACTION.POST_ATTACH_PLACE:
+        case NST_PLACE_EVENT_ACTION.POST_ATTACH_PLACE:
           return parsePostAttachPlaceCached(data);
-        case NST_EVENT_ACTION.POST_MOVE:
+        case NST_PLACE_EVENT_ACTION.POST_MOVE:
           return parsePostMoveCached(data);
-        case NST_EVENT_ACTION.POST_REMOVE_PLACE:
+        case NST_PLACE_EVENT_ACTION.POST_REMOVE_PLACE:
           return parsePostRemovePlaceCached(data);
         default:
           NstSvcLogger.error('The provided activity type is not supported:' + data.action);

@@ -6,13 +6,13 @@
     .service('NstSvcPlaceFactory', NstSvcPlaceFactory);
 
   function NstSvcPlaceFactory($q, _, $rootScope,
-                              NST_SRV_ERROR, NST_PLACE_ACCESS, NST_EVENT_ACTION, NST_PLACE_EVENT,
+                              NST_SRV_ERROR, NST_PLACE_ACCESS, NST_PLACE_EVENT_ACTION, NST_PLACE_EVENT,
                               NstSvcServer, NstSvcUserFactory, NstSvcLogger, NstSvcGlobalCache,
                               NstBaseFactory, NstUtility, NstTinyPlace, NstPlace, NstPicture, NstUtilPlace, NstCollector) {
     function PlaceFactory() {
       var factory = this;
 
-      NstSvcServer.addEventListener(NST_EVENT_ACTION.PLACE_ADD, function (event) {
+      NstSvcServer.addEventListener(NST_PLACE_EVENT_ACTION.PLACE_ADD, function (event) {
         var tlData = event.detail;
 
         var isGrandPlace = tlData.place_id && !tlData.child_id;
@@ -29,7 +29,7 @@
         }
       });
 
-      NstSvcServer.addEventListener(NST_EVENT_ACTION.PLACE_REMOVE, function (event) {
+      NstSvcServer.addEventListener(NST_PLACE_EVENT_ACTION.PLACE_REMOVE, function (event) {
         var tlData = event.detail;
 
         factory.get(tlData.place_id).then(function () {
@@ -40,14 +40,14 @@
 
       });
 
-      NstSvcServer.addEventListener(NST_EVENT_ACTION.PLACE_PICTURE, function (event) {
+      NstSvcServer.addEventListener(NST_PLACE_EVENT_ACTION.PLACE_PICTURE, function (event) {
         var tlData = event.detail;
         factory.get(tlData.place_id).then(function (place) {
           $rootScope.$broadcast(NST_PLACE_EVENT.PICTURE_CHANGED, {placeId: place.id, place: place});
         });
       });
 
-      NstSvcServer.addEventListener(NST_EVENT_ACTION.MEMBER_JOIN, function (/*event*/) {
+      NstSvcServer.addEventListener(NST_PLACE_EVENT_ACTION.MEMBER_JOIN, function (/*event*/) {
         // var tlData = event.detail;
       });
 

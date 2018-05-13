@@ -9,7 +9,7 @@
     function SidebarController($q, $scope, $state, $stateParams, $uibModal, $rootScope,
                                _, toastr,
                                NST_DEFAULT, NST_AUTH_EVENT, NST_CONFIG, NST_KEY, deviceDetector, NST_PLACE_ACCESS, NST_SRV_ERROR,
-                               NST_EVENT_ACTION, NST_USER_EVENT, NST_NOTIFICATION_EVENT, NST_SRV_EVENT, NST_NOTIFICATION_TYPE, NST_PLACE_EVENT, NST_POST_EVENT,
+                               NST_PLACE_EVENT_ACTION, NST_USER_EVENT, NST_NOTIFICATION_EVENT, NST_SRV_EVENT, NST_NOTIFICATION_TYPE, NST_PLACE_EVENT, NST_POST_EVENT,
                                NstSvcAuth, NstSvcServer, NstSvcLogger, NstSvcNotification, NstSvcTranslation,
                                NstSvcNotificationSync, NstSvcPlaceFactory, NstUtility, NstSvcUserFactory, NstSvcSidebar,
                                NstSvcKeyFactory, NstSvcPostDraft, NstSvcGlobalCache) {
@@ -342,17 +342,17 @@
       }));
 
       /**
-       * Event listener for `NST_EVENT_ACTION.POST_ADD`
+       * Event listener for `NST_PLACE_EVENT_ACTION.POST_ADD`
        */
-      eventReferences.push($rootScope.$on(NST_EVENT_ACTION.POST_ADD, function () {
+      eventReferences.push($rootScope.$on(NST_PLACE_EVENT_ACTION.POST_ADD, function () {
         loadMyPlacesUnreadPostsCount();
         dispatchTopbarEvent();
       }));
 
       /**
-       * Event listener for `NST_EVENT_ACTION.POST_REMOVE`
+       * Event listener for `NST_PLACE_EVENT_ACTION.POST_REMOVE`
        */
-      eventReferences.push($rootScope.$on(NST_EVENT_ACTION.POST_REMOVE, function () {
+      eventReferences.push($rootScope.$on(NST_PLACE_EVENT_ACTION.POST_REMOVE, function () {
         loadMyPlacesUnreadPostsCount();
         dispatchTopbarEvent();
       }));
