@@ -673,7 +673,7 @@
       /**
        * TODO :create hash events and stop listen check
        */
-      eventReferences.push($scope.$broadcast('post-load-new-comments', data));
+      $scope.$broadcast('post-load-new-comments', data);
       reloadCounters();
       vm.unreadCommentsCount = 0;
     }
@@ -828,25 +828,28 @@
      * the activity belongs to this post for further actions or not
      * (need more document)
      */
-    eventReferences.push($rootScope.$on(NST_POST_EVENT_ACTION.SYNC_POST_ACTIVITY, function (e, data) {
-      if (vm.post.id !== data.postId) {
+    eventReferences.push($rootScope.$on(NST_POST_EVENT_ACTION.SYNC_POST_ACTIVITY + NST_POST_EVENT_ACTION.COMMENT_ADD, function (e, data) {
+      if (vm.post.id !== data.activity.postId) {
         return;
       }
-      newCommentIds.push(data.activity.id);
-
+      console.log(data);
+      newCommentIds.push(data.activity.comment.id);
       var senderIsCurrentUser = (NstSvcAuth.user.id === data.activity.actor.id);
       if (senderIsCurrentUser) {
+        console.log('case1');
         loadNewComments();
         // if (!_.includes(newCommentIds, data.activity.id)) {
         // vm.post.counters.comments++;
         // }
       } else {
-        if (!_.includes(unreadCommentIds, data.activity.id)) {
+        if (!_.includes(unreadCommentIds, data.activity.comment.id)) {
+          console.log('case2');
           vm.unreadCommentsCount++;
-          unreadCommentIds.push(data.activity.id);
+          unreadCommentIds.push(data.activity.comment.id);
         }
         // if($rootScope.inViewPost.id === vm.post.id || isPostView()) {
         if (isPostView()) {
+          console.log('case3');
           loadNewComments();
           unreadCommentIds = [];
         }
