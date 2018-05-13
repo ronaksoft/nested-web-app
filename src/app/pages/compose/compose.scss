@@ -413,6 +413,7 @@
   }
 }
 @media screen and ( max-height: 700px) {
+  .modal [size="compose"] .modal-dialog .modal-content ,
   .modal .modal-compose .modal-content {
     top: 0;
   }

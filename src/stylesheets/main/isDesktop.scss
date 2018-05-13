@@ -1,5 +1,6 @@
 body.isDesktop {
   min-width: 1024px;
+  [size="mlg"] .modal-dialog ,
   .modal-mlg {
     width: calc(100% - 160px);
     height: calc(100% - 160px);
