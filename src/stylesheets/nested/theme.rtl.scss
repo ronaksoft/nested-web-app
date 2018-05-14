@@ -446,6 +446,7 @@ body[dir="rtl"] {
     right: auto;
     left: 0;
   }
+  .modal [size="compose"] .modal-dialog .modal-head ,
   .modal .modal-compose .modal-head {
     padding-left: 0;
     padding-right: 16px;
@@ -556,16 +557,21 @@ body[dir="rtl"] {
   .place-head.setting-head h3 {
     margin: 0 16px 0 0;
   }
-  .modal-full-height-center .modal-content h2 span {
-    margin-left: 0;
-    margin-right: 16px;
-  }
-  .modal-full-height-center .modal-content>div {
-    right: 50vw;
-    margin-right: -240px;
-    left: 0;
-    margin-left: 0;
-  }
+  .modal-full-height-center, [size="full-height-center"] .modal-dialog{
+    .modal-content h2 span {
+      margin-left: 0;
+      margin-right: 16px;
+    }
+    .modal-content>div {
+      right: 50vw;
+      margin-right: -240px;
+      left: 0;
+      margin-left: 0;
+    }
+    .modal-content select {
+      padding: 0 32px 0 8px;
+    }
+  } 
   .remove-from-places span {
     padding-right: 0;
     padding-left: 16px;
@@ -687,9 +693,6 @@ body[dir="rtl"] {
     left: 0;
     right: 12px;
   }
-  .modal-full-height-center .modal-content select {
-    padding: 0 32px 0 8px;
-  }
   input[type="radio"]+label {
     margin: 0 0 0 40px;
   }
@@ -704,7 +707,7 @@ body[dir="rtl"] {
     margin-left: 16px;
     margin-right: 0;
   }
-  .label-sm-modal .modal-more-set+.popover {
+  .label-sm-modal .modal-more-set + .popover {
     right: 240px !important;
     left: 20px;
   }
@@ -1083,8 +1086,14 @@ body[dir="rtl"] {
     right: auto;
     left: -14px;
   }
-  .modal .modal-compose .compose-modal-footer .butn-green, .modal .modal-compose .compose-modal-footer .butn-login {
-    width: 120px;
+  .modal [size="compose"] .modal-dialog ,
+  .modal .modal-compose {
+    .compose-modal-footer {
+      .butn-green,
+      .butn-login {
+        width: 120px;
+      }
+    }
   }
   .wdt-emoji-picker {
     right: auto;

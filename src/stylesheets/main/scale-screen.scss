@@ -1,6 +1,9 @@
 
 @media screen and ( max-width: 1100px ){
-  .place-head-holder-2, .place-head, .modal-full-height-center .modal-content > div {
+  .place-head-holder-2,
+  .place-head,
+  .modal-full-height-center .modal-content > div ,
+  [size="full-height-center"] .modal-dialog .modal-content > div {
     transform: none!important;
     margin-left: 0!important;
     left: 272px!important;

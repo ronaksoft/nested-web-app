@@ -407,14 +407,16 @@ select,option {
   border-radius: 100%;
   margin-right: 8px;
 }
-
-.modal-add .ui-select-choices-row.active > a,
-.modal-add .ui-select-choices-row.active > a:hover{
-  background-color: transparent!important;
-  color: $color-solid;
-  border-radius: 10px;
+[size="add"] .modal-dialog,
+.modal-add {
+  .ui-select-choices-row.active > a,
+  .ui-select-choices-row.active > a,
+  .ui-select-choices-row.active > a:hover{
+    background-color: transparent!important;
+    color: $color-solid;
+    border-radius: 10px;
+  }  
 }
-
 .ui-select-choices-row:hover {
   background-color: $color-bg-public-pages;
 }

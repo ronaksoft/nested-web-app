@@ -60,7 +60,7 @@ body.modal-open-attachment-view {
   }
 }
 
-// For compose full view
+[size="full"] .modal-dialog,
 .modal-full.modal-dialog {
   width: auto;
   height: auto;
@@ -183,6 +183,7 @@ body.modal-open-attachment-view {
   }
 }
 
+[size="detail"] .modal-dialog,
 .modal-detail {
   margin: 20px 0;
   font-size: $font-size-large;
@@ -202,6 +203,7 @@ body.modal-open-attachment-view {
   }
 }
 
+.modal [size="no-miss"] .modal-dialog,
 .modal .modal-no-miss {
   width: 100%;
   height: 100%;
@@ -243,6 +245,7 @@ body.modal-open-attachment-view.compose-modal {
 .task-modal-element.minimized-task {
   overflow: auto;
   &,
+  [size="compose"] .modal-dialog,
   .modal-compose {
     width: 10px;
     height: 10px;
@@ -254,6 +257,7 @@ body.modal-open-attachment-view.compose-modal {
   }
 }
 
+.modal [size="compose"] .modal-dialog,
 .modal .modal-compose {
   width: 100%;
   height: 100%;
@@ -423,6 +427,7 @@ body.modal-open-attachment-view.compose-modal {
 
 }
 
+.modal [size="notifications"] .modal-dialog,
 .modal .modal-notifications {
   width: 100%;
   height: 100%;
@@ -457,6 +462,7 @@ body.modal-open-attachment-view.compose-modal {
 
 }
 
+.modal [size="create-task"] .modal-dialog,
 .modal .modal-create-task {
   width: 100vw;
   height: 100%;
@@ -486,6 +492,7 @@ body.modal-open-attachment-view.compose-modal {
 
 }
 
+.modal [size="task"] .modal-dialog,
 .modal .modal-task {
   width: 100%;
   height: 100%;
@@ -521,13 +528,17 @@ body.modal-open-attachment-view.compose-modal {
   }
 }
 
-.modal .modal-custom-filter {
-  .modal-content {
-    top: 74px;
-    width: 744px;
-  }
+.modal {
+  [size="custom-filter"] .modal-dialog,
+  .modal-custom-filter {
+    .modal-content {
+      top: 74px;
+      width: 744px;
+    }
+}
 }
 
+.fullCompose .modal [size="compose"] .modal-dialog,
 .fullCompose .modal .modal-compose {
   height: 100%;
   .compose-wrapper {
@@ -561,6 +572,7 @@ body.modal-open-attachment-view.compose-modal {
   }
 }
 
+.fullCompose .modal [size="compose"] .modal-dialog .modal-content ,
 .fullCompose .modal .modal-compose .modal-content {
   overflow: hidden;
   #compose-box {
@@ -606,6 +618,7 @@ body.modal-open-attachment-view.compose-modal {
 }
 
 .modal-post-view,
+[size="post-view"] .modal-dialog,
 .profile-setting-modal {
   width: 100%;
   overflow: initial;
@@ -626,6 +639,7 @@ body.modal-open-attachment-view.compose-modal {
   }
 }
 
+[size="post-view"] .modal-dialog,
 .modal-post-view {
   display: flex;
   height: auto;
@@ -696,7 +710,7 @@ body.modal-open-attachment-view.compose-modal {
   }
 }
 
-.modal-full-height-center {
+.modal-full-height-center, [size="full-height-center"] .modal-dialog {
   display: flex;
   position: fixed;
   opacity: 0.98;
@@ -991,6 +1005,7 @@ div.modal .attach-place {
   }
 }
 
+[size="unclosable"] .modal-dialog,
 .modal-unclosable {
   display: flex;
   justify-content: center;
