@@ -16,6 +16,7 @@
       this.comment = undefined;
       this.newPlace = undefined;
       this.oldPlace = undefined;
+      this.post = undefined;
     }
 
     PostActivity.prototype = {};

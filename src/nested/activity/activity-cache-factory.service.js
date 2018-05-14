@@ -34,25 +34,14 @@
           return parseMemberRemoveCached(data);
         case NST_PLACE_EVENT_ACTION.MEMBER_JOIN:
           return parseMemberJoinCached(data);
-
         case NST_PLACE_EVENT_ACTION.PLACE_ADD:
           return parsePlaceAddCached(data);
-
-        // case NST_PLACE_EVENT_ACTION.COMMENT_ADD:
-        //   return parseAddCommentCached(data);
-        // case NST_PLACE_EVENT_ACTION.COMMENT_REMOVE:
-        //   return parseRemoveCommentCached(data);
-        //
-        // case NST_PLACE_EVENT_ACTION.LABEL_ADD:
-        //   return parseAddLabelCached(data);
-        // case NST_PLACE_EVENT_ACTION.LABEL_REMOVE:
-        //   return parseRemoveLabelCached(data);
-
         case NST_PLACE_EVENT_ACTION.POST_ADD:
           return parsePostAddCached(data);
         case NST_PLACE_EVENT_ACTION.POST_ATTACH_PLACE:
           return parsePostAttachPlaceCached(data);
-        case NST_PLACE_EVENT_ACTION.POST_MOVE:
+        case NST_PLACE_EVENT_ACTION.POST_MOVE_TO:
+        case NST_PLACE_EVENT_ACTION.POST_MOVE_FROM:
           return parsePostMoveCached(data);
         case NST_PLACE_EVENT_ACTION.POST_REMOVE_PLACE:
           return parsePostRemovePlaceCached(data);

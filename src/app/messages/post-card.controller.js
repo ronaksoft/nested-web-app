@@ -666,7 +666,7 @@
       var data = {
         postId: vm.post.id,
         news: unreadCommentIds
-      }
+      };
       if (scrollIntoView) {
         data.scrollIntoView = true;
       }
@@ -828,32 +828,102 @@
      * the activity belongs to this post for further actions or not
      * (need more document)
      */
-    eventReferences.push($rootScope.$on(NST_POST_EVENT_ACTION.SYNC_POST_ACTIVITY + NST_POST_EVENT_ACTION.COMMENT_ADD, function (e, data) {
+    eventReferences.push($rootScope.$on(NST_POST_EVENT_ACTION.INTERNAL_COMMENT_ADD, function (e, data) {
       if (vm.post.id !== data.activity.postId) {
         return;
       }
-      console.log(data);
       newCommentIds.push(data.activity.comment.id);
       var senderIsCurrentUser = (NstSvcAuth.user.id === data.activity.actor.id);
       if (senderIsCurrentUser) {
-        console.log('case1');
         loadNewComments();
         // if (!_.includes(newCommentIds, data.activity.id)) {
         // vm.post.counters.comments++;
         // }
       } else {
         if (!_.includes(unreadCommentIds, data.activity.comment.id)) {
-          console.log('case2');
           vm.unreadCommentsCount++;
           unreadCommentIds.push(data.activity.comment.id);
         }
         // if($rootScope.inViewPost.id === vm.post.id || isPostView()) {
         if (isPostView()) {
-          console.log('case3');
           loadNewComments();
           unreadCommentIds = [];
         }
       }
+    }));
+
+    /**
+     * Event handler for adding label
+     */
+    eventReferences.push($rootScope.$on(NST_POST_EVENT_ACTION.INTERNAL_LABEL_ADD, function (e, data) {
+      if (vm.post.id !== data.activity.postId) {
+        return;
+      }
+      if (!_.some(vm.post.labels, {
+          id: data.activity.label.id
+        })) {
+        vm.post.labels.push(data.activity.label);
+      }
+      NstSvcPostFactory.dropCacheById(data.activity.postId);
+    }));
+
+    /**
+     * Event handler for removing label
+     */
+    eventReferences.push($rootScope.$on(NST_POST_EVENT_ACTION.INTERNAL_LABEL_REMOVE, function (e, data) {
+      if (vm.post.id !== data.activity.postId) {
+        return;
+      }
+      var index = _.findIndex(vm.post.labels, {id: data.activity.label.id});
+      if (index > -1) {
+        vm.post.labels.splice(index);
+      }
+      NstSvcPostFactory.dropCacheById(data.activity.postId);
+    }));
+
+    /**
+     * Event handler for editing post
+     */
+    eventReferences.push($rootScope.$on(NST_POST_EVENT_ACTION.INTERNAL_EDITED, function (e, data) {
+      if (vm.post.id !== data.activity.postId) {
+        return;
+      }
+      vm.post = data.activity.post;
+      NstSvcPostFactory.dropCacheById(data.activity.postId);
+    }));
+
+    /**
+     * Event handler for moving place
+     */
+    eventReferences.push($rootScope.$on(NST_POST_EVENT_ACTION.INTERNAL_MOVE, function (e, data) {
+      if (vm.post.id !== data.activity.postId) {
+        return;
+      }
+      if (!_.some(vm.post.labels, {
+          id: data.activity.label.id
+        })) {
+        vm.post.places.push(place);
+      }
+      var index = _.findIndex(vm.post.places, {id: data.activity.oldPlace.id});
+      if (index > -1) {
+        vm.post.places.splice(index, 1);
+      }
+      NstSvcPostFactory.dropCacheById(data.activity.postId);
+    }));
+
+    /**
+     * Event handler for attaching place
+     */
+    eventReferences.push($rootScope.$on(NST_POST_EVENT_ACTION.INTERNAL_ATTACH, function (e, data) {
+      if (vm.post.id !== data.activity.postId) {
+        return;
+      }
+      if (!_.some(vm.post.places, {
+          id: data.activity.newPlace.id
+        })) {
+        vm.post.places.push(place);
+      }
+      NstSvcPostFactory.dropCacheById(data.activity.postId);
     }));
 
     /**
@@ -991,7 +1061,6 @@
         });
       }
 
-
       NstSvcPlaceFactory.get(vm.thisPlace).then(function (place) {
         vm.placeRoute = place;
         vm.isPlaceManager = place.accesses.indexOf(NST_PLACE_ACCESS.CONTROL) > -1;
@@ -1023,7 +1092,11 @@
       addItems.forEach(function (o) {
         var id = o._id || o.id;
         NstSvcPostFactory.addLabel(vm.post.id, id).then(function () {
-          vm.post.labels.push(o);
+          if (!_.some(vm.post.labels, {
+              id: o.id
+            })) {
+            vm.post.labels.push(o);
+          }
         }).catch(function (e) {
           // console.log(arguments)
           if (e.code === 6) {

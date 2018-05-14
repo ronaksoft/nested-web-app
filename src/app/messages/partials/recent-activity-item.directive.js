@@ -44,25 +44,14 @@
             scope.tplUrl = 'app/messages/partials/activity/post-remove-place.html';
             break;
 
-          case NST_PLACE_EVENT_ACTION.POST_MOVE:
-            scope.tplUrl = 'app/messages/partials/activity/post-move.html';
+          case NST_PLACE_EVENT_ACTION.POST_MOVE_TO:
+            scope.tplUrl = 'app/messages/partials/activity/post-move-to.html';
             break;
 
-          // case NST_PLACE_EVENT_ACTION.COMMENT_ADD:
-          //   scope.tplUrl = 'app/messages/partials/activity/comment-add.html';
-          //   break;
-          //
-          // case NST_PLACE_EVENT_ACTION.COMMENT_REMOVE:
-          //   scope.tplUrl = 'app/messages/partials/activity/comment-remove.html';
-          //   break;
-          //
-          // case NST_PLACE_EVENT_ACTION.LABEL_ADD:
-          //   scope.tplUrl = 'app/messages/partials/activity/label-add.html';
-          //   break;
-          //
-          // case NST_PLACE_EVENT_ACTION.LABEL_REMOVE:
-          //   scope.tplUrl = 'app/messages/partials/activity/label-remove.html';
-          //   break;
+          case NST_PLACE_EVENT_ACTION.POST_MOVE_FROM:
+            scope.tplUrl = 'app/messages/partials/activity/post-move-from.html';
+            break;
+
           default:
             scope.tplUrl = '';
             return NstSvcLogger.error(NstUtility.string.format('The event type ({0}) is not supported!', scope.activity.type));

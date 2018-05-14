@@ -42,25 +42,13 @@
             scope.tplUrl = 'app/activity/partials/activity-post-remove-place.html';
             break;
 
-          case NST_PLACE_EVENT_ACTION.POST_MOVE:
-            scope.tplUrl = 'app/activity/partials/activity-post-move.html';
+          case NST_PLACE_EVENT_ACTION.POST_MOVE_TO:
+            scope.tplUrl = 'app/activity/partials/activity-post-move-to.html';
             break;
 
-          // case NST_PLACE_EVENT_ACTION.COMMENT_ADD:
-          //   scope.tplUrl = 'app/activity/partials/activity-comment-add.html';
-          //   break;
-          //
-          // case NST_PLACE_EVENT_ACTION.COMMENT_REMOVE:
-          //   scope.tplUrl = 'app/activity/partials/activity-comment-remove.html';
-          //   break;
-          //
-          // case NST_PLACE_EVENT_ACTION.LABEL_ADD:
-          //   scope.tplUrl = 'app/activity/partials/activity-label-add.html';
-          //   break;
-          //
-          // case NST_PLACE_EVENT_ACTION.LABEL_REMOVE:
-          //   scope.tplUrl = 'app/activity/partials/activity-label-remove.html';
-          //   break;
+          case NST_PLACE_EVENT_ACTION.POST_MOVE_FROM:
+            scope.tplUrl = 'app/activity/partials/activity-post-move-from.html';
+            break;
 
           default:
             scope.tplUrl = '';

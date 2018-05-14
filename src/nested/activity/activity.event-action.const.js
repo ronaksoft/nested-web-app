@@ -8,14 +8,9 @@
       MEMBER_JOIN: 0x008,
       PLACE_ADD: 0x010,
       POST_ADD: 0x100,
-      POST_ATTACH_PLACE: 260,
-      POST_REMOVE_PLACE: 261,
-      POST_MOVE: 262,
-      // COMMENT
-      COMMENT_ADD: 2048,
-      COMMENT_REMOVE: 2049,
-      // LABEL
-      LABEL_ADD: 263,
-      LABEL_REMOVE: 264
+      POST_ATTACH_PLACE: 0x104,
+      POST_REMOVE_PLACE: 0x105,
+      POST_MOVE_TO: 0x106,
+      POST_MOVE_FROM: 0x107
     });
 })();

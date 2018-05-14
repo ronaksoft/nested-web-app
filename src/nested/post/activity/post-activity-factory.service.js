@@ -5,8 +5,8 @@
     .service('NstSvcPostActivityFactory', NstSvcPostActivityFactory);
 
   /** @ngInject */
-  function NstSvcPostActivityFactory($q, $rootScope, _, NST_POST_EVENT_ACTION, NstSvcServer, NstSvcUserFactory,
-                                     NstBaseFactory, NstSvcLabelFactory, NstCollector, NstPostActivity, NstSvcDate,
+  function NstSvcPostActivityFactory($q, $rootScope, _, NST_POST_EVENT_ACTION, NstSvcServer, NstSvcUserFactory, NstSvcLogger,
+                                     NstBaseFactory, NstSvcLabelFactory, NstCollector, NstPostActivity, NstSvcDate, NstSvcPostFactory,
                                      NstUtility, NstSvcAttachmentFactory, NstSvcCommentFactory, NST_SRV_PUSH_CMD) {
 
 
@@ -75,9 +75,9 @@
           return parseLabelActivity(data);
         case NST_POST_EVENT_ACTION.EDITED:
           return parsePostEdit(data);
-        case NST_POST_EVENT_ACTION.POST_ATTACH_PLACE:
+        case NST_POST_EVENT_ACTION.ATTACH:
           return parsePostAttach(data);
-        case NST_POST_EVENT_ACTION.POST_MOVE:
+        case NST_POST_EVENT_ACTION.MOVE:
           return parsePostMove(data);
         default:
           NstSvcLogger.error('The provided activity type is not supported:' + data.action);
@@ -97,6 +97,7 @@
 
     function parsePostEdit(data) {
       var activity = parseDefault(data);
+      activity.post = NstSvcPostFactory.parsePost(data.post);
       return activity;
     }
 
