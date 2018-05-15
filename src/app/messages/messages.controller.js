@@ -8,7 +8,7 @@
   /** @ngInject */
   function MessagesController($rootScope, $stateParams, $state, $scope, $uibModal, _, $timeout,
                               moment, toastr, SvcScrollSaver, $location,
-                              NST_MESSAGES_SORT_OPTION, NST_DEFAULT, NST_EVENT_ACTION, NST_PLACE_ACCESS, NST_POST_EVENT,
+                              NST_MESSAGES_SORT_OPTION, NST_DEFAULT, NST_PLACE_EVENT_ACTION, NST_PLACE_ACCESS, NST_POST_EVENT,
                               NstSvcPostFactory, NstSvcPlaceFactory, NstUtility, NstSvcAuth, NstSvcSync, NstSvcModal,
                               NstSvcTranslation, SvcCardCtrlAffix, NstSvcUserFactory, NST_SRV_ERROR) {
 
@@ -116,7 +116,7 @@
         initPinnedPost();
       }));
 
-      eventReferences.push($rootScope.$on(NST_EVENT_ACTION.POST_ADD, function (e, data) {
+      eventReferences.push($rootScope.$on(NST_PLACE_EVENT_ACTION.POST_ADD, function (e, data) {
         // TODO : is feed ?!
         if (vm.isFeed) {
           load();

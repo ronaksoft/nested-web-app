@@ -26,6 +26,7 @@
     PostFactory.prototype.send = send;
     PostFactory.prototype.edit = edit;
     PostFactory.prototype.remove = remove;
+    PostFactory.prototype.dropCacheById = dropCacheById;
     PostFactory.prototype.retract = retract;
     PostFactory.prototype.getSentMessages = getSentMessages;
     PostFactory.prototype.getBookmarkedMessages = getBookmarkedMessages;
@@ -309,6 +310,10 @@
         $rootScope.$broadcast(NST_POST_EVENT.REMOVE, { postId: id });
         return $q.resolve();
       });
+    }
+
+    function dropCacheById(id) {
+      factory.cache.remove(id);
     }
 
     function retract(id) {

@@ -16,7 +16,7 @@
 
   function ActivityController( $stateParams, $log, $state, $scope, $rootScope,
     _, moment,
-    NST_SRV_EVENT, NST_EVENT_ACTION, NST_ACTIVITY_FILTER, NST_DEFAULT, NstSvcAuth,
+    NST_SRV_EVENT, NST_PLACE_EVENT_ACTION, NST_ACTIVITY_FILTER, NST_DEFAULT, NstSvcAuth,
     NstSvcActivityMap,
     NstSvcDate, NST_PLACE_ACCESS,
     NstSvcActivityFactory, NstSvcSync, NstSvcServer, NstSvcPlaceAccess, NstSvcTranslation) {
@@ -263,7 +263,7 @@
       return !!$stateParams.placeId && $stateParams.placeId !== NST_DEFAULT.STATE_PARAM;
     }
 
-    _.forEach(NST_EVENT_ACTION, function (action) {
+    _.forEach(NST_PLACE_EVENT_ACTION, function (action) {
       eventReferences.push($rootScope.$on(action, function (e, data) {
         addNewActivity(data.activity);
       }));
@@ -329,7 +329,7 @@
           items : []
         };
 
-        if (activity.type == NST_EVENT_ACTION.POST_ADD){
+        if (activity.type == NST_PLACE_EVENT_ACTION.POST_ADD){
           if(activityBelongsToPlace(activity)){
             vm.activities.unshift(today);
           }
@@ -340,7 +340,7 @@
       }
 
       if (!_.some(today.items, { id : activity.id })) {
-        if (activity.type == NST_EVENT_ACTION.POST_ADD){
+        if (activity.type == NST_PLACE_EVENT_ACTION.POST_ADD){
           if(activityBelongsToPlace(activity)){
             today.items.unshift(activity);
           }

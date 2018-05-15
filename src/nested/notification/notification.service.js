@@ -5,7 +5,7 @@ angular
 
 /** @ngInject */
 function NstSvcNotification($q, $window, _, $state, $rootScope,
-                            NST_NOTIFICATION_TYPE, NST_AUTH_EVENT, NST_EVENT_ACTION, NST_CONFIG,
+                            NST_NOTIFICATION_TYPE, NST_AUTH_EVENT, NST_PLACE_EVENT_ACTION, NST_CONFIG,
                             NstObservableObject, NstSvcLogger, NstSvcTranslation, NstSvcAuth, NST_NOTIFICATION_EVENT,
                             NstUtility, NstSvcDate, firebase) {
 
@@ -225,7 +225,7 @@ function NstSvcNotification($q, $window, _, $state, $rootScope,
         if (body.payload.type === "a") {
           var action = parseInt(body.payload.action);
           switch (action) {
-            case NST_EVENT_ACTION.POST_ADD:
+            case NST_PLACE_EVENT_ACTION.POST_ADD:
               service.broadcastOpenPost(body.payload.post_id, body.payload.notification_id);
           }
         }

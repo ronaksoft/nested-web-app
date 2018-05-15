@@ -15,8 +15,8 @@
     .controller('PostCardController', PostCardController);
 
   function PostCardController($state, $q, $log, $timeout, $stateParams, $rootScope, $scope, $uibModal, $location, $anchorScroll,
-                              _, toastr, $sce, NstSvcTaskUtility, NST_CONFIG, NstSvcI18n, NstSvcViewStorage, md5,
-                              NST_EVENT_ACTION, NST_PLACE_ACCESS, NST_POST_EVENT, SvcCardCtrlAffix, NstSvcAppFactory,
+                              _, toastr, $sce, NstSvcTaskUtility, NST_CONFIG, NstSvcI18n, NstSvcViewStorage, md5, NstSvcPostActivityFactory,
+                              NST_PLACE_EVENT_ACTION, NST_POST_EVENT_ACTION, NST_PLACE_ACCESS, NST_POST_EVENT, SvcCardCtrlAffix, NstSvcAppFactory,
                               NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory, NstSearchQuery, NstSvcModal,
                               NstSvcAuth, NstUtility, NstSvcPostInteraction, NstSvcTranslation, NstSvcLogger, $) {
     var vm = this;
@@ -666,14 +666,14 @@
       var data = {
         postId: vm.post.id,
         news: unreadCommentIds
-      }
+      };
       if (scrollIntoView) {
         data.scrollIntoView = true;
       }
       /**
        * TODO :create hash events and stop listen check
        */
-      eventReferences.push($scope.$broadcast('post-load-new-comments', data));
+      $scope.$broadcast('post-load-new-comments', data);
       reloadCounters();
       vm.unreadCommentsCount = 0;
     }
@@ -828,13 +828,11 @@
      * the activity belongs to this post for further actions or not
      * (need more document)
      */
-    eventReferences.push($rootScope.$on(NST_EVENT_ACTION.COMMENT_ADD, function (e, data) {
-
-      if (vm.post.id !== data.activity.post.id) {
+    eventReferences.push($rootScope.$on(NST_POST_EVENT_ACTION.INTERNAL_COMMENT_ADD, function (e, data) {
+      if (vm.post.id !== data.activity.postId) {
         return;
       }
-      newCommentIds.push(data.activity.id);
-
+      newCommentIds.push(data.activity.comment.id);
       var senderIsCurrentUser = (NstSvcAuth.user.id === data.activity.actor.id);
       if (senderIsCurrentUser) {
         loadNewComments();
@@ -842,9 +840,9 @@
         // vm.post.counters.comments++;
         // }
       } else {
-        if (!_.includes(unreadCommentIds, data.activity.id)) {
+        if (!_.includes(unreadCommentIds, data.activity.comment.id)) {
           vm.unreadCommentsCount++;
-          unreadCommentIds.push(data.activity.id);
+          unreadCommentIds.push(data.activity.comment.id);
         }
         // if($rootScope.inViewPost.id === vm.post.id || isPostView()) {
         if (isPostView()) {
@@ -852,6 +850,80 @@
           unreadCommentIds = [];
         }
       }
+    }));
+
+    /**
+     * Event handler for adding label
+     */
+    eventReferences.push($rootScope.$on(NST_POST_EVENT_ACTION.INTERNAL_LABEL_ADD, function (e, data) {
+      if (vm.post.id !== data.activity.postId) {
+        return;
+      }
+      if (!_.some(vm.post.labels, {
+          id: data.activity.label.id
+        })) {
+        vm.post.labels.push(data.activity.label);
+      }
+      NstSvcPostFactory.dropCacheById(data.activity.postId);
+    }));
+
+    /**
+     * Event handler for removing label
+     */
+    eventReferences.push($rootScope.$on(NST_POST_EVENT_ACTION.INTERNAL_LABEL_REMOVE, function (e, data) {
+      if (vm.post.id !== data.activity.postId) {
+        return;
+      }
+      var index = _.findIndex(vm.post.labels, {id: data.activity.label.id});
+      if (index > -1) {
+        vm.post.labels.splice(index);
+      }
+      NstSvcPostFactory.dropCacheById(data.activity.postId);
+    }));
+
+    /**
+     * Event handler for editing post
+     */
+    eventReferences.push($rootScope.$on(NST_POST_EVENT_ACTION.INTERNAL_EDITED, function (e, data) {
+      if (vm.post.id !== data.activity.postId) {
+        return;
+      }
+      vm.post = data.activity.post;
+      NstSvcPostFactory.dropCacheById(data.activity.postId);
+    }));
+
+    /**
+     * Event handler for moving place
+     */
+    eventReferences.push($rootScope.$on(NST_POST_EVENT_ACTION.INTERNAL_MOVE, function (e, data) {
+      if (vm.post.id !== data.activity.postId) {
+        return;
+      }
+      if (!_.some(vm.post.labels, {
+          id: data.activity.label.id
+        })) {
+        vm.post.places.push(place);
+      }
+      var index = _.findIndex(vm.post.places, {id: data.activity.oldPlace.id});
+      if (index > -1) {
+        vm.post.places.splice(index, 1);
+      }
+      NstSvcPostFactory.dropCacheById(data.activity.postId);
+    }));
+
+    /**
+     * Event handler for attaching place
+     */
+    eventReferences.push($rootScope.$on(NST_POST_EVENT_ACTION.INTERNAL_ATTACH, function (e, data) {
+      if (vm.post.id !== data.activity.postId) {
+        return;
+      }
+      if (!_.some(vm.post.places, {
+          id: data.activity.newPlace.id
+        })) {
+        vm.post.places.push(place);
+      }
+      NstSvcPostFactory.dropCacheById(data.activity.postId);
     }));
 
     /**
@@ -989,7 +1061,6 @@
         });
       }
 
-
       NstSvcPlaceFactory.get(vm.thisPlace).then(function (place) {
         vm.placeRoute = place;
         vm.isPlaceManager = place.accesses.indexOf(NST_PLACE_ACCESS.CONTROL) > -1;
@@ -1021,7 +1092,11 @@
       addItems.forEach(function (o) {
         var id = o._id || o.id;
         NstSvcPostFactory.addLabel(vm.post.id, id).then(function () {
-          vm.post.labels.push(o);
+          if (!_.some(vm.post.labels, {
+              id: o.id
+            })) {
+            vm.post.labels.push(o);
+          }
         }).catch(function (e) {
           // console.log(arguments)
           if (e.code === 6) {

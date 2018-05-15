@@ -18,7 +18,7 @@
 
   /** @ngInject */
   function NstSvcSync(_, $rootScope,
-    NST_SRV_PUSH_CMD, NST_EVENT_ACTION,
+    NST_SRV_PUSH_CMD, NST_PLACE_EVENT_ACTION,
     NstObservableObject, NstServerError, NstSvcDate,
     NstSvcServer, NstSvcActivityFactory, NstSvcLogger) {
 
@@ -120,9 +120,7 @@
 
       // check open event's place_id has channel
       if (!hasOpenChannel.apply(this, [event.detail.place_id]) &&
-        event.detail.action !== NST_EVENT_ACTION.POST_ADD &&
-        event.detail.action !== NST_EVENT_ACTION.COMMENT_ADD &&
-        event.detail.action !== NST_EVENT_ACTION.COMMENT_REMOVE) {
+        event.detail.action !== NST_PLACE_EVENT_ACTION.POST_ADD) {
         return;
       }
 

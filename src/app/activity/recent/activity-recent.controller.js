@@ -17,7 +17,7 @@
 
   function RecentActivityController($q, _, $rootScope, $scope, $state, $stateParams, $timeout,
                                     NstSvcActivityFactory, NstSvcServer, NstSvcLogger,
-                                    NstSvcPlaceFactory, NST_PLACE_ACCESS, NST_SRV_EVENT, NST_EVENT_ACTION) {
+                                    NstSvcPlaceFactory, NST_PLACE_ACCESS, NST_SRV_EVENT, NST_PLACE_EVENT_ACTION) {
     var vm = this;
     var eventReferences = [];
     vm.activities = [];
@@ -43,7 +43,7 @@
           getRecentActivity(vm.settings);
         });
         // Listens to $rootScope and adds a new activity to the list
-        _.forEach(NST_EVENT_ACTION, function (action) {
+        _.forEach(NST_PLACE_EVENT_ACTION, function (action) {
           eventReferences.push($rootScope.$on(action, function (e, data) {
             addNewActivity(data.activity);
           }));
@@ -113,13 +113,13 @@
           vm.activities.pop();
         }
         activity.isHot = true;
-        // TODO: Sometimes a comment leakes! I've added || activity.type == NST_EVENT_ACTION.COMMENT_ADD
+        // TODO: Sometimes a comment leakes! I've added || activity.type == NST_PLACE_EVENT_ACTION.COMMENT_ADD
         // to prevent the leakage. But I'm not sure!
         if (
-          activity.type === NST_EVENT_ACTION.POST_ADD ||
-          activity.type === NST_EVENT_ACTION.COMMENT_ADD ||
-          activity.type === NST_EVENT_ACTION.LABEL_ADD ||
-          activity.type === NST_EVENT_ACTION.LABEL_REMOVE) {
+          activity.type === NST_PLACE_EVENT_ACTION.POST_ADD ||
+          activity.type === NST_PLACE_EVENT_ACTION.COMMENT_ADD ||
+          activity.type === NST_PLACE_EVENT_ACTION.LABEL_ADD ||
+          activity.type === NST_PLACE_EVENT_ACTION.LABEL_REMOVE) {
           if (activityBelongsToPlace(activity)) {
             vm.activities.unshift(activity);
           }
