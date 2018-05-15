@@ -37,6 +37,7 @@
     vm.showNewMessages = showNewMessages;
     vm.dismissNewMessage = dismissNewMessage;
     vm.openContacts = openContacts;
+    vm.openApps = openApps;
     vm.removeMulti = removeMulti;
     vm.moveMulti = moveMulti;
     vm.markMulti = markMulti;
@@ -433,6 +434,13 @@
 
     function openContacts($event) {
       $state.go('app.contacts', {}, {
+        notify: false
+      });
+      $event.preventDefault();
+    }
+
+    function openApps($event) {
+      $state.go('app.applications', {}, {
         notify: false
       });
       $event.preventDefault();

@@ -1,0 +1,64 @@
+<div id="contacts-list">
+    <h2 class="_df">
+        <svg class="_24svg _asc" ng-click="$dismiss()">
+            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/nst-icn24.svg#xcross"></use>
+        </svg>
+        <translate>Applications</translate>
+    </h2>
+    <div class="_pr _fw">
+        <svg class="_16svg _asc _pa srch">
+            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/nst-icn16.svg#search"></use>
+        </svg>
+        <input type="text" ng-model="ctrl.keyword" ng-change="ctrl.search(ctrl.keyword);" placeholder="find in apps" translate-attrs="placeholder">
+    </div>
+    <div id="scroller" iscroll iscroll-instance="scrollInstance" add-scope-scroll-top scroll-spy="" data-target="#navPills" data-scroll-offset="80"
+        class="scrollspy-example span9 iscroll-wrapper">
+        <div class="iscroll-scroller">
+            <section id="fav" ng-if="!(ctrl.keyword && ctrl.keyword.length > 0) && ctrl.favorites.length > 0">
+                <h6><translate>Favorites</translate></h6>
+                <a class="inline-app-row" ng-repeat="app in ctrl.favorites" href="{{app.homepage}}">
+                    <img src="{{app.iconSmallUrl}}" width="24px" height="24px"/>
+                    <div class="_difv">
+                        <span>{{app.name}}</span>
+                        <span>{{app.id}}</span>
+                    </div>
+                    <div class="_df _fn app-icon">
+                        <svg class="_24svg crown">
+                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/nst-icn24.svg#star"></use>
+                        </svg>
+                    </div>
+                    <div class="_df _fn app-icon">
+                        <svg class="_24svg red force">
+                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/nst-icn24.svg#bin"></use>
+                        </svg>
+                    </div>
+                </a>
+            </section>
+            <section ng-repeat="group in ctrl.apps" id="{{::group.key}}">
+                <h6 class="text-uppercase">{{::group.key}}</h6>
+                <a class="inline-app-row" ng-repeat="app in group.items" href="{{app.homepage}}">
+                    <img src="{{app.iconSmallUrl}}" width="48px" height="48px"/>
+                    <div class="_difv _fw">
+                        <span>{{app.name}}</span>
+                        <span>{{app.id}}</span>
+                    </div>
+                    <div class="_df _fn app-icon">
+                        <svg class="_24svg star-button">
+                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/nst-icn24.svg#star"></use>
+                        </svg>
+                    </div>
+                    <div class="_df _fn app-icon">
+                        <svg class="_24svg red force">
+                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/nst-icn24.svg#bin"></use>
+                        </svg>
+                    </div>
+                </a>
+            </section>
+        </div>
+    </div>
+
+    <ul class="alphabet nav" id="navPills">
+        <li class="active"><a href="#fav" ng-click="$event.preventDefault();" scroll-to="fav">*</a></li>
+        <li ng-repeat="group in ctrl.apps"><a href="#{{::group.key}}" ng-click="$event.preventDefault();" scroll-to="{{::group.key}}">{{::group.key}}</a></li>
+    </ul>
+</div>

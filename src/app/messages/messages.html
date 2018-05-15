@@ -205,6 +205,15 @@
           </div>
           <fav-contacts></fav-contacts>
         </div>
+        <div ng-if="!ctrl.currentPlaceId && !ctrl.isBookmark && !ctrl.isSent">
+          <div class="name">
+            <translate>Applications</translate>
+            <svg class="_16svg _df mirror" ng-click="ctrl.openApps($event)">
+              <use xlink:href="/assets/icons/nst-icn16.svg#expand"></use>
+            </svg>
+          </div>
+          <my-applications></my-applications>
+        </div>
         <div id="members" ng-if="ctrl.isPlaceMessage && ctrl.currentPlaceId && !ctrl.isPersonal">
           <place-member-settings ng-if="ctrl.currentPlace" place="ctrl.currentPlace" view-mode="content-plus"></place-member-settings>            
           <!-- <nst-place-teammates-sidebar grand-place="ctrl.currentPlaceId" place-id="ctrl.currentPlaceId"></nst-place-teammates-sidebar> -->

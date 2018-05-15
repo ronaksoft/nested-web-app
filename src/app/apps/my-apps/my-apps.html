@@ -1,0 +1,24 @@
+<div iscroll="" class="iscroll-wrapper _bgwhite fav-apps">
+  <ul class="iscroll-scroller">
+    <li ng-if="appsCtrl.apps.length === 0 && !appsCtrl.loadProgress">
+      <div class="_jcc _df _fw nst-margin-12">
+        <translate>No Favorite Application!!</translate>
+      </div>
+    </li>
+    <li class="_fw _df _jcc _fn" ng-if="appsCtrl.loadProgress">
+      <div class="nst-mood-cheerful no-gutter nst-margin-24">
+        <div class="nst-loading sm"></div>
+      </div>
+    </li>
+    <li ng-if="!appsCtrl.loadProgress" ng-repeat="app in appsCtrl.apps">
+      <a class="_df inline-app-row _aic _fw" href="{{app.homepage}}" target="_blank">
+        <div>
+          <img src="{{app.iconSmallUrl}}" width="24px" height="24px"/>
+        </div>
+        <div class="_df text-wrap _fw">
+          <span class="_txe" auto-dir="app.name">{{app.name}}</span>
+        </div>
+      </a>
+    </li>
+  </ul>
+</div>

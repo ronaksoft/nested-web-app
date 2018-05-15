@@ -68,6 +68,32 @@
         height: 72px;
         align-items: center;
     }
+    .inline-app-row {
+        height: 72px;
+        display: flex;
+        align-items: center;
+        img {
+            border-radius: 8px;
+            margin: 0 8px;
+        }
+        span:first-child {
+            font-size: 16px;
+            line-height: 22px;
+            color: #323D47;
+            margin-top: 4px;
+        }
+        span:last-child {
+            font-size: 14px;
+            line-height: 20px;
+            color: rgba(0,0,0,.4);
+        }
+        .app-icon {
+            margin: 0 4px;
+            .star-button {
+                fill: $color-solid-64;
+            }
+        }
+    }
     .alphabet {
         position: absolute;
         right: 8px;

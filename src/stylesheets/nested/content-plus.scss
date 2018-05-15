@@ -245,6 +245,28 @@
   will-change: transform;
 }
 
+.fav-apps {
+  max-height: calc(50vh - 300px);
+  height: auto!important;
+  li {
+    display: flex
+  }
+  .inline-app-row {
+    height: 40px;
+    color: $color-solid;
+    padding: 0 12px;
+    img {
+      width: 24px;
+      height: 24px
+    }
+    span:first-child {
+      font-size: 13px;
+      line-height: 18px;
+      padding-left: 12px;
+    }
+  }
+}
+
 .fav-contacts {
   max-height: calc(100vh - 300px);
   height: auto!important;
