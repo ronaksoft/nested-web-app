@@ -3,7 +3,10 @@
         <svg class="_24svg _asc" ng-click="$dismiss()">
             <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/nst-icn24.svg#xcross"></use>
         </svg>
-        <translate>Applications</translate>
+        <translate class="_fw">Applications</translate>
+        <div class="butn butn-pending secondary" ng-click="ctrl.gotoAddApps()">
+            Add
+        </div>
     </h2>
     <div class="_pr _fw">
         <svg class="_16svg _asc _pa srch">
@@ -16,18 +19,18 @@
         <div class="iscroll-scroller">
             <section id="fav" ng-if="!(ctrl.keyword && ctrl.keyword.length > 0) && ctrl.favorites.length > 0">
                 <h6><translate>Favorites</translate></h6>
-                <a class="inline-app-row" ng-repeat="app in ctrl.favorites" href="{{app.homepage}}">
-                    <img src="{{app.iconSmallUrl}}" width="24px" height="24px"/>
+                <a class="inline-app-row" ng-repeat="app in ctrl.favorites" href="{{app.app.homepage}}">
+                    <img src="{{app.app.iconSmallUrl}}" width="24px" height="24px"/>
                     <div class="_difv">
-                        <span>{{app.name}}</span>
-                        <span>{{app.id}}</span>
+                        <span>{{app.app.name}}</span>
+                        <span>{{app.app.id}}</span>
                     </div>
                     <div class="_df _fn app-icon">
                         <svg class="_24svg crown">
                             <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/nst-icn24.svg#star"></use>
                         </svg>
                     </div>
-                    <div class="_df _fn app-icon" ng-click="ctrl.removeApp($event, app.id)">
+                    <div class="_df _fn app-icon" ng-click="ctrl.removeApp($event, app.token)">
                         <svg class="_24svg red force">
                             <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/nst-icn24.svg#bin"></use>
                         </svg>
@@ -36,11 +39,11 @@
             </section>
             <section ng-repeat="group in ctrl.apps" id="{{::group.key}}">
                 <h6 class="text-uppercase">{{::group.key}}</h6>
-                <a class="inline-app-row" ng-repeat="app in group.items" href="{{app.homepage}}">
-                    <img src="{{app.iconSmallUrl}}" width="48px" height="48px"/>
+                <a class="inline-app-row" ng-repeat="app in group.items" href="{{app.app.homepage}}">
+                    <img src="{{app.app.iconSmallUrl}}" width="48px" height="48px"/>
                     <div class="_difv _fw">
-                        <span>{{app.name}}</span>
-                        <span>{{app.id}}</span>
+                        <span>{{app.app.name}}</span>
+                        <span>{{app.app.id}}</span>
                     </div>
                     <div class="_df _fn app-icon">
                         <svg class="_24svg star-button">
@@ -54,6 +57,9 @@
                     </div>
                 </a>
             </section>
+            <p ng-if="ctrl.apps.length === 0">
+                You have not added any app
+            </p>
         </div>
     </div>
 

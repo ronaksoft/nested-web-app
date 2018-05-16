@@ -12,13 +12,15 @@
 
   angular.module('ronak.nested.web.app').controller('AppsController', AppsController);
 
-  function AppsController($stateParams, _, $uibModalInstance, $scope, NstSvcAppFactory, $q, NstSvcModal, NstSvcTranslation) {
+  function AppsController($stateParams, _, $uibModalInstance, $scope, NstSvcAppFactory, $q, NstSvcModal, NstSvcTranslation,
+    $uibModal) {
     var vm = this,
       eventReferences = [];
 
     vm.search = _.debounce(search, 512);
     vm.view = view;
     vm.removeApp = removeApp;
+    vm.gotoAddApps = gotoAddApps;
 
     (function () {
       search(null);
@@ -29,7 +31,7 @@
 
       vm.loadProgress = true;
       NstSvcAppFactory.getAllTokens().then(function (apps) {
-        deferred.resolve( _.map(apps, function(app){ return _.merge(app.app, {token: app.token})}));
+        deferred.resolve(apps);
         // deferred.resolve( _.map(apps, function(app){ return app.app}));
       }).catch(function (error) {
         toastr.error(NstSvcTranslation.get("An error occured while loading your contacts list."));
@@ -51,7 +53,7 @@
         if (keyword && keyword.length > 0) {
           vm.favorites = [];
         } else {
-          vm.favorites = orderItems(_.filter(filteredItems, { 'starred' : true }));
+          // vm.favorites = orderItems(_.filter(filteredItems, { 'starred' : true }));
         }
         vm.apps = _.chain(filteredItems)
           .groupBy(function (app) {
@@ -90,12 +92,33 @@
     }
 
     function getOrderFactor(app) {
-      return app.name || app.id;
+      return app.app.name || app.app.id;
+    }
+
+    function gotoAddApps() {
+      $uibModal.open({
+        animation: false,
+        size: '960',
+        templateUrl: 'app/settings/apps/partials/create-token.html',
+        controller: 'CreateTokenController',
+        resolve: {
+          myApps: function () {
+            var items = [];
+            _.forEach(vm.apps, function(appGroup) {
+              _.forEach(appGroup.items, function(app) {
+                items.push(app);
+              });
+            });
+            return items;
+          }
+        },
+        controllerAs: 'ctrl'
+      }).result.then(function(){search()}).catch(function(){search()});
     }
 
     function contactHasKeyword(app, keyword) {
-      var fullName = _.toLower(app.name),
-          id = _.toLower(app.id),
+      var fullName = _.toLower(app.app.name),
+          id = _.toLower(app.app.id),
           word = _.toLower(keyword);
 
       return _.includes(fullName, word) || _.includes(id, word);
@@ -115,14 +138,16 @@
       }
     }
 
-    function removeApp(event, id) {
+    function removeApp(event, token) {
       event.preventDefault();
       event.stopPropagation();
       NstSvcModal.confirm(NstSvcTranslation.get("Confirm"), NstSvcTranslation.get("By deleting this app you will terminate all Application permissions to your account")).then(function (result) {
         if (result) {
-          NstSvcAppFactory.revokeToken(id).then(function(respones) {
-            if (respones){
-              vm.apps = _.remove(vm.apps, {id: id}); 
+          NstSvcAppFactory.revokeToken(token).then(function(respones) {
+            if (respones = {}){
+              _.remove(vm.apps, function(a) {
+                return a.items[0].token === token;
+              }); 
             } else {
               toastr.error(NstSvcTranslation.get("An error occured while deleting this app."));
             }
