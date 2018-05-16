@@ -12,12 +12,13 @@
 
   angular.module('ronak.nested.web.app').controller('AppsController', AppsController);
 
-  function AppsController($stateParams, _, $uibModalInstance, $scope, NstSvcAppFactory, $q) {
+  function AppsController($stateParams, _, $uibModalInstance, $scope, NstSvcAppFactory, $q, NstSvcModal, NstSvcTranslation) {
     var vm = this,
       eventReferences = [];
 
     vm.search = _.debounce(search, 512);
     vm.view = view;
+    vm.removeApp = removeApp;
 
     (function () {
       search(null);
@@ -28,7 +29,8 @@
 
       vm.loadProgress = true;
       NstSvcAppFactory.getAllTokens().then(function (apps) {
-        deferred.resolve( _.map(apps, function(app){ return app.app}));
+        deferred.resolve( _.map(apps, function(app){ return _.merge(app.app, {token: app.token})}));
+        // deferred.resolve( _.map(apps, function(app){ return app.app}));
       }).catch(function (error) {
         toastr.error(NstSvcTranslation.get("An error occured while loading your contacts list."));
         deferred.reject(error);
@@ -51,12 +53,10 @@
         } else {
           vm.favorites = orderItems(_.filter(filteredItems, { 'starred' : true }));
         }
-        console.log(filteredItems);
         vm.apps = _.chain(filteredItems)
           .groupBy(function (app) {
             var orderFactor = getOrderFactor(app);
             var firstChar = getFirstChar(orderFactor);
-            console.log(firstChar);
             if (firstChar && firstChar.length === 1) {
 
               if (isNumber(firstChar)) {
@@ -113,6 +113,22 @@
       if (_.isFunction($scope.scrollToTop)) {
         $scope.scrollToTop();
       }
+    }
+
+    function removeApp(event, id) {
+      event.preventDefault();
+      event.stopPropagation();
+      NstSvcModal.confirm(NstSvcTranslation.get("Confirm"), NstSvcTranslation.get("By deleting this app you will terminate all Application permissions to your account")).then(function (result) {
+        if (result) {
+          NstSvcAppFactory.revokeToken(id).then(function(respones) {
+            if (respones){
+              vm.apps = _.remove(vm.apps, {id: id}); 
+            } else {
+              toastr.error(NstSvcTranslation.get("An error occured while deleting this app."));
+            }
+          });
+        }
+      });
     }
 
     // Closes the modal
