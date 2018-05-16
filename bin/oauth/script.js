@@ -412,7 +412,8 @@ var nst = {
         username: nst.user._id,
         fname: nst.user.fname,
         lname: nst.user.lname,
-        email: nst.user.email
+        email: nst.user.email,
+        picture: nst.getImage(nst.user)
       };
       nst.xhr({
         method: 'POST',
