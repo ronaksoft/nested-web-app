@@ -1251,7 +1251,10 @@
             placeId: place.id
           });
         } else {
-          NstSvcModal.error(NstSvcTranslation.get("Error"), NstSvcTranslation.get("Either this Place doesn't exist, or you don't have the permit to enter the Place."));
+          // NstSvcModal.error(NstSvcTranslation.get("Error"), NstSvcTranslation.get("Either this Place doesn't exist, or you don't have the permit to enter the Place."));
+          $state.go('app.conversation', {
+            userId: place.id
+          });
         }
       }
     }
