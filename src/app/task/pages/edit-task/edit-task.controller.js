@@ -514,7 +514,7 @@
       var oldData = getNormalValue(vm.modelBackUp.assignees);
       var newItems = _.differenceBy(assignees, oldData, 'id');
       var removedItems = _.differenceBy(oldData, assignees, 'id');
-      vm.assigneeChanged = (newItems.length > 0 || removedItems.length > 0) && assignees.length > 0;
+      vm.assigneeChanged = (newItems.length > 0 || removedItems.length > 0);
     }
 
     function executeAssigneeUpdate(action) {
@@ -525,6 +525,10 @@
         vm.model.assignees = vm.modelBackUp.assignees.slice(0);
         vm.assigneeFocus = false;
       } else if (action === 'confirm') {
+        if (vm.model.assignees.length === 0) {
+          toastr.warning(NstSvcTranslation.get('You must have at least one assignee!'));
+          return;
+        }
         vm.assigneeLoading = true;
         NstSvcTaskFactory.updateAssignee(vm.taskId, getCommaSeparate(vm.model.assignees)).then(function () {
           vm.modelBackUp.assignees = vm.model.assignees.slice(0);
