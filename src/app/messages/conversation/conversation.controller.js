@@ -6,7 +6,8 @@
     .controller('conversationController', conversationController);
 
   /** @ngInject */
-  function conversationController(_, $log, $stateParams, $state, NstSvcPostFactory, NstSvcUserFactory, $, $scope) {
+  function conversationController(_, $log, $stateParams, $state, $, $scope,
+      NstSvcPostFactory, NstSvcUserFactory, NstSvcPlaceFactory, NST_PLACE_ACCESS) {
     var vm = this;
     var limit = 8;
     var skip = 0;
@@ -17,6 +18,7 @@
     vm.loading = false;
     vm.loadMessageError = false;
     vm.noResult = false;
+    vm.quickMessageAccess = true;
     vm.messages = [];
     vm.viewSetting = {
       content: true,
@@ -37,17 +39,26 @@
       id : 'bar'
     }];
 
-    vm.search = search;
     vm.loadMore = loadMore;
     vm.backToConversation = backToConversation;
 
     (function () {
       NstSvcUserFactory.get($stateParams.userId)
         .then(function (user) {
-
-          vm.account = user;
-          searchLazily();
+          if (user) {
+            vm.account = user;
+          } else {
+          }
         });
+      NstSvcPlaceFactory.get($stateParams.userId)
+        .then(function (place) {
+          if (place) {
+            vm.account = place;
+            console.log(place.hasAccess(NST_PLACE_ACCESS.WRITE_POST));
+            vm.quickMessageAccess = place.hasAccess(NST_PLACE_ACCESS.WRITE_POST);
+          }
+      });
+        searchMessages();
     })();
 
     function sendKeyIsPressed(e) {
@@ -67,12 +78,7 @@
       searchLazily(queryString);
     }
 
-
-    function search(queryString) {
-      searchMessages(queryString);
-    }
-
-    var searchLazily = _.debounce(search, 640);
+    var searchLazily = _.debounce(searchMessages, 640);
 
     function searchMessages(queryString) {
       vm.loading = true;

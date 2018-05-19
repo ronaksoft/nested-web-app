@@ -14,13 +14,8 @@
       controllerAs: 'ctlFullNavbar',
       bindToController: true,
       scope: {
-        page: '=',
-        showPlaceId : '=',
-        pictureUrl : '@navPictureUrl',
-        pictureClass : '@navPictureClass',
         title : '@navTitle',
         placeId : '@',
-        readyToShow : '=',
         account: '=',
         query: '='
       },

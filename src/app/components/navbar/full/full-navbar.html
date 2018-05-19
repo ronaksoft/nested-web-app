@@ -126,7 +126,7 @@
       />
     </div>
     <cite ng-if="ctlFullNavbar.isSearchMode"><translate>Search Results</translate></cite>
-    <cite ng-if="ctlFullNavbar.isConvMode"><translate>Conversations with</translate>&nbsp;{{ctlFullNavbar.account.fullName}}</cite>
+    <cite ng-if="ctlFullNavbar.isConvMode"><translate>Conversations with</translate>&nbsp;{{ctlFullNavbar.account.fullName || ctlFullNavbar.account.name}}</cite>
   </div>
 </div>
 

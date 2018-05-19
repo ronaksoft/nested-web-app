@@ -203,7 +203,7 @@
       if (vm.quickMode) {
         NstSvcLogger.debug4('Compose | compose is in quick mode');
         NstSvcLogger.debug4('Compose | insert place id as recipient in quick post');
-        addRecipients($stateParams.placeId);
+        addRecipients($stateParams.placeId || $stateParams.userId);
         eventReferences.push($scope.$on('$stateChangeStart', function (event, toState, toParams) {
           var confirm = shouldSaveDraftQuick();
           if (confirm && !vm.finish) {
@@ -1226,7 +1226,6 @@
                   }
                 }
 
-
                 var deferred = $q.defer();
 
                 if (place) {
@@ -1269,7 +1268,6 @@
      * @returns
      */
     function addRecipients(placeId) {
-
       var deferred = $q.defer();
 
       if (_.some(vm.model.recipients, {
@@ -1280,9 +1278,16 @@
       }
 
       getPlace(placeId).then(function (place) {
-        NstSvcLogger.debug4('Compose | nested place added as recipients :', place);
-        vm.model.recipients.push(new NstVmSelectTag(place));
-        deferred.resolve();
+        if (place) {
+          NstSvcLogger.debug4('Compose | nested place added as recipients :', place);
+          vm.model.recipients.push(new NstVmSelectTag(place));
+          deferred.resolve();
+        } else {
+          vm.model.recipients.push(new NstVmSelectTag({
+            id: placeId,
+            name: placeId
+          }));
+        }
       }).catch(deferred.reject);
 
       return deferred.promise;
