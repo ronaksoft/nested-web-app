@@ -205,7 +205,11 @@
           </div>
           <fav-contacts></fav-contacts>
         </div>
-        <div ng-if="!ctrl.currentPlaceId && !ctrl.isBookmark && !ctrl.isSent">
+        <div id="members" ng-if="ctrl.isPlaceMessage && ctrl.currentPlaceId && !ctrl.isPersonal">
+          <place-member-settings ng-if="ctrl.currentPlace" place="ctrl.currentPlace" view-mode="content-plus"></place-member-settings>            
+          <!-- <nst-place-teammates-sidebar grand-place="ctrl.currentPlaceId" place-id="ctrl.currentPlaceId"></nst-place-teammates-sidebar> -->
+        </div>
+        <div>
           <div class="name">
             <translate>Applications</translate>
             <svg class="_16svg _df mirror" ng-click="ctrl.openApps($event)">
@@ -213,10 +217,6 @@
             </svg>
           </div>
           <my-applications></my-applications>
-        </div>
-        <div id="members" ng-if="ctrl.isPlaceMessage && ctrl.currentPlaceId && !ctrl.isPersonal">
-          <place-member-settings ng-if="ctrl.currentPlace" place="ctrl.currentPlace" view-mode="content-plus"></place-member-settings>            
-          <!-- <nst-place-teammates-sidebar grand-place="ctrl.currentPlaceId" place-id="ctrl.currentPlaceId"></nst-place-teammates-sidebar> -->
         </div>
         <div id="cp1" ng-show="!ctrl.isBookmark && !ctrl.isSent && ctrl.currentPlaceId">
           <nst-recent-activity place="ctrl.currentPlaceId" place-id="ctrl.currentPlaceId" count="10" />

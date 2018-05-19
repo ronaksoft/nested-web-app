@@ -157,8 +157,19 @@
     </div>
   </section>
   <!-- content plus
-            ==============-->
+  ==============-->
   <div class="content-plus illu">
+    <div class="content-plus-inner">
+        <div>
+          <div class="name">
+            <translate>Applications</translate>
+            <svg class="_16svg _df mirror" ng-click="ctrl.openApps($event)">
+              <use xlink:href="/assets/icons/nst-icn16.svg#expand"></use>
+            </svg>
+          </div>
+          <my-applications></my-applications>
+        </div>
+    </div>
   </div>
 </div>
 
