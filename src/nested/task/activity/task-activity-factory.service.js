@@ -45,6 +45,9 @@
         case NST_TASK_EVENT_ACTION.WATCHER_ADDED:
         case NST_TASK_EVENT_ACTION.WATCHER_REMOVED:
           return parseWatcher(data);
+        case NST_TASK_EVENT_ACTION.EDITOR_ADDED:
+        case NST_TASK_EVENT_ACTION.EDITOR_REMOVED:
+          return parseEditor(data);
         case NST_TASK_EVENT_ACTION.ATTACHMENT_ADDED:
         case NST_TASK_EVENT_ACTION.ATTACHMENT_REMOVED:
           return parseAttachment(data);
@@ -92,6 +95,18 @@
       parseDefault(activity, data);
 
       activity.watchers = _.map(data.watchers, function (item) {
+        return NstSvcUserFactory.parseTinyUser(item);
+      });
+
+      return activity;
+    }
+
+    function parseEditor(data) {
+      var activity = new NstTaskActivity();
+
+      parseDefault(activity, data);
+
+      activity.editors = _.map(data.editors, function (item) {
         return NstSvcUserFactory.parseTinyUser(item);
       });
 

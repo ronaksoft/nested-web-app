@@ -153,6 +153,31 @@
               </div>
             </label>
       </div>
+      <div class="task-watcher auto-height-item">
+        <div class="_difv _fw">
+          <h3>
+            <translate>Editors</translate>
+          </h3>
+          <div class="task-input-wrapper ng-class:{'focus': ctrlCreateTask.editorFocus}">
+            <task-assignee assignees-data="ctrlCreateTask.model.editors" element-focus="ctrlCreateTask.editorFocus" edit-mode="ctrlCreateTask.editMode"
+              assignee-with-candidate="false" assignee-placeholder="{{ctrlCreateTask.editorPlaceholder}}" remove-items="ctrlCreateTask.removeEditorItems"
+              assignee-exclude="{{ctrlCreateTask.user.id}}"></task-assignee>
+          </div>
+        </div>
+        <label ng-class="{'focus': ctrlCreateTask.editorFocus, 'no-hover': ctrlCreateTask.model.editors.length === 0}">
+              <div class="_24svg _df _jcc _aic" data-uib-tooltip="Remove All Attachments"
+                   data-tooltip-placement="top-center auto"
+                   data-tooltip-append-to-body="true" data-tooltip-enable="ctrlCreateTask.model.editors.length > 0">
+                <svg class="_16svg static-item">
+                  <use xlink:href="/assets/icons/nst-icn16.svg#person"></use>
+                </svg>
+                <svg class="_16svg force hover-item" ng-if="ctrlCreateTask.model.editors.length > 0"
+                     ng-click="ctrlCreateTask.removeEditors()">
+                  <use xlink:href="/assets/icons/nst-icn16.svg#bin"></use>
+                </svg>
+              </div>
+            </label>
+      </div>
       <div class="task-labels auto-height-item">
         <div class="_difv _fw">
           <h3>
@@ -164,7 +189,7 @@
           </div>
         </div>
         <label ng-class="{'focus': ctrlCreateTask.labelFocus, 'no-hover': ctrlCreateTask.model.labels.length === 0}">
-              <div class="_24svg _df _jcc _aic" data-uib-tooltip="Remove All Watchers"
+              <div class="_24svg _df _jcc _aic" data-uib-tooltip="Remove All Labels"
                    data-tooltip-placement="top-center auto"
                    data-tooltip-append-to-body="true" data-tooltip-enable="ctrlCreateTask.model.abels.length > 0">
                 <svg class="_16svg static-item">

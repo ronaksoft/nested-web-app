@@ -18,6 +18,8 @@
       DELETE_TASK: 0x0800,
       ADD_LABEL: 0x0101,
       REMOVE_LABEL: 0x0102,
-      UPDATE_TASK: 0x0103
+      UPDATE_TASK: 0x0103,
+      ADD_EDITOR: 0x0108,
+      REMOVE_EDITOR: 0x0109
     });
 })();

@@ -34,6 +34,7 @@
           vm.model.todos.length !== 0 ||
           vm.model.attachments.length !== 0 ||
           vm.model.watchers.length !== 0 ||
+          vm.model.editors.length !== 0 ||
           vm.model.labels.length !== 0) {
         NstSvcTaskUtility.promptModal({
           title: NstSvcTranslation.get('Closing creating task modal'),
@@ -63,6 +64,7 @@
         todos: vm.model.todos,
         attachments: vm.model.attachments,
         watchers: vm.model.watchers,
+        editors: vm.model.editors,
         labels: vm.model.labels
       };
       NstSvcTaskDraft.save(draft);
@@ -123,6 +125,14 @@
         vm.showMoreOption = true;
       }
 
+      if (task.editors && task.editors.length > 0) {
+        vm.model.editors = {
+          init: true,
+          data: task.editors
+        };
+        vm.showMoreOption = true;
+      }
+
       if (task.labels && task.labels.length > 0) {
         vm.model.labels = {
           init: true,
@@ -148,6 +158,7 @@
       todos: [],
       attachments: [],
       watchers: [],
+      editors: [],
       labels: []
     };
 
@@ -182,6 +193,9 @@
 
     vm.watcherPlaceholder = NstSvcTranslation.get('Add peoples who wants to follow task...');
     vm.removeWatchers = removeWatchers;
+
+    vm.editorPlaceholder = NstSvcTranslation.get('Add peoples who wants to edit task...');
+    vm.removeEditors = removeEditors;
 
     vm.labelPlaceholder = NstSvcTranslation.get('Add labels...');
     vm.removeLabels = removeLabels;
@@ -235,6 +249,10 @@
       vm.removeWatcherItems.call();
     }
 
+    function removeEditors() {
+      vm.removeEditorItems.call();
+    }
+
     function removeLabels() {
       vm.removeLabelItems.call();
     }
@@ -272,6 +290,9 @@
         }
         if (vm.model.watchers.length > 0) {
           task.watchers = vm.model.watchers;
+        }
+        if (vm.model.editors.length > 0) {
+          task.editors = vm.model.editors;
         }
         if (vm.model.labels.length > 0) {
           task.labels = vm.model.labels;
@@ -342,6 +363,7 @@
       vm.attachmentFocus = false;
       vm.labelFocus = false;
       vm.watcherFocus = false;
+      vm.weditorFocus = false;
       vm.titleFocus = false;
     }
 
@@ -356,6 +378,7 @@
         todoFocus: vm.todoFocus,
         attachmentFocus: vm.attachmentFocus,
         watcherFocus: vm.watcherFocus,
+        editorFocus: vm.editorFocus,
         labelFocus: vm.labelFocus
       };
     }, function (newVal) {

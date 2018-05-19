@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   angular
@@ -27,6 +27,8 @@
       DUE_DATE_REMOVED: 0x0022,
       CREATED: 0x0023,
       ASSIGNEE_CHANGED: 0x0024,
-      UPDATED: 0x0100
+      UPDATED: 0x0100,
+      EDITOR_ADDED: 0x0025,
+      EDITOR_REMOVED: 0x0026
     });
 })();

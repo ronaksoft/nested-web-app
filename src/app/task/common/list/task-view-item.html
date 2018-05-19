@@ -13,7 +13,7 @@
         <span>{{task.title}}</span>
       </a>
       <p ng-if="task.status === ctrl.statuses.OVERDUE || task.status === ctrl.statuses.ASSIGNED || task.status === ctrl.statuses.HOLD">
-        <translate ng-if="!ctrl.isCreatedByMePage && task.assignee">from</translate> <b ng-if="!ctrl.isCreatedByMePage && task.assignee"><span user-detail="task.assignor">{{task.assignor.fullName}}</span></b> 
+        <translate ng-if="!ctrl.isCreatedByMePage && task.assignee">from</translate> <b ng-if="!ctrl.isCreatedByMePage && task.assignee"><span user-detail="task.assignor">{{task.assignor.fullName}}</span></b>
         <translate ng-if="!ctrl.isAssignedToMePage && task.assignee">to</translate>
         <b ng-if="!ctrl.isAssignedToMePage && task.assignee"><span user-detail="task.assignee">{{task.assignee.fullName}}</span></b>
         <translate ng-if="!ctrl.isAssignedToMePage && !task.assignee && task.candidates.length > 0">waiting for <b data-tooltip-placement="top"
@@ -66,6 +66,13 @@
           <use xlink:href="/assets/icons/nst-icn16.svg#person"></use>
         </svg>
         <span>{{task.counters.watchers | localize}}</span>
+      </div>
+      <div ng-if="task.counters.editors > 0" class="task-detail-item" data-tooltip-placement="{{$root._direction == 'rtl' ? 'top-left' : 'top-right'}}"
+          data-uib-tooltip-template="'task-editors.html'" data-tooltip-append-to-body="true">
+        <svg class="_16svg _df">
+          <use xlink:href="/assets/icons/nst-icn16.svg#pencil"></use>
+        </svg>
+        <span>{{task.counters.editors | localize}}</span>
       </div>
       <div ng-if="task.counters.labels > 0" class="task-detail-item" data-tooltip-placement="{{$root._direction == 'rtl' ? 'top-left' : 'top-right'}}"
           data-uib-tooltip-template="'task-labels.html'" data-tooltip-append-to-body="true">

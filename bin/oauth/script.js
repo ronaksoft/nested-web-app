@@ -251,10 +251,10 @@ var nst = {
       nst.http('account/get', {}, function (data) {
         nst.fillUserData(data);
       }, function () {
-        nst.switchToLogin();
+        nst.switchToWorkspace();
       });
     } else {
-      nst.switchToLogin();
+      nst.switchToWorkspace();
     }
 
     document.querySelector('.js-change-workspace').addEventListener('click', function () {

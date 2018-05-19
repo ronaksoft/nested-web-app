@@ -182,5 +182,11 @@
   <div ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.TASK_IN_PROGRESS"
        class="notif-li ng-class:{'seen': notif.isSeen}" ng-include="'/app/notification/task-partials/in-progress.html'"
        ng-init="notification = notif">
+  <div ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.TASK_FAILED"
+       class="notif-li ng-class:{'seen': notif.isSeen}" ng-include="'/app/notification/task-partials/failed.html'"
+       ng-init="notification = notif">
+  <div ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.TASK_ADD_TO_EDITORS"
+       class="notif-li ng-class:{'seen': notif.isSeen}" ng-include="'/app/notification/task-partials/add-editor.html'"
+       ng-init="notification = notif">
   </div>
 </script>

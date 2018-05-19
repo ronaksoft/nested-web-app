@@ -249,6 +249,8 @@
       'app/task/common/activity/partials/status-changed.html',
       'app/task/common/activity/partials/watcher-added.html',
       'app/task/common/activity/partials/watcher-removed.html',
+      'app/task/common/activity/partials/editor-added.html',
+      'app/task/common/activity/partials/editor-removed.html',
       'app/task/common/activity/partials/attachment-added.html',
       'app/task/common/activity/partials/attachment-removed.html',
       'app/task/common/activity/partials/comment.html',
