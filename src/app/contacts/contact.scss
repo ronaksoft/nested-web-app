@@ -67,6 +67,12 @@
     .inline-user-row {
         height: 72px;
         align-items: center;
+        .add-as-contact {
+            width: 32px;
+            margin: 0 4px;
+            justify-content: center;
+            display: flex;
+        }
     }
     .inline-app-row {
         height: 72px;

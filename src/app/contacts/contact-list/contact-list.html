@@ -36,6 +36,23 @@
                     </div>
                 </div>
             </section>
+            <section ng-if="ctrl.stranges.length > 0">
+                <h6 class="text-uppercase"><translate>Not in your contacts</translate></h6>
+                <div class="inline-user-row" ng-repeat="contact in ctrl.stranges" ng-click="ctrl.view(contact)">
+                    <img initial-avatar="{{contact.id}}" name="{{contact.fullName}}" picture="{{contact | avatar : 'x64'}}" data-width="48" data-height="48"
+                    data-radius="48" class="account-initials-64" data-word-count="2" data-font-size="18"/>
+                    <div class="_difv _fw">
+                        <span>{{contact.fullName}}</span>
+                        <span>{{contact.id}}</span>
+                    </div>
+                    <div class="add-as-contact" data-uib-tooltip="Add as a contact"
+                    data-tooltip-placement="top auto" data-tooltip-append-to-body="true">
+                        <svg class="_16svg fill-sense-wire" ng-click="ctrl.addContact(contact, $event)">
+                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/nst-icn16.svg#cross"></use>
+                        </svg>
+                    </div>
+                </div>
+            </section>
         </div>
     </div>
 

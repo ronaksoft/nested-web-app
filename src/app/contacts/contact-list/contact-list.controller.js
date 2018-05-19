@@ -24,12 +24,15 @@
    * @param {any} NstSvcContactFactory
    * @param {any} NstSvcTranslation
    */
-  function ContactListController(toastr, $q, _, $scope,
-    NstSvcContactFactory, NstSvcTranslation) {
+  function ContactListController(toastr, $q, _, $scope, $rootScope,
+    NstSvcContactFactory, NstSvcTranslation, NST_USER_SEARCH_AREA, NstSvcUserFactory) {
     var vm = this;
+    vm.stranges = [];
 
     vm.search = _.debounce(search, 512);
+    vm.searchStranges = _.debounce(searchStranges, 512);
     vm.view = view;
+    vm.addContact = addContact;
 
     (function () {
       search(null);
@@ -103,9 +106,24 @@
             return group.key;
           }], ['asc'])
           .value();
+
+          if (keyword) {
+            vm.searchStranges(keyword, contacts);
+          }
       });
     }
 
+    function searchStranges(query, contacts) {
+      const settings = {
+        query,
+        limit: 100
+      };
+      NstSvcUserFactory.search(settings, NST_USER_SEARCH_AREA.ACCOUNTS, true)
+      .then(function (users) {
+        users = _.unionBy(users, 'id');
+        vm.stranges = _.differenceBy(users, contacts, 'id');
+      })
+    }
     /**
      * Orders a list of contact by lastname and firstname
      *
@@ -166,6 +184,39 @@
 
     function view(contact) {
       $scope.$emit('view-contact', contact);
+    }
+
+    function addContact(contact, ev) {
+      ev.preventDefault();
+      ev.stopPropagation();
+      NstSvcContactFactory.add(contact.id).then(function () {
+        moveStrangeToContacts(contact);
+        $rootScope.$broadcast('contact-favorite-add', contact);
+      }).catch(function () {
+        toastr.error(NstSvcTranslation.get("An error has occured while adding the user in your favorite contact list."));
+      });
+    }
+
+    function moveStrangeToContacts(contact) {
+      var orderFactor = getOrderFactor(contact);
+      var firstChar = getFirstChar(orderFactor);
+      if (isNumber(firstChar)) {
+        firstChar = "#";
+      }
+      var grp = _.find(vm.contacts, function(gp) {
+        return gp.key === firstChar;
+      });
+      if (grp) {
+        grp.items.push(contact)
+      } else {
+        vm.contacts.push({
+          key: firstChar,
+          items: [contact],
+        });
+      }
+      _.remove(vm.stranges, function(user) {
+        return user.id === contact.id;
+      });
     }
   }
 })();

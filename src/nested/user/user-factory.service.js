@@ -389,7 +389,11 @@
       }
     }
 
-    UserFactory.prototype.search = function (settings, area) {
+    /**
+     * @property stopGenerateFromQuery it defined because some times we dont need to generating automatically
+     * an user from query (it used by compose for composing to invisible peoples)
+     */
+    UserFactory.prototype.search = function (settings, area, stopGenerateFromQuery) {
 
       if (area === undefined) {
         throw "Define search area";
@@ -435,7 +439,7 @@
       settings = _.defaults(settings, defaultSettings);
       return this.sentinel.watch(function () {
         NstSvcServer.request('search/accounts' + area, params).then(function (data) {
-          if (area === NST_USER_SEARCH_AREA.ACCOUNTS) {
+          if (area === NST_USER_SEARCH_AREA.ACCOUNTS && !stopGenerateFromQuery) {
             moveExactToViewPort(data.accounts, params.keyword);
           }
           var users = _.map(data.accounts, function (account) {
