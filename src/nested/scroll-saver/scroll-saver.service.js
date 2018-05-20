@@ -23,6 +23,7 @@
     ScrollSaver.prototype.constructor = ScrollSaver;
     ScrollSaver.prototype.store = store;
     ScrollSaver.prototype.restore = restore;
+    ScrollSaver.prototype.hasHistory = hasHistory;
 
     var service = new ScrollSaver();
     return service;
@@ -45,10 +46,14 @@
       lastUrl = url;
       var data = this.storage.get(url);
       if (data && data.scroll) {
-        $timeout(function () {
-          $(window).scrollTop(data.scroll);
-        }, 500);
+        $('html, body').animate({scrollTop: data.scroll}, 200);
       }
+    }
+
+    function hasHistory(url) {
+      lastUrl = url;
+      var data = this.storage.get(url);
+      return (data && data.scroll > 100);
     }
   }
 })();

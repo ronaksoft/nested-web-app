@@ -50,7 +50,7 @@ a.normal-badge {
   color: $color-solid;
 }
 
-#new-post {
+.new-post-badge {
   position: fixed;
   z-index: 555;
   right: auto;
@@ -82,6 +82,54 @@ a.normal-badge {
   }
   &:hover {
     cursor: pointer;
+  }
+}
+
+@keyframes scroll-down-animation {
+  0% {
+    opacity: 0.9;
+  }
+  90% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.has-scroll-badge {
+  position: absolute;
+  z-index: 555;
+  right: 0;
+  top: 18px;
+  padding: 4px 0;
+  margin: 0 !important;
+  background-color: $color-shine-wire;
+  border-radius: 30px;
+  text-align: center;
+  transition: all 0.19s;
+  animation-name: scroll-down-animation;
+  animation-duration: 5s;
+  animation-iteration-count: 1;
+  opacity: 0;
+  a {
+    color: #fff;
+    font-size: 15px;
+    white-space: nowrap;
+    line-height: 15px;
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: middle;
+  }
+  svg {
+    transition: all 0.2s;
+    transform: scale(1.1);
+  }
+  &:hover {
+    transform: translateY(5px);
+    svg {
+      transform: scale(1.4);
+    }
   }
 }
 

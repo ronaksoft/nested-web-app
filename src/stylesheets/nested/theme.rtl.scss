@@ -571,7 +571,7 @@ body[dir="rtl"] {
     .modal-content select {
       padding: 0 32px 0 8px;
     }
-  } 
+  }
   .remove-from-places span {
     padding-right: 0;
     padding-left: 16px;
@@ -1154,6 +1154,10 @@ body[dir="rtl"] {
   }
   [mail-resizer] {
     transform-origin: top right;
+  }
+  .has-scroll-badge {
+    right: auto;
+    left: 0;
   }
 }
 
