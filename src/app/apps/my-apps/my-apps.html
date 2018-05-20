@@ -11,7 +11,7 @@
       </div>
     </li>
     <li ng-if="!appsCtrl.loadProgress" ng-repeat="app in appsCtrl.apps">
-      <a class="_df inline-app-row _aic _fw" href="{{app.homepage}}" target="_blank">
+      <a class="_df inline-app-row _aic _fw" href="{{app.homepage}}" target="{{app.homepage ? '_blank' : ''}}">
         <div>
           <img ng-if="app.iconSmallUrl" src="{{app.iconSmallUrl}}" width="24px" height="24px"/>
           <img ng-if="!app.iconSmallUrl" src="/assets/icons/appstore-32.svg" width="24px" height="24px"/>
