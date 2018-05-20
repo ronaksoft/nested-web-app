@@ -27,7 +27,6 @@
       // Gets all contacts and filter by `isFavorite`. Then orders by lastnam and limits the number of contacts to 30
       NstSvcAppFactory.getAllTokens().then(function (apps) {
         vm.apps = _.map(apps, function(app){ return app.app});
-        
       }).catch(function () {
         vm.errorLoad = true;
       }).finally(function () {
