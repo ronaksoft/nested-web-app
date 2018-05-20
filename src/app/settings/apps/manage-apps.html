@@ -14,7 +14,8 @@
 <p class="descrip"><translate>These are the apps that can access your ؟نستدان؟ account.</translate> <a><translate>Learn more.</translate></a></p>
 <ul class="list-my-apps" ng-if="ctrl.apps.length > 0">
   <li ng-repeat="item in ctrl.apps track by $index">
-    <img ng-src="{{item.app.iconSmallUrl}}" alt="{{item.app.developer}}">
+    <img ng-if="item.app.iconSmallUrl" src="{{item.app.iconSmallUrl}}" width="24px" height="24px" alt="{{item.app.developer}}"/>
+    <img ng-if="!item.app.iconSmallUrl" src="/assets/icons/appstore-32.svg" width="24px" height="24px" alt="{{item.app.developer}}"/>
     <cite class="_txe">{{item.app.name}}</cite>
     <div class="_df _fw"></div>
     <div class="_32svg _df _aic _jcc _fn" ng-click="ctrl.copyToken(item)">
