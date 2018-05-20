@@ -20,8 +20,8 @@
             <section id="fav" ng-if="!(ctrl.keyword && ctrl.keyword.length > 0) && ctrl.favorites.length > 0">
                 <h6><translate>Favorites</translate></h6>
                 <a class="inline-app-row" ng-repeat="app in ctrl.favorites" href="{{app.app.homepage}}">
-                    <img ng-if="app.app.iconSmallUrl" src="{{app.app.iconSmallUrl}}" width="24px" height="24px"/>
-                    <img ng-if="!app.app.iconSmallUrl" src="/assets/icons/appstore-32.svg" width="24px" height="24px"/>
+                    <img ng-if="app.app.iconSmallUrl" src="{{app.app.iconSmallUrl}}" width="48px" height="48"/>
+                    <img ng-if="!app.app.iconSmallUrl" src="/assets/icons/appstore-32.svg" width="48" height="48"/>
                     <div class="_difv">
                         <span>{{app.app.name}}</span>
                         <span>{{app.app.id}}</span>
@@ -41,7 +41,8 @@
             <section ng-repeat="group in ctrl.apps" id="{{::group.key}}">
                 <h6 class="text-uppercase">{{::group.key}}</h6>
                 <a class="inline-app-row" ng-repeat="app in group.items" href="{{app.app.homepage}}">
-                    <img src="{{app.app.iconSmallUrl}}" width="48px" height="48px"/>
+                    <img ng-if="app.app.iconSmallUrl" src="{{app.app.iconSmallUrl}}" width="48px" height="48px"/>
+                    <img ng-if="!app.app.iconSmallUrl" src="/assets/icons/appstore-32.svg" width="48px" height="48px"/>
                     <div class="_difv _fw">
                         <span>{{app.app.name}}</span>
                         <span>{{app.app.id}}</span>
