@@ -342,6 +342,13 @@
       }));
 
       /**
+       * Event listener for `NST_NOTIFICATION_TYPE.YOU_JOINED`
+       */
+      eventReferences.push($rootScope.$on(NST_NOTIFICATION_TYPE.YOU_JOINED, function () {
+        rebuildMyPlacesTree();
+      }));
+
+      /**
        * Event listener for `NST_PLACE_EVENT_ACTION.POST_ADD`
        */
       eventReferences.push($rootScope.$on(NST_PLACE_EVENT_ACTION.POST_ADD, function () {

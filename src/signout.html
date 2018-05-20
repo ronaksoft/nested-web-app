@@ -10,9 +10,11 @@
 <script>
   var debugMode = localStorage.getItem('nested.debug_mode');
   var debugModeLog = localStorage.getItem('nested.debug_mode_log');
+  var darkMode = localStorage.getItem('ronak.nested.web.view.nightMode');
   localStorage.clear();
   localStorage.setItem('nested.debug_mode', debugMode);
   localStorage.setItem('nested.debug_mode_log', debugModeLog);
+  localStorage.setItem('ronak.nested.web.view.nightMode', darkMode);
 
   document.cookie = "user=;expires=Thu, 01 Jan 1970 00:00:00 GMT;domain=nested.me";
 
