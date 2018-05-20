@@ -5,7 +5,7 @@
     .module('ronak.nested.web.app')
     .controller('CreateTokenController', CreateTokenController);
 
-  function CreateTokenController($scope, toastr, NstSvcAppFactory, NstSvcTranslation, $uibModal, myApps) {
+  function CreateTokenController($scope, toastr, NstSvcAppFactory, NstSvcTranslation, $uibModal, myApps, $rootScope) {
     var vm = this;
     vm.tokenName = '';
     vm.apps = [];
@@ -38,6 +38,7 @@
         NstSvcAppFactory.createToken(id).then(function (res) {
             item.token = res.token;
             item.loading = false;
+            $rootScope.$emit('add-token', {token: item});
         });
     }
 

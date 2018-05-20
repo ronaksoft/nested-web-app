@@ -21,10 +21,7 @@
         eventReferences = [];
     vm.apps = [];
 
-    (function () {
-
-      vm.loadProgress = true;
-      // Gets all contacts and filter by `isFavorite`. Then orders by lastnam and limits the number of contacts to 30
+    function getApps() {
       NstSvcAppFactory.getAllTokens().then(function (apps) {
         vm.apps = _.map(apps, function(app){ return app.app});
       }).catch(function () {
@@ -32,7 +29,17 @@
       }).finally(function () {
         vm.loadProgress = false;
       });
+    }
 
+    (function () {
+      vm.loadProgress = true;
+      getApps();
+      eventReferences.push(
+        $rootScope.$on('remove-token', getApps)
+      );
+      eventReferences.push(
+        $rootScope.$on('add-token', getApps)
+      );
     })();
 
     $scope.$on('$destroy', function() {
