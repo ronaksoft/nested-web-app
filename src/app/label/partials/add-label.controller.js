@@ -80,7 +80,7 @@
       NstSvcLabelFactory.search(keyword, vm.setting.filter, vm.setting.skip, vm.setting.limit).then(function (items){
         var sameItems = _.intersectionBy(items, vm.selectedLabels, 'title');
         var newItems = _.difference(items, sameItems).splice(0, vm.suggestPickerConfig.suggestsLimit);
-        vm.search.results.push.apply(vm.search.results, newItems);
+        vm.search.results = _.unionBy(vm.search.results, newItems, 'id');
         vm.setting.skip += items.length - (vm.selectedLabels.length - sameItems.length);
         vm.oldKeyword = keyword;
         vm.haveMore = vm.setting.limit === items.length;
