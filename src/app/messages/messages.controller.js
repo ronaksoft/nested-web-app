@@ -47,6 +47,9 @@
     vm.selectAll = selectAll;
     vm.exitUnseenMode = exitUnseenMode;
     vm.currentUser = NstSvcAuth.user;
+    vm.hasScrollHistory = false;
+    vm.restoreScroll = restoreScroll;
+    vm.dismissScrollHistoryMessage = dismissScrollHistoryMessage;
 
     // Some flags that help us find where we are
     vm.isFeed = false;
@@ -367,7 +370,14 @@
         }
         vm.FIT = false;
         mergePosts(posts);
-        restoreScroll();
+        if ($state.current.options && $state.current.options.alias === 'savescroll') {
+          $timeout(function () {
+            vm.hasScrollHistory = SvcScrollSaver.hasHistory($location.$$url);
+            $timeout(function () {
+              vm.hasScrollHistory = false;
+            }, 5000);
+          }, 1);
+        }
       }).catch(function (error) {
         if (error.code === NST_SRV_ERROR.ACCESS_DENIED && error.message && error.message[0] === 'password_change') {
           return;
@@ -796,9 +806,11 @@
     }
 
     function restoreScroll() {
-      if ($state.current.options && $state.current.options.alias === 'savescroll') {
-        SvcScrollSaver.restore($location.$$url)
-      }
+      SvcScrollSaver.restore($location.$$url)
+    }
+
+    function dismissScrollHistoryMessage() {
+      vm.hasScrollHistory = false;
     }
 
     var checkHeavyPerformanceEnable = false;

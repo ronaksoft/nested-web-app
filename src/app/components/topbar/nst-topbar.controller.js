@@ -652,6 +652,14 @@
             });
             break;
           case 'to':
+            if (!vm.isTask()) {
+              NstSvcPlaceFactory.searchForCompose(result.word).then(function (result) {
+                vm.suggestion = getUniqueItems({places: result.places});
+                vm.resultCount = countItems();
+                vm.selectedItem = -1;
+              });
+              break;
+            }
             settings = {
               query: result.word,
               limit: 6
