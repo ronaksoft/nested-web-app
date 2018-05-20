@@ -221,9 +221,11 @@
 
           var debugMode = localStorage.getItem('nested.debug_mode');
           var debugModeLog = localStorage.getItem('nested.debug_mode_log');
+          var darkMode = localStorage.getItem('ronak.nested.web.view.nightMode');
           localStorage.clear();
           localStorage.setItem('nested.debug_mode', debugMode);
           localStorage.setItem('nested.debug_mode_log', debugModeLog);
+          localStorage.setItem('ronak.nested.web.view.nightMode', darkMode);
 
           this.setState(NST_AUTH_STATE.UNAUTHORIZED);
 

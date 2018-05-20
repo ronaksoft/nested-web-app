@@ -106,4 +106,8 @@ html[theme="dark"] {
       color: $color-solid-irreversible;
     }
   }
+  .fr-popup .fr-input-line input[type=text],
+  .fr-popup .fr-input-line textarea {
+    color: $color-super-solid !important;
+  }
 }

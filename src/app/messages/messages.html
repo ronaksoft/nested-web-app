@@ -29,7 +29,7 @@
             <b ng-if="ctrl.isUnreadMode"><translate>{{ctrl.unreadCount | localize}} Unseen</translate></b>
           </p>
           <p class="_df _fn" ng-if="ctrl.selectedPosts.length > 0">
-            <b><translate>{{ctrl.selectedPosts.length}} Selceted</translate></b>
+            <b><translate>{{ctrl.selectedPosts.length}} Selected</translate></b>
           </p>
           <p class="_df _fw"></p>
           <div class="_df _fn _aic filter-bar-popover-button" ng-if="ctrl.selectedPosts.length > 0 " ng-click="ctrl.selectAll();">
@@ -206,7 +206,7 @@
           <fav-contacts></fav-contacts>
         </div>
         <div id="members" ng-if="ctrl.isPlaceMessage && ctrl.currentPlaceId && !ctrl.isPersonal">
-          <place-member-settings ng-if="ctrl.currentPlace" place="ctrl.currentPlace" view-mode="content-plus"></place-member-settings>            
+          <place-member-settings ng-if="ctrl.currentPlace" place="ctrl.currentPlace" view-mode="content-plus"></place-member-settings>
           <!-- <nst-place-teammates-sidebar grand-place="ctrl.currentPlaceId" place-id="ctrl.currentPlaceId"></nst-place-teammates-sidebar> -->
         </div>
         <div>

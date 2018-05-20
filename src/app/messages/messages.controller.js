@@ -229,6 +229,10 @@
         return true;
       }
 
+      if (activity.place && activity.place.id === vm.currentPlaceId) {
+        return true;
+      }
+
       // The message
       if (!vm.currentPlaceId && _.intersection(_.map(activity.places, 'id'), vm.bookmarkedPlaces).length > 0) {
         return true;
@@ -248,6 +252,10 @@
 
       // The message was sent to the current place
       if (_.includes(activity.places, vm.currentPlaceId)) {
+        return true;
+      }
+
+      if (activity.place && activity.place.id === vm.currentPlaceId) {
         return true;
       }
 

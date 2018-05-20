@@ -47,10 +47,6 @@
         });
       });
 
-      NstSvcServer.addEventListener(NST_PLACE_EVENT_ACTION.MEMBER_JOIN, function (/*event*/) {
-        // var tlData = event.detail;
-      });
-
       this.cache = NstSvcGlobalCache.createProvider('place');
       this.collector = new NstCollector('place', this.getMany);
 
