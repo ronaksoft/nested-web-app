@@ -6,13 +6,17 @@
     .controller('conversationController', conversationController);
 
   /** @ngInject */
-  function conversationController(_, $log, $stateParams, $state, $, $scope,
-      NstSvcPostFactory, NstSvcUserFactory, NstSvcPlaceFactory, NST_PLACE_ACCESS) {
+  function conversationController(_, $log, $stateParams, $state, $, $scope, $rootScope, NST_PLACE_EVENT_ACTION,
+                                  NstSvcTaskUtility, NstSvcPostFactory, NstSvcUserFactory, NstSvcPlaceFactory,
+                                  NST_PLACE_ACCESS, NstSvcSync, NstSvcAuth) {
     var vm = this;
     var limit = 8;
     var skip = 0;
 
     var eventReferences = [];
+
+    vm.user = undefined;
+    NstSvcTaskUtility.getValidUser(vm, NstSvcAuth);
 
     vm.reachedTheEnd = false;
     vm.loading = false;
@@ -27,17 +31,16 @@
     };
     vm.searchOnEnterKeyPressed = searchOnEnterKeyPressed;
 
-
     vm.suggestedItems = [{
-      type : 'user',
-      name : 'Foo',
-      id : 'foo'
+      type: 'user',
+      name: 'Foo',
+      id: 'foo'
     },
-    {
-      type : 'account',
-      name : 'Bar',
-      id : 'bar'
-    }];
+      {
+        type: 'account',
+        name: 'Bar',
+        id: 'bar'
+      }];
 
     vm.loadMore = loadMore;
     vm.backToConversation = backToConversation;
@@ -54,24 +57,32 @@
         .then(function (place) {
           if (place) {
             vm.account = place;
-            console.log(place.hasAccess(NST_PLACE_ACCESS.WRITE_POST));
             vm.quickMessageAccess = place.hasAccess(NST_PLACE_ACCESS.WRITE_POST);
           }
-      });
-        searchMessages();
+        });
+      searchMessages();
+
+      eventReferences.push($rootScope.$on(NST_PLACE_EVENT_ACTION.POST_ADD, function (e, data) {
+        if (data.activity.actor.id === vm.user.id) {
+          NstSvcPostFactory.get(data.activity.post.id).then(function (post) {
+            if (_.some(post.places, {id: $stateParams.userId})) {
+              vm.messages.unshift(post);
+            }
+          });
+        }
+      }));
     })();
 
     function sendKeyIsPressed(e) {
       return 13 === e.keyCode && !(e.shiftKey || e.ctrlKey);
     }
 
-
     function searchOnEnterKeyPressed(e, queryString) {
       var element = angular.element(e.target);
       if (!sendKeyIsPressed(e) || element.attr("mention") === "true") {
         return;
       }
-      vm.messages = [] ;
+      vm.messages = [];
       vm.loading = true;
       vm.loadMessageError = false;
       vm.reachedTheEnd = false;
@@ -87,7 +98,7 @@
 
       NstSvcPostFactory.conversation($stateParams.userId, queryString, limit, skip).then(function (posts) {
         _.forEach(posts, function (message) {
-          if (!_.some(vm.messages, { id : message.id })){
+          if (!_.some(vm.messages, {id: message.id})) {
             message.attachments = message.attachments;
             vm.messages.push(message);
           }
@@ -112,8 +123,9 @@
     }
 
     function backToConversation() {
-      $state.go('app.conversation', { userId : vm.account.id});
+      $state.go('app.conversation', {userId: vm.account.id});
     }
+
     eventReferences.push($scope.$on('scroll-reached-bottom', function () {
       vm.loadMore()
     }));

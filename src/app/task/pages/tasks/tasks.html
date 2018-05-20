@@ -55,9 +55,15 @@
         <a class="_fw">
           <span>{{ctrl.customFilterName}}</span>
         </a>
-        <div class="more-option" data-popover-class="white-pop place-item-options-popover" data-popover-append-to-body="true" uib-popover-template="'app/task/pages/tasks/partials/custom-filter-more-option.html'"
-             data-popover-popup-close-delay="100" data-popover-trigger="focus" data-popover-placement="auto {{$root._direction == 'rtl' ? 'bottom-left' : 'bottom-right'}}" data-uib-tooltip="More options" translate-attrs="data-uib-tooltip"
-             data-tooltip-append-to-body="true" data-tooltip-placement="{{$root._direction == 'rtl' ? 'left-top' : 'right-top'}} auto" popover-is-open="ctrl.customFilterPopover">
+        <div class="more-option" data-popover-class="white-pop place-item-options-popover"
+             data-popover-append-to-body="true"
+             uib-popover-template="'app/task/pages/tasks/partials/custom-filter-more-option.html'"
+             data-popover-popup-close-delay="100" data-popover-trigger="focus"
+             data-popover-placement="auto {{$root._direction == 'rtl' ? 'bottom-left' : 'bottom-right'}}"
+             data-uib-tooltip="More options" translate-attrs="data-uib-tooltip"
+             data-tooltip-append-to-body="true"
+             data-tooltip-placement="{{$root._direction == 'rtl' ? 'left-top' : 'right-top'}} auto"
+             popover-is-open="ctrl.customFilterPopover">
           <svg class="_24svg">
             <use xlink:href="/assets/icons/nst-icn24.svg#more"></use>
           </svg>
@@ -77,9 +83,12 @@
               <span>{{task.title}}</span>
             </a>
           </div>
-          <div class="list-li-extra" data-uib-tooltip-template="'task-date-time.html'" data-tooltip-append-to-body="false" data-tooltip-placement="{{$root._direction == 'rtl' ? 'top-left' : 'top-right'}}">
+          <div class="list-li-extra" data-uib-tooltip-template="'task-date-time.html'"
+               data-tooltip-append-to-body="false"
+               data-tooltip-placement="{{$root._direction == 'rtl' ? 'top-left' : 'top-right'}}">
             <span ng-if="task.dueDate !== undefined && !task.hasDueTime">{{task.dueDate | leftDate | localize}}</span>
-            <span ng-if="task.dueDate !== undefined && task.hasDueTime">{{task.dueDate | leftDate : 'time' | localize}}</span>
+            <span
+              ng-if="task.dueDate !== undefined && task.hasDueTime">{{task.dueDate | leftDate : 'time' | localize}}</span>
           </div>
         </li>
       </ul>
@@ -106,13 +115,18 @@
               <translate ng-if="task.candidates.length > 2">& {{task.candidates.length - 1}} others</translate>
             </p>
           </div>
-          <div class="list-li-extra" data-uib-tooltip-template="'task-date-time.html'" data-tooltip-append-to-body="true" data-tooltip-placement="{{$root._direction == 'rtl' ? 'top-left' : 'top-right'}}">
+          <div class="list-li-extra" data-uib-tooltip-template="'task-date-time.html'"
+               data-tooltip-append-to-body="true"
+               data-tooltip-placement="{{$root._direction == 'rtl' ? 'top-left' : 'top-right'}}">
             <span ng-if="task.dueDate !== undefined && !task.hasDueTime">{{task.dueDate | leftDate | localize}}</span>
-            <span ng-if="task.dueDate !== undefined && task.hasDueTime">{{task.dueDate | leftDate: 'time' | localize}}</span>
+            <span
+              ng-if="task.dueDate !== undefined && task.hasDueTime">{{task.dueDate | leftDate: 'time' | localize}}</span>
           </div>
           <div class="list-li-buttons">
-            <input ng-click="ctrl.declineTask(task.id)" type="button" class="butn butn-red secondary" value="I can’t" translate-attrs="value">
-            <input ng-click="ctrl.acceptTask(task.id)" type="button" class="butn butn-pending" value="I do this" translate-attrs="value">
+            <input ng-click="ctrl.declineTask(task.id)" type="button" class="butn butn-red secondary" value="I can’t"
+                   translate-attrs="value">
+            <input ng-click="ctrl.acceptTask(task.id)" type="button" class="butn butn-pending" value="I do this"
+                   translate-attrs="value">
           </div>
         </li>
       </ul>
@@ -123,20 +137,26 @@
         <task-view-item ng-if="!ctrl.isGlancePage" ng-repeat="task in ctrl.tasks"></task-view-item>
         <li ng-if="ctrl.isGlancePage" class="large" ng-repeat="task in ctrl.tasks" ng-click="ctrl.editTask(task.id)">
           <div class="list-li-icon">
-            <task-progress-icon status="ctrl.getTaskIcon(task.status, task.progress)" progress="task.progress"></task-progress-icon>
+            <task-progress-icon status="ctrl.getTaskIcon(task.status, task.progress)"
+                                progress="task.progress"></task-progress-icon>
           </div>
           <div class="list-li-body">
             <a>
               <span>{{task.title}}</span>
             </a>
             <p>
-              <translate>from</translate> <b><span user-detail="task.assignor">{{task.assignor.fullName}}</span></b>
-              <translate>to</translate > <b><span user-detail="task.assignee">{{task.assignee.fullName}}</span></b>
+              <translate>from</translate>
+              <b><span user-detail="task.assignor">{{task.assignor.fullName}}</span></b>
+              <translate>to</translate>
+              <b><span user-detail="task.assignee">{{task.assignee.fullName}}</span></b>
             </p>
           </div>
-          <div class="list-li-extra" data-uib-tooltip-template="'task-date-time.html'" data-tooltip-append-to-body="false" data-tooltip-placement="{{$root._direction == 'rtl' ? 'top-left' : 'top-right'}}">
+          <div class="list-li-extra" data-uib-tooltip-template="'task-date-time.html'"
+               data-tooltip-append-to-body="false"
+               data-tooltip-placement="{{$root._direction == 'rtl' ? 'top-left' : 'top-right'}}">
             <span ng-if="task.dueDate !== undefined && !task.hasDueTime">{{task.dueDate | leftDate | localize}}</span>
-            <span ng-if="task.dueDate !== undefined && task.hasDueTime">{{task.dueDate | leftDate : 'time' | localize}}</span>
+            <span
+              ng-if="task.dueDate !== undefined && task.hasDueTime">{{task.dueDate | leftDate : 'time' | localize}}</span>
           </div>
         </li>
       </ul>
@@ -144,9 +164,11 @@
       <div class="_fn empty-place-holder" ng-if="!ctrl.firstTimeLoading && (
       (ctrl.isGlancePage && ctrl.tasks.length === 0 && ctrl.pendingTasks.length === 0 && ctrl.overDueTasks.length === 0) ||
       (!ctrl.isGlancePage && ctrl.tasks.length === 0))">
-        <img class="_db" width="256" width="256" src="/assets/icons/ph_empt_task.png" srcset="/assets/icons/ph_empt_task@2x.png"
+        <img class="_db" width="256" width="256" src="/assets/icons/ph_empt_task.png"
+             srcset="/assets/icons/ph_empt_task@2x.png"
         />
-        <translate>You don't have any task until next year!</br>Enjoy your free time</translate> <span>😊</span>
+        <translate>You don't have any task until next year!</br>Enjoy your free time</translate>
+        <span>😊</span>
       </div>
       <div class="_db _tac">
         <div class="_difh _jcc nst-mood-cheerful no-gutter nst-margin-24 _pr" ng-show="ctrl.loading">
@@ -160,15 +182,15 @@
   ==============-->
   <div class="content-plus illu">
     <div class="content-plus-inner">
-        <div>
-          <div class="name">
-            <translate>Applications</translate>
-            <svg class="_16svg _df mirror" ng-click="ctrl.openApps($event)">
-              <use xlink:href="/assets/icons/nst-icn16.svg#expand"></use>
-            </svg>
-          </div>
-          <my-applications></my-applications>
+      <div>
+        <div class="name">
+          <translate>Applications</translate>
+          <svg class="_16svg _df mirror" ng-click="ctrl.openApps($event)">
+            <use xlink:href="/assets/icons/nst-icn16.svg#expand"></use>
+          </svg>
         </div>
+        <my-applications></my-applications>
+      </div>
     </div>
   </div>
 </div>
@@ -191,6 +213,12 @@
 <script type="text/ng-template" id="task-watchers.html">
   <span ng-repeat="watcher in task.watchers">
     {{watcher.fullName}}</br>
+  </span>
+</script>
+
+<script type="text/ng-template" id="task-editors.html">
+  <span ng-repeat="editor in task.editors">
+    {{editor.fullName}}</br>
   </span>
 </script>
 

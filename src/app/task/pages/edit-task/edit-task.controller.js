@@ -55,6 +55,7 @@
       vm.attachmentFocus = false;
       vm.labelFocus = false;
       vm.watcherFocus = false;
+      vm.editorFocus = false;
     }
     initiateFocus();
 
@@ -99,6 +100,7 @@
       todos: [],
       attachments: [],
       watchers: [],
+      editors: [],
       labels: [],
       access: null
     };
@@ -113,6 +115,9 @@
       }
       if (vm.modelBackUp.watchers.hasOwnProperty('init')) {
         vm.modelBackUp.watchers = vm.modelBackUp.watchers.data;
+      }
+      if (vm.modelBackUp.editors.hasOwnProperty('init')) {
+        vm.modelBackUp.editors = vm.modelBackUp.editors.data;
       }
       if (vm.modelBackUp.labels.hasOwnProperty('init')) {
         vm.modelBackUp.labels = vm.modelBackUp.labels.data;
@@ -172,6 +177,10 @@
     vm.watcherPlaceholder = NstSvcTranslation.get('Add peoples who wants to follow task...');
     vm.removeWatchers = removeWatchers;
     vm.enableWatcher = false;
+
+    vm.editorPlaceholder = NstSvcTranslation.get('Add peoples who wants to edit task...');
+    vm.removeEditors = removeEditors;
+    vm.enableEditor = false;
 
     vm.labelPlaceholder = NstSvcTranslation.get('Add labels...');
     vm.removeLabels = removeLabels;
@@ -246,6 +255,14 @@
           data: task.watchers
         };
         vm.enableWatcher = true;
+      }
+
+      if (task.editors !== undefined && task.editors.length > 0) {
+        vm.model.editors = {
+          init: true,
+          data: task.editors
+        };
+        vm.enableEditor = true;
       }
 
       if (task.labels !== undefined && task.labels.length > 0) {
@@ -366,6 +383,24 @@
       }
     }
 
+    function removeEditors() {
+      initiateFocus();
+      if (vm.model.editors.length === 0) {
+        vm.enableEditor = false;
+      } else {
+        NstSvcTaskUtility.promptModal({
+          title: NstSvcTranslation.get('Remove All Editors'),
+          body: NstSvcTranslation.get('Are you sure?'),
+          confirmText: NstSvcTranslation.get('Yes'),
+          confirmColor: 'red',
+          cancelText: NstSvcTranslation.get('Cancel')
+        }).then(function () {
+          vm.removeEditorItems.call();
+          vm.enableEditor = false;
+        });
+      }
+    }
+
     function removeLabels() {
       initiateFocus();
       if (vm.model.labels.length === 0) {
@@ -479,7 +514,7 @@
       var oldData = getNormalValue(vm.modelBackUp.assignees);
       var newItems = _.differenceBy(assignees, oldData, 'id');
       var removedItems = _.differenceBy(oldData, assignees, 'id');
-      vm.assigneeChanged = (newItems.length > 0 || removedItems.length > 0) && assignees.length > 0;
+      vm.assigneeChanged = (newItems.length > 0 || removedItems.length > 0);
     }
 
     function executeAssigneeUpdate(action) {
@@ -490,6 +525,10 @@
         vm.model.assignees = vm.modelBackUp.assignees.slice(0);
         vm.assigneeFocus = false;
       } else if (action === 'confirm') {
+        if (vm.model.assignees.length === 0) {
+          toastr.warning(NstSvcTranslation.get('You must have at least one assignee!'));
+          return;
+        }
         vm.assigneeLoading = true;
         NstSvcTaskFactory.updateAssignee(vm.taskId, getCommaSeparate(vm.model.assignees)).then(function () {
           vm.modelBackUp.assignees = vm.model.assignees.slice(0);
@@ -650,6 +689,39 @@
     }
 
     eventReferences.push($scope.$watch(function () {
+      return vm.model.editors;
+    }, function (newVal) {
+      if (dataInit) {
+        updateEditor(getNormalValue(newVal));
+      }
+    }, true));
+
+    function updateEditor(editors) {
+      var oldData = getNormalValue(vm.modelBackUp.editors);
+      var newItems = _.differenceBy(editors, oldData, 'id');
+      var removedItems = _.differenceBy(oldData, editors, 'id');
+      var promises = [];
+
+      if (newItems.length > 0) {
+        promises.push(NstSvcTaskFactory.addEditor(vm.taskId, getCommaSeparate(newItems)));
+      }
+
+      if (removedItems.length > 0) {
+        promises.push(NstSvcTaskFactory.removeEditor(vm.taskId, getCommaSeparate(removedItems)));
+      }
+
+      if (newItems.length > 0 || removedItems.length > 0) {
+        $q.all(promises).then(function () {
+          vm.modelBackUp.editors = vm.model.editors.slice(0);
+          isUpdated = true;
+          if (_.findIndex(removedItems, {id: vm.user.id}) > -1) {
+            $scope.$dismiss();
+          }
+        });
+      }
+    }
+
+    eventReferences.push($scope.$watch(function () {
       return vm.model.labels;
     }, function (newVal) {
       if (dataInit) {
@@ -732,6 +804,7 @@
         todoFocus: vm.todoFocus,
         attachmentFocus: vm.attachmentFocus,
         watcherFocus: vm.watcherFocus,
+        editorFocus: vm.editorFocus,
         labelFocus: vm.labelFocus
       };
     }, function (newVal, oldVal) {

@@ -230,6 +230,37 @@
           </div>
         </label>
       </div>
+      <div class="task-watcher auto-height-item" ng-show="ctrlEditTask.enableEditor">
+        <div class="_difv _fw">
+          <h3>
+            <translate>Editors</translate>
+          </h3>
+          <div class="task-input-wrapper ng-class:{'focus': ctrlEditTask.editorFocus}">
+            <task-assignee assignees-data="ctrlEditTask.model.editors" element-focus="ctrlEditTask.editorFocus"
+                           assignee-with-candidate="false"
+                           assignee-placeholder="{{ctrlEditTask.editorPlaceholder}}"
+                           remove-items="ctrlEditTask.removeEditorItems" assignee-exclude="{{ctrlEditTask.user.id}}"
+                           add-item="ctrlEditTask.model.access.addEditor"
+                           remove-item="ctrlEditTask.model.access.removeEditor"></task-assignee>
+          </div>
+        </div>
+        <label
+          ng-class="{'focus': ctrlEditTask.editorFocus, 'no-hover': ctrlEditTask.model.access.removeEditor != true}">
+          <div class="_24svg _df _jcc _pr">
+            <svg class="_16svg static-item">
+              <use xlink:href="/assets/icons/nst-icn16.svg#pencil"></use>
+            </svg>
+            <svg class="_16svg force hover-item"
+                 ng-if="ctrlEditTask.model.access.removeEditor == true"
+                 data-uib-tooltip="Remove All Editors"
+                 data-tooltip-placement="top-center auto" translate-attrs="data-uib-tooltip"
+                 data-tooltip-append-to-body="true"
+                 ng-click="ctrlEditTask.removeEditors()">
+              <use xlink:href="/assets/icons/nst-icn16.svg#negative-xcross"></use>
+            </svg>
+          </div>
+        </label>
+      </div>
       <div class="task-labels auto-height-item" ng-show="ctrlEditTask.enableLabel">
         <div class="_difv _fw">
           <h3>
@@ -259,7 +290,8 @@
         </label>
       </div>
       <div class="task-binder ng-class:{'is-open': ctrlEditTask.isOpenBinder}"
-           ng-if="((!ctrlEditTask.enableWatcher && ctrlEditTask.model.access.addLabel) ||
+           ng-if="((!ctrlEditTask.enableWatcher && ctrlEditTask.model.access.addWatcher) ||
+              (!ctrlEditTask.enableEditor && ctrlEditTask.model.access.addEditor) ||
               (!ctrlEditTask.enableAttachment && ctrlEditTask.model.access.addAttachment) ||
               (!ctrlEditTask.enableTodo && ctrlEditTask.model.access.addTodo)||
               (!ctrlEditTask.enableDescription && ctrlEditTask.model.access.updateTask) ||
@@ -293,6 +325,18 @@
               <use xlink:href="/assets/icons/nst-icn16.svg#person"></use>
             </svg>
             <translate>Add Watcher</translate>
+          </div>
+          <div class="task-binder-butn" ng-if="!ctrlEditTask.enableEditor && ctrlEditTask.model.access.addEditor"
+               ng-click="ctrlEditTask.bindRow('enableEditor')">
+            <svg class="_16svg">
+              <use xlink:href="/assets/icons/nst-icn16.svg#pencil"></use>
+            </svg>
+          </div>
+          <div class="task-binder-tooltip">
+            <svg class="_16svg">
+              <use xlink:href="/assets/icons/nst-icn16.svg#pencil"></use>
+            </svg>
+            <translate>Add Editor</translate>
           </div>
           <div class="task-binder-butn"
                ng-if="!ctrlEditTask.enableAttachment && ctrlEditTask.model.access.addAttachment"

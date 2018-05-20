@@ -35,6 +35,8 @@
     TaskFactory.prototype.updateTodo = updateTodo;
     TaskFactory.prototype.addWatcher = addWatcher;
     TaskFactory.prototype.removeWatcher = removeWatcher;
+    TaskFactory.prototype.addEditor = addEditor;
+    TaskFactory.prototype.removeEditor = removeEditor;
     TaskFactory.prototype.taskUpdate = taskUpdate;
     TaskFactory.prototype.respond = respond;
     TaskFactory.prototype.setStatus = setStatus;
@@ -106,6 +108,11 @@
           return NstSvcUserFactory.parseTinyUser(item);
         });
       }
+      if (data.editors) {
+        task.editors = _.map(data.editors, function (item) {
+          return NstSvcUserFactory.parseTinyUser(item);
+        });
+      }
       if (data.labels) {
         task.labels = _.map(data.labels, function (item) {
           NstSvcLabelFactory.set(item);
@@ -172,6 +179,8 @@
     taskAccessMap[NST_TASK_ACCESS.REMOVE_ATTACHMENT] = ['removeAttachment'];
     taskAccessMap[NST_TASK_ACCESS.ADD_WATCHER] = ['addWatcher'];
     taskAccessMap[NST_TASK_ACCESS.REMOVE_WATCHER] = ['removeWatcher'];
+    taskAccessMap[NST_TASK_ACCESS.ADD_EDITOR] = ['addEditor'];
+    taskAccessMap[NST_TASK_ACCESS.REMOVE_EDITOR] = ['removeEditor'];
 
     function parseTaskAccess(data) {
       var access = {
@@ -192,6 +201,8 @@
         removeAttachment: false,
         addWatcher: false,
         removeWatcher: false,
+        addEditor: false,
+        removeEditor: false,
         addTodo: false,
         removeTodo: false
       };
@@ -243,6 +254,10 @@
 
       if (task.watchers) {
         params.watcher_id = getCommaSeparate(task.watchers);
+      }
+
+      if (task.editors) {
+        params.editor_id = getCommaSeparate(task.editors);
       }
 
       if (task.labels) {
@@ -368,6 +383,20 @@
       return NstSvcServer.request('task/remove_watcher', {
         task_id: taskId,
         watcher_id: watcherId
+      });
+    }
+
+    function addEditor(taskId, editorId) {
+      return NstSvcServer.request('task/add_editor', {
+        task_id: taskId,
+        editor_id: editorId
+      });
+    }
+
+    function removeEditor(taskId, editorId) {
+      return NstSvcServer.request('task/remove_editor', {
+        task_id: taskId,
+        editor_id: editorId
       });
     }
 
@@ -520,6 +549,11 @@
           return NstSvcUserFactory.getCachedSync(item);
         });
       }
+      if (data.editors) {
+        task.editors = _.map(data.editors, function (item) {
+          return NstSvcUserFactory.getCachedSync(item);
+        });
+      }
       if (data.labels) {
         task.labels = _.map(data.labels, function (item) {
           return NstSvcLabelFactory.getCachedSync(item);
@@ -556,6 +590,7 @@
       copy.assignee = data.assignee ? data.assignee._id : null;
       copy.candidates = data.candidates ? _.map(data.candidates, '_id') : null;
       copy.watchers = data.watchers ? _.map(data.watchers, '_id') : null;
+      copy.editors = data.editors ? _.map(data.editors, '_id') : null;
       copy.labels = _.map(data.labels, '_id');
 
       return copy;

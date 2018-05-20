@@ -29,6 +29,12 @@
           case NST_TASK_EVENT_ACTION.WATCHER_REMOVED:
             scope.tplUrl = 'app/task/common/activity/partials/watcher-removed.html';
             break;
+          case NST_TASK_EVENT_ACTION.EDITOR_ADDED:
+            scope.tplUrl = 'app/task/common/activity/partials/editor-added.html';
+            break;
+          case NST_TASK_EVENT_ACTION.EDITOR_REMOVED:
+            scope.tplUrl = 'app/task/common/activity/partials/editor-removed.html';
+            break;
           case NST_TASK_EVENT_ACTION.ATTACHMENT_ADDED:
             scope.tplUrl = 'app/task/common/activity/partials/attachment-added.html';
             break;

@@ -67,7 +67,7 @@
      */
     function search(keyword) {
       get().then(function (contacts) {
-        scrollTop()
+        scrollTop();
         var filteredItems = _.filter(contacts, function (contact) {
             return contactHasKeyword(contact, keyword);
           });
@@ -115,7 +115,7 @@
 
     function searchStranges(query, contacts) {
       const settings = {
-        query,
+        query: query,
         limit: 100
       };
       NstSvcUserFactory.search(settings, NST_USER_SEARCH_AREA.ACCOUNTS, true)
@@ -175,7 +175,7 @@
       return !_.isNaN(_.toNumber(character));
     }
 
-    
+
     function scrollTop() {
       if (_.isFunction($scope.scrollToTop)) {
         $scope.scrollToTop();

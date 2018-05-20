@@ -73,6 +73,8 @@
         case NST_NOTIFICATION_TYPE.TASK_COMPLETED:
         case NST_NOTIFICATION_TYPE.TASK_HOLD:
         case NST_NOTIFICATION_TYPE.TASK_IN_PROGRESS:
+        case NST_NOTIFICATION_TYPE.TASK_FAILED:
+        case NST_NOTIFICATION_TYPE.TASK_ADD_TO_EDITORS:
           $event.preventDefault();
           return viewTask(notification.task.id);
       }
