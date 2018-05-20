@@ -1242,16 +1242,28 @@
 
     function goToPlace(e, place) {
       e.preventDefault();
+      console.log(place);
       var emailRe = /\S+@\S+\.\S+/;
       if (emailRe.test(place.id)) {
-        copyToClipboard(place.id);
+        // copyToClipboard(place.id);
+        $state.go('app.conversation', { userId : place.id});
       } else {
         if (place.hasAccess(NST_PLACE_ACCESS.READ_POST)) {
           $state.go('app.place-messages', {
             placeId: place.id
           });
         } else {
-          NstSvcModal.error(NstSvcTranslation.get("Error"), NstSvcTranslation.get("Either this Place doesn't exist, or you don't have the permit to enter the Place."));
+          NstSvcModal.confirm(NstSvcTranslation.get("Error"), NstSvcTranslation.get("Either this Place doesn't exist, or you don't have the permit to enter the Place."),
+          {
+            yes: NstSvcTranslation.get("Discard"),
+            no: NstSvcTranslation.get("Conversation")
+          }).then(function (discard) {
+            if (!discard) {
+              $state.go('app.conversation', { userId : place.id});
+            } else {
+              console.log('dismiss');
+            }
+          });;
         }
       }
     }
