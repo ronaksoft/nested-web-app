@@ -13,6 +13,7 @@
     <div class="_fw suggests">
       <translate>Suggested:</translate>
     </div>
+    <p class="no-result" ng-if="addMemberCtrl.users.length === 0"><translate>No results</translate></p>
   </div>
   <div class="m-footer _df _fw">
     <input type="button" class="butn butn-green" ng-disabled="addMemberCtrl.selectedUsers.length === 0"
