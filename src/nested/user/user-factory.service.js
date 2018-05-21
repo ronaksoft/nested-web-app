@@ -439,13 +439,27 @@
       settings = _.defaults(settings, defaultSettings);
       return this.sentinel.watch(function () {
         NstSvcServer.request('search/accounts' + area, params).then(function (data) {
-          if (area === NST_USER_SEARCH_AREA.ACCOUNTS && !stopGenerateFromQuery) {
-            moveExactToViewPort(data.accounts, params.keyword);
+
+          // If the results is zero search in another way
+          if (area === NST_USER_SEARCH_AREA.ACCOUNTS && data.accounts.length === 0) {
+            NstSvcServer.request('search/accounts', params).then(function (data) {
+              if (!stopGenerateFromQuery) {
+                moveExactToViewPort(data.accounts, params.keyword);
+              }
+              var users = _.map(data.accounts, function (account) {
+                return factory.parseTinyUser(account);
+              });
+              defer.resolve(users);
+            }).catch(defer.reject);
+          } else {
+            if (area === NST_USER_SEARCH_AREA.ACCOUNTS && !stopGenerateFromQuery) {
+              moveExactToViewPort(data.accounts, params.keyword);
+            }
+            var users = _.map(data.accounts, function (account) {
+              return factory.parseTinyUser(account);
+            });
+            defer.resolve(users);
           }
-          var users = _.map(data.accounts, function (account) {
-            return factory.parseTinyUser(account);
-          });
-          defer.resolve(users);
         }).catch(defer.reject);
         return defer.promise;
       }, 'search/accounts' + area + params.keyword);
