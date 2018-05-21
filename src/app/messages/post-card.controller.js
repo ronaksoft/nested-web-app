@@ -56,8 +56,10 @@
     vm.isFeed = isFeed;
     vm.labelClick = labelClick;
     vm.loadNewComments = loadNewComments;
+    vm.showAllPlacesAsRow = showAllPlacesAsRow;
     vm.isPostView = isPostView();
     vm.iframeId = '';
+    vm.postPlacesViewNumber = 3;
 
     vm.expandProgress = false;
     vm.body = null;
@@ -205,6 +207,7 @@
      */
     if (vm.mood === 'chain') {
       vm.chainView = true;
+      vm.postPlacesViewNumber = 50;
     }
 
     /**
@@ -1240,9 +1243,12 @@
       inp.remove();
     }
 
+    function showAllPlacesAsRow() {
+      vm.postPlacesViewNumber = 50;
+    }
+
     function goToPlace(e, place) {
       e.preventDefault();
-      console.log(place);
       var emailRe = /\S+@\S+\.\S+/;
       if (emailRe.test(place.id)) {
         // copyToClipboard(place.id);
