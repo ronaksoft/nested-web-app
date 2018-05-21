@@ -622,11 +622,15 @@
      */
     function createRelatedTask() {
       $state.go('app.task.glance');
+      var callbackUrl = {
+        name: $state.current.name,
+        params: $stateParams
+      };
       if (isPostView()) {
         $scope.$parent.$parent.$dismiss(true);
       }
       $timeout(function () {
-        $rootScope.$broadcast('create-related-task-from-post', {id: vm.post.id});
+        $rootScope.$broadcast('create-related-task-from-post', {id: vm.post.id, callbackUrl: callbackUrl});
       }, 500);
     }
 
@@ -655,7 +659,7 @@
       NstSvcUserFactory.trustEmail(vm.post.sender.id, trustDomain).then(function () {
         vm.post.isTrusted = true;
       }).catch(function () {
-        toastr.error(NstSvcTranslation.get('An error has occured in trusting the sender'));
+        toastr.error(NstSvcTranslation.get('An error has occurred in trusting the sender'));
       });
     }
 
