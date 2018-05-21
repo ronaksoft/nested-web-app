@@ -1,9 +1,11 @@
+// Deprecated
+// Depended on gsap draggable component which is removed from app
 (function () {
   'use strict';
 
-  angular
-    .module('ronak.nested.web.components')
-    .directive('switchDrag', dragxaxis);
+  // angular
+  //   .module('ronak.nested.web.components')
+  //   .directive('switchDrag', dragxaxis);
 
   /** @ngInject */
   function dragxaxis($timeout,$rootScope, Draggable) {
