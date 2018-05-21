@@ -905,6 +905,7 @@
 
             NstSvcPostFactory.send(post).then(function (response) {
 
+              NstSvcPostDraft.discard();
               NstSvcLogger.debug4('Compose | Sent post succesfully');
               deferred.resolve(response);
             }).catch(function (error) {
