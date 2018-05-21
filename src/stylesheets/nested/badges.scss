@@ -87,10 +87,10 @@ a.normal-badge {
 
 @keyframes scroll-down-animation {
   0% {
-    opacity: 0.9;
+    opacity: 0.8;
   }
   90% {
-    opacity: 0.9;
+    opacity: 0.8;
   }
   100% {
     opacity: 0;
@@ -118,7 +118,7 @@ a.normal-badge {
     margin-top: 18px;
     height: 23px;
     padding: 4px 0;
-    background-color: $color-shine-wire;
+    background-color: $color-white;
     border-radius: 30px;
     text-align: center;
     line-height: 15px;
@@ -129,20 +129,21 @@ a.normal-badge {
     color: #fff;
     font-size: 15px;
     white-space: nowrap;
-    line-height: 15px;
     cursor: pointer;
     display: inline-block;
     vertical-align: middle;
     &:hover {
       transform: translateY(5px);
       svg {
-        transform: scale(1.4);
+        transform: translateX(-2px) scale(1.2);
       }
     }
   }
   svg {
     transition: all 0.2s;
-    transform: scale(1.1);
+    width: 12px;
+    transform: translateX(-2px) scale(1.1);
+    fill: $color-super-solid;
   }
 }
 

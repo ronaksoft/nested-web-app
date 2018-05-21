@@ -806,6 +806,7 @@
     }
 
     function restoreScroll() {
+      dismissScrollHistoryMessage();
       SvcScrollSaver.restore($location.$$url)
     }
 
