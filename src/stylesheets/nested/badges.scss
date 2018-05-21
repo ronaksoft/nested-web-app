@@ -100,19 +100,32 @@ a.normal-badge {
 .has-scroll-badge {
   position: absolute;
   z-index: 555;
-  right: 0;
-  top: 18px;
-  padding: 4px 0;
-  margin: 0 !important;
-  background-color: $color-shine-wire;
-  border-radius: 30px;
-  text-align: center;
+  left: 50%;
+  width: 100%;
+  transform: translateX(-50%);
+  top: 0;
+  height: 1px;
+  justify-content: flex-end;
+  display: flex;
+  margin: 0!important;
+  max-width: 720px;
+  opacity: 0;
   transition: all 0.19s;
   animation-name: scroll-down-animation;
   animation-duration: 5s;
   animation-iteration-count: 1;
-  opacity: 0;
   a {
+    margin-top: 18px;
+    height: 23px;
+    padding: 4px 0;
+    background-color: $color-shine-wire;
+    border-radius: 30px;
+    text-align: center;
+    line-height: 15px;
+    transition: all 0.19s;
+    animation-name: scroll-down-animation;
+    animation-duration: 5s;
+    animation-iteration-count: 1;
     color: #fff;
     font-size: 15px;
     white-space: nowrap;
@@ -120,16 +133,16 @@ a.normal-badge {
     cursor: pointer;
     display: inline-block;
     vertical-align: middle;
+    &:hover {
+      transform: translateY(5px);
+      svg {
+        transform: scale(1.4);
+      }
+    }
   }
   svg {
     transition: all 0.2s;
     transform: scale(1.1);
-  }
-  &:hover {
-    transform: translateY(5px);
-    svg {
-      transform: scale(1.4);
-    }
   }
 }
 
