@@ -11,6 +11,9 @@
       this.body = null;
       this.recipients = null;
       this.attachments = null;
+      this.forwardedFrom = null;
+      this.replyTo = null;
+      this.labels = null;
 
       return this;
     }

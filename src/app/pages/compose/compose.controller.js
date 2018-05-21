@@ -350,10 +350,14 @@
       fillSubjectModel();
       NstSvcLogger.debug4('Compose | Saving post model as draft');
       var draft = new NstPostDraft();
+
       draft.subject = vm.model.subject;
       draft.body = getBodyWithoutSign();
       draft.attachments = _.map(vm.model.attachments, 'id');
       draft.recipients = vm.model.recipients;
+      draft.forwardedFrom = vm.model.forwardedFrom;
+      draft.replyTo = vm.model.replyTo;
+      draft.labels = vm.model.labels;
       NstSvcPostDraft.save(draft);
       $rootScope.$broadcast('draft-change');
     }
@@ -443,6 +447,7 @@
       var deferred = $q.defer();
 
       var draft = NstSvcPostDraft.get();
+      console.log(draft);
       if (!draft || draft === null) {
         deferred.reject(Error('Could not load draft'));
         return deferred.promise;
@@ -462,7 +467,10 @@
         vm.attachments.size.total += _.sum(_.map(attachments, 'size'));
         vm.attachments.size.uploaded += _.sum(_.map(attachments, 'size'));
       }).catch(deferred.reject);
-      vm.model.recipients = draft.recipients
+      vm.model.recipients = draft.recipients;
+      vm.model.labels = draft.labels;
+      vm.model.replyTo = draft.replyTo;
+      vm.model.forwardedFrom = draft.forwardedFrom;
 
       return deferred.promise;
     }
