@@ -28,14 +28,14 @@
 
     function backDropClick() {
       if (vm.model.dueDate !== null ||
-          _.trim(vm.model.title).length !== 0 ||
-          _.trim(vm.model.description).length !== 0 ||
-          vm.model.assignees.length !== 0 ||
-          vm.model.todos.length !== 0 ||
-          vm.model.attachments.length !== 0 ||
-          vm.model.watchers.length !== 0 ||
-          vm.model.editors.length !== 0 ||
-          vm.model.labels.length !== 0) {
+        _.trim(vm.model.title).length !== 0 ||
+        _.trim(vm.model.description).length !== 0 ||
+        vm.model.assignees.length !== 0 ||
+        vm.model.todos.length !== 0 ||
+        vm.model.attachments.length !== 0 ||
+        vm.model.watchers.length !== 0 ||
+        vm.model.editors.length !== 0 ||
+        vm.model.labels.length !== 0) {
         NstSvcTaskUtility.promptModal({
           title: NstSvcTranslation.get('Closing creating task modal'),
           body: NstSvcTranslation.get('By discarding this task, you will lose your draft. Are you sure you want to discard?'),
@@ -56,7 +56,7 @@
 
     function saveDraft() {
       var draft = {
-        title:  vm.model.title,
+        title: vm.model.title,
         assignees: vm.model.assignees,
         dueDate: vm.model.dueDate,
         hasDueTime: vm.model.hasDueTime,
@@ -149,7 +149,7 @@
       titleLengthLimit: 64,
       assignor: null,
       status: null,
-      title:  '',
+      title: '',
       assignees: [],
       dueDateText: null,
       dueDate: null,
@@ -276,7 +276,7 @@
           task.candidates = vm.model.assignees;
         }
         if (vm.model.dueDate !== null) {
-          task.dueDate = vm.model.dueDate*1000;
+          task.dueDate = vm.model.dueDate * 1000;
           task.hasDueTime = vm.model.hasDueTime;
         }
         if (_.trim(vm.model.description).length > 0) {
@@ -297,17 +297,18 @@
         if (vm.model.labels.length > 0) {
           task.labels = vm.model.labels;
         }
-        if (modalData.relatedTaskId  !== null) {
+        if (modalData.relatedTaskId !== null) {
           task.relatedTask = modalData.relatedTaskId;
         }
-        if (modalData.relatedPostId  !== null) {
+        if (modalData.relatedPostId !== null) {
           task.relatedPost = modalData.relatedPostId;
         }
         NstSvcTaskFactory.create(task).then(function (data) {
           toastr.success(NstSvcTranslation.get('Task created successfully!'));
           discardDraft();
           $rootScope.$broadcast('task-created', {
-            id: data.task.id
+            id: data.task.id,
+            callbackUrl: modalData.callbackUrl
           });
         }).catch(function () {
           toastr.error(NstSvcTranslation.get('Something went wrong!'));
@@ -323,6 +324,7 @@
     }, updateTotalAttachmentsRatio, true));
 
     var createInBackground = true;
+
     function updateTotalAttachmentsRatio() {
       if (!vm.minimize || !createInBackground) {
         return;

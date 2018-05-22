@@ -28,7 +28,6 @@
       'emojiBundle',
       'firebase',
       'phoneUtils',
-      'draggable',
       'ngJalaaliFlatDatepicker',
       'LZString'
     ]);

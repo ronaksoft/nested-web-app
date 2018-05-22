@@ -426,6 +426,13 @@
 
     function backDropClick() {
       $scope.$dismiss();
+      if ($rootScope.taskCallbackUrl) {
+        $timeout(function () {
+          var callback = $rootScope.taskCallbackUrl;
+          $state.go(callback.name, callback.params);
+          delete $rootScope.taskCallbackUrl;
+        }, 300);
+      }
     }
 
     var taskUpdateModel = {

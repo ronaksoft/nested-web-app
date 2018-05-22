@@ -416,7 +416,10 @@
       }
     }
 
-    function editTask(id) {
+    function editTask(id, callbackUrl) {
+      if (callbackUrl) {
+        $rootScope.taskCallbackUrl = callbackUrl;
+      }
       $state.go('app.task.edit', {
         taskId: id
       }, {
@@ -460,7 +463,7 @@
     eventReferences.push($rootScope.$on('task-created', function (event, data) {
       $state.go('app.task.created_by_me');
       $timeout(function () {
-        editTask(data.id);
+        editTask(data.id, data.callbackUrl);
       });
       vm.taskSetting.limit = 8;
       vm.taskSetting.skip = 0;

@@ -216,7 +216,7 @@
       var addr = $(event.target).attr('href').substr(7);
       if (
         addr.split('@')[1] &&
-        (addr.split('@')[1] === NST_CONFIG.DOMAIN )) {
+        (addr.split('@')[1] === NST_CONFIG.DOMAIN)) {
         addr = addr.split('@')[0];
       }
 
@@ -277,6 +277,7 @@
           modalData: {
             relatedTaskId: data.relatedTaskId,
             relatedPostId: data.relatedPostId,
+            callbackUrl: data.callbackUrl,
             modalId: uid
           }
         }

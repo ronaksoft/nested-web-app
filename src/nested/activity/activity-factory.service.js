@@ -65,12 +65,14 @@
       activity.date = data.timestamp;
       activity.actor = NstSvcUserFactory.parseTinyUser(data.actor);
       activity.place = NstSvcPlaceFactory.parseTinyPlace(data.place);
-      activity.post = {
-        id: data.post_id,
-        body: data.post.preview,
-        subject: data.post.subject,
-        attachments: _.map(data.post.post_attachments, NstSvcAttachmentFactory.parseAttachment)
-      };
+      if (data.post) {
+        activity.post = {
+          id: data.post_id,
+          body: data.post.preview,
+          subject: data.post.subject,
+          attachments: _.map(data.post.post_attachments, NstSvcAttachmentFactory.parseAttachment)
+        };
+      }
       activity.places = data.places;
 
       return activity;
