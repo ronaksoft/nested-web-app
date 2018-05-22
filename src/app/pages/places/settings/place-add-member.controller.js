@@ -69,41 +69,39 @@
         limit: calculateSearchLimit()
       };
 
-      if (!isMulti) {
-
+      if (!isMulti && !vm.isGrandPlace) {
         settings.placeId = currentPlace.id;
       }
 
-      if (mode === 'offline-mode' && isForGrandPlace) {
-        delete settings.placeId;
-      }
       var newPlaceFlag = false;
       if (newPlace !== undefined && newPlace === true) {
         newPlaceFlag = true;
       }
 
-      NstSvcUserFactory.search(settings, (newPlaceFlag || isMulti || vm.isGrandPlace?
-        NST_USER_SEARCH_AREA.ACCOUNTS :
-        NST_USER_SEARCH_AREA.ADD))
+      NstSvcUserFactory.search(settings, settings.placeId ?
+        NST_USER_SEARCH_AREA.ADD :
+        NST_USER_SEARCH_AREA.ACCOUNTS
+        )
         .then(searchCallBack)
         .catch(function (error) {
           $log.debug(error);
         });
 
-      function searchCallBack(users) {
-        users = _.unionBy(users, 'id');
-        vm.users = _.differenceBy(users, vm.selectedUsers, 'id');
-        vm.users = _.differenceBy(vm.users, [vm.currentUser], 'id');
-        if (_.isString(settings.query) &&
-          _.size(settings.query) >= 0 &&
-          _.indexOf(settings.query, " ") === -1 &&
-          !_.some(vm.users, {
-            id: settings.query
-          })) {
+    }
 
-        }
-        // vm.query = settings.query;
+    function searchCallBack(users) {
+      users = _.unionBy(users, 'id');
+      vm.users = _.differenceBy(users, vm.selectedUsers, 'id');
+      vm.users = _.differenceBy(vm.users, [vm.currentUser], 'id');
+      if (_.isString(settings.query) &&
+        _.size(settings.query) >= 0 &&
+        _.indexOf(settings.query, " ") === -1 &&
+        !_.some(vm.users, {
+          id: settings.query
+        })) {
+
       }
+      // vm.query = settings.query;
     }
 
     eventReferences.push($scope.$watch(function () {
