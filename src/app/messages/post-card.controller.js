@@ -128,6 +128,14 @@
       };
       var hash = createHash(msg);
       msg.hash = hash;
+      if (!vm.post.iframeObj) {
+        if (isPostView()) {
+          vm.iframeId = 'iframe-' + vm.post.id + '-post-view';
+        } else {
+          vm.iframeId = 'iframe-' + vm.post.id;
+        }
+        vm.post.iframeObj = document.getElementById(vm.iframeId);
+      }
       vm.post.iframeObj.contentWindow.postMessage(JSON.stringify(msg), '*');
     }
 
@@ -197,7 +205,7 @@
         };
         window.addEventListener('message', iframeOnMessage);
         eventReferences.push($rootScope.$on('toggle-theme', function (event, data) {
-          vm.post.iframeObj.contentWindow.postMessage(sendIframeMessage('setTheme', data), '*');
+          sendIframeMessage('setTheme', data);
         }));
       }, 500);
     }
