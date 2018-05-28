@@ -409,11 +409,7 @@
 
     function isPageFilled() {
       var taskContainer = angular.element('#task-container');
-      if (window.innerHeight > taskContainer.offset().top + taskContainer.height()) {
-        return false;
-      } else {
-        return true;
-      }
+      return !(window.innerHeight > taskContainer.offset().top + taskContainer.height());
     }
 
     function editTask(id, callbackUrl) {

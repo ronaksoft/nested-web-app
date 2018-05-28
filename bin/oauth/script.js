@@ -410,6 +410,7 @@ var nst = {
         app_token: app.token,
         app_domain: nst.selectedDomain,
         username: nst.user._id,
+        admin: nst.user.authority.admin,
         fname: nst.user.fname,
         lname: nst.user.lname,
         email: nst.user.email,
