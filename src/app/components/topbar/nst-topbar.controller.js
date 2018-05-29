@@ -6,9 +6,9 @@
     .controller('TopBarController', TopBarController);
 
   /** @ngInject */
-  function TopBarController($q, $, $scope, $timeout, $state, $stateParams, $uibModal,
+  function TopBarController($q, $, $scope, $timeout, $state, $stateParams, $uibModal, NstSvcAppFactory,
                             $rootScope, NST_SEARCH_QUERY_PREFIX, _, NstSvcTranslation, NstViewService,
-                            NstSvcSuggestionFactory, NstSvcLabelFactory, NstSvcI18n, NstSvcTaskUtility,
+                            NstSvcSuggestionFactory, NstSvcLabelFactory, NstSvcI18n, NstSvcTaskUtility, $sce,
                             NstSvcUserFactory, NstSvcNotificationFactory, NST_USER_SEARCH_AREA, SvcRecorder,
                             NstSvcPlaceFactory, NstSearchQuery, NST_CONFIG, NST_USER_EVENT, NST_NOTIFICATION_EVENT) {
     var searchPrefixLocale = [];
@@ -17,11 +17,13 @@
       searchPrefixLocale.place = NST_SEARCH_QUERY_PREFIX.NEW_PLACE;
       searchPrefixLocale.label = NST_SEARCH_QUERY_PREFIX.NEW_LABEL;
       searchPrefixLocale.to = NST_SEARCH_QUERY_PREFIX.NEW_TO;
+      searchPrefixLocale.app = NST_SEARCH_QUERY_PREFIX.APP;
     } else {
       searchPrefixLocale.user = NST_SEARCH_QUERY_PREFIX.NEW_USER_FA;
       searchPrefixLocale.place = NST_SEARCH_QUERY_PREFIX.NEW_PLACE_FA;
       searchPrefixLocale.label = NST_SEARCH_QUERY_PREFIX.NEW_LABEL_FA;
       searchPrefixLocale.to = NST_SEARCH_QUERY_PREFIX.NEW_TO_FA;
+      searchPrefixLocale.app = NST_SEARCH_QUERY_PREFIX.APP_FA;
     }
     var vm = this;
     var eventReferences = [];
@@ -56,27 +58,31 @@
       places: [],
       accounts: [],
       labels: [],
-      tos: []
+      tos: [],
+      apps: []
     };
     vm.suggestion = {
       histories: [],
       places: [],
       accounts: [],
       labels: [],
-      tos: []
+      tos: [],
+      apps: []
     };
     vm.limits = {
       exact: {
         places: 6,
         accounts: 6,
         labels: 6,
-        tos: 6
+        tos: 6,
+        apps: 6
       },
       all: {
         places: 3,
         accounts: 3,
         labels: 3,
-        tos: 3
+        tos: 3,
+        apps: 3
       }
     };
     vm.advancedSearch = {
@@ -104,6 +110,10 @@
       allowFuture: false
     };
     vm.companyConstant = null;
+    vm.appsResult = [];
+    vm.getAppIframeUrl = getAppIframeUrl;
+    vm.appIframeEnable = false;
+    vm.appIframeUrl = '';
 
     vm.translation = {
       submit: NstSvcTranslation.get('Submit')
@@ -245,6 +255,9 @@
     }
 
     function empty() {
+      if (vm.appIframeEnable && _.some(this.chips, {type: 'app:'})) {
+        closeApp();
+      }
       vm.query = '';
       vm.newQuery = '';
       vm.chips = [];
@@ -273,6 +286,11 @@
     }
 
     function toggleSearchModal(force) {
+      if (force === false && vm.appIframeEnable) {
+        vm.appIframeEnable = false;
+        closeApp();
+        return
+      }
       if (force === true) {
         $('html').addClass('_oh');
         vm.searchModalOpen = true;
@@ -282,6 +300,7 @@
         $('html').removeClass('_oh');
         vm.searchModalOpen = false;
         vm.advancedSearchOpen = false;
+        vm.appIframeEnable = false;
         return;
       }
       $('html').toggleClass('_oh');
@@ -373,6 +392,7 @@
           resetSelected(vm.suggestion.places);
           resetSelected(vm.suggestion.labels);
           resetSelected(vm.suggestion.tos);
+          resetSelected(vm.suggestion.apps);
         }
         return true;
       } else {
@@ -381,6 +401,8 @@
     }
 
     function returnKeyPressed() {
+      var type = 'other';
+      var app = '';
       if (vm.selectedItem === -1) {
         searchQuery.setQuery(vm.query, vm.newQuery);
       } else {
@@ -399,15 +421,24 @@
           case 'to':
             searchQuery.addTo(item.data.id);
             break;
+          case 'app':
+            searchQuery.setApp(item.data.id);
+            app = item.data.id;
+            break;
         }
+        type = item.type;
       }
-      if (isTask()) {
-        $state.go('app.task.search', {search: NstSearchQuery.encode(searchQuery.toString()), advanced: 'false'});
+      if (type === 'app') {
+        loadApp(app)
       } else {
-        $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toString()), advanced: 'false'});
+        if (isTask()) {
+          $state.go('app.task.search', {search: NstSearchQuery.encode(searchQuery.toString()), advanced: 'false'});
+        } else {
+          $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toString()), advanced: 'false'});
+        }
+        vm.toggleSearchModal(false);
+        vm.selectedItem = -1
       }
-      vm.toggleSearchModal(false);
-      vm.selectedItem = -1
     }
 
     function backspaceHandler() {
@@ -430,7 +461,8 @@
         user: searchPrefixLocale.user,
         place: searchPrefixLocale.place,
         label: searchPrefixLocale.label,
-        to: searchPrefixLocale.to
+        to: searchPrefixLocale.to,
+        app: searchPrefixLocale.app
       };
       if (vm.queryType === 'other') {
         index = words.lastIndexOf(vm.excludedQuery);
@@ -467,6 +499,11 @@
       } else {
         count += vm.suggestion.tos.length;
       }
+      if (vm.suggestion.apps.length > getLimit('apps')) {
+        count += getLimit('tos');
+      } else {
+        count += vm.suggestion.apps.length;
+      }
       return count;
     }
 
@@ -501,11 +538,18 @@
       } else {
         toCount = vm.suggestion.tos.length;
       }
+      var appCount = 0;
+      if (vm.suggestion.apps.length > getLimit('apps')) {
+        appCount = getLimit('apps');
+      } else {
+        appCount = vm.suggestion.apps.length;
+      }
 
       resetSelected(vm.suggestion.accounts);
       resetSelected(vm.suggestion.places);
       resetSelected(vm.suggestion.labels);
       resetSelected(vm.suggestion.tos);
+      resetSelected(vm.suggestion.apps);
 
       if (index >= 0 && index < accountCount) {
         return {
@@ -527,6 +571,11 @@
           data: vm.suggestion.labels[index - (accountCount + placeCount + toCount)],
           type: 'label'
         }
+      } else if (index >= accountCount + placeCount + toCount + labelCount && index < accountCount + placeCount + toCount + labelCount + appCount) {
+        return {
+          data: vm.suggestion.apps[index - (accountCount + placeCount + toCount + labelCount)],
+          type: 'app'
+        }
       }
     }
 
@@ -536,44 +585,38 @@
         accounts: [],
         labels: [],
         tos: [],
+        apps: [],
         history: []
       };
       var params = searchQuery.getSearchParams();
       if (!isTask()) {
-        var places = _.map(params.places, function (item) {
-          return {
-            id: item
-          };
-        });
         if (data.places !== undefined) {
-          result.places = _.differenceBy(_.uniqBy(data.places, 'id'), places, 'id');
+          result.places = _.differenceWith(_.uniqBy(data.places, 'id'), params.places, function (i1, i2) {
+            return i1.id === i2;
+          });
         }
       }
-      var users = _.map(params.users, function (item) {
-        return {
-          id: item
-        };
-      });
       if (data.accounts !== undefined) {
-        result.accounts = _.differenceBy(_.uniqBy(data.accounts, 'id'), users, 'id');
+        result.accounts = _.differenceWith(_.uniqBy(data.accounts, 'id'), params.users, function (i1, i2) {
+          return i1.id === i2;
+        });
       }
       if (isTask()) {
-        var tos = _.map(params.tos, function (item) {
-          return {
-            id: item
-          };
-        });
         if (data.tos !== undefined) {
-          result.tos = _.differenceBy(_.uniqBy(data.tos, 'id'), tos, 'id');
+          result.tos = _.differenceWith(_.uniqBy(data.tos, 'id'), params.tos, function (i1, i2) {
+            return i1.id === i2;
+          });
         }
       }
-      var labels = _.map(params.labels, function (item) {
-        return {
-          title: item
-        };
-      });
       if (data.labels !== undefined) {
-        result.labels = _.differenceBy(_.uniqBy(data.labels, 'id'), labels, 'title');
+        result.labels = _.differenceWith(_.uniqBy(data.labels, 'id'), params.labels, function (i1, i2) {
+          return i1.title === i2;
+        });
+      }
+      if (data.apps !== undefined) {
+        result.apps = _.differenceWith(data.apps, params.apps, function (i1, i2) {
+          return i1.app.id === i2;
+        });
       }
       if (data.histories !== undefined) {
         result.histories = data.histories;
@@ -588,6 +631,7 @@
       var userPrefix = searchPrefixLocale.user;
       var labelPrefix = searchPrefixLocale.label;
       var toPrefix = searchPrefixLocale.to;
+      var appPrefix = searchPrefixLocale.app;
 
       var word = query;
       var type = 'other';
@@ -607,6 +651,9 @@
           } else if (_.startsWith(match[0], toPrefix)) {
             word = _.replace(match[0], toPrefix, '');
             type = 'to';
+          } else if (_.startsWith(match[0], appPrefix)) {
+            word = _.replace(match[0], appPrefix, '');
+            type = 'app';
           }
         }
       } while (match);
@@ -677,6 +724,17 @@
               vm.selectedItem = -1;
             });
             break;
+          case 'app':
+            NstSvcAppFactory.getAllTokens().then(function (result) {
+              var apps = _.map(result, function (item) {
+                return item.app;
+              });
+              vm.appsResult = apps;
+              vm.suggestion = getUniqueItems({apps: apps});
+              vm.resultCount = countItems();
+              vm.selectedItem = -1;
+            });
+            break;
           case 'other':
             NstSvcSuggestionFactory.search(result.word).then(function (result) {
               vm.suggestion = getUniqueItems(result);
@@ -700,6 +758,7 @@
         'user': searchPrefixLocale.user,
         'label': searchPrefixLocale.label,
         'to': searchPrefixLocale.to,
+        'app': searchPrefixLocale.app,
         'keyword': NST_SEARCH_QUERY_PREFIX.KEYWORD
       };
       params = _.filter(params, function (item) {
@@ -728,14 +787,21 @@
         case 'to':
           searchQuery.addTo(id);
           break;
+        case 'app':
+          searchQuery.setApp(id);
+          break;
       }
-      if (isTask()) {
-        $state.go('app.task.search', {search: NstSearchQuery.encode(searchQuery.toString()), advanced: 'false'});
+      if (type === 'app') {
+        loadApp(id);
       } else {
-        $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toString()), advanced: 'false'});
+        if (isTask()) {
+          $state.go('app.task.search', {search: NstSearchQuery.encode(searchQuery.toString()), advanced: 'false'});
+        } else {
+          $state.go('app.search', {search: NstSearchQuery.encode(searchQuery.toString()), advanced: 'false'});
+        }
+        vm.toggleSearchModal(false);
+        vm.queryType = 'other';
       }
-      vm.toggleSearchModal(false);
-      vm.queryType = 'other';
     }
 
     /**
@@ -756,6 +822,11 @@
           break;
         case searchPrefixLocale.to:
           searchQuery.removeTo(name);
+          break;
+        case searchPrefixLocale.app:
+          searchQuery.removeApp();
+          closeApp();
+          return;
           break;
         case NST_SEARCH_QUERY_PREFIX.KEYWORD:
           searchQuery.removeKeyword(name);
@@ -809,6 +880,41 @@
       vm.toggleSearchModal(false);
     }
 
+    function getAppIframeUrl(url) {
+      var urlPostFix = '?from=nested';
+      return $sce.trustAsResourceUrl(url + urlPostFix);
+    }
+
+    function loadApp(appId) {
+      vm.appIframeEnable = true;
+      vm.chips = [{
+        type: searchPrefixLocale.app,
+        title: appId
+      }];
+      vm.newQuery = '';
+      var index = _.findIndex(vm.appsResult, {id: appId});
+      if (index > -1) {
+        vm.appIframeUrl = vm.appsResult[index].homepage;
+      }
+    }
+
+    function loadAppExternally(appId) {
+      NstSvcAppFactory.getAllTokens().then(function (result) {
+        var apps = _.map(result, function (item) {
+          return item.app;
+        });
+        vm.appsResult = apps;
+        toggleSearchModal(true);
+        vm.appIframeEnable = true;
+        loadApp(appId);
+      });
+    }
+
+    function closeApp() {
+      vm.chips = [];
+      toggleSearchModal(false);
+    }
+
     /**
      * Listen to closing notification popover event
      */
@@ -821,7 +927,6 @@
         $scope.scrollEndSearch();
       }
     }
-
 
     function loadNotificationsCount() {
       NstSvcNotificationFactory.getNotificationsCount().then(function (count) {
@@ -887,6 +992,10 @@
 
     eventReferences.push($rootScope.$on('label-request-status-changed', function () {
       requestLabelCounter();
+    }));
+
+    eventReferences.push($rootScope.$on('app-load-externally', function (event, data) {
+      loadAppExternally(data.appId);
     }));
 
     $scope.$on('$destroy', function () {

@@ -27,11 +27,13 @@
       searchPrefixLocale.place = NST_SEARCH_QUERY_PREFIX.NEW_PLACE;
       searchPrefixLocale.label = NST_SEARCH_QUERY_PREFIX.NEW_LABEL;
       searchPrefixLocale.to = NST_SEARCH_QUERY_PREFIX.NEW_TO;
+      searchPrefixLocale.app = NST_SEARCH_QUERY_PREFIX.APP;
     } else {
       searchPrefixLocale.user = NST_SEARCH_QUERY_PREFIX.NEW_USER_FA;
       searchPrefixLocale.place = NST_SEARCH_QUERY_PREFIX.NEW_PLACE_FA;
       searchPrefixLocale.label = NST_SEARCH_QUERY_PREFIX.NEW_LABEL_FA;
       searchPrefixLocale.to = NST_SEARCH_QUERY_PREFIX.NEW_TO_FA;
+      searchPrefixLocale.app = NST_SEARCH_QUERY_PREFIX.APP_FA;
     }
 
     SearchQuery.prototype = new NstObject();
@@ -45,6 +47,7 @@
       this.otherKeywords = [];
       this.before = null;
       this.after = null;
+      this.app = null;
 
       var secondaryResult = {
         places: [],
@@ -62,7 +65,8 @@
         subject: NST_SEARCH_QUERY_PREFIX.SUBJECT,
         attachment: NST_SEARCH_QUERY_PREFIX.ATTACHMENT,
         within: NST_SEARCH_QUERY_PREFIX.WITHIN,
-        date: NST_SEARCH_QUERY_PREFIX.DATE
+        date: NST_SEARCH_QUERY_PREFIX.DATE,
+        app: NST_SEARCH_QUERY_PREFIX.APP
       };
 
       this.order = 0;
@@ -102,6 +106,7 @@
       this.hasAttachment = result.hasAttachment;
       this.within = result.within;
       this.date = result.date;
+      this.app = result.app;
 
       if (secondaryQuery !== null && secondaryQuery !== undefined) {
         secondaryResult.keywords.forEach(function (item) {
@@ -139,6 +144,7 @@
       var hasAttachment = false;
       var within = '1';
       var date = '';
+      var app = '';
       var decodedQuery = decodeURIComponent(query);
 
       var words = [];
@@ -184,6 +190,8 @@
           within = _.trim(_.replace(word, that.prefixes.within, ''), '"');
         } else if (_.startsWith(word, that.prefixes.date)) {
           date = _.trim(_.replace(word, that.prefixes.date, ''), '"');
+        } else if (_.startsWith(word, that.prefixes.app)) {
+          app = _.replace(word, that.prefixes.app, '');
         }
         else {
           if (word.length > 0) {
@@ -204,14 +212,14 @@
         subject: subject,
         hasAttachment: hasAttachment,
         within: within,
-        date: date
+        date: date,
+        app: app
       };
     };
 
     SearchQuery.prototype.toString = function () {
       var items = this.getSortedParams();
       var stringList = [];
-
       for (var i = 0; i < items.length; i++) {
         if (items[i].type === 'place') {
           stringList.push(this.prefixes.place + items[i].id);
@@ -221,6 +229,8 @@
           stringList.push(this.prefixes.label + '"' + items[i].id + '"');
         } else if (items[i].type === 'to') {
           stringList.push(this.prefixes.to + items[i].id);
+        } else if (items[i].type === 'app') {
+          stringList.push(this.prefixes.app + items[i].id);
         } else {
           stringList.push(items[i].id);
         }
@@ -465,6 +475,18 @@
       return this.date;
     };
 
+    SearchQuery.prototype.setApp = function (app) {
+      this.app = app;
+    };
+
+    SearchQuery.prototype.removeApp = function () {
+      this.app = null;
+    };
+
+    SearchQuery.prototype.getApp = function () {
+      return this.date;
+    };
+
     SearchQuery.prototype.reset = function () {
       this.places = [];
       this.users = [];
@@ -473,6 +495,7 @@
       this.otherKeywords = [];
       this.before = null;
       this.after = null;
+      this.app = null;
     };
 
     SearchQuery.encode = function (queryString) {
@@ -500,6 +523,7 @@
         keywords: _.map(this.otherKeywords, function (item) {
           return item.id;
         }),
+        app: this.app,
         subject: this.subject,
         hasAttachment: this.hasAttachment,
         before: this.before * 1000,
@@ -542,6 +566,14 @@
         });
       }
 
+      if (this.app) {
+        tempList.push({
+          id: this.app,
+          order: 0,
+          type: 'app'
+        });
+      }
+
       for (i = 0; i < this.otherKeywords.length; i++) {
         tempList.push({
           id: this.otherKeywords[i].id,
@@ -573,6 +605,9 @@
             break;
           case 'to':
             this.removeTo(item.id);
+            break;
+          case 'app':
+            this.removeApp();
             break;
           case 'keyword':
             this.removeKeyword(item.id);
