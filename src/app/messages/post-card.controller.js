@@ -1246,15 +1246,6 @@
       }, timeout);
     }
 
-    function copyToClipboard(text) {
-      var inp = document.createElement('input');
-      document.body.appendChild(inp);
-      inp.value = text;
-      inp.select();
-      document.execCommand('copy', false);
-      inp.remove();
-    }
-
     function showAllPlacesAsRow() {
       vm.postPlacesViewNumber = 50;
     }
@@ -1263,7 +1254,6 @@
       e.preventDefault();
       var emailRe = /\S+@\S+\.\S+/;
       if (emailRe.test(place.id)) {
-        // copyToClipboard(place.id);
         $state.go('app.conversation', { userId : place.id});
       } else {
         if (place.hasAccess(NST_PLACE_ACCESS.READ_POST)) {
@@ -1281,7 +1271,7 @@
             } else {
               console.log('dismiss');
             }
-          });;
+          });
         }
       }
     }
