@@ -6,9 +6,9 @@
     .controller('TopBarController', TopBarController);
 
   /** @ngInject */
-  function TopBarController($q, $, $scope, $timeout, $state, $stateParams, $uibModal, NstSvcAppFactory,
-                            $rootScope, NST_SEARCH_QUERY_PREFIX, _, NstSvcTranslation, NstViewService,
-                            NstSvcSuggestionFactory, NstSvcLabelFactory, NstSvcI18n, NstSvcTaskUtility, $sce,
+  function TopBarController($q, $, $scope, $timeout, $state, $stateParams, $uibModal, NstSvcAppFactory, NstSvcViewStorage,
+                            $rootScope, NST_SEARCH_QUERY_PREFIX, _, NstSvcTranslation, NstViewService, NstSvcAuth, md5,
+                            NstSvcSuggestionFactory, NstSvcLabelFactory, NstSvcI18n, NstSvcTaskUtility, $sce, toastr,
                             NstSvcUserFactory, NstSvcNotificationFactory, NST_USER_SEARCH_AREA, SvcRecorder,
                             NstSvcPlaceFactory, NstSearchQuery, NST_CONFIG, NST_USER_EVENT, NST_NOTIFICATION_EVENT) {
     var searchPrefixLocale = [];
@@ -114,6 +114,8 @@
     vm.getAppIframeUrl = getAppIframeUrl;
     vm.appIframeEnable = false;
     vm.appIframeUrl = '';
+    vm.appIframeObj = null;
+    var iframeOnMessage;
 
     vm.translation = {
       submit: NstSvcTranslation.get('Submit')
@@ -725,12 +727,9 @@
             });
             break;
           case 'app':
-            NstSvcAppFactory.getAllTokens().then(function (result) {
-              var apps = _.map(result, function (item) {
-                return item.app;
-              });
-              vm.appsResult = apps;
-              vm.suggestion = getUniqueItems({apps: apps});
+            NstSvcAppFactory.search(result.word, 0, 10).then(function (result) {
+              vm.appsResult = result;
+              vm.suggestion = getUniqueItems({apps: result});
               vm.resultCount = countItems();
               vm.selectedItem = -1;
             });
@@ -895,6 +894,7 @@
       var index = _.findIndex(vm.appsResult, {id: appId});
       if (index > -1) {
         vm.appIframeUrl = vm.appsResult[index].homepage;
+        initAppFrameWork();
       }
     }
 
@@ -913,7 +913,133 @@
     function closeApp() {
       vm.chips = [];
       toggleSearchModal(false);
+      vm.appIframeObj = null;
+      vm.appIframeUrl = '';
+      if (iframeOnMessage) {
+        window.removeEventListener('message', iframeOnMessage)
+      }
     }
+
+    function getUserData() {
+      var user = NstSvcAuth.user || {id: '_'};
+      var msgId = 'nested-main';
+      var app = NST_CONFIG.DOMAIN;
+      var locale = NstSvcI18n.selectedLocale;
+      var darkMode = NstSvcViewStorage.get('nightMode');
+      if (darkMode == false || darkMode === 'no') {
+        darkMode = false;
+      } else {
+        darkMode = true;
+      }
+      return {
+        userId: user.id,
+        email: user.email,
+        fname: user.firstName,
+        lname: user.lastName,
+        msgId: msgId,
+        app: app,
+        locale: locale,
+        dark: darkMode
+      }
+    }
+
+    function createHash(data) {
+      var str = JSON.stringify(data);
+      str = encodeURIComponent(str).split('%').join('');
+      return md5.createHash(str);
+    }
+
+    function sendIframeMessage(cmd, data) {
+      var msg = {
+        cmd: cmd,
+        data: data
+      };
+      var hash = createHash(msg);
+      msg.hash = hash;
+      if (!vm.appIframeObj) {
+        vm.appIframeObj = document.getElementById('app-iframe');
+      }
+      vm.appIframeObj.contentWindow.postMessage(JSON.stringify(msg), '*');
+    }
+
+    function isHashValid(data) {
+      var packetHash = data.hash;
+      delete data.hash;
+      var hash = createHash(data);
+      if (hash === packetHash) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+    function checkUrls(remoteUrl, requestedUrl) {
+      return remoteUrl.indexOf(requestedUrl) > -1;
+    }
+
+    function getValidHeight(h) {
+      var height = $('.search-modal .backdrop').height() - 120;
+      if (h > height) {
+        return height;
+      } else {
+        return h;
+      }
+    }
+
+    function initAppFrameWork() {
+      $timeout(function () {
+        vm.appIframeObj = document.getElementById('app-iframe');
+        var userData = getUserData();
+        iframeOnMessage = function (e) {
+          if (vm.appIframeUrl.indexOf(e.origin) === -1) {
+            return;
+          }
+          var data = JSON.parse(e.data);
+          if (!isHashValid(data)) {
+            return;
+          }
+          if (checkUrls(data.url, vm.appIframeUrl)) {
+            switch (data.cmd) {
+              case 'getInfo':
+                sendIframeMessage('setInfo', userData);
+                break;
+              case 'setSize':
+                vm.appIframeObj.style.cssText = 'height: ' + getValidHeight(data.data.height) + 'px !important';
+                break;
+              case 'setNotif':
+                if (['success', 'info', 'warning', 'error'].indexOf(data.data.type) > -1) {
+                  toastr[data.data.type](data.data.message);
+                }
+                break;
+              case 'createToken':
+                NstSvcAppFactory.createToken(data.data.clientId).then(function (res) {
+                  sendIframeMessage('setLoginInfo', {
+                    token: data.data.token,
+                    appToken: res.token,
+                    appDomain: userData.app,
+                    username: userData.userId,
+                    fname: userData.fname,
+                    lname: userData.lname,
+                    email: userData.email
+                  });
+                }).catch(function () {
+                  toastr.warning(NstSvcTranslation.get('Can not create token for app: {0}').replace('{0}', data.data.clientId));
+                });
+                break;
+              default:
+                break;
+            }
+          }
+        };
+        window.addEventListener('message', iframeOnMessage);
+      }, 1);
+    }
+
+    eventReferences.push($rootScope.$on('toggle-theme', function (event, data) {
+      if (vm.appIframeEnable && vm.appIframeUrl !== '') {
+        sendIframeMessage('setTheme', data);
+      }
+    }));
 
     /**
      * Listen to closing notification popover event
@@ -999,6 +1125,10 @@
     }));
 
     $scope.$on('$destroy', function () {
+      if (iframeOnMessage) {
+        window.removeEventListener('message', iframeOnMessage)
+      }
+
       _.forEach(eventReferences, function (canceler) {
         if (_.isFunction(canceler)) {
           canceler();
