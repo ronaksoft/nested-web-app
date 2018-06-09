@@ -55,8 +55,8 @@ function NstSvcNotification($q, $window, _, $state, $rootScope,
     if (NST_CONFIG.DISABLE_FCM !== 'true') {
       (function () {
         $q.all([
-          loadScript('https://www.gstatic.com/firebasejs/3.9.0/firebase-app.js'),
-          loadScript('https://www.gstatic.com/firebasejs/3.9.0/firebase-messaging.js')]).then(function () {
+          loadScript('/firebase/firebase-app.js'),
+          loadScript('/firebase/firebase-messaging.js')]).then(function () {
           console.log('firebasejs loaded');
           firebase.initializeApp(config);
           service.configFCM();

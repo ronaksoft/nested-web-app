@@ -1,6 +1,6 @@
 /* eslint-disable */
-importScripts('https://www.gstatic.com/firebasejs/3.9.0/firebase-app.js');
-importScripts('https://www.gstatic.com/firebasejs/3.9.0/firebase-messaging.js');
+importScripts('/firbase/firebase-app.js');
+importScripts('/firebase/firebase-messaging.js');
 
 var notifs = {};
 
@@ -47,8 +47,9 @@ self.addEventListener("notificationclick", function (event) {
         var targetUrl = '/';
         if (notifs[event.notification.tag].payload.post_id) {
           targetUrl = '/#/message/' + notifs[event.notification.tag].payload.post_id;
+        } else if (notifs[event.notification.tag].payload.task_id) {
+          targetUrl = '/#/task/edit/' + notifs[event.notification.tag].payload.task_id;
         }
-
 
         for (var i = 0; i < clientList.length; i++) {
           var client = clientList[i];
