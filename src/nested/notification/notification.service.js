@@ -7,7 +7,7 @@ angular
 function NstSvcNotification($q, $window, _, $state, $rootScope,
                             NST_NOTIFICATION_TYPE, NST_AUTH_EVENT, NST_PLACE_EVENT_ACTION, NST_CONFIG,
                             NstObservableObject, NstSvcLogger, NstSvcTranslation, NstSvcAuth, NST_NOTIFICATION_EVENT,
-                            NstUtility, NstSvcDate, firebase) {
+                            NstUtility, NstSvcDate) {
 
 
   var config = {
@@ -44,13 +44,13 @@ function NstSvcNotification($q, $window, _, $state, $rootScope,
     if (!NST_CONFIG.DISABLE_FCM) {
       (function () {
         var fcm_app_script = document.createElement('script');
-        fcm_app_script.setAttribute('src', 'http://www.gstatic.com/firebasejs/3.6.10/firebase-app.js');
-        fcm_app_script.async = true
+        fcm_app_script.setAttribute('src', 'https://www.gstatic.com/firebasejs/3.9.0/firebase-app.js');
+        fcm_app_script.async = true;
         document.head.appendChild(fcm_app_script);
 
         var fcm_messaging_script = document.createElement('script');
-        fcm_messaging_script.setAttribute('src', 'https://www.gstatic.com/firebasejs/3.6.10/firebase-messaging.js');
-        fcm_messaging_script.async = true
+        fcm_messaging_script.setAttribute('src', 'https://www.gstatic.com/firebasejs/3.9.0/firebase-messaging.js');
+        fcm_messaging_script.async = true;
 
         fcm_messaging_script.onload = function () {
           firebase.initializeApp(config);
@@ -203,31 +203,31 @@ function NstSvcNotification($q, $window, _, $state, $rootScope,
     }
     var service = this;
     navigator.serviceWorker.onmessage = function (event) {
-
-      var data = event.data;
-      if (data.command == "broadcastOnNotificationClick") {
-        var body = JSON.parse(data.message);
-
-        if (body.payload.type === "n") {
-          var subject = parseInt(body.payload.subject);
-          switch (subject) {
-            case NST_NOTIFICATION_TYPE.COMMENT:
-            case NST_NOTIFICATION_TYPE.MENTION:
-              service.broadcastOpenPost(body.payload.post_id, body.payload.notification_id);
-              break;
-            case NST_NOTIFICATION_TYPE.PLACE_SETTINGS_CHANGED:
-            case NST_NOTIFICATION_TYPE.DEMOTED:
-            case NST_NOTIFICATION_TYPE.PROMOTED:
-              service.broadcastOpenPlace(body.payload.place_id, body.payload.notification_id);
-              break;
-          }
+      var data = event.data['firebase-messaging-msg-data'].data;
+      if (data.type === 'n') {
+        var subject = parseInt(data.subject);
+        switch (subject) {
+          case NST_NOTIFICATION_TYPE.COMMENT:
+          case NST_NOTIFICATION_TYPE.MENTION:
+            service.broadcastOpenPost(data.post_id, data.notification_id);
+            break;
+          case NST_NOTIFICATION_TYPE.PLACE_SETTINGS_CHANGED:
+          case NST_NOTIFICATION_TYPE.DEMOTED:
+          case NST_NOTIFICATION_TYPE.PROMOTED:
+            service.broadcastOpenPlace(data.place_id, data.notification_id);
+            break;
         }
-        if (body.payload.type === "a") {
-          var action = parseInt(body.payload.action);
-          switch (action) {
-            case NST_PLACE_EVENT_ACTION.POST_ADD:
-              service.broadcastOpenPost(body.payload.post_id, body.payload.notification_id);
-          }
+      } else if (data.type === 'a') {
+        var action = parseInt(data.action);
+        switch (action) {
+          case NST_PLACE_EVENT_ACTION.POST_ADD:
+            service.broadcastOpenPost(data.post_id, data.notification_id);
+        }
+      } else if (data.type === 't') {
+        var action = parseInt(data.action);
+        switch (action) {
+          case NST_PLACE_EVENT_ACTION.POST_ADD:
+            service.broadcastOpenTask(data.task_id, data.notification_id);
         }
       }
     };
@@ -245,6 +245,14 @@ function NstSvcNotification($q, $window, _, $state, $rootScope,
     $rootScope.$broadcast(NST_NOTIFICATION_EVENT.EXTERNAL_PUSH_ACTION, {
       action: NST_NOTIFICATION_EVENT.OPEN_PLACE,
       placeId: placeId,
+      notificationId: notificationId
+    });
+  };
+
+  MyNotification.prototype.broadcastOpenTask = function (taskId, notificationId) {
+    $rootScope.$broadcast(NST_NOTIFICATION_EVENT.EXTERNAL_PUSH_ACTION, {
+      action: NST_NOTIFICATION_EVENT.OPEN_TASK,
+      taskId: taskId,
       notificationId: notificationId
     });
   };

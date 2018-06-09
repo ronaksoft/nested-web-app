@@ -826,7 +826,6 @@
           searchQuery.removeApp();
           closeApp();
           return;
-          break;
         case NST_SEARCH_QUERY_PREFIX.KEYWORD:
           searchQuery.removeKeyword(name);
           break;
@@ -1005,6 +1004,7 @@
                 break;
               case 'setSize':
                 vm.appIframeObj.style.cssText = 'height: ' + getValidHeight(data.data.height) + 'px !important';
+                vm.appIframeObj.parentNode.style.cssText = 'height: ' + getValidHeight(data.data.height) + 'px !important';
                 break;
               case 'setNotif':
                 if (['success', 'info', 'warning', 'error'].indexOf(data.data.type) > -1) {
