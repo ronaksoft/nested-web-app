@@ -52,11 +52,11 @@ function NstSvcNotification($q, $window, _, $state, $rootScope,
 
     this.permission = $window.Notification.permission;
 
-    if (!NST_CONFIG.DISABLE_FCM) {
+    if (NST_CONFIG.DISABLE_FCM !== 'true') {
       (function () {
         $q.all([
-          loadScript('https://www.gstatic.com/firebasejs/3.9.0/firebase-app.js'),
-          loadScript('https://www.gstatic.com/firebasejs/3.9.0/firebase-messaging.js')]).then(function () {
+          loadScript('/firebase/firebase-app.js'),
+          loadScript('/firebase/firebase-messaging.js')]).then(function () {
           console.log('firebasejs loaded');
           firebase.initializeApp(config);
           service.configFCM();
@@ -65,9 +65,7 @@ function NstSvcNotification($q, $window, _, $state, $rootScope,
           });
         });
       })();
-
     }
-
   };
 
   MyNotification.prototype.registerServiceWorker = function () {
