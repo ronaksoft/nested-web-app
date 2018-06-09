@@ -205,6 +205,7 @@ function NstSvcNotification($q, $window, _, $state, $rootScope,
     var service = this;
     navigator.serviceWorker.onmessage = function (event) {
       var data = event.data['firebase-messaging-msg-data'].data;
+      console.log(data);
       if (data.type === 'n') {
         var subject = parseInt(data.subject);
         switch (subject) {
