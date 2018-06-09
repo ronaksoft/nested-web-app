@@ -30,6 +30,18 @@ function NstSvcNotification($q, $window, _, $state, $rootScope,
   MyNotification.prototype = new NstObservableObject();
   MyNotification.prototype.constructor = MyNotification;
 
+  function loadScript(url) {
+    var deferred = $q.defer();
+    var script = document.createElement('script');
+    script.setAttribute('src', url);
+    script.async = true;
+    document.head.appendChild(script);
+    script.onload = function () {
+      deferred.resolve();
+    };
+    return deferred.promise;
+  }
+
 //FIX Here
   MyNotification.prototype.requestPermission = function () {
     var service = this;
@@ -40,27 +52,18 @@ function NstSvcNotification($q, $window, _, $state, $rootScope,
 
     this.permission = $window.Notification.permission;
 
-
     if (!NST_CONFIG.DISABLE_FCM) {
       (function () {
-        var fcm_app_script = document.createElement('script');
-        fcm_app_script.setAttribute('src', 'https://www.gstatic.com/firebasejs/3.9.0/firebase-app.js');
-        fcm_app_script.async = true;
-        document.head.appendChild(fcm_app_script);
-
-        var fcm_messaging_script = document.createElement('script');
-        fcm_messaging_script.setAttribute('src', 'https://www.gstatic.com/firebasejs/3.9.0/firebase-messaging.js');
-        fcm_messaging_script.async = true;
-
-        fcm_messaging_script.onload = function () {
+        $q.all([
+          loadScript('https://www.gstatic.com/firebasejs/3.9.0/firebase-app.js'),
+          loadScript('https://www.gstatic.com/firebasejs/3.9.0/firebase-messaging.js')]).then(function () {
+          console.log('firebasejs loaded');
           firebase.initializeApp(config);
           service.configFCM();
           $rootScope.$on(NST_AUTH_EVENT.AUTHORIZE, function () {
             service.configFCM();
           });
-
-        };
-        document.head.appendChild(fcm_messaging_script);
+        });
       })();
 
     }
