@@ -9,6 +9,7 @@
       OPEN_POST_VIEW: 'notification-post-view',
       OPEN_PLACE: 'notification-place-view',
       OPEN_TASK: 'notification-task-view',
+      CLEAR_NOTIF: 'notification-clear',
       EXTERNAL_PUSH_ACTION: 'notification-external-push-action'
     });
 })();

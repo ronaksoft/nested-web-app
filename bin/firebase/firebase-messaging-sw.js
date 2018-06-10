@@ -44,6 +44,10 @@ self.addEventListener("notificationclick", function (event) {
 
         if (!notifs[event.notification.tag]) return;
 
+        if (notifs[event.notification.tag].payload.subject === 'clear') {
+          return
+        }
+
         var targetUrl = '/';
         if (notifs[event.notification.tag].payload.post_id) {
           targetUrl = '/#/message/' + notifs[event.notification.tag].payload.post_id;

@@ -125,7 +125,10 @@ function NstSvcNotification($q, $window, _, $state, $rootScope,
       });
       // TODO: Move this to costructor. Because every method call adds a new listener
       $rootScope.$on(NST_AUTH_EVENT.UNAUTHORIZE, function () {
-        messaging.deleteToken(dt)
+        messaging.deleteToken(dt).then(function () {
+        }).catch(function (err) {
+          NstSvcLogger.debug("Notification Unable to delete token | ", err);
+        });
         that.options = {};
         that.stack = {};
       });
@@ -205,13 +208,14 @@ function NstSvcNotification($q, $window, _, $state, $rootScope,
     var service = this;
     navigator.serviceWorker.onmessage = function (event) {
       var data = event.data['firebase-messaging-msg-data'].data;
-      console.log(data);
-      if (data.type === 'n') {
+      if (data.subject && data.subject === 'clear') {
+        service.broadcastClearNotif(data.notification_id);
+      } else if (data.type === 'n') {
         var subject = parseInt(data.subject);
         switch (subject) {
           case NST_NOTIFICATION_TYPE.COMMENT:
           case NST_NOTIFICATION_TYPE.MENTION:
-            service.broadcastOpenPost(data.post_id, data.notification_id);
+            // service.broadcastOpenPost(data.post_id, data.notification_id);
             break;
           case NST_NOTIFICATION_TYPE.PLACE_SETTINGS_CHANGED:
           case NST_NOTIFICATION_TYPE.DEMOTED:
@@ -219,19 +223,20 @@ function NstSvcNotification($q, $window, _, $state, $rootScope,
             service.broadcastOpenPlace(data.place_id, data.notification_id);
             break;
         }
-      } else if (data.type === 'a') {
-        var action = parseInt(data.action);
-        switch (action) {
-          case NST_PLACE_EVENT_ACTION.POST_ADD:
-            service.broadcastOpenPost(data.post_id, data.notification_id);
-        }
-      } else if (data.type === 't') {
-        var action = parseInt(data.action);
-        switch (action) {
-          case NST_PLACE_EVENT_ACTION.POST_ADD:
-            service.broadcastOpenTask(data.task_id, data.notification_id);
-        }
       }
+      /*else if (data.type === 'a') {
+             var action = parseInt(data.action);
+             switch (action) {
+               case NST_PLACE_EVENT_ACTION.POST_ADD:
+                 service.broadcastOpenPost(data.post_id, data.notification_id);
+             }
+           } else if (data.type === 't') {
+             var action = parseInt(data.action);
+             switch (action) {
+               case NST_TASK_EVENT_ACTION.CREATED:
+                 service.broadcastOpenTask(data.task_id, data.notification_id);
+             }
+           }*/
     };
   };
 
@@ -259,6 +264,12 @@ function NstSvcNotification($q, $window, _, $state, $rootScope,
     });
   };
 
+  MyNotification.prototype.broadcastClearNotif = function (notificationId) {
+    $rootScope.$broadcast(NST_NOTIFICATION_EVENT.EXTERNAL_PUSH_ACTION, {
+      action: NST_NOTIFICATION_EVENT.CLEAR_NOTIF,
+      notificationId: notificationId
+    });
+  };
 
   function parseNotification(notificationObject) {
     switch (notificationObject.type) {
