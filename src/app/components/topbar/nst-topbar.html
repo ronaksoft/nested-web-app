@@ -96,7 +96,7 @@
   <!-- Backdrop
   ====================== -->
   <div class="backdrop" ng-click="ctrlTopBar.toggleSearchModal(false)"></div>
-  <div class="search-popover" ng-if="ctrlTopBar.searchModalOpen">
+  <div class="search-popover" ng-if="ctrlTopBar.searchModalOpen && !ctrlTopBar.appIframeEnable">
     <div class="_difh _fw search-query _aic" ng-if="ctrlTopBar.newQuery.length > 0">
       <a class="_df _fw"  ng-click="ctrlTopBar.searchIt(ctrlTopBar.newQuery, true)">
         <translate>Search for <b>{{ctrlTopBar.newQuery}}</b></translate>
@@ -191,6 +191,20 @@
         </li>
       </ul>
     </section>
+    <section class="from-suggests" ng-if="ctrlTopBar.suggestion.apps.length > 0 && ctrlTopBar.defaultSearch == false">
+      <h5 class="list-head">
+        <translate>app:</translate>
+      </h5>
+      <ul class="suggest-list">
+        <li ng-repeat="app in ctrlTopBar.suggestion.apps | limitTo: ctrlTopBar.getLimit('apps')" ng-class="{'selected': app._selected}" ng-click="ctrlTopBar.addChip(app.id, 'app');">
+          <div class="icon icon-squ">
+            <img ng-src="{{app.iconSmallUrl}}" width="32" height="32" />
+          </div>
+          <a class="_txe title" auto-dir="place.name" data-ng-bind-html="app.name | highlight: ctrlTopBar.excludedQuery"></a>
+          <span data-ng-bind-html="app.id | highlight: ctrlTopBar.excludedQuery"></span>
+        </li>
+      </ul>
+    </section>
   </div>
   <form class="advanced-search-popover" ng-show="ctrlTopBar.advancedSearchOpen">
     <label for="advanced-search-keyword"><translate>keyword:</translate></label>
@@ -223,6 +237,9 @@
 
     <input ng-click="ctrlTopBar.advancedSearchIt()" value="{{ctrlTopBar.translation.submit}}" class="butn butn-green _fw" type="submit">
   </form>
+  <div class="app-iframe-container" ng-if="ctrlTopBar.appIframeEnable">
+    <iframe id="app-iframe" ng-src="{{ctrlTopBar.getAppIframeUrl(ctrlTopBar.appIframeUrl)}}" scrolling="auto" ng-if="ctrlTopBar.appIframeUrl != ''"></iframe>
+  </div>
 </div>
 
 <script type="text/ng-template" id="top-notification-uib-tooltip.html">

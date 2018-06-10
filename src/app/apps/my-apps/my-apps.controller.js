@@ -21,6 +21,8 @@
         eventReferences = [];
     vm.apps = [];
 
+    vm.loadApp = loadApp;
+
     function getApps() {
       NstSvcAppFactory.getAllTokens().then(function (apps) {
         vm.apps = _.map(apps, function(app){ return app.app});
@@ -28,6 +30,12 @@
         vm.errorLoad = true;
       }).finally(function () {
         vm.loadProgress = false;
+      });
+    }
+
+    function loadApp(id) {
+      $rootScope.$broadcast('app-load-externally', {
+        appId: id,
       });
     }
 

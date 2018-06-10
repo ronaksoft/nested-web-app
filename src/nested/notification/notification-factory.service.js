@@ -191,6 +191,7 @@
           notification_id: ids
         }).then(function () {
           factory.getNotificationsCount().then(function (count) {
+            console.log(count);
             $rootScope.$broadcast(NST_NOTIFICATION_EVENT.UPDATE, {count: count});
           }).catch(defer.reject);
           defer.resolve();
@@ -225,7 +226,7 @@
     }
 
     /*****************
-     **    Parsers    **
+     **    Parsers  **
      *****************/
 
     function parseDefault(data) {

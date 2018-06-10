@@ -26,8 +26,11 @@ build:desktop:
     - mkdir -p $BUILD_DIR/webapp
     - mkdir -p $BUILD_DIR/webapp/t
     - mkdir -p $BUILD_DIR/webapp/oauth
+    - mkdir -p $BUILD_DIR/webapp/firebase
     - cp -a ./bin/token/. $BUILD_DIR/webapp/t/
     - cp -a ./bin/oauth/. $BUILD_DIR/webapp/oauth/
+    - cp -a ./bin/firebase/. $BUILD_DIR/webapp/firebase/
+    - cp ./bin/firebase/firebase-messaging-sw.js $BUILD_DIR/webapp/
     - cp -r ./dist/production/* $BUILD_DIR/webapp
     - cp ./lws.config.js $BUILD_DIR/webapp
     - mkdir -p $BUILD_DIR/bin
