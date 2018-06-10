@@ -202,7 +202,6 @@
     }
 
     function resetCounter() {
-      console.trace();
       return this.sentinel.watch(function () {
         var defer = $q.defer();
         NstSvcServer.request('notification/reset_counter', {}).then(function () {
@@ -227,7 +226,7 @@
     }
 
     /*****************
-     **    Parsers    **
+     **    Parsers  **
      *****************/
 
     function parseDefault(data) {
