@@ -75,7 +75,7 @@
 
               case NST_NOTIFICATION_TYPE.INVITE:
               case NST_NOTIFICATION_TYPE.INVITE_RESPOND:
-                  return notif;
+                return notif;
                 break;
               case NST_NOTIFICATION_TYPE.COMMENT:
                 return parseComment(notif);
@@ -175,30 +175,27 @@
 
     function markAsSeen(notificationIds) {
       var factory = this;
-      return this.sentinel.watch(function () {
-        var defer = $q.defer();
+      var defer = $q.defer();
 
-        var ids = '';
-        if (_.isString(notificationIds)) {
-          ids = notificationIds;
-        } else if (_.isArray(notificationIds)) {
-          ids = _.join(notificationIds, ',');
-        } else {
-          ids = 'all';
-        }
+      var ids = '';
+      if (_.isString(notificationIds)) {
+        ids = notificationIds;
+      } else if (_.isArray(notificationIds)) {
+        ids = _.join(notificationIds, ',');
+      } else {
+        ids = 'all';
+      }
 
-        NstSvcServer.request('notification/mark_as_read', {
-          notification_id: ids
-        }).then(function () {
-          factory.getNotificationsCount().then(function (count) {
-            console.log(count);
-            $rootScope.$broadcast(NST_NOTIFICATION_EVENT.UPDATE, {count: count});
-          }).catch(defer.reject);
-          defer.resolve();
+      NstSvcServer.request('notification/mark_as_read', {
+        notification_id: ids
+      }).then(function () {
+        factory.getNotificationsCount().then(function (count) {
+          $rootScope.$broadcast(NST_NOTIFICATION_EVENT.UPDATE, {count: count});
         }).catch(defer.reject);
+        defer.resolve();
+      }).catch(defer.reject);
 
-        return defer.promise;
-      }, 'markAsSeen');
+      return defer.promise;
     }
 
     function resetCounter() {
@@ -320,7 +317,7 @@
     function parseNewSession(data) {
       var notification = parseDefault(data);
 
-      notification.from = (data.client_id !== undefined && _.isString(data.client_id))? data.client_id.split('_').join(' '): '';
+      notification.from = (data.client_id !== undefined && _.isString(data.client_id)) ? data.client_id.split('_').join(' ') : '';
 
       return notification;
     }
