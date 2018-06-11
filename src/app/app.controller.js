@@ -113,7 +113,7 @@
           viewPost(data.postId);
           break;
       }
-      NstSvcNotificationFactory.markAsSeen(data.notificationId)
+      // NstSvcNotificationFactory.markAsSeen(data.notificationId)
     }));
 
     eventReferences.push($scope.$on('show-loading', function () {

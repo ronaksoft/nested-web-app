@@ -22,7 +22,7 @@
     vm.loadNew = loadAfter;
     vm.onClickMention = onClickMention;
     vm.error = null;
-    vm.selectedView = $state.current.options.group === 'task'? 2: 1;
+    vm.selectedView = $state.current.options.group === 'task' ? 2 : 1;
     vm.taskCounts = 0;
     vm.postCounts = 0;
 
@@ -185,7 +185,7 @@
       switch (notification.type) {
         case NST_NOTIFICATION_TYPE.INVITE:
           $event.preventDefault();
-          return ;
+          return;
         case NST_NOTIFICATION_TYPE.COMMENT:
           $event.preventDefault();
           return viewPost(notification.post.id);
