@@ -707,11 +707,12 @@
 
     function initPinnedPost() {
       if (vm.pinnedPosts.length > 0) {
-        NstSvcPostFactory.getMany(vm.pinnedPosts).then(function (posts) {
+        NstSvcPostFactory.getMany(vm.pinnedPosts).then(function (respose) {
+          var posts = respose.resolves;
           posts = _.map(posts, function (post) {
             return NstSvcPostFactory.parsePost(post);
           });
-          var newItems = _.differenceBy(posts.resolves, vm.messages, 'id');
+          var newItems = _.differenceBy(posts, vm.messages, 'id');
           var pinnedPosts = [];
           _.forEachRight(vm.messages, function (post, index) {
             if (vm.pinnedPosts.indexOf(post.id) > -1) {
