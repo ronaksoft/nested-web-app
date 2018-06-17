@@ -7,7 +7,7 @@
 
   function CommentsBoardController($timeout, $scope, $sce, $q, $state, $location, $anchorScroll, $rootScope, NST_POST_EVENT_ACTION,
                                    NstSvcAuth, NstSvcDate, NstSvcCommentFactory, NstUtility, NstSvcTranslation, NstSvcTaskFactory,
-                                   moment, toastr, NstSvcLogger, _, NstSvcModal) {
+                                   moment, toastr, NstSvcLogger, _, NstSvcModal, NST_TASK_EVENT_ACTION) {
     var vm = this;
 
     var commentBoardMin = 3,
@@ -19,7 +19,7 @@
       // newCommentIds = [],
       // unreadCommentIds = [],
       focusOnSentTimeout = null,
-      pageEventKeys = [];
+      eventReferences = [];
 
     vm.removeComment = removeComment;
     vm.allowToRemoveComment = allowToRemoveComment;
@@ -47,7 +47,7 @@
     (function () {
       vm.hasOlderComments = vm.totalCommentsCount > vm.comments.length;
       if (vm.postId) {
-        pageEventKeys.push($scope.$on('post-load-new-comments', function (event, data) {
+        eventReferences.push($scope.$on('post-load-new-comments', function (event, data) {
           if (data.postId === vm.postId && data.news.length > 0) {
             loadRecentComments(data.news, data.scrollIntoView);
           }
@@ -61,13 +61,14 @@
       /**
        * Event handler for removing comment
        */
-      pageEventKeys.push($rootScope.$on(NST_POST_EVENT_ACTION.INTERNAL_COMMENT_REMOVE, function (e, data) {
-        console.log(data);
-        if (vm.postId !== data.activity.postId) {
-          return;
-        }
-        NstUtility.collection.dropById(vm.comments, data.activity.comment.id);
-      }));
+      if (vm.postId) {
+        eventReferences.push($rootScope.$on(NST_POST_EVENT_ACTION.INTERNAL_COMMENT_REMOVE, function (e, data) {
+          if (vm.postId !== data.activity.postId) {
+            return;
+          }
+          NstUtility.collection.dropById(vm.comments, data.activity.comment.id);
+        }));
+      }
 
       vm.commentBoardId = vm.postId || vm.taskId;
 
@@ -168,7 +169,7 @@
           NstSvcCommentFactory.removeComment(vm.postId, comment).then(function () {
             NstUtility.collection.dropById(vm.comments, comment.id);
             var canceler = $scope.$emit('comment-removed', {postId: vm.postId, commentId: comment.id});
-            pageEventKeys.push(canceler);
+            eventReferences.push(canceler);
           }).catch(function () {
             toastr.error(NstSvcTranslation.get('Sorry, an error has occured while removing your comment'));
           }).finally(function () {
@@ -429,7 +430,7 @@
     }
 
     $scope.$on('$destroy', function () {
-      _.forEach(pageEventKeys, function (canceler) {
+      _.forEach(eventReferences, function (canceler) {
         if (_.isFunction(canceler)) {
           canceler();
         }

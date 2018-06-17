@@ -128,7 +128,7 @@
       if (body.length === 0) {
         return;
       }
-      
+
       var activity = new NstTaskActivity();
       var id =  (Math.random() * 10000).toFixed();
       activity.id = id;
@@ -185,7 +185,7 @@
       });
     }
 
-    
+
     function retrySendComment(commentModel) {
       NstSvcTaskFactory.addComment(vm.taskId, commentModel.body).then(function (activityId) {
         var index = _.findIndex(vm.activities, {id: commentModel.id});

@@ -914,10 +914,10 @@
       if (vm.post.id !== data.activity.postId) {
         return;
       }
-      if (!_.some(vm.post.labels, {
-          id: data.activity.label.id
+      if (!_.some(vm.post.places, {
+          id: data.activity.newPlace.id
         })) {
-        vm.post.places.push(place);
+        vm.post.places.push(data.activity.newPlace);
       }
       var index = _.findIndex(vm.post.places, {id: data.activity.oldPlace.id});
       if (index > -1) {
