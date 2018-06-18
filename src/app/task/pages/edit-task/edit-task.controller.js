@@ -8,7 +8,7 @@
   /** @ngInject */
   function EditTaskController($q, $, $timeout, $scope, $state, $rootScope, $stateParams, NstSearchQuery,
                               NstSvcAuth, _, toastr, NstSvcTranslation, NstTask, NST_ATTACHMENT_STATUS,
-                              NstUtility, NstSvcTaskFactory, NstSvcTaskUtility, NST_TASK_STATUS) {
+                              NstUtility, NstSvcTaskFactory, NstSvcTaskUtility, NST_TASK_STATUS, NST_TASK_EVENT_ACTION) {
     var vm = this;
     var eventReferences = [];
 
@@ -57,6 +57,7 @@
       vm.watcherFocus = false;
       vm.editorFocus = false;
     }
+
     initiateFocus();
 
     function bindRow(key) {
@@ -65,8 +66,8 @@
       initiateFocus();
       try {
         var newKey = key.replace('enable', '').toLowerCase(),
-            firstChar = newKey[0],
-            firstCharLowerCase = newKey[0].toLowerCase();
+          firstChar = newKey[0],
+          firstCharLowerCase = newKey[0].toLowerCase();
         newKey = newKey.replace(firstChar, firstCharLowerCase);
         vm[newKey + 'Focus'] = true;
       } catch (e) {
@@ -284,6 +285,7 @@
     }
 
     function getTask(id) {
+      dataInit = false;
       NstSvcTaskFactory.get(id, function (task) {
         importTaskData(task);
         vm.loading = false;
@@ -608,7 +610,7 @@
         return item.checked === true;
       });
 
-      vm.model.progress = Math.ceil((doneItems.length/vm.model.todos.length) * 100);
+      vm.model.progress = Math.ceil((doneItems.length / vm.model.todos.length) * 100);
 
       if (doneItems.length === vm.model.todos.length) {
         NstSvcTaskUtility.promptModal({
@@ -840,6 +842,12 @@
         });
       }, 200);
     }
+
+    eventReferences.push($rootScope.$on(NST_TASK_EVENT_ACTION.TASK_ACTIVITY, function (event, data) {
+      if (data.taskId === vm.taskId) {
+        getTask(data.taskId)
+      }
+    }));
 
     $scope.$on('$destroy', function () {
       if (isUpdated) {
