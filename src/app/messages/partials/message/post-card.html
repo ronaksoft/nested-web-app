@@ -189,7 +189,7 @@
       </div>
     </div>
 
-    <section ng-if="ctlPostCard.post.iframeUrl.length > 0 && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)"
+    <section ng-if="!ctlPostCard.FIT && ctlPostCard.post.iframeUrl.length > 0 && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)"
              class="post-iframe">
       <iframe ng-src="{{ctlPostCard.mergePostCardVariable(ctlPostCard.post.iframeUrl)}}" scrolling="auto" id="{{ctlPostCard.iframeId}}"></iframe>
     </section>
