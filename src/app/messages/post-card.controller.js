@@ -1277,23 +1277,23 @@
     }
 
     function mergePostCardVariable(url) {
-      var userId = NstSvcAuth.user || {id: '_'};
-      userId = userId.id;
-      var msgId = vm.post.id;
-      var app = NST_CONFIG.DOMAIN;
-      var urlPostFix = '';
-      if (url.indexOf('#') > -1) {
-        url = url.split('#');
-        urlPostFix = '#' + url[1];
-        url = url[0];
-      }
-      if (url.indexOf('?') > -1) {
-        url += '&';
-      } else {
-        url += '?';
-      }
-      url += 'nst_user=' + userId + '&nst_mid=' + msgId + '&nst_app=' + app + '&nst_locale=' + NstSvcI18n.selectedLocale;
-      return $sce.trustAsResourceUrl(url + urlPostFix);
+      // var userId = NstSvcAuth.user || {id: '_'};
+      // userId = userId.id;
+      // var msgId = vm.post.id;
+      // var app = NST_CONFIG.DOMAIN;
+      // var urlPostFix = '';
+      // if (url.indexOf('#') > -1) {
+      //   url = url.split('#');
+      //   urlPostFix = '#' + url[1];
+      //   url = url[0];
+      // }
+      // if (url.indexOf('?') > -1) {
+      //   url += '&';
+      // } else {
+      //   url += '?';
+      // }
+      // url += 'nst_user=' + userId + '&nst_mid=' + msgId + '&nst_app=' + app + '&nst_locale=' + NstSvcI18n.selectedLocale;
+      return $sce.trustAsResourceUrl(url /*+ urlPostFix*/);
     }
 
     /**
