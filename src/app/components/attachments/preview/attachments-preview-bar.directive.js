@@ -17,6 +17,7 @@
         mode: '=',
         postId: '=',
         markRead: '=?',
+        forceMode: '=?',
         sender: '='
       },
       link: function (scope, ele) {
@@ -46,7 +47,7 @@
           scope.print = true;
           // scope.cardWidth = 1200
         }
-        if (!scope.badge && scope.items.length === 1 &&
+        if ((!scope.badge && !scope.forceMode) && scope.items.length === 1 &&
           (scope.items[0].type === NST_FILE_TYPE.IMAGE || scope.items[0].type === NST_FILE_TYPE.GIF ||
           scope.items[0].uploadType === 'VIDEO' ) && scope.items[0].hasPreview) {
           scope.internalMode = NST_ATTACHMENTS_PREVIEW_BAR_MODE.THUMBNAIL_ONLY_IMAGE;
@@ -82,7 +83,7 @@
           scope.wrpHeight = scope.height > 1024 ? 1024 : scope.height;
         }
 
-        if (!scope.badge && scope.items.length === 2 &&
+        if ((!scope.badge && !scope.forceMode) && scope.items.length === 2 &&
           (scope.items[0].type === NST_FILE_TYPE.IMAGE || scope.items[0].type === NST_FILE_TYPE.GIF ||
           (scope.items[0].type === NST_FILE_TYPE.VIDEO && scope.items[0].uploadType === 'VIDEO') ) &&
           (scope.items[1].type === NST_FILE_TYPE.IMAGE || scope.items[1].type === NST_FILE_TYPE.GIF ||
@@ -143,7 +144,6 @@
   
           }, 100);
         }
-
 
         // interaction functions
         scope.onClick = function (item) {

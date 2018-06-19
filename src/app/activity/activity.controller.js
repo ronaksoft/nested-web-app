@@ -186,39 +186,11 @@
      * @param {any} activities
      */
     function appendActivities(activities) {
-      var activityGroups = mapActivities(activities);
-      _.forEach(activityGroups, function (targetGroup) {
-        var sourceGroup = _.find(vm.activities, { date : targetGroup.date });
-        if (sourceGroup) { // merge
-          sourceGroup.items.push.apply(sourceGroup.items, targetGroup.items);
-        } else { // add
-          vm.activities.push(targetGroup);
-        }
-      });
+      return vm.activities = NstSvcActivityMap.appendGroup(vm.activities, activities);
     }
 
     function mergeWithActivities(activities) {
-      var activityGroups = mapActivities(activities);
-      _.forEach(activityGroups, function (targetGroup) {
-        var sourceGroup = _.find(vm.activities, { date: targetGroup.date });
-        if (sourceGroup) {
-          // merge
-          var newItems = _.differenceBy(targetGroup.items, sourceGroup.items, 'id');
-          var removedItems = _.differenceBy(sourceGroup.items, targetGroup.items, 'id');
-          // first omit the removed items; The items that are no longer exist in fresh activities
-          _.forEach(removedItems, function (item) {
-            var index = _.findIndex(sourceGroup.items, { 'id': item.id });
-            if (index > -1) {
-              sourceGroup.items.splice(index, 1);
-            }
-          });
-
-          // add new items; The items that do not exist in cached items, but was found in fresh activities
-          sourceGroup.items.unshift.apply(sourceGroup.items, newItems);
-        } else { // add
-          vm.activities.push(targetGroup);
-        }
-      });
+      return vm.activities = NstSvcActivityMap.mergeGroup(vm.activities, activities);
     }
 
     /**
@@ -227,19 +199,7 @@
      * @param {any} activities
      */
     function putInActivities(activities) {
-      var activityGroups = mapActivities(activities);
-      _.forEachRight(activityGroups, function (targetGroup) {
-        var sourceGroup = _.find(vm.activities, { date : targetGroup.date });
-        if (sourceGroup) { // merge
-          _.forEach(targetGroup.items, function (item) {
-            if (!_.some(sourceGroup.items, { id : item.id })) {
-              sourceGroup.items.unshift(item);
-            }
-          });
-        } else { // add
-          vm.activities.unshift(targetGroup);
-        }
-      });
+      return vm.activities = NstSvcActivityMap.putInGroup(vm.activities, activities);
     }
 
     /**

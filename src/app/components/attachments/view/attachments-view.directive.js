@@ -19,6 +19,7 @@
         attachments: '=',
         previewMode: '=',
         markRead: '=?',
+        forceMode: '=?',
         sender: '='
       }
     };

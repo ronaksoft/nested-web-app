@@ -102,6 +102,9 @@
       var i = 0;
       var topItems = $rootScope.cardCtrls.filter(function (e, index) {
         var postCard = getElementProps(index);
+        if (!postCard) {
+          return false;
+        }
         // var firstOffset = $('#post-card-' + $rootScope.cardCtrls[0].id).parent().offset().top
         var firstOffset = 136;
         var determiner = postCard.postCardOffTop + postCard.postCardheight - firstOffset - 32 - 48;
@@ -135,6 +138,9 @@
     obj.findAffixIndex = function (Ypos) {
       var i = 0;
       var topItems = $rootScope.cardCtrls.filter(function (e, index) {
+        if (!$('#post-card-' + e.id)[0]) {
+          return false;
+        }
         var postCard = $('#post-card-' + e.id).parent();
         var postCardOffTop = postCard.offset().top;
         var firstOffset = $('#post-card-' + $rootScope.cardCtrls[0].id).parent().offset().top;
@@ -320,7 +326,7 @@
         var nextIndex = obj.affixView.index + 1;
         var nextElement = getElementProps(nextIndex);
 
-        if (nextElement.postCardOffTop - firstOffset < Ypos) {
+        if (nextElement && nextElement.postCardOffTop - firstOffset < Ypos) {
           obj.affixView = {
             id: nextElement.id,
             index: nextIndex
