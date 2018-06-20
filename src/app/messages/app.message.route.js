@@ -50,8 +50,8 @@
         //   }
         // }
       })
-      .state('print', {
-        url: '/print/:postId',
+      .state('print-post', {
+        url: '/print/post/:postId',
         params: {
           postId: NST_DEFAULT.STATE_PARAM,
           model : null,
@@ -60,9 +60,23 @@
         options: {
           group: 'print'
         },
-        templateUrl: 'app/messages/print/print.html',
-        controller: 'PrintController',
+        templateUrl: 'app/messages/print/print-post.html',
+        controller: 'PrintPostController',
         controllerAs: 'ctlPost'
+      })
+      .state('print-task', {
+        url: '/print/task/:taskId',
+        params: {
+          taskId: NST_DEFAULT.STATE_PARAM,
+          model : null,
+          trusted: false
+        },
+        options: {
+          group: 'print'
+        },
+        templateUrl: 'app/messages/print/print-task.html',
+        controller: 'PrintTaskController',
+        controllerAs: 'ctlTask'
       })
       .state('app.messages-bookmarked', {
         url: '/bookmarks',
