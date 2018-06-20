@@ -475,6 +475,7 @@
           showTrustedBody();
         }
         notifyObser();
+        targetBlankHrefs();
       }).catch(function () {
         toastr.error(NstSvcTranslation.get('An error occured while tying to show the post full body.'));
       }).finally(function () {
@@ -963,6 +964,14 @@
     //   }
     // }));
 
+    /**
+     * Make targets of post body anchors to `_blank`
+     */
+    function targetBlankHrefs() {
+      setTimeout(function () {
+        $(".post-body a").attr("target", "_blank");
+      }, 1000);
+    }
 
     // initializing
     (function () {
@@ -1056,13 +1065,8 @@
       // assign placesWithControlAccess
       vm.placesWithControlAccess = getPlacesWithControlAccess();
 
-      //FIXME:: fix this item
-      /**
-       * Make targets of post body anchors to `_blank`
-       */
-      setTimeout(function () {
-        $(".post-body a").attr("target", "_blank");
-      }, 1000);
+      targetBlankHrefs()
+
 
       // sometimes the post attachments does not have id and we did not find the problem
       // so we are trying to get the post and replace it with the previous corrupted post
