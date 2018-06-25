@@ -119,6 +119,22 @@
     line-height: 19px;
   }
 }
+.messages-view-setting-popover{
+  background: $sidebar-bg-color;
+  border-color: $color-breeze;
+  position: absolute;
+  top: 3px !important;
+  // left: auto !important;
+  // right: -2px;
+  z-index: 32;
+  width: 210px;
+  .popover-content span {
+    line-height: 19px;
+  }
+  a span {
+    line-height: 19px;
+  }
+}
 
 .line-popover {
   height: 1px;
