@@ -45,6 +45,7 @@
   <div ng-if="ctrl.signatureActive" class="compose-wrapper" >
       <textarea id="compose-froala" froala="ctrl.froalaOpts" ng-model="ctrl.model"></textarea>
       <div class="editor-butns-wrapper" id="editor-btn"></div>
+      <input type="file" class="butn butn-green full-width" value="Add base64 image"/>
       <button class="butn butn-green full-width" ng-if="ctrl.touched" ng-click="ctrl.save()"><translate>Save</translate></button>
   </div>
 

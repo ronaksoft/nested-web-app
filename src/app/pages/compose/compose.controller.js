@@ -1359,12 +1359,14 @@
       toolbarContainer: vm.quickMode ? '#editor-btn-quick' : '#editor-btn',
       charCounterCount: false,
       tabSpaces: 4,
+      tableResizerOffset: 10,
+      tableResizingLimit: 50,
       toolbarBottom: true,
       placeholderText: vm.translations.body,
-      pluginsEnabled: ['colors', 'fontSize', 'fontFamily', 'link', 'url', 'wordPaste', 'lists', 'align', 'codeBeautifier', 'codeView', 'codeBeautifier'],
+      pluginsEnabled: ['colors', 'fontSize', 'fontFamily', 'link', 'url', 'wordPaste', 'lists', 'align', 'codeBeautifier', 'codeView', 'table', 'tableStyles'],
       fontSize: ['8', '10', '14', '18', '22'],
-      toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'fontSize', '|', 'color', 'align', 'formatOL',
-        'formatUL', 'insertLink', '|', 'leftToRight', 'rightToLeft', 'html'
+      toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'fontSize', 'table', '|', 'color', 'align', 'formatOL',
+        'formatUL', 'insertLink', '|', 'leftToRight', 'rightToLeft', 'insertTable', 'insertBase64', 'html'
       ],
       events: {
         'froalaEditor.initialized': function (e, editor) {

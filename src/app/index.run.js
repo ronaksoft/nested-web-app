@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function runBlock($, $rootScope, $templateCache, iScrollService, $http, deviceDetector, SvcCardCtrlAffix,
-    NST_LOCALE_EN_US, NST_LOCALE_FA_IR,
+    NST_LOCALE_EN_US, NST_LOCALE_FA_IR, toastr,
     NstSvcI18n) {
     var isRetinaDisplay = isRetinaDisplay();
     // Define a text icon called imageIcon.
@@ -126,12 +126,109 @@
       ALT: ' html ',
       template: 'image'
     });
+    $.FroalaEditor.DefineIcon('insertBase64', {
+      SRC: isRetinaDisplay ? '/assets/icons/editor/photo-wire@2x.png' : '/assets/icons/editor/photo-wire.png',
+      ALT: ' insert image ',
+      NAME: ' insert image ',
+      template: 'image'
+    });
+    $.FroalaEditor.DefineIcon('insertTable', {
+      SRC: isRetinaDisplay ? '/assets/icons/editor/table@2x.png' : '/assets/icons/editor/table.png',
+      ALT: ' Insert Table ',
+      template: 'image'
+    });
+    $.FroalaEditor.DefineIcon('tableHeader', {
+      SRC: isRetinaDisplay ? '/assets/icons/editor/table@2x.png' : '/assets/icons/editor/table.png',
+      ALT: ' Table Header ',
+      template: 'image'
+    });
+    $.FroalaEditor.DefineIcon('tableRemove', {
+      SRC: isRetinaDisplay ? '/assets/icons/editor/bin@2x.png' : '/assets/icons/editor/bin.png',
+      ALT: ' Remove Table ',
+      template: 'image'
+    });
+    $.FroalaEditor.DefineIcon('tableRows', {
+      SRC: isRetinaDisplay ? '/assets/icons/editor/table@2x.png' : '/assets/icons/editor/table.png',
+      ALT: ' Row ',
+      template: 'image'
+    });
+    $.FroalaEditor.DefineIcon('tableColumns', {
+      SRC: isRetinaDisplay ? '/assets/icons/editor/table@2x.png' : '/assets/icons/editor/table.png',
+      ALT: ' Column ',
+      template: 'image'
+    });
+    $.FroalaEditor.DefineIcon('tableStyle', {
+      SRC: isRetinaDisplay ? '/assets/icons/editor/color@2x.png' : '/assets/icons/editor/color.png',
+      ALT: ' Table Style ',
+      template: 'image'
+    });
+    $.FroalaEditor.DefineIcon('tableCells', {
+      SRC: isRetinaDisplay ? '/assets/icons/editor/table@2x.png' : '/assets/icons/editor/table.png',
+      ALT: ' Cell ',
+      template: 'image'
+    });
+    $.FroalaEditor.DefineIcon('tableCellBackground', {
+      SRC: isRetinaDisplay ? '/assets/icons/editor/table@2x.png' : '/assets/icons/editor/table.png',
+      ALT: ' Cell Background ',
+      template: 'image'
+    });
+    $.FroalaEditor.DefineIcon('tableCellVerticalAlign', {
+      SRC: isRetinaDisplay ? '/assets/icons/editor/table@2x.png' : '/assets/icons/editor/table.png',
+      ALT: ' Vertical Align ',
+      template: 'image'
+    });
+    $.FroalaEditor.DefineIcon('tableCellHorizontalAlign', {
+      SRC: isRetinaDisplay ? '/assets/icons/editor/table@2x.png' : '/assets/icons/editor/table.png',
+      ALT: ' Horizontal Align ',
+      template: 'image'
+    });
+    $.FroalaEditor.DefineIcon('tableCellStyle', {
+      SRC: isRetinaDisplay ? '/assets/icons/editor/table@2x.png' : '/assets/icons/editor/table.png',
+      ALT: ' Cell Style ',
+      template: 'image'
+    });
 
+   $('div#froala-editor').froalaEditor({
+     quickInsertButtons: ['image', 'table', 'ol', 'ul', 'myButton'],
+     pluginsEnabled: ['quickInsert', 'image', 'table', 'lists']
+   });
     // $.FroalaEditor.RegisterCommand('bold', {
     //   title: 'Bold',
     //   icon: 'bold'
     // });
     // $.FroalaEditor.ICON_DEFAULT_TEMPLATE = 'material_design';
+
+    $.FroalaEditor.RegisterCommand('insertBase64', {
+      title: 'Insert Base64 image',
+      icon: 'insertBase64',
+      focus: true,
+      undo: true,
+      refreshAfterCallback: true,
+      // Callback for the button.
+      callback: function () {
+        var that = this;
+        $('body').append(
+          $('<input/>').attr('type', 'file').attr('name', 'someName').attr('id', 'temp-input').attr('accept', 'image/*')
+        );
+        document.getElementById("temp-input").click();
+        $("#temp-input").change(function(e){
+          if (e.target.files[0].size < 10000) {
+            var reader = new FileReader();
+            reader.readAsDataURL(e.target.files[0]);
+            reader.onload = function() {
+              that.html.insert('<img src="' + reader.result + '" alt="' + e.target.files[0].name + '" />');
+              $("#temp-input").remove();
+            };
+            reader.onerror = function(error) {
+              console.log('Error: ', error);
+            };
+          } else {
+            toastr.warning(NstSvcTranslation.get('the image size is too much'));
+          }
+        })
+        // this.html.insert('Hello Froala!');
+      },
+    });
 
     $.FroalaEditor.RegisterCommand('rightToLeft', {
       title: 'RTL',
