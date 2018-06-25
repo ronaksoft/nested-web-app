@@ -294,18 +294,18 @@
         return
       }
       if (force === true) {
-        $('html').addClass('_oh');
+        $('body').addClass('_oh');
         vm.searchModalOpen = true;
         vm.advancedSearchOpen = false;
         return;
       } else if (force === false) {
-        $('html').removeClass('_oh');
+        $('body').removeClass('_oh');
         vm.searchModalOpen = false;
         vm.advancedSearchOpen = false;
         vm.appIframeEnable = false;
         return;
       }
-      $('html').toggleClass('_oh');
+      $('body').toggleClass('_oh');
       vm.searchModalOpen = !vm.searchModalOpen;
       vm.advancedSearchOpen = false;
     }
