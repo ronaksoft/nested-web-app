@@ -1363,10 +1363,10 @@
       tableResizingLimit: 50,
       toolbarBottom: true,
       placeholderText: vm.translations.body,
-      pluginsEnabled: ['colors', 'fontSize', 'fontFamily', 'link', 'url', 'wordPaste', 'lists', 'align', 'codeBeautifier', 'codeView', 'table', 'tableStyles'],
+      pluginsEnabled: ['colors', 'fontSize', 'fontFamily', 'link', 'url', 'wordPaste', 'lists', 'align', 'codeBeautifier', 'codeView', 'table', 'tableStyles', 'moreOptions'],
       fontSize: ['8', '10', '14', '18', '22'],
       toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'fontSize', 'table', '|', 'color', 'align', 'formatOL',
-        'formatUL', 'insertLink', '|', 'leftToRight', 'rightToLeft', 'insertTable', 'insertBase64', 'html'
+        'formatUL', 'insertLink', '|', 'leftToRight', 'rightToLeft', 'html', 'more'
       ],
       events: {
         'froalaEditor.initialized': function (e, editor) {

@@ -88,3 +88,16 @@
 .fr-view table.fr-dashed-borders td, .fr-view table.fr-dashed-borders th {
   border-style: dashed;
 }
+.fr-popup .fr-command.fr-btn#tableRemove-1 img ,
+.fr-popup .fr-command.fr-btn#tableRows-1 img ,
+.fr-popup .fr-command.fr-btn#tableColumns-1 img ,
+.fr-popup .fr-command.fr-btn#tableStyle-1 img ,
+.fr-popup .fr-command.fr-btn#tableCells-1 img ,
+.fr-popup .fr-command.fr-btn#tableCellBackground-1 img ,
+.fr-popup .fr-command.fr-btn#tableCellVerticalAlign-1 img ,
+.fr-popup .fr-command.fr-btn#tableCellHorizontalAlign-1 img ,
+.fr-popup .fr-command.fr-btn#tableCellStyle-1 img ,
+.fr-popup .fr-command.fr-btn#tableHeader-1 img {
+  width: 16px;
+  height: 16px;
+}
