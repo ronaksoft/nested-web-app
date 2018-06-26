@@ -197,7 +197,6 @@
       ALT: ' Close ',
       template: 'image'
     });
- 
 
     $.extend($.FroalaEditor.POPUP_TEMPLATES, {
       "moreOptions.popup": '[_BUTTONS_][_CUSTOM_LAYER_]'
@@ -269,9 +268,24 @@
       icon: 'paragraph-rtl',
       focus: true,
       undo: true,
+      toggle: true,
       refreshAfterCallback: true,
+      refresh: function ($btn) {
+        var el = this.selection.blocks()[0];
+        var t = el.style.direction === 'rtl';
+        $btn.toggleClass("fr-active", t).attr("aria-pressed", t)
+      },
       callback: function () {
-        changeDirection.apply(this, ['rtl', 'right']);
+        var el = this.selection.blocks()[0];
+        if (!el) {
+          changeDirection.apply(this, ['rtl', 'right']);
+        }
+        var t = el.style.direction === 'rtl';
+        if (!t) {
+          changeDirection.apply(this, ['rtl', 'right']);
+        } else {
+          changeDirection.apply(this, ['ltr', 'left']);
+        }
       }
     });
 
@@ -280,7 +294,13 @@
       icon: 'paragraph-ltr',
       focus: true,
       undo: true,
-      // refreshAfterCallback: true,
+      toggle: true,
+      refresh: function ($btn) {
+        var el = this.selection.blocks()[0];
+        var t = el.style.direction === 'ltr';
+        $btn.toggleClass("fr-active", t).attr("aria-pressed", t)
+      },
+      refreshAfterCallback: true,
       callback: function () {
         changeDirection.apply(this, ['ltr', 'left']);
       }

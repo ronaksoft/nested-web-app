@@ -1339,6 +1339,7 @@
 
 
     function checkFroalaDirection(editor) {
+      // todo check if already set direction dont try to reset !
       var el = editor.selection.element();
       var text = $(el).text();
       text = SvcRTL.clear(text);
@@ -1366,7 +1367,7 @@
       pluginsEnabled: ['colors', 'fontSize', 'fontFamily', 'link', 'url', 'wordPaste', 'lists', 'align', 'codeBeautifier', 'codeView', 'table', 'tableStyles', 'moreOptions'],
       fontSize: ['8', '10', '14', '18', '22'],
       toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'fontSize', 'table', '|', 'color', 'align', 'formatOL',
-        'formatUL', 'insertLink', '|', 'leftToRight', 'rightToLeft', 'html', 'more'
+        'formatUL', 'insertLink', '|', 'rightToLeft', 'html', 'more'
       ],
       events: {
         'froalaEditor.initialized': function (e, editor) {
