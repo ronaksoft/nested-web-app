@@ -86,15 +86,17 @@
         vm.syncId = NstSvcSync.openChannel($stateParams.placeId);
         vm.currentPlaceId = $stateParams.placeId;
       }
-      vm.compactView = (vm.currentPlaceId && NstSvcViewStorage.get('compactView')) || false;
 
       vm.messagesSetting.sort = $stateParams.sort || defaultSortOption;
-      if (vm.compactView) {
-        vm.messagesSetting.limit = 30;
-      }
 
       setLocationFlag();
       configureNavbar();
+
+      vm.compactView = (!vm.isFeed && NstSvcViewStorage.get('compactView')) || false;
+
+      if (vm.compactView) {
+        vm.messagesSetting.limit = 30;
+      }
 
       if (vm.currentPlaceId) {
         loadPlace();
