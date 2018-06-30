@@ -372,6 +372,8 @@
 
     function goUnreadMode() {
       vm.isUnreadMode = true;
+      vm.messagesSetting.limit = vm.messages.length + 30 > 100 ? 100 : vm.messages.length + 30;
+      vm.messagesSetting.before = null;
       load();
     }
 
@@ -410,7 +412,6 @@
         });
       });
     }
-
 
     function loadMore() {
       if (vm.loading || vm.reachedTheEnd || vm.noMessages) {
