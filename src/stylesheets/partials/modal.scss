@@ -525,13 +525,16 @@ body.modal-open-attachment-view.compose-modal {
   margin: 0;
   .modal-content {
     position: relative;
-    top: 8px;
     background-color: transparent;
-    width: 752px;
     min-height: 120px;
+    width: 100%;
     box-shadow: none;
     border-radius: 0;
     border: none;
+    .task-edit-container {
+      width: 752px;
+      margin: 8px auto;
+    }
   }
 
   & + div {
@@ -540,12 +543,12 @@ body.modal-open-attachment-view.compose-modal {
 
 }
 
-.modal .modal-edit-task {
-  .modal-content {
-    top: 8px;
-    width: 752px;
-  }
-}
+// .modal .modal-edit-task {
+//   .modal-content {
+//     top: 8px;
+//     width: 752px;
+//   }
+// }
 
 .modal {
   [size="custom-filter"] .modal-dialog,
