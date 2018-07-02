@@ -1002,9 +1002,9 @@
               case 'getInfo':
                 sendIframeMessage('setInfo', userData);
                 break;
-              case 'setSize':
-                vm.appIframeObj.style.cssText = 'height: ' + getValidHeight(data.data.height) + 'px !important';
-                vm.appIframeObj.parentNode.style.cssText = 'height: ' + getValidHeight(data.data.height) + 'px !important';
+              // case 'setSize':
+              //   vm.appIframeObj.style.cssText = 'height: ' + getValidHeight(data.data.height) + 'px !important';
+              //   vm.appIframeObj.parentNode.style.cssText = 'height: ' + getValidHeight(data.data.height) + 'px !important';
                 break;
               case 'setNotif':
                 if (['success', 'info', 'warning', 'error'].indexOf(data.data.type) > -1) {

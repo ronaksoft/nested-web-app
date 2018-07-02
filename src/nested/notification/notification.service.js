@@ -88,9 +88,11 @@ function NstSvcNotification($q, $window, _, $state, $rootScope,
     }
     var dt = "";
     try {
+      if (firebase.messaging === undefined) {
+        return;
+      }
+
       var messaging = firebase.messaging();
-
-
       messaging.requestPermission()
         .then(function () {
           NstSvcLogger.debug("Notification | has permission!");
