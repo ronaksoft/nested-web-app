@@ -581,7 +581,7 @@ post-card {
       width: 76px;
       height: 48px;
       margin-top: 4px;
-      padding: 8px 12px 4px 6px;
+      padding: 8px 12px 4px 12px;
       > .file-name {
         padding-bottom: 6px;
         p {
@@ -621,10 +621,10 @@ post-card {
     top: 20px;
     opacity: 0;
     .icon {
-      background-color: $color-white;
+      background-color: $color-white-revesable-super;
       padding: 0 4px;
       svg {
-        fill: rgba(50, 61, 71, .92);
+        fill: $color-solid;
       }
     }
     &::before{
@@ -632,8 +632,8 @@ post-card {
       display: inline-block;
       width: 16px;
       // transform: translateX(-100%);
-      height: 22px;
-      background: linear-gradient(to right, transparent, white);
+      height: 16px;
+      background: linear-gradient(to right, transparent, $color-white-revesable-super);
     }
   }
   &:hover {
