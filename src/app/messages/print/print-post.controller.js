@@ -3,10 +3,10 @@
 
   angular
     .module('ronak.nested.web.message')
-    .controller('PrintController', PrintController);
+    .controller('PrintPostController', PrintPostController);
 
   /** @ngInject */
-  function PrintController($scope, $stateParams,
+  function PrintPostController($scope, $stateParams,
                           _, toastr, NstSvcPostFactory, NstSvcPostInteraction, NstSvcTranslation, NstSvcSync) {
     var vm = this;
 
@@ -65,8 +65,6 @@
 
 
     $scope.$on('$destroy', function () {
-      $('html').removeClass("_oh");
-      NstSvcSync.closeChannel(vm.syncId);
     });
   }
 

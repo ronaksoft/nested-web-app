@@ -19,7 +19,10 @@ post-card {
       max-height: 98px;
     }
   }
-
+  &.compact-post-card {
+    padding-bottom: 0;
+    max-width: 100%!important;
+  }
   .chain-forward {
     width: 48px;
     padding: 0 8px;
@@ -208,26 +211,6 @@ post-card {
       padding: 0 2px 0 6px;
       flex: none;
     }
-    .select-card {
-      position: absolute;
-      right: 0;
-      top: 0;
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100%;
-      opacity: 0;
-      background-color: $contrast-bg-color;
-      transition: opacity 0.15s;
-      &.selected {
-        opacity: 1;
-      }
-      label {
-        width: 16px;
-        height: 16px;
-      }
-    }
     .icon {
       fill: black;
       position: relative;
@@ -236,23 +219,6 @@ post-card {
         height: 16px;
         use {
           transform: scale(.8, .8);
-        }
-      }
-    }
-    .img {
-      width: 32px;
-      justify-content: flex-start;
-      margin-right: 4px;
-      position: relative;
-      & + div {
-        max-width: calc(100% - 56px);
-        h4 {
-          max-width: calc(100% - 64px);
-        }
-      }
-      &:hover {
-        .select-card {
-          opacity: 1
         }
       }
     }
@@ -295,6 +261,43 @@ post-card {
       // transform: rotateY(180deg);
       svg {
         fill: $color-force;
+      }
+    }
+  }
+  .select-card {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    opacity: 0;
+    background-color: $contrast-bg-color;
+    transition: opacity 0.15s;
+    &.selected {
+      opacity: 1;
+    }
+    label {
+      width: 16px;
+      height: 16px;
+    }
+  }
+  .img {
+    width: 32px;
+    justify-content: flex-start;
+    margin-right: 4px;
+    position: relative;
+    & + div {
+      max-width: calc(100% - 56px);
+      h4 {
+        max-width: calc(100% - 64px);
+      }
+    }
+    &:hover {
+      .select-card {
+        opacity: 1
       }
     }
   }
@@ -488,7 +491,157 @@ post-card {
     box-shadow: 0px 32px 64px $color-super-solid;
   }
 }
-
+.post-card-compacted {
+  display: flex;
+  border-radius: 0px;
+  border-bottom: 1px solid $color-breeze-new;
+  min-height: 56px;
+  .post-sender {
+    width: 200px;
+    flex: none;
+    height: 56px;
+    .img {
+      width: 48px;
+      justify-content: center;
+      align-items: center;
+      .profile-user-avatar-24 {
+        height: 24px;
+      }
+      .account-initials-24 {
+        margin: 0
+      }
+      & + div h4 {
+        max-width: 100%;
+        span {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+    }
+    h4 {
+      font-weight: bold;
+      &.is-read {
+        font-weight: normal;
+      }
+    }
+  }
+  .post-data {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    overflow: hidden;
+    justify-content: center;
+    padding: 8px 0;
+  }
+  .post-footer {
+    position: absolute;
+    right: 0;
+    top: 40px;
+    height: 16px;
+    > a {
+      margin: 0 8px;
+      color: $color-solid-48;
+      span {
+        padding: 0;
+      }
+      svg {
+        fill: $color-solid-48
+      }
+    }
+  }
+  .post-subject {
+    max-width: 100%;
+    h3 {
+      margin: 0;
+      font-size: 12px;
+      line-height: 17px;
+      font-weight: 600;
+      white-space: nowrap;
+      margin-right: 8px;
+    }
+  }
+  .post-body {
+    margin: 0;
+    font-size: 12px;
+    opacity: .48;
+    height: 17px;
+    padding: 0;
+  }
+  .post-labels {
+    margin-top: 4px;
+  }
+  .thumbnail-bar {
+    margin: 0 -24px;
+  }
+  .attachments-card {
+    margin-bottom: 0;
+    min-height: 60px;
+    .attach-thumbnail  {
+      width: 76px;
+      height: 48px;
+      margin-top: 4px;
+      padding: 8px 12px 4px 6px;
+      > .file-name {
+        padding-bottom: 6px;
+        p {
+          font-size: 9px;
+          line-height: 12px;
+        }
+      }
+      .file-extention {
+        font-size: 11px;
+        line-height: 14px;
+        display: none;
+      }
+    }
+    .attach-thumbnail-img {
+      max-height: 48px;
+      min-width: 56px;
+    }
+    .attdl {
+      width: 20px;
+      height: 20px
+    }
+    .attsize {
+      display: none;
+    }
+    .attach-thumbnail.attach-thumbnail-voice{
+      width: 48px;
+    }
+    .plybyn {
+      width: 24px;
+      height: 24px;
+    }
+  }
+  .post-icons {
+    position: absolute;
+    right: 8px;
+    height: 16px;
+    top: 20px;
+    opacity: 0;
+    .icon {
+      background-color: $color-white;
+      padding: 0 4px;
+      svg {
+        fill: rgba(50, 61, 71, .92);
+      }
+    }
+    &::before{
+      content: '';
+      display: inline-block;
+      width: 16px;
+      // transform: translateX(-100%);
+      height: 22px;
+      background: linear-gradient(to right, transparent, white);
+    }
+  }
+  &:hover {
+    .post-icons {
+      opacity: 1
+    }
+  }
+}
 .post-places {
   margin: 8px 0;
   flex-wrap: wrap;

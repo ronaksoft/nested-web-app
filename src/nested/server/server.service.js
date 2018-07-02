@@ -403,7 +403,6 @@
         return service.enqueueToSend(reqId, timeout).getPromise();
       }, shouldStopTrying, service.getConfigs().maxRetries);
 
-
       // TODO: Return the request itself
       return retryablePromise.then(function (response) {
         // TODO: Resolve with response itself

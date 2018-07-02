@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function runBlock($, $rootScope, $templateCache, iScrollService, $http, deviceDetector, SvcCardCtrlAffix,
-    NST_LOCALE_EN_US, NST_LOCALE_FA_IR,
+    NST_LOCALE_EN_US, NST_LOCALE_FA_IR, toastr,
     NstSvcI18n) {
     var isRetinaDisplay = isRetinaDisplay();
     // Define a text icon called imageIcon.
@@ -126,21 +126,166 @@
       ALT: ' html ',
       template: 'image'
     });
+    $.FroalaEditor.DefineIcon('insertBase64', {
+      SRC: isRetinaDisplay ? '/assets/icons/editor/photo-wire@2x.png' : '/assets/icons/editor/photo-wire.png',
+      ALT: ' insert image ',
+      NAME: ' insert image ',
+      template: 'image'
+    });
+    $.FroalaEditor.DefineIcon('insertTable', {
+      SRC: isRetinaDisplay ? '/assets/icons/editor/table@2x.png' : '/assets/icons/editor/table.png',
+      ALT: ' Insert Table ',
+      template: 'image'
+    });
+    $.FroalaEditor.DefineIcon('tableHeader', {
+      SRC: isRetinaDisplay ? '/assets/icons/editor/table-head@2x.png' : '/assets/icons/editor/table-head.png',
+      ALT: ' Table Header ',
+      template: 'image'
+    });
+    $.FroalaEditor.DefineIcon('tableRemove', {
+      SRC: isRetinaDisplay ? '/assets/icons/editor/bin@2x.png' : '/assets/icons/editor/bin.png',
+      ALT: ' Remove Table ',
+      template: 'image'
+    });
+    $.FroalaEditor.DefineIcon('tableRows', {
+      SRC: isRetinaDisplay ? '/assets/icons/editor/table-row@2x.png' : '/assets/icons/editor/table-row.png',
+      ALT: ' Row ',
+      template: 'image'
+    });
+    $.FroalaEditor.DefineIcon('tableColumns', {
+      SRC: isRetinaDisplay ? '/assets/icons/editor/table-column@2x.png' : '/assets/icons/editor/table-column.png',
+      ALT: ' Column ',
+      template: 'image'
+    });
+    $.FroalaEditor.DefineIcon('tableStyle', {
+      SRC: isRetinaDisplay ? '/assets/icons/editor/color@2x.png' : '/assets/icons/editor/color.png',
+      ALT: ' Table Style ',
+      template: 'image'
+    });
+    $.FroalaEditor.DefineIcon('tableCells', {
+      SRC: isRetinaDisplay ? '/assets/icons/editor/table@2x.png' : '/assets/icons/editor/table.png',
+      ALT: ' Cell ',
+      template: 'image'
+    });
+    $.FroalaEditor.DefineIcon('tableCellBackground', {
+      SRC: isRetinaDisplay ? '/assets/icons/editor/color@2x.png' : '/assets/icons/editor/color.png',
+      ALT: ' Cell Background ',
+      template: 'image'
+    });
+    $.FroalaEditor.DefineIcon('tableCellVerticalAlign', {
+      SRC: isRetinaDisplay ? '/assets/icons/editor/table-cell-vertical@2x.png' : '/assets/icons/editor/table-cell-vertical.png',
+      ALT: ' Vertical Align ',
+      template: 'image'
+    });
+    $.FroalaEditor.DefineIcon('tableCellHorizontalAlign', {
+      SRC: isRetinaDisplay ? '/assets/icons/editor/table@2x.png' : '/assets/icons/editor/table.png',
+      ALT: ' Horizontal Align ',
+      template: 'image'
+    });
+    $.FroalaEditor.DefineIcon('tableCellStyle', {
+      SRC: isRetinaDisplay ? '/assets/icons/editor/table-cell-style@2x.png' : '/assets/icons/editor/table-cell-style.png',
+      ALT: ' Cell Style ',
+      template: 'image'
+    });
+    $.FroalaEditor.DefineIcon('moreIcon', {
+      SRC: isRetinaDisplay ? '/assets/icons/editor/more@2x.png' : '/assets/icons/editor/more.png',
+      ALT: ' More options ',
+      template: 'image'
+    });
+    $.FroalaEditor.DefineIcon('popupClose', {
+      SRC: isRetinaDisplay ? '/assets/icons/editor/xcross@2x.png' : '/assets/icons/editor/xcross.png',
+      ALT: ' Close ',
+      template: 'image'
+    });
 
-    // $.FroalaEditor.RegisterCommand('bold', {
-    //   title: 'Bold',
-    //   icon: 'bold'
-    // });
-    // $.FroalaEditor.ICON_DEFAULT_TEMPLATE = 'material_design';
+    $.extend($.FroalaEditor.POPUP_TEMPLATES, {
+      "moreOptions.popup": '[_BUTTONS_][_CUSTOM_LAYER_]'
+    });
+
+    $.extend($.FroalaEditor.DEFAULTS, {
+      popupButtons: ['popupClose', '|', 'insertTable', 'insertBase64'],
+    });
+
+   $('div#froala-editor').froalaEditor({
+     quickInsertButtons: ['image', 'table', 'ol', 'ul', 'more'],
+     pluginsEnabled: ['quickInsert', 'image', 'table', 'lists', 'moreOptions']
+   });
+
+    $.FroalaEditor.RegisterCommand('more', {
+      title: 'Show more options',
+      icon: 'moreIcon',
+      undo: false,
+      focus: false,
+      plugin: 'moreOptions',
+      callback: function () {
+        this.moreOptions.showPopup();
+      }
+    });
+
+    $.FroalaEditor.RegisterCommand('popupClose', {
+      title: 'Close',
+      undo: false,
+      focus: false,
+      callback: function () {
+        this.moreOptions.hidePopup();
+      }
+    });
+
+    $.FroalaEditor.RegisterCommand('insertBase64', {
+      title: 'Insert Base64 image',
+      icon: 'insertBase64',
+      focus: true,
+      undo: true,
+      refreshAfterCallback: true,
+      // Callback for the button.
+      callback: function () {
+        var that = this;
+        $('body').append(
+          $('<input/>').attr('type', 'file').attr('name', 'someName').attr('id', 'temp-input').attr('accept', 'image/*')
+        );
+        document.getElementById("temp-input").click();
+        $("#temp-input").change(function(e){
+          if (e.target.files[0].size < 10000) {
+            var reader = new FileReader();
+            reader.readAsDataURL(e.target.files[0]);
+            reader.onload = function() {
+              that.html.insert('<img src="' + reader.result + '" alt="' + e.target.files[0].name + '" />');
+              $("#temp-input").remove();
+            };
+            reader.onerror = function(error) {
+              console.log('Error: ', error);
+            };
+          } else {
+            toastr.warning(NstSvcTranslation.get('the image size is too much'));
+          }
+        })
+        // this.html.insert('Hello Froala!');
+      },
+    });
 
     $.FroalaEditor.RegisterCommand('rightToLeft', {
       title: 'RTL',
       icon: 'paragraph-rtl',
       focus: true,
       undo: true,
+      toggle: true,
       refreshAfterCallback: true,
+      refresh: function ($btn) {
+        var el = this.selection.blocks()[0];
+        var t = el.style.direction === 'rtl';
+        $btn.toggleClass("fr-active", t).attr("aria-pressed", t)
+      },
       callback: function () {
-        changeDirection.apply(this, ['rtl', 'right']);
+        var el = this.selection.blocks()[0];
+        if (!el) {
+          changeDirection.apply(this, ['rtl', 'right']);
+        }
+        var t = el.style.direction === 'rtl';
+        if (!t) {
+          changeDirection.apply(this, ['rtl', 'right']);
+        } else {
+          changeDirection.apply(this, ['ltr', 'left']);
+        }
       }
     });
 
@@ -149,13 +294,83 @@
       icon: 'paragraph-ltr',
       focus: true,
       undo: true,
-      // refreshAfterCallback: true,
+      toggle: true,
+      refresh: function ($btn) {
+        var el = this.selection.blocks()[0];
+        var t = el.style.direction === 'ltr';
+        $btn.toggleClass("fr-active", t).attr("aria-pressed", t)
+      },
+      refreshAfterCallback: true,
       callback: function () {
         changeDirection.apply(this, ['ltr', 'left']);
       }
     });
 
-
+    $.FroalaEditor.PLUGINS.moreOptions = function (editor) {
+      // Create custom popup.
+      function initPopup () {
+        // Popup buttons.
+        var popup_buttons = '';
+   
+        // Create the list of buttons.
+        if (editor.opts.popupButtons.length > 1) {
+          popup_buttons += '<div class="fr-buttons">';
+          popup_buttons += editor.button.buildList(editor.opts.popupButtons);
+          popup_buttons += '</div>';
+        }
+   
+        // Load popup template.
+        var template = {
+          buttons: popup_buttons,
+          custom_layer: ''
+        };
+   
+        // Create popup.
+        var $popup = editor.popups.create('moreOptions.popup', template);
+   
+        return $popup;
+      }
+   
+      // Show the popup
+      function showPopup () {
+        // Get the popup object defined above.
+        var $popup = editor.popups.get('moreOptions.popup');
+   
+        // If popup doesn't exist then create it.
+        // To improve performance it is best to create the popup when it is first needed
+        // and not when the editor is initialized.
+        if (!$popup) $popup = initPopup();
+   
+        // Set the editor toolbar as the popup's container.
+        editor.popups.setContainer('moreOptions.popup', editor.$tb);
+   
+        // This will trigger the refresh event assigned to the popup.
+        // editor.popups.refresh('customPlugin.popup');
+   
+        // This custom popup is opened by pressing a button from the editor's toolbar.
+        // Get the button's object in order to place the popup relative to it.
+        var $btn = editor.$tb.find('.fr-command[data-cmd="more"]');
+   
+        // Set the popup's position.
+        var left = $btn.offset().left + $btn.outerWidth() / 2;
+        var top = $btn.offset().top + (editor.opts.toolbarBottom ? 10 : $btn.outerHeight() - 10);
+   
+        // Show the custom popup.
+        // The button's outerHeight is required in case the popup needs to be displayed above it.
+        editor.popups.show('moreOptions.popup', left, top, $btn.outerHeight());
+      }
+   
+      // Hide the custom popup.
+      function hidePopup () {
+        editor.popups.hide('moreOptions.popup');
+      }
+   
+      // Methods visible outside the plugin.
+      return {
+        showPopup: showPopup,
+        hidePopup: hidePopup
+      }
+    }
     /**
      * Applies the direction ( rtl, ltr ) to the editor elements
      * @param {any} dir

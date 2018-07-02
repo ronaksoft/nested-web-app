@@ -136,6 +136,13 @@
       font-size: 12px;
     }
   }
+  .icon-view-setting {
+    line-height: 24px;
+    position: relative;
+    z-index: 34;
+    height: 16px;
+    width: 16px;
+  }
   .icon-filter {
     line-height: 24px;
     position: relative;
@@ -160,3 +167,15 @@
   width: calc(100% - 32px);
 }
 
+.posts-group-title {
+  font-size: 14px;
+  font-weight: bold;
+  margin: 16px 0 8px;
+  line-height: 24px;
+  display: flex;
+  flex: 1;
+  svg {
+    opacity: .72;
+    fill: $color-solid;
+  }
+}

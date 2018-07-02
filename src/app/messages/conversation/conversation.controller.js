@@ -46,13 +46,29 @@
     vm.backToConversation = backToConversation;
 
     (function () {
-      NstSvcUserFactory.get($stateParams.userId)
+      if ($stateParams.userId.indexOf('@') > -1) {
+        vm.account = {
+          firstName: "",
+          lastName: "",
+          fullName: $stateParams.userId,
+          id: $stateParams.userId,
+          picture: {
+            original:  '',              
+            preview:  '',              
+            x32:  '',              
+            x64:  '',              
+            x128:  '',              
+          },
+        };
+      } else {
+        NstSvcUserFactory.get($stateParams.userId)
         .then(function (user) {
           if (user) {
             vm.account = user;
-          } else {
           }
         });
+      }
+      
       NstSvcPlaceFactory.get($stateParams.userId)
         .then(function (place) {
           if (place) {

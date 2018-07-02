@@ -577,7 +577,9 @@
             var index = _.findIndex(vm.model.todos, {
               'id': item.id
             });
-            vm.model.todos[index].id = data.todo_id;
+            if (index > -1) {
+              vm.model.todos[index].id = data.todo_id;
+            }
             vm.modelBackUp.todos = vm.model.todos.slice(0);
             isUpdated = true;
           });

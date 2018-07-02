@@ -6,8 +6,8 @@
     .controller('MessagesController', MessagesController);
 
   /** @ngInject */
-  function MessagesController($rootScope, $stateParams, $state, $scope, $uibModal, _, $timeout,
-                              moment, toastr, SvcScrollSaver, $location,
+  function MessagesController($rootScope, $stateParams, $state, $scope, $uibModal, _, $timeout, $log,
+                              moment, toastr, SvcScrollSaver, $location, NstSvcActivityMap, NstSvcDate, NstSvcViewStorage,
                               NST_MESSAGES_SORT_OPTION, NST_DEFAULT, NST_PLACE_EVENT_ACTION, NST_PLACE_ACCESS, NST_POST_EVENT,
                               NstSvcPostFactory, NstSvcPlaceFactory, NstUtility, NstSvcAuth, NstSvcSync, NstSvcModal,
                               NstSvcTranslation, SvcCardCtrlAffix, NstSvcUserFactory, NST_SRV_ERROR) {
@@ -19,7 +19,11 @@
     // Consistently Interactive Time Handler
     var CITHandler = null;
     vm.messages = [];
+    vm.dateArrays = [];
+    var timeGroups = [];
+    var now = NstSvcDate.now();
     vm.pinnedPosts = [];
+    vm.pinnedPostsIds = [];
     vm.hotMessagesCount = 0;
     vm.selectedPosts = [];
     // First Interactive Time
@@ -34,6 +38,7 @@
     // Reveals hot message when user wants to show new messages
     vm.revealHotMessage = false;
     vm.markAllAsRead = markAllAsRead;
+    vm.markAsSeenGroup = markAsSeenGroup;
     vm.showNewMessages = showNewMessages;
     vm.dismissNewMessage = dismissNewMessage;
     vm.openContacts = openContacts;
@@ -45,6 +50,7 @@
     vm.goUnreadMode = goUnreadMode;
     vm.unselectAll = unselectAll;
     vm.selectAll = selectAll;
+    vm.toggleCompactView = toggleCompactView;
     vm.exitUnseenMode = exitUnseenMode;
     vm.currentUser = NstSvcAuth.user;
     vm.hasScrollHistory = false;
@@ -86,6 +92,12 @@
       setLocationFlag();
       configureNavbar();
 
+      vm.compactView = (!vm.isFeed && NstSvcViewStorage.get('compactView')) || false;
+
+      if (vm.compactView) {
+        vm.messagesSetting.limit = 30;
+      }
+
       if (vm.currentPlaceId) {
         loadPlace();
       }
@@ -108,13 +120,13 @@
 
       eventReferences.push($rootScope.$on('pin-to-place-toggled', function (event, data) {
         if (data.pinned) {
-          vm.pinnedPosts.push(data.id);
-          if (vm.pinnedPosts.length > 1) {
-            vm.pinnedPosts.splice(0, 1);
+          vm.pinnedPostsIds.push(data.id);
+          if (vm.pinnedPostsIds.length > 1) {
+            vm.pinnedPostsIds.splice(0, 1);
           }
         } else {
-          var index = _.indexOf(vm.pinnedPosts, data.id);
-          vm.pinnedPosts.splice(index, 1);
+          var index = _.indexOf(vm.pinnedPostsIds, data.id);
+          vm.pinnedPostsIds.splice(index, 1);
         }
         initPinnedPost();
       }));
@@ -299,6 +311,10 @@
       oldPost.places = newPost.places;
     }
 
+    function makeGroupMessage() {
+      vm.messagesGrouped = NstSvcActivityMap.mergeGroup(vm.messages, posts);
+    }
+
     function mergePosts(posts) {
       var newItems = _.differenceBy(posts, vm.messages, 'id');
       var removedItems = _.differenceBy(vm.messages, posts, 'id');
@@ -336,12 +352,14 @@
         vm.messages.splice(oldPostIndex, 1);
         vm.messages.splice(index, 0, post);
       });
+      // return vm.messages = NstSvcActivityMap.mergeGroup(vm.messages, posts);
     }
 
     function appendPosts(oldPosts) {
+      // return vm.messages = NstSvcActivityMap.appendGroup(vm.messages, oldPosts);
       var items = _.differenceBy(oldPosts, vm.messages, 'id');
       //to make sure pinned post doesn't duplicate
-      items = _.differenceBy(items, _.map(vm.pinnedPosts, function (item) {
+      items = _.differenceBy(items, _.map(vm.pinnedPostsIds, function (item) {
         return {id: item};
       }), 'id');
       vm.messages.push.apply(vm.messages, items);
@@ -349,10 +367,13 @@
 
     function replacePosts(newPosts) {
       vm.messages = newPosts;
+      // vm.messages = NstSvcActivityMap.groupByTime(posts);
     }
 
     function goUnreadMode() {
       vm.isUnreadMode = true;
+      vm.messagesSetting.limit = vm.messages.length + 30 > 100 ? 100 : vm.messages.length + 30;
+      vm.messagesSetting.before = null;
       load();
     }
 
@@ -391,7 +412,6 @@
         });
       });
     }
-
 
     function loadMore() {
       if (vm.loading || vm.reachedTheEnd || vm.noMessages) {
@@ -686,6 +706,18 @@
       NstSvcPlaceFactory.markAllPostAsRead($stateParams.placeId);
     }
 
+    function markAsSeenGroup(index) {
+      vm.dateArrays[index];
+      if (!vm.messages[index].read) {
+        NstSvcPostFactory.read(vm.messages[index].id).catch(function (err) {
+          $log.debug('MARK AS READ :' + err);
+        });
+      }
+      if (vm.dateArrays[index + 1] === null && vm.messages[index + 1]) {
+        markAsSeenGroup(index + 1);
+      }
+    }
+
     function loadPlace() {
       if (!vm.currentPlaceId) {
         return;
@@ -695,7 +727,7 @@
         vm.currentPlace = place;
         vm.quickMessageAccess = place.hasAccess(NST_PLACE_ACCESS.WRITE_POST);
         vm.placeRemoveAccess = place.hasAccess(NST_PLACE_ACCESS.REMOVE_POST);
-        vm.pinnedPosts = place.pinnedPosts;
+        vm.pinnedPostsIds = place.pinnedPosts;
         initPinnedPost();
         try {
           vm.sholocawPlaceId = !_.includes(['off', 'internal'], place.privacy.receptive);
@@ -706,16 +738,17 @@
     }
 
     function initPinnedPost() {
-      if (vm.pinnedPosts.length > 0) {
-        NstSvcPostFactory.getMany(vm.pinnedPosts).then(function (respose) {
+      if (vm.pinnedPostsIds.length > 0) {
+        NstSvcPostFactory.getMany(vm.pinnedPostsIds).then(function (respose) {
           var posts = respose.resolves;
           posts = _.map(posts, function (post) {
             return NstSvcPostFactory.parsePost(post);
           });
+          // todo init groups
           var newItems = _.differenceBy(posts, vm.messages, 'id');
           var pinnedPosts = [];
           _.forEachRight(vm.messages, function (post, index) {
-            if (vm.pinnedPosts.indexOf(post.id) > -1) {
+            if (vm.pinnedPostsIds.indexOf(post.id) > -1) {
               post.pinned = true;
               pinnedPosts.push(post);
               vm.messages.splice(index, 1);
@@ -724,8 +757,7 @@
           _.forEach(newItems, function (post) {
             post.pinned = true;
           });
-          pinnedPosts = pinnedPosts.concat(newItems);
-          vm.messages.unshift.apply(vm.messages, pinnedPosts);
+          vm.pinnedPosts = pinnedPosts.concat(newItems);
         });
       }
     }
@@ -792,6 +824,14 @@
     //   }
     // });
 
+    eventReferences.push($scope.$watch(function () {
+      return vm.messages.length
+    }, function () {
+      if (vm.compactView) {
+        getDateGroups();
+      }
+    }));
+
     eventReferences.push($rootScope.$on('reload-counters', function () {
       loadUnreadPostsCount();
     }));
@@ -825,7 +865,7 @@
     }));
 
     function checkHeavyPerformance() {
-      if (!checkHeavyPerformanceEnable && vm.messages.length > 50) {
+      if (!checkHeavyPerformanceEnable && !vm.compactView && vm.messages.length > 50) {
         checkHeavyPerformanceEnable = true;
         eventReferences.push($scope.$watch(function () {
           return $rootScope.inViewPost;
@@ -858,6 +898,70 @@
       for (var i = bottomBound; i < topBound; i++) {
         vm.messages[i].visible = true;
       }
+    }
+
+    function toggleCompactView(value) {
+      vm.FIT = true;
+      if (value === true) {
+        vm.compactView = value;
+        if (vm.messages.length < 30) {
+          loadMore();
+        }
+      } else if(value === false) {
+        _.forEach(vm.messages, function(msg, index) {
+          if (msg && index > 7) {
+            SvcCardCtrlAffix.remove(msg.id);
+          }
+        });
+        vm.messages = vm.messages.splice(0, 8);
+        vm.compactView = value;
+      } else {
+        vm.compactView =! vm.compactView;
+      }
+      NstSvcViewStorage.set('compactView', vm.compactView);
+      getDateGroups();
+      $timeout(function() {
+        vm.FIT = false;
+      }, 64)
+    }
+
+    function getDateGroups() {
+      timeGroups = [];
+      vm.dateArrays = _.map(vm.messages, mapMessageDates);
+    }
+
+    function mapMessageDates(msg) {
+      var date = moment(msg.date || msg.timestamp);
+
+      var thisMonthStart = moment(now).startOf('month');
+      var dateDayStart = date.clone().startOf('day').unix();
+      if (date.isSameOrAfter(thisMonthStart)) {
+        if (timeGroups.indexOf(dateDayStart) === -1){
+          timeGroups.push(dateDayStart);
+          return dateDayStart;
+        } else {
+          return null;
+        }
+      }
+
+      var thisYearStart =  moment(now).startOf('year');
+      var dateMonthStart = date.clone().startOf('month').unix();
+      if (date.isSameOrAfter(thisYearStart)) {
+        if (timeGroups.indexOf(dateMonthStart) === -1) {
+          timeGroups.push(dateMonthStart);
+          return dateMonthStart;
+        } else {
+          return null;
+        }
+      }
+
+      var dateYearStart = date.clone().startOf('year').unix();
+      if (timeGroups.indexOf(dateYearStart) === -1) {
+        timeGroups.push(dateYearStart);
+        return dateYearStart;
+      }
+
+      return null;
     }
 
     // $timeout(function () {
