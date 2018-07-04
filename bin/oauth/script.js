@@ -506,9 +506,9 @@ var nst = {
   parseConfigFromRemote: function (data, domain) {
     var cyrus = [];
     var xerxes = [];
-    data.forEach(function (configs, key1) {
+    data.forEach(function (configs) {
       var config = configs.split(';');
-      config.forEach(function (item, key2) {
+      config.forEach(function (item) {
         if (item.indexOf('cyrus:') === 0) {
           cyrus.push(item);
         } else if (item.indexOf('xerxes:') === 0) {
@@ -519,7 +519,7 @@ var nst = {
     var cyrusHttpUrl = '';
     var cyrusWsUrl = '';
     var config = {};
-    cyrus.forEach(function (item, key3) {
+    cyrus.forEach(function (item) {
       config = nst.parseConfigData(item);
       if (config.protocol === 'http' || config.protocol === 'https') {
         cyrusHttpUrl = nst.getCompleteUrl(config);
