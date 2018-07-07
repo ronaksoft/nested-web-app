@@ -343,6 +343,10 @@
 
           $window.addEventListener("mousedown", closePopoverDetector);
 
+          eventReferences.push($scope.$watch('config', function (nval) {
+            $scope.options = angular.extend({}, suggestPickerDefaultOptions, nval);            
+          }));
+
           $scope.$on('$destroy', function () {
             _.forEach(eventReferences, function (canceler) {
               if (_.isFunction(canceler)) {

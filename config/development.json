@@ -15,17 +15,17 @@
     },
     "SIGN_OUT_TARGET": "https://ronaksoftware.com",
     "WEBSOCKET": {
-      "URL": "wss://webapp.ronaksoftware.com:81/api",
+      "URL": "wss://c-webapp.ronaksoftware.com",
       "TIMEOUT": 60000,
       "REQUEST_MAX_RETRY_TIMES": 16
     },
     "STORE": {
-      "URL": "https://webapp.ronaksoftware.com:81/file",
+      "URL": "https:/c-webapp.ronaksoftware.com/file",
       "TOKEN_EXPMS": 3550000
     },
     "REGISTER": {
       "AJAX": {
-        "URL": "https://webapp.ronaksoftware.com:81/api"
+        "URL": "https:/c-webapp.ronaksoftware.com"
       }
     },
     "GOOGLE_ANALYTICS_TOKEN": "UA-92612481-1",
