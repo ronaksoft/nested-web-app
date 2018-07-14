@@ -272,3 +272,15 @@ body[dir="rtl"] {
     }
   }
 }
+.unread-circle {
+  background: $color-pending;
+  width: 8px;
+  height: 8px;
+  position: absolute;
+  border-radius: 16px;
+  right: 0;
+  top: -1px;
+}
+.profile-user-avatar-24 {
+  position: relative;
+}
