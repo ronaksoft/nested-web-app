@@ -17,9 +17,9 @@
           return att.resizeHeightAnimation
         }, function (v) {
           if (v == 'true') {
-            $el.slideToggle();
+            $el.slideDown();
           } else if (v == 'false') {
-            $el.slideToggle();
+            $el.slideUp();
           }
         }));
 
