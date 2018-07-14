@@ -16,6 +16,7 @@
     var searchDeb = _.debounce(search, 256);
     var eventReferences = [];
     vm.selectApp = selectApp;
+    vm.openApp = openApp;
     vm.copyToClipboard = copyToClipboard;
     (search)();
     eventReferences.push($scope.$watch(function () {
@@ -40,6 +41,11 @@
             item.loading = false;
             $rootScope.$emit('add-token', {token: item});
         });
+    }
+
+    function openApp(id) {
+      $scope.$dismiss();
+      $rootScope.$emit('open-app-modal', {appId: id});
     }
 
     vm.copyToken = function (app) {

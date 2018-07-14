@@ -897,6 +897,15 @@
       }
     }
 
+    function loadAppId(appId) {
+      NstSvcAppFactory.get(appId).then(function (result) {
+        vm.appsResult = [result];
+        toggleSearchModal(true);
+        vm.appIframeEnable = true;
+        loadApp(appId);
+      });
+    }
+
     function loadAppExternally(appId) {
       NstSvcAppFactory.getAllTokens().then(function (result) {
         var apps = _.map(result, function (item) {
@@ -1121,6 +1130,10 @@
     }));
 
     eventReferences.push($rootScope.$on('app-load-externally', function (event, data) {
+      loadAppExternally(data.appId);
+    }));
+
+    eventReferences.push($rootScope.$on('open-app-modal', function (event, data) {
       loadAppExternally(data.appId);
     }));
 

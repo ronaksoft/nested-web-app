@@ -100,3 +100,11 @@
         }
     }
 }
+
+.multi-buttons {
+    button {
+        display: flex;
+        width:96px!important;
+        margin: 0 4px;
+    }
+}

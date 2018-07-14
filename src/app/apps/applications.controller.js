@@ -162,6 +162,9 @@
     eventReferences.push($scope.$on('close-modal', function() {
       $uibModalInstance.dismiss();
     }));
+    eventReferences.push($rootScope.$on('open-app-modal', function() {
+      $uibModalInstance.dismiss();
+    }));
 
     $scope.$on('$destroy', function() {
       _.forEach(eventReferences, function(canceler) {
