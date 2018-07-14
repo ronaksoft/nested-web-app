@@ -12,12 +12,13 @@
       link: function (scope, $el, att) {
         var eventReferences = [];
 
+        $el.slideToggle();
         eventReferences.push(scope.$watch(function () {
           return att.resizeHeightAnimation
         }, function (v) {
-          if (v !== true) {
+          if (v == 'true') {
             $el.slideToggle();
-          } else {
+          } else if (v == 'false') {
             $el.slideToggle();
           }
         }));
