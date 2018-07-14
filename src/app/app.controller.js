@@ -278,6 +278,7 @@
             relatedTaskId: data.relatedTaskId,
             relatedPostId: data.relatedPostId,
             callbackUrl: data.callbackUrl,
+            init: data.init,
             modalId: uid
           }
         }

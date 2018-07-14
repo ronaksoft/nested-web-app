@@ -15,7 +15,7 @@
         eventReferences.push(scope.$watch(function () {
           return att.resizeHeightAnimation
         }, function (v) {
-          if (v != 'true') {
+          if (v !== true) {
             $el.slideToggle();
           } else {
             $el.slideToggle();

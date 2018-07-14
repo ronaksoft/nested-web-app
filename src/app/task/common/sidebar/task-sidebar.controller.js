@@ -59,7 +59,7 @@
     }));
 
     eventReferences.push($rootScope.$on('create-related-task-from-post', function (event, data) {
-      $rootScope.$broadcast('open-create-task', {relatedPostId: data.id, callbackUrl: data.callbackUrl});
+      $rootScope.$broadcast('open-create-task', {relatedPostId: data.id, callbackUrl: data.callbackUrl, init: data.init});
     }));
 
     eventReferences.push($rootScope.$on('open-task-custom-filter', function (event, data) {

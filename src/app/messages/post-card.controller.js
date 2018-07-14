@@ -639,7 +639,16 @@
         $scope.$parent.$parent.$dismiss(true);
       }
       $timeout(function () {
-        $rootScope.$broadcast('create-related-task-from-post', {id: vm.post.id, callbackUrl: callbackUrl});
+        $rootScope.$broadcast('create-related-task-from-post', {
+          id: vm.post.id,
+          callbackUrl: callbackUrl,
+          init: {
+            title: vm.post.subject,
+            description: vm.post.ellipsis,
+            labels: vm.post.labels,
+            attachments: vm.post.attachments
+          }
+        });
       }, 500);
     }
 

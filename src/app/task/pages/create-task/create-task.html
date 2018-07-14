@@ -206,10 +206,10 @@
     <div class="task-footer const-height-item">
       <input type="button" class="butn butn-green" ng-disabled="ctrlCreateTask.isDisabled()" ng-click="ctrlCreateTask.create()"
         translate-attrs="value" value="Create Task">
-      <a class="_df _fw" ng-if="!ctrlCreateTask.showMoreOption" ng-click="ctrlCreateTask.showMoreOption =! ctrlCreateTask.showMoreOption">
+      <a class="_df _fw" ng-if="!ctrlCreateTask.showMoreOption" ng-click="ctrlCreateTask.showMoreOption = true">
         <translate>More options</translate>
       </a>
-      <a class="_df _fw" ng-if="ctrlCreateTask.showMoreOption" ng-click="ctrlCreateTask.showMoreOption =! ctrlCreateTask.showMoreOption">
+      <a class="_df _fw" ng-if="ctrlCreateTask.showMoreOption" ng-click="ctrlCreateTask.showMoreOption = false">
         <translate>Hide options</translate>
       </a>
     </div>

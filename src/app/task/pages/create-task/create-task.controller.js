@@ -164,6 +164,30 @@
 
     loadDraft();
 
+    if (modalData !== undefined && modalData.init !== undefined) {
+      if (modalData.init.title) {
+        vm.model.title = modalData.init.title;
+      }
+      if (modalData.init.description && _.trim(modalData.init.description).length > 0) {
+        vm.model.description = modalData.init.description;
+        vm.showMoreOption = true;
+      }
+      if (modalData.init.attachments && modalData.init.attachments.length > 0) {
+        vm.model.attachments = {
+          init: true,
+          data: modalData.init.attachments
+        };
+        vm.showMoreOption = true;
+      }
+      if (modalData.init.labels && modalData.init.labels.length > 0) {
+        vm.model.labels = {
+          init: true,
+          data: modalData.init.labels
+        };
+        vm.showMoreOption = true;
+      }
+    }
+
     vm.titlePlaceholder = NstSvcTranslation.get('Enter a Task Title');
 
     vm.assigneeFocusTrigger = 0;

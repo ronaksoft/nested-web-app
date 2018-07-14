@@ -50,11 +50,11 @@
           uploadedSize: isAttached ? attachment.size : 0,
           uploadedRatio: isAttached ? 1 : 0,
           size: attachment.size,
-          url: attachment.hasThumbnail() ? attachment.picture.preview : null,
+          url: attachment.hasThumbnail && attachment.hasThumbnail() ? attachment.picture.preview : null,
           type: NstSvcFileType.getType(attachment.mimetype),
           extension: formatExtension(NstSvcFileType.getSuffix(attachment.filename)),
-          thumbnail: attachment.hasThumbnail() ? attachment.picture.x128.indexOf('data:') == 0  ? attachment.picture.x128 : attachment.picture.getUrl('x128') : null,
-          hasThumbnail: attachment.hasThumbnail()
+          thumbnail: attachment.hasThumbnail && attachment.hasThumbnail() ? attachment.picture.x128.indexOf('data:') == 0  ? attachment.picture.x128 : attachment.picture.getUrl('x128') : null,
+          hasThumbnail: attachment.hasThumbnail && attachment.hasThumbnail()
         };
       }
 
