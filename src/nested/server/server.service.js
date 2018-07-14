@@ -333,7 +333,6 @@
       });
       var cyrusHttpUrl = '';
       var cyrusWsUrl = '';
-      var xerxesUrl;
       var adminUrl = '';
       var config = {};
       _.forEach(cyrus, function (item) {
@@ -344,7 +343,6 @@
           cyrusWsUrl = getCompleteUrl(config);
         }
       });
-      xerxesUrl = getCompleteUrl(parseConfigData(xerxes[0]));
       return {
         websocket: cyrusWsUrl + '/api',
         register: cyrusHttpUrl  + '/api',
