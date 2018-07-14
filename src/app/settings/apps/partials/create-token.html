@@ -5,7 +5,7 @@
             <use xlink:href="/assets/icons/nst-icn24.svg#xcross"></use>
         </svg>
         </div>
-        <h4 translate-inner>Create token</h4>
+        <h4 translate-inner>Add applications</h4>
     </div>
     <div class="modal-body">
         <input placeholder="Search apps" ng-model="ctrl.query" type="text" focus-me="1">
@@ -17,12 +17,18 @@
                         <h3>{{app.name}}</h3>
                         <translate>by {{app.developer}}</translate>
                     </p>
-                    <button class="butn butn-green secondary" ng-if="!app.token" ng-click="ctrl.selectApp(app.id)">Create Token</button>
-                    <button class="butn butn-green" ng-click="ctrl.copyToken(app)" ng-if="app.token">
-                        <svg class="_24svg fill-white">
-                            <use xlink:href="/assets/icons/nst-icn24.svg#heavy-check"></use>
-                        </svg>
-                    </button>
+                    <button class="butn butn-green secondary" ng-if="!app.token" ng-click="$event.preventDefault();ctrl.selectApp(app.id)"><translate>Create Token</translate></button>
+                    <div class="_df multi-buttons">
+                        <button class="butn butn-green" ng-click="$event.preventDefault();ctrl.copyToken(app)" ng-if="app.token">
+                            <svg class="_24svg fill-white">
+                                <use xlink:href="/assets/icons/nst-icn24.svg#heavy-check"></use>
+                            </svg>
+                            <translate>Done</translate>
+                        </button>
+                        <button class="butn butn-green secondary" ng-click="$event.preventDefault();ctrl.openApp(app.id)" ng-if="app.token">
+                            <translate>Use</translate>
+                        </button>
+                    </div>
                 </li>
             </ul>
         </div>
