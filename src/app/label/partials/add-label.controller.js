@@ -1,28 +1,30 @@
-(function() {
+(function () {
   'use strict';
 
   angular
     .module('ronak.nested.web.components')
     .controller('addLabelController', addLabelController);
 
-  function addLabelController($timeout, $scope, $uibModalInstance, NstSvcTranslation,
+  function addLabelController($timeout, $scope, $uibModalInstance, NstSvcTranslation, NstSvcAuth, $uibModal,
                               _, NstSvcLabelFactory, NST_LABEL_SEARCH_FILTER, NstSvcSystem, argv) {
 
     var vm = this;
+    vm.user = NstSvcAuth.user;
     vm.haveMore = true;
     vm.searchFn = _.debounce(search, 100);
     vm.keyword = '';
     vm.oldKeyword = '';
     var eventReferences = [];
     // WIll over ride by children
-    vm.suggestsUpdated = function(){};
+    vm.suggestsUpdated = function () {
+    };
     vm.loading = false;
     vm.loaded = false;
     vm.search = {
       results: []
     };
     vm.suggestPickerConfig = {
-      limit : 100,
+      limit: 100,
       suggestsLimit: 8,
       singleRow: false,
       mode: 'label',
@@ -46,38 +48,40 @@
       limit: vm.suggestPickerConfig.suggestsLimit + vm.selectedLabels.length,
       filter: NST_LABEL_SEARCH_FILTER.MY_LABELS
     };
-    vm.submitLabels = function (){
+    vm.quickAdd = false;
+    vm.createLabel = createLabel;
+    vm.submitLabels = function () {
       $uibModalInstance.close(vm.selectedLabels);
     };
 
-    $timeout(function(){
+    $timeout(function () {
       vm.searchFn('');
 
       eventReferences.push($scope.$watch(function () {
         return vm.keyword
       }, vm.searchFn, true));
-      
-      var initFlag = false
+
+      var initFlag = false;
       eventReferences.push($scope.$watch(function () {
         return vm.selectedLabels.length
-      }, function(val){
+      }, function (val) {
         if (initFlag) {
           vm.firstTouch = true;
         }
         initFlag = true;
       }));
-    }, 128)
+    }, 128);
 
     loadConstants();
 
-    function search(keyword){
+    function search(keyword) {
       if (typeof keyword !== 'string' || vm.loading) return;
-      
+
       vm.loading = true;
-      if ( keyword !== vm.oldKeyword) {
+      if (keyword !== vm.oldKeyword) {
         restoreDefault();
       }
-      NstSvcLabelFactory.search(keyword, vm.setting.filter, vm.setting.skip, vm.setting.limit).then(function (items){
+      NstSvcLabelFactory.search(keyword, vm.setting.filter, vm.setting.skip, vm.setting.limit).then(function (items) {
         var sameItems = _.intersectionBy(items, vm.selectedLabels, 'title');
         var newItems = _.difference(items, sameItems).splice(0, vm.suggestPickerConfig.suggestsLimit);
         vm.search.results = _.unionBy(vm.search.results, newItems, 'id');
@@ -86,10 +90,11 @@
         vm.haveMore = vm.setting.limit === items.length;
         vm.loading = false;
         vm.loaded = true;
+        vm.quickAdd = (vm.keyword.length > 0 && vm.search.results.length === 0 && vm.user.authority.labelEditor);
         vm.suggestsUpdated();
-        $timeout(function() {
+        $timeout(function () {
           vm.goDownward = true;
-        },100)
+        }, 100)
       });
     }
 
@@ -119,6 +124,26 @@
     function searchMore() {
       vm.suggestPickerConfig.suggestsLimit++;
       return vm.searchFn(vm.keyword);
+    }
+
+    function createLabel() {
+      $uibModal.open({
+        animation: false,
+        size: 'full-height-center multiple',
+        templateUrl: 'app/label/partials/create-label.html',
+        controller: 'createLabelController',
+        controllerAs: 'createCtrl',
+        resolve: {
+          modalData: {
+            title: vm.keyword
+          }
+        }
+      }).result.then(function (result) {
+        if (result) {
+          restoreDefault();
+          search(vm.keyword);
+        }
+      });
     }
 
     $scope.$on('$destroy', function () {
