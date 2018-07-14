@@ -30,6 +30,10 @@
     vm.isNotValid = isNotValid;
     vm.createLabel = createLabel;
 
+    if ($scope.$resolve !== undefined && $scope.$resolve.modalData !== undefined) {
+      vm.title = $scope.$resolve.modalData.title;
+    }
+
     eventReferences.push($scope.$watch(function () {
       return vm.query
     }, function(keyword){return vm.search(keyword)}, true));

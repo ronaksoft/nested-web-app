@@ -17,6 +17,12 @@
     </div>
     <div class="load-more-labels">
         <translate ng-if="ctrl.haveMore" ng-click="ctrl.searchFn(ctrl.keyword)">Show more...</translate>
+        <div class="_tac nst-mood-cheerful" ng-show="ctrl.quickAdd" ng-click="ctrl.createLabel()">
+          <svg class="_16svg _fn fill-sense-wire ">
+              <use xlink:href="/assets/icons/nst-icn16.svg#cross"></use>
+          </svg>
+          <translate>add "{{ctrl.keyword}}" label</translate>
+        </div>
     </div>
     <div class="modal-footer">
         <input type="button" class="butn butn-green" ng-disabled="!ctrl.firstTouch || ctrl.selectedLabels.length > ctrl.addLabelLimit" value="Done" ng-click="ctrl.submitLabels();" translate-attrs="value">
