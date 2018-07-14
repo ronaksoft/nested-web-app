@@ -641,6 +641,9 @@ post-card {
       opacity: 1
     }
   }
+  &.unread {
+    background: rgba(0, 121, 242, 0.04);
+  }
 }
 .post-places {
   margin: 8px 0;

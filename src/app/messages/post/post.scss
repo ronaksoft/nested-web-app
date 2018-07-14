@@ -6,7 +6,6 @@
 #PostView {
   //border: 1px solid $color-breeze;
   //border-radius: $border-radius-large;
-  margin-bottom: 64px;
   padding: 0;
   //animation: post-view .5s ease-out .12s forwards normal;
   #PostHeader {
@@ -272,4 +271,16 @@ body[dir="rtl"] {
       }
     }
   }
+}
+.unread-circle {
+  background: $color-pending;
+  width: 8px;
+  height: 8px;
+  position: absolute;
+  border-radius: 16px;
+  right: 0;
+  top: -1px;
+}
+.profile-user-avatar-24 {
+  position: relative;
 }

@@ -315,7 +315,7 @@
 
     <!-- <vr class="cha in" ng-if="(!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)"></vr> -->
   </div>
-  <div class="post-card post-card-compacted"
+  <div class="post-card post-card-compacted ng-class:{'unread': !ctlPostCard.post.read}"
        ng-click="ctlPostCard.viewFull($event); ctlPostCard.markAsRead();"
        id="{{'post-card-' + ctlPostCard.post.id}}" ng-if="ctlPostCard.compactView">
 
@@ -327,6 +327,8 @@
                data-width="24" data-height="24" data-radius="30" class="account-initials-24 _df" data-word-count="2"
                data-font-size="12"
           />
+          <div ng-if="!ctlPostCard.post.read" class="unread-circle">
+          </div>
         </div>
         <div
           ng-if="!ctlPostCard.FIT && ctlPostCard.currentPlace &&  ctlPostCard.hasDeleteAccess(ctlPostCard.currentPlace)"
