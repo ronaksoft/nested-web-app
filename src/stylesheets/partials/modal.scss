@@ -670,6 +670,7 @@ body.modal-open-attachment-view.compose-modal {
   justify-content: center;
   .modal-content {
     width: auto;
+    min-width: 600px;
   }
 }
 .modal-head {
