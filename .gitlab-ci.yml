@@ -64,8 +64,8 @@ build:mobile:
     untracked: true
     expire_in: 1 hour
   dependencies:
-    - build:desktop
-    - build:admin
+    - desktop
+    - admin
 
 build:admin:
   stage: build
