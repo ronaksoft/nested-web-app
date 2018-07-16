@@ -399,7 +399,7 @@
             <use xlink:href="/assets/icons/nst-icn16.svg#attach"></use>
           </svg>
         </a>
-  
+
       </div>
 
       <div class="post-icons _df" ng-if="!ctlPostCard.FIT">
@@ -424,7 +424,7 @@
             </svg>
           </div>
         </a>
-        <div ng-click="$event.stopPropagation(); ctlPostCard.markAsRead();" class="cursor-pointer margin-r_5 icon _df"
+        <div ng-if="!ctlPostCard.post.read" ng-click="$event.stopPropagation(); ctlPostCard.markAsRead();" class="cursor-pointer margin-r_5 icon _df"
               data-uib-tooltip="Mark as seen"
               data-tooltip-append-to-body="true" data-tooltip-placement="auto top" translate-attrs="data-uib-tooltip">
           <div class="more">
