@@ -92,7 +92,7 @@
       setLocationFlag();
       configureNavbar();
 
-      vm.compactView = (!vm.isFeed && NstSvcViewStorage.get('compactView')) || false;
+      vm.compactView = (!vm.isFeed && NstSvcViewStorage.getByPlace(vm.currentPlaceId)) || false;
 
       if (vm.compactView) {
         vm.messagesSetting.limit = 30;
@@ -923,6 +923,7 @@
         vm.compactView = !vm.compactView;
       }
       NstSvcViewStorage.set('compactView', vm.compactView);
+      NstSvcViewStorage.setByPlace(vm.currentPlaceId, value);
       getDateGroups();
       $timeout(function () {
         vm.FIT = false;
