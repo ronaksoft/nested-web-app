@@ -6,7 +6,7 @@
     .controller('MessagesController', MessagesController);
 
   /** @ngInject */
-  function MessagesController($rootScope, $stateParams, $state, $scope, $uibModal, _, $timeout, $log,
+  function MessagesController($rootScope, $stateParams, $state, $scope, $uibModal, _, $timeout, $log, $q,
                               moment, toastr, SvcScrollSaver, $location, NstSvcActivityMap, NstSvcDate, NstSvcCompactViewStorage,
                               NST_MESSAGES_SORT_OPTION, NST_DEFAULT, NST_PLACE_EVENT_ACTION, NST_PLACE_ACCESS, NST_POST_EVENT,
                               NstSvcPostFactory, NstSvcPlaceFactory, NstUtility, NstSvcAuth, NstSvcSync, NstSvcModal,
@@ -99,134 +99,13 @@
       }
 
       if (vm.currentPlaceId) {
-        loadPlace();
+        loadPlace().then(load);
+      } else {
+        load();
       }
 
-      load();
       loadUnreadPostsCount();
 
-      eventReferences.push($rootScope.$on(NST_POST_EVENT.READ, function () {
-        loadUnreadPostsCount();
-        if (vm.isUnreadMode) {
-          if (!_.some(vm.messages, {read: false})) {
-            vm.isUnreadMode = false;
-          }
-        }
-      }));
-
-      eventReferences.push($rootScope.$on('post-read-all', function () {
-        loadUnreadPostsCount();
-      }));
-
-      eventReferences.push($rootScope.$on('pin-to-place-toggled', function (event, data) {
-        if (data.pinned) {
-          vm.pinnedPostsIds.push(data.id);
-          if (vm.pinnedPostsIds.length > 1) {
-            vm.pinnedPostsIds.splice(0, 1);
-          }
-        } else {
-          var index = _.indexOf(vm.pinnedPostsIds, data.id);
-          vm.pinnedPostsIds.splice(index, 1);
-        }
-        initPinnedPost();
-      }));
-
-      eventReferences.push($rootScope.$on(NST_PLACE_EVENT_ACTION.POST_ADD, function (e, data) {
-        // TODO : is feed ?!
-        if (vm.isFeed) {
-          load();
-        }
-        if (postMustBeShown(data.activity)) {
-          // The current user is the sender
-          NstSvcPostFactory.get(data.activity.post.id).then(function (message) {
-            vm.messages.unshift(message);
-          });
-        } else if (mustBeAddedToHotPosts(data.activity)) {
-          // someone else sent the post
-          if ($rootScope.inViewPost && $rootScope.inViewPost.index === 0) {
-            NstSvcPostFactory.get(data.activity.post.id).then(function (message) {
-              vm.messages.unshift(message);
-            });
-          } else {
-            vm.hotMessagesCount = vm.hotMessagesCount + 1;
-          }
-        }
-        loadUnreadPostsCount();
-        reloadPlace();
-      }));
-
-      if (vm.isBookmark) {
-        eventReferences.push($rootScope.$on(NST_POST_EVENT.UNBOOKMARKED, function (e, data) {
-          var message = _.find(vm.messages, {
-            id: data.postId
-          });
-
-          if (message) {
-            NstUtility.collection.dropById(vm.messages, message.id);
-          }
-        }));
-      }
-
-      eventReferences.push($rootScope.$on('post-removed', function (event, data) {
-
-        var message = _.find(vm.messages, {
-          id: data.postId
-        });
-
-        if (message) {
-          SvcCardCtrlAffix.remove(data.postId);
-          loadUnreadPostsCount();
-          reloadPlace();
-
-          if (data.placeId) { // remove the post from the place
-            // remove the place from the post's places
-            NstUtility.collection.dropById(message.places, data.placeId);
-
-            // remove the post if the user has not access to see it any more
-            var places = NstSvcPlaceFactory.filterPlacesByReadPostAccess(message.places);
-            if ((_.isArray(places) && places.length === 0) || (vm.currentPlaceId && data.placeId === vm.currentPlaceId)) {
-              NstUtility.collection.dropById(vm.messages, data.postId);
-              return;
-            }
-
-          } else { //retract it
-            NstUtility.collection.dropById(vm.messages, message.id);
-          }
-        }
-      }));
-
-
-      eventReferences.push($rootScope.$on('post-hide', function (event, data) {
-        var message = _.find(vm.messages, {
-          id: data.postId
-        });
-        if (message) {
-          message.tempHide = true
-        }
-      }));
-
-      eventReferences.push($rootScope.$on('post-show', function (event, data) {
-        var message = _.find(vm.messages, {
-          id: data.postId
-        });
-        if (message) {
-          message.tempHide = false
-        }
-      }));
-
-      eventReferences.push($scope.$on('post-moved', function (event, data) {
-        // there are tow conditions that a moved post should be removed from messages list
-        // 1. The moved place is the one that you see its messages list (DONE)
-        // 2. You moved a place to another one and none of the post new places
-        //    are not marked to be shown in feeds page
-        // TODO: Implement the second condition
-
-        loadUnreadPostsCount();
-        reloadPlace();
-        if ($stateParams.placeId === data.fromPlace.id) {
-          NstUtility.collection.dropById(vm.messages, data.postId);
-        }
-      }));
     })();
 
     function postMustBeShown(activity) {
@@ -291,7 +170,12 @@
     }
 
     function handleCachedPosts(cachedPosts) {
-      vm.messages = cachedPosts;
+      cachedPosts.forEach(function(post){
+        window.requestAnimationFrame(function(){
+          vm.messages.push(post)
+        });
+      });
+      
       vm.loading = false;
       CITHandler = $timeout(function () {
         $scope.$apply(function () {
@@ -722,9 +606,12 @@
       if (!vm.currentPlaceId) {
         return;
       }
+      var isResolved = false;
+      var deferred = $q.defer();
 
       NstSvcPlaceFactory.get(vm.currentPlaceId).then(function (place) {
         vm.quickMessageAccess = place.hasAccess(NST_PLACE_ACCESS.WRITE_POST);
+        deferred.resolve();
       });
       NstSvcPlaceFactory.getWithNoCache(vm.currentPlaceId).then(function (place) {
         vm.currentPlace = place;
@@ -732,12 +619,16 @@
         vm.placeRemoveAccess = place.hasAccess(NST_PLACE_ACCESS.REMOVE_POST);
         vm.pinnedPostsIds = place.pinnedPosts;
         initPinnedPost();
+        if (!isResolved) {
+          deferred.resolve();
+        }
         try {
           vm.sholocawPlaceId = !_.includes(['off', 'internal'], place.privacy.receptive);
         } catch (e) {
           vm.showPlaceId = true
         }
       });
+      return deferred.promise;
     }
 
     function initPinnedPost() {
@@ -903,9 +794,6 @@
       }
     }
 
-    function saveCompactViews() {
-
-    }
 
     function toggleCompactView(value) {
       vm.FIT = true;
@@ -982,6 +870,129 @@
     //   //   vm.messages[2].visible = true;
     //   // }, 3000);
     // }, 3000);
+    
+
+    eventReferences.push($rootScope.$on(NST_POST_EVENT.READ, function () {
+      loadUnreadPostsCount();
+      if (vm.isUnreadMode) {
+        if (!_.some(vm.messages, {read: false})) {
+          vm.isUnreadMode = false;
+        }
+      }
+    }));
+
+    eventReferences.push($rootScope.$on('post-read-all', function () {
+      loadUnreadPostsCount();
+    }));
+
+    eventReferences.push($rootScope.$on('pin-to-place-toggled', function (event, data) {
+      if (data.pinned) {
+        vm.pinnedPostsIds.push(data.id);
+        if (vm.pinnedPostsIds.length > 1) {
+          vm.pinnedPostsIds.splice(0, 1);
+        }
+      } else {
+        var index = _.indexOf(vm.pinnedPostsIds, data.id);
+        vm.pinnedPostsIds.splice(index, 1);
+      }
+      initPinnedPost();
+    }));
+
+    eventReferences.push($rootScope.$on(NST_PLACE_EVENT_ACTION.POST_ADD, function (e, data) {
+      // TODO : is feed ?!
+      if (vm.isFeed) {
+        load();
+      }
+      if (postMustBeShown(data.activity)) {
+        // The current user is the sender
+        NstSvcPostFactory.get(data.activity.post.id).then(function (message) {
+          vm.messages.unshift(message);
+        });
+      } else if (mustBeAddedToHotPosts(data.activity)) {
+        // someone else sent the post
+        if ($rootScope.inViewPost && $rootScope.inViewPost.index === 0) {
+          NstSvcPostFactory.get(data.activity.post.id).then(function (message) {
+            vm.messages.unshift(message);
+          });
+        } else {
+          vm.hotMessagesCount = vm.hotMessagesCount + 1;
+        }
+      }
+      loadUnreadPostsCount();
+      reloadPlace();
+    }));
+
+    eventReferences.push($rootScope.$on('post-removed', function (event, data) {
+
+      var message = _.find(vm.messages, {
+        id: data.postId
+      });
+
+      if (message) {
+        SvcCardCtrlAffix.remove(data.postId);
+        loadUnreadPostsCount();
+        reloadPlace();
+
+        if (data.placeId) { // remove the post from the place
+          // remove the place from the post's places
+          NstUtility.collection.dropById(message.places, data.placeId);
+
+          // remove the post if the user has not access to see it any more
+          var places = NstSvcPlaceFactory.filterPlacesByReadPostAccess(message.places);
+          if ((_.isArray(places) && places.length === 0) || (vm.currentPlaceId && data.placeId === vm.currentPlaceId)) {
+            NstUtility.collection.dropById(vm.messages, data.postId);
+            return;
+          }
+
+        } else { //retract it
+          NstUtility.collection.dropById(vm.messages, message.id);
+        }
+      }
+    }));
+
+    eventReferences.push($rootScope.$on('post-hide', function (event, data) {
+      var message = _.find(vm.messages, {
+        id: data.postId
+      });
+      if (message) {
+        message.tempHide = true
+      }
+    }));
+
+    eventReferences.push($rootScope.$on('post-show', function (event, data) {
+      var message = _.find(vm.messages, {
+        id: data.postId
+      });
+      if (message) {
+        message.tempHide = false
+      }
+    }));
+
+    eventReferences.push($scope.$on('post-moved', function (event, data) {
+      // there are tow conditions that a moved post should be removed from messages list
+      // 1. The moved place is the one that you see its messages list (DONE)
+      // 2. You moved a place to another one and none of the post new places
+      //    are not marked to be shown in feeds page
+      // TODO: Implement the second condition
+
+      loadUnreadPostsCount();
+      reloadPlace();
+      if ($stateParams.placeId === data.fromPlace.id) {
+        NstUtility.collection.dropById(vm.messages, data.postId);
+      }
+    }));
+
+    if (vm.isBookmark) {
+      eventReferences.push($rootScope.$on(NST_POST_EVENT.UNBOOKMARKED, function (e, data) {
+        var message = _.find(vm.messages, {
+          id: data.postId
+        });
+
+        if (message) {
+          NstUtility.collection.dropById(vm.messages, message.id);
+        }
+      }));
+    }
 
     $scope.$on('$destroy', function () {
       saveScroll();
