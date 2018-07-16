@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function MessagesController($rootScope, $stateParams, $state, $scope, $uibModal, _, $timeout, $log,
-                              moment, toastr, SvcScrollSaver, $location, NstSvcActivityMap, NstSvcDate, NstSvcViewStorage,
+                              moment, toastr, SvcScrollSaver, $location, NstSvcActivityMap, NstSvcDate, NstSvcCompactViewStorage,
                               NST_MESSAGES_SORT_OPTION, NST_DEFAULT, NST_PLACE_EVENT_ACTION, NST_PLACE_ACCESS, NST_POST_EVENT,
                               NstSvcPostFactory, NstSvcPlaceFactory, NstUtility, NstSvcAuth, NstSvcSync, NstSvcModal,
                               NstSvcTranslation, SvcCardCtrlAffix, NstSvcUserFactory, NST_SRV_ERROR) {
@@ -92,7 +92,7 @@
       setLocationFlag();
       configureNavbar();
 
-      vm.compactView = (!vm.isFeed && NstSvcViewStorage.getByPlace(vm.currentPlaceId)) || false;
+      vm.compactView = (!vm.isFeed && NstSvcCompactViewStorage.getByPlace(vm.currentPlaceId)) || false;
 
       if (vm.compactView) {
         vm.messagesSetting.limit = 30;
@@ -723,6 +723,9 @@
         return;
       }
 
+      NstSvcPlaceFactory.get(vm.currentPlaceId).then(function (place) {
+        vm.quickMessageAccess = place.hasAccess(NST_PLACE_ACCESS.WRITE_POST);
+      });
       NstSvcPlaceFactory.getWithNoCache(vm.currentPlaceId).then(function (place) {
         vm.currentPlace = place;
         vm.quickMessageAccess = place.hasAccess(NST_PLACE_ACCESS.WRITE_POST);
@@ -922,8 +925,7 @@
       } else {
         vm.compactView = !vm.compactView;
       }
-      NstSvcViewStorage.set('compactView', vm.compactView);
-      NstSvcViewStorage.setByPlace(vm.currentPlaceId, value);
+      NstSvcCompactViewStorage.setByPlace(vm.currentPlaceId, value);
       getDateGroups();
       $timeout(function () {
         vm.FIT = false;

@@ -130,26 +130,28 @@
           </svg>
         </a>
       </div>
-      <div class="quick-message-wrp _fw" ng-if="ctrl.quickMessageAccess && ctrl.FIT && ctrl.messages.length > 0">
-        <div class="quick-message-inner _fw" style="height: 84px;">
-          <div class="quick-sender">
-            <div class="user-avatar-32 _df _fn">
-              <img initial-avatar="{{ctrl.currentUser.id}}" name="{{ctrl.currentUser.fullName}}" picture="{{ctrl.currentUser | avatar : 'x32'}}" data-width="32"
-                   data-height="32"
-                   data-radius="32" class="account-initials-32 _df" data-word-count="2" data-font-size="12"/>
-            </div>
-          </div>
-          <div class="_difv quick-message _fw _bgwhite">
-            <div class="_fh _pr _fw">
-              <div class="compose-modal-body _difv _fw">
-                <input class="compose-subject-input _fw" placeholder="Write your message or drag files here..." translate-attrs="placeholder">
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="post-card-wire"></div>
+      <!--<div class="quick-message-wrp _fw" ng-if="ctrl.quickMessageAccess && ctrl.FIT && ctrl.messages.length > 0">-->
+        <!--<div class="quick-message-inner _fw" style="height: 84px;">-->
+          <!--<div class="quick-sender">-->
+            <!--<div class="user-avatar-32 _df _fn">-->
+              <!--<img initial-avatar="{{ctrl.currentUser.id}}" name="{{ctrl.currentUser.fullName}}" picture="{{ctrl.currentUser | avatar : 'x32'}}" data-width="32"-->
+                   <!--data-height="32"-->
+                   <!--data-radius="32" class="account-initials-32 _df" data-word-count="2" data-font-size="12"/>-->
+            <!--</div>-->
+          <!--</div>-->
+          <!--<div class="_difv quick-message _fw _bgwhite">-->
+            <!--<div class="_fh _pr _fw">-->
+              <!--<div class="compose-modal-body _difv _fw">-->
+                <!--<input class="compose-subject-input _fw" placeholder="Write your message or drag files here..." translate-attrs="placeholder">-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+        <!--<div class="post-card-wire"></div>-->
+      <!--</div>-->
+      <div class="_fw" ng-if="ctrl.FIT && ctrl.quickMessageAccess" style="height: 84px">
       </div>
-      <div class="quick-message-wrp _fw" ng-if="ctrl.quickMessageAccess && !ctrl.FIT">
+      <div class="quick-message-wrp _fw" ng-if="!ctrl.FIT && ctrl.quickMessageAccess">
         <nst-quick-message class="quick-message-inner _fw" place-id="ctrl.currentPlaceId"></nst-quick-message>
         <div class="post-card-wire" ng-if="!ctrl.compactView"></div>
       </div>
