@@ -136,6 +136,9 @@
         }
         vm.post.iframeObj = document.getElementById(vm.iframeId);
       }
+      if (!vm.post.iframeObj.contentWindow) {
+        return;
+      }
       vm.post.iframeObj.contentWindow.postMessage(JSON.stringify(msg), '*');
     }
 
@@ -1267,7 +1270,7 @@
       e.preventDefault();
       var emailRe = /\S+@\S+\.\S+/;
       if (emailRe.test(place.id)) {
-        $state.go('app.conversation', { userId : place.id});
+        $state.go('app.conversation', {userId: place.id});
       } else {
         if (place.hasAccess(NST_PLACE_ACCESS.READ_POST)) {
           $state.go('app.place-messages', {
@@ -1275,12 +1278,12 @@
           });
         } else {
           NstSvcModal.confirm(NstSvcTranslation.get("Error"), NstSvcTranslation.get("Either this Place doesn't exist, or you don't have the permit to enter the Place."),
-          {
-            yes: NstSvcTranslation.get("Discard"),
-            no: NstSvcTranslation.get("Conversation")
-          }).then(function (discard) {
+            {
+              yes: NstSvcTranslation.get("Discard"),
+              no: NstSvcTranslation.get("Conversation")
+            }).then(function (discard) {
             if (!discard) {
-              $state.go('app.conversation', { userId : place.id});
+              $state.go('app.conversation', {userId: place.id});
             } else {
               console.log('dismiss');
             }

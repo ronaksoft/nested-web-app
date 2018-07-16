@@ -900,6 +900,10 @@
       }
     }
 
+    function saveCompactViews() {
+
+    }
+
     function toggleCompactView(value) {
       vm.FIT = true;
       if (value === true) {
@@ -907,8 +911,8 @@
         if (vm.messages.length < 30) {
           loadMore();
         }
-      } else if(value === false) {
-        _.forEach(vm.messages, function(msg, index) {
+      } else if (value === false) {
+        _.forEach(vm.messages, function (msg, index) {
           if (msg && index > 7) {
             SvcCardCtrlAffix.remove(msg.id);
           }
@@ -916,11 +920,11 @@
         vm.messages = vm.messages.splice(0, 8);
         vm.compactView = value;
       } else {
-        vm.compactView =! vm.compactView;
+        vm.compactView = !vm.compactView;
       }
       NstSvcViewStorage.set('compactView', vm.compactView);
       getDateGroups();
-      $timeout(function() {
+      $timeout(function () {
         vm.FIT = false;
       }, 64)
     }
@@ -936,7 +940,7 @@
       var thisMonthStart = moment(now).startOf('month');
       var dateDayStart = date.clone().startOf('day').unix();
       if (date.isSameOrAfter(thisMonthStart)) {
-        if (timeGroups.indexOf(dateDayStart) === -1){
+        if (timeGroups.indexOf(dateDayStart) === -1) {
           timeGroups.push(dateDayStart);
           return dateDayStart;
         } else {
@@ -944,7 +948,7 @@
         }
       }
 
-      var thisYearStart =  moment(now).startOf('year');
+      var thisYearStart = moment(now).startOf('year');
       var dateMonthStart = date.clone().startOf('month').unix();
       if (date.isSameOrAfter(thisYearStart)) {
         if (timeGroups.indexOf(dateMonthStart) === -1) {

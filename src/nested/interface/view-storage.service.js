@@ -6,6 +6,13 @@
 
   /** @ngInject */
   function NstSvcViewStorage(NST_STORAGE_TYPE, NstStorage) {
-    return new NstStorage(NST_STORAGE_TYPE.LOCAL, 'view');
+
+    function ViewStorage() {
+    }
+
+    ViewStorage.prototype = new NstStorage(NST_STORAGE_TYPE.LOCAL, 'view');
+    ViewStorage.prototype.constructor = ViewStorage;
+
+    return new ViewStorage();
   }
 })();
