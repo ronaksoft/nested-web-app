@@ -519,9 +519,15 @@
         .label-search {
             padding: 0 4px;
             height: 307px;
+            
             >.suggest-picker {
-                border-bottom: 1px solid $color-solid;
-                margin-bottom: 24px;
+                height: 100%;
+                .suggest-picker-area {
+                    border-bottom: 1px solid $color-solid;
+                    margin-bottom: 24px;
+                    overflow: hidden;
+                    flex: none;
+                }
             }
             input {
                 padding: 0;
@@ -544,6 +550,7 @@
             box-shadow: none;
             display: flex!important;
             flex-direction: column;
+            transform: none;
             width: 100%;
             left: 0;
             right: 0;
@@ -551,6 +558,8 @@
             border: none;
             padding: 0;
             max-height: 256px;
+            bottom: auto;
+            position: relative;
         }
         .load-more-labels {
             height: 32px;

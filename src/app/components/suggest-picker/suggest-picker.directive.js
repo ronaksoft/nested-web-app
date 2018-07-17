@@ -107,6 +107,7 @@
             break;
         
           default:
+            resetState();
             break;
         }
       }
@@ -187,7 +188,7 @@
       }
 
       $scope.deactiveSelectItem = function (place) {
-        $scope.state.activeSelectedItem = -2;
+        resetState();
       }
 
       /**
