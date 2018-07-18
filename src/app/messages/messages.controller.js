@@ -92,7 +92,6 @@
       setLocationFlag();
       configureNavbar();
 
-      console.log(getCompactKey());
       vm.compactView = NstSvcCompactViewStorage.getByPlace(getCompactKey()) || false;
 
       if (vm.compactView) {
