@@ -12,7 +12,7 @@
 
   angular.module('ronak.nested.web.app').controller('AppsController', AppsController);
 
-  function AppsController($stateParams, _, $uibModalInstance, $scope, $rootScope, 
+  function AppsController($stateParams, _, $uibModalInstance, $scope, $rootScope,
       NstSvcAppFactory, $q, NstSvcModal, NstSvcTranslation,
     $uibModal) {
     var vm = this,
@@ -118,6 +118,9 @@
     }
 
     function contactHasKeyword(app, keyword) {
+      if (!app.app) {
+        return false;
+      }
       var fullName = _.toLower(app.app.name),
           id = _.toLower(app.app.id),
           word = _.toLower(keyword);
@@ -148,7 +151,7 @@
             if (respones = {}){
               _.remove(vm.apps, function(a) {
                 return a.items[0].token === token;
-              }); 
+              });
               $rootScope.$emit('remove-token', {token: token});
             } else {
               toastr.error(NstSvcTranslation.get("An error occured while deleting this app."));
