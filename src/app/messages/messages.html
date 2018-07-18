@@ -71,7 +71,7 @@
               <translate>bookmark</translate>
             </a>
           </p> -->
-          <div ng-show="(ctrl.selectedPosts.length == 0 && ctrl.currentPlaceId) || ctrl.isBookmark || ctrl.isSent" ng-mouseenter="popoverViewSettingShow = true; popoverSortShow = false;"
+          <div ng-show="(ctrl.selectedPosts.length == 0)" ng-mouseenter="popoverViewSettingShow = true; popoverSortShow = false;"
             data-popover-class="white-pop messages-view-setting-popover" uib-popover-template="'app/messages/partials/popovers/view_setting_popover.html'"
             data-popover-placement="bottom-right" data-popover-is-open="popoverViewSettingShow" id="test-view-setting" class="filter-bar-popover-button _fn">
             <translate class="_df" ng-if="!ctrl.compactView">Expand View</translate>
