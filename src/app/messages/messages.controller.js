@@ -92,7 +92,8 @@
       setLocationFlag();
       configureNavbar();
 
-      vm.compactView = (!vm.isFeed && NstSvcCompactViewStorage.getByPlace(vm.currentPlaceId)) || false;
+      console.log(getCompactKey());
+      vm.compactView = NstSvcCompactViewStorage.getByPlace(getCompactKey()) || false;
 
       if (vm.compactView) {
         vm.messagesSetting.limit = 30;
@@ -903,8 +904,22 @@
       }
     }
 
-    function saveCompactViews() {
-
+    function getCompactKey() {
+      if (vm.currentPlaceId) {
+        return vm.currentPlaceId;
+      } else if (vm.isFeed) {
+        return '__feed__';
+      } else if (vm.isBookmark) {
+        return '__bookmark__';
+      } else if (vm.isPlaceMessage) {
+        return '__place_message__';
+      } else if (vm.isSent) {
+        return '__sent__';
+      } else if (vm.isUnreadMode) {
+        return '__unread__';
+      } else if (vm.isPersonal) {
+        return '__personal__';
+      }
     }
 
     function toggleCompactView(value) {
@@ -925,7 +940,7 @@
       } else {
         vm.compactView = !vm.compactView;
       }
-      NstSvcCompactViewStorage.setByPlace(vm.currentPlaceId, value);
+      NstSvcCompactViewStorage.setByPlace(getCompactKey(), value);
       getDateGroups();
       $timeout(function () {
         vm.FIT = false;

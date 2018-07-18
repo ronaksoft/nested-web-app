@@ -17,11 +17,12 @@
       this.storage = new NstStorage(NST_STORAGE_TYPE.LOCAL, 'view');
       var jsonEncoded = this.storage.get(keyName);
       if (jsonEncoded) {
-        this.places = JSON.parse(jsonEncoded);
+        this.places = jsonEncoded;
       }
       NstSvcKeyFactory.get(NST_KEY.GENERAL_COMPACT_VIEW).then(function (data) {
         if (data) {
-          service.places = JSON.parse(data);
+          data = JSON.parse(data);
+          service.places = data;
           service.storage.set(keyName, data);
         }
       });
@@ -80,8 +81,13 @@
             toSavePlaces[id] = service.places[id];
           }
         });
+        ['__feed__', '__bookmark__', '__place_message__', '__sent__', '__unread__', '__personal__'].forEach(function(key) {
+          if (service.places.hasOwnProperty(key)) {
+            toSavePlaces[key] = service.places[key];
+          }
+        });
         var jsonEncoded = JSON.stringify(toSavePlaces);
-        service.storage.set(keyName, jsonEncoded);
+        service.storage.set(keyName, toSavePlaces);
         NstSvcKeyFactory.set(NST_KEY.GENERAL_COMPACT_VIEW, jsonEncoded);
       });
     }
