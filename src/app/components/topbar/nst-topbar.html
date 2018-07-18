@@ -61,6 +61,13 @@
     </div>
   </div>
   <div class="account">
+    <a class="cursor-pointer" data-uib-tooltip="Applications" data-tooltip-append-to-body="false" data-tooltip-placement="bottom auto"
+      ui-sref="app.applications" ui-sref-opts="{notify: false}">
+      <svg class="_32svg fill-white">
+        <use xlink:href="/assets/icons/nst-icn32.svg#store"></use>
+      </svg>
+      <div class="unread-notif-badge" ng-if="ctrlTopBar.notificationsCount > 0">{{ctrlTopBar.notificationsCount | localize}}</div>
+    </a>
     <a data-uib-tooltip-template="'label-uib-tooltip.html'" data-tooltip-append-to-body="false" data-tooltip-placement="bottom auto"
       ng-click="ctrlTopBar.goLabelRoute($event);" manage-label>
       <svg class="_20svg fill-white">

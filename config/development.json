@@ -20,12 +20,12 @@
       "REQUEST_MAX_RETRY_TIMES": 16
     },
     "STORE": {
-      "URL": "https:/c-webapp.ronaksoftware.com/file",
+      "URL": "https://c-webapp.ronaksoftware.com/file",
       "TOKEN_EXPMS": 3550000
     },
     "REGISTER": {
       "AJAX": {
-        "URL": "https:/c-webapp.ronaksoftware.com"
+        "URL": "https://c-webapp.ronaksoftware.com"
       }
     },
     "GOOGLE_ANALYTICS_TOKEN": "UA-92612481-1",

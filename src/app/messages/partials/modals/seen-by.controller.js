@@ -10,7 +10,7 @@
                             postId) {
     var vm = this,
       reached = false,
-      limit = 8;
+      limit = 16;
 
     vm.loading = false;
     vm.readers = [];

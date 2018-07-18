@@ -153,6 +153,9 @@ post-card {
 .post-card-shadow {
   box-shadow: 0 5px 12px 2px $box-shadow-color;
   width: 100%;
+  &.disable {
+    box-shadow: none;
+  }
 }
 
 .post-card {
@@ -643,7 +646,10 @@ post-card {
     }
   }
   &.unread {
-    background: rgba(0, 121, 242, 0.04);
+    background: $color-bg-unread-postcard;
+    .select-card {
+      background: $color-bg-unread-postcard;
+    }
   }
 }
 
