@@ -75,20 +75,26 @@
       page = 0;
       service.myPlacesId = [];
       var toSavePlaces = {};
-      getMyPlaces().then(function (ids) {
-        ids.forEach(function (id) {
-          if (service.places.hasOwnProperty(id)) {
-            toSavePlaces[id] = service.places[id];
-          }
-        });
-        ['__feed__', '__bookmark__', '__place_message__', '__sent__', '__unread__', '__personal__'].forEach(function(key) {
-          if (service.places.hasOwnProperty(key)) {
-            toSavePlaces[key] = service.places[key];
-          }
-        });
-        var jsonEncoded = JSON.stringify(toSavePlaces);
-        service.storage.set(keyName, toSavePlaces);
-        NstSvcKeyFactory.set(NST_KEY.GENERAL_COMPACT_VIEW, jsonEncoded);
+      NstSvcKeyFactory.get(NST_KEY.GENERAL_COMPACT_VIEW).then(function (data) {
+        if (data) {
+          data = JSON.parse(data);
+          service.places = data;
+          getMyPlaces().then(function (ids) {
+            ids.forEach(function (id) {
+              if (service.places.hasOwnProperty(id)) {
+                toSavePlaces[id] = service.places[id];
+              }
+            });
+            ['__feed__', '__bookmark__', '__place_message__', '__sent__', '__unread__', '__personal__'].forEach(function(key) {
+              if (service.places.hasOwnProperty(key)) {
+                toSavePlaces[key] = service.places[key];
+              }
+            });
+            var jsonEncoded = JSON.stringify(toSavePlaces);
+            service.storage.set(keyName, toSavePlaces);
+            NstSvcKeyFactory.set(NST_KEY.GENERAL_COMPACT_VIEW, jsonEncoded);
+          });
+        }
       });
     }
 
