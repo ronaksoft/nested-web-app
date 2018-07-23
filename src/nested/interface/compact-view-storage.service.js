@@ -61,7 +61,6 @@
     }
 
     function saveViews(placeId, isCompact) {
-      service.myPlacesId = [];
       var toSavePlaces = {};
       NstSvcKeyFactory.get(NST_KEY.GENERAL_COMPACT_VIEW).then(function (data) {
         if (data) {
