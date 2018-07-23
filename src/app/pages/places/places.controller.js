@@ -132,10 +132,10 @@
       var itemIndex = null;
       var isBanned = vm[array].find(function (i, index) {
         if (i.id === placeId) {
-          itemIndex = index
-          return true
+          itemIndex = index;
+          return true;
         } else {
-          return false
+          return false;
         }
       });
       if (isBanned) {
@@ -479,7 +479,7 @@
       }
       var selectedIds = vm.selectedPlaces.map(function (place) {
         return place.id
-      })
+      });
       var role = NST_PLACE_MEMBER_TYPE.KEY_HOLDER;
       var modal = $uibModal.open({
         animation: false,

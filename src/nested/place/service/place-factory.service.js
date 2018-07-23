@@ -162,7 +162,7 @@
       }).then(function (data) {
         if(data.places.length === 0) {
           return $q.reject({
-            code: 3,
+            code: 3
           });
         }
         return $q.resolve({
