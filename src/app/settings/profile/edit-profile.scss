@@ -323,6 +323,12 @@ form.inner-panel {
   ul {
     list-style-position: inside;
   }
+  select {
+    background: url(../assets/icons/inputform.svg) no-repeat 98% -129px, linear-gradient(to bottom,$color-white-revesable-super ,$color-light-cloud 100%);
+    height: 32px;
+    min-width: 128px;
+    text-align: center;
+  }
 }
 
 $step: 1; // step of % for created classes

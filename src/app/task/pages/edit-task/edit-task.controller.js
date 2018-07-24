@@ -203,10 +203,16 @@
     // vm.isInCandidateMode = false;
 
     function importTaskData(task) {
-      vm.model.status = task.status;
-      vm.model.progress = task.progress;
+      if (vm.model.status !== task.status) {
+        vm.model.status = task.status;
+      }
+      if (vm.model.progress !== task.progress) {
+        vm.model.progress = task.progress;
+      }
 
-      vm.model.title = task.title;
+      if (vm.model.title !== task.title) {
+        vm.model.title = task.title;
+      }
       vm.model.assignor = task.assignor;
       vm.model.counters = task.counters;
       vm.model.access = task.access;
@@ -238,39 +244,51 @@
       }
 
       if (task.todos !== undefined && task.todos.length > 0) {
-        vm.model.todos = task.todos;
+        if (vm.model.todos.length === 0) {
+          vm.model.todos = task.todos;
+        } else {
+          mergeList(vm.model.todos, task.todos);
+        }
         vm.enableTodo = true;
       }
 
       if (task.attachments !== undefined && task.attachments.length > 0) {
-        vm.model.attachments = {
-          init: true,
-          data: task.attachments
-        };
+        if (!isIdentical(vm.model.attachments, task.attachments)) {
+          vm.model.attachments = {
+            init: true,
+            data: task.attachments
+          };
+        }
         vm.enableAttachment = true;
       }
 
       if (task.watchers !== undefined && task.watchers.length > 0) {
-        vm.model.watchers = {
-          init: true,
-          data: task.watchers
-        };
+        if (!isIdentical(vm.model.watchers, task.watchers)) {
+          vm.model.watchers = {
+            init: true,
+            data: task.watchers
+          };
+        }
         vm.enableWatcher = true;
       }
 
       if (task.editors !== undefined && task.editors.length > 0) {
-        vm.model.editors = {
-          init: true,
-          data: task.editors
-        };
+        if (!isIdentical(vm.model.editors, task.editors)) {
+          vm.model.editors = {
+            init: true,
+            data: task.editors
+          };
+        }
         vm.enableEditor = true;
       }
 
       if (task.labels !== undefined && task.labels.length > 0) {
-        vm.model.labels = {
-          init: true,
-          data: task.labels
-        };
+        if (!isIdentical(vm.model.labels, task.labels)) {
+          vm.model.labels = {
+            init: true,
+            data: task.labels
+          };
+        }
         vm.enableLabel = true;
       }
 
@@ -295,6 +313,20 @@
         $timeout(function () {
           dataInit = true;
           vm.loading = false;
+          backItUp();
+        }, 100);
+      }).catch(function () {
+        toastr.error(NstSvcTranslation.get("You don't have access to this task or it's been removed!"));
+        $scope.$dismiss();
+      });
+    }
+
+    function getTaskWithoutCache(id) {
+      dataInit = false;
+      NstSvcTaskFactory.get(id).then(function (task) {
+        importTaskData(task);
+        $timeout(function () {
+          dataInit = true;
           backItUp();
         }, 100);
       }).catch(function () {
@@ -531,7 +563,7 @@
         return;
       }
       if (action === 'abort') {
-        vm.model.assignees = vm.modelBackUp.assignees.slice(0);
+        vm.model.assignees = _.cloneDeep(vm.modelBackUp.assignees);
         vm.assigneeFocus = false;
       } else if (action === 'confirm') {
         if (vm.model.assignees.length === 0) {
@@ -540,7 +572,7 @@
         }
         vm.assigneeLoading = true;
         NstSvcTaskFactory.updateAssignee(vm.taskId, getCommaSeparate(vm.model.assignees)).then(function () {
-          vm.modelBackUp.assignees = vm.model.assignees.slice(0);
+          vm.modelBackUp.assignees = _.cloneDeep(vm.model.assignees);
           isUpdated = true;
           vm.assigneeFocus = false;
           vm.assigneeChanged = false;
@@ -580,7 +612,7 @@
             if (index > -1) {
               vm.model.todos[index].id = data.todo_id;
             }
-            vm.modelBackUp.todos = vm.model.todos.slice(0);
+            vm.modelBackUp.todos = _.cloneDeep(vm.model.todos);
             isUpdated = true;
           });
         });
@@ -589,7 +621,7 @@
       if (removedItems.length > 0) {
         removePromises.push(NstSvcTaskFactory.removeTodo(vm.taskId, getCommaSeparate(removedItems)));
         $q.all(removePromises).then(function () {
-          vm.modelBackUp.todos = vm.model.todos.slice(0);
+          vm.modelBackUp.todos = _.cloneDeep(vm.model.todos);
           isUpdated = true;
         });
       }
@@ -690,7 +722,7 @@
 
       if (newItems.length > 0 || removedItems.length > 0) {
         $q.all(promises).then(function () {
-          vm.modelBackUp.watchers = vm.model.watchers.slice(0);
+          vm.modelBackUp.watchers = _.cloneDeep(vm.model.watchers);
           isUpdated = true;
           if (_.findIndex(removedItems, {id: vm.user.id}) > -1) {
             $scope.$dismiss();
@@ -723,7 +755,7 @@
 
       if (newItems.length > 0 || removedItems.length > 0) {
         $q.all(promises).then(function () {
-          vm.modelBackUp.editors = vm.model.editors.slice(0);
+          vm.modelBackUp.editors = _.cloneDeep(vm.model.editors);
           isUpdated = true;
           if (_.findIndex(removedItems, {id: vm.user.id}) > -1) {
             $scope.$dismiss();
@@ -756,7 +788,7 @@
 
       if (newItems.length > 0 || removedItems.length > 0) {
         $q.all(promises).then(function () {
-          vm.modelBackUp.labels = vm.model.labels.slice(0);
+          vm.modelBackUp.labels = _.cloneDeep(vm.model.labels);
           isUpdated = true;
         });
       }
@@ -845,9 +877,33 @@
       }, 200);
     }
 
+    function mergeList(oldList, newList) {
+      var newItems = _.differenceBy(newList, oldList, 'id');
+      var removedItems = _.differenceBy(oldList, newList, 'id');
+
+      _.forEach(removedItems, function (item) {
+        var index = _.findIndex(oldList, {
+          'id': item.id
+        });
+        if (index > -1) {
+          oldList.splice(index, 1);
+        }
+      });
+
+      oldList.push.apply(oldList, newItems);
+    }
+
+    function isIdentical(oldList, newList) {
+      if (newList.length === 0) {
+        return false;
+      }
+      var sameItems = _.intersectionBy(newList, oldList, 'id');
+      return sameItems.length === newList.length;
+    }
+
     eventReferences.push($rootScope.$on(NST_TASK_EVENT_ACTION.TASK_ACTIVITY, function (event, data) {
       if (data.taskId === vm.taskId) {
-        getTask(data.taskId)
+        getTaskWithoutCache(data.taskId)
       }
     }));
 

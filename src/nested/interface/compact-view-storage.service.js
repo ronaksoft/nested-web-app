@@ -8,6 +8,8 @@
   function NstSvcCompactViewStorage(NST_STORAGE_TYPE, NstStorage, NstSvcServer, $q, NstSvcKeyFactory, NST_KEY) {
 
     var keyName = 'compactView';
+    var page = 0;
+    var limit = 100;
 
     function CompactViewStorage() {
       this.places = {};
@@ -31,17 +33,31 @@
 
     CompactViewStorage.prototype.setByPlace = setByPlace;
     CompactViewStorage.prototype.getByPlace = getByPlace;
+    CompactViewStorage.prototype.setDefault = setDefault;
+    CompactViewStorage.prototype.getDefault = getDefault;
 
 
     function setByPlace(placeId, isCompact) {
       saveViews(placeId, isCompact);
     }
 
-    function getByPlace(placeId) {
-      return service.places[placeId] || false;
+    function setDefault(isCompact) {
+      saveViews('__default__', isCompact);
     }
 
-    function getAllPlaces() {
+    function getByPlace(placeId) {
+      if (service.places[placeId] === true || service.places[placeId] === false) {
+        return service.places[placeId];
+      } else {
+        return getDefault();
+      }
+    }
+
+    function getDefault() {
+      return service.places['__default__'] || false;
+    }
+
+    function getAllPlaces(skip, limit) {
       return NstSvcServer.request('account/get_all_places', {
         with_children: true
       });
@@ -72,7 +88,7 @@
               toSavePlaces[id] = service.places[id];
             }
           });
-          ['__feed__', '__bookmark__', '__place_message__', '__sent__', '__unread__', '__personal__'].forEach(function(key) {
+          ['__default__', '__feed__', '__bookmark__', '__place_message__', '__sent__', '__unread__', '__personal__'].forEach(function(key) {
             if (service.places.hasOwnProperty(key)) {
               toSavePlaces[key] = service.places[key];
             }

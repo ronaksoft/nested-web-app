@@ -27,6 +27,7 @@
       limit: 100,
       suggestsLimit: 8,
       singleRow: false,
+      autoFocus: true,
       mode: 'label',
       alwaysVisible: true,
       placeholder: NstSvcTranslation.get('Select from below or type label name')

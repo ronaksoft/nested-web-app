@@ -95,7 +95,7 @@
           });
           NstSvcLabelFactory.addMember(result.id, specificHolders.join(',')).then(function () {
             toastr.success(NstSvcTranslation.get("Label created successfully."));
-          }).catch(function () {
+          }).catch(function (e) {
             toastr.warning(NstSvcTranslation.get("Label created successfully, but no member assigned to it!"));
           });
         }
@@ -103,6 +103,12 @@
       }).catch(function (error) {
         if (error.code === 5) {
           toastr.warning(NstSvcTranslation.get("Label already exists!"));
+        } else if (error.code === 3) {
+          if (error.message[0] === 'title_length_too_large') {
+            toastr.error(NstSvcTranslation.get("title is too long"));
+          } else {
+            toastr.error(NstSvcTranslation.get("Something went wrong."));
+          }
         } else {
           toastr.error(NstSvcTranslation.get("Something went wrong."));
           $uibModalInstance.close(true);
