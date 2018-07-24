@@ -46,7 +46,11 @@
     }
 
     function getByPlace(placeId) {
-      return service.places[placeId] || getDefault();
+      if (service.places[placeId] === true || service.places[placeId] === false) {
+        return service.places[placeId];
+      } else {
+        return getDefault();
+      }
     }
 
     function getDefault() {

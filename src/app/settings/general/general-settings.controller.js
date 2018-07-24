@@ -147,7 +147,7 @@
     }
 
     function changeDefaultView() {
-      NstSvcCompactViewStorage.setDefault(vm.compactView);
+      NstSvcCompactViewStorage.setDefault(vm.compactView == 'true');
     }
 
     $scope.$on('$destroy', function () {
