@@ -6,10 +6,19 @@
 </div>
 <div class="webapp-setting">
   <div class="form-group _difv _fw">
-    <label class="input-lab _fw"><b><translate>Debug mode</translate></b></label>
+    <!-- <label class="input-lab _fw"><b><translate>Debug mode</translate></b></label> -->
     <div class="field _difh _fw">
       <div class="_df _fw srchp">
-        <translate>Active:</translate>
+        <translate>Default Posts View:</translate>
+      </div>
+      <select ng-model="ctrl.compactView" class="_df" ng-change="ctrl.changeDefaultView()">
+        <option value="false"><translate>Expanded view</translate></option>
+        <option value="true"><translate>Collapsed view</translate></option>
+      </select>
+    </div>
+    <div class="field _difh _fw">
+      <div class="_df _fw srchp">
+        <translate>Debug mode:</translate>
         <a ng-if="ctrl.debugMode" ng-click="ctrl.downloadLogs()" style="color: #000; font-weight: bold;">&nbsp;&nbsp;&nbsp;<translate>Download Logs</translate></a>
       </div>
       <div class="place-switch _fn">
@@ -23,21 +32,18 @@
           </label>
       </div>
     </div>
-  </div>
-  <div class="form-group _difv _fw">
-    <label class="input-lab _fw"><b><translate>Signature</translate></b></label>
     <div class="field _difh _fw">
       <div class="_df _fw srchp">
-        <translate>Active:</translate>
+        <translate>Signature:</translate>
       </div>
       <div class="place-switch _fn">
         <input type="checkbox" name="signature" id="signature" data-ng-model="ctrl.signatureActive">
         <label for="signature">
-            <b><translate>Yes</translate></b>
+            <b><translate>On</translate></b>
             <div class="circle" switch-drag="ctrl.signatureActive"></div>
           </label>
         <label for="signature">
-            <b><translate>No</translate></b>
+            <b><translate>Off</translate></b>
           </label>
       </div>
     </div>
