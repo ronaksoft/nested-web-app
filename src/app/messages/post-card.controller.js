@@ -14,7 +14,7 @@
     .module('ronak.nested.web.message')
     .controller('PostCardController', PostCardController);
 
-  function PostCardController($state, $q, $log, $timeout, $stateParams, $rootScope, $scope, $uibModal, $location, $anchorScroll,
+  function PostCardController($state, $q, $log, $timeout, $stateParams, $rootScope, $scope, $uibModal, $location, $anchorScroll, $uibModalStack,
                               _, toastr, $sce, NstSvcTaskUtility, NST_CONFIG, NstSvcI18n, NstSvcViewStorage, md5, NstSvcPostActivityFactory,
                               NST_PLACE_EVENT_ACTION, NST_POST_EVENT_ACTION, NST_PLACE_ACCESS, NST_POST_EVENT, SvcCardCtrlAffix, NstSvcAppFactory,
                               NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory, NstSearchQuery, NstSvcModal,
@@ -1283,6 +1283,7 @@
               no: NstSvcTranslation.get("Conversation")
             }).then(function (discard) {
             if (!discard) {
+              $uibModalStack.dismissAll();
               $state.go('app.conversation', {userId: place.id});
             } else {
               console.log('dismiss');
