@@ -1,5 +1,16 @@
-<div iscroll="" class="iscroll-wrapper _bgwhite fav-apps">
-  <ul class="iscroll-scroller">
+<div class="apps-wrapper popover-wrapper" ng-controller="FavoriteAppsController as appsCtrl">
+  <div class="head-line">
+    <a class="subject _df _fw">
+      <translate>Applications</translate>
+    </a>
+    <div class="add-app" ng-click="appsCtrl.gotoAddApps()">
+      <svg class="_16svg">
+        <use xlink:href="/assets/icons/nst-icn16.svg#cross"></use>
+      </svg>
+      <translate>Add Application</translate>
+    </div>
+  </div>
+  <ul>
     <li ng-if="appsCtrl.apps.length === 0 && !appsCtrl.loadProgress">
       <div class="_jcc _df _fw nst-margin-12">
         <translate>No Favorite Application!!</translate>
@@ -11,15 +22,24 @@
       </div>
     </li>
     <li ng-if="!appsCtrl.loadProgress" ng-repeat="app in appsCtrl.apps track by $index">
-      <a class="_df inline-app-row _aic _fw" ng-click="appsCtrl.loadApp(app.id)" ng-if="app">
+      <a class="_df _aic _fw" ng-click="appsCtrl.loadApp(app.id)" ng-if="app">
         <div>
-          <img ng-if="app.iconSmallUrl" ng-src="{{app.iconSmallUrl}}" width="24px" height="24px"/>
-          <img ng-if="!app.iconSmallUrl" src="/assets/icons/appstore-32.svg" width="24px" height="24px"/>
+          <img ng-if="app.app.iconSmallUrl" ng-src="{{app.app.iconSmallUrl}}" width="24px" height="24px"/>
+          <img ng-if="!app.app.iconSmallUrl" src="/assets/icons/appstore-32.svg" width="24px" height="24px"/>
         </div>
         <div class="_df text-wrap _fw">
-          <span class="_txe" auto-dir="app.name">{{app.name}}</span>
+          <span class="_txe" auto-dir="app.name">{{app.app.name}}</span>
         </div>
       </a>
     </li>
+    <li class="more-mentions notif-ul-loading"
+        ng-if="!appsCtrl.reached && appsCtrl.loadingBefore && !appsCtrl.error">
+      <div class="_fw _jcc _df margin-top-10 _pr">
+        <div class="nst-loading sm"></div>
+      </div>
+    </li>
   </ul>
+  <div class="more-mentions" ng-click="appsCtrl.openApps();$event.stopPropagation();">
+    <translate>Show More Applications</translate>
+  </div>
 </div>

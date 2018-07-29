@@ -14,7 +14,7 @@
     .module('ronak.nested.web.app')
     .controller('FavoriteAppsController', FavoriteAppsController);
 
-  function FavoriteAppsController(_, $state, $rootScope, $scope,
+  function FavoriteAppsController(_, $state, $rootScope, $scope, $uibModal,
     NstSvcAppFactory, NstUtility) {
     var vm = this,
         MAX_ITEMS_COUNT = 30,
@@ -22,10 +22,12 @@
     vm.apps = [];
 
     vm.loadApp = loadApp;
-
+    vm.openApps = openApps;
+    vm.gotoAddApps = gotoAddApps;
+    
     function getApps() {
       NstSvcAppFactory.getAllTokens().then(function (apps) {
-        vm.apps = _.map(apps, function(app){ return app.app});
+        vm.apps = apps;
       }).catch(function () {
         vm.errorLoad = true;
       }).finally(function () {
@@ -37,6 +39,22 @@
       $rootScope.$broadcast('app-load-externally', {
         appId: id,
       });
+    }
+
+    function gotoAddApps() {
+      $uibModal.open({
+        animation: false,
+        size: '960',
+        templateUrl: 'app/settings/apps/partials/create-token.html',
+        controller: 'CreateTokenController',
+        resolve: {
+          myApps: function () {
+            console.log(vm.apps);
+            return vm.apps;
+          }
+        },
+        controllerAs: 'ctrl'
+      }).result.then(function(){search()}).catch(function(){search()});
     }
 
     (function () {
@@ -58,6 +76,12 @@
       });
     });
 
+    function openApps($event) {
+      $state.go('app.applications', {}, {
+        notify: false
+      });
+    }
+  
     function filterFavorites(contacts) {
       return _.chain(contacts).filter({ 'starred': true }).orderBy(['name'], ['asc']).take(MAX_ITEMS_COUNT).value();
     }
