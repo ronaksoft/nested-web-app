@@ -110,7 +110,9 @@
         vm.extendedId = postId;
         vm.postId = postId;
         pushToChainStack(postId);
-        console.log(cachedPosts);
+        _.forEach(cachedPosts, function(msg) {
+          msg.key = msg.id + msg.body.length;
+        });
         vm.messages = cachedPosts;
       }).then(function (posts) {
         vm.messages = [];
@@ -118,7 +120,9 @@
         vm.extendedId = postId;
         vm.postId = postId;
         pushToChainStack(postId);
-        console.log(posts);
+        _.forEach(posts, function(msg) {
+          msg.key = msg.id + msg.body.length;
+        });
         vm.messages = posts;
       }).catch(function () {
         toastr.error(NstSvcTranslation.get('An error occured while tying to show the post full body.'));
