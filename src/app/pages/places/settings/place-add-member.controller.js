@@ -69,18 +69,17 @@
         limit: calculateSearchLimit()
       };
 
-      if (!isMulti && !vm.isGrandPlace) {
+      if (!isMulti) {
         settings.placeId = currentPlace.id;
       }
-
       var newPlaceFlag = false;
       if (newPlace !== undefined && newPlace === true) {
         newPlaceFlag = true;
       }
 
-      NstSvcUserFactory.search(settings, settings.placeId ?
+      NstSvcUserFactory.search(settings, !vm.isGrandPlace ?
         NST_USER_SEARCH_AREA.ADD :
-        NST_USER_SEARCH_AREA.ACCOUNTS
+        NST_USER_SEARCH_AREA.INVITE
         )
         .then(searchCallBack)
         .catch(function (error) {
