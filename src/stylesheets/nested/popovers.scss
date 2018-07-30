@@ -218,6 +218,33 @@
     max-height: 480px;
   }
 }
+.popover.applications-popover {
+  min-width: 280px;
+  max-width: 336px;
+  max-height: 480px;
+  padding: 0;
+  transition: height $animation-dur;
+  height: auto;
+  z-index: 1029;
+  top: 52px!important;
+  // bottom: 40px;
+  box-shadow: 0 24px 32px $box-shadow-color-bold;
+  //position: absolute;
+  //z-index: 35;
+  background-color: $sidebar-bg-color;
+  border: none;
+  border-radius: 4px;
+  .popover-content,.popover-inner {
+    height: 100%;
+  }
+  >div.arrow {
+    display: none;
+  }
+  > .popover-inner {
+    z-index: 2;
+    max-height: 480px;
+  }
+}
 
 .profile-popover {
   width: 224px;

@@ -61,8 +61,9 @@
     </div>
   </div>
   <div class="account">
-    <a class="cursor-pointer" data-uib-tooltip="Applications" data-tooltip-append-to-body="false" data-tooltip-placement="bottom auto"
-      ui-sref="app.applications" ui-sref-opts="{notify: false}">
+    <a class="cursor-pointer" data-uib-tooltip="Applications" data-tooltip-append-to-body="false" data-tooltip-placement="bottom auto" data-popover-placement="{{$root._direction === 'rtl' ? 'bottom-left' : 'bottom-right'}} auto"
+    data-popover-class="applications-popover" data-popover-is-open="ctrlTopBar.appOpen" data-popover-append-to-body="false" data-uib-popover-template="'app/apps/my-apps/my-apps.html'" 
+    data-popover-trigger="none" ng-click="ctrlTopBar.appOpen =! ctrlTopBar.appOpen;ctrlTopBar.notifOpen = false;ctrlTopBar.profileOpen = false;ctrlTopBar.notificationsCount = 0;$event.preventDefault();$event.stopPropagation()">
       <svg class="_32svg fill-white">
         <use xlink:href="/assets/icons/nst-icn32.svg#store"></use>
       </svg>
@@ -77,7 +78,7 @@
     <a class="cursor-pointer" data-uib-tooltip-template="'top-notification-uib-tooltip.html'" data-tooltip-append-to-body="false" data-tooltip-placement="bottom auto"
        data-uib-popover-template="'app/notification/notification-popover.html'" data-popover-placement="{{$root._direction === 'rtl' ? 'bottom-left' : 'bottom-right'}} auto"
        data-popover-class="notifications-popover" data-popover-is-open="ctrlTopBar.notifOpen" data-popover-append-to-body="false"
-       data-popover-trigger="none" ng-click="ctrlTopBar.notifOpen =! ctrlTopBar.notifOpen;ctrlTopBar.profileOpen = false;ctrlTopBar.notificationsCount = 0;$event.preventDefault();$event.stopPropagation()">
+       data-popover-trigger="none" ng-click="ctrlTopBar.notifOpen =! ctrlTopBar.notifOpen;ctrlTopBar.appOpen = false;ctrlTopBar.profileOpen = false;ctrlTopBar.notificationsCount = 0;$event.preventDefault();$event.stopPropagation()">
       <svg class="_20svg fill-white">
         <use xlink:href="/assets/icons/nst-icn20.svg#bell"></use>
       </svg>
