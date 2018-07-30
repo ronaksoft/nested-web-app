@@ -918,6 +918,13 @@
       }
       vm.post = data.activity.post;
       NstSvcPostFactory.dropCacheById(data.activity.postId);
+      if (vm.isExpanded) {
+        NstSvcPostFactory.get(vm.post.id, true).then(function (post) {
+          vm.body = post.body;
+        }).catch(function () {
+          toastr.error(NstSvcTranslation.get('An error occurred while tying to show the post full body.'));
+        });
+      }
     }));
 
     /**
