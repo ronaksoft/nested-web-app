@@ -7,11 +7,12 @@
     background-color: $contrast-bg-color;
     box-shadow: 0 32px 64px $color-super-solid;
     border-radius: 6px;
-    overflow: hidden;
+    // overflow: hidden;
     .task-form {
         width: 472px;
         padding: 12px 4px 36px 16px;
         position: relative;
+        border-radius: 6px;
         box-shadow: 0 0 16px lighten($box-shadow-color, 50%);
         .task-binder {
             position: absolute;
