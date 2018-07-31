@@ -126,7 +126,7 @@
         });
         vm.messages = posts;
       }).catch(function () {
-        toastr.error(NstSvcTranslation.get('An error occured while tying to show the post full body.'));
+        toastr.error(NstSvcTranslation.get('An error occurred while tying to show the post full body.'));
       });
     }
 
