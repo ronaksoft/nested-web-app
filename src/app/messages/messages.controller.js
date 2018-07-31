@@ -297,6 +297,48 @@
       });
     }
 
+    function checkNewPostsInFeed() {
+      return getMessages(vm.messagesSetting, function(){}).then(function (posts) {
+        var newItems = _.differenceBy(posts, vm.messages, 'id');
+  
+        // add new items; The items that do not exist in cached items, but was found in fresh posts
+        vm.messages = newItems.concat(vm.messages);
+  
+        // re-arrange posts
+        _.forEach(posts, function (post, index) {
+          var oldPostIndex = _.findIndex(vm.messages, {
+            id: post.id
+          });
+          if (oldPostIndex === -1) {
+            return;
+          }
+  
+          // The post is in the right position
+          if (oldPostIndex === index) {
+            // Just update places, labels and comments of the post to make sure everything is up to date
+            applyChanges(vm.messages[oldPostIndex], post);
+            return;
+          }
+  
+          // change the post position
+          vm.messages.splice(oldPostIndex, 1);
+          vm.messages.splice(index, 0, post);
+        });
+        
+      }).catch(function (error) {
+        if (error.code === NST_SRV_ERROR.ACCESS_DENIED && error.message && error.message[0] === 'password_change') {
+          return;
+        }
+        NstSvcModal.error(NstSvcTranslation.get("Error"), NstSvcTranslation.get("Either this Place doesn't exist, or you don't have the permit to enter the Place.")).finally(function () {
+          if ($state.current.name !== NST_DEFAULT.STATE) {
+            $state.go(NST_DEFAULT.STATE);
+          } else {
+            $state.reload(NST_DEFAULT.STATE);
+          }
+        });
+      });
+    }
+
     function loadMore() {
       if (vm.loading || vm.reachedTheEnd || vm.noMessages) {
         return;
@@ -918,7 +960,7 @@
     eventReferences.push($rootScope.$on(NST_PLACE_EVENT_ACTION.POST_ADD, function (e, data) {
       // TODO : is feed ?!
       if (vm.isFeed) {
-        load();
+        checkNewPostsInFeed();
       }
       if (postMustBeShown(data.activity)) {
         // The current user is the sender
