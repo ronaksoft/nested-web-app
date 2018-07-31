@@ -36,7 +36,7 @@
     }
 
     function loadApp(id) {
-      $rootScope.$broadcast('app-load-externally', {
+      $rootScope.$broadcast('open-app-modal', {
         appId: id,
       });
     }

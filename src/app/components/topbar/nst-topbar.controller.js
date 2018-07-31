@@ -1129,10 +1129,6 @@
       requestLabelCounter();
     }));
 
-    eventReferences.push($rootScope.$on('app-load-externally', function (event, data) {
-      loadAppExternally(data.appId);
-    }));
-
     eventReferences.push($rootScope.$on('open-app-modal', function (event, data) {
       loadAppExternally(data.appId);
     }));

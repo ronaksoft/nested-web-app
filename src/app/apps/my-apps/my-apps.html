@@ -18,11 +18,11 @@
     </li>
     <li class="_fw _df _jcc _fn" ng-if="appsCtrl.loadProgress">
       <div class="nst-mood-cheerful no-gutter nst-margin-24">
-        <div class="nst-loading sm"></div>
+        <div class="nst-loading absolute sm"></div>
       </div>
     </li>
     <li ng-if="!appsCtrl.loadProgress" ng-repeat="app in appsCtrl.apps track by $index">
-      <a class="_df _aic _fw" ng-click="appsCtrl.loadApp(app.id)" ng-if="app">
+      <a class="_df _aic _fw" ng-click="appsCtrl.loadApp(app.app.id);ctrlTopBar.appOpen = false;" ng-if="app">
         <div>
           <img ng-if="app.app.iconSmallUrl" ng-src="{{app.app.iconSmallUrl}}" width="24px" height="24px"/>
           <img ng-if="!app.app.iconSmallUrl" src="/assets/icons/appstore-32.svg" width="24px" height="24px"/>
@@ -31,12 +31,6 @@
           <span class="_txe" auto-dir="app.name">{{app.app.name}}</span>
         </div>
       </a>
-    </li>
-    <li class="more-mentions notif-ul-loading"
-        ng-if="!appsCtrl.reached && appsCtrl.loadingBefore && !appsCtrl.error">
-      <div class="_fw _jcc _df margin-top-10 _pr">
-        <div class="nst-loading sm"></div>
-      </div>
     </li>
   </ul>
   <div class="more-mentions" ng-click="appsCtrl.openApps();$event.stopPropagation();">
