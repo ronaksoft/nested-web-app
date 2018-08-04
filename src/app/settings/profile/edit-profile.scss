@@ -7,7 +7,7 @@
   margin-right: 24px;
   flex-direction: column;
   flex: none;
-  max-height: 370px;
+  max-height: 402px;
   margin-top: 28px;
   h5 {
     font-size: 12px;
@@ -328,6 +328,13 @@ form.inner-panel {
     height: 32px;
     min-width: 128px;
     text-align: center;
+  }
+}
+
+.email-config {
+  select {
+    min-width: 128px;
+    padding-left: 8px;
   }
 }
 
