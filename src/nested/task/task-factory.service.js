@@ -452,6 +452,7 @@
 
       if (options.statusFilter) {
         options.status_filter = String(options.statusFilter);
+        delete options.statusFilter;
       }
 
       return this.sentinel.watch(function () {
