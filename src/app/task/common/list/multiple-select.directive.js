@@ -15,14 +15,14 @@
         items: '=',
         val: '='
       },
-      link: function ($scope, $el) {
+      link: function ($scope) {
         var eventReferences = [];
         $scope.options = [];
         for (var i = 0; i < $scope.items.length; i++) {
           $scope.options.push({
             key: $scope.items[i].key,
             title: $scope.items[i].title,
-            selected: false
+            selected: $scope.val.indexOf($scope.items[i].key) > -1
           });
         }
 
@@ -31,6 +31,13 @@
           if (index > -1) {
             $scope.options[index].selected = !$scope.options[index].selected;
           }
+          var val = [];
+          for (var i = 0; i < $scope.options.length; i++) {
+            if ($scope.options[i].selected) {
+              val.push($scope.options[i].key);
+            }
+          }
+          $scope.val = val;
         };
 
         $scope.isInSelected = function (list, key) {
