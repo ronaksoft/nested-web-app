@@ -72,14 +72,15 @@
       </div>
       <div iscroll class="iscroll-wrapper" iscroll-instance="scrollInstance">
         <div class="side-tasks-filter-list iscroll-scroller">
-            <a class="side-menu-item" ui-sref="app.task.custom_filter({id: filter.id})" ui-sref-active="isSelected" ng-repeat="filter in sidebarCtrl.customFilters">
+            <a class="side-menu-item" ui-sref="app.task.custom_filter({id: filter.id})" ui-sref-active="isSelected" ng-repeat="filter in sidebarCtrl.customFilters"
+            data-uib-tooltip="{{filter.name}}" data-tooltip-enable="{{forceTooltip ? true : false}}" data-tooltip-placement="right auto" data-tooltip-append-to-body="true">
               <span class="item-icon" active-group="message">
                 <svg class="_16svg">
                   <use xlink:href="/assets/icons/nst-icn16.svg#filter"></use>
                 </svg>
               </span>
-              <div class="item-desc">
-                <span>{{filter.name}}</span>
+              <div class="item-desc _txe">
+                <span class="_txe" data-ellipsis auto-dir="filter.name">{{filter.name}}</span>
               </div>
             </a>
             <a class="side-menu-item create-filter" ng-click="sidebarCtrl.openCustomFilterModal()">

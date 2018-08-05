@@ -95,6 +95,16 @@
         fullscreen : true
       }
     })
+    .state('app.settings.email',{
+      url: '/email',
+      templateUrl: 'app/settings/email/email.html',
+      controller: 'EmailSetupController',
+      controllerAs: 'ctrl',
+      options : {
+        group : 'settings',
+        fullscreen : true
+      }
+    })
     .state('app.settings.general',{
       url: '/general',
       templateUrl: 'app/settings/general/general-settings.html',

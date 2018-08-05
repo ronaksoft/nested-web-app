@@ -1,0 +1,62 @@
+<div class="profile-section">
+  <svg class="_16svg _fn">
+    <use xlink:href="/assets/icons/nst-icn16.svg#gear"></use>
+  </svg>
+  <translate>Email configuration</translate>
+</div>
+<form class="inner-panel email-config" ng-submit="ctrl.change(emailForm.$valid);" name="emailForm" novalidate>
+  <div class="form-group _difh _fw">
+    <div class="_df _fw srchp _aic">
+      <label><translate>Active:</translate></label>
+    </div>
+    <div class="place-switch _fn">
+      <input type="checkbox" name="status" id="status" data-ng-model="ctrl.model.status">
+      <label for="status">
+          <b><translate>Yes</translate></b>
+          <div class="circle" switch-drag="ctrl.model.status"></div>
+        </label>
+      <label for="status">
+          <b><translate>No</translate></b>
+        </label>
+    </div>
+  </div>
+  <div class="form-group _df _aic" ng-class="{ 'has-error' : emailForm.host.$invalid && ctrl.submitted}">
+    <div class="_df _fw srchp _aic">
+        <label for="service"><translate>Service</translate></label>        
+      </div>
+    <div class="_fw _df"></div>
+    <select name="service" id="service" ng-model="ctrl.service">
+      <option value="Gmail">Gmail</option>
+      <option value="Yahoo">Yahoo</option>
+      <option value="other">Other</option>
+    </select>
+  </div>
+  <div class="form-group" ng-class="{ 'has-error' : emailForm.host.$invalid && ctrl.submitted}" ng-if="ctrl.service === 'other'">
+    <label for="host" ng-if="emailForm.host.$valid || !ctrl.submitted"><translate>Host</translate></label>
+    <label class="error-message" ng-if="emailForm.host.$error.required && ctrl.submitted"><translate>Host</translate></label>
+    <input type="text" id="host" class="form-control" name="host" data-ng-model="ctrl.model.host" translate-attrs="placeholder" required/>
+  </div>
+  <div class="form-group" ng-class="{ 'has-error' : emailForm.port.$invalid && ctrl.submitted}" ng-if="ctrl.service === 'other'">
+    <label for="port" ng-if="emailForm.port.$valid || !ctrl.submitted"><translate>Port</translate></label>
+    <label class="error-message" ng-if="emailForm.port.$error.required && ctrl.submitted"><translate>Port</translate></label>
+    <label class="error-message" ng-if="!emailForm.port.$error.required && emailForm.port.$error.minlength && !emailForm.port.$pristine && ctrl.submitted"><translate>Port</translate></label>
+    <label class="error-message" ng-if="!emailForm.port.$error.required && emailForm.port.$error.maxlength && !emailForm.port.$pristine && ctrl.submitted"><translate>Port</translate></label>
+    <input id="port" type="text" class="form-control" name="port" data-ng-model="ctrl.model.port" translate-attrs="placeholder" required/>
+  </div>
+  <div class="form-group" ng-class="{ 'has-error' : emailForm.username.$invalid && ctrl.submitted}">
+    <label for="username" ng-if="emailForm.username.$valid || !ctrl.submitted"><translate>Username</translate></label>
+    <label class="error-message" ng-if="emailForm.username.$error.required && ctrl.submitted"><translate>Username</translate></label>
+    <label class="error-message" ng-if="emailForm.username.$error.matchTo && !emailForm.username.$pristine && ctrl.submitted && !emailForm.username.$error.required"><translate>Username</translate></label>
+    <input id="username" type="text" class="form-control" name="username" data-ng-model="ctrl.model.username" required translate-attrs="placeholder"/>
+  </div>
+  <div class="form-group" ng-class="{ 'has-error' : emailForm.password.$invalid && ctrl.submitted}">
+    <label for="password" ng-if="emailForm.password.$valid || !ctrl.submitted"><translate>Password</translate></label>
+    <label class="error-message" ng-if="emailForm.password.$error.required && ctrl.submitted"><translate>Password</translate></label>
+    <label class="error-message" ng-if="!emailForm.password.$error.required && emailForm.password.$error.minlength && !emailForm.password.$pristine && ctrl.submitted"><translate>Password</translate></label>
+    <label class="error-message" ng-if="!emailForm.password.$error.required && emailForm.password.$error.maxlength && !emailForm.password.$pristine && ctrl.submitted"><translate>Password</translate></label>
+    <input id="password" type="password" class="form-control" name="password" data-ng-model="ctrl.model.password" translate-attrs="placeholder" required />
+  </div>
+  <div>
+    <input class="butn butn-green _fw" type="submit" value="Save" translate-attrs="value"/>
+  </div>
+</form>

@@ -54,13 +54,13 @@
         var indexOfPost = _.findIndex(vm.messages, function (msg) {
           return msg.id === vm.postId;
         });
-        vm.messages.forEach(function(i,index) {
+        vm.messages.forEach(function (i, index) {
           if (index > indexOfPost) {
             i.hide = true;
           }
         })
         // vm.messages.splice(indexOfPost + 1);
-        if(indexOfPost > -1) {
+        if (indexOfPost > -1) {
           vm.messages[indexOfPost].hide = false;
           vm.extendedId = data.postId;
           pushToChainStack(data.postId);
@@ -70,11 +70,12 @@
         $scope.affixObserver++;
       }));
     })();
+
     function loadChainMessages(postId, limit, cacheHandler) {
       var max = limit + 1;
       vm.loadProgressId = true;
       return $q(function (resolve, reject) {
-        NstSvcPostFactory.getChainMessages(postId, max, function(cachedPosts) {
+        NstSvcPostFactory.getChainMessages(postId, max, function (cachedPosts) {
           if (_.size(cachedPosts) > 0 && _.isFunction(cacheHandler)) {
             cacheHandler(_.chain(cachedPosts).take(limit).sortBy('timestamp').value());
           }
@@ -105,20 +106,27 @@
 
     function load(postId) {
       vm.expandProgressId = postId;
-      return loadChainMessages(postId, defaultLimit, function(cachedPosts) {
+      return loadChainMessages(postId, defaultLimit, function (cachedPosts) {
         vm.expandProgressId = null;
         vm.extendedId = postId;
         vm.postId = postId;
         pushToChainStack(postId);
+        _.forEach(cachedPosts, function (msg) {
+          msg.key = msg.id + (!msg.body ? 'no-body' : msg.body.length);
+        });
         vm.messages = cachedPosts;
       }).then(function (posts) {
+        vm.messages = [];
         vm.expandProgressId = null;
         vm.extendedId = postId;
         vm.postId = postId;
         pushToChainStack(postId);
+        _.forEach(posts, function (msg) {
+          msg.key = msg.id + msg.body.length;
+        });
         vm.messages = posts;
       }).catch(function () {
-        toastr.error(NstSvcTranslation.get('An error occured while tying to show the post full body.'));
+        toastr.error(NstSvcTranslation.get('An error occurred while tying to show the post full body.'));
       });
     }
 
@@ -140,7 +148,7 @@
     function markPostAsRead(id) {
       vm.markAsReadProgress = true;
       NstSvcPostInteraction.markAsRead(id).then(function () {
-        var targetPost = _.find(vm.messages, { id: id });
+        var targetPost = _.find(vm.messages, {id: id});
         if (targetPost) {
           targetPost.read = true;
         }

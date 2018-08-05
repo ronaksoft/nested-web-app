@@ -92,7 +92,6 @@
       setLocationFlag();
       configureNavbar();
 
-      console.log(getCompactKey());
       vm.compactView = NstSvcCompactViewStorage.getByPlace(getCompactKey()) || false;
 
       if (vm.compactView) {
@@ -284,6 +283,28 @@
             }, 5000);
           }, 1);
         }
+      }).catch(function (error) {
+        if (error.code === NST_SRV_ERROR.ACCESS_DENIED && error.message && error.message[0] === 'password_change') {
+          return;
+        }
+        NstSvcModal.error(NstSvcTranslation.get("Error"), NstSvcTranslation.get("Either this Place doesn't exist, or you don't have the permit to enter the Place.")).finally(function () {
+          if ($state.current.name !== NST_DEFAULT.STATE) {
+            $state.go(NST_DEFAULT.STATE);
+          } else {
+            $state.reload(NST_DEFAULT.STATE);
+          }
+        });
+      });
+    }
+
+    function checkNewPostsInFeed() {
+      vm.messagesSetting.before = null;
+      return getMessages(vm.messagesSetting, function(){}).then(function (posts) {
+        var newItems = _.differenceBy(posts, vm.messages, 'id');
+  
+        // add new items; The items that do not exist in cached items, but was found in fresh posts
+        vm.messages = newItems.concat(vm.messages);
+        
       }).catch(function (error) {
         if (error.code === NST_SRV_ERROR.ACCESS_DENIED && error.message && error.message[0] === 'password_change') {
           return;
@@ -815,23 +836,21 @@
 
     function toggleCompactView(value) {
       vm.FIT = true;
-      if (value === true) {
-        vm.compactView = value;
+      var compactView = value === true || value === false ? value : !vm.compactView;
+      if (compactView === true) {
         if (vm.messages.length < 30) {
           loadMore();
         }
-      } else if (value === false) {
+      } else if (compactView === false) {
         _.forEach(vm.messages, function (msg, index) {
           if (msg && index > 7) {
             SvcCardCtrlAffix.remove(msg.id);
           }
         });
         vm.messages = vm.messages.splice(0, 8);
-        vm.compactView = value;
-      } else {
-        vm.compactView = !vm.compactView;
       }
-      NstSvcCompactViewStorage.setByPlace(getCompactKey(), value);
+      vm.compactView = compactView
+      NstSvcCompactViewStorage.setByPlace(getCompactKey(), compactView);
       getDateGroups();
       $timeout(function () {
         vm.FIT = false;
@@ -919,7 +938,7 @@
     eventReferences.push($rootScope.$on(NST_PLACE_EVENT_ACTION.POST_ADD, function (e, data) {
       // TODO : is feed ?!
       if (vm.isFeed) {
-        load();
+        checkNewPostsInFeed();
       }
       if (postMustBeShown(data.activity)) {
         // The current user is the sender

@@ -149,7 +149,7 @@
         <!--</div>-->
         <!--<div class="post-card-wire"></div>-->
       <!--</div>-->
-      <div class="_fw" ng-if="ctrl.FIT && ctrl.quickMessageAccess" style="height: 132px">
+      <div class="_fw" ng-if="ctrl.FIT && ctrl.quickMessageAccess" style="height: 84px">
       </div>
       <div class="quick-message-wrp _fw" ng-if="!ctrl.FIT && ctrl.quickMessageAccess">
         <nst-quick-message class="quick-message-inner _fw" place-id="ctrl.currentPlaceId"></nst-quick-message>
@@ -251,15 +251,6 @@
         <div id="members" ng-if="ctrl.isPlaceMessage && ctrl.currentPlaceId && !ctrl.isPersonal">
           <place-member-settings ng-if="ctrl.currentPlace" place="ctrl.currentPlace" view-mode="content-plus"></place-member-settings>
           <!-- <nst-place-teammates-sidebar grand-place="ctrl.currentPlaceId" place-id="ctrl.currentPlaceId"></nst-place-teammates-sidebar> -->
-        </div>
-        <div>
-          <div class="name">
-            <translate>Applications</translate>
-            <svg class="_16svg _df mirror" ng-click="ctrl.openApps($event)">
-              <use xlink:href="/assets/icons/nst-icn16.svg#expand"></use>
-            </svg>
-          </div>
-          <my-applications></my-applications>
         </div>
         <div id="cp1" ng-show="!ctrl.isBookmark && !ctrl.isSent && ctrl.currentPlaceId">
           <nst-recent-activity place="ctrl.currentPlaceId" place-id="ctrl.currentPlaceId" count="10" />

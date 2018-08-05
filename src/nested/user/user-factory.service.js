@@ -493,6 +493,18 @@
       }, 'untrustEmail');
     }
 
+    UserFactory.prototype.updateEmail = function (params) {
+      return this.sentinel.watch(function () {
+        return NstSvcServer.request('account/update_email', params);
+      }, 'untrustEmail');
+    }
+
+    UserFactory.prototype.removeEmail = function () {
+      return this.sentinel.watch(function () {
+        return NstSvcServer.request('account/update_email', {});
+      }, 'untrustEmail');
+    }
+
     return new UserFactory();
   }
 })();

@@ -96,7 +96,7 @@
           var index = _.findIndex(tempList, {id: id});
           if (index > -1) {
             tempList.splice(index, 1);
-            return NstSvcKeyFactory.set(NST_CUSTOM_FILTER.KEY_NAME, JSON.stringify(tempList)).then(function() {
+            return NstSvcKeyFactory.set(NST_CUSTOM_FILTER.KEY_NAME, JSON.stringify(tempList)).then(function () {
               toastr.success(NstSvcTranslation.get('Custom filter successfully deleted'));
               $rootScope.$broadcast('task-custom-filter-updated');
               $state.go('app.task.glance');
@@ -156,20 +156,20 @@
       }
     }
 
-    function mergeTask(tasks) {
-      var newItems = _.differenceBy(tasks, vm.tasks, 'id');
-      var removedItems = _.differenceBy(vm.tasks, tasks, 'id');
+    function mergeList(oldList, newList) {
+      var newItems = _.differenceBy(newList, oldList, 'id');
+      var removedItems = _.differenceBy(oldList, newList, 'id');
 
       _.forEach(removedItems, function (item) {
-        var index = _.findIndex(vm.tasks, {
+        var index = _.findIndex(oldList, {
           'id': item.id
         });
         if (index > -1) {
-          vm.tasks.splice(index, 1);
+          oldList.splice(index, 1);
         }
       });
 
-      vm.tasks.unshift.apply(vm.tasks, newItems);
+      oldList.unshift.apply(oldList, newItems);
     }
 
     function replaceTask(id) {
@@ -177,7 +177,8 @@
       NstSvcTaskFactory.get(id).then(function (task) {
         if (vm.isWatchlistPage && _.findIndex(task.watchers, {id: vm.user.id}) > -1) {
           vm.tasks.splice(index, 1);
-        } if (vm.isAssignedToMePage && task.assignee.id !== vm.user.id) {
+        }
+        if (vm.isAssignedToMePage && task.assignee.id !== vm.user.id) {
           vm.tasks.splice(index, 1);
         } else {
           vm.tasks[index] = task;
@@ -199,8 +200,9 @@
 
     function getOverdueTasks() {
       NstSvcTaskFactory.getByFilter({
-          filter: NST_TASK_STATUS.ASSIGNED_TO_ME,
-          statusFilter: NST_TASK_STATUS.OVERDUE}, function (tasks) {
+        filter: NST_TASK_STATUS.ASSIGNED_TO_ME,
+        statusFilter: NST_TASK_STATUS.OVERDUE
+      }, function (tasks) {
         vm.overDueTasks = tasks;
       }).then(function (tasks) {
         vm.overDueTasks = tasks;
@@ -210,10 +212,11 @@
     function getPendingTasks() {
       NstSvcTaskFactory.getByFilter({
         filter: NST_TASK_STATUS.CANDIDATE,
-        statusFilter: NST_TASK_STATUS.NO_ASSIGNED}, function (tasks) {
-        vm.pendingTasks = tasks;
+        statusFilter: NST_TASK_STATUS.NO_ASSIGNED
+      }, function (tasks) {
+        mergeList(vm.pendingTasks, tasks);
       }).then(function (tasks) {
-        vm.pendingTasks = tasks;
+        mergeList(vm.pendingTasks, tasks);
       });
     }
 
@@ -346,7 +349,7 @@
             break;
           case NST_CUSTOM_FILTER.CONDITION_LABEL:
             params.label_title = getNormCommaSeparated(filters[i].val);
-            params['label.logic'] = filters[i].eq === NST_CUSTOM_FILTER.LOGIC_AND? 'and': 'or';
+            params['label.logic'] = filters[i].eq === NST_CUSTOM_FILTER.LOGIC_AND ? 'and' : 'or';
             break;
           case NST_CUSTOM_FILTER.CONDITION_KEYWORD:
             params.keyword = filters[i].val;
@@ -384,7 +387,7 @@
 
     function loadTasks() {
       getTasks().then(function (tasks) {
-        mergeTask(tasks);
+        mergeList(vm.tasks, tasks);
         // vm.firstTimeLoading = false;
         vm.taskSetting.skip += vm.taskSetting.limit;
         // to full fill page at first loading
@@ -477,6 +480,7 @@
     // update with sync-t section
     var toBeUpdatedBySyncItems = [];
     var syncUpdateThrottle = _.throttle(syncUpdate, 512);
+
     function syncUpdate() {
       toBeUpdatedBySyncItems = _.uniq(toBeUpdatedBySyncItems);
       var taskItems = _.intersectionBy(_.map(toBeUpdatedBySyncItems, function (item) {
@@ -492,9 +496,18 @@
       });
       toBeUpdatedBySyncItems = [];
     }
+
     eventReferences.push($rootScope.$on(NST_TASK_EVENT_ACTION.TASK_ACTIVITY, function (event, data) {
       toBeUpdatedBySyncItems.push(data.taskId);
       syncUpdateThrottle();
+      switch (data.type) {
+        case NST_TASK_EVENT_ACTION.CREATED:
+        case NST_TASK_EVENT_ACTION.ASSIGNEE_CHANGED:
+        case NST_TASK_EVENT_ACTION.CANDIDATE_ADDED:
+        case NST_TASK_EVENT_ACTION.CANDIDATE_REMOVED:
+          getPendingTasks();
+          break;
+      }
     }));
     // end of update with sync-t section
 

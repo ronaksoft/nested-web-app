@@ -5,7 +5,7 @@
     .module('ronak.nested.web.app')
     .controller('GeneralSettingsController', GeneralSettingsController);
 
-  function GeneralSettingsController($rootScope, $scope, toastr, $uibModal, $timeout,
+  function GeneralSettingsController($rootScope, $scope, toastr, $uibModal, $timeout, NstSvcCompactViewStorage,
     NstSvcUserFactory, NstSvcAppFactory, NstSvcKeyFactory, NST_KEY, NstSvcTaskUtility, NstSvcAuth,
     NST_SRV_ERROR, NstSvcTranslation, SvcRTL, NST_CONFIG) {
     var vm = this;
@@ -18,8 +18,10 @@
     vm.save = save;
     vm.savedModel = '';
     vm.model = '';
+    vm.compactView = NstSvcCompactViewStorage.getDefault() + '';
     vm.debugMode = window.debugMode;
     vm.downloadLogs = downloadLogs;
+    vm.changeDefaultView = changeDefaultView;
 
     (function () {
 
@@ -142,6 +144,10 @@
       a.href = URL.createObjectURL(file);
       a.download = 'dlog_' + vm.user.id + '_' +  app + '_' + (new Date().getTime()) + '.txt';
       a.click();
+    }
+
+    function changeDefaultView() {
+      NstSvcCompactViewStorage.setDefault(vm.compactView == 'true');
     }
 
     $scope.$on('$destroy', function () {
