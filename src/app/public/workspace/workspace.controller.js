@@ -28,9 +28,12 @@
               var parts = host.split('.');
               if (parts.length > 2) {
                 parts = parts.reverse();
-                changeWorkspace(parts[1] + '.' + parts[0], function () {
-                  console.warn('no reachable server!');
-                });
+                var d = parts[1] + '.' + parts[0];
+                if (d !== 'nested.me') {
+                  changeWorkspace(d, function () {
+                    toastr.error(NstSvcTranslation.get('Invalid domain'));
+                  });
+                }
               }
             });
           }
