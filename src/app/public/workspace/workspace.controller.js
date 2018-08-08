@@ -24,7 +24,15 @@
         } else {
           var host = window.location.host;
           if (['nested.me', 'web.nested.me', 'webapp.nested.me'].indexOf(host) === -1) {
-            changeWorkspace(host);
+            changeWorkspace(host, function () {
+              var parts = host.split('.');
+              if (parts.length > 2) {
+                parts = parts.reverse();
+                changeWorkspace(parts[1] + '.' + parts[0], function () {
+                  console.warn('no reachable server!');
+                });
+              }
+            });
           }
         }
       }
@@ -34,11 +42,15 @@
       changeWorkspace(vm.workspace);
     }
 
-    function changeWorkspace(domain) {
+    function changeWorkspace(domain, callback) {
       NstSvcServer.setDomain(domain).then(function () {
         $state.go('public.domain-redirect', {domain: domain});
       }).catch(function () {
-        toastr.error(NstSvcTranslation.get('Invalid domain'));
+        if (typeof callback !== 'function') {
+          toastr.error(NstSvcTranslation.get('Invalid domain'));
+        } else {
+          callback();
+        }
       });
     }
 
