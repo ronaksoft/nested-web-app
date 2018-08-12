@@ -14,7 +14,6 @@
     <input ng-if="model.condition == conConst.CONDITION_DUE_TIME" type="number" ng-model="model.data.range" min="1" max="99" class="_fw" placeholder="Type Keyword" translate-attrs="placeholder"/>
     <select ng-if="model.condition == conConst.CONDITION_DUE_TIME" name="time" ng-model="model.data.unit" class="form-control condition-select" required
             ng-options="item.key as item.title for item in timeOptions"></select>
-    <select ng-if="model.condition == conConst.CONDITION_STATUS" name="status" ng-model="model.data.status" class="form-control condition-select" required
-            ng-options="item.key as item.title for item in statusOptions"></select>
+    <multiple-select ng-if="model.condition == conConst.CONDITION_STATUS" name="status" val="model.data.status" items="statusOptions"></multiple-select>
   </div>
 </div>

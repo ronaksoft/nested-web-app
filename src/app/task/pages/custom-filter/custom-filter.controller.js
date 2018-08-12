@@ -162,7 +162,7 @@
 
       switch (data.condition) {
         case NST_CUSTOM_FILTER.CONDITION_STATUS:
-          out.val = data.data.status;
+          out.val = data.data.status.join(',');
           break;
         case NST_CUSTOM_FILTER.CONDITION_ASSIGNOR:
         case NST_CUSTOM_FILTER.CONDITION_ASSIGNEE:
@@ -201,7 +201,7 @@
 
       switch (data.con) {
         case NST_CUSTOM_FILTER.CONDITION_STATUS:
-          out.data.status = data.val;
+          out.data.status = data.val.split(',');
           break;
         case NST_CUSTOM_FILTER.CONDITION_ASSIGNOR:
         case NST_CUSTOM_FILTER.CONDITION_ASSIGNEE:

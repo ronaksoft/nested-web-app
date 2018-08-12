@@ -20,7 +20,10 @@
         templateUrl: 'app/public/register/register.html'
       })
       .state('public.workspace', {
-        url: '/workspace',
+        url: '/workspace/:force',
+        params: {
+          force: 'false'
+        },
         controller: 'workspaceController',
         controllerAs: 'ctrl',
         templateUrl: 'app/public/workspace/workspace.html'

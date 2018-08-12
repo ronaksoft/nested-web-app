@@ -1,0 +1,38 @@
+multiple-select {
+  display: block;
+  width: 100%;
+  height: 34px;
+  .multiple-select-container {
+    display: flex;
+    width: 100%;
+    height: 40px;
+    font-size: 14px;
+    line-height: normal;
+    .select-item {
+      flex: 1;
+      height: 40px;
+      background: linear-gradient(to bottom, $color-white-to-black, $color-calm 100%) !important;
+      display: flex;
+      font-size: $font-size-base;
+      line-height: 40px;
+      color: $input-color;
+      background-color: $input-bg;
+      border: 1px solid opacify($input-border, 0.5);
+      border-radius: $input-border-radius;
+      align-items: center;
+      justify-content: center;
+      margin: 0 5px;
+      cursor: pointer;
+      &.selected {
+        background: $input-color !important;
+        color: $color-white-to-black;
+      }
+      &:first-of-type {
+        margin-left: 0;
+      }
+      &:last-of-type {
+        margin-right: 0;
+      }
+    }
+  }
+}

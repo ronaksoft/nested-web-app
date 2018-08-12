@@ -10,17 +10,17 @@
 
     $stateProvider.state('public.signin', {
       url: '/signin',
-      controller: 'LoginController',
-      controllerAs: 'ctlLogin',
-      templateUrl: 'app/authenticate/login/login.html'
+      controller: 'workspaceController',
+      controllerAs: 'ctrl',
+      templateUrl: 'app/public/workspace/workspace.html'
     }).state('public.signin-back', {
       url: '/signin/:back',
       params: {
         back: NST_DEFAULT.STATE_PARAM
       },
-      controller: 'LoginController',
-      controllerAs: 'ctlLogin',
-      templateUrl: 'app/authenticate/login/login.html'
+      controller: 'workspaceController',
+      controllerAs: 'ctrl',
+      templateUrl: 'app/public/workspace/workspace.html'
     })
 
   }

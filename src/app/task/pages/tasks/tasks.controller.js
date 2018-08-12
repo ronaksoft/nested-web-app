@@ -331,14 +331,16 @@
         switch (filters[i].con) {
           case NST_CUSTOM_FILTER.CONDITION_STATUS:
             statusFilter = [];
-            if (filters[i].val === NST_CUSTOM_FILTER.STATUS_OVERDUE) {
-              statusFilter.push(NST_TASK_STATUS.OVERDUE);
-            } else if (filters[i].val === NST_CUSTOM_FILTER.STATUS_HOLD) {
-              statusFilter.push(NST_TASK_STATUS.HOLD);
-            } else {
-              statusFilter.push(NST_TASK_STATUS.NO_ASSIGNED);
-              statusFilter.push(NST_TASK_STATUS.ASSIGNED);
-            }
+            filters[i].val.split(',').forEach(function(status) {
+              if (status === NST_CUSTOM_FILTER.STATUS_OVERDUE) {
+                statusFilter.push(NST_TASK_STATUS.OVERDUE);
+              } else if (status === NST_CUSTOM_FILTER.STATUS_HOLD) {
+                statusFilter.push(NST_TASK_STATUS.HOLD);
+              } else {
+                statusFilter.push(NST_TASK_STATUS.NO_ASSIGNED);
+                statusFilter.push(NST_TASK_STATUS.ASSIGNED);
+              }
+            });
             params.status_filter = statusFilter.join(',');
             break;
           case NST_CUSTOM_FILTER.CONDITION_ASSIGNOR:
