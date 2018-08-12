@@ -387,6 +387,12 @@
       </div>
 
       <div class="post-footer _difh">
+        <a class="_df _fn comments-count ng-class:{'new-comments-count': ctlPostCard.unreadCommentsCount > 0}" ng-if="ctlPostCard.post.counters.comments">
+          <span>{{ctlPostCard.post.counters.comments | localize }}</span>
+          <svg class="_16svg">
+            <use xlink:href="/assets/icons/nst-icn16.svg#comment"></use>
+          </svg>
+        </a>
         <a class="_df _fn comments-count" ng-if="ctlPostCard.post.counters.labels">
           <span>{{ctlPostCard.post.counters.labels | localize }}</span>
           <svg class="_16svg">
@@ -399,7 +405,6 @@
             <use xlink:href="/assets/icons/nst-icn16.svg#attach"></use>
           </svg>
         </a>
-
       </div>
 
       <div class="post-icons _df" ng-if="!ctlPostCard.FIT">
