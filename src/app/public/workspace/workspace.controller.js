@@ -5,7 +5,7 @@
     .module('ronak.nested.web.user')
     .controller('workspaceController', workspaceController);
 
-  function workspaceController($scope, $state, _, toastr, NstSvcTranslation, NstSvcServer) {
+  function workspaceController($scope, $state, _, toastr, NstSvcTranslation, NstSvcServer, NstSvcConfigFinder) {
 
     var NST_SERVER_DOMAIN = 'nested.server.domain';
 
@@ -22,46 +22,29 @@
         vm.loading = true;
         var domain = localStorage.getItem(NST_SERVER_DOMAIN);
         if (domain && domain.length > 3) {
-          $state.go('public.domain-redirect', {domain: domain});
+          gotoWorkspace(domain);
         } else {
           var host = window.location.host;
-          if (['nested.me', 'web.nested.me', 'webapp.nested.me'].indexOf(host) === -1) {
-            changeWorkspace(host, function () {
-              console.log(host);
-              var parts = host.split('.');
-              if (parts.length > 2) {
-                parts = parts.reverse();
-                var d = parts[1] + '.' + parts[0];
-                if (d !== 'nested.me') {
-                  console.warn(d);
-                  changeWorkspace(d, function () {
-                    toastr.error(NstSvcTranslation.get('Invalid domain'));
-                    vm.loading = false;
-                  });
-                } else {
-                  vm.loading = false;
-                }
-              }
-            });
-          }
+          NstSvcConfigFinder.getConfig(host).then(function (domainName) {
+            gotoWorkspace(domainName);
+          }).catch(function () {
+            toastr.error(NstSvcTranslation.get('Invalid domain'));
+            vm.loading = false;
+          });
         }
       }
     })();
 
     function submitForm() {
-      changeWorkspace(vm.workspace);
+      NstSvcConfigFinder.getConfig(vm.workspace).then(function (domainName) {
+        gotoWorkspace(domainName);
+      }).catch(function () {
+        toastr.error(NstSvcTranslation.get('Invalid domain'));
+      });
     }
 
-    function changeWorkspace(domain, callback) {
-      NstSvcServer.setDomain(domain).then(function () {
-        $state.go('public.domain-redirect', {domain: domain});
-      }).catch(function () {
-        if (typeof callback !== 'function') {
-          toastr.error(NstSvcTranslation.get('Invalid domain'));
-        } else {
-          callback();
-        }
-      });
+    function gotoWorkspace(domain) {
+      $state.go('public.domain-redirect', {domain: domain});
     }
 
     $scope.$on('$destroy', function () {
