@@ -13,11 +13,13 @@
     var vm = this;
     vm.progress = false;
     vm.focusCount = 1;
+    vm.loading = false;
 
     vm.submitForm = submitForm;
 
     (function () {
       if (!$state.params.force || $state.params.force !== 'true') {
+        vm.loading = true;
         var domain = localStorage.getItem(NST_SERVER_DOMAIN);
         if (domain && domain.length > 3) {
           $state.go('public.domain-redirect', {domain: domain});
@@ -25,14 +27,19 @@
           var host = window.location.host;
           if (['nested.me', 'web.nested.me', 'webapp.nested.me'].indexOf(host) === -1) {
             changeWorkspace(host, function () {
+              console.log(host);
               var parts = host.split('.');
               if (parts.length > 2) {
                 parts = parts.reverse();
                 var d = parts[1] + '.' + parts[0];
                 if (d !== 'nested.me') {
+                  console.warn(d);
                   changeWorkspace(d, function () {
                     toastr.error(NstSvcTranslation.get('Invalid domain'));
+                    vm.loading = false;
                   });
+                } else {
+                  vm.loading = false;
                 }
               }
             });
