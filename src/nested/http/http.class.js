@@ -50,7 +50,11 @@
 
       $http.get(this.route, options).success(function (data) {
         me.setStatus(NST_RES_STATUS.SUCCESS);
-        deferred.resolve(data.data);
+        if (data.status !== 'err') {
+          deferred.resolve(data.data);
+        } else {
+          deferred.reject();
+        }
       }).error(function (error) {
         me.setStatus(NST_RES_STATUS.FAILURE);
         deferred.reject(error);
