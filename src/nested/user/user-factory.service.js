@@ -351,6 +351,15 @@
       user.privacy = data.privacy;
       user.authority = this.parseUserAuthority(data.authority);
 
+      if (data.mail) {
+        user.mail = {
+          host: data.mail.outgoing_smtp_host,
+          port: data.mail.outgoing_smtp_port,
+          username: data.mail.outgoing_smtp_user,
+          status: data.mail.active,
+        };
+      }
+
       if (_.isObject(data.counters)) {
         user.totalNotificationsCount = data.counters.total_mentions;
         user.unreadNotificationsCount = data.counters.unread_mentions;
