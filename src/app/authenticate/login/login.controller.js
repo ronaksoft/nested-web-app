@@ -50,14 +50,17 @@
     vm.progress = false;
     vm.activeRegister = false;
     vm.companyConstant = null;
+    vm.loading = false;
 
     // Workspace initialization
     var mandatoryDomain = '';
     if ($stateParams.hasOwnProperty('domain')) {
+      vm.loading = true;
       NstSvcServer.setDomain($stateParams.domain).then(function () {
         setNestedInfo();
       }).catch(function () {
         toastr.error(NstSvcTranslation.get('Invalid domain'));
+        vm.loading = false;
       });
     }
 
@@ -76,8 +79,14 @@
             logo: data.data.company_logo
           };
           $rootScope.$broadcast('company-constants-loaded');
+          vm.loading = false;
         }
+      }).catch(function () {
+        vm.loading = false;
       });
+      $timeout(function () {
+        vm.loading = false;
+      }, 3000);
     }
 
     /*****************************
