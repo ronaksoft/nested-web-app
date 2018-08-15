@@ -6,32 +6,47 @@
     .controller('EmailSetupController', EmailSetupController);
 
   function EmailSetupController($rootScope, $scope, toastr, $uibModal, $timeout,
-    NstSvcUserFactory, NstSvcTaskUtility, NstSvcAuth,
+    NstSvcUserFactory, NstSvcTaskUtility, NstSvcAuth, NstSvcTranslation,
     NST_SRV_ERROR, NST_CONFIG) {
     var vm = this;
     var eventReferences = [];
     vm.user = undefined;
     NstSvcTaskUtility.getValidUser(vm, NstSvcAuth);
     vm.change = change;
+    vm.remove = remove;
     vm.service = 'Gmail';
-
-    vm.model = {
-      host: '',
-      port: 25,
-      username: '',
-      password: '',
-      status: true,
-    };
+    vm.isSaved = false;
+    vm.isLoading = false;
+    resetModel();
+    function resetModel() {
+      vm.model = {
+        host: '',
+        port: 25,
+        username: '',
+        password: '',
+        status: true,
+      };
+    }
 
     (function () {
       // NstSvcUserFactory.removeEmail()
-      console.log(1);
       NstSvcUserFactory.getCurrent().then(function (user) {
         if (user.mail) {
           setUserInModel(user.mail);
+          vm.isSaved = user.mail.host.length > 0;
         }
       });
     })();
+
+    function remove() {
+      NstSvcUserFactory.removeEmail().then(function () {
+        toastr.success(NstSvcTranslation.get('Successfully removed.'));
+        vm.isSaved = false;
+        resetModel();
+      }).catch(function(e) {
+        toastr.error(NstSvcTranslation.get('Sorry, An error has occured due to remove email.'));
+      })
+    }
 
     function setUserInModel(mail) {
       var username = '';
@@ -56,7 +71,7 @@
 
     function change(isValid) {
       // Sets submitted to true to make the enable form validation on any field change
-      vm.submitted = true;
+      vm.isLoading = true;
       if (vm.model.username.indexOf('@') === -1) {
         if (vm.service === 'Gmail') {
           vm.model.username += '@gmail.com'
@@ -67,7 +82,14 @@
       }
 
       if (isValid) {
-        NstSvcUserFactory.updateEmail(vm.model).then(console.log).catch(console.log)
+        NstSvcUserFactory.updateEmail(vm.model).then(function () {
+          vm.isSaved = true;
+          toastr.success(NstSvcTranslation.get('Saved successfully'));
+          vm.isLoading = false;
+        }).catch(function(e) {
+          toastr.error(NstSvcTranslation.get('Sorry, An error has occured.'))
+          vm.isLoading = false;
+        })
       }
     }
 
