@@ -16,6 +16,7 @@
     var NST_SERVER_DOMAIN = 'nested.server.domain';
 
     var server;
+
     function Server(url, configs) {
       this.defaultConfigs = {
         streamTimeout: 500000,
@@ -302,12 +303,12 @@
                 }, 500);
               }
             }).catch(function () {
-              server.init(server.defaultConfigs.WEBSOCKET_URL);
-              server.domain = domainName;
-              setTimeout(function () {
-                localStorage.setItem(NST_SERVER_DOMAIN, domain ? domain : NST_CONFIG.DOMAIN);
-                deferred.resolve();
-              }, 500);
+            server.init(server.defaultConfigs.WEBSOCKET_URL);
+            server.domain = domainName;
+            setTimeout(function () {
+              localStorage.setItem(NST_SERVER_DOMAIN, domain ? domain : NST_CONFIG.DOMAIN);
+              deferred.resolve();
+            }, 500);
           });
         });
 
@@ -345,7 +346,7 @@
       });
       return {
         websocket: cyrusWsUrl + '/api',
-        register: cyrusHttpUrl  + '/api',
+        register: cyrusHttpUrl + '/api',
         store: cyrusHttpUrl + '/file', //xerxesUrl,
         admin: adminUrl
       }
@@ -579,6 +580,10 @@
 
     function loadConfigFromRemote(domainName, planB) {
       NST_CONFIG.DOMAIN = domainName;
+      if (window.__CONFIG_CACHE__ && window.__CONFIG_CACHE__.hasOwnProperty(domainName)) {
+        return $q.resolve(window.__CONFIG_CACHE__[domainName]);
+      }
+      var deferred = $q.defer();
       var ajax;
       if (planB) {
         ajax = new NstHttp(location.protocol + "//" + location.host + '/getConfig/' + domainName);
@@ -586,7 +591,16 @@
         ajax = new NstHttp('https://npc.nested.me/dns/discover/' + domainName);
       }
       // var ajax = new NstHttp('https://npc.nested.me/dns/discover/nested.me');
-      return ajax.get();
+      ajax.get().then(function (data) {
+        deferred.resolve(data);
+        if (window.__CONFIG_CACHE__ === undefined) {
+          window.__CONFIG_CACHE__ = {};
+        }
+        window.__CONFIG_CACHE__[domainName] = data;
+      }).catch(function (err) {
+        deferred.reject(err);
+      });
+      return deferred.promise;
     }
 
     function setConfig(config, domain) {
@@ -598,7 +612,7 @@
 
       // Set default config
       server.defaultConfigs.WEBSOCKET_URL = NST_CONFIG.WEBSOCKET.URL;
-      server.defaultConfigs.STORE_URL = NST_CONFIG.STORE.URL ;
+      server.defaultConfigs.STORE_URL = NST_CONFIG.STORE.URL;
       server.defaultConfigs.REGISTER_URL = NST_CONFIG.REGISTER.AJAX.URL;
       server.defaultConfigs.DOMAIN = NST_CONFIG.DOMAIN;
 
