@@ -5,7 +5,7 @@
     .module('ronak.nested.web.user')
     .controller('workspaceController', workspaceController);
 
-  function workspaceController($scope, $state, _, toastr, NstSvcTranslation, NstSvcServer, NstSvcConfigFinder) {
+  function workspaceController($scope, $state, _, toastr, $timeout, NstSvcTranslation, NstSvcServer, NstSvcConfigFinder) {
 
     var NST_SERVER_DOMAIN = 'nested.server.domain';
 
@@ -35,6 +35,10 @@
       }
     })();
 
+    $timeout(function () {
+      vm.loading = false;
+    }, 3000);
+
     function submitForm() {
       NstSvcConfigFinder.getConfig(vm.workspace).then(function (domainName) {
         gotoWorkspace(domainName);
@@ -45,6 +49,7 @@
 
     function gotoWorkspace(domain) {
       $state.go('public.domain-redirect', {domain: domain});
+      vm.loading = false;
     }
 
     $scope.$on('$destroy', function () {
