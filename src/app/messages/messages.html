@@ -188,7 +188,7 @@
 
     <!-- load more button
       ==============-->
-    <div class="text-center nst-margin-24" ng-if="ctrl.tryAgainToLoadMore">
+    <div class="text-center nst-margin-24" ng-if="!ctrl.reachedTheEnd || ctrl.tryAgainToLoadMore">
       <a href="javascript:void(0);" class="nst-mood-cheerful" data-ng-click="ctrl.loadMore()">
         <translate>Load more...</translate>
       </a>

@@ -29,7 +29,6 @@
     }
 
     (function () {
-      // NstSvcUserFactory.removeEmail()
       NstSvcUserFactory.getCurrent().then(function (user) {
         if (user.mail) {
           setUserInModel(user.mail);
