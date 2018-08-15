@@ -16,7 +16,7 @@
 
     function getConfig(host) {
       var deferred = $q.defer();
-      if (['nested.me', 'web.nested.me', 'webapp.nested.me'].indexOf(host) === -1) {
+      // if (['nested.me', 'web.nested.me', 'webapp.nested.me'].indexOf(host) === -1) {
         NstSvcServer.setDomain(host).then(function () {
           deferred.resolve(host);
         }).catch(function () {
@@ -41,7 +41,9 @@
             deferred.reject();
           }
         });
-      }
+      // } else {
+      //   deferred.reject();
+      // }
       return deferred.promise;
     }
 
