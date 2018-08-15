@@ -65,10 +65,11 @@
         port: mail.port,
         username: username,
         status: mail.status,
+        password: '',
       }
     }
 
-    function change(isValid) {
+    function change() {
       // Sets submitted to true to make the enable form validation on any field change
       vm.isLoading = true;
       if (vm.model.username.indexOf('@') === -1) {
@@ -79,17 +80,14 @@
           vm.model.username += '@yahoo.com'
         }
       }
-
-      if (isValid) {
-        NstSvcUserFactory.updateEmail(vm.model).then(function () {
-          vm.isSaved = true;
-          toastr.success(NstSvcTranslation.get('Saved successfully'));
-          vm.isLoading = false;
-        }).catch(function(e) {
-          toastr.error(NstSvcTranslation.get('Sorry, An error has occured.'))
-          vm.isLoading = false;
-        })
-      }
+      NstSvcUserFactory.updateEmail(vm.model).then(function () {
+        vm.isSaved = true;
+        toastr.success(NstSvcTranslation.get('Saved successfully'));
+        vm.isLoading = false;
+      }).catch(function(e) {
+        toastr.error(NstSvcTranslation.get('Sorry, An error has occured.'))
+        vm.isLoading = false;
+      })
     }
 
     $scope.$on('$destroy', function () {
