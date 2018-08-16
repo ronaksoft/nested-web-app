@@ -57,7 +57,7 @@
     <input id="password" autocomplete="new-password" type="password" class="form-control" name="password-mail" data-ng-model="ctrl.model.password" translate-attrs="placeholder" required />
   </div>
   <div>
-    <input class="butn butn-green _fw" type="submit" value="Save" translate-attrs="value" ng-disabled="ctrl.isLoading"/>
+    <input class="butn butn-green _fw" type="submit" value="Save" translate-attrs="value" ng-disabled="ctrl.isLoading || ctrl.pristine"/>
     <button class="butn butn-red _fw" type="button" translate-attrs="value" ng-click="ctrl.remove()" ng-if="ctrl.isSaved">
       <translate>remove</translate>
     </button>
