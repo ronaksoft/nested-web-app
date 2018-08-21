@@ -47,16 +47,19 @@
     <label for="username" ng-if="emailForm.username.$valid || !ctrl.submitted"><translate>Username</translate></label>
     <label class="error-message" ng-if="emailForm.username.$error.required && ctrl.submitted"><translate>Username</translate></label>
     <label class="error-message" ng-if="emailForm.username.$error.matchTo && !emailForm.username.$pristine && ctrl.submitted && !emailForm.username.$error.required"><translate>Username</translate></label>
-    <input id="username" type="text" class="form-control" name="username" data-ng-model="ctrl.model.username" required translate-attrs="placeholder"/>
+    <input id="username" autocomplete="new-user" type="text" class="form-control" name="username-mail" data-ng-model="ctrl.model.username" required translate-attrs="placeholder"/>
   </div>
   <div class="form-group" ng-class="{ 'has-error' : emailForm.password.$invalid && ctrl.submitted}">
     <label for="password" ng-if="emailForm.password.$valid || !ctrl.submitted"><translate>Password</translate></label>
     <label class="error-message" ng-if="emailForm.password.$error.required && ctrl.submitted"><translate>Password</translate></label>
     <label class="error-message" ng-if="!emailForm.password.$error.required && emailForm.password.$error.minlength && !emailForm.password.$pristine && ctrl.submitted"><translate>Password</translate></label>
     <label class="error-message" ng-if="!emailForm.password.$error.required && emailForm.password.$error.maxlength && !emailForm.password.$pristine && ctrl.submitted"><translate>Password</translate></label>
-    <input id="password" type="password" class="form-control" name="password" data-ng-model="ctrl.model.password" translate-attrs="placeholder" required />
+    <input id="password" autocomplete="new-password" type="password" class="form-control" name="password-mail" data-ng-model="ctrl.model.password" translate-attrs="placeholder" required />
   </div>
   <div>
-    <input class="butn butn-green _fw" type="submit" value="Save" translate-attrs="value"/>
+    <input class="butn butn-green _fw" type="submit" value="Save" translate-attrs="value" ng-disabled="ctrl.isLoading"/>
+    <button class="butn butn-red _fw" type="button" translate-attrs="value" ng-click="ctrl.remove()" ng-if="ctrl.isSaved">
+      <translate>remove</translate>
+    </button>
   </div>
 </form>

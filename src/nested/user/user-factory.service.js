@@ -510,7 +510,7 @@
 
     UserFactory.prototype.removeEmail = function () {
       return this.sentinel.watch(function () {
-        return NstSvcServer.request('account/update_email', {});
+        return NstSvcServer.request('account/remove_email', {});
       }, 'untrustEmail');
     }
 
