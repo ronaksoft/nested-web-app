@@ -71,7 +71,7 @@ nst-attachments-preview-bar {
       align-items: center;
       transition: opacity $animation-dur;
       &:hover {
-        background-color: $color-solid;
+        background-color: $color-solid-irreversible;
       }
       svg {
         fill: $color-white;
