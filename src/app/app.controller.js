@@ -6,8 +6,8 @@
     .controller('AppController', AppController);
 
   /** @ngInject */
-  function AppController($scope, $window, $rootScope, $state, $stateParams, $interval, toastr, $location, moment,
-                         deviceDetector, NstSvcInteractionTracker, $uibModal, NstSvcTranslation, NstUtility, NstViewService,
+  function AppController($scope, $window, $rootScope, $state, $stateParams, $interval, toastr, $location, moment, $timeout,
+                         deviceDetector, $uibModal, NstSvcTranslation, NstUtility, NstThemeService, NstSvcNotification,
                          NST_DEFAULT, NST_AUTH_EVENT, NST_SRV_EVENT, NST_NOTIFICATION_EVENT, NST_CONFIG, NstSvcSystem,
                          NstSvcServer, NstSvcAuth, NstSvcLogger, NstSvcI18n, _, NstSvcNotificationFactory, $) {
     var vm = this;
@@ -15,11 +15,8 @@
 
     var lastCounterUpdate = 0;
 
-    vm.showLoadingScreen = true;
-    vm.viewSettings = {
-      sidebar: {collapsed: true},
-      navbar: {collapsed: false}
-    };
+    NstSvcNotification.requestPermission();
+
     // NstSvcSystem.getLicense().then(function(license){
     //   vm.leftDays = moment.duration(moment(license.expire_date).diff(moment(new Date()))).asDays().toFixed();
     //   if (vm.leftDays < 7 && vm.leftDays > 0) {
@@ -30,7 +27,8 @@
     //     });
     //   }
     // });
-    NstViewService.applyTheme();
+    NstThemeService.applyTheme();
+    // $rootScope.$emit('login-loaded');
 
     if (localStorage.getItem('nested.debug_mode') === 'true') {
       window.debugMode = true;
@@ -39,8 +37,6 @@
       localStorage.removeItem('nested.debug_mode_log');
     }
 
-    $rootScope.navView = false;
-    $rootScope._direction = NstSvcI18n.getLocale()._direction || "ltr";
     $rootScope.deviceDetector = deviceDetector;
     if (deviceDetector.os_version === 'windows-xp'
       || deviceDetector.os_version === 'windows-7'
@@ -54,7 +50,6 @@
       style.innerHTML = '._100vw { width: 100%;!important; }';
       document.getElementsByTagName('head')[0].appendChild(style);
     }
-    $rootScope._track = trackBehaviour;
     $rootScope.goToLastState = function (disableNotify, defaultState) {
       var previous = defaultState || restoreLastState();
 
@@ -83,9 +78,6 @@
       vm.disconnected = false;
     });
 
-    eventReferences.push($rootScope.$on('login-loaded', function () {
-      vm.showLoadingScreen = false;
-    }));
     NstSvcServer.addEventListener(NST_SRV_EVENT.UNINITIALIZE, function () {
       vm.disconnected = true;
     });
@@ -114,10 +106,6 @@
           break;
       }
       // NstSvcNotificationFactory.markAsSeen(data.notificationId)
-    }));
-
-    eventReferences.push($scope.$on('show-loading', function () {
-      vm.showLoadingScreen = true;
     }));
 
     eventReferences.push($rootScope.$on(NST_AUTH_EVENT.CHANGE_PASSWORD, function () {
@@ -195,11 +183,7 @@
         params: {}
       };
     }
-
-    function trackBehaviour(category, behaviour, value) {
-      NstSvcInteractionTracker.trackEvent(category, behaviour, value);
-    }
-
+    
     function viewPost(postId) {
       $state.go('app.message', {postId: postId}, {notify: false});
     }

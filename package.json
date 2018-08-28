@@ -3,7 +3,6 @@
   "version": "3.1.0-beta",
   "dependencies": {
     "node-sass": "^4.0.0",
-    "protractor-cucumber-framework": "^0.6.0",
     "svg4everybody": "^2.1.9"
   },
   "scripts": {

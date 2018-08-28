@@ -1,5 +1,5 @@
-<form name="phoneVerifyForm" ng-submit="ctrl.verify(phoneVerifyForm.$valid);ga('send', 'event', { eventCategory: 'register', eventAction: 'verify-phone', eventLabel: 'verify'});" novalidate class="use-ng-animate register-step">
-  <p class="text-center nst-font-medium nst-marginbtm-24">
+<form name="phoneVerifyForm" ng-submit="ctrl.verify(phoneVerifyForm.$valid)" novalidate class="use-ng-animate register-step">
+<p class="text-center nst-font-medium nst-marginbtm-24">
     <translate>We've sent a verification code via SMS to</translate><br>
     <b class="nst-mood-cheerful text-center nst-font-medium" dir="ltr">
       +{{ctrl.countryCode}}{{ctrl.phone}}

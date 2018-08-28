@@ -16,7 +16,7 @@
 
         angular.element($window).bind("scroll", function () {
           var scrollTop = this.pageYOffset;
-          var scrollHeight = $('body').height();
+          var scrollHeight = document.body.clientHeight;
           // if (scrollTop < 300) {
             // Affix block
             affixBlocks(scrollTop)
@@ -47,10 +47,8 @@
 
         function loadMoreScrollProperValue(frameHeight, scrollHeight) {
           if (scrollHeight < 25 * frameHeight) {
-            // console.log(11);
             return (scrollHeight - frameHeight) * 0.9;
           } else {
-            // console.log(222);
             return scrollHeight - 2 * frameHeight;
           }
         }

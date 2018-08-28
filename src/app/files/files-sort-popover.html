@@ -9,5 +9,5 @@
     <translate>Type</translate>
   </h6>
   <a ng-repeat="fileType in ctlFiles.fileTypes" class="list-items cursor-pointer" ng-if="!ctrl.currentPlaceId" ui-sref="app.place-files({ placeId : ctlFiles.currentPlaceId, filter : fileType.label })"
-    ui-sref-active="active" ng-click="_track('files', 'filter select')"><span class="capitalize">{{fileType.label}}</span></a>
+    ui-sref-active="active"><span class="capitalize">{{fileType.label}}</span></a>
 </div>
