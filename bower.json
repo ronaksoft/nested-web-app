@@ -11,7 +11,7 @@
     "angular-toastr": "~1.7.0",
     "angular-md5": "^0.1.10",
     "moment": "~2.13.0",
-    "moment-jalaali": "^0.6.1",\
+    "moment-jalaali": "^0.6.1",
     "ui-select": "angular-ui-select#^0.16.1",
     "initial.js": "https://github.com/pouyanh/initial.js.git#v0.5.0",
     "lodash": "^4.13.1",
@@ -19,6 +19,7 @@
     "angular-hotkeys": "chieffancypants/angular-hotkeys#^1.7.0",
     "ng-img-crop": "ngImgCrop#^0.3.2",
     "At.js": "jquery.atwho#^1.5.1",
+    "svg4everybody": "^2.1.4",
     "selectonic": "^0.6.3",
     "libphonenumber": "^0.9.4",
     "ng-device-detector": "^3.0.1",

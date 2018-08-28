@@ -84,12 +84,13 @@
         <form accept-charset="UTF-8" name="loginForm" data-ng-submit="submitted = true; ctlLogin.auth(loginForm.$valid)" novalidate>
           <fieldset>
             <div class="form-group" ng-class="{ 'has-error' : (loginForm.username.$error.required || ctlLogin.message.class.length > 0) && submitted}">
-              <input type="text" class="form-control" placeholder="Username" name="username" auto-dir="ctlLogin.username"
+              <input type="text" class="form-control" placeholder="Username" name="username" auto-dir="ctlLogin.username" autocomplete="username"
                      data-ng-model="ctlLogin.username" translate-attrs="placeholder" required/>
             </div>
 
             <div class="form-group has-feedback" ng-class="{ 'has-error' : (loginForm.username.$error.required || ctlLogin.message.class.length > 0) && submitted }" data-ng-model="show">
-              <input class="form-control _dir-ltr" data-ng-model="ctlLogin.password" placeholder="Password" translate-attrs="placeholder" name="password" data-ng-init="show = true" type="{{show ? 'password' : 'text'}}" required/>
+              <input class="form-control _dir-ltr" data-ng-model="ctlLogin.password" placeholder="Password" translate-attrs="placeholder"
+                name="password" data-ng-init="show = true" type="{{show ? 'password' : 'text'}}" autocomplete="current-password" required/>
               <i class="nst-ico-eye-slash form-control-feedback {{show ? 'nst-ico-eye-slash' : 'nst-ico-eye'}}" data-ng-click="show = !show"></i>
             </div>
 
