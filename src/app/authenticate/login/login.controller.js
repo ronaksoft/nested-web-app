@@ -59,7 +59,8 @@
       NstSvcServer.setDomain($stateParams.domain).then(function () {
         setNestedInfo();
       }).catch(function () {
-        toastr.error(NstSvcTranslation.get('Invalid domain'));
+        // toastr.error(NstSvcTranslation.get('Invalid domain'));
+        $state.go('public.workspace', {force:'true'});
         vm.loading = false;
       });
     }

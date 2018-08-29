@@ -357,7 +357,7 @@
         <div class="post-body _wrb"
             ng-if="ctlPostCard.post.preview.length > 0 || ctlPostCard.post.body.length > 0 || ctlPostCard.body.length > 0"
             auto-dir="ctlPostCard.post.preview">
-          <span ng-bind-html="ctlPostCard.post.preview"></span>
+          <span ng-bind-html="ctlPostCard.post.preview | normalizeText"></span>
         </div>
       </div>
 
