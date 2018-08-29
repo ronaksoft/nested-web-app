@@ -56,7 +56,7 @@
   <translate>Untrust sender</translate>
 </a>
 <div class="line-popover" ng-if="!ctlPostCard.chainView"></div>
-<a class="_df list-items _aic _fw" ng-click="ctlPostCard.replyAll($event); ctlPostCard.markAsRead(); _track('post card', 'reply all : toolbar');"
+<a class="_df list-items _aic _fw" ng-click="ctlPostCard.replyAll($event); ctlPostCard.markAsRead()"
   ui-sref="app.compose-reply-all({ postId: ctlPostCard.post.id })">
   <div class="_aic _df">
     <svg class="_16svg mirror">
@@ -73,7 +73,7 @@
   </div>
   <span><translate>Reply to sender</translate></span>
 </a>
-<a class="_df list-items _aic _fw" ui-sref="app.compose-forward({ postId: ctlPostCard.post.id })" ng-click="ctlPostCard.forward($event); ctlPostCard.markAsRead(); _track('post card', 'forward : toolbar');">
+<a class="_df list-items _aic _fw" ui-sref="app.compose-forward({ postId: ctlPostCard.post.id })" ng-click="ctlPostCard.forward($event); ctlPostCard.markAsRead();">
   <div class="_aic _df">
     <svg class="_16svg mirror">
       <use xlink:href="/assets/icons/nst-icn16.svg#forward"></use>

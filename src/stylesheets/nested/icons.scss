@@ -117,51 +117,6 @@
   // border-radius: 5px;
   // background-color: $color-white;
 }
-[class*="ei-"] {
-  width: 16px;
-  height: 16px;
-  background-image: url('../assets/icons/eventicon.svg');
-  margin-top: 8px;
-}
-
-.ei-mail-read {
-  background-position: center center;
-  background-repeat: no-repeat;
-}
-
-.ei-mail-unread {
-  background-position: 0 0;
-  background-repeat: no-repeat;
-  margin-top: 6px;
-}
-
-.ei-member-join {
-  background-position: 0 -96px;
-  background-repeat: no-repeat;
-}
-
-.ei-member-leave {
-  background-position: center -80px;
-  background-repeat: no-repeat;
-}
-
-.ei-comment-add {
-  background-position: 0 -48px;
-  background-repeat: no-repeat;
-  margin-top: 6px;
-}
-
-.ei-invite {
-  background-position: 0 -112px;
-  background-repeat: no-repeat;
-  margin-top: 8px;
-}
-
-.ei-member-invite {
-  background-position: 0 -64px;
-  background-repeat: no-repeat;
-  margin-top: 8px;
-}
 .nst-ico-eye, .nst-ico-eye-slash {
   background: url("../assets/icons/inputform.svg") no-repeat;
   height: 32px;

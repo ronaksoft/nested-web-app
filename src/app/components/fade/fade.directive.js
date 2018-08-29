@@ -52,7 +52,7 @@
             } else {
               $timeout(function() {
                 if (type == 'fade') {
-                  value ? jqElm.fadeIn(duration, callback) : jqElm.fadeOut(duration, callback);
+                  value ? jqElm.fadeIn(duration, callback) : hideLoading();
                 } else if (type == 'slide') {
                   value ? jqElm.slideDown(duration, callback) : jqElm.slideUp(duration, callback);
                 } else {
@@ -61,7 +61,13 @@
               }, delay);
             }
           }));
-
+          function hideLoading() {
+            jqElm.addClass('disappear-loading');
+            window.veryInitialLoading = Date.now();
+            $timeout(function() {
+              jqElm.fadeOut(duration, callback);
+            }, 1800);
+          }
           scope.$on('$destroy', function () {
             _.forEach(eventReferences, function (canceler) {
               if (_.isFunction(canceler)) {

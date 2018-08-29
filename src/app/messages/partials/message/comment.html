@@ -1,18 +1,15 @@
 <div class="_df _fw comments-load"
      ng-if="ctrl.canShowOlderComments() || ctrl.commentBoardNeedsRolling() || ctrl.showRemoved">
-  <a href="javascript:void(0);" ng-click="ctrl.limitCommentBoard(); _track('post card', 'roll up comments');">
+  <a href="javascript:void(0);" ng-click="ctrl.limitCommentBoard()">
     <svg class="_16svg ng-class:{'_r-180' : ctrl.canShowOlderComments()}">
       <use xlink:href="/assets/icons/nst-icn16.svg#arrow"></use>
     </svg>
   </a>
   <a ng-if="ctrl.canShowOlderComments()" href="javascript:void(0);"
-     ng-click="ctrl.showOlderComments(); _track('post card', 'show older comments');">
+     ng-click="ctrl.showOlderComments()">
     <translate>Show more comments...</translate>
   </a>
-  <!-- TODO: Fix Show removed comments and Hide removed comments buttons position -->
   &nbsp;
-  <!--<a ng-if="ctrl.hasAnyRemoved && !ctrl.showRemoved" href="javascript:void(0);" ng-click="ctrl.showRemoved = true; _track('post card', 'show removed comments');">Show removed comments</a>-->
-  <!--<a ng-if="ctrl.hasAnyRemoved && ctrl.showRemoved" href="javascript:void(0);" ng-click="ctrl.showRemoved = false; _track('post card', 'hide removed comments');">Hide removed comments</a>-->
 </div>
 <div class="comments-container">
   <div ng-repeat="comment in ctrl.comments | limitTo : ctrl.commentBoardLimit * -1  | orderBy:'timestamp'"
@@ -28,7 +25,7 @@
       </script>
       <div class="delete-comment" data-ng-if="ctrl.allowToRemoveComment(comment) && !comment.removedById"
            ng-init="canRemove = ctrl.isInFirstDay(comment) && comment.sender.id == ctrl.user.id"
-           ng-click="ctrl.removeComment(comment);  _track('post card', 'remove comment');">
+           ng-click="ctrl.removeComment(comment)">
         <svg class="_16svg" data-tooltip-append-to-body="true"
              data-uib-tooltip-template="canRemove ? 'remove-cm-tooltip.html' : 'hide-cm-tooltip.html'"
              data-tooltip-placement="right auto">

@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function TopBarController($q, $, $scope, $timeout, $state, $stateParams, $uibModal, NstSvcAppFactory, NstSvcViewStorage,
-                            $rootScope, NST_SEARCH_QUERY_PREFIX, _, NstSvcTranslation, NstViewService, NstSvcAuth, md5,
+                            $rootScope, NST_SEARCH_QUERY_PREFIX, _, NstSvcTranslation, NstThemeService, NstSvcAuth, md5,
                             NstSvcSuggestionFactory, NstSvcLabelFactory, NstSvcI18n, NstSvcTaskUtility, $sce, toastr,
                             NstSvcUserFactory, NstSvcNotificationFactory, NST_USER_SEARCH_AREA, SvcRecorder,
                             NstSvcPlaceFactory, NstSearchQuery, NST_CONFIG, NST_USER_EVENT, NST_NOTIFICATION_EVENT) {
@@ -149,7 +149,7 @@
       //   vm.suggestion = Object.assign({}, vm.defaultSuggestion);
       // });
 
-      NstViewService.getTheme().then(function (v) {
+      NstThemeService.getTheme().then(function (v) {
         vm.nightMode = (v === 'yes');
       });
 
@@ -162,8 +162,8 @@
     eventReferences.push($scope.$watch(function () {
       return vm.nightMode;
     }, function (val) {
-      NstViewService.setTheme(val).then(function () {
-        NstViewService.applyTheme();
+      NstThemeService.setTheme(val).then(function () {
+        NstThemeService.applyTheme();
         $rootScope.$broadcast('toggle-theme', {
           dark: val
         })

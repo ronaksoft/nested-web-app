@@ -18,15 +18,6 @@
   /** @ngInject */
   /**
    * In order to change the user password, The page asks he/she the old and the new password
-   *
-   * @param {any} $scope
-   * @param {any} $log
-   * @param {any} $state
-   * @param {any} toastr
-   * @param {any} NstSvcUserFactory
-   * @param {any} NST_SRV_ERROR
-   * @param {any} NST_NAVBAR_CONTROL_TYPE
-   * @param {any} NstSvcTranslation
    */
   function ChangePasswordController(toastr,
     NstSvcUserFactory,
