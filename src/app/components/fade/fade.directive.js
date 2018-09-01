@@ -13,7 +13,7 @@
 
   angular
     .module('ronak.nested.web.components')
-    .directive('nstShowEffect', function($timeout, $) {
+    .directive('nstShowEffect', function($rootScope, $timeout, $) {
       return {
         restrict: 'A',
         scope: {},
@@ -67,6 +67,11 @@
             $timeout(function() {
               jqElm.fadeOut(duration, callback);
             }, 1800);
+          }
+          $rootScope.$on('hide-loading-fast', hideFastLoading);
+          function hideFastLoading() {
+            jqElm.addClass('disappear-loading');
+            jqElm.fadeOut(100, callback);
           }
           scope.$on('$destroy', function () {
             _.forEach(eventReferences, function (canceler) {

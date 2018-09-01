@@ -128,6 +128,10 @@
       left: 0;
     }
 
+    .disappear-loading .loading-main-logo .loading-bg {
+      background-color: transparent;
+    }
+
     .disappear-loading .logo-holder .loading-main-logo {
       animation: loadPage 2s ease-in-out forwards;
       background-color: transparent;
@@ -194,6 +198,10 @@
     [darktheme] .loading-container .bg,
     [darktheme] .break {
       background-color: #323D47;
+    }
+
+    [darktheme] .disappear-loading .loading-main-logo .loading-bg {
+      background-color: transparent;
     }
 
     [darktheme] #svg_9 {
@@ -281,7 +289,7 @@
 
 <nst-unseen-activity></nst-unseen-activity>
 <!--Initial loading part-->
-<div nst-show-effect show="{{index.showLoadingScreen}}" jq-options="{type:'fade', duration:400, delay:500}"
+<div nst-show-effect show="{{index.showLoadingScreen}}" jq-options="{type:'fade', duration:400, delay:0}"
      class="loading-container"
      ng-if="!index.removeLoadingElements">
   <div class="row bg">

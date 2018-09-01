@@ -140,6 +140,8 @@
         }
 
         $state.go('public.signin-back', {back: $window.encodeURIComponent($state.href(state.name, stateParams))});
+      } else {
+        $rootScope.$broadcast('hide-loading-fast');
       }
     }
 
