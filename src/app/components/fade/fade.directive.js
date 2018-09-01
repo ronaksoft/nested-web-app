@@ -63,7 +63,6 @@
           }));
           function hideLoading() {
             jqElm.addClass('disappear-loading');
-            window.veryInitialLoading = Date.now();
             $timeout(function() {
               jqElm.fadeOut(duration, callback);
             }, 1800);
