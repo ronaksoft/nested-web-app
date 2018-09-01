@@ -9,7 +9,7 @@
   function RecoverPasswordController($scope, $log, $state,
                                      toastr,
                                      NstSvcUserFactory, NstSvcAuth,
-                                     NST_SRV_ERROR, NST_NAVBAR_CONTROL_TYPE, NstSvcTranslation) {
+                                     NST_SRV_ERROR, NstSvcTranslation) {
     var vm = this;
     vm.signout = signout;
     vm.ready = true;

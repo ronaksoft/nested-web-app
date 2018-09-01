@@ -18,7 +18,7 @@
   function FilesController($stateParams, toastr, $uibModal, $state, $timeout, $q, $scope,
                            NST_PLACE_ACCESS,
                            NstSvcFileFactory, NstSvcPlaceAccess, NstSvcModal,
-                           NstSvcTranslation, NstSvcAuth, _, NstSvcInteractionTracker,
+                           NstSvcTranslation, NstSvcAuth, _,
                            NST_DEFAULT) {
     var vm = this;
     var eventReferences = [];
@@ -300,7 +300,6 @@
         return;
       }
 
-      NstSvcInteractionTracker.trackEvent('files', 'load more', vm.loadMoreCounter);
       vm.loadMoreCounter++;
       vm.filesLoadProgress = true;
       vm.loadFilesError = false;

@@ -29,7 +29,7 @@
    * @param {any} NstSvcTranslation
    */
   function LoginController($window, $state, $stateParams, md5, $location, NST_CONFIG, $sce, toastr, NstSvcServer,
-                           NST_DEFAULT, NST_SRV_ERROR, _, NstHttp, $scope, $rootScope, $timeout, NstViewService, NstSvcTaskDraft,
+                           NST_DEFAULT, NST_SRV_ERROR, _, NstHttp, $scope, $rootScope, $timeout, NstThemeService, NstSvcTaskDraft,
                            NstSvcAuth, NstSvcTranslation, NstSvcGlobalCache, NstSvcRequestCacheFactory, NstSvcPostDraft, NstSvcI18n) {
 
     var eventReferences = [];
@@ -59,7 +59,8 @@
       NstSvcServer.setDomain($stateParams.domain).then(function () {
         setNestedInfo();
       }).catch(function () {
-        toastr.error(NstSvcTranslation.get('Invalid domain'));
+        // toastr.error(NstSvcTranslation.get('Invalid domain'));
+        $state.go('public.workspace', {force:'true'});
         vm.loading = false;
       });
     }
@@ -172,7 +173,7 @@
           }
           vm.progress = false;
         });
-        NstViewService.applyTheme();
+        NstThemeService.applyTheme();
       }).catch(function (error) {
         vm.password = '';
 
@@ -195,7 +196,7 @@
      ***** Internal Methods ****
      *****************************/
     function notifyLoadedLogin() {
-      $rootScope.$emit('login-loaded');
+      $rootScope.$emit('hide-loading');
     }
     /**
      * Navigates to the return url or default state

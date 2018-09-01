@@ -4,7 +4,6 @@
   angular
     .module('ronak.nested.web.3rd', [
       'ngCookies',
-      'hmTouchEvents',
       'ui.select',
       'ngSanitize',
       'LocalStorageModule',
@@ -19,16 +18,12 @@
       'ngImgCrop',
       'ngAnimate',
       'froala',
-      'angular-google-analytics',
       'ui.sortable',
       'vjs.video',
-      'perfectScrollbar',
       'angular-iscroll',
-      'medium',
       'emojiBundle',
       'firebase',
       'phoneUtils',
-      'ngJalaaliFlatDatepicker',
-      'LZString'
+      'ngJalaaliFlatDatepicker'
     ]);
 })();

@@ -22,14 +22,14 @@
       <cite class="_txe">{{ctlFullNavbar.title}}</cite>
       <div class="navigation">
         <nav>
-          <a ng-href="{{ctlFullNavbar.getMessagesUrl()}}" ng-click="ctlFullNavbar.rollUpward('message');  _track('navbar', 'view posts');"
+          <a ng-href="{{ctlFullNavbar.getMessagesUrl()}}" ng-click="ctlFullNavbar.rollUpward('message')"
             class="nav-item-butn _df li-hover" active-group="posts">
             <svg class="icon-filter _df _16svg">
               <use xlink:href="/assets/icons/nst-icn16.svg#messages"></use>
             </svg>
             <translate>Messages</translate>
           </a>
-          <a ng-href="{{ctlFullNavbar.getFilesUrl()}}" ng-click="ctlFullNavbar.rollUpward('files');  _track('navbar', 'view files');"
+          <a ng-href="{{ctlFullNavbar.getFilesUrl()}}" ng-click="ctlFullNavbar.rollUpward('files')"
             ng-if="!ctlFullNavbar.isBookmarkMode && ctlFullNavbar.hasPlace()" class="nav-item-butn _df li-hover" active-group="file">
             <svg class="icon-filter _df _16svg">
               <use xlink:href="/assets/icons/nst-icn16.svg#file"></use>

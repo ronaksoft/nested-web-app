@@ -21,7 +21,7 @@
    * @param {any} $scope
    * @param {any} NstSvcI18n
    */
-  function SelectLanguageController($scope, $window, NstSvcI18n) {
+  function SelectLanguageController($rootScope, $window, NstSvcI18n) {
     var vm = this;
     vm.changeLocale = changeLocale;
     vm.changeCalendar = changeCalendar;
@@ -44,7 +44,7 @@
      * @param {any} locale
      */
     function changeLocale(locale) {
-      $scope.$emit('show-loading', {});
+      $rootScope.$emit('show-loading', {});
       NstSvcI18n.setLocale(locale);
       window.location.reload(true);
     }
@@ -56,7 +56,7 @@
      * @param {any} locale
      */
     function changeCalendar(calendar) {
-      $scope.$emit('show-loading', {});
+      $rootScope.$emit('show-loading', {});
       NstSvcI18n.setCalendar(calendar);
       window.location.reload(true);
     }

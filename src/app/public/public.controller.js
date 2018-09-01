@@ -6,7 +6,7 @@
     .controller('PublicController', PublicController);
 
   /** @ngInject */
-  function PublicController($scope, NstSvcI18n, NST_CONFIG) {
+  function PublicController($scope, $rootScope, NstSvcI18n, NST_CONFIG) {
     var vm = this;
     vm.currentLocale = NstSvcI18n.selectedLocale;
     vm.setLocale = setLocale;

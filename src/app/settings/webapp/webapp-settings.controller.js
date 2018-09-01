@@ -15,7 +15,7 @@
    * @param {any} NstSvcKeyFactory
    * @param {any} NST_KEY
    */
-  function webappSettingsController(_, $scope, $rootScope, toastr, NstSvcAuth, NstSvcKeyFactory, NST_KEY, NstSvcViewStorage, NstViewService) {
+  function webappSettingsController(_, $scope, $rootScope, toastr, NstSvcAuth, NstSvcKeyFactory, NST_KEY, NstSvcViewStorage, NstThemeService) {
     var vm = this;
     var eventReferences = [];
 
@@ -38,7 +38,7 @@
         }
       });
 
-      NstViewService.getTheme().then(function (v) {
+      NstThemeService.getTheme().then(function (v) {
         vm.nightMode = (v === 'yes');
       });
     })();
@@ -50,8 +50,8 @@
     eventReferences.push($scope.$watch(function(){
       return vm.nightMode;
     }, function(val){
-      NstViewService.setTheme(val).then(function () {
-        NstViewService.applyTheme();
+      NstThemeService.setTheme(val).then(function () {
+        NstThemeService.applyTheme();
       });
     }));
     /**

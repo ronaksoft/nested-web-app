@@ -274,7 +274,15 @@
           $timeout.cancel(CITHandler);
         }
         vm.FIT = false;
-        mergePosts(posts);
+        var t = window.veryInitialLoading && 2200 + window.veryInitialLoading - Date.now();
+        if (t) {
+          $timeout(function() {
+            mergePosts(posts);
+          }, t);
+          delete window.veryInitialLoading ;
+        } else {
+          mergePosts(posts);
+        }
         if ($state.current.options && $state.current.options.alias === 'savescroll') {
           $timeout(function () {
             vm.hasScrollHistory = SvcScrollSaver.hasHistory($location.$$url);
