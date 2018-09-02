@@ -15,6 +15,7 @@
     vm.change = change;
     vm.remove = remove;
     vm.service = 'Gmail';
+    vm.pristine = true;
     vm.isSaved = false;
     vm.isLoading = false;
     resetModel();
@@ -24,7 +25,7 @@
         port: 25,
         username: '',
         password: '',
-        status: true,
+        status: false,
       };
     }
 
@@ -37,6 +38,11 @@
       });
     })();
 
+    eventReferences.push($scope.$watch(function(){
+      return vm.model.host + vm.model.port + vm.model.username + vm.model.password + vm.model.status;
+    }, function(){
+      vm.pristine = false;
+    }))
     function remove() {
       NstSvcUserFactory.removeEmail().then(function () {
         toastr.success(NstSvcTranslation.get('Successfully removed.'));
@@ -67,6 +73,9 @@
         status: mail.status,
         password: '',
       }
+      $timeout(function(){
+        vm.pristine = true;
+      }, 100);
     }
 
     function change() {
