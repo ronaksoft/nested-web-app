@@ -24,6 +24,7 @@
     var eventReferences = [];
     vm.loadMoreCounter = 0;
     vm.keyword = '';
+    vm.openContacts = openContacts;
 
     vm.searchFunc = function () {
 
@@ -129,6 +130,12 @@
 
     })();
 
+    function openContacts($event) {
+      $state.go('app.contacts', {}, {
+        notify: false
+      });
+      $event.preventDefault();
+    }
     /**
      * Returns true if the place is a personal or sub-personal one
      *

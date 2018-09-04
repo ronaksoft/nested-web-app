@@ -29,6 +29,7 @@
     vm.noActivity = false;
 
     vm.loadMore = loadMore;
+    vm.openContacts = openContacts;
 
     vm.expanded = true;
 
@@ -70,6 +71,12 @@
 
     })();
 
+    function openContacts($event) {
+      $state.go('app.contacts', {}, {
+        notify: false
+      });
+      $event.preventDefault();
+    }
 
     /********************
      ** Main Functions **

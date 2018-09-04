@@ -239,22 +239,15 @@
       ==============-->
   <div class="content-plus illu">
     <div class="content-plus-inner">
-        <div ng-if="!ctrl.currentPlaceId && !ctrl.isBookmark && !ctrl.isSent">
-          <div class="name">
-            <translate>Contacts</translate>
-            <svg class="_16svg _df mirror" ng-click="ctrl.openContacts($event)">
-              <use xlink:href="/assets/icons/nst-icn16.svg#expand"></use>
-            </svg>
-          </div>
-          <fav-contacts></fav-contacts>
+      <div>
+        <div class="name">
+          <translate>Contacts</translate>
+          <svg class="_16svg _df mirror" ng-click="ctrl.openContacts($event)">
+            <use xlink:href="/assets/icons/nst-icn16.svg#expand"></use>
+          </svg>
         </div>
-        <div id="members" ng-if="ctrl.isPlaceMessage && ctrl.currentPlaceId && !ctrl.isPersonal">
-          <place-member-settings ng-if="ctrl.currentPlace" place="ctrl.currentPlace" view-mode="content-plus"></place-member-settings>
-          <!-- <nst-place-teammates-sidebar grand-place="ctrl.currentPlaceId" place-id="ctrl.currentPlaceId"></nst-place-teammates-sidebar> -->
-        </div>
-        <div id="cp1" ng-show="!ctrl.isBookmark && !ctrl.isSent && ctrl.currentPlaceId">
-          <nst-recent-activity place="ctrl.currentPlaceId" place-id="ctrl.currentPlaceId" count="10" />
-        </div>
+        <fav-contacts></fav-contacts>
+      </div>
     </div>
   </div>
 </div>

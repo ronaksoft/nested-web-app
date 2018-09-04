@@ -17,6 +17,7 @@
     vm.customFilterPopover = false;
     vm.openCustomFilterModal = openCustomFilterModal;
     vm.removeCustomFilter = removeCustomFilter;
+    vm.openContacts = openContacts;
 
     vm.tasks = [];
     vm.loading = true;
@@ -52,6 +53,13 @@
           loadTasks();
         }
       });
+    }
+
+    function openContacts($event) {
+      $state.go('app.contacts', {}, {
+        notify: false
+      });
+      $event.preventDefault();
     }
 
     function getFilterIndex() {
