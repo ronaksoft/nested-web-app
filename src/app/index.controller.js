@@ -39,6 +39,12 @@
         vm.removeLoadingElements = true;
       }, 4500);
     });
+    $rootScope.$on('hide-loading-fast', function () {
+      vm.showLoadingScreen = false;
+      $timeout(function(){
+        vm.removeLoadingElements = true;
+      }, 1000);
+    });
 
     function removeClass() {
       $('body').removeClass('drag-enter');

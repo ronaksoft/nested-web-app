@@ -85,7 +85,7 @@
           <fieldset>
             <div class="form-group" ng-class="{ 'has-error' : (loginForm.username.$error.required || ctlLogin.message.class.length > 0) && submitted}">
               <input type="text" class="form-control" placeholder="Username" name="username" auto-dir="ctlLogin.username" autocomplete="username"
-                     data-ng-model="ctlLogin.username" translate-attrs="placeholder" required/>
+                     data-ng-model="ctlLogin.username" translate-attrs="placeholder" required focus-me="1"/>
             </div>
 
             <div class="form-group has-feedback" ng-class="{ 'has-error' : (loginForm.username.$error.required || ctlLogin.message.class.length > 0) && submitted }" data-ng-model="show">

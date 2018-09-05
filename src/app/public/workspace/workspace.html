@@ -69,7 +69,7 @@
           <fieldset>
             <p>Enter your Domain to sign in.</p>
             <div class="form-group _fw" ng-class="{ 'has-error' : (loginForm.workspace.$error.required || ctrl.message.class.length > 0) && submitted}">
-              <input type="text" placeholder="" class="_fw" name="workspace" id="workspace" auto-focus
+              <input type="text" placeholder="" class="_fw" name="workspace" id="workspace" auto-focus focus-me="1  "
                       data-ng-model="ctrl.workspace" translate-attrs="placeholder" required focus-me="ctrl.focusCount" autocomplete="off"/>
             </div>
 

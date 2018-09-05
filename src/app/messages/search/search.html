@@ -35,32 +35,40 @@
   </section>
   <div class="content-plus">
 
-    <div class="content-plus-inner">
-        <div>
-          <div class="name">
-            <span class="nst-text-bold"><translate>Search Tips</translate></span>
-            <svg class="_16svg _df">
-              <use xlink:href="/assets/icons/nst-icn16.svg#star"></use>
-            </svg>
+    <div class="content-plus-inner"><div>
+      <div class="name">
+          <translate>Contacts</translate>
+          <svg class="_16svg _df mirror" ng-click="ctlSearch.openContacts($event)">
+            <use xlink:href="/assets/icons/nst-icn16.svg#expand"></use>
+          </svg>
+        </div>
+        <fav-contacts></fav-contacts>
+      </div>
+      <div>
+        <div class="name">
+          <span class="nst-text-bold"><translate>Search Tips</translate></span>
+          <svg class="_16svg _df">
+            <use xlink:href="/assets/icons/nst-icn16.svg#star"></use>
+          </svg>
+        </div>
+        <div class="_bgwhite _db nst-padding-10">
+          <div class="nst-padding-bottom-10">
+            <translate>Use some special formats to make your search more precision:</translate>
           </div>
-          <div class="_bgwhite _db nst-padding-10">
-            <div class="nst-padding-bottom-10">
-              <translate>Use some special formats to make your search more precision:</translate>
-            </div>
-            <div class="nst-padding-bottom-10">
-              <span class="search-info-chip"><translate>from:</translate></span>
-              <translate>posts form specified user</translate>
-            </div>
-            <div class="nst-padding-bottom-10">
-              <span class="search-info-chip"><translate>in:</translate></span>
-              <translate>posts inside specified place</translate>
-            </div>
-            <div>
-              <span class="search-info-chip"><translate>label:</translate></span>
-              <translate>posts with specific labels</translate>
-            </div>
+          <div class="nst-padding-bottom-10">
+            <span class="search-info-chip"><translate>from:</translate></span>
+            <translate>posts form specified user</translate>
+          </div>
+          <div class="nst-padding-bottom-10">
+            <span class="search-info-chip"><translate>in:</translate></span>
+            <translate>posts inside specified place</translate>
+          </div>
+          <div>
+            <span class="search-info-chip"><translate>label:</translate></span>
+            <translate>posts with specific labels</translate>
           </div>
         </div>
+      </div>
     </div>
   </div>
 </div>

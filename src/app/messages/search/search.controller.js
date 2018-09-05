@@ -30,6 +30,7 @@
     vm.search = search;
     vm.loadMore = loadMore;
     vm.backToPlace = backToPlace;
+    vm.openContacts = openContacts;
 
     (function () {
 
@@ -52,6 +53,13 @@
           advanced: 'false'
         }
       }
+    }
+
+    function openContacts($event) {
+      $state.go('app.contacts', {}, {
+        notify: false
+      });
+      $event.preventDefault();
     }
 
     function search(queryString) {

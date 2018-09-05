@@ -102,12 +102,15 @@
   </section>
   <div class="content-plus illu">
     <div class="content-plus-inner">
-        <div id="members" ng-if="!ctlFiles.isSubPersonal() && ctlFiles.hasSeeMembersAccess">
-          <nst-place-teammates-sidebar grand-place="ctlFiles.currentPlaceId" place-id="ctlFiles.currentPlaceId"></nst-place-teammates-sidebar>
+      <div>
+        <div class="name">
+          <translate>Contacts</translate>
+          <svg class="_16svg _df mirror" ng-click="ctlFiles.openContacts($event)">
+            <use xlink:href="/assets/icons/nst-icn16.svg#expand"></use>
+          </svg>
         </div>
-        <div id="cp1" iscroll class="iscroll-wrapper">
-          <nst-recent-activity place="ctlFiles.currentPlaceId" place-id="ctlFiles.currentPlaceId" count="16" />
-        </div>
+        <fav-contacts></fav-contacts>
+      </div>
     </div>
   </div>
 </div>
