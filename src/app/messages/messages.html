@@ -24,7 +24,7 @@
             </a> -->
             <translate ng-if="ctrl.currentPlace.counters.posts > 1 || ctrl.currentPlace.counters.posts === 0">{{ctrl.currentPlace.counters.posts | localize}} posts</translate>
           </p>
-          <p class="_df _fn" ng-if="ctrl.unreadCount > 0 && ctrl.selectedPosts.length === 0">
+          <p class="_df _fn" ng-if="ctrl.unreadCount > 0 && ctrl.selectedPosts.length === 0" ng-click="ctrl.goUnreadMode();">
             <translate ng-if="!ctrl.isUnreadMode">{{ctrl.unreadCount | localize}} Unseen</translate>
             <b ng-if="ctrl.isUnreadMode"><translate>{{ctrl.unreadCount | localize}} Unseen</translate></b>
           </p>
