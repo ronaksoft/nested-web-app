@@ -647,7 +647,7 @@
           callbackUrl: callbackUrl,
           init: {
             title: vm.post.subject,
-            description: vm.post.ellipsis,
+            description: (typeof vm.post.preview === 'string') ? vm.post.preview.replace(/<(.|\n)*?>/g, '') : '',
             labels: vm.post.labels,
             attachments: vm.post.attachments
           }
