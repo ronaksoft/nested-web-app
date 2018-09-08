@@ -365,7 +365,7 @@
             params.keyword = filters[i].val;
             break;
           case NST_CUSTOM_FILTER.CONDITION_DUE_TIME:
-            params.due_data_until = filters[i].val;
+            params.due_date = filters[i].val;
             break;
         }
       }

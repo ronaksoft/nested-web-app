@@ -77,7 +77,7 @@
       task.title = data.title;
       if (data.due_date) {
         task.dueDate = data.due_date;
-        task.hasDueTime = data.due_data_has_clock;
+        task.hasDueTime = data.due_date_has_clock;
       }
       task.description = data.description;
 
@@ -96,7 +96,7 @@
         });
 
         if (total > 0) {
-          task.progress = Math.ceil((done/total) * 100);
+          task.progress = Math.ceil((done / total) * 100);
         }
       }
 
@@ -266,7 +266,7 @@
 
       if (task.relatedTask) {
         params.related_to = task.relatedTask;
-        params.due_data_has_clock = task.hasDueTime;
+        params.due_date_has_clock = task.hasDueTime;
       }
 
       if (task.relatedPost) {
@@ -275,7 +275,7 @@
 
       return this.sentinel.watch(function () {
         return NstSvcServer.request('task/create', params).then(function (response) {
-        task.id = response.task_id;
+          task.id = response.task_id;
           return $q.resolve({task: task});
         }).catch(function (reject) {
           return $q.reject(reject);
@@ -520,7 +520,7 @@
       task.title = data.title;
       if (data.due_date) {
         task.dueDate = data.due_date;
-        task.hasDueTime = data.due_data_has_clock;
+        task.hasDueTime = data.due_date_has_clock;
       }
       task.description = data.description;
 
@@ -538,7 +538,7 @@
         });
 
         if (total > 0) {
-          task.progress = Math.ceil((done/total) * 100);
+          task.progress = Math.ceil((done / total) * 100);
         }
       }
 
@@ -669,7 +669,7 @@
       var defer = $q.defer();
       return factory.sentinel.watch(function () {
         NstSvcServer.request('search/tasks', parameters).then(function (result) {
-          defer.resolve(_.map(result.tasks, function(task) {
+          defer.resolve(_.map(result.tasks, function (task) {
             return factory.parseTask(task);
           }));
         }).catch(defer.reject);
