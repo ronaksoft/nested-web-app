@@ -15,5 +15,7 @@
     <select ng-if="model.condition == conConst.CONDITION_DUE_TIME" name="time" ng-model="model.data.unit" class="form-control condition-select" required
             ng-options="item.key as item.title for item in timeOptions"></select>
     <multiple-select ng-if="model.condition == conConst.CONDITION_STATUS" name="status" val="model.data.status" items="statusOptions"></multiple-select>
+    <input ng-if="model.condition == conConst.CONDITION_CREATED_AT" ng-model="model.data.created_at_text" data-config="datePickerconfig"
+           g-formatted-picked-date="gfdate" g-picked-date="gdate" ng-jalaali-flat-datepicker timestamp-model="model.data.created_at" class="_fw form-control" />
   </div>
 </div>

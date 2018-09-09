@@ -27,7 +27,9 @@
         keyword: '',
         unit: NST_CUSTOM_FILTER.UNIT_DAY,
         range: 1,
-        status: NST_CUSTOM_FILTER.STATUS_PROGRESS
+        status: NST_CUSTOM_FILTER.STATUS_PROGRESS,
+        created_at: 0,
+        created_at_text: ''
       }
     };
 
@@ -73,7 +75,8 @@
       NST_CUSTOM_FILTER.CONDITION_LABEL,
       NST_CUSTOM_FILTER.CONDITION_STATUS,
       NST_CUSTOM_FILTER.CONDITION_KEYWORD,
-      NST_CUSTOM_FILTER.CONDITION_DUE_TIME
+      NST_CUSTOM_FILTER.CONDITION_DUE_TIME,
+      NST_CUSTOM_FILTER.CONDITION_CREATED_AT
     ];
 
     function getNewCondition(index) {
@@ -178,6 +181,9 @@
           out.val = getDays(data.data.range, data.data.unit);
           out.tmp = data.data.range + '|' + data.data.unit;
           break;
+        case NST_CUSTOM_FILTER.CONDITION_CREATED_AT:
+          out.val = data.data.created_at;
+          break;
       }
 
       return out;
@@ -193,7 +199,9 @@
           keyword: '',
           unit: NST_CUSTOM_FILTER.UNIT_DAY,
           range: 1,
-          status: NST_CUSTOM_FILTER.STATUS_PROGRESS
+          status: NST_CUSTOM_FILTER.STATUS_PROGRESS,
+          created_at: 0,
+          created_at_text: ''
         }
       };
 
@@ -217,6 +225,9 @@
           tmp = data.tmp.split('|');
           out.data.range = parseInt(data.tmp[0]);
           out.data.unit = data.tmp[1];
+          break;
+        case NST_CUSTOM_FILTER.CONDITION_CREATED_AT:
+          out.data.created_at = data.val;
           break;
       }
 

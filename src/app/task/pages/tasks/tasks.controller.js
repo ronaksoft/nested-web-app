@@ -367,6 +367,9 @@
           case NST_CUSTOM_FILTER.CONDITION_DUE_TIME:
             params.due_date = filters[i].val;
             break;
+          case NST_CUSTOM_FILTER.CONDITION_CREATED_AT:
+            params.created_at = filters[i].val;
+            break;
         }
       }
       return params;

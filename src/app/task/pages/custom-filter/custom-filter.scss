@@ -75,11 +75,15 @@
   .col2 {
     flex: 1;
     display: flex;
-    input, select {
+    input, select, .ng-flat-datepicker-wrapper {
       display: flex;
       flex: 1;
       width: auto;
       margin-right: 8px;
+      input {
+        height: 40px;
+        line-height: 40px;
+      }
     }
     > *:last-child {
       margin-right: 0;

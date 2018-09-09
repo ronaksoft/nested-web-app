@@ -18,20 +18,24 @@
       },
       link: function ($scope, $el) {
         var eventReferences = [];
+        $scope.datePickerconfig = {
+          allowFuture: true
+        };
+
         $scope.conConst = NST_CUSTOM_FILTER;
         var eq1 = [{
-            key: NST_CUSTOM_FILTER.LOGIC_AND,
-            title: NstSvcTranslation.get('contain all of')
-          },
+          key: NST_CUSTOM_FILTER.LOGIC_AND,
+          title: NstSvcTranslation.get('contain all of')
+        },
           {
             key: NST_CUSTOM_FILTER.LOGIC_OR,
             title: NstSvcTranslation.get('contain any of')
           }
         ];
         var eq3 = [{
-            key: NST_CUSTOM_FILTER.LOGIC_IS,
-            title: NstSvcTranslation.get('is')
-          },
+          key: NST_CUSTOM_FILTER.LOGIC_IS,
+          title: NstSvcTranslation.get('is')
+        },
           {
             key: NST_CUSTOM_FILTER.LOGIC_IS_NEXT,
             title: NstSvcTranslation.get('is next')
@@ -71,9 +75,9 @@
         ];
         $scope.equivalents = eq1;
         $scope.conditions = [{
-            key: NST_CUSTOM_FILTER.CONDITION_ASSIGNEE,
-            title: NstSvcTranslation.get('Assignee')
-          },
+          key: NST_CUSTOM_FILTER.CONDITION_ASSIGNEE,
+          title: NstSvcTranslation.get('Assignee')
+        },
           {
             key: NST_CUSTOM_FILTER.CONDITION_ASSIGNOR,
             title: NstSvcTranslation.get('Assignor')
@@ -93,6 +97,10 @@
           {
             key: NST_CUSTOM_FILTER.CONDITION_DUE_TIME,
             title: NstSvcTranslation.get('Due Time')
+          },
+          {
+            key: NST_CUSTOM_FILTER.CONDITION_CREATED_AT,
+            title: NstSvcTranslation.get('Created At')
           }
         ];
 
@@ -116,6 +124,7 @@
             case NST_CUSTOM_FILTER.CONDITION_ASSIGNOR:
             case NST_CUSTOM_FILTER.CONDITION_KEYWORD:
             case NST_CUSTOM_FILTER.CONDITION_STATUS:
+            case NST_CUSTOM_FILTER.CONDITION_CREATED_AT:
             default:
               $scope.equivalents = [];
               break;
