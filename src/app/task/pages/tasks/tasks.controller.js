@@ -339,7 +339,7 @@
         switch (filters[i].con) {
           case NST_CUSTOM_FILTER.CONDITION_STATUS:
             statusFilter = [];
-            filters[i].val.split(',').forEach(function(status) {
+            filters[i].val.split(',').forEach(function (status) {
               if (status === NST_CUSTOM_FILTER.STATUS_OVERDUE) {
                 statusFilter.push(NST_TASK_STATUS.OVERDUE);
               } else if (status === NST_CUSTOM_FILTER.STATUS_HOLD) {
@@ -368,7 +368,7 @@
             params.due_date = filters[i].val;
             break;
           case NST_CUSTOM_FILTER.CONDITION_CREATED_AT:
-            params.created_at = filters[i].val;
+            params.created_at = filters[i].val * 1000;
             break;
         }
       }

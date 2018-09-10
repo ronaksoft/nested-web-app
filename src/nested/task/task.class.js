@@ -29,6 +29,7 @@
       this.relatedTask = undefined;
       this.childTasks = undefined;
       this.relatedPost = undefined;
+      this.completedOn = undefined;
     }
 
     return Task;

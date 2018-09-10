@@ -137,6 +137,8 @@
 
       task.access = factory.parseTaskAccess(data.access);
 
+      task.completedOn = data.completed_on;
+
       return task;
     }
 

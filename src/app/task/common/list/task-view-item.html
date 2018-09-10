@@ -34,7 +34,7 @@
         <translate ng-if="(!task.candidates || task.candidates.length === 0)">task have no assignee or condidate</translate>
       </p>
       <p ng-if="task.status === ctrl.statuses.COMPLETED">
-        <translate>Completed on {{task.dueDate | date : 'short' | localize}} by</translate> <b>{{task.assignee.fullName || task.assignor.fullName}}</b>
+        <translate>Completed on {{task.completedOn | date : 'short' | localize}} by</translate> <b>{{task.assignee.fullName || task.assignor.fullName}}</b>
       </p>
       <p ng-if="task.status === ctrl.statuses.FAILED">
         <translate>Task is failed.</translate> <b>{{task.assignee.fullName || task.assignor.fullName}}</b>
