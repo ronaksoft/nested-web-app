@@ -60,7 +60,7 @@
         setNestedInfo();
       }).catch(function () {
         // toastr.error(NstSvcTranslation.get('Invalid domain'));
-        $state.go('public.workspace', {force:'true'});
+        $state.go('public.workspace', {force: 'true'});
         vm.loading = false;
       });
     }
@@ -104,9 +104,9 @@
       new NstHttp('', {
         cmd: 'system/get_int_constants',
         data: {}
-      }).post().then(function(result) {
+      }).post().then(function (result) {
         vm.activeRegister = result.data.register_mode === 1;
-      }).finally(function() {
+      }).finally(function () {
         notifyLoadedLogin();
         vm.loadConstantsProgress = false;
       });
@@ -126,6 +126,7 @@
         }
       }
     }
+
     /*****************************
      ***** Controller Methods ****
      *****************************/
@@ -139,6 +140,10 @@
     vm.auth = function (isValid) {
       if (!isValid) {
         return;
+      }
+
+      if (vm.loading) {
+        return
       }
 
       vm.progress = true;
@@ -198,6 +203,7 @@
     function notifyLoadedLogin() {
       $rootScope.$emit('hide-loading');
     }
+
     /**
      * Navigates to the return url or default state
      *

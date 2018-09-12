@@ -1,5 +1,5 @@
 <div class="_fhw">
-  <div class="loading-container" ng-if="ctlLogin.loading">
+  <div class="loading-container" ng-if="false">
     <div class="row bg">
       <div class="column"></div>
     </div>
@@ -42,7 +42,7 @@
       <translate>Change Workspace</translate>
     </a>
     <div id="panel-signin" class="panel">
-      <div class="company-detail" ng-if="ctlLogin.companyConstant">
+      <div class="company-detail" ng-if="ctlLogin.companyConstant && !ctlLogin.loading">
         <div class="company-image-filter">
           <img ng-src="{{ctlLogin.companyConstant.logo}}" ng-if="ctlLogin.companyConstant.logo !== ''">
           <div class="gradient-layer"></div>
@@ -50,6 +50,15 @@
         <img ng-src="{{ctlLogin.companyConstant.logo}}" ng-if="ctlLogin.companyConstant.logo !== ''">
         <h1 ng-if="ctlLogin.companyConstant.name !== ''">{{ctlLogin.companyConstant.name}}</h1>
         <p ng-if="ctlLogin.companyConstant.desc !== ''" ng-bind-html="ctlLogin.companyConstant.desc | unsafe"></p>
+      </div>
+      <div class="company-detail" ng-if="ctlLogin.loading">
+        <div class="company-image-filter">
+          <img src="../assets/icons/Nested_Logo.svg">
+          <div class="gradient-layer"></div>
+        </div>
+        <img src="../assets/icons/Nested_Logo.svg">
+        <h1 translate-inner>Loading...</h1>
+        <p translate-inner>Changing the workspace, Please be patient</p>
       </div>
       <div class="panel-heading">
         <p class="nst-font-xxlarge _df _fw nmarg">
@@ -88,9 +97,11 @@
             </div>
 
             <div class="form-group">
-              <input ng-if="!ctlLogin.progress" class="butn butn-green butn-lg butn-login" value="Sign in" type="submit"
+              <input ng-if="!(ctlLogin.progress || ctlLogin.loading)" class="butn butn-green butn-lg butn-login"
+                     value="Sign in" type="submit"
                      translate-attrs="value"/>
-              <input ng-if="ctlLogin.progress" class="butn butn-green butn-lg butn-login" value="Wait..." type="submit"
+              <input ng-if="ctlLogin.progress || ctlLogin.loading" class="butn butn-green butn-lg butn-login"
+                     value="Wait..." type="button"
                      translate-attrs="value" disabled/>
             </div>
 

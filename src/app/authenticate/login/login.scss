@@ -17,10 +17,10 @@
     border-radius: 4px 4px 0px 0px;
     overflow: hidden;
     position: relative;
-    
+
     &.dark {
       h1, p{
-        color: $color-white;
+        color: #FFFFFF !important;
       }
     }
     >img {
@@ -38,6 +38,7 @@
       line-height: 33px;
       margin: 16px 0;
       z-index: 2;
+      color: #232629;
     }
     p {
       margin-bottom: 16px;
@@ -45,6 +46,7 @@
       z-index: 2;
       line-height: 19px;
       padding: 4px 16px;
+      color: #232629;
     }
     .company-image-filter {
       position: absolute;
