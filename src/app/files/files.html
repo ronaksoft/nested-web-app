@@ -102,6 +102,9 @@
   </section>
   <div class="content-plus illu">
     <div class="content-plus-inner">
+      <div id="members" ng-if="!ctlFiles.isSubPersonal() && ctlFiles.hasSeeMembersAccess">
+        <place-member-settings place="ctlFiles.currentPlace" view-mode="content-plus"></place-member-settings>
+      </div>
       <div>
         <div class="name">
           <translate>Contacts</translate>

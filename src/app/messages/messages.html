@@ -239,6 +239,9 @@
       ==============-->
   <div class="content-plus illu">
     <div class="content-plus-inner">
+      <div id="members" ng-if="ctrl.isPlaceMessage && ctrl.currentPlaceId && !ctrl.isPersonal">
+        <place-member-settings ng-if="ctrl.currentPlace" place="ctrl.currentPlace" view-mode="content-plus"></place-member-settings>
+      </div>
       <div>
         <div class="name">
           <translate>Contacts</translate>
