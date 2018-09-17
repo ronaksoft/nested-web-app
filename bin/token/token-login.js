@@ -310,7 +310,7 @@ var nst = {
   fillUserData: function (data) {
     nst.setText('.client-name', data.fname + ' ' + data.lname);
     nst.setText('.client-id', data._id + '@' + nst.domain);
-    document.querySelector('.client-logo img').setAttribute('src', nst.getImage(data.picture));
+    document.querySelector('.client-logo').setAttribute('src', nst.getImage(data.picture));
   },
   setText: function (elem, text) {
     var elems = document.querySelectorAll(elem);
