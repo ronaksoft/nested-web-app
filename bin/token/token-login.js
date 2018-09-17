@@ -218,12 +218,23 @@ var MD5 = function (string) {
 
 var nst = {
   domain: '_DOMAIN_',
+  selectedDomain: '',
   cyrus: '_WS_CYRUS_CYRUS_URL_CONF_',
+  xerxes: '',
   token: '',
   user: {},
   enable: true,
+  nestedConfigs: [],
+  c: {
+    sk: null,
+    ss: null
+  },
   init: function () {
-    nst.reconfigCyrus();
+    var host = window.location.host;
+    if (['web.nested.me', 'webapp.nested.me'].indexOf(host) > -1) {
+      host = 'nested.me';
+    }
+    nst.setWorkspace(host);
     nst.token = window.location.search.split('?')[1];
     nst.http('account/get_by_token', {
       token: nst.token
@@ -280,24 +291,118 @@ var nst = {
   },
   reconfigCyrus: function () {
     var url = nst.cyrus.split('://');
+    var host = url[1].split('/api');
+    host = host.join('');
     if (url[0] === 'wss') {
-      nst.cyrus = 'https://' + url[1] + '/api';
+      nst.cyrus = 'https://' + host + '/api';
+      nst.xerxes = 'https://' + host + '/file';
     } else {
-      nst.cyrus = 'http://' + url[1] + '/api';
+      nst.cyrus = 'http://' + host + '/api';
+      nst.xerxes = 'http://' + host + '/file';
     }
   },
   getValue: function (elem) {
     return document.querySelector(elem).value;
   },
+  getImage: function (data) {
+    return data.x128 === '' ? '/assets/icons/absents_place.svg' : (nst.xerxes + '/view/x/' + data.x128);
+  },
   fillUserData: function (data) {
     nst.setText('.client-name', data.fname + ' ' + data.lname);
     nst.setText('.client-id', data._id + '@' + nst.domain);
+    document.querySelector('.client-logo img').setAttribute('src', nst.getImage(data.picture));
   },
   setText: function (elem, text) {
     var elems = document.querySelectorAll(elem);
     for (var i in elems) {
       elems[i].innerHTML = text;
     }
+  },
+  setWorkspace: function (domain) {
+    var config = nst.getServerInfo(domain);
+    if (config) {
+      nst.cyrus = config.cyrus;
+      nst.xerxes = config.xerxes;
+      nst.selectedDomain = config.domain;
+      nst.domain = config.domain;
+    } else {
+      var parts = domain.split('.');
+      if (parts.length > 2) {
+        parts = parts.reverse();
+        var d = parts[1] + '.' + parts[0];
+        if (d !== 'nested.me') {
+          nst.setWorkspace(d);
+        }
+      }
+    }
+  },
+  getServerInfo: function (domain) {
+    if (domain === undefined) {
+      if (!nst.nestedConfigs.hasOwnProperty(nst.domain)) {
+        nst.nestedConfigs[nst.domain] = {
+          cyrus: nst.cyrus,
+          xerxes: nst.xerxes,
+          domain: nst.domain
+        };
+      }
+      return nst.nestedConfigs[nst.domain];
+    } else {
+      if (nst.nestedConfigs.hasOwnProperty(domain)) {
+        return nst.nestedConfigs[domain];
+      }
+      var remote = nst.xhr({
+        method: 'GET',
+        async: false
+      }, 'https://npc.nested.me/dns/discover/' + domain);
+      if (!remote) {
+        return null;
+      }
+      var config = nst.parseConfigFromRemote(remote.data, domain);
+      nst.nestedConfigs[domain] = config;
+      return config;
+    }
+  },
+  parseConfigFromRemote: function (data, domain) {
+    var cyrus = [];
+    var xerxes = [];
+    data.forEach(function (configs) {
+      var config = configs.split(';');
+      config.forEach(function (item) {
+        if (item.indexOf('cyrus:') === 0) {
+          cyrus.push(item);
+        } else if (item.indexOf('xerxes:') === 0) {
+          xerxes.push(item);
+        }
+      });
+    });
+    var cyrusHttpUrl = '';
+    var cyrusWsUrl = '';
+    var config = {};
+    cyrus.forEach(function (item) {
+      config = nst.parseConfigData(item);
+      if (config.protocol === 'http' || config.protocol === 'https') {
+        cyrusHttpUrl = nst.getCompleteUrl(config);
+      } else if (config.protocol === 'ws' || config.protocol === 'wss') {
+        cyrusWsUrl = nst.getCompleteUrl(config);
+      }
+    });
+    return {
+      cyrus: cyrusHttpUrl + '/api',
+      xerxes: cyrusHttpUrl + '/file',
+      domain: domain
+    }
+  },
+  parseConfigData: function (data) {
+    var items = data.split(':');
+    return {
+      name: items[0],
+      protocol: items[1],
+      port: items[2],
+      url: items[3]
+    };
+  },
+  getCompleteUrl: function (config) {
+    return config.protocol + '://' + config.url + ':' + config.port;
   },
   http: function (cmd, params, callback, catchCallback) {
     var http = new XMLHttpRequest();
@@ -324,6 +429,50 @@ var nst = {
     };
     parameters = JSON.stringify(parameters);
     http.send(parameters);
+  },
+  xhr: function (config, url, params, callback, catchCallback) {
+    var http = new XMLHttpRequest();
+    var async = config.async === undefined ? true : config.async;
+    var method = config.method || 'GET';
+    http.open(method, url, async);
+    http.setRequestHeader('accept', 'application/json');
+    if (async) {
+      http.onreadystatechange = function () {
+        if (http.readyState === 4) {
+          if (http.status === 200) {
+            var data = JSON.parse(http.responseText);
+            if (typeof callback === 'function') {
+              callback(data);
+            }
+          } else {
+            if (typeof catchCallback === 'function') {
+              catchCallback(http.statusText);
+            }
+          }
+        }
+      };
+    }
+    var formData = new FormData();
+    if (params && method === 'POST') {
+      formData = new FormData();
+      for (var key in params) {
+        formData.append(key, params[key]);
+      }
+    } else {
+      formData = null;
+    }
+    try {
+      http.send(formData);
+      if (!async) {
+        if (http.status === 200) {
+          return JSON.parse(http.responseText);
+        } else {
+          return null;
+        }
+      }
+    } catch (e) {
+      return null;
+    }
   },
   setCookie: function (cname, cvalue, exdays) {
     var d = new Date();
