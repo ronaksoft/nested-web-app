@@ -451,7 +451,7 @@
         NstSvcServer.request('search/accounts' + area, params).then(function (data) {
 
           // If the results is zero search in another way
-          if ((area === NST_USER_SEARCH_AREA.ACCOUNTS && area === NST_USER_SEARCH_AREA.INVITE) && data.accounts.length === 0) {
+          if ((area === NST_USER_SEARCH_AREA.ACCOUNTS || area === NST_USER_SEARCH_AREA.INVITE) && data.accounts.length === 0) {
             NstSvcServer.request('search/accounts', params).then(function (data) {
               if (!stopGenerateFromQuery) {
                 moveExactToViewPort(data.accounts, params.keyword);
