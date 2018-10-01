@@ -6,8 +6,8 @@
     .controller('PrintPostController', PrintPostController);
 
   /** @ngInject */
-  function PrintPostController($scope, $stateParams,
-                          _, toastr, NstSvcPostFactory, NstSvcPostInteraction, NstSvcTranslation, NstSvcSync) {
+  function PrintPostController($scope, $stateParams, NST_CONFIG, $cookies,
+                          _, toastr, NstSvcPostFactory, NstSvcPostInteraction, NstSvcTranslation, NstHttp) {
     var vm = this;
 
     /*****************************
@@ -31,7 +31,17 @@
 
 
     function load(postId) {
-      NstSvcPostFactory.get(postId, true).then(function (post) {
+      console.log(postId);
+      new NstHttp(NST_CONFIG.REGISTER.AJAX.URL, {
+        cmd: 'post/get',
+        data: {
+          post_id: postId
+        },
+        _sk: $cookies.get('nsk'),
+        _ss: $cookies.get('nss')
+      }).post().then(function (result) {
+        var post = NstSvcPostFactory.parsePost(result.data);
+        vm.loadProgress = false;
         vm.message = post;
         var imgRegex = new RegExp('<img(.*?)source=[\'|"](.*?)[\'|"](.*?)>', 'g');
         var resources = post.resources;
@@ -42,12 +52,7 @@
             return "<img" + p1 + "src='" + src + "' " + p3 + ">"
           });
         }
-      }).catch(function () {
-        toastr.error(NstSvcTranslation.get('An error occured while tying to show the post full body.'));
-      }).finally(function (){
-        vm.loadProgress = false;
       });
-
     }
 
 
