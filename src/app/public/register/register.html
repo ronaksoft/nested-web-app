@@ -30,7 +30,7 @@
         <verify-code-step ng-if="ctrl.step == 2" verification-id="ctrl.verificationId" phone="ctrl.phone" on-completed="{{::ctrl.codeVerifiedEventKey}}" on-previous="{{::ctrl.previousStepEventKey}}" country-code="ctrl.code"></verify-code-step>
         <register-step ng-if="ctrl.step == 3" verification-id="ctrl.verificationId" phone="ctrl.phone" on-completed="{{::ctrl.completedEventKey}}" country-code="ctrl.code"></register-step>
         <div class="divider">
-          <span>or</span>
+          <translate>or</translate>
         </div>
         <div class="row nst-vb">
           <a class="_fn _fw text-center nst-mood-cheerful nst-google-btn" ng-click="ctrl.signUpWithGoogle()">
