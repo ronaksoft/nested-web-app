@@ -6,7 +6,8 @@
     .controller('RegisterController', RegisterController);
 
   /** @ngInject */
-  function RegisterController($scope, $state, NST_DEFAULT, NstSvcAuth, $stateParams, _, NstSvcGlobalCache) {
+  function RegisterController($scope, $state, NST_DEFAULT, NstSvcAuth, $stateParams, _, NstSvcGlobalCache, NstHttp, NST_CONFIG, NstSvcTranslation) {
+    var oauthState = '';
     var vm = this;
     vm.phoneSubmittedEventKey = 'register-phone-submitted';
     vm.codeVerifiedEventKey = 'register-code-verified';
@@ -16,6 +17,7 @@
     vm.verificationId = null;
     vm.country = null;
     vm.step = 1;
+    vm.signUpWithGoogle = signUpWithGoogle;
 
     var eventReferences = [];
 
@@ -84,5 +86,62 @@
       return decodeURIComponent(results[2].replace(/\+/g, " "));
     }
 
+    function signUpWithGoogle() {
+      new NstHttp(NST_CONFIG.REGISTER.AJAX.URL, {
+        cmd: 'auth/get_oauth_url',
+        data: {
+          access_type: 'register'
+        },
+      }).post().then(function (result) {
+        oauthState = result.data.state;
+        oauthLogin(result.data.url)
+      });
+    }
+
+    function oauthLogin(url) {
+      var strWindowFeatures = 'location=yes,height=570,width=520,scrollbars=yes,status=yes';
+      var oauthWindow = window.open('', '_blank', strWindowFeatures);
+      oauthWindow.location = url;
+      if (oauthWindow === undefined) {
+        toastr.error('Please disable your popup blocker');
+        return
+      }
+      var interval = setInterval(function () {
+        if (oauthWindow.closed) {
+          clearInterval(interval);
+          getToken(oauthState)
+        }
+      }, 1000);
+    }
+
+    function getToken(state) {
+      new NstHttp(NST_CONFIG.REGISTER.AJAX.URL, {
+        cmd: 'auth/get_oauth_token',
+        data: {
+          state: state
+        },
+      }).post().then(function (result) {
+        if (result.data.oauth_token) {
+          registerByLogin(result.data.oauth_token.token, result.data.oauth_token.user_id);
+        }
+      });
+    }
+
+    function registerByLogin(token, id) {
+      new NstHttp(NST_CONFIG.REGISTER.AJAX.URL, {
+        cmd: 'session/register',
+        data: {
+          uid: id,
+          token: token,
+          state: oauthState,
+        },
+      }).post().then(function (result) {
+        NstSvcAuth.loginByOauth(result.data).then(function () {
+          window.location.reload();
+        });
+      }).catch(function () {
+        toastr.error(NstSvcTranslation.get('An error has occured'));
+      });
+    }
   }
 })();

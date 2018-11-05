@@ -108,3 +108,35 @@
 .login-anchor:hover {
     color: $color-sense-wire;
 }
+
+.nst-google-btn {
+  color: #666;
+  border-radius: 3px;
+  border: 1px solid #aaa;
+  padding: 10px 24px 10px 12px;
+  svg {
+    vertical-align: sub;
+    margin-right: 12px;
+  }
+}
+
+.divider {
+  position: relative;
+  text-align: center;
+  margin: 10px 0 0;
+  span {
+    position: relative;
+    background: $color-bg-postcard;
+    padding: 2px 5px;
+    z-index: 2;
+  }
+  &:before {
+    position: absolute;
+    content: '';
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: $color-solid;
+  }
+}

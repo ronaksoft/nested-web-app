@@ -32,6 +32,7 @@
                            NST_DEFAULT, NST_SRV_ERROR, _, NstHttp, $scope, $rootScope, $timeout, NstThemeService, NstSvcTaskDraft,
                            NstSvcAuth, NstSvcTranslation, NstSvcGlobalCache, NstSvcRequestCacheFactory, NstSvcPostDraft, NstSvcI18n) {
 
+    var oauthState = '';
     var eventReferences = [];
     var vm = this;
 
@@ -51,6 +52,7 @@
     vm.activeRegister = false;
     vm.companyConstant = null;
     vm.loading = false;
+    vm.signInWithGoogle = signInWithGoogle;
 
     // Workspace initialization
     var mandatoryDomain = '';
@@ -155,30 +157,7 @@
       };
 
       NstSvcAuth.login(credentials, true).then(function () {
-        NstSvcGlobalCache.flush();
-        NstSvcRequestCacheFactory.flush();
-        NstSvcPostDraft.reset();
-        NstSvcTaskDraft.reset();
-        NstSvcI18n.checkSettings().then(function (v) {
-          if (v) {
-            $window.location.reload();
-          } else {
-            if ($stateParams.back) {
-              goToBackUrl();
-            } else {
-              $state.go(NST_DEFAULT.STATE);
-            }
-            vm.progress = false;
-          }
-        }).catch(function () {
-          if ($stateParams.back) {
-            goToBackUrl();
-          } else {
-            $state.go(NST_DEFAULT.STATE);
-          }
-          vm.progress = false;
-        });
-        NstThemeService.applyTheme();
+        postLoginFn();
       }).catch(function (error) {
         vm.password = '';
 
@@ -197,6 +176,35 @@
       })
     };
 
+    function postLoginFn() {
+      NstSvcGlobalCache.flush();
+      NstSvcRequestCacheFactory.flush();
+      NstSvcPostDraft.reset();
+      NstSvcTaskDraft.reset();
+      NstSvcI18n.checkSettings().then(function (v) {
+        console.log(v);
+        if (v) {
+          $window.location.reload();
+        } else {
+          if ($stateParams.back) {
+            goToBackUrl();
+          } else {
+            $state.go(NST_DEFAULT.STATE);
+          }
+          vm.progress = false;
+        }
+      }).catch(function (err) {
+        console.log(err);
+        if ($stateParams.back) {
+          goToBackUrl();
+        } else {
+          $state.go(NST_DEFAULT.STATE);
+        }
+        vm.progress = false;
+      });
+      NstThemeService.applyTheme();
+    }
+
     /*****************************
      ***** Internal Methods ****
      *****************************/
@@ -211,6 +219,65 @@
     function goToBackUrl() {
       var url = $window.decodeURIComponent($stateParams.back);
       $location.url(_.trimStart(url, "#"));
+    }
+
+    function signInWithGoogle() {
+      new NstHttp(NST_CONFIG.REGISTER.AJAX.URL, {
+        cmd: 'auth/get_oauth_url',
+        data: {
+          access_type: 'login'
+        },
+      }).post().then(function (result) {
+        oauthState = result.data.state;
+        oauthLogin(result.data.url)
+      });
+    }
+
+    function oauthLogin(url) {
+      var strWindowFeatures = 'location=yes,height=570,width=520,scrollbars=yes,status=yes';
+      var oauthWindow = window.open('', '_blank', strWindowFeatures);
+      oauthWindow.location = url;
+      if (oauthWindow === undefined) {
+        toastr.error('Please disable your popup blocker');
+        return
+      }
+      var interval = setInterval(function () {
+        if (oauthWindow.closed) {
+          clearInterval(interval);
+          getToken(oauthState)
+        }
+      }, 1000);
+    }
+
+    function getToken(state) {
+      new NstHttp(NST_CONFIG.REGISTER.AJAX.URL, {
+        cmd: 'auth/get_oauth_token',
+        data: {
+          state: state
+        },
+      }).post().then(function (result) {
+        if (result.data.oauth_token) {
+          loginByLogin(result.data.oauth_token.token, result.data.oauth_token.user_id);
+        }
+      });
+    }
+
+    function loginByLogin(token, id) {
+      new NstHttp(NST_CONFIG.REGISTER.AJAX.URL, {
+        cmd: 'session/register',
+        data: {
+          uid: id,
+          token: token,
+          state: oauthState,
+        },
+      }).post().then(function (result) {
+        NstSvcAuth.loginByOauth(result.data).then(function () {
+          postLoginFn();
+          window.location.reload();
+        });
+      }).catch(function () {
+        toastr.error(NstSvcTranslation.get('An error has occured'));
+      });
     }
 
     $scope.$on('$destroy', function () {

@@ -159,7 +159,7 @@
       NstSvcUserFactory.setCurrent(data.account);
       this.setUser(user);
       service.setUserCookie(user, remember);
-      $rootScope.$broadcast(NST_AUTH_EVENT.AUTHORIZE, { user: user });
+      $rootScope.$broadcast(NST_AUTH_EVENT.AUTHORIZE, {user: user});
 
       return $q.resolve(user);
     };
@@ -244,7 +244,7 @@
 
       qUnauth.promise.then(function (response) {
         NstSvcUserFactory.removeCurrent();
-        $rootScope.$broadcast(NST_AUTH_EVENT.UNAUTHORIZE, { reason: reason });
+        $rootScope.$broadcast(NST_AUTH_EVENT.UNAUTHORIZE, {reason: reason});
         deferred.resolve(response);
       }).catch(deferred.reject);
 
@@ -298,6 +298,20 @@
       return deferred.promise;
     };
 
+    Auth.prototype.loginByOauth = function (response) {
+      var deferred = $q.defer();
+      NstSvcServer.reinit().then(function () {
+        service.setState(NST_AUTH_STATE.AUTHORIZED);
+        service.authorize(response).then(deferred.resolve);
+        if (response.account.flags.force_password_change) {
+          $timeout(function () {
+            $rootScope.$broadcast(NST_AUTH_EVENT.CHANGE_PASSWORD);
+          }, 100);
+        }
+      }).catch(deferred.reject);
+      return deferred.promise;
+    };
+
     Auth.prototype.reconnect = function () {
       var service = this;
       var deferred = $q.defer();
@@ -341,7 +355,7 @@
             case NST_SRV_ERROR.UNAUTHORIZED:
             case NST_SRV_ERROR.SESSION_EXPIRE:
               service.unregister(NST_UNREGISTER_REASON.AUTH_FAIL).then(function () {
-                $rootScope.$emit(NST_AUTH_EVENT.AUTHORIZE_FAIL, { reason: error });
+                $rootScope.$emit(NST_AUTH_EVENT.AUTHORIZE_FAIL, {reason: error});
                 deferred.reject(error);
               }).catch(deferred.reject);
               break;
