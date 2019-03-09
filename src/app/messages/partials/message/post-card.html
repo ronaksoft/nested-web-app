@@ -213,7 +213,7 @@
          after-add-label="ctlPostCard.addLabels"
          data-uib-tooltip="Labels" class="cursor-pointer" data-tooltip-append-to-body="true"
          data-tooltip-placement="auto top" translate-attrs="data-uib-tooltip"
-         ng-click="ctlPostCard.markAsRead();"
+         ng-click="ctlPostCard.markAsRead();$event.stopPropagation();"
       >
         <svg class="_16svg _r90">
           <use xlink:href="/assets/icons/nst-icn16.svg#more"></use>
