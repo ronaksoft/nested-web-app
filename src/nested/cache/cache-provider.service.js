@@ -16,7 +16,7 @@
     .factory('NstSvcCacheProvider', NstSvcCacheProvider);
 
   /** @ngInject */
-  function NstSvcCacheProvider(NstSvcCacheDb, _) {
+  function NstSvcCacheProvider($window, NstSvcCacheDbLocalStorage, NstSvcCacheDbIndexedDb, _) {
     var EXPIRATION_KEY = '__exp';
     var EXPIRATION_DURATION = 1000 * 60 * 60;
 
@@ -27,6 +27,8 @@
      */
     function CacheProvider(namespace) {
       this.namespace = namespace;
+      this.supportIndexedDb = ($window.indexedDB || $window.mozIndexedDB || $window.webkitIndexedDB || $window.msIndexedDB || $window.shimIndexedDB) && true;
+      this.cacheService = this.supportIndexedDb ? NstSvcCacheDbIndexedDb : NstSvcCacheDbLocalStorage;
       // The memory is designed to make speed-up reading cache values
       this.memory = {};
     }
@@ -46,7 +48,7 @@
         return -1;
       }
 
-      var model = this.memory[key] || NstSvcCacheDb.get(this.namespace, key);
+      var model = this.memory[key] || this.cacheService.get(this.namespace, key)
 
       if (!model) {
         return null;
@@ -72,7 +74,7 @@
       }
 
       _.unset(this.memory, key);
-      return NstSvcCacheDb.set(this.namespace, key);
+      return this.cacheService.set(this.namespace, key);
     }
 
     /**
@@ -94,7 +96,7 @@
       value = Object.assign({}, value);
 
       if (options && options.merge) {
-        var oldValue = NstSvcCacheDb.get(this.namespace, key);
+        var oldValue = this.cacheService.get(this.namespace, key);
         if (oldValue && !isExpired(oldValue)) {
           // Merge the new value with the old one
           newValue = _.merge(value, oldValue);
@@ -110,7 +112,7 @@
 
       extendedValue = addExpiration(newValue || value, expiration);
       this.memory[key] = extendedValue;
-      return NstSvcCacheDb.set(this.namespace, key, extendedValue);
+      return this.cacheService.set(this.namespace, key, extendedValue);
     }
 
     /**

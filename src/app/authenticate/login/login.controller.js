@@ -182,7 +182,6 @@
       NstSvcPostDraft.reset();
       NstSvcTaskDraft.reset();
       NstSvcI18n.checkSettings().then(function (v) {
-        console.log(v);
         if (v) {
           $window.location.reload();
         } else {

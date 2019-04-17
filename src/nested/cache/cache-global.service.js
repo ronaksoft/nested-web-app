@@ -15,7 +15,7 @@
     .service('NstSvcGlobalCache', NstSvcGlobalCache);
 
   /** @ngInject */
-  function NstSvcGlobalCache(_, NstSvcCacheDb, NstSvcCacheProvider) {
+  function NstSvcGlobalCache(_, NstSvcCacheDbLocalStorage, NstSvcCacheProvider) {
     function GlobalCache() {
       this.providers = {};
     }
@@ -32,7 +32,7 @@
          value.flush();
       });
 
-      NstSvcCacheDb.flush();
+      NstSvcCacheDbLocalStorage.flush();
     }
 
     /**
