@@ -20,6 +20,7 @@
       bindToController: {
         comments: '=',
         limit: '=',
+        chainView: '=',
         postId: '=?',
         taskId: '=?',
         totalCommentsCount : '=',

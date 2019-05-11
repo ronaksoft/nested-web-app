@@ -7,7 +7,7 @@
   /** @ngInject */
   function NstSvcPostActivityFactory($q, $rootScope, _, NST_POST_EVENT_ACTION, NstSvcServer, NstSvcUserFactory, NstSvcLogger,
                                      NstBaseFactory, NstSvcLabelFactory, NstCollector, NstPostActivity, NstSvcDate, NstSvcPostFactory,
-                                     NstUtility, NstSvcAttachmentFactory, NstSvcCommentFactory, NST_SRV_PUSH_CMD) {
+                                     NstUtility, NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcCommentFactory, NST_SRV_PUSH_CMD) {
 
 
     function ActivityFactory() {
@@ -89,7 +89,7 @@
       var activity = new NstPostActivity();
       activity.id = data._id;
       activity.type = data.action;
-      activity.date = data.timestamp;
+      activity.timestamp = data.timestamp;
       activity.actor = NstSvcUserFactory.parseTinyUser(data.actor);
       activity.postId = data.post_id;
       return activity;

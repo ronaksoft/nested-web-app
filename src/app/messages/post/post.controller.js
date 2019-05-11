@@ -6,7 +6,7 @@
     .controller('PostController', PostController);
 
   /** @ngInject */
-  function PostController($q, $scope, $rootScope, $stateParams, $uibModalInstance, $interval, SvcRecorder,
+  function PostController($q, $scope, $rootScope, $stateParams, $uibModalInstance, $interval, SvcRecorder, NST_POST_EVENT_ACTION,
                           _, toastr, NstSvcPostFactory, NstUtility, NstSvcLogger, NstSvcPostInteraction, NstSvcTranslation, NstSvcSync,
                           selectedPostId) {
     SvcRecorder.stop(true);
@@ -160,10 +160,13 @@
     $uibModalInstance.result.finally(function () {
       var targetPost = _.last(vm.messages);
       if (!targetPost) return;
-
       eventReferences.push($rootScope.$broadcast('post-modal-closed', {
         postId: vm.postId,
-        comments: _.takeRight(targetPost.comments, 3)
+        comments: _.takeRight(_.filter(targetPost.comments, function(cm){
+          return cm.type === NST_POST_EVENT_ACTION.COMMENT_ADD
+        }).orderBy('timestamp'), 3).map(function(cm) {
+          return cm.comment
+        })
       }));
     });
 
