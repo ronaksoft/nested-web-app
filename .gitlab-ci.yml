@@ -66,12 +66,14 @@ build:mobile:
 
 build:admin:
   stage: build
-  image: theotherjim/node-gulp-jspm
+  image: 8.16.0-alpine
   only:
     - master
     - develop
   script:
     - mkdir -p /var/lib/admin
+    - npm install gulp
+    - npm install jspm
     - cd /var/lib/admin
     - git clone http://gitlab-ci-token:$CI_BUILD_TOKEN@git.ronaksoftware.com/nested/web-admin.git .
     - npm install
