@@ -6,7 +6,7 @@
     .controller('CommentsBoardController', CommentsBoardController);
 
   function CommentsBoardController($timeout, $scope, $sce, $q, $state, $location, $anchorScroll, $rootScope, NST_POST_EVENT_ACTION,
-                                   NstSvcAuth, NstSvcDate, NstSvcCommentFactory, NstUtility, NstSvcTranslation, NstSvcTaskFactory,
+                                   NstSvcAuth, NstSvcDate, NstSvcCommentFactory, NstUtility, NstSvcTranslation, NstSvcTaskFactory, NstSvcServer, NST_SRV_PUSH_CMD,
                                    moment, toastr, NstSvcLogger, _, NstSvcModal, NstSvcPostActivityFactory, NstSvcKeyFactory, NST_KEY, NST_TASK_EVENT_ACTION) {
     var vm = this;
 
@@ -73,6 +73,12 @@
                 NstSvcKeyFactory.set(NST_KEY.GENERAL_SETTING_COMMENT_ACTIVITY, nv + '');
               }
             }));
+        });
+        
+        NstSvcServer.addEventListener(NST_SRV_PUSH_CMD.SYNC_POST_ACTIVITY, function (event) {
+          if (event.detail.post_id === vm.postId) {
+            loadRecentComments();
+          }
         });
       }
 
