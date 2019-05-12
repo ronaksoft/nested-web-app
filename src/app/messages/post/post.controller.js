@@ -131,19 +131,27 @@
     }
 
     function loadMore() {
-      var oldest = _.head(vm.messages);
-
-      if (!oldest) {
-        throw Error('Could not find the oldest message of chain');
-      }
-
-      loadChainMessages(oldest.id, defaultLimit).then(function (messages) {
-        NstUtility.collection.dropById(messages, oldest.id);
-        vm.messages.unshift.apply(vm.messages, messages);
+      loadChainMessages(vm.postId, defaultLimit + vm.messages.length).then(function (messages) {
+        var newItems = _.differenceBy(messages, vm.messages, 'id');
+        vm.messages.unshift.apply(vm.messages, newItems);
       }).catch(function () {
         toastr.error(NstSvcTranslation.get('Sorry, An error has occured while loading the older posts'));
       });
     }
+    // function loadMore() {
+    //   var oldest = _.head(vm.messages);
+
+    //   if (!oldest) {
+    //     throw Error('Could not find the oldest message of chain');
+    //   }
+
+    //   loadChainMessages(oldest.id, defaultLimit).then(function (messages) {
+    //     NstUtility.collection.dropById(messages, oldest.id);
+    //     vm.messages.unshift.apply(vm.messages, messages);
+    //   }).catch(function () {
+    //     toastr.error(NstSvcTranslation.get('Sorry, An error has occured while loading the older posts'));
+    //   });
+    // }
 
     function markPostAsRead(id) {
       vm.markAsReadProgress = true;

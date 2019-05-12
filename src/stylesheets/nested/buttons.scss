@@ -396,7 +396,7 @@ input[type="checkbox"].inpsw[disabled]:checked + label + label  {
   // OFF
   input + label,
   input + label + label{
-    background-color: $color-white;
+    background-color: $color-white-revesable;
     display: flex;
     height: 100%;
     margin: 0;
@@ -423,7 +423,7 @@ input[type="checkbox"].inpsw[disabled]:checked + label + label  {
       top: 4px;
       width: 24px;
       height: 24px;
-      background: linear-gradient(to top, rgba(255,255,255,1), #EBEBEB);
+      background: linear-gradient(to top, $color-white, rgb(235, 235, 235));
       border-radius: 50px;
       display: flex;
       transition: all $animation-dur cubic-bezier(.25,.8,.25,1);

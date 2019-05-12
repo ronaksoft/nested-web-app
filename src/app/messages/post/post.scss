@@ -38,7 +38,7 @@
           fill: $color-white;
         }
       }
-      &:first-of-type {
+      &:not(.have-old-chain):first-of-type {
         .chain-stats::after {
           content: '';
           position: absolute;
@@ -214,12 +214,18 @@
   color: $color-gale;
   .chain-tail {
     position: absolute;
-    width: 23px;
-    height: 32px;
-    left: -1px;
-    bottom: -2px;
-    border-left: 1px solid $color-border ;
-    transform: translateX(-100%);
+    width: 24px;
+    height: 24px;
+    left: 8px;
+    bottom: -12px;
+    border-left: 1px solid rgba(255, 255, 255, .08);
+  }
+  a {
+    padding: 0 32px;
+    width: 100%;
+    display: block;
+    margin-bottom: 12px;
+    text-align: center;
   }
 }
 .chain-ico {
@@ -227,8 +233,8 @@
   height: 16px;
   transform: translateX(-50%);
   fill: #999999;
-  stroke: #FAFAFA;
-  background-color: #FAFAFA;
+  stroke: $color-modal-bg;
+  background-color: $color-modal-bg;
 }
 
 .post-back {

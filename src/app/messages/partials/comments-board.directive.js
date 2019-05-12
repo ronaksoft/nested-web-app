@@ -25,6 +25,7 @@
         taskId: '=?',
         totalCommentsCount : '=',
         onCommentSent : '=',
+        noComment : '=',
         hasCommentRemoveAccess : '='
       }
     };
