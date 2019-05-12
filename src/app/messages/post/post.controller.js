@@ -26,6 +26,8 @@
      ***** Controller Methods ****
      *****************************/
 
+    vm.goNext = goNext;
+    vm.goPrev = goPrev;
     vm.loadMore = loadMore;
     vm.backToChain = backToChain;
     (function () {
@@ -40,7 +42,6 @@
       }).catch(function (error) {
         NstSvcLogger.error(error);
       });
-
       // listens to post-robbons to switch them to post-card mode
       eventReferences.push($scope.$on('post-chain-expand-me', function (event, data) {
         if (data.postId) {
@@ -68,7 +69,15 @@
           load(data.postId);
         }
         $scope.affixObserver++;
+        
+        $rootScope.$emit('get-next-prev', {postId: vm.postId});
       }));
+
+      eventReferences.push($rootScope.$on('get-next-prev-result', function (e, data) {
+        vm.prvPost = data.prv
+        vm.nxtPost = data.nxt
+      }));
+      $rootScope.$emit('get-next-prev', {postId: vm.postId});
     })();
 
     function loadChainMessages(postId, limit, cacheHandler) {
@@ -163,6 +172,18 @@
       }).finally(function () {
         vm.markAsReadProgress = false;
       });
+    }
+
+    function goNext() {
+      $scope.$emit('post-view-target-changed', {
+        postId: vm.nxtPost
+      })
+    }
+
+    function goPrev() {
+      $scope.$emit('post-view-target-changed', {
+        postId: vm.prvPost
+      })
     }
 
     $uibModalInstance.result.finally(function () {

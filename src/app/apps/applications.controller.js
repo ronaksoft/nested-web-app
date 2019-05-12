@@ -148,7 +148,7 @@
       NstSvcModal.confirm(NstSvcTranslation.get("Confirm"), NstSvcTranslation.get("By deleting this app you will terminate all Application permissions to your account")).then(function (result) {
         if (result) {
           NstSvcAppFactory.revokeToken(token).then(function(respones) {
-            if (respones = {}){
+            if (respones === {}){
               _.remove(vm.apps, function(a) {
                 return a.items[0].token === token;
               });

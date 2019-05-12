@@ -176,18 +176,20 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 80px;
+  right: 0;
   border-bottom: 1px solid transparent;
   display: flex;
   align-items: center;
   flex-direction: row;
+  padding: 0 12px;
   z-index: 500;
   div,#Logo {
     margin: 0 24px;
   }
-  .closebut {
-    margin: 24px;
+  .closebut, .nav-button {
+    margin: 24px 12px;
     width: 32px;
+    flex: none;
     height: 32px;
   }
   vr {
