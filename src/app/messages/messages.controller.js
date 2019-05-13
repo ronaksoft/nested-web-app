@@ -349,10 +349,13 @@
      */
     eventReferences.push($rootScope.$on('get-next-prev', function (e, data) {
       var ind = _.findIndex(vm.messages, { id : data.postId });
-      $rootScope.$emit('get-next-prev-result', {
-        prv: vm.messages[ind - 1] ? vm.messages[ind - 1].id : null,
-        nxt: vm.messages[ind + 1] ? vm.messages[ind + 1].id : null
-      });
+      if (ind > -1) {
+        $rootScope.$emit('get-next-prev-result', {
+          prv: vm.messages[ind - 1] ? vm.messages[ind - 1].id : null,
+          nxt: vm.messages[ind + 1] ? vm.messages[ind + 1].id : null
+        });
+        document.getElementById(data.postId).scrollIntoView({behavior: 'smooth'});
+      }
     }));
 
     eventReferences.push($scope.$on('scroll-reached-bottom', function () {

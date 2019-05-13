@@ -8,7 +8,7 @@
   /** @ngInject */
   function PostController($q, $scope, $rootScope, $stateParams, $uibModalInstance, $interval, SvcRecorder, NST_POST_EVENT_ACTION,
                           _, toastr, NstSvcPostFactory, NstUtility, NstSvcLogger, NstSvcPostInteraction, NstSvcTranslation, NstSvcSync,
-                          selectedPostId) {
+                          selectedPostId, hotkeys) {
     SvcRecorder.stop(true);
     var vm = this;
     var defaultLimit = 8;
@@ -185,6 +185,21 @@
         postId: vm.prvPost
       })
     }
+
+    hotkeys.bindTo($scope).add({
+      combo: 'right',
+      description: 'compose state',
+      callback: function () {
+        goNext();
+      }
+    });
+    hotkeys.bindTo($scope).add({
+      combo: 'left',
+      description: 'compose state',
+      callback: function () {
+        goPrev();
+      }
+    });
 
     $uibModalInstance.result.finally(function () {
       var targetPost = _.last(vm.messages);

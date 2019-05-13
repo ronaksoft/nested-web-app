@@ -71,14 +71,14 @@
       }
     })();
 
-    hotkeys.add({
+    hotkeys.bindTo($scope).add({
       combo: 'right',
       description: 'compose state',
       callback: function () {
         goNext();
       }
     });
-    hotkeys.add({
+    hotkeys.bindTo($scope).add({
       combo: 'left',
       description: 'compose state',
       callback: function () {

@@ -447,7 +447,6 @@
       var deferred = $q.defer();
 
       var draft = NstSvcPostDraft.get();
-      console.log(draft);
       if (!draft || draft === null) {
         deferred.reject(Error('Could not load draft'));
         return deferred.promise;
