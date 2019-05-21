@@ -894,6 +894,11 @@ post-card {
     text-overflow: ellipsis;
     float: left;
   }
+  p span {
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: pre;
+  }
   p, p span {
     font-size: $font-size-small;
     font-weight: 400;

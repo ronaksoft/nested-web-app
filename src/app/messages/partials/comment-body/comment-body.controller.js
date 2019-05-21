@@ -29,7 +29,7 @@
       vm.isCreator = false;
     }
 
-    init();
+    // init();
 
     function init() {
       var filteredComment = applyFilters(vm.comment.body);

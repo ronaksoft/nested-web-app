@@ -30,7 +30,8 @@
     "iscroll": "^5.2.0",
     "angular-iscroll": "^3.5.1",
     "angular-ui-sortable": "^0.17.2",
-    "lng-clockpicker": "~0.0.8"
+    "lng-clockpicker": "~0.0.8",
+    "angular-bind-html-compile": "^1.4.1"
   },
   "devDependencies": {
     "lz-string": "^1.4.4",
