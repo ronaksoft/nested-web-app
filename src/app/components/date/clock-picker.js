@@ -89,9 +89,11 @@
     
             if (datepicker[0]) {
               clockpicker.appendTo(datepicker);
+            } else {
+              element.after(clockpicker);
             }
-            clockpicker.find('.btn-block.clockpicker-button').on('mousedown', function() {
-              clickOnDone(clockpicker, element)
+            clockpicker.find('.btn-block.clockpicker-button').on('mouseup', function() {
+              clickOnDone(clockpicker, element);
             });
             var amBtnObj = clockpicker.find('.clockpicker-am-pm-block .am-button');
             var pmBtnObj = clockpicker.find('.clockpicker-am-pm-block .pm-button');
@@ -100,18 +102,19 @@
             } else {
               amBtnObj.addClass('btn-active');
             }
-            amBtnObj.on('click', function () {
+            amBtnObj.on('mouseup', function () {
               pmBtnObj.removeClass('btn-active');
               $(this).addClass('btn-active');
+              clockpicker.find('.clockpicker-span-am-pm').text('AM');
             });
-            pmBtnObj.on('click', function () {
+            pmBtnObj.on('mouseup', function () {
               amBtnObj.removeClass('btn-active');
               $(this).addClass('btn-active');
+              clockpicker.find('.clockpicker-span-am-pm').text('PM');
             });
           },
           beforeHide: function () {
-            var clockpicker = $('.clockpicker-popover').first();
-            // $('.btn-block.clockpicker-button').off('mousedown', clickOnDone);
+            var clockpicker = $('.clockpicker-popover').last();
             clockpicker.off();
             clockpicker.find('.clockpicker-am-pm-block .am-button').off();
             clockpicker.find('.clockpicker-am-pm-block .pm-button').off();
@@ -120,20 +123,9 @@
 
         var isMobile = false;
 
-        var formatTime = options.twelvehour && !(isMobile && options.nativeOnMobile) ? 'hh:mm A' : 'HH:mm';
+        var formatTime = options.twelvehour ? 'hh:mm A' : 'HH:mm';
 
-        if (!isMobile || !options.nativeOnMobile) {
-          element.clockpicker(options);
-        }
-
-        if (isMobile) {
-          if (options.nativeOnMobile) {
-            element.attr('type', 'time');
-          } else if (!element.is('[readonly]')) {
-            element.attr('readonly', 'readonly');
-            element.addClass('ignore-readonly');
-          }
-        }
+        element.clockpicker(options);
 
         function getModelValue() {
           return ngModel.$modelValue ? moment(_.clone(ngModel.$modelValue)) : moment();
@@ -155,7 +147,7 @@
           ngModel.$valid && element.val(getModelValue().local().format(formatTime));
         });
 
-        ngModel.$render = function (val) {
+        ngModel.$render = function () {
           element.val(ngModel.$viewValue || '');
         };
 
@@ -183,7 +175,6 @@
           var localMomentDate = moment(_.clone(momentDate)).local();
           var isSameTime = !val ||
             (val.hour === localMomentDate.hour() && val.minute === localMomentDate.minute());
-
           return (element.is(':focus') && isSameTime) ?
             ngModel.$viewValue :
             localMomentDate.format(formatTime);
