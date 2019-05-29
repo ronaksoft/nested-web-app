@@ -7,7 +7,6 @@
       return {
         template: function (element) {
           var tag = element[0].nodeName;
-          console.log(1);
           return '<' + tag + ' ng-transclude ng-mouseenter="openOverEnable()" ng-mouseleave="openOverdisable()" data-popover-is-open="openOver()" data-popover-enable="isAvailable" data-popover-class="white-pop popover-userdetail hide-on-scroll" uib-popover-template="\'app/components/user/user-detail.html\'" data-popover-append-to-body="true" data-popover-placement="top-center auto" ng-click="viewContact();$event.stopPropagation()"></' + tag + '>';
         },
         restrict: 'EA',
@@ -16,22 +15,17 @@
         scope: {
           userDetail: '=userDetail'
         },
-        compile: function($element, attr) {
-            console.log("compile for ", attr)
+        compile: function() {
             return {
                 pre: function($scope, $element, attr) {
-                  console.log(21);
-                  if (_.isString($scope.userDetail)) {
-                    console.log($scope.userDetail);
-                    NstSvcUserFactory.get($scope.userDetail).then(function (user) {
-                      console.log(user);
+                  var userName = $scope.userDetail || attr.userDetail;
+                  if (_.isString(userName)) {
+                    NstSvcUserFactory.get(userName).then(function (user) {
                       $scope.user = user;
-                      console.log($scope.user);
                       init();
                     });
-        
                   } else {
-                    $scope.user = $scope.userDetail ? $scope.userDetail : {};
+                    $scope.user = userName ? userName : {};
                     init();
                   }
         
@@ -40,7 +34,6 @@
                   };
         
                   function init() {
-                    console.log($scope);
                     $scope.isEmail = NST_PATTERN.EMAIL.test($scope.user.id);
                     $scope.isAvailable = NstSvcAuth.user && NstSvcAuth.user.id !== $scope.user.id;
                     if ($scope.isAvailable) {

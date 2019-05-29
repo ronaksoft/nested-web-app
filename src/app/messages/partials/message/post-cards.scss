@@ -897,7 +897,7 @@ post-card {
   p span {
     overflow-x: auto;
     overflow-y: hidden;
-    white-space: pre;
+    // white-space: pre;
   }
   p, p span {
     font-size: $font-size-small;
