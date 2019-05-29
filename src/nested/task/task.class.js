@@ -23,6 +23,7 @@
       this.attachments = undefined;
       this.watchers = undefined;
       this.labels = undefined;
+      this.reminders = undefined;
       this.counters = undefined;
       this.access = undefined;
       this.progress = -1;

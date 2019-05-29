@@ -8,7 +8,7 @@
   /** @ngInject */
   function NstSvcTaskFactory($q, _,
                              NstBaseFactory, NstSvcServer, NstSvcUserFactory, NstCollector, NstSvcGlobalCache, NstSvcAttachmentFactory,
-                             NstTask, NstSvcLabelFactory, NST_SRV_ERROR, NST_TASK_ACCESS) {
+                             NstTask, NstSvcLabelFactory, NstSvcReminderFactory, NST_SRV_ERROR, NST_TASK_ACCESS) {
 
     function TaskFactory() {
       this.collector = new NstCollector('task', this.getMany);
@@ -30,6 +30,8 @@
     TaskFactory.prototype.removeComment = removeComment;
     TaskFactory.prototype.addLabel = addLabel;
     TaskFactory.prototype.removeLabel = removeLabel;
+    TaskFactory.prototype.addReminder = addReminder;
+    TaskFactory.prototype.removeReminder = removeReminder;
     TaskFactory.prototype.addTodo = addTodo;
     TaskFactory.prototype.removeTodo = removeTodo;
     TaskFactory.prototype.updateTodo = updateTodo;
@@ -77,7 +79,7 @@
       task.title = data.title;
       if (data.due_date) {
         task.dueDate = data.due_date;
-        task.hasDueTime = data.due_date_has_clock;
+        task.hasDueTime = data.due_data_has_clock;
       }
       task.description = data.description;
 
@@ -117,6 +119,12 @@
         task.labels = _.map(data.labels, function (item) {
           NstSvcLabelFactory.set(item);
           return NstSvcLabelFactory.parseLabel(item);
+        });
+      }
+      if (data.reminders) {
+        task.reminders = _.map(data.reminders, function (item) {
+          NstSvcReminderFactory.set(item);
+          return NstSvcReminderFactory.parseReminder(item);
         });
       }
       if (data.related_to) {
@@ -176,6 +184,9 @@
     taskAccessMap[NST_TASK_ACCESS.LABEL] = ['label'];
     taskAccessMap[NST_TASK_ACCESS.ADD_LABEL] = ['addLabel'];
     taskAccessMap[NST_TASK_ACCESS.REMOVE_LABEL] = ['removeLabel'];
+    taskAccessMap[NST_TASK_ACCESS.REMINDER] = ['reminder'];
+    taskAccessMap[NST_TASK_ACCESS.ADD_REMINDER] = ['addReminder'];
+    taskAccessMap[NST_TASK_ACCESS.REMOVE_REMINDER] = ['removeReminder'];
     taskAccessMap[NST_TASK_ACCESS.COMMENT] = ['addComment', 'removeComment'];
     taskAccessMap[NST_TASK_ACCESS.ADD_ATTACHMENT] = ['addAttachment'];
     taskAccessMap[NST_TASK_ACCESS.REMOVE_ATTACHMENT] = ['removeAttachment'];
@@ -197,6 +208,9 @@
         label: false,
         addLabel: false,
         removeLabel: false,
+        reminder: false,
+        addReminder: false,
+        removeReminder: false,
         addComment: false,
         removeComment: false,
         addAttachment: false,
@@ -264,6 +278,10 @@
 
       if (task.labels) {
         params.label_id = getCommaSeparate(task.labels);
+      }
+
+      if (task.reminders) {
+        params.reminders = JSON.stringify(task.reminders);
       }
 
       if (task.relatedTask) {
@@ -346,6 +364,24 @@
       return NstSvcServer.request('task/remove_label', {
         task_id: taskId,
         label_id: labelId
+      });
+    }
+
+    function addReminder(taskId, repeated, relative, timestamp, interval, days) {
+      return NstSvcServer.request('task/add_reminder', {
+        task_id: taskId,
+        repeated: repeated,
+        relative: relative,
+        timestamp: timestamp,
+        interval: interval,
+        days: days
+      });
+    }
+
+    function removeReminder(taskId, reminderId) {
+      return NstSvcServer.request('task/remove_reminder', {
+        task_id: taskId,
+        reminder_id: reminderId
       });
     }
 
@@ -522,7 +558,7 @@
       task.title = data.title;
       if (data.due_date) {
         task.dueDate = data.due_date;
-        task.hasDueTime = data.due_date_has_clock;
+        task.hasDueTime = data.due_data_has_clock;
       }
       task.description = data.description;
 
@@ -562,6 +598,11 @@
           return NstSvcLabelFactory.getCachedSync(item);
         });
       }
+      if (data.reminders) {
+        task.reminders = _.map(data.reminders, function (item) {
+          return NstSvcReminderFactory.getCachedSync(item);
+        });
+      }
       if (data.related_to) {
         task.relatedTask = {
           id: data.related_to._id,
@@ -594,7 +635,7 @@
       copy.candidates = data.candidates ? _.map(data.candidates, '_id') : null;
       copy.watchers = data.watchers ? _.map(data.watchers, '_id') : null;
       copy.editors = data.editors ? _.map(data.editors, '_id') : null;
-      copy.labels = _.map(data.labels, '_id');
+      copy.reminders = _.map(data.reminders, '_id');
 
       return copy;
     }

@@ -151,7 +151,9 @@ body[dir="rtl"] {
     margin-right: 16px;
   }
   select {
-    background: url('../assets/icons/inputform.svg') no-repeat -2% -124px, linear-gradient(to bottom, $color-white-revesable-super, $color-light-cloud 100%);
+    padding-left: 15px;
+    padding-right: 8px;
+    background: url('../assets/icons/inputform.svg') no-repeat -19% -124px, linear-gradient(to bottom, $color-white-revesable-super, $color-light-cloud 100%);
   }
   .footer-panel select {
     background: transparent;

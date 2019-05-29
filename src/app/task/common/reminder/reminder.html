@@ -1,0 +1,52 @@
+<div ng-repeat="reminder in ctlReminder.reminders track by reminder.timestamp"  class="reminder-list">
+    <div class="reminder-remove" ng-click="ctlReminder.remove(reminder.id)">
+        <svg class="_16svg force">
+            <use xlink:href="/assets/icons/nst-icn16.svg#negative-xcross"></use>
+        </svg>
+    </div>
+    <div ng-if="!reminder.relative && reminder.interval > 0 && reminder.repeat_case === ctlReminder.NST_REMINDER_REPEAT_CASE.WEEKS">
+        <Translate>Repeats every</Translate> {{reminder.interval | duration: 'weekly'}} <translate>on</translate> <abbr class="reminder-day" ng-repeat="day in reminder.days | orderBy: day">{{ctlReminder.daysNameList[day]}}</abbr> <translate>at</translate> <time>{{reminder.timestamp | date : 'time' | localize}}</time>
+    </div>
+    <div ng-if="!reminder.relative && reminder.interval > 0 && reminder.repeat_case === ctlReminder.NST_REMINDER_REPEAT_CASE.DAYS">
+        <Translate>Repeats every</Translate> {{reminder.interval | duration: 'daily'}} <translate>at</translate> <time>{{reminder.timestamp | date : 'time' | localize}}</time>
+    </div>
+    <div ng-if="!reminder.relative && reminder.interval === 0">
+        <time>{{reminder.timestamp | date : 'full-12h' | localize}}</time>
+    </div>
+    <div ng-if="reminder.relative">
+        <time>{{reminder.timestamp | diffTime: ctlReminder.taskDueDate | localize}}</time> <translate>Before</translate> <time>{{(ctlReminder.taskDueDate * 1000) | date : 'full-12h' | localize}}</time>
+    </div>
+</div>
+<div class="_fn _df reminder-type-select" ng-if="ctlReminder.taskDueDate"> 
+    <select ng-model="ctlReminder.type">
+        <option value="" disabled selected hidden>{{ctlReminder.reminderPlaceholder}}</option>
+        <option ng-repeat="type in ctlReminder.NST_REMINDER_TYPES" value="{{type}}">{{type * 60 * 1000 | duration: 'hourly'}} <translate>before</translate></option>
+        <option value="custom" translate-inner>Custom...</option>
+    </select>
+</div>
+
+<div class="_fn _df reminder-repeat-switch" ng-if="!ctlReminder.taskDueDate || ctlReminder.type === 'custom'"> 
+    <translate>Repeat</translate>
+    <div class="place-switch sm _fn">
+        <input type="checkbox" name="reminder" id="reminder" data-ng-model="ctlReminder.model.repeated">
+        <label for="reminder">
+        <div class="circle" switch-drag="ctlReminder.model.repeated" size="'sm'"></div>
+        </label>
+        <label for="reminder"></label>
+    </div>
+</div>
+<div ng-if="!ctlReminder.model.repeated && (!ctlReminder.taskDueDate || ctlReminder.type === 'custom') && !ctlReminder.adding">
+    <input type="text"
+        class="no-style gale-holder" placeholder="{{ctlReminder.reminderPlaceholder}}" ng-blur="ctlReminder.reminderFocus = false"
+        ng-focus="ctlReminder.reminderFocus = true" ng-model="ctlReminder.reminderDate" uneditable="{{!ctlReminder.addItem}}" focus-me="{{ctlReminder.elementFocus}}"
+        ng-keydown="ctlReminder.reminderKeyDown($event)" ng-keyup="ctlReminder.reminderKeyUp($event)" 
+        data-config="ctlReminder.datePickerconfig" g-formatted-picked-date="gfdate" g-picked-date="gdate" ng-jalaali-flat-datepicker
+        have-time="ctlReminder.hasTime" timestamp-model="ctlReminder.model.timestamp"/>
+</div>
+<div ng-if="!ctlReminder.model.repeated && (!ctlReminder.taskDueDate || ctlReminder.type === 'custom') && ctlReminder.adding" class="no-style gale-holder reminder-placeholder _df _aic">
+       {{ctlReminder.model.timestamp | date: 'full-12h'}}
+</div>
+<div ng-if="ctlReminder.model.repeated && (!ctlReminder.taskDueDate || ctlReminder.type === 'custom')" class="no-style gale-holder reminder-placeholder _df _aic"
+       ng-click="ctlReminder.openModal(ctlReminder.model)">
+       {{ctlReminder.reminderPlaceholder}}
+</div>

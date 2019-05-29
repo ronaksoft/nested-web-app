@@ -111,6 +111,7 @@ select {
   border-color: $contrast-border-color;
   border-radius: 4px;
   padding-right: 15px;
+  padding-left: 8px;
   &:hover {
     background: url("../assets/icons/inputform.svg") no-repeat 98% -124px,$contrast-bg-color;
   }
