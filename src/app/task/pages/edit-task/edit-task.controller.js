@@ -54,6 +54,7 @@
       vm.todoFocus = false;
       vm.attachmentFocus = false;
       vm.labelFocus = false;
+      vm.reminderFocus = false;
       vm.watcherFocus = false;
       vm.editorFocus = false;
     }
@@ -103,6 +104,7 @@
       watchers: [],
       editors: [],
       labels: [],
+      reminders: [],
       access: null
     };
 
@@ -122,6 +124,9 @@
       }
       if (vm.modelBackUp.labels.hasOwnProperty('init')) {
         vm.modelBackUp.labels = vm.modelBackUp.labels.data;
+      }
+      if (vm.modelBackUp.reminders.hasOwnProperty('init')) {
+        vm.modelBackUp.reminders = vm.modelBackUp.reminders.data;
       }
     }
 
@@ -187,6 +192,11 @@
     vm.removeLabels = removeLabels;
     vm.enableLabel = false;
     vm.labelClick = labelClick;
+
+    vm.reminderPlaceholder = NstSvcTranslation.get('Add reminders...');
+    vm.removeReminders = removeReminders;
+    vm.enableReminder = false;
+    vm.reminderClick = reminderClick;
 
     vm.isDisabled = isDisabled;
 
@@ -290,6 +300,16 @@
           };
         }
         vm.enableLabel = true;
+      }
+
+      if (task.reminders !== undefined && task.reminders.length > 0) {
+        if (!isIdentical(vm.model.reminders, task.reminders)) {
+          vm.model.reminders = {
+            init: true,
+            data: task.reminders
+          };
+        }
+        vm.enableReminder = true;
       }
 
       if (task.relatedTask !== undefined) {
@@ -453,6 +473,24 @@
       }
     }
 
+    function removeReminders() {
+      initiateFocus();
+      if (vm.model.reminders.length === 0) {
+        vm.enableReminder = false;
+      } else {
+        NstSvcTaskUtility.promptModal({
+          title: NstSvcTranslation.get('Remove All Reminders'),
+          body: NstSvcTranslation.get('Are you sure?'),
+          confirmText: NstSvcTranslation.get('Yes'),
+          confirmColor: 'red',
+          cancelText: NstSvcTranslation.get('Cancel')
+        }).then(function () {
+          vm.removeReminderItems.call();
+          vm.enableReminder = false;
+        });
+      }
+    }
+
     function isDisabled() {
       var response = NstSvcTaskUtility.validateTask(vm.model);
       return !response.valid;
@@ -519,7 +557,7 @@
     }, true));
 
     function updateTask() {
-      NstSvcTaskFactory.taskUpdate(vm.taskId, taskUpdateModel.title, taskUpdateModel.description, (taskUpdateModel.dueDate === null ? null : taskUpdateModel.dueDate * 1000), taskUpdateModel.hasDueTime).then(function () {
+      NstSvcTaskFactory.taskUpdate(vm.taskId, taskUpdateModel.title || vm.model.title, taskUpdateModel.description, (taskUpdateModel.dueDate === null ? null : taskUpdateModel.dueDate * 1000), taskUpdateModel.hasDueTime).then(function () {
         backItUp();
         isUpdated = true;
       })/*.catch(function (error) {
@@ -794,6 +832,39 @@
       }
     }
 
+    eventReferences.push($scope.$watch(function () {
+      return vm.model.reminders;
+    }, function (newVal) {
+      if (dataInit) {
+        updateReminders(getNormalValue(newVal));
+      }
+    }, true));
+
+    function updateReminders(reminders) {
+      var oldData = getNormalValue(vm.modelBackUp.reminders);
+      var newItems = _.differenceBy(reminders, oldData, 'id');
+      var removedItems = _.differenceBy(oldData, reminders, 'id');
+      var promises = [];
+
+      if (newItems.length > 0) {
+        _.forEach(newItems, function(reminder) {
+          promises.push(NstSvcTaskFactory.addReminder(vm.taskId, reminder.repeated, reminder.relative, reminder.timestamp, reminder.interval, reminder.days));
+        })
+  
+      }
+
+      if (removedItems.length > 0) {
+        promises.push(NstSvcTaskFactory.removeReminder(vm.taskId, getCommaSeparate(removedItems)));
+      }
+
+      if (newItems.length > 0 || removedItems.length > 0) {
+        $q.all(promises).then(function () {
+          vm.modelBackUp.reminders = _.cloneDeep(vm.model.reminders);
+          isUpdated = true;
+        });
+      }
+    }
+
     function createRelatedTask() {
       $rootScope.$broadcast('create-related-task', {id: vm.taskId});
       $scope.$dismiss();
@@ -848,7 +919,8 @@
         attachmentFocus: vm.attachmentFocus,
         watcherFocus: vm.watcherFocus,
         editorFocus: vm.editorFocus,
-        labelFocus: vm.labelFocus
+        labelFocus: vm.labelFocus,
+        reminderFocus: vm.reminderFocus
       };
     }, function (newVal, oldVal) {
 
@@ -875,6 +947,10 @@
           search: NstSearchQuery.encode(searchQuery.toString())
         });
       }, 200);
+    }
+
+    function reminderClick(data) {
+      $scope.$dismiss();
     }
 
     function mergeList(oldList, newList) {

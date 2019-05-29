@@ -302,18 +302,61 @@
             </div>
           </label>
         </div>
+        <div class="task-reminders auto-height-item" ng-show="ctrlEditTask.enableReminder">
+          <div class="_difv _fw">
+            <h3>
+              <translate>Reminders</translate>
+            </h3>
+            <div class="task-input-wrapper ng-class:{'focus': ctrlEditTask.reminderFocus}">
+              <task-reminder reminders-data="ctrlEditTask.model.reminders" reminder-focus="ctrlEditTask.reminderFocus"
+                          reminder-placeholder="{{ctrlEditTask.reminderPlaceholder}}"
+                          remove-items="ctrlEditTask.removeReminderItems"
+                          remove-item="ctrlEditTask.model.access.removeReminder"
+                          task-due-date="ctrlEditTask.model.hasDueTime && ctrlEditTask.model.dueDate"
+                          reminder-click="ctrlEditTask.reminderClick"
+              ></task-reminder>
+            </div>
+          </div>
+          <label
+            ng-class="{'focus': ctrlEditTask.reminderFocus}">
+            <div class="_24svg _df _jcc _pr">
+              <svg class="_16svg static-item">
+                <use xlink:href="/assets/icons/nst-icn16.svg#reminder"></use>
+              </svg>
+              <svg class="_16svg force hover-item"
+                   ng-click="ctrlEditTask.removeReminders()" data-uib-tooltip="Clear All Reminders"
+                   data-tooltip-placement="top-center auto" translate-attrs="data-uib-tooltip"
+                   data-tooltip-append-to-body="true">
+                <use xlink:href="/assets/icons/nst-icn16.svg#negative-xcross"></use>
+              </svg>
+            </div>
+          </label>
+        </div>
         <div class="task-binder ng-class:{'is-open': ctrlEditTask.isOpenBinder}"
              ng-if="((!ctrlEditTask.enableWatcher && ctrlEditTask.model.access.addWatcher) ||
                 (!ctrlEditTask.enableEditor && ctrlEditTask.model.access.addEditor) ||
                 (!ctrlEditTask.enableAttachment && ctrlEditTask.model.access.addAttachment) ||
                 (!ctrlEditTask.enableTodo && ctrlEditTask.model.access.addTodo)||
                 (!ctrlEditTask.enableDescription && ctrlEditTask.model.access.updateTask) ||
+                (!ctrlEditTask.enableReminder && ctrlEditTask.model.access.updateReminder) ||
                 (!ctrlEditTask.enableLabel && ctrlEditTask.model.access.addLabel))">
           <div class="task-binders">
             <div class="task-binder-butn" ng-click="ctrlEditTask.openBinder()">
               <svg class="_16svg">
                 <use xlink:href="/assets/icons/nst-icn16.svg#cross"></use>
               </svg>
+            </div>
+            <div class="task-binder-butn" ng-if="!ctrlEditTask.enableReminder"
+                 ng-click="ctrlEditTask.bindRow('enableReminder')">
+              <svg class="_16svg">
+                <use xlink:href="/assets/icons/nst-icn16.svg#reminder"></use>
+              </svg>
+            </div>
+            <div class="task-binder-tooltip">
+              <svg class="_16svg">
+                <use xlink:href="/assets/icons/nst-icn16.svg#reminder"></use>
+              </svg>
+              <translate>Add Reminder</translate>
             </div>
             <div class="task-binder-butn" ng-if="!ctrlEditTask.enableLabel && ctrlEditTask.model.access.addLabel"
                  ng-click="ctrlEditTask.bindRow('enableLabel')">

@@ -1,13 +1,12 @@
 (function () {
   'use strict';
 
-  function clickOnDone() {
-    var popover = $('.clockpicker-popover'),
-      hoursView = popover.find('.clockpicker-span-hours'),
+  function clickOnDone(popover, input) {
+    var hoursView = popover.find('.clockpicker-span-hours'),
       minutesView = popover.find('.clockpicker-span-minutes'),
       amPmBlock = popover.find('.clockpicker-span-am-pm');
-    $('[data-lng-clockpicker]').val(hoursView.text() + ':' + minutesView.text() + ' ' + amPmBlock.text());
-    $('[data-lng-clockpicker]').trigger('input');
+    input.val(hoursView.text() + ':' + minutesView.text() + ' ' + amPmBlock.text());
+    input.trigger('input');
   }
 
   angular.module('ronak.nested.web.components')
@@ -71,65 +70,62 @@
     .value('clockpickerDefaultOptions', {
       twelvehour: true,
       autoclose: false,
-      donetext: 'Apply',
-      afterShow: function (e) {
-        var datepicker = $('.ng-flat-datepicker');
-        $('.clockpicker-popover').on('mousedown', function (e) {
-          e.preventDefault();
-          e.stopImmediatePropagation();
-          return e.stopPropagation();
-        });
-
-        if (datepicker[0]) {
-          $('.clockpicker-popover').appendTo(datepicker);
-        }
-        $('.btn-block.clockpicker-button').on('mousedown', clickOnDone);
-        var amBtnObj = $('.clockpicker-am-pm-block .am-button');
-        var pmBtnObj = $('.clockpicker-am-pm-block .pm-button');
-        if ($('.clockpicker-span-am-pm').text().toLowerCase() === 'pm') {
-          pmBtnObj.addClass('btn-active');
-        } else {
-          amBtnObj.addClass('btn-active');
-        }
-        amBtnObj.on('click', function () {
-          pmBtnObj.removeClass('btn-active');
-          $(this).addClass('btn-active');
-        });
-        pmBtnObj.on('click', function () {
-          amBtnObj.removeClass('btn-active');
-          $(this).addClass('btn-active');
-        });
-      },
-      beforeHide: function () {
-        // $('.btn-block.clockpicker-button').off('mousedown', clickOnDone);
-        $('.clockpicker-popover').off();
-        $('.clockpicker-am-pm-block .am-button').off();
-        $('.clockpicker-am-pm-block .pm-button').off();
-      }
+      donetext: 'Apply'
     })
 
     .directive('lngClockpicker', ['clockpickerService', 'clockpickerDefaultOptions', 'moment', '$timeout', 'detectUtils', '_', function (clockpickerService, clockpickerDefaultOptions, moment, $timeout, detectUtils, _) {
 
       function link(scope, element, attr, ngModel) {
         var eventReferences = [];
-        var options = angular.extend({}, clockpickerDefaultOptions, scope.$eval(attr.lngClockpickerOptions));
+        var options = angular.extend({}, clockpickerDefaultOptions, {
+          afterShow: function () {
+            var datepicker = element.parents('.ng-flat-datepicker');
+            var clockpicker = $('.clockpicker-popover').last();
+            clockpicker.on('mousedown', function (e) {
+              e.preventDefault();
+              e.stopImmediatePropagation();
+              return e.stopPropagation();
+            });
+    
+            if (datepicker[0]) {
+              clockpicker.appendTo(datepicker);
+            } else {
+              element.after(clockpicker);
+            }
+            clockpicker.find('.btn-block.clockpicker-button').on('mouseup', function() {
+              clickOnDone(clockpicker, element);
+            });
+            var amBtnObj = clockpicker.find('.clockpicker-am-pm-block .am-button');
+            var pmBtnObj = clockpicker.find('.clockpicker-am-pm-block .pm-button');
+            if (clockpicker.find('.clockpicker-span-am-pm').text().toLowerCase() === 'pm') {
+              pmBtnObj.addClass('btn-active');
+            } else {
+              amBtnObj.addClass('btn-active');
+            }
+            amBtnObj.on('mouseup', function () {
+              pmBtnObj.removeClass('btn-active');
+              $(this).addClass('btn-active');
+              clockpicker.find('.clockpicker-span-am-pm').text('AM');
+            });
+            pmBtnObj.on('mouseup', function () {
+              amBtnObj.removeClass('btn-active');
+              $(this).addClass('btn-active');
+              clockpicker.find('.clockpicker-span-am-pm').text('PM');
+            });
+          },
+          beforeHide: function () {
+            var clockpicker = $('.clockpicker-popover').last();
+            clockpicker.off();
+            clockpicker.find('.clockpicker-am-pm-block .am-button').off();
+            clockpicker.find('.clockpicker-am-pm-block .pm-button').off();
+          }
+        }, scope.$eval(attr.lngClockpickerOptions));
 
         var isMobile = false;
 
-        var formatTime = options.twelvehour && !(isMobile && options.nativeOnMobile) ? 'hh:mm A' : 'HH:mm';
+        var formatTime = options.twelvehour ? 'hh:mm A' : 'HH:mm';
 
-        if (!isMobile || !options.nativeOnMobile) {
-          element.clockpicker(options);
-        }
-
-        if (isMobile) {
-          if (options.nativeOnMobile) {
-            element.attr('type', 'time');
-          } else if (!element.is('[readonly]')) {
-            element.attr('readonly', 'readonly');
-            element.addClass('ignore-readonly');
-          }
-        }
+        element.clockpicker(options);
 
         function getModelValue() {
           return ngModel.$modelValue ? moment(_.clone(ngModel.$modelValue)) : moment();
@@ -151,7 +147,7 @@
           ngModel.$valid && element.val(getModelValue().local().format(formatTime));
         });
 
-        ngModel.$render = function (val) {
+        ngModel.$render = function () {
           element.val(ngModel.$viewValue || '');
         };
 
@@ -179,7 +175,6 @@
           var localMomentDate = moment(_.clone(momentDate)).local();
           var isSameTime = !val ||
             (val.hour === localMomentDate.hour() && val.minute === localMomentDate.minute());
-
           return (element.is(':focus') && isSameTime) ?
             ngModel.$viewValue :
             localMomentDate.format(formatTime);

@@ -1,0 +1,29 @@
+<div class="mini-modal reminder-modal">
+    <div class="_difv _fw">
+        <div class="_difh modal-head">
+            <Translate>Set date and time</Translate>
+        </div>
+        <div class="_df _fw _aic reminder-repeater">
+            <div class="_df _fn"><Trasnlate>Repeats every</Trasnlate></div>
+            <input class="_df f1" type="text" name="repeatCount" ng-model="ctlReminderModal.repeatCount" maxlength="2" minlength="1" allow-only-number change-up-down-press required>
+            <select class="_df f2" ng-model="ctlReminderModal.repeatCase" name="inlineDay" ng-options="repeatCase as repeatCase for (index, repeatCase) in ctlReminderModal.selectTypes" required></select>
+        </div>
+        <ul class="day-list" ng-if="ctlReminderModal.repeatCase === ctlReminderModal.selectTypes[1]">
+            <li ng-repeat="dayName in ctlReminderModal.daysNameList" class="ng-class:{'active': ctlReminderModal.model.days.indexOf($index) > -1}"
+                ng-click="ctlReminderModal.select($index)">{{ dayName }}</li>
+        </ul>
+        <div class="_difh reminder-time _aic">
+            <Translate>On</Translate>
+            <input class="f1" type="text" placeholder="Set time" data-ng-model="ctlReminderModal.model.timestamp" data-lng-clockpicker data-lng-clockpicker-options='ctlReminderModal.clockOpts'>
+        </div>
+        <div class="_difh _jce reminder-buttons">
+            <div class="butn butn-white secondary _jcc _df" ng-click="ctlReminderModal.close();">
+                <a class="_df" translate-inner>Cancel</a>
+            </div>
+            <button ng-disabled="ctlReminderModal.model.timestamp === 0" class="butn butn-green _jcc _df" ng-click="ctlReminderModal.save();">
+                <a class="_df" translate-inner>Save</a>
+            </button>
+        </div>
+    </div>
+</div>
+      

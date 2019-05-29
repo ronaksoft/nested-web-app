@@ -20,8 +20,9 @@
     vm.minimizeModal = minimizeModal;
     vm.abortBackgroundCreateTask = abortBackgroundCreateTask;
     vm.editMode = true;
-    vm.datePickerconfig = {
-      allowFuture: true
+    vm.datePickerConfig = {
+      allowFuture: true,
+      allowPast: false
     };
     vm.backDropClick = backDropClick;
     vm.setFocus = setFocus;
@@ -35,6 +36,7 @@
         vm.model.attachments.length !== 0 ||
         vm.model.watchers.length !== 0 ||
         vm.model.editors.length !== 0 ||
+        vm.model.reminders.length !== 0 ||
         vm.model.labels.length !== 0) {
         NstSvcTaskUtility.promptModal({
           title: NstSvcTranslation.get('Closing creating task modal'),
@@ -65,7 +67,8 @@
         attachments: vm.model.attachments,
         watchers: vm.model.watchers,
         editors: vm.model.editors,
-        labels: vm.model.labels
+        labels: vm.model.labels,
+        reminders: vm.model.reminders
       };
       NstSvcTaskDraft.save(draft);
       $rootScope.$broadcast('task-draft-change');
@@ -140,6 +143,14 @@
         };
         vm.showMoreOption = true;
       }
+
+      if (task.reminders && task.reminders.length > 0) {
+        vm.model.reminders = {
+          init: true,
+          data: task.reminders
+        };
+        vm.showMoreOption = true;
+      }
     }
 
     vm.modalId = modalData.modalId;
@@ -151,7 +162,6 @@
       status: null,
       title: '',
       assignees: [],
-      dueDateText: null,
       dueDate: null,
       hasDueTime: false,
       description: '',
@@ -159,7 +169,8 @@
       attachments: [],
       watchers: [],
       editors: [],
-      labels: []
+      labels: [],
+      reminders: []
     };
 
     loadDraft();
@@ -183,6 +194,13 @@
         vm.model.labels = {
           init: true,
           data: modalData.init.labels
+        };
+        vm.showMoreOption = true;
+      }
+      if (modalData.init.reminders && modalData.init.reminders.length > 0) {
+        vm.model.reminders = {
+          init: true,
+          data: modalData.init.reminders
         };
         vm.showMoreOption = true;
       }
@@ -224,6 +242,9 @@
     vm.labelPlaceholder = NstSvcTranslation.get('Add labels...');
     vm.removeLabels = removeLabels;
 
+    vm.reminderPlaceholder = NstSvcTranslation.get('+ Set a reminder');
+    vm.removeReminders = removeReminders;
+
     vm.isDisabled = isDisabled;
     vm.create = create;
 
@@ -257,6 +278,14 @@
       getAssigneeIcon(newVal);
     }, true));
 
+    eventReferences.push($scope.$watch(function () {
+      return vm.model.dueDateText;
+    }, function (newVal) {
+      if (newVal === undefined) {
+        vm.model.dueDate = null
+      }
+    }, true));
+
     function removeDueDate() {
       vm.model.dueDate = null;
     }
@@ -279,6 +308,10 @@
 
     function removeLabels() {
       vm.removeLabelItems.call();
+    }
+
+    function removeReminders() {
+      vm.removeReminderItems.call();
     }
 
     function isDisabled() {
@@ -320,6 +353,9 @@
         }
         if (vm.model.labels.length > 0) {
           task.labels = vm.model.labels;
+        }
+        if (vm.model.reminders.length > 0) {
+          task.reminders = vm.model.reminders;
         }
         if (modalData.relatedTaskId !== null) {
           task.relatedTask = modalData.relatedTaskId;
@@ -388,6 +424,7 @@
       vm.todoFocus = false;
       vm.attachmentFocus = false;
       vm.labelFocus = false;
+      vm.reminderFocus = false;
       vm.watcherFocus = false;
       vm.weditorFocus = false;
       vm.titleFocus = false;
@@ -405,7 +442,8 @@
         attachmentFocus: vm.attachmentFocus,
         watcherFocus: vm.watcherFocus,
         editorFocus: vm.editorFocus,
-        labelFocus: vm.labelFocus
+        labelFocus: vm.labelFocus,
+        reminderFocus: vm.reminderFocus
       };
     }, function (newVal) {
       if (_.countBy(Object.values(newVal))['true'] > 1) {

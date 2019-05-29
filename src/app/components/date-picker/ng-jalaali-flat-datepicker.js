@@ -16,7 +16,7 @@
    * @example <ng-datepicker></ng-datepicker>
    */
 
-  ngJalaaliFlatDatepickerDirective.$inject = ['$templateCache', '$compile', '$document', 'datesCalculator', 'ngJalaaliFDP', 'moment', 'NstSvcI18n', 'NstSvcTranslation', '_'];
+  ngJalaaliFlatDatepickerDirective.$inject = ['$interval', '$templateCache', '$compile', '$document', 'datesCalculator', 'ngJalaaliFDP', 'moment', 'NstSvcI18n', 'NstSvcTranslation', '_'];
   angular
     .module('ngJalaaliFlatDatepicker', ['ronak.nested.web.components.i18n'])
     .filter('persianDate', PersianDateFilter)
@@ -51,7 +51,8 @@
       minDate: null,
       dropDownYears: 10,
       maxDate: null,
-      allowFuture: false
+      allowFuture: false,
+      allowPast: true
     };
 
     var ngJFD = {
@@ -73,17 +74,7 @@
   }
 
 
-  function ngJalaaliFlatDatepickerDirective($templateCache, $compile, $document, datesCalculator, ngJalaaliFDP, moment, NstSvcI18n, NstSvcTranslation, _) {
-    /*function parseConfig (config) {
-        var temp = angular.fromJson(config);
-        if (typeof(temp.minDate) == 'undefined') {
-            temp.minDate = moment.utc(temp.minDate);
-        }
-        if (typeof(temp.maxDate) == 'undefined') {
-            temp.maxDate = moment.utc(temp.maxDate);
-        }
-        return temp;
-    }*/
+  function ngJalaaliFlatDatepickerDirective($interval, $templateCache, $compile, $document, datesCalculator, ngJalaaliFDP, moment, NstSvcI18n, NstSvcTranslation, _) {
 
     return {
       restrict: 'A',
@@ -104,7 +95,6 @@
         scope.timestampModelTemp = 0;
         scope.haveTimeTemp = false;
         setTimeFromTimeStamp();
-        // setViewTime();
         scope.showTime = false;
         if (scope.haveTime) {
           scope.showTime = scope.haveTime;
@@ -149,7 +139,7 @@
 
         eventReferences.push(scope.$watch('timestampModel', function (newVal) {
           if (inited) {
-            if (newVal === 0) {
+            if (newVal === 0 || newVal === null) {
               scope.calendarCursor = null;
               ngModel.$setViewValue(null);
               ngModel.$render();
@@ -171,8 +161,7 @@
         };
 
 
-        // scope.config = _.extend(ngJalaaliFDP.getOptions(), scope.config)
-        scope.config = angular.extend(ngJalaaliFDP.options, scope.config);
+        scope.config = angular.extend(_.cloneDeep(ngJalaaliFDP.options), scope.config);
         if (jalali) {
           scope.config.dateFormat = scope.config.jalaliDateFormat
         }
@@ -293,18 +282,12 @@
          * @return {[type]}     [description]
          */
         scope.selectDay = function (day) {
-          if (day.isSelectable && !day.isFuture || (scope.config.allowFuture && day.isFuture)) {
+          if (day.isSelectable) {
             resetSelectedDays();
             day.isSelected = true;
             var tempMoment = moment(day.date);
-            // var vw;
-            // vw = tempMoment.format(scope.config.dateFormat);
-            // ngModel.$setViewValue(vw);
-            // ngModel.$render();
             scope.gPickedDate = moment(day.date);
             scope.gFormattedPickedDate = moment(day.date).format(scope.config.gregorianDateFormat);
-            // scope.pickerDisplayed = false;
-            // scope.timestampModel = tempMoment.unix();
             scope.timestampModelTemp = tempMoment.unix();
             scope.calendarCursor = tempMoment;
             dateSelected = tempMoment;
@@ -357,6 +340,7 @@
         }));
 
         scope.setTime = function (add) {
+
           var inputTime;
           if (add) {
             inputTime = getInputTime(scope.timeHour, scope.timeMinute);
@@ -371,25 +355,14 @@
           }
           reformatTime(scope.haveTimeTemp);
           setTime(inputTime);
-          // setViewTime(inputTime);
           var temp = moment(scope.calendarCursor);
-          // var vw;
-          // vw = temp.format(scope.config.dateFormat);
           scope.gPickedDate = temp;
           scope.gFormattedPickedDate = temp.format(scope.config.gregorianDateFormat);
-          // ngModel.$setViewValue(vw);
-          // ngModel.$render();
-          // if (add) {
-          //   scope.pickerDisplayed = false;
-          // }
           scope.timestampModelTemp = temp.unix();
         };
 
         scope.applyDate = function () {
-          var temp = moment(scope.calendarCursor);
-          var vw;
-          vw = temp.format(scope.config.dateFormat);
-          ngModel.$setViewValue(vw);
+          ngModel.$setViewValue(moment(scope.calendarCursor).format(scope.config.dateFormat));
           ngModel.$render();
           scope.timestampModel = _.cloneDeep(scope.timestampModelTemp);
           scope.haveTime = _.cloneDeep(scope.haveTimeTemp);
@@ -452,12 +425,10 @@
               scope.clockPickerTime = scope.calendarCursor;
             }
             reformatTime(scope.haveTime);
-            var vw;
             var temp = moment(scope.calendarCursor);
-            vw = temp.format(scope.config.dateFormat);
             scope.gPickedDate = temp;
             scope.gFormattedPickedDate = temp.format(scope.config.gregorianDateFormat);
-            ngModel.$setViewValue(vw);
+            ngModel.$setViewValue(temp.format(scope.config.dateFormat));
             ngModel.$render();
             dateSelected = temp;
           }
@@ -497,7 +468,10 @@
             var afterMinDate = !scope.config.minDate || start.isAfter(scope.config.minDate, 'day');
             var beforeMaxDate = !scope.config.maxDate || start.isBefore(scope.config.maxDate, 'day');
             var isFuture = start.isAfter(today);
-            var beforeFuture = scope.config.allowFuture || !isFuture;
+            var isToday = start.isSame(today, 'day');
+            var isPast = start.isBefore(today);
+            var beforeFuture = isFuture && scope.config.allowFuture;
+            var afterPast = isPast && scope.config.allowPast;
             var tempStart = moment(start.toDate()); //there's a bug in isSame method below
             var tempStart2 = moment(start.toDate()); //there's a bug in isSame method below
             var day = {
@@ -507,7 +481,7 @@
               isToday: start.isSame(today, 'day'),
               isInMonth: tempStart.isSame(firstDayOfMonth, jalali ? 'jmonth' : 'month'),
               isSelected: tempStart2.isSame(dateSelected, 'day'),
-              isSelectable: afterMinDate && beforeMaxDate && beforeFuture
+              isSelectable: afterMinDate && beforeMaxDate && (isToday || beforeFuture || afterPast)
             };
             currentWeek.push(day);
 

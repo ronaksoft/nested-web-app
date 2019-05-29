@@ -360,6 +360,7 @@
         }
         input[type="button"] {
             height: 32px;
+            min-width: 128px;
             // padding: 0;
         }
     }
@@ -370,7 +371,7 @@
             max-width: calc(100% - 8px);
         }
         li {
-             margin: 8px 0;
+            margin: 8px 0;
         }
         svg {
             margin: 4px 0;

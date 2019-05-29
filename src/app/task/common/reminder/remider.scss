@@ -1,0 +1,110 @@
+.reminder-repeat-switch {
+    font-size: 13px;
+    line-height: 18px;
+    margin-top: 12px;
+    color: $color-solid;
+    .place-switch {
+        margin: 0 8px;
+    }
+}
+.reminder-type-select {
+    height: 40px;
+    margin-top: 12px;
+}
+.reminder-type-select:last-child {
+    margin-bottom: 6px;
+}
+.reminder-placeholder {
+    margin-top: 6px;
+    height: 40px;
+    padding: 3px 3px 3px 10px;
+    color: $color-solid-48;
+}
+.reminder-modal {
+    width: 304px;
+    color: $color-solid;
+    .modal-head {
+        font-size: 18px;
+        line-height: 25px;
+    }
+    .reminder-repeater {
+        margin: 16px 0 0;
+        input {
+            min-width: 0;
+            margin: 0 8px;
+        }
+        select {
+            height: 40px;
+        }
+    }
+    .day-list {
+        display: flex;
+        margin: 16px 0 0;
+        list-style: none;
+        justify-content: space-between;
+    }
+    .day-list li{
+        display: flex;
+        flex: none;
+        width: 32px;
+        height: 32px;
+        color: $color-solid;
+        font-size: 13px;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(180deg, $color-white-revesable 0%, $color-calm 100%);
+        border: 1px solid #DDDFE0;
+        box-sizing: border-box;
+        border-radius: 4px;
+        &.active {
+            background: $color-sense;
+            border: 1px solid $color-sense-wire;
+            color: white;
+        }
+    }
+    .reminder-time {
+        margin-top: 16px;
+        position: relative;
+        span {
+            color: $color-solid;
+        }
+        input {
+            margin-left: 12px;
+            border-radius: 0;
+            padding: 0;
+            border-top: none;
+            border-left: none;
+            border-right: none;
+            border-bottom: 1px solid rgba(50, 61, 71, 0.48);
+        }
+        .popover {
+            top: 39px!important;
+            left: 0!important;
+        }
+    }
+    .reminder-buttons {
+        margin-top: 24px;
+    }
+}
+.reminder-list {
+    position: relative;
+    margin-top: 12px;
+}
+.reminder-list:hover .reminder-remove,
+.reminder-list .reminder-remove:hover{
+    opacity: 1;
+}
+.reminder-list .reminder-remove{
+    position: absolute;
+    left: -40px;
+    z-index: 4;
+    opacity: .16;
+    transition: opacity $animation-dur;
+    top: 0;
+}
+.reminder-list .reminder-day::after{
+    content: ','
+}
+.reminder-list .reminder-day:last-of-type::after{
+    display: none;
+}
