@@ -76,7 +76,6 @@
               case NST_NOTIFICATION_TYPE.INVITE:
               case NST_NOTIFICATION_TYPE.INVITE_RESPOND:
                 return notif;
-                break;
               case NST_NOTIFICATION_TYPE.COMMENT:
                 return parseComment(notif);
 
@@ -107,6 +106,8 @@
                 return parseTaskAssignedChanged(notif);
               case NST_NOTIFICATION_TYPE.TASK_ADD_TO_CANDIDATES:
                 return parseTaskAddToCandidate(notif);
+              case NST_NOTIFICATION_TYPE.TASK_REMINDER:
+                return parseTaskReminder(notif);
               case NST_NOTIFICATION_TYPE.TASK_ADD_TO_WATCHERS:
                 return parseTaskAddToWatchers(notif);
               case NST_NOTIFICATION_TYPE.TASK_DUE_TIME_UPDATED:
@@ -363,6 +364,16 @@
     }
 
     function parseTaskAddToCandidate(data) {
+      var notification = parseDefault(data);
+
+      notification.task = {
+        id: data.task_id
+      };
+
+      return notification;
+    }
+
+    function parseTaskReminder(data) {
       var notification = parseDefault(data);
 
       notification.task = {
