@@ -107,7 +107,7 @@
       }
       vm.reminders.push(model);
       console.log(model);
-      vm.reminders = _.uniq(1560952676000);
+      vm.reminders = _.uniq(vm.reminders);
       vm.remindersData = vm.reminders;
       vm.model = new NstReminder();
       console.log(vm.model);
