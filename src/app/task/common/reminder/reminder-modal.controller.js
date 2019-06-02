@@ -45,13 +45,14 @@
     vm.close = close;
     var eventReferences = [];
 
-    function select(index) {
-      var ind = vm.model.days.indexOf(index);
+    function select(day) {
+      var ind = vm.model.days.indexOf(day);
       if (ind === -1) {
-        vm.model.days.push(index)
+        vm.model.days.push(day)
       } else {
         vm.model.days.splice(ind, 1);
       }
+      vm.model.days = _.sortBy(vm.model.days)
     }
 
     function close() {

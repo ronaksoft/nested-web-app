@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function CreateTaskController($q, $timeout, $scope, $rootScope, NstSvcAuth, NstSvcTaskFactory, _, toastr, NstSvcTaskDraft,
-                                NstSvcTranslation, NstTask, NST_ATTACHMENT_STATUS, NstUtility, NstSvcTaskUtility, NstSvcStore,
+                                NstSvcTranslation, NstTask, NST_ATTACHMENT_STATUS, NstUtility, NstSvcTaskUtility, NstSvcStore, NstSvcReminderFactory,
                                 modalData) {
     var vm = this;
     var eventReferences = [];
@@ -355,7 +355,7 @@
           task.labels = vm.model.labels;
         }
         if (vm.model.reminders.length > 0) {
-          task.reminders = vm.model.reminders;
+          task.reminders = _.map(vm.model.reminders, NstSvcReminderFactory.createRequestObject);
         }
         if (modalData.relatedTaskId !== null) {
           task.relatedTask = modalData.relatedTaskId;

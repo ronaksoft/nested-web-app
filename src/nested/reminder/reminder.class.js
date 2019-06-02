@@ -11,8 +11,8 @@
       this.id = undefined;
       this.repeated = false;
       this.relative = false;
-      this.timestamp = 0;
       this.interval = 0;
+      this.timestamp = [];
       this.days = [];
       this.repeat_case = NST_REMINDER_REPEAT_CASE.DAYS;
     }

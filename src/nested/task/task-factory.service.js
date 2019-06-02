@@ -281,7 +281,7 @@
       }
 
       if (task.reminders) {
-        params.reminders = JSON.stringify(task.reminders);
+        params.reminders = JSON.stringify(_.map(task.reminders, NstSvcReminderFactory.createRequestObject));
       }
 
       if (task.relatedTask) {
@@ -368,14 +368,7 @@
     }
 
     function addReminder(taskId, repeated, relative, timestamp, interval, days) {
-      return NstSvcServer.request('task/add_reminder', {
-        task_id: taskId,
-        repeated: repeated,
-        relative: relative,
-        timestamp: timestamp,
-        interval: interval,
-        days: days
-      });
+      return NstSvcReminderFactory.create(taskId, repeated, relative, timestamp, interval, days);
     }
 
     function removeReminder(taskId, reminderId) {

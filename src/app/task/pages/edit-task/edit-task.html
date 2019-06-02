@@ -338,7 +338,7 @@
                 (!ctrlEditTask.enableAttachment && ctrlEditTask.model.access.addAttachment) ||
                 (!ctrlEditTask.enableTodo && ctrlEditTask.model.access.addTodo)||
                 (!ctrlEditTask.enableDescription && ctrlEditTask.model.access.updateTask) ||
-                (!ctrlEditTask.enableReminder && ctrlEditTask.model.access.updateReminder) ||
+                !ctrlEditTask.enableReminder ||
                 (!ctrlEditTask.enableLabel && ctrlEditTask.model.access.addLabel))">
           <div class="task-binders">
             <div class="task-binder-butn" ng-click="ctrlEditTask.openBinder()">

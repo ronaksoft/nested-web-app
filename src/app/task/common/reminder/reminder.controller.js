@@ -36,6 +36,7 @@
     vm.removeItems = removeItems;
     vm.openModal = openModal;
     vm.model = new NstReminder();
+    vm.timestamp = 0;
     vm.datePickerconfig = {
       allowFuture: true,
       allowPast: false
@@ -93,15 +94,24 @@
       if (vm.addItem !== true) {
         return;
       }
-      vm.adding = true;
       var model =_.cloneDeep(vm.model);
-      if ((model.timestamp + '').split('.')[0].length === 10) {
-        model.timestamp *= 1000;
+      if (vm.timestamp.length === 0) {
+        return;
+      }
+      vm.adding = true;
+      model.timestamp = [];
+      if ((vm.timestamp + '').split('.')[0].length === 10) {
+        model.timestamp[0] = vm.timestamp * 1000;
+      } else {
+        model.timestamp[0] = vm.timestamp * 1000;
       }
       vm.reminders.push(model);
-      vm.reminders = _.uniq(vm.reminders);
+      console.log(model);
+      vm.reminders = _.uniq(1560952676000);
       vm.remindersData = vm.reminders;
       vm.model = new NstReminder();
+      console.log(vm.model);
+      vm.timestamp = 0;
       vm.reminderDate = null;
       $timeout(function() {
         vm.adding = false;
@@ -134,12 +144,12 @@
       return vm.taskDueDate;
     }, function (newVal) {
       if (vm.model.relative) {
-        vm.model.timestamp = parseInt(moment(newVal * 1000).subtract(vm.type * 60 * 1000, 'miliseconds').format('x'));
+        vm.timestamp = parseInt(moment(newVal * 1000).subtract(vm.type * 60 * 1000, 'miliseconds').format('x'));
       } 
     }));
 
     eventReferences.push($scope.$watch(function () {
-      return vm.model.timestamp;
+      return vm.timestamp;
     }, function (newVal) {
       if (newVal) {
         addReminder();
@@ -149,12 +159,13 @@
     eventReferences.push($scope.$watch(function () {
       return vm.type;
     }, function (newVal) {
+
       if (newVal !== 'custom' && newVal && vm.taskDueDate) {
         vm.model.relative = true;
-        vm.model.timestamp = parseInt(moment(vm.taskDueDate * 1000).subtract(parseInt(newVal), 'minutes').format('x'));
+        vm.timestamp = parseInt(moment(vm.taskDueDate * 1000).subtract(parseInt(newVal), 'minutes').format('x'));
         addReminder();
       } else {
-        vm.model.timestamp = '';
+        vm.timestamp = 0;
         vm.model.relative = false;
       }
     }));
@@ -184,7 +195,8 @@
         }
       }).result.then(function(){}).catch(function(model) {
         if (model && model instanceof NstReminder) {
-          vm.model = model
+          vm.model = model;
+          vm.timestamp = model.timestamp;
           addReminder()
         }
       });

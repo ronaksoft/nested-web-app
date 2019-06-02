@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function EditTaskController($q, $, $timeout, $scope, $state, $rootScope, $stateParams, NstSearchQuery,
-                              NstSvcAuth, _, toastr, NstSvcTranslation, NstTask, NST_ATTACHMENT_STATUS,
+                              NstSvcAuth, _, toastr, NstSvcTranslation, NstTask, NST_ATTACHMENT_STATUS, NstSvcReminderFactory,
                               NstUtility, NstSvcTaskFactory, NstSvcTaskUtility, NST_TASK_STATUS, NST_TASK_EVENT_ACTION) {
     var vm = this;
     var eventReferences = [];
@@ -834,31 +834,50 @@
 
     eventReferences.push($scope.$watch(function () {
       return vm.model.reminders;
-    }, function (newVal) {
-      if (dataInit) {
+    }, function (newVal, oldVal) {
+      if (dataInit && newVal.length !== oldVal.length) {
         updateReminders(getNormalValue(newVal));
       }
     }, true));
 
     function updateReminders(reminders) {
       var oldData = getNormalValue(vm.modelBackUp.reminders);
-      var newItems = _.differenceBy(reminders, oldData, 'id');
+      var newItems = _.filter(reminders, function(r) {
+        return r.id === undefined;
+      });
       var removedItems = _.differenceBy(oldData, reminders, 'id');
       var promises = [];
 
-      if (newItems.length > 0) {
-        _.forEach(newItems, function(reminder) {
-          promises.push(NstSvcTaskFactory.addReminder(vm.taskId, reminder.repeated, reminder.relative, reminder.timestamp, reminder.interval, reminder.days));
-        })
-  
-      }
+      _.forEach(newItems, function(reminder) {
+        reminder = NstSvcReminderFactory.createRequestObject(reminder);
+        var promiseFn = function () {
+          var deferred = $q.defer();
+          NstSvcTaskFactory.addReminder(vm.taskId, reminder.repeated, reminder.relative, reminder.timestamp, reminder.interval, reminder.days).then(function (response){
+            console.log(response);
+            if (!response[0]){
+              return
+            }
+            var ind = _.findIndex(vm.model.reminders, function(r) { return r.id === reminder.id});
+            var newReminder = response[0];
+            console.log(newReminder);
+            if (ind > -1) {
+              vm.model.reminders[ind] = newReminder;
+            }
+            deferred.resolve(newReminder);
+          }).catch(deferred.reject);
+          deferred.resolve();
+          return deferred.promise;
+        }
+        promises.push(promiseFn());
+      })
 
       if (removedItems.length > 0) {
         promises.push(NstSvcTaskFactory.removeReminder(vm.taskId, getCommaSeparate(removedItems)));
       }
 
       if (newItems.length > 0 || removedItems.length > 0) {
-        $q.all(promises).then(function () {
+        $q.all(promises).then(function (result) {
+          console.log(result);
           vm.modelBackUp.reminders = _.cloneDeep(vm.model.reminders);
           isUpdated = true;
         });

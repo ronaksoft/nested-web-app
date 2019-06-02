@@ -7,7 +7,7 @@
 
   function NstSvcReminderFactory($q, _,
                               NstBaseFactory, NstSvcServer, NstSvcUserFactory, NstCollector, NstSvcGlobalCache,
-                              NstReminder, NstReminderRequest, NST_SRV_ERROR, NST_REMINDER_REPEAT_CASE) {
+                              NstReminder, NstReminderRequest, NST_SRV_ERROR, NST_REMINDER_REPEAT_CASE, moment) {
 
     function ReminderFactory() {
       this.collector = new NstCollector('reminder', this.getMany);
@@ -18,6 +18,7 @@
     ReminderFactory.prototype.constructor = ReminderFactory;
     ReminderFactory.prototype.parseReminder = parseReminder;
     ReminderFactory.prototype.parseReminderRequest = parseReminderRequest;
+    ReminderFactory.prototype.createRequestObject = createRequestObject;
     ReminderFactory.prototype.parseMember = parseMember;
     ReminderFactory.prototype.create = create;
     ReminderFactory.prototype.update = update;
@@ -36,9 +37,9 @@
       model.id = data._id;
       model.repeated = data.repeated;
       model.relative = data.relative;
-      model.timestamp = data.timestamp;
+      model.timestamp = _.map(String(data.timestamp).split(','), function(day) {return parseInt(day)});
       model.interval = data.interval;
-      model.days = data.days;
+      model.days = _.map(String(data.days).split(','), function(day) {return parseInt(day)});
       model.repeat_case = data.interval % 7 * 24 * 60 * 60 * 1000 === 0 ? NST_REMINDER_REPEAT_CASE.WEEKS : NST_REMINDER_REPEAT_CASE.DAYS;
       // model.days = _.map(data.days, function (member) {
       //   NstSvcUserFactory.set(member);
@@ -68,18 +69,39 @@
       return NstSvcUserFactory.parseTinyUser(data)
     }
 
-    function create(task_id, repeated, relative, timestamp, interval, days) {
+    function createRequestObject(reminder) {
+      console.log(reminder);
+      var timestamp = reminder.timestamp[0] + '';
+      if (reminder.days && Array.isArray(reminder.days) && reminder.days.length > 0) {
+        var weekday = moment(timestamp).weekday();
+        var substract = weekday === 7 ? -1 : (weekday === 6 ? 0 : -1 * weekday);
+        reminder.timestamp = _.map(reminder.days, function (day){
+          return parseInt(moment(timestamp).subtract(substract, 'days').add(day, 'day').format('x'));
+        });
+      }
+      console.log(reminder.timestamp);
+      console.log(reminder.days);
+      reminder.timestamp = Array.isArray(reminder.timestamp) ? reminder.timestamp.join(',') : reminder.timestamp
+      reminder.days = Array.isArray(reminder.days) ? reminder.days.join(',') : reminder.days
+      delete reminder.repeat_case
+      return reminder;
+    }
+
+    function create(taskId, repeated, relative, timestamp, interval, days) {
       var factory = this;
       return NstSvcServer.request('task/add_reminder', {
-        task_id: task_id,
+        task_id: taskId,
         repeated: repeated,
         relative: relative,
         timestamp: timestamp,
         interval: interval,
         days: days
       }).then(function (result) {
-
-        return $q.resolve(factory.parseReminder(result));
+        console.log(result);
+        var reminders = result.reminders;
+        return $q.resolve(Array.isArray(reminders) ?_.map(reminders, factory.parseReminder): factory.parseReminder(reminders));
+      }).catch(function() {
+        return $q.reject()
       });
     }
 
