@@ -301,7 +301,6 @@
         }
         vm.enableLabel = true;
       }
-
       if (task.reminders !== undefined && task.reminders.length > 0) {
         if (!isIdentical(vm.model.reminders, task.reminders)) {
           vm.model.reminders = {
@@ -835,8 +834,10 @@
     eventReferences.push($scope.$watch(function () {
       return vm.model.reminders;
     }, function (newVal, oldVal) {
-      if (dataInit && newVal.length !== oldVal.length) {
-        updateReminders(getNormalValue(newVal));
+      var reminders = getNormalValue(newVal)
+      var oldValReminders = getNormalValue(oldVal)
+      if (dataInit && reminders.length !== oldValReminders.length) {
+        updateReminders(reminders);
       }
     }, true));
 
@@ -853,13 +854,11 @@
         var promiseFn = function () {
           var deferred = $q.defer();
           NstSvcTaskFactory.addReminder(vm.taskId, reminder.repeated, reminder.relative, reminder.timestamp, reminder.interval, reminder.days).then(function (response){
-            console.log(response);
             if (!response[0]){
               return
             }
             var ind = _.findIndex(vm.model.reminders, function(r) { return r.id === reminder.id});
             var newReminder = response[0];
-            console.log(newReminder);
             if (ind > -1) {
               vm.model.reminders[ind] = newReminder;
             }
@@ -877,7 +876,6 @@
 
       if (newItems.length > 0 || removedItems.length > 0) {
         $q.all(promises).then(function (result) {
-          console.log(result);
           vm.modelBackUp.reminders = _.cloneDeep(vm.model.reminders);
           isUpdated = true;
         });

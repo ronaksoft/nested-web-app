@@ -106,11 +106,9 @@
         model.timestamp[0] = vm.timestamp * 1000;
       }
       vm.reminders.push(model);
-      console.log(model);
       vm.reminders = _.uniq(vm.reminders);
       vm.remindersData = vm.reminders;
       vm.model = new NstReminder();
-      console.log(vm.model);
       vm.timestamp = 0;
       vm.reminderDate = null;
       $timeout(function() {
