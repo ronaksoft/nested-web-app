@@ -175,19 +175,15 @@
     }
 
     function goNext() {
-      if (vm.nxtPost) {
-        $scope.$emit('post-view-target-changed', {
-          postId: vm.nxtPost
-        })
-      }
+      $scope.$emit('post-view-target-changed', {
+        postId: vm.nxtPost
+      })
     }
 
     function goPrev() {
-      if (vm.prvPost) {
-        $scope.$emit('post-view-target-changed', {
-          postId: vm.prvPost
-        })
-      }
+      $scope.$emit('post-view-target-changed', {
+        postId: vm.prvPost
+      })
     }
 
     hotkeys.bindTo($scope).add({
