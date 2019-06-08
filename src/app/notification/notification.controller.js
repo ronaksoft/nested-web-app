@@ -280,7 +280,7 @@
         backdropClass: 'taskBackDrop',
         resolve: {
           argv: {
-            selectedView: vm.selectedView,
+            selectedView: vm.selectedView
           }
         }
       })
