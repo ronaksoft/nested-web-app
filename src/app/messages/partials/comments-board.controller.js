@@ -16,8 +16,6 @@
         limit: 8,
         date: null
       },
-      // newCommentIds = [],
-      // unreadCommentIds = [],
       focusOnSentTimeout = null,
       eventReferences = [];
 
@@ -28,7 +26,6 @@
     vm.hasOlderComments = null;
     vm.commentBoardIsRolled = null;
     vm.isSendingComment = false;
-    vm.hasAnyRemoved = false;
     vm.retrySendComment = retrySendComment;
     vm.commentBoardLimit = commentBoardMin;
     vm.showOlderComments = showOlderComments;
@@ -43,12 +40,13 @@
     vm.activitiesActive = false;
     vm.showRemoved = false;
     vm.isRecording = false;
+    vm.activities = [];
     vm.post = {
       newComment: ''
     };
 
     (function () {
-      vm.hasOlderComments = vm.totalCommentsCount > vm.comments.length;
+      vm.hasOlderComments = vm.totalCommentsCount > ctrlComments().length;
       if (vm.postId) {
         eventReferences.push($scope.$on('post-load-new-comments', function (event, data) {
           if (data.postId === vm.postId && data.news.length > 0) {
@@ -56,7 +54,6 @@
           }
         }));
         if ($state.current.name === 'app.message') {
-          vm.comments = [];
           loadMoreComments();
         }
       }
@@ -90,19 +87,19 @@
           if (vm.postId !== data.activity.postId) {
             return;
           }
-          NstUtility.collection.dropById(vm.comments, data.activity.comment.id);
+          NstUtility.collection.dropById(vm.activities, data.activity.comment.id);
         }));
       }
 
       vm.commentBoardId = vm.postId || vm.taskId;
 
-      vm.lastComment = findLastComment(vm.comments);
-      vm.hasAnyRemoved = _.some(vm.comments, 'removedById');
+      vm.lastComment = findLastComment();
 
       vm.user = NstSvcAuth.user;
     })();
 
-    function findLastComment(comments) {
+    function findLastComment() {
+      var comments = ctrlComments();
       return _.last(_.orderBy(_.filter(comments, function (cm) {
         return cm.id.length > 4;
       }), 'timestamp'));
@@ -110,7 +107,7 @@
 
     function getLastCommentDate() {
       var date = null;
-      vm.lastComment = vm.lastComment || findLastComment(vm.comments);
+      vm.lastComment = vm.lastComment || findLastComment();
       if (vm.lastComment) {
         date = vm.lastComment.timestamp;
       } else {
@@ -147,9 +144,13 @@
       return deferred.promise;
     }
 
+    function ctrlComments() {
+      return vm.chainView ? vm.activities : vm.comments
+    }
+
     function loadRecentComments(news, scrollIntoView) {
       var settings = {
-        date: getLastCommentDate(vm.comments),
+        date: getLastCommentDate(ctrlComments()),
         limit: 30
       };
       getRecentComments(settings).then(function (result) {
@@ -157,17 +158,25 @@
           cm.isNew = true
         });
         var newComments = reorderComments(result.comments);
-        var sentComments = _.filter(vm.comments, function (cm) {
+        var sentComments = _.filter(ctrlComments(), function (cm) {
           return (cm.id + '').length < 10;
         });
-        var newCommentsFromOthers = _.filter(newComments, function (cm) {
-          return !_.some(sentComments, function (sentCm) {
-            return sentCm.body === cm.body && sentCm.sender.id === cm.sender.id;
-          })
-        });
-        vm.comments = vm.comments.concat(newCommentsFromOthers);
-        vm.lastComment = findLastComment(vm.comments);
-        vm.hasAnyRemoved = _.some(vm.comments, 'removedById');
+        var newCommentsFromOthers
+        if (vm.chainView) {
+          newCommentsFromOthers = _.filter(newComments, function (cm) {
+            return !_.some(sentComments, function (sentCm) {
+              return sentCm.comment.body === cm.comment.body && sentCm.comment.sender.id === cm.comment.sender.id;
+            })
+          });
+        } else {
+          newCommentsFromOthers = _.filter(newComments, function (cm) {
+            return !_.some(sentComments, function (sentCm) {
+              return sentCm.body === cm.body && sentCm.sender.id === cm.sender.id;
+            })
+          });
+        }
+        vm.activities = vm.activities.concat(newCommentsFromOthers);
+        vm.lastComment = findLastComment();
         vm.commentBoardLimit += newComments.length;
         if (newComments.length > 0 && newComments[0].id && scrollIntoView) {
           // $location.hash('comment-' + newComments[0].id);
@@ -284,7 +293,7 @@
         sender: vm.user,
         senderId: '',
         timestamp: Date.now(),
-        indexInComments: vm.comments.length
+        indexInComments: ctrlComments().length
       };
       
       if (vm.chainView) {
@@ -306,7 +315,7 @@
       // })) {
       // }
 
-      vm.comments.push(commentModel);
+      ctrlComments().push(commentModel);
 
       $timeout(function () {
         vm.post.newComment = '';
@@ -336,28 +345,28 @@
     }
 
     function addCommentFailedCallback(commentModel) {
-      var index = _.findIndex(vm.comments, {id: commentModel.id});
+      var index = _.findIndex(ctrlComments(), {id: commentModel.id});
       if (index > -1) {
         if (vm.chainView) {
-          vm.comments[index].comment.isSending = false;
-          vm.comments[index].comment.isFailed = true;
+          ctrlComments()[index].comment.isSending = false;
+          ctrlComments()[index].comment.isFailed = true;
         } else {
-          vm.comments[index].isSending = false;
-          vm.comments[index].isFailed = true;
+          ctrlComments()[index].isSending = false;
+          ctrlComments()[index].isFailed = true;
         }
       }
       toastr.error(NstSvcTranslation.get('Sorry, an error has occurred in sending your comment'));
     }
 
     function addCommentCallback(comment, commentModel) {
-      var index = _.findIndex(vm.comments, {id: commentModel.id});
-      if (_.some(vm.comments, {
+      var index = _.findIndex(ctrlComments(), {id: commentModel.id});
+      if (_.some(ctrlComments(), {
           id: comment.id
         })) {
-        vm.comments.splice(index, 1);
+        ctrlComments().splice(index, 1);
       } else {
         if (vm.chainView) {
-          vm.comments[index] = {
+          ctrlComments()[index] = {
             comment: comment,
             id: comment.id,
             type: NST_POST_EVENT_ACTION.COMMENT_ADD,
@@ -365,7 +374,7 @@
             timestamp: comment.timestamp
           };
         } else {
-          vm.comments[index] = comment;
+          ctrlComments()[index] = comment;
         }
       }
       // vm.isSendingComment = false;
@@ -382,7 +391,7 @@
       if (vm.postId) {
         NstSvcCommentFactory.addComment(vm.postId, '', attachmentId).then(function (comment) {
           // addCommentCallback(comment)
-          vm.comments.push(comment);
+          ctrlComments().push(comment);
           vm.isSendingComment = false;
           vm.post.newComment = '';
         }).catch(function () {
@@ -393,7 +402,7 @@
       } else {
         NstSvcTaskFactory.addComment(vm.taskId, '', attachmentId).then(function (comment) {
           // addCommentCallback(comment)
-          vm.comments.push(comment);
+          ctrlComments().push(comment);
           vm.isSendingComment = false;
           vm.post.newComment = '';
         }).catch(function () {
@@ -429,18 +438,16 @@
     function limitCommentBoard() {
       vm.commentBoardLimit = commentBoardMin;
       vm.commentBoardIsRolled = true;
-      vm.hasOlderComments = vm.totalCommentsCount > vm.comments.length;
-      vm.hasAnyRemoved = _.some(_.takeRight(vm.comments, commentBoardMin), 'removedById');
+      vm.hasOlderComments = vm.totalCommentsCount > ctrlComments().length;
     }
 
     function clearCommentBoardLimit() {
       vm.commentBoardLimit = commentBoardMax;
       vm.commentBoardIsRolled = false;
-      vm.hasAnyRemoved = _.some(_.takeRight(vm.comments, commentBoardMax), 'removedById');
     }
 
     function findOlder() {
-      return _.first(_.orderBy(vm.comments, 'timestamp'));
+      return _.first(_.orderBy(ctrlComments(), 'timestamp'));
     }
 
     function getOlderDate() {
@@ -467,7 +474,7 @@
     }
 
     function commentBoardNeedsRolling() {
-      return vm.comments.length > 3;
+      return ctrlComments().length > 3;
       // return vm.commentBoardIsRolled === false && vm.comments.length > 3;
     }
 
@@ -483,14 +490,12 @@
         date: date,
         limit: commentsSettings.limit
       })
-      
       fn
       .then(function (comments) {
 
         var orderedItems = reorderComments(comments);
-        vm.comments.unshift.apply(vm.comments, orderedItems);
-        vm.hasAnyRemoved = _.some(vm.comments, 'removedById');
-        vm.lastComment = findLastComment(vm.comments);
+        ctrlComments().unshift.apply(ctrlComments(), orderedItems);
+        vm.lastComment = findLastComment();
         vm.hasOlderComments = comments.length === commentsSettings.limit;
         clearCommentBoardLimit();
       }).catch(function () {

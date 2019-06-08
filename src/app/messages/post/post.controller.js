@@ -206,11 +206,11 @@
       if (!targetPost) return;
       eventReferences.push($rootScope.$broadcast('post-modal-closed', {
         postId: vm.postId,
-        comments: _.takeRight(_.filter(targetPost.comments, function(cm){
-          return cm.type === NST_POST_EVENT_ACTION.COMMENT_ADD
-        }).orderBy('timestamp'), 3).map(function(cm) {
-          return cm.comment
-        })
+        comments: _.takeRight(_.orderBy(_.filter(targetPost.activities, function(cm){
+            return cm.type === NST_POST_EVENT_ACTION.COMMENT_ADD
+          }), 'timestamp'), 3).map(function(cm) {
+            return cm.comment
+          })
       }));
     });
 

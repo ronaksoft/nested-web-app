@@ -19,6 +19,7 @@
       controllerAs: 'ctrl',
       bindToController: {
         comments: '=',
+        activities: '=',
         limit: '=',
         chainView: '=',
         postId: '=?',

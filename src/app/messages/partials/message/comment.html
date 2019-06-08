@@ -44,20 +44,20 @@
       </div>
     </div>
   </div>
-  <div ng-repeat="comment in ctrl.comments | limitTo : ctrl.commentBoardLimit * -1  | orderBy:'timestamp'"
-       id="comment-{{comment.id}}" ng-if="ctrl.chainView"
-       class="ng-class:{'new-comment-animation' : comment.isNew && comment.sender.id !== ctrl.user.id}">
-    <div class="post-card-comments _difh _fw _wrb" ng-class="{ 'removed-comment' : comment.removedById }" ng-if="comment.type === ctrl.commentTypes.COMMENT_ADD">
-      <nst-comment-body retry-send-comment="ctrl.retrySendComment" comment="comment.comment" comment-board-id="ctrl.commentBoardId"></nst-comment-body>
+  <div ng-repeat="act in ctrl.activities | limitTo : ctrl.commentBoardLimit * -1  | orderBy:'timestamp'"
+       id="comment-{{act.id}}" ng-if="ctrl.chainView"
+       class="ng-class:{'new-comment-animation' : act.isNew && act.sender.id !== ctrl.user.id}">
+    <div class="post-card-comments _difh _fw _wrb" ng-class="{ 'removed-comment' : act.comment.removedById }" ng-if="act.type === ctrl.commentTypes.COMMENT_ADD || act.type === ctrl.commentTypes.COMMENT_REMOVE">
+      <nst-comment-body retry-send-comment="ctrl.retrySendComment" comment="act.comment" comment-board-id="ctrl.commentBoardId"></nst-comment-body>
       <script type="text/ng-template" id="remove-cm-tooltip.html">
         <translate>Remove</translate>
       </script>
       <script type="text/ng-template" id="hide-cm-tooltip.html">
         <translate>Hide</translate>
       </script>
-      <div class="delete-comment" data-ng-if="ctrl.allowToRemoveComment(comment.comment) && !comment.removedById"
-           ng-init="canRemove = ctrl.isInFirstDay(comment.comment) && comment.actor.id == ctrl.user.id"
-           ng-click="ctrl.removeComment(comment.comment)">
+      <div class="delete-comment" data-ng-if="ctrl.allowToRemoveComment(act.comment) && !act.comment.removedById"
+           ng-init="canRemove = ctrl.isInFirstDay(act.comment) && act.actor.id == ctrl.user.id"
+           ng-click="ctrl.removeComment(act.comment)">
         <svg class="_16svg" data-tooltip-append-to-body="true"
              data-uib-tooltip-template="canRemove ? 'remove-cm-tooltip.html' : 'hide-cm-tooltip.html'"
              data-tooltip-placement="right auto">
@@ -65,7 +65,7 @@
         </svg>
       </div>
     </div>
-    <div class="post-card-comments activity-comment _difh _fw _wrb" ng-if="ctrl.activitiesActive && comment.type === ctrl.commentTypes.LABEL_ADD">
+    <div class="post-card-comments activity-comment _difh _fw _wrb" ng-if="ctrl.activitiesActive && act.type === ctrl.commentTypes.LABEL_ADD">
       <div class="_df _fw">
         <div class="user-avatar-24 _pr">
           <svg class="_24svg">
@@ -73,19 +73,19 @@
           </svg>
         </div>
         <div class="text _df _fw">
-          <p class="_fw" auto-dir="comment.body">
-            <span class="_df _fn time" data-uib-tooltip="{{comment.timestamp | date : 'full' | localize}}"
-                  data-tooltip-append-to-body="true" data-tooltip-placement="top auto">{{comment.timestamp | passed | localize}}</span>
+          <p class="_fw" auto-dir="act.comment.body">
+            <span class="_df _fn time" data-uib-tooltip="{{act.timestamp | date : 'full' | localize}}"
+                  data-tooltip-append-to-body="true" data-tooltip-placement="top auto">{{act.timestamp | passed | localize}}</span>
             <strong class="_fl"
-                    user-detail="comment.actor">{{comment.actor.fullName}}&nbsp;</strong>
+                    user-detail="comment.actor">{{act.actor.fullName}}&nbsp;</strong>
             <span class="_fl">
-              <translate>Added a label {{comment.label.title}}</translate>
+              <translate>Added a label {{act.label.title}}</translate>
             </span>
           </p>
         </div>
       </div>
     </div>
-    <div class="post-card-comments activity-comment _difh _fw _wrb" ng-if="ctrl.activitiesActive && comment.type === ctrl.commentTypes.LABEL_REMOVE">
+    <div class="post-card-comments activity-comment _difh _fw _wrb" ng-if="ctrl.activitiesActive && act.type === ctrl.commentTypes.LABEL_REMOVE">
       <div class="_df _fw">
         <div class="user-avatar-24 _pr">
           <svg class="_24svg">
@@ -93,19 +93,19 @@
           </svg>
         </div>
         <div class="text _df _fw">
-          <p class="_fw" auto-dir="comment.body">
-            <span class="_df _fn time" data-uib-tooltip="{{comment.timestamp | date : 'full' | localize}}"
-                  data-tooltip-append-to-body="true" data-tooltip-placement="top auto">{{comment.timestamp | passed | localize}}</span>
+          <p class="_fw">
+            <span class="_df _fn time" data-uib-tooltip="{{act.timestamp | date : 'full' | localize}}"
+                  data-tooltip-append-to-body="true" data-tooltip-placement="top auto">{{act.timestamp | passed | localize}}</span>
             <strong class="_fl"
-                    user-detail="comment.actor">{{comment.actor.fullName}}&nbsp;</strong>
+                    user-detail="act.actor">{{act.actor.fullName}}&nbsp;</strong>
             <span class="_fl">
-              <translate>Removed a label {{comment.label.title}}</translate>
+              <translate>Removed a label {{act.label.title}}</translate>
             </span>
           </p>
         </div>
       </div>
     </div>
-    <div class="post-card-comments activity-comment _difh _fw _wrb" ng-if="ctrl.activitiesActive && comment.type === ctrl.commentTypes.EDITED">
+    <div class="post-card-comments activity-comment _difh _fw _wrb" ng-if="ctrl.activitiesActive && act.type === ctrl.commentTypes.EDITED">
       <div class="_df _fw">
         <div class="user-avatar-24 _pr">
           <svg class="_24svg">
@@ -113,11 +113,11 @@
           </svg>
         </div>
         <div class="text _df _fw">
-          <p class="_fw" auto-dir="comment.body">
-            <span class="_df _fn time" data-uib-tooltip="{{comment.timestamp | date : 'full' | localize}}"
-                  data-tooltip-append-to-body="true" data-tooltip-placement="top auto">{{comment.timestamp | passed | localize}}</span>
+          <p class="_fw">
+            <span class="_df _fn time" data-uib-tooltip="{{act.timestamp | date : 'full' | localize}}"
+                  data-tooltip-append-to-body="true" data-tooltip-placement="top auto">{{act.timestamp | passed | localize}}</span>
             <strong class="_fl"
-                    user-detail="comment.actor">{{comment.actor.fullName}}&nbsp;</strong>
+                    user-detail="act.actor">{{act.actor.fullName}}&nbsp;</strong>
             <span class="_fl">
               <translate>Edited this</translate>
             </span>
@@ -125,7 +125,7 @@
         </div>
       </div>
     </div>
-    <div class="post-card-comments activity-comment _difh _fw _wrb" ng-if="ctrl.activitiesActive && comment.type === ctrl.commentTypes.ATTACH">
+    <div class="post-card-comments activity-comment _difh _fw _wrb" ng-if="ctrl.activitiesActive && act.type === ctrl.commentTypes.ATTACH">
       <div class="_df _fw">
         <div class="user-avatar-24 _pr">
           <svg class="_24svg">
@@ -133,19 +133,19 @@
           </svg>
         </div>
         <div class="text _df _fw">
-          <p class="_fw" auto-dir="comment.body">
-            <span class="_df _fn time" data-uib-tooltip="{{comment.timestamp | date : 'full' | localize}}"
-                  data-tooltip-append-to-body="true" data-tooltip-placement="top auto">{{comment.timestamp | passed | localize}}</span>
+          <p class="_fw">
+            <span class="_df _fn time" data-uib-tooltip="{{act.timestamp | date : 'full' | localize}}"
+                  data-tooltip-append-to-body="true" data-tooltip-placement="top auto">{{act.timestamp | passed | localize}}</span>
             <strong class="_fl"
-                    user-detail="comment.actor">{{comment.actor.fullName}}&nbsp;</strong>
+                    user-detail="act.actor">{{act.actor.fullName}}&nbsp;</strong>
             <span class="_fl">
-              <translate>Attached a place "{{comment.newPlace.name}}"</translate>
+              <translate>Attached a place "{{act.newPlace.name}}"</translate>
             </span>
           </p>
         </div>
       </div>
     </div>
-    <div class="post-card-comments activity-comment _difh _fw _wrb" ng-if="ctrl.activitiesActive && comment.type === ctrl.commentTypes.MOVE">
+    <div class="post-card-comments activity-comment _difh _fw _wrb" ng-if="ctrl.activitiesActive && act.type === ctrl.commentTypes.MOVE">
       <div class="_df _fw">
         <div class="user-avatar-24 _pr">
           <svg class="_24svg">
@@ -153,13 +153,13 @@
           </svg>
         </div>
         <div class="text _df _fw">
-          <p class="_fw" auto-dir="comment.body">
-            <span class="_df _fn time" data-uib-tooltip="{{comment.timestamp | date : 'full' | localize}}"
-                  data-tooltip-append-to-body="true" data-tooltip-placement="top auto">{{comment.timestamp | passed | localize}}</span>
+          <p class="_fw">
+            <span class="_df _fn time" data-uib-tooltip="{{act.timestamp | date : 'full' | localize}}"
+                  data-tooltip-append-to-body="true" data-tooltip-placement="top auto">{{act.timestamp | passed | localize}}</span>
             <strong class="_fl"
-                    user-detail="comment.actor">{{comment.actor.fullName}}&nbsp;</strong>
+                    user-detail="act.actor">{{act.actor.fullName}}&nbsp;</strong>
             <span class="_fl">
-              <translate>Moved this post to "{{comment.newPlace.name}}"</translate>
+              <translate>Moved this post to "{{act.newPlace.name}}"</translate>
             </span>
           </p>
         </div>

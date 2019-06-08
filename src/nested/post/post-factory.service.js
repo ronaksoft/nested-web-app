@@ -211,6 +211,8 @@
         post.iframeUrl = data.iframe_url;
       }
 
+      post.activities = [];
+
       return post;
     }
 
@@ -425,7 +427,7 @@
       if (data.iframe_url) {
         post.iframeUrl = data.iframe_url;
       }
-
+      post.activities = [];
       return post;
     }
 

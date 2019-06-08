@@ -473,7 +473,7 @@
             !ctlPostCard.FIT && !ctlPostCard.hideComments &&
             (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled) && !ctlPostCard.compactView"
            id="comment-{{ctlPostCard.post.id}}">
-    <comments-board comments="ctlPostCard.post.comments" limit="ctlPostCard.commentBoardLimit"
+    <comments-board comments="ctlPostCard.post.comments" limit="ctlPostCard.commentBoardLimit" activities="ctlPostCard.post.activities"
                     post-id="ctlPostCard.post.id" chain-view="ctlPostCard.chainView" no-comment="ctlPostCard.post.noComment"
                     total-comments-count="ctlPostCard.post.counters.comments" on-comment-sent="ctlPostCard.onAddComment"
                     has-comment-remove-access="ctlPostCard.hasHiddenCommentAccess"></comments-board>
