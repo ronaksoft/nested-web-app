@@ -22,17 +22,17 @@
   </div>
 </div>
 <div class="comments-container">
+    <script type="text/ng-template" id="remove-cm-tooltip.html">
+      <translate>Remove</translate>
+    </script>
+    <script type="text/ng-template" id="hide-cm-tooltip.html">
+      <translate>Hide</translate>
+    </script>
   <div ng-repeat="comment in ctrl.comments | limitTo : ctrl.commentBoardLimit * -1  | orderBy:'timestamp'"
        id="comment-{{comment.id}}" ng-if="!ctrl.chainView"
        class="ng-class:{'new-comment-animation' : comment.isNew && comment.sender.id !== ctrl.user.id}">
     <div class="post-card-comments _difh _fw _wrb" ng-class="{ 'removed-comment' : comment.removedById }">
       <nst-comment-body retry-send-comment="ctrl.retrySendComment" comment="comment" comment-board-id="ctrl.commentBoardId"></nst-comment-body>
-      <script type="text/ng-template" id="remove-cm-tooltip.html">
-        <translate>Remove</translate>
-      </script>
-      <script type="text/ng-template" id="hide-cm-tooltip.html">
-        <translate>Hide</translate>
-      </script>
       <div class="delete-comment" data-ng-if="ctrl.allowToRemoveComment(comment) && !comment.removedById"
            ng-init="canRemove = ctrl.isInFirstDay(comment) && comment.sender.id == ctrl.user.id"
            ng-click="ctrl.removeComment(comment)">
@@ -47,14 +47,8 @@
   <div ng-repeat="act in ctrl.activities | limitTo : ctrl.commentBoardLimit * -1  | orderBy:'timestamp'"
        id="comment-{{act.id}}" ng-if="ctrl.chainView"
        class="ng-class:{'new-comment-animation' : act.isNew && act.sender.id !== ctrl.user.id}">
-    <div class="post-card-comments _difh _fw _wrb" ng-class="{ 'removed-comment' : act.comment.removedById }" ng-if="act.type === ctrl.commentTypes.COMMENT_ADD || act.type === ctrl.commentTypes.COMMENT_REMOVE">
+    <div class="post-card-comments _difh _fw _wrb" ng-class="{ 'removed-comment' : act.comment.removedById }" ng-if="act.type === ctrl.commentTypes.COMMENT_ADD">
       <nst-comment-body retry-send-comment="ctrl.retrySendComment" comment="act.comment" comment-board-id="ctrl.commentBoardId"></nst-comment-body>
-      <script type="text/ng-template" id="remove-cm-tooltip.html">
-        <translate>Remove</translate>
-      </script>
-      <script type="text/ng-template" id="hide-cm-tooltip.html">
-        <translate>Hide</translate>
-      </script>
       <div class="delete-comment" data-ng-if="ctrl.allowToRemoveComment(act.comment) && !act.comment.removedById"
            ng-init="canRemove = ctrl.isInFirstDay(act.comment) && act.actor.id == ctrl.user.id"
            ng-click="ctrl.removeComment(act.comment)">
@@ -63,6 +57,26 @@
              data-tooltip-placement="right auto">
           <use xlink:href="/assets/icons/nst-icn16.svg#bin"></use>
         </svg>
+      </div>
+    </div>
+    <div class="post-card-comments activity-comment _difh _fw _wrb removed-comment" ng-if="ctrl.activitiesActive && act.type === ctrl.commentTypes.COMMENT_REMOVE">
+      <div class="_df _fw">
+        <div class="user-avatar-24 _pr">
+          <svg class="_24svg">
+            <use xlink:href="/assets/icons/nst-icn24.svg#remove-cm"></use>
+          </svg>
+        </div>
+        <div class="text _df _fw">
+          <p class="_fw" auto-dir="act.comment.body">
+            <span class="_df _fn time" data-uib-tooltip="{{act.timestamp | date : 'full' | localize}}"
+                  data-tooltip-append-to-body="true" data-tooltip-placement="top auto">{{act.timestamp | passed | localize}}</span>
+            <strong class="_fl"
+                    user-detail="comment.actor">{{act.actor.fullName}}&nbsp;</strong>
+            <span class="_fl">
+              <translate>removed a comment</translate>
+            </span>
+          </p>
+        </div>
       </div>
     </div>
     <div class="post-card-comments activity-comment _difh _fw _wrb" ng-if="ctrl.activitiesActive && act.type === ctrl.commentTypes.LABEL_ADD">

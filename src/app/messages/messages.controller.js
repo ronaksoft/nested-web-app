@@ -355,10 +355,16 @@
           nxt: vm.messages[ind + 1] ? vm.messages[ind + 1].id : null
         });
         // document.getElementById(data.postId).scrollIntoView({behavior: 'smooth'});
-        window.scroll({
-          top: document.getElementById(data.postId).offsetTop - 146,
-          behavior: 'smooth'
-        });
+        if (
+          ( document.getElementById(data.postId).offsetTop + 328 > window.scrollY + window.screen.height) ||
+          ( document.getElementById(data.postId).offsetTop + 328 < window.scrollY)
+        ) {
+          window.scroll({
+            top: document.getElementById(data.postId).offsetTop - 146,
+            behavior: 'smooth'
+          });
+
+        }
       }
     }));
 
