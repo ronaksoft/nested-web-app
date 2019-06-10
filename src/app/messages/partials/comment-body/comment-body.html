@@ -15,18 +15,18 @@
     </div>
   </div>
   <div class="text _df _fw">
-    <p class="_fw" auto-dir="ctlCommentBody.comment.body">
+    <p class="_fw " auto-dir="ctlCommentBody.comment.body">
       <span class="_df _fn time" data-uib-tooltip="{{ctlCommentBody.comment.timestamp | date : 'full' | localize}}"
             data-tooltip-append-to-body="true" data-tooltip-placement="top auto">{{ctlCommentBody.comment.timestamp | passed | localize}}</span>
       <strong class="_fl"
               user-detail="ctlCommentBody.comment.sender">{{ctlCommentBody.comment.sender.fullName}}:&nbsp;</strong>
-      <span is-two-line class="_fl" ng-if="ctlCommentBody.comment.attachmentId.length == 0 && !ctlCommentBody.comment.removedById">
-        <abbr ng-repeat="part in ctlCommentBody.parts">
+      <span is-two-line class="_fl prewrp" ng-if="ctlCommentBody.comment.attachmentId.length == 0 && !ctlCommentBody.comment.removedById" bind-html-compile="ctlCommentBody.comment.body | link | mention">
+        <!-- <abbr ng-repeat="part in ctlCommentBody.parts">
           <br ng-if="part.type == 'linebreak'"/>
           <abbr ng-if="part.type == 'mention'" class="nst-user-popover" user-detail="part.user"
                 style="display: inline-block;direction: ltr;">{{part.word}}</abbr>
           <abbr ng-if="part.type == 'other'" ng-bind-html="part.word | link"></abbr>
-        </abbr>
+        </abbr> -->
       </span>
 
       <nst-voice-comment ng-if="ctlCommentBody.comment.attachmentId.length > 0 && !ctlCommentBody.comment.removedById"

@@ -24,6 +24,7 @@
       'emojiBundle',
       'firebase',
       'phoneUtils',
+      'angular-bind-html-compile',
       'ngJalaaliFlatDatepicker'
     ]);
 })();
