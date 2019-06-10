@@ -365,7 +365,7 @@
 
         <div label-chips label-id="label" on-remove="ctlLabel.removeLabelChip"
             ng-repeat="label in ctlPostCard.post.labels track by label.id"
-            ng-click="ctlPostCard.labelClick(label.title);"></div>
+            ng-click="ctlPostCard.labelClick(label.title);$event.stopPropagation();"></div>
         <a ng-if="!ctlPostCard.FIT && ctlPostCard.haveAnyLabelAcess" add-label added-labels="ctlPostCard.post.labels"
           after-add-label="ctlPostCard.addLabels"
           data-uib-tooltip="Labels" class="cursor-pointer" data-tooltip-append-to-body="true"

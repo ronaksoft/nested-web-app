@@ -54,6 +54,7 @@
 
     ActivityFactory.prototype = new NstBaseFactory();
     ActivityFactory.prototype.constructor = ActivityFactory;
+    ActivityFactory.prototype.get = get;
     ActivityFactory.prototype.getActivities = getActivities;
     ActivityFactory.prototype.dispatchActivityPushEvents = dispatchActivityPushEvents;
 
@@ -158,13 +159,25 @@
       }, 'getPostActivities', settings.postId);
     }
 
-    function get(settings, cacheHandler) {
-      return getActivities({
-        limit: settings.limit,
-        postId: settings.postId,
-        after: settings.date,
-        filter: settings.filter
-      }, cacheHandler);
+    function get(postId, activityId, cacheHandler) {
+      return factory.sentinel.watch(function () {
+
+        var deferred = $q.defer();
+        NstSvcServer.request('post/get_activity', {
+          post_id: postId,
+          activity_id: activityId,
+          details: true
+        }, function (cachedResponse) {
+          if (_.isFunction(cacheHandler) && cachedResponse) {
+            cacheHandler(parseActivity(cachedResponse.activity));
+          }
+        }).then(function (response) {
+          deferred.resolve(parseActivity(response.activity));
+
+        }).catch(deferred.reject);
+
+        return deferred.promise;
+      }, 'getPostActivity', postId);
     }
 
     function getAfter(settings) {

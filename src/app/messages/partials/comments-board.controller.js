@@ -171,7 +171,11 @@
         var newCommentsFromOthers
         if (vm.chainView) {
           newCommentsFromOthers = _.filter(newComments, function (cm) {
-            return !_.some(sentComments, function (sentCm) {
+            return !_.some(ctrlComments(), function (sentCm, index) {
+              if ((sentCm.id + '').length < 10 && sentCm.comment.id === cm.comment.id) {
+                cm.isNew = false
+                vm.activities[index] = cm
+              }
               return sentCm.type === cm.type && sentCm.comment.body === cm.comment.body && sentCm.comment.sender.id === cm.comment.sender.id;
             })
           });
@@ -221,6 +225,13 @@
           NstSvcCommentFactory.removeComment(vm.postId, comment).then(function () {
             if (!vm.chainView) {
               NstUtility.collection.dropById(vm.comments, comment.id);
+            } else {
+              var act = _.findIndex(vm.activities, function(activity) {
+                return activity.comment && activity.comment.id === comment.id
+              });
+              NstSvcPostActivityFactory.get(vm.postId, vm.activities[act].id).then(function(activity) {
+                vm.activities[act] = activity;
+              })
             }
             var canceler = $scope.$emit('comment-removed', {postId: vm.postId, commentId: comment.id});
             eventReferences.push(canceler);
