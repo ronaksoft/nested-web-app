@@ -20,7 +20,7 @@
    * In order to change the user password, The page asks he/she the old and the new password
    */
   function ChangePasswordController(toastr,
-    NstSvcUserFactory,
+    NstSvcUserFactory, $scope,
     NST_SRV_ERROR, NstSvcTranslation) {
     var vm = this;
 
@@ -56,6 +56,7 @@
             newPassword: '',
             newPasswordConfirm: ''
           };
+          $scope.changePassForm.$setUntouched();
           vm.submitted = false;
 
         }).catch(function(error) {
