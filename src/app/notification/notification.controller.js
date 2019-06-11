@@ -85,7 +85,6 @@
         onlyUnread: true
       };
       NstSvcNotificationFactory.getNotifications(setting).then(function (notifications) {
-        console.log(notifications);
         if (notifications) {
           var notifs = _.concat(notifications, vm.notifications);
           vm.notifications = sortNotification(notifs);
@@ -160,7 +159,6 @@
           post.push(item);
         }
       });
-      console.log(notifications, task, post)
       return {
         task: task,
         post: post

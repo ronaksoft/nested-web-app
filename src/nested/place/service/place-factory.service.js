@@ -7,7 +7,7 @@
 
   function NstSvcPlaceFactory($q, _, $rootScope,
                               NST_SRV_ERROR, NST_PLACE_ACCESS, NST_PLACE_EVENT_ACTION, NST_PLACE_EVENT,
-                              NstSvcServer, NstSvcUserFactory, NstSvcLogger, NstSvcGlobalCache,
+                              NstSvcServer, NstSvcUserFactory, NstSvcLogger, NstSvcGlobalCache, NST_NOTIFICATION_TYPE,
                               NstBaseFactory, NstUtility, NstTinyPlace, NstPlace, NstPicture, NstUtilPlace, NstCollector) {
     function PlaceFactory() {
       var factory = this;
@@ -45,6 +45,14 @@
         factory.get(tlData.place_id).then(function (place) {
           $rootScope.$broadcast(NST_PLACE_EVENT.PICTURE_CHANGED, {placeId: place.id, place: place});
         });
+      });
+
+      $rootScope.$on(NST_NOTIFICATION_TYPE.PROMOTED, function (event, data) {
+        factory.cache.remove(data.place.id);
+      });
+
+      $rootScope.$on(NST_NOTIFICATION_TYPE.DEMOTED, function (event, data) {
+        factory.cache.remove(data.place.id);
       });
 
       this.cache = NstSvcGlobalCache.createProvider('place');
