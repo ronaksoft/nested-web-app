@@ -5,7 +5,7 @@
     .module('ronak.nested.web.message')
     .controller('CommentsBoardController', CommentsBoardController);
 
-  function CommentsBoardController($timeout, $scope, $sce, $q, $state, $location, $anchorScroll, $rootScope, NST_POST_EVENT_ACTION,
+  function CommentsBoardController($timeout, $scope, $sce, $q, $state, $location, $anchorScroll, $rootScope, NST_POST_EVENT_ACTION, NstPostActivity,
                                    NstSvcAuth, NstSvcDate, NstSvcCommentFactory, NstUtility, NstSvcTranslation, NstSvcTaskFactory, NstSvcServer, NST_SRV_PUSH_CMD,
                                    moment, toastr, NstSvcLogger, _, NstSvcModal, NstSvcPostActivityFactory, NstSvcKeyFactory, NST_KEY, NST_TASK_EVENT_ACTION) {
     var vm = this;
@@ -44,7 +44,14 @@
     vm.post = {
       newComment: ''
     };
-
+    eventReferences.push(
+      $scope.$watch(function () {
+        return vm.activities;
+      }, function (nv, ov) {
+        if (nv.length < ov.length) {
+          vm.activities = ov;
+        }
+      }));
     (function () {
       vm.hasOlderComments = vm.totalCommentsCount > ctrlComments().length;
       if (vm.postId) {
@@ -164,18 +171,24 @@
         var newCommentsFromOthers
         if (vm.chainView) {
           newCommentsFromOthers = _.filter(newComments, function (cm) {
-            return !_.some(sentComments, function (sentCm) {
-              return sentCm.comment.body === cm.comment.body && sentCm.comment.sender.id === cm.comment.sender.id;
+            return !_.some(ctrlComments(), function (sentCm, index) {
+              if ((sentCm.id + '').length < 10 && sentCm.comment.id === cm.comment.id) {
+                cm.isNew = false
+                vm.activities[index] = cm
+              }
+              return sentCm.type === cm.type && sentCm.comment.body === cm.comment.body && sentCm.comment.sender.id === cm.comment.sender.id;
             })
           });
+          var newActivities = _.differenceBy(newCommentsFromOthers, vm.activities, 'id');
+          vm.activities = vm.activities.concat(newActivities);
         } else {
           newCommentsFromOthers = _.filter(newComments, function (cm) {
             return !_.some(sentComments, function (sentCm) {
               return sentCm.body === cm.body && sentCm.sender.id === cm.sender.id;
             })
           });
+          vm.comments = vm.comments.concat(newCommentsFromOthers);
         }
-        vm.activities = vm.activities.concat(newCommentsFromOthers);
         vm.lastComment = findLastComment();
         vm.commentBoardLimit += newComments.length;
         if (newComments.length > 0 && newComments[0].id && scrollIntoView) {
@@ -210,7 +223,16 @@
       NstSvcModal.confirm(NstSvcTranslation.get("Confirm"), NstSvcTranslation.get("Are you sure to remove this comment?")).then(function (result) {
         if (result) {
           NstSvcCommentFactory.removeComment(vm.postId, comment).then(function () {
-            NstUtility.collection.dropById(vm.comments, comment.id);
+            if (!vm.chainView) {
+              NstUtility.collection.dropById(vm.comments, comment.id);
+            } else {
+              var act = _.findIndex(vm.activities, function(activity) {
+                return activity.comment && activity.comment.id === comment.id
+              });
+              NstSvcPostActivityFactory.get(vm.postId, vm.activities[act].id).then(function(activity) {
+                vm.activities[act] = activity;
+              })
+            }
             var canceler = $scope.$emit('comment-removed', {postId: vm.postId, commentId: comment.id});
             eventReferences.push(canceler);
           }).catch(function () {
@@ -253,7 +275,7 @@
           addCommentFailedCallback(commentModel);
         });
       } else {
-        NstSvcTaskFactory.addComment(vm.taskId, body).then(function (comment) {
+        NstSvcTaskFactory.addComment(vm.taskId, commentModel.body).then(function (comment) {
           addCommentCallback(comment, commentModel);
         }).catch(function () {
           addCommentFailedCallback(commentModel);
@@ -292,18 +314,17 @@
         removedById: '',
         sender: vm.user,
         senderId: '',
-        timestamp: Date.now(),
-        indexInComments: ctrlComments().length
+        timestamp: Date.now()
       };
       
       if (vm.chainView) {
-        commentModel = {
-          comment: commentModel,
-          id: commentModel.id,
-          type: NST_POST_EVENT_ACTION.COMMENT_ADD,
-          actor: commentModel.sender,
-          timestamp: commentModel.timestamp
-        }
+        var model = new NstPostActivity();
+        model.comment = commentModel;
+        model.id = commentModel.id;
+        model.type = NST_POST_EVENT_ACTION.COMMENT_ADD;
+        model.actor = commentModel.sender;
+        model.timestamp = commentModel.timestamp;
+        commentModel = model
       }
 
       commentModel.isSending = true;
@@ -314,7 +335,6 @@
       //   id: commentModel._id
       // })) {
       // }
-
       ctrlComments().push(commentModel);
 
       $timeout(function () {
@@ -360,21 +380,16 @@
 
     function addCommentCallback(comment, commentModel) {
       var index = _.findIndex(ctrlComments(), {id: commentModel.id});
-      if (_.some(ctrlComments(), {
-          id: comment.id
-        })) {
+      if (_.some(ctrlComments(), function(cm) {
+        return vm.chainView && cm.comment ? cm.comment.id === comment.id : cm.id === comment.id;
+      })) {
         ctrlComments().splice(index, 1);
       } else {
         if (vm.chainView) {
-          ctrlComments()[index] = {
-            comment: comment,
-            id: comment.id,
-            type: NST_POST_EVENT_ACTION.COMMENT_ADD,
-            actor: comment.sender,
-            timestamp: comment.timestamp
-          };
+          vm.activities[index].comment = comment
+          vm.activities[index].timestamp= comment.timestamp
         } else {
-          ctrlComments()[index] = comment;
+          vm.comments[index] = comment;
         }
       }
       // vm.isSendingComment = false;
@@ -447,6 +462,7 @@
     }
 
     function findOlder() {
+      
       return _.first(_.orderBy(ctrlComments(), 'timestamp'));
     }
 
@@ -474,6 +490,7 @@
     }
 
     function commentBoardNeedsRolling() {
+      
       return ctrlComments().length > 3;
       // return vm.commentBoardIsRolled === false && vm.comments.length > 3;
     }

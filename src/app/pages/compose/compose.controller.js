@@ -1613,6 +1613,7 @@
     function clear() {
       NstSvcLogger.debug4('Compose | Clear compose model data :');
       vm.attachments.viewModels = [];
+      vm.model.labels = [];
       vm.model.attachments = [];
       vm.model.attachfiles = {};
       vm.subjectElement.value = '';

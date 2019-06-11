@@ -46,6 +46,7 @@
     vm.excludedQuery = '';
     vm.queryType = '';
     vm.notificationsCount = 0;
+    vm.fullApp = false;
     vm.profileOpen = false;
     vm.notifOpen = false;
     vm.searchModalOpen = false;

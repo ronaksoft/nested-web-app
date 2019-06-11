@@ -99,7 +99,7 @@
 </div>
 <!-- search Modal
  ======================-->
-<div class="search-modal" ng-if="ctrlTopBar.searchModalOpen || ctrlTopBar.advancedSearchOpen">
+<div class="search-modal ng-class:{'full': ctrlTopBar.fullApp}" ng-if="ctrlTopBar.searchModalOpen || ctrlTopBar.advancedSearchOpen">
   <!-- Backdrop
   ====================== -->
   <div class="backdrop" ng-click="ctrlTopBar.toggleSearchModal(false)"></div>
@@ -245,6 +245,17 @@
     <input ng-click="ctrlTopBar.advancedSearchIt()" value="{{ctrlTopBar.translation.submit}}" class="butn butn-green _fw" type="submit">
   </form>
   <div class="app-iframe-container" ng-if="ctrlTopBar.appIframeEnable">
+    <div class="iframe-buttons">
+      <svg class="_16svg" ng-click="ctrlTopBar.fullApp = false;ctrlTopBar.toggleSearchModal(false)">
+        <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
+      </svg>
+      <svg class="_16svg" ng-click="ctrlTopBar.fullApp = true" ng-if="!ctrlTopBar.fullApp">
+        <use xlink:href="/assets/icons/nst-icn16.svg#expand"></use>
+      </svg>
+      <svg class="_16svg" ng-click="ctrlTopBar.fullApp = false" ng-if="ctrlTopBar.fullApp">
+        <use xlink:href="/assets/icons/nst-icn16.svg#collapse"></use>
+      </svg>
+    </div>
     <iframe id="app-iframe" ng-src="{{ctrlTopBar.getAppIframeUrl(ctrlTopBar.appIframeUrl)}}" scrolling="auto" ng-if="ctrlTopBar.appIframeUrl != ''"></iframe>
   </div>
 </div>

@@ -51,6 +51,7 @@
       $scope.affixObserver = 0;
       eventReferences.push($scope.$on('post-view-target-changed', function (event, data) {
         vm.postId = data.postId;
+        markPostAsRead(data.postId);
 
         var indexOfPost = _.findIndex(vm.messages, function (msg) {
           return msg.id === vm.postId;
@@ -163,7 +164,9 @@
     // }
 
     function markPostAsRead(id) {
+      console.log('markAsRead');
       vm.markAsReadProgress = true;
+      console.log(id);
       NstSvcPostInteraction.markAsRead(id).then(function () {
         var targetPost = _.find(vm.messages, {id: id});
         if (targetPost) {
@@ -175,15 +178,20 @@
     }
 
     function goNext() {
-      $scope.$emit('post-view-target-changed', {
-        postId: vm.nxtPost
-      })
+      if (vm.nxtPost){
+        $scope.$emit('post-view-target-changed', {
+          postId: vm.nxtPost
+        })
+
+      }
     }
 
     function goPrev() {
-      $scope.$emit('post-view-target-changed', {
-        postId: vm.prvPost
-      })
+      if (vm.prvPost) {
+        $scope.$emit('post-view-target-changed', {
+          postId: vm.prvPost
+        })
+      }
     }
 
     hotkeys.bindTo($scope).add({
