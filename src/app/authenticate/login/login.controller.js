@@ -226,7 +226,7 @@
         cmd: 'auth/get_oauth_url',
         data: {
           access_type: 'login'
-        },
+        }
       }).post().then(function (result) {
         oauthState = result.data.state;
         oauthLogin(result.data.url)
