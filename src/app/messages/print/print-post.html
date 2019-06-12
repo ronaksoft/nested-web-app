@@ -15,6 +15,10 @@
             <!-- <span>{{post.id}}</span> -->
             <span class="print-subject" auto-dir="ctlPost.message.subject">{{ctlPost.message.subject}}</span>
             <span class="print-body" auto-dir="ctlPost.message.body" ng-bind-html="ctlPost.message.body | trustAsHtml"></span> 
+            <section ng-if="ctlPost.message.iframeUrl.length > 0"
+                    class="print-iframe">
+                <iframe ng-src="{{ctlPost.mergePostCardVariable(ctlPost.message.iframeUrl)}}" scrolling="auto" id="{{ctlPost.iframeId}}"></iframe>
+            </section>
             <span class="print-from" translate-inner ng-if="ctlPost.message.attachments.length > 0">Attachments:</span>
             <div class="print-attachments" ng-if="ctlPost.message.attachments.length > 0">
                 <nst-attachments-preview-bar items="ctlPost.message.attachments" mode="'print'" post-id="ctlPost.message.id"

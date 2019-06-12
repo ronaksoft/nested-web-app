@@ -129,6 +129,11 @@
     margin-bottom: 24px;
     display: block;
 }
+.print-iframe {
+    iframe {
+        width: 100%;
+    }
+}
 .print-attachments {
     display: flex;
     flex-wrap: wrap;

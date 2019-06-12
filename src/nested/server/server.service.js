@@ -590,7 +590,6 @@
       } else {
         ajax = new NstHttp('https://npc.nested.me/dns/discover/' + domainName);
       }
-      // var ajax = new NstHttp('https://npc.nested.me/dns/discover/nested.me');
       ajax.get().then(function (data) {
         deferred.resolve(data);
         if (window.__CONFIG_CACHE__ === undefined) {
@@ -598,6 +597,10 @@
         }
         window.__CONFIG_CACHE__[domainName] = data;
       }).catch(function (err) {
+        var domainSplit = domainName.split('.');
+        if (domainSplit.length > 2) {
+          return loadConfigFromRemote(domainSplit.slice(1, domainSplit.length).join('.'), planB).then(deferred.resolve).catch(deferred.reject)
+        }
         deferred.reject(err);
       });
       return deferred.promise;
