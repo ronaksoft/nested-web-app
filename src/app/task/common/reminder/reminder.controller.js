@@ -103,7 +103,7 @@
       if ((vm.timestamp + '').split('.')[0].length === 10) {
         model.timestamp[0] = vm.timestamp * 1000;
       } else {
-        model.timestamp[0] = vm.timestamp * 1000;
+        model.timestamp[0] = vm.timestamp;
       }
       vm.reminders.push(model);
       vm.reminders = _.uniq(vm.reminders);
