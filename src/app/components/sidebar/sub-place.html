@@ -1,5 +1,5 @@
-<a class="side-place-item-container ng-class:{'isSelected': child.isActive}" dbl-click="{{child.children.length > 0}}" ui-sref="app.place-messages({ placeId: child.id })"
-  ng-dblclick="child.isExpanded =! child.isExpanded;ctlSidebar.updateExpanded(child.id, child.isExpanded)">
+<a class="side-place-item-container ng-class:{'isActive': child.id === ctlSidebar.selectedPlaceId}" dbl-click="{{child.children.length > 0}}" ui-sref="app.place-messages({ placeId: child.id })"
+  ng-dblclick="child.isExpanded =! child.isExpanded;ctlSidebar.updateExpanded(child.id, child.isExpanded)" ui-sref-active="isSelected">
   <dl data-ng-repeat="i in ctlSidebar.range(child.depth)" class="lines">
     <div class="box2"></div>
     <div class="box1"></div>

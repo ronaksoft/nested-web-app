@@ -162,6 +162,7 @@
   &:active {
     background-color: $color-bg-active-item;
   }
+  &.isActive,
   &.isSelected{
     background-color: $color-solid-24;
     // box-shadow: 0 1px 4px rgba(0, 0, 0, .16);
@@ -221,6 +222,7 @@
       background-color: color-bg-active-item;
     }
   }
+  &.isActive,
   &.isSelected{
     cite {
       background-color: $color-solid-24;

@@ -78,7 +78,7 @@
 
     vm.sidebarLimit = vm.hasAddMembersAccess ? 14 : 15;
     (function () {
-
+      // todo: NstSvcAuth.user is empty on direct access
       loadTeammates(vm.place.id,
         vm.hasSeeMembersAccess && vm.place.id !== NstSvcAuth.user.id,
         vm.hasControlAccess && vm.place.id !== NstSvcAuth.user.id)
