@@ -837,12 +837,12 @@
       var reminders = getNormalValue(newVal)
       var oldValReminders = getNormalValue(oldVal)
       if (dataInit && reminders.length !== oldValReminders.length) {
-        updateReminders(reminders);
+        updateReminders(reminders, oldValReminders);
       }
     }, true));
 
-    function updateReminders(reminders) {
-      var oldData = getNormalValue(vm.modelBackUp.reminders);
+    function updateReminders(reminders, oldReminders) {
+      var oldData = getNormalValue(oldReminders);
       var newItems = _.filter(reminders, function(r) {
         return r.id === undefined;
       });
@@ -859,6 +859,7 @@
             }
             var ind = _.findIndex(vm.model.reminders, function(r) { return r.id === reminder.id});
             var newReminder = response[0];
+            console.log(ind, vm.model.reminders, response[0]);
             if (ind > -1) {
               vm.model.reminders[ind] = newReminder;
             }

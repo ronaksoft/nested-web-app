@@ -121,6 +121,7 @@
       var ind = _.findIndex(vm.reminders, function(reminder) { return reminder.id === id});
       vm.reminders.splice(ind, 1);
       vm.remindersData = vm.reminders;
+      updateTypes(vm.reminders);
     }
 
     function reminderKeyUp(event) {
@@ -147,12 +148,37 @@
     }));
 
     eventReferences.push($scope.$watch(function () {
+      return vm.reminders;
+    }, function (newVal) {
+      updateTypes(newVal);
+    }));
+
+    eventReferences.push($scope.$watch(function () {
       return vm.timestamp;
     }, function (newVal) {
       if (newVal) {
         addReminder();
       }
     }));
+
+    function updateTypes(newVal) {
+      var types = _.cloneDeep(NST_REMINDER_TYPES);
+      var types_keys = Object.keys(types);
+      _.forEach(newVal, function(reminder) {
+        if (reminder.interval === 0) {
+          var diff = moment(vm.taskDueDate * 1000).diff(Array.isArray(reminder.timestamp) ? reminder.timestamp[0] : parseInt(reminder.timestamp));
+          var mins = diff / (60 * 1000);
+          var key = _.find(types_keys, function(type){
+            return types[type] === mins
+          });
+          if (types[key]) {
+            delete types[key]
+          }
+        }
+      });
+      vm.NST_REMINDER_TYPES = types
+
+    }
 
     eventReferences.push($scope.$watch(function () {
       return vm.type;
