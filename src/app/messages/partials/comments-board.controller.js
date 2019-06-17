@@ -78,7 +78,6 @@
               }
             }));
         });
-        
         NstSvcServer.addEventListener(NST_SRV_PUSH_CMD.SYNC_POST_ACTIVITY, function (event) {
           if (event.detail.post_id === vm.postId) {
             loadRecentComments();
@@ -131,11 +130,10 @@
         maybeMoreComments: null
       };
       vm.commentLoadProgress = true;
-
       var fn = vm.chainView
       ? NstSvcPostActivityFactory.getActivities({
         postId: vm.postId,
-        before: settings.date,
+        after: settings.date,
         limit: settings.limit
       })
       : NstSvcCommentFactory.getCommentsAfter(vm.postId, settings)
@@ -157,7 +155,7 @@
 
     function loadRecentComments(news, scrollIntoView) {
       var settings = {
-        date: getLastCommentDate(ctrlComments()),
+        date: getLastCommentDate(),
         limit: 30
       };
       getRecentComments(settings).then(function (result) {
@@ -497,6 +495,7 @@
 
     function loadMoreComments() {
       var date = getOlderDate();
+      console.log('loadMoreComments');
       var fn = vm.chainView
       ? NstSvcPostActivityFactory.getActivities({
         postId: vm.postId,
