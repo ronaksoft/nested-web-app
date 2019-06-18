@@ -218,7 +218,8 @@
             return cm.type === NST_POST_EVENT_ACTION.COMMENT_ADD
           }), 'timestamp'), 3).map(function(cm) {
             return cm.comment
-          })
+          }),
+        labels: targetPost.labels
       }));
     });
 

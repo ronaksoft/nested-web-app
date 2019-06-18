@@ -495,7 +495,6 @@
 
     function loadMoreComments() {
       var date = getOlderDate();
-      console.log('loadMoreComments');
       var fn = vm.chainView
       ? NstSvcPostActivityFactory.getActivities({
         postId: vm.postId,

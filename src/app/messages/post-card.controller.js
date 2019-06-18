@@ -769,6 +769,7 @@
         // replace last 3 comments and reset new comments counter
         vm.unreadCommentsCount = 0;
         vm.post.comments = data.comments;
+        vm.post.labels = data.labels;
         // update the post counters
         reloadCounters();
       }
