@@ -12,7 +12,12 @@
                          NstSvcServer, NstSvcAuth, NstSvcLogger, NstSvcI18n, _, NstSvcNotificationFactory, $) {
     var vm = this;
     var eventReferences = [];
-
+    
+    window.riverIntegration = {
+      getNestedUser: function() {
+        return NstSvcAuth.user
+      }.bind(this)
+    };
     var lastCounterUpdate = 0;
 
     NstSvcNotification.requestPermission();

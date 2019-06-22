@@ -302,7 +302,7 @@
             </div>
           </label>
         </div>
-        <div class="task-reminders auto-height-item" ng-show="ctrlEditTask.enableReminder">
+        <!-- <div class="task-reminders auto-height-item" ng-show="ctrlEditTask.enableReminder">
           <div class="_difv _fw">
             <h3>
               <translate>Reminders</translate>
@@ -331,7 +331,7 @@
               </svg>
             </div>
           </label>
-        </div>
+        </div> -->
         <div class="task-binder ng-class:{'is-open': ctrlEditTask.isOpenBinder}"
              ng-if="((!ctrlEditTask.enableWatcher && ctrlEditTask.model.access.addWatcher) ||
                 (!ctrlEditTask.enableEditor && ctrlEditTask.model.access.addEditor) ||
@@ -346,7 +346,7 @@
                 <use xlink:href="/assets/icons/nst-icn16.svg#cross"></use>
               </svg>
             </div>
-            <div class="task-binder-butn" ng-if="!ctrlEditTask.enableReminder"
+            <!-- <div class="task-binder-butn" ng-if="!ctrlEditTask.enableReminder"
                  ng-click="ctrlEditTask.bindRow('enableReminder')">
               <svg class="_16svg">
                 <use xlink:href="/assets/icons/nst-icn16.svg#reminder"></use>
@@ -357,7 +357,7 @@
                 <use xlink:href="/assets/icons/nst-icn16.svg#reminder"></use>
               </svg>
               <translate>Add Reminder</translate>
-            </div>
+            </div> -->
             <div class="task-binder-butn" ng-if="!ctrlEditTask.enableLabel && ctrlEditTask.model.access.addLabel"
                  ng-click="ctrlEditTask.bindRow('enableLabel')">
               <svg class="_16svg">
