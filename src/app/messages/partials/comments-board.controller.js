@@ -175,7 +175,7 @@
                 cm.isNew = false
                 vm.activities[index] = cm
               }
-              return sentCm.type === cm.type && sentCm.comment.body === cm.comment.body && sentCm.comment.sender.id === cm.comment.sender.id;
+              return sentCm.type === cm.type && sentCm.comment.body === cm.comment.body && sentCm.comment.sender.id === cm.comment.sender.id && sentCm.comment.attachmentId === cm.comment.attachmentId;
             })
           });
           var newActivities = _.differenceBy(newCommentsFromOthers, vm.activities, 'id');
@@ -406,7 +406,11 @@
       if (vm.postId) {
         NstSvcCommentFactory.addComment(vm.postId, '', attachmentId).then(function (comment) {
           // addCommentCallback(comment)
-          ctrlComments().push(comment);
+          if(vm.chainView) {
+            loadRecentComments();
+          } else {
+            ctrlComments().push(comment);
+          }
           vm.isSendingComment = false;
           vm.post.newComment = '';
         }).catch(function () {
