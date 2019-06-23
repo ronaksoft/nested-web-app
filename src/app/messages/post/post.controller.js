@@ -164,9 +164,7 @@
     // }
 
     function markPostAsRead(id) {
-      console.log('markAsRead');
       vm.markAsReadProgress = true;
-      console.log(id);
       NstSvcPostInteraction.markAsRead(id).then(function () {
         var targetPost = _.find(vm.messages, {id: id});
         if (targetPost) {

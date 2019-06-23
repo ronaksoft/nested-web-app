@@ -229,7 +229,8 @@
               });
               NstSvcPostActivityFactory.get(vm.postId, vm.activities[act].id).then(function(activity) {
                 vm.activities[act] = activity;
-              })
+              });
+              loadRecentComments();
             }
             var canceler = $scope.$emit('comment-removed', {postId: vm.postId, commentId: comment.id});
             eventReferences.push(canceler);
