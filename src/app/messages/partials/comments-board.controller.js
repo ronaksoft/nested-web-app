@@ -75,6 +75,7 @@
             }, function (nv, ov) {
               if (nv !== ov) {
                 NstSvcKeyFactory.set(NST_KEY.GENERAL_SETTING_COMMENT_ACTIVITY, nv + '');
+                getRecentComments();
               }
             }));
         });
