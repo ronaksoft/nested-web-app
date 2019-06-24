@@ -35,6 +35,33 @@ $modal-backdrop-bg: $color-breeze;
   }
 }
 
+#river-iframe{
+  z-index: 1;
+}
+.river-holder {
+  position: fixed;
+  width: 48px;
+  height: 48px;
+  bottom: 24px;
+  right: 24px;
+  cursor: pointer;
+  .close-river{
+    position: absolute;
+    opacity: 0;
+    right: 16px;
+    top: 16px;
+  }
+  &:hover .close-river{
+    opacity: 1;
+  }
+}
+[dir="rtl"] {
+  .river-holder {
+    left: 24px;
+    right: auto;
+  }
+}
+
 /**
  *  Do not remove the comments below. It's the markers used by gulp-inject to inject
  *  all your sass files automatically

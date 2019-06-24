@@ -12,12 +12,33 @@
                          NstSvcServer, NstSvcAuth, NstSvcLogger, NstSvcI18n, _, NstSvcNotificationFactory, $) {
     var vm = this;
     var eventReferences = [];
+    vm.stopLoadingRiver = stopLoadingRiver;
     
-    window.riverIntegration = {
-      getNestedUser: function() {
-        return NstSvcAuth.user
-      }.bind(this)
-    };
+    // window.riverIntegration = {
+    //   getNestedUser: function() {
+    //     return NstSvcAuth.user
+    //   }.bind(this)
+    // };
+    var riverLoadTimeout = $timeout(function() {
+      var riverService = window.RiverService.default;
+      var srv = new riverService({el:document.getElementsByClassName('river-holder')[0], rtl: NstSvcI18n.selectedLocale === 'fa-IR'});
+      srv.onload = function() {
+        var user = NstSvcAuth.user;
+        // var workspace = Object.keys(window.__CONFIG_CACHE__)[0];
+        srv.setUserInfo({
+            firstname: user.firstName,
+            lastname: user.lastName,
+            workspace: 'cyrus.river.im',
+            phone: '+' + user.phone
+        }).then();
+        // srv.toggleVisible();
+      }
+    }, 4000);
+
+    function stopLoadingRiver() {
+      $timeout.cancel(riverLoadTimeout);
+      document.getElementsByClassName('river-holder')[0].remove()
+    }
     var lastCounterUpdate = 0;
 
     NstSvcNotification.requestPermission();
