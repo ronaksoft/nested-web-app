@@ -22,7 +22,6 @@
     "svg4everybody": "^2.1.4",
     "selectonic": "^0.6.3",
     "libphonenumber": "^0.9.4",
-    "river-service": "^0.1.5",
     "ng-device-detector": "^3.0.1",
     "progressbar.js": "^1.0.1",
     "angular-froala": "2.7.5",
@@ -56,11 +55,6 @@
       "main": [
         "./dist/lib/angular-iscroll.js",
         "./dist/lib/scss/_iscroll.scss"
-      ]
-    },
-    "river-service": {
-      "main": [
-        "./build/index.js"
       ]
     }
   },
