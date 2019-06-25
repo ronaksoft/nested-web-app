@@ -31,7 +31,8 @@
     "angular-iscroll": "^3.5.1",
     "angular-ui-sortable": "^0.17.2",
     "lng-clockpicker": "~0.0.8",
-    "angular-bind-html-compile": "^1.4.1"
+    "angular-bind-html-compile": "^1.4.1",
+    "river-service": "^0.1.6"
   },
   "devDependencies": {
     "lz-string": "^1.4.4",
@@ -55,6 +56,11 @@
       "main": [
         "./dist/lib/angular-iscroll.js",
         "./dist/lib/scss/_iscroll.scss"
+      ]
+    },
+    "river-service": {
+      "main": [
+        "./build/index.js"
       ]
     }
   },
