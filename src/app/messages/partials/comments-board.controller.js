@@ -75,17 +75,20 @@
             }, function (nv, ov) {
               if (nv !== ov) {
                 NstSvcKeyFactory.set(NST_KEY.GENERAL_SETTING_COMMENT_ACTIVITY, nv + '');
-                getRecentComments();
+                loadRecentComments();
               }
             }));
         });
-        NstSvcServer.addEventListener(NST_SRV_PUSH_CMD.SYNC_POST_ACTIVITY, function (event) {
-          if (event.detail.post_id === vm.postId) {
-            loadRecentComments();
-          }
-        });
       }
-
+      NstSvcServer.addEventListener(NST_SRV_PUSH_CMD.SYNC_POST_ACTIVITY, function (event) {
+        if ($state.current.name === 'app.message' && !vm.chainView) {
+          return
+        }
+        if (event.detail.post_id === vm.postId) {
+          loadRecentComments();
+        }
+      });
+      
       /**
        * Event handler for removing comment
        */
