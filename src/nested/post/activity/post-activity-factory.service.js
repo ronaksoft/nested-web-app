@@ -29,15 +29,14 @@
         // filter received activities with latest time
         var newActs = _.filter(data, function (act) {
           //check and update near activity timestamp
-          if (act.date > nearActTime) {
-            nearActTime = act.date;
+          if (act.timestamp > nearActTime) {
+            nearActTime = act.timestamp;
           }
-          return act.date > self.latestActivityTimestamp;
+          return act.timestamp > self.latestActivityTimestamp;
         });
 
         // update latestActivityTimestamp with near activity time
         self.latestActivityTimestamp = nearActTime;
-
         //check each activity and dispatch sync events
         _.map(newActs, function (act) {
           $rootScope.$broadcast(NST_POST_EVENT_ACTION.SYNC_POST_ACTIVITY + act.type, {
