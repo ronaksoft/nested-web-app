@@ -591,6 +591,7 @@
         ajax = new NstHttp('https://npc.nested.me/dns/discover/' + domainName);
       }
       ajax.get().then(function (data) {
+        NST_CONFIG.DOMAIN = domainName;
         deferred.resolve(data);
         if (window.__CONFIG_CACHE__ === undefined) {
           window.__CONFIG_CACHE__ = {};
@@ -627,13 +628,13 @@
       var deferred = $q.defer();
       loadConfigFromRemote(domain)
         .then(function (remoteConfig) {
-          setConfig(remoteConfig, domain);
+          setConfig(remoteConfig, NST_CONFIG.DOMAIN || domain);
           deferred.resolve();
         })
         .catch(function () {
           loadConfigFromRemote(domain, true)
             .then(function (remoteConfig) {
-              setConfig(remoteConfig, domain);
+              setConfig(remoteConfig, NST_CONFIG.DOMAIN || domain);
               deferred.resolve();
             }).catch(function () {
             deferred.reject();
