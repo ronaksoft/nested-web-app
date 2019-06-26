@@ -578,28 +578,29 @@
       NST_CONFIG.DOMAIN = this.defaultConfigs.DOMAIN;
     };
 
-    function loadConfigFromRemote(domainName, planB) {
+    function loadConfigFromRemote(domainName, planB, parentDomain) {
       NST_CONFIG.DOMAIN = domainName;
-      if (window.__CONFIG_CACHE__ && window.__CONFIG_CACHE__.hasOwnProperty(domainName)) {
-        return $q.resolve(window.__CONFIG_CACHE__[domainName]);
+      var url = parentDomain || domainName;
+      if (window.__CONFIG_CACHE__ && window.__CONFIG_CACHE__.hasOwnProperty(url)) {
+        return $q.resolve(window.__CONFIG_CACHE__[url]);
       }
       var deferred = $q.defer();
       var ajax;
       if (planB) {
-        ajax = new NstHttp(location.protocol + "//" + location.host + '/getConfig/' + domainName);
+        ajax = new NstHttp(location.protocol + "//" + location.host + '/getConfig/' + url);
       } else {
-        ajax = new NstHttp('https://npc.nested.me/dns/discover/' + domainName);
+        ajax = new NstHttp('https://npc.nested.me/dns/discover/' + url);
       }
       ajax.get().then(function (data) {
         deferred.resolve(data);
         if (window.__CONFIG_CACHE__ === undefined) {
           window.__CONFIG_CACHE__ = {};
         }
-        window.__CONFIG_CACHE__[domainName] = data;
+        window.__CONFIG_CACHE__[url] = data;
       }).catch(function (err) {
-        var domainSplit = domainName.split('.');
+        var domainSplit = url.split('.');
         if (domainSplit.length > 2) {
-          return loadConfigFromRemote(domainSplit.slice(1, domainSplit.length).join('.'), planB).then(deferred.resolve).catch(deferred.reject)
+          return loadConfigFromRemote(domainName, planB, domainSplit.slice(1, domainSplit.length).join('.')).then(deferred.resolve).catch(deferred.reject)
         }
         deferred.reject(err);
       });
