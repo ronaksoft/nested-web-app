@@ -628,13 +628,13 @@
       var deferred = $q.defer();
       loadConfigFromRemote(domain)
         .then(function (remoteConfig) {
-          setConfig(remoteConfig, domain);
+          setConfig(remoteConfig, NST_CONFIG.DOMAIN || domain);
           deferred.resolve();
         })
         .catch(function () {
           loadConfigFromRemote(domain, true)
             .then(function (remoteConfig) {
-              setConfig(remoteConfig, domain);
+              setConfig(remoteConfig, NST_CONFIG.DOMAIN || domain);
               deferred.resolve();
             }).catch(function () {
             deferred.reject();
