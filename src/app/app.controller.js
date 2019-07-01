@@ -13,21 +13,25 @@
     var vm = this;
     var eventReferences = [];
     vm.stopLoadingRiver = stopLoadingRiver;
+    vm.activeRiver = false;
 
-    var riverLoadTimeout = $timeout(function() {
-      var riverService = window.RiverService.default;
-      var srv = new riverService({el:document.getElementsByClassName('river-holder')[0], rtl: NstSvcI18n.selectedLocale === 'fa-IR'});
-      srv.onload = function() {
-        var user = NstSvcAuth.user;
-        srv.setUserInfo({
-            firstname: user.firstName,
-            lastname: user.lastName,
-            workspace: 'cyrus.river.im',
-            phone: '+' + user.phone
-        }).then();
-        // srv.toggleVisible();
-      }
-    }, 4000);
+    if (NST_CONFIG.RIVER) {
+      vm.activeRiver = true;
+      var riverLoadTimeout = $timeout(function() {
+        var riverService = window.RiverService.default;
+        var srv = new riverService({el:document.getElementsByClassName('river-holder')[0], rtl: NstSvcI18n.selectedLocale === 'fa-IR'});
+        srv.onload = function() {
+          var user = NstSvcAuth.user;
+          srv.setUserInfo({
+              firstname: user.firstName,
+              lastname: user.lastName,
+              workspace: NST_CONFIG.RIVER,
+              phone: '+' + user.phone
+          }).then();
+          // srv.toggleVisible();
+        }
+      }, 4000);
+    }
 
     function stopLoadingRiver() {
       $timeout.cancel(riverLoadTimeout);

@@ -10,6 +10,7 @@ const config = {
   HTTP_PORT: process.env['NST_ADDR_PORT'],
   DOMAIN: process.env['NST_DOMAIN'],
   DISABLE_FCM: process.env['DISABLE_FCM'],
+  RIVER: process.env['RIVER'],
   DEFAULT_LOCALE: process.env['DEFAULT_LOCALE'],
   SHOW_FOOTER: process.env['SHOW_FOOTER'],
   IFRAME_ENABLE: process.env['IFRAME_ENABLE']
@@ -23,6 +24,7 @@ const defaultConfig = {
   DOMAIN: "_DOMAIN_",
   UPLOAD_SIZE_LIMIT: 104857600,
   DISABLE_FCM: "_DISABLE_FCM_",
+  RIVER: "_RIVER_",
   DEFAULT_LOCALE: "_DEFAULT_LOCALE_", // en, fa
   SHOW_FOOTER: "_SHOW_FOOTER_", // false, true
   IFRAME_ENABLE: "_IFRAME_ENABLE_"
@@ -36,6 +38,7 @@ const newConfig = {
   UPLOAD_SIZE_LIMIT: process.env['NST_UPLOAD_SIZE_LIMIT'] || defaultConfig.UPLOAD_SIZE_LIMIT,
   DOMAIN: process.env['NST_DOMAIN'] || "nested.me",
   DISABLE_FCM: process.env['DISABLE_FCM'] || defaultConfig.DISABLE_FCM,
+  RIVER: process.env['RIVER'] || defaultConfig.RIVER,
   DEFAULT_LOCALE: process.env['DEFAULT_LOCALE'] || defaultConfig.DEFAULT_LOCALE,
   SHOW_FOOTER: process.env['SHOW_FOOTER'] || defaultConfig.SHOW_FOOTER,
   IFRAME_ENABLE: process.env['IFRAME_ENABLE'] || defaultConfig.IFRAME_ENABLE
@@ -99,6 +102,7 @@ function replaceConfigAndStore(file) {
       .replace(defaultConfig.UPLOAD_SIZE_LIMIT, newConfig.UPLOAD_SIZE_LIMIT)
       .replace(new RegExp(defaultConfig.DOMAIN, 'ig'), newConfig.DOMAIN)
       .replace(new RegExp(defaultConfig.DISABLE_FCM, 'ig'), newConfig.DISABLE_FCM)
+      .replace(new RegExp(defaultConfig.RIVER, 'ig'), newConfig.RIVER)
       .replace(defaultConfig.DEFAULT_LOCALE, newConfig.DEFAULT_LOCALE)
       .replace(defaultConfig.SHOW_FOOTER, newConfig.SHOW_FOOTER)
       .replace(defaultConfig.IFRAME_ENABLE, newConfig.IFRAME_ENABLE);
