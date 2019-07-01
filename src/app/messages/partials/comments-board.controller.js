@@ -175,7 +175,7 @@
                 cm.isNew = false
                 vm.activities[index] = cm
               }
-              return sentCm.type === cm.type && sentCm.comment.body === cm.comment.body && sentCm.comment.sender.id === cm.comment.sender.id && sentCm.comment.attachmentId === cm.comment.attachmentId;
+              return sentCm.type === cm.type && (sentCm.comment && cm.comment && sentCm.comment.body === cm.comment.body && sentCm.comment.sender.id === cm.comment.sender.id && sentCm.comment.attachmentId === cm.comment.attachmentId);
             })
           });
           var newActivities = _.differenceBy(newCommentsFromOthers, vm.activities, 'id');
