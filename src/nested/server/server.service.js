@@ -277,7 +277,7 @@
               server.init(NST_CONFIG.WEBSOCKET.URL);
               server.domain = domainName;
               setTimeout(function () {
-                localStorage.setItem(NST_SERVER_DOMAIN, domain ? domain : NST_CONFIG.DOMAIN);
+                localStorage.setItem(NST_SERVER_DOMAIN, NST_CONFIG.DOMAIN);
                 deferred.resolve();
               }, 500);
             }
@@ -298,7 +298,7 @@
                 server.init(NST_CONFIG.WEBSOCKET.URL);
                 server.domain = domainName;
                 setTimeout(function () {
-                  localStorage.setItem(NST_SERVER_DOMAIN, domain ? domain : NST_CONFIG.DOMAIN);
+                  localStorage.setItem(NST_SERVER_DOMAIN, NST_CONFIG.DOMAIN);
                   deferred.resolve();
                 }, 500);
               }
@@ -306,7 +306,7 @@
             server.init(server.defaultConfigs.WEBSOCKET_URL);
             server.domain = domainName;
             setTimeout(function () {
-              localStorage.setItem(NST_SERVER_DOMAIN, domain ? domain : NST_CONFIG.DOMAIN);
+              localStorage.setItem(NST_SERVER_DOMAIN, NST_CONFIG.DOMAIN);
               deferred.resolve();
             }, 500);
           });
@@ -621,6 +621,7 @@
       server.defaultConfigs.DOMAIN = NST_CONFIG.DOMAIN;
 
       // Set default domain
+      console.log('NST_SERVER_DOMAIN', domain)
       localStorage.setItem(NST_SERVER_DOMAIN, domain);
     }
 
