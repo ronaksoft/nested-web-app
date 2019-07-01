@@ -81,7 +81,6 @@
       NST_CONFIG.REGISTER.AJAX.URL = configs.register;
       NST_CONFIG.STORE.URL = configs.store;
       NST_CONFIG.DOMAIN = domain;
-      console.log('NST_SERVER_DOMAIN', domain)
       localStorage.setItem(NST_SERVER_DOMAIN, domain);
     }
 
