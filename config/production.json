@@ -30,7 +30,7 @@
     },
     "GOOGLE_ANALYTICS_TOKEN": "UA-80877772-5",
     "UPLOAD_SIZE_LIMIT": 104857600,
-    "RIVER": "_RIVER_",
+    "RIVER": "",
     "DISABLE_FCM": "_DISABLE_FCM_"
   }
 }

@@ -24,7 +24,7 @@ const defaultConfig = {
   DOMAIN: "_DOMAIN_",
   UPLOAD_SIZE_LIMIT: 104857600,
   DISABLE_FCM: "_DISABLE_FCM_",
-  RIVER: "_RIVER_",
+  RIVER: "",
   DEFAULT_LOCALE: "_DEFAULT_LOCALE_", // en, fa
   SHOW_FOOTER: "_SHOW_FOOTER_", // false, true
   IFRAME_ENABLE: "_IFRAME_ENABLE_"
