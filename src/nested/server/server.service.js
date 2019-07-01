@@ -621,7 +621,6 @@
       server.defaultConfigs.DOMAIN = NST_CONFIG.DOMAIN;
 
       // Set default domain
-      console.log('NST_SERVER_DOMAIN', domain)
       localStorage.setItem(NST_SERVER_DOMAIN, domain);
     }
 

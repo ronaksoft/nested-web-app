@@ -20,6 +20,8 @@
       NstSvcGlobalCache.flush();
       NstSvcAuth.logout();
     }
+    document.getElementById('river-embed').remove();
+    
     $state.go('public.signin');
   }
 })();

@@ -19,14 +19,17 @@
       vm.activeRiver = true;
       var riverLoadTimeout = $timeout(function() {
         var riverService = window.RiverService.default;
-        var srv = new riverService({el:document.getElementsByClassName('river-holder')[0], rtl: NstSvcI18n.selectedLocale === 'fa-IR'});
-        srv.onload = function() {
+        window.riverServiceInstance = new riverService({
+          el: document.getElementsByClassName('river-holder')[0],
+          rtl: NstSvcI18n.selectedLocale === 'fa-IR'
+        });
+        window.riverServiceInstance.onload = function() {
           var user = NstSvcAuth.user;
-          srv.setUserInfo({
-              firstname: user.firstName,
-              lastname: user.lastName,
-              workspace: NST_CONFIG.RIVER,
-              phone: '+' + user.phone
+          window.riverServiceInstance.setUserInfo({
+            firstname: user.firstName,
+            lastname: user.lastName,
+            workspace: NST_CONFIG.RIVER,
+            phone: '+' + user.phone
           }).then();
           // srv.toggleVisible();
         }
