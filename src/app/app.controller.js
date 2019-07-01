@@ -17,11 +17,19 @@
 
     if (NST_CONFIG.RIVER) {
       vm.activeRiver = true;
+      var isDark = false;
+      NstThemeService.getTheme().then(function (theme) {
+        if (theme === 'yes') {
+          isDark = true
+        }
+      });
       var riverLoadTimeout = $timeout(function() {
         var riverService = window.RiverService.default;
+        console.log(isDark);
         window.riverServiceInstance = new riverService({
           el: document.getElementsByClassName('river-holder')[0],
-          rtl: NstSvcI18n.selectedLocale === 'fa-IR'
+          rtl: NstSvcI18n.selectedLocale === 'fa-IR',
+          theme: isDark ? 'dark' : ''
         });
         window.riverServiceInstance.onload = function() {
           var user = NstSvcAuth.user;
