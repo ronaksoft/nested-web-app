@@ -51,7 +51,6 @@
         };
 
         scope.selectChip = function () {
-          console.log('selectChip');
           try {
             scope.isSelected = true;
             scope.onSelect(scope.user);

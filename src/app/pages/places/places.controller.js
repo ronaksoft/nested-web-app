@@ -60,7 +60,6 @@
         for (var i = 0; i < depth; i++) {
           strDepth += '___ ';
         }
-        console.log(strDepth, item.o + ' ' + key);
         if (item.s) {
           print(item.s, depth + 1);
         }

@@ -37,9 +37,7 @@
           NstSvcLabelFactory.get(scope.labelId).then(function (label) {
             scope.label = label;
             init();
-          })/*.catch(function (e) {
-            console.log(e)
-          })*/;
+          });
         }
 
         function init() {

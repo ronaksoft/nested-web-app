@@ -328,7 +328,6 @@
         }*/
 
         function checkScroll(el) {
-          // console.log('checkScroll', el.clientWidth < el.scrollWidth, el.scrollLeft, el.clientWidth, el.scrollWidth, el.clientWidth < el.scrollWidth && el.scrollLeft == 0, el.clientWidth + el.scrollLeft >= el.scrollWidth && el.clientWidth < el.scrollWidth);
           if (el.clientWidth < el.scrollWidth && el.scrollLeft < 5) {
             scope.overFlowRight = true;
             scope.overFlowLeft = false;

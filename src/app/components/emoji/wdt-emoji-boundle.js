@@ -399,7 +399,6 @@
     window.addEventListener('resize', resizeWin);
 
     function resizeWin(){
-      console.log('111');
       css(wdtEmojiBundle.popup, findBestAvailablePosition(ev.target));
     }
     wdtEmojiBundle.eventListeners.resize.push(resizeWin);
@@ -1182,7 +1181,6 @@
 
     if (!selection) {
       selection = {};
-      console.log('not selection')
       selection.start = $(el).text().length;
       selection.end = $(el).text().length;
       selection.len = $(el).text().length;

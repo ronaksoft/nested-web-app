@@ -15,7 +15,6 @@
     var isDark = false;
     vm.stopLoadingRiver = stopLoadingRiver;
     vm.activeRiver = false;
-
     if (NST_CONFIG.RIVER) {
       vm.activeRiver = true;
       NstThemeService.getTheme().then(function (theme) {
@@ -58,12 +57,6 @@
       //   window.dispatchEvent(fakeOriginalEvent);
       // }
 
-      window.riverServiceInstance.destroy = function() {
-        var el = document.querySelector(window.riverServiceInstance.parentEl);
-        if (document.querySelector(window.riverServiceInstance.parentEl)) {
-          el.remove();
-        }
-      }
     }
 
     function stopLoadingRiver() {

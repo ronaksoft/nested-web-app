@@ -80,7 +80,6 @@
     function getCurrent() {
       $scope.$apply(function () {
         vm.currentPlay = SvcMiniPlayer.getCurrent();
-        // console.log(vm.currentPlay);
         if (vm.currentPlay.item) {
           vm.isVoice = vm.currentPlay.item.uploadType !== "AUDIO";
         }

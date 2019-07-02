@@ -73,7 +73,6 @@
 
 
           function affixElement() {
-            // console.log(topOffset);
             if (!fixed && container.scrollTop > topOffset) {
               $element.css('position', 'fixed');
               $element.css('top', parseInt(top) + 'px');

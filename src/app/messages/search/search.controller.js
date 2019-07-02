@@ -72,7 +72,6 @@
           searchMessages();
         });
       } else {
-        console.log('hey');
         $state.go('app.task.search', getRouteParams(query)).then(function () {
           skip = 0;
           searchMessages();

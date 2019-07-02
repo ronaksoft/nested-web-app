@@ -49,7 +49,6 @@
         controller: 'CreateTokenController',
         resolve: {
           myApps: function () {
-            console.log(vm.apps);
             return vm.apps;
           }
         },

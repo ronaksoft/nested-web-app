@@ -859,7 +859,6 @@
             }
             var ind = _.findIndex(vm.model.reminders, function(r) { return r.id === reminder.id});
             var newReminder = response[0];
-            console.log(ind, vm.model.reminders, response[0]);
             if (ind > -1) {
               vm.model.reminders[ind] = newReminder;
             }

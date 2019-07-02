@@ -18,8 +18,6 @@
         }
         var eventReferences = [];
         var template = angular.element($templateCache.get('nst-panzoom.html'));
-        // $compile(template)($scope);
-        // console.log(template);
         $element.parents($scope.containerClass).append(template);
 
         $element.addClass('cursor-pan');
@@ -70,7 +68,6 @@
           startPan = true;
           panStartPos.x = e.pageX - pan.x;
           panStartPos.y = e.pageY - pan.y;
-          // console.log((e.offsetX / $element.width()), (e.offsetY / $element.height()));
           applyChanges();
         }));
         eventReferences.push(angular.element('body').on('mousemove', function (e) {
