@@ -31,7 +31,7 @@
     "angular-ui-sortable": "^0.17.2",
     "lng-clockpicker": "~0.0.8",
     "angular-bind-html-compile": "^1.4.1",
-    "river-service": "^0.2.0",
+    "river-service": "^0.3.0",
     "google-libphonenumber": "^3.2.3"
   },
   "devDependencies": {

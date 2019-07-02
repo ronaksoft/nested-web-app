@@ -15,7 +15,7 @@
 
     $rootScope._direction = NstSvcI18n.getLocale()._direction || "ltr";
 
-    $window.addEventListener("dragover",function(e){
+    $window.addEventListener("dragover", function(e){
       e = e || event;
       e.preventDefault();
       $('body').addClass('drag-enter');
@@ -23,7 +23,7 @@
 
     },false);
 
-    $window.addEventListener("drop",function(e){
+    $window.addEventListener("drop", function(e){
       e = e || event;
       e.preventDefault();
       removeClass();

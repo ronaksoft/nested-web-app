@@ -12,36 +12,55 @@
                          NstSvcServer, NstSvcAuth, NstSvcLogger, NstSvcI18n, _, NstSvcNotificationFactory, $) {
     var vm = this;
     var eventReferences = [];
+    var isDark = false;
     vm.stopLoadingRiver = stopLoadingRiver;
     vm.activeRiver = false;
 
     if (NST_CONFIG.RIVER) {
       vm.activeRiver = true;
-      var isDark = false;
       NstThemeService.getTheme().then(function (theme) {
         if (theme === 'yes') {
           isDark = true
         }
       });
-      var riverLoadTimeout = $timeout(function() {
-        var riverService = window.RiverService.default;
-        console.log(isDark);
-        window.riverServiceInstance = new riverService({
-          el: document.getElementsByClassName('river-holder')[0],
-          rtl: NstSvcI18n.selectedLocale === 'fa-IR',
-          theme: isDark ? 'dark' : ''
-        });
-        window.riverServiceInstance.onload = function() {
-          var user = NstSvcAuth.user;
-          window.riverServiceInstance.setUserInfo({
-            firstname: user.firstName,
-            lastname: user.lastName,
-            workspace: NST_CONFIG.RIVER,
-            phone: '+' + user.phone
-          }).then();
-          // srv.toggleVisible();
-        }
-      }, 4000);
+      var riverLoadTimeout = $timeout(initRiver, 4000);
+    }
+
+    function initRiver(reset) {
+      var riverService = window.RiverService.default;
+      window.riverServiceInstance = new riverService({
+        el: reset
+         ? document.querySelector(window.riverServiceInstance.parentEl)
+         : document.getElementsByClassName('river-holder')[0],
+        rtl: NstSvcI18n.selectedLocale === 'fa-IR',
+        theme: isDark ? 'dark' : ''
+      });
+
+      window.riverServiceInstance.onload = function() {
+        var user = NstSvcAuth.user;
+        window.riverServiceInstance.setUserInfo({
+          firstname: user.firstName,
+          lastname: user.lastName,
+          workspace: NST_CONFIG.RIVER,
+          phone: '+' + user.phone
+        }).then();
+        // srv.toggleVisible();
+      }
+
+      // window.riverServiceInstance.onDragEnter = function(msg) {
+      //   var fakeOriginalEvent = new DragEvent('dragover');
+      //   Object.defineProperty(fakeOriginalEvent.constructor.prototype, 'dataTransfer', {
+      //     value: {}
+      //   });
+      //   fakeOriginalEvent.dataTransfer.getData = function() {
+      //     return msg
+      //   };
+      //   window.dispatchEvent(fakeOriginalEvent);
+      // }
+
+      window.riverServiceInstance.destroy = function() {
+        document.querySelector(window.riverServiceInstance.parentEl).remove();
+      }
     }
 
     function stopLoadingRiver() {
