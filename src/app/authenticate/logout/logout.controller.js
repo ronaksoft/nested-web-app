@@ -22,6 +22,6 @@
     }
     document.getElementById('river-embed').remove();
     $state.go('public.signin');
-    window.riverServiceInstance.destroy();
+    window.riverServiceInstance && window.riverServiceInstance.destroy();
   }
 })();
