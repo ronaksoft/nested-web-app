@@ -264,7 +264,7 @@
     Auth.prototype.login = function (credentials, remember) {
       var service = this,
         deferred = $q.defer(),
-        domain = null,
+        domain = NST_CONFIG.DOMAIN,
         id = null;
 
       if (credentials.username.indexOf('@') > 1) {
@@ -272,7 +272,7 @@
         domain = credentials.username.split('@')[1];
       } else {
         id = credentials.username;
-        localStorage.removeItem(NST_SERVER_DOMAIN);
+        // localStorage.removeItem(NST_SERVER_DOMAIN);
       }
 
       NstSvcServer.reinit(domain)
