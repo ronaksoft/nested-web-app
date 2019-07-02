@@ -59,7 +59,10 @@
       // }
 
       window.riverServiceInstance.destroy = function() {
-        document.querySelector(window.riverServiceInstance.parentEl).remove();
+        var el = document.querySelector(window.riverServiceInstance.parentEl);
+        if (document.querySelector(window.riverServiceInstance.parentEl)) {
+          el.remove();
+        }
       }
     }
 
