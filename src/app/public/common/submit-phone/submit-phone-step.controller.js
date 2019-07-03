@@ -239,7 +239,7 @@
         return true;
       }
       try {
-        return phoneUtils.isValidNumber(phone.toString(), countryId);
+        return phoneUtils.isValidNumber(phoneUtils.parse(phone.toString(), countryId));
       } catch (e) {
         return false;
       }
