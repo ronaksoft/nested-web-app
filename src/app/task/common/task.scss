@@ -397,3 +397,8 @@
         margin: 8px;
     }
 }
+.edit-task-scrollbar {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}

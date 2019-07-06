@@ -1,7 +1,7 @@
 <div class="comments-container iscroll-wrapper" ng-class="{'is-scrolled' : isScrolled}" iscroll
      iscroll-instance="scrollInstance" stick-bottom-scroll
      load-more-top>
-  <div class="iscroll-scroller">
+  <div class="iscroll-scroller edit-task-scrollbar">
     <div class="nst-loading absolute" ng-if="ctrl.isLoading"></div>
     <div ng-repeat="activity in ctrl.activities | orderBy: 'date'" id="comment-{{activity.id}}">
       <task-activity-item activity="activity" task-id="ctrl.taskId"
