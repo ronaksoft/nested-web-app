@@ -40,7 +40,7 @@
               angular.element(element).attr('fz', fontSize);
 
               angular.element(element).css('font-size', newFontSize > 50 ? 50 : newFontSize);
-              angular.element(element).css('line-height', '115%');
+              angular.element(element).css('line-height', '123%');
 
             });
 
