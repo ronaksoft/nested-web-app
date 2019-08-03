@@ -19,27 +19,43 @@
         <translate>Compose</translate>
       </div>
     </a>
-    <a ui-sref="app.messages-favorites()" class="side-menu-item" ui-sref-active="isSelected">
-        <span class="item-icon" active-group="message">
-          <svg class="_16svg">
-            <use xlink:href="/assets/icons/nst-icn16.svg#messages"></use>
-          </svg>
-        </span>
-        <div class="item-desc">
-          <translate>Feed</translate>
-        </div>
-      </a>
-    <a ui-sref="app.messages-bookmarked()" class="side-menu-item" active-group="bookmarked" ui-sref-active="isSelected">
-        <span class="item-icon">
-          <svg class="_16svg">
-            <use xlink:href="/assets/icons/nst-icn16.svg#bookmarked-message"></use>
-          </svg>
-        </span>
-        <div class="item-desc">
-          <translate>Bookmarked Posts</translate>
-        </div>
-      </a>
-    <a ui-sref="app.messages-sent()" class="side-menu-item" ui-sref-active="isSelected" active-group="sent">
+    <a
+      ui-sref="app.messages-favorites()"
+      class="side-menu-item"
+      ui-sref-active="isSelected"
+    >
+      <span class="item-icon" active-group="message">
+        <svg class="_16svg">
+          <use xlink:href="/assets/icons/nst-icn16.svg#messages"></use>
+        </svg>
+      </span>
+      <div class="item-desc">
+        <translate>Feed</translate>
+      </div>
+    </a>
+    <a
+      ui-sref="app.messages-bookmarked()"
+      class="side-menu-item"
+      active-group="bookmarked"
+      ui-sref-active="isSelected"
+    >
+      <span class="item-icon">
+        <svg class="_16svg">
+          <use
+            xlink:href="/assets/icons/nst-icn16.svg#bookmarked-message"
+          ></use>
+        </svg>
+      </span>
+      <div class="item-desc">
+        <translate>Bookmarked Posts</translate>
+      </div>
+    </a>
+    <a
+      ui-sref="app.messages-sent()"
+      class="side-menu-item"
+      ui-sref-active="isSelected"
+      active-group="sent"
+    >
       <span class="item-icon">
         <svg class="_16svg">
           <use xlink:href="/assets/icons/nst-icn16.svg#sent-message"></use>
@@ -54,32 +70,67 @@
     <div class="side-scroll-list-wrapper _fw">
       <div class="side-scroll-list-head _df">
         <translate class="_df _fw">Places</translate>
-        <div class="side-scroll-list-head-button ng-class:{'disabled' : !ctlSidebar.canCreateClosedPlace && !ctlSidebar.canCreateGrandPlace && !ctlSidebar.canCreateOpenPlace}"
+        <div
+          class="side-scroll-list-head-button ng-class:{'disabled' : !ctlSidebar.canCreateClosedPlace && !ctlSidebar.canCreateGrandPlace && !ctlSidebar.canCreateOpenPlace}"
           data-uib-tooltip="My Places"
-          data-tooltip-append-to-body="false" ng-click="ctlSidebar.openPlaces();"
-          data-tooltip-placement="{{$root._direction === 'rtl' ? 'left' : 'right'}} auto">
+          data-tooltip-append-to-body="false"
+          ng-click="ctlSidebar.openPlaces();"
+          data-tooltip-placement="{{
+            $root._direction === 'rtl' ? 'left' : 'right'
+          }} auto"
+        >
           <svg class="_16svg">
             <use xlink:href="/assets/icons/nst-icn16.svg#gear"></use>
           </svg>
         </div>
-        <div class="side-scroll-list-head-button ng-class:{'disabled' : !ctlSidebar.canCreateClosedPlace && !ctlSidebar.canCreateGrandPlace && !ctlSidebar.canCreateOpenPlace}"
-          data-popover-class="white-pop create-place-popover" data-popover-append-to-body="false" uib-popover-template="'app/components/sidebar/partials/create-place-popover.html'"
-          data-popover-trigger="focus" data-popover-placement="auto bottom-{{$root._direction === 'rtl' ? 'left' : 'right'}}"
-          data-popover-enable="{{!ctlSidebar.canCreateClosedPlace && !ctlSidebar.canCreateGrandPlace && !ctlSidebar.canCreateOpenPlace ? false : true}}"
+        <div
+          class="side-scroll-list-head-button ng-class:{'disabled' : !ctlSidebar.canCreateClosedPlace && !ctlSidebar.canCreateGrandPlace && !ctlSidebar.canCreateOpenPlace}"
+          data-popover-class="white-pop create-place-popover"
+          data-popover-append-to-body="false"
+          uib-popover-template="'app/components/sidebar/partials/create-place-popover.html'"
+          data-popover-trigger="focus"
+          data-popover-placement="auto bottom-{{
+            $root._direction === 'rtl' ? 'left' : 'right'
+          }}"
+          data-popover-enable="{{
+            !ctlSidebar.canCreateClosedPlace &&
+            !ctlSidebar.canCreateGrandPlace &&
+            !ctlSidebar.canCreateOpenPlace
+              ? false
+              : true
+          }}"
           data-uib-tooltip-template="'cannot-create-place.html'"
           data-tooltip-append-to-body="true"
-          data-tooltip-enable="{{!ctlSidebar.canCreateClosedPlace && !ctlSidebar.canCreateGrandPlace && !ctlSidebar.canCreateOpenPlace ? true : false}}"
-          data-tooltip-placement="{{$root._direction === 'rtl' ? 'left' : 'right'}} auto">
+          data-tooltip-enable="{{
+            !ctlSidebar.canCreateClosedPlace &&
+            !ctlSidebar.canCreateGrandPlace &&
+            !ctlSidebar.canCreateOpenPlace
+              ? true
+              : false
+          }}"
+          data-tooltip-placement="{{
+            $root._direction === 'rtl' ? 'left' : 'right'
+          }} auto"
+        >
           <svg class="_16svg">
             <use xlink:href="/assets/icons/nst-icn16.svg#cross"></use>
           </svg>
         </div>
       </div>
-      <div iscroll class="iscroll-wrapper" iscroll-instance="scrollInstance" scroll-into-view=".side-grand-place-item">
+      <div
+        iscroll
+        class="iscroll-wrapper posts-sidebar"
+        iscroll-instance="scrollInstance"
+        scroll-into-view=".side-grand-place-item"
+      >
         <div class="side-places-list iscroll-scroller" add-scope-scroll-top>
           <ul class="places-tree-parent">
-            <li class="side-grand-place-item" ng-repeat="place in ctlSidebar.places" data-ng-include="'app/components/sidebar/place.html'"
-              onload="place = place"></li>
+            <li
+              class="side-grand-place-item"
+              ng-repeat="place in ctlSidebar.places"
+              data-ng-include="'app/components/sidebar/place.html'"
+              onload="place = place"
+            ></li>
           </ul>
         </div>
       </div>

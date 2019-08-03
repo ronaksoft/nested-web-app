@@ -10,7 +10,8 @@
   top: 48px;
   width: $sidebar-width - (2 * $sidebar-padding);
   margin: 16px $sidebar-padding 0 $sidebar-padding;
-  padding: $sidebar-inner-padding $sidebar-inner-padding 0 $sidebar-inner-padding;
+  padding: $sidebar-inner-padding $sidebar-inner-padding 0
+    $sidebar-inner-padding;
   background-color: $sidebar-bg-color;
   border-radius: 4px;
   border: 1px solid $color-breeze-new;
@@ -53,18 +54,18 @@
   width: 100%;
   height: 32px;
   border-radius: 4px;
-  transition: box-shadow .2s, background-color .2s;
+  transition: box-shadow 0.2s, background-color 0.2s;
   .item-icon {
     width: 40px;
     justify-content: center;
     display: flex;
     flex: none;
     // opacity: .72;
-    transition: opacity .2s;
+    transition: opacity 0.2s;
   }
   .item-desc {
     // opacity: .8;
-    transition: opacity .2s;
+    transition: opacity 0.2s;
     display: flex;
     width: 100%;
   }
@@ -85,13 +86,13 @@
     &:active {
       background-color: $color-solid-24;
     }
-    >* {
+    > * {
       opacity: 1;
     }
   }
   &:hover {
     background-color: $color-bg-hover-item;
-    >* {
+    > * {
       opacity: 1;
     }
   }
@@ -104,11 +105,11 @@
     position: relative;
     &:hover {
       background-color: $sidebar-large-item-bg-color;
-      box-shadow: 0 1px 4px rgba(0, 0, 0, .16);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.16);
     }
     &:active {
       background-color: $sidebar-large-item-bg-color;
-      box-shadow: 0 1px 2px rgba(0, 0, 0, .16);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.16);
     }
   }
 }
@@ -163,7 +164,7 @@
     background-color: $color-bg-active-item;
   }
   &.isActive,
-  &.isSelected{
+  &.isSelected {
     background-color: $color-solid-24;
     // box-shadow: 0 1px 4px rgba(0, 0, 0, .16);
     cite {
@@ -177,12 +178,11 @@
     &:active {
       background-color: $color-solid-24;
     }
-    >* {
+    > * {
       opacity: 1;
     }
   }
 }
-
 
 .side-place-item-container {
   width: 100%; //padding-left: 8px;
@@ -223,7 +223,7 @@
     }
   }
   &.isActive,
-  &.isSelected{
+  &.isSelected {
     cite {
       background-color: $color-solid-24;
       font-weight: bold;
@@ -240,12 +240,11 @@
         background-color: $color-solid-24;
       }
     }
-    >* {
+    > * {
       opacity: 1;
     }
   }
 }
-
 
 .side-scroll-list-wrapper {
   z-index: 1;
@@ -256,7 +255,10 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-height: calc(100vh - 410px);
+  // max-height: calc(100vh - 180px);
+  // &.posts {
+  //   max-height: calc(100vh - 180px);
+  // }
   .side-scroll-list-head {
     height: 32px;
     flex: none;
@@ -267,12 +269,12 @@
       font-size: 12px;
       font-weight: bold;
     }
-    >.side-scroll-list-head-button {
+    > .side-scroll-list-head-button {
       width: 28px;
       height: 28px;
       flex: none;
       @include align-center();
-      opacity: .64;
+      opacity: 0.64;
       margin: 2px;
       border-radius: 4px;
       &.disabled {
@@ -282,7 +284,7 @@
         opacity: 1;
         background-color: $color-breeze-new;
         &.disabled {
-          opacity: .64;
+          opacity: 0.64;
           background-color: transparent;
         }
       }
@@ -295,8 +297,12 @@
     position: relative;
     height: auto;
     width: calc(100% + 12px);
-    margin: 0 (-$sidebar-inner-padding) $sidebar-inner-padding (-$sidebar-inner-padding);
-    max-height: calc(100vh - 268px);
+    margin: 0 (-$sidebar-inner-padding) $sidebar-inner-padding
+      (-$sidebar-inner-padding);
+    max-height: calc(100vh - 352px);
+  }
+  .posts-sidebar.iscroll-wrapper {
+    max-height: calc(100vh - 280px);
   }
 }
 
@@ -312,7 +318,8 @@
   > ul {
     padding: 0 6px;
   }
-  li,ul {
+  li,
+  ul {
     display: flex;
     position: relative;
     flex-direction: column;
@@ -329,11 +336,11 @@
     @extend ._txe;
     font-size: 13px;
     color: $color-solid;
-    opacity: .8;
+    opacity: 0.8;
     position: relative;
     line-height: 36px;
     border-radius: 4px;
-    transition: box-shadow .2s, background-color .2s;
+    transition: box-shadow 0.2s, background-color 0.2s;
     b {
       color: $color-bg-pending;
       font-weight: 700;
@@ -359,14 +366,14 @@
     height: 16px;
     flex: none;
     &::after {
-      content: '';
+      content: "";
       position: absolute;
       left: 6px;
       top: 6px;
       width: 5px;
       height: 5px;
       border-radius: 100%;
-      background-color: #C1C4C7;
+      background-color: #c1c4c7;
     }
   }
 }
@@ -381,8 +388,8 @@ dl {
   margin: 0;
 }
 
-ul ul>li:last-child {
-  >.side-place-item-container {
+ul ul > li:last-child {
+  > .side-place-item-container {
     .lines:last-of-type {
       .box3 {
         border-right: none;
@@ -393,7 +400,6 @@ ul ul>li:last-child {
     }
   }
 }
-
 
 .lines {
   display: inline-block;
@@ -414,7 +420,7 @@ ul ul>li:last-child {
 }
 
 //the first li's are grand places ~ dont need lines
-.places-tree-parent>li>ul>li:last-child>ul {
+.places-tree-parent > li > ul > li:last-child > ul {
   li .lines:first-of-type {
     div {
       border: none;
@@ -422,32 +428,54 @@ ul ul>li:last-child {
   }
 }
 
-.places-tree-parent>li>ul>li>ul>li:last-child>ul {
-  li .lines:first-of-type+.lines {
+.places-tree-parent > li > ul > li > ul > li:last-child > ul {
+  li .lines:first-of-type + .lines {
     div {
       border: none;
     }
   }
 }
 
-.places-tree-parent>li>ul>li>ul>li>ul>li:last-child>ul {
-  li .lines:first-of-type+.lines+.lines {
+.places-tree-parent > li > ul > li > ul > li > ul > li:last-child > ul {
+  li .lines:first-of-type + .lines + .lines {
     div {
       border: none;
     }
   }
 }
 
-.places-tree-parent>li>ul>li>ul>li>ul>li>ul>li:last-child>ul {
-  li .lines:first-of-type+.lines+.lines+.lines {
+.places-tree-parent
+  > li
+  > ul
+  > li
+  > ul
+  > li
+  > ul
+  > li
+  > ul
+  > li:last-child
+  > ul {
+  li .lines:first-of-type + .lines + .lines + .lines {
     div {
       border: none;
     }
   }
 }
 
-.places-tree-parent>li>ul>li>ul>li>ul>li>ul>li>ul>li:last-child>ul {
-  li .lines:first-of-type+.lines+.lines+.lines+.lines {
+.places-tree-parent
+  > li
+  > ul
+  > li
+  > ul
+  > li
+  > ul
+  > li
+  > ul
+  > li
+  > ul
+  > li:last-child
+  > ul {
+  li .lines:first-of-type + .lines + .lines + .lines + .lines {
     div {
       border: none;
     }
@@ -501,7 +529,6 @@ ul ul>li:last-child {
   border-color: $color-breeze;
 }
 
-
 // Tasks
 .side-tasks-filter-list {
   padding: 0 6px;
@@ -510,7 +537,7 @@ ul ul>li:last-child {
     // margin-top: 8px;
   }
   .item-desc {
-    >span:first-of-type {
+    > span:first-of-type {
       width: 100%;
       display: flex;
       & + span {
@@ -519,6 +546,6 @@ ul ul>li:last-child {
     }
   }
   .create-filter {
-    @include hover(.6, 1);
+    @include hover(0.6, 1);
   }
 }
