@@ -16,7 +16,7 @@
     vm.stopLoadingRiver = stopLoadingRiver;
     vm.activeRiver = false;
     console.log(NST_CONFIG.RIVER);
-    if (NST_CONFIG.RIVER) {
+    if (NST_CONFIG.RIVER && NST_CONFIG.RIVER !== '_RIVER_') {
       vm.activeRiver = true;
       NstThemeService.getTheme().then(function (theme) {
         if (theme === 'yes') {
