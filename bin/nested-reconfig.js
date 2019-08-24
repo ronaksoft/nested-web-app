@@ -102,7 +102,7 @@ function replaceConfigAndStore(file) {
       .replace(defaultConfig.UPLOAD_SIZE_LIMIT, newConfig.UPLOAD_SIZE_LIMIT)
       .replace(new RegExp(defaultConfig.DOMAIN, 'ig'), newConfig.DOMAIN)
       .replace(new RegExp(defaultConfig.DISABLE_FCM, 'ig'), newConfig.DISABLE_FCM)
-      .replace(new RegExp(defaultConfig.RIVER, 'ig'), newConfig.RIVER)
+      .replace(defaultConfig.RIVER, newConfig.RIVER)
       .replace(defaultConfig.DEFAULT_LOCALE, newConfig.DEFAULT_LOCALE)
       .replace(defaultConfig.SHOW_FOOTER, newConfig.SHOW_FOOTER)
       .replace(defaultConfig.IFRAME_ENABLE, newConfig.IFRAME_ENABLE);
