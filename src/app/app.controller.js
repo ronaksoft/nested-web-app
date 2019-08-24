@@ -15,6 +15,7 @@
     var isDark = false;
     vm.stopLoadingRiver = stopLoadingRiver;
     vm.activeRiver = false;
+    console.log(NST_CONFIG.RIVER);
     if (NST_CONFIG.RIVER) {
       vm.activeRiver = true;
       NstThemeService.getTheme().then(function (theme) {
@@ -26,6 +27,9 @@
     }
 
     function initRiver(reset) {
+      if (!window.RiverService) {
+        return console.log('river not loaded');
+      }
       var riverService = window.RiverService.default;
       window.riverServiceInstance = new riverService({
         el: reset
