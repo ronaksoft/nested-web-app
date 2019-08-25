@@ -101,11 +101,10 @@ function replaceConfigAndStore(file) {
       .replace(new RegExp(defaultConfig.GOOGLE_ANALYTICS_TOKEN, 'ig'), newConfig.GOOGLE_ANALYTICS_TOKEN)
       .replace(defaultConfig.UPLOAD_SIZE_LIMIT, newConfig.UPLOAD_SIZE_LIMIT)
       .replace(new RegExp(defaultConfig.DOMAIN, 'ig'), newConfig.DOMAIN)
-      .replace(new RegExp(defaultConfig.RIVER, 'ig'), newConfig.RIVER)
       .replace(new RegExp(defaultConfig.DISABLE_FCM, 'ig'), newConfig.DISABLE_FCM)
+      .replace(defaultConfig.RIVER, newConfig.RIVER)
       .replace(defaultConfig.DEFAULT_LOCALE, newConfig.DEFAULT_LOCALE)
       .replace(defaultConfig.SHOW_FOOTER, newConfig.SHOW_FOOTER)
-      .replace(defaultConfig.RIVER, newConfig.RIVER)
       .replace(defaultConfig.IFRAME_ENABLE, newConfig.IFRAME_ENABLE);
 
     fs.writeFileSync(config.SCRIPT_DIR + file, newContent);
