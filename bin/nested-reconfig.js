@@ -105,6 +105,7 @@ function replaceConfigAndStore(file) {
       .replace(new RegExp(defaultConfig.DISABLE_FCM, 'ig'), newConfig.DISABLE_FCM)
       .replace(defaultConfig.DEFAULT_LOCALE, newConfig.DEFAULT_LOCALE)
       .replace(defaultConfig.SHOW_FOOTER, newConfig.SHOW_FOOTER)
+      .replace(defaultConfig.RIVER, newConfig.RIVER)
       .replace(defaultConfig.IFRAME_ENABLE, newConfig.IFRAME_ENABLE);
 
     fs.writeFileSync(config.SCRIPT_DIR + file, newContent);
