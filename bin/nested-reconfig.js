@@ -24,7 +24,7 @@ const defaultConfig = {
   DOMAIN: "_DOMAIN_",
   UPLOAD_SIZE_LIMIT: 104857600,
   DISABLE_FCM: "_DISABLE_FCM_",
-  RIVER: "",
+  RIVER: "_RIVER_",
   DEFAULT_LOCALE: "_DEFAULT_LOCALE_", // en, fa
   SHOW_FOOTER: "_SHOW_FOOTER_", // false, true
   IFRAME_ENABLE: "_IFRAME_ENABLE_"
@@ -102,7 +102,7 @@ function replaceConfigAndStore(file) {
       .replace(defaultConfig.UPLOAD_SIZE_LIMIT, newConfig.UPLOAD_SIZE_LIMIT)
       .replace(new RegExp(defaultConfig.DOMAIN, 'ig'), newConfig.DOMAIN)
       .replace(new RegExp(defaultConfig.DISABLE_FCM, 'ig'), newConfig.DISABLE_FCM)
-      .replace(new RegExp(defaultConfig.RIVER, 'ig'), newConfig.RIVER)
+      .replace(defaultConfig.RIVER, newConfig.RIVER)
       .replace(defaultConfig.DEFAULT_LOCALE, newConfig.DEFAULT_LOCALE)
       .replace(defaultConfig.SHOW_FOOTER, newConfig.SHOW_FOOTER)
       .replace(defaultConfig.IFRAME_ENABLE, newConfig.IFRAME_ENABLE);
