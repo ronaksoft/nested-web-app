@@ -51,7 +51,7 @@
       var localLocale = NstSvcI18nStorage.get('locale');
       var localCalendar = localStorage.getItem('ronak.nested.web.calendar');
 
-      var ajax = new NstHttp('',
+      var ajax = new NstHttp(NST_CONFIG.REGISTER.AJAX.URL,
         {
           cmd: 'system/get_string_constants',
           data: {}
