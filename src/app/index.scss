@@ -5,7 +5,7 @@
  *  If you want to override some bootstrap variables, you have to change values here.
  *  The list of variables are listed here bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss
  */
-$navbar-inverse-link-color: #5AADBB;
+$navbar-inverse-link-color: #5aadbb;
 // $icon-font-path: "../../bower_components/bootstrap-sass/assets/fonts/bootstrap/";
 $modal-backdrop-opacity: 0.8;
 $modal-backdrop-bg: $color-breeze;
@@ -35,8 +35,12 @@ $modal-backdrop-bg: $color-breeze;
   }
 }
 
-#river-embed{
+#river-embed {
   z-index: 1;
+  #river-anchor,
+  #river-embed.rtl #river-iframe {
+    z-index: 2;
+  }
 }
 
 .river-holder {
@@ -46,13 +50,13 @@ $modal-backdrop-bg: $color-breeze;
   bottom: 24px;
   right: 24px;
   cursor: pointer;
-  .close-river{
+  .close-river {
     position: absolute;
     opacity: 0;
     right: 16px;
     top: 16px;
   }
-  &:hover .close-river{
+  &:hover .close-river {
     opacity: 1;
   }
 }
