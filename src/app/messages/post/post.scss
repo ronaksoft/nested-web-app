@@ -182,7 +182,7 @@
   align-items: center;
   flex-direction: row;
   padding: 0 12px;
-  z-index: 500;
+  // z-index: 500;
   div,#Logo {
     margin: 0 24px;
   }
@@ -257,10 +257,6 @@ body > .uib-wrapper-post-view:first-child {
   }
 }
 body[dir="rtl"] {
-  .post-navbar {
-    left: auto;
-    right: 0;
-  }
   #PostView {
     .post-area {
       post-card{

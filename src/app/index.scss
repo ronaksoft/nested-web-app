@@ -38,7 +38,7 @@ $modal-backdrop-bg: $color-breeze;
 #river-embed {
   z-index: 1;
   #river-anchor,
-  #river-embed.rtl #river-iframe {
+  #river-iframe {
     z-index: 2;
   }
 }
