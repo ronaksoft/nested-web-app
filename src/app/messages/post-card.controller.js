@@ -1284,6 +1284,9 @@
           $state.go('app.place-messages', {
             placeId: place.id
           });
+          if (isPostView()) {
+            $scope.$parent.$parent.$dismiss(true);
+          }
         } else {
           NstSvcModal.confirm(NstSvcTranslation.get("Error"), NstSvcTranslation.get("Either this Place doesn't exist, or you don't have the permit to enter the Place."),
             {
