@@ -223,7 +223,6 @@
           //});
         }));
 
-        var documentClickRef;
         scope.insideDatePicker = true;
 
         init();
@@ -282,6 +281,7 @@
          * @return {[type]}     [description]
          */
         scope.selectDay = function (day) {
+          scope.insideDatePicker = true;
           if (day.isSelectable) {
             resetSelectedDays();
             day.isSelected = true;
@@ -388,7 +388,7 @@
             }
           });
 
-          documentClickRef = function () {
+          scope.documentClickRef = function () {
             if (!scope.insideDatePicker && scope.pickerDisplayed) {
               scope.$apply(function () {
                 scope.calendarCursor = dateSelected ? dateSelected : today;
@@ -396,15 +396,15 @@
               });
             }
           };
-
-          $document.on('click', documentClickRef);
+          $document.on('click', scope.documentClickRef);
 
           element.wrap('<div class="ng-flat-datepicker-wrapper"></div>');
 
           $compile(template)(scope);
           element.after(template);
 
-          datePickerObj = angular.element('.ng-flat-datepicker-wrapper .ng-flat-datepicker');
+          datePickerObj = angular.element(element[0].nextSibling);
+
           datePickerObj.bind('mouseenter', function () {
             scope.$apply(function () {
               scope.insideDatePicker = true;
@@ -519,7 +519,7 @@
         }
 
         scope.$on('$destroy', function () {
-          $document.off('click', documentClickRef);
+          $document.off('click', scope.documentClickRef);
           _.forEach(eventReferences, function (canceler) {
             if (_.isFunction(canceler)) {
               canceler();
