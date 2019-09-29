@@ -107,7 +107,7 @@
       }
       vm.reminders.push(model);
       vm.reminders = _.uniq(vm.reminders);
-      vm.remindersData = vm.reminders;
+      vm.remindersData = _.cloneDeep(vm.reminders);
       vm.model = new NstReminder();
       vm.timestamp = 0;
       vm.reminderDate = null;
