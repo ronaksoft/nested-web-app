@@ -119,7 +119,7 @@ deploy:production:
   script:
     - export TAG=`git describe --abbrev=0 --tags`
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
-    - ls -a
+    - ls -a ./build/webapp
     - docker build --pull -t $CI_REGISTRY_IMAGE:$TAG .
     - docker push $CI_REGISTRY_IMAGE:$TAG
   dependencies:
