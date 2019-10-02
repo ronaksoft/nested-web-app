@@ -15,7 +15,6 @@ build:desktop:
   script:
     - cp -a ./. /var/lib/desktop
     - cd /var/lib/desktop
-    - ls ./node_modules
     - apk add --update python build-base
     - npm install -g bower
     - npm install
@@ -64,34 +63,36 @@ build:mobile:
     untracked: true
     expire_in: 1 hour
 
-build:oldadmin:
+build:admin:
   stage: build
   image: node:12.6.0-alpine
   only:
     - master
     - develop
   script:
-    - mkdir -p /var/lib/oldadmin
+    - mkdir -p /var/lib/admin
     - apk update && apk upgrade && apk add --no-cache bash git openssh
-    - cd /var/lib/oldadmin
+    - cd /var/lib/admin
     - git clone http://gitlab-ci-token:$CI_BUILD_TOKEN@git.ronaksoftware.com/nested/web-admin.git .
     - npm install
     - ./node_modules/.bin/react-scripts build
-    - mkdir -p $BUILD_DIR/webapp/oldadmin
-    - cp -r ./build/* $BUILD_DIR/webapp/oldadmin
+    - mkdir -p $BUILD_DIR/webapp/admin
+    - ls ./build/
+    - cp -r ./build/* $BUILD_DIR/webapp/admin
+    - ls $BUILD_DIR/webapp/admin
 
-build:admin:
+build:oldadmin:
   stage: build
   image: node:8.16.0-alpine
   only:
     - master
   script:
-    - mkdir -p /var/lib/admin
+    - mkdir -p /var/lib/oldadmin
     - apk update && apk upgrade && apk add --no-cache bash git openssh
-    - cd /var/lib/admin
+    - cd /var/lib/oldadmin
     - git clone --single-branch --branch old http://gitlab-ci-token:$CI_BUILD_TOKEN@git.ronaksoftware.com/nested/web-admin.git .
-    - mkdir -p $BUILD_DIR/webapp/admin
-    - cp -r ./dist/* $BUILD_DIR/webapp/admin
+    - mkdir -p $BUILD_DIR/webapp/oldadmin
+    - cp -r ./dist/* $BUILD_DIR/webapp/oldadmin
 #   script:
 #     - mkdir -p /var/lib/oldadmin
 #     - npm install gulp -g
