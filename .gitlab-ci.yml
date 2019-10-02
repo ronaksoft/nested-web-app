@@ -78,7 +78,9 @@ build:admin:
     - npm install
     - ./node_modules/.bin/react-scripts build
     - mkdir -p $BUILD_DIR/webapp/admin
+    - ls ./build
     - cp -r ./build/* $BUILD_DIR/webapp/admin
+    - ls $BUILD_DIR/webapp/admin
 
 build:oldadmin:
   stage: build
