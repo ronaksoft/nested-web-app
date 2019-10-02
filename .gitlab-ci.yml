@@ -75,7 +75,7 @@ build:admin:
     - cd /var/lib/admin
     - git clone http://gitlab-ci-token:$CI_BUILD_TOKEN@git.ronaksoftware.com/nested/web-admin.git .
     - npm install
-    - ./node_modules/.bin/react-scripts build
+    - PUBLIC_URL=/admin ./node_modules/.bin/react-scripts build
     - mkdir -p $BUILD_DIR/webapp/admin
     - ls ./build/
     - cp -r ./build/* $BUILD_DIR/webapp/admin
