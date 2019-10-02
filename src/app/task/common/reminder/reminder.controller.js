@@ -116,7 +116,6 @@
       }, 100)
     }
 
-
     function remove(id) {
       var ind = _.findIndex(vm.reminders, function(reminder) { return reminder.id === id});
       vm.reminders.splice(ind, 1);

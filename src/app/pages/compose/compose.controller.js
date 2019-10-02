@@ -260,6 +260,7 @@
             });
 
           } else {
+            discardDraft();
             $('html').removeClass("_oh");
           }
         }));
