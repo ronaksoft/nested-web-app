@@ -74,7 +74,7 @@ build:admin:
     - mkdir -p /var/lib/admin
     - apk update && apk upgrade && apk add --no-cache bash git openssh
     - cd /var/lib/admin
-    - git clone --single-branch --branch new http://gitlab-ci-token:$CI_BUILD_TOKEN@git.ronaksoftware.com/nested/web-admin.git .
+    - git clone http://gitlab-ci-token:$CI_BUILD_TOKEN@git.ronaksoftware.com/nested/web-admin.git .
     - npm install
     - ./node_modules/.bin/react-scripts build
     - mkdir -p $BUILD_DIR/webapp/admin
@@ -85,19 +85,31 @@ build:oldadmin:
   image: node:8.16.0-alpine
   only:
     - master
-    - develop
   script:
     - mkdir -p /var/lib/oldadmin
-    - npm install gulp -g
-    - npm install jspm -g
     - apk update && apk upgrade && apk add --no-cache bash git openssh
     - cd /var/lib/oldadmin
-    - git clone http://gitlab-ci-token:$CI_BUILD_TOKEN@git.ronaksoftware.com/nested/web-admin.git .
-    - npm install
-    - jspm install
-    - ./node_modules/.bin/gulp build
+    - git clone --single-branch --branch old http://gitlab-ci-token:$CI_BUILD_TOKEN@git.ronaksoftware.com/nested/web-admin.git .
     - mkdir -p $BUILD_DIR/webapp/oldadmin
     - cp -r ./dist/* $BUILD_DIR/webapp/oldadmin
+
+# build:oldadmin:
+#   stage: build
+#   image: node:8.16.0-alpine
+#   only:
+#     - master
+#   script:
+#     - mkdir -p /var/lib/oldadmin
+#     - npm install gulp -g
+#     - npm install jspm -g
+#     - apk update && apk upgrade && apk add --no-cache bash git openssh
+#     - cd /var/lib/oldadmin
+#     - git clone http://gitlab-ci-token:$CI_BUILD_TOKEN@git.ronaksoftware.com/nested/web-admin.git .
+#     - npm install
+#     - jspm install
+#     - ./node_modules/.bin/gulp build
+#     - mkdir -p $BUILD_DIR/webapp/oldadmin
+#     - cp -r ./dist/* $BUILD_DIR/webapp/oldadmin
 
   artifacts:
     untracked: true
@@ -119,6 +131,7 @@ deploy:production:
     - build:mobile
     - build:desktop
     - build:admin
+    - build:oldadmin
 
 
 deploy:develop:
