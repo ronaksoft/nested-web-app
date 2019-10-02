@@ -77,8 +77,9 @@ build:admin:
     - npm install
     - PUBLIC_URL=/admin ./node_modules/.bin/react-scripts build
     - mkdir -p $BUILD_DIR/webapp/admin
+    - mkdir -p $BUILD_DIR/webapp/admin222
     - ls ./build/
-    - cp -r ./build/* $BUILD_DIR/webapp/admin
+    - cp -r ./build $BUILD_DIR/webapp/admin
     - ls $BUILD_DIR/webapp/admin
 
 build:oldadmin:
@@ -92,6 +93,7 @@ build:oldadmin:
     - cd /var/lib/oldadmin
     - git clone --single-branch --branch old http://gitlab-ci-token:$CI_BUILD_TOKEN@git.ronaksoftware.com/nested/web-admin.git .
     - mkdir -p $BUILD_DIR/webapp/oldadmin
+    - mkdir -p $BUILD_DIR/webapp/admin3333
     - cp -r ./dist/* $BUILD_DIR/webapp/oldadmin
 #   script:
 #     - mkdir -p /var/lib/oldadmin
@@ -120,6 +122,7 @@ deploy:production:
   script:
     - export TAG=`git describe --abbrev=0 --tags`
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
+    - ls ./build/webapp
     - docker build --pull -t $CI_REGISTRY_IMAGE:$TAG .
     - docker push $CI_REGISTRY_IMAGE:$TAG
   dependencies:
