@@ -75,14 +75,10 @@ build:admin:
     - apk update && apk upgrade && apk add --no-cache bash git openssh
     - cd /var/lib/admin
     - git clone http://gitlab-ci-token:$CI_BUILD_TOKEN@git.ronaksoftware.com/nested/web-admin.git .
-    - ls -a
     - npm install
     - ./node_modules/.bin/react-scripts build
-    - ls ./build
-    - mkdir -p $BUILD_DIR/webapp/admin
-    - ls $BUILD_DIR/webapp
-    - cp -r ./build/* $BUILD_DIR/webapp/admin
-    - ls $BUILD_DIR/webapp/admin
+    - mkdir -p $BUILD_DIR/webapp/admins
+    - cp -r ./build/* $BUILD_DIR/webapp/admins
 
 build:oldadmin:
   stage: build
@@ -123,6 +119,7 @@ deploy:production:
   script:
     - export TAG=`git describe --abbrev=0 --tags`
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
+    - ls -a
     - docker build --pull -t $CI_REGISTRY_IMAGE:$TAG .
     - docker push $CI_REGISTRY_IMAGE:$TAG
   dependencies:
