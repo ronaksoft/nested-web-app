@@ -139,6 +139,7 @@ deploy:develop:
     IMAGE_TAG: "dev"
   script:
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
+    - ls ./build/webapp
     - docker build --pull -t $CI_REGISTRY_IMAGE:$IMAGE_TAG .
     - docker push $CI_REGISTRY_IMAGE:$IMAGE_TAG
   dependencies:
