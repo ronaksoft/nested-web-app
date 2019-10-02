@@ -78,8 +78,9 @@ build:admin:
     - PUBLIC_URL=/admin ./node_modules/.bin/react-scripts build
     - mkdir -p $BUILD_DIR/webapp/admin
     - mkdir -p $BUILD_DIR/webapp/admin222
-    - ls ./build/
+    - touch $BUILD_DIR/webapp/admin222/test
     - cp -r ./build $BUILD_DIR/webapp/admin
+    - ls $BUILD_DIR/webapp
     - ls $BUILD_DIR/webapp/admin
 
 build:oldadmin:
