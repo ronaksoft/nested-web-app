@@ -63,23 +63,9 @@ build:mobile:
     untracked: true
     expire_in: 1 hour
 
-# build:admin:
-#   stage: build
-#   image: node:12-alpine
-#   only:
-#     - master
-#     - develop
-#   script:
-#     - mkdir -p /var/lib/admin
-#     - apk update && apk upgrade && apk add --no-cache bash git openssh
-#     - cd /var/lib/admin
-#     - git clone http://gitlab-ci-token:$CI_BUILD_TOKEN@git.ronaksoftware.com/nested/web-admin.git .
-#     - npm install
-#     - PUBLIC_URL=/admin ./node_modules/.bin/react-scripts build
-#     - mkdir -p $BUILD_DIR/webapp/admin
-#     - cp -r ./build/* $BUILD_DIR/webapp/admin
 
-build:oldadmin:
+
+build:admin:
   stage: build
   image: node:12-alpine
   only:
@@ -98,6 +84,7 @@ build:oldadmin:
     - PUBLIC_URL=/admin ./node_modules/.bin/react-scripts build
     - mkdir -p $BUILD_DIR/webapp/admin
     - cp -r ./build/* $BUILD_DIR/webapp/admin
+# build old admin
 #   script:
 #     - mkdir -p /var/lib/oldadmin
 #     - npm install gulp -g
@@ -130,8 +117,7 @@ deploy:production:
   dependencies:
     - build:mobile
     - build:desktop
-    # - build:admin
-    - build:oldadmin
+    - build:admin
 
 
 deploy:develop:
@@ -151,8 +137,7 @@ deploy:develop:
   dependencies:
     - build:mobile
     - build:desktop
-    # - build:admin
-    - build:oldadmin
+    - build:admin
 
 
 deploy:business:
@@ -173,5 +158,4 @@ deploy:business:
   dependencies:
     - build:mobile
     - build:desktop
-    # - build:admin
-    - build:oldadmin
+    - build:admin
