@@ -5,7 +5,7 @@ stages:
 variables:
   BUILD_DIR: $CI_PROJECT_DIR/build
 
-image: "registry.ronaksoftware.com/base/node:builder"
+image: "node:8.16.0-alpine"
 
 build:desktop:
   stage: build
@@ -80,7 +80,6 @@ build:admin:
 
 build:oldadmin:
   stage: build
-  image: node:8.16.0-alpine
   only:
     - master
   script:
@@ -90,6 +89,7 @@ build:oldadmin:
     - git clone --single-branch --branch old http://gitlab-ci-token:$CI_BUILD_TOKEN@git.ronaksoftware.com/nested/web-admin.git .
     - mkdir -p $BUILD_DIR/webapp/oldadmin
     - cp -r ./dist/* $BUILD_DIR/webapp/oldadmin
+  # image: node:8.16.0-alpine
 #   script:
 #     - mkdir -p /var/lib/oldadmin
 #     - npm install gulp -g
