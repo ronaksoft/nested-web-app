@@ -65,7 +65,6 @@ build:mobile:
 
 build:admin:
   stage: build
-  image: node:12.6.0-alpine
   only:
     - master
     - develop
@@ -77,11 +76,7 @@ build:admin:
     - npm install
     - PUBLIC_URL=/admin ./node_modules/.bin/react-scripts build
     - mkdir -p $BUILD_DIR/webapp/admin
-    - mkdir -p $BUILD_DIR/webapp/admin222
-    - touch $BUILD_DIR/webapp/admin222/test
-    - cp -r ./build $BUILD_DIR/webapp/admin
-    - ls $BUILD_DIR/webapp
-    - ls $BUILD_DIR/webapp/admin
+    - cp -r ./build/* $BUILD_DIR/webapp/admin
 
 build:oldadmin:
   stage: build
@@ -94,7 +89,6 @@ build:oldadmin:
     - cd /var/lib/oldadmin
     - git clone --single-branch --branch old http://gitlab-ci-token:$CI_BUILD_TOKEN@git.ronaksoftware.com/nested/web-admin.git .
     - mkdir -p $BUILD_DIR/webapp/oldadmin
-    - mkdir -p $BUILD_DIR/webapp/admin3333
     - cp -r ./dist/* $BUILD_DIR/webapp/oldadmin
 #   script:
 #     - mkdir -p /var/lib/oldadmin
@@ -123,7 +117,6 @@ deploy:production:
   script:
     - export TAG=`git describe --abbrev=0 --tags`
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
-    - ls ./build/webapp
     - docker build --pull -t $CI_REGISTRY_IMAGE:$TAG .
     - docker push $CI_REGISTRY_IMAGE:$TAG
   dependencies:
@@ -144,7 +137,6 @@ deploy:develop:
     IMAGE_TAG: "dev"
   script:
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
-    - ls ./build/webapp
     - docker build --pull -t $CI_REGISTRY_IMAGE:$IMAGE_TAG .
     - docker push $CI_REGISTRY_IMAGE:$IMAGE_TAG
   dependencies:
