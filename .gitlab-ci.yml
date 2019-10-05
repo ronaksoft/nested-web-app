@@ -151,7 +151,7 @@ deploy:develop:
   dependencies:
     - build:mobile
     - build:desktop
-    - build:admin
+    # - build:admin
     - build:oldadmin
 
 
@@ -173,5 +173,5 @@ deploy:business:
   dependencies:
     - build:mobile
     - build:desktop
-    - build:admin
+    # - build:admin
     - build:oldadmin
