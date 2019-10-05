@@ -130,7 +130,7 @@ deploy:production:
   dependencies:
     - build:mobile
     - build:desktop
-    - build:admin
+    # - build:admin
     - build:oldadmin
 
 
