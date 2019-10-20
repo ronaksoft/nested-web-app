@@ -8,7 +8,7 @@
             <div ng-if="options.mode === 'label'" label-chips label-id="selected.id" on-remove="removeItem" index="$index" on-select="activeSelectItem"
                 is-selected="{{$index === state.activeSelectedItem}}" removable="true" selectable="true"></div>
         </div>
-        <input type="text" ng-model="keyword" ng-keyup="keyup($event);" ng-keydown="keyDown($event);" focus-me="{{tempFocusInc}}" placeholder="{{options.placeholder}}"
+        <input type="text" ng-model="keyword" ng-keyup="keyup($event);" ng-paste="keyup($event);" ng-keydown="keyDown($event);" focus-me="{{tempFocusInc}}" placeholder="{{options.placeholder}}"
             class="suggest-picker-input" ng-focus="visible = true;onFocus()">
     </div>
     <div class="suggest-picker-suggests {{options.alwaysVisible || visible ? 'show' : ''}}" ng-if="clearSuggests.length > 0">
