@@ -72,7 +72,6 @@
               window.location.reload();
             }
           }
-          $rootScope.$broadcast('company-constants-loaded');
         }
       });
 

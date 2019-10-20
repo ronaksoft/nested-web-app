@@ -81,7 +81,7 @@
             desc: data.data.company_desc,
             logo: data.data.company_logo
           };
-          $rootScope.$broadcast('company-constants-loaded');
+          loadCompanyConstants();
           vm.loading = false;
         }
       }).catch(function () {
@@ -114,9 +114,7 @@
       });
 
       loadCompanyConstants();
-      eventReferences.push($rootScope.$on('company-constants-loaded', function () {
-        loadCompanyConstants();
-      }));
+
     })();
 
     function loadCompanyConstants() {

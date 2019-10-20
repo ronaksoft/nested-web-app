@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function TopBarController($q, $, $scope, $timeout, $state, $stateParams, $uibModal, NstSvcAppFactory, NstSvcViewStorage,
-                            $rootScope, NST_SEARCH_QUERY_PREFIX, _, NstSvcTranslation, NstThemeService, NstSvcAuth, md5,
+                            $rootScope, NST_SEARCH_QUERY_PREFIX, _, NstHttp, NstSvcTranslation, NstThemeService, NstSvcAuth, md5,
                             NstSvcSuggestionFactory, NstSvcLabelFactory, NstSvcI18n, NstSvcTaskUtility, $sce, toastr,
                             NstSvcUserFactory, NstSvcNotificationFactory, NST_USER_SEARCH_AREA, SvcRecorder,
                             NstSvcPlaceFactory, NstSearchQuery, NST_CONFIG, NST_USER_EVENT, NST_NOTIFICATION_EVENT) {
@@ -155,10 +155,24 @@
       });
 
       loadCompanyConstants();
-      eventReferences.push($rootScope.$on('company-constants-loaded', function () {
-        loadCompanyConstants();
-      }));
+      var ajax = new NstHttp(NST_CONFIG.REGISTER.AJAX.URL,
+        {
+          cmd: 'system/get_string_constants',
+          data: {}
+        });
+
+      ajax.post().then(function (data) {
+        if (data && data.data) {
+          window.companyConstants = {
+            name: data.data.company_name,
+            desc: data.data.company_desc,
+            logo: data.data.company_logo
+          };
+          loadCompanyConstants();
+        }
+      });
     })();
+
 
     eventReferences.push($scope.$watch(function () {
       return vm.nightMode;

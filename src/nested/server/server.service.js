@@ -218,7 +218,7 @@
           var configs = parseConfigFromRemote(remoteConfig);
 
           NST_CONFIG.WEBSOCKET.URL = configs.websocket;
-          NST_CONFIG.REGISTER.URL = configs.register;
+          NST_CONFIG.REGISTER.AJAX.URL = configs.register;
           NST_CONFIG.STORE.URL = configs.store;
 
           server.domain = domainName || NST_CONFIG.DOMAIN;
@@ -231,7 +231,7 @@
               var configs = parseConfigFromRemote(remoteConfig);
 
               NST_CONFIG.WEBSOCKET.URL = configs.websocket;
-              NST_CONFIG.REGISTER.URL = configs.register;
+              NST_CONFIG.REGISTER.AJAX.URL = configs.register;
               NST_CONFIG.STORE.URL = configs.store;
 
               server.domain = domainName || NST_CONFIG.DOMAIN;
@@ -268,7 +268,7 @@
             var configs = parseConfigFromRemote(remoteConfig);
 
             NST_CONFIG.WEBSOCKET.URL = configs.websocket;
-            NST_CONFIG.REGISTER.URL = configs.register;
+            NST_CONFIG.REGISTER.AJAX.URL = configs.register;
             NST_CONFIG.STORE.URL = configs.store;
 
             if (domainName === server.domain) {
@@ -289,7 +289,7 @@
               var configs = parseConfigFromRemote(remoteConfig);
 
               NST_CONFIG.WEBSOCKET.URL = configs.websocket;
-              NST_CONFIG.REGISTER.URL = configs.register;
+              NST_CONFIG.REGISTER.AJAX.URL = configs.register;
               NST_CONFIG.STORE.URL = configs.store;
 
               if (domainName === server.domain) {
