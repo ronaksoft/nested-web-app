@@ -3,7 +3,7 @@
 
   angular
     .module('ronak.nested.web.components.date')
-    .filter('activityGroupDate', function(moment, NstSvcTranslation, NstSvcDate) {
+    .filter('activityGroupDate', function(moment, NstSvcTranslation, NstSvcDate, NstSvcCalendarTranslation) {
 
       return function(date) {
 
@@ -15,15 +15,15 @@
 
         var thisMonthStart = moment(NstSvcDate.now()).startOf('month');
         if (foo.isSameOrAfter(thisMonthStart)) {
-          return foo.clone().startOf('day').format("DD MMM");
+          return foo.clone().startOf('day').format(NstSvcCalendarTranslation.get("DD MMM"));
         }
 
         var thisYearStart =  moment(NstSvcDate.now()).startOf('year');
         if (foo.isSameOrAfter(thisYearStart)) {
-          return foo.clone().startOf('month').format("MMM YYYY");
+          return foo.clone().startOf('month').format(NstSvcCalendarTranslation.get("MMM YYYY"));
         }
 
-        return foo.clone().startOf('year').format("YYYY");
+        return foo.clone().startOf('year').format(NstSvcCalendarTranslation.get("YYYY"));
       }
 
     });

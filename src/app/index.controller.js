@@ -32,13 +32,15 @@
     $scope.$on('show-loading', function () {
       vm.showLoadingScreen = true;
       vm.removeLoadingElements = false;
-    })
+    });
+
     $rootScope.$on('login-loaded', function () {
       vm.showLoadingScreen = false;
       $timeout(function(){
         vm.removeLoadingElements = true;
       }, 4500);
     });
+
     $rootScope.$on('hide-loading-fast', function () {
       vm.showLoadingScreen = false;
       $timeout(function(){
