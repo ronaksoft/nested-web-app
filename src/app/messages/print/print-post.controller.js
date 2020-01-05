@@ -44,6 +44,9 @@
         vm.loadProgress = false;
         vm.message = post;
         var imgRegex = new RegExp('<img(.*?)source=[\'|"](.*?)[\'|"](.*?)>', 'g');
+        if (!post) {
+          return load(postId);
+        }
         var resources = post.resources;
         var body = post.body || post.preview;
         if (body.length > 0) {
