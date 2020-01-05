@@ -15,7 +15,7 @@
     NstSvcTaskUtility.getValidUser(vm, NstSvcAuth);
     vm.touched = false;
     vm.signatureActive = false;
-    vm.save = save;
+    vm.save = saveFn;
     vm.savedModel = '';
     vm.model = '';
     vm.compactView = NstSvcCompactViewStorage.getDefault() + '';
@@ -108,7 +108,7 @@
       vm.touched = false;
       vm.savedModel = vm.model;
     }
-    function save() {
+    function saveFn() {
       NstSvcKeyFactory.set(NST_KEY.GENERAL_SETTING_SIGNATURE, JSON.stringify({
         active: vm.signatureActive,
         data: vm.model

@@ -256,7 +256,7 @@
               console.log('Error: ', error);
             };
           } else {
-            toastr.warning(NstSvcTranslation.get('the image size is too much'));
+            toastr.warning('the image size is too much');
           }
         })
         // this.html.insert('Hello Froala!');
