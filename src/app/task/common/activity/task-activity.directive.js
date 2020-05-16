@@ -20,6 +20,7 @@
         taskId: '=',
         onlyComments: '=',
         totalCommentsCount : '=',
+        tempComment : '=',
         onCommentSent : '=',
         hasCommentRemoveAccess : '=',
         activityCount: '=',

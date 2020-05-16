@@ -17,6 +17,7 @@
 
     vm.taskStatuses = NST_TASK_STATUS;
     vm.taskId = '';
+    vm.tempComment = '';
     vm.mode = 'edit';
     vm.editMode = true;
     vm.onlyComments = true;
@@ -71,9 +72,7 @@
           firstCharLowerCase = newKey[0].toLowerCase();
         newKey = newKey.replace(firstChar, firstCharLowerCase);
         vm[newKey + 'Focus'] = true;
-      } catch (e) {
-
-      }
+      } catch (e) {}
     }
 
     var gotoTask = null;
@@ -496,13 +495,28 @@
     }
 
     function backDropClick() {
-      $scope.$dismiss();
-      if ($rootScope.taskCallbackUrl) {
-        $timeout(function () {
-          var callback = $rootScope.taskCallbackUrl;
-          $state.go(callback.name, callback.params);
-          delete $rootScope.taskCallbackUrl;
-        }, 300);
+      if (vm.tempComment.length > 0) {
+        NstSvcTaskUtility.promptModal({
+          title: NstSvcTranslation.get("Closing Task"),
+          body: NstSvcTranslation.get(
+            "By closing this task, you will lose your comment. Are you sure you want to close?"
+          ),
+          confirmText: NstSvcTranslation.get("Yes"),
+          confirmColor: "red",
+          cancelText: NstSvcTranslation.get("Cancel")
+        })
+          .then(function () {
+            $scope.$dismiss();
+            if ($rootScope.taskCallbackUrl) {
+              $timeout(function () {
+                var callback = $rootScope.taskCallbackUrl;
+                $state.go(callback.name, callback.params);
+                delete $rootScope.taskCallbackUrl;
+              }, 300);
+            }
+          })
+          .catch(function () {});
+        return;
       }
     }
 
@@ -875,7 +889,7 @@
       }
 
       if (newItems.length > 0 || removedItems.length > 0) {
-        $q.all(promises).then(function (result) {
+        $q.all(promises).then(function () {
           vm.modelBackUp.reminders = _.cloneDeep(vm.model.reminders);
           isUpdated = true;
         });
@@ -939,20 +953,12 @@
         labelFocus: vm.labelFocus,
         reminderFocus: vm.reminderFocus
       };
-    }, function (newVal, oldVal) {
+    }, function (newVal, _) {
 
       if (_.countBy(Object.values(newVal))['true'] > 1) {
         vm.todoFocus = false;
       }
     }, true));
-
-    function handleFocus(newVal, oldVal) {
-      for (var i in newVal) {
-        if (newVal[i] === oldVal[i]) {
-          vm[i] = false;
-        }
-      }
-    }
 
     function labelClick(data) {
       $scope.$dismiss();
@@ -966,7 +972,7 @@
       }, 200);
     }
 
-    function reminderClick(data) {
+    function reminderClick() {
       $scope.$dismiss();
     }
 
