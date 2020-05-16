@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function CreateTaskController($q, $timeout, $scope, $rootScope, NstSvcAuth, NstSvcTaskFactory, _, toastr, NstSvcTaskDraft,
-                                NstSvcTranslation, NstTask, NST_ATTACHMENT_STATUS, NstUtility, NstSvcTaskUtility, NstSvcStore, NstSvcReminderFactory,
+                                NstSvcTranslation, NstTask, NST_ATTACHMENT_STATUS, moment, NstSvcTaskUtility, NstSvcStore, NstSvcReminderFactory,
                                 modalData) {
     var vm = this;
     var eventReferences = [];
@@ -98,6 +98,7 @@
       if (task.dueDate && task.dueDate !== 0) {
         vm.model.dueDate = task.dueDate;
         vm.model.hasDueTime = task.hasDueTime;
+        vm.model.dueDateText = moment(task.dueDate);
       } else {
         vm.model.dueDate = null;
       }
