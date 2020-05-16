@@ -506,17 +506,23 @@
           cancelText: NstSvcTranslation.get("Cancel")
         })
           .then(function () {
-            $scope.$dismiss();
-            if ($rootScope.taskCallbackUrl) {
-              $timeout(function () {
-                var callback = $rootScope.taskCallbackUrl;
-                $state.go(callback.name, callback.params);
-                delete $rootScope.taskCallbackUrl;
-              }, 300);
-            }
+            closeModal();
           })
           .catch(function () {});
         return;
+      } else {
+        closeModal();
+      }
+    }
+
+    function closeModal() {
+      $scope.$dismiss();
+      if ($rootScope.taskCallbackUrl) {
+        $timeout(function () {
+          var callback = $rootScope.taskCallbackUrl;
+          $state.go(callback.name, callback.params);
+          delete $rootScope.taskCallbackUrl;
+        }, 300);
       }
     }
 
