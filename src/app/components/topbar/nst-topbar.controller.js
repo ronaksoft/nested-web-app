@@ -264,7 +264,7 @@
       }
       try {
         if (searchQuery.getDate() !== '') {
-          vm.advancedSearch.date = searchQuery.getDate() / 1000;
+          vm.advancedSearch.date = searchQuery.getDate();
         }
       } catch (e) {
         vm.advancedSearch.date = '';
@@ -881,7 +881,7 @@
 
       try {
         searchQuery.setWithin(this.advancedSearch.within);
-        searchQuery.setDate(this.advancedSearch.date * 1000);
+        searchQuery.setDate(this.advancedSearch.date);
       } catch (e) {
         searchQuery.setWithin('-1');
       }
