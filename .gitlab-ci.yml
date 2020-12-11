@@ -5,7 +5,7 @@ stages:
 variables:
   BUILD_DIR: $CI_PROJECT_DIR/build
 
-image: "registry.ronaksoftware.com/base/docker/node"
+image: "registry.ronaksoft.com/base/docker/node"
 
 build:desktop:
   stage: build
@@ -51,7 +51,7 @@ build:mobile:
   script:
     - mkdir -p /var/lib/mobile-org
     - cd /var/lib/mobile-org
-    - git clone http://gitlab-ci-token:$CI_BUILD_TOKEN@git.ronaksoftware.com/nested/web-mobile-app.git .
+    - git clone http://gitlab-ci-token:$CI_BUILD_TOKEN@git.ronaksoft.com/nested/legacy/web-mobile-app.git .
     - git checkout master
     - cp -a ./. /var/lib/mobile
     - cd /var/lib/mobile
@@ -74,12 +74,12 @@ build:admin:
     - mkdir -p /var/lib/oldadmin
     - apk update && apk upgrade && apk add --no-cache bash git openssh
     - cd /var/lib/oldadmin
-    - git clone --single-branch --branch old http://gitlab-ci-token:$CI_BUILD_TOKEN@git.ronaksoftware.com/nested/web-admin.git .
+    - git clone --single-branch --branch old http://gitlab-ci-token:$CI_BUILD_TOKEN@git.ronaksoft.com/nested/legacy/web-admin.git .
     - mkdir -p $BUILD_DIR/webapp/oldadmin
     - cp -r ./dist/* $BUILD_DIR/webapp/oldadmin
     - mkdir -p /var/lib/admin
     - cd /var/lib/admin
-    - git clone http://gitlab-ci-token:$CI_BUILD_TOKEN@git.ronaksoftware.com/nested/web-admin.git .
+    - git clone http://gitlab-ci-token:$CI_BUILD_TOKEN@git.ronaksoft.com/nested/legacy/web-admin.git .
     - npm install
     - PUBLIC_URL=/admin ./node_modules/.bin/react-scripts build
     - mkdir -p $BUILD_DIR/webapp/admin
