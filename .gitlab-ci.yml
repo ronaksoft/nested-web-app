@@ -5,7 +5,7 @@ stages:
 variables:
   BUILD_DIR: $CI_PROJECT_DIR/build
 
-image: "registry.ronaksoft.com/base/docker/node"
+image: "registry.ronaksoft.com/base/node"
 
 build:desktop:
   stage: build
