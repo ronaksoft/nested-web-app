@@ -45,7 +45,7 @@ build:desktop:
 
 build:mobile:
   stage: build
-  image: "node:10-alpine"
+  image: "node:8-alpine"
   only:
       - master
       - develop
