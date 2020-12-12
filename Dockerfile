@@ -6,6 +6,10 @@ WORKDIR /ronak/nested
 RUN apk update
 RUN apk add gettext
 RUN apk add nginx
+
+# To handle 'not get uid/gid'
+RUN npm config set unsafe-perm true
+
 RUN npm install -g local-web-server
 EXPOSE 80
 EXPOSE 443
