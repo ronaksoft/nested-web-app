@@ -50,7 +50,7 @@ build:mobile:
       - master
       - develop
   script:
-    - apk add --update git
+    - apk add --update python build-base git
     - mkdir -p /var/lib/mobile-org
     - cd /var/lib/mobile-org
     - git clone http://gitlab-ci-token:$CI_BUILD_TOKEN@git.ronaksoft.com/nested/legacy/web-mobile-app.git .
