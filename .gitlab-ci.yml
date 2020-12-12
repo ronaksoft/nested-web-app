@@ -15,7 +15,7 @@ build:desktop:
   script:
     - cp -a ./. /var/lib/desktop
     - cd /var/lib/desktop
-    - apk add --update python build-base
+    - apk add --update python build-base git
     - npm install -g bower
     - npm install
     - bower install
