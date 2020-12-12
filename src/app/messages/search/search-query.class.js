@@ -504,8 +504,8 @@
 
     SearchQuery.prototype.getSearchParams = function () {
       if (this.date.length > 0 && this.within.length > 0) {
-        this.before = parseInt(this.date);
-        this.after = parseInt(this.date) - (parseInt(this.within) * 36288000); // 7 * 24 * 60 * 60 * 60
+        this.before = parseInt(this.date) + parseInt(this.within) * 7 * 12 * 60 * 60;
+        this.after = parseInt(this.date) - parseInt(this.within) * 7 * 12 * 60 * 60;
       }
       return {
         places: _.map(this.places, function (item) {
