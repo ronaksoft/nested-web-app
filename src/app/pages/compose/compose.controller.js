@@ -179,7 +179,17 @@
      */
     vm.blurBox = function () {
       NstSvcLogger.debug4('Compose | Is subject or body filled to stop collapsing quick message ?!');
-      if (vm.model.subject.length == 0 && vm.model.attachments.length == 0 && vm.model.body.length == 0 && !vm.mouseIn) {
+      if (
+        vm.model.subject.length == 0 &&
+        vm.model.attachments.length == 0 &&
+        (
+          vm.model.body.length == 0 ||
+          (
+            vm.signature &&
+            vm.model.body.length === signatureDivider.length + vm.signature.length + 5
+          )
+        ) &&
+        !vm.mouseIn) {
         NstSvcLogger.debug4('Compose | Compose box is blured');
         vm.focus = false;
       }
@@ -292,7 +302,7 @@
           var res = JSON.parse(v);
           vm.signature = res.data;
           if (res.active && !vm.editPost) {
-            vm.model.body += (vm.model.body.length ? '' : '<br>') + signatureDivider + vm.signature;
+            vm.model.body += (vm.model.body.length ? '' : '<br/>') + signatureDivider + vm.signature;
           }
         }
       });
@@ -1395,6 +1405,9 @@
         },
         'froalaEditor.blur': function () {
           vm.focusBody = false;
+          if (vm.quickMode) {
+            vm.blurBox();
+          }
         },
         'froalaEditor.commands.after': function (e, editor, cmd) {
           if (cmd === 'html') {
