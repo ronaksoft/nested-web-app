@@ -21,7 +21,7 @@
       return check;
     };
     if (mobileCheck()) {
-      var newLocation = '/m/' + window.location.pathname;
+      var newLocation = '/m' + window.location.pathname + window.location.hash;
       location.href = newLocation.replace('m//', 'm/');
     }
     var t = document.getElementById('mobileD');
