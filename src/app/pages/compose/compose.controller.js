@@ -253,9 +253,9 @@
             NstSvcModal.confirm(
               NstSvcTranslation.get("Confirm"),
               NstSvcTranslation.get("By discarding this message, you will lose your draft. Are you sure you want to discard?"), {
-                yes: NstSvcTranslation.get("Discard"),
-                no: NstSvcTranslation.get("Draft")
-              }
+              yes: NstSvcTranslation.get("Discard"),
+              no: NstSvcTranslation.get("Draft")
+            }
             ).then(function (confirmed) {
               if (confirmed) {
                 NstSvcLogger.debug4('Compose | cancel on discard modal');
@@ -288,10 +288,10 @@
        * Determines the limits of sending post
        */
       NstSvcSystem.getConstants().then(function (result) {
-          systemConstants = result;
-          vm.suggestPickerConfig.limit = systemConstants.post_max_targets || 10
-          // vm.targetLimit = systemConstants.post_max_targets || 10;
-        })
+        systemConstants = result;
+        vm.suggestPickerConfig.limit = systemConstants.post_max_targets || 10
+        // vm.targetLimit = systemConstants.post_max_targets || 10;
+      })
         .catch(function () {
           vm.suggestPickerConfig.limit = 10
         });
@@ -315,7 +315,8 @@
         if (indexSignature) {
           body = body.slice(0, indexSignature);
           if (body === '<div data-empty="true"><br></div>' ||
-            body === '<div><br></div>') {
+            body === '<div><br></div>' ||
+            body === '<br/>') {
             body = '';
           }
         }
@@ -387,9 +388,9 @@
         NstSvcModal.confirm(
           NstSvcTranslation.get("Confirm"),
           NstSvcTranslation.get("do you want to discard uploading file(s)?"), {
-            yes: NstSvcTranslation.get("yes"),
-            no: NstSvcTranslation.get("no")
-          }
+          yes: NstSvcTranslation.get("yes"),
+          no: NstSvcTranslation.get("no")
+        }
         ).then(function (confirmed) {
           if (confirmed) {
             vm.ultimateSaveDraft = true;
@@ -614,7 +615,7 @@
       }
 
       for (var i = 0; i < files.length; i++) {
-        vm.attachments.attach(files[i], type).then(function () {});
+        vm.attachments.attach(files[i], type).then(function () { });
       }
       event.currentTarget.value = "";
     });
@@ -725,8 +726,8 @@
           return deferred.promise;
         }).catch(function (error) {
           if (_.findIndex(vm.attachments.viewModels, {
-              id: attachment.id
-            }) > -1) {
+            id: attachment.id
+          }) > -1) {
             toastr.error(NstSvcTranslation.get('An error has occurred in uploading the file!'));
           }
           deferred.reject(error);
@@ -1290,8 +1291,8 @@
       var deferred = $q.defer();
 
       if (_.some(vm.model.recipients, {
-          id: placeId
-        })) {
+        id: placeId
+      })) {
         deferred.resolve();
         return;
       }
@@ -1611,8 +1612,8 @@
 
       // addRecipients(placeId);
       if (!_.some(vm.model.recipients, {
-          id: place.id
-        })) {
+        id: place.id
+      })) {
         vm.model.recipients.push(new NstVmSelectTag({
           id: place.id,
           name: place.name,
@@ -1653,7 +1654,7 @@
       var dt = event.dataTransfer;
       var files = dt.files;
       for (var i = 0; i < files.length; i++) {
-        vm.attachments.attach(files[i]).then(function () {});
+        vm.attachments.attach(files[i]).then(function () { });
       }
 
     };
@@ -1672,7 +1673,7 @@
       var files = dt.files;
       for (var i = 0; i < files.length; i++) {
         var type = getStoreType(files[i]);
-        vm.attachments.attach(files[i], type).then(function () {});
+        vm.attachments.attach(files[i], type).then(function () { });
       }
 
     };
