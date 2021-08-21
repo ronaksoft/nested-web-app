@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   angular
@@ -20,6 +20,9 @@
       REMOVE_LABEL: 0x0102,
       UPDATE_TASK: 0x0103,
       ADD_EDITOR: 0x0108,
-      REMOVE_EDITOR: 0x0109
+      REMOVE_EDITOR: 0x0109,
+      REMINDER: 0x010a,
+      ADD_REMINDER: 0x010b,
+      REMOVE_REMINDER: 0x010c
     });
 })();

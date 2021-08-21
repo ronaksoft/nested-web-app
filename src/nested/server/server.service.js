@@ -345,7 +345,7 @@
         }
       });
       return {
-        websocket: cyrusWsUrl + '/api',
+        websocket: cyrusWsUrl + '/ws',
         register: cyrusHttpUrl + '/api',
         store: cyrusHttpUrl + '/file', //xerxesUrl,
         admin: adminUrl

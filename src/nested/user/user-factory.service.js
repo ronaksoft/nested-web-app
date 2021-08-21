@@ -356,7 +356,7 @@
           host: data.mail.outgoing_smtp_host,
           port: data.mail.outgoing_smtp_port,
           username: data.mail.outgoing_smtp_user,
-          status: data.mail.active,
+          status: data.mail.active
         };
       }
 

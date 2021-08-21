@@ -61,6 +61,7 @@
         analyser.fftSize = 1024;
         source.connect(analyser);
         bufferLength = analyser.frequencyBinCount;
+        // eslint-disable-next-line no-undef
         dataArray = new Uint8Array(bufferLength);
       }
       clearInterval(interval);

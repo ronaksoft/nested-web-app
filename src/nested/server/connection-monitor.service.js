@@ -17,15 +17,15 @@
   /**
    * Monitors the socket connection and tries to keep it alive by running
    * the embedded ping-pong and auto-reconnect services
-   * 
-   * @param {any} $timeout 
-   * @param {any} _ 
-   * @param {any} NstSvcLogger 
-   * @param {any} NstUtility 
-   * @param {any} NstSvcWS 
-   * @param {any} NstSvcPingPong 
-   * @param {any} NST_WEBSOCKET_STATE 
-   * @returns 
+   *
+   * @param {any} $timeout
+   * @param {any} _
+   * @param {any} NstSvcLogger
+   * @param {any} NstUtility
+   * @param {any} NstSvcWS
+   * @param {any} NstSvcPingPong
+   * @param {any} NST_WEBSOCKET_STATE
+   * @returns
    */
   function NstSvcConnectionMonitor($timeout, _,
                                    NstSvcLogger, NstUtility, NstSvcWS, NstSvcPingPong,
@@ -48,13 +48,15 @@
     /**
      * Creates a new instance of NstSvcWS service and listens to its events.
      * Sets auto-reconnect and starts ping-pong service
-     * 
-     * @param {any} url 
-     * @param {any} protocol 
-     * @returns 
+     *
+     * @param {any} url
+     * @param {any} protocol
+     * @returns
      */
     ConnectionMonitor.prototype.start = function (url, protocol) {
       var that = this;
+
+      url = url.replace('/api', '/ws');
 
       // Open a new WebSocket
       this.ws = new NstSvcWS(url, protocol);
@@ -108,8 +110,8 @@
 
     /**
      * Returns tru if the connection is healthy
-     * 
-     * @returns 
+     *
+     * @returns
      */
     ConnectionMonitor.prototype.isReady = function () {
       if (!this.ws) {
@@ -121,8 +123,8 @@
 
     /**
      * Registers a handler for ready event
-     * 
-     * @param {any} action 
+     *
+     * @param {any} action
      */
     ConnectionMonitor.prototype.onReady = function (action) {
       this.onReadyHandler = action;
@@ -130,8 +132,8 @@
 
     /**
      * Registers a handler for break event
-     * 
-     * @param {any} action 
+     *
+     * @param {any} action
      */
     ConnectionMonitor.prototype.onBreak = function (action) {
       this.onBreakHandler = action;
@@ -139,7 +141,7 @@
 
     /**
      * Establishes a new socket connection
-     * 
+     *
      */
     ConnectionMonitor.prototype.reconnect = function () {
       this.nextRetryTime = 0;
@@ -148,8 +150,8 @@
 
     /**
      * Stops the timeout which is responsible for establishing a new connection
-     * 
-     * @param {any} connector 
+     *
+     * @param {any} connector
      */
     function unplugConnector(connector) {
       $timeout.cancel(connector);
@@ -157,7 +159,7 @@
 
     /**
      * Stops the previous reconnect timeout and prepares to connect again on the next interval
-     * 
+     *
      */
     function prepareToConnect() {
       var that = this;
@@ -182,9 +184,9 @@
 
     /**
      * Calculates the next retry time based on the previous value
-     * 
-     * @param {any} current 
-     * @returns 
+     *
+     * @param {any} current
+     * @returns
      */
     function getNextRetryTime(current) {
       if (current < 90000) { // 4 min

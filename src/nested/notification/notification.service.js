@@ -16,7 +16,6 @@ function NstSvcNotification($q, $window, _, $state, $rootScope,
     databaseURL: "https://nested-me.firebaseio.com",
     storageBucket: "nested-me.appspot.com",
     messagingSenderId: "993735378969"
-
   };
 
 
@@ -57,7 +56,9 @@ function NstSvcNotification($q, $window, _, $state, $rootScope,
         $q.all([
           loadScript('https://www.gstatic.com/firebasejs/3.9.0/firebase-app.js'),
           loadScript('https://www.gstatic.com/firebasejs/3.9.0/firebase-messaging.js')]).then(function () {
+          // eslint-disable-next-line no-console
           console.log('firebasejs loaded');
+          // eslint-disable-next-line no-undef
           firebase.initializeApp(config);
           service.configFCM();
           $rootScope.$on(NST_AUTH_EVENT.AUTHORIZE, function () {
@@ -75,7 +76,7 @@ function NstSvcNotification($q, $window, _, $state, $rootScope,
           NstSvcLogger.info(" Notification | Messaging service notification registered.");
         }).catch(function (err) {
         NstSvcLogger.info(" Notification | Messaging service notification registered.", err);
-      })
+      });
     }
 
   };
@@ -88,10 +89,12 @@ function NstSvcNotification($q, $window, _, $state, $rootScope,
     }
     var dt = "";
     try {
+      // eslint-disable-next-line no-undef
       if (firebase.messaging === undefined) {
         return;
       }
 
+      // eslint-disable-next-line no-undef
       var messaging = firebase.messaging();
       messaging.requestPermission()
         .then(function () {

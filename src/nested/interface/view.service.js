@@ -43,7 +43,7 @@
 
     // Remove a card from list
     obj.remove = function (id) {
-      var card = _.find($rootScope.cardCtrls, function (o, index) {
+      var card = _.find($rootScope.cardCtrls, function (o) {
         return o.id === id;
       });
       if (card) {
