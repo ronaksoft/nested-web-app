@@ -154,7 +154,7 @@
 
     PlaceFactory.prototype.getSafe = function (id, normal) {
       var factory = this;
-      return $q(function(resolve) {
+      return $q(function (resolve) {
         factory.get(id, normal).then(function (place) {
           resolve(place);
         }).catch(function () {
@@ -168,7 +168,7 @@
       return NstSvcServer.request('place/get_many', {
         place_id: joinedIds
       }).then(function (data) {
-        if(data.places.length === 0) {
+        if (data.places.length === 0) {
           return $q.reject({
             code: 3
           });
@@ -212,7 +212,7 @@
         with_children: true
       }).then(function (data) {
         var ids = [];
-        var places = _.map(data.places, function(place) {
+        var places = _.map(data.places, function (place) {
           ids.push(place._id);
           factory.set(place);
           return factory.parsePlace(place);
@@ -234,7 +234,7 @@
       return deferred.promise;
     };
 
-    PlaceFactory.prototype.getGrandPlaces = function() {
+    PlaceFactory.prototype.getGrandPlaces = function () {
       var factory = this;
       return NstSvcServer.request('account/get_all_places').then(function (data) {
         var places = [];
@@ -253,7 +253,7 @@
         place_id: grandPlaceId
       }).then(function (data) {
         var places = [];
-        _.forEach(data.places, function(place) {
+        _.forEach(data.places, function (place) {
           factory.set(place);
           places.push(factory.parsePlace(place));
         });
@@ -367,17 +367,17 @@
         //     });
         //   }
 
-          NstSvcServer.request('place/set_picture', {
-            place_id: id,
-            universal_id: uid
-          }).then(function (response) {
-            factory.cache.remove(id);
-            factory.get(id, true).then(function (place) {
-              $rootScope.$broadcast(NST_PLACE_EVENT.PICTURE_CHANGED, {placeId: place.id, place: place});
-            });
+        NstSvcServer.request('place/set_picture', {
+          place_id: id,
+          universal_id: uid
+        }).then(function (response) {
+          factory.cache.remove(id);
+          factory.get(id, true).then(function (place) {
+            $rootScope.$broadcast(NST_PLACE_EVENT.PICTURE_CHANGED, {placeId: place.id, place: place});
+          });
 
-            deferred.resolve(response);
-          }).catch(deferred.reject);
+          deferred.resolve(response);
+        }).catch(deferred.reject);
         // }).catch(deferred.reject);
 
         return deferred.promise;
@@ -391,16 +391,16 @@
         var deferred = $q.defer();
 
 
-          NstSvcServer.request('place/set_picture', {
-            place_id: id
-          }).then(function (response) {
-            factory.cache.remove(id);
-            factory.get(id, true).then(function (place) {
-              $rootScope.$broadcast(NST_PLACE_EVENT.PICTURE_CHANGED, {placeId: place.id, place: place});
-            });
+        NstSvcServer.request('place/set_picture', {
+          place_id: id
+        }).then(function (response) {
+          factory.cache.remove(id);
+          factory.get(id, true).then(function (place) {
+            $rootScope.$broadcast(NST_PLACE_EVENT.PICTURE_CHANGED, {placeId: place.id, place: place});
+          });
 
-            deferred.resolve(response);
-          }).catch(deferred.reject);
+          deferred.resolve(response);
+        }).catch(deferred.reject);
 
         return deferred.promise;
       }, "removePicture", id);
@@ -471,7 +471,7 @@
       var factory = this;
 
       return NstSvcServer.request('account/get_favorite_places', {}).then(function (data) {
-        var items = _.map(data.places, function(place) {
+        var items = _.map(data.places, function (place) {
           factory.set(place);
           return place._id;
         });
@@ -499,6 +499,7 @@
     };
 
     var whiteSpaceRegEx = /\s/;
+
     function moveExactToViewPort(places, keyword) {
       if (_.isString(keyword) && keyword.length > 0 && !whiteSpaceRegEx.test(keyword)) {
         var index = _.findIndex(places, {'_id': keyword});
@@ -715,7 +716,7 @@
 
     PlaceFactory.prototype.set = function (data) {
       if (data && data._id) {
-        this.cache.set(data._id, this.transformToCacheModel(data), { merge: true });
+        this.cache.set(data._id, this.transformToCacheModel(data), {merge: true});
       } else {
         // console.error('The data is not valid to be cached!', data);
       }
@@ -961,9 +962,9 @@
     PlaceFactory.prototype.getRecentlyVisitedPlace = function (cacheHandler) {
       var factory = this;
 
-      return NstSvcServer.request('account/GET_RECENTLY_VISITED_PLACES', {}, function(cachedResponse) {
+      return NstSvcServer.request('account/GET_RECENTLY_VISITED_PLACES', {}, function (cachedResponse) {
         if (_.isFunction(cacheHandler) && cachedResponse) {
-          var places = _.map(cachedResponse.places, function(place) {
+          var places = _.map(cachedResponse.places, function (place) {
             return factory.getCachedSync(place._id) || factory.parseTinyPlace(place);
           });
 
@@ -1009,17 +1010,15 @@
     };
 
     PlaceFactory.prototype.removeAllPosts = function (placeId) {
-      return this.sentinel.watch(function () {
-        var deferred = $q.defer();
+      var deferred = $q.defer();
 
-        NstSvcServer.request('place/remove_all_posts', {
-          place_id: placeId,
-        }).then(function () {
-          deferred.resolve();
-        }).catch(deferred.reject);
+      NstSvcServer.request('place/remove_all_posts', {
+        place_id: placeId
+      }).then(function () {
+        deferred.resolve();
+      }).catch(deferred.reject);
 
-        return deferred.promise;
-      }, id);
+      return deferred.promise;
     };
 
     return new PlaceFactory();
