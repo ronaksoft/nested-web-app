@@ -129,6 +129,17 @@
           alias: 'savescroll'
         }
       })
+      .state('app.messages-spam', {
+        url: '/spam',
+        templateUrl: 'app/messages/messages.html',
+        controller: 'MessagesController',
+        controllerAs: 'ctrl',
+        options: {
+          primary: true,
+          group: 'spam',
+          alias: 'savescroll'
+        }
+      })
       .state('app.place-messages', {
         url: '/places/:placeId/messages',
         params: {

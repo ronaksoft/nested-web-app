@@ -63,6 +63,7 @@
         'app.messages-favorites-sorted',
         'app.messages-sent',
         'app.messages-sent-sorted',
+        'app.messages-spam',
         'app.messages-sorted',
         'app.place-messages',
         'app.place-messages-sorted',

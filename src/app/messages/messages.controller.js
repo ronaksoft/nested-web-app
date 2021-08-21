@@ -64,6 +64,7 @@
     vm.isSent = false;
     vm.isUnreadMode = false;
     vm.isPersonal = false;
+    vm.isSpam = false;
 
     vm.messagesSetting = {
       limit: DEFAULT_MESSAGES_COUNT,
@@ -301,10 +302,10 @@
       vm.messagesSetting.before = null;
       return getMessages(vm.messagesSetting, function(){}).then(function (posts) {
         var newItems = _.differenceBy(posts, vm.messages, 'id');
-  
+
         // add new items; The items that do not exist in cached items, but was found in fresh posts
         vm.messages = newItems.concat(vm.messages);
-        
+
       }).catch(function (error) {
         if (error.code === NST_SRV_ERROR.ACCESS_DENIED && error.message && error.message[0] === 'password_change') {
           return;
@@ -394,6 +395,9 @@
       } else if (vm.isSent) {
         vm.navTitle = NstSvcTranslation.get('Shared by me');
         vm.navIconClass = 'sent';
+      } else if (vm.isSpam) {
+        vm.navTitle = NstSvcTranslation.get('Spam');
+        vm.navIconClass = 'spam';
       } else {
         vm.navTitle = NstSvcTranslation.get('Feed');
         vm.navIconClass = 'all-places';
@@ -586,6 +590,8 @@
         promise = NstSvcPostFactory.getSentMessages(settings, cacheHandler);
       } else if (vm.isFeed) {
         promise = NstSvcPostFactory.getFavoriteMessages(settings, null, cacheHandler);
+      } else if (vm.isSpam) {
+        promise = NstSvcPostFactory.getSpamMessages(settings, null, cacheHandler);
       } else {
         promise = NstSvcPostFactory.getPlaceMessages(settings, vm.currentPlaceId, cacheHandler);
       }
@@ -740,6 +746,10 @@
           vm.isUnreadMode = true;
           break;
 
+        case 'app.place-messages-spam':
+          vm.isSpam = true;
+          break;
+
         default:
           if (NstSvcAuth.user && NstSvcAuth.user.id === vm.currentPlaceId.split('.')[0]) {
             vm.isPersonal = true;
@@ -855,6 +865,8 @@
         return '__unread__';
       } else if (vm.isPersonal) {
         return '__personal__';
+      } else if (vm.isSpam) {
+        return '__spam__';
       }
     }
 

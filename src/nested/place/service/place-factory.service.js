@@ -484,10 +484,10 @@
       var factory = this;
 
       return factory.sentinel.watch(function () {
-        var requestCommad = value ? 'place/add_favorite' : 'place/remove_favorite';
+        var requestCommand = value ? 'place/add_favorite' : 'place/remove_favorite';
         var deferred = $q.defer();
 
-        NstSvcServer.request(requestCommad, {
+        NstSvcServer.request(requestCommand, {
           place_id: id
         }).then(function () {
           $rootScope.$broadcast('place-bookmark', {placeId: id, bookmark: value});

@@ -34,6 +34,7 @@
     PostFactory.prototype.getPlaceMessages = getPlaceMessages;
     PostFactory.prototype.getFavoriteMessages = getFavoriteMessages;
     PostFactory.prototype.getUnreadMessages = getUnreadMessages;
+    PostFactory.prototype.getSpamMessages = getUnreadMessages;
     PostFactory.prototype.parsePost = parsePost;
     PostFactory.prototype.search = search;
     PostFactory.prototype.newSearch = newSearch;
