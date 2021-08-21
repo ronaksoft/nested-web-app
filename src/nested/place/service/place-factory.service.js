@@ -1008,6 +1008,20 @@
       }, id);
     };
 
+    PlaceFactory.prototype.removeAllPosts = function (placeId) {
+      return this.sentinel.watch(function () {
+        var deferred = $q.defer();
+
+        NstSvcServer.request('place/remove_all_posts', {
+          place_id: placeId,
+        }).then(function () {
+          deferred.resolve();
+        }).catch(deferred.reject);
+
+        return deferred.promise;
+      }, id);
+    };
+
     return new PlaceFactory();
   }
 })();

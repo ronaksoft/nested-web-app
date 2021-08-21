@@ -6,11 +6,11 @@
 
   /** @ngInject */
   function NstSvcPostFactory($q, $rootScope,
-    _, md5,
-    NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory,
-    NstSvcCommentFactory, NstUtility, NstSvcGlobalCache,
-    NstPost, NstBaseFactory, NstCollector, NstSvcTaskFactory,
-    NST_MESSAGES_SORT_OPTION, NST_SRV_ERROR, NST_CONFIG, NST_POST_EVENT, NstSvcLabelFactory) {
+                             _, md5,
+                             NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory,
+                             NstSvcCommentFactory, NstUtility, NstSvcGlobalCache,
+                             NstPost, NstBaseFactory, NstCollector, NstSvcTaskFactory,
+                             NST_MESSAGES_SORT_OPTION, NST_SRV_ERROR, NST_CONFIG, NST_POST_EVENT, NstSvcLabelFactory) {
 
     function PostFactory() {
       this.collector = new NstCollector('post', this.getMany);
@@ -34,7 +34,7 @@
     PostFactory.prototype.getPlaceMessages = getPlaceMessages;
     PostFactory.prototype.getFavoriteMessages = getFavoriteMessages;
     PostFactory.prototype.getUnreadMessages = getUnreadMessages;
-    PostFactory.prototype.getSpamMessages = getUnreadMessages;
+    PostFactory.prototype.getSpamMessages = getSpamMessages;
     PostFactory.prototype.parsePost = parsePost;
     PostFactory.prototype.search = search;
     PostFactory.prototype.newSearch = newSearch;
@@ -54,6 +54,8 @@
     PostFactory.prototype.set = set;
     PostFactory.prototype.transformToCacheModel = transformToCacheModel;
     PostFactory.prototype.parseCachedModel = parseCachedModel;
+    PostFactory.prototype.getSpam = getSpam;
+    PostFactory.prototype.noSpam = notSpam;
 
     var factory = new PostFactory();
     return factory;
@@ -80,7 +82,7 @@
       this.collector.add(id).then(function (data) {
         factory.set(data);
         deferred.resolve(parsePost(data));
-      }).catch(function(error) {
+      }).catch(function (error) {
         switch (error.code) {
           case NST_SRV_ERROR.ACCESS_DENIED:
           case NST_SRV_ERROR.UNAVAILABLE:
@@ -117,6 +119,22 @@
       return defer.promise;
     }
 
+    function getSpam(id) {
+
+      var deferred = $q.defer();
+
+      var params = {
+        post_id: id
+      };
+
+      NstSvcServer.request('post/get_spam', params).then(function (data) {
+        factory.set(data);
+        deferred.resolve(parsePost(data));
+      }).catch(deferred.reject);
+
+      return deferred.promise;
+    }
+
     /**
      * anonymous function - retrieve a post by id and store in the related cache storage
      *
@@ -129,7 +147,16 @@
         post_id: id
       }).then(function () {
         factory.cache.remove(id);
-        $rootScope.$broadcast(NST_POST_EVENT.READ, { postId: id });
+        $rootScope.$broadcast(NST_POST_EVENT.READ, {postId: id});
+        $q.resolve();
+      });
+    }
+
+    function notSpam(id) {
+      return NstSvcServer.request('post/not_spam', {
+        post_id: id
+      }).then(function () {
+        factory.cache.remove(id);
         $q.resolve();
       });
     }
@@ -235,7 +262,7 @@
         subject: post.subject,
         body: post.body,
         label_id: post.labels,
-        no_comment : post.noComment
+        no_comment: post.noComment
       };
 
       params.targets = post.places.map(
@@ -310,7 +337,7 @@
         place_id: placeId
       }).then(function () {
         factory.cache.remove(id);
-        $rootScope.$broadcast(NST_POST_EVENT.REMOVE, { postId: id });
+        $rootScope.$broadcast(NST_POST_EVENT.REMOVE, {postId: id});
         return $q.resolve();
       });
     }
@@ -333,7 +360,7 @@
         post_id: id
       }).then(function () {
         factory.cache.remove(id);
-        $rootScope.$broadcast(NST_POST_EVENT.BOOKMARKED, { postId: id });
+        $rootScope.$broadcast(NST_POST_EVENT.BOOKMARKED, {postId: id});
         $q.resolve();
       }).catch(function () {
         $q.reject();
@@ -345,7 +372,7 @@
         post_id: id
       }).then(function () {
         factory.cache.remove(id);
-        $rootScope.$broadcast(NST_POST_EVENT.UNBOOKMARKED, { postId: id });
+        $rootScope.$broadcast(NST_POST_EVENT.UNBOOKMARKED, {postId: id});
         $q.resolve();
       }).catch(function () {
         $q.reject();
@@ -367,15 +394,15 @@
       post.lastUpdate = data.last_update;
       post.bookmarked = data.pinned;
       post.attachments = _.map(data.post_attachments, NstSvcAttachmentFactory.parseAttachment);
-      post.places = _.map(data.post_places, function(place) {
+      post.places = _.map(data.post_places, function (place) {
         NstSvcPlaceFactory.set(place);
         return NstSvcPlaceFactory.parseTinyPlace(place);
       });
-      post.relatedTasks = _.map(data.related_tasks, function(task) {
+      post.relatedTasks = _.map(data.related_tasks, function (task) {
         return NstSvcTaskFactory.parseTask(task);
       });
       post.read = data.post_read;
-      post.recipients = (data.post_recipients === null? []: data.post_recipients);
+      post.recipients = (data.post_recipients === null ? [] : data.post_recipients);
       post.replyToId = data.reply_to;
       if (data.sender) {
         NstSvcUserFactory.set(data.sender);
@@ -421,7 +448,7 @@
 
       post.resources = resources;
 
-      post.comments = _.map(data.post_comments, function(comment) {
+      post.comments = _.map(data.post_comments, function (comment) {
         return NstSvcCommentFactory.parseComment(comment);
       });
 
@@ -575,6 +602,22 @@
       });
     }
 
+    function getSpamMessages(setting, cacheHandler) {
+      var options = {
+        limit: setting.limit,
+        before: setting.before
+      };
+
+      return NstSvcServer.request('account/get_spam_posts', options, _.partial(handleCachedResponse, cacheHandler)).then(function (data) {
+        var posts = _.map(data.posts, function (post) {
+          factory.set(post);
+          return factory.parsePost(post);
+        });
+
+        return posts;
+      });
+    }
+
     function search(queryString, limit, skip) {
       var defer = $q.defer();
       return factory.sentinel.watch(function () {
@@ -660,9 +703,9 @@
       return NstSvcServer.request('post/get_chain', {
         post_id: id,
         limit: limit || 8
-      }, function(cachedResponse) {
+      }, function (cachedResponse) {
         if (cachedResponse && _.isFunction(cacheHandler)) {
-          var cachedPosts = _.map(cachedResponse.posts, function(post) {
+          var cachedPosts = _.map(cachedResponse.posts, function (post) {
             return factory.getCachedSync(post._id);
           });
 
@@ -713,9 +756,9 @@
           post_id: postId,
           old_place_id: oldPlaceId,
           new_place_id: newPlaceId
-        }).then(function(){
-          $rootScope.$broadcast(NST_POST_EVENT.MOVE, { postId: postId });
-          deferred.resolve({postId : postId})
+        }).then(function () {
+          $rootScope.$broadcast(NST_POST_EVENT.MOVE, {postId: postId});
+          deferred.resolve({postId: postId})
         }).catch(deferred.reject);
 
         return deferred.promise;
@@ -757,7 +800,7 @@
             resolve(data.counters);
           }).catch(reject);
         });
-      },'getCounters' + postId);
+      }, 'getCounters' + postId);
     }
 
     function setNotification(postId, state) {
