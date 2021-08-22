@@ -115,7 +115,7 @@
       }
 
       // Is in sent page
-      if (vm.isSent) {
+      if (vm.isSent || vm.isSpam) {
         return true;
       }
 
@@ -618,7 +618,7 @@
       if (!last) {
         return null;
       }
-      var lastDate = !vm.isSent && NST_MESSAGES_SORT_OPTION.LATEST_ACTIVITY === vm.messagesSetting.sort ? last.lastUpdate : last.timestamp;
+      var lastDate = (!vm.isSent || !vm.isSpam) && NST_MESSAGES_SORT_OPTION.LATEST_ACTIVITY === vm.messagesSetting.sort ? last.lastUpdate : last.timestamp;
       if (moment.isMoment(lastDate)) {
         return lastDate.format('x');
       }
@@ -746,7 +746,7 @@
           vm.isUnreadMode = true;
           break;
 
-        case 'app.place-messages-spam':
+        case 'app.messages-spam':
           vm.isSpam = true;
           break;
 

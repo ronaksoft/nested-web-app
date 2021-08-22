@@ -1,6 +1,6 @@
 <!-- narrow fixed navbar for places -->
 <div class="nst-navbar-fixed _tr" style="display:none;" ng-if="!ctlFullNavbar.isUnreadMode && !ctlFullNavbar.isSearchMode &&
-  !ctlFullNavbar.isConvMode && !ctlFullNavbar.isFeed && !ctlFullNavbar.isSentMode && !ctlFullNavbar.isBookmarkMode" affixer-filter
+  !ctlFullNavbar.isConvMode && !ctlFullNavbar.isFeed && !ctlFullNavbar.isSentMode && !ctlFullNavbar.isBookmarkMode && !ctlFullNavbar.isSpamMode" affixer-filter
   top="48" hide-this="true" fixed-navbar="true" ng-click="ctlFullNavbar.scrollTopBody()">
   <div class="nst-navbar-fixed-container">
     <div class="place-pic">
@@ -11,7 +11,7 @@
 </div>
 
 <!-- full navbar for places -->
-<div ng-if="!ctlFullNavbar.isUnreadMode && !ctlFullNavbar.isSearchMode && !ctlFullNavbar.isConvMode && !ctlFullNavbar.isFeed && !ctlFullNavbar.isSentMode && !ctlFullNavbar.isBookmarkMode"
+<div ng-if="!ctlFullNavbar.isUnreadMode && !ctlFullNavbar.isSearchMode && !ctlFullNavbar.isConvMode && !ctlFullNavbar.isFeed && !ctlFullNavbar.isSentMode && !ctlFullNavbar.isBookmarkMode && !ctlFullNavbar.isSpamMode"
   class="nst-navbar _tr">
   <div class="nst-navbar-container">
 
@@ -97,7 +97,7 @@
 
 <!-- navbar for pages like feed and bookmarks -->
 <div class="nst-navbar-fixed feed-nav" ng-if="ctlFullNavbar.isConvMode || ctlFullNavbar.isSearchMode ||
-            ctlFullNavbar.isFeed || ctlFullNavbar.isSentMode || ctlFullNavbar.isBookmarkMode">
+            ctlFullNavbar.isFeed || ctlFullNavbar.isSentMode || ctlFullNavbar.isBookmarkMode || ctlFullNavbar.isSpamMode">
   <div class="nst-navbar-fixed-container ng-class:{'conv-nav' : ctlFullNavbar.isConvMode, 'search-nav' : ctlFullNavbar.isSearchMode}"
     ng-click="ctlFullNavbar.scrollTopBody()">
     <div class="place-pic" ng-if="ctlFullNavbar.isConvMode">
@@ -117,6 +117,9 @@
       </svg>
       <svg class="icon-filter _df _16svg" ng-if="ctlFullNavbar.isConvMode">
         <use xlink:href="/assets/icons/nst-icn16.svg#exchange"></use>
+      </svg>
+      <svg class="icon-filter _df _16svg" ng-if="ctlFullNavbar.isSpamMode">
+        <use xlink:href="/assets/icons/nst-icn16.svg#spam-message"></use>
       </svg>
     </div>
     <cite ng-if="!ctlFullNavbar.isConvMode">{{ctlFullNavbar.title}}</cite>

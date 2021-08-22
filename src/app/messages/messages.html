@@ -210,7 +210,7 @@
         <span ng-if="!ctrl.isBookmark && !ctrl.isPersonal && !ctrl.isSent && ctrl.currentPlace.id">
           <translate>This Place don't have any messages.</translate>
         </span>
-        <span ng-if="!ctrl.isBookmark && !ctrl.isPersonal && !ctrl.isSent && !ctrl.currentPlace.id">
+        <span ng-if="!ctrl.isBookmark && !ctrl.isPersonal && !ctrl.isSent && !ctrl.isSpam && !ctrl.currentPlace.id">
           <translate>You have no message in your feed</translate>
         </span>
         <p class="nst-mood-storm text-center" ng-if="ctrl.isBookmark && ctrl.messages.length == 0 ">
@@ -223,6 +223,9 @@
       </p>
       <p class="text-center nst-mood-storm" ng-if="ctrl.isSent && ctrl.noMessages">
         <translate>Yo did not shared anything yet.</translate>
+      </p>
+      <p class="text-center nst-mood-storm" ng-if="ctrl.isSpam && ctrl.noMessages">
+        <translate>Hooray no spam here!</translate>
       </p>
       <p class="text-center nst-mood-storm" ng-if="ctrl.error">An error has occurred. Please
         <a href="javascript:void(0);" class="nst-mood-cheerful" data-ng-click="ctrl.loadMore(true)">

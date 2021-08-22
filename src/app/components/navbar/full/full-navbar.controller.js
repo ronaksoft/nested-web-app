@@ -22,6 +22,7 @@
     isUnread();
     isConversation();
     isSearch();
+    isSpam();
     vm.user = NstSvcAuth.user;
     vm.hasPlace = hasPlace;
     vm.getPlaceId = getPlaceId;
@@ -318,6 +319,18 @@
       if ($state.current.name == 'app.messages-sent' ||
         $state.current.name == 'app.messages-sent-sorted') {
         vm.isSentMode = true;
+        return true;
+      }
+      return false;
+    }
+
+    /**
+     * Checks the current state is `spam` page or not
+     * @returns {boolean}
+     */
+    function isSpam() {
+      if ($state.current.name == 'app.messages-spam') {
+        vm.isSpamMode = true;
         return true;
       }
       return false;
