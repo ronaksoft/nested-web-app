@@ -1,6 +1,6 @@
 {
   "name": "ronak.nested.web",
-  "version": "3.1.0-beta",
+  "version": "4.10.26",
   "dependencies": {},
   "scripts": {
     "start": "gulp serve",
