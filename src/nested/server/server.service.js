@@ -584,6 +584,11 @@
         return $q.resolve(window.__CONFIG_CACHE__[domainName]);
       }
       var deferred = $q.defer();
+      if (domainName.indexOf('local:') === 0) {
+        var npcRecord = domainName.replace('local:', '');
+        return $q.resolve(npcRecord);
+      }
+
       var ajax;
       if (planB) {
         ajax = new NstHttp(location.protocol + "//" + location.host + '/getConfig/' + domainName);

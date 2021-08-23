@@ -24,7 +24,7 @@
       }).catch(function () {
         if (typeof host !== 'string') {
           deferred.reject();
-          return
+          return;
         }
         var parts = host.split('.');
         if (parts.length > 2) {

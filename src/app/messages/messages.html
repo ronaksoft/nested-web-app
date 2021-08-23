@@ -80,7 +80,7 @@
               <use xlink:href="/assets/icons/nst-icn16.svg#maximize"></use>
             </svg>
           </div>
-          <div ng-show="!ctrl.isSent && !ctrl.isBookmark && ctrl.selectedPosts.length == 0 && !ctrl.isUnreadMode"
+          <div ng-show="!ctrl.isSent && !ctrl.isBookmark && ctrl.selectedPosts.length == 0 && !ctrl.isUnreadMode && !ctrl.isSpam"
             ng-mouseenter="popoverSortShow = true; popoverViewSettingShow = false"
             data-popover-class="white-pop messages-sort-popover" uib-popover-template="'app/messages/partials/popovers/sort_popover.html'"
             data-popover-placement="bottom-center" data-popover-is-open="popoverSortShow" id="test-filter-sort" class="filter-bar-popover-button _fn">

@@ -55,7 +55,7 @@
     PostFactory.prototype.transformToCacheModel = transformToCacheModel;
     PostFactory.prototype.parseCachedModel = parseCachedModel;
     PostFactory.prototype.getSpam = getSpam;
-    PostFactory.prototype.noSpam = notSpam;
+    PostFactory.prototype.notSpam = notSpam;
 
     var factory = new PostFactory();
     return factory;
@@ -379,7 +379,7 @@
       });
     }
 
-    function parsePost(data) {
+    function parsePost(data, isSpam) {
       if (!(data && data._id)) {
         return null;
       }
@@ -426,7 +426,10 @@
         NstSvcLabelFactory.set(item);
         return NstSvcLabelFactory.parseLabel(item);
       });
-
+      if (isSpam || data.spam) {
+        post.spam = true;
+      }
+      post.spam_score = data.spam_score;
 
       var resources = {};
       var imgRegex = new RegExp('<img(.*?)src=[\'|"](.*?)[\'|"](.*?)>', 'g');
@@ -611,7 +614,7 @@
       return NstSvcServer.request('account/get_spam_posts', options, _.partial(handleCachedResponse, cacheHandler)).then(function (data) {
         var posts = _.map(data.posts, function (post) {
           factory.set(post);
-          return factory.parsePost(post);
+          return factory.parsePost(post, true);
         });
 
         return posts;

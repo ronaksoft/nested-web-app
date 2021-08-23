@@ -43,6 +43,8 @@
       this.relatedTasks = undefined;
       this.visible = true;
       this.affix = {};
+      this.spam = undefined;
+      this.spam_score = undefined;
     }
 
     Post.prototype.getTrustedBody = function () {

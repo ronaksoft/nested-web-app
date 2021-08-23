@@ -74,11 +74,12 @@
     vm.canGoLastState = true;
     vm.mergePostCardVariable = mergePostCardVariable;
     vm.togglePinPost = setPin;
+    vm.notSpamPost = notSpam;
 
     isPlaceFeed();
-    notifyObser();
+    notifyObserver();
 
-    function notifyObser() {
+    function notifyObserver() {
       if ($scope.$parent.$parent.$parent.affixObserver || $scope.$parent.$parent.$parent.affixObserver === 0) {
         ++$scope.$parent.$parent.$parent.affixObserver;
       }
@@ -278,6 +279,9 @@
      * @param {any} $event
      */
     function viewFull($event) {
+      if (vm.post.spam) {
+        return;
+      }
       $event.preventDefault();
       // Mark post as read
       markAsRead();
@@ -313,6 +317,9 @@
      * @borrows NstSvcPostFactory
      */
     function markAsRead() {
+      if (vm.post.spam) {
+        return;
+      }
       if (!vm.post.read) {
         vm.post.read = true;
         NstSvcPostFactory.read(vm.post.id).catch(function (err) {
@@ -373,9 +380,22 @@
     }
 
     /**
-     * remove the post from epecified place by place manager
+     * @function
+     * removes the post from spam
+     * @borrows NstSvcPostFactory
+     */
+    function notSpam() {
+      NstSvcPostFactory.notSpam(vm.post.id).then(function () {
+        $rootScope.$broadcast('post-removed', {
+          postId: vm.post.id,
+        });
+      });
+    }
+
+    /**
+     * remove the post from specified place by place manager
      * after accepting the warning prompt .
-     * it raises an event to listerens and
+     * it raises an event to listeners and
      * also removes the post from selected posts
      * @param {object} post
      * @param {string} place
@@ -477,7 +497,7 @@
         if (vm.post.isTrusted || !post.resources || Object.keys(post.resources).length == 0) {
           showTrustedBody();
         }
-        notifyObser();
+        notifyObserver();
         targetBlankHrefs();
       }).catch(function () {
         toastr.error(NstSvcTranslation.get('An error occured while tying to show the post full body.'));
@@ -542,8 +562,8 @@
       }).result.then(function (attachedPlaces) {
         _.forEach(attachedPlaces, function (place) {
           if (!_.some(vm.post.places, {
-              id: place.id
-            })) {
+            id: place.id
+          })) {
             vm.post.places.push(place);
           }
         });
@@ -889,8 +909,8 @@
         return;
       }
       if (!_.some(vm.post.labels, {
-          id: data.activity.label.id
-        })) {
+        id: data.activity.label.id
+      })) {
         vm.post.labels.push(data.activity.label);
       }
       NstSvcPostFactory.dropCacheById(data.activity.postId);
@@ -936,8 +956,8 @@
         return;
       }
       if (!_.some(vm.post.places, {
-          id: data.activity.newPlace.id
-        })) {
+        id: data.activity.newPlace.id
+      })) {
         vm.post.places.push(data.activity.newPlace);
       }
       var index = _.findIndex(vm.post.places, {id: data.activity.oldPlace.id});
@@ -955,8 +975,8 @@
         return;
       }
       if (!_.some(vm.post.places, {
-          id: data.activity.newPlace.id
-        })) {
+        id: data.activity.newPlace.id
+      })) {
         vm.post.places.push(place);
       }
       NstSvcPostFactory.dropCacheById(data.activity.postId);
@@ -1091,8 +1111,8 @@
       // sometimes the post attachments does not have id and we did not find the problem
       // so we are trying to get the post and replace it with the previous corrupted post
       if (_.some(vm.post.attachments, function (attachment) {
-          return !attachment.id;
-        })) {
+        return !attachment.id;
+      })) {
         NstSvcLogger.error('Found that the post model has an attachment with empty id!');
         vm.post.attachments = [];
         NstSvcPostFactory.get(vm.post.id, true).then(function (post) {
@@ -1132,8 +1152,8 @@
         var id = o._id || o.id;
         NstSvcPostFactory.addLabel(vm.post.id, id).then(function () {
           if (!_.some(vm.post.labels, {
-              id: o.id
-            })) {
+            id: o.id
+          })) {
             vm.post.labels.push(o);
           }
         }).catch(function (e) {
@@ -1158,7 +1178,7 @@
         postId: vm.post.id
       });
       eventReferences.push(reference);
-      notifyObser();
+      notifyObserver();
     }
 
     /**
