@@ -56,6 +56,7 @@
     PostFactory.prototype.parseCachedModel = parseCachedModel;
     PostFactory.prototype.getSpam = getSpam;
     PostFactory.prototype.notSpam = notSpam;
+    PostFactory.prototype.removeSpam = removeSpam;
 
     var factory = new PostFactory();
     return factory;
@@ -154,6 +155,15 @@
 
     function notSpam(id) {
       return NstSvcServer.request('post/not_spam', {
+        post_id: id
+      }).then(function () {
+        factory.cache.remove(id);
+        $q.resolve();
+      });
+    }
+
+    function removeSpam(id) {
+      return NstSvcServer.request('post/remove_spam', {
         post_id: id
       }).then(function () {
         factory.cache.remove(id);

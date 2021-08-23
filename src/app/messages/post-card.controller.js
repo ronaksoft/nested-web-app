@@ -75,6 +75,7 @@
     vm.mergePostCardVariable = mergePostCardVariable;
     vm.togglePinPost = setPin;
     vm.notSpamPost = notSpam;
+    vm.removeSpamPost = removeSpam;
 
     isPlaceFeed();
     notifyObserver();
@@ -386,6 +387,19 @@
      */
     function notSpam() {
       NstSvcPostFactory.notSpam(vm.post.id).then(function () {
+        $rootScope.$broadcast('post-removed', {
+          postId: vm.post.id,
+        });
+      });
+    }
+
+    /**
+     * @function
+     * removes the spam
+     * @borrows NstSvcPostFactory
+     */
+    function removeSpam() {
+      NstSvcPostFactory.removeSpam(vm.post.id).then(function () {
         $rootScope.$broadcast('post-removed', {
           postId: vm.post.id,
         });
