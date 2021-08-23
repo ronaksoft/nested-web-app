@@ -399,9 +399,17 @@
      * @borrows NstSvcPostFactory
      */
     function removeSpam() {
-      NstSvcPostFactory.removeSpam(vm.post.id).then(function () {
-        $rootScope.$broadcast('post-removed', {
-          postId: vm.post.id,
+      NstSvcTaskUtility.promptModal({
+        title: NstSvcTranslation.get('Remove Spam'),
+        body: NstSvcTranslation.get('Are you sure?'),
+        confirmText: NstSvcTranslation.get('Yes'),
+        confirmColor: 'red',
+        cancelText: NstSvcTranslation.get('Cancel')
+      }).then(function () {
+        NstSvcPostFactory.removeSpam(vm.post.id).then(function () {
+          $rootScope.$broadcast('post-removed', {
+            postId: vm.post.id,
+          });
         });
       });
     }
