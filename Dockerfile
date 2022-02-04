@@ -1,4 +1,4 @@
-FROM node:8.2.1-alpine as Builder
+FROM node:12-alpine as Builder
 
 # we copy the root
 COPY ./ /ronak/src/desktop
