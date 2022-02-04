@@ -38,7 +38,7 @@ RUN cp -a ./src/. $BUILD_DIR/webapp
 
 # Build Mobile APP
 WORKDIR /ronak/src/mobile
-RUN git clone git@github.com:ronaksoft/nested-web-mobile.git .
+RUN git clone https://github.com/ronaksoft/nested-web-mobile.git .
 RUN npm install
 RUN npm run build:prod
 RUN mkdir -p $BUILD_DIR/webapp/m
@@ -51,7 +51,7 @@ RUN npm install gulp -g
 RUN npm install jspm -g
 RUN apk update && apk upgrade && apk add --no-cache bash git openssh
 RUN cd /var/lib/admin
-RUN git clone git@github.com:ronaksoft/nested-web-admin.git .
+RUN git clone https://github.com/ronaksoft/nested-web-mobile.git .
 RUN npm install
 RUN jspm install
 RUN ./node_modules/.bin/gulp build
