@@ -10,6 +10,10 @@ ENV VERSION=v1
 WORKDIR /ronak/src/desktop
 RUN apk add --update python build-base
 RUN apk add git
+
+# To handle 'not get uid/gid'
+RUN npm config set unsafe-perm true
+
 RUN npm install -g bower
 RUN npm install
 RUN bower install
