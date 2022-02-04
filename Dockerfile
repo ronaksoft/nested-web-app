@@ -1,4 +1,4 @@
-FROM node:8.2.1 as Builder
+FROM node:8.2.1-alpine as Builder
 
 # we copy the root
 COPY ./ /ronak/src/desktop
@@ -8,8 +8,8 @@ ENV VERSION=v1
 
 ## Build Desktop
 WORKDIR /ronak/src/desktop
-RUN ls ./node_modules
 RUN apk add --update python build-base
+RUN apk add git
 RUN npm install -g bower
 RUN npm install
 RUN bower install
@@ -66,6 +66,7 @@ RUN apk add nginx
 RUN npm config set unsafe-perm true
 
 RUN npm install -g local-web-server
+
 EXPOSE 80
 EXPOSE 443
 
